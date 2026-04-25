@@ -44,7 +44,7 @@ function decodeMaybeUtf8(bytes: Uint8Array): string {
  *  - `string` (possibly empty): server speaks ICY, here's the latest title
  *  - `null`: server doesn't expose ICY metadata at all (give up polling)
  */
-async function fetchOnce(streamUrl: string, signal: AbortSignal): Promise<string | null> {
+export async function fetchIcyOnce(streamUrl: string, signal: AbortSignal): Promise<string | null> {
   let res: Response;
   try {
     res = await fetch(streamUrl, {
@@ -148,49 +148,3 @@ export function parseStreamTitle(raw: string): ParsedTitle | null {
   return { track: t, raw: t };
 }
 
-export class IcyMetadataPoller {
-  private timer: number | undefined;
-  private controller: AbortController | undefined;
-  private currentUrl: string | undefined;
-  private generation = 0;
-  private listener: (title: ParsedTitle | null) => void;
-
-  constructor(listener: (title: ParsedTitle | null) => void) {
-    this.listener = listener;
-  }
-
-  start(streamUrl: string, intervalMs = 30_000): void {
-    if (this.currentUrl === streamUrl) return;
-    this.stop();
-    this.currentUrl = streamUrl;
-    const myGen = ++this.generation;
-    const tick = async (): Promise<void> => {
-      if (myGen !== this.generation) return;
-      this.controller?.abort();
-      this.controller = new AbortController();
-      const result = await fetchOnce(streamUrl, this.controller.signal);
-      if (myGen !== this.generation) return;
-      if (result === null) {
-        // Server doesn't speak ICY-over-fetch — abandon this URL
-        this.stop();
-        return;
-      }
-      this.listener(parseStreamTitle(result));
-    };
-    void tick();
-    this.timer = window.setInterval(() => void tick(), intervalMs);
-  }
-
-  stop(): void {
-    this.generation++;
-    this.currentUrl = undefined;
-    if (this.timer !== undefined) {
-      window.clearInterval(this.timer);
-      this.timer = undefined;
-    }
-    if (this.controller) {
-      try { this.controller.abort(); } catch { /* ignore */ }
-      this.controller = undefined;
-    }
-  }
-}

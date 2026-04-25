@@ -1,5 +1,5 @@
-import { BUILTIN_STATIONS } from './builtins';
-import { IcyMetadataPoller } from './icyMetadata';
+import { BUILTIN_FETCHERS, BUILTIN_STATIONS } from './builtins';
+import { MetadataPoller, makeIcyFetcher } from './metadata';
 import { AudioPlayer, stateLabel } from './player';
 import { pseudoFrequency } from './radioBrowser';
 import { fetchStations, searchStations } from './stations';
@@ -33,7 +33,7 @@ type Tab = 'browse' | 'fav' | 'recent';
 
 const player = new AudioPlayer();
 
-const icy = new IcyMetadataPoller((parsed) => {
+const meta = new MetadataPoller((parsed) => {
   if (!parsed) {
     player.setTrackTitle(undefined);
     return;
@@ -1051,14 +1051,17 @@ player.subscribe((np) => {
   renderNowPlaying(np);
   syncRowPlayingState();
 
-  // Drive the ICY metadata poller off player state. Track key is
-  // station id + state so we restart cleanly on station change and
-  // stop on pause/idle/error/loading.
-  const key = np.state === 'playing' ? `${np.station.id}|${np.station.streamUrl}` : '';
+  // Drive the metadata poller off player state. Per-station overrides win
+  // (e.g. Grrif uses /live/covers.json); falls back to ICY-over-fetch.
+  const key = np.state === 'playing' ? np.station.id : '';
   if (key !== lastIcyKey) {
     lastIcyKey = key;
-    if (key) icy.start(np.station.streamUrl, 30_000);
-    else icy.stop();
+    if (key) {
+      const fetcher = BUILTIN_FETCHERS[np.station.id] ?? makeIcyFetcher(np.station.streamUrl);
+      meta.start(key, fetcher, 30_000);
+    } else {
+      meta.stop();
+    }
   }
 });
 
