@@ -1,4 +1,5 @@
 import { BUILTIN_FETCHERS, BUILTIN_STATIONS } from './builtins';
+import { lookupCover } from './coverArt';
 import { MetadataPoller, makeIcyFetcher } from './metadata';
 import { AudioPlayer, stateLabel } from './player';
 import { pseudoFrequency } from './radioBrowser';
@@ -29,6 +30,9 @@ type Tab = 'browse' | 'fav' | 'recent';
 
 const player = new AudioPlayer();
 
+let coverEnrichToken = 0;
+let coverEnrichController: AbortController | undefined;
+
 const meta = new MetadataPoller((parsed) => {
   if (!parsed) {
     player.setTrackTitle(undefined);
@@ -38,6 +42,21 @@ const meta = new MetadataPoller((parsed) => {
     ? `${parsed.artist} — ${parsed.track}`
     : parsed.track;
   player.setTrackTitle(display, parsed);
+
+  // Cover-art enrichment — when the station's metadata feed didn't supply
+  // a cover, ask iTunes Search. Cancels in-flight requests if a newer
+  // track shows up first.
+  if (!parsed.coverUrl) {
+    const myToken = ++coverEnrichToken;
+    coverEnrichController?.abort();
+    coverEnrichController = new AbortController();
+    void lookupCover(parsed.artist, parsed.track, coverEnrichController.signal).then(
+      (cover) => {
+        if (myToken !== coverEnrichToken || !cover) return;
+        player.setTrackTitle(display, { ...parsed, coverUrl: cover });
+      },
+    );
+  }
 });
 const $body = document.body;
 
