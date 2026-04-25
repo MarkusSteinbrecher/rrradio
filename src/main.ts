@@ -20,10 +20,6 @@ import type { NowPlaying, Station } from './types';
 // ─────────────────────────────────────────────────────────────
 
 const SLEEP_CYCLE_MIN = [0, 15, 30, 60];
-const DIAL_MIN = 87.5;
-const DIAL_MAX = 108.0;
-const DIAL_STEP = 0.1;
-const DIAL_TICK_W = 18;
 
 type Tab = 'browse' | 'fav' | 'recent';
 
@@ -65,7 +61,6 @@ const $np = document.getElementById('np') as HTMLElement;
 const $npClose = document.getElementById('np-close') as HTMLButtonElement;
 const $npName = document.getElementById('np-name') as HTMLElement;
 const $npTags = document.getElementById('np-tags') as HTMLElement;
-const $npFreqNum = document.getElementById('np-freq-num') as HTMLElement;
 const $npBitrate = document.getElementById('np-bitrate') as HTMLElement;
 const $npOrigin = document.getElementById('np-origin') as HTMLElement;
 const $npListeners = document.getElementById('np-listeners') as HTMLElement;
@@ -85,7 +80,6 @@ const $npFormat = document.getElementById('np-format') as HTMLElement;
 const $npShare = document.getElementById('np-share') as HTMLButtonElement;
 const $npMute = document.getElementById('np-mute') as HTMLButtonElement;
 const $npLabel = document.querySelector('.np-label') as HTMLElement;
-const $dialTrack = document.getElementById('dial-track') as HTMLElement;
 
 const $addBtn = document.getElementById('add-btn') as HTMLButtonElement;
 const $addSheet = document.getElementById('add-sheet') as HTMLElement;
@@ -281,40 +275,6 @@ function buildRow(station: Station, currentId: string, state: NowPlaying['state'
 }
 
 // ─────────────────────────────────────────────────────────────
-// Tuner Dial
-// ─────────────────────────────────────────────────────────────
-
-function buildDial(): { setFrequency(freq: string | undefined): void } {
-  const total = Math.round((DIAL_MAX - DIAL_MIN) / DIAL_STEP) + 1;
-  const frag = document.createDocumentFragment();
-  for (let i = 0; i < total; i++) {
-    const f = DIAL_MIN + i * DIAL_STEP;
-    const isMajor = Math.abs(f - Math.round(f)) < 0.01;
-    const tick = document.createElement('div');
-    tick.className = 'dial-tick' + (isMajor ? ' major' : '');
-    if (isMajor) {
-      const lab = document.createElement('span');
-      lab.className = 'lab';
-      lab.textContent = String(Math.round(f));
-      tick.append(lab);
-    }
-    frag.append(tick);
-  }
-  $dialTrack.append(frag);
-  return {
-    setFrequency(freq) {
-      if (!freq) return;
-      const f = parseFloat(freq);
-      if (Number.isNaN(f)) return;
-      const offset = ((f - DIAL_MIN) / DIAL_STEP) * DIAL_TICK_W;
-      $dialTrack.style.transform = `translateX(calc(50% - ${offset}px - ${DIAL_TICK_W / 2}px))`;
-    },
-  };
-}
-
-const dial = buildDial();
-
-// ─────────────────────────────────────────────────────────────
 // Now-Playing label flash (used for ephemeral feedback)
 // ─────────────────────────────────────────────────────────────
 
@@ -435,19 +395,27 @@ function renderNowPlaying(np: NowPlaying): void {
   const s = np.station;
   $npName.textContent = s.name || '—';
   $npTags.textContent = (s.tags ?? []).join(' · ');
-  $npFreqNum.textContent = s.frequency ?? '—';
   $npBitrate.textContent = s.bitrate ? `${s.bitrate} kbps` : '—';
   $npOrigin.textContent = s.country ?? '—';
   $npListeners.textContent = s.listeners ? s.listeners.toLocaleString() : '—';
   $npLiveText.textContent = npLiveText(np);
   $npFormat.textContent = npFormatText(s);
 
-  // Track row — show whenever we have a current track, with optional cover
+  // On-air block — always rendered when a station is loaded. Title is
+  // the current track when known, otherwise an em-dash. Cover prefers
+  // track art, then station favicon, then a 2-letter fallback mark.
+  $npTrackRow.hidden = !s.id;
   const hasTrack = !!np.trackTitle && np.trackTitle.trim().length > 0;
-  $npTrackRow.hidden = !hasTrack;
-  $npTrackTitle.textContent = hasTrack ? (np.trackTitle as string) : '';
-  if (hasTrack && np.coverUrl) {
-    if ($npTrackCover.src !== np.coverUrl) $npTrackCover.src = np.coverUrl;
+  $npTrackTitle.textContent = hasTrack ? (np.trackTitle as string) : '—';
+
+  const fallback = document.getElementById('np-track-cover-fallback');
+  if (fallback) fallback.textContent = stationInitials(s.name || '');
+
+  const coverSrc = np.coverUrl || s.favicon || '';
+  if (coverSrc) {
+    if ($npTrackCover.getAttribute('src') !== coverSrc) {
+      $npTrackCover.src = coverSrc;
+    }
     $npTrackCover.hidden = false;
     $npTrackCover.onerror = () => {
       $npTrackCover.hidden = true;
@@ -463,8 +431,6 @@ function renderNowPlaying(np: NowPlaying): void {
 
   $npPlay.classList.toggle('is-loading', np.state === 'loading');
   $npPlay.setAttribute('aria-label', np.state === 'playing' ? 'Pause' : 'Play');
-
-  if (s.frequency) dial.setFrequency(s.frequency);
 
   const stream = urlDisplay(s.streamUrl);
   if (stream) {

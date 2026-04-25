@@ -168,23 +168,15 @@
             <div class="np-tags" id="np-tags"></div>
           </div>
 
-          <div class="np-track" id="np-track-row" hidden>
-            <img class="np-track__cover" id="np-track-cover" alt="" hidden />
+          <div class="np-track" id="np-track-row">
+            <div class="np-track__cover-wrap">
+              <img class="np-track__cover" id="np-track-cover" alt="" />
+              <span class="np-track__cover-fallback" id="np-track-cover-fallback" aria-hidden="true">··</span>
+            </div>
             <div class="np-track__text">
               <div class="np-track__label">On air</div>
               <div class="np-track__title" id="np-track-title">—</div>
             </div>
-          </div>
-
-          <div class="dial">
-            <div class="dial-track" id="dial-track"></div>
-            <div class="dial-edges" aria-hidden="true"></div>
-            <div class="dial-mark" aria-hidden="true"></div>
-          </div>
-
-          <div class="np-freq">
-            <span class="num" id="np-freq-num">—</span>
-            <span class="unit">FM · MHZ</span>
           </div>
 
           <div class="np-meta">
@@ -222,17 +214,13 @@
               <svg class="heart--line" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
               <svg class="heart--fill" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
             </button>
-            <div class="np-eq" id="np-eq" aria-hidden="true"></div>
-            <button type="button" class="np-btn" id="np-sleep" aria-label="Sleep timer">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M9 2h6"/></svg>
-              <span class="np-btn__chip" id="np-sleep-chip" hidden></span>
-            </button>
-          </div>
-
-          <div class="np-play-row">
             <button type="button" class="np-play" id="np-play" aria-label="Play / pause">
               <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a.75.75 0 0 0 1.16.63l12-7.5a.75.75 0 0 0 0-1.27l-12-7.5A.75.75 0 0 0 7 4.5z"/></svg>
               <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="0.5"/><rect x="14" y="4.5" width="4" height="15" rx="0.5"/></svg>
+            </button>
+            <button type="button" class="np-btn" id="np-sleep" aria-label="Sleep timer">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M9 2h6"/></svg>
+              <span class="np-btn__chip" id="np-sleep-chip" hidden></span>
             </button>
           </div>
 

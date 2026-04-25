@@ -21,6 +21,8 @@
 
   --safe-top:    env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  --live-on: #4ade80;                     /* on-air green */
 }
 
 * {
@@ -722,49 +724,63 @@ body.is-muted .np-eq { background: var(--ink-4); animation: none; }
   text-transform: lowercase;
 }
 
-/* ─── On-air track row (artist/title + optional cover) ─── */
+/* ─── On-air block: big square cover + label + title ─── */
 .np-track {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 10px 0 4px;
-  border-top: 1px solid var(--line);
-  margin-bottom: 4px;
+  gap: 14px;
+  padding: 6px 0 16px;
+  text-align: center;
 }
 .np-track[hidden] { display: none; }
-.np-track__cover {
-  width: 40px;
-  height: 40px;
-  border-radius: 3px;
-  border: 1px solid var(--line);
-  object-fit: cover;
+.np-track__cover-wrap {
+  position: relative;
+  width: min(260px, 64vw);
+  aspect-ratio: 1 / 1;
   background: var(--bg-2);
-  flex-shrink: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.np-track__cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
 .np-track__cover[hidden] { display: none; }
+.np-track__cover-fallback {
+  font-family: var(--mono);
+  font-size: 56px;
+  letter-spacing: -0.03em;
+  color: var(--ink-3);
+  position: absolute;
+}
+.np-track__cover:not([hidden]) + .np-track__cover-fallback { display: none; }
 .np-track__text {
-  flex: 1;
-  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 6px;
+  max-width: 100%;
+  padding: 0 24px;
 }
 .np-track__label {
   font-family: var(--mono);
   font-size: 9px;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--ink-3);
 }
 .np-track__title {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   color: var(--ink);
-  letter-spacing: -0.005em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  text-wrap: balance;
 }
 
 /* ─── Tuner Dial ─── */
@@ -944,8 +960,8 @@ body.is-muted .np-eq { background: var(--ink-4); animation: none; }
 .np-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 18px;
+  justify-content: center;
+  gap: 28px;
 }
 .np-btn {
   position: relative;
@@ -986,8 +1002,8 @@ body.is-muted .np-eq { background: var(--ink-4); animation: none; }
 .np-btn__chip[hidden] { display: none; }
 
 .np-play {
-  width: 76px;
-  height: 76px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   border: 1px solid var(--accent);
   background: var(--accent);
@@ -995,8 +1011,9 @@ body.is-muted .np-eq { background: var(--ink-4); animation: none; }
   display: grid;
   place-items: center;
   position: relative;
-  box-shadow: 0 0 0 6px rgba(233, 182, 107, 0.06), 0 0 32px rgba(233, 182, 107, 0.18);
+  box-shadow: 0 0 0 6px rgba(233, 182, 107, 0.06), 0 0 28px rgba(233, 182, 107, 0.18);
   transition: all 0.15s;
+  flex-shrink: 0;
 }
 .np-play svg { width: 22px; height: 22px; }
 .np-play:active { transform: scale(0.95); }
@@ -1070,11 +1087,18 @@ body.is-playing .np-eq {
   display: flex;
   align-items: center;
   gap: 6px;
+  color: var(--ink-3);
+  transition: color 0.2s;
 }
 .np-bottom .live-dot {
   width: 6px; height: 6px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--ink-3);            /* paused / standby — dim grey */
+  transition: background 0.2s;
+}
+body.is-playing .np-bottom .live      { color: var(--live-on); }
+body.is-playing .np-bottom .live-dot  {
+  background: var(--live-on);
   animation: pulse 1.6s ease-in-out infinite;
 }
 
