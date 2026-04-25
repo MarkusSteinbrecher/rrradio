@@ -31,7 +31,6 @@ const $body = document.body;
 
 const $signalStatus = document.getElementById('signal-status') as HTMLElement;
 const $wordmark = document.getElementById('wordmark') as HTMLButtonElement;
-const $searchWrap = document.getElementById('search-wrap') as HTMLElement;
 const $search = document.getElementById('search') as HTMLInputElement;
 const $searchClear = document.getElementById('search-clear') as HTMLButtonElement;
 const $tags = document.getElementById('tags') as HTMLElement;
@@ -120,6 +119,17 @@ function faviconClass(id: string): string {
 
 function favIdSet(): Set<string> {
   return new Set(getFavorites().map((s) => s.id));
+}
+
+function filterStations(stations: Station[], query: string): Station[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return stations;
+  return stations.filter((s) => {
+    if (s.name.toLowerCase().includes(q)) return true;
+    if ((s.tags ?? []).some((t) => t.toLowerCase().includes(q))) return true;
+    if (s.country && s.country.toLowerCase().includes(q)) return true;
+    return false;
+  });
 }
 
 function urlDisplay(url: string | undefined): { host: string; href: string } | null {
@@ -437,9 +447,14 @@ function renderNowPlaying(np: NowPlaying): void {
 // ─────────────────────────────────────────────────────────────
 
 function renderTopBar(): void {
-  const showSearch = activeTab === 'browse';
-  $searchWrap.hidden = !showSearch;
-  $tags.hidden = !showSearch;
+  // Search is available on every tab. Tags are Browse-only.
+  $tags.hidden = activeTab !== 'browse';
+  $search.placeholder =
+    activeTab === 'fav'
+      ? 'Search your favorites…'
+      : activeTab === 'recent'
+        ? 'Search recently played…'
+        : 'Search stations, genres, places…';
   if (activeTab === 'fav') {
     const n = getFavorites().length;
     $tabStatus.textContent = `Your stations · ${String(n).padStart(2, '0')} saved`;
@@ -533,28 +548,42 @@ function renderContent(): void {
     return;
   }
 
+  const query = $search.value.trim();
+
   if (activeTab === 'fav') {
-    const favs = getFavorites();
-    $content.append(sectionLabel('Favorites', favs.length));
-    if (favs.length === 0) {
+    const all = getFavorites();
+    const list = filterStations(all, query);
+    const label = query ? 'Results' : 'Favorites';
+    $content.append(sectionLabel(label, list.length));
+    if (all.length === 0) {
       $content.append(
         emptyState(ICON_FAV, 'No favorites yet', 'Tap the heart on any station to save it here'),
       );
+    } else if (list.length === 0) {
+      $content.append(
+        emptyState(ICON_EMPTY, 'No matches', 'Nothing in your favorites matches that search'),
+      );
     } else {
-      $content.append(renderRows(favs));
+      $content.append(renderRows(list));
     }
     return;
   }
 
   if (activeTab === 'recent') {
-    const recents = getRecents();
-    $content.append(sectionLabel('Recently played', recents.length));
-    if (recents.length === 0) {
+    const all = getRecents();
+    const list = filterStations(all, query);
+    const label = query ? 'Results' : 'Recently played';
+    $content.append(sectionLabel(label, list.length));
+    if (all.length === 0) {
       $content.append(
         emptyState(ICON_RECENT, 'No history yet', 'Stations you play will show up here'),
       );
+    } else if (list.length === 0) {
+      $content.append(
+        emptyState(ICON_EMPTY, 'No matches', 'Nothing in your history matches that search'),
+      );
     } else {
-      $content.append(renderRows(recents));
+      $content.append(renderRows(list));
     }
   }
 }
