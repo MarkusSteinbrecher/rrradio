@@ -83,6 +83,16 @@ export class AudioPlayer {
     else if (this.current.station.id) void this.play(this.current.station);
   }
 
+  /** Toggle muted on the underlying <audio>; returns the new state. */
+  toggleMute(): boolean {
+    this.audio.muted = !this.audio.muted;
+    return this.audio.muted;
+  }
+
+  isMuted(): boolean {
+    return this.audio.muted;
+  }
+
   private teardown(): void {
     if (this.hls) {
       this.hls.destroy();

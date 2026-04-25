@@ -675,6 +675,16 @@ body.is-playing .mini-toggle .icon-pause { display: block; }
 }
 .np-head .icon-btn:active { transform: scale(0.92); }
 .np-head .icon-btn svg { width: 14px; height: 14px; }
+.np-head__right { display: flex; align-items: center; gap: 8px; }
+
+/* Mute toggle: swap volume / muted icon. Body class drives icon state. */
+#np-mute .icon-vol-mute { display: none; }
+body.is-muted #np-mute  { color: var(--accent); border-color: var(--accent); }
+body.is-muted #np-mute .icon-vol      { display: none; }
+body.is-muted #np-mute .icon-vol-mute { display: block; }
+/* When muted, dim the streaming wave so it visually reflects "no sound coming through" */
+body.is-muted .np-eq { background: var(--ink-4); animation: none; }
+
 .np-label {
   font-family: var(--mono);
   font-size: 10px;

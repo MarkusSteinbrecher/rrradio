@@ -79,6 +79,7 @@ const $npPlay = document.getElementById('np-play') as HTMLButtonElement;
 const $npLiveText = document.getElementById('np-live-text') as HTMLElement;
 const $npFormat = document.getElementById('np-format') as HTMLElement;
 const $npShare = document.getElementById('np-share') as HTMLButtonElement;
+const $npMute = document.getElementById('np-mute') as HTMLButtonElement;
 const $npLabel = document.querySelector('.np-label') as HTMLElement;
 const $dialTrack = document.getElementById('dial-track') as HTMLElement;
 
@@ -1017,6 +1018,11 @@ $miniToggle.addEventListener('click', (e) => {
 $npClose.addEventListener('click', () => openNp(false));
 $npPlay.addEventListener('click', () => player.toggle());
 $npShare.addEventListener('click', () => void shareCurrentStation());
+$npMute.addEventListener('click', () => {
+  const muted = player.toggleMute();
+  $body.classList.toggle('is-muted', muted);
+  $npMute.setAttribute('aria-label', muted ? 'Unmute' : 'Mute');
+});
 
 $npFav.addEventListener('click', () => {
   const s = currentNP.station;
