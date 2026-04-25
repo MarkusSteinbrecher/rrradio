@@ -705,6 +705,47 @@ body.is-playing .mini-toggle .icon-pause { display: block; }
   font-variant-numeric: tabular-nums;
 }
 
+/* ─── Source links (stream URL / homepage) ─── */
+.np-source {
+  border-bottom: 1px solid var(--line);
+}
+.np-source__row {
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 2px;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  text-decoration: none;
+  color: var(--ink-2);
+  transition: color 0.15s;
+}
+.np-source__row:first-child { border-top: 0; }
+.np-source__row[hidden]     { display: none; }
+.np-source__row:hover,
+.np-source__row:active      { color: var(--accent); }
+.np-source__k {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.np-source__v {
+  font-size: 11.5px;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.np-source__ext {
+  width: 12px;
+  height: 12px;
+  color: var(--ink-3);
+  opacity: 0.7;
+}
+.np-source__row:hover .np-source__ext { color: var(--accent); opacity: 1; }
+
 /* ─── Now Playing controls ─── */
 .np-controls {
   flex-shrink: 0;

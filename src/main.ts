@@ -51,6 +51,10 @@ const $npFreqNum = document.getElementById('np-freq-num') as HTMLElement;
 const $npBitrate = document.getElementById('np-bitrate') as HTMLElement;
 const $npOrigin = document.getElementById('np-origin') as HTMLElement;
 const $npListeners = document.getElementById('np-listeners') as HTMLElement;
+const $npStream = document.getElementById('np-stream') as HTMLAnchorElement;
+const $npStreamHost = document.getElementById('np-stream-host') as HTMLElement;
+const $npHome = document.getElementById('np-home') as HTMLAnchorElement;
+const $npHomeHost = document.getElementById('np-home-host') as HTMLElement;
 const $npFav = document.getElementById('np-fav') as HTMLButtonElement;
 const $npSleep = document.getElementById('np-sleep') as HTMLButtonElement;
 const $npPlay = document.getElementById('np-play') as HTMLButtonElement;
@@ -114,6 +118,18 @@ function faviconClass(id: string): string {
 
 function favIdSet(): Set<string> {
   return new Set(getFavorites().map((s) => s.id));
+}
+
+function urlDisplay(url: string | undefined): { host: string; href: string } | null {
+  if (!url) return null;
+  try {
+    const u = new URL(url);
+    const host = u.host.replace(/^www\./, '');
+    const path = u.pathname && u.pathname !== '/' ? u.pathname : '';
+    return { host: path ? `${host}${path}` : host, href: u.toString() };
+  } catch {
+    return { host: url, href: url };
+  }
 }
 
 function debounce<A extends unknown[]>(fn: (...args: A) => void, ms: number): (...args: A) => void {
@@ -392,6 +408,26 @@ function renderNowPlaying(np: NowPlaying): void {
   $npPlay.setAttribute('aria-label', np.state === 'playing' ? 'Pause' : 'Play');
 
   if (s.frequency) dial.setFrequency(s.frequency);
+
+  const stream = urlDisplay(s.streamUrl);
+  if (stream) {
+    $npStream.hidden = false;
+    $npStream.href = stream.href;
+    $npStream.title = stream.href;
+    $npStreamHost.textContent = stream.host;
+  } else {
+    $npStream.hidden = true;
+  }
+
+  const home = urlDisplay(s.homepage);
+  if (home) {
+    $npHome.hidden = false;
+    $npHome.href = home.href;
+    $npHome.title = home.href;
+    $npHomeHost.textContent = home.host;
+  } else {
+    $npHome.hidden = true;
+  }
 }
 
 // ─────────────────────────────────────────────────────────────
