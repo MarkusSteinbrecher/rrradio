@@ -79,6 +79,7 @@ const $miniToggle = document.getElementById('mini-toggle') as HTMLElement;
 const $np = document.getElementById('np') as HTMLElement;
 const $npClose = document.getElementById('np-close') as HTMLButtonElement;
 const $npName = document.getElementById('np-name') as HTMLElement;
+const $npStationLogo = document.getElementById('np-station-logo') as HTMLImageElement;
 const $npTags = document.getElementById('np-tags') as HTMLElement;
 const $npBitrate = document.getElementById('np-bitrate') as HTMLElement;
 const $npOrigin = document.getElementById('np-origin') as HTMLElement;
@@ -414,6 +415,20 @@ function renderNowPlaying(np: NowPlaying): void {
   const s = np.station;
   $npName.textContent = s.name || '—';
   $npTags.textContent = (s.tags ?? []).join(' · ');
+
+  if (s.favicon) {
+    if ($npStationLogo.getAttribute('src') !== s.favicon) {
+      $npStationLogo.src = s.favicon;
+    }
+    $npStationLogo.hidden = false;
+    $npStationLogo.onerror = () => {
+      $npStationLogo.hidden = true;
+      $npStationLogo.removeAttribute('src');
+    };
+  } else {
+    $npStationLogo.hidden = true;
+    $npStationLogo.removeAttribute('src');
+  }
   $npBitrate.textContent = s.bitrate ? `${s.bitrate} kbps` : '—';
   $npOrigin.textContent = s.country ?? '—';
   $npListeners.textContent = s.listeners ? s.listeners.toLocaleString() : '—';

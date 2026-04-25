@@ -709,6 +709,23 @@ body.is-muted .np-eq { background: var(--ink-4); animation: none; }
   gap: 10px;
   padding-bottom: 22px;
 }
+.np-station__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.np-station__logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  object-fit: cover;
+  flex-shrink: 0;
+  display: block;
+}
+.np-station__logo[hidden] { display: none; }
 .np-name {
   font-size: 32px;
   font-weight: 500;
