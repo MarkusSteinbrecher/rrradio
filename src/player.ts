@@ -112,7 +112,7 @@ export class AudioPlayer {
     if (!('mediaSession' in navigator)) return;
     navigator.mediaSession.metadata = new MediaMetadata({
       title: station.name,
-      artist: 'Live Radio',
+      artist: 'rrradio',
       artwork: station.favicon ? [{ src: station.favicon, sizes: '512x512' }] : [],
     });
   }
