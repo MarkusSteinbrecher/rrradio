@@ -32,6 +32,21 @@ interface RBStation {
   codec: string;
   hls: number;
   lastcheckok: number;
+  clickcount: number;
+}
+
+/** Deterministic pseudo-frequency in [87.5, 108.0] MHz keyed off the
+ *  station id, so the tuner dial always has a target even when the
+ *  Radio Browser record has no real broadcast frequency. */
+function pseudoFrequency(id: string): string {
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) {
+    hash = ((hash << 5) - hash + id.charCodeAt(i)) | 0;
+  }
+  const steps = 206; // (108.0 - 87.5) / 0.1 + 1
+  const stepIndex = Math.abs(hash) % steps;
+  const tenths = 875 + stepIndex;
+  return (tenths / 10).toFixed(1);
 }
 
 export interface SearchParams {
@@ -149,6 +164,10 @@ class RadioBrowserClient {
       country: raw.countrycode || undefined,
       tags,
       favicon: raw.favicon || undefined,
+      bitrate: raw.bitrate > 0 ? raw.bitrate : undefined,
+      codec: raw.codec ? raw.codec.toUpperCase() : undefined,
+      listeners: raw.clickcount > 0 ? raw.clickcount : undefined,
+      frequency: pseudoFrequency(raw.stationuuid),
     };
   }
 

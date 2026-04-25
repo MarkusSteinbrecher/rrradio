@@ -10,6 +10,16 @@ export interface Station {
   tags?: string[];
   /** Optional artwork URL */
   favicon?: string;
+  /** Bitrate in kbps when known (Radio Browser bitrate field) */
+  bitrate?: number;
+  /** Audio codec when known, e.g. "MP3", "AAC" (Radio Browser codec field) */
+  codec?: string;
+  /** Approximate listener count — derived from Radio Browser clickcount */
+  listeners?: number;
+  /** Display-only "FM" frequency. Real RB stations rarely have one, so we
+   * derive a deterministic pseudo-frequency in the 87.5–108.0 MHz range
+   * from the station id so the tuner-dial visualization always has a target. */
+  frequency?: string;
 }
 
 export type PlayerState = 'idle' | 'loading' | 'playing' | 'paused' | 'error';

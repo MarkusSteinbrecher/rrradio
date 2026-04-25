@@ -3,135 +3,151 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#0a0a0c" />
+    <meta name="theme-color" content="#0a0a0a" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="rrradio" />
-    <title>rrradio — late-night signal</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
+    <title>rrradio</title>
     <link rel="stylesheet" href="/src/style.css" />
   </head>
-  <body data-view="home">
-    <!-- ============== HOME ============== -->
-    <section class="view view--home" id="view-home" aria-label="Stations">
-      <header class="masthead">
-        <div class="masthead__row">
-          <h1 class="brand-mark">rr<em>radio</em><span class="brand-mark__cursor"></span></h1>
-          <span class="brand-tag">tonight&rsquo;s signal · ∞</span>
+  <body>
+    <div class="app">
+      <!-- ============== TOP BAR ============== -->
+      <header class="topbar">
+        <div class="topbar-row">
+          <div class="wordmark">rrradio<span class="dot" aria-hidden="true"></span></div>
+          <div class="signal-meta">
+            <span class="live-dot" aria-hidden="true"></span>
+            <span id="signal-status">STANDBY</span>
+          </div>
         </div>
-        <div class="dial" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><span></span>
-          <span></span><span></span><span></span><span></span><span></span>
-          <span></span><span></span><span></span><span></span><span></span>
+
+        <div class="search-wrap" id="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+          <input
+            type="search"
+            id="search"
+            class="search"
+            placeholder="Search stations, genres, places…"
+            autocomplete="off"
+            aria-label="Search stations"
+          />
         </div>
+
+        <div class="tags" id="tags" role="toolbar" aria-label="Genre filters"></div>
+
+        <div class="tab-status" id="tab-status" hidden></div>
       </header>
 
-      <div class="search-field">
-        <svg class="search-field__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="11" cy="11" r="7" />
-          <path d="m20 20-3.6-3.6" />
-        </svg>
-        <input
-          type="search"
-          id="search"
-          class="search-field__input"
-          placeholder="search the airwaves"
-          autocomplete="off"
-          aria-label="Search stations"
-        />
-        <kbd class="search-field__hint" aria-hidden="true">live</kbd>
-      </div>
+      <!-- ============== CONTENT ============== -->
+      <main class="content" id="content"></main>
 
-      <div class="tag-row" id="tags" role="toolbar" aria-label="Genre filters"></div>
-
-      <div class="section-label"><span>Now broadcasting</span></div>
-
-      <ul class="station-list" id="station-list" aria-label="Stations"></ul>
-      <p id="list-status" class="list-status">Tuning in…</p>
-
-      <footer class="credit">Catalog · <span>radio-browser.info</span></footer>
-    </section>
-
-    <!-- ============== NOW PLAYING ============== -->
-    <section class="view view--playing" id="view-playing" aria-label="Now playing">
-      <header class="np-header">
-        <button id="np-back" class="icon-btn" type="button" aria-label="Back to stations">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
-        </button>
-        <span class="np-header__label">Now broadcasting</span>
-        <span class="icon-btn icon-btn--ghost" aria-hidden="true"></span>
-      </header>
-
-      <div class="artwork">
-        <div class="artwork__glow"></div>
-        <div class="artwork__ring"></div>
-        <div class="artwork__ring artwork__ring--inner"></div>
-        <div class="artwork__frame" id="np-art">
-          <span class="artwork__initials">··</span>
-        </div>
-      </div>
-
-      <div class="np-meta">
-        <div class="live-pill">
-          <span class="live-pill__dot" aria-hidden="true"></span>
-          <span class="live-pill__label">Live</span>
-        </div>
-        <h2 class="np-station" id="np-station">—</h2>
-        <p class="np-tags" id="np-tags"></p>
-      </div>
-
-      <div class="np-track">
-        <span class="np-track__label">on air</span>
-        <span class="np-track__title" id="np-track">—</span>
-      </div>
-
-      <div class="np-controls">
-        <button id="np-fav" class="icon-btn icon-btn--lg" type="button" aria-label="Favorite">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
-        </button>
-        <button id="np-toggle" class="big-play" type="button" aria-label="Play / pause">
-          <svg class="big-play__icon big-play__icon--play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.14v13.72L19 12 8 5.14z"/></svg>
-          <svg class="big-play__icon big-play__icon--pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
-          <svg class="big-play__icon big-play__icon--load" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="9" stroke-opacity="0.25"/>
-            <path d="M21 12a9 9 0 0 0-9-9"/>
-          </svg>
-        </button>
-        <button id="np-sleep" class="icon-btn icon-btn--lg" type="button" aria-label="Sleep timer">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
-          <span class="icon-btn__chip" id="np-sleep-chip" hidden></span>
-        </button>
-      </div>
-
-      <p class="np-status" id="np-status">Idle</p>
-
-      <p class="np-credit">freq · radio-browser.info</p>
-    </section>
-
-    <!-- ============== MINI PLAYER ============== -->
-    <div id="mini-player" class="mini-player" hidden>
-      <button id="mini-expand" class="mini-player__expand" type="button" aria-label="Open now playing">
-        <span class="mini-player__art" id="mini-art" aria-hidden="true">
-          <span class="mini-player__art-fallback" id="mini-art-fallback"></span>
+      <!-- ============== MINI PLAYER ============== -->
+      <button class="mini" id="mini" type="button" hidden aria-label="Open now playing">
+        <span class="mini-progress" aria-hidden="true"></span>
+        <span class="fav" id="mini-fav" aria-hidden="true"></span>
+        <span class="mini-info">
+          <span class="mini-name" id="mini-name">—</span>
+          <span class="mini-meta">
+            <span class="live-dot" aria-hidden="true"></span>
+            <span id="mini-meta">STANDBY</span>
+          </span>
         </span>
-        <span class="mini-player__info">
-          <span class="mini-player__name" id="mini-name">—</span>
-          <span class="mini-player__status" id="mini-status">Idle</span>
-        </span>
-        <span class="mini-player__chev" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+        <span class="mini-toggle" id="mini-toggle" role="button" aria-label="Play / pause">
+          <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a.75.75 0 0 0 1.16.63l12-7.5a.75.75 0 0 0 0-1.27l-12-7.5A.75.75 0 0 0 7 4.5z"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="0.5"/><rect x="14" y="4.5" width="4" height="15" rx="0.5"/></svg>
         </span>
       </button>
-      <button id="mini-toggle" class="mini-player__toggle" type="button" aria-label="Play / pause">
-        <svg class="mini-player__icon mini-player__icon--play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.14v13.72L19 12 8 5.14z"/></svg>
-        <svg class="mini-player__icon mini-player__icon--pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
-      </button>
+
+      <!-- ============== TAB BAR ============== -->
+      <nav class="tabbar" id="tabbar" aria-label="Sections">
+        <button type="button" class="tab-btn" data-tab="browse">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>
+          Browse
+        </button>
+        <button type="button" class="tab-btn" data-tab="fav">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17.5 6 21l1.5-6.5L2.5 10l6.7-.6L12 3l2.8 6.4 6.7.6-5 4.5L18 21z"/></svg>
+          Favorites
+        </button>
+        <button type="button" class="tab-btn" data-tab="recent">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+          Recents
+        </button>
+      </nav>
+
+      <!-- ============== NOW PLAYING (slide-up sheet) ============== -->
+      <section class="np" id="np" aria-label="Now playing">
+        <header class="np-head">
+          <button type="button" class="icon-btn" id="np-close" aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="np-label">Now Playing</div>
+          <button type="button" class="icon-btn" aria-label="More" id="np-more">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
+          </button>
+        </header>
+
+        <div class="np-body">
+          <div class="np-station">
+            <div class="np-name" id="np-name">—</div>
+            <div class="np-tags" id="np-tags"></div>
+          </div>
+
+          <div class="dial">
+            <div class="dial-track" id="dial-track"></div>
+            <div class="dial-edges" aria-hidden="true"></div>
+            <div class="dial-mark" aria-hidden="true"></div>
+          </div>
+
+          <div class="np-freq">
+            <span class="num" id="np-freq-num">—</span>
+            <span class="unit">FM · MHZ</span>
+          </div>
+
+          <div class="np-meta">
+            <div class="cell">
+              <div class="k">Bitrate</div>
+              <div class="v" id="np-bitrate">—</div>
+            </div>
+            <div class="cell">
+              <div class="k">Origin</div>
+              <div class="v" id="np-origin">—</div>
+            </div>
+            <div class="cell">
+              <div class="k">Listeners</div>
+              <div class="v" id="np-listeners">—</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="np-controls">
+          <div class="np-row">
+            <button type="button" class="np-btn" id="np-fav" aria-label="Favorite">
+              <svg class="heart--line" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
+              <svg class="heart--fill" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
+            </button>
+            <div class="np-eq" id="np-eq" aria-hidden="true"></div>
+            <button type="button" class="np-btn" id="np-sleep" aria-label="Sleep timer">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M9 2h6"/></svg>
+            </button>
+          </div>
+
+          <div class="np-play-row">
+            <button type="button" class="np-play" id="np-play" aria-label="Play / pause">
+              <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a.75.75 0 0 0 1.16.63l12-7.5a.75.75 0 0 0 0-1.27l-12-7.5A.75.75 0 0 0 7 4.5z"/></svg>
+              <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="0.5"/><rect x="14" y="4.5" width="4" height="15" rx="0.5"/></svg>
+            </button>
+          </div>
+
+          <div class="np-bottom">
+            <div class="live">
+              <span class="live-dot" aria-hidden="true"></span>
+              <span id="np-live-text">Standby</span>
+            </div>
+            <div id="np-format">— · —</div>
+          </div>
+        </div>
+      </section>
     </div>
 
     <script type="module" src="/src/main.ts"></script>
