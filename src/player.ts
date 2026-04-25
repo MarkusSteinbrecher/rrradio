@@ -92,6 +92,17 @@ export class AudioPlayer {
     this.audio.load();
   }
 
+  /**
+   * Push a best-effort current-track string from a side-channel
+   * metadata reader (ICY, station JSON, etc.). Pass `undefined` to
+   * clear. Re-renders subscribers and updates the lock-screen
+   * Media Session metadata so iOS / Android show the song.
+   */
+  setTrackTitle(trackTitle: string | undefined, parts?: { artist?: string; track?: string }): void {
+    this.update({ trackTitle });
+    this.updateMediaSessionMetadata(this.current.station, parts);
+  }
+
   private update(patch: Partial<NowPlaying>): void {
     this.current = { ...this.current, ...patch };
     this.emit();
@@ -108,11 +119,17 @@ export class AudioPlayer {
     navigator.mediaSession.setActionHandler('stop', () => this.pause());
   }
 
-  private updateMediaSessionMetadata(station: Station): void {
+  private updateMediaSessionMetadata(
+    station: Station,
+    parts?: { artist?: string; track?: string },
+  ): void {
     if (!('mediaSession' in navigator)) return;
+    const title = parts?.track || station.name;
+    const artist = parts?.artist || station.name;
     navigator.mediaSession.metadata = new MediaMetadata({
-      title: station.name,
-      artist: 'rrradio',
+      title,
+      artist,
+      album: 'rrradio',
       artwork: station.favicon ? [{ src: station.favicon, sizes: '512x512' }] : [],
     });
   }

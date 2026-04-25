@@ -1,4 +1,5 @@
 import { BUILTIN_STATIONS } from './builtins';
+import { IcyMetadataPoller } from './icyMetadata';
 import { AudioPlayer, stateLabel } from './player';
 import { pseudoFrequency } from './radioBrowser';
 import { fetchStations, searchStations } from './stations';
@@ -31,6 +32,17 @@ type Tab = 'browse' | 'fav' | 'recent';
 // ─────────────────────────────────────────────────────────────
 
 const player = new AudioPlayer();
+
+const icy = new IcyMetadataPoller((parsed) => {
+  if (!parsed) {
+    player.setTrackTitle(undefined);
+    return;
+  }
+  const display = parsed.artist
+    ? `${parsed.artist} — ${parsed.track}`
+    : parsed.track;
+  player.setTrackTitle(display, parsed);
+});
 const $body = document.body;
 
 const $signalStatus = document.getElementById('signal-status') as HTMLElement;
@@ -1021,6 +1033,7 @@ $npSleep.addEventListener('click', () => {
 // Player subscription
 // ─────────────────────────────────────────────────────────────
 
+let lastIcyKey = '';
 player.subscribe((np) => {
   currentNP = np;
   $body.classList.toggle('is-playing', np.state === 'playing');
@@ -1028,6 +1041,16 @@ player.subscribe((np) => {
   renderMiniPlayer(np);
   renderNowPlaying(np);
   syncRowPlayingState();
+
+  // Drive the ICY metadata poller off player state. Track key is
+  // station id + state so we restart cleanly on station change and
+  // stop on pause/idle/error/loading.
+  const key = np.state === 'playing' ? `${np.station.id}|${np.station.streamUrl}` : '';
+  if (key !== lastIcyKey) {
+    lastIcyKey = key;
+    if (key) icy.start(np.station.streamUrl, 30_000);
+    else icy.stop();
+  }
 });
 
 // ─────────────────────────────────────────────────────────────
