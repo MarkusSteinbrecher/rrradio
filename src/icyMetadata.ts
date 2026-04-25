@@ -18,7 +18,27 @@ export interface ParsedTitle {
   raw: string;
 }
 
-const MAX_METADATA_BYTES = 255 * 16; // ICY length byte × 16
+const MAX_METADATA_BYTES = 255 * 16;       // ICY length byte × 16
+const SCAN_LIMIT_BYTES = 96 * 1024;        // hard cap for brute-force scan
+// "StreamTitle='" — the literal byte sequence we look for in fallback mode
+const STREAM_TITLE_PREFIX = Uint8Array.from(
+  [0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x54, 0x69, 0x74, 0x6c, 0x65, 0x3d, 0x27],
+);
+
+function indexOf(buf: Uint8Array, needle: Uint8Array, from = 0): number {
+  outer: for (let i = from; i <= buf.length - needle.length; i++) {
+    for (let j = 0; j < needle.length; j++) {
+      if (buf[i + j] !== needle[j]) continue outer;
+    }
+    return i;
+  }
+  return -1;
+}
+
+function decodeMaybeUtf8(bytes: Uint8Array): string {
+  const utf8 = new TextDecoder('utf-8').decode(bytes);
+  return /�/.test(utf8) ? new TextDecoder('iso-8859-1').decode(bytes) : utf8;
+}
 
 /** Result of one fetch attempt:
  *  - `string` (possibly empty): server speaks ICY, here's the latest title
@@ -30,25 +50,38 @@ async function fetchOnce(streamUrl: string, signal: AbortSignal): Promise<string
     res = await fetch(streamUrl, {
       headers: { 'Icy-MetaData': '1' },
       signal,
-      // No-store: don't pollute browser cache with stream bytes
       cache: 'no-store',
     });
   } catch {
     return null;
   }
-  const metaintHeader = res.headers.get('icy-metaint');
-  const metaint = metaintHeader ? parseInt(metaintHeader, 10) : 0;
-  if (!res.ok || !metaint || !res.body) {
+  if (!res.ok || !res.body) {
     try { await res.body?.cancel(); } catch { /* ignore */ }
     return null;
   }
 
-  const reader = res.body.getReader();
+  // Most CORS-allowed Icecast servers DON'T set `Access-Control-Expose-Headers:
+  // icy-metaint`, so JS sees that header as null even though the server is
+  // sending it. Fall back to scanning the byte stream for the literal
+  // `StreamTitle='...'` pattern, which is unambiguous against binary audio.
+  const metaintHeader = res.headers.get('icy-metaint');
+  const metaint = metaintHeader ? parseInt(metaintHeader, 10) : 0;
+  return metaint > 0
+    ? await readPrecise(res.body, metaint, signal)
+    : await readBruteForce(res.body);
+}
+
+async function readPrecise(
+  body: ReadableStream<Uint8Array>,
+  metaint: number,
+  signal: AbortSignal,
+): Promise<string> {
+  const reader = body.getReader();
   const totalNeeded = metaint + 1 + MAX_METADATA_BYTES;
   let buffer = new Uint8Array(0);
-
   try {
     while (buffer.length < totalNeeded) {
+      if (signal.aborted) return '';
       const { value, done } = await reader.read();
       if (done) break;
       if (!value) continue;
@@ -58,21 +91,44 @@ async function fetchOnce(streamUrl: string, signal: AbortSignal): Promise<string
       buffer = merged;
 
       if (buffer.length > metaint) {
-        const lengthByte = buffer[metaint];
-        const metaLen = lengthByte * 16;
-        if (metaLen === 0) {
-          // No metadata in this block — server is alive but has nothing new
-          return '';
-        }
+        const metaLen = buffer[metaint] * 16;
+        if (metaLen === 0) return '';
         if (buffer.length >= metaint + 1 + metaLen) {
-          const metaBytes = buffer.subarray(metaint + 1, metaint + 1 + metaLen);
-          // Try UTF-8 first; fall back to latin1 if it produces too many U+FFFD
-          const utf8 = new TextDecoder('utf-8').decode(metaBytes);
-          const text = /�/.test(utf8)
-            ? new TextDecoder('iso-8859-1').decode(metaBytes)
-            : utf8;
+          const text = decodeMaybeUtf8(buffer.subarray(metaint + 1, metaint + 1 + metaLen));
           const m = text.match(/StreamTitle='([^']*)'/);
           return m ? m[1].trim() : '';
+        }
+      }
+    }
+  } finally {
+    try { await reader.cancel(); } catch { /* ignore */ }
+  }
+  return '';
+}
+
+async function readBruteForce(body: ReadableStream<Uint8Array>): Promise<string> {
+  const reader = body.getReader();
+  let buffer = new Uint8Array(0);
+  let scannedTo = 0;
+  try {
+    while (buffer.length < SCAN_LIMIT_BYTES) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      if (!value) continue;
+      const merged = new Uint8Array(buffer.length + value.length);
+      merged.set(buffer);
+      merged.set(value, buffer.length);
+      buffer = merged;
+
+      // Slide back a bit so we can catch a pattern that straddles a chunk
+      const start = Math.max(0, scannedTo - STREAM_TITLE_PREFIX.length);
+      const idx = indexOf(buffer, STREAM_TITLE_PREFIX, start);
+      scannedTo = buffer.length;
+      if (idx >= 0) {
+        const valueStart = idx + STREAM_TITLE_PREFIX.length;
+        const closeQuote = buffer.indexOf(0x27, valueStart);
+        if (closeQuote > 0) {
+          return decodeMaybeUtf8(buffer.subarray(valueStart, closeQuote)).trim();
         }
       }
     }
