@@ -903,6 +903,7 @@ body.is-muted .np-eq { background: var(--ink-4); animation: none; }
   gap: 18px;
 }
 .np-btn {
+  position: relative;
   width: 44px;
   height: 44px;
   border: 1px solid var(--line);
@@ -920,6 +921,24 @@ body.is-muted .np-eq { background: var(--ink-4); animation: none; }
 .np-btn .heart--fill { display: none; }
 .np-btn.is-fav .heart--line { display: none; }
 .np-btn.is-fav .heart--fill { display: block; }
+
+.np-btn__chip {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--bg);
+  background: var(--accent);
+  padding: 2px 6px 1px;
+  border-radius: 999px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+.np-btn__chip[hidden] { display: none; }
 
 .np-play {
   width: 76px;

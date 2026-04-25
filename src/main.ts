@@ -75,6 +75,7 @@ const $npHome = document.getElementById('np-home') as HTMLAnchorElement;
 const $npHomeHost = document.getElementById('np-home-host') as HTMLElement;
 const $npFav = document.getElementById('np-fav') as HTMLButtonElement;
 const $npSleep = document.getElementById('np-sleep') as HTMLButtonElement;
+const $npSleepChip = document.getElementById('np-sleep-chip') as HTMLElement;
 const $npPlay = document.getElementById('np-play') as HTMLButtonElement;
 const $npLiveText = document.getElementById('np-live-text') as HTMLElement;
 const $npFormat = document.getElementById('np-format') as HTMLElement;
@@ -963,14 +964,16 @@ function setSleep(minutes: number): void {
     sleepTimer = undefined;
   }
   if (minutes === 0) {
-    $npSleep.classList.remove('is-fav'); // reuse accent border style
-    $npSleep.removeAttribute('data-min');
+    $npSleep.classList.remove('is-fav');
+    $npSleepChip.hidden = true;
+    $npSleepChip.textContent = '';
     $npSleep.setAttribute('aria-label', 'Sleep timer');
     return;
   }
   $npSleep.classList.add('is-fav');
-  $npSleep.dataset.min = String(minutes);
-  $npSleep.setAttribute('aria-label', `Sleep timer (${minutes}m)`);
+  $npSleepChip.hidden = false;
+  $npSleepChip.textContent = `${minutes}m`;
+  $npSleep.setAttribute('aria-label', `Sleep timer · ${minutes}m`);
   sleepTimer = window.setTimeout(() => {
     player.pause();
     sleepIndex = 0;
