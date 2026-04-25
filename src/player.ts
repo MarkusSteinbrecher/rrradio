@@ -4,6 +4,25 @@ import type { NowPlaying, PlayerState, Station } from './types';
 type Listener = (state: NowPlaying) => void;
 
 /**
+ * MediaError code → user-facing label. Code 4 (SRC_NOT_SUPPORTED) is what
+ * the browser raises both for genuinely unplayable formats AND for stations
+ * sitting behind expired / signed / authenticated URLs (Apple Music,
+ * Spotify, Tidal — anything where the access token rotates per session).
+ * In practice, RB entries that fire this on otherwise-modern browsers are
+ * almost always the second case, so we surface that explicitly.
+ */
+function audioErrorMessage(err: MediaError | null): string {
+  if (!err) return 'Stream error';
+  switch (err.code) {
+    case 1: return 'Playback aborted';
+    case 2: return 'Network error';
+    case 3: return 'Cannot decode stream';
+    case 4: return 'Not a public stream';
+    default: return 'Stream error';
+  }
+}
+
+/**
  * Wraps a single HTMLAudioElement with:
  *  - HLS support via hls.js (where native HLS is unavailable)
  *  - Media Session API (lock-screen + Bluetooth controls on mobile)
@@ -33,7 +52,7 @@ export class AudioPlayer {
     });
     this.audio.addEventListener('waiting', () => this.update({ state: 'loading' }));
     this.audio.addEventListener('error', () => {
-      this.update({ state: 'error', errorMessage: 'Stream error' });
+      this.update({ state: 'error', errorMessage: audioErrorMessage(this.audio.error) });
     });
 
     this.setupMediaSession();
