@@ -16,9 +16,14 @@
       <header class="topbar">
         <div class="topbar-row">
           <button type="button" class="wordmark" id="wordmark" aria-label="Go to home">rrradio<span class="dot" aria-hidden="true"></span></button>
-          <div class="signal-meta">
-            <span class="live-dot" aria-hidden="true"></span>
-            <span id="signal-status">STANDBY</span>
+          <div class="topbar-row__right">
+            <div class="signal-meta">
+              <span class="live-dot" aria-hidden="true"></span>
+              <span id="signal-status">STANDBY</span>
+            </div>
+            <button type="button" class="add-btn" id="add-btn" aria-label="Add custom station">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+            </button>
           </div>
         </div>
 
@@ -77,6 +82,51 @@
           Recents
         </button>
       </nav>
+
+      <!-- ============== ADD STATION (slide-up sheet) ============== -->
+      <section class="sheet" id="add-sheet" aria-label="Add custom station" aria-hidden="true">
+        <header class="sheet-head">
+          <button type="button" class="icon-btn" id="add-cancel" aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+          <div class="np-label">Add station</div>
+          <span class="icon-btn icon-btn--ghost" aria-hidden="true"></span>
+        </header>
+
+        <div class="sheet-body">
+          <form class="add-form" id="add-form" novalidate>
+            <label class="field">
+              <span class="field-key">Name</span>
+              <input type="text" name="name" autocomplete="off" required />
+            </label>
+            <label class="field">
+              <span class="field-key">Stream URL</span>
+              <input type="url" name="streamUrl" inputmode="url" autocomplete="off" required placeholder="https://…" />
+            </label>
+            <label class="field">
+              <span class="field-key">Homepage <span class="field-opt">optional</span></span>
+              <input type="url" name="homepage" inputmode="url" autocomplete="off" placeholder="https://…" />
+            </label>
+            <label class="field">
+              <span class="field-key">Country <span class="field-opt">2-letter ISO code</span></span>
+              <input type="text" name="country" autocomplete="off" maxlength="2" placeholder="CH" />
+            </label>
+            <label class="field">
+              <span class="field-key">Tags <span class="field-opt">comma-separated</span></span>
+              <input type="text" name="tags" autocomplete="off" placeholder="rock, indie" />
+            </label>
+            <p class="field-error" id="add-error" hidden></p>
+            <div class="sheet-actions">
+              <button type="submit" class="btn-primary" id="add-submit">Save &amp; play</button>
+            </div>
+          </form>
+
+          <div class="sheet-divider">
+            <span>Your stations</span>
+          </div>
+          <ul class="custom-list" id="custom-list"></ul>
+        </div>
+      </section>
 
       <!-- ============== NOW PLAYING (slide-up sheet) ============== -->
       <section class="np" id="np" aria-label="Now playing">

@@ -38,7 +38,7 @@ interface RBStation {
 /** Deterministic pseudo-frequency in [87.5, 108.0] MHz keyed off the
  *  station id, so the tuner dial always has a target even when the
  *  Radio Browser record has no real broadcast frequency. */
-function pseudoFrequency(id: string): string {
+export function pseudoFrequency(id: string): string {
   let hash = 0;
   for (let i = 0; i < id.length; i++) {
     hash = ((hash << 5) - hash + id.charCodeAt(i)) | 0;

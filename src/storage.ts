@@ -2,6 +2,7 @@ import type { Station } from './types';
 
 const FAVORITES_KEY = 'rrradio.favorites.v2';
 const RECENTS_KEY = 'rrradio.recents.v2';
+const CUSTOM_KEY = 'rrradio.custom.v1';
 const RECENTS_LIMIT = 12;
 
 function readStations(key: string): Station[] {
@@ -57,4 +58,25 @@ export function pushRecent(station: Station): void {
   const recents = getRecents().filter((s) => s.id !== station.id);
   recents.unshift(station);
   writeStations(RECENTS_KEY, recents.slice(0, RECENTS_LIMIT));
+}
+
+export function getCustom(): Station[] {
+  return readStations(CUSTOM_KEY);
+}
+
+export function isCustom(id: string): boolean {
+  return getCustom().some((s) => s.id === id);
+}
+
+export function addCustom(station: Station): void {
+  const all = getCustom();
+  const idx = all.findIndex((s) => s.id === station.id);
+  if (idx >= 0) all[idx] = station;
+  else all.unshift(station);
+  writeStations(CUSTOM_KEY, all);
+}
+
+export function removeCustom(id: string): void {
+  const next = getCustom().filter((s) => s.id !== id);
+  writeStations(CUSTOM_KEY, next);
 }

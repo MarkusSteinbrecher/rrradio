@@ -1,10 +1,14 @@
 import { AudioPlayer, stateLabel } from './player';
+import { pseudoFrequency } from './radioBrowser';
 import { fetchStations, searchStations } from './stations';
 import {
+  addCustom,
+  getCustom,
   getFavorites,
   getRecents,
   isFavorite,
   pushRecent,
+  removeCustom,
   toggleFavorite,
 } from './storage';
 import type { NowPlaying, Station } from './types';
@@ -64,6 +68,13 @@ const $npFormat = document.getElementById('np-format') as HTMLElement;
 const $npShare = document.getElementById('np-share') as HTMLButtonElement;
 const $npLabel = document.querySelector('.np-label') as HTMLElement;
 const $dialTrack = document.getElementById('dial-track') as HTMLElement;
+
+const $addBtn = document.getElementById('add-btn') as HTMLButtonElement;
+const $addSheet = document.getElementById('add-sheet') as HTMLElement;
+const $addCancel = document.getElementById('add-cancel') as HTMLButtonElement;
+const $addForm = document.getElementById('add-form') as HTMLFormElement;
+const $addError = document.getElementById('add-error') as HTMLElement;
+const $customList = document.getElementById('custom-list') as HTMLElement;
 
 // ─────────────────────────────────────────────────────────────
 // State
@@ -534,16 +545,22 @@ function renderContent(): void {
   $content.replaceChildren();
 
   if (activeTab === 'browse') {
-    const label = $search.value.trim()
-      ? 'Results'
-      : activeTag === 'all'
-        ? 'Curated'
-        : activeTag;
-    $content.append(sectionLabel(label, lastBrowseStations.length));
-    if (lastBrowseStations.length === 0) {
-      $content.append(emptyState(ICON_EMPTY, 'No stations match', 'Try a different search or tag'));
-    } else {
+    const query = $search.value.trim();
+    const tagFilter = activeTag === 'all' ? undefined : activeTag;
+    const customFiltered = filterStations(getCustom(), query).filter((s) => {
+      if (!tagFilter) return true;
+      return (s.tags ?? []).some((t) => t.toLowerCase().includes(tagFilter));
+    });
+    if (customFiltered.length > 0) {
+      $content.append(sectionLabel('My stations', customFiltered.length));
+      $content.append(renderRows(customFiltered));
+    }
+    if (lastBrowseStations.length > 0) {
+      const label = query ? 'Results' : activeTag === 'all' ? 'Curated' : activeTag;
+      $content.append(sectionLabel(label, lastBrowseStations.length));
       $content.append(renderRows(lastBrowseStations));
+    } else if (customFiltered.length === 0) {
+      $content.append(emptyState(ICON_EMPTY, 'No stations match', 'Try a different search or tag'));
     }
     return;
   }
@@ -711,6 +728,152 @@ function openNp(open: boolean): void {
   $np.setAttribute('aria-hidden', String(!open));
 }
 
+function openAddSheet(open: boolean): void {
+  $addSheet.classList.toggle('open', open);
+  $addSheet.setAttribute('aria-hidden', String(!open));
+  if (open) {
+    renderCustomList();
+    $addError.hidden = true;
+    // Focus the first field when opening
+    window.setTimeout(() => {
+      const first = $addForm.querySelector<HTMLInputElement>('input[name="name"]');
+      first?.focus();
+    }, 280);
+  }
+}
+
+function buildId(): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return `custom-${crypto.randomUUID()}`;
+  }
+  return `custom-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
+function parseTags(raw: string): string[] {
+  return raw
+    .split(',')
+    .map((t) => t.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+function showAddError(msg: string): void {
+  $addError.textContent = msg;
+  $addError.hidden = false;
+}
+
+function handleAddSubmit(e: SubmitEvent): void {
+  e.preventDefault();
+  const data = new FormData($addForm);
+  const name = String(data.get('name') ?? '').trim();
+  const streamUrl = String(data.get('streamUrl') ?? '').trim();
+  const homepage = String(data.get('homepage') ?? '').trim();
+  const country = String(data.get('country') ?? '').trim().toUpperCase();
+  const tagsRaw = String(data.get('tags') ?? '').trim();
+
+  if (!name) {
+    showAddError('Name is required.');
+    return;
+  }
+  if (!streamUrl) {
+    showAddError('Stream URL is required.');
+    return;
+  }
+  try {
+    const u = new URL(streamUrl);
+    if (u.protocol !== 'http:' && u.protocol !== 'https:') {
+      showAddError('Stream URL must start with http:// or https://');
+      return;
+    }
+  } catch {
+    showAddError('Stream URL is not a valid URL.');
+    return;
+  }
+  if (homepage) {
+    try {
+      const u = new URL(homepage);
+      if (u.protocol !== 'http:' && u.protocol !== 'https:') {
+        showAddError('Homepage must start with http:// or https://');
+        return;
+      }
+    } catch {
+      showAddError('Homepage is not a valid URL.');
+      return;
+    }
+  }
+  if (country && !/^[A-Z]{2}$/.test(country)) {
+    showAddError('Country must be a 2-letter code (e.g. CH).');
+    return;
+  }
+
+  const id = buildId();
+  const station: Station = {
+    id,
+    name,
+    streamUrl,
+    homepage: homepage || undefined,
+    country: country || undefined,
+    tags: parseTags(tagsRaw),
+    frequency: pseudoFrequency(id),
+  };
+
+  addCustom(station);
+  $addForm.reset();
+  $addError.hidden = true;
+  openAddSheet(false);
+
+  // Refresh whatever list is visible, then play
+  if (activeTab === 'browse') void runQuery();
+  else renderContent();
+  pushRecent(station);
+  void player.play(station);
+  window.setTimeout(() => openNp(true), 100);
+}
+
+function renderCustomList(): void {
+  const all = getCustom();
+  $customList.replaceChildren();
+  if (all.length === 0) {
+    const empty = document.createElement('li');
+    empty.className = 'custom-empty';
+    empty.textContent = 'No custom stations yet.';
+    $customList.append(empty);
+    return;
+  }
+  for (const s of all) {
+    const li = document.createElement('li');
+    li.className = 'custom-row';
+
+    const main = document.createElement('div');
+    main.className = 'custom-row__main';
+
+    const name = document.createElement('div');
+    name.className = 'custom-row__name';
+    name.textContent = s.name;
+
+    const url = document.createElement('div');
+    url.className = 'custom-row__url';
+    const display = urlDisplay(s.streamUrl);
+    url.textContent = display ? display.host : s.streamUrl;
+
+    main.append(name, url);
+
+    const del = document.createElement('button');
+    del.type = 'button';
+    del.className = 'custom-row__delete';
+    del.setAttribute('aria-label', `Delete ${s.name}`);
+    del.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>';
+    del.addEventListener('click', () => {
+      removeCustom(s.id);
+      renderCustomList();
+      if (activeTab === 'browse') void runQuery();
+      else renderContent();
+    });
+
+    li.append(main, del);
+    $customList.append(li);
+  }
+}
+
 async function shareCurrentStation(): Promise<void> {
   const s = currentNP.station;
   if (!s.id) return;
@@ -779,6 +942,10 @@ $searchClear.addEventListener('click', () => {
 });
 
 $wordmark.addEventListener('click', goHome);
+
+$addBtn.addEventListener('click', () => openAddSheet(true));
+$addCancel.addEventListener('click', () => openAddSheet(false));
+$addForm.addEventListener('submit', handleAddSubmit);
 
 $mini.addEventListener('click', () => openNp(true));
 $miniToggle.addEventListener('click', (e) => {
