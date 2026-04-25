@@ -15,7 +15,7 @@
       <!-- ============== TOP BAR ============== -->
       <header class="topbar">
         <div class="topbar-row">
-          <div class="wordmark">rrradio<span class="dot" aria-hidden="true"></span></div>
+          <button type="button" class="wordmark" id="wordmark" aria-label="Go to home">rrradio<span class="dot" aria-hidden="true"></span></button>
           <div class="signal-meta">
             <span class="live-dot" aria-hidden="true"></span>
             <span id="signal-status">STANDBY</span>
@@ -32,6 +32,9 @@
             autocomplete="off"
             aria-label="Search stations"
           />
+          <button type="button" class="search-clear" id="search-clear" hidden aria-label="Clear search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
         </div>
 
         <div class="tags" id="tags" role="toolbar" aria-label="Genre filters"></div>

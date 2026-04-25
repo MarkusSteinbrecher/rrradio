@@ -30,8 +30,10 @@ const player = new AudioPlayer();
 const $body = document.body;
 
 const $signalStatus = document.getElementById('signal-status') as HTMLElement;
+const $wordmark = document.getElementById('wordmark') as HTMLButtonElement;
 const $searchWrap = document.getElementById('search-wrap') as HTMLElement;
 const $search = document.getElementById('search') as HTMLInputElement;
+const $searchClear = document.getElementById('search-clear') as HTMLButtonElement;
 const $tags = document.getElementById('tags') as HTMLElement;
 const $tabStatus = document.getElementById('tab-status') as HTMLElement;
 const $content = document.getElementById('content') as HTMLElement;
@@ -638,6 +640,33 @@ function syncRowPlayingState(): void {
   });
 }
 
+function syncSearchClear(): void {
+  $searchClear.hidden = $search.value === '';
+}
+
+function clearSearch(refocus: boolean): void {
+  if ($search.value !== '') {
+    $search.value = '';
+    syncSearchClear();
+  }
+  if (refocus) $search.focus();
+}
+
+function goHome(): void {
+  // Close Now Playing if open, then reset Browse to its initial state
+  if ($np.classList.contains('open')) openNp(false);
+  const wasBrowseDefault = activeTab === 'browse' && activeTag === 'all' && $search.value === '';
+  clearSearch(false);
+  activeTag = 'all';
+  renderTags();
+  if (activeTab !== 'browse') {
+    setTab('browse'); // setTab also runs the query
+  } else if (!wasBrowseDefault) {
+    void runQuery();
+  }
+  $content.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function setTab(tab: Tab): void {
   if (activeTab === tab) return;
   activeTab = tab;
@@ -712,7 +741,15 @@ $tabbar.addEventListener('click', (e) => {
   if (tab) setTab(tab);
 });
 
+$search.addEventListener('input', () => syncSearchClear());
 $search.addEventListener('input', debounce(() => void runQuery(), 300));
+
+$searchClear.addEventListener('click', () => {
+  clearSearch(true);
+  void runQuery();
+});
+
+$wordmark.addEventListener('click', goHome);
 
 $mini.addEventListener('click', () => openNp(true));
 $miniToggle.addEventListener('click', (e) => {
@@ -755,4 +792,5 @@ player.subscribe((np) => {
 renderTabBar();
 renderTopBar();
 renderTags();
+syncSearchClear();
 void runQuery();
