@@ -69,6 +69,9 @@ const $npFreqNum = document.getElementById('np-freq-num') as HTMLElement;
 const $npBitrate = document.getElementById('np-bitrate') as HTMLElement;
 const $npOrigin = document.getElementById('np-origin') as HTMLElement;
 const $npListeners = document.getElementById('np-listeners') as HTMLElement;
+const $npTrackRow = document.getElementById('np-track-row') as HTMLElement;
+const $npTrackTitle = document.getElementById('np-track-title') as HTMLElement;
+const $npTrackCover = document.getElementById('np-track-cover') as HTMLImageElement;
 const $npStream = document.getElementById('np-stream') as HTMLAnchorElement;
 const $npStreamHost = document.getElementById('np-stream-host') as HTMLElement;
 const $npHome = document.getElementById('np-home') as HTMLAnchorElement;
@@ -438,6 +441,22 @@ function renderNowPlaying(np: NowPlaying): void {
   $npListeners.textContent = s.listeners ? s.listeners.toLocaleString() : '—';
   $npLiveText.textContent = npLiveText(np);
   $npFormat.textContent = npFormatText(s);
+
+  // Track row — show whenever we have a current track, with optional cover
+  const hasTrack = !!np.trackTitle && np.trackTitle.trim().length > 0;
+  $npTrackRow.hidden = !hasTrack;
+  $npTrackTitle.textContent = hasTrack ? (np.trackTitle as string) : '';
+  if (hasTrack && np.coverUrl) {
+    if ($npTrackCover.src !== np.coverUrl) $npTrackCover.src = np.coverUrl;
+    $npTrackCover.hidden = false;
+    $npTrackCover.onerror = () => {
+      $npTrackCover.hidden = true;
+      $npTrackCover.removeAttribute('src');
+    };
+  } else {
+    $npTrackCover.hidden = true;
+    $npTrackCover.removeAttribute('src');
+  }
 
   $npFav.classList.toggle('is-fav', !!s.id && isFavorite(s.id));
   $npFav.setAttribute('aria-label', isFavorite(s.id) ? 'Remove favorite' : 'Add favorite');

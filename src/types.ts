@@ -29,5 +29,8 @@ export interface NowPlaying {
   state: PlayerState;
   /** Best-effort current track title. Often unavailable on web. */
   trackTitle?: string;
+  /** Optional cover-art URL for the current track (when the metadata
+   *  source provides one — e.g. Grrif's covers.json). */
+  coverUrl?: string;
   errorMessage?: string;
 }

@@ -16,6 +16,9 @@ export interface ParsedTitle {
   artist?: string;
   track: string;
   raw: string;
+  /** Optional cover-art URL when the source provides one (e.g. JSON
+   *  metadata feeds). ICY metadata never includes this. */
+  coverUrl?: string;
 }
 
 const MAX_METADATA_BYTES = 255 * 16;       // ICY length byte × 16

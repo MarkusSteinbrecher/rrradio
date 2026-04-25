@@ -108,8 +108,11 @@ export class AudioPlayer {
    * clear. Re-renders subscribers and updates the lock-screen
    * Media Session metadata so iOS / Android show the song.
    */
-  setTrackTitle(trackTitle: string | undefined, parts?: { artist?: string; track?: string }): void {
-    this.update({ trackTitle });
+  setTrackTitle(
+    trackTitle: string | undefined,
+    parts?: { artist?: string; track?: string; coverUrl?: string },
+  ): void {
+    this.update({ trackTitle, coverUrl: parts?.coverUrl });
     this.updateMediaSessionMetadata(this.current.station, parts);
   }
 
@@ -131,16 +134,21 @@ export class AudioPlayer {
 
   private updateMediaSessionMetadata(
     station: Station,
-    parts?: { artist?: string; track?: string },
+    parts?: { artist?: string; track?: string; coverUrl?: string },
   ): void {
     if (!('mediaSession' in navigator)) return;
     const title = parts?.track || station.name;
     const artist = parts?.artist || station.name;
+    const artwork = parts?.coverUrl
+      ? [{ src: parts.coverUrl, sizes: '300x300' }]
+      : station.favicon
+        ? [{ src: station.favicon, sizes: '512x512' }]
+        : [];
     navigator.mediaSession.metadata = new MediaMetadata({
       title,
       artist,
       album: 'rrradio',
-      artwork: station.favicon ? [{ src: station.favicon, sizes: '512x512' }] : [],
+      artwork,
     });
   }
 }

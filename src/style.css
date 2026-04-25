@@ -722,6 +722,51 @@ body.is-muted .np-eq { background: var(--ink-4); animation: none; }
   text-transform: lowercase;
 }
 
+/* ─── On-air track row (artist/title + optional cover) ─── */
+.np-track {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0 4px;
+  border-top: 1px solid var(--line);
+  margin-bottom: 4px;
+}
+.np-track[hidden] { display: none; }
+.np-track__cover {
+  width: 40px;
+  height: 40px;
+  border-radius: 3px;
+  border: 1px solid var(--line);
+  object-fit: cover;
+  background: var(--bg-2);
+  flex-shrink: 0;
+  display: block;
+}
+.np-track__cover[hidden] { display: none; }
+.np-track__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.np-track__label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.np-track__title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* ─── Tuner Dial ─── */
 .dial {
   position: relative;

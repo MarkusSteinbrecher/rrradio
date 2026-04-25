@@ -33,10 +33,13 @@ async function fetchGrrifMetadata(signal: AbortSignal): Promise<ParsedTitle | nu
   if (!latest?.Title) return null;
   const artist = latest.Artist ? titleCase(latest.Artist) : undefined;
   const track = titleCase(latest.Title);
+  const cover =
+    latest.URLCover && !/\/default\.jpg$/i.test(latest.URLCover) ? latest.URLCover : undefined;
   return {
     artist,
     track,
     raw: `${latest.Artist ?? ''} - ${latest.Title ?? ''}`.trim(),
+    coverUrl: cover,
   };
 }
 
