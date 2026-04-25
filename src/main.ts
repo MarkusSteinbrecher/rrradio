@@ -1,3 +1,4 @@
+import { BUILTIN_STATIONS } from './builtins';
 import { AudioPlayer, stateLabel } from './player';
 import { pseudoFrequency } from './radioBrowser';
 import { fetchStations, searchStations } from './stations';
@@ -17,7 +18,6 @@ import type { NowPlaying, Station } from './types';
 // Constants
 // ─────────────────────────────────────────────────────────────
 
-const TAG_PRESETS = ['all', 'jazz', 'ambient', 'classical', 'electronic', 'indie', 'news', 'eclectic'];
 const SLEEP_CYCLE_MIN = [0, 15, 30, 60];
 const DIAL_MIN = 87.5;
 const DIAL_MAX = 108.0;
@@ -37,7 +37,8 @@ const $signalStatus = document.getElementById('signal-status') as HTMLElement;
 const $wordmark = document.getElementById('wordmark') as HTMLButtonElement;
 const $search = document.getElementById('search') as HTMLInputElement;
 const $searchClear = document.getElementById('search-clear') as HTMLButtonElement;
-const $tags = document.getElementById('tags') as HTMLElement;
+const $genre = document.getElementById('genre') as HTMLSelectElement;
+const $filterRow = document.getElementById('filter-row') as HTMLElement;
 const $tabStatus = document.getElementById('tab-status') as HTMLElement;
 const $content = document.getElementById('content') as HTMLElement;
 const $tabbar = document.getElementById('tabbar') as HTMLElement;
@@ -458,8 +459,8 @@ function renderNowPlaying(np: NowPlaying): void {
 // ─────────────────────────────────────────────────────────────
 
 function renderTopBar(): void {
-  // Search is available on every tab. Tags are Browse-only.
-  $tags.hidden = activeTab !== 'browse';
+  // Search is available on every tab. Genre filter is Browse-only.
+  $filterRow.hidden = activeTab !== 'browse';
   $search.placeholder =
     activeTab === 'fav'
       ? 'Search your favorites…'
@@ -479,22 +480,8 @@ function renderTopBar(): void {
   }
 }
 
-function renderTags(): void {
-  $tags.replaceChildren(
-    ...TAG_PRESETS.map((tag) => {
-      const chip = document.createElement('button');
-      chip.type = 'button';
-      chip.className = 'tag' + (activeTag === tag ? ' active' : '');
-      chip.textContent = tag;
-      chip.setAttribute('aria-pressed', String(activeTag === tag));
-      chip.addEventListener('click', () => {
-        activeTag = tag;
-        renderTags();
-        void runQuery();
-      });
-      return chip;
-    }),
-  );
+function syncGenre(): void {
+  if ($genre.value !== activeTag) $genre.value = activeTag;
 }
 
 function renderTabBar(): void {
@@ -541,26 +528,80 @@ function renderRows(stations: Station[]): DocumentFragment {
   return frag;
 }
 
+function renderFeatured(stations: Station[]): HTMLElement {
+  const wrap = document.createElement('div');
+  wrap.className = 'featured-strip';
+  const list = document.createElement('ul');
+  list.className = 'featured';
+  const currentId = currentNP.station.id;
+  for (const s of stations) {
+    const li = document.createElement('li');
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'featured-tile' + (s.id === currentId ? ' is-playing' : '');
+    btn.dataset.id = s.id;
+    btn.setAttribute('aria-label', `Play ${s.name}`);
+
+    const art = document.createElement('span');
+    art.className = 'featured-tile__art';
+    if (s.favicon) {
+      const img = document.createElement('img');
+      img.src = s.favicon;
+      img.alt = '';
+      img.referrerPolicy = 'no-referrer';
+      art.append(img);
+    } else {
+      const fallback = document.createElement('span');
+      fallback.textContent = s.name.slice(0, 2).toUpperCase();
+      fallback.style.cssText = 'font-family: var(--mono); font-size: 18px; color: var(--ink-2);';
+      art.append(fallback);
+    }
+
+    const name = document.createElement('span');
+    name.className = 'featured-tile__name';
+    name.textContent = s.name;
+
+    btn.append(art, name);
+    btn.addEventListener('click', () => onRowPlay(s));
+    li.append(btn);
+    list.append(li);
+  }
+  wrap.append(list);
+  return wrap;
+}
+
 function renderContent(): void {
   $content.replaceChildren();
 
   if (activeTab === 'browse') {
     const query = $search.value.trim();
     const tagFilter = activeTag === 'all' ? undefined : activeTag;
-    const customFiltered = filterStations(getCustom(), query).filter((s) => {
-      if (!tagFilter) return true;
-      return (s.tags ?? []).some((t) => t.toLowerCase().includes(tagFilter));
-    });
-    if (customFiltered.length > 0) {
-      $content.append(sectionLabel('My stations', customFiltered.length));
-      $content.append(renderRows(customFiltered));
+    const noFilter = !query && !tagFilter;
+
+    // Featured strip — only on the unfiltered Browse view, so search/filter
+    // results stay focused. The same stations remain reachable below in
+    // the "My stations" section when a filter is applied.
+    if (noFilter && BUILTIN_STATIONS.length > 0) {
+      $content.append(renderFeatured(BUILTIN_STATIONS));
+    }
+
+    // "My stations" = built-ins + custom when filtering, custom-only when
+    // unfiltered (built-ins live in the featured strip in that case).
+    const tagMatch = (s: Station): boolean =>
+      !tagFilter || (s.tags ?? []).some((t) => t.toLowerCase().includes(tagFilter));
+    const mySource = noFilter ? getCustom() : [...BUILTIN_STATIONS, ...getCustom()];
+    const myFiltered = filterStations(mySource, query).filter(tagMatch);
+
+    if (myFiltered.length > 0) {
+      $content.append(sectionLabel('My stations', myFiltered.length));
+      $content.append(renderRows(myFiltered));
     }
     if (lastBrowseStations.length > 0) {
-      const label = query ? 'Results' : activeTag === 'all' ? 'Curated' : activeTag;
+      const label = query ? 'Results' : tagFilter ?? 'Curated';
       $content.append(sectionLabel(label, lastBrowseStations.length));
       $content.append(renderRows(lastBrowseStations));
-    } else if (customFiltered.length === 0) {
-      $content.append(emptyState(ICON_EMPTY, 'No stations match', 'Try a different search or tag'));
+    } else if (myFiltered.length === 0 && !noFilter) {
+      $content.append(emptyState(ICON_EMPTY, 'No stations match', 'Try a different search or genre'));
     }
     return;
   }
@@ -684,6 +725,9 @@ function syncRowPlayingState(): void {
     const eq = row.querySelector<HTMLElement>('.eq');
     if (eq) eq.classList.toggle('paused', isCurrent && isPaused);
   });
+  $content.querySelectorAll<HTMLElement>('.featured-tile').forEach((tile) => {
+    tile.classList.toggle('is-playing', !!id && tile.dataset.id === id);
+  });
 }
 
 function syncSearchClear(): void {
@@ -704,7 +748,7 @@ function goHome(): void {
   const wasBrowseDefault = activeTab === 'browse' && activeTag === 'all' && $search.value === '';
   clearSearch(false);
   activeTag = 'all';
-  renderTags();
+  syncGenre();
   if (activeTab !== 'browse') {
     setTab('browse'); // setTab also runs the query
   } else if (!wasBrowseDefault) {
@@ -936,6 +980,11 @@ $tabbar.addEventListener('click', (e) => {
 $search.addEventListener('input', () => syncSearchClear());
 $search.addEventListener('input', debounce(() => void runQuery(), 300));
 
+$genre.addEventListener('change', () => {
+  activeTag = $genre.value || 'all';
+  void runQuery();
+});
+
 $searchClear.addEventListener('click', () => {
   clearSearch(true);
   void runQuery();
@@ -987,6 +1036,6 @@ player.subscribe((np) => {
 
 renderTabBar();
 renderTopBar();
-renderTags();
+syncGenre();
 syncSearchClear();
 void runQuery();

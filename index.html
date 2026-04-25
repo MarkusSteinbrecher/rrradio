@@ -42,7 +42,23 @@
           </button>
         </div>
 
-        <div class="tags" id="tags" role="toolbar" aria-label="Genre filters"></div>
+        <div class="filter-row" id="filter-row">
+          <label class="filter-wrap">
+            <span class="filter-key">Genre</span>
+            <select class="filter-select" id="genre" aria-label="Filter by genre">
+              <option value="all">All</option>
+              <option value="jazz">Jazz</option>
+              <option value="ambient">Ambient</option>
+              <option value="classical">Classical</option>
+              <option value="electronic">Electronic</option>
+              <option value="indie">Indie</option>
+              <option value="rock">Rock</option>
+              <option value="news">News</option>
+              <option value="eclectic">Eclectic</option>
+            </select>
+            <svg class="filter-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </label>
+        </div>
 
         <div class="tab-status" id="tab-status" hidden></div>
       </header>
