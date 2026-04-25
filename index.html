@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Radio" />
+    <title>Radio</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>Radio</h1>
+      <input
+        type="search"
+        id="search"
+        class="search"
+        placeholder="Search stations…"
+        autocomplete="off"
+        aria-label="Search stations"
+      />
+      <div id="tags" class="tag-row" role="toolbar" aria-label="Genre filters"></div>
+    </header>
+
+    <main>
+      <section id="station-list" class="station-list" aria-label="Stations"></section>
+      <p id="list-status" class="list-status">Loading…</p>
+    </main>
+
+    <footer id="player" class="player" aria-label="Now playing" hidden>
+      <div class="player-info">
+        <div class="player-station" id="player-station">—</div>
+        <div class="player-status" id="player-status">Idle</div>
+      </div>
+      <button id="player-toggle" class="player-toggle" aria-label="Play/Pause">▶</button>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
