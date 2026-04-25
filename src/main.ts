@@ -56,7 +56,8 @@ const $npSleep = document.getElementById('np-sleep') as HTMLButtonElement;
 const $npPlay = document.getElementById('np-play') as HTMLButtonElement;
 const $npLiveText = document.getElementById('np-live-text') as HTMLElement;
 const $npFormat = document.getElementById('np-format') as HTMLElement;
-const $npEq = document.getElementById('np-eq') as HTMLElement;
+const $npShare = document.getElementById('np-share') as HTMLButtonElement;
+const $npLabel = document.querySelector('.np-label') as HTMLElement;
 const $dialTrack = document.getElementById('dial-track') as HTMLElement;
 
 // ─────────────────────────────────────────────────────────────
@@ -257,44 +258,19 @@ function buildDial(): { setFrequency(freq: string | undefined): void } {
 const dial = buildDial();
 
 // ─────────────────────────────────────────────────────────────
-// 24-bar EQ inside Now Playing
+// Now-Playing label flash (used for ephemeral feedback)
 // ─────────────────────────────────────────────────────────────
 
-function buildNpEq(): { start(): void; stop(): void } {
-  for (let i = 0; i < 24; i++) $npEq.append(document.createElement('span'));
-  const spans = $npEq.querySelectorAll<HTMLSpanElement>('span');
-  let intervalId: number | undefined;
+const NP_LABEL_DEFAULT = 'Now Playing';
+let labelFlashTimer: number | undefined;
 
-  const idle = (): void => {
-    spans.forEach((sp, i) => {
-      sp.style.height = `${8 + (i % 3) * 4}%`;
-    });
-  };
-
-  idle();
-
-  return {
-    start() {
-      if (intervalId !== undefined) return;
-      intervalId = window.setInterval(() => {
-        const t = Date.now();
-        spans.forEach((sp, i) => {
-          const lvl = Math.max(0.08, Math.abs(Math.sin(i * 0.7 + t / 200)) * 0.95);
-          sp.style.height = `${lvl * 100}%`;
-        });
-      }, 140);
-    },
-    stop() {
-      if (intervalId !== undefined) {
-        window.clearInterval(intervalId);
-        intervalId = undefined;
-      }
-      idle();
-    },
-  };
+function flashLabel(text: string, ms = 1500): void {
+  if (labelFlashTimer !== undefined) window.clearTimeout(labelFlashTimer);
+  $npLabel.textContent = text;
+  labelFlashTimer = window.setTimeout(() => {
+    $npLabel.textContent = NP_LABEL_DEFAULT;
+  }, ms);
 }
-
-const npEq = buildNpEq();
 
 // ─────────────────────────────────────────────────────────────
 // Status text helpers
@@ -416,9 +392,6 @@ function renderNowPlaying(np: NowPlaying): void {
   $npPlay.setAttribute('aria-label', np.state === 'playing' ? 'Pause' : 'Play');
 
   if (s.frequency) dial.setFrequency(s.frequency);
-
-  if (np.state === 'playing') npEq.start();
-  else npEq.stop();
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -644,6 +617,32 @@ function openNp(open: boolean): void {
   $np.setAttribute('aria-hidden', String(!open));
 }
 
+async function shareCurrentStation(): Promise<void> {
+  const s = currentNP.station;
+  if (!s.id) return;
+  const url = s.homepage || s.streamUrl;
+  const data: ShareData = {
+    title: s.name,
+    text: `${s.name} on rrradio`,
+    url,
+  };
+  if (typeof navigator.share === 'function') {
+    try {
+      await navigator.share(data);
+      return;
+    } catch (err) {
+      // AbortError = user cancelled; anything else, fall back to copy
+      if (err instanceof DOMException && err.name === 'AbortError') return;
+    }
+  }
+  try {
+    await navigator.clipboard.writeText(url);
+    flashLabel('Link copied');
+  } catch {
+    window.open(url, '_blank', 'noopener');
+  }
+}
+
 function setSleep(minutes: number): void {
   if (sleepTimer !== undefined) {
     window.clearTimeout(sleepTimer);
@@ -687,6 +686,7 @@ $miniToggle.addEventListener('click', (e) => {
 
 $npClose.addEventListener('click', () => openNp(false));
 $npPlay.addEventListener('click', () => player.toggle());
+$npShare.addEventListener('click', () => void shareCurrentStation());
 
 $npFav.addEventListener('click', () => {
   const s = currentNP.station;

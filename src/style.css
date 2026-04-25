@@ -774,23 +774,32 @@ body.is-playing .np-play .icon-pause { display: block; }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* Streaming indicator — a single sine-wave hairline that drifts one
+   cycle (24px) every 3.6s while playing. Dim and static otherwise. */
 .np-eq {
   flex: 1;
   height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-}
-.np-eq span {
-  display: block;
-  width: 3px;
   background: var(--ink-4);
-  border-radius: 1px;
-  height: 8%;
-  transition: height 0.14s ease, background 0.2s;
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 28' width='24' height='28'><path d='M0,14 Q6,3 12,14 T24,14' stroke='black' stroke-width='1.4' fill='none' stroke-linecap='round'/></svg>");
+          mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 28' width='24' height='28'><path d='M0,14 Q6,3 12,14 T24,14' stroke='black' stroke-width='1.4' fill='none' stroke-linecap='round'/></svg>");
+  -webkit-mask-size: 24px 28px;
+          mask-size: 24px 28px;
+  -webkit-mask-repeat: repeat-x;
+          mask-repeat: repeat-x;
+  -webkit-mask-position: 0 center;
+          mask-position: 0 center;
+  transition: background 0.3s ease;
 }
-body.is-playing .np-eq span { background: var(--accent); }
+body.is-playing .np-eq {
+  background: var(--accent);
+  animation: np-wave-drift 3.6s linear infinite;
+}
+@keyframes np-wave-drift {
+  to {
+    -webkit-mask-position: 24px center;
+            mask-position: 24px center;
+  }
+}
 
 .np-play-row {
   display: flex;
@@ -857,4 +866,5 @@ body.is-playing .np-eq span { background: var(--accent); }
   }
   .dial-track { transition: none; }
   .mini-progress { display: none; }
+  body.is-playing .np-eq { animation: none; }
 }
