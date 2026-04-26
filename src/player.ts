@@ -39,6 +39,12 @@ export class AudioPlayer {
     station: { id: '', name: '', streamUrl: '' },
     state: 'idle',
   };
+  /** When the loading state began. Used to keep the loading UI visible
+   *  for at least MIN_LOADING_MS so the bouncing-dots animation has
+   *  time to register on fast streams. */
+  private loadingSince = 0;
+  private pendingLoadingExit: number | undefined;
+  private static readonly MIN_LOADING_MS = 600;
 
   constructor() {
     this.audio = new Audio();
@@ -136,6 +142,34 @@ export class AudioPlayer {
   }
 
   private update(patch: Partial<NowPlaying>): void {
+    const wasLoading = this.current.state === 'loading';
+    const targetState = patch.state ?? this.current.state;
+
+    // If we're entering 'loading', stamp when so we can hold it long enough
+    // to be visible. If we're leaving 'loading' too soon, defer the exit.
+    if (!wasLoading && targetState === 'loading') {
+      this.loadingSince = Date.now();
+    }
+    if (wasLoading && targetState !== 'loading' && patch.state) {
+      const elapsed = Date.now() - this.loadingSince;
+      if (elapsed < AudioPlayer.MIN_LOADING_MS) {
+        if (this.pendingLoadingExit !== undefined) {
+          window.clearTimeout(this.pendingLoadingExit);
+        }
+        this.pendingLoadingExit = window.setTimeout(() => {
+          this.pendingLoadingExit = undefined;
+          this.update(patch);
+        }, AudioPlayer.MIN_LOADING_MS - elapsed);
+        return;
+      }
+    }
+
+    if (this.pendingLoadingExit !== undefined && patch.state === 'loading') {
+      // Re-entered loading — cancel any pending exit.
+      window.clearTimeout(this.pendingLoadingExit);
+      this.pendingLoadingExit = undefined;
+    }
+
     this.current = { ...this.current, ...patch };
     this.emit();
   }

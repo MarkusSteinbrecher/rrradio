@@ -725,7 +725,7 @@ function onRowPlay(station: Station): void {
   void player.play(station);
   if (activeTab === 'recent') renderContent();
   // Open Now Playing on first play of this station
-  window.setTimeout(() => openNp(true), 100);
+  openNp(true);
 }
 
 function onToggleFav(station: Station): void {
@@ -917,7 +917,7 @@ function handleAddSubmit(e: SubmitEvent): void {
   else renderContent();
   pushRecent(station);
   void player.play(station);
-  window.setTimeout(() => openNp(true), 100);
+  openNp(true);
 }
 
 function renderCustomList(): void {
