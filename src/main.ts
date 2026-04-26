@@ -589,14 +589,34 @@ function emptyState(iconHtml: string, title: string, sub: string): HTMLDivElemen
   return wrap;
 }
 
-// Top-played stations (Browse featured strip). Pulled from our
-// Cloudflare Worker, which aggregates GoatCounter "play: <name>"
-// events and is edge-cached an hour. Names match station.name
-// case-insensitively against BUILTIN_STATIONS so we can render with
-// real logos. While the fetch is in flight (or if it fails / returns
-// empty), the featured strip falls back to YAML order.
+// Played-stations data sources. Two fetches feed the Browse home view:
+//
+//   /api/public/top-stations  — names + play counts from GoatCounter
+//                               (edge-cached 1h, always current)
+//   public/station-backlog.json — names → Radio Browser-resolved stream
+//                                 URLs + favicons (regenerated weekly
+//                                 by catalog-watch). Lets us play a
+//                                 popular non-curated station without
+//                                 hitting Radio Browser at render time.
+//
+// The unfiltered Browse view shows the top 10 played, with built-in
+// matches preferred (real logos + curated metadata) and Radio
+// Browser-resolved stubs for the rest.
 const TOP_STATIONS_URL =
-  'https://rrradio-stats.markussteinbrecher.workers.dev/api/public/top-stations?days=30&limit=5';
+  'https://rrradio-stats.markussteinbrecher.workers.dev/api/public/top-stations?days=30&limit=15';
+const PLAYED_TOTAL_LIMIT = 10;
+const PLAYED_FEATURED_LIMIT = 3;
+
+interface BacklogEntry {
+  name: string;
+  plays: number;
+  alreadyCurated: boolean;
+  streamUrl?: string;
+  verdict: string;
+  favicon?: string;
+  broadcasterGuess?: string;
+}
+
 let topStationNames: string[] | undefined;
 let topStationsFetched = false;
 async function loadTopStations(): Promise<void> {
@@ -613,36 +633,79 @@ async function loadTopStations(): Promise<void> {
     topStationNames = names;
     if (activeTab === 'browse') renderContent();
   } catch {
-    /* silent: featured strip falls back to YAML order */
+    /* silent: home view falls back to YAML order */
   }
 }
-function featuredStations(): Station[] {
-  const LIMIT = 5;
-  if (!topStationNames || BUILTIN_STATIONS.length === 0) {
-    return BUILTIN_STATIONS.slice(0, LIMIT);
+
+let backlogByName: Map<string, BacklogEntry> = new Map();
+let backlogFetched = false;
+async function loadBacklog(): Promise<void> {
+  if (backlogFetched) return;
+  backlogFetched = true;
+  try {
+    const res = await fetch(`${import.meta.env.BASE_URL}station-backlog.json`, {
+      cache: 'no-store',
+    });
+    if (!res.ok) return;
+    const data = (await res.json()) as { items?: BacklogEntry[] };
+    const map = new Map<string, BacklogEntry>();
+    for (const item of data.items ?? []) {
+      if (item?.name) map.set(item.name.toLowerCase(), item);
+    }
+    backlogByName = map;
+    if (activeTab === 'browse') renderContent();
+  } catch {
+    /* silent: non-curated played stations just won't appear */
   }
-  const byName = new Map<string, Station>();
-  for (const s of BUILTIN_STATIONS) byName.set(s.name.toLowerCase(), s);
+}
+
+function slugForId(s: string): string {
+  return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
+/** Top-N played, mapped to playable Station objects. Built-ins win
+ *  over backlog entries (we have logos + curated metadata for them).
+ *  Backlog entries with broken/no-RB-match verdicts are skipped — we
+ *  can't actually play them, so don't surface them. */
+function playedStations(): Station[] {
+  if (!topStationNames || topStationNames.length === 0) {
+    return BUILTIN_STATIONS.slice(0, PLAYED_TOTAL_LIMIT);
+  }
+  const builtinByName = new Map<string, Station>();
+  for (const s of BUILTIN_STATIONS) builtinByName.set(s.name.toLowerCase(), s);
   const seen = new Set<string>();
   const ordered: Station[] = [];
   for (const name of topStationNames) {
-    const match = byName.get(name.toLowerCase());
-    if (match && !seen.has(match.id)) {
-      ordered.push(match);
-      seen.add(match.id);
+    if (ordered.length >= PLAYED_TOTAL_LIMIT) break;
+    const lc = name.toLowerCase();
+    if (seen.has(lc)) continue;
+    const builtin = builtinByName.get(lc);
+    if (builtin) {
+      ordered.push(builtin);
+      seen.add(lc);
+      continue;
+    }
+    const backlog = backlogByName.get(lc);
+    if (backlog?.streamUrl && backlog.verdict !== 'stream-broken' && backlog.verdict !== 'no-rb-match') {
+      ordered.push({
+        id: `played-${slugForId(name)}`,
+        name,
+        streamUrl: backlog.streamUrl,
+        favicon: backlog.favicon,
+      });
+      seen.add(lc);
     }
   }
-  // Backfill with remaining built-ins (YAML order) so the strip is
-  // always full even when only a handful of curated stations have
-  // received plays in the window.
+  // Backfill from BUILTIN_STATIONS so the home view is always full
+  // even when GC has fewer than PLAYED_TOTAL_LIMIT plays.
   for (const s of BUILTIN_STATIONS) {
-    if (ordered.length >= LIMIT) break;
-    if (!seen.has(s.id)) {
+    if (ordered.length >= PLAYED_TOTAL_LIMIT) break;
+    if (!seen.has(s.name.toLowerCase())) {
       ordered.push(s);
-      seen.add(s.id);
+      seen.add(s.name.toLowerCase());
     }
   }
-  return ordered.slice(0, LIMIT);
+  return ordered.slice(0, PLAYED_TOTAL_LIMIT);
 }
 
 // Site visit counter (footer of Browse). Pulled from GoatCounter's
@@ -746,22 +809,30 @@ function renderContent(): void {
     const tagFilter = activeTag === 'all' ? undefined : activeTag;
     const noFilter = !query && !tagFilter;
 
-    // Featured strip — only on the unfiltered Browse view, so search/filter
-    // results stay focused. The same stations remain reachable below in
-    // the "My stations" section when a filter is applied.
-    if (noFilter && BUILTIN_STATIONS.length > 0) {
-      $content.append(renderFeatured(featuredStations()));
+    // Unfiltered home view: top 3 featured + remaining (ranks 4–10) as
+    // a list. Played-stations data backs both — no Radio Browser fetch
+    // for the home view, only when the user actually searches.
+    if (noFilter) {
+      const played = playedStations();
+      const featured = played.slice(0, PLAYED_FEATURED_LIMIT);
+      const rest = played.slice(PLAYED_FEATURED_LIMIT, PLAYED_TOTAL_LIMIT);
+      if (featured.length > 0) {
+        $content.append(renderFeatured(featured));
+      }
+      if (rest.length > 0) {
+        $content.append(sectionLabel('Most played', rest.length));
+        $content.append(renderRows(rest));
+      }
+      const counter = siteCounter();
+      if (counter) $content.append(counter);
+      return;
     }
 
-    // "My stations" = built-ins + custom when filtering, custom-only when
-    // unfiltered (built-ins live in the featured strip in that case).
-    // In curated-only mode we always include built-ins so the user sees
-    // the full curated tier as rows even on the unfiltered home view.
+    // Filtered view (search or genre): show built-ins + custom matches
+    // first ("My stations"), then Radio Browser long-tail results.
     const tagMatch = (s: Station): boolean =>
       !tagFilter || (s.tags ?? []).some((t) => t.toLowerCase().includes(tagFilter));
-    const mySource = curatedOnly || !noFilter
-      ? [...BUILTIN_STATIONS, ...getCustom()]
-      : getCustom();
+    const mySource = [...BUILTIN_STATIONS, ...getCustom()];
     const myFiltered = filterStations(mySource, query).filter(tagMatch);
 
     if (myFiltered.length > 0) {
@@ -769,11 +840,11 @@ function renderContent(): void {
       $content.append(renderRows(myFiltered));
     }
     if (lastBrowseStations.length > 0) {
-      const label = query ? 'Results' : tagFilter ?? 'Curated';
+      const label = query ? 'Results' : tagFilter ?? 'Results';
       $content.append(sectionLabel(label, lastBrowseStations.length));
       $content.append(renderRows(lastBrowseStations));
       if (browseHasMore) $content.append(loadMoreButton());
-    } else if (myFiltered.length === 0 && !noFilter) {
+    } else if (myFiltered.length === 0) {
       $content.append(emptyState(ICON_EMPTY, 'No stations match', 'Try a different search or genre'));
     }
     const counter = siteCounter();
@@ -831,25 +902,29 @@ async function runQuery(): Promise<void> {
     return;
   }
   const myToken = ++queryToken;
-  $content.replaceChildren(statusLine('Tuning in…'));
   // Filter changed → page resets.
   browseOffset = 0;
   browseHasMore = false;
   browseLoadingMore = false;
-  // Curated-only mode skips the Radio Browser fetch entirely — the
-  // curated tier is local data, instant render.
-  if (curatedOnly) {
+  const query = $search.value.trim();
+  const tagFilter = activeTag === 'all' ? undefined : activeTag;
+  const noFilter = !query && !tagFilter;
+  // Unfiltered home view is backed by GoatCounter top-played + the
+  // station-backlog cache — no Radio Browser fetch needed.
+  // Curated-only mode also skips it (local YAML is instant).
+  if (noFilter || curatedOnly) {
     if (myToken !== queryToken) return;
     lastBrowseStations = [];
     renderContent();
     return;
   }
+  $content.replaceChildren(statusLine('Tuning in…'));
   try {
-    const query = $search.value.trim();
-    const tagFilter = activeTag === 'all' ? undefined : activeTag;
-    const stations = query || tagFilter
-      ? await searchStations({ query: query || undefined, tag: tagFilter, offset: 0 })
-      : await fetchStations(0);
+    const stations = await searchStations({
+      query: query || undefined,
+      tag: tagFilter,
+      offset: 0,
+    });
     if (myToken !== queryToken) return;
     lastBrowseStations = stations;
     browseHasMore = stations.length === PAGE_SIZE;
@@ -1339,3 +1414,4 @@ void loadBuiltinStations().then(() => {
 void runQuery();
 void loadSiteVisits();
 void loadTopStations();
+void loadBacklog();
