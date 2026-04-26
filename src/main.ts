@@ -594,19 +594,32 @@ async function loadTopStations(): Promise<void> {
   }
 }
 function featuredStations(): Station[] {
+  const LIMIT = 5;
   if (!topStationNames || BUILTIN_STATIONS.length === 0) {
-    return BUILTIN_STATIONS.slice(0, 5);
+    return BUILTIN_STATIONS.slice(0, LIMIT);
   }
   const byName = new Map<string, Station>();
   for (const s of BUILTIN_STATIONS) byName.set(s.name.toLowerCase(), s);
+  const seen = new Set<string>();
   const ordered: Station[] = [];
   for (const name of topStationNames) {
     const match = byName.get(name.toLowerCase());
-    if (match) ordered.push(match);
+    if (match && !seen.has(match.id)) {
+      ordered.push(match);
+      seen.add(match.id);
+    }
   }
-  // If GoatCounter's top names didn't match any built-in (e.g. only
-  // custom/RB stations have plays so far), fall back to YAML order.
-  return ordered.length > 0 ? ordered : BUILTIN_STATIONS.slice(0, 5);
+  // Backfill with remaining built-ins (YAML order) so the strip is
+  // always full even when only a handful of curated stations have
+  // received plays in the window.
+  for (const s of BUILTIN_STATIONS) {
+    if (ordered.length >= LIMIT) break;
+    if (!seen.has(s.id)) {
+      ordered.push(s);
+      seen.add(s.id);
+    }
+  }
+  return ordered.slice(0, LIMIT);
 }
 
 // Site visit counter (footer of Browse). Pulled from GoatCounter's
