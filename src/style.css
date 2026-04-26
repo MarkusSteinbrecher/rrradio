@@ -986,8 +986,21 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
 .np-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 18px;
+  justify-content: space-between;
+}
+/* The row has three flex children: a left cluster (heart + mute), the
+   play button, and a right cluster (spacer + sleep). Equal-mass groups
+   put play in the visual centre of the screen; the invisible spacer in
+   the right group balances the second button on the left. */
+.np-row__group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.np-row__spacer {
+  width: 44px;
+  height: 1px;
+  flex-shrink: 0;
 }
 .np-btn {
   position: relative;
