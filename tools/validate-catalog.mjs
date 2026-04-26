@@ -86,7 +86,13 @@ function classify(streamRes, metaRes) {
   return 'OK';
 }
 
-const ICON = { OK: '\x1b[32m✓\x1b[0m', 'META?': '\x1b[33m!\x1b[0m', CHANGED: '\x1b[33m~\x1b[0m', BROKEN: '\x1b[31m✗\x1b[0m' };
+// Skip ANSI escapes when piped (CI / file redirect). The workflow
+// posts the captured output into a GitHub issue body, where escapes
+// would leak through as garbage.
+const COLOR = process.stdout.isTTY && !process.env.NO_COLOR;
+const ICON = COLOR
+  ? { OK: '\x1b[32m✓\x1b[0m', 'META?': '\x1b[33m!\x1b[0m', CHANGED: '\x1b[33m~\x1b[0m', BROKEN: '\x1b[31m✗\x1b[0m' }
+  : { OK: '✓', 'META?': '!', CHANGED: '~', BROKEN: '✗' };
 const tally = { OK: 0, 'META?': 0, CHANGED: 0, BROKEN: 0 };
 
 console.log(`\nvalidating ${targets.length} publishable stations…\n`);

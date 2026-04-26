@@ -1,0 +1,88 @@
+name: Catalog watch
+
+# Weekly health check of the station catalog. Probes every published
+# station's stream + metadataUrl, and surfaces curation candidates
+# from GoatCounter top-plays. When something needs attention, opens
+# (or updates) a single tracking issue labelled `catalog-watch`. When
+# everything's clean, auto-closes that issue.
+
+on:
+  schedule:
+    - cron: '0 7 * * 1' # Monday 07:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+
+      - name: Validate catalog
+        id: validate
+        run: |
+          set +e
+          npm run validate-catalog > validate.txt 2>&1
+          EXIT=$?
+          cat validate.txt
+          echo "exit_code=$EXIT" >> "$GITHUB_OUTPUT"
+          if [ "$EXIT" -ne 0 ]; then
+            echo "has_issues=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Show curation candidates
+        run: npm run candidates 2>&1 | tee candidates.txt
+
+      - name: Open or update tracking issue
+        if: steps.validate.outputs.has_issues == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create catalog-watch \
+            --description "Weekly station validation surfaced something to look at" \
+            --color B60205 --force >/dev/null 2>&1 || true
+
+          {
+            echo "Last run: $(date -u +'%Y-%m-%d %H:%M UTC')  ·  [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+            echo
+            echo "### validate-catalog"
+            echo
+            echo '```'
+            cat validate.txt
+            echo '```'
+            echo
+            echo "### candidates (top played, not curated)"
+            echo
+            echo '```'
+            cat candidates.txt
+            echo '```'
+          } > body.md
+
+          NUM=$(gh issue list --label catalog-watch --state open --json number --jq '.[0].number // ""')
+          if [ -n "$NUM" ]; then
+            gh issue edit "$NUM" --body-file body.md
+            gh issue comment "$NUM" --body "Re-checked $(date -u +'%Y-%m-%d %H:%M UTC') — still has issues. Body updated."
+          else
+            gh issue create \
+              --title "Catalog watch: stations need attention" \
+              --label catalog-watch \
+              --body-file body.md
+          fi
+
+      - name: Close tracking issue if all clean
+        if: steps.validate.outputs.has_issues != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          NUM=$(gh issue list --label catalog-watch --state open --json number --jq '.[0].number // ""')
+          if [ -n "$NUM" ]; then
+            gh issue close "$NUM" --comment "All stations OK as of $(date -u +'%Y-%m-%d %H:%M UTC'). Closing."
+          fi
