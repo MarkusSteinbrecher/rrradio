@@ -88,3 +88,416 @@
   homepage: https://www.bbc.co.uk/sounds/play/live:bbc_world_service
   country: GB
   status: stream-only
+
+# ─── ARD bulk import (2026-04-26) ───
+# tools/import-ard.mjs : canonical channels matched against Radio Browser.
+# Each starts at status:stream-only — promote to icy-only/working as the
+# broadcaster's metadata API is wired in src/builtins.ts.
+
+- id: br-bayern-2
+  broadcaster: br
+  name: Bayern 2
+  streamUrl: https://dispatcher.rndfnk.com/br/br2/live/mp3/mid
+  bitrate: 128
+  codec: MP3
+  tags: [information]
+  favicon: https://api.ardmediathek.de/image-service/images/urn:ard:image:5d72d15e88d309ec?w=512
+  homepage: https://www.br.de/radio/bayern2/index.html
+  status: stream-only
+
+- id: br-br-heimat
+  broadcaster: br
+  name: BR Heimat
+  streamUrl: https://dispatcher.rndfnk.com/br/brheimat/live/mp3/mid
+  bitrate: 128
+  codec: MP3
+  tags: [folk]
+  favicon: https://api.ardmediathek.de/image-service/images/urn:ard:image:37a3d50efe6feacb?w=512
+  homepage: https://www.br.de/radio/br-heimat/index.html
+  status: stream-only
+
+- id: br-br-schlager
+  broadcaster: br
+  name: BR Schlager
+  streamUrl: https://dispatcher.rndfnk.com/br/brschlager/live/mp3/mid
+  bitrate: 128
+  codec: MP3
+  tags: [schlager]
+  favicon: https://api.ardmediathek.de/image-service/images/urn:ard:image:9091a20989ecaad5?w=512
+  homepage: https://www.br.de/radio/br-schlager/index.html
+  status: stream-only
+
+- id: br-br24
+  broadcaster: br
+  name: BR24
+  streamUrl: https://dispatcher.rndfnk.com/br/br24/live/mp3/mid
+  bitrate: 128
+  codec: MP3
+  tags: [news]
+  favicon: https://api.ardmediathek.de/image-service/images/urn:ard:image:c3ab9296f3b282bf?w=512
+  homepage: https://www.br.de/radio/br24/index.html
+  status: stream-only
+
+- id: wdr-1live
+  broadcaster: wdr
+  name: 1Live
+  streamUrl: https://wdr-1live-live.icecastssl.wdr.de/wdr/1live/live/mp3/128/stream.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [ard, pop, public radio, rock, wdr]
+  favicon: https://www1.wdr.de/radio/1live/resources/img/favicon/apple-touch-icon.png
+  homepage: https://einslive.de/
+  status: stream-only
+
+- id: wdr-1live-diggi
+  broadcaster: wdr
+  name: 1Live Diggi
+  streamUrl: https://wdr-1live-diggi.icecastssl.wdr.de/wdr/1live/diggi/mp3/128/stream.mp3
+  bitrate: 128
+  codec: MP3
+  favicon: https://www1.wdr.de/radio/1live-diggi/resources-v5.122.3/img/favicon/apple-touch-icon.png
+  homepage: https://www1.wdr.de/radio/1live-diggi/index.html
+  status: stream-only
+
+- id: wdr-wdr-2
+  broadcaster: wdr
+  name: WDR 2
+  streamUrl: https://wdr-wdr2-rheinruhr.icecastssl.wdr.de/wdr/wdr2/rheinruhr/mp3/128/stream.mp3
+  bitrate: 128
+  codec: MP3
+  homepage: http://wdr2.de/
+  status: stream-only
+
+- id: wdr-wdr-4
+  broadcaster: wdr
+  name: WDR 4
+  streamUrl: https://wdr-wdr4-live.icecastssl.wdr.de/wdr/wdr4/live/mp3/128/stream.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [oldies]
+  favicon: https://www1.wdr.de/radio/wdr4/wdrvier_logo104~_v-ARDAustauschformat.jpg
+  homepage: https://www1.wdr.de/index.html
+  status: stream-only
+
+- id: wdr-wdr-5
+  broadcaster: wdr
+  name: WDR 5
+  streamUrl: https://wdr-wdr5-live.icecastssl.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [chanson, culture, current focal points, folk, latin, science]
+  favicon: https://www1.wdr.de/resources/img/wdr/logo/epgmodule/wdr5_logo_claim.svg
+  homepage: https://www1.wdr.de/radio/wdr5/index.html
+  status: stream-only
+
+- id: wdr-die-maus
+  broadcaster: wdr
+  name: Die Maus
+  streamUrl: https://wdr-diemaus-live.icecastssl.wdr.de/wdr/diemaus/live/mp3/128/stream.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [kids, kinder, kinderlieder]
+  favicon: https://www.wdrmaus.de/icon/apple-icon-120x120.png
+  homepage: https://www.wdrmaus.de/hoeren/
+  status: stream-only
+
+- id: ndr-ndr-90-3
+  broadcaster: ndr
+  name: "NDR 90,3"
+  streamUrl: https://icecast.ndr.de/ndr/ndr903/hamburg/mp3/128/stream.mp3?1728425642817&aggregator=web
+  bitrate: 128
+  codec: MP3
+  tags: [music, pop, rock]
+  favicon: https://www.phonostar.de/images/auto_created/NDR_903_3184x184.png
+  homepage: https://www.ndr.de/903
+  status: stream-only
+
+- id: ndr-ndr-2
+  broadcaster: ndr
+  name: NDR 2
+  streamUrl: https://icecast.ndr.de/ndr/ndr2/niedersachsen/mp3/128/stream.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [pop]
+  favicon: https://www.ndr.de//apple-touch-icon-57x57.png
+  homepage: https://www.ndr.de/ndr2/index.html
+  status: stream-only
+
+- id: ndr-ndr-kultur
+  broadcaster: ndr
+  name: NDR Kultur
+  streamUrl: https://icecast.ndr.de/ndr/ndrkultur/live/mp3/128/stream.mp3?1728425224079&aggregator=web
+  bitrate: 128
+  codec: MP3
+  tags: [classical, culture, music]
+  favicon: https://www.phonostar.de/images/auto_created/NDR_Kultur3184x184.png
+  homepage: https://www.ndr.de/kultur
+  status: stream-only
+
+- id: ndr-ndr-1-niedersachsen
+  broadcaster: ndr
+  name: NDR 1 Niedersachsen
+  streamUrl: https://icecast.ndr.de/ndr/ndr1niedersachsen/hannover/mp3/128/stream.mp3?1728424471708&aggregator=web
+  bitrate: 128
+  codec: MP3
+  tags: [music, oldies, rock]
+  favicon: https://www.phonostar.de/images/auto_created/NDR1_Niedersachsen2184x184.png
+  homepage: https://www.ndr.de/ndr1niedersachsen
+  status: stream-only
+
+- id: ndr-ndr-1-welle-nord
+  broadcaster: ndr
+  name: NDR 1 Welle Nord
+  streamUrl: https://icecast.ndr.de/ndr/ndr1wellenord/kiel/mp3/128/stream.mp3?1728424684403&aggregator=web
+  bitrate: 128
+  codec: MP3
+  tags: [music, oldies, rock]
+  favicon: https://www.phonostar.de/images/auto_created/NDR1_Welle_Nord2184x184.png
+  homepage: https://www.ndr.de/wellenord
+  status: stream-only
+
+- id: ndr-n-joy
+  broadcaster: ndr
+  name: N-JOY
+  streamUrl: https://icecast.ndr.de/ndr/njoy/live/mp3/128/stream.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [music, pop, talk, youth]
+  favicon: https://www.phonostar.de/images/auto_created/NJOY3184x184.png
+  homepage: https://www.n-joy.de/
+  status: stream-only
+
+- id: ndr-ndr-schlager
+  broadcaster: ndr
+  name: NDR Schlager
+  streamUrl: https://icecast.ndr.de/ndr/ndrschlager/live/mp3/128/stream.mp3?1728425971529&aggregator=web
+  bitrate: 128
+  codec: MP3
+  tags: [music, pop, schlager]
+  favicon: https://www.phonostar.de/images/auto_created/NDR_Schlager184x184.png
+  homepage: https://www.ndr.de/ndrschlager
+  status: stream-only
+
+- id: mdr-mdr-sachsen
+  broadcaster: mdr
+  name: MDR Sachsen
+  streamUrl: https://mdr-radio-hls.akamaized.net/hls/live/2112890/mdr-284280-3-hls/index.m3u8
+  bitrate: 102
+  codec: AAC
+  tags: [70er, 80er, ard, dresden, heimatsender, leipzig]
+  favicon: https://www.mdr.de/administratives/av/bild218-resimage_v-variantSmall1x1_w-512.png
+  homepage: https://www.mdr.de/sachsenradio/index.html
+  status: stream-only
+
+- id: mdr-mdr-thuringen
+  broadcaster: mdr
+  name: MDR Thüringen
+  streamUrl: https://mdr-radio-hls.akamaized.net/hls/live/2112899/mdr-284300-1-hls/index.m3u8
+  bitrate: 102
+  codec: AAC
+  tags: [70er, 80er, ard, mitteldeutscher rundfunk, oldies, regional]
+  favicon: https://www.mdr.de/administratives/av/bild220-resimage_v-variantSmall1x1_w-512.png
+  homepage: https://www.mdr.de/mdr-thueringen/index.html
+  status: stream-only
+
+- id: mdr-mdr-schlagerwelt
+  broadcaster: mdr
+  name: MDR Schlagerwelt
+  streamUrl: https://mdr-radio-hls.akamaized.net/hls/live/2112911/mdr-990701-0-hls/index.m3u8
+  bitrate: 102
+  codec: AAC
+  tags: [ard, klassiker, kultschlager, mitteldeutscher rundfunk, oldies, schlager]
+  favicon: https://www.mdr.de/administratives/av/bild-36078-resimage_v-variantSmall1x1_w-512.png
+  homepage: https://www.mdr.de/meine-schlagerwelt/radio/index.html
+  status: stream-only
+
+- id: swr-swr1-baden-wurttemberg
+  broadcaster: swr
+  name: SWR1 Baden-Württemberg
+  streamUrl: https://liveradio.swr.de/sw282p3/swr1bw/play.mp3
+  bitrate: 128
+  codec: MP3
+  favicon: https://www.radio.at/images/broadcasts/07/41/2273/2/c300.png
+  homepage: https://www.swr.de/swr1/bw/index.html
+  status: stream-only
+
+- id: swr-swr1-rheinland-pfalz
+  broadcaster: swr
+  name: SWR1 Rheinland-Pfalz
+  streamUrl: https://liveradio.swr.de/sw282p3/swr1rp/play.mp3
+  bitrate: 128
+  codec: MP3
+  favicon: https://www.swr.de/assets/swr/apple-touch-icon.png
+  homepage: https://www.swr.de/
+  status: stream-only
+
+- id: swr-swr3
+  broadcaster: swr
+  name: SWR3
+  streamUrl: https://liveradio.swr.de/sw282p3/swr3/play.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [news, pop, rock]
+  favicon: https://swr3.de/assets/swr3/icons/apple-touch-icon.png
+  homepage: https://swr3.de/
+  status: stream-only
+
+- id: swr-swr4-baden-wurttemberg
+  broadcaster: swr
+  name: SWR4 Baden-Württemberg
+  streamUrl: https://liveradio.swr.de/sw890cl/swr4bw/
+  bitrate: 96
+  codec: AAC
+  tags: [classical music, folk music, instrumental music, international evergreens, schlager, schlageroldies]
+  favicon: https://www.swr.de/assets/swr/swr4/apple-touch-icon-180x180.png
+  homepage: https://www.swr.de/swr4/index.html
+  status: stream-only
+
+- id: swr-dasding
+  broadcaster: swr
+  name: DASDING
+  streamUrl: https://liveradio.swr.de/d9zadj3/dasding/
+  bitrate: 128
+  codec: MP3
+  tags: [ard, pop, rock, youth, öffentlich-rechtlich]
+  favicon: https://dasding.de/assets/dasding/apple-touch-icon-120x120.png
+  homepage: https://dasding.de/
+  status: stream-only
+
+- id: swr-swr-aktuell
+  broadcaster: swr
+  name: SWR Aktuell
+  streamUrl: https://liveradio.swr.de/sw282p3/swraktuell/play.aac
+  bitrate: 128
+  codec: MP3
+  tags: [info]
+  favicon: https://upload.wikimedia.org/wikipedia/commons/4/47/SWR_Aktuell_Logo.jpg
+  homepage: https://www.swr.de/swraktuell/index.html
+  status: stream-only
+
+- id: hr-hr1
+  broadcaster: hr
+  name: hr1
+  streamUrl: https://dispatcher.rndfnk.com/hr/hr1/live/mp3/high
+  bitrate: 128
+  codec: MP3
+  tags: [pop]
+  favicon: https://www.hr1.de/favicon.png?v=3.85.2
+  homepage: https://www.hr1.de/
+  status: stream-only
+
+- id: hr-hr2
+  broadcaster: hr
+  name: hr2
+  streamUrl: https://hlshr2.akamaized.net/hls/live/2016534/hr2/master.m3u8
+  bitrate: 200
+  codec: AAC
+  tags: [classical, culture, jazz]
+  favicon: https://www.hr2.de/favicon.png?v=3.85.2
+  homepage: https://www.hr2.de/index.html
+  status: stream-only
+
+- id: hr-hr3
+  broadcaster: hr
+  name: hr3
+  streamUrl: https://dispatcher.rndfnk.com/hr/hr3/live/mp3/high
+  bitrate: 128
+  codec: MP3
+  favicon: https://www.hr3.de/favicon.png?v=3.85.2
+  homepage: https://www.hr3.de/
+  status: stream-only
+
+- id: hr-hr4
+  broadcaster: hr
+  name: hr4
+  streamUrl: https://dispatcher.rndfnk.com/hr/hr4/live/mp3/high
+  bitrate: 128
+  codec: MP3
+  favicon: https://www.hr4.de/favicon.png?v=3.85.2
+  homepage: https://www.hr4.de/index.html
+  status: stream-only
+
+- id: rbb-fritz
+  broadcaster: rbb
+  name: Fritz
+  streamUrl: https://dispatcher.rndfnk.com/rbb/fritz/live/mp3/mid
+  bitrate: 128
+  codec: MP3
+  tags: [pop, pop music, rap, rbb, talk, youth]
+  favicon: https://www.fritz.de/content/dam/rbb/rbb/logos/touch/fritz-128.png
+  homepage: https://www.fritz.de/
+  status: stream-only
+
+- id: rb-bremen-eins
+  broadcaster: rb
+  name: Bremen Eins
+  streamUrl: https://icecast.radiobremen.de/rb/bremeneins/live/mp3/128/stream.mp3?aggregator=surfmusik-de
+  bitrate: 128
+  codec: MP3
+  favicon: http://www.radiobremen.de/static/img/favicons/apple-touch-icon-180.png?v=4
+  homepage: http://www.radiobremen.de/bremeneins/
+  status: stream-only
+
+- id: rb-bremen-zwei
+  broadcaster: rb
+  name: Bremen Zwei
+  streamUrl: https://icecast.radiobremen.de/rb/bremenzwei/live/mp3/128/stream.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [ard, culture, information, public radio, radio bremen]
+  favicon: https://www.bremenzwei.de/static/img/favicons/apple-touch-icon-180.png?v=4
+  homepage: https://www.bremenzwei.de/
+  status: stream-only
+
+- id: rb-bremen-vier
+  broadcaster: rb
+  name: Bremen Vier
+  streamUrl: https://icecast.radiobremen.de/rb/bremenvier/live/mp3/128/stream.mp3
+  bitrate: 128
+  codec: MP3
+  homepage: https://www.bremenvier.de/
+  status: stream-only
+
+- id: rb-bremen-next
+  broadcaster: rb
+  name: Bremen NEXT
+  streamUrl: https://icecast.radiobremen.de/rb/bremennext/live/mp3/128/stream.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [ard, bremen next, deutschrap, electro, hip hop, jugendliche]
+  favicon: https://www.bremennext.de/static/img/favicons/apple-touch-icon-180.png?v=5
+  homepage: https://www.bremennext.de/
+  status: stream-only
+
+- id: dlf-deutschlandfunk
+  broadcaster: dlf
+  name: Deutschlandfunk
+  streamUrl: https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web
+  bitrate: 128
+  codec: MP3
+  tags: [culture, news, public service, information]
+  favicon: https://www.deutschlandfunk.de/static/img/deutschlandfunk/icons/apple-touch-icon-128x128.png
+  homepage: https://www.deutschlandfunk.de/
+  status: stream-only
+
+- id: dlf-deutschlandfunk-kultur
+  broadcaster: dlf
+  name: Deutschlandfunk Kultur
+  streamUrl: https://st02.sslstream.dlf.de/dlf/02/128/mp3/stream.mp3?aggregator=web
+  bitrate: 128
+  codec: MP3
+  tags: [culture, news, public service, information]
+  favicon: https://www.deutschlandfunkkultur.de/static/img/deutschlandfunk_kultur/icons/apple-touch-icon-128x128.png
+  homepage: https://www.deutschlandfunkkultur.de/
+  status: stream-only
+
+- id: dlf-deutschlandfunk-nova
+  broadcaster: dlf
+  name: Deutschlandfunk Nova
+  streamUrl: https://st03.sslstream.dlf.de/dlf/03/high/aac/stream.aac?aggregator=web
+  bitrate: 192
+  codec: AAC
+  tags: [culture, news, public service, information]
+  favicon: https://www.deutschlandfunknova.de/apple-touch-icon.png
+  homepage: https://www.deutschlandfunknova.de/
+  status: stream-only

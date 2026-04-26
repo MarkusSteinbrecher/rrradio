@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-26T16:54:05.063Z",
+  "generatedAt": "2026-04-26T17:38:57.287Z",
   "stations": [
     {
       "id": "builtin-grrif",
@@ -59,7 +59,7 @@
         },
         "icy": {
           "state": "ok",
-          "detail": "\"Jean Knight - Mr. Big Stuff | FM4 Fivas \""
+          "detail": "\"Madonna - I Feel So Free | FM4 Zimmerser\""
         },
         "metadataApi": {
           "state": "ok"
@@ -134,6 +134,1450 @@
         "icy": {
           "state": "ok",
           "detail": "\"BBC World Service East Asia\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "br-bayern-2",
+      "name": "Bayern 2",
+      "broadcaster": "br",
+      "status": "stream-only",
+      "streamUrl": "https://dispatcher.rndfnk.com/br/br2/live/mp3/mid",
+      "metadataUrl": null,
+      "favicon": "https://api.ardmediathek.de/image-service/images/urn:ard:image:5d72d15e88d309ec?w=512",
+      "metadataKey": "br-radioplayer",
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Ihr Kontakt zu Bayern 2: 0800 - 59 00 22\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "ok",
+          "detail": "br-radioplayer"
+        },
+        "program": {
+          "state": "ok"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "br-br-heimat",
+      "name": "BR Heimat",
+      "broadcaster": "br",
+      "status": "stream-only",
+      "streamUrl": "https://dispatcher.rndfnk.com/br/brheimat/live/mp3/mid",
+      "metadataUrl": null,
+      "favicon": "https://api.ardmediathek.de/image-service/images/urn:ard:image:37a3d50efe6feacb?w=512",
+      "metadataKey": "br-radioplayer",
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"SULZBERGER DREIGESANG: JETZT FANGT DES S\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "ok",
+          "detail": "br-radioplayer"
+        },
+        "program": {
+          "state": "ok"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "br-br-schlager",
+      "name": "BR Schlager",
+      "broadcaster": "br",
+      "status": "stream-only",
+      "streamUrl": "https://dispatcher.rndfnk.com/br/brschlager/live/mp3/mid",
+      "metadataUrl": null,
+      "favicon": "https://api.ardmediathek.de/image-service/images/urn:ard:image:9091a20989ecaad5?w=512",
+      "metadataKey": "br-radioplayer",
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Frank Schöbel: Dich hat der Himmel gesch\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "ok",
+          "detail": "br-radioplayer"
+        },
+        "program": {
+          "state": "ok"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "br-br24",
+      "name": "BR24",
+      "broadcaster": "br",
+      "status": "stream-only",
+      "streamUrl": "https://dispatcher.rndfnk.com/br/br24/live/mp3/mid",
+      "metadataUrl": null,
+      "favicon": "https://api.ardmediathek.de/image-service/images/urn:ard:image:c3ab9296f3b282bf?w=512",
+      "metadataKey": "br-radioplayer",
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"+++ Trump vermutet politisches Motiv hin\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "ok",
+          "detail": "br-radioplayer"
+        },
+        "program": {
+          "state": "ok"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "wdr-1live",
+      "name": "1Live",
+      "broadcaster": "wdr",
+      "status": "stream-only",
+      "streamUrl": "https://wdr-1live-live.icecastssl.wdr.de/wdr/1live/live/mp3/128/stream.mp3",
+      "metadataUrl": null,
+      "favicon": "https://www1.wdr.de/radio/1live/resources/img/favicon/apple-touch-icon.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"1LIVE\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "wdr-1live-diggi",
+      "name": "1Live Diggi",
+      "broadcaster": "wdr",
+      "status": "stream-only",
+      "streamUrl": "https://wdr-1live-diggi.icecastssl.wdr.de/wdr/1live/diggi/mp3/128/stream.mp3",
+      "metadataUrl": null,
+      "favicon": "https://www1.wdr.de/radio/1live-diggi/resources-v5.122.3/img/favicon/apple-touch-icon.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"The Bausa - Magnetic\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "wdr-wdr-2",
+      "name": "WDR 2",
+      "broadcaster": "wdr",
+      "status": "stream-only",
+      "streamUrl": "https://wdr-wdr2-rheinruhr.icecastssl.wdr.de/wdr/wdr2/rheinruhr/mp3/128/stream.mp3",
+      "metadataUrl": null,
+      "favicon": null,
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Shaggy - Angel\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "bad",
+          "detail": "no favicon"
+        }
+      }
+    },
+    {
+      "id": "wdr-wdr-4",
+      "name": "WDR 4",
+      "broadcaster": "wdr",
+      "status": "stream-only",
+      "streamUrl": "https://wdr-wdr4-live.icecastssl.wdr.de/wdr/wdr4/live/mp3/128/stream.mp3",
+      "metadataUrl": null,
+      "favicon": "https://www1.wdr.de/radio/wdr4/wdrvier_logo104~_v-ARDAustauschformat.jpg",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"WDR Funkhausorchester - Danse macabre, o\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "wdr-wdr-5",
+      "name": "WDR 5",
+      "broadcaster": "wdr",
+      "status": "stream-only",
+      "streamUrl": "https://wdr-wdr5-live.icecastssl.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3",
+      "metadataUrl": null,
+      "favicon": "https://www1.wdr.de/resources/img/wdr/logo/epgmodule/wdr5_logo_claim.svg",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"WDR 5 - Mitreden. Mitfühlen. Miterleben.\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "wdr-die-maus",
+      "name": "Die Maus",
+      "broadcaster": "wdr",
+      "status": "stream-only",
+      "streamUrl": "https://wdr-diemaus-live.icecastssl.wdr.de/wdr/diemaus/live/mp3/128/stream.mp3",
+      "metadataUrl": null,
+      "favicon": "https://www.wdrmaus.de/icon/apple-icon-120x120.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Mausradio - MausLive mit Nina Heuser\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "ndr-ndr-90-3",
+      "name": "NDR 90,3",
+      "broadcaster": "ndr",
+      "status": "stream-only",
+      "streamUrl": "https://icecast.ndr.de/ndr/ndr903/hamburg/mp3/128/stream.mp3?1728425642817&aggregator=web",
+      "metadataUrl": null,
+      "favicon": "https://www.phonostar.de/images/auto_created/NDR_903_3184x184.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"NDR 90,3 - Wir sind Hamburg\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "ndr-ndr-2",
+      "name": "NDR 2",
+      "broadcaster": "ndr",
+      "status": "stream-only",
+      "streamUrl": "https://icecast.ndr.de/ndr/ndr2/niedersachsen/mp3/128/stream.mp3",
+      "metadataUrl": null,
+      "favicon": "https://www.ndr.de//apple-touch-icon-57x57.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Loving You (Get Used To) - Isaac Levi\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "ndr-ndr-kultur",
+      "name": "NDR Kultur",
+      "broadcaster": "ndr",
+      "status": "stream-only",
+      "streamUrl": "https://icecast.ndr.de/ndr/ndrkultur/live/mp3/128/stream.mp3?1728425224079&aggregator=web",
+      "metadataUrl": null,
+      "favicon": "https://www.phonostar.de/images/auto_created/NDR_Kultur3184x184.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"NDR Kultur - www.ndr.de/kultur\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "ndr-ndr-1-niedersachsen",
+      "name": "NDR 1 Niedersachsen",
+      "broadcaster": "ndr",
+      "status": "stream-only",
+      "streamUrl": "https://icecast.ndr.de/ndr/ndr1niedersachsen/hannover/mp3/128/stream.mp3?1728424471708&aggregator=web",
+      "metadataUrl": null,
+      "favicon": "https://www.phonostar.de/images/auto_created/NDR1_Niedersachsen2184x184.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"NDR1 Niedersachsen - Die Musik meines Le\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "ndr-ndr-1-welle-nord",
+      "name": "NDR 1 Welle Nord",
+      "broadcaster": "ndr",
+      "status": "stream-only",
+      "streamUrl": "https://icecast.ndr.de/ndr/ndr1wellenord/kiel/mp3/128/stream.mp3?1728424684403&aggregator=web",
+      "metadataUrl": null,
+      "favicon": "https://www.phonostar.de/images/auto_created/NDR1_Welle_Nord2184x184.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Every 1\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "ndr-n-joy",
+      "name": "N-JOY",
+      "broadcaster": "ndr",
+      "status": "stream-only",
+      "streamUrl": "https://icecast.ndr.de/ndr/njoy/live/mp3/128/stream.mp3",
+      "metadataUrl": null,
+      "favicon": "https://www.phonostar.de/images/auto_created/NJOY3184x184.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Can\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "ndr-ndr-schlager",
+      "name": "NDR Schlager",
+      "broadcaster": "ndr",
+      "status": "stream-only",
+      "streamUrl": "https://icecast.ndr.de/ndr/ndrschlager/live/mp3/128/stream.mp3?1728425971529&aggregator=web",
+      "metadataUrl": null,
+      "favicon": "https://www.phonostar.de/images/auto_created/NDR_Schlager184x184.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Dich hat der Himmel geschickt - Frank Sc\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "mdr-mdr-sachsen",
+      "name": "MDR Sachsen",
+      "broadcaster": "mdr",
+      "status": "stream-only",
+      "streamUrl": "https://mdr-radio-hls.akamaized.net/hls/live/2112890/mdr-284280-3-hls/index.m3u8",
+      "metadataUrl": null,
+      "favicon": "https://www.mdr.de/administratives/av/bild218-resimage_v-variantSmall1x1_w-512.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "application/x-mpegurl"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "bad",
+          "detail": "no ICY metadata"
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "mdr-mdr-thuringen",
+      "name": "MDR Thüringen",
+      "broadcaster": "mdr",
+      "status": "stream-only",
+      "streamUrl": "https://mdr-radio-hls.akamaized.net/hls/live/2112899/mdr-284300-1-hls/index.m3u8",
+      "metadataUrl": null,
+      "favicon": "https://www.mdr.de/administratives/av/bild220-resimage_v-variantSmall1x1_w-512.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "application/x-mpegurl"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "bad",
+          "detail": "no ICY metadata"
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "mdr-mdr-schlagerwelt",
+      "name": "MDR Schlagerwelt",
+      "broadcaster": "mdr",
+      "status": "stream-only",
+      "streamUrl": "https://mdr-radio-hls.akamaized.net/hls/live/2112911/mdr-990701-0-hls/index.m3u8",
+      "metadataUrl": null,
+      "favicon": "https://www.mdr.de/administratives/av/bild-36078-resimage_v-variantSmall1x1_w-512.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "application/x-mpegurl"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "bad",
+          "detail": "no ICY metadata"
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "swr-swr1-baden-wurttemberg",
+      "name": "SWR1 Baden-Württemberg",
+      "broadcaster": "swr",
+      "status": "stream-only",
+      "streamUrl": "https://liveradio.swr.de/sw282p3/swr1bw/play.mp3",
+      "metadataUrl": null,
+      "favicon": "https://www.radio.at/images/broadcasts/07/41/2273/2/c300.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Firework / Katy Perry\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "swr-swr1-rheinland-pfalz",
+      "name": "SWR1 Rheinland-Pfalz",
+      "broadcaster": "swr",
+      "status": "stream-only",
+      "streamUrl": "https://liveradio.swr.de/sw282p3/swr1rp/play.mp3",
+      "metadataUrl": null,
+      "favicon": "https://www.swr.de/assets/swr/apple-touch-icon.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Das Radio für uns in Rheinland-Pfalz\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "swr-swr3",
+      "name": "SWR3",
+      "broadcaster": "swr",
+      "status": "stream-only",
+      "streamUrl": "https://liveradio.swr.de/sw282p3/swr3/play.mp3",
+      "metadataUrl": null,
+      "favicon": "https://swr3.de/assets/swr3/icons/apple-touch-icon.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Call me when you break up / Selena Gomez\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "swr-swr4-baden-wurttemberg",
+      "name": "SWR4 Baden-Württemberg",
+      "broadcaster": "swr",
+      "status": "stream-only",
+      "streamUrl": "https://liveradio.swr.de/sw890cl/swr4bw/",
+      "metadataUrl": null,
+      "favicon": "https://www.swr.de/assets/swr/swr4/apple-touch-icon-180x180.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/aac"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"In the ghetto (The vicious circle) / Elv\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "swr-dasding",
+      "name": "DASDING",
+      "broadcaster": "swr",
+      "status": "stream-only",
+      "streamUrl": "https://liveradio.swr.de/d9zadj3/dasding/",
+      "metadataUrl": null,
+      "favicon": "https://dasding.de/assets/dasding/apple-touch-icon-120x120.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"mit Sandy und Marteria - DASDING Sprechs\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "swr-swr-aktuell",
+      "name": "SWR Aktuell",
+      "broadcaster": "swr",
+      "status": "stream-only",
+      "streamUrl": "https://liveradio.swr.de/sw282p3/swraktuell/play.aac",
+      "metadataUrl": null,
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/4/47/SWR_Aktuell_Logo.jpg",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"SWR Aktuell - das Nachrichten- und Infor\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "hr-hr1",
+      "name": "hr1",
+      "broadcaster": "hr",
+      "status": "stream-only",
+      "streamUrl": "https://dispatcher.rndfnk.com/hr/hr1/live/mp3/high",
+      "metadataUrl": null,
+      "favicon": "https://www.hr1.de/favicon.png?v=3.85.2",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"When your heart is weak von Cock Robin  \""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "hr-hr2",
+      "name": "hr2",
+      "broadcaster": "hr",
+      "status": "stream-only",
+      "streamUrl": "https://hlshr2.akamaized.net/hls/live/2016534/hr2/master.m3u8",
+      "metadataUrl": null,
+      "favicon": "https://www.hr2.de/favicon.png?v=3.85.2",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "application/x-mpegurl"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "bad",
+          "detail": "no ICY metadata"
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "hr-hr3",
+      "name": "hr3",
+      "broadcaster": "hr",
+      "status": "stream-only",
+      "streamUrl": "https://dispatcher.rndfnk.com/hr/hr3/live/mp3/high",
+      "metadataUrl": null,
+      "favicon": "https://www.hr3.de/favicon.png?v=3.85.2",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Am Mikrofon: Frank Seckler              \""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "hr-hr4",
+      "name": "hr4",
+      "broadcaster": "hr",
+      "status": "stream-only",
+      "streamUrl": "https://dispatcher.rndfnk.com/hr/hr4/live/mp3/high",
+      "metadataUrl": null,
+      "favicon": "https://www.hr4.de/favicon.png?v=3.85.2",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Vom selben Stern von Ich + Ich          \""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "rbb-fritz",
+      "name": "Fritz",
+      "broadcaster": "rbb",
+      "status": "stream-only",
+      "streamUrl": "https://dispatcher.rndfnk.com/rbb/fritz/live/mp3/mid",
+      "metadataUrl": null,
+      "favicon": "https://www.fritz.de/content/dam/rbb/rbb/logos/touch/fritz-128.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Finger weg! Jetzt läuft Fritz.\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "rb-bremen-eins",
+      "name": "Bremen Eins",
+      "broadcaster": "rb",
+      "status": "stream-only",
+      "streamUrl": "https://icecast.radiobremen.de/rb/bremeneins/live/mp3/128/stream.mp3?aggregator=surfmusik-de",
+      "metadataUrl": null,
+      "favicon": "http://www.radiobremen.de/static/img/favicons/apple-touch-icon-180.png?v=4",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Dortmund / Freiburg 4 : 0               \""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "rb-bremen-zwei",
+      "name": "Bremen Zwei",
+      "broadcaster": "rb",
+      "status": "stream-only",
+      "streamUrl": "https://icecast.radiobremen.de/rb/bremenzwei/live/mp3/128/stream.mp3",
+      "metadataUrl": null,
+      "favicon": "https://www.bremenzwei.de/static/img/favicons/apple-touch-icon-180.png?v=4",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Bremen Zwei - Neugier lohnt sich        \""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "rb-bremen-vier",
+      "name": "Bremen Vier",
+      "broadcaster": "rb",
+      "status": "stream-only",
+      "streamUrl": "https://icecast.radiobremen.de/rb/bremenvier/live/mp3/128/stream.mp3",
+      "metadataUrl": null,
+      "favicon": null,
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Dortmund / Freiburg 4 : 0               \""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "bad",
+          "detail": "no favicon"
+        }
+      }
+    },
+    {
+      "id": "rb-bremen-next",
+      "name": "Bremen NEXT",
+      "broadcaster": "rb",
+      "status": "stream-only",
+      "streamUrl": "https://icecast.radiobremen.de/rb/bremennext/live/mp3/128/stream.mp3",
+      "metadataUrl": null,
+      "favicon": "https://www.bremennext.de/static/img/favicons/apple-touch-icon-180.png?v=5",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Bazzi  -  Mine                          \""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "dlf-deutschlandfunk",
+      "name": "Deutschlandfunk",
+      "broadcaster": "dlf",
+      "status": "stream-only",
+      "streamUrl": "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web",
+      "metadataUrl": null,
+      "favicon": "https://www.deutschlandfunk.de/static/img/deutschlandfunk/icons/apple-touch-icon-128x128.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Olympia 2026 - Finanzdefizit in Cortina:\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "dlf-deutschlandfunk-kultur",
+      "name": "Deutschlandfunk Kultur",
+      "broadcaster": "dlf",
+      "status": "stream-only",
+      "streamUrl": "https://st02.sslstream.dlf.de/dlf/02/128/mp3/stream.mp3?aggregator=web",
+      "metadataUrl": null,
+      "favicon": "https://www.deutschlandfunkkultur.de/static/img/deutschlandfunk_kultur/icons/apple-touch-icon-128x128.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Nichts was nicht politisch wäre - Hörspi\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    },
+    {
+      "id": "dlf-deutschlandfunk-nova",
+      "name": "Deutschlandfunk Nova",
+      "broadcaster": "dlf",
+      "status": "stream-only",
+      "streamUrl": "https://st03.sslstream.dlf.de/dlf/03/high/aac/stream.aac?aggregator=web",
+      "metadataUrl": null,
+      "favicon": "https://www.deutschlandfunknova.de/apple-touch-icon.png",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/aac"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Deutschlandfunk Nova - Es ist komplizier\""
         },
         "metadataApi": {
           "state": "na",
