@@ -71,11 +71,12 @@ export class AudioPlayer {
   }
 
   async play(station: Station): Promise<void> {
-    if (this.current.station.id === station.id && this.current.state === 'paused') {
-      await this.audio.play();
-      return;
-    }
-
+    // Always teardown + reconnect, even if the same station is "paused".
+    // Live streams can't actually be resumed from a buffered position, and
+    // an HTMLAudioElement that's been paused for a while can silently
+    // refuse to deliver audio when .play() is called again — the user
+    // sees the play button but hears nothing. Fresh connection every time
+    // is the only reliable behaviour for live audio.
     this.teardown();
     this.current = { station, state: 'loading' };
     this.emit();
@@ -94,6 +95,7 @@ export class AudioPlayer {
     try {
       await this.audio.play();
       this.updateMediaSessionMetadata(station);
+      this.startWatchdog();
     } catch (err) {
       this.update({ state: 'error', errorMessage: String(err) });
     }
@@ -101,6 +103,7 @@ export class AudioPlayer {
 
   pause(): void {
     this.audio.pause();
+    this.stopWatchdog();
   }
 
   toggle(): void {
@@ -119,12 +122,58 @@ export class AudioPlayer {
   }
 
   private teardown(): void {
+    this.stopWatchdog();
     if (this.hls) {
       this.hls.destroy();
       this.hls = null;
     }
     this.audio.removeAttribute('src');
     this.audio.load();
+  }
+
+  /**
+   * Stall watchdog. Live audio that's "playing" should advance
+   * `currentTime` continuously. If it doesn't for ~8 seconds, the
+   * stream connection has gone bad without the audio element raising
+   * an error event — the symptom is "shows play, hear nothing." We
+   * detect that and force a fresh reconnect.
+   */
+  private watchdogTimer: number | undefined;
+  private lastTime = 0;
+  private stallTicks = 0;
+  private static readonly WATCHDOG_INTERVAL_MS = 2000;
+  private static readonly STALL_TICK_THRESHOLD = 4;
+
+  private startWatchdog(): void {
+    this.stopWatchdog();
+    this.lastTime = this.audio.currentTime;
+    this.stallTicks = 0;
+    this.watchdogTimer = window.setInterval(() => this.checkStall(), AudioPlayer.WATCHDOG_INTERVAL_MS);
+  }
+
+  private stopWatchdog(): void {
+    if (this.watchdogTimer !== undefined) {
+      window.clearInterval(this.watchdogTimer);
+      this.watchdogTimer = undefined;
+    }
+  }
+
+  private checkStall(): void {
+    if (this.current.state !== 'playing') return;
+    const now = this.audio.currentTime;
+    if (now > this.lastTime) {
+      this.lastTime = now;
+      this.stallTicks = 0;
+      return;
+    }
+    this.stallTicks += 1;
+    if (this.stallTicks >= AudioPlayer.STALL_TICK_THRESHOLD) {
+      // Connection is dead but the audio element hasn't fired an
+      // error. Reconnect from scratch to recover.
+      this.stallTicks = 0;
+      const station = this.current.station;
+      if (station.id) void this.play(station);
+    }
   }
 
   /**
