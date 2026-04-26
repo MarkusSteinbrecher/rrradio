@@ -1001,9 +1001,10 @@ function renderContent(): void {
 
   if (activeTab === 'browse') {
     const query = $search.value.trim();
-    const tagFilter = newsOnly ? 'news' : activeTag === 'all' ? undefined : activeTag;
+    const genreTag = activeTag === 'all' ? undefined : activeTag;
     const countryFilter = activeCountry === 'all' ? undefined : activeCountry.toUpperCase();
-    const noFilter = !query && !tagFilter && !countryFilter;
+    const noFilter = !query && !genreTag && !countryFilter;
+    const tagFilter = newsOnly ? 'news' : genreTag;
 
     // Unfiltered home view. Two modes:
     //   default        → top 3 featured + ranks 4–10 as a list (10 most
@@ -1026,6 +1027,16 @@ function renderContent(): void {
       } else {
         stations = playedStations().slice(0, PLAYED_TOTAL_LIMIT);
         restLabel = 'Most played';
+      }
+
+      // news toggle narrows the home-view set without exiting it —
+      // a backlog-only station with no tags array gets dropped, which
+      // is the right call: news accuracy beats coverage.
+      if (newsOnly) {
+        stations = stations.filter((s) =>
+          (s.tags ?? []).some((t) => t.toLowerCase().includes('news')),
+        );
+        restLabel += ' · news';
       }
 
       const featured = stations.slice(0, PLAYED_FEATURED_LIMIT);
@@ -1127,12 +1138,14 @@ async function runQuery(): Promise<void> {
   browseHasMore = false;
   browseLoadingMore = false;
   const query = $search.value.trim();
-  // news toggle wins over the genre dropdown when both are set —
-  // keeps the API call single-tag-valued, and the user just clicked
-  // the more specific news filter.
-  const tagFilter = newsOnly ? 'news' : activeTag === 'all' ? undefined : activeTag;
+  const genreTag = activeTag === 'all' ? undefined : activeTag;
   const countryFilter = activeCountry === 'all' ? undefined : activeCountry;
-  const noFilter = !query && !tagFilter && !countryFilter;
+  // News on its own stays inside the home view (so the globe + featured
+  // strip still apply, narrowed to news stations). News combined with a
+  // genre/country/query enters the filtered branch — and wins over the
+  // genre dropdown for the single-tag RB search.
+  const noFilter = !query && !genreTag && !countryFilter;
+  const tagFilter = newsOnly ? 'news' : genreTag;
   // Unfiltered home view is backed by GoatCounter top-played + the
   // station-backlog cache — no Radio Browser fetch needed.
   // Curated-only mode also skips it (local YAML is instant).
