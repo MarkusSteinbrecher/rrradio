@@ -408,21 +408,27 @@
         const cards = document.getElementById('cards');
 
         try {
-          const [totals, stations, errors, tabs, genres, favorites] = await Promise.all([
+          const [totals, stations, errors, tabs, genres, favorites, locations, browsers, systems] = await Promise.all([
             api('/api/totals'),
             api('/api/top-stations'),
             api('/api/errors'),
             api('/api/tabs'),
             api('/api/genres'),
             api('/api/favorites'),
+            api('/api/locations'),
+            api('/api/browsers'),
+            api('/api/systems'),
           ]);
           cards.replaceChildren(
             metricsCard(totals),
             listCard('top stations', stations.items),
             listCard('favorites added', favorites.items),
             listCard('errors', errors.items, { showSub: true }),
+            listCard('top countries', locations.items, { showSub: true }),
             listCard('tabs', tabs.items),
             listCard('genre filter', genres.items),
+            listCard('browsers', browsers.items),
+            listCard('systems', systems.items),
           );
           $root.appendChild(
             el('div', { class: 'footer' },

@@ -46,6 +46,19 @@ interface GcTotals {
   total_unique?: number;
 }
 
+interface GcStat {
+  id: string;
+  name: string;
+  count: number;
+  count_unique?: number;
+  ref_scheme?: string | null;
+}
+interface GcStatGroup {
+  stats: GcStat[];
+  total: number;
+  more?: boolean;
+}
+
 interface ListResponse {
   items: Array<{ label: string; count: number; unique?: number; title: string }>;
   total: number;
@@ -151,6 +164,29 @@ async function totals(daysBack: number, env: Env): Promise<GcTotals & { range_da
   return { ...data, range_days: daysBack };
 }
 
+/** Generic /stats/<group> reader. Used for browsers, systems, sizes,
+ *  locations (country), toprefs, etc. */
+async function fetchStatGroup(
+  group: string,
+  daysBack: number,
+  limit: number,
+  env: Env,
+): Promise<ListResponse> {
+  const params = new URLSearchParams({
+    start: rangeStart(daysBack),
+    limit: String(limit),
+  });
+  const data = await gcFetch<GcStatGroup>(`/stats/${group}?${params}`, env);
+  const items = (data.stats ?? []).map((s) => ({
+    label: s.name || s.id || '—',
+    count: s.count,
+    unique: s.count_unique,
+    title: s.id && s.id !== s.name ? s.id : '',
+  }));
+  items.sort((a, b) => b.count - a.count);
+  return { items, total: data.total ?? 0, range_days: daysBack };
+}
+
 export default {
   async fetch(req: Request, env: Env): Promise<Response> {
     const origin = req.headers.get('Origin') ?? '';
@@ -191,6 +227,15 @@ export default {
           break;
         case '/api/favorites':
           data = pickByPrefix(await fetchAllHits(days, env), 'favorite: ', 20, days);
+          break;
+        case '/api/locations':
+          data = await fetchStatGroup('locations', days, 20, env);
+          break;
+        case '/api/browsers':
+          data = await fetchStatGroup('browsers', days, 10, env);
+          break;
+        case '/api/systems':
+          data = await fetchStatGroup('systems', days, 10, env);
           break;
         default:
           return jsonResponse({ error: 'not found' }, 404, cors);
