@@ -112,9 +112,7 @@ const $npSleepChip = document.getElementById('np-sleep-chip') as HTMLElement;
 const $npPlay = document.getElementById('np-play') as HTMLButtonElement;
 const $npLiveText = document.getElementById('np-live-text') as HTMLElement;
 const $npFormat = document.getElementById('np-format') as HTMLElement;
-const $npShare = document.getElementById('np-share') as HTMLButtonElement;
 const $npMute = document.getElementById('np-mute') as HTMLButtonElement;
-const $npLabel = document.querySelector('.np-label') as HTMLElement;
 
 const $addBtn = document.getElementById('add-btn') as HTMLButtonElement;
 const $addSheet = document.getElementById('add-sheet') as HTMLElement;
@@ -309,21 +307,6 @@ function buildRow(station: Station, currentId: string, state: NowPlaying['state'
   });
 
   return row;
-}
-
-// ─────────────────────────────────────────────────────────────
-// Now-Playing label flash (used for ephemeral feedback)
-// ─────────────────────────────────────────────────────────────
-
-const NP_LABEL_DEFAULT = 'Now Playing';
-let labelFlashTimer: number | undefined;
-
-function flashLabel(text: string, ms = 1500): void {
-  if (labelFlashTimer !== undefined) window.clearTimeout(labelFlashTimer);
-  $npLabel.textContent = text;
-  labelFlashTimer = window.setTimeout(() => {
-    $npLabel.textContent = NP_LABEL_DEFAULT;
-  }, ms);
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -982,32 +965,6 @@ function renderCustomList(): void {
   }
 }
 
-async function shareCurrentStation(): Promise<void> {
-  const s = currentNP.station;
-  if (!s.id) return;
-  const url = s.homepage || s.streamUrl;
-  const data: ShareData = {
-    title: s.name,
-    text: `${s.name} on rrradio`,
-    url,
-  };
-  if (typeof navigator.share === 'function') {
-    try {
-      await navigator.share(data);
-      return;
-    } catch (err) {
-      // AbortError = user cancelled; anything else, fall back to copy
-      if (err instanceof DOMException && err.name === 'AbortError') return;
-    }
-  }
-  try {
-    await navigator.clipboard.writeText(url);
-    flashLabel('Link copied');
-  } catch {
-    window.open(url, '_blank', 'noopener');
-  }
-}
-
 function setSleep(minutes: number): void {
   if (sleepTimer !== undefined) {
     window.clearTimeout(sleepTimer);
@@ -1069,7 +1026,6 @@ $miniToggle.addEventListener('click', (e) => {
 });
 
 $npPlay.addEventListener('click', () => player.toggle());
-$npShare.addEventListener('click', () => void shareCurrentStation());
 $npMute.addEventListener('click', () => {
   const muted = player.toggleMute();
   $body.classList.toggle('is-muted', muted);

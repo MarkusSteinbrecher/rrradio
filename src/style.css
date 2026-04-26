@@ -684,38 +684,11 @@ body.tab-playing .search-wrap { display: none; }
 }
 .np.open { transform: translateY(0); }
 
-.np-head {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  padding: 12px 18px;
-  flex-shrink: 0;
-  border-bottom: 1px solid var(--line);
-}
-.np-head .np-label       { grid-column: 2; }
-.np-head .np-head__right { grid-column: 3; justify-self: end; }
-.np-head .icon-btn {
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--line);
-  background: transparent;
-  color: var(--ink);
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  transition: transform 0.15s;
-}
-.np-head .icon-btn:active { transform: scale(0.92); }
-.np-head .icon-btn svg { width: 14px; height: 14px; }
-.np-head__right { display: flex; align-items: center; gap: 8px; }
-
 /* Mute toggle: swap volume / muted icon. Body class drives icon state. */
 #np-mute .icon-vol-mute { display: none; }
 body.is-muted #np-mute  { color: var(--accent); border-color: var(--accent); }
 body.is-muted #np-mute .icon-vol      { display: none; }
 body.is-muted #np-mute .icon-vol-mute { display: block; }
-/* When muted, dim the streaming wave so it visually reflects "no sound coming through" */
-body.is-muted .np-eq { background: var(--ink-4); animation: none; }
 
 .np-label {
   font-family: var(--mono);
@@ -1014,7 +987,7 @@ body.is-muted .np-eq { background: var(--ink-4); animation: none; }
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 28px;
+  gap: 18px;
 }
 .np-btn {
   position: relative;
