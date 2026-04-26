@@ -62,14 +62,21 @@ with track info. Common patterns:
 - `audioapi.<broadcaster>.<tld>/<channel>/api/...`
 - `radioplayer.json` somewhere under the channel page
 
-**On finding one:**
+**Auto-discovery first:** for broadcasters with a known URL pattern
+(currently BR and ORF), `npm run wire-metadata` derives the per-channel
+URL from the station's homepage and writes it back to YAML. Run that
+before doing manual research — it covers the easy cases.
+
+**On finding one manually:**
 1. Verify CORS allows browser-side fetch (response has
    `Access-Control-Allow-Origin: *` or matches our origin)
 2. Set `metadataUrl: <url>` on the station's YAML row
 3. If the broadcaster matches an existing fetcher (orf, br-radioplayer,
    grrif), we're done — just re-deploy
 4. If it's a new shape, add a fetcher in `src/builtins.ts` and a
-   broadcaster entry in `data/broadcasters.yaml`
+   broadcaster entry in `data/broadcasters.yaml`. Also extend
+   `tools/wire-metadata.mjs` with a discoverer for that broadcaster
+   so future channels of the same family get auto-wired.
 
 **Failure path:** No metadata API → keep at `icy-only` (if step 3 passed)
 or `stream-only`.
