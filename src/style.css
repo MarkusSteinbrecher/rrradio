@@ -318,6 +318,17 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   background: rgba(255, 255, 0, 0.10);
 }
 .map-toggle.is-active:hover { color: var(--accent); }
+.map-toggle:disabled {
+  cursor: default;
+  color: var(--ink-4);
+  border-color: var(--line);
+  background: transparent;
+  opacity: 0.5;
+}
+.map-toggle:disabled:hover {
+  border-color: var(--line);
+  color: var(--ink-4);
+}
 
 .filter-wrap {
   position: relative;
