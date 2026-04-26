@@ -1,4 +1,11 @@
-import { BUILTIN_STATIONS, findFetcher, isBuiltin, loadBuiltinStations } from './builtins';
+import {
+  BUILTIN_STATIONS,
+  findFetcher,
+  findScheduleFetcher,
+  isBuiltin,
+  loadBuiltinStations,
+} from './builtins';
+import type { ScheduleDay } from './metadata';
 import { lookupCover } from './coverArt';
 import { MetadataPoller, icyFetcher } from './metadata';
 import { AudioPlayer, stateLabel } from './player';
@@ -112,6 +119,12 @@ const $npTags = document.getElementById('np-tags') as HTMLElement;
 const $npBitrate = document.getElementById('np-bitrate') as HTMLElement;
 const $npOrigin = document.getElementById('np-origin') as HTMLElement;
 const $npListeners = document.getElementById('np-listeners') as HTMLElement;
+const $npPaneTabs = document.getElementById('np-pane-tabs') as HTMLElement;
+const $npPaneNow = document.getElementById('np-pane-now') as HTMLButtonElement;
+const $npPaneProgram = document.getElementById('np-pane-program') as HTMLButtonElement;
+const $npProgramPane = document.getElementById('np-program-pane') as HTMLElement;
+const $npProgramDays = document.getElementById('np-program-days') as HTMLElement;
+const $npProgramList = document.getElementById('np-program-list') as HTMLElement;
 const $npTrackRow = document.getElementById('np-track-row') as HTMLElement;
 const $npTrackTitle = document.getElementById('np-track-title') as HTMLElement;
 const $npTrackCover = document.getElementById('np-track-cover') as HTMLImageElement;
@@ -785,6 +798,145 @@ function playedStations(): Station[] {
   }
   return ordered.slice(0, PLAYED_TOTAL_LIMIT);
 }
+
+// Schedule (program guide) state for the currently-open Now Playing
+// station. Fetched once when NP opens for stations whose broadcaster
+// has a schedule API; null otherwise (the program panel stays hidden).
+let npSchedule: ScheduleDay[] | null = null;
+let npScheduleStationId: string | null = null;
+let npScheduleAbort: AbortController | null = null;
+let npProgramView = false; // false = "now" pane, true = "program" pane
+let npSelectedDayIdx = 0;
+
+async function loadSchedule(station: Station): Promise<void> {
+  // Cancel any in-flight load for a previous station, reset cached data.
+  if (npScheduleAbort) npScheduleAbort.abort();
+  npSchedule = null;
+  npScheduleStationId = station.id;
+  npProgramView = false;
+  npSelectedDayIdx = 0;
+  $npPaneTabs.hidden = true;
+  $npProgramPane.hidden = true;
+
+  const found = findScheduleFetcher(station);
+  if (!found) {
+    syncProgramTabs();
+    return;
+  }
+  const ctrl = new AbortController();
+  npScheduleAbort = ctrl;
+  try {
+    const days = await found.fetcher(found.station, ctrl.signal);
+    if (ctrl.signal.aborted || npScheduleStationId !== station.id) return;
+    npSchedule = days;
+    if (days && days.length > 0) {
+      // Default to whichever day contains "now" — usually today.
+      const now = Date.now();
+      const idx = days.findIndex((d) => d.broadcasts.some((b) => b.start <= now && now < b.end));
+      npSelectedDayIdx = Math.max(0, idx);
+    }
+    syncProgramTabs();
+    if (npProgramView) renderProgramPane();
+  } catch {
+    /* silent — program panel just stays hidden */
+  }
+}
+
+function syncProgramTabs(): void {
+  const has = !!(npSchedule && npSchedule.length > 0);
+  $npPaneTabs.hidden = !has;
+  if (!has) {
+    npProgramView = false;
+    $npProgramPane.hidden = true;
+    $npTrackRow.hidden = false;
+    return;
+  }
+  $npPaneNow.classList.toggle('is-active', !npProgramView);
+  $npPaneNow.setAttribute('aria-pressed', String(!npProgramView));
+  $npPaneProgram.classList.toggle('is-active', npProgramView);
+  $npPaneProgram.setAttribute('aria-pressed', String(npProgramView));
+  $npProgramPane.hidden = !npProgramView;
+  $npTrackRow.hidden = npProgramView;
+}
+
+function dayLabel(date: number, todayMidnight: number): string {
+  if (date === todayMidnight) return 'Today';
+  if (date === todayMidnight + 24 * 60 * 60 * 1000) return 'Tomorrow';
+  if (date === todayMidnight - 24 * 60 * 60 * 1000) return 'Yesterday';
+  // Weekday + day-of-month for anything further out.
+  const d = new Date(date);
+  const wd = d.toLocaleDateString(undefined, { weekday: 'short' });
+  return `${wd} ${d.getDate()}`;
+}
+
+function renderProgramPane(): void {
+  if (!npSchedule || npSchedule.length === 0) {
+    $npProgramPane.hidden = true;
+    return;
+  }
+  // Day pills.
+  $npProgramDays.replaceChildren();
+  const todayMidnight = (() => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return d.getTime();
+  })();
+  npSchedule.forEach((day, i) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'np-program-day' + (i === npSelectedDayIdx ? ' is-active' : '');
+    btn.textContent = dayLabel(day.date, todayMidnight);
+    btn.addEventListener('click', () => {
+      npSelectedDayIdx = i;
+      renderProgramPane();
+    });
+    $npProgramDays.append(btn);
+  });
+
+  // Broadcast list for the selected day.
+  $npProgramList.replaceChildren();
+  const day = npSchedule[npSelectedDayIdx];
+  const now = Date.now();
+  for (const b of day.broadcasts) {
+    const isLive = b.start <= now && now < b.end;
+    const isPast = b.end <= now;
+    const row = document.createElement('div');
+    row.className =
+      'np-program-row' +
+      (isLive ? ' is-live' : '') +
+      (isPast ? ' is-past' : '');
+    const time = document.createElement('div');
+    time.className = 'np-program-row__time';
+    time.textContent = new Date(b.start).toLocaleTimeString(undefined, {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    const text = document.createElement('div');
+    text.className = 'np-program-row__text';
+    const title = document.createElement('div');
+    title.className = 'np-program-row__title';
+    title.textContent = b.title;
+    text.append(title);
+    if (b.subtitle) {
+      const sub = document.createElement('div');
+      sub.className = 'np-program-row__sub';
+      sub.textContent = b.subtitle;
+      text.append(sub);
+    }
+    row.append(time, text);
+    $npProgramList.append(row);
+  }
+}
+
+$npPaneNow.addEventListener('click', () => {
+  npProgramView = false;
+  syncProgramTabs();
+});
+$npPaneProgram.addEventListener('click', () => {
+  npProgramView = true;
+  syncProgramTabs();
+  renderProgramPane();
+});
 
 // World-map SVG, loaded once at boot. Wikimedia "low resolution" world
 // map — ~75 KB stripped of inkscape metadata. The viewBox is 950×620
@@ -1644,7 +1796,11 @@ let lastErrorMessage = '';
 
 player.subscribe((np) => {
   const stationLost = !np.station.id && currentNP.station.id && activeTab === 'playing';
+  const stationChanged = np.station.id && np.station.id !== currentNP.station.id;
   currentNP = np;
+  // Refresh schedule when the user starts a new station — schedules
+  // are per-station, fetched once on station change.
+  if (stationChanged) void loadSchedule(np.station);
   $body.classList.toggle('is-playing', np.state === 'playing');
   $body.classList.toggle('has-station', !!np.station.id);
   // If the station was unloaded while the Playing tab was active,

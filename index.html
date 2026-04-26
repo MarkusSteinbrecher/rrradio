@@ -151,6 +151,15 @@
               </div>
             </div>
 
+            <div class="np-pane-tabs" id="np-pane-tabs" hidden>
+              <button type="button" class="np-pane-tab is-active" id="np-pane-now" aria-label="Now playing" title="Now playing">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a.75.75 0 0 0 1.16.63l12-7.5a.75.75 0 0 0 0-1.27l-12-7.5A.75.75 0 0 0 7 4.5z"/></svg>
+              </button>
+              <button type="button" class="np-pane-tab" id="np-pane-program" aria-label="Program" title="Program">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="1"/><path d="M4 9h16"/><path d="M9 3v4"/><path d="M15 3v4"/></svg>
+              </button>
+            </div>
+
             <div class="np-track" id="np-track-row">
               <div class="np-track__cover-wrap">
                 <img class="np-track__cover" id="np-track-cover" alt="" />
@@ -160,6 +169,11 @@
                 <div class="np-track__label">On air</div>
                 <div class="np-track__title" id="np-track-title">—</div>
               </div>
+            </div>
+
+            <div class="np-program-pane" id="np-program-pane" hidden>
+              <div class="np-program-days" id="np-program-days"></div>
+              <div class="np-program-list" id="np-program-list"></div>
             </div>
           </div>
 
