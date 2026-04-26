@@ -492,6 +492,93 @@
         );
       }
 
+      // Backlog of stations real visitors have played that aren't yet
+      // curated, with an actionable verdict per row. Regenerated weekly
+      // by the catalog-watch workflow (or `npm run backlog` locally).
+      const VERDICT_ORDER = {
+        'auto-curate-ready': 0,
+        'needs-https': 1,
+        'stream-broken': 2,
+        'no-rb-match': 3,
+        'already-curated': 4,
+      };
+      const VERDICT_LABEL = {
+        'auto-curate-ready': 'ready',
+        'needs-https': 'http only',
+        'stream-broken': 'stream broken',
+        'no-rb-match': 'no RB match',
+        'already-curated': 'curated',
+      };
+      const VERDICT_CLASS = {
+        'auto-curate-ready': 'ok',
+        'needs-https': 'warn',
+        'stream-broken': 'bad',
+        'no-rb-match': 'bad',
+        'already-curated': 'na',
+      };
+
+      async function backlogCard() {
+        let data;
+        try {
+          const res = await fetch('/station-backlog.json', { cache: 'no-store' });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          data = await res.json();
+        } catch (err) {
+          return el('div', { class: 'card span-2' },
+            el('h2', {}, 'station backlog'),
+            el('span', { class: 'empty' }, 'Run `npm run backlog` (or wait for weekly catalog-watch) — ' + String(err)),
+          );
+        }
+        const items = (data.items || []).slice().sort((a, b) => {
+          const va = VERDICT_ORDER[a.verdict] ?? 9;
+          const vb = VERDICT_ORDER[b.verdict] ?? 9;
+          if (va !== vb) return va - vb;
+          return (b.plays ?? 0) - (a.plays ?? 0);
+        });
+
+        const rows = items.map((it) =>
+          el('tr', {},
+            el('td', { class: 'name' },
+              el('span', {}, it.name),
+              el('span', { class: 'id' },
+                it.broadcasterGuess ? `guess: ${it.broadcasterGuess}` :
+                it.streamUrl ? new URL(it.streamUrl).hostname : '—',
+              ),
+            ),
+            el('td', { style: 'text-align: right' }, fmt(it.plays ?? 0)),
+            el('td', {},
+              el('span', { class: `badge ${VERDICT_CLASS[it.verdict] || 'na'}` }, '●'),
+              ' ',
+              el('span', { class: 'status-pill' }, VERDICT_LABEL[it.verdict] || it.verdict),
+            ),
+            el('td', { class: 'status-pill', title: it.streamProbe?.reason || '' },
+              it.streamProbe ? (it.streamProbe.ok ? 'ok' : 'fail') :
+              it.alreadyCurated ? '—' :
+              !it.rbMatched ? '—' : '—',
+            ),
+          ),
+        );
+
+        const tbl = el('table', { class: 'catalog' },
+          el('thead', {},
+            el('tr', {},
+              el('th', {}, 'station'),
+              el('th', { style: 'text-align: right' }, 'plays'),
+              el('th', {}, 'verdict'),
+              el('th', {}, 'probe'),
+            ),
+          ),
+          el('tbody', {}, rows),
+        );
+
+        const generated = data.generatedAt ? new Date(data.generatedAt).toLocaleString() : 'unknown';
+        return el('div', { class: 'card span-2' },
+          el('h2', {}, 'station backlog'),
+          tbl,
+          el('div', { class: 'empty' }, `${items.length} candidates · last ${data.rangeDays ?? '?'} days · generated ${generated}`),
+        );
+      }
+
       async function renderDashboard() {
         $root.replaceChildren(
           el('div', { class: 'head' },
@@ -514,10 +601,15 @@
         try {
           // One Worker call → one batched upstream fetch (sequential to
           // respect GoatCounter's 4 req/s rate limit).
-          const [all, catalog] = await Promise.all([api('/api/everything'), catalogCard()]);
+          const [all, catalog, backlog] = await Promise.all([
+            api('/api/everything'),
+            catalogCard(),
+            backlogCard(),
+          ]);
           cards.replaceChildren(
             metricsCard(all.totals, (all.stations.items || []).length),
             catalog,
+            backlog,
             listCard('top stations', all.stations.items),
             listCard('favorites added', all.favorites.items),
             listCard('errors', all.errors.items, { showSub: true }),

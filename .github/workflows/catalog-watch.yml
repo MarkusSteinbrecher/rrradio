@@ -42,6 +42,24 @@ jobs:
       - name: Show curation candidates
         run: npm run candidates 2>&1 | tee candidates.txt
 
+      - name: Refresh station backlog (analyzed candidates)
+        run: |
+          npm run backlog
+          # Commit the regenerated JSON straight to main if it changed —
+          # the dashboard reads it on next page load. Single weekly
+          # commit, no PR overhead.
+          if git diff --quiet public/station-backlog.json; then
+            echo "Backlog unchanged."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add public/station-backlog.json
+            git commit -m "Catalog-watch: refresh station backlog"
+            git push origin main
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+
       - name: Auto-curate (Radio Browser → YAML stubs)
         id: curate
         run: |
