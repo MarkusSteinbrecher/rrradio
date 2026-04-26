@@ -25,9 +25,9 @@ const TIMEOUT_MS = 8_000;
 
 // Fetchers we have wired today. Keep in sync with FETCHERS_BY_KEY in
 // src/builtins.ts.
-const KNOWN_FETCHERS = new Set(['grrif', 'orf', 'br-radioplayer']);
+const KNOWN_FETCHERS = new Set(['grrif', 'orf', 'br-radioplayer', 'bbc']);
 // Of those, which expose program (show) info beyond just track titles.
-const PROGRAM_CAPABLE = new Set(['orf', 'br-radioplayer']);
+const PROGRAM_CAPABLE = new Set(['orf', 'br-radioplayer', 'bbc']);
 // Fetchers that hardcode their own metadata endpoint (don't depend on
 // the YAML's metadataUrl). For these, the meta column reports the
 // built-in source rather than "not declared".
@@ -35,7 +35,7 @@ const SELF_CONTAINED_FETCHERS = new Set(['grrif']);
 // Broadcasters whose metadataUrl can be auto-derived by wire-metadata.
 // When a station has one of these but no metadataUrl, the meta column
 // reports "wireable" rather than "not declared".
-const WIREABLE_BROADCASTERS = new Set(['br', 'orf']);
+const WIREABLE_BROADCASTERS = new Set(['br', 'orf', 'bbc']);
 
 // ─────────────────────────────────────────────────────────────
 // Helpers
@@ -162,6 +162,11 @@ function classifyIcy(probe, codec) {
   return { state: 'bad', detail: 'no ICY metadata' };
 }
 
+// BBC's metadataUrl is a bare slug (e.g. "bbc_world_service"), not a
+// fetchable URL — fetchers route it through our worker proxy. Skip
+// the URL probe and trust the wire-metadata verification step.
+const SLUG_NOT_URL = new Set(['bbc']);
+
 function classifyMetadataApi(metadataUrl, probe, metadataKey, broadcaster) {
   if (!metadataUrl) {
     if (metadataKey && SELF_CONTAINED_FETCHERS.has(metadataKey)) {
@@ -171,6 +176,9 @@ function classifyMetadataApi(metadataUrl, probe, metadataKey, broadcaster) {
       return { state: 'warn', detail: `auto-discoverable — run \`npm run wire-metadata\`` };
     }
     return { state: 'na', detail: 'not declared' };
+  }
+  if (metadataKey && SLUG_NOT_URL.has(metadataKey)) {
+    return { state: 'ok', detail: `slug=${metadataUrl} (proxied)` };
   }
   if (!probe || probe.status === 'failed') return { state: 'bad', detail: probe?.error || 'unreachable' };
   if (typeof probe.status === 'number' && probe.status >= 400) return { state: 'bad', detail: `HTTP ${probe.status}` };
@@ -228,7 +236,9 @@ for (const s of targets) {
   const metadataKey = s.metadata ?? broadcaster.metadata ?? null;
 
   const streamProbe = await probeStream(s.streamUrl);
-  const metaProbe = s.metadataUrl ? await probeMetadataUrl(s.metadataUrl) : null;
+  // Skip URL probe for fetchers whose metadataUrl is a slug, not a URL.
+  const metaProbe =
+    s.metadataUrl && !SLUG_NOT_URL.has(metadataKey) ? await probeMetadataUrl(s.metadataUrl) : null;
 
   const checks = {
     stream: classifyStream(streamProbe),

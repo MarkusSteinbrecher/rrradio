@@ -234,6 +234,48 @@ export default {
             },
           });
         }
+
+        // BBC proxy. rms.api.bbc.co.uk gates by Origin: a non-bbc.co.uk
+        // origin gets 403 even though the preflight allows it. Proxy
+        // here with the right origin so the browser can read the data.
+        // Service slug is the path tail (e.g. "bbc_world_service").
+        const bbcMatch = url.pathname.match(
+          /^\/api\/public\/bbc\/(schedule|play)\/([a-z0-9_]+)$/,
+        );
+        if (bbcMatch) {
+          const [, kind, service] = bbcMatch;
+          const upstream =
+            kind === 'schedule'
+              ? `https://rms.api.bbc.co.uk/v2/experience/inline/schedules/${service}`
+              : `https://rms.api.bbc.co.uk/v2/experience/inline/play/${service}`;
+          const upstreamRes = await fetch(upstream, {
+            headers: {
+              Origin: 'https://www.bbc.co.uk',
+              Referer: 'https://www.bbc.co.uk/sounds/',
+              'User-Agent': 'rrradio-stats/1.0 (+https://rrradio.org)',
+              Accept: 'application/json',
+            },
+          });
+          if (!upstreamRes.ok) {
+            return jsonResponse(
+              { error: 'upstream', status: upstreamRes.status },
+              502,
+              publicCors,
+            );
+          }
+          const body = await upstreamRes.text();
+          // Schedule changes hourly at most; a 5-minute edge cache is
+          // a good polite default for both kinds.
+          return new Response(body, {
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8',
+              'Cache-Control': `public, max-age=${kind === 'schedule' ? 600 : 60}`,
+              ...publicCors,
+            },
+          });
+        }
+
         return jsonResponse({ error: 'not found' }, 404, publicCors);
       } catch (err) {
         return jsonResponse(

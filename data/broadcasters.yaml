@@ -134,9 +134,12 @@ bbc:
   name: BBC
   country: UK
   homepage: https://www.bbc.co.uk/sounds
+  metadata: bbc
   notes: |
-    BBC Sounds has metadata feeds; live streams use HLS.
-    Likely needs auth/region detection; investigate.
+    rms.api.bbc.co.uk gates by Origin: bbc.co.uk — proxied through
+    rrradio-stats Worker (/api/public/bbc/{schedule,play}/<service>).
+    metadataUrl on each station stores the BBC service slug
+    (e.g. bbc_world_service); wire-metadata derives it from streamUrl.
 
 # ─────────────── France ───────────────
 

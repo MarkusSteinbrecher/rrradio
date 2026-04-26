@@ -109,9 +109,45 @@ async function discoverOrf(station) {
   return `https://audioapi.orf.at/${slug}/api/json/4.0/live`;
 }
 
+/** BBC: extract the service slug from streamUrl. Stream URLs include
+ *  region suffixes (e.g. `bbc_world_service_east_asia`) that the
+ *  schedule API doesn't accept — match against a known service list
+ *  and pick the longest substring hit. We store the slug bare in
+ *  metadataUrl; fetchers call the worker proxy with it. */
+const BBC_SERVICES = [
+  'bbc_world_service',
+  'bbc_radio_one',
+  'bbc_radio_two',
+  'bbc_radio_three',
+  'bbc_radio_four',
+  'bbc_radio_four_extra',
+  'bbc_radio_fivelive',
+  'bbc_radio_five_live',
+  'bbc_6music',
+  'bbc_asian_network',
+  'bbc_1xtra',
+  'bbc_radio_nan_gaidheal',
+  'bbc_radio_scotland',
+  'bbc_radio_ulster',
+  'bbc_radio_wales',
+  'bbc_radio_cymru',
+  'bbc_radio_foyle',
+];
+async function discoverBbc(station) {
+  const url = (station.streamUrl ?? '').toLowerCase();
+  // Pick the longest known service that appears in the URL.
+  const candidates = BBC_SERVICES.filter((s) => url.includes(s)).sort((a, b) => b.length - a.length);
+  for (const slug of candidates) {
+    const probe = await probeJson(`https://rrradio-stats.markussteinbrecher.workers.dev/api/public/bbc/play/${slug}`);
+    if (probe.ok) return slug;
+  }
+  return null;
+}
+
 const DISCOVERERS = {
   br: discoverBr,
   orf: discoverOrf,
+  bbc: discoverBbc,
 };
 
 // ─────────────────────────────────────────────────────────────
@@ -142,11 +178,16 @@ for (const s of parsed) {
     failed++;
     continue;
   }
-  const probe = await probeJson(url);
-  if (!probe.ok) {
-    console.log(`probe failed (${probe.reason})`);
-    failed++;
-    continue;
+  // Some discoverers (BBC) return a slug that isn't directly fetchable —
+  // they've already verified it via the worker proxy. Only post-probe
+  // when the result looks like a real URL.
+  if (/^https?:\/\//.test(url)) {
+    const probe = await probeJson(url);
+    if (!probe.ok) {
+      console.log(`probe failed (${probe.reason})`);
+      failed++;
+      continue;
+    }
   }
   console.log(`OK  ${url}`);
 
