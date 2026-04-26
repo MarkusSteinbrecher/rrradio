@@ -12,10 +12,10 @@
   --bg-3:    #1a1a1a;
   --line:    rgba(255,255,255,0.08);
   --line-2:  rgba(255,255,255,0.14);
-  --ink:     #f4f4f2;
-  --ink-2:   rgba(244,244,242,0.62);
-  --ink-3:   rgba(244,244,242,0.38);
-  --ink-4:   rgba(244,244,242,0.22);
+  --ink:     #f4f4f2;                  /* primary text */
+  --ink-2:   rgba(244,244,242,0.80);   /* secondary text — was 0.62, bumped for legibility */
+  --ink-3:   rgba(244,244,242,0.62);   /* labels + mono captions — was 0.38 (failed AA on small text) */
+  --ink-4:   rgba(244,244,242,0.40);   /* faint borders / disabled — was 0.22 */
   --sans:    'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --mono:    'IBM Plex Mono', ui-monospace, Menlo, monospace;
 
