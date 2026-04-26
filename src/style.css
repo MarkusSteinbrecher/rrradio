@@ -703,12 +703,9 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   display: flex;
   flex-direction: column;
   padding: 14px 24px 8px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
   min-height: 0;
-  -webkit-overflow-scrolling: touch;
 }
-.np-body::-webkit-scrollbar { width: 0; }
 
 .np-station {
   display: flex;
@@ -762,7 +759,7 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
 .np-track[hidden] { display: none; }
 .np-track__cover-wrap {
   position: relative;
-  width: min(260px, 64vw);
+  width: min(220px, 58vw);
   aspect-ratio: 1 / 1;
   background: var(--bg-2);
   border: 1px solid var(--line);
@@ -770,6 +767,8 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   overflow: hidden;
   display: grid;
   place-items: center;
+  flex-shrink: 1;
+  min-height: 0;
 }
 .np-track__cover {
   width: 100%;
@@ -1119,6 +1118,9 @@ body.is-playing .np-eq {
   padding: 6px 0;
 }
 
+/* The bottom strip is now a button: tapping toggles the details panel
+   above it (meta cells + stream/site URLs). Live + format text stay
+   in place, and a chevron at the right rotates 180° when expanded. */
 .np-bottom {
   display: flex;
   justify-content: space-between;
@@ -1128,8 +1130,49 @@ body.is-playing .np-eq {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-3);
-  padding-top: 6px;
+  padding-top: 8px;
   border-top: 1px solid var(--line);
+  background: transparent;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  gap: 12px;
+}
+.np-bottom:hover { color: var(--ink-2); }
+.np-bottom .live, .np-bottom > div:nth-child(2) { flex: 0 1 auto; }
+.np-bottom__chevron {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--ink-3);
+  transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.np-bottom[aria-expanded="true"] .np-bottom__chevron {
+  transform: rotate(180deg);
+  color: var(--ink-2);
+}
+
+/* Details panel — meta cells + stream/site links. Lives between the
+   controls row and the toggle strip; collapses to zero height by
+   animating grid-template-rows from 0fr → 1fr. */
+.np-details {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.np-details[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+.np-details__inner {
+  overflow: hidden;
+  min-height: 0;
+}
+.np-details[data-open="true"] .np-details__inner {
+  /* Tiny visual breathing room when expanded */
+  padding-bottom: 4px;
 }
 .np-bottom .live {
   display: flex;

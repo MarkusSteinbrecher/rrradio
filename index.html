@@ -87,34 +87,6 @@
                 <div class="np-track__title" id="np-track-title">—</div>
               </div>
             </div>
-
-            <div class="np-meta">
-              <div class="cell">
-                <div class="k">Bitrate</div>
-                <div class="v" id="np-bitrate">—</div>
-              </div>
-              <div class="cell">
-                <div class="k">Origin</div>
-                <div class="v" id="np-origin">—</div>
-              </div>
-              <div class="cell">
-                <div class="k">Listeners</div>
-                <div class="v" id="np-listeners">—</div>
-              </div>
-            </div>
-
-            <div class="np-source">
-              <a class="np-source__row" id="np-stream" href="#" target="_blank" rel="noopener noreferrer" hidden>
-                <span class="np-source__k">Stream</span>
-                <span class="np-source__v" id="np-stream-host">—</span>
-                <svg class="np-source__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M20 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5"/></svg>
-              </a>
-              <a class="np-source__row" id="np-home" href="#" target="_blank" rel="noopener noreferrer" hidden>
-                <span class="np-source__k">Site</span>
-                <span class="np-source__v" id="np-home-host">—</span>
-                <svg class="np-source__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M20 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5"/></svg>
-              </a>
-            </div>
           </div>
 
           <div class="np-controls">
@@ -145,13 +117,46 @@
               </div>
             </div>
 
-            <div class="np-bottom">
+            <div class="np-details" id="np-details" data-open="false">
+              <div class="np-details__inner">
+                <div class="np-meta">
+                  <div class="cell">
+                    <div class="k">Bitrate</div>
+                    <div class="v" id="np-bitrate">—</div>
+                  </div>
+                  <div class="cell">
+                    <div class="k">Origin</div>
+                    <div class="v" id="np-origin">—</div>
+                  </div>
+                  <div class="cell">
+                    <div class="k">Listeners</div>
+                    <div class="v" id="np-listeners">—</div>
+                  </div>
+                </div>
+
+                <div class="np-source">
+                  <a class="np-source__row" id="np-stream" href="#" target="_blank" rel="noopener noreferrer" hidden>
+                    <span class="np-source__k">Stream</span>
+                    <span class="np-source__v" id="np-stream-host">—</span>
+                    <svg class="np-source__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M20 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5"/></svg>
+                  </a>
+                  <a class="np-source__row" id="np-home" href="#" target="_blank" rel="noopener noreferrer" hidden>
+                    <span class="np-source__k">Site</span>
+                    <span class="np-source__v" id="np-home-host">—</span>
+                    <svg class="np-source__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M20 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <button type="button" class="np-bottom" id="np-details-toggle" aria-expanded="false" aria-controls="np-details">
               <div class="live">
                 <span class="live-dot" aria-hidden="true"></span>
                 <span id="np-live-text">Standby</span>
               </div>
               <div id="np-format">— · —</div>
-            </div>
+              <svg class="np-bottom__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
           </div>
         </section>
       </div>

@@ -113,6 +113,8 @@ const $npPlay = document.getElementById('np-play') as HTMLButtonElement;
 const $npLiveText = document.getElementById('np-live-text') as HTMLElement;
 const $npFormat = document.getElementById('np-format') as HTMLElement;
 const $npMute = document.getElementById('np-mute') as HTMLButtonElement;
+const $npDetails = document.getElementById('np-details') as HTMLElement;
+const $npDetailsToggle = document.getElementById('np-details-toggle') as HTMLButtonElement;
 
 const $addBtn = document.getElementById('add-btn') as HTMLButtonElement;
 const $addSheet = document.getElementById('add-sheet') as HTMLElement;
@@ -1030,6 +1032,12 @@ $npMute.addEventListener('click', () => {
   const muted = player.toggleMute();
   $body.classList.toggle('is-muted', muted);
   $npMute.setAttribute('aria-label', muted ? 'Unmute' : 'Mute');
+});
+
+$npDetailsToggle.addEventListener('click', () => {
+  const open = $npDetails.dataset.open !== 'true';
+  $npDetails.dataset.open = String(open);
+  $npDetailsToggle.setAttribute('aria-expanded', String(open));
 });
 
 $npFav.addEventListener('click', () => {
