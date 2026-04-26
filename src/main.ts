@@ -90,6 +90,7 @@ const $genre = document.getElementById('genre') as HTMLSelectElement;
 const $country = document.getElementById('country') as HTMLSelectElement;
 const $curatedToggle = document.getElementById('curated-toggle') as HTMLButtonElement;
 const $modePlayed = document.getElementById('mode-played') as HTMLButtonElement;
+const $mapToggle = document.getElementById('map-toggle') as HTMLButtonElement;
 const $filterRow = document.getElementById('filter-row') as HTMLElement;
 const $tabStatus = document.getElementById('tab-status') as HTMLElement;
 const $content = document.getElementById('content') as HTMLElement;
@@ -150,6 +151,10 @@ let activeCountry = 'all';
 // and shows only the curated catalog (built-ins + custom). Toggled
 // by the star button next to the genre filter.
 let curatedOnly = false;
+// When true, the unfiltered home view replaces the list section
+// with the world-map globe. Default false (list view); orthogonal
+// to curatedOnly — the map can show either station set.
+let mapView = false;
 
 // 2-letter ISO code → display name. Only the codes we'd plausibly
 // see in BUILTIN_STATIONS or RB results, so the dropdown stays tight.
@@ -1004,23 +1009,31 @@ function renderContent(): void {
       //   curated-only → all built-ins (popularity order, then YAML order)
       //   most played  → top 20 played
       let stations: Station[];
+      let restLabel: string;
       if (curatedOnly) {
         const playedCurated = playedStations().filter((s) => isBuiltin(s.id));
         const seen = new Set(playedCurated.map((s) => s.id));
         const tail: Station[] = [];
         for (const s of BUILTIN_STATIONS) if (!seen.has(s.id)) tail.push(s);
         stations = [...playedCurated, ...tail];
+        restLabel = 'Curated';
       } else {
         stations = playedStations().slice(0, PLAYED_TOTAL_LIMIT);
+        restLabel = 'Most played';
       }
 
       const featured = stations.slice(0, PLAYED_FEATURED_LIMIT);
+      const rest = stations.slice(PLAYED_FEATURED_LIMIT);
       if (featured.length > 0) $content.append(renderFeatured(featured));
 
-      // Globe replaces the list section. Pins draw from the FULL set
-      // (including the featured ones), so the user can see the entire
-      // catalog geography at a glance — not just ranks 4-N.
-      $content.append(renderGlobe(stations));
+      if (mapView) {
+        // Map shows pins for the FULL set (including featured) so
+        // the geographic picture isn't artificially truncated.
+        $content.append(renderGlobe(stations));
+      } else if (rest.length > 0) {
+        $content.append(sectionLabel(restLabel, rest.length));
+        $content.append(renderRows(rest));
+      }
 
       const counter = siteCounter();
       if (counter) $content.append(counter);
@@ -1518,6 +1531,15 @@ function setMode(curated: boolean): void {
 
 $curatedToggle.addEventListener('click', () => setMode(true));
 $modePlayed.addEventListener('click', () => setMode(false));
+
+$mapToggle.addEventListener('click', () => {
+  mapView = !mapView;
+  $mapToggle.classList.toggle('is-active', mapView);
+  $mapToggle.setAttribute('aria-pressed', String(mapView));
+  if (!mapView) selectedClusterKey = null;
+  track(`map-view/${mapView ? 'on' : 'off'}`);
+  renderContent();
+});
 
 $searchClear.addEventListener('click', () => {
   clearSearch(true);
