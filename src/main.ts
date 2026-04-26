@@ -91,6 +91,7 @@ const $country = document.getElementById('country') as HTMLSelectElement;
 const $curatedToggle = document.getElementById('curated-toggle') as HTMLButtonElement;
 const $modePlayed = document.getElementById('mode-played') as HTMLButtonElement;
 const $mapToggle = document.getElementById('map-toggle') as HTMLButtonElement;
+const $newsToggle = document.getElementById('news-toggle') as HTMLButtonElement;
 const $filterRow = document.getElementById('filter-row') as HTMLElement;
 const $tabStatus = document.getElementById('tab-status') as HTMLElement;
 const $content = document.getElementById('content') as HTMLElement;
@@ -155,6 +156,11 @@ let curatedOnly = false;
 // with the world-map globe. Default false (list view); orthogonal
 // to curatedOnly — the map can show either station set.
 let mapView = false;
+// When true, narrows results to stations tagged "news". Acts as a
+// pinned tag filter — stacks with genre/country dropdowns and the
+// search input. Promoted out of the genre dropdown into its own
+// quick-toggle since "news" is the most-asked-for genre filter.
+let newsOnly = false;
 
 // 2-letter ISO code → display name. Only the codes we'd plausibly
 // see in BUILTIN_STATIONS or RB results, so the dropdown stays tight.
@@ -995,7 +1001,7 @@ function renderContent(): void {
 
   if (activeTab === 'browse') {
     const query = $search.value.trim();
-    const tagFilter = activeTag === 'all' ? undefined : activeTag;
+    const tagFilter = newsOnly ? 'news' : activeTag === 'all' ? undefined : activeTag;
     const countryFilter = activeCountry === 'all' ? undefined : activeCountry.toUpperCase();
     const noFilter = !query && !tagFilter && !countryFilter;
 
@@ -1121,7 +1127,10 @@ async function runQuery(): Promise<void> {
   browseHasMore = false;
   browseLoadingMore = false;
   const query = $search.value.trim();
-  const tagFilter = activeTag === 'all' ? undefined : activeTag;
+  // news toggle wins over the genre dropdown when both are set —
+  // keeps the API call single-tag-valued, and the user just clicked
+  // the more specific news filter.
+  const tagFilter = newsOnly ? 'news' : activeTag === 'all' ? undefined : activeTag;
   const countryFilter = activeCountry === 'all' ? undefined : activeCountry;
   const noFilter = !query && !tagFilter && !countryFilter;
   // Unfiltered home view is backed by GoatCounter top-played + the
@@ -1268,10 +1277,14 @@ function goHome(): void {
     activeTab === 'browse' &&
     activeTag === 'all' &&
     activeCountry === 'all' &&
+    !newsOnly &&
     $search.value === '';
   clearSearch(false);
   activeTag = 'all';
   activeCountry = 'all';
+  newsOnly = false;
+  $newsToggle.classList.remove('is-active');
+  $newsToggle.setAttribute('aria-pressed', 'false');
   syncGenre();
   syncCountry();
   if (activeTab !== 'browse') {
@@ -1539,6 +1552,15 @@ $mapToggle.addEventListener('click', () => {
   if (!mapView) selectedClusterKey = null;
   track(`map-view/${mapView ? 'on' : 'off'}`);
   renderContent();
+});
+
+$newsToggle.addEventListener('click', () => {
+  newsOnly = !newsOnly;
+  $newsToggle.classList.toggle('is-active', newsOnly);
+  $newsToggle.setAttribute('aria-pressed', String(newsOnly));
+  selectedClusterKey = null;
+  track(`news-only/${newsOnly ? 'on' : 'off'}`);
+  void runQuery();
 });
 
 $searchClear.addEventListener('click', () => {
