@@ -198,6 +198,20 @@ kcrw:
   country: US
   homepage: https://www.kcrw.com/
 
+# ─────────────── Internet-native ───────────────
+
+frisky:
+  name: Frisky
+  fullName: FRISKY
+  country: CA
+  homepage: https://frisky.fm
+  notes: |
+    Toronto-based internet-only electronic music station (4 channels:
+    Frisky, Classics, Chill, Deep). Streams emit rich ICY metadata with
+    track titles — no broadcaster-specific JSON API found that's
+    CORS-accessible from the browser, so we rely on the runtime ICY
+    fetcher (status:icy-only).
+
 # ─────────────── Generic / auto-imported ───────────────
 # Catch-all for stations the auto-curate workflow imports from
 # Radio Browser. Promote individual stations to a real broadcaster
