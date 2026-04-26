@@ -25,6 +25,10 @@ export interface Env {
 }
 
 const CACHE_TTL_S = 300;
+/** Public top-stations endpoint refreshes hourly — stations don't change
+ *  rank fast and we want one upstream GC fetch per hour at most, no
+ *  matter how many visitors hit the site. */
+const PUBLIC_CACHE_TTL_S = 3600;
 
 interface GcHit {
   path: string;
@@ -206,13 +210,44 @@ export default {
       return jsonResponse({ error: 'method not allowed' }, 405, cors);
     }
 
+    const url = new URL(req.url);
+    const days = clampDays(url.searchParams.get('days'));
+
+    // Public, unauthenticated endpoints. Allowed origin is wide-open
+    // (echoes any origin) since the data is non-sensitive aggregate
+    // play counts already exposed via the visitor counter pattern.
+    if (url.pathname.startsWith('/api/public/')) {
+      const publicCors = { ...cors, 'Access-Control-Allow-Origin': '*' };
+      try {
+        if (url.pathname === '/api/public/top-stations') {
+          const limit = Math.min(20, Math.max(1, Number(url.searchParams.get('limit')) || 5));
+          const list = pickByPrefix(await fetchAllHits(days, env), 'play: ', limit, days);
+          // Strip the inner `title` field — not needed publicly and
+          // keeps the payload tight.
+          const items = list.items.map((i) => ({ name: i.label, count: i.count }));
+          return new Response(JSON.stringify({ items, range_days: days }), {
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8',
+              'Cache-Control': `public, max-age=${PUBLIC_CACHE_TTL_S}`,
+              ...publicCors,
+            },
+          });
+        }
+        return jsonResponse({ error: 'not found' }, 404, publicCors);
+      } catch (err) {
+        return jsonResponse(
+          { error: 'fetch failed', message: err instanceof Error ? err.message : String(err) },
+          502,
+          publicCors,
+        );
+      }
+    }
+
     const auth = req.headers.get('Authorization');
     if (!env.ADMIN_TOKEN || auth !== `Bearer ${env.ADMIN_TOKEN}`) {
       return jsonResponse({ error: 'unauthorized' }, 401, cors);
     }
-
-    const url = new URL(req.url);
-    const days = clampDays(url.searchParams.get('days'));
 
     try {
       let data: unknown;

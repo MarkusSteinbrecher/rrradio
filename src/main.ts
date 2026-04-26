@@ -566,6 +566,49 @@ function emptyState(iconHtml: string, title: string, sub: string): HTMLDivElemen
   return wrap;
 }
 
+// Top-played stations (Browse featured strip). Pulled from our
+// Cloudflare Worker, which aggregates GoatCounter "play: <name>"
+// events and is edge-cached an hour. Names match station.name
+// case-insensitively against BUILTIN_STATIONS so we can render with
+// real logos. While the fetch is in flight (or if it fails / returns
+// empty), the featured strip falls back to YAML order.
+const TOP_STATIONS_URL =
+  'https://rrradio-stats.markussteinbrecher.workers.dev/api/public/top-stations?days=30&limit=5';
+let topStationNames: string[] | undefined;
+let topStationsFetched = false;
+async function loadTopStations(): Promise<void> {
+  if (topStationsFetched) return;
+  topStationsFetched = true;
+  try {
+    const res = await fetch(TOP_STATIONS_URL);
+    if (!res.ok) return;
+    const data = (await res.json()) as { items?: Array<{ name?: string }> };
+    const names = (data.items ?? [])
+      .map((i) => i.name)
+      .filter((n): n is string => typeof n === 'string' && n.length > 0);
+    if (names.length === 0) return;
+    topStationNames = names;
+    if (activeTab === 'browse') renderContent();
+  } catch {
+    /* silent: featured strip falls back to YAML order */
+  }
+}
+function featuredStations(): Station[] {
+  if (!topStationNames || BUILTIN_STATIONS.length === 0) {
+    return BUILTIN_STATIONS.slice(0, 5);
+  }
+  const byName = new Map<string, Station>();
+  for (const s of BUILTIN_STATIONS) byName.set(s.name.toLowerCase(), s);
+  const ordered: Station[] = [];
+  for (const name of topStationNames) {
+    const match = byName.get(name.toLowerCase());
+    if (match) ordered.push(match);
+  }
+  // If GoatCounter's top names didn't match any built-in (e.g. only
+  // custom/RB stations have plays so far), fall back to YAML order.
+  return ordered.length > 0 ? ordered : BUILTIN_STATIONS.slice(0, 5);
+}
+
 // Site visit counter (footer of Browse). Pulled from GoatCounter's
 // public counter endpoint — no auth, edge-cached 30 min by GC. We
 // fetch once per page load and remember the value for re-renders.
@@ -671,7 +714,7 @@ function renderContent(): void {
     // results stay focused. The same stations remain reachable below in
     // the "My stations" section when a filter is applied.
     if (noFilter && BUILTIN_STATIONS.length > 0) {
-      $content.append(renderFeatured(BUILTIN_STATIONS));
+      $content.append(renderFeatured(featuredStations()));
     }
 
     // "My stations" = built-ins + custom when filtering, custom-only when
@@ -1195,3 +1238,4 @@ void loadBuiltinStations().then(() => {
 });
 void runQuery();
 void loadSiteVisits();
+void loadTopStations();
