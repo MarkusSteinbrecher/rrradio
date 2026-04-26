@@ -1,4 +1,4 @@
-import { BUILTIN_FETCHERS, BUILTIN_STATIONS } from './builtins';
+import { BUILTIN_STATIONS, findFetcher } from './builtins';
 import { lookupCover } from './coverArt';
 import { MetadataPoller, makeIcyFetcher } from './metadata';
 import { AudioPlayer, stateLabel } from './player';
@@ -1076,7 +1076,7 @@ player.subscribe((np) => {
   if (key !== lastIcyKey) {
     lastIcyKey = key;
     if (key) {
-      const fetcher = BUILTIN_FETCHERS[np.station.id] ?? makeIcyFetcher(np.station.streamUrl);
+      const fetcher = findFetcher(np.station) ?? makeIcyFetcher(np.station.streamUrl);
       meta.start(key, fetcher, 30_000);
     } else {
       meta.stop();
