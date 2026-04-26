@@ -87,6 +87,7 @@ const $wordmark = document.getElementById('wordmark') as HTMLButtonElement;
 const $search = document.getElementById('search') as HTMLInputElement;
 const $searchClear = document.getElementById('search-clear') as HTMLButtonElement;
 const $genre = document.getElementById('genre') as HTMLSelectElement;
+const $curatedToggle = document.getElementById('curated-toggle') as HTMLButtonElement;
 const $filterRow = document.getElementById('filter-row') as HTMLElement;
 const $tabStatus = document.getElementById('tab-status') as HTMLElement;
 const $content = document.getElementById('content') as HTMLElement;
@@ -139,6 +140,10 @@ let activeTab: Tab = 'browse';
 /** Last list tab we were on, so closing Now Playing returns there. */
 let lastListTab: ListTab = 'browse';
 let activeTag = 'all';
+// When true, Browse hides Radio Browser long-tail results entirely
+// and shows only the curated catalog (built-ins + custom). Toggled
+// by the star button next to the genre filter.
+let curatedOnly = false;
 let queryToken = 0;
 let sleepIndex = 0;
 let sleepTimer: number | undefined;
@@ -750,9 +755,13 @@ function renderContent(): void {
 
     // "My stations" = built-ins + custom when filtering, custom-only when
     // unfiltered (built-ins live in the featured strip in that case).
+    // In curated-only mode we always include built-ins so the user sees
+    // the full curated tier as rows even on the unfiltered home view.
     const tagMatch = (s: Station): boolean =>
       !tagFilter || (s.tags ?? []).some((t) => t.toLowerCase().includes(tagFilter));
-    const mySource = noFilter ? getCustom() : [...BUILTIN_STATIONS, ...getCustom()];
+    const mySource = curatedOnly || !noFilter
+      ? [...BUILTIN_STATIONS, ...getCustom()]
+      : getCustom();
     const myFiltered = filterStations(mySource, query).filter(tagMatch);
 
     if (myFiltered.length > 0) {
@@ -827,6 +836,14 @@ async function runQuery(): Promise<void> {
   browseOffset = 0;
   browseHasMore = false;
   browseLoadingMore = false;
+  // Curated-only mode skips the Radio Browser fetch entirely — the
+  // curated tier is local data, instant render.
+  if (curatedOnly) {
+    if (myToken !== queryToken) return;
+    lastBrowseStations = [];
+    renderContent();
+    return;
+  }
   try {
     const query = $search.value.trim();
     const tagFilter = activeTag === 'all' ? undefined : activeTag;
@@ -1191,6 +1208,14 @@ $genre.addEventListener('change', () => {
   activeTag = $genre.value || 'all';
   void runQuery();
   track(`genre/${activeTag}`);
+});
+
+$curatedToggle.addEventListener('click', () => {
+  curatedOnly = !curatedOnly;
+  $curatedToggle.setAttribute('aria-pressed', String(curatedOnly));
+  $curatedToggle.classList.toggle('is-active', curatedOnly);
+  track(`curated-only/${curatedOnly ? 'on' : 'off'}`);
+  void runQuery();
 });
 
 $searchClear.addEventListener('click', () => {

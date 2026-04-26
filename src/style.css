@@ -198,8 +198,36 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .filter-row {
   display: flex;
   align-items: center;
+  gap: 8px;
 }
 .filter-row[hidden] { display: none; }
+
+/* "Curated only" toggle — sibling of the genre dropdown. Same pill
+   geometry so the row reads as a coherent control cluster; the icon
+   swaps from outlined (off) to filled-accent (on). */
+.curated-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.curated-toggle svg { width: 16px; height: 16px; display: block; }
+.curated-toggle:hover {
+  border-color: var(--line-2);
+  color: var(--ink-2);
+}
+.curated-toggle.is-active {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(233, 182, 107, 0.10);
+}
+.curated-toggle.is-active:hover { color: var(--accent); }
 
 .filter-wrap {
   position: relative;
