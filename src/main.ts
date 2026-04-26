@@ -93,7 +93,6 @@ const $miniMeta = document.getElementById('mini-meta') as HTMLElement;
 const $miniToggle = document.getElementById('mini-toggle') as HTMLElement;
 
 const $np = document.getElementById('np') as HTMLElement;
-const $npClose = document.getElementById('np-close') as HTMLButtonElement;
 const $npName = document.getElementById('np-name') as HTMLElement;
 const $npStationLogo = document.getElementById('np-station-logo') as HTMLImageElement;
 const $npTags = document.getElementById('np-tags') as HTMLElement;
@@ -1069,7 +1068,6 @@ $miniToggle.addEventListener('click', (e) => {
   player.toggle();
 });
 
-$npClose.addEventListener('click', () => openNp(false));
 $npPlay.addEventListener('click', () => player.toggle());
 $npShare.addEventListener('click', () => void shareCurrentStation());
 $npMute.addEventListener('click', () => {

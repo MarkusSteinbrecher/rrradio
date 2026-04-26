@@ -685,13 +685,15 @@ body.tab-playing .search-wrap { display: none; }
 .np.open { transform: translateY(0); }
 
 .np-head {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   padding: 12px 18px;
   flex-shrink: 0;
   border-bottom: 1px solid var(--line);
 }
+.np-head .np-label       { grid-column: 2; }
+.np-head .np-head__right { grid-column: 3; justify-self: end; }
 .np-head .icon-btn {
   width: 36px;
   height: 36px;
