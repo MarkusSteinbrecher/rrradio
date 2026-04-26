@@ -2,6 +2,7 @@ import { BUILTIN_STATIONS, findFetcher, loadBuiltinStations } from './builtins';
 import { lookupCover } from './coverArt';
 import { MetadataPoller, icyFetcher } from './metadata';
 import { AudioPlayer, stateLabel } from './player';
+import { track } from './telemetry';
 import { pseudoFrequency } from './radioBrowser';
 import { fetchStations, searchStations } from './stations';
 import {
@@ -717,13 +718,15 @@ function onRowPlay(station: Station): void {
   }
   pushRecent(station);
   void player.play(station);
+  track(`play: ${station.name}`);
   if (activeTab === 'recent') renderContent();
   // Open Now Playing on first play of this station
   openNp(true);
 }
 
 function onToggleFav(station: Station): void {
-  toggleFavorite(station);
+  const added = toggleFavorite(station);
+  track(`${added ? 'favorite' : 'unfavorite'}: ${station.name}`);
   // Refresh affected UI bits
   if (activeTab === 'fav' || activeTab === 'browse') {
     if (activeTab === 'fav') renderContent();
@@ -806,6 +809,8 @@ function setTab(tab: Tab): void {
   renderTopBar();
   if (tab === 'browse') void runQuery();
   else if (tab !== 'playing') renderContent();
+
+  track(`tab/${tab}`);
 }
 
 function openNp(open: boolean): void {
@@ -902,6 +907,7 @@ function handleAddSubmit(e: SubmitEvent): void {
   };
 
   addCustom(station);
+  track('add-custom-station');
   $addForm.reset();
   $addError.hidden = true;
   openAddSheet(false);
@@ -995,7 +1001,13 @@ $tabbar.addEventListener('click', (e) => {
 });
 
 $search.addEventListener('input', () => syncSearchClear());
-$search.addEventListener('input', debounce(() => void runQuery(), 300));
+$search.addEventListener(
+  'input',
+  debounce(() => {
+    void runQuery();
+    if ($search.value.trim()) track('search');
+  }, 300),
+);
 
 $genre.addEventListener('change', () => {
   activeTag = $genre.value || 'all';

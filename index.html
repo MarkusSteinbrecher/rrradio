@@ -9,6 +9,23 @@
     <meta name="apple-mobile-web-app-title" content="rrradio" />
     <title>rrradio</title>
     <link rel="stylesheet" href="/src/style.css" />
+
+    <!-- GoatCounter analytics: replace YOUR-CODE with the subdomain you
+         picked at https://www.goatcounter.com/. Loads only on the
+         deployed host so localhost dev traffic doesn't pollute stats.
+         Leaving the placeholder in place is harmless — the counter URL
+         404s and no events get recorded. -->
+    <script>
+      (function () {
+        var h = window.location.hostname;
+        if (h === 'localhost' || h === '127.0.0.1' || h === '') return;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = '//gc.zgo.at/count.js';
+        s.setAttribute('data-goatcounter', 'https://YOUR-CODE.goatcounter.com/count');
+        document.head.appendChild(s);
+      })();
+    </script>
   </head>
   <body>
     <div class="app">
