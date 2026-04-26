@@ -66,11 +66,14 @@ function corsHeaders(origin: string, allowed: string): Record<string, string> {
 }
 
 function jsonResponse(body: unknown, status: number, headers: Record<string, string>): Response {
+  // Cache only successful responses; errors should be retryable
+  // immediately, not pinned at the edge for 5 minutes.
+  const cacheControl = status >= 200 && status < 400 ? `public, max-age=${CACHE_TTL_S}` : 'no-store';
   return new Response(JSON.stringify(body, null, 2), {
     status,
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
-      'Cache-Control': `public, max-age=${CACHE_TTL_S}`,
+      'Cache-Control': cacheControl,
       ...headers,
     },
   });
@@ -85,7 +88,15 @@ async function gcFetch<T>(path: string, env: Env): Promise<T> {
     },
   });
   if (!res.ok) {
-    throw new Error(`gc ${path}: ${res.status} ${res.statusText}`);
+    // Surface the upstream body (truncated) so the dashboard / wrangler-tail
+    // shows what GoatCounter actually said, instead of an opaque 502.
+    let detail = '';
+    try {
+      detail = (await res.text()).slice(0, 240);
+    } catch {
+      /* ignore */
+    }
+    throw new Error(`gc ${path}: ${res.status} ${res.statusText} ${detail}`);
   }
   return (await res.json()) as T;
 }
