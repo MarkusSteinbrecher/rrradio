@@ -54,6 +54,7 @@ export interface SearchParams {
   tag?: string;
   countrycode?: string;
   limit?: number;
+  offset?: number;
   order?: 'votes' | 'clickcount' | 'name' | 'lastcheckok';
   reverse?: boolean;
   hidebroken?: boolean;

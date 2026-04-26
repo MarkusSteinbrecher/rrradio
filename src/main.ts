@@ -4,7 +4,7 @@ import { MetadataPoller, icyFetcher } from './metadata';
 import { AudioPlayer, stateLabel } from './player';
 import { track } from './telemetry';
 import { pseudoFrequency } from './radioBrowser';
-import { fetchStations, searchStations } from './stations';
+import { PAGE_SIZE, fetchStations, searchStations } from './stations';
 import {
   addCustom,
   getCustom,
@@ -147,6 +147,12 @@ let currentNP: NowPlaying = {
   state: 'idle',
 };
 let lastBrowseStations: Station[] = [];
+// Browse pagination state — Radio Browser pages 60 stations at a
+// time. We refetch from offset 0 whenever the query/tag filter
+// changes; "Load more" appends the next page.
+let browseOffset = 0;
+let browseHasMore = false;
+let browseLoadingMore = false;
 
 // ─────────────────────────────────────────────────────────────
 // SVG factories — a small set of inline icons
@@ -757,6 +763,7 @@ function renderContent(): void {
       const label = query ? 'Results' : tagFilter ?? 'Curated';
       $content.append(sectionLabel(label, lastBrowseStations.length));
       $content.append(renderRows(lastBrowseStations));
+      if (browseHasMore) $content.append(loadMoreButton());
     } else if (myFiltered.length === 0 && !noFilter) {
       $content.append(emptyState(ICON_EMPTY, 'No stations match', 'Try a different search or genre'));
     }
@@ -816,14 +823,19 @@ async function runQuery(): Promise<void> {
   }
   const myToken = ++queryToken;
   $content.replaceChildren(statusLine('Tuning in…'));
+  // Filter changed → page resets.
+  browseOffset = 0;
+  browseHasMore = false;
+  browseLoadingMore = false;
   try {
     const query = $search.value.trim();
     const tagFilter = activeTag === 'all' ? undefined : activeTag;
     const stations = query || tagFilter
-      ? await searchStations({ query: query || undefined, tag: tagFilter })
-      : await fetchStations();
+      ? await searchStations({ query: query || undefined, tag: tagFilter, offset: 0 })
+      : await fetchStations(0);
     if (myToken !== queryToken) return;
     lastBrowseStations = stations;
+    browseHasMore = stations.length === PAGE_SIZE;
     renderContent();
   } catch (err) {
     if (myToken !== queryToken) return;
@@ -832,6 +844,44 @@ async function runQuery(): Promise<void> {
       statusLine(`Off air · ${err instanceof Error ? err.message : String(err)}`),
     );
   }
+}
+
+async function loadMore(): Promise<void> {
+  if (browseLoadingMore || !browseHasMore || activeTab !== 'browse') return;
+  browseLoadingMore = true;
+  renderContent(); // flips the button into a "Loading…" state
+  const myToken = queryToken;
+  const nextOffset = browseOffset + PAGE_SIZE;
+  try {
+    const query = $search.value.trim();
+    const tagFilter = activeTag === 'all' ? undefined : activeTag;
+    const more = query || tagFilter
+      ? await searchStations({ query: query || undefined, tag: tagFilter, offset: nextOffset })
+      : await fetchStations(nextOffset);
+    if (myToken !== queryToken) return;
+    // Radio Browser sometimes returns duplicates across page boundaries
+    // (when records shift between requests). De-dupe by id.
+    const seen = new Set(lastBrowseStations.map((s) => s.id));
+    const fresh = more.filter((s) => !seen.has(s.id));
+    lastBrowseStations = lastBrowseStations.concat(fresh);
+    browseOffset = nextOffset;
+    browseHasMore = more.length === PAGE_SIZE;
+  } catch {
+    browseHasMore = false;
+  } finally {
+    browseLoadingMore = false;
+    renderContent();
+  }
+}
+
+function loadMoreButton(): HTMLButtonElement {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'load-more';
+  btn.disabled = browseLoadingMore;
+  btn.textContent = browseLoadingMore ? 'Loading…' : 'Load more';
+  btn.addEventListener('click', () => void loadMore());
+  return btn;
 }
 
 // ─────────────────────────────────────────────────────────────
