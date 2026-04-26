@@ -24,6 +24,7 @@
 # bundled public/stations.json.
 
 - id: builtin-grrif
+  geo: [47.3656, 7.3434]
   broadcaster: grrif
   name: Grrif
   streamUrl: https://grrif.ice.infomaniak.ch/grrif-128.aac
@@ -37,6 +38,7 @@
   featured: true
 
 - id: builtin-fm4
+  geo: [48.1777, 16.2878]
   broadcaster: orf
   name: FM4
   streamUrl: https://orf-live.ors-shoutcast.at/fm4-q2a
@@ -51,6 +53,7 @@
   featured: true
 
 - id: builtin-br-bayern1
+  geo: [48.1351, 11.582]
   broadcaster: br
   name: Bayern 1
   streamUrl: https://mcdn.hf.br.de/br/hf/b1obb/master.m3u8
@@ -69,6 +72,7 @@
 # research them. Examples kept here as placeholders — not emitted.)
 
 - id: tbd-orf-oe1
+  geo: [48.1777, 16.2878]
   broadcaster: orf
   name: Ö1
   streamUrl: https://orf-live.ors-shoutcast.at/oe1-q2a
@@ -78,7 +82,8 @@
 
 # Auto-imported from Radio Browser (2026-04-26)
 - id: rb-bbc-world-service
-  broadcaster: independent
+  geo: [51.5174, -0.1278]
+  broadcaster: bbc
   name: BBC World Service
   streamUrl: https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_east_asia
   bitrate: 56
@@ -95,6 +100,7 @@
 # broadcaster's metadata API is wired in src/builtins.ts.
 
 - id: br-bayern-2
+  geo: [48.1351, 11.582]
   broadcaster: br
   name: Bayern 2
   streamUrl: https://dispatcher.rndfnk.com/br/br2/live/mp3/mid
@@ -106,6 +112,7 @@
   status: stream-only
 
 - id: br-br-heimat
+  geo: [48.1351, 11.582]
   broadcaster: br
   name: BR Heimat
   streamUrl: https://dispatcher.rndfnk.com/br/brheimat/live/mp3/mid
@@ -117,6 +124,7 @@
   status: stream-only
 
 - id: br-br-schlager
+  geo: [48.1351, 11.582]
   broadcaster: br
   name: BR Schlager
   streamUrl: https://dispatcher.rndfnk.com/br/brschlager/live/mp3/mid
@@ -128,6 +136,7 @@
   status: stream-only
 
 - id: br-br24
+  geo: [48.1351, 11.582]
   broadcaster: br
   name: BR24
   streamUrl: https://dispatcher.rndfnk.com/br/br24/live/mp3/mid
@@ -139,6 +148,7 @@
   status: stream-only
 
 - id: wdr-1live
+  geo: [50.9404, 6.9571]
   broadcaster: wdr
   name: 1Live
   streamUrl: https://wdr-1live-live.icecastssl.wdr.de/wdr/1live/live/mp3/128/stream.mp3
@@ -150,6 +160,7 @@
   status: stream-only
 
 - id: wdr-1live-diggi
+  geo: [50.9375, 6.9603]
   broadcaster: wdr
   name: 1Live Diggi
   streamUrl: https://wdr-1live-diggi.icecastssl.wdr.de/wdr/1live/diggi/mp3/128/stream.mp3
@@ -160,6 +171,7 @@
   status: stream-only
 
 - id: wdr-wdr-2
+  geo: [51.3563, 6.7302]
   broadcaster: wdr
   name: WDR 2
   streamUrl: https://wdr-wdr2-rheinruhr.icecastssl.wdr.de/wdr/wdr2/rheinruhr/mp3/128/stream.mp3
@@ -169,6 +181,7 @@
   status: stream-only
 
 - id: wdr-wdr-4
+  geo: [51.0469, 10.1953]
   broadcaster: wdr
   name: WDR 4
   streamUrl: https://wdr-wdr4-live.icecastssl.wdr.de/wdr/wdr4/live/mp3/128/stream.mp3
@@ -180,6 +193,7 @@
   status: stream-only
 
 - id: wdr-wdr-5
+  geo: [50.9398, 6.9514]
   broadcaster: wdr
   name: WDR 5
   streamUrl: https://wdr-wdr5-live.icecastssl.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3
@@ -191,6 +205,7 @@
   status: stream-only
 
 - id: wdr-die-maus
+  geo: [50.9375, 6.9603]
   broadcaster: wdr
   name: Die Maus
   streamUrl: https://wdr-diemaus-live.icecastssl.wdr.de/wdr/diemaus/live/mp3/128/stream.mp3
@@ -202,6 +217,7 @@
   status: stream-only
 
 - id: ndr-ndr-90-3
+  geo: [53.5511, 9.9937]
   broadcaster: ndr
   name: "NDR 90,3"
   streamUrl: https://icecast.ndr.de/ndr/ndr903/hamburg/mp3/128/stream.mp3?1728425642817&aggregator=web
@@ -213,6 +229,7 @@
   status: stream-only
 
 - id: ndr-ndr-2
+  geo: [53.5511, 9.9937]
   broadcaster: ndr
   name: NDR 2
   streamUrl: https://icecast.ndr.de/ndr/ndr2/niedersachsen/mp3/128/stream.mp3
@@ -224,6 +241,7 @@
   status: stream-only
 
 - id: ndr-ndr-kultur
+  geo: [53.5511, 9.9937]
   broadcaster: ndr
   name: NDR Kultur
   streamUrl: https://icecast.ndr.de/ndr/ndrkultur/live/mp3/128/stream.mp3?1728425224079&aggregator=web
@@ -235,6 +253,7 @@
   status: stream-only
 
 - id: ndr-ndr-1-niedersachsen
+  geo: [52.2709, 10.5301]
   broadcaster: ndr
   name: NDR 1 Niedersachsen
   streamUrl: https://icecast.ndr.de/ndr/ndr1niedersachsen/hannover/mp3/128/stream.mp3?1728424471708&aggregator=web
@@ -246,6 +265,7 @@
   status: stream-only
 
 - id: ndr-ndr-1-welle-nord
+  geo: [53.865, 10.6868]
   broadcaster: ndr
   name: NDR 1 Welle Nord
   streamUrl: https://icecast.ndr.de/ndr/ndr1wellenord/kiel/mp3/128/stream.mp3?1728424684403&aggregator=web
@@ -257,6 +277,7 @@
   status: stream-only
 
 - id: ndr-n-joy
+  geo: [53.5649, 10.0305]
   broadcaster: ndr
   name: N-JOY
   streamUrl: https://icecast.ndr.de/ndr/njoy/live/mp3/128/stream.mp3
@@ -268,6 +289,7 @@
   status: stream-only
 
 - id: ndr-ndr-schlager
+  geo: [53.5511, 9.9937]
   broadcaster: ndr
   name: NDR Schlager
   streamUrl: https://icecast.ndr.de/ndr/ndrschlager/live/mp3/128/stream.mp3?1728425971529&aggregator=web
@@ -279,6 +301,7 @@
   status: stream-only
 
 - id: mdr-mdr-sachsen
+  geo: [51.3162, 12.3859]
   broadcaster: mdr
   name: MDR Sachsen
   streamUrl: https://mdr-radio-hls.akamaized.net/hls/live/2112890/mdr-284280-3-hls/index.m3u8
@@ -290,6 +313,7 @@
   status: stream-only
 
 - id: mdr-mdr-thuringen
+  geo: [50.8805, 12.08]
   broadcaster: mdr
   name: MDR Thüringen
   streamUrl: https://mdr-radio-hls.akamaized.net/hls/live/2112899/mdr-284300-1-hls/index.m3u8
@@ -301,6 +325,7 @@
   status: stream-only
 
 - id: mdr-mdr-schlagerwelt
+  geo: [50.9622, 10.9957]
   broadcaster: mdr
   name: MDR Schlagerwelt
   streamUrl: https://mdr-radio-hls.akamaized.net/hls/live/2112911/mdr-990701-0-hls/index.m3u8
@@ -312,6 +337,7 @@
   status: stream-only
 
 - id: swr-swr1-baden-wurttemberg
+  geo: [48.788, 9.1379]
   broadcaster: swr
   name: SWR1 Baden-Württemberg
   streamUrl: https://liveradio.swr.de/sw282p3/swr1bw/play.mp3
@@ -322,6 +348,7 @@
   status: stream-only
 
 - id: swr-swr1-rheinland-pfalz
+  geo: [50.0051, 8.2947]
   broadcaster: swr
   name: SWR1 Rheinland-Pfalz
   streamUrl: https://liveradio.swr.de/sw282p3/swr1rp/play.mp3
@@ -332,6 +359,7 @@
   status: stream-only
 
 - id: swr-swr3
+  geo: [48.7496, 8.2257]
   broadcaster: swr
   name: SWR3
   streamUrl: https://liveradio.swr.de/sw282p3/swr3/play.mp3
@@ -343,6 +371,7 @@
   status: stream-only
 
 - id: swr-swr4-baden-wurttemberg
+  geo: [48.7758, 9.1829]
   broadcaster: swr
   name: SWR4 Baden-Württemberg
   streamUrl: https://liveradio.swr.de/sw890cl/swr4bw/
@@ -354,6 +383,7 @@
   status: stream-only
 
 - id: swr-dasding
+  geo: [48.7571, 8.2448]
   broadcaster: swr
   name: DASDING
   streamUrl: https://liveradio.swr.de/d9zadj3/dasding/
@@ -365,6 +395,7 @@
   status: stream-only
 
 - id: swr-swr-aktuell
+  geo: [48.7931, 9.2038]
   broadcaster: swr
   name: SWR Aktuell
   streamUrl: https://liveradio.swr.de/sw282p3/swraktuell/play.aac
@@ -376,6 +407,7 @@
   status: stream-only
 
 - id: hr-hr1
+  geo: [50.1037, 8.6462]
   broadcaster: hr
   name: hr1
   streamUrl: https://dispatcher.rndfnk.com/hr/hr1/live/mp3/high
@@ -387,6 +419,7 @@
   status: stream-only
 
 - id: hr-hr2
+  geo: [50.1109, 8.6821]
   broadcaster: hr
   name: hr2
   streamUrl: https://hlshr2.akamaized.net/hls/live/2016534/hr2/master.m3u8
@@ -398,6 +431,7 @@
   status: stream-only
 
 - id: hr-hr3
+  geo: [50.1126, 8.6831]
   broadcaster: hr
   name: hr3
   streamUrl: https://dispatcher.rndfnk.com/hr/hr3/live/mp3/high
@@ -408,6 +442,7 @@
   status: stream-only
 
 - id: hr-hr4
+  geo: [50.5828, 8.6723]
   broadcaster: hr
   name: hr4
   streamUrl: https://dispatcher.rndfnk.com/hr/hr4/live/mp3/high
@@ -418,6 +453,7 @@
   status: stream-only
 
 - id: rbb-fritz
+  geo: [52.5102, 13.3965]
   broadcaster: rbb
   name: Fritz
   streamUrl: https://dispatcher.rndfnk.com/rbb/fritz/live/mp3/mid
@@ -429,6 +465,7 @@
   status: stream-only
 
 - id: rb-bremen-eins
+  geo: [53.0386, 8.822]
   broadcaster: rb
   name: Bremen Eins
   streamUrl: https://icecast.radiobremen.de/rb/bremeneins/live/mp3/128/stream.mp3?aggregator=surfmusik-de
@@ -439,6 +476,7 @@
   status: stream-only
 
 - id: rb-bremen-zwei
+  geo: [53.0791, 8.8055]
   broadcaster: rb
   name: Bremen Zwei
   streamUrl: https://icecast.radiobremen.de/rb/bremenzwei/live/mp3/128/stream.mp3
@@ -450,6 +488,7 @@
   status: stream-only
 
 - id: rb-bremen-vier
+  geo: [53.0795, 8.8055]
   broadcaster: rb
   name: Bremen Vier
   streamUrl: https://icecast.radiobremen.de/rb/bremenvier/live/mp3/128/stream.mp3
@@ -459,6 +498,7 @@
   status: stream-only
 
 - id: rb-bremen-next
+  geo: [53.0793, 8.8017]
   broadcaster: rb
   name: Bremen NEXT
   streamUrl: https://icecast.radiobremen.de/rb/bremennext/live/mp3/128/stream.mp3
@@ -470,6 +510,7 @@
   status: stream-only
 
 - id: dlf-deutschlandfunk
+  geo: [52.4803, 13.3348]
   broadcaster: dlf
   name: Deutschlandfunk
   streamUrl: https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web
@@ -481,6 +522,7 @@
   status: stream-only
 
 - id: dlf-deutschlandfunk-kultur
+  geo: [52.4803, 13.3348]
   broadcaster: dlf
   name: Deutschlandfunk Kultur
   streamUrl: https://st02.sslstream.dlf.de/dlf/02/128/mp3/stream.mp3?aggregator=web
@@ -492,6 +534,7 @@
   status: stream-only
 
 - id: dlf-deutschlandfunk-nova
+  geo: [52.4803, 13.3348]
   broadcaster: dlf
   name: Deutschlandfunk Nova
   streamUrl: https://st03.sslstream.dlf.de/dlf/03/high/aac/stream.aac?aggregator=web
@@ -507,6 +550,7 @@
 # logo curated from Frisky's S3-hosted favicon.
 
 - id: frisky-main
+  geo: [40.7307, -74.0776]
   broadcaster: frisky
   name: Frisky
   streamUrl: https://stream.frisky.friskyradio.com/frisky_mp3_high
@@ -518,6 +562,7 @@
   status: icy-only
 
 - id: frisky-classics
+  geo: [40.7307, -74.0776]
   broadcaster: frisky
   name: Frisky Classics
   streamUrl: https://stream.classics.friskyradio.com/classics_mp3_high
@@ -529,6 +574,7 @@
   status: icy-only
 
 - id: frisky-chill
+  geo: [43.6532, -79.3832]
   broadcaster: frisky
   name: Frisky Chill
   streamUrl: https://stream.chill.friskyradio.com/chill_mp3_high
@@ -540,6 +586,7 @@
   status: icy-only
 
 - id: frisky-deep
+  geo: [40.7162, -74.0339]
   broadcaster: frisky
   name: Frisky Deep
   streamUrl: https://stream.deep.friskyradio.com/deep_mp3_high
