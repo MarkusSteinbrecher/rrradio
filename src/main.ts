@@ -775,6 +775,123 @@ function playedStations(): Station[] {
   return ordered.slice(0, PLAYED_TOTAL_LIMIT);
 }
 
+// World-map SVG, loaded once at boot. Wikimedia "low resolution" world
+// map — ~75 KB stripped of inkscape metadata. The viewBox is 950×620
+// (close to equirectangular, slight vertical compression we live with).
+let worldSvgText: string | null = null;
+let worldSvgFetched = false;
+async function loadWorldSvg(): Promise<void> {
+  if (worldSvgFetched) return;
+  worldSvgFetched = true;
+  try {
+    const res = await fetch(`${import.meta.env.BASE_URL}world-map.svg`, { cache: 'no-store' });
+    if (!res.ok) return;
+    worldSvgText = await res.text();
+    if (activeTab === 'browse') renderContent();
+  } catch {
+    /* silent: globe falls back to list */
+  }
+}
+
+/** Equirectangular projection onto the world-map.svg viewBox. The
+ *  source isn't strictly equirectangular but close enough at this
+ *  scale; pins land within a few pixels of the right city. */
+function projectLatLon(lat: number, lon: number): { x: number; y: number } {
+  return {
+    x: ((lon + 180) / 360) * 950,
+    y: ((90 - lat) / 180) * 620,
+  };
+}
+
+let selectedClusterKey: string | null = null;
+
+function renderGlobe(stations: Station[]): HTMLElement {
+  const wrap = document.createElement('section');
+  wrap.className = 'globe-wrap';
+  if (!worldSvgText) {
+    wrap.innerHTML = '<div class="empty"><div class="s">Loading map…</div></div>';
+    return wrap;
+  }
+  // Inject the source SVG, then add pin <g> children to it.
+  wrap.innerHTML = worldSvgText;
+  const svg = wrap.querySelector('svg');
+  if (!svg) return wrap;
+  svg.classList.add('world-map');
+  svg.removeAttribute('width');
+  svg.removeAttribute('height');
+
+  // Cluster stations by coords (rounded to 0.1° ≈ 11km — keeps
+  // multiple regional channels at the same broadcaster from stacking).
+  const clusters = new Map<string, Station[]>();
+  for (const s of stations) {
+    if (!s.geo) continue;
+    const key = `${Math.round(s.geo[0] * 10)},${Math.round(s.geo[1] * 10)}`;
+    const arr = clusters.get(key) ?? [];
+    arr.push(s);
+    clusters.set(key, arr);
+  }
+
+  for (const [key, group] of clusters) {
+    const first = group[0];
+    if (!first.geo) continue;
+    const { x, y } = projectLatLon(first.geo[0], first.geo[1]);
+    const pin = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    pin.setAttribute('class', 'pin' + (selectedClusterKey === key ? ' is-selected' : ''));
+    pin.setAttribute('transform', `translate(${x},${y})`);
+    pin.setAttribute('role', 'button');
+    pin.setAttribute(
+      'aria-label',
+      group.length === 1 ? group[0].name : `${group.length} stations`,
+    );
+    pin.style.cursor = 'pointer';
+
+    const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    halo.setAttribute('r', '12');
+    halo.setAttribute('class', 'pin-halo');
+    pin.appendChild(halo);
+
+    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    dot.setAttribute('r', group.length > 1 ? '8' : '5');
+    dot.setAttribute('class', 'pin-dot');
+    pin.appendChild(dot);
+
+    if (group.length > 1) {
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      text.setAttribute('text-anchor', 'middle');
+      text.setAttribute('dominant-baseline', 'central');
+      text.setAttribute('class', 'pin-count');
+      text.textContent = String(group.length);
+      pin.appendChild(text);
+    }
+
+    pin.addEventListener('click', () => {
+      if (group.length === 1) {
+        onRowPlay(group[0]);
+      } else {
+        selectedClusterKey = selectedClusterKey === key ? null : key;
+        renderContent();
+      }
+    });
+
+    svg.appendChild(pin);
+  }
+
+  // Below-globe panel: shown when a multi-station cluster is selected.
+  const selected = selectedClusterKey ? clusters.get(selectedClusterKey) : undefined;
+  if (selected && selected.length > 1) {
+    const panel = document.createElement('div');
+    panel.className = 'globe-cluster-panel';
+    const label = document.createElement('div');
+    label.className = 'globe-cluster-panel__label';
+    label.textContent = `${selected.length} stations here`;
+    panel.append(label);
+    panel.append(renderRows(selected));
+    wrap.append(panel);
+  }
+
+  return wrap;
+}
+
 // Site visit counter (footer of Browse). Pulled from GoatCounter's
 // public counter endpoint — no auth, edge-cached 30 min by GC. We
 // fetch once per page load and remember the value for re-renders.
@@ -883,37 +1000,28 @@ function renderContent(): void {
     //   curated-only   → top 3 played-and-curated as featured + every
     //                    other curated station below, regardless of plays
     if (noFilter) {
+      // Pick the station set based on current mode:
+      //   curated-only → all built-ins (popularity order, then YAML order)
+      //   most played  → top 20 played
+      let stations: Station[];
       if (curatedOnly) {
-        // Filter played list to only built-ins (drops backlog-only
-        // entries that aren't in the YAML catalog).
         const playedCurated = playedStations().filter((s) => isBuiltin(s.id));
-        const featured = playedCurated.slice(0, PLAYED_FEATURED_LIMIT);
-        const seen = new Set(featured.map((s) => s.id));
-        // Below the strip: remaining played-curated first (preserves
-        // popularity order for the head of the list), then any built-in
-        // not yet shown — so the user sees the full curated tier.
-        const rest: Station[] = [];
-        for (const s of playedCurated.slice(PLAYED_FEATURED_LIMIT)) {
-          if (!seen.has(s.id)) { rest.push(s); seen.add(s.id); }
-        }
-        for (const s of BUILTIN_STATIONS) {
-          if (!seen.has(s.id)) { rest.push(s); seen.add(s.id); }
-        }
-        if (featured.length > 0) $content.append(renderFeatured(featured));
-        if (rest.length > 0) {
-          $content.append(sectionLabel('Curated', rest.length));
-          $content.append(renderRows(rest));
-        }
+        const seen = new Set(playedCurated.map((s) => s.id));
+        const tail: Station[] = [];
+        for (const s of BUILTIN_STATIONS) if (!seen.has(s.id)) tail.push(s);
+        stations = [...playedCurated, ...tail];
       } else {
-        const played = playedStations();
-        const featured = played.slice(0, PLAYED_FEATURED_LIMIT);
-        const rest = played.slice(PLAYED_FEATURED_LIMIT, PLAYED_TOTAL_LIMIT);
-        if (featured.length > 0) $content.append(renderFeatured(featured));
-        if (rest.length > 0) {
-          $content.append(sectionLabel('Most played', rest.length));
-          $content.append(renderRows(rest));
-        }
+        stations = playedStations().slice(0, PLAYED_TOTAL_LIMIT);
       }
+
+      const featured = stations.slice(0, PLAYED_FEATURED_LIMIT);
+      if (featured.length > 0) $content.append(renderFeatured(featured));
+
+      // Globe replaces the list section. Pins draw from the FULL set
+      // (including the featured ones), so the user can see the entire
+      // catalog geography at a glance — not just ranks 4-N.
+      $content.append(renderGlobe(stations));
+
       const counter = siteCounter();
       if (counter) $content.append(counter);
       return;
@@ -1383,6 +1491,7 @@ $search.addEventListener(
 $genre.addEventListener('change', () => {
   activeTag = $genre.value || 'all';
   syncGenre();
+  selectedClusterKey = null;
   void runQuery();
   track(`genre/${activeTag}`);
 });
@@ -1390,6 +1499,7 @@ $genre.addEventListener('change', () => {
 $country.addEventListener('change', () => {
   activeCountry = $country.value || 'all';
   syncCountry();
+  selectedClusterKey = null;
   void runQuery();
   track(`country/${activeCountry}`);
 });
@@ -1401,6 +1511,7 @@ function setMode(curated: boolean): void {
   $curatedToggle.setAttribute('aria-pressed', String(curated));
   $modePlayed.classList.toggle('is-active', !curated);
   $modePlayed.setAttribute('aria-pressed', String(!curated));
+  selectedClusterKey = null;
   track(`mode/${curated ? 'curated' : 'most-played'}`);
   void runQuery();
 }
@@ -1532,3 +1643,4 @@ void runQuery();
 void loadSiteVisits();
 void loadTopStations();
 void loadBacklog();
+void loadWorldSvg();
