@@ -1,8 +1,31 @@
 # Internet Radio
 
-A static internet radio web app; work in progress. 
+A static internet radio web app; work in progress.
 
 See [`CLAUDE.md`](./CLAUDE.md) for full project context.
+
+## Where the stations come from
+
+There are two catalogs, with very different roles:
+
+1. **Curated catalog** — `data/stations.yaml`, hand-edited and auto-grown
+   via the catalog-watch workflow. Ships bundled with the deploy as
+   `public/stations.json`. Stations here have been probed, get a logo,
+   and (when relevant) a per-broadcaster metadata fetcher in
+   `src/builtins.ts`. Rows for these stations show a small accent star
+   in the UI as a quality mark.
+2. **Long-tail** — fetched live from [Radio Browser]
+   (https://api.radio-browser.info), a free, community-edited catalog
+   with ~50,000 stations. CORS-enabled, no auth, multiple mirrors.
+   Powers search results and tag filters. Nothing about this list is
+   stored locally — every search hits the API.
+
+The bridge between the two: when visitors press play on a long-tail
+Radio Browser station, GoatCounter logs a `play: <name>` event. The
+weekly catalog-watch workflow reads those, looks the popular ones up
+on Radio Browser to harvest stream URL + tags + favicon, probes the
+stream, and opens a PR adding YAML stubs at `status: stream-only`.
+Merging the PR promotes them into the curated catalog.
 
 ## Quick start
 

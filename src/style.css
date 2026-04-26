@@ -457,14 +457,6 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   flex-shrink: 0;
 }
 
-.row-freq {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--ink-3);
-  letter-spacing: 0.02em;
-  font-variant-numeric: tabular-nums;
-}
-.row.is-playing .row-freq { display: none; }
 .row .eq { display: none; }
 .row.is-playing .eq { display: inline-flex; }
 
@@ -485,6 +477,21 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .heart.is-fav .heart--line { display: none; }
 .heart.is-fav .heart--fill { display: block; }
 .heart:active { transform: scale(0.85); }
+
+/* "Curated" badge — flags rows whose station lives in data/stations.yaml
+   (i.e. we've vetted the stream + bundled it with the deploy). Sits left
+   of the heart, intentionally small + tinted with the accent so it reads
+   as a quality mark rather than another tappable control. */
+.curated-badge {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  margin-right: 2px;
+  color: var(--accent);
+  opacity: 0.85;
+}
+.curated-badge svg { width: 14px; height: 14px; display: block; }
 
 /* ─── EQ bars (4-bar, used in rows + mini) ─── */
 .eq {

@@ -1,4 +1,4 @@
-import { BUILTIN_STATIONS, findFetcher, loadBuiltinStations } from './builtins';
+import { BUILTIN_STATIONS, findFetcher, isBuiltin, loadBuiltinStations } from './builtins';
 import { lookupCover } from './coverArt';
 import { MetadataPoller, icyFetcher } from './metadata';
 import { AudioPlayer, stateLabel } from './player';
@@ -270,6 +270,19 @@ function buildHeart(isFav: boolean): HTMLButtonElement {
   return btn;
 }
 
+// Small "curated" star, shown to the left of the heart on rows for
+// stations that live in our YAML catalog. Static indicator (not a
+// button) — its only job is to tell users "this one we vouch for."
+function buildCuratedBadge(): HTMLSpanElement {
+  const span = document.createElement('span');
+  span.className = 'curated-badge';
+  span.title = 'Curated by rrradio';
+  span.setAttribute('aria-label', 'Curated');
+  span.innerHTML =
+    '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 3.5 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 17.2l-5.4 2.8 1.2-6L3.3 9.8l6.1-.7L12 3.5z"/></svg>';
+  return span;
+}
+
 function buildRow(station: Station, currentId: string, state: NowPlaying['state'], favs: Set<string>): HTMLDivElement {
   const isCurrent = !!currentId && station.id === currentId;
   const isPaused = isCurrent && state !== 'playing';
@@ -295,16 +308,15 @@ function buildRow(station: Station, currentId: string, state: NowPlaying['state'
 
   const right = document.createElement('div');
   right.className = 'row-right';
-  const freqEl = document.createElement('span');
-  freqEl.className = 'row-freq';
-  freqEl.textContent = station.frequency ?? '—';
   const eq = buildEq(isPaused);
   const heart = buildHeart(isFav);
   heart.addEventListener('click', (e) => {
     e.stopPropagation();
     onToggleFav(station);
   });
-  right.append(freqEl, eq, heart);
+  right.append(eq);
+  if (isBuiltin(station.id)) right.append(buildCuratedBadge());
+  right.append(heart);
 
   row.append(fav, info, right);
 
