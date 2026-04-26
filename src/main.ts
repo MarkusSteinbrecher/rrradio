@@ -87,6 +87,7 @@ const $wordmark = document.getElementById('wordmark') as HTMLButtonElement;
 const $search = document.getElementById('search') as HTMLInputElement;
 const $searchClear = document.getElementById('search-clear') as HTMLButtonElement;
 const $genre = document.getElementById('genre') as HTMLSelectElement;
+const $country = document.getElementById('country') as HTMLSelectElement;
 const $curatedToggle = document.getElementById('curated-toggle') as HTMLButtonElement;
 const $filterRow = document.getElementById('filter-row') as HTMLElement;
 const $tabStatus = document.getElementById('tab-status') as HTMLElement;
@@ -140,10 +141,68 @@ let activeTab: Tab = 'browse';
 /** Last list tab we were on, so closing Now Playing returns there. */
 let lastListTab: ListTab = 'browse';
 let activeTag = 'all';
+// ISO 3166-1 alpha-2 country code (uppercase) or 'all'. Filters both
+// curated matches and Radio Browser results (the API takes the same
+// 2-letter code via its `countrycode` param).
+let activeCountry = 'all';
 // When true, Browse hides Radio Browser long-tail results entirely
 // and shows only the curated catalog (built-ins + custom). Toggled
 // by the star button next to the genre filter.
 let curatedOnly = false;
+
+// 2-letter ISO code → display name. Only the codes we'd plausibly
+// see in BUILTIN_STATIONS or RB results, so the dropdown stays tight.
+const COUNTRY_NAMES: Record<string, string> = {
+  AT: 'Austria',
+  AU: 'Australia',
+  BE: 'Belgium',
+  BR: 'Brazil',
+  CA: 'Canada',
+  CH: 'Switzerland',
+  CZ: 'Czechia',
+  DE: 'Germany',
+  DK: 'Denmark',
+  ES: 'Spain',
+  FI: 'Finland',
+  FR: 'France',
+  GB: 'United Kingdom',
+  GR: 'Greece',
+  IE: 'Ireland',
+  IT: 'Italy',
+  JP: 'Japan',
+  NL: 'Netherlands',
+  NO: 'Norway',
+  PL: 'Poland',
+  PT: 'Portugal',
+  RU: 'Russia',
+  SE: 'Sweden',
+  TR: 'Turkey',
+  UA: 'Ukraine',
+  UK: 'United Kingdom',
+  US: 'United States',
+};
+
+function countryName(code: string): string {
+  return COUNTRY_NAMES[code.toUpperCase()] ?? code;
+}
+
+/** Populate the country dropdown from distinct codes in the curated
+ *  catalog. Run after stations.json loads (BUILTIN_STATIONS is empty
+ *  before that). Idempotent — skips if already populated. */
+function syncCountryOptions(): void {
+  if ($country.options.length > 1) return; // already done
+  const codes = new Set<string>();
+  for (const s of BUILTIN_STATIONS) {
+    if (s.country && s.country.length >= 2) codes.add(s.country.toUpperCase());
+  }
+  const sorted = [...codes].sort((a, b) => countryName(a).localeCompare(countryName(b)));
+  for (const code of sorted) {
+    const opt = document.createElement('option');
+    opt.value = code;
+    opt.textContent = countryName(code);
+    $country.append(opt);
+  }
+}
 let queryToken = 0;
 let sleepIndex = 0;
 let sleepTimer: number | undefined;
@@ -560,6 +619,10 @@ function syncGenre(): void {
   if ($genre.value !== activeTag) $genre.value = activeTag;
 }
 
+function syncCountry(): void {
+  if ($country.value !== activeCountry) $country.value = activeCountry;
+}
+
 function renderTabBar(): void {
   $tabbar.querySelectorAll<HTMLButtonElement>('.tab-btn').forEach((btn) => {
     btn.classList.toggle('active', btn.dataset.tab === activeTab);
@@ -807,7 +870,8 @@ function renderContent(): void {
   if (activeTab === 'browse') {
     const query = $search.value.trim();
     const tagFilter = activeTag === 'all' ? undefined : activeTag;
-    const noFilter = !query && !tagFilter;
+    const countryFilter = activeCountry === 'all' ? undefined : activeCountry.toUpperCase();
+    const noFilter = !query && !tagFilter && !countryFilter;
 
     // Unfiltered home view. Two modes:
     //   default        → top 3 featured + ranks 4–10 as a list (10 most
@@ -851,12 +915,14 @@ function renderContent(): void {
       return;
     }
 
-    // Filtered view (search or genre): show built-ins + custom matches
-    // first ("My stations"), then Radio Browser long-tail results.
+    // Filtered view (search / genre / country): built-ins + custom
+    // matches first ("My stations"), then Radio Browser long-tail.
     const tagMatch = (s: Station): boolean =>
       !tagFilter || (s.tags ?? []).some((t) => t.toLowerCase().includes(tagFilter));
+    const countryMatch = (s: Station): boolean =>
+      !countryFilter || (s.country ?? '').toUpperCase() === countryFilter;
     const mySource = [...BUILTIN_STATIONS, ...getCustom()];
-    const myFiltered = filterStations(mySource, query).filter(tagMatch);
+    const myFiltered = filterStations(mySource, query).filter(tagMatch).filter(countryMatch);
 
     if (myFiltered.length > 0) {
       $content.append(sectionLabel('My stations', myFiltered.length));
@@ -931,7 +997,8 @@ async function runQuery(): Promise<void> {
   browseLoadingMore = false;
   const query = $search.value.trim();
   const tagFilter = activeTag === 'all' ? undefined : activeTag;
-  const noFilter = !query && !tagFilter;
+  const countryFilter = activeCountry === 'all' ? undefined : activeCountry;
+  const noFilter = !query && !tagFilter && !countryFilter;
   // Unfiltered home view is backed by GoatCounter top-played + the
   // station-backlog cache — no Radio Browser fetch needed.
   // Curated-only mode also skips it (local YAML is instant).
@@ -946,6 +1013,7 @@ async function runQuery(): Promise<void> {
     const stations = await searchStations({
       query: query || undefined,
       tag: tagFilter,
+      countryCode: countryFilter,
       offset: 0,
     });
     if (myToken !== queryToken) return;
@@ -1071,10 +1139,16 @@ function clearSearch(refocus: boolean): void {
 function goHome(): void {
   // Close Now Playing if open, then reset Browse to its initial state
   if ($np.classList.contains('open')) openNp(false);
-  const wasBrowseDefault = activeTab === 'browse' && activeTag === 'all' && $search.value === '';
+  const wasBrowseDefault =
+    activeTab === 'browse' &&
+    activeTag === 'all' &&
+    activeCountry === 'all' &&
+    $search.value === '';
   clearSearch(false);
   activeTag = 'all';
+  activeCountry = 'all';
   syncGenre();
+  syncCountry();
   if (activeTab !== 'browse') {
     setTab('browse'); // setTab also runs the query
   } else if (!wasBrowseDefault) {
@@ -1308,6 +1382,12 @@ $genre.addEventListener('change', () => {
   track(`genre/${activeTag}`);
 });
 
+$country.addEventListener('change', () => {
+  activeCountry = $country.value || 'all';
+  void runQuery();
+  track(`country/${activeCountry}`);
+});
+
 $curatedToggle.addEventListener('click', () => {
   curatedOnly = !curatedOnly;
   $curatedToggle.setAttribute('aria-pressed', String(curatedOnly));
@@ -1432,6 +1512,7 @@ syncSearchClear();
 // metadata fetcher overrides). Render once it lands so the first paint
 // already has the Featured tiles.
 void loadBuiltinStations().then(() => {
+  syncCountryOptions();
   if (activeTab === 'browse') renderContent();
 });
 void runQuery();

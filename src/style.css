@@ -198,13 +198,36 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .search-clear[hidden]{ display: none; }
 .search-clear svg    { width: 13px; height: 13px; }
 
-/* ─── Genre filter dropdown ─── */
+/* ─── Filter row (curated toggle + sort chip + dropdowns) ─── */
 .filter-row {
   display: flex;
   align-items: center;
   gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  /* hide scrollbar — the scroll is implied by overflow at narrow widths */
 }
+.filter-row::-webkit-scrollbar { display: none; }
+.filter-row > * { flex-shrink: 0; }
 .filter-row[hidden] { display: none; }
+
+/* Sort chip — visual indicator of the current sort, currently fixed
+   at "most played" (default and only option). Keeps the row reading
+   as a control cluster; future-proof shape if we add other sorts. */
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--ink-2);
+  user-select: none;
+}
+.filter-chip svg { width: 14px; height: 14px; display: block; }
 
 /* "Curated only" toggle — sibling of the genre dropdown. Same pill
    geometry so the row reads as a coherent control cluster; the icon
@@ -237,8 +260,8 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 7px 32px 7px 14px;
+  gap: 8px;
+  padding: 7px 30px 7px 12px;
   border: 1px solid var(--line);
   border-radius: 999px;
   color: var(--ink-2);
@@ -249,13 +272,12 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   border-color: var(--line-2);
   color: var(--ink);
 }
-.filter-key {
-  font-family: var(--mono);
-  font-size: 9.5px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+.filter-icon {
+  width: 14px;
+  height: 14px;
+  display: block;
   color: var(--ink-3);
-  pointer-events: none;
+  flex-shrink: 0;
 }
 .filter-select {
   appearance: none;
