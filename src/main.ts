@@ -148,19 +148,19 @@ let activeTag = 'all';
 // curated matches and Radio Browser results (the API takes the same
 // 2-letter code via its `countrycode` param).
 let activeCountry = 'all';
-// When true, Browse hides Radio Browser long-tail results entirely
-// and shows only the curated catalog (built-ins + custom). Toggled
-// by the star button next to the genre filter.
-let curatedOnly = false;
+// Browse home view's source mode. Single radio set across the three
+// leftmost icon buttons: ♫ played · ★ curated · 📰 news. Tapping the
+// active button deselects to null, which falls back to RB top 50.
+//   'played'  → top 20 played (default)
+//   'curated' → all curated stations (the YAML tier)
+//   'news'    → RB top 50 with tag=news
+//   null      → RB top 50, no filter
+type BrowseMode = 'played' | 'curated' | 'news' | null;
+let browseMode: BrowseMode = 'played';
 // When true, the unfiltered home view replaces the list section
 // with the world-map globe. Default false (list view); orthogonal
 // to curatedOnly — the map can show either station set.
 let mapView = false;
-// When true, narrows results to stations tagged "news". Acts as a
-// pinned tag filter — stacks with genre/country dropdowns and the
-// search input. Promoted out of the genre dropdown into its own
-// quick-toggle since "news" is the most-asked-for genre filter.
-let newsOnly = false;
 
 // 2-letter ISO code → display name. Only the codes we'd plausibly
 // see in BUILTIN_STATIONS or RB results, so the dropdown stays tight.
@@ -1004,7 +1004,10 @@ function renderContent(): void {
     const genreTag = activeTag === 'all' ? undefined : activeTag;
     const countryFilter = activeCountry === 'all' ? undefined : activeCountry.toUpperCase();
     const noFilter = !query && !genreTag && !countryFilter;
-    const tagFilter = newsOnly ? 'news' : genreTag;
+    const tagFilter = browseMode === 'news' ? 'news' : genreTag;
+    // Map view only renders inside the home view (no genre/country/search);
+    // disable the toggle visually when it'd be a no-op.
+    $mapToggle.disabled = !noFilter;
 
     // Unfiltered home view. Two modes:
     //   default        → top 3 featured + ranks 4–10 as a list (10 most
@@ -1012,31 +1015,29 @@ function renderContent(): void {
     //   curated-only   → top 3 played-and-curated as featured + every
     //                    other curated station below, regardless of plays
     if (noFilter) {
-      // Pick the station set based on current mode:
-      //   curated-only → all built-ins (popularity order, then YAML order)
-      //   most played  → top 20 played
+      // Source set per mode:
+      //   played   → playedStations() — local, no RB
+      //   curated  → BUILTIN_STATIONS — local, no RB
+      //   news     → lastBrowseStations (RB top news, fetched in runQuery)
+      //   null     → lastBrowseStations (RB top 50, fetched in runQuery)
       let stations: Station[];
       let restLabel: string;
-      if (curatedOnly) {
+      if (browseMode === 'curated') {
         const playedCurated = playedStations().filter((s) => isBuiltin(s.id));
         const seen = new Set(playedCurated.map((s) => s.id));
         const tail: Station[] = [];
         for (const s of BUILTIN_STATIONS) if (!seen.has(s.id)) tail.push(s);
         stations = [...playedCurated, ...tail];
         restLabel = 'Curated';
-      } else {
+      } else if (browseMode === 'played') {
         stations = playedStations().slice(0, PLAYED_TOTAL_LIMIT);
         restLabel = 'Most played';
-      }
-
-      // news toggle narrows the home-view set without exiting it —
-      // a backlog-only station with no tags array gets dropped, which
-      // is the right call: news accuracy beats coverage.
-      if (newsOnly) {
-        stations = stations.filter((s) =>
-          (s.tags ?? []).some((t) => t.toLowerCase().includes('news')),
-        );
-        restLabel += ' · news';
+      } else if (browseMode === 'news') {
+        stations = lastBrowseStations;
+        restLabel = 'News';
+      } else {
+        stations = lastBrowseStations;
+        restLabel = 'Top stations';
       }
 
       const featured = stations.slice(0, PLAYED_FEATURED_LIMIT);
@@ -1044,12 +1045,14 @@ function renderContent(): void {
       if (featured.length > 0) $content.append(renderFeatured(featured));
 
       if (mapView) {
-        // Map shows pins for the FULL set (including featured) so
-        // the geographic picture isn't artificially truncated.
         $content.append(renderGlobe(stations));
       } else if (rest.length > 0) {
         $content.append(sectionLabel(restLabel, rest.length));
         $content.append(renderRows(rest));
+        // Pagination only applies when the source is RB (mode=null/news).
+        if ((browseMode === null || browseMode === 'news') && browseHasMore) {
+          $content.append(loadMoreButton());
+        }
       }
 
       const counter = siteCounter();
@@ -1140,16 +1143,15 @@ async function runQuery(): Promise<void> {
   const query = $search.value.trim();
   const genreTag = activeTag === 'all' ? undefined : activeTag;
   const countryFilter = activeCountry === 'all' ? undefined : activeCountry;
-  // News on its own stays inside the home view (so the globe + featured
-  // strip still apply, narrowed to news stations). News combined with a
-  // genre/country/query enters the filtered branch — and wins over the
-  // genre dropdown for the single-tag RB search.
   const noFilter = !query && !genreTag && !countryFilter;
-  const tagFilter = newsOnly ? 'news' : genreTag;
-  // Unfiltered home view is backed by GoatCounter top-played + the
-  // station-backlog cache — no Radio Browser fetch needed.
-  // Curated-only mode also skips it (local YAML is instant).
-  if (noFilter || curatedOnly) {
+  // News mode applies its tag to the RB call when we fetch.
+  const tagFilter = browseMode === 'news' ? 'news' : genreTag;
+  // Skip Radio Browser fetch only when mode is 'played' or 'curated'
+  // AND no filter is set — those modes use local data. Mode='news' and
+  // mode=null both need an RB fetch (top 50 stations, optionally with
+  // tag=news).
+  const needsRb = !noFilter || browseMode === null || browseMode === 'news';
+  if (!needsRb) {
     if (myToken !== queryToken) return;
     lastBrowseStations = [];
     renderContent();
@@ -1290,12 +1292,17 @@ function goHome(): void {
     activeTab === 'browse' &&
     activeTag === 'all' &&
     activeCountry === 'all' &&
-    !newsOnly &&
+    browseMode === 'played' &&
     $search.value === '';
   clearSearch(false);
   activeTag = 'all';
   activeCountry = 'all';
-  newsOnly = false;
+  // Reset to default played mode + clear visual state on the others.
+  browseMode = 'played';
+  $modePlayed.classList.add('is-active');
+  $modePlayed.setAttribute('aria-pressed', 'true');
+  $curatedToggle.classList.remove('is-active');
+  $curatedToggle.setAttribute('aria-pressed', 'false');
   $newsToggle.classList.remove('is-active');
   $newsToggle.setAttribute('aria-pressed', 'false');
   syncGenre();
@@ -1530,13 +1537,10 @@ $search.addEventListener(
 $genre.addEventListener('change', () => {
   activeTag = $genre.value || 'all';
   syncGenre();
-  // Genre + news are both tag filters → mutually exclusive. Picking
-  // a real genre clears news so the user isn't confused about which
-  // one is in effect.
-  if (activeTag !== 'all' && newsOnly) {
-    newsOnly = false;
-    $newsToggle.classList.remove('is-active');
-    $newsToggle.setAttribute('aria-pressed', 'false');
+  // Picking a genre clears news mode (single tag in effect at a time).
+  if (activeTag !== 'all' && browseMode === 'news') {
+    setBrowseMode(null);
+    return; // setBrowseMode triggers runQuery
   }
   selectedClusterKey = null;
   void runQuery();
@@ -1551,43 +1555,40 @@ $country.addEventListener('change', () => {
   track(`country/${activeCountry}`);
 });
 
-function setMode(curated: boolean): void {
-  if (curated === curatedOnly) return;
-  curatedOnly = curated;
-  $curatedToggle.classList.toggle('is-active', curated);
-  $curatedToggle.setAttribute('aria-pressed', String(curated));
-  $modePlayed.classList.toggle('is-active', !curated);
-  $modePlayed.setAttribute('aria-pressed', String(!curated));
+function setBrowseMode(target: BrowseMode): void {
+  // Toggle off when the user taps the active button.
+  const next = browseMode === target ? null : target;
+  if (next === browseMode) return;
+  browseMode = next;
+  $modePlayed.classList.toggle('is-active', browseMode === 'played');
+  $modePlayed.setAttribute('aria-pressed', String(browseMode === 'played'));
+  $curatedToggle.classList.toggle('is-active', browseMode === 'curated');
+  $curatedToggle.setAttribute('aria-pressed', String(browseMode === 'curated'));
+  $newsToggle.classList.toggle('is-active', browseMode === 'news');
+  $newsToggle.setAttribute('aria-pressed', String(browseMode === 'news'));
+  // News mode and the genre dropdown both encode a single tag filter,
+  // so they're mutually exclusive — picking news clears the genre.
+  if (browseMode === 'news' && activeTag !== 'all') {
+    activeTag = 'all';
+    syncGenre();
+  }
   selectedClusterKey = null;
-  track(`mode/${curated ? 'curated' : 'most-played'}`);
+  track(`mode/${browseMode ?? 'none'}`);
   void runQuery();
 }
 
-$curatedToggle.addEventListener('click', () => setMode(true));
-$modePlayed.addEventListener('click', () => setMode(false));
+$modePlayed.addEventListener('click', () => setBrowseMode('played'));
+$curatedToggle.addEventListener('click', () => setBrowseMode('curated'));
+$newsToggle.addEventListener('click', () => setBrowseMode('news'));
 
 $mapToggle.addEventListener('click', () => {
+  if ($mapToggle.disabled) return;
   mapView = !mapView;
   $mapToggle.classList.toggle('is-active', mapView);
   $mapToggle.setAttribute('aria-pressed', String(mapView));
   if (!mapView) selectedClusterKey = null;
   track(`map-view/${mapView ? 'on' : 'off'}`);
   renderContent();
-});
-
-$newsToggle.addEventListener('click', () => {
-  newsOnly = !newsOnly;
-  $newsToggle.classList.toggle('is-active', newsOnly);
-  $newsToggle.setAttribute('aria-pressed', String(newsOnly));
-  // Symmetric to the genre handler — turning news on resets the genre
-  // dropdown so the user has a single tag filter in effect.
-  if (newsOnly && activeTag !== 'all') {
-    activeTag = 'all';
-    syncGenre();
-  }
-  selectedClusterKey = null;
-  track(`news-only/${newsOnly ? 'on' : 'off'}`);
-  void runQuery();
 });
 
 $searchClear.addEventListener('click', () => {
