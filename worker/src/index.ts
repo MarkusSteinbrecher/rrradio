@@ -235,6 +235,34 @@ export default {
           });
         }
 
+        // Generic proxy with host allowlist. For any broadcaster API
+        // that returns useful JSON but lacks CORS (HR, possibly more
+        // later). The allowlist prevents this from becoming an open
+        // proxy. Caller passes the full URL as ?url=<encoded>.
+        if (url.pathname === '/api/public/proxy') {
+          const target = url.searchParams.get('url');
+          const ALLOW = [/^https:\/\/www\.hr[1-4]\.de\//i];
+          if (!target || !ALLOW.some((re) => re.test(target))) {
+            return jsonResponse({ error: 'host not allowed' }, 403, publicCors);
+          }
+          const r = await fetch(target, {
+            headers: {
+              'User-Agent': 'rrradio-stats/1.0 (+https://rrradio.org)',
+              Accept: 'application/json',
+            },
+          });
+          if (!r.ok) return jsonResponse({ error: 'upstream', status: r.status }, 502, publicCors);
+          const body = await r.text();
+          return new Response(body, {
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8',
+              'Cache-Control': `public, max-age=60`,
+              ...publicCors,
+            },
+          });
+        }
+
         // BBC proxy. rms.api.bbc.co.uk gates by Origin: a non-bbc.co.uk
         // origin gets 403 even though the preflight allows it. Proxy
         // here with the right origin so the browser can read the data.

@@ -76,6 +76,13 @@ hr:
   country: DE
   family: ARD
   homepage: https://www.hr.de/
+  metadata: hr
+  notes: |
+    Each HR channel publishes a radioplayer.json with the day's
+    broadcasts (no track titles — those come from ICY). No CORS, so
+    fetched via the rrradio-stats Worker proxy. metadataUrl on each
+    station holds the full radioplayer.json URL; wire-metadata
+    derives it from the channel's homepage.
 
 rbb:
   name: RBB

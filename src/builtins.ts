@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+import { icyFetcher } from './metadata';
 import type { MetadataFetcher, ScheduleBroadcast, ScheduleDay, ScheduleFetcher } from './metadata';
 import type { Station } from './types';
 
@@ -303,6 +304,95 @@ const fetchBrSchedule: ScheduleFetcher = async (station, signal) => {
 };
 
 // ============================================================
+// HR fetchers (via the worker generic proxy — HR pages return
+// useful radioplayer.json but lack CORS). metadataUrl on each HR
+// station is the full URL of its radioplayer.json.
+// ============================================================
+
+const PROXY = 'https://rrradio-stats.markussteinbrecher.workers.dev/api/public/proxy';
+
+interface HrBroadcast {
+  startTS?: number;
+  endTS?: number;
+  title?: string;
+  hosts?: { name?: string };
+  currentBroadcast?: boolean;
+}
+
+async function fetchHrJson(url: string, signal: AbortSignal): Promise<HrBroadcast[] | null> {
+  try {
+    const proxied = `${PROXY}?url=${encodeURIComponent(url)}`;
+    const res = await fetch(proxied, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as HrBroadcast[];
+    return Array.isArray(data) ? data : null;
+  } catch {
+    return null;
+  }
+}
+
+const fetchHrMetadata: MetadataFetcher = async (station, signal) => {
+  const url = station.metadataUrl;
+  if (!url) return null;
+  // Run HR program fetch + ICY in parallel; HR's radioplayer.json
+  // doesn't carry track titles, so we keep ICY for that and use HR
+  // only for the program (current show + host).
+  const [hrData, icyResult] = await Promise.all([
+    fetchHrJson(url, signal),
+    icyFetcher(station, signal).catch(() => null),
+  ]);
+  let program: { name: string; subtitle?: string } | undefined;
+  if (hrData) {
+    const now = Date.now();
+    const current =
+      hrData.find((b) => b.currentBroadcast) ??
+      hrData.find((b) => (b.startTS ?? 0) <= now && now < (b.endTS ?? 0));
+    if (current?.title) {
+      program = {
+        name: current.title.trim(),
+        subtitle: current.hosts?.name?.trim() || undefined,
+      };
+    }
+  }
+  if (icyResult) return { ...icyResult, program };
+  return program ? { track: undefined, raw: '', program } : null;
+};
+
+const fetchHrSchedule: ScheduleFetcher = async (station, signal) => {
+  const url = station.metadataUrl;
+  if (!url) return null;
+  const data = await fetchHrJson(url, signal);
+  if (!data || data.length === 0) return null;
+  const broadcasts: ScheduleBroadcast[] = data
+    .filter((b) => b.startTS && b.endTS && b.title)
+    .map((b) => ({
+      start: b.startTS!,
+      end: b.endTS!,
+      title: b.title!.trim(),
+      subtitle: b.hosts?.name?.trim() || undefined,
+    }))
+    .sort((a, b) => a.start - b.start);
+  if (broadcasts.length === 0) return null;
+  // HR returns a single rolling day's worth of broadcasts. Group by
+  // local-midnight boundary (handles broadcasts that cross days).
+  const dayBoundary = (ts: number): number => {
+    const d = new Date(ts);
+    d.setHours(0, 0, 0, 0);
+    return d.getTime();
+  };
+  const byDay = new Map<number, ScheduleBroadcast[]>();
+  for (const b of broadcasts) {
+    const k = dayBoundary(b.start);
+    const arr = byDay.get(k) ?? [];
+    arr.push(b);
+    byDay.set(k, arr);
+  }
+  return [...byDay.entries()]
+    .sort((a, b) => a[0] - b[0])
+    .map(([date, broadcasts]) => ({ date, broadcasts }));
+};
+
+// ============================================================
 // BBC fetchers (via our worker — rms.api.bbc.co.uk requires
 // Origin: https://www.bbc.co.uk and 403s otherwise)
 // ============================================================
@@ -404,6 +494,7 @@ const FETCHERS_BY_KEY: Record<string, MetadataFetcher> = {
   orf: fetchOrfMetadata,
   'br-radioplayer': fetchBrMetadata,
   bbc: fetchBbcMetadata,
+  hr: fetchHrMetadata,
 };
 
 /** Schedule fetchers — keyed the same as MetadataFetchers. Optional —
@@ -412,6 +503,7 @@ const SCHEDULE_FETCHERS_BY_KEY: Record<string, ScheduleFetcher> = {
   orf: fetchOrfSchedule,
   'br-radioplayer': fetchBrSchedule,
   bbc: fetchBbcSchedule,
+  hr: fetchHrSchedule,
 };
 
 /** URL-pattern fallback rules. Used when a Station object doesn't
