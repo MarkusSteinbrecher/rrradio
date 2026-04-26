@@ -1,0 +1,199 @@
+# rrradio broadcaster catalog
+#
+# One entry per organisation. Stations reference a broadcaster by its
+# top-level key (br, orf, …) and inherit `metadata`, `country`, `homepage`
+# unless they override. New broadcasters get added here when their
+# metadata API is researched and a fetcher is wired in src/builtins.ts.
+#
+# Required: name, country, homepage
+# Optional: family (umbrella org like ARD), metadata (fetcher key),
+#           notes (free-form context)
+#
+# Status of metadata work is tracked per-station in stations.yaml.
+
+# ─────────────── German-speaking ───────────────
+
+grrif:
+  name: Grrif
+  country: CH
+  homepage: https://www.grrif.ch
+  metadata: grrif
+
+orf:
+  name: ORF
+  fullName: Österreichischer Rundfunk
+  country: AT
+  homepage: https://radiothek.orf.at
+  metadata: orf
+  notes: |
+    Single fetcher serves every channel via audioapi.orf.at/<key>/api/json/4.0/live.
+    Each station declares its metadataUrl pointing at the right channel.
+
+br:
+  name: BR
+  fullName: Bayerischer Rundfunk
+  country: DE
+  family: ARD
+  homepage: https://www.br.de/radio
+  metadata: br-radioplayer
+  notes: |
+    radioplayer.json endpoint per channel under www.br.de/mediathek/audio/.
+    Body starts with `//@formatter:off` — fetcher strips leading non-JSON.
+
+# ARD members — fetchers TBD (each has its own now-playing API shape)
+wdr:
+  name: WDR
+  fullName: Westdeutscher Rundfunk
+  country: DE
+  family: ARD
+  homepage: https://www1.wdr.de/radio/
+  notes: TBD — has own onair API, different from BR
+
+ndr:
+  name: NDR
+  fullName: Norddeutscher Rundfunk
+  country: DE
+  family: ARD
+  homepage: https://www.ndr.de/
+
+mdr:
+  name: MDR
+  fullName: Mitteldeutscher Rundfunk
+  country: DE
+  family: ARD
+  homepage: https://www.mdr.de/
+
+swr:
+  name: SWR
+  fullName: Südwestrundfunk
+  country: DE
+  family: ARD
+  homepage: https://www.swr.de/
+
+hr:
+  name: HR
+  fullName: Hessischer Rundfunk
+  country: DE
+  family: ARD
+  homepage: https://www.hr.de/
+
+rbb:
+  name: RBB
+  fullName: Rundfunk Berlin-Brandenburg
+  country: DE
+  family: ARD
+  homepage: https://www.rbb-online.de/
+
+sr:
+  name: SR
+  fullName: Saarländischer Rundfunk
+  country: DE
+  family: ARD
+  homepage: https://www.sr.de/
+
+rb:
+  name: Radio Bremen
+  country: DE
+  family: ARD
+  homepage: https://www.radiobremen.de/
+
+dlf:
+  name: Deutschlandradio
+  country: DE
+  homepage: https://www.deutschlandradio.de/
+  notes: Deutschlandfunk + DLF Kultur + DLF Nova share an API
+
+# ─────────────── Swiss public ───────────────
+
+srf:
+  name: SRF
+  fullName: Schweizer Radio und Fernsehen
+  country: CH
+  family: SRG-SSR
+  homepage: https://www.srf.ch/audio
+  notes: SRG SSR — German-language Swiss public
+
+rts:
+  name: RTS
+  fullName: Radio Télévision Suisse
+  country: CH
+  family: SRG-SSR
+  homepage: https://www.rts.ch/audio-podcasts/
+  notes: SRG SSR — French-language Swiss public
+
+rsi:
+  name: RSI
+  fullName: Radiotelevisione svizzera
+  country: CH
+  family: SRG-SSR
+  homepage: https://www.rsi.ch/
+
+# ─────────────── UK ───────────────
+
+bbc:
+  name: BBC
+  country: UK
+  homepage: https://www.bbc.co.uk/sounds
+  notes: |
+    BBC Sounds has metadata feeds; live streams use HLS.
+    Likely needs auth/region detection; investigate.
+
+# ─────────────── France ───────────────
+
+radio-france:
+  name: Radio France
+  country: FR
+  homepage: https://www.radiofrance.fr/
+  notes: France Inter, France Culture, France Musique, FIP, Mouv'
+
+# ─────────────── Netherlands ───────────────
+
+npo:
+  name: NPO
+  fullName: Nederlandse Publieke Omroep
+  country: NL
+  homepage: https://nporadio.nl/
+
+# ─────────────── Italy ───────────────
+
+rai:
+  name: RAI
+  fullName: Radio Audizioni Italiane
+  country: IT
+  homepage: https://www.raiplaysound.it/
+
+# ─────────────── US public + indie ───────────────
+
+npr:
+  name: NPR
+  country: US
+  homepage: https://www.npr.org/
+  notes: |
+    NPR is a network of stations, not a single broadcaster. Member
+    stations (KEXP, KCRW, WNYC, WFMU) publish their own streams + APIs.
+
+soma-fm:
+  name: SomaFM
+  country: US
+  homepage: https://somafm.com/
+  notes: |
+    ~30 channels, each with api.somafm.com/songs/<channel>.json
+    that's CORS-permissive. Uniform fetcher should serve all.
+
+nts:
+  name: NTS Radio
+  country: UK
+  homepage: https://www.nts.live/
+  notes: London-based, two live channels + show archive
+
+kexp:
+  name: KEXP 90.3 FM
+  country: US
+  homepage: https://www.kexp.org/
+  notes: |
+    api.kexp.org/v2/plays/ — public read API, no auth.
+
+kcrw:
+  name: KCRW
+  country: US
+  homepage: https://www.kcrw.com/

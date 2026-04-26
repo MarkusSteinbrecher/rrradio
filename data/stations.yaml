@@ -1,0 +1,77 @@
+# rrradio station catalog — source of truth
+#
+# Each entry references a broadcaster (see data/broadcasters.yaml) and
+# adds the station-specific bits: stream URL, codec, bitrate, channel-
+# specific metadata URL, logo path. Status determines whether the
+# station ships in the bundled public/stations.json.
+#
+# Required fields: id, broadcaster, name, streamUrl, status
+# Optional:        bitrate, codec, tags, favicon, homepage, country,
+#                  metadataUrl, featured, notes
+#
+# Inheritance: country, homepage and the metadata-fetcher key are
+# inherited from the broadcaster unless the station overrides.
+#
+# Status taxonomy
+#   working      — stream + metadata + cover all flowing → in catalog
+#   stream-only  — plays, no metadata → in catalog without rich data
+#   icy-only     — plays, ICY-over-fetch supplies title → in catalog
+#   fetcher-todo — broadcaster API known, fetcher not yet wired
+#   investigate  — to research
+#   not-public   — auth/session/geo locked, will not work
+#   broken       — URL dead or stream consistently fails
+# Only `working`, `stream-only`, `icy-only` are emitted into the
+# bundled public/stations.json.
+
+- id: builtin-grrif
+  broadcaster: grrif
+  name: Grrif
+  streamUrl: https://grrif.ice.infomaniak.ch/grrif-128.aac
+  bitrate: 128
+  codec: AAC
+  tags: [rock, indie, alternative, swiss]
+  favicon: stations/grrif.png
+  homepage: https://www.grrif.ch/
+  country: CH
+  status: working
+  featured: true
+
+- id: builtin-fm4
+  broadcaster: orf
+  name: FM4
+  streamUrl: https://orf-live.ors-shoutcast.at/fm4-q2a
+  metadataUrl: https://audioapi.orf.at/fm4/api/json/4.0/live
+  bitrate: 192
+  codec: MP3
+  tags: [alternative, indie, electronic, austria]
+  favicon: stations/fm4.png
+  homepage: https://fm4.orf.at/
+  country: AT
+  status: working
+  featured: true
+
+- id: builtin-br-bayern1
+  broadcaster: br
+  name: Bayern 1
+  streamUrl: https://mcdn.hf.br.de/br/hf/b1obb/master.m3u8
+  metadataUrl: https://www.br.de/mediathek/audio/bayern1/audio-livestream-bayern1-oberbayern-100~radioplayer.json
+  bitrate: 128
+  codec: HLS
+  tags: [pop, oldies, ard, germany]
+  favicon: stations/br-bayern1.png
+  homepage: https://www.br.de/radio/bayern1/
+  country: DE
+  status: working
+  featured: true
+
+# ─────────────── To investigate ───────────────
+# (Add real entries with status:fetcher-todo or status:working as we
+# research them. Examples kept here as placeholders — not emitted.)
+
+- id: tbd-orf-oe1
+  broadcaster: orf
+  name: Ö1
+  streamUrl: https://orf-live.ors-shoutcast.at/oe1-q2a
+  metadataUrl: https://audioapi.orf.at/oe1/api/json/4.0/live
+  status: investigate
+  notes: stream URL not verified; metadata URL pattern matches FM4

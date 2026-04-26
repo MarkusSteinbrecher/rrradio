@@ -4,16 +4,19 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev": "node tools/build-catalog.mjs && vite",
+    "build": "node tools/build-catalog.mjs && tsc && vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "catalog": "node tools/build-catalog.mjs",
+    "probe": "node tools/probe-station.mjs"
   },
   "dependencies": {
     "hls.js": "^1.5.17"
   },
   "devDependencies": {
     "typescript": "^5.6.3",
-    "vite": "^5.4.10"
+    "vite": "^5.4.10",
+    "yaml": "^2.8.3"
   }
 }
