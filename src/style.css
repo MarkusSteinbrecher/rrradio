@@ -1228,6 +1228,31 @@ body.is-playing .np-bottom .live-dot  {
   text-wrap: balance;
 }
 
+/* ─── Site visit counter (Browse footer) ─── */
+.site-counter {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+  padding: 56px 24px 32px;
+  color: var(--ink-3);
+  user-select: none;
+}
+.site-counter__num {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 22px;
+  letter-spacing: 0.02em;
+  color: var(--ink-2);
+}
+.site-counter__label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
 /* ─── Add Station sheet ─── */
 .sheet {
   position: absolute;

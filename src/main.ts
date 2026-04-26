@@ -566,6 +566,42 @@ function emptyState(iconHtml: string, title: string, sub: string): HTMLDivElemen
   return wrap;
 }
 
+// Site visit counter (footer of Browse). Pulled from GoatCounter's
+// public counter endpoint — no auth, edge-cached 30 min by GC. We
+// fetch once per page load and remember the value for re-renders.
+let siteVisitCount: string | undefined;
+let siteVisitFetched = false;
+async function loadSiteVisits(): Promise<void> {
+  if (siteVisitFetched) return;
+  siteVisitFetched = true;
+  try {
+    const res = await fetch('https://markussteinbrecher.goatcounter.com/counter/TOTAL.json');
+    if (!res.ok) return;
+    const data = (await res.json()) as { count?: string };
+    if (typeof data.count === 'string') {
+      siteVisitCount = data.count;
+      // Re-render Browse so any visible counter picks up the count.
+      if (activeTab === 'browse') renderContent();
+    }
+  } catch {
+    /* silent: optional decoration */
+  }
+}
+
+function siteCounter(): HTMLDivElement | null {
+  if (!siteVisitCount) return null;
+  const wrap = document.createElement('div');
+  wrap.className = 'site-counter';
+  const num = document.createElement('span');
+  num.className = 'site-counter__num';
+  num.textContent = siteVisitCount;
+  const label = document.createElement('span');
+  label.className = 'site-counter__label';
+  label.textContent = 'visits served';
+  wrap.append(num, label);
+  return wrap;
+}
+
 function statusLine(message: string): HTMLDivElement {
   const wrap = document.createElement('div');
   wrap.className = 'empty';
@@ -656,6 +692,8 @@ function renderContent(): void {
     } else if (myFiltered.length === 0 && !noFilter) {
       $content.append(emptyState(ICON_EMPTY, 'No stations match', 'Try a different search or genre'));
     }
+    const counter = siteCounter();
+    if (counter) $content.append(counter);
     return;
   }
 
@@ -1156,3 +1194,4 @@ void loadBuiltinStations().then(() => {
   if (activeTab === 'browse') renderContent();
 });
 void runQuery();
+void loadSiteVisits();
