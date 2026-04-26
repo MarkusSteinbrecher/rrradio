@@ -41,9 +41,12 @@ interface GcStatsHits {
 }
 
 interface GcTotals {
+  // GoatCounter's /stats/total returns `total` (visits/pageviews) and
+  // `total_events`. It does NOT return a unique-visitor field on this
+  // account, so we don't read one. The dashboard derives a third
+  // metric (stations played) from the hits buffer instead.
   total?: number;
   total_events?: number;
-  total_unique?: number;
 }
 
 interface GcStat {
@@ -241,6 +244,14 @@ export default {
         case '/api/systems':
           data = await fetchStatGroup('systems', days, 10, env);
           break;
+        case '/api/debug': {
+          // Returns the raw GoatCounter /stats/total response so we can
+          // see exactly which field names this account/version exposes.
+          const start = rangeStart(days);
+          const raw = await gcFetch<unknown>(`/stats/total?start=${start}`, env);
+          data = { range_days: days, raw_totals: raw };
+          break;
+        }
         case '/api/everything': {
           // Fetch all dashboard data in one Worker request, sequentially
           // with ~300ms gaps to stay under GoatCounter's 4 req/s limit.
@@ -260,15 +271,11 @@ export default {
           const eventCount = hits
             .filter((h) => h.event === true)
             .reduce((s, h) => s + h.count, 0);
-          const eventUnique = hits
-            .filter((h) => h.event === true)
-            .reduce((s, h) => s + (h.count_unique ?? 0), 0);
           data = {
             range_days: days,
             totals: {
               ...tot,
               total_events: eventCount,
-              total_events_unique: eventUnique,
             },
             stations: pickByPrefix(hits, 'play: ', 20, days),
             favorites: pickByPrefix(hits, 'favorite: ', 20, days),

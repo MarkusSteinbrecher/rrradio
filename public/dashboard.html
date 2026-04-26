@@ -342,21 +342,25 @@
         }, label);
       }
 
-      function metricsCard(totals) {
+      function metricsCard(totals, stationCount) {
+        // GoatCounter's /stats/total exposes `total` (visits) and
+        // `total_events` for this account; it does NOT return a
+        // unique-visitor field, so we surface "stations played" as
+        // the third metric instead — more meaningful for radio anyway.
         return el('div', { class: 'card span-2' },
           el('h2', {}, 'this period'),
           el('div', { class: 'metrics' },
             el('div', { class: 'metric' },
               el('div', { class: 'v' }, fmt(totals.total ?? 0)),
-              el('div', { class: 'k' }, 'pageviews'),
+              el('div', { class: 'k' }, 'visits'),
             ),
             el('div', { class: 'metric' },
               el('div', { class: 'v' }, fmt(totals.total_events ?? 0)),
               el('div', { class: 'k' }, 'events'),
             ),
             el('div', { class: 'metric' },
-              el('div', { class: 'v' }, fmt(totals.total_unique ?? 0)),
-              el('div', { class: 'k' }, 'unique visitors'),
+              el('div', { class: 'v' }, fmt(stationCount)),
+              el('div', { class: 'k' }, 'stations played'),
             ),
           ),
         );
@@ -412,7 +416,7 @@
           // respect GoatCounter's 4 req/s rate limit).
           const all = await api('/api/everything');
           cards.replaceChildren(
-            metricsCard(all.totals),
+            metricsCard(all.totals, (all.stations.items || []).length),
             listCard('top stations', all.stations.items),
             listCard('favorites added', all.favorites.items),
             listCard('errors', all.errors.items, { showSub: true }),
