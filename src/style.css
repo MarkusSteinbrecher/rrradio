@@ -663,6 +663,9 @@ body:not(.has-station) .tab-btn[data-tab="playing"] {
   opacity: 0.4;
   pointer-events: none;
 }
+/* Topbar is quiet on Now Playing — search and genre filter don't apply
+   to a single-station view. Wordmark + signal-meta + add-btn stay. */
+body.tab-playing .search-wrap { display: none; }
 
 /* ─── Now Playing screen ───
    Lives inside .stage as an overlay layer over .content. Its
