@@ -7,7 +7,43 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="rrradio" />
-    <title>rrradio</title>
+
+    <!-- Search-engine + share metadata.
+         Title / description target long-tail intent ("minimal browser
+         internet radio", "no-signup", "ad-free") rather than the
+         hopeless head term "free internet radio". -->
+    <title>rrradio · minimal browser internet radio</title>
+    <meta name="description" content="A minimal, ad-free internet radio player you run in your browser. Play FM4, Bayern 1, Grrif, BBC and thousands more — no signup, no app, no tracking." />
+    <link rel="canonical" href="https://rrradio.org/" />
+
+    <!-- Open Graph (Facebook, Slack, Discord link previews) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="rrradio" />
+    <meta property="og:title" content="rrradio · minimal browser internet radio" />
+    <meta property="og:description" content="Ad-free, signup-free internet radio in your browser. Late-night radio vibes, real stations, lock-screen controls on mobile." />
+    <meta property="og:url" content="https://rrradio.org/" />
+
+    <!-- Twitter card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="rrradio · minimal browser internet radio" />
+    <meta name="twitter:description" content="Ad-free, signup-free internet radio in your browser." />
+
+    <!-- Structured data — eligible for Google rich results when crawled. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "rrradio",
+        "url": "https://rrradio.org/",
+        "description": "Minimal, ad-free internet radio player that runs in any modern browser. No signup, no app install, no tracking.",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "Any (modern browser)",
+        "browserRequirements": "Requires HTML5 audio + JavaScript",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "isAccessibleForFree": true
+      }
+    </script>
+
     <link rel="stylesheet" href="/src/style.css" />
 
     <!-- GoatCounter analytics: replace YOUR-CODE with the subdomain you
