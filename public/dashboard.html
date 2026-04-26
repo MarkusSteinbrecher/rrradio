@@ -294,7 +294,14 @@
           token = '';
           throw new Error('unauthorized');
         }
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        if (!res.ok) {
+          let detail = '';
+          try {
+            const body = await res.json();
+            detail = body?.message || body?.error || '';
+          } catch { /* not JSON, ignore */ }
+          throw new Error(detail ? `HTTP ${res.status} · ${detail}` : `HTTP ${res.status}`);
+        }
         return res.json();
       }
 
