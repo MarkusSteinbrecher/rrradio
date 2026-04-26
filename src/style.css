@@ -213,15 +213,18 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 
 /* Sort indicator — visual cue for the current sort (currently fixed
    at "most played"). Same round geometry as .curated-toggle so the
-   row reads as a coherent cluster; non-interactive. */
+   row reads as a coherent cluster; non-interactive. Always rendered
+   in the active accent treatment because "most played" is always
+   the current sort. */
 .filter-chip {
   display: inline-grid;
   place-items: center;
   width: 36px;
   height: 36px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--accent);
   border-radius: 999px;
-  color: var(--ink-3);
+  color: var(--accent);
+  background: rgba(255, 255, 0, 0.10);
   user-select: none;
   flex-shrink: 0;
 }
@@ -269,6 +272,19 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .filter-wrap:focus-within {
   border-color: var(--line-2);
   color: var(--ink);
+}
+/* Active state — a non-"all" value is selected. Yellow accent
+   matches the curated-toggle and sort chip so the whole cluster
+   speaks the same visual language. */
+.filter-wrap:not(.is-default) {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(255, 255, 0, 0.10);
+}
+.filter-wrap:not(.is-default) .filter-icon,
+.filter-wrap:not(.is-default) .filter-caret,
+.filter-wrap:not(.is-default) .filter-select {
+  color: var(--accent);
 }
 .filter-icon {
   width: 14px;
