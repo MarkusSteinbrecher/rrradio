@@ -408,27 +408,19 @@
         const cards = document.getElementById('cards');
 
         try {
-          const [totals, stations, errors, tabs, genres, favorites, locations, browsers, systems] = await Promise.all([
-            api('/api/totals'),
-            api('/api/top-stations'),
-            api('/api/errors'),
-            api('/api/tabs'),
-            api('/api/genres'),
-            api('/api/favorites'),
-            api('/api/locations'),
-            api('/api/browsers'),
-            api('/api/systems'),
-          ]);
+          // One Worker call → one batched upstream fetch (sequential to
+          // respect GoatCounter's 4 req/s rate limit).
+          const all = await api('/api/everything');
           cards.replaceChildren(
-            metricsCard(totals),
-            listCard('top stations', stations.items),
-            listCard('favorites added', favorites.items),
-            listCard('errors', errors.items, { showSub: true }),
-            listCard('top countries', locations.items, { showSub: true }),
-            listCard('tabs', tabs.items),
-            listCard('genre filter', genres.items),
-            listCard('browsers', browsers.items),
-            listCard('systems', systems.items),
+            metricsCard(all.totals),
+            listCard('top stations', all.stations.items),
+            listCard('favorites added', all.favorites.items),
+            listCard('errors', all.errors.items, { showSub: true }),
+            listCard('top countries', all.locations.items, { showSub: true }),
+            listCard('tabs', all.tabs.items),
+            listCard('genre filter', all.genres.items),
+            listCard('browsers', all.browsers.items),
+            listCard('systems', all.systems.items),
           );
           $root.appendChild(
             el('div', { class: 'footer' },

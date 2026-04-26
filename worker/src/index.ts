@@ -164,6 +164,10 @@ async function totals(daysBack: number, env: Env): Promise<GcTotals & { range_da
   return { ...data, range_days: daysBack };
 }
 
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 /** Generic /stats/<group> reader. Used for browsers, systems, sizes,
  *  locations (country), toprefs, etc. */
 async function fetchStatGroup(
@@ -237,6 +241,34 @@ export default {
         case '/api/systems':
           data = await fetchStatGroup('systems', days, 10, env);
           break;
+        case '/api/everything': {
+          // Fetch all dashboard data in one Worker request, sequentially
+          // with ~300ms gaps to stay under GoatCounter's 4 req/s limit.
+          // The single fetchAllHits call backs all five prefix-filtered
+          // sections (stations, favorites, errors, tabs, genres).
+          const hits = await fetchAllHits(days, env);
+          await sleep(300);
+          const tot = await totals(days, env);
+          await sleep(300);
+          const locations = await fetchStatGroup('locations', days, 20, env);
+          await sleep(300);
+          const browsers = await fetchStatGroup('browsers', days, 10, env);
+          await sleep(300);
+          const systems = await fetchStatGroup('systems', days, 10, env);
+          data = {
+            range_days: days,
+            totals: tot,
+            stations: pickByPrefix(hits, 'play: ', 20, days),
+            favorites: pickByPrefix(hits, 'favorite: ', 20, days),
+            errors: pickByPrefix(hits, 'error: ', 20, days),
+            tabs: pickByPrefix(hits, 'tab/', 10, days),
+            genres: pickByPrefix(hits, 'genre/', 10, days),
+            locations,
+            browsers,
+            systems,
+          };
+          break;
+        }
         default:
           return jsonResponse({ error: 'not found' }, 404, cors);
       }
