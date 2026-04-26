@@ -1,6 +1,6 @@
 # Internet Radio
 
-A static internet radio web app. Phase one of a two-phase plan; iOS app to follow.
+A static internet radio web app; work in progress. 
 
 See [`CLAUDE.md`](./CLAUDE.md) for full project context.
 
