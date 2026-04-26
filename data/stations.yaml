@@ -501,3 +501,51 @@
   favicon: https://www.deutschlandfunknova.de/apple-touch-icon.png
   homepage: https://www.deutschlandfunknova.de/
   status: stream-only
+
+# ─── FRISKY (Toronto, internet-native) — 2026-04-26 ───
+# Four electronic-music channels. Streams emit ICY with current track,
+# logo curated from Frisky's S3-hosted favicon.
+
+- id: frisky-main
+  broadcaster: frisky
+  name: Frisky
+  streamUrl: https://stream.frisky.friskyradio.com/frisky_mp3_high
+  bitrate: 96
+  codec: MP3
+  tags: [electronic, house, progressive, dance]
+  favicon: stations/frisky.png
+  homepage: https://frisky.fm/radio/frisky
+  status: icy-only
+
+- id: frisky-classics
+  broadcaster: frisky
+  name: Frisky Classics
+  streamUrl: https://stream.classics.friskyradio.com/classics_mp3_high
+  bitrate: 96
+  codec: MP3
+  tags: [electronic, techno, classics]
+  favicon: stations/frisky.png
+  homepage: https://frisky.fm/radio/classics
+  status: icy-only
+
+- id: frisky-chill
+  broadcaster: frisky
+  name: Frisky Chill
+  streamUrl: https://stream.chill.friskyradio.com/chill_mp3_high
+  bitrate: 96
+  codec: MP3
+  tags: [electronic, chill, ambient, downtempo]
+  favicon: stations/frisky.png
+  homepage: https://frisky.fm/radio/chill
+  status: icy-only
+
+- id: frisky-deep
+  broadcaster: frisky
+  name: Frisky Deep
+  streamUrl: https://stream.deep.friskyradio.com/deep_mp3_high
+  bitrate: 96
+  codec: MP3
+  tags: [electronic, deep house, dance]
+  favicon: stations/frisky.png
+  homepage: https://frisky.fm/radio/deep
+  status: icy-only
