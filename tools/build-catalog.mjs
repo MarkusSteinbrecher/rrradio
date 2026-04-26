@@ -85,6 +85,7 @@ for (const s of stations) {
     codec: s.codec,
     metadata: s.metadata ?? b.metadata,
     metadataUrl: s.metadataUrl,
+    geo: Array.isArray(s.geo) && s.geo.length === 2 ? s.geo : undefined,
     featured: s.featured === true ? true : undefined,
   });
 }

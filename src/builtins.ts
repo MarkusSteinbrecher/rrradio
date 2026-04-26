@@ -285,6 +285,9 @@ function normaliseStation(raw: unknown): Station | null {
     listeners: typeof r.listeners === 'number' ? r.listeners : undefined,
     metadata: r.metadata,
     metadataUrl: r.metadataUrl,
+    geo: Array.isArray(r.geo) && r.geo.length === 2 && r.geo.every((n) => typeof n === 'number')
+      ? (r.geo as [number, number])
+      : undefined,
   };
 }
 

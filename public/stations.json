@@ -17,6 +17,10 @@
       "bitrate": 128,
       "codec": "AAC",
       "metadata": "grrif",
+      "geo": [
+        47.3656,
+        7.3434
+      ],
       "featured": true
     },
     {
@@ -36,6 +40,10 @@
       "codec": "MP3",
       "metadata": "orf",
       "metadataUrl": "https://audioapi.orf.at/fm4/api/json/4.0/live",
+      "geo": [
+        48.1777,
+        16.2878
+      ],
       "featured": true
     },
     {
@@ -55,6 +63,10 @@
       "codec": "HLS",
       "metadata": "br-radioplayer",
       "metadataUrl": "https://www.br.de/mediathek/audio/bayern1/audio-livestream-bayern1-oberbayern-100~radioplayer.json",
+      "geo": [
+        48.1351,
+        11.582
+      ],
       "featured": true
     },
     {
@@ -68,7 +80,11 @@
       ],
       "favicon": "https://cdn.vox-cdn.com/thumbor/FOKCcOpam5-0m4VfrxvfzMdDK6I=/10x0:610x400/1400x1400/filters:focal(10x0:610x400):format(jpeg)/cdn.vox-cdn.com/assets/958975/bbc_world_service.jpeg",
       "bitrate": 56,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        51.5174,
+        -0.1278
+      ]
     },
     {
       "id": "br-bayern-2",
@@ -82,7 +98,11 @@
       "favicon": "https://api.ardmediathek.de/image-service/images/urn:ard:image:5d72d15e88d309ec?w=512",
       "bitrate": 128,
       "codec": "MP3",
-      "metadata": "br-radioplayer"
+      "metadata": "br-radioplayer",
+      "geo": [
+        48.1351,
+        11.582
+      ]
     },
     {
       "id": "br-br-heimat",
@@ -96,7 +116,11 @@
       "favicon": "https://api.ardmediathek.de/image-service/images/urn:ard:image:37a3d50efe6feacb?w=512",
       "bitrate": 128,
       "codec": "MP3",
-      "metadata": "br-radioplayer"
+      "metadata": "br-radioplayer",
+      "geo": [
+        48.1351,
+        11.582
+      ]
     },
     {
       "id": "br-br-schlager",
@@ -110,7 +134,11 @@
       "favicon": "https://api.ardmediathek.de/image-service/images/urn:ard:image:9091a20989ecaad5?w=512",
       "bitrate": 128,
       "codec": "MP3",
-      "metadata": "br-radioplayer"
+      "metadata": "br-radioplayer",
+      "geo": [
+        48.1351,
+        11.582
+      ]
     },
     {
       "id": "br-br24",
@@ -124,7 +152,11 @@
       "favicon": "https://api.ardmediathek.de/image-service/images/urn:ard:image:c3ab9296f3b282bf?w=512",
       "bitrate": 128,
       "codec": "MP3",
-      "metadata": "br-radioplayer"
+      "metadata": "br-radioplayer",
+      "geo": [
+        48.1351,
+        11.582
+      ]
     },
     {
       "id": "wdr-1live",
@@ -141,7 +173,11 @@
       ],
       "favicon": "https://www1.wdr.de/radio/1live/resources/img/favicon/apple-touch-icon.png",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        50.9404,
+        6.9571
+      ]
     },
     {
       "id": "wdr-1live-diggi",
@@ -151,7 +187,11 @@
       "country": "DE",
       "favicon": "https://www1.wdr.de/radio/1live-diggi/resources-v5.122.3/img/favicon/apple-touch-icon.png",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        50.9375,
+        6.9603
+      ]
     },
     {
       "id": "wdr-wdr-2",
@@ -160,7 +200,11 @@
       "homepage": "http://wdr2.de/",
       "country": "DE",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        51.3563,
+        6.7302
+      ]
     },
     {
       "id": "wdr-wdr-4",
@@ -173,7 +217,11 @@
       ],
       "favicon": "https://www1.wdr.de/radio/wdr4/wdrvier_logo104~_v-ARDAustauschformat.jpg",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        51.0469,
+        10.1953
+      ]
     },
     {
       "id": "wdr-wdr-5",
@@ -191,7 +239,11 @@
       ],
       "favicon": "https://www1.wdr.de/resources/img/wdr/logo/epgmodule/wdr5_logo_claim.svg",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        50.9398,
+        6.9514
+      ]
     },
     {
       "id": "wdr-die-maus",
@@ -206,7 +258,11 @@
       ],
       "favicon": "https://www.wdrmaus.de/icon/apple-icon-120x120.png",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        50.9375,
+        6.9603
+      ]
     },
     {
       "id": "ndr-ndr-90-3",
@@ -221,7 +277,11 @@
       ],
       "favicon": "https://www.phonostar.de/images/auto_created/NDR_903_3184x184.png",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        53.5511,
+        9.9937
+      ]
     },
     {
       "id": "ndr-ndr-2",
@@ -234,7 +294,11 @@
       ],
       "favicon": "https://www.ndr.de//apple-touch-icon-57x57.png",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        53.5511,
+        9.9937
+      ]
     },
     {
       "id": "ndr-ndr-kultur",
@@ -249,7 +313,11 @@
       ],
       "favicon": "https://www.phonostar.de/images/auto_created/NDR_Kultur3184x184.png",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        53.5511,
+        9.9937
+      ]
     },
     {
       "id": "ndr-ndr-1-niedersachsen",
@@ -264,7 +332,11 @@
       ],
       "favicon": "https://www.phonostar.de/images/auto_created/NDR1_Niedersachsen2184x184.png",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        52.2709,
+        10.5301
+      ]
     },
     {
       "id": "ndr-ndr-1-welle-nord",
@@ -279,7 +351,11 @@
       ],
       "favicon": "https://www.phonostar.de/images/auto_created/NDR1_Welle_Nord2184x184.png",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        53.865,
+        10.6868
+      ]
     },
     {
       "id": "ndr-n-joy",
@@ -295,7 +371,11 @@
       ],
       "favicon": "https://www.phonostar.de/images/auto_created/NJOY3184x184.png",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        53.5649,
+        10.0305
+      ]
     },
     {
       "id": "ndr-ndr-schlager",
@@ -310,7 +390,11 @@
       ],
       "favicon": "https://www.phonostar.de/images/auto_created/NDR_Schlager184x184.png",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        53.5511,
+        9.9937
+      ]
     },
     {
       "id": "mdr-mdr-sachsen",
@@ -328,7 +412,11 @@
       ],
       "favicon": "https://www.mdr.de/administratives/av/bild218-resimage_v-variantSmall1x1_w-512.png",
       "bitrate": 102,
-      "codec": "AAC"
+      "codec": "AAC",
+      "geo": [
+        51.3162,
+        12.3859
+      ]
     },
     {
       "id": "mdr-mdr-thuringen",
@@ -346,7 +434,11 @@
       ],
       "favicon": "https://www.mdr.de/administratives/av/bild220-resimage_v-variantSmall1x1_w-512.png",
       "bitrate": 102,
-      "codec": "AAC"
+      "codec": "AAC",
+      "geo": [
+        50.8805,
+        12.08
+      ]
     },
     {
       "id": "mdr-mdr-schlagerwelt",
@@ -364,7 +456,11 @@
       ],
       "favicon": "https://www.mdr.de/administratives/av/bild-36078-resimage_v-variantSmall1x1_w-512.png",
       "bitrate": 102,
-      "codec": "AAC"
+      "codec": "AAC",
+      "geo": [
+        50.9622,
+        10.9957
+      ]
     },
     {
       "id": "swr-swr1-baden-wurttemberg",
@@ -374,7 +470,11 @@
       "country": "DE",
       "favicon": "https://www.radio.at/images/broadcasts/07/41/2273/2/c300.png",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        48.788,
+        9.1379
+      ]
     },
     {
       "id": "swr-swr1-rheinland-pfalz",
@@ -384,7 +484,11 @@
       "country": "DE",
       "favicon": "https://www.swr.de/assets/swr/apple-touch-icon.png",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        50.0051,
+        8.2947
+      ]
     },
     {
       "id": "swr-swr3",
@@ -399,7 +503,11 @@
       ],
       "favicon": "https://swr3.de/assets/swr3/icons/apple-touch-icon.png",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        48.7496,
+        8.2257
+      ]
     },
     {
       "id": "swr-swr4-baden-wurttemberg",
@@ -417,7 +525,11 @@
       ],
       "favicon": "https://www.swr.de/assets/swr/swr4/apple-touch-icon-180x180.png",
       "bitrate": 96,
-      "codec": "AAC"
+      "codec": "AAC",
+      "geo": [
+        48.7758,
+        9.1829
+      ]
     },
     {
       "id": "swr-dasding",
@@ -434,7 +546,11 @@
       ],
       "favicon": "https://dasding.de/assets/dasding/apple-touch-icon-120x120.png",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        48.7571,
+        8.2448
+      ]
     },
     {
       "id": "swr-swr-aktuell",
@@ -447,7 +563,11 @@
       ],
       "favicon": "https://upload.wikimedia.org/wikipedia/commons/4/47/SWR_Aktuell_Logo.jpg",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        48.7931,
+        9.2038
+      ]
     },
     {
       "id": "hr-hr1",
@@ -460,7 +580,11 @@
       ],
       "favicon": "https://www.hr1.de/favicon.png?v=3.85.2",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        50.1037,
+        8.6462
+      ]
     },
     {
       "id": "hr-hr2",
@@ -475,7 +599,11 @@
       ],
       "favicon": "https://www.hr2.de/favicon.png?v=3.85.2",
       "bitrate": 200,
-      "codec": "AAC"
+      "codec": "AAC",
+      "geo": [
+        50.1109,
+        8.6821
+      ]
     },
     {
       "id": "hr-hr3",
@@ -485,7 +613,11 @@
       "country": "DE",
       "favicon": "https://www.hr3.de/favicon.png?v=3.85.2",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        50.1126,
+        8.6831
+      ]
     },
     {
       "id": "hr-hr4",
@@ -495,7 +627,11 @@
       "country": "DE",
       "favicon": "https://www.hr4.de/favicon.png?v=3.85.2",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        50.5828,
+        8.6723
+      ]
     },
     {
       "id": "rbb-fritz",
@@ -513,7 +649,11 @@
       ],
       "favicon": "https://www.fritz.de/content/dam/rbb/rbb/logos/touch/fritz-128.png",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        52.5102,
+        13.3965
+      ]
     },
     {
       "id": "rb-bremen-eins",
@@ -523,7 +663,11 @@
       "country": "DE",
       "favicon": "http://www.radiobremen.de/static/img/favicons/apple-touch-icon-180.png?v=4",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        53.0386,
+        8.822
+      ]
     },
     {
       "id": "rb-bremen-zwei",
@@ -540,7 +684,11 @@
       ],
       "favicon": "https://www.bremenzwei.de/static/img/favicons/apple-touch-icon-180.png?v=4",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        53.0791,
+        8.8055
+      ]
     },
     {
       "id": "rb-bremen-vier",
@@ -549,7 +697,11 @@
       "homepage": "https://www.bremenvier.de/",
       "country": "DE",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        53.0795,
+        8.8055
+      ]
     },
     {
       "id": "rb-bremen-next",
@@ -567,7 +719,11 @@
       ],
       "favicon": "https://www.bremennext.de/static/img/favicons/apple-touch-icon-180.png?v=5",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        53.0793,
+        8.8017
+      ]
     },
     {
       "id": "dlf-deutschlandfunk",
@@ -583,7 +739,11 @@
       ],
       "favicon": "https://www.deutschlandfunk.de/static/img/deutschlandfunk/icons/apple-touch-icon-128x128.png",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        52.4803,
+        13.3348
+      ]
     },
     {
       "id": "dlf-deutschlandfunk-kultur",
@@ -599,7 +759,11 @@
       ],
       "favicon": "https://www.deutschlandfunkkultur.de/static/img/deutschlandfunk_kultur/icons/apple-touch-icon-128x128.png",
       "bitrate": 128,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        52.4803,
+        13.3348
+      ]
     },
     {
       "id": "dlf-deutschlandfunk-nova",
@@ -615,7 +779,11 @@
       ],
       "favicon": "https://www.deutschlandfunknova.de/apple-touch-icon.png",
       "bitrate": 192,
-      "codec": "AAC"
+      "codec": "AAC",
+      "geo": [
+        52.4803,
+        13.3348
+      ]
     },
     {
       "id": "frisky-main",
@@ -631,7 +799,11 @@
       ],
       "favicon": "stations/frisky.png",
       "bitrate": 96,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        40.7307,
+        -74.0776
+      ]
     },
     {
       "id": "frisky-classics",
@@ -646,7 +818,11 @@
       ],
       "favicon": "stations/frisky.png",
       "bitrate": 96,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        40.7307,
+        -74.0776
+      ]
     },
     {
       "id": "frisky-chill",
@@ -662,7 +838,11 @@
       ],
       "favicon": "stations/frisky.png",
       "bitrate": 96,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        43.6532,
+        -79.3832
+      ]
     },
     {
       "id": "frisky-deep",
@@ -677,7 +857,11 @@
       ],
       "favicon": "stations/frisky.png",
       "bitrate": 96,
-      "codec": "MP3"
+      "codec": "MP3",
+      "geo": [
+        40.7162,
+        -74.0339
+      ]
     }
   ]
 }

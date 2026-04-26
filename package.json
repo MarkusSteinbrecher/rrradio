@@ -15,7 +15,8 @@
     "auto-curate": "node tools/auto-curate.mjs",
     "analyze": "node tools/analyze.mjs",
     "backlog": "node tools/backlog.mjs",
-    "import-ard": "node tools/import-ard.mjs"
+    "import-ard": "node tools/import-ard.mjs",
+    "backfill-geo": "node tools/backfill-geo.mjs"
   },
   "dependencies": {
     "hls.js": "^1.5.17"

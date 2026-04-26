@@ -26,6 +26,10 @@ export interface Station {
   /** Optional per-station URL passed to the fetcher (some fetchers, e.g.
    *  the BR radioplayer.json reader, need to know which channel to query). */
   metadataUrl?: string;
+  /** Optional [latitude, longitude] for map placement. Sourced from
+   *  Radio Browser (geo_lat / geo_long); rounded to 4 decimal places
+   *  (~10m precision, plenty for a station map). */
+  geo?: [number, number];
 }
 
 export type PlayerState = 'idle' | 'loading' | 'playing' | 'paused' | 'error';
