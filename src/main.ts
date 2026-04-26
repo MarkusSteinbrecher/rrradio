@@ -809,19 +809,42 @@ function renderContent(): void {
     const tagFilter = activeTag === 'all' ? undefined : activeTag;
     const noFilter = !query && !tagFilter;
 
-    // Unfiltered home view: top 3 featured + remaining (ranks 4–10) as
-    // a list. Played-stations data backs both — no Radio Browser fetch
-    // for the home view, only when the user actually searches.
+    // Unfiltered home view. Two modes:
+    //   default        → top 3 featured + ranks 4–10 as a list (10 most
+    //                    played, includes non-curated backlog entries)
+    //   curated-only   → top 3 played-and-curated as featured + every
+    //                    other curated station below, regardless of plays
     if (noFilter) {
-      const played = playedStations();
-      const featured = played.slice(0, PLAYED_FEATURED_LIMIT);
-      const rest = played.slice(PLAYED_FEATURED_LIMIT, PLAYED_TOTAL_LIMIT);
-      if (featured.length > 0) {
-        $content.append(renderFeatured(featured));
-      }
-      if (rest.length > 0) {
-        $content.append(sectionLabel('Most played', rest.length));
-        $content.append(renderRows(rest));
+      if (curatedOnly) {
+        // Filter played list to only built-ins (drops backlog-only
+        // entries that aren't in the YAML catalog).
+        const playedCurated = playedStations().filter((s) => isBuiltin(s.id));
+        const featured = playedCurated.slice(0, PLAYED_FEATURED_LIMIT);
+        const seen = new Set(featured.map((s) => s.id));
+        // Below the strip: remaining played-curated first (preserves
+        // popularity order for the head of the list), then any built-in
+        // not yet shown — so the user sees the full curated tier.
+        const rest: Station[] = [];
+        for (const s of playedCurated.slice(PLAYED_FEATURED_LIMIT)) {
+          if (!seen.has(s.id)) { rest.push(s); seen.add(s.id); }
+        }
+        for (const s of BUILTIN_STATIONS) {
+          if (!seen.has(s.id)) { rest.push(s); seen.add(s.id); }
+        }
+        if (featured.length > 0) $content.append(renderFeatured(featured));
+        if (rest.length > 0) {
+          $content.append(sectionLabel('Curated', rest.length));
+          $content.append(renderRows(rest));
+        }
+      } else {
+        const played = playedStations();
+        const featured = played.slice(0, PLAYED_FEATURED_LIMIT);
+        const rest = played.slice(PLAYED_FEATURED_LIMIT, PLAYED_TOTAL_LIMIT);
+        if (featured.length > 0) $content.append(renderFeatured(featured));
+        if (rest.length > 0) {
+          $content.append(sectionLabel('Most played', rest.length));
+          $content.append(renderRows(rest));
+        }
       }
       const counter = siteCounter();
       if (counter) $content.append(counter);
