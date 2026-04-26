@@ -78,7 +78,16 @@ export class AudioPlayer {
     // sees the play button but hears nothing. Fresh connection every time
     // is the only reliable behaviour for live audio.
     this.teardown();
-    this.current = { station, state: 'loading' };
+    // Preserve trackTitle + coverUrl when re-playing the same station so
+    // the on-air line and cover don't snap to "—" during the loading flash.
+    // Reset them when switching stations.
+    const sameStation = this.current.station.id === station.id;
+    this.current = {
+      station,
+      state: 'loading',
+      trackTitle: sameStation ? this.current.trackTitle : undefined,
+      coverUrl: sameStation ? this.current.coverUrl : undefined,
+    };
     this.emit();
 
     const url = station.streamUrl;
