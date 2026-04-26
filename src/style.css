@@ -101,26 +101,20 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 }
 
 .wordmark {
-  font-family: var(--mono);
-  font-size: 17px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  display: flex;
-  align-items: baseline;
-  gap: 1px;
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  border: 0;
+  padding: 4px 0;
   color: var(--ink);
+  cursor: pointer;
   transition: opacity 0.12s ease;
 }
 .wordmark:active { opacity: 0.6; }
-.wordmark .dot {
-  display: inline-block;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--accent);
-  margin-left: 4px;
-  margin-bottom: 1px;
-  box-shadow: 0 0 8px var(--accent);
+.wordmark-logo {
+  height: 22px;
+  width: auto;
+  display: block;
 }
 
 .add-btn {
