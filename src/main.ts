@@ -89,6 +89,7 @@ const $searchClear = document.getElementById('search-clear') as HTMLButtonElemen
 const $genre = document.getElementById('genre') as HTMLSelectElement;
 const $country = document.getElementById('country') as HTMLSelectElement;
 const $curatedToggle = document.getElementById('curated-toggle') as HTMLButtonElement;
+const $modePlayed = document.getElementById('mode-played') as HTMLButtonElement;
 const $filterRow = document.getElementById('filter-row') as HTMLElement;
 const $tabStatus = document.getElementById('tab-status') as HTMLElement;
 const $content = document.getElementById('content') as HTMLElement;
@@ -1393,13 +1394,19 @@ $country.addEventListener('change', () => {
   track(`country/${activeCountry}`);
 });
 
-$curatedToggle.addEventListener('click', () => {
-  curatedOnly = !curatedOnly;
-  $curatedToggle.setAttribute('aria-pressed', String(curatedOnly));
-  $curatedToggle.classList.toggle('is-active', curatedOnly);
-  track(`curated-only/${curatedOnly ? 'on' : 'off'}`);
+function setMode(curated: boolean): void {
+  if (curated === curatedOnly) return;
+  curatedOnly = curated;
+  $curatedToggle.classList.toggle('is-active', curated);
+  $curatedToggle.setAttribute('aria-pressed', String(curated));
+  $modePlayed.classList.toggle('is-active', !curated);
+  $modePlayed.setAttribute('aria-pressed', String(!curated));
+  track(`mode/${curated ? 'curated' : 'most-played'}`);
   void runQuery();
-});
+}
+
+$curatedToggle.addEventListener('click', () => setMode(true));
+$modePlayed.addEventListener('click', () => setMode(false));
 
 $searchClear.addEventListener('click', () => {
   clearSearch(true);

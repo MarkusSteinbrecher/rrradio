@@ -211,24 +211,33 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .filter-row > * { flex-shrink: 0; }
 .filter-row[hidden] { display: none; }
 
-/* Sort indicator — visual cue for the current sort (currently fixed
-   at "most played"). Same round geometry as .curated-toggle so the
-   row reads as a coherent cluster; non-interactive. Always rendered
-   in the active accent treatment because "most played" is always
-   the current sort. */
+/* "Most played" mode button. Pairs with the curated-toggle as a
+   mutually-exclusive radio set — only one of {most-played, curated}
+   is active at a time. Same round 36px geometry as the star. */
 .filter-chip {
   display: inline-grid;
   place-items: center;
   width: 36px;
   height: 36px;
-  border: 1px solid var(--accent);
+  border: 1px solid var(--line);
   border-radius: 999px;
-  color: var(--accent);
-  background: rgba(255, 255, 0, 0.10);
-  user-select: none;
+  background: transparent;
+  color: var(--ink-3);
+  cursor: pointer;
   flex-shrink: 0;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.filter-chip:hover {
+  border-color: var(--line-2);
+  color: var(--ink-2);
 }
 .filter-chip svg { width: 16px; height: 16px; display: block; }
+.filter-chip.is-active {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(255, 255, 0, 0.10);
+}
+.filter-chip.is-active:hover { color: var(--accent); }
 
 /* "Curated only" toggle — sibling of the genre dropdown. Same pill
    geometry so the row reads as a coherent control cluster; the icon
