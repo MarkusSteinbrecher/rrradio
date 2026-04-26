@@ -12,7 +12,8 @@
     "probe": "node tools/probe-station.mjs",
     "candidates": "node tools/candidates.mjs",
     "validate-catalog": "node tools/validate-catalog.mjs",
-    "auto-curate": "node tools/auto-curate.mjs"
+    "auto-curate": "node tools/auto-curate.mjs",
+    "analyze": "node tools/analyze.mjs"
   },
   "dependencies": {
     "hls.js": "^1.5.17"

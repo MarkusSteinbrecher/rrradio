@@ -1,0 +1,156 @@
+{
+  "generatedAt": "2026-04-26T16:54:05.063Z",
+  "stations": [
+    {
+      "id": "builtin-grrif",
+      "name": "Grrif",
+      "broadcaster": "grrif",
+      "status": "working",
+      "streamUrl": "https://grrif.ice.infomaniak.ch/grrif-128.aac",
+      "metadataUrl": null,
+      "favicon": "stations/grrif.png",
+      "metadataKey": "grrif",
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/aac"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "warn",
+          "detail": "icy-metaint advertised but no StreamTitle in first 64 KB"
+        },
+        "metadataApi": {
+          "state": "ok",
+          "detail": "built into grrif fetcher"
+        },
+        "fetcher": {
+          "state": "ok",
+          "detail": "grrif"
+        },
+        "program": {
+          "state": "warn",
+          "detail": "fetcher does not expose program info"
+        },
+        "logo": {
+          "state": "ok",
+          "detail": "stations/grrif.png"
+        }
+      }
+    },
+    {
+      "id": "builtin-fm4",
+      "name": "FM4",
+      "broadcaster": "orf",
+      "status": "working",
+      "streamUrl": "https://orf-live.ors-shoutcast.at/fm4-q2a",
+      "metadataUrl": "https://audioapi.orf.at/fm4/api/json/4.0/live",
+      "favicon": "stations/fm4.png",
+      "metadataKey": "orf",
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"Jean Knight - Mr. Big Stuff | FM4 Fivas \""
+        },
+        "metadataApi": {
+          "state": "ok"
+        },
+        "fetcher": {
+          "state": "ok",
+          "detail": "orf"
+        },
+        "program": {
+          "state": "ok"
+        },
+        "logo": {
+          "state": "ok",
+          "detail": "stations/fm4.png"
+        }
+      }
+    },
+    {
+      "id": "builtin-br-bayern1",
+      "name": "Bayern 1",
+      "broadcaster": "br",
+      "status": "working",
+      "streamUrl": "https://mcdn.hf.br.de/br/hf/b1obb/master.m3u8",
+      "metadataUrl": "https://www.br.de/mediathek/audio/bayern1/audio-livestream-bayern1-oberbayern-100~radioplayer.json",
+      "favicon": "stations/br-bayern1.png",
+      "metadataKey": "br-radioplayer",
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "application/x-mpegurl"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "na",
+          "detail": "HLS — metadata via manifest"
+        },
+        "metadataApi": {
+          "state": "ok"
+        },
+        "fetcher": {
+          "state": "ok",
+          "detail": "br-radioplayer"
+        },
+        "program": {
+          "state": "ok"
+        },
+        "logo": {
+          "state": "ok",
+          "detail": "stations/br-bayern1.png"
+        }
+      }
+    },
+    {
+      "id": "rb-bbc-world-service",
+      "name": "BBC World Service",
+      "broadcaster": "independent",
+      "status": "stream-only",
+      "streamUrl": "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_east_asia",
+      "metadataUrl": null,
+      "favicon": "https://cdn.vox-cdn.com/thumbor/FOKCcOpam5-0m4VfrxvfzMdDK6I=/10x0:610x400/1400x1400/filters:focal(10x0:610x400):format(jpeg)/cdn.vox-cdn.com/assets/958975/bbc_world_service.jpeg",
+      "metadataKey": null,
+      "checks": {
+        "stream": {
+          "state": "ok",
+          "detail": "audio/mpeg"
+        },
+        "https": {
+          "state": "ok"
+        },
+        "icy": {
+          "state": "ok",
+          "detail": "\"BBC World Service East Asia\""
+        },
+        "metadataApi": {
+          "state": "na",
+          "detail": "not declared"
+        },
+        "fetcher": {
+          "state": "na",
+          "detail": "generic"
+        },
+        "program": {
+          "state": "na"
+        },
+        "logo": {
+          "state": "warn",
+          "detail": "imported (Radio Browser favicon)"
+        }
+      }
+    }
+  ]
+}
