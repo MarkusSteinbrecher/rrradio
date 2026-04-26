@@ -1060,21 +1060,30 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
 body.is-playing .np-play .icon-play  { display: none; }
 body.is-playing .np-play .icon-pause { display: block; }
 
-.np-play.is-loading {
-  background: transparent;
-  color: var(--accent);
+/* Loading state: hide the play/pause glyph, show three pulsing dots
+   inside the accent-filled button. Reads clearly against the warm
+   amber background; no rotating-border subtlety. */
+.np-play__loader {
+  display: none;
+  align-items: center;
+  gap: 5px;
+}
+.np-play__loader span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: np-play-loader 1.2s ease-in-out infinite;
+}
+.np-play__loader span:nth-child(2) { animation-delay: 0.15s; }
+.np-play__loader span:nth-child(3) { animation-delay: 0.30s; }
+@keyframes np-play-loader {
+  0%, 60%, 100% { transform: scale(0.6); opacity: 0.4; }
+  30%           { transform: scale(1.0); opacity: 1; }
 }
 .np-play.is-loading .icon-play,
-.np-play.is-loading .icon-pause { display: none; }
-.np-play.is-loading::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: 50%;
-  border: 1px solid var(--line);
-  border-top-color: var(--accent);
-  animation: spin 1s linear infinite;
-}
+.np-play.is-loading .icon-pause     { display: none; }
+.np-play.is-loading .np-play__loader { display: flex; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* Streaming indicator — a single sine-wave hairline that drifts one
