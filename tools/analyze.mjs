@@ -32,6 +32,10 @@ const PROGRAM_CAPABLE = new Set(['orf', 'br-radioplayer']);
 // the YAML's metadataUrl). For these, the meta column reports the
 // built-in source rather than "not declared".
 const SELF_CONTAINED_FETCHERS = new Set(['grrif']);
+// Broadcasters whose metadataUrl can be auto-derived by wire-metadata.
+// When a station has one of these but no metadataUrl, the meta column
+// reports "wireable" rather than "not declared".
+const WIREABLE_BROADCASTERS = new Set(['br', 'orf']);
 
 // ─────────────────────────────────────────────────────────────
 // Helpers
@@ -158,10 +162,13 @@ function classifyIcy(probe, codec) {
   return { state: 'bad', detail: 'no ICY metadata' };
 }
 
-function classifyMetadataApi(metadataUrl, probe, metadataKey) {
+function classifyMetadataApi(metadataUrl, probe, metadataKey, broadcaster) {
   if (!metadataUrl) {
     if (metadataKey && SELF_CONTAINED_FETCHERS.has(metadataKey)) {
       return { state: 'ok', detail: `built into ${metadataKey} fetcher` };
+    }
+    if (broadcaster && WIREABLE_BROADCASTERS.has(broadcaster)) {
+      return { state: 'warn', detail: `auto-discoverable — run \`npm run wire-metadata\`` };
     }
     return { state: 'na', detail: 'not declared' };
   }
@@ -227,7 +234,7 @@ for (const s of targets) {
     stream: classifyStream(streamProbe),
     https: classifyHttps(s.streamUrl),
     icy: classifyIcy(streamProbe, s.codec),
-    metadataApi: classifyMetadataApi(s.metadataUrl, metaProbe, metadataKey),
+    metadataApi: classifyMetadataApi(s.metadataUrl, metaProbe, metadataKey, s.broadcaster),
     fetcher: classifyFetcher(metadataKey),
     program: classifyProgram(metadataKey),
     logo: classifyLogo(s.favicon),
