@@ -9,8 +9,6 @@
 
 <p align="center">
   A minimal, ad-free internet radio app. No cookies, no signup. Work in progress.
-  <br/>
-  <a href="https://rrradio.org"><strong>→ rrradio.org</strong></a>
 </p>
 
 ## Where the stations come from
