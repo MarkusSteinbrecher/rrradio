@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="robots" content="noindex" />
+    <title>rrradio · admin</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap"
+    />
+    <style>
+      :root {
+        --bg:      #0a0a0a;
+        --bg-2:    #131313;
+        --bg-3:    #1a1a1a;
+        --line:    rgba(255, 255, 255, 0.08);
+        --line-2:  rgba(255, 255, 255, 0.14);
+        --ink:     #f4f4f2;
+        --ink-2:   rgba(244, 244, 242, 0.80);
+        --ink-3:   rgba(244, 244, 242, 0.62);
+        --ink-4:   rgba(244, 244, 242, 0.40);
+        --accent:  #e9b66b;
+        --sans:    'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        --mono:    'IBM Plex Mono', ui-monospace, Menlo, monospace;
+      }
+      * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+      html, body { margin: 0; padding: 0; }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--sans);
+        font-size: 14px;
+        line-height: 1.5;
+        min-height: 100dvh;
+        padding: 32px 24px 64px;
+      }
+      a { color: var(--ink-2); text-decoration: none; border-bottom: 1px solid var(--line-2); }
+      a:hover { color: var(--accent); border-color: var(--accent); }
+      button {
+        font: inherit;
+        color: inherit;
+        background: none;
+        border: 0;
+        cursor: pointer;
+      }
+      input {
+        font: inherit;
+        color: inherit;
+        background: var(--bg-2);
+        border: 1px solid var(--line);
+        padding: 10px 12px;
+        font-family: var(--mono);
+        font-size: 14px;
+        outline: 0;
+      }
+      input:focus { border-color: var(--line-2); }
+
+      .container { max-width: 920px; margin: 0 auto; }
+
+      .head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 28px;
+        flex-wrap: wrap;
+      }
+      .wordmark {
+        font-family: var(--mono);
+        font-size: 17px;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        color: var(--ink);
+      }
+      .wordmark .dot {
+        display: inline-block;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--accent);
+        margin-left: 4px;
+        margin-bottom: 1px;
+        box-shadow: 0 0 8px var(--accent);
+      }
+      .wordmark .label {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+        margin-left: 12px;
+      }
+
+      .controls {
+        display: flex;
+        gap: 6px;
+      }
+      .controls button {
+        padding: 5px 11px;
+        border: 1px solid var(--line);
+        color: var(--ink-3);
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        border-radius: 999px;
+        transition: color 0.15s, border-color 0.15s, background 0.15s;
+      }
+      .controls button:hover  { color: var(--ink); border-color: var(--line-2); }
+      .controls button.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+      /* Auth gate */
+      .gate { max-width: 360px; margin: 80px auto; }
+      .gate h1 {
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+        margin: 0 0 16px;
+      }
+      .gate input { width: 100%; }
+      .gate button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 12px;
+        background: var(--accent);
+        color: var(--bg);
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        border-radius: 999px;
+      }
+      .gate button:active { transform: scale(0.97); }
+      .gate p {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--ink-4);
+        letter-spacing: 0.04em;
+        margin-top: 16px;
+      }
+      .gate .error {
+        color: #ff8b6b;
+        font-size: 11px;
+        font-family: var(--mono);
+        margin-top: 8px;
+        min-height: 16px;
+      }
+
+      /* Cards */
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      @media (min-width: 720px) {
+        .grid { grid-template-columns: 1fr 1fr; }
+        .grid .span-2 { grid-column: 1 / -1; }
+      }
+      .card {
+        background: var(--bg-2);
+        border: 1px solid var(--line);
+        padding: 18px 20px 16px;
+      }
+      .card h2 {
+        font-family: var(--mono);
+        font-size: 9.5px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+        margin: 0 0 14px;
+      }
+
+      .metrics {
+        display: flex;
+        gap: 32px;
+        flex-wrap: wrap;
+      }
+      .metric { flex: 1; min-width: 100px; }
+      .metric .v {
+        font-family: var(--mono);
+        font-size: 32px;
+        font-weight: 300;
+        color: var(--accent);
+        letter-spacing: -0.02em;
+        font-variant-numeric: tabular-nums;
+        line-height: 1;
+        margin-bottom: 4px;
+      }
+      .metric .k {
+        font-family: var(--mono);
+        font-size: 9px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+      }
+
+      ul.list { list-style: none; padding: 0; margin: 0; }
+      ul.list li {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: baseline;
+        gap: 12px;
+        padding: 8px 0;
+        border-top: 1px solid var(--line);
+      }
+      ul.list li:first-child { border-top: 0; }
+      ul.list .label {
+        color: var(--ink-2);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      ul.list .label .sub {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        color: var(--ink-4);
+        letter-spacing: 0.04em;
+        margin-left: 8px;
+      }
+      ul.list .count {
+        font-family: var(--mono);
+        font-size: 13px;
+        color: var(--ink);
+        font-variant-numeric: tabular-nums;
+      }
+      .empty {
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.04em;
+        color: var(--ink-4);
+        padding: 6px 0;
+      }
+      .footer {
+        margin-top: 28px;
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink-4);
+        text-align: center;
+      }
+      .footer a { color: var(--ink-4); border-bottom-color: var(--line); }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="root"></div>
+
+    <script>
+      // ─── config ─────────────────────────────────────────────────
+      // Worker URL — set this after `wrangler deploy`.
+      const WORKER_URL = 'https://YOUR-WORKER.YOUR-SUBDOMAIN.workers.dev';
+
+      const TOKEN_KEY = 'rrradio.admin.token';
+      const RANGE_KEY = 'rrradio.admin.range';
+
+      // ─── state ──────────────────────────────────────────────────
+      let token = localStorage.getItem(TOKEN_KEY) || '';
+      let days = Number(localStorage.getItem(RANGE_KEY)) || 7;
+
+      // ─── tiny DOM helpers ───────────────────────────────────────
+      function el(tag, attrs, ...children) {
+        const e = document.createElement(tag);
+        for (const k in (attrs || {})) {
+          const v = attrs[k];
+          if (v == null || v === false) continue;
+          if (k === 'class') e.className = v;
+          else if (k.startsWith('on')) e.addEventListener(k.slice(2).toLowerCase(), v);
+          else e.setAttribute(k, v === true ? '' : String(v));
+        }
+        for (const c of children.flat()) {
+          if (c == null || c === false) continue;
+          e.appendChild(typeof c === 'string' || typeof c === 'number' ? document.createTextNode(String(c)) : c);
+        }
+        return e;
+      }
+      const $root = document.getElementById('root');
+
+      function fmt(n) {
+        if (typeof n !== 'number' || !isFinite(n)) return '—';
+        return n.toLocaleString();
+      }
+
+      // ─── api ────────────────────────────────────────────────────
+      async function api(path) {
+        const res = await fetch(`${WORKER_URL}${path}?days=${days}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (res.status === 401) {
+          localStorage.removeItem(TOKEN_KEY);
+          token = '';
+          throw new Error('unauthorized');
+        }
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      }
+
+      // ─── views ──────────────────────────────────────────────────
+      function viewGate(errorMsg) {
+        const input = el('input', { type: 'password', placeholder: 'Admin token', autocomplete: 'off', autofocus: true });
+        const errorEl = el('div', { class: 'error' }, errorMsg || '');
+        const submit = () => {
+          if (!input.value.trim()) return;
+          token = input.value.trim();
+          localStorage.setItem(TOKEN_KEY, token);
+          render();
+        };
+        const btn = el('button', { onclick: submit }, 'Unlock');
+        input.addEventListener('keydown', (e) => { if (e.key === 'Enter') submit(); });
+
+        $root.replaceChildren(
+          el('div', { class: 'gate' },
+            el('h1', {}, 'rrradio · admin'),
+            input,
+            errorEl,
+            btn,
+            el('p', {}, 'Token configured on the Worker as ADMIN_TOKEN. ' +
+              'If you forgot it, rotate it via wrangler secret put ADMIN_TOKEN.'),
+          ),
+        );
+        setTimeout(() => input.focus(), 50);
+      }
+
+      function rangeButton(d, label) {
+        return el('button', {
+          class: d === days ? 'active' : '',
+          onclick: () => {
+            days = d;
+            localStorage.setItem(RANGE_KEY, String(d));
+            renderDashboard();
+          },
+        }, label);
+      }
+
+      function metricsCard(totals) {
+        return el('div', { class: 'card span-2' },
+          el('h2', {}, 'this period'),
+          el('div', { class: 'metrics' },
+            el('div', { class: 'metric' },
+              el('div', { class: 'v' }, fmt(totals.total ?? 0)),
+              el('div', { class: 'k' }, 'pageviews'),
+            ),
+            el('div', { class: 'metric' },
+              el('div', { class: 'v' }, fmt(totals.total_events ?? 0)),
+              el('div', { class: 'k' }, 'events'),
+            ),
+            el('div', { class: 'metric' },
+              el('div', { class: 'v' }, fmt(totals.total_unique ?? 0)),
+              el('div', { class: 'k' }, 'unique visitors'),
+            ),
+          ),
+        );
+      }
+
+      function listCard(title, items, opts = {}) {
+        const max = opts.max ?? 10;
+        const showSub = opts.showSub === true;
+        const list = el('ul', { class: 'list' });
+        const top = (items || []).slice(0, max);
+        if (top.length === 0) {
+          list.appendChild(el('li', {}, el('span', { class: 'empty' }, 'No data yet.')));
+        } else {
+          for (const item of top) {
+            const labelText = item.label || '—';
+            const labelSpan = el('span', { class: 'label', title: labelText }, labelText);
+            if (showSub && item.title) {
+              labelSpan.appendChild(el('span', { class: 'sub' }, item.title));
+            }
+            list.appendChild(el('li', {},
+              labelSpan,
+              el('span', { class: 'count' }, fmt(item.count)),
+            ));
+          }
+        }
+        return el('div', { class: 'card' },
+          el('h2', {}, title),
+          list,
+        );
+      }
+
+      async function renderDashboard() {
+        $root.replaceChildren(
+          el('div', { class: 'head' },
+            el('div', {},
+              el('span', { class: 'wordmark' }, 'rrradio', el('span', { class: 'dot' }), el('span', { class: 'label' }, 'admin')),
+            ),
+            el('div', { class: 'controls' },
+              rangeButton(1, '24h'),
+              rangeButton(7, '7d'),
+              rangeButton(30, '30d'),
+              rangeButton(90, '90d'),
+            ),
+          ),
+          el('div', { class: 'grid', id: 'cards' },
+            el('div', { class: 'card span-2' }, el('span', { class: 'empty' }, 'Loading…')),
+          ),
+        );
+        const cards = document.getElementById('cards');
+
+        try {
+          const [totals, stations, errors, tabs, genres, favorites] = await Promise.all([
+            api('/api/totals'),
+            api('/api/top-stations'),
+            api('/api/errors'),
+            api('/api/tabs'),
+            api('/api/genres'),
+            api('/api/favorites'),
+          ]);
+          cards.replaceChildren(
+            metricsCard(totals),
+            listCard('top stations', stations.items),
+            listCard('favorites added', favorites.items),
+            listCard('errors', errors.items, { showSub: true }),
+            listCard('tabs', tabs.items),
+            listCard('genre filter', genres.items),
+          );
+          $root.appendChild(
+            el('div', { class: 'footer' },
+              `data via `,
+              el('a', { href: 'https://markussteinbrecher.goatcounter.com/', target: '_blank', rel: 'noopener' }, 'goatcounter'),
+              ` · cached 5 min · `,
+              el('a', { href: '#', onclick: (e) => { e.preventDefault(); renderDashboard(); } }, 'refresh'),
+            ),
+          );
+        } catch (err) {
+          if (String(err).includes('unauthorized')) {
+            viewGate('Invalid token.');
+            return;
+          }
+          cards.replaceChildren(
+            el('div', { class: 'card span-2' },
+              el('span', { class: 'empty' }, 'Failed to load: ' + String(err)),
+            ),
+          );
+        }
+      }
+
+      function render() {
+        if (!token) {
+          viewGate(null);
+          return;
+        }
+        if (WORKER_URL.startsWith('https://YOUR-WORKER')) {
+          $root.replaceChildren(
+            el('div', { class: 'gate' },
+              el('h1', {}, 'rrradio · admin'),
+              el('p', {},
+                'WORKER_URL is not set. Edit ',
+                el('span', { style: 'font-family: var(--mono); color: var(--ink-2);' }, 'public/dashboard.html'),
+                ' and replace the placeholder after running ',
+                el('span', { style: 'font-family: var(--mono); color: var(--ink-2);' }, 'wrangler deploy'),
+                ' in the worker/ folder.',
+              ),
+            ),
+          );
+          return;
+        }
+        renderDashboard();
+      }
+
+      render();
+    </script>
+  </body>
+</html>

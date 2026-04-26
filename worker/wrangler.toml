@@ -1,0 +1,9 @@
+name = "rrradio-stats"
+main = "src/index.ts"
+compatibility_date = "2025-04-01"
+
+# Public, non-secret config. Secrets (GOATCOUNTER_TOKEN, ADMIN_TOKEN)
+# are set via `wrangler secret put` and stored on Cloudflare's side.
+[vars]
+GOATCOUNTER_SITE = "markussteinbrecher.goatcounter.com"
+ALLOWED_ORIGIN  = "https://markussteinbrecher.github.io"
