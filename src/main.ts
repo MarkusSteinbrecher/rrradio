@@ -49,10 +49,16 @@ const meta = new MetadataPoller((parsed) => {
     player.setTrackTitle(undefined);
     return;
   }
-  const display = parsed.artist
-    ? `${parsed.artist} — ${parsed.track}`
-    : parsed.track;
-  player.setTrackTitle(display, parsed);
+  const display = parsed.track
+    ? parsed.artist
+      ? `${parsed.artist} — ${parsed.track}`
+      : parsed.track
+    : undefined;
+  player.setTrackTitle(display, {
+    ...parsed,
+    programName: parsed.program?.name,
+    programSubtitle: parsed.program?.subtitle,
+  });
 
   // Cover-art enrichment via iTunes Search. Runs when:
   //   (a) the station's metadata feed has no cover at all, OR
@@ -63,7 +69,7 @@ const meta = new MetadataPoller((parsed) => {
   // If iTunes misses, we keep the station's URL — still better than
   // falling all the way back to the station favicon.
   const lowRes = parsed.coverUrl ? isLowResCoverUrl(parsed.coverUrl) : false;
-  if (!parsed.coverUrl || lowRes) {
+  if (parsed.track && (!parsed.coverUrl || lowRes)) {
     const myToken = ++coverEnrichToken;
     coverEnrichController?.abort();
     coverEnrichController = new AbortController();
@@ -95,6 +101,8 @@ const $miniToggle = document.getElementById('mini-toggle') as HTMLElement;
 const $np = document.getElementById('np') as HTMLElement;
 const $npName = document.getElementById('np-name') as HTMLElement;
 const $npStationLogo = document.getElementById('np-station-logo') as HTMLImageElement;
+const $npProgram = document.getElementById('np-program') as HTMLElement;
+const $npProgramName = document.getElementById('np-program-name') as HTMLElement;
 const $npTags = document.getElementById('np-tags') as HTMLElement;
 const $npBitrate = document.getElementById('np-bitrate') as HTMLElement;
 const $npOrigin = document.getElementById('np-origin') as HTMLElement;
@@ -410,6 +418,20 @@ function renderNowPlaying(np: NowPlaying): void {
   const s = np.station;
   $npName.textContent = s.name || '—';
   $npTags.textContent = (s.tags ?? []).join(' · ');
+
+  if (np.programName) {
+    $npProgramName.textContent = np.programName;
+    if (np.programSubtitle) {
+      $npProgram.title = np.programSubtitle;
+    } else {
+      $npProgram.removeAttribute('title');
+    }
+    $npProgram.hidden = false;
+  } else {
+    $npProgram.hidden = true;
+    $npProgramName.textContent = '';
+    $npProgram.removeAttribute('title');
+  }
 
   if (s.favicon) {
     if ($npStationLogo.getAttribute('src') !== s.favicon) {

@@ -724,6 +724,38 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   text-transform: lowercase;
 }
 
+/* Optional "Now on · <Show>" pill — sits under .np-tags inside
+   .np-station, populated by the per-station fetcher (FM4 via ORF,
+   BR1 via radioplayer.json, …). Hidden when program info is missing. */
+.np-program {
+  margin-top: 8px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 12px 3px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  max-width: 100%;
+}
+.np-program[hidden] { display: none; }
+.np-program__label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  flex-shrink: 0;
+}
+.np-program__name {
+  font-family: var(--sans);
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* ─── On-air block: big square cover + label + title ─── */
 .np-track {
   display: flex;

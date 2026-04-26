@@ -193,9 +193,20 @@ export class AudioPlayer {
    */
   setTrackTitle(
     trackTitle: string | undefined,
-    parts?: { artist?: string; track?: string; coverUrl?: string },
+    parts?: {
+      artist?: string;
+      track?: string;
+      coverUrl?: string;
+      programName?: string;
+      programSubtitle?: string;
+    },
   ): void {
-    this.update({ trackTitle, coverUrl: parts?.coverUrl });
+    this.update({
+      trackTitle,
+      coverUrl: parts?.coverUrl,
+      programName: parts?.programName,
+      programSubtitle: parts?.programSubtitle,
+    });
     this.updateMediaSessionMetadata(this.current.station, parts);
   }
 

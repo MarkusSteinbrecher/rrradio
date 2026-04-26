@@ -14,11 +14,20 @@
 
 export interface ParsedTitle {
   artist?: string;
-  track: string;
+  /** Current track title, when known. Empty/undefined for sources that
+   *  only return program-level info (news/talk segments). */
+  track?: string;
   raw: string;
   /** Optional cover-art URL when the source provides one (e.g. JSON
    *  metadata feeds). ICY metadata never includes this. */
   coverUrl?: string;
+  /** Optional show / program currently broadcasting on this station,
+   *  separate from the per-track info. Some feeds (ORF, BR) expose a
+   *  parent broadcast title even between songs. */
+  program?: {
+    name: string;
+    subtitle?: string;
+  };
 }
 
 const MAX_METADATA_BYTES = 255 * 16;       // ICY length byte × 16

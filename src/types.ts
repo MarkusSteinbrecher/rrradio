@@ -38,5 +38,11 @@ export interface NowPlaying {
   /** Optional cover-art URL for the current track (when the metadata
    *  source provides one — e.g. Grrif's covers.json). */
   coverUrl?: string;
+  /** Optional show / program currently on this station — i.e. the
+   *  parent broadcast that bundles the songs (e.g. "Morning Show"
+   *  on FM4). Separate from per-track info because programs change
+   *  every hour or two while tracks change every few minutes. */
+  programName?: string;
+  programSubtitle?: string;
   errorMessage?: string;
 }

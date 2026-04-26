@@ -63,6 +63,10 @@ interface OrfBroadcast {
   start: number;
   end: number;
   href: string;
+  title?: string;
+  subtitle?: string;
+  program?: string;
+  programKey?: string;
 }
 interface OrfItem {
   type?: string;
@@ -106,18 +110,38 @@ const fetchOrfMetadata: MetadataFetcher = async (station, signal) => {
       const dur = it.duration ?? 0;
       return start <= now && now < start + dur;
     });
-    if (!item || item.type !== 'M' || !item.title) return null;
+
+    const program = current.title
+      ? { name: current.title.trim(), subtitle: stripHtml(current.subtitle) }
+      : undefined;
+
+    // Music item — full track + program. For news/talk (type !== "M")
+    // we still surface the program info so the user knows which show
+    // is on, even when there's no track to display.
+    if (!item || item.type !== 'M' || !item.title) {
+      return program ? { track: undefined, raw: '', program } : null;
+    }
 
     return {
       artist: item.interpreter,
       track: item.title,
       raw: `${item.interpreter ?? ''} - ${item.title}`.trim(),
       coverUrl: bestImage(item.images),
+      program,
     };
   } catch {
     return null;
   }
 };
+
+/** Strip HTML tags + collapse whitespace. ORF's broadcast subtitles
+ *  arrive as fragments like "<p>Some description.</p>"; we just want
+ *  the visible text. */
+function stripHtml(input: string | undefined): string | undefined {
+  if (!input) return undefined;
+  const text = input.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+  return text || undefined;
+}
 
 interface BrTrack {
   interpret?: string;
@@ -125,8 +149,16 @@ interface BrTrack {
   startTime?: string;
   endTime?: string;
 }
+interface BrBroadcast {
+  headline?: string;
+  subTitle?: string;
+  startTime?: string;
+  endTime?: string;
+  broadcastSeriesName?: string;
+}
 interface BrPlayer {
   tracks?: BrTrack[];
+  broadcasts?: BrBroadcast[];
 }
 
 /** BR radioplayer.json: Bavarian-radio "now playing" feed used by br.de.
@@ -143,18 +175,30 @@ const fetchBrMetadata: MetadataFetcher = async (station, signal) => {
     const text = await res.text();
     const data = parseLooseJSON(text) as BrPlayer;
     const tracks = data.tracks ?? [];
+    const broadcasts = data.broadcasts ?? [];
     const now = Date.now();
-    const current = tracks.find((t) => {
+    const currentTrack = tracks.find((t) => {
       const start = t.startTime ? Date.parse(t.startTime) : 0;
       const end = t.endTime ? Date.parse(t.endTime) : 0;
       return start <= now && now < end;
     });
-    const pick = current ?? tracks[0];
-    if (!pick?.title) return null;
+    const pick = currentTrack ?? tracks[0];
+
+    const currentBc = broadcasts.find((b) => {
+      const start = b.startTime ? Date.parse(b.startTime) : 0;
+      const end = b.endTime ? Date.parse(b.endTime) : 0;
+      return start <= now && now < end;
+    });
+    const program = currentBc?.headline
+      ? { name: currentBc.headline.trim(), subtitle: currentBc.subTitle?.trim() || undefined }
+      : undefined;
+
+    if (!pick?.title) return program ? { track: undefined, raw: '', program } : null;
     return {
       artist: pick.interpret ? titleCase(pick.interpret) : undefined,
       track: titleCase(pick.title),
       raw: `${pick.interpret ?? ''} - ${pick.title}`.trim(),
+      program,
     };
   } catch {
     return null;
