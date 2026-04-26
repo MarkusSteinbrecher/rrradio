@@ -197,3 +197,16 @@ kcrw:
   name: KCRW
   country: US
   homepage: https://www.kcrw.com/
+
+# ─────────────── Generic / auto-imported ───────────────
+# Catch-all for stations the auto-curate workflow imports from
+# Radio Browser. Promote individual stations to a real broadcaster
+# entry once we research their metadata API and wire a fetcher.
+independent:
+  name: Independent
+  homepage: https://www.radio-browser.info/
+  notes: |
+    Stations under this broadcaster were auto-imported from Radio
+    Browser. They start at status:stream-only — replace the broadcaster
+    + add a metadataUrl + flip to status:working once the broadcaster's
+    metadata API is wired in src/builtins.ts.

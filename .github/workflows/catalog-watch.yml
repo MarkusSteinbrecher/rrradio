@@ -12,8 +12,9 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   issues: write
+  pull-requests: write
 
 jobs:
   watch:
@@ -40,6 +41,71 @@ jobs:
 
       - name: Show curation candidates
         run: npm run candidates 2>&1 | tee candidates.txt
+
+      - name: Auto-curate (Radio Browser → YAML stubs)
+        id: curate
+        run: |
+          # Skip if a previous auto-curate PR is still open — avoids
+          # piling up stacked PRs that all touch the same file.
+          OPEN_PR=$(gh pr list --label auto-curate --state open --json number --jq '.[0].number // ""')
+          if [ -n "$OPEN_PR" ]; then
+            echo "Open auto-curate PR #$OPEN_PR — skipping import this run."
+            echo "skipped=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          npm run auto-curate 2>&1 | tee curate.txt
+          if git diff --quiet data/stations.yaml; then
+            echo "No new stations imported."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Open auto-curate PR
+        if: steps.curate.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create auto-curate \
+            --description "Auto-imported station stubs awaiting review" \
+            --color 0E8A16 --force >/dev/null 2>&1 || true
+
+          BRANCH="auto/curate-$(date -u +'%Y%m%d-%H%M')"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add data/stations.yaml
+          git commit -m "Auto-curate: import top-played stations from Radio Browser"
+          git push origin "$BRANCH"
+
+          {
+            echo "Imported by the weekly catalog-watch workflow."
+            echo "Each entry is at \`status: stream-only\` — plays straightforwardly via ICY,"
+            echo "no broadcaster-specific metadata fetcher wired yet."
+            echo
+            echo "**Review checklist before merging**"
+            echo "- [ ] Station name / stream URL look right"
+            echo "- [ ] Tags + country make sense"
+            echo "- [ ] favicon URL renders something usable (otherwise drop the line)"
+            echo "- [ ] If the broadcaster has a metadata API worth wiring, change \`broadcaster: independent\`"
+            echo "      to a real entry (or add one to \`data/broadcasters.yaml\`) and bump status to \`working\`"
+            echo
+            echo "### auto-curate output"
+            echo
+            echo '```'
+            cat curate.txt
+            echo '```'
+          } > pr-body.md
+
+          NEW_COUNT=$(grep -cE '^  \+ ' curate.txt || echo 0)
+          gh pr create \
+            --title "Auto-curate: import ${NEW_COUNT} station(s) from Radio Browser" \
+            --label auto-curate \
+            --body-file pr-body.md \
+            --head "$BRANCH" \
+            --base main
 
       - name: Open or update tracking issue
         if: steps.validate.outputs.has_issues == 'true'
