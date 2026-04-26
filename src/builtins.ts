@@ -1,5 +1,5 @@
 /// <reference types="vite/client" />
-import type { MetadataFetcher } from './metadata';
+import type { MetadataFetcher, ScheduleBroadcast, ScheduleDay, ScheduleFetcher } from './metadata';
 import type { Station } from './types';
 
 const BASE = import.meta.env.BASE_URL;
@@ -206,6 +206,103 @@ const fetchBrMetadata: MetadataFetcher = async (station, signal) => {
 };
 
 // ============================================================
+// Schedule fetchers — return multi-day program data
+// ============================================================
+
+interface OrfScheduleDay {
+  date?: number;
+  broadcasts?: OrfBroadcast[];
+}
+
+/** Strip an ORF subtitle's HTML wrapper (`<p>...</p>`) to plain text. */
+function plainSubtitle(s: string | undefined): string | undefined {
+  if (!s) return undefined;
+  const text = s.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+  return text || undefined;
+}
+
+/** ORF: derive the channel slug from the live URL so the schedule
+ *  endpoint stays in sync. live URL e.g. `audioapi.orf.at/fm4/api/...`
+ *  → schedule URL `audioapi.orf.at/fm4/api/json/4.0/broadcasts`. */
+function orfScheduleUrl(station: Station): string | null {
+  const meta = station.metadataUrl;
+  if (!meta) return null;
+  const m = meta.match(/^(https?:\/\/audioapi\.orf\.at\/[^/]+\/api\/json\/4\.0)\//i);
+  if (!m) return null;
+  return `${m[1]}/broadcasts`;
+}
+
+const fetchOrfSchedule: ScheduleFetcher = async (station, signal) => {
+  const url = orfScheduleUrl(station);
+  if (!url) return null;
+  try {
+    const res = await fetch(url, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const days = (await res.json()) as OrfScheduleDay[];
+    if (!Array.isArray(days)) return null;
+    const out: ScheduleDay[] = [];
+    for (const day of days) {
+      if (!day.broadcasts || !day.date) continue;
+      const bcs = day.broadcasts.map((b) => ({
+        start: b.start,
+        end: b.end,
+        title: (b.title ?? '').trim() || 'Untitled',
+        subtitle: plainSubtitle(b.subtitle),
+      }));
+      if (bcs.length > 0) out.push({ date: day.date, broadcasts: bcs });
+    }
+    return out.length > 0 ? out : null;
+  } catch {
+    return null;
+  }
+};
+
+/** BR: the existing radioplayer.json carries a `broadcasts[]` slice for
+ *  the current day. Single-day schedule, no archive. */
+const fetchBrSchedule: ScheduleFetcher = async (station, signal) => {
+  const url = station.metadataUrl;
+  if (!url) return null;
+  try {
+    const res = await fetch(`${url}?_=${Date.now()}`, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const text = await res.text();
+    const data = parseLooseJSON(text) as BrPlayer;
+    const broadcasts = data.broadcasts ?? [];
+    if (broadcasts.length === 0) return null;
+    const bcs: ScheduleBroadcast[] = broadcasts
+      .filter((b) => b.startTime && b.endTime && b.headline)
+      .map((b) => ({
+        start: Date.parse(b.startTime!),
+        end: Date.parse(b.endTime!),
+        title: (b.headline ?? '').trim(),
+        subtitle: b.subTitle?.trim() || undefined,
+      }))
+      .sort((a, b) => a.start - b.start);
+    if (bcs.length === 0) return null;
+    // BR's broadcasts are mostly today; group anything else under its
+    // own day boundary at midnight UTC for display purposes.
+    const dayBoundary = (ts: number): number => {
+      const d = new Date(ts);
+      d.setUTCHours(0, 0, 0, 0);
+      return d.getTime();
+    };
+    const byDay = new Map<number, ScheduleBroadcast[]>();
+    for (const b of bcs) {
+      const k = dayBoundary(b.start);
+      const arr = byDay.get(k) ?? [];
+      arr.push(b);
+      byDay.set(k, arr);
+    }
+    const out: ScheduleDay[] = [...byDay.entries()]
+      .sort((a, b) => a[0] - b[0])
+      .map(([date, broadcasts]) => ({ date, broadcasts }));
+    return out;
+  } catch {
+    return null;
+  }
+};
+
+// ============================================================
 // Fetcher registry
 // ============================================================
 
@@ -214,6 +311,13 @@ const FETCHERS_BY_KEY: Record<string, MetadataFetcher> = {
   grrif: fetchGrrifMetadata,
   orf: fetchOrfMetadata,
   'br-radioplayer': fetchBrMetadata,
+};
+
+/** Schedule fetchers — keyed the same as MetadataFetchers. Optional —
+ *  not every broadcaster has a queryable schedule API. */
+const SCHEDULE_FETCHERS_BY_KEY: Record<string, ScheduleFetcher> = {
+  orf: fetchOrfSchedule,
+  'br-radioplayer': fetchBrSchedule,
 };
 
 /** URL-pattern fallback rules. Used when a Station object doesn't
@@ -245,6 +349,30 @@ export function findFetcher(
   for (const rule of URL_PATTERN_RULES) {
     if (rule.match(station)) {
       return { fetcher: rule.fetcher, station: { ...station, metadataUrl: rule.metadataUrl } };
+    }
+  }
+  return undefined;
+}
+
+/** Schedule lookup — same key resolution as findFetcher. URL-pattern
+ *  fallback applies too (so a non-curated FM4 entry still gets a
+ *  schedule). Returns undefined when the station has no schedule API. */
+export function findScheduleFetcher(
+  station: Station,
+): { fetcher: ScheduleFetcher; station: Station } | undefined {
+  const key = station.metadata;
+  if (key) {
+    const f = SCHEDULE_FETCHERS_BY_KEY[key];
+    if (f) return { fetcher: f, station };
+  }
+  for (const rule of URL_PATTERN_RULES) {
+    if (rule.match(station)) {
+      const ruleKey =
+        rule.fetcher === fetchOrfMetadata ? 'orf' :
+        rule.fetcher === fetchBrMetadata ? 'br-radioplayer' :
+        null;
+      const sf = ruleKey ? SCHEDULE_FETCHERS_BY_KEY[ruleKey] : null;
+      if (sf) return { fetcher: sf, station: { ...station, metadataUrl: rule.metadataUrl } };
     }
   }
   return undefined;

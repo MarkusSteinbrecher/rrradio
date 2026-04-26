@@ -14,6 +14,33 @@ export type MetadataFetcher = (
   signal: AbortSignal,
 ) => Promise<ParsedTitle | null>;
 
+/** A single broadcast in a station's schedule. Times in epoch ms. */
+export interface ScheduleBroadcast {
+  start: number;
+  end: number;
+  title: string;
+  subtitle?: string;
+  description?: string;
+  moderator?: string;
+}
+
+/** A day's slate of broadcasts. */
+export interface ScheduleDay {
+  /** Midnight (local broadcast day boundary) for the day, epoch ms. */
+  date: number;
+  broadcasts: ScheduleBroadcast[];
+}
+
+/**
+ * Optional companion to MetadataFetcher — returns the broadcaster's
+ * program schedule when available. Not every fetcher implements this;
+ * the UI conditionally surfaces a "program" panel when present.
+ */
+export type ScheduleFetcher = (
+  station: Station,
+  signal: AbortSignal,
+) => Promise<ScheduleDay[] | null>;
+
 /** Default ICY-over-fetch fetcher. Works for any Icecast/Shoutcast stream
  *  that allows CORS — many do, including Infomaniak's AIS9. */
 export const icyFetcher: MetadataFetcher = async (station, signal) => {
