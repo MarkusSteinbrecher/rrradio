@@ -1,10 +1,9 @@
 import { defineConfig } from 'vite';
 
-// '/<repo-name>/' for GitHub Pages project sites, '/' for local dev.
-const base = process.env.GITHUB_PAGES === 'true' ? '/rrradio/' : '/';
-
+// rrradio is served from a custom domain root (https://rrradio.org), so
+// the base path is '/' in both production and development.
 export default defineConfig({
-  base,
+  base: '/',
   build: {
     target: 'es2022',
     sourcemap: true,
