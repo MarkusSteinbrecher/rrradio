@@ -13,7 +13,8 @@
     "candidates": "node tools/candidates.mjs",
     "validate-catalog": "node tools/validate-catalog.mjs",
     "auto-curate": "node tools/auto-curate.mjs",
-    "analyze": "node tools/analyze.mjs"
+    "analyze": "node tools/analyze.mjs",
+    "backlog": "node tools/backlog.mjs"
   },
   "dependencies": {
     "hls.js": "^1.5.17"
