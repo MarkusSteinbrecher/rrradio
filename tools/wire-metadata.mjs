@@ -144,10 +144,27 @@ async function discoverBbc(station) {
   return null;
 }
 
+/** HR: scrape the channel landing page for the radioplayer.json link.
+ *  Each HR channel uses its own subdomain (hr1.de … hr4.de) and the
+ *  paths differ per channel (radioprogramm-hr1, hrzwei-guide,
+ *  guide_hrthree, guide_hrfour) — scraping is the only reliable way. */
+async function discoverHr(station) {
+  const home = station.homepage ?? '';
+  const m = home.match(/^https?:\/\/(?:www\.)?(hr[1-4])\.de\b/i);
+  if (!m) return null;
+  const slug = m[1].toLowerCase();
+  const html = await fetchText(`https://www.${slug}.de/`);
+  if (!html) return null;
+  const re = new RegExp(`https?://www\\.${slug}\\.de/[^"\\s]*radioplayer\\.json`, 'i');
+  const found = html.match(re);
+  return found ? found[0] : null;
+}
+
 const DISCOVERERS = {
   br: discoverBr,
   orf: discoverOrf,
   bbc: discoverBbc,
+  hr: discoverHr,
 };
 
 // ─────────────────────────────────────────────────────────────

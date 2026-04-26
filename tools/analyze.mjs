@@ -25,9 +25,9 @@ const TIMEOUT_MS = 8_000;
 
 // Fetchers we have wired today. Keep in sync with FETCHERS_BY_KEY in
 // src/builtins.ts.
-const KNOWN_FETCHERS = new Set(['grrif', 'orf', 'br-radioplayer', 'bbc']);
+const KNOWN_FETCHERS = new Set(['grrif', 'orf', 'br-radioplayer', 'bbc', 'hr']);
 // Of those, which expose program (show) info beyond just track titles.
-const PROGRAM_CAPABLE = new Set(['orf', 'br-radioplayer', 'bbc']);
+const PROGRAM_CAPABLE = new Set(['orf', 'br-radioplayer', 'bbc', 'hr']);
 // Fetchers that hardcode their own metadata endpoint (don't depend on
 // the YAML's metadataUrl). For these, the meta column reports the
 // built-in source rather than "not declared".
@@ -35,7 +35,7 @@ const SELF_CONTAINED_FETCHERS = new Set(['grrif']);
 // Broadcasters whose metadataUrl can be auto-derived by wire-metadata.
 // When a station has one of these but no metadataUrl, the meta column
 // reports "wireable" rather than "not declared".
-const WIREABLE_BROADCASTERS = new Set(['br', 'orf', 'bbc']);
+const WIREABLE_BROADCASTERS = new Set(['br', 'orf', 'bbc', 'hr']);
 
 // ─────────────────────────────────────────────────────────────
 // Helpers
