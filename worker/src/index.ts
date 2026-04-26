@@ -112,28 +112,37 @@ function clampDays(raw: string | null): number {
   return Math.min(90, Math.max(1, Math.round(n)));
 }
 
-async function topByPrefix(
-  prefix: string,
-  daysBack: number,
-  limit: number,
-  env: Env,
-): Promise<ListResponse> {
-  const start = rangeStart(daysBack);
+// We fetch a large slice of /stats/hits once and filter client-side
+// across all topByPrefix calls. GoatCounter's /stats/hits doesn't
+// accept a `filter` query param (we got 400 trying), and its results
+// are already aggregated per-path with counts ordered desc.
+async function fetchAllHits(daysBack: number, env: Env): Promise<GcHit[]> {
   const params = new URLSearchParams({
-    filter: prefix,
-    start,
-    limit: String(limit),
+    start: rangeStart(daysBack),
+    limit: '500',
+    daily: 'false',
   });
   const data = await gcFetch<GcStatsHits>(`/stats/hits?${params}`, env);
-  const items = (data.hits ?? []).map((h) => ({
-    label: h.path.startsWith(prefix) ? h.path.slice(prefix.length).trim() : h.path,
-    count: h.count,
-    unique: h.count_unique,
-    title: h.title ?? '',
-  }));
-  // GC returns ascending by count for some queries — make sure we sort desc.
-  items.sort((a, b) => b.count - a.count);
-  return { items, total: data.total ?? 0, range_days: daysBack };
+  return data.hits ?? [];
+}
+
+function pickByPrefix(
+  hits: GcHit[],
+  prefix: string,
+  limit: number,
+  daysBack: number,
+): ListResponse {
+  const matched = hits
+    .filter((h) => h.path.startsWith(prefix))
+    .map((h) => ({
+      label: h.path.slice(prefix.length).trim(),
+      count: h.count,
+      unique: h.count_unique,
+      title: h.title ?? '',
+    }));
+  matched.sort((a, b) => b.count - a.count);
+  const total = matched.reduce((s, i) => s + i.count, 0);
+  return { items: matched.slice(0, limit), total, range_days: daysBack };
 }
 
 async function totals(daysBack: number, env: Env): Promise<GcTotals & { range_days: number }> {
@@ -169,19 +178,19 @@ export default {
           data = await totals(days, env);
           break;
         case '/api/top-stations':
-          data = await topByPrefix('play: ', days, 20, env);
+          data = pickByPrefix(await fetchAllHits(days, env), 'play: ', 20, days);
           break;
         case '/api/errors':
-          data = await topByPrefix('error: ', days, 20, env);
+          data = pickByPrefix(await fetchAllHits(days, env), 'error: ', 20, days);
           break;
         case '/api/tabs':
-          data = await topByPrefix('tab/', days, 10, env);
+          data = pickByPrefix(await fetchAllHits(days, env), 'tab/', 10, days);
           break;
         case '/api/genres':
-          data = await topByPrefix('genre/', days, 10, env);
+          data = pickByPrefix(await fetchAllHits(days, env), 'genre/', 10, days);
           break;
         case '/api/favorites':
-          data = await topByPrefix('favorite: ', days, 20, env);
+          data = pickByPrefix(await fetchAllHits(days, env), 'favorite: ', 20, days);
           break;
         default:
           return jsonResponse({ error: 'not found' }, 404, cors);
