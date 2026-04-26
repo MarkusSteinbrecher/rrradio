@@ -76,7 +76,6 @@ const meta = new MetadataPoller((parsed) => {
 });
 const $body = document.body;
 
-const $signalStatus = document.getElementById('signal-status') as HTMLElement;
 const $wordmark = document.getElementById('wordmark') as HTMLButtonElement;
 const $search = document.getElementById('search') as HTMLInputElement;
 const $searchClear = document.getElementById('search-clear') as HTMLButtonElement;
@@ -314,13 +313,6 @@ function buildRow(station: Station, currentId: string, state: NowPlaying['state'
 // ─────────────────────────────────────────────────────────────
 // Status text helpers
 // ─────────────────────────────────────────────────────────────
-
-function signalStatusText(np: NowPlaying): string {
-  if (np.state === 'playing') {
-    return np.station.bitrate ? `ON AIR · ${np.station.bitrate}KBPS` : 'ON AIR';
-  }
-  return 'STANDBY';
-}
 
 function miniMetaText(np: NowPlaying): string {
   switch (np.state) {
@@ -1064,7 +1056,6 @@ player.subscribe((np) => {
   // If the station was unloaded while the Playing tab was active,
   // bounce back to the last list tab so the user isn't stranded.
   if (stationLost) setTab(lastListTab);
-  $signalStatus.textContent = signalStatusText(np);
   renderMiniPlayer(np);
   renderNowPlaying(np);
   syncRowPlayingState();

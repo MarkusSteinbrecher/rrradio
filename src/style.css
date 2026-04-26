@@ -123,23 +123,6 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   box-shadow: 0 0 8px var(--accent);
 }
 
-.topbar-row__right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.signal-meta {
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.06em;
-  color: var(--ink-3);
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
 .add-btn {
   width: 28px;
   height: 28px;
@@ -154,13 +137,7 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .add-btn:hover  { color: var(--ink); border-color: var(--line-2); }
 .add-btn:active { transform: scale(0.92); }
 .add-btn svg    { width: 14px; height: 14px; }
-.signal-meta .live-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  animation: pulse 1.6s ease-in-out infinite;
-}
+
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50%      { opacity: 0.35; }
