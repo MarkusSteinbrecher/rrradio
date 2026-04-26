@@ -1,6 +1,17 @@
-# Internet Radio
+<p align="center">
+  <a href="https://rrradio.org">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="public/rrradio-logo-dark.svg">
+      <img alt="rrradio" src="public/rrradio-logo-light.svg" width="360">
+    </picture>
+  </a>
+</p>
 
-A static internet radio web app, no adds, no cookies. Work in progress.
+<p align="center">
+  A minimal, ad-free internet radio app. No cookies, no signup. Work in progress.
+  <br/>
+  <a href="https://rrradio.org"><strong>→ rrradio.org</strong></a>
+</p>
 
 ## Where the stations come from
 
