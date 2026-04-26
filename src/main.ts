@@ -617,10 +617,13 @@ function renderTopBar(): void {
 
 function syncGenre(): void {
   if ($genre.value !== activeTag) $genre.value = activeTag;
+  // Collapse the wrap to icon-only when no filter is active.
+  $genre.parentElement?.classList.toggle('is-default', activeTag === 'all');
 }
 
 function syncCountry(): void {
   if ($country.value !== activeCountry) $country.value = activeCountry;
+  $country.parentElement?.classList.toggle('is-default', activeCountry === 'all');
 }
 
 function renderTabBar(): void {
@@ -666,8 +669,8 @@ function emptyState(iconHtml: string, title: string, sub: string): HTMLDivElemen
 // matches preferred (real logos + curated metadata) and Radio
 // Browser-resolved stubs for the rest.
 const TOP_STATIONS_URL =
-  'https://rrradio-stats.markussteinbrecher.workers.dev/api/public/top-stations?days=30&limit=15';
-const PLAYED_TOTAL_LIMIT = 10;
+  'https://rrradio-stats.markussteinbrecher.workers.dev/api/public/top-stations?days=30&limit=25';
+const PLAYED_TOTAL_LIMIT = 20;
 const PLAYED_FEATURED_LIMIT = 3;
 
 interface BacklogEntry {
@@ -1378,12 +1381,14 @@ $search.addEventListener(
 
 $genre.addEventListener('change', () => {
   activeTag = $genre.value || 'all';
+  syncGenre();
   void runQuery();
   track(`genre/${activeTag}`);
 });
 
 $country.addEventListener('change', () => {
   activeCountry = $country.value || 'all';
+  syncCountry();
   void runQuery();
   track(`country/${activeCountry}`);
 });
@@ -1507,6 +1512,7 @@ player.subscribe((np) => {
 renderTabBar();
 renderTopBar();
 syncGenre();
+syncCountry();
 syncSearchClear();
 // Stations.json defines the built-in catalog (Featured strip + per-station
 // metadata fetcher overrides). Render once it lands so the first paint
