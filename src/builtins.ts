@@ -303,6 +303,98 @@ const fetchBrSchedule: ScheduleFetcher = async (station, signal) => {
 };
 
 // ============================================================
+// BBC fetchers (via our worker — rms.api.bbc.co.uk requires
+// Origin: https://www.bbc.co.uk and 403s otherwise)
+// ============================================================
+
+const BBC_PROXY = 'https://rrradio-stats.markussteinbrecher.workers.dev/api/public/bbc';
+
+interface BbcModule {
+  id?: string;
+  title?: string;
+  data?: BbcBroadcast[];
+}
+interface BbcBroadcast {
+  start?: string;
+  end?: string;
+  titles?: { primary?: string; secondary?: string; tertiary?: string };
+}
+interface BbcEnvelope {
+  data?: BbcModule[];
+}
+
+/** Service slug from station.metadataUrl. We store the slug there
+ *  (e.g. "bbc_world_service") rather than a full URL — wire-metadata
+ *  derives it once. */
+function bbcService(station: Station): string | null {
+  const url = station.metadataUrl;
+  if (!url) return null;
+  // Accept either a bare slug or a full proxy URL.
+  const m = url.match(/([a-z0-9_]+)$/i);
+  return m ? m[1] : null;
+}
+
+const fetchBbcMetadata: MetadataFetcher = async (station, signal) => {
+  const service = bbcService(station);
+  if (!service) return null;
+  try {
+    const res = await fetch(`${BBC_PROXY}/play/${service}`, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as BbcEnvelope;
+    const live = data.data?.find((m) => m.id === 'live_play_area');
+    const item = live?.data?.[0];
+    if (!item) return null;
+    const program = item.titles?.primary
+      ? { name: item.titles.primary.trim(), subtitle: item.titles.secondary?.trim() || undefined }
+      : undefined;
+    // BBC services here are news/talk. No track field — surface the
+    // program so the user sees something on Now Playing.
+    return program ? { track: undefined, raw: '', program } : null;
+  } catch {
+    return null;
+  }
+};
+
+const fetchBbcSchedule: ScheduleFetcher = async (station, signal) => {
+  const service = bbcService(station);
+  if (!service) return null;
+  try {
+    const res = await fetch(`${BBC_PROXY}/schedule/${service}`, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as BbcEnvelope;
+    const modules = data.data ?? [];
+    const out: ScheduleDay[] = [];
+    for (const mod of modules) {
+      const items = mod.data ?? [];
+      if (items.length === 0) continue;
+      const broadcasts: ScheduleBroadcast[] = items
+        .filter((b) => b.start && b.end && b.titles?.primary)
+        .map((b) => ({
+          start: Date.parse(b.start!),
+          end: Date.parse(b.end!),
+          title: b.titles!.primary!.trim(),
+          subtitle: b.titles?.secondary?.trim() || undefined,
+        }));
+      if (broadcasts.length === 0) continue;
+      // BBC modules title is the day in YYYY-MM-DD; convert to local
+      // midnight ms for the dayLabel logic.
+      const date = (() => {
+        if (mod.title && /^\d{4}-\d{2}-\d{2}$/.test(mod.title)) {
+          return new Date(`${mod.title}T00:00:00`).getTime();
+        }
+        const first = new Date(broadcasts[0].start);
+        first.setHours(0, 0, 0, 0);
+        return first.getTime();
+      })();
+      out.push({ date, broadcasts });
+    }
+    return out.length > 0 ? out : null;
+  } catch {
+    return null;
+  }
+};
+
+// ============================================================
 // Fetcher registry
 // ============================================================
 
@@ -311,6 +403,7 @@ const FETCHERS_BY_KEY: Record<string, MetadataFetcher> = {
   grrif: fetchGrrifMetadata,
   orf: fetchOrfMetadata,
   'br-radioplayer': fetchBrMetadata,
+  bbc: fetchBbcMetadata,
 };
 
 /** Schedule fetchers — keyed the same as MetadataFetchers. Optional —
@@ -318,6 +411,7 @@ const FETCHERS_BY_KEY: Record<string, MetadataFetcher> = {
 const SCHEDULE_FETCHERS_BY_KEY: Record<string, ScheduleFetcher> = {
   orf: fetchOrfSchedule,
   'br-radioplayer': fetchBrSchedule,
+  bbc: fetchBbcSchedule,
 };
 
 /** URL-pattern fallback rules. Used when a Station object doesn't
