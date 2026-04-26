@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-26T17:03:43.253Z",
+  "generatedAt": "2026-04-26T21:57:32.660Z",
   "rangeDays": 30,
   "items": [
     {
@@ -17,6 +17,18 @@
     {
       "name": "Grrif",
       "plays": 4,
+      "alreadyCurated": true,
+      "rbMatched": false,
+      "streamUrl": null,
+      "https": null,
+      "streamProbe": null,
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "already-curated"
+    },
+    {
+      "name": "Bayern 1",
+      "plays": 3,
       "alreadyCurated": true,
       "rbMatched": false,
       "streamUrl": null,
@@ -54,18 +66,6 @@
       "verdict": "auto-curate-ready"
     },
     {
-      "name": "Bayern 1",
-      "plays": 2,
-      "alreadyCurated": true,
-      "rbMatched": false,
-      "streamUrl": null,
-      "https": null,
-      "streamProbe": null,
-      "icyAvailable": null,
-      "broadcasterGuess": null,
-      "verdict": "already-curated"
-    },
-    {
       "name": "REYFM - #original",
       "plays": 2,
       "alreadyCurated": false,
@@ -81,16 +81,67 @@
       "verdict": "auto-curate-ready"
     },
     {
-      "name": "Rock Antenne",
+      "name": "BBC Radio 4",
       "plays": 1,
       "alreadyCurated": false,
       "rbMatched": true,
-      "streamUrl": "http://mp3channels.webradio.rockantenne.de/rockantenne",
+      "streamUrl": "http://as-hls-ww-live.akamaized.net/pool_55057080/live/ww/bbc_radio_fourfm/bbc_radio_fourfm.isml/bbc_radio_fourfm-audio%3d128000.norewind.m3u8",
       "https": false,
       "streamProbe": null,
       "icyAvailable": null,
       "broadcasterGuess": null,
       "verdict": "needs-https"
+    },
+    {
+      "name": "MDR Thüringen",
+      "plays": 1,
+      "alreadyCurated": true,
+      "rbMatched": false,
+      "streamUrl": null,
+      "https": null,
+      "streamProbe": null,
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "already-curated"
+    },
+    {
+      "name": "BR24",
+      "plays": 1,
+      "alreadyCurated": true,
+      "rbMatched": false,
+      "streamUrl": null,
+      "https": null,
+      "streamProbe": null,
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "already-curated"
+    },
+    {
+      "name": "Frisky Deep",
+      "plays": 1,
+      "alreadyCurated": true,
+      "rbMatched": false,
+      "streamUrl": null,
+      "https": null,
+      "streamProbe": null,
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "already-curated"
+    },
+    {
+      "name": "Rock Antenne",
+      "plays": 1,
+      "alreadyCurated": false,
+      "rbMatched": true,
+      "streamUrl": "https://mp3channels.webradio.rockantenne.de/heavy-metal",
+      "https": true,
+      "streamProbe": {
+        "ok": true,
+        "contentType": "audio/mpeg"
+      },
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "auto-curate-ready"
     },
     {
       "name": "RADIO NOVA CLASSICS",
@@ -210,63 +261,6 @@
       "streamProbe": {
         "ok": true,
         "contentType": "audio/aac"
-      },
-      "icyAvailable": null,
-      "broadcasterGuess": null,
-      "verdict": "auto-curate-ready"
-    },
-    {
-      "name": "DFM RUSSIAN DANCE",
-      "plays": 1,
-      "alreadyCurated": false,
-      "rbMatched": true,
-      "streamUrl": "https://dfm-dfmrusdance.hostingradio.ru/dfmrusdance96.aacp?0.9987259013359274",
-      "https": true,
-      "streamProbe": {
-        "ok": true,
-        "contentType": "audio/aacp"
-      },
-      "icyAvailable": null,
-      "broadcasterGuess": null,
-      "verdict": "auto-curate-ready"
-    },
-    {
-      "name": "Charivari München - Lounge Music",
-      "plays": 1,
-      "alreadyCurated": false,
-      "rbMatched": true,
-      "streamUrl": "https://rs24.stream24.net/lounge.aac?ref=charivari.de&aw_0_1st.playerid=radioplayer.de",
-      "https": true,
-      "streamProbe": {
-        "ok": true,
-        "contentType": "audio/aac"
-      },
-      "icyAvailable": null,
-      "broadcasterGuess": null,
-      "verdict": "auto-curate-ready"
-    },
-    {
-      "name": "Frisky Classics [http]",
-      "plays": 1,
-      "alreadyCurated": false,
-      "rbMatched": true,
-      "streamUrl": "http://stream.classics.friskyradio.com/classics_mp3_high",
-      "https": false,
-      "streamProbe": null,
-      "icyAvailable": null,
-      "broadcasterGuess": null,
-      "verdict": "needs-https"
-    },
-    {
-      "name": "Frisky",
-      "plays": 1,
-      "alreadyCurated": false,
-      "rbMatched": true,
-      "streamUrl": "https://stream.frisky.friskyradio.com/frisky_mp3_high",
-      "https": true,
-      "streamProbe": {
-        "ok": true,
-        "contentType": "audio/mpeg"
       },
       "icyAvailable": null,
       "broadcasterGuess": null,
