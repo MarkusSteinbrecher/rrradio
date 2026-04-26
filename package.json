@@ -9,7 +9,9 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "catalog": "node tools/build-catalog.mjs",
-    "probe": "node tools/probe-station.mjs"
+    "probe": "node tools/probe-station.mjs",
+    "candidates": "node tools/candidates.mjs",
+    "validate-catalog": "node tools/validate-catalog.mjs"
   },
   "dependencies": {
     "hls.js": "^1.5.17"
