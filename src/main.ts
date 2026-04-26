@@ -1012,6 +1012,7 @@ $search.addEventListener(
 $genre.addEventListener('change', () => {
   activeTag = $genre.value || 'all';
   void runQuery();
+  track(`genre/${activeTag}`);
 });
 
 $searchClear.addEventListener('click', () => {
@@ -1042,6 +1043,7 @@ $npDetailsToggle.addEventListener('click', () => {
   const open = $npDetails.dataset.open !== 'true';
   $npDetails.dataset.open = String(open);
   $npDetailsToggle.setAttribute('aria-expanded', String(open));
+  track(open ? 'np-details/open' : 'np-details/close');
 });
 
 $npFav.addEventListener('click', () => {
@@ -1060,6 +1062,10 @@ $npSleep.addEventListener('click', () => {
 // ─────────────────────────────────────────────────────────────
 
 let lastIcyKey = '';
+let prevState: typeof currentNP.state = 'idle';
+let prevStationId = '';
+let lastErrorMessage = '';
+
 player.subscribe((np) => {
   const stationLost = !np.station.id && currentNP.station.id && activeTab === 'playing';
   currentNP = np;
@@ -1071,6 +1077,29 @@ player.subscribe((np) => {
   renderMiniPlayer(np);
   renderNowPlaying(np);
   syncRowPlayingState();
+
+  // Telemetry: state transitions on the same station. Initial play is
+  // already tracked by onRowPlay; here we capture pause/resume cycles
+  // and stream errors. Station changes are skipped (the play event from
+  // the row click already covers them).
+  if (np.station.id && np.station.id === prevStationId) {
+    if (prevState === 'playing' && np.state === 'paused') {
+      track(`pause: ${np.station.name}`);
+    } else if (prevState === 'paused' && np.state === 'loading') {
+      track(`resume: ${np.station.name}`);
+    }
+  }
+  if (np.state === 'error' && prevState !== 'error') {
+    const reason = np.errorMessage ?? 'unknown';
+    if (reason !== lastErrorMessage) {
+      lastErrorMessage = reason;
+      track(`error: ${np.station.name || 'unknown'}`, reason);
+    }
+  } else if (np.state !== 'error') {
+    lastErrorMessage = '';
+  }
+  prevState = np.state;
+  prevStationId = np.station.id;
 
   // Drive the metadata poller off player state. Per-station overrides win
   // (e.g. Grrif uses /live/covers.json); falls back to ICY-over-fetch.
