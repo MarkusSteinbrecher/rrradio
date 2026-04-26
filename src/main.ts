@@ -33,6 +33,15 @@ const player = new AudioPlayer();
 let coverEnrichToken = 0;
 let coverEnrichController: AbortController | undefined;
 
+/** Patterns of station-supplied cover URLs known to publish only small
+ *  thumbnails. When one of these is the only cover available, we still
+ *  run iTunes as an upgrade and prefer the higher-res result. */
+function isLowResCoverUrl(url: string): boolean {
+  // Grrif: /Medias/Covers/m/...  → 246×246 JPEGs only
+  if (/\/Medias\/Covers\/m\//.test(url)) return true;
+  return false;
+}
+
 const meta = new MetadataPoller((parsed) => {
   if (!parsed) {
     player.setTrackTitle(undefined);
@@ -43,10 +52,16 @@ const meta = new MetadataPoller((parsed) => {
     : parsed.track;
   player.setTrackTitle(display, parsed);
 
-  // Cover-art enrichment — when the station's metadata feed didn't supply
-  // a cover, ask iTunes Search. Cancels in-flight requests if a newer
-  // track shows up first.
-  if (!parsed.coverUrl) {
+  // Cover-art enrichment via iTunes Search. Runs when:
+  //   (a) the station's metadata feed has no cover at all, OR
+  //   (b) the cover it supplied is from a known low-res source.
+  // Grrif only publishes 246×246 JPEGs at /Medias/Covers/m/ — visibly
+  // upscaled on retina inside our ~260 CSS-px frame. iTunes serves
+  // 600×600 for the same track, so we prefer it when the lookup hits.
+  // If iTunes misses, we keep the station's URL — still better than
+  // falling all the way back to the station favicon.
+  const lowRes = parsed.coverUrl ? isLowResCoverUrl(parsed.coverUrl) : false;
+  if (!parsed.coverUrl || lowRes) {
     const myToken = ++coverEnrichToken;
     coverEnrichController?.abort();
     coverEnrichController = new AbortController();
