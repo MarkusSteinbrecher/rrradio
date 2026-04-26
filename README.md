@@ -1,8 +1,6 @@
 # Internet Radio
 
-A static internet radio web app; work in progress.
-
-See [`CLAUDE.md`](./CLAUDE.md) for full project context.
+A static internet radio web app, no adds, no cookies. Work in progress.
 
 ## Where the stations come from
 
