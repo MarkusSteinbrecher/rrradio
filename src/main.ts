@@ -1530,6 +1530,14 @@ $search.addEventListener(
 $genre.addEventListener('change', () => {
   activeTag = $genre.value || 'all';
   syncGenre();
+  // Genre + news are both tag filters → mutually exclusive. Picking
+  // a real genre clears news so the user isn't confused about which
+  // one is in effect.
+  if (activeTag !== 'all' && newsOnly) {
+    newsOnly = false;
+    $newsToggle.classList.remove('is-active');
+    $newsToggle.setAttribute('aria-pressed', 'false');
+  }
   selectedClusterKey = null;
   void runQuery();
   track(`genre/${activeTag}`);
@@ -1571,6 +1579,12 @@ $newsToggle.addEventListener('click', () => {
   newsOnly = !newsOnly;
   $newsToggle.classList.toggle('is-active', newsOnly);
   $newsToggle.setAttribute('aria-pressed', String(newsOnly));
+  // Symmetric to the genre handler — turning news on resets the genre
+  // dropdown so the user has a single tag filter in effect.
+  if (newsOnly && activeTag !== 'all') {
+    activeTag = 'all';
+    syncGenre();
+  }
   selectedClusterKey = null;
   track(`news-only/${newsOnly ? 'on' : 'off'}`);
   void runQuery();
