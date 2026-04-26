@@ -1,4 +1,5 @@
 import { fetchIcyOnce, parseStreamTitle, type ParsedTitle } from './icyMetadata';
+import type { Station } from './types';
 
 /**
  * A unit of work that returns the current track for a station.
@@ -8,17 +9,18 @@ import { fetchIcyOnce, parseStreamTitle, type ParsedTitle } from './icyMetadata'
  *   (e.g., between songs, ad break) — caller keeps polling
  * - Throws when the source is unreachable / unsupported — caller stops polling
  */
-export type MetadataFetcher = (signal: AbortSignal) => Promise<ParsedTitle | null>;
+export type MetadataFetcher = (
+  station: Station,
+  signal: AbortSignal,
+) => Promise<ParsedTitle | null>;
 
 /** Default ICY-over-fetch fetcher. Works for any Icecast/Shoutcast stream
  *  that allows CORS — many do, including Infomaniak's AIS9. */
-export function makeIcyFetcher(streamUrl: string): MetadataFetcher {
-  return async (signal) => {
-    const raw = await fetchIcyOnce(streamUrl, signal);
-    if (raw === null) throw new Error('icy unavailable');
-    return parseStreamTitle(raw);
-  };
-}
+export const icyFetcher: MetadataFetcher = async (station, signal) => {
+  const raw = await fetchIcyOnce(station.streamUrl, signal);
+  if (raw === null) throw new Error('icy unavailable');
+  return parseStreamTitle(raw);
+};
 
 export class MetadataPoller {
   private timer: number | undefined;
@@ -33,7 +35,8 @@ export class MetadataPoller {
 
   /** Start polling under a unique key (e.g., station id). Re-calls with the
    *  same key are no-ops; different keys swap fetchers cleanly. */
-  start(key: string, fetcher: MetadataFetcher, intervalMs = 30_000): void {
+  start(station: Station, fetcher: MetadataFetcher, intervalMs = 30_000): void {
+    const key = station.id;
     if (this.currentKey === key) return;
     this.stop();
     this.currentKey = key;
@@ -43,7 +46,7 @@ export class MetadataPoller {
       this.controller?.abort();
       this.controller = new AbortController();
       try {
-        const result = await fetcher(this.controller.signal);
+        const result = await fetcher(station, this.controller.signal);
         if (myGen !== this.generation) return;
         this.listener(result);
       } catch {

@@ -20,6 +20,12 @@ export interface Station {
    * derive a deterministic pseudo-frequency in the 87.5–108.0 MHz range
    * from the station id so the tuner-dial visualization always has a target. */
   frequency?: string;
+  /** Optional key into the metadata-fetcher registry (src/builtins.ts).
+   *  Built-in stations declare which fetcher to use ("grrif", "fm4", "br"). */
+  metadata?: string;
+  /** Optional per-station URL passed to the fetcher (some fetchers, e.g.
+   *  the BR radioplayer.json reader, need to know which channel to query). */
+  metadataUrl?: string;
 }
 
 export type PlayerState = 'idle' | 'loading' | 'playing' | 'paused' | 'error';

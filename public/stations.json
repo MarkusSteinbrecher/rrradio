@@ -1,0 +1,43 @@
+{
+  "$schema": "data, not code — fetcher logic stays in src/builtins.ts",
+  "stations": [
+    {
+      "id": "builtin-grrif",
+      "name": "Grrif",
+      "streamUrl": "https://grrif.ice.infomaniak.ch/grrif-128.aac",
+      "homepage": "https://www.grrif.ch/",
+      "country": "CH",
+      "tags": ["rock", "indie", "alternative", "swiss"],
+      "favicon": "stations/grrif.png",
+      "bitrate": 128,
+      "codec": "AAC",
+      "metadata": "grrif"
+    },
+    {
+      "id": "builtin-fm4",
+      "name": "FM4",
+      "streamUrl": "https://orf-live.ors-shoutcast.at/fm4-q2a",
+      "homepage": "https://fm4.orf.at/",
+      "country": "AT",
+      "tags": ["alternative", "indie", "electronic", "austria"],
+      "favicon": "stations/fm4.png",
+      "bitrate": 192,
+      "codec": "MP3",
+      "metadata": "orf",
+      "metadataUrl": "https://audioapi.orf.at/fm4/api/json/4.0/live"
+    },
+    {
+      "id": "builtin-br-bayern1",
+      "name": "Bayern 1",
+      "streamUrl": "https://mcdn.hf.br.de/br/hf/b1obb/master.m3u8",
+      "homepage": "https://www.br.de/radio/bayern1/",
+      "country": "DE",
+      "tags": ["pop", "oldies", "ard", "germany"],
+      "favicon": "stations/br-bayern1.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "metadata": "br-radioplayer",
+      "metadataUrl": "https://www.br.de/mediathek/audio/bayern1/audio-livestream-bayern1-oberbayern-100~radioplayer.json"
+    }
+  ]
+}

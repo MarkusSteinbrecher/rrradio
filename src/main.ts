@@ -1,6 +1,6 @@
-import { BUILTIN_STATIONS, findFetcher } from './builtins';
+import { BUILTIN_STATIONS, findFetcher, loadBuiltinStations } from './builtins';
 import { lookupCover } from './coverArt';
-import { MetadataPoller, makeIcyFetcher } from './metadata';
+import { MetadataPoller, icyFetcher } from './metadata';
 import { AudioPlayer, stateLabel } from './player';
 import { pseudoFrequency } from './radioBrowser';
 import { fetchStations, searchStations } from './stations';
@@ -1091,8 +1091,12 @@ player.subscribe((np) => {
   if (key !== lastIcyKey) {
     lastIcyKey = key;
     if (key) {
-      const fetcher = findFetcher(np.station) ?? makeIcyFetcher(np.station.streamUrl);
-      meta.start(key, fetcher, 30_000);
+      const matched = findFetcher(np.station);
+      if (matched) {
+        meta.start(matched.station, matched.fetcher, 30_000);
+      } else {
+        meta.start(np.station, icyFetcher, 30_000);
+      }
     } else {
       meta.stop();
     }
@@ -1107,4 +1111,10 @@ renderTabBar();
 renderTopBar();
 syncGenre();
 syncSearchClear();
+// Stations.json defines the built-in catalog (Featured strip + per-station
+// metadata fetcher overrides). Render once it lands so the first paint
+// already has the Featured tiles.
+void loadBuiltinStations().then(() => {
+  if (activeTab === 'browse') renderContent();
+});
 void runQuery();
