@@ -1073,13 +1073,13 @@ body.is-playing .np-play .icon-pause { display: block; }
   height: 7px;
   border-radius: 50%;
   background: currentColor;
-  animation: np-play-loader 1.2s ease-in-out infinite;
+  animation: np-play-loader 0.9s ease-in-out infinite;
 }
 .np-play__loader span:nth-child(2) { animation-delay: 0.15s; }
 .np-play__loader span:nth-child(3) { animation-delay: 0.30s; }
 @keyframes np-play-loader {
-  0%, 60%, 100% { transform: scale(0.6); opacity: 0.4; }
-  30%           { transform: scale(1.0); opacity: 1; }
+  0%, 100% { transform: translateY(0)    scale(0.7); opacity: 0.45; }
+  50%      { transform: translateY(-4px) scale(1.0); opacity: 1; }
 }
 .np-play.is-loading .icon-play,
 .np-play.is-loading .icon-pause     { display: none; }
