@@ -6,7 +6,7 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap');
 
 :root {
-  --accent:  #e9b66b;                       /* warm tuner-LED amber */
+  --accent:  #f5c518;                       /* vintage tuner-dial yellow */
   --bg:      #0a0a0a;
   --bg-2:    #131313;
   --bg-3:    #1a1a1a;
@@ -116,6 +116,10 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   width: auto;
   display: block;
 }
+/* Soundline (the three-r zigzag) uses the accent so the brand mark
+   reads as "yellow signal + white type" — text stays on currentColor
+   from the wordmark's --ink. */
+.wordmark-logo path { stroke: var(--accent); }
 
 .add-btn {
   width: 28px;
@@ -225,7 +229,7 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .curated-toggle.is-active {
   color: var(--accent);
   border-color: var(--accent);
-  background: rgba(233, 182, 107, 0.10);
+  background: rgba(245, 197, 24, 0.10);
 }
 .curated-toggle.is-active:hover { color: var(--accent); }
 
@@ -360,7 +364,7 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .featured-tile:active .featured-tile__art  { transform: scale(0.96); }
 .featured-tile.is-playing .featured-tile__art {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(233, 182, 107, 0.12);
+  box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.12);
 }
 .featured-tile.is-playing .featured-tile__name { color: var(--accent); }
 
@@ -936,7 +940,7 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   font-weight: 300;
   letter-spacing: -0.03em;
   color: var(--accent);
-  text-shadow: 0 0 18px rgba(233, 182, 107, 0.25);
+  text-shadow: 0 0 18px rgba(245, 197, 24, 0.25);
   line-height: 1;
 }
 .np-freq .unit {
@@ -1087,7 +1091,7 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   display: grid;
   place-items: center;
   position: relative;
-  box-shadow: 0 0 0 6px rgba(233, 182, 107, 0.06), 0 0 28px rgba(233, 182, 107, 0.18);
+  box-shadow: 0 0 0 6px rgba(245, 197, 24, 0.06), 0 0 28px rgba(245, 197, 24, 0.18);
   transition: all 0.15s;
   flex-shrink: 0;
 }
