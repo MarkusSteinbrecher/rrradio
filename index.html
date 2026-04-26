@@ -63,8 +63,102 @@
         <div class="tab-status" id="tab-status" hidden></div>
       </header>
 
-      <!-- ============== CONTENT ============== -->
-      <main class="content" id="content"></main>
+      <!-- ============== STAGE: content + Now Playing ============== -->
+      <div class="stage">
+        <main class="content" id="content"></main>
+
+        <section class="np" id="np" aria-label="Now playing">
+          <header class="np-head">
+            <button type="button" class="icon-btn" id="np-close" aria-label="Close">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="np-label">Now Playing</div>
+            <div class="np-head__right">
+              <button type="button" class="icon-btn" aria-label="Mute" id="np-mute">
+                <svg class="icon-vol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                <svg class="icon-vol-mute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>
+              </button>
+              <button type="button" class="icon-btn" aria-label="Share station" id="np-share">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12"/><path d="m7 9 5-5 5 5"/><path d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg>
+              </button>
+            </div>
+          </header>
+
+          <div class="np-body">
+            <div class="np-station">
+              <div class="np-station__head">
+                <img class="np-station__logo" id="np-station-logo" alt="" hidden />
+                <div class="np-name" id="np-name">—</div>
+              </div>
+              <div class="np-tags" id="np-tags"></div>
+            </div>
+
+            <div class="np-track" id="np-track-row">
+              <div class="np-track__cover-wrap">
+                <img class="np-track__cover" id="np-track-cover" alt="" />
+                <span class="np-track__cover-fallback" id="np-track-cover-fallback" aria-hidden="true">··</span>
+              </div>
+              <div class="np-track__text">
+                <div class="np-track__label">On air</div>
+                <div class="np-track__title" id="np-track-title">—</div>
+              </div>
+            </div>
+
+            <div class="np-meta">
+              <div class="cell">
+                <div class="k">Bitrate</div>
+                <div class="v" id="np-bitrate">—</div>
+              </div>
+              <div class="cell">
+                <div class="k">Origin</div>
+                <div class="v" id="np-origin">—</div>
+              </div>
+              <div class="cell">
+                <div class="k">Listeners</div>
+                <div class="v" id="np-listeners">—</div>
+              </div>
+            </div>
+
+            <div class="np-source">
+              <a class="np-source__row" id="np-stream" href="#" target="_blank" rel="noopener noreferrer" hidden>
+                <span class="np-source__k">Stream</span>
+                <span class="np-source__v" id="np-stream-host">—</span>
+                <svg class="np-source__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M20 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5"/></svg>
+              </a>
+              <a class="np-source__row" id="np-home" href="#" target="_blank" rel="noopener noreferrer" hidden>
+                <span class="np-source__k">Site</span>
+                <span class="np-source__v" id="np-home-host">—</span>
+                <svg class="np-source__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M20 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="np-controls">
+            <div class="np-row">
+              <button type="button" class="np-btn" id="np-fav" aria-label="Favorite">
+                <svg class="heart--line" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
+                <svg class="heart--fill" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
+              </button>
+              <button type="button" class="np-play" id="np-play" aria-label="Play / pause">
+                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a.75.75 0 0 0 1.16.63l12-7.5a.75.75 0 0 0 0-1.27l-12-7.5A.75.75 0 0 0 7 4.5z"/></svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="0.5"/><rect x="14" y="4.5" width="4" height="15" rx="0.5"/></svg>
+              </button>
+              <button type="button" class="np-btn" id="np-sleep" aria-label="Sleep timer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M9 2h6"/></svg>
+                <span class="np-btn__chip" id="np-sleep-chip" hidden></span>
+              </button>
+            </div>
+
+            <div class="np-bottom">
+              <div class="live">
+                <span class="live-dot" aria-hidden="true"></span>
+                <span id="np-live-text">Standby</span>
+              </div>
+              <div id="np-format">— · —</div>
+            </div>
+          </div>
+        </section>
+      </div>
 
       <!-- ============== MINI PLAYER ============== -->
       <button class="mini" id="mini" type="button" hidden aria-label="Open now playing">
@@ -141,99 +235,6 @@
             <span>Your stations</span>
           </div>
           <ul class="custom-list" id="custom-list"></ul>
-        </div>
-      </section>
-
-      <!-- ============== NOW PLAYING (slide-up sheet) ============== -->
-      <section class="np" id="np" aria-label="Now playing">
-        <header class="np-head">
-          <button type="button" class="icon-btn" id="np-close" aria-label="Close">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-          </button>
-          <div class="np-label">Now Playing</div>
-          <div class="np-head__right">
-            <button type="button" class="icon-btn" aria-label="Mute" id="np-mute">
-              <svg class="icon-vol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-              <svg class="icon-vol-mute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>
-            </button>
-            <button type="button" class="icon-btn" aria-label="Share station" id="np-share">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12"/><path d="m7 9 5-5 5 5"/><path d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg>
-            </button>
-          </div>
-        </header>
-
-        <div class="np-body">
-          <div class="np-station">
-            <div class="np-station__head">
-              <img class="np-station__logo" id="np-station-logo" alt="" hidden />
-              <div class="np-name" id="np-name">—</div>
-            </div>
-            <div class="np-tags" id="np-tags"></div>
-          </div>
-
-          <div class="np-track" id="np-track-row">
-            <div class="np-track__cover-wrap">
-              <img class="np-track__cover" id="np-track-cover" alt="" />
-              <span class="np-track__cover-fallback" id="np-track-cover-fallback" aria-hidden="true">··</span>
-            </div>
-            <div class="np-track__text">
-              <div class="np-track__label">On air</div>
-              <div class="np-track__title" id="np-track-title">—</div>
-            </div>
-          </div>
-
-          <div class="np-meta">
-            <div class="cell">
-              <div class="k">Bitrate</div>
-              <div class="v" id="np-bitrate">—</div>
-            </div>
-            <div class="cell">
-              <div class="k">Origin</div>
-              <div class="v" id="np-origin">—</div>
-            </div>
-            <div class="cell">
-              <div class="k">Listeners</div>
-              <div class="v" id="np-listeners">—</div>
-            </div>
-          </div>
-
-          <div class="np-source">
-            <a class="np-source__row" id="np-stream" href="#" target="_blank" rel="noopener noreferrer" hidden>
-              <span class="np-source__k">Stream</span>
-              <span class="np-source__v" id="np-stream-host">—</span>
-              <svg class="np-source__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M20 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5"/></svg>
-            </a>
-            <a class="np-source__row" id="np-home" href="#" target="_blank" rel="noopener noreferrer" hidden>
-              <span class="np-source__k">Site</span>
-              <span class="np-source__v" id="np-home-host">—</span>
-              <svg class="np-source__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M20 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5"/></svg>
-            </a>
-          </div>
-        </div>
-
-        <div class="np-controls">
-          <div class="np-row">
-            <button type="button" class="np-btn" id="np-fav" aria-label="Favorite">
-              <svg class="heart--line" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
-              <svg class="heart--fill" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
-            </button>
-            <button type="button" class="np-play" id="np-play" aria-label="Play / pause">
-              <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a.75.75 0 0 0 1.16.63l12-7.5a.75.75 0 0 0 0-1.27l-12-7.5A.75.75 0 0 0 7 4.5z"/></svg>
-              <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="0.5"/><rect x="14" y="4.5" width="4" height="15" rx="0.5"/></svg>
-            </button>
-            <button type="button" class="np-btn" id="np-sleep" aria-label="Sleep timer">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M9 2h6"/></svg>
-              <span class="np-btn__chip" id="np-sleep-chip" hidden></span>
-            </button>
-          </div>
-
-          <div class="np-bottom">
-            <div class="live">
-              <span class="live-dot" aria-hidden="true"></span>
-              <span id="np-live-text">Standby</span>
-            </div>
-            <div id="np-format">— · —</div>
-          </div>
         </div>
       </section>
     </div>

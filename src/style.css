@@ -280,9 +280,22 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   pointer-events: none;
 }
 
+/* ─── Stage: shared box for content + Now Playing ───
+   The stage takes the middle of the .app shell (between topbar and
+   tabbar). Both .content and .np live inside it as overlapping
+   absolute layers. NP's slide-up animation is confined to this box,
+   so the topbar and tabbar stay sticky on every screen. */
+.stage {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
 /* ─── Content ─── */
 .content {
-  flex: 1;
+  position: absolute;
+  inset: 0;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
@@ -643,14 +656,17 @@ body.is-playing .mini-toggle .icon-pause { display: block; }
   background: var(--accent);
 }
 
-/* ─── Now Playing screen ─── */
+/* ─── Now Playing screen ───
+   Lives inside .stage as an overlay layer over .content. Its
+   slide-up animation moves only within the stage's box, so the
+   topbar and tabbar stay sticky throughout. */
 .np {
   position: absolute;
   inset: 0;
   background: var(--bg);
   display: flex;
   flex-direction: column;
-  z-index: 30;
+  z-index: 5;
   transform: translateY(100%);
   transition: transform 0.42s cubic-bezier(0.32, 0.72, 0, 1);
   overflow: hidden;
@@ -661,8 +677,9 @@ body.is-playing .mini-toggle .icon-pause { display: block; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: calc(var(--safe-top) + 14px) 18px 14px;
+  padding: 12px 18px;
   flex-shrink: 0;
+  border-bottom: 1px solid var(--line);
 }
 .np-head .icon-btn {
   width: 36px;
@@ -700,8 +717,12 @@ body.is-muted .np-eq { background: var(--ink-4); animation: none; }
   display: flex;
   flex-direction: column;
   padding: 14px 24px 8px;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+  -webkit-overflow-scrolling: touch;
 }
+.np-body::-webkit-scrollbar { width: 0; }
 
 .np-station {
   display: flex;
@@ -971,10 +992,10 @@ body.is-muted .np-eq { background: var(--ink-4); animation: none; }
 /* ─── Now Playing controls ─── */
 .np-controls {
   flex-shrink: 0;
-  padding: 22px 24px calc(14px + var(--safe-bottom));
+  padding: 18px 24px 14px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 .np-row {
   display: flex;
