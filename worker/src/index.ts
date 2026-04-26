@@ -255,9 +255,21 @@ export default {
           const browsers = await fetchStatGroup('browsers', days, 10, env);
           await sleep(300);
           const systems = await fetchStatGroup('systems', days, 10, env);
+          // Compute event total from the hits buffer — /stats/total
+          // doesn't break this out reliably across GC versions.
+          const eventCount = hits
+            .filter((h) => h.event === true)
+            .reduce((s, h) => s + h.count, 0);
+          const eventUnique = hits
+            .filter((h) => h.event === true)
+            .reduce((s, h) => s + (h.count_unique ?? 0), 0);
           data = {
             range_days: days,
-            totals: tot,
+            totals: {
+              ...tot,
+              total_events: eventCount,
+              total_events_unique: eventUnique,
+            },
             stations: pickByPrefix(hits, 'play: ', 20, days),
             favorites: pickByPrefix(hits, 'favorite: ', 20, days),
             errors: pickByPrefix(hits, 'error: ', 20, days),
