@@ -22,7 +22,8 @@ import type { NowPlaying, Station } from './types';
 
 const SLEEP_CYCLE_MIN = [0, 15, 30, 60];
 
-type Tab = 'browse' | 'fav' | 'recent';
+type Tab = 'browse' | 'fav' | 'recent' | 'playing';
+type ListTab = Exclude<Tab, 'playing'>;
 
 // ─────────────────────────────────────────────────────────────
 // Element refs
@@ -128,6 +129,8 @@ const $customList = document.getElementById('custom-list') as HTMLElement;
 // ─────────────────────────────────────────────────────────────
 
 let activeTab: Tab = 'browse';
+/** Last list tab we were on, so closing Now Playing returns there. */
+let lastListTab: ListTab = 'browse';
 let activeTag = 'all';
 let queryToken = 0;
 let sleepIndex = 0;
@@ -507,8 +510,11 @@ function renderNowPlaying(np: NowPlaying): void {
 // ─────────────────────────────────────────────────────────────
 
 function renderTopBar(): void {
-  // Search is available on every tab. Genre filter is Browse-only.
-  $filterRow.hidden = activeTab !== 'browse';
+  // Search is available on the list tabs. Genre filter is Browse-only.
+  // The Playing tab keeps the topbar quiet (no search/genre input —
+  // they don't apply to a single-station view).
+  const isPlaying = activeTab === 'playing';
+  $filterRow.hidden = isPlaying || activeTab !== 'browse';
   $search.placeholder =
     activeTab === 'fav'
       ? 'Search your favorites…'
@@ -806,18 +812,29 @@ function goHome(): void {
 }
 
 function setTab(tab: Tab): void {
+  // No-op when already there. Playing-tab tap with no station also no-ops.
   if (activeTab === tab) return;
+  if (tab === 'playing' && !currentNP.station.id) return;
+
+  // Track the last list tab so closing Now Playing returns there.
+  if (tab !== 'playing' && (tab === 'browse' || tab === 'fav' || tab === 'recent')) {
+    lastListTab = tab;
+  }
+
   activeTab = tab;
+  $body.classList.toggle('tab-playing', tab === 'playing');
+  $np.classList.toggle('open', tab === 'playing');
+  $np.setAttribute('aria-hidden', String(tab !== 'playing'));
+
   renderTabBar();
   renderTopBar();
   if (tab === 'browse') void runQuery();
-  else renderContent();
+  else if (tab !== 'playing') renderContent();
 }
 
 function openNp(open: boolean): void {
-  if (open && !currentNP.station.id) return;
-  $np.classList.toggle('open', open);
-  $np.setAttribute('aria-hidden', String(!open));
+  if (open) setTab('playing');
+  else if (activeTab === 'playing') setTab(lastListTab);
 }
 
 function openAddSheet(open: boolean): void {
@@ -1078,8 +1095,13 @@ $npSleep.addEventListener('click', () => {
 
 let lastIcyKey = '';
 player.subscribe((np) => {
+  const stationLost = !np.station.id && currentNP.station.id && activeTab === 'playing';
   currentNP = np;
   $body.classList.toggle('is-playing', np.state === 'playing');
+  $body.classList.toggle('has-station', !!np.station.id);
+  // If the station was unloaded while the Playing tab was active,
+  // bounce back to the last list tab so the user isn't stranded.
+  if (stationLost) setTab(lastListTab);
   $signalStatus.textContent = signalStatusText(np);
   renderMiniPlayer(np);
   renderNowPlaying(np);

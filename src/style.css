@@ -550,6 +550,9 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   text-align: left;
 }
 .mini[hidden] { display: none; }
+/* Hide the mini-player while the Playing tab is active — Now Playing
+   is its expanded counterpart, no need to show both. */
+body.tab-playing .mini { display: none; }
 .mini-progress {
   position: absolute;
   top: 0; left: 0; right: 0;
@@ -654,6 +657,11 @@ body.is-playing .mini-toggle .icon-pause { display: block; }
   width: 24px;
   height: 1px;
   background: var(--accent);
+}
+/* Playing tab is non-functional until a station is selected. */
+body:not(.has-station) .tab-btn[data-tab="playing"] {
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 /* ─── Now Playing screen ───
