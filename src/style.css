@@ -279,6 +279,21 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   color: var(--ink-3);
   flex-shrink: 0;
 }
+/* Default (no filter applied): collapse to icon-only — the dropdown
+   stays clickable via the surrounding label. Picking a value brings
+   the text + caret back. */
+.filter-wrap.is-default {
+  padding: 7px 12px;
+}
+.filter-wrap.is-default .filter-select {
+  width: 0;
+  padding: 0;
+  margin: 0;
+  font-size: 0;
+}
+.filter-wrap.is-default .filter-caret {
+  display: none;
+}
 .filter-select {
   appearance: none;
   -webkit-appearance: none;
