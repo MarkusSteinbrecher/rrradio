@@ -848,9 +848,14 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   min-height: 0;
 }
 .np-track__cover {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  /* Never upscale a low-res station logo to fill the frame — looks
+     blurry. Large covers (iTunes 600px+) still scale down to the
+     frame; small ones display at native size, centered. */
+  object-fit: contain;
   display: block;
 }
 .np-track__cover[hidden] { display: none; }
