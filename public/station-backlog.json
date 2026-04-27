@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-04-26T21:57:32.660Z",
+  "generatedAt": "2026-04-27T07:47:37.633Z",
   "rangeDays": 30,
   "items": [
     {
       "name": "FM4",
-      "plays": 4,
+      "plays": 5,
       "alreadyCurated": true,
       "rbMatched": false,
       "streamUrl": null,
@@ -13,6 +13,21 @@
       "icyAvailable": null,
       "broadcasterGuess": null,
       "verdict": "already-curated"
+    },
+    {
+      "name": "BR24live",
+      "plays": 4,
+      "alreadyCurated": false,
+      "rbMatched": true,
+      "streamUrl": "https://dispatcher.rndfnk.com/br/br24live/live/mp3/mid",
+      "https": true,
+      "streamProbe": {
+        "ok": true,
+        "contentType": "audio/mpeg"
+      },
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "auto-curate-ready"
     },
     {
       "name": "Grrif",
@@ -51,11 +66,11 @@
       "verdict": "already-curated"
     },
     {
-      "name": "BR24live",
+      "name": "REYFM - #original",
       "plays": 2,
       "alreadyCurated": false,
       "rbMatched": true,
-      "streamUrl": "https://dispatcher.rndfnk.com/br/br24live/live/mp3/mid",
+      "streamUrl": "https://listen.reyfm.de/original_192kbps.mp3",
       "https": true,
       "streamProbe": {
         "ok": true,
@@ -66,11 +81,80 @@
       "verdict": "auto-curate-ready"
     },
     {
-      "name": "REYFM - #original",
-      "plays": 2,
+      "name": "Deutschlandfunk Kultur",
+      "plays": 1,
+      "alreadyCurated": true,
+      "rbMatched": false,
+      "streamUrl": null,
+      "https": null,
+      "streamProbe": null,
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "already-curated"
+    },
+    {
+      "name": "Die Maus",
+      "plays": 1,
+      "alreadyCurated": true,
+      "rbMatched": false,
+      "streamUrl": null,
+      "https": null,
+      "streamProbe": null,
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "already-curated"
+    },
+    {
+      "name": "Refuge Worldwide",
+      "plays": 1,
       "alreadyCurated": false,
       "rbMatched": true,
-      "streamUrl": "https://listen.reyfm.de/original_192kbps.mp3",
+      "streamUrl": "https://streaming.radio.co/s3699c5e49/listen",
+      "https": true,
+      "streamProbe": {
+        "ok": true,
+        "contentType": "audio/mpeg"
+      },
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "auto-curate-ready"
+    },
+    {
+      "name": "DW TV",
+      "plays": 1,
+      "alreadyCurated": false,
+      "rbMatched": true,
+      "streamUrl": "https://dwamdstream104.akamaized.net/hls/live/2015530/dwstream104/index.m3u8",
+      "https": true,
+      "streamProbe": {
+        "ok": true,
+        "contentType": "application/vnd.apple.mpegurl"
+      },
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "auto-curate-ready"
+    },
+    {
+      "name": "SRF 4 News",
+      "plays": 1,
+      "alreadyCurated": false,
+      "rbMatched": true,
+      "streamUrl": "https://stream.srg-ssr.ch/m/drs4news/aacp_32",
+      "https": true,
+      "streamProbe": {
+        "ok": true,
+        "contentType": "audio/aac"
+      },
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "auto-curate-ready"
+    },
+    {
+      "name": "MANGORADIO",
+      "plays": 1,
+      "alreadyCurated": false,
+      "rbMatched": true,
+      "streamUrl": "https://mangoradio.stream.laut.fm/mangoradio",
       "https": true,
       "streamProbe": {
         "ok": true,
@@ -133,7 +217,7 @@
       "plays": 1,
       "alreadyCurated": false,
       "rbMatched": true,
-      "streamUrl": "https://mp3channels.webradio.rockantenne.de/heavy-metal",
+      "streamUrl": "https://s6-webradio.rockantenne.de/gothic/stream/mp3",
       "https": true,
       "streamProbe": {
         "ok": true,
@@ -176,87 +260,6 @@
       "alreadyCurated": false,
       "rbMatched": true,
       "streamUrl": "https://radiorecord.hostingradio.ru/russiangold96.aacp",
-      "https": true,
-      "streamProbe": {
-        "ok": true,
-        "contentType": "audio/aac"
-      },
-      "icyAvailable": null,
-      "broadcasterGuess": null,
-      "verdict": "auto-curate-ready"
-    },
-    {
-      "name": "Russia Today Germany",
-      "plays": 1,
-      "alreadyCurated": false,
-      "rbMatched": true,
-      "streamUrl": "https://rt-ger.rttv.com/dvr/rtdeutsch/playlist.m3u8",
-      "https": true,
-      "streamProbe": {
-        "ok": true,
-        "contentType": "application/vnd.apple.mpegurl"
-      },
-      "icyAvailable": null,
-      "broadcasterGuess": null,
-      "verdict": "auto-curate-ready"
-    },
-    {
-      "name": "Russian Punk rock",
-      "plays": 1,
-      "alreadyCurated": false,
-      "rbMatched": true,
-      "streamUrl": "http://79.120.77.11:8000/punkru",
-      "https": false,
-      "streamProbe": null,
-      "icyAvailable": null,
-      "broadcasterGuess": null,
-      "verdict": "needs-https"
-    },
-    {
-      "name": "Sputnik News Belarussian",
-      "plays": 1,
-      "alreadyCurated": false,
-      "rbMatched": true,
-      "streamUrl": "https://nfw.ria.ru/flv/audio.aspx?ID=68862011&amp;type=mp3",
-      "https": true,
-      "streamProbe": {
-        "ok": true,
-        "contentType": "audio/mpeg"
-      },
-      "icyAvailable": null,
-      "broadcasterGuess": null,
-      "verdict": "auto-curate-ready"
-    },
-    {
-      "name": "Радио Рекорд Russian Hits",
-      "plays": 1,
-      "alreadyCurated": false,
-      "rbMatched": true,
-      "streamUrl": "http://radiorecord.hostingradio.ru/russianhits96.aacp",
-      "https": false,
-      "streamProbe": null,
-      "icyAvailable": null,
-      "broadcasterGuess": null,
-      "verdict": "needs-https"
-    },
-    {
-      "name": "Русский Рок - Russian Rock",
-      "plays": 1,
-      "alreadyCurated": false,
-      "rbMatched": true,
-      "streamUrl": "http://rock.volna.top/RusRock",
-      "https": false,
-      "streamProbe": null,
-      "icyAvailable": null,
-      "broadcasterGuess": null,
-      "verdict": "needs-https"
-    },
-    {
-      "name": "Radio Record - Russian Mix",
-      "plays": 1,
-      "alreadyCurated": false,
-      "rbMatched": true,
-      "streamUrl": "https://radiorecord.hostingradio.ru/rus96.aacp",
       "https": true,
       "streamProbe": {
         "ok": true,
