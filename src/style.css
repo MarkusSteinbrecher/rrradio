@@ -293,7 +293,7 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 
 /* Map-view toggle — same geometry + active style as curated. When
    on, the unfiltered home view replaces its list section with the
-   world-map globe. */
+   Leaflet map. */
 .map-toggle {
   display: inline-grid;
   place-items: center;
@@ -1504,48 +1504,109 @@ body.is-playing .np-bottom .live-dot  {
   text-wrap: balance;
 }
 
-/* ─── Globe (Browse home map view) ─── */
+/* ─── Map (Browse home map view, Leaflet + CartoDB Dark Matter) ─── */
 .globe-wrap {
+  position: relative;
   padding: 8px 12px 4px;
   user-select: none;
 }
-.world-map {
-  display: block;
+.globe-map {
   width: 100%;
-  height: auto;
+  height: 60vh;
+  min-height: 320px;
+  max-height: 720px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
 }
-.world-map path {
-  fill: var(--bg-3);
-  stroke: var(--line);
-  stroke-width: 0.4;
-  vector-effect: non-scaling-stroke;
+/* Leaflet container background fallback (matches our theme). */
+.leaflet-container {
+  background: var(--bg-2) !important;
+  font-family: inherit;
 }
-.world-map .pin .pin-halo {
-  fill: var(--accent);
-  opacity: 0;
-  transition: opacity 0.15s;
+/* Tone down the attribution + zoom controls to match the dark UI. */
+.leaflet-control-attribution {
+  background: rgba(0, 0, 0, 0.55) !important;
+  color: var(--ink-3) !important;
+  font-size: 10px !important;
+  padding: 2px 6px !important;
 }
-.world-map .pin .pin-dot {
-  fill: var(--accent);
-  stroke: var(--bg);
-  stroke-width: 1.5;
-  vector-effect: non-scaling-stroke;
-  transition: r 0.15s;
+.leaflet-control-attribution a {
+  color: var(--ink-2) !important;
 }
-.world-map .pin .pin-count {
+.leaflet-bar {
+  border: 1px solid var(--line) !important;
+  box-shadow: none !important;
+}
+.leaflet-bar a {
+  background: var(--bg) !important;
+  color: var(--ink-2) !important;
+  border-bottom-color: var(--line) !important;
+}
+.leaflet-bar a:hover {
+  background: var(--bg-2) !important;
+  color: var(--ink-1) !important;
+}
+.leaflet-tooltip {
+  background: var(--bg) !important;
+  border: 1px solid var(--line) !important;
+  color: var(--ink-1) !important;
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 11px;
+  padding: 4px 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+.leaflet-tooltip-top:before {
+  border-top-color: var(--line) !important;
+}
+
+/* Markers (rendered via L.divIcon — class on the wrapper is
+   `map-pin-wrap`; we strip Leaflet's default white box and let our
+   inner .map-pin handle the visual.) */
+.map-pin-wrap {
+  background: transparent !important;
+  border: 0 !important;
+}
+.map-pin {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.map-pin:hover {
+  transform: scale(1.1);
+}
+.map-pin--single .map-pin__dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 1px var(--line), 0 2px 6px rgba(0, 0, 0, 0.4);
+  background-size: cover;
+  background-position: center;
+}
+.map-pin--single .map-pin__dot.is-image {
+  /* When the favicon swaps in, the dot becomes a thumbnail. Slightly
+     larger so the image is recognisable. */
+  width: 28px;
+  height: 28px;
+  background-color: var(--bg-2);
+}
+.map-pin--cluster {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: var(--mono);
+  font-size: 13px;
   font-weight: 600;
-  fill: var(--bg);
-  pointer-events: none;
-}
-.world-map .pin:hover .pin-halo,
-.world-map .pin.is-selected .pin-halo {
-  opacity: 0.25;
-}
-.world-map .pin.is-selected .pin-dot {
-  stroke: var(--accent);
-  stroke-width: 2;
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 1px var(--line), 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 .globe-cluster-panel {

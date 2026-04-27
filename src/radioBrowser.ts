@@ -33,6 +33,8 @@ interface RBStation {
   hls: number;
   lastcheckok: number;
   clickcount: number;
+  geo_lat: number | null;
+  geo_long: number | null;
 }
 
 /** Deterministic pseudo-frequency in [87.5, 108.0] MHz keyed off the
@@ -193,6 +195,10 @@ class RadioBrowserClient {
       codec: raw.codec ? raw.codec.toUpperCase() : undefined,
       listeners: raw.clickcount > 0 ? raw.clickcount : undefined,
       frequency: pseudoFrequency(raw.stationuuid),
+      geo:
+        typeof raw.geo_lat === 'number' && typeof raw.geo_long === 'number'
+          ? [raw.geo_lat, raw.geo_long]
+          : undefined,
     };
   }
 

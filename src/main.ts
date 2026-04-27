@@ -1,3 +1,5 @@
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import {
   BUILTIN_STATIONS,
   findFetcher,
@@ -171,8 +173,8 @@ let activeCountry = 'all';
 type BrowseMode = 'played' | 'curated' | 'news' | null;
 let browseMode: BrowseMode = 'played';
 // When true, the unfiltered home view replaces the list section
-// with the world-map globe. Default false (list view); orthogonal
-// to curatedOnly — the map can show either station set.
+// with a Leaflet map. Default false (list view); orthogonal to
+// curatedOnly — the map can show either station set.
 let mapView = false;
 
 // 2-letter ISO code → display name. Only the codes we'd plausibly
@@ -938,53 +940,70 @@ $npPaneProgram.addEventListener('click', () => {
   renderProgramPane();
 });
 
-// World-map SVG, loaded once at boot. Wikimedia "low resolution" world
-// map — ~75 KB stripped of inkscape metadata. The viewBox is 950×620
-// (close to equirectangular, slight vertical compression we live with).
-let worldSvgText: string | null = null;
-let worldSvgFetched = false;
-async function loadWorldSvg(): Promise<void> {
-  if (worldSvgFetched) return;
-  worldSvgFetched = true;
-  try {
-    const res = await fetch(`${import.meta.env.BASE_URL}world-map.svg`, { cache: 'no-store' });
-    if (!res.ok) return;
-    worldSvgText = await res.text();
-    if (activeTab === 'browse') renderContent();
-  } catch {
-    /* silent: globe falls back to list */
-  }
-}
-
-/** Equirectangular projection onto the world-map.svg viewBox. The
- *  source isn't strictly equirectangular but close enough at this
- *  scale; pins land within a few pixels of the right city. */
-function projectLatLon(lat: number, lon: number): { x: number; y: number } {
-  return {
-    x: ((lon + 180) / 360) * 950,
-    y: ((90 - lat) / 180) * 620,
-  };
-}
-
 let selectedClusterKey: string | null = null;
+
+// Persists across re-renders (cluster selection, mode switches) so the
+// user keeps their pan/zoom while interacting. Cleared in toggleMapView.
+let mapPosition: { center: L.LatLngExpression; zoom: number } | null = null;
+let currentMap: L.Map | null = null;
+
+/**
+ * Default frame: skip Antarctica, leave a little margin. Used on first
+ * paint and when the map is reset.
+ */
+const DEFAULT_BOUNDS: L.LatLngBoundsLiteral = [
+  [-55, -170],
+  [75, 175],
+];
+
+/**
+ * Tear down the live Leaflet map. Called when the map view is toggled
+ * off (so renderGlobe won't run to do it itself) and at the start of
+ * each renderGlobe call (since the prior container has been detached).
+ */
+function teardownMap(): void {
+  currentMap?.remove();
+  currentMap = null;
+}
+
+/**
+ * Memoized favicon preflight. SVG <image> with a broken href shows a
+ * broken-image glyph in some browsers; cheaper to probe via a regular
+ * Image() and only attach the SVG <image> on success. Every favicon is
+ * validated once per session, then the result is cached so re-renders
+ * (mode switches, cluster selection) don't repeat the work.
+ */
+const validatedFavicons = new Map<string, boolean | Promise<boolean>>();
+function preflightFavicon(url: string): Promise<boolean> {
+  const cached = validatedFavicons.get(url);
+  if (cached === true || cached === false) return Promise.resolve(cached);
+  if (cached) return cached;
+  const p = new Promise<boolean>((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      validatedFavicons.set(url, true);
+      resolve(true);
+    };
+    img.onerror = () => {
+      validatedFavicons.set(url, false);
+      resolve(false);
+    };
+    img.src = url;
+  });
+  validatedFavicons.set(url, p);
+  return p;
+}
 
 function renderGlobe(stations: Station[]): HTMLElement {
   const wrap = document.createElement('section');
   wrap.className = 'globe-wrap';
-  if (!worldSvgText) {
-    wrap.innerHTML = '<div class="empty"><div class="s">Loading map…</div></div>';
-    return wrap;
-  }
-  // Inject the source SVG, then add pin <g> children to it.
-  wrap.innerHTML = worldSvgText;
-  const svg = wrap.querySelector('svg');
-  if (!svg) return wrap;
-  svg.classList.add('world-map');
-  svg.removeAttribute('width');
-  svg.removeAttribute('height');
 
-  // Cluster stations by coords (rounded to 0.1° ≈ 11km — keeps
-  // multiple regional channels at the same broadcaster from stacking).
+  const mapEl = document.createElement('div');
+  mapEl.className = 'globe-map';
+  wrap.append(mapEl);
+
+  // Cluster stations by 0.1° (~11 km) so multiple regional channels at
+  // the same broadcaster don't pile a tower of identical pins.
   const clusters = new Map<string, Station[]>();
   for (const s of stations) {
     if (!s.geo) continue;
@@ -994,52 +1013,97 @@ function renderGlobe(stations: Station[]): HTMLElement {
     clusters.set(key, arr);
   }
 
-  for (const [key, group] of clusters) {
-    const first = group[0];
-    if (!first.geo) continue;
-    const { x, y } = projectLatLon(first.geo[0], first.geo[1]);
-    const pin = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    pin.setAttribute('class', 'pin' + (selectedClusterKey === key ? ' is-selected' : ''));
-    pin.setAttribute('transform', `translate(${x},${y})`);
-    pin.setAttribute('role', 'button');
-    pin.setAttribute(
-      'aria-label',
-      group.length === 1 ? group[0].name : `${group.length} stations`,
-    );
-    pin.style.cursor = 'pointer';
+  // Replace any prior Leaflet instance — its container has been
+  // detached by the previous renderContent() call.
+  teardownMap();
 
-    const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    halo.setAttribute('r', '12');
-    halo.setAttribute('class', 'pin-halo');
-    pin.appendChild(halo);
+  // Leaflet measures its container size at init time, so the wrap has
+  // to be in the DOM first. renderContent appends synchronously, so
+  // by the next microtask the container is laid out and sized.
+  queueMicrotask(() => {
+    const map = L.map(mapEl, {
+      worldCopyJump: true,
+      zoomControl: true,
+      attributionControl: true,
+      // Smaller scrollwheel zoom step than the default — feels closer
+      // to native trackpad pinch.
+      wheelPxPerZoomLevel: 80,
+    });
+    currentMap = map;
 
-    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    dot.setAttribute('r', group.length > 1 ? '8' : '5');
-    dot.setAttribute('class', 'pin-dot');
-    pin.appendChild(dot);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      maxZoom: 19,
+      subdomains: 'abcd',
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> ' +
+        '&copy; <a href="https://carto.com/attributions">CARTO</a>',
+    }).addTo(map);
 
-    if (group.length > 1) {
-      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      text.setAttribute('text-anchor', 'middle');
-      text.setAttribute('dominant-baseline', 'central');
-      text.setAttribute('class', 'pin-count');
-      text.textContent = String(group.length);
-      pin.appendChild(text);
+    if (mapPosition) {
+      map.setView(mapPosition.center, mapPosition.zoom);
+    } else {
+      map.fitBounds(DEFAULT_BOUNDS);
     }
-
-    pin.addEventListener('click', () => {
-      if (group.length === 1) {
-        onRowPlay(group[0]);
-      } else {
-        selectedClusterKey = selectedClusterKey === key ? null : key;
-        renderContent();
-      }
+    map.on('moveend zoomend', () => {
+      mapPosition = { center: map.getCenter(), zoom: map.getZoom() };
     });
 
-    svg.appendChild(pin);
-  }
+    for (const [key, group] of clusters) {
+      const first = group[0];
+      if (!first.geo) continue;
+      const isCluster = group.length > 1;
 
-  // Below-globe panel: shown when a multi-station cluster is selected.
+      // divIcon lets us render markers as plain HTML — much easier to
+      // style and to swap in a station favicon than Leaflet's image
+      // markers. anchor=center so the lat/lon sits dead-center on the
+      // pin.
+      const html = isCluster
+        ? `<div class="map-pin map-pin--cluster">${group.length}</div>`
+        : `<div class="map-pin map-pin--single"><div class="map-pin__dot"></div></div>`;
+      const icon = L.divIcon({
+        html,
+        className: 'map-pin-wrap',
+        iconSize: [36, 36],
+        iconAnchor: [18, 18],
+      });
+
+      const marker = L.marker(first.geo, { icon, riseOnHover: true }).addTo(map);
+      marker.bindTooltip(isCluster ? `${group.length} stations` : first.name, {
+        direction: 'top',
+        offset: [0, -10],
+        opacity: 0.95,
+      });
+
+      marker.on('click', () => {
+        if (isCluster) {
+          selectedClusterKey = selectedClusterKey === key ? null : key;
+          renderContent();
+        } else {
+          onRowPlay(first);
+        }
+      });
+
+      // Single-station: try to swap the dot for the station favicon.
+      if (!isCluster && first.favicon) {
+        const favicon = first.favicon;
+        preflightFavicon(favicon).then((ok) => {
+          if (!ok) return;
+          const el = marker.getElement();
+          if (!el) return;
+          const dot = el.querySelector('.map-pin__dot') as HTMLDivElement | null;
+          if (!dot) return;
+          dot.classList.add('is-image');
+          dot.style.backgroundImage = `url(${JSON.stringify(favicon)})`;
+        });
+      }
+    }
+
+    // Belt-and-suspenders: re-measure once the surrounding layout has
+    // had its first paint, in case the wrap animated in.
+    setTimeout(() => map.invalidateSize(), 0);
+  });
+
+  // Below-map panel: shown when a multi-station cluster is selected.
   const selected = selectedClusterKey ? clusters.get(selectedClusterKey) : undefined;
   if (selected && selected.length > 1) {
     const panel = document.createElement('div');
@@ -1738,7 +1802,12 @@ $mapToggle.addEventListener('click', () => {
   mapView = !mapView;
   $mapToggle.classList.toggle('is-active', mapView);
   $mapToggle.setAttribute('aria-pressed', String(mapView));
-  if (!mapView) selectedClusterKey = null;
+  if (!mapView) {
+    selectedClusterKey = null;
+    // renderContent() won't run renderGlobe(), so nothing else will
+    // dispose the live Leaflet instance — do it here.
+    teardownMap();
+  }
   track(`map-view/${mapView ? 'on' : 'off'}`);
   renderContent();
 });
@@ -1871,4 +1940,3 @@ void runQuery();
 void loadSiteVisits();
 void loadTopStations();
 void loadBacklog();
-void loadWorldSvg();
