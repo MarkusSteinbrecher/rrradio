@@ -71,6 +71,30 @@ function shuffle<T>(arr: readonly T[]): T[] {
   return a;
 }
 
+/**
+ * Radio Browser is community-submitted, so the same station can appear
+ * multiple times under distinct UUIDs (someone re-adds it to attach a
+ * better logo, fix the country, etc.). Collapse entries that share the
+ * same playable URL, keeping whichever record looks the most curated:
+ * a real logo PNG beats a generic /favicon.ico, populated tags beat
+ * empty, and clickcount is the final tiebreaker.
+ */
+function dedupeByStreamUrl(stations: RBStation[]): RBStation[] {
+  const score = (s: RBStation) => {
+    const fav = (s.favicon ?? '').toLowerCase();
+    const hasRealLogo = fav && !fav.endsWith('/favicon.ico') ? 1 : 0;
+    const hasTags = s.tags?.trim() ? 1 : 0;
+    return hasRealLogo * 1000 + hasTags * 100 + (s.clickcount || 0);
+  };
+  const winners = new Map<string, RBStation>();
+  for (const s of stations) {
+    const key = (s.url_resolved || s.url).trim();
+    const incumbent = winners.get(key);
+    if (!incumbent || score(s) > score(incumbent)) winners.set(key, s);
+  }
+  return [...winners.values()];
+}
+
 function fetchWithTimeout(url: string, init: RequestInit, timeoutMs: number): Promise<Response> {
   const controller = new AbortController();
   const timer = window.setTimeout(() => controller.abort(), timeoutMs);
@@ -188,9 +212,9 @@ class RadioBrowserClient {
       '/json/stations/search',
       merged as Record<string, string | number | boolean | undefined>,
     );
-    const stations = raw
-      .filter((s) => s.url_resolved || s.url)
-      .map((s) => this.toStation(s));
+    const stations = dedupeByStreamUrl(raw.filter((s) => s.url_resolved || s.url)).map((s) =>
+      this.toStation(s),
+    );
     this.cache.set(cacheKey, { data: stations, expiry: Date.now() + CACHE_TTL_MS });
     return stations;
   }
