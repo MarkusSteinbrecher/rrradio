@@ -49,7 +49,6 @@ export class AudioPlayer {
   constructor() {
     this.audio = new Audio();
     this.audio.preload = 'none';
-    this.audio.crossOrigin = 'anonymous';
 
     this.audio.addEventListener('playing', () => this.update({ state: 'playing' }));
     this.audio.addEventListener('pause', () => {
