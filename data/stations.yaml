@@ -605,3 +605,28 @@
   favicon: stations/frisky.png
   homepage: https://frisky.fm/radio/deep
   status: icy-only
+
+# Auto-imported from Radio Browser (2026-04-27)
+- id: rb-br24live
+  broadcaster: independent
+  name: BR24live
+  streamUrl: https://dispatcher.rndfnk.com/br/br24live/live/mp3/mid
+  bitrate: 128
+  codec: MP3
+  tags: [news]
+  favicon: https://api.ardmediathek.de/image-service/images/urn:ard:image:c3ab9296f3b282bf?w=512
+  homepage: https://www.br.de/radio/br24/index.html
+  country: DE
+  status: stream-only
+
+# Auto-imported from Radio Browser (2026-04-27)
+- id: rb-reyfm-original
+  broadcaster: independent
+  name: "REYFM - #original"
+  streamUrl: https://listen.reyfm.de/original_192kbps.mp3
+  bitrate: 192
+  codec: MP3
+  tags: [#original, fm, rey, reyfm]
+  favicon: https://www.reyfm.de/icon.png
+  homepage: https://www.reyfm.de/
+  status: stream-only
