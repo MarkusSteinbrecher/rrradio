@@ -6,8 +6,13 @@ dist
 .env
 .env.local
 
-# Local project notes — not for upload
+# Local project notes — not for upload. The repo is public on GitHub
+# Pages; anything in here is internal-only and should never ship.
 CLAUDE.md
 **/CLAUDE.md
+session-log.md
+session-log*.md
+notes/
+*.local.md
 design_handoff_rrradio/
 design_handoff_rrradio_logo/
