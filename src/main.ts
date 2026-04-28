@@ -1805,9 +1805,27 @@ function teardownDashMap(): void {
 async function renderDashMap(d: DashboardData): Promise<void> {
   teardownDashMap();
   const map = activeCountryMap(d);
-  if (map.size === 0) return;
   const svgSource = await ensureWorldSvg();
   if (!svgSource) return;
+
+  // Empty map state — render the silhouette without circles + a subtle
+  // overlay so the user knows the view is working but there's no data
+  // for it (e.g. /api/public/locations not yet deployed).
+  if (map.size === 0) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(svgSource, 'image/svg+xml');
+    const svg = doc.documentElement as unknown as SVGSVGElement;
+    svg.classList.add('dash-world-map');
+    svg.removeAttribute('width');
+    svg.removeAttribute('height');
+    $dashMap.append(svg);
+    const overlay = document.createElement('div');
+    overlay.className = 'dash-map-empty';
+    overlay.textContent =
+      dashView === 'listeners' ? 'No listener-location data yet' : 'No station-country data yet';
+    $dashMap.append(overlay);
+    return;
+  }
 
   // Inline the SVG so we can append <circle> elements directly.
   const parser = new DOMParser();
