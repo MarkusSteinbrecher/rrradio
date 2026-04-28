@@ -756,8 +756,13 @@ function librarySegmented(): HTMLDivElement {
 // The unfiltered Browse view shows the top 10 played, with built-in
 // matches preferred (real logos + curated metadata) and Radio
 // Browser-resolved stubs for the rest.
-const TOP_STATIONS_URL =
-  'https://rrradio-stats.markussteinbrecher.workers.dev/api/public/top-stations?days=30&limit=25';
+// Default to a 7-day window to match the admin dashboard's headline
+// numbers. The Browse home view ("Most played") just wants top-N, the
+// dashboard wants the same window across all metrics.
+const STATS_DAYS = 7;
+const STATS_BASE = 'https://rrradio-stats.markussteinbrecher.workers.dev';
+const TOP_STATIONS_URL = `${STATS_BASE}/api/public/top-stations?days=${STATS_DAYS}&limit=25`;
+const PUBLIC_TOTALS_URL = `${STATS_BASE}/api/public/totals?days=${STATS_DAYS}`;
 const PLAYED_TOTAL_LIMIT = 20;
 
 interface BacklogEntry {
@@ -1634,6 +1639,22 @@ async function fetchTopStationsWithCounts(): Promise<TopStationItem[]> {
   }
 }
 
+interface PublicTotals {
+  total?: number;
+  total_events?: number;
+  range_days?: number;
+}
+
+async function fetchPublicTotals(): Promise<PublicTotals | null> {
+  try {
+    const res = await fetch(PUBLIC_TOTALS_URL);
+    if (!res.ok) return null;
+    return (await res.json()) as PublicTotals;
+  } catch {
+    return null;
+  }
+}
+
 function aggregateDashboard(items: TopStationItem[]): DashboardData {
   const builtinByName = new Map<string, Station>();
   for (const s of BUILTIN_STATIONS) builtinByName.set(s.name.toLowerCase(), s);
@@ -1651,8 +1672,8 @@ function aggregateDashboard(items: TopStationItem[]): DashboardData {
   return { totalPlays, totalStations, byCountry };
 }
 
-function renderDashKpis(d: DashboardData): void {
-  $dashVisits.textContent = siteVisitCount ?? '—';
+function renderDashKpis(d: DashboardData, totals: PublicTotals | null): void {
+  $dashVisits.textContent = totals?.total != null ? totals.total.toLocaleString() : '—';
   $dashCountries.textContent = String(d.byCountry.size);
   $dashStations.textContent = String(d.totalStations);
 }
@@ -1785,13 +1806,16 @@ async function openDashboardSheet(open: boolean): Promise<void> {
     teardownDashMap();
     return;
   }
-  // Initial render — show last-known visit count, fetch fresh top-stations.
-  $dashVisits.textContent = siteVisitCount ?? '…';
+  // Initial render — show "…" placeholders, fetch fresh data.
+  $dashVisits.textContent = '…';
   $dashCountries.textContent = '…';
   $dashStations.textContent = '…';
-  const items = await fetchTopStationsWithCounts();
+  const [items, totals] = await Promise.all([
+    fetchTopStationsWithCounts(),
+    fetchPublicTotals(),
+  ]);
   const data = aggregateDashboard(items);
-  renderDashKpis(data);
+  renderDashKpis(data, totals);
   renderDashCountryTable(data);
   renderDashStationTable(items);
   void renderDashMap(data);

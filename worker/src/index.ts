@@ -220,12 +220,29 @@ export default {
       const publicCors = { ...cors, 'Access-Control-Allow-Origin': '*' };
       try {
         if (url.pathname === '/api/public/top-stations') {
-          const limit = Math.min(20, Math.max(1, Number(url.searchParams.get('limit')) || 5));
+          const limit = Math.min(50, Math.max(1, Number(url.searchParams.get('limit')) || 5));
           const list = pickByPrefix(await fetchAllHits(days, env), 'play: ', limit, days);
           // Strip the inner `title` field — not needed publicly and
           // keeps the payload tight.
           const items = list.items.map((i) => ({ name: i.label, count: i.count }));
           return new Response(JSON.stringify({ items, range_days: days }), {
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8',
+              'Cache-Control': `public, max-age=${PUBLIC_CACHE_TTL_S}`,
+              ...publicCors,
+            },
+          });
+        }
+
+        // Public totals — same shape as /api/totals (admin) but with no
+        // PII to redact in the first place. GoatCounter `/stats/total`
+        // returns aggregate visit + event counts only. Used by the
+        // public stats sheet so it matches the admin dashboard's headline
+        // numbers (which default to 7-day windows).
+        if (url.pathname === '/api/public/totals') {
+          const t = await totals(days, env);
+          return new Response(JSON.stringify(t), {
             status: 200,
             headers: {
               'Content-Type': 'application/json; charset=utf-8',
