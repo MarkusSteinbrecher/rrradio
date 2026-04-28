@@ -763,6 +763,7 @@ const STATS_DAYS = 7;
 const STATS_BASE = 'https://rrradio-stats.markussteinbrecher.workers.dev';
 const TOP_STATIONS_URL = `${STATS_BASE}/api/public/top-stations?days=${STATS_DAYS}&limit=25`;
 const PUBLIC_TOTALS_URL = `${STATS_BASE}/api/public/totals?days=${STATS_DAYS}`;
+const PUBLIC_LOCATIONS_URL = `${STATS_BASE}/api/public/locations?days=${STATS_DAYS}&limit=50`;
 const PLAYED_TOTAL_LIMIT = 20;
 
 interface BacklogEntry {
@@ -1625,7 +1626,9 @@ interface TopStationItem {
 interface DashboardData {
   totalPlays: number;
   totalStations: number;
-  byCountry: Map<string, number>; // country code → total plays
+  /** Visitor-country counts (where listeners are browsing from), not
+   *  station-origin counts. Country code → visitor count. */
+  byCountry: Map<string, number>;
 }
 
 async function fetchTopStationsWithCounts(): Promise<TopStationItem[]> {
@@ -1655,19 +1658,37 @@ async function fetchPublicTotals(): Promise<PublicTotals | null> {
   }
 }
 
-function aggregateDashboard(items: TopStationItem[]): DashboardData {
-  const builtinByName = new Map<string, Station>();
-  for (const s of BUILTIN_STATIONS) builtinByName.set(s.name.toLowerCase(), s);
+interface PublicLocationItem {
+  code: string;
+  name: string;
+  count: number;
+}
+
+async function fetchPublicLocations(): Promise<PublicLocationItem[]> {
+  try {
+    const res = await fetch(PUBLIC_LOCATIONS_URL);
+    if (!res.ok) return [];
+    const data = (await res.json()) as { items?: PublicLocationItem[] };
+    return data.items ?? [];
+  } catch {
+    return [];
+  }
+}
+
+function aggregateDashboard(
+  items: TopStationItem[],
+  locations: PublicLocationItem[],
+): DashboardData {
   let totalPlays = 0;
   let totalStations = 0;
-  const byCountry = new Map<string, number>();
   for (const it of items) {
     totalStations++;
     totalPlays += it.count;
-    const builtin = builtinByName.get(it.name.toLowerCase());
-    const cc = builtin?.country?.toUpperCase();
-    if (!cc) continue; // unknown country — count toward total but not per-country breakdown
-    byCountry.set(cc, (byCountry.get(cc) ?? 0) + it.count);
+  }
+  const byCountry = new Map<string, number>();
+  for (const loc of locations) {
+    if (!loc.code) continue;
+    byCountry.set(loc.code.toUpperCase(), (byCountry.get(loc.code.toUpperCase()) ?? 0) + loc.count);
   }
   return { totalPlays, totalStations, byCountry };
 }
@@ -1810,11 +1831,12 @@ async function openDashboardSheet(open: boolean): Promise<void> {
   $dashVisits.textContent = '…';
   $dashCountries.textContent = '…';
   $dashStations.textContent = '…';
-  const [items, totals] = await Promise.all([
+  const [items, totals, locations] = await Promise.all([
     fetchTopStationsWithCounts(),
     fetchPublicTotals(),
+    fetchPublicLocations(),
   ]);
-  const data = aggregateDashboard(items);
+  const data = aggregateDashboard(items, locations);
   renderDashKpis(data, totals);
   renderDashCountryTable(data);
   renderDashStationTable(items);

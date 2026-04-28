@@ -252,6 +252,36 @@ export default {
           });
         }
 
+        // Public visitor locations — visitor-country counts from
+        // GoatCounter /stats/locations. Country granularity only; no
+        // city/region. Aggregate, no PII. Items shape:
+        //   { code: ISO3166-1 alpha-2, name: localized, count: int }
+        if (url.pathname === '/api/public/locations') {
+          const limit = Math.min(50, Math.max(1, Number(url.searchParams.get('limit')) || 30));
+          const params = new URLSearchParams({
+            start: rangeStart(days),
+            limit: String(limit),
+          });
+          const raw = await gcFetch<GcStatGroup>(`/stats/locations?${params}`, env);
+          const items = (raw.stats ?? []).map((s) => ({
+            code: s.id || '',
+            name: s.name || s.id || '—',
+            count: s.count,
+          }));
+          items.sort((a, b) => b.count - a.count);
+          return new Response(
+            JSON.stringify({ items, total: raw.total ?? 0, range_days: days }),
+            {
+              status: 200,
+              headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                'Cache-Control': `public, max-age=${PUBLIC_CACHE_TTL_S}`,
+                ...publicCors,
+              },
+            },
+          );
+        }
+
         // Generic proxy with host allowlist. For any broadcaster API
         // that returns useful JSON but lacks CORS (HR, possibly more
         // later). The allowlist prevents this from becoming an open
