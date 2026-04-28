@@ -1942,6 +1942,23 @@ body.is-playing .np-bottom .live-dot  {
   margin: 0 0 12px;
   font-weight: 500;
 }
+.dash-section__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.dash-section__head h3 { margin: 0; }
+.dash-toggle {
+  margin: 0;
+  padding: 3px;
+  flex-shrink: 0;
+}
+.dash-toggle .lib-seg__btn {
+  padding: 6px 12px;
+  font-size: 10px;
+}
 
 .dash-map {
   width: 100%;

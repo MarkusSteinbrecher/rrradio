@@ -375,12 +375,14 @@
           </div>
 
           <div class="dash-section">
-            <h3>Where listeners are</h3>
+            <div class="dash-section__head">
+              <h3 id="dash-country-heading">Where listeners are</h3>
+              <div class="lib-seg dash-toggle" id="dash-country-toggle" role="tablist" aria-label="Country view">
+                <button type="button" class="lib-seg__btn is-active" data-view="listeners" aria-pressed="true">Listeners</button>
+                <button type="button" class="lib-seg__btn" data-view="stations" aria-pressed="false">Stations</button>
+              </div>
+            </div>
             <div class="dash-map" id="dash-map"></div>
-          </div>
-
-          <div class="dash-section">
-            <h3>Top visitor countries</h3>
             <table class="dash-table" id="dash-country-table">
               <tbody></tbody>
             </table>

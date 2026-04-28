@@ -163,6 +163,8 @@ const $dashStations = document.getElementById('dash-stations') as HTMLElement;
 const $dashMap = document.getElementById('dash-map') as HTMLElement;
 const $dashCountryTable = document.querySelector('#dash-country-table tbody') as HTMLTableSectionElement;
 const $dashStationTable = document.querySelector('#dash-station-table tbody') as HTMLTableSectionElement;
+const $dashCountryHeading = document.getElementById('dash-country-heading') as HTMLElement;
+const $dashCountryToggle = document.getElementById('dash-country-toggle') as HTMLElement;
 
 // ─────────────────────────────────────────────────────────────
 // State
@@ -1623,13 +1625,20 @@ interface TopStationItem {
   count: number;
 }
 
+type DashCountryView = 'listeners' | 'stations';
+
 interface DashboardData {
   totalPlays: number;
   totalStations: number;
-  /** Visitor-country counts (where listeners are browsing from), not
-   *  station-origin counts. Country code → visitor count. */
-  byCountry: Map<string, number>;
+  /** Visitor-country counts (where listeners browse from). */
+  byListenerCountry: Map<string, number>;
+  /** Station-origin counts (where each played station is from), built
+   *  from the top-stations payload joined against BUILTIN_STATIONS. */
+  byStationCountry: Map<string, number>;
 }
+
+let dashView: DashCountryView = 'listeners';
+let lastDashboardData: DashboardData | null = null;
 
 async function fetchTopStationsWithCounts(): Promise<TopStationItem[]> {
   try {
@@ -1681,27 +1690,41 @@ function aggregateDashboard(
 ): DashboardData {
   let totalPlays = 0;
   let totalStations = 0;
+  const builtinByName = new Map<string, Station>();
+  for (const s of BUILTIN_STATIONS) builtinByName.set(s.name.toLowerCase(), s);
+  const byStationCountry = new Map<string, number>();
   for (const it of items) {
     totalStations++;
     totalPlays += it.count;
+    const builtin = builtinByName.get(it.name.toLowerCase());
+    const cc = builtin?.country?.toUpperCase();
+    if (!cc) continue;
+    byStationCountry.set(cc, (byStationCountry.get(cc) ?? 0) + it.count);
   }
-  const byCountry = new Map<string, number>();
+  const byListenerCountry = new Map<string, number>();
   for (const loc of locations) {
     if (!loc.code) continue;
-    byCountry.set(loc.code.toUpperCase(), (byCountry.get(loc.code.toUpperCase()) ?? 0) + loc.count);
+    const cc = loc.code.toUpperCase();
+    byListenerCountry.set(cc, (byListenerCountry.get(cc) ?? 0) + loc.count);
   }
-  return { totalPlays, totalStations, byCountry };
+  return { totalPlays, totalStations, byListenerCountry, byStationCountry };
+}
+
+function activeCountryMap(d: DashboardData): Map<string, number> {
+  return dashView === 'listeners' ? d.byListenerCountry : d.byStationCountry;
 }
 
 function renderDashKpis(d: DashboardData, totals: PublicTotals | null): void {
   $dashVisits.textContent = totals?.total != null ? totals.total.toLocaleString() : '—';
-  $dashCountries.textContent = String(d.byCountry.size);
+  // The "Countries" KPI follows whichever view is active so the
+  // headline matches the table + map below.
+  $dashCountries.textContent = String(activeCountryMap(d).size);
   $dashStations.textContent = String(d.totalStations);
 }
 
 function renderDashCountryTable(d: DashboardData): void {
   $dashCountryTable.replaceChildren();
-  const sorted = [...d.byCountry.entries()].sort((a, b) => b[1] - a[1]);
+  const sorted = [...activeCountryMap(d).entries()].sort((a, b) => b[1] - a[1]);
   const max = sorted[0]?.[1] ?? 1;
   sorted.forEach(([cc, count], i) => {
     const tr = document.createElement('tr');
@@ -1781,7 +1804,8 @@ function teardownDashMap(): void {
 
 async function renderDashMap(d: DashboardData): Promise<void> {
   teardownDashMap();
-  if (d.byCountry.size === 0) return;
+  const map = activeCountryMap(d);
+  if (map.size === 0) return;
   const svgSource = await ensureWorldSvg();
   if (!svgSource) return;
 
@@ -1793,9 +1817,9 @@ async function renderDashMap(d: DashboardData): Promise<void> {
   svg.removeAttribute('width');
   svg.removeAttribute('height');
 
-  const max = Math.max(...d.byCountry.values());
+  const max = Math.max(...map.values());
   const NS = 'http://www.w3.org/2000/svg';
-  for (const [cc, count] of d.byCountry) {
+  for (const [cc, count] of map) {
     const centroid = getCountryCentroid(cc);
     if (!centroid) continue;
     const { x, y } = projectLatLon(centroid[0], centroid[1]);
@@ -1811,14 +1835,42 @@ async function renderDashMap(d: DashboardData): Promise<void> {
     circle.setAttribute('cy', String(y));
     circle.setAttribute('r', String(r));
 
+    const unit = dashView === 'listeners' ? 'visitors' : 'plays';
     const title = document.createElementNS(NS, 'title');
-    title.textContent = `${countryName(cc)} · ${count} plays`;
+    title.textContent = `${countryName(cc)} · ${count} ${unit}`;
     circle.append(title);
 
     svg.append(circle);
   }
   $dashMap.append(svg);
 }
+
+function syncDashToggle(): void {
+  $dashCountryHeading.textContent =
+    dashView === 'listeners' ? 'Where listeners are' : 'Where stations are from';
+  for (const btn of $dashCountryToggle.querySelectorAll<HTMLButtonElement>('.lib-seg__btn')) {
+    const isActive = btn.dataset.view === dashView;
+    btn.classList.toggle('is-active', isActive);
+    btn.setAttribute('aria-pressed', String(isActive));
+  }
+}
+
+function applyDashView(): void {
+  if (!lastDashboardData) return;
+  syncDashToggle();
+  $dashCountries.textContent = String(activeCountryMap(lastDashboardData).size);
+  renderDashCountryTable(lastDashboardData);
+  void renderDashMap(lastDashboardData);
+}
+
+$dashCountryToggle.addEventListener('click', (e) => {
+  const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.lib-seg__btn');
+  if (!btn) return;
+  const view = btn.dataset.view as DashCountryView | undefined;
+  if (!view || view === dashView) return;
+  dashView = view;
+  applyDashView();
+});
 
 async function openDashboardSheet(open: boolean): Promise<void> {
   $dashboardSheet.classList.toggle('open', open);
@@ -1837,6 +1889,8 @@ async function openDashboardSheet(open: boolean): Promise<void> {
     fetchPublicLocations(),
   ]);
   const data = aggregateDashboard(items, locations);
+  lastDashboardData = data;
+  syncDashToggle();
   renderDashKpis(data, totals);
   renderDashCountryTable(data);
   renderDashStationTable(items);
