@@ -1696,24 +1696,32 @@ body.is-playing .np-bottom .live-dot  {
 }
 .sheet.open { transform: translateY(0); }
 
+/* Three-column grid — title centers regardless of which column has
+   actual content. The trailing column hosts the close button; the
+   leading column stays empty (no spacer element needed). */
 .sheet-head {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   padding: calc(var(--safe-top) + 14px) 18px 14px;
   flex-shrink: 0;
   border-bottom: 1px solid var(--line);
 }
+.sheet-head .icon-btn { justify-self: end; grid-column: 3; }
+.sheet-head .np-label { grid-column: 2; }
+/* Sheet header close button — matches the topbar add/theme/about
+   circles (.add-btn) so the chrome reads as one consistent set. */
 .sheet-head .icon-btn {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   border: 1px solid var(--line);
   display: grid;
   place-items: center;
   border-radius: 50%;
-  color: var(--ink);
-  transition: transform 0.15s;
+  color: var(--ink-2);
+  transition: color 0.15s, border-color 0.15s, transform 0.12s;
 }
+.sheet-head .icon-btn:hover { color: var(--ink); border-color: var(--line-2); }
 .sheet-head .icon-btn:active { transform: scale(0.92); }
 .sheet-head .icon-btn svg { width: 14px; height: 14px; }
 
