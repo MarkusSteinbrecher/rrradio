@@ -726,3 +726,78 @@
   favicon: stations/frisky.png
   homepage: https://frisky.fm/radio/deep
   status: icy-only
+
+# ─────────────── Auto-curated DE expansion (2026-04-28) ───────────────
+# Top non-curated, playable DE stations from the analyze-rb DE pass.
+# All status:stream-only — none have a fetcher wired yet.
+
+- id: rock-antenne-heavy-metal
+  stationuuid: dad0436b-f31e-436a-b819-dd28670d4d3a
+  changeuuid: e5475051-5df8-499d-a6b7-ef6532f06f60
+  reviewedAt: 2026-04-28
+  broadcaster: rock-antenne
+  name: Rock Antenne Heavy Metal
+  streamUrl: https://mp3channels.webradio.rockantenne.de/heavy-metal
+  bitrate: 128
+  codec: MP3
+  tags: [rock, metal, heavy metal]
+  status: stream-only
+
+- id: antenne-bayern-main
+  stationuuid: d45dff01-bb08-4703-992d-a679a0ba0b05
+  changeuuid: 6c78a439-4636-473f-8ed3-ae464f859bae
+  reviewedAt: 2026-04-28
+  broadcaster: antenne-bayern
+  name: Antenne Bayern
+  streamUrl: https://stream.antenne.de/antenne/stream/mp3
+  bitrate: 128
+  codec: MP3
+  tags: [pop, hits, commercial]
+  status: stream-only
+
+- id: oldie-antenne-main
+  stationuuid: 87906f1e-5f82-4b86-9865-69e8eab8a69a
+  changeuuid: 3533cbe5-294f-485c-96bc-7ab9dbf59472
+  reviewedAt: 2026-04-28
+  broadcaster: oldie-antenne
+  name: Oldie Antenne
+  streamUrl: https://s1-webradio.oldie-antenne.de/oldie-antenne
+  bitrate: 128
+  codec: MP3
+  tags: [oldies, classics, schlager]
+  status: stream-only
+
+- id: absolut-relax
+  stationuuid: ae209b3a-d20a-48f2-b303-22d68e385bf4
+  changeuuid: c619209c-5802-4d39-9330-4b97b82cb836
+  reviewedAt: 2026-04-28
+  broadcaster: absolut
+  name: Absolut Relax
+  streamUrl: https://absolut-relax.live-sm.absolutradio.de/absolut-relax
+  codec: AAC
+  tags: [chillout, relax, ambient]
+  status: stream-only
+
+- id: byte-fm
+  stationuuid: efcd88c5-cd6f-11e8-a54a-52543be04c81
+  changeuuid: 88d44493-34de-4d61-b84d-bf37dc88fb42
+  reviewedAt: 2026-04-28
+  broadcaster: byte-fm
+  name: ByteFM
+  streamUrl: https://bytefm.cast.addradio.de/bytefm/main/high/stream
+  bitrate: 192
+  codec: MP3
+  tags: [indie, alternative, eclectic]
+  status: stream-only
+
+- id: jazzradio-berlin-1068
+  stationuuid: 96074d8b-0601-11e8-ae97-52543be04c81
+  changeuuid: 606c35ef-65c8-47ad-abb7-7187b2697157
+  reviewedAt: 2026-04-28
+  broadcaster: jazzradio-berlin
+  name: JazzRadio 106.8 Berlin
+  streamUrl: https://streaming.radio.co/s774887f7b/listen
+  bitrate: 192
+  codec: MP3
+  tags: [jazz, smooth jazz]
+  status: stream-only
