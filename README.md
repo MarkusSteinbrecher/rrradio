@@ -1,9 +1,6 @@
 <p align="center">
   <a href="https://rrradio.org">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="public/rrradio-logo-dark.svg">
-      <img alt="rrradio" src="public/rrradio-logo-light.svg" width="360">
-    </picture>
+    r r r a d i o . o r g
   </a>
 </p>
 
