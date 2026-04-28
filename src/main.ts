@@ -1064,9 +1064,20 @@ function renderGlobe(stations: Station[]): HTMLElement {
       worldCopyJump: true,
       zoomControl: true,
       attributionControl: true,
-      // Smaller scrollwheel zoom step than the default — feels closer
-      // to native trackpad pinch.
+      // Hold Cmd/Ctrl to zoom; plain scroll-wheel passes through to
+      // page scroll. Without this, the map captures every wheel event
+      // when the cursor is over it and listing-scroll appears to break.
+      scrollWheelZoom: false,
+      // Trackpad pinch (gesture-based zoom on touchpads) stays active.
       wheelPxPerZoomLevel: 80,
+    });
+    // Re-enable scroll-wheel zoom only while a modifier is held.
+    mapEl.addEventListener('wheel', (e) => {
+      if (e.ctrlKey || e.metaKey) {
+        if (!map.scrollWheelZoom.enabled()) map.scrollWheelZoom.enable();
+      } else if (map.scrollWheelZoom.enabled()) {
+        map.scrollWheelZoom.disable();
+      }
     });
     currentMap = map;
 

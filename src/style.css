@@ -1747,7 +1747,9 @@ body.is-playing .np-bottom .live-dot  {
   flex: 1;
   overflow-y: auto;
   padding: 22px 24px calc(28px + var(--safe-bottom));
+  scrollbar-width: none; /* Firefox */
 }
+.sheet-body::-webkit-scrollbar { width: 0; }
 
 .add-form { display: flex; flex-direction: column; gap: 16px; }
 
