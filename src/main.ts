@@ -162,6 +162,7 @@ const $dashCountries = document.getElementById('dash-countries') as HTMLElement;
 const $dashStations = document.getElementById('dash-stations') as HTMLElement;
 const $dashMap = document.getElementById('dash-map') as HTMLElement;
 const $dashCountryTable = document.querySelector('#dash-country-table tbody') as HTMLTableSectionElement;
+const $dashStationTable = document.querySelector('#dash-station-table tbody') as HTMLTableSectionElement;
 
 // ─────────────────────────────────────────────────────────────
 // State
@@ -1679,6 +1680,29 @@ function renderDashCountryTable(d: DashboardData): void {
   });
 }
 
+function renderDashStationTable(items: TopStationItem[]): void {
+  $dashStationTable.replaceChildren();
+  if (items.length === 0) return;
+  const max = items[0]?.count ?? 1;
+  items.forEach((it, i) => {
+    const tr = document.createElement('tr');
+    const rank = document.createElement('td');
+    rank.className = 'rank';
+    rank.textContent = String(i + 1).padStart(2, '0');
+    const name = document.createElement('td');
+    name.className = 'country'; // reuse existing column class for the auto-width name slot
+    name.textContent = it.name;
+    const bar = document.createElement('td');
+    bar.className = 'bar';
+    bar.innerHTML = `<div class="bar__track"><div class="bar__fill" style="width:${(it.count / max) * 100}%"></div></div>`;
+    const num = document.createElement('td');
+    num.className = 'count';
+    num.textContent = String(it.count);
+    tr.append(rank, name, bar, num);
+    $dashStationTable.append(tr);
+  });
+}
+
 function getCountryCentroid(cc: string): [number, number] | null {
   if (COUNTRY_CENTROIDS[cc]) return COUNTRY_CENTROIDS[cc];
   // Fallback: any curated station from that country
@@ -1722,16 +1746,20 @@ function renderDashMap(d: DashboardData): void {
     for (const [cc, count] of d.byCountry) {
       const centroid = getCountryCentroid(cc);
       if (!centroid) continue;
-      // Radius scales sqrt of share — keeps small countries visible
-      // while preventing a single dominant country from drowning others.
+      // Radius is a function of this country's *share* of the busiest
+      // country (count / max), so absolute play volume changes don't
+      // change the visual — what's drawn is the relative pattern.
+      // sqrt(share) makes the *area* (not the radius) proportional,
+      // which matches how the eye reads a circle's "amount".
       const share = count / max;
-      const radius = 5 + Math.sqrt(share) * 22;
+      const radius = 2 + Math.sqrt(share) * 6;
       L.circleMarker(centroid, {
         radius,
-        color: 'transparent',
+        color: 'currentColor',
         fillColor: 'currentColor',
-        fillOpacity: 0.55,
-        weight: 0,
+        fillOpacity: 0.35,
+        weight: 1,
+        opacity: 0.6,
         className: 'dash-circle',
       })
         .bindTooltip(`${countryName(cc)} · ${count} plays`, {
@@ -1760,6 +1788,7 @@ async function openDashboardSheet(open: boolean): Promise<void> {
   const data = aggregateDashboard(items);
   renderDashKpis(data);
   renderDashCountryTable(data);
+  renderDashStationTable(items);
   renderDashMap(data);
 }
 

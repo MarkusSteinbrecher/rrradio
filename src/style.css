@@ -1952,8 +1952,11 @@ body.is-playing .np-bottom .live-dot  {
   background: var(--bg-2);
   color: var(--accent); /* fillColor inherits via currentColor */
 }
-.dash-circle { transition: fill-opacity 0.15s; }
-.dash-circle:hover { fill-opacity: 0.85 !important; }
+.dash-circle { transition: fill-opacity 0.15s, stroke-opacity 0.15s; }
+.dash-circle:hover {
+  fill-opacity: 0.7 !important;
+  stroke-opacity: 1 !important;
+}
 
 .dash-table {
   width: 100%;
@@ -1977,6 +1980,10 @@ body.is-playing .np-bottom .live-dot  {
 }
 .dash-table td.country {
   width: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 0; /* CSS magic so table-cell ellipsis works */
 }
 .dash-table td.bar {
   width: 35%;
