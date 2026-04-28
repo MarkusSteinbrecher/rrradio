@@ -291,7 +291,7 @@ function svg(d: string, opts: { fill?: boolean; viewBox?: string } = {}): string
 
 const ICON_HEART_FILL = `<svg class="heart--fill" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>`;
 const ICON_HEART_LINE_CLASSED = `<svg class="heart--line" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>`;
-const ICON_FAV = svg('<path d="M12 17.5 6 21l1.5-6.5L2.5 10l6.7-.6L12 3l2.8 6.4 6.7.6-5 4.5L18 21z"/>');
+const ICON_FAV = svg('<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>');
 const ICON_RECENT = svg('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>');
 const ICON_EMPTY = svg('<path d="M3 7v10a4 4 0 0 0 4 4h10a4 4 0 0 0 4-4V7"/><path d="M3 7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4"/><path d="M3 7h18"/>');
 
@@ -1300,11 +1300,13 @@ function renderContent(): void {
     $content.append(librarySegmented());
   }
 
+  // Library views skip the section label — the segmented control above
+  // already says "Favorites" / "Recents" and the search input is right
+  // there when filtering, so a redundant header band would just take
+  // up vertical space.
   if (activeTab === 'fav') {
     const all = getFavorites();
     const list = filterStations(all, query);
-    const label = query ? 'Results' : 'Favorites';
-    $content.append(sectionLabel(label, list.length));
     if (all.length === 0) {
       $content.append(
         emptyState(ICON_FAV, 'No favorites yet', 'Tap the heart on any station to save it here'),
@@ -1322,8 +1324,6 @@ function renderContent(): void {
   if (activeTab === 'recent') {
     const all = getRecents();
     const list = filterStations(all, query);
-    const label = query ? 'Results' : 'Recently played';
-    $content.append(sectionLabel(label, list.length));
     if (all.length === 0) {
       $content.append(
         emptyState(ICON_RECENT, 'No history yet', 'Stations you play will show up here'),

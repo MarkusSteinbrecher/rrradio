@@ -531,8 +531,11 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 }
 .lib-seg__btn:hover { color: var(--ink-2); }
 .lib-seg__btn.is-active {
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  /* Inverted pill — pops against the search-bar's --bg-2 row above.
+     In dark mode this is near-white; in light mode it inverts to
+     near-black. Both read as a clear "this is selected" affordance. */
+  color: var(--bg);
+  background: var(--ink);
 }
 
 /* ─── Station row ─── */
