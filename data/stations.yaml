@@ -56,6 +56,9 @@
   featured: true
 
 - id: builtin-br-bayern1
+  stationuuid: 7a49c017-1391-4e18-a4d8-a9bab58516e6
+  changeuuid: efda1f14-1fd5-48bf-8f9b-fb11e494b9e6
+  reviewedAt: 2026-04-28
   geo: [48.1351, 11.582]
   broadcaster: br
   name: Bayern 1
@@ -104,6 +107,9 @@
 # broadcaster's metadata API is wired in src/builtins.ts.
 
 - id: br-bayern-2
+  stationuuid: 1f3700b5-4875-4bdf-986d-1dcaa4e8dfbe
+  changeuuid: 6d960539-d836-48b6-a0af-d79623ccbb53
+  reviewedAt: 2026-04-28
   metadataUrl: https://www.br.de/mediathek/audio/bayern2/bayern2-audio-livestream-102~radioplayer.json
   geo: [48.1351, 11.582]
   broadcaster: br
@@ -117,6 +123,9 @@
   status: stream-only
 
 - id: br-br-heimat
+  stationuuid: a1dbd7d6-d0c7-4479-b91e-e44b64718d65
+  changeuuid: dff37f4d-dc6f-45e2-ba6b-6ece80855898
+  reviewedAt: 2026-04-28
   metadataUrl: https://www.br.de/mediathek/audio/br-heimat/br-heimat-audio-livestream-100~radioplayer.json
   geo: [48.1351, 11.582]
   broadcaster: br
@@ -130,6 +139,9 @@
   status: stream-only
 
 - id: br-br-schlager
+  stationuuid: ac5f83fc-61b6-4a29-8dbc-b9e880ff08c3
+  changeuuid: 5a02bdfc-5125-41a3-86d8-9510dbb7c429
+  reviewedAt: 2026-04-28
   metadataUrl: https://www.br.de/mediathek/audio/br-schlager/br-schlager-audio-livestream-102~radioplayer.json
   geo: [48.1351, 11.582]
   broadcaster: br
@@ -143,6 +155,9 @@
   status: stream-only
 
 - id: br-br24
+  stationuuid: 787eda99-1532-4ee0-b14e-fdb88ec71530
+  changeuuid: 148d47ff-e69e-4015-8da8-49175dd2daad
+  reviewedAt: 2026-04-28
   metadataUrl: https://www.br.de/mediathek/audio/br24/br24-audio-livestream-100~radioplayer.json
   geo: [48.1351, 11.582]
   broadcaster: br
@@ -156,6 +171,9 @@
   status: stream-only
 
 - id: wdr-1live
+  stationuuid: 32206891-c351-4f7d-b136-ac693974222d
+  changeuuid: 178925f1-a235-4701-8a0f-b420a8027754
+  reviewedAt: 2026-04-28
   geo: [50.9404, 6.9571]
   broadcaster: wdr
   name: 1Live
@@ -168,6 +186,9 @@
   status: stream-only
 
 - id: wdr-1live-diggi
+  stationuuid: 03466e51-85fb-11e8-aa66-52543be04c81
+  changeuuid: 02eeff00-1937-48c0-8bed-89be97e832c2
+  reviewedAt: 2026-04-28
   geo: [50.9375, 6.9603]
   broadcaster: wdr
   name: 1Live Diggi
@@ -179,6 +200,9 @@
   status: stream-only
 
 - id: wdr-wdr-2
+  stationuuid: feb978ba-8e34-4993-9082-ae4af186ecda
+  changeuuid: a7a227c0-bbce-4506-a07d-3bb453986b42
+  reviewedAt: 2026-04-28
   geo: [51.3563, 6.7302]
   broadcaster: wdr
   name: WDR 2
@@ -189,6 +213,9 @@
   status: stream-only
 
 - id: wdr-wdr-4
+  stationuuid: 14c82dd4-20e1-42a9-8522-735f7530c2ac
+  changeuuid: 46802bf3-de17-44f3-b6a7-cb55b9f0f1c5
+  reviewedAt: 2026-04-28
   geo: [51.0469, 10.1953]
   broadcaster: wdr
   name: WDR 4
@@ -201,6 +228,9 @@
   status: stream-only
 
 - id: wdr-wdr-5
+  stationuuid: 3d4c97c7-e122-4304-b8c8-52336683bda1
+  changeuuid: a19eae2d-119b-4520-bc7b-d549f2a22317
+  reviewedAt: 2026-04-28
   geo: [50.9398, 6.9514]
   broadcaster: wdr
   name: WDR 5
@@ -213,6 +243,9 @@
   status: stream-only
 
 - id: wdr-die-maus
+  stationuuid: 6ebbea93-0ba5-441b-8fbc-51c586d361e3
+  changeuuid: 49d0eccb-80cf-4ae4-9e9c-aff6b6298b65
+  reviewedAt: 2026-04-28
   geo: [50.9375, 6.9603]
   broadcaster: wdr
   name: Die Maus
@@ -225,6 +258,9 @@
   status: stream-only
 
 - id: ndr-ndr-90-3
+  stationuuid: 5bf6031d-07f9-474e-9545-7ca96f0a01d4
+  changeuuid: 04c77a28-888d-41b0-bdc3-04c764f85a81
+  reviewedAt: 2026-04-28
   geo: [53.5511, 9.9937]
   broadcaster: ndr
   name: "NDR 90,3"
@@ -237,6 +273,9 @@
   status: stream-only
 
 - id: ndr-ndr-2
+  stationuuid: 9e3b0f8e-95d3-11e9-a605-52543be04c81
+  changeuuid: 2ae60138-b2b6-4069-bc4b-d1654192f8b0
+  reviewedAt: 2026-04-28
   geo: [53.5511, 9.9937]
   broadcaster: ndr
   name: NDR 2
@@ -249,6 +288,9 @@
   status: stream-only
 
 - id: ndr-ndr-kultur
+  stationuuid: aa673098-04d9-468d-98e7-97b694964f64
+  changeuuid: 6daa3848-6df7-4cfd-8c3b-1ca15cd78cfc
+  reviewedAt: 2026-04-28
   geo: [53.5511, 9.9937]
   broadcaster: ndr
   name: NDR Kultur
@@ -261,6 +303,9 @@
   status: stream-only
 
 - id: ndr-ndr-1-niedersachsen
+  stationuuid: b6240170-f81f-4fc7-9183-5f9ebbe8b8d8
+  changeuuid: d8c257e3-d642-4e93-b160-4f878ed05346
+  reviewedAt: 2026-04-28
   geo: [52.2709, 10.5301]
   broadcaster: ndr
   name: NDR 1 Niedersachsen
@@ -273,6 +318,9 @@
   status: stream-only
 
 - id: ndr-ndr-1-welle-nord
+  stationuuid: dbce97a5-3f7a-4c2e-be69-723abef042ed
+  changeuuid: d8cab64d-4339-491d-823e-aaec788e80cc
+  reviewedAt: 2026-04-28
   geo: [53.865, 10.6868]
   broadcaster: ndr
   name: NDR 1 Welle Nord
@@ -285,6 +333,9 @@
   status: stream-only
 
 - id: ndr-n-joy
+  stationuuid: eac50ec2-a5ec-4600-a863-3116f40bcc41
+  changeuuid: 13d84e2b-ab41-439a-b58f-006fccdcf846
+  reviewedAt: 2026-04-28
   geo: [53.5649, 10.0305]
   broadcaster: ndr
   name: N-JOY
@@ -297,6 +348,9 @@
   status: stream-only
 
 - id: ndr-ndr-schlager
+  stationuuid: 8f37c5fe-76b0-435f-9701-b44b6904106b
+  changeuuid: 709f73c8-299f-4c3d-ae31-fee12082a336
+  reviewedAt: 2026-04-28
   geo: [53.5511, 9.9937]
   broadcaster: ndr
   name: NDR Schlager
@@ -309,6 +363,9 @@
   status: stream-only
 
 - id: mdr-mdr-sachsen
+  stationuuid: 2194b405-2b98-4b30-ab36-e1fbdc9bb5a2
+  changeuuid: 602949b0-105e-43c7-961d-4436170b6e92
+  reviewedAt: 2026-04-28
   geo: [51.3162, 12.3859]
   broadcaster: mdr
   name: MDR Sachsen
@@ -321,6 +378,9 @@
   status: stream-only
 
 - id: mdr-mdr-thuringen
+  stationuuid: 942895ce-2065-4bbd-9979-1df43b7dc757
+  changeuuid: 12d6a955-dd60-4507-9270-67db0d38b97e
+  reviewedAt: 2026-04-28
   geo: [50.8805, 12.08]
   broadcaster: mdr
   name: MDR Thüringen
@@ -333,6 +393,9 @@
   status: stream-only
 
 - id: mdr-mdr-schlagerwelt
+  stationuuid: 18ca9b80-4a92-4602-b4a6-f9d091425305
+  changeuuid: d72c167e-cc8f-4af7-9fa1-d18542af0122
+  reviewedAt: 2026-04-28
   geo: [50.9622, 10.9957]
   broadcaster: mdr
   name: MDR Schlagerwelt
@@ -345,6 +408,9 @@
   status: stream-only
 
 - id: swr-swr1-baden-wurttemberg
+  stationuuid: 20c24a64-6dda-4059-88dc-66f5e1cffa7c
+  changeuuid: 6ae071c6-4aae-4408-b9c8-d196dfcad371
+  reviewedAt: 2026-04-28
   geo: [48.788, 9.1379]
   broadcaster: swr
   name: SWR1 Baden-Württemberg
@@ -356,6 +422,9 @@
   status: stream-only
 
 - id: swr-swr1-rheinland-pfalz
+  stationuuid: fc23ea83-a07d-4c40-a522-4c625244207e
+  changeuuid: b1c1ea94-329c-420d-81d1-34359ac90161
+  reviewedAt: 2026-04-28
   geo: [50.0051, 8.2947]
   broadcaster: swr
   name: SWR1 Rheinland-Pfalz
@@ -367,6 +436,9 @@
   status: stream-only
 
 - id: swr-swr3
+  stationuuid: 215231fd-68af-4cc3-aa89-422c032a2801
+  changeuuid: 2b873296-75d5-4108-8ef9-2bc203614b2b
+  reviewedAt: 2026-04-28
   geo: [48.7496, 8.2257]
   broadcaster: swr
   name: SWR3
@@ -379,6 +451,9 @@
   status: stream-only
 
 - id: swr-swr4-baden-wurttemberg
+  stationuuid: 54e4b1de-0156-4972-a14e-580111522b44
+  changeuuid: 354f62ff-681e-4a9a-9e85-af1bee3e55b9
+  reviewedAt: 2026-04-28
   geo: [48.7758, 9.1829]
   broadcaster: swr
   name: SWR4 Baden-Württemberg
@@ -391,6 +466,9 @@
   status: stream-only
 
 - id: swr-dasding
+  stationuuid: 0fd40b7b-1ce5-4b4e-ae86-7a6d608f1b0e
+  changeuuid: 4f284069-3fd4-4bda-9a9b-9fca9fe3b259
+  reviewedAt: 2026-04-28
   geo: [48.7571, 8.2448]
   broadcaster: swr
   name: DASDING
@@ -403,6 +481,9 @@
   status: stream-only
 
 - id: swr-swr-aktuell
+  stationuuid: f1e65b1b-fb00-47a1-8826-eff02dc7fef8
+  changeuuid: 0c4b5141-fbd3-48d4-b752-96643c4b5247
+  reviewedAt: 2026-04-28
   geo: [48.7931, 9.2038]
   broadcaster: swr
   name: SWR Aktuell
@@ -415,6 +496,9 @@
   status: stream-only
 
 - id: hr-hr1
+  stationuuid: ea4bc0ca-1cd0-43f0-b774-b7ae520a5615
+  changeuuid: e9c6b213-28ed-48e3-8911-f89a4703e59b
+  reviewedAt: 2026-04-28
   metadataUrl: https://www.hr1.de/sendungen/sendezeiten/radioprogramm-hr1-100~radioplayer.json
   geo: [50.1037, 8.6462]
   broadcaster: hr
@@ -428,6 +512,9 @@
   status: stream-only
 
 - id: hr-hr2
+  stationuuid: edb437d4-fd65-4d2d-881e-553ff6ca4170
+  changeuuid: 916f193e-e926-4f64-9325-f01f240a9628
+  reviewedAt: 2026-04-28
   metadataUrl: https://www.hr2.de/programm/sendezeiten/hrzwei-guide-100~radioplayer.json
   geo: [50.1109, 8.6821]
   broadcaster: hr
@@ -441,6 +528,9 @@
   status: stream-only
 
 - id: hr-hr3
+  stationuuid: d99c1386-0a12-4d7b-90d4-519ae5a89136
+  changeuuid: cc3ed4c5-04e4-4098-9ef4-5e6984da44c2
+  reviewedAt: 2026-04-28
   metadataUrl: https://www.hr3.de/shows/guide_hrthree-102~radioplayer.json
   geo: [50.1126, 8.6831]
   broadcaster: hr
@@ -453,6 +543,9 @@
   status: stream-only
 
 - id: hr-hr4
+  stationuuid: 9da83f97-bc76-4782-8a9b-ad2ed5d44fff
+  changeuuid: 34650407-27d4-4898-950a-e57a6b20fa1f
+  reviewedAt: 2026-04-28
   metadataUrl: https://www.hr4.de/programm/sendezeiten/guide_hrfour-100~radioplayer.json
   geo: [50.5828, 8.6723]
   broadcaster: hr
@@ -465,6 +558,9 @@
   status: stream-only
 
 - id: rbb-fritz
+  stationuuid: d8e958d4-fc11-4ecc-9d46-f17153bafcf1
+  changeuuid: 4d205d87-3b68-46d5-be47-c8a2cc0ecb1f
+  reviewedAt: 2026-04-28
   geo: [52.5102, 13.3965]
   broadcaster: rbb
   name: Fritz
@@ -477,6 +573,9 @@
   status: stream-only
 
 - id: rb-bremen-eins
+  stationuuid: 0aa252ff-612a-48e9-841b-b3f561dc1c47
+  changeuuid: 3dbc3471-c331-448e-87d9-420cacf42c58
+  reviewedAt: 2026-04-28
   geo: [53.0386, 8.822]
   broadcaster: rb
   name: Bremen Eins
@@ -488,6 +587,9 @@
   status: stream-only
 
 - id: rb-bremen-zwei
+  stationuuid: d7239ba3-beee-497c-bbe4-d8f06553cb0d
+  changeuuid: d636f457-8ee9-46e1-8cb4-1b9c52b10854
+  reviewedAt: 2026-04-28
   geo: [53.0791, 8.8055]
   broadcaster: rb
   name: Bremen Zwei
@@ -500,6 +602,9 @@
   status: stream-only
 
 - id: rb-bremen-vier
+  stationuuid: bb410a35-2056-46c5-8fbe-574b78533171
+  changeuuid: 5066180e-4808-4507-9cc2-5a7ffbb29b35
+  reviewedAt: 2026-04-28
   geo: [53.0795, 8.8055]
   broadcaster: rb
   name: Bremen Vier
@@ -510,6 +615,9 @@
   status: stream-only
 
 - id: rb-bremen-next
+  stationuuid: 7bf487b3-1e51-4f8b-bc4a-b3de739de5a5
+  changeuuid: cdb2c32d-5120-4fcd-9c4e-d3f94cf3ee66
+  reviewedAt: 2026-04-28
   geo: [53.0793, 8.8017]
   broadcaster: rb
   name: Bremen NEXT
@@ -522,6 +630,9 @@
   status: stream-only
 
 - id: dlf-deutschlandfunk
+  stationuuid: 42a73a97-9398-437c-b521-86646a79f82f
+  changeuuid: bc6f4ff3-1af9-4e09-93fb-efe5ec3721e5
+  reviewedAt: 2026-04-28
   geo: [52.4803, 13.3348]
   broadcaster: dlf
   name: Deutschlandfunk
@@ -534,6 +645,9 @@
   status: stream-only
 
 - id: dlf-deutschlandfunk-kultur
+  stationuuid: 2fd0e0de-fc39-4789-b333-ceb05af43024
+  changeuuid: ebb99542-bdf9-47c7-af47-f02a7e9cdc91
+  reviewedAt: 2026-04-28
   geo: [52.4803, 13.3348]
   broadcaster: dlf
   name: Deutschlandfunk Kultur
@@ -546,6 +660,9 @@
   status: stream-only
 
 - id: dlf-deutschlandfunk-nova
+  stationuuid: d9b70c7e-cd78-4c7e-a53b-438185717873
+  changeuuid: d033cb51-9510-412d-af46-51e43481340c
+  reviewedAt: 2026-04-28
   geo: [52.4803, 13.3348]
   broadcaster: dlf
   name: Deutschlandfunk Nova

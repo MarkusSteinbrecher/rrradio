@@ -55,7 +55,9 @@ mkdirSync(dirname(outPath), { recursive: true });
 // ─── 1. Fetch the country's RB stations ────────────────────────
 const server = await pickServer();
 console.log(`analyze-rb: fetching ${cc} stations from ${server}…`);
-const rbUrl = `${server}/json/stations/bycountrycodeexact/${cc}?hidebroken=false`;
+// RB paginates this endpoint at 1000 by default — pass an explicit
+// limit so we always get the full country set in one shot.
+const rbUrl = `${server}/json/stations/bycountrycodeexact/${cc}?hidebroken=false&limit=100000`;
 const res = await fetch(rbUrl, { headers: { 'User-Agent': 'rrradio-analyze-rb/1.0' } });
 if (!res.ok) {
   console.error(`analyze-rb: RB request failed ${res.status}`);
