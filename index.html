@@ -69,14 +69,20 @@
       <header class="topbar">
         <div class="topbar-row">
           <button type="button" class="wordmark" id="wordmark" aria-label="Go to home">
-            <svg class="wordmark-logo" viewBox="0 0 620 160" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="miter" stroke-miterlimit="3" aria-hidden="true">
-              <path d="M 20 110 C 70 110, 110 108, 145 100 L 175 60 L 200 110 L 235 30 L 260 110 L 300 8 L 330 110 L 360 110"/>
-              <text x="380" y="124" font-family="IBM Plex Sans, -apple-system, sans-serif" font-size="78" font-weight="400" letter-spacing="-2" fill="currentColor" stroke="none">adio</text>
-            </svg>
+            <span class="wordmark-text" aria-hidden="true"><span class="wordmark-text__rrr">r r r</span> a d i o . o r g</span>
           </button>
-          <button type="button" class="add-btn" id="add-btn" aria-label="Add custom station">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          </button>
+          <div class="topbar-actions">
+            <button type="button" class="add-btn" id="theme-btn" aria-label="Switch theme">
+              <svg class="icon-theme-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+              <svg class="icon-theme-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m4.93 19.07 1.41-1.41"/><path d="m17.66 6.34 1.41-1.41"/></svg>
+            </button>
+            <button type="button" class="add-btn" id="about-btn" aria-label="About rrradio">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 16v-5"/><path d="M12 8h.01"/></svg>
+            </button>
+            <button type="button" class="add-btn" id="add-btn" aria-label="Add custom station">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+            </button>
+          </div>
         </div>
 
         <div class="search-wrap" id="search-wrap">
@@ -95,39 +101,51 @@
         </div>
 
         <div class="filter-row" id="filter-row">
-          <button type="button" class="filter-chip is-active" id="mode-played" aria-pressed="true" aria-label="Show most played" title="Most played">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17h6"/><path d="M3 12h10"/><path d="M3 7h14"/></svg>
-          </button>
-          <button type="button" class="curated-toggle" id="curated-toggle" aria-pressed="false" aria-label="Show curated stations only" title="Curated only">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 3.5 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 17.2l-5.4 2.8 1.2-6L3.3 9.8l6.1-.7L12 3.5z"/></svg>
-          </button>
-          <button type="button" class="news-toggle" id="news-toggle" aria-pressed="false" aria-label="Show news stations only" title="News only">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h12v12a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2V6z"/><path d="M16 6h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2"/><path d="M8 10h4"/><path d="M8 13h4"/><path d="M8 16h2"/></svg>
-          </button>
-          <label class="filter-wrap" aria-label="Filter by genre">
-            <svg class="filter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-            <select class="filter-select" id="genre" aria-label="Filter by genre">
-              <option value="all">All genres</option>
-              <option value="jazz">Jazz</option>
-              <option value="ambient">Ambient</option>
-              <option value="classical">Classical</option>
-              <option value="electronic">Electronic</option>
-              <option value="indie">Indie</option>
-              <option value="rock">Rock</option>
-              <option value="eclectic">Eclectic</option>
-            </select>
-            <svg class="filter-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-          </label>
-          <label class="filter-wrap" aria-label="Filter by country">
-            <svg class="filter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>
-            <select class="filter-select" id="country" aria-label="Filter by country">
-              <option value="all">All countries</option>
-            </select>
-            <svg class="filter-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-          </label>
-          <button type="button" class="map-toggle" id="map-toggle" aria-pressed="false" aria-label="Show map view" title="Map view">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
-          </button>
+          <div class="filter-cell">
+            <button type="button" class="filter-chip is-active" id="mode-played" aria-pressed="true" aria-label="Show most played">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="11" width="3.2" height="9" rx="0.6"/><rect x="10.4" y="6" width="3.2" height="14" rx="0.6"/><rect x="16.8" y="14" width="3.2" height="6" rx="0.6"/></svg>
+            </button>
+            <span class="filter-cell__label">Played</span>
+          </div>
+          <div class="filter-cell">
+            <button type="button" class="news-toggle" id="news-toggle" aria-pressed="false" aria-label="Show news stations only">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h12v12a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2V6z"/><path d="M16 6h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2"/><path d="M8 10h4"/><path d="M8 13h4"/><path d="M8 16h2"/></svg>
+            </button>
+            <span class="filter-cell__label">News</span>
+          </div>
+          <div class="filter-cell">
+            <label class="filter-wrap" aria-label="Filter by genre">
+              <svg class="filter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+              <select class="filter-select" id="genre" aria-label="Filter by genre">
+                <option value="all">All genres</option>
+                <option value="jazz">Jazz</option>
+                <option value="ambient">Ambient</option>
+                <option value="classical">Classical</option>
+                <option value="electronic">Electronic</option>
+                <option value="indie">Indie</option>
+                <option value="rock">Rock</option>
+                <option value="eclectic">Eclectic</option>
+              </select>
+              <svg class="filter-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </label>
+            <span class="filter-cell__label">Genre</span>
+          </div>
+          <div class="filter-cell">
+            <label class="filter-wrap" aria-label="Filter by country">
+              <svg class="filter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V4"/><path d="M5 4h12l-2 4 2 4H5"/></svg>
+              <select class="filter-select" id="country" aria-label="Filter by country">
+                <option value="all">All countries</option>
+              </select>
+              <svg class="filter-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </label>
+            <span class="filter-cell__label">Country</span>
+          </div>
+          <div class="filter-cell">
+            <button type="button" class="map-toggle" id="map-toggle" aria-pressed="false" aria-label="Show map view">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            </button>
+            <span class="filter-cell__label">Map</span>
+          </div>
         </div>
 
         <div class="tab-status" id="tab-status" hidden></div>
@@ -145,18 +163,18 @@
                 <div class="np-name" id="np-name">—</div>
               </div>
               <div class="np-tags" id="np-tags"></div>
-              <div class="np-program" id="np-program" hidden>
-                <span class="np-program__label">Now on</span>
-                <span class="np-program__name" id="np-program-name"></span>
-              </div>
             </div>
 
             <div class="np-pane-tabs" id="np-pane-tabs" hidden>
-              <button type="button" class="np-pane-tab is-active" id="np-pane-now" aria-label="Now playing" title="Now playing">
-                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a.75.75 0 0 0 1.16.63l12-7.5a.75.75 0 0 0 0-1.27l-12-7.5A.75.75 0 0 0 7 4.5z"/></svg>
+              <button type="button" class="np-pane-tab np-pane-tab--icon is-active" id="np-pane-now" aria-label="Now playing" title="Now playing">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="2"/><circle cx="9" cy="9" r="1.5" fill="currentColor" stroke="none"/><path d="m4 17 4.5-4.5L13 17l3-3 4 4"/></svg>
               </button>
-              <button type="button" class="np-pane-tab" id="np-pane-program" aria-label="Program" title="Program">
+              <button type="button" class="np-pane-tab np-pane-tab--label" id="np-pane-program" aria-label="Program">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="1"/><path d="M4 9h16"/><path d="M9 3v4"/><path d="M15 3v4"/></svg>
+                <span class="np-pane-tab__text">
+                  <span class="np-pane-tab__pre" id="np-program-pre">Now on</span>
+                  <span class="np-pane-tab__name" id="np-program-name">Program</span>
+                </span>
               </button>
             </div>
 
@@ -172,7 +190,6 @@
             </div>
 
             <div class="np-program-pane" id="np-program-pane" hidden>
-              <div class="np-program-days" id="np-program-days"></div>
               <div class="np-program-list" id="np-program-list"></div>
             </div>
           </div>
@@ -209,11 +226,11 @@
               <div class="np-details__inner">
                 <div class="np-meta">
                   <div class="cell">
-                    <div class="k">Bitrate</div>
+                    <div class="k">Format</div>
                     <div class="v" id="np-bitrate">—</div>
                   </div>
                   <div class="cell">
-                    <div class="k">Origin</div>
+                    <div class="k">Country</div>
                     <div class="v" id="np-origin">—</div>
                   </div>
                   <div class="cell">
@@ -272,17 +289,9 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>
           Browse
         </button>
-        <button type="button" class="tab-btn" data-tab="fav">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17.5 6 21l1.5-6.5L2.5 10l6.7-.6L12 3l2.8 6.4 6.7.6-5 4.5L18 21z"/></svg>
-          Favorites
-        </button>
-        <button type="button" class="tab-btn" data-tab="recent">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
-          Recents
-        </button>
-        <button type="button" class="tab-btn" data-tab="playing">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a.75.75 0 0 0 1.16.63l12-7.5a.75.75 0 0 0 0-1.27l-12-7.5A.75.75 0 0 0 7 4.5z"/></svg>
-          Playing
+        <button type="button" class="tab-btn" data-tab="library" id="tab-library">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
+          Library
         </button>
       </nav>
 
@@ -328,6 +337,107 @@
             <span>Your stations</span>
           </div>
           <ul class="custom-list" id="custom-list"></ul>
+        </div>
+      </section>
+
+      <!-- ============== ABOUT (slide-up sheet) ============== -->
+      <section class="sheet" id="about-sheet" aria-label="About rrradio" aria-hidden="true">
+        <header class="sheet-head">
+          <button type="button" class="icon-btn" id="about-close" aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+          <div class="np-label">About</div>
+          <span class="icon-btn icon-btn--ghost" aria-hidden="true"></span>
+        </header>
+
+        <div class="sheet-body about-body">
+          <h2 class="about-title">r r r a d i o . o r g </h2>
+          <p class="about-tagline">Minimal, ad-free internet radio in your browser.</p>
+
+          <div class="about-section">
+            <h3>Play</h3>
+            <p>
+              A simple player for live radio streams from around the world.
+              Designed to feel native on mobile — works on the lock screen,
+              survives backgrounding, supports bluetooth controls.
+            </p>
+          </div>
+
+          <div class="about-section">
+            <h3>Free, no adds</h3>
+            <ul class="about-list">
+              <li>No signup. Nothing to log into.</li>
+              <li>No ads, no tracking pixels, no cookie banners.</li>
+              <li>Anonymous pageview counts only — no user IDs.</li>
+              <li>No app to install. It's a website.</li>
+            </ul>
+          </div>
+
+          <div class="about-section">
+            <h3>Catalog</h3>
+            <p>
+              Curated stations ⭐ are hand-picked. The wider catalog comes from
+              <a href="https://www.radio-browser.info/" target="_blank" rel="noopener noreferrer">Radio Browser</a>,
+              a community-maintained directory of internet radio stations
+              around the world. Thank you to the contributors there 🙏. You
+              can add your own stream via the + button — your private
+              list lives in this browser only.
+            </p>
+          </div>
+
+          <div class="about-section">
+            <h3>Privacy</h3>
+            <p>
+              No cookies. Your favorites, theme choice, and recently-played
+              stations are stored on your device only (browser
+              <code>localStorage</code>) — they never leave your machine.
+            </p>
+            <p>
+              Anonymous pageview analytics provided by
+              <a href="https://www.goatcounter.com/" target="_blank" rel="noopener noreferrer">GoatCounter</a>.
+              No user IDs, no cross-site tracking, IPs are hashed and
+              discarded within hours.
+            </p>
+          </div>
+
+          <div class="about-section">
+            <h3>Source</h3>
+            <p>
+              Built with HTML, CSS, TypeScript and a healthy distrust of
+              dependencies.
+            </p>
+            <a class="about-cta" href="https://github.com/MarkusSteinbrecher/rrradio/" target="_blank" rel="noopener noreferrer">
+              <svg class="about-cta__logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.7.4-1.3.7-1.5-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2 1-.3 2-.4 3-.4s2 .1 3 .4c2.3-1.6 3.3-1.2 3.3-1.2.7 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+              <span>View on GitHub</span>
+            </a>
+          </div>
+
+          <div class="about-section">
+            <h3>Feedback</h3>
+            <p>
+              Found a bug, a broken station, or have a feature idea? The
+              fastest way to reach the maintainer is to open an issue —
+              public, archived, no signup beyond a free GitHub account.
+              Email works too, if you prefer that.
+            </p>
+            <div class="about-ctas">
+              <a class="about-cta" href="https://github.com/MarkusSteinbrecher/rrradio/issues/new" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+                <span>Open an issue</span>
+              </a>
+              <a class="about-cta about-cta--ghost" href="mailto:redsukramst@gmail.com?subject=rrradio%20feedback">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                <span>Email</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="about-section">
+            <h3>Imprint</h3>
+            <p>
+              rrradio.org is a non-commercial side project.
+            </p>
+          </div>
         </div>
       </section>
     </div>

@@ -5,7 +5,12 @@
 
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap');
 
-:root {
+/* Theme tokens. Two palettes, dark default, switched via
+   `data-theme="light"` on <html>. The toggle in main.ts persists the
+   user's choice in localStorage and falls back to prefers-color-scheme.
+   Every accent-tinted shadow / border uses color-mix() so changing
+   --accent automatically restyles every glow. */
+:root, [data-theme="dark"] {
   --accent:  #ffff00;                       /* pure yellow */
   --bg:      #0a0a0a;
   --bg-2:    #131313;
@@ -16,13 +21,51 @@
   --ink-2:   rgba(244,244,242,0.80);   /* secondary text — was 0.62, bumped for legibility */
   --ink-3:   rgba(244,244,242,0.62);   /* labels + mono captions — was 0.38 (failed AA on small text) */
   --ink-4:   rgba(244,244,242,0.40);   /* faint borders / disabled — was 0.22 */
+  --row-glow:        linear-gradient(90deg, rgba(255,255,255,0.02), transparent 60%);
+  --dial-overlay:    linear-gradient(180deg, rgba(255,255,255,0.015), transparent 30%, rgba(0,0,0,0.4));
+  --live-on: #4ade80;                  /* on-air green */
+}
+
+[data-theme="light"] {
+  --accent:  #00a040;                  /* full green, visible on white */
+  --bg:      #fafaf8;                  /* warm off-white, paired with the warm dark */
+  --bg-2:    #f0f0ec;
+  --bg-3:    #e6e6e1;
+  --line:    rgba(10,10,10,0.10);
+  --line-2:  rgba(10,10,10,0.20);
+  --ink:     #0a0a0a;
+  --ink-2:   rgba(10,10,10,0.78);
+  --ink-3:   rgba(10,10,10,0.55);
+  --ink-4:   rgba(10,10,10,0.32);
+  --row-glow:        linear-gradient(90deg, rgba(0,0,0,0.025), transparent 60%);
+  --dial-overlay:    linear-gradient(180deg, rgba(0,0,0,0.02), transparent 30%, rgba(0,0,0,0.10));
+  --live-on: #16a34a;                  /* darker on-air green for white bg */
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --accent:  #00a040;
+    --bg:      #fafaf8;
+    --bg-2:    #f0f0ec;
+    --bg-3:    #e6e6e1;
+    --line:    rgba(10,10,10,0.10);
+    --line-2:  rgba(10,10,10,0.20);
+    --ink:     #0a0a0a;
+    --ink-2:   rgba(10,10,10,0.78);
+    --ink-3:   rgba(10,10,10,0.55);
+    --ink-4:   rgba(10,10,10,0.32);
+    --row-glow:     linear-gradient(90deg, rgba(0,0,0,0.025), transparent 60%);
+    --dial-overlay: linear-gradient(180deg, rgba(0,0,0,0.02), transparent 30%, rgba(0,0,0,0.10));
+    --live-on: #16a34a;
+  }
+}
+
+:root {
   --sans:    'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --mono:    'IBM Plex Mono', ui-monospace, Menlo, monospace;
 
   --safe-top:    env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
-
-  --live-on: #4ade80;                     /* on-air green */
 }
 
 * {
@@ -111,15 +154,24 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   transition: opacity 0.12s ease;
 }
 .wordmark:active { opacity: 0.6; }
-.wordmark-logo {
-  height: 22px;
-  width: auto;
-  display: block;
+/* Spaced wordmark — replaces the original SVG zigzag mark. The leading
+   "r r r" keeps the accent color so the brand still reads as
+   "accent signal + ink type". */
+.wordmark-text {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  white-space: nowrap;
 }
-/* Soundline (the three-r zigzag) uses the accent so the brand mark
-   reads as "yellow signal + white type" — text stays on currentColor
-   from the wordmark's --ink. */
-.wordmark-logo path { stroke: var(--accent); }
+.wordmark-text__rrr { color: var(--accent); }
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
 .add-btn {
   width: 28px;
@@ -135,6 +187,19 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .add-btn:hover  { color: var(--ink); border-color: var(--line-2); }
 .add-btn:active { transform: scale(0.92); }
 .add-btn svg    { width: 14px; height: 14px; }
+
+/* Theme toggle: stack two icons in the same button slot, show the
+   one matching the current effective theme. The button switches the
+   palette to the OTHER on click — i.e. the visible icon is the
+   current state, not the action. */
+#theme-btn { position: relative; }
+#theme-btn .icon-theme-light { display: none; }
+[data-theme="light"] #theme-btn .icon-theme-dark { display: none; }
+[data-theme="light"] #theme-btn .icon-theme-light { display: block; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) #theme-btn .icon-theme-dark { display: none; }
+  :root:not([data-theme]) #theme-btn .icon-theme-light { display: block; }
+}
 
 @keyframes pulse {
   0%, 100% { opacity: 1; }
@@ -172,7 +237,7 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   font-family: var(--mono);
   /* 16px prevents iOS Safari from auto-zooming the viewport on focus */
   font-size: 16px;
-  border-radius: 0;
+  border-radius: 999px;
   outline: none;
   transition: border-color 0.15s;
 }
@@ -198,12 +263,12 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .search-clear[hidden]{ display: none; }
 .search-clear svg    { width: 13px; height: 13px; }
 
-/* ─── Filter row (curated toggle + sort chip + dropdowns) ─── */
+/* ─── Filter row ─── */
 .filter-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  gap: 8px;
+  gap: 14px;
   overflow-x: auto;
   scrollbar-width: none;
   /* hide scrollbar — the scroll is implied by overflow at narrow widths */
@@ -211,6 +276,32 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .filter-row::-webkit-scrollbar { display: none; }
 .filter-row > * { flex-shrink: 0; }
 .filter-row[hidden] { display: none; }
+
+/* Each filter is a labelled cell: circular control on top, short
+   text label below. Keeps the existing chip geometry intact and
+   adds context without widening the chip. */
+.filter-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+.filter-cell__label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  line-height: 1;
+  text-align: center;
+  pointer-events: none;
+  transition: color 0.15s;
+}
+.filter-cell:has(.is-active) .filter-cell__label,
+.filter-cell:has(.filter-wrap:not(.is-default)) .filter-cell__label {
+  color: var(--accent);
+}
 
 /* "Most played" mode button. Pairs with the curated-toggle as a
    mutually-exclusive radio set — only one of {most-played, curated}
@@ -236,36 +327,9 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .filter-chip.is-active {
   color: var(--accent);
   border-color: var(--accent);
-  background: rgba(255, 255, 0, 0.10);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
 }
 .filter-chip.is-active:hover { color: var(--accent); }
-
-/* "Curated only" toggle — sibling of the genre dropdown. Same pill
-   geometry so the row reads as a coherent control cluster; the icon
-   swaps from outlined (off) to filled-accent (on). */
-.curated-toggle {
-  display: inline-grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--ink-3);
-  cursor: pointer;
-  transition: border-color 0.15s, color 0.15s, background 0.15s;
-}
-.curated-toggle svg { width: 16px; height: 16px; display: block; }
-.curated-toggle:hover {
-  border-color: var(--line-2);
-  color: var(--ink-2);
-}
-.curated-toggle.is-active {
-  color: var(--accent);
-  border-color: var(--accent);
-  background: rgba(255, 255, 0, 0.10);
-}
-.curated-toggle.is-active:hover { color: var(--accent); }
 
 /* News-only toggle — quick-filter for tag=news. Same geometry as
    the other circular toggles. */
@@ -287,7 +351,7 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .news-toggle.is-active {
   color: var(--accent);
   border-color: var(--accent);
-  background: rgba(255, 255, 0, 0.10);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
 }
 .news-toggle.is-active:hover { color: var(--accent); }
 
@@ -315,7 +379,7 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .map-toggle.is-active {
   color: var(--accent);
   border-color: var(--accent);
-  background: rgba(255, 255, 0, 0.10);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
 }
 .map-toggle.is-active:hover { color: var(--accent); }
 .map-toggle:disabled {
@@ -330,58 +394,48 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   color: var(--ink-4);
 }
 
+/* Genre + country filters. Always rendered as a 36×36 circle to
+   match the other toggles in the row. The selected value lives in
+   the dropdown only — the chip never widens, just shifts to the
+   accent state when something other than "all" is picked. */
 .filter-wrap {
   position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 30px 7px 12px;
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  color: var(--ink-2);
-  transition: border-color 0.15s, color 0.15s;
+  background: transparent;
+  color: var(--ink-3);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
 }
 .filter-wrap:hover,
 .filter-wrap:focus-within {
   border-color: var(--line-2);
-  color: var(--ink);
+  color: var(--ink-2);
 }
-/* Active state — a non-"all" value is selected. Yellow accent
-   matches the curated-toggle and sort chip so the whole cluster
-   speaks the same visual language. */
 .filter-wrap:not(.is-default) {
   border-color: var(--accent);
   color: var(--accent);
-  background: rgba(255, 255, 0, 0.10);
-}
-.filter-wrap:not(.is-default) .filter-icon,
-.filter-wrap:not(.is-default) .filter-caret,
-.filter-wrap:not(.is-default) .filter-select {
-  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
 }
 .filter-icon {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   display: block;
-  color: var(--ink-3);
-  flex-shrink: 0;
+  color: inherit;
+  pointer-events: none;
 }
-/* Default (no filter applied): collapse to icon-only — the dropdown
-   stays clickable via the surrounding label. Picking a value brings
-   the text + caret back. */
-.filter-wrap.is-default {
-  padding: 7px 12px;
-}
-.filter-wrap.is-default .filter-select {
-  width: 0;
-  padding: 0;
-  margin: 0;
-  font-size: 0;
-}
-.filter-wrap.is-default .filter-caret {
-  display: none;
-}
+/* Native <select> sits invisibly over the whole circle so taps still
+   open the OS picker. Visual state is fully owned by .filter-wrap. */
 .filter-select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -389,23 +443,14 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   outline: 0;
   padding: 0;
   margin: 0;
-  font-family: var(--mono);
-  font-size: 13px;
-  color: var(--ink);
-  letter-spacing: 0.02em;
-  text-transform: lowercase;
+  font-size: 0;
+  color: transparent;
   cursor: pointer;
+  opacity: 0;
 }
-/* Native option lists render in OS chrome — keep them readable */
 .filter-select option { color: #111; background: #f4f4f2; }
-.filter-caret {
-  position: absolute;
-  right: 11px;
-  width: 12px;
-  height: 12px;
-  color: var(--ink-3);
-  pointer-events: none;
-}
+/* Caret no longer rendered — kept as a class for HTML stability. */
+.filter-caret { display: none; }
 
 /* ─── Stage: shared box for content + Now Playing ───
    The stage takes the middle of the .app shell (between topbar and
@@ -430,68 +475,6 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 }
 .content::-webkit-scrollbar { width: 0; }
 
-/* Featured stations strip — horizontal logos under the search bar */
-.featured-strip {
-  padding: 18px 0 4px;
-}
-.featured {
-  display: flex;
-  gap: 14px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  padding: 0 20px;
-  list-style: none;
-  margin: 0;
-}
-.featured::-webkit-scrollbar { display: none; }
-.featured > li { flex-shrink: 0; }
-.featured-tile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  width: 84px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: inherit;
-}
-.featured-tile__art {
-  width: 64px;
-  height: 64px;
-  display: grid;
-  place-items: center;
-  background: var(--bg-2);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  overflow: hidden;
-  transition: border-color 0.15s, transform 0.15s;
-}
-.featured-tile__art img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.featured-tile__name {
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--ink-2);
-  letter-spacing: -0.005em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-  text-align: center;
-}
-.featured-tile:hover .featured-tile__art   { border-color: var(--line-2); }
-.featured-tile:active .featured-tile__art  { transform: scale(0.96); }
-.featured-tile.is-playing .featured-tile__art {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(255, 255, 0, 0.12);
-}
-.featured-tile.is-playing .featured-tile__name { color: var(--accent); }
-
 .section-label {
   font-family: var(--mono);
   font-size: 10px;
@@ -506,6 +489,36 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .section-label .count {
   font-variant-numeric: tabular-nums;
   color: var(--ink-4);
+}
+
+/* ─── Library segmented control (Favorites / Recents toggle) ─── */
+.lib-seg {
+  display: flex;
+  gap: 4px;
+  margin: 16px 20px 0;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-2);
+}
+.lib-seg__btn {
+  flex: 1;
+  padding: 8px 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+.lib-seg__btn:hover { color: var(--ink-2); }
+.lib-seg__btn.is-active {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
 /* ─── Station row ─── */
@@ -524,7 +537,7 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 }
 .row:active { background: var(--bg-2); }
 .row.is-playing {
-  background: linear-gradient(90deg, rgba(255,255,255,0.02), transparent 60%);
+  background: var(--row-glow);
 }
 .row.is-playing::before {
   content: '';
@@ -792,13 +805,10 @@ body.is-playing .mini-toggle .icon-pause { display: block; }
   height: 1px;
   background: var(--accent);
 }
-/* Playing tab is non-functional until a station is selected. */
-body:not(.has-station) .tab-btn[data-tab="playing"] {
-  opacity: 0.4;
-  pointer-events: none;
-}
-/* Topbar is quiet on Now Playing — search and genre filter don't apply
-   to a single-station view. Wordmark + signal-meta + add-btn stay. */
+/* Topbar is quiet on Now Playing — search doesn't apply to a
+   single-station view. Wordmark + signal-meta + add-btn stay.
+   The Now Playing pane is reached via the mini-player; there is no
+   dedicated tab for it any more. */
 body.tab-playing .search-wrap { display: none; }
 
 /* ─── Now Playing screen ───
@@ -884,35 +894,6 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
 /* Optional "Now on · <Show>" pill — sits under .np-tags inside
    .np-station, populated by the per-station fetcher (FM4 via ORF,
    BR1 via radioplayer.json, …). Hidden when program info is missing. */
-.np-program {
-  margin-top: 8px;
-  display: inline-flex;
-  align-items: baseline;
-  gap: 8px;
-  padding: 4px 12px 3px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  max-width: 100%;
-}
-.np-program[hidden] { display: none; }
-.np-program__label {
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  flex-shrink: 0;
-}
-.np-program__name {
-  font-family: var(--sans);
-  font-size: 12.5px;
-  font-style: italic;
-  color: var(--ink-2);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 /* ─── On-air block: big square cover + label + title ─── */
 .np-track {
   display: flex;
@@ -925,18 +906,23 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
 .np-track[hidden] { display: none; }
 
 /* Pane tabs above the cover area — only visible when the station has
-   a schedule API. Two icon buttons, "Now" and "Program". */
+   a schedule API. Two pill buttons:
+     · np-pane-tab--icon  — small circle, holds the cover/track icon
+     · np-pane-tab--label — wide pill, calendar icon + "Now on <program>" */
 .np-pane-tabs {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 8px;
-  padding: 0 0 12px;
+  padding: 0 16px 12px;
+  max-width: 100%;
+  min-width: 0;
 }
 .np-pane-tabs[hidden] { display: none; }
 .np-pane-tab {
-  display: inline-grid;
-  place-items: center;
-  width: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   height: 32px;
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -945,57 +931,77 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   cursor: pointer;
   transition: border-color 0.15s, color 0.15s, background 0.15s;
 }
-.np-pane-tab svg { width: 14px; height: 14px; display: block; }
+.np-pane-tab svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+  flex-shrink: 0;
+}
 .np-pane-tab:hover { border-color: var(--line-2); color: var(--ink-2); }
 .np-pane-tab.is-active {
   color: var(--accent);
   border-color: var(--accent);
-  background: rgba(255, 255, 0, 0.10);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
 }
+.np-pane-tab--icon {
+  width: 32px;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.np-pane-tab--label {
+  padding: 0 14px 0 12px;
+  /* allow the program name to truncate instead of pushing siblings out */
+  min-width: 0;
+  flex-shrink: 1;
+}
+.np-pane-tab__text {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+}
+.np-pane-tab__pre {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  flex-shrink: 0;
+}
+.np-pane-tab__pre[hidden] { display: none; }
+.np-pane-tab__name {
+  font-family: var(--sans);
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.np-pane-tab.is-active .np-pane-tab__pre,
+.np-pane-tab.is-active .np-pane-tab__name { color: var(--accent); }
 
 /* Program pane — replaces the cover area when the program tab is on. */
 .np-program-pane {
-  width: min(360px, 88vw);
+  /* Fill whatever np-body offers vertically and horizontally —
+     no internal scrollbar, no narrower-than-needed width cap.
+     min-height: 0 lets flex shrink it inside the np-body flex column. */
+  flex: 1;
+  min-height: 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 12px;
   text-align: left;
+  overflow-y: auto;
+  /* Don't let the inner content's right edge butt up against the scrollbar */
+  padding-right: 4px;
 }
 .np-program-pane[hidden] { display: none; }
-.np-program-days {
-  display: flex;
-  gap: 6px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  padding-bottom: 4px;
-}
-.np-program-days::-webkit-scrollbar { display: none; }
-.np-program-day {
-  flex-shrink: 0;
-  padding: 5px 11px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--ink-3);
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: border-color 0.12s, color 0.12s, background 0.12s;
-}
-.np-program-day:hover { border-color: var(--line-2); color: var(--ink-2); }
-.np-program-day.is-active {
-  color: var(--accent);
-  border-color: var(--accent);
-  background: rgba(255, 255, 0, 0.10);
-}
 .np-program-list {
   display: flex;
   flex-direction: column;
-  max-height: min(40vh, 320px);
-  overflow-y: auto;
-  scrollbar-width: thin;
 }
 .np-program-row {
   display: flex;
@@ -1101,7 +1107,7 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   overflow: hidden;
-  background: linear-gradient(180deg, rgba(255,255,255,0.015), transparent 30%, rgba(0,0,0,0.4));
+  background: var(--dial-overlay);
 }
 .dial-track {
   position: absolute;
@@ -1183,7 +1189,7 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   font-weight: 300;
   letter-spacing: -0.03em;
   color: var(--accent);
-  text-shadow: 0 0 18px rgba(255, 255, 0, 0.25);
+  text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 25%, transparent);
   line-height: 1;
 }
 .np-freq .unit {
@@ -1334,7 +1340,7 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   display: grid;
   place-items: center;
   position: relative;
-  box-shadow: 0 0 0 6px rgba(255, 255, 0, 0.06), 0 0 28px rgba(255, 255, 0, 0.18);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 6%, transparent), 0 0 28px color-mix(in srgb, var(--accent) 18%, transparent);
   transition: all 0.15s;
   flex-shrink: 0;
 }
@@ -1656,24 +1662,24 @@ body.is-playing .np-bottom .live-dot  {
   display: flex;
   align-items: baseline;
   justify-content: center;
-  gap: 10px;
-  padding: 56px 24px 32px;
-  color: var(--ink-3);
+  gap: 6px;
+  padding: 32px 24px 24px;
+  color: var(--ink-4);
   user-select: none;
 }
 .site-counter__num {
   font-family: var(--mono);
   font-variant-numeric: tabular-nums;
-  font-size: 22px;
-  letter-spacing: 0.02em;
-  color: var(--ink-2);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink-4);
 }
 .site-counter__label {
   font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.18em;
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--ink-3);
+  color: var(--ink-4);
 }
 
 /* ─── Add Station sheet ─── */
@@ -1858,6 +1864,113 @@ body.is-playing .np-bottom .live-dot  {
   color: var(--ink-3);
   padding: 14px 0;
 }
+
+/* ─── About sheet ─── */
+.about-body {
+  font-family: var(--sans);
+  color: var(--ink-2);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.about-title {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 6px;
+}
+.about-tagline {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  margin: 0 0 24px;
+}
+.about-section { margin-top: 22px; }
+.about-section h3 {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0 0 8px;
+  font-weight: 500;
+}
+.about-section p { margin: 0 0 8px; }
+.about-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.about-list li {
+  position: relative;
+  padding-left: 18px;
+  margin-bottom: 6px;
+}
+.about-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 6px;
+  height: 1px;
+  background: var(--accent);
+}
+.about-body a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+}
+.about-body a:hover { border-bottom-color: var(--accent); }
+.about-body code {
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 1px 5px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+/* Pill-shaped action buttons inside About sections (View on GitHub,
+   Open an issue, Email). Same geometry as the np-station-link we had
+   briefly — kept here because they're a useful pattern. */
+.about-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.about-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 16px;
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-2);
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line); /* override the inline-link underline */
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.about-ctas .about-cta { margin-top: 0; }
+.about-cta:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+.about-cta svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+.about-cta__logo { width: 18px; height: 18px; }
+.about-cta--ghost { background: transparent; }
 
 /* ─── Reduced motion ─── */
 @media (prefers-reduced-motion: reduce) {

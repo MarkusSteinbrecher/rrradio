@@ -97,7 +97,6 @@ const $search = document.getElementById('search') as HTMLInputElement;
 const $searchClear = document.getElementById('search-clear') as HTMLButtonElement;
 const $genre = document.getElementById('genre') as HTMLSelectElement;
 const $country = document.getElementById('country') as HTMLSelectElement;
-const $curatedToggle = document.getElementById('curated-toggle') as HTMLButtonElement;
 const $modePlayed = document.getElementById('mode-played') as HTMLButtonElement;
 const $mapToggle = document.getElementById('map-toggle') as HTMLButtonElement;
 const $newsToggle = document.getElementById('news-toggle') as HTMLButtonElement;
@@ -115,8 +114,8 @@ const $miniToggle = document.getElementById('mini-toggle') as HTMLElement;
 const $np = document.getElementById('np') as HTMLElement;
 const $npName = document.getElementById('np-name') as HTMLElement;
 const $npStationLogo = document.getElementById('np-station-logo') as HTMLImageElement;
-const $npProgram = document.getElementById('np-program') as HTMLElement;
 const $npProgramName = document.getElementById('np-program-name') as HTMLElement;
+const $npProgramPre = document.getElementById('np-program-pre') as HTMLElement;
 const $npTags = document.getElementById('np-tags') as HTMLElement;
 const $npBitrate = document.getElementById('np-bitrate') as HTMLElement;
 const $npOrigin = document.getElementById('np-origin') as HTMLElement;
@@ -125,7 +124,6 @@ const $npPaneTabs = document.getElementById('np-pane-tabs') as HTMLElement;
 const $npPaneNow = document.getElementById('np-pane-now') as HTMLButtonElement;
 const $npPaneProgram = document.getElementById('np-pane-program') as HTMLButtonElement;
 const $npProgramPane = document.getElementById('np-program-pane') as HTMLElement;
-const $npProgramDays = document.getElementById('np-program-days') as HTMLElement;
 const $npProgramList = document.getElementById('np-program-list') as HTMLElement;
 const $npTrackRow = document.getElementById('np-track-row') as HTMLElement;
 const $npTrackTitle = document.getElementById('np-track-title') as HTMLElement;
@@ -151,6 +149,11 @@ const $addForm = document.getElementById('add-form') as HTMLFormElement;
 const $addError = document.getElementById('add-error') as HTMLElement;
 const $customList = document.getElementById('custom-list') as HTMLElement;
 
+const $themeBtn = document.getElementById('theme-btn') as HTMLButtonElement;
+const $aboutBtn = document.getElementById('about-btn') as HTMLButtonElement;
+const $aboutSheet = document.getElementById('about-sheet') as HTMLElement;
+const $aboutClose = document.getElementById('about-close') as HTMLButtonElement;
+
 // ─────────────────────────────────────────────────────────────
 // State
 // ─────────────────────────────────────────────────────────────
@@ -158,19 +161,24 @@ const $customList = document.getElementById('custom-list') as HTMLElement;
 let activeTab: Tab = 'browse';
 /** Last list tab we were on, so closing Now Playing returns there. */
 let lastListTab: ListTab = 'browse';
+/** Which section the unified Library tab is showing. Persisted so the
+ *  user's last choice is remembered across reloads. */
+type LibrarySection = 'fav' | 'recent';
+const LIBRARY_KEY = 'rrradio.library-section';
+let librarySection: LibrarySection =
+  localStorage.getItem(LIBRARY_KEY) === 'recent' ? 'recent' : 'fav';
 let activeTag = 'all';
 // ISO 3166-1 alpha-2 country code (uppercase) or 'all'. Filters both
 // curated matches and Radio Browser results (the API takes the same
 // 2-letter code via its `countrycode` param).
 let activeCountry = 'all';
-// Browse home view's source mode. Single radio set across the three
-// leftmost icon buttons: ♫ played · ★ curated · 📰 news. Tapping the
-// active button deselects to null, which falls back to RB top 50.
+// Browse home view's source mode. Mutually-exclusive across the
+// played + news icon buttons. Tapping the active button deselects to
+// null, which falls back to RB top 50.
 //   'played'  → top 20 played (default)
-//   'curated' → all curated stations (the YAML tier)
 //   'news'    → RB top 50 with tag=news
 //   null      → RB top 50, no filter
-type BrowseMode = 'played' | 'curated' | 'news' | null;
+type BrowseMode = 'played' | 'news' | null;
 let browseMode: BrowseMode = 'played';
 // When true, the unfiltered home view replaces the list section
 // with a Leaflet map. Default false (list view); orthogonal to
@@ -209,8 +217,20 @@ const COUNTRY_NAMES: Record<string, string> = {
   US: 'United States',
 };
 
+/** ISO 3166-1 alpha-2 → display name. Tries the curated table first
+ *  (matches the values used in the country dropdown), falls back to
+ *  Intl.DisplayNames for less-common codes returned by Radio Browser
+ *  (e.g. "JM"), and finally to the raw code. */
 function countryName(code: string): string {
-  return COUNTRY_NAMES[code.toUpperCase()] ?? code;
+  const c = code.toUpperCase();
+  if (COUNTRY_NAMES[c]) return COUNTRY_NAMES[c];
+  try {
+    const name = new Intl.DisplayNames(undefined, { type: 'region' }).of(c);
+    if (name && name !== c) return name;
+  } catch {
+    /* unsupported locale → fall through */
+  }
+  return c;
 }
 
 /** Populate the country dropdown from distinct codes in the curated
@@ -530,16 +550,16 @@ function renderNowPlaying(np: NowPlaying): void {
 
   if (np.programName) {
     $npProgramName.textContent = np.programName;
+    $npProgramPre.hidden = false;
     if (np.programSubtitle) {
-      $npProgram.title = np.programSubtitle;
+      $npPaneProgram.title = np.programSubtitle;
     } else {
-      $npProgram.removeAttribute('title');
+      $npPaneProgram.title = 'Program';
     }
-    $npProgram.hidden = false;
   } else {
-    $npProgram.hidden = true;
-    $npProgramName.textContent = '';
-    $npProgram.removeAttribute('title');
+    $npProgramName.textContent = 'Program';
+    $npProgramPre.hidden = true;
+    $npPaneProgram.title = 'Program';
   }
 
   if (s.favicon) {
@@ -555,8 +575,13 @@ function renderNowPlaying(np: NowPlaying): void {
     $npStationLogo.hidden = true;
     $npStationLogo.removeAttribute('src');
   }
-  $npBitrate.textContent = s.bitrate ? `${s.bitrate} kbps` : '—';
-  $npOrigin.textContent = s.country ?? '—';
+  // Format: codec · bitrate, e.g. "MP3 · 192 kbps". Falls back to whichever
+  // half is known, em-dash when neither.
+  const fmtParts = [s.codec, s.bitrate ? `${s.bitrate} kbps` : ''].filter(Boolean);
+  $npBitrate.textContent = fmtParts.length > 0 ? fmtParts.join(' · ') : '—';
+  // Country: resolve ISO 3166-1 code to localized name via Intl, with the
+  // raw code as a fallback if the runtime can't.
+  $npOrigin.textContent = s.country ? countryName(s.country) : '—';
   $npListeners.textContent = s.listeners ? s.listeners.toLocaleString() : '—';
   $npLiveText.textContent = npLiveText(np);
   $npFormat.textContent = npFormatText(s);
@@ -655,7 +680,12 @@ function syncCountry(): void {
 
 function renderTabBar(): void {
   $tabbar.querySelectorAll<HTMLButtonElement>('.tab-btn').forEach((btn) => {
-    btn.classList.toggle('active', btn.dataset.tab === activeTab);
+    const t = btn.dataset.tab;
+    // Library is the UI label for either fav or recent — it stays
+    // active across both sub-sections so the bottom nav doesn't blink.
+    const isActive =
+      t === activeTab || (t === 'library' && (activeTab === 'fav' || activeTab === 'recent'));
+    btn.classList.toggle('active', isActive);
   });
 }
 
@@ -682,6 +712,27 @@ function emptyState(iconHtml: string, title: string, sub: string): HTMLDivElemen
   return wrap;
 }
 
+/** Two-pill segmented control rendered at the top of the Library tab.
+ *  Switches between favorites and recents in place. */
+function librarySegmented(): HTMLDivElement {
+  const wrap = document.createElement('div');
+  wrap.className = 'lib-seg';
+  const make = (key: LibrarySection, label: string) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'lib-seg__btn';
+    btn.textContent = label;
+    btn.setAttribute('aria-pressed', String(activeTab === key));
+    if (activeTab === key) btn.classList.add('is-active');
+    btn.addEventListener('click', () => {
+      if (activeTab !== key) setTab(key);
+    });
+    return btn;
+  };
+  wrap.append(make('fav', 'Favorites'), make('recent', 'Recents'));
+  return wrap;
+}
+
 // Played-stations data sources. Two fetches feed the Browse home view:
 //
 //   /api/public/top-stations  — names + play counts from GoatCounter
@@ -698,7 +749,6 @@ function emptyState(iconHtml: string, title: string, sub: string): HTMLDivElemen
 const TOP_STATIONS_URL =
   'https://rrradio-stats.markussteinbrecher.workers.dev/api/public/top-stations?days=30&limit=25';
 const PLAYED_TOTAL_LIMIT = 20;
-const PLAYED_FEATURED_LIMIT = 3;
 
 interface BacklogEntry {
   name: string;
@@ -838,7 +888,6 @@ async function loadSchedule(station: Station): Promise<void> {
       npSelectedDayIdx = Math.max(0, idx);
     }
     syncProgramTabs();
-    if (npProgramView) renderProgramPane();
   } catch {
     /* silent — program panel just stays hidden */
   }
@@ -861,41 +910,13 @@ function syncProgramTabs(): void {
   $npTrackRow.hidden = npProgramView;
 }
 
-function dayLabel(date: number, todayMidnight: number): string {
-  if (date === todayMidnight) return 'Today';
-  if (date === todayMidnight + 24 * 60 * 60 * 1000) return 'Tomorrow';
-  if (date === todayMidnight - 24 * 60 * 60 * 1000) return 'Yesterday';
-  // Weekday + day-of-month for anything further out.
-  const d = new Date(date);
-  const wd = d.toLocaleDateString(undefined, { weekday: 'short' });
-  return `${wd} ${d.getDate()}`;
-}
-
 function renderProgramPane(): void {
   if (!npSchedule || npSchedule.length === 0) {
     $npProgramPane.hidden = true;
     return;
   }
-  // Day pills.
-  $npProgramDays.replaceChildren();
-  const todayMidnight = (() => {
-    const d = new Date();
-    d.setHours(0, 0, 0, 0);
-    return d.getTime();
-  })();
-  npSchedule.forEach((day, i) => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'np-program-day' + (i === npSelectedDayIdx ? ' is-active' : '');
-    btn.textContent = dayLabel(day.date, todayMidnight);
-    btn.addEventListener('click', () => {
-      npSelectedDayIdx = i;
-      renderProgramPane();
-    });
-    $npProgramDays.append(btn);
-  });
-
-  // Broadcast list for the selected day.
+  // Today's broadcasts only — broadcaster APIs we hit only return
+  // today + past, so a multi-day picker is dead weight.
   $npProgramList.replaceChildren();
   const day = npSchedule[npSelectedDayIdx];
   const now = Date.now();
@@ -1170,48 +1191,6 @@ function renderRows(stations: Station[]): DocumentFragment {
   return frag;
 }
 
-function renderFeatured(stations: Station[]): HTMLElement {
-  const wrap = document.createElement('div');
-  wrap.className = 'featured-strip';
-  const list = document.createElement('ul');
-  list.className = 'featured';
-  const currentId = currentNP.station.id;
-  for (const s of stations) {
-    const li = document.createElement('li');
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'featured-tile' + (s.id === currentId ? ' is-playing' : '');
-    btn.dataset.id = s.id;
-    btn.setAttribute('aria-label', `Play ${s.name}`);
-
-    const art = document.createElement('span');
-    art.className = 'featured-tile__art';
-    if (s.favicon) {
-      const img = document.createElement('img');
-      img.src = s.favicon;
-      img.alt = '';
-      img.referrerPolicy = 'no-referrer';
-      art.append(img);
-    } else {
-      const fallback = document.createElement('span');
-      fallback.textContent = s.name.slice(0, 2).toUpperCase();
-      fallback.style.cssText = 'font-family: var(--mono); font-size: 18px; color: var(--ink-2);';
-      art.append(fallback);
-    }
-
-    const name = document.createElement('span');
-    name.className = 'featured-tile__name';
-    name.textContent = s.name;
-
-    btn.append(art, name);
-    btn.addEventListener('click', () => onRowPlay(s));
-    li.append(btn);
-    list.append(li);
-  }
-  wrap.append(list);
-  return wrap;
-}
-
 function renderContent(): void {
   $content.replaceChildren();
 
@@ -1225,27 +1204,15 @@ function renderContent(): void {
     // disable the toggle visually when it'd be a no-op.
     $mapToggle.disabled = !noFilter;
 
-    // Unfiltered home view. Two modes:
-    //   default        → top 3 featured + ranks 4–10 as a list (10 most
-    //                    played, includes non-curated backlog entries)
-    //   curated-only   → top 3 played-and-curated as featured + every
-    //                    other curated station below, regardless of plays
+    // Unfiltered home view. The list is sourced based on browseMode.
     if (noFilter) {
       // Source set per mode:
       //   played   → playedStations() — local, no RB
-      //   curated  → BUILTIN_STATIONS — local, no RB
       //   news     → lastBrowseStations (RB top news, fetched in runQuery)
       //   null     → lastBrowseStations (RB top 50, fetched in runQuery)
       let stations: Station[];
       let restLabel: string;
-      if (browseMode === 'curated') {
-        const playedCurated = playedStations().filter((s) => isBuiltin(s.id));
-        const seen = new Set(playedCurated.map((s) => s.id));
-        const tail: Station[] = [];
-        for (const s of BUILTIN_STATIONS) if (!seen.has(s.id)) tail.push(s);
-        stations = [...playedCurated, ...tail];
-        restLabel = 'Curated';
-      } else if (browseMode === 'played') {
+      if (browseMode === 'played') {
         stations = playedStations().slice(0, PLAYED_TOTAL_LIMIT);
         restLabel = 'Most played';
       } else if (browseMode === 'news') {
@@ -1256,15 +1223,11 @@ function renderContent(): void {
         restLabel = 'Top stations';
       }
 
-      const featured = stations.slice(0, PLAYED_FEATURED_LIMIT);
-      const rest = stations.slice(PLAYED_FEATURED_LIMIT);
-      if (featured.length > 0) $content.append(renderFeatured(featured));
-
       if (mapView) {
         $content.append(renderGlobe(stations));
-      } else if (rest.length > 0) {
-        $content.append(sectionLabel(restLabel, rest.length));
-        $content.append(renderRows(rest));
+      } else if (stations.length > 0) {
+        $content.append(sectionLabel(restLabel, stations.length));
+        $content.append(renderRows(stations));
         // Pagination only applies when the source is RB (mode=null/news).
         if ((browseMode === null || browseMode === 'news') && browseHasMore) {
           $content.append(loadMoreButton());
@@ -1303,6 +1266,10 @@ function renderContent(): void {
   }
 
   const query = $search.value.trim();
+
+  if (activeTab === 'fav' || activeTab === 'recent') {
+    $content.append(librarySegmented());
+  }
 
   if (activeTab === 'fav') {
     const all = getFavorites();
@@ -1362,10 +1329,9 @@ async function runQuery(): Promise<void> {
   const noFilter = !query && !genreTag && !countryFilter;
   // News mode applies its tag to the RB call when we fetch.
   const tagFilter = browseMode === 'news' ? 'news' : genreTag;
-  // Skip Radio Browser fetch only when mode is 'played' or 'curated'
-  // AND no filter is set — those modes use local data. Mode='news' and
-  // mode=null both need an RB fetch (top 50 stations, optionally with
-  // tag=news).
+  // Skip Radio Browser fetch only when mode is 'played' AND no filter
+  // is set — that mode uses local data. Mode='news' and mode=null both
+  // need an RB fetch (top 50 stations, optionally with tag=news).
   const needsRb = !noFilter || browseMode === null || browseMode === 'news';
   if (!needsRb) {
     if (myToken !== queryToken) return;
@@ -1484,9 +1450,6 @@ function syncRowPlayingState(): void {
     const eq = row.querySelector<HTMLElement>('.eq');
     if (eq) eq.classList.toggle('paused', isCurrent && isPaused);
   });
-  $content.querySelectorAll<HTMLElement>('.featured-tile').forEach((tile) => {
-    tile.classList.toggle('is-playing', !!id && tile.dataset.id === id);
-  });
 }
 
 function syncSearchClear(): void {
@@ -1517,8 +1480,6 @@ function goHome(): void {
   browseMode = 'played';
   $modePlayed.classList.add('is-active');
   $modePlayed.setAttribute('aria-pressed', 'true');
-  $curatedToggle.classList.remove('is-active');
-  $curatedToggle.setAttribute('aria-pressed', 'false');
   $newsToggle.classList.remove('is-active');
   $newsToggle.setAttribute('aria-pressed', 'false');
   syncGenre();
@@ -1540,6 +1501,11 @@ function setTab(tab: Tab): void {
   if (tab !== 'playing' && (tab === 'browse' || tab === 'fav' || tab === 'recent')) {
     lastListTab = tab;
   }
+  // Library section follows whichever sub-tab is active.
+  if (tab === 'fav' || tab === 'recent') {
+    librarySection = tab;
+    localStorage.setItem(LIBRARY_KEY, tab);
+  }
 
   activeTab = tab;
   $body.classList.toggle('tab-playing', tab === 'playing');
@@ -1557,6 +1523,54 @@ function setTab(tab: Tab): void {
 function openNp(open: boolean): void {
   if (open) setTab('playing');
   else if (activeTab === 'playing') setTab(lastListTab);
+}
+
+// ─────────────────────────────────────────────────────────────
+// Theme
+// ─────────────────────────────────────────────────────────────
+
+const THEME_KEY = 'rrradio.theme';
+type Theme = 'light' | 'dark';
+
+function readStoredTheme(): Theme | null {
+  const v = localStorage.getItem(THEME_KEY);
+  return v === 'light' || v === 'dark' ? v : null;
+}
+
+function effectiveTheme(): Theme {
+  const stored = readStoredTheme();
+  if (stored) return stored;
+  return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+}
+
+function applyTheme(theme: Theme | null): void {
+  if (theme === null) {
+    document.documentElement.removeAttribute('data-theme');
+    localStorage.removeItem(THEME_KEY);
+  } else {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem(THEME_KEY, theme);
+  }
+  const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+  if (meta) meta.content = effectiveTheme() === 'light' ? '#fafaf8' : '#0a0a0a';
+}
+
+function toggleTheme(): void {
+  applyTheme(effectiveTheme() === 'dark' ? 'light' : 'dark');
+  track(`theme/${effectiveTheme()}`);
+}
+
+// Apply persisted theme before render so the first paint has the right palette.
+applyTheme(readStoredTheme());
+
+// React to system theme changes when the user hasn't picked one explicitly.
+window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
+  if (readStoredTheme() === null) applyTheme(null); // re-syncs theme-color meta
+});
+
+function openAboutSheet(open: boolean): void {
+  $aboutSheet.classList.toggle('open', open);
+  $aboutSheet.setAttribute('aria-hidden', String(!open));
 }
 
 function openAddSheet(open: boolean): void {
@@ -1737,8 +1751,14 @@ $tabbar.addEventListener('click', (e) => {
   const target = e.target as HTMLElement;
   const btn = target.closest<HTMLButtonElement>('.tab-btn');
   if (!btn) return;
-  const tab = btn.dataset.tab as Tab | undefined;
-  if (tab) setTab(tab);
+  const raw = btn.dataset.tab;
+  // The "library" button is a UI grouping over the fav + recent tabs;
+  // it routes to whichever section the user picked last.
+  if (raw === 'library') {
+    setTab(librarySection);
+    return;
+  }
+  if (raw) setTab(raw as Tab);
 });
 
 $search.addEventListener('input', () => syncSearchClear());
@@ -1778,8 +1798,6 @@ function setBrowseMode(target: BrowseMode): void {
   browseMode = next;
   $modePlayed.classList.toggle('is-active', browseMode === 'played');
   $modePlayed.setAttribute('aria-pressed', String(browseMode === 'played'));
-  $curatedToggle.classList.toggle('is-active', browseMode === 'curated');
-  $curatedToggle.setAttribute('aria-pressed', String(browseMode === 'curated'));
   $newsToggle.classList.toggle('is-active', browseMode === 'news');
   $newsToggle.setAttribute('aria-pressed', String(browseMode === 'news'));
   // News mode and the genre dropdown both encode a single tag filter,
@@ -1794,7 +1812,6 @@ function setBrowseMode(target: BrowseMode): void {
 }
 
 $modePlayed.addEventListener('click', () => setBrowseMode('played'));
-$curatedToggle.addEventListener('click', () => setBrowseMode('curated'));
 $newsToggle.addEventListener('click', () => setBrowseMode('news'));
 
 $mapToggle.addEventListener('click', () => {
@@ -1822,6 +1839,10 @@ $wordmark.addEventListener('click', goHome);
 $addBtn.addEventListener('click', () => openAddSheet(true));
 $addCancel.addEventListener('click', () => openAddSheet(false));
 $addForm.addEventListener('submit', handleAddSubmit);
+
+$themeBtn.addEventListener('click', toggleTheme);
+$aboutBtn.addEventListener('click', () => openAboutSheet(true));
+$aboutClose.addEventListener('click', () => openAboutSheet(false));
 
 $mini.addEventListener('click', () => openNp(true));
 $miniToggle.addEventListener('click', (e) => {
