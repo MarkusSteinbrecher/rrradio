@@ -1945,18 +1945,33 @@ body.is-playing .np-bottom .live-dot  {
 
 .dash-map {
   width: 100%;
-  height: 260px;
   border: 1px solid var(--line);
   border-radius: 8px;
   overflow: hidden;
   background: var(--bg-2);
-  color: var(--accent); /* fillColor inherits via currentColor */
+  padding: 8px;
 }
-.dash-circle { transition: fill-opacity 0.15s, stroke-opacity 0.15s; }
-.dash-circle:hover {
-  fill-opacity: 0.7 !important;
-  stroke-opacity: 1 !important;
+.dash-world-map {
+  display: block;
+  width: 100%;
+  height: auto;
 }
+.dash-world-map path {
+  fill: var(--bg-3);
+  stroke: var(--line);
+  stroke-width: 0.4;
+  vector-effect: non-scaling-stroke;
+}
+.dash-circle {
+  fill: var(--accent);
+  fill-opacity: 0.5;
+  stroke: var(--accent);
+  stroke-opacity: 0.8;
+  stroke-width: 0.6;
+  vector-effect: non-scaling-stroke;
+  transition: fill-opacity 0.15s;
+}
+.dash-circle:hover { fill-opacity: 0.9; }
 
 .dash-table {
   width: 100%;

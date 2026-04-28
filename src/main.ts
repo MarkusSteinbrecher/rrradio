@@ -1710,67 +1710,72 @@ function getCountryCentroid(cc: string): [number, number] | null {
   return s?.geo ?? null;
 }
 
-let dashMap: L.Map | null = null;
+/** Equirectangular projection onto the world-map.svg viewBox.
+ *  Source viewBox is 950×620 — close enough to true equirectangular
+ *  at this scale that pins land within a few pixels of the city. */
+function projectLatLon(lat: number, lon: number): { x: number; y: number } {
+  return {
+    x: ((lon + 180) / 360) * 950,
+    y: ((90 - lat) / 180) * 620,
+  };
+}
+
+let worldSvgText: string | null = null;
+async function ensureWorldSvg(): Promise<string | null> {
+  if (worldSvgText) return worldSvgText;
+  try {
+    const res = await fetch(`${import.meta.env.BASE_URL}world-map.svg`, { cache: 'force-cache' });
+    if (!res.ok) return null;
+    worldSvgText = await res.text();
+    return worldSvgText;
+  } catch {
+    return null;
+  }
+}
 
 function teardownDashMap(): void {
-  if (dashMap) {
-    dashMap.remove();
-    dashMap = null;
-  }
   $dashMap.replaceChildren();
 }
 
-function renderDashMap(d: DashboardData): void {
+async function renderDashMap(d: DashboardData): Promise<void> {
   teardownDashMap();
   if (d.byCountry.size === 0) return;
-  // Leaflet measures container at init — defer to next frame so the
-  // sheet has finished its slide-up animation and laid out.
-  queueMicrotask(() => {
-    const map = L.map($dashMap, {
-      worldCopyJump: true,
-      zoomControl: false,
-      attributionControl: false,
-      scrollWheelZoom: false,
-    });
-    dashMap = map;
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      maxZoom: 8,
-      subdomains: 'abcd',
-    }).addTo(map);
-    map.fitBounds([
-      [-55, -170],
-      [70, 180],
-    ]);
+  const svgSource = await ensureWorldSvg();
+  if (!svgSource) return;
 
-    const max = Math.max(...d.byCountry.values());
-    for (const [cc, count] of d.byCountry) {
-      const centroid = getCountryCentroid(cc);
-      if (!centroid) continue;
-      // Radius is a function of this country's *share* of the busiest
-      // country (count / max), so absolute play volume changes don't
-      // change the visual — what's drawn is the relative pattern.
-      // sqrt(share) makes the *area* (not the radius) proportional,
-      // which matches how the eye reads a circle's "amount".
-      const share = count / max;
-      const radius = 2 + Math.sqrt(share) * 6;
-      L.circleMarker(centroid, {
-        radius,
-        color: 'currentColor',
-        fillColor: 'currentColor',
-        fillOpacity: 0.35,
-        weight: 1,
-        opacity: 0.6,
-        className: 'dash-circle',
-      })
-        .bindTooltip(`${countryName(cc)} · ${count} plays`, {
-          direction: 'top',
-          offset: [0, -2],
-          opacity: 0.95,
-        })
-        .addTo(map);
-    }
-    setTimeout(() => map.invalidateSize(), 0);
-  });
+  // Inline the SVG so we can append <circle> elements directly.
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(svgSource, 'image/svg+xml');
+  const svg = doc.documentElement as unknown as SVGSVGElement;
+  svg.classList.add('dash-world-map');
+  svg.removeAttribute('width');
+  svg.removeAttribute('height');
+
+  const max = Math.max(...d.byCountry.values());
+  const NS = 'http://www.w3.org/2000/svg';
+  for (const [cc, count] of d.byCountry) {
+    const centroid = getCountryCentroid(cc);
+    if (!centroid) continue;
+    const { x, y } = projectLatLon(centroid[0], centroid[1]);
+    // sqrt(share) → area-proportional. Range tuned for the 950×620
+    // viewBox; absolute play volume doesn't change the picture, only
+    // the relative distribution does.
+    const share = count / max;
+    const r = 3 + Math.sqrt(share) * 9;
+
+    const circle = document.createElementNS(NS, 'circle');
+    circle.setAttribute('class', 'dash-circle');
+    circle.setAttribute('cx', String(x));
+    circle.setAttribute('cy', String(y));
+    circle.setAttribute('r', String(r));
+
+    const title = document.createElementNS(NS, 'title');
+    title.textContent = `${countryName(cc)} · ${count} plays`;
+    circle.append(title);
+
+    svg.append(circle);
+  }
+  $dashMap.append(svg);
 }
 
 async function openDashboardSheet(open: boolean): Promise<void> {
@@ -1789,7 +1794,7 @@ async function openDashboardSheet(open: boolean): Promise<void> {
   renderDashKpis(data);
   renderDashCountryTable(data);
   renderDashStationTable(items);
-  renderDashMap(data);
+  void renderDashMap(data);
 }
 
 function openAddSheet(open: boolean): void {
