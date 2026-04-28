@@ -132,7 +132,6 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   display: flex;
   flex-direction: column;
   gap: 14px;
-  border-bottom: 1px solid var(--line);
   background: var(--bg);
   flex-shrink: 0;
 }
@@ -475,20 +474,34 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 }
 .content::-webkit-scrollbar { width: 0; }
 
+/* Sits pinned at the top of the scrolling content. The bottom border
+   becomes the visual divider between the topbar+label cluster and the
+   list — the .topbar itself no longer carries one. */
 .section-label {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ink-3);
-  padding: 18px 20px 10px;
+  padding: 6px 20px 10px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 10px;
 }
 .section-label .count {
   font-variant-numeric: tabular-nums;
   color: var(--ink-4);
+}
+.section-label .count::before {
+  content: '·';
+  color: var(--ink-4);
+  margin-right: 8px;
 }
 
 /* ─── Library segmented control (Favorites / Recents toggle) ─── */
@@ -536,6 +549,10 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   position: relative;
 }
 .row:active { background: var(--bg-2); }
+/* The section label already draws a 1px bottom line; the first row
+   in a section would otherwise stack its own border-top against it
+   and read as a double line. */
+.section-label + .row { border-top: 0; }
 .row.is-playing {
   background: var(--row-glow);
 }
