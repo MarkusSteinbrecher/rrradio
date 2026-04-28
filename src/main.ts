@@ -102,6 +102,7 @@ const $mapToggle = document.getElementById('map-toggle') as HTMLButtonElement;
 const $newsToggle = document.getElementById('news-toggle') as HTMLButtonElement;
 const $filterRow = document.getElementById('filter-row') as HTMLElement;
 const $tabStatus = document.getElementById('tab-status') as HTMLElement;
+const $topbarLibSeg = document.getElementById('topbar-lib-seg') as HTMLElement;
 const $content = document.getElementById('content') as HTMLElement;
 const $tabbar = document.getElementById('tabbar') as HTMLElement;
 
@@ -666,17 +667,12 @@ function renderTopBar(): void {
       : activeTab === 'recent'
         ? 'Search recently played…'
         : 'Search stations, genres, places…';
-  if (activeTab === 'fav') {
-    const n = getFavorites().length;
-    $tabStatus.textContent = `Your stations · ${String(n).padStart(2, '0')} saved`;
-    $tabStatus.hidden = false;
-  } else if (activeTab === 'recent') {
-    const n = getRecents().length;
-    $tabStatus.textContent = `Listening history · last ${String(n).padStart(2, '0')}`;
-    $tabStatus.hidden = false;
-  } else {
-    $tabStatus.hidden = true;
-  }
+  // tab-status used to repeat the section name + count under the
+  // search bar on Library views, but the segmented control + the
+  // section label below already say it. Always hidden now; kept in
+  // the DOM in case a future tab wants the slot.
+  $tabStatus.hidden = true;
+  syncLibrarySegmented();
 }
 
 function syncGenre(): void {
@@ -725,24 +721,31 @@ function emptyState(iconHtml: string, title: string, sub: string): HTMLDivElemen
 }
 
 /** Two-pill segmented control rendered at the top of the Library tab.
- *  Switches between favorites and recents in place. */
-function librarySegmented(): HTMLDivElement {
-  const wrap = document.createElement('div');
-  wrap.className = 'lib-seg';
-  const make = (key: LibrarySection, label: string) => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'lib-seg__btn';
-    btn.textContent = label;
-    btn.setAttribute('aria-pressed', String(activeTab === key));
-    if (activeTab === key) btn.classList.add('is-active');
-    btn.addEventListener('click', () => {
-      if (activeTab !== key) setTab(key);
-    });
-    return btn;
-  };
-  wrap.append(make('fav', 'Favorites'), make('recent', 'Recents'));
-  return wrap;
+ *  Lives in the sticky topbar so it stays visible regardless of how
+ *  far the list has scrolled; populated/hidden via syncLibrarySegmented. */
+function syncLibrarySegmented(): void {
+  const visible = activeTab === 'fav' || activeTab === 'recent';
+  $topbarLibSeg.hidden = !visible;
+  if (!visible) return;
+  if ($topbarLibSeg.childElementCount === 0) {
+    const make = (key: LibrarySection, label: string) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'lib-seg__btn';
+      btn.textContent = label;
+      btn.addEventListener('click', () => {
+        if (activeTab !== key) setTab(key);
+      });
+      return btn;
+    };
+    $topbarLibSeg.append(make('fav', 'Favorites'), make('recent', 'Recents'));
+  }
+  for (const btn of $topbarLibSeg.querySelectorAll<HTMLButtonElement>('.lib-seg__btn')) {
+    const key = btn.textContent === 'Favorites' ? 'fav' : 'recent';
+    const isActive = activeTab === key;
+    btn.classList.toggle('is-active', isActive);
+    btn.setAttribute('aria-pressed', String(isActive));
+  }
 }
 
 // Played-stations data sources. Two fetches feed the Browse home view:
@@ -1295,10 +1298,6 @@ function renderContent(): void {
   }
 
   const query = $search.value.trim();
-
-  if (activeTab === 'fav' || activeTab === 'recent') {
-    $content.append(librarySegmented());
-  }
 
   if (activeTab === 'fav') {
     const all = getFavorites();

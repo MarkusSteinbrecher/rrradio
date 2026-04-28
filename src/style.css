@@ -509,12 +509,15 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .lib-seg {
   display: flex;
   gap: 4px;
-  margin: 16px 20px 0;
   padding: 4px;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: var(--bg-2);
 }
+/* Topbar variant — stays in the sticky chrome above the scroll area
+   so the section selector is always reachable regardless of scroll. */
+.topbar-lib-seg { margin: 0; }
+.topbar-lib-seg[hidden] { display: none; }
 .lib-seg__btn {
   flex: 1;
   padding: 8px 14px;
