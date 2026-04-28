@@ -120,7 +120,7 @@
   tags: [information]
   favicon: https://api.ardmediathek.de/image-service/images/urn:ard:image:5d72d15e88d309ec?w=512
   homepage: https://www.br.de/radio/bayern2/index.html
-  status: stream-only
+  status: working
 
 - id: br-br-heimat
   stationuuid: a1dbd7d6-d0c7-4479-b91e-e44b64718d65
@@ -136,7 +136,7 @@
   tags: [folk]
   favicon: https://api.ardmediathek.de/image-service/images/urn:ard:image:37a3d50efe6feacb?w=512
   homepage: https://www.br.de/radio/br-heimat/index.html
-  status: stream-only
+  status: working
 
 - id: br-br-schlager
   stationuuid: ac5f83fc-61b6-4a29-8dbc-b9e880ff08c3
@@ -152,7 +152,7 @@
   tags: [schlager]
   favicon: https://api.ardmediathek.de/image-service/images/urn:ard:image:9091a20989ecaad5?w=512
   homepage: https://www.br.de/radio/br-schlager/index.html
-  status: stream-only
+  status: working
 
 - id: br-br24
   stationuuid: 787eda99-1532-4ee0-b14e-fdb88ec71530
@@ -168,7 +168,7 @@
   tags: [news]
   favicon: https://api.ardmediathek.de/image-service/images/urn:ard:image:c3ab9296f3b282bf?w=512
   homepage: https://www.br.de/radio/br24/index.html
-  status: stream-only
+  status: working
 
 - id: wdr-1live
   stationuuid: 32206891-c351-4f7d-b136-ac693974222d
@@ -198,7 +198,7 @@
   favicon: https://www1.wdr.de/radio/1live-diggi/resources-v5.122.3/img/favicon/apple-touch-icon.png
   homepage: https://www1.wdr.de/radio/1live-diggi/index.html
   status: stream-only
-
+  tags: [hip-hop, rap, urban, ard]
 - id: wdr-wdr-2
   stationuuid: feb978ba-8e34-4993-9082-ae4af186ecda
   changeuuid: a7a227c0-bbce-4506-a07d-3bb453986b42
@@ -211,7 +211,7 @@
   codec: MP3
   homepage: http://wdr2.de/
   status: stream-only
-
+  tags: [pop, rock, ard]
 - id: wdr-wdr-4
   stationuuid: 14c82dd4-20e1-42a9-8522-735f7530c2ac
   changeuuid: 46802bf3-de17-44f3-b6a7-cb55b9f0f1c5
@@ -420,7 +420,7 @@
   favicon: https://www.radio.at/images/broadcasts/07/41/2273/2/c300.png
   homepage: https://www.swr.de/swr1/bw/index.html
   status: stream-only
-
+  tags: [oldies, pop, ard]
 - id: swr-swr1-rheinland-pfalz
   stationuuid: fc23ea83-a07d-4c40-a522-4c625244207e
   changeuuid: b1c1ea94-329c-420d-81d1-34359ac90161
@@ -434,7 +434,7 @@
   favicon: https://www.swr.de/assets/swr/apple-touch-icon.png
   homepage: https://www.swr.de/
   status: stream-only
-
+  tags: [oldies, pop, ard]
 - id: swr-swr3
   stationuuid: 215231fd-68af-4cc3-aa89-422c032a2801
   changeuuid: 2b873296-75d5-4108-8ef9-2bc203614b2b
@@ -509,7 +509,7 @@
   tags: [pop]
   favicon: https://www.hr1.de/favicon.png?v=3.85.2
   homepage: https://www.hr1.de/
-  status: stream-only
+  status: working
 
 - id: hr-hr2
   stationuuid: edb437d4-fd65-4d2d-881e-553ff6ca4170
@@ -525,7 +525,7 @@
   tags: [classical, culture, jazz]
   favicon: https://www.hr2.de/favicon.png?v=3.85.2
   homepage: https://www.hr2.de/index.html
-  status: stream-only
+  status: working
 
 - id: hr-hr3
   stationuuid: d99c1386-0a12-4d7b-90d4-519ae5a89136
@@ -540,8 +540,8 @@
   codec: MP3
   favicon: https://www.hr3.de/favicon.png?v=3.85.2
   homepage: https://www.hr3.de/
-  status: stream-only
-
+  status: working
+  tags: [pop, hits, ard]
 - id: hr-hr4
   stationuuid: 9da83f97-bc76-4782-8a9b-ad2ed5d44fff
   changeuuid: 34650407-27d4-4898-950a-e57a6b20fa1f
@@ -555,8 +555,8 @@
   codec: MP3
   favicon: https://www.hr4.de/favicon.png?v=3.85.2
   homepage: https://www.hr4.de/index.html
-  status: stream-only
-
+  status: working
+  tags: [oldies, schlager, ard]
 - id: rbb-fritz
   stationuuid: d8e958d4-fc11-4ecc-9d46-f17153bafcf1
   changeuuid: 4d205d87-3b68-46d5-be47-c8a2cc0ecb1f
@@ -585,7 +585,7 @@
   favicon: http://www.radiobremen.de/static/img/favicons/apple-touch-icon-180.png?v=4
   homepage: http://www.radiobremen.de/bremeneins/
   status: stream-only
-
+  tags: [pop, oldies, ard]
 - id: rb-bremen-zwei
   stationuuid: d7239ba3-beee-497c-bbe4-d8f06553cb0d
   changeuuid: d636f457-8ee9-46e1-8cb4-1b9c52b10854
@@ -611,9 +611,10 @@
   streamUrl: https://icecast.radiobremen.de/rb/bremenvier/live/mp3/128/stream.mp3
   bitrate: 128
   codec: MP3
+  favicon: https://www.bremenvier.de/favicon.ico
   homepage: https://www.bremenvier.de/
   status: stream-only
-
+  tags: [pop, hits, ard]
 - id: rb-bremen-next
   stationuuid: 7bf487b3-1e51-4f8b-bc4a-b3de739de5a5
   changeuuid: cdb2c32d-5120-4fcd-9c4e-d3f94cf3ee66
