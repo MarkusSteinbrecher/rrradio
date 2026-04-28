@@ -1891,6 +1891,132 @@ body.is-playing .np-bottom .live-dot  {
   padding: 14px 0;
 }
 
+/* ─── Stats dashboard sheet ─── */
+.dashboard-body {
+  font-family: var(--sans);
+  color: var(--ink-2);
+  font-size: 13px;
+  line-height: 1.5;
+  padding-bottom: max(20px, var(--safe-bottom));
+}
+.dash-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 4px 0 24px;
+}
+.dash-kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg-2);
+  text-align: center;
+}
+.dash-kpi__num {
+  font-family: var(--sans);
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.dash-kpi__label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.dash-section { margin-top: 22px; }
+.dash-section h3 {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0 0 12px;
+  font-weight: 500;
+}
+
+.dash-map {
+  width: 100%;
+  height: 260px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg-2);
+  color: var(--accent); /* fillColor inherits via currentColor */
+}
+.dash-circle { transition: fill-opacity 0.15s; }
+.dash-circle:hover { fill-opacity: 0.85 !important; }
+
+.dash-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--sans);
+  font-size: 13px;
+}
+.dash-table tr { border-top: 1px solid var(--line); }
+.dash-table tr:first-child { border-top: 0; }
+.dash-table td {
+  padding: 8px 0;
+  vertical-align: middle;
+  color: var(--ink);
+}
+.dash-table td.rank {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-4);
+  width: 28px;
+  letter-spacing: 0.04em;
+}
+.dash-table td.country {
+  width: auto;
+}
+.dash-table td.bar {
+  width: 35%;
+  padding: 0 12px;
+}
+.dash-table .bar__track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--bg-3);
+  overflow: hidden;
+}
+.dash-table .bar__fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.2s;
+}
+.dash-table td.count {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  width: 56px;
+  color: var(--ink-2);
+  font-size: 12px;
+}
+
+.dash-note {
+  margin: 24px 0 0;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  color: var(--ink-4);
+  line-height: 1.5;
+}
+.dash-note a {
+  color: var(--ink-3);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+}
+.dash-note a:hover { color: var(--ink-2); border-bottom-color: var(--line-2); }
+
 /* ─── About sheet ─── */
 .about-body {
   font-family: var(--sans);

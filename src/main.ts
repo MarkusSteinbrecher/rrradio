@@ -154,6 +154,15 @@ const $aboutBtn = document.getElementById('about-btn') as HTMLButtonElement;
 const $aboutSheet = document.getElementById('about-sheet') as HTMLElement;
 const $aboutClose = document.getElementById('about-close') as HTMLButtonElement;
 
+const $dashboardBtn = document.getElementById('dashboard-btn') as HTMLButtonElement;
+const $dashboardSheet = document.getElementById('dashboard-sheet') as HTMLElement;
+const $dashboardClose = document.getElementById('dashboard-close') as HTMLButtonElement;
+const $dashVisits = document.getElementById('dash-visits') as HTMLElement;
+const $dashCountries = document.getElementById('dash-countries') as HTMLElement;
+const $dashStations = document.getElementById('dash-stations') as HTMLElement;
+const $dashMap = document.getElementById('dash-map') as HTMLElement;
+const $dashCountryTable = document.querySelector('#dash-country-table tbody') as HTMLTableSectionElement;
+
 // ─────────────────────────────────────────────────────────────
 // State
 // ─────────────────────────────────────────────────────────────
@@ -1573,6 +1582,187 @@ function openAboutSheet(open: boolean): void {
   $aboutSheet.setAttribute('aria-hidden', String(!open));
 }
 
+// ─────────────────────────────────────────────────────────────
+// Dashboard sheet
+// ─────────────────────────────────────────────────────────────
+
+/** Rough country centroids — enough to place a circle on the map.
+ *  Sourced from public-domain country-centroid data (truncated to the
+ *  ~50 we'd plausibly have stations from). For a country we don't list
+ *  here, we fall back to the geo of one of its curated stations. */
+const COUNTRY_CENTROIDS: Record<string, [number, number]> = {
+  AT: [47.5162, 14.5501], AU: [-25.2744, 133.7751], BE: [50.5039, 4.4699],
+  BR: [-14.235, -51.9253], CA: [56.1304, -106.3468], CH: [46.8182, 8.2275],
+  CN: [35.8617, 104.1954], CZ: [49.8175, 15.473], DE: [51.1657, 10.4515],
+  DK: [56.2639, 9.5018], ES: [40.4637, -3.7492], FI: [61.9241, 25.7482],
+  FR: [46.2276, 2.2137], GB: [55.3781, -3.436], GR: [39.0742, 21.8243],
+  HU: [47.1625, 19.5033], IE: [53.4129, -8.2439], IL: [31.0461, 34.8516],
+  IN: [20.5937, 78.9629], IT: [41.8719, 12.5674], JP: [36.2048, 138.2529],
+  KR: [35.9078, 127.7669], MX: [23.6345, -102.5528], NL: [52.1326, 5.2913],
+  NO: [60.472, 8.4689], NZ: [-40.9006, 174.886], PH: [12.8797, 121.774],
+  PL: [51.9194, 19.1451], PT: [39.3999, -8.2245], RO: [45.9432, 24.9668],
+  RU: [61.524, 105.3188], SE: [60.1282, 18.6435], TR: [38.9637, 35.2433],
+  UA: [48.3794, 31.1656], UK: [55.3781, -3.436], US: [37.0902, -95.7129],
+  ZA: [-30.5595, 22.9375], AR: [-38.4161, -63.6167], CO: [4.5709, -74.2973],
+  CL: [-35.6751, -71.543], PE: [-9.19, -75.0152], EC: [-1.8312, -78.1834],
+  AE: [23.4241, 53.8478], SK: [48.669, 19.699], BG: [42.7339, 25.4858],
+  HR: [45.1, 15.2], RS: [44.0165, 21.0059], BA: [43.9159, 17.6791],
+  ID: [-0.7893, 113.9213], TW: [23.6978, 120.9605], UY: [-32.5228, -55.7658],
+  VE: [6.4238, -66.5897], UG: [1.3733, 32.2903],
+};
+
+interface TopStationItem {
+  name: string;
+  count: number;
+}
+
+interface DashboardData {
+  totalPlays: number;
+  totalStations: number;
+  byCountry: Map<string, number>; // country code → total plays
+}
+
+async function fetchTopStationsWithCounts(): Promise<TopStationItem[]> {
+  try {
+    const res = await fetch(TOP_STATIONS_URL);
+    if (!res.ok) return [];
+    const data = (await res.json()) as { items?: TopStationItem[] };
+    return (data.items ?? []).filter((i) => typeof i.name === 'string' && i.name.length > 0);
+  } catch {
+    return [];
+  }
+}
+
+function aggregateDashboard(items: TopStationItem[]): DashboardData {
+  const builtinByName = new Map<string, Station>();
+  for (const s of BUILTIN_STATIONS) builtinByName.set(s.name.toLowerCase(), s);
+  let totalPlays = 0;
+  let totalStations = 0;
+  const byCountry = new Map<string, number>();
+  for (const it of items) {
+    totalStations++;
+    totalPlays += it.count;
+    const builtin = builtinByName.get(it.name.toLowerCase());
+    const cc = builtin?.country?.toUpperCase();
+    if (!cc) continue; // unknown country — count toward total but not per-country breakdown
+    byCountry.set(cc, (byCountry.get(cc) ?? 0) + it.count);
+  }
+  return { totalPlays, totalStations, byCountry };
+}
+
+function renderDashKpis(d: DashboardData): void {
+  $dashVisits.textContent = siteVisitCount ?? '—';
+  $dashCountries.textContent = String(d.byCountry.size);
+  $dashStations.textContent = String(d.totalStations);
+}
+
+function renderDashCountryTable(d: DashboardData): void {
+  $dashCountryTable.replaceChildren();
+  const sorted = [...d.byCountry.entries()].sort((a, b) => b[1] - a[1]);
+  const max = sorted[0]?.[1] ?? 1;
+  sorted.forEach(([cc, count], i) => {
+    const tr = document.createElement('tr');
+    const rank = document.createElement('td');
+    rank.className = 'rank';
+    rank.textContent = String(i + 1).padStart(2, '0');
+    const country = document.createElement('td');
+    country.className = 'country';
+    country.textContent = countryName(cc);
+    const bar = document.createElement('td');
+    bar.className = 'bar';
+    bar.innerHTML = `<div class="bar__track"><div class="bar__fill" style="width:${(count / max) * 100}%"></div></div>`;
+    const num = document.createElement('td');
+    num.className = 'count';
+    num.textContent = String(count);
+    tr.append(rank, country, bar, num);
+    $dashCountryTable.append(tr);
+  });
+}
+
+function getCountryCentroid(cc: string): [number, number] | null {
+  if (COUNTRY_CENTROIDS[cc]) return COUNTRY_CENTROIDS[cc];
+  // Fallback: any curated station from that country
+  const s = BUILTIN_STATIONS.find((x) => x.country?.toUpperCase() === cc && x.geo);
+  return s?.geo ?? null;
+}
+
+let dashMap: L.Map | null = null;
+
+function teardownDashMap(): void {
+  if (dashMap) {
+    dashMap.remove();
+    dashMap = null;
+  }
+  $dashMap.replaceChildren();
+}
+
+function renderDashMap(d: DashboardData): void {
+  teardownDashMap();
+  if (d.byCountry.size === 0) return;
+  // Leaflet measures container at init — defer to next frame so the
+  // sheet has finished its slide-up animation and laid out.
+  queueMicrotask(() => {
+    const map = L.map($dashMap, {
+      worldCopyJump: true,
+      zoomControl: false,
+      attributionControl: false,
+      scrollWheelZoom: false,
+    });
+    dashMap = map;
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      maxZoom: 8,
+      subdomains: 'abcd',
+    }).addTo(map);
+    map.fitBounds([
+      [-55, -170],
+      [70, 180],
+    ]);
+
+    const max = Math.max(...d.byCountry.values());
+    for (const [cc, count] of d.byCountry) {
+      const centroid = getCountryCentroid(cc);
+      if (!centroid) continue;
+      // Radius scales sqrt of share — keeps small countries visible
+      // while preventing a single dominant country from drowning others.
+      const share = count / max;
+      const radius = 5 + Math.sqrt(share) * 22;
+      L.circleMarker(centroid, {
+        radius,
+        color: 'transparent',
+        fillColor: 'currentColor',
+        fillOpacity: 0.55,
+        weight: 0,
+        className: 'dash-circle',
+      })
+        .bindTooltip(`${countryName(cc)} · ${count} plays`, {
+          direction: 'top',
+          offset: [0, -2],
+          opacity: 0.95,
+        })
+        .addTo(map);
+    }
+    setTimeout(() => map.invalidateSize(), 0);
+  });
+}
+
+async function openDashboardSheet(open: boolean): Promise<void> {
+  $dashboardSheet.classList.toggle('open', open);
+  $dashboardSheet.setAttribute('aria-hidden', String(!open));
+  if (!open) {
+    teardownDashMap();
+    return;
+  }
+  // Initial render — show last-known visit count, fetch fresh top-stations.
+  $dashVisits.textContent = siteVisitCount ?? '…';
+  $dashCountries.textContent = '…';
+  $dashStations.textContent = '…';
+  const items = await fetchTopStationsWithCounts();
+  const data = aggregateDashboard(items);
+  renderDashKpis(data);
+  renderDashCountryTable(data);
+  renderDashMap(data);
+}
+
 function openAddSheet(open: boolean): void {
   $addSheet.classList.toggle('open', open);
   $addSheet.setAttribute('aria-hidden', String(!open));
@@ -1843,6 +2033,8 @@ $addForm.addEventListener('submit', handleAddSubmit);
 $themeBtn.addEventListener('click', toggleTheme);
 $aboutBtn.addEventListener('click', () => openAboutSheet(true));
 $aboutClose.addEventListener('click', () => openAboutSheet(false));
+$dashboardBtn.addEventListener('click', () => void openDashboardSheet(true));
+$dashboardClose.addEventListener('click', () => void openDashboardSheet(false));
 
 $mini.addEventListener('click', () => openNp(true));
 $miniToggle.addEventListener('click', (e) => {

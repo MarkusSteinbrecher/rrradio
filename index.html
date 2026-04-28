@@ -83,6 +83,9 @@
               <svg class="icon-theme-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
               <svg class="icon-theme-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m4.93 19.07 1.41-1.41"/><path d="m17.66 6.34 1.41-1.41"/></svg>
             </button>
+            <button type="button" class="add-btn" id="dashboard-btn" aria-label="Stats dashboard">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="11" width="3.2" height="9" rx="0.6"/><rect x="10.4" y="6" width="3.2" height="14" rx="0.6"/><rect x="16.8" y="14" width="3.2" height="6" rx="0.6"/></svg>
+            </button>
             <button type="button" class="add-btn" id="about-btn" aria-label="About rrradio">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 16v-5"/><path d="M12 8h.01"/></svg>
             </button>
@@ -343,6 +346,49 @@
             <span>Your stations</span>
           </div>
           <ul class="custom-list" id="custom-list"></ul>
+        </div>
+      </section>
+
+      <!-- ============== DASHBOARD (slide-up sheet) ============== -->
+      <section class="sheet" id="dashboard-sheet" aria-label="Stats dashboard" aria-hidden="true">
+        <header class="sheet-head">
+          <div class="np-label">Stats</div>
+          <button type="button" class="icon-btn" id="dashboard-close" aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </header>
+
+        <div class="sheet-body dashboard-body">
+          <div class="dash-kpis">
+            <div class="dash-kpi">
+              <div class="dash-kpi__num" id="dash-visits">—</div>
+              <div class="dash-kpi__label">Visits</div>
+            </div>
+            <div class="dash-kpi">
+              <div class="dash-kpi__num" id="dash-countries">—</div>
+              <div class="dash-kpi__label">Countries</div>
+            </div>
+            <div class="dash-kpi">
+              <div class="dash-kpi__num" id="dash-stations">—</div>
+              <div class="dash-kpi__label">Stations played</div>
+            </div>
+          </div>
+
+          <div class="dash-section">
+            <h3>Plays by country</h3>
+            <div class="dash-map" id="dash-map"></div>
+          </div>
+
+          <div class="dash-section">
+            <h3>Top countries</h3>
+            <table class="dash-table" id="dash-country-table">
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <p class="dash-note">
+            Visits via <a href="https://www.goatcounter.com/" target="_blank" rel="noopener noreferrer">GoatCounter</a> · plays from anonymous play events · cached 5 min.
+          </p>
         </div>
       </section>
 
