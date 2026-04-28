@@ -233,8 +233,9 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   background: var(--bg-2);
   border: 1px solid var(--line);
   color: var(--ink);
-  font-family: var(--mono);
-  /* 16px prevents iOS Safari from auto-zooming the viewport on focus */
+  font-family: var(--sans);
+  /* 16px prevents iOS Safari from auto-zooming the viewport on focus.
+     Don't drop below this even when sans makes it feel narrower. */
   font-size: 16px;
   border-radius: 999px;
   outline: none;
