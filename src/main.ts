@@ -1300,13 +1300,11 @@ function renderContent(): void {
     $content.append(librarySegmented());
   }
 
-  // Library views skip the section label — the segmented control above
-  // already says "Favorites" / "Recents" and the search input is right
-  // there when filtering, so a redundant header band would just take
-  // up vertical space.
   if (activeTab === 'fav') {
     const all = getFavorites();
     const list = filterStations(all, query);
+    const label = query ? 'Results' : 'Favorites';
+    $content.append(sectionLabel(label, list.length));
     if (all.length === 0) {
       $content.append(
         emptyState(ICON_FAV, 'No favorites yet', 'Tap the heart on any station to save it here'),
@@ -1324,6 +1322,8 @@ function renderContent(): void {
   if (activeTab === 'recent') {
     const all = getRecents();
     const list = filterStations(all, query);
+    const label = query ? 'Results' : 'Recently played';
+    $content.append(sectionLabel(label, list.length));
     if (all.length === 0) {
       $content.append(
         emptyState(ICON_RECENT, 'No history yet', 'Stations you play will show up here'),
