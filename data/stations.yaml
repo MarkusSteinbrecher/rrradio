@@ -657,6 +657,463 @@
   country: CH
   status: stream-only
 
+# ─── FR — Radio France public broadcaster (2026-04-29) ───
+# Pattern: https://icecast.radiofrance.fr/<slug>-hifi.aac (192 AAC).
+# RB stores http:// for the same hosts → broken-mixed; HTTPS works.
+
+- id: builtin-france-inter
+  stationuuid: d2bbffaf-5d67-4a65-9772-097d8c0269d3
+  changeuuid: 647f5ed4-edb8-4bef-b4df-737fb8a1ebff
+  reviewedAt: 2026-04-29
+  geo: [48.852, 2.282]
+  broadcaster: radio-france
+  name: France Inter
+  streamUrl: https://icecast.radiofrance.fr/franceinter-hifi.aac
+  bitrate: 192
+  codec: AAC
+  tags: [public radio, news, talk, france]
+  favicon: https://www.franceinter.fr/favicon.ico
+  homepage: https://www.franceinter.fr/
+  country: FR
+  status: stream-only
+  featured: true
+
+- id: builtin-france-culture
+  stationuuid: 6a1440b2-e6f0-11e9-a96c-52543be04c81
+  changeuuid: 95ef46a0-e289-41dc-bc01-758491926c9b
+  reviewedAt: 2026-04-29
+  geo: [48.852, 2.282]
+  broadcaster: radio-france
+  name: France Culture
+  streamUrl: https://icecast.radiofrance.fr/franceculture-hifi.aac
+  bitrate: 192
+  codec: AAC
+  tags: [public radio, culture, talk, france]
+  favicon: https://upload.wikimedia.org/wikipedia/fr/thumb/c/c9/France_Culture_-_2008.svg/1024px-France_Culture_-_2008.svg.png
+  homepage: https://www.franceculture.fr/
+  country: FR
+  status: stream-only
+
+- id: builtin-france-musique
+  stationuuid: 81440088-0a76-11e8-ae97-52543be04c81
+  changeuuid: 91a05257-59d2-447f-902f-23d654f3946e
+  reviewedAt: 2026-04-29
+  geo: [48.852, 2.282]
+  broadcaster: radio-france
+  name: France Musique
+  streamUrl: https://icecast.radiofrance.fr/francemusique-hifi.aac
+  bitrate: 192
+  codec: AAC
+  tags: [classical, public radio, france]
+  favicon: https://www.francemusique.fr/favicon.ico
+  homepage: https://www.francemusique.fr/
+  country: FR
+  status: stream-only
+
+- id: builtin-france-info
+  stationuuid: 1cfb151d-a341-11e9-a787-52543be04c81
+  changeuuid: 09e8e98c-6a6d-4032-a3cc-96ed0352a505
+  reviewedAt: 2026-04-29
+  geo: [48.852, 2.282]
+  broadcaster: radio-france
+  name: France Info
+  streamUrl: https://icecast.radiofrance.fr/franceinfo-hifi.aac
+  bitrate: 192
+  codec: AAC
+  tags: [public radio, news, france]
+  favicon: https://www.francetvinfo.fr/assets/common/images/pwa/ios/120-5487caf3.png
+  homepage: https://www.franceinfo.fr/
+  country: FR
+  status: stream-only
+
+- id: builtin-fip
+  stationuuid: 932eb148-e6f6-11e9-a96c-52543be04c81
+  changeuuid: 05816fb5-275e-4c5a-ba76-e8d8599ed6fe
+  reviewedAt: 2026-04-29
+  geo: [48.852, 2.282]
+  broadcaster: radio-france
+  name: FIP
+  streamUrl: https://icecast.radiofrance.fr/fip-hifi.aac
+  bitrate: 192
+  codec: AAC
+  tags: [eclectic, public radio, france]
+  favicon: https://upload.wikimedia.org/wikipedia/fr/thumb/d/d5/FIP_logo_2005.svg/1024px-FIP_logo_2005.svg.png
+  homepage: https://www.fip.fr/
+  country: FR
+  status: stream-only
+  featured: true
+
+- id: builtin-mouv
+  stationuuid: c998424a-e6f5-11e9-a96c-52543be04c81
+  changeuuid: 4cb859cd-dfe2-4edc-a1c7-db33a0902c96
+  reviewedAt: 2026-04-29
+  geo: [48.852, 2.282]
+  broadcaster: radio-france
+  name: Mouv'
+  streamUrl: https://icecast.radiofrance.fr/mouv-hifi.aac
+  bitrate: 192
+  codec: AAC
+  tags: [hip hop, urban, public radio, france]
+  favicon: https://upload.wikimedia.org/wikipedia/fr/thumb/d/d3/Le_Mouv%27_logo_2008.svg/1024px-Le_Mouv%27_logo_2008.svg.png
+  homepage: https://www.mouv.fr/
+  country: FR
+  status: stream-only
+
+- id: builtin-france-bleu-paris
+  stationuuid: 96131e7f-0601-11e8-ae97-52543be04c81
+  changeuuid: a26145f4-0045-43a0-bb47-34030c80ade1
+  reviewedAt: 2026-04-29
+  geo: [48.852, 2.282]
+  broadcaster: radio-france
+  name: France Bleu Paris (107.1)
+  streamUrl: https://icecast.radiofrance.fr/fb1071-hifi.aac
+  bitrate: 192
+  codec: AAC
+  tags: [regional, public radio, france, paris]
+  favicon: https://www.francebleu.fr/favicons/apple-touch-icon-180x180.png
+  homepage: https://www.francebleu.fr/107-1
+  country: FR
+  status: stream-only
+
+# ─── FR — FIP web radios + France Musique sub-channels (2026-04-29) ───
+
+- id: builtin-fip-jazz
+  stationuuid: 5b9ceedf-eb85-11e9-a96c-52543be04c81
+  changeuuid: b7b33025-e6a6-4fd7-94bd-50c125a785f6
+  reviewedAt: 2026-04-29
+  geo: [48.852, 2.282]
+  broadcaster: radio-france
+  name: FIP Jazz
+  streamUrl: https://icecast.radiofrance.fr/fipjazz-hifi.aac
+  bitrate: 192
+  codec: AAC
+  tags: [jazz, public radio, france]
+  favicon: https://www.fip.fr/dist/favicons/logo-120.png
+  homepage: https://www.fip.fr/jazz
+  country: FR
+  status: stream-only
+
+- id: builtin-fip-reggae
+  stationuuid: 84764bda-eb7e-11e9-a96c-52543be04c81
+  changeuuid: c6f79bae-38bf-4575-bbd1-d2deb65cd1cb
+  reviewedAt: 2026-04-29
+  geo: [48.852, 2.282]
+  broadcaster: radio-france
+  name: FIP Reggae
+  streamUrl: https://icecast.radiofrance.fr/fipreggae-hifi.aac
+  bitrate: 192
+  codec: AAC
+  tags: [reggae, public radio, france]
+  favicon: https://www.fip.fr/dist/favicons/logo-120.png
+  homepage: https://www.fip.fr/reggae
+  country: FR
+  status: stream-only
+
+- id: builtin-fip-rock
+  stationuuid: ddc49aac-eb85-11e9-a96c-52543be04c81
+  changeuuid: 55e787f5-a8c1-496f-98fc-dea268d89846
+  reviewedAt: 2026-04-29
+  geo: [48.852, 2.282]
+  broadcaster: radio-france
+  name: FIP Rock
+  streamUrl: https://icecast.radiofrance.fr/fiprock-hifi.aac
+  bitrate: 192
+  codec: AAC
+  tags: [rock, public radio, france]
+  favicon: https://www.fip.fr/dist/favicons/logo-120.png
+  homepage: https://www.fip.fr/rock
+  country: FR
+  status: stream-only
+
+- id: builtin-fip-groove
+  stationuuid: c454908c-eb81-11e9-a96c-52543be04c81
+  changeuuid: 3318f8e5-929f-4d67-ba42-f2c42f1adc12
+  reviewedAt: 2026-04-29
+  geo: [48.852, 2.282]
+  broadcaster: radio-france
+  name: FIP Groove
+  streamUrl: https://icecast.radiofrance.fr/fipgroove-hifi.aac
+  bitrate: 192
+  codec: AAC
+  tags: [groove, funk, public radio, france]
+  favicon: https://www.fip.fr/dist/favicons/logo-120.png
+  homepage: https://www.fip.fr/groove
+  country: FR
+  status: stream-only
+
+- id: builtin-fip-electro
+  stationuuid: b809226c-eb82-11e9-a96c-52543be04c81
+  changeuuid: 07a70d82-6044-4d22-ba28-6a7dc5597e7c
+  reviewedAt: 2026-04-29
+  geo: [48.852, 2.282]
+  broadcaster: radio-france
+  name: FIP Electro
+  streamUrl: https://icecast.radiofrance.fr/fipelectro-hifi.aac
+  bitrate: 192
+  codec: AAC
+  tags: [electronic, public radio, france]
+  favicon: https://www.fip.fr/dist/favicons/logo-120.png
+  homepage: https://www.fip.fr/electro
+  country: FR
+  status: stream-only
+
+- id: builtin-fip-monde
+  stationuuid: cbc50678-e70e-11e9-a96c-52543be04c81
+  changeuuid: 76b08227-e823-4ce7-8a66-f66db7514336
+  reviewedAt: 2026-04-29
+  geo: [48.852, 2.282]
+  broadcaster: radio-france
+  name: FIP Musiques du monde
+  streamUrl: https://icecast.radiofrance.fr/fipworld-hifi.aac
+  bitrate: 192
+  codec: AAC
+  tags: [world, public radio, france]
+  favicon: https://www.fip.fr/dist/favicons/logo-120.png
+  homepage: https://www.fip.fr/musiques-du-monde
+  country: FR
+  status: stream-only
+
+- id: builtin-fm-classique-easy
+  stationuuid: 96162e74-0601-11e8-ae97-52543be04c81
+  changeuuid: e4d28df4-433e-4260-8007-6a2206165a3a
+  reviewedAt: 2026-04-29
+  geo: [48.852, 2.282]
+  broadcaster: radio-france
+  name: France Musique Classique Easy
+  streamUrl: https://icecast.radiofrance.fr/francemusiqueeasyclassique-hifi.aac
+  bitrate: 192
+  codec: AAC
+  tags: [classical, public radio, france]
+  favicon: https://www.francemusique.fr/favicon.ico
+  homepage: https://www.francemusique.fr/radio/classique-easy
+  country: FR
+  status: stream-only
+
+- id: builtin-fm-la-jazz
+  stationuuid: 9618a113-0601-11e8-ae97-52543be04c81
+  changeuuid: 789f7654-17dd-4600-a41f-10f7657aa5ef
+  reviewedAt: 2026-04-29
+  geo: [48.852, 2.282]
+  broadcaster: radio-france
+  name: France Musique La Jazz
+  streamUrl: https://icecast.radiofrance.fr/francemusiquelajazz-hifi.aac
+  bitrate: 192
+  codec: AAC
+  tags: [jazz, public radio, france]
+  favicon: https://www.francemusique.fr/favicon.ico
+  homepage: https://www.francemusique.fr/radio/la-jazz
+  country: FR
+  status: stream-only
+
+- id: builtin-fm-baroque
+  stationuuid: eb0e95f5-5c36-48dc-9ed0-954039186465
+  changeuuid: c130f95b-8983-45bf-beb3-40325e9e1dc3
+  reviewedAt: 2026-04-29
+  geo: [48.852, 2.282]
+  broadcaster: radio-france
+  name: France Musique La Baroque
+  streamUrl: https://icecast.radiofrance.fr/francemusiquebaroque-hifi.aac
+  bitrate: 192
+  codec: AAC
+  tags: [classical, baroque, public radio, france]
+  favicon: https://www.francemusique.fr/favicon.ico
+  homepage: https://www.francemusique.fr/radio/la-baroque
+  country: FR
+  status: stream-only
+
+# ─── FR — Major commercial / private (2026-04-29) ───
+
+- id: fr-rmc
+  stationuuid: 7a3a3989-8f26-44f7-9ae5-fa91e5cf4f9d
+  changeuuid: 39012299-7c08-4d7e-9f3e-e35840b3f1c8
+  reviewedAt: 2026-04-29
+  geo: [48.842, 2.391]
+  broadcaster: independent
+  name: RMC
+  streamUrl: https://audio.bfmtv.com/rmcradio_128.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [news, talk, sport, france]
+  favicon: https://i1.wp.com/www.mediasportif.fr/wp-content/uploads/2014/05/Radio-RMC.jpg
+  homepage: https://rmc.bfmtv.com/
+  country: FR
+  status: stream-only
+
+- id: fr-bfm
+  stationuuid: 3e6e3252-dd81-4b07-baba-b61bf96cd457
+  changeuuid: 3ebad2d7-0bba-4c87-92cf-8b367496d82e
+  reviewedAt: 2026-04-29
+  geo: [48.842, 2.391]
+  broadcaster: independent
+  name: BFM Radio
+  streamUrl: https://audio.bfmtv.com/bfmradio_128.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [news, talk, france]
+  favicon: https://www.radio.fr/images/broadcasts/76/27/105095/3/c300.png
+  homepage: https://rmc.bfmtv.com/bfm-radio/
+  country: FR
+  status: stream-only
+
+- id: fr-europe-1
+  stationuuid: dfcef843-6bf9-40f6-b3fe-2b224df86e48
+  changeuuid: df7cbbe2-289f-451f-9281-e99f2e990cb7
+  reviewedAt: 2026-04-29
+  geo: [48.873, 2.323]
+  broadcaster: independent
+  name: Europe 1
+  streamUrl: https://stream.europe1.fr/europe1.aac
+  codec: AAC
+  tags: [news, talk, france]
+  favicon: https://www.europe1.fr/build/e1/images/favicon-120x120.png
+  homepage: https://www.europe1.fr/
+  country: FR
+  status: stream-only
+
+- id: fr-rtl
+  stationuuid: 9606c2cd-0601-11e8-ae97-52543be04c81
+  changeuuid: 8596e78a-79e5-4357-b643-57abbe92f7f3
+  reviewedAt: 2026-04-29
+  geo: [48.886, 2.270]
+  broadcaster: independent
+  name: RTL
+  streamUrl: https://streaming.radio.rtl.fr/rtl-1-44-128
+  bitrate: 128
+  codec: MP3
+  tags: [pop, talk, france]
+  favicon: https://www.rtl.fr/favicon.ico
+  homepage: https://www.rtl.fr/
+  country: FR
+  status: stream-only
+
+- id: fr-rtl2
+  stationuuid: a5a6b881-2900-11e8-91bf-52543be04c81
+  changeuuid: aeeed16a-e426-4120-be4b-b8a860f0a365
+  reviewedAt: 2026-04-29
+  geo: [48.886, 2.270]
+  broadcaster: independent
+  name: RTL2
+  streamUrl: https://streaming.radio.rtl2.fr/rtl2-1-44-128
+  bitrate: 128
+  codec: MP3
+  tags: [rock, pop, france]
+  favicon: https://www.rtl2.fr/favicon.ico
+  homepage: https://www.rtl2.fr/
+  country: FR
+  status: stream-only
+
+- id: fr-skyrock
+  stationuuid: 01b61e49-18bd-486d-b0e1-cb51cbaf9a6d
+  changeuuid: 143d89dc-aaac-4a50-b0cd-9a9357432198
+  reviewedAt: 2026-04-29
+  geo: [48.866, 2.357]
+  broadcaster: independent
+  name: Skyrock
+  streamUrl: https://icecast.skyrock.net/s/natio_mp3_128k
+  bitrate: 128
+  codec: MP3
+  tags: [hip hop, rap, france]
+  favicon: https://skyrock.fm/favicon.ico
+  homepage: https://www.skyrock.fm/
+  country: FR
+  status: stream-only
+
+- id: fr-skyrock-hits
+  stationuuid: d0d7af36-d5ce-480a-b35b-8adc648e2a37
+  changeuuid: 867935bc-d0c5-48d1-b3fa-5dc54a5adf55
+  reviewedAt: 2026-04-29
+  geo: [48.866, 2.357]
+  broadcaster: independent
+  name: Skyrock Hits
+  streamUrl: https://icecast.skyrock.net/s/hit_skyrock_aac_64k
+  bitrate: 64
+  codec: AAC
+  tags: [hits, hip hop, france]
+  favicon: https://skyrock.fm/favicon.ico
+  homepage: https://www.skyrock.fm/hits/
+  country: FR
+  status: stream-only
+
+- id: fr-skyrock-klassics
+  stationuuid: ccf16787-7e0f-4b1a-9599-c318a8e0cf02
+  changeuuid: 4bb5e331-23b1-494c-9d32-abf887228ff7
+  reviewedAt: 2026-04-29
+  geo: [48.866, 2.357]
+  broadcaster: independent
+  name: Skyrock Klassics
+  streamUrl: https://icecast.skyrock.net/s/klassiks_aac_64k
+  bitrate: 64
+  codec: AAC
+  tags: [classics, hip hop, france]
+  favicon: https://skyrock.fm/favicon.ico
+  homepage: https://www.skyrock.fm/klassics/
+  country: FR
+  status: stream-only
+
+- id: fr-sud-radio
+  stationuuid: 188c36ae-f1ef-4b5c-8587-f29c216bfaa2
+  changeuuid: c00e0d5c-5fe5-4967-ba68-26add3924d86
+  reviewedAt: 2026-04-29
+  geo: [48.866, 2.347]
+  broadcaster: independent
+  name: Sud Radio
+  streamUrl: https://ice.creacast.com/sudradio
+  bitrate: 128
+  codec: MP3
+  tags: [talk, news, france]
+  favicon: https://www.sudradio.fr/wp-content/uploads/2019/06/cropped-favicon-180x180.png
+  homepage: https://www.sudradio.fr/
+  country: FR
+  status: stream-only
+
+- id: fr-oui-fm
+  stationuuid: 958c558d-6b13-4829-92ff-49233f56de97
+  changeuuid: ab8747a2-7ef0-4f81-9fe7-2f8af7404d5e
+  reviewedAt: 2026-04-29
+  geo: [48.866, 2.347]
+  broadcaster: independent
+  name: OUI FM
+  streamUrl: https://ouifm.ice.infomaniak.ch/ouifm-high.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [rock, alternative, france]
+  favicon: https://bocir-prod-bucket.s3.amazonaws.com/radios/oui-fm/images/favicon.ico
+  homepage: https://www.ouifm.fr/
+  country: FR
+  status: stream-only
+
+- id: fr-jazz-radio
+  stationuuid: 96136fe5-0601-11e8-ae97-52543be04c81
+  changeuuid: d39fc26c-a35d-4f73-b4fc-a693b5a9ff56
+  reviewedAt: 2026-04-29
+  geo: [45.764, 4.835]
+  broadcaster: independent
+  name: Jazz Radio
+  streamUrl: https://jazzradio.ice.infomaniak.ch/jazzradio-high.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [jazz, france, lyon]
+  favicon: http://www.jazzradio.fr/apple-touch-icon-120x120.png
+  homepage: https://www.jazzradio.fr/
+  country: FR
+  status: stream-only
+
+- id: fr-radio-nova
+  stationuuid: 963fb390-0601-11e8-ae97-52543be04c81
+  changeuuid: 53f9a8ef-48ab-4979-87bc-046b46900a49
+  reviewedAt: 2026-04-29
+  geo: [48.866, 2.357]
+  broadcaster: independent
+  name: Radio Nova
+  streamUrl: https://novazz.ice.infomaniak.ch/novazz-128.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [eclectic, alternative, france]
+  favicon: https://www.nova.fr/wp-content/uploads/sites/2/2021/02/cropped-favicon.png
+  homepage: https://www.nova.fr/
+  country: FR
+  status: stream-only
+
 # Auto-imported from Radio Browser (2026-04-26)
 - id: rb-bbc-world-service
   metadataUrl: bbc_world_service

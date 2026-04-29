@@ -784,6 +784,547 @@
       ]
     },
     {
+      "id": "builtin-france-inter",
+      "name": "France Inter",
+      "streamUrl": "https://icecast.radiofrance.fr/franceinter-hifi.aac",
+      "homepage": "https://www.franceinter.fr/",
+      "country": "FR",
+      "tags": [
+        "public radio",
+        "news",
+        "talk",
+        "france"
+      ],
+      "favicon": "https://www.franceinter.fr/favicon.ico",
+      "bitrate": 192,
+      "codec": "AAC",
+      "geo": [
+        48.852,
+        2.282
+      ],
+      "featured": true
+    },
+    {
+      "id": "builtin-france-culture",
+      "name": "France Culture",
+      "streamUrl": "https://icecast.radiofrance.fr/franceculture-hifi.aac",
+      "homepage": "https://www.franceculture.fr/",
+      "country": "FR",
+      "tags": [
+        "public radio",
+        "culture",
+        "talk",
+        "france"
+      ],
+      "favicon": "https://upload.wikimedia.org/wikipedia/fr/thumb/c/c9/France_Culture_-_2008.svg/1024px-France_Culture_-_2008.svg.png",
+      "bitrate": 192,
+      "codec": "AAC",
+      "geo": [
+        48.852,
+        2.282
+      ]
+    },
+    {
+      "id": "builtin-france-musique",
+      "name": "France Musique",
+      "streamUrl": "https://icecast.radiofrance.fr/francemusique-hifi.aac",
+      "homepage": "https://www.francemusique.fr/",
+      "country": "FR",
+      "tags": [
+        "classical",
+        "public radio",
+        "france"
+      ],
+      "favicon": "https://www.francemusique.fr/favicon.ico",
+      "bitrate": 192,
+      "codec": "AAC",
+      "geo": [
+        48.852,
+        2.282
+      ]
+    },
+    {
+      "id": "builtin-france-info",
+      "name": "France Info",
+      "streamUrl": "https://icecast.radiofrance.fr/franceinfo-hifi.aac",
+      "homepage": "https://www.franceinfo.fr/",
+      "country": "FR",
+      "tags": [
+        "public radio",
+        "news",
+        "france"
+      ],
+      "favicon": "https://www.francetvinfo.fr/assets/common/images/pwa/ios/120-5487caf3.png",
+      "bitrate": 192,
+      "codec": "AAC",
+      "geo": [
+        48.852,
+        2.282
+      ]
+    },
+    {
+      "id": "builtin-fip",
+      "name": "FIP",
+      "streamUrl": "https://icecast.radiofrance.fr/fip-hifi.aac",
+      "homepage": "https://www.fip.fr/",
+      "country": "FR",
+      "tags": [
+        "eclectic",
+        "public radio",
+        "france"
+      ],
+      "favicon": "https://upload.wikimedia.org/wikipedia/fr/thumb/d/d5/FIP_logo_2005.svg/1024px-FIP_logo_2005.svg.png",
+      "bitrate": 192,
+      "codec": "AAC",
+      "geo": [
+        48.852,
+        2.282
+      ],
+      "featured": true
+    },
+    {
+      "id": "builtin-mouv",
+      "name": "Mouv'",
+      "streamUrl": "https://icecast.radiofrance.fr/mouv-hifi.aac",
+      "homepage": "https://www.mouv.fr/",
+      "country": "FR",
+      "tags": [
+        "hip hop",
+        "urban",
+        "public radio",
+        "france"
+      ],
+      "favicon": "https://upload.wikimedia.org/wikipedia/fr/thumb/d/d3/Le_Mouv%27_logo_2008.svg/1024px-Le_Mouv%27_logo_2008.svg.png",
+      "bitrate": 192,
+      "codec": "AAC",
+      "geo": [
+        48.852,
+        2.282
+      ]
+    },
+    {
+      "id": "builtin-france-bleu-paris",
+      "name": "France Bleu Paris (107.1)",
+      "streamUrl": "https://icecast.radiofrance.fr/fb1071-hifi.aac",
+      "homepage": "https://www.francebleu.fr/107-1",
+      "country": "FR",
+      "tags": [
+        "regional",
+        "public radio",
+        "france",
+        "paris"
+      ],
+      "favicon": "https://www.francebleu.fr/favicons/apple-touch-icon-180x180.png",
+      "bitrate": 192,
+      "codec": "AAC",
+      "geo": [
+        48.852,
+        2.282
+      ]
+    },
+    {
+      "id": "builtin-fip-jazz",
+      "name": "FIP Jazz",
+      "streamUrl": "https://icecast.radiofrance.fr/fipjazz-hifi.aac",
+      "homepage": "https://www.fip.fr/jazz",
+      "country": "FR",
+      "tags": [
+        "jazz",
+        "public radio",
+        "france"
+      ],
+      "favicon": "https://www.fip.fr/dist/favicons/logo-120.png",
+      "bitrate": 192,
+      "codec": "AAC",
+      "geo": [
+        48.852,
+        2.282
+      ]
+    },
+    {
+      "id": "builtin-fip-reggae",
+      "name": "FIP Reggae",
+      "streamUrl": "https://icecast.radiofrance.fr/fipreggae-hifi.aac",
+      "homepage": "https://www.fip.fr/reggae",
+      "country": "FR",
+      "tags": [
+        "reggae",
+        "public radio",
+        "france"
+      ],
+      "favicon": "https://www.fip.fr/dist/favicons/logo-120.png",
+      "bitrate": 192,
+      "codec": "AAC",
+      "geo": [
+        48.852,
+        2.282
+      ]
+    },
+    {
+      "id": "builtin-fip-rock",
+      "name": "FIP Rock",
+      "streamUrl": "https://icecast.radiofrance.fr/fiprock-hifi.aac",
+      "homepage": "https://www.fip.fr/rock",
+      "country": "FR",
+      "tags": [
+        "rock",
+        "public radio",
+        "france"
+      ],
+      "favicon": "https://www.fip.fr/dist/favicons/logo-120.png",
+      "bitrate": 192,
+      "codec": "AAC",
+      "geo": [
+        48.852,
+        2.282
+      ]
+    },
+    {
+      "id": "builtin-fip-groove",
+      "name": "FIP Groove",
+      "streamUrl": "https://icecast.radiofrance.fr/fipgroove-hifi.aac",
+      "homepage": "https://www.fip.fr/groove",
+      "country": "FR",
+      "tags": [
+        "groove",
+        "funk",
+        "public radio",
+        "france"
+      ],
+      "favicon": "https://www.fip.fr/dist/favicons/logo-120.png",
+      "bitrate": 192,
+      "codec": "AAC",
+      "geo": [
+        48.852,
+        2.282
+      ]
+    },
+    {
+      "id": "builtin-fip-electro",
+      "name": "FIP Electro",
+      "streamUrl": "https://icecast.radiofrance.fr/fipelectro-hifi.aac",
+      "homepage": "https://www.fip.fr/electro",
+      "country": "FR",
+      "tags": [
+        "electronic",
+        "public radio",
+        "france"
+      ],
+      "favicon": "https://www.fip.fr/dist/favicons/logo-120.png",
+      "bitrate": 192,
+      "codec": "AAC",
+      "geo": [
+        48.852,
+        2.282
+      ]
+    },
+    {
+      "id": "builtin-fip-monde",
+      "name": "FIP Musiques du monde",
+      "streamUrl": "https://icecast.radiofrance.fr/fipworld-hifi.aac",
+      "homepage": "https://www.fip.fr/musiques-du-monde",
+      "country": "FR",
+      "tags": [
+        "world",
+        "public radio",
+        "france"
+      ],
+      "favicon": "https://www.fip.fr/dist/favicons/logo-120.png",
+      "bitrate": 192,
+      "codec": "AAC",
+      "geo": [
+        48.852,
+        2.282
+      ]
+    },
+    {
+      "id": "builtin-fm-classique-easy",
+      "name": "France Musique Classique Easy",
+      "streamUrl": "https://icecast.radiofrance.fr/francemusiqueeasyclassique-hifi.aac",
+      "homepage": "https://www.francemusique.fr/radio/classique-easy",
+      "country": "FR",
+      "tags": [
+        "classical",
+        "public radio",
+        "france"
+      ],
+      "favicon": "https://www.francemusique.fr/favicon.ico",
+      "bitrate": 192,
+      "codec": "AAC",
+      "geo": [
+        48.852,
+        2.282
+      ]
+    },
+    {
+      "id": "builtin-fm-la-jazz",
+      "name": "France Musique La Jazz",
+      "streamUrl": "https://icecast.radiofrance.fr/francemusiquelajazz-hifi.aac",
+      "homepage": "https://www.francemusique.fr/radio/la-jazz",
+      "country": "FR",
+      "tags": [
+        "jazz",
+        "public radio",
+        "france"
+      ],
+      "favicon": "https://www.francemusique.fr/favicon.ico",
+      "bitrate": 192,
+      "codec": "AAC",
+      "geo": [
+        48.852,
+        2.282
+      ]
+    },
+    {
+      "id": "builtin-fm-baroque",
+      "name": "France Musique La Baroque",
+      "streamUrl": "https://icecast.radiofrance.fr/francemusiquebaroque-hifi.aac",
+      "homepage": "https://www.francemusique.fr/radio/la-baroque",
+      "country": "FR",
+      "tags": [
+        "classical",
+        "baroque",
+        "public radio",
+        "france"
+      ],
+      "favicon": "https://www.francemusique.fr/favicon.ico",
+      "bitrate": 192,
+      "codec": "AAC",
+      "geo": [
+        48.852,
+        2.282
+      ]
+    },
+    {
+      "id": "fr-rmc",
+      "name": "RMC",
+      "streamUrl": "https://audio.bfmtv.com/rmcradio_128.mp3",
+      "homepage": "https://rmc.bfmtv.com/",
+      "country": "FR",
+      "tags": [
+        "news",
+        "talk",
+        "sport",
+        "france"
+      ],
+      "favicon": "https://i1.wp.com/www.mediasportif.fr/wp-content/uploads/2014/05/Radio-RMC.jpg",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        48.842,
+        2.391
+      ]
+    },
+    {
+      "id": "fr-bfm",
+      "name": "BFM Radio",
+      "streamUrl": "https://audio.bfmtv.com/bfmradio_128.mp3",
+      "homepage": "https://rmc.bfmtv.com/bfm-radio/",
+      "country": "FR",
+      "tags": [
+        "news",
+        "talk",
+        "france"
+      ],
+      "favicon": "https://www.radio.fr/images/broadcasts/76/27/105095/3/c300.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        48.842,
+        2.391
+      ]
+    },
+    {
+      "id": "fr-europe-1",
+      "name": "Europe 1",
+      "streamUrl": "https://stream.europe1.fr/europe1.aac",
+      "homepage": "https://www.europe1.fr/",
+      "country": "FR",
+      "tags": [
+        "news",
+        "talk",
+        "france"
+      ],
+      "favicon": "https://www.europe1.fr/build/e1/images/favicon-120x120.png",
+      "bitrate": 128,
+      "codec": "AAC",
+      "geo": [
+        48.873,
+        2.323
+      ]
+    },
+    {
+      "id": "fr-rtl",
+      "name": "RTL",
+      "streamUrl": "https://streaming.radio.rtl.fr/rtl-1-44-128",
+      "homepage": "https://www.rtl.fr/",
+      "country": "FR",
+      "tags": [
+        "pop",
+        "talk",
+        "france"
+      ],
+      "favicon": "https://www.rtl.fr/favicon.ico",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        48.886,
+        2.27
+      ]
+    },
+    {
+      "id": "fr-rtl2",
+      "name": "RTL2",
+      "streamUrl": "https://streaming.radio.rtl2.fr/rtl2-1-44-128",
+      "homepage": "https://www.rtl2.fr/",
+      "country": "FR",
+      "tags": [
+        "rock",
+        "pop",
+        "france"
+      ],
+      "favicon": "https://www.rtl2.fr/favicon.ico",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        48.886,
+        2.27
+      ]
+    },
+    {
+      "id": "fr-skyrock",
+      "name": "Skyrock",
+      "streamUrl": "https://icecast.skyrock.net/s/natio_mp3_128k",
+      "homepage": "https://www.skyrock.fm/",
+      "country": "FR",
+      "tags": [
+        "hip hop",
+        "rap",
+        "france"
+      ],
+      "favicon": "https://skyrock.fm/favicon.ico",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        48.866,
+        2.357
+      ]
+    },
+    {
+      "id": "fr-skyrock-hits",
+      "name": "Skyrock Hits",
+      "streamUrl": "https://icecast.skyrock.net/s/hit_skyrock_aac_64k",
+      "homepage": "https://www.skyrock.fm/hits/",
+      "country": "FR",
+      "tags": [
+        "hits",
+        "hip hop",
+        "france"
+      ],
+      "favicon": "https://skyrock.fm/favicon.ico",
+      "bitrate": 64,
+      "codec": "AAC",
+      "geo": [
+        48.866,
+        2.357
+      ]
+    },
+    {
+      "id": "fr-skyrock-klassics",
+      "name": "Skyrock Klassics",
+      "streamUrl": "https://icecast.skyrock.net/s/klassiks_aac_64k",
+      "homepage": "https://www.skyrock.fm/klassics/",
+      "country": "FR",
+      "tags": [
+        "classics",
+        "hip hop",
+        "france"
+      ],
+      "favicon": "https://skyrock.fm/favicon.ico",
+      "bitrate": 64,
+      "codec": "AAC",
+      "geo": [
+        48.866,
+        2.357
+      ]
+    },
+    {
+      "id": "fr-sud-radio",
+      "name": "Sud Radio",
+      "streamUrl": "https://ice.creacast.com/sudradio",
+      "homepage": "https://www.sudradio.fr/",
+      "country": "FR",
+      "tags": [
+        "talk",
+        "news",
+        "france"
+      ],
+      "favicon": "https://www.sudradio.fr/wp-content/uploads/2019/06/cropped-favicon-180x180.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        48.866,
+        2.347
+      ]
+    },
+    {
+      "id": "fr-oui-fm",
+      "name": "OUI FM",
+      "streamUrl": "https://ouifm.ice.infomaniak.ch/ouifm-high.mp3",
+      "homepage": "https://www.ouifm.fr/",
+      "country": "FR",
+      "tags": [
+        "rock",
+        "alternative",
+        "france"
+      ],
+      "favicon": "https://bocir-prod-bucket.s3.amazonaws.com/radios/oui-fm/images/favicon.ico",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        48.866,
+        2.347
+      ]
+    },
+    {
+      "id": "fr-jazz-radio",
+      "name": "Jazz Radio",
+      "streamUrl": "https://jazzradio.ice.infomaniak.ch/jazzradio-high.mp3",
+      "homepage": "https://www.jazzradio.fr/",
+      "country": "FR",
+      "tags": [
+        "jazz",
+        "france",
+        "lyon"
+      ],
+      "favicon": "http://www.jazzradio.fr/apple-touch-icon-120x120.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        45.764,
+        4.835
+      ]
+    },
+    {
+      "id": "fr-radio-nova",
+      "name": "Radio Nova",
+      "streamUrl": "https://novazz.ice.infomaniak.ch/novazz-128.mp3",
+      "homepage": "https://www.nova.fr/",
+      "country": "FR",
+      "tags": [
+        "eclectic",
+        "alternative",
+        "france"
+      ],
+      "favicon": "https://www.nova.fr/wp-content/uploads/sites/2/2021/02/cropped-favicon.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        48.866,
+        2.357
+      ]
+    },
+    {
       "id": "rb-bbc-world-service",
       "name": "BBC World Service",
       "streamUrl": "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_east_asia",
