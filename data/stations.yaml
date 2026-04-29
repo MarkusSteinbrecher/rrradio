@@ -2632,3 +2632,370 @@
   homepage: https://www.veniceclassicradio.eu/
   country: IT
   status: stream-only
+
+# ─── ES — RNE public broadcaster (2026-04-29) ───
+# RTVE serves the live RNE channels as direct HLS playlists at
+# rtvelivestream.rtve.es/rtvesec/rne/rne_r<N>_main.m3u8 (R1, R2, R3).
+# R5 (Todo Noticias) only ships via the geocoded rndfnk dispatcher,
+# which redirects to a regional MP3 — works fine end-to-end TLS.
+
+- id: builtin-rne-r1
+  stationuuid: db656299-a63e-4b7b-ac5a-ac2444459ae4
+  changeuuid: 02ca2824-0e7f-473e-9ea8-380d74202421
+  reviewedAt: 2026-04-29
+  geo: [40.418, -3.703]
+  broadcaster: rne
+  name: RNE Radio 1
+  streamUrl: https://rtvelivestream.rtve.es/rtvesec/rne/rne_r1_main.m3u8
+  codec: AAC
+  tags: [public radio, news, talk, spain]
+  homepage: https://www.rtve.es/play/radio/radio-nacional/
+  country: ES
+  status: stream-only
+  featured: true
+
+- id: builtin-rne-clasica
+  stationuuid: 6da055c0-389c-40d8-bd16-f90167987c14
+  changeuuid: 3f86376a-dfb3-4fc5-970d-000e7197e8f7
+  reviewedAt: 2026-04-29
+  geo: [40.418, -3.703]
+  broadcaster: rne
+  name: RNE Radio Clásica
+  streamUrl: https://rtvelivestream.rtve.es/rtvesec/rne/rne_r2_main.m3u8
+  codec: AAC
+  tags: [classical, public radio, spain]
+  homepage: https://www.rtve.es/play/radio/radio-clasica/
+  country: ES
+  status: stream-only
+
+- id: builtin-rne-r3
+  stationuuid: d8b6ba19-f431-471e-9598-94f42af0d3ac
+  changeuuid: c0f69dbf-59b6-4a49-9933-a5746066668e
+  reviewedAt: 2026-04-29
+  geo: [40.418, -3.703]
+  broadcaster: rne
+  name: RNE Radio 3
+  streamUrl: https://rtvelivestream.rtve.es/rtvesec/rne/rne_r3_main.m3u8
+  codec: AAC
+  tags: [alternative, indie, public radio, spain]
+  homepage: https://www.rtve.es/play/radio/radio-3/
+  country: ES
+  status: stream-only
+
+- id: builtin-rne-r5
+  stationuuid: 5d6b5573-d661-477a-82fc-1d0d03799679
+  changeuuid: dd3b7ced-23ff-4b6b-a495-7d60b0bba11f
+  reviewedAt: 2026-04-29
+  geo: [40.418, -3.703]
+  broadcaster: rne
+  name: RNE Radio 5 Todo Noticias
+  streamUrl: https://dispatcher.rndfnk.com/crtve/rne5/main/mp3/high
+  codec: MP3
+  tags: [news, public radio, spain]
+  homepage: https://www.rtve.es/play/radio/radio-5/
+  country: ES
+  status: stream-only
+
+# ─── ES — PRISA Radio (Cadena SER family) (2026-04-29) ───
+# All PRISA streams live on streamtheworld.com. RB stores the http://
+# variant on the older flagship records → broken-mixed. https:// works
+# end-to-end on the same paths so a single-field streamUrl override
+# fixes them while the rest of the RB record (bitrate / codec / tags)
+# carries through.
+
+- id: es-cadena-ser
+  stationuuid: 692a3b69-0f68-11ea-a87e-52543be04c81
+  changeuuid: 96574f41-d990-4a9b-87bb-b5552f8e2fe4
+  reviewedAt: 2026-04-29
+  geo: [40.418, -3.703]
+  broadcaster: independent
+  name: Cadena SER
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [news, talk, spain]
+  homepage: https://cadenaser.com/
+  country: ES
+  status: stream-only
+  featured: true
+
+- id: es-cadena-dial
+  stationuuid: 84c6f3cc-3c66-415d-aff5-050b5f330adc
+  changeuuid: 0a4b43b6-4ce4-4fe6-8be0-e57fbf5bf636
+  reviewedAt: 2026-04-29
+  geo: [40.418, -3.703]
+  broadcaster: independent
+  name: Cadena Dial
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/CADENADIAL.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [latin pop, spanish music, spain]
+  homepage: https://www.cadenadial.com/
+  country: ES
+  status: stream-only
+
+- id: es-los40
+  stationuuid: b81c57c3-eb05-47ac-a0ea-eb01a6960cc4
+  changeuuid: 2b91d51d-516e-4e5f-8f43-b492ed9b830f
+  reviewedAt: 2026-04-29
+  geo: [40.418, -3.703]
+  broadcaster: independent
+  name: LOS 40
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/Los40.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [pop, hits, spain]
+  homepage: https://los40.com/
+  country: ES
+  status: stream-only
+  featured: true
+
+- id: es-los40-urban
+  stationuuid: 8cc2da8b-ae85-4e37-9027-9ad765a1ea7a
+  changeuuid: 332678d6-1ec2-4a98-b040-b7164c47eb58
+  reviewedAt: 2026-04-29
+  geo: [40.418, -3.703]
+  broadcaster: independent
+  name: LOS 40 Urban
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/LOS40_URBAN.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [hip hop, urban, spain]
+  homepage: https://los40.com/seccion/los40-urban/
+  country: ES
+  status: stream-only
+
+- id: es-los40-dance
+  stationuuid: 777d14b2-f344-11e9-a96c-52543be04c81
+  changeuuid: 90063ac8-68b7-4045-9dfb-3904ffa40639
+  reviewedAt: 2026-04-29
+  geo: [40.418, -3.703]
+  broadcaster: independent
+  name: LOS 40 Dance
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/LOS40_DANCE.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [dance, electronic, spain]
+  homepage: https://los40.com/seccion/los40-dance/
+  country: ES
+  status: stream-only
+
+- id: es-los40-classic
+  stationuuid: de39fc19-0636-4d05-acbb-2aba2c0d1f7a
+  changeuuid: 52527d4b-5b9d-415f-8bc4-7916f2baf2b0
+  reviewedAt: 2026-04-29
+  geo: [40.418, -3.703]
+  broadcaster: independent
+  name: LOS 40 Classic
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/LOS40_CLASSIC.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [classic hits, oldies, spain]
+  homepage: https://los40.com/seccion/los40-classic/
+  country: ES
+  status: stream-only
+
+- id: es-radiole
+  stationuuid: 40cf6cba-2dde-11ea-aa0c-52543be04c81
+  changeuuid: 526fd2ed-6208-4451-b1e3-dcdfdc756776
+  reviewedAt: 2026-04-29
+  geo: [40.418, -3.703]
+  broadcaster: independent
+  name: Radiolé
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/RADIOLEAAC.aac
+  codec: AAC+
+  tags: [flamenco, spanish music, spain]
+  homepage: https://www.radiole.com/
+  country: ES
+  status: stream-only
+
+# ─── ES — COPE Group / Flumotion HLS (2026-04-29) ───
+# COPE's flagship national stream isn't exposed cleanly on https; we
+# leave it for a future research session. The music sub-brands
+# (Cadena 100, Rock FM, MegaStarFM) ship HLS at <slug>-cope.flumotion.com
+# end-to-end TLS, so we override the broken-mixed RB streamUrls with
+# the HLS path on the canonical (high-vote) records.
+
+- id: es-cadena-100
+  stationuuid: 960c37c6-0601-11e8-ae97-52543be04c81
+  changeuuid: ad1fe073-aa98-4d89-8ebd-f32f963cc8ca
+  reviewedAt: 2026-04-29
+  geo: [40.418, -3.703]
+  broadcaster: independent
+  name: Cadena 100
+  streamUrl: https://cadena100-cope.flumotion.com/chunks.m3u8
+  codec: AAC
+  tags: [pop, hits, spain]
+  homepage: https://www.cadena100.es/
+  country: ES
+  status: stream-only
+  featured: true
+
+- id: es-rock-fm
+  stationuuid: 9649dec5-0601-11e8-ae97-52543be04c81
+  changeuuid: 3da7de02-3bd1-4178-94e9-e662a6185f45
+  reviewedAt: 2026-04-29
+  geo: [40.418, -3.703]
+  broadcaster: independent
+  name: Rock FM
+  streamUrl: https://rockfm-cope.flumotion.com/chunks.m3u8
+  codec: AAC
+  tags: [rock, classic rock, spain]
+  homepage: https://www.rockfm.fm/
+  country: ES
+  status: stream-only
+
+- id: es-megastar-fm
+  stationuuid: 962e0e57-0601-11e8-ae97-52543be04c81
+  changeuuid: 17e36ad8-854a-4955-9076-76cab5acb010
+  reviewedAt: 2026-04-29
+  geo: [40.418, -3.703]
+  broadcaster: independent
+  name: MegaStarFM
+  streamUrl: https://megastar-cope.flumotion.com/chunks.m3u8
+  codec: AAC
+  tags: [pop, latin, spain]
+  homepage: https://www.megastar.fm/
+  country: ES
+  status: stream-only
+
+# ─── ES — Atresmedia / other commercial (2026-04-29) ───
+
+- id: es-onda-cero
+  stationuuid: b8601593-152a-429d-9cb2-5065cf7c0185
+  changeuuid: 13d232ec-7b70-4cf6-b4c0-f5637f360d78
+  reviewedAt: 2026-04-29
+  geo: [40.418, -3.703]
+  broadcaster: independent
+  name: Onda Cero
+  streamUrl: https://atres-live.ondacero.es/live/ondacero/bitrate_1.m3u8
+  codec: AAC
+  tags: [news, talk, spain]
+  homepage: https://www.ondacero.es/
+  country: ES
+  status: stream-only
+  featured: true
+
+- id: es-kiss-fm
+  stationuuid: 743889d5-5472-4e9f-ac61-5f0f04e7efa8
+  changeuuid: 50743a3e-f965-4702-a670-cd9ea81a7337
+  reviewedAt: 2026-04-29
+  geo: [40.418, -3.703]
+  broadcaster: independent
+  name: Kiss FM
+  streamUrl: https://bbkissfm.kissfmradio.cires21.com/bbkissfm.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [pop, ballads, spain]
+  homepage: https://www.kissfm.es/
+  country: ES
+  status: stream-only
+
+- id: es-hit-fm
+  stationuuid: d9484397-31a2-45f0-baf8-3db8878e8bc0
+  changeuuid: 50198980-fc93-42c4-9cba-caeb207bd78a
+  reviewedAt: 2026-04-29
+  geo: [40.418, -3.703]
+  broadcaster: independent
+  name: Hit FM
+  streamUrl: https://bbhitfm.kissfmradio.cires21.com/bbhitfm.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [pop, hits, spain]
+  homepage: https://www.hitfmradio.es/
+  country: ES
+  status: stream-only
+
+- id: es-esradio
+  stationuuid: 9611ecb1-0601-11e8-ae97-52543be04c81
+  changeuuid: 2005f63e-4bb7-43c4-8380-30aa7eae006e
+  reviewedAt: 2026-04-29
+  geo: [40.418, -3.703]
+  broadcaster: independent
+  name: esRadio
+  streamUrl: https://libertaddigital-radio-live1.flumotion.com/libertaddigital/ld-live1-high.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [news, talk, spain]
+  homepage: https://esradio.libertaddigital.com/
+  country: ES
+  status: stream-only
+
+- id: es-radio-marca
+  stationuuid: b129bdd2-65bc-4363-8f74-14b474bc0500
+  changeuuid: 4beefdb2-9d5e-470b-bcbd-681010644913
+  reviewedAt: 2026-04-29
+  geo: [40.418, -3.703]
+  broadcaster: independent
+  name: Radio Marca
+  streamUrl: https://sonic.mediatelekom.net/9316/stream
+  codec: MP3
+  tags: [sport, news, spain]
+  homepage: https://www.marca.com/radio.html
+  country: ES
+  status: stream-only
+
+# ─── ES — CCMA (Catalan public broadcaster) + RAC1 (2026-04-29) ───
+# CCMA's three flagship channels stream MP3 from shoutcast.ccma.cat
+# end-to-end TLS. RAC1 (the largest Catalan-language commercial) is
+# served by streamtheworld.com.
+
+- id: builtin-catalunya-radio
+  stationuuid: 2087b4c4-820a-4545-9bd7-eaf28792f44a
+  changeuuid: ea94fee2-a114-41ec-9c13-ef77a1f4d0e0
+  reviewedAt: 2026-04-29
+  geo: [41.385, 2.173]
+  broadcaster: ccma
+  name: Catalunya Ràdio
+  streamUrl: https://shoutcast.ccma.cat/ccma/catalunyaradioHD.mp3
+  bitrate: 192
+  codec: MP3
+  tags: [public radio, talk, catalan, spain]
+  homepage: https://www.ccma.cat/catradio/directe/catalunya-radio/
+  country: ES
+  status: stream-only
+
+- id: builtin-catalunya-info
+  stationuuid: 69bc7084-523c-11ea-be63-52543be04c81
+  changeuuid: 204fa9e2-ac31-4c27-85d6-f74ed93ea000
+  reviewedAt: 2026-04-29
+  geo: [41.385, 2.173]
+  broadcaster: ccma
+  name: Catalunya Informació
+  streamUrl: https://shoutcast.ccma.cat/ccma/catalunyainformacioHD.mp3
+  bitrate: 192
+  codec: MP3
+  tags: [news, public radio, catalan, spain]
+  homepage: https://www.ccma.cat/catradio/directe/catalunya-informacio/
+  country: ES
+  status: stream-only
+
+- id: builtin-catalunya-musica
+  stationuuid: 6956f051-51f0-4b7f-8474-5ea87429bf0d
+  changeuuid: 55024866-753d-4370-81bc-60e25ada4690
+  reviewedAt: 2026-04-29
+  geo: [41.385, 2.173]
+  broadcaster: ccma
+  name: Catalunya Música
+  streamUrl: https://shoutcast.ccma.cat/ccma/catalunyamusicaHD.mp3
+  bitrate: 192
+  codec: MP3
+  tags: [classical, public radio, catalan, spain]
+  homepage: https://www.ccma.cat/catradio/directe/catalunya-musica/
+  country: ES
+  status: stream-only
+
+- id: es-rac1
+  stationuuid: 38a33fc0-be05-4c98-8c6a-ba3869575bc1
+  changeuuid: c5d0a886-6ca7-4331-a95a-e7b4a159b555
+  reviewedAt: 2026-04-29
+  geo: [41.385, 2.173]
+  broadcaster: independent
+  name: RAC1
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/RAC_1.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [news, talk, catalan, spain]
+  homepage: https://www.rac1.cat/
+  country: ES
+  status: stream-only
