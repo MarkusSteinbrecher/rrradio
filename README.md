@@ -1,35 +1,57 @@
 <p align="center">
-  <a href="https://rrradio.org">
-    r r r a d i o . o r g
-  </a>
+  <a href="https://rrradio.org">r r r a d i o . o r g</a>
 </p>
 
 <p align="center">
-  A minimal, ad-free internet radio app. No cookies, no signup. Work in progress.
+  Minimal, ad-free internet radio in your browser.
 </p>
 
-## Where the stations come from
+## Play
 
-There are two catalogs, with very different roles:
+A simple player for live radio streams from around the world.
+Designed to feel native on mobile — works on the lock screen,
+survives backgrounding, supports bluetooth controls.
 
-1. **Curated catalog** — `data/stations.yaml`, hand-edited and auto-grown
-   via the catalog-watch workflow. Ships bundled with the deploy as
-   `public/stations.json`. Stations here have been probed, get a logo,
-   and (when relevant) a per-broadcaster metadata fetcher in
-   `src/builtins.ts`. Rows for these stations show a small accent star
-   in the UI as a quality mark.
-2. **Long-tail** — fetched live from [Radio Browser]
-   (https://api.radio-browser.info), a free, community-edited catalog
-   with ~50,000 stations. CORS-enabled, no auth, multiple mirrors.
-   Powers search results and tag filters. Nothing about this list is
-   stored locally — every search hits the API.
+## Free, no ads
 
-The bridge between the two: when visitors press play on a long-tail
-Radio Browser station, GoatCounter logs a `play: <name>` event. The
-weekly catalog-watch workflow reads those, looks the popular ones up
-on Radio Browser to harvest stream URL + tags + favicon, probes the
-stream, and opens a PR adding YAML stubs at `status: stream-only`.
-Merging the PR promotes them into the curated catalog.
+- No signup. Nothing to log into.
+- No ads, no tracking pixels, no cookie banners.
+- Anonymous pageview counts only — no user IDs.
+- No app to install. It's a website.
+
+## Catalog
+
+Curated stations are hand-picked. Each one shows up to three small
+stars next to its tags:
+
+- **★** — we've verified the stream plays.
+- **★★** — we also surface the current track.
+- **★★★** — we also show the on-air program and a day's schedule.
+
+The wider catalog comes from [Radio Browser](https://www.radio-browser.info/),
+a community-maintained directory of internet radio stations around
+the world. Thank you to the contributors there 🙏. You can add your
+own stream via the + button — your private list lives in this browser
+only.
+
+## Privacy
+
+No cookies. Your favorites, theme choice, and recently-played
+stations are stored on your device only (browser `localStorage`) —
+they never leave your machine.
+
+Anonymous pageview analytics provided by
+[GoatCounter](https://www.goatcounter.com/). No user IDs, no
+cross-site tracking, IPs are hashed and discarded within hours.
+
+## Source
+
+Built with HTML, CSS, TypeScript and a healthy distrust of
+dependencies.
+
+## Imprint
+
+rrradio.org is a non-commercial side project.
 
 ## Quick start
 
