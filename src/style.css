@@ -2125,6 +2125,8 @@ body.is-playing .np-bottom .live-dot  {
   font-weight: 500;
 }
 .about-section p { margin: 0 0 8px; }
+.about-section p.about-stars { margin: 0 0 4px; }
+.about-section p.about-stars + p:not(.about-stars) { margin-top: 8px; }
 .about-list {
   margin: 0;
   padding: 0;

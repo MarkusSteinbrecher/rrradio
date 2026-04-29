@@ -1,5 +1,10 @@
 <p align="center">
-  <a href="https://rrradio.org">r r r a d i o . o r g</a>
+  <a href="https://rrradio.org">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="docs/wordmark-dark.svg">
+      <img alt="rrradio.org" src="docs/wordmark-light.svg" width="480">
+    </picture>
+  </a>
 </p>
 
 <p align="center">
@@ -24,9 +29,11 @@ survives backgrounding, supports bluetooth controls.
 Curated stations are hand-picked. Each one shows up to three small
 stars next to its tags:
 
-- **★** — we've verified the stream plays.
-- **★★** — we also surface the current track.
-- **★★★** — we also show the on-air program and a day's schedule.
+⭐ we've verified the stream plays.
+
+⭐⭐ we also surface the current track.
+
+⭐⭐⭐ we also show the on-air program and a day's schedule.
 
 The wider catalog comes from [Radio Browser](https://www.radio-browser.info/),
 a community-maintained directory of internet radio stations around
