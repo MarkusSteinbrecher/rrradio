@@ -4534,6 +4534,249 @@
         10.898
       ],
       "status": "stream-only"
+    },
+    {
+      "id": "builtin-cbc-radio-1-toronto",
+      "name": "CBC Radio 1 Toronto",
+      "streamUrl": "https://cbcradiolive.akamaized.net/hls/live/2041036/ES_R1ETR/master.m3u8",
+      "homepage": "https://www.cbc.ca/listen/live-radio/1-19-toronto",
+      "country": "CA",
+      "tags": [
+        "public radio",
+        "news",
+        "talk",
+        "canada"
+      ],
+      "favicon": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP._kBBu0jkxW7vsBMbUIlxpwHaJA%26pid%3DApi&f=1",
+      "bitrate": 48,
+      "codec": "AAC",
+      "geo": [
+        43.651,
+        -79.347
+      ],
+      "featured": true,
+      "status": "stream-only"
+    },
+    {
+      "id": "builtin-cbc-radio-1-vancouver",
+      "name": "CBC Radio 1 Vancouver",
+      "streamUrl": "https://cbcradiolive.akamaized.net/hls/live/2041050/ES_R1PVC/master.m3u8",
+      "homepage": "https://www.cbc.ca/listen/live-radio/1-39-vancouver",
+      "country": "CA",
+      "tags": [
+        "public radio",
+        "news",
+        "talk",
+        "canada"
+      ],
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/archive/3/3b/20210720194227%21CBC_logo.svg",
+      "bitrate": 48,
+      "codec": "AAC",
+      "geo": [
+        49.282,
+        -123.121
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "builtin-cbc-radio-1-montreal",
+      "name": "CBC Radio 1 Montréal",
+      "streamUrl": "https://cbcradiolive.akamaized.net/hls/live/2041030/ES_R1EMT/master.m3u8",
+      "homepage": "https://www.cbc.ca/listen/live-radio/1-29-montreal",
+      "country": "CA",
+      "tags": [
+        "public radio",
+        "news",
+        "talk",
+        "canada"
+      ],
+      "bitrate": 48,
+      "codec": "AAC",
+      "geo": [
+        45.501,
+        -73.567
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "builtin-cbc-music",
+      "name": "CBC Music",
+      "streamUrl": "https://cbcradiolive.akamaized.net/hls/live/2041057/ES_R2ETR/master.m3u8",
+      "homepage": "https://www.cbc.ca/listen/cbc-music-live",
+      "country": "CA",
+      "tags": [
+        "public radio",
+        "music",
+        "canada"
+      ],
+      "favicon": "https://www.cbc.ca/listen/static/icons/asset-cbc-listen-icon-apple-touch-60@2x-beta.png",
+      "bitrate": 48,
+      "codec": "AAC",
+      "geo": [
+        43.651,
+        -79.347
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "builtin-ici-premiere",
+      "name": "ICI Radio-Canada Première Montréal",
+      "streamUrl": "https://rcavliveaudio.akamaized.net/hls/live/2006635/P-2QMTL0_MTL/playlist.m3u8",
+      "homepage": "https://ici.radio-canada.ca/premiere",
+      "country": "CA",
+      "tags": [
+        "public radio",
+        "news",
+        "talk",
+        "french",
+        "canada"
+      ],
+      "favicon": "https://ici.radio-canada.ca/favicon.ico",
+      "bitrate": 128,
+      "codec": "AAC",
+      "geo": [
+        45.501,
+        -73.567
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "builtin-ici-musique",
+      "name": "ICI Musique",
+      "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/CBFXFM_SRC.mp3",
+      "homepage": "https://ici.radio-canada.ca/musique",
+      "country": "CA",
+      "tags": [
+        "public radio",
+        "music",
+        "french",
+        "canada"
+      ],
+      "favicon": "https://ici.radio-canada.ca/favicon.ico",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        45.501,
+        -73.567
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "ca-cfrb-1010",
+      "name": "NewsTalk 1010 (CFRB)",
+      "streamUrl": "https://22113.live.streamtheworld.com/CFRBAMAAC_SC",
+      "homepage": "https://www.iheartradio.ca/newstalk-1010",
+      "country": "CA",
+      "tags": [
+        "news",
+        "talk",
+        "canada"
+      ],
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Newstalk_1010.png/200px-Newstalk_1010.png",
+      "bitrate": 40,
+      "codec": "AAC+",
+      "geo": [
+        43.651,
+        -79.347
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "ca-680-news",
+      "name": "680 NewsRadio Toronto",
+      "streamUrl": "https://rogers-hls.leanstream.co/rogers/tor680.stream/playlist.m3u8",
+      "homepage": "https://www.680news.com/",
+      "country": "CA",
+      "tags": [
+        "news",
+        "canada"
+      ],
+      "favicon": "https://www.680news.com/favicon.ico",
+      "bitrate": 48,
+      "codec": "AAC+",
+      "geo": [
+        43.651,
+        -79.347
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "ca-ctv-news",
+      "name": "CTV News Channel",
+      "streamUrl": "https://18183.live.streamtheworld.com/TV_CTV_NEWSAAC_SC",
+      "homepage": "https://www.ctvnews.ca/",
+      "country": "CA",
+      "tags": [
+        "news",
+        "tv simulcast",
+        "canada"
+      ],
+      "favicon": "http://www.ctvnews.ca/pf/resources/images/ctvnews/favicon.ico?d=111",
+      "bitrate": 40,
+      "codec": "AAC+",
+      "geo": [
+        43.651,
+        -79.347
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "ca-q107",
+      "name": "Q107 Toronto",
+      "streamUrl": "https://live.leanstream.co/CILQFM",
+      "homepage": "https://www.q107.com/",
+      "country": "CA",
+      "tags": [
+        "classic rock",
+        "canada"
+      ],
+      "favicon": "https://q107.com/wp-content/uploads/sites/12/2017/12/cropped-favicon_q107_square_transparent.png?w=180",
+      "bitrate": 57,
+      "codec": "AAC+",
+      "geo": [
+        43.651,
+        -79.347
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "ca-boom-973",
+      "name": "Boom 97.3 Toronto",
+      "streamUrl": "https://newcap.leanstream.co/CHBMFM",
+      "homepage": "https://www.boom973.com/",
+      "country": "CA",
+      "tags": [
+        "classic hits",
+        "oldies",
+        "canada"
+      ],
+      "bitrate": 128,
+      "codec": "AAC",
+      "geo": [
+        43.651,
+        -79.347
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "ca-chfi",
+      "name": "CHFI 98.1 Toronto",
+      "streamUrl": "https://rogers-hls.leanstream.co/rogers/tor981.stream/playlist.m3u8",
+      "homepage": "https://www.chfi.com/",
+      "country": "CA",
+      "tags": [
+        "adult contemporary",
+        "pop",
+        "canada"
+      ],
+      "favicon": "https://www.chfi.com/wp-content/uploads/sites/2/2023/03/cropped-static-logo-chfi-180x180.png",
+      "bitrate": 47,
+      "codec": "AAC+",
+      "geo": [
+        43.651,
+        -79.347
+      ],
+      "status": "stream-only"
     }
   ]
 }

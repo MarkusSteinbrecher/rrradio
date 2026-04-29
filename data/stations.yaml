@@ -3514,3 +3514,196 @@
   homepage: https://www.klassikradio.de/
   country: DE
   status: stream-only
+
+# ─── CA — CBC / Radio-Canada public broadcaster (2026-04-29) ───
+# CBC live streams are regional rather than national: every URL is
+# cbcradiolive.akamaized.net/hls/live/<liveId>/<channelCode>/master.m3u8
+# (English) or rcavliveaudio.akamaized.net/... (French). All HLS,
+# end-to-end TLS already. Toronto's ES_R1ETR is the most-popular
+# English Radio 1 feed; we add Vancouver + Montréal English regional
+# variants too. CBC Music = the artist-formerly-known-as Radio 2.
+# ICI Musique (French) lives on streamtheworld.com — RB stored
+# http://, https:// works on the same path.
+
+- id: builtin-cbc-radio-1-toronto
+  stationuuid: 147a830e-fbc3-4260-9504-6dcc62530923
+  changeuuid: 9f246858-737e-44f6-8966-cd3d26519ec6
+  reviewedAt: 2026-04-29
+  geo: [43.651, -79.347]
+  broadcaster: cbc
+  name: CBC Radio 1 Toronto
+  streamUrl: https://cbcradiolive.akamaized.net/hls/live/2041036/ES_R1ETR/master.m3u8
+  bitrate: 48
+  codec: AAC
+  tags: [public radio, news, talk, canada]
+  homepage: https://www.cbc.ca/listen/live-radio/1-19-toronto
+  country: CA
+  status: stream-only
+  featured: true
+
+- id: builtin-cbc-radio-1-vancouver
+  stationuuid: dff9392e-26ba-4874-af56-5e4ddbefc270
+  changeuuid: 42518aea-8cb3-4113-b57e-beca392af494
+  reviewedAt: 2026-04-29
+  geo: [49.282, -123.121]
+  broadcaster: cbc
+  name: CBC Radio 1 Vancouver
+  streamUrl: https://cbcradiolive.akamaized.net/hls/live/2041050/ES_R1PVC/master.m3u8
+  bitrate: 48
+  codec: AAC
+  tags: [public radio, news, talk, canada]
+  homepage: https://www.cbc.ca/listen/live-radio/1-39-vancouver
+  country: CA
+  status: stream-only
+
+- id: builtin-cbc-radio-1-montreal
+  stationuuid: 95c2beb2-7c97-435c-b2e8-0cafcbae1d37
+  changeuuid: 24748aa3-2782-4f3c-9e06-83324d7fb1a8
+  reviewedAt: 2026-04-29
+  geo: [45.501, -73.567]
+  broadcaster: cbc
+  name: CBC Radio 1 Montréal
+  streamUrl: https://cbcradiolive.akamaized.net/hls/live/2041030/ES_R1EMT/master.m3u8
+  bitrate: 48
+  codec: AAC
+  tags: [public radio, news, talk, canada]
+  homepage: https://www.cbc.ca/listen/live-radio/1-29-montreal
+  country: CA
+  status: stream-only
+
+- id: builtin-cbc-music
+  stationuuid: b4bbf2be-d132-43d8-a094-d6fabf82a966
+  changeuuid: fd3f55ae-6aaf-4f44-a3c3-d7d041082a6a
+  reviewedAt: 2026-04-29
+  geo: [43.651, -79.347]
+  broadcaster: cbc
+  name: CBC Music
+  streamUrl: https://cbcradiolive.akamaized.net/hls/live/2041057/ES_R2ETR/master.m3u8
+  bitrate: 48
+  codec: AAC
+  tags: [public radio, music, canada]
+  homepage: https://www.cbc.ca/listen/cbc-music-live
+  country: CA
+  status: stream-only
+
+- id: builtin-ici-premiere
+  stationuuid: cc527ea6-060f-4fe8-b31a-cad732ff7d3e
+  changeuuid: 918b269d-de1e-4634-ad93-a67cfeb521c1
+  reviewedAt: 2026-04-29
+  geo: [45.501, -73.567]
+  broadcaster: cbc
+  name: ICI Radio-Canada Première Montréal
+  streamUrl: https://rcavliveaudio.akamaized.net/hls/live/2006635/P-2QMTL0_MTL/playlist.m3u8
+  bitrate: 128
+  codec: AAC
+  tags: [public radio, news, talk, french, canada]
+  homepage: https://ici.radio-canada.ca/premiere
+  country: CA
+  status: stream-only
+
+- id: builtin-ici-musique
+  stationuuid: b6aa8287-0e8c-4780-b882-d7a7e4b1226d
+  changeuuid: e921370a-1ba7-4dc4-95fc-dd5645ba1628
+  reviewedAt: 2026-04-29
+  geo: [45.501, -73.567]
+  broadcaster: cbc
+  name: ICI Musique
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/CBFXFM_SRC.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [public radio, music, french, canada]
+  homepage: https://ici.radio-canada.ca/musique
+  country: CA
+  status: stream-only
+
+# ─── CA — Toronto commercial top tier (2026-04-29) ───
+# Toronto carries roughly 70% of english-Canada radio by audience
+# share, so the cluster reads as "national" even though they're
+# city-specific feeds. CFRB 1010 + 680 News (Rogers HLS) cover
+# the news/talk lane; Q107 + Boom 97.3 + CHFI cover the music
+# formats Canadians most search for online.
+
+- id: ca-cfrb-1010
+  stationuuid: 9620b36f-0601-11e8-ae97-52543be04c81
+  changeuuid: 0b14ea75-db15-476c-99c0-206f25bf1342
+  reviewedAt: 2026-04-29
+  geo: [43.651, -79.347]
+  broadcaster: independent
+  name: NewsTalk 1010 (CFRB)
+  streamUrl: https://22113.live.streamtheworld.com/CFRBAMAAC_SC
+  codec: AAC+
+  tags: [news, talk, canada]
+  homepage: https://www.iheartradio.ca/newstalk-1010
+  country: CA
+  status: stream-only
+
+- id: ca-680-news
+  stationuuid: 44db1e25-6942-11ea-b1cf-52543be04c81
+  changeuuid: 2570f02f-ed26-4a02-b955-2929fd20c2a3
+  reviewedAt: 2026-04-29
+  geo: [43.651, -79.347]
+  broadcaster: independent
+  name: 680 NewsRadio Toronto
+  streamUrl: https://rogers-hls.leanstream.co/rogers/tor680.stream/playlist.m3u8
+  codec: AAC+
+  tags: [news, canada]
+  homepage: https://www.680news.com/
+  country: CA
+  status: stream-only
+
+- id: ca-ctv-news
+  stationuuid: 9644c8f4-0601-11e8-ae97-52543be04c81
+  changeuuid: b6d81263-47cb-4749-9036-7984b54d78f9
+  reviewedAt: 2026-04-29
+  geo: [43.651, -79.347]
+  broadcaster: independent
+  name: CTV News Channel
+  streamUrl: https://18183.live.streamtheworld.com/TV_CTV_NEWSAAC_SC
+  codec: AAC+
+  tags: [news, tv simulcast, canada]
+  homepage: https://www.ctvnews.ca/
+  country: CA
+  status: stream-only
+
+- id: ca-q107
+  stationuuid: 9613ed33-0601-11e8-ae97-52543be04c81
+  changeuuid: 10312371-e2bd-419d-9aa0-3add11b1bd74
+  reviewedAt: 2026-04-29
+  geo: [43.651, -79.347]
+  broadcaster: independent
+  name: Q107 Toronto
+  streamUrl: https://live.leanstream.co/CILQFM
+  codec: AAC+
+  tags: [classic rock, canada]
+  homepage: https://www.q107.com/
+  country: CA
+  status: stream-only
+
+- id: ca-boom-973
+  stationuuid: 960dd1cb-0601-11e8-ae97-52543be04c81
+  changeuuid: cc37977c-bf2a-49db-8027-60b01c53b162
+  reviewedAt: 2026-04-29
+  geo: [43.651, -79.347]
+  broadcaster: independent
+  name: Boom 97.3 Toronto
+  streamUrl: https://newcap.leanstream.co/CHBMFM
+  bitrate: 128
+  codec: AAC
+  tags: [classic hits, oldies, canada]
+  homepage: https://www.boom973.com/
+  country: CA
+  status: stream-only
+
+- id: ca-chfi
+  stationuuid: 98bb1771-7f29-46ab-a0b9-54a664b10ae0
+  changeuuid: fe0cbe6d-79fc-4815-a134-06d5ddc3a582
+  reviewedAt: 2026-04-29
+  geo: [43.651, -79.347]
+  broadcaster: independent
+  name: CHFI 98.1 Toronto
+  streamUrl: https://rogers-hls.leanstream.co/rogers/tor981.stream/playlist.m3u8
+  codec: AAC+
+  tags: [adult contemporary, pop, canada]
+  homepage: https://www.chfi.com/
+  country: CA
+  status: stream-only
