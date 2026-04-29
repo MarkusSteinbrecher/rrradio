@@ -1325,6 +1325,633 @@
       ]
     },
     {
+      "id": "builtin-bbc-radio-1",
+      "name": "BBC Radio 1",
+      "streamUrl": "https://as-hls-ww-live.akamaized.net/pool_01505109/live/ww/bbc_radio_one/bbc_radio_one.isml/bbc_radio_one-audio%3d96000.norewind.m3u8",
+      "homepage": "https://www.bbc.co.uk/sounds/play/live:bbc_radio_one",
+      "country": "GB",
+      "tags": [
+        "pop",
+        "public radio",
+        "uk"
+      ],
+      "favicon": "https://cdn-radiotime-logos.tunein.com/s24939q.png",
+      "bitrate": 96,
+      "codec": "AAC",
+      "metadata": "bbc",
+      "metadataUrl": "bbc_radio_one",
+      "geo": [
+        51.519,
+        -0.144
+      ],
+      "featured": true
+    },
+    {
+      "id": "builtin-bbc-radio-2",
+      "name": "BBC Radio 2",
+      "streamUrl": "https://as-hls-ww-live.akamaized.net/pool_74208725/live/ww/bbc_radio_two/bbc_radio_two.isml/bbc_radio_two-audio%3d96000.norewind.m3u8",
+      "homepage": "https://www.bbc.co.uk/sounds/play/live:bbc_radio_two",
+      "country": "GB",
+      "tags": [
+        "pop",
+        "easy listening",
+        "public radio",
+        "uk"
+      ],
+      "favicon": "https://cdn-radiotime-logos.tunein.com/s24940q.png",
+      "bitrate": 96,
+      "codec": "AAC",
+      "metadata": "bbc",
+      "metadataUrl": "bbc_radio_two",
+      "geo": [
+        51.519,
+        -0.144
+      ]
+    },
+    {
+      "id": "builtin-bbc-radio-3",
+      "name": "BBC Radio 3",
+      "streamUrl": "https://as-hls-ww-live.akamaized.net/pool_23461179/live/ww/bbc_radio_three/bbc_radio_three.isml/bbc_radio_three-audio%3d96000.norewind.m3u8",
+      "homepage": "https://www.bbc.co.uk/sounds/play/live:bbc_radio_three",
+      "country": "GB",
+      "tags": [
+        "classical",
+        "jazz",
+        "public radio",
+        "uk"
+      ],
+      "favicon": "https://cdn-radiotime-logos.tunein.com/s24941q.png",
+      "bitrate": 96,
+      "codec": "AAC",
+      "metadata": "bbc",
+      "metadataUrl": "bbc_radio_three",
+      "geo": [
+        51.519,
+        -0.144
+      ]
+    },
+    {
+      "id": "builtin-bbc-radio-4",
+      "name": "BBC Radio 4",
+      "streamUrl": "https://as-hls-ww-live.akamaized.net/pool_55057080/live/ww/bbc_radio_fourfm/bbc_radio_fourfm.isml/bbc_radio_fourfm-audio%3d96000.norewind.m3u8",
+      "homepage": "https://www.bbc.co.uk/sounds/play/live:bbc_radio_fourfm",
+      "country": "GB",
+      "tags": [
+        "news",
+        "talk",
+        "public radio",
+        "uk"
+      ],
+      "favicon": "https://cdn-radiotime-logos.tunein.com/s25419q.png",
+      "bitrate": 96,
+      "codec": "AAC",
+      "metadata": "bbc",
+      "metadataUrl": "bbc_radio_fourfm",
+      "geo": [
+        51.519,
+        -0.144
+      ]
+    },
+    {
+      "id": "builtin-bbc-radio-4-extra",
+      "name": "BBC Radio 4 Extra",
+      "streamUrl": "https://as-hls-ww-live.akamaized.net/pool_26173715/live/ww/bbc_radio_four_extra/bbc_radio_four_extra.isml/bbc_radio_four_extra-audio%3d96000.norewind.m3u8",
+      "homepage": "https://www.bbc.co.uk/sounds/play/live:bbc_radio_four_extra",
+      "country": "GB",
+      "tags": [
+        "comedy",
+        "drama",
+        "public radio",
+        "uk"
+      ],
+      "favicon": "https://cdn-radiotime-logos.tunein.com/s6839q.png",
+      "bitrate": 96,
+      "codec": "AAC",
+      "metadata": "bbc",
+      "metadataUrl": "bbc_radio_four_extra",
+      "geo": [
+        51.519,
+        -0.144
+      ]
+    },
+    {
+      "id": "builtin-bbc-radio-5-live",
+      "name": "BBC Radio 5 Live",
+      "streamUrl": "https://as-hls-ww-live.akamaized.net/pool_89021708/live/ww/bbc_radio_five_live/bbc_radio_five_live.isml/bbc_radio_five_live-audio%3d96000.norewind.m3u8",
+      "homepage": "https://www.bbc.co.uk/sounds/play/live:bbc_radio_five_live",
+      "country": "GB",
+      "tags": [
+        "news",
+        "sport",
+        "talk",
+        "public radio",
+        "uk"
+      ],
+      "favicon": "https://cdn-radiotime-logos.tunein.com/s24943q.png",
+      "bitrate": 96,
+      "codec": "AAC",
+      "metadata": "bbc",
+      "metadataUrl": "bbc_radio_five_live",
+      "geo": [
+        51.519,
+        -0.144
+      ]
+    },
+    {
+      "id": "builtin-bbc-radio-6-music",
+      "name": "BBC Radio 6 Music",
+      "streamUrl": "https://as-hls-ww-live.akamaized.net/pool_81827798/live/ww/bbc_6music/bbc_6music.isml/bbc_6music-audio%3d96000.norewind.m3u8",
+      "homepage": "https://www.bbc.co.uk/sounds/play/live:bbc_6music",
+      "country": "GB",
+      "tags": [
+        "alternative",
+        "indie",
+        "eclectic",
+        "public radio",
+        "uk"
+      ],
+      "favicon": "https://de8as167a043l.cloudfront.net/styles/images/logosplus/120x120xBBCR6.png",
+      "bitrate": 96,
+      "codec": "AAC",
+      "metadata": "bbc",
+      "metadataUrl": "bbc_6music",
+      "geo": [
+        51.519,
+        -0.144
+      ],
+      "featured": true
+    },
+    {
+      "id": "builtin-bbc-radio-1-dance",
+      "name": "BBC Radio 1 Dance",
+      "streamUrl": "https://as-hls-ww-live.akamaized.net/pool_62063831/live/ww/bbc_radio_one_dance/bbc_radio_one_dance.isml/bbc_radio_one_dance-audio%3d96000.norewind.m3u8",
+      "homepage": "https://www.bbc.co.uk/sounds/play/live:bbc_radio_one_dance",
+      "country": "GB",
+      "tags": [
+        "dance",
+        "electronic",
+        "public radio",
+        "uk"
+      ],
+      "favicon": "https://cdn-radiotime-logos.tunein.com/s24939q.png",
+      "bitrate": 96,
+      "codec": "AAC",
+      "metadata": "bbc",
+      "metadataUrl": "bbc_radio_one_dance",
+      "geo": [
+        51.519,
+        -0.144
+      ]
+    },
+    {
+      "id": "builtin-bbc-radio-1xtra",
+      "name": "BBC Radio 1Xtra",
+      "streamUrl": "https://as-hls-ww-live.akamaized.net/pool_92079267/live/ww/bbc_1xtra/bbc_1xtra.isml/bbc_1xtra-audio%3d96000.norewind.m3u8",
+      "homepage": "https://www.bbc.co.uk/sounds/play/live:bbc_1xtra",
+      "country": "GB",
+      "tags": [
+        "hip hop",
+        "rnb",
+        "urban",
+        "public radio",
+        "uk"
+      ],
+      "favicon": "https://cdn-radiotime-logos.tunein.com/s20277q.png",
+      "bitrate": 96,
+      "codec": "AAC",
+      "metadata": "bbc",
+      "metadataUrl": "bbc_1xtra",
+      "geo": [
+        51.519,
+        -0.144
+      ]
+    },
+    {
+      "id": "builtin-bbc-asian-network",
+      "name": "BBC Asian Network",
+      "streamUrl": "https://as-hls-ww-live.akamaized.net/pool_22108647/live/ww/bbc_asian_network/bbc_asian_network.isml/bbc_asian_network-audio%3d96000.norewind.m3u8",
+      "homepage": "https://www.bbc.co.uk/sounds/play/live:bbc_asian_network",
+      "country": "GB",
+      "tags": [
+        "bhangra",
+        "asian",
+        "public radio",
+        "uk"
+      ],
+      "favicon": "https://cdn-radiotime-logos.tunein.com/s44490q.png",
+      "bitrate": 96,
+      "codec": "AAC",
+      "metadata": "bbc",
+      "metadataUrl": "bbc_asian_network",
+      "geo": [
+        51.519,
+        -0.144
+      ]
+    },
+    {
+      "id": "builtin-bbc-radio-london",
+      "name": "BBC Radio London",
+      "streamUrl": "https://as-hls-ww-live.akamaized.net/pool_98137350/live/ww/bbc_london/bbc_london.isml/bbc_london-audio%3d96000.norewind.m3u8",
+      "homepage": "https://www.bbc.co.uk/sounds/play/live:bbc_london",
+      "country": "GB",
+      "tags": [
+        "regional",
+        "public radio",
+        "uk",
+        "london"
+      ],
+      "favicon": "https://static.files.bbci.co.uk/sounds/web/sounds-web/img/sounds-apple-touch-icon.ead169771d.png",
+      "bitrate": 96,
+      "codec": "AAC",
+      "metadata": "bbc",
+      "metadataUrl": "bbc_london",
+      "geo": [
+        51.519,
+        -0.144
+      ]
+    },
+    {
+      "id": "builtin-bbc-radio-scotland",
+      "name": "BBC Radio Scotland",
+      "streamUrl": "https://as-hls-ww-live.akamaized.net/pool_43322914/live/ww/bbc_radio_scotland_fm/bbc_radio_scotland_fm.isml/bbc_radio_scotland_fm-audio%3d96000.norewind.m3u8",
+      "homepage": "https://www.bbc.co.uk/sounds/play/live:bbc_radio_scotland_fm",
+      "country": "GB",
+      "tags": [
+        "regional",
+        "public radio",
+        "uk",
+        "scotland"
+      ],
+      "favicon": "https://static.files.bbci.co.uk/sounds/web/sounds-web/img/sounds-apple-touch-icon.ead169771d.png",
+      "bitrate": 96,
+      "codec": "AAC",
+      "metadata": "bbc",
+      "metadataUrl": "bbc_radio_scotland_fm",
+      "geo": [
+        55.864,
+        -4.252
+      ]
+    },
+    {
+      "id": "builtin-bbc-radio-ulster",
+      "name": "BBC Radio Ulster",
+      "streamUrl": "https://as-hls-ww-live.akamaized.net/pool_31244774/live/ww/bbc_radio_ulster/bbc_radio_ulster.isml/bbc_radio_ulster-audio%3d96000.norewind.m3u8",
+      "homepage": "https://www.bbc.co.uk/sounds/play/live:bbc_radio_ulster",
+      "country": "GB",
+      "tags": [
+        "regional",
+        "public radio",
+        "uk",
+        "northern ireland"
+      ],
+      "favicon": "https://sounds.files.bbci.co.uk/3.5.0/networks/bbc_radio_ulster/colour_default.svg",
+      "bitrate": 96,
+      "codec": "AAC",
+      "metadata": "bbc",
+      "metadataUrl": "bbc_radio_ulster",
+      "geo": [
+        54.598,
+        -5.93
+      ]
+    },
+    {
+      "id": "builtin-bbc-radio-wales",
+      "name": "BBC Radio Wales",
+      "streamUrl": "https://as-hls-ww-live.akamaized.net/pool_97517794/live/ww/bbc_radio_wales_fm/bbc_radio_wales_fm.isml/bbc_radio_wales_fm-audio%3d96000.norewind.m3u8",
+      "homepage": "https://www.bbc.co.uk/sounds/play/live:bbc_radio_wales_fm",
+      "country": "GB",
+      "tags": [
+        "regional",
+        "public radio",
+        "uk",
+        "wales"
+      ],
+      "favicon": "https://static.files.bbci.co.uk/sounds/web/sounds-web/img/sounds-apple-touch-icon.ead169771d.png",
+      "bitrate": 96,
+      "codec": "AAC",
+      "metadata": "bbc",
+      "metadataUrl": "bbc_radio_wales_fm",
+      "geo": [
+        51.482,
+        -3.179
+      ]
+    },
+    {
+      "id": "gb-classic-fm",
+      "name": "Classic FM",
+      "streamUrl": "https://media-ssl.musicradio.com/ClassicFMMP3",
+      "homepage": "https://www.classicfm.com/",
+      "country": "GB",
+      "tags": [
+        "classical",
+        "uk"
+      ],
+      "favicon": "http://www.classicfm.com/assets_v4r/classic/img/favicon-196x196.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        51.51,
+        -0.131
+      ],
+      "featured": true
+    },
+    {
+      "id": "gb-lbc",
+      "name": "LBC",
+      "streamUrl": "https://media-ssl.musicradio.com/LBC973MP3Low",
+      "homepage": "https://www.lbc.co.uk/",
+      "country": "GB",
+      "tags": [
+        "news",
+        "talk",
+        "uk"
+      ],
+      "favicon": "http://www.lbc.co.uk/assets_v4r/lbc/img/favicon-196x196.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        51.51,
+        -0.131
+      ]
+    },
+    {
+      "id": "gb-lbc-news",
+      "name": "LBC News",
+      "streamUrl": "https://media-ssl.musicradio.com/LBCNewsUK",
+      "homepage": "https://www.lbc.co.uk/radio/stations/lbc-news/",
+      "country": "GB",
+      "tags": [
+        "news",
+        "uk"
+      ],
+      "favicon": "https://herald.musicradio.com/media/02a3caa1-dacf-47b1-ad54-c10728b66cd9.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        51.51,
+        -0.131
+      ]
+    },
+    {
+      "id": "gb-heart-uk",
+      "name": "Heart UK",
+      "streamUrl": "https://media-ssl.musicradio.com/HeartUKMP3",
+      "homepage": "https://www.heart.co.uk/",
+      "country": "GB",
+      "tags": [
+        "pop",
+        "uk"
+      ],
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        51.51,
+        -0.131
+      ]
+    },
+    {
+      "id": "gb-heart-80s",
+      "name": "Heart 80s",
+      "streamUrl": "https://media-ssl.musicradio.com/Heart80sMP3",
+      "homepage": "https://www.heart.co.uk/80s/",
+      "country": "GB",
+      "tags": [
+        "80s",
+        "pop",
+        "uk"
+      ],
+      "favicon": "https://www.heart.co.uk/assets_v4r/heart/img/favicon-196x196.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        51.51,
+        -0.131
+      ]
+    },
+    {
+      "id": "gb-heart-90s",
+      "name": "Heart 90s",
+      "streamUrl": "https://media-ssl.musicradio.com/Heart90sMP3",
+      "homepage": "https://www.heart.co.uk/90s/",
+      "country": "GB",
+      "tags": [
+        "90s",
+        "pop",
+        "uk"
+      ],
+      "favicon": "https://www.heart.co.uk/assets_v4r/heart/img/favicon-196x196.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        51.51,
+        -0.131
+      ]
+    },
+    {
+      "id": "gb-capital-uk",
+      "name": "Capital UK",
+      "streamUrl": "https://media-ssl.musicradio.com/CapitalUKMP3",
+      "homepage": "https://www.capitalfm.com/",
+      "country": "GB",
+      "tags": [
+        "pop",
+        "hits",
+        "uk"
+      ],
+      "favicon": "https://cdn-profiles.tunein.com/s241396/images/logoq.jpg",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        51.51,
+        -0.131
+      ]
+    },
+    {
+      "id": "gb-capital-dance",
+      "name": "Capital Dance",
+      "streamUrl": "https://icecast.thisisdax.com/CapitalDanceMP3",
+      "homepage": "https://www.capitalfm.com/dance/",
+      "country": "GB",
+      "tags": [
+        "dance",
+        "electronic",
+        "uk"
+      ],
+      "favicon": "https://www.capitaldance.com/assets_v4r/capitaldance/img/favicon-196x196.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        51.51,
+        -0.131
+      ]
+    },
+    {
+      "id": "gb-smooth-uk",
+      "name": "Smooth Radio",
+      "streamUrl": "https://media-ssl.musicradio.com/SmoothUK",
+      "homepage": "https://www.smoothradio.com/",
+      "country": "GB",
+      "tags": [
+        "easy listening",
+        "uk"
+      ],
+      "favicon": "http://www.smoothradio.com/assets_v4r/smooth/img/favicon-196x196.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        51.51,
+        -0.131
+      ]
+    },
+    {
+      "id": "gb-smooth-chill",
+      "name": "Smooth Chill",
+      "streamUrl": "https://media-ssl.musicradio.com/ChillMP3",
+      "homepage": "https://www.smoothradio.com/chill/",
+      "country": "GB",
+      "tags": [
+        "chill",
+        "ambient",
+        "uk"
+      ],
+      "favicon": "https://www.smoothradio.com/assets_v4r/smooth/img/favicon-196x196.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        51.51,
+        -0.131
+      ]
+    },
+    {
+      "id": "gb-gold",
+      "name": "Gold",
+      "streamUrl": "https://media-ssl.musicradio.com/GoldMP3",
+      "homepage": "https://www.goldradiouk.com/",
+      "country": "GB",
+      "tags": [
+        "oldies",
+        "classic hits",
+        "uk"
+      ],
+      "favicon": "https://www.mygoldmusic.co.uk/assets_v4r/gold/img/favicon-196x196.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        51.51,
+        -0.131
+      ]
+    },
+    {
+      "id": "gb-talksport",
+      "name": "TalkSPORT",
+      "streamUrl": "https://radio.talksport.com/stream",
+      "homepage": "https://talksport.com/",
+      "country": "GB",
+      "tags": [
+        "sport",
+        "talk",
+        "uk"
+      ],
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        51.51,
+        -0.131
+      ]
+    },
+    {
+      "id": "gb-talkradio",
+      "name": "TalkRADIO",
+      "streamUrl": "https://radio.talkradio.co.uk/stream",
+      "homepage": "https://www.talktv.co.uk/",
+      "country": "GB",
+      "tags": [
+        "news",
+        "talk",
+        "uk"
+      ],
+      "favicon": "https://cdn-radiotime-logos.tunein.com/s265666q.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        51.51,
+        -0.131
+      ]
+    },
+    {
+      "id": "gb-times-radio",
+      "name": "Times Radio",
+      "streamUrl": "https://timesradio.wireless.radio/stream",
+      "homepage": "https://www.thetimes.co.uk/radio",
+      "country": "GB",
+      "tags": [
+        "news",
+        "talk",
+        "uk"
+      ],
+      "favicon": "https://static.mytuner.mobi/media/tvos_radios/jehvybnq4jgc.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        51.51,
+        -0.131
+      ]
+    },
+    {
+      "id": "gb-virgin-radio",
+      "name": "Virgin Radio UK",
+      "streamUrl": "https://radio.virginradio.co.uk/stream",
+      "homepage": "https://virginradio.co.uk/",
+      "country": "GB",
+      "tags": [
+        "pop",
+        "rock",
+        "uk"
+      ],
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        51.51,
+        -0.131
+      ]
+    },
+    {
+      "id": "gb-boom-radio",
+      "name": "Boom Radio",
+      "streamUrl": "https://listen-boomradio.sharp-stream.com/65_boom_radio_live_128",
+      "homepage": "https://www.boomradiouk.com/",
+      "country": "GB",
+      "tags": [
+        "oldies",
+        "classic hits",
+        "uk"
+      ],
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        51.51,
+        -0.131
+      ]
+    },
+    {
+      "id": "gb-magic-radio",
+      "name": "Magic Radio",
+      "streamUrl": "https://stream-mz.hellorayo.co.uk/magicnational.mp3?direct=true&aw_0_1st.skey=1602676850",
+      "homepage": "https://www.magic.co.uk/",
+      "country": "GB",
+      "tags": [
+        "easy listening",
+        "uk"
+      ],
+      "favicon": "https://www.celsoazevedo.com/files/2025/magic.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        51.51,
+        -0.131
+      ]
+    },
+    {
       "id": "rb-bbc-world-service",
       "name": "BBC World Service",
       "streamUrl": "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_east_asia",

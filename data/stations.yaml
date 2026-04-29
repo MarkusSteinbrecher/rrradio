@@ -1114,6 +1114,506 @@
   country: FR
   status: stream-only
 
+# ─── GB — BBC domestic + nations (2026-04-29) ───
+# UK domestic BBC streams are HLS via Akamai pools. Pool IDs are stable
+# but rotate occasionally — refresh from rb-analysis if any 404s appear.
+# All pass through the bbc fetcher (worker-proxied schedule API).
+
+- id: builtin-bbc-radio-1
+  stationuuid: fdbdc2b0-c184-437b-8643-9a5bfa45c253
+  changeuuid: 18dc69fb-1eae-413c-a3a9-edc8c0c95839
+  reviewedAt: 2026-04-29
+  geo: [51.519, -0.144]
+  broadcaster: bbc
+  name: BBC Radio 1
+  streamUrl: https://as-hls-ww-live.akamaized.net/pool_01505109/live/ww/bbc_radio_one/bbc_radio_one.isml/bbc_radio_one-audio%3d96000.norewind.m3u8
+  metadataUrl: bbc_radio_one
+  bitrate: 96
+  codec: AAC
+  tags: [pop, public radio, uk]
+  favicon: https://cdn-radiotime-logos.tunein.com/s24939q.png
+  homepage: https://www.bbc.co.uk/sounds/play/live:bbc_radio_one
+  country: GB
+  status: stream-only
+  featured: true
+
+- id: builtin-bbc-radio-2
+  stationuuid: 3606ef8c-cd58-4440-8c47-dbf1e0cacdac
+  changeuuid: c50b498d-16b3-46ca-89d2-b5011519550a
+  reviewedAt: 2026-04-29
+  geo: [51.519, -0.144]
+  broadcaster: bbc
+  name: BBC Radio 2
+  streamUrl: https://as-hls-ww-live.akamaized.net/pool_74208725/live/ww/bbc_radio_two/bbc_radio_two.isml/bbc_radio_two-audio%3d96000.norewind.m3u8
+  metadataUrl: bbc_radio_two
+  bitrate: 96
+  codec: AAC
+  tags: [pop, easy listening, public radio, uk]
+  favicon: https://cdn-radiotime-logos.tunein.com/s24940q.png
+  homepage: https://www.bbc.co.uk/sounds/play/live:bbc_radio_two
+  country: GB
+  status: stream-only
+
+- id: builtin-bbc-radio-3
+  stationuuid: 03e68f6d-1ca3-459f-891a-c55d84711646
+  changeuuid: a89e1f4c-908b-4ad5-b2b6-326848e56f03
+  reviewedAt: 2026-04-29
+  geo: [51.519, -0.144]
+  broadcaster: bbc
+  name: BBC Radio 3
+  streamUrl: https://as-hls-ww-live.akamaized.net/pool_23461179/live/ww/bbc_radio_three/bbc_radio_three.isml/bbc_radio_three-audio%3d96000.norewind.m3u8
+  metadataUrl: bbc_radio_three
+  bitrate: 96
+  codec: AAC
+  tags: [classical, jazz, public radio, uk]
+  favicon: https://cdn-radiotime-logos.tunein.com/s24941q.png
+  homepage: https://www.bbc.co.uk/sounds/play/live:bbc_radio_three
+  country: GB
+  status: stream-only
+
+- id: builtin-bbc-radio-4
+  stationuuid: 98137c2d-ce68-4e33-8cb7-ddf3692ecc9d
+  changeuuid: 62723d83-395c-4872-8a9a-3ed6fc9807ae
+  reviewedAt: 2026-04-29
+  geo: [51.519, -0.144]
+  broadcaster: bbc
+  name: BBC Radio 4
+  streamUrl: https://as-hls-ww-live.akamaized.net/pool_55057080/live/ww/bbc_radio_fourfm/bbc_radio_fourfm.isml/bbc_radio_fourfm-audio%3d96000.norewind.m3u8
+  metadataUrl: bbc_radio_fourfm
+  bitrate: 96
+  codec: AAC
+  tags: [news, talk, public radio, uk]
+  favicon: https://cdn-radiotime-logos.tunein.com/s25419q.png
+  homepage: https://www.bbc.co.uk/sounds/play/live:bbc_radio_fourfm
+  country: GB
+  status: stream-only
+
+- id: builtin-bbc-radio-4-extra
+  stationuuid: ccd9d009-b369-4451-9ebb-a2138bed734f
+  changeuuid: b8d342d9-038d-4042-a0ba-6341ca76c2cc
+  reviewedAt: 2026-04-29
+  geo: [51.519, -0.144]
+  broadcaster: bbc
+  name: BBC Radio 4 Extra
+  streamUrl: https://as-hls-ww-live.akamaized.net/pool_26173715/live/ww/bbc_radio_four_extra/bbc_radio_four_extra.isml/bbc_radio_four_extra-audio%3d96000.norewind.m3u8
+  metadataUrl: bbc_radio_four_extra
+  bitrate: 96
+  codec: AAC
+  tags: [comedy, drama, public radio, uk]
+  favicon: https://cdn-radiotime-logos.tunein.com/s6839q.png
+  homepage: https://www.bbc.co.uk/sounds/play/live:bbc_radio_four_extra
+  country: GB
+  status: stream-only
+
+- id: builtin-bbc-radio-5-live
+  stationuuid: cae35448-1285-4f12-b3e0-2f4fdde00002
+  changeuuid: b421d2a2-363b-4812-8c0a-76b11c1a5f7d
+  reviewedAt: 2026-04-29
+  geo: [51.519, -0.144]
+  broadcaster: bbc
+  name: BBC Radio 5 Live
+  streamUrl: https://as-hls-ww-live.akamaized.net/pool_89021708/live/ww/bbc_radio_five_live/bbc_radio_five_live.isml/bbc_radio_five_live-audio%3d96000.norewind.m3u8
+  metadataUrl: bbc_radio_five_live
+  bitrate: 96
+  codec: AAC
+  tags: [news, sport, talk, public radio, uk]
+  favicon: https://cdn-radiotime-logos.tunein.com/s24943q.png
+  homepage: https://www.bbc.co.uk/sounds/play/live:bbc_radio_five_live
+  country: GB
+  status: stream-only
+
+- id: builtin-bbc-radio-6-music
+  stationuuid: 1c6dcd6f-88c6-4fd4-8191-078435168e85
+  changeuuid: 2a3b298b-87f9-412f-ae36-dc3681182fdf
+  reviewedAt: 2026-04-29
+  geo: [51.519, -0.144]
+  broadcaster: bbc
+  name: BBC Radio 6 Music
+  streamUrl: https://as-hls-ww-live.akamaized.net/pool_81827798/live/ww/bbc_6music/bbc_6music.isml/bbc_6music-audio%3d96000.norewind.m3u8
+  metadataUrl: bbc_6music
+  bitrate: 96
+  codec: AAC
+  tags: [alternative, indie, eclectic, public radio, uk]
+  homepage: https://www.bbc.co.uk/sounds/play/live:bbc_6music
+  country: GB
+  status: stream-only
+  featured: true
+
+- id: builtin-bbc-radio-1-dance
+  stationuuid: f2547182-2dab-4ad2-b4d8-bb03533c2e9c
+  changeuuid: 503a5864-bb01-4ab4-99ba-7d20f3911bb9
+  reviewedAt: 2026-04-29
+  geo: [51.519, -0.144]
+  broadcaster: bbc
+  name: BBC Radio 1 Dance
+  streamUrl: https://as-hls-ww-live.akamaized.net/pool_62063831/live/ww/bbc_radio_one_dance/bbc_radio_one_dance.isml/bbc_radio_one_dance-audio%3d96000.norewind.m3u8
+  metadataUrl: bbc_radio_one_dance
+  bitrate: 96
+  codec: AAC
+  tags: [dance, electronic, public radio, uk]
+  homepage: https://www.bbc.co.uk/sounds/play/live:bbc_radio_one_dance
+  country: GB
+  status: stream-only
+
+- id: builtin-bbc-radio-1xtra
+  stationuuid: 308d38c6-e8a4-41e9-8ffe-9be2623826a4
+  changeuuid: 7d132800-6b7e-4c47-971b-0cb5e554b0df
+  reviewedAt: 2026-04-29
+  geo: [51.519, -0.144]
+  broadcaster: bbc
+  name: BBC Radio 1Xtra
+  streamUrl: https://as-hls-ww-live.akamaized.net/pool_92079267/live/ww/bbc_1xtra/bbc_1xtra.isml/bbc_1xtra-audio%3d96000.norewind.m3u8
+  metadataUrl: bbc_1xtra
+  bitrate: 96
+  codec: AAC
+  tags: [hip hop, rnb, urban, public radio, uk]
+  favicon: https://cdn-radiotime-logos.tunein.com/s20277q.png
+  homepage: https://www.bbc.co.uk/sounds/play/live:bbc_1xtra
+  country: GB
+  status: stream-only
+
+- id: builtin-bbc-asian-network
+  stationuuid: df59a041-0f80-466b-b257-4f551229a771
+  changeuuid: a2f8d0d3-417e-4ef5-80b2-ac73f0ab1ae7
+  reviewedAt: 2026-04-29
+  geo: [51.519, -0.144]
+  broadcaster: bbc
+  name: BBC Asian Network
+  streamUrl: https://as-hls-ww-live.akamaized.net/pool_22108647/live/ww/bbc_asian_network/bbc_asian_network.isml/bbc_asian_network-audio%3d96000.norewind.m3u8
+  metadataUrl: bbc_asian_network
+  bitrate: 96
+  codec: AAC
+  tags: [bhangra, asian, public radio, uk]
+  favicon: https://cdn-radiotime-logos.tunein.com/s44490q.png
+  homepage: https://www.bbc.co.uk/sounds/play/live:bbc_asian_network
+  country: GB
+  status: stream-only
+
+- id: builtin-bbc-radio-london
+  stationuuid: 7202a916-7f90-4e7f-8470-155a36d97681
+  changeuuid: bfd93c15-f761-406c-bb9e-e8b7d724c89c
+  reviewedAt: 2026-04-29
+  geo: [51.519, -0.144]
+  broadcaster: bbc
+  name: BBC Radio London
+  streamUrl: https://as-hls-ww-live.akamaized.net/pool_98137350/live/ww/bbc_london/bbc_london.isml/bbc_london-audio%3d96000.norewind.m3u8
+  metadataUrl: bbc_london
+  bitrate: 96
+  codec: AAC
+  tags: [regional, public radio, uk, london]
+  homepage: https://www.bbc.co.uk/sounds/play/live:bbc_london
+  country: GB
+  status: stream-only
+
+- id: builtin-bbc-radio-scotland
+  stationuuid: 854a35f1-442b-4982-a7da-febeb8e16e49
+  changeuuid: 9580acad-4c3a-4224-b3ed-b28918c22b41
+  reviewedAt: 2026-04-29
+  geo: [55.864, -4.252]
+  broadcaster: bbc
+  name: BBC Radio Scotland
+  streamUrl: https://as-hls-ww-live.akamaized.net/pool_43322914/live/ww/bbc_radio_scotland_fm/bbc_radio_scotland_fm.isml/bbc_radio_scotland_fm-audio%3d96000.norewind.m3u8
+  metadataUrl: bbc_radio_scotland_fm
+  bitrate: 96
+  codec: AAC
+  tags: [regional, public radio, uk, scotland]
+  homepage: https://www.bbc.co.uk/sounds/play/live:bbc_radio_scotland_fm
+  country: GB
+  status: stream-only
+
+- id: builtin-bbc-radio-ulster
+  stationuuid: 87bf3c96-9fac-49fa-9e24-994665ac1d8b
+  changeuuid: 78b773e7-ed32-4a0d-af35-9748315721f8
+  reviewedAt: 2026-04-29
+  geo: [54.598, -5.930]
+  broadcaster: bbc
+  name: BBC Radio Ulster
+  streamUrl: https://as-hls-ww-live.akamaized.net/pool_31244774/live/ww/bbc_radio_ulster/bbc_radio_ulster.isml/bbc_radio_ulster-audio%3d96000.norewind.m3u8
+  metadataUrl: bbc_radio_ulster
+  bitrate: 96
+  codec: AAC
+  tags: [regional, public radio, uk, northern ireland]
+  homepage: https://www.bbc.co.uk/sounds/play/live:bbc_radio_ulster
+  country: GB
+  status: stream-only
+
+- id: builtin-bbc-radio-wales
+  stationuuid: 042d7a96-f61f-4715-b740-14494dfa91ea
+  changeuuid: 797c46ad-e562-4e30-a59d-c5ffb5a2c0e6
+  reviewedAt: 2026-04-29
+  geo: [51.482, -3.179]
+  broadcaster: bbc
+  name: BBC Radio Wales
+  streamUrl: https://as-hls-ww-live.akamaized.net/pool_97517794/live/ww/bbc_radio_wales_fm/bbc_radio_wales_fm.isml/bbc_radio_wales_fm-audio%3d96000.norewind.m3u8
+  metadataUrl: bbc_radio_wales_fm
+  bitrate: 96
+  codec: AAC
+  tags: [regional, public radio, uk, wales]
+  homepage: https://www.bbc.co.uk/sounds/play/live:bbc_radio_wales_fm
+  country: GB
+  status: stream-only
+
+# ─── GB — Global Group commercial (2026-04-29) ───
+# All Global brands serve HTTPS via media-ssl.musicradio.com.
+
+- id: gb-classic-fm
+  stationuuid: 96063f25-0601-11e8-ae97-52543be04c81
+  changeuuid: 460e17da-5b33-41e1-92cf-177a8ecfdb81
+  reviewedAt: 2026-04-29
+  geo: [51.510, -0.131]
+  broadcaster: independent
+  name: Classic FM
+  streamUrl: https://media-ssl.musicradio.com/ClassicFMMP3
+  bitrate: 128
+  codec: MP3
+  tags: [classical, uk]
+  homepage: https://www.classicfm.com/
+  country: GB
+  status: stream-only
+  featured: true
+
+- id: gb-lbc
+  stationuuid: 9614bbb6-0601-11e8-ae97-52543be04c81
+  changeuuid: 30b83854-44d8-4606-a1ec-614edd9500d3
+  reviewedAt: 2026-04-29
+  geo: [51.510, -0.131]
+  broadcaster: independent
+  name: LBC
+  streamUrl: https://media-ssl.musicradio.com/LBC973MP3Low
+  bitrate: 128
+  codec: MP3
+  tags: [news, talk, uk]
+  homepage: https://www.lbc.co.uk/
+  country: GB
+  status: stream-only
+
+- id: gb-lbc-news
+  stationuuid: 8e32c763-b926-4e57-9b8f-d60f1c5b48e3
+  changeuuid: 32853b11-9272-46d3-9585-623b57ffb672
+  reviewedAt: 2026-04-29
+  geo: [51.510, -0.131]
+  broadcaster: independent
+  name: LBC News
+  streamUrl: https://media-ssl.musicradio.com/LBCNewsUK
+  bitrate: 128
+  codec: MP3
+  tags: [news, uk]
+  homepage: https://www.lbc.co.uk/radio/stations/lbc-news/
+  country: GB
+  status: stream-only
+
+- id: gb-heart-uk
+  stationuuid: 283402b5-dc2e-11e9-a8ba-52543be04c81
+  changeuuid: 74592888-2342-4a04-bd95-5a34a16bc904
+  reviewedAt: 2026-04-29
+  geo: [51.510, -0.131]
+  broadcaster: independent
+  name: Heart UK
+  streamUrl: https://media-ssl.musicradio.com/HeartUKMP3
+  bitrate: 128
+  codec: MP3
+  tags: [pop, uk]
+  homepage: https://www.heart.co.uk/
+  country: GB
+  status: stream-only
+
+- id: gb-heart-80s
+  stationuuid: c4077677-dc2f-11e9-a8ba-52543be04c81
+  changeuuid: c19abf5d-76bf-44cb-9909-1b161834c88e
+  reviewedAt: 2026-04-29
+  geo: [51.510, -0.131]
+  broadcaster: independent
+  name: Heart 80s
+  streamUrl: https://media-ssl.musicradio.com/Heart80sMP3
+  bitrate: 128
+  codec: MP3
+  tags: [80s, pop, uk]
+  homepage: https://www.heart.co.uk/80s/
+  country: GB
+  status: stream-only
+
+- id: gb-heart-90s
+  stationuuid: 52bb00fe-dc31-11e9-a8ba-52543be04c81
+  changeuuid: 52959ab0-2567-4df6-8e76-031d1012b947
+  reviewedAt: 2026-04-29
+  geo: [51.510, -0.131]
+  broadcaster: independent
+  name: Heart 90s
+  streamUrl: https://media-ssl.musicradio.com/Heart90sMP3
+  bitrate: 128
+  codec: MP3
+  tags: [90s, pop, uk]
+  homepage: https://www.heart.co.uk/90s/
+  country: GB
+  status: stream-only
+
+- id: gb-capital-uk
+  stationuuid: 7dfc847f-bf1b-11e8-aaf2-52543be04c81
+  changeuuid: acdd5a42-d777-40b4-a8de-cb3e722cb51f
+  reviewedAt: 2026-04-29
+  geo: [51.510, -0.131]
+  broadcaster: independent
+  name: Capital UK
+  streamUrl: https://media-ssl.musicradio.com/CapitalUKMP3
+  bitrate: 128
+  codec: MP3
+  tags: [pop, hits, uk]
+  homepage: https://www.capitalfm.com/
+  country: GB
+  status: stream-only
+
+- id: gb-capital-dance
+  stationuuid: df3607fb-311d-43b1-bd0c-98d91a4f2df4
+  changeuuid: 24a05875-e727-4fc7-ab22-4bee7d329c9e
+  reviewedAt: 2026-04-29
+  geo: [51.510, -0.131]
+  broadcaster: independent
+  name: Capital Dance
+  streamUrl: https://icecast.thisisdax.com/CapitalDanceMP3
+  bitrate: 128
+  codec: MP3
+  tags: [dance, electronic, uk]
+  homepage: https://www.capitalfm.com/dance/
+  country: GB
+  status: stream-only
+
+- id: gb-smooth-uk
+  stationuuid: 962b27a3-0601-11e8-ae97-52543be04c81
+  changeuuid: dead0f1b-e6d2-42bf-afd7-99931198282c
+  reviewedAt: 2026-04-29
+  geo: [51.510, -0.131]
+  broadcaster: independent
+  name: Smooth Radio
+  streamUrl: https://media-ssl.musicradio.com/SmoothUK
+  bitrate: 128
+  codec: MP3
+  tags: [easy listening, uk]
+  homepage: https://www.smoothradio.com/
+  country: GB
+  status: stream-only
+
+- id: gb-smooth-chill
+  stationuuid: 478fd7f4-dc36-11e9-a8ba-52543be04c81
+  changeuuid: e86b4a08-404b-4b12-b49a-ecb35d4daf8b
+  reviewedAt: 2026-04-29
+  geo: [51.510, -0.131]
+  broadcaster: independent
+  name: Smooth Chill
+  streamUrl: https://media-ssl.musicradio.com/ChillMP3
+  bitrate: 128
+  codec: MP3
+  tags: [chill, ambient, uk]
+  homepage: https://www.smoothradio.com/chill/
+  country: GB
+  status: stream-only
+
+- id: gb-gold
+  stationuuid: 0a1e0bb0-dc37-11e9-a8ba-52543be04c81
+  changeuuid: c08fa9c7-e391-4cfd-8283-e641c01c4c21
+  reviewedAt: 2026-04-29
+  geo: [51.510, -0.131]
+  broadcaster: independent
+  name: Gold
+  streamUrl: https://media-ssl.musicradio.com/GoldMP3
+  bitrate: 128
+  codec: MP3
+  tags: [oldies, classic hits, uk]
+  homepage: https://www.goldradiouk.com/
+  country: GB
+  status: stream-only
+
+# ─── GB — Other commercial (2026-04-29) ───
+
+- id: gb-talksport
+  stationuuid: 96192b59-0601-11e8-ae97-52543be04c81
+  changeuuid: a5f7e13c-5bb5-44fd-afc2-ad131d91bad2
+  reviewedAt: 2026-04-29
+  geo: [51.510, -0.131]
+  broadcaster: independent
+  name: TalkSPORT
+  streamUrl: https://radio.talksport.com/stream
+  bitrate: 128
+  codec: MP3
+  tags: [sport, talk, uk]
+  homepage: https://talksport.com/
+  country: GB
+  status: stream-only
+
+- id: gb-talkradio
+  stationuuid: dba206f9-bf7e-11e9-8502-52543be04c81
+  changeuuid: dba20704-bf7e-11e9-8502-52543be04c81
+  reviewedAt: 2026-04-29
+  geo: [51.510, -0.131]
+  broadcaster: independent
+  name: TalkRADIO
+  streamUrl: https://radio.talkradio.co.uk/stream
+  bitrate: 128
+  codec: MP3
+  tags: [news, talk, uk]
+  homepage: https://www.talktv.co.uk/
+  country: GB
+  status: stream-only
+
+- id: gb-times-radio
+  stationuuid: d1b0b82d-aa27-49e5-a98e-716ceff7e2f7
+  changeuuid: 63853ea5-bfbc-4e3a-a3e1-3ad7c1757681
+  reviewedAt: 2026-04-29
+  geo: [51.510, -0.131]
+  broadcaster: independent
+  name: Times Radio
+  streamUrl: https://timesradio.wireless.radio/stream
+  bitrate: 128
+  codec: MP3
+  tags: [news, talk, uk]
+  homepage: https://www.thetimes.co.uk/radio
+  country: GB
+  status: stream-only
+
+- id: gb-virgin-radio
+  stationuuid: 96202500-0601-11e8-ae97-52543be04c81
+  changeuuid: 41e2bdc5-01cc-43a8-8a40-8b36c24be7b7
+  reviewedAt: 2026-04-29
+  geo: [51.510, -0.131]
+  broadcaster: independent
+  name: Virgin Radio UK
+  streamUrl: https://radio.virginradio.co.uk/stream
+  bitrate: 128
+  codec: MP3
+  tags: [pop, rock, uk]
+  homepage: https://virginradio.co.uk/
+  country: GB
+  status: stream-only
+
+- id: gb-boom-radio
+  stationuuid: 695da448-1840-4e4f-adda-57d699900b58
+  changeuuid: 38abbb06-d1aa-4a75-9ce2-d8d7410e7fb9
+  reviewedAt: 2026-04-29
+  geo: [51.510, -0.131]
+  broadcaster: independent
+  name: Boom Radio
+  streamUrl: https://listen-boomradio.sharp-stream.com/65_boom_radio_live_128
+  bitrate: 128
+  codec: MP3
+  tags: [oldies, classic hits, uk]
+  homepage: https://www.boomradiouk.com/
+  country: GB
+  status: stream-only
+
+- id: gb-magic-radio
+  stationuuid: 172d8c95-fecd-40b7-af6f-9cdf4e8829e4
+  changeuuid: ad71a5a9-3597-43b0-81d0-60c8e3a19fff
+  reviewedAt: 2026-04-29
+  geo: [51.510, -0.131]
+  broadcaster: independent
+  name: Magic Radio
+  streamUrl: https://stream-mz.hellorayo.co.uk/magicnational.mp3?direct=true&aw_0_1st.skey=1602676850
+  bitrate: 128
+  codec: MP3
+  tags: [easy listening, uk]
+  homepage: https://www.magic.co.uk/
+  country: GB
+  status: stream-only
+
 # Auto-imported from Radio Browser (2026-04-26)
 - id: rb-bbc-world-service
   metadataUrl: bbc_world_service
