@@ -30,6 +30,13 @@ export interface Station {
    *  Radio Browser (geo_lat / geo_long); rounded to 4 decimal places
    *  (~10m precision, plenty for a station map). */
   geo?: [number, number];
+  /** Curation status from data/stations.yaml. Only the three publishable
+   *  values reach the runtime catalog (build-catalog filters the rest):
+   *  - `working`     — full per-broadcaster fetcher: stream + ICY + cover
+   *  - `icy-only`    — stream + ICY-over-fetch metadata, no broadcaster API
+   *  - `stream-only` — stream confirmed, no metadata source
+   *  Drives the row capability badges. Absent on RB long-tail / custom adds. */
+  status?: 'working' | 'icy-only' | 'stream-only';
 }
 
 export type PlayerState = 'idle' | 'loading' | 'playing' | 'paused' | 'error';

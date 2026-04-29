@@ -282,13 +282,16 @@ export default {
           );
         }
 
-        // Generic proxy with host allowlist. For any broadcaster API
-        // that returns useful JSON but lacks CORS (HR, possibly more
-        // later). The allowlist prevents this from becoming an open
-        // proxy. Caller passes the full URL as ?url=<encoded>.
+        // Generic proxy with host allowlist. For broadcaster APIs that
+        // return useful JSON but lack CORS (HR + BR + future ARD
+        // family members). The allowlist prevents this from becoming
+        // an open proxy. Caller passes the full URL as ?url=<encoded>.
         if (url.pathname === '/api/public/proxy') {
           const target = url.searchParams.get('url');
-          const ALLOW = [/^https:\/\/www\.hr[1-4]\.de\//i];
+          const ALLOW = [
+            /^https:\/\/www\.hr[1-4]\.de\//i,
+            /^https:\/\/www\.br\.de\//i,
+          ];
           if (!target || !ALLOW.some((re) => re.test(target))) {
             return jsonResponse({ error: 'host not allowed' }, 403, publicCors);
           }

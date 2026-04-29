@@ -4,7 +4,6 @@ import {
   BUILTIN_STATIONS,
   findFetcher,
   findScheduleFetcher,
-  isBuiltin,
   loadBuiltinStations,
 } from './builtins';
 import type { ScheduleDay } from './metadata';
@@ -85,7 +84,12 @@ const meta = new MetadataPoller((parsed) => {
     void lookupCover(parsed.artist, parsed.track, coverEnrichController.signal).then(
       (cover) => {
         if (myToken !== coverEnrichToken || !cover) return;
-        player.setTrackTitle(display, { ...parsed, coverUrl: cover });
+        player.setTrackTitle(display, {
+          ...parsed,
+          coverUrl: cover,
+          programName: parsed.program?.name,
+          programSubtitle: parsed.program?.subtitle,
+        });
       },
     );
   }
@@ -400,17 +404,42 @@ function buildHeart(isFav: boolean): HTMLButtonElement {
   return btn;
 }
 
-// Small "curated" star, shown to the left of the heart on rows for
-// stations that live in our YAML catalog. Static indicator (not a
-// button) — its only job is to tell users "this one we vouch for."
-function buildCuratedBadge(): HTMLSpanElement {
-  const span = document.createElement('span');
-  span.className = 'curated-badge';
-  span.title = 'Curated by rrradio';
-  span.setAttribute('aria-label', 'Curated');
-  span.innerHTML =
-    '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 3.5 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 17.2l-5.4 2.8 1.2-6L3.3 9.8l6.1-.7L12 3.5z"/></svg>';
-  return span;
+// Capability stars — three small stars rendered inline before the tags
+// text, one per dimension we provide for the station:
+//   ★ stream  — we've vetted the URL plays (every published curated row)
+//   ★ track   — broadcaster fetcher OR ICY metadata gives us "now playing"
+//   ★ program — schedule fetcher gives us the on-air show + day grid
+// Stars are conditionally appended, so a `stream-only` row shows ★, an
+// `icy-only` row shows ★★, and a row backed by a full broadcaster API
+// (FM4, BBC, BR, HR) shows ★★★.
+const STAR_SVG =
+  '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 3.5 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 17.2l-5.4 2.8 1.2-6L3.3 9.8l6.1-.7L12 3.5z"/></svg>';
+
+function stationCapabilities(station: Station): { stream: boolean; track: boolean; program: boolean } {
+  const stream = !!station.status;
+  const track =
+    stream && (!!station.metadata || station.status === 'icy-only' || station.status === 'working');
+  const program = stream && !!findScheduleFetcher(station);
+  return { stream, track, program };
+}
+
+function buildCapabilityStars(station: Station): HTMLSpanElement | null {
+  const { stream, track, program } = stationCapabilities(station);
+  if (!stream && !track && !program) return null;
+  const wrap = document.createElement('span');
+  wrap.className = 'row-stars';
+  const titles: string[] = [];
+  if (stream) titles.push('verified stream');
+  if (track) titles.push('track info');
+  if (program) titles.push('program info');
+  wrap.title = titles.join(' · ');
+  wrap.setAttribute('aria-label', titles.join(', '));
+  let html = '';
+  if (stream) html += `<span class="row-stars__star">${STAR_SVG}</span>`;
+  if (track) html += `<span class="row-stars__star">${STAR_SVG}</span>`;
+  if (program) html += `<span class="row-stars__star">${STAR_SVG}</span>`;
+  wrap.innerHTML = html;
+  return wrap;
 }
 
 function buildRow(station: Station, currentId: string, state: NowPlaying['state'], favs: Set<string>): HTMLDivElement {
@@ -433,7 +462,12 @@ function buildRow(station: Station, currentId: string, state: NowPlaying['state'
   name.textContent = station.name;
   const tags = document.createElement('div');
   tags.className = 'row-tags';
-  tags.textContent = (station.tags ?? []).slice(0, 3).join(' · ');
+  const stars = buildCapabilityStars(station);
+  if (stars) tags.append(stars);
+  const tagsText = document.createElement('span');
+  tagsText.className = 'row-tags__text';
+  tagsText.textContent = (station.tags ?? []).slice(0, 3).join(' · ');
+  tags.append(tagsText);
   info.append(name, tags);
 
   const right = document.createElement('div');
@@ -444,9 +478,7 @@ function buildRow(station: Station, currentId: string, state: NowPlaying['state'
     e.stopPropagation();
     onToggleFav(station);
   });
-  right.append(eq);
-  if (isBuiltin(station.id)) right.append(buildCuratedBadge());
-  right.append(heart);
+  right.append(eq, heart);
 
   row.append(fav, info, right);
 
@@ -769,7 +801,6 @@ const STATS_BASE = 'https://rrradio-stats.markussteinbrecher.workers.dev';
 const TOP_STATIONS_URL = `${STATS_BASE}/api/public/top-stations?days=${STATS_DAYS}&limit=25`;
 const PUBLIC_TOTALS_URL = `${STATS_BASE}/api/public/totals?days=${STATS_DAYS}`;
 const PUBLIC_LOCATIONS_URL = `${STATS_BASE}/api/public/locations?days=${STATS_DAYS}&limit=50`;
-const PLAYED_TOTAL_LIMIT = 20;
 
 interface BacklogEntry {
   name: string;
@@ -827,20 +858,18 @@ function slugForId(s: string): string {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 }
 
-/** Top-N played, mapped to playable Station objects. Built-ins win
- *  over backlog entries (we have logos + curated metadata for them).
- *  Backlog entries with broken/no-RB-match verdicts are skipped — we
- *  can't actually play them, so don't surface them. */
+/** Played stations, mapped to playable Station objects, then backfilled
+ *  with the full BUILTIN_STATIONS list so the home view scrolls through
+ *  every curated row. Built-ins win over backlog entries (we have logos +
+ *  curated metadata for them). Backlog entries with broken/no-RB-match
+ *  verdicts are skipped — we can't actually play them, so don't surface
+ *  them. Returns the full list; callers slice if they want a cap. */
 function playedStations(): Station[] {
-  if (!topStationNames || topStationNames.length === 0) {
-    return BUILTIN_STATIONS.slice(0, PLAYED_TOTAL_LIMIT);
-  }
   const builtinByName = new Map<string, Station>();
   for (const s of BUILTIN_STATIONS) builtinByName.set(s.name.toLowerCase(), s);
   const seen = new Set<string>();
   const ordered: Station[] = [];
-  for (const name of topStationNames) {
-    if (ordered.length >= PLAYED_TOTAL_LIMIT) break;
+  for (const name of topStationNames ?? []) {
     const lc = name.toLowerCase();
     if (seen.has(lc)) continue;
     const builtin = builtinByName.get(lc);
@@ -860,16 +889,15 @@ function playedStations(): Station[] {
       seen.add(lc);
     }
   }
-  // Backfill from BUILTIN_STATIONS so the home view is always full
-  // even when GC has fewer than PLAYED_TOTAL_LIMIT plays.
+  // Backfill with every other curated station so the unfiltered home view
+  // exposes the full catalog (sorted: top-played first, then YAML order).
   for (const s of BUILTIN_STATIONS) {
-    if (ordered.length >= PLAYED_TOTAL_LIMIT) break;
     if (!seen.has(s.name.toLowerCase())) {
       ordered.push(s);
       seen.add(s.name.toLowerCase());
     }
   }
-  return ordered.slice(0, PLAYED_TOTAL_LIMIT);
+  return ordered;
 }
 
 // Schedule (program guide) state for the currently-open Now Playing
@@ -1245,7 +1273,7 @@ function renderContent(): void {
       let stations: Station[];
       let restLabel: string;
       if (browseMode === 'played') {
-        stations = playedStations().slice(0, PLAYED_TOTAL_LIMIT);
+        stations = playedStations();
         restLabel = 'Most played';
       } else if (browseMode === 'news') {
         stations = lastBrowseStations;

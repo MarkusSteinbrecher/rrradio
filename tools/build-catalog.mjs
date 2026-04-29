@@ -160,6 +160,7 @@ function merged(s) {
     metadataUrl: s.metadataUrl,
     geo: Array.isArray(s.geo) && s.geo.length === 2 ? s.geo : fromRb.geo,
     featured: s.featured === true ? true : undefined,
+    status: s.status,
     _rb: rb, // kept for post-merge validation; stripped before write
   };
 }

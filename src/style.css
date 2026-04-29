@@ -632,10 +632,38 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   letter-spacing: 0.04em;
   color: var(--ink-3);
   text-transform: lowercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.row-tags__text {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-width: 0;
 }
+
+/* Capability stars — 1–3 little stars before the tags text. Each star
+   is a separate <span> so the count is visually obvious at a glance:
+   one star = stream-verified only, two = track info too, three = full
+   broadcaster API (track + on-air show schedule). Tinted accent so
+   they read as a quality mark, not as a tappable control. */
+.row-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  flex-shrink: 0;
+  color: var(--accent);
+  opacity: 0.85;
+}
+.row-stars__star {
+  display: inline-grid;
+  place-items: center;
+  width: 11px;
+  height: 11px;
+}
+.row-stars__star svg { width: 11px; height: 11px; display: block; }
 
 .row-right {
   display: flex;
@@ -664,21 +692,6 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .heart.is-fav .heart--line { display: none; }
 .heart.is-fav .heart--fill { display: block; }
 .heart:active { transform: scale(0.85); }
-
-/* "Curated" badge — flags rows whose station lives in data/stations.yaml
-   (i.e. we've vetted the stream + bundled it with the deploy). Sits left
-   of the heart, intentionally small + tinted with the accent so it reads
-   as a quality mark rather than another tappable control. */
-.curated-badge {
-  display: inline-grid;
-  place-items: center;
-  width: 18px;
-  height: 18px;
-  margin-right: 2px;
-  color: var(--accent);
-  opacity: 0.85;
-}
-.curated-badge svg { width: 14px; height: 14px; display: block; }
 
 /* ─── EQ bars (4-bar, used in rows + mini) ─── */
 .eq {

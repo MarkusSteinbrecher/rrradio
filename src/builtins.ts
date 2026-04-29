@@ -5,6 +5,10 @@ import type { Station } from './types';
 
 const BASE = import.meta.env.BASE_URL;
 
+/** Generic worker proxy for broadcaster APIs that lack CORS (BR, HR).
+ *  The worker holds an allowlist; see worker/src/index.ts:/api/public/proxy. */
+const PROXY = 'https://rrradio-stats.markussteinbrecher.workers.dev/api/public/proxy';
+
 // ============================================================
 // Helpers
 // ============================================================
@@ -165,13 +169,16 @@ interface BrPlayer {
 /** BR radioplayer.json: Bavarian-radio "now playing" feed used by br.de.
  *  Returns a `tracks[]` list with ISO-format start/end timestamps. We pick
  *  whichever entry currently brackets `Date.now()`; if none do (between
- *  songs / news segment), return null. CORS-permissive but the body
- *  starts with `//@formatter:off` so JSON.parse needs the loose helper. */
+ *  songs / news segment), return null. Routed through the worker proxy
+ *  because br.de itself returns no Access-Control-Allow-Origin headers
+ *  (worker allowlist covers `^https://www\.br\.de/`). The body starts
+ *  with `//@formatter:off` so JSON.parse needs the loose helper. */
 const fetchBrMetadata: MetadataFetcher = async (station, signal) => {
   const url = station.metadataUrl;
   if (!url) return null;
   try {
-    const res = await fetch(`${url}?_=${Date.now()}`, { signal, cache: 'no-store' });
+    const proxied = `${PROXY}?url=${encodeURIComponent(`${url}?_=${Date.now()}`)}`;
+    const res = await fetch(proxied, { signal, cache: 'no-store' });
     if (!res.ok) return null;
     const text = await res.text();
     const data = parseLooseJSON(text) as BrPlayer;
@@ -259,12 +266,15 @@ const fetchOrfSchedule: ScheduleFetcher = async (station, signal) => {
 };
 
 /** BR: the existing radioplayer.json carries a `broadcasts[]` slice for
- *  the current day. Single-day schedule, no archive. */
+ *  the current day. Single-day schedule, no archive. Same worker-proxy
+ *  routing as fetchBrMetadata — direct fetches are blocked by missing
+ *  Access-Control-Allow-Origin on br.de. */
 const fetchBrSchedule: ScheduleFetcher = async (station, signal) => {
   const url = station.metadataUrl;
   if (!url) return null;
   try {
-    const res = await fetch(`${url}?_=${Date.now()}`, { signal, cache: 'no-store' });
+    const proxied = `${PROXY}?url=${encodeURIComponent(`${url}?_=${Date.now()}`)}`;
+    const res = await fetch(proxied, { signal, cache: 'no-store' });
     if (!res.ok) return null;
     const text = await res.text();
     const data = parseLooseJSON(text) as BrPlayer;
@@ -308,8 +318,6 @@ const fetchBrSchedule: ScheduleFetcher = async (station, signal) => {
 // useful radioplayer.json but lack CORS). metadataUrl on each HR
 // station is the full URL of its radioplayer.json.
 // ============================================================
-
-const PROXY = 'https://rrradio-stats.markussteinbrecher.workers.dev/api/public/proxy';
 
 interface HrBroadcast {
   startTS?: number;
@@ -601,6 +609,9 @@ function normaliseStation(raw: unknown): Station | null {
     metadataUrl: r.metadataUrl,
     geo: Array.isArray(r.geo) && r.geo.length === 2 && r.geo.every((n) => typeof n === 'number')
       ? (r.geo as [number, number])
+      : undefined,
+    status: r.status === 'working' || r.status === 'icy-only' || r.status === 'stream-only'
+      ? r.status
       : undefined,
   };
 }
