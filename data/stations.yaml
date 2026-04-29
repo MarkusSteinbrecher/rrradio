@@ -2329,3 +2329,306 @@
   codec: MP3
   tags: [jazz, smooth jazz]
   status: stream-only
+
+# ─── IT — RAI public broadcaster (2026-04-29) ───
+# Pattern: http://icestreaming.rai.it/<N>.mp3 → 302 to mediapolis CDN.
+# RB stores http:// for the canonical (high-vote) records → broken-mixed.
+# We pin the https variant of the same path; RAI's relinker hands off
+# to https icecdn-*.msvdn.net so playback stays end-to-end TLS.
+
+- id: builtin-rai-radio-1
+  stationuuid: 96185693-0601-11e8-ae97-52543be04c81
+  changeuuid: 34ff77ef-2ba6-4bba-b245-b7c4f4f1c5d7
+  reviewedAt: 2026-04-29
+  geo: [41.902, 12.496]
+  broadcaster: rai
+  name: Rai Radio 1
+  streamUrl: https://icestreaming.rai.it/1.mp3
+  bitrate: 256
+  codec: MP3
+  tags: [public radio, news, talk, italy]
+  homepage: https://www.raiplaysound.it/radio1
+  country: IT
+  status: stream-only
+  featured: true
+
+- id: builtin-rai-radio-2
+  stationuuid: 96181819-0601-11e8-ae97-52543be04c81
+  changeuuid: c15ba379-7d88-41f6-a636-e61b4b0eb655
+  reviewedAt: 2026-04-29
+  geo: [41.902, 12.496]
+  broadcaster: rai
+  name: Rai Radio 2
+  streamUrl: https://icestreaming.rai.it/2.mp3
+  bitrate: 256
+  codec: MP3
+  tags: [public radio, pop, italy]
+  homepage: https://www.raiplaysound.it/radio2
+  country: IT
+  status: stream-only
+
+- id: builtin-rai-radio-3
+  stationuuid: 9608eb3e-0601-11e8-ae97-52543be04c81
+  changeuuid: 26c84362-4a36-44bb-a52c-7598caf20e17
+  reviewedAt: 2026-04-29
+  geo: [41.902, 12.496]
+  broadcaster: rai
+  name: Rai Radio 3
+  streamUrl: https://icestreaming.rai.it/3.mp3
+  bitrate: 320
+  codec: MP3
+  tags: [public radio, classical, culture, italy]
+  homepage: https://www.raiplaysound.it/radio3
+  country: IT
+  status: stream-only
+
+- id: builtin-rai-radio-classica
+  stationuuid: 0e2e2f4a-c8aa-11e9-8502-52543be04c81
+  changeuuid: e6453e65-936c-489c-8e36-93cf344a6a9b
+  reviewedAt: 2026-04-29
+  geo: [41.902, 12.496]
+  broadcaster: rai
+  name: Rai Radio Classica
+  streamUrl: https://icestreaming.rai.it/5.mp3
+  bitrate: 256
+  codec: MP3
+  tags: [classical, public radio, italy]
+  homepage: https://www.raiplaysound.it/radioclassica
+  country: IT
+  status: stream-only
+
+# ─── IT — Mediaset / United Music commercial (2026-04-29) ───
+# Pattern: http://(icy|icecast).unitedradio.it/<slug>.mp3 → broken-mixed
+# in RB. https variant of icy.unitedradio.it serves the same streams
+# end-to-end TLS, so we override streamUrl on each canonical (high-vote)
+# RB record while keeping every other field upstream-driven.
+
+- id: it-virgin-italia
+  stationuuid: 9619eb8a-0601-11e8-ae97-52543be04c81
+  changeuuid: 8f6a87ac-c2f9-4fc2-9d60-55e496d4a870
+  reviewedAt: 2026-04-29
+  geo: [45.464, 9.190]
+  broadcaster: independent
+  name: Virgin Radio Italia
+  streamUrl: https://icy.unitedradio.it/Virgin.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [rock, pop, italy]
+  homepage: https://www.virginradio.it/
+  country: IT
+  status: stream-only
+  featured: true
+
+- id: it-virgin-classic-rock
+  stationuuid: 9619f126-0601-11e8-ae97-52543be04c81
+  changeuuid: f83161bb-c484-4779-9ce4-b4452b156491
+  reviewedAt: 2026-04-29
+  geo: [45.464, 9.190]
+  broadcaster: independent
+  name: Virgin Radio Classic Rock
+  streamUrl: https://icy.unitedradio.it/VirginRockClassics.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [classic rock, italy]
+  homepage: https://www.virginradio.it/sezioni/1219/virgin-radio-rock-classic
+  country: IT
+  status: stream-only
+
+- id: it-virgin-rock-70
+  stationuuid: 9619ec45-0601-11e8-ae97-52543be04c81
+  changeuuid: 3a2d16cb-751d-42be-821c-158171fed90e
+  reviewedAt: 2026-04-29
+  geo: [45.464, 9.190]
+  broadcaster: independent
+  name: Virgin Radio Rock '70
+  streamUrl: https://icy.unitedradio.it/VirginRock70.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [70s, rock, italy]
+  homepage: https://www.virginradio.it/sezioni/1162/virgin-radio-rock-70
+  country: IT
+  status: stream-only
+
+- id: it-virgin-rock-80
+  stationuuid: 9619ed04-0601-11e8-ae97-52543be04c81
+  changeuuid: 4a7a7447-ef16-4b94-b9c9-c209631ebf5e
+  reviewedAt: 2026-04-29
+  geo: [45.464, 9.190]
+  broadcaster: independent
+  name: Virgin Radio Rock '80
+  streamUrl: https://icy.unitedradio.it/VirginRock80.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [80s, rock, italy]
+  homepage: https://www.virginradio.it/sezioni/1163/virgin-radio-rock-80
+  country: IT
+  status: stream-only
+
+- id: it-virgin-hard-rock
+  stationuuid: 9619ef9e-0601-11e8-ae97-52543be04c81
+  changeuuid: f796213d-3e4a-4202-84a2-f280d4770a14
+  reviewedAt: 2026-04-29
+  geo: [45.464, 9.190]
+  broadcaster: independent
+  name: Virgin Radio Hard Rock
+  streamUrl: https://icy.unitedradio.it/VirginHardRock.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [hard rock, metal, italy]
+  homepage: https://www.virginradio.it/sezioni/1218/virgin-radio-hard-rock
+  country: IT
+  status: stream-only
+
+- id: it-radio-105
+  stationuuid: 9619ea14-0601-11e8-ae97-52543be04c81
+  changeuuid: 0bd8d441-f34f-40e0-96ec-9e4a1e62b8d8
+  reviewedAt: 2026-04-29
+  geo: [45.464, 9.190]
+  broadcaster: independent
+  name: Radio 105
+  streamUrl: https://icy.unitedradio.it/Radio105.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [pop, hits, italy]
+  homepage: https://www.105.net/
+  country: IT
+  status: stream-only
+
+- id: it-rmc
+  stationuuid: 961a5a75-0601-11e8-ae97-52543be04c81
+  changeuuid: 1190b0d2-5787-4d56-a356-aec4ab2095dd
+  reviewedAt: 2026-04-29
+  geo: [45.464, 9.190]
+  broadcaster: independent
+  name: RMC Radio Monte Carlo
+  streamUrl: https://icy.unitedradio.it/RMC.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [pop, easy listening, italy]
+  homepage: https://www.radiomontecarlo.net/
+  country: IT
+  status: stream-only
+
+- id: it-r101
+  stationuuid: 960beb61-0601-11e8-ae97-52543be04c81
+  changeuuid: 9861a686-e828-4f48-b135-2635339f92f8
+  reviewedAt: 2026-04-29
+  geo: [45.464, 9.190]
+  broadcaster: independent
+  name: R101
+  streamUrl: https://icy.unitedradio.it/r101
+  bitrate: 96
+  codec: AAC+
+  tags: [pop, hits, italy]
+  homepage: https://www.r101.it/
+  country: IT
+  status: stream-only
+
+# ─── IT — GEDI / RTL / RDS HLS commercial (2026-04-29) ───
+# Already HTTPS HLS upstream. RB stores them as ok / ok-hls; we bind
+# without stream override.
+
+- id: it-rtl-102-5
+  stationuuid: 675bd925-8b13-43fe-a1b9-43bb0f90fbbd
+  changeuuid: 0da53961-3674-465a-a205-e71042870054
+  reviewedAt: 2026-04-29
+  geo: [45.464, 9.190]
+  broadcaster: independent
+  name: RTL 102.5
+  streamUrl: https://dd782ed59e2a4e86aabf6fc508674b59.msvdn.net/live/S97044836/tbbP8T1ZRPBL/playlist_audio.m3u8
+  bitrate: 192
+  codec: AAC
+  tags: [pop, hits, italy]
+  homepage: https://www.rtl.it/
+  country: IT
+  status: stream-only
+  featured: true
+
+- id: it-radio-italia-smi
+  stationuuid: 216ee092-939d-43b6-8562-c646f73ad89f
+  changeuuid: c05a141f-7c56-4be5-85ca-85652da14c6a
+  reviewedAt: 2026-04-29
+  geo: [45.464, 9.190]
+  broadcaster: independent
+  name: Radio Italia Solo Musica Italiana
+  streamUrl: https://radioitaliasmi.akamaized.net/hls/live/2093120/RISMI/stream01/streamPlaylist.m3u8
+  codec: AAC
+  tags: [italian music, pop, italy]
+  homepage: https://www.radioitalia.it/
+  country: IT
+  status: stream-only
+  featured: true
+
+- id: it-radio-deejay
+  stationuuid: 999ff951-68eb-4f4a-bec9-ed972b99d258
+  changeuuid: dc293fc7-8468-4015-b3ee-fc50ad6e03f1
+  reviewedAt: 2026-04-29
+  geo: [45.464, 9.190]
+  broadcaster: independent
+  name: Radio Deejay
+  streamUrl: https://4c4b867c89244861ac216426883d1ad0.msvdn.net/radiodeejay/radiodeejay/master_ma.m3u8
+  bitrate: 122
+  codec: AAC+
+  tags: [pop, dance, italy]
+  homepage: https://www.deejay.it/
+  country: IT
+  status: stream-only
+
+- id: it-radio-capital
+  stationuuid: fbe60456-15e8-4db4-a1f1-4ce77b7aaecc
+  changeuuid: f19bceaa-3614-4978-8ad5-4ab36e1c5bc3
+  reviewedAt: 2026-04-29
+  geo: [45.464, 9.190]
+  broadcaster: independent
+  name: Radio Capital
+  streamUrl: https://4c4b867c89244861ac216426883d1ad0.msvdn.net/radiocapital/radiocapital/master_ma.m3u8
+  bitrate: 122
+  codec: AAC+
+  tags: [classic hits, rock, italy]
+  homepage: https://www.capital.it/
+  country: IT
+  status: stream-only
+
+- id: it-radio-m2o
+  stationuuid: f8a910c3-fd87-4376-af20-1af5bfec6ab4
+  changeuuid: 78898c7f-ab16-46eb-ae04-ee418bb2c75a
+  reviewedAt: 2026-04-29
+  geo: [45.464, 9.190]
+  broadcaster: independent
+  name: Radio m2o
+  streamUrl: https://4c4b867c89244861ac216426883d1ad0.msvdn.net/radiom2o/radiom2o/master_ma.m3u8
+  bitrate: 122
+  codec: AAC+
+  tags: [dance, electronic, italy]
+  homepage: https://www.m2o.it/
+  country: IT
+  status: stream-only
+
+- id: it-rds
+  stationuuid: cf383460-c764-477e-a17b-33d1bff7a9aa
+  changeuuid: a0be3da6-5fff-47eb-b832-66edf9743183
+  reviewedAt: 2026-04-29
+  geo: [41.902, 12.496]
+  broadcaster: independent
+  name: RDS 100% Grandi Successi
+  streamUrl: https://stream.rds.radio/audio/rds.stream_aac64/chunklist.m3u8
+  codec: AAC
+  tags: [pop, classic hits, italy]
+  homepage: https://www.rds.it/
+  country: IT
+  status: stream-only
+
+- id: it-venice-classic
+  stationuuid: 6b4d2d9d-1435-44aa-b5ee-1db50f833ddc
+  changeuuid: 1aacaa57-b7aa-42b6-9dd2-0815bb1fe6f7
+  reviewedAt: 2026-04-29
+  geo: [45.434, 12.339]
+  broadcaster: independent
+  name: Venice Classic Radio
+  streamUrl: https://uk2.streamingpulse.com/ssl/vcr1
+  bitrate: 128
+  codec: MP3
+  tags: [classical, italy]
+  homepage: https://www.veniceclassicradio.eu/
+  country: IT
+  status: stream-only
