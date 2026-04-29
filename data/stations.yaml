@@ -3707,3 +3707,266 @@
   homepage: https://www.chfi.com/
   country: CA
   status: stream-only
+
+# ─── AU — ABC + SBS public broadcasters (2026-04-29) ───
+# ABC ships via two CDNs: live-radio01/02.mediahubaustralia.com (legacy
+# icecast for national + local channels) and abc.streamguys1.com/live
+# (NewsRadio, Radio National, Triple J). RB stored http:// for the
+# canonical high-vote records — https:// works on every same path.
+
+- id: builtin-abc-newsradio
+  stationuuid: 9615d27a-0601-11e8-ae97-52543be04c81
+  changeuuid: 833b9fe2-64c7-4340-99a8-d046b4795a40
+  reviewedAt: 2026-04-29
+  geo: [-33.868, 151.207]
+  broadcaster: abc
+  name: ABC NewsRadio
+  streamUrl: https://abc.streamguys1.com/live/newsradio/icecast.audio
+  codec: AAC
+  tags: [public radio, news, australia]
+  homepage: https://www.abc.net.au/news/newsradio/
+  country: AU
+  status: stream-only
+  featured: true
+
+- id: builtin-abc-radio-national
+  stationuuid: 9616206e-0601-11e8-ae97-52543be04c81
+  changeuuid: 20f0f7c3-0bcb-412d-9f43-d5d94ffd05fc
+  reviewedAt: 2026-04-29
+  geo: [-33.868, 151.207]
+  broadcaster: abc
+  name: ABC Radio National
+  streamUrl: https://abc.streamguys1.com/live/rnnsw/icecast.audio
+  codec: AAC
+  tags: [public radio, talk, culture, australia]
+  homepage: https://www.abc.net.au/listen/live/radionational
+  country: AU
+  status: stream-only
+
+- id: builtin-abc-triple-j
+  stationuuid: 961c74f4-0601-11e8-ae97-52543be04c81
+  changeuuid: da0f35ec-0411-4084-a258-107944c63142
+  reviewedAt: 2026-04-29
+  geo: [-33.868, 151.207]
+  broadcaster: abc
+  name: Triple J
+  streamUrl: https://abc.streamguys1.com/live/triplejnsw/icecast.audio
+  codec: AAC
+  tags: [alternative, indie, public radio, australia]
+  homepage: https://www.abc.net.au/triplej/
+  country: AU
+  status: stream-only
+  featured: true
+
+- id: builtin-abc-classic-fm
+  stationuuid: 96238f91-0601-11e8-ae97-52543be04c81
+  changeuuid: e3e03e12-8b88-4a73-aa01-68e11c765079
+  reviewedAt: 2026-04-29
+  geo: [-33.868, 151.207]
+  broadcaster: abc
+  name: ABC Classic FM
+  streamUrl: https://live-radio01.mediahubaustralia.com/2FMW/aac/
+  codec: AAC
+  tags: [classical, public radio, australia]
+  homepage: https://www.abc.net.au/classic/
+  country: AU
+  status: stream-only
+
+- id: builtin-abc-country
+  stationuuid: 9623d032-0601-11e8-ae97-52543be04c81
+  changeuuid: 2704b9ef-ab01-486d-85fc-e4769576de36
+  reviewedAt: 2026-04-29
+  geo: [-33.868, 151.207]
+  broadcaster: abc
+  name: ABC Country
+  streamUrl: https://live-radio01.mediahubaustralia.com/CTRW/aac/
+  codec: AAC
+  tags: [country, public radio, australia]
+  homepage: https://www.abc.net.au/country/
+  country: AU
+  status: stream-only
+
+- id: builtin-abc-jazz
+  stationuuid: 96177945-0601-11e8-ae97-52543be04c81
+  changeuuid: 4332fe1a-0659-4160-9a21-419b1956a78a
+  reviewedAt: 2026-04-29
+  geo: [-33.868, 151.207]
+  broadcaster: abc
+  name: ABC Jazz
+  streamUrl: https://live-radio01.mediahubaustralia.com/JAZW/aac/
+  codec: AAC
+  tags: [jazz, public radio, australia]
+  homepage: https://www.abc.net.au/jazz/
+  country: AU
+  status: stream-only
+
+- id: builtin-abc-grandstand
+  stationuuid: 9623b030-0601-11e8-ae97-52543be04c81
+  changeuuid: 9afd5516-ef99-4d87-941a-96ae1aa12da1
+  reviewedAt: 2026-04-29
+  geo: [-33.868, 151.207]
+  broadcaster: abc
+  name: ABC Sport
+  streamUrl: https://live-radio02.mediahubaustralia.com/GSDW/aac/
+  codec: AAC
+  tags: [sport, public radio, australia]
+  homepage: https://www.abc.net.au/sport/
+  country: AU
+  status: stream-only
+
+- id: builtin-abc-sydney
+  stationuuid: 961a0451-0601-11e8-ae97-52543be04c81
+  changeuuid: 775b06c9-8b99-4117-89b6-f034ab7256cb
+  reviewedAt: 2026-04-29
+  geo: [-33.868, 151.207]
+  broadcaster: abc
+  name: ABC Radio Sydney
+  streamUrl: https://live-radio01.mediahubaustralia.com/2LRW/aac/
+  codec: AAC
+  tags: [public radio, regional, australia]
+  homepage: https://www.abc.net.au/sydney/
+  country: AU
+  status: stream-only
+
+- id: builtin-abc-melbourne
+  stationuuid: 9623d0ee-0601-11e8-ae97-52543be04c81
+  changeuuid: 15f4797d-23b5-4725-940f-355c849ccb61
+  reviewedAt: 2026-04-29
+  geo: [-37.814, 144.963]
+  broadcaster: abc
+  name: ABC Radio Melbourne
+  streamUrl: https://live-radio01.mediahubaustralia.com/3LRW/aac/
+  codec: AAC
+  tags: [public radio, regional, australia]
+  homepage: https://www.abc.net.au/melbourne/
+  country: AU
+  status: stream-only
+
+- id: builtin-sbs-chill
+  stationuuid: 0ed4232a-a293-11e8-abb8-52543be04c81
+  changeuuid: 8455cb4d-e3c1-4708-8fc9-b7f2fe6bbff0
+  reviewedAt: 2026-04-29
+  geo: [-33.868, 151.207]
+  broadcaster: sbs
+  name: SBS Chill
+  streamUrl: https://sbs-ice.streamguys1.com/sbschill
+  codec: AAC
+  tags: [chill, ambient, public radio, australia]
+  homepage: https://www.sbs.com.au/radio/sbs-chill
+  country: AU
+  status: stream-only
+
+# ─── AU — Commercial top tier (2026-04-29) ───
+
+- id: au-gold-1043
+  stationuuid: a4c32662-98bc-42bd-b05b-dcf656272369
+  changeuuid: 9886c880-6a62-4d91-9b3b-5e6830e629a4
+  reviewedAt: 2026-04-29
+  geo: [-37.814, 144.963]
+  broadcaster: independent
+  name: Gold 104.3
+  streamUrl: https://ais-arn.streamguys1.com/au_004_icy
+  codec: AAC
+  tags: [classic hits, oldies, australia]
+  homepage: https://www.gold1043.com.au/
+  country: AU
+  status: stream-only
+  featured: true
+
+- id: au-kiis-1065
+  stationuuid: ed56eecb-faf7-4e68-830a-d94fb72a5ac8
+  changeuuid: eb7f006d-cb48-47b5-9881-6e2262c2efdd
+  reviewedAt: 2026-04-29
+  geo: [-33.868, 151.207]
+  broadcaster: independent
+  name: KIIS 106.5 Sydney
+  streamUrl: https://ais-arn.streamguys1.com/au_007_icy
+  codec: AAC
+  tags: [pop, hits, australia]
+  homepage: https://www.kiis1065.com.au/
+  country: AU
+  status: stream-only
+
+- id: au-kiis-1011
+  stationuuid: 5cceea34-4a3a-4cae-ac2b-b1f8e79a70dd
+  changeuuid: ca7f7e6e-bf8e-41d8-95bb-e4ac798b6600
+  reviewedAt: 2026-04-29
+  geo: [-37.814, 144.963]
+  broadcaster: independent
+  name: KIIS 101.1 Melbourne
+  streamUrl: https://ais-arn.streamguys1.com/au_001_icy
+  codec: AAC
+  tags: [pop, hits, australia]
+  homepage: https://www.kiis1011.com.au/
+  country: AU
+  status: stream-only
+
+- id: au-nova-1069
+  stationuuid: 960a2859-0601-11e8-ae97-52543be04c81
+  changeuuid: c73804e1-bfa2-4850-953d-88bda1ceb71c
+  reviewedAt: 2026-04-29
+  geo: [-27.470, 153.025]
+  broadcaster: independent
+  name: Nova 106.9 Brisbane
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/NOVA_1069_AAC48.aac
+  codec: AAC+
+  tags: [pop, hits, australia]
+  homepage: https://www.nova1069.com.au/
+  country: AU
+  status: stream-only
+
+- id: au-smooth-fm-953
+  stationuuid: 964fb9c9-0601-11e8-ae97-52543be04c81
+  changeuuid: 2a0e9f33-31a9-466d-b237-577c6104f168
+  reviewedAt: 2026-04-29
+  geo: [-33.868, 151.207]
+  broadcaster: independent
+  name: Smooth FM 95.3 Sydney
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/SMOOTH953_AAC48.aac
+  codec: AAC+
+  tags: [easy listening, adult contemporary, australia]
+  homepage: https://www.smoothfm.com.au/
+  country: AU
+  status: stream-only
+
+- id: au-triple-m-classic-rock
+  stationuuid: 078fb787-fbc5-480c-9fcb-782a2aac6a65
+  changeuuid: ef617376-2da5-41d9-96cb-62ea9b46be99
+  reviewedAt: 2026-04-29
+  geo: [-33.868, 151.207]
+  broadcaster: independent
+  name: Triple M Classic Rock
+  streamUrl: https://wz2liw.scahw.com.au/live/2classicrock_128.stream/playlist.m3u8
+  codec: AAC
+  tags: [classic rock, rock, australia]
+  homepage: https://www.triplem.com.au/listen/triple-m-classic-rock
+  country: AU
+  status: stream-only
+
+- id: au-sky-news
+  stationuuid: 1653b791-7005-4e95-be20-4e7b626a4a20
+  changeuuid: 9ab862b2-6c34-429c-9301-97395dfa1a5b
+  reviewedAt: 2026-04-29
+  geo: [-33.868, 151.207]
+  broadcaster: independent
+  name: Sky News Australia Radio
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/NOVA_SKYNEWSAAC.aac
+  codec: AAC+
+  tags: [news, talk, australia]
+  homepage: https://www.skynews.com.au/
+  country: AU
+  status: stream-only
+
+- id: au-2gb-sydney
+  stationuuid: 6794ba90-1029-4673-8aeb-206e2b59d591
+  changeuuid: 5e048cb6-f66a-4291-95bc-95b853e51e95
+  reviewedAt: 2026-04-29
+  geo: [-33.868, 151.207]
+  broadcaster: independent
+  name: 2GB Sydney
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/2GB.mp3
+  codec: MP3
+  tags: [news, talk, australia]
+  homepage: https://www.2gb.com/
+  country: AU
+  status: stream-only

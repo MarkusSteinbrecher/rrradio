@@ -4777,6 +4777,368 @@
         -79.347
       ],
       "status": "stream-only"
+    },
+    {
+      "id": "builtin-abc-newsradio",
+      "name": "ABC NewsRadio",
+      "streamUrl": "https://abc.streamguys1.com/live/newsradio/icecast.audio",
+      "homepage": "https://www.abc.net.au/news/newsradio/",
+      "country": "AU",
+      "tags": [
+        "public radio",
+        "news",
+        "australia"
+      ],
+      "favicon": "http://www.abc.net.au/favicon.ico",
+      "bitrate": 56,
+      "codec": "AAC",
+      "geo": [
+        -33.868,
+        151.207
+      ],
+      "featured": true,
+      "status": "stream-only"
+    },
+    {
+      "id": "builtin-abc-radio-national",
+      "name": "ABC Radio National",
+      "streamUrl": "https://abc.streamguys1.com/live/rnnsw/icecast.audio",
+      "homepage": "https://www.abc.net.au/listen/live/radionational",
+      "country": "AU",
+      "tags": [
+        "public radio",
+        "talk",
+        "culture",
+        "australia"
+      ],
+      "favicon": "http://www.abc.net.au/core-assets/radionational/favicon-32x32.png",
+      "bitrate": 56,
+      "codec": "AAC",
+      "geo": [
+        -33.868,
+        151.207
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "builtin-abc-triple-j",
+      "name": "Triple J",
+      "streamUrl": "https://abc.streamguys1.com/live/triplejnsw/icecast.audio",
+      "homepage": "https://www.abc.net.au/triplej/",
+      "country": "AU",
+      "tags": [
+        "alternative",
+        "indie",
+        "public radio",
+        "australia"
+      ],
+      "favicon": "http://www.abc.net.au/core-assets/triplej/favicon-32x32.png",
+      "bitrate": 56,
+      "codec": "AAC",
+      "geo": [
+        -33.868,
+        151.207
+      ],
+      "featured": true,
+      "status": "stream-only"
+    },
+    {
+      "id": "builtin-abc-classic-fm",
+      "name": "ABC Classic FM",
+      "streamUrl": "https://live-radio01.mediahubaustralia.com/2FMW/aac/",
+      "homepage": "https://www.abc.net.au/classic/",
+      "country": "AU",
+      "tags": [
+        "classical",
+        "public radio",
+        "australia"
+      ],
+      "favicon": "http://www.abc.net.au/core-assets/classic/favicon-32x32.png",
+      "bitrate": 56,
+      "codec": "AAC",
+      "geo": [
+        -33.868,
+        151.207
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "builtin-abc-country",
+      "name": "ABC Country",
+      "streamUrl": "https://live-radio01.mediahubaustralia.com/CTRW/aac/",
+      "homepage": "https://www.abc.net.au/country/",
+      "country": "AU",
+      "tags": [
+        "country",
+        "public radio",
+        "australia"
+      ],
+      "bitrate": 56,
+      "codec": "AAC",
+      "geo": [
+        -33.868,
+        151.207
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "builtin-abc-jazz",
+      "name": "ABC Jazz",
+      "streamUrl": "https://live-radio01.mediahubaustralia.com/JAZW/aac/",
+      "homepage": "https://www.abc.net.au/jazz/",
+      "country": "AU",
+      "tags": [
+        "jazz",
+        "public radio",
+        "australia"
+      ],
+      "bitrate": 56,
+      "codec": "AAC",
+      "geo": [
+        -33.868,
+        151.207
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "builtin-abc-grandstand",
+      "name": "ABC Sport",
+      "streamUrl": "https://live-radio02.mediahubaustralia.com/GSDW/aac/",
+      "homepage": "https://www.abc.net.au/sport/",
+      "country": "AU",
+      "tags": [
+        "sport",
+        "public radio",
+        "australia"
+      ],
+      "bitrate": 56,
+      "codec": "AAC",
+      "geo": [
+        -33.868,
+        151.207
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "builtin-abc-sydney",
+      "name": "ABC Radio Sydney",
+      "streamUrl": "https://live-radio01.mediahubaustralia.com/2LRW/aac/",
+      "homepage": "https://www.abc.net.au/sydney/",
+      "country": "AU",
+      "tags": [
+        "public radio",
+        "regional",
+        "australia"
+      ],
+      "favicon": "http://www.abc.net.au/core-assets/local/favicon-32x32.png",
+      "bitrate": 56,
+      "codec": "AAC",
+      "geo": [
+        -33.868,
+        151.207
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "builtin-abc-melbourne",
+      "name": "ABC Radio Melbourne",
+      "streamUrl": "https://live-radio01.mediahubaustralia.com/3LRW/aac/",
+      "homepage": "https://www.abc.net.au/melbourne/",
+      "country": "AU",
+      "tags": [
+        "public radio",
+        "regional",
+        "australia"
+      ],
+      "favicon": "http://www.abc.net.au/core-assets/local/favicon-32x32.png",
+      "bitrate": 56,
+      "codec": "AAC",
+      "geo": [
+        -37.814,
+        144.963
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "builtin-sbs-chill",
+      "name": "SBS Chill",
+      "streamUrl": "https://sbs-ice.streamguys1.com/sbschill",
+      "homepage": "https://www.sbs.com.au/radio/sbs-chill",
+      "country": "AU",
+      "tags": [
+        "chill",
+        "ambient",
+        "public radio",
+        "australia"
+      ],
+      "favicon": "https://www.sbs.com.au/_next/static/img/language/app-icon_128x128-18ef105.png",
+      "bitrate": 97,
+      "codec": "AAC",
+      "geo": [
+        -33.868,
+        151.207
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "au-gold-1043",
+      "name": "Gold 104.3",
+      "streamUrl": "https://ais-arn.streamguys1.com/au_004_icy",
+      "homepage": "https://www.gold1043.com.au/",
+      "country": "AU",
+      "tags": [
+        "classic hits",
+        "oldies",
+        "australia"
+      ],
+      "favicon": "https://www.gold1043.com.au/wp-content/themes/arn/assets/favicons/favicon_gold/favicon-32x32.png",
+      "bitrate": 48,
+      "codec": "AAC",
+      "geo": [
+        -37.814,
+        144.963
+      ],
+      "featured": true,
+      "status": "stream-only"
+    },
+    {
+      "id": "au-kiis-1065",
+      "name": "KIIS 106.5 Sydney",
+      "streamUrl": "https://ais-arn.streamguys1.com/au_007_icy",
+      "homepage": "https://www.kiis1065.com.au/",
+      "country": "AU",
+      "tags": [
+        "pop",
+        "hits",
+        "australia"
+      ],
+      "bitrate": 48,
+      "codec": "AAC",
+      "geo": [
+        -33.868,
+        151.207
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "au-kiis-1011",
+      "name": "KIIS 101.1 Melbourne",
+      "streamUrl": "https://ais-arn.streamguys1.com/au_001_icy",
+      "homepage": "https://www.kiis1011.com.au/",
+      "country": "AU",
+      "tags": [
+        "pop",
+        "hits",
+        "australia"
+      ],
+      "favicon": "https://www.kiis1011.com.au/wp-content/themes/arn/assets/favicons/favicon_kiis1011/apple-touch-icon.png",
+      "bitrate": 48,
+      "codec": "AAC",
+      "geo": [
+        -37.814,
+        144.963
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "au-nova-1069",
+      "name": "Nova 106.9 Brisbane",
+      "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/NOVA_1069_AAC48.aac",
+      "homepage": "https://www.nova1069.com.au/",
+      "country": "AU",
+      "tags": [
+        "pop",
+        "hits",
+        "australia"
+      ],
+      "favicon": "http://www.nova1069.com.au/assets/nova/icons/favicon/apple-touch-icon.png",
+      "bitrate": 48,
+      "codec": "AAC+",
+      "geo": [
+        -27.47,
+        153.025
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "au-smooth-fm-953",
+      "name": "Smooth FM 95.3 Sydney",
+      "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/SMOOTH953_AAC48.aac",
+      "homepage": "https://www.smoothfm.com.au/",
+      "country": "AU",
+      "tags": [
+        "easy listening",
+        "adult contemporary",
+        "australia"
+      ],
+      "favicon": "https://d2nzqyyfd6k6c7.cloudfront.net/favicon_2.ico",
+      "bitrate": 48,
+      "codec": "AAC+",
+      "geo": [
+        -33.868,
+        151.207
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "au-triple-m-classic-rock",
+      "name": "Triple M Classic Rock",
+      "streamUrl": "https://wz2liw.scahw.com.au/live/2classicrock_128.stream/playlist.m3u8",
+      "homepage": "https://www.triplem.com.au/listen/triple-m-classic-rock",
+      "country": "AU",
+      "tags": [
+        "classic rock",
+        "rock",
+        "australia"
+      ],
+      "favicon": "https://images.ctfassets.net/yxg7lydfj6tc/75f6ebae-ad7f-4935-8219-0cb890d0bf74/50e3f1e17371c7eb028659c162b3058b/0004-classicrock.png",
+      "bitrate": 130,
+      "codec": "AAC",
+      "geo": [
+        -33.868,
+        151.207
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "au-sky-news",
+      "name": "Sky News Australia Radio",
+      "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/NOVA_SKYNEWSAAC.aac",
+      "homepage": "https://www.skynews.com.au/",
+      "country": "AU",
+      "tags": [
+        "news",
+        "talk",
+        "australia"
+      ],
+      "favicon": "https://raw.githubusercontent.com/AusIPTV/IPTVLogos/master/SKY_News_Australia_logo.png",
+      "bitrate": 64,
+      "codec": "AAC+",
+      "geo": [
+        -33.868,
+        151.207
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "au-2gb-sydney",
+      "name": "2GB Sydney",
+      "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/2GB.mp3",
+      "homepage": "https://www.2gb.com/",
+      "country": "AU",
+      "tags": [
+        "news",
+        "talk",
+        "australia"
+      ],
+      "favicon": "https://www.2gb.com/wp-content/themes/2gb/assets/img/favicon/apple-touch-icon.png",
+      "bitrate": 48,
+      "codec": "MP3",
+      "geo": [
+        -33.868,
+        151.207
+      ],
+      "status": "stream-only"
     }
   ]
 }

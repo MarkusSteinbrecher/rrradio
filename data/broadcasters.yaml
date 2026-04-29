@@ -219,6 +219,29 @@ rai:
   country: IT
   homepage: https://www.raiplaysound.it/
 
+# ─────────────── Australia ───────────────
+
+abc:
+  name: ABC
+  fullName: Australian Broadcasting Corporation
+  country: AU
+  homepage: https://www.abc.net.au/listen
+  notes: |
+    Live streams ship from two CDNs: live-radio01/02.mediahubaustralia.com
+    (legacy direct icecast — most national + local channels) and
+    abc.streamguys1.com/live/<slug>/icecast.audio (NewsRadio, Radio
+    National, Triple J). HLS variants exist at mediaserviceslive.akamaized.net
+    but the icecast endpoints are the canonical ones in RB.
+
+sbs:
+  name: SBS
+  fullName: Special Broadcasting Service
+  country: AU
+  homepage: https://www.sbs.com.au/radio
+  notes: |
+    Multicultural public broadcaster. Streams via
+    sbs-ice.streamguys1.com/<slug> end-to-end TLS.
+
 # ─────────────── Canada ───────────────
 
 cbc:
