@@ -2999,3 +2999,287 @@
   homepage: https://www.rac1.cat/
   country: ES
   status: stream-only
+
+# ─── NL — NPO public broadcaster (2026-04-29) ───
+# All NPO channels live at icecast.omroep.nl/<slug>-bb-mp3. RB stores
+# http:// for the canonical (high-vote) records; https://icecast.omroep.nl
+# serves the same paths end-to-end TLS, so a one-field streamUrl
+# override per channel does the work.
+
+- id: builtin-npo-radio-1
+  stationuuid: 96126f56-0601-11e8-ae97-52543be04c81
+  changeuuid: 9c730054-7d0d-43d9-9aa7-2a5f0743f149
+  reviewedAt: 2026-04-29
+  geo: [52.222, 5.180]
+  broadcaster: npo
+  name: NPO Radio 1
+  streamUrl: https://icecast.omroep.nl/radio1-bb-mp3
+  bitrate: 192
+  codec: MP3
+  tags: [public radio, news, talk, netherlands]
+  homepage: https://www.nporadio1.nl/
+  country: NL
+  status: stream-only
+  featured: true
+
+- id: builtin-npo-radio-2
+  stationuuid: 96126e82-0601-11e8-ae97-52543be04c81
+  changeuuid: 3358a774-149b-4c67-967f-70ef8ac6d120
+  reviewedAt: 2026-04-29
+  geo: [52.222, 5.180]
+  broadcaster: npo
+  name: NPO Radio 2
+  streamUrl: https://icecast.omroep.nl/radio2-bb-mp3
+  bitrate: 192
+  codec: MP3
+  tags: [public radio, pop, netherlands]
+  homepage: https://www.nporadio2.nl/
+  country: NL
+  status: stream-only
+
+- id: builtin-npo-3fm
+  stationuuid: 960e38b8-0601-11e8-ae97-52543be04c81
+  changeuuid: 7d08dc1c-f10d-44e7-ae47-66a5b56e8222
+  reviewedAt: 2026-04-29
+  geo: [52.222, 5.180]
+  broadcaster: npo
+  name: NPO 3FM
+  streamUrl: https://icecast.omroep.nl/3fm-bb-mp3
+  bitrate: 192
+  codec: MP3
+  tags: [pop, alternative, public radio, netherlands]
+  homepage: https://www.nporadio3.nl/
+  country: NL
+  status: stream-only
+
+- id: builtin-npo-radio-4
+  stationuuid: 9c2f41c2-86bb-11e8-aa66-52543be04c81
+  changeuuid: bd596a94-542f-4e69-9134-e7e3b61369af
+  reviewedAt: 2026-04-29
+  geo: [52.222, 5.180]
+  broadcaster: npo
+  name: NPO Radio 4
+  streamUrl: https://icecast.omroep.nl/radio4-bb-mp3
+  bitrate: 192
+  codec: MP3
+  tags: [classical, public radio, netherlands]
+  homepage: https://www.nporadio4.nl/
+  country: NL
+  status: stream-only
+
+- id: builtin-npo-radio-5
+  stationuuid: 46e55863-cef7-4f50-954e-3fa7feede49f
+  changeuuid: d87925ec-9050-4c41-b787-2c9bbb8b86d3
+  reviewedAt: 2026-04-29
+  geo: [52.222, 5.180]
+  broadcaster: npo
+  name: NPO Radio 5
+  streamUrl: https://icecast.omroep.nl/radio5-bb-mp3
+  bitrate: 192
+  codec: MP3
+  tags: [oldies, classic hits, public radio, netherlands]
+  homepage: https://www.nporadio5.nl/
+  country: NL
+  status: stream-only
+
+- id: builtin-npo-soul-jazz
+  stationuuid: 9633a95e-0601-11e8-ae97-52543be04c81
+  changeuuid: d2d4f3a3-346e-4e7f-b5a0-762bb4b7c4e3
+  reviewedAt: 2026-04-29
+  geo: [52.222, 5.180]
+  broadcaster: npo
+  name: NPO Radio 2 Soul & Jazz
+  streamUrl: https://icecast.omroep.nl/radio6-bb-mp3
+  bitrate: 192
+  codec: MP3
+  tags: [soul, jazz, public radio, netherlands]
+  homepage: https://www.nporadio2.nl/soulenjazz
+  country: NL
+  status: stream-only
+
+- id: builtin-npo-funx
+  stationuuid: 11714c16-d630-4ee9-af90-2f8f0ebae6a9
+  changeuuid: 88446049-4f91-43db-82b0-8c3f366c60b4
+  reviewedAt: 2026-04-29
+  geo: [52.222, 5.180]
+  broadcaster: npo
+  name: NPO FunX
+  streamUrl: https://icecast.omroep.nl/funx-sb-aac
+  codec: AAC
+  tags: [hip hop, urban, public radio, netherlands]
+  homepage: https://www.funx.nl/
+  country: NL
+  status: stream-only
+
+# ─── NL — Talpa Network commercial (2026-04-29) ───
+# Radio 538, Sky Radio, Radio 10, Veronica all sit on Talpa
+# infrastructure (streamtheworld). RB stored http:// — https:// works
+# end-to-end for all four. Qmusic + Joe are DPG Media (Belgian-owned)
+# but stream from .nl endpoints; both already https in RB.
+
+- id: nl-radio-538
+  stationuuid: fd059cc5-b538-41c1-ae76-b8778a84c3db
+  changeuuid: b5311798-ebf3-4905-8dcb-37654c1e608f
+  reviewedAt: 2026-04-29
+  geo: [52.370, 4.895]
+  broadcaster: independent
+  name: Radio 538
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO538.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [pop, hits, netherlands]
+  homepage: https://www.538.nl/
+  country: NL
+  status: stream-only
+  featured: true
+
+- id: nl-qmusic
+  stationuuid: 003d3c6f-e183-11e9-a8ba-52543be04c81
+  changeuuid: 79402af8-fc08-4573-bc0c-d6e9cac495e4
+  reviewedAt: 2026-04-29
+  geo: [52.370, 4.895]
+  broadcaster: independent
+  name: Qmusic
+  streamUrl: https://icecast-qmusicnl-cdp.triple-it.nl/Qmusic_nl_live_96.mp3
+  bitrate: 96
+  codec: MP3
+  tags: [pop, hits, netherlands]
+  homepage: https://qmusic.nl/
+  country: NL
+  status: stream-only
+  featured: true
+
+- id: nl-sky-radio
+  stationuuid: af809e4a-7ff4-4630-8b7e-9c09ec249679
+  changeuuid: ae2af413-5abe-4406-8757-889a0b857636
+  reviewedAt: 2026-04-29
+  geo: [52.370, 4.895]
+  broadcaster: independent
+  name: Sky Radio
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/SRGSTR01.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [pop, easy listening, netherlands]
+  homepage: https://www.skyradio.nl/
+  country: NL
+  status: stream-only
+
+- id: nl-radio-10
+  stationuuid: d227990c-2385-4419-8159-1c73a33a58dd
+  changeuuid: bc9bf77a-a536-46da-aff9-d62bd67a40a8
+  reviewedAt: 2026-04-29
+  geo: [52.370, 4.895]
+  broadcaster: independent
+  name: Radio 10
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO10.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [oldies, classic hits, netherlands]
+  homepage: https://www.radio10.nl/
+  country: NL
+  status: stream-only
+
+- id: nl-veronica
+  stationuuid: 0e65ad7a-b179-4b5d-994b-d351349ee955
+  changeuuid: 46236b07-f7bc-4c54-8769-c77f9982092e
+  reviewedAt: 2026-04-29
+  geo: [52.370, 4.895]
+  broadcaster: independent
+  name: Radio Veronica
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/VERONICAAAC.aac
+  codec: AAC+
+  tags: [classic rock, oldies, netherlands]
+  homepage: https://www.radioveronica.nl/
+  country: NL
+  status: stream-only
+
+# ─── NL — Independent commercial (2026-04-29) ───
+
+- id: nl-bnr
+  stationuuid: f31ae7e2-d5e6-4c88-9445-edf00f6cba40
+  changeuuid: 92252dc0-aa22-465c-b2d7-ec9cba9b1929
+  reviewedAt: 2026-04-29
+  geo: [52.370, 4.895]
+  broadcaster: independent
+  name: BNR Nieuwsradio
+  streamUrl: https://stream.bnr.nl/bnr_aac_96_20
+  bitrate: 96
+  codec: AAC
+  tags: [news, business, netherlands]
+  homepage: https://www.bnr.nl/
+  country: NL
+  status: stream-only
+
+- id: nl-joe
+  stationuuid: 07eb6945-5023-461e-9064-234075472cff
+  changeuuid: 4ad16d0b-bf13-426f-894a-8c7d6e86ad6a
+  reviewedAt: 2026-04-29
+  geo: [52.370, 4.895]
+  broadcaster: independent
+  name: Joe
+  streamUrl: https://stream.joe.nl/joe/aachigh
+  codec: AAC
+  tags: [classic hits, easy listening, netherlands]
+  homepage: https://joe.nl/
+  country: NL
+  status: stream-only
+
+- id: nl-kink
+  stationuuid: c19d0f8c-24a5-11e9-a80b-52543be04c81
+  changeuuid: b823baa3-e4b0-43a4-aa60-7d15cf9fd715
+  reviewedAt: 2026-04-29
+  geo: [52.370, 4.895]
+  broadcaster: independent
+  name: KINK
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/KINK.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [alternative, indie, rock, netherlands]
+  homepage: https://kink.nl/
+  country: NL
+  status: stream-only
+
+- id: nl-100-nl
+  stationuuid: 960f36b5-0601-11e8-ae97-52543be04c81
+  changeuuid: 6248b130-9768-4310-8e2f-ceeaf6908f5b
+  reviewedAt: 2026-04-29
+  geo: [52.370, 4.895]
+  broadcaster: independent
+  name: 100% NL
+  streamUrl: https://stream.100p.nl/100pctnl.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [dutch music, pop, netherlands]
+  homepage: https://www.100p.nl/
+  country: NL
+  status: stream-only
+
+- id: nl-arrow-classic-rock
+  stationuuid: 9513b20b-e4bd-11e8-a9cc-52543be04c81
+  changeuuid: 097c3837-feab-4dc2-bdac-8c61f0ed7961
+  reviewedAt: 2026-04-29
+  geo: [52.370, 4.895]
+  broadcaster: independent
+  name: Arrow Classic Rock
+  streamUrl: https://stream.player.arrow.nl/arrowcr
+  bitrate: 128
+  codec: MP3
+  tags: [classic rock, rock, netherlands]
+  homepage: https://www.arrow.nl/
+  country: NL
+  status: stream-only
+
+- id: nl-slam
+  stationuuid: 962e7e22-0601-11e8-ae97-52543be04c81
+  changeuuid: 1a5dcede-81cd-4c26-b911-433650735ca8
+  reviewedAt: 2026-04-29
+  geo: [52.370, 4.895]
+  broadcaster: independent
+  name: SLAM!
+  streamUrl: https://stream.slam.nl/slam
+  bitrate: 128
+  codec: MP3
+  tags: [dance, hits, netherlands]
+  homepage: https://slam.nl/
+  country: NL
+  status: stream-only
