@@ -219,6 +219,20 @@ rai:
   country: IT
   homepage: https://www.raiplaysound.it/
 
+# ─────────────── Poland ───────────────
+
+polskie-radio:
+  name: Polskie Radio
+  fullName: Polskie Radio S.A.
+  country: PL
+  homepage: https://www.polskieradio.pl/
+  notes: |
+    Polish public broadcaster. The legacy port-numbered URLs at
+    stream3.polskieradio.pl:88xx are HTTP-only and broken-mixed in RB.
+    HTTPS HLS lives at stream<N>.polskieradio.pl/pr<X>/pr<X>.sdp/playlist.m3u8
+    for PR2 (stream12), PR3 (stream13), PR4 (stream14), PR24 (stream15).
+    PR1 / Jedynka has no clean HLS endpoint outside the Next.js player.
+
 # ─────────────── Australia ───────────────
 
 abc:

@@ -3970,3 +3970,247 @@
   homepage: https://www.2gb.com/
   country: AU
   status: stream-only
+
+# ─── PL — Polskie Radio public broadcaster (2026-04-29) ───
+# Polskie Radio's legacy stream URLs at stream3.polskieradio.pl:88xx
+# are HTTP-only — broken-mixed for the canonical (high-vote) RB
+# records. The HTTPS HLS endpoint at
+# stream<N>.polskieradio.pl/pr<X>/pr<X>.sdp/playlist.m3u8 serves
+# Dwójka / Trójka / Czwórka / PR24 end-to-end TLS. Jedynka (PR1)
+# doesn't expose a clean HLS variant outside the Next.js player —
+# omitted here, revisit when we capture the actual URL via DevTools.
+
+- id: builtin-pr-dwojka
+  stationuuid: 96117d6c-0601-11e8-ae97-52543be04c81
+  changeuuid: 83c28e12-7864-4558-8776-c66548ba6020
+  reviewedAt: 2026-04-29
+  geo: [52.230, 21.012]
+  broadcaster: polskie-radio
+  name: Polskie Radio Dwójka
+  streamUrl: https://stream12.polskieradio.pl/pr2/pr2.sdp/playlist.m3u8
+  codec: AAC
+  tags: [classical, culture, public radio, poland]
+  homepage: https://dwojka.polskieradio.pl/
+  country: PL
+  status: stream-only
+
+- id: builtin-pr-trojka
+  stationuuid: 964aa3f1-0601-11e8-ae97-52543be04c81
+  changeuuid: 49ecc00b-65a5-4168-a927-1a94d9a1f859
+  reviewedAt: 2026-04-29
+  geo: [52.230, 21.012]
+  broadcaster: polskie-radio
+  name: Polskie Radio Trójka
+  streamUrl: https://stream13.polskieradio.pl/pr3/pr3.sdp/playlist.m3u8
+  codec: AAC
+  tags: [pop, talk, public radio, poland]
+  homepage: https://trojka.polskieradio.pl/
+  country: PL
+  status: stream-only
+  featured: true
+
+- id: builtin-pr-czworka
+  stationuuid: bd89329f-4e16-11e8-a4d1-52543be04c81
+  changeuuid: 54d7f482-c1fc-47cd-ac72-7e05557374e1
+  reviewedAt: 2026-04-29
+  geo: [52.230, 21.012]
+  broadcaster: polskie-radio
+  name: Polskie Radio Czwórka
+  streamUrl: https://stream14.polskieradio.pl/pr4/pr4.sdp/playlist.m3u8
+  codec: AAC
+  tags: [alternative, pop, public radio, poland]
+  homepage: https://czworka.polskieradio.pl/
+  country: PL
+  status: stream-only
+
+- id: builtin-pr-24
+  stationuuid: 961a56e9-0601-11e8-ae97-52543be04c81
+  changeuuid: eb00a6db-319b-4601-9a3e-744764927685
+  reviewedAt: 2026-04-29
+  geo: [52.230, 21.012]
+  broadcaster: polskie-radio
+  name: Polskie Radio 24
+  streamUrl: https://stream15.polskieradio.pl/pr24/pr24.sdp/playlist.m3u8
+  codec: AAC
+  tags: [news, public radio, poland]
+  homepage: https://polskieradio24.pl/
+  country: PL
+  status: stream-only
+
+# ─── PL — RMF Group commercial (2026-04-29) ───
+# RMF's legacy IP-numbered streams (195.150.20.x, 31.192.216.x) are
+# HTTP-only. Same channel codes are also served by their public
+# proxy at rs202-krk.rmfstream.pl/<code> end-to-end TLS — single-
+# field streamUrl override on the canonical RB record swaps host.
+
+- id: pl-rmf-fm
+  stationuuid: 399b7c2a-6680-11e8-b15b-52543be04c81
+  changeuuid: d2e976e7-5206-41c9-84f6-2151642468c4
+  reviewedAt: 2026-04-29
+  geo: [50.062, 19.937]
+  broadcaster: independent
+  name: RMF FM
+  streamUrl: https://rs202-krk.rmfstream.pl/rmf_fm
+  codec: MP3
+  tags: [pop, hits, poland]
+  homepage: https://www.rmf.fm/
+  country: PL
+  status: stream-only
+  featured: true
+
+- id: pl-rmf-maxxx
+  stationuuid: 65cd1362-71ab-4829-8a4a-f530caf3a465
+  changeuuid: 7ae04567-8820-4f61-8d49-179a57486a36
+  reviewedAt: 2026-04-29
+  geo: [50.062, 19.937]
+  broadcaster: independent
+  name: RMF MAXXX
+  streamUrl: https://rs9-krk2-cyfronet.rmfstream.pl/RMFMAXXX48
+  codec: AAC+
+  tags: [pop, hits, poland]
+  homepage: https://www.rmfmaxxx.pl/
+  country: PL
+  status: stream-only
+
+- id: pl-rmf-classic
+  stationuuid: 960dc513-0601-11e8-ae97-52543be04c81
+  changeuuid: c766c70f-749b-4923-aa14-1313d91929e4
+  reviewedAt: 2026-04-29
+  geo: [50.062, 19.937]
+  broadcaster: independent
+  name: RMF Classic
+  streamUrl: https://rs202-krk.rmfstream.pl/RMFCLASSIC48
+  codec: AAC+
+  tags: [classical, easy listening, poland]
+  homepage: https://www.rmfclassic.pl/
+  country: PL
+  status: stream-only
+
+- id: pl-rmf-przeboje
+  stationuuid: 960f824a-0601-11e8-ae97-52543be04c81
+  changeuuid: e0055c66-04d8-4d0d-a79e-bd4ba9b70427
+  reviewedAt: 2026-04-29
+  geo: [50.062, 19.937]
+  broadcaster: independent
+  name: RMF Polskie Przeboje
+  streamUrl: https://rs202-krk.rmfstream.pl/PPRZEBOJE
+  codec: MP3
+  tags: [polish music, classic hits, poland]
+  homepage: https://www.rmfon.pl/stacja,polskie-przeboje
+  country: PL
+  status: stream-only
+
+- id: pl-rmf-dance
+  stationuuid: 960f7041-0601-11e8-ae97-52543be04c81
+  changeuuid: 568d057f-3d32-461a-b2a6-55a1ec2de85e
+  reviewedAt: 2026-04-29
+  geo: [50.062, 19.937]
+  broadcaster: independent
+  name: RMF Dance
+  streamUrl: https://rs202-krk.rmfstream.pl/DANCE
+  codec: MP3
+  tags: [dance, electronic, poland]
+  homepage: https://www.rmfon.pl/stacja,dance
+  country: PL
+  status: stream-only
+
+# ─── PL — Eurozet Group + independent (2026-04-29) ───
+
+- id: pl-radio-zet
+  stationuuid: 59e30dda-64bf-11ea-be63-52543be04c81
+  changeuuid: edc55988-d21f-438f-98ea-6fcdb650e523
+  reviewedAt: 2026-04-29
+  geo: [52.230, 21.012]
+  broadcaster: independent
+  name: Radio Zet
+  streamUrl: https://r.dcs.redcdn.pl/sc/o2/Eurozet/live/audio.livx?audio=5
+  codec: AAC
+  tags: [pop, hits, poland]
+  homepage: https://www.radiozet.pl/
+  country: PL
+  status: stream-only
+  featured: true
+
+- id: pl-tok-fm
+  stationuuid: c7915f33-f401-4ab4-9f49-dcc1cce15ed6
+  changeuuid: 09843244-3bdc-4a98-ae0e-ee3b93d48f19
+  reviewedAt: 2026-04-29
+  geo: [52.230, 21.012]
+  broadcaster: independent
+  name: TOK FM
+  streamUrl: https://radiostream.pl/tuba10-1.mp3
+  codec: MP3
+  tags: [news, talk, poland]
+  homepage: https://www.tokfm.pl/
+  country: PL
+  status: stream-only
+
+- id: pl-antyradio
+  stationuuid: 9617d67b-0601-11e8-ae97-52543be04c81
+  changeuuid: ab5657f3-fdbe-4d46-8774-8caabed36cae
+  reviewedAt: 2026-04-29
+  geo: [52.230, 21.012]
+  broadcaster: independent
+  name: Antyradio
+  streamUrl: https://n-4-4.dcs.redcdn.pl/sc/o2/Eurozet/live/antyradio.livx
+  codec: AAC
+  tags: [rock, alternative, poland]
+  homepage: https://www.antyradio.pl/
+  country: PL
+  status: stream-only
+
+- id: pl-chilli-zet
+  stationuuid: da0174e1-a1b0-447d-befb-087a6c88d6d4
+  changeuuid: 56b14a07-ffc1-43ef-a6e3-48213148d309
+  reviewedAt: 2026-04-29
+  geo: [52.230, 21.012]
+  broadcaster: independent
+  name: Chilli Zet
+  streamUrl: https://ch.cdn.eurozet.pl/chi-net.mp3
+  codec: MP3
+  tags: [chillout, lounge, poland]
+  homepage: https://www.chillizet.pl/
+  country: PL
+  status: stream-only
+
+- id: pl-radio-357
+  stationuuid: d377fdb9-9136-47de-a1f4-6b02a1bc7f72
+  changeuuid: 51b8d05c-b19e-46cb-8c4c-df1a36505839
+  reviewedAt: 2026-04-29
+  geo: [52.230, 21.012]
+  broadcaster: independent
+  name: Radio 357
+  streamUrl: https://n-11-21.dcs.redcdn.pl/sc/o2/radio357/live/radio357_pr.livx?preroll=0
+  codec: AAC
+  tags: [talk, indie, poland]
+  homepage: https://radio357.pl/
+  country: PL
+  status: stream-only
+
+- id: pl-radio-nowy-swiat
+  stationuuid: d81fd5d3-4c24-4768-88b3-57954e77c0e7
+  changeuuid: 7ec7f21f-6b81-49db-96b8-654d632fdfa2
+  reviewedAt: 2026-04-29
+  geo: [52.230, 21.012]
+  broadcaster: independent
+  name: Radio Nowy Świat
+  streamUrl: https://go-audio.toya.net.pl/63214
+  codec: MP3
+  tags: [talk, indie, poland]
+  homepage: https://nowyswiat.online/
+  country: PL
+  status: stream-only
+
+- id: pl-eska-rock
+  stationuuid: bf487b2b-503c-42c3-b088-9b5d679fdf29
+  changeuuid: f2ec63bf-6ccb-487b-8b75-d0dea0dddfff
+  reviewedAt: 2026-04-29
+  geo: [52.230, 21.012]
+  broadcaster: independent
+  name: ESKA ROCK
+  streamUrl: https://ic2.smcdn.pl/5380-1.mp3
+  codec: MP3
+  tags: [rock, classic rock, poland]
+  homepage: https://www.eskarock.pl/
+  country: PL
+  status: stream-only
