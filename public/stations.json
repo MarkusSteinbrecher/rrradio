@@ -371,6 +371,419 @@
       ]
     },
     {
+      "id": "builtin-srf-1",
+      "name": "SRF 1",
+      "streamUrl": "https://livestreaming-node-1.srg-ssr.ch/srgssr/srf1/mp3/128",
+      "homepage": "https://www.srf.ch/audio/radio-srf-1",
+      "country": "CH",
+      "tags": [
+        "public radio",
+        "news",
+        "swiss german",
+        "switzerland"
+      ],
+      "favicon": "https://www.srf.ch/static/srf/img/srf-logo-positiv.svg",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        47.385,
+        8.529
+      ]
+    },
+    {
+      "id": "builtin-srf-2-kultur",
+      "name": "SRF 2 Kultur",
+      "streamUrl": "https://livestreaming-node-1.srg-ssr.ch/srgssr/srf2/mp3/128",
+      "homepage": "https://www.srf.ch/audio/radio-srf-2-kultur",
+      "country": "CH",
+      "tags": [
+        "classical",
+        "culture",
+        "public radio",
+        "switzerland"
+      ],
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Radio_SRF_2_Kultur_logo.svg/512px-Radio_SRF_2_Kultur_logo.svg.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        47.385,
+        8.529
+      ]
+    },
+    {
+      "id": "builtin-srf-3",
+      "name": "SRF 3",
+      "streamUrl": "https://livestreaming-node-1.srg-ssr.ch/srgssr/srf3/mp3/128",
+      "homepage": "https://www.srf.ch/audio/radio-srf-3",
+      "country": "CH",
+      "tags": [
+        "pop",
+        "public radio",
+        "swiss german",
+        "switzerland"
+      ],
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Radio_SRF_3_logo.svg/512px-Radio_SRF_3_logo.svg.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        47.385,
+        8.529
+      ],
+      "featured": true
+    },
+    {
+      "id": "builtin-srf-4-news",
+      "name": "SRF 4 News",
+      "streamUrl": "https://livestreaming-node-1.srg-ssr.ch/srgssr/srf4news/mp3/128",
+      "homepage": "https://www.srf.ch/audio/radio-srf-4-news",
+      "country": "CH",
+      "tags": [
+        "news",
+        "talk",
+        "public radio",
+        "switzerland"
+      ],
+      "favicon": "https://www.srf.ch/static/srf/img/srf-logo-positiv.svg",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        47.385,
+        8.529
+      ]
+    },
+    {
+      "id": "builtin-srf-virus",
+      "name": "SRF Virus",
+      "streamUrl": "https://livestreaming-node-1.srg-ssr.ch/srgssr/srfvirus/mp3/128",
+      "homepage": "https://www.srf.ch/audio/radio-srf-virus",
+      "country": "CH",
+      "tags": [
+        "alternative",
+        "indie",
+        "hip hop",
+        "public radio",
+        "switzerland"
+      ],
+      "favicon": "https://www.srf.ch/static/srf/img/srf-logo-positiv.svg",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        47.385,
+        8.529
+      ]
+    },
+    {
+      "id": "builtin-srf-musikwelle",
+      "name": "SRF Musikwelle",
+      "streamUrl": "https://livestreaming-node-1.srg-ssr.ch/srgssr/srfmw/mp3/128",
+      "homepage": "https://www.srf.ch/audio/radio-srf-musikwelle",
+      "country": "CH",
+      "tags": [
+        "schlager",
+        "oldies",
+        "folk",
+        "public radio",
+        "switzerland"
+      ],
+      "favicon": "https://www.srf.ch/static/srf/img/srf-logo-positiv.svg",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        47.385,
+        8.529
+      ]
+    },
+    {
+      "id": "builtin-rts-la-1ere",
+      "name": "RTS La 1ère",
+      "streamUrl": "https://livestreaming-node-1.srg-ssr.ch/srgssr/la-1ere/mp3/128",
+      "homepage": "https://www.rts.ch/audio-podcasts/la-1ere/",
+      "country": "CH",
+      "tags": [
+        "public radio",
+        "news",
+        "french",
+        "switzerland"
+      ],
+      "favicon": "https://www.rts.ch/hbv7/static/images/favicon/rts/152x152.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        46.516,
+        6.633
+      ]
+    },
+    {
+      "id": "builtin-rts-espace-2",
+      "name": "RTS Espace 2",
+      "streamUrl": "https://livestreaming-node-1.srg-ssr.ch/srgssr/espace-2/mp3/128",
+      "homepage": "https://www.rts.ch/audio-podcasts/espace-2/",
+      "country": "CH",
+      "tags": [
+        "classical",
+        "culture",
+        "public radio",
+        "french",
+        "switzerland"
+      ],
+      "favicon": "https://www.rts.ch/hbv7/static/images/favicon/rts/152x152.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        46.516,
+        6.633
+      ]
+    },
+    {
+      "id": "builtin-rts-couleur-3",
+      "name": "RTS Couleur 3",
+      "streamUrl": "https://livestreaming-node-1.srg-ssr.ch/srgssr/couleur3/mp3/128",
+      "homepage": "https://www.rts.ch/audio-podcasts/couleur-3/",
+      "country": "CH",
+      "tags": [
+        "pop",
+        "alternative",
+        "public radio",
+        "french",
+        "switzerland"
+      ],
+      "favicon": "https://www.rts.ch/hbv7/static/images/favicon/rts/152x152.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        46.516,
+        6.633
+      ]
+    },
+    {
+      "id": "builtin-rts-option-musique",
+      "name": "RTS Option Musique",
+      "streamUrl": "https://livestreaming-node-1.srg-ssr.ch/srgssr/option-musique/mp3/128",
+      "homepage": "https://www.rts.ch/audio-podcasts/option-musique/",
+      "country": "CH",
+      "tags": [
+        "chanson",
+        "public radio",
+        "french",
+        "switzerland"
+      ],
+      "favicon": "https://www.rts.ch/hbv7/static/images/favicon/rts/152x152.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        46.516,
+        6.633
+      ]
+    },
+    {
+      "id": "builtin-rsi-rete-uno",
+      "name": "RSI Rete Uno",
+      "streamUrl": "https://livestreaming-node-1.srg-ssr.ch/srgssr/reteuno/mp3/128",
+      "homepage": "https://www.rsi.ch/play/radio/popupradiolive/livepopup/reteuno",
+      "country": "CH",
+      "tags": [
+        "public radio",
+        "news",
+        "italian",
+        "switzerland"
+      ],
+      "favicon": "https://www.rsi.ch/icons/apple-touch-icon-70-precomposed.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        46.005,
+        8.952
+      ]
+    },
+    {
+      "id": "builtin-rsi-rete-due",
+      "name": "RSI Rete Due",
+      "streamUrl": "https://livestreaming-node-1.srg-ssr.ch/srgssr/retedue/mp3/128",
+      "homepage": "https://www.rsi.ch/play/radio/popupradiolive/livepopup/retedue",
+      "country": "CH",
+      "tags": [
+        "classical",
+        "culture",
+        "public radio",
+        "italian",
+        "switzerland"
+      ],
+      "favicon": "https://www.rsi.ch/icons/apple-touch-icon-70-precomposed.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        46.005,
+        8.952
+      ]
+    },
+    {
+      "id": "builtin-rsi-rete-tre",
+      "name": "RSI Rete Tre",
+      "streamUrl": "https://livestreaming-node-1.srg-ssr.ch/srgssr/retetre/mp3/128",
+      "homepage": "https://www.rsi.ch/play/radio/popupradiolive/livepopup/retetre",
+      "country": "CH",
+      "tags": [
+        "pop",
+        "public radio",
+        "italian",
+        "switzerland"
+      ],
+      "favicon": "https://www.rsi.ch/icons/apple-touch-icon-70-precomposed.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        46.005,
+        8.952
+      ]
+    },
+    {
+      "id": "builtin-radio-swiss-jazz",
+      "name": "Radio Swiss Jazz",
+      "streamUrl": "https://livestreaming-node-1.srg-ssr.ch/srgssr/rsj/mp3/128",
+      "homepage": "https://www.radioswissjazz.ch/",
+      "country": "CH",
+      "tags": [
+        "jazz",
+        "switzerland"
+      ],
+      "favicon": "https://www.radioswissjazz.ch/favicon.ico",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        46.948,
+        7.447
+      ]
+    },
+    {
+      "id": "builtin-radio-swiss-pop",
+      "name": "Radio Swiss Pop",
+      "streamUrl": "https://livestreaming-node-1.srg-ssr.ch/srgssr/rsp/mp3/128",
+      "homepage": "https://www.radioswisspop.ch/",
+      "country": "CH",
+      "tags": [
+        "pop",
+        "switzerland"
+      ],
+      "favicon": "https://www.radioswisspop.ch/favicon.ico",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        46.948,
+        7.447
+      ]
+    },
+    {
+      "id": "builtin-radio-swiss-classic-de",
+      "name": "Radio Swiss Classic",
+      "streamUrl": "https://livestreaming-node-1.srg-ssr.ch/srgssr/rsc_de/mp3/128",
+      "homepage": "https://www.radioswissclassic.ch/",
+      "country": "CH",
+      "tags": [
+        "classical",
+        "switzerland"
+      ],
+      "favicon": "https://www.radioswissclassic.ch/favicon.ico",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        46.948,
+        7.447
+      ]
+    },
+    {
+      "id": "ch-kontrafunk",
+      "name": "Kontrafunk",
+      "streamUrl": "https://stream.kontrafunk.radio/listen/kontrafunk/radio.mp3",
+      "homepage": "https://kontrafunk.radio/",
+      "country": "CH",
+      "tags": [
+        "talk",
+        "news",
+        "switzerland"
+      ],
+      "bitrate": 192,
+      "codec": "MP3",
+      "geo": [
+        47.376,
+        8.541
+      ]
+    },
+    {
+      "id": "ch-vintage-radio",
+      "name": "Vintage Radio",
+      "streamUrl": "https://vintageradio.ice.infomaniak.ch/vintageradio-high.mp3",
+      "homepage": "https://www.vintageradio.ch/",
+      "country": "CH",
+      "tags": [
+        "oldies",
+        "vintage",
+        "switzerland"
+      ],
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        46.948,
+        7.447
+      ]
+    },
+    {
+      "id": "ch-energy-basel",
+      "name": "Energy Basel",
+      "streamUrl": "https://energybasel.ice.infomaniak.ch/energybasel-high.mp3",
+      "homepage": "https://www.energy.ch/basel",
+      "country": "CH",
+      "tags": [
+        "pop",
+        "hits",
+        "switzerland",
+        "basel"
+      ],
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        47.56,
+        7.589
+      ]
+    },
+    {
+      "id": "ch-radio-x",
+      "name": "Radio X (Basel)",
+      "streamUrl": "https://mp3.radiox.ch/standard.ogg",
+      "homepage": "https://radiox.ch/",
+      "country": "CH",
+      "tags": [
+        "community",
+        "alternative",
+        "switzerland",
+        "basel"
+      ],
+      "bitrate": 192,
+      "codec": "OGG",
+      "geo": [
+        47.56,
+        7.589
+      ]
+    },
+    {
+      "id": "ch-lounge-radio",
+      "name": "Lounge Radio",
+      "streamUrl": "https://fr1.streamhosting.ch/lounge128.mp3",
+      "homepage": "https://lounge-radio.com/",
+      "country": "CH",
+      "tags": [
+        "lounge",
+        "chill",
+        "switzerland"
+      ],
+      "favicon": "https://lounge-radio.com/wp-content/uploads/fbrfg/apple-touch-icon.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        47.376,
+        8.541
+      ]
+    },
+    {
       "id": "rb-bbc-world-service",
       "name": "BBC World Service",
       "streamUrl": "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_east_asia",
