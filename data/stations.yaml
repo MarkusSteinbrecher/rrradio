@@ -3283,3 +3283,234 @@
   homepage: https://slam.nl/
   country: NL
   status: stream-only
+
+# ─── DE finish-up — Bayern 3 + RBB main channels (2026-04-29) ───
+# The original ARD bulk import (commit 44e1202) covered BR/WDR/NDR/MDR/
+# SWR/HR but only RBB's youth station Fritz. The five main RBB channels
+# + Bayern 3 (BR) are added here. All RBB streams ship via the
+# rndfnk.com dispatcher with end-to-end TLS — pin /live/mp3/mid (high
+# is 404 on most slugs) so playback is stable.
+
+- id: builtin-br-bayern-3
+  stationuuid: 0de82079-04e7-407b-b616-e0726eba5244
+  changeuuid: f9c022c7-60b7-451f-9ed6-9a90c035ffbb
+  reviewedAt: 2026-04-29
+  geo: [48.137, 11.575]
+  broadcaster: br
+  name: Bayern 3
+  streamUrl: https://dispatcher.rndfnk.com/br/br3/live/mp3/mid
+  codec: MP3
+  tags: [pop, hits, public radio, germany]
+  homepage: https://www.br.de/radio/bayern3/
+  country: DE
+  status: stream-only
+
+- id: rbb-inforadio
+  stationuuid: 960b77af-0601-11e8-ae97-52543be04c81
+  changeuuid: f58f7c19-ed24-4568-a2a4-c0d732ff6a4b
+  reviewedAt: 2026-04-29
+  geo: [52.520, 13.405]
+  broadcaster: rbb
+  name: Inforadio
+  streamUrl: https://dispatcher.rndfnk.com/rbb/inforadio/live/mp3/mid
+  codec: MP3
+  tags: [news, talk, public radio, germany]
+  homepage: https://www.inforadio.de/
+  country: DE
+  status: stream-only
+
+- id: rbb-radio-eins
+  stationuuid: 960553a5-0601-11e8-ae97-52543be04c81
+  changeuuid: 7fa101e5-7557-4cc9-a54d-948fad3b0a6d
+  reviewedAt: 2026-04-29
+  geo: [52.520, 13.405]
+  broadcaster: rbb
+  name: Radio Eins
+  streamUrl: https://dispatcher.rndfnk.com/rbb/radioeins/live/mp3/mid
+  codec: MP3
+  tags: [pop, talk, public radio, germany]
+  homepage: https://www.radioeins.de/
+  country: DE
+  status: stream-only
+
+- id: rbb-antenne-brandenburg
+  stationuuid: 96063808-0601-11e8-ae97-52543be04c81
+  changeuuid: e7e90612-e37e-44fc-b468-e0349bcf1d0d
+  reviewedAt: 2026-04-29
+  geo: [52.520, 13.405]
+  broadcaster: rbb
+  name: Antenne Brandenburg
+  streamUrl: https://dispatcher.rndfnk.com/rbb/antennebrandenburg/live/mp3/mid
+  codec: MP3
+  tags: [public radio, regional, germany]
+  homepage: https://www.antennebrandenburg.de/
+  country: DE
+  status: stream-only
+
+- id: rbb-radio-berlin-888
+  stationuuid: 960c1a4f-0601-11e8-ae97-52543be04c81
+  changeuuid: de010fa1-2544-4776-921c-1494d11462d2
+  reviewedAt: 2026-04-29
+  geo: [52.520, 13.405]
+  broadcaster: rbb
+  name: radioBerlin 88,8
+  streamUrl: https://dispatcher.rndfnk.com/rbb/rbb888/live/mp3/mid
+  codec: MP3
+  tags: [public radio, regional, germany]
+  homepage: https://www.radioberlin.de/
+  country: DE
+  status: stream-only
+
+- id: rbb-radio3
+  stationuuid: 960c1c0e-0601-11e8-ae97-52543be04c81
+  changeuuid: e5fc5677-5188-47f8-8f53-44124a8b8e04
+  reviewedAt: 2026-04-29
+  geo: [52.520, 13.405]
+  broadcaster: rbb
+  name: radio3
+  streamUrl: https://dispatcher.rndfnk.com/rbb/rbbkultur/live/mp3/high
+  codec: MP3
+  tags: [classical, culture, public radio, germany]
+  homepage: https://www.rbb-online.de/radio3/
+  country: DE
+  status: stream-only
+
+# ─── DE finish-up — Commercial top tier (2026-04-29) ───
+# Mostly broken-mixed in RB; HTTPS works on the same hosts. Single-
+# field streamUrl override keeps every other RB field upstream.
+
+- id: de-rock-antenne
+  stationuuid: 960594a6-0601-11e8-ae97-52543be04c81
+  changeuuid: 912bcce9-8299-4db8-b979-3911f7f5a5d0
+  reviewedAt: 2026-04-29
+  geo: [48.137, 11.575]
+  broadcaster: rock-antenne
+  name: Rock Antenne
+  streamUrl: https://mp3channels.webradio.rockantenne.de/rockantenne
+  bitrate: 128
+  codec: MP3
+  tags: [rock, classic rock, germany]
+  homepage: https://www.rockantenne.de/
+  country: DE
+  status: stream-only
+  featured: true
+
+- id: de-rock-antenne-classic-perlen
+  stationuuid: 960c3f9b-0601-11e8-ae97-52543be04c81
+  changeuuid: ce147e61-cb96-4ce2-a001-d00c69f47c98
+  reviewedAt: 2026-04-29
+  geo: [48.137, 11.575]
+  broadcaster: rock-antenne
+  name: Rock Antenne Classic Perlen
+  streamUrl: https://mp3channels.webradio.rockantenne.de/classic-perlen
+  bitrate: 128
+  codec: MP3
+  tags: [classic rock, oldies, germany]
+  homepage: https://www.rockantenne.de/webradio/classic-perlen/
+  country: DE
+  status: stream-only
+
+- id: de-antenne-bayern-chillout
+  stationuuid: 9610c454-0601-11e8-ae97-52543be04c81
+  changeuuid: 2a5f5baf-ca59-4042-bd7e-7bb1c09a5687
+  reviewedAt: 2026-04-29
+  geo: [48.137, 11.575]
+  broadcaster: antenne-bayern
+  name: Antenne Bayern - Chillout
+  streamUrl: https://mp3channels.webradio.antenne.de/chillout
+  bitrate: 128
+  codec: MP3
+  tags: [chillout, ambient, germany]
+  homepage: https://www.antenne.de/musik/webradios/chillout
+  country: DE
+  status: stream-only
+
+- id: de-sunshine-live
+  stationuuid: 960d063e-0601-11e8-ae97-52543be04c81
+  changeuuid: cb448fef-2576-4d0c-b36b-f70611ba7080
+  reviewedAt: 2026-04-29
+  geo: [49.488, 8.466]
+  broadcaster: independent
+  name: Sunshine Live
+  streamUrl: https://stream.sunshine-live.de/live/mp3-192
+  bitrate: 192
+  codec: MP3
+  tags: [dance, electronic, germany]
+  homepage: https://www.sunshine-live.de/
+  country: DE
+  status: stream-only
+  featured: true
+
+- id: de-80s80s
+  stationuuid: 962dc110-0601-11e8-ae97-52543be04c81
+  changeuuid: 6ff0ad04-086b-4a24-b78c-96257ff45936
+  reviewedAt: 2026-04-29
+  geo: [53.551, 9.993]
+  broadcaster: independent
+  name: 80s80s
+  streamUrl: https://streams.80s80s.de/web/mp3-192
+  bitrate: 192
+  codec: MP3
+  tags: [80s, oldies, germany]
+  homepage: https://www.80s80s.de/
+  country: DE
+  status: stream-only
+
+- id: de-90s90s
+  stationuuid: 9637a1b2-0601-11e8-ae97-52543be04c81
+  changeuuid: 2420fb7b-0be6-42aa-8bfb-35684229a4b0
+  reviewedAt: 2026-04-29
+  geo: [53.551, 9.993]
+  broadcaster: independent
+  name: 90s90s
+  streamUrl: https://streams.90s90s.de/pop/mp3-192
+  bitrate: 192
+  codec: MP3
+  tags: [90s, pop, germany]
+  homepage: https://www.90s90s.de/
+  country: DE
+  status: stream-only
+
+- id: de-trancebase
+  stationuuid: 342a0e53-ab9b-11e9-88f4-52543be04c81
+  changeuuid: c1493351-5f9c-4f3e-9833-9449fc77530e
+  reviewedAt: 2026-04-29
+  geo: [50.110, 8.682]
+  broadcaster: independent
+  name: TranceBase.FM
+  streamUrl: https://listen.trancebase.fm/tunein-aac-hd-pls
+  codec: AAC
+  tags: [trance, electronic, germany]
+  homepage: https://www.trancebase.fm/
+  country: DE
+  status: stream-only
+
+- id: de-hit-radio-ffh
+  stationuuid: 96056147-0601-11e8-ae97-52543be04c81
+  changeuuid: cf0827ec-e6f0-4766-bf5d-9261a7123eac
+  reviewedAt: 2026-04-29
+  geo: [50.110, 8.682]
+  broadcaster: independent
+  name: Hit Radio FFH
+  streamUrl: https://mp3.ffh.de/radioffh/hqlivestream.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [pop, hits, germany]
+  homepage: https://www.ffh.de/
+  country: DE
+  status: stream-only
+
+- id: de-klassik-radio
+  stationuuid: 90bff27c-4b50-11ea-b877-52543be04c81
+  changeuuid: 8ef85003-18a9-4c9b-919e-37aef996f7df
+  reviewedAt: 2026-04-29
+  geo: [48.367, 10.898]
+  broadcaster: independent
+  name: Klassik Radio
+  streamUrl: https://stream.klassikradio.de/live/mp3-192
+  bitrate: 192
+  codec: MP3
+  tags: [classical, easy listening, germany]
+  homepage: https://www.klassikradio.de/
+  country: DE
+  status: stream-only
