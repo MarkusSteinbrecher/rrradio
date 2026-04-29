@@ -404,6 +404,17 @@ function buildHeart(isFav: boolean): HTMLButtonElement {
   return btn;
 }
 
+/** ISO 3166-1 alpha-2 → flag emoji via regional indicator code points.
+ *  Renders as a real flag on Apple / Linux; Windows shows the two-letter
+ *  code (Windows ships no flag font for political reasons). Returns
+ *  empty string for unknown / blank codes so the caller can no-op. */
+function flagEmoji(country: string | undefined): string {
+  if (!country || country.length !== 2) return '';
+  const A = 0x1f1e6 - 'A'.charCodeAt(0);
+  const cc = country.toUpperCase();
+  return String.fromCodePoint(cc.charCodeAt(0) + A, cc.charCodeAt(1) + A);
+}
+
 // Capability stars — three small stars rendered inline before the tags
 // text, one per dimension we provide for the station:
 //   ★ stream  — we've vetted the URL plays (every published curated row)
@@ -460,6 +471,14 @@ function buildRow(station: Station, currentId: string, state: NowPlaying['state'
   const name = document.createElement('div');
   name.className = 'row-name';
   name.textContent = station.name;
+  const flag = flagEmoji(station.country);
+  if (flag) {
+    const flagSpan = document.createElement('span');
+    flagSpan.className = 'row-flag';
+    flagSpan.textContent = flag;
+    flagSpan.title = countryName(station.country!);
+    name.append(' ', flagSpan);
+  }
   const tags = document.createElement('div');
   tags.className = 'row-tags';
   const stars = buildCapabilityStars(station);
