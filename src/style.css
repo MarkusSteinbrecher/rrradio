@@ -103,6 +103,23 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 
 ::selection { background: var(--accent); color: var(--bg); }
 
+/* Visually-hidden landing prose. Rendered offscreen so it stays in
+   the accessibility tree and the static HTML (Googlebot reads it),
+   but never paints over the SPA UI. tools/build-station-pages.mjs
+   replaces the inner content per station so each /station/<id>/
+   page has unique crawlable text. */
+.seo-prose {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* ─── App shell ─── */
 .app {
   position: relative;

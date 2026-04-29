@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node tools/build-catalog.mjs && vite",
-    "build": "node tools/build-catalog.mjs && tsc && vite build",
+    "build": "node tools/build-catalog.mjs && tsc && vite build && node tools/build-station-pages.mjs",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "catalog": "node tools/build-catalog.mjs",

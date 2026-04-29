@@ -1470,6 +1470,18 @@ function onRowPlay(station: Station): void {
   if (activeTab === 'recent') renderContent();
   // Open Now Playing on first play of this station
   openNp(true);
+  // Reflect the active station in the URL so the user can copy it /
+  // refresh / share. Only built-in stations get a pre-rendered
+  // /station/<id>/ page; for custom + RB rows we leave the URL alone.
+  syncUrlForStation(station);
+}
+
+function syncUrlForStation(station: Station): void {
+  const isBuilt = BUILTIN_STATIONS.some((b) => b.id === station.id);
+  if (!isBuilt) return;
+  const next = `/station/${station.id}/`;
+  if (window.location.pathname === next) return;
+  window.history.pushState({ stationId: station.id }, '', next);
 }
 
 function onToggleFav(station: Station): void {
@@ -1546,6 +1558,11 @@ function goHome(): void {
     void runQuery();
   }
   $content.scrollTo({ top: 0, behavior: 'smooth' });
+  // Restore the homepage URL when returning home — symmetric with
+  // syncUrlForStation pushing /station/<id>/ on row click.
+  if (window.location.pathname !== '/') {
+    window.history.pushState({}, '', '/');
+  }
 }
 
 function setTab(tab: Tab): void {
@@ -2338,8 +2355,36 @@ syncSearchClear();
 void loadBuiltinStations().then(() => {
   syncCountryOptions();
   if (activeTab === 'browse') renderContent();
+  autoLoadStationFromUrl();
 });
 void runQuery();
 void loadSiteVisits();
 void loadTopStations();
 void loadBacklog();
+
+/** Pre-rendered /station/<id>/ landing pages set window.__STATION_ID__
+ *  so the SPA can auto-play the station the visitor landed on. We also
+ *  parse the URL path as a fallback (in case the injection was stripped
+ *  or the user shared a link to a non-prerendered station id). The
+ *  match is deferred until BUILTIN_STATIONS has hydrated. */
+function autoLoadStationFromUrl(): void {
+  const declared = (window as unknown as { __STATION_ID__?: unknown }).__STATION_ID__;
+  const fromGlobal = typeof declared === 'string' ? declared : undefined;
+  const fromPath = window.location.pathname.match(/\/station\/([^/]+)\/?$/)?.[1];
+  const id = fromGlobal ?? fromPath;
+  if (!id) return;
+  const station = BUILTIN_STATIONS.find((s) => s.id === id);
+  if (!station) return;
+  onRowPlay(station);
+}
+
+/** Push a shareable URL when a station is selected, so the user can
+ *  copy the address bar / hit refresh and land back on the same
+ *  station. popstate restores the URL → no reload, audio keeps
+ *  playing during in-app navigation. */
+window.addEventListener('popstate', () => {
+  // Don't auto-stop or auto-play on back/forward — radio sessions
+  // are long-running and a page navigation shouldn't interrupt
+  // playback. If the user wants to switch they can click another
+  // row. We just keep the URL state coherent.
+});

@@ -11,10 +11,19 @@
     <!-- Search-engine + share metadata.
          Title / description target long-tail intent ("minimal browser
          internet radio", "no-signup", "ad-free") rather than the
-         hopeless head term "free internet radio". -->
+         hopeless head term "free internet radio".
+         The blocks bracketed by `#seo:*` HTML comments below are
+         rewritten by tools/build-station-pages.mjs to emit a unique
+         landing page per curated station at /station/<id>/. -->
+    <!-- #seo:title -->
     <title>rrradio · minimal browser internet radio</title>
+    <!-- /#seo:title -->
+    <!-- #seo:description -->
     <meta name="description" content="A minimal, ad-free internet radio player you run in your browser. Play FM4, Bayern 1, Grrif, BBC and thousands more — no signup, no app, no tracking." />
+    <!-- /#seo:description -->
+    <!-- #seo:canonical -->
     <link rel="canonical" href="https://rrradio.org/" />
+    <!-- /#seo:canonical -->
 
     <!-- Favicon. SVG-only — Chrome/Edge/Firefox/Safari 16.4+ all
          support SVG favicons, which scales crisp at every size
@@ -24,18 +33,23 @@
     <link rel="mask-icon" href="/favicon.svg" color="#ffff00" />
 
     <!-- Open Graph (Facebook, Slack, Discord link previews) -->
+    <!-- #seo:og -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="rrradio" />
     <meta property="og:title" content="rrradio · minimal browser internet radio" />
     <meta property="og:description" content="Ad-free, signup-free internet radio in your browser. Late-night radio vibes, real stations, lock-screen controls on mobile." />
     <meta property="og:url" content="https://rrradio.org/" />
+    <!-- /#seo:og -->
 
     <!-- Twitter card -->
+    <!-- #seo:twitter -->
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="rrradio · minimal browser internet radio" />
     <meta name="twitter:description" content="Ad-free, signup-free internet radio in your browser." />
+    <!-- /#seo:twitter -->
 
     <!-- Structured data — eligible for Google rich results when crawled. -->
+    <!-- #seo:jsonld -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -50,6 +64,9 @@
         "isAccessibleForFree": true
       }
     </script>
+    <!-- /#seo:jsonld -->
+    <!-- #seo:bootstation -->
+    <!-- /#seo:bootstation -->
 
     <link rel="stylesheet" href="/src/style.css" />
 
@@ -71,6 +88,22 @@
     </script>
   </head>
   <body>
+    <!-- Search-engine prose. Visually hidden via .seo-prose (sr-only),
+         but present in the static HTML so crawlers see real H1 + a
+         paragraph of text on every URL. Rewritten per station by
+         tools/build-station-pages.mjs. -->
+    <!-- #seo:prose -->
+    <aside class="seo-prose" aria-hidden="true">
+      <h1>rrradio.org — minimal, ad-free internet radio in your browser</h1>
+      <p>
+        Listen to live radio streams from around the world. Curated
+        stations include FM4, Ö1, Bayern 1, BBC Radio 1–6, BBC World
+        Service, Radio France, RAI, Grrif and many more — alongside
+        the long tail of community-maintained stations from Radio
+        Browser. No signup, no app install, no tracking.
+      </p>
+    </aside>
+    <!-- /#seo:prose -->
     <div class="app">
       <!-- ============== TOP BAR ============== -->
       <header class="topbar">
