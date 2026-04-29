@@ -70,6 +70,307 @@
       "featured": true
     },
     {
+      "id": "builtin-oe1",
+      "name": "Ö1",
+      "streamUrl": "https://orf-live.ors-shoutcast.at/oe1-q2a",
+      "homepage": "https://oe1.orf.at/",
+      "country": "AT",
+      "tags": [
+        "classical",
+        "culture",
+        "news",
+        "public radio",
+        "austria"
+      ],
+      "favicon": "https://oe1.orf.at/static/img/logo_oe1.png",
+      "bitrate": 192,
+      "codec": "MP3",
+      "metadata": "orf",
+      "metadataUrl": "https://audioapi.orf.at/oe1/api/json/4.0/live",
+      "geo": [
+        48.1777,
+        16.2878
+      ]
+    },
+    {
+      "id": "builtin-oe3",
+      "name": "Hitradio Ö3",
+      "streamUrl": "https://orf-live.ors-shoutcast.at/oe3-q2a",
+      "homepage": "https://oe3.orf.at/",
+      "country": "AT",
+      "tags": [
+        "pop",
+        "hits",
+        "public radio",
+        "austria"
+      ],
+      "favicon": "https://tubestatic.orf.at/mojo/1_3/storyserver//tube/common/images/apple-icons/oe3.png",
+      "bitrate": 192,
+      "codec": "MP3",
+      "metadata": "orf",
+      "metadataUrl": "https://audioapi.orf.at/oe3/api/json/4.0/live",
+      "geo": [
+        48.1777,
+        16.2878
+      ],
+      "featured": true
+    },
+    {
+      "id": "builtin-orf-radio-wien",
+      "name": "Radio Wien",
+      "streamUrl": "https://orf-live.ors-shoutcast.at/wie-q2a",
+      "homepage": "https://wien.orf.at/radio/",
+      "country": "AT",
+      "tags": [
+        "regional",
+        "public radio",
+        "austria",
+        "vienna"
+      ],
+      "favicon": "https://orfodon.org/system/accounts/avatars/111/374/411/749/352/990/original/16c84635847ddad3.png",
+      "bitrate": 192,
+      "codec": "MP3",
+      "metadata": "orf",
+      "metadataUrl": "https://audioapi.orf.at/wie/api/json/4.0/live",
+      "geo": [
+        48.222,
+        16.422
+      ]
+    },
+    {
+      "id": "builtin-orf-radio-vorarlberg",
+      "name": "Radio Vorarlberg",
+      "streamUrl": "https://orf-live.ors-shoutcast.at/vbg-q2a",
+      "homepage": "https://vorarlberg.orf.at/radio/",
+      "country": "AT",
+      "tags": [
+        "regional",
+        "public radio",
+        "austria",
+        "vorarlberg"
+      ],
+      "favicon": "https://orfodon.org/system/accounts/avatars/111/374/623/444/743/699/original/3022673107e835ba.png",
+      "bitrate": 192,
+      "codec": "MP3",
+      "metadata": "orf",
+      "metadataUrl": "https://audioapi.orf.at/vbg/api/json/4.0/live",
+      "geo": [
+        47.412,
+        9.744
+      ]
+    },
+    {
+      "id": "builtin-orf-radio-oberoesterreich",
+      "name": "Radio Oberösterreich",
+      "streamUrl": "https://orf-live.ors-shoutcast.at/ooe-q2a",
+      "homepage": "https://ooe.orf.at/radio/",
+      "country": "AT",
+      "tags": [
+        "regional",
+        "public radio",
+        "austria",
+        "upper austria"
+      ],
+      "favicon": "https://orfodon.org/system/accounts/avatars/111/374/484/561/807/260/original/04efe58e0bc4d119.png",
+      "bitrate": 192,
+      "codec": "MP3",
+      "metadata": "orf",
+      "metadataUrl": "https://audioapi.orf.at/ooe/api/json/4.0/live",
+      "geo": [
+        48.305,
+        14.286
+      ]
+    },
+    {
+      "id": "builtin-orf-radio-niederoesterreich",
+      "name": "Radio Niederösterreich",
+      "streamUrl": "https://orf-live.ors-shoutcast.at/noe-q2a",
+      "homepage": "https://noe.orf.at/radio/",
+      "country": "AT",
+      "tags": [
+        "regional",
+        "public radio",
+        "austria",
+        "lower austria"
+      ],
+      "favicon": "https://orfodon.org/system/accounts/avatars/111/374/434/334/698/982/original/aad9486c4d8e92f2.png",
+      "bitrate": 192,
+      "codec": "MP3",
+      "metadata": "orf",
+      "metadataUrl": "https://audioapi.orf.at/noe/api/json/4.0/live",
+      "geo": [
+        48.205,
+        15.622
+      ]
+    },
+    {
+      "id": "builtin-orf-radio-steiermark",
+      "name": "Radio Steiermark",
+      "streamUrl": "https://orf-live.ors-shoutcast.at/stm-q2a",
+      "homepage": "https://steiermark.orf.at/radio/",
+      "country": "AT",
+      "tags": [
+        "regional",
+        "public radio",
+        "austria",
+        "styria"
+      ],
+      "favicon": "https://orfodon.org/system/accounts/avatars/111/374/531/169/177/709/original/1721e6944c64b1b3.png",
+      "bitrate": 192,
+      "codec": "MP3",
+      "metadata": "orf",
+      "metadataUrl": "https://audioapi.orf.at/stm/api/json/4.0/live",
+      "geo": [
+        47.071,
+        15.439
+      ]
+    },
+    {
+      "id": "builtin-orf-radio-tirol",
+      "name": "Radio Tirol",
+      "streamUrl": "https://orf-live.ors-shoutcast.at/tir-q2a",
+      "homepage": "https://tirol.orf.at/radio/",
+      "country": "AT",
+      "tags": [
+        "regional",
+        "public radio",
+        "austria",
+        "tyrol"
+      ],
+      "favicon": "https://orfodon.org/system/accounts/avatars/111/374/561/229/082/482/original/57acca969ede8452.png",
+      "bitrate": 192,
+      "codec": "MP3",
+      "metadata": "orf",
+      "metadataUrl": "https://audioapi.orf.at/tir/api/json/4.0/live",
+      "geo": [
+        47.272,
+        11.394
+      ]
+    },
+    {
+      "id": "builtin-orf-radio-kaernten",
+      "name": "Radio Kärnten",
+      "streamUrl": "https://orf-live.ors-shoutcast.at/ktn-q2a",
+      "homepage": "https://kaernten.orf.at/radio/",
+      "country": "AT",
+      "tags": [
+        "regional",
+        "public radio",
+        "austria",
+        "carinthia"
+      ],
+      "favicon": "https://orfodon.org/system/accounts/avatars/111/374/600/349/621/738/original/38f30e28fae38639.png",
+      "bitrate": 192,
+      "codec": "MP3",
+      "metadata": "orf",
+      "metadataUrl": "https://audioapi.orf.at/ktn/api/json/4.0/live",
+      "geo": [
+        46.624,
+        14.305
+      ]
+    },
+    {
+      "id": "builtin-orf-radio-burgenland",
+      "name": "Radio Burgenland",
+      "streamUrl": "https://orf-live.ors-shoutcast.at/bgl-q2a",
+      "homepage": "https://burgenland.orf.at/radio/",
+      "country": "AT",
+      "tags": [
+        "regional",
+        "public radio",
+        "austria",
+        "burgenland"
+      ],
+      "favicon": "https://orfodon.org/system/accounts/avatars/111/374/581/969/931/266/original/4e38a6ea240646e2.png",
+      "bitrate": 192,
+      "codec": "MP3",
+      "metadata": "orf",
+      "metadataUrl": "https://audioapi.orf.at/bgl/api/json/4.0/live",
+      "geo": [
+        47.846,
+        16.527
+      ]
+    },
+    {
+      "id": "builtin-orf-radio-salzburg",
+      "name": "Radio Salzburg",
+      "streamUrl": "https://orf-live.ors-shoutcast.at/sbg-q2a",
+      "homepage": "https://salzburg.orf.at/radio/",
+      "country": "AT",
+      "tags": [
+        "regional",
+        "public radio",
+        "austria",
+        "salzburg"
+      ],
+      "favicon": "https://orfodon.org/system/accounts/avatars/111/374/508/091/321/480/original/185d67318d45fbd9.png",
+      "bitrate": 192,
+      "codec": "MP3",
+      "metadata": "orf",
+      "metadataUrl": "https://audioapi.orf.at/sbg/api/json/4.0/live",
+      "geo": [
+        47.806,
+        13.044
+      ]
+    },
+    {
+      "id": "at-lounge-fm",
+      "name": "Lounge.FM",
+      "streamUrl": "https://s35.derstream.net/100austria.mp3",
+      "homepage": "https://www.lounge.fm/",
+      "country": "AT",
+      "tags": [
+        "lounge",
+        "chill",
+        "austria"
+      ],
+      "favicon": "https://www.lounge.fm/wp-content/uploads/2014/06/loungefm_logo_colour2-300x300.jpg",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        48.2082,
+        16.3738
+      ]
+    },
+    {
+      "id": "at-arabella-wien",
+      "name": "Radio Arabella Wien",
+      "streamUrl": "https://frontend.streams.arabella.at/arabella-wien?aggregator=arabella-playlistf",
+      "homepage": "https://www.arabella.at/",
+      "country": "AT",
+      "tags": [
+        "pop",
+        "schlager",
+        "austria",
+        "vienna"
+      ],
+      "favicon": "https://arabella.at/static/base/img/apple-touch-icon.a3ce28a2756f.png",
+      "codec": "AAC",
+      "geo": [
+        48.2082,
+        16.3738
+      ]
+    },
+    {
+      "id": "at-orange-94",
+      "name": "Orange 94.0",
+      "streamUrl": "https://securestream.o94.at/live.mp3",
+      "homepage": "https://o94.at/",
+      "country": "AT",
+      "tags": [
+        "community",
+        "alternative",
+        "austria",
+        "vienna"
+      ],
+      "favicon": "https://o94.at/themes/custom/radio_orange/images/icons/apple/apple-touch-icon-120x120.png",
+      "codec": "MP3",
+      "geo": [
+        48.2082,
+        16.3738
+      ]
+    },
+    {
       "id": "rb-bbc-world-service",
       "name": "BBC World Service",
       "streamUrl": "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_east_asia",

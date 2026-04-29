@@ -73,18 +73,246 @@
   status: working
   featured: true
 
-# ─────────────── To investigate ───────────────
-# (Add real entries with status:fetcher-todo or status:working as we
-# research them. Examples kept here as placeholders — not emitted.)
+# ─── ORF expansion (2026-04-29) ───
+# Single fetcher (audioapi.orf.at/<key>/api/json/4.0/live) covers every
+# channel. RB stores http:// streamUrls for several regional channels —
+# we override with HTTPS variants from orf-live.ors-shoutcast.at.
 
-- id: tbd-orf-oe1
+- id: builtin-oe1
+  stationuuid: 657b7b0f-2ef9-45df-9915-4ca4f948c54f
+  changeuuid: b3a453bd-c9a7-4fed-b1c4-cbde7503d3fb
+  reviewedAt: 2026-04-29
   geo: [48.1777, 16.2878]
   broadcaster: orf
   name: Ö1
   streamUrl: https://orf-live.ors-shoutcast.at/oe1-q2a
   metadataUrl: https://audioapi.orf.at/oe1/api/json/4.0/live
-  status: investigate
-  notes: stream URL not verified; metadata URL pattern matches FM4
+  bitrate: 192
+  codec: MP3
+  tags: [classical, culture, news, public radio, austria]
+  favicon: https://oe1.orf.at/static/img/logo_oe1.png
+  homepage: https://oe1.orf.at/
+  country: AT
+  status: working
+
+- id: builtin-oe3
+  stationuuid: e723f7f8-0db1-4bc5-a64c-64d8377f9f9a
+  changeuuid: e108d824-f05d-4081-a9a5-8bdf0e73de36
+  reviewedAt: 2026-04-29
+  geo: [48.1777, 16.2878]
+  broadcaster: orf
+  name: Hitradio Ö3
+  streamUrl: https://orf-live.ors-shoutcast.at/oe3-q2a
+  metadataUrl: https://audioapi.orf.at/oe3/api/json/4.0/live
+  bitrate: 192
+  codec: MP3
+  tags: [pop, hits, public radio, austria]
+  favicon: https://tubestatic.orf.at/mojo/1_3/storyserver//tube/common/images/apple-icons/oe3.png
+  homepage: https://oe3.orf.at/
+  country: AT
+  status: working
+  featured: true
+
+- id: builtin-orf-radio-wien
+  stationuuid: 154fc4d3-4584-4b59-b2ed-e8656e0420e8
+  changeuuid: 550bf3d6-3d2e-4b68-a74b-9e28759e2218
+  reviewedAt: 2026-04-29
+  geo: [48.222, 16.422]
+  broadcaster: orf
+  name: Radio Wien
+  streamUrl: https://orf-live.ors-shoutcast.at/wie-q2a
+  metadataUrl: https://audioapi.orf.at/wie/api/json/4.0/live
+  bitrate: 192
+  codec: MP3
+  tags: [regional, public radio, austria, vienna]
+  favicon: https://orfodon.org/system/accounts/avatars/111/374/411/749/352/990/original/16c84635847ddad3.png
+  homepage: https://wien.orf.at/radio/
+  country: AT
+  status: working
+
+- id: builtin-orf-radio-vorarlberg
+  stationuuid: 5971be6a-df87-4e50-9972-df9c93a47dc6
+  changeuuid: d6a7700f-1d05-48cf-a3b8-e6a9d117678c
+  reviewedAt: 2026-04-29
+  geo: [47.412, 9.744]
+  broadcaster: orf
+  name: Radio Vorarlberg
+  streamUrl: https://orf-live.ors-shoutcast.at/vbg-q2a
+  metadataUrl: https://audioapi.orf.at/vbg/api/json/4.0/live
+  bitrate: 192
+  codec: MP3
+  tags: [regional, public radio, austria, vorarlberg]
+  favicon: https://orfodon.org/system/accounts/avatars/111/374/623/444/743/699/original/3022673107e835ba.png
+  homepage: https://vorarlberg.orf.at/radio/
+  country: AT
+  status: working
+
+- id: builtin-orf-radio-oberoesterreich
+  stationuuid: ed03bcf5-86d2-45f7-848d-90d67f89e001
+  changeuuid: c2f29100-fb61-42c2-ba7d-5a7dc9b23d7b
+  reviewedAt: 2026-04-29
+  geo: [48.305, 14.286]
+  broadcaster: orf
+  name: Radio Oberösterreich
+  streamUrl: https://orf-live.ors-shoutcast.at/ooe-q2a
+  metadataUrl: https://audioapi.orf.at/ooe/api/json/4.0/live
+  bitrate: 192
+  codec: MP3
+  tags: [regional, public radio, austria, upper austria]
+  favicon: https://orfodon.org/system/accounts/avatars/111/374/484/561/807/260/original/04efe58e0bc4d119.png
+  homepage: https://ooe.orf.at/radio/
+  country: AT
+  status: working
+
+- id: builtin-orf-radio-niederoesterreich
+  stationuuid: c4a15de4-ce45-401f-bfb1-f98f818a74f0
+  changeuuid: 9d5ef7f9-ee96-476a-810f-69dfac09d44a
+  reviewedAt: 2026-04-29
+  geo: [48.205, 15.622]
+  broadcaster: orf
+  name: Radio Niederösterreich
+  streamUrl: https://orf-live.ors-shoutcast.at/noe-q2a
+  metadataUrl: https://audioapi.orf.at/noe/api/json/4.0/live
+  bitrate: 192
+  codec: MP3
+  tags: [regional, public radio, austria, lower austria]
+  favicon: https://orfodon.org/system/accounts/avatars/111/374/434/334/698/982/original/aad9486c4d8e92f2.png
+  homepage: https://noe.orf.at/radio/
+  country: AT
+  status: working
+
+- id: builtin-orf-radio-steiermark
+  stationuuid: f0787305-4e27-4494-b5ae-8f9082301f1a
+  changeuuid: 5ec34bd4-5ec4-4088-b25e-54fa2ce6beb1
+  reviewedAt: 2026-04-29
+  geo: [47.071, 15.439]
+  broadcaster: orf
+  name: Radio Steiermark
+  streamUrl: https://orf-live.ors-shoutcast.at/stm-q2a
+  metadataUrl: https://audioapi.orf.at/stm/api/json/4.0/live
+  bitrate: 192
+  codec: MP3
+  tags: [regional, public radio, austria, styria]
+  favicon: https://orfodon.org/system/accounts/avatars/111/374/531/169/177/709/original/1721e6944c64b1b3.png
+  homepage: https://steiermark.orf.at/radio/
+  country: AT
+  status: working
+
+- id: builtin-orf-radio-tirol
+  stationuuid: 477d5e54-24b0-48dd-97f0-5cf4f047eb55
+  changeuuid: 46e85d39-7559-4626-9252-75b907aac483
+  reviewedAt: 2026-04-29
+  geo: [47.272, 11.394]
+  broadcaster: orf
+  name: Radio Tirol
+  streamUrl: https://orf-live.ors-shoutcast.at/tir-q2a
+  metadataUrl: https://audioapi.orf.at/tir/api/json/4.0/live
+  bitrate: 192
+  codec: MP3
+  tags: [regional, public radio, austria, tyrol]
+  favicon: https://orfodon.org/system/accounts/avatars/111/374/561/229/082/482/original/57acca969ede8452.png
+  homepage: https://tirol.orf.at/radio/
+  country: AT
+  status: working
+
+- id: builtin-orf-radio-kaernten
+  stationuuid: f9bc912f-dbd7-4a75-b3af-1a77c2231098
+  changeuuid: 2de78965-e9ca-4d9f-8862-72f6f8e3599a
+  reviewedAt: 2026-04-29
+  geo: [46.624, 14.305]
+  broadcaster: orf
+  name: Radio Kärnten
+  streamUrl: https://orf-live.ors-shoutcast.at/ktn-q2a
+  metadataUrl: https://audioapi.orf.at/ktn/api/json/4.0/live
+  bitrate: 192
+  codec: MP3
+  tags: [regional, public radio, austria, carinthia]
+  favicon: https://orfodon.org/system/accounts/avatars/111/374/600/349/621/738/original/38f30e28fae38639.png
+  homepage: https://kaernten.orf.at/radio/
+  country: AT
+  status: working
+
+- id: builtin-orf-radio-burgenland
+  stationuuid: 77bb2bea-2de1-4909-bf9f-25021e173092
+  changeuuid: 51d0aceb-23da-40b5-bd8b-88f75c7c40cb
+  reviewedAt: 2026-04-29
+  geo: [47.846, 16.527]
+  broadcaster: orf
+  name: Radio Burgenland
+  streamUrl: https://orf-live.ors-shoutcast.at/bgl-q2a
+  metadataUrl: https://audioapi.orf.at/bgl/api/json/4.0/live
+  bitrate: 192
+  codec: MP3
+  tags: [regional, public radio, austria, burgenland]
+  favicon: https://orfodon.org/system/accounts/avatars/111/374/581/969/931/266/original/4e38a6ea240646e2.png
+  homepage: https://burgenland.orf.at/radio/
+  country: AT
+  status: working
+
+- id: builtin-orf-radio-salzburg
+  stationuuid: cee9c38a-a2f2-40ef-8926-4c08e9f60279
+  changeuuid: 1a014bec-b675-470b-b9ce-0bc3f739437e
+  reviewedAt: 2026-04-29
+  geo: [47.806, 13.044]
+  broadcaster: orf
+  name: Radio Salzburg
+  streamUrl: https://orf-live.ors-shoutcast.at/sbg-q2a
+  metadataUrl: https://audioapi.orf.at/sbg/api/json/4.0/live
+  bitrate: 192
+  codec: MP3
+  tags: [regional, public radio, austria, salzburg]
+  favicon: https://orfodon.org/system/accounts/avatars/111/374/508/091/321/480/original/185d67318d45fbd9.png
+  homepage: https://salzburg.orf.at/radio/
+  country: AT
+  status: working
+
+# ─── AT commercial / community (2026-04-29) ───
+
+- id: at-lounge-fm
+  stationuuid: 282facce-8ae7-46a5-9e24-a946abe9fc7d
+  changeuuid: 6668b878-0a7d-4adf-a99d-d46ca54e5ffc
+  reviewedAt: 2026-04-29
+  geo: [48.2082, 16.3738]
+  broadcaster: independent
+  name: Lounge.FM
+  streamUrl: https://s35.derstream.net/100austria.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [lounge, chill, austria]
+  favicon: https://www.lounge.fm/wp-content/uploads/2014/06/loungefm_logo_colour2-300x300.jpg
+  homepage: https://www.lounge.fm/
+  country: AT
+  status: stream-only
+
+- id: at-arabella-wien
+  stationuuid: 61866d6c-3fea-41d5-9117-db98c86050b1
+  changeuuid: dc793819-7bb7-4569-9294-c86a20e0bcb3
+  reviewedAt: 2026-04-29
+  geo: [48.2082, 16.3738]
+  broadcaster: independent
+  name: Radio Arabella Wien
+  streamUrl: https://frontend.streams.arabella.at/arabella-wien?aggregator=arabella-playlistf
+  codec: AAC
+  tags: [pop, schlager, austria, vienna]
+  favicon: https://arabella.at/static/base/img/apple-touch-icon.a3ce28a2756f.png
+  homepage: https://www.arabella.at/
+  country: AT
+  status: stream-only
+
+- id: at-orange-94
+  stationuuid: 62e78417-563d-11ea-be63-52543be04c81
+  changeuuid: 5bfc46e8-f803-4efc-aff8-8cf8c5420af0
+  reviewedAt: 2026-04-29
+  geo: [48.2082, 16.3738]
+  broadcaster: independent
+  name: Orange 94.0
+  streamUrl: https://securestream.o94.at/live.mp3
+  codec: MP3
+  tags: [community, alternative, austria, vienna]
+  favicon: https://o94.at/themes/custom/radio_orange/images/icons/apple/apple-touch-icon-120x120.png
+  homepage: https://o94.at/
+  country: AT
+  status: stream-only
 
 # Auto-imported from Radio Browser (2026-04-26)
 - id: rb-bbc-world-service
