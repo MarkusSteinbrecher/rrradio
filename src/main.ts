@@ -154,6 +154,7 @@ const $npLyricsText = document.getElementById('np-lyrics-text') as HTMLElement;
 const $npTrackRow = document.getElementById('np-track-row') as HTMLElement;
 const $npTrackTitle = document.getElementById('np-track-title') as HTMLElement;
 const $npTrackCover = document.getElementById('np-track-cover') as HTMLImageElement;
+const $npTrackSpotify = document.getElementById('np-track-spotify') as HTMLAnchorElement;
 const $npStream = document.getElementById('np-stream') as HTMLAnchorElement;
 const $npStreamHost = document.getElementById('np-stream-host') as HTMLElement;
 const $npHome = document.getElementById('np-home') as HTMLAnchorElement;
@@ -736,6 +737,20 @@ function renderNowPlaying(np: NowPlaying): void {
   $npTrackRow.hidden = !s.id;
   const hasTrack = !!np.trackTitle && np.trackTitle.trim().length > 0;
   $npTrackTitle.textContent = hasTrack ? (np.trackTitle as string) : '—';
+
+  // Spotify search deep link — works on mobile via the Spotify app's
+  // universal link handler, or falls through to open.spotify.com web
+  // player on desktop. We don't have a reliable artist/track split
+  // for every metadata source, so we just feed the full trackTitle;
+  // Spotify's search handles "Artist - Track" patterns well.
+  if (hasTrack) {
+    const q = encodeURIComponent((np.trackTitle as string).trim());
+    $npTrackSpotify.href = `https://open.spotify.com/search/${q}`;
+    $npTrackSpotify.hidden = false;
+  } else {
+    $npTrackSpotify.hidden = true;
+    $npTrackSpotify.removeAttribute('href');
+  }
 
   const fallback = document.getElementById('np-track-cover-fallback');
   if (fallback) fallback.textContent = stationInitials(s.name || '');
@@ -3065,6 +3080,14 @@ $miniToggle.addEventListener('click', (e) => {
 });
 
 $npPlay.addEventListener('click', () => handlePlayToggle());
+
+// Spotify deep link — count taps so we can see if anyone uses it.
+// Title carries the track string for the dashboard.
+$npTrackSpotify.addEventListener('click', () => {
+  if (!$npTrackSpotify.hidden) {
+    track('open-spotify', currentNP.trackTitle ?? '');
+  }
+});
 $npMute.addEventListener('click', () => {
   const muted = player.toggleMute();
   $body.classList.toggle('is-muted', muted);

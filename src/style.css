@@ -1302,6 +1302,36 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
   line-height: 1.3;
   text-wrap: balance;
 }
+/* "Open in Spotify" — small inline link below the on-air title.
+   Hidden when there's no track to search for. Spotify-green glyph
+   + label + external-link arrow. Tapping opens the Spotify app on
+   mobile (deep link via open.spotify.com) or the Web Player on
+   desktop. */
+.np-track__spotify {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 4px 10px 4px 8px;
+  border: 1px solid color-mix(in srgb, #1db954 35%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, #1db954 10%, transparent);
+  color: #1db954;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  width: fit-content;
+  transition: background 0.15s, border-color 0.15s;
+}
+.np-track__spotify:hover {
+  background: color-mix(in srgb, #1db954 20%, transparent);
+  border-color: #1db954;
+}
+.np-track__spotify[hidden] { display: none; }
+.np-track__spotify svg { width: 13px; height: 13px; flex-shrink: 0; }
+.np-track__spotify-out { width: 11px !important; height: 11px !important; opacity: 0.8; }
 
 /* ─── Tuner Dial ─── */
 .dial {
