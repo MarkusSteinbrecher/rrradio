@@ -2664,6 +2664,17 @@ void loadBuiltinStations().then(() => {
   if (activeTab === 'browse') renderContent();
   autoLoadStationFromUrl();
 });
+// Sitelinks search box (Google / Bing) and any inbound link with
+// `?q=...` lands on '/' with a query — prefill the search input so
+// the visitor sees results without an extra step. Declared in the
+// WebSite SearchAction JSON-LD in index.html.
+{
+  const q = new URLSearchParams(window.location.search).get('q');
+  if (q && q.trim()) {
+    $search.value = q.trim();
+    syncSearchClear();
+  }
+}
 void runQuery();
 void loadSiteVisits();
 void loadTopStations();

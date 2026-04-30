@@ -99,6 +99,73 @@ function pickTags(s) {
   return tags.slice(0, 3);
 }
 
+// ─── 2b. Cross-link indexes ────────────────────────────────────────
+// Each station page gets a "More from {country}" + "More {genre}
+// stations" block in its SEO prose so crawlers see a dense internal
+// link graph (~16 outbound links per page) rather than 703 islands
+// each linking only to /. Order is catalog order (deterministic,
+// reflects curator intent — featured stations naturally rise first).
+const RELATED_MAX = 8;
+const byCountry = new Map();
+const byTag = new Map();
+for (const s of stations) {
+  if (s.country) {
+    const c = String(s.country).toUpperCase();
+    if (!byCountry.has(c)) byCountry.set(c, []);
+    byCountry.get(c).push(s);
+  }
+  for (const t of s.tags ?? []) {
+    const tag = String(t).trim().toLowerCase();
+    if (!tag) continue;
+    if (!byTag.has(tag)) byTag.set(tag, []);
+    byTag.get(tag).push(s);
+  }
+}
+
+function relatedByCountry(s) {
+  if (!s.country) return [];
+  const c = String(s.country).toUpperCase();
+  return (byCountry.get(c) ?? [])
+    .filter((o) => o.id !== s.id)
+    .slice(0, RELATED_MAX);
+}
+
+function relatedByTag(s, exclude) {
+  // Walk the picked tags in priority order; first match wins. Skips
+  // stations already in the country list so the two blocks present
+  // distinct alternatives instead of overlapping rosters.
+  const tags = pickTags(s);
+  if (!tags.length) return { tag: null, items: [] };
+  const seen = new Set([s.id, ...exclude]);
+  for (const tag of tags) {
+    const items = [];
+    for (const o of byTag.get(tag) ?? []) {
+      if (seen.has(o.id)) continue;
+      seen.add(o.id);
+      items.push(o);
+      if (items.length >= RELATED_MAX) break;
+    }
+    if (items.length) return { tag, items };
+  }
+  return { tag: null, items: [] };
+}
+
+function renderRelatedNav(heading, items) {
+  if (!items.length) return '';
+  const lis = items
+    .map(
+      (o) =>
+        `        <li><a href="/station/${escapeAttr(o.id)}/">${escapeHtml(o.name)}</a></li>`,
+    )
+    .join('\n');
+  return `      <nav>
+        <h2>${escapeHtml(heading)}</h2>
+        <ul>
+${lis}
+        </ul>
+      </nav>`;
+}
+
 // ─── 3. Per-station templates ──────────────────────────────────────
 function renderStationPage(s) {
   const url = `${SITE}/station/${s.id}/`;
@@ -111,12 +178,15 @@ function renderStationPage(s) {
     `Listen to ${s.name} live online — ${tagPhrase} radio${countryPhrase}. Free in any browser, no signup, no app, no tracking.`,
   );
 
+  const ogImage = `${SITE}/og-image.png`;
+
   const jsonld = {
     '@context': 'https://schema.org',
     '@type': 'RadioStation',
     name: s.name,
     url,
     description,
+    image: ogImage,
     isAccessibleForFree: true,
     inLanguage: 'en',
   };
@@ -128,10 +198,27 @@ function renderStationPage(s) {
     ? `Genres: ${tags.join(', ')}.`
     : '';
   const proseCountry = country ? `${country} — ` : '';
+
+  const countryRelated = relatedByCountry(s);
+  const { tag: relatedTag, items: tagRelated } = relatedByTag(
+    s,
+    new Set(countryRelated.map((o) => o.id)),
+  );
+  const countryNav = renderRelatedNav(
+    country ? `More radio from ${country}` : '',
+    country ? countryRelated : [],
+  );
+  const tagNav = renderRelatedNav(
+    relatedTag ? `More ${relatedTag} stations` : '',
+    relatedTag ? tagRelated : [],
+  );
+
   const prose = `<aside class="seo-prose" aria-hidden="true">
       <h1>${escapeHtml(s.name)} — listen live online</h1>
       <p>${escapeHtml(proseCountry)}${escapeHtml(s.name)} live stream${tags.length ? ` (${escapeHtml(tags.join(', '))})` : ''}. Listen in any browser at rrradio.org — no signup, no app install, no tracking.</p>
       ${proseTags ? `<p>${escapeHtml(proseTags)}</p>` : ''}
+${countryNav}
+${tagNav}
       <p><a href="/">Browse all stations</a></p>
     </aside>`;
 
@@ -152,15 +239,21 @@ function renderStationPage(s) {
       `    <meta property="og:title" content="${escapeAttr(title)}" />`,
       `    <meta property="og:description" content="${escapeAttr(description)}" />`,
       `    <meta property="og:url" content="${url}" />`,
+      `    <meta property="og:image" content="${ogImage}" />`,
+      `    <meta property="og:image:width" content="1200" />`,
+      `    <meta property="og:image:height" content="630" />`,
+      `    <meta property="og:image:alt" content="${escapeAttr(`${s.name} on rrradio.org`)}" />`,
     ].join('\n'),
   );
   html = replaceBlock(
     html,
     'twitter',
     [
-      `    <meta name="twitter:card" content="summary" />`,
+      `    <meta name="twitter:card" content="summary_large_image" />`,
       `    <meta name="twitter:title" content="${escapeAttr(title)}" />`,
       `    <meta name="twitter:description" content="${escapeAttr(description)}" />`,
+      `    <meta name="twitter:image" content="${ogImage}" />`,
+      `    <meta name="twitter:image:alt" content="${escapeAttr(`${s.name} on rrradio.org`)}" />`,
     ].join('\n'),
   );
   html = replaceBlock(

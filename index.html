@@ -32,24 +32,56 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="mask-icon" href="/favicon.svg" color="#ffff00" />
 
-    <!-- Open Graph (Facebook, Slack, Discord link previews) -->
+    <!-- Open Graph (Facebook, Slack, Discord link previews).
+         og:image is a 1200x630 PNG generated from public/og-image.svg
+         (see tools workflow notes). Absolute URL is required by some
+         scrapers; image dimensions help Twitter pre-allocate space. -->
     <!-- #seo:og -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="rrradio" />
     <meta property="og:title" content="rrradio · minimal browser internet radio" />
     <meta property="og:description" content="Ad-free, signup-free internet radio in your browser. Late-night radio vibes, real stations, lock-screen controls on mobile." />
     <meta property="og:url" content="https://rrradio.org/" />
+    <meta property="og:image" content="https://rrradio.org/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="rrradio.org — minimal browser internet radio" />
     <!-- /#seo:og -->
 
-    <!-- Twitter card -->
+    <!-- Twitter card. summary_large_image renders the 1200x630 image
+         inline above the title, vs. summary's tiny thumbnail. -->
     <!-- #seo:twitter -->
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="rrradio · minimal browser internet radio" />
     <meta name="twitter:description" content="Ad-free, signup-free internet radio in your browser." />
+    <meta name="twitter:image" content="https://rrradio.org/og-image.png" />
+    <meta name="twitter:image:alt" content="rrradio.org — minimal browser internet radio" />
     <!-- /#seo:twitter -->
 
-    <!-- Structured data — eligible for Google rich results when crawled. -->
+    <!-- Structured data — eligible for Google rich results when crawled.
+         Two top-level entities:
+           1. WebSite + SearchAction → eligible for the sitelinks search
+              box under the brand result. The query parameter `q` is read
+              by src/main.ts and prefilled into the in-app search.
+           2. WebApplication → category, free, browser-only badge. -->
     <!-- #seo:jsonld -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "rrradio",
+        "alternateName": "rrradio.org",
+        "url": "https://rrradio.org/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://rrradio.org/?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -57,6 +89,7 @@
         "name": "rrradio",
         "url": "https://rrradio.org/",
         "description": "Minimal, ad-free internet radio player that runs in any modern browser. No signup, no app install, no tracking.",
+        "image": "https://rrradio.org/og-image.png",
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "Any (modern browser)",
         "browserRequirements": "Requires HTML5 audio + JavaScript",
