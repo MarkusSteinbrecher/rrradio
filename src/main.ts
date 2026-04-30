@@ -1596,7 +1596,12 @@ async function runQuery(): Promise<void> {
     });
     if (myToken !== queryToken) return;
     lastBrowseStations = stations;
-    browseHasMore = stations.length === PAGE_SIZE;
+    // RB's searchStations dedupes by streamUrl, so a 60-result page
+    // typically lands at ≤59 — `=== PAGE_SIZE` would false-negative
+    // every time. Treat any non-empty page as "there's more"; an
+    // empty response means we've actually exhausted the catalog or
+    // the request errored.
+    browseHasMore = stations.length > 0;
     renderContent();
   } catch (err) {
     if (myToken !== queryToken) return;
@@ -1626,7 +1631,9 @@ async function loadMore(): Promise<void> {
     const fresh = more.filter((s) => !seen.has(s.id));
     lastBrowseStations = lastBrowseStations.concat(fresh);
     browseOffset = nextOffset;
-    browseHasMore = more.length === PAGE_SIZE;
+    // See the runQuery comment — `> 0` instead of `=== PAGE_SIZE`
+    // because RB's per-page dedupe keeps trimming below the limit.
+    browseHasMore = more.length > 0;
   } catch {
     browseHasMore = false;
   } finally {
