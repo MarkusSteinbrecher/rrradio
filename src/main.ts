@@ -1642,20 +1642,40 @@ async function loadMore(): Promise<void> {
   }
 }
 
+/** Normalised station-name key for dedupe across sources. RB's IDs
+ *  (stationuuid) and our local IDs ('builtin-fm4', 'rb-bbc-...') don't
+ *  overlap, and stream URLs differ across regional / protocol variants
+ *  for the same logical station — so name is the most reliable signal
+ *  that "BBC World Service" the curated entry and "BBC World Service"
+ *  the RB record represent the same thing. */
+function stationNameKey(name: string): string {
+  return name.toLowerCase().trim().replace(/\s+/g, ' ');
+}
+
 /** Home-view Load more — fetches RB's top stations (sorted by
  *  clickcount globally) and appends them under a "Worldwide" section
  *  below the curated catalog. Each click pulls the next PAGE_SIZE.
- *  Stations already in the curated catalog are filtered out so the
- *  same one doesn't appear twice. */
+ *  Anything sharing a name (case-insensitive) with a curated station
+ *  or an already-loaded RB station is filtered out so the same row
+ *  doesn't appear twice across the home view. */
 async function loadMoreHome(): Promise<void> {
   if (homeRbLoading || !homeRbHasMore) return;
   homeRbLoading = true;
   renderContent();
   try {
     const more = await fetchStations(homeRbOffset);
-    const curatedIds = new Set(BUILTIN_STATIONS.map((s) => s.id));
-    const seen = new Set(homeRbStations.map((s) => s.id));
-    const fresh = more.filter((s) => !seen.has(s.id) && !curatedIds.has(s.id));
+    // Dedupe against the full home view list (curated + GoatCounter
+    // backlog rows surfaced by playedStations()), not just BUILTIN.
+    // Otherwise non-curated played rows (REYFM-class) reappear in
+    // the Worldwide section.
+    const homeNames = new Set(playedStations().map((s) => stationNameKey(s.name)));
+    const seenNames = new Set(homeRbStations.map((s) => stationNameKey(s.name)));
+    const fresh = more.filter((s) => {
+      const key = stationNameKey(s.name);
+      if (homeNames.has(key) || seenNames.has(key)) return false;
+      seenNames.add(key); // dedupe within this batch too
+      return true;
+    });
     homeRbStations = homeRbStations.concat(fresh);
     homeRbOffset += PAGE_SIZE;
     // Empty response means we've actually exhausted RB's catalog
