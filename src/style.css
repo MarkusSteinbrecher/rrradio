@@ -2062,7 +2062,7 @@ body.is-playing .np-bottom .live-dot  {
 /* Topbar pill — only visible while armed. Tappable to re-open the
    sheet for editing. The countdown updates once a minute. */
 .wake-pill {
-  margin: 8px 16px 0;
+  margin: 8px auto 0;
   padding: 8px 14px;
   display: inline-flex;
   align-items: center;
@@ -2076,7 +2076,7 @@ body.is-playing .np-bottom .live-dot  {
   letter-spacing: 0.04em;
   cursor: pointer;
   transition: background 0.15s, transform 0.15s;
-  align-self: flex-start;
+  align-self: center;
 }
 .wake-pill:hover { background: color-mix(in srgb, var(--accent) 22%, transparent); }
 .wake-pill:active { transform: scale(0.97); }
