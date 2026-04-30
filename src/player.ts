@@ -105,6 +105,15 @@ export class AudioPlayer {
       this.updateMediaSessionMetadata(station);
       this.startWatchdog();
     } catch (err) {
+      // Browsers reject audio.play() with NotAllowedError when no user
+      // gesture preceded the call — typical when the SPA auto-loads a
+      // station from the URL on a /station/<id>/ page reload. Surface
+      // it as paused (not error) so the user just hits the play button
+      // to resume; the stream URL is already set up on the audio element.
+      if (err instanceof DOMException && err.name === 'NotAllowedError') {
+        this.update({ state: 'paused', errorMessage: undefined });
+        return;
+      }
       this.update({ state: 'error', errorMessage: String(err) });
     }
   }
