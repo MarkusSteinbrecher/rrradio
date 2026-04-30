@@ -41,6 +41,15 @@ the world. Thank you to the contributors there 🙏. You can add your
 own stream via the + button — your private list lives in this browser
 only.
 
+## Lyrics
+
+When a station broadcasts proper artist + track metadata, we look up
+lyrics from [LRCLIB](https://lrclib.net/) first, then
+[Lyrics.ovh](https://lyrics.ovh/) as a fallback. Both are free,
+community-maintained, and don't require signup. Thank you to the
+contributors there 🙏. Coverage skews mainstream pop / rock — the
+lyrics tab quietly disappears when there's nothing to show.
+
 ## Privacy
 
 No cookies. Your favorites, theme choice, and recently-played
