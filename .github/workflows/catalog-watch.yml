@@ -39,6 +39,31 @@ jobs:
             echo "has_issues=true" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Check for duplicate stations
+        id: duplicates
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set +e
+          npm run check-duplicates > duplicates.txt 2>&1
+          EXIT=$?
+          cat duplicates.txt
+          echo "exit_code=$EXIT" >> "$GITHUB_OUTPUT"
+          if [ "$EXIT" -ne 0 ]; then
+            echo "has_issues=true" >> "$GITHUB_OUTPUT"
+          fi
+          # Commit the regenerated report straight to main if it changed.
+          # The dashboard reads public/station-duplicates.json.
+          if git diff --quiet public/station-duplicates.json; then
+            echo "Duplicates report unchanged."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add public/station-duplicates.json
+            git commit -m "Catalog-watch: refresh station-duplicates.json"
+            git push origin main
+          fi
+
       - name: Show curation candidates
         run: npm run candidates 2>&1 | tee candidates.txt
 
@@ -141,6 +166,12 @@ jobs:
             echo
             echo '```'
             cat validate.txt
+            echo '```'
+            echo
+            echo "### check-duplicates"
+            echo
+            echo '```'
+            cat duplicates.txt
             echo '```'
             echo
             echo "### candidates (top played, not curated)"
