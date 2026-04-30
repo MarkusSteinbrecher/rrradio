@@ -167,9 +167,9 @@ const $wakeSheet = document.getElementById('wake-sheet') as HTMLElement;
 const $wakeClose = document.getElementById('wake-close') as HTMLButtonElement;
 const $wakeTime = document.getElementById('wake-time') as HTMLInputElement;
 const $wakeTargetStation = document.getElementById('wake-target-station') as HTMLElement;
+const $wakeTargetCover = document.getElementById('wake-target-cover') as HTMLElement;
 const $wakeTargetHint = document.getElementById('wake-target-hint') as HTMLElement;
-const $wakeArm = document.getElementById('wake-arm') as HTMLButtonElement;
-const $wakeDisarm = document.getElementById('wake-disarm') as HTMLButtonElement;
+const $wakeToggle = document.getElementById('wake-toggle') as HTMLButtonElement;
 const $wakePill = document.getElementById('wake-pill') as HTMLButtonElement;
 const $wakePillTime = document.getElementById('wake-pill-time') as HTMLElement;
 const $wakePillName = document.getElementById('wake-pill-name') as HTMLElement;
@@ -2635,10 +2635,24 @@ function openWakeSheet(open: boolean): void {
   // 23:00 every night just because they disarmed in the morning.
   $wakeTime.value = armed?.time ?? getLastWakeTime() ?? '07:00';
   $wakeTargetStation.textContent = station?.name ?? '—';
+  $wakeTargetCover.replaceChildren();
+  if (station) $wakeTargetCover.append(buildFavicon(station, 56));
   const noStation = !station;
   $wakeTargetHint.hidden = !noStation;
-  $wakeArm.disabled = noStation;
-  $wakeDisarm.hidden = !armed;
+
+  // Single toggle button: "Disarm" while armed, "Arm" otherwise. The
+  // is-armed class flips it from the primary accent fill to a softer
+  // outlined treatment so it doesn't shout "tap me" once already
+  // armed.
+  if (armed) {
+    $wakeToggle.textContent = 'Disarm';
+    $wakeToggle.classList.add('is-armed');
+    $wakeToggle.disabled = false;
+  } else {
+    $wakeToggle.textContent = 'Arm';
+    $wakeToggle.classList.remove('is-armed');
+    $wakeToggle.disabled = noStation;
+  }
 }
 
 function setMuted(muted: boolean): void {
@@ -2986,32 +3000,14 @@ $dashboardClose.addEventListener('click', () => void openDashboardSheet(false));
 $npWake.addEventListener('click', () => openWakeSheet(true));
 $wakeClose.addEventListener('click', () => openWakeSheet(false));
 $wakePill.addEventListener('click', () => openWakeSheet(true));
-$wakeArm.addEventListener('click', armWakeFromSheet);
-// Two-step disarm so a stray tap doesn't kill tomorrow morning. First
-// click flips the button into "Confirm?" mode; second click within
-// 4 seconds actually disarms. A timeout reverts to the normal label
-// if the user backs off.
-let disarmConfirmTimer: number | undefined;
-$wakeDisarm.addEventListener('click', () => {
-  const armed = wakeScheduler.current();
-  if (!armed) return;
-  if ($wakeDisarm.dataset.confirming !== 'true') {
-    $wakeDisarm.dataset.confirming = 'true';
-    $wakeDisarm.textContent = 'Tap again to disarm';
-    if (disarmConfirmTimer !== undefined) window.clearTimeout(disarmConfirmTimer);
-    disarmConfirmTimer = window.setTimeout(() => {
-      $wakeDisarm.dataset.confirming = 'false';
-      $wakeDisarm.textContent = 'Disarm';
-      disarmConfirmTimer = undefined;
-    }, 4000);
-    return;
+// Single toggle button — disarms when already armed, arms otherwise.
+$wakeToggle.addEventListener('click', () => {
+  if (wakeScheduler.current()) {
+    disarmWake();
+    openWakeSheet(false);
+  } else {
+    armWakeFromSheet();
   }
-  if (disarmConfirmTimer !== undefined) window.clearTimeout(disarmConfirmTimer);
-  disarmConfirmTimer = undefined;
-  $wakeDisarm.dataset.confirming = 'false';
-  $wakeDisarm.textContent = 'Disarm';
-  disarmWake();
-  openWakeSheet(false);
 });
 
 $mini.addEventListener('click', () => openNp(true));

@@ -415,22 +415,20 @@
             close this tab. Plug in your phone.
           </p>
 
-          <label class="field">
-            <span class="field-key">Time</span>
+          <div class="wake-time-row">
             <input type="time" id="wake-time" required />
-          </label>
+            <button type="button" class="btn-primary" id="wake-toggle">Arm</button>
+          </div>
 
           <div class="wake-target">
             <div class="wake-target__label">Wake to</div>
-            <div class="wake-target__station" id="wake-target-station">—</div>
+            <div class="wake-target__media">
+              <div class="wake-target__cover" id="wake-target-cover" aria-hidden="true"></div>
+              <div class="wake-target__station" id="wake-target-station">—</div>
+            </div>
             <div class="wake-target__hint" id="wake-target-hint" hidden>
               Play a station first, then come back to arm.
             </div>
-          </div>
-
-          <div class="sheet-actions wake-actions">
-            <button type="button" class="btn-ghost" id="wake-disarm" hidden>Disarm</button>
-            <button type="button" class="btn-primary" id="wake-arm">Arm</button>
           </div>
         </div>
       </section>
