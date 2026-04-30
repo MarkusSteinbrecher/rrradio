@@ -54,14 +54,27 @@ the world. Thank you to the contributors there 🙏. You can add your
 own stream via the + button — your private list lives in this browser
 only.
 
+## Program
+
+For some broadcasters (BBC, BR, ORF, HR) we fetch the on-air schedule
+alongside the stream. The current show name appears next to the live
+cover; tap the calendar icon to flip into the day's full grid — what's
+on now, what's coming up, and what just finished.
+
+Adding a new broadcaster's schedule means writing a small fetcher in
+the source. The four wired today cover most of the English- and
+German-language curated catalog.
+
 ## Lyrics
 
 When a station broadcasts proper artist + track metadata, we look up
 lyrics from [LRCLIB](https://lrclib.net/) first, then
 [Lyrics.ovh](https://lyrics.ovh/) as a fallback. Both are free,
 community-maintained, and don't require signup. Thank you to the
-contributors there 🙏. Coverage skews mainstream pop / rock — the
-lyrics tab quietly disappears when there's nothing to show.
+contributors there 🙏. Tap the lyrics icon next to the live cover to
+flip into the lyrics view; it appears only when something matches.
+Coverage skews mainstream pop / rock — the lyrics tab quietly
+disappears when there's nothing to show.
 
 ## Privacy
 
