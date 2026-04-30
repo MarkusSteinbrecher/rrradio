@@ -744,6 +744,43 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .heart.is-fav .heart--fill { display: block; }
 .heart:active { transform: scale(0.85); }
 
+/* ─── Drag-to-reorder (favorites only) ──────────────────────────
+   Grip handle on the right edge of each fav row. Pointer-events
+   based — works on touch + mouse without HTML5 drag-and-drop's
+   mobile inconsistency. touch-action: none lets the handle absorb
+   vertical touch moves so the row reorders instead of scrolling. */
+.row-grip {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  color: var(--ink-3);
+  cursor: grab;
+  touch-action: none;
+  border-radius: 0;
+  opacity: 0.6;
+  transition: opacity 0.15s, color 0.15s;
+}
+.row-grip:hover { opacity: 1; color: var(--ink-2); }
+.row-grip:active { cursor: grabbing; opacity: 1; }
+.row-grip svg { width: 16px; height: 16px; display: block; }
+
+/* Dragged row sits above siblings and follows the pointer via a JS-
+   set --drag-y custom property. Pointer events on siblings stay
+   live so the swap-detection loop can read their bounding rects. */
+.row.is-dragging {
+  z-index: 2;
+  transform: translateY(var(--drag-y, 0));
+  background: var(--bg-2);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
+  cursor: grabbing;
+  /* Suppress the click-to-play that'd fire on pointerup at the end
+     of the drag. Re-enabled on the next render. */
+  pointer-events: none;
+}
+
 /* ─── EQ bars (4-bar, used in rows + mini) ─── */
 .eq {
   display: inline-flex;

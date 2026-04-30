@@ -23,6 +23,7 @@ import {
   isFavorite,
   pushRecent,
   removeCustom,
+  reorderFavorites,
   toggleFavorite,
 } from './storage';
 import type { NowPlaying, Station } from './types';
@@ -330,6 +331,10 @@ const ICON_HEART_LINE_CLASSED = `<svg class="heart--line" viewBox="0 0 24 24" fi
 const ICON_FAV = svg('<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>');
 const ICON_RECENT = svg('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>');
 const ICON_EMPTY = svg('<path d="M3 7v10a4 4 0 0 0 4 4h10a4 4 0 0 0 4-4V7"/><path d="M3 7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4"/><path d="M3 7h18"/>');
+// Two short horizontal bars — the conventional drag-handle "grip"
+// affordance. Smaller dot patterns (six dots) read as decorative at
+// 16px; two bars stay readable at row size.
+const ICON_GRIP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M5 9h14"/><path d="M5 15h14"/></svg>';
 
 // ─────────────────────────────────────────────────────────────
 // Helpers
@@ -1443,6 +1448,125 @@ function renderRows(stations: Station[]): DocumentFragment {
   return frag;
 }
 
+/** Append a grip handle to each direct-child .row of `container` and
+ *  wire pointer-event drag-to-reorder. On drop, persist via
+ *  reorderFavorites and don't re-render — the DOM order already
+ *  matches the new order. Designed for the favorites tab; the caller
+ *  is responsible for only invoking it where reordering makes sense
+ *  (no active search query, etc).
+ *
+ *  Drag mechanics: pointerdown on the handle takes the pointer
+ *  capture. On move, the dragged row gets a translateY tracking
+ *  finger/cursor delta, and we walk siblings to find a swap target
+ *  (when the dragged row's centre crosses another row's centre,
+ *  swap DOM positions and zero out the translate so the visual
+ *  position stays under the pointer). On pointerup, settle and
+ *  persist. */
+function enableFavoriteReorder(container: HTMLElement): void {
+  const rows = Array.from(container.querySelectorAll<HTMLElement>(':scope > .row'));
+  if (rows.length < 2) return;
+
+  for (const row of rows) {
+    if (row.querySelector(':scope > .row-grip')) continue;
+    const grip = document.createElement('button');
+    grip.type = 'button';
+    grip.className = 'row-grip';
+    grip.setAttribute('aria-label', 'Drag to reorder');
+    grip.innerHTML = ICON_GRIP;
+    row.append(grip);
+    attachGripDrag(grip, row, container);
+  }
+}
+
+function attachGripDrag(
+  grip: HTMLElement,
+  row: HTMLElement,
+  container: HTMLElement,
+): void {
+  let pointerId: number | null = null;
+  let startY = 0;
+  let dragY = 0;
+
+  const onPointerMove = (ev: PointerEvent): void => {
+    if (ev.pointerId !== pointerId) return;
+    dragY = ev.clientY - startY;
+    row.style.setProperty('--drag-y', `${dragY}px`);
+
+    // Compare centre of dragged row against neighbours; swap when
+    // the dragged centre crosses a neighbour's centre. We only
+    // examine the immediate prev/next siblings each tick — long
+    // drags swap multiple times across multiple ticks, which feels
+    // smooth and avoids quadratic scans.
+    const rect = row.getBoundingClientRect();
+    const draggedMid = rect.top + rect.height / 2;
+
+    const prev = row.previousElementSibling as HTMLElement | null;
+    if (prev && prev.classList.contains('row')) {
+      const prevRect = prev.getBoundingClientRect();
+      const prevMid = prevRect.top + prevRect.height / 2;
+      if (draggedMid < prevMid) {
+        container.insertBefore(row, prev);
+        // Re-anchor after the DOM swap: the row's natural top moved
+        // (it now sits where `prev` used to be), but the transform
+        // is still the old dragY, so the row visually jumped. Shift
+        // startY by the same delta so on the next tick dragY shrinks
+        // by exactly that amount and the row stays under the pointer.
+        const newRect = row.getBoundingClientRect();
+        startY += newRect.top - rect.top;
+        return;
+      }
+    }
+    const next = row.nextElementSibling as HTMLElement | null;
+    if (next && next.classList.contains('row')) {
+      const nextRect = next.getBoundingClientRect();
+      const nextMid = nextRect.top + nextRect.height / 2;
+      if (draggedMid > nextMid) {
+        container.insertBefore(next, row);
+        const newRect = row.getBoundingClientRect();
+        startY += newRect.top - rect.top;
+      }
+    }
+  };
+
+  const onPointerUp = (ev: PointerEvent): void => {
+    if (ev.pointerId !== pointerId) return;
+    grip.removeEventListener('pointermove', onPointerMove);
+    grip.removeEventListener('pointerup', onPointerUp);
+    grip.removeEventListener('pointercancel', onPointerUp);
+    if (pointerId !== null) {
+      try { grip.releasePointerCapture(pointerId); } catch {/* ignore */}
+    }
+    pointerId = null;
+    row.classList.remove('is-dragging');
+    row.style.removeProperty('--drag-y');
+
+    const ids = Array.from(container.querySelectorAll<HTMLElement>(':scope > .row'))
+      .map((r) => r.dataset.id ?? '')
+      .filter(Boolean);
+    reorderFavorites(ids);
+  };
+
+  grip.addEventListener('pointerdown', (ev) => {
+    // Left mouse / primary touch only; ignore right-click, middle,
+    // and secondary pointers.
+    if (ev.button !== 0) return;
+    ev.preventDefault();
+    ev.stopPropagation();
+    pointerId = ev.pointerId;
+    startY = ev.clientY;
+    dragY = 0;
+    row.classList.add('is-dragging');
+    row.style.setProperty('--drag-y', '0px');
+    grip.setPointerCapture(ev.pointerId);
+    grip.addEventListener('pointermove', onPointerMove);
+    grip.addEventListener('pointerup', onPointerUp);
+    grip.addEventListener('pointercancel', onPointerUp);
+  });
+  // Click would otherwise bubble to the row's onRowPlay handler — a
+  // tap on the grip should never start playback.
+  grip.addEventListener('click', (ev) => ev.stopPropagation());
+}
+
 function renderContent(): void {
   $content.replaceChildren();
 
@@ -1557,6 +1681,9 @@ function renderContent(): void {
       );
     } else {
       $content.append(renderRows(list));
+      // Reorder is only meaningful on the unfiltered list — a search
+      // result's row order doesn't map back to the persisted order.
+      if (!query) enableFavoriteReorder($content);
     }
     return;
   }

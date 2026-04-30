@@ -50,6 +50,27 @@ export function toggleFavorite(station: Station): boolean {
   return true;
 }
 
+/** Persist a manually re-ordered favorites list. The caller passes the
+ *  ids in the new order; we re-resolve each id against the current
+ *  stored list (to keep the full Station record) and write back. Ids
+ *  not present in storage are dropped silently. */
+export function reorderFavorites(orderedIds: string[]): void {
+  const current = getFavorites();
+  const byId = new Map(current.map((s) => [s.id, s]));
+  const next: Station[] = [];
+  for (const id of orderedIds) {
+    const s = byId.get(id);
+    if (s) {
+      next.push(s);
+      byId.delete(id);
+    }
+  }
+  // Anything missed (e.g. concurrent toggle from another tab) appended
+  // at the end so we don't lose data on a stale reorder.
+  for (const s of byId.values()) next.push(s);
+  writeStations(FAVORITES_KEY, next);
+}
+
 export function getRecents(): Station[] {
   return readStations(RECENTS_KEY);
 }
