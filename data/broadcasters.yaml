@@ -233,6 +233,19 @@ polskie-radio:
     for PR2 (stream12), PR3 (stream13), PR4 (stream14), PR24 (stream15).
     PR1 / Jedynka has no clean HLS endpoint outside the Next.js player.
 
+# ─────────────── Denmark ───────────────
+
+dr:
+  name: DR
+  fullName: Danmarks Radio
+  country: DK
+  homepage: https://www.dr.dk/lyd
+  notes: |
+    Danish public broadcaster. RB stores http://live-icy.gslb01.dr.dk/A/A<NN>H.mp3
+    for the canonical (high-vote) records → broken-mixed. The HLS
+    variant at drliveradio1.akamaized.net/hls/live/2097651/<slug>/masterab.m3u8
+    serves the same channels end-to-end TLS.
+
 # ─────────────── Australia ───────────────
 
 abc:

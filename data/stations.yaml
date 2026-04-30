@@ -4568,3 +4568,197 @@
   homepage: https://radio.foxnews.com/
   country: US
   status: stream-only
+
+# ─── DK — DR public broadcaster (2026-04-30) ───
+# Canonical RB records ship http://live-icy.gss.dr.dk/A/A<NN>H.mp3 →
+# broken-mixed. HLS variant at drliveradio1.akamaized.net/hls/live/
+# 2097651/<slug>/masterab.m3u8 serves the same channels end-to-end TLS.
+
+- id: builtin-dr-p1
+  stationuuid: 960f5a18-0601-11e8-ae97-52543be04c81
+  changeuuid: fcfc856e-d986-43b6-8403-cae0b6457037
+  reviewedAt: 2026-04-30
+  geo: [55.676, 12.568]
+  broadcaster: dr
+  name: DR P1
+  streamUrl: https://drliveradio1.akamaized.net/hls/live/2097651/p1/masterab.m3u8
+  codec: AAC
+  tags: [public radio, news, talk, denmark]
+  homepage: https://www.dr.dk/lyd/p1
+  country: DK
+  status: stream-only
+  featured: true
+
+- id: builtin-dr-p2
+  stationuuid: 960f5af4-0601-11e8-ae97-52543be04c81
+  changeuuid: b34d18df-7495-4008-83a7-e228596453d1
+  reviewedAt: 2026-04-30
+  geo: [55.676, 12.568]
+  broadcaster: dr
+  name: DR P2
+  streamUrl: https://drliveradio1.akamaized.net/hls/live/2097651/p2/masterab.m3u8
+  codec: AAC
+  tags: [classical, public radio, denmark]
+  homepage: https://www.dr.dk/lyd/p2
+  country: DK
+  status: stream-only
+
+- id: builtin-dr-p3
+  stationuuid: 960f5bcd-0601-11e8-ae97-52543be04c81
+  changeuuid: b242e5d6-07f9-4286-b704-238d5d5ca16c
+  reviewedAt: 2026-04-30
+  geo: [55.676, 12.568]
+  broadcaster: dr
+  name: DR P3
+  streamUrl: https://drliveradio1.akamaized.net/hls/live/2097651/p3/masterab.m3u8
+  codec: AAC
+  tags: [pop, hits, public radio, denmark]
+  homepage: https://www.dr.dk/lyd/p3
+  country: DK
+  status: stream-only
+
+- id: builtin-dr-p4-kobenhavn
+  stationuuid: 960f5358-0601-11e8-ae97-52543be04c81
+  changeuuid: adeeef44-3f71-4b5f-9e08-1f598570a24b
+  reviewedAt: 2026-04-30
+  geo: [55.676, 12.568]
+  broadcaster: dr
+  name: DR P4 København
+  streamUrl: https://drliveradio1.akamaized.net/hls/live/2097651/p4kobenhavn/masterab.m3u8
+  codec: AAC
+  tags: [public radio, regional, denmark]
+  homepage: https://www.dr.dk/lyd/p4
+  country: DK
+  status: stream-only
+
+- id: builtin-dr-p5
+  stationuuid: 9610bcba-0601-11e8-ae97-52543be04c81
+  changeuuid: 3f4d320f-ff1c-4597-a7e9-e86639b4fea4
+  reviewedAt: 2026-04-30
+  geo: [55.676, 12.568]
+  broadcaster: dr
+  name: DR P5 København
+  streamUrl: https://drliveradio1.akamaized.net/hls/live/2097651/p5kobenhavn/masterab.m3u8
+  codec: AAC
+  tags: [oldies, classic hits, public radio, denmark]
+  homepage: https://www.dr.dk/lyd/p5
+  country: DK
+  status: stream-only
+
+- id: builtin-dr-p6-beat
+  stationuuid: 9610bd91-0601-11e8-ae97-52543be04c81
+  changeuuid: 76ee36f8-1ac2-476f-b0b5-51d2d3485f3d
+  reviewedAt: 2026-04-30
+  geo: [55.676, 12.568]
+  broadcaster: dr
+  name: DR P6 BEAT
+  streamUrl: https://drliveradio1.akamaized.net/hls/live/2097651/p6beat/masterab.m3u8
+  codec: AAC
+  tags: [alternative, indie, public radio, denmark]
+  homepage: https://www.dr.dk/lyd/p6beat
+  country: DK
+  status: stream-only
+
+- id: builtin-dr-p8-jazz
+  stationuuid: 9610c01b-0601-11e8-ae97-52543be04c81
+  changeuuid: 905b030b-51b7-4907-bbbd-9d14ca163e9c
+  reviewedAt: 2026-04-30
+  geo: [55.676, 12.568]
+  broadcaster: dr
+  name: DR P8 JAZZ
+  streamUrl: https://drliveradio1.akamaized.net/hls/live/2097651/p8jazz/masterab.m3u8
+  codec: AAC
+  tags: [jazz, public radio, denmark]
+  homepage: https://www.dr.dk/lyd/p8jazz
+  country: DK
+  status: stream-only
+
+# ─── DK — Bauer Media + indie commercial (2026-04-30) ───
+# Bauer's Danish stations all ship via live-bauerdk.sharp-stream.com
+# end-to-end TLS — RB had http:// only on Radio Soft, https:// works
+# fine on the same path.
+
+- id: dk-nova-fm
+  stationuuid: 4bcb11ad-0ac0-4bb6-8b36-603ba1a4effd
+  changeuuid: 26d3991f-7709-40c5-9f99-59a65a6b8cd8
+  reviewedAt: 2026-04-30
+  geo: [55.676, 12.568]
+  broadcaster: independent
+  name: Nova FM
+  streamUrl: https://live-bauerdk.sharp-stream.com/nova_dk_mp3
+  codec: MP3
+  tags: [pop, hits, denmark]
+  homepage: https://nova.dk/
+  country: DK
+  status: stream-only
+
+- id: dk-the-voice
+  stationuuid: 632fe760-a124-4385-9061-6acb4bd14d0f
+  changeuuid: 69ce43a4-6de3-4fe4-b684-590bed5aeb4a
+  reviewedAt: 2026-04-30
+  geo: [55.676, 12.568]
+  broadcaster: independent
+  name: The Voice
+  streamUrl: https://live-bauerdk.sharp-stream.com/thevoice_dk_mp3
+  codec: MP3
+  tags: [pop, hits, denmark]
+  homepage: https://thevoice.dk/
+  country: DK
+  status: stream-only
+
+- id: dk-myrock
+  stationuuid: b4d7f87f-89c8-4d1b-af0b-fc2fcafd8d66
+  changeuuid: e01d18bf-9b55-4fe9-94cf-8e79137f1347
+  reviewedAt: 2026-04-30
+  geo: [55.676, 12.568]
+  broadcaster: independent
+  name: myROCK
+  streamUrl: https://live-bauerdk.sharp-stream.com/myrock_dk_mp3
+  codec: MP3
+  tags: [rock, alternative, denmark]
+  homepage: https://myrock.dk/
+  country: DK
+  status: stream-only
+
+- id: dk-radio-soft
+  stationuuid: 963cba5e-0601-11e8-ae97-52543be04c81
+  changeuuid: 963cba63-0601-11e8-ae97-52543be04c81
+  reviewedAt: 2026-04-30
+  geo: [55.676, 12.568]
+  broadcaster: independent
+  name: Radio Soft
+  streamUrl: https://live-bauerdk.sharp-stream.com/radiosoft_dk_mp3
+  codec: MP3
+  tags: [easy listening, soft rock, denmark]
+  homepage: https://radiosoft.dk/
+  country: DK
+  status: stream-only
+
+- id: dk-retro-radio
+  stationuuid: 962ee337-0601-11e8-ae97-52543be04c81
+  changeuuid: 993da39c-36d2-4ead-b76e-45147d1fe1e5
+  reviewedAt: 2026-04-30
+  geo: [55.676, 12.568]
+  broadcaster: independent
+  name: Retro Radio
+  streamUrl: https://stream128.retro-radio.dk/retro
+  bitrate: 128
+  codec: MP3
+  tags: [oldies, classic hits, denmark]
+  homepage: https://retro-radio.dk/
+  country: DK
+  status: stream-only
+
+- id: dk-radio-abc
+  stationuuid: 96189cc3-0601-11e8-ae97-52543be04c81
+  changeuuid: 5a3b7175-16d0-4070-86ae-25d6b0356079
+  reviewedAt: 2026-04-30
+  geo: [55.676, 12.568]
+  broadcaster: independent
+  name: Radio ABC
+  streamUrl: https://radioserver.dk/abc
+  codec: MP3
+  tags: [pop, classic hits, denmark]
+  homepage: https://radioabc.dk/
+  country: DK
+  status: stream-only
