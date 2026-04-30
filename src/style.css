@@ -1940,6 +1940,11 @@ body.is-playing .np-bottom .live-dot  {
   border-radius: 0;
   outline: none;
   transition: border-color 0.15s;
+  /* Without border-box the .field input's width:100% + horizontal
+     padding overflowed the parent on small screens — the iOS native
+     time spinner has its own min-width on top, which made the wake
+     time picker bleed past the sheet edge. */
+  box-sizing: border-box;
 }
 .field input::placeholder { color: var(--ink-4); }
 .field input:focus { border-color: var(--ink-4); }
@@ -2011,6 +2016,32 @@ body.is-playing .np-bottom .live-dot  {
   line-height: 1.45;
   border-radius: 0 6px 6px 0;
 }
+/* Time picker rendered as a prominent accent pill instead of a full-
+   width form input — the only "field" in the wake sheet, so it
+   reads as the headline number. The native iOS time spinner still
+   appears on tap; we just compact the resting display so it fits
+   on small screens. */
+.wake-body .field {
+  align-items: center;
+}
+#wake-time {
+  width: auto;
+  min-width: 7em;
+  padding: 14px 28px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  color: var(--accent);
+  border-radius: 999px;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-align: center;
+}
+#wake-time:focus {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
 .wake-target {
   padding: 14px 16px;
   border: 1px solid var(--line);

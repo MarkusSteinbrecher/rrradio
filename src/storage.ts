@@ -4,6 +4,7 @@ const FAVORITES_KEY = 'rrradio.favorites.v2';
 const RECENTS_KEY = 'rrradio.recents.v2';
 const CUSTOM_KEY = 'rrradio.custom.v1';
 const WAKE_KEY = 'rrradio.wake.v1';
+const WAKE_LAST_TIME_KEY = 'rrradio.wake.lastTime.v1';
 const RECENTS_LIMIT = 12;
 
 function readStations(key: string): Station[] {
@@ -128,6 +129,26 @@ export function setWakeTo(w: WakeTo | null): void {
   try {
     if (w === null) localStorage.removeItem(WAKE_KEY);
     else localStorage.setItem(WAKE_KEY, JSON.stringify(w));
+  } catch {
+    // quota / privacy mode — ignore
+  }
+}
+
+/** Persist the most recently armed wake time so the sheet pre-fills
+ *  with it on next open — independent of whether a wake is currently
+ *  armed. Falls back to "07:00" when nothing is stored. */
+export function getLastWakeTime(): string | undefined {
+  try {
+    const v = localStorage.getItem(WAKE_LAST_TIME_KEY);
+    return v && /^\d{1,2}:\d{2}$/.test(v) ? v : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+export function setLastWakeTime(time: string): void {
+  try {
+    localStorage.setItem(WAKE_LAST_TIME_KEY, time);
   } catch {
     // quota / privacy mode — ignore
   }

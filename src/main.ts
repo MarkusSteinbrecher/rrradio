@@ -20,11 +20,13 @@ import {
   getCustom,
   getFavorites,
   getRecents,
+  getLastWakeTime,
   getWakeTo,
   isFavorite,
   pushRecent,
   removeCustom,
   reorderFavorites,
+  setLastWakeTime,
   setWakeTo,
   toggleFavorite,
 } from './storage';
@@ -2602,7 +2604,10 @@ function openWakeSheet(open: boolean): void {
   // tied to instead, since we don't want a sheet-reopen to silently
   // swap targets.
   const station = armed?.station ?? (currentNP.station.id ? currentNP.station : null);
-  $wakeTime.value = armed?.time ?? '07:00';
+  // Default to: armed time → user's last-used wake time → 07:00.
+  // Persisting the last-used time means the user doesn't re-pick
+  // 23:00 every night just because they disarmed in the morning.
+  $wakeTime.value = armed?.time ?? getLastWakeTime() ?? '07:00';
   $wakeTargetStation.textContent = station?.name ?? '—';
   const noStation = !station;
   $wakeTargetHint.hidden = !noStation;
@@ -2645,6 +2650,7 @@ function armWakeFromSheet(): void {
     armedAt: Date.now(),
   };
   setWakeTo(wake);
+  setLastWakeTime(time);
   wakeScheduler.arm(wake, onWakeFire);
   syncWakeUi();
   startPillTick();
