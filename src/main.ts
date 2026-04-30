@@ -3074,6 +3074,9 @@ $wakeToggle.addEventListener('click', () => {
 });
 
 $mini.addEventListener('click', () => openNp(true));
+
+const $npBack = document.getElementById('np-back') as HTMLButtonElement;
+$npBack.addEventListener('click', () => openNp(false));
 $miniToggle.addEventListener('click', (e) => {
   e.stopPropagation();
   handlePlayToggle();

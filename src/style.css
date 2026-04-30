@@ -965,6 +965,32 @@ body.tab-playing .search-wrap { display: none; }
 }
 .np.open { transform: translateY(0); }
 
+/* Minimize button — chevron-down in the top-left corner so users
+   can dismiss Now Playing back to the list view. The mini-player
+   at the bottom of the list still has the same role, but until
+   you scroll down it isn't obvious; people expect a top-corner
+   exit on a fullscreen pane. Padded around the SVG so the touch
+   target is comfortable. */
+.np-back {
+  position: absolute;
+  top: max(env(safe-area-inset-top, 0px), 8px);
+  left: 8px;
+  z-index: 6;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-2);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.15s, color 0.15s, transform 0.15s;
+}
+.np-back:hover { background: var(--bg-2); color: var(--ink); }
+.np-back:active { transform: scale(0.92); }
+.np-back svg { width: 22px; height: 22px; display: block; }
+
 /* Mute toggle: swap volume / muted icon. Body class drives icon state. */
 #np-mute .icon-vol-mute { display: none; }
 body.is-muted #np-mute  { color: var(--accent); border-color: var(--accent); }
