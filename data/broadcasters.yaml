@@ -233,6 +233,29 @@ polskie-radio:
     for PR2 (stream12), PR3 (stream13), PR4 (stream14), PR24 (stream15).
     PR1 / Jedynka has no clean HLS endpoint outside the Next.js player.
 
+# ─────────────── Belgium ───────────────
+
+vrt:
+  name: VRT
+  fullName: Vlaamse Radio- en Televisieomroeporganisatie
+  country: BE
+  homepage: https://radioplus.be/
+  notes: |
+    Flemish (Dutch-language) public broadcaster. Streams ship via
+    icecast.vrtcdn.be/<slug>-high.mp3 — RB stored http:// for the
+    canonical (high-vote) records, https:// works on the same paths.
+
+rtbf:
+  name: RTBF
+  fullName: Radio-Télévision Belge de la Communauté Française
+  country: BE
+  homepage: https://www.rtbf.be/auvio/direct
+  notes: |
+    French-language public broadcaster. Streams ship via
+    radios.rtbf.be/<slug>-128.mp3 (or .aac for La Première / Vivacité).
+    Tipik exceptionally lives at radio.rtbf.be/tipik/mp3-128/rb (no
+    trailing 's').
+
 # ─────────────── Sweden ───────────────
 
 sveriges-radio:

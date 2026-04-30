@@ -5444,3 +5444,251 @@
   homepage: https://rr.sapo.pt/
   country: PT
   status: stream-only
+
+# ─── BE — VRT (Flemish) + RTBF (French) public + commercial (2026-04-30) ───
+# Belgium is bilingual — both public broadcasters get a slot. VRT
+# streams at icecast.vrtcdn.be/<slug>-high.mp3 (http→https override
+# for the canonical records). RTBF lives at radios.rtbf.be/<slug>-128.*
+# (Tipik exceptionally at radio.rtbf.be/tipik/mp3-128/rb — note the
+# missing 's').
+
+- id: builtin-vrt-radio-1
+  stationuuid: 960ef35c-0601-11e8-ae97-52543be04c81
+  changeuuid: 36b38e0b-dd38-4ad5-9414-4f1f9ee1acdf
+  reviewedAt: 2026-04-30
+  geo: [50.851, 4.357]
+  broadcaster: vrt
+  name: VRT Radio 1
+  streamUrl: https://icecast.vrtcdn.be/radio1-high.mp3
+  codec: MP3
+  tags: [public radio, news, talk, dutch, belgium]
+  homepage: https://radio1.be/
+  country: BE
+  status: stream-only
+  featured: true
+
+- id: builtin-vrt-radio-2
+  stationuuid: 960cf504-0601-11e8-ae97-52543be04c81
+  changeuuid: f88f2109-11d2-400e-b091-85168590c4a6
+  reviewedAt: 2026-04-30
+  geo: [51.219, 4.402]
+  broadcaster: vrt
+  name: Radio 2 (Antwerpen)
+  streamUrl: https://icecast.vrtcdn.be/ra2ant-high.mp3
+  codec: MP3
+  tags: [public radio, pop, dutch, belgium]
+  homepage: https://radio2.be/
+  country: BE
+  status: stream-only
+
+- id: builtin-vrt-studio-brussel
+  stationuuid: 550f4b47-a545-4b1d-8c08-3b520c4db329
+  changeuuid: a7b240b2-57f5-4fd0-9f9e-31d6027a5da9
+  reviewedAt: 2026-04-30
+  geo: [50.851, 4.357]
+  broadcaster: vrt
+  name: Studio Brussel
+  streamUrl: https://icecast.vrtcdn.be/stubru-high.mp3
+  codec: MP3
+  tags: [alternative, indie, public radio, dutch, belgium]
+  homepage: https://stubru.be/
+  country: BE
+  status: stream-only
+
+- id: builtin-vrt-klara
+  stationuuid: 960ef421-0601-11e8-ae97-52543be04c81
+  changeuuid: 3f94ac8a-3a69-4131-8b22-fb3e00f37416
+  reviewedAt: 2026-04-30
+  geo: [50.851, 4.357]
+  broadcaster: vrt
+  name: Klara
+  streamUrl: https://icecast.vrtcdn.be/klara-high.mp3
+  codec: MP3
+  tags: [classical, culture, public radio, dutch, belgium]
+  homepage: https://klara.be/
+  country: BE
+  status: stream-only
+
+- id: builtin-vrt-klara-continuo
+  stationuuid: 960eb6af-0601-11e8-ae97-52543be04c81
+  changeuuid: 10d89f91-be79-4077-bc9e-4382fc99dfcc
+  reviewedAt: 2026-04-30
+  geo: [50.851, 4.357]
+  broadcaster: vrt
+  name: Klara Continuo
+  streamUrl: https://icecast.vrtcdn.be/klaracontinuo-high.mp3
+  codec: MP3
+  tags: [classical, public radio, dutch, belgium]
+  homepage: https://klara.be/klara-continuo
+  country: BE
+  status: stream-only
+
+- id: builtin-vrt-mnm
+  stationuuid: 961957e7-0601-11e8-ae97-52543be04c81
+  changeuuid: 6b10c5a7-1416-47ff-82da-b81216a3480d
+  reviewedAt: 2026-04-30
+  geo: [50.851, 4.357]
+  broadcaster: vrt
+  name: MNM
+  streamUrl: https://icecast.vrtcdn.be/mnm-high.mp3
+  codec: MP3
+  tags: [pop, hits, public radio, dutch, belgium]
+  homepage: https://mnm.be/
+  country: BE
+  status: stream-only
+
+- id: builtin-vrt-mnm-hits
+  stationuuid: 961bee6b-0601-11e8-ae97-52543be04c81
+  changeuuid: 6b942341-3bc9-4c89-b3f9-8f3671505e86
+  reviewedAt: 2026-04-30
+  geo: [50.851, 4.357]
+  broadcaster: vrt
+  name: MNM Hits
+  streamUrl: https://icecast.vrtcdn.be/mnm_hits-high.mp3
+  codec: MP3
+  tags: [pop, hits, public radio, dutch, belgium]
+  homepage: https://mnm.be/mnm-hits
+  country: BE
+  status: stream-only
+
+- id: builtin-rtbf-la-premiere
+  stationuuid: 961d37d6-0601-11e8-ae97-52543be04c81
+  changeuuid: 2e3ec88d-79ad-4746-866a-4a4d790b00ab
+  reviewedAt: 2026-04-30
+  geo: [50.851, 4.357]
+  broadcaster: rtbf
+  name: La Première
+  streamUrl: https://radios.rtbf.be/laprem1ere-64.aac
+  codec: AAC
+  tags: [public radio, news, talk, french, belgium]
+  homepage: https://www.rtbf.be/auvio/direct/lapremiere
+  country: BE
+  status: stream-only
+  featured: true
+
+- id: builtin-rtbf-vivacite
+  stationuuid: 9638c05b-0601-11e8-ae97-52543be04c81
+  changeuuid: 7ab7b5c5-771e-4c0b-bd3e-3710e5c2c72d
+  reviewedAt: 2026-04-30
+  geo: [50.851, 4.357]
+  broadcaster: rtbf
+  name: Vivacité
+  streamUrl: https://radios.rtbf.be/vivabxl-64.aac
+  codec: AAC
+  tags: [public radio, regional, french, belgium]
+  homepage: https://www.rtbf.be/auvio/direct/vivacite
+  country: BE
+  status: stream-only
+
+- id: builtin-rtbf-musiq3
+  stationuuid: 9619cb9f-0601-11e8-ae97-52543be04c81
+  changeuuid: f76a9994-23ce-4935-997a-9af54996b5d3
+  reviewedAt: 2026-04-30
+  geo: [50.851, 4.357]
+  broadcaster: rtbf
+  name: Musiq3
+  streamUrl: https://radios.rtbf.be/musiq3-128.aac
+  codec: AAC
+  tags: [classical, culture, public radio, french, belgium]
+  homepage: https://www.rtbf.be/auvio/direct/musiq3
+  country: BE
+  status: stream-only
+
+- id: builtin-rtbf-classic-21
+  stationuuid: 0af512c6-eae5-4875-a206-302dc6a12a64
+  changeuuid: 33c0154b-aae2-47c6-bc1e-45b2b6362545
+  reviewedAt: 2026-04-30
+  geo: [50.851, 4.357]
+  broadcaster: rtbf
+  name: Classic 21
+  streamUrl: https://radios.rtbf.be/classic21-128.mp3
+  codec: MP3
+  tags: [classic rock, public radio, french, belgium]
+  homepage: https://www.rtbf.be/auvio/direct/classic21
+  country: BE
+  status: stream-only
+
+- id: builtin-rtbf-tipik
+  stationuuid: 73b1c888-e135-49db-a5c5-09e104088c13
+  changeuuid: cbf496cf-0c41-4bec-93a5-e559ff5e4b23
+  reviewedAt: 2026-04-30
+  geo: [50.851, 4.357]
+  broadcaster: rtbf
+  name: Tipik
+  streamUrl: https://radio.rtbf.be/tipik/mp3-128/rb
+  codec: MP3
+  tags: [pop, hits, public radio, french, belgium]
+  homepage: https://www.rtbf.be/auvio/direct/tipik
+  country: BE
+  status: stream-only
+
+- id: builtin-rtbf-pure-fm
+  stationuuid: a0566f21-4513-11ea-a860-52543be04c81
+  changeuuid: 4f3f79f0-d5d3-4ba7-8cda-ad0443625b58
+  reviewedAt: 2026-04-30
+  geo: [50.851, 4.357]
+  broadcaster: rtbf
+  name: Pure FM
+  streamUrl: https://radios.rtbf.be/pure-128.mp3
+  codec: MP3
+  tags: [alternative, indie, public radio, french, belgium]
+  homepage: https://www.rtbf.be/auvio/direct/pure
+  country: BE
+  status: stream-only
+
+- id: be-bel-rtl
+  stationuuid: 9c9d2509-6724-11e9-af37-52543be04c81
+  changeuuid: 7961351b-bdab-4757-8a4a-c49102b0be55
+  reviewedAt: 2026-04-30
+  geo: [50.851, 4.357]
+  broadcaster: independent
+  name: Bel RTL
+  streamUrl: https://belrtl.ice.infomaniak.ch/belrtl-mp3-192.mp3
+  bitrate: 192
+  codec: MP3
+  tags: [pop, talk, french, belgium]
+  homepage: https://www.belrtl.be/
+  country: BE
+  status: stream-only
+
+- id: be-nrj
+  stationuuid: 32f2eb10-b498-4c85-96aa-7d9c266d9910
+  changeuuid: 741b62ac-9d6c-4f4a-910f-7a5cc63398f8
+  reviewedAt: 2026-04-30
+  geo: [50.851, 4.357]
+  broadcaster: independent
+  name: NRJ Belgium
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/NRJBELGIE.mp3
+  codec: MP3
+  tags: [pop, hits, belgium]
+  homepage: https://www.nrj.be/
+  country: BE
+  status: stream-only
+
+- id: be-qmusic
+  stationuuid: 00dc2e9a-578c-430b-bdc2-244b71444dfc
+  changeuuid: 6e6ea700-a2c8-46a6-a87d-9f469e1d8518
+  reviewedAt: 2026-04-30
+  geo: [50.851, 4.357]
+  broadcaster: independent
+  name: Qmusic Belgium
+  streamUrl: https://icecast-qmusicbe-cdp.triple-it.nl/qmusic.aac
+  codec: AAC
+  tags: [pop, hits, dutch, belgium]
+  homepage: https://qmusic.be/
+  country: BE
+  status: stream-only
+
+- id: be-joe
+  stationuuid: 529b71b3-ac05-426c-bd8c-6ae981713900
+  changeuuid: 28829ae3-145f-4871-9ae2-bc8e8a18af4a
+  reviewedAt: 2026-04-30
+  geo: [50.851, 4.357]
+  broadcaster: independent
+  name: Joe Belgium
+  streamUrl: https://icecast-qmusicbe-cdp.triple-it.nl/joe.mp3
+  codec: MP3
+  tags: [classic hits, easy listening, dutch, belgium]
+  homepage: https://joe.be/
+  country: BE
+  status: stream-only
