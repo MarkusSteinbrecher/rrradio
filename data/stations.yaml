@@ -4214,3 +4214,357 @@
   homepage: https://www.eskarock.pl/
   country: PL
   status: stream-only
+
+# ─── US — NPR network + member stations (2026-04-30) ───
+# NPR doesn't operate a single "national" stream the way the BBC does;
+# the live network feed is the 24-hour Program Stream, then each major
+# member station ships its own local feed. RB stored http:// for the
+# canonical (high-vote) records of the bigger members; https:// works
+# on the same paths so a one-field streamUrl override flips them.
+
+- id: builtin-npr-247
+  stationuuid: 7ba4c184-fc2b-11e9-bbf2-52543be04c81
+  changeuuid: 376e935a-c8c6-48a8-90e9-293086381d2a
+  reviewedAt: 2026-04-30
+  geo: [38.907, -77.037]
+  broadcaster: npr
+  name: NPR 24-Hour Program Stream
+  streamUrl: https://npr-ice.streamguys1.com/live.mp3
+  codec: MP3
+  tags: [public radio, news, talk, usa]
+  homepage: https://www.npr.org/podcasts/500005/npr-program-stream
+  country: US
+  status: stream-only
+  featured: true
+
+- id: builtin-wnyc-fm
+  stationuuid: 960985b2-0601-11e8-ae97-52543be04c81
+  changeuuid: 02ea34b8-3935-4090-98b5-edaa870d08be
+  reviewedAt: 2026-04-30
+  geo: [40.713, -74.006]
+  broadcaster: npr
+  name: WNYC-FM 93.9 New York
+  streamUrl: https://fm939.wnyc.org/wnycfm
+  codec: MP3
+  tags: [public radio, news, talk, usa]
+  homepage: https://www.wnyc.org/
+  country: US
+  status: stream-only
+  featured: true
+
+- id: builtin-kexp
+  stationuuid: 6a7508a9-27ab-11e8-91bf-52543be04c81
+  changeuuid: 542336d4-2640-4e4c-953d-ab74eebb5130
+  reviewedAt: 2026-04-30
+  geo: [47.609, -122.332]
+  broadcaster: kexp
+  name: KEXP 90.3 Seattle
+  streamUrl: https://kexp.streamguys1.com/kexp128.mp3
+  codec: MP3
+  tags: [alternative, indie, public radio, usa]
+  homepage: https://www.kexp.org/
+  country: US
+  status: stream-only
+  featured: true
+
+- id: builtin-kcrw-live
+  stationuuid: 325a61dc-fe34-48c6-ae82-1467b710f07b
+  changeuuid: fd72e1ca-f26b-49db-92b4-4756558622e2
+  reviewedAt: 2026-04-30
+  geo: [34.052, -118.244]
+  broadcaster: kcrw
+  name: KCRW 88.9 FM
+  streamUrl: https://streams.kcrw.com/kcrw_mp3
+  codec: MP3
+  tags: [public radio, talk, indie, usa]
+  homepage: https://www.kcrw.com/
+  country: US
+  status: stream-only
+
+- id: builtin-kcrw-eclectic
+  stationuuid: 18e31f25-53c8-4213-a1ec-dccc0443a788
+  changeuuid: d2a674bd-bd7b-4b26-ab52-4d01bef6d042
+  reviewedAt: 2026-04-30
+  geo: [34.052, -118.244]
+  broadcaster: kcrw
+  name: KCRW Eclectic 24
+  streamUrl: https://streams.kcrw.com/e24_mp3
+  codec: MP3
+  tags: [eclectic, indie, public radio, usa]
+  homepage: https://www.kcrw.com/music/shows/eclectic24
+  country: US
+  status: stream-only
+
+- id: builtin-wbez
+  stationuuid: 96186f9e-0601-11e8-ae97-52543be04c81
+  changeuuid: a62cfb3a-ad1e-47b4-8b5b-1bc60f3d75a4
+  reviewedAt: 2026-04-30
+  geo: [41.878, -87.630]
+  broadcaster: npr
+  name: WBEZ 91.5 Chicago
+  streamUrl: https://stream.wbez.org/wbez128.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [public radio, news, talk, usa]
+  homepage: https://www.wbez.org/
+  country: US
+  status: stream-only
+
+- id: builtin-kqed
+  stationuuid: 961f78f1-0601-11e8-ae97-52543be04c81
+  changeuuid: 36c449b7-ef5f-463c-be96-42ec799f1601
+  reviewedAt: 2026-04-30
+  geo: [37.775, -122.419]
+  broadcaster: npr
+  name: KQED 88.5 San Francisco
+  streamUrl: https://hls.kqed.org/hls/kqed_app/playlist.m3u8
+  codec: AAC
+  tags: [public radio, news, talk, usa]
+  homepage: https://www.kqed.org/radio
+  country: US
+  status: stream-only
+
+- id: builtin-wbur
+  stationuuid: f7517539-fc35-41d8-9394-a968bd897662
+  changeuuid: 25d11a7c-da78-4c0b-9d3c-a0fd6c56d6c1
+  reviewedAt: 2026-04-30
+  geo: [42.361, -71.058]
+  broadcaster: npr
+  name: WBUR 90.9 Boston
+  streamUrl: https://fm909.wbur.org/wbur_www
+  codec: MP3
+  tags: [public radio, news, talk, usa]
+  homepage: https://www.wbur.org/
+  country: US
+  status: stream-only
+
+- id: builtin-wamu
+  stationuuid: 11c28f97-0177-47d3-bf88-eb24b492c34f
+  changeuuid: 03efac55-169c-4e94-a8bc-4c2002d784ee
+  reviewedAt: 2026-04-30
+  geo: [38.907, -77.037]
+  broadcaster: npr
+  name: WAMU 88.5 Washington DC
+  streamUrl: https://wamu.cdnstream1.com/wamu.mp3
+  codec: MP3
+  tags: [public radio, news, talk, usa]
+  homepage: https://wamu.org/
+  country: US
+  status: stream-only
+
+- id: builtin-mpr-news
+  stationuuid: 961e62e2-0601-11e8-ae97-52543be04c81
+  changeuuid: 87990c34-038d-426f-ae19-6263b567227a
+  reviewedAt: 2026-04-30
+  geo: [44.978, -93.265]
+  broadcaster: npr
+  name: MPR News
+  streamUrl: https://nis.stream.publicradio.org/nis.mp3
+  codec: MP3
+  tags: [public radio, news, talk, usa]
+  homepage: https://www.mprnews.org/
+  country: US
+  status: stream-only
+
+- id: builtin-wfmu
+  stationuuid: 9618344a-0601-11e8-ae97-52543be04c81
+  changeuuid: 5e28a1c7-e4e7-4ee5-9b5a-c05ebce70257
+  reviewedAt: 2026-04-30
+  geo: [40.762, -74.211]
+  broadcaster: independent
+  name: WFMU 91.1 East Orange NJ
+  streamUrl: https://stream0.wfmu.org/freeform-extrahigh-primary.aac
+  codec: AAC
+  tags: [freeform, indie, eclectic, usa]
+  homepage: https://wfmu.org/
+  country: US
+  status: stream-only
+
+# ─── US — SomaFM (2026-04-30) ───
+# Internet-native, ad-free, San Francisco. ~30 channels — picking the
+# six highest-vote ones from the analysis. ICY metadata flows on every
+# channel; can be promoted to status:icy-only once the broadcaster
+# fetcher (api.somafm.com/songs/<channel>.json) is wired in builtins.
+
+- id: soma-groove-salad
+  stationuuid: 960cf833-0601-11e8-ae97-52543be04c81
+  changeuuid: a726c1f4-be72-4e56-94b8-d2a88e60df4a
+  reviewedAt: 2026-04-30
+  geo: [37.775, -122.419]
+  broadcaster: soma-fm
+  name: SomaFM Groove Salad
+  streamUrl: https://ice5.somafm.com/groovesalad-128-mp3
+  bitrate: 128
+  codec: MP3
+  tags: [chillout, ambient, downtempo, usa]
+  homepage: https://somafm.com/groovesalad/
+  country: US
+  status: stream-only
+  featured: true
+
+- id: soma-secret-agent
+  stationuuid: 960c7c81-0601-11e8-ae97-52543be04c81
+  changeuuid: 9416da74-5be5-413a-a920-c0ff757c0e8e
+  reviewedAt: 2026-04-30
+  geo: [37.775, -122.419]
+  broadcaster: soma-fm
+  name: SomaFM Secret Agent
+  streamUrl: https://ice6.somafm.com/secretagent-128-mp3
+  bitrate: 128
+  codec: MP3
+  tags: [lounge, jazz, surf, usa]
+  homepage: https://somafm.com/secretagent/
+  country: US
+  status: stream-only
+
+- id: soma-underground-80s
+  stationuuid: 9614b5e5-0601-11e8-ae97-52543be04c81
+  changeuuid: cbeb293e-0970-4468-ba8d-e0856a40eae6
+  reviewedAt: 2026-04-30
+  geo: [37.775, -122.419]
+  broadcaster: soma-fm
+  name: SomaFM Underground 80s
+  streamUrl: https://ice6.somafm.com/u80s-128-mp3
+  bitrate: 128
+  codec: MP3
+  tags: [80s, new wave, post-punk, usa]
+  homepage: https://somafm.com/u80s/
+  country: US
+  status: stream-only
+
+- id: soma-space-station
+  stationuuid: 960d3f6f-0601-11e8-ae97-52543be04c81
+  changeuuid: d21d207b-697a-4218-94cd-a3ccd0934b88
+  reviewedAt: 2026-04-30
+  geo: [37.775, -122.419]
+  broadcaster: soma-fm
+  name: SomaFM Space Station Soma
+  streamUrl: https://ice5.somafm.com/spacestation-128-aac
+  bitrate: 128
+  codec: AAC
+  tags: [ambient, space, electronic, usa]
+  homepage: https://somafm.com/spacestation/
+  country: US
+  status: stream-only
+
+- id: soma-indie-pop
+  stationuuid: 96394224-0601-11e8-ae97-52543be04c81
+  changeuuid: a0cda076-89c1-4cba-9319-7b4c4d4245f5
+  reviewedAt: 2026-04-30
+  geo: [37.775, -122.419]
+  broadcaster: soma-fm
+  name: SomaFM Indie Pop Rocks
+  streamUrl: https://ice6.somafm.com/indiepop-128-aac
+  bitrate: 128
+  codec: AAC
+  tags: [indie, pop, alternative, usa]
+  homepage: https://somafm.com/indiepop/
+  country: US
+  status: stream-only
+
+- id: soma-drone-zone
+  stationuuid: 960eb2e9-0601-11e8-ae97-52543be04c81
+  changeuuid: 38b519ea-889c-450a-958e-3f635be09f8f
+  reviewedAt: 2026-04-30
+  geo: [37.775, -122.419]
+  broadcaster: soma-fm
+  name: SomaFM Drone Zone
+  streamUrl: https://ice4.somafm.com/dronezone-128-mp3
+  bitrate: 128
+  codec: MP3
+  tags: [ambient, drone, downtempo, usa]
+  homepage: https://somafm.com/dronezone/
+  country: US
+  status: stream-only
+
+# ─── US — iHeart commercial flagships (2026-04-30) ───
+# iHeartMedia owns ~850 US stations. We pick four NYC + LA flagships
+# that capture the brand awareness in pop / rap / adult contemporary.
+# All ship via the iHeart CDN at stream.revma.ihrhls.com/zc<id>.
+
+- id: us-z100
+  stationuuid: ba3ad919-0516-485c-bce6-b27c4492ab14
+  changeuuid: 36c86455-fe83-48cd-867a-c64c60657cee
+  reviewedAt: 2026-04-30
+  geo: [40.713, -74.006]
+  broadcaster: independent
+  name: Z100 New York (WHTZ)
+  streamUrl: https://stream.revma.ihrhls.com/zc1469
+  codec: AAC
+  tags: [pop, hits, usa]
+  homepage: https://z100.iheart.com/
+  country: US
+  status: stream-only
+
+- id: us-kiis-fm
+  stationuuid: c76686ca-a8b9-4db9-9839-1470c9599623
+  changeuuid: 1e4aa307-6ef0-4444-bdb9-5bee3e26a230
+  reviewedAt: 2026-04-30
+  geo: [34.052, -118.244]
+  broadcaster: independent
+  name: 102.7 KIIS-FM Los Angeles
+  streamUrl: https://stream.revma.ihrhls.com/zc185
+  codec: AAC
+  tags: [pop, hits, usa]
+  homepage: https://kiisfm.iheart.com/
+  country: US
+  status: stream-only
+
+- id: us-power-105
+  stationuuid: d5f76b95-7507-487e-ad3f-48ba15cd3cce
+  changeuuid: f4f06058-a16c-438c-b079-03e050fd5584
+  reviewedAt: 2026-04-30
+  geo: [40.713, -74.006]
+  broadcaster: independent
+  name: Power 105.1 New York (WWPR)
+  streamUrl: https://stream.revma.ihrhls.com/zc1481
+  codec: AAC
+  tags: [hip hop, rnb, usa]
+  homepage: https://power1051fm.iheart.com/
+  country: US
+  status: stream-only
+
+- id: us-wltw-lite-fm
+  stationuuid: 19569a71-edd0-4207-b755-d5217fe2b23b
+  changeuuid: 8f8eec63-590f-45c5-a0cd-66b38841a9d3
+  reviewedAt: 2026-04-30
+  geo: [40.713, -74.006]
+  broadcaster: independent
+  name: 106.7 Lite FM New York (WLTW)
+  streamUrl: https://stream.revma.ihrhls.com/zc1477
+  codec: AAC
+  tags: [adult contemporary, easy listening, usa]
+  homepage: https://1067litefm.iheart.com/
+  country: US
+  status: stream-only
+
+# ─── US — National news (2026-04-30) ───
+
+- id: us-cnn
+  stationuuid: 33178054-56cd-449c-8cf7-412cc7be936a
+  changeuuid: e1d40e42-5709-4475-a409-cf322fb48f97
+  reviewedAt: 2026-04-30
+  geo: [33.756, -84.391]
+  broadcaster: independent
+  name: CNN
+  streamUrl: https://tunein.cdnstream1.com/2868_96.mp3
+  bitrate: 96
+  codec: MP3
+  tags: [news, talk, usa]
+  homepage: https://www.cnn.com/audio
+  country: US
+  status: stream-only
+
+- id: us-fox-news-radio
+  stationuuid: 510aeeac-e7a0-41c2-aea2-e572e811ffe7
+  changeuuid: 81627b60-a10d-46c0-ae0c-34e998d113b7
+  reviewedAt: 2026-04-30
+  geo: [40.713, -74.006]
+  broadcaster: independent
+  name: Fox News Radio
+  streamUrl: https://live.amperwave.net/direct/foxnewsradio-foxnewsradioaac-imc?source=fnr.web
+  codec: AAC
+  tags: [news, talk, usa]
+  homepage: https://radio.foxnews.com/
+  country: US
+  status: stream-only
