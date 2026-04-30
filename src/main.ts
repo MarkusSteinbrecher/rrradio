@@ -20,16 +20,13 @@ import {
   getCustom,
   getFavorites,
   getRecents,
-  getWakeTo,
   isFavorite,
   pushRecent,
   removeCustom,
   reorderFavorites,
-  setWakeTo,
   toggleFavorite,
 } from './storage';
-import { fadeVolume, formatCountdown, nextFireTime, WakeScheduler } from './wake';
-import type { NowPlaying, Station, WakeTo } from './types';
+import type { NowPlaying, Station } from './types';
 
 // ─────────────────────────────────────────────────────────────
 // Constants
@@ -159,19 +156,6 @@ const $npHomeHost = document.getElementById('np-home-host') as HTMLElement;
 const $npFav = document.getElementById('np-fav') as HTMLButtonElement;
 const $npSleep = document.getElementById('np-sleep') as HTMLButtonElement;
 const $npSleepChip = document.getElementById('np-sleep-chip') as HTMLElement;
-const $npWake = document.getElementById('np-wake') as HTMLButtonElement;
-const $npWakeChip = document.getElementById('np-wake-chip') as HTMLElement;
-const $wakeSheet = document.getElementById('wake-sheet') as HTMLElement;
-const $wakeClose = document.getElementById('wake-close') as HTMLButtonElement;
-const $wakeTime = document.getElementById('wake-time') as HTMLInputElement;
-const $wakeTargetStation = document.getElementById('wake-target-station') as HTMLElement;
-const $wakeTargetHint = document.getElementById('wake-target-hint') as HTMLElement;
-const $wakeArm = document.getElementById('wake-arm') as HTMLButtonElement;
-const $wakeDisarm = document.getElementById('wake-disarm') as HTMLButtonElement;
-const $wakePill = document.getElementById('wake-pill') as HTMLButtonElement;
-const $wakePillTime = document.getElementById('wake-pill-time') as HTMLElement;
-const $wakePillName = document.getElementById('wake-pill-name') as HTMLElement;
-const $wakePillCount = document.getElementById('wake-pill-count') as HTMLElement;
 const $npPlay = document.getElementById('np-play') as HTMLButtonElement;
 const $npLiveText = document.getElementById('np-live-text') as HTMLElement;
 const $npFormat = document.getElementById('np-format') as HTMLElement;
@@ -2578,182 +2562,6 @@ function renderCustomList(): void {
   }
 }
 
-// ─────────────────────────────────────────────────────────────
-// Wake-to-radio
-// ─────────────────────────────────────────────────────────────
-//
-// One armed wake-to setting at a time. The scheduler in wake.ts
-// handles the timing logic; everything below is glue:
-//   · syncWakePill() / syncWakeChip() reflect armed state in the UI
-//   · openWakeSheet() populates the sheet from current state
-//   · armWakeFromSheet() persists, arms the scheduler
-//   · onWakeFire() switches station + fades up + notifies
-const wakeScheduler = new WakeScheduler();
-let pillTickTimer: number | undefined;
-
-function openWakeSheet(open: boolean): void {
-  $wakeSheet.classList.toggle('open', open);
-  $wakeSheet.setAttribute('aria-hidden', String(!open));
-  if (!open) return;
-
-  const armed = wakeScheduler.current();
-  // The wake station is whatever's currently tuned in — clock-radio
-  // metaphor. If an alarm is already armed, surface the station it's
-  // tied to instead, since we don't want a sheet-reopen to silently
-  // swap targets.
-  const station = armed?.station ?? (currentNP.station.id ? currentNP.station : null);
-  $wakeTime.value = armed?.time ?? '07:00';
-  $wakeTargetStation.textContent = station?.name ?? '—';
-  const noStation = !station;
-  $wakeTargetHint.hidden = !noStation;
-  $wakeArm.disabled = noStation;
-  $wakeDisarm.hidden = !armed;
-}
-
-function setMuted(muted: boolean): void {
-  if (player.isMuted() !== muted) player.toggleMute();
-  $body.classList.toggle('is-muted', muted);
-  $npMute.setAttribute('aria-label', muted ? 'Unmute' : 'Mute');
-}
-
-function armWakeFromSheet(): void {
-  const time = $wakeTime.value.trim();
-  const armed = wakeScheduler.current();
-  // Prefer the already-armed station so a re-open of the sheet to
-  // change time alone doesn't accidentally reset the target. Falls
-  // back to whatever's currently playing for a fresh arm.
-  const station = armed?.station ?? (currentNP.station.id ? currentNP.station : null);
-  if (!time || !station) return;
-  const wake: WakeTo = {
-    time,
-    stationId: station.id,
-    station,
-    armedAt: Date.now(),
-  };
-  setWakeTo(wake);
-  wakeScheduler.arm(wake, onWakeFire);
-  syncWakeUi();
-  startPillTick();
-  ensureNotificationPermission();
-  track('wake/arm', time);
-  openWakeSheet(false);
-
-  // Critical: start playback right now, while we still have a user
-  // gesture from the Arm tap. The audio element MUST keep producing
-  // audible audio through the night — iOS Safari suspends locked
-  // tabs that aren't actively outputting sound, which kills the
-  // fire-time callback. So we play unmuted at the phone's hardware
-  // volume; the user lowers the hardware slider to their preferred
-  // sleep+wake level. (Earlier prototypes auto-muted here so the
-  // user could sleep silent, but that suspended the tab on lock.)
-  if (currentNP.station.id !== station.id || currentNP.state !== 'playing') {
-    void player.play(station);
-  }
-}
-
-function disarmWake(persist = true): void {
-  wakeScheduler.disarm();
-  if (persist) setWakeTo(null);
-  stopPillTick();
-  syncWakeUi();
-  track('wake/disarm');
-}
-
-function onWakeFire(wake: WakeTo): void {
-  // Fire the actual wake: swap station, unmute, fade volume up
-  // (no-op on iOS where volume is read-only — there mute → unmute is
-  // the audible transition).
-  setWakeTo(null);
-  syncWakeUi();
-  stopPillTick();
-  track('wake/fire', wake.station.name);
-  player.setVolume(0);
-  void player.play(wake.station);
-  setMuted(false);
-  // Linear fade from 0 → full over 30 seconds. RAF-driven so it
-  // tracks the wall clock, not setTimeout drift. Audible only on
-  // Android/desktop; iOS Safari forces audio.volume to 1 regardless.
-  fadeVolume((v) => player.setVolume(v), 0, 1, 30_000);
-  // Notification: best-effort. Browsers limit when this works (must be
-  // visible OR have a service worker). We try and ignore failures.
-  try {
-    if ('Notification' in window && Notification.permission === 'granted') {
-      new Notification(`Wake to ${wake.station.name}`, {
-        body: `It's ${wake.time} — playing now.`,
-        silent: false,
-      });
-    }
-  } catch {
-    // ignore — audio is the alarm regardless
-  }
-}
-
-function ensureNotificationPermission(): void {
-  if (!('Notification' in window)) return;
-  if (Notification.permission === 'default') {
-    void Notification.requestPermission();
-  }
-}
-
-function startPillTick(): void {
-  stopPillTick();
-  syncWakeUi();
-  // Update once per minute. The pill only displays minute-resolution
-  // ("in 4h 12m"), so a faster cadence would be wasteful.
-  pillTickTimer = window.setInterval(syncWakeUi, 60_000);
-}
-
-function stopPillTick(): void {
-  if (pillTickTimer !== undefined) {
-    window.clearInterval(pillTickTimer);
-    pillTickTimer = undefined;
-  }
-}
-
-function syncWakeUi(): void {
-  const wake = wakeScheduler.current();
-  if (!wake) {
-    $wakePill.hidden = true;
-    $npWakeChip.hidden = true;
-    $npWakeChip.textContent = '';
-    $npWake.classList.remove('is-fav');
-    $npWake.setAttribute('aria-label', 'Wake to radio');
-    return;
-  }
-  const remain = nextFireTime(wake) - Date.now();
-  $wakePill.hidden = false;
-  $wakePillTime.textContent = wake.time;
-  $wakePillName.textContent = wake.station.name;
-  $wakePillCount.textContent = formatCountdown(remain);
-  $npWakeChip.hidden = false;
-  $npWakeChip.textContent = wake.time;
-  $npWake.classList.add('is-fav');
-  $npWake.setAttribute('aria-label', `Wake to ${wake.station.name} at ${wake.time}`);
-}
-
-// Restore any previously-armed wake on app load. If the stored fire
-// time has already passed (browser was closed across the wake window),
-// just clear it — we don't fire stale wakes.
-function restoreWakeOnBoot(): void {
-  const stored = getWakeTo();
-  if (!stored) return;
-  const fire = nextFireTime(stored);
-  if (!Number.isFinite(fire)) {
-    setWakeTo(null);
-    return;
-  }
-  // If the original fire window passed > 1 minute ago AND it would
-  // have fired before the next legitimate fire-time, treat it as
-  // missed — too late to be useful. Re-issuing means re-arming.
-  // (nextFireTime always returns a future time relative to armedAt;
-  // if the original fire was last night, the new one is tomorrow.)
-  wakeScheduler.arm(stored, onWakeFire);
-  syncWakeUi();
-  startPillTick();
-}
-
-wakeScheduler.onTick(syncWakeUi);
-
 function setSleep(minutes: number): void {
   if (sleepTimer !== undefined) {
     window.clearTimeout(sleepTimer);
@@ -2895,15 +2703,6 @@ $aboutClose.addEventListener('click', () => openAboutSheet(false));
 $dashboardBtn.addEventListener('click', () => void openDashboardSheet(true));
 $dashboardClose.addEventListener('click', () => void openDashboardSheet(false));
 
-$npWake.addEventListener('click', () => openWakeSheet(true));
-$wakeClose.addEventListener('click', () => openWakeSheet(false));
-$wakePill.addEventListener('click', () => openWakeSheet(true));
-$wakeArm.addEventListener('click', armWakeFromSheet);
-$wakeDisarm.addEventListener('click', () => {
-  disarmWake();
-  openWakeSheet(false);
-});
-
 $mini.addEventListener('click', () => openNp(true));
 $miniToggle.addEventListener('click', (e) => {
   e.stopPropagation();
@@ -3036,7 +2835,6 @@ void runQuery();
 void loadSiteVisits();
 void loadTopStations();
 void loadBacklog();
-restoreWakeOnBoot();
 
 /** Pre-rendered /station/<id>/ landing pages set window.__STATION_ID__
  *  so the SPA can auto-play the station the visitor landed on. We also
