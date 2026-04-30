@@ -262,6 +262,17 @@ export class AudioPlayer {
     navigator.mediaSession.setActionHandler('stop', () => this.pause());
   }
 
+  /** Wire prev/next handlers so the lock-screen player widget,
+   *  Bluetooth headphone skip buttons, AirPods squeezes, and CarPlay
+   *  arrows can flip stations without unlocking. The action handlers
+   *  are installed lazily so callers can decide which list to skip
+   *  through (favorites, recents, ...). */
+  setSkipHandlers(next: () => void, prev: () => void): void {
+    if (!('mediaSession' in navigator)) return;
+    navigator.mediaSession.setActionHandler('nexttrack', next);
+    navigator.mediaSession.setActionHandler('previoustrack', prev);
+  }
+
   private updateMediaSessionMetadata(
     station: Station,
     parts?: { artist?: string; track?: string; coverUrl?: string },

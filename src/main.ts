@@ -2836,6 +2836,34 @@ void loadSiteVisits();
 void loadTopStations();
 void loadBacklog();
 
+// Lock-screen / Bluetooth / AirPods / CarPlay skip controls. Cycles
+// through the user's favorites — they're curated, stable, and small
+// enough to flip through like radio dial presets. If the currently-
+// playing station isn't in the favorites list, skip jumps to the
+// first (next) or last (prev) entry. No-op when the user has no
+// favorites yet.
+function skipFavorite(direction: 1 | -1): void {
+  const favs = getFavorites();
+  if (favs.length === 0) return;
+  const currentId = currentNP.station.id;
+  const currentIdx = favs.findIndex((s) => s.id === currentId);
+  const nextIdx =
+    currentIdx === -1
+      ? direction === 1
+        ? 0
+        : favs.length - 1
+      : (currentIdx + direction + favs.length) % favs.length;
+  const next = favs[nextIdx];
+  if (!next) return;
+  void player.play(next);
+  pushRecent(next);
+  track(direction === 1 ? 'lock-skip-next' : 'lock-skip-prev', next.name);
+}
+player.setSkipHandlers(
+  () => skipFavorite(1),
+  () => skipFavorite(-1),
+);
+
 /** Pre-rendered /station/<id>/ landing pages set window.__STATION_ID__
  *  so the SPA can auto-play the station the visitor landed on. We also
  *  parse the URL path as a fallback (in case the injection was stripped
