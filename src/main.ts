@@ -646,15 +646,37 @@ function setMiniArt(station: Station): void {
   }
 }
 
+/** While the silent bed is the active audio source, present the
+ *  armed wake station's branding instead — its favicon, tags, country
+ *  and a synthesized "Wake up at HH:MM" name. The actual <audio>
+ *  source is unchanged; this is purely cosmetic so Now Playing and
+ *  the mini-player don't read "Silent bed". */
+function displayStation(np: NowPlaying): Station {
+  const armed = wakeScheduler.current();
+  if (np.station.id === SILENT_BED.id && armed?.station) {
+    return {
+      ...armed.station,
+      name: `Wake up at ${armed.time}`,
+    };
+  }
+  return np.station;
+}
+
+function isWakeBedActive(np: NowPlaying): boolean {
+  return np.station.id === SILENT_BED.id && wakeScheduler.current() !== null;
+}
+
 function renderMiniPlayer(np: NowPlaying): void {
   if (!np.station.id) {
     $mini.hidden = true;
     return;
   }
+  const display = displayStation(np);
   $mini.hidden = false;
-  $miniName.textContent = np.station.name;
+  $miniName.textContent = display.name;
   $miniMeta.textContent = miniMetaText(np);
-  setMiniArt(np.station);
+  setMiniArt(display);
+  $mini.classList.toggle('is-wake-bed', isWakeBedActive(np));
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -662,9 +684,13 @@ function renderMiniPlayer(np: NowPlaying): void {
 // ─────────────────────────────────────────────────────────────
 
 function renderNowPlaying(np: NowPlaying): void {
-  const s = np.station;
+  const s = displayStation(np);
+  const wakeBed = isWakeBedActive(np);
   $npName.textContent = s.name || '—';
   $npTags.textContent = (s.tags ?? []).join(' · ');
+  // is-wake-bed dims the cover/logo + overlays a small mute icon so
+  // it's visually obvious the audio is silent right now.
+  $body.classList.toggle('is-wake-bed', wakeBed);
 
   if (np.programName) {
     $npProgramName.textContent = np.programName;

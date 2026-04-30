@@ -1247,6 +1247,30 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   position: absolute;
 }
 .np-track__cover:not([hidden]) + .np-track__cover-fallback { display: none; }
+
+/* Wake-bed visual cue — silent bed is the active source, but the
+   displayed station is the armed wake target. Dim the cover, the
+   small station logo, and the mini-player favicon so it reads as
+   "muted now, will wake up later", and overlay a subtle mute glyph
+   on the big cover so the meaning is unambiguous. */
+.is-wake-bed .np-track__cover,
+.is-wake-bed .np-station__logo {
+  opacity: 0.42;
+}
+.is-wake-bed .np-track__cover-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'><path d='M11 5 6 9H2v6h4l5 4V5z'/><line x1='22' y1='9' x2='16' y2='15'/><line x1='16' y1='9' x2='22' y2='15'/></svg>");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 32%;
+  opacity: 0.55;
+  mix-blend-mode: screen;
+}
+.mini.is-wake-bed .fav { opacity: 0.55; }
+.mini.is-wake-bed .mini-name { color: var(--ink-2); }
 .np-track__text {
   display: flex;
   flex-direction: column;
