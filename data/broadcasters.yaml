@@ -240,6 +240,13 @@ mr:
   fullName: Magyar Rádió
   country: HU
   homepage: https://radio.hu/
+  metadata: mr
+  notes: |
+    mediaklikk.hu/iface XML feeds: /radio_now/now_<id>.xml (only
+    Dankó id=9 returns track-level data; the others 404) and
+    /broadcast/<date>/broadcast_<id>.xml (all channels). CORS=*.
+    metadataUrl on each station holds the radio_now URL; schedule
+    URL is derived from <id>.
 
 # ─────────────── Czechia ───────────────
 
@@ -248,6 +255,12 @@ cro:
   fullName: Český rozhlas
   country: CZ
   homepage: https://rozhlas.cz/
+  metadata: cro
+  notes: |
+    api.rozhlas.cz/data/v2 endpoints — /playlist/now/<slug>.json,
+    /playlist/day/<slug>.json (fallback when now is "quiet"),
+    /schedule/day/<slug>.json. CORS=*. metadataUrl on each station
+    is the /playlist/now/ URL; schedule URL is derived from it.
 
 # ─────────────── Croatia ───────────────
 
@@ -264,6 +277,12 @@ srr:
   fullName: Societatea Română de Radiodifuziune
   country: RO
   homepage: https://www.srr.ro/
+  metadata: srr
+  notes: |
+    Single endpoint romania-actualitati.ro/api/live.php returns all
+    stations keyed by numeric id (1=Actualități, 2=Cultural, 5=Muzical).
+    Program-only — title + schedule string, no track. CORS=*.
+    metadataUrl on each station is "<live.php URL>#<id>".
 
 # ─────────────── Slovakia ───────────────
 

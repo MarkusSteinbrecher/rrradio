@@ -401,6 +401,308 @@ const fetchHrSchedule: ScheduleFetcher = async (station, signal) => {
 };
 
 // ============================================================
+// ČRo (Český rozhlas) — api.rozhlas.cz/data/v2/, CORS=*, no auth.
+// metadataUrl on each station = the /playlist/now/<slug>.json URL;
+// the schedule URL is derived from it.
+// ============================================================
+
+interface CroNowEnvelope {
+  data?: {
+    status?: string; // "playing" | "quiet"
+    interpret?: string;
+    track?: string;
+    since?: string;
+    files?: Array<{ asset?: string }>;
+  };
+}
+interface CroScheduleItem {
+  title?: string;
+  description?: string;
+  since?: string;
+  till?: string;
+  persons?: Array<{ name?: string }>;
+}
+
+function croScheduleUrl(now: string): string {
+  return now.replace('/playlist/now/', '/schedule/day/');
+}
+
+const fetchCroMetadata: MetadataFetcher = async (station, signal) => {
+  const url = station.metadataUrl;
+  if (!url) return null;
+  try {
+    const cb = `?_=${Date.now()}`;
+    const [nowRes, schRes] = await Promise.all([
+      fetch(`${url}${cb}`, { signal, cache: 'no-store' }).catch(() => null),
+      fetch(`${croScheduleUrl(url)}${cb}`, { signal, cache: 'no-store' }).catch(() => null),
+    ]);
+
+    // /now/.data.status is the canonical "is a track playing right
+    // now" signal. We deliberately do NOT fall back to /day/'s last
+    // item — for talk-heavy channels (Radiožurnál, Plus) showing a
+    // music interlude from 20 min ago as "now playing" is misleading.
+    let artist: string | undefined;
+    let track: string | undefined;
+    let cover: string | undefined;
+    if (nowRes?.ok) {
+      const d = (await nowRes.json()) as CroNowEnvelope;
+      const data = d.data;
+      if (data?.status === 'playing' && data.track) {
+        artist = data.interpret ? titleCase(data.interpret) : undefined;
+        track = titleCase(data.track);
+        cover = data.files?.[0]?.asset;
+      }
+    }
+
+    let program: { name: string; subtitle?: string } | undefined;
+    if (schRes?.ok) {
+      const d = (await schRes.json()) as { data?: CroScheduleItem[] };
+      const items = d.data ?? [];
+      const now = Date.now();
+      const current = items.find((i) => {
+        const since = i.since ? Date.parse(i.since) : 0;
+        const till = i.till ? Date.parse(i.till) : 0;
+        return since <= now && now < till;
+      });
+      if (current?.title) {
+        program = {
+          name: current.title.trim(),
+          subtitle: current.persons?.[0]?.name?.trim() || undefined,
+        };
+      }
+    }
+
+    if (track) {
+      return {
+        artist,
+        track,
+        raw: `${artist ?? ''} - ${track}`.trim(),
+        coverUrl: cover,
+        program,
+      };
+    }
+    return program ? { track: undefined, raw: '', program } : null;
+  } catch {
+    return null;
+  }
+};
+
+const fetchCroSchedule: ScheduleFetcher = async (station, signal) => {
+  const now = station.metadataUrl;
+  if (!now) return null;
+  try {
+    const res = await fetch(croScheduleUrl(now), { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const d = (await res.json()) as { data?: CroScheduleItem[] };
+    const items = d.data ?? [];
+    const broadcasts: ScheduleBroadcast[] = items
+      .filter((i) => i.since && i.till && i.title)
+      .map((i) => ({
+        start: Date.parse(i.since!),
+        end: Date.parse(i.till!),
+        title: i.title!.trim(),
+        subtitle: i.persons?.[0]?.name?.trim() || undefined,
+      }))
+      .sort((a, b) => a.start - b.start);
+    if (broadcasts.length === 0) return null;
+    const dayBoundary = (ts: number): number => {
+      const d = new Date(ts);
+      d.setHours(0, 0, 0, 0);
+      return d.getTime();
+    };
+    const byDay = new Map<number, ScheduleBroadcast[]>();
+    for (const b of broadcasts) {
+      const k = dayBoundary(b.start);
+      const arr = byDay.get(k) ?? [];
+      arr.push(b);
+      byDay.set(k, arr);
+    }
+    return [...byDay.entries()]
+      .sort((a, b) => a[0] - b[0])
+      .map(([date, broadcasts]) => ({ date, broadcasts }));
+  } catch {
+    return null;
+  }
+};
+
+// ============================================================
+// MR (Magyar Rádió) — mediaklikk.hu, XML, CORS=*, no auth.
+// metadataUrl = /iface/radio_now/now_<id>.xml. Only Dankó (id=9)
+// has track-level data; the others 404 on /now/ and rely on the
+// schedule for program info. Schedule URL is derived from id.
+// ============================================================
+
+function mrIdFromMetadataUrl(url: string): string | null {
+  const m = url.match(/\/now_(\d+)\.xml/);
+  return m ? m[1] : null;
+}
+
+/** Last Sunday of `month` (0-indexed) at 00:00 UTC. */
+function lastSundayUtc(year: number, month: number): number {
+  const last = new Date(Date.UTC(year, month + 1, 0));
+  return Date.UTC(year, month, last.getUTCDate() - last.getUTCDay());
+}
+
+/** Parse "YYYY-MM-DD HH:MM:SS" as Europe/Budapest local time → UTC ms.
+ *  Hungary follows EU CET/CEST (last Sun of Mar/Oct at 01:00 UTC). */
+function parseHuLocal(s: string): number {
+  const m = s.match(/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/);
+  if (!m) return NaN;
+  const [, y, mo, d, h, mn, sec] = m;
+  const yi = +y;
+  const dstStart = lastSundayUtc(yi, 2) + 3600 * 1000;  // last Sun March 01:00Z
+  const dstEnd = lastSundayUtc(yi, 9) + 3600 * 1000;    // last Sun Oct 01:00Z
+  const naive = Date.UTC(+y, +mo - 1, +d, +h, +mn, +sec);
+  const inDst = naive - 2 * 3600 * 1000 >= dstStart && naive - 2 * 3600 * 1000 < dstEnd;
+  return naive - (inDst ? 2 : 1) * 3600 * 1000;
+}
+
+function mrBroadcastUrl(id: string, date: Date): string {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `https://mediaklikk.hu/iface/broadcast/${y}-${m}-${d}/broadcast_${id}.xml`;
+}
+
+function parseMrBroadcastXml(xml: string): ScheduleBroadcast[] {
+  const doc = new DOMParser().parseFromString(xml, 'application/xml');
+  const items = Array.from(doc.querySelectorAll('Item'));
+  const out: ScheduleBroadcast[] = [];
+  for (const it of items) {
+    const begin = it.querySelector('BeginDate')?.textContent;
+    const end = it.querySelector('EndDate')?.textContent;
+    const title = it.querySelector('Title')?.textContent?.trim();
+    const series = it.querySelector('SeriesTitle')?.textContent?.trim();
+    if (!begin || !end || !title) continue;
+    const start = parseHuLocal(begin);
+    const stop = parseHuLocal(end);
+    if (!Number.isFinite(start) || !Number.isFinite(stop)) continue;
+    out.push({
+      start,
+      end: stop,
+      title,
+      subtitle: series && series !== title ? series : undefined,
+    });
+  }
+  return out.sort((a, b) => a.start - b.start);
+}
+
+const fetchMrMetadata: MetadataFetcher = async (station, signal) => {
+  const url = station.metadataUrl;
+  if (!url) return null;
+  const id = mrIdFromMetadataUrl(url);
+  if (!id) return null;
+  try {
+    const cb = `?_=${Date.now()}`;
+    const schUrl = mrBroadcastUrl(id, new Date());
+    const [nowRes, schRes] = await Promise.all([
+      fetch(`${url}${cb}`, { signal, cache: 'no-store' }).catch(() => null),
+      fetch(schUrl, { signal, cache: 'no-store' }).catch(() => null),
+    ]);
+
+    let artist: string | undefined;
+    let track: string | undefined;
+    if (nowRes?.ok) {
+      const xml = await nowRes.text();
+      const doc = new DOMParser().parseFromString(xml, 'application/xml');
+      const name = doc.querySelector('Item Name')?.textContent?.trim();
+      if (name) {
+        const parts = name.split(' - ');
+        if (parts.length >= 2) {
+          artist = titleCase(parts[0]);
+          track = titleCase(parts.slice(1).join(' - '));
+        } else {
+          track = titleCase(name);
+        }
+      }
+    }
+
+    let program: { name: string; subtitle?: string } | undefined;
+    if (schRes?.ok) {
+      const xml = await schRes.text();
+      const items = parseMrBroadcastXml(xml);
+      const now = Date.now();
+      const current = items.find((b) => b.start <= now && now < b.end);
+      if (current) {
+        program = { name: current.title, subtitle: current.subtitle };
+      }
+    }
+
+    if (track) {
+      return { artist, track, raw: `${artist ?? ''} - ${track}`.trim(), program };
+    }
+    return program ? { track: undefined, raw: '', program } : null;
+  } catch {
+    return null;
+  }
+};
+
+const fetchMrSchedule: ScheduleFetcher = async (station, signal) => {
+  const url = station.metadataUrl;
+  if (!url) return null;
+  const id = mrIdFromMetadataUrl(url);
+  if (!id) return null;
+  try {
+    const today = new Date();
+    const days: Date[] = [];
+    for (let i = 0; i < 2; i++) {
+      const d = new Date(today.getFullYear(), today.getMonth(), today.getDate() + i);
+      days.push(d);
+    }
+    const responses = await Promise.all(
+      days.map((d) => fetch(mrBroadcastUrl(id, d), { signal, cache: 'no-store' }).catch(() => null)),
+    );
+    const out: ScheduleDay[] = [];
+    for (let i = 0; i < days.length; i++) {
+      const res = responses[i];
+      if (!res?.ok) continue;
+      const xml = await res.text();
+      const broadcasts = parseMrBroadcastXml(xml);
+      if (broadcasts.length === 0) continue;
+      const midnight = new Date(days[i]);
+      midnight.setHours(0, 0, 0, 0);
+      out.push({ date: midnight.getTime(), broadcasts });
+    }
+    return out.length > 0 ? out : null;
+  } catch {
+    return null;
+  }
+};
+
+// ============================================================
+// SRR (Radio România) — single endpoint, all stations keyed by id.
+// metadataUrl = "<live.php URL>#<id>". Program-only — no track field.
+// ============================================================
+
+interface SrrLiveResponse {
+  stations?: Record<string, { title?: string; schedule?: string }>;
+}
+
+const fetchSrrMetadata: MetadataFetcher = async (station, signal) => {
+  const meta = station.metadataUrl;
+  if (!meta) return null;
+  const [base, id] = meta.split('#');
+  if (!id) return null;
+  try {
+    const res = await fetch(`${base}?_=${Date.now()}`, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as SrrLiveResponse;
+    const slot = data.stations?.[id];
+    if (!slot?.title) return null;
+    return {
+      track: undefined,
+      raw: '',
+      program: {
+        name: slot.title.trim(),
+        subtitle: slot.schedule?.trim() || undefined,
+      },
+    };
+  } catch {
+    return null;
+  }
+};
+
+// ============================================================
 // BBC fetchers (via our worker — rms.api.bbc.co.uk requires
 // Origin: https://www.bbc.co.uk and 403s otherwise)
 // ============================================================
@@ -503,6 +805,9 @@ const FETCHERS_BY_KEY: Record<string, MetadataFetcher> = {
   'br-radioplayer': fetchBrMetadata,
   bbc: fetchBbcMetadata,
   hr: fetchHrMetadata,
+  cro: fetchCroMetadata,
+  mr: fetchMrMetadata,
+  srr: fetchSrrMetadata,
 };
 
 /** Schedule fetchers — keyed the same as MetadataFetchers. Optional —
@@ -512,6 +817,8 @@ const SCHEDULE_FETCHERS_BY_KEY: Record<string, ScheduleFetcher> = {
   'br-radioplayer': fetchBrSchedule,
   bbc: fetchBbcSchedule,
   hr: fetchHrSchedule,
+  cro: fetchCroSchedule,
+  mr: fetchMrSchedule,
 };
 
 /** URL-pattern fallback rules. Used when a Station object doesn't

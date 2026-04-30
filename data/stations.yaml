@@ -5703,12 +5703,14 @@
   broadcaster: mr
   name: Kossuth Rádió
   streamUrl: https://icast.connectmedia.hu/4734/mr1.aac
+  metadataUrl: https://mediaklikk.hu/iface/radio_now/now_6.xml
   bitrate: 128
   codec: AAC
   tags: [news, talk, public, hungarian]
+  favicon: https://mediaklikk.hu/wp-content/plugins/hms-mediaklikk/common/styles/images/M_mediaklikk_logo_favicon.png
   homepage: https://radio.hu/m1
   country: HU
-  status: stream-only
+  status: working
 
 - id: hu-mr2-petofi
   stationuuid: 960e7334-0601-11e8-ae97-52543be04c81
@@ -5718,12 +5720,14 @@
   broadcaster: mr
   name: Petőfi Rádió
   streamUrl: https://icast.connectmedia.hu/4737/mr2.aac
+  metadataUrl: https://mediaklikk.hu/iface/radio_now/now_21.xml
   bitrate: 128
   codec: AAC
   tags: [pop, hungarian, public]
+  favicon: https://mediaklikk.hu/wp-content/plugins/hms-mediaklikk/common/styles/images/M_mediaklikk_logo_favicon.png
   homepage: https://radio.hu/petofi
   country: HU
-  status: stream-only
+  status: working
 
 - id: hu-mr3-bartok
   stationuuid: 961d7d8c-0601-11e8-ae97-52543be04c81
@@ -5733,12 +5737,14 @@
   broadcaster: mr
   name: Bartók Rádió
   streamUrl: https://icast.connectmedia.hu/4742/mr3hq.mp3
+  metadataUrl: https://mediaklikk.hu/iface/radio_now/now_12.xml
   bitrate: 192
   codec: MP3
   tags: [classical, jazz, hungarian, public]
+  favicon: https://mediaklikk.hu/wp-content/plugins/hms-mediaklikk/common/styles/images/M_mediaklikk_logo_favicon.png
   homepage: https://radio.hu/bartok
   country: HU
-  status: stream-only
+  status: working
 
 - id: hu-mr-danko
   stationuuid: 960c0804-0601-11e8-ae97-52543be04c81
@@ -5748,12 +5754,14 @@
   broadcaster: mr
   name: Dankó Rádió
   streamUrl: https://icast.connectmedia.hu/4747/mr7.aac
+  metadataUrl: https://mediaklikk.hu/iface/radio_now/now_9.xml
   bitrate: 128
   codec: AAC
   tags: [folk, hungarian, public]
+  favicon: https://mediaklikk.hu/wp-content/plugins/hms-mediaklikk/common/styles/images/M_mediaklikk_logo_favicon.png
   homepage: https://radio.hu/danko
   country: HU
-  status: stream-only
+  status: working
 
 - id: hu-radio1
   stationuuid: d00a8843-b483-4de5-94bc-31bda20e732a
@@ -5766,6 +5774,7 @@
   bitrate: 128
   codec: MP3
   tags: [pop, hits, hungarian]
+  favicon: https://radio1.hu/template/radio1/assets/img/favicon/apple-touch-icon.png
   homepage: https://www.radio1.hu/
   country: HU
   status: stream-only
@@ -5824,6 +5833,7 @@
   bitrate: 128
   codec: MP3
   tags: [community, alternative, hungarian]
+  favicon: https://tilos.hu/favicon.ico
   homepage: https://tilos.hu/
   country: HU
   status: stream-only
@@ -5853,12 +5863,14 @@
   broadcaster: cro
   name: ČRo Radiožurnál
   streamUrl: https://rozhlas.stream/radiozurnal_aac_128.aac
+  metadataUrl: https://api.rozhlas.cz/data/v2/playlist/now/radiozurnal.json
   bitrate: 128
   codec: AAC
   tags: [news, talk, public, czech]
+  favicon: https://api.play.cz/static/radio_logo/t200/cro1.png
   homepage: https://radiozurnal.rozhlas.cz/
   country: CZ
-  status: stream-only
+  status: working
 
 - id: cz-cro2-dvojka
   stationuuid: 960c2ef6-0601-11e8-ae97-52543be04c81
@@ -5868,12 +5880,14 @@
   broadcaster: cro
   name: ČRo Dvojka
   streamUrl: https://rozhlas.stream/dvojka_mp3_128.mp3
+  metadataUrl: https://api.rozhlas.cz/data/v2/playlist/now/dvojka.json
   bitrate: 128
   codec: MP3
   tags: [talk, culture, public, czech]
+  favicon: https://api.play.cz/static/radio_logo/t200/cro2.png
   homepage: https://dvojka.rozhlas.cz/
   country: CZ
-  status: stream-only
+  status: working
 
 - id: cz-cro3-vltava
   stationuuid: 960bf772-0601-11e8-ae97-52543be04c81
@@ -5883,12 +5897,14 @@
   broadcaster: cro
   name: ČRo Vltava
   streamUrl: https://rozhlas.stream/vltava_mp3_128.mp3
+  metadataUrl: https://api.rozhlas.cz/data/v2/playlist/now/vltava.json
   bitrate: 128
   codec: MP3
   tags: [classical, culture, public, czech]
+  favicon: https://api.play.cz/static/radio_logo/t200/cro3.png
   homepage: https://vltava.rozhlas.cz/
   country: CZ
-  status: stream-only
+  status: working
 
 - id: cz-cro-plus
   stationuuid: 961f6420-0601-11e8-ae97-52543be04c81
@@ -5898,12 +5914,14 @@
   broadcaster: cro
   name: ČRo Plus
   streamUrl: https://rozhlas.stream/plus_mp3_128.mp3
+  metadataUrl: https://api.rozhlas.cz/data/v2/playlist/now/plus.json
   bitrate: 128
   codec: MP3
   tags: [news, talk, public, czech]
+  favicon: https://api.play.cz/static/radio_logo/t200/croplus.png
   homepage: https://plus.rozhlas.cz/
   country: CZ
-  status: stream-only
+  status: working
 
 - id: cz-cro-jazz
   stationuuid: 1c73ba77-2de2-420f-90dd-74d15118a9be
@@ -5913,12 +5931,14 @@
   broadcaster: cro
   name: ČRo Jazz
   streamUrl: https://rozhlas.stream/jazz_aac_128.aac
+  metadataUrl: https://api.rozhlas.cz/data/v2/playlist/now/jazz.json
   bitrate: 128
   codec: AAC
   tags: [jazz, public, czech]
+  favicon: https://api.play.cz/static/radio_logo/t200/crojazz.png
   homepage: https://jazz.rozhlas.cz/
   country: CZ
-  status: stream-only
+  status: working
 
 - id: cz-cro-wave
   stationuuid: 3963a7f3-d1cc-4fe1-831b-36499ca21b6f
@@ -5927,12 +5947,14 @@
   geo: [50.0755, 14.4378]
   broadcaster: cro
   name: ČRo Wave
+  metadataUrl: https://api.rozhlas.cz/data/v2/playlist/now/wave.json
   bitrate: 256
   codec: MP3
   tags: [alternative, electronic, public, czech]
+  favicon: https://api.play.cz/static/radio_logo/t200/crowave.png
   homepage: https://wave.rozhlas.cz/
   country: CZ
-  status: stream-only
+  status: working
 
 - id: cz-country-radio
   stationuuid: 960ece9a-0601-11e8-ae97-52543be04c81
@@ -5945,6 +5967,7 @@
   bitrate: 128
   codec: AAC
   tags: [country, czech]
+  favicon: https://www.countryradio.cz/assets/favicon/apple-touch-icon.png
   homepage: https://www.countryradio.cz/
   country: CZ
   status: stream-only
@@ -5990,6 +6013,7 @@
   bitrate: 128
   codec: MP3
   tags: [folk, country, czech]
+  favicon: https://www.radioblanik.cz/design/favicons/apple-icon-180x180.png
   homepage: https://www.radioblanik.cz/
   country: CZ
   status: stream-only
@@ -6063,6 +6087,7 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/PROGRAM1AAC.aac
   codec: AAC
   tags: [news, talk, public, croatian]
+  favicon: https://radio.hrt.hr/hrt-192x192.png
   homepage: https://radio.hrt.hr/prvi-program/
   country: HR
   status: stream-only
@@ -6077,6 +6102,7 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/PROGRAM2AAC.aac
   codec: AAC
   tags: [music, culture, public, croatian]
+  favicon: https://radio.hrt.hr/hrt-192x192.png
   homepage: https://radio.hrt.hr/drugi-program/
   country: HR
   status: stream-only
@@ -6091,6 +6117,7 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/SLJEMEAAC.aac
   codec: AAC
   tags: [regional, public, croatian, zagreb]
+  favicon: https://radio.hrt.hr/hrt-192x192.png
   homepage: https://radio.hrt.hr/sljeme/
   country: HR
   status: stream-only
@@ -6158,6 +6185,7 @@
   name: Radio Kaj
   codec: MP3
   tags: [folk, regional, croatian]
+  favicon: https://kaj.hr/wp-content/uploads/2024/01/cropped-logoradiokaj-2-180x180.png
   homepage: https://www.radio-kaj.hr/
   country: HR
   status: stream-only
@@ -6172,6 +6200,7 @@
   bitrate: 128
   codec: MP3
   tags: [religious, talk, croatian]
+  favicon: https://hkr.hkm.hr/wp-content/themes/ika-theme/assets/images/favicons/apple-touch-icon.png
   homepage: https://hkr.hr/
   country: HR
   status: stream-only
@@ -6186,11 +6215,13 @@
   broadcaster: srr
   name: Radio România Actualități
   streamUrl: https://stream4.srr.ro:8443/romania-actualitati
+  metadataUrl: https://www.romania-actualitati.ro/api/live.php#1
   codec: AAC
   tags: [news, talk, public, romanian]
+  favicon: https://static.srr.ro/images/stations/station-logo-1-rra-logo.svg
   homepage: https://www.romania-actualitati.ro/
   country: RO
-  status: stream-only
+  status: working
 
 - id: ro-cultural
   stationuuid: 961b6ef1-0601-11e8-ae97-52543be04c81
@@ -6200,11 +6231,13 @@
   broadcaster: srr
   name: Radio România Cultural
   streamUrl: https://stream4.srr.ro:8443/romania-cultural
+  metadataUrl: https://www.romania-actualitati.ro/api/live.php#2
   codec: AAC
   tags: [culture, talk, public, romanian]
+  favicon: https://static.srr.ro/images/stations/station-logo-2-rrc-logo.svg
   homepage: https://www.radioromaniacultural.ro/
   country: RO
-  status: stream-only
+  status: working
 
 - id: ro-muzical
   stationuuid: 3ab00dd1-e787-4664-b557-08c085e55eec
@@ -6214,11 +6247,13 @@
   broadcaster: srr
   name: Radio România Muzical
   streamUrl: https://stream4.srr.ro:8443/romania-muzical
+  metadataUrl: https://www.romania-actualitati.ro/api/live.php#5
   codec: AAC
   tags: [classical, jazz, public, romanian]
+  favicon: https://static.srr.ro/images/stations/station-logo-3-rrm-logo.svg
   homepage: https://www.romania-muzical.ro/
   country: RO
-  status: stream-only
+  status: working
 
 - id: ro-kiss-fm
   stationuuid: 99ac4423-0307-11ea-bbf2-52543be04c81
@@ -6229,6 +6264,7 @@
   name: Kiss FM Romania
   codec: AAC
   tags: [pop, hits, romanian]
+  favicon: https://www.kissfm.ro/apple-touch-icon.png
   homepage: https://www.kissfm.ro/
   country: RO
   status: stream-only
@@ -6242,6 +6278,7 @@
   name: Europa FM
   codec: AAC
   tags: [pop, hits, romanian]
+  favicon: https://www.europafm.ro/favicon.ico
   homepage: https://www.europafm.ro/
   country: RO
   status: stream-only
@@ -6256,6 +6293,7 @@
   streamUrl: https://astreaming.edi.ro:8443/VirginRadio_aac
   codec: AAC
   tags: [pop, rock, romanian]
+  favicon: https://virginradio.ro/icons/apple-touch-icon.png
   homepage: https://virginradio.ro/
   country: RO
   status: stream-only
@@ -6283,6 +6321,7 @@
   name: Magic FM
   codec: AAC
   tags: [pop, easy listening, romanian]
+  favicon: https://www.magicfm.ro/apple-touch-icon.png
   homepage: https://www.magicfm.ro/
   country: RO
   status: stream-only
@@ -6298,6 +6337,7 @@
   bitrate: 128
   codec: MP3
   tags: [pop, hits, romanian]
+  favicon: https://www.profm.ro/static/theme-repo/apple-touch-icon.png
   homepage: https://www.profm.ro/
   country: RO
   status: stream-only
@@ -6313,6 +6353,7 @@
   bitrate: 128
   codec: MP3
   tags: [pop, talk, romanian]
+  favicon: https://www.digi-fm.ro/static/theme-repo/apple-touch-icon.png
   homepage: https://www.digifm.ro/
   country: RO
   status: stream-only
@@ -6369,6 +6410,7 @@
   bitrate: 128
   codec: MP3
   tags: [news, talk, public, slovak]
+  favicon: https://www.stvr.sk/media/images/radiostations/radio-slovensko.svg
   homepage: https://www.rtvs.sk/radio/radio-slovensko
   country: SK
   status: stream-only
@@ -6383,6 +6425,7 @@
   bitrate: 128
   codec: MP3
   tags: [alternative, electronic, public, slovak]
+  favicon: https://www.stvr.sk/media/images/radiostations/radio-fm.svg
   homepage: https://www.rtvs.sk/radio/fm
   country: SK
   status: stream-only
@@ -6398,6 +6441,7 @@
   bitrate: 128
   codec: MP3
   tags: [classical, culture, public, slovak]
+  favicon: https://www.stvr.sk/media/images/radiostations/radio-devin.svg
   homepage: https://www.rtvs.sk/radio/devin
   country: SK
   status: stream-only
@@ -6413,6 +6457,7 @@
   bitrate: 128
   codec: MP3
   tags: [literature, culture, public, slovak]
+  favicon: https://www.stvr.sk/media/images/radiostations/radio-litera.svg
   homepage: https://www.rtvs.sk/radio/litera
   country: SK
   status: stream-only
@@ -6427,6 +6472,7 @@
   bitrate: 128
   codec: MP3
   tags: [hungarian, minorities, public, slovak]
+  favicon: https://www.stvr.sk/media/images/radiostations/radio-patria.svg
   homepage: https://www.rtvs.sk/radio/patria
   country: SK
   status: stream-only
@@ -6442,6 +6488,7 @@
   bitrate: 128
   codec: MP3
   tags: [pop, hits, slovak]
+  favicon: https://cdn.funradio.sk/img/logo/apple-icon-120x120.png
   homepage: https://www.funradio.sk/
   country: SK
   status: stream-only
@@ -6456,6 +6503,7 @@
   streamUrl: https://stream.radiovlna.sk/vlna-hi.mp3
   codec: MP3
   tags: [pop, classic hits, slovak]
+  favicon: https://cdn.radiovlna.sk/img/logo/apple-touch-icon.png
   homepage: https://www.vlna.fm/
   country: SK
   status: stream-only
@@ -6497,6 +6545,7 @@
   bitrate: 128
   codec: MP3
   tags: [pop, hits, slovak]
+  favicon: https://www.expres.sk/wp-content/uploads/2025/11/cropped-cropped-favicon-1-152x152.png
   homepage: https://www.expres.sk/
   country: SK
   status: stream-only
