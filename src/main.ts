@@ -115,6 +115,7 @@ const $country = document.getElementById('country') as HTMLSelectElement;
 const $modePlayed = document.getElementById('mode-played') as HTMLButtonElement;
 const $mapToggle = document.getElementById('map-toggle') as HTMLButtonElement;
 const $newsToggle = document.getElementById('news-toggle') as HTMLButtonElement;
+const $curatedToggle = document.getElementById('curated-toggle') as HTMLButtonElement;
 const $filterRow = document.getElementById('filter-row') as HTMLElement;
 const $tabStatus = document.getElementById('tab-status') as HTMLElement;
 const $topbarLibSeg = document.getElementById('topbar-lib-seg') as HTMLElement;
@@ -211,6 +212,12 @@ let activeCountry = 'all';
 //   null      → RB top 50, no filter
 type BrowseMode = 'played' | 'news' | null;
 let browseMode: BrowseMode = 'played';
+// Scope filter: when true, the home + filtered views drop everything
+// that isn't in BUILTIN_STATIONS — no RB long-tail, no GoatCounter
+// played-* backlog rows, no Worldwide Load more button. Orthogonal
+// to browseMode (works alongside Played; News auto-deselects since
+// news-tag is RB-only).
+let curatedOnly = false;
 // When true, the unfiltered home view replaces the list section
 // with a Leaflet map. Default false (list view); orthogonal to
 // curatedOnly — the map can show either station set.
@@ -921,6 +928,9 @@ function playedStations(): Station[] {
       seen.add(lc);
       continue;
     }
+    // Curated-only filter strips the GoatCounter-popular-but-not-curated
+    // backlog rows ('played-<slug>' entries that come from station-backlog.json).
+    if (curatedOnly) continue;
     const backlog = backlogByName.get(lc);
     if (backlog?.streamUrl && backlog.verdict !== 'stream-broken' && backlog.verdict !== 'no-rb-match') {
       ordered.push({
@@ -1476,7 +1486,9 @@ function renderContent(): void {
         if ((browseMode === null || browseMode === 'news') && browseHasMore) {
           $content.append(loadMoreButton());
         }
-        if (browseMode === 'played') {
+        // Worldwide expansion only when we're not constrained to the
+        // curated catalog (curatedOnly hides the section + button).
+        if (browseMode === 'played' && !curatedOnly) {
           if (homeRbStations.length > 0) {
             $content.append(sectionLabel('Worldwide', homeRbStations.length));
             $content.append(renderRows(homeRbStations));
@@ -1576,10 +1588,13 @@ async function runQuery(): Promise<void> {
   const noFilter = !query && !genreTag && !countryFilter;
   // News mode applies its tag to the RB call when we fetch.
   const tagFilter = browseMode === 'news' ? 'news' : genreTag;
-  // Skip Radio Browser fetch only when mode is 'played' AND no filter
-  // is set — that mode uses local data. Mode='news' and mode=null both
-  // need an RB fetch (top 50 stations, optionally with tag=news).
-  const needsRb = !noFilter || browseMode === null || browseMode === 'news';
+  // Skip Radio Browser fetch when:
+  //  · curated-only is on (we never render RB results in that mode)
+  //  · OR mode is 'played' AND no filter is set (local data only)
+  // Mode='news' and mode=null both need an RB fetch (unless curated-only
+  // is on, in which case we'd never use the result).
+  const needsRb =
+    !curatedOnly && (!noFilter || browseMode === null || browseMode === 'news');
   if (!needsRb) {
     if (myToken !== queryToken) return;
     lastBrowseStations = [];
@@ -2465,13 +2480,39 @@ function setBrowseMode(target: BrowseMode): void {
     activeTag = 'all';
     syncGenre();
   }
+  // News fetches RB stations only — incompatible with curated-only;
+  // turn off the curated scope filter when News turns on.
+  if (browseMode === 'news' && curatedOnly) {
+    curatedOnly = false;
+    syncCuratedToggle();
+  }
   selectedClusterKey = null;
   track(`mode/${browseMode ?? 'none'}`);
   void runQuery();
 }
 
+function syncCuratedToggle(): void {
+  $curatedToggle.classList.toggle('is-active', curatedOnly);
+  $curatedToggle.setAttribute('aria-pressed', String(curatedOnly));
+}
+
+function setCuratedOnly(target: boolean): void {
+  if (curatedOnly === target) return;
+  curatedOnly = target;
+  syncCuratedToggle();
+  // Curated and News are mutually exclusive — News mode pulls RB only.
+  if (curatedOnly && browseMode === 'news') {
+    setBrowseMode(null);
+    return; // setBrowseMode triggers runQuery
+  }
+  selectedClusterKey = null;
+  track(`curated/${curatedOnly ? 'on' : 'off'}`);
+  void runQuery();
+}
+
 $modePlayed.addEventListener('click', () => setBrowseMode('played'));
 $newsToggle.addEventListener('click', () => setBrowseMode('news'));
+$curatedToggle.addEventListener('click', () => setCuratedOnly(!curatedOnly));
 
 $mapToggle.addEventListener('click', () => {
   if ($mapToggle.disabled) return;

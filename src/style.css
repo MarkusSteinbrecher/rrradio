@@ -372,6 +372,31 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 }
 .news-toggle.is-active:hover { color: var(--accent); }
 
+/* Curated-only toggle — restricts the list to stations from
+   data/stations.yaml (the ones with the ★ badges). Same geometry
+   as the other circular toggles. */
+.curated-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-3);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.curated-toggle svg { width: 16px; height: 16px; display: block; }
+.curated-toggle:hover { border-color: var(--line-2); color: var(--ink-2); }
+.curated-toggle.is-active {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+.curated-toggle.is-active:hover { color: var(--accent); }
+
 /* Map-view toggle — same geometry + active style as curated. When
    on, the unfiltered home view replaces its list section with the
    Leaflet map. */
