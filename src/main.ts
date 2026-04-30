@@ -2610,6 +2610,12 @@ function openWakeSheet(open: boolean): void {
   $wakeDisarm.hidden = !armed;
 }
 
+function setMuted(muted: boolean): void {
+  if (player.isMuted() !== muted) player.toggleMute();
+  $body.classList.toggle('is-muted', muted);
+  $npMute.setAttribute('aria-label', muted ? 'Unmute' : 'Mute');
+}
+
 function armWakeFromSheet(): void {
   const time = $wakeTime.value.trim();
   const armed = wakeScheduler.current();
@@ -2636,12 +2642,14 @@ function armWakeFromSheet(): void {
   // gesture from the Arm tap. Browsers block audio.play() from a
   // setTimeout callback (no recent gesture), so the only way the
   // fire-time swap works is if the audio element has been active
-  // continuously. The user can mute or change stations afterwards;
-  // we just need *some* audio to keep the element alive through
-  // the night.
+  // continuously through the night. We then mute so the user goes
+  // to sleep silently — at fire time we unmute and the wake plays
+  // at the phone's hardware volume. mute/unmute is the only volume
+  // mechanism iOS Safari respects (audio.volume is read-only there).
   if (currentNP.station.id !== station.id || currentNP.state !== 'playing') {
     void player.play(station);
   }
+  setMuted(true);
 }
 
 function disarmWake(persist = true): void {
@@ -2653,17 +2661,19 @@ function disarmWake(persist = true): void {
 }
 
 function onWakeFire(wake: WakeTo): void {
-  // Fire the actual wake: drop volume to 0, swap station, fade up.
+  // Fire the actual wake: swap station, unmute, fade volume up
+  // (no-op on iOS where volume is read-only — there mute → unmute is
+  // the audible transition).
   setWakeTo(null);
   syncWakeUi();
   stopPillTick();
   track('wake/fire', wake.station.name);
-  // Force-unmute in case the user muted before sleeping.
-  if (player.isMuted()) player.toggleMute();
   player.setVolume(0);
   void player.play(wake.station);
-  // Linear fade from silent → full over 30 seconds. RAF-driven so it
-  // tracks the wall clock, not setTimeout drift.
+  setMuted(false);
+  // Linear fade from 0 → full over 30 seconds. RAF-driven so it
+  // tracks the wall clock, not setTimeout drift. Audible only on
+  // Android/desktop; iOS Safari forces audio.volume to 1 regardless.
   fadeVolume((v) => player.setVolume(v), 0, 1, 30_000);
   // Notification: best-effort. Browsers limit when this works (must be
   // visible OR have a service worker). We try and ignore failures.
