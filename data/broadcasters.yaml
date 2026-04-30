@@ -233,6 +233,61 @@ polskie-radio:
     for PR2 (stream12), PR3 (stream13), PR4 (stream14), PR24 (stream15).
     PR1 / Jedynka has no clean HLS endpoint outside the Next.js player.
 
+# ─────────────── Sweden ───────────────
+
+sveriges-radio:
+  name: Sveriges Radio
+  fullName: Sveriges Radio AB
+  country: SE
+  homepage: https://sverigesradio.se/
+  notes: |
+    Swedish public broadcaster. Channels P1/P2/P3/P4 ship via
+    sverigesradio.se/topsy/direkt/srapi/<channelId>.mp3 (HTTPS).
+
+# ─────────────── Norway ───────────────
+
+nrk:
+  name: NRK
+  fullName: Norsk rikskringkasting
+  country: NO
+  homepage: https://radio.nrk.no/
+  notes: |
+    Norwegian public broadcaster. Live streams ship via
+    lyd.nrk.no/nrk_radio_<slug>_mp3_h.m3u8 (HLS, end-to-end TLS).
+
+# ─────────────── Finland ───────────────
+
+yle:
+  name: YLE
+  fullName: Yleisradio Oy
+  country: FI
+  homepage: https://yle.fi/aihe/radio
+  notes: |
+    Finnish public broadcaster. Live streams ship via
+    icecast.live.yle.fi/radio/<slug>/icecast.audio (HTTPS).
+
+# ─────────────── Ireland ───────────────
+
+rte:
+  name: RTÉ
+  fullName: Raidió Teilifís Éireann
+  country: IE
+  homepage: https://www.rte.ie/radio/
+  notes: |
+    Irish public broadcaster. Live streams ship via
+    icecast.rte.ie/<slug> (HTTPS) or HLS at akamai CDNs.
+
+# ─────────────── Portugal ───────────────
+
+rtp:
+  name: RTP
+  fullName: Rádio e Televisão de Portugal
+  country: PT
+  homepage: https://www.rtp.pt/play/radio
+  notes: |
+    Portuguese public broadcaster. Antena 1/2/3 streams ship via
+    streaming-live.rtp.pt or streamingencoders.rtp.pt (HLS / icecast).
+
 # ─────────────── Denmark ───────────────
 
 dr:

@@ -4762,3 +4762,685 @@
   homepage: https://radioabc.dk/
   country: DK
   status: stream-only
+
+# ─── SE — Sveriges Radio public + commercial (2026-04-30) ───
+# Sveriges Radio ships AAC live streams at live1.sr.se/<channel>-aac-320
+# end-to-end TLS already (P1/P2/P3 in RB are `ok`). Bauer Media's
+# Swedish stations live on tx-bauerse.sharp-stream.com / khz.se —
+# RB stored http:// for the canonical (high-vote) records, https://
+# works on the same paths.
+
+- id: builtin-sr-p1
+  stationuuid: 960c660b-0601-11e8-ae97-52543be04c81
+  changeuuid: 0dfb86a6-af93-4827-8fed-fc6a5d3a7fbb
+  reviewedAt: 2026-04-30
+  geo: [59.330, 18.069]
+  broadcaster: sveriges-radio
+  name: Sveriges Radio P1
+  streamUrl: https://live1.sr.se/p1-aac-320
+  codec: AAC
+  tags: [public radio, news, talk, sweden]
+  homepage: https://sverigesradio.se/p1
+  country: SE
+  status: stream-only
+  featured: true
+
+- id: builtin-sr-p2
+  stationuuid: 960c62c1-0601-11e8-ae97-52543be04c81
+  changeuuid: d1ab655f-3523-4b66-bbd0-8ff4fee39f39
+  reviewedAt: 2026-04-30
+  geo: [59.330, 18.069]
+  broadcaster: sveriges-radio
+  name: Sveriges Radio P2
+  streamUrl: https://live1.sr.se/p2-aac-320
+  codec: AAC
+  tags: [classical, world music, public radio, sweden]
+  homepage: https://sverigesradio.se/p2
+  country: SE
+  status: stream-only
+
+- id: builtin-sr-p3
+  stationuuid: 960c4e01-0601-11e8-ae97-52543be04c81
+  changeuuid: 9359de1f-c86c-4421-8264-1dabb9ca6258
+  reviewedAt: 2026-04-30
+  geo: [59.330, 18.069]
+  broadcaster: sveriges-radio
+  name: Sveriges Radio P3
+  streamUrl: https://live1.sr.se/p3-aac-320
+  codec: AAC
+  tags: [pop, public radio, sweden]
+  homepage: https://sverigesradio.se/p3
+  country: SE
+  status: stream-only
+
+- id: builtin-sr-p4-plus
+  stationuuid: 962c1da9-0601-11e8-ae97-52543be04c81
+  changeuuid: 0da143d5-4f4d-447b-9178-68a66f3b522d
+  reviewedAt: 2026-04-30
+  geo: [59.330, 18.069]
+  broadcaster: sveriges-radio
+  name: Sveriges Radio P4 Plus
+  streamUrl: https://live1.sr.se/p4plus-aac-320
+  codec: AAC
+  tags: [oldies, public radio, sweden]
+  homepage: https://sverigesradio.se/p4plus
+  country: SE
+  status: stream-only
+
+- id: se-mix-megapol
+  stationuuid: 96342772-0601-11e8-ae97-52543be04c81
+  changeuuid: 24d9bed7-2110-470d-a867-de771ab2c6cf
+  reviewedAt: 2026-04-30
+  geo: [59.330, 18.069]
+  broadcaster: independent
+  name: Mix Megapol
+  streamUrl: https://tx-bauerse.sharp-stream.com/http_live.php?i=mixmegapol_instream_se_mp3
+  codec: MP3
+  tags: [pop, hits, sweden]
+  homepage: https://www.mixmegapol.se/
+  country: SE
+  status: stream-only
+  featured: true
+
+- id: se-nrj-sweden
+  stationuuid: 96414222-0601-11e8-ae97-52543be04c81
+  changeuuid: 65196201-0a5b-4526-8238-e91fc40a595c
+  reviewedAt: 2026-04-30
+  geo: [59.330, 18.069]
+  broadcaster: independent
+  name: NRJ Sweden
+  streamUrl: https://tx-bauerse.sharp-stream.com/http_live.php?i=nrj_instreamtest_se_mp3
+  codec: MP3
+  tags: [pop, hits, sweden]
+  homepage: https://www.nrj.se/
+  country: SE
+  status: stream-only
+
+- id: se-rix-fm
+  stationuuid: 50d2c7dd-dec7-4169-84a1-a2f1614278ad
+  changeuuid: fcf613b7-f327-4d8e-a2dd-9a19373ea4de
+  reviewedAt: 2026-04-30
+  geo: [59.330, 18.069]
+  broadcaster: independent
+  name: Rix FM
+  streamUrl: https://fm01-ice.stream.khz.se/fm01_mp3
+  codec: MP3
+  tags: [pop, hits, sweden]
+  homepage: https://www.rixfm.com/
+  country: SE
+  status: stream-only
+
+- id: se-bandit-rock
+  stationuuid: 168e0796-3b97-479c-949d-b1871ef07379
+  changeuuid: e03729d0-c10e-4078-a239-0dd001525a7d
+  reviewedAt: 2026-04-30
+  geo: [59.330, 18.069]
+  broadcaster: independent
+  name: Bandit Rock
+  streamUrl: https://fm02-ice.stream.khz.se/fm02_mp3
+  codec: MP3
+  tags: [rock, alternative, sweden]
+  homepage: https://www.banditrock.se/
+  country: SE
+  status: stream-only
+
+- id: se-lugna-favoriter
+  stationuuid: 2f869fa1-9f35-4ab3-a417-e8cef6880f48
+  changeuuid: 7cda5e34-24c5-4653-9c50-1ee74cfb6057
+  reviewedAt: 2026-04-30
+  geo: [59.330, 18.069]
+  broadcaster: independent
+  name: Lugna Favoriter
+  streamUrl: https://fm03-ice.stream.khz.se/fm03_mp3
+  codec: MP3
+  tags: [easy listening, adult contemporary, sweden]
+  homepage: https://www.lugnafavoriter.com/
+  country: SE
+  status: stream-only
+
+- id: se-rockklassiker
+  stationuuid: 9642ad8b-0601-11e8-ae97-52543be04c81
+  changeuuid: 4c29e91b-1f46-4206-897f-ae886ff2dd8c
+  reviewedAt: 2026-04-30
+  geo: [59.330, 18.069]
+  broadcaster: independent
+  name: 106,7 Rockklassiker
+  streamUrl: https://tx-bauerse.sharp-stream.com/http_live.php?i=rockklassiker_instream_se_mp3
+  codec: MP3
+  tags: [classic rock, oldies, sweden]
+  homepage: https://www.rockklassiker.se/
+  country: SE
+  status: stream-only
+
+- id: se-retro-fm-skane
+  stationuuid: 8b00bcfc-4d94-11ea-b877-52543be04c81
+  changeuuid: 193aff35-5d55-456c-ab25-07d0b66b2fc1
+  reviewedAt: 2026-04-30
+  geo: [55.605, 13.003]
+  broadcaster: independent
+  name: Retro FM Skåne
+  streamUrl: https://live-bauerse-fm.sharp-stream.com/retrofm_aacp
+  codec: AAC+
+  tags: [oldies, classic hits, sweden]
+  homepage: https://www.retrofmradio.se/
+  country: SE
+  status: stream-only
+
+# ─── NO — NRK public broadcaster + commercial (2026-04-30) ───
+# NRK live streams at lyd.nrk.no/icecast/<format>/<quality>/s0w7hwn47m/<slug>
+# end-to-end TLS. Bauer Media Norway's P-* commercial network ships
+# at p<N>.p4groupaudio.com/P0<N>_AH (already https in RB).
+
+- id: builtin-nrk-p1
+  stationuuid: ebc6ab9f-57be-4ee8-9209-327ee71c7a86
+  changeuuid: da4fb3e8-629e-40a9-a8c4-94cf77891284
+  reviewedAt: 2026-04-30
+  geo: [59.913, 10.752]
+  broadcaster: nrk
+  name: NRK P1
+  streamUrl: https://lyd.nrk.no/icecast/mp3/high/s0w7hwn47m/p1
+  codec: MP3
+  tags: [public radio, news, talk, norway]
+  homepage: https://radio.nrk.no/direkte/p1
+  country: NO
+  status: stream-only
+  featured: true
+
+- id: builtin-nrk-p2
+  stationuuid: cb065d86-e365-4c6a-9c36-99746a6e705d
+  changeuuid: efcc2f04-1c04-4cb9-83e3-5bd398bfe0a5
+  reviewedAt: 2026-04-30
+  geo: [59.913, 10.752]
+  broadcaster: nrk
+  name: NRK P2
+  streamUrl: https://lyd.nrk.no/icecast/mp3/high/s0w7hwn47m/p2
+  codec: MP3
+  tags: [classical, culture, public radio, norway]
+  homepage: https://radio.nrk.no/direkte/p2
+  country: NO
+  status: stream-only
+
+- id: builtin-nrk-p3
+  stationuuid: 17be0284-0ab4-453f-9e98-f674df46a919
+  changeuuid: c0538d53-6ded-41ce-b19c-9816658227c1
+  reviewedAt: 2026-04-30
+  geo: [59.913, 10.752]
+  broadcaster: nrk
+  name: NRK P3
+  streamUrl: https://lyd.nrk.no/icecast/mp3/high/s0w7hwn47m/p3
+  codec: MP3
+  tags: [pop, hits, public radio, norway]
+  homepage: https://radio.nrk.no/direkte/p3
+  country: NO
+  status: stream-only
+
+- id: builtin-nrk-mp3
+  stationuuid: 02dc8fb4-b5cd-425d-ae6a-2053e210e7af
+  changeuuid: a3b84543-76d8-4002-8c8a-3132dea77c23
+  reviewedAt: 2026-04-30
+  geo: [59.913, 10.752]
+  broadcaster: nrk
+  name: NRK MP3
+  streamUrl: https://lyd.nrk.no/icecast/mp3/high/s0w7hwn47m/mp3
+  codec: MP3
+  tags: [pop, youth, public radio, norway]
+  homepage: https://radio.nrk.no/direkte/mp3
+  country: NO
+  status: stream-only
+
+- id: builtin-nrk-klassisk
+  stationuuid: 38fbe434-aa0d-4f31-a16d-002191c78193
+  changeuuid: 258df4b3-7bcf-4bbd-99e1-1d6b21896732
+  reviewedAt: 2026-04-30
+  geo: [59.913, 10.752]
+  broadcaster: nrk
+  name: NRK Klassisk
+  streamUrl: https://lyd.nrk.no/icecast/mp3/high/s0w7hwn47m/klassisk
+  codec: MP3
+  tags: [classical, public radio, norway]
+  homepage: https://radio.nrk.no/direkte/klassisk
+  country: NO
+  status: stream-only
+
+- id: builtin-nrk-jazz
+  stationuuid: be930f76-8b01-4d51-9863-4b5a8c64897a
+  changeuuid: 775be835-588c-4e73-a381-9bf942dfb0e8
+  reviewedAt: 2026-04-30
+  geo: [59.913, 10.752]
+  broadcaster: nrk
+  name: NRK Jazz
+  streamUrl: https://lyd.nrk.no/icecast/mp3/high/s0w7hwn47m/jazz
+  codec: MP3
+  tags: [jazz, public radio, norway]
+  homepage: https://radio.nrk.no/direkte/jazz
+  country: NO
+  status: stream-only
+
+- id: builtin-nrk-nyheter
+  stationuuid: 534cdc5e-70a3-469c-a0c8-1da1643432d4
+  changeuuid: ba31b73d-f0f7-47ec-9015-8963486eca21
+  reviewedAt: 2026-04-30
+  geo: [59.913, 10.752]
+  broadcaster: nrk
+  name: NRK Nyheter
+  streamUrl: https://lyd.nrk.no/icecast/mp3/high/s0w7hwn47m/nyheter
+  codec: MP3
+  tags: [news, public radio, norway]
+  homepage: https://radio.nrk.no/direkte/nyheter
+  country: NO
+  status: stream-only
+
+- id: no-p4-norge
+  stationuuid: 8ea65019-e270-4737-868c-b4fc754cb4f1
+  changeuuid: 78bc3fc3-50ab-4a40-90cb-ac90bb47c1e6
+  reviewedAt: 2026-04-30
+  geo: [59.913, 10.752]
+  broadcaster: independent
+  name: P4 Norge
+  streamUrl: https://p4.p4groupaudio.com/P04_AH
+  codec: AAC
+  tags: [pop, hits, norway]
+  homepage: https://www.p4.no/
+  country: NO
+  status: stream-only
+
+- id: no-p5-hits
+  stationuuid: f8c657d3-5221-4e32-96d6-15db1cd1a662
+  changeuuid: 51eb65bb-f246-4105-b369-2cb602ab168f
+  reviewedAt: 2026-04-30
+  geo: [59.913, 10.752]
+  broadcaster: independent
+  name: P5 Nonstop Hits
+  streamUrl: https://p5n.p4groupaudio.com/P05AAH
+  codec: AAC
+  tags: [pop, hits, norway]
+  homepage: https://www.p5.no/
+  country: NO
+  status: stream-only
+
+- id: no-p6-rock
+  stationuuid: 1222ca51-9aa1-11e9-a787-52543be04c81
+  changeuuid: b774c807-c2b9-4796-98bb-2243339c0f8f
+  reviewedAt: 2026-04-30
+  geo: [59.913, 10.752]
+  broadcaster: independent
+  name: P6 Rock
+  streamUrl: https://p6.p4groupaudio.com/P06_MM
+  codec: MP3
+  tags: [rock, classic rock, norway]
+  homepage: https://www.p6.no/
+  country: NO
+  status: stream-only
+
+# ─── FI — YLE public broadcaster + commercial (2026-04-30) ───
+# YLE live streams via icecast.live.yle.fi/radio/<slug>/icecast.audio
+# (HTTPS works on the same paths RB stored as http://). YleX (524 votes)
+# is the youth flagship — streams P1/Suomi already in RB as `ok` HTTPS.
+
+- id: builtin-yle-radio-suomi
+  stationuuid: 6489b751-acf5-413a-8b53-e345eee56fbb
+  changeuuid: e2ffdc9a-bd0c-4c2d-9e0e-425d7b6623b8
+  reviewedAt: 2026-04-30
+  geo: [60.169, 24.939]
+  broadcaster: yle
+  name: YLE Radio Suomi
+  streamUrl: https://icecast.live.yle.fi/radio/YleRS/icecast.audio
+  codec: AAC
+  tags: [public radio, news, talk, finland]
+  homepage: https://yle.fi/aihe/yle-radio-suomi
+  country: FI
+  status: stream-only
+  featured: true
+
+- id: builtin-yle-radio-1
+  stationuuid: f6d91cef-82e6-4bd7-92ea-1c98e99cf3d0
+  changeuuid: 9a5ab84a-a078-4438-b9aa-cf1e0fcddc6d
+  reviewedAt: 2026-04-30
+  geo: [60.169, 24.939]
+  broadcaster: yle
+  name: YLE Radio 1
+  streamUrl: https://icecast.live.yle.fi/radio/YleRadio1Hifi/icecast.audio
+  codec: AAC
+  tags: [classical, culture, public radio, finland]
+  homepage: https://yle.fi/aihe/yle-radio-1
+  country: FI
+  status: stream-only
+
+- id: builtin-yle-x
+  stationuuid: 8f7ecd3e-7be3-4525-aa79-6408cef9fda8
+  changeuuid: 2f80ae6f-7271-44d5-afd6-8d7b8a09e6c0
+  reviewedAt: 2026-04-30
+  geo: [60.169, 24.939]
+  broadcaster: yle
+  name: YleX
+  streamUrl: https://icecast.live.yle.fi/radio/YleX/icecast.audio
+  codec: AAC
+  tags: [pop, alternative, public radio, finland]
+  homepage: https://yle.fi/aihe/ylex
+  country: FI
+  status: stream-only
+
+- id: builtin-yle-klassinen
+  stationuuid: 22c402d1-2a7f-4713-8e2b-646070026dba
+  changeuuid: 52ac38c4-5941-4771-b8f5-4d32c326eb20
+  reviewedAt: 2026-04-30
+  geo: [60.169, 24.939]
+  broadcaster: yle
+  name: YLE Klassinen
+  streamUrl: https://icecast.live.yle.fi/radio/YleKlassinen/icecast.audio
+  codec: AAC
+  tags: [classical, public radio, finland]
+  homepage: https://yle.fi/aihe/yle-klassinen
+  country: FI
+  status: stream-only
+
+- id: fi-radio-helsinki
+  stationuuid: cfb85c6c-76b4-11ea-b1cf-52543be04c81
+  changeuuid: 1403c216-aa69-41f1-963a-ee48eed8584e
+  reviewedAt: 2026-04-30
+  geo: [60.169, 24.939]
+  broadcaster: independent
+  name: Radio Helsinki
+  streamUrl: https://stream.radiohelsinki.fi/stream
+  codec: MP3
+  tags: [alternative, indie, finland]
+  homepage: https://www.radiohelsinki.fi/
+  country: FI
+  status: stream-only
+
+# ─── IE — RTÉ public + commercial (2026-04-30) ───
+# RTÉ ships HLS at liveaudio.rte.ie/hls-radio/<slug>/chunklist.m3u8
+# end-to-end TLS. The icecast.rte.ie/<slug> http variants are
+# broken-mixed for Radio 1 (1.2k votes) + lyric (689) — bind to
+# canonical uuids and override URL with HLS. Newstalk + Today FM +
+# Radio Nova IE all on edge.audioxi.com (https-clean already).
+
+- id: builtin-rte-radio-1
+  stationuuid: 8643cfcb-a7bb-4c46-8391-fffe266bce16
+  changeuuid: cdf51066-e980-44d8-a278-703570bd14c0
+  reviewedAt: 2026-04-30
+  geo: [53.350, -6.260]
+  broadcaster: rte
+  name: RTÉ Radio 1
+  streamUrl: https://liveaudio.rte.ie/hls-radio/radio1/chunklist.m3u8
+  codec: AAC
+  tags: [public radio, news, talk, ireland]
+  homepage: https://www.rte.ie/radio/radio1/
+  country: IE
+  status: stream-only
+  featured: true
+
+- id: builtin-rte-2fm
+  stationuuid: 8cd4957a-9a7f-4493-b231-196b434b34f5
+  changeuuid: 08db62ec-7f59-447f-8712-cedb0c47e42b
+  reviewedAt: 2026-04-30
+  geo: [53.350, -6.260]
+  broadcaster: rte
+  name: RTÉ 2FM
+  streamUrl: https://liveaudio.rte.ie/hls-radio/2fm/chunklist.m3u8
+  codec: AAC
+  tags: [pop, public radio, ireland]
+  homepage: https://www.rte.ie/2fm/
+  country: IE
+  status: stream-only
+
+- id: builtin-rte-lyric
+  stationuuid: c96b0b99-6dc6-4b76-9971-b48a55c628ca
+  changeuuid: 16a6b0a4-53ad-40b8-842d-9272832c635c
+  reviewedAt: 2026-04-30
+  geo: [53.350, -6.260]
+  broadcaster: rte
+  name: RTÉ lyric fm
+  streamUrl: https://liveaudio.rte.ie/hls-radio/lyric/chunklist.m3u8
+  codec: AAC
+  tags: [classical, public radio, ireland]
+  homepage: https://www.rte.ie/lyricfm/
+  country: IE
+  status: stream-only
+
+- id: builtin-rte-gold
+  stationuuid: 8f7e7bbb-bfe6-453c-9213-fdc2eb88a561
+  changeuuid: 115d76d7-fc9c-4b57-86c9-e07bc6af9a24
+  reviewedAt: 2026-04-30
+  geo: [53.350, -6.260]
+  broadcaster: rte
+  name: RTÉ Gold
+  streamUrl: https://liveaudio.rte.ie/hls-radio/gold/chunklist.m3u8
+  codec: AAC
+  tags: [oldies, classic hits, public radio, ireland]
+  homepage: https://www.rte.ie/radio/gold/
+  country: IE
+  status: stream-only
+
+- id: ie-newstalk
+  stationuuid: d037031b-f31e-4298-b36e-654eaad6416e
+  changeuuid: 54a3c7a5-9218-4b40-b752-8fd86ebf20f7
+  reviewedAt: 2026-04-30
+  geo: [53.350, -6.260]
+  broadcaster: independent
+  name: Newstalk
+  streamUrl: https://edge.audioxi.com/NT
+  codec: AAC
+  tags: [news, talk, ireland]
+  homepage: https://www.newstalk.com/
+  country: IE
+  status: stream-only
+
+- id: ie-today-fm
+  stationuuid: d0a1da9f-46b3-11e9-aa55-52543be04c81
+  changeuuid: daa4d615-6e07-4587-83cb-02cb6be1e005
+  reviewedAt: 2026-04-30
+  geo: [53.350, -6.260]
+  broadcaster: independent
+  name: Today FM
+  streamUrl: https://stream.audioxi.com/TD
+  codec: AAC
+  tags: [pop, hits, ireland]
+  homepage: https://www.todayfm.com/
+  country: IE
+  status: stream-only
+
+- id: ie-radio-nova
+  stationuuid: 406dbb8a-a581-11e9-a787-52543be04c81
+  changeuuid: 5ca1d283-34c7-4dc2-b2f8-26b56691c836
+  reviewedAt: 2026-04-30
+  geo: [53.350, -6.260]
+  broadcaster: independent
+  name: Radio Nova (Ireland)
+  streamUrl: https://stream.audioxi.com/NOVA
+  codec: AAC
+  tags: [classic rock, oldies, ireland]
+  homepage: https://www.nova.ie/
+  country: IE
+  status: stream-only
+
+- id: ie-98fm-dublin
+  stationuuid: ad48771d-17a7-11ea-a620-52543be04c81
+  changeuuid: e5465481-0a71-455e-90d5-55df6e2c5b2f
+  reviewedAt: 2026-04-30
+  geo: [53.350, -6.260]
+  broadcaster: independent
+  name: Dublin's 98FM
+  streamUrl: https://stream.audioxi.com/98
+  codec: AAC
+  tags: [pop, hits, ireland]
+  homepage: https://www.98fm.com/
+  country: IE
+  status: stream-only
+
+- id: ie-highland-radio
+  stationuuid: 96159d2f-0601-11e8-ae97-52543be04c81
+  changeuuid: 8cc5eed3-21cd-4c38-9b98-297fd180284e
+  reviewedAt: 2026-04-30
+  geo: [54.985, -7.717]
+  broadcaster: independent
+  name: Highland Radio
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/HIGHLAND_RADIO.mp3
+  codec: MP3
+  tags: [regional, donegal, ireland]
+  homepage: https://www.highlandradio.com/
+  country: IE
+  status: stream-only
+
+- id: ie-classic-hits-4fm
+  stationuuid: 7e75d295-da3d-41e9-9d69-757e7a281821
+  changeuuid: 64fdc8ff-7541-41fd-9f96-c7bf8bcc4d29
+  reviewedAt: 2026-04-30
+  geo: [53.350, -6.260]
+  broadcaster: independent
+  name: Classic Hits 4FM
+  streamUrl: https://stream.audioxi.com/CLASSIC
+  codec: AAC
+  tags: [classic hits, oldies, ireland]
+  homepage: https://www.classichits.ie/
+  country: IE
+  status: stream-only
+
+# ─── PT — RTP public + commercial (2026-04-30) ───
+# RTP's Antena network ships HLS at streaming-live.rtp.pt/liveradio/
+# <slug>80a/playlist.m3u8 — RB stored streaming-live-app.rtp.pt
+# (broken-mixed) for Antena 1 and Antena 3. Override to streaming-live
+# host. RFM, Renascença, Mega Hits ship via streamtheworld; Bauer's
+# stations (Comercial, M80, Cidade) via stream-icy.bauermedia.pt.
+
+- id: builtin-antena-1
+  stationuuid: dbc018ae-1848-4f26-a677-367011a1f4b2
+  changeuuid: dd10a5ba-fab0-4212-9c2b-bc7cd37e33ef
+  reviewedAt: 2026-04-30
+  geo: [38.722, -9.139]
+  broadcaster: rtp
+  name: Antena 1
+  streamUrl: https://streaming-live.rtp.pt/liveradio/antena180a/playlist.m3u8
+  codec: AAC
+  tags: [public radio, news, talk, portugal]
+  homepage: https://www.rtp.pt/play/direto/antena1
+  country: PT
+  status: stream-only
+  featured: true
+
+- id: builtin-antena-2
+  stationuuid: 0b5ba280-1823-4b72-bd01-10e3efb2ac20
+  changeuuid: 6d0d8797-3d95-4bc6-b689-8b415730cd6d
+  reviewedAt: 2026-04-30
+  geo: [38.722, -9.139]
+  broadcaster: rtp
+  name: Antena 2
+  streamUrl: https://streaming-live.rtp.pt/liveradio/antena280a/playlist.m3u8
+  codec: AAC
+  tags: [classical, culture, public radio, portugal]
+  homepage: https://www.rtp.pt/play/direto/antena2
+  country: PT
+  status: stream-only
+
+- id: builtin-antena-3
+  stationuuid: 6ee0cdcf-5d4c-4c29-9372-94a853110dec
+  changeuuid: e851a04d-9d98-454f-a8fd-d944a5b01ec4
+  reviewedAt: 2026-04-30
+  geo: [38.722, -9.139]
+  broadcaster: rtp
+  name: Antena 3
+  streamUrl: https://streaming-live.rtp.pt/liveradio/antena380a/playlist.m3u8
+  codec: AAC
+  tags: [pop, alternative, public radio, portugal]
+  homepage: https://www.rtp.pt/play/direto/antena3
+  country: PT
+  status: stream-only
+
+- id: builtin-rdp-internacional
+  stationuuid: 91200ce0-a62d-43ec-b948-bde6789433e6
+  changeuuid: e64be799-4af0-47cb-b8eb-aa328b4b5e05
+  reviewedAt: 2026-04-30
+  geo: [38.722, -9.139]
+  broadcaster: rtp
+  name: RDP Internacional
+  streamUrl: https://streaming-live.rtp.pt/liveradio/rdpint80a/playlist.m3u8
+  codec: AAC
+  tags: [public radio, international, portugal]
+  homepage: https://www.rtp.pt/play/direto/rdpinternacional
+  country: PT
+  status: stream-only
+
+- id: pt-rfm
+  stationuuid: 856155ee-f434-4a45-9225-391c0e618b8b
+  changeuuid: 01f08d2c-7a3f-49d7-ac34-bdd658edaea5
+  reviewedAt: 2026-04-30
+  geo: [38.722, -9.139]
+  broadcaster: independent
+  name: RFM
+  streamUrl: https://23603.live.streamtheworld.com/RFMAAC.aac
+  codec: AAC
+  tags: [pop, hits, portugal]
+  homepage: https://rfm.sapo.pt/
+  country: PT
+  status: stream-only
+  featured: true
+
+- id: pt-radio-comercial
+  stationuuid: 2b501db4-e4b6-4106-9670-9875536f70f1
+  changeuuid: 4df83804-a8b8-4afa-8567-e44fbebf6b14
+  reviewedAt: 2026-04-30
+  geo: [38.722, -9.139]
+  broadcaster: independent
+  name: Rádio Comercial
+  streamUrl: https://stream-hls.bauermedia.pt/comercial.aac/playlist.m3u8
+  codec: AAC
+  tags: [pop, hits, portugal]
+  homepage: https://radiocomercial.iol.pt/
+  country: PT
+  status: stream-only
+
+- id: pt-m80
+  stationuuid: c6ed0be5-21dd-4b03-aa18-0dbc9a0c3f87
+  changeuuid: 506ed3cb-e9ce-47f0-99eb-16e0e86eaa5b
+  reviewedAt: 2026-04-30
+  geo: [38.722, -9.139]
+  broadcaster: independent
+  name: M80 Rádio
+  streamUrl: https://stream-icy.bauermedia.pt/m80.mp3
+  codec: MP3
+  tags: [oldies, classic hits, portugal]
+  homepage: https://m80.iol.pt/
+  country: PT
+  status: stream-only
+
+- id: pt-tsf
+  stationuuid: cc461784-3150-4a34-81c5-2116fe024740
+  changeuuid: 753c43c1-d62a-4f45-a5bc-907bbd586614
+  reviewedAt: 2026-04-30
+  geo: [38.722, -9.139]
+  broadcaster: independent
+  name: TSF
+  streamUrl: https://directo.tsf.pt/tsfdirecto.mp3
+  codec: MP3
+  tags: [news, talk, portugal]
+  homepage: https://www.tsf.pt/
+  country: PT
+  status: stream-only
+
+- id: pt-mega-hits
+  stationuuid: 9618e93b-0601-11e8-ae97-52543be04c81
+  changeuuid: 56cf6622-6800-470d-97c7-d9eb064bc964
+  reviewedAt: 2026-04-30
+  geo: [38.722, -9.139]
+  broadcaster: independent
+  name: Mega Hits
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/MEGA_HITS.mp3
+  codec: MP3
+  tags: [pop, hits, portugal]
+  homepage: https://megahits.sapo.pt/
+  country: PT
+  status: stream-only
+
+- id: pt-renascenca
+  stationuuid: 9618e7a0-0601-11e8-ae97-52543be04c81
+  changeuuid: 552e97e7-d79f-47d2-afab-df9ab22767e1
+  reviewedAt: 2026-04-30
+  geo: [38.722, -9.139]
+  broadcaster: independent
+  name: Rádio Renascença
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_RENASCENCA.mp3
+  codec: MP3
+  tags: [news, talk, portugal]
+  homepage: https://rr.sapo.pt/
+  country: PT
+  status: stream-only
