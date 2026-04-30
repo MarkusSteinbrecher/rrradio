@@ -296,6 +296,16 @@ let browseOffset = 0;
 let browseHasMore = false;
 let browseLoadingMore = false;
 
+// Home-view "Worldwide" pagination — separate from filtered-browse
+// state because the home view shows the full curated catalog first
+// (no RB calls), and we only fetch RB top stations on demand when
+// the user clicks Load more. Persists across mode/filter switches
+// so the user doesn't lose loaded stations by tabbing away.
+let homeRbStations: Station[] = [];
+let homeRbOffset = 0;
+let homeRbHasMore = true;
+let homeRbLoading = false;
+
 // ─────────────────────────────────────────────────────────────
 // SVG factories — a small set of inline icons
 // ─────────────────────────────────────────────────────────────
@@ -1460,9 +1470,18 @@ function renderContent(): void {
       } else if (stations.length > 0) {
         $content.append(sectionLabel(restLabel, stations.length));
         $content.append(renderRows(stations));
-        // Pagination only applies when the source is RB (mode=null/news).
+        // Pagination — RB-sourced modes (null/news) paginate the
+        // primary list; played mode appends a separate "Worldwide"
+        // section on demand below the curated catalog.
         if ((browseMode === null || browseMode === 'news') && browseHasMore) {
           $content.append(loadMoreButton());
+        }
+        if (browseMode === 'played') {
+          if (homeRbStations.length > 0) {
+            $content.append(sectionLabel('Worldwide', homeRbStations.length));
+            $content.append(renderRows(homeRbStations));
+          }
+          if (homeRbHasMore) $content.append(loadMoreHomeButton());
         }
       }
 
@@ -1614,6 +1633,50 @@ async function loadMore(): Promise<void> {
     browseLoadingMore = false;
     renderContent();
   }
+}
+
+/** Home-view Load more — fetches RB's top stations (sorted by
+ *  clickcount globally) and appends them under a "Worldwide" section
+ *  below the curated catalog. Each click pulls the next PAGE_SIZE.
+ *  Stations already in the curated catalog are filtered out so the
+ *  same one doesn't appear twice. */
+async function loadMoreHome(): Promise<void> {
+  if (homeRbLoading || !homeRbHasMore) return;
+  homeRbLoading = true;
+  renderContent();
+  try {
+    const more = await fetchStations(homeRbOffset);
+    const curatedIds = new Set(BUILTIN_STATIONS.map((s) => s.id));
+    const seen = new Set(homeRbStations.map((s) => s.id));
+    const fresh = more.filter((s) => !seen.has(s.id) && !curatedIds.has(s.id));
+    homeRbStations = homeRbStations.concat(fresh);
+    homeRbOffset += PAGE_SIZE;
+    // Empty response means we've actually exhausted RB's catalog
+    // (or it errored). Anything else is fair game — RB applies its
+    // own dedupe-by-streamUrl which makes the literal page size fall
+    // below PAGE_SIZE on most calls, so we can't use that as a
+    // "hasMore" signal.
+    homeRbHasMore = more.length > 0;
+  } catch {
+    homeRbHasMore = false;
+  } finally {
+    homeRbLoading = false;
+    renderContent();
+  }
+}
+
+function loadMoreHomeButton(): HTMLButtonElement {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'load-more';
+  btn.disabled = homeRbLoading;
+  btn.textContent = homeRbLoading
+    ? 'Loading…'
+    : homeRbStations.length === 0
+      ? 'Show worldwide stations'
+      : 'Load more';
+  btn.addEventListener('click', () => void loadMoreHome());
+  return btn;
 }
 
 function loadMoreButton(): HTMLButtonElement {
