@@ -912,6 +912,10 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   padding: 14px 24px 8px;
   overflow: hidden;
   min-height: 0;
+  /* Let vertical scroll inside lyrics / program panes still pan, but
+     keep horizontal gestures for our own swipe-between-tabs handler
+     instead of browser-level back/forward. */
+  touch-action: pan-y;
 }
 
 .np-station {

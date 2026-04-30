@@ -1106,19 +1106,67 @@ function renderProgramPane(): void {
   }
 }
 
-$npPaneNow.addEventListener('click', () => {
-  npView = 'now';
+function setNpView(view: NpView): void {
+  npView = view;
   syncNpTabs();
+  if (npView === 'program') renderProgramPane();
+  else if (npView === 'lyrics') renderLyricsPane();
+}
+
+$npPaneNow.addEventListener('click', () => setNpView('now'));
+$npPaneProgram.addEventListener('click', () => setNpView('program'));
+$npPaneLyrics.addEventListener('click', () => setNpView('lyrics'));
+
+/** Available NP tabs in display order, filtered to those that have
+ *  content right now. Always includes 'now'; program / lyrics appear
+ *  only when their data sources have something to show. Used by
+ *  swipe navigation to decide where each gesture lands. */
+function availableNpViews(): NpView[] {
+  const out: NpView[] = ['now'];
+  if (npSchedule && npSchedule.length > 0) out.push('program');
+  if (npLyrics && (npLyrics.plain || npLyrics.synced)) out.push('lyrics');
+  return out;
+}
+
+/** Horizontal swipe on the Now Playing body navigates between the
+ *  visible tabs. Threshold: at least 50px horizontal AND horizontal
+ *  movement larger than vertical (so a finger that scrolls the lyrics
+ *  pane vertically doesn't accidentally flip tabs). We listen passively
+ *  via pointer events — no preventDefault, so vertical scroll inside
+ *  panes keeps working. */
+const SWIPE_THRESHOLD_PX = 50;
+let swipeStartX = 0;
+let swipeStartY = 0;
+let swipeActivePointer: number | null = null;
+const $npBody = document.querySelector('.np-body') as HTMLElement;
+
+$npBody.addEventListener('pointerdown', (e) => {
+  // Ignore right/middle clicks; touch + left mouse only.
+  if (e.pointerType === 'mouse' && e.button !== 0) return;
+  swipeActivePointer = e.pointerId;
+  swipeStartX = e.clientX;
+  swipeStartY = e.clientY;
 });
-$npPaneProgram.addEventListener('click', () => {
-  npView = 'program';
-  syncNpTabs();
-  renderProgramPane();
+
+$npBody.addEventListener('pointerup', (e) => {
+  if (swipeActivePointer !== e.pointerId) return;
+  swipeActivePointer = null;
+  const dx = e.clientX - swipeStartX;
+  const dy = e.clientY - swipeStartY;
+  if (Math.abs(dx) < SWIPE_THRESHOLD_PX) return;
+  if (Math.abs(dx) <= Math.abs(dy)) return;
+  const tabs = availableNpViews();
+  const idx = tabs.indexOf(npView);
+  if (idx < 0) return;
+  // Swipe left (dx<0) advances forward through tabs; right (dx>0) goes back.
+  const next = dx < 0 ? idx + 1 : idx - 1;
+  const clamped = Math.max(0, Math.min(tabs.length - 1, next));
+  if (clamped === idx) return;
+  setNpView(tabs[clamped]);
 });
-$npPaneLyrics.addEventListener('click', () => {
-  npView = 'lyrics';
-  syncNpTabs();
-  renderLyricsPane();
+
+$npBody.addEventListener('pointercancel', () => {
+  swipeActivePointer = null;
 });
 
 let selectedClusterKey: string | null = null;
