@@ -2659,7 +2659,16 @@ function armWakeFromSheet(): void {
   // tab stays alive on lock, and the fire-time station swap stays
   // within the same active media-playback session — no fresh
   // gesture needed.
-  void player.play(SILENT_BED, { loop: true });
+  void player.play(SILENT_BED, { loop: true }).then(() => {
+    // Lock-screen Now Playing widget should explain what's going on.
+    // Without this it'd show "Silent bed" which is confusing if the
+    // user wakes mid-night and checks their phone. Override the title
+    // to surface the wake target + time.
+    player.setTrackTitle(`Wake to ${wake.station.name} at ${wake.time}`, {
+      track: `Wake to ${wake.station.name} at ${wake.time}`,
+      artist: 'rrradio',
+    });
+  });
 }
 
 function disarmWake(persist = true): void {
@@ -2675,7 +2684,10 @@ function onWakeFire(wake: WakeTo): void {
   // been active since arm time (silent bed looping), so the play()
   // call is treated as continuation, not a fresh autoplay attempt.
   setWakeTo(null);
-  syncWakeUi();
+  // Visible "Wake fired" pulse so a user grabbing the phone at 7am
+  // sees a clear acknowledgement instead of the pill silently
+  // vanishing. Stays for 60s, then the regular pill cleanup runs.
+  showWakeFiredPulse(wake);
   stopPillTick();
   track('wake/fire', wake.station.name);
   // Force-unmute defensively in case the user manually muted before
@@ -2726,6 +2738,8 @@ function stopPillTick(): void {
 }
 
 function syncWakeUi(): void {
+  // Don't clobber the post-fire pulse mid-display.
+  if ($wakePill.dataset.fired === 'true') return;
   const wake = wakeScheduler.current();
   if (!wake) {
     $wakePill.hidden = true;
@@ -2744,6 +2758,21 @@ function syncWakeUi(): void {
   $npWakeChip.textContent = wake.time;
   $npWake.classList.add('is-fav');
   $npWake.setAttribute('aria-label', `Wake to ${wake.station.name} at ${wake.time}`);
+}
+
+let firedPulseTimer: number | undefined;
+function showWakeFiredPulse(wake: WakeTo): void {
+  $wakePill.dataset.fired = 'true';
+  $wakePill.hidden = false;
+  $wakePillTime.textContent = wake.time;
+  $wakePillName.textContent = wake.station.name;
+  $wakePillCount.textContent = 'fired';
+  if (firedPulseTimer !== undefined) window.clearTimeout(firedPulseTimer);
+  firedPulseTimer = window.setTimeout(() => {
+    delete $wakePill.dataset.fired;
+    syncWakeUi();
+    firedPulseTimer = undefined;
+  }, 60_000);
 }
 
 // Restore any previously-armed wake on app load. If the stored fire
@@ -2914,7 +2943,29 @@ $npWake.addEventListener('click', () => openWakeSheet(true));
 $wakeClose.addEventListener('click', () => openWakeSheet(false));
 $wakePill.addEventListener('click', () => openWakeSheet(true));
 $wakeArm.addEventListener('click', armWakeFromSheet);
+// Two-step disarm so a stray tap doesn't kill tomorrow morning. First
+// click flips the button into "Confirm?" mode; second click within
+// 4 seconds actually disarms. A timeout reverts to the normal label
+// if the user backs off.
+let disarmConfirmTimer: number | undefined;
 $wakeDisarm.addEventListener('click', () => {
+  const armed = wakeScheduler.current();
+  if (!armed) return;
+  if ($wakeDisarm.dataset.confirming !== 'true') {
+    $wakeDisarm.dataset.confirming = 'true';
+    $wakeDisarm.textContent = 'Tap again to disarm';
+    if (disarmConfirmTimer !== undefined) window.clearTimeout(disarmConfirmTimer);
+    disarmConfirmTimer = window.setTimeout(() => {
+      $wakeDisarm.dataset.confirming = 'false';
+      $wakeDisarm.textContent = 'Disarm';
+      disarmConfirmTimer = undefined;
+    }, 4000);
+    return;
+  }
+  if (disarmConfirmTimer !== undefined) window.clearTimeout(disarmConfirmTimer);
+  disarmConfirmTimer = undefined;
+  $wakeDisarm.dataset.confirming = 'false';
+  $wakeDisarm.textContent = 'Disarm';
   disarmWake();
   openWakeSheet(false);
 });

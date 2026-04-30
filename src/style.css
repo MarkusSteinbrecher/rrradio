@@ -1988,6 +1988,10 @@ body.is-playing .np-bottom .live-dot  {
 }
 .btn-ghost:active { transform: scale(0.96); }
 .btn-ghost:hover { color: var(--ink); border-color: var(--ink-3); }
+.btn-ghost[data-confirming="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+}
 
 /* ─── Wake-to-radio sheet + pill ─────────────────────────────────
    The pill is the always-visible "alarm armed" indicator at the top.
@@ -2059,6 +2063,24 @@ body.is-playing .np-bottom .live-dot  {
 .wake-pill:hover { background: color-mix(in srgb, var(--accent) 22%, transparent); }
 .wake-pill:active { transform: scale(0.97); }
 .wake-pill[hidden] { display: none; }
+/* "Fired" pulse — pill stays visible for 60s after fire so the user
+   sees a clear acknowledgement instead of the pill vanishing. */
+.wake-pill[data-fired="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+  animation: wake-pulse 1.4s ease-in-out infinite;
+}
+.wake-pill[data-fired="true"] .wake-pill__time,
+.wake-pill[data-fired="true"] .wake-pill__icon,
+.wake-pill[data-fired="true"] .wake-pill__count,
+.wake-pill[data-fired="true"] .wake-pill__sep {
+  color: var(--bg);
+}
+@keyframes wake-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
 .wake-pill__icon {
   width: 14px;
   height: 14px;
