@@ -2671,6 +2671,17 @@ function armWakeFromSheet(): void {
   ensureNotificationPermission();
   track('wake/arm', time);
   openWakeSheet(false);
+
+  // Critical: start playback right now, while we still have a user
+  // gesture from the Arm tap. Browsers block audio.play() from a
+  // setTimeout callback (no recent gesture), so the only way the
+  // fire-time swap works is if the audio element has been active
+  // continuously. The user can mute or change stations afterwards;
+  // we just need *some* audio to keep the element alive through
+  // the night.
+  if (currentNP.station.id !== station.id || currentNP.state !== 'playing') {
+    void player.play(station);
+  }
 }
 
 function disarmWake(persist = true): void {
@@ -2682,15 +2693,17 @@ function disarmWake(persist = true): void {
 }
 
 function onWakeFire(wake: WakeTo): void {
-  // Fire the actual wake: switch station + fade up + notify.
+  // Fire the actual wake: drop volume to 0, swap station, fade up.
   setWakeTo(null);
   syncWakeUi();
   stopPillTick();
   track('wake/fire', wake.station.name);
-  void player.play(wake.station);
-  // Volume fade — start at 0, animate up to 1 over 30s. The stream
-  // takes a beat to start, so the audible curve is closer to 25s.
+  // Force-unmute in case the user muted before sleeping.
+  if (player.isMuted()) player.toggleMute();
   player.setVolume(0);
+  void player.play(wake.station);
+  // Linear fade from silent → full over 30 seconds. RAF-driven so it
+  // tracks the wall clock, not setTimeout drift.
   fadeVolume((v) => player.setVolume(v), 0, 1, 30_000);
   // Notification: best-effort. Browsers limit when this works (must be
   // visible OR have a service worker). We try and ignore failures.
