@@ -2639,17 +2639,16 @@ function armWakeFromSheet(): void {
   openWakeSheet(false);
 
   // Critical: start playback right now, while we still have a user
-  // gesture from the Arm tap. Browsers block audio.play() from a
-  // setTimeout callback (no recent gesture), so the only way the
-  // fire-time swap works is if the audio element has been active
-  // continuously through the night. We then mute so the user goes
-  // to sleep silently — at fire time we unmute and the wake plays
-  // at the phone's hardware volume. mute/unmute is the only volume
-  // mechanism iOS Safari respects (audio.volume is read-only there).
+  // gesture from the Arm tap. The audio element MUST keep producing
+  // audible audio through the night — iOS Safari suspends locked
+  // tabs that aren't actively outputting sound, which kills the
+  // fire-time callback. So we play unmuted at the phone's hardware
+  // volume; the user lowers the hardware slider to their preferred
+  // sleep+wake level. (Earlier prototypes auto-muted here so the
+  // user could sleep silent, but that suspended the tab on lock.)
   if (currentNP.station.id !== station.id || currentNP.state !== 'playing') {
     void player.play(station);
   }
-  setMuted(true);
 }
 
 function disarmWake(persist = true): void {
