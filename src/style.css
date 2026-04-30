@@ -1257,6 +1257,15 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
 .is-wake-bed .np-station__logo {
   opacity: 0.42;
 }
+/* On the silent bed the audio element is technically `playing`, so
+   body.is-playing flips the play→pause icon by default. But for the
+   user, "audio is silent" maps to "tap to play" — so override and
+   show the play glyph instead. The click handler then plays the
+   wake station. */
+body.is-wake-bed.is-playing .np-play .icon-play  { display: block; }
+body.is-wake-bed.is-playing .np-play .icon-pause { display: none; }
+body.is-wake-bed.is-playing .mini-toggle .icon-play  { display: block; }
+body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
 .is-wake-bed .np-track__cover-wrap::after {
   content: '';
   position: absolute;

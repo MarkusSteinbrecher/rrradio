@@ -1945,7 +1945,10 @@ function loadMoreButton(): HTMLButtonElement {
 function onRowPlay(station: Station): void {
   // If already current and playing → pause; else play & record recent
   if (currentNP.station.id === station.id) {
-    player.toggle();
+    // Wake-aware: a tap on the currently-playing row pauses, but if
+    // a wake is armed we swap to the silent bed instead so the wake
+    // doesn't get killed by the iOS lock-screen suspension.
+    handlePlayToggle();
     return;
   }
   pushRecent(station);
@@ -2818,6 +2821,48 @@ function syncWakeUi(): void {
   $npWake.setAttribute('aria-label', `Wake to ${wake.station.name} at ${wake.time}`);
 }
 
+// Wake-aware stop. Pausing the audio element on iOS makes the tab
+// suspendable on lock, which would silently kill an armed wake. So
+// when wake is armed, "stop" means "swap to the silent bed" — audio
+// element keeps producing samples, tab stays alive, and the
+// fire-time swap to the wake station still works. Without an armed
+// wake we just pause normally.
+//
+// Used by the sleep-timer fire and by the user's own play/pause tap
+// while listening to a real station.
+function pausePreservingWake(): void {
+  if (wakeScheduler.current() && currentNP.station.id !== SILENT_BED.id) {
+    void player.play(SILENT_BED, { loop: true }).then(() => {
+      const armed = wakeScheduler.current();
+      if (!armed) return;
+      player.setTrackTitle(`Wake to ${armed.station.name} at ${armed.time}`, {
+        track: `Wake to ${armed.station.name} at ${armed.time}`,
+        artist: 'rrradio',
+      });
+    });
+  } else {
+    player.pause();
+  }
+}
+
+// Play/pause click router. On the silent bed with a wake armed, the
+// "play" tap means "let me actually listen now" — swap to the wake
+// station. On a real station with a wake armed, the "pause" tap
+// swaps to the silent bed. Outside of wake-armed context, behave
+// like player.toggle().
+function handlePlayToggle(): void {
+  const armed = wakeScheduler.current();
+  if (armed && currentNP.station.id === SILENT_BED.id) {
+    void player.play(armed.station);
+    return;
+  }
+  if (currentNP.state === 'playing') {
+    pausePreservingWake();
+    return;
+  }
+  player.toggle();
+}
+
 let firedPulseTimer: number | undefined;
 function showWakeFiredPulse(wake: WakeTo): void {
   $wakePill.dataset.fired = 'true';
@@ -2873,7 +2918,10 @@ function setSleep(minutes: number): void {
   $npSleepChip.textContent = `${minutes}m`;
   $npSleep.setAttribute('aria-label', `Sleep timer · ${minutes}m`);
   sleepTimer = window.setTimeout(() => {
-    player.pause();
+    // pausePreservingWake() instead of bare pause() so the sleep
+    // timer doesn't silently break an armed wake — iOS suspends a
+    // paused tab on lock, which kills the fire callback.
+    pausePreservingWake();
     sleepIndex = 0;
     setSleep(0);
   }, minutes * 60 * 1000);
@@ -3013,10 +3061,10 @@ $wakeToggle.addEventListener('click', () => {
 $mini.addEventListener('click', () => openNp(true));
 $miniToggle.addEventListener('click', (e) => {
   e.stopPropagation();
-  player.toggle();
+  handlePlayToggle();
 });
 
-$npPlay.addEventListener('click', () => player.toggle());
+$npPlay.addEventListener('click', () => handlePlayToggle());
 $npMute.addEventListener('click', () => {
   const muted = player.toggleMute();
   $body.classList.toggle('is-muted', muted);
