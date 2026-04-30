@@ -777,6 +777,12 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   background: var(--bg-2);
   box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
   cursor: grabbing;
+  /* On iOS, prevent the touch gesture from being claimed as a page
+     scroll once the drag is underway — touch-action on the grip
+     alone isn't enough when the finger leaves the grip's bounds. */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 .row.is-shifting-up {
   transform: translateY(calc(-1 * var(--row-h, 68px)));

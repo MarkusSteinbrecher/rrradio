@@ -1500,12 +1500,17 @@ function attachGripDrag(
 
   const onPointerMove = (ev: PointerEvent): void => {
     if (ev.pointerId !== pointerId) return;
+    // On iOS Safari an upward touch move is otherwise interpreted as
+    // page scroll, fires pointercancel mid-gesture, and the drop
+    // commit never runs — so the row "floats up then snaps back".
+    // preventDefault here keeps the browser from claiming the gesture.
+    ev.preventDefault();
     const dragY = ev.clientY - startY;
     row.style.setProperty('--drag-y', `${dragY}px`);
 
     // round() so half a row's drag advances the target by one slot —
     // symmetric for both directions.
-    const offset = Math.round(dragY / rowHeight);
+    const offset = rowHeight > 0 ? Math.round(dragY / rowHeight) : 0;
     const newTarget = Math.max(0, Math.min(allRows.length - 1, originalIndex + offset));
     if (newTarget === targetIndex) return;
     targetIndex = newTarget;
