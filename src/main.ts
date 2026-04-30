@@ -164,7 +164,8 @@ const $npWakeChip = document.getElementById('np-wake-chip') as HTMLElement;
 const $wakeSheet = document.getElementById('wake-sheet') as HTMLElement;
 const $wakeClose = document.getElementById('wake-close') as HTMLButtonElement;
 const $wakeTime = document.getElementById('wake-time') as HTMLInputElement;
-const $wakeStationList = document.getElementById('wake-station-list') as HTMLElement;
+const $wakeTargetStation = document.getElementById('wake-target-station') as HTMLElement;
+const $wakeTargetHint = document.getElementById('wake-target-hint') as HTMLElement;
 const $wakeArm = document.getElementById('wake-arm') as HTMLButtonElement;
 const $wakeDisarm = document.getElementById('wake-disarm') as HTMLButtonElement;
 const $wakePill = document.getElementById('wake-pill') as HTMLButtonElement;
@@ -2589,50 +2590,6 @@ function renderCustomList(): void {
 //   · onWakeFire() switches station + fades up + notifies
 const wakeScheduler = new WakeScheduler();
 let pillTickTimer: number | undefined;
-let wakeSheetSelected: Station | null = null;
-
-function wakeStationCandidates(): Station[] {
-  // Preferred order: currently-playing, then favorites (curator
-  // intent), then top curated featured stations as a fallback.
-  const seen = new Set<string>();
-  const out: Station[] = [];
-  const push = (s: Station | undefined): void => {
-    if (!s || !s.id || seen.has(s.id)) return;
-    seen.add(s.id);
-    out.push(s);
-  };
-  if (currentNP.station.id) push(currentNP.station);
-  for (const f of getFavorites()) push(f);
-  for (const s of BUILTIN_STATIONS) {
-    if (out.length >= 30) break;
-    push(s);
-  }
-  return out;
-}
-
-function renderWakeStationList(selectedId: string | null): void {
-  const candidates = wakeStationCandidates();
-  $wakeStationList.replaceChildren();
-  for (const s of candidates) {
-    const li = document.createElement('li');
-    li.dataset.id = s.id;
-    li.setAttribute('aria-selected', String(s.id === selectedId));
-    const name = document.createElement('span');
-    name.className = 'wake-station-name';
-    name.textContent = s.name;
-    const tags = document.createElement('span');
-    tags.className = 'wake-station-tags';
-    tags.textContent = (s.tags ?? []).slice(0, 2).join(' · ');
-    li.append(name, tags);
-    li.addEventListener('click', () => {
-      wakeSheetSelected = s;
-      for (const sib of $wakeStationList.querySelectorAll('li')) {
-        sib.setAttribute('aria-selected', String(sib === li));
-      }
-    });
-    $wakeStationList.append(li);
-  }
-}
 
 function openWakeSheet(open: boolean): void {
   $wakeSheet.classList.toggle('open', open);
@@ -2640,23 +2597,26 @@ function openWakeSheet(open: boolean): void {
   if (!open) return;
 
   const armed = wakeScheduler.current();
-  // Preselect: armed station > current > first fav > first curated.
-  const preselect = armed
-    ? armed.station
-    : (currentNP.station.id ? currentNP.station : null) ??
-      getFavorites()[0] ??
-      BUILTIN_STATIONS[0] ??
-      null;
-  wakeSheetSelected = preselect;
-  // Default time: armed.time or 07:00 (the most common alarm).
+  // The wake station is whatever's currently tuned in — clock-radio
+  // metaphor. If an alarm is already armed, surface the station it's
+  // tied to instead, since we don't want a sheet-reopen to silently
+  // swap targets.
+  const station = armed?.station ?? (currentNP.station.id ? currentNP.station : null);
   $wakeTime.value = armed?.time ?? '07:00';
-  renderWakeStationList(preselect?.id ?? null);
+  $wakeTargetStation.textContent = station?.name ?? '—';
+  const noStation = !station;
+  $wakeTargetHint.hidden = !noStation;
+  $wakeArm.disabled = noStation;
   $wakeDisarm.hidden = !armed;
 }
 
 function armWakeFromSheet(): void {
   const time = $wakeTime.value.trim();
-  const station = wakeSheetSelected;
+  const armed = wakeScheduler.current();
+  // Prefer the already-armed station so a re-open of the sheet to
+  // change time alone doesn't accidentally reset the target. Falls
+  // back to whatever's currently playing for a fresh arm.
+  const station = armed?.station ?? (currentNP.station.id ? currentNP.station : null);
   if (!time || !station) return;
   const wake: WakeTo = {
     time,

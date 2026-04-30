@@ -419,9 +419,12 @@
             <input type="time" id="wake-time" required />
           </label>
 
-          <div class="wake-section">
-            <div class="field-key wake-section__key">Station</div>
-            <ul class="wake-station-list" id="wake-station-list"></ul>
+          <div class="wake-target">
+            <div class="wake-target__label">Wake to</div>
+            <div class="wake-target__station" id="wake-target-station">—</div>
+            <div class="wake-target__hint" id="wake-target-hint" hidden>
+              Play a station first, then come back to arm.
+            </div>
           </div>
 
           <div class="sheet-actions wake-actions">

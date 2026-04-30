@@ -2007,53 +2007,31 @@ body.is-playing .np-bottom .live-dot  {
   line-height: 1.45;
   border-radius: 0 6px 6px 0;
 }
-.wake-section__key {
-  display: block;
-  margin-bottom: 8px;
-}
-.wake-station-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  max-height: 50vh;
-  overflow-y: auto;
+.wake-target {
+  padding: 14px 16px;
   border: 1px solid var(--line);
   border-radius: 8px;
+  background: var(--bg-2);
 }
-.wake-station-list li {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  cursor: pointer;
-  transition: background 0.12s;
-}
-.wake-station-list li:hover { background: var(--bg-2); }
-.wake-station-list li[aria-selected="true"] {
-  background: color-mix(in srgb, var(--accent) 14%, transparent);
-}
-.wake-station-list li[aria-selected="true"] .wake-station-name {
-  color: var(--accent);
-}
-.wake-station-name {
-  font-size: 14px;
-  color: var(--ink);
-  flex: 1;
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.wake-station-tags {
+.wake-target__label {
   font-family: var(--mono);
   font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
   color: var(--ink-3);
-  text-transform: lowercase;
-  flex-shrink: 0;
+  margin-bottom: 6px;
 }
+.wake-target__station {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--accent);
+}
+.wake-target__hint {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.wake-target__hint[hidden] { display: none; }
 .wake-actions {
   justify-content: space-between;
   gap: 12px;
