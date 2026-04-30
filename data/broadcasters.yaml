@@ -483,6 +483,61 @@ frisky:
     CORS-accessible from the browser, so we rely on the runtime ICY
     fetcher (status:icy-only).
 
+# ─────────────── Taiwan ───────────────
+
+rti:
+  name: RTI
+  fullName: 中央廣播電台 (Radio Taiwan International)
+  country: TW
+  homepage: https://www.rti.org.tw/
+
+tbs-tw:
+  name: TBS
+  fullName: 臺北電台 (Taipei Broadcasting Station)
+  country: TW
+  homepage: https://www.radio.gov.taipei/
+
+# ─────────────── New Zealand ───────────────
+
+rnz:
+  name: RNZ
+  fullName: Radio New Zealand
+  country: NZ
+  homepage: https://www.rnz.co.nz/
+  notes: |
+    Public broadcaster. National + Concert + Pacific HLS streams via
+    radionz.streamguys1.com.
+
+nzme:
+  name: NZME
+  fullName: NZME (NZ Media and Entertainment)
+  country: NZ
+  homepage: https://www.iheart.com/live/
+  notes: |
+    Commercial group — Newstalk ZB, Coast, ZM, Hauraki, The Hits,
+    Radio Sport, Newstalk ZB. Streams via playerservices.streamtheworld.com
+    using NZME_xxAAC service codes per region.
+
+mediaworks-nz:
+  name: MediaWorks NZ
+  fullName: MediaWorks New Zealand
+  country: NZ
+  homepage: https://www.mediaworks.nz/
+  notes: |
+    Commercial group — The Sound, The Rock, The Edge, The Breeze,
+    Mai FM, More FM. Streams via digitalstreams.mediaworks.nz.
+
+# ─────────────── Israel ───────────────
+
+glz:
+  name: Galei Tzahal
+  fullName: גלי צה"ל / Israeli Defense Forces Radio
+  country: IL
+  homepage: https://glz.co.il/
+  notes: |
+    Army Radio — runs Galei Zahal (news/talk) + Galgalatz (music).
+    Streams via api.bynetcdn.com / glzwizzlv.bynetcdn.com.
+
 # ─────────────── Bulgaria ───────────────
 
 bnr:
