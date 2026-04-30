@@ -1075,6 +1075,8 @@ function renderProgramPane(): void {
   $npProgramList.replaceChildren();
   const day = npSchedule[npSelectedDayIdx];
   const now = Date.now();
+  let liveRow: HTMLDivElement | null = null;
+  let nextRow: HTMLDivElement | null = null;
   for (const b of day.broadcasts) {
     const isLive = b.start <= now && now < b.end;
     const isPast = b.end <= now;
@@ -1103,6 +1105,17 @@ function renderProgramPane(): void {
     }
     row.append(time, text);
     $npProgramList.append(row);
+    if (isLive && !liveRow) liveRow = row;
+    else if (!isLive && !isPast && !nextRow) nextRow = row;
+  }
+  // Center the now-on-air row (or the next upcoming one if we hit a
+  // gap between broadcasts). Deferred a frame so the pane's layout
+  // is settled before scrollIntoView measures positions.
+  const target = liveRow ?? nextRow;
+  if (target) {
+    requestAnimationFrame(() => {
+      target.scrollIntoView({ block: 'center', behavior: 'instant' });
+    });
   }
 }
 
