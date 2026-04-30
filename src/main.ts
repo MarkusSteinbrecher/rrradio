@@ -3166,9 +3166,17 @@ player.subscribe((np) => {
   prevState = np.state;
   prevStationId = np.station.id;
 
-  // Drive the metadata poller off player state. Per-station overrides win
-  // (e.g. Grrif uses /live/covers.json); falls back to ICY-over-fetch.
-  const key = np.state === 'playing' ? np.station.id : '';
+  // Drive the metadata poller off the loaded station, not the
+  // playback state — the user wants to see what's on air before
+  // they tap play, and on a paused/loading station the broadcast
+  // is still happening, so the current title is meaningful even
+  // when audio isn't actively playing. Per-station overrides win
+  // (e.g. Grrif uses /live/covers.json); falls back to
+  // ICY-over-fetch. Stops automatically when the station is
+  // unloaded (state goes back to idle, station.id becomes ''),
+  // and we deliberately skip the silent-bed station id since it
+  // points at a static file with no ICY metadata.
+  const key = np.station.id && np.station.id !== SILENT_BED.id ? np.station.id : '';
   if (key !== lastIcyKey) {
     lastIcyKey = key;
     if (key) {
