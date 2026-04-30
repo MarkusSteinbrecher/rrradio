@@ -2605,4 +2605,17 @@ body.is-playing .np-bottom .live-dot  {
   .dial-track { transition: none; }
   .mini-progress { display: none; }
   body.is-playing .np-eq { animation: none; }
+  /* Functional status indicators stay animated even with Reduce
+     Motion on — they're how the user knows a stream is connecting
+     (bouncy loader dots) or actively playing (EQ bars). WCAG 2.3.3
+     exempts essential motion. We re-state the durations explicitly
+     to beat the universal !important suppression above. */
+  .np-play__loader span {
+    animation-duration: 0.9s !important;
+    animation-iteration-count: infinite !important;
+  }
+  .eq span {
+    animation-duration: 0.9s !important;
+    animation-iteration-count: infinite !important;
+  }
 }
