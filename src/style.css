@@ -1240,6 +1240,17 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
 .np-program-row.is-live .np-program-row__title { color: var(--accent); }
 .np-program-row.is-live .np-program-row__time { color: var(--accent); }
 
+/* Row that puts the Apple Music open-in icon to the left of the
+   cover. Cover stays visually centred via the symmetric flex
+   gap (the AM icon takes ~22px on the left; Spotify still sits in
+   the title row on the right). */
+.np-track__cover-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  width: 100%;
+}
 .np-track__cover-wrap {
   position: relative;
   width: min(220px, 58vw);
@@ -1253,6 +1264,24 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   flex-shrink: 1;
   min-height: 0;
 }
+/* "Open in Apple Music" — naked Apple-Music-red glyph mirroring
+   the Spotify chip style. Tapping opens the Apple Music app on
+   iOS / macOS via the universal link handler, or the Apple Music
+   web player elsewhere. */
+.np-track__apple-music {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
+  color: #fa233b;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: opacity 0.15s, transform 0.15s;
+  opacity: 0.85;
+}
+.np-track__apple-music:hover { opacity: 1; }
+.np-track__apple-music:active { transform: scale(0.92); }
+.np-track__apple-music[hidden] { display: none; }
+.np-track__apple-music svg { width: 22px; height: 22px; display: block; }
 .np-track__cover {
   max-width: 100%;
   max-height: 100%;

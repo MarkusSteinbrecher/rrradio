@@ -155,6 +155,7 @@ const $npTrackRow = document.getElementById('np-track-row') as HTMLElement;
 const $npTrackTitle = document.getElementById('np-track-title') as HTMLElement;
 const $npTrackCover = document.getElementById('np-track-cover') as HTMLImageElement;
 const $npTrackSpotify = document.getElementById('np-track-spotify') as HTMLAnchorElement;
+const $npTrackAppleMusic = document.getElementById('np-track-apple-music') as HTMLAnchorElement;
 const $npStream = document.getElementById('np-stream') as HTMLAnchorElement;
 const $npStreamHost = document.getElementById('np-stream-host') as HTMLElement;
 const $npHome = document.getElementById('np-home') as HTMLAnchorElement;
@@ -738,18 +739,24 @@ function renderNowPlaying(np: NowPlaying): void {
   const hasTrack = !!np.trackTitle && np.trackTitle.trim().length > 0;
   $npTrackTitle.textContent = hasTrack ? (np.trackTitle as string) : '—';
 
-  // Spotify search deep link — works on mobile via the Spotify app's
-  // universal link handler, or falls through to open.spotify.com web
-  // player on desktop. We don't have a reliable artist/track split
-  // for every metadata source, so we just feed the full trackTitle;
-  // Spotify's search handles "Artist - Track" patterns well.
+  // Streaming-service deep links. Both use the platform's search-by-
+  // term URL: on mobile the universal-link handler intercepts and
+  // opens the native app; on desktop they fall through to the web
+  // player with the search pre-filled. We feed the full trackTitle
+  // (often "Artist - Track") since we don't reliably get a clean
+  // split from every metadata source — the search engines handle
+  // that pattern well in practice.
   if (hasTrack) {
     const q = encodeURIComponent((np.trackTitle as string).trim());
     $npTrackSpotify.href = `https://open.spotify.com/search/${q}`;
     $npTrackSpotify.hidden = false;
+    $npTrackAppleMusic.href = `https://music.apple.com/search?term=${q}`;
+    $npTrackAppleMusic.hidden = false;
   } else {
     $npTrackSpotify.hidden = true;
     $npTrackSpotify.removeAttribute('href');
+    $npTrackAppleMusic.hidden = true;
+    $npTrackAppleMusic.removeAttribute('href');
   }
 
   const fallback = document.getElementById('np-track-cover-fallback');
@@ -3092,11 +3099,16 @@ $miniToggle.addEventListener('click', (e) => {
 
 $npPlay.addEventListener('click', () => handlePlayToggle());
 
-// Spotify deep link — count taps so we can see if anyone uses it.
-// Title carries the track string for the dashboard.
+// Streaming-service deep links — count taps so we can see if anyone
+// uses them. Title carries the track string for the dashboard.
 $npTrackSpotify.addEventListener('click', () => {
   if (!$npTrackSpotify.hidden) {
     track('open-spotify', currentNP.trackTitle ?? '');
+  }
+});
+$npTrackAppleMusic.addEventListener('click', () => {
+  if (!$npTrackAppleMusic.hidden) {
+    track('open-apple-music', currentNP.trackTitle ?? '');
   }
 });
 $npMute.addEventListener('click', () => {
