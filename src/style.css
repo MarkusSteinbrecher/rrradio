@@ -1065,6 +1065,10 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   overflow-y: auto;
   /* Don't let the inner content's right edge butt up against the scrollbar */
   padding-right: 4px;
+  /* Constrain native gesture handling to vertical scroll so horizontal
+     swipes flow up to .np-body's pointerup handler instead of being
+     cancelled by the scroll container. */
+  touch-action: pan-y;
 }
 .np-program-pane[hidden] { display: none; }
 
@@ -1078,6 +1082,9 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   overflow-y: auto;
   padding-right: 4px;
   text-align: left;
+  /* Same trick as .np-program-pane: keep native vertical scroll but
+     let horizontal gestures bubble to the swipe-between-tabs handler. */
+  touch-action: pan-y;
 }
 .np-lyrics-pane[hidden] { display: none; }
 .np-lyrics-text {
