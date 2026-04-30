@@ -774,7 +774,10 @@ function renderNowPlaying(np: NowPlaying): void {
   $npFav.setAttribute('aria-label', isFavorite(s.id) ? 'Remove favorite' : 'Add favorite');
 
   $npPlay.classList.toggle('is-loading', np.state === 'loading');
-  $npPlay.setAttribute('aria-label', np.state === 'playing' ? 'Pause' : 'Play');
+  $npPlay.setAttribute(
+    'aria-label',
+    np.state === 'playing' ? 'Pause' : np.state === 'loading' ? 'Cancel' : 'Play',
+  );
 
   const stream = urlDisplay(s.streamUrl);
   if (stream) {
@@ -2871,7 +2874,12 @@ function handlePlayToggle(): void {
     void player.play(armed.station);
     return;
   }
-  if (currentNP.state === 'playing') {
+  // Tap during loading = cancel the connection. Without this the
+  // user is stuck waiting on a slow / dead stream with no obvious
+  // way out short of opening another station. pausePreservingWake
+  // halts the load (and swaps to the silent bed if a wake is
+  // armed, so the wake survives).
+  if (currentNP.state === 'playing' || currentNP.state === 'loading') {
     pausePreservingWake();
     return;
   }
