@@ -1464,7 +1464,19 @@ function renderContent(): void {
       //   null     → lastBrowseStations (RB top 50, fetched in runQuery)
       let stations: Station[];
       let restLabel: string;
-      if (browseMode === 'played') {
+      if (curatedOnly) {
+        // RB is off-limits — source locally and let News (and any
+        // future tag-mode toggles) act as a sub-filter on the catalog.
+        stations = playedStations();
+        if (browseMode === 'news') {
+          stations = stations.filter((s) =>
+            (s.tags ?? []).some((t) => /news|talk/i.test(t)),
+          );
+          restLabel = 'News';
+        } else {
+          restLabel = 'Most played';
+        }
+      } else if (browseMode === 'played') {
         stations = playedStations();
         restLabel = 'Most played';
       } else if (browseMode === 'news') {
@@ -2480,12 +2492,6 @@ function setBrowseMode(target: BrowseMode): void {
     activeTag = 'all';
     syncGenre();
   }
-  // News fetches RB stations only — incompatible with curated-only;
-  // turn off the curated scope filter when News turns on.
-  if (browseMode === 'news' && curatedOnly) {
-    curatedOnly = false;
-    syncCuratedToggle();
-  }
   selectedClusterKey = null;
   track(`mode/${browseMode ?? 'none'}`);
   void runQuery();
@@ -2500,11 +2506,6 @@ function setCuratedOnly(target: boolean): void {
   if (curatedOnly === target) return;
   curatedOnly = target;
   syncCuratedToggle();
-  // Curated and News are mutually exclusive — News mode pulls RB only.
-  if (curatedOnly && browseMode === 'news') {
-    setBrowseMode(null);
-    return; // setBrowseMode triggers runQuery
-  }
   selectedClusterKey = null;
   track(`curated/${curatedOnly ? 'on' : 'off'}`);
   void runQuery();
