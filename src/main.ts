@@ -8,6 +8,8 @@ import {
 } from './builtins';
 import type { ScheduleDay } from './metadata';
 import { lookupCover } from './coverArt';
+import { lookupLyrics } from './lyrics';
+import type { LyricsResult } from './lyrics';
 import { MetadataPoller, icyFetcher } from './metadata';
 import { AudioPlayer, stateLabel } from './player';
 import { track } from './telemetry';
@@ -55,6 +57,7 @@ function isLowResCoverUrl(url: string): boolean {
 const meta = new MetadataPoller((parsed) => {
   if (!parsed) {
     player.setTrackTitle(undefined);
+    resetLyrics();
     return;
   }
   const display = parsed.track
@@ -67,6 +70,14 @@ const meta = new MetadataPoller((parsed) => {
     programName: parsed.program?.name,
     programSubtitle: parsed.program?.subtitle,
   });
+
+  // Lyrics — only when both artist + track are present (filters out
+  // station IDs and news segments where parsed.artist stays undefined).
+  if (parsed.artist && parsed.track) {
+    loadLyrics(parsed.artist, parsed.track);
+  } else {
+    resetLyrics();
+  }
 
   // Cover-art enrichment via iTunes Search. Runs when:
   //   (a) the station's metadata feed has no cover at all, OR
@@ -128,8 +139,11 @@ const $npListeners = document.getElementById('np-listeners') as HTMLElement;
 const $npPaneTabs = document.getElementById('np-pane-tabs') as HTMLElement;
 const $npPaneNow = document.getElementById('np-pane-now') as HTMLButtonElement;
 const $npPaneProgram = document.getElementById('np-pane-program') as HTMLButtonElement;
+const $npPaneLyrics = document.getElementById('np-pane-lyrics') as HTMLButtonElement;
 const $npProgramPane = document.getElementById('np-program-pane') as HTMLElement;
 const $npProgramList = document.getElementById('np-program-list') as HTMLElement;
+const $npLyricsPane = document.getElementById('np-lyrics-pane') as HTMLElement;
+const $npLyricsText = document.getElementById('np-lyrics-text') as HTMLElement;
 const $npTrackRow = document.getElementById('np-track-row') as HTMLElement;
 const $npTrackTitle = document.getElementById('np-track-title') as HTMLElement;
 const $npTrackCover = document.getElementById('np-track-cover') as HTMLImageElement;
@@ -925,22 +939,30 @@ function playedStations(): Station[] {
 let npSchedule: ScheduleDay[] | null = null;
 let npScheduleStationId: string | null = null;
 let npScheduleAbort: AbortController | null = null;
-let npProgramView = false; // false = "now" pane, true = "program" pane
 let npSelectedDayIdx = 0;
+
+// Lyrics state — fetched per track when artist+title are both available.
+// Null means "we asked, neither LRCLIB nor Lyrics.ovh had it"; undefined
+// means "haven't asked yet". Cache lives inside src/lyrics.ts.
+let npLyrics: LyricsResult | null | undefined;
+let npLyricsKey = ''; // `<artist>::<track>` lowercase
+let npLyricsAbort: AbortController | undefined;
+
+type NpView = 'now' | 'program' | 'lyrics';
+let npView: NpView = 'now';
 
 async function loadSchedule(station: Station): Promise<void> {
   // Cancel any in-flight load for a previous station, reset cached data.
   if (npScheduleAbort) npScheduleAbort.abort();
   npSchedule = null;
   npScheduleStationId = station.id;
-  npProgramView = false;
+  npView = 'now';
   npSelectedDayIdx = 0;
-  $npPaneTabs.hidden = true;
-  $npProgramPane.hidden = true;
+  syncNpTabs();
 
   const found = findScheduleFetcher(station);
   if (!found) {
-    syncProgramTabs();
+    syncNpTabs();
     return;
   }
   const ctrl = new AbortController();
@@ -955,27 +977,92 @@ async function loadSchedule(station: Station): Promise<void> {
       const idx = days.findIndex((d) => d.broadcasts.some((b) => b.start <= now && now < b.end));
       npSelectedDayIdx = Math.max(0, idx);
     }
-    syncProgramTabs();
+    syncNpTabs();
   } catch {
     /* silent — program panel just stays hidden */
   }
 }
 
-function syncProgramTabs(): void {
-  const has = !!(npSchedule && npSchedule.length > 0);
-  $npPaneTabs.hidden = !has;
-  if (!has) {
-    npProgramView = false;
-    $npProgramPane.hidden = true;
-    $npTrackRow.hidden = false;
+/** Look up lyrics for the current track. Cached by key in lyrics.ts;
+ *  this fn just gates the request on whether we already asked for the
+ *  same key, and aborts in-flight fetches when the track changes. */
+function loadLyrics(artist: string, track: string): void {
+  const key = `${artist.toLowerCase().trim()}::${track.toLowerCase().trim()}`;
+  if (key === npLyricsKey) return;
+  npLyricsAbort?.abort();
+  const ctrl = new AbortController();
+  npLyricsAbort = ctrl;
+  npLyricsKey = key;
+  npLyrics = undefined;
+  syncNpTabs();
+  void lookupLyrics(artist, track, ctrl.signal)
+    .then((result) => {
+      if (ctrl.signal.aborted || key !== npLyricsKey) return;
+      npLyrics = result;
+      syncNpTabs();
+      if (npView === 'lyrics') renderLyricsPane();
+    })
+    .catch(() => {
+      /* abort or network — silently leave the tab hidden */
+    });
+}
+
+/** Reset lyrics state (called on station change, or when the live
+ *  metadata fetcher reports "no track currently playing"). */
+function resetLyrics(): void {
+  npLyricsAbort?.abort();
+  npLyricsAbort = undefined;
+  npLyrics = undefined;
+  npLyricsKey = '';
+  if (npView === 'lyrics') npView = 'now';
+  syncNpTabs();
+}
+
+/** Synchronise the Now Playing tab pills + pane visibility with the
+ *  three sources (track row, program guide, lyrics). The tab pill
+ *  for a given source only shows when that source has content;
+ *  if the user is currently viewing a source that disappears (e.g.
+ *  on station change), drop them back to 'now'. */
+function syncNpTabs(): void {
+  const hasProgram = !!(npSchedule && npSchedule.length > 0);
+  const hasLyrics = !!(npLyrics && (npLyrics.plain || npLyrics.synced));
+
+  // Auto-switch back to 'now' if the active view's content is gone.
+  if (npView === 'program' && !hasProgram) npView = 'now';
+  if (npView === 'lyrics' && !hasLyrics) npView = 'now';
+
+  // Show the tab strip whenever at least one secondary tab has content.
+  $npPaneTabs.hidden = !hasProgram && !hasLyrics;
+  $npPaneProgram.hidden = !hasProgram;
+  $npPaneLyrics.hidden = !hasLyrics;
+
+  $npPaneNow.classList.toggle('is-active', npView === 'now');
+  $npPaneNow.setAttribute('aria-pressed', String(npView === 'now'));
+  $npPaneProgram.classList.toggle('is-active', npView === 'program');
+  $npPaneProgram.setAttribute('aria-pressed', String(npView === 'program'));
+  $npPaneLyrics.classList.toggle('is-active', npView === 'lyrics');
+  $npPaneLyrics.setAttribute('aria-pressed', String(npView === 'lyrics'));
+
+  $npTrackRow.hidden = npView !== 'now';
+  $npProgramPane.hidden = npView !== 'program';
+  $npLyricsPane.hidden = npView !== 'lyrics';
+}
+
+function renderLyricsPane(): void {
+  if (!npLyrics) {
+    $npLyricsText.textContent = '';
     return;
   }
-  $npPaneNow.classList.toggle('is-active', !npProgramView);
-  $npPaneNow.setAttribute('aria-pressed', String(!npProgramView));
-  $npPaneProgram.classList.toggle('is-active', npProgramView);
-  $npPaneProgram.setAttribute('aria-pressed', String(npProgramView));
-  $npProgramPane.hidden = !npProgramView;
-  $npTrackRow.hidden = npProgramView;
+  // Plain text wins if both are present — synced is a UX nice-to-have
+  // we can layer later (current-line highlight needs an estimate of
+  // elapsed-since-track-started, which live radio doesn't give us).
+  if (npLyrics.plain) {
+    $npLyricsText.textContent = npLyrics.plain;
+  } else if (npLyrics.synced) {
+    $npLyricsText.textContent = npLyrics.synced.map((l) => l.text).join('\n');
+  } else {
+    $npLyricsText.textContent = '';
+  }
 }
 
 function renderProgramPane(): void {
@@ -1020,13 +1107,18 @@ function renderProgramPane(): void {
 }
 
 $npPaneNow.addEventListener('click', () => {
-  npProgramView = false;
-  syncProgramTabs();
+  npView = 'now';
+  syncNpTabs();
 });
 $npPaneProgram.addEventListener('click', () => {
-  npProgramView = true;
-  syncProgramTabs();
+  npView = 'program';
+  syncNpTabs();
   renderProgramPane();
+});
+$npPaneLyrics.addEventListener('click', () => {
+  npView = 'lyrics';
+  syncNpTabs();
+  renderLyricsPane();
 });
 
 let selectedClusterKey: string | null = null;
@@ -2308,7 +2400,10 @@ player.subscribe((np) => {
   currentNP = np;
   // Refresh schedule when the user starts a new station — schedules
   // are per-station, fetched once on station change.
-  if (stationChanged) void loadSchedule(np.station);
+  if (stationChanged) {
+    void loadSchedule(np.station);
+    resetLyrics();
+  }
   $body.classList.toggle('is-playing', np.state === 'playing');
   $body.classList.toggle('has-station', !!np.station.id);
   // If the station was unloaded while the Playing tab was active,

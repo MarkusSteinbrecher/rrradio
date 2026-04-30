@@ -213,12 +213,15 @@
               <button type="button" class="np-pane-tab np-pane-tab--icon is-active" id="np-pane-now" aria-label="Now playing" title="Now playing">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="2"/><circle cx="9" cy="9" r="1.5" fill="currentColor" stroke="none"/><path d="m4 17 4.5-4.5L13 17l3-3 4 4"/></svg>
               </button>
-              <button type="button" class="np-pane-tab np-pane-tab--label" id="np-pane-program" aria-label="Program">
+              <button type="button" class="np-pane-tab np-pane-tab--label" id="np-pane-program" aria-label="Program" hidden>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="1"/><path d="M4 9h16"/><path d="M9 3v4"/><path d="M15 3v4"/></svg>
                 <span class="np-pane-tab__text">
                   <span class="np-pane-tab__pre" id="np-program-pre">Now on</span>
                   <span class="np-pane-tab__name" id="np-program-name">Program</span>
                 </span>
+              </button>
+              <button type="button" class="np-pane-tab np-pane-tab--icon" id="np-pane-lyrics" aria-label="Lyrics" title="Lyrics" hidden>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
               </button>
             </div>
 
@@ -235,6 +238,10 @@
 
             <div class="np-program-pane" id="np-program-pane" hidden>
               <div class="np-program-list" id="np-program-list"></div>
+            </div>
+
+            <div class="np-lyrics-pane" id="np-lyrics-pane" hidden>
+              <pre class="np-lyrics-text" id="np-lyrics-text"></pre>
             </div>
           </div>
 

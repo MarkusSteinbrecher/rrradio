@@ -1062,6 +1062,28 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   padding-right: 4px;
 }
 .np-program-pane[hidden] { display: none; }
+
+/* Lyrics pane — same layout philosophy as the program pane (fill the
+   np-body, scroll internally), but the text is preformatted so we
+   keep blank lines between verses while still wrapping long lines. */
+.np-lyrics-pane {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  overflow-y: auto;
+  padding-right: 4px;
+  text-align: left;
+}
+.np-lyrics-pane[hidden] { display: none; }
+.np-lyrics-text {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-1);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
 .np-program-list {
   display: flex;
   flex-direction: column;
