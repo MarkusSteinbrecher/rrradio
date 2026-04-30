@@ -2025,18 +2025,27 @@ body.is-playing .np-bottom .live-dot  {
   align-items: center;
 }
 #wake-time {
+  /* appearance: none strips iOS Safari's native button chrome — without
+     it the input keeps its system-imposed width and padding which
+     defeated the auto-width pill on the resting state. */
+  appearance: none;
+  -webkit-appearance: none;
   width: auto;
   min-width: 7em;
+  max-width: 100%;
   padding: 14px 28px;
   background: color-mix(in srgb, var(--accent) 12%, transparent);
-  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
   color: var(--accent);
   border-radius: 999px;
   font-size: 24px;
   font-weight: 600;
   letter-spacing: 0.06em;
   text-align: center;
+  display: inline-block;
+  cursor: pointer;
 }
+#wake-time::-webkit-date-and-time-value { text-align: center; }
 #wake-time:focus {
   border-color: var(--accent);
   background: color-mix(in srgb, var(--accent) 18%, transparent);
