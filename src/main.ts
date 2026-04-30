@@ -20,13 +20,16 @@ import {
   getCustom,
   getFavorites,
   getRecents,
+  getWakeTo,
   isFavorite,
   pushRecent,
   removeCustom,
   reorderFavorites,
+  setWakeTo,
   toggleFavorite,
 } from './storage';
-import type { NowPlaying, Station } from './types';
+import { fadeVolume, formatCountdown, nextFireTime, WakeScheduler } from './wake';
+import type { NowPlaying, Station, WakeTo } from './types';
 
 // ─────────────────────────────────────────────────────────────
 // Constants
@@ -156,6 +159,18 @@ const $npHomeHost = document.getElementById('np-home-host') as HTMLElement;
 const $npFav = document.getElementById('np-fav') as HTMLButtonElement;
 const $npSleep = document.getElementById('np-sleep') as HTMLButtonElement;
 const $npSleepChip = document.getElementById('np-sleep-chip') as HTMLElement;
+const $npWake = document.getElementById('np-wake') as HTMLButtonElement;
+const $npWakeChip = document.getElementById('np-wake-chip') as HTMLElement;
+const $wakeSheet = document.getElementById('wake-sheet') as HTMLElement;
+const $wakeClose = document.getElementById('wake-close') as HTMLButtonElement;
+const $wakeTime = document.getElementById('wake-time') as HTMLInputElement;
+const $wakeStationList = document.getElementById('wake-station-list') as HTMLElement;
+const $wakeArm = document.getElementById('wake-arm') as HTMLButtonElement;
+const $wakeDisarm = document.getElementById('wake-disarm') as HTMLButtonElement;
+const $wakePill = document.getElementById('wake-pill') as HTMLButtonElement;
+const $wakePillTime = document.getElementById('wake-pill-time') as HTMLElement;
+const $wakePillName = document.getElementById('wake-pill-name') as HTMLElement;
+const $wakePillCount = document.getElementById('wake-pill-count') as HTMLElement;
 const $npPlay = document.getElementById('np-play') as HTMLButtonElement;
 const $npLiveText = document.getElementById('np-live-text') as HTMLElement;
 const $npFormat = document.getElementById('np-format') as HTMLElement;
@@ -2562,6 +2577,201 @@ function renderCustomList(): void {
   }
 }
 
+// ─────────────────────────────────────────────────────────────
+// Wake-to-radio
+// ─────────────────────────────────────────────────────────────
+//
+// One armed wake-to setting at a time. The scheduler in wake.ts
+// handles the timing logic; everything below is glue:
+//   · syncWakePill() / syncWakeChip() reflect armed state in the UI
+//   · openWakeSheet() populates the sheet from current state
+//   · armWakeFromSheet() persists, arms the scheduler
+//   · onWakeFire() switches station + fades up + notifies
+const wakeScheduler = new WakeScheduler();
+let pillTickTimer: number | undefined;
+let wakeSheetSelected: Station | null = null;
+
+function wakeStationCandidates(): Station[] {
+  // Preferred order: currently-playing, then favorites (curator
+  // intent), then top curated featured stations as a fallback.
+  const seen = new Set<string>();
+  const out: Station[] = [];
+  const push = (s: Station | undefined): void => {
+    if (!s || !s.id || seen.has(s.id)) return;
+    seen.add(s.id);
+    out.push(s);
+  };
+  if (currentNP.station.id) push(currentNP.station);
+  for (const f of getFavorites()) push(f);
+  for (const s of BUILTIN_STATIONS) {
+    if (out.length >= 30) break;
+    push(s);
+  }
+  return out;
+}
+
+function renderWakeStationList(selectedId: string | null): void {
+  const candidates = wakeStationCandidates();
+  $wakeStationList.replaceChildren();
+  for (const s of candidates) {
+    const li = document.createElement('li');
+    li.dataset.id = s.id;
+    li.setAttribute('aria-selected', String(s.id === selectedId));
+    const name = document.createElement('span');
+    name.className = 'wake-station-name';
+    name.textContent = s.name;
+    const tags = document.createElement('span');
+    tags.className = 'wake-station-tags';
+    tags.textContent = (s.tags ?? []).slice(0, 2).join(' · ');
+    li.append(name, tags);
+    li.addEventListener('click', () => {
+      wakeSheetSelected = s;
+      for (const sib of $wakeStationList.querySelectorAll('li')) {
+        sib.setAttribute('aria-selected', String(sib === li));
+      }
+    });
+    $wakeStationList.append(li);
+  }
+}
+
+function openWakeSheet(open: boolean): void {
+  $wakeSheet.classList.toggle('open', open);
+  $wakeSheet.setAttribute('aria-hidden', String(!open));
+  if (!open) return;
+
+  const armed = wakeScheduler.current();
+  // Preselect: armed station > current > first fav > first curated.
+  const preselect = armed
+    ? armed.station
+    : (currentNP.station.id ? currentNP.station : null) ??
+      getFavorites()[0] ??
+      BUILTIN_STATIONS[0] ??
+      null;
+  wakeSheetSelected = preselect;
+  // Default time: armed.time or 07:00 (the most common alarm).
+  $wakeTime.value = armed?.time ?? '07:00';
+  renderWakeStationList(preselect?.id ?? null);
+  $wakeDisarm.hidden = !armed;
+}
+
+function armWakeFromSheet(): void {
+  const time = $wakeTime.value.trim();
+  const station = wakeSheetSelected;
+  if (!time || !station) return;
+  const wake: WakeTo = {
+    time,
+    stationId: station.id,
+    station,
+    armedAt: Date.now(),
+  };
+  setWakeTo(wake);
+  wakeScheduler.arm(wake, onWakeFire);
+  syncWakeUi();
+  startPillTick();
+  ensureNotificationPermission();
+  track('wake/arm', time);
+  openWakeSheet(false);
+}
+
+function disarmWake(persist = true): void {
+  wakeScheduler.disarm();
+  if (persist) setWakeTo(null);
+  stopPillTick();
+  syncWakeUi();
+  track('wake/disarm');
+}
+
+function onWakeFire(wake: WakeTo): void {
+  // Fire the actual wake: switch station + fade up + notify.
+  setWakeTo(null);
+  syncWakeUi();
+  stopPillTick();
+  track('wake/fire', wake.station.name);
+  void player.play(wake.station);
+  // Volume fade — start at 0, animate up to 1 over 30s. The stream
+  // takes a beat to start, so the audible curve is closer to 25s.
+  player.setVolume(0);
+  fadeVolume((v) => player.setVolume(v), 0, 1, 30_000);
+  // Notification: best-effort. Browsers limit when this works (must be
+  // visible OR have a service worker). We try and ignore failures.
+  try {
+    if ('Notification' in window && Notification.permission === 'granted') {
+      new Notification(`Wake to ${wake.station.name}`, {
+        body: `It's ${wake.time} — playing now.`,
+        silent: false,
+      });
+    }
+  } catch {
+    // ignore — audio is the alarm regardless
+  }
+}
+
+function ensureNotificationPermission(): void {
+  if (!('Notification' in window)) return;
+  if (Notification.permission === 'default') {
+    void Notification.requestPermission();
+  }
+}
+
+function startPillTick(): void {
+  stopPillTick();
+  syncWakeUi();
+  // Update once per minute. The pill only displays minute-resolution
+  // ("in 4h 12m"), so a faster cadence would be wasteful.
+  pillTickTimer = window.setInterval(syncWakeUi, 60_000);
+}
+
+function stopPillTick(): void {
+  if (pillTickTimer !== undefined) {
+    window.clearInterval(pillTickTimer);
+    pillTickTimer = undefined;
+  }
+}
+
+function syncWakeUi(): void {
+  const wake = wakeScheduler.current();
+  if (!wake) {
+    $wakePill.hidden = true;
+    $npWakeChip.hidden = true;
+    $npWakeChip.textContent = '';
+    $npWake.classList.remove('is-fav');
+    $npWake.setAttribute('aria-label', 'Wake to radio');
+    return;
+  }
+  const remain = nextFireTime(wake) - Date.now();
+  $wakePill.hidden = false;
+  $wakePillTime.textContent = wake.time;
+  $wakePillName.textContent = wake.station.name;
+  $wakePillCount.textContent = formatCountdown(remain);
+  $npWakeChip.hidden = false;
+  $npWakeChip.textContent = wake.time;
+  $npWake.classList.add('is-fav');
+  $npWake.setAttribute('aria-label', `Wake to ${wake.station.name} at ${wake.time}`);
+}
+
+// Restore any previously-armed wake on app load. If the stored fire
+// time has already passed (browser was closed across the wake window),
+// just clear it — we don't fire stale wakes.
+function restoreWakeOnBoot(): void {
+  const stored = getWakeTo();
+  if (!stored) return;
+  const fire = nextFireTime(stored);
+  if (!Number.isFinite(fire)) {
+    setWakeTo(null);
+    return;
+  }
+  // If the original fire window passed > 1 minute ago AND it would
+  // have fired before the next legitimate fire-time, treat it as
+  // missed — too late to be useful. Re-issuing means re-arming.
+  // (nextFireTime always returns a future time relative to armedAt;
+  // if the original fire was last night, the new one is tomorrow.)
+  wakeScheduler.arm(stored, onWakeFire);
+  syncWakeUi();
+  startPillTick();
+}
+
+wakeScheduler.onTick(syncWakeUi);
+
 function setSleep(minutes: number): void {
   if (sleepTimer !== undefined) {
     window.clearTimeout(sleepTimer);
@@ -2703,6 +2913,15 @@ $aboutClose.addEventListener('click', () => openAboutSheet(false));
 $dashboardBtn.addEventListener('click', () => void openDashboardSheet(true));
 $dashboardClose.addEventListener('click', () => void openDashboardSheet(false));
 
+$npWake.addEventListener('click', () => openWakeSheet(true));
+$wakeClose.addEventListener('click', () => openWakeSheet(false));
+$wakePill.addEventListener('click', () => openWakeSheet(true));
+$wakeArm.addEventListener('click', armWakeFromSheet);
+$wakeDisarm.addEventListener('click', () => {
+  disarmWake();
+  openWakeSheet(false);
+});
+
 $mini.addEventListener('click', () => openNp(true));
 $miniToggle.addEventListener('click', (e) => {
   e.stopPropagation();
@@ -2835,6 +3054,7 @@ void runQuery();
 void loadSiteVisits();
 void loadTopStations();
 void loadBacklog();
+restoreWakeOnBoot();
 
 /** Pre-rendered /station/<id>/ landing pages set window.__STATION_ID__
  *  so the SPA can auto-play the station the visitor landed on. We also

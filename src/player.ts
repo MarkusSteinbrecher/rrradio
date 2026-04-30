@@ -138,6 +138,15 @@ export class AudioPlayer {
     return this.audio.muted;
   }
 
+  /** 0..1, clamped. Used by the wake-to fade-in. */
+  setVolume(v: number): void {
+    this.audio.volume = Math.max(0, Math.min(1, v));
+  }
+
+  getVolume(): number {
+    return this.audio.volume;
+  }
+
   private teardown(): void {
     this.stopWatchdog();
     if (this.hls) {
