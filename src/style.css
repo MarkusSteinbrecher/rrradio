@@ -2513,6 +2513,25 @@ body.is-playing .np-bottom .live-dot  {
   height: 1px;
   background: var(--accent);
 }
+/* Variant for the Features list — replaces the bullet dash with a
+   real glyph from the app, so the list visually mirrors what each
+   feature looks like in the UI. */
+.about-list--icons li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding-left: 0;
+  margin-bottom: 12px;
+  line-height: 1.45;
+}
+.about-list--icons li::before { content: none; }
+.about-icon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  color: var(--accent);
+}
 .about-body a {
   color: var(--accent);
   text-decoration: none;
