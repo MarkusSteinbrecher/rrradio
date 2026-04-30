@@ -1,8 +1,9 @@
-import type { Station } from './types';
+import type { Station, WakeTo } from './types';
 
 const FAVORITES_KEY = 'rrradio.favorites.v2';
 const RECENTS_KEY = 'rrradio.recents.v2';
 const CUSTOM_KEY = 'rrradio.custom.v1';
+const WAKE_KEY = 'rrradio.wake.v1';
 const RECENTS_LIMIT = 12;
 
 function readStations(key: string): Station[] {
@@ -100,4 +101,34 @@ export function addCustom(station: Station): void {
 export function removeCustom(id: string): void {
   const next = getCustom().filter((s) => s.id !== id);
   writeStations(CUSTOM_KEY, next);
+}
+
+export function getWakeTo(): WakeTo | null {
+  try {
+    const raw = localStorage.getItem(WAKE_KEY);
+    if (!raw) return null;
+    const v = JSON.parse(raw) as unknown;
+    if (
+      typeof v === 'object' &&
+      v !== null &&
+      typeof (v as WakeTo).time === 'string' &&
+      typeof (v as WakeTo).stationId === 'string' &&
+      typeof (v as WakeTo).station === 'object' &&
+      typeof (v as WakeTo).armedAt === 'number'
+    ) {
+      return v as WakeTo;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+export function setWakeTo(w: WakeTo | null): void {
+  try {
+    if (w === null) localStorage.removeItem(WAKE_KEY);
+    else localStorage.setItem(WAKE_KEY, JSON.stringify(w));
+  } catch {
+    // quota / privacy mode — ignore
+  }
 }

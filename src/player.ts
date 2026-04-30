@@ -69,7 +69,7 @@ export class AudioPlayer {
     return () => this.listeners.delete(listener);
   }
 
-  async play(station: Station): Promise<void> {
+  async play(station: Station, options?: { loop?: boolean }): Promise<void> {
     // Always teardown + reconnect, even if the same station is "paused".
     // Live streams can't actually be resumed from a buffered position, and
     // an HTMLAudioElement that's been paused for a while can silently
@@ -91,6 +91,12 @@ export class AudioPlayer {
 
     const url = station.streamUrl;
     const isHls = /\.m3u8(\?|$)/i.test(url);
+
+    // loop is used by the wake-to silent bed so the same short audio
+    // clip seamlessly cycles through the night, keeping the iOS audio
+    // session alive without a streaming server. Live stations always
+    // play unlooped.
+    this.audio.loop = !!options?.loop;
 
     if (isHls && !this.audio.canPlayType('application/vnd.apple.mpegurl') && Hls.isSupported()) {
       this.hls = new Hls();
@@ -136,6 +142,16 @@ export class AudioPlayer {
 
   isMuted(): boolean {
     return this.audio.muted;
+  }
+
+  /** 0..1, clamped. Used by the wake-to fade-up; iOS ignores this
+   *  (audio.volume is read-only there) but Android + desktop honor it. */
+  setVolume(v: number): void {
+    this.audio.volume = Math.max(0, Math.min(1, v));
+  }
+
+  getVolume(): number {
+    return this.audio.volume;
   }
 
   private teardown(): void {

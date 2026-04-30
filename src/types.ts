@@ -57,3 +57,21 @@ export interface NowPlaying {
   programSubtitle?: string;
   errorMessage?: string;
 }
+
+/** A single armed wake-to-radio setting. v1 supports one at a time and
+ *  no recurrence — once it fires (or the user disarms it), the entry
+ *  is cleared. Time is local 24h "HH:MM"; we resolve to the next
+ *  occurrence in JS so the same value works whether the user arms it
+ *  in the morning or at night. */
+export interface WakeTo {
+  /** "HH:MM" 24h, local time. */
+  time: string;
+  /** Station to switch to + fade up at fire time. */
+  stationId: string;
+  /** Persisted snapshot of the station so the wake works even if
+   *  BUILTIN_STATIONS is still loading at fire time. */
+  station: Station;
+  /** Epoch ms when the alarm was armed — used to disambiguate "today"
+   *  vs "tomorrow" when the user arms a time that's already passed. */
+  armedAt: number;
+}

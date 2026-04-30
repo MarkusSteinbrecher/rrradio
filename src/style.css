@@ -1974,6 +1974,113 @@ body.is-playing .np-bottom .live-dot  {
 .btn-primary:active { transform: scale(0.96); }
 .btn-primary[disabled] { opacity: 0.5; pointer-events: none; }
 
+.btn-ghost {
+  padding: 11px 18px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink-2);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  transition: transform 0.15s, color 0.15s, border-color 0.15s;
+}
+.btn-ghost:active { transform: scale(0.96); }
+.btn-ghost:hover { color: var(--ink); border-color: var(--ink-3); }
+
+/* ─── Wake-to-radio sheet + pill ─────────────────────────────────
+   The pill is the always-visible "alarm armed" indicator at the top.
+   The sheet is the editor. */
+.wake-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.wake-caveat {
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 2px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  font-size: 12.5px;
+  color: var(--ink-2);
+  line-height: 1.45;
+  border-radius: 0 6px 6px 0;
+}
+.wake-target {
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-2);
+}
+.wake-target__label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+}
+.wake-target__station {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--accent);
+}
+.wake-target__hint {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.wake-target__hint[hidden] { display: none; }
+.wake-actions {
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Topbar pill — only visible while armed. Tappable to re-open the
+   sheet for editing. The countdown updates once a minute. */
+.wake-pill {
+  margin: 8px auto 0;
+  padding: 8px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  color: var(--ink);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+  align-self: center;
+}
+.wake-pill:hover { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+.wake-pill:active { transform: scale(0.97); }
+.wake-pill[hidden] { display: none; }
+.wake-pill__icon {
+  width: 14px;
+  height: 14px;
+  color: var(--accent);
+}
+.wake-pill__time {
+  font-weight: 600;
+  color: var(--accent);
+}
+.wake-pill__sep {
+  color: var(--ink-3);
+}
+.wake-pill__name {
+  max-width: 12ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.wake-pill__count {
+  color: var(--ink-3);
+}
+
 .sheet-divider {
   margin: 28px 0 0;
   display: flex;

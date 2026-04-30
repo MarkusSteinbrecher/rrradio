@@ -230,6 +230,15 @@
           </div>
         </div>
 
+        <button type="button" class="wake-pill" id="wake-pill" hidden aria-label="Wake-to schedule — tap to edit">
+          <svg class="wake-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4 2 7"/><path d="M22 7l-3-3"/><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/></svg>
+          <span class="wake-pill__time" id="wake-pill-time">—</span>
+          <span class="wake-pill__sep" aria-hidden="true">·</span>
+          <span class="wake-pill__name" id="wake-pill-name">—</span>
+          <span class="wake-pill__sep" aria-hidden="true">·</span>
+          <span class="wake-pill__count" id="wake-pill-count">—</span>
+        </button>
+
         <div class="tab-status" id="tab-status" hidden></div>
         <div class="lib-seg topbar-lib-seg" id="topbar-lib-seg" role="tablist" aria-label="Library section" hidden></div>
       </header>
@@ -304,7 +313,10 @@
                 </span>
               </button>
               <div class="np-row__group">
-                <span class="np-row__spacer" aria-hidden="true"></span>
+                <button type="button" class="np-btn" id="np-wake" aria-label="Wake to radio">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4 2 7"/><path d="M22 7l-3-3"/><circle cx="12" cy="13" r="8"/><path d="m12 8 1.5 4 4 0.5-3 2.7L15 19l-3-2-3 2 0.5-3.8-3-2.7 4-0.5z"/></svg>
+                  <span class="np-btn__chip" id="np-wake-chip" hidden></span>
+                </button>
                 <button type="button" class="np-btn" id="np-sleep" aria-label="Sleep timer">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M9 2h6"/></svg>
                   <span class="np-btn__chip" id="np-sleep-chip" hidden></span>
@@ -384,6 +396,44 @@
           Library
         </button>
       </nav>
+
+      <!-- ============== WAKE TO RADIO (slide-up sheet) ============== -->
+      <section class="sheet" id="wake-sheet" aria-label="Wake to radio" aria-hidden="true">
+        <header class="sheet-head">
+          <div class="np-label">Wake to radio</div>
+          <button type="button" class="icon-btn" id="wake-close" aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </header>
+
+        <div class="sheet-body wake-body">
+          <p class="wake-caveat">
+            Plays a silent bed through the night so iOS keeps the tab
+            alive on lock — you'll hear nothing until wake time. At
+            wake time it swaps to your station at your phone's
+            hardware volume, so set that level now. Don't pause or
+            close this tab. Plug in your phone.
+          </p>
+
+          <label class="field">
+            <span class="field-key">Time</span>
+            <input type="time" id="wake-time" required />
+          </label>
+
+          <div class="wake-target">
+            <div class="wake-target__label">Wake to</div>
+            <div class="wake-target__station" id="wake-target-station">—</div>
+            <div class="wake-target__hint" id="wake-target-hint" hidden>
+              Play a station first, then come back to arm.
+            </div>
+          </div>
+
+          <div class="sheet-actions wake-actions">
+            <button type="button" class="btn-ghost" id="wake-disarm" hidden>Disarm</button>
+            <button type="button" class="btn-primary" id="wake-arm">Arm</button>
+          </div>
+        </div>
+      </section>
 
       <!-- ============== ADD STATION (slide-up sheet) ============== -->
       <section class="sheet" id="add-sheet" aria-label="Add custom station" aria-hidden="true">
