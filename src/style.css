@@ -1328,27 +1328,37 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
   line-height: 1.3;
   text-wrap: balance;
 }
-/* "Open in Spotify" — small inline link below the on-air title.
-   Hidden when there's no track to search for. Spotify-green glyph
-   + label + external-link arrow. Tapping opens the Spotify app on
-   mobile (deep link via open.spotify.com) or the Web Player on
-   desktop. */
+/* "Open in Spotify" — icon-only chip pinned to the right of the
+   on-air title row. Title stays visually centered (text-align:
+   center inside the row) thanks to symmetric padding that reserves
+   the space the chip occupies. Tapping opens the Spotify app on
+   mobile (universal link via open.spotify.com) or the Web Player
+   on desktop. */
+.np-track__title-row {
+  position: relative;
+  display: block;
+}
+.np-track__title-row .np-track__title {
+  text-align: center;
+  /* Reserve ~58px on each side (roughly the chip width) so the
+     centred title doesn't collide with the chip while still
+     reading as horizontally centred. */
+  padding: 0 58px;
+}
 .np-track__spotify {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  margin-top: 8px;
-  padding: 4px 10px 4px 8px;
+  gap: 4px;
+  padding: 5px 8px;
   border: 1px solid color-mix(in srgb, #1db954 35%, transparent);
   border-radius: 999px;
   background: color-mix(in srgb, #1db954 10%, transparent);
   color: #1db954;
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
   text-decoration: none;
-  width: fit-content;
   transition: background 0.15s, border-color 0.15s;
 }
 .np-track__spotify:hover {
@@ -1356,7 +1366,7 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
   border-color: #1db954;
 }
 .np-track__spotify[hidden] { display: none; }
-.np-track__spotify svg { width: 13px; height: 13px; flex-shrink: 0; }
+.np-track__spotify svg { width: 14px; height: 14px; flex-shrink: 0; display: block; }
 .np-track__spotify-out { width: 11px !important; height: 11px !important; opacity: 0.8; }
 
 /* ─── Tuner Dial ─── */
