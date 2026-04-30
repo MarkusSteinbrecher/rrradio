@@ -768,17 +768,23 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .row-grip svg { width: 16px; height: 16px; display: block; }
 
 /* Dragged row sits above siblings and follows the pointer via a JS-
-   set --drag-y custom property. Pointer events on siblings stay
-   live so the swap-detection loop can read their bounding rects. */
+   set --drag-y custom property. Siblings shift +/- one row height
+   to make room for the drop slot — the gap visibly slides to where
+   the row will land. */
 .row.is-dragging {
   z-index: 2;
   transform: translateY(var(--drag-y, 0));
   background: var(--bg-2);
   box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
   cursor: grabbing;
-  /* Suppress the click-to-play that'd fire on pointerup at the end
-     of the drag. Re-enabled on the next render. */
-  pointer-events: none;
+}
+.row.is-shifting-up {
+  transform: translateY(calc(-1 * var(--row-h, 68px)));
+  transition: transform 0.18s ease;
+}
+.row.is-shifting-down {
+  transform: translateY(var(--row-h, 68px));
+  transition: transform 0.18s ease;
 }
 
 /* ─── EQ bars (4-bar, used in rows + mini) ─── */
@@ -2106,11 +2112,11 @@ body.is-playing .np-bottom .live-dot  {
 .dash-map {
   position: relative;
   width: 100%;
+  aspect-ratio: 1.7 / 1;
   border: 1px solid var(--line);
   border-radius: 8px;
   overflow: hidden;
   background: var(--bg-2);
-  padding: 8px;
 }
 .dash-map-empty {
   position: absolute;
@@ -2125,27 +2131,24 @@ body.is-playing .np-bottom .live-dot  {
   background: color-mix(in srgb, var(--bg) 65%, transparent);
   pointer-events: none;
 }
-.dash-world-map {
-  display: block;
-  width: 100%;
-  height: auto;
+/* Leaflet host element for the dashboard map. Fills the .dash-map
+   wrapper and inherits its rounded corners via overflow:hidden on
+   the parent. */
+.dash-map-leaflet {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-2);
 }
-.dash-world-map path {
-  fill: var(--bg-3);
-  stroke: var(--line);
-  stroke-width: 0.4;
-  vector-effect: non-scaling-stroke;
+/* Leaflet's default attribution lozenge clashes with the dark theme;
+   tune to match. */
+.dash-map-leaflet .leaflet-control-attribution {
+  background: rgba(0, 0, 0, 0.55);
+  color: var(--ink-3);
+  font-size: 9.5px;
 }
-.dash-circle {
-  fill: var(--accent);
-  fill-opacity: 0.5;
-  stroke: var(--accent);
-  stroke-opacity: 0.8;
-  stroke-width: 0.6;
-  vector-effect: non-scaling-stroke;
-  transition: fill-opacity 0.15s;
+.dash-map-leaflet .leaflet-control-attribution a {
+  color: var(--ink-2);
 }
-.dash-circle:hover { fill-opacity: 0.9; }
 
 .dash-table {
   width: 100%;

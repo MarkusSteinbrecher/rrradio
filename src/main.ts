@@ -1455,13 +1455,17 @@ function renderRows(stations: Station[]): DocumentFragment {
  *  is responsible for only invoking it where reordering makes sense
  *  (no active search query, etc).
  *
- *  Drag mechanics: pointerdown on the handle takes the pointer
- *  capture. On move, the dragged row gets a translateY tracking
- *  finger/cursor delta, and we walk siblings to find a swap target
- *  (when the dragged row's centre crosses another row's centre,
- *  swap DOM positions and zero out the translate so the visual
- *  position stays under the pointer). On pointerup, settle and
- *  persist. */
+ *  Drag mechanics:
+ *    1. pointerdown snapshots all rows + their indices and the row
+ *       height; the dragged row gets is-dragging (z-index lift).
+ *    2. pointermove translates the dragged row by clientY-startY.
+ *       The target index is computed as `originalIndex + round(dragY
+ *       / rowHeight)`, and siblings between the original and target
+ *       slots are translated +/- one row height to vacate the slot.
+ *       No DOM mutation happens during drag — that avoids re-anchoring
+ *       the pointer math after each swap.
+ *    3. pointerup does a single atomic insertBefore to commit the
+ *       new index, clears all transforms, and persists the order. */
 function enableFavoriteReorder(container: HTMLElement): void {
   const rows = Array.from(container.querySelectorAll<HTMLElement>(':scope > .row'));
   if (rows.length < 2) return;
@@ -1485,46 +1489,38 @@ function attachGripDrag(
 ): void {
   let pointerId: number | null = null;
   let startY = 0;
-  let dragY = 0;
+  let originalIndex = -1;
+  let targetIndex = -1;
+  let allRows: HTMLElement[] = [];
+  let rowHeight = 0;
+
+  const clearShiftClasses = (): void => {
+    for (const r of allRows) r.classList.remove('is-shifting-up', 'is-shifting-down');
+  };
 
   const onPointerMove = (ev: PointerEvent): void => {
     if (ev.pointerId !== pointerId) return;
-    dragY = ev.clientY - startY;
+    const dragY = ev.clientY - startY;
     row.style.setProperty('--drag-y', `${dragY}px`);
 
-    // Compare centre of dragged row against neighbours; swap when
-    // the dragged centre crosses a neighbour's centre. We only
-    // examine the immediate prev/next siblings each tick — long
-    // drags swap multiple times across multiple ticks, which feels
-    // smooth and avoids quadratic scans.
-    const rect = row.getBoundingClientRect();
-    const draggedMid = rect.top + rect.height / 2;
+    // round() so half a row's drag advances the target by one slot —
+    // symmetric for both directions.
+    const offset = Math.round(dragY / rowHeight);
+    const newTarget = Math.max(0, Math.min(allRows.length - 1, originalIndex + offset));
+    if (newTarget === targetIndex) return;
+    targetIndex = newTarget;
 
-    const prev = row.previousElementSibling as HTMLElement | null;
-    if (prev && prev.classList.contains('row')) {
-      const prevRect = prev.getBoundingClientRect();
-      const prevMid = prevRect.top + prevRect.height / 2;
-      if (draggedMid < prevMid) {
-        container.insertBefore(row, prev);
-        // Re-anchor after the DOM swap: the row's natural top moved
-        // (it now sits where `prev` used to be), but the transform
-        // is still the old dragY, so the row visually jumped. Shift
-        // startY by the same delta so on the next tick dragY shrinks
-        // by exactly that amount and the row stays under the pointer.
-        const newRect = row.getBoundingClientRect();
-        startY += newRect.top - rect.top;
-        return;
-      }
-    }
-    const next = row.nextElementSibling as HTMLElement | null;
-    if (next && next.classList.contains('row')) {
-      const nextRect = next.getBoundingClientRect();
-      const nextMid = nextRect.top + nextRect.height / 2;
-      if (draggedMid > nextMid) {
-        container.insertBefore(next, row);
-        const newRect = row.getBoundingClientRect();
-        startY += newRect.top - rect.top;
-      }
+    // Translate siblings between the original and target slots so
+    // the user sees a visible "gap" sliding to where the row will
+    // land. Rows below the dragged row shift up; rows above shift
+    // down. The CSS classes carry the transition so the motion is
+    // animated rather than snapping.
+    for (let i = 0; i < allRows.length; i++) {
+      const r = allRows[i];
+      if (r === row) continue;
+      r.classList.remove('is-shifting-up', 'is-shifting-down');
+      if (i > originalIndex && i <= targetIndex) r.classList.add('is-shifting-up');
+      else if (i < originalIndex && i >= targetIndex) r.classList.add('is-shifting-down');
     }
   };
 
@@ -1537,6 +1533,21 @@ function attachGripDrag(
       try { grip.releasePointerCapture(pointerId); } catch {/* ignore */}
     }
     pointerId = null;
+
+    // Single atomic reorder: place the row at its target slot. Use
+    // the snapshot's row at targetIndex as the anchor (it hasn't been
+    // mutated during the drag — only its transform was animated).
+    if (targetIndex !== originalIndex) {
+      if (targetIndex < originalIndex) {
+        const anchor = allRows[targetIndex];
+        container.insertBefore(row, anchor);
+      } else {
+        const anchor = allRows[targetIndex];
+        container.insertBefore(row, anchor.nextElementSibling);
+      }
+    }
+    clearShiftClasses();
+    for (const r of allRows) r.style.removeProperty('--row-h');
     row.classList.remove('is-dragging');
     row.style.removeProperty('--drag-y');
 
@@ -1554,7 +1565,15 @@ function attachGripDrag(
     ev.stopPropagation();
     pointerId = ev.pointerId;
     startY = ev.clientY;
-    dragY = 0;
+    allRows = Array.from(container.querySelectorAll<HTMLElement>(':scope > .row'));
+    originalIndex = allRows.indexOf(row);
+    targetIndex = originalIndex;
+    rowHeight = row.getBoundingClientRect().height;
+    // Siblings need the row height to know how far to shift. Set on
+    // each non-dragged row so the .is-shifting-up/down rules resolve.
+    for (const r of allRows) {
+      if (r !== row) r.style.setProperty('--row-h', `${rowHeight}px`);
+    }
     row.classList.add('is-dragging');
     row.style.setProperty('--drag-y', '0px');
     grip.setPointerCapture(ev.pointerId);
@@ -2246,92 +2265,97 @@ function getCountryCentroid(cc: string): [number, number] | null {
   return s?.geo ?? null;
 }
 
-/** Equirectangular projection onto the world-map.svg viewBox.
- *  Source viewBox is 950×620 — close enough to true equirectangular
- *  at this scale that pins land within a few pixels of the city. */
-function projectLatLon(lat: number, lon: number): { x: number; y: number } {
-  return {
-    x: ((lon + 180) / 360) * 950,
-    y: ((90 - lat) / 180) * 620,
-  };
-}
-
-let worldSvgText: string | null = null;
-async function ensureWorldSvg(): Promise<string | null> {
-  if (worldSvgText) return worldSvgText;
-  try {
-    const res = await fetch(`${import.meta.env.BASE_URL}world-map.svg`, { cache: 'force-cache' });
-    if (!res.ok) return null;
-    worldSvgText = await res.text();
-    return worldSvgText;
-  } catch {
-    return null;
-  }
-}
+// The dashboard map mirrors the Browse globe view: real CARTO dark
+// tiles via Leaflet, with one circle marker per country at the
+// centroid. Web Mercator from Leaflet aligns markers correctly at
+// every latitude, where the previous home-rolled equirectangular
+// projection onto a non-equirectangular SVG misplaced them.
+let dashLeafletMap: L.Map | null = null;
 
 function teardownDashMap(): void {
+  dashLeafletMap?.remove();
+  dashLeafletMap = null;
   $dashMap.replaceChildren();
 }
 
-async function renderDashMap(d: DashboardData): Promise<void> {
+function renderDashMap(d: DashboardData): void {
   teardownDashMap();
-  const map = activeCountryMap(d);
-  const svgSource = await ensureWorldSvg();
-  if (!svgSource) return;
+  const data = activeCountryMap(d);
 
-  // Empty map state — render the silhouette without circles + a subtle
-  // overlay so the user knows the view is working but there's no data
-  // for it (e.g. /api/public/locations not yet deployed).
-  if (map.size === 0) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(svgSource, 'image/svg+xml');
-    const svg = doc.documentElement as unknown as SVGSVGElement;
-    svg.classList.add('dash-world-map');
-    svg.removeAttribute('width');
-    svg.removeAttribute('height');
-    $dashMap.append(svg);
-    const overlay = document.createElement('div');
-    overlay.className = 'dash-map-empty';
-    overlay.textContent =
+  if (data.size === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'dash-map-empty';
+    empty.textContent =
       dashView === 'listeners' ? 'No listener-location data yet' : 'No station-country data yet';
-    $dashMap.append(overlay);
+    $dashMap.append(empty);
     return;
   }
 
-  // Inline the SVG so we can append <circle> elements directly.
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(svgSource, 'image/svg+xml');
-  const svg = doc.documentElement as unknown as SVGSVGElement;
-  svg.classList.add('dash-world-map');
-  svg.removeAttribute('width');
-  svg.removeAttribute('height');
+  const mapEl = document.createElement('div');
+  mapEl.className = 'dash-map-leaflet';
+  $dashMap.append(mapEl);
 
-  const max = Math.max(...map.values());
-  const NS = 'http://www.w3.org/2000/svg';
-  for (const [cc, count] of map) {
-    const centroid = getCountryCentroid(cc);
-    if (!centroid) continue;
-    const { x, y } = projectLatLon(centroid[0], centroid[1]);
-    // sqrt(share) → area-proportional. Range tuned for the 950×620
-    // viewBox; absolute play volume doesn't change the picture, only
-    // the relative distribution does.
-    const share = count / max;
-    const r = 3 + Math.sqrt(share) * 9;
+  // Leaflet measures its container at init; the wrap has to be in
+  // the DOM and laid out first. queueMicrotask defers to the next
+  // tick after the synchronous append above.
+  queueMicrotask(() => {
+    if (!mapEl.isConnected) return;
+    const lmap = L.map(mapEl, {
+      worldCopyJump: true,
+      zoomControl: false,
+      attributionControl: true,
+      scrollWheelZoom: false,
+      doubleClickZoom: false,
+      boxZoom: false,
+    });
+    dashLeafletMap = lmap;
 
-    const circle = document.createElementNS(NS, 'circle');
-    circle.setAttribute('class', 'dash-circle');
-    circle.setAttribute('cx', String(x));
-    circle.setAttribute('cy', String(y));
-    circle.setAttribute('r', String(r));
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      maxZoom: 19,
+      subdomains: 'abcd',
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> ' +
+        '&copy; <a href="https://carto.com/attributions">CARTO</a>',
+    }).addTo(lmap);
 
+    // Show the inhabited band only — fitWorld zooms out enough to
+    // include Antarctica, leaving lots of empty space at the bottom.
+    lmap.fitBounds([
+      [-55, -170],
+      [70, 170],
+    ]);
+
+    // Resolve the theme accent at render time so the markers track
+    // theme switches (Warm/Cool/Yellow × light/dark).
+    const accent =
+      getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#ffff00';
+
+    const max = Math.max(...data.values());
     const unit = dashView === 'listeners' ? 'visitors' : 'plays';
-    const title = document.createElementNS(NS, 'title');
-    title.textContent = `${countryName(cc)} · ${count} ${unit}`;
-    circle.append(title);
+    for (const [cc, count] of data) {
+      const centroid = getCountryCentroid(cc);
+      if (!centroid) continue;
+      // sqrt(share) → area-proportional. Pixel radius is constant
+      // at every zoom level (circleMarker, not circle), so the dot
+      // sizes stay readable as the user pans/zooms.
+      const share = count / max;
+      const r = 4 + Math.sqrt(share) * 12;
 
-    svg.append(circle);
-  }
-  $dashMap.append(svg);
+      const marker = L.circleMarker(centroid, {
+        radius: r,
+        color: accent,
+        weight: 1,
+        opacity: 0.85,
+        fillColor: accent,
+        fillOpacity: 0.45,
+      }).addTo(lmap);
+      marker.bindTooltip(`${countryName(cc)} · ${count} ${unit}`, {
+        direction: 'top',
+        offset: [0, -r],
+        opacity: 0.95,
+      });
+    }
+  });
 }
 
 function syncDashToggle(): void {
