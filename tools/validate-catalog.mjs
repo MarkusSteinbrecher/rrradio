@@ -31,7 +31,29 @@ if (!Array.isArray(stations)) {
   process.exit(1);
 }
 
-const targets = stations.filter((s) => PUBLISHABLE.has(s?.status));
+// Resolved-URL lookup: RB-bound entries don't carry streamUrl in the
+// YAML — the build pulls it from Radio Browser. Read the build
+// artifact so we can probe those entries instead of failing on
+// undefined.
+let resolvedById = {};
+try {
+  const built = JSON.parse(readFileSync(join(root, 'public/stations.json'), 'utf8'));
+  const list = Array.isArray(built) ? built : built.stations || [];
+  for (const s of list) {
+    if (s?.id) resolvedById[s.id] = s;
+  }
+} catch {
+  // No artifact yet — skip resolution; missing-streamUrl rows will
+  // surface as BROKEN, which is still a useful signal.
+}
+
+const targets = stations
+  .filter((s) => PUBLISHABLE.has(s?.status))
+  .map((s) => ({
+    ...s,
+    streamUrl: s.streamUrl ?? resolvedById[s.id]?.streamUrl,
+    metadataUrl: s.metadataUrl ?? resolvedById[s.id]?.metadataUrl,
+  }));
 
 function timed(promise) {
   const ctrl = new AbortController();

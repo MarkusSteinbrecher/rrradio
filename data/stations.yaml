@@ -5692,3 +5692,825 @@
   homepage: https://joe.be/
   country: BE
   status: stream-only
+
+# ─────────────── Hungary ───────────────
+
+- id: hu-mr1-kossuth
+  stationuuid: 960c0a73-0601-11e8-ae97-52543be04c81
+  changeuuid: a2a70cb8-e382-4e91-bec7-1c6144e3d65b
+  reviewedAt: 2026-04-30
+  geo: [47.4979, 19.0402]
+  broadcaster: mr
+  name: Kossuth Rádió
+  streamUrl: https://icast.connectmedia.hu/4734/mr1.aac
+  bitrate: 128
+  codec: AAC
+  tags: [news, talk, public, hungarian]
+  homepage: https://radio.hu/m1
+  country: HU
+  status: stream-only
+
+- id: hu-mr2-petofi
+  stationuuid: 960e7334-0601-11e8-ae97-52543be04c81
+  changeuuid: 40ce4a79-f46e-42ec-9964-fe421f365709
+  reviewedAt: 2026-04-30
+  geo: [47.4979, 19.0402]
+  broadcaster: mr
+  name: Petőfi Rádió
+  streamUrl: https://icast.connectmedia.hu/4737/mr2.aac
+  bitrate: 128
+  codec: AAC
+  tags: [pop, hungarian, public]
+  homepage: https://radio.hu/petofi
+  country: HU
+  status: stream-only
+
+- id: hu-mr3-bartok
+  stationuuid: 961d7d8c-0601-11e8-ae97-52543be04c81
+  changeuuid: c2328579-fe83-4d64-bb1c-d67ac952a063
+  reviewedAt: 2026-04-30
+  geo: [47.4979, 19.0402]
+  broadcaster: mr
+  name: Bartók Rádió
+  streamUrl: https://icast.connectmedia.hu/4742/mr3hq.mp3
+  bitrate: 192
+  codec: MP3
+  tags: [classical, jazz, hungarian, public]
+  homepage: https://radio.hu/bartok
+  country: HU
+  status: stream-only
+
+- id: hu-mr-danko
+  stationuuid: 960c0804-0601-11e8-ae97-52543be04c81
+  changeuuid: 27a94135-6bff-434c-9955-afdc1ab0b799
+  reviewedAt: 2026-04-30
+  geo: [47.4979, 19.0402]
+  broadcaster: mr
+  name: Dankó Rádió
+  streamUrl: https://icast.connectmedia.hu/4747/mr7.aac
+  bitrate: 128
+  codec: AAC
+  tags: [folk, hungarian, public]
+  homepage: https://radio.hu/danko
+  country: HU
+  status: stream-only
+
+- id: hu-radio1
+  stationuuid: d00a8843-b483-4de5-94bc-31bda20e732a
+  changeuuid: f9723dc4-5c31-4fa5-86ad-f09ae4899b4f
+  reviewedAt: 2026-04-30
+  geo: [47.4979, 19.0402]
+  broadcaster: independent
+  name: Rádió 1
+  streamUrl: https://icast.connectmedia.hu/5201/live.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [pop, hits, hungarian]
+  homepage: https://www.radio1.hu/
+  country: HU
+  status: stream-only
+
+- id: hu-retro-radio
+  stationuuid: 98b22cd2-0ec8-4bb1-a5f6-f168de7548b5
+  changeuuid: 9df6fef6-e87f-4f49-b750-c2210d89a32f
+  reviewedAt: 2026-04-30
+  geo: [47.4979, 19.0402]
+  broadcaster: independent
+  name: Retro Rádió
+  bitrate: 128
+  codec: MP3
+  tags: [oldies, classic hits, hungarian]
+  homepage: https://www.retroradio.hu/
+  country: HU
+  status: stream-only
+
+- id: hu-klubradio
+  stationuuid: 9e077bed-f46f-4506-8237-c26be0538fdc
+  changeuuid: 3c9c4623-53c3-49c8-a34c-3f4507f750dc
+  reviewedAt: 2026-04-30
+  geo: [47.4979, 19.0402]
+  broadcaster: independent
+  name: Klubrádió
+  bitrate: 128
+  codec: MP3
+  tags: [news, talk, hungarian]
+  homepage: https://www.klubradio.hu/
+  country: HU
+  status: stream-only
+
+- id: hu-inforadio
+  stationuuid: 122f7792-6b84-11ea-b1cf-52543be04c81
+  changeuuid: aa24211c-bd9e-4a28-9303-b19ae0fd828f
+  reviewedAt: 2026-04-30
+  geo: [47.4979, 19.0402]
+  broadcaster: independent
+  name: Inforádió
+  streamUrl: https://stream.infostart.hu/lejatszo/index.html?sid=1
+  bitrate: 128
+  codec: MP3
+  tags: [news, talk, hungarian]
+  homepage: https://infostart.hu/
+  country: HU
+  status: stream-only
+
+- id: hu-tilos
+  stationuuid: 960bec79-0601-11e8-ae97-52543be04c81
+  changeuuid: 53b69bf1-20cc-4554-891b-30dd376bfe9e
+  reviewedAt: 2026-04-30
+  geo: [47.4979, 19.0402]
+  broadcaster: independent
+  name: Tilos Rádió
+  streamUrl: https://stream.tilos.hu/tilos
+  bitrate: 128
+  codec: MP3
+  tags: [community, alternative, hungarian]
+  homepage: https://tilos.hu/
+  country: HU
+  status: stream-only
+
+- id: hu-danubius
+  stationuuid: f80001ac-d2af-4678-98a6-9617da6e94bd
+  changeuuid: 6cc6f371-35c3-4015-81c2-1016bae3eb69
+  reviewedAt: 2026-04-30
+  geo: [47.4979, 19.0402]
+  broadcaster: independent
+  name: Danubius Rádió
+  streamUrl: https://stream.danubiusradio.hu/danubius_320k
+  bitrate: 320
+  codec: MP3
+  tags: [pop, classic hits, hungarian]
+  homepage: https://www.danubiusradio.hu/
+  country: HU
+  status: stream-only
+
+# ─────────────── Czech Republic ───────────────
+
+- id: cz-cro1-radiozurnal
+  stationuuid: 960c2e1f-0601-11e8-ae97-52543be04c81
+  changeuuid: a365e800-5ef0-4b5b-969e-c484cb364a6e
+  reviewedAt: 2026-04-30
+  geo: [50.0755, 14.4378]
+  broadcaster: cro
+  name: ČRo Radiožurnál
+  streamUrl: https://rozhlas.stream/radiozurnal_aac_128.aac
+  bitrate: 128
+  codec: AAC
+  tags: [news, talk, public, czech]
+  homepage: https://radiozurnal.rozhlas.cz/
+  country: CZ
+  status: stream-only
+
+- id: cz-cro2-dvojka
+  stationuuid: 960c2ef6-0601-11e8-ae97-52543be04c81
+  changeuuid: 896015b0-d338-4d96-9027-5f848f9d4b37
+  reviewedAt: 2026-04-30
+  geo: [50.0755, 14.4378]
+  broadcaster: cro
+  name: ČRo Dvojka
+  streamUrl: https://rozhlas.stream/dvojka_mp3_128.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [talk, culture, public, czech]
+  homepage: https://dvojka.rozhlas.cz/
+  country: CZ
+  status: stream-only
+
+- id: cz-cro3-vltava
+  stationuuid: 960bf772-0601-11e8-ae97-52543be04c81
+  changeuuid: 04809435-f30c-457d-8428-12c2dbc0d77a
+  reviewedAt: 2026-04-30
+  geo: [50.0755, 14.4378]
+  broadcaster: cro
+  name: ČRo Vltava
+  streamUrl: https://rozhlas.stream/vltava_mp3_128.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [classical, culture, public, czech]
+  homepage: https://vltava.rozhlas.cz/
+  country: CZ
+  status: stream-only
+
+- id: cz-cro-plus
+  stationuuid: 961f6420-0601-11e8-ae97-52543be04c81
+  changeuuid: 79cbc279-c100-4224-ab8a-d597a953af53
+  reviewedAt: 2026-04-30
+  geo: [50.0755, 14.4378]
+  broadcaster: cro
+  name: ČRo Plus
+  streamUrl: https://rozhlas.stream/plus_mp3_128.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [news, talk, public, czech]
+  homepage: https://plus.rozhlas.cz/
+  country: CZ
+  status: stream-only
+
+- id: cz-cro-jazz
+  stationuuid: 1c73ba77-2de2-420f-90dd-74d15118a9be
+  changeuuid: 651ef3ff-4739-45a2-b0cd-b0f10a28185b
+  reviewedAt: 2026-04-30
+  geo: [50.0755, 14.4378]
+  broadcaster: cro
+  name: ČRo Jazz
+  streamUrl: https://rozhlas.stream/jazz_aac_128.aac
+  bitrate: 128
+  codec: AAC
+  tags: [jazz, public, czech]
+  homepage: https://jazz.rozhlas.cz/
+  country: CZ
+  status: stream-only
+
+- id: cz-cro-wave
+  stationuuid: 3963a7f3-d1cc-4fe1-831b-36499ca21b6f
+  changeuuid: cfe74b49-a8b0-4097-ba08-e5334e7a2013
+  reviewedAt: 2026-04-30
+  geo: [50.0755, 14.4378]
+  broadcaster: cro
+  name: ČRo Wave
+  bitrate: 256
+  codec: MP3
+  tags: [alternative, electronic, public, czech]
+  homepage: https://wave.rozhlas.cz/
+  country: CZ
+  status: stream-only
+
+- id: cz-country-radio
+  stationuuid: 960ece9a-0601-11e8-ae97-52543be04c81
+  changeuuid: 3ec7da1c-76ed-4830-b6cc-5d2616c131f3
+  reviewedAt: 2026-04-30
+  geo: [50.0755, 14.4378]
+  broadcaster: independent
+  name: Country Radio
+  streamUrl: https://icecast2.play.cz/country128aac
+  bitrate: 128
+  codec: AAC
+  tags: [country, czech]
+  homepage: https://www.countryradio.cz/
+  country: CZ
+  status: stream-only
+
+- id: cz-kiss-98
+  stationuuid: 960ed37d-0601-11e8-ae97-52543be04c81
+  changeuuid: c695e7d1-c886-46b9-a120-52162f9a100b
+  reviewedAt: 2026-04-30
+  geo: [50.0755, 14.4378]
+  broadcaster: independent
+  name: Kiss 98
+  streamUrl: https://icecast2.play.cz/kiss128aac
+  bitrate: 128
+  codec: AAC
+  tags: [pop, hits, czech]
+  homepage: https://www.kiss98.cz/
+  country: CZ
+  status: stream-only
+
+- id: cz-radio-beat
+  stationuuid: 961d7ccb-0601-11e8-ae97-52543be04c81
+  changeuuid: f7a5bd23-bfd6-4085-aa6f-9e6b9db640d4
+  reviewedAt: 2026-04-30
+  geo: [50.0755, 14.4378]
+  broadcaster: independent
+  name: Radio Beat
+  streamUrl: https://icecast2.play.cz/radiobeat128.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [classic rock, czech]
+  homepage: https://www.radiobeat.cz/
+  country: CZ
+  status: stream-only
+
+- id: cz-radio-blanik
+  stationuuid: 960ec4c7-0601-11e8-ae97-52543be04c81
+  changeuuid: 795aad8e-403d-4d3c-9651-3e55ce993328
+  reviewedAt: 2026-04-30
+  geo: [50.0755, 14.4378]
+  broadcaster: independent
+  name: Rádio Blaník
+  streamUrl: https://ice.abradio.cz/blanikfm128.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [folk, country, czech]
+  homepage: https://www.radioblanik.cz/
+  country: CZ
+  status: stream-only
+
+- id: cz-frekvence-1
+  stationuuid: d59ad82a-3044-4951-8c6c-a0d72b26001c
+  changeuuid: ee02ac92-fbee-4a40-a389-53547bcba438
+  reviewedAt: 2026-04-30
+  geo: [50.0755, 14.4378]
+  broadcaster: independent
+  name: Frekvence 1
+  streamUrl: https://ice.actve.net/fm-frekvence1-aac
+  codec: AAC
+  tags: [pop, hits, czech]
+  homepage: https://www.frekvence1.cz/
+  country: CZ
+  status: stream-only
+
+- id: cz-evropa-2
+  stationuuid: 1b568695-9ce7-493d-ba72-d9b3d5e0a364
+  changeuuid: 16b907d9-9ae7-4e16-9326-3dcc00ac2e65
+  reviewedAt: 2026-04-30
+  geo: [50.0755, 14.4378]
+  broadcaster: independent
+  name: Evropa 2
+  bitrate: 128
+  codec: MP3
+  tags: [pop, hits, czech]
+  homepage: https://www.evropa2.cz/
+  country: CZ
+  status: stream-only
+
+- id: cz-impuls
+  stationuuid: c45e34f4-d927-11e9-a861-52543be04c81
+  changeuuid: 8503ac6b-c7e4-4bc4-b470-e25dbbbbd4fe
+  reviewedAt: 2026-04-30
+  geo: [50.0755, 14.4378]
+  broadcaster: independent
+  name: Rádio Impuls
+  streamUrl: https://icecast5.play.cz/impuls128.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [pop, hits, czech]
+  homepage: https://www.impuls.cz/
+  country: CZ
+  status: stream-only
+
+- id: cz-rock-radio
+  stationuuid: c15295f4-561f-47a5-8c4f-9bdb40210582
+  changeuuid: 035f8f90-c784-4352-87c5-2491db903fb0
+  reviewedAt: 2026-04-30
+  geo: [50.0755, 14.4378]
+  broadcaster: independent
+  name: Rock Radio
+  bitrate: 128
+  codec: MP3
+  tags: [rock, czech]
+  homepage: https://www.rockradio.cz/
+  country: CZ
+  status: stream-only
+
+# ─────────────── Croatia ───────────────
+
+- id: hr-hrt-hr1
+  stationuuid: 961d713c-0601-11e8-ae97-52543be04c81
+  changeuuid: b1a9a840-fcd5-4589-8d6b-4d2c7412bdc5
+  reviewedAt: 2026-04-30
+  geo: [45.815, 15.9819]
+  broadcaster: hrt
+  name: HRT HR 1
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/PROGRAM1AAC.aac
+  codec: AAC
+  tags: [news, talk, public, croatian]
+  homepage: https://radio.hrt.hr/prvi-program/
+  country: HR
+  status: stream-only
+
+- id: hr-hrt-hr2
+  stationuuid: 961d7b4f-0601-11e8-ae97-52543be04c81
+  changeuuid: f83ff1c6-57d2-4734-86f5-4dddebbe4e74
+  reviewedAt: 2026-04-30
+  geo: [45.815, 15.9819]
+  broadcaster: hrt
+  name: HRT HR 2
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/PROGRAM2AAC.aac
+  codec: AAC
+  tags: [music, culture, public, croatian]
+  homepage: https://radio.hrt.hr/drugi-program/
+  country: HR
+  status: stream-only
+
+- id: hr-hrt-sljeme
+  stationuuid: 961e9c8c-0601-11e8-ae97-52543be04c81
+  changeuuid: 1d0e7a3f-06ce-4f0c-bb4f-840256669e6b
+  reviewedAt: 2026-04-30
+  geo: [45.815, 15.9819]
+  broadcaster: hrt
+  name: HRT Radio Sljeme
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/SLJEMEAAC.aac
+  codec: AAC
+  tags: [regional, public, croatian, zagreb]
+  homepage: https://radio.hrt.hr/sljeme/
+  country: HR
+  status: stream-only
+
+- id: hr-otvoreni-radio
+  stationuuid: 909693aa-3a65-4067-be27-7767626df624
+  changeuuid: 27ee11c9-3900-4a71-a3d5-4d148302d93b
+  reviewedAt: 2026-04-30
+  geo: [45.815, 15.9819]
+  broadcaster: independent
+  name: Otvoreni Radio
+  streamUrl: https://stream.otvoreni.hr/otvoreni
+  codec: AAC
+  tags: [pop, hits, croatian]
+  homepage: https://www.otvoreni.hr/
+  country: HR
+  status: stream-only
+
+- id: hr-yammat-fm
+  stationuuid: ac78d4f5-ac2b-4d9e-8f33-2187a41fb539
+  changeuuid: d2521c4a-c06c-4bae-9280-d33dc1094208
+  reviewedAt: 2026-04-30
+  geo: [45.815, 15.9819]
+  broadcaster: independent
+  name: Yammat FM
+  bitrate: 128
+  codec: MP3
+  tags: [pop, hits, croatian]
+  homepage: https://yammat.fm/
+  country: HR
+  status: stream-only
+
+- id: hr-top-radio
+  stationuuid: 82214351-bd2f-4826-9b4c-c8bc5459c789
+  changeuuid: 471f723d-fb9d-40bf-a0d2-319d0e4ed08b
+  reviewedAt: 2026-04-30
+  geo: [45.815, 15.9819]
+  broadcaster: independent
+  name: Top Radio
+  codec: AAC
+  tags: [pop, hits, croatian]
+  homepage: https://www.topradio.hr/
+  country: HR
+  status: stream-only
+
+- id: hr-radio-tvornica
+  stationuuid: 960125a3-5b14-4dfc-970f-0a508dbd618d
+  changeuuid: 17060f64-771d-41ca-8ba9-1eec2d5caa6a
+  reviewedAt: 2026-04-30
+  geo: [45.815, 15.9819]
+  broadcaster: independent
+  name: Radio Tvornica
+  codec: MP3
+  tags: [rock, alternative, croatian]
+  homepage: https://www.radiotvornica.hr/
+  country: HR
+  status: stream-only
+
+- id: hr-radio-kaj
+  stationuuid: 38b81da5-2a3b-43c0-b444-ee0f7ad1c18d
+  changeuuid: 63cd8f60-882c-46d3-a3fc-a220f1ca143c
+  reviewedAt: 2026-04-30
+  geo: [46.2926, 16.0633]
+  broadcaster: independent
+  name: Radio Kaj
+  codec: MP3
+  tags: [folk, regional, croatian]
+  homepage: https://www.radio-kaj.hr/
+  country: HR
+  status: stream-only
+
+- id: hr-hkr
+  stationuuid: 5d429726-08ac-4785-8e12-292054d1d6cc
+  changeuuid: b924d6ae-5a25-4773-a604-e839a94d96b0
+  reviewedAt: 2026-04-30
+  geo: [45.815, 15.9819]
+  broadcaster: independent
+  name: Hrvatski Katolički Radio
+  bitrate: 128
+  codec: MP3
+  tags: [religious, talk, croatian]
+  homepage: https://hkr.hr/
+  country: HR
+  status: stream-only
+
+# ─────────────── Romania ───────────────
+
+- id: ro-actualitati
+  stationuuid: 960e71a1-0601-11e8-ae97-52543be04c81
+  changeuuid: 1ab9f38a-c1a2-4623-96d6-96cc1bd1ea53
+  reviewedAt: 2026-04-30
+  geo: [44.4268, 26.1025]
+  broadcaster: srr
+  name: Radio România Actualități
+  streamUrl: https://stream4.srr.ro:8443/romania-actualitati
+  codec: AAC
+  tags: [news, talk, public, romanian]
+  homepage: https://www.romania-actualitati.ro/
+  country: RO
+  status: stream-only
+
+- id: ro-cultural
+  stationuuid: 961b6ef1-0601-11e8-ae97-52543be04c81
+  changeuuid: 182c1a1a-fd80-4907-9e13-1e115a236e58
+  reviewedAt: 2026-04-30
+  geo: [44.4268, 26.1025]
+  broadcaster: srr
+  name: Radio România Cultural
+  streamUrl: https://stream4.srr.ro:8443/romania-cultural
+  codec: AAC
+  tags: [culture, talk, public, romanian]
+  homepage: https://www.radioromaniacultural.ro/
+  country: RO
+  status: stream-only
+
+- id: ro-muzical
+  stationuuid: 3ab00dd1-e787-4664-b557-08c085e55eec
+  changeuuid: afe5ff24-1734-4559-b12b-96ec0b59740b
+  reviewedAt: 2026-04-30
+  geo: [44.4268, 26.1025]
+  broadcaster: srr
+  name: Radio România Muzical
+  streamUrl: https://stream4.srr.ro:8443/romania-muzical
+  codec: AAC
+  tags: [classical, jazz, public, romanian]
+  homepage: https://www.romania-muzical.ro/
+  country: RO
+  status: stream-only
+
+- id: ro-kiss-fm
+  stationuuid: 99ac4423-0307-11ea-bbf2-52543be04c81
+  changeuuid: 5f659285-f29c-4167-9a24-b734c3a89ab4
+  reviewedAt: 2026-04-30
+  geo: [44.4268, 26.1025]
+  broadcaster: independent
+  name: Kiss FM Romania
+  codec: AAC
+  tags: [pop, hits, romanian]
+  homepage: https://www.kissfm.ro/
+  country: RO
+  status: stream-only
+
+- id: ro-europa-fm
+  stationuuid: c63f7402-f143-4f92-9cc9-e2d49f2a0bc5
+  changeuuid: c1808aee-d8f5-4951-b554-f9f409d5413b
+  reviewedAt: 2026-04-30
+  geo: [44.4268, 26.1025]
+  broadcaster: independent
+  name: Europa FM
+  codec: AAC
+  tags: [pop, hits, romanian]
+  homepage: https://www.europafm.ro/
+  country: RO
+  status: stream-only
+
+- id: ro-virgin-radio
+  stationuuid: 961acccd-0601-11e8-ae97-52543be04c81
+  changeuuid: f4e1c18c-2292-4f3c-afd2-1dd5698732bd
+  reviewedAt: 2026-04-30
+  geo: [44.4268, 26.1025]
+  broadcaster: independent
+  name: Virgin Radio Romania
+  streamUrl: https://astreaming.edi.ro:8443/VirginRadio_aac
+  codec: AAC
+  tags: [pop, rock, romanian]
+  homepage: https://virginradio.ro/
+  country: RO
+  status: stream-only
+
+- id: ro-realitatea-fm
+  stationuuid: fbf65b83-6883-4b09-8f8b-5205cdbd509d
+  changeuuid: bcebe03e-5fa7-4395-96a0-b7afd5216dae
+  reviewedAt: 2026-04-30
+  geo: [44.4268, 26.1025]
+  broadcaster: independent
+  name: Realitatea FM
+  bitrate: 128
+  codec: MP3
+  tags: [news, talk, romanian]
+  homepage: https://www.realitateafm.net/
+  country: RO
+  status: stream-only
+
+- id: ro-magic-fm
+  stationuuid: 5e7667bc-98db-4772-be99-cf6e2e10d73f
+  changeuuid: eeb6eeeb-87ba-4046-a2ea-f5b3ee256d61
+  reviewedAt: 2026-04-30
+  geo: [44.4268, 26.1025]
+  broadcaster: independent
+  name: Magic FM
+  codec: AAC
+  tags: [pop, easy listening, romanian]
+  homepage: https://www.magicfm.ro/
+  country: RO
+  status: stream-only
+
+- id: ro-pro-fm
+  stationuuid: 960ee76f-0601-11e8-ae97-52543be04c81
+  changeuuid: 623895f9-23f7-4707-a2f4-547c9ed2bfc1
+  reviewedAt: 2026-04-30
+  geo: [44.4268, 26.1025]
+  broadcaster: independent
+  name: Pro FM
+  streamUrl: https://edge126.rcs-rds.ro/profm/profm.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [pop, hits, romanian]
+  homepage: https://www.profm.ro/
+  country: RO
+  status: stream-only
+
+- id: ro-digi-fm
+  stationuuid: 9618e0b5-0601-11e8-ae97-52543be04c81
+  changeuuid: 1c3b34a3-8b81-4593-8df2-3d68c91f0693
+  reviewedAt: 2026-04-30
+  geo: [44.4268, 26.1025]
+  broadcaster: independent
+  name: Digi FM
+  streamUrl: https://edge76.rcs-rds.ro/digifm/digifm.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [pop, talk, romanian]
+  homepage: https://www.digifm.ro/
+  country: RO
+  status: stream-only
+
+- id: ro-radio-zu
+  stationuuid: 7912ccbd-e75d-425c-85b9-0b2ac2a4b213
+  changeuuid: 94f8ba81-b825-4f94-b4b1-c251349eafa5
+  reviewedAt: 2026-04-30
+  geo: [44.4268, 26.1025]
+  broadcaster: independent
+  name: Radio ZU
+  codec: AAC
+  tags: [pop, hits, romanian]
+  homepage: https://www.radiozu.ro/
+  country: RO
+  status: stream-only
+
+- id: ro-rock-fm
+  stationuuid: 2eb897a7-b86b-4bb2-b245-94a43829b7e5
+  changeuuid: b870b3ba-d860-414c-a621-71285a69a1e8
+  reviewedAt: 2026-04-30
+  geo: [44.4268, 26.1025]
+  broadcaster: independent
+  name: Rock FM Romania
+  streamUrl: https://live.rockfm.ro/rockfm.aacp
+  codec: AAC
+  tags: [rock, romanian]
+  homepage: https://www.rockfm.ro/
+  country: RO
+  status: stream-only
+
+- id: ro-one-fm-dance
+  stationuuid: 0c7f9b48-f144-413c-a223-4758100d3e19
+  changeuuid: 1d0397cd-aceb-417e-aa05-c4831db7e4cc
+  reviewedAt: 2026-04-30
+  geo: [44.4268, 26.1025]
+  broadcaster: independent
+  name: One FM Dance
+  codec: AAC
+  tags: [dance, electronic, romanian]
+  homepage: https://www.onefm.ro/
+  country: RO
+  status: stream-only
+
+# ─────────────── Slovakia ───────────────
+
+- id: sk-radio-slovensko
+  stationuuid: 90ad59d7-68b5-4a49-addd-9498843da6f2
+  changeuuid: ea736bf5-44bd-4582-bdcb-975c7dfb560c
+  reviewedAt: 2026-04-30
+  geo: [48.1486, 17.1077]
+  broadcaster: rtvs
+  name: Rádio Slovensko
+  bitrate: 128
+  codec: MP3
+  tags: [news, talk, public, slovak]
+  homepage: https://www.rtvs.sk/radio/radio-slovensko
+  country: SK
+  status: stream-only
+
+- id: sk-radio-fm
+  stationuuid: 576e64fd-74ac-11ea-b1cf-52543be04c81
+  changeuuid: bcd51d56-89b3-42f7-8bb3-0953cbbe1325
+  reviewedAt: 2026-04-30
+  geo: [48.1486, 17.1077]
+  broadcaster: rtvs
+  name: Rádio_FM
+  bitrate: 128
+  codec: MP3
+  tags: [alternative, electronic, public, slovak]
+  homepage: https://www.rtvs.sk/radio/fm
+  country: SK
+  status: stream-only
+
+- id: sk-radio-devin
+  stationuuid: 96252946-0601-11e8-ae97-52543be04c81
+  changeuuid: ca23e564-9007-43e4-826c-a9cf679cfbbe
+  reviewedAt: 2026-04-30
+  geo: [48.1486, 17.1077]
+  broadcaster: rtvs
+  name: Rádio Devín
+  streamUrl: https://icecast.stv.livebox.sk/devin_128.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [classical, culture, public, slovak]
+  homepage: https://www.rtvs.sk/radio/devin
+  country: SK
+  status: stream-only
+
+- id: sk-radio-litera
+  stationuuid: 96164051-0601-11e8-ae97-52543be04c81
+  changeuuid: b736bd93-3846-4894-a0c4-04602c77068c
+  reviewedAt: 2026-04-30
+  geo: [48.1486, 17.1077]
+  broadcaster: rtvs
+  name: Rádio Litera
+  streamUrl: https://icecast.stv.livebox.sk/litera_128.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [literature, culture, public, slovak]
+  homepage: https://www.rtvs.sk/radio/litera
+  country: SK
+  status: stream-only
+
+- id: sk-radio-patria
+  stationuuid: 0ab0056c-6b80-11ea-b1cf-52543be04c81
+  changeuuid: 1e9c21ec-1131-40da-8930-48eea76e46da
+  reviewedAt: 2026-04-30
+  geo: [48.1486, 17.1077]
+  broadcaster: rtvs
+  name: Pátria Rádió
+  bitrate: 128
+  codec: MP3
+  tags: [hungarian, minorities, public, slovak]
+  homepage: https://www.rtvs.sk/radio/patria
+  country: SK
+  status: stream-only
+
+- id: sk-fun-radio
+  stationuuid: 960efe59-0601-11e8-ae97-52543be04c81
+  changeuuid: 19fe7f58-07a8-4201-810c-6f7c27088b67
+  reviewedAt: 2026-04-30
+  geo: [48.1486, 17.1077]
+  broadcaster: independent
+  name: Fun Radio
+  streamUrl: https://stream.funradio.sk:8000/fun128.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [pop, hits, slovak]
+  homepage: https://www.funradio.sk/
+  country: SK
+  status: stream-only
+
+- id: sk-radio-vlna
+  stationuuid: 96121add-0601-11e8-ae97-52543be04c81
+  changeuuid: 3cab1b8b-2c03-4952-9971-af6b65a99f33
+  reviewedAt: 2026-04-30
+  geo: [48.1486, 17.1077]
+  broadcaster: independent
+  name: Rádio Vlna
+  streamUrl: https://stream.radiovlna.sk/vlna-hi.mp3
+  codec: MP3
+  tags: [pop, classic hits, slovak]
+  homepage: https://www.vlna.fm/
+  country: SK
+  status: stream-only
+
+- id: sk-europa-2
+  stationuuid: cb61763d-d635-4983-82c1-4a6a1e8ad17b
+  changeuuid: dfcd876b-27e3-483a-a5da-4c01f3fbb653
+  reviewedAt: 2026-04-30
+  geo: [48.1486, 17.1077]
+  broadcaster: independent
+  name: Europa 2
+  codec: MP3
+  tags: [pop, hits, slovak]
+  homepage: https://www.europa2.sk/
+  country: SK
+  status: stream-only
+
+- id: sk-radio-melody
+  stationuuid: f75cc3d3-10eb-40e3-926a-a9030eae3bba
+  changeuuid: e00f2baa-5865-46cd-99ee-aa743cde6384
+  reviewedAt: 2026-04-30
+  geo: [48.1486, 17.1077]
+  broadcaster: independent
+  name: Rádio Melody
+  codec: MP3
+  tags: [easy listening, oldies, slovak]
+  homepage: https://www.melody.sk/
+  country: SK
+  status: stream-only
+
+- id: sk-radio-expres
+  stationuuid: 7759341b-7e8d-462b-885a-d6e974fc3816
+  changeuuid: 34b7a658-2b02-43cc-a918-9365d7d6667d
+  reviewedAt: 2026-04-30
+  geo: [48.1486, 17.1077]
+  broadcaster: independent
+  name: Rádio Expres
+  streamUrl: https://stream.expres.sk/128.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [pop, hits, slovak]
+  homepage: https://www.expres.sk/
+  country: SK
+  status: stream-only
+
+- id: sk-rusyn-fm
+  stationuuid: d3ea2946-e400-4c8c-9b7e-6eb5664ae9a0
+  changeuuid: e5ef4959-b47b-440e-8868-cfc627aa82ce
+  reviewedAt: 2026-04-30
+  geo: [48.1486, 17.1077]
+  broadcaster: independent
+  name: Rusyn FM
+  bitrate: 128
+  codec: MP3
+  tags: [folk, regional, rusyn, slovak]
+  homepage: https://www.rusyn.fm/
+  country: SK
+  status: stream-only
