@@ -17,3 +17,18 @@ notes/
 *.local.md
 design_handoff_rrradio/
 design_handoff_rrradio_logo/
+
+# ICY parser corpus — captured StreamTitles + Gemma labels. May contain
+# ad copy, station IDs, free-form text from third-party broadcasters.
+# Stays local; the improved parser ships in src/icyMetadata.ts.
+data/icy-samples.jsonl
+data/icy-labels.jsonl
+
+# Metadata-API discovery output — captured XHR bodies from broadcaster
+# web players. Build-time only; the discovered URLs ship via fetchers
+# in src/builtins.ts but the raw captures stay local.
+data/metadata-discovery/
+
+# Dolt database files (added by bd init)
+.dolt/
+*.db
