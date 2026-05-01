@@ -1377,6 +1377,7 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
   padding: 8px;
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   gap: 6px;
   min-width: 200px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
@@ -1403,8 +1404,9 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
    · Spotify has no stable public-CDN equivalent, so we compose a
      matching pill in HTML/CSS using the official Spotify Icon. */
 .open-in-badge {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
   text-decoration: none;
   transition: opacity 0.15s, transform 0.15s;
   height: 40px;
@@ -1414,7 +1416,7 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
 .open-in-badge--apple-music img {
   display: block;
   height: 40px;
-  width: auto;
+  width: 137px;
 }
 .open-in-badge--spotify {
   gap: 10px;
@@ -1423,6 +1425,7 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
   color: #fff;
   border-radius: 8px;
   text-align: left;
+  justify-content: flex-start;
 }
 .open-in-badge__icon-img {
   display: block;
