@@ -3104,6 +3104,13 @@ $npPlay.addEventListener('click', () => handlePlayToggle());
 // Open-in popup — arrow trigger reveals a small panel with the
 // official "Listen on" badges. Click outside / Esc / pick a badge
 // closes it. The wrapper carries the open-state for hover styling.
+//
+// The popup must escape `.np-body { overflow: hidden }` AND `.np`'s
+// transform (a transformed ancestor turns `position: fixed` into a
+// containing block, re-clipping us). Moving the popup to body lifts
+// it out of both, so the fixed positioning is true viewport-relative.
+document.body.appendChild($npTrackOpenInPopup);
+
 function positionOpenInPopup() {
   const r = $npTrackOpenIn.getBoundingClientRect();
   $npTrackOpenInPopup.style.top = `${Math.round(r.bottom + 8)}px`;
@@ -3128,7 +3135,9 @@ $npTrackOpenIn.addEventListener('click', (e) => {
 });
 document.addEventListener('click', (e) => {
   if ($npTrackOpenInPopup.hidden) return;
-  if ($npTrackOpenInWrap.contains(e.target as Node)) return;
+  const t = e.target as Node;
+  if ($npTrackOpenInWrap.contains(t)) return;
+  if ($npTrackOpenInPopup.contains(t)) return;
   closeOpenInPopup();
 });
 document.addEventListener('keydown', (e) => {
