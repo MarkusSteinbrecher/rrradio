@@ -1366,11 +1366,16 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
 .np-track__open-in-btn svg { width: 16px; height: 16px; display: block; }
 .np-track__open-in[data-open="true"] .np-track__open-in-btn { color: var(--ink); background: var(--bg-2); }
 
+/* Position is `fixed` (not `absolute`) so the popup escapes
+   `.np-body`'s `overflow: hidden`, which would otherwise clip it
+   on mobile where the play-controls pane sits just below the
+   track row. JS computes top/right from the trigger's bounding
+   rect each time the popup opens. */
 .np-track__open-in-popup {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: -4px;
-  z-index: 20;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 100;
   background: var(--bg-1);
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -1383,18 +1388,6 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
 }
 .np-track__open-in-popup[hidden] { display: none; }
-.np-track__open-in-popup::before {
-  content: '';
-  position: absolute;
-  top: -6px;
-  right: 14px;
-  width: 10px;
-  height: 10px;
-  background: var(--bg-1);
-  border-left: 1px solid var(--line);
-  border-top: 1px solid var(--line);
-  transform: rotate(45deg);
-}
 
 /* "Listen on …" pills.
    · Apple Music renders the official SVG badge from Apple

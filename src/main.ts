@@ -3104,7 +3104,13 @@ $npPlay.addEventListener('click', () => handlePlayToggle());
 // Open-in popup — arrow trigger reveals a small panel with the
 // official "Listen on" badges. Click outside / Esc / pick a badge
 // closes it. The wrapper carries the open-state for hover styling.
+function positionOpenInPopup() {
+  const r = $npTrackOpenIn.getBoundingClientRect();
+  $npTrackOpenInPopup.style.top = `${Math.round(r.bottom + 8)}px`;
+  $npTrackOpenInPopup.style.right = `${Math.round(window.innerWidth - r.right - 4)}px`;
+}
 function openOpenInPopup() {
+  positionOpenInPopup();
   $npTrackOpenInPopup.hidden = false;
   $npTrackOpenInWrap.dataset.open = 'true';
   $npTrackOpenIn.setAttribute('aria-expanded', 'true');
@@ -3127,6 +3133,9 @@ document.addEventListener('click', (e) => {
 });
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && !$npTrackOpenInPopup.hidden) closeOpenInPopup();
+});
+window.addEventListener('resize', () => {
+  if (!$npTrackOpenInPopup.hidden) positionOpenInPopup();
 });
 
 // Streaming-service deep links — count taps so we can see if anyone
