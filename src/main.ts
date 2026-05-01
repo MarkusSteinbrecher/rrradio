@@ -156,6 +156,9 @@ const $npTrackTitle = document.getElementById('np-track-title') as HTMLElement;
 const $npTrackCover = document.getElementById('np-track-cover') as HTMLImageElement;
 const $npTrackSpotify = document.getElementById('np-track-spotify') as HTMLAnchorElement;
 const $npTrackAppleMusic = document.getElementById('np-track-apple-music') as HTMLAnchorElement;
+const $npTrackOpenInWrap = document.getElementById('np-track-open-in-wrap') as HTMLElement;
+const $npTrackOpenIn = document.getElementById('np-track-open-in') as HTMLButtonElement;
+const $npTrackOpenInPopup = document.getElementById('np-track-open-in-popup') as HTMLElement;
 const $npStream = document.getElementById('np-stream') as HTMLAnchorElement;
 const $npStreamHost = document.getElementById('np-stream-host') as HTMLElement;
 const $npHome = document.getElementById('np-home') as HTMLAnchorElement;
@@ -749,14 +752,13 @@ function renderNowPlaying(np: NowPlaying): void {
   if (hasTrack) {
     const q = encodeURIComponent((np.trackTitle as string).trim());
     $npTrackSpotify.href = `https://open.spotify.com/search/${q}`;
-    $npTrackSpotify.hidden = false;
     $npTrackAppleMusic.href = `https://music.apple.com/search?term=${q}`;
-    $npTrackAppleMusic.hidden = false;
+    $npTrackOpenInWrap.hidden = false;
   } else {
-    $npTrackSpotify.hidden = true;
     $npTrackSpotify.removeAttribute('href');
-    $npTrackAppleMusic.hidden = true;
     $npTrackAppleMusic.removeAttribute('href');
+    $npTrackOpenInWrap.hidden = true;
+    closeOpenInPopup();
   }
 
   const fallback = document.getElementById('np-track-cover-fallback');
@@ -3099,17 +3101,43 @@ $miniToggle.addEventListener('click', (e) => {
 
 $npPlay.addEventListener('click', () => handlePlayToggle());
 
+// Open-in popup — arrow trigger reveals a small panel with the
+// official "Listen on" badges. Click outside / Esc / pick a badge
+// closes it. The wrapper carries the open-state for hover styling.
+function openOpenInPopup() {
+  $npTrackOpenInPopup.hidden = false;
+  $npTrackOpenInWrap.dataset.open = 'true';
+  $npTrackOpenIn.setAttribute('aria-expanded', 'true');
+  track('open-in/show', currentNP.trackTitle ?? '');
+}
+function closeOpenInPopup() {
+  $npTrackOpenInPopup.hidden = true;
+  delete $npTrackOpenInWrap.dataset.open;
+  $npTrackOpenIn.setAttribute('aria-expanded', 'false');
+}
+$npTrackOpenIn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if ($npTrackOpenInPopup.hidden) openOpenInPopup();
+  else closeOpenInPopup();
+});
+document.addEventListener('click', (e) => {
+  if ($npTrackOpenInPopup.hidden) return;
+  if ($npTrackOpenInWrap.contains(e.target as Node)) return;
+  closeOpenInPopup();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !$npTrackOpenInPopup.hidden) closeOpenInPopup();
+});
+
 // Streaming-service deep links — count taps so we can see if anyone
 // uses them. Title carries the track string for the dashboard.
 $npTrackSpotify.addEventListener('click', () => {
-  if (!$npTrackSpotify.hidden) {
-    track('open-spotify', currentNP.trackTitle ?? '');
-  }
+  track('open-spotify', currentNP.trackTitle ?? '');
+  closeOpenInPopup();
 });
 $npTrackAppleMusic.addEventListener('click', () => {
-  if (!$npTrackAppleMusic.hidden) {
-    track('open-apple-music', currentNP.trackTitle ?? '');
-  }
+  track('open-apple-music', currentNP.trackTitle ?? '');
+  closeOpenInPopup();
 });
 $npMute.addEventListener('click', () => {
   const muted = player.toggleMute();

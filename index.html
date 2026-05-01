@@ -277,23 +277,31 @@
             </div>
 
             <div class="np-track" id="np-track-row">
-              <div class="np-track__cover-row">
-                <a class="np-track__apple-music" id="np-track-apple-music" href="#" target="_blank" rel="noopener noreferrer" hidden aria-label="Open in Apple Music">
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 4.5c0-.4-.05-.8-.13-1.18-.08-.36-.2-.7-.43-1A2.4 2.4 0 0 0 19.45 1.5a3 3 0 0 0-1.13-.42A6 6 0 0 0 17 1H7c-.45 0-.9.03-1.34.1A3 3 0 0 0 4.55 1.5a2.4 2.4 0 0 0-.99.83 3 3 0 0 0-.43 1A6 6 0 0 0 3 4.5v15c0 .4.05.8.13 1.18.08.36.2.7.43 1 .26.36.6.64.99.83.36.18.74.32 1.13.42.43.07.88.07 1.34.07h10c.45 0 .9-.03 1.32-.1A3 3 0 0 0 19.45 22.5a2.4 2.4 0 0 0 .99-.83 3 3 0 0 0 .43-1c.08-.37.13-.77.13-1.17v-15zm-5.5 13.4c-.7.5-1.5.7-2.3.6-.7-.1-1.4-.5-1.7-1.1-.3-.6-.2-1.4.3-2 .5-.5 1.2-.8 2-.7l1.7.3V8.4l-6 1.1v8.6c0 .7-.3 1.4-.8 1.9s-1.2.7-1.9.6c-.7-.1-1.4-.5-1.7-1.1-.3-.6-.2-1.4.3-2 .5-.5 1.2-.8 2-.7l1.7.3V7.6c0-.4.3-.7.7-.8l7.5-1.4c.4-.1.8.2.8.6v9.9c0 .8-.3 1.5-.6 2z"/></svg>
-                </a>
-                <div class="np-track__cover-wrap">
-                  <img class="np-track__cover" id="np-track-cover" alt="" />
-                  <span class="np-track__cover-fallback" id="np-track-cover-fallback" aria-hidden="true">··</span>
-                </div>
+              <div class="np-track__cover-wrap">
+                <img class="np-track__cover" id="np-track-cover" alt="" />
+                <span class="np-track__cover-fallback" id="np-track-cover-fallback" aria-hidden="true">··</span>
               </div>
               <div class="np-track__text">
                 <div class="np-track__label">On air</div>
                 <div class="np-track__title-row">
                   <div class="np-track__title" id="np-track-title">—</div>
-                  <a class="np-track__spotify" id="np-track-spotify" href="#" target="_blank" rel="noopener noreferrer" hidden aria-label="Open in Spotify">
-                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.6 14.4a.62.62 0 0 1-.86.21c-2.36-1.44-5.32-1.77-8.82-.97a.62.62 0 1 1-.28-1.22c3.82-.87 7.1-.5 9.74 1.13a.62.62 0 0 1 .22.85zm1.23-2.74a.78.78 0 0 1-1.07.26c-2.7-1.66-6.82-2.14-10.02-1.17a.78.78 0 1 1-.45-1.5c3.65-1.1 8.18-.57 11.28 1.34a.78.78 0 0 1 .26 1.07zm.1-2.85c-3.24-1.92-8.6-2.1-11.7-1.16a.94.94 0 1 1-.55-1.8c3.55-1.08 9.46-.87 13.18 1.34a.94.94 0 0 1-.93 1.62z"/></svg>
-                    <svg class="np-track__spotify-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14 20 4"/></svg>
-                  </a>
+                  <div class="np-track__open-in" id="np-track-open-in-wrap" hidden>
+                    <button type="button" class="np-track__open-in-btn" id="np-track-open-in" aria-label="Open in music app" aria-haspopup="true" aria-expanded="false">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14 20 4"/></svg>
+                    </button>
+                    <div class="np-track__open-in-popup" id="np-track-open-in-popup" role="menu" hidden>
+                      <a class="open-in-badge open-in-badge--apple-music" id="np-track-apple-music" href="#" target="_blank" rel="noopener noreferrer" role="menuitem">
+                        <img src="badges/listen-on-apple-music.svg" alt="Listen on Apple Music" />
+                      </a>
+                      <a class="open-in-badge open-in-badge--spotify" id="np-track-spotify" href="#" target="_blank" rel="noopener noreferrer" role="menuitem">
+                        <img class="open-in-badge__icon-img" src="badges/spotify-icon.svg" alt="" aria-hidden="true" />
+                        <span class="open-in-badge__text">
+                          <span class="open-in-badge__lead">Listen on</span>
+                          <span class="open-in-badge__brand">Spotify</span>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -1240,17 +1240,6 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
 .np-program-row.is-live .np-program-row__title { color: var(--accent); }
 .np-program-row.is-live .np-program-row__time { color: var(--accent); }
 
-/* Row that puts the Apple Music open-in icon to the left of the
-   cover. Cover stays visually centred via the symmetric flex
-   gap (the AM icon takes ~22px on the left; Spotify still sits in
-   the title row on the right). */
-.np-track__cover-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  width: 100%;
-}
 .np-track__cover-wrap {
   position: relative;
   width: min(220px, 58vw);
@@ -1264,24 +1253,6 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   flex-shrink: 1;
   min-height: 0;
 }
-/* "Open in Apple Music" — naked Apple-Music-red glyph mirroring
-   the Spotify chip style. Tapping opens the Apple Music app on
-   iOS / macOS via the universal link handler, or the Apple Music
-   web player elsewhere. */
-.np-track__apple-music {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px;
-  color: #fa233b;
-  text-decoration: none;
-  flex-shrink: 0;
-  transition: opacity 0.15s, transform 0.15s;
-  opacity: 0.85;
-}
-.np-track__apple-music:hover { opacity: 1; }
-.np-track__apple-music:active { transform: scale(0.92); }
-.np-track__apple-music[hidden] { display: none; }
-.np-track__apple-music svg { width: 22px; height: 22px; display: block; }
 .np-track__cover {
   max-width: 100%;
   max-height: 100%;
@@ -1357,42 +1328,127 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
   line-height: 1.3;
   text-wrap: balance;
 }
-/* "Open in Spotify" — icon-only chip pinned to the right of the
-   on-air title row. Title stays visually centered (text-align:
-   center inside the row) thanks to symmetric padding that reserves
-   the space the chip occupies. Tapping opens the Spotify app on
-   mobile (universal link via open.spotify.com) or the Web Player
-   on desktop. */
+/* On-air title row: centred title with a small "open-in" arrow
+   pinned to the right edge. Tapping reveals a popup with the
+   official "Listen on" badges for Apple Music + Spotify. Symmetric
+   padding on the title reserves the trigger width on both sides so
+   the title keeps reading as horizontally centred. */
 .np-track__title-row {
   position: relative;
   display: block;
 }
 .np-track__title-row .np-track__title {
   text-align: center;
-  /* Reserve ~58px on each side (roughly the chip width) so the
-     centred title doesn't collide with the chip while still
-     reading as horizontally centred. */
-  padding: 0 58px;
+  padding: 0 36px;
 }
-.np-track__spotify {
+.np-track__open-in {
   position: absolute;
   right: 0;
   top: 50%;
   transform: translateY(-50%);
+}
+.np-track__open-in[hidden] { display: none; }
+.np-track__open-in-btn {
+  background: transparent;
+  border: 0;
+  padding: 5px;
+  margin: 0;
+  color: var(--ink-3);
+  cursor: pointer;
+  border-radius: 6px;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px;
-  color: #1db954;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s, transform 0.15s;
+}
+.np-track__open-in-btn:hover { color: var(--ink); background: var(--bg-2); }
+.np-track__open-in-btn:active { transform: scale(0.92); }
+.np-track__open-in-btn svg { width: 16px; height: 16px; display: block; }
+.np-track__open-in[data-open="true"] .np-track__open-in-btn { color: var(--ink); background: var(--bg-2); }
+
+.np-track__open-in-popup {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: -4px;
+  z-index: 20;
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 200px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+.np-track__open-in-popup[hidden] { display: none; }
+.np-track__open-in-popup::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 14px;
+  width: 10px;
+  height: 10px;
+  background: var(--bg-1);
+  border-left: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  transform: rotate(45deg);
+}
+
+/* "Listen on …" pills.
+   · Apple Music renders the official SVG badge from Apple
+     (public/badges/listen-on-apple-music.svg) — a self-contained
+     pill with logo + typography baked in. The link is just a
+     transparent wrapper around the image.
+   · Spotify has no stable public-CDN equivalent, so we compose a
+     matching pill in HTML/CSS using the official Spotify Icon. */
+.open-in-badge {
+  display: inline-flex;
+  align-items: center;
   text-decoration: none;
   transition: opacity 0.15s, transform 0.15s;
-  opacity: 0.85;
+  height: 40px;
 }
-.np-track__spotify:hover { opacity: 1; }
-.np-track__spotify:active { transform: translateY(-50%) scale(0.92); }
-.np-track__spotify[hidden] { display: none; }
-.np-track__spotify svg { width: 18px; height: 18px; flex-shrink: 0; display: block; }
-.np-track__spotify-out { width: 11px !important; height: 11px !important; opacity: 0.7; }
+.open-in-badge:hover { opacity: 0.85; }
+.open-in-badge:active { transform: scale(0.98); }
+.open-in-badge--apple-music img {
+  display: block;
+  height: 40px;
+  width: auto;
+}
+.open-in-badge--spotify {
+  gap: 10px;
+  padding: 0 14px 0 10px;
+  background: #000;
+  color: #fff;
+  border-radius: 8px;
+  text-align: left;
+}
+.open-in-badge__icon-img {
+  display: block;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+.open-in-badge__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.05;
+  white-space: nowrap;
+}
+.open-in-badge__lead {
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.78;
+}
+.open-in-badge__brand {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-top: 2px;
+}
 
 /* ─── Tuner Dial ─── */
 .dial {
