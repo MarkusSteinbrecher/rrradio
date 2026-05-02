@@ -34,6 +34,15 @@ import {
 } from './storage';
 import { STATS_WORKER_BASE } from './config';
 import { countryName } from './country';
+import {
+  activeCountryMap,
+  aggregateDashboard,
+  type DashboardData,
+  type DashCountryView,
+  type PublicLocationItem,
+  type PublicTotals,
+  type TopStationItem,
+} from './dashboard';
 import { emptyState, statusLine } from './empty';
 import {
   installGlobalErrorHandlers,
@@ -1936,22 +1945,7 @@ const COUNTRY_CENTROIDS: Record<string, [number, number]> = {
   VE: [6.4238, -66.5897], UG: [1.3733, 32.2903],
 };
 
-interface TopStationItem {
-  name: string;
-  count: number;
-}
-
-type DashCountryView = 'listeners' | 'stations';
-
-interface DashboardData {
-  totalPlays: number;
-  totalStations: number;
-  /** Visitor-country counts (where listeners browse from). */
-  byListenerCountry: Map<string, number>;
-  /** Station-origin counts (where each played station is from), built
-   *  from the top-stations payload joined against BUILTIN_STATIONS. */
-  byStationCountry: Map<string, number>;
-}
+// Dashboard types + aggregation helpers live in ./dashboard.
 
 let dashView: DashCountryView = 'listeners';
 let lastDashboardData: DashboardData | null = null;
@@ -1971,12 +1965,6 @@ async function fetchTopStationsWithCounts(): Promise<TopStationItem[]> {
   }
 }
 
-interface PublicTotals {
-  total?: number;
-  total_events?: number;
-  range_days?: number;
-}
-
 async function fetchPublicTotals(): Promise<PublicTotals | null> {
   try {
     const res = await fetch(PUBLIC_TOTALS_URL);
@@ -1989,12 +1977,6 @@ async function fetchPublicTotals(): Promise<PublicTotals | null> {
     reportWorkerError(err, '/api/public/totals');
     return null;
   }
-}
-
-interface PublicLocationItem {
-  code: string;
-  name: string;
-  count: number;
 }
 
 async function fetchPublicLocations(): Promise<PublicLocationItem[]> {
@@ -2012,47 +1994,22 @@ async function fetchPublicLocations(): Promise<PublicLocationItem[]> {
   }
 }
 
-function aggregateDashboard(
-  items: TopStationItem[],
-  locations: PublicLocationItem[],
-): DashboardData {
-  let totalPlays = 0;
-  let totalStations = 0;
-  const builtinByName = new Map<string, Station>();
-  for (const s of BUILTIN_STATIONS) builtinByName.set(s.name.toLowerCase(), s);
-  const byStationCountry = new Map<string, number>();
-  for (const it of items) {
-    totalStations++;
-    totalPlays += it.count;
-    const builtin = builtinByName.get(it.name.toLowerCase());
-    const cc = builtin?.country?.toUpperCase();
-    if (!cc) continue;
-    byStationCountry.set(cc, (byStationCountry.get(cc) ?? 0) + it.count);
-  }
-  const byListenerCountry = new Map<string, number>();
-  for (const loc of locations) {
-    if (!loc.code) continue;
-    const cc = loc.code.toUpperCase();
-    byListenerCountry.set(cc, (byListenerCountry.get(cc) ?? 0) + loc.count);
-  }
-  return { totalPlays, totalStations, byListenerCountry, byStationCountry };
-}
-
-function activeCountryMap(d: DashboardData): Map<string, number> {
-  return dashView === 'listeners' ? d.byListenerCountry : d.byStationCountry;
+// aggregateDashboard + activeCountryMap live in ./dashboard.
+function activeMap(d: DashboardData): Map<string, number> {
+  return activeCountryMap(d, dashView);
 }
 
 function renderDashKpis(d: DashboardData, totals: PublicTotals | null): void {
   $dashVisits.textContent = totals?.total != null ? totals.total.toLocaleString() : '—';
   // The "Countries" KPI follows whichever view is active so the
   // headline matches the table + map below.
-  $dashCountries.textContent = String(activeCountryMap(d).size);
+  $dashCountries.textContent = String(activeMap(d).size);
   $dashStations.textContent = String(d.totalStations);
 }
 
 function renderDashCountryTable(d: DashboardData): void {
   $dashCountryTable.replaceChildren();
-  const sorted = [...activeCountryMap(d).entries()].sort((a, b) => b[1] - a[1]);
+  const sorted = [...activeMap(d).entries()].sort((a, b) => b[1] - a[1]);
   const max = sorted[0]?.[1] ?? 1;
   const total = sorted.reduce((s, [, c]) => s + c, 0);
   sorted.forEach(([cc, count], i) => {
@@ -2126,7 +2083,7 @@ function teardownDashMap(): void {
 
 function renderDashMap(d: DashboardData): void {
   teardownDashMap();
-  const data = activeCountryMap(d);
+  const data = activeMap(d);
 
   if (data.size === 0) {
     const empty = document.createElement('div');
@@ -2217,7 +2174,7 @@ function syncDashToggle(): void {
 function applyDashView(): void {
   if (!lastDashboardData) return;
   syncDashToggle();
-  $dashCountries.textContent = String(activeCountryMap(lastDashboardData).size);
+  $dashCountries.textContent = String(activeMap(lastDashboardData).size);
   renderDashCountryTable(lastDashboardData);
   void renderDashMap(lastDashboardData);
 }
@@ -2247,7 +2204,7 @@ async function openDashboardSheet(open: boolean): Promise<void> {
     fetchPublicTotals(),
     fetchPublicLocations(),
   ]);
-  const data = aggregateDashboard(items, locations);
+  const data = aggregateDashboard(items, locations, BUILTIN_STATIONS);
   lastDashboardData = data;
   syncDashToggle();
   renderDashKpis(data, totals);
