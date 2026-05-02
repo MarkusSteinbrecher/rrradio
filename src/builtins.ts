@@ -1,5 +1,6 @@
 /// <reference types="vite/client" />
 import { STATS_BBC_PROXY, STATS_PROXY } from './config';
+import { reportCatalogError } from './errors';
 import { titleCase, parseLooseJSON } from './format';
 import { icyFetcher } from './metadata';
 import type { MetadataFetcher, ScheduleBroadcast, ScheduleDay, ScheduleFetcher } from './metadata';
@@ -1483,7 +1484,10 @@ export function loadBuiltinStations(): Promise<Station[]> {
   loadPromise = (async () => {
     try {
       const res = await fetch(`${BASE}stations.json`, { cache: 'no-store' });
-      if (!res.ok) return [];
+      if (!res.ok) {
+        reportCatalogError(new Error(`stations.json HTTP ${res.status}`));
+        return [];
+      }
       const data = (await res.json()) as { stations?: unknown };
       const list = Array.isArray(data.stations)
         ? data.stations.map(normaliseStation).filter((s): s is Station => s !== null)
@@ -1491,7 +1495,8 @@ export function loadBuiltinStations(): Promise<Station[]> {
       BUILTIN_STATIONS.length = 0;
       BUILTIN_STATIONS.push(...list);
       return list;
-    } catch {
+    } catch (err) {
+      reportCatalogError(err);
       return [];
     }
   })();

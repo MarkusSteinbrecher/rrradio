@@ -127,6 +127,7 @@
       <li>Tab switches (e.g. "Browse", "Favorites").</li>
       <li>Station plays — by station name only, never tied to a person.</li>
       <li>Errors when a stream fails to load — used to find broken stations.</li>
+      <li>Runtime errors in the app itself (caught JavaScript exceptions, unhandled promise rejections, catalog or worker fetch failures). For each we record the error class (e.g. <code>TypeError</code>), a short message with URLs redacted (capped at 120 characters), the build version, the page path (e.g. <code>/</code> or <code>/station/grrif/</code>), and the station id when relevant. No stack traces, no user agent, no personal data. Used to detect regressions in production.</li>
       <li>Visitor country, derived from your IP at request time and immediately discarded; we only see the aggregate count per country.</li>
     </ul>
     <p>None of this is linked to any identifier we could later use to recognize you. We see "Switzerland: 589 visits" — not who those visits were from.</p>

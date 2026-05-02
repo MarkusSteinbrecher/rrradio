@@ -35,6 +35,11 @@ import {
 } from './storage';
 import { STATS_WORKER_BASE } from './config';
 import { emptyState, statusLine } from './empty';
+import {
+  installGlobalErrorHandlers,
+  reportStreamError,
+  reportWorkerError,
+} from './errors';
 import { fmtSharePct, normalizeForSearch } from './format';
 import { safeUrl, urlDisplay } from './url';
 import { classifyStoredWake, fadeVolume, formatCountdown, nextFireTime, WakeScheduler } from './wake';
@@ -52,6 +57,12 @@ type ListTab = Exclude<Tab, 'playing'>;
 // ─────────────────────────────────────────────────────────────
 // Element refs
 // ─────────────────────────────────────────────────────────────
+
+// Audit #76: install error handlers before any other module-level work
+// so a thrown exception during catalog load or a stray promise rejection
+// in builtins.ts surfaces as an `error/runtime` or `error/promise`
+// GoatCounter event instead of dying silently in the console.
+installGlobalErrorHandlers();
 
 const player = new AudioPlayer();
 
@@ -937,7 +948,10 @@ async function loadTopStations(): Promise<void> {
   topStationsFetched = true;
   try {
     const res = await fetch(TOP_STATIONS_URL);
-    if (!res.ok) return;
+    if (!res.ok) {
+      reportWorkerError(new Error(`HTTP ${res.status}`), '/api/public/top-stations', res.status);
+      return;
+    }
     const data = (await res.json()) as { items?: Array<{ name?: string }> };
     const names = (data.items ?? [])
       .map((i) => i.name)
@@ -945,8 +959,8 @@ async function loadTopStations(): Promise<void> {
     if (names.length === 0) return;
     topStationNames = names;
     if (activeTab === 'browse') renderContent();
-  } catch {
-    /* silent: home view falls back to YAML order */
+  } catch (err) {
+    reportWorkerError(err, '/api/public/top-stations');
   }
 }
 
@@ -2208,10 +2222,14 @@ let lastDashboardData: DashboardData | null = null;
 async function fetchTopStationsWithCounts(): Promise<TopStationItem[]> {
   try {
     const res = await fetch(TOP_STATIONS_URL);
-    if (!res.ok) return [];
+    if (!res.ok) {
+      reportWorkerError(new Error(`HTTP ${res.status}`), '/api/public/top-stations', res.status);
+      return [];
+    }
     const data = (await res.json()) as { items?: TopStationItem[] };
     return (data.items ?? []).filter((i) => typeof i.name === 'string' && i.name.length > 0);
-  } catch {
+  } catch (err) {
+    reportWorkerError(err, '/api/public/top-stations');
     return [];
   }
 }
@@ -2225,9 +2243,13 @@ interface PublicTotals {
 async function fetchPublicTotals(): Promise<PublicTotals | null> {
   try {
     const res = await fetch(PUBLIC_TOTALS_URL);
-    if (!res.ok) return null;
+    if (!res.ok) {
+      reportWorkerError(new Error(`HTTP ${res.status}`), '/api/public/totals', res.status);
+      return null;
+    }
     return (await res.json()) as PublicTotals;
-  } catch {
+  } catch (err) {
+    reportWorkerError(err, '/api/public/totals');
     return null;
   }
 }
@@ -2241,10 +2263,14 @@ interface PublicLocationItem {
 async function fetchPublicLocations(): Promise<PublicLocationItem[]> {
   try {
     const res = await fetch(PUBLIC_LOCATIONS_URL);
-    if (!res.ok) return [];
+    if (!res.ok) {
+      reportWorkerError(new Error(`HTTP ${res.status}`), '/api/public/locations', res.status);
+      return [];
+    }
     const data = (await res.json()) as { items?: PublicLocationItem[] };
     return data.items ?? [];
-  } catch {
+  } catch (err) {
+    reportWorkerError(err, '/api/public/locations');
     return [];
   }
 }
@@ -3218,7 +3244,13 @@ player.subscribe((np) => {
     const reason = np.errorMessage ?? 'unknown';
     if (reason !== lastErrorMessage) {
       lastErrorMessage = reason;
+      // Keep the existing per-station error event (the dashboard reads
+      // `error: <station>` for the broken-station list), AND emit a
+      // structured `error/stream` event so the same regression shows up
+      // in the global error feed alongside catalog/worker/runtime
+      // errors. Audit #76.
       track(`error: ${np.station.name || 'unknown'}`, reason);
+      reportStreamError(reason, np.station.id);
     }
   } else if (np.state !== 'error') {
     lastErrorMessage = '';
