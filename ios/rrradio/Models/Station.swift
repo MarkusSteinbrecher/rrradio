@@ -7,25 +7,28 @@ struct Station: Identifiable, Hashable, Codable {
     let id: String
     let name: String
     let streamUrl: URL
-    var homepage: URL?
-    var country: String?
-    var tags: [String]?
-    var favicon: URL?
-    var bitrate: Int?
-    var codec: String?
-    var listeners: Int?
+    // Explicit `= nil` defaults so the synthesized memberwise initializer
+    // accepts test fixtures that only need a few fields, without having
+    // to fill in the long tail of optionals (audit #72).
+    var homepage: URL? = nil
+    var country: String? = nil
+    var tags: [String]? = nil
+    var favicon: URL? = nil
+    var bitrate: Int? = nil
+    var codec: String? = nil
+    var listeners: Int? = nil
     /// Per-station "now-playing" endpoint when the broadcaster has one.
     /// We don't consume it yet — the v1 player relies on AVPlayer's
     /// built-in `timedMetadata` for HLS ICY data.
-    var metadataUrl: String?
+    var metadataUrl: String? = nil
     /// Key into the (future) Swift-side metadata-fetcher registry.
     /// Mirrors the TypeScript `metadata` field; ignored for now.
-    var metadata: String?
+    var metadata: String? = nil
     /// `working` / `icy-only` / `stream-only` per the catalog taxonomy.
-    var status: String?
+    var status: String? = nil
     /// `[lat, lon]` for map view.
-    var geo: [Double]?
-    var featured: Bool?
+    var geo: [Double]? = nil
+    var featured: Bool? = nil
 
     enum CodingKeys: String, CodingKey {
         case id, name, streamUrl, homepage, country, tags, favicon

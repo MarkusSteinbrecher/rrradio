@@ -91,9 +91,12 @@ rrradio/
   App.swift                  — @main, wires Catalog + AudioPlayer envs
   Models/
     Station.swift            — JSON shape mirroring src/types.ts
-    Catalog.swift            — fetch + cache stations.json
+    Catalog.swift            — fetch + cache stations.json (@MainActor)
   Player/
     AudioPlayer.swift        — AVPlayer wrapper, lock-screen, ICY hooks
+                               (@MainActor — KVO + Combine hop to main)
+  Search/
+    Search.swift             — normalizeForSearch + stationMatches
   Views/
     ContentView.swift        — root NavigationStack + mini-player inset
     StationListView.swift    — searchable list of stations
@@ -101,12 +104,48 @@ rrradio/
     NowPlayingView.swift     — full-screen sheet with controls
   Resources/
     Assets.xcassets/         — AppIcon + AccentColor placeholders
+rrradioTests/                — XCTest target (audit #72)
+  CatalogDecodingTests.swift
+  CatalogCacheTests.swift
+  SearchTests.swift
+  AudioPlayerStateTests.swift
 project.yml                  — xcodegen project definition
 .gitignore                   — Xcode build / DerivedData / xcuserdata
 ```
 
 Source files use `@Observable` (Swift 5.9+ macro) — the modern SwiftUI
-state pattern, no Combine boilerplate.
+state pattern, no Combine boilerplate. The two `@Observable` classes
+(`AudioPlayer`, `Catalog`) are also `@MainActor` so SwiftUI's tracking
+never sees an off-main mutation. AVPlayer KVO and Combine sinks hop to
+main via `Task { @MainActor in … }` and `.receive(on: DispatchQueue.main)`.
+
+## Tests
+
+```sh
+cd ios
+xcodegen
+xcodebuild test \
+  -project rrradio.xcodeproj \
+  -scheme rrradio \
+  -destination 'platform=iOS Simulator,name=iPhone 16'
+```
+
+Test targets:
+- **CatalogDecodingTests** — JSON shape matches the published
+  `stations.json`; unknown keys are tolerated.
+- **CatalogCacheTests** — initial state contract + canonical URL.
+  Full URL-session fallback path needs a DI refactor; tracked as a
+  follow-up.
+- **SearchTests** — `normalizeForSearch` + `stationMatches` parity
+  with the web's `format.test.ts` (incl. "WDR5" → "WDR 5").
+- **AudioPlayerStateTests** — `play` / `pause` / `resume` / `stop` /
+  `toggle` contract from the `idle` state. Real AVPlayer playback is
+  not exercised — that needs a device or a UI test, out of scope for
+  the CI baseline.
+
+CI runs the same flow on `macos-15` via
+`.github/workflows/ios.yml` (triggers only on `ios/**` changes to
+keep macOS minutes contained).
 
 ## Conventions shared with the web app
 

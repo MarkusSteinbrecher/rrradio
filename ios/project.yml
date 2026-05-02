@@ -59,3 +59,28 @@ targets:
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         ENABLE_PREVIEWS: YES
         TARGETED_DEVICE_FAMILY: "1,2"
+
+  # XCTest target — covers the parts of the iOS app that don't need a
+  # SwiftUI host: catalog decoding, cache fallback, search matching, and
+  # the AudioPlayer's idle-state contract. Real AVPlayer behaviour is
+  # not tested here (no audio device on CI).
+  rrradioTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: rrradioTests
+    dependencies:
+      - target: rrradio
+    # TEST_HOST + BUNDLE_LOADER are set automatically by xcodegen when
+    # there's a target: dependency on the host app.
+
+schemes:
+  rrradio:
+    build:
+      targets:
+        rrradio: all
+        rrradioTests: [test]
+    test:
+      targets:
+        - rrradioTests
+      gatherCoverageData: true

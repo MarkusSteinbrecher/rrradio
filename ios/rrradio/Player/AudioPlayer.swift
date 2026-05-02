@@ -14,7 +14,14 @@ import Observation
 ///     Phase-2 follow-up: port the Worker-proxied broadcaster fetchers
 ///     (BR / HR / Antenne / SRG SSR / etc.) from src/builtins.ts to
 ///     Swift and poll them like the web does.
+///
+/// `@MainActor` (audit #72): all observable state must be mutated on
+/// the main thread or SwiftUI's @Observable tracking will fire warnings
+/// in debug + race in release. KVO change handlers and Combine sinks
+/// can fire on any thread — they hop back to main via `Task { @MainActor in }`
+/// or `.receive(on:)`.
 @Observable
+@MainActor
 final class AudioPlayer {
     enum State: Equatable { case idle, loading, playing, paused, error(String) }
 
@@ -27,6 +34,7 @@ final class AudioPlayer {
     private var timedMetaObserver: Any?
     private var statusObserver: NSKeyValueObservation?
     private var rateObserver: NSKeyValueObservation?
+    private var cancellables = Set<AnyCancellable>()
 
     init() {
         configureAudioSession()
@@ -103,16 +111,20 @@ final class AudioPlayer {
 
     private func wireRemoteCommands() {
         let cmd = MPRemoteCommandCenter.shared()
+        // MPRemoteCommand handlers fire on the main thread (per Apple
+        // docs), but the closure itself is non-isolated and our methods
+        // are MainActor-only — hop explicitly so the contract is in code
+        // rather than a runtime assumption.
         cmd.playCommand.addTarget { [weak self] _ in
-            self?.resume()
+            Task { @MainActor in self?.resume() }
             return .success
         }
         cmd.pauseCommand.addTarget { [weak self] _ in
-            self?.pause()
+            Task { @MainActor in self?.pause() }
             return .success
         }
         cmd.togglePlayPauseCommand.addTarget { [weak self] _ in
-            self?.toggle()
+            Task { @MainActor in self?.toggle() }
             return .success
         }
         // Live streams have no scrub / skip — disable those explicitly
@@ -123,23 +135,33 @@ final class AudioPlayer {
     }
 
     private func observeStatus(_ p: AVPlayer) {
+        // KVO change blocks fire on whatever queue caused the property
+        // change (often main, but not contractually). Hop to main before
+        // touching @Observable state.
         statusObserver = p.observe(\.currentItem?.status, options: [.new]) { [weak self] player, _ in
-            guard let self else { return }
-            switch player.currentItem?.status {
-            case .readyToPlay:
-                if player.rate > 0 { self.state = .playing } else { self.state = .paused }
-            case .failed:
-                let msg = player.currentItem?.error?.localizedDescription ?? "playback failed"
-                self.state = .error(msg)
-            default: break
+            let status = player.currentItem?.status
+            let errMsg = player.currentItem?.error?.localizedDescription
+            let rate = player.rate
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                switch status {
+                case .readyToPlay:
+                    self.state = (rate > 0) ? .playing : .paused
+                case .failed:
+                    self.state = .error(errMsg ?? "playback failed")
+                default: break
+                }
+                self.updateNowPlaying()
             }
-            self.updateNowPlaying()
         }
         rateObserver = p.observe(\.rate, options: [.new]) { [weak self] player, _ in
-            guard let self else { return }
-            if player.rate > 0 { self.state = .playing }
-            else if case .playing = self.state { self.state = .paused }
-            self.updateNowPlaying()
+            let rate = player.rate
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                if rate > 0 { self.state = .playing }
+                else if case .playing = self.state { self.state = .paused }
+                self.updateNowPlaying()
+            }
         }
     }
 
@@ -151,16 +173,16 @@ final class AudioPlayer {
             forName: .AVPlayerItemNewAccessLogEntry, object: item, queue: .main
         ) { _ in /* placeholder — kept for future ICY parsing */ }
 
-        // Use the modern AVMetadataItem KVO path for now-playing changes.
+        // `.receive(on: DispatchQueue.main)` so the sink runs on main
+        // before mutating @Observable state.
         item.publisher(for: \.timedMetadata)
             .compactMap { $0 }
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] (metas: [AVMetadataItem]) in
-                self?.applyTimedMetadata(metas)
+                MainActor.assumeIsolated { self?.applyTimedMetadata(metas) }
             }
             .store(in: &cancellables)
     }
-
-    private var cancellables = Set<AnyCancellable>()
 
     private func applyTimedMetadata(_ metas: [AVMetadataItem]) {
         // ICY title comes through with commonKey == .commonKeyTitle for

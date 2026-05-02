@@ -12,7 +12,13 @@ import Observation
 /// and is published as `public/stations.json` by `tools/build-catalog.mjs`
 /// on every web deploy. So the iOS app picks up new / promoted stations
 /// without going through the App Store.
+///
+/// `@MainActor` (audit #72) — `@Observable` state must mutate on the
+/// main thread for SwiftUI to track it safely. URLSession's `data(for:)`
+/// suspends and runs the network call off-main, then resumes on main
+/// when awaited from a MainActor context, so this stays correct.
 @Observable
+@MainActor
 final class Catalog {
     enum LoadState: Equatable {
         case idle

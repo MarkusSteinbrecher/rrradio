@@ -1,0 +1,94 @@
+name: iOS
+
+# macOS CI for the native iOS app. Generates the .xcodeproj from
+# project.yml via xcodegen, then builds + tests with xcodebuild.
+# Matches the local developer flow described in ios/README.md, so
+# anything green in CI is reproducible locally with no extra steps.
+#
+# Triggers only on iOS-relevant paths to keep the macOS minute budget
+# in check (macOS runners are ~10x more expensive than ubuntu).
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'ios/**'
+      - '.github/workflows/ios.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'ios/**'
+      - '.github/workflows/ios.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show toolchain
+        run: |
+          xcodebuild -version
+          swift --version
+          xcrun --show-sdk-version --sdk iphonesimulator || true
+
+      - name: Install xcodegen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        working-directory: ios
+        run: xcodegen generate
+
+      - name: Pick a simulator
+        id: simctl
+        run: |
+          # Use whatever iPhone simulator the runner has. macos-15 ships
+          # iOS 18 simulators by default. Pick the first available.
+          DEVICE=$(xcrun simctl list devices available -j \
+            | python3 -c '
+          import json, sys
+          d = json.load(sys.stdin)
+          for runtime, devs in d["devices"].items():
+              if "iOS" not in runtime: continue
+              for x in devs:
+                  if x.get("isAvailable") and x["name"].startswith("iPhone"):
+                      print(x["udid"]); break
+              else: continue
+              break
+          ')
+          if [ -z "$DEVICE" ]; then
+            echo "No iOS simulator available." >&2
+            exit 1
+          fi
+          echo "device=$DEVICE" >> "$GITHUB_OUTPUT"
+
+      - name: Build + test
+        working-directory: ios
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -project rrradio.xcodeproj \
+            -scheme rrradio \
+            -destination "platform=iOS Simulator,id=${{ steps.simctl.outputs.device }}" \
+            -resultBundlePath TestResults.xcresult \
+            CODE_SIGNING_ALLOWED=NO \
+            | xcbeautify || (
+              # Fall back to raw output if xcbeautify isn't installed.
+              xcodebuild test \
+                -project rrradio.xcodeproj \
+                -scheme rrradio \
+                -destination "platform=iOS Simulator,id=${{ steps.simctl.outputs.device }}" \
+                CODE_SIGNING_ALLOWED=NO
+            )
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-test-results
+          path: ios/TestResults.xcresult
+          if-no-files-found: ignore

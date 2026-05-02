@@ -29,17 +29,9 @@ struct StationListView: View {
     }
 
     private var filtered: [Station] {
-        let q = query.trimmingCharacters(in: .whitespaces).lowercased()
-        if q.isEmpty { return catalog.browseOrdered }
-        // Mirror the web's whitespace-insensitive matcher (src/main.ts).
-        let qNorm = normalizeForSearch(q)
-        return catalog.browseOrdered.filter { s in
-            if s.name.lowercased().contains(q) { return true }
-            if (s.tags ?? []).contains(where: { $0.lowercased().contains(q) }) { return true }
-            if let cc = s.country?.lowercased(), cc.contains(q) { return true }
-            if !qNorm.isEmpty && normalizeForSearch(s.name).contains(qNorm) { return true }
-            return false
-        }
+        // Search.swift owns the matching logic so XCTest can cover it
+        // without dragging in the SwiftUI layer (audit #72).
+        catalog.browseOrdered.filter { stationMatches($0, query: query) }
     }
 
     private var list: some View {
@@ -106,11 +98,3 @@ struct FaviconView: View {
     }
 }
 
-/// Whitespace-insensitive search normalizer — keeps a–z, 0–9, and the
-/// German diacritics, drops everything else. Mirrors the web's
-/// `normalizeForSearch` in src/main.ts so "WDR5" matches "WDR 5".
-private func normalizeForSearch(_ s: String) -> String {
-    s.lowercased().filter { ch in
-        ch.isLetter || ch.isNumber || ch == "ä" || ch == "ö" || ch == "ü" || ch == "ß"
-    }
-}
