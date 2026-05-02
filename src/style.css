@@ -2295,14 +2295,23 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   font-family: var(--mono);
   font-size: 12px;
   letter-spacing: 0.04em;
-  color: var(--ink-2);
-  text-transform: uppercase;
+  color: var(--ink-3);
   text-align: center;
   padding: 6px 10px;
   border-radius: 6px;
-  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
 }
-.np-wake-pane__meta.is-far {
+/* Armed state — clearly distinct from the unarmed preview so users
+   can tell at a glance whether they're still in "draft" or whether
+   the wake actually committed. */
+.np-wake-pane__meta.is-armed {
+  color: var(--bg);
+  background: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+.np-wake-pane__meta.is-far:not(.is-armed) {
   color: var(--accent);
   background: color-mix(in srgb, var(--accent) 16%, transparent);
 }

@@ -2391,7 +2391,15 @@ function setWakePane(open: boolean): void {
   // Disable Arm when we don't have a station to arm against. The user
   // has to play something first; the topbar wake icon's tooltip
   // surfaces the same idea.
-  const station = armed?.station ?? (currentNP.station.id ? currentNP.station : null);
+  // Exclude the silent bed — if a previous wake fired and the station
+  // swap silently failed, currentNP.station is still SILENT_BED, and
+  // arming a wake that targets the silent bed produces silence at fire
+  // time. Treat SILENT_BED as "no station to arm against".
+  const npStation =
+    currentNP.station.id && currentNP.station.id !== SILENT_BED_ID
+      ? currentNP.station
+      : null;
+  const station = armed?.station ?? npStation;
   $wakeArmBtn.disabled = !station && !armed;
 }
 
@@ -2403,15 +2411,20 @@ function syncWakeArmButton(): void {
   $wakeArmBtn.classList.toggle('is-armed', isArmed);
 }
 
-/** Update the "Fires at HH:MM · in X" preview from the current
- *  time-picker value. Tells the user what time they're about to arm
- *  AND how soon — a picker that captured the wrong value (rounding,
- *  AM/PM mistake) gets caught here before the user taps Arm. */
+/** Update the meta line under the clock. Two distinct states so the
+ *  user can tell at a glance whether the wake is actually armed or
+ *  just being edited:
+ *    Unarmed → "Tap Arm to wake at HH:MM (in X)"
+ *    Armed   → "Armed · wakes at HH:MM · in X"
+ *  Previously this read the same way in both states, which let users
+ *  pick a time, see "soon", and assume they were done — when in fact
+ *  they hadn't tapped Arm. */
 function syncWakePreview(): void {
   const time = $wakeTime.value.trim();
+  const isArmed = !!wakeScheduler.current();
   if (!time) {
     $wakePreview.textContent = '—';
-    $wakePreview.classList.remove('is-far');
+    $wakePreview.classList.remove('is-far', 'is-armed');
     return;
   }
   // Build a synthetic wake just for the preview math — armedAt = now
@@ -2425,11 +2438,16 @@ function syncWakePreview(): void {
   const fire = nextFireTime(probe);
   if (Number.isNaN(fire)) {
     $wakePreview.textContent = '—';
-    $wakePreview.classList.remove('is-far');
+    $wakePreview.classList.remove('is-far', 'is-armed');
     return;
   }
   const remain = fire - Date.now();
-  $wakePreview.textContent = `Fires at ${time} · ${formatCountdown(remain)}`;
+  if (isArmed) {
+    $wakePreview.textContent = `Armed · wakes at ${time} · ${formatCountdown(remain)}`;
+  } else {
+    $wakePreview.textContent = `Tap Arm to wake at ${time} (${formatCountdown(remain)})`;
+  }
+  $wakePreview.classList.toggle('is-armed', isArmed);
   // Highlight if the fire is more than 12h away — a clue that the user
   // probably didn't intend that, e.g. picked a time earlier than now.
   $wakePreview.classList.toggle('is-far', remain > 12 * 60 * 60_000);
@@ -2467,7 +2485,15 @@ function armWakeFromSheet(): void {
   // Prefer the already-armed station so a re-open of the sheet to
   // change time alone doesn't accidentally reset the target. Falls
   // back to whatever's currently playing for a fresh arm.
-  const station = armed?.station ?? (currentNP.station.id ? currentNP.station : null);
+  // Exclude the silent bed — if a previous wake fired and the station
+  // swap silently failed, currentNP.station is still SILENT_BED, and
+  // arming a wake that targets the silent bed produces silence at fire
+  // time. Treat SILENT_BED as "no station to arm against".
+  const npStation =
+    currentNP.station.id && currentNP.station.id !== SILENT_BED_ID
+      ? currentNP.station
+      : null;
+  const station = armed?.station ?? npStation;
   if (!time || !station) return;
   const wake: WakeTo = {
     time,
@@ -2885,6 +2911,15 @@ $wakeArmBtn.addEventListener('click', () => {
     disarmWake();
   } else {
     armWakeFromSheet();
+    // armWakeFromSheet bails silently if no station is playing AND no
+    // previous wake station is on file. Detect the bail and surface
+    // a clear message instead of leaving the button looking like the
+    // arm took effect.
+    if (!wakeScheduler.current()) {
+      $wakePreview.textContent = 'Play a station first, then tap Arm.';
+      $wakePreview.classList.remove('is-far', 'is-armed');
+      return;
+    }
   }
   syncWakeArmButton();
   syncWakePreview();
