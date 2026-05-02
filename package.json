@@ -19,7 +19,11 @@
     "backlog": "node tools/backlog.mjs",
     "import-ard": "node tools/import-ard.mjs",
     "backfill-geo": "node tools/backfill-geo.mjs",
-    "wire-metadata": "node tools/wire-metadata.mjs"
+    "wire-metadata": "node tools/wire-metadata.mjs",
+    "sample-icy": "node tools/sample-icy.mjs",
+    "gemma-label-icy": "node tools/gemma-label-icy.mjs",
+    "evaluate-icy-parser": "node tools/evaluate-icy-parser.mjs",
+    "discover-metadata": "node tools/discover-metadata-api.mjs"
   },
   "dependencies": {
     "hls.js": "^1.5.17",
@@ -27,6 +31,7 @@
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.21",
+    "playwright": "^1.59.1",
     "typescript": "^5.6.3",
     "vite": "^5.4.10",
     "yaml": "^2.8.3"
