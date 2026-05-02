@@ -215,16 +215,10 @@ const $npSleep = document.getElementById('np-sleep') as HTMLButtonElement;
 const $npSleepChip = document.getElementById('np-sleep-chip') as HTMLElement;
 const $npWake = document.getElementById('np-wake') as HTMLButtonElement;
 const $npWakeChip = document.getElementById('np-wake-chip') as HTMLElement;
-const $wakeSheet = document.getElementById('wake-sheet') as HTMLElement;
-const $wakeClose = document.getElementById('wake-close') as HTMLButtonElement;
 const $wakeTime = document.getElementById('wake-time') as HTMLInputElement;
-const $wakeTargetStation = document.getElementById('wake-target-station') as HTMLElement;
-const $wakeTargetCover = document.getElementById('wake-target-cover') as HTMLElement;
-const $wakeTargetHint = document.getElementById('wake-target-hint') as HTMLElement;
 const $wakeArmBtn = document.getElementById('wake-arm-btn') as HTMLButtonElement;
-const $wakeDisarmBtn = document.getElementById('wake-disarm-btn') as HTMLButtonElement;
 const $wakePreview = document.getElementById('wake-preview') as HTMLElement;
-const $wakeGrid = document.getElementById('wake-grid') as HTMLElement;
+const $wakePane = document.getElementById('np-wake-pane') as HTMLElement;
 const $wakePill = document.getElementById('wake-pill') as HTMLButtonElement;
 const $wakePillTime = document.getElementById('wake-pill-time') as HTMLElement;
 const $wakePillName = document.getElementById('wake-pill-name') as HTMLElement;
@@ -2377,51 +2371,42 @@ function renderCustomList(): void {
 const wakeScheduler = new WakeScheduler();
 let pillTickTimer: number | undefined;
 
-function openWakeSheet(open: boolean): void {
-  $wakeSheet.classList.toggle('open', open);
-  $wakeSheet.setAttribute('aria-hidden', String(!open));
+/** Show or hide the inline wake-edit pane on Now Playing. The pane
+ *  replaces the regular track row when visible (CSS-driven via the
+ *  body's `is-wake-edit` class). Wake state (armed / unarmed) is
+ *  independent of pane visibility — toggling the pane just shows or
+ *  hides the editor. */
+function setWakePane(open: boolean): void {
+  $body.classList.toggle('is-wake-edit', open);
+  $wakePane.hidden = !open;
   if (!open) return;
 
   const armed = wakeScheduler.current();
-  // The wake station is whatever's currently tuned in — clock-radio
-  // metaphor. If an alarm is already armed, surface the station it's
-  // tied to instead, since we don't want a sheet-reopen to silently
-  // swap targets.
-  const station = armed?.station ?? (currentNP.station.id ? currentNP.station : null);
   // Default to: armed time → user's last-used wake time → 07:00.
   // Persisting the last-used time means the user doesn't re-pick
   // 23:00 every night just because they disarmed in the morning.
   $wakeTime.value = armed?.time ?? getLastWakeTime() ?? '07:00';
-  $wakeTargetStation.textContent = station?.name ?? '—';
-  $wakeTargetCover.replaceChildren();
-  if (station) $wakeTargetCover.append(buildFavicon(station, 56));
-  const noStation = !station;
-  $wakeTargetHint.hidden = !noStation;
-
-  syncWakeRadio();
+  syncWakeArmButton();
   syncWakePreview();
-  // Disable "Armed" when we don't have a station to arm against — the
-  // user has to play something first. The hint above makes that explicit.
-  $wakeArmBtn.disabled = noStation && !armed;
+  // Disable Arm when we don't have a station to arm against. The user
+  // has to play something first; the topbar wake icon's tooltip
+  // surfaces the same idea.
+  const station = armed?.station ?? (currentNP.station.id ? currentNP.station : null);
+  $wakeArmBtn.disabled = !station && !armed;
 }
 
-/** Reflect the current armed state in the two-pill radio control AND
- *  the cover↔clock swap on the left tile. Called when the sheet opens
- *  and after every arm/disarm action. */
-function syncWakeRadio(): void {
+/** Update the inline Arm/Disarm button label + state to match the
+ *  wake scheduler. Called on pane open and after every arm/disarm. */
+function syncWakeArmButton(): void {
   const isArmed = !!wakeScheduler.current();
-  $wakeArmBtn.classList.toggle('is-active', isArmed);
-  $wakeArmBtn.setAttribute('aria-checked', String(isArmed));
-  $wakeDisarmBtn.classList.toggle('is-active', !isArmed);
-  $wakeDisarmBtn.setAttribute('aria-checked', String(!isArmed));
-  // Cover ↔ clock swap on the left tile.
-  $wakeGrid.classList.toggle('is-armed', isArmed);
+  $wakeArmBtn.textContent = isArmed ? 'Disarm' : 'Arm';
+  $wakeArmBtn.classList.toggle('is-armed', isArmed);
 }
 
 /** Update the "Fires at HH:MM · in X" preview from the current
- *  time-picker value. Shown in the right column so the user can see
- *  both the wall-clock time AND the countdown — important when the
- *  clock face on the left is hidden (unarmed state). */
+ *  time-picker value. Tells the user what time they're about to arm
+ *  AND how soon — a picker that captured the wrong value (rounding,
+ *  AM/PM mistake) gets caught here before the user taps Arm. */
 function syncWakePreview(): void {
   const time = $wakeTime.value.trim();
   if (!time) {
@@ -2450,11 +2435,10 @@ function syncWakePreview(): void {
   $wakePreview.classList.toggle('is-far', remain > 12 * 60 * 60_000);
 }
 
-/** Toggle the sheet — open if closed, close if open. The wake icon
- *  in the topbar pill and the NP controls both wire to this so a
- *  second tap dismisses the sheet. */
-function toggleWakeSheet(): void {
-  openWakeSheet(!$wakeSheet.classList.contains('open'));
+/** Toggle the inline wake-edit pane. Wired to the alarm icon at the
+ *  bottom of NP controls + the topbar pill. */
+function toggleWakePane(): void {
+  setWakePane(!$body.classList.contains('is-wake-edit'));
 }
 
 function setMuted(muted: boolean): void {
@@ -2874,10 +2858,11 @@ $aboutClose.addEventListener('click', () => openAboutSheet(false));
 $dashboardBtn.addEventListener('click', () => void openDashboardSheet(true));
 $dashboardClose.addEventListener('click', () => void openDashboardSheet(false));
 
-// Tap a wake icon → toggle the sheet (second tap dismisses).
-$npWake.addEventListener('click', toggleWakeSheet);
-$wakePill.addEventListener('click', toggleWakeSheet);
-$wakeClose.addEventListener('click', () => openWakeSheet(false));
+// Tap the alarm icon at the bottom of NP controls (or the topbar pill
+// while armed) → toggle the inline wake-edit pane. Second tap exits
+// back to the regular track row; the wake (if armed) persists.
+$npWake.addEventListener('click', toggleWakePane);
+$wakePill.addEventListener('click', toggleWakePane);
 
 // Live preview updates as the user changes the time picker. 'input'
 // fires on every value change including iOS native picker commits.
@@ -2889,24 +2874,20 @@ $wakeTime.addEventListener('change', () => {
   // armWakeFromSheet() handles the disarm-then-arm via wakeScheduler.
   if (wakeScheduler.current()) {
     armWakeFromSheet();
-    syncWakeRadio();
+    syncWakeArmButton();
   }
 });
 
-// Two-state radio. Tapping "Armed" always (re-)arms with the current
-// picker value — even when already armed, because the picker may have
-// been changed since the last arm and the user expects the tap to
-// commit it. wakeScheduler.arm() calls disarm() first internally, so
-// re-arming is safe (resets the timer with the new time + station).
+// Single Arm/Disarm button — toggles based on current armed state.
 $wakeArmBtn.addEventListener('click', () => {
-  if ($wakeArmBtn.disabled) return; // no station to arm against
-  armWakeFromSheet();
-  syncWakeRadio();
-});
-$wakeDisarmBtn.addEventListener('click', () => {
-  if (!wakeScheduler.current()) return; // already disarmed
-  disarmWake();
-  syncWakeRadio();
+  if ($wakeArmBtn.disabled) return;
+  if (wakeScheduler.current()) {
+    disarmWake();
+  } else {
+    armWakeFromSheet();
+  }
+  syncWakeArmButton();
+  syncWakePreview();
 });
 
 $mini.addEventListener('click', () => openNp(true));

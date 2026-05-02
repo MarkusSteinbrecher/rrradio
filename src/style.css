@@ -2192,79 +2192,46 @@ body.is-playing .np-bottom .live-dot  {
 /* ─── Wake-to-radio sheet + pill ─────────────────────────────────
    The pill is the always-visible "alarm armed" indicator at the top.
    The sheet is the editor. */
-.wake-body {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-.wake-caveat {
-  margin: 0;
-  padding: 10px 12px;
-  border-left: 2px solid var(--accent);
-  background: color-mix(in srgb, var(--accent) 8%, transparent);
-  font-size: 12.5px;
-  color: var(--ink-2);
-  line-height: 1.45;
-  border-radius: 0 6px 6px 0;
-}
-
-/* Two-column layout: cover-with-clock on the left, station name +
-   armed/unarmed control on the right. Stacks below 360px so the
-   smallest phones still get readable hit targets. */
-.wake-grid {
+/* Inline wake-edit pane — replaces the track row on the Now Playing
+   screen when body.is-wake-edit is set. Big clock + Arm/Disarm side
+   by side, "Fires at HH:MM · in X" meta below, caveat text at the
+   bottom. Toggled by tapping the alarm icon at the bottom of NP
+   controls (np-wake button). */
+.np-wake-pane {
   display: grid;
-  grid-template-columns: minmax(140px, 1fr) 1.1fr;
-  gap: 16px;
-  align-items: stretch;
-}
-@media (max-width: 360px) {
-  .wake-grid { grid-template-columns: 1fr; }
-}
-
-/* Left tile — swaps between cover art (unarmed) and a big clock face
-   (armed). Tile is square; both children fill it. Toggle is driven by
-   `.wake-grid.is-armed` set on the grid based on wakeScheduler state. */
-.wake-grid__art {
-  position: relative;
-  aspect-ratio: 1 / 1;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "clock arm"
+    "meta meta"
+    "caveat caveat";
+  gap: 12px 14px;
+  align-items: center;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
   border-radius: 10px;
-  overflow: hidden;
   background: var(--bg-2);
 }
-.wake-art__cover,
-.wake-art__clock {
-  position: absolute;
-  inset: 0;
+.np-wake-pane[hidden] { display: none; }
+
+/* Hide the regular content panes when in wake-edit mode. */
+body.is-wake-edit .np-track,
+body.is-wake-edit .np-program-pane,
+body.is-wake-edit .np-lyrics-pane,
+body.is-wake-edit .np-pane-tabs { display: none; }
+
+.np-wake-pane__clock-wrap {
+  grid-area: clock;
   display: grid;
   place-items: center;
-  transition: opacity 180ms ease;
-}
-.wake-art__cover .fav {
-  width: 100%;
-  height: 100%;
-  font-size: 28px;
-  border-radius: 0;
-}
-.wake-art__cover:empty {
-  background:
-    linear-gradient(135deg,
-      color-mix(in srgb, var(--accent) 12%, transparent),
-      color-mix(in srgb, var(--accent) 4%, transparent));
-}
-
-/* Default (unarmed): cover visible, clock hidden. Armed: flip. */
-.wake-art__clock { opacity: 0; pointer-events: none; }
-.wake-grid.is-armed .wake-art__cover { opacity: 0; pointer-events: none; }
-.wake-grid.is-armed .wake-art__clock { opacity: 1; pointer-events: auto; }
-
-.wake-art__clock {
+  padding: 6px 0;
+  border-radius: 8px;
   cursor: pointer;
   background:
-    radial-gradient(circle at 50% 35%,
-      color-mix(in srgb, var(--accent) 18%, transparent),
+    radial-gradient(circle at 50% 50%,
+      color-mix(in srgb, var(--accent) 14%, transparent),
       color-mix(in srgb, var(--accent) 4%, transparent) 70%);
 }
-.wake-clock-input {
+.np-wake-pane__clock {
   appearance: none;
   -webkit-appearance: none;
   width: auto;
@@ -2272,118 +2239,68 @@ body.is-playing .np-bottom .live-dot  {
   background: transparent;
   color: var(--accent);
   font-family: var(--mono);
-  font-size: clamp(36px, 11vw, 56px);
+  font-size: clamp(36px, 11vw, 60px);
   font-weight: 600;
   letter-spacing: 0.02em;
   text-align: center;
   cursor: pointer;
   padding: 0;
-  /* iOS Chrome forces some min-width — strip it. */
   min-width: 0;
 }
-.wake-clock-input::-webkit-date-and-time-value { text-align: center; }
-.wake-clock-input:focus { outline: none; }
+.np-wake-pane__clock::-webkit-date-and-time-value { text-align: center; }
+.np-wake-pane__clock:focus { outline: none; }
 
-/* Right panel — label, station name, two-state radio. Stacked. */
-.wake-grid__panel {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-width: 0;
-}
-.wake-panel__label {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-}
-.wake-panel__station {
-  font-size: 18px;
-  font-weight: 500;
+.np-wake-pane__arm {
+  grid-area: arm;
+  padding: 14px 22px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
   color: var(--accent);
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease;
 }
-.wake-panel__hint {
-  font-size: 12px;
-  color: var(--ink-3);
-  margin: -4px 0 8px;
+.np-wake-pane__arm:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
-.wake-panel__hint[hidden] { display: none; }
+.np-wake-pane__arm.is-armed {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
 
-/* Live "will fire in X" preview. Mono font to match the rest of the
-   app's clock-y readouts. Highlights when >= 12h so a user who picked
-   the wrong AM/PM (or hit a bad picker rounding) sees the discrepancy
-   before arming. */
-.wake-preview {
+.np-wake-pane__meta {
+  grid-area: meta;
   font-family: var(--mono);
   font-size: 12px;
   letter-spacing: 0.04em;
   color: var(--ink-2);
   text-transform: uppercase;
+  text-align: center;
   padding: 6px 10px;
   border-radius: 6px;
   background: color-mix(in srgb, var(--accent) 8%, transparent);
-  text-align: center;
 }
-.wake-preview.is-far {
+.np-wake-pane__meta.is-far {
   color: var(--accent);
   background: color-mix(in srgb, var(--accent) 16%, transparent);
 }
 
-/* Two-state radio — looks like an iOS-style segmented selector but
-   each option is a real radio with a leading dot. The selected pill
-   gets the accent fill; the other stays outlined. */
-.wake-radio {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: auto;
-}
-.wake-radio__opt {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid var(--line);
-  background: var(--bg-2);
-  color: var(--ink-2);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
-}
-.wake-radio__opt:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-.wake-radio__opt.is-active {
-  background: color-mix(in srgb, var(--accent) 14%, transparent);
-  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
-  color: var(--accent);
-}
-.wake-radio__dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 999px;
-  border: 1.5px solid currentColor;
-  flex-shrink: 0;
-  position: relative;
-}
-.wake-radio__opt.is-active .wake-radio__dot::after {
-  content: '';
-  position: absolute;
-  inset: 3px;
-  border-radius: 999px;
-  background: currentColor;
-}
-.wake-radio__label {
-  letter-spacing: 0.04em;
+.np-wake-pane__caveat {
+  grid-area: caveat;
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 2px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  font-size: 12px;
+  color: var(--ink-3);
+  line-height: 1.45;
+  border-radius: 0 6px 6px 0;
 }
 
 /* Topbar pill — only visible while armed. Tappable to re-open the

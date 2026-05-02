@@ -372,6 +372,25 @@
             <div class="np-lyrics-pane" id="np-lyrics-pane" hidden>
               <pre class="np-lyrics-text" id="np-lyrics-text"></pre>
             </div>
+
+            <!-- Wake-edit pane — replaces the track row when the user
+                 taps the alarm icon at the bottom. Big clock in the
+                 middle, arm/disarm button on the right. Tapping the
+                 alarm icon again exits this pane and the regular
+                 track row comes back. The wake (if armed) persists
+                 across the toggle. -->
+            <div class="np-wake-pane" id="np-wake-pane" hidden>
+              <label class="np-wake-pane__clock-wrap" aria-label="Alarm time">
+                <input type="time" id="wake-time" class="np-wake-pane__clock" required aria-label="Wake time" />
+              </label>
+              <button type="button" class="np-wake-pane__arm" id="wake-arm-btn">Arm</button>
+              <div class="np-wake-pane__meta" id="wake-preview" aria-live="polite">—</div>
+              <p class="np-wake-pane__caveat">
+                Plays a silent bed through the night so the tab stays
+                alive on lock — you'll hear nothing until wake time.
+                Don't close the page; plug in your phone.
+              </p>
+            </div>
           </div>
 
           <div class="np-controls">
@@ -478,68 +497,10 @@
         </button>
       </nav>
 
-      <!-- ============== WAKE TO RADIO (slide-up sheet) ============== -->
-      <section class="sheet" id="wake-sheet" aria-label="Wake to radio" aria-hidden="true">
-        <header class="sheet-head">
-          <div class="np-label">Wake to radio</div>
-          <button type="button" class="icon-btn" id="wake-close" aria-label="Close">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-          </button>
-        </header>
-
-        <div class="sheet-body wake-body">
-          <p class="wake-caveat">
-            Plays a silent bed through the night so iOS keeps the tab
-            alive on lock — you'll hear nothing until wake time. At
-            wake time it swaps to your station at your phone's
-            hardware volume, so set that level now. Don't pause or
-            close this tab. Plug in your phone.
-          </p>
-
-          <div class="wake-grid" id="wake-grid">
-            <!-- Left column: a single tile that swaps between two
-                 children based on armed state.
-                   Unarmed → album cover (the station you'd wake to)
-                   Armed   → big clock face showing the alarm time
-                 Tapping the clock opens iOS's native time picker so
-                 the user can change the alarm time even after arming. -->
-            <div class="wake-grid__art">
-              <div class="wake-art__cover" id="wake-target-cover" aria-hidden="true"></div>
-              <label class="wake-art__clock" aria-label="Alarm time">
-                <input type="time" id="wake-time" class="wake-clock-input" required aria-label="Wake time" />
-              </label>
-            </div>
-
-            <!-- Right column: target station name + the armed/unarmed
-                 two-state radio. Tapping "Armed" arms with the last
-                 picker value AND flips the left tile to the clock.
-                 Tapping "Unarmed" disarms AND flips back to cover. -->
-            <div class="wake-grid__panel">
-              <div class="wake-panel__label">Wake to</div>
-              <div class="wake-panel__station" id="wake-target-station">—</div>
-              <div class="wake-panel__hint" id="wake-target-hint" hidden>
-                Play a station first.
-              </div>
-              <!-- Live "will fire in X" preview — updates as the user
-                   changes the time picker. Helps catch a picker that
-                   captured a different value than the user intended:
-                   if the preview reads "in 23h 58m" when the user
-                   wanted 2 minutes, they re-pick before arming. -->
-              <div class="wake-preview" id="wake-preview" aria-live="polite">—</div>
-              <div class="wake-radio" role="radiogroup" aria-label="Wake state">
-                <button type="button" class="wake-radio__opt" id="wake-arm-btn" role="radio" aria-checked="false">
-                  <span class="wake-radio__dot" aria-hidden="true"></span>
-                  <span class="wake-radio__label">Armed</span>
-                </button>
-                <button type="button" class="wake-radio__opt is-active" id="wake-disarm-btn" role="radio" aria-checked="true">
-                  <span class="wake-radio__dot" aria-hidden="true"></span>
-                  <span class="wake-radio__label">Unarmed</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <!-- Wake-to-radio UI lives inline on the Now Playing screen (the
+           .np-wake-pane above) — there's no slide-up sheet anymore.
+           See npWake button at the bottom of the NP controls: tapping
+           it toggles the wake pane in place of the regular track row. -->
 
       <!-- ============== ADD STATION (slide-up sheet) ============== -->
       <section class="sheet" id="add-sheet" aria-label="Add custom station" aria-hidden="true">
