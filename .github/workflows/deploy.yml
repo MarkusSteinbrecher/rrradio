@@ -46,7 +46,7 @@ jobs:
           GITHUB_PAGES: 'true'
       # Pages artifact upload is only needed for the deploy job, which
       # gates on main+push. Skip it on PR runs to save artifact storage.
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v6
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       - uses: actions/upload-pages-artifact@v3
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
