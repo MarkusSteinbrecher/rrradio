@@ -40,6 +40,31 @@ export function nextFireTime(wake: WakeTo, now = Date.now()): number {
   return target.getTime();
 }
 
+/** Window during which a missed wake is still considered "fresh enough"
+ *  to fire on app boot. Past this, the wake is treated as stale and
+ *  silently cleared.
+ *
+ *  60 seconds catches the realistic case (laptop closed momentarily
+ *  past the wake time, reopened seconds later → fire it) without
+ *  surprising the user with a wake from hours or days ago. */
+export const STALE_WAKE_GRACE_MS = 60_000;
+
+/** Decide what to do with a stored wake when the app boots.
+ *  - `'invalid'` — the stored time doesn't parse; clear.
+ *  - `'fire'`    — fire time is in the future, or in the past but
+ *                  within {@link STALE_WAKE_GRACE_MS}. Arm normally.
+ *  - `'stale'`   — fire time is past the grace window. Clear without
+ *                  firing. */
+export function classifyStoredWake(
+  wake: WakeTo,
+  now = Date.now(),
+): 'invalid' | 'fire' | 'stale' {
+  const fire = nextFireTime(wake, now);
+  if (!Number.isFinite(fire)) return 'invalid';
+  if (fire - now < -STALE_WAKE_GRACE_MS) return 'stale';
+  return 'fire';
+}
+
 /** Human-readable countdown like "in 8h 12m" or "in 4m" or "now".
  *  Used by the topbar pill while armed. */
 export function formatCountdown(ms: number): string {

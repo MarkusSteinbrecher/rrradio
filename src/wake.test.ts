@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatCountdown, nextFireTime } from './wake';
+import { classifyStoredWake, formatCountdown, nextFireTime, STALE_WAKE_GRACE_MS } from './wake';
 import type { Station, WakeTo } from './types';
 
 /** Build a fixed `now` so tests are deterministic regardless of when they
@@ -91,5 +91,59 @@ describe('formatCountdown', () => {
 
   it('drops the minutes suffix when even hours', () => {
     expect(formatCountdown(2 * 60 * 60_000)).toBe('in 2h');
+  });
+});
+
+describe('classifyStoredWake', () => {
+  // Helper: an armedAt timestamp at "yesterday HH:MM" relative to NOW.
+  // Used to construct missed-wake scenarios where fire is in the past.
+  function yesterdayAt(h: number, m: number): number {
+    return new Date(2026, 4, 1, h, m, 0).getTime();
+  }
+
+  it("'fire' for a future same-day wake", () => {
+    expect(classifyStoredWake(wake('17:30', NOW), NOW)).toBe('fire');
+  });
+
+  it("'fire' for a future next-day wake", () => {
+    // Armed at 09:00 for 07:30 → fire = tomorrow 07:30 (still future)
+    expect(classifyStoredWake(wake('07:30', NOW), NOW)).toBe('fire');
+  });
+
+  it("'fire' for a missed wake within the 60s grace window", () => {
+    // Armed yesterday 22:00 for 09:00 → fire = today 09:00 (today=NOW).
+    // "now" is set to fire + 30s — inside the grace window.
+    const armedAt = yesterdayAt(22, 0);
+    const justAfter = NOW + 30_000; // today 09:00:30
+    expect(classifyStoredWake(wake('09:00', armedAt), justAfter)).toBe('fire');
+  });
+
+  it("'fire' exactly at the grace boundary (fire-now == -GRACE)", () => {
+    const armedAt = yesterdayAt(22, 0);
+    // fire = today 09:00; now = fire + GRACE → fire-now = -GRACE → not stale yet
+    expect(classifyStoredWake(
+      wake('09:00', armedAt),
+      NOW + STALE_WAKE_GRACE_MS,
+    )).toBe('fire');
+  });
+
+  it("'stale' when the fire time is more than 60s in the past", () => {
+    // Same setup, but "now" is 90s after the fire time → past grace.
+    const armedAt = yesterdayAt(22, 0);
+    const wellAfter = NOW + 90_000; // today 09:01:30
+    expect(classifyStoredWake(wake('09:00', armedAt), wellAfter)).toBe('stale');
+  });
+
+  it("'stale' for a wake from many hours ago", () => {
+    // Armed two days ago at 22:00 for 07:30. fire = day-1 07:30 (yesterday).
+    // Today at NOW = ~25.5 hours past fire — well beyond grace.
+    const twoDaysAgo22 = new Date(2026, 3, 30, 22, 0, 0).getTime();
+    expect(classifyStoredWake(wake('07:30', twoDaysAgo22), NOW)).toBe('stale');
+  });
+
+  it("'invalid' when the time string doesn't parse", () => {
+    expect(classifyStoredWake(wake('25:00', NOW), NOW)).toBe('invalid');
+    expect(classifyStoredWake(wake('', NOW), NOW)).toBe('invalid');
+    expect(classifyStoredWake(wake('abc', NOW), NOW)).toBe('invalid');
   });
 });

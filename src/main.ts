@@ -31,7 +31,7 @@ import {
   toggleFavorite,
 } from './storage';
 import { fmtSharePct, normalizeForSearch } from './format';
-import { fadeVolume, formatCountdown, nextFireTime, WakeScheduler } from './wake';
+import { classifyStoredWake, fadeVolume, formatCountdown, nextFireTime, WakeScheduler } from './wake';
 import type { NowPlaying, Station, WakeTo } from './types';
 
 // ─────────────────────────────────────────────────────────────
@@ -2925,20 +2925,17 @@ function showWakeFiredPulse(wake: WakeTo): void {
 
 // Restore any previously-armed wake on app load. If the stored fire
 // time has already passed (browser was closed across the wake window),
-// just clear it — we don't fire stale wakes.
+// classifyStoredWake decides whether we still fire (within a 60s grace)
+// or silently clear — see src/wake.ts for the rule.
 function restoreWakeOnBoot(): void {
   const stored = getWakeTo();
   if (!stored) return;
-  const fire = nextFireTime(stored);
-  if (!Number.isFinite(fire)) {
+  const verdict = classifyStoredWake(stored);
+  if (verdict !== 'fire') {
     setWakeTo(null);
+    syncWakeUi();
     return;
   }
-  // If the original fire window passed > 1 minute ago AND it would
-  // have fired before the next legitimate fire-time, treat it as
-  // missed — too late to be useful. Re-issuing means re-arming.
-  // (nextFireTime always returns a future time relative to armedAt;
-  // if the original fire was last night, the new one is tomorrow.)
   wakeScheduler.arm(stored, onWakeFire);
   syncWakeUi();
   startPillTick();
