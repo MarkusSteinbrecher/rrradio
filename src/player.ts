@@ -86,6 +86,40 @@ export class AudioPlayer {
     // sees the play button but hears nothing. Fresh connection every time
     // is the only reliable behaviour for live audio.
     this.teardown();
+    return this.playInternal(station, { loop: !!options?.loop, sameStation: this.current.station.id === station.id });
+  }
+
+  /** Switch the underlying <audio> source to a new station WITHOUT
+   *  the full teardown→load cycle. Used by the wake-to-radio fire
+   *  handler to swap from the silent bed to the wake station while
+   *  the audio session — kept alive overnight by the looping silent
+   *  bed — stays continuously active.
+   *
+   *  iOS Safari (and Chrome on iOS, which is WebKit) treats
+   *  `audio.removeAttribute('src') + audio.load()` as ending the
+   *  current media-playback session. The next `audio.play()` is
+   *  then a fresh autoplay attempt — gesture-required and silently
+   *  rejected with NotAllowedError. swap() avoids that reset so the
+   *  swap stays inside the same active session. */
+  async swap(station: Station): Promise<void> {
+    // Keep the audio element alive — only do the bookkeeping that
+    // teardown() does *around* the audio reset.
+    this.stopWatchdog();
+    if (this.pendingLoadingExit !== undefined) {
+      window.clearTimeout(this.pendingLoadingExit);
+      this.pendingLoadingExit = undefined;
+    }
+    if (this.hls) {
+      this.hls.destroy();
+      this.hls = null;
+    }
+    return this.playInternal(station, { loop: false, sameStation: false });
+  }
+
+  private async playInternal(
+    station: Station,
+    opts: { loop: boolean; sameStation: boolean },
+  ): Promise<void> {
     this.playGeneration += 1;
     // Preserve trackTitle + coverUrl when re-playing the same station so
     // the on-air line and cover don't snap to "—" during the loading flash.
@@ -93,12 +127,11 @@ export class AudioPlayer {
     // single state-machine path stamps loadingSince correctly and any
     // pending deferred-exit timer from a previous loading transition is
     // cancelled (see audit #74).
-    const sameStation = this.current.station.id === station.id;
     this.update({
       station,
       state: 'loading',
-      trackTitle: sameStation ? this.current.trackTitle : undefined,
-      coverUrl: sameStation ? this.current.coverUrl : undefined,
+      trackTitle: opts.sameStation ? this.current.trackTitle : undefined,
+      coverUrl: opts.sameStation ? this.current.coverUrl : undefined,
       errorMessage: undefined,
     });
 
@@ -109,7 +142,7 @@ export class AudioPlayer {
     // clip seamlessly cycles through the night, keeping the iOS audio
     // session alive without a streaming server. Live stations always
     // play unlooped.
-    this.audio.loop = !!options?.loop;
+    this.audio.loop = opts.loop;
 
     if (isHls && !this.audio.canPlayType('application/vnd.apple.mpegurl') && Hls.isSupported()) {
       this.hls = new Hls();

@@ -2508,7 +2508,15 @@ function onWakeFire(wake: WakeTo): void {
   // mute button is still on the UI and the user might have hit it.
   setMuted(false);
   player.setVolume(0);
-  void player.play(wake.station);
+  // swap() — not play() — so the iOS audio session that the silent
+  // bed kept alive overnight stays continuously active across the
+  // station switch. play() calls teardown() which does
+  // `audio.removeAttribute('src') + audio.load()`, and on iOS Safari
+  // that ends the session — making the next audio.play() a fresh
+  // autoplay attempt that fails with NotAllowedError. Symptom was
+  // the wake station name appearing in the mini-player but no audio
+  // playing.
+  void player.swap(wake.station);
   // Linear fade from 0 → full over 30 seconds. RAF-driven so it
   // tracks the wall clock, not setTimeout drift. Audible only on
   // Android/desktop; iOS Safari forces audio.volume to 1 regardless,

@@ -205,3 +205,66 @@ describe('AudioPlayer error path', () => {
     expect(states.at(-1)).toMatchObject({ station: A, state: 'paused' });
   });
 });
+
+describe('AudioPlayer.swap', () => {
+  // The wake-to-radio fire path (src/main.ts onWakeFire) calls
+  // player.swap() to move from the silent bed to the wake station
+  // *without* tearing down the audio element. On iOS Safari /
+  // Chrome (WebKit), audio.removeAttribute('src') + audio.load()
+  // ends the active media-playback session and the next play()
+  // gets autoplay-blocked. swap() avoids that — see player.ts.
+  it('does not call audio.load() (preserves the iOS session)', async () => {
+    const audio = makeAudio();
+    const loadSpy = vi.spyOn(audio, 'load');
+    const player = new AudioPlayer(audio);
+
+    await player.swap(B);
+    expect(loadSpy).not.toHaveBeenCalled();
+  });
+
+  it('does not removeAttribute("src") (only writes the new src)', async () => {
+    const audio = makeAudio();
+    audio.src = 'https://example.com/silent.m4a';
+    const removeSpy = vi.spyOn(audio, 'removeAttribute');
+    const player = new AudioPlayer(audio);
+
+    await player.swap(B);
+    // The new src should be set; the previous one should not have
+    // been explicitly removed via removeAttribute.
+    expect(audio.src).toBe('https://example.com/b');
+    for (const call of removeSpy.mock.calls) {
+      expect(call[0]).not.toBe('src');
+    }
+  });
+
+  it('emits a loading state for the swap target', async () => {
+    const audio = makeAudio();
+    const player = new AudioPlayer(audio);
+    const states = recordStates(player);
+
+    await player.swap(B);
+    expect(states.at(-1)).toMatchObject({ station: B, state: 'loading' });
+  });
+
+  it('disables loop on the audio element (silent bed loops; live stations do not)', async () => {
+    const audio = makeAudio();
+    audio.loop = true; // pretend silent bed is currently looping
+    const player = new AudioPlayer(audio);
+
+    await player.swap(B);
+    expect(audio.loop).toBe(false);
+  });
+
+  it('treats NotAllowedError as paused (same shape as play())', async () => {
+    const audio = makeAudio();
+    vi.spyOn(audio, 'play').mockRejectedValue(
+      new DOMException('autoplay blocked', 'NotAllowedError'),
+    );
+    const player = new AudioPlayer(audio);
+    const states = recordStates(player);
+
+    await player.swap(B);
+    vi.advanceTimersByTime(700);
+    expect(states.at(-1)).toMatchObject({ station: B, state: 'paused' });
+  });
+});
