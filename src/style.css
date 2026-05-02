@@ -2221,10 +2221,9 @@ body.is-playing .np-bottom .live-dot  {
   .wake-grid { grid-template-columns: 1fr; }
 }
 
-/* Left tile — album art with the alarm time overlaid at the bottom,
-   lock-screen aesthetic. Cover fills the tile; the time pill floats
-   above with a translucent backdrop so it stays legible against any
-   favicon. */
+/* Left tile — swaps between cover art (unarmed) and a big clock face
+   (armed). Tile is square; both children fill it. Toggle is driven by
+   `.wake-grid.is-armed` set on the grid based on wakeScheduler state. */
 .wake-grid__art {
   position: relative;
   aspect-ratio: 1 / 1;
@@ -2232,11 +2231,13 @@ body.is-playing .np-bottom .live-dot  {
   overflow: hidden;
   background: var(--bg-2);
 }
-.wake-art__cover {
+.wake-art__cover,
+.wake-art__clock {
   position: absolute;
   inset: 0;
   display: grid;
   place-items: center;
+  transition: opacity 180ms ease;
 }
 .wake-art__cover .fav {
   width: 100%;
@@ -2251,40 +2252,37 @@ body.is-playing .np-bottom .live-dot  {
       color-mix(in srgb, var(--accent) 4%, transparent));
 }
 
-.wake-art__time-wrap {
-  position: absolute;
-  left: 50%;
-  bottom: 12px;
-  transform: translateX(-50%);
-  display: block;
+/* Default (unarmed): cover visible, clock hidden. Armed: flip. */
+.wake-art__clock { opacity: 0; pointer-events: none; }
+.wake-grid.is-armed .wake-art__cover { opacity: 0; pointer-events: none; }
+.wake-grid.is-armed .wake-art__clock { opacity: 1; pointer-events: auto; }
+
+.wake-art__clock {
+  cursor: pointer;
+  background:
+    radial-gradient(circle at 50% 35%,
+      color-mix(in srgb, var(--accent) 18%, transparent),
+      color-mix(in srgb, var(--accent) 4%, transparent) 70%);
 }
-#wake-time {
-  /* appearance: none strips iOS Safari's native button chrome — without
-     it the input keeps its system-imposed width and padding which
-     defeated the auto-width pill on the resting state. */
+.wake-clock-input {
   appearance: none;
   -webkit-appearance: none;
   width: auto;
-  min-width: 6em;
-  padding: 8px 18px;
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
+  border: none;
+  background: transparent;
   color: var(--accent);
-  border-radius: 999px;
-  font-size: 22px;
+  font-family: var(--mono);
+  font-size: clamp(36px, 11vw, 56px);
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   text-align: center;
-  display: inline-block;
   cursor: pointer;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  padding: 0;
+  /* iOS Chrome forces some min-width — strip it. */
+  min-width: 0;
 }
-#wake-time::-webkit-date-and-time-value { text-align: center; }
-#wake-time:focus {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--bg) 96%, transparent);
-}
+.wake-clock-input::-webkit-date-and-time-value { text-align: center; }
+.wake-clock-input:focus { outline: none; }
 
 /* Right panel — label, station name, two-state radio. Stacked. */
 .wake-grid__panel {

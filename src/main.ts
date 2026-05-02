@@ -224,6 +224,7 @@ const $wakeTargetHint = document.getElementById('wake-target-hint') as HTMLEleme
 const $wakeArmBtn = document.getElementById('wake-arm-btn') as HTMLButtonElement;
 const $wakeDisarmBtn = document.getElementById('wake-disarm-btn') as HTMLButtonElement;
 const $wakePreview = document.getElementById('wake-preview') as HTMLElement;
+const $wakeGrid = document.getElementById('wake-grid') as HTMLElement;
 const $wakePill = document.getElementById('wake-pill') as HTMLButtonElement;
 const $wakePillTime = document.getElementById('wake-pill-time') as HTMLElement;
 const $wakePillName = document.getElementById('wake-pill-name') as HTMLElement;
@@ -2404,20 +2405,23 @@ function openWakeSheet(open: boolean): void {
   $wakeArmBtn.disabled = noStation && !armed;
 }
 
-/** Reflect the current armed state in the two-pill radio control.
- *  Called when the sheet opens and after every arm/disarm action. */
+/** Reflect the current armed state in the two-pill radio control AND
+ *  the cover↔clock swap on the left tile. Called when the sheet opens
+ *  and after every arm/disarm action. */
 function syncWakeRadio(): void {
   const isArmed = !!wakeScheduler.current();
   $wakeArmBtn.classList.toggle('is-active', isArmed);
   $wakeArmBtn.setAttribute('aria-checked', String(isArmed));
   $wakeDisarmBtn.classList.toggle('is-active', !isArmed);
   $wakeDisarmBtn.setAttribute('aria-checked', String(!isArmed));
+  // Cover ↔ clock swap on the left tile.
+  $wakeGrid.classList.toggle('is-armed', isArmed);
 }
 
-/** Update the "will fire in X" preview from the current time-picker
- *  value. The user sees this BEFORE arming so a picker that captured
- *  the wrong value (off-by-rounding, off-by-AM/PM) is caught early
- *  rather than producing a silent 23h-from-now fire. */
+/** Update the "Fires at HH:MM · in X" preview from the current
+ *  time-picker value. Shown in the right column so the user can see
+ *  both the wall-clock time AND the countdown — important when the
+ *  clock face on the left is hidden (unarmed state). */
 function syncWakePreview(): void {
   const time = $wakeTime.value.trim();
   if (!time) {
@@ -2440,7 +2444,7 @@ function syncWakePreview(): void {
     return;
   }
   const remain = fire - Date.now();
-  $wakePreview.textContent = `Fires ${formatCountdown(remain)}`;
+  $wakePreview.textContent = `Fires at ${time} · ${formatCountdown(remain)}`;
   // Highlight if the fire is more than 12h away — a clue that the user
   // probably didn't intend that, e.g. picked a time earlier than now.
   $wakePreview.classList.toggle('is-far', remain > 12 * 60 * 60_000);
@@ -2878,7 +2882,16 @@ $wakeClose.addEventListener('click', () => openWakeSheet(false));
 // Live preview updates as the user changes the time picker. 'input'
 // fires on every value change including iOS native picker commits.
 $wakeTime.addEventListener('input', syncWakePreview);
-$wakeTime.addEventListener('change', syncWakePreview);
+$wakeTime.addEventListener('change', () => {
+  syncWakePreview();
+  // While armed, a change to the clock means "re-arm with this new
+  // time" — that's the user's intent when they tap the clock to edit.
+  // armWakeFromSheet() handles the disarm-then-arm via wakeScheduler.
+  if (wakeScheduler.current()) {
+    armWakeFromSheet();
+    syncWakeRadio();
+  }
+});
 
 // Two-state radio. Tapping "Armed" always (re-)arms with the current
 // picker value — even when already armed, because the picker may have

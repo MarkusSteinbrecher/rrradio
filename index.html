@@ -496,19 +496,24 @@
             close this tab. Plug in your phone.
           </p>
 
-          <div class="wake-grid">
-            <!-- Left: album art with the alarm time overlaid like a
-                 lock-screen clock. Tap the time pill to bring up the
-                 native iOS time picker. -->
+          <div class="wake-grid" id="wake-grid">
+            <!-- Left column: a single tile that swaps between two
+                 children based on armed state.
+                   Unarmed → album cover (the station you'd wake to)
+                   Armed   → big clock face showing the alarm time
+                 Tapping the clock opens iOS's native time picker so
+                 the user can change the alarm time even after arming. -->
             <div class="wake-grid__art">
               <div class="wake-art__cover" id="wake-target-cover" aria-hidden="true"></div>
-              <label class="wake-art__time-wrap">
-                <input type="time" id="wake-time" class="wake-art__time" required aria-label="Wake time" />
+              <label class="wake-art__clock" aria-label="Alarm time">
+                <input type="time" id="wake-time" class="wake-clock-input" required aria-label="Wake time" />
               </label>
             </div>
 
-            <!-- Right: target station name + the armed/unarmed two-state
-                 radio control. Tapping a pill switches state directly. -->
+            <!-- Right column: target station name + the armed/unarmed
+                 two-state radio. Tapping "Armed" arms with the last
+                 picker value AND flips the left tile to the clock.
+                 Tapping "Unarmed" disarms AND flips back to cover. -->
             <div class="wake-grid__panel">
               <div class="wake-panel__label">Wake to</div>
               <div class="wake-panel__station" id="wake-target-station">—</div>
