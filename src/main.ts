@@ -2880,10 +2880,12 @@ $wakeClose.addEventListener('click', () => openWakeSheet(false));
 $wakeTime.addEventListener('input', syncWakePreview);
 $wakeTime.addEventListener('change', syncWakePreview);
 
-// Two-state radio: tap "Armed" to arm, "Unarmed" to disarm. Idempotent —
-// tapping the already-active pill is a no-op.
+// Two-state radio. Tapping "Armed" always (re-)arms with the current
+// picker value — even when already armed, because the picker may have
+// been changed since the last arm and the user expects the tap to
+// commit it. wakeScheduler.arm() calls disarm() first internally, so
+// re-arming is safe (resets the timer with the new time + station).
 $wakeArmBtn.addEventListener('click', () => {
-  if (wakeScheduler.current()) return; // already armed
   if ($wakeArmBtn.disabled) return; // no station to arm against
   armWakeFromSheet();
   syncWakeRadio();
