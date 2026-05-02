@@ -62,6 +62,14 @@ mdr:
   country: DE
   family: ARD
   homepage: https://www.mdr.de/
+  notes: |
+    ARD — public broadcaster for Saxony / Saxony-Anhalt / Thuringia.
+    Two endpoints: simple `/XML/titellisten/<slug>_onair.json` works
+    only for jump + sputnik; main regional channels (sachsen, thueringen,
+    schlagerwelt, sachsen-anhalt, klassik, aktuell, tweens) need the
+    `/scripts4/titellisten/xmlresp-index.do?idwelle=<id>&startdate=...`
+    pattern with channel-specific numeric idwelle. Both share the same
+    `Songs` JSON shape. Wiring deferred — see follow-up issue.
 
 swr:
   name: SWR
@@ -69,6 +77,13 @@ swr:
   country: DE
   family: ARD
   homepage: https://www.swr.de/
+  metadata: swr
+  notes: |
+    ARD — public broadcaster for Baden-Württemberg / Rhineland-Palatinate.
+    Playerbar JSON at swr.de/~webradio/.../<channel>-playerbar-100~playerbarContainer.json.
+    CORS open. Richest payload of the German public broadcasters: track +
+    cover + program + presenter in a single response. SWR4 has 13+ regional
+    sub-stations under different paths.
 
 hr:
   name: HR
@@ -145,6 +160,33 @@ jazzradio-berlin:
   name: JazzRadio 106.8 Berlin
   country: DE
   homepage: http://www.jazzradio.net/
+
+klassik-radio:
+  name: Klassik Radio
+  country: DE
+  homepage: https://www.klassikradio.de/
+  metadata: streamabc
+  notes: |
+    Commercial classical broadcaster (Augsburg). Now-playing via the
+    streamabc.net metadata-as-a-service platform: api.streamabc.net/
+    metadata/channel/<channelkey>.json — main station is "klassikr-live".
+    Multiple sub-channels (Movie, Pure Klassik, Lounge, ...) each have
+    their own channelkey. CORS open. Exposes album / conductor (extdata.dirigent) /
+    ensemble / soloist — folded into the program subtitle.
+
+ffh:
+  name: FFH
+  fullName: Hit Radio FFH
+  country: DE
+  homepage: https://www.ffh.de/
+  metadata: ffh
+  notes: |
+    Commercial broadcaster (Hesse). One endpoint at ffh.de/update-onair-info
+    returns an array of all FFH-family channels in a single response (FFH
+    + harmony.fm + planet radio + ffhplus<*> sub-brands). Each station's
+    metadataUrl in YAML is the mountpoint key (e.g. "ffh", "ffhplus80er")
+    rather than a URL — keeps YAML small. CORS open. cHash query param is
+    static — re-discover via discover-metadata-api if it ever rotates.
 
 # ─────────────── Swiss public ───────────────
 

@@ -1053,6 +1053,180 @@ const fetchBbcSchedule: ScheduleFetcher = async (station, signal) => {
 };
 
 // ============================================================
+// German broadcaster fetchers (ARD members + DLF + commercial)
+// All five below are CORS-open (directly callable, no proxy). The
+// remaining ARD members (WDR / NDR / DLF main+Kultur) have no public
+// JSON endpoint — they fall back to ICY-over-fetch.
+// ============================================================
+
+interface SwrPlaylistItem {
+  artist?: string;
+  title?: string;
+  starttime?: number;
+  duration?: number;
+  cover?: string;
+}
+interface SwrPresenter {
+  displayname?: string;
+}
+interface SwrShowData {
+  title?: string;
+  starttime?: number;
+  endtime?: number;
+  presenter?: SwrPresenter[];
+}
+interface SwrResponse {
+  playlist?: { data?: SwrPlaylistItem[] };
+  show?: { data?: SwrShowData };
+}
+
+/** SWR — playerbar JSON at `swr.de/~webradio/.../<channel>-playerbar-100~playerbarContainer.json`.
+ *  Richest of the German public-broadcaster APIs: per-track artist + title +
+ *  cover, plus the current show with presenter. CORS open, callable directly. */
+const fetchSwrMetadata: MetadataFetcher = async (station, signal) => {
+  const url = station.metadataUrl;
+  if (!url) return null;
+  try {
+    const res = await fetch(url, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as SwrResponse;
+    const items = data.playlist?.data ?? [];
+    const current = items[0];
+    const show = data.show?.data;
+    const presenter = show?.presenter?.[0]?.displayname?.trim();
+    const program = show?.title
+      ? {
+          name: show.title.trim(),
+          subtitle: presenter || undefined,
+        }
+      : undefined;
+    if (!current?.title) return program ? { track: undefined, raw: '', program } : null;
+    const artist = current.artist?.trim();
+    const track = current.title.trim();
+    return {
+      artist: artist ? titleCase(artist) : undefined,
+      track: titleCase(track),
+      raw: `${artist ?? ''} - ${track}`.trim(),
+      coverUrl: current.cover || undefined,
+      program,
+    };
+  } catch {
+    return null;
+  }
+};
+
+interface StreamabcExtdata {
+  album?: string;
+  dirigent?: string;
+  ensemble?: string;
+  solist?: string;
+}
+interface StreamabcResponse {
+  artist?: string;
+  song?: string;
+  cover?: string;
+  album?: string;
+  extdata?: StreamabcExtdata;
+}
+
+/** Streamabc — `api.streamabc.net/metadata/channel/<channelkey>.json`. Used
+ *  by Klassik Radio (channelkey "klassikr-live") and other broadcasters on
+ *  the same metadata-as-a-service platform. The classical channels expose
+ *  conductor / ensemble / soloist via extdata; we fold those into the
+ *  program subtitle so they surface without needing new ParsedTitle fields. */
+const fetchStreamabcMetadata: MetadataFetcher = async (station, signal) => {
+  const url = station.metadataUrl;
+  if (!url) return null;
+  try {
+    const res = await fetch(url, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as StreamabcResponse;
+    if (!data.song) return null;
+    const artist = data.artist?.trim();
+    const track = data.song.trim();
+    const ext = data.extdata ?? {};
+    const ensembleParts = [ext.ensemble, ext.dirigent, ext.solist]
+      .map((p) => p?.trim())
+      .filter((p): p is string => !!p);
+    const program = ensembleParts.length > 0
+      ? { name: ext.album?.trim() || data.album?.trim() || track, subtitle: ensembleParts.join(' · ') }
+      : undefined;
+    return {
+      artist: artist ? titleCase(artist) : undefined,
+      track: titleCase(track),
+      raw: `${artist ?? ''} - ${track}`.trim(),
+      coverUrl: data.cover || undefined,
+      program,
+    };
+  } catch {
+    return null;
+  }
+};
+
+interface FfhStation {
+  isStatic?: boolean;
+  title?: string;
+  artist?: string;
+  claim?: boolean;
+}
+type FfhResponse = Array<Record<string, FfhStation>>;
+
+/** FFH family — single endpoint returns an array of single-key objects,
+ *  one per channel (ffh, ffhplus80er, ffhplus90er, harmony.fm, planet
+ *  radio, ...). Station picks its mountpoint via the `metadata` field
+ *  in YAML; we look up that key. `claim: true` rows are station IDs
+ *  (artist field carries the brand name) — skip them. */
+const FFH_ENDPOINT =
+  'https://www.ffh.de/update-onair-info?tx_ffhonair_pi2%5Baction%5D=getallsonginfo&tx_ffhonair_pi2%5Bcontroller%5D=Webradio&type=210&cHash=5a6b6b599e87ffbb02509dc06c14cbf7';
+
+const fetchFfhMetadata: MetadataFetcher = async (station, signal) => {
+  // metadataUrl carries the mountpoint key, not a URL — keeps the YAML
+  // small. Falls back to "ffh" for the main brand.
+  const mount = station.metadataUrl?.trim() || 'ffh';
+  try {
+    const res = await fetch(FFH_ENDPOINT, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as FfhResponse;
+    const entry = data.find((row) => mount in row)?.[mount];
+    if (!entry || entry.claim) return null;
+    const artist = entry.artist?.trim();
+    const track = entry.title?.trim();
+    if (!track) return null;
+    return {
+      artist: artist ? titleCase(artist) : undefined,
+      track: titleCase(track),
+      raw: `${artist ?? ''} - ${track}`.trim(),
+    };
+  } catch {
+    return null;
+  }
+};
+
+/** RBB Radio Eins — HTML fragment `<p class="artist">...</p><p class="songtitle">...</p>`
+ *  served from `radioeins.de/include/rad/nowonair/now_on_air.html`. CORS open. */
+const RADIO_EINS_RE = /<p\s+class="artist">([^<]*)<\/p>\s*<p\s+class="songtitle">([^<]*)<\/p>/i;
+const fetchRadioEinsMetadata: MetadataFetcher = async (_station, signal) => {
+  const url = `https://www.radioeins.de/include/rad/nowonair/now_on_air.html?_=${Date.now()}`;
+  try {
+    const res = await fetch(url, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const text = await res.text();
+    const m = RADIO_EINS_RE.exec(text);
+    if (!m) return null;
+    const artist = m[1].trim();
+    const track = m[2].trim();
+    if (!track) return null;
+    return {
+      artist: artist || undefined,
+      track,
+      raw: `${artist} - ${track}`.trim(),
+    };
+  } catch {
+    return null;
+  }
+};
+
+// ============================================================
 // Fetcher registry
 // ============================================================
 
@@ -1072,6 +1246,10 @@ const FETCHERS_BY_KEY: Record<string, MetadataFetcher> = {
   'srgssr-il': fetchSrgssrIlMetadata,
   'swiss-radio': fetchRadioSwissMetadata,
   azuracast: fetchAzuracastMetadata,
+  swr: fetchSwrMetadata,
+  streamabc: fetchStreamabcMetadata,
+  ffh: fetchFfhMetadata,
+  'rbb-radioeins': fetchRadioEinsMetadata,
 };
 
 /** Schedule fetchers — keyed the same as MetadataFetchers. Optional —

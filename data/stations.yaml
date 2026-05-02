@@ -1976,90 +1976,98 @@
 - id: swr-swr1-baden-wurttemberg
   stationuuid: 20c24a64-6dda-4059-88dc-66f5e1cffa7c
   changeuuid: 6ae071c6-4aae-4408-b9c8-d196dfcad371
-  reviewedAt: 2026-04-28
+  reviewedAt: 2026-05-02
   geo: [48.788, 9.1379]
   broadcaster: swr
   name: SWR1 Baden-Württemberg
   streamUrl: https://liveradio.swr.de/sw282p3/swr1bw/play.mp3
+  metadataUrl: https://www.swr.de/~webradio/swr1/bw/swr1bw-playerbar-100~playerbarContainer.json
   bitrate: 128
   codec: MP3
   favicon: https://www.radio.at/images/broadcasts/07/41/2273/2/c300.png
   homepage: https://www.swr.de/swr1/bw/index.html
-  status: stream-only
+  status: working
   tags: [oldies, pop, ard]
+
 - id: swr-swr1-rheinland-pfalz
   stationuuid: fc23ea83-a07d-4c40-a522-4c625244207e
   changeuuid: b1c1ea94-329c-420d-81d1-34359ac90161
-  reviewedAt: 2026-04-28
+  reviewedAt: 2026-05-02
   geo: [50.0051, 8.2947]
   broadcaster: swr
   name: SWR1 Rheinland-Pfalz
   streamUrl: https://liveradio.swr.de/sw282p3/swr1rp/play.mp3
+  metadataUrl: https://www.swr.de/~webradio/swr1/rp/swr1rp-playerbar-100~playerbarContainer.json
   bitrate: 128
   codec: MP3
   favicon: https://www.swr.de/assets/swr/apple-touch-icon.png
   homepage: https://www.swr.de/
-  status: stream-only
+  status: working
   tags: [oldies, pop, ard]
+
 - id: swr-swr3
   stationuuid: 215231fd-68af-4cc3-aa89-422c032a2801
   changeuuid: 2b873296-75d5-4108-8ef9-2bc203614b2b
-  reviewedAt: 2026-04-28
+  reviewedAt: 2026-05-02
   geo: [48.7496, 8.2257]
   broadcaster: swr
   name: SWR3
   streamUrl: https://liveradio.swr.de/sw282p3/swr3/play.mp3
+  metadataUrl: https://www.swr.de/~webradio/administration/playerbar-swr3/swr3-playerbar-100~playerbarContainer.json
   bitrate: 128
   codec: MP3
   tags: [news, pop, rock]
   favicon: https://swr3.de/assets/swr3/icons/apple-touch-icon.png
   homepage: https://swr3.de/
-  status: stream-only
+  status: working
 
 - id: swr-swr4-baden-wurttemberg
   stationuuid: 54e4b1de-0156-4972-a14e-580111522b44
   changeuuid: 354f62ff-681e-4a9a-9e85-af1bee3e55b9
-  reviewedAt: 2026-04-28
+  reviewedAt: 2026-05-02
   geo: [48.7758, 9.1829]
   broadcaster: swr
   name: SWR4 Baden-Württemberg
   streamUrl: https://liveradio.swr.de/sw890cl/swr4bw/
+  metadataUrl: https://www.swr.de/~webradio/swr4/swr4bw-playerbar-100~playerbarContainer.json
   bitrate: 96
   codec: AAC
   tags: [classical music, folk music, instrumental music, international evergreens, schlager, schlageroldies]
   favicon: https://www.swr.de/assets/swr/swr4/apple-touch-icon-180x180.png
   homepage: https://www.swr.de/swr4/index.html
-  status: stream-only
+  status: working
 
 - id: swr-dasding
   stationuuid: 0fd40b7b-1ce5-4b4e-ae86-7a6d608f1b0e
   changeuuid: 4f284069-3fd4-4bda-9a9b-9fca9fe3b259
-  reviewedAt: 2026-04-28
+  reviewedAt: 2026-05-02
   geo: [48.7571, 8.2448]
   broadcaster: swr
   name: DASDING
   streamUrl: https://liveradio.swr.de/d9zadj3/dasding/
+  metadataUrl: https://www.dasding.de/~webradio/administration/playerbar/dasding-playerbar-100~playerbarContainer.json
   bitrate: 128
   codec: MP3
   tags: [ard, pop, rock, youth, öffentlich-rechtlich]
   favicon: https://dasding.de/assets/dasding/apple-touch-icon-120x120.png
   homepage: https://dasding.de/
-  status: stream-only
+  status: working
 
 - id: swr-swr-aktuell
   stationuuid: f1e65b1b-fb00-47a1-8826-eff02dc7fef8
   changeuuid: 0c4b5141-fbd3-48d4-b752-96643c4b5247
-  reviewedAt: 2026-04-28
+  reviewedAt: 2026-05-02
   geo: [48.7931, 9.2038]
   broadcaster: swr
   name: SWR Aktuell
   streamUrl: https://liveradio.swr.de/sw282p3/swraktuell/play.aac
+  metadataUrl: https://www.swr.de/~webradio/swraktuell/playerbar/swraktuell-playerbar-100~playerbarContainer.json
   bitrate: 128
   codec: MP3
   tags: [info]
   favicon: https://upload.wikimedia.org/wikipedia/commons/4/47/SWR_Aktuell_Logo.jpg
   homepage: https://www.swr.de/swraktuell/index.html
-  status: stream-only
+  status: working
 
 - id: hr-hr1
   stationuuid: ea4bc0ca-1cd0-43f0-b774-b7ae520a5615
@@ -3408,16 +3416,17 @@
 - id: rbb-radio-eins
   stationuuid: 960553a5-0601-11e8-ae97-52543be04c81
   changeuuid: 7fa101e5-7557-4cc9-a54d-948fad3b0a6d
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [52.520, 13.405]
   broadcaster: rbb
   name: Radio Eins
   streamUrl: https://dispatcher.rndfnk.com/rbb/radioeins/live/mp3/mid
+  metadata: rbb-radioeins
   codec: MP3
   tags: [pop, talk, public radio, germany]
   homepage: https://www.radioeins.de/
   country: DE
-  status: stream-only
+  status: working
 
 - id: rbb-antenne-brandenburg
   stationuuid: 96063808-0601-11e8-ae97-52543be04c81
@@ -3574,32 +3583,34 @@
 - id: de-hit-radio-ffh
   stationuuid: 96056147-0601-11e8-ae97-52543be04c81
   changeuuid: cf0827ec-e6f0-4766-bf5d-9261a7123eac
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [50.110, 8.682]
-  broadcaster: independent
+  broadcaster: ffh
   name: Hit Radio FFH
   streamUrl: https://mp3.ffh.de/radioffh/hqlivestream.mp3
+  metadataUrl: ffh
   bitrate: 128
   codec: MP3
   tags: [pop, hits, germany]
   homepage: https://www.ffh.de/
   country: DE
-  status: stream-only
+  status: working
 
 - id: de-klassik-radio
   stationuuid: 90bff27c-4b50-11ea-b877-52543be04c81
   changeuuid: 8ef85003-18a9-4c9b-919e-37aef996f7df
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [48.367, 10.898]
-  broadcaster: independent
+  broadcaster: klassik-radio
   name: Klassik Radio
   streamUrl: https://stream.klassikradio.de/live/mp3-192
+  metadataUrl: https://api.streamabc.net/metadata/channel/klassikr-live.json
   bitrate: 192
   codec: MP3
   tags: [classical, easy listening, germany]
   homepage: https://www.klassikradio.de/
   country: DE
-  status: stream-only
+  status: working
 
 # ─── CA — CBC / Radio-Canada public broadcaster (2026-04-29) ───
 # CBC live streams are regional rather than national: every URL is
