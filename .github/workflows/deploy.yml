@@ -1,6 +1,18 @@
-name: Deploy to GitHub Pages
+name: CI / Deploy to GitHub Pages
+
+# Multi-job pipeline. Every push and PR runs the verification jobs
+# (web / worker / catalog). The deploy job only runs on push-to-main
+# and depends on all three having passed — so a broken test or
+# typecheck blocks the GitHub Pages publish.
+#
+#   web       → typecheck, vitest unit tests, vite build, upload pages artifact
+#   worker    → typecheck (tests will land with audit #66 / #75)
+#   catalog   → check-duplicates (deterministic, no network)
+#   deploy    → publishes the web job's artifact to Pages
 
 on:
+  pull_request:
+    branches: [main]
   push:
     branches: [main]
   workflow_dispatch:
@@ -15,25 +27,71 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  # ────────────────────────────────────────────────────────────
+  # Web app: typecheck + unit tests + build
+  # ────────────────────────────────────────────────────────────
+  web:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
       - run: npm run build
         env:
           GITHUB_PAGES: 'true'
+      # Pages artifact upload is only needed for the deploy job, which
+      # gates on main+push. Skip it on PR runs to save artifact storage.
       - uses: actions/configure-pages@v5
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         with:
           path: dist
 
+  # ────────────────────────────────────────────────────────────
+  # Cloudflare Worker: typecheck only (tests land with audit #66)
+  # ────────────────────────────────────────────────────────────
+  worker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: worker/package-lock.json
+      - name: Install worker deps
+        working-directory: worker
+        run: npm ci
+      - name: Typecheck worker
+        working-directory: worker
+        run: npm run typecheck
+
+  # ────────────────────────────────────────────────────────────
+  # Catalog: deterministic duplicate scan (no Radio Browser calls)
+  # ────────────────────────────────────────────────────────────
+  catalog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run check-duplicates
+
+  # ────────────────────────────────────────────────────────────
+  # Deploy: only on push-to-main, only after all checks pass
+  # ────────────────────────────────────────────────────────────
   deploy:
-    needs: build
+    needs: [web, worker, catalog]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
