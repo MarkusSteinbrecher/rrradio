@@ -27,6 +27,23 @@ jobs:
           cache: npm
       - run: npm ci
 
+      - name: Refresh catalog from Radio Browser
+        run: |
+          # Production deploys consume the committed public/stations.json
+          # (audit #65 — no live RB call on every deploy). This step is the
+          # explicit refresh path: regenerate from YAML + RB, commit any
+          # drift back to main so the next deploy ships fresh data.
+          npm run catalog
+          if git diff --quiet public/stations.json; then
+            echo "Catalog unchanged."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add public/stations.json
+            git commit -m "Catalog-watch: refresh public/stations.json from Radio Browser"
+            git push origin main
+          fi
+
       - name: Validate catalog
         id: validate
         run: |

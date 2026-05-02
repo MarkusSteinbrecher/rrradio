@@ -73,7 +73,12 @@ jobs:
         run: npm run typecheck
 
   # ────────────────────────────────────────────────────────────
-  # Catalog: deterministic duplicate scan (no Radio Browser calls)
+  # Catalog: deterministic structural checks (no Radio Browser calls).
+  #   - check-catalog: stations.yaml ↔ stations.json must be in sync.
+  #     Catches "edited YAML, forgot to run npm run catalog before
+  #     committing".
+  #   - check-duplicates: no two stations share a uuid / streamUrl /
+  #     normalised name.
   # ────────────────────────────────────────────────────────────
   catalog:
     runs-on: ubuntu-latest
@@ -84,6 +89,7 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      - run: npm run check-catalog
       - run: npm run check-duplicates
 
   # ────────────────────────────────────────────────────────────

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "node tools/build-catalog.mjs && vite",
-    "build": "node tools/build-catalog.mjs && tsc && vite build && node tools/build-station-pages.mjs",
+    "build": "tsc && vite build && node tools/build-station-pages.mjs",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -19,6 +19,7 @@
     "validate-catalog": "node tools/validate-catalog.mjs",
     "check-drift": "node tools/check-drift.mjs",
     "check-duplicates": "node tools/check-duplicates.mjs",
+    "check-catalog": "node tools/check-catalog.mjs",
     "auto-curate": "node tools/auto-curate.mjs",
     "analyze": "node tools/analyze.mjs",
     "backlog": "node tools/backlog.mjs",

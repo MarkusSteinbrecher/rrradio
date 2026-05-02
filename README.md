@@ -117,9 +117,32 @@ npm run test:watch # interactive
 ## Build
 
 ```bash
-npm run build
-npm run preview   # preview the production build locally
+npm run build      # tsc + vite build + per-station HTML pages
+npm run preview    # preview the production build locally
 ```
+
+The build does **not** regenerate the catalog. It consumes the
+already-committed `public/stations.json` so a routine deploy
+(CSS tweak, bug fix) doesn't depend on Radio Browser being up.
+
+## Catalog refresh
+
+`public/stations.json` is the build artifact derived from
+`data/stations.yaml` + `data/broadcasters.yaml` + the live Radio
+Browser API. Regenerate it explicitly when you edit the YAML or when
+upstream RB data has drifted:
+
+```bash
+npm run catalog          # fetches RB, rewrites public/stations.json
+npm run check-catalog    # verifies YAML ↔ JSON are in sync
+npm run check-duplicates # verifies no uuid / stream / name collisions
+git add public/stations.json && git commit -m "..."
+```
+
+A weekly GitHub Action (`catalog-watch.yml`) runs the same refresh
+and commits any RB drift back to `main` automatically. Deploy CI
+runs `check-catalog` + `check-duplicates` on every PR so a missed
+local regen blocks the merge.
 
 ## Deploy to GitHub Pages
 
