@@ -49,6 +49,15 @@ const yamlPublishableIds = new Set(
     .map((s) => s.id),
 );
 
+// Stations marked `httpAllowed: true` in YAML — exempt from the
+// HTTPS-only stream policy. Audit #71: any new HTTP entry must carry
+// this flag and a comment explaining why HTTPS isn't available.
+const httpAllowedIds = new Set(
+  yamlList
+    .filter((s) => s && typeof s.id === 'string' && s.httpAllowed === true)
+    .map((s) => s.id),
+);
+
 const jsonText = readFileSync(join(root, 'public/stations.json'), 'utf8');
 const json = JSON.parse(jsonText);
 const jsonStations = Array.isArray(json) ? json : json.stations;
@@ -99,6 +108,30 @@ if (urlIssues.length > 0) {
   process.exit(2);
 }
 
+// HTTPS-only catalog policy (audit #71). HTTP streams are blocked by
+// the browser mixed-content policy on https sites and require an iOS
+// ATS exception. Stations that genuinely lack HTTPS must opt in via
+// `httpAllowed: true` in stations.yaml so the deviation is curator-
+// reviewed and visible in diffs.
+const httpsIssues = [];
+for (const s of jsonStations) {
+  if (!s.streamUrl || typeof s.streamUrl !== 'string') continue;
+  if (!s.streamUrl.startsWith('http://')) continue;
+  if (httpAllowedIds.has(s.id)) continue;
+  httpsIssues.push(`${s.id}: HTTP streamUrl not allowlisted → ${s.streamUrl}`);
+}
+if (httpsIssues.length > 0) {
+  console.error(`${C.bad}check-catalog: ${httpsIssues.length} HTTPS-policy violation(s):${C.reset}`);
+  for (const m of httpsIssues.slice(0, 20)) console.error(`  ${m}`);
+  if (httpsIssues.length > 20) console.error(`  …and ${httpsIssues.length - 20} more`);
+  console.error(
+    `\n  Fix: replace with https:// in data/stations.yaml (preferred), or add`,
+  );
+  console.error(`  ${C.ok}httpAllowed: true${C.reset}${C.bad} to the YAML row with a comment explaining why HTTPS`);
+  console.error(`  isn't available (audit #71).${C.reset}`);
+  process.exit(2);
+}
+
 if (drift) {
   console.error(
     `${C.bad}check-catalog: stations.json is out of sync with stations.yaml${C.reset}`,
@@ -122,6 +155,28 @@ if (drift) {
   process.exit(2);
 }
 
+// Stale-allowlist check: an `httpAllowed: true` row whose stream is
+// now actually HTTPS (e.g. RB upstream upgraded) means the flag should
+// be removed. Warn (don't fail) so curator can clean up.
+const staleAllowlist = [];
+for (const s of jsonStations) {
+  if (!httpAllowedIds.has(s.id)) continue;
+  if (typeof s.streamUrl === 'string' && s.streamUrl.startsWith('https://')) {
+    staleAllowlist.push(s.id);
+  }
+}
+if (staleAllowlist.length > 0) {
+  console.warn(
+    `${C.dim}check-catalog: ${staleAllowlist.length} station(s) carry httpAllowed:true but resolve to HTTPS — flag can be removed:${C.reset}`,
+  );
+  for (const id of staleAllowlist) console.warn(`  ${id}`);
+}
+
 console.log(
   `${C.ok}check-catalog: ${yamlPublishableIds.size} publishable YAML stations match JSON ✓${C.reset}`,
 );
+if (httpAllowedIds.size > 0) {
+  console.log(
+    `${C.dim}  ${httpAllowedIds.size} HTTP-only station(s) on the allowlist (httpAllowed: true)${C.reset}`,
+  );
+}

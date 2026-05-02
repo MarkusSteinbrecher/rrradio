@@ -2559,6 +2559,13 @@ function handleAddSubmit(e: SubmitEvent): void {
     showAddError('Stream URL must be a valid http:// or https:// URL.');
     return;
   }
+  // The page is served over https, so an http:// stream is blocked by
+  // mixed-content. Reject up-front rather than letting the user save a
+  // station that will silently fail to play. Audit #71.
+  if (streamUrl.startsWith('http://')) {
+    showAddError('Stream URL must use https://. Mixed-content browsers block http:// audio.');
+    return;
+  }
   if (homepage && !safeUrl(homepage)) {
     showAddError('Homepage must be a valid http:// or https:// URL.');
     return;

@@ -33,10 +33,21 @@ targets:
         # Background audio so streams keep playing when the app
         # is backgrounded or the screen is locked.
         UIBackgroundModes: [audio]
-        # We talk to several broadcaster APIs over HTTPS only — no
-        # NSAllowsArbitraryLoads. Per-station HTTP-only streams are
-        # routed through the Cloudflare worker proxy (HTTPS) so we
-        # never need ATS exceptions.
+        # ATS: HTTPS-only catalog policy enforced by tools/check-catalog.mjs
+        # (audit #71). Stations with `httpAllowed: true` in stations.yaml
+        # are HTTP-only — they need per-host NSExceptionDomains entries
+        # below. Today the allowlist is shoutcast.rtvc.gov.co (RTVC,
+        # Colombian public broadcaster) and 162.244.80.52 (Akaboozi FM,
+        # Uganda). NEVER set NSAllowsArbitraryLoads — App Review will
+        # reject without explicit per-host justification.
+        NSAppTransportSecurity:
+          NSExceptionDomains:
+            shoutcast.rtvc.gov.co:
+              NSExceptionAllowsInsecureHTTPLoads: true
+              NSIncludesSubdomains: false
+            162.244.80.52:
+              NSExceptionAllowsInsecureHTTPLoads: true
+              NSIncludesSubdomains: false
         UILaunchScreen: {}
         UIRequiresFullScreen: false
         UISupportedInterfaceOrientations:

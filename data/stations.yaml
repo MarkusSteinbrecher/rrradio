@@ -4068,6 +4068,7 @@
   geo: [52.520, 13.405]
   broadcaster: laut-fm
   name: Deutschrap
+  streamUrl: https://stream.laut.fm/deutschrap  # HTTPS upgrade verified 2026-05-02
   metadataUrl: deutschrap
   bitrate: 128
   codec: MP3
@@ -4082,6 +4083,7 @@
   geo: [49.488, 8.466]
   broadcaster: laut-fm
   name: Total Instrumental
+  streamUrl: https://stream.laut.fm/total-instrumental  # HTTPS upgrade verified 2026-05-02
   metadataUrl: total-instrumental
   bitrate: 128
   codec: MP3
@@ -4096,6 +4098,7 @@
   geo: [49.488, 8.466]
   broadcaster: laut-fm
   name: 1000 Oldies
+  streamUrl: https://1000oldies.stream.laut.fm/1000oldies  # HTTPS upgrade verified 2026-05-02
   metadataUrl: 1000oldies
   bitrate: 128
   codec: MP3
@@ -4110,6 +4113,7 @@
   geo: [49.488, 8.466]
   broadcaster: laut-fm
   name: Acid Jazz Radio
+  streamUrl: https://stream.laut.fm/acidjazz  # HTTPS upgrade verified 2026-05-02
   metadataUrl: acidjazz
   bitrate: 128
   codec: MP3
@@ -4228,6 +4232,7 @@
   geo: [50.110, 8.682]
   broadcaster: independent
   name: Reggae Radio Rastamusic
+  streamUrl: https://origin-rastamusic.streamguys1.com/rastamusic.mp3  # HTTPS upgrade verified 2026-05-02
   bitrate: 192
   codec: MP3
   tags: [reggae, dub, germany]
@@ -4256,6 +4261,7 @@
   geo: [48.137, 11.575]
   broadcaster: independent
   name: Radio Arabella München
+  streamUrl: https://rs26.stream24.net/stream?ref=radioarabella.de  # HTTPS upgrade verified 2026-05-02
   bitrate: 128
   codec: MP3
   tags: [oldies, hits, schlager, regional, münchen, germany]
@@ -4269,6 +4275,7 @@
   geo: [52.520, 13.405]
   broadcaster: independent
   name: Radio Paloma
+  streamUrl: https://icepool.silvacast.com/RADIOPALOMA.mp3  # HTTPS upgrade verified 2026-05-02
   bitrate: 128
   codec: MP3
   tags: [schlager, oldies, germany]
@@ -4282,6 +4289,7 @@
   geo: [52.520, 13.405]
   broadcaster: independent
   name: 98.8 Kiss FM
+  streamUrl: https://stream.kissfm.de/kissfm/mp3-128/internetradio/  # HTTPS upgrade verified 2026-05-02 (302 → topradio.stream05.radiohost.de)
   bitrate: 128
   codec: MP3
   tags: [hip hop, rnb, urban, berlin, germany]
@@ -9641,6 +9649,10 @@
   homepage: https://www.radionica.rocks/
   country: CO
   status: stream-only
+  # Government broadcaster (RTVC). Probed 2026-05-02 — HTTPS variant
+  # not served by the upstream Shoutcast 8010 origin. Mixed-content
+  # block on https sites; iOS will need an ATS exception. Audit #71.
+  httpAllowed: true
 
 # ─────────────── Brazil ───────────────
 
@@ -9979,6 +9991,7 @@
   geo: [-26.2041, 28.0473]
   broadcaster: independent
   name: Bokradio
+  streamUrl: https://bokradio.highquality.radiostream.co.za/  # HTTPS upgrade verified 2026-05-02
   codec: MP3
   tags: [afrikaans, schlager, south african]
   favicon: https://fmradiobuffer.co.za/wp-content/uploads/2015/03/bok-radio-top-40.jpg
@@ -10065,6 +10078,10 @@
   homepage: https://www.akaboozifm.com/
   country: UG
   status: stream-only
+  # Naked-IP icecast endpoint (162.244.80.52:8732). Probed 2026-05-02 —
+  # no HTTPS variant. Mixed-content block on https sites; iOS will need
+  # an ATS exception. Audit #71.
+  httpAllowed: true
 
 - id: ug-sanyu-fm
   stationuuid: 97ef6ea6-b8c1-40a4-894c-e38e87f29e46
