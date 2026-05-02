@@ -496,19 +496,35 @@
             close this tab. Plug in your phone.
           </p>
 
-          <div class="wake-time-row">
-            <input type="time" id="wake-time" required />
-            <button type="button" class="btn-primary" id="wake-toggle">Arm</button>
-          </div>
-
-          <div class="wake-target">
-            <div class="wake-target__label">Wake to</div>
-            <div class="wake-target__media">
-              <div class="wake-target__cover" id="wake-target-cover" aria-hidden="true"></div>
-              <div class="wake-target__station" id="wake-target-station">—</div>
+          <div class="wake-grid">
+            <!-- Left: album art with the alarm time overlaid like a
+                 lock-screen clock. Tap the time pill to bring up the
+                 native iOS time picker. -->
+            <div class="wake-grid__art">
+              <div class="wake-art__cover" id="wake-target-cover" aria-hidden="true"></div>
+              <label class="wake-art__time-wrap">
+                <input type="time" id="wake-time" class="wake-art__time" required aria-label="Wake time" />
+              </label>
             </div>
-            <div class="wake-target__hint" id="wake-target-hint" hidden>
-              Play a station first, then come back to arm.
+
+            <!-- Right: target station name + the armed/unarmed two-state
+                 radio control. Tapping a pill switches state directly. -->
+            <div class="wake-grid__panel">
+              <div class="wake-panel__label">Wake to</div>
+              <div class="wake-panel__station" id="wake-target-station">—</div>
+              <div class="wake-panel__hint" id="wake-target-hint" hidden>
+                Play a station first.
+              </div>
+              <div class="wake-radio" role="radiogroup" aria-label="Wake state">
+                <button type="button" class="wake-radio__opt" id="wake-arm-btn" role="radio" aria-checked="false">
+                  <span class="wake-radio__dot" aria-hidden="true"></span>
+                  <span class="wake-radio__label">Armed</span>
+                </button>
+                <button type="button" class="wake-radio__opt is-active" id="wake-disarm-btn" role="radio" aria-checked="true">
+                  <span class="wake-radio__dot" aria-hidden="true"></span>
+                  <span class="wake-radio__label">Unarmed</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -221,7 +221,8 @@ const $wakeTime = document.getElementById('wake-time') as HTMLInputElement;
 const $wakeTargetStation = document.getElementById('wake-target-station') as HTMLElement;
 const $wakeTargetCover = document.getElementById('wake-target-cover') as HTMLElement;
 const $wakeTargetHint = document.getElementById('wake-target-hint') as HTMLElement;
-const $wakeToggle = document.getElementById('wake-toggle') as HTMLButtonElement;
+const $wakeArmBtn = document.getElementById('wake-arm-btn') as HTMLButtonElement;
+const $wakeDisarmBtn = document.getElementById('wake-disarm-btn') as HTMLButtonElement;
 const $wakePill = document.getElementById('wake-pill') as HTMLButtonElement;
 const $wakePillTime = document.getElementById('wake-pill-time') as HTMLElement;
 const $wakePillName = document.getElementById('wake-pill-name') as HTMLElement;
@@ -2395,19 +2396,27 @@ function openWakeSheet(open: boolean): void {
   const noStation = !station;
   $wakeTargetHint.hidden = !noStation;
 
-  // Single toggle button: "Disarm" while armed, "Arm" otherwise. The
-  // is-armed class flips it from the primary accent fill to a softer
-  // outlined treatment so it doesn't shout "tap me" once already
-  // armed.
-  if (armed) {
-    $wakeToggle.textContent = 'Disarm';
-    $wakeToggle.classList.add('is-armed');
-    $wakeToggle.disabled = false;
-  } else {
-    $wakeToggle.textContent = 'Arm';
-    $wakeToggle.classList.remove('is-armed');
-    $wakeToggle.disabled = noStation;
-  }
+  syncWakeRadio();
+  // Disable "Armed" when we don't have a station to arm against — the
+  // user has to play something first. The hint above makes that explicit.
+  $wakeArmBtn.disabled = noStation && !armed;
+}
+
+/** Reflect the current armed state in the two-pill radio control.
+ *  Called when the sheet opens and after every arm/disarm action. */
+function syncWakeRadio(): void {
+  const isArmed = !!wakeScheduler.current();
+  $wakeArmBtn.classList.toggle('is-active', isArmed);
+  $wakeArmBtn.setAttribute('aria-checked', String(isArmed));
+  $wakeDisarmBtn.classList.toggle('is-active', !isArmed);
+  $wakeDisarmBtn.setAttribute('aria-checked', String(!isArmed));
+}
+
+/** Toggle the sheet — open if closed, close if open. The wake icon
+ *  in the topbar pill and the NP controls both wire to this so a
+ *  second tap dismisses the sheet. */
+function toggleWakeSheet(): void {
+  openWakeSheet(!$wakeSheet.classList.contains('open'));
 }
 
 function setMuted(muted: boolean): void {
@@ -2451,7 +2460,9 @@ function armWakeFromSheet(): void {
   startPillTick();
   ensureNotificationPermission();
   track('wake/arm', time);
-  openWakeSheet(false);
+  // Sheet stays open — the user just flipped the radio to "Armed" and
+  // wants to see the resulting state. They dismiss explicitly via the
+  // X or by tapping the alarm icon again.
 
   // Critical: start the silent bed right now while the user gesture
   // from the Arm tap is still in scope. The bed is a 1-second
@@ -2807,17 +2818,23 @@ $aboutClose.addEventListener('click', () => openAboutSheet(false));
 $dashboardBtn.addEventListener('click', () => void openDashboardSheet(true));
 $dashboardClose.addEventListener('click', () => void openDashboardSheet(false));
 
-$npWake.addEventListener('click', () => openWakeSheet(true));
+// Tap a wake icon → toggle the sheet (second tap dismisses).
+$npWake.addEventListener('click', toggleWakeSheet);
+$wakePill.addEventListener('click', toggleWakeSheet);
 $wakeClose.addEventListener('click', () => openWakeSheet(false));
-$wakePill.addEventListener('click', () => openWakeSheet(true));
-// Single toggle button — disarms when already armed, arms otherwise.
-$wakeToggle.addEventListener('click', () => {
-  if (wakeScheduler.current()) {
-    disarmWake();
-    openWakeSheet(false);
-  } else {
-    armWakeFromSheet();
-  }
+
+// Two-state radio: tap "Armed" to arm, "Unarmed" to disarm. Idempotent —
+// tapping the already-active pill is a no-op.
+$wakeArmBtn.addEventListener('click', () => {
+  if (wakeScheduler.current()) return; // already armed
+  if ($wakeArmBtn.disabled) return; // no station to arm against
+  armWakeFromSheet();
+  syncWakeRadio();
+});
+$wakeDisarmBtn.addEventListener('click', () => {
+  if (!wakeScheduler.current()) return; // already disarmed
+  disarmWake();
+  syncWakeRadio();
 });
 
 $mini.addEventListener('click', () => openNp(true));

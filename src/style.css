@@ -2207,23 +2207,56 @@ body.is-playing .np-bottom .live-dot  {
   line-height: 1.45;
   border-radius: 0 6px 6px 0;
 }
-/* Time picker rendered as a prominent accent pill instead of a full-
-   width form input — the only "field" in the wake sheet, so it
-   reads as the headline number. The native iOS time spinner still
-   appears on tap; we just compact the resting display so it fits
-   on small screens. */
-.wake-time-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
+
+/* Two-column layout: cover-with-clock on the left, station name +
+   armed/unarmed control on the right. Stacks below 360px so the
+   smallest phones still get readable hit targets. */
+.wake-grid {
+  display: grid;
+  grid-template-columns: minmax(140px, 1fr) 1.1fr;
+  gap: 16px;
+  align-items: stretch;
 }
-.wake-time-row .btn-primary {
-  flex-shrink: 0;
+@media (max-width: 360px) {
+  .wake-grid { grid-template-columns: 1fr; }
 }
-.wake-body .field {
-  align-items: center;
+
+/* Left tile — album art with the alarm time overlaid at the bottom,
+   lock-screen aesthetic. Cover fills the tile; the time pill floats
+   above with a translucent backdrop so it stays legible against any
+   favicon. */
+.wake-grid__art {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg-2);
+}
+.wake-art__cover {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+.wake-art__cover .fav {
+  width: 100%;
+  height: 100%;
+  font-size: 28px;
+  border-radius: 0;
+}
+.wake-art__cover:empty {
+  background:
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--accent) 12%, transparent),
+      color-mix(in srgb, var(--accent) 4%, transparent));
+}
+
+.wake-art__time-wrap {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  display: block;
 }
 #wake-time {
   /* appearance: none strips iOS Safari's native button chrome — without
@@ -2232,64 +2265,42 @@ body.is-playing .np-bottom .live-dot  {
   appearance: none;
   -webkit-appearance: none;
   width: auto;
-  min-width: 7em;
-  max-width: 100%;
-  padding: 14px 28px;
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
-  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  min-width: 6em;
+  padding: 8px 18px;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
   color: var(--accent);
   border-radius: 999px;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-align: center;
   display: inline-block;
   cursor: pointer;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 #wake-time::-webkit-date-and-time-value { text-align: center; }
 #wake-time:focus {
   border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  background: color-mix(in srgb, var(--bg) 96%, transparent);
 }
 
-.wake-target {
-  padding: 14px 16px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--bg-2);
+/* Right panel — label, station name, two-state radio. Stacked. */
+.wake-grid__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
 }
-.wake-target__label {
+.wake-panel__label {
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--ink-3);
-  margin-bottom: 10px;
 }
-.wake-target__media {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-.wake-target__cover {
-  width: 56px;
-  height: 56px;
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-}
-/* The cover slot reuses .fav from row rendering for consistent
-   look (border, background, fallback initials, image fitting). */
-.wake-target__cover .fav {
-  width: 100%;
-  height: 100%;
-  font-size: 18px;
-}
-.wake-target__cover:empty {
-  border: 1px dashed var(--line);
-  border-radius: 2px;
-}
-.wake-target__station {
+.wake-panel__station {
   font-size: 18px;
   font-weight: 500;
   color: var(--accent);
@@ -2297,16 +2308,64 @@ body.is-playing .np-bottom .live-dot  {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  margin-bottom: 4px;
 }
-.wake-target__hint {
-  margin-top: 8px;
+.wake-panel__hint {
   font-size: 12px;
   color: var(--ink-3);
+  margin: -4px 0 8px;
 }
-.wake-target__hint[hidden] { display: none; }
-.wake-actions {
-  justify-content: space-between;
-  gap: 12px;
+.wake-panel__hint[hidden] { display: none; }
+
+/* Two-state radio — looks like an iOS-style segmented selector but
+   each option is a real radio with a leading dot. The selected pill
+   gets the accent fill; the other stays outlined. */
+.wake-radio {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto;
+}
+.wake-radio__opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  color: var(--ink-2);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+.wake-radio__opt:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.wake-radio__opt.is-active {
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+  color: var(--accent);
+}
+.wake-radio__dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 1.5px solid currentColor;
+  flex-shrink: 0;
+  position: relative;
+}
+.wake-radio__opt.is-active .wake-radio__dot::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 999px;
+  background: currentColor;
+}
+.wake-radio__label {
+  letter-spacing: 0.04em;
 }
 
 /* Topbar pill — only visible while armed. Tappable to re-open the
