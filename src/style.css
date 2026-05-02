@@ -2317,6 +2317,26 @@ body.is-playing .np-bottom .live-dot  {
 }
 .wake-panel__hint[hidden] { display: none; }
 
+/* Live "will fire in X" preview. Mono font to match the rest of the
+   app's clock-y readouts. Highlights when >= 12h so a user who picked
+   the wrong AM/PM (or hit a bad picker rounding) sees the discrepancy
+   before arming. */
+.wake-preview {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+  text-transform: uppercase;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  text-align: center;
+}
+.wake-preview.is-far {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
 /* Two-state radio — looks like an iOS-style segmented selector but
    each option is a real radio with a leading dot. The selected pill
    gets the accent fill; the other stays outlined. */

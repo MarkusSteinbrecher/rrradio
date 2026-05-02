@@ -515,6 +515,12 @@
               <div class="wake-panel__hint" id="wake-target-hint" hidden>
                 Play a station first.
               </div>
+              <!-- Live "will fire in X" preview — updates as the user
+                   changes the time picker. Helps catch a picker that
+                   captured a different value than the user intended:
+                   if the preview reads "in 23h 58m" when the user
+                   wanted 2 minutes, they re-pick before arming. -->
+              <div class="wake-preview" id="wake-preview" aria-live="polite">—</div>
               <div class="wake-radio" role="radiogroup" aria-label="Wake state">
                 <button type="button" class="wake-radio__opt" id="wake-arm-btn" role="radio" aria-checked="false">
                   <span class="wake-radio__dot" aria-hidden="true"></span>
