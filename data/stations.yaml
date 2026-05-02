@@ -3927,7 +3927,7 @@
 - id: de-trancebase
   stationuuid: 342a0e53-ab9b-11e9-88f4-52543be04c81
   changeuuid: c1493351-5f9c-4f3e-9833-9449fc77530e
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [50.110, 8.682]
   broadcaster: independent
   name: TranceBase.FM
@@ -3936,7 +3936,268 @@
   tags: [trance, electronic, germany]
   homepage: https://www.trancebase.fm/
   country: DE
-  status: stream-only
+  status: icy-only
+
+# ─── DE Phase 5 — high-vote independents (2026-05-02) ───
+# 19 community / independent stations the highest votes on Radio
+# Browser. The 5 hosted on Laut.FM ship at status: working using the
+# new laut-fm fetcher (api.laut.fm/station/<slug>/current_song; surfaces
+# artist photo as cover). The other 14 emit clean ICY on their streams
+# so they ship at status: icy-only — no per-broadcaster fetcher needed.
+
+- id: de-mango-radio
+  stationuuid: 78012206-1aa1-11e9-a80b-52543be04c81
+  changeuuid: 03e43f84-4e3d-48eb-88ab-107340b86101
+  reviewedAt: 2026-05-02
+  geo: [49.488, 8.466]
+  broadcaster: laut-fm
+  name: Mango Radio
+  metadataUrl: mangoradio
+  bitrate: 128
+  codec: MP3
+  tags: [variety, indie, germany]
+  country: DE
+  status: working
+
+- id: de-deutschrap
+  stationuuid: 9c3f1676-9445-4d72-b4da-d3a1c4847b91
+  changeuuid: de14fb00-6222-4a91-8e59-0ed2d955dc42
+  reviewedAt: 2026-05-02
+  geo: [52.520, 13.405]
+  broadcaster: laut-fm
+  name: Deutschrap
+  metadataUrl: deutschrap
+  bitrate: 128
+  codec: MP3
+  tags: [hip hop, rap, deutschrap, germany]
+  country: DE
+  status: working
+
+- id: de-total-instrumental
+  stationuuid: 96154a1e-0601-11e8-ae97-52543be04c81
+  changeuuid: f12bbd37-e85c-4305-a664-a29c40959bcb
+  reviewedAt: 2026-05-02
+  geo: [49.488, 8.466]
+  broadcaster: laut-fm
+  name: Total Instrumental
+  metadataUrl: total-instrumental
+  bitrate: 128
+  codec: MP3
+  tags: [instrumental, ambient, electronic, germany]
+  country: DE
+  status: working
+
+- id: de-1000-oldies
+  stationuuid: 9610ac7f-0601-11e8-ae97-52543be04c81
+  changeuuid: af3c8ab4-74c1-4a2d-869c-a1e00a05cf9e
+  reviewedAt: 2026-05-02
+  geo: [49.488, 8.466]
+  broadcaster: laut-fm
+  name: 1000 Oldies
+  metadataUrl: 1000oldies
+  bitrate: 128
+  codec: MP3
+  tags: [oldies, 50s, 60s, 70s, 80s, germany]
+  country: DE
+  status: working
+
+- id: de-acid-jazz-radio
+  stationuuid: 96176f80-0601-11e8-ae97-52543be04c81
+  changeuuid: 71893da4-ac10-44ad-9dd8-a0e8f776bf03
+  reviewedAt: 2026-05-02
+  geo: [49.488, 8.466]
+  broadcaster: laut-fm
+  name: Acid Jazz Radio
+  metadataUrl: acidjazz
+  bitrate: 128
+  codec: MP3
+  tags: [acid jazz, jazz, germany]
+  country: DE
+  status: working
+
+- id: de-0n-classic-rock
+  stationuuid: d7f5a497-40ec-11e9-aa55-52543be04c81
+  changeuuid: 5a13233a-1694-4bae-93b0-82391be72528
+  reviewedAt: 2026-05-02
+  geo: [50.110, 8.682]
+  broadcaster: independent
+  name: 0 N - Classic Rock
+  bitrate: 128
+  codec: MP3
+  tags: [classic rock, 80s, 90s, rock, germany]
+  country: DE
+  status: icy-only
+
+- id: de-0n-70s
+  stationuuid: 6cddaca1-f2c1-11e8-a471-52543be04c81
+  changeuuid: 153f2cb6-e90b-4f23-af60-271e97404add
+  reviewedAt: 2026-05-02
+  geo: [50.110, 8.682]
+  broadcaster: independent
+  name: 0 N - 70s
+  bitrate: 128
+  codec: MP3
+  tags: [70s, oldies, pop, germany]
+  country: DE
+  status: icy-only
+
+- id: de-0n-80s
+  stationuuid: 8a41b60c-f115-11e8-a471-52543be04c81
+  changeuuid: ac8d7536-6cd9-489b-9cce-d3d8cc5e5aeb
+  reviewedAt: 2026-05-02
+  geo: [50.110, 8.682]
+  broadcaster: independent
+  name: 0 N - 80s
+  bitrate: 128
+  codec: MP3
+  tags: [80s, oldies, pop, germany]
+  country: DE
+  status: icy-only
+
+- id: de-0n-90s
+  stationuuid: 6217a525-f2c2-11e8-a471-52543be04c81
+  changeuuid: 0db93f31-e730-4649-94cf-724ade7a2c5d
+  reviewedAt: 2026-05-02
+  geo: [50.110, 8.682]
+  broadcaster: independent
+  name: 0 N - 90s
+  bitrate: 128
+  codec: MP3
+  tags: [90s, dance, pop, rock, germany]
+  country: DE
+  status: icy-only
+
+- id: de-0n-indie
+  stationuuid: 51895bd4-f369-11e8-a471-52543be04c81
+  changeuuid: 426de28c-fd23-4bbe-bdfc-f1aa750f4c2c
+  reviewedAt: 2026-05-02
+  geo: [50.110, 8.682]
+  broadcaster: independent
+  name: 0 N - Indie
+  bitrate: 128
+  codec: MP3
+  tags: [indie, alternative, electro, hip hop, rock, germany]
+  country: DE
+  status: icy-only
+
+- id: de-0n-smooth-jazz
+  stationuuid: 389011a1-3a96-11e9-9b4e-52543be04c81
+  changeuuid: 67cb3c6a-6054-4936-a677-649170269ff9
+  reviewedAt: 2026-05-02
+  geo: [50.110, 8.682]
+  broadcaster: independent
+  name: 0 N - Smooth Jazz
+  bitrate: 64
+  codec: AAC+
+  tags: [smooth jazz, jazz, germany]
+  country: DE
+  status: icy-only
+
+- id: de-0n-chillout
+  stationuuid: be9dcb42-f365-11e8-a471-52543be04c81
+  changeuuid: 6821298e-8d73-44fe-800c-37c4d50bbf12
+  reviewedAt: 2026-05-02
+  geo: [50.110, 8.682]
+  broadcaster: independent
+  name: 0 N - Chillout
+  bitrate: 64
+  codec: AAC+
+  tags: [chillout, ambient, lounge, germany]
+  country: DE
+  status: icy-only
+
+- id: de-0nlineradio-soft-rock
+  stationuuid: 143caaf5-1354-442b-bc83-3bae08aa45c7
+  changeuuid: c55fb3af-e193-4095-bd54-35c2f054bbaf
+  reviewedAt: 2026-05-02
+  geo: [50.110, 8.682]
+  broadcaster: independent
+  name: 0nlineradio Soft Rock
+  bitrate: 192
+  codec: MP3
+  tags: [soft rock, 70s, 80s, pop rock, germany]
+  country: DE
+  status: icy-only
+
+- id: de-reggae-rastamusic
+  stationuuid: 960ebc25-0601-11e8-ae97-52543be04c81
+  changeuuid: 85db92f6-e6b2-4de4-80cd-c6711376262b
+  reviewedAt: 2026-05-02
+  geo: [50.110, 8.682]
+  broadcaster: independent
+  name: Reggae Radio Rastamusic
+  bitrate: 192
+  codec: MP3
+  tags: [reggae, dub, germany]
+  country: DE
+  status: icy-only
+
+- id: de-rautemusik-trance
+  stationuuid: 8f1e8acf-2ce6-4542-a423-bc29ea514e4a
+  changeuuid: 1d09f99a-34c5-466d-80ea-2948ebd5d5ce
+  reviewedAt: 2026-05-02
+  geo: [50.937, 6.960]
+  broadcaster: independent
+  name: Rautemusik Trance
+  streamUrl: https://trance-high.rautemusik.fm/
+  bitrate: 192
+  codec: MP3
+  tags: [trance, electro, electronic, germany]
+  homepage: https://www.rautemusik.fm/trance/
+  country: DE
+  status: icy-only
+
+- id: de-radio-arabella-muenchen
+  stationuuid: 963beab0-0601-11e8-ae97-52543be04c81
+  changeuuid: 6f1fed06-ff76-4f34-9228-3032e3d16058
+  reviewedAt: 2026-05-02
+  geo: [48.137, 11.575]
+  broadcaster: independent
+  name: Radio Arabella München
+  bitrate: 128
+  codec: MP3
+  tags: [oldies, hits, schlager, regional, münchen, germany]
+  country: DE
+  status: icy-only
+
+- id: de-radio-paloma
+  stationuuid: 96352604-0601-11e8-ae97-52543be04c81
+  changeuuid: f604aba5-7be6-4e32-949d-0b7fdb0c12a2
+  reviewedAt: 2026-05-02
+  geo: [52.520, 13.405]
+  broadcaster: independent
+  name: Radio Paloma
+  bitrate: 128
+  codec: MP3
+  tags: [schlager, oldies, germany]
+  country: DE
+  status: icy-only
+
+- id: de-kiss-fm-988
+  stationuuid: 960b364a-0601-11e8-ae97-52543be04c81
+  changeuuid: f2a60342-e190-44a2-beeb-2611ec7abba2
+  reviewedAt: 2026-05-02
+  geo: [52.520, 13.405]
+  broadcaster: independent
+  name: 98.8 Kiss FM
+  bitrate: 128
+  codec: MP3
+  tags: [hip hop, rnb, urban, berlin, germany]
+  country: DE
+  status: icy-only
+
+- id: de-technolovers-deep-house
+  stationuuid: cc0fdbe3-a2fb-4f0a-b67d-b47acd6354c7
+  changeuuid: a4e30403-6900-48fa-8b88-b1da2566860d
+  reviewedAt: 2026-05-02
+  geo: [50.110, 8.682]
+  broadcaster: independent
+  name: Technolovers Deep House
+  bitrate: 192
+  codec: MP3
+  tags: [deep house, electro house, electronic, germany]
+  country: DE
+  status: icy-only
 
 - id: de-hit-radio-ffh
   stationuuid: 96056147-0601-11e8-ae97-52543be04c81

@@ -1202,6 +1202,48 @@ const fetchFfhMetadata: MetadataFetcher = async (station, signal) => {
   }
 };
 
+interface LautFmArtist {
+  name?: string;
+  image?: string;
+  thumb?: string;
+}
+interface LautFmResponse {
+  type?: string;
+  title?: string;
+  artist?: LautFmArtist;
+}
+
+/** Laut.FM — community-radio platform hosting thousands of small German
+ *  stations (Mango Radio, Deutschrap, 1000 Oldies, etc.). Public API
+ *  at api.laut.fm/station/<slug>/current_song. CORS open. Each station's
+ *  metadataUrl in YAML carries the slug (e.g. "mangoradio") rather than
+ *  the full URL, matching the FFH mountpoint pattern. The `artist.image`
+ *  is an artist photo (laut.de bilder), not a per-track cover, but
+ *  serves as a cover-equivalent for the UI. `type` discriminates song
+ *  vs jingle/promo. */
+const fetchLautFmMetadata: MetadataFetcher = async (station, signal) => {
+  const slug = station.metadataUrl?.trim();
+  if (!slug) return null;
+  const url = `https://api.laut.fm/station/${encodeURIComponent(slug)}/current_song`;
+  try {
+    const res = await fetch(url, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as LautFmResponse;
+    if (data.type && data.type !== 'song') return null;
+    if (!data.title) return null;
+    const artist = data.artist?.name?.trim();
+    const track = data.title.trim();
+    return {
+      artist: artist ? titleCase(artist) : undefined,
+      track: titleCase(track),
+      raw: `${artist ?? ''} - ${track}`.trim(),
+      coverUrl: data.artist?.image || data.artist?.thumb || undefined,
+    };
+  } catch {
+    return null;
+  }
+};
+
 /** RBB Radio Eins — HTML fragment `<p class="artist">...</p><p class="songtitle">...</p>`
  *  served from `radioeins.de/include/rad/nowonair/now_on_air.html`. CORS open. */
 const RADIO_EINS_RE = /<p\s+class="artist">([^<]*)<\/p>\s*<p\s+class="songtitle">([^<]*)<\/p>/i;
@@ -1389,6 +1431,7 @@ const FETCHERS_BY_KEY: Record<string, MetadataFetcher> = {
   streamabc: fetchStreamabcMetadata,
   ffh: fetchFfhMetadata,
   'rbb-radioeins': fetchRadioEinsMetadata,
+  'laut-fm': fetchLautFmMetadata,
   antenne: fetchAntenneMetadata,
   'rb-bremen': fetchRadioBremenMetadata,
   sr: fetchSrMetadata,

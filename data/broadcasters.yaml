@@ -192,6 +192,18 @@ jazzradio-berlin:
   country: DE
   homepage: http://www.jazzradio.net/
 
+laut-fm:
+  name: Laut.FM
+  country: DE
+  homepage: https://laut.fm/
+  metadata: laut-fm
+  notes: |
+    Community-radio platform hosting thousands of small German
+    stations. Public API at api.laut.fm/station/<slug>/current_song
+    (CORS open). Per-station metadataUrl in YAML carries the slug
+    (e.g. "mangoradio"), not the full URL — keeps YAML small and
+    matches the FFH mountpoint pattern.
+
 klassik-radio:
   name: Klassik Radio
   country: DE
