@@ -83,6 +83,47 @@ export interface StationFilter {
   offset?: number;
 }
 
+/** Inputs that drive the Browse view's search params. The fields mirror
+ *  the Browse-tab UI state in main.ts; pulled into a typed shape so the
+ *  filter-construction logic can live as a pure function (and so
+ *  runQuery + loadMore are guaranteed to use the same params, which is
+ *  the bug audit #70 fixed). */
+export interface BrowseInputs {
+  /** Raw search-box value, not yet trimmed. */
+  query: string;
+  /** `'all'` or a tag slug. `'all'` means "no genre filter". */
+  activeTag: string;
+  /** `'all'` or an ISO 3166-1 alpha-2 country code. */
+  activeCountry: string;
+  /** Browse sub-mode: `'news'` adds `tag=news`; `'played'` is a local
+   *  view (no RB call needed); `null` is the default home view. */
+  browseMode: 'played' | 'news' | null;
+}
+
+/** Build the StationFilter and hasAnyFilter signal that the Browse
+ *  page sends to RB. Pure — every read happens in one place, so
+ *  runQuery and loadMore can never drift out of sync. */
+export function composeBrowseFilter(
+  inputs: BrowseInputs,
+  opts: { offset?: number } = {},
+): { filter: StationFilter; hasAnyFilter: boolean } {
+  const query = inputs.query.trim();
+  const genreTag = inputs.activeTag === 'all' ? undefined : inputs.activeTag;
+  const countryCode = inputs.activeCountry === 'all' ? undefined : inputs.activeCountry;
+  // News mode replaces any user-picked genre with the literal `news`
+  // tag — same precedence runQuery used before extraction.
+  const tag = inputs.browseMode === 'news' ? 'news' : genreTag;
+  return {
+    filter: {
+      query: query || undefined,
+      tag,
+      countryCode,
+      offset: opts.offset,
+    },
+    hasAnyFilter: !!(query || tag || countryCode),
+  };
+}
+
 export async function searchStations(filter: StationFilter): Promise<Station[]> {
   const hasFilter = !!(filter.query || filter.tag || filter.countryCode);
   if (!hasFilter) return fetchStations(filter.offset);

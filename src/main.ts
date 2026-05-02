@@ -14,7 +14,7 @@ import { MetadataPoller, icyFetcher } from './metadata';
 import { AudioPlayer, stateLabel } from './player';
 import { track } from './telemetry';
 import { pseudoFrequency } from './radioBrowser';
-import { PAGE_SIZE, fetchStations, searchStations } from './stations';
+import { composeBrowseFilter, PAGE_SIZE, fetchStations, searchStations } from './stations';
 import {
   addCustom,
   getCustom,
@@ -1811,6 +1811,23 @@ function renderContent(): void {
 // Queries
 // ─────────────────────────────────────────────────────────────
 
+/** Snapshot the current Browse-tab inputs into a shape composeBrowseFilter
+ *  can operate on. One read site, used by runQuery + loadMore so they
+ *  cannot drift out of sync (the audit-#70 bug). */
+function browseInputs(): {
+  query: string;
+  activeTag: string;
+  activeCountry: string;
+  browseMode: 'played' | 'news' | null;
+} {
+  return {
+    query: $search.value,
+    activeTag,
+    activeCountry,
+    browseMode,
+  };
+}
+
 async function runQuery(): Promise<void> {
   if (activeTab !== 'browse') {
     renderContent();
@@ -1821,19 +1838,14 @@ async function runQuery(): Promise<void> {
   browseOffset = 0;
   browseHasMore = false;
   browseLoadingMore = false;
-  const query = $search.value.trim();
-  const genreTag = activeTag === 'all' ? undefined : activeTag;
-  const countryFilter = activeCountry === 'all' ? undefined : activeCountry;
-  const noFilter = !query && !genreTag && !countryFilter;
-  // News mode applies its tag to the RB call when we fetch.
-  const tagFilter = browseMode === 'news' ? 'news' : genreTag;
+  const { filter, hasAnyFilter } = composeBrowseFilter(browseInputs(), { offset: 0 });
   // Skip Radio Browser fetch when:
   //  · curated-only is on (we never render RB results in that mode)
   //  · OR mode is 'played' AND no filter is set (local data only)
   // Mode='news' and mode=null both need an RB fetch (unless curated-only
   // is on, in which case we'd never use the result).
   const needsRb =
-    !curatedOnly && (!noFilter || browseMode === null || browseMode === 'news');
+    !curatedOnly && (hasAnyFilter || browseMode === null || browseMode === 'news');
   if (!needsRb) {
     if (myToken !== queryToken) return;
     lastBrowseStations = [];
@@ -1842,12 +1854,7 @@ async function runQuery(): Promise<void> {
   }
   $content.replaceChildren(statusLine('Tuning in…'));
   try {
-    const stations = await searchStations({
-      query: query || undefined,
-      tag: tagFilter,
-      countryCode: countryFilter,
-      offset: 0,
-    });
+    const stations = await searchStations(filter);
     if (myToken !== queryToken) return;
     lastBrowseStations = stations;
     // RB's searchStations dedupes by streamUrl, so a 60-result page
@@ -1873,10 +1880,14 @@ async function loadMore(): Promise<void> {
   const myToken = queryToken;
   const nextOffset = browseOffset + PAGE_SIZE;
   try {
-    const query = $search.value.trim();
-    const tagFilter = activeTag === 'all' ? undefined : activeTag;
-    const more = query || tagFilter
-      ? await searchStations({ query: query || undefined, tag: tagFilter, offset: nextOffset })
+    const { filter, hasAnyFilter } = composeBrowseFilter(browseInputs(), {
+      offset: nextOffset,
+    });
+    // Filtered pagination uses searchStations (carries query + tag +
+    // country); unfiltered home-view uses fetchStations which returns
+    // the worldwide top-by-votes feed.
+    const more = hasAnyFilter
+      ? await searchStations(filter)
       : await fetchStations(nextOffset);
     if (myToken !== queryToken) return;
     // Radio Browser sometimes returns duplicates across page boundaries
