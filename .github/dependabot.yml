@@ -1,0 +1,60 @@
+version: 2
+updates:
+  # ────────────────────────────────────────────────────────────
+  # Web app (root npm)
+  # ────────────────────────────────────────────────────────────
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Berlin
+    open-pull-requests-limit: 5
+    labels: ["dependencies"]
+    groups:
+      # Bundle dev-dep bumps so they don't drown the PR queue.
+      dev:
+        dependency-type: development
+        update-types: [minor, patch]
+      # Production deps in their own group so security-significant
+      # changes are easy to review.
+      prod:
+        dependency-type: production
+        update-types: [minor, patch]
+    ignore:
+      # Major bumps need human review (breaking-change risk).
+      - dependency-name: "*"
+        update-types: [version-update:semver-major]
+
+  # ────────────────────────────────────────────────────────────
+  # Cloudflare Worker (worker/ npm)
+  # ────────────────────────────────────────────────────────────
+  - package-ecosystem: npm
+    directory: /worker
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Berlin
+    open-pull-requests-limit: 3
+    labels: ["dependencies", "worker"]
+    groups:
+      worker-deps:
+        update-types: [minor, patch]
+    ignore:
+      - dependency-name: "*"
+        update-types: [version-update:semver-major]
+
+  # ────────────────────────────────────────────────────────────
+  # GitHub Actions (workflow YAML pins)
+  # ────────────────────────────────────────────────────────────
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Berlin
+    open-pull-requests-limit: 3
+    labels: ["dependencies", "ci"]

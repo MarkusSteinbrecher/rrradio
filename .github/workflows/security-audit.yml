@@ -1,0 +1,111 @@
+name: Security audit
+
+# Weekly `npm audit` across the root web app + the Cloudflare Worker.
+# Opens / updates a single tracking issue when high or critical CVEs
+# appear; closes it when both audits are clean.
+#
+# Dependabot (.github/dependabot.yml) handles the actual upgrade PRs.
+# This workflow is the safety belt: catches CVEs that Dependabot
+# silently couldn't bump (e.g. transitive dependencies pinned by a
+# parent we can't upgrade) so they don't sit in the tree forever.
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'  # Monday 08:00 UTC, an hour after catalog-watch
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: npm audit (root)
+        id: root_audit
+        run: |
+          set +e
+          npm audit --omit=dev --audit-level=high > root-audit.txt 2>&1
+          ROOT_EXIT=$?
+          cat root-audit.txt
+          # Capture both prod-only + full reports; the issue body shows
+          # the prod-only summary first and the dev-deps separately.
+          npm audit --audit-level=high > root-audit-full.txt 2>&1 || true
+          if [ "$ROOT_EXIT" -ne 0 ]; then
+            echo "has_issues=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: npm audit (worker)
+        id: worker_audit
+        run: |
+          set +e
+          cd worker
+          npm ci --no-audit > /dev/null 2>&1
+          npm audit --audit-level=high > ../worker-audit.txt 2>&1
+          WORKER_EXIT=$?
+          cd ..
+          cat worker-audit.txt
+          if [ "$WORKER_EXIT" -ne 0 ]; then
+            echo "has_issues=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Combine outcomes
+        id: combined
+        run: |
+          if [ "${{ steps.root_audit.outputs.has_issues }}" = "true" ] \
+             || [ "${{ steps.worker_audit.outputs.has_issues }}" = "true" ]; then
+            echo "has_issues=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open or update tracking issue
+        if: steps.combined.outputs.has_issues == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create security-audit \
+            --description "Weekly npm-audit surfaced high/critical CVEs" \
+            --color B60205 --force >/dev/null 2>&1 || true
+
+          {
+            echo "Last run: $(date -u +'%Y-%m-%d %H:%M UTC')  ·  [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+            echo
+            echo "### root (prod deps only)"
+            echo
+            echo '```'
+            cat root-audit.txt
+            echo '```'
+            echo
+            echo "### worker"
+            echo
+            echo '```'
+            cat worker-audit.txt
+            echo '```'
+          } > body.md
+
+          NUM=$(gh issue list --label security-audit --state open --json number --jq '.[0].number // ""')
+          if [ -n "$NUM" ]; then
+            gh issue edit "$NUM" --body-file body.md
+            gh issue comment "$NUM" --body "Re-checked $(date -u +'%Y-%m-%d %H:%M UTC') — CVEs still present."
+          else
+            gh issue create \
+              --title "Security audit: high/critical CVEs in dependencies" \
+              --label security-audit \
+              --body-file body.md
+          fi
+
+      - name: Close tracking issue if all clean
+        if: steps.combined.outputs.has_issues != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          NUM=$(gh issue list --label security-audit --state open --json number --jq '.[0].number // ""')
+          if [ -n "$NUM" ]; then
+            gh issue close "$NUM" --comment "All clean as of $(date -u +'%Y-%m-%d %H:%M UTC'). Closing."
+          fi

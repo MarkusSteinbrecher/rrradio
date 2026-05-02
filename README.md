@@ -89,7 +89,7 @@ cross-site tracking, IPs are hashed and discarded within hours.
 ## Source
 
 Built with HTML, CSS, TypeScript and a healthy distrust of
-dependencies.
+dependencies. Released under the [MIT License](./LICENSE).
 
 ## Imprint
 
@@ -97,12 +97,22 @@ rrradio.org is a non-commercial side project.
 
 ## Quick start
 
+Node version is pinned in `.nvmrc` (currently 20). With nvm:
+
 ```bash
+nvm use         # pick the version from .nvmrc
 npm install
 npm run dev
 ```
 
 Open http://localhost:5173.
+
+## Tests
+
+```bash
+npm test           # one-shot run
+npm run test:watch # interactive
+```
 
 ## Build
 

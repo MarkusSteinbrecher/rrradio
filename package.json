@@ -3,6 +3,9 @@
   "private": true,
   "version": "0.0.1",
   "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "dev": "node tools/build-catalog.mjs && vite",
     "build": "node tools/build-catalog.mjs && tsc && vite build && node tools/build-station-pages.mjs",
