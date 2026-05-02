@@ -7,6 +7,39 @@ const WAKE_KEY = 'rrradio.wake.v1';
 const WAKE_LAST_TIME_KEY = 'rrradio.wake.lastTime.v1';
 const RECENTS_LIMIT = 12;
 
+/** Safe localStorage.getItem — returns null on quota / privacy-mode /
+ *  disabled-storage errors. Use this for any read in the app rather
+ *  than raw `localStorage.getItem`, so a misbehaving browser never
+ *  crashes app boot. */
+export function getString(key: string): string | null {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+/** Safe localStorage.setItem — silently swallows quota / privacy-mode
+ *  errors. Persisting non-critical UI state (last-tab, theme) shouldn't
+ *  fail the user-visible action. */
+export function setString(key: string, value: string): void {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // quota / privacy mode — ignore
+  }
+}
+
+/** Safe localStorage.removeItem — paired with getString/setString so
+ *  the whole key→value lifecycle goes through the safe wrappers. */
+export function removeKey(key: string): void {
+  try {
+    localStorage.removeItem(key);
+  } catch {
+    // quota / privacy mode — ignore
+  }
+}
+
 function readStations(key: string): Station[] {
   try {
     const raw = localStorage.getItem(key);

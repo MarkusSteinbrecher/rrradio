@@ -40,10 +40,13 @@ const {
   getCustom,
   getFavorites,
   getRecents,
+  getString,
   isCustom,
   isFavorite,
   pushRecent,
+  removeKey,
   reorderFavorites,
+  setString,
   toggleFavorite,
 } = await import('./storage');
 
@@ -179,6 +182,38 @@ describe('localStorage failure modes', () => {
     const tampered = [A, null, 'not an object', { name: 'no id' }, B];
     mem.setItem('rrradio.favorites.v2', JSON.stringify(tampered));
     expect(getFavorites().map((s) => s.id)).toEqual(['a', 'b']);
+  });
+});
+
+describe('safe string wrappers', () => {
+  it('getString returns stored value', () => {
+    mem.setItem('k', 'v');
+    expect(getString('k')).toBe('v');
+  });
+
+  it('getString returns null for missing key', () => {
+    expect(getString('missing')).toBe(null);
+  });
+
+  it('getString returns null when getItem throws', () => {
+    mem.failNextGet = true;
+    expect(getString('k')).toBe(null);
+  });
+
+  it('setString persists value', () => {
+    setString('k', 'v');
+    expect(mem.getItem('k')).toBe('v');
+  });
+
+  it('setString swallows quota errors silently', () => {
+    mem.failNextSet = true;
+    expect(() => setString('k', 'v')).not.toThrow();
+  });
+
+  it('removeKey deletes the entry', () => {
+    mem.setItem('k', 'v');
+    removeKey('k');
+    expect(mem.getItem('k')).toBe(null);
   });
 });
 

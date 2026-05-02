@@ -21,16 +21,20 @@ import {
   getFavorites,
   getRecents,
   getLastWakeTime,
+  getString,
   getWakeTo,
   isFavorite,
   pushRecent,
   removeCustom,
+  removeKey,
   reorderFavorites,
   setLastWakeTime,
+  setString,
   setWakeTo,
   toggleFavorite,
 } from './storage';
 import { fmtSharePct, normalizeForSearch } from './format';
+import { safeUrl, urlDisplay } from './url';
 import { classifyStoredWake, fadeVolume, formatCountdown, nextFireTime, WakeScheduler } from './wake';
 import type { NowPlaying, Station, WakeTo } from './types';
 
@@ -223,7 +227,7 @@ let lastListTab: ListTab = 'browse';
 type LibrarySection = 'fav' | 'recent';
 const LIBRARY_KEY = 'rrradio.library-section';
 let librarySection: LibrarySection =
-  localStorage.getItem(LIBRARY_KEY) === 'recent' ? 'recent' : 'fav';
+  getString(LIBRARY_KEY) === 'recent' ? 'recent' : 'fav';
 let activeTag = 'all';
 // ISO 3166-1 alpha-2 country code (uppercase) or 'all'. Filters both
 // curated matches and Radio Browser results (the API takes the same
@@ -396,18 +400,6 @@ function filterStations(stations: Station[], query: string): Station[] {
     if ((s.tags ?? []).some((t) => normalizeForSearch(t).includes(qNorm))) return true;
     return false;
   });
-}
-
-function urlDisplay(url: string | undefined): { host: string; href: string } | null {
-  if (!url) return null;
-  try {
-    const u = new URL(url);
-    const host = u.host.replace(/^www\./, '');
-    const path = u.pathname && u.pathname !== '/' ? u.pathname : '';
-    return { host: path ? `${host}${path}` : host, href: u.toString() };
-  } catch {
-    return { host: url, href: url };
-  }
 }
 
 function debounce<A extends unknown[]>(fn: (...args: A) => void, ms: number): (...args: A) => void {
@@ -2107,7 +2099,7 @@ function setTab(tab: Tab): void {
   // Library section follows whichever sub-tab is active.
   if (tab === 'fav' || tab === 'recent') {
     librarySection = tab;
-    localStorage.setItem(LIBRARY_KEY, tab);
+    setString(LIBRARY_KEY, tab);
   }
 
   activeTab = tab;
@@ -2136,7 +2128,7 @@ const THEME_KEY = 'rrradio.theme';
 type Theme = 'light' | 'dark';
 
 function readStoredTheme(): Theme | null {
-  const v = localStorage.getItem(THEME_KEY);
+  const v = getString(THEME_KEY);
   return v === 'light' || v === 'dark' ? v : null;
 }
 
@@ -2149,10 +2141,10 @@ function effectiveTheme(): Theme {
 function applyTheme(theme: Theme | null): void {
   if (theme === null) {
     document.documentElement.removeAttribute('data-theme');
-    localStorage.removeItem(THEME_KEY);
+    removeKey(THEME_KEY);
   } else {
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem(THEME_KEY, theme);
+    setString(THEME_KEY, theme);
   }
   const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
   if (meta) meta.content = effectiveTheme() === 'light' ? '#fafaf8' : '#0a0a0a';
@@ -2563,27 +2555,13 @@ function handleAddSubmit(e: SubmitEvent): void {
     showAddError('Stream URL is required.');
     return;
   }
-  try {
-    const u = new URL(streamUrl);
-    if (u.protocol !== 'http:' && u.protocol !== 'https:') {
-      showAddError('Stream URL must start with http:// or https://');
-      return;
-    }
-  } catch {
-    showAddError('Stream URL is not a valid URL.');
+  if (!safeUrl(streamUrl)) {
+    showAddError('Stream URL must be a valid http:// or https:// URL.');
     return;
   }
-  if (homepage) {
-    try {
-      const u = new URL(homepage);
-      if (u.protocol !== 'http:' && u.protocol !== 'https:') {
-        showAddError('Homepage must start with http:// or https://');
-        return;
-      }
-    } catch {
-      showAddError('Homepage is not a valid URL.');
-      return;
-    }
+  if (homepage && !safeUrl(homepage)) {
+    showAddError('Homepage must be a valid http:// or https:// URL.');
+    return;
   }
   if (country && !/^[A-Z]{2}$/.test(country)) {
     showAddError('Country must be a 2-letter code (e.g. CH).');

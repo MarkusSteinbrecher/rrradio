@@ -66,6 +66,39 @@ const drift =
   missingFromYaml.length > 0 ||
   yamlPublishableIds.size !== jsonIds.size;
 
+// URL safety: every absolute URL in the catalog must be http/https.
+// Catches catalog poisoning where a YAML or RB-merged value somehow
+// contains a javascript:/data:/file: scheme that would render as an
+// `<a href>` in the UI. Favicons are allowed to be relative paths
+// (e.g. "stations/grrif.png") since the runtime resolves those
+// against the public/ root.
+const ALLOWED_PROTOCOLS = new Set(['http:', 'https:']);
+const URL_FIELDS = ['streamUrl', 'homepage', 'favicon'];
+const urlIssues = [];
+for (const s of jsonStations) {
+  for (const field of URL_FIELDS) {
+    const v = s[field];
+    if (!v) continue;
+    if (field === 'favicon' && /^stations\//.test(v)) continue; // local asset
+    let proto;
+    try {
+      proto = new URL(v).protocol;
+    } catch {
+      urlIssues.push(`${s.id}: ${field} not a parseable URL: ${v}`);
+      continue;
+    }
+    if (!ALLOWED_PROTOCOLS.has(proto)) {
+      urlIssues.push(`${s.id}: ${field} has disallowed scheme ${proto} → ${v}`);
+    }
+  }
+}
+if (urlIssues.length > 0) {
+  console.error(`${C.bad}check-catalog: ${urlIssues.length} URL safety issue(s):${C.reset}`);
+  for (const m of urlIssues.slice(0, 20)) console.error(`  ${m}`);
+  if (urlIssues.length > 20) console.error(`  …and ${urlIssues.length - 20} more`);
+  process.exit(2);
+}
+
 if (drift) {
   console.error(
     `${C.bad}check-catalog: stations.json is out of sync with stations.yaml${C.reset}`,

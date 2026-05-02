@@ -136,7 +136,9 @@ function merged(s) {
         homepage: rb.homepage || undefined,
         country: rb.countrycode || undefined,
         tags: pickTags(rb),
-        favicon: rb.favicon || undefined,
+        // Some RB rows ship a literal "null" string for favicon — coerce
+        // to undefined so downstream URL safety checks don't trip.
+        favicon: rb.favicon && rb.favicon !== 'null' ? rb.favicon : undefined,
         bitrate: rb.bitrate && rb.bitrate > 0 ? rb.bitrate : undefined,
         codec: rb.codec || undefined,
         geo: pickGeo(rb),
