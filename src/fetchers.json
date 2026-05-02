@@ -1,0 +1,126 @@
+{
+  "$schema": "Single source of truth for the metadata-fetcher registry. Both the runtime code in src/builtins.ts and the offline analyzer in tools/analyze.mjs read this. A vitest test in src/builtins.test.ts verifies FETCHERS_BY_KEY's keys match this object's `fetchers` map exactly, so adding a fetcher to one without the other fails CI.",
+  "fetchers": {
+    "grrif": {
+      "broadcaster": "grrif",
+      "schedule": false,
+      "selfContained": true,
+      "notes": "Self-contained — fetcher hardcodes /live/covers.json"
+    },
+    "orf": {
+      "broadcaster": "orf",
+      "schedule": true,
+      "selfContained": false,
+      "notes": "Per-channel audioapi.orf.at endpoint declared in YAML"
+    },
+    "br-radioplayer": {
+      "broadcaster": "br",
+      "schedule": true,
+      "selfContained": false,
+      "notes": "br.de/mediathek/audio/<slug>/...radioplayer.json (worker-proxied)"
+    },
+    "bbc": {
+      "broadcaster": "bbc",
+      "schedule": true,
+      "selfContained": false,
+      "notes": "metadataUrl is a slug, not a URL — fetcher routes via worker /api/public/bbc/"
+    },
+    "hr": {
+      "broadcaster": "hr",
+      "schedule": true,
+      "selfContained": false,
+      "notes": "Hessischer Rundfunk per-channel JSON, worker-proxied"
+    },
+    "cro": {
+      "broadcaster": "cro",
+      "schedule": true,
+      "selfContained": false,
+      "notes": "Český rozhlas — programme + track API"
+    },
+    "mr": {
+      "broadcaster": "mr",
+      "schedule": true,
+      "selfContained": false,
+      "notes": "Magyar Rádió — programme + track"
+    },
+    "srr": {
+      "broadcaster": "srr",
+      "schedule": false,
+      "selfContained": false,
+      "notes": "Romania actualitati"
+    },
+    "srgssr-il": {
+      "broadcaster": "srf",
+      "schedule": false,
+      "selfContained": false,
+      "notes": "SRG SSR Integration Layer — serves all 14 SRF/RTS/RSI/RTR channels"
+    },
+    "swiss-radio": {
+      "broadcaster": "swiss-radio",
+      "schedule": false,
+      "selfContained": false,
+      "notes": "Radio Swiss Pop / Jazz / Classic; worker-proxied"
+    },
+    "azuracast": {
+      "broadcaster": null,
+      "schedule": false,
+      "selfContained": false,
+      "notes": "Generic AzuraCast nowplaying API — used by Kontrafunk and others"
+    },
+    "swr": {
+      "broadcaster": "swr",
+      "schedule": false,
+      "selfContained": false,
+      "notes": "playerbar JSON; richest payload (track + cover + program + presenter)"
+    },
+    "streamabc": {
+      "broadcaster": "klassik-radio",
+      "schedule": false,
+      "selfContained": false,
+      "notes": "Generic api.streamabc.net; used by Klassik Radio family"
+    },
+    "ffh": {
+      "broadcaster": "ffh",
+      "schedule": false,
+      "selfContained": false,
+      "notes": "FFH family endpoint covers FFH + harmony.fm + planet radio + sub-brands; metadataUrl carries the mountpoint key, not a URL"
+    },
+    "rbb-radioeins": {
+      "broadcaster": "rbb",
+      "schedule": false,
+      "selfContained": true,
+      "notes": "HTML fragment regex parser; only Radio Eins"
+    },
+    "laut-fm": {
+      "broadcaster": "laut-fm",
+      "schedule": false,
+      "selfContained": false,
+      "notes": "Community-radio platform; metadataUrl carries the slug"
+    },
+    "mdr": {
+      "broadcaster": "mdr",
+      "schedule": false,
+      "selfContained": false,
+      "notes": "Two URL patterns: /XML/titellisten/<slug>_onair.json and xmlresp-index.do?idwelle=<id>"
+    },
+    "antenne": {
+      "broadcaster": "antenne-bayern",
+      "schedule": false,
+      "selfContained": false,
+      "notes": "Shared by Antenne Bayern + Rock Antenne + Oldie Antenne; metadataUrl carries API URL with mountpoint hash"
+    },
+    "rb-bremen": {
+      "broadcaster": "rb",
+      "schedule": false,
+      "selfContained": false,
+      "notes": "Programme-level only (no track titles); worker-proxied"
+    },
+    "sr": {
+      "broadcaster": "sr",
+      "schedule": false,
+      "selfContained": false,
+      "notes": "Saarländischer Rundfunk programme-only, worker-proxied"
+    }
+  },
+  "wireableBroadcasters": ["br", "orf", "bbc", "hr"]
+}

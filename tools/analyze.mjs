@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
- * Per-station status report. Reads data/stations.yaml, runs the
- * automated checks documented in docs/curation-checklist.md, and:
+ * Per-station status report. Reads the published catalog at
+ * `public/stations.json` (the same artifact production ships), runs
+ * the automated checks documented in docs/curation-checklist.md, and:
  *   1. prints a markdown table to stdout (CI / human reading)
  *   2. writes public/station-status.json (admin dashboard reads this)
  *
@@ -9,12 +10,20 @@
  *
  * Probes are sequential to keep output readable and to avoid hammering
  * any one broadcaster from a single IP.
+ *
+ * Reading from public/stations.json (vs data/stations.yaml directly)
+ * means rows that depend on Radio Browser baseline values (e.g. all
+ * the auto-curated stream-only entries) get analyzed correctly with
+ * the merged streamUrl, codec, etc. — fixing the audit-#68 bug where
+ * 238 publishable rows had no local streamUrl and were silently
+ * skipped or marked broken. The fetcher manifest at src/fetchers.json
+ * is the single source of truth for which fetcher keys exist; a vitest
+ * test verifies it stays in sync with FETCHERS_BY_KEY.
  */
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { parse as parseYaml } from 'yaml';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
@@ -23,19 +32,27 @@ const PUBLISHABLE = new Set(['working', 'stream-only', 'icy-only']);
 const ORIGIN = 'https://rrradio.org';
 const TIMEOUT_MS = 8_000;
 
-// Fetchers we have wired today. Keep in sync with FETCHERS_BY_KEY in
-// src/builtins.ts.
-const KNOWN_FETCHERS = new Set(['grrif', 'orf', 'br-radioplayer', 'bbc', 'hr']);
-// Of those, which expose program (show) info beyond just track titles.
-const PROGRAM_CAPABLE = new Set(['orf', 'br-radioplayer', 'bbc', 'hr']);
+// Single-source-of-truth fetcher manifest. Keys here must match
+// FETCHERS_BY_KEY in src/builtins.ts (verified by src/builtins.test.ts).
+const fetcherManifest = JSON.parse(readFileSync(join(root, 'src/fetchers.json'), 'utf8'));
+const KNOWN_FETCHERS = new Set(Object.keys(fetcherManifest.fetchers));
+// Fetchers that expose program (show) info beyond per-track titles —
+// derived from the manifest's `schedule` flag.
+const PROGRAM_CAPABLE = new Set(
+  Object.entries(fetcherManifest.fetchers)
+    .filter(([, v]) => v.schedule)
+    .map(([k]) => k),
+);
 // Fetchers that hardcode their own metadata endpoint (don't depend on
-// the YAML's metadataUrl). For these, the meta column reports the
+// the YAML's metadataUrl). For these the meta column reports the
 // built-in source rather than "not declared".
-const SELF_CONTAINED_FETCHERS = new Set(['grrif']);
+const SELF_CONTAINED_FETCHERS = new Set(
+  Object.entries(fetcherManifest.fetchers)
+    .filter(([, v]) => v.selfContained)
+    .map(([k]) => k),
+);
 // Broadcasters whose metadataUrl can be auto-derived by wire-metadata.
-// When a station has one of these but no metadataUrl, the meta column
-// reports "wireable" rather than "not declared".
-const WIREABLE_BROADCASTERS = new Set(['br', 'orf', 'bbc', 'hr']);
+const WIREABLE_BROADCASTERS = new Set(fetcherManifest.wireableBroadcasters);
 
 // ─────────────────────────────────────────────────────────────
 // Helpers
@@ -210,12 +227,14 @@ function classifyLogo(favicon) {
 // Main
 // ─────────────────────────────────────────────────────────────
 
-const broadcasters = parseYaml(readFileSync(join(root, 'data/broadcasters.yaml'), 'utf8')) ?? {};
-const stations = parseYaml(readFileSync(join(root, 'data/stations.yaml'), 'utf8'));
+const catalog = JSON.parse(readFileSync(join(root, 'public/stations.json'), 'utf8'));
+const stations = Array.isArray(catalog) ? catalog : catalog.stations;
 if (!Array.isArray(stations)) {
-  console.error('analyze: stations.yaml is not a list');
+  console.error('analyze: public/stations.json missing stations[] (run `npm run catalog`)');
   process.exit(1);
 }
+// build-catalog already filters to PUBLISHABLE before writing, but the
+// guard stays for safety in case the schema evolves.
 const targets = stations.filter((s) => PUBLISHABLE.has(s?.status));
 
 console.log('');
@@ -232,8 +251,9 @@ console.log(`${''.padEnd(colWidth.length, '─')} ${HEADER.map(() => '───�
 const report = [];
 
 for (const s of targets) {
-  const broadcaster = broadcasters[s.broadcaster] ?? {};
-  const metadataKey = s.metadata ?? broadcaster.metadata ?? null;
+  // public/stations.json carries the *merged* metadata key (per-station
+  // override → broadcaster default → null), so we read it directly.
+  const metadataKey = s.metadata ?? null;
 
   const streamProbe = await probeStream(s.streamUrl);
   // Skip URL probe for fetchers whose metadataUrl is a slug, not a URL.

@@ -89,6 +89,26 @@ jobs:
             echo "has_issues=true" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Refresh station-status report
+        run: |
+          # `npm run analyze` probes every published station's stream +
+          # metadataUrl and writes public/station-status.json (consumed
+          # by the admin dashboard). Slow — sequential probes — but
+          # it's a weekly job. Commit the regenerated report if any
+          # row changed verdict.
+          npm run analyze
+          if git diff --quiet public/station-status.json; then
+            echo "Station-status report unchanged."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add public/station-status.json
+            git commit -m "Catalog-watch: refresh station-status.json"
+            git push origin main
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+
       - name: Show curation candidates
         run: npm run candidates 2>&1 | tee candidates.txt
 

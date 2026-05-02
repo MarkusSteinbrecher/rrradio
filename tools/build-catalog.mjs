@@ -149,6 +149,7 @@ function merged(s) {
   return {
     id: s.id,
     name: s.name ?? fromRb.name,
+    broadcaster: s.broadcaster,
     streamUrl: s.streamUrl ?? fromRb.streamUrl,
     homepage: s.homepage ?? b.homepage ?? fromRb.homepage,
     country: s.country ?? b.country ?? fromRb.country,
