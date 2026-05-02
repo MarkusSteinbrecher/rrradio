@@ -2225,11 +2225,17 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   place-items: center;
   padding: 6px 0;
   border-radius: 8px;
-  cursor: pointer;
   background:
     radial-gradient(circle at 50% 50%,
       color-mix(in srgb, var(--accent) 14%, transparent),
       color-mix(in srgb, var(--accent) 4%, transparent) 70%);
+  transition: background 120ms ease;
+}
+.np-wake-pane__clock-wrap:hover {
+  background:
+    radial-gradient(circle at 50% 50%,
+      color-mix(in srgb, var(--accent) 22%, transparent),
+      color-mix(in srgb, var(--accent) 8%, transparent) 70%);
 }
 .np-wake-pane__clock {
   appearance: none;
@@ -2243,12 +2249,22 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   font-weight: 600;
   letter-spacing: 0.02em;
   text-align: center;
-  cursor: pointer;
+  /* `text` cursor on desktop signals "click to type" — the spinners
+     are stripped by `appearance: none` so the user otherwise has no
+     visual cue that the value is editable in place. iOS / Android
+     don't show cursors so this is a desktop-only affordance.
+     `pointer` would be misleading on desktop and unnecessary on
+     touch (where a tap pops the native picker either way). */
+  cursor: text;
   padding: 0;
   min-width: 0;
 }
 .np-wake-pane__clock::-webkit-date-and-time-value { text-align: center; }
-.np-wake-pane__clock:focus { outline: none; }
+.np-wake-pane__clock:focus {
+  outline: 2px solid color-mix(in srgb, var(--accent) 50%, transparent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
 
 .np-wake-pane__arm {
   grid-area: arm;
