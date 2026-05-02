@@ -2303,10 +2303,21 @@ function renderDashKpis(d: DashboardData, totals: PublicTotals | null): void {
   $dashStations.textContent = String(d.totalStations);
 }
 
+/** Format a per-row share of total. < 0.1% prints as "<0.1%" so a
+ *  long-tail row never reads as "0%" (which looks like missing data).
+ *  10%+ rounds to integer; below that, one decimal. */
+function fmtSharePct(count: number, total: number): string {
+  if (!total) return '';
+  const pct = (count / total) * 100;
+  if (pct > 0 && pct < 0.1) return '<0.1%';
+  return pct.toFixed(pct >= 10 ? 0 : 1) + '%';
+}
+
 function renderDashCountryTable(d: DashboardData): void {
   $dashCountryTable.replaceChildren();
   const sorted = [...activeCountryMap(d).entries()].sort((a, b) => b[1] - a[1]);
   const max = sorted[0]?.[1] ?? 1;
+  const total = sorted.reduce((s, [, c]) => s + c, 0);
   sorted.forEach(([cc, count], i) => {
     const tr = document.createElement('tr');
     const rank = document.createElement('td');
@@ -2321,7 +2332,10 @@ function renderDashCountryTable(d: DashboardData): void {
     const num = document.createElement('td');
     num.className = 'count';
     num.textContent = String(count);
-    tr.append(rank, country, bar, num);
+    const pct = document.createElement('td');
+    pct.className = 'pct';
+    pct.textContent = fmtSharePct(count, total);
+    tr.append(rank, country, bar, num, pct);
     $dashCountryTable.append(tr);
   });
 }
@@ -2330,6 +2344,7 @@ function renderDashStationTable(items: TopStationItem[]): void {
   $dashStationTable.replaceChildren();
   if (items.length === 0) return;
   const max = items[0]?.count ?? 1;
+  const total = items.reduce((s, it) => s + it.count, 0);
   items.forEach((it, i) => {
     const tr = document.createElement('tr');
     const rank = document.createElement('td');
@@ -2344,7 +2359,10 @@ function renderDashStationTable(items: TopStationItem[]): void {
     const num = document.createElement('td');
     num.className = 'count';
     num.textContent = String(it.count);
-    tr.append(rank, name, bar, num);
+    const pct = document.createElement('td');
+    pct.className = 'pct';
+    pct.textContent = fmtSharePct(it.count, total);
+    tr.append(rank, name, bar, num, pct);
     $dashStationTable.append(tr);
   });
 }
