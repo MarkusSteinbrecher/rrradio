@@ -1,0 +1,60 @@
+name: Deploy Worker
+
+# Auto-deploys the rrradio-stats Cloudflare Worker when its source
+# changes on main. The web app deploys to GitHub Pages on every push
+# (deploy.yml); the Worker is a separate target — until this workflow
+# landed, it had to be deployed by hand with `wrangler deploy`, which
+# meant browser code could ship referencing a Worker version that
+# didn't exist yet.
+#
+# The deploy job depends on typecheck + tests passing, mirroring the
+# gate in deploy.yml.
+#
+# Required repo secret:
+#   CLOUDFLARE_API_TOKEN — token with "Edit Cloudflare Workers" scope
+#                          for this account. Set under
+#                          Settings → Secrets and variables → Actions.
+#
+# Worker secrets (GOATCOUNTER_TOKEN, ADMIN_TOKEN) are stored on the
+# Cloudflare side via `wrangler secret put` — they are NOT touched by
+# this workflow.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'worker/**'
+      - '.github/workflows/deploy-worker.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: worker/package-lock.json
+
+      - name: Install worker deps
+        working-directory: worker
+        run: npm ci
+
+      - name: Typecheck
+        working-directory: worker
+        run: npm run typecheck
+
+      - name: Test
+        working-directory: worker
+        run: npm test
+
+      - name: Deploy to Cloudflare
+        working-directory: worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: npx wrangler deploy

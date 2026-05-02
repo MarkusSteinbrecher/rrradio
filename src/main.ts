@@ -33,6 +33,7 @@ import {
   setWakeTo,
   toggleFavorite,
 } from './storage';
+import { STATS_WORKER_BASE } from './config';
 import { fmtSharePct, normalizeForSearch } from './format';
 import { safeUrl, urlDisplay } from './url';
 import { classifyStoredWake, fadeVolume, formatCountdown, nextFireTime, WakeScheduler } from './wake';
@@ -920,10 +921,9 @@ function syncLibrarySegmented(): void {
 // numbers. The Browse home view ("Most played") just wants top-N, the
 // dashboard wants the same window across all metrics.
 const STATS_DAYS = 7;
-const STATS_BASE = 'https://rrradio-stats.markussteinbrecher.workers.dev';
-const TOP_STATIONS_URL = `${STATS_BASE}/api/public/top-stations?days=${STATS_DAYS}&limit=25`;
-const PUBLIC_TOTALS_URL = `${STATS_BASE}/api/public/totals?days=${STATS_DAYS}`;
-const PUBLIC_LOCATIONS_URL = `${STATS_BASE}/api/public/locations?days=${STATS_DAYS}&limit=50`;
+const TOP_STATIONS_URL = `${STATS_WORKER_BASE}/api/public/top-stations?days=${STATS_DAYS}&limit=25`;
+const PUBLIC_TOTALS_URL = `${STATS_WORKER_BASE}/api/public/totals?days=${STATS_DAYS}`;
+const PUBLIC_LOCATIONS_URL = `${STATS_WORKER_BASE}/api/public/locations?days=${STATS_DAYS}&limit=50`;
 
 interface BacklogEntry {
   name: string;

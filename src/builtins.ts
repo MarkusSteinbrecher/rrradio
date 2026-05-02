@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+import { STATS_BBC_PROXY, STATS_PROXY } from './config';
 import { titleCase, parseLooseJSON } from './format';
 import { icyFetcher } from './metadata';
 import type { MetadataFetcher, ScheduleBroadcast, ScheduleDay, ScheduleFetcher } from './metadata';
@@ -8,7 +9,7 @@ const BASE = import.meta.env.BASE_URL;
 
 /** Generic worker proxy for broadcaster APIs that lack CORS (BR, HR).
  *  The worker holds an allowlist; see worker/src/index.ts:/api/public/proxy. */
-const PROXY = 'https://rrradio-stats.markussteinbrecher.workers.dev/api/public/proxy';
+const PROXY = STATS_PROXY;
 
 // ============================================================
 // Per-station metadata fetchers
@@ -836,7 +837,7 @@ const fetchRadioSwissMetadata: MetadataFetcher = async (station, signal) => {
 // Origin: https://www.bbc.co.uk and 403s otherwise)
 // ============================================================
 
-const BBC_PROXY = 'https://rrradio-stats.markussteinbrecher.workers.dev/api/public/bbc';
+const BBC_PROXY = STATS_BBC_PROXY;
 
 interface BbcModule {
   id?: string;

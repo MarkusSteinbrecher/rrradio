@@ -54,7 +54,8 @@ jobs:
           path: dist
 
   # ────────────────────────────────────────────────────────────
-  # Cloudflare Worker: typecheck only (tests land with audit #66)
+  # Cloudflare Worker: typecheck + vitest unit tests
+  # (deploy lives in deploy-worker.yml, gated on worker/** changes)
   # ────────────────────────────────────────────────────────────
   worker:
     runs-on: ubuntu-latest
@@ -71,6 +72,9 @@ jobs:
       - name: Typecheck worker
         working-directory: worker
         run: npm run typecheck
+      - name: Test worker
+        working-directory: worker
+        run: npm test
 
   # ────────────────────────────────────────────────────────────
   # Catalog: deterministic structural checks (no Radio Browser calls).

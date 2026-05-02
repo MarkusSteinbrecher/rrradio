@@ -98,17 +98,17 @@ Current allowlist (after the Phase 1 Germany work, 2026-05-02):
 
 ## When to redeploy
 
-`wrangler deploy` is needed any time `src/index.ts` (or `wrangler.toml`)
-changes. The browser-side TypeScript builds and ships to GitHub Pages
-on every push to `main`, but the Worker is its own deploy target — code
-changes don't reach `rrradio-stats.<subdomain>.workers.dev` until you
-run `wrangler deploy` explicitly.
+Pushes to `main` that touch `worker/**` (or `.github/workflows/deploy-worker.yml`)
+trigger `.github/workflows/deploy-worker.yml`, which runs typecheck +
+tests and then `wrangler deploy`. So the typical workflow is:
 
-The most common change is "added an entry to the proxy allowlist" —
-when you do that, the in-app fetcher for the new broadcaster will
-silently 403 against the old worker version until you deploy. Beads
-auto-creates a P1 issue (`Deploy rrradio-stats Worker (...)`) when
-worker diffs land on `main` without a follow-up deploy.
+1. Edit `src/index.ts` (or `wrangler.toml`).
+2. Push to `main`.
+3. Wait ~30s for the workflow to deploy. CI gates on `npm test` so a
+   failing test blocks the deploy.
+
+For a manual deploy (e.g. before the secrets are set up, or
+out-of-band), use:
 
 ```sh
 cd worker
@@ -122,6 +122,15 @@ Confirm:
 curl -s 'https://rrradio-stats.markussteinbrecher.workers.dev/api/public/proxy?url=https%3A%2F%2Fwww.antenne.de%2Fapi%2Fmetadata%2Fnow' \
   | python3 -c 'import json,sys; d=json.load(sys.stdin); print(len(d["data"]), "mountpoints")'
 ```
+
+### CI deploy secret
+
+The deploy workflow needs `CLOUDFLARE_API_TOKEN` in
+*Settings → Secrets and variables → Actions*. Mint it at
+https://dash.cloudflare.com/profile/api-tokens with the
+**Edit Cloudflare Workers** template (account-scoped). The
+`GOATCOUNTER_TOKEN` and `ADMIN_TOKEN` secrets stay on Cloudflare's
+side via `wrangler secret put` — the workflow does not touch them.
 
 ---
 
@@ -181,6 +190,25 @@ npx wrangler dev
 ```
 
 `.dev.vars` is gitignored. The Worker runs at `http://localhost:8787`.
+
+To point the rrradio web app at a local Worker, set
+`VITE_STATS_WORKER_BASE=http://localhost:8787` in `../.env.local` and
+restart `npm run dev`.
+
+## Tests
+
+```sh
+cd worker
+npm test                  # vitest run
+npm run typecheck
+```
+
+Tests stub `globalThis.fetch` and call the default export's
+`fetch(req, env)` directly — no wrangler runtime needed. Cover CORS,
+auth, public endpoints, BBC routing, the proxy allowlist, GoatCounter
+error handling, and cache headers. Run on every push via
+`.github/workflows/deploy.yml` (CI gate) and again before deploy in
+`.github/workflows/deploy-worker.yml`.
 
 ## Rotating the admin token
 
