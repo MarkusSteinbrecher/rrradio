@@ -26,7 +26,6 @@ import {
   isFavorite,
   pushRecent,
   removeCustom,
-  removeKey,
   reorderFavorites,
   setLastWakeTime,
   setString,
@@ -41,6 +40,16 @@ import {
   reportWorkerError,
 } from './errors';
 import { fmtSharePct, normalizeForSearch } from './format';
+import {
+  ICON_EMPTY,
+  ICON_FAV,
+  ICON_GRIP,
+  ICON_HEART_FILL,
+  ICON_HEART_LINE_CLASSED,
+  ICON_RECENT,
+  STAR_SVG,
+} from './icons';
+import { bootstrapTheme, toggleTheme } from './theme';
 import { safeUrl, urlDisplay } from './url';
 import { classifyStoredWake, fadeVolume, formatCountdown, nextFireTime, WakeScheduler } from './wake';
 import type { NowPlaying, Station, WakeTo } from './types';
@@ -355,27 +364,7 @@ let homeRbOffset = 0;
 let homeRbHasMore = true;
 let homeRbLoading = false;
 
-// ─────────────────────────────────────────────────────────────
-// SVG factories — a small set of inline icons
-// ─────────────────────────────────────────────────────────────
-
-function svg(d: string, opts: { fill?: boolean; viewBox?: string } = {}): string {
-  const vb = opts.viewBox ?? '0 0 24 24';
-  if (opts.fill) {
-    return `<svg viewBox="${vb}" fill="currentColor" aria-hidden="true">${d}</svg>`;
-  }
-  return `<svg viewBox="${vb}" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
-}
-
-const ICON_HEART_FILL = `<svg class="heart--fill" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>`;
-const ICON_HEART_LINE_CLASSED = `<svg class="heart--line" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>`;
-const ICON_FAV = svg('<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>');
-const ICON_RECENT = svg('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>');
-const ICON_EMPTY = svg('<path d="M3 7v10a4 4 0 0 0 4 4h10a4 4 0 0 0 4-4V7"/><path d="M3 7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4"/><path d="M3 7h18"/>');
-// Two short horizontal bars — the conventional drag-handle "grip"
-// affordance. Smaller dot patterns (six dots) read as decorative at
-// 16px; two bars stay readable at row size.
-const ICON_GRIP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M5 9h14"/><path d="M5 15h14"/></svg>';
+// SVG icon constants live in ./icons (audit #77 — split large modules).
 
 // ─────────────────────────────────────────────────────────────
 // Helpers
@@ -492,9 +481,6 @@ function flagEmoji(country: string | undefined): string {
 // Stars are conditionally appended, so a `stream-only` row shows ★, an
 // `icy-only` row shows ★★, and a row backed by a full broadcaster API
 // (FM4, BBC, BR, HR) shows ★★★.
-const STAR_SVG =
-  '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 3.5 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 17.2l-5.4 2.8 1.2-6L3.3 9.8l6.1-.7L12 3.5z"/></svg>';
-
 function stationCapabilities(station: Station): { stream: boolean; track: boolean; program: boolean } {
   const stream = !!station.status;
   const track =
@@ -2122,48 +2108,16 @@ function openNp(open: boolean): void {
   else if (activeTab === 'playing') setTab(lastListTab);
 }
 
-// ─────────────────────────────────────────────────────────────
-// Theme
-// ─────────────────────────────────────────────────────────────
+// Theme persistence + DOM application live in ./theme. Boot wiring
+// applies the persisted choice before first paint, then keeps the
+// `<meta name="theme-color">` tint in sync with the OS preference if
+// the user hasn't picked an explicit theme.
+bootstrapTheme();
 
-const THEME_KEY = 'rrradio.theme';
-type Theme = 'light' | 'dark';
-
-function readStoredTheme(): Theme | null {
-  const v = getString(THEME_KEY);
-  return v === 'light' || v === 'dark' ? v : null;
+function onToggleTheme(): void {
+  const next = toggleTheme();
+  track(`theme/${next}`);
 }
-
-function effectiveTheme(): Theme {
-  const stored = readStoredTheme();
-  if (stored) return stored;
-  return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-}
-
-function applyTheme(theme: Theme | null): void {
-  if (theme === null) {
-    document.documentElement.removeAttribute('data-theme');
-    removeKey(THEME_KEY);
-  } else {
-    document.documentElement.setAttribute('data-theme', theme);
-    setString(THEME_KEY, theme);
-  }
-  const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
-  if (meta) meta.content = effectiveTheme() === 'light' ? '#fafaf8' : '#0a0a0a';
-}
-
-function toggleTheme(): void {
-  applyTheme(effectiveTheme() === 'dark' ? 'light' : 'dark');
-  track(`theme/${effectiveTheme()}`);
-}
-
-// Apply persisted theme before render so the first paint has the right palette.
-applyTheme(readStoredTheme());
-
-// React to system theme changes when the user hasn't picked one explicitly.
-window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
-  if (readStoredTheme() === null) applyTheme(null); // re-syncs theme-color meta
-});
 
 function openAboutSheet(open: boolean): void {
   $aboutSheet.classList.toggle('open', open);
@@ -3091,7 +3045,7 @@ $addBtn.addEventListener('click', () => openAddSheet(true));
 $addCancel.addEventListener('click', () => openAddSheet(false));
 $addForm.addEventListener('submit', handleAddSubmit);
 
-$themeBtn.addEventListener('click', toggleTheme);
+$themeBtn.addEventListener('click', onToggleTheme);
 $aboutBtn.addEventListener('click', () => openAboutSheet(true));
 $aboutClose.addEventListener('click', () => openAboutSheet(false));
 $dashboardBtn.addEventListener('click', () => void openDashboardSheet(true));
