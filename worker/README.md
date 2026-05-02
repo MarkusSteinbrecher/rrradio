@@ -74,7 +74,6 @@ Current allowlist (after the Phase 1 Germany work, 2026-05-02):
 | --- | --- |
 | `^https://www\.hr[1-4]\.de/` | Hessischer Rundfunk (hr1 / hr2 / hr3 / hr4) — `fetchHrMetadata` |
 | `^https://www\.br\.de/` | Bayerischer Rundfunk — `fetchBrMetadata` |
-| `^https://hummingbird\.rts\.ch/hbv7/.../channels/` | RTS (Swiss French) — `fetchRtsMetadata` |
 | `^https://api\.radioswiss(?:pop\|jazz\|classic)\.ch/api/v1/.../playlist_(?:small\|large)$` | Radio Swiss Pop / Jazz / Classic — `fetchRadioSwissMetadata` |
 | `^https://www\.antenne\.de/api/metadata/now$` | Antenne Bayern + Oldie Antenne — `fetchAntenneMetadata` |
 | `^https://www\.rockantenne\.de/api/metadata/now$` | Rock Antenne — `fetchAntenneMetadata` |

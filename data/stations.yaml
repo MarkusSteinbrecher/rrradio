@@ -328,7 +328,7 @@
   broadcaster: srf
   name: SRF 1
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/srf1/mp3/128
-  metadataUrl: https://www.srf.ch/programm/radio-api/eaw/lastplayed/radio-srf-1
+  metadataUrl: https://il.srf.ch/integrationlayer/2.0/srf/songList/radio/byChannel/69e8ac16-4327-4af4-b873-fd5cd6e895a7.json
   bitrate: 128
   codec: MP3
   tags: [public radio, news, swiss german, switzerland]
@@ -345,7 +345,7 @@
   broadcaster: srf
   name: SRF 2 Kultur
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/srf2/mp3/128
-  metadataUrl: https://www.srf.ch/programm/radio-api/eaw/lastplayed/radio-srf-2-kultur
+  metadataUrl: https://il.srf.ch/integrationlayer/2.0/srf/songList/radio/byChannel/c8537421-c9c5-4461-9c9c-c15816458b46.json
   bitrate: 128
   codec: MP3
   tags: [classical, culture, public radio, switzerland]
@@ -362,7 +362,7 @@
   broadcaster: srf
   name: SRF 3
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/srf3/mp3/128
-  metadataUrl: https://www.srf.ch/programm/radio-api/eaw/lastplayed/radio-srf-3
+  metadataUrl: https://il.srf.ch/integrationlayer/2.0/srf/songList/radio/byChannel/dd0fa1ba-4ff6-4e1a-ab74-d7e49057d96f.json
   bitrate: 128
   codec: MP3
   tags: [pop, public radio, swiss german, switzerland]
@@ -380,7 +380,7 @@
   broadcaster: srf
   name: SRF 4 News
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/srf4news/mp3/128
-  metadataUrl: https://www.srf.ch/programm/radio-api/eaw/lastplayed/radio-srf-4-news
+  metadataUrl: https://il.srf.ch/integrationlayer/2.0/srf/songList/radio/byChannel/ee1fb348-2b6a-4958-9aac-ec6c87e190da.json
   bitrate: 128
   codec: MP3
   tags: [news, talk, public radio, switzerland]
@@ -397,7 +397,7 @@
   broadcaster: srf
   name: SRF Virus
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/srfvirus/mp3/128
-  metadataUrl: https://www.srf.ch/programm/radio-api/eaw/lastplayed/radio-srf-virus
+  metadataUrl: https://il.srf.ch/integrationlayer/2.0/srf/songList/radio/byChannel/66815fe2-9008-4853-80a5-f9caaffdf3a9.json
   bitrate: 128
   codec: MP3
   tags: [alternative, indie, hip hop, public radio, switzerland]
@@ -414,7 +414,7 @@
   broadcaster: srf
   name: SRF Musikwelle
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/srfmw/mp3/128
-  metadataUrl: https://www.srf.ch/programm/radio-api/eaw/lastplayed/radio-srf-musikwelle
+  metadataUrl: https://il.srf.ch/integrationlayer/2.0/srf/songList/radio/byChannel/a9c5c070-8899-46c7-ac27-f04f1be902fd.json
   bitrate: 128
   codec: MP3
   tags: [schlager, oldies, folk, public radio, switzerland]
@@ -431,7 +431,7 @@
   broadcaster: rts
   name: RTS La 1ère
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/la-1ere/mp3/128
-  metadataUrl: https://hummingbird.rts.ch/hbv7/ajax/modules/portal-live-radio/update/channels/LA_1ERE
+  metadataUrl: https://il.srf.ch/integrationlayer/2.0/rts/songList/radio/byChannel/a9e7621504c6959e35c3ecbe7f6bed0446cdf8da.json
   bitrate: 128
   codec: MP3
   tags: [public radio, news, french, switzerland]
@@ -448,7 +448,7 @@
   broadcaster: rts
   name: RTS Espace 2
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/espace-2/mp3/128
-  metadataUrl: https://hummingbird.rts.ch/hbv7/ajax/modules/portal-live-radio/update/channels/ESPACE_2
+  metadataUrl: https://il.srf.ch/integrationlayer/2.0/rts/songList/radio/byChannel/a83f29dee7a5d0d3f9fccdb9c92161b1afb512db.json
   bitrate: 128
   codec: MP3
   tags: [classical, culture, public radio, french, switzerland]
@@ -465,7 +465,7 @@
   broadcaster: rts
   name: RTS Couleur 3
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/couleur3/mp3/128
-  metadataUrl: https://hummingbird.rts.ch/hbv7/ajax/modules/portal-live-radio/update/channels/COULEUR_3
+  metadataUrl: https://il.srf.ch/integrationlayer/2.0/rts/songList/radio/byChannel/8ceb28d9b3f1dd876d1df1780f908578cbefc3d7.json
   bitrate: 128
   codec: MP3
   tags: [pop, alternative, public radio, french, switzerland]
@@ -482,7 +482,7 @@
   broadcaster: rts
   name: RTS Option Musique
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/option-musique/mp3/128
-  metadataUrl: https://hummingbird.rts.ch/hbv7/ajax/modules/portal-live-radio/update/channels/OPTION_MUSIQUE
+  metadataUrl: https://il.srf.ch/integrationlayer/2.0/rts/songList/radio/byChannel/f8517e5319a515e013551eea15aa114fa5cfbc3a.json
   bitrate: 128
   codec: MP3
   tags: [chanson, public radio, french, switzerland]
@@ -499,7 +499,7 @@
   broadcaster: rsi
   name: RSI Rete Uno
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/reteuno/mp3/128
-  metadataUrl: https://epg.rsi.ch/nowAndNext#reteuno
+  metadataUrl: https://il.srf.ch/integrationlayer/2.0/rsi/songList/radio/byChannel/rete-uno.json
   bitrate: 128
   codec: MP3
   tags: [public radio, news, italian, switzerland]
@@ -516,7 +516,7 @@
   broadcaster: rsi
   name: RSI Rete Due
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/retedue/mp3/128
-  metadataUrl: https://epg.rsi.ch/nowAndNext#retedue
+  metadataUrl: https://il.srf.ch/integrationlayer/2.0/rsi/songList/radio/byChannel/rete-due.json
   bitrate: 128
   codec: MP3
   tags: [classical, culture, public radio, italian, switzerland]
@@ -533,7 +533,7 @@
   broadcaster: rsi
   name: RSI Rete Tre
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/retetre/mp3/128
-  metadataUrl: https://epg.rsi.ch/nowAndNext#retetre
+  metadataUrl: https://il.srf.ch/integrationlayer/2.0/rsi/songList/radio/byChannel/rete-tre.json
   bitrate: 128
   codec: MP3
   tags: [pop, public radio, italian, switzerland]

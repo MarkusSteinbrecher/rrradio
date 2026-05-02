@@ -711,52 +711,6 @@ const fetchSrrMetadata: MetadataFetcher = async (station, signal) => {
 //   blocks CORS, so it goes through the worker proxy in a separate fetcher.
 // ============================================================
 
-interface SrfLastPlayedItem {
-  title?: string;
-  description?: string;
-  type?: string;
-  timestamp?: string;
-}
-interface SrfLastPlayedResponse {
-  lastPlayedList?: SrfLastPlayedItem[];
-}
-
-const fetchSrfMetadata: MetadataFetcher = async (station, signal) => {
-  const url = station.metadataUrl;
-  if (!url) return null;
-  try {
-    const res = await fetch(url, { signal, cache: 'no-store' });
-    if (!res.ok) return null;
-    const data = (await res.json()) as SrfLastPlayedResponse;
-    const first = data.lastPlayedList?.[0];
-    if (!first || first.type !== 'song' || !first.title) return null;
-    // SRF stores artist in `description`, track in `title`. Both arrive
-    // mostly upper-cased; strip the trailing "(CH)" country tag and
-    // titleCase so it sits naturally with the rest of the UI.
-    const artistRaw = (first.description ?? '').replace(/\s*\([A-Z]{2}\)\s*$/i, '').trim();
-    const titleRaw = first.title.trim();
-    return {
-      artist: artistRaw ? titleCase(artistRaw) : undefined,
-      track: titleCase(titleRaw),
-      raw: `${artistRaw} - ${titleRaw}`.trim(),
-    };
-  } catch {
-    return null;
-  }
-};
-
-interface RsiProgrammeContent {
-  title?: string;
-  shortDescription?: string;
-}
-interface RsiProgramme {
-  content?: RsiProgrammeContent;
-}
-interface RsiNowAndNextChannel {
-  program?: RsiProgramme[];
-}
-type RsiNowAndNext = Record<string, RsiNowAndNextChannel | undefined>;
-
 interface AzuracastSong {
   artist?: string;
   title?: string;
@@ -887,73 +841,6 @@ const fetchRadioSwissMetadata: MetadataFetcher = async (station, signal) => {
       track: title,
       raw: `${artist ?? ''} - ${title}`.trim(),
       coverUrl: cover,
-    };
-  } catch {
-    return null;
-  }
-};
-
-/** RTS: hummingbird.rts.ch returns an HTML fragment per channel slug
- *  (LA_1ERE, ESPACE_2, COULEUR_3, OPTION_MUSIQUE). The interesting bit
- *  is one attribute — `data-item-title="<station> - <show>"`. CORS is
- *  not exposed for our origin, so we route through the worker proxy
- *  (allowlist covers the hummingbird channel-update path). Programme-
- *  level only, like RSI. */
-const fetchRtsMetadata: MetadataFetcher = async (station, signal) => {
-  const url = station.metadataUrl;
-  if (!url) return null;
-  try {
-    const proxied = `${PROXY}?url=${encodeURIComponent(url)}`;
-    const res = await fetch(proxied, { signal, cache: 'no-store' });
-    if (!res.ok) return null;
-    const html = await res.text();
-    const m = html.match(/data-item-title="([^"]+)"/);
-    if (!m) return null;
-    const decoded = m[1]
-      .replace(/&#39;/g, "'")
-      .replace(/&amp;/g, '&')
-      .replace(/&quot;/g, '"')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>');
-    // Format: "<station name> - <show name>". Take everything after the
-    // first " - " separator as the show.
-    const dash = decoded.indexOf(' - ');
-    const show = (dash > 0 ? decoded.slice(dash + 3) : decoded).trim();
-    if (!show) return null;
-    return {
-      track: undefined,
-      raw: '',
-      program: { name: show },
-    };
-  } catch {
-    return null;
-  }
-};
-
-/** RSI: shared `nowAndNext` endpoint returns every channel in one call.
- *  metadataUrl encodes the channel as a URL fragment (`#reteuno`); same
- *  pattern as fetchSrrMetadata. Talk- and music-format radio mixed —
- *  this feed surfaces the current programme/show, not individual tracks. */
-const fetchRsiMetadata: MetadataFetcher = async (station, signal) => {
-  const meta = station.metadataUrl;
-  if (!meta) return null;
-  const [base, channel] = meta.split('#');
-  if (!channel) return null;
-  try {
-    const res = await fetch(base, { signal, cache: 'no-store' });
-    if (!res.ok) return null;
-    const data = (await res.json()) as RsiNowAndNext;
-    const progs = data[channel.toLowerCase()]?.program ?? [];
-    const cur = progs[0];
-    const title = cur?.content?.title?.trim();
-    if (!title) return null;
-    return {
-      track: undefined,
-      raw: '',
-      program: {
-        name: title,
-        subtitle: cur.content?.shortDescription?.trim() || undefined,
-      },
     };
   } catch {
     return null;
@@ -1479,9 +1366,6 @@ const FETCHERS_BY_KEY: Record<string, MetadataFetcher> = {
   cro: fetchCroMetadata,
   mr: fetchMrMetadata,
   srr: fetchSrrMetadata,
-  srf: fetchSrfMetadata,
-  rsi: fetchRsiMetadata,
-  rts: fetchRtsMetadata,
   'srgssr-il': fetchSrgssrIlMetadata,
   'swiss-radio': fetchRadioSwissMetadata,
   azuracast: fetchAzuracastMetadata,

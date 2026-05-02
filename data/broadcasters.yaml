@@ -256,11 +256,12 @@ srf:
   country: CH
   family: SRG-SSR
   homepage: https://www.srf.ch/audio
-  metadata: srf
+  metadata: srgssr-il
   notes: |
     SRG SSR — German-language Swiss public.
-    Per-channel lastPlayed JSON at www.srf.ch/programm/radio-api/eaw/lastplayed/<slug>;
-    each station declares its own metadataUrl pointing at the right slug.
+    Track-level via the SRG SSR Integration Layer at
+    il.srf.ch/integrationlayer/2.0/srf/songList/radio/byChannel/<UUID>.json
+    (CORS open). UUIDs come from the channelList endpoint.
 
 rts:
   name: RTS
@@ -268,12 +269,13 @@ rts:
   country: CH
   family: SRG-SSR
   homepage: https://www.rts.ch/audio-podcasts/
-  metadata: rts
+  metadata: srgssr-il
   notes: |
     SRG SSR — French-language Swiss public.
-    hummingbird.rts.ch HTML fragment per channel (LA_1ERE / ESPACE_2 /
-    COULEUR_3 / OPTION_MUSIQUE). No CORS — routed through the worker
-    proxy. Programme-level only.
+    Track-level via the SRG SSR Integration Layer at
+    il.srf.ch/integrationlayer/2.0/rts/songList/radio/byChannel/<HEX>.json
+    (CORS open). Migrated from the hummingbird.rts.ch programme-only
+    proxy in 2026-05.
 
 rsi:
   name: RSI
@@ -281,11 +283,13 @@ rsi:
   country: CH
   family: SRG-SSR
   homepage: https://www.rsi.ch/
-  metadata: rsi
+  metadata: srgssr-il
   notes: |
     SRG SSR — Italian-language Swiss public.
-    One shared epg.rsi.ch/nowAndNext endpoint covers reteuno/retedue/retetre;
-    each station's metadataUrl carries the channel as a URL fragment (#reteuno).
+    Track-level via the SRG SSR Integration Layer at
+    il.srf.ch/integrationlayer/2.0/rsi/songList/radio/byChannel/<slug>.json
+    (CORS open). Channels: rete-uno / rete-due / rete-tre. Migrated
+    from the epg.rsi.ch programme-only nowAndNext feed in 2026-05.
 
 swiss-radio:
   name: Swiss Radio
