@@ -2303,14 +2303,14 @@ function renderDashKpis(d: DashboardData, totals: PublicTotals | null): void {
   $dashStations.textContent = String(d.totalStations);
 }
 
-/** Format a per-row share of total. < 0.1% prints as "<0.1%" so a
- *  long-tail row never reads as "0%" (which looks like missing data).
- *  10%+ rounds to integer; below that, one decimal. */
+/** Format a per-row share of total. Rounds to whole percent; non-zero
+ *  values below 0.5% (which would round to 0) print as "<1%" so a
+ *  long-tail row never reads as a misleading "0%". */
 function fmtSharePct(count: number, total: number): string {
   if (!total) return '';
   const pct = (count / total) * 100;
-  if (pct > 0 && pct < 0.1) return '<0.1%';
-  return pct.toFixed(pct >= 10 ? 0 : 1) + '%';
+  if (pct > 0 && pct < 0.5) return '<1%';
+  return Math.round(pct) + '%';
 }
 
 function renderDashCountryTable(d: DashboardData): void {
