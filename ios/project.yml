@@ -1,0 +1,50 @@
+name: rrradio
+options:
+  bundleIdPrefix: org.rrradio
+  deploymentTarget:
+    iOS: "17.0"
+  developmentLanguage: en
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.10"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: 1
+    GENERATE_INFOPLIST_FILE: YES
+    PRODUCT_BUNDLE_IDENTIFIER: org.rrradio.ios
+
+targets:
+  rrradio:
+    type: application
+    platform: iOS
+    sources:
+      - path: rrradio
+        excludes:
+          - "Info.plist"
+    resources:
+      - path: rrradio/Resources/Assets.xcassets
+    info:
+      path: rrradio/Resources/Info.plist
+      properties:
+        CFBundleDisplayName: rrradio
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        # Background audio so streams keep playing when the app
+        # is backgrounded or the screen is locked.
+        UIBackgroundModes: [audio]
+        # We talk to several broadcaster APIs over HTTPS only — no
+        # NSAllowsArbitraryLoads. Per-station HTTP-only streams are
+        # routed through the Cloudflare worker proxy (HTTPS) so we
+        # never need ATS exceptions.
+        UILaunchScreen: {}
+        UIRequiresFullScreen: false
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UIViewControllerBasedStatusBarAppearance: false
+    settings:
+      base:
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        ENABLE_PREVIEWS: YES
+        TARGETED_DEVICE_FAMILY: "1,2"
