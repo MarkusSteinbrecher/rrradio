@@ -130,6 +130,14 @@ Native iOS doesn't have CORS, so we *could* call those APIs directly,
 but using the Worker keeps the rate-limit / cache story consistent and
 means the broadcaster only sees one User-Agent across both platforms.
 
+## Releasing to the App Store
+
+When v1.0 is feature-complete enough to ship, see **[RELEASING.md](./RELEASING.md)**
+for the step-by-step path from a working local build to a published
+App Store listing — Apple Developer Program enrollment, bundle ID
++ capabilities setup, App Store Connect record, required assets,
+TestFlight, submission, common rejection reasons.
+
 ## License / public-repo note
 
 This repo (and so this iOS source) is public on GitHub. If we ever
