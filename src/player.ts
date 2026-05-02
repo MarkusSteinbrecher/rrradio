@@ -44,10 +44,19 @@ export class AudioPlayer {
    *  time to register on fast streams. */
   private loadingSince = 0;
   private pendingLoadingExit: number | undefined;
+  /** Increments on every `play()` so a stale deferred-loading-exit timer
+   *  scheduled for an earlier station can detect that it's no longer
+   *  current and bail. Belt-and-suspenders against the race the audit
+   *  caught in #74 — `update()` already cancels the pending timer when
+   *  re-entering loading, so the generation check only matters if a
+   *  timer somehow slips through (hostile race, sync-throw teardown). */
+  private playGeneration = 0;
   private static readonly MIN_LOADING_MS = 600;
 
-  constructor() {
-    this.audio = new Audio();
+  /** `audio` is optional so tests can inject a controlled element with
+   *  a mocked .play(). In normal use we construct a new HTMLAudioElement. */
+  constructor(audio?: HTMLAudioElement) {
+    this.audio = audio ?? new Audio();
     this.audio.preload = 'none';
 
     this.audio.addEventListener('playing', () => this.update({ state: 'playing' }));
@@ -77,17 +86,21 @@ export class AudioPlayer {
     // sees the play button but hears nothing. Fresh connection every time
     // is the only reliable behaviour for live audio.
     this.teardown();
+    this.playGeneration += 1;
     // Preserve trackTitle + coverUrl when re-playing the same station so
     // the on-air line and cover don't snap to "—" during the loading flash.
-    // Reset them when switching stations.
+    // Reset them when switching stations. Routed through update() so the
+    // single state-machine path stamps loadingSince correctly and any
+    // pending deferred-exit timer from a previous loading transition is
+    // cancelled (see audit #74).
     const sameStation = this.current.station.id === station.id;
-    this.current = {
+    this.update({
       station,
       state: 'loading',
       trackTitle: sameStation ? this.current.trackTitle : undefined,
       coverUrl: sameStation ? this.current.coverUrl : undefined,
-    };
-    this.emit();
+      errorMessage: undefined,
+    });
 
     const url = station.streamUrl;
     const isHls = /\.m3u8(\?|$)/i.test(url);
@@ -156,6 +169,15 @@ export class AudioPlayer {
 
   private teardown(): void {
     this.stopWatchdog();
+    // Drop any deferred-loading-exit timer carried over from the previous
+    // session. Belt-and-suspenders: update() also cancels it on the next
+    // loading transition, but clearing here guarantees an in-flight
+    // timer can't apply a stale patch even if the next update never runs
+    // (hostile race / sync-throw mid-play).
+    if (this.pendingLoadingExit !== undefined) {
+      window.clearTimeout(this.pendingLoadingExit);
+      this.pendingLoadingExit = undefined;
+    }
     if (this.hls) {
       this.hls.destroy();
       this.hls = null;
@@ -249,8 +271,14 @@ export class AudioPlayer {
         if (this.pendingLoadingExit !== undefined) {
           window.clearTimeout(this.pendingLoadingExit);
         }
+        // Capture the play-generation at schedule time. If the user
+        // switches stations before the timer fires, the new station's
+        // play() bumps playGeneration and this stale callback bails
+        // out instead of clobbering the new station's state.
+        const generationAtSchedule = this.playGeneration;
         this.pendingLoadingExit = window.setTimeout(() => {
           this.pendingLoadingExit = undefined;
+          if (generationAtSchedule !== this.playGeneration) return;
           this.update(patch);
         }, AudioPlayer.MIN_LOADING_MS - elapsed);
         return;
