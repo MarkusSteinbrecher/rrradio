@@ -8,6 +8,68 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="rrradio" />
 
+    <!-- ============================================================
+         Browser security headers (audit #75)
+         GitHub Pages serves static files with no header configuration,
+         so security policy ships as <meta> tags. Some directives
+         (frame-ancestors, X-Frame-Options) only work as HTTP headers
+         and are noted but cannot be enforced from the meta tag.
+
+         CSP rationale, directive by directive:
+           - default-src 'self'  baseline. Anything not specifically
+             allowed below falls through to 'self'.
+           - script-src 'self' 'unsafe-inline' https://gc.zgo.at
+             'unsafe-inline' is required for the <script type="application/ld+json">
+             SEO blocks below — Google's rich-results crawler reads JSON-LD
+             only as inline <script>. The actual bootstrap of analytics
+             lives in /analytics.js (not inline). Trade-off documented:
+             until we want to compute per-build SHA-256 hashes for each
+             JSON-LD block, inline script execution is permitted.
+           - style-src 'self' 'unsafe-inline'
+             Many small inline style="" attributes in dynamic UI; would
+             need a sweeping refactor to remove.
+           - img-src 'self' https: data:
+             Favicons + cover art come from arbitrary HTTPS CDNs (RB,
+             iTunes, broadcaster sites). data: covers SVG icons embedded
+             via DOM.
+           - media-src https: http://shoutcast.rtvc.gov.co:8010
+                            http://162.244.80.52:8732
+             Stream URLs are arbitrary HTTPS hosts (771-station catalog).
+             The two HTTP-only stations from the audit-#71 allowlist
+             are listed explicitly.
+           - connect-src https:
+             Worker proxy + Radio Browser + iTunes + LRCLIB + Lyrics.ovh
+             + broadcaster metadata APIs. Constraining further would need
+             an enumerated allowlist that grows with every new broadcaster.
+           - font-src 'self'
+             We bundle no external fonts — system stack only. Tightening
+             this would block any future webfont without first updating
+             the policy.
+           - object-src 'none'  no <object>/<embed>/<applet>.
+           - base-uri 'self'  prevents <base href> hijack.
+           - form-action 'self'  prevents form-submit data exfiltration.
+           - frame-ancestors 'none'  meta-CSP doesn't enforce this; the
+             X-Frame-Options HTTP header would be the real defense.
+             Listed for documentation. -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' https://gc.zgo.at;
+      style-src 'self' 'unsafe-inline';
+      img-src 'self' https: data:;
+      media-src https: http://shoutcast.rtvc.gov.co:8010 http://162.244.80.52:8732;
+      connect-src https:;
+      font-src 'self';
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+    " />
+    <!-- Don't leak full URL (incl. ?q= search) to third-party sites. -->
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <!-- Disable browser features we never use. Acts both as a privacy
+         signal and a defense if a sub-resource tries to invoke them. -->
+    <meta http-equiv="Permissions-Policy"
+          content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), midi=()" />
+
     <!-- Search-engine + share metadata.
          Title / description target long-tail intent ("minimal browser
          internet radio", "no-signup", "ad-free") rather than the
@@ -103,22 +165,12 @@
 
     <link rel="stylesheet" href="/src/style.css" />
 
-    <!-- GoatCounter analytics: replace YOUR-CODE with the subdomain you
-         picked at https://www.goatcounter.com/. Loads only on the
-         deployed host so localhost dev traffic doesn't pollute stats.
-         Leaving the placeholder in place is harmless — the counter URL
-         404s and no events get recorded. -->
-    <script>
-      (function () {
-        var h = window.location.hostname;
-        if (h === 'localhost' || h === '127.0.0.1' || h === '') return;
-        var s = document.createElement('script');
-        s.async = true;
-        s.src = '//gc.zgo.at/count.js';
-        s.setAttribute('data-goatcounter', 'https://markussteinbrecher.goatcounter.com/count');
-        document.head.appendChild(s);
-      })();
-    </script>
+    <!-- GoatCounter analytics. Bootstrap lives in /analytics.js so
+         the page ships a strict script-src CSP without 'unsafe-inline'
+         leaking beyond the inline JSON-LD SEO blocks. Loads only on
+         the deployed host so localhost dev traffic doesn't pollute
+         stats. -->
+    <script src="/analytics.js" defer></script>
   </head>
   <body>
     <!-- Search-engine prose. Visually hidden via .seo-prose (sr-only),

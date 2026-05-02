@@ -34,6 +34,7 @@ import {
   toggleFavorite,
 } from './storage';
 import { STATS_WORKER_BASE } from './config';
+import { emptyState, statusLine } from './empty';
 import { fmtSharePct, normalizeForSearch } from './format';
 import { safeUrl, urlDisplay } from './url';
 import { classifyStoredWake, fadeVolume, formatCountdown, nextFireTime, WakeScheduler } from './wake';
@@ -869,12 +870,6 @@ function sectionLabel(label: string, count: number): HTMLDivElement {
   return wrap;
 }
 
-function emptyState(iconHtml: string, title: string, sub: string): HTMLDivElement {
-  const wrap = document.createElement('div');
-  wrap.className = 'empty';
-  wrap.innerHTML = `${iconHtml}<div class="t">${title}</div><div class="s">${sub}</div>`;
-  return wrap;
-}
 
 /** Two-pill segmented control rendered at the top of the Library tab.
  *  Lives in the sticky topbar so it stays visible regardless of how
@@ -1501,13 +1496,6 @@ function siteCounter(): HTMLDivElement | null {
   return wrap;
 }
 
-function statusLine(message: string): HTMLDivElement {
-  const wrap = document.createElement('div');
-  wrap.className = 'empty';
-  wrap.style.padding = '40px 32px';
-  wrap.innerHTML = `<div class="s">${message}</div>`;
-  return wrap;
-}
 
 function renderRows(stations: Station[]): DocumentFragment {
   const frag = document.createDocumentFragment();
