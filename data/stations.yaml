@@ -323,270 +323,308 @@
 - id: builtin-srf-1
   stationuuid: 960e57c5-0601-11e8-ae97-52543be04c81
   changeuuid: c40b9ba5-5b6e-4caf-85ec-a60067e21aaa
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [47.385, 8.529]
   broadcaster: srf
   name: SRF 1
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/srf1/mp3/128
+  metadataUrl: https://www.srf.ch/programm/radio-api/eaw/lastplayed/radio-srf-1
   bitrate: 128
   codec: MP3
   tags: [public radio, news, swiss german, switzerland]
   favicon: https://www.srf.ch/static/srf/img/srf-logo-positiv.svg
   homepage: https://www.srf.ch/audio/radio-srf-1
   country: CH
-  status: stream-only
+  status: working
 
 - id: builtin-srf-2-kultur
   stationuuid: 960bbed9-0601-11e8-ae97-52543be04c81
   changeuuid: e2fe801a-86e2-4c8c-bb93-df112bf0ff11
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [47.385, 8.529]
   broadcaster: srf
   name: SRF 2 Kultur
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/srf2/mp3/128
+  metadataUrl: https://www.srf.ch/programm/radio-api/eaw/lastplayed/radio-srf-2-kultur
   bitrate: 128
   codec: MP3
   tags: [classical, culture, public radio, switzerland]
   favicon: https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Radio_SRF_2_Kultur_logo.svg/512px-Radio_SRF_2_Kultur_logo.svg.png
   homepage: https://www.srf.ch/audio/radio-srf-2-kultur
   country: CH
-  status: stream-only
+  status: working
 
 - id: builtin-srf-3
   stationuuid: 961f1da4-0601-11e8-ae97-52543be04c81
   changeuuid: 79893c88-4bfd-431c-b6ef-040263ae1c0f
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [47.385, 8.529]
   broadcaster: srf
   name: SRF 3
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/srf3/mp3/128
+  metadataUrl: https://www.srf.ch/programm/radio-api/eaw/lastplayed/radio-srf-3
   bitrate: 128
   codec: MP3
   tags: [pop, public radio, swiss german, switzerland]
   favicon: https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Radio_SRF_3_logo.svg/512px-Radio_SRF_3_logo.svg.png
   homepage: https://www.srf.ch/audio/radio-srf-3
   country: CH
-  status: stream-only
+  status: working
   featured: true
 
 - id: builtin-srf-4-news
   stationuuid: 960ed987-0601-11e8-ae97-52543be04c81
   changeuuid: 2f86a216-be21-4768-ac7c-a83ecbcbe606
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [47.385, 8.529]
   broadcaster: srf
   name: SRF 4 News
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/srf4news/mp3/128
+  metadataUrl: https://www.srf.ch/programm/radio-api/eaw/lastplayed/radio-srf-4-news
   bitrate: 128
   codec: MP3
   tags: [news, talk, public radio, switzerland]
   favicon: https://www.srf.ch/static/srf/img/srf-logo-positiv.svg
   homepage: https://www.srf.ch/audio/radio-srf-4-news
   country: CH
-  status: stream-only
+  status: working
 
 - id: builtin-srf-virus
   stationuuid: 960b6cd6-0601-11e8-ae97-52543be04c81
   changeuuid: dd4bd41d-778a-459d-8324-e6b652def01e
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [47.385, 8.529]
   broadcaster: srf
   name: SRF Virus
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/srfvirus/mp3/128
+  metadataUrl: https://www.srf.ch/programm/radio-api/eaw/lastplayed/radio-srf-virus
   bitrate: 128
   codec: MP3
   tags: [alternative, indie, hip hop, public radio, switzerland]
   favicon: https://www.srf.ch/static/srf/img/srf-logo-positiv.svg
   homepage: https://www.srf.ch/audio/radio-srf-virus
   country: CH
-  status: stream-only
+  status: working
 
 - id: builtin-srf-musikwelle
   stationuuid: 960dae40-0601-11e8-ae97-52543be04c81
   changeuuid: b98bd966-5338-4885-8ed9-f3d23234ef24
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [47.385, 8.529]
   broadcaster: srf
   name: SRF Musikwelle
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/srfmw/mp3/128
+  metadataUrl: https://www.srf.ch/programm/radio-api/eaw/lastplayed/radio-srf-musikwelle
   bitrate: 128
   codec: MP3
   tags: [schlager, oldies, folk, public radio, switzerland]
   favicon: https://www.srf.ch/static/srf/img/srf-logo-positiv.svg
   homepage: https://www.srf.ch/audio/radio-srf-musikwelle
   country: CH
-  status: stream-only
+  status: working
 
 - id: builtin-rts-la-1ere
   stationuuid: 9608efd5-0601-11e8-ae97-52543be04c81
   changeuuid: 0cc8c9d6-c1ec-4bd9-958e-aa9691b14a7e
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [46.516, 6.633]
   broadcaster: rts
   name: RTS La 1ère
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/la-1ere/mp3/128
+  metadataUrl: https://hummingbird.rts.ch/hbv7/ajax/modules/portal-live-radio/update/channels/LA_1ERE
   bitrate: 128
   codec: MP3
   tags: [public radio, news, french, switzerland]
   favicon: https://www.rts.ch/hbv7/static/images/favicon/rts/152x152.png
   homepage: https://www.rts.ch/audio-podcasts/la-1ere/
   country: CH
-  status: stream-only
+  status: working
 
 - id: builtin-rts-espace-2
   stationuuid: 9607cf45-0601-11e8-ae97-52543be04c81
   changeuuid: a4d0ddc5-c3cc-42f4-bd9f-7fc30a0d5bd8
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [46.516, 6.633]
   broadcaster: rts
   name: RTS Espace 2
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/espace-2/mp3/128
+  metadataUrl: https://hummingbird.rts.ch/hbv7/ajax/modules/portal-live-radio/update/channels/ESPACE_2
   bitrate: 128
   codec: MP3
   tags: [classical, culture, public radio, french, switzerland]
   favicon: https://www.rts.ch/hbv7/static/images/favicon/rts/152x152.png
   homepage: https://www.rts.ch/audio-podcasts/espace-2/
   country: CH
-  status: stream-only
+  status: working
 
 - id: builtin-rts-couleur-3
   stationuuid: 9607cdda-0601-11e8-ae97-52543be04c81
   changeuuid: 89ee59f7-2cd6-433d-a16e-6eb093ca666c
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [46.516, 6.633]
   broadcaster: rts
   name: RTS Couleur 3
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/couleur3/mp3/128
+  metadataUrl: https://hummingbird.rts.ch/hbv7/ajax/modules/portal-live-radio/update/channels/COULEUR_3
   bitrate: 128
   codec: MP3
   tags: [pop, alternative, public radio, french, switzerland]
   favicon: https://www.rts.ch/hbv7/static/images/favicon/rts/152x152.png
   homepage: https://www.rts.ch/audio-podcasts/couleur-3/
   country: CH
-  status: stream-only
+  status: working
 
 - id: builtin-rts-option-musique
   stationuuid: 9607cc5d-0601-11e8-ae97-52543be04c81
   changeuuid: 6412fd0d-668f-4c70-890e-37b050b18dae
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [46.516, 6.633]
   broadcaster: rts
   name: RTS Option Musique
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/option-musique/mp3/128
+  metadataUrl: https://hummingbird.rts.ch/hbv7/ajax/modules/portal-live-radio/update/channels/OPTION_MUSIQUE
   bitrate: 128
   codec: MP3
   tags: [chanson, public radio, french, switzerland]
   favicon: https://www.rts.ch/hbv7/static/images/favicon/rts/152x152.png
   homepage: https://www.rts.ch/audio-podcasts/option-musique/
   country: CH
-  status: stream-only
+  status: working
 
 - id: builtin-rsi-rete-uno
   stationuuid: 96127e90-0601-11e8-ae97-52543be04c81
   changeuuid: 51742f46-020d-4b56-b5ce-aa14d5c04cba
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [46.005, 8.952]
   broadcaster: rsi
   name: RSI Rete Uno
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/reteuno/mp3/128
+  metadataUrl: https://epg.rsi.ch/nowAndNext#reteuno
   bitrate: 128
   codec: MP3
   tags: [public radio, news, italian, switzerland]
   favicon: https://www.rsi.ch/icons/apple-touch-icon-70-precomposed.png
   homepage: https://www.rsi.ch/play/radio/popupradiolive/livepopup/reteuno
   country: CH
-  status: stream-only
+  status: working
 
 - id: builtin-rsi-rete-due
   stationuuid: 96127f58-0601-11e8-ae97-52543be04c81
   changeuuid: 40aae81b-d57d-4a29-bea5-cae28caeed13
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [46.005, 8.952]
   broadcaster: rsi
   name: RSI Rete Due
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/retedue/mp3/128
+  metadataUrl: https://epg.rsi.ch/nowAndNext#retedue
   bitrate: 128
   codec: MP3
   tags: [classical, culture, public radio, italian, switzerland]
   favicon: https://www.rsi.ch/icons/apple-touch-icon-70-precomposed.png
   homepage: https://www.rsi.ch/play/radio/popupradiolive/livepopup/retedue
   country: CH
-  status: stream-only
+  status: working
 
 - id: builtin-rsi-rete-tre
   stationuuid: 96127dce-0601-11e8-ae97-52543be04c81
   changeuuid: c51eee33-fa46-410e-adea-66cd6a62a49e
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [46.005, 8.952]
   broadcaster: rsi
   name: RSI Rete Tre
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/retetre/mp3/128
+  metadataUrl: https://epg.rsi.ch/nowAndNext#retetre
   bitrate: 128
   codec: MP3
   tags: [pop, public radio, italian, switzerland]
   favicon: https://www.rsi.ch/icons/apple-touch-icon-70-precomposed.png
   homepage: https://www.rsi.ch/play/radio/popupradiolive/livepopup/retetre
   country: CH
-  status: stream-only
+  status: working
 
 # ─── CH — Radio Swiss (SRG-SSR cross-language brands) (2026-04-29) ───
 
 - id: builtin-radio-swiss-jazz
   stationuuid: 961ac56b-0601-11e8-ae97-52543be04c81
   changeuuid: a8e525f7-badf-41d4-b770-d6374e1d5f86
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [46.948, 7.447]
   broadcaster: swiss-radio
   name: Radio Swiss Jazz
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/rsj/mp3/128
+  metadataUrl: https://api.radioswissjazz.ch/api/v1/rsj/de/playlist_small
   bitrate: 128
   codec: MP3
   tags: [jazz, switzerland]
   favicon: https://www.radioswissjazz.ch/favicon.ico
   homepage: https://www.radioswissjazz.ch/
   country: CH
-  status: stream-only
+  status: working
 
 - id: builtin-radio-swiss-pop
   stationuuid: 961ac635-0601-11e8-ae97-52543be04c81
   changeuuid: a64f6e45-15f8-4bff-bf63-47e2f062cd22
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [46.948, 7.447]
   broadcaster: swiss-radio
   name: Radio Swiss Pop
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/rsp/mp3/128
+  metadataUrl: https://api.radioswisspop.ch/api/v1/rsp/de/playlist_small
   bitrate: 128
   codec: MP3
   tags: [pop, switzerland]
   favicon: https://www.radioswisspop.ch/favicon.ico
   homepage: https://www.radioswisspop.ch/
   country: CH
-  status: stream-only
+  status: working
 
 - id: builtin-radio-swiss-classic-de
   stationuuid: 96077079-0601-11e8-ae97-52543be04c81
   changeuuid: 9cef7b4a-9b3c-409f-a3c4-a47b9f47f6da
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [46.948, 7.447]
   broadcaster: swiss-radio
   name: Radio Swiss Classic
   streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/rsc_de/mp3/128
+  metadataUrl: https://api.radioswissclassic.ch/api/v1/rsc/de/playlist_small
   bitrate: 128
   codec: MP3
   tags: [classical, switzerland]
   favicon: https://www.radioswissclassic.ch/favicon.ico
   homepage: https://www.radioswissclassic.ch/
   country: CH
-  status: stream-only
+  status: working
+
+# ─── CH — RTR (Romansh-language SRG SSR public) (2026-05-02) ───
+# Single channel; uses the unified SRG SSR Integration Layer fetcher.
+# CORS-callable directly, no worker proxy.
+
+- id: builtin-rtr
+  stationuuid: 9608933a-0601-11e8-ae97-52543be04c81
+  changeuuid: 9131a87c-802f-40b1-9d48-6ad692e2b57a
+  reviewedAt: 2026-05-02
+  geo: [46.851, 9.532]
+  broadcaster: rtr
+  name: Radio Rumantsch
+  streamUrl: https://livestreaming-node-1.srg-ssr.ch/srgssr/rr/mp3/128
+  metadataUrl: https://il.srf.ch/integrationlayer/2.0/rtr/songList/radio/byChannel/12fb886e-b7aa-4e55-beb2-45dbc619f3c4.json
+  bitrate: 128
+  codec: MP3
+  tags: [public radio, romansh, switzerland]
+  homepage: https://www.rtr.ch/
+  country: CH
+  status: working
 
 # ─── CH commercial / community (2026-04-29) ───
 
 - id: ch-kontrafunk
   stationuuid: 92c3f2bd-d985-4998-9632-2e16fbfcab0e
   changeuuid: b298e5de-b67a-4f84-93a3-6cbbe9868c31
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [47.376, 8.541]
   broadcaster: independent
+  metadata: azuracast
+  metadataUrl: https://stream.kontrafunk.radio/api/nowplaying/kontrafunk
   name: Kontrafunk
   streamUrl: https://stream.kontrafunk.radio/listen/kontrafunk/radio.mp3
   bitrate: 192
@@ -594,12 +632,12 @@
   tags: [talk, news, switzerland]
   homepage: https://kontrafunk.radio/
   country: CH
-  status: stream-only
+  status: working
 
 - id: ch-vintage-radio
   stationuuid: 962af9b5-0601-11e8-ae97-52543be04c81
   changeuuid: 778bcff5-503c-48be-adfc-33b4bf6a5654
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [46.948, 7.447]
   broadcaster: independent
   name: Vintage Radio
@@ -609,12 +647,12 @@
   tags: [oldies, vintage, switzerland]
   homepage: https://www.vintageradio.ch/
   country: CH
-  status: stream-only
+  status: icy-only
 
 - id: ch-energy-basel
   stationuuid: 1095cda6-6898-11ea-9d09-52543be04c81
   changeuuid: b5e202d0-ee7a-4712-aede-84d52fdaa590
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [47.560, 7.589]
   broadcaster: independent
   name: Energy Basel
@@ -624,7 +662,7 @@
   tags: [pop, hits, switzerland, basel]
   homepage: https://www.energy.ch/basel
   country: CH
-  status: stream-only
+  status: icy-only
 
 - id: ch-radio-x
   stationuuid: 6d86fac2-7b86-41fd-b3eb-80fc16d30a4b
@@ -644,7 +682,7 @@
 - id: ch-lounge-radio
   stationuuid: 9051470d-87fa-4177-bda7-6a87be58f066
   changeuuid: 2866d4c3-b990-4530-8214-ebc4ddf8616e
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [47.376, 8.541]
   broadcaster: independent
   name: Lounge Radio
@@ -655,7 +693,7 @@
   favicon: https://lounge-radio.com/wp-content/uploads/fbrfg/apple-touch-icon.png
   homepage: https://lounge-radio.com/
   country: CH
-  status: stream-only
+  status: icy-only
 
 # ─── FR — Radio France public broadcaster (2026-04-29) ───
 # Pattern: https://icecast.radiofrance.fr/<slug>-hifi.aac (192 AAC).

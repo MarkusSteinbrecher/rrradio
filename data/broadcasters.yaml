@@ -154,7 +154,11 @@ srf:
   country: CH
   family: SRG-SSR
   homepage: https://www.srf.ch/audio
-  notes: SRG SSR — German-language Swiss public
+  metadata: srf
+  notes: |
+    SRG SSR — German-language Swiss public.
+    Per-channel lastPlayed JSON at www.srf.ch/programm/radio-api/eaw/lastplayed/<slug>;
+    each station declares its own metadataUrl pointing at the right slug.
 
 rts:
   name: RTS
@@ -162,7 +166,12 @@ rts:
   country: CH
   family: SRG-SSR
   homepage: https://www.rts.ch/audio-podcasts/
-  notes: SRG SSR — French-language Swiss public
+  metadata: rts
+  notes: |
+    SRG SSR — French-language Swiss public.
+    hummingbird.rts.ch HTML fragment per channel (LA_1ERE / ESPACE_2 /
+    COULEUR_3 / OPTION_MUSIQUE). No CORS — routed through the worker
+    proxy. Programme-level only.
 
 rsi:
   name: RSI
@@ -170,6 +179,11 @@ rsi:
   country: CH
   family: SRG-SSR
   homepage: https://www.rsi.ch/
+  metadata: rsi
+  notes: |
+    SRG SSR — Italian-language Swiss public.
+    One shared epg.rsi.ch/nowAndNext endpoint covers reteuno/retedue/retetre;
+    each station's metadataUrl carries the channel as a URL fragment (#reteuno).
 
 swiss-radio:
   name: Swiss Radio
@@ -177,10 +191,29 @@ swiss-radio:
   country: CH
   family: SRG-SSR
   homepage: https://www.radioswisspop.ch/
+  metadata: swiss-radio
   notes: |
     Cross-language curated music brands operated by SRG-SSR (separate
     from SRF/RTS/RSI). Three brands: Pop, Jazz, Classic — Classic has
     German, French, Italian feeds.
+    API: api.radioswiss{pop,jazz,classic}.ch/api/v1/<short>/<locale>/playlist_small.
+    No CORS — proxied through worker. Cover URLs at
+    cdne-satr-prd-rsp-covers.azureedge.net/50/<coverId>.jpg.
+
+rtr:
+  name: RTR
+  fullName: Radiotelevisiun Svizra Rumantscha
+  country: CH
+  family: SRG-SSR
+  homepage: https://www.rtr.ch/
+  metadata: srgssr-il
+  notes: |
+    SRG SSR — Romansh-language Swiss public.
+    Track-level via the SRG SSR Integration Layer
+    (il.srf.ch/integrationlayer/2.0/rtr/songList/radio/byChannel/<id>.json).
+    CORS-callable directly. The same fetcher works for SRF/RSI/RTS too
+    via different BU prefixes — SRF/RSI/RTS still on their per-BU
+    fetchers for now; consolidating would simplify (see follow-up issue).
 
 # ─────────────── UK ───────────────
 

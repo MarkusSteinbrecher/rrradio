@@ -703,6 +703,264 @@ const fetchSrrMetadata: MetadataFetcher = async (station, signal) => {
 };
 
 // ============================================================
+// SRG SSR fetchers (Swiss public broadcaster)
+// SRF (German) — per-channel JSON lastPlayedList, all-caps text.
+// RSI (Italian) — one shared nowAndNext endpoint covers all 3 channels;
+//   programme-level only (no per-track titles in this feed).
+// RTS (French) is intentionally not here — its endpoint is HTML and
+//   blocks CORS, so it goes through the worker proxy in a separate fetcher.
+// ============================================================
+
+interface SrfLastPlayedItem {
+  title?: string;
+  description?: string;
+  type?: string;
+  timestamp?: string;
+}
+interface SrfLastPlayedResponse {
+  lastPlayedList?: SrfLastPlayedItem[];
+}
+
+const fetchSrfMetadata: MetadataFetcher = async (station, signal) => {
+  const url = station.metadataUrl;
+  if (!url) return null;
+  try {
+    const res = await fetch(url, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as SrfLastPlayedResponse;
+    const first = data.lastPlayedList?.[0];
+    if (!first || first.type !== 'song' || !first.title) return null;
+    // SRF stores artist in `description`, track in `title`. Both arrive
+    // mostly upper-cased; strip the trailing "(CH)" country tag and
+    // titleCase so it sits naturally with the rest of the UI.
+    const artistRaw = (first.description ?? '').replace(/\s*\([A-Z]{2}\)\s*$/i, '').trim();
+    const titleRaw = first.title.trim();
+    return {
+      artist: artistRaw ? titleCase(artistRaw) : undefined,
+      track: titleCase(titleRaw),
+      raw: `${artistRaw} - ${titleRaw}`.trim(),
+    };
+  } catch {
+    return null;
+  }
+};
+
+interface RsiProgrammeContent {
+  title?: string;
+  shortDescription?: string;
+}
+interface RsiProgramme {
+  content?: RsiProgrammeContent;
+}
+interface RsiNowAndNextChannel {
+  program?: RsiProgramme[];
+}
+type RsiNowAndNext = Record<string, RsiNowAndNextChannel | undefined>;
+
+interface AzuracastSong {
+  artist?: string;
+  title?: string;
+  text?: string;
+  art?: string;
+}
+interface AzuracastNowPlaying {
+  song?: AzuracastSong;
+}
+interface AzuracastResponse {
+  now_playing?: AzuracastNowPlaying;
+  is_online?: boolean;
+}
+
+/** AzuraCast — open-source radio automation used by many small / community
+ *  stations. Endpoint shape: `<host>/api/nowplaying/<shortcode>` returns a
+ *  JSON envelope with `now_playing.song.{artist,title,art}`. CORS is open
+ *  on properly-configured deployments. The "Station Offline" sentinel
+ *  (text=Station Offline, empty artist) means the station is off-air —
+ *  return null so the UI doesn't display it as a track title. */
+const fetchAzuracastMetadata: MetadataFetcher = async (station, signal) => {
+  const url = station.metadataUrl;
+  if (!url) return null;
+  try {
+    const res = await fetch(url, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as AzuracastResponse;
+    if (data.is_online === false) return null;
+    const song = data.now_playing?.song;
+    const artist = song?.artist?.trim();
+    const title = song?.title?.trim();
+    if (!title || /^station offline$/i.test(title)) return null;
+    return {
+      artist: artist || undefined,
+      track: title,
+      raw: `${artist ?? ''} - ${title}`.trim(),
+      coverUrl: song?.art && !/generic_song/i.test(song.art) ? song.art : undefined,
+    };
+  } catch {
+    return null;
+  }
+};
+
+interface SrgssrIlSong {
+  isPlayingNow?: boolean;
+  date?: string;
+  title?: string;
+  artist?: { name?: string };
+}
+interface SrgssrIlSongList {
+  songList?: SrgssrIlSong[];
+}
+
+/** SRG SSR Integration Layer — track-level now-playing for any radio
+ *  channel in the network. Stations declare metadataUrl as the
+ *  channel-specific URL (without the from/to query); we append a window
+ *  around `now` so the response includes 1–3 entries with one tagged
+ *  isPlayingNow=true. CORS-callable directly (no proxy). Currently
+ *  used for RTR; SRF/RSI/RTS could be migrated here too — a single
+ *  fetcher for the whole SRG SSR network. */
+const fetchSrgssrIlMetadata: MetadataFetcher = async (station, signal) => {
+  const baseUrl = station.metadataUrl;
+  if (!baseUrl) return null;
+  try {
+    const now = Date.now();
+    const from = new Date(now - 3 * 60 * 60 * 1000).toISOString();
+    const to = new Date(now + 60 * 60 * 1000).toISOString();
+    const sep = baseUrl.includes('?') ? '&' : '?';
+    const url = `${baseUrl}${sep}from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&pageSize=3`;
+    const res = await fetch(url, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as SrgssrIlSongList;
+    const songs = data.songList ?? [];
+    const playing = songs.find((s) => s.isPlayingNow) ?? songs[0];
+    if (!playing?.title) return null;
+    const artistRaw = (playing.artist?.name ?? '').replace(/\s*\([A-Z]{2}\)\s*$/i, '').trim();
+    const titleRaw = playing.title.trim();
+    return {
+      artist: artistRaw ? titleCase(artistRaw) : undefined,
+      track: titleCase(titleRaw),
+      raw: `${artistRaw} - ${titleRaw}`.trim(),
+    };
+  } catch {
+    return null;
+  }
+};
+
+interface RadioSwissPlayingMeta {
+  artist?: string;
+  title?: string;
+  album?: string;
+  coverId?: string;
+  swiss?: string;
+}
+interface RadioSwissPlaying {
+  metadata?: RadioSwissPlayingMeta;
+}
+interface RadioSwissChannel {
+  playingnow?: { current?: RadioSwissPlaying };
+}
+interface RadioSwissResponse {
+  channel?: RadioSwissChannel;
+}
+
+/** Radio Swiss Pop / Jazz / Classic — sister brand of SRG SSR running
+ *  on api.radioswiss{pop,jazz,classic}.ch. Endpoint shape:
+ *    /api/v1/<short>/<locale>/playlist_small  (small = current + a few)
+ *  No CORS, so we proxy through the worker (allowlist in worker/src/index.ts).
+ *  Cover-art URLs are coverId on a fixed Azure Edge CDN; only /50/ size
+ *  responds 200, larger sizes 404. */
+const fetchRadioSwissMetadata: MetadataFetcher = async (station, signal) => {
+  const url = station.metadataUrl;
+  if (!url) return null;
+  try {
+    const proxied = `${PROXY}?url=${encodeURIComponent(url)}`;
+    const res = await fetch(proxied, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as RadioSwissResponse;
+    const meta = data.channel?.playingnow?.current?.metadata;
+    if (!meta?.title) return null;
+    const cover = meta.coverId
+      ? `https://cdne-satr-prd-rsp-covers.azureedge.net/50/${meta.coverId}.jpg`
+      : undefined;
+    const artist = meta.artist?.trim();
+    const title = meta.title.trim();
+    return {
+      artist: artist || undefined,
+      track: title,
+      raw: `${artist ?? ''} - ${title}`.trim(),
+      coverUrl: cover,
+    };
+  } catch {
+    return null;
+  }
+};
+
+/** RTS: hummingbird.rts.ch returns an HTML fragment per channel slug
+ *  (LA_1ERE, ESPACE_2, COULEUR_3, OPTION_MUSIQUE). The interesting bit
+ *  is one attribute — `data-item-title="<station> - <show>"`. CORS is
+ *  not exposed for our origin, so we route through the worker proxy
+ *  (allowlist covers the hummingbird channel-update path). Programme-
+ *  level only, like RSI. */
+const fetchRtsMetadata: MetadataFetcher = async (station, signal) => {
+  const url = station.metadataUrl;
+  if (!url) return null;
+  try {
+    const proxied = `${PROXY}?url=${encodeURIComponent(url)}`;
+    const res = await fetch(proxied, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const html = await res.text();
+    const m = html.match(/data-item-title="([^"]+)"/);
+    if (!m) return null;
+    const decoded = m[1]
+      .replace(/&#39;/g, "'")
+      .replace(/&amp;/g, '&')
+      .replace(/&quot;/g, '"')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>');
+    // Format: "<station name> - <show name>". Take everything after the
+    // first " - " separator as the show.
+    const dash = decoded.indexOf(' - ');
+    const show = (dash > 0 ? decoded.slice(dash + 3) : decoded).trim();
+    if (!show) return null;
+    return {
+      track: undefined,
+      raw: '',
+      program: { name: show },
+    };
+  } catch {
+    return null;
+  }
+};
+
+/** RSI: shared `nowAndNext` endpoint returns every channel in one call.
+ *  metadataUrl encodes the channel as a URL fragment (`#reteuno`); same
+ *  pattern as fetchSrrMetadata. Talk- and music-format radio mixed —
+ *  this feed surfaces the current programme/show, not individual tracks. */
+const fetchRsiMetadata: MetadataFetcher = async (station, signal) => {
+  const meta = station.metadataUrl;
+  if (!meta) return null;
+  const [base, channel] = meta.split('#');
+  if (!channel) return null;
+  try {
+    const res = await fetch(base, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as RsiNowAndNext;
+    const progs = data[channel.toLowerCase()]?.program ?? [];
+    const cur = progs[0];
+    const title = cur?.content?.title?.trim();
+    if (!title) return null;
+    return {
+      track: undefined,
+      raw: '',
+      program: {
+        name: title,
+        subtitle: cur.content?.shortDescription?.trim() || undefined,
+      },
+    };
+  } catch {
+    return null;
+  }
+};
+
+// ============================================================
 // BBC fetchers (via our worker — rms.api.bbc.co.uk requires
 // Origin: https://www.bbc.co.uk and 403s otherwise)
 // ============================================================
@@ -808,6 +1066,12 @@ const FETCHERS_BY_KEY: Record<string, MetadataFetcher> = {
   cro: fetchCroMetadata,
   mr: fetchMrMetadata,
   srr: fetchSrrMetadata,
+  srf: fetchSrfMetadata,
+  rsi: fetchRsiMetadata,
+  rts: fetchRtsMetadata,
+  'srgssr-il': fetchSrgssrIlMetadata,
+  'swiss-radio': fetchRadioSwissMetadata,
+  azuracast: fetchAzuracastMetadata,
 };
 
 /** Schedule fetchers — keyed the same as MetadataFetchers. Optional —

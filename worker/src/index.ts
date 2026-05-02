@@ -291,6 +291,8 @@ export default {
           const ALLOW = [
             /^https:\/\/www\.hr[1-4]\.de\//i,
             /^https:\/\/www\.br\.de\//i,
+            /^https:\/\/hummingbird\.rts\.ch\/hbv7\/ajax\/modules\/portal-live-radio\/update\/channels\//i,
+            /^https:\/\/api\.radioswiss(?:pop|jazz|classic)\.ch\/api\/v1\/[a-z]+\/[a-z]{2}\/playlist_(?:small|large)$/i,
           ];
           if (!target || !ALLOW.some((re) => re.test(target))) {
             return jsonResponse({ error: 'host not allowed' }, 403, publicCors);
