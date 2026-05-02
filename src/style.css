@@ -182,6 +182,16 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   white-space: nowrap;
 }
 .wordmark-text__rrr { color: var(--accent); }
+.wordmark-beta {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  margin-left: 6px;
+  align-self: flex-start;
+  padding-top: 2px;
+}
 
 .topbar-actions {
   display: flex;
