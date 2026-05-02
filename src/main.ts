@@ -11,7 +11,7 @@ import { lookupCover } from './coverArt';
 import { lookupLyrics } from './lyrics';
 import type { LyricsResult } from './lyrics';
 import { MetadataPoller, icyFetcher } from './metadata';
-import { AudioPlayer, stateLabel } from './player';
+import { AudioPlayer } from './player';
 import { track } from './telemetry';
 import { pseudoFrequency } from './radioBrowser';
 import { composeBrowseFilter, PAGE_SIZE, fetchStations, searchStations } from './stations';
@@ -40,6 +40,17 @@ import {
   reportWorkerError,
 } from './errors';
 import { fmtSharePct, normalizeForSearch } from './format';
+import {
+  displayStation as displayStationPure,
+  isWakeBedActive as isWakeBedActivePure,
+  SILENT_BED_ID,
+} from './np-display';
+import { npFormatText, npLiveText } from './np-labels';
+import {
+  type MiniRefs,
+  renderMiniPlayer as renderMiniPlayerImpl,
+} from './render-mini';
+import { faviconClass, stationInitials } from './station-display';
 import {
   ICON_EMPTY,
   ICON_FAV,
@@ -370,20 +381,7 @@ let homeRbLoading = false;
 // Helpers
 // ─────────────────────────────────────────────────────────────
 
-function stationInitials(name: string): string {
-  const parts = name
-    .replace(/[^A-Za-z0-9 ]/g, ' ')
-    .split(/\s+/)
-    .filter(Boolean);
-  const letters = parts.slice(0, 2).map((w) => w[0]).join('').toUpperCase().slice(0, 2);
-  return letters || '··';
-}
-
-function faviconClass(id: string): string {
-  if (!id) return 'fav';
-  const sum = id.charCodeAt(0) + id.charCodeAt(id.length - 1);
-  return ['fav', 'fav fav-bbc', 'fav fav-soma', 'fav fav-fip'][sum % 4];
-}
+// stationInitials + faviconClass live in ./station-display.
 
 function favIdSet(): Set<string> {
   return new Set(getFavorites().map((s) => s.id));
@@ -571,113 +569,33 @@ function buildRow(station: Station, currentId: string, state: NowPlaying['state'
 // Status text helpers
 // ─────────────────────────────────────────────────────────────
 
-function miniMetaText(np: NowPlaying): string {
-  switch (np.state) {
-    case 'loading':
-      return 'TUNING…';
-    case 'playing':
-      return np.station.bitrate ? `${np.station.bitrate} KBPS · LIVE` : 'LIVE';
-    case 'paused':
-      return 'PAUSED';
-    case 'error':
-      return np.errorMessage ? np.errorMessage.toUpperCase() : 'ERROR';
-    default:
-      return stateLabel(np.state).toUpperCase();
-  }
-}
-
-function npLiveText(np: NowPlaying): string {
-  switch (np.state) {
-    case 'loading':
-      return 'Tuning';
-    case 'playing':
-      return 'Live · Streaming';
-    case 'paused':
-      return 'Paused';
-    case 'error':
-      return np.errorMessage ?? 'Error';
-    default:
-      return 'Standby';
-  }
-}
-
-function npFormatText(s: Station): string {
-  const parts: string[] = [];
-  if (s.bitrate) parts.push(`${s.bitrate} kbps`);
-  if (s.codec) parts.push(s.codec);
-  return parts.length > 0 ? parts.join(' · ') : '—';
-}
+// Pure NP/mini label helpers live in ./np-labels.
 
 // ─────────────────────────────────────────────────────────────
 // Render — Mini Player
 // ─────────────────────────────────────────────────────────────
 
-function setMiniArt(station: Station): void {
-  $miniFav.replaceChildren();
-  $miniFav.className = faviconClass(station.id);
+// displayStation + isWakeBedActive live in ./np-display (pure).
+// setMiniArt + renderMiniPlayer live in ./render-mini (refs-based).
+// The local wrappers below close over the production element refs
+// + wakeScheduler so the rest of main.ts can call them with just (np).
+const MINI_REFS: MiniRefs = {
+  mini: $mini,
+  miniFav: $miniFav,
+  miniName: $miniName,
+  miniMeta: $miniMeta,
+};
 
-  const drawInitials = (): void => {
-    const span = document.createElement('span');
-    span.textContent = stationInitials(station.name);
-    $miniFav.append(span);
-    if (station.frequency) {
-      const freq = document.createElement('span');
-      freq.className = 'freq-mini';
-      freq.textContent = station.frequency;
-      $miniFav.append(freq);
-    }
-  };
-
-  if (station.favicon) {
-    const img = document.createElement('img');
-    img.src = station.favicon;
-    img.alt = '';
-    img.referrerPolicy = 'no-referrer';
-    img.addEventListener(
-      'error',
-      () => {
-        img.remove();
-        drawInitials();
-      },
-      { once: true },
-    );
-    $miniFav.append(img);
-  } else {
-    drawInitials();
-  }
-}
-
-/** While the silent bed is the active audio source, present the
- *  armed wake station's branding instead — its favicon, tags, country
- *  and a synthesized "Wake up at HH:MM" name. The actual <audio>
- *  source is unchanged; this is purely cosmetic so Now Playing and
- *  the mini-player don't read "Silent bed". */
 function displayStation(np: NowPlaying): Station {
-  const armed = wakeScheduler.current();
-  if (np.station.id === SILENT_BED.id && armed?.station) {
-    return {
-      ...armed.station,
-      name: `Wake up at ${armed.time}`,
-    };
-  }
-  return np.station;
+  return displayStationPure(np, wakeScheduler.current());
 }
 
 function isWakeBedActive(np: NowPlaying): boolean {
-  return np.station.id === SILENT_BED.id && wakeScheduler.current() !== null;
+  return isWakeBedActivePure(np, wakeScheduler.current());
 }
 
 function renderMiniPlayer(np: NowPlaying): void {
-  if (!np.station.id) {
-    $mini.hidden = true;
-    return;
-  }
-  const display = displayStation(np);
-  $mini.hidden = false;
-  $miniName.textContent = display.name;
-  $miniMeta.textContent = miniMetaText(np);
-  setMiniArt(display);
-  $mini.classList.toggle('is-wake-bed', isWakeBedActive(np));
+  renderMiniPlayerImpl(MINI_REFS, np, wakeScheduler.current());
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -2677,7 +2595,7 @@ function setMuted(muted: boolean): void {
 // has been continuously active, the swap doesn't need a fresh user
 // gesture and bypasses the autoplay block.
 const SILENT_BED: Station = {
-  id: '__wake_silent_bed__',
+  id: SILENT_BED_ID,
   name: 'Silent bed',
   streamUrl: '/silence.m4a',
 };
