@@ -52,6 +52,41 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         with:
           path: dist
+      # Persist dist for the e2e job so we don't rebuild.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 1
+
+  # ────────────────────────────────────────────────────────────
+  # End-to-end smoke: real Chromium against the built bundle
+  # served via `vite preview`. Audit #63.
+  # ────────────────────────────────────────────────────────────
+  e2e:
+    runs-on: ubuntu-latest
+    needs: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Smoke tests
+        run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report
+          retention-days: 7
 
   # ────────────────────────────────────────────────────────────
   # Cloudflare Worker: typecheck + vitest unit tests
@@ -100,7 +135,7 @@ jobs:
   # Deploy: only on push-to-main, only after all checks pass
   # ────────────────────────────────────────────────────────────
   deploy:
-    needs: [web, worker, catalog]
+    needs: [web, worker, catalog, e2e]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     environment:

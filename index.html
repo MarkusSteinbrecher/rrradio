@@ -37,10 +37,13 @@
              Stream URLs are arbitrary HTTPS hosts (771-station catalog).
              The two HTTP-only stations from the audit-#71 allowlist
              are listed explicitly.
-           - connect-src https:
+           - connect-src 'self' https:
              Worker proxy + Radio Browser + iTunes + LRCLIB + Lyrics.ovh
-             + broadcaster metadata APIs. Constraining further would need
-             an enumerated allowlist that grows with every new broadcaster.
+             + broadcaster metadata APIs. `'self'` covers the local
+             stations.json fetch when running over http (vite preview /
+             local dev / the Playwright smoke). Constraining further
+             would need an enumerated allowlist that grows with every
+             new broadcaster.
            - font-src 'self'
              We bundle no external fonts — system stack only. Tightening
              this would block any future webfont without first updating
@@ -57,7 +60,7 @@
       style-src 'self' 'unsafe-inline';
       img-src 'self' https: data:;
       media-src https: http://shoutcast.rtvc.gov.co:8010 http://162.244.80.52:8732;
-      connect-src https:;
+      connect-src 'self' https:;
       font-src 'self';
       object-src 'none';
       base-uri 'self';
