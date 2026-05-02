@@ -78,6 +78,12 @@ export class AudioPlayer {
     return () => this.listeners.delete(listener);
   }
 
+  /** Current player state. Read-only — mutations go through play() /
+   *  swap() / pause() etc. */
+  getCurrent(): NowPlaying {
+    return this.current;
+  }
+
   async play(station: Station, options?: { loop?: boolean }): Promise<void> {
     // Always teardown + reconnect, even if the same station is "paused".
     // Live streams can't actually be resumed from a buffered position, and
@@ -89,21 +95,108 @@ export class AudioPlayer {
     return this.playInternal(station, { loop: !!options?.loop, sameStation: this.current.station.id === station.id });
   }
 
-  /** Switch the underlying <audio> source to a new station WITHOUT
-   *  the full teardown→load cycle. Used by the wake-to-radio fire
-   *  handler to swap from the silent bed to the wake station while
-   *  the audio session — kept alive overnight by the looping silent
-   *  bed — stays continuously active.
+  /** Sidecar audio element + the station it was primed for. Used by
+   *  the wake-to-radio path: the wake station is "primed" inside the
+   *  user gesture at arm time so it has its own iOS user-activation
+   *  token, then `swap()` adopts that primed element at fire time.
+   *  This is the only reliable way to make the silent-bed → wake-
+   *  station handoff work on iOS WebKit, where the activation token
+   *  on the main audio element appears to expire after long idle
+   *  periods even while it's continuously playing samples. */
+  private primedAudio: HTMLAudioElement | null = null;
+  private primedStationId: string | null = null;
+
+  /** Pre-grant a user-activation token on a sidecar audio element so
+   *  the wake-to-radio fire path can play it later without a fresh
+   *  gesture. MUST be called from within a user gesture (typically
+   *  the same tap that armed the wake).
    *
-   *  iOS Safari (and Chrome on iOS, which is WebKit) treats
-   *  `audio.removeAttribute('src') + audio.load()` as ending the
-   *  current media-playback session. The next `audio.play()` is
-   *  then a fresh autoplay attempt — gesture-required and silently
-   *  rejected with NotAllowedError. swap() avoids that reset so the
-   *  swap stays inside the same active session. */
+   *  We create a separate `<audio>`, set its src to the wake stream,
+   *  then `play().pause()` to register the gesture activation. The
+   *  element is muted during prime so no audio leaks if play happens
+   *  to start before pause processes. At fire time, `swap()` adopts
+   *  this element as the new `this.audio` (migrating event listeners),
+   *  and a fresh `play()` on it is allowed because the activation
+   *  token is element-scoped. */
+  async prime(station: Station): Promise<void> {
+    this.dropPrimed();
+    const sidecar = new Audio();
+    sidecar.preload = 'auto';
+    sidecar.muted = true;
+    sidecar.loop = false;
+    sidecar.src = station.streamUrl;
+    this.primedAudio = sidecar;
+    this.primedStationId = station.id;
+    try {
+      await sidecar.play();
+      sidecar.pause();
+      sidecar.muted = false;
+    } catch {
+      // Prime failed — drop it. swap() will fall back to the in-place
+      // src swap on the main audio element. This isn't fatal; it just
+      // means the iOS-specific reliability path isn't available.
+      this.dropPrimed();
+    }
+  }
+
+  /** Drop any currently-primed sidecar element. */
+  private dropPrimed(): void {
+    if (this.primedAudio) {
+      this.primedAudio.pause();
+      this.primedAudio.removeAttribute('src');
+      this.primedAudio.load();
+      this.primedAudio = null;
+    }
+    this.primedStationId = null;
+  }
+
+  /** Switch to a new station WITHOUT the full teardown→load cycle.
+   *  Used by the wake-to-radio fire handler.
+   *
+   *  iOS Safari treats `audio.removeAttribute('src') + audio.load()`
+   *  as ending the current media-playback session, and the activation
+   *  token on the main `<audio>` element appears to weaken or expire
+   *  after long idle periods (overnight silent-bed loop). So:
+   *
+   *    1. If a primed sidecar exists for this station (`prime()` was
+   *       called at arm time), adopt it as `this.audio`. The sidecar
+   *       has its own fresh activation token from the prime call —
+   *       its play() at fire time is allowed.
+   *    2. Otherwise, fall back to in-place src swap on the main
+   *       element. This works in many cases (foreground tab, recent
+   *       gesture) but is the path that's flaky on iOS overnight. */
   async swap(station: Station): Promise<void> {
-    // Keep the audio element alive — only do the bookkeeping that
-    // teardown() does *around* the audio reset.
+    // If we have a primed sidecar for this station, adopt it.
+    if (this.primedAudio && this.primedStationId === station.id) {
+      const sidecar = this.primedAudio;
+      this.primedAudio = null;
+      this.primedStationId = null;
+      this.adoptAudioElement(sidecar);
+      this.playGeneration += 1;
+      this.update({
+        station,
+        state: 'loading',
+        trackTitle: undefined,
+        coverUrl: undefined,
+        errorMessage: undefined,
+      });
+      try {
+        await this.audio.play();
+        this.updateMediaSessionMetadata(station);
+        this.startWatchdog();
+      } catch (err) {
+        if (err instanceof DOMException && err.name === 'NotAllowedError') {
+          this.update({ state: 'paused', errorMessage: undefined });
+          return;
+        }
+        this.update({ state: 'error', errorMessage: String(err) });
+      }
+      return;
+    }
+
+    // No primed element — fall back to in-place src swap on the main
+    // audio element. Same bookkeeping teardown() does, minus the
+    // audio.removeAttribute + load that ends the iOS session.
     this.stopWatchdog();
     if (this.pendingLoadingExit !== undefined) {
       window.clearTimeout(this.pendingLoadingExit);
@@ -114,6 +207,31 @@ export class AudioPlayer {
       this.hls = null;
     }
     return this.playInternal(station, { loop: false, sameStation: false });
+  }
+
+  /** Replace `this.audio` with `next`, migrating all event listeners.
+   *  Used by `swap()` when adopting a primed sidecar element. */
+  private adoptAudioElement(next: HTMLAudioElement): void {
+    // Tear down the previous element's source — but DON'T touch the
+    // primed `next`, which already has the correct src + activation.
+    const prev = this.audio;
+    prev.pause();
+    prev.removeAttribute('src');
+    prev.load();
+
+    // Re-attach the same listener bodies to `next`. The original
+    // listeners are captured by reference inside the constructor's
+    // arrow functions, so we add fresh ones to `next` and let the
+    // `prev` listeners die with `prev` (no element → no events).
+    this.audio = next;
+    next.addEventListener('playing', () => this.update({ state: 'playing' }));
+    next.addEventListener('pause', () => {
+      if (this.current.state !== 'idle') this.update({ state: 'paused' });
+    });
+    next.addEventListener('waiting', () => this.update({ state: 'loading' }));
+    next.addEventListener('error', () => {
+      this.update({ state: 'error', errorMessage: audioErrorMessage(next.error) });
+    });
   }
 
   private async playInternal(

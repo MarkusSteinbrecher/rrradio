@@ -2471,16 +2471,20 @@ function armWakeFromSheet(): void {
   // tab stays alive on lock, and the fire-time station swap stays
   // within the same active media-playback session — no fresh
   // gesture needed.
+  //
+  // ALSO: prime a sidecar audio element with the wake station URL
+  // inside the same gesture so it gets its own iOS user-activation
+  // token. At fire time, swap() adopts that primed element. The
+  // activation on the *main* element (the silent bed) appears to
+  // weaken on iOS over hours of idle audio, so a freshly-activated
+  // sidecar is the reliable path for the morning station swap.
   void player.play(SILENT_BED, { loop: true }).then(() => {
-    // Lock-screen Now Playing widget should explain what's going on.
-    // Without this it'd show "Silent bed" which is confusing if the
-    // user wakes mid-night and checks their phone. Override the title
-    // to surface the wake target + time.
     player.setTrackTitle(`Wake to ${wake.station.name} at ${wake.time}`, {
       track: `Wake to ${wake.station.name} at ${wake.time}`,
       artist: 'rrradio',
     });
   });
+  void player.prime(wake.station);
 }
 
 function disarmWake(persist = true): void {
@@ -2524,10 +2528,18 @@ function onWakeFire(wake: WakeTo): void {
   // station switch. play() calls teardown() which does
   // `audio.removeAttribute('src') + audio.load()`, and on iOS Safari
   // that ends the session — making the next audio.play() a fresh
-  // autoplay attempt that fails with NotAllowedError. Symptom was
-  // the wake station name appearing in the mini-player but no audio
-  // playing.
-  void player.swap(wake.station);
+  // autoplay attempt that fails with NotAllowedError. swap() prefers
+  // the sidecar primed at arm time (gesture-fresh activation) and
+  // falls back to in-place src swap when no prime is available.
+  void player.swap(wake.station).then(() => {
+    // If swap() landed in 'paused' state, the autoplay block bit us
+    // anyway. Surface to telemetry so we can see in the dashboard
+    // when the wake silently fails despite the prime + swap.
+    const settled = player.getCurrent();
+    if (settled.state === 'paused' || settled.state === 'error') {
+      track('wake/play-failed', `${wake.station.name} → ${settled.state}`);
+    }
+  });
   // Linear fade from 0 → full over 30 seconds. RAF-driven so it
   // tracks the wall clock, not setTimeout drift. Audible only on
   // Android/desktop; iOS Safari forces audio.volume to 1 regardless,

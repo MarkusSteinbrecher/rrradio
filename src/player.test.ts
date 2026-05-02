@@ -208,12 +208,14 @@ describe('AudioPlayer error path', () => {
 
 describe('AudioPlayer.swap', () => {
   // The wake-to-radio fire path (src/main.ts onWakeFire) calls
-  // player.swap() to move from the silent bed to the wake station
-  // *without* tearing down the audio element. On iOS Safari /
-  // Chrome (WebKit), audio.removeAttribute('src') + audio.load()
-  // ends the active media-playback session and the next play()
-  // gets autoplay-blocked. swap() avoids that — see player.ts.
-  it('does not call audio.load() (preserves the iOS session)', async () => {
+  // player.swap() to move from the silent bed to the wake station.
+  // On iOS Safari / Chrome (WebKit), audio.removeAttribute('src') +
+  // audio.load() ends the active media-playback session and the
+  // next play() gets autoplay-blocked. swap() avoids that — and
+  // when a primed sidecar is available, adopts it instead so the
+  // gesture-fresh activation token is what's used. See player.ts.
+
+  it('without prime, does not call audio.load() (preserves the iOS session)', async () => {
     const audio = makeAudio();
     const loadSpy = vi.spyOn(audio, 'load');
     const player = new AudioPlayer(audio);
@@ -266,5 +268,66 @@ describe('AudioPlayer.swap', () => {
     await player.swap(B);
     vi.advanceTimersByTime(700);
     expect(states.at(-1)).toMatchObject({ station: B, state: 'paused' });
+  });
+});
+
+describe('AudioPlayer.prime + swap (wake handoff)', () => {
+  it('prime() registers a sidecar element with the wake station URL', async () => {
+    const audio = makeAudio();
+    const player = new AudioPlayer(audio);
+    await player.prime(B);
+    // Internal — exposed via swap() behavior. After prime, swap(B)
+    // should use the sidecar (verified by the next test).
+    expect((player as unknown as { primedAudio: HTMLAudioElement | null }).primedAudio).not.toBeNull();
+    expect((player as unknown as { primedStationId: string | null }).primedStationId).toBe('b');
+  });
+
+  it('swap() with a matching prime adopts the sidecar (not the main element)', async () => {
+    const audio = makeAudio();
+    const player = new AudioPlayer(audio);
+    await player.prime(B);
+    const sidecarBeforeSwap = (player as unknown as { primedAudio: HTMLAudioElement | null }).primedAudio;
+    await player.swap(B);
+    // Sidecar reference dropped after adoption.
+    expect((player as unknown as { primedAudio: HTMLAudioElement | null }).primedAudio).toBeNull();
+    // The new this.audio is the sidecar.
+    const audioAfter = (player as unknown as { audio: HTMLAudioElement }).audio;
+    expect(audioAfter).toBe(sidecarBeforeSwap);
+    expect(audioAfter).not.toBe(audio);
+  });
+
+  it('swap() with a mismatched prime falls back to in-place src swap', async () => {
+    const audio = makeAudio();
+    const player = new AudioPlayer(audio);
+    await player.prime(A); // primed for A
+    await player.swap(B); // ...but swapping to B
+    // The main audio element is still the original — fallback path.
+    const audioAfter = (player as unknown as { audio: HTMLAudioElement }).audio;
+    expect(audioAfter).toBe(audio);
+  });
+
+  it('prime() failure (sidecar.play rejects) drops the prime silently', async () => {
+    const audio = makeAudio();
+    const player = new AudioPlayer(audio);
+    // Stub the global Audio constructor for this test so the sidecar
+    // .play() rejects.
+    const origAudio = globalThis.Audio;
+    globalThis.Audio = class extends origAudio {
+      override play() { return Promise.reject(new DOMException('blocked', 'NotAllowedError')); }
+    } as typeof Audio;
+    try {
+      await player.prime(B);
+    } finally {
+      globalThis.Audio = origAudio;
+    }
+    expect((player as unknown as { primedAudio: HTMLAudioElement | null }).primedAudio).toBeNull();
+  });
+
+  it('two consecutive primes: second replaces first', async () => {
+    const audio = makeAudio();
+    const player = new AudioPlayer(audio);
+    await player.prime(A);
+    await player.prime(B);
+    expect((player as unknown as { primedStationId: string | null }).primedStationId).toBe('b');
   });
 });
