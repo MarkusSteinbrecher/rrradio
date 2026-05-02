@@ -3693,6 +3693,191 @@
   country: DE
   status: working
 
+# ─── DE Phase 4 sub-channels (2026-05-02) ───
+# Antenne Bayern + Rock Antenne + FFH family + Klassik Radio. All
+# fetchers wired in Phase 1; this layer just adds high-vote sub-brand
+# stations. Streams + metadataUrl mountpoint per station.
+
+- id: de-antenne-bayern-classic-rock-live
+  stationuuid: 9615dc04-0601-11e8-ae97-52543be04c81
+  changeuuid: d4fed5ef-f03b-4c80-a5bf-bee39771851e
+  reviewedAt: 2026-05-02
+  geo: [48.137, 11.575]
+  broadcaster: antenne-bayern
+  name: Antenne Bayern - Classic Rock Live
+  streamUrl: https://mp3channels.webradio.antenne.de/classic-rock-live
+  metadataUrl: https://www.antenne.de/api/metadata/now#classic-rock-live
+  bitrate: 128
+  codec: MP3
+  tags: [classic rock, rock, germany]
+  homepage: https://www.antenne.de/musik/webradios/classic-rock-live
+  country: DE
+  status: working
+
+- id: de-antenne-bayern-80er-kulthits
+  stationuuid: 960ce338-0601-11e8-ae97-52543be04c81
+  changeuuid: 2a94b3f4-2356-4013-81bb-a32aa222dce6
+  reviewedAt: 2026-05-02
+  geo: [48.137, 11.575]
+  broadcaster: antenne-bayern
+  name: Antenne Bayern - 80er Kulthits
+  streamUrl: https://stream.antenne.de/80er-kulthits
+  metadataUrl: https://www.antenne.de/api/metadata/now#80er-kulthits
+  bitrate: 128
+  codec: MP3
+  tags: [80s, oldies, germany]
+  homepage: https://www.antenne.de/musik/webradios/80er-kulthits
+  country: DE
+  status: working
+
+- id: de-antenne-bayern-90er-hits
+  geo: [48.137, 11.575]
+  broadcaster: antenne-bayern
+  name: Antenne Bayern - 90er Hits
+  streamUrl: https://stream.antenne.de/90er-hits
+  metadataUrl: https://www.antenne.de/api/metadata/now#90er-hits
+  bitrate: 128
+  codec: MP3
+  tags: [90s, hits, germany]
+  homepage: https://www.antenne.de/musik/webradios/90er-hits
+  country: DE
+  status: working
+
+- id: de-antenne-bayern-70er-hits
+  stationuuid: 6755fcec-4752-4f69-962e-46c43e227542
+  changeuuid: e8d4b393-b1ce-44e2-bbb9-6c2ecdc2eb92
+  reviewedAt: 2026-05-02
+  geo: [48.137, 11.575]
+  broadcaster: antenne-bayern
+  name: Antenne Bayern - 70er Hits
+  streamUrl: https://stream.antenne.de/70er-hits
+  metadataUrl: https://www.antenne.de/api/metadata/now#70er-hits
+  bitrate: 128
+  codec: MP3
+  tags: [70s, oldies, germany]
+  homepage: https://www.antenne.de/musik/webradios/70er-hits
+  country: DE
+  status: working
+
+- id: de-antenne-bayern-lovesongs
+  stationuuid: 960df2cd-0601-11e8-ae97-52543be04c81
+  changeuuid: 133dffcb-004a-4b04-9012-ce8c5895352a
+  reviewedAt: 2026-05-02
+  geo: [48.137, 11.575]
+  broadcaster: antenne-bayern
+  name: Antenne Bayern - Lovesongs
+  streamUrl: https://stream.antenne.de/lovesongs
+  metadataUrl: https://www.antenne.de/api/metadata/now#lovesongs
+  bitrate: 128
+  codec: MP3
+  tags: [lovesongs, ballads, germany]
+  homepage: https://www.antenne.de/musik/webradios/lovesongs
+  country: DE
+  status: working
+
+- id: de-antenne-bayern-top-40
+  stationuuid: 9615de2d-0601-11e8-ae97-52543be04c81
+  changeuuid: 89ed6c54-be72-4356-a44d-c72bbf5c7c01
+  reviewedAt: 2026-05-02
+  geo: [48.137, 11.575]
+  broadcaster: antenne-bayern
+  name: Antenne Bayern - Top 40
+  streamUrl: https://mp3channels.webradio.antenne.de/top-40
+  metadataUrl: https://www.antenne.de/api/metadata/now#top-40
+  bitrate: 128
+  codec: MP3
+  tags: [pop, hits, charts, germany]
+  homepage: https://www.antenne.de/musik/webradios/top-40
+  country: DE
+  status: working
+
+- id: de-rock-antenne-alternative
+  stationuuid: 960d5540-0601-11e8-ae97-52543be04c81
+  changeuuid: 7bf72604-206d-47e9-a3c9-1a8abc54e716
+  reviewedAt: 2026-05-02
+  geo: [48.137, 11.575]
+  broadcaster: rock-antenne
+  name: Rock Antenne Alternative
+  streamUrl: https://stream.rockantenne.de/alternative
+  metadataUrl: https://www.rockantenne.de/api/metadata/now#alternative
+  bitrate: 128
+  codec: MP3
+  tags: [alternative, rock, germany]
+  homepage: https://www.rockantenne.de/webradio/alternative/
+  country: DE
+  status: working
+
+- id: de-rock-antenne-soft-rock
+  stationuuid: 9612dd56-0601-11e8-ae97-52543be04c81
+  changeuuid: 1715e1d8-061c-4ec6-8139-1d6cd38a43cb
+  reviewedAt: 2026-05-02
+  geo: [48.137, 11.575]
+  broadcaster: rock-antenne
+  name: Rock Antenne Soft Rock
+  streamUrl: https://stream.rockantenne.de/soft-rock
+  metadataUrl: https://www.rockantenne.de/api/metadata/now#soft-rock
+  bitrate: 128
+  codec: MP3
+  tags: [soft rock, rock, germany]
+  homepage: https://www.rockantenne.de/webradio/soft-rock/
+  country: DE
+  status: working
+
+- id: de-rock-antenne-70er-rock
+  geo: [48.137, 11.575]
+  broadcaster: rock-antenne
+  name: Rock Antenne 70er-Rock
+  streamUrl: https://stream.rockantenne.de/70er-rock
+  metadataUrl: https://www.rockantenne.de/api/metadata/now#70er-rock
+  bitrate: 128
+  codec: MP3
+  tags: [70s, classic rock, germany]
+  homepage: https://www.rockantenne.de/webradio/70er-rock/
+  country: DE
+  status: working
+
+- id: de-rock-antenne-80er-rock
+  geo: [48.137, 11.575]
+  broadcaster: rock-antenne
+  name: Rock Antenne 80er-Rock
+  streamUrl: https://stream.rockantenne.de/80er-rock
+  metadataUrl: https://www.rockantenne.de/api/metadata/now#80er-rock
+  bitrate: 128
+  codec: MP3
+  tags: [80s, classic rock, germany]
+  homepage: https://www.rockantenne.de/webradio/80er-rock/
+  country: DE
+  status: working
+
+- id: de-rock-antenne-90er-rock
+  geo: [48.137, 11.575]
+  broadcaster: rock-antenne
+  name: Rock Antenne 90er-Rock
+  streamUrl: https://stream.rockantenne.de/90er-rock
+  metadataUrl: https://www.rockantenne.de/api/metadata/now#90er-rock
+  bitrate: 128
+  codec: MP3
+  tags: [90s, classic rock, germany]
+  homepage: https://www.rockantenne.de/webradio/90er-rock/
+  country: DE
+  status: working
+
+- id: de-rock-antenne-grunge
+  stationuuid: a6bd5286-2ef4-45f5-bb08-1f2d68c954cf
+  changeuuid: 8329c209-196d-4efb-8f92-322ee76a2976
+  reviewedAt: 2026-05-02
+  geo: [48.137, 11.575]
+  broadcaster: rock-antenne
+  name: Rock Antenne Grunge
+  streamUrl: https://stream.rockantenne.de/grunge/stream/mp3
+  metadataUrl: https://www.rockantenne.de/api/metadata/now#grunge
+  bitrate: 128
+  codec: MP3
+  tags: [grunge, alternative rock, 90s, germany]
+  homepage: https://www.rockantenne.de/webradio/grunge/
+  country: DE
+  status: working
+
 - id: de-sunshine-live
   stationuuid: 960d063e-0601-11e8-ae97-52543be04c81
   changeuuid: cb448fef-2576-4d0c-b36b-f70611ba7080
@@ -3769,6 +3954,115 @@
   country: DE
   status: working
 
+- id: de-ffh-80er
+  stationuuid: 9605d022-0601-11e8-ae97-52543be04c81
+  changeuuid: b6b61875-b743-43d7-9123-1442fd318b7c
+  reviewedAt: 2026-05-02
+  geo: [50.110, 8.682]
+  broadcaster: ffh
+  name: Hit Radio FFH - 80er
+  streamUrl: https://mp3.ffh.de/ffhchannels/hq80er.mp3
+  metadataUrl: ffh80er
+  bitrate: 128
+  codec: MP3
+  tags: [80s, oldies, germany]
+  homepage: https://www.ffh.de/musik/ffh-plus/80er
+  country: DE
+  status: working
+
+- id: de-ffh-90er
+  stationuuid: 960daef6-0601-11e8-ae97-52543be04c81
+  changeuuid: 8cb1a126-70f0-4ae6-923c-68144d7df7a2
+  reviewedAt: 2026-05-02
+  geo: [50.110, 8.682]
+  broadcaster: ffh
+  name: Hit Radio FFH - 90er
+  streamUrl: https://mp3.ffh.de/ffhchannels/hqspezial.mp3
+  metadataUrl: ffh90er
+  bitrate: 128
+  codec: MP3
+  tags: [90s, hits, germany]
+  homepage: https://www.ffh.de/musik/ffh-plus/90er
+  country: DE
+  status: working
+
+- id: de-ffh-2000er
+  geo: [50.110, 8.682]
+  broadcaster: ffh
+  name: Hit Radio FFH - 2000er
+  streamUrl: https://mp3.ffh.de/ffhchannels/hq2000er.mp3
+  metadataUrl: ffh2000er
+  bitrate: 128
+  codec: MP3
+  tags: [2000s, hits, germany]
+  homepage: https://www.ffh.de/musik/ffh-plus/2000er
+  country: DE
+  status: working
+
+- id: de-ffh-eurodance
+  stationuuid: 960567ca-0601-11e8-ae97-52543be04c81
+  changeuuid: fb903e81-ab47-4deb-b4f3-6f0f5e7eaa9e
+  reviewedAt: 2026-05-02
+  geo: [50.110, 8.682]
+  broadcaster: ffh
+  name: Hit Radio FFH - Eurodance
+  streamUrl: https://mp3.ffh.de/ffhchannels/hqeurodance.mp3
+  metadataUrl: ffheurodance
+  bitrate: 128
+  codec: MP3
+  tags: [eurodance, dance, 90s, germany]
+  homepage: https://www.ffh.de/musik/ffh-plus/eurodance
+  country: DE
+  status: working
+
+- id: de-ffh-lounge
+  stationuuid: 9607ac72-0601-11e8-ae97-52543be04c81
+  changeuuid: 69acf186-b6d5-49e3-b8f0-0f2e83bbc948
+  reviewedAt: 2026-05-02
+  geo: [50.110, 8.682]
+  broadcaster: ffh
+  name: Hit Radio FFH - Lounge
+  streamUrl: https://mp3.ffh.de/ffhchannels/hqlounge.mp3
+  metadataUrl: ffhlounge
+  bitrate: 128
+  codec: MP3
+  tags: [lounge, chillout, germany]
+  homepage: https://www.ffh.de/musik/ffh-plus/lounge
+  country: DE
+  status: working
+
+- id: de-harmony-fm
+  stationuuid: 961449d4-0601-11e8-ae97-52543be04c81
+  changeuuid: 97c5ba58-7f95-46de-8e12-00d5316f698c
+  reviewedAt: 2026-05-02
+  geo: [50.110, 8.682]
+  broadcaster: ffh
+  name: harmony.fm
+  streamUrl: https://mp3.harmonyfm.de/harmonyfm/hqlivestream.mp3
+  metadataUrl: hrmnational
+  bitrate: 128
+  codec: MP3
+  tags: [adult contemporary, soft pop, germany]
+  homepage: https://www.harmony.fm/
+  country: DE
+  status: working
+
+- id: de-planet-radio
+  stationuuid: 96474269-0601-11e8-ae97-52543be04c81
+  changeuuid: 7d3b9f9f-a0f7-4feb-9bd0-62598fc2f330
+  reviewedAt: 2026-05-02
+  geo: [50.110, 8.682]
+  broadcaster: ffh
+  name: Planet Radio
+  streamUrl: https://mp3.planetradio.de/planetradio/livestream.mp3
+  metadataUrl: planet
+  bitrate: 128
+  codec: MP3
+  tags: [hip hop, urban, charts, germany]
+  homepage: https://www.planetradio.de/
+  country: DE
+  status: working
+
 - id: de-klassik-radio
   stationuuid: 90bff27c-4b50-11ea-b877-52543be04c81
   changeuuid: 8ef85003-18a9-4c9b-919e-37aef996f7df
@@ -3782,6 +4076,32 @@
   codec: MP3
   tags: [classical, easy listening, germany]
   homepage: https://www.klassikradio.de/
+  country: DE
+  status: working
+
+- id: de-klassik-radio-movie
+  geo: [48.367, 10.898]
+  broadcaster: klassik-radio
+  name: Klassik Radio - Movie
+  streamUrl: https://stream.klassikradio.de/movie/mp3-192/stream
+  metadataUrl: https://api.streamabc.net/metadata/channel/klassikr-movie.json
+  bitrate: 192
+  codec: MP3
+  tags: [classical, soundtrack, film music, germany]
+  homepage: https://www.klassikradio.de/programm/sendungen/movie
+  country: DE
+  status: working
+
+- id: de-klassik-radio-lounge
+  geo: [48.367, 10.898]
+  broadcaster: klassik-radio
+  name: Klassik Radio - Lounge
+  streamUrl: https://stream.klassikradio.de/lounge/mp3-192/stream
+  metadataUrl: https://api.streamabc.net/metadata/channel/klassikr-lounge.json
+  bitrate: 192
+  codec: MP3
+  tags: [lounge, classical crossover, chillout, germany]
+  homepage: https://www.klassikradio.de/programm/sendungen/lounge
   country: DE
   status: working
 
