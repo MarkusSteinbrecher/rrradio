@@ -9,6 +9,13 @@ import { describe, expect, it } from 'vitest';
  * surfaces accidental loosening (e.g. someone wiring 'unsafe-eval'
  * for a quick dep) at PR time instead of in production.
  *
+ * Note: this file asserts on the SOURCE `index.html`, which still
+ * carries `'unsafe-inline'` in `script-src` because dev (vite serve)
+ * ships it verbatim. At build time `tools/build-station-pages.mjs`
+ * rewrites the meta-CSP on every emitted page to drop 'unsafe-inline'
+ * and add `'sha256-<hash>'` entries. The Playwright e2e
+ * (`e2e/smoke.spec.ts`) asserts the post-build strict form.
+ *
  * Tests parse the static HTML by string match — no JSDOM needed.
  */
 

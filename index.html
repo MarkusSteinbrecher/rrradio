@@ -19,12 +19,15 @@
            - default-src 'self'  baseline. Anything not specifically
              allowed below falls through to 'self'.
            - script-src 'self' 'unsafe-inline' https://gc.zgo.at
-             'unsafe-inline' is required for the <script type="application/ld+json">
-             SEO blocks below — Google's rich-results crawler reads JSON-LD
-             only as inline <script>. The actual bootstrap of analytics
-             lives in /analytics.js (not inline). Trade-off documented:
-             until we want to compute per-build SHA-256 hashes for each
-             JSON-LD block, inline script execution is permitted.
+             SOURCE form keeps `'unsafe-inline'` because the
+             <script type="application/ld+json"> SEO blocks below are
+             inline and `npm run dev` ships this file as-is. At build
+             time, `tools/build-station-pages.mjs` rewrites the meta-CSP
+             on every emitted dist/index.html (and dist/station/<id>/
+             index.html) to drop `'unsafe-inline'` and add a
+             `'sha256-<hash>'` entry for each inline <script> the page
+             actually carries. The Playwright e2e smoke verifies the
+             post-build form has hashes and no 'unsafe-inline'.
            - style-src 'self' 'unsafe-inline'
              Many small inline style="" attributes in dynamic UI; would
              need a sweeping refactor to remove.

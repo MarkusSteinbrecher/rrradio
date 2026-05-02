@@ -24,6 +24,7 @@
  *
  * Usage: `npm run build` runs this after vite.
  */
+import { createHash } from 'node:crypto';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
@@ -275,14 +276,70 @@ ${tagNav}
   return html;
 }
 
+// ─── 3a. CSP hashing ───────────────────────────────────────────────
+//
+// Audit #75 follow-up: replace `script-src 'unsafe-inline'` with a
+// per-page list of `'sha256-<hash>'` entries — one per inline
+// <script> the page actually carries. The home + station pages each
+// have two JSON-LD blocks (WebSite + WebApplication) and the station
+// pages have an extra inline boot script that pins the
+// `window.__STATION_ID__`. The hashes vary per page, so we compute
+// them after the SEO blocks have been written.
+//
+// Strategy: find every `<script>...</script>` block (no `src` attr),
+// SHA-256 the body, and inject the resulting source-list directive
+// into the meta-CSP, dropping `'unsafe-inline'`. Robust against any
+// future addition of an inline <script> as long as it's part of the
+// static page HTML (dynamic scripts created at runtime are still
+// covered by `script-src 'self'`).
+function hashInline(body) {
+  return 'sha256-' + createHash('sha256').update(body, 'utf8').digest('base64');
+}
+
+function applyCspHashes(html) {
+  // Collect every inline <script> body (skip ones with src=).
+  const scriptRe = /<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g;
+  const hashes = new Set();
+  let m;
+  while ((m = scriptRe.exec(html)) !== null) {
+    hashes.add(hashInline(m[1]));
+  }
+  // No inline scripts on this page? Still rewrite to drop
+  // `'unsafe-inline'` — no hashes needed.
+  const hashSrc = [...hashes].map((h) => `'${h}'`).join(' ');
+
+  return html.replace(
+    /(<meta[^>]*http-equiv="Content-Security-Policy"[^>]*content=")([^"]+)(")/i,
+    (_full, lead, content, tail) => {
+      const next = content.replace(
+        /script-src\s+([^;]+);/,
+        (_dir, sources) => {
+          const cleaned = sources
+            .replace(/'unsafe-inline'/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+          return `script-src ${cleaned}${hashSrc ? ' ' + hashSrc : ''};`;
+        },
+      );
+      return `${lead}${next}${tail}`;
+    },
+  );
+}
+
 // ─── 4. Emit pages ──────────────────────────────────────────────────
 let written = 0;
 for (const s of stations) {
   const dir = join(DIST, 'station', s.id);
   mkdirSync(dir, { recursive: true });
-  writeFileSync(join(dir, 'index.html'), renderStationPage(s), 'utf8');
+  writeFileSync(join(dir, 'index.html'), applyCspHashes(renderStationPage(s)), 'utf8');
   written += 1;
 }
+
+// Rewrite the home page too — it has the two JSON-LD blocks but no
+// bootstation script (the SPA infers from the URL on station pages
+// only). After this rewrite, neither the home nor the station pages
+// carry `'unsafe-inline'` in their script-src.
+writeFileSync(`${DIST}/index.html`, applyCspHashes(template), 'utf8');
 
 // ─── 5. Sitemap ─────────────────────────────────────────────────────
 const today = new Date().toISOString().slice(0, 10);

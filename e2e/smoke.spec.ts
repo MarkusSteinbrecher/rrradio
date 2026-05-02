@@ -84,6 +84,17 @@ test.describe('cold-boot UI', () => {
     expect(csp).toContain("default-src 'self'");
     expect(csp).toContain('https://gc.zgo.at');
     expect(csp).not.toContain('unsafe-eval');
+
+    // Production build replaces the source's `script-src 'unsafe-inline'`
+    // with a per-page list of `'sha256-<hash>'` entries (audit #75
+    // follow-up — tools/build-station-pages.mjs computes them at build
+    // time). The smoke runs against the built `dist/` so it should see
+    // the strict form.
+    const scriptSrc = csp!.match(/script-src\s+([^;]+);/);
+    expect(scriptSrc).not.toBeNull();
+    const sources = scriptSrc![1];
+    expect(sources).not.toContain("'unsafe-inline'");
+    expect(sources).toMatch(/'sha256-[A-Za-z0-9+/]+={0,2}'/);
   });
 
   test('clicking a row triggers a play attempt without crashing', async ({ page }) => {
