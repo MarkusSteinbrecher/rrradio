@@ -112,12 +112,23 @@ sr:
   country: DE
   family: ARD
   homepage: https://www.sr.de/
+  metadata: sr
+  notes: |
+    sr.de/sr/epg/nowPlaying.jsp?welle=<sr1|sr2|sr3|antenne|unserding>
+    returns programme-level JSON (titel + moderator + slot times, no
+    track data). No CORS — routed via worker proxy.
 
 rb:
   name: Radio Bremen
   country: DE
   family: ARD
   homepage: https://www.radiobremen.de/
+  metadata: rb-bremen
+  notes: |
+    Per-channel programme JSON at <channel>.de/<page>~ajax_ajaxType-epg.json
+    (channels: bremeneins, bremenzwei, bremenvier, bremennext). Programme-
+    level only — no track titles in the live feed; playlistPrevious has
+    past tracks but no current. No CORS — routed via worker proxy.
 
 dlf:
   name: Deutschlandradio
@@ -131,18 +142,38 @@ rock-antenne:
   name: Rock Antenne
   country: DE
   homepage: https://www.rockantenne.de/
-  notes: Bavarian rock-format commercial broadcaster, multiple themed sub-channels
+  metadata: antenne
+  notes: |
+    Bavarian rock-format commercial broadcaster, multiple themed
+    sub-channels. Same vendor/API as Antenne Bayern: a single endpoint
+    at rockantenne.de/api/metadata/now returns ALL sub-channels in one
+    response. Per-station metadataUrl carries the API URL with the
+    channel mountpoint as the URL hash (e.g. .../now#heavy-metal).
+    No CORS — routed via worker proxy.
 
 antenne-bayern:
   name: Antenne Bayern
   country: DE
   homepage: https://www.antenne.de/
-  notes: Largest commercial broadcaster in Bavaria
+  metadata: antenne
+  notes: |
+    Largest commercial broadcaster in Bavaria. Single API endpoint
+    at antenne.de/api/metadata/now returns 37 sub-channels (Chillout,
+    Lounge, Lovesongs, Top 40, decade-themed, etc.). Per-station
+    metadataUrl carries the API URL with the mountpoint as the hash
+    (e.g. .../now#chillout). No CORS — routed via worker proxy. The
+    same fetcher serves Rock Antenne and Oldie Antenne via the
+    matching per-broadcaster endpoint URL.
 
 oldie-antenne:
   name: Oldie Antenne
   country: DE
   homepage: https://www.oldie-antenne.de/
+  metadata: antenne
+  notes: |
+    Bavarian oldies station — re-served via the Antenne Bayern API
+    endpoint (mountpoint=oldie-antenne under www.antenne.de/api/metadata/now).
+    Same fetcher as antenne-bayern + rock-antenne.
 
 absolut:
   name: Absolut Radio

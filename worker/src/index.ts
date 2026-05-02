@@ -293,6 +293,10 @@ export default {
             /^https:\/\/www\.br\.de\//i,
             /^https:\/\/hummingbird\.rts\.ch\/hbv7\/ajax\/modules\/portal-live-radio\/update\/channels\//i,
             /^https:\/\/api\.radioswiss(?:pop|jazz|classic)\.ch\/api\/v1\/[a-z]+\/[a-z]{2}\/playlist_(?:small|large)$/i,
+            /^https:\/\/www\.antenne\.de\/api\/metadata\/now$/i,
+            /^https:\/\/www\.rockantenne\.de\/api\/metadata\/now$/i,
+            /^https:\/\/www\.bremen(?:eins|zwei|vier|next)\.de\/.+~ajax_ajaxType-epg\.json$/i,
+            /^https:\/\/www\.sr\.de\/sr\/epg\/nowPlaying\.jsp\?welle=[a-z0-9]+$/i,
           ];
           if (!target || !ALLOW.some((re) => re.test(target))) {
             return jsonResponse({ error: 'host not allowed' }, 403, publicCors);

@@ -1227,6 +1227,145 @@ const fetchRadioEinsMetadata: MetadataFetcher = async (_station, signal) => {
 };
 
 // ============================================================
+// German broadcaster fetchers — worker-proxied
+// Antenne Bayern + Rock Antenne share an API shape (same vendor);
+// Radio Bremen + SR are programme-level only (no track titles).
+// All four are CORS-blocked at the origin, routed via PROXY.
+// ============================================================
+
+interface AntenneCover {
+  baseurl?: string;
+  filename?: string;
+  extensions?: { 'image/webp'?: string; 'image/jpeg'?: string };
+}
+interface AntenneStation {
+  mountpoint?: string;
+  artist?: string;
+  title?: string;
+  class?: string;
+  cover?: AntenneCover;
+}
+interface AntenneResponse {
+  data?: AntenneStation[];
+}
+
+/** Antenne Bayern + Rock Antenne — same vendor (ADC) API shape, single
+ *  endpoint per family returns all sub-channels in one response. The
+ *  station's metadataUrl carries the API URL with the channel mountpoint
+ *  as the URL hash, e.g. `https://www.antenne.de/api/metadata/now#chillout`.
+ *  Routed via PROXY (origins block CORS). Filters out class !== 'Music'
+ *  to skip jingles / station IDs. Cover URL pattern is
+ *  `<baseurl><size>/<filename><ext>` (size before filename — different
+ *  from what the API self-describes). */
+const fetchAntenneMetadata: MetadataFetcher = async (station, signal) => {
+  const url = station.metadataUrl;
+  if (!url) return null;
+  const hashIdx = url.indexOf('#');
+  if (hashIdx === -1) return null;
+  const apiUrl = url.slice(0, hashIdx);
+  const mountpoint = url.slice(hashIdx + 1);
+  try {
+    const proxied = `${PROXY}?url=${encodeURIComponent(apiUrl)}`;
+    const res = await fetch(proxied, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as AntenneResponse;
+    const entry = data.data?.find((s) => s.mountpoint === mountpoint);
+    if (!entry || entry.class !== 'Music' || !entry.title) return null;
+    const baseurl = entry.cover?.baseurl;
+    const filename = entry.cover?.filename;
+    const coverUrl = baseurl && filename ? `${baseurl}300x300/${filename}.webp` : undefined;
+    const artist = entry.artist?.trim();
+    const track = entry.title.trim();
+    return {
+      artist: artist ? titleCase(artist) : undefined,
+      track: titleCase(track),
+      raw: `${artist ?? ''} - ${track}`.trim(),
+      coverUrl,
+    };
+  } catch {
+    return null;
+  }
+};
+
+interface BremenBroadcast {
+  title?: string;
+  titleAddon?: string;
+  image?: string;
+}
+interface BremenResponse {
+  currentBroadcast?: BremenBroadcast;
+}
+
+/** Radio Bremen — per-channel programme JSON (no track titles in the live
+ *  feed; the playlistPrevious array has past tracks but no current).
+ *  Returns programme-level metadata only. Routed via PROXY. */
+const fetchRadioBremenMetadata: MetadataFetcher = async (station, signal) => {
+  const url = station.metadataUrl;
+  if (!url) return null;
+  try {
+    const proxied = `${PROXY}?url=${encodeURIComponent(url)}`;
+    const res = await fetch(proxied, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as BremenResponse;
+    const bc = data.currentBroadcast;
+    if (!bc?.title) return null;
+    const coverUrl = bc.image && /^\//.test(bc.image)
+      ? new URL(bc.image, url).toString()
+      : bc.image || undefined;
+    return {
+      track: undefined,
+      raw: '',
+      program: { name: bc.title.trim(), subtitle: bc.titleAddon?.trim() || undefined },
+      coverUrl,
+    };
+  } catch {
+    return null;
+  }
+};
+
+interface SrBild {
+  alttext?: string;
+  id?: string;
+}
+interface SrEntry {
+  titel?: string;
+  moderator?: string;
+  start?: string;
+  ende?: string;
+  bild?: SrBild;
+}
+interface SrResponse {
+  'now playing'?: Record<string, SrEntry>;
+}
+
+/** SR (Saarländischer Rundfunk) — `sr.de/sr/epg/nowPlaying.jsp?welle=<slug>`.
+ *  Programme-level only (titel + moderator + slot times, no track data).
+ *  Routed via PROXY. */
+const fetchSrMetadata: MetadataFetcher = async (station, signal) => {
+  const url = station.metadataUrl;
+  if (!url) return null;
+  try {
+    const proxied = `${PROXY}?url=${encodeURIComponent(url)}`;
+    const res = await fetch(proxied, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as SrResponse;
+    const np = data['now playing'];
+    const entry = np ? Object.values(np)[0] : undefined;
+    if (!entry?.titel) return null;
+    const subtitle = entry.moderator?.trim()
+      ? `mit ${entry.moderator.trim()}`
+      : (entry.start && entry.ende ? `${entry.start}–${entry.ende}` : undefined);
+    return {
+      track: undefined,
+      raw: '',
+      program: { name: entry.titel.trim(), subtitle },
+    };
+  } catch {
+    return null;
+  }
+};
+
+// ============================================================
 // Fetcher registry
 // ============================================================
 
@@ -1250,6 +1389,9 @@ const FETCHERS_BY_KEY: Record<string, MetadataFetcher> = {
   streamabc: fetchStreamabcMetadata,
   ffh: fetchFfhMetadata,
   'rbb-radioeins': fetchRadioEinsMetadata,
+  antenne: fetchAntenneMetadata,
+  'rb-bremen': fetchRadioBremenMetadata,
+  sr: fetchSrMetadata,
 };
 
 /** Schedule fetchers — keyed the same as MetadataFetchers. Optional —

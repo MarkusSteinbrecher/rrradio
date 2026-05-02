@@ -2149,60 +2149,66 @@
 - id: rb-bremen-eins
   stationuuid: 0aa252ff-612a-48e9-841b-b3f561dc1c47
   changeuuid: 3dbc3471-c331-448e-87d9-420cacf42c58
-  reviewedAt: 2026-04-28
+  reviewedAt: 2026-05-02
   geo: [53.0386, 8.822]
   broadcaster: rb
   name: Bremen Eins
   streamUrl: https://icecast.radiobremen.de/rb/bremeneins/live/mp3/128/stream.mp3?aggregator=surfmusik-de
+  metadataUrl: https://www.bremeneins.de/startseite-bremen-eins-100~ajax_ajaxType-epg.json
   bitrate: 128
   codec: MP3
   favicon: http://www.radiobremen.de/static/img/favicons/apple-touch-icon-180.png?v=4
   homepage: http://www.radiobremen.de/bremeneins/
-  status: stream-only
+  status: working
   tags: [pop, oldies, ard]
+
 - id: rb-bremen-zwei
   stationuuid: d7239ba3-beee-497c-bbe4-d8f06553cb0d
   changeuuid: d636f457-8ee9-46e1-8cb4-1b9c52b10854
-  reviewedAt: 2026-04-28
+  reviewedAt: 2026-05-02
   geo: [53.0791, 8.8055]
   broadcaster: rb
   name: Bremen Zwei
   streamUrl: https://icecast.radiobremen.de/rb/bremenzwei/live/mp3/128/stream.mp3
+  metadataUrl: https://www.bremenzwei.de/startseite-bremen-zwei-100~ajax_ajaxType-epg.json
   bitrate: 128
   codec: MP3
   tags: [ard, culture, information, public radio, radio bremen]
   favicon: https://www.bremenzwei.de/static/img/favicons/apple-touch-icon-180.png?v=4
   homepage: https://www.bremenzwei.de/
-  status: stream-only
+  status: working
 
 - id: rb-bremen-vier
   stationuuid: bb410a35-2056-46c5-8fbe-574b78533171
   changeuuid: 5066180e-4808-4507-9cc2-5a7ffbb29b35
-  reviewedAt: 2026-04-28
+  reviewedAt: 2026-05-02
   geo: [53.0795, 8.8055]
   broadcaster: rb
   name: Bremen Vier
   streamUrl: https://icecast.radiobremen.de/rb/bremenvier/live/mp3/128/stream.mp3
+  metadataUrl: https://www.bremenvier.de/bremenvier-startseite100~ajax_ajaxType-epg.json
   bitrate: 128
   codec: MP3
   favicon: https://www.bremenvier.de/favicon.ico
   homepage: https://www.bremenvier.de/
-  status: stream-only
+  status: working
   tags: [pop, hits, ard]
+
 - id: rb-bremen-next
   stationuuid: 7bf487b3-1e51-4f8b-bc4a-b3de739de5a5
   changeuuid: cdb2c32d-5120-4fcd-9c4e-d3f94cf3ee66
-  reviewedAt: 2026-04-28
+  reviewedAt: 2026-05-02
   geo: [53.0793, 8.8017]
   broadcaster: rb
   name: Bremen NEXT
   streamUrl: https://icecast.radiobremen.de/rb/bremennext/live/mp3/128/stream.mp3
+  metadataUrl: https://www.bremennext.de/bremennext-startseite100~ajax_ajaxType-epg.json
   bitrate: 128
   codec: MP3
   tags: [ard, bremen next, deutschrap, electro, hip hop, jugendliche]
   favicon: https://www.bremennext.de/static/img/favicons/apple-touch-icon-180.png?v=5
   homepage: https://www.bremennext.de/
-  status: stream-only
+  status: working
 
 - id: dlf-deutschlandfunk
   stationuuid: 42a73a97-9398-437c-b521-86646a79f82f
@@ -2308,38 +2314,41 @@
 - id: rock-antenne-heavy-metal
   stationuuid: dad0436b-f31e-436a-b819-dd28670d4d3a
   changeuuid: e5475051-5df8-499d-a6b7-ef6532f06f60
-  reviewedAt: 2026-04-28
+  reviewedAt: 2026-05-02
   broadcaster: rock-antenne
   name: Rock Antenne Heavy Metal
   streamUrl: https://mp3channels.webradio.rockantenne.de/heavy-metal
+  metadataUrl: https://www.rockantenne.de/api/metadata/now#heavy-metal
   bitrate: 128
   codec: MP3
   tags: [rock, metal, heavy metal]
-  status: stream-only
+  status: working
 
 - id: antenne-bayern-main
   stationuuid: d45dff01-bb08-4703-992d-a679a0ba0b05
   changeuuid: 6c78a439-4636-473f-8ed3-ae464f859bae
-  reviewedAt: 2026-04-28
+  reviewedAt: 2026-05-02
   broadcaster: antenne-bayern
   name: Antenne Bayern
   streamUrl: https://stream.antenne.de/antenne/stream/mp3
+  metadataUrl: https://www.antenne.de/api/metadata/now#antenne
   bitrate: 128
   codec: MP3
   tags: [pop, hits, commercial]
-  status: stream-only
+  status: working
 
 - id: oldie-antenne-main
   stationuuid: 87906f1e-5f82-4b86-9865-69e8eab8a69a
   changeuuid: 3533cbe5-294f-485c-96bc-7ab9dbf59472
-  reviewedAt: 2026-04-28
+  reviewedAt: 2026-05-02
   broadcaster: oldie-antenne
   name: Oldie Antenne
   streamUrl: https://s1-webradio.oldie-antenne.de/oldie-antenne
+  metadataUrl: https://www.antenne.de/api/metadata/now#oldie-antenne
   bitrate: 128
   codec: MP3
   tags: [oldies, classics, schlager]
-  status: stream-only
+  status: working
 
 - id: absolut-relax
   stationuuid: ae209b3a-d20a-48f2-b303-22d68e385bf4
@@ -3477,48 +3486,51 @@
 - id: de-rock-antenne
   stationuuid: 960594a6-0601-11e8-ae97-52543be04c81
   changeuuid: 912bcce9-8299-4db8-b979-3911f7f5a5d0
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [48.137, 11.575]
   broadcaster: rock-antenne
   name: Rock Antenne
   streamUrl: https://mp3channels.webradio.rockantenne.de/rockantenne
+  metadataUrl: https://www.rockantenne.de/api/metadata/now#rockantenne
   bitrate: 128
   codec: MP3
   tags: [rock, classic rock, germany]
   homepage: https://www.rockantenne.de/
   country: DE
-  status: stream-only
+  status: working
   featured: true
 
 - id: de-rock-antenne-classic-perlen
   stationuuid: 960c3f9b-0601-11e8-ae97-52543be04c81
   changeuuid: ce147e61-cb96-4ce2-a001-d00c69f47c98
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [48.137, 11.575]
   broadcaster: rock-antenne
   name: Rock Antenne Classic Perlen
   streamUrl: https://mp3channels.webradio.rockantenne.de/classic-perlen
+  metadataUrl: https://www.rockantenne.de/api/metadata/now#classic-perlen
   bitrate: 128
   codec: MP3
   tags: [classic rock, oldies, germany]
   homepage: https://www.rockantenne.de/webradio/classic-perlen/
   country: DE
-  status: stream-only
+  status: working
 
 - id: de-antenne-bayern-chillout
   stationuuid: 9610c454-0601-11e8-ae97-52543be04c81
   changeuuid: 2a5f5baf-ca59-4042-bd7e-7bb1c09a5687
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-05-02
   geo: [48.137, 11.575]
   broadcaster: antenne-bayern
   name: Antenne Bayern - Chillout
   streamUrl: https://mp3channels.webradio.antenne.de/chillout
+  metadataUrl: https://www.antenne.de/api/metadata/now#chillout
   bitrate: 128
   codec: MP3
   tags: [chillout, ambient, germany]
   homepage: https://www.antenne.de/musik/webradios/chillout
   country: DE
-  status: stream-only
+  status: working
 
 - id: de-sunshine-live
   stationuuid: 960d063e-0601-11e8-ae97-52543be04c81

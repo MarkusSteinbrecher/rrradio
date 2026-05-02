@@ -2794,11 +2794,13 @@
       "favicon": "http://www.radiobremen.de/static/img/favicons/apple-touch-icon-180.png?v=4",
       "bitrate": 128,
       "codec": "MP3",
+      "metadata": "rb-bremen",
+      "metadataUrl": "https://www.bremeneins.de/startseite-bremen-eins-100~ajax_ajaxType-epg.json",
       "geo": [
         53.0386,
         8.822
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "rb-bremen-zwei",
@@ -2816,11 +2818,13 @@
       "favicon": "https://www.bremenzwei.de/static/img/favicons/apple-touch-icon-180.png?v=4",
       "bitrate": 128,
       "codec": "MP3",
+      "metadata": "rb-bremen",
+      "metadataUrl": "https://www.bremenzwei.de/startseite-bremen-zwei-100~ajax_ajaxType-epg.json",
       "geo": [
         53.0791,
         8.8055
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "rb-bremen-vier",
@@ -2836,11 +2840,13 @@
       "favicon": "https://www.bremenvier.de/favicon.ico",
       "bitrate": 128,
       "codec": "MP3",
+      "metadata": "rb-bremen",
+      "metadataUrl": "https://www.bremenvier.de/bremenvier-startseite100~ajax_ajaxType-epg.json",
       "geo": [
         53.0795,
         8.8055
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "rb-bremen-next",
@@ -2859,11 +2865,13 @@
       "favicon": "https://www.bremennext.de/static/img/favicons/apple-touch-icon-180.png?v=5",
       "bitrate": 128,
       "codec": "MP3",
+      "metadata": "rb-bremen",
+      "metadataUrl": "https://www.bremennext.de/bremennext-startseite100~ajax_ajaxType-epg.json",
       "geo": [
         53.0793,
         8.8017
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "dlf-deutschlandfunk",
@@ -3024,7 +3032,9 @@
       "favicon": "https://cdn.onlineradiobox.com/img/l/1/34491.v5.png",
       "bitrate": 128,
       "codec": "MP3",
-      "status": "stream-only"
+      "metadata": "antenne",
+      "metadataUrl": "https://www.rockantenne.de/api/metadata/now#heavy-metal",
+      "status": "working"
     },
     {
       "id": "antenne-bayern-main",
@@ -3040,7 +3050,9 @@
       "favicon": "https://i.postimg.cc/TYJQSsJx/1000002936.webp",
       "bitrate": 128,
       "codec": "MP3",
-      "status": "stream-only"
+      "metadata": "antenne",
+      "metadataUrl": "https://www.antenne.de/api/metadata/now#antenne",
+      "status": "working"
     },
     {
       "id": "oldie-antenne-main",
@@ -3056,7 +3068,9 @@
       "favicon": "https://www.oldie-antenne.de/logos/oldie-antenne/apple-touch-icon.png",
       "bitrate": 128,
       "codec": "MP3",
-      "status": "stream-only"
+      "metadata": "antenne",
+      "metadataUrl": "https://www.antenne.de/api/metadata/now#oldie-antenne",
+      "status": "working"
     },
     {
       "id": "absolut-relax",
@@ -4501,12 +4515,14 @@
       "favicon": "http://www.rockantenne.de/logos/rock-antenne/apple-touch-icon.png",
       "bitrate": 128,
       "codec": "MP3",
+      "metadata": "antenne",
+      "metadataUrl": "https://www.rockantenne.de/api/metadata/now#rockantenne",
       "geo": [
         48.137,
         11.575
       ],
       "featured": true,
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "de-rock-antenne-classic-perlen",
@@ -4522,11 +4538,13 @@
       "favicon": "http://www.rockantenne.de/logos/station-rock-antenne/apple-touch-icon.png",
       "bitrate": 128,
       "codec": "MP3",
+      "metadata": "antenne",
+      "metadataUrl": "https://www.rockantenne.de/api/metadata/now#classic-perlen",
       "geo": [
         48.137,
         11.575
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "de-antenne-bayern-chillout",
@@ -4541,11 +4559,13 @@
       ],
       "bitrate": 128,
       "codec": "MP3",
+      "metadata": "antenne",
+      "metadataUrl": "https://www.antenne.de/api/metadata/now#chillout",
       "geo": [
         48.137,
         11.575
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "de-sunshine-live",
