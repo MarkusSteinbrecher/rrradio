@@ -3187,6 +3187,53 @@
   status: stream-only
   featured: true
 
+# ─── Qmusic NL sub-channels (2026-05-01) — surfaced via played-stations log ───
+
+- id: nl-qmusic-nonstop
+  stationuuid: 4e9c82d5-97da-11e9-a605-52543be04c81
+  changeuuid: 75c00089-8b3e-4e36-8dd3-54202e682c5d
+  reviewedAt: 2026-05-01
+  geo: [52.370, 4.895]
+  broadcaster: independent
+  name: Qmusic Non-Stop
+  streamUrl: https://icecast-qmusicnl-cdp.triple-it.nl/Qmusic_nl_nonstop_96.mp3
+  bitrate: 96
+  codec: MP3
+  tags: [pop, hits, netherlands]
+  homepage: https://qmusic.nl/
+  country: NL
+  status: icy-only
+
+- id: nl-qmusic-90s-00s
+  stationuuid: 5e0411e5-43c1-4881-9a90-f62cfafcd947
+  changeuuid: 851bee48-eecf-4f9d-8555-2e65bef893c4
+  reviewedAt: 2026-05-01
+  geo: [52.370, 4.895]
+  broadcaster: independent
+  name: Qmusic 90's & 00's
+  streamUrl: https://stream.qmusic.nl/90s-00s/aachigh
+  bitrate: 96
+  codec: AAC+
+  tags: [pop, classic hits, 90s, 00s, netherlands]
+  homepage: https://qmusic.nl/
+  country: NL
+  status: icy-only
+
+- id: nl-qmusic-thema
+  stationuuid: 365dfae4-b95f-4805-a2fa-e4b8be9eefdf
+  changeuuid: e1fd06a7-ee4d-4ec6-9f4c-656d905fdebf
+  reviewedAt: 2026-05-01
+  geo: [52.370, 4.895]
+  broadcaster: independent
+  name: Qmusic Thema
+  streamUrl: https://stream.qmusic.nl/thema/mp3
+  bitrate: 128
+  codec: MP3
+  tags: [pop, hits, netherlands]
+  homepage: https://qmusic.nl/
+  country: NL
+  status: icy-only
+
 - id: nl-sky-radio
   stationuuid: af809e4a-7ff4-4630-8b7e-9c09ec249679
   changeuuid: ae2af413-5abe-4406-8757-889a0b857636
@@ -5730,6 +5777,23 @@
   homepage: https://joe.be/
   country: BE
   status: stream-only
+
+# ─── Qmusic Belgium sub-channels (2026-05-01) — surfaced via played-stations log ───
+
+- id: be-qmusic-q-allstars
+  stationuuid: 5f1da2ec-e53e-45e3-9df4-54622bb90537
+  changeuuid: 4694207c-8303-4d4a-913a-6162b7843cf5
+  reviewedAt: 2026-05-01
+  geo: [50.851, 4.357]
+  broadcaster: independent
+  name: Qmusic Q-Allstars
+  streamUrl: https://icecast-qmusicbe-cdp.triple-it.nl/q-allstars.aac
+  bitrate: 96
+  codec: AAC+
+  tags: [pop, hits, classic hits, dutch, belgium]
+  homepage: https://qmusic.be/
+  country: BE
+  status: icy-only
 
 # ─────────────── Hungary ───────────────
 

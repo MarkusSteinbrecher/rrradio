@@ -4110,6 +4110,66 @@
       "status": "stream-only"
     },
     {
+      "id": "nl-qmusic-nonstop",
+      "name": "Qmusic Non-Stop",
+      "streamUrl": "https://icecast-qmusicnl-cdp.triple-it.nl/Qmusic_nl_nonstop_96.mp3",
+      "homepage": "https://qmusic.nl/",
+      "country": "NL",
+      "tags": [
+        "pop",
+        "hits",
+        "netherlands"
+      ],
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/7/70/Qmusic_logo.svg",
+      "bitrate": 96,
+      "codec": "MP3",
+      "geo": [
+        52.37,
+        4.895
+      ],
+      "status": "icy-only"
+    },
+    {
+      "id": "nl-qmusic-90s-00s",
+      "name": "Qmusic 90's & 00's",
+      "streamUrl": "https://stream.qmusic.nl/90s-00s/aachigh",
+      "homepage": "https://qmusic.nl/",
+      "country": "NL",
+      "tags": [
+        "pop",
+        "classic hits",
+        "90s",
+        "00s",
+        "netherlands"
+      ],
+      "bitrate": 96,
+      "codec": "AAC+",
+      "geo": [
+        52.37,
+        4.895
+      ],
+      "status": "icy-only"
+    },
+    {
+      "id": "nl-qmusic-thema",
+      "name": "Qmusic Thema",
+      "streamUrl": "https://stream.qmusic.nl/thema/mp3",
+      "homepage": "https://qmusic.nl/",
+      "country": "NL",
+      "tags": [
+        "pop",
+        "hits",
+        "netherlands"
+      ],
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        52.37,
+        4.895
+      ],
+      "status": "icy-only"
+    },
+    {
       "id": "nl-sky-radio",
       "name": "Sky Radio",
       "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/SRGSTR01.mp3",
@@ -7531,6 +7591,28 @@
         4.357
       ],
       "status": "stream-only"
+    },
+    {
+      "id": "be-qmusic-q-allstars",
+      "name": "Qmusic Q-Allstars",
+      "streamUrl": "https://icecast-qmusicbe-cdp.triple-it.nl/q-allstars.aac",
+      "homepage": "https://qmusic.be/",
+      "country": "BE",
+      "tags": [
+        "pop",
+        "hits",
+        "classic hits",
+        "dutch",
+        "belgium"
+      ],
+      "favicon": "https://qmusic.be/assets/favicon/default-67977c4f518d45d3a639958e1c6c072532dd2e05cbef9e42cb9f8ecde1964c97.ico",
+      "bitrate": 96,
+      "codec": "AAC+",
+      "geo": [
+        50.851,
+        4.357
+      ],
+      "status": "icy-only"
     },
     {
       "id": "hu-mr1-kossuth",
