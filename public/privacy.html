@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index,follow" />
+  <title>Privacy — rrradio.org</title>
+  <meta name="description" content="rrradio's privacy policy: what data we touch, why, and what stays on your device." />
+  <link rel="canonical" href="https://rrradio.org/privacy.html" />
+  <style>
+    :root {
+      --bg:     #fafafa;
+      --bg-2:   #f0f0ee;
+      --line:   rgba(0, 0, 0, 0.08);
+      --ink:    #1a1a1a;
+      --ink-2:  rgba(26, 26, 26, 0.78);
+      --ink-3:  rgba(26, 26, 26, 0.55);
+      --accent: #00a040;
+      --sans:   ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      --mono:   ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg:     #0a0a0a;
+        --bg-2:   #131313;
+        --line:   rgba(255, 255, 255, 0.08);
+        --ink:    #f4f4f2;
+        --ink-2:  rgba(244, 244, 242, 0.80);
+        --ink-3:  rgba(244, 244, 242, 0.55);
+        --accent: #ffff00;
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--ink);
+      background: var(--bg);
+      padding: 0 20px;
+    }
+    .wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 56px 0 96px;
+    }
+    .crumbs {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 24px;
+    }
+    .crumbs a { color: var(--accent); text-decoration: none; }
+    .crumbs a:hover { text-decoration: underline; }
+    h1 {
+      font-family: var(--sans);
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin: 0 0 8px;
+    }
+    .meta {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-3);
+      letter-spacing: 0.04em;
+      margin-bottom: 40px;
+    }
+    h2 {
+      font-family: var(--sans);
+      font-size: 18px;
+      font-weight: 600;
+      margin: 40px 0 12px;
+      letter-spacing: -0.005em;
+    }
+    p, ul { margin: 0 0 16px; color: var(--ink-2); }
+    ul { padding-left: 22px; }
+    li { margin-bottom: 6px; }
+    a { color: var(--accent); }
+    code {
+      font-family: var(--mono);
+      font-size: 13px;
+      background: var(--bg-2);
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+    .tldr {
+      border-left: 3px solid var(--accent);
+      padding: 12px 16px;
+      background: var(--bg-2);
+      border-radius: 0 8px 8px 0;
+      margin: 0 0 32px;
+    }
+    .tldr p { margin: 0; }
+    footer {
+      margin-top: 56px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-3);
+      letter-spacing: 0.04em;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="crumbs"><a href="/">rrradio.org</a> · privacy</div>
+
+    <h1>Privacy</h1>
+    <div class="meta">Effective 2026-05-02 · Last updated 2026-05-02</div>
+
+    <div class="tldr">
+      <p><strong>Short version.</strong> rrradio doesn't ask for your name, email, or any account. The web app uses cookieless privacy-friendly analytics to count plays per station; the iOS app does no analytics. Favorites and recents stay on your device. When you play a station, your device connects directly to that broadcaster's server — same as opening their URL in a browser — so their privacy policy governs that connection.</p>
+    </div>
+
+    <h2>Who runs this</h2>
+    <p>rrradio is a non-commercial side project by Markus Steinbrecher. The source code is open on <a href="https://github.com/MarkusSteinbrecher/rrradio">GitHub</a>; every change is in public git history. Contact: open an issue on GitHub or email <a href="mailto:redsukramst@gmail.com">redsukramst@gmail.com</a>.</p>
+
+    <h2>What the web app collects</h2>
+    <p>The web app at rrradio.org uses <a href="https://www.goatcounter.com/" rel="noopener">GoatCounter</a> for anonymous usage analytics. GoatCounter is privacy-friendly by design: no cookies, no user IDs, no cross-site tracking, IP addresses are hashed and discarded. We use it to count:</p>
+    <ul>
+      <li>Page visits.</li>
+      <li>Tab switches (e.g. "Browse", "Favorites").</li>
+      <li>Station plays — by station name only, never tied to a person.</li>
+      <li>Errors when a stream fails to load — used to find broken stations.</li>
+      <li>Visitor country, derived from your IP at request time and immediately discarded; we only see the aggregate count per country.</li>
+    </ul>
+    <p>None of this is linked to any identifier we could later use to recognize you. We see "Switzerland: 589 visits" — not who those visits were from.</p>
+
+    <h2>What the iOS app collects</h2>
+    <p>The iOS app does <strong>no analytics at all</strong>. It does not phone home, does not track sessions, does not record any usage data anywhere outside your device.</p>
+
+    <h2>What stays on your device</h2>
+    <p>The following are stored locally and never sent to any server we control:</p>
+    <ul>
+      <li>Stations you mark as favorites.</li>
+      <li>Recently played stations.</li>
+      <li>Theme preference, volume, sleep-timer settings, custom-station URLs you add yourself.</li>
+    </ul>
+    <p>On the web this lives in your browser's <code>localStorage</code>; on iOS in the app's local storage. Clearing your browser's site data (web) or deleting the app (iOS) wipes it instantly.</p>
+
+    <h2>Connections to broadcaster servers</h2>
+    <p>When you play a station, your device opens an audio stream directly to that broadcaster's server (BR, WDR, BBC, SRG SSR, and so on — see the catalog for the full list). That server receives your IP address — the same as if you typed their stream URL into a browser yourself. We have no access to and no insight into what those broadcasters log. Their privacy policies apply to that connection, not ours.</p>
+    <p>The same is true for now-playing metadata fetched directly from broadcasters whose APIs allow cross-origin requests (SRG SSR, MDR, SWR, FFH, Klassik Radio, laut.fm).</p>
+
+    <h2>Cloudflare Worker proxy</h2>
+    <p>For broadcasters whose now-playing APIs don't allow cross-origin requests, the app routes those metadata fetches through a small Cloudflare Worker we operate (<code>rrradio-stats.markussteinbrecher.workers.dev</code>). Cloudflare's standard infrastructure logging applies to those requests (typically: IP address held briefly for abuse prevention, then discarded). The Worker itself stores nothing; it just forwards the broadcaster's JSON back to your browser.</p>
+    <p>The same Worker also fronts the GoatCounter stats endpoint that backs the app's "Stats" sheet — the API token stays on the server side so the public page never sees it.</p>
+
+    <h2>What we don't do</h2>
+    <ul>
+      <li>No advertising. No ad networks. No third-party trackers.</li>
+      <li>No fingerprinting (no canvas, no audio-context, no font enumeration).</li>
+      <li>No accounts, no logins, no email collection.</li>
+      <li>No cross-site or cross-app tracking.</li>
+      <li>No selling or sharing data — there's no data to sell.</li>
+    </ul>
+
+    <h2>Cookies</h2>
+    <p>The main app does not set cookies. A separate admin dashboard at <code>/dashboard.html</code> (used only by the operator) holds an admin token in <code>localStorage</code>; ordinary visitors don't see it.</p>
+
+    <h2>Your rights</h2>
+    <p>Because we don't collect personally identifiable information about app users, we have nothing to link to you and nothing to delete on request. The data we do see is aggregate ("&lt;station&gt; was played &lt;n&gt; times"), which doesn't identify any individual.</p>
+    <p>If you have a question or concern, open an issue on GitHub or email the address above. We'll respond.</p>
+
+    <h2>Data retention</h2>
+    <ul>
+      <li><strong>GoatCounter aggregate counts</strong> — kept indefinitely. They're not personal data; they're "rrradio.org received N visits" and "&lt;station X&gt; was played M times".</li>
+      <li><strong>Cloudflare Worker access logs</strong> — per Cloudflare's defaults, typically 24 hours to a few days. We don't write our own logs on top of that.</li>
+      <li><strong>On-device data</strong> — stays as long as you keep the app installed or haven't cleared site data.</li>
+    </ul>
+
+    <h2>Changes to this policy</h2>
+    <p>If we change something materially (add a different analytics provider, accept user accounts, integrate any kind of tracking, etc.), we'll update this page with a new "Last updated" date. The full edit history is visible in git on GitHub.</p>
+
+    <footer>
+      <a href="/">← back to rrradio.org</a>
+    </footer>
+  </main>
+</body>
+</html>
