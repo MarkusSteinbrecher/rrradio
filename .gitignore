@@ -32,3 +32,12 @@ data/metadata-discovery/
 # Dolt database files (added by bd init)
 .dolt/
 *.db
+
+# Local agent / issue-tracker state — internal to this working tree.
+# beads syncs via Dolt remote (`bd dolt push`), not via git, so the
+# .beads/ dir doesn't need to ship. AGENTS.md + .claude/ likewise are
+# Claude-specific instructions / settings that have no place in a
+# public repo.
+.beads/
+.claude/
+AGENTS.md
