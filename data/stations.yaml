@@ -1823,6 +1823,36 @@
   homepage: https://www.wdrmaus.de/hoeren/
   status: icy-only
 
+- id: wdr-cosmo
+  stationuuid: 9605ced9-0601-11e8-ae97-52543be04c81
+  changeuuid: a4f75145-e9b1-4e51-852b-110c26f47854
+  reviewedAt: 2026-05-02
+  geo: [50.9375, 6.9603]
+  broadcaster: wdr
+  name: WDR COSMO
+  streamUrl: https://wdr-cosmo-live.icecast.wdr.de/wdr/cosmo/live/mp3/128/stream.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [global, multicultural, multikulti, pop, world music]
+  favicon: https://www1.wdr.de/resources-v5.122.3/img/favicon/apple-touch-icon.png
+  homepage: https://www1.wdr.de/radio/cosmo/index.html
+  status: icy-only
+
+- id: wdr-event
+  stationuuid: 9608f359-0601-11e8-ae97-52543be04c81
+  changeuuid: e5be4aa6-58b7-43ab-ae35-73a2e72d02b0
+  reviewedAt: 2026-05-02
+  geo: [50.9375, 6.9603]
+  broadcaster: wdr
+  name: WDR Event
+  streamUrl: https://wdr-wdr-event.icecast.wdr.de/wdr/wdr/event/mp3/128/stream.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [information, news, events, ard]
+  favicon: https://www1.wdr.de/resources-v5.122.3/img/favicon/apple-touch-icon.png
+  homepage: https://www1.wdr.de/mediathek/audio/wdr/wdr-event/index.html
+  status: icy-only
+
 - id: ndr-ndr-90-3
   stationuuid: 5bf6031d-07f9-474e-9545-7ca96f0a01d4
   changeuuid: 04c77a28-888d-41b0-bdc3-04c764f85a81
@@ -1927,6 +1957,137 @@
   favicon: https://www.phonostar.de/images/auto_created/NDR_Schlager184x184.png
   homepage: https://www.ndr.de/ndrschlager
   status: icy-only
+
+- id: ndr-ndr-info
+  stationuuid: 9648702b-0601-11e8-ae97-52543be04c81
+  changeuuid: c0e2af68-2069-4448-ae02-edbebaeccccc
+  reviewedAt: 2026-05-02
+  geo: [53.5511, 9.9937]
+  broadcaster: ndr
+  name: NDR Info
+  streamUrl: https://icecast.ndr.de/ndr/ndrinfo/hamburg/mp3/128/stream.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [news, information, ard, public radio]
+  favicon: https://www.ndr.de/apple-touch-icon-120x120.png
+  homepage: https://www.ndr.de/ndrinfo/
+  status: icy-only
+
+- id: ndr-ndr-blue
+  stationuuid: 960e4255-0601-11e8-ae97-52543be04c81
+  changeuuid: cf1570cb-d547-448f-8a01-b8681d03e904
+  reviewedAt: 2026-05-02
+  geo: [53.5511, 9.9937]
+  broadcaster: ndr
+  name: NDR Blue
+  streamUrl: https://icecast.ndr.de/ndr/ndrblue/live/mp3/128/stream.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [jazz, rock, pop, soul, ard]
+  favicon: https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/NDR_Blue_Logo.svg/1200px-NDR_Blue_Logo.svg.png
+  homepage: https://www.ndr.de/ndrblue/
+  status: icy-only
+
+- id: ndr-ndr-1-radio-mv
+  stationuuid: 960cb2ea-0601-11e8-ae97-52543be04c81
+  changeuuid: 81d419be-9b95-4b41-959e-0b62757f6012
+  reviewedAt: 2026-05-02
+  geo: [53.6355, 11.4012]
+  broadcaster: ndr
+  name: NDR 1 Radio MV
+  streamUrl: https://icecast.ndr.de/ndr/ndr1radiomv/schwerin/mp3/128/stream.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [oldies, regional, mecklenburg-vorpommern, ard]
+  favicon: https://www.ndr.de/apple-touch-icon-120x120.png
+  homepage: https://www.ndr.de/ndr1radiomv/
+  status: icy-only
+
+# ─── SR — Saarländischer Rundfunk (2026-05-02) ───
+# 5 channels added in DE Phase 2. Streams emit clean ICY titles, but
+# we ship at status: working: the SR fetcher returns programme-level
+# data (current show + moderator + slot times) via the worker proxy
+# (sr.de/sr/epg/nowPlaying.jsp?welle=<sr1|sr2|sr3|antenne|unserding>).
+
+- id: sr-sr1
+  stationuuid: f945d630-e14a-4a55-9162-c472317e0138
+  changeuuid: b92bbe66-b5ee-419d-864e-72840f6d7c22
+  reviewedAt: 2026-05-02
+  geo: [49.2354, 6.9970]
+  broadcaster: sr
+  name: SR 1
+  streamUrl: https://liveradio.sr.de/sr/sr1/mp3/128/stream.mp3?aggregator=custom1
+  metadataUrl: https://www.sr.de/sr/epg/nowPlaying.jsp?welle=sr1
+  bitrate: 128
+  codec: MP3
+  tags: [pop, hits, ard, public radio, saarland]
+  favicon: https://www.sr.de/sr/static/images/favicon.ico
+  homepage: https://www.sr.de/sr/sr1/
+  status: working
+
+- id: sr-sr2
+  stationuuid: 960cad57-0601-11e8-ae97-52543be04c81
+  changeuuid: dfd8da03-f3f4-44ab-8008-56ea396a5b1b
+  reviewedAt: 2026-05-02
+  geo: [49.2354, 6.9970]
+  broadcaster: sr
+  name: SR 2 KulturRadio
+  streamUrl: https://liveradio.sr.de/sr/sr2/mp3/128/stream.mp3?aggregator=custom1
+  metadataUrl: https://www.sr.de/sr/epg/nowPlaying.jsp?welle=sr2
+  bitrate: 128
+  codec: MP3
+  tags: [classical, culture, ard, public radio, saarland]
+  favicon: https://www.sr.de/sr/static/images/favicon.ico
+  homepage: https://www.sr.de/sr/sr2/
+  status: working
+
+- id: sr-sr3
+  stationuuid: 8070272f-99fd-4ba0-8540-defb2d087398
+  changeuuid: ecf473c8-2a87-420d-b41e-cb2a34c50ff9
+  reviewedAt: 2026-05-02
+  geo: [49.2354, 6.9970]
+  broadcaster: sr
+  name: SR 3 Saarlandwelle
+  streamUrl: https://liveradio.sr.de/sr/sr3/mp3/128/stream.mp3?aggregator=custom1
+  metadataUrl: https://www.sr.de/sr/epg/nowPlaying.jsp?welle=sr3
+  bitrate: 128
+  codec: MP3
+  tags: [schlager, regional, ard, public radio, saarland]
+  favicon: https://www.sr.de/sr/static/images/favicon.ico
+  homepage: https://www.sr.de/sr/sr3/
+  status: working
+
+- id: sr-antenne-saar
+  stationuuid: 140d9269-8fbd-11e9-a6c6-52543be04c81
+  changeuuid: 38a2fbf6-5cf1-4697-a1b5-df729685b226
+  reviewedAt: 2026-05-02
+  geo: [49.2354, 6.9970]
+  broadcaster: sr
+  name: AntenneSaar
+  streamUrl: https://liveradio.sr.de/sr/as/mp3/128/stream.mp3?aggregator=custom1
+  metadataUrl: https://www.sr.de/sr/epg/nowPlaying.jsp?welle=antenne
+  bitrate: 128
+  codec: MP3
+  tags: [news, regional, ard, saarland]
+  favicon: https://www.sr.de/sr/static/images/favicon.ico
+  homepage: https://www.sr.de/sr/antenne_saar/
+  status: working
+
+- id: sr-unserding
+  stationuuid: 960ebb58-0601-11e8-ae97-52543be04c81
+  changeuuid: 04b63a7e-e84c-464b-95bd-74d5d15f3be3
+  reviewedAt: 2026-05-02
+  geo: [49.2354, 6.9970]
+  broadcaster: sr
+  name: UnserDing
+  streamUrl: https://liveradio.sr.de/sr/ud/mp3/128/stream.mp3?aggregator=custom1
+  metadataUrl: https://www.sr.de/sr/epg/nowPlaying.jsp?welle=unserding
+  bitrate: 128
+  codec: MP3
+  tags: [pop, youth, ard, public radio, saarland]
+  favicon: https://www.sr.de/sr/static/images/favicon.ico
+  homepage: https://www.sr.de/sr/unserding/
+  status: working
 
 - id: mdr-mdr-sachsen
   stationuuid: 2194b405-2b98-4b30-ab36-e1fbdc9bb5a2

@@ -2329,6 +2329,49 @@
       "status": "icy-only"
     },
     {
+      "id": "wdr-cosmo",
+      "name": "WDR COSMO",
+      "streamUrl": "https://wdr-cosmo-live.icecast.wdr.de/wdr/cosmo/live/mp3/128/stream.mp3",
+      "homepage": "https://www1.wdr.de/radio/cosmo/index.html",
+      "country": "DE",
+      "tags": [
+        "global",
+        "multicultural",
+        "multikulti",
+        "pop",
+        "world music"
+      ],
+      "favicon": "https://www1.wdr.de/resources-v5.122.3/img/favicon/apple-touch-icon.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        50.9375,
+        6.9603
+      ],
+      "status": "icy-only"
+    },
+    {
+      "id": "wdr-event",
+      "name": "WDR Event",
+      "streamUrl": "https://wdr-wdr-event.icecast.wdr.de/wdr/wdr/event/mp3/128/stream.mp3",
+      "homepage": "https://www1.wdr.de/mediathek/audio/wdr/wdr-event/index.html",
+      "country": "DE",
+      "tags": [
+        "information",
+        "news",
+        "events",
+        "ard"
+      ],
+      "favicon": "https://www1.wdr.de/resources-v5.122.3/img/favicon/apple-touch-icon.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        50.9375,
+        6.9603
+      ],
+      "status": "icy-only"
+    },
+    {
       "id": "ndr-ndr-90-3",
       "name": "NDR 90,3",
       "streamUrl": "https://icecast.ndr.de/ndr/ndr903/hamburg/mp3/128/stream.mp3?1728425642817&aggregator=web",
@@ -2466,6 +2509,189 @@
         9.9937
       ],
       "status": "icy-only"
+    },
+    {
+      "id": "ndr-ndr-info",
+      "name": "NDR Info",
+      "streamUrl": "https://icecast.ndr.de/ndr/ndrinfo/hamburg/mp3/128/stream.mp3",
+      "homepage": "https://www.ndr.de/ndrinfo/",
+      "country": "DE",
+      "tags": [
+        "news",
+        "information",
+        "ard",
+        "public radio"
+      ],
+      "favicon": "https://www.ndr.de/apple-touch-icon-120x120.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        53.5511,
+        9.9937
+      ],
+      "status": "icy-only"
+    },
+    {
+      "id": "ndr-ndr-blue",
+      "name": "NDR Blue",
+      "streamUrl": "https://icecast.ndr.de/ndr/ndrblue/live/mp3/128/stream.mp3",
+      "homepage": "https://www.ndr.de/ndrblue/",
+      "country": "DE",
+      "tags": [
+        "jazz",
+        "rock",
+        "pop",
+        "soul",
+        "ard"
+      ],
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/NDR_Blue_Logo.svg/1200px-NDR_Blue_Logo.svg.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        53.5511,
+        9.9937
+      ],
+      "status": "icy-only"
+    },
+    {
+      "id": "ndr-ndr-1-radio-mv",
+      "name": "NDR 1 Radio MV",
+      "streamUrl": "https://icecast.ndr.de/ndr/ndr1radiomv/schwerin/mp3/128/stream.mp3",
+      "homepage": "https://www.ndr.de/ndr1radiomv/",
+      "country": "DE",
+      "tags": [
+        "oldies",
+        "regional",
+        "mecklenburg-vorpommern",
+        "ard"
+      ],
+      "favicon": "https://www.ndr.de/apple-touch-icon-120x120.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        53.6355,
+        11.4012
+      ],
+      "status": "icy-only"
+    },
+    {
+      "id": "sr-sr1",
+      "name": "SR 1",
+      "streamUrl": "https://liveradio.sr.de/sr/sr1/mp3/128/stream.mp3?aggregator=custom1",
+      "homepage": "https://www.sr.de/sr/sr1/",
+      "country": "DE",
+      "tags": [
+        "pop",
+        "hits",
+        "ard",
+        "public radio",
+        "saarland"
+      ],
+      "favicon": "https://www.sr.de/sr/static/images/favicon.ico",
+      "bitrate": 128,
+      "codec": "MP3",
+      "metadata": "sr",
+      "metadataUrl": "https://www.sr.de/sr/epg/nowPlaying.jsp?welle=sr1",
+      "geo": [
+        49.2354,
+        6.997
+      ],
+      "status": "working"
+    },
+    {
+      "id": "sr-sr2",
+      "name": "SR 2 KulturRadio",
+      "streamUrl": "https://liveradio.sr.de/sr/sr2/mp3/128/stream.mp3?aggregator=custom1",
+      "homepage": "https://www.sr.de/sr/sr2/",
+      "country": "DE",
+      "tags": [
+        "classical",
+        "culture",
+        "ard",
+        "public radio",
+        "saarland"
+      ],
+      "favicon": "https://www.sr.de/sr/static/images/favicon.ico",
+      "bitrate": 128,
+      "codec": "MP3",
+      "metadata": "sr",
+      "metadataUrl": "https://www.sr.de/sr/epg/nowPlaying.jsp?welle=sr2",
+      "geo": [
+        49.2354,
+        6.997
+      ],
+      "status": "working"
+    },
+    {
+      "id": "sr-sr3",
+      "name": "SR 3 Saarlandwelle",
+      "streamUrl": "https://liveradio.sr.de/sr/sr3/mp3/128/stream.mp3?aggregator=custom1",
+      "homepage": "https://www.sr.de/sr/sr3/",
+      "country": "DE",
+      "tags": [
+        "schlager",
+        "regional",
+        "ard",
+        "public radio",
+        "saarland"
+      ],
+      "favicon": "https://www.sr.de/sr/static/images/favicon.ico",
+      "bitrate": 128,
+      "codec": "MP3",
+      "metadata": "sr",
+      "metadataUrl": "https://www.sr.de/sr/epg/nowPlaying.jsp?welle=sr3",
+      "geo": [
+        49.2354,
+        6.997
+      ],
+      "status": "working"
+    },
+    {
+      "id": "sr-antenne-saar",
+      "name": "AntenneSaar",
+      "streamUrl": "https://liveradio.sr.de/sr/as/mp3/128/stream.mp3?aggregator=custom1",
+      "homepage": "https://www.sr.de/sr/antenne_saar/",
+      "country": "DE",
+      "tags": [
+        "news",
+        "regional",
+        "ard",
+        "saarland"
+      ],
+      "favicon": "https://www.sr.de/sr/static/images/favicon.ico",
+      "bitrate": 128,
+      "codec": "MP3",
+      "metadata": "sr",
+      "metadataUrl": "https://www.sr.de/sr/epg/nowPlaying.jsp?welle=antenne",
+      "geo": [
+        49.2354,
+        6.997
+      ],
+      "status": "working"
+    },
+    {
+      "id": "sr-unserding",
+      "name": "UnserDing",
+      "streamUrl": "https://liveradio.sr.de/sr/ud/mp3/128/stream.mp3?aggregator=custom1",
+      "homepage": "https://www.sr.de/sr/unserding/",
+      "country": "DE",
+      "tags": [
+        "pop",
+        "youth",
+        "ard",
+        "public radio",
+        "saarland"
+      ],
+      "favicon": "https://www.sr.de/sr/static/images/favicon.ico",
+      "bitrate": 128,
+      "codec": "MP3",
+      "metadata": "sr",
+      "metadataUrl": "https://www.sr.de/sr/epg/nowPlaying.jsp?welle=unserding",
+      "geo": [
+        49.2354,
+        6.997
+      ],
+      "status": "working"
     },
     {
       "id": "mdr-mdr-sachsen",
