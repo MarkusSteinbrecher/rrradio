@@ -64,6 +64,14 @@ jobs:
             git push origin main
           fi
 
+      - name: Combine validation + duplicates outcome
+        id: combined
+        run: |
+          if [ "${{ steps.validate.outputs.has_issues }}" = "true" ] \
+             || [ "${{ steps.duplicates.outputs.has_issues }}" = "true" ]; then
+            echo "has_issues=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Show curation candidates
         run: npm run candidates 2>&1 | tee candidates.txt
 
@@ -151,7 +159,7 @@ jobs:
             --base main
 
       - name: Open or update tracking issue
-        if: steps.validate.outputs.has_issues == 'true'
+        if: steps.combined.outputs.has_issues == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -193,7 +201,7 @@ jobs:
           fi
 
       - name: Close tracking issue if all clean
-        if: steps.validate.outputs.has_issues != 'true'
+        if: steps.combined.outputs.has_issues != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
