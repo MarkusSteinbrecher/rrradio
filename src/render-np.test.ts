@@ -127,14 +127,20 @@ describe('renderNowPlaying — program block', () => {
 });
 
 describe('renderNowPlaying — track + open-in', () => {
-  it('hides track row when station has no id', () => {
+  it('does not touch track row visibility (gh #84)', () => {
+    // Track-row visibility is owned by main.ts's syncNpTabs (it
+    // gates on the active NP tab + station presence). render-np
+    // writes content into the row but must never toggle its
+    // `hidden` attribute — touching it caused the cover to bleed
+    // through the lyrics pane on pause.
     const refs = mountNp();
-    renderNowPlaying(
-      refs,
-      { station: { id: '', name: '', streamUrl: '' }, state: 'idle' },
-      ctx(),
-    );
+    refs.npTrackRow.hidden = true; // pretend syncNpTabs hid it (lyrics tab)
+    renderNowPlaying(refs, { station: fm4, state: 'paused' }, ctx());
     expect(refs.npTrackRow.hidden).toBe(true);
+
+    refs.npTrackRow.hidden = false; // pretend syncNpTabs showed it (now tab)
+    renderNowPlaying(refs, { station: fm4, state: 'paused' }, ctx());
+    expect(refs.npTrackRow.hidden).toBe(false);
   });
 
   it('shows track title + builds Spotify/Apple Music search URLs', () => {

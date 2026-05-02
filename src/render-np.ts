@@ -102,8 +102,11 @@ export function renderNowPlaying(
   refs.npLiveText.textContent = npLiveText(np);
   refs.npFormat.textContent = npFormatText(s);
 
-  // On-air block — always rendered when a station is loaded.
-  refs.npTrackRow.hidden = !s.id;
+  // On-air block — content is always written (em-dashes when empty);
+  // visibility is owned by main.ts's syncNpTabs (which gates on the
+  // active NP tab + whether a station is loaded). Touching `hidden`
+  // here used to fight syncNpTabs and let the cover bleed through
+  // the lyrics pane on pause (gh #84).
   const hasTrack = !!np.trackTitle && np.trackTitle.trim().length > 0;
   refs.npTrackTitle.textContent = hasTrack ? (np.trackTitle as string) : '—';
 

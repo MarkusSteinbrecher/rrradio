@@ -923,7 +923,11 @@ function syncNpTabs(): void {
   $npPaneLyrics.classList.toggle('is-active', npView === 'lyrics');
   $npPaneLyrics.setAttribute('aria-pressed', String(npView === 'lyrics'));
 
-  $npTrackRow.hidden = npView !== 'now';
+  // Pane visibility is owned here — render-np writes content into
+  // npTrackRow but never touches its `hidden` attribute. Track row
+  // also stays hidden when no station is loaded so we don't show
+  // an empty em-dashed shell at boot.
+  $npTrackRow.hidden = npView !== 'now' || !currentNP.station.id;
   $npProgramPane.hidden = npView !== 'program';
   $npLyricsPane.hidden = npView !== 'lyrics';
 }
