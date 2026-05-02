@@ -76,7 +76,7 @@ describe('errorEvent', () => {
   it('emits to GoatCounter as error/<category>', () => {
     errors.errorEvent('catalog', new Error('boom'));
     expect(trackCalls).toHaveLength(1);
-    expect(trackCalls[0].path).toBe('error/catalog');
+    expect(trackCalls[0].path).toBe('error: catalog');
   });
 
   it('title carries class + message + build + route', () => {
@@ -108,7 +108,7 @@ describe('errorEvent', () => {
 describe('reportWorkerError', () => {
   it('encodes route + status as detail', () => {
     errors.reportWorkerError(new Error('nope'), '/api/public/totals', 502);
-    expect(trackCalls[0].path).toBe('error/worker');
+    expect(trackCalls[0].path).toBe('error: worker');
     expect(trackCalls[0].title).toContain('/api/public/totals@502');
   });
 
@@ -122,7 +122,7 @@ describe('reportWorkerError', () => {
 describe('reportStreamError', () => {
   it('encodes the station id as detail', () => {
     errors.reportStreamError('audio failed', 'builtin-fm4');
-    expect(trackCalls[0].path).toBe('error/stream');
+    expect(trackCalls[0].path).toBe('error: stream');
     expect(trackCalls[0].title).toContain('station=builtin-fm4');
   });
 });
@@ -133,7 +133,7 @@ describe('installGlobalErrorHandlers', () => {
     const ev = new ErrorEvent('error', { message: 'something broke', error: new ReferenceError('x is not defined') });
     window.dispatchEvent(ev);
     expect(trackCalls).toHaveLength(1);
-    expect(trackCalls[0].path).toBe('error/runtime');
+    expect(trackCalls[0].path).toBe('error: runtime');
     expect(trackCalls[0].title).toContain('ReferenceError');
   });
 
@@ -151,7 +151,7 @@ describe('installGlobalErrorHandlers', () => {
     }
     window.dispatchEvent(ev);
     expect(trackCalls).toHaveLength(1);
-    expect(trackCalls[0].path).toBe('error/promise');
+    expect(trackCalls[0].path).toBe('error: promise');
   });
 
   it('is idempotent — installing twice attaches one handler', () => {

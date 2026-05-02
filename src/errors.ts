@@ -3,9 +3,12 @@
  *
  * Captures `window.onerror`, unhandled promise rejections, catalog
  * load failures, and Worker fetch failures, and emits them as
- * GoatCounter events under the `error/*` namespace. No new third-
- * party endpoint, no new tracker — same privacy posture as the rest
- * of the app's telemetry.
+ * GoatCounter events under the existing `error: <kind>` namespace.
+ * Same colon-form prefix the per-station error events already use
+ * (e.g. `error: Bayern 1`), so the admin dashboard's "errors" panel
+ * surfaces both alongside each other without any Worker / dashboard
+ * change. Same privacy posture as the rest of the app's telemetry —
+ * no new third-party endpoint, no new tracker.
  *
  * What we capture:
  *   - Build version (`__BUILD_VERSION__` injected by Vite at build
@@ -25,8 +28,8 @@
  *     so the path shape is uniform.
  *
  * GoatCounter event shape:
- *   path:  `error/<category>` — `runtime`, `promise`, `catalog`, `worker`, `stream`
- *   title: `<errorClass>: <truncated message> · <build> · <route>[ · station=<id>]`
+ *   path:  `error: <category>` — `runtime`, `promise`, `catalog`, `worker`, `stream`
+ *   title: `<errorClass>: <truncated message> · <build> · <route>[ · <detail>]`
  */
 
 import { track } from './telemetry';
@@ -87,7 +90,10 @@ export function errorEvent(
   err: unknown,
   ctx: ReportContext = {},
 ): void {
-  const path = `error/${category}`;
+  // Colon form mirrors `error: <station name>` (the existing per-
+  // station path) so both kinds land in the dashboard's "errors"
+  // panel via the Worker's `pickByPrefix(hits, 'error: ', ...)` query.
+  const path = `error: ${category}`;
   const cls = errorClass(err);
   const msg =
     err instanceof Error

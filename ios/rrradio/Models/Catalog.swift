@@ -19,7 +19,10 @@ import Observation
 /// when awaited from a MainActor context, so this stays correct.
 /// Function-valued seam that production passes through `URLSession.shared.data(for:)`
 /// and tests replace with a canned-response stub. Audit #72 follow-up.
-typealias CatalogDataFetcher = @Sendable (URLRequest) async throws -> (Data, URLResponse)
+/// Not `@Sendable` — under Swift 5.10's stricter rules the test stubs
+/// would have to drop self captures, which makes fixture setup awkward.
+/// The closure runs from a `@MainActor` async context anyway.
+typealias CatalogDataFetcher = (URLRequest) async throws -> (Data, URLResponse)
 
 @Observable
 @MainActor
