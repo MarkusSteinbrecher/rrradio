@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+import { titleCase, parseLooseJSON } from './format';
 import { icyFetcher } from './metadata';
 import type { MetadataFetcher, ScheduleBroadcast, ScheduleDay, ScheduleFetcher } from './metadata';
 import type { Station } from './types';
@@ -8,23 +9,6 @@ const BASE = import.meta.env.BASE_URL;
 /** Generic worker proxy for broadcaster APIs that lack CORS (BR, HR).
  *  The worker holds an allowlist; see worker/src/index.ts:/api/public/proxy. */
 const PROXY = 'https://rrradio-stats.markussteinbrecher.workers.dev/api/public/proxy';
-
-// ============================================================
-// Helpers
-// ============================================================
-
-function titleCase(s: string): string {
-  return s
-    .toLowerCase()
-    .replace(/(^|[\s'’\-/])([a-zà-ÿ])/g, (_, p: string, c: string) => p + c.toUpperCase());
-}
-
-/** Strip leading non-JSON noise (comments, BOM) so JSON.parse can swallow
- *  responses like BR's radioplayer.json which starts with `//@formatter:off`. */
-function parseLooseJSON(text: string): unknown {
-  const idx = text.search(/[\[{]/);
-  return JSON.parse(idx > 0 ? text.slice(idx) : text);
-}
 
 // ============================================================
 // Per-station metadata fetchers

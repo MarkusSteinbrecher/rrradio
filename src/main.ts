@@ -30,6 +30,7 @@ import {
   setWakeTo,
   toggleFavorite,
 } from './storage';
+import { fmtSharePct, normalizeForSearch } from './format';
 import { fadeVolume, formatCountdown, nextFireTime, WakeScheduler } from './wake';
 import type { NowPlaying, Station, WakeTo } from './types';
 
@@ -380,14 +381,6 @@ function faviconClass(id: string): string {
 
 function favIdSet(): Set<string> {
   return new Set(getFavorites().map((s) => s.id));
-}
-
-/** Strip non-alphanumeric chars (incl. German umlauts/ß) for whitespace-
- *  insensitive search matching. So "WDR 5" and "WDR5" both reduce to
- *  "wdr5" and a query of either form finds the other. Used as a
- *  fallback alongside the literal-substring check. */
-function normalizeForSearch(s: string): string {
-  return s.toLowerCase().replace(/[^a-z0-9äöüß]+/g, '');
 }
 
 function filterStations(stations: Station[], query: string): Station[] {
@@ -2301,16 +2294,6 @@ function renderDashKpis(d: DashboardData, totals: PublicTotals | null): void {
   // headline matches the table + map below.
   $dashCountries.textContent = String(activeCountryMap(d).size);
   $dashStations.textContent = String(d.totalStations);
-}
-
-/** Format a per-row share of total. Rounds to whole percent; non-zero
- *  values below 0.5% (which would round to 0) print as "<1%" so a
- *  long-tail row never reads as a misleading "0%". */
-function fmtSharePct(count: number, total: number): string {
-  if (!total) return '';
-  const pct = (count / total) * 100;
-  if (pct > 0 && pct < 0.5) return '<1%';
-  return Math.round(pct) + '%';
 }
 
 function renderDashCountryTable(d: DashboardData): void {

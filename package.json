@@ -7,6 +7,8 @@
     "dev": "node tools/build-catalog.mjs && vite",
     "build": "node tools/build-catalog.mjs && tsc && vite build && node tools/build-station-pages.mjs",
     "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "catalog": "node tools/build-catalog.mjs",
     "probe": "node tools/probe-station.mjs",
@@ -31,9 +33,11 @@
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.21",
+    "happy-dom": "^20.9.0",
     "playwright": "^1.59.1",
     "typescript": "^5.6.3",
     "vite": "^5.4.10",
+    "vitest": "^4.1.5",
     "yaml": "^2.8.3"
   }
 }
