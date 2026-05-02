@@ -33,13 +33,21 @@ targets:
         # Background audio so streams keep playing when the app
         # is backgrounded or the screen is locked.
         UIBackgroundModes: [audio]
-        # ATS: HTTPS-only catalog policy enforced by tools/check-catalog.mjs
-        # (audit #71). Stations with `httpAllowed: true` in stations.yaml
-        # are HTTP-only — they need per-host NSExceptionDomains entries
-        # below. Today the allowlist is shoutcast.rtvc.gov.co (RTVC,
-        # Colombian public broadcaster) and 162.244.80.52 (Akaboozi FM,
-        # Uganda). NEVER set NSAllowsArbitraryLoads — App Review will
-        # reject without explicit per-host justification.
+        # ATS exceptions — by default iOS enforces HTTPS-only for all
+        # network requests; this block opens that up only for the two
+        # specific HTTP hosts on the catalog's `httpAllowed: true`
+        # allowlist (data/stations.yaml, audit #71). Everything else
+        # stays HTTPS-only via the iOS default — there's nothing to
+        # enforce here.
+        #
+        # The two hosts: shoutcast.rtvc.gov.co (RTVC, Colombian public
+        # broadcaster) and 162.244.80.52 (Akaboozi FM, Uganda) — both
+        # are origin servers that simply don't serve HTTPS.
+        #
+        # Use per-host NSExceptionDomains entries rather than
+        # NSAllowsArbitraryLoads. Apple scrutinizes the latter and asks
+        # for justification in App Review submission notes; per-host
+        # exceptions usually pass without follow-up.
         NSAppTransportSecurity:
           NSExceptionDomains:
             shoutcast.rtvc.gov.co:
