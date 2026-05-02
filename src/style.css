@@ -2227,15 +2227,15 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   border-radius: 8px;
   background:
     radial-gradient(circle at 50% 50%,
-      color-mix(in srgb, var(--accent) 14%, transparent),
-      color-mix(in srgb, var(--accent) 4%, transparent) 70%);
+      color-mix(in srgb, var(--ink) 8%, transparent),
+      color-mix(in srgb, var(--ink) 2%, transparent) 70%);
   transition: background 120ms ease;
 }
 .np-wake-pane__clock-wrap:hover {
   background:
     radial-gradient(circle at 50% 50%,
-      color-mix(in srgb, var(--accent) 22%, transparent),
-      color-mix(in srgb, var(--accent) 8%, transparent) 70%);
+      color-mix(in srgb, var(--ink) 14%, transparent),
+      color-mix(in srgb, var(--ink) 4%, transparent) 70%);
 }
 .np-wake-pane__clock {
   appearance: none;
@@ -2243,7 +2243,7 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   width: auto;
   border: none;
   background: transparent;
-  color: var(--accent);
+  color: var(--ink);
   font-family: var(--mono);
   font-size: clamp(36px, 11vw, 60px);
   font-weight: 600;
@@ -2252,16 +2252,14 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   /* `text` cursor on desktop signals "click to type" — the spinners
      are stripped by `appearance: none` so the user otherwise has no
      visual cue that the value is editable in place. iOS / Android
-     don't show cursors so this is a desktop-only affordance.
-     `pointer` would be misleading on desktop and unnecessary on
-     touch (where a tap pops the native picker either way). */
+     don't show cursors so this is a desktop-only affordance. */
   cursor: text;
   padding: 0;
   min-width: 0;
 }
 .np-wake-pane__clock::-webkit-date-and-time-value { text-align: center; }
 .np-wake-pane__clock:focus {
-  outline: 2px solid color-mix(in srgb, var(--accent) 50%, transparent);
+  outline: 2px solid color-mix(in srgb, var(--ink) 30%, transparent);
   outline-offset: 4px;
   border-radius: 4px;
 }

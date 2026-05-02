@@ -2542,22 +2542,20 @@ function armWakeFromSheet(): void {
 }
 
 function disarmWake(persist = true): void {
-  // Capture the armed station before clearing the scheduler — we use
-  // it below to swap audio off the silent bed.
-  const armed = wakeScheduler.current();
   wakeScheduler.disarm();
   if (persist) setWakeTo(null);
   stopPillTick();
   syncWakeUi();
   track('wake/disarm');
 
-  // If we're still playing the silent bed (i.e. the user disarmed
-  // before fire and hasn't manually switched stations), swap back
-  // to the originally-armed station — that's what they were
-  // listening to before they armed, so it's the least surprising
-  // resumption. Without this, Now Playing keeps reading "Silent bed".
-  if (currentNP.station.id === SILENT_BED.id && armed?.station) {
-    void player.play(armed.station);
+  // If the silent bed is currently playing (i.e. user armed and then
+  // disarmed before fire time), pause it. We used to auto-resume the
+  // originally-armed station here to "avoid hearing silence" — but
+  // the user reasonably read that as "disarm started music", which
+  // is louder and more surprising than just stopping. The user can
+  // re-pick a station from the catalog whenever.
+  if (currentNP.station.id === SILENT_BED.id) {
+    player.pause();
   }
 }
 
