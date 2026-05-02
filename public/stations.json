@@ -2696,7 +2696,7 @@
     {
       "id": "mdr-mdr-sachsen",
       "name": "MDR Sachsen",
-      "streamUrl": "https://mdr-radio-hls.akamaized.net/hls/live/2112890/mdr-284280-3-hls/index.m3u8",
+      "streamUrl": "https://mdr-284280-0.sslcast.mdr.de/mdr/284280/0/mp3/high/stream.mp3",
       "homepage": "https://www.mdr.de/sachsenradio/index.html",
       "country": "DE",
       "tags": [
@@ -2708,18 +2708,41 @@
         "leipzig"
       ],
       "favicon": "https://www.mdr.de/administratives/av/bild218-resimage_v-variantSmall1x1_w-512.png",
-      "bitrate": 102,
-      "codec": "AAC",
+      "bitrate": 128,
+      "codec": "MP3",
+      "metadata": "mdr",
+      "metadataUrl": "https://www.mdr.de/scripts4/titellisten/xmlresp-index.do?output=json&idwelle=4&amount=2",
       "geo": [
         51.3162,
         12.3859
       ],
-      "status": "stream-only"
+      "status": "working"
+    },
+    {
+      "id": "mdr-mdr-sachsen-anhalt",
+      "name": "MDR Sachsen-Anhalt",
+      "streamUrl": "https://mdr-284290-0.sslcast.mdr.de/mdr/284290/0/mp3/high/stream.mp3",
+      "homepage": "https://www.mdr.de/mdr-sachsen-anhalt/index.html",
+      "country": "DE",
+      "tags": [
+        "ard",
+        "regional",
+        "sachsen-anhalt",
+        "mitteldeutscher rundfunk"
+      ],
+      "favicon": "https://www.mdr.de/administratives/av/bild219-resimage_v-variantSmall1x1_w-512.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        52.1205,
+        11.6276
+      ],
+      "status": "icy-only"
     },
     {
       "id": "mdr-mdr-thuringen",
       "name": "MDR Thüringen",
-      "streamUrl": "https://mdr-radio-hls.akamaized.net/hls/live/2112899/mdr-284300-1-hls/index.m3u8",
+      "streamUrl": "https://mdr-284300-0.sslcast.mdr.de/mdr/284300/0/mp3/high/stream.mp3",
       "homepage": "https://www.mdr.de/mdr-thueringen/index.html",
       "country": "DE",
       "tags": [
@@ -2731,18 +2754,136 @@
         "regional"
       ],
       "favicon": "https://www.mdr.de/administratives/av/bild220-resimage_v-variantSmall1x1_w-512.png",
-      "bitrate": 102,
-      "codec": "AAC",
+      "bitrate": 128,
+      "codec": "MP3",
+      "metadata": "mdr",
+      "metadataUrl": "https://www.mdr.de/scripts4/titellisten/xmlresp-index.do?output=json&idwelle=6&amount=2",
       "geo": [
         50.8805,
         12.08
       ],
-      "status": "stream-only"
+      "status": "working"
+    },
+    {
+      "id": "mdr-mdr-aktuell",
+      "name": "MDR Aktuell",
+      "streamUrl": "https://mdr-284340-0.sslcast.mdr.de/mdr/284340/0/mp3/high/stream.mp3",
+      "homepage": "https://www.mdr.de/nachrichten/index.html",
+      "country": "DE",
+      "tags": [
+        "news",
+        "information",
+        "ard",
+        "mitteldeutscher rundfunk"
+      ],
+      "favicon": "https://www.mdr.de/administratives/av/bild221-resimage_v-variantSmall1x1_w-512.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "metadata": "mdr",
+      "metadataUrl": "https://www.mdr.de/scripts4/titellisten/xmlresp-index.do?output=json&idwelle=2&amount=2",
+      "geo": [
+        51.3162,
+        12.3859
+      ],
+      "status": "working"
+    },
+    {
+      "id": "mdr-mdr-klassik",
+      "name": "MDR Klassik",
+      "streamUrl": "https://mdr-284350-0.sslcast.mdr.de/mdr/284350/0/mp3/high/stream.mp3",
+      "homepage": "https://www.mdr.de/mdr-klassik-radio/index.html",
+      "country": "DE",
+      "tags": [
+        "classical",
+        "ard",
+        "mitteldeutscher rundfunk"
+      ],
+      "favicon": "https://www.mdr.de/administratives/av/bild222-resimage_v-variantSmall1x1_w-512.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "metadata": "mdr",
+      "metadataUrl": "https://www.mdr.de/scripts4/titellisten/xmlresp-index.do?output=json&idwelle=7&amount=2",
+      "geo": [
+        51.3397,
+        12.3731
+      ],
+      "status": "working"
+    },
+    {
+      "id": "mdr-mdr-jump",
+      "name": "MDR Jump",
+      "streamUrl": "https://mdr-284320-0.sslcast.mdr.de/mdr/284320/0/mp3/high/stream.mp3",
+      "homepage": "https://www.mdr.de/jump/index.html",
+      "country": "DE",
+      "tags": [
+        "pop",
+        "hits",
+        "ard",
+        "youth",
+        "mitteldeutscher rundfunk"
+      ],
+      "favicon": "https://www.mdr.de/administratives/av/bild223-resimage_v-variantSmall1x1_w-512.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "metadata": "mdr",
+      "metadataUrl": "https://www.mdr.de/XML/titellisten/jump_onair.json",
+      "geo": [
+        51.3397,
+        12.3731
+      ],
+      "status": "working"
+    },
+    {
+      "id": "mdr-mdr-sputnik",
+      "name": "MDR Sputnik",
+      "streamUrl": "https://mdr-284330-0.sslcast.mdr.de/mdr/284330/0/mp3/high/stream.mp3",
+      "homepage": "https://www.mdr.de/sputnik/index.html",
+      "country": "DE",
+      "tags": [
+        "alternative",
+        "electronic",
+        "indie",
+        "ard",
+        "youth",
+        "mitteldeutscher rundfunk"
+      ],
+      "favicon": "https://www.mdr.de/administratives/av/bild224-resimage_v-variantSmall1x1_w-512.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "metadata": "mdr",
+      "metadataUrl": "https://www.mdr.de/XML/titellisten/sputnik_onair.json",
+      "geo": [
+        51.4818,
+        11.9692
+      ],
+      "status": "working"
+    },
+    {
+      "id": "mdr-mdr-tweens",
+      "name": "MDR Tweens",
+      "streamUrl": "https://mdr-991101-0.sslcast.mdr.de/mdr/991101/0/mp3/high/stream.mp3",
+      "homepage": "https://www.mdr.de/tweens/index.html",
+      "country": "DE",
+      "tags": [
+        "pop",
+        "kids",
+        "tweens",
+        "ard",
+        "mitteldeutscher rundfunk"
+      ],
+      "favicon": "https://www.mdr.de/administratives/av/bild225-resimage_v-variantSmall1x1_w-512.png",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        51.3397,
+        12.3731
+      ],
+      "status": "icy-only"
     },
     {
       "id": "mdr-mdr-schlagerwelt",
       "name": "MDR Schlagerwelt",
-      "streamUrl": "https://mdr-radio-hls.akamaized.net/hls/live/2112911/mdr-990701-0-hls/index.m3u8",
+      "streamUrl": "https://mdr-990701-0.sslcast.mdr.de/mdr/990701/0/mp3/high/stream.mp3",
       "homepage": "https://www.mdr.de/meine-schlagerwelt/radio/index.html",
       "country": "DE",
       "tags": [
@@ -2754,13 +2895,13 @@
         "schlager"
       ],
       "favicon": "https://www.mdr.de/administratives/av/bild-36078-resimage_v-variantSmall1x1_w-512.png",
-      "bitrate": 102,
-      "codec": "AAC",
+      "bitrate": 128,
+      "codec": "MP3",
       "geo": [
         50.9622,
         10.9957
       ],
-      "status": "stream-only"
+      "status": "icy-only"
     },
     {
       "id": "swr-swr1-baden-wurttemberg",

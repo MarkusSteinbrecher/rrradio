@@ -2092,47 +2092,149 @@
 - id: mdr-mdr-sachsen
   stationuuid: 2194b405-2b98-4b30-ab36-e1fbdc9bb5a2
   changeuuid: 602949b0-105e-43c7-961d-4436170b6e92
-  reviewedAt: 2026-04-28
+  reviewedAt: 2026-05-02
   geo: [51.3162, 12.3859]
   broadcaster: mdr
   name: MDR Sachsen
-  streamUrl: https://mdr-radio-hls.akamaized.net/hls/live/2112890/mdr-284280-3-hls/index.m3u8
-  bitrate: 102
-  codec: AAC
+  streamUrl: https://mdr-284280-0.sslcast.mdr.de/mdr/284280/0/mp3/high/stream.mp3
+  metadata: mdr
+  metadataUrl: https://www.mdr.de/scripts4/titellisten/xmlresp-index.do?output=json&idwelle=4&amount=2
+  bitrate: 128
+  codec: MP3
   tags: [70er, 80er, ard, dresden, heimatsender, leipzig]
   favicon: https://www.mdr.de/administratives/av/bild218-resimage_v-variantSmall1x1_w-512.png
   homepage: https://www.mdr.de/sachsenradio/index.html
-  status: stream-only
+  status: working
+
+- id: mdr-mdr-sachsen-anhalt
+  stationuuid: 96091e65-0601-11e8-ae97-52543be04c81
+  changeuuid: 78ec07e2-9f70-4dc3-98ce-3959786fb2e6
+  reviewedAt: 2026-05-02
+  geo: [52.1205, 11.6276]
+  broadcaster: mdr
+  name: MDR Sachsen-Anhalt
+  streamUrl: https://mdr-284290-0.sslcast.mdr.de/mdr/284290/0/mp3/high/stream.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [ard, regional, sachsen-anhalt, mitteldeutscher rundfunk]
+  favicon: https://www.mdr.de/administratives/av/bild219-resimage_v-variantSmall1x1_w-512.png
+  homepage: https://www.mdr.de/mdr-sachsen-anhalt/index.html
+  status: icy-only
 
 - id: mdr-mdr-thuringen
   stationuuid: 942895ce-2065-4bbd-9979-1df43b7dc757
   changeuuid: 12d6a955-dd60-4507-9270-67db0d38b97e
-  reviewedAt: 2026-04-28
+  reviewedAt: 2026-05-02
   geo: [50.8805, 12.08]
   broadcaster: mdr
   name: MDR Thüringen
-  streamUrl: https://mdr-radio-hls.akamaized.net/hls/live/2112899/mdr-284300-1-hls/index.m3u8
-  bitrate: 102
-  codec: AAC
+  streamUrl: https://mdr-284300-0.sslcast.mdr.de/mdr/284300/0/mp3/high/stream.mp3
+  metadata: mdr
+  metadataUrl: https://www.mdr.de/scripts4/titellisten/xmlresp-index.do?output=json&idwelle=6&amount=2
+  bitrate: 128
+  codec: MP3
   tags: [70er, 80er, ard, mitteldeutscher rundfunk, oldies, regional]
   favicon: https://www.mdr.de/administratives/av/bild220-resimage_v-variantSmall1x1_w-512.png
   homepage: https://www.mdr.de/mdr-thueringen/index.html
-  status: stream-only
+  status: working
+
+- id: mdr-mdr-aktuell
+  stationuuid: 9608c0e3-0601-11e8-ae97-52543be04c81
+  changeuuid: 4d9a2256-b250-41d2-b83a-adbde46958e4
+  reviewedAt: 2026-05-02
+  geo: [51.3162, 12.3859]
+  broadcaster: mdr
+  name: MDR Aktuell
+  streamUrl: https://mdr-284340-0.sslcast.mdr.de/mdr/284340/0/mp3/high/stream.mp3
+  metadata: mdr
+  metadataUrl: https://www.mdr.de/scripts4/titellisten/xmlresp-index.do?output=json&idwelle=2&amount=2
+  bitrate: 128
+  codec: MP3
+  tags: [news, information, ard, mitteldeutscher rundfunk]
+  favicon: https://www.mdr.de/administratives/av/bild221-resimage_v-variantSmall1x1_w-512.png
+  homepage: https://www.mdr.de/nachrichten/index.html
+  status: working
+
+- id: mdr-mdr-klassik
+  stationuuid: 960536e6-0601-11e8-ae97-52543be04c81
+  changeuuid: bb6506e6-79c4-43b9-bc5a-f81f3ab855ea
+  reviewedAt: 2026-05-02
+  geo: [51.3397, 12.3731]
+  broadcaster: mdr
+  name: MDR Klassik
+  streamUrl: https://mdr-284350-0.sslcast.mdr.de/mdr/284350/0/mp3/high/stream.mp3
+  metadata: mdr
+  metadataUrl: https://www.mdr.de/scripts4/titellisten/xmlresp-index.do?output=json&idwelle=7&amount=2
+  bitrate: 128
+  codec: MP3
+  tags: [classical, ard, mitteldeutscher rundfunk]
+  favicon: https://www.mdr.de/administratives/av/bild222-resimage_v-variantSmall1x1_w-512.png
+  homepage: https://www.mdr.de/mdr-klassik-radio/index.html
+  status: working
+
+- id: mdr-mdr-jump
+  stationuuid: 961696dc-0601-11e8-ae97-52543be04c81
+  changeuuid: 88a7f43f-cc6a-4c51-b40a-ebdeebf23e4a
+  reviewedAt: 2026-05-02
+  geo: [51.3397, 12.3731]
+  broadcaster: mdr
+  name: MDR Jump
+  streamUrl: https://mdr-284320-0.sslcast.mdr.de/mdr/284320/0/mp3/high/stream.mp3
+  metadata: mdr
+  metadataUrl: https://www.mdr.de/XML/titellisten/jump_onair.json
+  bitrate: 128
+  codec: MP3
+  tags: [pop, hits, ard, youth, mitteldeutscher rundfunk]
+  favicon: https://www.mdr.de/administratives/av/bild223-resimage_v-variantSmall1x1_w-512.png
+  homepage: https://www.mdr.de/jump/index.html
+  status: working
+
+- id: mdr-mdr-sputnik
+  stationuuid: 9606b0a2-0601-11e8-ae97-52543be04c81
+  changeuuid: 60fcacd5-3a07-4e8f-b3d3-512cdef8e2c3
+  reviewedAt: 2026-05-02
+  geo: [51.4818, 11.9692]
+  broadcaster: mdr
+  name: MDR Sputnik
+  streamUrl: https://mdr-284330-0.sslcast.mdr.de/mdr/284330/0/mp3/high/stream.mp3
+  metadata: mdr
+  metadataUrl: https://www.mdr.de/XML/titellisten/sputnik_onair.json
+  bitrate: 128
+  codec: MP3
+  tags: [alternative, electronic, indie, ard, youth, mitteldeutscher rundfunk]
+  favicon: https://www.mdr.de/administratives/av/bild224-resimage_v-variantSmall1x1_w-512.png
+  homepage: https://www.mdr.de/sputnik/index.html
+  status: working
+
+- id: mdr-mdr-tweens
+  stationuuid: 0dc4e66c-0cd7-11e9-a80b-52543be04c81
+  changeuuid: 1a138443-ba23-412c-bebb-179f3d2db486
+  reviewedAt: 2026-05-02
+  geo: [51.3397, 12.3731]
+  broadcaster: mdr
+  name: MDR Tweens
+  streamUrl: https://mdr-991101-0.sslcast.mdr.de/mdr/991101/0/mp3/high/stream.mp3
+  bitrate: 128
+  codec: MP3
+  tags: [pop, kids, tweens, ard, mitteldeutscher rundfunk]
+  favicon: https://www.mdr.de/administratives/av/bild225-resimage_v-variantSmall1x1_w-512.png
+  homepage: https://www.mdr.de/tweens/index.html
+  status: icy-only
 
 - id: mdr-mdr-schlagerwelt
   stationuuid: 18ca9b80-4a92-4602-b4a6-f9d091425305
   changeuuid: d72c167e-cc8f-4af7-9fa1-d18542af0122
-  reviewedAt: 2026-04-28
+  reviewedAt: 2026-05-02
   geo: [50.9622, 10.9957]
   broadcaster: mdr
   name: MDR Schlagerwelt
-  streamUrl: https://mdr-radio-hls.akamaized.net/hls/live/2112911/mdr-990701-0-hls/index.m3u8
-  bitrate: 102
-  codec: AAC
+  streamUrl: https://mdr-990701-0.sslcast.mdr.de/mdr/990701/0/mp3/high/stream.mp3
+  bitrate: 128
+  codec: MP3
   tags: [ard, klassiker, kultschlager, mitteldeutscher rundfunk, oldies, schlager]
   favicon: https://www.mdr.de/administratives/av/bild-36078-resimage_v-variantSmall1x1_w-512.png
   homepage: https://www.mdr.de/meine-schlagerwelt/radio/index.html
-  status: stream-only
+  status: icy-only
 
 - id: swr-swr1-baden-wurttemberg
   stationuuid: 20c24a64-6dda-4059-88dc-66f5e1cffa7c

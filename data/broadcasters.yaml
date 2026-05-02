@@ -64,12 +64,29 @@ mdr:
   homepage: https://www.mdr.de/
   notes: |
     ARD — public broadcaster for Saxony / Saxony-Anhalt / Thuringia.
-    Two endpoints: simple `/XML/titellisten/<slug>_onair.json` works
-    only for jump + sputnik; main regional channels (sachsen, thueringen,
-    schlagerwelt, sachsen-anhalt, klassik, aktuell, tweens) need the
-    `/scripts4/titellisten/xmlresp-index.do?idwelle=<id>&startdate=...`
-    pattern with channel-specific numeric idwelle. Both share the same
-    `Songs` JSON shape. Wiring deferred — see follow-up issue.
+    Two URL patterns share the same `Songs` JSON shape: simple
+    `/XML/titellisten/<slug>_onair.json` (works for jump + sputnik
+    only — current track), and `/scripts4/titellisten/xmlresp-index.do?
+    idwelle=<id>&amount=N` (the rest — full day's playlist; fetcher
+    auto-appends &startdate=today). CORS open; no proxy needed.
+
+    `metadata: mdr` is set per-station rather than at the broadcaster
+    level so channels without a known metadataUrl can still fall
+    through to icyFetcher at status: icy-only. Setting it on the
+    broadcaster would force every MDR station to use fetchMdrMetadata
+    and lose the ICY fallback for unwired channels.
+
+    Stream URLs: prefer the sslcast.mdr.de HTTPS hosts
+    (mdr-<channelID>-0.sslcast.mdr.de/mdr/<channelID>/0/mp3/high/stream.mp3)
+    over the akamaized HLS variants — sslcast emits ICY-over-HTTPS so
+    the stream itself is icy-only-grade even when no metadataUrl is
+    wired. Channel IDs: Sachsen=284280, Sachsen-Anhalt=284290,
+    Thüringen=284300, Jump=284320, Sputnik=284330, Aktuell=284340,
+    Klassik=284350, Schlagerwelt=990701, Tweens=991101.
+
+    Known idwelles (xmlresp): Aktuell=2, Sachsen=4, Thüringen=6, Klassik=7.
+    Schlagerwelt + Tweens + Sachsen-Anhalt idwelles unconfirmed —
+    those ship at icy-only via the sslcast stream.
 
 swr:
   name: SWR

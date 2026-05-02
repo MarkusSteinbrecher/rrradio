@@ -1202,6 +1202,64 @@ const fetchFfhMetadata: MetadataFetcher = async (station, signal) => {
   }
 };
 
+interface MdrSong {
+  status?: string;
+  title?: string | null;
+  interpret?: string | null;
+  artist_image_id?: {
+    imageVariant?: Array<{ '@attributes'?: { name?: string; url?: string } }>;
+  };
+}
+interface MdrResponse {
+  Resulttype?: string;
+  Songs?: Record<string, MdrSong>;
+}
+
+/** MDR — two URL patterns share the same `Songs` JSON shape:
+ *  (a) Simple `mdr.de/XML/titellisten/<slug>_onair.json` — works for Jump
+ *      and Sputnik (only these two channels); current track only.
+ *  (b) `mdr.de/scripts4/titellisten/xmlresp-index.do?output=json&idwelle=<id>&amount=N`
+ *      with a `&startdate=YYYYMMDD` we auto-append. Used by every other
+ *      channel (Sachsen, Thüringen, Aktuell, Klassik, etc.). The
+ *      response is the day's full playlist, descending; entry [0] is
+ *      the most recent track, which we treat as "now".
+ *  Both endpoints have CORS open, no proxy needed. Cover URL via
+ *  artist_image_id.imageVariant[name="variantBig1x1"]. */
+const fetchMdrMetadata: MetadataFetcher = async (station, signal) => {
+  const baseUrl = station.metadataUrl;
+  if (!baseUrl) return null;
+  const isXmlresp = baseUrl.includes('xmlresp-index.do');
+  let url = baseUrl;
+  if (isXmlresp) {
+    const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    url = `${baseUrl}${baseUrl.includes('?') ? '&' : '?'}startdate=${today}`;
+  }
+  try {
+    const res = await fetch(url, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as MdrResponse;
+    const songs = Object.values(data.Songs ?? {});
+    // Onair returns a single entry tagged status:"now"; xmlresp returns a
+    // history list with status:"old" — take whichever is "now" first, else
+    // fall back to the most-recent entry.
+    const current = songs.find((s) => s.status === 'now') ?? songs[0];
+    if (!current?.title) return null;
+    const variants = current.artist_image_id?.imageVariant ?? [];
+    const big = variants.find((v) => v['@attributes']?.name === 'variantBig1x1') ?? variants[0];
+    const coverUrl = big?.['@attributes']?.url;
+    const artist = (current.interpret ?? '').trim();
+    const track = current.title.trim();
+    return {
+      artist: artist ? titleCase(artist) : undefined,
+      track: titleCase(track),
+      raw: `${artist} - ${track}`.trim(),
+      coverUrl: coverUrl || undefined,
+    };
+  } catch {
+    return null;
+  }
+};
+
 interface LautFmArtist {
   name?: string;
   image?: string;
@@ -1432,6 +1490,7 @@ const FETCHERS_BY_KEY: Record<string, MetadataFetcher> = {
   ffh: fetchFfhMetadata,
   'rbb-radioeins': fetchRadioEinsMetadata,
   'laut-fm': fetchLautFmMetadata,
+  mdr: fetchMdrMetadata,
   antenne: fetchAntenneMetadata,
   'rb-bremen': fetchRadioBremenMetadata,
   sr: fetchSrMetadata,
