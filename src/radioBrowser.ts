@@ -74,12 +74,41 @@ function shuffle<T>(arr: readonly T[]): T[] {
 }
 
 /**
+ * Canonical form of a stream URL for dedup:
+ *  - Force https (RB submitters often re-list the same stream as both
+ *    http and https variants under different UUIDs)
+ *  - Lowercase scheme + host (case differences are never significant)
+ *  - Trim trailing slash
+ *  - Drop default ports
+ *
+ * Path is left untouched — different paths on the same host typically
+ * mean different bitrate / format variants of the same broadcast and
+ * are legitimately separate playable URLs.
+ */
+export function normalizeStreamUrl(url: string): string {
+  try {
+    const u = new URL(url.trim());
+    u.protocol = 'https:';
+    u.hostname = u.hostname.toLowerCase();
+    if ((u.port === '443' && u.protocol === 'https:') || (u.port === '80' && u.protocol === 'http:')) {
+      u.port = '';
+    }
+    let s = u.toString();
+    if (s.endsWith('/') && u.pathname === '/') s = s.slice(0, -1);
+    return s;
+  } catch {
+    return url.trim().toLowerCase();
+  }
+}
+
+/**
  * Radio Browser is community-submitted, so the same station can appear
  * multiple times under distinct UUIDs (someone re-adds it to attach a
  * better logo, fix the country, etc.). Collapse entries that share the
- * same playable URL, keeping whichever record looks the most curated:
- * a real logo PNG beats a generic /favicon.ico, populated tags beat
- * empty, and clickcount is the final tiebreaker.
+ * same playable URL (after normalization, so http+https variants merge),
+ * keeping whichever record looks the most curated: a real logo PNG beats
+ * a generic /favicon.ico, populated tags beat empty, and clickcount is
+ * the final tiebreaker.
  */
 function dedupeByStreamUrl(stations: RBStation[]): RBStation[] {
   const score = (s: RBStation) => {
@@ -90,7 +119,7 @@ function dedupeByStreamUrl(stations: RBStation[]): RBStation[] {
   };
   const winners = new Map<string, RBStation>();
   for (const s of stations) {
-    const key = (s.url_resolved || s.url).trim();
+    const key = normalizeStreamUrl(s.url_resolved || s.url);
     const incumbent = winners.get(key);
     if (!incumbent || score(s) > score(incumbent)) winners.set(key, s);
   }

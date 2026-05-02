@@ -1,5 +1,16 @@
-import { radioBrowser } from './radioBrowser';
+import { BUILTIN_STATIONS } from './builtins';
+import { normalizeStreamUrl, radioBrowser } from './radioBrowser';
 import type { Station } from './types';
+
+/** Hide Radio Browser rows that point at a stream URL we already curate.
+ *  Without this filter, searching e.g. "Kontrafunk" surfaces both our
+ *  curated entry and the RB record(s) for the same stream — the user
+ *  ends up seeing the same station several times under different cards. */
+function hideCuratedCollisions(stations: Station[]): Station[] {
+  if (BUILTIN_STATIONS.length === 0) return stations;
+  const curated = new Set(BUILTIN_STATIONS.map((s) => normalizeStreamUrl(s.streamUrl)));
+  return stations.filter((s) => !curated.has(normalizeStreamUrl(s.streamUrl)));
+}
 
 /**
  * Offline / API-down fallback only. The primary catalog comes from
@@ -41,7 +52,7 @@ export async function fetchStations(offset = 0): Promise<Station[]> {
     });
     // SEED_STATIONS is the offline fallback; only use it for the
     // first page when Radio Browser returned nothing.
-    if (stations.length > 0) return stations;
+    if (stations.length > 0) return hideCuratedCollisions(stations);
     return offset === 0 ? SEED_STATIONS : [];
   } catch {
     return offset === 0 ? SEED_STATIONS : [];
@@ -59,13 +70,14 @@ export async function searchStations(filter: StationFilter): Promise<Station[]> 
   const hasFilter = !!(filter.query || filter.tag || filter.countryCode);
   if (!hasFilter) return fetchStations(filter.offset);
   try {
-    return await radioBrowser.searchStations({
+    const stations = await radioBrowser.searchStations({
       name: filter.query,
       tag: filter.tag,
       countrycode: filter.countryCode,
       limit: PAGE_SIZE,
       offset: filter.offset,
     });
+    return hideCuratedCollisions(stations);
   } catch {
     return [];
   }
