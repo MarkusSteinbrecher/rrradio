@@ -33,6 +33,7 @@ import {
   toggleFavorite,
 } from './storage';
 import { STATS_WORKER_BASE } from './config';
+import { countryName } from './country';
 import { emptyState, statusLine } from './empty';
 import {
   installGlobalErrorHandlers,
@@ -40,16 +41,15 @@ import {
   reportWorkerError,
 } from './errors';
 import { fmtSharePct, normalizeForSearch } from './format';
-import {
-  displayStation as displayStationPure,
-  isWakeBedActive as isWakeBedActivePure,
-  SILENT_BED_ID,
-} from './np-display';
-import { npFormatText, npLiveText } from './np-labels';
+import { SILENT_BED_ID } from './np-display';
 import {
   type MiniRefs,
   renderMiniPlayer as renderMiniPlayerImpl,
 } from './render-mini';
+import {
+  type NowPlayingRefs,
+  renderNowPlaying as renderNowPlayingImpl,
+} from './render-np';
 import { faviconClass, stationInitials } from './station-display';
 import {
   ICON_EMPTY,
@@ -285,53 +285,7 @@ let curatedOnly = false;
 // curatedOnly — the map can show either station set.
 let mapView = false;
 
-// 2-letter ISO code → display name. Only the codes we'd plausibly
-// see in BUILTIN_STATIONS or RB results, so the dropdown stays tight.
-const COUNTRY_NAMES: Record<string, string> = {
-  AT: 'Austria',
-  AU: 'Australia',
-  BE: 'Belgium',
-  BR: 'Brazil',
-  CA: 'Canada',
-  CH: 'Switzerland',
-  CZ: 'Czechia',
-  DE: 'Germany',
-  DK: 'Denmark',
-  ES: 'Spain',
-  FI: 'Finland',
-  FR: 'France',
-  GB: 'United Kingdom',
-  GR: 'Greece',
-  IE: 'Ireland',
-  IT: 'Italy',
-  JP: 'Japan',
-  NL: 'Netherlands',
-  NO: 'Norway',
-  PL: 'Poland',
-  PT: 'Portugal',
-  RU: 'Russia',
-  SE: 'Sweden',
-  TR: 'Turkey',
-  UA: 'Ukraine',
-  UK: 'United Kingdom',
-  US: 'United States',
-};
-
-/** ISO 3166-1 alpha-2 → display name. Tries the curated table first
- *  (matches the values used in the country dropdown), falls back to
- *  Intl.DisplayNames for less-common codes returned by Radio Browser
- *  (e.g. "JM"), and finally to the raw code. */
-function countryName(code: string): string {
-  const c = code.toUpperCase();
-  if (COUNTRY_NAMES[c]) return COUNTRY_NAMES[c];
-  try {
-    const name = new Intl.DisplayNames(undefined, { type: 'region' }).of(c);
-    if (name && name !== c) return name;
-  } catch {
-    /* unsupported locale → fall through */
-  }
-  return c;
-}
+// countryName lives in ./country.
 
 /** Populate the country dropdown from distinct codes in the curated
  *  catalog. Run after stations.json loads (BUILTIN_STATIONS is empty
@@ -577,22 +531,12 @@ function buildRow(station: Station, currentId: string, state: NowPlaying['state'
 
 // displayStation + isWakeBedActive live in ./np-display (pure).
 // setMiniArt + renderMiniPlayer live in ./render-mini (refs-based).
-// The local wrappers below close over the production element refs
-// + wakeScheduler so the rest of main.ts can call them with just (np).
 const MINI_REFS: MiniRefs = {
   mini: $mini,
   miniFav: $miniFav,
   miniName: $miniName,
   miniMeta: $miniMeta,
 };
-
-function displayStation(np: NowPlaying): Station {
-  return displayStationPure(np, wakeScheduler.current());
-}
-
-function isWakeBedActive(np: NowPlaying): boolean {
-  return isWakeBedActivePure(np, wakeScheduler.current());
-}
 
 function renderMiniPlayer(np: NowPlaying): void {
   renderMiniPlayerImpl(MINI_REFS, np, wakeScheduler.current());
@@ -602,125 +546,46 @@ function renderMiniPlayer(np: NowPlaying): void {
 // Render — Now Playing
 // ─────────────────────────────────────────────────────────────
 
+// renderNowPlaying lives in ./render-np (refs-based). The local
+// wrapper closes over the production refs, the wake scheduler, and
+// the popup-cleanup callback so the rest of main.ts can call it
+// with just (np).
+const NP_REFS: NowPlayingRefs = {
+  body: $body,
+  npName: $npName,
+  npStationLogo: $npStationLogo,
+  npProgramName: $npProgramName,
+  npProgramPre: $npProgramPre,
+  npPaneProgram: $npPaneProgram,
+  npTags: $npTags,
+  npBitrate: $npBitrate,
+  npOrigin: $npOrigin,
+  npListeners: $npListeners,
+  npLiveText: $npLiveText,
+  npFormat: $npFormat,
+  npTrackRow: $npTrackRow,
+  npTrackTitle: $npTrackTitle,
+  npTrackCover: $npTrackCover,
+  npTrackCoverFallback: document.getElementById(
+    'np-track-cover-fallback',
+  ) as HTMLElement,
+  npTrackSpotify: $npTrackSpotify,
+  npTrackAppleMusic: $npTrackAppleMusic,
+  npTrackOpenInWrap: $npTrackOpenInWrap,
+  npStream: $npStream,
+  npStreamHost: $npStreamHost,
+  npHome: $npHome,
+  npHomeHost: $npHomeHost,
+  npFav: $npFav,
+  npPlay: $npPlay,
+};
+
 function renderNowPlaying(np: NowPlaying): void {
-  const s = displayStation(np);
-  const wakeBed = isWakeBedActive(np);
-  $npName.textContent = s.name || '—';
-  $npTags.textContent = (s.tags ?? []).join(' · ');
-  // is-wake-bed dims the cover/logo + overlays a small mute icon so
-  // it's visually obvious the audio is silent right now.
-  $body.classList.toggle('is-wake-bed', wakeBed);
-
-  if (np.programName) {
-    $npProgramName.textContent = np.programName;
-    $npProgramPre.hidden = false;
-    if (np.programSubtitle) {
-      $npPaneProgram.title = np.programSubtitle;
-    } else {
-      $npPaneProgram.title = 'Program';
-    }
-  } else {
-    $npProgramName.textContent = 'Program';
-    $npProgramPre.hidden = true;
-    $npPaneProgram.title = 'Program';
-  }
-
-  if (s.favicon) {
-    if ($npStationLogo.getAttribute('src') !== s.favicon) {
-      $npStationLogo.src = s.favicon;
-    }
-    $npStationLogo.hidden = false;
-    $npStationLogo.onerror = () => {
-      $npStationLogo.hidden = true;
-      $npStationLogo.removeAttribute('src');
-    };
-  } else {
-    $npStationLogo.hidden = true;
-    $npStationLogo.removeAttribute('src');
-  }
-  // Format: codec · bitrate, e.g. "MP3 · 192 kbps". Falls back to whichever
-  // half is known, em-dash when neither.
-  const fmtParts = [s.codec, s.bitrate ? `${s.bitrate} kbps` : ''].filter(Boolean);
-  $npBitrate.textContent = fmtParts.length > 0 ? fmtParts.join(' · ') : '—';
-  // Country: resolve ISO 3166-1 code to localized name via Intl, with the
-  // raw code as a fallback if the runtime can't.
-  $npOrigin.textContent = s.country ? countryName(s.country) : '—';
-  $npListeners.textContent = s.listeners ? s.listeners.toLocaleString() : '—';
-  $npLiveText.textContent = npLiveText(np);
-  $npFormat.textContent = npFormatText(s);
-
-  // On-air block — always rendered when a station is loaded. Title is
-  // the current track when known, otherwise an em-dash. Cover prefers
-  // track art, then station favicon, then a 2-letter fallback mark.
-  $npTrackRow.hidden = !s.id;
-  const hasTrack = !!np.trackTitle && np.trackTitle.trim().length > 0;
-  $npTrackTitle.textContent = hasTrack ? (np.trackTitle as string) : '—';
-
-  // Streaming-service deep links. Both use the platform's search-by-
-  // term URL: on mobile the universal-link handler intercepts and
-  // opens the native app; on desktop they fall through to the web
-  // player with the search pre-filled. We feed the full trackTitle
-  // (often "Artist - Track") since we don't reliably get a clean
-  // split from every metadata source — the search engines handle
-  // that pattern well in practice.
-  if (hasTrack) {
-    const q = encodeURIComponent((np.trackTitle as string).trim());
-    $npTrackSpotify.href = `https://open.spotify.com/search/${q}`;
-    $npTrackAppleMusic.href = `https://music.apple.com/search?term=${q}`;
-    $npTrackOpenInWrap.hidden = false;
-  } else {
-    $npTrackSpotify.removeAttribute('href');
-    $npTrackAppleMusic.removeAttribute('href');
-    $npTrackOpenInWrap.hidden = true;
-    closeOpenInPopup();
-  }
-
-  const fallback = document.getElementById('np-track-cover-fallback');
-  if (fallback) fallback.textContent = stationInitials(s.name || '');
-
-  const coverSrc = np.coverUrl || s.favicon || '';
-  if (coverSrc) {
-    if ($npTrackCover.getAttribute('src') !== coverSrc) {
-      $npTrackCover.src = coverSrc;
-    }
-    $npTrackCover.hidden = false;
-    $npTrackCover.onerror = () => {
-      $npTrackCover.hidden = true;
-      $npTrackCover.removeAttribute('src');
-    };
-  } else {
-    $npTrackCover.hidden = true;
-    $npTrackCover.removeAttribute('src');
-  }
-
-  $npFav.classList.toggle('is-fav', !!s.id && isFavorite(s.id));
-  $npFav.setAttribute('aria-label', isFavorite(s.id) ? 'Remove favorite' : 'Add favorite');
-
-  $npPlay.classList.toggle('is-loading', np.state === 'loading');
-  $npPlay.setAttribute(
-    'aria-label',
-    np.state === 'playing' ? 'Pause' : np.state === 'loading' ? 'Cancel' : 'Play',
-  );
-
-  const stream = urlDisplay(s.streamUrl);
-  if (stream) {
-    $npStream.hidden = false;
-    $npStream.href = stream.href;
-    $npStream.title = stream.href;
-    $npStreamHost.textContent = stream.host;
-  } else {
-    $npStream.hidden = true;
-  }
-
-  const home = urlDisplay(s.homepage);
-  if (home) {
-    $npHome.hidden = false;
-    $npHome.href = home.href;
-    $npHome.title = home.href;
-    $npHomeHost.textContent = home.host;
-  } else {
-    $npHome.hidden = true;
-  }
+  renderNowPlayingImpl(NP_REFS, np, {
+    armedWake: wakeScheduler.current(),
+    isFavorite,
+    onClearOpenIn: closeOpenInPopup,
+  });
 }
 
 // ─────────────────────────────────────────────────────────────

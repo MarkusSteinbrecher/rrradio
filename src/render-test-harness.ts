@@ -34,6 +34,43 @@ export const MINI_FRAGMENT = `
 </button>
 `;
 
+/** Minimal HTML fragment for the Now Playing surface. Carries every
+ *  id renderNowPlaying writes to — the test mounts this once, hands
+ *  the resolved refs to the render, asserts on resulting DOM. */
+export const NP_FRAGMENT = `
+<section id="np">
+  <div id="np-name">—</div>
+  <img id="np-station-logo" hidden alt="" />
+  <div id="np-tags"></div>
+  <button id="np-pane-program">
+    <span id="np-program-pre" hidden>Now on</span>
+    <span id="np-program-name">Program</span>
+  </button>
+  <div id="np-track-row" hidden>
+    <img id="np-track-cover" alt="" />
+    <span id="np-track-cover-fallback">··</span>
+    <div id="np-track-title">—</div>
+    <div id="np-track-open-in-wrap" hidden>
+      <a id="np-track-spotify" href="#"></a>
+      <a id="np-track-apple-music" href="#"></a>
+    </div>
+  </div>
+  <div id="np-bitrate">—</div>
+  <div id="np-origin">—</div>
+  <div id="np-listeners">—</div>
+  <div id="np-live-text">Standby</div>
+  <div id="np-format">— · —</div>
+  <a id="np-stream" href="#" hidden>
+    <span id="np-stream-host">—</span>
+  </a>
+  <a id="np-home" href="#" hidden>
+    <span id="np-home-host">—</span>
+  </a>
+  <button id="np-fav"></button>
+  <button id="np-play"></button>
+</section>
+`;
+
 /** Mount a markup fragment into the test document and return a fresh
  *  reference to its root. Replaces any previous body content so each
  *  test starts clean. */
