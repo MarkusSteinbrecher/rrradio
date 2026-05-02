@@ -17,6 +17,10 @@ import Observation
 /// main thread for SwiftUI to track it safely. URLSession's `data(for:)`
 /// suspends and runs the network call off-main, then resumes on main
 /// when awaited from a MainActor context, so this stays correct.
+/// Function-valued seam that production passes through `URLSession.shared.data(for:)`
+/// and tests replace with a canned-response stub. Audit #72 follow-up.
+typealias CatalogDataFetcher = @Sendable (URLRequest) async throws -> (Data, URLResponse)
+
 @Observable
 @MainActor
 final class Catalog {
@@ -31,10 +35,25 @@ final class Catalog {
     private(set) var state: LoadState = .idle
 
     static let canonicalURL = URL(string: "https://rrradio.org/stations.json")!
-    private let cacheURL: URL = {
-        let dir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-        return dir.appendingPathComponent("stations.json")
-    }()
+
+    private let fetch: CatalogDataFetcher
+    private let cacheURL: URL
+    private let url: URL
+
+    /// Production callers use the no-arg init; tests inject a custom
+    /// `fetch` closure + a temp `cacheURL` so the URL-session fallback
+    /// path can be exercised hermetically.
+    init(
+        url: URL = Catalog.canonicalURL,
+        fetch: @escaping CatalogDataFetcher = { try await URLSession.shared.data(for: $0) },
+        cacheURL: URL? = nil,
+    ) {
+        self.url = url
+        self.fetch = fetch
+        self.cacheURL = cacheURL ?? FileManager.default
+            .urls(for: .cachesDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("stations.json")
+    }
 
     /// Idempotent — loads the catalog once per app session. Subsequent
     /// callers just see whatever's already loaded.
@@ -50,9 +69,9 @@ final class Catalog {
 
         // Then refresh from network.
         do {
-            var req = URLRequest(url: Catalog.canonicalURL)
+            var req = URLRequest(url: url)
             req.cachePolicy = .reloadIgnoringLocalCacheData
-            let (data, response) = try await URLSession.shared.data(for: req)
+            let (data, response) = try await fetch(req)
             guard let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) else {
                 throw URLError(.badServerResponse)
             }
