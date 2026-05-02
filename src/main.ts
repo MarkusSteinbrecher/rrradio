@@ -951,7 +951,11 @@ function renderLyricsPane(): void {
 
 function renderProgramPane(): void {
   if (!npSchedule || npSchedule.length === 0) {
-    $npProgramPane.hidden = true;
+    // Don't touch hidden — that's syncNpTabs's job (which drops the
+    // user back to 'now' when hasProgram becomes false). Touching it
+    // here used to fight the tab-state and cause the same cover-bleed
+    // bug we hit on the lyrics pane (gh #84).
+    $npProgramList.replaceChildren();
     return;
   }
   // Today's broadcasts only — broadcaster APIs we hit only return
