@@ -2542,6 +2542,10 @@ function armWakeFromSheet(): void {
 }
 
 function disarmWake(persist = true): void {
+  // Capture the originally-armed station before clearing the
+  // scheduler — we restore it as currentNP below so the NP view
+  // doesn't lose the "I was listening to X" thread.
+  const armed = wakeScheduler.current();
   wakeScheduler.disarm();
   if (persist) setWakeTo(null);
   stopPillTick();
@@ -2549,13 +2553,17 @@ function disarmWake(persist = true): void {
   track('wake/disarm');
 
   // If the silent bed is currently playing (i.e. user armed and then
-  // disarmed before fire time), pause it. We used to auto-resume the
-  // originally-armed station here to "avoid hearing silence" — but
-  // the user reasonably read that as "disarm started music", which
-  // is louder and more surprising than just stopping. The user can
-  // re-pick a station from the catalog whenever.
+  // disarmed before fire time), restore the originally-armed station
+  // as currentNP without auto-playing. The NP view goes back to
+  // showing "B1 (paused)" instead of the silent bed, and the user
+  // can hit the play button to resume audio. Falls back to a clean
+  // idle stop if the armed wake had no station for some reason.
   if (currentNP.station.id === SILENT_BED.id) {
-    player.pause();
+    if (armed?.station) {
+      player.setStation(armed.station);
+    } else {
+      player.stop();
+    }
   }
 }
 

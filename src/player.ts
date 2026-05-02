@@ -293,6 +293,39 @@ export class AudioPlayer {
     this.stopWatchdog();
   }
 
+  /** Stop playback completely and reset to idle. Tears down the audio
+   *  source and clears the current-station record so the next caller
+   *  starts from a clean slate. */
+  stop(): void {
+    this.teardown();
+    this.dropPrimed();
+    this.update({
+      station: { id: '', name: '', streamUrl: '' },
+      state: 'idle',
+      trackTitle: undefined,
+      coverUrl: undefined,
+      errorMessage: undefined,
+    });
+  }
+
+  /** Set the displayed station without starting playback — state goes
+   *  to `paused` and the audio element is torn down. Used by the wake
+   *  disarm path to restore the user's original station context (the
+   *  one that was armed before the silent bed took over) so the NP
+   *  view doesn't lose the "I was listening to X" thread. The user
+   *  taps the play button (or a row) to actually resume audio. */
+  setStation(station: Station): void {
+    this.teardown();
+    this.dropPrimed();
+    this.update({
+      station,
+      state: 'paused',
+      trackTitle: undefined,
+      coverUrl: undefined,
+      errorMessage: undefined,
+    });
+  }
+
   toggle(): void {
     if (this.current.state === 'playing') this.pause();
     else if (this.current.station.id) void this.play(this.current.station);
