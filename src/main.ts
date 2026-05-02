@@ -382,13 +382,25 @@ function favIdSet(): Set<string> {
   return new Set(getFavorites().map((s) => s.id));
 }
 
+/** Strip non-alphanumeric chars (incl. German umlauts/ß) for whitespace-
+ *  insensitive search matching. So "WDR 5" and "WDR5" both reduce to
+ *  "wdr5" and a query of either form finds the other. Used as a
+ *  fallback alongside the literal-substring check. */
+function normalizeForSearch(s: string): string {
+  return s.toLowerCase().replace(/[^a-z0-9äöüß]+/g, '');
+}
+
 function filterStations(stations: Station[], query: string): Station[] {
   const q = query.trim().toLowerCase();
   if (!q) return stations;
+  const qNorm = normalizeForSearch(q);
   return stations.filter((s) => {
     if (s.name.toLowerCase().includes(q)) return true;
     if ((s.tags ?? []).some((t) => t.toLowerCase().includes(q))) return true;
     if (s.country && s.country.toLowerCase().includes(q)) return true;
+    if (!qNorm) return false;
+    if (normalizeForSearch(s.name).includes(qNorm)) return true;
+    if ((s.tags ?? []).some((t) => normalizeForSearch(t).includes(qNorm))) return true;
     return false;
   });
 }

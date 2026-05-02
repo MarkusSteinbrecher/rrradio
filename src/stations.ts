@@ -42,6 +42,23 @@ export const SEED_STATIONS: Station[] = [
 
 export const PAGE_SIZE = 60;
 
+/** Loosen tightly-bound letter↔digit queries before sending to Radio
+ *  Browser. RB does substring matching on station names, which usually
+ *  carry a space between brand letters and a channel number ("WDR 5",
+ *  "Antenne 1", "FFH 80er"). Without this transform a user typing
+ *  "WDR5" with no space gets nothing. We only insert spaces at letter↔
+ *  digit boundaries when the query has no whitespace at all — if the
+ *  user already used spaces, trust them. */
+export function looseSearchQuery(q: string | undefined): string | undefined {
+  if (!q) return q;
+  const trimmed = q.trim();
+  if (!trimmed || /\s/.test(trimmed)) return trimmed;
+  const transformed = trimmed
+    .replace(/([a-zäöüß])(\d)/gi, '$1 $2')
+    .replace(/(\d)([a-zäöüß])/gi, '$1 $2');
+  return transformed === trimmed ? trimmed : transformed;
+}
+
 export async function fetchStations(offset = 0): Promise<Station[]> {
   try {
     const stations = await radioBrowser.searchStations({
@@ -71,7 +88,7 @@ export async function searchStations(filter: StationFilter): Promise<Station[]> 
   if (!hasFilter) return fetchStations(filter.offset);
   try {
     const stations = await radioBrowser.searchStations({
-      name: filter.query,
+      name: looseSearchQuery(filter.query),
       tag: filter.tag,
       countrycode: filter.countryCode,
       limit: PAGE_SIZE,
