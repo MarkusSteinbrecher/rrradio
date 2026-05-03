@@ -2193,19 +2193,19 @@ body.is-playing .np-bottom .live-dot  {
    The pill is the always-visible "alarm armed" indicator at the top.
    The sheet is the editor. */
 /* Inline wake-edit pane — replaces the track row on the Now Playing
-   screen when body.is-wake-edit is set. Big clock + Arm/Disarm side
-   by side, "Fires at HH:MM · in X" meta below, caveat text at the
-   bottom. Toggled by tapping the alarm icon at the bottom of NP
-   controls (np-wake button). */
+   screen when body.is-wake-edit is set. Big clock on top, the arm/
+   disarm button below it (which doubles as the "armed · 07:00 · in
+   6h" pill while armed), caveat text at the bottom. Toggled by
+   tapping the alarm icon at the bottom of NP controls (np-wake). */
 .np-wake-pane {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr;
   grid-template-areas:
-    "clock arm"
-    "meta meta"
-    "caveat caveat";
-  gap: 12px 14px;
-  align-items: center;
+    "clock"
+    "arm"
+    "caveat";
+  gap: 12px;
+  align-items: stretch;
   padding: 14px 16px;
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -2223,19 +2223,14 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   grid-area: clock;
   display: grid;
   place-items: center;
-  padding: 6px 0;
+  padding: 12px 0;
   border-radius: 8px;
-  background:
-    radial-gradient(circle at 50% 50%,
-      color-mix(in srgb, var(--ink) 8%, transparent),
-      color-mix(in srgb, var(--ink) 2%, transparent) 70%);
-  transition: background 120ms ease;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  transition: border-color 120ms ease;
 }
 .np-wake-pane__clock-wrap:hover {
-  background:
-    radial-gradient(circle at 50% 50%,
-      color-mix(in srgb, var(--ink) 14%, transparent),
-      color-mix(in srgb, var(--ink) 4%, transparent) 70%);
+  border-color: color-mix(in srgb, var(--ink) 35%, var(--line));
 }
 .np-wake-pane__clock {
   appearance: none;
@@ -2258,19 +2253,37 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   min-width: 0;
 }
 .np-wake-pane__clock::-webkit-date-and-time-value { text-align: center; }
+/* The native browser-supplied clock-picker glyph that sits to the
+   right of the value adds visual noise next to our big clock — we
+   already cue editability via the text cursor on desktop and the
+   native picker still pops on tap. Hide it on every WebKit-based
+   engine (Chrome, Safari, Edge). */
+.np-wake-pane__clock::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
 .np-wake-pane__clock:focus {
   outline: 2px solid color-mix(in srgb, var(--ink) 30%, transparent);
   outline-offset: 4px;
   border-radius: 4px;
 }
 
+/* Arm/Disarm button. Doubles as the "armed pill" — when armed it
+   stretches to a two-line layout: the time + countdown on the first
+   line, "Tap to disarm" on the second. Tap toggles arm state. */
 .np-wake-pane__arm {
   grid-area: arm;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   padding: 14px 22px;
   border-radius: 10px;
   border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
   background: color-mix(in srgb, var(--accent) 14%, transparent);
   color: var(--accent);
+  font-family: inherit;
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -2287,32 +2300,19 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   color: var(--bg);
   border-color: var(--accent);
 }
-
-.np-wake-pane__meta {
-  grid-area: meta;
+.np-wake-pane__arm-label {
+  display: block;
+}
+.np-wake-pane__arm-meta {
+  display: block;
   font-family: var(--mono);
   font-size: 12px;
+  font-weight: 500;
   letter-spacing: 0.04em;
-  color: var(--ink-3);
-  text-align: center;
-  padding: 6px 10px;
-  border-radius: 6px;
-  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  text-transform: none;
+  opacity: 0.9;
 }
-/* Armed state — clearly distinct from the unarmed preview so users
-   can tell at a glance whether they're still in "draft" or whether
-   the wake actually committed. */
-.np-wake-pane__meta.is-armed {
-  color: var(--bg);
-  background: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-weight: 600;
-}
-.np-wake-pane__meta.is-far:not(.is-armed) {
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 16%, transparent);
-}
+.np-wake-pane__arm-meta[hidden] { display: none; }
 
 .np-wake-pane__caveat {
   grid-area: caveat;
@@ -2324,68 +2324,6 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   color: var(--ink-3);
   line-height: 1.45;
   border-radius: 0 6px 6px 0;
-}
-
-/* Topbar pill — only visible while armed. Tappable to re-open the
-   sheet for editing. The countdown updates once a minute. */
-.wake-pill {
-  margin: 8px auto 0;
-  padding: 8px 14px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: color-mix(in srgb, var(--accent) 14%, transparent);
-  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
-  color: var(--ink);
-  border-radius: 999px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  cursor: pointer;
-  transition: background 0.15s, transform 0.15s;
-  align-self: center;
-}
-.wake-pill:hover { background: color-mix(in srgb, var(--accent) 22%, transparent); }
-.wake-pill:active { transform: scale(0.97); }
-.wake-pill[hidden] { display: none; }
-/* "Fired" pulse — pill stays visible for 60s after fire so the user
-   sees a clear acknowledgement instead of the pill vanishing. */
-.wake-pill[data-fired="true"] {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--bg);
-  animation: wake-pulse 1.4s ease-in-out infinite;
-}
-.wake-pill[data-fired="true"] .wake-pill__time,
-.wake-pill[data-fired="true"] .wake-pill__icon,
-.wake-pill[data-fired="true"] .wake-pill__count,
-.wake-pill[data-fired="true"] .wake-pill__sep {
-  color: var(--bg);
-}
-@keyframes wake-pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.03); }
-}
-.wake-pill__icon {
-  width: 14px;
-  height: 14px;
-  color: var(--accent);
-}
-.wake-pill__time {
-  font-weight: 600;
-  color: var(--accent);
-}
-.wake-pill__sep {
-  color: var(--ink-3);
-}
-.wake-pill__name {
-  max-width: 12ch;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.wake-pill__count {
-  color: var(--ink-3);
 }
 
 .sheet-divider {

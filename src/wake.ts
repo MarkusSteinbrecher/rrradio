@@ -66,7 +66,7 @@ export function classifyStoredWake(
 }
 
 /** Human-readable countdown like "in 8h 12m" or "in 4m" or "now".
- *  Used by the topbar pill while armed. */
+ *  Used by the wake-pane Arm/Disarm button while armed. */
 export function formatCountdown(ms: number): string {
   if (ms <= 0) return 'now';
   const totalMin = Math.floor(ms / 60_000);
@@ -112,7 +112,7 @@ export class WakeScheduler {
     this.notifyTick();
   }
 
-  /** Subscribe to "something changed, re-render the pill" events. The
+  /** Subscribe to "something changed, re-render the UI" events. The
    *  scheduler doesn't render anything itself — it only computes time. */
   onTick(handler: () => void): void {
     this.onTickHandler = handler;

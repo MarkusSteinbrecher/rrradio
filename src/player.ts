@@ -65,9 +65,7 @@ export class AudioPlayer {
       if (this.current.state !== 'idle') this.update({ state: 'paused' });
     });
     this.audio.addEventListener('waiting', () => this.update({ state: 'loading' }));
-    this.audio.addEventListener('error', () => {
-      this.update({ state: 'error', errorMessage: audioErrorMessage(this.audio.error) });
-    });
+    this.audio.addEventListener('error', () => this.handleAudioError(this.audio.error));
 
     this.setupMediaSession();
   }
@@ -84,7 +82,7 @@ export class AudioPlayer {
     return this.current;
   }
 
-  async play(station: Station, options?: { loop?: boolean }): Promise<void> {
+  async play(station: Station, options?: { loop?: boolean; silent?: boolean }): Promise<void> {
     // Always teardown + reconnect, even if the same station is "paused".
     // Live streams can't actually be resumed from a buffered position, and
     // an HTMLAudioElement that's been paused for a while can silently
@@ -92,7 +90,11 @@ export class AudioPlayer {
     // sees the play button but hears nothing. Fresh connection every time
     // is the only reliable behaviour for live audio.
     this.teardown();
-    return this.playInternal(station, { loop: !!options?.loop, sameStation: this.current.station.id === station.id });
+    return this.playInternal(station, {
+      loop: !!options?.loop,
+      silent: !!options?.silent,
+      sameStation: this.current.station.id === station.id,
+    });
   }
 
   /** Sidecar audio element + the station it was primed for. Used by
@@ -206,7 +208,7 @@ export class AudioPlayer {
       this.hls.destroy();
       this.hls = null;
     }
-    return this.playInternal(station, { loop: false, sameStation: false });
+    return this.playInternal(station, { loop: false, silent: false, sameStation: false });
   }
 
   /** Replace `this.audio` with `next`, migrating all event listeners.
@@ -229,15 +231,34 @@ export class AudioPlayer {
       if (this.current.state !== 'idle') this.update({ state: 'paused' });
     });
     next.addEventListener('waiting', () => this.update({ state: 'loading' }));
-    next.addEventListener('error', () => {
-      this.update({ state: 'error', errorMessage: audioErrorMessage(next.error) });
-    });
+    next.addEventListener('error', () => this.handleAudioError(next.error));
+  }
+
+  /** Set when the current station is a "silent" load (the wake-to
+   *  silent bed). Audio errors on a silent load are non-fatal — the
+   *  wake still fires via setTimeout, the only thing we lose is the
+   *  iOS keepalive. So we squash error states into "paused" instead
+   *  of surfacing "Failed to load..." in the NP chrome. */
+  private silentLoad = false;
+
+  /** Translate a media-element error event into a player state
+   *  update, honoring the silent-load flag so a wake-to-arm with a
+   *  codec the browser can't decode (e.g. an AAC silent bed in
+   *  builds without the proprietary codec) doesn't visually break
+   *  the alarm. The wake still fires via setTimeout. */
+  private handleAudioError(err: MediaError | null): void {
+    if (this.silentLoad) {
+      this.update({ state: 'paused', errorMessage: undefined });
+      return;
+    }
+    this.update({ state: 'error', errorMessage: audioErrorMessage(err) });
   }
 
   private async playInternal(
     station: Station,
-    opts: { loop: boolean; sameStation: boolean },
+    opts: { loop: boolean; silent: boolean; sameStation: boolean },
   ): Promise<void> {
+    this.silentLoad = opts.silent;
     this.playGeneration += 1;
     // Preserve trackTitle + coverUrl when re-playing the same station so
     // the on-air line and cover don't snap to "—" during the loading flash.
@@ -273,7 +294,13 @@ export class AudioPlayer {
     try {
       await this.audio.play();
       this.updateMediaSessionMetadata(station);
-      this.startWatchdog();
+      // The watchdog detects a stalled live stream by spotting a
+      // currentTime that stops advancing. A looping clip (the silent
+      // bed) wraps currentTime back to 0 every loop, which the
+      // watchdog can't distinguish from a stall — left enabled it
+      // forces a reconnect every ~8s, flickering the play button on
+      // desktop. Skip the watchdog for looped audio.
+      if (!opts.loop) this.startWatchdog();
     } catch (err) {
       // Browsers reject audio.play() with NotAllowedError when no user
       // gesture preceded the call — typical when the SPA auto-loads a
@@ -281,6 +308,14 @@ export class AudioPlayer {
       // it as paused (not error) so the user just hits the play button
       // to resume; the stream URL is already set up on the audio element.
       if (err instanceof DOMException && err.name === 'NotAllowedError') {
+        this.update({ state: 'paused', errorMessage: undefined });
+        return;
+      }
+      // Silent loads (the wake-to silent bed) shouldn't surface a load
+      // error in the NP chrome — the wake still fires via setTimeout,
+      // and the only loss is iOS audio-session keepalive. Treat as
+      // paused so the user sees the wake-bed masquerade, no error.
+      if (opts.silent) {
         this.update({ state: 'paused', errorMessage: undefined });
         return;
       }

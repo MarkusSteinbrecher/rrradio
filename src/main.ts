@@ -217,12 +217,9 @@ const $npWake = document.getElementById('np-wake') as HTMLButtonElement;
 const $npWakeChip = document.getElementById('np-wake-chip') as HTMLElement;
 const $wakeTime = document.getElementById('wake-time') as HTMLInputElement;
 const $wakeArmBtn = document.getElementById('wake-arm-btn') as HTMLButtonElement;
-const $wakePreview = document.getElementById('wake-preview') as HTMLElement;
+const $wakeArmLabel = document.getElementById('wake-arm-label') as HTMLElement;
+const $wakeArmMeta = document.getElementById('wake-arm-meta') as HTMLElement;
 const $wakePane = document.getElementById('np-wake-pane') as HTMLElement;
-const $wakePill = document.getElementById('wake-pill') as HTMLButtonElement;
-const $wakePillTime = document.getElementById('wake-pill-time') as HTMLElement;
-const $wakePillName = document.getElementById('wake-pill-name') as HTMLElement;
-const $wakePillCount = document.getElementById('wake-pill-count') as HTMLElement;
 const $npPlay = document.getElementById('np-play') as HTMLButtonElement;
 const $npLiveText = document.getElementById('np-live-text') as HTMLElement;
 const $npFormat = document.getElementById('np-format') as HTMLElement;
@@ -2364,12 +2361,13 @@ function renderCustomList(): void {
 //
 // One armed wake-to setting at a time. The scheduler in wake.ts
 // handles the timing logic; everything below is glue:
-//   · syncWakePill() / syncWakeChip() reflect armed state in the UI
-//   · openWakeSheet() populates the sheet from current state
+//   · syncWakeUi() reflects armed state on the bottom alarm icon and
+//     the Arm/Disarm button (which doubles as the "armed pill")
+//   · setWakePane() opens/closes the inline editor on Now Playing
 //   · armWakeFromSheet() persists, arms the scheduler
 //   · onWakeFire() switches station + fades up + notifies
 const wakeScheduler = new WakeScheduler();
-let pillTickTimer: number | undefined;
+let countdownTickTimer: number | undefined;
 
 /** Show or hide the inline wake-edit pane on Now Playing. The pane
  *  replaces the regular track row when visible (CSS-driven via the
@@ -2379,6 +2377,9 @@ let pillTickTimer: number | undefined;
 function setWakePane(open: boolean): void {
   $body.classList.toggle('is-wake-edit', open);
   $wakePane.hidden = !open;
+  // Mirror the open state on the alarm icon so the user gets clear
+  // feedback that tapping the icon actually did something.
+  syncWakeIconActive();
   if (!open) return;
 
   const armed = wakeScheduler.current();
@@ -2387,7 +2388,6 @@ function setWakePane(open: boolean): void {
   // 23:00 every night just because they disarmed in the morning.
   $wakeTime.value = armed?.time ?? getLastWakeTime() ?? '07:00';
   syncWakeArmButton();
-  syncWakePreview();
   // Disable Arm when we don't have a station to arm against. The user
   // has to play something first; the topbar wake icon's tooltip
   // surfaces the same idea.
@@ -2403,58 +2403,42 @@ function setWakePane(open: boolean): void {
   $wakeArmBtn.disabled = !station && !armed;
 }
 
-/** Update the inline Arm/Disarm button label + state to match the
- *  wake scheduler. Called on pane open and after every arm/disarm. */
+/** Update the Arm/Disarm button so it doubles as the "armed pill":
+ *    Unarmed → label "Arm", no meta line
+ *    Armed   → label "Disarm", meta "07:00 · in 6h 12m"
+ *  Called on pane open and after every arm/disarm/tick. */
 function syncWakeArmButton(): void {
-  const isArmed = !!wakeScheduler.current();
-  $wakeArmBtn.textContent = isArmed ? 'Disarm' : 'Arm';
+  const armed = wakeScheduler.current();
+  const isArmed = !!armed;
   $wakeArmBtn.classList.toggle('is-armed', isArmed);
+  if (!isArmed || !armed) {
+    $wakeArmLabel.textContent = 'Arm';
+    $wakeArmMeta.hidden = true;
+    $wakeArmMeta.textContent = '';
+    $wakeArmBtn.setAttribute('aria-label', 'Arm wake-to-radio');
+    return;
+  }
+  const remain = nextFireTime(armed) - Date.now();
+  $wakeArmLabel.textContent = 'Disarm';
+  $wakeArmMeta.textContent = `${armed.time} · ${formatCountdown(remain)}`;
+  $wakeArmMeta.hidden = false;
+  $wakeArmBtn.setAttribute(
+    'aria-label',
+    `Disarm — wakes to ${armed.station.name} at ${armed.time}, ${formatCountdown(remain)}`,
+  );
 }
 
-/** Update the meta line under the clock. Two distinct states so the
- *  user can tell at a glance whether the wake is actually armed or
- *  just being edited:
- *    Unarmed → "Tap Arm to wake at HH:MM (in X)"
- *    Armed   → "Armed · wakes at HH:MM · in X"
- *  Previously this read the same way in both states, which let users
- *  pick a time, see "soon", and assume they were done — when in fact
- *  they hadn't tapped Arm. */
-function syncWakePreview(): void {
-  const time = $wakeTime.value.trim();
-  const isArmed = !!wakeScheduler.current();
-  if (!time) {
-    $wakePreview.textContent = '—';
-    $wakePreview.classList.remove('is-far', 'is-armed');
-    return;
-  }
-  // Build a synthetic wake just for the preview math — armedAt = now
-  // so the bump rule fires the same way it will at the real arm tap.
-  const probe: WakeTo = {
-    time,
-    stationId: '',
-    station: { id: '', name: '', streamUrl: '' },
-    armedAt: Date.now(),
-  };
-  const fire = nextFireTime(probe);
-  if (Number.isNaN(fire)) {
-    $wakePreview.textContent = '—';
-    $wakePreview.classList.remove('is-far', 'is-armed');
-    return;
-  }
-  const remain = fire - Date.now();
-  if (isArmed) {
-    $wakePreview.textContent = `Armed · wakes at ${time} · ${formatCountdown(remain)}`;
-  } else {
-    $wakePreview.textContent = `Tap Arm to wake at ${time} (${formatCountdown(remain)})`;
-  }
-  $wakePreview.classList.toggle('is-armed', isArmed);
-  // Highlight if the fire is more than 12h away — a clue that the user
-  // probably didn't intend that, e.g. picked a time earlier than now.
-  $wakePreview.classList.toggle('is-far', remain > 12 * 60 * 60_000);
+/** Drive the green "active" tint on the bottom alarm icon. The icon
+ *  is green whenever the wake-edit pane is open OR a wake is armed,
+ *  so it's clear at a glance that the alarm surface is engaged. */
+function syncWakeIconActive(): void {
+  const armed = !!wakeScheduler.current();
+  const open = $body.classList.contains('is-wake-edit');
+  $npWake.classList.toggle('is-fav', armed || open);
 }
 
 /** Toggle the inline wake-edit pane. Wired to the alarm icon at the
- *  bottom of NP controls + the topbar pill. */
+ *  bottom of NP controls. */
 function toggleWakePane(): void {
   setWakePane(!$body.classList.contains('is-wake-edit'));
 }
@@ -2505,7 +2489,7 @@ function armWakeFromSheet(): void {
   setLastWakeTime(time);
   wakeScheduler.arm(wake, onWakeFire);
   syncWakeUi();
-  startPillTick();
+  startCountdownTick();
   ensureNotificationPermission();
   // Telemetry: capture the actual values being stored + the resulting
   // fire delta so the dashboard can flag when arm goes wrong (e.g.
@@ -2532,7 +2516,7 @@ function armWakeFromSheet(): void {
   // activation on the *main* element (the silent bed) appears to
   // weaken on iOS over hours of idle audio, so a freshly-activated
   // sidecar is the reliable path for the morning station swap.
-  void player.play(SILENT_BED, { loop: true }).then(() => {
+  void player.play(SILENT_BED, { loop: true, silent: true }).then(() => {
     player.setTrackTitle(`Wake to ${wake.station.name} at ${wake.time}`, {
       track: `Wake to ${wake.station.name} at ${wake.time}`,
       artist: 'rrradio',
@@ -2548,7 +2532,7 @@ function disarmWake(persist = true): void {
   const armed = wakeScheduler.current();
   wakeScheduler.disarm();
   if (persist) setWakeTo(null);
-  stopPillTick();
+  stopCountdownTick();
   syncWakeUi();
   track('wake/disarm');
 
@@ -2572,11 +2556,20 @@ function onWakeFire(wake: WakeTo): void {
   // been active since arm time (silent bed looping), so the play()
   // call is treated as continuation, not a fresh autoplay attempt.
   setWakeTo(null);
-  // Visible "Wake fired" pulse so a user grabbing the phone at 7am
-  // sees a clear acknowledgement instead of the pill silently
-  // vanishing. Stays for 60s, then the regular pill cleanup runs.
-  showWakeFiredPulse(wake);
-  stopPillTick();
+  stopCountdownTick();
+  // Drop the wake-edit pane (if it was left open) so the user lands
+  // on the regular Now Playing track row when they grab the phone —
+  // the alarm has done its job, the editor would just be in the way.
+  setWakePane(false);
+  // Make sure the NP screen itself is visible — if the user was
+  // browsing other tabs when the alarm fired, jump them to the
+  // wake station's NP view so they see what's playing.
+  openNp(true);
+  // Wake state has cleared in the scheduler — sync the chrome so the
+  // bottom alarm icon (and its chip) drop back to neutral. The wake
+  // station starts playing in the swap() below; the visible
+  // "alarm fired" cue is simply that the user's station is on the air.
+  syncWakeUi();
   track('wake/fire', wake.station.name);
   // Force-unmute defensively in case the user manually muted before
   // sleeping. setMuted(true) wasn't called at arm in v2, but the
@@ -2626,42 +2619,36 @@ function ensureNotificationPermission(): void {
   }
 }
 
-function startPillTick(): void {
-  stopPillTick();
+function startCountdownTick(): void {
+  stopCountdownTick();
   syncWakeUi();
-  // Update once per minute. The pill only displays minute-resolution
-  // ("in 4h 12m"), so a faster cadence would be wasteful.
-  pillTickTimer = window.setInterval(syncWakeUi, 60_000);
+  // Update once per minute. The countdown only displays minute
+  // resolution ("in 4h 12m"), so a faster cadence would be wasteful.
+  countdownTickTimer = window.setInterval(syncWakeUi, 60_000);
 }
 
-function stopPillTick(): void {
-  if (pillTickTimer !== undefined) {
-    window.clearInterval(pillTickTimer);
-    pillTickTimer = undefined;
+function stopCountdownTick(): void {
+  if (countdownTickTimer !== undefined) {
+    window.clearInterval(countdownTickTimer);
+    countdownTickTimer = undefined;
   }
 }
 
 function syncWakeUi(): void {
-  // Don't clobber the post-fire pulse mid-display.
-  if ($wakePill.dataset.fired === 'true') return;
   const wake = wakeScheduler.current();
   if (!wake) {
-    $wakePill.hidden = true;
     $npWakeChip.hidden = true;
     $npWakeChip.textContent = '';
-    $npWake.classList.remove('is-fav');
     $npWake.setAttribute('aria-label', 'Wake to radio');
-    return;
+  } else {
+    $npWakeChip.hidden = false;
+    $npWakeChip.textContent = wake.time;
+    $npWake.setAttribute('aria-label', `Wake to ${wake.station.name} at ${wake.time}`);
   }
-  const remain = nextFireTime(wake) - Date.now();
-  $wakePill.hidden = false;
-  $wakePillTime.textContent = wake.time;
-  $wakePillName.textContent = wake.station.name;
-  $wakePillCount.textContent = formatCountdown(remain);
-  $npWakeChip.hidden = false;
-  $npWakeChip.textContent = wake.time;
-  $npWake.classList.add('is-fav');
-  $npWake.setAttribute('aria-label', `Wake to ${wake.station.name} at ${wake.time}`);
+  syncWakeIconActive();
+  // Keep the merged Arm/Disarm button in sync so its countdown ticks
+  // alongside the chip when the wake-edit pane is open.
+  syncWakeArmButton();
 }
 
 // Wake-aware stop. Pausing the audio element on iOS makes the tab
@@ -2675,7 +2662,7 @@ function syncWakeUi(): void {
 // while listening to a real station.
 function pausePreservingWake(): void {
   if (wakeScheduler.current() && currentNP.station.id !== SILENT_BED.id) {
-    void player.play(SILENT_BED, { loop: true }).then(() => {
+    void player.play(SILENT_BED, { loop: true, silent: true }).then(() => {
       const armed = wakeScheduler.current();
       if (!armed) return;
       player.setTrackTitle(`Wake to ${armed.station.name} at ${armed.time}`, {
@@ -2711,21 +2698,6 @@ function handlePlayToggle(): void {
   player.toggle();
 }
 
-let firedPulseTimer: number | undefined;
-function showWakeFiredPulse(wake: WakeTo): void {
-  $wakePill.dataset.fired = 'true';
-  $wakePill.hidden = false;
-  $wakePillTime.textContent = wake.time;
-  $wakePillName.textContent = wake.station.name;
-  $wakePillCount.textContent = 'fired';
-  if (firedPulseTimer !== undefined) window.clearTimeout(firedPulseTimer);
-  firedPulseTimer = window.setTimeout(() => {
-    delete $wakePill.dataset.fired;
-    syncWakeUi();
-    firedPulseTimer = undefined;
-  }, 60_000);
-}
-
 // Restore any previously-armed wake on app load. If the stored fire
 // time has already passed (browser was closed across the wake window),
 // classifyStoredWake decides whether we still fire (within a 60s grace)
@@ -2741,7 +2713,7 @@ function restoreWakeOnBoot(): void {
   }
   wakeScheduler.arm(stored, onWakeFire);
   syncWakeUi();
-  startPillTick();
+  startCountdownTick();
 }
 
 wakeScheduler.onTick(syncWakeUi);
@@ -2890,20 +2862,15 @@ $aboutClose.addEventListener('click', () => openAboutSheet(false));
 $dashboardBtn.addEventListener('click', () => void openDashboardSheet(true));
 $dashboardClose.addEventListener('click', () => void openDashboardSheet(false));
 
-// Tap the alarm icon at the bottom of NP controls (or the topbar pill
-// while armed) → toggle the inline wake-edit pane. Second tap exits
-// back to the regular track row; the wake (if armed) persists.
+// Tap the alarm icon at the bottom of NP controls → toggle the
+// inline wake-edit pane. Second tap exits back to the regular track
+// row; the wake (if armed) persists.
 $npWake.addEventListener('click', toggleWakePane);
-$wakePill.addEventListener('click', toggleWakePane);
 
-// Live preview updates as the user changes the time picker. 'input'
-// fires on every value change including iOS native picker commits.
-$wakeTime.addEventListener('input', syncWakePreview);
+// While armed, a change to the clock means "re-arm with this new
+// time" — that's the user's intent when they tap the clock to edit.
+// armWakeFromSheet() handles the disarm-then-arm via wakeScheduler.
 $wakeTime.addEventListener('change', () => {
-  syncWakePreview();
-  // While armed, a change to the clock means "re-arm with this new
-  // time" — that's the user's intent when they tap the clock to edit.
-  // armWakeFromSheet() handles the disarm-then-arm via wakeScheduler.
   if (wakeScheduler.current()) {
     armWakeFromSheet();
     syncWakeArmButton();
@@ -2918,17 +2885,17 @@ $wakeArmBtn.addEventListener('click', () => {
   } else {
     armWakeFromSheet();
     // armWakeFromSheet bails silently if no station is playing AND no
-    // previous wake station is on file. Detect the bail and surface
-    // a clear message instead of leaving the button looking like the
-    // arm took effect.
+    // previous wake station is on file. Surface a one-off hint via
+    // the merged Arm/Disarm button so the user isn't left wondering
+    // why the tap did nothing.
     if (!wakeScheduler.current()) {
-      $wakePreview.textContent = 'Play a station first, then tap Arm.';
-      $wakePreview.classList.remove('is-far', 'is-armed');
+      $wakeArmLabel.textContent = 'Play a station first';
+      $wakeArmMeta.hidden = true;
+      $wakeArmMeta.textContent = '';
       return;
     }
   }
   syncWakeArmButton();
-  syncWakePreview();
 });
 
 $mini.addEventListener('click', () => openNp(true));

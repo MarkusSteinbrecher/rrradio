@@ -289,15 +289,6 @@
           </div>
         </div>
 
-        <button type="button" class="wake-pill" id="wake-pill" hidden aria-label="Wake-to schedule — tap to edit">
-          <svg class="wake-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 7 7 3.5"/><path d="M20.5 7 17 3.5"/><circle cx="12" cy="13.5" r="7"/><path d="M12 10v3.5l2.5 1.5"/><path d="m7 21.5 1.5-2"/><path d="m17 21.5-1.5-2"/></svg>
-          <span class="wake-pill__time" id="wake-pill-time">—</span>
-          <span class="wake-pill__sep" aria-hidden="true">·</span>
-          <span class="wake-pill__name" id="wake-pill-name">—</span>
-          <span class="wake-pill__sep" aria-hidden="true">·</span>
-          <span class="wake-pill__count" id="wake-pill-count">—</span>
-        </button>
-
         <div class="tab-status" id="tab-status" hidden></div>
         <div class="lib-seg topbar-lib-seg" id="topbar-lib-seg" role="tablist" aria-label="Library section" hidden></div>
       </header>
@@ -374,21 +365,22 @@
             </div>
 
             <!-- Wake-edit pane — replaces the track row when the user
-                 taps the alarm icon at the bottom. Big clock in the
-                 middle, arm/disarm button on the right. Tapping the
-                 alarm icon again exits this pane and the regular
-                 track row comes back. The wake (if armed) persists
-                 across the toggle. -->
+                 taps the alarm icon at the bottom. Big clock above,
+                 arm/disarm button below. While armed, the button also
+                 shows the countdown so it does double duty as the
+                 "alarm armed" pill. Tapping the alarm icon again exits
+                 this pane; the wake (if armed) persists. -->
             <div class="np-wake-pane" id="np-wake-pane" hidden>
               <label class="np-wake-pane__clock-wrap" aria-label="Alarm time">
                 <input type="time" id="wake-time" class="np-wake-pane__clock" required aria-label="Wake time" />
               </label>
-              <button type="button" class="np-wake-pane__arm" id="wake-arm-btn">Arm</button>
-              <div class="np-wake-pane__meta" id="wake-preview" aria-live="polite">—</div>
+              <button type="button" class="np-wake-pane__arm" id="wake-arm-btn" aria-live="polite">
+                <span class="np-wake-pane__arm-label" id="wake-arm-label">Arm</span>
+                <span class="np-wake-pane__arm-meta" id="wake-arm-meta" hidden></span>
+              </button>
               <p class="np-wake-pane__caveat">
-                Plays a silent bed through the night so the tab stays
-                alive on lock — you'll hear nothing until wake time.
-                Don't close the page; plug in your phone.
+                Do not close this page or stop the stream, otherwise
+                the wake will not work.
               </p>
             </div>
           </div>
