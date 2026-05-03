@@ -28,7 +28,7 @@ What works in this scaffold:
 - HLS-stream ICY metadata via `AVPlayerItem.timedMetadata` — surfaces
   artist/title automatically when the broadcaster wraps it that way.
 
-What's not here yet (iterative — see `bd ready`):
+What's not here yet:
 
 - Per-broadcaster JSON metadata fetchers (BR / HR / Antenne / SRG SSR /
   MDR / SR / SWR / FFH / Klassik / laut.fm / RBB Radio Eins). Each one

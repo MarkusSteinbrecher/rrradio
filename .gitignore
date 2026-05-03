@@ -29,16 +29,8 @@ data/icy-labels.jsonl
 # in src/builtins.ts but the raw captures stay local.
 data/metadata-discovery/
 
-# Dolt database files (added by bd init)
-.dolt/
-*.db
-
-# Local agent / issue-tracker state — internal to this working tree.
-# beads syncs via Dolt remote (`bd dolt push`), not via git, so the
-# .beads/ dir doesn't need to ship. AGENTS.md + .claude/ likewise are
-# Claude-specific instructions / settings that have no place in a
-# public repo.
-.beads/
+# Local agent state — Claude-specific instructions / settings that
+# have no place in a public repo.
 .claude/
 AGENTS.md
 
