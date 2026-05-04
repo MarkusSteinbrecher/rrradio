@@ -557,8 +557,12 @@
               <div class="dash-kpi__label">Visits</div>
             </div>
             <div class="dash-kpi">
+              <div class="dash-kpi__num" id="dash-countries">—</div>
+              <div class="dash-kpi__label">Countries</div>
+            </div>
+            <div class="dash-kpi">
               <div class="dash-kpi__num" id="dash-stations">—</div>
-              <div class="dash-kpi__label">Stations played</div>
+              <div class="dash-kpi__label">Stations</div>
             </div>
           </div>
 
@@ -572,6 +576,15 @@
             </div>
             <div class="dash-map" id="dash-map"></div>
             <table class="dash-table" id="dash-country-table">
+              <thead>
+                <tr>
+                  <th class="rank">#</th>
+                  <th class="country">Country</th>
+                  <th class="bar"></th>
+                  <th class="count" id="dash-country-count-header">Visits</th>
+                  <th class="pct">%</th>
+                </tr>
+              </thead>
               <tbody></tbody>
             </table>
           </div>
@@ -579,6 +592,15 @@
           <div class="dash-section">
             <h3>Top stations</h3>
             <table class="dash-table" id="dash-station-table">
+              <thead>
+                <tr>
+                  <th class="rank">#</th>
+                  <th class="country">Station</th>
+                  <th class="bar"></th>
+                  <th class="count">Plays</th>
+                  <th class="pct">%</th>
+                </tr>
+              </thead>
               <tbody></tbody>
             </table>
           </div>

@@ -244,12 +244,14 @@ const $dashboardSheet = document.getElementById('dashboard-sheet') as HTMLElemen
 const $dashboardClose = document.getElementById('dashboard-close') as HTMLButtonElement;
 const $dashPlays = document.getElementById('dash-plays') as HTMLElement;
 const $dashVisits = document.getElementById('dash-visits') as HTMLElement;
+const $dashCountries = document.getElementById('dash-countries') as HTMLElement;
 const $dashStations = document.getElementById('dash-stations') as HTMLElement;
 const $dashMap = document.getElementById('dash-map') as HTMLElement;
 const $dashCountryTable = document.querySelector('#dash-country-table tbody') as HTMLTableSectionElement;
 const $dashStationTable = document.querySelector('#dash-station-table tbody') as HTMLTableSectionElement;
 const $dashCountryHeading = document.getElementById('dash-country-heading') as HTMLElement;
 const $dashCountryToggle = document.getElementById('dash-country-toggle') as HTMLElement;
+const $dashCountryCountHeader = document.getElementById('dash-country-count-header') as HTMLElement;
 
 // ─────────────────────────────────────────────────────────────
 // State
@@ -2011,11 +2013,19 @@ function renderDashKpis(d: DashboardData, totals: PublicTotals | null): void {
   // is what tells us the radio is actually being used.
   $dashPlays.textContent = d.totalPlays > 0 ? d.totalPlays.toLocaleString() : '—';
   $dashVisits.textContent = totals?.total != null ? totals.total.toLocaleString() : '—';
+  // Countries follows the active toggle so the headline matches the
+  // table + map below (listener-countries vs station-countries).
+  $dashCountries.textContent = String(activeMap(d).size);
   $dashStations.textContent = String(d.totalStations);
 }
 
 function renderDashCountryTable(d: DashboardData): void {
   $dashCountryTable.replaceChildren();
+  // Single-column table whose semantic switches with the toggle:
+  //   Listeners → byListenerCountry (visitors per country)
+  //   Stations  → byStationCountry  (station-origin plays per country)
+  // The two cuts aren't row-comparable (different "country" meaning),
+  // so we never show them side-by-side — the toggle picks one.
   const sorted = [...activeMap(d).entries()].sort((a, b) => b[1] - a[1]);
   const max = sorted[0]?.[1] ?? 1;
   const total = sorted.reduce((s, [, c]) => s + c, 0);
@@ -2171,6 +2181,9 @@ function renderDashMap(d: DashboardData): void {
 function syncDashToggle(): void {
   $dashCountryHeading.textContent =
     dashView === 'listeners' ? 'Where listeners are' : 'Where stations are from';
+  // Country table count column header tracks the same view so the
+  // number column always reads "Plays" or "Visits" — no guessing.
+  $dashCountryCountHeader.textContent = dashView === 'listeners' ? 'Visits' : 'Plays';
   for (const btn of $dashCountryToggle.querySelectorAll<HTMLButtonElement>('.lib-seg__btn')) {
     const isActive = btn.dataset.view === dashView;
     btn.classList.toggle('is-active', isActive);
@@ -2181,6 +2194,7 @@ function syncDashToggle(): void {
 function applyDashView(): void {
   if (!lastDashboardData) return;
   syncDashToggle();
+  $dashCountries.textContent = String(activeMap(lastDashboardData).size);
   renderDashCountryTable(lastDashboardData);
   void renderDashMap(lastDashboardData);
 }
@@ -2204,6 +2218,7 @@ async function openDashboardSheet(open: boolean): Promise<void> {
   // Initial render — show "…" placeholders, fetch fresh data.
   $dashPlays.textContent = '…';
   $dashVisits.textContent = '…';
+  $dashCountries.textContent = '…';
   $dashStations.textContent = '…';
   const [topStations, totals, locations] = await Promise.all([
     fetchTopStationsWithCounts(),
