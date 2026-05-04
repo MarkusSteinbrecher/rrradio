@@ -326,6 +326,16 @@ let browseOffset = 0;
 let browseHasMore = false;
 let browseLoadingMore = false;
 
+// Local-catalog pagination — once the curated YAML grew past ~2k
+// stations, rendering the whole list on every renderContent() call
+// (tab switch, filter change) added ~1s of DOM-build time. Cap the
+// initial render and add a "Show more" button. The cap resets when
+// the active view changes (different tab / mode / filter / search);
+// it persists across "Show more" clicks within the same view.
+const HOME_VIEW_PAGE_SIZE = 100;
+let homeViewLimit = HOME_VIEW_PAGE_SIZE;
+let lastViewSig = '';
+
 // Home-view "Worldwide" pagination — separate from filtered-browse
 // state because the home view shows the full curated catalog first
 // (no RB calls), and we only fetch RB top stations on demand when
@@ -1449,6 +1459,14 @@ function attachGripDrag(
 function renderContent(): void {
   $content.replaceChildren();
 
+  // View-signature reset for the local-catalog cap. Same view across
+  // calls = persist the user's "Show more" clicks; new view = reset.
+  const sig = `${activeTab}|${browseMode}|${curatedOnly}|${activeTag}|${activeCountry}|${$search.value.trim()}`;
+  if (sig !== lastViewSig) {
+    homeViewLimit = HOME_VIEW_PAGE_SIZE;
+    lastViewSig = sig;
+  }
+
   if (activeTab === 'browse') {
     const query = $search.value.trim();
     const genreTag = activeTag === 'all' ? undefined : activeTag;
@@ -1494,7 +1512,13 @@ function renderContent(): void {
         $content.append(renderGlobe(stations));
       } else if (stations.length > 0) {
         $content.append(sectionLabel(restLabel, stations.length));
-        $content.append(renderRows(stations));
+        // Cap the initial render — bigger catalogs (2k+ rows) made
+        // tab-switch DOM build cost ~1s. "Show more" reveals the
+        // next page in place.
+        const visibleHome = stations.slice(0, homeViewLimit);
+        $content.append(renderRows(visibleHome));
+        const remainingHome = stations.length - visibleHome.length;
+        if (remainingHome > 0) $content.append(homeShowMoreButton(remainingHome));
         // Pagination — RB-sourced modes (null/news) paginate the
         // primary list; played mode appends a separate "Worldwide"
         // section on demand below the curated catalog.
@@ -1528,7 +1552,10 @@ function renderContent(): void {
 
     if (myFiltered.length > 0) {
       $content.append(sectionLabel('My stations', myFiltered.length));
-      $content.append(renderRows(myFiltered));
+      const visibleMy = myFiltered.slice(0, homeViewLimit);
+      $content.append(renderRows(visibleMy));
+      const remainingMy = myFiltered.length - visibleMy.length;
+      if (remainingMy > 0) $content.append(homeShowMoreButton(remainingMy));
     }
     if (lastBrowseStations.length > 0) {
       const label = query ? 'Results' : tagFilter ?? 'Results';
@@ -1757,6 +1784,22 @@ function loadMoreButton(): HTMLButtonElement {
   btn.disabled = browseLoadingMore;
   btn.textContent = browseLoadingMore ? 'Loading…' : 'Load more';
   btn.addEventListener('click', () => void loadMore());
+  return btn;
+}
+
+/** Local-catalog "Show more" button — bumps the in-memory cap and
+ *  re-renders. No network. Pairs with the HOME_VIEW_PAGE_SIZE cap
+ *  applied to the home view + filtered "My stations" list. */
+function homeShowMoreButton(remaining: number): HTMLButtonElement {
+  const next = Math.min(HOME_VIEW_PAGE_SIZE, remaining);
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'load-more';
+  btn.textContent = `Show ${next} more · ${remaining} remaining`;
+  btn.addEventListener('click', () => {
+    homeViewLimit += HOME_VIEW_PAGE_SIZE;
+    renderContent();
+  });
   return btn;
 }
 
