@@ -1,10 +1,22 @@
 {
-  "generatedAt": "2026-04-27T07:47:37.633Z",
+  "generatedAt": "2026-05-04T08:24:46.637Z",
   "rangeDays": 30,
   "items": [
     {
       "name": "FM4",
-      "plays": 5,
+      "plays": 21,
+      "alreadyCurated": true,
+      "rbMatched": false,
+      "streamUrl": null,
+      "https": null,
+      "streamProbe": null,
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "already-curated"
+    },
+    {
+      "name": "Grrif",
+      "plays": 14,
       "alreadyCurated": true,
       "rbMatched": false,
       "streamUrl": null,
@@ -16,7 +28,7 @@
     },
     {
       "name": "BR24live",
-      "plays": 4,
+      "plays": 11,
       "alreadyCurated": false,
       "rbMatched": true,
       "streamUrl": "https://dispatcher.rndfnk.com/br/br24live/live/mp3/mid",
@@ -30,8 +42,8 @@
       "verdict": "auto-curate-ready"
     },
     {
-      "name": "Grrif",
-      "plays": 4,
+      "name": "Frisky",
+      "plays": 8,
       "alreadyCurated": true,
       "rbMatched": false,
       "streamUrl": null,
@@ -43,7 +55,7 @@
     },
     {
       "name": "Bayern 1",
-      "plays": 3,
+      "plays": 8,
       "alreadyCurated": true,
       "rbMatched": false,
       "streamUrl": null,
@@ -55,6 +67,120 @@
     },
     {
       "name": "BBC World Service",
+      "plays": 7,
+      "alreadyCurated": true,
+      "rbMatched": false,
+      "streamUrl": null,
+      "https": null,
+      "streamProbe": null,
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "already-curated"
+    },
+    {
+      "name": "_80 EXITOS",
+      "plays": 6,
+      "alreadyCurated": false,
+      "rbMatched": true,
+      "streamUrl": "https://80sexitos.stream.laut.fm/80sexitos",
+      "https": true,
+      "streamProbe": {
+        "ok": true,
+        "contentType": "audio/mpeg"
+      },
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "auto-curate-ready"
+    },
+    {
+      "name": "Frisky Deep",
+      "plays": 5,
+      "alreadyCurated": true,
+      "rbMatched": false,
+      "streamUrl": null,
+      "https": null,
+      "streamProbe": null,
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "already-curated"
+    },
+    {
+      "name": "Qmusic Belgium",
+      "plays": 4,
+      "alreadyCurated": true,
+      "rbMatched": false,
+      "streamUrl": null,
+      "https": null,
+      "streamProbe": null,
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "already-curated"
+    },
+    {
+      "name": "SRF 4 News",
+      "plays": 4,
+      "alreadyCurated": true,
+      "rbMatched": false,
+      "streamUrl": null,
+      "https": null,
+      "streamProbe": null,
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "already-curated"
+    },
+    {
+      "name": "BR24",
+      "plays": 4,
+      "alreadyCurated": true,
+      "rbMatched": false,
+      "streamUrl": null,
+      "https": null,
+      "streamProbe": null,
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "already-curated"
+    },
+    {
+      "name": "1000 Oldies",
+      "plays": 3,
+      "alreadyCurated": true,
+      "rbMatched": false,
+      "streamUrl": null,
+      "https": null,
+      "streamProbe": null,
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "already-curated"
+    },
+    {
+      "name": "Onda 80 Radio Bellvitge",
+      "plays": 3,
+      "alreadyCurated": false,
+      "rbMatched": true,
+      "streamUrl": "https://antares.dribbcast.com/proxy/onda80/stream",
+      "https": true,
+      "streamProbe": {
+        "ok": false,
+        "reason": "HTTP 404"
+      },
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "stream-broken"
+    },
+    {
+      "name": "Radio Wien",
+      "plays": 3,
+      "alreadyCurated": true,
+      "rbMatched": false,
+      "streamUrl": null,
+      "https": null,
+      "streamProbe": null,
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "already-curated"
+    },
+    {
+      "name": "Radio Nova",
       "plays": 3,
       "alreadyCurated": true,
       "rbMatched": false,
@@ -67,7 +193,7 @@
     },
     {
       "name": "REYFM - #original",
-      "plays": 2,
+      "plays": 3,
       "alreadyCurated": false,
       "rbMatched": true,
       "streamUrl": "https://listen.reyfm.de/original_192kbps.mp3",
@@ -81,8 +207,8 @@
       "verdict": "auto-curate-ready"
     },
     {
-      "name": "Deutschlandfunk Kultur",
-      "plays": 1,
+      "name": "Mango Radio",
+      "plays": 2,
       "alreadyCurated": true,
       "rbMatched": false,
       "streamUrl": null,
@@ -93,8 +219,8 @@
       "verdict": "already-curated"
     },
     {
-      "name": "Die Maus",
-      "plays": 1,
+      "name": "RTS Espace 2",
+      "plays": 2,
       "alreadyCurated": true,
       "rbMatched": false,
       "streamUrl": null,
@@ -105,71 +231,62 @@
       "verdict": "already-curated"
     },
     {
-      "name": "Refuge Worldwide",
-      "plays": 1,
+      "name": "Qmusic Q-Allstars",
+      "plays": 2,
+      "alreadyCurated": true,
+      "rbMatched": false,
+      "streamUrl": null,
+      "https": null,
+      "streamProbe": null,
+      "icyAvailable": null,
+      "broadcasterGuess": null,
+      "verdict": "already-curated"
+    },
+    {
+      "name": "QMUSIC 90's & 00's (96k aac)",
+      "plays": 2,
       "alreadyCurated": false,
       "rbMatched": true,
-      "streamUrl": "https://streaming.radio.co/s3699c5e49/listen",
+      "streamUrl": "https://stream.qmusic.nl/90s-00s/aachigh",
       "https": true,
       "streamProbe": {
         "ok": true,
-        "contentType": "audio/mpeg"
+        "contentType": "audio/aacp"
       },
       "icyAvailable": null,
       "broadcasterGuess": null,
       "verdict": "auto-curate-ready"
     },
     {
-      "name": "DW TV",
-      "plays": 1,
-      "alreadyCurated": false,
-      "rbMatched": true,
-      "streamUrl": "https://dwamdstream104.akamaized.net/hls/live/2015530/dwstream104/index.m3u8",
-      "https": true,
-      "streamProbe": {
-        "ok": true,
-        "contentType": "application/vnd.apple.mpegurl"
-      },
+      "name": "QMUSIC THEMA",
+      "plays": 2,
+      "alreadyCurated": true,
+      "rbMatched": false,
+      "streamUrl": null,
+      "https": null,
+      "streamProbe": null,
       "icyAvailable": null,
       "broadcasterGuess": null,
-      "verdict": "auto-curate-ready"
+      "verdict": "already-curated"
     },
     {
-      "name": "SRF 4 News",
-      "plays": 1,
-      "alreadyCurated": false,
-      "rbMatched": true,
-      "streamUrl": "https://stream.srg-ssr.ch/m/drs4news/aacp_32",
-      "https": true,
-      "streamProbe": {
-        "ok": true,
-        "contentType": "audio/aac"
-      },
+      "name": "Qmusic Non-Stop",
+      "plays": 2,
+      "alreadyCurated": true,
+      "rbMatched": false,
+      "streamUrl": null,
+      "https": null,
+      "streamProbe": null,
       "icyAvailable": null,
       "broadcasterGuess": null,
-      "verdict": "auto-curate-ready"
+      "verdict": "already-curated"
     },
     {
-      "name": "MANGORADIO",
-      "plays": 1,
+      "name": "Sunshine Live - Tech House",
+      "plays": 2,
       "alreadyCurated": false,
       "rbMatched": true,
-      "streamUrl": "https://mangoradio.stream.laut.fm/mangoradio",
-      "https": true,
-      "streamProbe": {
-        "ok": true,
-        "contentType": "audio/mpeg"
-      },
-      "icyAvailable": null,
-      "broadcasterGuess": null,
-      "verdict": "auto-curate-ready"
-    },
-    {
-      "name": "BBC Radio 4",
-      "plays": 1,
-      "alreadyCurated": false,
-      "rbMatched": true,
-      "streamUrl": "http://as-hls-ww-live.akamaized.net/pool_55057080/live/ww/bbc_radio_fourfm/bbc_radio_fourfm.isml/bbc_radio_fourfm-audio%3d128000.norewind.m3u8",
+      "streamUrl": "http://stream.sunshine-live.de/sp4/mp3-192/stream.sunshine-live.de/",
       "https": false,
       "streamProbe": null,
       "icyAvailable": null,
@@ -177,93 +294,15 @@
       "verdict": "needs-https"
     },
     {
-      "name": "MDR Thüringen",
-      "plays": 1,
-      "alreadyCurated": true,
-      "rbMatched": false,
-      "streamUrl": null,
-      "https": null,
-      "streamProbe": null,
-      "icyAvailable": null,
-      "broadcasterGuess": null,
-      "verdict": "already-curated"
-    },
-    {
-      "name": "BR24",
-      "plays": 1,
-      "alreadyCurated": true,
-      "rbMatched": false,
-      "streamUrl": null,
-      "https": null,
-      "streamProbe": null,
-      "icyAvailable": null,
-      "broadcasterGuess": null,
-      "verdict": "already-curated"
-    },
-    {
-      "name": "Frisky Deep",
-      "plays": 1,
-      "alreadyCurated": true,
-      "rbMatched": false,
-      "streamUrl": null,
-      "https": null,
-      "streamProbe": null,
-      "icyAvailable": null,
-      "broadcasterGuess": null,
-      "verdict": "already-curated"
-    },
-    {
-      "name": "Rock Antenne",
-      "plays": 1,
+      "name": "A Fine Jazz Gumbo Radio",
+      "plays": 2,
       "alreadyCurated": false,
       "rbMatched": true,
-      "streamUrl": "https://s6-webradio.rockantenne.de/gothic/stream/mp3",
+      "streamUrl": "https://streaming.smartradio.ch:9502/stream",
       "https": true,
       "streamProbe": {
         "ok": true,
-        "contentType": "audio/mpeg"
-      },
-      "icyAvailable": null,
-      "broadcasterGuess": null,
-      "verdict": "auto-curate-ready"
-    },
-    {
-      "name": "RADIO NOVA CLASSICS",
-      "plays": 1,
-      "alreadyCurated": false,
-      "rbMatched": true,
-      "streamUrl": "http://nova-vnt.ice.infomaniak.ch/nova-vnt-128.mp3",
-      "https": false,
-      "streamProbe": null,
-      "icyAvailable": null,
-      "broadcasterGuess": null,
-      "verdict": "needs-https"
-    },
-    {
-      "name": "Radio Nova",
-      "plays": 1,
-      "alreadyCurated": false,
-      "rbMatched": true,
-      "streamUrl": "https://novazz.ice.infomaniak.ch/novazz-128.mp3",
-      "https": true,
-      "streamProbe": {
-        "ok": true,
-        "contentType": "audio/mpeg"
-      },
-      "icyAvailable": null,
-      "broadcasterGuess": null,
-      "verdict": "auto-curate-ready"
-    },
-    {
-      "name": "Russian Gold",
-      "plays": 1,
-      "alreadyCurated": false,
-      "rbMatched": true,
-      "streamUrl": "https://radiorecord.hostingradio.ru/russiangold96.aacp",
-      "https": true,
-      "streamProbe": {
-        "ok": true,
-        "contentType": "audio/aac"
+        "contentType": "audio/aacp"
       },
       "icyAvailable": null,
       "broadcasterGuess": null,
