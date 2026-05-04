@@ -37,8 +37,15 @@ export function effectiveTheme(): Theme {
 }
 
 /** Apply a theme (or clear the explicit choice with `null`) and sync
- *  the iOS status-bar `<meta name="theme-color">` tint. */
+ *  the iOS status-bar `<meta name="theme-color">` tint.
+ *
+ *  Wraps the data-theme swap in `html.theme-switching` so existing
+ *  CSS transitions on color / background / border-color don't animate
+ *  the high-contrast ink↔bg flip across the page (filter chips, pane
+ *  tabs, etc). The class is removed after two RAFs so the new palette
+ *  has painted before transitions become live again. */
 export function applyTheme(theme: Theme | null): void {
+  document.documentElement.classList.add('theme-switching');
   if (theme === null) {
     document.documentElement.removeAttribute('data-theme');
     removeKey(THEME_KEY);
@@ -46,6 +53,11 @@ export function applyTheme(theme: Theme | null): void {
     document.documentElement.setAttribute('data-theme', theme);
     setString(THEME_KEY, theme);
   }
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      document.documentElement.classList.remove('theme-switching');
+    });
+  });
   const meta = document.querySelector<HTMLMetaElement>(
     'meta[name="theme-color"]',
   );
