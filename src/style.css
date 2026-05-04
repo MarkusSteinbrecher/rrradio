@@ -2605,7 +2605,12 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   font-size: 14px;
   line-height: 1.55;
 }
-.about-title {
+/* Sheet opener — every slide-up sheet uses this pattern under the
+ * mono header label: H2 "real name" in sans + optional one-line lede
+ * in muted mono. About has its own classes for historical reasons;
+ * .sheet-title / .sheet-lede are the generic version for newer sheets. */
+.about-title,
+.sheet-title {
   font-family: var(--sans);
   font-weight: 500;
   font-size: 22px;
@@ -2613,7 +2618,8 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   color: var(--ink);
   margin: 0 0 6px;
 }
-.about-tagline {
+.about-tagline,
+.sheet-lede {
   font-family: var(--mono);
   font-size: 11.5px;
   letter-spacing: 0.06em;
