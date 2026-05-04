@@ -223,9 +223,13 @@ export default {
           const limit = Math.min(50, Math.max(1, Number(url.searchParams.get('limit')) || 5));
           const list = pickByPrefix(await fetchAllHits(days, env), 'play: ', limit, days);
           // Strip the inner `title` field — not needed publicly and
-          // keeps the payload tight.
+          // keeps the payload tight. `total` is the sum across ALL
+          // matched `play:` events in the window (not just the top
+          // `limit` items), so the dashboard can show an honest
+          // total-plays headline even when more than `limit` distinct
+          // stations were played.
           const items = list.items.map((i) => ({ name: i.label, count: i.count }));
-          return new Response(JSON.stringify({ items, range_days: days }), {
+          return new Response(JSON.stringify({ items, total: list.total, range_days: days }), {
             status: 200,
             headers: {
               'Content-Type': 'application/json; charset=utf-8',

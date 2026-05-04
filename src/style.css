@@ -2431,6 +2431,9 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   font-variant-numeric: tabular-nums;
   line-height: 1;
 }
+/* Muted KPI — Visits is a vanity counter; demoting it visually keeps
+ * "Plays" as the eye-grabbing headline. */
+.dash-kpi--muted .dash-kpi__num { color: var(--ink-3); }
 .dash-kpi__label {
   font-family: var(--mono);
   font-size: 9.5px;

@@ -49,13 +49,20 @@ export interface DashboardData {
   byStationCountry: Map<string, number>;
 }
 
-/** Roll up the three Worker payloads into the dashboard's view model. */
+/** Roll up the three Worker payloads into the dashboard's view model.
+ *
+ *  `playsTotal` is the worker-computed sum across ALL matched `play:`
+ *  events in the window. Pass it when available — items are capped at
+ *  the worker's `limit`, so summing them undercounts as soon as more
+ *  than `limit` distinct stations were played. Falls back to summing
+ *  items when undefined. */
 export function aggregateDashboard(
   items: TopStationItem[],
   locations: PublicLocationItem[],
   catalog: Station[],
+  playsTotal?: number,
 ): DashboardData {
-  let totalPlays = 0;
+  let summedPlays = 0;
   let totalStations = 0;
   const builtinByName = new Map<string, Station>();
   for (const s of catalog) builtinByName.set(s.name.toLowerCase(), s);
@@ -63,7 +70,7 @@ export function aggregateDashboard(
   const byStationCountry = new Map<string, number>();
   for (const it of items) {
     totalStations++;
-    totalPlays += it.count;
+    summedPlays += it.count;
     const builtin = builtinByName.get(it.name.toLowerCase());
     const cc = builtin?.country?.toUpperCase();
     if (!cc) continue;
@@ -77,7 +84,12 @@ export function aggregateDashboard(
     byListenerCountry.set(cc, (byListenerCountry.get(cc) ?? 0) + loc.count);
   }
 
-  return { totalPlays, totalStations, byListenerCountry, byStationCountry };
+  return {
+    totalPlays: playsTotal ?? summedPlays,
+    totalStations,
+    byListenerCountry,
+    byStationCountry,
+  };
 }
 
 /** Pick the active country map for the current view toggle. Pure

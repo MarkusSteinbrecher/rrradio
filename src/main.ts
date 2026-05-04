@@ -242,8 +242,8 @@ const $aboutClose = document.getElementById('about-close') as HTMLButtonElement;
 const $dashboardBtn = document.getElementById('dashboard-btn') as HTMLButtonElement;
 const $dashboardSheet = document.getElementById('dashboard-sheet') as HTMLElement;
 const $dashboardClose = document.getElementById('dashboard-close') as HTMLButtonElement;
+const $dashPlays = document.getElementById('dash-plays') as HTMLElement;
 const $dashVisits = document.getElementById('dash-visits') as HTMLElement;
-const $dashCountries = document.getElementById('dash-countries') as HTMLElement;
 const $dashStations = document.getElementById('dash-stations') as HTMLElement;
 const $dashMap = document.getElementById('dash-map') as HTMLElement;
 const $dashCountryTable = document.querySelector('#dash-country-table tbody') as HTMLTableSectionElement;
@@ -1952,18 +1952,22 @@ const COUNTRY_CENTROIDS: Record<string, [number, number]> = {
 let dashView: DashCountryView = 'listeners';
 let lastDashboardData: DashboardData | null = null;
 
-async function fetchTopStationsWithCounts(): Promise<TopStationItem[]> {
+async function fetchTopStationsWithCounts(): Promise<{
+  items: TopStationItem[];
+  total: number | undefined;
+}> {
   try {
     const res = await fetch(TOP_STATIONS_URL);
     if (!res.ok) {
       reportWorkerError(new Error(`HTTP ${res.status}`), '/api/public/top-stations', res.status);
-      return [];
+      return { items: [], total: undefined };
     }
-    const data = (await res.json()) as { items?: TopStationItem[] };
-    return (data.items ?? []).filter((i) => typeof i.name === 'string' && i.name.length > 0);
+    const data = (await res.json()) as { items?: TopStationItem[]; total?: number };
+    const items = (data.items ?? []).filter((i) => typeof i.name === 'string' && i.name.length > 0);
+    return { items, total: typeof data.total === 'number' ? data.total : undefined };
   } catch (err) {
     reportWorkerError(err, '/api/public/top-stations');
-    return [];
+    return { items: [], total: undefined };
   }
 }
 
@@ -2002,10 +2006,11 @@ function activeMap(d: DashboardData): Map<string, number> {
 }
 
 function renderDashKpis(d: DashboardData, totals: PublicTotals | null): void {
+  // Plays = the meaningful product metric (sum of `play:` events).
+  // Visits is demoted (greyed in CSS) — it's a vanity counter, plays
+  // is what tells us the radio is actually being used.
+  $dashPlays.textContent = d.totalPlays > 0 ? d.totalPlays.toLocaleString() : '—';
   $dashVisits.textContent = totals?.total != null ? totals.total.toLocaleString() : '—';
-  // The "Countries" KPI follows whichever view is active so the
-  // headline matches the table + map below.
-  $dashCountries.textContent = String(activeMap(d).size);
   $dashStations.textContent = String(d.totalStations);
 }
 
@@ -2176,7 +2181,6 @@ function syncDashToggle(): void {
 function applyDashView(): void {
   if (!lastDashboardData) return;
   syncDashToggle();
-  $dashCountries.textContent = String(activeMap(lastDashboardData).size);
   renderDashCountryTable(lastDashboardData);
   void renderDashMap(lastDashboardData);
 }
@@ -2198,20 +2202,25 @@ async function openDashboardSheet(open: boolean): Promise<void> {
     return;
   }
   // Initial render — show "…" placeholders, fetch fresh data.
+  $dashPlays.textContent = '…';
   $dashVisits.textContent = '…';
-  $dashCountries.textContent = '…';
   $dashStations.textContent = '…';
-  const [items, totals, locations] = await Promise.all([
+  const [topStations, totals, locations] = await Promise.all([
     fetchTopStationsWithCounts(),
     fetchPublicTotals(),
     fetchPublicLocations(),
   ]);
-  const data = aggregateDashboard(items, locations, BUILTIN_STATIONS);
+  const data = aggregateDashboard(
+    topStations.items,
+    locations,
+    BUILTIN_STATIONS,
+    topStations.total,
+  );
   lastDashboardData = data;
   syncDashToggle();
   renderDashKpis(data, totals);
   renderDashCountryTable(data);
-  renderDashStationTable(items);
+  renderDashStationTable(topStations.items);
   void renderDashMap(data);
 }
 

@@ -173,6 +173,7 @@ describe('public endpoints', () => {
       { name: 'Alpha FM', count: 10 },
       { name: 'Beta FM', count: 5 },
     ]);
+    expect(body.total).toBe(15);
     expect(body.range_days).toBe(7);
   });
 

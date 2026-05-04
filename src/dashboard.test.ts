@@ -103,6 +103,23 @@ describe('aggregateDashboard', () => {
     expect(d.byStationCountry.size).toBe(0);
     expect(d.byListenerCountry.size).toBe(0);
   });
+
+  it('prefers worker-supplied playsTotal over summed items', () => {
+    // The worker computes total across ALL play: events; items are
+    // capped at the public limit. When passed, totalPlays should
+    // reflect the authoritative number, not the items sum.
+    const d = aggregateDashboard(
+      [
+        { name: 'FM4', count: 100 },
+        { name: 'Bayern 1', count: 80 },
+      ],
+      [],
+      catalog,
+      500, // ← authoritative total includes plays not in the top-N
+    );
+    expect(d.totalPlays).toBe(500);
+    expect(d.totalStations).toBe(2); // station count still from items
+  });
 });
 
 describe('activeCountryMap', () => {
