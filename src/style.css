@@ -103,6 +103,19 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 
 ::selection { background: var(--ink); color: var(--bg); }
 
+/* Theme switching — kill all transitions during the data-theme swap
+ * so the page repaints with the new palette in one frame. Without
+ * this, every element with a color/background/border-color transition
+ * (filter chips, pane tabs, np buttons, …) animates the high-contrast
+ * ink↔bg flip individually, which reads as a half-second lag.
+ * theme.ts adds the class around the swap and removes it after 2 RAFs. */
+html.theme-switching,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: none !important;
+}
+
 /* Visually-hidden landing prose. Rendered offscreen so it stays in
    the accessibility tree and the static HTML (Googlebot reads it),
    but never paints over the SPA UI. tools/build-station-pages.mjs
