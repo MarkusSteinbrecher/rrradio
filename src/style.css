@@ -851,8 +851,12 @@ html.theme-switching *::after {
   /* Left padding + gap match the row above (.row uses padding 14px 20px,
    * gap 14px) so the album art lines up vertically with the row favicons.
    * Right padding stays tighter — the skip + play buttons need less margin
-   * than a row's heart-only right edge. */
+   * than a row's heart-only right edge. min-height pins the mini to the
+   * same height as a row so it doesn't flicker between heights as the
+   * track line shows / hides while skipping stations. */
   padding: 10px 14px 10px 20px;
+  min-height: 66px;
+  box-sizing: border-box;
   background: var(--bg-2);
   border-top: 1px solid var(--line);
   cursor: pointer;
