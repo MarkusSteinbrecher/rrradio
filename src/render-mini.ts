@@ -15,17 +15,22 @@ import type { NowPlaying, Station, WakeTo } from './types';
 export interface MiniRefs {
   /** The clickable mini-player root (hidden when no station selected). */
   mini: HTMLElement;
-  /** Favicon / initials block. */
+  /** Favicon / cover-art / initials block. */
   miniFav: HTMLElement;
   /** Station name. */
   miniName: HTMLElement;
+  /** Track line (artist · title) — hidden when no track is identified. */
+  miniTrack: HTMLElement;
   /** Status line (LIVE / TUNING… / PAUSED / error). */
   miniMeta: HTMLElement;
 }
 
-/** Replace the favicon block with a fresh image (and an initials
- *  fallback when the image fails to load) for the given station. */
-export function setMiniArt(refs: MiniRefs, station: Station): void {
+/** Replace the art block with a fresh image (and an initials fallback
+ *  when the image fails to load) for the given station. When `coverUrl`
+ *  is supplied (a track has been identified), use it instead of the
+ *  station favicon — the mini becomes a real player at that point.
+ *  Falls back to favicon then initials if the cover fails to load. */
+export function setMiniArt(refs: MiniRefs, station: Station, coverUrl?: string): void {
   refs.miniFav.replaceChildren();
   refs.miniFav.className = faviconClass(station.id);
 
@@ -41,20 +46,30 @@ export function setMiniArt(refs: MiniRefs, station: Station): void {
     }
   };
 
-  if (station.favicon) {
+  const loadImg = (src: string, onFail: () => void): void => {
     const img = document.createElement('img');
-    img.src = station.favicon;
+    img.src = src;
     img.alt = '';
     img.referrerPolicy = 'no-referrer';
     img.addEventListener(
       'error',
       () => {
         img.remove();
-        drawInitials();
+        onFail();
       },
       { once: true },
     );
     refs.miniFav.append(img);
+  };
+
+  if (coverUrl) {
+    // Cover → favicon → initials
+    loadImg(coverUrl, () => {
+      if (station.favicon) loadImg(station.favicon, drawInitials);
+      else drawInitials();
+    });
+  } else if (station.favicon) {
+    loadImg(station.favicon, drawInitials);
   } else {
     drawInitials();
   }
@@ -62,7 +77,9 @@ export function setMiniArt(refs: MiniRefs, station: Station): void {
 
 /** Render the mini-player for the given playback + wake state. Hides
  *  the bar when no station is selected; otherwise sets name, meta,
- *  art, and toggles `is-wake-bed` for the silent-bed dim style. */
+ *  track line, art, and toggles `is-wake-bed` for the silent-bed dim
+ *  style. The art slot prefers `np.coverUrl` (track-level art) over
+ *  the station favicon when both exist. */
 export function renderMiniPlayer(
   refs: MiniRefs,
   np: NowPlaying,
@@ -76,6 +93,18 @@ export function renderMiniPlayer(
   refs.mini.hidden = false;
   refs.miniName.textContent = display.name;
   refs.miniMeta.textContent = miniMetaText(np);
-  setMiniArt(refs, display);
+  const track = np.trackTitle?.trim() ?? '';
+  if (track) {
+    refs.miniTrack.textContent = track;
+    refs.miniTrack.hidden = false;
+  } else {
+    refs.miniTrack.textContent = '';
+    refs.miniTrack.hidden = true;
+  }
+  // Wake-bed playback substitutes the station and shouldn't show
+  // a real cover (the bed is silence). Pass undefined cover so the
+  // art falls back to the wake station's favicon.
+  const cover = isWakeBedActive(np, armedWake) ? undefined : np.coverUrl;
+  setMiniArt(refs, display, cover);
   refs.mini.classList.toggle('is-wake-bed', isWakeBedActive(np, armedWake));
 }
