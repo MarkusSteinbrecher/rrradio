@@ -2403,28 +2403,28 @@ function setWakePane(open: boolean): void {
   $wakeArmBtn.disabled = !station && !armed;
 }
 
-/** Update the Arm/Disarm button so it doubles as the "armed pill":
- *    Unarmed → label "Arm", no meta line
- *    Armed   → label "Disarm", meta "07:00 · in 6h 12m"
+/** Update the Set/Unset button so it doubles as the "armed pill":
+ *    Unarmed → label "Set", no meta line
+ *    Armed   → label "Unset", meta "07:00 · in 6h 12m"
  *  Called on pane open and after every arm/disarm/tick. */
 function syncWakeArmButton(): void {
   const armed = wakeScheduler.current();
   const isArmed = !!armed;
   $wakeArmBtn.classList.toggle('is-armed', isArmed);
   if (!isArmed || !armed) {
-    $wakeArmLabel.textContent = 'Arm';
+    $wakeArmLabel.textContent = 'Set';
     $wakeArmMeta.hidden = true;
     $wakeArmMeta.textContent = '';
-    $wakeArmBtn.setAttribute('aria-label', 'Arm wake-to-radio');
+    $wakeArmBtn.setAttribute('aria-label', 'Set wake-to-radio');
     return;
   }
   const remain = nextFireTime(armed) - Date.now();
-  $wakeArmLabel.textContent = 'Disarm';
+  $wakeArmLabel.textContent = 'Unset';
   $wakeArmMeta.textContent = `${armed.time} · ${formatCountdown(remain)}`;
   $wakeArmMeta.hidden = false;
   $wakeArmBtn.setAttribute(
     'aria-label',
-    `Disarm — wakes to ${armed.station.name} at ${armed.time}, ${formatCountdown(remain)}`,
+    `Unset — wakes to ${armed.station.name} at ${armed.time}, ${formatCountdown(remain)}`,
   );
 }
 
