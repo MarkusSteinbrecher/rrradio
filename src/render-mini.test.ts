@@ -9,6 +9,7 @@ const IDS = {
   mini: 'mini',
   miniFav: 'mini-fav',
   miniName: 'mini-name',
+  miniTrack: 'mini-track',
   miniMeta: 'mini-meta',
 } as const;
 
@@ -75,6 +76,29 @@ describe('renderMiniPlayer', () => {
     renderMiniPlayer(refs, { station: fm4, state: 'playing' }, null);
     expect(refs.mini.classList.contains('is-wake-bed')).toBe(false);
   });
+
+  it('shows the track line when a trackTitle is present', () => {
+    const refs = mountMini();
+    renderMiniPlayer(
+      refs,
+      { station: fm4, state: 'playing', trackTitle: 'Aphex Twin · Xtal' },
+      null,
+    );
+    expect(refs.miniTrack.hidden).toBe(false);
+    expect(refs.miniTrack.textContent).toBe('Aphex Twin · Xtal');
+  });
+
+  it('hides the track line when no trackTitle', () => {
+    const refs = mountMini();
+    renderMiniPlayer(refs, { station: fm4, state: 'playing' }, null);
+    expect(refs.miniTrack.hidden).toBe(true);
+  });
+
+  it('hides the track line when trackTitle is whitespace', () => {
+    const refs = mountMini();
+    renderMiniPlayer(refs, { station: fm4, state: 'playing', trackTitle: '   ' }, null);
+    expect(refs.miniTrack.hidden).toBe(true);
+  });
 });
 
 describe('setMiniArt', () => {
@@ -99,6 +123,17 @@ describe('setMiniArt', () => {
     expect(img).not.toBeNull();
     expect(img?.src).toBe('https://example.com/fm4.png');
     expect(img?.referrerPolicy).toBe('no-referrer');
+  });
+
+  it('prefers coverUrl over the station favicon when both are present', () => {
+    const refs = mountMini();
+    setMiniArt(
+      refs,
+      { ...fm4, favicon: 'https://example.com/fm4.png' },
+      'https://example.com/track-cover.jpg',
+    );
+    const img = refs.miniFav.querySelector('img');
+    expect(img?.src).toBe('https://example.com/track-cover.jpg');
   });
 
   it('applies the deterministic broadcaster class', () => {
