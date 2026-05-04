@@ -101,7 +101,20 @@ input { font-family: inherit; }
 
 ul, ol { list-style: none; margin: 0; padding: 0; }
 
-::selection { background: var(--accent); color: var(--bg); }
+::selection { background: var(--ink); color: var(--bg); }
+
+/* Theme switching — kill all transitions during the data-theme swap
+ * so the page repaints with the new palette in one frame. Without
+ * this, every element with a color/background/border-color transition
+ * (filter chips, pane tabs, np buttons, …) animates the high-contrast
+ * ink↔bg flip individually, which reads as a half-second lag.
+ * theme.ts adds the class around the swap and removes it after 2 RAFs. */
+html.theme-switching,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: none !important;
+}
 
 /* Visually-hidden landing prose. Rendered offscreen so it stays in
    the accessibility tree and the static HTML (Googlebot reads it),
@@ -327,7 +340,7 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 }
 .filter-cell:has(.is-active) .filter-cell__label,
 .filter-cell:has(.filter-wrap:not(.is-default)) .filter-cell__label {
-  color: var(--accent);
+  color: var(--ink);
 }
 
 /* "Most played" mode button. Pairs with the curated-toggle as a
@@ -352,11 +365,11 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 }
 .filter-chip svg { width: 16px; height: 16px; display: block; }
 .filter-chip.is-active {
-  color: var(--accent);
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--bg);
+  border-color: var(--ink);
+  background: var(--ink);
 }
-.filter-chip.is-active:hover { color: var(--accent); }
+.filter-chip.is-active:hover { color: var(--bg); }
 
 /* News-only toggle — quick-filter for tag=news. Same geometry as
    the other circular toggles. */
@@ -376,11 +389,11 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .news-toggle svg { width: 16px; height: 16px; display: block; }
 .news-toggle:hover { border-color: var(--line-2); color: var(--ink-2); }
 .news-toggle.is-active {
-  color: var(--accent);
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--bg);
+  border-color: var(--ink);
+  background: var(--ink);
 }
-.news-toggle.is-active:hover { color: var(--accent); }
+.news-toggle.is-active:hover { color: var(--bg); }
 
 /* Curated-only toggle — restricts the list to stations from
    data/stations.yaml (the ones with the ★ badges). Same geometry
@@ -401,11 +414,11 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .curated-toggle svg { width: 16px; height: 16px; display: block; }
 .curated-toggle:hover { border-color: var(--line-2); color: var(--ink-2); }
 .curated-toggle.is-active {
-  color: var(--accent);
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--bg);
+  border-color: var(--ink);
+  background: var(--ink);
 }
-.curated-toggle.is-active:hover { color: var(--accent); }
+.curated-toggle.is-active:hover { color: var(--bg); }
 
 /* Map-view toggle — same geometry + active style as curated. When
    on, the unfiltered home view replaces its list section with the
@@ -429,11 +442,11 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   color: var(--ink-2);
 }
 .map-toggle.is-active {
-  color: var(--accent);
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--bg);
+  border-color: var(--ink);
+  background: var(--ink);
 }
-.map-toggle.is-active:hover { color: var(--accent); }
+.map-toggle.is-active:hover { color: var(--bg); }
 .map-toggle:disabled {
   cursor: default;
   color: var(--ink-4);
@@ -470,9 +483,9 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   color: var(--ink-2);
 }
 .filter-wrap:not(.is-default) {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border-color: var(--ink);
+  color: var(--bg);
+  background: var(--ink);
 }
 .filter-icon {
   width: 16px;
@@ -749,7 +762,7 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 }
 .heart svg { width: 16px; height: 16px; display: block; }
 .heart .heart--fill { display: none; }
-.heart.is-fav { color: var(--accent); }
+.heart.is-fav { color: var(--ink); }
 .heart.is-fav .heart--line { display: none; }
 .heart.is-fav .heart--fill { display: block; }
 .heart:active { transform: scale(0.85); }
@@ -834,8 +847,12 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 14px 10px 12px;
+  gap: 14px;
+  /* Left padding + gap match the row above (.row uses padding 14px 20px,
+   * gap 14px) so the album art lines up vertically with the row favicons.
+   * Right padding stays tighter — the skip + play buttons need less margin
+   * than a row's heart-only right edge. */
+  padding: 10px 14px 10px 20px;
   background: var(--bg-2);
   border-top: 1px solid var(--line);
   cursor: pointer;
@@ -864,13 +881,17 @@ body.is-playing .mini-progress { opacity: 0.7; }
   0%   { background-position: -40% 0; }
   100% { background-position: 140% 0; }
 }
-.mini .fav { width: 36px; height: 36px; }
+.mini .fav { width: 38px; height: 38px; }
+/* When a track-level coverUrl is set, .fav holds the album art instead
+ * of the station favicon. Same slot, same size — the swap is the "we
+ * actually know what's playing" affordance. */
+.mini .fav img { width: 100%; height: 100%; object-fit: cover; }
 .mini-info {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
 }
 .mini-name {
   font-size: 13px;
@@ -879,6 +900,14 @@ body.is-playing .mini-progress { opacity: 0.7; }
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.mini-track {
+  font-size: 11.5px;
+  color: var(--ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mini-track[hidden] { display: none; }
 .mini-meta {
   font-family: var(--mono);
   font-size: 10px;
@@ -897,6 +926,7 @@ body.is-playing .mini-progress { opacity: 0.7; }
   background: var(--accent);
   animation: pulse 1.6s ease-in-out infinite;
 }
+.mini-skip,
 .mini-toggle {
   width: 36px;
   height: 36px;
@@ -909,6 +939,10 @@ body.is-playing .mini-progress { opacity: 0.7; }
   flex-shrink: 0;
   transition: transform 0.15s;
 }
+.mini-skip { width: 32px; height: 32px; border: 0; color: var(--ink-2); }
+.mini-skip svg { width: 14px; height: 14px; }
+.mini-skip:hover { color: var(--ink); }
+.mini-skip:active { transform: scale(0.92); }
 .mini-toggle svg { width: 12px; height: 12px; }
 .mini-toggle:active { transform: scale(0.92); }
 .mini-toggle .icon-pause { display: none; }
@@ -950,7 +984,7 @@ body.is-playing .mini-toggle .icon-pause { display: block; }
   transform: translateX(-50%);
   width: 24px;
   height: 1px;
-  background: var(--accent);
+  background: var(--ink);
 }
 /* Topbar is quiet on Now Playing — search doesn't apply to a
    single-station view. Wordmark + signal-meta + add-btn stay.
@@ -1117,9 +1151,9 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
 }
 .np-pane-tab:hover { border-color: var(--line-2); color: var(--ink-2); }
 .np-pane-tab.is-active {
-  color: var(--accent);
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--bg);
+  border-color: var(--ink);
+  background: var(--ink);
 }
 .np-pane-tab--icon {
   width: 32px;
@@ -1158,7 +1192,7 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   min-width: 0;
 }
 .np-pane-tab.is-active .np-pane-tab__pre,
-.np-pane-tab.is-active .np-pane-tab__name { color: var(--accent); }
+.np-pane-tab.is-active .np-pane-tab__name { color: var(--bg); }
 
 /* Program pane — replaces the cover area when the program tab is on. */
 .np-program-pane {
@@ -1599,7 +1633,7 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
 .np-source__row:first-child { border-top: 0; }
 .np-source__row[hidden]     { display: none; }
 .np-source__row:hover,
-.np-source__row:active      { color: var(--accent); }
+.np-source__row:active      { color: var(--ink); }
 .np-source__k {
   font-size: 9px;
   letter-spacing: 0.18em;
@@ -1619,7 +1653,7 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
   color: var(--ink-3);
   opacity: 0.7;
 }
-.np-source__row:hover .np-source__ext { color: var(--accent); opacity: 1; }
+.np-source__row:hover .np-source__ext { color: var(--ink); opacity: 1; }
 
 /* ─── Now Playing controls ─── */
 .np-controls {
@@ -1663,7 +1697,7 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
 }
 .np-btn svg { width: 16px; height: 16px; }
 .np-btn:active { transform: scale(0.92); }
-.np-btn.is-fav { color: var(--accent); border-color: var(--accent); }
+.np-btn.is-fav { color: var(--ink); border-color: var(--ink); }
 .np-btn .heart--fill { display: none; }
 .np-btn.is-fav .heart--line { display: none; }
 .np-btn.is-fav .heart--fill { display: block; }
@@ -1677,7 +1711,7 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
   font-size: 9px;
   letter-spacing: 0.12em;
   color: var(--bg);
-  background: var(--accent);
+  background: var(--ink);
   padding: 2px 6px 1px;
   border-radius: 999px;
   white-space: nowrap;
@@ -2167,7 +2201,7 @@ body.is-playing .np-bottom .live-dot  {
    the way the filled accent fill does. Same shape, different weight. */
 .btn-primary.is-armed {
   background: transparent;
-  color: var(--accent);
+  color: var(--ink);
 }
 
 .btn-ghost {
@@ -2185,8 +2219,8 @@ body.is-playing .np-bottom .live-dot  {
 .btn-ghost:active { transform: scale(0.96); }
 .btn-ghost:hover { color: var(--ink); border-color: var(--ink-3); }
 .btn-ghost[data-confirming="true"] {
-  color: var(--accent);
-  border-color: var(--accent);
+  color: var(--ink);
+  border-color: var(--ink);
 }
 
 /* ─── Wake-to-radio sheet + pill ─────────────────────────────────
@@ -2280,9 +2314,9 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   gap: 4px;
   padding: 14px 22px;
   border-radius: 10px;
-  border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
-  background: color-mix(in srgb, var(--accent) 14%, transparent);
-  color: var(--accent);
+  border: 1px solid var(--line-2);
+  background: var(--bg-2);
+  color: var(--ink);
   font-family: inherit;
   font-size: 14px;
   font-weight: 600;
@@ -2296,9 +2330,9 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   cursor: not-allowed;
 }
 .np-wake-pane__arm.is-armed {
-  background: var(--accent);
+  background: var(--ink);
   color: var(--bg);
-  border-color: var(--accent);
+  border-color: var(--ink);
 }
 .np-wake-pane__arm-label {
   display: block;
@@ -2318,8 +2352,8 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   grid-area: caveat;
   margin: 0;
   padding: 10px 12px;
-  border-left: 2px solid var(--accent);
-  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  border-left: 2px solid var(--line-2);
+  background: var(--bg-2);
   font-size: 12px;
   color: var(--ink-3);
   line-height: 1.45;
@@ -2657,7 +2691,7 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   top: 10px;
   width: 6px;
   height: 1px;
-  background: var(--accent);
+  background: var(--ink-3);
 }
 /* Variant for the Features list — replaces the bullet dash with a
    real glyph from the app, so the list visually mirrors what each
@@ -2676,14 +2710,14 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   width: 18px;
   height: 18px;
   margin-top: 3px;
-  color: var(--accent);
+  color: var(--ink-2);
 }
 .about-body a {
-  color: var(--accent);
+  color: var(--ink);
   text-decoration: none;
-  border-bottom: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  border-bottom: 1px solid var(--line-2);
 }
-.about-body a:hover { border-bottom-color: var(--accent); }
+.about-body a:hover { border-bottom-color: var(--ink); }
 .about-body code {
   font-family: var(--mono);
   font-size: 12px;
@@ -2720,9 +2754,9 @@ body.is-wake-edit .np-pane-tabs { display: none; }
 }
 .about-ctas .about-cta { margin-top: 0; }
 .about-cta:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border-color: var(--ink-3);
+  color: var(--ink);
+  background: var(--bg-3);
 }
 .about-cta svg {
   width: 16px;

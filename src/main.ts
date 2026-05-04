@@ -178,8 +178,10 @@ const $tabbar = document.getElementById('tabbar') as HTMLElement;
 const $mini = document.getElementById('mini') as HTMLButtonElement;
 const $miniFav = document.getElementById('mini-fav') as HTMLElement;
 const $miniName = document.getElementById('mini-name') as HTMLElement;
+const $miniTrack = document.getElementById('mini-track') as HTMLElement;
 const $miniMeta = document.getElementById('mini-meta') as HTMLElement;
 const $miniToggle = document.getElementById('mini-toggle') as HTMLElement;
+const $miniSkip = document.getElementById('mini-skip') as HTMLElement;
 
 const $np = document.getElementById('np') as HTMLElement;
 const $npName = document.getElementById('np-name') as HTMLElement;
@@ -540,6 +542,7 @@ const MINI_REFS: MiniRefs = {
   mini: $mini,
   miniFav: $miniFav,
   miniName: $miniName,
+  miniTrack: $miniTrack,
   miniMeta: $miniMeta,
 };
 
@@ -2929,6 +2932,14 @@ $npBack.addEventListener('click', () => openNp(false));
 $miniToggle.addEventListener('click', (e) => {
   e.stopPropagation();
   handlePlayToggle();
+});
+
+// Mini-player skip — same gesture as the lock-screen "next" control:
+// cycles through favorites. Stops propagation so it doesn't also
+// trigger the parent .mini click that opens Now Playing.
+$miniSkip.addEventListener('click', (e) => {
+  e.stopPropagation();
+  skipFavorite(1);
 });
 
 $npPlay.addEventListener('click', () => handlePlayToggle());
