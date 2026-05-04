@@ -864,13 +864,17 @@ body.is-playing .mini-progress { opacity: 0.7; }
   0%   { background-position: -40% 0; }
   100% { background-position: 140% 0; }
 }
-.mini .fav { width: 36px; height: 36px; }
+.mini .fav { width: 38px; height: 38px; }
+/* When a track-level coverUrl is set, .fav holds the album art instead
+ * of the station favicon. Same slot, same size — the swap is the "we
+ * actually know what's playing" affordance. */
+.mini .fav img { width: 100%; height: 100%; object-fit: cover; }
 .mini-info {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
 }
 .mini-name {
   font-size: 13px;
@@ -879,6 +883,14 @@ body.is-playing .mini-progress { opacity: 0.7; }
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.mini-track {
+  font-size: 11.5px;
+  color: var(--ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mini-track[hidden] { display: none; }
 .mini-meta {
   font-family: var(--mono);
   font-size: 10px;
@@ -897,6 +909,7 @@ body.is-playing .mini-progress { opacity: 0.7; }
   background: var(--accent);
   animation: pulse 1.6s ease-in-out infinite;
 }
+.mini-skip,
 .mini-toggle {
   width: 36px;
   height: 36px;
@@ -909,6 +922,10 @@ body.is-playing .mini-progress { opacity: 0.7; }
   flex-shrink: 0;
   transition: transform 0.15s;
 }
+.mini-skip { width: 32px; height: 32px; border: 0; color: var(--ink-2); }
+.mini-skip svg { width: 14px; height: 14px; }
+.mini-skip:hover { color: var(--ink); }
+.mini-skip:active { transform: scale(0.92); }
 .mini-toggle svg { width: 12px; height: 12px; }
 .mini-toggle:active { transform: scale(0.92); }
 .mini-toggle .icon-pause { display: none; }
