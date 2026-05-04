@@ -1,0 +1,584 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.883Z",
+  "country": "NZ",
+  "sourceProbedAt": "2026-04-30T11:14:04.486Z",
+  "totals": {
+    "deadStreams": 8,
+    "internalDupes": 25,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "2d5c53a1-7fd8-43ea-b296-032afe788adf",
+      "name": "Q97",
+      "url": "https://radio.e-cast.co.nz/q97/stream.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 31,
+      "lastProbedAt": "2026-04-30T11:13:59.951Z"
+    },
+    {
+      "stationuuid": "013e7197-c0b5-4b71-a10d-5e45e76c68d0",
+      "name": "Bay FM 100.7",
+      "url": "https://s38.myradiostream.com:8876/;;?listening-from-radio-garden=1686796930",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 16,
+      "lastProbedAt": "2026-04-30T11:13:52.932Z"
+    },
+    {
+      "stationuuid": "8ab96af5-c8e3-4254-9df0-e98dea76a7d7",
+      "name": "One Double-X",
+      "url": "https://radio.e-cast.co.nz/1xxone/stream.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 9,
+      "lastProbedAt": "2026-04-30T11:14:04.484Z"
+    },
+    {
+      "stationuuid": "9714a993-112d-444f-ae52-65307c0fa2c4",
+      "name": "Radio Bay FM 100.7",
+      "url": "https://s38.myradiostream.com:8876/;;?listening-from-radio-garden=1686969300",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 8,
+      "lastProbedAt": "2026-04-30T11:13:54.683Z"
+    },
+    {
+      "stationuuid": "8fb48975-d64f-4d36-b2b8-d27b877cb317",
+      "name": "Gaia FM (New Zealand)",
+      "url": "https://s2.stationplaylist.com:9000/gaiafm.aac",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-30T11:13:55.353Z"
+    },
+    {
+      "stationuuid": "4d182f6b-a7c8-4bcf-a519-08c6ea36b374",
+      "name": "Southern Cross Country",
+      "url": "https://sxcountry.radioca.st/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 5,
+      "lastProbedAt": "2026-04-30T11:13:55.513Z"
+    },
+    {
+      "stationuuid": "16356b10-6e2e-427e-9184-5e843cbe13a0",
+      "name": "Amped AI",
+      "url": "https://amped-ai1.azuracast.tgnz.net/listen/amped_ai/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T11:14:01.315Z"
+    },
+    {
+      "stationuuid": "e7aa06ad-2f82-4ad5-b2b9-b04b280c4f1e",
+      "name": "Radio Universo FM",
+      "url": "https://stationplaylist.com:7140/listen.aac",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T11:14:02.437Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "960b1670-0601-11e8-ae97-52543be04c81",
+        "name": "RNZ National MP3",
+        "url": "http://radionz-ice.streamguys.com/national.mp3",
+        "votes": 3376
+      },
+      "variants": [
+        {
+          "stationuuid": "7350f5a9-b488-44ee-8a8d-3ba123ead9e9",
+          "name": "Radio New Zealand National",
+          "url": "http://radionz-ice.streamguys.com/national.mp3",
+          "votes": 444,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "5e3b25d8-5e08-488c-adb7-a83b5139ffc6",
+          "name": "RNZ National",
+          "url": "http://radionz-ice.streamguys.com/national.mp3",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "92ff577b-9ab5-49c6-b6c9-d7fe93495607",
+        "name": "Sleep Radio",
+        "url": "http://65.109.81.84:9851/stream",
+        "votes": 777
+      },
+      "variants": [
+        {
+          "stationuuid": "1808aee1-b1b0-4034-a110-7f28607cdf11",
+          "name": "sleep radio",
+          "url": "http://65.109.81.84:9851/stream",
+          "votes": 141,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962b96e7-0601-11e8-ae97-52543be04c81",
+        "name": "Wandering Sheep Radio - Jazz Cafe",
+        "url": "http://radio.wanderingsheep.tv:8000/jazzcafe",
+        "votes": 459
+      },
+      "variants": [
+        {
+          "stationuuid": "e1bd4a00-7c0f-4c50-abc6-91fff1f53f21",
+          "name": "Jazz Cafe",
+          "url": "http://radio.wanderingsheep.tv:8000/jazzcafe",
+          "votes": 71,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d8ea3ea6-fb6d-4e54-9f19-9a8b76b124e2",
+        "name": "XS80s",
+        "url": "http://s1.myradiostream.com:12508/listen.mp3",
+        "votes": 176
+      },
+      "variants": [
+        {
+          "stationuuid": "441d7702-b003-4668-ab26-589f3a4c4934",
+          "name": "XS80s",
+          "url": "http://s1.myradiostream.com:12508/listen.mp3",
+          "votes": 74,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d714b8c3-9a52-4e17-aa62-a971f17f9462",
+        "name": "Brian FM 105.6 Nelson NZ",
+        "url": "https://ais-sa1.streamon.fm/7358_128k.aac/playlist.m3u8",
+        "votes": 171
+      },
+      "variants": [
+        {
+          "stationuuid": "94849e09-82db-4d33-b8ec-a041e8be516f",
+          "name": "Brian FM 105.6 Nelson NZ",
+          "url": "https://ais-sa1.streamon.fm/7358_128k.aac/playlist.m3u8?",
+          "votes": 119,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9ef832af-3283-4d23-acbf-2b4c2c2c697b",
+        "name": "Country Radio Invercargill 105.2FM",
+        "url": "http://countryradio2.no-ip.org:8000/;",
+        "votes": 129
+      },
+      "variants": [
+        {
+          "stationuuid": "440973ef-aa99-4946-9083-08bce4bd73b5",
+          "name": "Country Radio Invercargilll",
+          "url": "http://countryradio2.no-ip.org:8000/;",
+          "votes": 35,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "54663c94-5a9d-11e8-b0ce-52543be04c81",
+        "name": "8K.NZ",
+        "url": "http://radio8k.out.airtime.pro:8000/radio8k_a",
+        "votes": 71
+      },
+      "variants": [
+        {
+          "stationuuid": "15025b54-958a-40d0-9cd0-40e755bac4e9",
+          "name": "8K.NZ",
+          "url": "http://radio8k.out.airtime.pro:8000/radio8k_a",
+          "votes": 60,
+          "differs": []
+        },
+        {
+          "stationuuid": "97f78b49-f24b-4a1b-b2b1-2ae29e9c141b",
+          "name": "8K.NZ || Christchurch, NZ",
+          "url": "http://radio8k.out.airtime.pro:8000/radio8k_a",
+          "votes": 24,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5799d3ff-4115-4da4-b8c0-17de590a6c92",
+        "name": "Radio Bollybop",
+        "url": "https://s3.radio.co/s2f19d44d0/listen",
+        "votes": 62
+      },
+      "variants": [
+        {
+          "stationuuid": "42ade87d-8430-4599-9384-c792b1c97b9a",
+          "name": "Bollybop",
+          "url": "https://s3.radio.co/s2f19d44d0/listen",
+          "votes": 52,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961280ef-0601-11e8-ae97-52543be04c81",
+        "name": "The Most Fm",
+        "url": "http://gordon.mostfm.com:8000/high",
+        "votes": 52
+      },
+      "variants": [
+        {
+          "stationuuid": "4c4d2d7b-cab3-4003-bd39-a6225252b055",
+          "name": "The Most FM 104.4",
+          "url": "http://gordon.mostfm.com:8000/high",
+          "votes": 38,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d596f379-e7a5-49c6-923c-117e26d9d365",
+        "name": "metalradio.co.nz",
+        "url": "http://curiosity.shoutca.st:9073/stream",
+        "votes": 45
+      },
+      "variants": [
+        {
+          "stationuuid": "0189c6f6-3880-4381-8511-a4b694753ccf",
+          "name": "metalradio.co.nz",
+          "url": "http://curiosity.shoutca.st:9073/stream",
+          "votes": 28,
+          "differs": []
+        },
+        {
+          "stationuuid": "675a9c51-b31b-4524-ab0c-f978f4090fd0",
+          "name": "metalradio.co.nz",
+          "url": "http://curiosity.shoutca.st:9073/stream",
+          "votes": 23,
+          "differs": []
+        },
+        {
+          "stationuuid": "ef5519ea-980a-4eb3-8282-c9275b639147",
+          "name": "metalradio.co.nz",
+          "url": "http://curiosity.shoutca.st:9073/stream",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fb02ee16-e123-40fa-88a0-355b3d38382a",
+        "name": "Radiowave NZ",
+        "url": "https://listen.radioking.com/radio/106324/stream/145267",
+        "votes": 36
+      },
+      "variants": [
+        {
+          "stationuuid": "e3daf602-40fe-433a-810f-4807031f4af4",
+          "name": "Radio A - Nelson NZ",
+          "url": "https://listen.radioking.com/radio/106324/stream/145267",
+          "votes": 24,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e0c08e17-4b92-4625-b090-df6a57b67018",
+        "name": "Brian FM 91.2 Whanganui NZ",
+        "url": "https://ais-sa1.streamon.fm/7100_128k.aac",
+        "votes": 32
+      },
+      "variants": [
+        {
+          "stationuuid": "1adf99ff-0e13-4277-995c-4911e73eb50f",
+          "name": "Brian FM 91.2 Wanganui NZ",
+          "url": "https://ais-sa1.streamon.fm/7100_128k.aac",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b562983d-1c3d-456c-acdd-bcef491f245e",
+        "name": "Radio One 91FM",
+        "url": "https://play.r1.co.nz/live",
+        "votes": 28
+      },
+      "variants": [
+        {
+          "stationuuid": "a75ab902-2c4e-49f7-8cf9-1a5d37397a7d",
+          "name": "Radio one 91 fm ",
+          "url": "https://play.r1.co.nz/live",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4406eb02-8077-4035-999a-73ec35bf51d9",
+        "name": "Mouthfull Radio",
+        "url": "https://mouthfull-radio.radiocult.fm/stream",
+        "votes": 25
+      },
+      "variants": [
+        {
+          "stationuuid": "de0f20c2-a5b9-41fd-91e0-8b419acf52da",
+          "name": "Mouthfull Radio",
+          "url": "https://mouthfull-radio.radiocult.fm/stream",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "04d99a72-50cc-4f75-90c1-3403c0a7e005",
+        "name": "LibertyNZ on The Wireless",
+        "url": "https://stream.zeno.fm/lamr6x1fxrruv",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "2670cbc0-8aaf-4ddc-b085-65faf884a6ac",
+          "name": "The Wireless (Today's Best Country)",
+          "url": "https://stream.zeno.fm/lamr6x1fxrruv",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "013e7197-c0b5-4b71-a10d-5e45e76c68d0",
+        "name": "Bay FM 100.7",
+        "url": "https://s38.myradiostream.com:8876/;;?listening-from-radio-garden=1686796930",
+        "votes": 16
+      },
+      "variants": [
+        {
+          "stationuuid": "9714a993-112d-444f-ae52-65307c0fa2c4",
+          "name": "Radio Bay FM 100.7",
+          "url": "https://s38.myradiostream.com:8876/;;?listening-from-radio-garden=1686969300",
+          "votes": 8,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0a26a71c-798e-4159-994d-effb22b68697",
+        "name": "Big River FM",
+        "url": "http://bigriver.broadcast.co.nz/bigriverfm.mp3",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "756a4cf1-9329-46d0-8739-3defcbf3c0e5",
+          "name": "Big River FM",
+          "url": "http://bigriver.broadcast.co.nz/bigriverfm.mp3",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "903bad58-6ccb-4789-9b32-98a1b7b456f7",
+        "name": "MIX FM Wellington",
+        "url": "https://stream.mixfm.nz/",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "3a8a8d3c-00ef-48fa-be6e-90b352c01fca",
+          "name": "Mix FM 87.9, Wellington, New Zealand",
+          "url": "https://stream.mixfm.nz/",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d1af0dac-2021-42d1-9d5d-ca5dbc4301f5",
+        "name": "West Coast Radio",
+        "url": "http://stream2.nrgkits.co.nz:5000/wcrfm",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "4d561c49-3b86-4f38-914c-527bcdf9ee7a",
+          "name": "WCR 87.6 FM",
+          "url": "http://stream2.nrgkits.co.nz:5000/wcrfm",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5d0d5fd3-6b10-48ee-b0fe-e0ee469965d9",
+        "name": "Raglan Community Radio",
+        "url": "https://s36.myradiostream.com/20712/;?type=http&nocache=1738237589?0.8271986316497546",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "80cf7a66-748f-4538-8de4-893e57827d8c",
+          "name": "Raglan Communtiy Radio",
+          "url": "https://s36.myradiostream.com/20712/;?type=http&nocache=1738237956",
+          "votes": 2,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b3d31ee0-e6ee-43c7-8315-1258553e70f5",
+        "name": "Gold Sport AM",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/NZME_06AAC.m3u8",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "0ff88412-d300-4660-9754-88199aa12e0f",
+          "name": "Gold Sport AM",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/NZME_06AAC.m3u8",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7dbe287d-b2d9-4fd1-b5e1-34f049b90ebe",
+        "name": "Arrow FM",
+        "url": "https://live.accessmedia.nz/ArrowFM.stream/playlist.m3u8",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "d1777228-19a9-4bb4-9e1e-5fa5b657a32c",
+          "name": "Arrow FM 92.7",
+          "url": "https://live.accessmedia.nz/ArrowFM.stream/playlist.m3u8",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "270fdac5-b50c-4775-ac3f-aa0638d1902e",
+        "name": "Radio Hauraki",
+        "url": "https://23163.live.streamtheworld.com/NZME_04AAC/HLS/playlist.m3u8",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "d00afbb3-a35a-4ed2-9261-5fad5301ea99",
+          "name": "Radio Hauraki",
+          "url": "https://23163.live.streamtheworld.com/NZME_04AAC/HLS/playlist.m3u8?aw_0_1st.playerid=iHeartRadioWebPlayer&aw_0_1st.skey=12121006026&clientType=web&companionAds=false&deviceName=web-desktop&dist=iheart&host=webapp.NZ&listenerId=&playedFrom=157&pname=live_profile&profileId=12121006026&stationid=6191&terminalId=162&territory=NZ",
+          "votes": 2,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f93ed26a-d2f9-4fa6-8509-4413d885138c",
+        "name": "SayHiFM",
+        "url": "https://play.radioking.io/sayhifm",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "3da39960-20ce-4e64-88c0-3753aa8b6789",
+          "name": "SayHiFM",
+          "url": "https://play.radioking.io/sayhifm",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d19d47a8-0ca0-438f-9273-25a117109dfe",
+        "name": "Beagle 88.1",
+        "url": "https://stream.beagleradio.co.nz/stream",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "b9d42ae3-7b57-4e5e-a037-e3ead4f4018b",
+          "name": "Beagle Radio",
+          "url": "https://stream.beagleradio.co.nz/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

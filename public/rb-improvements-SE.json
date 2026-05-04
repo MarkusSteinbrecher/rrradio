@@ -1,0 +1,840 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.888Z",
+  "country": "SE",
+  "sourceProbedAt": "2026-04-30T07:05:02.189Z",
+  "totals": {
+    "deadStreams": 32,
+    "internalDupes": 25,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "3b7a51fa-88af-4d6f-9489-6f57ae737b1a",
+      "name": "Sveriges Radio P2",
+      "url": "https://http-live.sr.se/p2musik-aac-320",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 407,
+      "lastProbedAt": "2026-04-30T07:04:49.047Z"
+    },
+    {
+      "stationuuid": "543db188-7d24-417e-aa1f-2fe942ccf88e",
+      "name": "Sveriges Radio P4 Stockholm ",
+      "url": "https://http-live.sr.se/p4stockholm-mp3-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 155,
+      "lastProbedAt": "2026-04-30T07:04:51.482Z"
+    },
+    {
+      "stationuuid": "87da5b20-53e4-483f-92fe-96a28c8c8b18",
+      "name": "Sveriges Radio P4 Göteborg",
+      "url": "https://http-live.sr.se/p4goteborg-mp3-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 81,
+      "lastProbedAt": "2026-04-30T07:04:53.515Z"
+    },
+    {
+      "stationuuid": "960c58b3-0601-11e8-ae97-52543be04c81",
+      "name": "Sveriges Radio - SR Extra 1",
+      "url": "https://http-live.sr.se/srextra01-aac-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 35,
+      "lastProbedAt": "2026-04-30T07:04:55.658Z"
+    },
+    {
+      "stationuuid": "38ecf77e-b929-458c-ad32-564dcab453c9",
+      "name": "SR P2",
+      "url": "https://http-live.sr.se/p2-mp3-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 34,
+      "lastProbedAt": "2026-04-30T07:04:55.660Z"
+    },
+    {
+      "stationuuid": "8fbba0c6-2fe5-11ea-aa0c-52543be04c81",
+      "name": "Sveriges Radio - Radioapans knattekanal",
+      "url": "https://http-live.sr.se/knattekanalen-mp3-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 30,
+      "lastProbedAt": "2026-04-30T07:04:55.728Z"
+    },
+    {
+      "stationuuid": "7edf2ac6-c6a3-4283-aad8-1b8cfa39fe81",
+      "name": "P4 Norrbotten",
+      "url": "https://http-live.sr.se/p4norrbotten-mp3-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 21,
+      "lastProbedAt": "2026-04-30T07:04:57.302Z"
+    },
+    {
+      "stationuuid": "960c84bf-0601-11e8-ae97-52543be04c81",
+      "name": "Sveriges Radio - SR Extra 4",
+      "url": "https://http-live.sr.se/srextra04-aac-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 19,
+      "lastProbedAt": "2026-04-30T07:04:57.310Z"
+    },
+    {
+      "stationuuid": "960c6bc6-0601-11e8-ae97-52543be04c81",
+      "name": "Sveriges Radio - SR Extra 8",
+      "url": "https://http-live.sr.se/srextra08-aac-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 18,
+      "lastProbedAt": "2026-04-30T07:04:57.554Z"
+    },
+    {
+      "stationuuid": "960cf120-0601-11e8-ae97-52543be04c81",
+      "name": "Sveriges Radio - SR Extra 6",
+      "url": "https://http-live.sr.se/srextra06-aac-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 16,
+      "lastProbedAt": "2026-04-30T07:04:57.881Z"
+    },
+    {
+      "stationuuid": "c51dbaad-5f7a-4027-8600-7b7c620023d8",
+      "name": "Sveriges Radio - P4 Värmland",
+      "url": "https://http-live.sr.se/p4varmland-mp3-128",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 14,
+      "lastProbedAt": "2026-04-30T07:04:58.135Z"
+    },
+    {
+      "stationuuid": "5d88511c-5369-4092-b027-22b9678d4073",
+      "name": "Sveriges Radio P4 Stockholm ",
+      "url": "https://http-live.sr.se/p4stockholm-mp3-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 14,
+      "lastProbedAt": "2026-04-30T07:04:58.137Z"
+    },
+    {
+      "stationuuid": "850aedd1-5099-4553-81cc-7f24704cb3e7",
+      "name": "Sveriges Radio - P4 Jämtland",
+      "url": "https://http-live.sr.se/p4jamtland-mp3-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 12,
+      "lastProbedAt": "2026-04-30T07:04:58.641Z"
+    },
+    {
+      "stationuuid": "960c91b0-0601-11e8-ae97-52543be04c81",
+      "name": "Sveriges Radio - SR Extra 5",
+      "url": "https://http-live.sr.se/srextra05-aac-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 12,
+      "lastProbedAt": "2026-04-30T07:04:58.643Z"
+    },
+    {
+      "stationuuid": "960c69e6-0601-11e8-ae97-52543be04c81",
+      "name": "Sveriges Radio - SR Extra 3",
+      "url": "https://http-live.sr.se/srextra03-aac-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 11,
+      "lastProbedAt": "2026-04-30T07:04:58.651Z"
+    },
+    {
+      "stationuuid": "960cf1df-0601-11e8-ae97-52543be04c81",
+      "name": "Sveriges Radio - SR Extra 7",
+      "url": "https://http-live.sr.se/srextra07-aac-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 11,
+      "lastProbedAt": "2026-04-30T07:04:58.653Z"
+    },
+    {
+      "stationuuid": "6f295dab-138c-45a5-b06f-d81e4643d05e",
+      "name": "Sveriges Radio P4 Gävleborg",
+      "url": "https://http-live.sr.se/p4gavleborg-mp3-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 11,
+      "lastProbedAt": "2026-04-30T07:04:58.655Z"
+    },
+    {
+      "stationuuid": "33663b50-cb33-4a5d-83cc-7ffaa776def5",
+      "name": "Sveriges Radio P4 Göteborg ",
+      "url": "https://http-live.sr.se/p4goteborg-mp3-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 11,
+      "lastProbedAt": "2026-04-30T07:04:58.657Z"
+    },
+    {
+      "stationuuid": "eb7aca36-7206-4367-823f-71c1dd7e104f",
+      "name": "Sveriges Radio P4 Skaraborg",
+      "url": "https://http-live.sr.se/p4skaraborg-mp3-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 11,
+      "lastProbedAt": "2026-04-30T07:04:58.659Z"
+    },
+    {
+      "stationuuid": "960c59d6-0601-11e8-ae97-52543be04c81",
+      "name": "Sveriges Radio - SR Extra 10",
+      "url": "https://http-live.sr.se/srextra10-aac-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 10,
+      "lastProbedAt": "2026-04-30T07:04:59.088Z"
+    },
+    {
+      "stationuuid": "9e158282-94f5-4577-a551-58bcca2d9602",
+      "name": "Sveriges Radio P4 Uppland",
+      "url": "https://http-live.sr.se/p4uppland-mp3-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 9,
+      "lastProbedAt": "2026-04-30T07:04:59.090Z"
+    },
+    {
+      "stationuuid": "2d109f2c-222b-4c48-82be-787e5d695662",
+      "name": "Sveriges Radio P4 Gotland",
+      "url": "https://http-live.sr.se/p4gotland-mp3-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 8,
+      "lastProbedAt": "2026-04-30T07:04:59.141Z"
+    },
+    {
+      "stationuuid": "dc8c2061-1ea8-434e-b523-2742ae6fb96c",
+      "name": "Sveriges Radio P4 Sjuharad",
+      "url": "https://http-live.sr.se/p4sjuharad-mp3-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 8,
+      "lastProbedAt": "2026-04-30T07:04:59.143Z"
+    },
+    {
+      "stationuuid": "10398e96-9329-4763-aada-543d35b56832",
+      "name": "Sveriges Radio - P4 Västmanland",
+      "url": "https://http-live.sr.se/p4vastmanland-mp3-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-30T07:04:59.145Z"
+    },
+    {
+      "stationuuid": "25a9a10c-7de5-4f5e-8989-e128c3f4b94e",
+      "name": "SR P4 Jönköping",
+      "url": "https://http-live.sr.se/p4jonkoping-mp3-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-30T07:04:59.358Z"
+    },
+    {
+      "stationuuid": "7800c880-6618-49ac-a6f8-5cac3498fe04",
+      "name": "SR P4 Kronoberg",
+      "url": "https://http-live.sr.se/p4kronoberg-mp3-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-30T07:04:59.360Z"
+    },
+    {
+      "stationuuid": "2f02c316-7d2b-4247-9e51-c75e248c012c",
+      "name": "Sveriges Radio P1 192kbps",
+      "url": "https://http-live.sr.se/p1-mp3-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-30T07:04:59.362Z"
+    },
+    {
+      "stationuuid": "5003028b-5943-4cea-820b-5b8a4a8fa9b6",
+      "name": "SR Din Gata",
+      "url": "https://http-live.sr.se/dingata-aac-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T07:04:59.646Z"
+    },
+    {
+      "stationuuid": "eb44f44b-f3c9-4e6e-a440-91c045b0fe80",
+      "name": "Sveriges Radio P4 Jönköping",
+      "url": "https://http-live.sr.se/p4jonkoping-mp3-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T07:05:00.248Z"
+    },
+    {
+      "stationuuid": "296c9a72-28ad-48f5-85ac-af6eb47acc46",
+      "name": "Sveriges Radio P4 Uppland AAC",
+      "url": "https://http-live.sr.se/p4uppland-aac-192",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T07:05:00.250Z"
+    },
+    {
+      "stationuuid": "d66b22ac-0743-41e5-99d6-affdb54d74c0",
+      "name": "Hitzfm 97,8 Sommenbygd",
+      "url": "https://s2.stationplaylist.com:7098/listen.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T07:05:00.786Z"
+    },
+    {
+      "stationuuid": "888b3eb1-7766-48bb-b002-ea99e3a8becf",
+      "name": "RetroHits",
+      "url": "https://sc.retrohits.se/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T07:05:01.981Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "96342772-0601-11e8-ae97-52543be04c81",
+        "name": "Mix Megapol",
+        "url": "http://tx-bauerse.sharp-stream.com/http_live.php?ua=WEB&i=mixmegapol_instream_se_mp3",
+        "votes": 2219
+      },
+      "variants": [
+        {
+          "stationuuid": "96414222-0601-11e8-ae97-52543be04c81",
+          "name": "NRJ Sweden",
+          "url": "http://tx-bauerse.sharp-stream.com/http_live.php?i=nrj_instreamtest_se_mp3",
+          "votes": 2050,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "9642ad8b-0601-11e8-ae97-52543be04c81",
+          "name": "106,7 Rockklassiker",
+          "url": "http://tx-bauerse.sharp-stream.com/http_live.php?ua=WEB&i=rockklassiker_instream_se_mp3",
+          "votes": 1271,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "3e5a08bf-57fc-420a-a543-2f7c6f7b6a06",
+          "name": "Mix Megapol GBG",
+          "url": "http://tx-bauerse.sharp-stream.com/http_live.php?i=mixmegapolgbg_instream_se_mp3",
+          "votes": 448,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "faa6e568-c9a4-4d7c-bea0-939cb069ec75",
+          "name": "Mixmegapol",
+          "url": "http://tx-bauerse.sharp-stream.com/http_live.php?ua=WEB&i=rockklassiker_instream_se_mp3",
+          "votes": 161,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "50d2c7dd-dec7-4169-84a1-a2f1614278ad",
+        "name": "Rix FM",
+        "url": "http://fm01-ice.stream.khz.se/fm01_mp3",
+        "votes": 784
+      },
+      "variants": [
+        {
+          "stationuuid": "0a1d8945-08fe-4092-96c4-019ac9a38022",
+          "name": "Rix FM",
+          "url": "http://fm01-ice.stream.khz.se/fm01_mp3",
+          "votes": 191,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960c62c1-0601-11e8-ae97-52543be04c81",
+        "name": "Sveriges Radio - P2",
+        "url": "https://live1.sr.se/p2-aac-320",
+        "votes": 509
+      },
+      "variants": [
+        {
+          "stationuuid": "287a4851-de0c-4184-8255-b435d6b62e0b",
+          "name": "Sveriges Radio - P2 Klassiskt",
+          "url": "https://live1.sr.se/p2-aac-320",
+          "votes": 158,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e4f6d392-f704-4cf0-8d26-9c931cebeaf6",
+        "name": "Sveriges Radio - P3",
+        "url": "https://live1.sr.se/p3-mp3-96",
+        "votes": 499
+      },
+      "variants": [
+        {
+          "stationuuid": "1d35c168-deb1-4751-a1e6-ae19fb3e7a3e",
+          "name": "Sveriges radio P3 (mp3)",
+          "url": "https://live1.sr.se/p3-mp3-96",
+          "votes": 409,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9614fe6c-0601-11e8-ae97-52543be04c81",
+        "name": "SceneSat Radio (MP3)",
+        "url": "http://oscar.scenesat.com:8000/scenesatmax",
+        "votes": 419
+      },
+      "variants": [
+        {
+          "stationuuid": "949f9dd3-36d0-48c3-9f4f-670b43b4c46b",
+          "name": "SceneSat",
+          "url": "http://oscar.scenesat.com:8000/scenesatmax",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ec17a150-5a0c-11e8-b0ce-52543be04c81",
+        "name": "SVT P1 192kps",
+        "url": "https://live1.sr.se/p1-mp3-96",
+        "votes": 409
+      },
+      "variants": [
+        {
+          "stationuuid": "5c7ef11f-a6a0-4697-9d87-6df7a3209258",
+          "name": "Sveriges Radio P1",
+          "url": "https://live1.sr.se/p1-mp3-96",
+          "votes": 145,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        },
+        {
+          "stationuuid": "95019533-f24b-4eb2-ba07-2ccdf1ea683e",
+          "name": "Sveriges Radio P1",
+          "url": "https://live1.sr.se/p1-mp3-96",
+          "votes": 93,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0d3a2fd0-4c71-46ee-8700-2686fb699307",
+        "name": "RIX FM 106,7",
+        "url": "https://fm01-ice.stream.khz.se/fm01_mp3",
+        "votes": 211
+      },
+      "variants": [
+        {
+          "stationuuid": "d1620588-c6f3-4e40-a828-a0fd3f945c07",
+          "name": "RIX FM",
+          "url": "https://fm01-ice.stream.khz.se/fm01_mp3",
+          "votes": 128,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "97b6d543-896d-4361-bc34-5d1c8a19a4bc",
+        "name": "Sveriges Radio P2 flac",
+        "url": "https://edge1.sr.se/p2-flac",
+        "votes": 173
+      },
+      "variants": [
+        {
+          "stationuuid": "c8c4a599-7230-4a08-997d-36c74b08c2ce",
+          "name": "Sveriges Radio P2 flac",
+          "url": "https://edge1.sr.se/p2-flac",
+          "votes": 130,
+          "differs": []
+        },
+        {
+          "stationuuid": "7517e554-81cd-411c-aa27-13844283a5ed",
+          "name": "Sveriges radio P2 flac",
+          "url": "https://edge1.sr.se/p2-flac",
+          "votes": 79,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "697e5012-5cdc-46b5-abe6-18cebd3b3dd1",
+          "name": "Sveriges Radio - P2",
+          "url": "https://edge1.sr.se/p2-flac",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "543db188-7d24-417e-aa1f-2fe942ccf88e",
+        "name": "Sveriges Radio P4 Stockholm ",
+        "url": "https://http-live.sr.se/p4stockholm-mp3-192",
+        "votes": 155
+      },
+      "variants": [
+        {
+          "stationuuid": "5d88511c-5369-4092-b027-22b9678d4073",
+          "name": "Sveriges Radio P4 Stockholm ",
+          "url": "https://http-live.sr.se/p4stockholm-mp3-192",
+          "votes": 14,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "87da5b20-53e4-483f-92fe-96a28c8c8b18",
+        "name": "Sveriges Radio P4 Göteborg",
+        "url": "https://http-live.sr.se/p4goteborg-mp3-192",
+        "votes": 81
+      },
+      "variants": [
+        {
+          "stationuuid": "33663b50-cb33-4a5d-83cc-7ffaa776def5",
+          "name": "Sveriges Radio P4 Göteborg ",
+          "url": "https://http-live.sr.se/p4goteborg-mp3-192",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fc34869b-77f3-4483-87ad-813361bbbfd0",
+        "name": "Sveriges Radio P2 flac",
+        "url": "https://live1.sr.se/p2-flac",
+        "votes": 70
+      },
+      "variants": [
+        {
+          "stationuuid": "0826eaef-59e4-4761-b3e8-31670421a753",
+          "name": "SR P2 ",
+          "url": "https://live1.sr.se/p2-flac",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "587e1851-aa43-4c62-a4b1-8b7f2517a31a",
+        "name": "Stockholm Närradio FM 88.0",
+        "url": "http://live.narradio.se:8010/;stream.mp3",
+        "votes": 61
+      },
+      "variants": [
+        {
+          "stationuuid": "311274b6-e55a-41dc-a0d9-f9af449aba2a",
+          "name": "Stockholm FM 88.0 MHz Sweden",
+          "url": "http://live.narradio.se:8010/;stream.mp3",
+          "votes": 44,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "54e3f7cd-47a0-414a-ac11-1b7850ed5973",
+        "name": "Stocholm Närradio FM 95.3",
+        "url": "http://live.narradio.se:8020/;stream.mp3",
+        "votes": 56
+      },
+      "variants": [
+        {
+          "stationuuid": "a786a585-319c-4da9-ac13-794e805f1529",
+          "name": "Stockholm FM 95.3 MHz Sweden",
+          "url": "http://live.narradio.se:8020/;stream.mp3",
+          "votes": 22,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d99b56f3-fa85-4c91-86a3-3c2e8135ea3d",
+        "name": "Dagnys Jukebox",
+        "url": "https://stream4.rcast.net/73224",
+        "votes": 52
+      },
+      "variants": [
+        {
+          "stationuuid": "b8f2ef5c-eaac-499c-b006-6a2fd276efb1",
+          "name": "Dagnys Jukebox",
+          "url": "https://stream4.rcast.net/73224",
+          "votes": 18,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5dde70fa-c630-4ad5-840c-8af6bddb145a",
+        "name": "The ERICADE Radio Network",
+        "url": "https://radio.ericade.net/sc/stream/1/",
+        "votes": 44
+      },
+      "variants": [
+        {
+          "stationuuid": "6dfb955d-609a-4c53-af79-39f9660a408d",
+          "name": "The ERICADE Radio Network",
+          "url": "https://radio.ericade.net/sc/stream/1/",
+          "votes": 23,
+          "differs": []
+        },
+        {
+          "stationuuid": "ffe421ec-4f51-4313-8bd0-e90a575fba8e",
+          "name": "ericade.radio",
+          "url": "https://radio.ericade.net/sc/stream/1/",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2a1fa39a-15b6-47d5-9b1f-f1680eebc0d9",
+        "name": "Stockholm FM 101.1 MHz Sweden",
+        "url": "http://live.narradio.se:8030/;stream.mp3",
+        "votes": 38
+      },
+      "variants": [
+        {
+          "stationuuid": "b667d92a-e0a3-4b84-aba6-1f455cc5e592",
+          "name": "Stockholm Närradio FM 101.1",
+          "url": "http://live.narradio.se:8030/;stream.mp3",
+          "votes": 36,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "964338ec-0601-11e8-ae97-52543be04c81",
+        "name": "Borås Närradio",
+        "url": "http://lyssna.fnf.nu:8080/radioboras.mp3",
+        "votes": 29
+      },
+      "variants": [
+        {
+          "stationuuid": "1ca4c790-7797-4b00-afa0-19e276302d64",
+          "name": "Borås Närradioförening",
+          "url": "http://lyssna.fnf.nu:8080/radioboras.mp3",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2411d3f7-3a88-4e9f-b0b7-a1b512890fef",
+        "name": "Radio Sydväst Närradio Stockholm FM 88.9",
+        "url": "http://radiosydvast.duckdns.org:12932/stream",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "dcffc252-0460-4e02-9063-73e7e0e5af7f",
+          "name": "Radio Sydvast",
+          "url": "http://radiosydvast.duckdns.org:12932/stream",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c8904795-b56f-4abc-afac-476169325741",
+        "name": "Radio Hope",
+        "url": "https://s2.radio.co/sfbf5f5b85/listen",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "9a58e0e1-7718-4d9a-8179-c9c95a255fd6",
+          "name": "Sveriges Kristna Radio",
+          "url": "https://s2.radio.co/sfbf5f5b85/listen",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "058e8017-4257-4565-bc22-fc6a17c32a2e",
+        "name": "Sveriges Radio P4 Malmöhus",
+        "url": "https://live1.sr.se/p4malm-mp3-96",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "613dbc09-c205-4285-bb0f-7e71a67015dd",
+          "name": "SR P4 Malmöhus",
+          "url": "https://live1.sr.se/p4malm-mp3-96",
+          "votes": 10,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "25a9a10c-7de5-4f5e-8989-e128c3f4b94e",
+        "name": "SR P4 Jönköping",
+        "url": "https://http-live.sr.se/p4jonkoping-mp3-192",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "eb44f44b-f3c9-4e6e-a440-91c045b0fe80",
+          "name": "Sveriges Radio P4 Jönköping",
+          "url": "https://http-live.sr.se/p4jonkoping-mp3-192",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cda260eb-ede7-4417-97f6-55dea02abd80",
+        "name": "Radio Haninge",
+        "url": "http://213.115.49.175:1157/;",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "15e028aa-8914-49d8-9241-ea8aded0f6b6",
+          "name": "Radio Haninge Direkt",
+          "url": "http://213.115.49.175:1157/;",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6a4f38ed-3c22-45b1-a2f3-5da0c8f47c2d",
+        "name": "Pain",
+        "url": "https://stream.pcradio.ru/Pain-hi",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "f6962d71-ceab-47e7-8cbd-0fddb7074a27",
+          "name": "Pain",
+          "url": "https://stream.pcradio.ru/Pain-hi",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "51b2e520-417d-4c91-8bf3-f2a664289c9b",
+        "name": "P4 Västernorrland",
+        "url": "https://live1.sr.se/p4vnrl-mp3-96",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "726aaa92-2694-4a2b-b952-02b297ca4094",
+          "name": "P4 Västernorrland",
+          "url": "https://live1.sr.se/p4vnrl-mp3-96",
+          "votes": 1,
+          "differs": [
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "478c1254-cd56-472d-8f12-24f110d76d8d",
+        "name": "Sveriges Radio -P4 Stockholm",
+        "url": "https://live1.sr.se/p4sth-aac-32",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "9ccab272-2072-4baa-baad-52170ecd0c11",
+          "name": "SR4- Sthlm",
+          "url": "https://live1.sr.se/p4sth-aac-32",
+          "votes": 0,
+          "differs": [
+            "name",
+            "bitrate",
+            "codec"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

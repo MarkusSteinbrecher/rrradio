@@ -1,0 +1,3868 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.882Z",
+  "country": "NL",
+  "sourceProbedAt": "2026-04-29T20:15:03.499Z",
+  "totals": {
+    "deadStreams": 80,
+    "internalDupes": 150,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "0adb24fb-a2fe-4a9b-97a4-bc82dfb1820c",
+      "name": "jungletrain.net - 24/7 drum and bass",
+      "url": "https://chat.jungletrain.net/streamtest/;stream/1",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 731,
+      "lastProbedAt": "2026-04-29T20:13:51.473Z"
+    },
+    {
+      "stationuuid": "01a9ba90-6601-490f-bc74-64b611b032d4",
+      "name": "Radio Veronica",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/VERONICA",
+      "verdict": "broken-format",
+      "verdictReason": "content-type application/flv not audio-like",
+      "votes": 426,
+      "lastProbedAt": "2026-04-29T20:13:54.304Z"
+    },
+    {
+      "stationuuid": "29a303fa-f28a-4bf7-a8c2-b6e6708a51a5",
+      "name": "Sunlite",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SUNLITE_MP3.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 69,
+      "lastProbedAt": "2026-04-29T20:14:06.869Z"
+    },
+    {
+      "stationuuid": "40b45602-44ff-409a-93f2-3ab3c3df2158",
+      "name": "RTV Maastricht Radio 107.5 FM",
+      "url": "https://stream.rtvmaastricht.nl/rtv/radio_audio/icecast.audio",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 46,
+      "lastProbedAt": "2026-04-29T20:14:11.643Z"
+    },
+    {
+      "stationuuid": "b78c2dd2-2812-4ce5-8ff4-87fdd08779cb",
+      "name": "Hardcore Power Radio (2nd server)",
+      "url": "https://loa.beheerstream.nl:8012/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 40,
+      "lastProbedAt": "2026-04-29T20:14:12.924Z"
+    },
+    {
+      "stationuuid": "2d02accc-32b6-464a-a9f8-1fb546a8441e",
+      "name": "OOG Radio",
+      "url": "https://nlpo.stream.vip/oogfm/mp3-192/nlpo/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 23,
+      "lastProbedAt": "2026-04-29T20:14:19.379Z"
+    },
+    {
+      "stationuuid": "ec8d1483-029a-4c9b-aef8-988dad905782",
+      "name": "Omroep Land van Cuijk",
+      "url": "https://nlpo.stream.vip/cuijkrad/mp3-192/nlpo/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 17,
+      "lastProbedAt": "2026-04-29T20:14:21.208Z"
+    },
+    {
+      "stationuuid": "708e6e3d-b5b2-4c2f-a1e4-c28a1a047aaa",
+      "name": "Hitradio 038",
+      "url": "https://loa.beheerstream.nl:8018/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 12,
+      "lastProbedAt": "2026-04-29T20:14:24.278Z"
+    },
+    {
+      "stationuuid": "85bb6aa4-b33c-4988-8d17-07bdc6705b4f",
+      "name": "SuperMixFM",
+      "url": "https://loa.beheerstream.nl:8110/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 12,
+      "lastProbedAt": "2026-04-29T20:14:24.727Z"
+    },
+    {
+      "stationuuid": "46bf662e-4cc2-41d9-9737-bc98a60891ef",
+      "name": "Waterland Radio (320k)",
+      "url": "https://loa.beheerstream.nl:8034/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 12,
+      "lastProbedAt": "2026-04-29T20:14:25.175Z"
+    },
+    {
+      "stationuuid": "e12d050a-611b-415b-8bff-afabf3c11188",
+      "name": "Happy Sound Music Limburg ",
+      "url": "https://server-28.stream-server.nl/stream/happysoundmusic",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 11,
+      "lastProbedAt": "2026-04-29T20:14:25.461Z"
+    },
+    {
+      "stationuuid": "1030ddec-d148-4f3c-aeca-fdbbc72c741a",
+      "name": "Radio 794",
+      "url": "https://ats.jammfm.nl:20080/radio794/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 10,
+      "lastProbedAt": "2026-04-29T20:14:26.491Z"
+    },
+    {
+      "stationuuid": "8f93b407-a1e2-489b-86be-77400e02f903",
+      "name": "Saba Radio Q 93.9 FM Netherlands",
+      "url": "https://s1.northrich.nl:38123/streamq939",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 10,
+      "lastProbedAt": "2026-04-29T20:14:36.912Z"
+    },
+    {
+      "stationuuid": "d884530e-a8d9-4754-aef5-923c8207775e",
+      "name": "Happy Sound Music",
+      "url": "https://server-28.stream-server.nl:8918/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 9,
+      "lastProbedAt": "2026-04-29T20:14:27.824Z"
+    },
+    {
+      "stationuuid": "35a25ae7-7a20-4060-9154-9d25b52e3986",
+      "name": "Reformatorische Omroep Radio 2",
+      "url": "https://ro3.reformatorischeomroep.nl:8072/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 8,
+      "lastProbedAt": "2026-04-29T20:14:30.582Z"
+    },
+    {
+      "stationuuid": "77c1c676-5c76-4351-8da2-7c70cc505107",
+      "name": "beeRadio",
+      "url": "https://stream.beeradio.nl/main",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T20:14:30.674Z"
+    },
+    {
+      "stationuuid": "0dcb79ae-08dd-4176-86ee-964e643806fa",
+      "name": "Hit Radio Loz",
+      "url": "https://loa.beheerstream.nl:8112/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T20:14:31.638Z"
+    },
+    {
+      "stationuuid": "12ff52b7-b4fe-418f-9ec1-a149bc8c2aa2",
+      "name": "KingFM",
+      "url": "https://server-28.stream-server.nl:8870/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T20:14:31.664Z"
+    },
+    {
+      "stationuuid": "94127ab9-1beb-4c14-95a3-d33422dc3dd4",
+      "name": "DBC",
+      "url": "https://radio.ilyasmoerkens.nl/listen/radio_1/radio320.aac",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 530",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T20:14:32.751Z"
+    },
+    {
+      "stationuuid": "d8128f36-75a6-4826-b3a1-e3fe59b3eada",
+      "name": "Radio ZO-NWS",
+      "url": "https://nlpo.stream.vip/zonws/mp3-192/nlpo/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T20:14:33.564Z"
+    },
+    {
+      "stationuuid": "b5631be6-9719-4c0d-9928-3e81488df192",
+      "name": "Rara Radio",
+      "url": "https://58c04fb1d143f.streamlock.net/rararadio/rararadio/chunklist_w697961126.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T20:14:33.689Z"
+    },
+    {
+      "stationuuid": "267fcaba-9e91-49e4-b50d-45cf5384fbb7",
+      "name": "Reformatorische Omroep Radio 2",
+      "url": "https://ro3.reformatorischeomroep.nl:8072/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T20:14:33.966Z"
+    },
+    {
+      "stationuuid": "98699a46-6e16-43b6-885f-8ab1bd8cb1aa",
+      "name": "1Achterhoek",
+      "url": "https://nlpo.stream.vip/achterhoek/mp3-192/nlpo.stream.vip/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T20:14:34.066Z"
+    },
+    {
+      "stationuuid": "ebb74a52-3f2b-4a4a-85cd-fa416faa406a",
+      "name": "L.O.V.E. (Lokale Omroep Volendam Edam)",
+      "url": "https://nlpo.stream.vip/rtvlove/mp3-192/nlpo.stream.vip/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T20:14:34.580Z"
+    },
+    {
+      "stationuuid": "1802bf21-989c-4943-946e-8b66ec5a1135",
+      "name": "MeerRadio",
+      "url": "https://nlpo.stream.vip/radiomer/mp3-192/nlpo/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T20:14:34.831Z"
+    },
+    {
+      "stationuuid": "93abc417-7b8a-475b-9b58-e0214c423b5b",
+      "name": "MFM Brabant",
+      "url": "https://nlpo.stream.vip/brabant/mp3-192/nlpo.stream.vip/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T20:14:34.937Z"
+    },
+    {
+      "stationuuid": "b700b11f-fd6c-44e0-9b3e-71768d651c81",
+      "name": "Radio 80",
+      "url": "https://nlpo.stream.vip/rtv80/mp3-192/nlpo",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T20:14:35.556Z"
+    },
+    {
+      "stationuuid": "7a1acf5f-cf23-4b9a-a6cb-9a0db583cbfe",
+      "name": "Radio Uniek Rotterdam",
+      "url": "https://stream.hosting078.nl:8044/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T20:14:35.667Z"
+    },
+    {
+      "stationuuid": "7421fb7e-c365-436a-a5e8-b0202f0db725",
+      "name": "RTV Connect Radio",
+      "url": "https://nlpo.stream.vip/connectfm/mp3-192/nlpo.stream.vip/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T20:14:36.040Z"
+    },
+    {
+      "stationuuid": "348871b0-60ce-4ae3-9d58-67b3cc170a72",
+      "name": "Clubstitute Radio",
+      "url": "https://stream01.eliveld-ict.nl/listen/clubstitute_radio/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T20:14:37.143Z"
+    },
+    {
+      "stationuuid": "61b87b15-0d7e-4489-943f-59a5b90c3add",
+      "name": "Donderschoer Radio",
+      "url": "https://loa.beheerstream.nl:8110/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T20:14:37.243Z"
+    },
+    {
+      "stationuuid": "b2e84af5-d103-4876-8c3c-cc1129e900ac",
+      "name": "Glow FM",
+      "url": "https://nlpo.stream.vip/glowfm/mp3-192/nlpo.stream.vip/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T20:14:37.672Z"
+    },
+    {
+      "stationuuid": "54606ec4-35d7-41d6-aca9-d658b508a4d2",
+      "name": "Leuk FM",
+      "url": "https://nlpo.stream.vip/leukfm/mp3-192/nlpo.stream.vip/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T20:14:37.896Z"
+    },
+    {
+      "stationuuid": "42940347-f13f-4438-bae0-ef08da21b3f4",
+      "name": "Lokale Omroep Goirle Radio",
+      "url": "https://nlpo.stream.vip/logfm/mp3-192/nlpo.stream.vip/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T20:14:37.998Z"
+    },
+    {
+      "stationuuid": "0e750ae8-dadc-443e-bb79-866dad81cd31",
+      "name": "Onlinepiraat.NL",
+      "url": "https://loa.beheerstream.nl:8016/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T20:14:38.710Z"
+    },
+    {
+      "stationuuid": "510f3b9f-1434-4c18-9de4-de65a0329d74",
+      "name": "PI2NOS",
+      "url": "https://stream.hobbyscoop.nl/pi2nos",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T20:14:38.481Z"
+    },
+    {
+      "stationuuid": "de75b9b0-69fc-4d4d-a5fe-5917a3a33dba",
+      "name": "Planet 90",
+      "url": "https://loa.beheerstream.nl:8010/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T20:14:38.727Z"
+    },
+    {
+      "stationuuid": "e5e730d1-5914-470c-af22-37d6928f2d28",
+      "name": "Radio Lelystad",
+      "url": "https://nlpo.stream.vip/lelystad/mp3-192/nlpo.stream.vip/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T20:14:39.006Z"
+    },
+    {
+      "stationuuid": "24463b85-e433-4bb4-ba39-bf5ddc12b472",
+      "name": "radio twentestad ",
+      "url": "https://mscp2.live-streams.nl:8072/twentestad320",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T20:14:39.185Z"
+    },
+    {
+      "stationuuid": "1be74a69-18a1-4c4a-b93a-48ab7cc8de2d",
+      "name": "RTV Seaport",
+      "url": "https://nlpo.stream.vip/seaport/mp3-192/nlpo.stream.vip/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T20:14:39.468Z"
+    },
+    {
+      "stationuuid": "31369f30-0dfc-4c70-90f6-eb08ea197fb8",
+      "name": "RTV794",
+      "url": "https://nlpo.stream.vip/radio794fm/mp3-192/nlpo/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T20:14:39.485Z"
+    },
+    {
+      "stationuuid": "3f30ff6f-db02-4558-959e-ff534f10c7e6",
+      "name": "RTW FM",
+      "url": "https://loa.beheerstream.nl:8104/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T20:14:39.570Z"
+    },
+    {
+      "stationuuid": "f7dff436-f7b5-428d-8d66-3b693c836d99",
+      "name": "ZAP! FM",
+      "url": "https://zapstream.nl/1",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T20:14:40.213Z"
+    },
+    {
+      "stationuuid": "64ba6d0c-4440-4407-abcd-822d4b2fd60f",
+      "name": "Centraal Hits",
+      "url": "https://server-26.stream-server.nl:18738/",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T20:14:40.896Z"
+    },
+    {
+      "stationuuid": "51dd2c8e-029c-429f-b842-a322bdba93f6",
+      "name": "MediaMarkt FM",
+      "url": "https://stream.cuecreative.nl/mediamarktfm",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T20:14:42.352Z"
+    },
+    {
+      "stationuuid": "7bdb982b-9a5a-42df-a02c-b5a791a8aa4f",
+      "name": "OnDair",
+      "url": "https://stream.zeno.fm/vistyzosypbvv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T20:14:52.871Z"
+    },
+    {
+      "stationuuid": "acf6b64c-1aca-4e9e-93b1-2e9edaf9bf4c",
+      "name": "Planet 90",
+      "url": "https://loa.beheerstream.nl:8010/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T20:14:43.434Z"
+    },
+    {
+      "stationuuid": "4cb86641-c9c9-4544-b49b-b9f5cb014103",
+      "name": "Powerstation Buddha",
+      "url": "https://media2.hostin.cc/psb.aac",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T20:14:43.551Z"
+    },
+    {
+      "stationuuid": "87b3306c-264b-406d-bd40-9751a30ef66e",
+      "name": "Radio 105",
+      "url": "https://loa.beheerstream.nl:8094/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T20:14:43.520Z"
+    },
+    {
+      "stationuuid": "4692de73-3832-4dff-8fab-f23533a5a119",
+      "name": "Radio De Musketiers",
+      "url": "https://loa.beheerstream.nl:8022/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T20:14:43.644Z"
+    },
+    {
+      "stationuuid": "8f59aafc-d3b6-4f5c-99a2-2b389b5a918c",
+      "name": "Radio Omroep Venlo",
+      "url": "https://nlpo.stream.vip/venlo/mp3-192/nlpo",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T20:14:43.915Z"
+    },
+    {
+      "stationuuid": "7f2a811b-1f28-443a-b7ed-09580eb3f0ef",
+      "name": "Radio Son en Breugel",
+      "url": "https://nlpo.stream.vip/breugel/mp3-192/nlpo.stream.vip/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T20:14:43.938Z"
+    },
+    {
+      "stationuuid": "679f6e33-78e5-41fb-a75b-088af6466d40",
+      "name": "RTV Rijnstreek",
+      "url": "https://stream.rtvrijnstreek.nl:1973/rtvrstreek",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T20:14:44.354Z"
+    },
+    {
+      "stationuuid": "22e69bb2-554f-4866-bea5-693c2320d7fc",
+      "name": "ZO-NWS Radio",
+      "url": "https://nlpo.stream.vip/zonws/mp3-192/nlpo/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T20:14:45.277Z"
+    },
+    {
+      "stationuuid": "b05ab7d5-d790-45fb-b8ca-ff4240ccd670",
+      "name": "MeerRadio",
+      "url": "https://nlpo.stream.vip/radiomer/mp3-192/nlpo/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T20:14:46.549Z"
+    },
+    {
+      "stationuuid": "9cada4c3-233b-4fd6-b37a-af3eb7e7718f",
+      "name": "Radio HB",
+      "url": "https://server1.nl.eu.org/stream.ogg",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T20:14:48.029Z"
+    },
+    {
+      "stationuuid": "343af8c7-2f1a-4b11-8193-d7c0cf10f05b",
+      "name": "Radio Schuimkoppen",
+      "url": "https://212.227.68.7/listen/schuimkoppen_online_radio/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T20:14:47.714Z"
+    },
+    {
+      "stationuuid": "be38ac66-5465-41c8-81f0-ecd944196155",
+      "name": "Radio750",
+      "url": "https://solid48.streamupsolutions.com/proxy/ofufrjbi/radio750",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T20:14:48.139Z"
+    },
+    {
+      "stationuuid": "094124ad-e194-4b62-9091-9e22e7076ab9",
+      "name": "Rijnstreek FM Wageningen",
+      "url": "https://stream.rtvrijnstreek.nl:1973/rtvrstreek",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T20:14:48.232Z"
+    },
+    {
+      "stationuuid": "9a276e05-45a2-45db-aa14-b0f4bd652d44",
+      "name": "RtvAlbrandswaard",
+      "url": "https://streamer.hosting078.nl:1850/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T20:14:48.482Z"
+    },
+    {
+      "stationuuid": "35fc2af1-ee79-4241-843a-d1f410cc93ce",
+      "name": "Sleutelstad Radio",
+      "url": "https://sleutelstad.radioca.st/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T20:14:48.660Z"
+    },
+    {
+      "stationuuid": "0b2cde48-3313-4a26-8a59-88dfd28035f0",
+      "name": "Bie Os Radio",
+      "url": "https://nlpo.stream.vip/stein/mp3-192/nlpo",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T20:14:49.290Z"
+    },
+    {
+      "stationuuid": "eb1d6536-d38d-44e1-8970-f4053fba5ba0",
+      "name": "De Vrolijke Snuiters",
+      "url": "https://server-67.stream-server.nl:8794/",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T20:14:49.878Z"
+    },
+    {
+      "stationuuid": "0b5a69b2-9c1b-4645-9259-da3d7fc59483",
+      "name": "onverantwoord.com",
+      "url": "https://loa.beheerstream.nl:8008/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T20:14:50.961Z"
+    },
+    {
+      "stationuuid": "9f5a49c1-3944-4ca5-a367-3a97745fadfa",
+      "name": "Radio A-FM",
+      "url": "https://nlpo.stream.vip/radioafm/mp3-192/nlpo.stream.vip/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T20:14:51.353Z"
+    },
+    {
+      "stationuuid": "0a42d615-59af-45a0-b04a-c6b3971b723e",
+      "name": "Radio Blacklight",
+      "url": "https://server-28.stream-server.nl:8876/autodj",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T20:14:51.399Z"
+    },
+    {
+      "stationuuid": "ba47e0e2-bc25-47da-b221-9304efbefb0f",
+      "name": "Radio N31",
+      "url": "https://loa.beheerstream.nl:8092/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T20:14:51.590Z"
+    },
+    {
+      "stationuuid": "a1aa3ef8-0407-4f30-9830-96b5b11283c3",
+      "name": "Radio Ridderkerk",
+      "url": "https://nlpo.stream.vip/ridderk/mp3-192/nlpo.stream.vip/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T20:14:51.627Z"
+    },
+    {
+      "stationuuid": "3cd2098f-e089-44cc-8d16-afa4d220c8ec",
+      "name": "Radio Uniek Rotterdam",
+      "url": "https://stream.hosting078.nl:8044/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T20:14:51.807Z"
+    },
+    {
+      "stationuuid": "6b1dac61-2508-490e-a8e2-1da887227473",
+      "name": "SRC FM 2 - Rivierenland en Vijfheerenlanden",
+      "url": "https://loa.beheerstream.nl:8126/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T20:14:52.956Z"
+    },
+    {
+      "stationuuid": "345c39c5-f3c5-4a73-b0d0-d400334883ac",
+      "name": "BPRFM",
+      "url": "https://www.wizdevservices.nl/listen/bprfm/STREAM.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T20:15:03.494Z"
+    },
+    {
+      "stationuuid": "63bea2ad-41be-451e-9513-b74c56a5930d",
+      "name": "Centraal Hits",
+      "url": "https://server-26.stream-server.nl:18738/",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T20:14:53.805Z"
+    },
+    {
+      "stationuuid": "b0dcab63-176e-41d2-a579-f3631dac9b43",
+      "name": "Centraal Hits",
+      "url": "https://server-26.stream-server.nl:18738/",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T20:14:53.808Z"
+    },
+    {
+      "stationuuid": "1a10bb22-4d85-4c46-9c25-fd27199183b1",
+      "name": "Jan Schaaik van",
+      "url": "https://streaming1.djpaneel.com:6974/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T20:14:54.087Z"
+    },
+    {
+      "stationuuid": "352540b6-e1df-48dc-9420-7cdb21a332a8",
+      "name": "Langstraat FM",
+      "url": "https://nlpo.stream.vip/langstra/mp3-192/nlpo.stream.vip/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T20:14:54.192Z"
+    },
+    {
+      "stationuuid": "5198fbe6-7f63-43f3-94aa-072ebf78e900",
+      "name": "Langstraat FM",
+      "url": "https://nlpo.stream.vip/langstra/mp3-192/nlpo.stream.vip/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T20:14:54.214Z"
+    },
+    {
+      "stationuuid": "62b55cc5-ed72-4e94-88e2-65393c6d4433",
+      "name": "PI3UTR",
+      "url": "https://stream.hobbyscoop.nl/pi3utr",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T20:14:54.666Z"
+    },
+    {
+      "stationuuid": "8f180188-b0f5-4951-b693-4b0163ab287c",
+      "name": "Radio de Twentseboys",
+      "url": "https://rcp.ultaserver.com/8016/stream",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T20:14:55.134Z"
+    },
+    {
+      "stationuuid": "997c9083-0dc8-434f-84f2-614e0d85dfec",
+      "name": "VivamixRadio",
+      "url": "https://a7.asurahosting.com:9080/radio.mp3?1773614001950",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T20:14:55.763Z"
+    },
+    {
+      "stationuuid": "3e6f444c-a437-4bfb-9260-ca39322b1ac0",
+      "name": "ZAP! FM",
+      "url": "https://zapstream.nl/1",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T20:14:55.965Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "af6f51b1-0ca9-11ea-a87e-52543be04c81",
+        "name": "Intense Radio - We love Dance #HQ# FLAC",
+        "url": "http://secure.live-streams.nl/flac.ogg",
+        "votes": 49730
+      },
+      "variants": [
+        {
+          "stationuuid": "3917630b-ae9a-454a-bf8d-70e387c0c7c6",
+          "name": "Intense Radio - We love Dance #HQ# FLAC",
+          "url": "http://secure.live-streams.nl/flac.ogg",
+          "votes": 384,
+          "differs": []
+        },
+        {
+          "stationuuid": "a7adb0c0-0a1a-4560-b275-d260f94aac25",
+          "name": "Intense Radio - We love Dance #HQ# FLAC",
+          "url": "http://secure.live-streams.nl/flac.ogg",
+          "votes": 205,
+          "differs": []
+        },
+        {
+          "stationuuid": "8a14dc42-aadf-404d-9341-4f7414ff730e",
+          "name": "Intense Radio - We love Dance #HQ# FLAC",
+          "url": "http://secure.live-streams.nl/flac.ogg",
+          "votes": 136,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "963c00ab-0601-11e8-ae97-52543be04c81",
+        "name": "Intense Radio - We love Dance 256k",
+        "url": "http://intenseradio.live-streams.nl:8000/main",
+        "votes": 46884
+      },
+      "variants": [
+        {
+          "stationuuid": "a3a6c390-1673-4ed5-b7d7-d0d532763a93",
+          "name": "Intense Radio - We love Dance 256k",
+          "url": "http://intenseradio.live-streams.nl:8000/main",
+          "votes": 123,
+          "differs": []
+        },
+        {
+          "stationuuid": "7c6cbbde-af9f-4a9f-9c65-3ced7fc87ece",
+          "name": "Intense Radio - We love Dance 256k",
+          "url": "http://intenseradio.live-streams.nl:8000/main",
+          "votes": 69,
+          "differs": []
+        },
+        {
+          "stationuuid": "14256ab1-e984-4094-a7e5-403dd0824892",
+          "name": "Intense Radio - We love Dance 256k",
+          "url": "http://intenseradio.live-streams.nl:8000/main",
+          "votes": 49,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96126f56-0601-11e8-ae97-52543be04c81",
+        "name": "NPO Radio 1",
+        "url": "http://icecast.omroep.nl/radio1-bb-mp3",
+        "votes": 17147
+      },
+      "variants": [
+        {
+          "stationuuid": "4ab949e3-67f4-4039-82f1-312d01b45ff4",
+          "name": "NPO Radio 1",
+          "url": "http://icecast.omroep.nl/radio1-bb-mp3",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96126e82-0601-11e8-ae97-52543be04c81",
+        "name": "NPO Radio 2",
+        "url": "http://icecast.omroep.nl/radio2-bb-mp3",
+        "votes": 11857
+      },
+      "variants": [
+        {
+          "stationuuid": "4e84e0ca-3f2b-4376-9448-16124ca2c732",
+          "name": "NPO 2",
+          "url": "http://icecast.omroep.nl/radio2-bb-mp3",
+          "votes": 293,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9513b20b-e4bd-11e8-a9cc-52543be04c81",
+        "name": "Arrow Classic Rock",
+        "url": "http://stream.gal.io/arrow",
+        "votes": 10977
+      },
+      "variants": [
+        {
+          "stationuuid": "db93a00f-9191-46ab-9e87-ec9b373b3eee",
+          "name": "\tArrow Classic Rock",
+          "url": "http://stream.gal.io/arrow",
+          "votes": 746,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "423f9cc9-17fa-4c96-a795-0b91a9f9e178",
+          "name": "Arrow Classic Rock",
+          "url": "http://stream.gal.io/arrow",
+          "votes": 46,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d227990c-2385-4419-8159-1c73a33a58dd",
+        "name": "Radio 10",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/RADIO10.mp3",
+        "votes": 7312
+      },
+      "variants": [
+        {
+          "stationuuid": "c7fa07e3-6b96-4df1-af1c-c23a28ad339c",
+          "name": "Radio10",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/RADIO10.mp3",
+          "votes": 133,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d58a82c3-b7f1-4c1c-83b1-9e45d42e1e19",
+        "name": "Arrow Classic Rock",
+        "url": "https://stream.player.arrow.nl/arrowcr",
+        "votes": 5977
+      },
+      "variants": [
+        {
+          "stationuuid": "98f939d0-36f2-4a42-add6-1826352b2297",
+          "name": "Arrow Classic Rock",
+          "url": "https://stream.player.arrow.nl/arrowcr",
+          "votes": 88,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "46e55863-cef7-4f50-954e-3fa7feede49f",
+        "name": "NPO Radio 5",
+        "url": "https://icecast.omroep.nl/radio5-bb-mp3",
+        "votes": 5319
+      },
+      "variants": [
+        {
+          "stationuuid": "f765558b-a88e-43da-a824-cd4d6a31a238",
+          "name": "Radio 5",
+          "url": "https://icecast.omroep.nl/radio5-bb-mp3",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9633a95e-0601-11e8-ae97-52543be04c81",
+        "name": "NPO Radio 2 Soul & Jazz",
+        "url": "http://icecast.omroep.nl/radio6-bb-mp3",
+        "votes": 5137
+      },
+      "variants": [
+        {
+          "stationuuid": "550fecf7-857c-4abc-bd94-2954098c9d13",
+          "name": "NPO Radio 2 Soul & Jazz",
+          "url": "http://icecast.omroep.nl/radio6-bb-mp3",
+          "votes": 484,
+          "differs": []
+        },
+        {
+          "stationuuid": "56e6500d-763b-4fbe-aee8-c2556386576e",
+          "name": "NPO Radio 2 Soul & Jazz",
+          "url": "http://icecast.omroep.nl/radio6-bb-mp3",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a1189085-eed0-414c-b8d8-6652189767dd",
+        "name": "Fantasy Italo Dance 90s radio",
+        "url": "https://mscp2.live-streams.nl:8152/italodance",
+        "votes": 3762
+      },
+      "variants": [
+        {
+          "stationuuid": "efbb9af5-b84d-4da1-b762-5ed13d09fd93",
+          "name": "Fantasy Italo Dance 90s radio",
+          "url": "https://mscp2.live-streams.nl:8152/italodance",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bf1731ba-a1eb-11e8-abb8-52543be04c81",
+        "name": "C-Dance RETRO",
+        "url": "http://s45.myradiostream.com:18304/",
+        "votes": 3229
+      },
+      "variants": [
+        {
+          "stationuuid": "0857234f-2974-4e3f-b64c-f3a431959316",
+          "name": "C-Dance ",
+          "url": "http://s45.myradiostream.com:18304/",
+          "votes": 20,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9c2f41c2-86bb-11e8-aa66-52543be04c81",
+        "name": "NPO Radio 4",
+        "url": "http://icecast.omroep.nl/radio4-bb-mp3",
+        "votes": 3027
+      },
+      "variants": [
+        {
+          "stationuuid": "6022fb22-1a29-4b7f-9a93-485730458e8a",
+          "name": "NPO Radio4",
+          "url": "http://icecast.omroep.nl/radio4-bb-mp3",
+          "votes": 201,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "6aa32f3e-8f52-476c-ae96-2a27ac0160ce",
+          "name": "radio4",
+          "url": "http://icecast.omroep.nl/radio4-bb-mp3",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960e38b8-0601-11e8-ae97-52543be04c81",
+        "name": "NPO 3FM Serious Radio",
+        "url": "http://icecast.omroep.nl/3fm-bb-mp3",
+        "votes": 2874
+      },
+      "variants": [
+        {
+          "stationuuid": "81a4bb94-f26a-497c-ae03-771e97773686",
+          "name": "3FM",
+          "url": "http://icecast.omroep.nl/3fm-bb-mp3",
+          "votes": 946,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a438e66d-2ba7-46b4-89c9-01bc4204e161",
+        "name": "Grolloo Radio",
+        "url": "https://uk1.streamingpulse.com/ssl/grollooradio",
+        "votes": 2376
+      },
+      "variants": [
+        {
+          "stationuuid": "b8c8f591-d41a-4047-8843-a0aa3ad33790",
+          "name": "Grolloo Radio",
+          "url": "https://uk1.streamingpulse.com/ssl/grollooradio",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f31ae7e2-d5e6-4c88-9445-edf00f6cba40",
+        "name": "BNR Nieuwsradio",
+        "url": "https://stream.bnr.nl/bnr_aac_96_20",
+        "votes": 2048
+      },
+      "variants": [
+        {
+          "stationuuid": "936cab85-2fb1-4c91-b35f-2b795544cfcb",
+          "name": "BNR Nieuwsradio",
+          "url": "https://stream.bnr.nl/bnr_aac_96_20",
+          "votes": 127,
+          "differs": []
+        },
+        {
+          "stationuuid": "005a6ede-1c98-4c5c-be2c-da9eaeba8029",
+          "name": "BNR Nieuwsradio",
+          "url": "https://stream.bnr.nl/bnr_aac_96_20",
+          "votes": 41,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "428fecbf-d5e2-4c30-bcde-6dd98b125434",
+        "name": "NPO Klassiek",
+        "url": "https://icecast.omroep.nl/radio4-bb-mp3",
+        "votes": 1369
+      },
+      "variants": [
+        {
+          "stationuuid": "383f2ed8-96ad-4820-be03-dd2880707831",
+          "name": "NPO Klassiek",
+          "url": "https://icecast.omroep.nl/radio4-bb-mp3",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96418dfb-0601-11e8-ae97-52543be04c81",
+        "name": "Concertzender Geen dag zonder Bach",
+        "url": "http://streams.greenhost.nl:8080/bach",
+        "votes": 1278
+      },
+      "variants": [
+        {
+          "stationuuid": "ae3f689e-8f2c-4936-baa1-c6c958addef8",
+          "name": "Concertzender Geen dag zonder Bach",
+          "url": "http://streams.greenhost.nl:8080/bach",
+          "votes": 392,
+          "differs": []
+        },
+        {
+          "stationuuid": "df9c0196-70c0-45a9-b008-de14c27eeb31",
+          "name": "Concertzender Geen dag zonder Bach",
+          "url": "http://streams.greenhost.nl:8080/bach",
+          "votes": 44,
+          "differs": []
+        },
+        {
+          "stationuuid": "5f4d5fbc-a811-4279-b038-0cc4819614f2",
+          "name": "Concertzender Geen dag zonder Bach",
+          "url": "http://streams.greenhost.nl:8080/bach",
+          "votes": 26,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b9201e54-c66a-489b-9db5-f487c0c4bcdf",
+        "name": "Real Hardstyle Radio",
+        "url": "https://stream.realhardstyle.nl/",
+        "votes": 1178
+      },
+      "variants": [
+        {
+          "stationuuid": "97f93891-907a-473a-8dfa-7fae0035a9e5",
+          "name": "Real Hardstyle Radio",
+          "url": "https://stream.realhardstyle.nl/",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "074f6537-b3c4-11e9-acb2-52543be04c81",
+        "name": "Pinguin Blues",
+        "url": "https://samcloud.spacial.com/api/listen?sid=93462&m=sc&rid=168006",
+        "votes": 1079
+      },
+      "variants": [
+        {
+          "stationuuid": "9f5f3e66-6c4a-11ea-b1cf-52543be04c81",
+          "name": "Pinguin World Music",
+          "url": "https://samcloud.spacial.com/api/listen?sid=98570&m=sc&rid=174387",
+          "votes": 148,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "7bb5e834-cba4-46af-a728-e7343b0c7788",
+          "name": "Pinguin Pop",
+          "url": "https://samcloud.spacial.com/api/listen?sid=98586&m=sc&rid=174409",
+          "votes": 105,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "2b54d1c1-3972-48f2-a249-ad6321ad8f33",
+          "name": "Pinguin Groove",
+          "url": "https://samcloud.spacial.com/api/listen?sid=98587&m=sc&rid=174412",
+          "votes": 98,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "f2c1ba0a-6c49-11ea-b1cf-52543be04c81",
+          "name": "Pinguin Pluche",
+          "url": "https://samcloud.spacial.com/api/listen?sid=98569&m=sc&rid=174384",
+          "votes": 78,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "45c99da1-5ddb-4d57-b945-781a5ed56e43",
+          "name": "Pinguin Showcase",
+          "url": "https://samcloud.spacial.com/api/listen?sid=110690&m=sc&rid=190799",
+          "votes": 34,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "46ef155c-6749-49f8-8d79-27f14b5cac60",
+          "name": "Pinguin Vintage",
+          "url": "https://samcloud.spacial.com/api/listen?sid=131111",
+          "votes": 28,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8567bace-666c-11e8-b15b-52543be04c81",
+        "name": "Pinguin Radio",
+        "url": "http://streams.pinguinradio.com/PinguinRadio320.mp3",
+        "votes": 1015
+      },
+      "variants": [
+        {
+          "stationuuid": "b19666c0-fc3d-47b1-b0b9-eda5838251fd",
+          "name": "Pinguin Indie",
+          "url": "http://streams.pinguinradio.com/PinguinRadio320.mp3",
+          "votes": 68,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "07739386-2e2e-43ca-b821-066b941204aa",
+          "name": "Penguin Indie",
+          "url": "http://streams.pinguinradio.com/PinguinRadio320.mp3",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e25dbef6-533c-4d49-8c2f-b425eda28764",
+        "name": "Pinguin Indie",
+        "url": "http://streams.pinguinradio.com/PinguinRadio192.mp3",
+        "votes": 1004
+      },
+      "variants": [
+        {
+          "stationuuid": "030ab8a3-72f4-4417-baf1-a38bf3bfbd51",
+          "name": "Pinguin Indie",
+          "url": "http://streams.pinguinradio.com/PinguinRadio192.mp3",
+          "votes": 452,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c344992c-b881-11e9-acb2-52543be04c81",
+        "name": "L1 Radio",
+        "url": "http://d34pj260kw1xmk.cloudfront.net/icecast/l1/radio-bb-mp3",
+        "votes": 893
+      },
+      "variants": [
+        {
+          "stationuuid": "87c64559-ff66-4f71-935d-9a0733faae9c",
+          "name": "L1 Radio",
+          "url": "http://d34pj260kw1xmk.cloudfront.net/icecast/l1/radio-bb-mp3",
+          "votes": 52,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "07eb6945-5023-461e-9064-234075472cff",
+        "name": "JOE",
+        "url": "https://stream.joe.nl/joe/aachigh",
+        "votes": 892
+      },
+      "variants": [
+        {
+          "stationuuid": "6add27d4-5573-47b4-ae27-1d05834a9a4a",
+          "name": "JOE",
+          "url": "https://stream.joe.nl/joe/aachigh",
+          "votes": 665,
+          "differs": []
+        },
+        {
+          "stationuuid": "5e05cbdd-c9d0-46c7-ad8e-9e09925c70f8",
+          "name": "Joe 70s & 80s",
+          "url": "https://stream.joe.nl/joe/aachigh",
+          "votes": 495,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fa805567-16de-4276-aec5-4171ed7a01ed",
+        "name": "Joe 70s & 80s",
+        "url": "https://icecast-qmusicnl-cdp.triple-it.nl/Joe_nl_high.aac",
+        "votes": 891
+      },
+      "variants": [
+        {
+          "stationuuid": "456c476a-eda1-4d82-a784-29fcdff6002c",
+          "name": "Joe 70s and 80s",
+          "url": "https://icecast-qmusicnl-cdp.triple-it.nl/Joe_nl_high.aac",
+          "votes": 84,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        },
+        {
+          "stationuuid": "b547cd5a-3973-42dc-9a19-3a8f52e94c11",
+          "name": "Joe",
+          "url": "https://icecast-qmusicnl-cdp.triple-it.nl/Joe_nl_high.aac?aw_0_1st.skey=1728963448&aw_0_1st.playerid=site-player",
+          "votes": 9,
+          "differs": [
+            "name",
+            "url",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bdc1e08f-1a45-11e8-a334-52543be04c81",
+        "name": "NPO 3FM",
+        "url": "http://icecast.omroep.nl/3fm-bb-aac",
+        "votes": 806
+      },
+      "variants": [
+        {
+          "stationuuid": "e419bfda-02b9-4a89-98a8-1b063f376377",
+          "name": "NPO 3FM",
+          "url": "http://icecast.omroep.nl/3fm-bb-aac",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3afe9b05-2269-4188-bcfa-cc114c46f9c3",
+        "name": "ISKC Rock Radio",
+        "url": "http://mediaserv68.live-streams.nl:8012/RockRadio",
+        "votes": 603
+      },
+      "variants": [
+        {
+          "stationuuid": "fdd01de3-7be7-4c36-85d4-d161e80aec36",
+          "name": "ISKC Rock Radio",
+          "url": "http://mediaserv68.live-streams.nl:8012/RockRadio",
+          "votes": 34,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960e4318-0601-11e8-ae97-52543be04c81",
+        "name": "NPO FunX NL",
+        "url": "http://icecast.omroep.nl/funx-bb-mp3",
+        "votes": 551
+      },
+      "variants": [
+        {
+          "stationuuid": "9f0836bd-9e82-4227-b7db-862870a09ebc",
+          "name": "NPO FunX NL",
+          "url": "http://icecast.omroep.nl/funx-bb-mp3",
+          "votes": 48,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b843da8a-7308-11e9-af37-52543be04c81",
+        "name": "Olympia Classics",
+        "url": "http://streams.olympia-classics.nl/classics",
+        "votes": 541
+      },
+      "variants": [
+        {
+          "stationuuid": "47236997-e7b4-4be8-93c3-f1a037740c8c",
+          "name": "Olympia Classics",
+          "url": "http://streams.olympia-classics.nl/classics",
+          "votes": 33,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b075db07-a741-4756-86d4-4035292a02f2",
+        "name": "JOE mp3",
+        "url": "https://icecast-qmusicnl-cdp.triple-it.nl/Joe_nl.mp3",
+        "votes": 470
+      },
+      "variants": [
+        {
+          "stationuuid": "e5119b67-3e02-434f-9c8e-e0e7d39baa24",
+          "name": "Joe",
+          "url": "https://icecast-qmusicnl-cdp.triple-it.nl/Joe_nl.mp3?aw_0_1st.playerId=redirect",
+          "votes": 56,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5e45745b-7337-4299-bb93-6b99fafbc2b2",
+        "name": "Q music Nederland",
+        "url": "https://stream.qmusic.nl/qmusic/aachigh",
+        "votes": 462
+      },
+      "variants": [
+        {
+          "stationuuid": "bdf269e5-524d-4de3-af0d-8388a7e70050",
+          "name": "QMUSIC NEDERLAND AAC HIGH",
+          "url": "https://stream.qmusic.nl/qmusic/aachigh",
+          "votes": 55,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "948dd047-1a0b-42c9-b769-19233dfadc7f",
+        "name": "Dutch Delite Drum and Bass",
+        "url": "http://radio.dutchdelite.nl:8000/dnb",
+        "votes": 435
+      },
+      "variants": [
+        {
+          "stationuuid": "ed1fa99d-6ebf-4d2d-8016-2721f8e41269",
+          "name": "Dutch Delite Dnb Radio",
+          "url": "http://radio.dutchdelite.nl:8000/dnb",
+          "votes": 162,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9611f966-0601-11e8-ae97-52543be04c81",
+        "name": "LX Classics",
+        "url": "https://mcp-1.streampanel.nl:8020/lxclassics_mp3",
+        "votes": 421
+      },
+      "variants": [
+        {
+          "stationuuid": "108d684c-a1d5-47d6-a91b-6b0374791e3f",
+          "name": "LX Classics",
+          "url": "https://mcp-1.streampanel.nl:8020/lxclassics_mp3",
+          "votes": 82,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0cd616b2-db1d-4ce2-9fee-0782f349bd3e",
+        "name": "Hi On Line Radio - Flac",
+        "url": "http://mscp2.live-streams.nl:8100/flac.flac",
+        "votes": 411
+      },
+      "variants": [
+        {
+          "stationuuid": "aece9305-b6da-46af-a565-bd992a196726",
+          "name": "Hi On Line",
+          "url": "http://mscp2.live-streams.nl:8100/flac.flac",
+          "votes": 51,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "bcf8cb69-752e-4476-be96-2e18104d2bcc",
+          "name": "Hi online",
+          "url": "http://mscp2.live-streams.nl:8100/flac.flac",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c81f7ce5-a1fd-42d3-b843-8ec7ec867d48",
+        "name": "Classicnl Opera",
+        "url": "https://classic.nl/streams/?s=opera",
+        "votes": 410
+      },
+      "variants": [
+        {
+          "stationuuid": "ab16f423-6d03-47c2-bc7a-0e4751c51df4",
+          "name": "Classic NL",
+          "url": "https://classic.nl/streams/?s=main",
+          "votes": 199,
+          "differs": [
+            "name",
+            "url",
+            "bitrate"
+          ]
+        },
+        {
+          "stationuuid": "509921b0-6502-4c86-937e-de8ba31d9a2e",
+          "name": "Classicnl",
+          "url": "https://classic.nl/streams/?s=main",
+          "votes": 128,
+          "differs": [
+            "name",
+            "url",
+            "bitrate"
+          ]
+        },
+        {
+          "stationuuid": "7440fcf1-71da-47bf-bf13-f80c10eab97b",
+          "name": "Classicnl Mind Radio",
+          "url": "https://classic.nl/streams/?s=mindradio",
+          "votes": 65,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "c8a855c5-4bed-46b7-b2c3-e50dfb74a2a9",
+          "name": "Classicnl Soundtracks",
+          "url": "https://classic.nl/streams/?s=soundtracks",
+          "votes": 62,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "b4239763-1edf-452d-8a47-ed646ab66e97",
+          "name": "Classic Mind Radio",
+          "url": "https://classic.nl/streams/?s=mindradio",
+          "votes": 25,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cfd71b17-5765-4365-8425-09a2073bf222",
+        "name": "Sublime Live",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SUBLIME.mp3",
+        "votes": 403
+      },
+      "variants": [
+        {
+          "stationuuid": "1f9a7a02-6f20-415b-8fd5-030d65e614df",
+          "name": "Sublime",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SUBLIME.mp3?dist=sublime_website",
+          "votes": 83,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4fd2f9ba-11c0-4022-a274-220f81283b98",
+        "name": "538 Non-Stop",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/TLPSTR09.mp3",
+        "votes": 402
+      },
+      "variants": [
+        {
+          "stationuuid": "8acf16fc-250a-4260-a762-acb882ad644e",
+          "name": "Radio 538 Nonstop",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/TLPSTR09.mp3",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2342a6e2-c0d8-4312-8e6c-a8844ac5a63a",
+        "name": "Classics Radio (1536Kbps Hi-Res FLAC Stream)",
+        "url": "https://vriezenet.nl:11050/flac",
+        "votes": 374
+      },
+      "variants": [
+        {
+          "stationuuid": "9bdc3139-884e-43a9-b5a5-288f4e99a0dd",
+          "name": "Classics Radio",
+          "url": "https://vriezenet.nl:11050/flac",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8f219ca6-3cdc-4f2e-b7cf-435a58b90aeb",
+        "name": "Grand Prix Radio",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/GRAND_PRIX_RADIO.mp3",
+        "votes": 366
+      },
+      "variants": [
+        {
+          "stationuuid": "caf20a8f-61a2-4886-8002-156db13f28d1",
+          "name": "Grandprix radio",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/GRAND_PRIX_RADIO.mp3",
+          "votes": 117,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "6950cac5-4795-4501-87be-5dea193748d1",
+          "name": "Grand Prix Radio",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/GRAND_PRIX_RADIO.mp3",
+          "votes": 10,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c5c19438-ae6a-4f82-8038-df424095e575",
+        "name": "Pinguin Aardschok",
+        "url": "https://streams.pinguinradio.com/Aardschok192.mp3",
+        "votes": 340
+      },
+      "variants": [
+        {
+          "stationuuid": "b824c58a-1030-4618-889e-152922ffdb44",
+          "name": "Pinguin Aardschok",
+          "url": "https://streams.pinguinradio.com/Aardschok192.mp3",
+          "votes": 146,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9641e864-0601-11e8-ae97-52543be04c81",
+        "name": "Concertzender Jazz",
+        "url": "http://streams.greenhost.nl:8080/jazz",
+        "votes": 332
+      },
+      "variants": [
+        {
+          "stationuuid": "6c6d7f2c-277e-4cbd-8c57-5121995c6a74",
+          "name": "World of Jazz",
+          "url": "http://streams.greenhost.nl:8080/jazz",
+          "votes": 78,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "005636e9-2142-497b-8f51-606d536fb18a",
+        "name": "NPO Radio 2",
+        "url": "https://icecast.omroep.nl/radio2-bb-aac",
+        "votes": 318
+      },
+      "variants": [
+        {
+          "stationuuid": "89bfe986-323b-45d8-87e2-12382cf030e2",
+          "name": "NPO Radio 2",
+          "url": "https://icecast.omroep.nl/radio2-bb-aac",
+          "votes": 16,
+          "differs": []
+        },
+        {
+          "stationuuid": "8b609b1c-d6be-4d2b-ad59-21b97e159f99",
+          "name": "NPO Radio 2",
+          "url": "https://icecast.omroep.nl/radio2-bb-aac",
+          "votes": 3,
+          "differs": []
+        },
+        {
+          "stationuuid": "660f43b7-7d73-4e44-9ef5-9454fc36c213",
+          "name": "NPO Radio 1",
+          "url": "https://icecast.omroep.nl/radio2-bb-aac",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961ef35b-0601-11e8-ae97-52543be04c81",
+        "name": "Airplay Radio",
+        "url": "https://stream.and-stuff.nl:8443/live-airplay_320",
+        "votes": 310
+      },
+      "variants": [
+        {
+          "stationuuid": "f8ee8587-8566-405a-9c3e-cddc2f3a4385",
+          "name": "Salland1",
+          "url": "https://stream.and-stuff.nl:8443/live-airplay_320",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "cbb843c5-ff7c-43e1-82fd-306719b588af",
+          "name": "Salland1 Radio",
+          "url": "https://stream.and-stuff.nl:8443/live-airplay_320",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "351fbed2-c427-4694-ad31-e43ceb8a14f3",
+        "name": "Ice Radio Netherlands",
+        "url": "https://stream.iceradio.nl/iceradio",
+        "votes": 296
+      },
+      "variants": [
+        {
+          "stationuuid": "21739268-31e3-499f-8ba2-03444154fca0",
+          "name": "Ice Radio The Alternative",
+          "url": "https://stream.iceradio.nl/iceradio",
+          "votes": 165,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bb7561e5-e742-11e8-a9cc-52543be04c81",
+        "name": "Radio Drenthe",
+        "url": "https://cdn.rtvdrenthe.nl/icecast/rtvdrenthe/rtvradio",
+        "votes": 290
+      },
+      "variants": [
+        {
+          "stationuuid": "9bc5236e-75de-45f4-927f-8ed3c270e5c5",
+          "name": "RTV Drenthe",
+          "url": "https://cdn.rtvdrenthe.nl/icecast/rtvdrenthe/rtvradio",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d2a70bdb-ba65-11e8-aaf2-52543be04c81",
+        "name": "Radio Noordvaarder Angel Healing",
+        "url": "http://www1.radionoordvaarder.nl:8000/;",
+        "votes": 279
+      },
+      "variants": [
+        {
+          "stationuuid": "69b4c670-8466-4620-a5af-72949a2df5e2",
+          "name": "radio noordvaader",
+          "url": "http://www1.radionoordvaarder.nl:8000/;",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4c4cedd3-08e4-4de8-bbbf-e938e7005e58",
+          "name": "Radio Noordvaarder Angel",
+          "url": "http://www1.radionoordvaarder.nl:8000/;",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "5ad59f38-c5ff-4624-832b-27369de47fd6",
+          "name": "Radio nordvaader",
+          "url": "http://www1.radionoordvaarder.nl:8000/;",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ead0433e-c0d5-4ef0-be48-7d887990ce9a",
+        "name": "Sky Radio Nederland",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SKYRADIO.mp3?dist=skyradio_web&amp;ttag=talpa_consent:1&amp;gdpr=1&amp;gdpr_consent=CPd5woAPd5woAADABBNLCcCsAP_AAEJAAAAAGgQGAAKgAXABAADIAIkATABNACeAGIANwAfgBAACMAHeAQgAi0BHAEdAJcATsArICKQF5gL2AYIA0ADBICYAFQALgAgABkAEQAJoATwAxAB-AEAAIwAd4BCACLQEcAR0AnYCKQF5gMEAKCQCQAKgAgABkAEQAJgATwB3gEcAXmKgBgBMAI4AvMZADACYARwBeY6AWABUAEAAMgAiABMACeAGIAd4BFgCOALzHAAgALgEIIQBAAmABiAHeARwkABAAuSgDABEACYAGIAd4BHAF5lIBYAFQAQAAyACIAEwAJ4AYgB3gEWAI4AvMoABAAuA.e8AAAAAAA7AA%22%20title=%22Sky%20Radio%20-%20Non-Stop%22",
+        "votes": 255
+      },
+      "variants": [
+        {
+          "stationuuid": "02fab93b-c8a8-4536-bba2-3d1349318f33",
+          "name": "Sky Radio Non-Stop",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SKYRADIO.mp3",
+          "votes": 102,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96393032-0601-11e8-ae97-52543be04c81",
+        "name": "Concertzender",
+        "url": "http://streams.greenhost.nl:8080/live",
+        "votes": 251
+      },
+      "variants": [
+        {
+          "stationuuid": "2f105057-1655-40fc-b3d3-ecbb5fbe38fc",
+          "name": "World of Jazz",
+          "url": "http://streams.greenhost.nl:8080/live",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5b9cc676-01d6-4c32-9dae-32bd42a79bbd",
+        "name": "classic nl soundtracks",
+        "url": "https://stream.classic.nl/classicnl-soundtracks.mp3",
+        "votes": 241
+      },
+      "variants": [
+        {
+          "stationuuid": "3b537424-c932-4292-b46b-5a282a51f4c7",
+          "name": "classic nl soundtracks",
+          "url": "https://stream.classic.nl/classicnl-soundtracks.mp3",
+          "votes": 78,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ee76ca66-0a59-4cbf-8e6b-4922b4fc8918",
+        "name": "SuperFM - IJmuiden",
+        "url": "https://stream.edfm.nl/super",
+        "votes": 234
+      },
+      "variants": [
+        {
+          "stationuuid": "8eb32db3-e0cd-4fd3-9d01-3320a84b2992",
+          "name": "SuperFM-IJmuiden",
+          "url": "https://stream.edfm.nl/super",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "29d481b8-bc37-4b73-a72f-c3b8ca025430",
+        "name": "Only 80's Radio",
+        "url": "https://server-28.stream-server.nl:8850/stream",
+        "votes": 231
+      },
+      "variants": [
+        {
+          "stationuuid": "5568b64e-92ca-44a3-a99f-d206ea464254",
+          "name": "Only 80s Radio",
+          "url": "https://server-28.stream-server.nl:8850/stream",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cacc60ac-92b2-4f00-926c-7b9241f4a805",
+        "name": "80s Alive",
+        "url": "http://media2.hostin.cc/80s-alive.mp3",
+        "votes": 223
+      },
+      "variants": [
+        {
+          "stationuuid": "1b20244c-3abe-41f2-a664-2d438075a932",
+          "name": "80s Alive",
+          "url": "http://media2.hostin.cc/80s-alive.mp3",
+          "votes": 51,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960a1d6d-0601-11e8-ae97-52543be04c81",
+        "name": "NPO 3FM KXradio",
+        "url": "http://icecast.omroep.nl/3fm-serioustalent-mp3",
+        "votes": 191
+      },
+      "variants": [
+        {
+          "stationuuid": "5b8f5ae1-b160-4e5e-8189-25a0ca2ebf00",
+          "name": "NPO 3FM KX",
+          "url": "http://icecast.omroep.nl/3fm-serioustalent-mp3",
+          "votes": 55,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ce7eec49-8e07-47bd-ad81-abf5e5b4330b",
+          "name": "NPO 3FM KX",
+          "url": "http://icecast.omroep.nl/3fm-serioustalent-mp3",
+          "votes": 23,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "185e0c67-5d95-409b-acab-4704bcff9aa5",
+        "name": "Piraten.fm top stream 2",
+        "url": "https://piraten.fm/top/2",
+        "votes": 190
+      },
+      "variants": [
+        {
+          "stationuuid": "f4606754-983d-4b7d-949f-f308f4c28efd",
+          "name": "Piraten.FM - 2",
+          "url": "https://piraten.fm/top/2",
+          "votes": 41,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1028583f-e87c-494e-8f50-669ae0d36bb8",
+        "name": "Piraten.fm Top stream 1",
+        "url": "https://piraten.fm/top/1",
+        "votes": 180
+      },
+      "variants": [
+        {
+          "stationuuid": "4b463b2d-5636-43db-b2a8-6470eb60c6f3",
+          "name": "Piraten.FM - 1",
+          "url": "https://piraten.fm/top/1",
+          "votes": 51,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96422372-0601-11e8-ae97-52543be04c81",
+        "name": "Concertzender De Gehoorde Stilte",
+        "url": "http://streams.greenhost.nl:8080/gehoordestilte",
+        "votes": 164
+      },
+      "variants": [
+        {
+          "stationuuid": "17e752d0-0e5f-4264-8569-7752289e9db8",
+          "name": "Concertzender - De Gehoorde Stilte",
+          "url": "http://streams.greenhost.nl:8080/gehoordestilte",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fd255a97-f17b-402c-a7fc-d28d586b3623",
+        "name": "538 Classics",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/TLPSTR08.mp3",
+        "votes": 139
+      },
+      "variants": [
+        {
+          "stationuuid": "a049ef8e-0f18-459c-b8cd-d8ebe9996959",
+          "name": "5638",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/TLPSTR08.mp3",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0ffe4b19-3c2b-4283-9c5b-80ff21950784",
+        "name": "Soulshow Radio",
+        "url": "https://icecast-soulshow-cdp.triple-it.nl/soulshow_128.mp3",
+        "votes": 123
+      },
+      "variants": [
+        {
+          "stationuuid": "d4f98822-bfd3-4fac-8660-8463a50ad564",
+          "name": "Soul Show NL",
+          "url": "https://icecast-soulshow-cdp.triple-it.nl/soulshow_128.mp3?ver=402073",
+          "votes": 29,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d3c011d3-8239-491f-bbf8-90f5032a1540",
+        "name": "Studio040",
+        "url": "https://stream.studio040.nl/studio040.mp3",
+        "votes": 122
+      },
+      "variants": [
+        {
+          "stationuuid": "045ef289-a91e-4e77-a51d-38c34eec5c3a",
+          "name": "Studio040",
+          "url": "https://stream.studio040.nl/studio040.mp3",
+          "votes": 44,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "52d1b82f-1c32-423f-85e2-38d523cdb2a1",
+        "name": "Groot Nieuws Radio Blijde Klanken",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/GNRBK.mp3",
+        "votes": 116
+      },
+      "variants": [
+        {
+          "stationuuid": "22759156-3eda-471d-a11d-cd3c5c6f0363",
+          "name": "Groot Nieuws Radio Blijde Klanken",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/GNRBK.mp3",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d6d4684b-4629-44a1-9e56-917d98b9cc04",
+        "name": "TRANCE 21",
+        "url": "https://mscp3.live-streams.nl:8022/radio",
+        "votes": 93
+      },
+      "variants": [
+        {
+          "stationuuid": "ada74bce-b240-4dee-9575-ec5d8476a42b",
+          "name": "RHYTHM 21 Zwolle",
+          "url": "https://mscp3.live-streams.nl:8022/radio",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c775a3c6-296f-43c3-9931-0fd0ad92bcbc",
+          "name": "RHYTHM 21 ZWOLLE",
+          "url": "https://mscp3.live-streams.nl:8022/radio",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dee9025b-1438-4fd6-a583-00ea90ff82dd",
+        "name": "NPO Radio5",
+        "url": "https://icecast.omroep.nl/radio5-bb-aac",
+        "votes": 90
+      },
+      "variants": [
+        {
+          "stationuuid": "ee32e4ab-5aa3-47df-aeaa-eaa162607422",
+          "name": "NPO Radio 5",
+          "url": "https://icecast.omroep.nl/radio5-bb-aac",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e2e82c41-96fc-422f-a982-9523a0038201",
+        "name": "NixxFM",
+        "url": "https://mediacp.shoutcastradio.nl:8002/NixxFM.m3u",
+        "votes": 85
+      },
+      "variants": [
+        {
+          "stationuuid": "dea53371-b3a3-4a1e-a13c-8f5dadd5ec8f",
+          "name": "NixxFM",
+          "url": "https://mediacp.shoutcastradio.nl:8002/NixxFM.m3u",
+          "votes": 40,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2d875b22-9fb6-4a96-a771-02aa40ef048e",
+        "name": "Candlelight Radio",
+        "url": "https://candlelight.nl/candlelight.mp3",
+        "votes": 75
+      },
+      "variants": [
+        {
+          "stationuuid": "f81daade-849e-4498-a796-1148e62f175f",
+          "name": "Candlelight Radio",
+          "url": "https://candlelight.nl/candlelight.mp3",
+          "votes": 38,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9642359d-0601-11e8-ae97-52543be04c81",
+        "name": "Concertzender Crosslinks",
+        "url": "http://streams.greenhost.nl:8080/pop",
+        "votes": 74
+      },
+      "variants": [
+        {
+          "stationuuid": "b4dd0925-523e-4e4c-93af-4ad46406799c",
+          "name": "Concertzender Pop",
+          "url": "http://streams.greenhost.nl:8080/pop",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d8a6e804-eee4-429b-a639-bafcd93372b8",
+        "name": "Radio Sputnik",
+        "url": "http://radiosputnik.nl:8002/flac",
+        "votes": 69
+      },
+      "variants": [
+        {
+          "stationuuid": "5c2dcc27-a7fb-4c79-bb43-7097cfdb0011",
+          "name": "Radio sputnik",
+          "url": "http://radiosputnik.nl:8002/flac",
+          "votes": 51,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "081bfc58-342c-4cb5-894c-3c4cb0ae850a",
+          "name": "Radio sputnik",
+          "url": "http://radiosputnik.nl:8002/flac",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "7935b15d-f9e2-4526-9f8d-cca47cafe0b4",
+          "name": "Radio sputnik",
+          "url": "http://radiosputnik.nl:8002/flac",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9a3911a6-14ea-449e-b760-77fe6b76fe7c",
+        "name": "Alleen Klassiek",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SERVICE06.mp3",
+        "votes": 69
+      },
+      "variants": [
+        {
+          "stationuuid": "55bc4b96-cc7e-4a31-8987-f10c18a146df",
+          "name": "Alleen Klassiek",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SERVICE06.mp3",
+          "votes": 12,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "09d3b2bb-e368-4217-8270-2b98611b88c8",
+        "name": "Cool Dance Radio",
+        "url": "https://stream.cooldanceradio.com/stream1/stream.mp3",
+        "votes": 68
+      },
+      "variants": [
+        {
+          "stationuuid": "eedbb922-3a48-4461-953e-8d1ed03490f9",
+          "name": "Cool Dance Radio",
+          "url": "https://stream.cooldanceradio.com/stream1/stream.mp3",
+          "votes": 29,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "365dfae4-b95f-4805-a2fa-e4b8be9eefdf",
+        "name": "QMUSIC THEMA",
+        "url": "https://stream.qmusic.nl/thema/mp3",
+        "votes": 55
+      },
+      "variants": [
+        {
+          "stationuuid": "5832bacf-33a8-4bf2-8d89-e8c6cda223e2",
+          "name": "Qmusic Summer",
+          "url": "https://stream.qmusic.nl/thema/mp3",
+          "votes": 46,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "29d848b8-5401-4170-aa95-84eecd3c211b",
+        "name": "Intergalactic FM | CBS TV",
+        "url": "https://intergalactic.tv/live/smil:tv.smil/playlist.m3u8",
+        "votes": 51
+      },
+      "variants": [
+        {
+          "stationuuid": "d6c34790-76f6-4e74-a529-d0d9ae563e1b",
+          "name": "Intergalactic FM - Murdercapital FM",
+          "url": "https://intergalactic.tv/live/smil:tv.smil/playlist.m3u8",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "239ea4e1-f008-11e8-a471-52543be04c81",
+        "name": "Alles Plat",
+        "url": "http://mediacdn.rtvoost.nl/icecast/rtvoost/alles-plat-mp3",
+        "votes": 51
+      },
+      "variants": [
+        {
+          "stationuuid": "7efcf77b-1694-4a23-8d54-b4ac0fe68aef",
+          "name": "Alles Plat",
+          "url": "http://mediacdn.rtvoost.nl/icecast/rtvoost/alles-plat-mp3",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e30ae0d6-3cca-45f9-a225-2afca6874aa4",
+        "name": "Hitzzz das radio",
+        "url": "https://stream.hitzzz.nl/hitzzz",
+        "votes": 45
+      },
+      "variants": [
+        {
+          "stationuuid": "6d69d3eb-1714-43a4-885a-dd3fd18b7081",
+          "name": "HITZZZ!!",
+          "url": "https://stream.hitzzz.nl/hitzzz",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6c1493a5-cc7a-485f-a24e-7d66b4062e3b",
+        "name": "BNR Nieuwsradio",
+        "url": "https://stream.bnr.nl/bnr_mp3_128_01",
+        "votes": 41
+      },
+      "variants": [
+        {
+          "stationuuid": "b1c6a90b-7ec4-44b9-a61a-1c596c85e837",
+          "name": "BNR Niuewsradio",
+          "url": "https://stream.bnr.nl/bnr_mp3_128_01",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "42668dbe-ab86-47aa-85de-afc785660bb8",
+        "name": "World Music Radio Classic",
+        "url": "https://server-67.stream-server.nl:8792/stream",
+        "votes": 40
+      },
+      "variants": [
+        {
+          "stationuuid": "fb70c8ab-d576-413a-9a31-dfbc7cc8a386",
+          "name": "World Music Radio Classic!",
+          "url": "https://server-67.stream-server.nl:8792/stream",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bcaca236-9f95-4cae-9cdc-6ae7917c9bce",
+        "name": "RADIONL",
+        "url": "https://stream.radionl.fm/radionl",
+        "votes": 40
+      },
+      "variants": [
+        {
+          "stationuuid": "1e99f564-1066-4f9c-9d26-604112910ddd",
+          "name": "RADIONL",
+          "url": "https://stream.radionl.fm/radionl",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "31d93b4c-bda7-4b93-967f-dc1be288d97d",
+        "name": "NPO Klassiek",
+        "url": "https://icecast.omroep.nl/radio4-bb-aac",
+        "votes": 38
+      },
+      "variants": [
+        {
+          "stationuuid": "939cc431-4941-40f1-8822-841fedcf80e7",
+          "name": "NPO Klassiek",
+          "url": "https://icecast.omroep.nl/radio4-bb-aac",
+          "votes": 18,
+          "differs": []
+        },
+        {
+          "stationuuid": "ebc406ab-120f-4cd5-9874-b45ae9663fea",
+          "name": "NPO radio 4",
+          "url": "https://icecast.omroep.nl/radio4-bb-aac",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f5f9d68a-b14d-4e23-8de0-b1ea6e2151bf",
+        "name": "Operator Radio",
+        "url": "https://origin.streamnerd.nl/operator/operator/icecast.audio",
+        "votes": 37
+      },
+      "variants": [
+        {
+          "stationuuid": "8d5c18d5-876d-4d93-b790-5410edd4edb6",
+          "name": "Operator",
+          "url": "https://origin.streamnerd.nl/operator/operator/icecast.audio",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "952ba4fa-5dd8-4f52-a153-225babfd5d84",
+        "name": "Double Z",
+        "url": "http://stream1.dzradio.nl/",
+        "votes": 33
+      },
+      "variants": [
+        {
+          "stationuuid": "c4f6ac4b-9a85-48aa-b0a5-5e67bd306347",
+          "name": "Double Z Radio",
+          "url": "http://stream1.dzradio.nl/",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "de833de7-884a-41d7-a7a7-834f64290313",
+        "name": "40up Radio",
+        "url": "https://stream.40upradio.nl/40up",
+        "votes": 32
+      },
+      "variants": [
+        {
+          "stationuuid": "a95180b5-4e17-42fd-9ce8-bad85e7893fd",
+          "name": "40UP Radio",
+          "url": "https://stream.40upradio.nl/40up",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f9586dfc-e8db-4b68-b455-bc407ae47a2e",
+          "name": "40UP RADIO",
+          "url": "https://stream.40upradio.nl/40up",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ffb6c7b6-7389-4fb0-abf3-214f8c75e37e",
+        "name": "Radio Twente Gold",
+        "url": "https://c18.radioboss.fm:8403/stream",
+        "votes": 31
+      },
+      "variants": [
+        {
+          "stationuuid": "94c0bf0e-3124-4d10-9063-112d3d398521",
+          "name": "Radio Twente Gold",
+          "url": "https://c18.radioboss.fm:8403/stream",
+          "votes": 9,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7385df09-8f0f-4426-bd38-310b32a2c053",
+        "name": "Vibe Radio",
+        "url": "https://stream.viberadio.nl/viberadio",
+        "votes": 31
+      },
+      "variants": [
+        {
+          "stationuuid": "83bc086e-f3d5-43df-8f80-55d95911d056",
+          "name": "VIBE Radio",
+          "url": "https://stream.viberadio.nl/viberadio",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b38d1434-38ac-457a-919f-0c92e0e40355",
+        "name": "Radio Speedy Gemert",
+        "url": "https://server-27.stream-server.nl:18312/;listen.m3u",
+        "votes": 30
+      },
+      "variants": [
+        {
+          "stationuuid": "80dbad34-276e-4a30-b6c4-5bcd88a61eb6",
+          "name": "RADIO SPEEDY",
+          "url": "https://server-27.stream-server.nl:18312/;listen.m3u",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c3c31f5f-5d5a-4162-add1-060f6dff4b66",
+        "name": "Pureclassix ",
+        "url": "http://mscp4.live-streams.nl:8140/live.mp3",
+        "votes": 29
+      },
+      "variants": [
+        {
+          "stationuuid": "f07301eb-4088-457c-b736-51576d2e5cab",
+          "name": "Pure Classix Radio",
+          "url": "http://mscp4.live-streams.nl:8140/live.mp3",
+          "votes": 23,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8be2529b-0731-4c2a-a418-a2597710fa3f",
+        "name": "Hete Hits",
+        "url": "https://mcp-2.mm-stream.nl:8000/stream",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "0b81d098-acb1-43c5-a3b5-37a701fad9bf",
+          "name": "Hete Hits",
+          "url": "https://mcp-2.mm-stream.nl:8000/stream",
+          "votes": 24,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3a02c652-8d78-4968-a88d-f966a5a85f18",
+        "name": "IndieXL",
+        "url": "http://server-23.stream-server.nl:8438/;listen.pls_",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "faa65b05-d61d-44d9-a9d4-b3e12f31bfb4",
+          "name": "Indie XL !",
+          "url": "http://server-23.stream-server.nl:8438/;listen.pls_",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "1f28b8ca-7d5f-4f51-955d-cb1d6b678214",
+          "name": "Indie XL",
+          "url": "http://server-23.stream-server.nl:8438/;listen.pls_",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fa4918fa-db73-4829-a308-fc19fe3bad70",
+        "name": "Impact Radio",
+        "url": "http://www.kippingmultimediaal.nl:8000/impactweb",
+        "votes": 25
+      },
+      "variants": [
+        {
+          "stationuuid": "d370780b-50f5-4253-9f0a-b7ca1705c36f",
+          "name": "Impact Radio",
+          "url": "http://www.kippingmultimediaal.nl:8000/impactweb",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "99c6eb69-74ed-11ea-b1cf-52543be04c81",
+        "name": "Impact AM",
+        "url": "http://kippingmultimediaal.nl:8000/impactweb",
+        "votes": 24
+      },
+      "variants": [
+        {
+          "stationuuid": "adde9904-3ba1-4746-940d-90988de84ef0",
+          "name": "Impact Radio",
+          "url": "http://kippingmultimediaal.nl:8000/impactweb",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1edb4ce1-e97f-4628-94de-83cd7cda37b3",
+        "name": "piraten twente",
+        "url": "http://stream.piratentwente.com:8020/live",
+        "votes": 20
+      },
+      "variants": [
+        {
+          "stationuuid": "88287aae-23f7-48ec-b8f0-c5a8902ac040",
+          "name": "Piraten Stream Twente",
+          "url": "http://stream.piratentwente.com:8020/live",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "922c3369-e615-42d6-9c18-61a14aed8a50",
+        "name": "Radio Calypso",
+        "url": "http://mcp-1.streampanel.nl:18024/stream",
+        "votes": 19
+      },
+      "variants": [
+        {
+          "stationuuid": "83baace0-3d74-4acd-84bb-2499da70e9ef",
+          "name": "Radio Calypso",
+          "url": "http://mcp-1.streampanel.nl:18024/stream",
+          "votes": 10,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e06ee2f0-ffa2-4095-af7f-f6b489ed463b",
+        "name": "RTV Love Volendam Edam",
+        "url": "https://webstream.rtvlove.nl/live",
+        "votes": 18
+      },
+      "variants": [
+        {
+          "stationuuid": "9b3c0c2d-cedb-4cf9-b04d-7cd0efaaa0be",
+          "name": "rtvlove Volendam",
+          "url": "https://webstream.rtvlove.nl/live",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "432391af-e181-4022-a688-3e2cf3336f78",
+        "name": "Omroep Eemsdelta",
+        "url": "https://streams.radiomast.io/063fcf6f-4083-4c4e-85a8-31b0a709f40d",
+        "votes": 18
+      },
+      "variants": [
+        {
+          "stationuuid": "15fff237-5207-484c-b3be-45729f66e546",
+          "name": "Omroep Eemsdelta",
+          "url": "https://streams.radiomast.io/063fcf6f-4083-4c4e-85a8-31b0a709f40d",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "72672869-1165-4d52-96bb-7bcf91a5e25c",
+        "name": "Non Stop AlexFM",
+        "url": "https://radioalexfmhits.stream.laut.fm/radioalexfmhits?ref=web-app&start_time=1709718823255",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "b2e121e9-6d6c-4c75-8913-c78167d46461",
+          "name": "Alex FM Non-Stop",
+          "url": "https://radioalexfmhits.stream.laut.fm/radioalexfmhits?ref=web-app&start_time=1709718823255",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ddedfcd6-9858-4b63-9864-69d8cb3c86d1",
+          "name": "AlexFM Nonstop",
+          "url": "https://radioalexfmhits.stream.laut.fm/radioalexfmhits?t302=2024-03-06_08-21-40&uuid=25a57695-a22f-4083-b348-b104684576af",
+          "votes": 6,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cda1c7ec-6bd4-4cb3-8488-4ec6935ba83f",
+        "name": "Beyond The Beat Generation",
+        "url": "http://86.94.213.59:8000/;",
+        "votes": 16
+      },
+      "variants": [
+        {
+          "stationuuid": "1f29932d-a2c4-4343-957f-24cb2c36e69d",
+          "name": "beyondthebeatgeneration",
+          "url": "http://86.94.213.59:8000/;",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "627c1466-3a58-4062-929c-659080774e2f",
+        "name": "Jinglegek",
+        "url": "https://server-26.stream-server.nl:8632/stream",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "9e196a1a-eb4e-4499-88d5-4327ecd996a4",
+          "name": "Jinglegek",
+          "url": "https://server-26.stream-server.nl:8632/stream",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5c26dd32-5a51-4b33-bdf7-8547ad476d7b",
+        "name": "JOE mp3",
+        "url": "https://stream.joe.nl/joe/mp3",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "1f3703df-937a-4ee1-b680-4b82de94e061",
+          "name": "Radio Joe",
+          "url": "https://stream.joe.nl/joe/mp3",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8e334785-0167-48f6-a0cc-ddaf7515dade",
+        "name": "Optimaal fm",
+        "url": "http://stream-10.pmteurope.com:8002/stream",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "3cb7a1d4-7677-446d-88b3-d90d38820202",
+          "name": "radiooptimaalfm ",
+          "url": "http://stream-10.pmteurope.com:8002/stream",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5b3a8f2e-de94-4f68-aaf3-7fc9cae6370b",
+        "name": "Delta Radio Nijmegen",
+        "url": "http://streamdelta.lokaalradio.nl:9005/",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "4ea392c2-99d1-4754-9850-91b0bd14a886",
+          "name": "Delta Radio Nijmegen",
+          "url": "http://streamdelta.lokaalradio.nl:9005/",
+          "votes": 12,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5abcdcd5-474b-4130-9311-df1fa65e3c8c",
+        "name": "Urk FM geestelijk",
+        "url": "http://urk.fm:8000/geestelijk.mp3",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "00d72477-99af-402c-ba0e-8eb3865a8225",
+          "name": "Urk FM",
+          "url": "http://urk.fm:8000/geestelijk.mp3",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "66d3647f-2f00-4a5b-a466-a774eb3551e6",
+        "name": "Radio Spannenburg",
+        "url": "https://stream.radiospannenburg.nl/radiospannenburg",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "24bc53f9-742e-43d3-8229-9e0f265752d5",
+          "name": "Radio Spannenburg",
+          "url": "https://stream.radiospannenburg.nl/radiospannenburg",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d765d8ca-992f-4d59-946a-0877c12f0f28",
+        "name": "Alswin Ambient Music",
+        "url": "https://server7.radio-streams.net/proxy/jwoiiktx/stream",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "59857b36-3071-4dc9-8a36-d426999cbd0c",
+          "name": "Alswin Ambient Music",
+          "url": "https://server7.radio-streams.net/proxy/jwoiiktx/stream",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b0d16637-ef79-424d-ba06-68ca62615b79",
+        "name": "Hot Jamz Urban Radio",
+        "url": "https://stream02.dotpoint.nl:8030/stream",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "a2f3155c-1ce4-4267-a6c5-a9881043d877",
+          "name": "Hot Jamz",
+          "url": "https://stream02.dotpoint.nl:8030/stream",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cfc5a152-dec5-41b6-b765-71be6721f97d",
+        "name": "Koekstad Radio Deventer",
+        "url": "https://server-67.stream-server.nl:8788/stream",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "d616010d-905e-4e79-9ce6-443ebd79a420",
+          "name": "Koekstad Radio",
+          "url": "https://server-67.stream-server.nl:8788/stream",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "3db37ea4-9b19-480a-87c8-ccf591725903",
+          "name": "Koekstad Radio",
+          "url": "https://server-67.stream-server.nl:8788/stream",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "85bb6aa4-b33c-4988-8d17-07bdc6705b4f",
+        "name": "SuperMixFM",
+        "url": "https://loa.beheerstream.nl:8110/stream",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "61b87b15-0d7e-4489-943f-59a5b90c3add",
+          "name": "Donderschoer Radio",
+          "url": "https://loa.beheerstream.nl:8110/stream",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "59f13a3a-a1e9-4794-bd87-dbff768abd71",
+        "name": "Disco Factory",
+        "url": "https://s5.radio.co/s253044a7a/listen",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "d30191fb-08cd-4b4a-acd6-f29082017e45",
+          "name": "Disco Factory",
+          "url": "https://s5.radio.co/s253044a7a/listen",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dc07c6cd-140f-4426-93b9-531281584374",
+        "name": "Ijsselstreekradio",
+        "url": "http://mediaserv38.live-streams.nl:8029/radio",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "0e826146-ef01-4639-a2bf-f17f8e75091f",
+          "name": "Ijsselstreek Radio",
+          "url": "http://mediaserv38.live-streams.nl:8029/radio",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a5700462-a3ba-47d1-835f-c72bc2ef81e7",
+        "name": "Radio Sangam",
+        "url": "https://mediaserv68.live-streams.nl:8067/stream",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "486357a2-a312-4e25-b948-a0e03dda94a7",
+          "name": "Radio Sangam",
+          "url": "https://mediaserv68.live-streams.nl:8067/stream",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "db1262ee-c175-4ba4-bf06-71fb2d0f188c",
+        "name": "Vera Radio",
+        "url": "https://mscp3.live-streams.nl:8082/live",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "cbfa6735-c60e-4168-a7ce-2a3641a59817",
+          "name": "Veraradio",
+          "url": "https://mscp3.live-streams.nl:8082/live",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "110bfd68-cc51-4c6b-bc81-39032e0d0495",
+        "name": "Moonlight-Radio",
+        "url": "https://server-67.stream-server.nl:8780/stream",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "93450923-86d2-417c-a392-ccc2c8bfa7ac",
+          "name": "Moonlight-Radio",
+          "url": "https://server-67.stream-server.nl:8780/stream",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "70a43d97-1d70-42f0-a258-a12a1f6893b0",
+        "name": "HitRadio1.nl",
+        "url": "https://everestcast.live-streams.nl:8556/stream",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "7f99253d-d6fe-4e90-bd84-26f194d97201",
+          "name": "HitRadio1.nl",
+          "url": "https://everestcast.live-streams.nl:8556/stream",
+          "votes": 3,
+          "differs": []
+        },
+        {
+          "stationuuid": "2dd63dd2-eb0a-4539-a038-2d0fea660d18",
+          "name": "HitRadio1.nl",
+          "url": "https://everestcast.live-streams.nl:8556/stream",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "91df17ef-5807-4e40-93a5-ef52837cbf92",
+        "name": "Yoursafe Radio",
+        "url": "https://radiostream.yoursafe.nl/stream",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "c4a82240-a6af-4f7e-84aa-2714359e7dae",
+          "name": "Yoursaferadio",
+          "url": "https://radiostream.yoursafe.nl/stream",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a98fe24a-e9d2-46cb-827c-f4ce460a1bea",
+        "name": "Rivierenland Radio",
+        "url": "https://rivierenlandradio.stream-server.nl/stream",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "02b848f5-5b7f-4877-a0f4-270797ec04aa",
+          "name": "Rivierenland Radio",
+          "url": "https://rivierenlandradio.stream-server.nl/stream",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bd6da9d1-66ca-4811-9841-2346f8d0526b",
+        "name": "Muziekteam",
+        "url": "https://mcp-1.streampanel.nl:8036/stream",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "ba3c1ce1-6e66-4221-875d-2dd6a5f17ecf",
+          "name": "U luistert naar www.muziekteam.nl voor de beste piraten hits",
+          "url": "https://mcp-1.streampanel.nl:8036/stream",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "35a25ae7-7a20-4060-9154-9d25b52e3986",
+        "name": "Reformatorische Omroep Radio 2",
+        "url": "https://ro3.reformatorischeomroep.nl:8072/live",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "267fcaba-9e91-49e4-b50d-45cf5384fbb7",
+          "name": "Reformatorische Omroep Radio 2",
+          "url": "https://ro3.reformatorischeomroep.nl:8072/live",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a1bb4937-8e56-425d-bd72-e2a37d4b9897",
+        "name": "Quality FM",
+        "url": "https://icecast.lokaleomroepzeewolde.nl:8443/QualityFMHigh",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "86313cf3-26fc-4748-a777-8d1541b7e5af",
+          "name": "Quality FM",
+          "url": "https://icecast.lokaleomroepzeewolde.nl:8443/QualityFMHigh",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f06b4cb9-3a86-4546-9b8a-663faa16d558",
+        "name": "Radio Hoeksche Waard",
+        "url": "https://cloud-faro.beheerstream.com/proxy/omroephw?mp=/live",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "61e5e7e5-7a9d-44bb-aae7-8a09e7fe7a2a",
+          "name": "Radio Hoeksche Waard",
+          "url": "https://cloud-faro.beheerstream.com/proxy/omroephw?mp=/live",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0bc29218-2f7b-47da-bb7c-4560523f38c1",
+        "name": "Radio Ultiem",
+        "url": "http://server-21.stream-server.nl:8382/",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "2163ca91-aced-4d82-898c-f3c346a4123a",
+          "name": "Radio Ultiem",
+          "url": "http://server-21.stream-server.nl:8382/",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2df0cc0c-9c90-42df-a872-ceb2c8b85438",
+        "name": "Century Radio NI mom",
+        "url": "https://s2.radio.co/s87ffbc098/listen",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "c057ba2e-3ed7-4ba2-a651-4fb7d72ff5d6",
+          "name": "centuryradioni",
+          "url": "https://s2.radio.co/s87ffbc098/listen",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f485afb4-cb18-4cde-b91f-f09adcb59bea",
+        "name": "SRC Rivierenland",
+        "url": "https://cc6.beheerstream.com/proxy/src1?mp=/stream;stream.mp3",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "c26dd0b3-9b35-46d8-b74c-00e11b86dc6a",
+          "name": "SRC FM",
+          "url": "https://cc6.beheerstream.com/proxy/src1?mp=/stream;stream.mp3",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2b86a9bd-92db-4803-8833-1b86ed0bba82",
+        "name": "ZFM Zandvoort",
+        "url": "https://icecast.bytesheep.net/zfmzandvoort.mp3",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "acb903ef-a153-4457-80a9-6b19e410876f",
+          "name": "ZFM Zandvoort",
+          "url": "https://icecast.bytesheep.net/zfmzandvoort.mp3",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0d5e95f3-8455-47db-b0c5-a72230386b61",
+        "name": "Echobox Radio",
+        "url": "https://play.streamnerd.nl/echobox/echobox/icecast.audio",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "5a04743b-6d98-4af5-9190-9aa44f030cab",
+          "name": "Echobox",
+          "url": "https://play.streamnerd.nl/echobox/echobox/icecast.audio",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c3f047d7-0554-4cc5-9916-5a8a1d172bc3",
+        "name": "Freak Radio NL",
+        "url": "http://streaming.shoutcast.com/freakradio",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "01f71c14-b269-400a-9006-9cb6a1162c43",
+          "name": "Freak Radio NL",
+          "url": "http://streaming.shoutcast.com/freakradio",
+          "votes": 4,
+          "differs": [
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "23f2043f-96e0-4147-91b4-679627d5def9",
+        "name": "Piraten Combinatie Twente",
+        "url": "http://server-67.stream-server.nl/stream/piratencombinatietwente",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "09205ca0-0d6f-484b-93f8-c8a723199ca7",
+          "name": "Piraten Combinatie Twente",
+          "url": "http://server-67.stream-server.nl/stream/piratencombinatietwente",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ff964a43-8239-4cbd-b116-a0f1d248cbd5",
+        "name": "TraxxRadio",
+        "url": "https://server-28.stream-server.nl:8896/stream",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "5a64c0e3-00e8-4c2c-9bda-3df857d3713b",
+          "name": "TraxxRadio",
+          "url": "https://server-28.stream-server.nl:8896/stream",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d8128f36-75a6-4826-b3a1-e3fe59b3eada",
+        "name": "Radio ZO-NWS",
+        "url": "https://nlpo.stream.vip/zonws/mp3-192/nlpo/",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "22e69bb2-554f-4866-bea5-693c2320d7fc",
+          "name": "ZO-NWS Radio",
+          "url": "https://nlpo.stream.vip/zonws/mp3-192/nlpo/",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a877bea3-f286-4c0e-9e77-e051be114b48",
+        "name": "A1Lounge",
+        "url": "http://radio.a1lounge.com/",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "b4b81cdc-6c6a-4036-b1f5-04200fb05366",
+          "name": "A1lounge",
+          "url": "http://radio.a1lounge.com/",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "aabea290-4988-4f7f-beb9-1435d66013d6",
+          "name": "The Best House Rhythms from Amsterdam.",
+          "url": "http://radio.a1lounge.com/",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c5aa4be1-e8e8-49eb-83db-c5e64ae538b3",
+          "name": "A1Lounge",
+          "url": "http://radio.a1lounge.com/",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a532d0a7-77f2-4dd0-9077-adadcfa8a603",
+        "name": "Radioachterhoek.nl",
+        "url": "https://stream.radioachterhoek.nl/live",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "506b19ce-e347-4323-8725-d97eb09454cd",
+          "name": "radioachterhoek.nl",
+          "url": "https://stream.radioachterhoek.nl/live",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "49973dc0-1d87-4fd7-8107-441901a3ec0b",
+        "name": "Omroep Lekstroom",
+        "url": "https://mpc2.mediacp.eu:8268/omroephouten",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "53e31246-0045-4043-8eb6-db860df74fde",
+          "name": "Omroep Lekstroom",
+          "url": "https://mpc2.mediacp.eu:8268/omroephouten",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6b01213e-c38b-4eb0-a09a-fcc146af5fd8",
+        "name": "RTV NOF radio",
+        "url": "https://stream.rtvnof.nl/rtvnof1",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "04d34910-700e-4365-87b3-251600afccff",
+          "name": "RTV NOF",
+          "url": "https://stream.rtvnof.nl/rtvnof1",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a6537495-696e-4878-9fdb-96f11af71e44",
+        "name": "Nicky FM",
+        "url": "https://caster08.streampakket.com/proxy/nickyfm/stream",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "808475a4-4bbd-47ab-9290-16fea996a662",
+          "name": "Nicky FM",
+          "url": "https://caster08.streampakket.com/proxy/nickyfm/stream",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "231680d5-de00-476e-9b38-a39fbe31436d",
+        "name": "MaiBus Radio",
+        "url": "https://server-67.stream-server.nl:8818/stream",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "9076a3e9-3401-448d-8bb0-c8be9057c2b5",
+          "name": "MaiBus Radio",
+          "url": "https://server-67.stream-server.nl:8818/stream",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1802bf21-989c-4943-946e-8b66ec5a1135",
+        "name": "MeerRadio",
+        "url": "https://nlpo.stream.vip/radiomer/mp3-192/nlpo/",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "b05ab7d5-d790-45fb-b8ca-ff4240ccd670",
+          "name": "MeerRadio",
+          "url": "https://nlpo.stream.vip/radiomer/mp3-192/nlpo/",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f2d6592f-8767-4d6d-881d-0fb3103687f1",
+        "name": "MixPerfect Radio",
+        "url": "https://mixperfectradio.nl:9443/stream",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "97eb62b4-70dc-4950-a31e-037f24469da5",
+          "name": "MixPerfect Radio",
+          "url": "https://mixperfectradio.nl:9443/stream",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "802fbab6-3ea5-4524-8956-8f88979aae86",
+          "name": "MixPerfect",
+          "url": "https://mixperfectradio.nl:9443/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7a1acf5f-cf23-4b9a-a6cb-9a0db583cbfe",
+        "name": "Radio Uniek Rotterdam",
+        "url": "https://stream.hosting078.nl:8044/stream",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "3cd2098f-e089-44cc-8d16-afa4d220c8ec",
+          "name": "Radio Uniek Rotterdam",
+          "url": "https://stream.hosting078.nl:8044/stream",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1812e16a-19d3-4ac0-add5-94764e48d38d",
+        "name": "1Zwolle",
+        "url": "https://stream.and-stuff.nl:8443/live-1zwolle",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "f24c9e39-de63-4c11-888a-d749296a8868",
+          "name": "1Zwolle",
+          "url": "https://stream.and-stuff.nl:8443/live-1zwolle",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "812cf3cb-de1c-4132-8621-f8e73219a711",
+        "name": "Centrum Radio",
+        "url": "https://stream.centrumradio.eu/centrumradio.aac",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "828a1775-cfa3-454d-b4aa-99de051557e7",
+          "name": "Centrum Radio",
+          "url": "https://stream.centrumradio.eu/centrumradio.aac",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b87bd4e6-69cb-4f8d-b640-7a85bd1618fb",
+        "name": "Glind Radio",
+        "url": "https://live.glindradio.nl/",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "ddcf6c33-7936-49ae-ad95-ee7802db15e4",
+          "name": "Glind Radio",
+          "url": "https://live.glindradio.nl/",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ff40fead-3332-49b6-b9a1-6895f02eff41",
+        "name": "Polder radio",
+        "url": "https://server-67.stream-server.nl:8734/",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "0b7003e0-ca9c-44ef-ba2c-e49df7b2abbf",
+          "name": "Polder Radio (stream 3)",
+          "url": "https://server-67.stream-server.nl:8734/",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cbcb6dae-af64-4adc-b5e4-c78c7a96d2fd",
+        "name": "Radio-Twilight",
+        "url": "https://stream.shamarohosting.nl:8000/radio.mp3",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "1dbd5032-7581-402c-bdb7-25d4368776c0",
+          "name": "Radio Twilight",
+          "url": "https://stream.shamarohosting.nl:8000/radio.mp3",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f7dff436-f7b5-428d-8d66-3b693c836d99",
+        "name": "ZAP! FM",
+        "url": "https://zapstream.nl/1",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "3e6f444c-a437-4bfb-9260-ca39322b1ac0",
+          "name": "ZAP! FM",
+          "url": "https://zapstream.nl/1",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fdea0da8-daf3-473e-9d31-c5436a859e90",
+        "name": "Classics Radio",
+        "url": "https://a4.asurahosting.com:7080/radio.mp3",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "0f1da96c-79e9-4967-bb07-5819f20cd684",
+          "name": "Classics; Radio",
+          "url": "https://a4.asurahosting.com:7080/radio.mp3",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "740dde51-17b0-4f13-9b27-1b5b1e78b6ab",
+        "name": "NORA FM",
+        "url": "https://25333.live.streamtheworld.com/NORA_FM.mp3",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "ca0521cf-0634-4a96-b5cb-ba3588c0c00e",
+          "name": "Nora FM",
+          "url": "https://25333.live.streamtheworld.com/NORA_FM.mp3",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cce107dc-95a9-45bb-962d-995d274342dd",
+        "name": "Wonderjaren - Streaming radio",
+        "url": "https://server-67.stream-server.nl:8748/stream",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "1c39045f-c2e3-4faf-9c7f-d764bde5fe87",
+          "name": "Wonderjaren streaming radio",
+          "url": "https://server-67.stream-server.nl:8748/stream",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "679f6e33-78e5-41fb-a75b-088af6466d40",
+        "name": "RTV Rijnstreek",
+        "url": "https://stream.rtvrijnstreek.nl:1973/rtvrstreek",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "094124ad-e194-4b62-9091-9e22e7076ab9",
+          "name": "Rijnstreek FM Wageningen",
+          "url": "https://stream.rtvrijnstreek.nl:1973/rtvrstreek",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a8aaafa7-2d0d-4e04-b44b-5353f921b0f5",
+        "name": "Radio eXtra",
+        "url": "http://91.227.77.124/extra",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "8e8acf2e-8ece-45fb-a048-5256621aedbe",
+          "name": "Radio eXtra",
+          "url": "http://91.227.77.124/extra",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "64ba6d0c-4440-4407-abcd-822d4b2fd60f",
+        "name": "Centraal Hits",
+        "url": "https://server-26.stream-server.nl:18738/",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "63bea2ad-41be-451e-9513-b74c56a5930d",
+          "name": "Centraal Hits",
+          "url": "https://server-26.stream-server.nl:18738/",
+          "votes": 0,
+          "differs": []
+        },
+        {
+          "stationuuid": "b0dcab63-176e-41d2-a579-f3631dac9b43",
+          "name": "Centraal Hits",
+          "url": "https://server-26.stream-server.nl:18738/",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "391e9223-00f8-4a37-9f47-497230b93094",
+        "name": "Power FM Breda",
+        "url": "https://mpc1.mediacp.eu:8036/stream",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "3f03bc3c-90f6-404a-b5df-ba9ef65c2b7e",
+          "name": "Power FM Breda",
+          "url": "https://mpc1.mediacp.eu:8036/stream",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "aeb263b1-3f53-4a72-9143-c274dc98f2fb",
+          "name": "Power FM Breda",
+          "url": "https://mpc1.mediacp.eu:8036/stream",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "a04f7ac1-a6ce-486c-b6d8-9aeb3323ac12",
+          "name": "Power FM Breda",
+          "url": "https://mpc1.mediacp.eu:8036/stream",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "6ae9f361-c80c-4e67-bfc0-e35502a08e47",
+          "name": "Power FM Breda",
+          "url": "https://mpc1.mediacp.eu:8036/stream",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c8c6347c-4330-41c6-9d38-406c1607556e",
+        "name": "Tirolia-Express",
+        "url": "https://server-28.stream-server.nl:8846/stream",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "6e1938b7-4c24-4761-87dc-afb4a7d54013",
+          "name": "Tirolia-Express",
+          "url": "https://server-28.stream-server.nl:8846/stream",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f7864817-4b5d-490f-9a6a-0e98c4c6dc0d",
+        "name": "Radio Twentestad ",
+        "url": "http://stream.twentestad.eu/twentestad.mp3",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "e994da77-0940-4912-83f4-d799d59deb62",
+          "name": "Michel Grevink",
+          "url": "http://stream.twentestad.eu/twentestad.mp3",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ce61e1ca-2f21-4627-b2f3-382f7c3456c8",
+          "name": "Michel Grevink",
+          "url": "http://stream.twentestad.eu/twentestad.mp3",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d0442483-6f19-4b70-8cca-0937d9948427",
+          "name": "Michel Grevink",
+          "url": "http://stream.twentestad.eu/twentestad.mp3",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2047fa4b-e9d1-404a-833e-dba969f0fbbd",
+        "name": "Piraten.FM - 12",
+        "url": "https://piraten.fm/top/12",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "4fea3559-c4e2-40b9-ac56-15521328e9b3",
+          "name": "Piraten.FM - 12",
+          "url": "https://piraten.fm/top/12",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b2cb3f63-73d2-4b98-8489-39e6b3b1f192",
+        "name": "SkyRadio HITS",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SRGSTR01AAC.aac",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "00083c03-b46a-412e-95c1-344dfcbb8457",
+          "name": "Sky Hits",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SRGSTR01AAC.aac",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "352540b6-e1df-48dc-9420-7cdb21a332a8",
+        "name": "Langstraat FM",
+        "url": "https://nlpo.stream.vip/langstra/mp3-192/nlpo.stream.vip/",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "5198fbe6-7f63-43f3-94aa-072ebf78e900",
+          "name": "Langstraat FM",
+          "url": "https://nlpo.stream.vip/langstra/mp3-192/nlpo.stream.vip/",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

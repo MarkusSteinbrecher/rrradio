@@ -1,0 +1,663 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.885Z",
+  "country": "PT",
+  "sourceProbedAt": "2026-04-30T07:05:18.253Z",
+  "totals": {
+    "deadStreams": 8,
+    "internalDupes": 28,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "7b6c8b15-4fa1-4a11-a737-d34a8b428151",
+      "name": "105.4 Cascais - O Rock da Linha",
+      "url": "https://play.radioregional.pt:8220/stream/2/;;/stream.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 185,
+      "lastProbedAt": "2026-04-30T07:04:55.689Z"
+    },
+    {
+      "stationuuid": "df6c713f-7558-4c87-bdee-f8255c95511e",
+      "name": "Radio TugaNet",
+      "url": "https://ssl.stmxp.net:8006/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 163,
+      "lastProbedAt": "2026-04-30T07:04:56.051Z"
+    },
+    {
+      "stationuuid": "0d4692f8-7653-4ee4-b939-f3970f9762d0",
+      "name": "Rádio Internacional Odemira",
+      "url": "https://c30.radioboss.fm:18510/stream?1655151777664",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 80,
+      "lastProbedAt": "2026-04-30T07:05:08.841Z"
+    },
+    {
+      "stationuuid": "0f4f1565-e7cc-4705-abc7-2593d3b38de6",
+      "name": "SuperFM",
+      "url": "https://play.radioregional.pt:8210/stream/2/;/stream.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 51,
+      "lastProbedAt": "2026-04-30T07:05:00.847Z"
+    },
+    {
+      "stationuuid": "d6db3215-8210-4fb6-a968-be79bf05e202",
+      "name": "Cascais FM 105.4",
+      "url": "https://play.radioregional.pt:8220/stream/2/;/stream.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 33,
+      "lastProbedAt": "2026-04-30T07:05:02.808Z"
+    },
+    {
+      "stationuuid": "20d0b43e-bd9a-435e-b5b3-9e66774866ca",
+      "name": "Rádio Paralelo",
+      "url": "https://radioparalelo.indymedia.pt:8443/main.ogg",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 9,
+      "lastProbedAt": "2026-04-30T07:05:18.251Z"
+    },
+    {
+      "stationuuid": "70f4ade6-731f-40cf-b215-aadf26deb2c2",
+      "name": "nigga.pt (ambient)",
+      "url": "https://nigga.pt/ambient.ogg",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 8,
+      "lastProbedAt": "2026-04-30T07:05:09.293Z"
+    },
+    {
+      "stationuuid": "531b7022-8241-413f-bc52-a3041ef90b55",
+      "name": "Radio Nova Porto",
+      "url": "https://centova.radios.pt:9528/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T07:05:11.018Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "dbc018ae-1848-4f26-a677-367011a1f4b2",
+        "name": "Antena 1 (Portugal)",
+        "url": "http://streaming-live-app.rtp.pt/liveradio/antena180a/playlist.m3u8",
+        "votes": 13338
+      },
+      "variants": [
+        {
+          "stationuuid": "aab4fa49-bf54-4c76-8ba4-79ee27f2602e",
+          "name": "antena 1 portugal",
+          "url": "http://streaming-live-app.rtp.pt/liveradio/antena180a/playlist.m3u8",
+          "votes": 56,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        },
+        {
+          "stationuuid": "7293d8f3-941d-4a7b-ace0-01c9584410f0",
+          "name": "Antena 1 (Portugal)",
+          "url": "http://streaming-live-app.rtp.pt/liveradio/antena180a/playlist.m3u8",
+          "votes": 25,
+          "differs": [
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "909735da-70e8-4527-b771-52793d9f0086",
+        "name": "Antena 1 (Portugal)",
+        "url": "https://streaming-live.rtp.pt/liveradio/antena180a/playlist.m3u8",
+        "votes": 10252
+      },
+      "variants": [
+        {
+          "stationuuid": "0bb91b7b-fd13-487f-b645-87f6d6d7b4d2",
+          "name": "Antena 1 (Portugal)",
+          "url": "https://streaming-live.rtp.pt/liveradio/antena180a/playlist.m3u8",
+          "votes": 139,
+          "differs": [
+            "bitrate"
+          ]
+        },
+        {
+          "stationuuid": "8267a9f9-e776-4b59-90e5-1179dfe1ad40",
+          "name": "Antena 1 (Portugal)",
+          "url": "https://streaming-live.rtp.pt/liveradio/antena180a/playlist.m3u8?DVR",
+          "votes": 33,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96190b45-0601-11e8-ae97-52543be04c81",
+        "name": "Rádio Planície 92.8 Moura",
+        "url": "http://109.71.41.6:8026/stream",
+        "votes": 3651
+      },
+      "variants": [
+        {
+          "stationuuid": "edbd1565-d6aa-4487-8564-e56883453124",
+          "name": "Rádio Planície - 92.8 FM",
+          "url": "http://109.71.41.6:8026/stream",
+          "votes": 253,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "44cb20dc-e9ac-41ef-a4fe-153d48fcdd96",
+        "name": "Radio Comercial Portugal",
+        "url": "https://stream-icy.bauermedia.pt/comercial.mp3",
+        "votes": 1885
+      },
+      "variants": [
+        {
+          "stationuuid": "ac843a5b-f7ef-4b89-9491-590bdaf20b4c",
+          "name": "Radio Commercial",
+          "url": "https://stream-icy.bauermedia.pt/comercial.mp3",
+          "votes": 235,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5446bdeb-b081-413d-9552-42f1b16048b7",
+        "name": "Antena 1",
+        "url": "http://streaming-live.rtp.pt/liveradio/antena180a/playlist.m3u8",
+        "votes": 1882
+      },
+      "variants": [
+        {
+          "stationuuid": "b16ffbfa-3dbc-472f-b058-5b9daa21cef7",
+          "name": "Antena 1 (Portugal)",
+          "url": "http://streaming-live.rtp.pt/liveradio/antena180a/playlist.m3u8",
+          "votes": 488,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "91200ce0-a62d-43ec-b948-bde6789433e6",
+        "name": "RDP Internacional (Portugal)",
+        "url": "https://streaming-live.rtp.pt/liveradio/rdpint80a/playlist.m3u8",
+        "votes": 1154
+      },
+      "variants": [
+        {
+          "stationuuid": "deb76866-2c70-49da-9e7c-7bba10d81af2",
+          "name": "RDP Internacional (Portugal)",
+          "url": "https://streaming-live.rtp.pt/liveradio/rdpint80a/playlist.m3u8?DVR",
+          "votes": 44,
+          "differs": [
+            "url",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6c9775e4-f815-4d3e-9e13-f1d7cd9138fb",
+        "name": "jovembsk mix",
+        "url": "http://stream.zeno.fm/4nc1mzdp81xuv",
+        "votes": 652
+      },
+      "variants": [
+        {
+          "stationuuid": "8c98cd6c-1066-451a-801e-3cb7ad908dfb",
+          "name": "JOVEMBSK MIX",
+          "url": "http://stream.zeno.fm/4nc1mzdp81xuv",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d47f4a27-d7a5-435c-882f-1f0a2d062b55",
+        "name": "Rádio Amor Portugal",
+        "url": "https://stream.radioamorportugal.com:8443/rap.mp3",
+        "votes": 573
+      },
+      "variants": [
+        {
+          "stationuuid": "696e8bf6-3f39-4e8a-b31f-babc5ae3ed8a",
+          "name": "Rádio Amor Portugal",
+          "url": "https://stream.radioamorportugal.com:8443/rap.mp3",
+          "votes": 174,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "26592f49-564a-402c-8123-19dc8d496271",
+        "name": "Smooth FM (AAC)",
+        "url": "https://stream-icy.bauermedia.pt/smooth.aac",
+        "votes": 416
+      },
+      "variants": [
+        {
+          "stationuuid": "342f46c4-b48b-4813-b0d3-27b6e33f3a41",
+          "name": "SmoothFM",
+          "url": "https://stream-icy.bauermedia.pt/smooth.aac",
+          "votes": 58,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "20f7728c-1d68-47ba-8f5a-b3627f8354b7",
+        "name": "Antena 2 (AAC)",
+        "url": "http://streaming-live-app.rtp.pt/liveradio/antena280a/playlist.m3u8",
+        "votes": 322
+      },
+      "variants": [
+        {
+          "stationuuid": "60f9ae91-af89-4a97-980d-5ead2a654c3e",
+          "name": "Antena 2 (AAC)",
+          "url": "http://streaming-live-app.rtp.pt/liveradio/antena280a/playlist.m3u8?DVR",
+          "votes": 181,
+          "differs": [
+            "url",
+            "bitrate"
+          ]
+        },
+        {
+          "stationuuid": "1aa67c97-6108-4085-871b-28e589644de8",
+          "name": "RTP Antena 2",
+          "url": "http://streaming-live-app.rtp.pt/liveradio/antena280a/playlist.m3u8",
+          "votes": 147,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "30c9039c-85ca-4c00-80d0-d482ae637e34",
+        "name": "Antena 3 - Main",
+        "url": "https://radiocast.rtp.pt/antena380a.mp3",
+        "votes": 251
+      },
+      "variants": [
+        {
+          "stationuuid": "f57789e6-f302-4d4f-b0e5-eae2d4e52cf6",
+          "name": "RTP Antena 3",
+          "url": "https://radiocast.rtp.pt/antena380a.mp3",
+          "votes": 24,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bf7a7180-2465-48d2-983c-3bc182ba0c83",
+        "name": "Antena 2 (Portugal)",
+        "url": "https://streaming-live.rtp.pt/liveradio/antena280a/playlist.m3u8?DVR",
+        "votes": 235
+      },
+      "variants": [
+        {
+          "stationuuid": "abdacbd3-4a0a-452b-8247-cff72abb464e",
+          "name": "Antena 2 (Portugal)",
+          "url": "https://streaming-live.rtp.pt/liveradio/antena280a/playlist.m3u8?DVR",
+          "votes": 51,
+          "differs": []
+        },
+        {
+          "stationuuid": "e7c49a9e-9716-49a0-b886-6a541c2919ce",
+          "name": "Antena 2 (Portugal)",
+          "url": "https://streaming-live.rtp.pt/liveradio/antena280a/playlist.m3u8?DVR",
+          "votes": 16,
+          "differs": []
+        },
+        {
+          "stationuuid": "005be201-4330-49e0-b827-8cb9a5a12a4a",
+          "name": "Antena 2 (Portugal)",
+          "url": "https://streaming-live.rtp.pt/liveradio/antena280a/playlist.m3u8?DVR",
+          "votes": 15,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a6e3c595-c275-4cc7-b15a-498321bc08ba",
+        "name": "CM Rádio",
+        "url": "https://emdireto.cmradio.pt/audio2/output-stream_1.m3u8",
+        "votes": 218
+      },
+      "variants": [
+        {
+          "stationuuid": "f7ef7fc8-fa3f-4ae5-92de-fe320bb79971",
+          "name": "CMR - Correio da Manhã Rádio",
+          "url": "https://emdireto.cmradio.pt/audio2/output-stream_1.m3u8",
+          "votes": 135,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "645c7030-4baa-4497-8f98-aeccc4c34160",
+        "name": "Orbital FM",
+        "url": "https://ec2.yesstreaming.net:3025/stream",
+        "votes": 205
+      },
+      "variants": [
+        {
+          "stationuuid": "23533638-2a48-44ad-abe3-d7d931fe6232",
+          "name": "Orbital",
+          "url": "https://ec2.yesstreaming.net:3025/stream",
+          "votes": 45,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6994316a-465d-40de-a567-1256216e270d",
+        "name": "Radio Santiago Guimaraes",
+        "url": "http://eu6.fastcast4u.com:5002/stream",
+        "votes": 193
+      },
+      "variants": [
+        {
+          "stationuuid": "db31f1f9-a469-4188-b8b3-9713557413d9",
+          "name": "Rádio Santiago",
+          "url": "http://eu6.fastcast4u.com:5002/stream",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ba4a59be-3ba1-4461-b9de-f489d605c7ac",
+        "name": "Antena 3 (Portugal)",
+        "url": "https://streaming-live.rtp.pt/liveradio/antena380a/playlist.m3u8?DVR",
+        "votes": 186
+      },
+      "variants": [
+        {
+          "stationuuid": "282ac845-f97c-401b-a5ba-2e2c2a2e0d15",
+          "name": "Antena 3",
+          "url": "https://streaming-live.rtp.pt/liveradio/antena380a/playlist.m3u8",
+          "votes": 24,
+          "differs": [
+            "name",
+            "url",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d1aed693-0120-4c9c-bfd1-3829e41fc693",
+        "name": "Rádio XL",
+        "url": "https://radios.justweb.pt/8002/stream",
+        "votes": 158
+      },
+      "variants": [
+        {
+          "stationuuid": "f85575d6-16c9-48de-85c2-c32f41847634",
+          "name": "Rádio XL FM",
+          "url": "https://radios.justweb.pt/8002/stream",
+          "votes": 26,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c0682eee-a97d-4fbe-b970-dea2ffb18ef0",
+        "name": "Rádio Observador",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/OBSERVADORAAC.aac?dist=web-popup&devicename=aac",
+        "votes": 103
+      },
+      "variants": [
+        {
+          "stationuuid": "68c6b8fb-5bdb-44ae-b72d-43e90ccd66cd",
+          "name": "Radio Observador",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/OBSERVADORAAC.aac?dist=web-popup&devicename=aac",
+          "votes": 24,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3be30d15-6f8e-41a6-bc66-dfe60cc25111",
+        "name": "Rádio Freguesia de Belém",
+        "url": "https://s2.radio.co/s0ddea4a53/listen",
+        "votes": 94
+      },
+      "variants": [
+        {
+          "stationuuid": "05c2a7c6-02c4-4cd1-a2c7-b9ffe722fe06",
+          "name": "Rádio Freguesia de Belém",
+          "url": "https://s2.radio.co/s0ddea4a53/listen",
+          "votes": 40,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8c6284d7-e302-40d5-a5b1-445be570a492",
+        "name": "Radio 94 FM",
+        "url": "http://185.11.164.106:35022/stream",
+        "votes": 88
+      },
+      "variants": [
+        {
+          "stationuuid": "3554c721-9e45-4214-aa7e-ae0f00c19677",
+          "name": "94FM Leiria",
+          "url": "http://185.11.164.106:35022/stream?type=mp3",
+          "votes": 33,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "e806e30f-bade-43a4-b9ab-e14230ef50de",
+          "name": "Rádio 94FM",
+          "url": "http://185.11.164.106:35022/stream?type=mp3",
+          "votes": 19,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "25847e5e-2769-478a-9bb3-a9ae9b8a0a9e",
+        "name": "Rádio Festival Madeira (98.4 FM)",
+        "url": "https://audio.serv.pt/8012/stream.mp3",
+        "votes": 78
+      },
+      "variants": [
+        {
+          "stationuuid": "56db1998-4d48-42b4-a424-bfcec290aeb3",
+          "name": "Rádio Festival Madeira (98.4 FM)",
+          "url": "https://audio.serv.pt/8012/stream.mp3",
+          "votes": 38,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a6a7e44f-8845-49e5-91c6-2387fa25d534",
+        "name": "Rádio Nova Era",
+        "url": "https://centova.radio.com.pt/proxy/478?mp=/stream",
+        "votes": 61
+      },
+      "variants": [
+        {
+          "stationuuid": "f9cf4cce-e599-495f-851d-5a587562b71a",
+          "name": "Radio Nova Era",
+          "url": "https://centova.radio.com.pt/proxy/478?mp=/stream",
+          "votes": 26,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a7d3cb11-67bf-4ed9-9ff1-ef4e036407ab",
+        "name": "Rádio Popular Madeira (101.0 FM)",
+        "url": "https://audio.serv.pt/8018/stream.mp3",
+        "votes": 51
+      },
+      "variants": [
+        {
+          "stationuuid": "8a2b7baa-6da9-4c13-b74b-ec1c7367bbb9",
+          "name": "Rádio Palmeira Madeira (96.1 FM)",
+          "url": "https://audio.serv.pt/8018/stream.mp3",
+          "votes": 20,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0aed61c5-962f-4999-8a68-653d37834e41",
+        "name": "Nove3cinco",
+        "url": "https://centova.radio.com.pt/proxy/522?mp=/stream&1715267171",
+        "votes": 31
+      },
+      "variants": [
+        {
+          "stationuuid": "2400fd7c-54f9-426e-bf3a-077b7d559d53",
+          "name": "novecinco3cinco",
+          "url": "https://centova.radio.com.pt/proxy/522?mp=/stream&1715267171",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d1df1026-bca3-4f8e-a094-946629292f18",
+        "name": "Porão da nau radio ",
+        "url": "https://stream.zeno.fm/rwmao7mxxt8vv",
+        "votes": 27
+      },
+      "variants": [
+        {
+          "stationuuid": "1e7aaace-06eb-4181-86b9-a5af7963dd14",
+          "name": "Porão da nau radio ",
+          "url": "https://stream.zeno.fm/rwmao7mxxt8vv",
+          "votes": 16,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "926c32c4-b808-4c0c-98b4-b93bd59b8594",
+        "name": "Rádio Alto Minho",
+        "url": "https://ec2.yesstreaming.net:3705/stream",
+        "votes": 21
+      },
+      "variants": [
+        {
+          "stationuuid": "f975f74a-d9e0-4ed9-b360-3fe0b5a0ecbd",
+          "name": "Rádio Alto Minho",
+          "url": "https://ec2.yesstreaming.net:3705/stream",
+          "votes": 12,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b570f99d-e347-48b2-817d-fef409d8eb46",
+        "name": "Gongas Radio",
+        "url": "https://a6.asurahosting.com:7930/radio.mp3",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "11bbe5f0-e0b3-408b-859c-97a6fb7eb313",
+          "name": "Gongas Radio",
+          "url": "https://a6.asurahosting.com:7930/radio.mp3",
+          "votes": 8,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ee741fca-c476-4323-a311-21974fcd9980",
+        "name": "Rádio Atalaia",
+        "url": "https://mpc.my-control-panel.eu/stream/radioatalaia",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "600ffae3-2f25-4e3b-bc46-b37c965f003e",
+          "name": "Rádio Atalaia",
+          "url": "https://mpc.my-control-panel.eu/stream/radioatalaia",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

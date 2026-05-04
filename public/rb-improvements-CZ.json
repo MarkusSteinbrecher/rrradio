@@ -1,0 +1,814 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.864Z",
+  "country": "CZ",
+  "sourceProbedAt": "2026-04-30T09:09:25.035Z",
+  "totals": {
+    "deadStreams": 1,
+    "internalDupes": 37,
+    "metadataAPIs": 6,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "65beccff-268e-401e-8dda-d8147a398c5a",
+      "name": "Radio Otava",
+      "url": "https://radiootava.trefcon.cz:8889/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 24,
+      "lastProbedAt": "2026-04-30T09:09:18.853Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "9d2b7b0b-f0cf-4c32-a1ce-bc6e964a7c1a",
+        "name": "Радио Свобода",
+        "url": "https://rfe-ingest.akamaized.net/hls/live/2035254/axia04/playlist.m3u8",
+        "votes": 13229
+      },
+      "variants": [
+        {
+          "stationuuid": "3b7fc8b5-c929-47ab-b203-ededce877a24",
+          "name": "Свобода",
+          "url": "https://rfe-ingest.akamaized.net/hls/live/2035254/axia04/playlist.m3u8",
+          "votes": 3618,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961d7ccb-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Beat",
+        "url": "http://icecast2.play.cz/radiobeat128.mp3",
+        "votes": 9458
+      },
+      "variants": [
+        {
+          "stationuuid": "fd85ae48-f7ae-4e77-91f0-aac9160fcdd4",
+          "name": "Radio Beat",
+          "url": "http://icecast2.play.cz/radiobeat128.mp3",
+          "votes": 69,
+          "differs": []
+        },
+        {
+          "stationuuid": "05af3db3-5b11-483c-b008-07f3fd56df15",
+          "name": "Rádio Beat",
+          "url": "http://icecast2.play.cz/radiobeat128.mp3",
+          "votes": 34,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "48b6108e-3cf5-4985-843f-25a5380a494a",
+          "name": "Radio Beat 128 MP3",
+          "url": "http://icecast2.play.cz/radiobeat128.mp3",
+          "votes": 32,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9641d770-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Čas Rock",
+        "url": "http://icecast6.play.cz/casrock128.mp3",
+        "votes": 8117
+      },
+      "variants": [
+        {
+          "stationuuid": "298d3e94-dd4b-4dbd-b336-2d7b631b1d79",
+          "name": "Radio Cas Rock",
+          "url": "http://icecast6.play.cz/casrock128.mp3",
+          "votes": 126,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8214fbd9-51be-4222-b9a6-47aa0c6c71a0",
+          "name": "Radio Cas Rock",
+          "url": "http://icecast6.play.cz/casrock128.mp3",
+          "votes": 53,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "72fd7498-b41e-448d-9f1a-b8a00e3b8ca8",
+        "name": "Radio Kiss",
+        "url": "http://icecast4.play.cz/kiss128.mp3",
+        "votes": 3696
+      },
+      "variants": [
+        {
+          "stationuuid": "348fdad1-69cc-4f53-a848-a73175aad522",
+          "name": "Kiss Radio",
+          "url": "http://icecast4.play.cz/kiss128.mp3",
+          "votes": 1625,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961f6cc4-0601-11e8-ae97-52543be04c81",
+        "name": "Free Rádio 107,0 FM Brno",
+        "url": "http://icecast8.play.cz/freeradio128.mp3",
+        "votes": 3462
+      },
+      "variants": [
+        {
+          "stationuuid": "33d5e36b-7301-494c-b022-d7f3a304f72b",
+          "name": "Free Rádio 107,0 FM Brno",
+          "url": "http://icecast8.play.cz/freeradio128.mp3",
+          "votes": 19,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "59425e67-86b7-11e9-aa30-52543be04c81",
+        "name": "Oldies Rádio",
+        "url": "http://ice.abradio.cz/oldiesradio128.mp3",
+        "votes": 2769
+      },
+      "variants": [
+        {
+          "stationuuid": "d328cbff-5cd6-49fc-bf14-2f020a1204d5",
+          "name": "Oldies radio",
+          "url": "http://ice.abradio.cz/oldiesradio128.mp3",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961d4a91-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Depeche Mode",
+        "url": "http://mp3stream4.abradio.cz/depeche128.mp3",
+        "votes": 1810
+      },
+      "variants": [
+        {
+          "stationuuid": "94567573-8777-473b-8ab0-09487d84ebef",
+          "name": "Radia CZ - Depeche Mode",
+          "url": "http://mp3stream4.abradio.cz/depeche128.mp3",
+          "votes": 682,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961e622e-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Krokodyl",
+        "url": "http://icecast-u2.play.cz:8000/krokodyl128.mp3",
+        "votes": 1742
+      },
+      "variants": [
+        {
+          "stationuuid": "5275df88-4198-4524-acf3-abc564737131",
+          "name": "Radio Krokodyl",
+          "url": "http://icecast-u2.play.cz:8000/krokodyl128.mp3",
+          "votes": 123,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7ecb52d8-d8ea-4750-855a-69950f7226ee",
+        "name": "Country Radio",
+        "url": "http://icecast4.play.cz/country128.mp3",
+        "votes": 1590
+      },
+      "variants": [
+        {
+          "stationuuid": "626c8105-6388-4a20-aaa6-c6fe02c44a32",
+          "name": "County",
+          "url": "http://icecast4.play.cz/country128.mp3",
+          "votes": 270,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c6756b5f-3bd7-422d-87c7-4e4ae8fe829f",
+        "name": "Express FM",
+        "url": "http://icecast8.play.cz/expres128mp3",
+        "votes": 773
+      },
+      "variants": [
+        {
+          "stationuuid": "d6bb6104-fc0b-41d9-9e46-24ffb08543ef",
+          "name": "Expres FM",
+          "url": "http://icecast8.play.cz/expres128mp3",
+          "votes": 179,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7bd36bea-3d4f-43cc-8ff1-28ad8e4d24a6",
+        "name": "Radio Čas",
+        "url": "http://icecast6.play.cz/casradio128.mp3",
+        "votes": 771
+      },
+      "variants": [
+        {
+          "stationuuid": "d8b251be-d16e-4aef-ab1b-21f054d0445b",
+          "name": "Radio Cas",
+          "url": "http://icecast6.play.cz/casradio128.mp3",
+          "votes": 62,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961d4f6c-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Dechovka 1233 Stredni Vlny",
+        "url": "http://icecast5.play.cz/dechovka128.mp3",
+        "votes": 764
+      },
+      "variants": [
+        {
+          "stationuuid": "fd23d4ea-4bc3-4398-aa71-050cee899d1e",
+          "name": "Radio Dechovka",
+          "url": "http://icecast5.play.cz/dechovka128.mp3",
+          "votes": 85,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9a25d1e8-04bf-4987-bffc-d455447af673",
+        "name": "Cesky Rozhlas Jazz Lossless FLAC Stream",
+        "url": "http://amp.cesnet.cz:8000/cro-jazz.flac",
+        "votes": 593
+      },
+      "variants": [
+        {
+          "stationuuid": "1c73ba77-2de2-420f-90dd-74d15118a9be",
+          "name": "ČRo Jazz",
+          "url": "http://amp.cesnet.cz:8000/cro-jazz.flac",
+          "votes": 345,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1b568695-9ce7-493d-ba72-d9b3d5e0a364",
+        "name": "Evropa 2 - Radio",
+        "url": "https://ice.actve.net/fm-evropa2-128",
+        "votes": 568
+      },
+      "variants": [
+        {
+          "stationuuid": "7cf86499-d207-4522-bb8a-0b5a25f8bb73",
+          "name": "Evropa 2 - Actve",
+          "url": "https://ice.actve.net/fm-evropa2-128",
+          "votes": 365,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0933cedf-76b4-4953-8561-12563becd8ee",
+        "name": "ČRo D-dur FLAC",
+        "url": "http://amp.cesnet.cz:8000/cro-d-dur.flac",
+        "votes": 537
+      },
+      "variants": [
+        {
+          "stationuuid": "aaec68f1-aa06-423e-aa82-2dab5a36ff82",
+          "name": "Cesky Rozhlas Classical Lossless FLAC Stream",
+          "url": "http://amp.cesnet.cz:8000/cro-d-dur.flac",
+          "votes": 438,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "dc8919ca-4a37-4a25-881a-8c2b15294979",
+          "name": "Czech Radio ČRo D-dur",
+          "url": "http://amp.cesnet.cz:8000/cro-d-dur.flac",
+          "votes": 110,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "6f61cd1b-a6f8-4546-b8f5-c848571c116a",
+          "name": "Czech radio classical",
+          "url": "http://amp.cesnet.cz:8000/cro-d-dur.flac",
+          "votes": 89,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "0b88b8ac-30cb-4ee7-af0e-e76b01960c55",
+          "name": "ČRo D-dur",
+          "url": "http://amp.cesnet.cz:8000/cro-d-dur.flac",
+          "votes": 52,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "86ade1ec-0b06-4ede-97a1-04ab18299265",
+        "name": "Netro Life Radio 100,8 FM",
+        "url": "https://icecast9.play.cz/netro-life-radio.mp3",
+        "votes": 439
+      },
+      "variants": [
+        {
+          "stationuuid": "4300fc98-119d-417d-b9d7-f06578d68240",
+          "name": "Netro Life radio 100,8 FM",
+          "url": "https://icecast9.play.cz/netro-life-radio.mp3",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "149c48ae-ab14-40b6-8fd7-6f26635bec90",
+        "name": "Fed's Trap Radio",
+        "url": "https://backend.fedstrapradio.com:8000/radio.mp3",
+        "votes": 430
+      },
+      "variants": [
+        {
+          "stationuuid": "89c307c8-626a-4af8-aae1-c332b6492f3a",
+          "name": "Fed's Trap Radio",
+          "url": "https://backend.fedstrapradio.com:8000/radio.mp3",
+          "votes": 74,
+          "differs": []
+        },
+        {
+          "stationuuid": "0b0538d7-3a3f-40a1-a4f5-6de534b5298c",
+          "name": "Fed's Trap Radio",
+          "url": "https://backend.fedstrapradio.com:8000/radio.mp3",
+          "votes": 48,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960c7093-0601-11e8-ae97-52543be04c81",
+        "name": "Radio City FM",
+        "url": "http://ice.abradio.cz/cityfm128.mp3",
+        "votes": 374
+      },
+      "variants": [
+        {
+          "stationuuid": "58633ddd-fa5d-4ead-a150-a95137ac094d",
+          "name": "City FM",
+          "url": "http://ice.abradio.cz/cityfm128.mp3",
+          "votes": 110,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961f0c9d-0601-11e8-ae97-52543be04c81",
+        "name": "ČRo Radio Wave",
+        "url": "http://amp.cesnet.cz:8000/cro-radio-wave-256.ogg",
+        "votes": 279
+      },
+      "variants": [
+        {
+          "stationuuid": "5a0b9ad6-d9ff-44dc-8b4c-08988b07a5be",
+          "name": "ČRo Radio Wave",
+          "url": "http://amp.cesnet.cz:8000/cro-radio-wave-256.ogg",
+          "votes": 44,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "edff4cbe-7e39-44bc-a248-29744cd303ed",
+        "name": "Rádio Relax",
+        "url": "http://icecast7.play.cz/relax128.mp3",
+        "votes": 241
+      },
+      "variants": [
+        {
+          "stationuuid": "f80785d4-ff58-4559-a1ae-b44640ad2348",
+          "name": "RELAX Radio Kladno - 92,3 FM",
+          "url": "http://icecast7.play.cz/relax128.mp3",
+          "votes": 34,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "309a02c6-8c06-474d-94db-8b2845f7c909",
+        "name": "ČRo D-dur HD",
+        "url": "http://amp.cesnet.cz:8000/cro-d-dur-256.ogg",
+        "votes": 192
+      },
+      "variants": [
+        {
+          "stationuuid": "f30802ce-2b2c-4a5c-8f18-7537b2234617",
+          "name": "Cesky Rozhlas D-dur",
+          "url": "http://amp.cesnet.cz:8000/cro-d-dur-256.ogg",
+          "votes": 45,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4e9b0f36-3b10-4e00-baa0-ab2e18322dbe",
+        "name": "Phonk Nation Radio",
+        "url": "https://radio.mxnticek.eu/listen/phonk/128.mp3",
+        "votes": 161
+      },
+      "variants": [
+        {
+          "stationuuid": "4ee5a87d-e445-4ce2-8cad-da534e8be10b",
+          "name": "Phonk Nation Radio",
+          "url": "https://radio.mxnticek.eu/listen/phonk/128.mp3",
+          "votes": 105,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "81361abb-1d2f-4064-bace-ac0e32bbe505",
+        "name": "Hitrádio Černá Hora",
+        "url": "http://ice.abradio.cz/cernahora128.mp3",
+        "votes": 153
+      },
+      "variants": [
+        {
+          "stationuuid": "ea3b7622-08e8-445e-8728-15043d4fdf6a",
+          "name": "Hitrádio Černá Hora 128",
+          "url": "http://ice.abradio.cz/cernahora128.mp3",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5192677e-a070-4b94-b570-d93f1103ca19",
+        "name": "Radio Punctum",
+        "url": "https://radiopunctum.cz:8001/radio",
+        "votes": 149
+      },
+      "variants": [
+        {
+          "stationuuid": "b99a11c6-7681-4a79-a340-f7581a1940bc",
+          "name": "Radio Punctum",
+          "url": "https://radiopunctum.cz:8001/radio",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4740ae67-9381-4846-8fba-8aaf5707d889",
+        "name": "Hitrádio PopRock",
+        "url": "http://ice.abradio.cz/hitpoprock128.mp3",
+        "votes": 128
+      },
+      "variants": [
+        {
+          "stationuuid": "9bea3d90-d08b-4441-ab92-47ab2ccb5c9b",
+          "name": "Hit PopRock",
+          "url": "http://ice.abradio.cz/hitpoprock128.mp3",
+          "votes": 32,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2577a021-2392-4baa-8f6c-bcdefeab7957",
+        "name": "Radio JIH Cimbalka",
+        "url": "http://icecast6.play.cz/jihcimbalka128.mp3",
+        "votes": 113
+      },
+      "variants": [
+        {
+          "stationuuid": "df3f953b-10e4-444e-b2db-a009459f54c8",
+          "name": "Rádio Jih Cimbálka",
+          "url": "http://icecast6.play.cz/jihcimbalka128.mp3",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c47820b3-e0ec-49f6-b51b-d88b604e1d2b",
+        "name": "WeHouseRadio",
+        "url": "https://icecast9.play.cz/zun48.aac",
+        "votes": 111
+      },
+      "variants": [
+        {
+          "stationuuid": "1fa537a5-d0af-48b6-b2ed-bbbca5d238f5",
+          "name": "ZUN rádio",
+          "url": "https://icecast9.play.cz/zun48.aac",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "613525ac-8afa-4e94-beec-ae5cf6c7034e",
+        "name": "FREERAVE.CZ",
+        "url": "http://164.68.122.137:8061/",
+        "votes": 96
+      },
+      "variants": [
+        {
+          "stationuuid": "7b65aafa-6b87-4164-866a-01234cc6e27d",
+          "name": "Free Rave CZ",
+          "url": "http://164.68.122.137:8061/",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4b42896a-5fd7-4f9a-bc35-32d93ef650e3",
+        "name": "Rádio 7",
+        "url": "http://icecast8.play.cz/radio7-128.mp3",
+        "votes": 54
+      },
+      "variants": [
+        {
+          "stationuuid": "d4482e6e-7a01-45b3-addb-a88224d39026",
+          "name": "Radio7",
+          "url": "http://icecast8.play.cz/radio7-128.mp3",
+          "votes": 27,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "27e1f1e4-7857-4ddf-bbb8-0604234c08e4",
+        "name": "Rádio Energic",
+        "url": "https://icecast9.play.cz/energic.mp3",
+        "votes": 28
+      },
+      "variants": [
+        {
+          "stationuuid": "d5145b3a-7814-4690-b496-a04f02ff0ce9",
+          "name": "ENERGIC",
+          "url": "https://icecast9.play.cz/energic.mp3",
+          "votes": 20,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "40b1f7b6-93da-4187-9f4b-76b1a9ba8f1c",
+        "name": "SeeJay Radio",
+        "url": "http://icecast6.play.cz/seejay128.mp3",
+        "votes": 27
+      },
+      "variants": [
+        {
+          "stationuuid": "eb59211d-4643-4b66-be2f-9d4be3948963",
+          "name": "SeeJay Radio",
+          "url": "http://icecast6.play.cz/seejay128.mp3",
+          "votes": 16,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "07eb56e1-0eb8-4070-a68e-4bd24b545db3",
+        "name": "Český rozhlas České Budějovice",
+        "url": "https://rozhlas.stream/ceske_budejovice_high.aac",
+        "votes": 24
+      },
+      "variants": [
+        {
+          "stationuuid": "84e39c40-439c-4b6b-911a-5f5086722434",
+          "name": "Radio Budweis",
+          "url": "https://rozhlas.stream/ceske_budejovice_high.aac",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d45dca1f-d3ab-4bc6-a247-ad98d91cb09e",
+        "name": "čro radiožurnál sport Stream AdHoc 2",
+        "url": "https://rozhlas.stream/radiozurnal_sport_adhoc_2_high.mp3",
+        "votes": 21
+      },
+      "variants": [
+        {
+          "stationuuid": "b74ae42b-9648-4caa-9a95-bd175294d0af",
+          "name": "ČRO Radiožurnál sport AdHoc stream 2",
+          "url": "https://rozhlas.stream/radiozurnal_sport_adhoc_2_high.mp3",
+          "votes": 20,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fcb5cbcf-e658-427c-82f7-a673d765dadb",
+        "name": "Radio 4U",
+        "url": "http://mpc1.mediacp.eu:8342/stream",
+        "votes": 20
+      },
+      "variants": [
+        {
+          "stationuuid": "9d254d7c-0274-49d1-adc7-90d0047f83d6",
+          "name": "Radio 4U .pls",
+          "url": "http://mpc1.mediacp.eu:8342/stream",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "6fbf70f4-d9b2-4550-a4ca-120e13c91c75",
+          "name": "RADIO 4U",
+          "url": "http://mpc1.mediacp.eu:8342/stream",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "09583181-fc2c-4e96-b432-55bbeacd040b",
+        "name": "Radio Fonlord",
+        "url": "https://a5.asurahosting.com:6530/radio.mp3",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "511c1130-53b9-478c-8ec7-29d36f7e90aa",
+          "name": "Radio Fonlord",
+          "url": "https://a5.asurahosting.com:6530/radio.mp3",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "31988e3e-db92-4d93-8c5a-d7b56bbebc92",
+        "name": "Hitrádio Devadesátka",
+        "url": "https://radia.cz/spa/assets/c8516a638fbaff4ae963.mp3",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "ca6353a3-fb85-4277-8490-7afabc388cf2",
+          "name": "Hitrádio Devadesátka",
+          "url": "https://radia.cz/spa/assets/c8516a638fbaff4ae963.mp3",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2391e0fd-3755-41f7-8389-f9bd9e89d350",
+        "name": "PowerPonies Radio",
+        "url": "http://powerponies.cz:8000/;stream.mp3",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "628ae621-9cdf-4f69-b638-8f40d69e8fc2",
+          "name": "PowerPonies Radio",
+          "url": "http://powerponies.cz:8000/;stream.mp3",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [
+    {
+      "stationuuid": "960c2e1f-0601-11e8-ae97-52543be04c81",
+      "name": "ČRo Radiožurnál",
+      "broadcasterKey": "cro",
+      "metadataUrl": "https://api.rozhlas.cz/data/v2/playlist/now/radiozurnal.json"
+    },
+    {
+      "stationuuid": "960c2ef6-0601-11e8-ae97-52543be04c81",
+      "name": "ČRo Dvojka",
+      "broadcasterKey": "cro",
+      "metadataUrl": "https://api.rozhlas.cz/data/v2/playlist/now/dvojka.json"
+    },
+    {
+      "stationuuid": "960bf772-0601-11e8-ae97-52543be04c81",
+      "name": "ČRo Vltava",
+      "broadcasterKey": "cro",
+      "metadataUrl": "https://api.rozhlas.cz/data/v2/playlist/now/vltava.json"
+    },
+    {
+      "stationuuid": "961f6420-0601-11e8-ae97-52543be04c81",
+      "name": "ČRo Plus",
+      "broadcasterKey": "cro",
+      "metadataUrl": "https://api.rozhlas.cz/data/v2/playlist/now/plus.json"
+    },
+    {
+      "stationuuid": "1c73ba77-2de2-420f-90dd-74d15118a9be",
+      "name": "ČRo Jazz",
+      "broadcasterKey": "cro",
+      "metadataUrl": "https://api.rozhlas.cz/data/v2/playlist/now/jazz.json"
+    },
+    {
+      "stationuuid": "3963a7f3-d1cc-4fe1-831b-36499ca21b6f",
+      "name": "ČRo Wave",
+      "broadcasterKey": "cro",
+      "metadataUrl": "https://api.rozhlas.cz/data/v2/playlist/now/wave.json"
+    }
+  ],
+  "httpsVariants": []
+}

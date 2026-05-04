@@ -1,0 +1,2817 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.885Z",
+  "country": "RO",
+  "sourceProbedAt": "2026-04-30T09:10:59.743Z",
+  "totals": {
+    "deadStreams": 87,
+    "internalDupes": 92,
+    "metadataAPIs": 3,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "f86e0d8a-7ec0-4460-a7c8-aeb265c76de7",
+      "name": "Radio Vocea Evangheliei RVE Sibiu",
+      "url": "https://c13.radioboss.fm:18286/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 1253,
+      "lastProbedAt": "2026-04-30T09:09:26.274Z"
+    },
+    {
+      "stationuuid": "0d7cab56-57bb-46d0-bc83-335cdc3dc7e4",
+      "name": "Radio Etno Mania",
+      "url": "https://radio.sonicpanel.ro:9300/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 410,
+      "lastProbedAt": "2026-04-30T09:09:20.075Z"
+    },
+    {
+      "stationuuid": "b92d9907-2880-4a99-9052-8d4792133506",
+      "name": "Smart Radio",
+      "url": "https://live.smartradio.ro:8443/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 314,
+      "lastProbedAt": "2026-04-30T09:09:20.449Z"
+    },
+    {
+      "stationuuid": "b1d47504-a08b-464b-b054-f404b1cb7d60",
+      "name": "Magic Gold Hits",
+      "url": "https://live.magicfm.ro/magic.gold.hits",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 288,
+      "lastProbedAt": "2026-04-30T09:09:30.755Z"
+    },
+    {
+      "stationuuid": "5b59f175-b633-4861-a17d-de155de0e8bf",
+      "name": "Vibe FM Romania",
+      "url": "https://radiotrucker.com/en/play/vibe-fm-romania",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 500",
+      "votes": 263,
+      "lastProbedAt": "2026-04-30T09:09:22.183Z"
+    },
+    {
+      "stationuuid": "973c7c4e-745a-46bf-a4c9-fa21a515f7b3",
+      "name": "Radio Prahova",
+      "url": "https://streamx.rph.ro:8100/relay;",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 183,
+      "lastProbedAt": "2026-04-30T09:09:23.996Z"
+    },
+    {
+      "stationuuid": "f486e917-cee1-4171-904d-3ec044d723d6",
+      "name": "Magic Sunset",
+      "url": "https://live.magicfm.ro/magic.lite",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 125,
+      "lastProbedAt": "2026-04-30T09:09:35.708Z"
+    },
+    {
+      "stationuuid": "17a8bbbf-fb5e-4f49-882e-aadef2146102",
+      "name": "Radio Dacia Energie",
+      "url": "https://streaming.napocalive.ro/radio-dacia01",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 94,
+      "lastProbedAt": "2026-04-30T09:09:29.060Z"
+    },
+    {
+      "stationuuid": "0abcc194-9d5c-4789-b954-03a4bc1ad8f9",
+      "name": "Radio Dacia Relax",
+      "url": "https://streaming.napocalive.ro/radio-dacia03",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 92,
+      "lastProbedAt": "2026-04-30T09:09:29.143Z"
+    },
+    {
+      "stationuuid": "a63358e2-1caa-47c9-a2eb-3e9c8af84a77",
+      "name": "Radio Noise Gold",
+      "url": "https://radio.sonicpanel.ro:9170/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 50,
+      "lastProbedAt": "2026-04-30T09:09:33.053Z"
+    },
+    {
+      "stationuuid": "5f07a434-987f-4e41-8498-53e130ffb7bb",
+      "name": "Radio Noise Hits",
+      "url": "https://radio.sonicpanel.ro:9140/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 48,
+      "lastProbedAt": "2026-04-30T09:09:33.165Z"
+    },
+    {
+      "stationuuid": "0461bd47-c4b9-4f93-b057-1e03039a02d6",
+      "name": "TWIST -Radio Trap",
+      "url": "https://stream.zeno.fm/9dhe4r7upg8uv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 30,
+      "lastProbedAt": "2026-04-30T09:09:37.599Z"
+    },
+    {
+      "stationuuid": "477ce41c-0523-497b-83b0-441081e68743",
+      "name": "Nicecream.fm - Red",
+      "url": "https://play.nicecream.fm/radio/8000/red.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 29,
+      "lastProbedAt": "2026-04-30T09:09:37.746Z"
+    },
+    {
+      "stationuuid": "a3b2c6a4-9a2f-4766-b439-164986932e95",
+      "name": "Radio Noise Hip-Hop",
+      "url": "https://radio.sonicpanel.ro:9110/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 29,
+      "lastProbedAt": "2026-04-30T09:09:37.855Z"
+    },
+    {
+      "stationuuid": "c34aa04b-3258-4528-b5d8-56a3ba461c98",
+      "name": "Radio Noise Retro",
+      "url": "https://radio.sonicpanel.ro:9120/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 27,
+      "lastProbedAt": "2026-04-30T09:09:38.040Z"
+    },
+    {
+      "stationuuid": "2544388d-08ff-4d60-8faa-39bf0662a51f",
+      "name": "Nicecream.fm - Blue",
+      "url": "https://play.nicecream.fm/radio/8020/blue.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 26,
+      "lastProbedAt": "2026-04-30T09:09:38.118Z"
+    },
+    {
+      "stationuuid": "e2c3f5c8-cb3c-4667-9a8c-9818ab724eb0",
+      "name": "One World Radio",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/OWR_INTERNATIONAL_ADP",
+      "verdict": "broken-format",
+      "verdictReason": "content-type application/flv not audio-like",
+      "votes": 26,
+      "lastProbedAt": "2026-04-30T09:09:39.355Z"
+    },
+    {
+      "stationuuid": "b01a5b00-976e-430e-b218-fab4ad4c2937",
+      "name": "TWIST -Radio Ușoară",
+      "url": "https://stream.zeno.fm/g7uert66bxhvv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 26,
+      "lastProbedAt": "2026-04-30T09:09:38.776Z"
+    },
+    {
+      "stationuuid": "8eeae7f4-03ed-42db-916c-59a3bc308313",
+      "name": "DejaVuMusic",
+      "url": "https://stream.zeno.fm/mdupctf7zxhvv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 25,
+      "lastProbedAt": "2026-04-30T09:09:38.843Z"
+    },
+    {
+      "stationuuid": "935728a9-a3e3-466d-8c6b-f23a906d0803",
+      "name": "Nicecream.fm - Green",
+      "url": "https://play.nicecream.fm/radio/8010/green.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 21,
+      "lastProbedAt": "2026-04-30T09:09:39.644Z"
+    },
+    {
+      "stationuuid": "a8e5f232-e9bd-4d32-b007-d1ba6f0ae95d",
+      "name": "Radio Dacia Paradis",
+      "url": "https://streaming.napocalive.ro/radio-dacia02",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 21,
+      "lastProbedAt": "2026-04-30T09:09:39.840Z"
+    },
+    {
+      "stationuuid": "23096972-ec87-45ae-883e-e5155774cc3c",
+      "name": "Electric Castle",
+      "url": "https://electriccastle.out.airtime.pro/electriccastle_a",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 20,
+      "lastProbedAt": "2026-04-30T09:09:40.582Z"
+    },
+    {
+      "stationuuid": "fc16c080-0b0d-4e10-a198-f9b01a906272",
+      "name": "Terra FM",
+      "url": "https://stream.zeno.fm/ys8npw9ccxhvv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 15,
+      "lastProbedAt": "2026-04-30T09:09:41.399Z"
+    },
+    {
+      "stationuuid": "841bfaf5-06e9-4710-afc8-8fdb0cd3f0bc",
+      "name": "Radio Noise Rock",
+      "url": "https://radio.sonicpanel.ro:9130/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 14,
+      "lastProbedAt": "2026-04-30T09:09:41.945Z"
+    },
+    {
+      "stationuuid": "974f0dcd-ca8e-4641-9b91-ea86575fb6f5",
+      "name": "Radio Dada",
+      "url": "https://live.laris.ro:8004/radiodada128.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 11,
+      "lastProbedAt": "2026-04-30T09:09:43.868Z"
+    },
+    {
+      "stationuuid": "e6784de4-a19a-4883-9f1e-3d3259fc726b",
+      "name": "TimiBanat -Populară",
+      "url": "https://streaming12.elitecomunicacion.es:8096/stream3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 10,
+      "lastProbedAt": "2026-04-30T09:09:44.529Z"
+    },
+    {
+      "stationuuid": "70480754-9d91-4fde-8388-fff91a4ffb8f",
+      "name": "West City Radio",
+      "url": "https://radiotrucker.com/en/play/west-city-radio",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 500",
+      "votes": 10,
+      "lastProbedAt": "2026-04-30T09:09:44.539Z"
+    },
+    {
+      "stationuuid": "e4bdb302-53ae-4d79-84fe-5d6ec995f808",
+      "name": "Supersonic Radio",
+      "url": "https://radiotrucker.com/en/play/supersonic-radio",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 500",
+      "votes": 8,
+      "lastProbedAt": "2026-04-30T09:09:44.785Z"
+    },
+    {
+      "stationuuid": "53380b33-35e6-43c8-89b9-5c5d95327930",
+      "name": "Radio Color",
+      "url": "https://a3.asurahosting.com/listen/radio_color/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 6,
+      "lastProbedAt": "2026-04-30T09:09:45.707Z"
+    },
+    {
+      "stationuuid": "33dbccf6-73be-4226-9024-a4e66525e828",
+      "name": "Radio Noise Party",
+      "url": "https://radio.sonicpanel.ro:9160/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-30T09:09:46.856Z"
+    },
+    {
+      "stationuuid": "79f0e166-2c86-4ee0-96e8-dad0c17008b6",
+      "name": "Smart N'Roll",
+      "url": "https://web.smartradio.ro:8443/smartnroll",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T09:09:48.505Z"
+    },
+    {
+      "stationuuid": "e81b2a46-e756-4aec-9795-ff3d2c109d1d",
+      "name": "TimiBanat -Eurodisco",
+      "url": "https://streaming12.elitecomunicacion.es:8102/stream3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T09:09:49.423Z"
+    },
+    {
+      "stationuuid": "74b4fdcd-4da1-4ed2-bdc7-368dc9dc9a12",
+      "name": "Bach - Radio Clasic",
+      "url": "https://live.radioclasic.com/listen/radio_clasic_bach/live.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T09:09:59.892Z"
+    },
+    {
+      "stationuuid": "2f26ddb0-70e5-49b4-b328-c03e6d5dfbfd",
+      "name": "LexSquad Radio Station",
+      "url": "https://s1.free-shoutcast.com/stream/18150",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T09:09:50.180Z"
+    },
+    {
+      "stationuuid": "b3c02c44-6118-4808-9973-5b06b1fec1e7",
+      "name": "Smart Radio - București 107.3 FM",
+      "url": "https://live.smartradio.ro:8443/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T09:09:56.843Z"
+    },
+    {
+      "stationuuid": "a48631ce-dfcd-4635-b2a7-af632ee83cd0",
+      "name": "Smart Radio -Smart AltRO",
+      "url": "https://web.smartradio.ro:8443/smartaltro",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T09:09:56.918Z"
+    },
+    {
+      "stationuuid": "a413d8e0-3b71-4775-8e6d-525cc7635752",
+      "name": "Smart Radio -Smart and Groovy",
+      "url": "https://web.smartradio.ro:8443/smartgroovy",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T09:09:57.006Z"
+    },
+    {
+      "stationuuid": "63353098-69ce-44a6-aa21-c00ca1d1f0dd",
+      "name": "Smart Radio -Smart Move",
+      "url": "https://web.smartradio.ro:8443/smartmove",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T09:09:57.081Z"
+    },
+    {
+      "stationuuid": "f8b465a0-0be6-47e1-bc79-fc4b93f4e90e",
+      "name": "Smart Radio -Smart on Soundtrack",
+      "url": "https://web.smartradio.ro:8443/smartsoundtrack",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T09:09:57.156Z"
+    },
+    {
+      "stationuuid": "a6e60124-cfe4-4d41-90a1-676c3e3548f1",
+      "name": "Atlas21 (Atlas FM) -Alba Iulia 99,7 FM",
+      "url": "https://radio.nerapo.com/listen/atlas21/atl21",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 530",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T09:09:59.954Z"
+    },
+    {
+      "stationuuid": "47af7c0a-97f5-431e-bb6d-330245e5eba8",
+      "name": "Marionet Online Radio",
+      "url": "https://stream.clever-host.ro/8006/stream",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T09:10:00.096Z"
+    },
+    {
+      "stationuuid": "69681626-efe8-4990-abc6-61dc431eb44a",
+      "name": "Radio Extrem -Brăila",
+      "url": "https://radiolive.radio-extrem.com:8004/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T09:10:00.268Z"
+    },
+    {
+      "stationuuid": "ee7abbd2-4195-4e48-8424-743533cbf74f",
+      "name": "Radio Flacăra Rusaliilor",
+      "url": "https://stream.radio-flacararusaliilor.ro/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T09:10:00.265Z"
+    },
+    {
+      "stationuuid": "6d5d259d-db1c-4128-bc30-455fb358ce1b",
+      "name": "Radio Xtream Romania - Brăila",
+      "url": "https://asculta.radioxtream.com/8022/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T09:10:00.297Z"
+    },
+    {
+      "stationuuid": "91a6e353-7e1a-407b-a522-7bedbbd7fd4a",
+      "name": "Simigerie Radio",
+      "url": "https://listen.radioking.com/radio/624691/stream/686929",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T09:10:00.767Z"
+    },
+    {
+      "stationuuid": "7f55dd5d-fcf2-4341-a7cc-2fee9365f533",
+      "name": "Sky FM - Radio Sky Constanța 101.1 FM",
+      "url": "https://live.radiosky.ro/radiosky.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T09:10:01.020Z"
+    },
+    {
+      "stationuuid": "84901345-d259-470d-84c7-946ba64d36c8",
+      "name": "Smart Radio -Smart and Rave",
+      "url": "https://web.smartradio.ro:8443/smartrave",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T09:10:00.848Z"
+    },
+    {
+      "stationuuid": "09efda48-4f3a-4df6-88f7-a9022f12050b",
+      "name": "Smart Radio -Smart Champs-Elysees",
+      "url": "https://web.smartradio.ro:8443/smartchampselysees",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T09:10:00.926Z"
+    },
+    {
+      "stationuuid": "7ae42e14-2fa1-4d00-8c4d-0820a1f45421",
+      "name": "Smart Radio -Smart for Christmas",
+      "url": "https://web.smartradio.ro:8443/smartforchristmas",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T09:10:01.011Z"
+    },
+    {
+      "stationuuid": "ebd24ba3-1f7b-4e81-8608-36ceb8275927",
+      "name": "Smart Radio -Smart in Lounge",
+      "url": "https://web.smartradio.ro:8443/smartlounge",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T09:10:01.086Z"
+    },
+    {
+      "stationuuid": "cd6f3462-9ac2-4fe1-afd0-26b05c68a35f",
+      "name": "Smart Radio -Smart n'Roll",
+      "url": "https://web.smartradio.ro:8443/smartnroll",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T09:10:01.098Z"
+    },
+    {
+      "stationuuid": "808b4770-e822-42c9-bbb4-95c00dfbbdf1",
+      "name": "Tequila România -Radio Manele Romania",
+      "url": "https://colinde.radiotequila.ro/8989/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T09:10:11.615Z"
+    },
+    {
+      "stationuuid": "7771bf6e-401f-42e5-b2a7-587670915b39",
+      "name": "TWIST -Radio Manele",
+      "url": "https://stream.zeno.fm/stx4kwycmg0uv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T09:10:02.534Z"
+    },
+    {
+      "stationuuid": "3768ce7a-d6a6-480a-888d-97df98a6fcc3",
+      "name": "TWIST -Radio Trap",
+      "url": "https://stream.zeno.fm/9dhe4r7upg8uv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T09:10:02.644Z"
+    },
+    {
+      "stationuuid": "0ee5e4d2-4ae2-406b-abee-032ad54bef96",
+      "name": "Wanda Radio -Radio Wanda Petrecere",
+      "url": "https://radio.radiowanda.ro:8008/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T09:10:03.722Z"
+    },
+    {
+      "stationuuid": "93e769c6-f0a4-4ca7-99fd-ab06eccf3dd7",
+      "name": "YOU FM România",
+      "url": "https://sonic2-rbx.cloud-center.ro/8034/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T09:10:13.717Z"
+    },
+    {
+      "stationuuid": "28b589fb-dadb-4771-b9d1-519da8f31f28",
+      "name": "Colț De Suflet",
+      "url": "https://dattavolt.com/8056/stream",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:06.012Z"
+    },
+    {
+      "stationuuid": "3e1b0f44-f41f-485b-8aae-ab43541b0a99",
+      "name": "ControL Radio",
+      "url": "https://stream.zeno.fm/h9b6u7f4gc9uv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:15.724Z"
+    },
+    {
+      "stationuuid": "6b943d69-2862-4769-bfa2-f571cae8e2e8",
+      "name": "Creștin Total Radio -Beclean BN",
+      "url": "https://stream.zeno.fm/k7zvbfd7insuv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:16.014Z"
+    },
+    {
+      "stationuuid": "fe3e36cb-6dab-4393-9356-7cc21f7f6784",
+      "name": "DejaVuMusic -MG Kollyma",
+      "url": "https://stream.zeno.fm/yrs7fychej9vv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:21.618Z"
+    },
+    {
+      "stationuuid": "d9ded3ed-4750-4e2d-acf3-8b539bd9550c",
+      "name": "Eron FM -Oradea",
+      "url": "https://stream.zeno.fm/u9kyi9j8dhluv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:23.361Z"
+    },
+    {
+      "stationuuid": "242d0bcb-96ff-4f23-89bc-735fc1030963",
+      "name": "GFM ROMANIA -Bacău 90,1 FM",
+      "url": "https://stream.zeno.fm/hlxwppx3fj4vv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:24.285Z"
+    },
+    {
+      "stationuuid": "698dd56d-0bfc-40a2-b0aa-b050f78183e7",
+      "name": "Iehova-Ire -Beclean BN",
+      "url": "https://stream.zeno.fm/oirflygdheauv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:26.308Z"
+    },
+    {
+      "stationuuid": "3fe579b3-91ab-4434-be49-d57a14a30d75",
+      "name": "L.T.J.G.T. Radio",
+      "url": "https://stream.zeno.fm/h7doige9reetv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:30.531Z"
+    },
+    {
+      "stationuuid": "ad903065-140c-4215-adaf-6a04d08601ee",
+      "name": "Lazy Hour Radio",
+      "url": "https://stream.zeno.fm/8fmv9p3z2tzuv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:31.621Z"
+    },
+    {
+      "stationuuid": "51757906-c5c9-427e-b213-6443f9297feb",
+      "name": "MuzicaDeVest",
+      "url": "https://stream.zeno.fm/s4mhpucr5tzuv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:34.230Z"
+    },
+    {
+      "stationuuid": "7fa133f0-3a32-4607-8b50-cfa52b4f98c0",
+      "name": "MuzicaDeVest",
+      "url": "https://stream.zeno.fm/s4mhpucr5tzuv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:34.288Z"
+    },
+    {
+      "stationuuid": "b85eb43c-94ea-4fc2-800a-0c81302362b9",
+      "name": "OneRadio -Oradea",
+      "url": "https://stream.zeno.fm/a0yocewsxm0uv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:36.311Z"
+    },
+    {
+      "stationuuid": "c0a9b799-275f-48cd-9edb-d4c39b318d9c",
+      "name": "Orion FM -Fetești 91,7 FM",
+      "url": "https://sonic2-rbx.cloud-center.ro/8070/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:40.534Z"
+    },
+    {
+      "stationuuid": "d4475853-c179-4678-acc0-961438402ce3",
+      "name": "RadioDoamna -Bacău",
+      "url": "https://stream.zeno.fm/qu8nargeashvv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:46.598Z"
+    },
+    {
+      "stationuuid": "a9e4278a-1822-412e-9806-f9be04402dd7",
+      "name": "radiohit24",
+      "url": "https://stream.zeno.fm/udoudast0y8vv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:46.623Z"
+    },
+    {
+      "stationuuid": "ab00c555-d705-49d9-bd77-4ba970092112",
+      "name": "RelaxRO",
+      "url": "https://stream.zeno.fm/ubbhw7w46mhuv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:46.702Z"
+    },
+    {
+      "stationuuid": "55956ca8-db3a-4bac-9664-955a30c0126a",
+      "name": "Smart Radio -Smart on Trend",
+      "url": "https://web.smartradio.ro:8443/smartontrend",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:42.345Z"
+    },
+    {
+      "stationuuid": "5a10daed-1c66-45d7-afd8-011d1b3cc9aa",
+      "name": "Smart Radio -Smart Oxford Street",
+      "url": "https://web.smartradio.ro:8443/smartoxfordstreet",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:42.420Z"
+    },
+    {
+      "stationuuid": "6a7f7b5b-13e6-4750-944b-d112d0b582c3",
+      "name": "Smart Radio -Smart Street",
+      "url": "https://web.smartradio.ro:8443/smartstreet",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:42.493Z"
+    },
+    {
+      "stationuuid": "f4be1f55-685e-437e-84c4-b8734d6f5a2f",
+      "name": "Smart Radio -Smart the Fusion",
+      "url": "https://web.smartradio.ro:8443/smartfusion",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:42.568Z"
+    },
+    {
+      "stationuuid": "e6a3f442-3329-41a2-92db-a9959de4f882",
+      "name": "SPRING Radio",
+      "url": "https://eu3.fastcast4u.com/proxy/ioflorin",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:45.141Z"
+    },
+    {
+      "stationuuid": "e11a1967-5c94-4bb8-ba08-ebd41cd301ee",
+      "name": "Stil Mix Dance 107.9 MHz FM",
+      "url": "https://stream.zeno.fm/886ym329mbruv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:46.706Z"
+    },
+    {
+      "stationuuid": "1ab4f1dd-7c9d-4f77-b067-4c7ac29cf9ac",
+      "name": "TERRA FM",
+      "url": "https://radiosentir.sytes.net/stream?1774626668225",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:48.204Z"
+    },
+    {
+      "stationuuid": "cb903ad1-afd2-46ac-af6c-e9b853ced5ab",
+      "name": "TWIST -Radio Ușoară",
+      "url": "https://stream.zeno.fm/g7uert66bxhvv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:47.833Z"
+    },
+    {
+      "stationuuid": "14acc389-e4cb-4854-85c5-0af8555c855d",
+      "name": "UMF Craiova - Universitatea de Medicină și Farmacie",
+      "url": "https://sonic2-rbx.cloud-center.ro/8072/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:57.800Z"
+    },
+    {
+      "stationuuid": "04d96438-0fe4-4fb5-8221-f80ba21260ed",
+      "name": "Vibes On Wax Radio",
+      "url": "https://stream.zeno.fm/0mcewk7n5a0uv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:57.834Z"
+    },
+    {
+      "stationuuid": "f6ec66f4-3ffc-45b6-91a6-478b7ded744f",
+      "name": "Voces Campi -Călărași",
+      "url": "https://vocescampi.ro:8443/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:48.644Z"
+    },
+    {
+      "stationuuid": "e1f18752-2b61-4bd2-8b19-277c144031d3",
+      "name": "Voces Campi -stația Oltenița",
+      "url": "https://vocescampi.ro:8443/live.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:48.733Z"
+    },
+    {
+      "stationuuid": "78f188d0-015c-4a4f-9585-47556f7b8670",
+      "name": "Wanda Radio - Radio Wanda Manele",
+      "url": "https://radio.radiowanda.ro:8006/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:49.181Z"
+    },
+    {
+      "stationuuid": "bc1156ed-8dc1-4e2d-b457-a1b6b28e219e",
+      "name": "X Radio",
+      "url": "https://stream.zeno.fm/rd0bc4zkbm0uv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:59.368Z"
+    },
+    {
+      "stationuuid": "d20e85da-c3ea-4979-8239-e6c5c448acb0",
+      "name": "X Radio -Oradea",
+      "url": "https://stream.zeno.fm/rd0bc4zkbm0uv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:10:59.739Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "9618ea0c-0601-11e8-ae97-52543be04c81",
+        "name": "Dance FM 89.5 Bucharest",
+        "url": "http://edge126.rdsnet.ro:84/profm/dancefm.mp3",
+        "votes": 19960
+      },
+      "variants": [
+        {
+          "stationuuid": "97991c3a-688a-48c8-afb5-56761ecd5ad5",
+          "name": "Dance FM",
+          "url": "http://edge126.rdsnet.ro:84/profm/dancefm.mp3",
+          "votes": 665,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "55dd2548-815c-4368-ac04-a97997918730",
+          "name": "dancefmRomania",
+          "url": "http://edge126.rdsnet.ro:84/profm/dancefm.mp3",
+          "votes": 76,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961d41f3-0601-11e8-ae97-52543be04c81",
+        "name": "Europa FM",
+        "url": "http://astreaming.europafm.ro:8000/europafm_aacp48k",
+        "votes": 13908
+      },
+      "variants": [
+        {
+          "stationuuid": "ae95e589-75e9-4fda-9792-aa36ed34a0fc",
+          "name": "Europa FM",
+          "url": "http://astreaming.europafm.ro:8000/europafm_aacp48k",
+          "votes": 67,
+          "differs": []
+        },
+        {
+          "stationuuid": "0e293d19-fd98-49da-9f0c-5f85f263ffc9",
+          "name": "Europa FM",
+          "url": "http://astreaming.europafm.ro:8000/europafm_aacp48k",
+          "votes": 61,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "99ac4423-0307-11ea-bbf2-52543be04c81",
+        "name": "Kiss Fm Ro",
+        "url": "https://live.kissfm.ro/kissfm.aacp",
+        "votes": 12872
+      },
+      "variants": [
+        {
+          "stationuuid": "5c7a7785-6f77-4819-87c0-8776138fe996",
+          "name": "Kiss Fm",
+          "url": "https://live.kissfm.ro/kissfm.aacp",
+          "votes": 577,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "5c6410d5-20a5-4070-a514-ebaf917a6ea6",
+          "name": "KISS FM 107.9",
+          "url": "https://live.kissfm.ro/kissfm.aacp",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "06fe3f3e-9bb1-4d96-9aa7-c103af2817c2",
+          "name": "Kiss Fm",
+          "url": "https://live.kissfm.ro/kissfm.aacp",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960ee76f-0601-11e8-ae97-52543be04c81",
+        "name": "Pro FM",
+        "url": "http://edge126.rdsnet.ro:84/profm/profm.mp3",
+        "votes": 10564
+      },
+      "variants": [
+        {
+          "stationuuid": "cc2bbe01-ac7f-4e03-90ef-83ed01a14cdd",
+          "name": "Protm",
+          "url": "http://edge126.rdsnet.ro:84/profm/profm.mp3",
+          "votes": 62,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961ae516-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Guerrilla",
+        "url": "http://live.guerrillaradio.ro:8010/guerrilla.aac",
+        "votes": 9405
+      },
+      "variants": [
+        {
+          "stationuuid": "a06ed3d2-ba59-4969-825d-4e9b3f336b93",
+          "name": "Radio Guerilla",
+          "url": "http://live.guerrillaradio.ro:8010/guerrilla.aac",
+          "votes": 642,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d77d6bb3-8a1a-11e9-ad01-52543be04c81",
+        "name": "Radio Cafe Romania",
+        "url": "http://live.radiocafe.ro:8048/live.aac",
+        "votes": 9198
+      },
+      "variants": [
+        {
+          "stationuuid": "f90ef2e5-4681-493a-bfa0-15627e3fb248",
+          "name": "Radio Cafe Romania",
+          "url": "http://live.radiocafe.ro:8048/live.aac",
+          "votes": 1410,
+          "differs": []
+        },
+        {
+          "stationuuid": "923bb3f3-4264-482b-a1e9-7df4b8b94862",
+          "name": "Radio Cafe RO",
+          "url": "http://live.radiocafe.ro:8048/live.aac",
+          "votes": 121,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "70d48cfd-eedd-400a-8b7a-881e7015fc3f",
+        "name": "Radio Zu",
+        "url": "http://zuicast.digitalag.ro:9420/zu",
+        "votes": 7895
+      },
+      "variants": [
+        {
+          "stationuuid": "481855db-13c0-4a51-89a1-b5efc7b23b96",
+          "name": "ZU Radio",
+          "url": "http://zuicast.digitalag.ro:9420/zu",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961acccd-0601-11e8-ae97-52543be04c81",
+        "name": "Virgin Radio Romania",
+        "url": "http://astreaming.virginradio.ro:8000/virgin_aacp_64k",
+        "votes": 6393
+      },
+      "variants": [
+        {
+          "stationuuid": "09123903-d7b2-45b6-b366-38459c0fc926",
+          "name": "Virgin Radio România",
+          "url": "http://astreaming.virginradio.ro:8000/virgin_aacp_64k",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b3b8de23-2fd3-4e4c-b790-19c7eca713d8",
+        "name": "eteatru",
+        "url": "http://stream2.srr.ro:8078/eteatru.mp3",
+        "votes": 4705
+      },
+      "variants": [
+        {
+          "stationuuid": "f4831736-ac74-4a06-93bf-08d1ff2c0293",
+          "name": "e-teatru Radio Romania",
+          "url": "http://stream2.srr.ro:8078/eteatru.mp3",
+          "votes": 142,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b7dfda3a-c998-4639-b9ee-3a5939bfe974",
+          "name": "ROMÂNIA   e-Teatru",
+          "url": "http://stream2.srr.ro:8078/eteatru.mp3",
+          "votes": 51,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960e8eb0-0601-11e8-ae97-52543be04c81",
+        "name": "Antena satelor",
+        "url": "http://89.238.227.6:8042/",
+        "votes": 4208
+      },
+      "variants": [
+        {
+          "stationuuid": "b0a0eb2e-a907-4800-9e67-e58ea881300b",
+          "name": "Radio Antena Satelor",
+          "url": "http://89.238.227.6:8042/",
+          "votes": 69,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c63f7402-f143-4f92-9cc9-e2d49f2a0bc5",
+        "name": "Europa FM Romania",
+        "url": "https://astreaming.edi.ro:8443/EuropaFM_aac",
+        "votes": 3689
+      },
+      "variants": [
+        {
+          "stationuuid": "1746e2b4-6382-4f8f-aa62-e027813d2516",
+          "name": "Europa FM",
+          "url": "https://astreaming.edi.ro:8443/EuropaFM_aac",
+          "votes": 83,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "10ccc464-cf4c-4643-afad-5123b6a4e863",
+          "name": "EUROPA FM",
+          "url": "https://astreaming.edi.ro:8443/EuropaFM_aac",
+          "votes": 48,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d4820bc8-bf77-4bba-8a76-7fb15ef74e59",
+          "name": "EUROPA FM",
+          "url": "https://astreaming.edi.ro:8443/EuropaFM_aac",
+          "votes": 40,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "5ba0164f-86e5-4cd8-98ef-fdc6f218e124",
+          "name": "EUROPA FM",
+          "url": "https://astreaming.edi.ro:8443/EuropaFM_aac",
+          "votes": 36,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "91f5bcf5-896b-46ca-afae-7c767b7ce0e2",
+        "name": "Smart FM",
+        "url": "http://live.smartradio.ro:9128/live",
+        "votes": 3613
+      },
+      "variants": [
+        {
+          "stationuuid": "ab249ed1-c02e-462a-95f8-c0946c273547",
+          "name": "Autobaza Radio",
+          "url": "http://live.smartradio.ro:9128/live",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "73ee836b-e9f2-4758-9cd6-2886da6db476",
+        "name": "Digi24FM",
+        "url": "https://edge76.rcs-rds.ro/digifm/digi24fm.mp3",
+        "votes": 2108
+      },
+      "variants": [
+        {
+          "stationuuid": "ba44286f-a0ab-4670-bd17-b1d105643522",
+          "name": "Digi24 FM",
+          "url": "https://edge76.rcs-rds.ro/digifm/digi24fm.mp3",
+          "votes": 53,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2eb897a7-b86b-4bb2-b245-94a43829b7e5",
+        "name": "Rock Fm Hard Rock",
+        "url": "https://live.rockfm.ro/hard.rock",
+        "votes": 1704
+      },
+      "variants": [
+        {
+          "stationuuid": "7e8fd698-c935-4b56-8808-d4aafcef38eb",
+          "name": "Hard Rock by Rock FM",
+          "url": "https://live.rockfm.ro/hard.rock",
+          "votes": 156,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "97298e49-7279-4ab4-b24f-ab212ee4c59d",
+        "name": "RADIO Petrecere",
+        "url": "https://ssl.servereradio.ro/8123/stream",
+        "votes": 1532
+      },
+      "variants": [
+        {
+          "stationuuid": "cc5a46e8-a73f-43eb-8aa3-84107dc123be",
+          "name": "RADIO MANELE PETRECERE",
+          "url": "https://ssl.servereradio.ro/8123/stream",
+          "votes": 574,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2ab0f5db-f677-11e9-bbf2-52543be04c81",
+        "name": "Super FM",
+        "url": "https://live.superfm.ro/stream.mp3",
+        "votes": 1316
+      },
+      "variants": [
+        {
+          "stationuuid": "779b3315-bb37-4649-b5ee-5db200597d33",
+          "name": "Super FM Brasov 93.8",
+          "url": "https://live.superfm.ro/stream.mp3?time=1697692801",
+          "votes": 37,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "617a19db-efb0-48c8-b23f-d115386f0d9e",
+          "name": "SuperFM Brasov 93.8 FM",
+          "url": "https://live.superfm.ro/stream.mp3?nocache=0.19023860954617056",
+          "votes": 14,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "72cbb426-5481-4a9a-b07c-ca6c37dc6977",
+          "name": "Super FM -Brașov 93.8 FM",
+          "url": "https://live.superfm.ro/stream.mp3",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960e6f4f-0601-11e8-ae97-52543be04c81",
+        "name": "DeeaRadio",
+        "url": "http://radiocdn.nxthost.com/radio-deea",
+        "votes": 1304
+      },
+      "variants": [
+        {
+          "stationuuid": "748d830c-d934-41e8-bd14-870add931e1d",
+          "name": "Radio DEEA",
+          "url": "http://radiocdn.nxthost.com/radio-deea",
+          "votes": 710,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8158142a-c13e-4073-ace3-ab574f0285bb",
+        "name": "Radio România Actualități",
+        "url": "https://stream4.srr.ro:8443/romania-actualitati",
+        "votes": 1043
+      },
+      "variants": [
+        {
+          "stationuuid": "a11eaf83-9f07-4fad-9b1f-d7b6ee57ab85",
+          "name": "ROMÂNIA  Actualități",
+          "url": "https://stream4.srr.ro:8443/romania-actualitati",
+          "votes": 81,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e6ab32a3-e8be-4f42-92e9-6bfbfb641da5",
+        "name": "Rock Fm Ballads",
+        "url": "https://live.rockfm.ro/ballads.rock",
+        "votes": 1021
+      },
+      "variants": [
+        {
+          "stationuuid": "62d99a98-b21a-4bb9-af1b-769e7c2b8007",
+          "name": "Rock Ballads",
+          "url": "https://live.rockfm.ro/ballads.rock",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7912ccbd-e75d-425c-85b9-0b2ac2a4b213",
+        "name": "Radio ZU",
+        "url": "https://live7digi.antenaplay.ro/radiozu/radiozu-48000.m3u8",
+        "votes": 922
+      },
+      "variants": [
+        {
+          "stationuuid": "85f02a44-6c0e-4cfa-aa1e-e1f194c1235f",
+          "name": "Radio ZU!",
+          "url": "https://live7digi.antenaplay.ro/radiozu/radiozu-48000.m3u8",
+          "votes": 85,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e1327ba8-cbb4-11e9-8502-52543be04c81",
+        "name": "Radio Doxologia",
+        "url": "http://rlive.doxologia.ro/stream.mp3",
+        "votes": 871
+      },
+      "variants": [
+        {
+          "stationuuid": "f4048df9-a46c-4e6b-aa87-3e33c6cf92eb",
+          "name": "Doxologia",
+          "url": "http://rlive.doxologia.ro/stream.mp3",
+          "votes": 65,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e76147c6-7657-11ea-b1cf-52543be04c81",
+        "name": "RockFM",
+        "url": "https://live.rockfm.ro/rockfm.aacp",
+        "votes": 745
+      },
+      "variants": [
+        {
+          "stationuuid": "83a18260-6d4f-4859-b7a0-30b41d0dc9e1",
+          "name": "Rock FM Romania",
+          "url": "https://live.rockfm.ro/rockfm.aacp",
+          "votes": 127,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "6d58066b-6825-4a18-8727-2a45d07d4138",
+          "name": "RockFM",
+          "url": "https://live.rockfm.ro/rockfm.aacp",
+          "votes": 47,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ea2bd72b-71e2-42f3-8a56-aa2b3d445ea3",
+        "name": "Digi FM",
+        "url": "https://edge76.rcs-rds.ro/digifm/digifm.mp3",
+        "votes": 676
+      },
+      "variants": [
+        {
+          "stationuuid": "e1ed3b7b-aaff-414b-a16f-7f8daf7efbd3",
+          "name": "DigiFM",
+          "url": "https://edge76.rcs-rds.ro/digifm/digifm.mp3",
+          "votes": 51,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5e7667bc-98db-4772-be99-cf6e2e10d73f",
+        "name": "Magic FM Romania",
+        "url": "https://live.magicfm.ro/magicfm.aacp",
+        "votes": 582
+      },
+      "variants": [
+        {
+          "stationuuid": "d33eb5f1-6250-4a28-a39a-b5f85f12c92a",
+          "name": "Magic Fm",
+          "url": "https://live.magicfm.ro/magicfm.aacp",
+          "votes": 472,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "162edc5a-2882-4958-9063-44a51b430e06",
+          "name": "Magic FM ",
+          "url": "https://live.magicfm.ro/magicfm.aacp",
+          "votes": 98,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "da2706a1-8aa7-46f4-907f-aee51b56dfad",
+          "name": "Magic FM",
+          "url": "https://live.magicfm.ro/magicfm.aacp",
+          "votes": 68,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e1651914-bd89-4cbb-a80a-18892f8a2757",
+        "name": "ProB Radio",
+        "url": "http://live.radioprob.ro:8888/stream",
+        "votes": 493
+      },
+      "variants": [
+        {
+          "stationuuid": "6a00fab6-0fc6-4c9a-bb23-361925ff08ef",
+          "name": "Radio Pro-B",
+          "url": "http://live.radioprob.ro:8888/stream",
+          "votes": 63,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a0f4d2c1-b39a-4062-8c71-26482548900c",
+        "name": "Jurnal FM",
+        "url": "https://ssl.radios.show:7009/stream",
+        "votes": 420
+      },
+      "variants": [
+        {
+          "stationuuid": "2d9f5e3b-9d69-426e-93e3-70d5f03af07e",
+          "name": "Jurnal FM",
+          "url": "https://ssl.radios.show:7009/stream/",
+          "votes": 22,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ceddaaf9-e322-4ceb-a3e9-d2025f9f9747",
+        "name": "itsy bitsy",
+        "url": "http://live.itsybitsy.ro:8000/itsybitsy",
+        "votes": 417
+      },
+      "variants": [
+        {
+          "stationuuid": "0e02407b-177f-4736-ab23-e11a6c8ffc0c",
+          "name": "Itsy Bitsy",
+          "url": "http://live.itsybitsy.ro:8000/itsybitsy",
+          "votes": 64,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "7836855a-e40b-476d-8f60-a72463635a71",
+          "name": "Itsy Bitsy",
+          "url": "http://live.itsybitsy.ro:8000/itsybitsy",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b92d9907-2880-4a99-9052-8d4792133506",
+        "name": "Smart Radio",
+        "url": "https://live.smartradio.ro:8443/live",
+        "votes": 314
+      },
+      "variants": [
+        {
+          "stationuuid": "b3c02c44-6118-4808-9973-5b06b1fec1e7",
+          "name": "Smart Radio - București 107.3 FM",
+          "url": "https://live.smartradio.ro:8443/live",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2da7b8ab-d486-4649-b78a-68b8a08e9a2d",
+        "name": "Rádió Gaga",
+        "url": "https://a3.my-control-panel.com:6660/radio.mp3",
+        "votes": 281
+      },
+      "variants": [
+        {
+          "stationuuid": "06749e9d-9412-498d-86f3-c9ebae5dc58f",
+          "name": "Radio Gaga",
+          "url": "https://a3.my-control-panel.com:6660/radio.mp3",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "135c2f61-022d-4bfd-8300-14ac06e8a063",
+          "name": "Rádió GaGa Marosszék",
+          "url": "https://a3.my-control-panel.com:6660/radio.mp3?1709995925",
+          "votes": 13,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "4289f487-dd42-4630-a135-9271121065cb",
+          "name": "RadioGaga",
+          "url": "https://a3.my-control-panel.com:6660/radio.mp3",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5a597723-62af-477b-9cd1-8a666ee72b5c",
+        "name": "Radio Transilvania - Cluj",
+        "url": "https://stream2.radiotransilvania.ro/Cluj",
+        "votes": 276
+      },
+      "variants": [
+        {
+          "stationuuid": "5229e29b-8003-4274-be91-4a8e4cb19d5f",
+          "name": "Transilvania -statia Cluj Napoca 94.5 FM",
+          "url": "https://stream2.radiotransilvania.ro/Cluj",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "a572e90c-79eb-482a-9820-bb64b8875131",
+          "name": "Transilvania -statia Turda 89.9 FM",
+          "url": "https://stream2.radiotransilvania.ro/Cluj",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "126d3c92-54b9-4d3d-af82-aa554b27c1ad",
+        "name": "Radio Tequila Hip-Hop",
+        "url": "http://necenzurat.radiotequila.ro:7000/;",
+        "votes": 241
+      },
+      "variants": [
+        {
+          "stationuuid": "69f0c6fe-6a92-46b0-a7e5-4dd90d128b47",
+          "name": "Tequila România -Radio Hip-Hop",
+          "url": "http://necenzurat.radiotequila.ro:7000/;",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "964c376f-0601-11e8-ae97-52543be04c81",
+        "name": "City Rádió",
+        "url": "http://live.city-radio.ro:8800/;",
+        "votes": 238
+      },
+      "variants": [
+        {
+          "stationuuid": "08ea7da0-d2f0-4298-8bc9-8f37ea2724be",
+          "name": "City Radio Romania",
+          "url": "http://live.city-radio.ro:8800/;",
+          "votes": 144,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dcae60bc-ffb7-403b-9a42-30be18b42fc0",
+        "name": "Radio Tequila Manele Romania",
+        "url": "https://petrecere.radiotequila.ro/7000/stream",
+        "votes": 206
+      },
+      "variants": [
+        {
+          "stationuuid": "0b6185f7-c8f0-4aff-a9db-6b8099326b4d",
+          "name": "Tequila România -Radio Petrecere",
+          "url": "https://petrecere.radiotequila.ro/7000/stream",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a384717a-40da-4bad-953c-0c0df3f09a50",
+        "name": "Radio Liberty Multiplayer Phonk remix",
+        "url": "https://hs1.radiolibertymp.ro/listen/lmpphonk/stream.mp3",
+        "votes": 198
+      },
+      "variants": [
+        {
+          "stationuuid": "fd7fbe29-9282-4ddf-9a8c-61505eba61c8",
+          "name": "Radio Liberty Multiplayer Phonk - radiolibertymp.ro",
+          "url": "https://hs1.radiolibertymp.ro/listen/lmpphonk/stream.mp3",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960c3e01-0601-11e8-ae97-52543be04c81",
+        "name": "Vox FM - Székelykeresztúr",
+        "url": "http://stream.voxfm.ro:8000/stream/1",
+        "votes": 189
+      },
+      "variants": [
+        {
+          "stationuuid": "e2b00a8f-dea6-4697-ae4d-8e2874564200",
+          "name": "Vox FM Rádió",
+          "url": "http://stream.voxfm.ro:8000/stream/1",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "964c313e-0601-11e8-ae97-52543be04c81",
+        "name": "Kolozsvári Rádió",
+        "url": "http://89.238.227.6:8386/",
+        "votes": 179
+      },
+      "variants": [
+        {
+          "stationuuid": "156a711e-4e0e-4e44-a82f-8586d0a31f54",
+          "name": "Kolozsvári Rádió",
+          "url": "http://89.238.227.6:8386/",
+          "votes": 10,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962905de-0601-11e8-ae97-52543be04c81",
+        "name": "Mária Rádió Erdély",
+        "url": "http://stream.mariaradio.ro:8000/MRE",
+        "votes": 166
+      },
+      "variants": [
+        {
+          "stationuuid": "c3808328-eb6d-4a83-80ac-351afc135045",
+          "name": "Mária Rádió Erdély -Oradea",
+          "url": "http://stream.mariaradio.ro:8000/MRE",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "830086b4-8d1a-44b9-8610-792225db7f36",
+        "name": "Plusz FM - Nagyvarad",
+        "url": "https://stream2.radiotransilvania.ro/Nagyvarad",
+        "votes": 164
+      },
+      "variants": [
+        {
+          "stationuuid": "a2577013-22df-4f9b-9e93-ab478b7fefe5",
+          "name": "Plusz FM Nagyvárad - Oradea BH 89,6 FM",
+          "url": "https://stream2.radiotransilvania.ro/Nagyvarad",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c0f6499f-1a00-40a9-b728-c01392173724",
+        "name": "Rádio Koko",
+        "url": "https://az10.yesstreaming.net:8210/radiokoko",
+        "votes": 141
+      },
+      "variants": [
+        {
+          "stationuuid": "e454f75a-3ca2-4def-88b9-0dcaf2961bda",
+          "name": "Rádió Koko",
+          "url": "https://az10.yesstreaming.net:8210/radiokoko",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e20bf96a-cee9-42a2-aa07-89034f2933eb",
+        "name": "Radio Romantic",
+        "url": "https://radio-romantic.ro/stream",
+        "votes": 139
+      },
+      "variants": [
+        {
+          "stationuuid": "849f0b1c-3f34-4005-9114-ecabb8c46503",
+          "name": "Romantic Radio",
+          "url": "https://radio-romantic.ro/stream",
+          "votes": 54,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "701fcd20-6e49-4cc4-8623-a3d7be03b5d8",
+          "name": "Radio Romantic",
+          "url": "https://radio-romantic.ro/stream",
+          "votes": 42,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f7c3e272-6632-46e8-a3ae-9265f94af020",
+        "name": "Radio 3Net",
+        "url": "http://media.3netmedia.ro:8000/Live128",
+        "votes": 132
+      },
+      "variants": [
+        {
+          "stationuuid": "f5f7550d-33b5-4502-af3c-aa08c8d8d79f",
+          "name": "Radio România 3 Net",
+          "url": "http://media.3netmedia.ro:8000/Live128",
+          "votes": 99,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "0415d15a-90e5-4c4b-b3d5-9b33aa866bdd",
+          "name": "Radio România 3Net",
+          "url": "http://media.3netmedia.ro:8000/Live128",
+          "votes": 22,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "701e5bbd-5384-468a-a564-179de50e5544",
+        "name": "ROMÂNIA  Antena Satelor",
+        "url": "https://stream4.srr.ro:8443/antena-satelor",
+        "votes": 131
+      },
+      "variants": [
+        {
+          "stationuuid": "a01c9cc6-1209-43b1-bae8-15a70a3caf27",
+          "name": "Antena Satelor",
+          "url": "https://stream4.srr.ro:8443/antena-satelor",
+          "votes": 53,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4a2aca23-f665-4d84-b1e4-d1d92c359050",
+        "name": "Ambiento",
+        "url": "https://ambiento-adradio.radioca.st/128",
+        "votes": 126
+      },
+      "variants": [
+        {
+          "stationuuid": "29608d24-dda0-446d-a691-dc05ac8d6ec1",
+          "name": "Ambiento",
+          "url": "https://ambiento-adradio.radioca.st/128",
+          "votes": 101,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fdfcd532-ec4f-4193-aa24-78a1f0ae3de9",
+        "name": "Supravibe Radio ",
+        "url": "https://supraviberadio-radiohosting.radioca.st/stream",
+        "votes": 99
+      },
+      "variants": [
+        {
+          "stationuuid": "5e437672-f00e-4c13-a211-9a45efc1c3be",
+          "name": "Supravibe Radio",
+          "url": "https://supraviberadio-radiohosting.radioca.st/stream",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "0cb6630e-fdff-4fe6-af46-77a26b08dd24",
+          "name": "Supravibe Radio",
+          "url": "https://supraviberadio-radiohosting.radioca.st/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "29495082-85fc-47c5-ae5d-f169e67e5732",
+        "name": "Kolozsvári Rádió M",
+        "url": "http://89.238.227.6:8386/;",
+        "votes": 69
+      },
+      "variants": [
+        {
+          "stationuuid": "ba34a372-57eb-49a6-b681-7d0b4cac3c0b",
+          "name": "Kolozsvári Rádió M",
+          "url": "http://89.238.227.6:8386/;",
+          "votes": 6,
+          "differs": []
+        },
+        {
+          "stationuuid": "8dde21b9-e269-4d49-a38b-29c3b46de088",
+          "name": "Kolozsvári Rádió M",
+          "url": "http://89.238.227.6:8386/;",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "59b837fb-7e8e-4253-8954-9db7ec5d1602",
+        "name": "Bistrița FM 92.6",
+        "url": "https://audio-edge-cmc51.fra.h.radiomast.io/66f238bb-8b61-4196-a8c3-28aea07235e8",
+        "votes": 65
+      },
+      "variants": [
+        {
+          "stationuuid": "01821db4-0bec-493a-854b-2ea7561c920f",
+          "name": "Bistrița FM -Bistrița 92,6 FM",
+          "url": "https://audio-edge-cmc51.fra.h.radiomast.io/66f238bb-8b61-4196-a8c3-28aea07235e8",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8571d3ac-77c7-4620-8300-cc47f6f56d3a",
+        "name": "Plusz FM - Margitta",
+        "url": "https://stream2.radiotransilvania.ro/Margitta",
+        "votes": 47
+      },
+      "variants": [
+        {
+          "stationuuid": "bfd3fab0-133f-4660-a7a9-c6dd39df4c4c",
+          "name": "Plusz FM Margitta - Marghita BH 105,5 FM",
+          "url": "https://stream2.radiotransilvania.ro/Margitta",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4cf01730-2844-4d62-b3e3-d9ff7ae1a462",
+        "name": "Radio Arges",
+        "url": "http://89.39.189.53:8000/stream",
+        "votes": 46
+      },
+      "variants": [
+        {
+          "stationuuid": "504d86a2-9216-495a-932e-d82a9f3932f5",
+          "name": "Argeș Mioveni NR1",
+          "url": "http://89.39.189.53:8000/stream",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96523f02-cbd3-48bd-aabb-76fc651d840a",
+        "name": "Radio Brașov",
+        "url": "https://live.radiobrasov.ro/stream.mp3?nocache=${Math.random()}",
+        "votes": 45
+      },
+      "variants": [
+        {
+          "stationuuid": "ec15ab9a-486c-47a8-ad5b-6ff725106ea3",
+          "name": "Radio Brașov",
+          "url": "https://live.radiobrasov.ro/stream.mp3",
+          "votes": 27,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "55d89203-76a9-4be9-b6c9-ce192b29ef74",
+        "name": "Radio Boom Rock",
+        "url": "https://stream.radioboom.ro/listen/boom_rock/radio.mp3",
+        "votes": 43
+      },
+      "variants": [
+        {
+          "stationuuid": "9aa8d64f-338f-40f5-b0ed-efccaf54a72c",
+          "name": "BOOM Rock-Less Talk & More Rock!",
+          "url": "https://stream.radioboom.ro/listen/boom_rock/radio.mp3",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1b8112c7-0d19-4ffd-be0c-21f7c9473bb2",
+        "name": "Sweet FM Romania",
+        "url": "https://live.gofm.ro:2000/stream/SWEET/stream.mp3",
+        "votes": 41
+      },
+      "variants": [
+        {
+          "stationuuid": "ce83f5dd-f12e-4224-af80-51ae2aa1e25f",
+          "name": "Sweet FM",
+          "url": "https://live.gofm.ro:2000/stream/SWEET/stream.mp3",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5c2baa18-f4a2-4510-a961-d924aedccdb1",
+        "name": "Moinesti FM",
+        "url": "https://listen.moinestifm.ro/radio.mp3",
+        "votes": 41
+      },
+      "variants": [
+        {
+          "stationuuid": "90924e6b-d6a5-413a-9e20-3258c25ad739",
+          "name": "Moinești FM",
+          "url": "https://listen.moinestifm.ro/radio.mp3",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dc94b893-e362-4db3-bea3-b479a59af728",
+        "name": "Radio Terra",
+        "url": "http://188.26.110.59:8000/terra_hq.mp3",
+        "votes": 40
+      },
+      "variants": [
+        {
+          "stationuuid": "b34b873c-f0e3-48ff-8dcb-4b73d8d11ce3",
+          "name": "Terra Radio -Medgidia 97.5 FM",
+          "url": "http://188.26.110.59:8000/terra_hq.mp3",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2510d5d2-8b9c-45cf-8033-a7b4dab168b6",
+        "name": "Play 90 Constanta",
+        "url": "https://live.playradio.org:8443/FMHD",
+        "votes": 39
+      },
+      "variants": [
+        {
+          "stationuuid": "bc2fa705-2f94-4812-bfe9-f07b63fbcd39",
+          "name": "Play Radio 91.6",
+          "url": "https://live.playradio.org:8443/FMHD",
+          "votes": 35,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4e335b7e-4ceb-4786-a9e1-07969ab42f54",
+        "name": "Reintregirea",
+        "url": "https://live.reintregirea.ro/",
+        "votes": 38
+      },
+      "variants": [
+        {
+          "stationuuid": "d0ec5977-79b2-4423-b348-3bbdc11b9533",
+          "name": "https://live.reintregirea.ro",
+          "url": "https://live.reintregirea.ro/",
+          "votes": 26,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "42a0ff85-e3ce-4ab3-bd55-c7309590753d",
+          "name": "RadioReintregirea Alba Iulia",
+          "url": "https://live.reintregirea.ro/",
+          "votes": 26,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "502083b9-6a7a-4fc8-be35-52079c0104c5",
+          "name": "Radio Reîntregirea",
+          "url": "https://live.reintregirea.ro/",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "596f7373-e9e9-4f7e-a85c-9f5b3eb3cef3",
+        "name": "Muscel FM 94.1",
+        "url": "http://188.27.135.199:8000/muscelfm",
+        "votes": 37
+      },
+      "variants": [
+        {
+          "stationuuid": "50599517-94e9-4e9c-9f09-7488db0b54d2",
+          "name": "Muscel FM - Câmpulung Muscel 94,1 FM",
+          "url": "http://188.27.135.199:8000/muscelfm",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e4ed8cd5-aa8e-40ca-bc02-94a4c588f8a6",
+        "name": "Supersonic Radio",
+        "url": "https://s5.radio.co/s08e5c5875/listen",
+        "votes": 36
+      },
+      "variants": [
+        {
+          "stationuuid": "a923100c-8c7a-4323-83ed-52e0c93cb6c8",
+          "name": "Supersonic Radio",
+          "url": "https://s5.radio.co/s08e5c5875/listen",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f883f613-7f2f-4410-927c-0687dac27525",
+        "name": "Radio Click Romania",
+        "url": "http://live.radioclick.ro:8008/",
+        "votes": 32
+      },
+      "variants": [
+        {
+          "stationuuid": "67ca3c3b-6bb1-45dd-9c35-9f01f4286343",
+          "name": "RadioClick",
+          "url": "http://live.radioclick.ro:8008/",
+          "votes": 25,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "75f28776-0332-4c97-aab7-d82221ec9a9f",
+          "name": "RadioClick",
+          "url": "http://live.radioclick.ro:8008/",
+          "votes": 24,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a5cfbbd2-d3ec-4ea5-ad93-9a9c4f672568",
+        "name": "Radio Trib",
+        "url": "https://streams.radio.co/s78f983952/listen",
+        "votes": 32
+      },
+      "variants": [
+        {
+          "stationuuid": "7754b5a9-90bd-41f6-8898-3388d58a4565",
+          "name": "Trib Radio",
+          "url": "https://streams.radio.co/s78f983952/listen",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "85160a6a-7bd3-4a7b-b1c8-1f6fa57841db",
+        "name": "Szépvíz FM",
+        "url": "https://szepvizfm.ro:8000/stream",
+        "votes": 31
+      },
+      "variants": [
+        {
+          "stationuuid": "0bc778ae-1f96-45f2-98c4-bffba88325bb",
+          "name": "Szépvíz FM Rádió -Frumoasa 101.7 FM",
+          "url": "https://szepvizfm.ro:8000/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0461bd47-c4b9-4f93-b057-1e03039a02d6",
+        "name": "TWIST -Radio Trap",
+        "url": "https://stream.zeno.fm/9dhe4r7upg8uv",
+        "votes": 30
+      },
+      "variants": [
+        {
+          "stationuuid": "3768ce7a-d6a6-480a-888d-97df98a6fcc3",
+          "name": "TWIST -Radio Trap",
+          "url": "https://stream.zeno.fm/9dhe4r7upg8uv",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "13970f13-48ea-483e-b281-d615d34479f4",
+        "name": "Radio Domeldo Movie",
+        "url": "https://radiodomeldo.ro/movie",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "6b6ed0fb-38bc-4c6a-90db-6a70b8501477",
+          "name": "Radio Domeldo",
+          "url": "https://radiodomeldo.ro/movie",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "65f006a6-7f3d-42ba-8550-51261ae53c6e",
+        "name": "radio SOMEȘ",
+        "url": "https://radio.mediacp.eu/stream/radiosomes",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "33bbaa8a-d362-4d4d-88b4-888644ac5cbf",
+          "name": "Someș Radio -Bistrițai 96.6 FM",
+          "url": "https://radio.mediacp.eu/stream/radiosomes",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f7d7ae12-3989-48ed-bc80-7c01f69ceef9",
+          "name": "Radio Someș -Bistrița 96,6 FM",
+          "url": "https://radio.mediacp.eu/stream/radiosomes",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b01a5b00-976e-430e-b218-fab4ad4c2937",
+        "name": "TWIST -Radio Ușoară",
+        "url": "https://stream.zeno.fm/g7uert66bxhvv",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "cb903ad1-afd2-46ac-af6c-e9b853ced5ab",
+          "name": "TWIST -Radio Ușoară",
+          "url": "https://stream.zeno.fm/g7uert66bxhvv",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cbb2ea6b-d9f0-419f-a941-52def49098b7",
+        "name": "Gold FM 96,9",
+        "url": "https://live.radiogoldfm.ro:8443/WP.mp3",
+        "votes": 24
+      },
+      "variants": [
+        {
+          "stationuuid": "f56ca6aa-685d-48e1-bf89-549f4584afd1",
+          "name": "Gold FM 96,9",
+          "url": "https://live.radiogoldfm.ro:8443/WP.mp3",
+          "votes": 12,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "841a24b5-45b0-4f1c-9f6b-31c4bfb64ce3",
+        "name": "EBS | Music",
+        "url": "https://azura.ebsmedia.ro/listen/music/music128.mp3",
+        "votes": 21
+      },
+      "variants": [
+        {
+          "stationuuid": "cda8a4e5-28e6-4275-9efd-0c34ddfd2e84",
+          "name": "EBS | Music",
+          "url": "https://azura.ebsmedia.ro/listen/music/music128.mp3",
+          "votes": 20,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "39126779-a0a4-424e-89b4-d7c9a2f84952",
+        "name": "A-Tentat",
+        "url": "http://54.39.28.158:8066/",
+        "votes": 20
+      },
+      "variants": [
+        {
+          "stationuuid": "e05c63bb-1e04-4f5e-8b81-010b3fadaba5",
+          "name": "A-Tentat",
+          "url": "http://54.39.28.158:8066/",
+          "votes": 12,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9e723718-74a7-4174-8c51-dbe3458e5050",
+        "name": "radio 1 pitesti ",
+        "url": "https://ssl.radios.show/8050/stream",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "006d1ea1-8e35-469a-9fdd-cd0e42917a66",
+          "name": "radio pitesti 1",
+          "url": "https://ssl.radios.show/8050/stream",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "821143ce-1950-46b4-b17c-88192493661f",
+        "name": "Radio Test",
+        "url": "https://hs1.radiolibertymp.ro/listen/lmpchill/stream.mp3?refresh=1700228324588",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "ab85d962-ff75-4dc3-80d3-f1f963f3d225",
+          "name": "Radio Test",
+          "url": "https://hs1.radiolibertymp.ro/listen/lmpchill/stream.mp3?refresh=1700228324588",
+          "votes": 9,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4e7e7c46-2aba-40f1-bca4-b5b97ebc39e8",
+        "name": "ERCIS FM",
+        "url": "https://stream.zeno.fm/ehbuv5erws8uv",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "1a22c996-672b-4e6e-bd00-e0c79b57bee2",
+          "name": "ERCIS FM",
+          "url": "https://stream.zeno.fm/ehbuv5erws8uv",
+          "votes": 6,
+          "differs": []
+        },
+        {
+          "stationuuid": "953b5c16-a0a4-4074-9580-d6efd26c00fa",
+          "name": "ERCIS FM -Iasi 94,4 FM",
+          "url": "https://stream.zeno.fm/ehbuv5erws8uv",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8dc785ae-81b6-4cb6-ba0d-cc5fd8b26603",
+        "name": "RADIO EASY BACĂU",
+        "url": "https://ssl.asculta.live/8108/stream",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "b8889749-a69b-42fb-bf45-74dfdf9be268",
+          "name": "Radio EASY -Bacău",
+          "url": "https://ssl.asculta.live/8108/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9db6ad3d-d922-4c79-9713-db90a254fa74",
+        "name": "Cross One Radio",
+        "url": "https://lb01.bpstream.com:8630/;",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "ea92d0e2-4aaf-479f-a677-5811fe24388a",
+          "name": "Cross One Radio",
+          "url": "https://lb01.bpstream.com:8630/;",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e8487975-8066-4183-889d-f1815b7d5f46",
+        "name": "Star rádió",
+        "url": "https://online.webcastradio.ro/star",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "171b2d6a-1c3c-41fb-83d4-f2f747b55bbe",
+          "name": "Star Rádió -Székelyudvarhely/Odorheiu Secuiesc 100.8 FM",
+          "url": "https://online.webcastradio.ro/star",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5782d204-ba9f-4857-b1b1-cd8aaa407c75",
+        "name": "Replica Radio",
+        "url": "https://securestreams.autopo.st:2490/",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "a764ec3b-e258-4b51-9bea-20ab95b09370",
+          "name": "Replica Radio",
+          "url": "https://securestreams.autopo.st:2490/",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2671a778-a95d-499f-8e4e-fe1cb3da88e4",
+        "name": "Radio Sighet FM",
+        "url": "http://89.238.227.6:8390/%7CRadio",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "8027e342-7a91-4c0f-b922-bbc7ac369df0",
+          "name": "Radio Romania Sighet",
+          "url": "http://89.238.227.6:8390/%7CRadio",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "554d2468-ebf0-4dc0-83de-f14a62f9ad06",
+        "name": "XFM Non-Stop Dance Radio",
+        "url": "http://radio1.ip4.ro:7480/",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "7ebc0879-0bc8-4a31-9f13-e01d5a593d94",
+          "name": "XFM Radio  - XFM Dance",
+          "url": "http://radio1.ip4.ro:7480/",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "558c5171-165b-464b-af5c-bb378fd1972d",
+        "name": "Transilvania -statia Oradea 97.2 FM",
+        "url": "https://stream2.radiotransilvania.ro/Oradea",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "5c908787-110b-48c3-9cfb-0207099e45a2",
+          "name": "Transilvania -statia Aleșd 95.8 FM",
+          "url": "https://stream2.radiotransilvania.ro/Oradea",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "31fc1997-1afb-4a01-bb54-2e43dd232903",
+          "name": "Transilvania -statia Beiuș 88.0 FM",
+          "url": "https://stream2.radiotransilvania.ro/Oradea",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e455cc17-efcf-4575-8a3c-42feee4412a6",
+        "name": "Nostalgia Radio",
+        "url": "https://live.radionostalgia.ro:8443/nostalgia.aac",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "563c1b55-4e3e-4bc1-b32c-a8336bf571d3",
+          "name": "Nostalgia Radio",
+          "url": "https://live.radionostalgia.ro:8443/nostalgia.aac",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7dffd02b-cd02-4cea-bbd1-f952316e6b03",
+        "name": "Transilvania -statia Satu Mare 99.0 FM",
+        "url": "https://stream2.radiotransilvania.ro/SatuMare",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "356795ef-57b2-4949-bdde-e6e8f9f5389a",
+          "name": "Transilvania -statia Carei 95.2 FM",
+          "url": "https://stream2.radiotransilvania.ro/SatuMare",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0a65939e-4e05-43d9-be97-7cffeabd90bc",
+        "name": "Siculus Rádió",
+        "url": "http://46.214.17.202:8000/radioac3",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "f3b2d997-64ef-4f52-804d-5fbc8de79e64",
+          "name": "Siculus Rádió -Kézdivásárhely/Târgu Secuiesc 95.0 FM",
+          "url": "http://46.214.17.202:8000/radioac3",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d1818640-fc07-42e2-8b65-698e3b048d16",
+        "name": "Xtream Romania",
+        "url": "https://asculta.radioxtream.com/8022/stream",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "6d5d259d-db1c-4128-bc30-455fb358ce1b",
+          "name": "Radio Xtream Romania - Brăila",
+          "url": "https://asculta.radioxtream.com/8022/stream",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "79f0e166-2c86-4ee0-96e8-dad0c17008b6",
+        "name": "Smart N'Roll",
+        "url": "https://web.smartradio.ro:8443/smartnroll",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "cd6f3462-9ac2-4fe1-afd0-26b05c68a35f",
+          "name": "Smart Radio -Smart n'Roll",
+          "url": "https://web.smartradio.ro:8443/smartnroll",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "099bfe39-13f7-4af1-b31f-5e72d07dea19",
+        "name": "RadioTrandafirulRoșul",
+        "url": "https://stream.zeno.fm/46mdd8ebdchvv",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "c340798a-76c1-4c50-aab6-e0b832ff8113",
+          "name": "Radio Trandafirul Rosu -Oradea",
+          "url": "https://stream.zeno.fm/46mdd8ebdchvv",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fc1c76bf-9493-49cf-b1f4-4517edd50898",
+        "name": "LexSquad Radio Station",
+        "url": "http://s1.free-shoutcast.com:18150/",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "b1769b54-d186-455c-b71f-0c339f8f004f",
+          "name": "LexSquad Radio Station",
+          "url": "http://s1.free-shoutcast.com:18150/",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c32d6855-4772-4de4-887d-7bcbd7e6a325",
+        "name": "Vocea Creștinilor",
+        "url": "https://listen.radioking.com/radio/494884/stream/551902",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "14e96c67-e13d-4279-a6e5-aab2c3e204f5",
+          "name": "Radio Vocea Creștinilor",
+          "url": "https://listen.radioking.com/radio/494884/stream/551902",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5922b3f4-80d4-41f6-b91a-ce2d90dfa404",
+        "name": "Transilvania -statia Beclean 91.5 FM",
+        "url": "http://stream2.radiotransilvania.ro/Bistrita",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "618bdfaa-cf41-4ffd-848b-b3e297e991c4",
+          "name": "Transilvania statia Bistrița 94.1 FM",
+          "url": "http://stream2.radiotransilvania.ro/Bistrita",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ea3e27fd-ac44-470b-a5c7-4f8d70c1594f",
+        "name": "VRTW Radio (Vinyl Rum Tapas and Wine)",
+        "url": "https://streamer.radio.co/s17198c529/listen",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "396f120c-31c8-4c2d-83c7-d8e101e311c9",
+          "name": "VRTW Radio (Vinyl Rum Tapas and Wine)",
+          "url": "https://streamer.radio.co/s17198c529/listen",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b9b0967b-0194-472a-84c9-ef55f6d1423e",
+        "name": "Son Radio -Târgu Mureș 105.6 FM",
+        "url": "http://89.33.243.3:8000/;",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "6e488634-dc21-4d4e-8e4b-94d9feccb268",
+          "name": "Son Radio -Toplița 104.3 FM",
+          "url": "http://89.33.243.3:8000/;",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "0fb4ef4a-9945-4101-9887-50af4a93a250",
+          "name": "Son Radio -Luduș 94.2 FM",
+          "url": "http://89.33.243.3:8000/;",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4499bcc6-e1bd-4311-be7d-2ef9bc5e261a",
+          "name": "Son Radio -Reghin 87.8 FM",
+          "url": "http://89.33.243.3:8000/;",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b985f4ea-407f-4805-8be9-8d0e2ff898ce",
+          "name": "Son Radio -Sighișoara 89.5 FM",
+          "url": "http://89.33.243.3:8000/;",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "abcfec54-4678-405d-a9c9-0d3bd3df2c3b",
+          "name": "Son Radio -Sovata 89.2 FM",
+          "url": "http://89.33.243.3:8000/;",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "32e5ee6d-1f76-4353-a9aa-f37252b1a878",
+        "name": "Sighet FM 89.3",
+        "url": "https://radio.zifer.ro/SighetFM",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "8bf51886-555a-4ac7-9ae6-b16ef3757f12",
+          "name": "Sighet FM -Sighetu Marmației 89.3 FM",
+          "url": "https://radio.zifer.ro/SighetFM",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "51757906-c5c9-427e-b213-6443f9297feb",
+        "name": "MuzicaDeVest",
+        "url": "https://stream.zeno.fm/s4mhpucr5tzuv",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "7fa133f0-3a32-4607-8b50-cfa52b4f98c0",
+          "name": "MuzicaDeVest",
+          "url": "https://stream.zeno.fm/s4mhpucr5tzuv",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d20e85da-c3ea-4979-8239-e6c5c448acb0",
+        "name": "X Radio -Oradea",
+        "url": "https://stream.zeno.fm/rd0bc4zkbm0uv",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "bc1156ed-8dc1-4e2d-b457-a1b6b28e219e",
+          "name": "X Radio",
+          "url": "https://stream.zeno.fm/rd0bc4zkbm0uv",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "736e1017-aa12-4361-8205-08240f2673a3",
+        "name": "ZC Radio (Ziua de Cluj)",
+        "url": "https://sonicssl.namehost.ro:8020/stream",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "f4027b66-1682-4656-b4b4-49ca80021735",
+          "name": "ZC Radio (Ziua de Cluj)",
+          "url": "https://sonicssl.namehost.ro:8020/stream",
+          "votes": 0,
+          "differs": []
+        },
+        {
+          "stationuuid": "da471ce9-8773-4aec-932c-859b83eca958",
+          "name": "ZC Radio (Ziua de Cluj)",
+          "url": "https://sonicssl.namehost.ro:8020/stream",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [
+    {
+      "stationuuid": "960e71a1-0601-11e8-ae97-52543be04c81",
+      "name": "Radio România Actualități",
+      "broadcasterKey": "srr",
+      "metadataUrl": "https://www.romania-actualitati.ro/api/live.php#1"
+    },
+    {
+      "stationuuid": "961b6ef1-0601-11e8-ae97-52543be04c81",
+      "name": "Radio România Cultural",
+      "broadcasterKey": "srr",
+      "metadataUrl": "https://www.romania-actualitati.ro/api/live.php#2"
+    },
+    {
+      "stationuuid": "3ab00dd1-e787-4664-b557-08c085e55eec",
+      "name": "Radio România Muzical",
+      "broadcasterKey": "srr",
+      "metadataUrl": "https://www.romania-actualitati.ro/api/live.php#5"
+    }
+  ],
+  "httpsVariants": []
+}

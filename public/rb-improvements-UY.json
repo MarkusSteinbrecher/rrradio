@@ -1,0 +1,582 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.893Z",
+  "country": "UY",
+  "sourceProbedAt": "2026-04-30T11:52:44.169Z",
+  "totals": {
+    "deadStreams": 19,
+    "internalDupes": 20,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "c460eb55-14db-42b9-8f61-ea51e776e1e1",
+      "name": "CX 30 Radio Nacional",
+      "url": "https://a1.asurahosting.com:8650/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 104,
+      "lastProbedAt": "2026-04-30T11:52:27.765Z"
+    },
+    {
+      "stationuuid": "b3a94aef-59bf-47fd-8037-f7f8b9782f70",
+      "name": "Radio Pedal",
+      "url": "https://streaming1.hostingmontevideo.com:7003/stream.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 96,
+      "lastProbedAt": "2026-04-30T11:52:27.830Z"
+    },
+    {
+      "stationuuid": "483af4b4-eaeb-4bb7-8a89-533973eb8e08",
+      "name": "Radio Cultura 1290 AM",
+      "url": "https://radios.iwstreaming.uy/8034/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 503",
+      "votes": 66,
+      "lastProbedAt": "2026-04-30T11:52:29.016Z"
+    },
+    {
+      "stationuuid": "5a706ecf-4ff1-44da-92dc-3e29bdbab92a",
+      "name": "Radiomundo 1170 AM - En Perspectiva",
+      "url": "https://edge.mixlr.com/channel/nuuij",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 63,
+      "lastProbedAt": "2026-04-30T11:52:29.087Z"
+    },
+    {
+      "stationuuid": "cce1e1a1-8705-4890-8129-01c0711e7ef8",
+      "name": "Radio Nuevo Tiempo Uruguay",
+      "url": "https://stream.live.novotempo.com/radio/smil:rntMontevideoUY.smil/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 57,
+      "lastProbedAt": "2026-04-30T11:52:29.090Z"
+    },
+    {
+      "stationuuid": "a5e7a871-c304-4068-a067-7dcbd23f4aed",
+      "name": "RADIO FELICIDAD - URUGUAY",
+      "url": "https://medios.ciudaddigital.com.uy:18042/Felicidad",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 28,
+      "lastProbedAt": "2026-04-30T11:52:31.230Z"
+    },
+    {
+      "stationuuid": "04973c4b-bda8-4638-a877-b33093c3db9e",
+      "name": "Radio Pipí Cucú",
+      "url": "https://comodin.uy/hls/pipi_cucu/live.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 27,
+      "lastProbedAt": "2026-04-30T11:52:30.895Z"
+    },
+    {
+      "stationuuid": "28adde68-2ac2-464e-a2f2-0d1afc6b7bc8",
+      "name": "Radio Cristal AM 1470 - Las Piedras ",
+      "url": "https://medios.ciudaddigital.com.uy:18126/CristalAM",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 25,
+      "lastProbedAt": "2026-04-30T11:52:31.394Z"
+    },
+    {
+      "stationuuid": "67adab78-e9d6-41b9-8aa5-35792b196a25",
+      "name": "La Elegida FM",
+      "url": "https://stm1.srvif.com:7042/;",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 21,
+      "lastProbedAt": "2026-04-30T11:52:31.960Z"
+    },
+    {
+      "stationuuid": "e77b3308-dcc1-48b3-8991-ea10a227a360",
+      "name": "Radio Río Branco",
+      "url": "https://medios.ciudaddigital.com.uy:18164/RioBranco",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 21,
+      "lastProbedAt": "2026-04-30T11:52:31.724Z"
+    },
+    {
+      "stationuuid": "ed1466fc-9791-4f4c-aebf-fe89cff61dfd",
+      "name": "Perfil FM",
+      "url": "https://radiosar.com:8086/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 19,
+      "lastProbedAt": "2026-04-30T11:52:32.687Z"
+    },
+    {
+      "stationuuid": "b57475ab-09ad-4cbd-a78e-e21512848a50",
+      "name": "Cadena del Mar",
+      "url": "https://streamingraddios.online/proxy/cadena?mp=/stream&1669851387477",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 18,
+      "lastProbedAt": "2026-04-30T11:52:32.297Z"
+    },
+    {
+      "stationuuid": "a2d6019a-f5f9-43f2-bcc5-eaab3e1347fa",
+      "name": "Radio Patria",
+      "url": "https://medios.ciudaddigital.com.uy:18052/PatriaAM",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 18,
+      "lastProbedAt": "2026-04-30T11:52:32.000Z"
+    },
+    {
+      "stationuuid": "06e2a1c6-be97-448f-98e7-435e4834ce27",
+      "name": "Radio Activa Florida 101.1",
+      "url": "https://streaming1.hostingmontevideo.com:7014/;",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 17,
+      "lastProbedAt": "2026-04-30T11:52:32.364Z"
+    },
+    {
+      "stationuuid": "bb9f3627-eee0-4396-8f43-a6fbc92d4df4",
+      "name": "El Shaddai MIHA Online ",
+      "url": "https://stm2.livecastradio.com:20160/stream/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 12,
+      "lastProbedAt": "2026-04-30T11:52:32.914Z"
+    },
+    {
+      "stationuuid": "1ef716e8-8d6e-4067-979b-68a28e4f0536",
+      "name": "ESPACIO SPORT 91.5 FM",
+      "url": "https://medios.ciudaddigital.com.uy:18098/EspacioFM",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-30T11:52:33.907Z"
+    },
+    {
+      "stationuuid": "f9fa2179-649e-4ded-99c9-4e4687f51361",
+      "name": "Casupá FM 94.1",
+      "url": "https://stm1.ifantasy.com.br:7256/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-30T11:52:34.642Z"
+    },
+    {
+      "stationuuid": "597f1cfa-f62e-4c51-af7d-189eb84d785d",
+      "name": "La Elegida FM",
+      "url": "https://stm1.srvif.com:7042/",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T11:52:34.693Z"
+    },
+    {
+      "stationuuid": "27dcfbc0-5e9c-4e26-93ce-640a731665ca",
+      "name": "De La Cumbre FM 102.9",
+      "url": "https://nazca.globalhost1.com:7127/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T11:52:44.168Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "d920b239-2c22-4913-92f2-555973548dd5",
+        "name": "Fm Inolvidable 93.1",
+        "url": "https://inolvidable-2.nty.uy/",
+        "votes": 1760
+      },
+      "variants": [
+        {
+          "stationuuid": "7f93746d-a548-40a3-9ea0-e366174038c4",
+          "name": "Fm Inolvidable 93.1",
+          "url": "https://inolvidable-2.nty.uy/",
+          "votes": 155,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "74cb6221-f1ad-45a3-99d1-34ecf7ad5a9b",
+        "name": "El Espectador 810",
+        "url": "https://espectador-1.nty.uy/",
+        "votes": 774
+      },
+      "variants": [
+        {
+          "stationuuid": "64297026-ae46-457b-88e8-70a210421465",
+          "name": "Radio El Espectador",
+          "url": "https://espectador-1.nty.uy/",
+          "votes": 34,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f51dc707-4538-4f8d-8fd2-2933013c8389",
+        "name": "Azul FM 101.9",
+        "url": "https://azul-2.nty.uy/",
+        "votes": 482
+      },
+      "variants": [
+        {
+          "stationuuid": "f1b99f20-97cf-410a-8167-2378742a83a7",
+          "name": "Azul FM 101.9",
+          "url": "https://azul-2.nty.uy/",
+          "votes": 38,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "52d65ca3-99b6-11e9-a605-52543be04c81",
+        "name": "America FM",
+        "url": "http://emisiones.com.uy:8118/america",
+        "votes": 279
+      },
+      "variants": [
+        {
+          "stationuuid": "d8d02a7e-3a08-4ce7-8343-a64a529666f8",
+          "name": "América FM 103.3",
+          "url": "http://emisiones.com.uy:8118/america",
+          "votes": 39,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f4319198-0aef-47b1-a95f-6c0df8e30871",
+        "name": "Emisora del Sur",
+        "url": "https://radios.iwstreaming.uy/8034/stream",
+        "votes": 222
+      },
+      "variants": [
+        {
+          "stationuuid": "d12b12ce-3e7e-466b-b626-4361c489d3cb",
+          "name": "Radio Cultura AM 1280",
+          "url": "https://radios.iwstreaming.uy/8034/stream",
+          "votes": 74,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "483af4b4-eaeb-4bb7-8a89-533973eb8e08",
+          "name": "Radio Cultura 1290 AM",
+          "url": "https://radios.iwstreaming.uy/8034/stream",
+          "votes": 66,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "747c7cb7-e1d6-4447-ad7f-5fd8de9157a3",
+        "name": "Sport 890",
+        "url": "https://alba-uy-sport890-sport890.stream.mediatiquestream.com/index.m3u8",
+        "votes": 189
+      },
+      "variants": [
+        {
+          "stationuuid": "4c530f6d-bffa-4d15-b1cc-8f922386ee30",
+          "name": "Sport 890",
+          "url": "https://alba-uy-sport890-sport890.stream.mediatiquestream.com/index.m3u8",
+          "votes": 150,
+          "differs": [
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1460042c-4f10-49f5-96a1-add6b66aa97c",
+        "name": "FM HIT 90.3 Uruguay",
+        "url": "https://hit-1.nty.uy/stream",
+        "votes": 178
+      },
+      "variants": [
+        {
+          "stationuuid": "a0a10c9c-bbd9-42e8-9434-5adce44abb20",
+          "name": "Oldies FM",
+          "url": "https://hit-1.nty.uy/stream",
+          "votes": 75,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c1fcf486-32a4-483d-b320-b18e8f0a93ce",
+          "name": "FM HIT 90.3 Uruguay",
+          "url": "https://hit-1.nty.uy/stream",
+          "votes": 46,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "18087743-12ee-4146-b489-06de52475956",
+        "name": "mundo fm uruguay",
+        "url": "http://emisiones.com.uy:8088/mundo",
+        "votes": 177
+      },
+      "variants": [
+        {
+          "stationuuid": "b58eb7ad-0076-46c7-9e32-643aac0a7801",
+          "name": "Mundo fm",
+          "url": "http://emisiones.com.uy:8088/mundo",
+          "votes": 49,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9c8f064d-36f9-4b99-a73b-06c3c3b32811",
+        "name": "M24 · La radio que nos mueve (97.9  / 102.5 )",
+        "url": "https://streaming1.hostingmontevideo.com/8034/stream",
+        "votes": 154
+      },
+      "variants": [
+        {
+          "stationuuid": "90cd7767-efc5-4fdc-873b-8743049a667b",
+          "name": "M24 - 97.9 fm MVD y 102.5 fm Maldonado",
+          "url": "https://streaming1.hostingmontevideo.com/8034/stream",
+          "votes": 22,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d17ddeb6-141f-451e-993d-29c7e0ddb113",
+        "name": "Metropolis 104.9",
+        "url": "https://metropolis-web-1.nty.uy/",
+        "votes": 125
+      },
+      "variants": [
+        {
+          "stationuuid": "ce48e0e0-6878-4d4b-b3d6-f070b98ccf7f",
+          "name": "Metropolis 104.9",
+          "url": "https://metropolis-web-1.nty.uy/",
+          "votes": 83,
+          "differs": []
+        },
+        {
+          "stationuuid": "faf37379-c155-4afb-9908-35e8a3b25c7b",
+          "name": "Metropolis Punta 95.9",
+          "url": "https://metropolis-web-1.nty.uy/",
+          "votes": 25,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "e85f8bca-0c5a-4dea-841f-4187e1138957",
+          "name": "Metropolis Punta 95.9",
+          "url": "https://metropolis-web-1.nty.uy/",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d72b4036-96c4-47fb-bc8e-05131ad20f3d",
+        "name": "Del Plata FM 95.5",
+        "url": "https://alba-uy-delplata-delplata.stream.mediatiquestream.com/index.m3u8",
+        "votes": 116
+      },
+      "variants": [
+        {
+          "stationuuid": "b0cfe0f0-87f1-4083-aefd-b4727f620584",
+          "name": "Del Plata FM 95.5",
+          "url": "https://alba-uy-delplata-delplata.stream.mediatiquestream.com/index.m3u8",
+          "votes": 60,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4632db98-adcb-4e3a-9e8c-a887cee1554c",
+        "name": "Azul Punta del Este 93.5",
+        "url": "https://icecasthd.net/proxy/azulp/live",
+        "votes": 39
+      },
+      "variants": [
+        {
+          "stationuuid": "ea34b646-98d2-4a0c-9423-ae6fdd001737",
+          "name": "Azul Punta del Este 93.5",
+          "url": "https://icecasthd.net/proxy/azulp/live",
+          "votes": 32,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "945780f5-b760-4e9e-8cae-fed86cd97af5",
+        "name": "El Libertador",
+        "url": "https://streamingraddios.online/proxy/llamadad?mp=/stream",
+        "votes": 28
+      },
+      "variants": [
+        {
+          "stationuuid": "5e70c41b-acac-4ab5-a3c0-ca56b9279635",
+          "name": "El Libertador 1210 AM",
+          "url": "https://streamingraddios.online/proxy/llamadad?mp=/stream",
+          "votes": 26,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "79666604-0028-4b8b-9c56-21817a9de438",
+        "name": "Radio Chiveo",
+        "url": "https://comodin.uy/listen/chiveo/128.mp3",
+        "votes": 28
+      },
+      "variants": [
+        {
+          "stationuuid": "66edf56c-88c7-448b-bbe0-e7273ed33a36",
+          "name": "Radio Chiveo",
+          "url": "https://comodin.uy/listen/chiveo/128.mp3",
+          "votes": 19,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "29ac4355-f7dc-4f40-937d-40c758ade054",
+        "name": "Diamante FM 98.7",
+        "url": "https://radiolatina.live/8058/stream",
+        "votes": 25
+      },
+      "variants": [
+        {
+          "stationuuid": "15be12be-59a4-4919-8b50-e14c94ed9e66",
+          "name": "Diamante FM 98.7",
+          "url": "https://radiolatina.live/8058/stream",
+          "votes": 13,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5c9715f2-c513-4201-814b-8782eb088838",
+        "name": "Carve Deportiva",
+        "url": "https://streamingcasazorrilla.innovanexo.com:8000/carvedeportiva.mp3",
+        "votes": 25
+      },
+      "variants": [
+        {
+          "stationuuid": "f56e8034-0284-4a45-a532-37fe7ae6fa17",
+          "name": "Carve Deportiva",
+          "url": "https://streamingcasazorrilla.innovanexo.com:8000/carvedeportiva.mp3",
+          "votes": 11,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5f663a9d-5fd5-4a87-ad42-ce839c222fd0",
+        "name": "ARAPEY (AM 1450)",
+        "url": "http://emisiones.com.uy:8085/arapey",
+        "votes": 23
+      },
+      "variants": [
+        {
+          "stationuuid": "c982f62f-5107-4741-9317-ed1b4d2d72eb",
+          "name": "Radio Arapey",
+          "url": "http://emisiones.com.uy:8085/arapey",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b65915bf-7400-4c6e-9972-f18f7d6f71e5",
+        "name": "Multimedios Rincón FM 107.7 - Fray Bentos",
+        "url": "https://rincon2-zikoxweb.radioca.st/stream",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "b3240664-f82b-41e6-b81f-e6cf805cdab9",
+          "name": "Multimedios Rincón FM 107.7 - Fray Bentos",
+          "url": "https://rincon2-zikoxweb.radioca.st/stream",
+          "votes": 12,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "17d4fc6c-878d-4431-b48a-9774d183f31e",
+        "name": "Difusora Treinta y Tres 1390 AM",
+        "url": "https://server-usa2.radioseninternet.net/8132/stream",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "c0877115-5b48-4aff-82cd-e6e416f3467b",
+          "name": "Radio Difusora 33",
+          "url": "https://server-usa2.radioseninternet.net/8132/stream",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fb331621-caf7-4d84-94a5-3a665e23063f",
+        "name": "Radio Babilonia",
+        "url": "http://89.167.37.248:8000/listen/babilonia2/radio.mp3",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "3b667a9b-c2ed-47f4-ac8c-3ce916888cdf",
+          "name": "Radio Babilonia",
+          "url": "http://89.167.37.248:8000/listen/babilonia2/radio.mp3",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

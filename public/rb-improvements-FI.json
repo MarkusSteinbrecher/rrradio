@@ -1,0 +1,340 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.870Z",
+  "country": "FI",
+  "sourceProbedAt": "2026-04-30T07:04:57.667Z",
+  "totals": {
+    "deadStreams": 9,
+    "internalDupes": 13,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "cae0fb22-8935-11e8-aa66-52543be04c81",
+      "name": "Radio Nova",
+      "url": "https://stream.bauermedia.fi/radionova/radionova_128.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 478,
+      "lastProbedAt": "2026-04-30T07:04:50.521Z"
+    },
+    {
+      "stationuuid": "af0a88c3-8936-11e8-aa66-52543be04c81",
+      "name": "Radio SuomiRock",
+      "url": "https://stream.bauermedia.fi/suomirock/suomirock_128.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 399,
+      "lastProbedAt": "2026-04-30T07:04:50.516Z"
+    },
+    {
+      "stationuuid": "451e4f89-5318-4995-b3ab-b10610874f6b",
+      "name": "Iskelmä",
+      "url": "https://stream.bauermedia.fi/iskelma/iskelma_128.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 105,
+      "lastProbedAt": "2026-04-30T07:04:52.065Z"
+    },
+    {
+      "stationuuid": "ac6dc287-20f4-4e8d-8748-ec0691acadd3",
+      "name": "NRJ Suomi",
+      "url": "https://stream.bauermedia.fi/nrj/nrj_128.mp3?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein&aw_0_1st.skey=1667679042www",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 91,
+      "lastProbedAt": "2026-04-30T07:04:52.063Z"
+    },
+    {
+      "stationuuid": "3a1f4391-13bb-408a-9762-ee8b756e1d96",
+      "name": "Radio Pooki",
+      "url": "https://stream.bauermedia.fi/radiopooki/radiopooki_128.mp3?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein&aw_0_1st.skey=1697625781",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 33,
+      "lastProbedAt": "2026-04-30T07:04:53.663Z"
+    },
+    {
+      "stationuuid": "aab6a396-57b6-46e4-9c9d-3e1b1e81b2c1",
+      "name": "Radio Nova",
+      "url": "https://stream.bauermedia.fi/radionova/radionova_64.aac",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 31,
+      "lastProbedAt": "2026-04-30T07:04:53.660Z"
+    },
+    {
+      "stationuuid": "348c186a-e554-4376-950c-12c78027050d",
+      "name": "Radio Nova",
+      "url": "https://stream.radioplay.fi/radionova/radionova_64.aac?aw_0_1st.skey=1692715205&aw_0_1st.bauer_loggedin=false",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 24,
+      "lastProbedAt": "2026-04-30T07:04:54.680Z"
+    },
+    {
+      "stationuuid": "6152c69d-0fa1-493e-ae8b-fafb0f58988d",
+      "name": "Radio Nova",
+      "url": "https://stream.bauermedia.fi/radionova/radionova_64.aac?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein&aw_0_1st.skey=1744811390",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T07:04:56.058Z"
+    },
+    {
+      "stationuuid": "8b24c4d7-2d16-47c1-8411-7103f1f75c97",
+      "name": "Tranceport FM",
+      "url": "https://a12.asurahosting.com/listen/tranceport_fm/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T07:04:56.140Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "c3a2ea0a-85ee-4b98-81fd-b75169da9ebd",
+        "name": "Yle Radio1HIFI 256 Kb/s",
+        "url": "http://icecast.live.yle.fi/radio/YleRadio1Hifi/icecast.audio",
+        "votes": 710
+      },
+      "variants": [
+        {
+          "stationuuid": "f6d91cef-82e6-4bd7-92ea-1c98e99cf3d0",
+          "name": "Yle Radio 1 Hifi",
+          "url": "http://icecast.live.yle.fi/radio/YleRadio1Hifi/icecast.audio",
+          "votes": 240,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962c3d1d-0601-11e8-ae97-52543be04c81",
+        "name": "Kaaosradio - 24h Chill",
+        "url": "http://stream.kaaosradio.fi:8000/chill",
+        "votes": 597
+      },
+      "variants": [
+        {
+          "stationuuid": "07a8b5e3-3cb9-47dc-8bcf-4c96b7b199f6",
+          "name": "Kaaos Radio 24h Chill",
+          "url": "http://stream.kaaosradio.fi:8000/chill",
+          "votes": 51,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6489b751-acf5-413a-8b53-e345eee56fbb",
+        "name": "Yle Radio Suomi, Helsinki",
+        "url": "http://icecast.live.yle.fi/radio/YleRS/icecast.audio",
+        "votes": 499
+      },
+      "variants": [
+        {
+          "stationuuid": "0fbf6ebe-052e-4799-a244-525b7cfffcac",
+          "name": "Yle Radio Suomi, Helsinki",
+          "url": "http://icecast.live.yle.fi/radio/YleRS/icecast.audio",
+          "votes": 73,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "35351baf-4094-429f-860c-875f2c567384",
+        "name": "Järviradio",
+        "url": "https://jarviradio.radiotaajuus.fi:9000/jr",
+        "votes": 260
+      },
+      "variants": [
+        {
+          "stationuuid": "cc11cce3-f00f-4543-b1c4-d867e0d0cea4",
+          "name": "Järviradio",
+          "url": "https://jarviradio.radiotaajuus.fi:9000/jr",
+          "votes": 35,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1f9f88c2-f9a3-4554-bee2-0afcf2483aa3",
+        "name": "Ylex",
+        "url": "https://yleradiolive.akamaized.net/hls/live/2027674/in-YleX/master.m3u8",
+        "votes": 187
+      },
+      "variants": [
+        {
+          "stationuuid": "dc975029-d89e-4536-8a7d-e0033c3a6b14",
+          "name": "YleX",
+          "url": "https://yleradiolive.akamaized.net/hls/live/2027674/in-YleX/master.m3u8",
+          "votes": 78,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e5d11894-7c55-4fbc-94c4-fa78596013c0",
+        "name": "YleRadioSuomiTampere",
+        "url": "https://icecast.live.yle.fi/radio/YleTampere/icecast.audio",
+        "votes": 173
+      },
+      "variants": [
+        {
+          "stationuuid": "ec8d5679-6b61-49b5-9bfc-3e71a8777c44",
+          "name": "YLE Radio Suomi - Tampere",
+          "url": "https://icecast.live.yle.fi/radio/YleTampere/icecast.audio",
+          "votes": 30,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "85166474-fa4a-4063-acd2-4990c1644810",
+        "name": "Radio Nova",
+        "url": "https://stream-redirect.bauermedia.fi/radionova/radionova_64.aac?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein",
+        "votes": 162
+      },
+      "variants": [
+        {
+          "stationuuid": "3f123871-dbca-4e37-b97c-6caf70315a1d",
+          "name": "Radio Nova",
+          "url": "https://stream-redirect.bauermedia.fi/radionova/radionova_64.aac?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein",
+          "votes": 48,
+          "differs": [
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d1ac1341-04fd-4e18-ba2c-c6bd6d28a1af",
+        "name": "Radio Musa",
+        "url": "http://n09.radiojar.com/n6yg5q0z8vzuv.m4a",
+        "votes": 107
+      },
+      "variants": [
+        {
+          "stationuuid": "2eb39e30-910b-4627-bd7c-ccd092cd37d7",
+          "name": "Radio Musa",
+          "url": "http://n09.radiojar.com/n6yg5q0z8vzuv.m4a",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962c6927-0601-11e8-ae97-52543be04c81",
+        "name": "Sea fm",
+        "url": "http://s3.myradiostream.com:4976/;",
+        "votes": 95
+      },
+      "variants": [
+        {
+          "stationuuid": "25ef1f3b-6399-4ad4-ab68-8a61a8cc1fb2",
+          "name": "Sea FM Radio",
+          "url": "http://s3.myradiostream.com:4976/;",
+          "votes": 30,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aab6a396-57b6-46e4-9c9d-3e1b1e81b2c1",
+        "name": "Radio Nova",
+        "url": "https://stream.bauermedia.fi/radionova/radionova_64.aac",
+        "votes": 31
+      },
+      "variants": [
+        {
+          "stationuuid": "6152c69d-0fa1-493e-ae8b-fafb0f58988d",
+          "name": "Radio Nova",
+          "url": "https://stream.bauermedia.fi/radionova/radionova_64.aac?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein&aw_0_1st.skey=1744811390",
+          "votes": 2,
+          "differs": [
+            "url",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a32f25c3-c9cf-405e-be18-9707212f9b98",
+        "name": "Roll FM",
+        "url": "https://rollfm.online/",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "0269dbb3-a6a5-4919-a92e-94be46bb8fd8",
+          "name": "RollFM",
+          "url": "https://rollfm.online/",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8d2b0d19-687e-420b-a29a-31d62e939c97",
+        "name": "Radio SUN",
+        "url": "https://st.downtime.fi/sun.mp3",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "f46a7f78-6fbd-4251-a44f-33024264fab6",
+          "name": "Radio Sun",
+          "url": "https://st.downtime.fi/sun.mp3",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5ebce343-df89-4add-91e4-35ae5fb43f47",
+        "name": "RADIO SANDELS",
+        "url": "https://radiosandels.radiotaajuus.fi:9050/radio",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "df8a5795-f3bb-4e72-ae0a-87c8455625bf",
+          "name": "Radio Sandels",
+          "url": "https://radiosandels.radiotaajuus.fi:9050/radio",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

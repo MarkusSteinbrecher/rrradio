@@ -1,0 +1,634 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.883Z",
+  "country": "PE",
+  "sourceProbedAt": "2026-04-30T11:52:41.539Z",
+  "totals": {
+    "deadStreams": 15,
+    "internalDupes": 23,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "4d1246e6-4fcd-422c-b4d7-ed7dda3bad57",
+      "name": "Ovación 620 AM",
+      "url": "https://5c3fb01839654.streamlock.net:1963/ipradioovacion1/liveovacion1radio/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1218,
+      "lastProbedAt": "2026-04-30T11:52:25.855Z"
+    },
+    {
+      "stationuuid": "672121fa-a8fe-42a8-9b92-ae1fb76d0e8c",
+      "name": "Ovación (620 AM)",
+      "url": "https://5c3fb01839654.streamlock.net:1963/ipradioovacion1/liveovacion1radio/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1143,
+      "lastProbedAt": "2026-04-30T11:52:26.025Z"
+    },
+    {
+      "stationuuid": "501b16b1-45d4-4256-a23b-2e2810580c8d",
+      "name": "Radio Clasica Rock&Pop",
+      "url": "https://sonicpanel.globalstream.pro/8042/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 909,
+      "lastProbedAt": "2026-04-30T11:52:35.923Z"
+    },
+    {
+      "stationuuid": "4bee79c9-8de2-4655-98a5-3deb09ed54ad",
+      "name": "Radio Loreto",
+      "url": "https://sp.oyotunstream.com/8006/stream",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
+      "votes": 569,
+      "lastProbedAt": "2026-04-30T11:52:27.545Z"
+    },
+    {
+      "stationuuid": "0d935fad-46e5-409e-83cf-dc52c2a618f1",
+      "name": "Nuevo tiempo Perú",
+      "url": "https://stream.live.novotempo.com/radio/smil:rntLimaPE.smil/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 471,
+      "lastProbedAt": "2026-04-30T11:52:27.993Z"
+    },
+    {
+      "stationuuid": "5f88cbd7-ca6e-4f78-b01d-bfc9e98e86b4",
+      "name": "Radio victor music Perú  ",
+      "url": "https://stream-157.zeno.fm/wymz9unt88quv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ3eW16OXVudDg4cXV2IiwiaG9zdCI6InN0cmVhbS0xNTcuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiQ21LejNpb3dRQi1YaFB0UEVvaXdTUSIsImlhdCI6MTc2ODQ1NTI0OSwiZXhwIjoxNzY4NDU1MzA5fQ.Or-d35ALnw-1V4GplCUxyoYFrYa0Aflx0S729hWT4j8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 176,
+      "lastProbedAt": "2026-04-30T11:52:31.923Z"
+    },
+    {
+      "stationuuid": "b0f9409c-63e5-4fa0-b519-4acb38595375",
+      "name": "Nuevo Tiempo",
+      "url": "https://stream.live.novotempo.com/radio/smil:rntLimaPE.smil/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 101,
+      "lastProbedAt": "2026-04-30T11:52:33.447Z"
+    },
+    {
+      "stationuuid": "0a8af387-a731-47c8-8945-41d1674ecdfa",
+      "name": "Radio Un Hueco en el Espacio",
+      "url": "https://cloudstream2032.conectarhosting.com/8106/stream",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
+      "votes": 78,
+      "lastProbedAt": "2026-04-30T11:52:34.562Z"
+    },
+    {
+      "stationuuid": "e5b390cb-7ff8-40d4-aeff-0e3eb6ae58b0",
+      "name": "Corporación Radial E&L - Ocalli, Luya",
+      "url": "https://stream-175.zeno.fm/ve5kqm6deq3vv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ2ZTVrcW02ZGVxM3Z2IiwiaG9zdCI6InN0cmVhbS0xNzUuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiTjhBX2xMWjdSSUtGbi1hUTk0dEZpdyIsImlhdCI6MTc2ODQ2MTA4MywiZXhwIjoxNzY4NDYxMTQzfQ.Ix2BpTnOlZh1TxOvzC8b902-XclRpKzE4LCG6xXSrrc",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 49,
+      "lastProbedAt": "2026-04-30T11:52:36.065Z"
+    },
+    {
+      "stationuuid": "ac66e81c-79fd-4bc4-ac79-44bc90135375",
+      "name": "Radio Urbana (Caraz - Ancash Peru)",
+      "url": "https://144.76.202.93:10905/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 47,
+      "lastProbedAt": "2026-04-30T11:52:35.938Z"
+    },
+    {
+      "stationuuid": "fd8ee3a7-62b6-45a8-9f72-2d07ceb6adbe",
+      "name": "RADIO UNICAR ",
+      "url": "https://maximacenterdata.com/8086/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 19,
+      "lastProbedAt": "2026-04-30T11:52:38.450Z"
+    },
+    {
+      "stationuuid": "516d1e5b-dec2-45d2-b3ec-0b879f24346a",
+      "name": "Radio Ebenezer",
+      "url": "https://strm.dal.s02.oneofthebest.org/listen/8090_radio_ebenezer/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 13,
+      "lastProbedAt": "2026-04-30T11:52:39.246Z"
+    },
+    {
+      "stationuuid": "ac8275ed-3c9d-484c-b0b5-003e754357d5",
+      "name": "Doble Nueve - Millennial",
+      "url": "https://conectperu.com:7001/stream?icy=http",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T11:52:39.876Z"
+    },
+    {
+      "stationuuid": "d737723e-e383-4fa2-9c01-d31c3f252117",
+      "name": "Doble Nueve - Millennial",
+      "url": "https://conectperu.com:7001/stream?icy=http",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T11:52:40.022Z"
+    },
+    {
+      "stationuuid": "aea943d1-c427-41e6-bd3f-18b4400a5954",
+      "name": "MUSIC OKEY",
+      "url": "https://stream.rcast.net/73429",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 500",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T11:52:41.537Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "6126eeef-43c0-4f10-b9bc-9fd66f2f3cd9",
+        "name": "Radio La Mega",
+        "url": "https://mdstrm.com/audio/5fada56fe4e09508207a7951/icecast.audio",
+        "votes": 1991
+      },
+      "variants": [
+        {
+          "stationuuid": "3c0ef243-094c-4e34-b43a-6eca2fa24d3f",
+          "name": "RADIO MEGA MIX 96.7 FM Perú",
+          "url": "https://mdstrm.com/audio/5fada56fe4e09508207a7951/icecast.audio",
+          "votes": 203,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b895c3bb-d170-449e-87b4-7e858476c052",
+        "name": "RPP Mundial (Perú)",
+        "url": "https://us-b4-p-e-cg11-audio.cdn.mdstrm.com/live-audio-aw/5faee885eb830d06cf22ed4a/playlist.m3u8?listeningSessionID=636caa560fe65225_1006885_YNhDxhXb__0000001B3Ny&downloadSessionID=0&aid=5faaeb72f92d7b07dfe10181&dnt=true&uid=4KOWgzZ9nfekeotUYauzmeKrOQfRCQma&sid=LhXvvJVKZUrLvqSvYiI4DFZ2YiVMf0Uw&pid=GhVrREycHyvqzg9XezY4IhgwwgiPzsgQ&ref=audioplayer.pe&es=us-b4-p-e-cg11-audio.cdn.mdstrm.com&ote=1669158810445&ot=-57RkzEDB4oSQczBsPKIMw&proto=https&pz=us&cP=128000&awCollectionId=5faaeb72f92d7b07dfe10181&aw_0_1st.playerId=audioplayer_web&liveId=5faee885eb830d06cf22ed4a&referer=https%3A%2F%2Faudioplayer.pe%2F&propertyName=audioplayer_web&propertyType=web-app&propertyVersion=v0.0.199",
+        "votes": 1985
+      },
+      "variants": [
+        {
+          "stationuuid": "f429df0c-72e0-4f54-9e00-82222f9c1739",
+          "name": "RPP Mundial",
+          "url": "https://us-b4-p-e-cg11-audio.cdn.mdstrm.com/live-audio-aw/5faee885eb830d06cf22ed4a/playlist.m3u8?listeningSessionID=636caa560fe65225_1005617_y9ORJb3Z__0000001ATBc&downloadSessionID=0&aid=5faaeb72f92d7b07dfe10181&dnt=true&uid=R0YDAgaCoCna5VhlmeSkEilXCeaz9BmW&sid=1OoLSrd1pEQN1qdcGRZwIs6kaDEDCse4&pid=LbnY5aQEpPclOhLeiCC5KkywxPJ6fKyG&ref=audioplayer.pe&es=us-b4-p-e-cg11-audio.cdn.mdstrm.com&ote=1669157542833&ot=WNEzttzLwoMwo5R84PAaRA&proto=https&pz=us&cP=128000&awCollectionId=5faaeb72f92d7b07dfe10181&aw_0_1st.playerId=audioplayer_web&liveId=5faee885eb830d06cf22ed4a&referer=https%3A%2F%2Faudioplayer.pe%2F&propertyName=audioplayer_web&propertyType=web-app&propertyVersion=v0.0.199",
+          "votes": 375,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "97a514db-b31f-4bd7-97c7-d308195644d3",
+        "name": "Radio La Zona (90.5 FM, Lima)",
+        "url": "https://mdstrm.com/audio/5fada54116646e098d97e6a5/icecast.audio",
+        "votes": 1375
+      },
+      "variants": [
+        {
+          "stationuuid": "8d0aec80-3705-4068-b982-866e5a3a3a3b",
+          "name": "Radio Onda Cero",
+          "url": "https://mdstrm.com/audio/5fada54116646e098d97e6a5/icecast.audio",
+          "votes": 1003,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4d1246e6-4fcd-422c-b4d7-ed7dda3bad57",
+        "name": "Ovación 620 AM",
+        "url": "https://5c3fb01839654.streamlock.net:1963/ipradioovacion1/liveovacion1radio/playlist.m3u8",
+        "votes": 1218
+      },
+      "variants": [
+        {
+          "stationuuid": "672121fa-a8fe-42a8-9b92-ae1fb76d0e8c",
+          "name": "Ovación (620 AM)",
+          "url": "https://5c3fb01839654.streamlock.net:1963/ipradioovacion1/liveovacion1radio/playlist.m3u8",
+          "votes": 1143,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7f8a02e2-24c9-4ac9-8bae-84ddbd73fa68",
+        "name": "Radio Chocolate Rock & Pop",
+        "url": "https://stream.zeno.fm/g2w7ukzh64zuv",
+        "votes": 788
+      },
+      "variants": [
+        {
+          "stationuuid": "0162a574-ea7c-4b22-97fd-e30c012992f5",
+          "name": "Radio Chocolate Rock & Pop",
+          "url": "https://stream.zeno.fm/g2w7ukzh64zuv",
+          "votes": 438,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a6c10cf4-6332-40e2-91fd-bba111eea953",
+        "name": "Tropical-Tarapoto",
+        "url": "https://shoutcast.tmcreativos.com/proxy/radiotropical?mp=/stream",
+        "votes": 547
+      },
+      "variants": [
+        {
+          "stationuuid": "9ec4f807-72f0-403e-99bc-dc167b147be3",
+          "name": "Radio Tropical Tarapoto",
+          "url": "https://shoutcast.tmcreativos.com/proxy/radiotropical?mp=/stream",
+          "votes": 45,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a856a1dc-8d76-4e56-9116-8fbc385c4d13",
+        "name": "Z Rock & Pop",
+        "url": "https://radioz.egostreaming.pe/radio/3e4f6a1b2c3d4e567890abcd/",
+        "votes": 475
+      },
+      "variants": [
+        {
+          "stationuuid": "a57621f1-f88c-4157-9d29-c3e88b8a8af8",
+          "name": "Z Rock & Pop",
+          "url": "https://radioz.egostreaming.pe/radio/3e4f6a1b2c3d4e567890abcd/",
+          "votes": 399,
+          "differs": []
+        },
+        {
+          "stationuuid": "3e758e7e-63e2-4517-96d6-8dc95b691b42",
+          "name": "Z Rock & Pop",
+          "url": "https://radioz.egostreaming.pe/radio/3e4f6a1b2c3d4e567890abcd/",
+          "votes": 8,
+          "differs": []
+        },
+        {
+          "stationuuid": "5cef5eb4-8666-42a7-8ae2-22e96946bcbc",
+          "name": "Z Rock & Pop",
+          "url": "https://radioz.egostreaming.pe/radio/3e4f6a1b2c3d4e567890abcd/",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0d935fad-46e5-409e-83cf-dc52c2a618f1",
+        "name": "Nuevo tiempo Perú",
+        "url": "https://stream.live.novotempo.com/radio/smil:rntLimaPE.smil/playlist.m3u8",
+        "votes": 471
+      },
+      "variants": [
+        {
+          "stationuuid": "b0f9409c-63e5-4fa0-b519-4acb38595375",
+          "name": "Nuevo Tiempo",
+          "url": "https://stream.live.novotempo.com/radio/smil:rntLimaPE.smil/playlist.m3u8",
+          "votes": 101,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "194fd928-8664-4543-b0c1-5eda742161e9",
+        "name": "Rock and Pop Classics",
+        "url": "https://stream.zeno.fm/kusrlthtbhltv",
+        "votes": 440
+      },
+      "variants": [
+        {
+          "stationuuid": "bd6254ae-cca3-4aff-a639-c488f7abfffc",
+          "name": "Rock and Pop Classics",
+          "url": "https://stream.zeno.fm/kusrlthtbhltv",
+          "votes": 215,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "87196b80-8fb8-4b18-922a-3da0dbb14cff",
+        "name": "Red Radio Integridad (RRI)",
+        "url": "https://dattavolt.com/8164/stream",
+        "votes": 229
+      },
+      "variants": [
+        {
+          "stationuuid": "0cfa6e11-54f7-4ed1-8bb9-98277f101494",
+          "name": "RRI",
+          "url": "https://dattavolt.com/8164/stream",
+          "votes": 69,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6cb587d4-6514-4d0e-b194-a867d8257955",
+        "name": "Radio San Martín",
+        "url": "https://conectperu.com:7020/stream?icy=http",
+        "votes": 195
+      },
+      "variants": [
+        {
+          "stationuuid": "38d6dee5-c099-4b84-a727-87523ea30611",
+          "name": "Radio San Martin - Arequipa",
+          "url": "https://conectperu.com:7020/stream?icy=http",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "443f405d-9bed-4073-b4b5-93f9b1d93c51",
+          "name": "Radio San Martin - Arequipa",
+          "url": "https://conectperu.com:7020/stream?icy=http",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4c19dd70-7049-43c2-98a1-ff37b37cad91",
+        "name": "La Kalle 96.1 Lima",
+        "url": "https://lakalle.egostreaming.pe/radio/a7b9c3e4567f8d0123456789/",
+        "votes": 146
+      },
+      "variants": [
+        {
+          "stationuuid": "a24b7e8c-d627-434e-ab61-61ab7b31ccec",
+          "name": "La Kalle 96.1",
+          "url": "https://lakalle.egostreaming.pe/radio/a7b9c3e4567f8d0123456789/",
+          "votes": 115,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6b9d7198-b3bd-4ecf-ab29-009637277857",
+        "name": "Radio Concierto - FM 95.1",
+        "url": "https://conectperu.com/8012/stream",
+        "votes": 132
+      },
+      "variants": [
+        {
+          "stationuuid": "268c0110-b927-4586-8f24-3664b8c02641",
+          "name": "CONCIERTO PUNTA",
+          "url": "https://conectperu.com/8012/stream",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ab21a670-5d48-4369-976d-313df87cf791",
+        "name": "Mundo Beatles Radio (MP3)",
+        "url": "http://stream.zeno.fm/y79be89qxrhvv",
+        "votes": 106
+      },
+      "variants": [
+        {
+          "stationuuid": "0f4f620b-612c-4f34-97de-a3b8236bb7be",
+          "name": "Mundo Beatles (MP3)",
+          "url": "http://stream.zeno.fm/y79be89qxrhvv",
+          "votes": 67,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a29da81b-602e-4d1f-b27a-44823d94e1ed",
+        "name": "Radio Exitosa",
+        "url": "https://neptuno-2-audio.mediaserver.digital/79525baf-b0f5-4013-a8bd-3c5c293c6561",
+        "votes": 99
+      },
+      "variants": [
+        {
+          "stationuuid": "3d8310a1-33fe-4244-9cba-476b6c86cab0",
+          "name": "Radio Exitosa",
+          "url": "https://neptuno-2-audio.mediaserver.digital/79525baf-b0f5-4013-a8bd-3c5c293c6561",
+          "votes": 3,
+          "differs": []
+        },
+        {
+          "stationuuid": "05d97dd4-27f4-41cb-a62b-f28da950e637",
+          "name": "Radio Exitosa",
+          "url": "https://neptuno-2-audio.mediaserver.digital/79525baf-b0f5-4013-a8bd-3c5c293c6561",
+          "votes": 2,
+          "differs": []
+        },
+        {
+          "stationuuid": "4568a8f9-9198-427d-991c-1ec3b0f8c861",
+          "name": "Radio Exitosa 95.5 FM",
+          "url": "https://neptuno-2-audio.mediaserver.digital/79525baf-b0f5-4013-a8bd-3c5c293c6561",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c347fcda-b9c6-4515-8119-eff5e2190d2b",
+          "name": "Radio Exitosa",
+          "url": "https://neptuno-2-audio.mediaserver.digital/79525baf-b0f5-4013-a8bd-3c5c293c6561",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "07563164-7ad1-4549-92e0-6f282a5d897c",
+        "name": "Viva FM Smart",
+        "url": "https://tupanel.info:8780/stream",
+        "votes": 90
+      },
+      "variants": [
+        {
+          "stationuuid": "1ea712a3-2d57-49ee-8d97-a217aaff84f2",
+          "name": "Viva FM",
+          "url": "https://tupanel.info:8780/stream",
+          "votes": 45,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "914aee43-15ad-493d-b956-da04e2c03d76",
+        "name": "Radio Yaraví",
+        "url": "https://tupanel.info/stream/radioyaravi/stream",
+        "votes": 89
+      },
+      "variants": [
+        {
+          "stationuuid": "40fffcb2-0c77-4317-95ed-b37e5a685bff",
+          "name": "RADIO YARAVI",
+          "url": "https://tupanel.info/stream/radioyaravi/stream",
+          "votes": 38,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5ee9bf79-c6c0-4c6d-b835-17100d8517fe",
+        "name": "JVM la Estación",
+        "url": "https://jvmlaestacion.stream.laut.fm/jvmlaestacion?t302=2026-01-15_03-26-34&uuid=969fb784-b6c6-46dd-8ea6-991eca7166aa",
+        "votes": 77
+      },
+      "variants": [
+        {
+          "stationuuid": "66fe51f9-4632-46dc-9d6c-35005d35052d",
+          "name": "JVM la Estación (Cusco)",
+          "url": "https://jvmlaestacion.stream.laut.fm/jvmlaestacion?t302=2026-01-15_04-34-56&uuid=09ed593b-f76a-4a34-98b6-daca2d17a37b",
+          "votes": 54,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8481703a-c170-4cca-b2ce-1cde3b638211",
+        "name": "La unica Tropical",
+        "url": "https://stream-178.zeno.fm/see4wpyr9bhvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJzZWU0d3B5cjliaHZ2IiwiaG9zdCI6InN0cmVhbS0xNzguemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiamt0THk4UXZSWUt3aUF4cXg3ZWRsQSIsImlhdCI6MTc2ODQ0NzM4NCwiZXhwIjoxNzY4NDQ3NDQ0fQ.6Y9xDVSTu2GXPviwkmqUsvRHhV0rXrZqs4oxWH-6JI0",
+        "votes": 61
+      },
+      "variants": [
+        {
+          "stationuuid": "9fea14fb-9a13-48fa-bdd2-67f7da77e46f",
+          "name": "La unica Tropical",
+          "url": "https://stream-178.zeno.fm/see4wpyr9bhvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJzZWU0d3B5cjliaHZ2IiwiaG9zdCI6InN0cmVhbS0xNzguemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiSkZ0TE1CY3VRLXlrUENmQm5jOG0tZyIsImlhdCI6MTc2ODQ1NTE5NywiZXhwIjoxNzY4NDU1MjU3fQ.mlCKXxGJ4omWp3GPthE7NFCB938-bgZ5KKLjybX84Yk",
+          "votes": 35,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "066d74a1-ae0f-4fea-9393-e102bd337e5c",
+        "name": "Sol Frecuencia Primera Radio",
+        "url": "https://cast6.asurahosting.com/proxy/solfrecu/stream",
+        "votes": 52
+      },
+      "variants": [
+        {
+          "stationuuid": "5c352d0d-eeaf-4321-8f96-8bb53a47fc16",
+          "name": "Radio Frecuencia Primera",
+          "url": "https://cast6.asurahosting.com/proxy/solfrecu/stream",
+          "votes": 20,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "23f2ae09-b645-4e59-ac8a-f8a5b5d774b4",
+        "name": "RADIO SINPATRONES (AREQUIPA)",
+        "url": "https://panelautodj.innovatestream.pe:10685/",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "49260d39-d36e-4d62-b7e8-0c1d5fe836e9",
+          "name": "Radio SinPatrones",
+          "url": "https://panelautodj.innovatestream.pe:10685/",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "05714870-2b6d-4abd-9b46-55444b584af4",
+          "name": "Radio SinPatrones (Valle de Tambo)",
+          "url": "https://panelautodj.innovatestream.pe:10685/",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ac8275ed-3c9d-484c-b0b5-003e754357d5",
+        "name": "Doble Nueve - Millennial",
+        "url": "https://conectperu.com:7001/stream?icy=http",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "d737723e-e383-4fa2-9c01-d31c3f252117",
+          "name": "Doble Nueve - Millennial",
+          "url": "https://conectperu.com:7001/stream?icy=http",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d9716f97-5b1e-4e55-8deb-bc4ed4b9b884",
+        "name": "Radio La tremenda",
+        "url": "https://radio.latremenda.pe/X7K9F2M4P8Q1W3R5T6Y",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "ee4f190b-72a9-4006-900d-54a75bbfcfc0",
+          "name": "Radio La tremenda",
+          "url": "https://radio.latremenda.pe/X7K9F2M4P8Q1W3R5T6Y",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

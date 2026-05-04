@@ -1,0 +1,2549 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.889Z",
+  "country": "UG",
+  "sourceProbedAt": "2026-04-30T12:33:00.488Z",
+  "totals": {
+    "deadStreams": 4,
+    "internalDupes": 79,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "7fcbbd5e-daca-4377-8389-cf1580c93441",
+      "name": "Yofochm",
+      "url": "https://c13.radioboss.fm:18053/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 97,
+      "lastProbedAt": "2026-04-30T12:33:00.488Z"
+    },
+    {
+      "stationuuid": "795c4de2-9670-4c34-9477-2e95e20dc829",
+      "name": "ABC NEWS RADIO ",
+      "url": "https://content.uplynk.com/channel/3324f2467c414329b3b0cc5cd987b6be.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 82,
+      "lastProbedAt": "2026-04-30T12:32:51.138Z"
+    },
+    {
+      "stationuuid": "7a06a6e8-edfd-446a-8e07-1631571e36c7",
+      "name": "abc News",
+      "url": "https://content.uplynk.com/channel/3324f2467c414329b3b0cc5cd987b6be.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 72,
+      "lastProbedAt": "2026-04-30T12:32:51.378Z"
+    },
+    {
+      "stationuuid": "7985c041-95a9-4e81-9f49-12ec8004582c",
+      "name": "Open Gate FM 103.2",
+      "url": "https://139.162.195.139:8010/radio.mp3?1722393699669",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 49,
+      "lastProbedAt": "2026-04-30T12:32:52.679Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "9a8f7fb5-3159-11ea-afca-52543be04c81",
+        "name": "Akaboozi FM 87.9",
+        "url": "http://162.244.80.52:8732/stream.mp3",
+        "votes": 17223
+      },
+      "variants": [
+        {
+          "stationuuid": "c1dda143-90d9-47e1-810b-48ee56b8ece0",
+          "name": "AKABOOZI FM",
+          "url": "http://162.244.80.52:8732/stream.mp3",
+          "votes": 2238,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "039e4828-55aa-45c5-a33f-0e70f98742ed",
+          "name": "87.9 Kaboozi fm",
+          "url": "http://162.244.80.52:8732/stream.mp3",
+          "votes": 1278,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "94495c5b-9f3e-4f90-a7fc-bc2ef1c8e383",
+          "name": "87.9 Kaboozi Fm",
+          "url": "http://162.244.80.52:8732/stream.mp3",
+          "votes": 759,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "47aeb481-6946-4680-9f4e-ced487f187cc",
+          "name": "87.9 Kaboozi Fm",
+          "url": "http://162.244.80.52:8732/stream.mp3",
+          "votes": 80,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "0a84213c-3e7e-418b-b9ec-267746d3bcdc",
+          "name": "KABOOZI FM",
+          "url": "http://162.244.80.52:8732/stream.mp3",
+          "votes": 51,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7f753b43-eb65-4638-bcea-8dbaaf620b0d",
+        "name": "98.7 Mutundwe Christian Fellowship ",
+        "url": "https://streams.radio.co/s79fbbb432/listen",
+        "votes": 13399
+      },
+      "variants": [
+        {
+          "stationuuid": "537565d8-5c99-4a23-a583-3e5b93ac9d2f",
+          "name": "MCF FM",
+          "url": "https://streams.radio.co/s79fbbb432/listen",
+          "votes": 3452,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "a33d7ec8-32fa-4015-a70d-90fce7839681",
+          "name": "98.7 Mutundwe Christian Fellowship ",
+          "url": "https://streams.radio.co/s79fbbb432/listen",
+          "votes": 3092,
+          "differs": []
+        },
+        {
+          "stationuuid": "0114c1b2-2a78-400e-9777-5a7215ec928e",
+          "name": "MCF RADIO ",
+          "url": "https://streams.radio.co/s79fbbb432/listen",
+          "votes": 2726,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b7091c03-c698-11e8-a498-52543be04c81",
+        "name": "Capital FM",
+        "url": "http://5229.cloudrad.io:8316/;",
+        "votes": 10539
+      },
+      "variants": [
+        {
+          "stationuuid": "bfff0877-39db-4c59-b4a5-55df13df10ed",
+          "name": "91. 3 Capital fm",
+          "url": "http://5229.cloudrad.io:8316/;",
+          "votes": 404,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d70c4a12-fbb1-444c-ae20-4449e50a6d63",
+          "name": "CAPITAL FM",
+          "url": "http://5229.cloudrad.io:8316/;",
+          "votes": 391,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8c2f7fcb-0a7d-43d8-8c29-d0108604e453",
+          "name": "CAPITAL FM",
+          "url": "http://5229.cloudrad.io:8316/;",
+          "votes": 320,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "1d556aa0-3c7d-44e0-94d0-fd3199afcac1",
+          "name": "CAPITAL FM",
+          "url": "http://5229.cloudrad.io:8316/;",
+          "votes": 154,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "692c6138-a5be-4cee-a7d8-e1e1811c7449",
+          "name": "91.3 Capital Fm",
+          "url": "http://5229.cloudrad.io:8316/;",
+          "votes": 147,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "e0b1b515-d65a-4e8b-a5a1-19ce59624f64",
+          "name": "CAPITAL FM",
+          "url": "http://5229.cloudrad.io:8316/;",
+          "votes": 69,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4da58b40-1b21-45fa-bd95-633141c85bb5",
+          "name": "CAPITAL FM",
+          "url": "http://5229.cloudrad.io:8316/;",
+          "votes": 59,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "86780c91-4067-4746-8ae2-96a8cb75f8c4",
+        "name": "Beat FM 96.3",
+        "url": "http://5230.cloudrad.io:8354/",
+        "votes": 5926
+      },
+      "variants": [
+        {
+          "stationuuid": "0cce3851-758c-4671-9288-a1bb45313474",
+          "name": "96.3 Beat fm",
+          "url": "http://5230.cloudrad.io:8354/",
+          "votes": 472,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "502b8905-f8c8-4396-9d9c-ac5ec3fe79d7",
+          "name": "96.3 Beat Fm Ekintabuli ",
+          "url": "http://5230.cloudrad.io:8354/",
+          "votes": 242,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "a09e253f-5c34-4dd3-b742-9220b3eaf1f6",
+          "name": "96.3 Beat fm",
+          "url": "http://5230.cloudrad.io:8354/",
+          "votes": 201,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "5513a8e5-401f-457e-b16d-750f368bb97e",
+          "name": "BEAT FM ",
+          "url": "http://5230.cloudrad.io:8354/",
+          "votes": 190,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "a647c98e-dc58-4045-95af-539133ef317e",
+          "name": "96.3 Beat Fm",
+          "url": "http://5230.cloudrad.io:8354/",
+          "votes": 184,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "0c08143d-3dfd-4eda-990e-68d493440bca",
+          "name": "BEAT FM",
+          "url": "http://5230.cloudrad.io:8354/",
+          "votes": 98,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "17db3a3f-9c97-4561-8e38-3a32e6af02eb",
+          "name": "BEAT FM",
+          "url": "http://5230.cloudrad.io:8354/",
+          "votes": 94,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "93479acd-38b5-491a-a7e5-a04719b9fd52",
+          "name": "BEAT FM",
+          "url": "http://5230.cloudrad.io:8354/",
+          "votes": 70,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "488ec719-5aaa-11e9-a622-52543be04c81",
+        "name": "RADIO MARIA UGANDA",
+        "url": "http://dreamsiteradiocp.com:8052/stream",
+        "votes": 5328
+      },
+      "variants": [
+        {
+          "stationuuid": "ead916ba-3727-41bb-91d2-95e2e95fdcc1",
+          "name": "101.8 Radio maria",
+          "url": "http://dreamsiteradiocp.com:8052/stream",
+          "votes": 233,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "9bebf0ac-9715-48e4-afeb-1fa3060ef272",
+          "name": "RADIO MARIA UG",
+          "url": "http://dreamsiteradiocp.com:8052/stream",
+          "votes": 54,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "a0f396d3-6b01-4875-a504-b3a68ca05cce",
+          "name": "101.8 Radio Maria",
+          "url": "http://dreamsiteradiocp.com:8052/stream",
+          "votes": 32,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bf8d199f-e158-4205-bd1d-7cec0b8158aa",
+        "name": "107.9 Pearl Fm",
+        "url": "https://dc4.serverse.com/proxy/pearlfm/stream/1/",
+        "votes": 4590
+      },
+      "variants": [
+        {
+          "stationuuid": "b6989b83-7ee0-48b5-bbe5-c00d1b558bed",
+          "name": "107.9 Pearl Fm",
+          "url": "https://dc4.serverse.com/proxy/pearlfm/stream/1/",
+          "votes": 139,
+          "differs": []
+        },
+        {
+          "stationuuid": "b810ec6d-41fc-46bf-8aa0-59d7552103fb",
+          "name": "PEARL FM",
+          "url": "https://dc4.serverse.com/proxy/pearlfm/stream/1/",
+          "votes": 103,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "38cff2cb-ad3d-4c56-a49a-46ccde9b6ec5",
+          "name": "107.9 Pearl Fm",
+          "url": "https://dc4.serverse.com/proxy/pearlfm/stream/1/",
+          "votes": 75,
+          "differs": []
+        },
+        {
+          "stationuuid": "326bdf4e-4fdc-452a-a302-fbffb552c2e1",
+          "name": "PEARL FM",
+          "url": "https://dc4.serverse.com/proxy/pearlfm/stream/1/",
+          "votes": 65,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "97ef6ea6-b8c1-40a4-894c-e38e87f29e46",
+        "name": "Sanyu Fm",
+        "url": "http://s44.myradiostream.com:8138/stream",
+        "votes": 3445
+      },
+      "variants": [
+        {
+          "stationuuid": "7658ace6-1eea-4898-9107-cbf276ba98c4",
+          "name": "SANYU FM",
+          "url": "http://s44.myradiostream.com:8138/stream",
+          "votes": 474,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "764e1e79-bef9-4f94-861b-781a5f689d61",
+          "name": "88.2 Sanyu Fm",
+          "url": "http://s44.myradiostream.com:8138/stream",
+          "votes": 84,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "49f409da-6ddb-43cd-80ff-af069a032d42",
+          "name": "SANYU FM",
+          "url": "http://s44.myradiostream.com:8138/stream",
+          "votes": 26,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e2d2f120-6771-4e92-8fff-7e5ba1052414",
+        "name": "95.5 Radio Buddu ",
+        "url": "https://dc4.serverse.com/proxy/ccmxrgub/stream",
+        "votes": 2879
+      },
+      "variants": [
+        {
+          "stationuuid": "28908138-4d4d-494d-a07e-90215025ebf8",
+          "name": "98.8 Buddu Fm",
+          "url": "https://dc4.serverse.com/proxy/ccmxrgub/stream",
+          "votes": 1741,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "5c80d758-f4ad-40bd-9fab-51c4cb2b4e86",
+          "name": "BUDDU FM",
+          "url": "https://dc4.serverse.com/proxy/ccmxrgub/stream",
+          "votes": 452,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "13c79848-b2bd-4d7d-b61c-dc1a0177e3a3",
+          "name": "98.8 Radio Buddu",
+          "url": "https://dc4.serverse.com/proxy/ccmxrgub/stream",
+          "votes": 97,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4bfdc6b3-d0dd-41c6-8f3e-da986b89ab42",
+          "name": "RADIO BUDDU",
+          "url": "https://dc4.serverse.com/proxy/ccmxrgub/stream",
+          "votes": 94,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ec2b2a99-231e-41db-98db-a0223ee54b9c",
+          "name": "Radio Buddu",
+          "url": "https://dc4.serverse.com/proxy/ccmxrgub/stream?",
+          "votes": 41,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c5db7864-b093-4844-8e0b-d63885cb0a79",
+        "name": "Radio one",
+        "url": "http://162.244.80.52:8740/stream",
+        "votes": 2737
+      },
+      "variants": [
+        {
+          "stationuuid": "9ffd7514-92bd-4a7b-9a93-383c2659cc21",
+          "name": "Radio One",
+          "url": "http://162.244.80.52:8740/stream",
+          "votes": 93,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e6a801bb-598b-452d-b2da-6a67042802b0",
+        "name": "KIIS Uganda",
+        "url": "http://14867.cloudrad.io:9224/live",
+        "votes": 2083
+      },
+      "variants": [
+        {
+          "stationuuid": "f9249ee5-c1f1-4f5d-a363-7323801a6f2a",
+          "name": "KIIS 100.9 - Kampala - 100.9 FM (MP3)",
+          "url": "http://14867.cloudrad.io:9224/live",
+          "votes": 188,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "26d4385e-5f91-4df0-a119-06ec9f1ecd98",
+        "name": "BUSOGA ONE",
+        "url": "https://stream.zeno.fm/xna2aad7gc9uv",
+        "votes": 1547
+      },
+      "variants": [
+        {
+          "stationuuid": "9c8455bd-97f5-44cc-814a-1d3b5d2c548e",
+          "name": "90.6 Busoga one fm",
+          "url": "https://stream.zeno.fm/xna2aad7gc9uv",
+          "votes": 359,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4cd715fe-82f8-4a6e-81a2-669d15981863",
+          "name": "90.6 Busoga One Fm",
+          "url": "https://stream.zeno.fm/xna2aad7gc9uv",
+          "votes": 344,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "bf1e1dd1-e72c-4999-8415-e014c28ea647",
+          "name": "90.6 Busoga One ",
+          "url": "https://stream.zeno.fm/xna2aad7gc9uv",
+          "votes": 96,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8ddf1492-891e-40d9-b6b1-91ddf96033aa",
+          "name": "BUSOGA ONE FM",
+          "url": "https://stream.zeno.fm/xna2aad7gc9uv",
+          "votes": 89,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "99d2519d-e346-4cc1-b5ee-121e3b862924",
+          "name": "90.6 Busoga One Fm",
+          "url": "https://stream.zeno.fm/xna2aad7gc9uv",
+          "votes": 71,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "5acf6983-302d-4593-8678-5b7b8fda7403",
+          "name": "90.6 Busoga One",
+          "url": "https://stream.zeno.fm/xna2aad7gc9uv",
+          "votes": 50,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "87c77451-e85a-4c6c-947a-3a3100384a0c",
+          "name": "90.6 Busoga One",
+          "url": "https://stream.zeno.fm/xna2aad7gc9uv",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1647efb2-a9aa-42d4-975b-2124b5530a5c",
+        "name": "107.3 BBC Radio Uganda ",
+        "url": "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_west_africa",
+        "votes": 1435
+      },
+      "variants": [
+        {
+          "stationuuid": "00db5066-d3ea-4dd7-a573-119b00bd623d",
+          "name": "BBC UGANDA ",
+          "url": "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_west_africa",
+          "votes": 1136,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "036fe0fb-4140-416f-8e35-865a34e6182d",
+          "name": "BBC AFRICA UG",
+          "url": "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_west_africa",
+          "votes": 537,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "621a3f1f-b37a-4806-b5cf-235f4f781d09",
+          "name": "BBC Radio  Uganda ",
+          "url": "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_west_africa",
+          "votes": 354,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c6474252-4fb0-4fe0-9222-afee4fa86e14",
+          "name": "BBC AFRICA UG",
+          "url": "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_west_africa",
+          "votes": 242,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "fcddd5dd-e76c-45f2-943a-a9267fcdfe69",
+          "name": "107.3 BBC Radio Uganda ",
+          "url": "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_west_africa",
+          "votes": 234,
+          "differs": []
+        },
+        {
+          "stationuuid": "85958962-63de-4f63-b509-908feab96a38",
+          "name": "BBC WORLD SERVICE ",
+          "url": "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_west_africa",
+          "votes": 136,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b655615d-5723-441e-9648-72cbc7937669",
+          "name": "BBC Radio ",
+          "url": "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_west_africa",
+          "votes": 110,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "683d312a-f0b1-4079-9fbb-5c31555b69d2",
+          "name": "BBC WORLD SERVICE ",
+          "url": "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_west_africa",
+          "votes": 99,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "7c94e1c8-c1ef-4c9e-aa71-41565643ee12",
+          "name": "BBC WORLD SERVICE ",
+          "url": "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_west_africa",
+          "votes": 79,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d9059129-1426-4994-a2cb-e3da14f8e0c4",
+          "name": "BBC Radio ",
+          "url": "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_west_africa",
+          "votes": 54,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7851fcf3-b13d-4404-aafa-13ff1462a6cd",
+        "name": "Capital FM - 91.3 FM (MP3)",
+        "url": "http://capitalfm.cloudrad.io/stream",
+        "votes": 1276
+      },
+      "variants": [
+        {
+          "stationuuid": "1c987055-1074-4d7b-950a-63e009e03d94",
+          "name": "Capital FM - Kampala - 91.3 FM (MP3)",
+          "url": "http://capitalfm.cloudrad.io/stream",
+          "votes": 126,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "669d9741-afe2-48fb-a0f7-609afbbadd7f",
+          "name": "CAPITAL FM UG",
+          "url": "http://capitalfm.cloudrad.io/stream",
+          "votes": 53,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "02e26eb2-a558-4203-b0ea-088f6df44b54",
+          "name": "CAPITAL FM UK",
+          "url": "http://capitalfm.cloudrad.io/stream",
+          "votes": 28,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6a807fd5-b07d-47bd-9a59-2725c1ab2c80",
+        "name": "MCF Radio - Kampala - 98.7 FM (MP3)",
+        "url": "http://streams.radio.co/s79fbbb432/listen",
+        "votes": 1011
+      },
+      "variants": [
+        {
+          "stationuuid": "09eb5a6b-b3e2-4b35-b1a8-77f3b2c5e714",
+          "name": "98.7 MCF Radio ",
+          "url": "http://streams.radio.co/s79fbbb432/listen",
+          "votes": 162,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "5de5ad98-84e8-48bf-814a-cc0d0833b8bf",
+          "name": "MCF RADIO UG",
+          "url": "http://streams.radio.co/s79fbbb432/listen",
+          "votes": 96,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "971b5ae7-1474-4c4b-841a-fce8fcfe43d9",
+        "name": "91.6 Christ Fm",
+        "url": "http://5.135.154.69:15664/;",
+        "votes": 838
+      },
+      "variants": [
+        {
+          "stationuuid": "9fae09d9-251e-46b7-8db1-e6060940f697",
+          "name": "91.6 Christ Fm",
+          "url": "http://5.135.154.69:15664/;",
+          "votes": 48,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1ff2e73e-a58a-48cb-b3bc-996962b3a07e",
+        "name": "Old School Music ",
+        "url": "https://ilikeitoldskool.radioca.st/stream",
+        "votes": 671
+      },
+      "variants": [
+        {
+          "stationuuid": "9a493417-b690-4411-be2a-4e2e463b2a4a",
+          "name": "THROWBACK RADIO",
+          "url": "https://ilikeitoldskool.radioca.st/stream",
+          "votes": 27,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "00a75b7b-44a9-4176-a52a-a1eda110c91c",
+        "name": "Smooth",
+        "url": "http://media-the.musicradio.com/SmoothLondonMP3",
+        "votes": 614
+      },
+      "variants": [
+        {
+          "stationuuid": "c3ef6bb9-d7d3-4679-952d-55c87e8e1f32",
+          "name": "SMOOTH FM",
+          "url": "http://media-the.musicradio.com/SmoothLondonMP3",
+          "votes": 85,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a7f67ce6-da3a-489f-81bc-ef07946323e8",
+        "name": "TALKSPORT 1",
+        "url": "https://radio.talksport.com/stream",
+        "votes": 587
+      },
+      "variants": [
+        {
+          "stationuuid": "31eca474-0908-4278-bac4-51bc1d2ea82b",
+          "name": "Talksport Premier League ",
+          "url": "https://radio.talksport.com/stream",
+          "votes": 412,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "332dea4e-6bd1-441d-87ea-20741495a73b",
+          "name": "Talksport Premier League",
+          "url": "https://radio.talksport.com/stream",
+          "votes": 372,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4e7604ac-dcd1-462e-aa9e-dea4fcc32bdb",
+          "name": "Talksport Premier League ",
+          "url": "https://radio.talksport.com/stream",
+          "votes": 310,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "18c3c67b-4b7d-401e-b9e1-07f4fc53e963",
+          "name": "Talksport Premier League ",
+          "url": "https://radio.talksport.com/stream",
+          "votes": 286,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "61303ac9-56d6-4b75-90e0-17fcc66d274b",
+          "name": "Talksport Premier League ",
+          "url": "https://radio.talksport.com/stream",
+          "votes": 223,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4cfa9db9-b17e-42bd-afe9-66ade5257499",
+          "name": "Sport Live",
+          "url": "https://radio.talksport.com/stream",
+          "votes": 74,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "2c145b8b-da8a-414b-a081-5be1ee3c3e39",
+          "name": "TalkSport",
+          "url": "https://radio.talksport.com/stream",
+          "votes": 36,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ef8c3b90-771f-48a1-8967-ae9ddd4f9295",
+          "name": "TalkSport 1",
+          "url": "https://radio.talksport.com/stream",
+          "votes": 21,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "1be568e5-2662-43ae-a260-3f204244d6b9",
+          "name": "Talksport ",
+          "url": "https://radio.talksport.com/stream?aw_0_1st.platform=website&aw_0_1st.playerid=wireless-website&aw_0_req.gdpr=true&aw_0_awz.listenerid=#ADVERTISINGID&_=383957",
+          "votes": 20,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "02024dbd-1dbb-4977-a689-a2eb3447a973",
+        "name": "Capital FM Uganda",
+        "url": "https://capitalfm.cloudrad.io/stream",
+        "votes": 542
+      },
+      "variants": [
+        {
+          "stationuuid": "175cba5d-1fd0-4a79-b359-16548ae500ef",
+          "name": "91.2 Capital FM",
+          "url": "https://capitalfm.cloudrad.io/stream",
+          "votes": 34,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5e9d405a-891b-4727-93a0-2a3e20849b1d",
+        "name": "98.7 MCF Radio ",
+        "url": "http://ice.audionow.com/6283KLASSportsRadioopus.ogg",
+        "votes": 445
+      },
+      "variants": [
+        {
+          "stationuuid": "3f5ac97e-070c-44d0-8f11-37bb2a888290",
+          "name": "KLAS RADIO JAMAICA ",
+          "url": "http://ice.audionow.com/6283KLASSportsRadioopus.ogg",
+          "votes": 193,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "62d86c82-b667-4f2a-8a8e-319e715d5281",
+          "name": "89.5 Klas sports radio Jamaica",
+          "url": "http://ice.audionow.com/6283KLASSportsRadioopus.ogg",
+          "votes": 27,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "65038dc3-4b77-4ab3-964a-f2a907a00252",
+          "name": "KLAS SPORTS RADIO ",
+          "url": "http://ice.audionow.com/6283KLASSportsRadioopus.ogg",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "3c23a154-09a3-42a8-b9af-6ad13fae51ee",
+          "name": "Klas Sports ",
+          "url": "http://ice.audionow.com/6283KLASSportsRadioopus.ogg",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f6915798-4272-4700-a04c-a05f12f026a9",
+          "name": "Klas Sports Radio ",
+          "url": "http://ice.audionow.com/6283KLASSportsRadioopus.ogg",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d0ae2f77-4734-41aa-a609-0a9441a5ca50",
+          "name": "Klas Sports Radio ",
+          "url": "http://ice.audionow.com/6283KLASSportsRadioopus.ogg",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "56d2d8d9-292b-470e-adfc-eea69932917b",
+        "name": "106.1 Next Radio ",
+        "url": "https://stream-154.zeno.fm/lbca7zintcnuv?zs=P9UBEqoSSr69riqZniMYMw",
+        "votes": 444
+      },
+      "variants": [
+        {
+          "stationuuid": "fcab4b3f-fecb-4c7d-964b-3f7b8d6a46b8",
+          "name": "NEXT RADIO UG",
+          "url": "https://stream-154.zeno.fm/lbca7zintcnuv?zs=P9UBEqoSSr69riqZniMYMw",
+          "votes": 115,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "6a208ad3-4933-4247-8b02-f695fae45503",
+          "name": "106.1 NxtRadio",
+          "url": "https://stream-154.zeno.fm/lbca7zintcnuv?zs=P9UBEqoSSr69riqZniMYMw",
+          "votes": 36,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "892e3a5e-b658-498a-9895-6232543415a1",
+          "name": "106.1 NxtRadio",
+          "url": "https://stream-154.zeno.fm/lbca7zintcnuv?zs=P9UBEqoSSr69riqZniMYMw",
+          "votes": 27,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e4229939-e215-48cf-a75a-313391409214",
+        "name": "Radio One FM 90 - 90.0 FM (MP3)",
+        "url": "http://radioone.loftuganda.tech/stream",
+        "votes": 435
+      },
+      "variants": [
+        {
+          "stationuuid": "d1041465-eb31-4044-8e07-cef9b67624c3",
+          "name": "97 Radio City ",
+          "url": "http://radioone.loftuganda.tech/stream",
+          "votes": 105,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "3a5dfa0a-9840-4ffe-a468-aa0f0760acbd",
+          "name": "Radio One FM 90 - Kampala - 90.0 FM (MP3)",
+          "url": "http://radioone.loftuganda.tech/stream",
+          "votes": 98,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ae872ff4-5277-4017-b69a-fcd748fd78b4",
+          "name": "Radio One FM 90 - 90.0 FM (MP3)",
+          "url": "http://radioone.loftuganda.tech/stream",
+          "votes": 55,
+          "differs": []
+        },
+        {
+          "stationuuid": "8b373dda-328f-445e-a80c-a0b769783de1",
+          "name": "RADIO CITY FM",
+          "url": "http://radioone.loftuganda.tech/stream",
+          "votes": 47,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6494c2db-51b0-4ef8-8669-011c1610a8de",
+        "name": "LBC RADIO ",
+        "url": "http://media-ice.musicradio.com/LBCUK",
+        "votes": 424
+      },
+      "variants": [
+        {
+          "stationuuid": "cf7475cf-95c6-4244-b585-ae1793a9ccef",
+          "name": "LBC News",
+          "url": "http://media-ice.musicradio.com/LBCUK",
+          "votes": 148,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f9a04abe-34c3-45b1-ae33-eb81337d80c8",
+          "name": "LBC News",
+          "url": "http://media-ice.musicradio.com/LBCUK",
+          "votes": 32,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4749419a-1659-4f37-92f1-5ab145605f7d",
+        "name": "NBC News Radio ",
+        "url": "http://stream.revma.ihrhls.com/zc6043",
+        "votes": 413
+      },
+      "variants": [
+        {
+          "stationuuid": "50eab176-94d5-4298-a97b-f2aa2164e757",
+          "name": "NBC News Channel ",
+          "url": "http://stream.revma.ihrhls.com/zc6043",
+          "votes": 245,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "e36585c4-faa3-4ead-9137-8805e924ce56",
+          "name": "NBC NEWS ",
+          "url": "http://stream.revma.ihrhls.com/zc6043",
+          "votes": 86,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "21cc63f7-2962-4342-8afc-d7904d514d4b",
+          "name": "NBC News Radio ",
+          "url": "http://stream.revma.ihrhls.com/zc6043",
+          "votes": 78,
+          "differs": []
+        },
+        {
+          "stationuuid": "d2b59e3a-2bda-44c5-8952-0f521e183c7c",
+          "name": "Nbc Radio News us",
+          "url": "http://stream.revma.ihrhls.com/zc6043",
+          "votes": 71,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "9eacd0ad-c01c-4bd4-8f9b-65e3a9db23f5",
+          "name": "NBC NEWS  RADIO",
+          "url": "http://stream.revma.ihrhls.com/zc6043",
+          "votes": 69,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a40fcfd1-f3c9-4a8d-b982-710da9bc593d",
+        "name": "SKY NEWS",
+        "url": "https://video.news.sky.com/snr/news/snrnews.mp3",
+        "votes": 375
+      },
+      "variants": [
+        {
+          "stationuuid": "92cd5788-7550-4b4a-b06a-65121c129a40",
+          "name": "Skynews Radio ",
+          "url": "https://video.news.sky.com/snr/news/snrnews.mp3",
+          "votes": 269,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d231d5f8-bcd8-43bb-bf79-29206581eeb3",
+          "name": "SKY NEWS UK",
+          "url": "https://video.news.sky.com/snr/news/snrnews.mp3",
+          "votes": 74,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "2b9f107c-8a62-44c5-84bf-0d99ba8a50a3",
+          "name": "Sky News ",
+          "url": "https://video.news.sky.com/snr/news/snrnews.mp3",
+          "votes": 56,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c6e7bf72-3dcf-400c-97ef-08f7eb258f7f",
+          "name": "Sky News ",
+          "url": "https://video.news.sky.com/snr/news/snrnews.mp3",
+          "votes": 51,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4d0e0088-b9fd-41df-908f-a2d0b8adbabb",
+        "name": "91.3 Lift Worship US",
+        "url": "https://emg.streamguys1.com/lift-website",
+        "votes": 364
+      },
+      "variants": [
+        {
+          "stationuuid": "844dab4f-b207-4788-9644-655bc12f0a61",
+          "name": "91.3 Lift Worship US",
+          "url": "https://emg.streamguys1.com/lift-website",
+          "votes": 213,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c04fdda3-b0f5-477b-a7a0-316ffe670524",
+        "name": "DW NEWS",
+        "url": "https://dw.audiostream.io/dw/1027/mp3/64/dw08",
+        "votes": 339
+      },
+      "variants": [
+        {
+          "stationuuid": "66964378-eb32-4758-89ca-3abda45bcbd5",
+          "name": "DW News",
+          "url": "https://dw.audiostream.io/dw/1027/mp3/64/dw08",
+          "votes": 139,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ec15a490-9922-4e08-aca8-45ad16674aed",
+        "name": "crooze fm ",
+        "url": "https://stream-159.zeno.fm/vyxwdk08apxtv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ2eXh3ZGswOGFweHR2IiwiaG9zdCI6InN0cmVhbS0xNTkuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6Imt4VUtoZGRnU0dLRGdSc0NkOE1CRHciLCJpYXQiOjE",
+        "votes": 330
+      },
+      "variants": [
+        {
+          "stationuuid": "801b0097-38b9-4247-a1cb-052d1cf737dd",
+          "name": "91.2 Crooze FM",
+          "url": "https://stream-159.zeno.fm/vyxwdk08apxtv",
+          "votes": 61,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "19ddb20f-6c38-4e50-a809-64d22e60b336",
+        "name": "Trace Urban ",
+        "url": "http://hydra.cdnstream.com/1531_backup",
+        "votes": 311
+      },
+      "variants": [
+        {
+          "stationuuid": "0be26bde-7676-4954-aa2a-dc34417a4979",
+          "name": "Trace Urban ",
+          "url": "http://hydra.cdnstream.com/1531_backup",
+          "votes": 103,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "833bef16-bb28-42df-827a-58d3c37e87c3",
+        "name": "104.4 Kaboozi Fm",
+        "url": "http://162.244.80.52:8732/;stream.mp3",
+        "votes": 298
+      },
+      "variants": [
+        {
+          "stationuuid": "c1c1d249-e2a8-4fd9-8967-f124f9dff21e",
+          "name": "87.9 Kaboozi Fm",
+          "url": "http://162.244.80.52:8732/;stream.mp3",
+          "votes": 47,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "83fb8a65-0272-4de9-9f9f-bbf1d1626bbc",
+        "name": "Christian hits radio ",
+        "url": "https://shoutcast.christianrock.net/stream/5/",
+        "votes": 275
+      },
+      "variants": [
+        {
+          "stationuuid": "db765b26-de47-4663-b418-8b25dd27e20e",
+          "name": "Christian Radio ",
+          "url": "https://shoutcast.christianrock.net/stream/5/",
+          "votes": 39,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4cff5ded-d667-4278-a82c-e6c06cb6a15a",
+        "name": "Christ FM 91.6 - Kampala - 91.6 FM (AAC)",
+        "url": "http://s39.myradiostream.com/:15664/;",
+        "votes": 246
+      },
+      "variants": [
+        {
+          "stationuuid": "f1404e93-3dd0-46f6-a505-37a77fd2dc30",
+          "name": "CHRIST FM",
+          "url": "http://s39.myradiostream.com/:15664/;",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6cefd186-dccc-4d9b-8cf7-aaf0732d485c",
+        "name": "88.2 Sanyu FM - Kampala - 88.2 FM (MP3)",
+        "url": "http://s44.myradiostream.com/8138/listen.mp3",
+        "votes": 212
+      },
+      "variants": [
+        {
+          "stationuuid": "39f27f69-ba0f-435b-8072-3794a76febc1",
+          "name": "88.2 Sanyu FM - 88.2 FM (MP3)",
+          "url": "http://s44.myradiostream.com/8138/listen.mp3",
+          "votes": 65,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "276c2bc0-0cc3-488a-8a21-88a3e7c8e1aa",
+        "name": "104.1 Favour FM - Gulu - 104.1 FM (MP3)",
+        "url": "http://us5new.listen2myradio.com:2199/listen.php?port=8138&type=ice&mount=stream",
+        "votes": 156
+      },
+      "variants": [
+        {
+          "stationuuid": "96088068-8088-4db8-bd6c-6737a3c1e865",
+          "name": "104.1 Favour FM - Gulu - 104.1 FM",
+          "url": "http://us5new.listen2myradio.com:2199/listen.php?port=8138&type=ice&mount=stream",
+          "votes": 61,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ce85013a-37a0-4e64-89bb-1d515e33befa",
+        "name": "Times radio UK",
+        "url": "http://timesradio.wireless.radio/stream",
+        "votes": 151
+      },
+      "variants": [
+        {
+          "stationuuid": "ca8fd760-80b3-4aac-a973-69805658e8cc",
+          "name": "Times Radio ",
+          "url": "http://timesradio.wireless.radio/stream",
+          "votes": 82,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c6074712-447a-464c-86f5-4ad08b4f5525",
+          "name": "Times radio UK",
+          "url": "http://timesradio.wireless.radio/stream",
+          "votes": 75,
+          "differs": []
+        },
+        {
+          "stationuuid": "72e4274f-0db2-41a4-9df2-85bacc9d264e",
+          "name": "Times Radio ",
+          "url": "http://timesradio.wireless.radio/stream",
+          "votes": 41,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d2cdf24c-0667-4874-adf4-ef9aacf1c73b",
+          "name": "Times Radio",
+          "url": "http://timesradio.wireless.radio/stream",
+          "votes": 35,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "a1f326d2-c2f1-466f-87fc-b3b431ecdbd9",
+          "name": "Times Radio ",
+          "url": "http://timesradio.wireless.radio/stream",
+          "votes": 29,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f1980be9-ea0a-49ed-8aed-7e0a311ad745",
+          "name": "Times Radio UK",
+          "url": "http://timesradio.wireless.radio/stream",
+          "votes": 29,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        },
+        {
+          "stationuuid": "cdb7f9f4-44cf-431b-943f-a96bed13d01f",
+          "name": "Times Radio",
+          "url": "http://timesradio.wireless.radio/stream",
+          "votes": 28,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f2c363c1-a77f-4b41-8f86-be0d5dcf3578",
+        "name": "English Premier League ",
+        "url": "http://13.54.221.214:8000/sen.mp3",
+        "votes": 150
+      },
+      "variants": [
+        {
+          "stationuuid": "9f897e16-14f1-470f-8f38-d0ddef347348",
+          "name": "Premier League Live",
+          "url": "http://13.54.221.214:8000/sen.mp3",
+          "votes": 94,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d00afaf3-847d-40e0-b306-55a4a41ba1a7",
+          "name": "PREMIER LEAGUE",
+          "url": "http://13.54.221.214:8000/sen.mp3",
+          "votes": 52,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f47fbfc1-445a-4c31-afc1-4098d4e7591b",
+          "name": "Premier League Live",
+          "url": "http://13.54.221.214:8000/sen.mp3",
+          "votes": 52,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "0102d9a6-24c7-4491-87ae-e84a879b9ed9",
+          "name": "Premier League Live",
+          "url": "http://13.54.221.214:8000/sen.mp3",
+          "votes": 50,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "69164a4d-b780-46b6-8c71-29f95fa3d005",
+          "name": "SEN Sports ",
+          "url": "http://13.54.221.214:8000/sen.mp3",
+          "votes": 30,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "72ed146b-bd2d-4720-9e54-5f916e53eeb1",
+        "name": "TALKSPORT ",
+        "url": "http://radio.talksport.com/stream2?awparams=platform:ts-web&amsparams=playerid:ts-web;",
+        "votes": 149
+      },
+      "variants": [
+        {
+          "stationuuid": "a8acdd46-8420-4e0f-b611-da60c5b12d98",
+          "name": "Talksport 2",
+          "url": "http://radio.talksport.com/stream2?awparams=platform:ts-web&amsparams=playerid:ts-web;",
+          "votes": 98,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "a16b5968-23ce-4c51-9b36-60b2fd09b104",
+          "name": "TALKSPORT",
+          "url": "http://radio.talksport.com/stream2?awparams=platform:ts-web&amsparams=playerid:ts-web;",
+          "votes": 52,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b5c31249-e61e-4fec-9876-f8f270c8e85e",
+          "name": "talkSPORT 2",
+          "url": "http://radio.talksport.com/stream2?ref=rf",
+          "votes": 32,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "3840b689-b649-4775-9aff-556fd8f296dc",
+          "name": "talkSPORT 2",
+          "url": "http://radio.talksport.com/stream2?ref=rf",
+          "votes": 20,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "b27fa300-c18c-4896-99f8-2ee620d0b03d",
+          "name": "talkSPORT 2",
+          "url": "http://radio.talksport.com/stream2?ref=rf",
+          "votes": 15,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d35af201-6dab-45a8-8661-d3bdce1c21ce",
+        "name": "Nup Radio 91.4",
+        "url": "https://stream.zeno.fm/gxjhbloltwluv",
+        "votes": 109
+      },
+      "variants": [
+        {
+          "stationuuid": "d4b4661d-10aa-4f6d-bd43-a7688cddc70d",
+          "name": "BLOCK FM 103.2",
+          "url": "https://stream.zeno.fm/gxjhbloltwluv",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "be7863e5-65e9-42d0-8458-cd4404c8e777",
+          "name": "BLOCK FM 103.2",
+          "url": "https://stream.zeno.fm/gxjhbloltwluv",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "19dfa3bc-a3b2-4ca6-b4fa-27f44439acc5",
+        "name": "HEART XMAS ",
+        "url": "https://media-ssl.musicradio.com/HeartXmas",
+        "votes": 102
+      },
+      "variants": [
+        {
+          "stationuuid": "771d8288-4eaf-417e-8b44-22f848d98513",
+          "name": "Heart Xmas ",
+          "url": "https://media-ssl.musicradio.com/HeartXmas",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6af24820-f8e0-43d4-87c2-c78586fa8407",
+        "name": "Bible 24/7",
+        "url": "http://c28.radioboss.fm:8335/stream",
+        "votes": 99
+      },
+      "variants": [
+        {
+          "stationuuid": "c2fc69a8-a09c-4a98-b4d6-040091a192fd",
+          "name": "BIBLE 24/7",
+          "url": "http://c28.radioboss.fm:8335/stream",
+          "votes": 45,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "0b50ad48-22b9-4f1f-bec1-8fadc6f609a5",
+          "name": "BIBLE 24/7",
+          "url": "http://c28.radioboss.fm:8335/stream",
+          "votes": 37,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "3b154ff8-de6f-45c7-be2d-91eba608c646",
+          "name": "Bible 24/7",
+          "url": "http://c28.radioboss.fm:8335/stream",
+          "votes": 37,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "009174d2-2430-4ba4-a4b4-ae04a143b744",
+        "name": "Kiira FM 88.6 - Jinja - 88.6 FM (MP3)",
+        "url": "http://stream.zeno.fm/iydttapi8rguv",
+        "votes": 97
+      },
+      "variants": [
+        {
+          "stationuuid": "38eef14f-743e-45ba-b71b-ad39ca6d383d",
+          "name": "88.6 Kiira FM ",
+          "url": "http://stream.zeno.fm/iydttapi8rguv",
+          "votes": 37,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "1a9a9129-4742-4b6b-b42f-32a976bb28d9",
+          "name": "88.6 Kiira Fm",
+          "url": "http://stream.zeno.fm/iydttapi8rguv",
+          "votes": 36,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "645ed42e-36d8-4b29-ba28-7c1d8a89f1df",
+        "name": "JOY HITS",
+        "url": "http://joyhits.online/joyhitshq.mp3",
+        "votes": 89
+      },
+      "variants": [
+        {
+          "stationuuid": "280f4391-ce9d-4a95-a545-5f97c7b3b005",
+          "name": "JOY HITS",
+          "url": "http://joyhits.online/joyhitshq.mp3",
+          "votes": 88,
+          "differs": []
+        },
+        {
+          "stationuuid": "27cb1326-b3e5-46d8-8a3d-7c2b7cf4f6d7",
+          "name": "JOY HITS RADIO ",
+          "url": "http://joyhits.online/joyhitshq.mp3",
+          "votes": 25,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "63d01766-32fa-4d0c-bfb0-c34c4b4aed18",
+          "name": "Joy hits channel ",
+          "url": "http://joyhits.online/joyhitshq.mp3",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c05cd429-6174-4d5f-b7d2-7b074776739a",
+          "name": "Joy Hits Radio ",
+          "url": "http://joyhits.online/joyhitshq.mp3",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ceeb1115-afa7-4f8c-bcdb-894eaecedeb7",
+        "name": "Country Music ",
+        "url": "http://ais-sa2.cdnstream1.com/2365_128.mp3",
+        "votes": 88
+      },
+      "variants": [
+        {
+          "stationuuid": "7efe33cf-f29b-411b-9f3d-6a50d38dcbd0",
+          "name": "Country Music ",
+          "url": "http://ais-sa2.cdnstream1.com/2365_128.mp3",
+          "votes": 72,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "891e11a9-4c60-4f72-98c6-f2b1002535c6",
+        "name": "Kitintale Christian Fellowship ",
+        "url": "https://c24.radioboss.fm:18185/stream",
+        "votes": 83
+      },
+      "variants": [
+        {
+          "stationuuid": "ea3a0843-30e1-4965-9e29-0af8390b0029",
+          "name": "KITINTALE CHRISTIAN FELLOWSHIP ",
+          "url": "https://c24.radioboss.fm:18185/stream",
+          "votes": 40,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b81137cd-a726-417c-ab15-b2ca2cd071b7",
+          "name": "88.1 Centenary Fm",
+          "url": "https://c24.radioboss.fm:18185/stream",
+          "votes": 38,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "7f6141d2-e175-4ea7-a9a6-19c21becf431",
+          "name": "Kitintale Christian Fellowship ",
+          "url": "https://c24.radioboss.fm:18185/stream",
+          "votes": 38,
+          "differs": []
+        },
+        {
+          "stationuuid": "4430fbaf-be80-4f9a-aa57-26f6ba7fcae5",
+          "name": "KITINTALE CHRISTIAN FELLOWSHIP",
+          "url": "https://c24.radioboss.fm:18185/stream",
+          "votes": 37,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "7ff25f72-c57b-4cdf-b662-67d191aa793b",
+          "name": "CENTENARY RADIO",
+          "url": "https://c24.radioboss.fm:18185/stream",
+          "votes": 24,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "cf85db3d-92c3-4503-b74c-6fa67731927c",
+          "name": "KCF",
+          "url": "https://c24.radioboss.fm:18185/stream",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "795c4de2-9670-4c34-9477-2e95e20dc829",
+        "name": "ABC NEWS RADIO ",
+        "url": "https://content.uplynk.com/channel/3324f2467c414329b3b0cc5cd987b6be.m3u8",
+        "votes": 82
+      },
+      "variants": [
+        {
+          "stationuuid": "7a06a6e8-edfd-446a-8e07-1631571e36c7",
+          "name": "abc News",
+          "url": "https://content.uplynk.com/channel/3324f2467c414329b3b0cc5cd987b6be.m3u8",
+          "votes": 72,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4a85fcc1-f668-4b01-8cc9-1f86cf6d288f",
+        "name": "Sonlife Radio ",
+        "url": "https://storage.sardius.media/archives/Ea867F3e1F56B06/events/site_5F46D0A41C/playlist-eng.m3u8",
+        "votes": 81
+      },
+      "variants": [
+        {
+          "stationuuid": "25ebd9cb-f113-46e5-910d-d20266d14e0c",
+          "name": "Sonlife Broadcasting Network ",
+          "url": "https://storage.sardius.media/archives/Ea867F3e1F56B06/events/site_5F46D0A41C/playlist-eng.m3u8",
+          "votes": 58,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f20b23cc-b795-4b50-a954-87edd2fb6bb8",
+        "name": "Smooth country ",
+        "url": "https://media-ssl.musicradio.com/SmoothCountry",
+        "votes": 76
+      },
+      "variants": [
+        {
+          "stationuuid": "e641f600-1e26-45d8-8160-35f3cee69617",
+          "name": "Smooth Country ",
+          "url": "https://media-ssl.musicradio.com/SmoothCountry",
+          "votes": 30,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "db6fc15f-68dd-43cb-91f0-881f02bdc478",
+        "name": "98.1 Isaiah FM Trinidad ",
+        "url": "https://ice66.securenetsystems.net/FFBN?playSessionID=8D29A2B7-D966-0B14-AFCD7A340AFA6C15",
+        "votes": 73
+      },
+      "variants": [
+        {
+          "stationuuid": "2ac30682-69d7-4edb-b35e-c1e4cef55cc4",
+          "name": "Isaiah Fm",
+          "url": "https://ice66.securenetsystems.net/FFBN?playSessionID=8D29A2B7-D966-0B14-AFCD7A340AFA6C15",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aa0d46b1-2c6e-44b8-9654-7f8fa756213c",
+        "name": "Smooth chill ",
+        "url": "https://media-ssl.musicradio.com/ChillMP3",
+        "votes": 67
+      },
+      "variants": [
+        {
+          "stationuuid": "34882f12-3548-4ca0-8c4a-133c10ef6c30",
+          "name": "Smooth Chill",
+          "url": "https://media-ssl.musicradio.com/ChillMP3",
+          "votes": 36,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ca3ccfb1-a176-4b41-b3bd-31f52438fb42",
+        "name": "CBN Christian ",
+        "url": "http://cbnradio.streamguys1.com/news-128K?app=cbnplayer",
+        "votes": 65
+      },
+      "variants": [
+        {
+          "stationuuid": "667c7f26-6241-48a8-a238-530770d185cf",
+          "name": "CBN News",
+          "url": "http://cbnradio.streamguys1.com/news-128K?app=cbnplayer",
+          "votes": 26,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cd84a262-96f1-410d-8c01-b59d7a2ce84f",
+        "name": "Rafa Bible radio",
+        "url": "https://gains.reviveradio.net/proxy/rafabibleradioeng?mp=/stream",
+        "votes": 52
+      },
+      "variants": [
+        {
+          "stationuuid": "589a1ab8-3bff-4eb6-a2e3-8bf86419f2e3",
+          "name": "Rafa Rafa",
+          "url": "https://gains.reviveradio.net/proxy/rafabibleradioeng?mp=/stream",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f0bf1339-2fb7-4280-9995-8e84d3e1e649",
+          "name": "Rafa Radio ",
+          "url": "https://gains.reviveradio.net/proxy/rafabibleradioeng?mp=/stream",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5917375f-b272-4570-929a-9d0bc7c1a1a8",
+        "name": "Bugwere Fm",
+        "url": "https://stream-174.zeno.fm/jddn0e0z9f0uv?zt",
+        "votes": 51
+      },
+      "variants": [
+        {
+          "stationuuid": "dd80c893-fd09-4e6c-963c-64b4dadcc8a6",
+          "name": "Bugwere Fm",
+          "url": "https://stream-174.zeno.fm/jddn0e0z9f0uv?zt",
+          "votes": 29,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "03264813-c0ea-4e7f-8ba7-63a5aef3bdc0",
+        "name": "Church Radio (MP3)",
+        "url": "http://stream.zeno.fm/k0weys53f78uv",
+        "votes": 50
+      },
+      "variants": [
+        {
+          "stationuuid": "97c6888b-e7c9-46f1-90fb-737e1599e8c1",
+          "name": "Church Radio (MP3)",
+          "url": "http://stream.zeno.fm/k0weys53f78uv",
+          "votes": 28,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0768a7e2-6d99-4421-b84e-fab0a6de8597",
+        "name": "SKYNET FM",
+        "url": "https://stream-44.zeno.fm/1uhqawtfk5zuv",
+        "votes": 50
+      },
+      "variants": [
+        {
+          "stationuuid": "de087846-93cc-4b5c-8941-ac17910ac19c",
+          "name": "Skynet Radio ",
+          "url": "https://stream-44.zeno.fm/1uhqawtfk5zuv",
+          "votes": 21,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "36a7d229-8cc2-44b9-82ec-c6065918818e",
+        "name": "FUN KIDS RADIO",
+        "url": "https://listen-funkids.sharp-stream.com/funkids.mp3",
+        "votes": 46
+      },
+      "variants": [
+        {
+          "stationuuid": "0906d356-df6e-48ce-8a21-2468b0b654d4",
+          "name": "Fun Kids Radio ",
+          "url": "https://listen-funkids.sharp-stream.com/funkids.mp3",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1ac672b1-b175-4b8e-88ef-1c8d1dd21f6f",
+        "name": "TALK RADIO ",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/TALK_RADIO_EUROPE.mp3",
+        "votes": 43
+      },
+      "variants": [
+        {
+          "stationuuid": "6a63acd1-45bc-41a0-b17c-1a070a3fd448",
+          "name": "talkRADIO ",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/TALK_RADIO_EUROPE.mp3",
+          "votes": 38,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "97fc8f85-c738-4c8e-85f7-2c3e03a59d4d",
+        "name": "talkRADIO",
+        "url": "https://radio.talkradio.co.uk/stream",
+        "votes": 42
+      },
+      "variants": [
+        {
+          "stationuuid": "047aeeee-1e05-40c6-858a-784e4b057186",
+          "name": "TALKRADIO",
+          "url": "https://radio.talkradio.co.uk/stream",
+          "votes": 39,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        },
+        {
+          "stationuuid": "4707b711-5868-4622-86da-2d5744527229",
+          "name": "talkRADIO",
+          "url": "https://radio.talkradio.co.uk/stream",
+          "votes": 29,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "270342d1-157a-466e-9a1c-fdbb1427a463",
+        "name": "Smooth Radio",
+        "url": "http://media-the.musicradio.com/SmoothEastMids",
+        "votes": 41
+      },
+      "variants": [
+        {
+          "stationuuid": "192e00d6-6b8f-4d16-82b1-bda3e80638a5",
+          "name": "Smooth Radio ",
+          "url": "http://media-the.musicradio.com/SmoothEastMids",
+          "votes": 22,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "55281986-5bd4-46f5-8dc8-b16a935a2950",
+          "name": "SMOOTH RADIO UK",
+          "url": "http://media-the.musicradio.com/SmoothEastMids",
+          "votes": 22,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6f300f52-4fa2-4334-9d8b-4d39433819c3",
+        "name": "Jewish music channel ",
+        "url": "https://stream.jewishmusicstream.com:8000/",
+        "votes": 37
+      },
+      "variants": [
+        {
+          "stationuuid": "95d63786-c406-4d85-a4c5-b147b5db2c34",
+          "name": "Jewish Music ",
+          "url": "https://stream.jewishmusicstream.com:8000/",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bc7b9c09-86b4-4e91-a401-63421f7ce007",
+        "name": "SNB",
+        "url": "https://live.radio.sonlife.olympusatmedia.com/index.m3u8",
+        "votes": 33
+      },
+      "variants": [
+        {
+          "stationuuid": "8b12afb6-e431-404d-9dfc-29876f3c1560",
+          "name": "Sonlife Broadcasting Network ",
+          "url": "https://live.radio.sonlife.olympusatmedia.com/index.m3u8",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "0bf699ea-69df-42dc-a28b-bff7cf50c8c1",
+          "name": "Son Life radio ",
+          "url": "https://live.radio.sonlife.olympusatmedia.com/index.m3u8",
+          "votes": 24,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "fab35130-01cf-4d1b-b415-0f851c80f30c",
+          "name": "SONLIFE RADIO",
+          "url": "https://live.radio.sonlife.olympusatmedia.com/index.m3u8",
+          "votes": 23,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4929b9d5-f267-4222-8265-ef60d908eafd",
+          "name": "SONLIFE BROADCASTING NETWORK ",
+          "url": "https://live.radio.sonlife.olympusatmedia.com/index.m3u8",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d11397f3-e225-42bb-bcf1-56062c8872eb",
+          "name": "SBN ",
+          "url": "https://live.radio.sonlife.olympusatmedia.com/index.m3u8",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8717deac-6996-42f1-8fac-108a5d0a082d",
+          "name": "SBN",
+          "url": "https://live.radio.sonlife.olympusatmedia.com/index.m3u8",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d093c6a2-00ba-4cdd-86fb-48e8a2766792",
+        "name": "Christ Radio - Lira (MP3)",
+        "url": "http://stream.zeno.fm/zupkzgrj4dauv",
+        "votes": 30
+      },
+      "variants": [
+        {
+          "stationuuid": "f374a93f-ee20-4a39-b05b-e677d39e9950",
+          "name": "Christ Radio - Lira (MP3)",
+          "url": "http://stream.zeno.fm/zupkzgrj4dauv",
+          "votes": 28,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3984b407-8b80-4df9-8d89-9e9fcdeaf8e2",
+        "name": "Chosen Radio Uganda (MP3)",
+        "url": "http://stream.zeno.fm/6uxwuag3srhvv",
+        "votes": 29
+      },
+      "variants": [
+        {
+          "stationuuid": "d3fb26f8-4168-4ba5-9f76-33ce96f30f93",
+          "name": "Chosen Radio Uganda (MP3)",
+          "url": "http://stream.zeno.fm/6uxwuag3srhvv",
+          "votes": 21,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e8d4cc6a-4dcb-42f4-849c-55b045f7008d",
+        "name": "Prayer Tower Radio - Kampala (MP3)",
+        "url": "http://stream.zeno.fm/ymapb78yznhvv",
+        "votes": 29
+      },
+      "variants": [
+        {
+          "stationuuid": "4125a4a9-a020-49c6-98b3-a57f6e151ae6",
+          "name": "Prayer Tower Radio (MP3)",
+          "url": "http://stream.zeno.fm/ymapb78yznhvv",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d724edf2-85d8-4d84-901e-79d1b563f9c4",
+        "name": "Ancient Faith Radio",
+        "url": "https://ancientfaith.streamguys1.com/music",
+        "votes": 28
+      },
+      "variants": [
+        {
+          "stationuuid": "9f4f75a8-616f-48d2-99f7-71090ad852a6",
+          "name": "ANCIENT FAITH RADIO",
+          "url": "https://ancientfaith.streamguys1.com/music",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4ff383c3-daaa-42b7-85b4-4b7b1c7627d1",
+        "name": "Shalom Radio Jinja (MP3)",
+        "url": "http://stream.zeno.fm/rvnov6bmdhsvv",
+        "votes": 27
+      },
+      "variants": [
+        {
+          "stationuuid": "b231113f-2c90-441d-9f7d-67fcca003bf8",
+          "name": "Shalom Radio Jinja (MP3)",
+          "url": "http://stream.zeno.fm/rvnov6bmdhsvv",
+          "votes": 14,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1542aee8-5cfe-43a8-b84f-2dd6cd9cc85d",
+        "name": "Dema Radio - Gospel Promotions (MP3)",
+        "url": "http://stream.zeno.fm/m96foqqk7bxuv",
+        "votes": 25
+      },
+      "variants": [
+        {
+          "stationuuid": "964f92e1-a1b6-4c61-95d5-d26714f04d71",
+          "name": "Dema Gospel Promotions (MP3)",
+          "url": "http://stream.zeno.fm/m96foqqk7bxuv",
+          "votes": 24,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "48fd6aa0-4fdf-4d02-8b0d-bc3dfad59138",
+          "name": "Dema Gospel Promotions (MP3)",
+          "url": "http://stream.zeno.fm/m96foqqk7bxuv",
+          "votes": 20,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4fe0d46b-3298-4f2b-8c0b-5ed6764a7b30",
+          "name": "Dema Radio - Gospel Promotions (MP3)",
+          "url": "http://stream.zeno.fm/m96foqqk7bxuv",
+          "votes": 19,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c48c3052-569e-45e1-9d9e-1a3c9f040d7c",
+        "name": "Exodus Comfort Radio - Mbarara (MP3)",
+        "url": "http://stream.zeno.fm/k2zma0qewtjvv",
+        "votes": 25
+      },
+      "variants": [
+        {
+          "stationuuid": "e5fa3388-2a63-4c74-a20d-f1fb1b1a0723",
+          "name": "Exodus Comfort Radio",
+          "url": "http://stream.zeno.fm/k2zma0qewtjvv",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "416e0acf-fa75-4a98-ab7a-30800729a41c",
+        "name": "Enjiri Radio (MP3)",
+        "url": "http://stream.zeno.fm/xdb8nazajqcvv",
+        "votes": 25
+      },
+      "variants": [
+        {
+          "stationuuid": "a0110ab4-f8e2-4e1f-b5e9-7f825ba26986",
+          "name": "Enjiri Radio",
+          "url": "http://stream.zeno.fm/xdb8nazajqcvv",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a90e506d-46c8-4e39-be7e-8f5b9118604d",
+        "name": "Sport Fm",
+        "url": "http://n0b.radiojar.com/yb7bcbkfewzuv?rj-ttl=5&rj-tok=AAABhE8OfscAWLZ-gC5hhZqxPA",
+        "votes": 23
+      },
+      "variants": [
+        {
+          "stationuuid": "eba25e96-7529-4b7b-a9a8-279b8270a837",
+          "name": "Sport Fm",
+          "url": "http://n0b.radiojar.com/yb7bcbkfewzuv?rj-ttl=5&rj-tok=AAABhE8OfscAWLZ-gC5hhZqxPA",
+          "votes": 14,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b5e63da1-8220-4924-aae2-7c5d59f50982",
+        "name": "Radio Sinza (MP3)",
+        "url": "http://stream.zeno.fm/raoopfak6k2vv",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "bfab33ba-901b-4bc4-b5ff-eeb7d3ba3c3a",
+          "name": "Radio Sinza (MP3)",
+          "url": "http://stream.zeno.fm/raoopfak6k2vv",
+          "votes": 21,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d35168a2-e74b-4d9e-a3da-a4d7d0364846",
+        "name": "Turn Radio - Revive Your Soul (MP3)",
+        "url": "http://stream.zeno.fm/cuejngegi8btv",
+        "votes": 19
+      },
+      "variants": [
+        {
+          "stationuuid": "415fe488-d8bf-447d-9b6f-54df5d761bae",
+          "name": "Turn Radio",
+          "url": "http://stream.zeno.fm/cuejngegi8btv",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "a28761b5-835e-46b3-a302-1f7767466947",
+          "name": "Turn Radio ",
+          "url": "http://stream.zeno.fm/cuejngegi8btv",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9c0e6a1e-0012-43b6-934c-2bcc4696cd66",
+        "name": "UgOnlineMedia - Kampala (MP3)",
+        "url": "http://stream.zeno.fm/8t4dtkxfgkuuv",
+        "votes": 18
+      },
+      "variants": [
+        {
+          "stationuuid": "e4810b9d-dbe7-42f5-8233-186f6295c577",
+          "name": "UgOnlineMedia - Kampala (MP3)",
+          "url": "http://stream.zeno.fm/8t4dtkxfgkuuv",
+          "votes": 15,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bd44eb37-ddb2-446d-9b10-02b4c10c0c6e",
+        "name": "Faith Radio",
+        "url": "https://nwm.streamguys1.com/ktis-am",
+        "votes": 18
+      },
+      "variants": [
+        {
+          "stationuuid": "37672ca5-f6a6-44b4-bf27-422770455b56",
+          "name": "FAITH RADIO ",
+          "url": "https://nwm.streamguys1.com/ktis-am",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "a7acf285-a164-4a72-91fe-59ed84773f40",
+          "name": "FAITH RADIO ",
+          "url": "https://nwm.streamguys1.com/ktis-am",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "da1f3935-ce1d-4dc8-ab58-b98761ea6d40",
+          "name": "Faith Radio ",
+          "url": "https://nwm.streamguys1.com/ktis-am",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d0b6ac35-a587-4b66-97c1-f742166b65a8",
+        "name": "Sanctuary FM - Kampala (MP3)",
+        "url": "http://stream.zeno.fm/vyx334hsbphvv",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "fa8609da-7b19-4945-a2aa-d6a8d15f8a85",
+          "name": "SANCTUARY FM",
+          "url": "http://stream.zeno.fm/vyx334hsbphvv",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "70a2e2cc-35ae-4e6e-ae74-597162376e6c",
+          "name": "SANCTUARY FM",
+          "url": "http://stream.zeno.fm/vyx334hsbphvv",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c59d1daf-f8b4-4d72-a56c-af51667a80fc",
+        "name": "TOYAL SOUL RADIO ",
+        "url": "https://onair7.xdevel.com/proxy/xautocloud_atvn_1069?mp=/;1/",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "80bd9deb-5dbd-45c6-9170-60de987c1414",
+          "name": "TOTAL SOUL RADIO ",
+          "url": "https://onair7.xdevel.com/proxy/xautocloud_atvn_1069?mp=/;1/",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5fc7166e-eb35-438b-b21c-96702f06c2e3",
+        "name": "Buyinza Fm",
+        "url": "http://stream.zeno.fm/wcancipcbrevv",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "16b453c0-bd84-47e3-b06f-a004b11d758b",
+          "name": "Buyinza FM (MP3)",
+          "url": "http://stream.zeno.fm/wcancipcbrevv",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "128fa745-aacc-4549-9287-747055da8680",
+        "name": "Islands FM",
+        "url": "http://radio.canstream.co.uk:8040/live.mp3",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "c521102e-70cc-453a-8c33-8a2f363b0ac8",
+          "name": "ISLANDS FM",
+          "url": "http://radio.canstream.co.uk:8040/live.mp3",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d88313f5-5787-45d2-9a2e-beebbce0baa6",
+          "name": "ISLANDS FM",
+          "url": "http://radio.canstream.co.uk:8040/live.mp3",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "06369826-f900-4530-8b29-9b5978fc1ad3",
+        "name": "Dove Fm",
+        "url": "https://ice64.securenetsystems.net/DOVEMAIN",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "39bc78cc-fb96-4595-916d-5fb7dd866bd8",
+          "name": "Dove Radio ",
+          "url": "https://ice64.securenetsystems.net/DOVEMAIN",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5e494c2a-4c3d-4a8f-9f8b-e5c92ec9c960",
+        "name": "My Radio",
+        "url": "http://myradioug.duckdns.org:8000/radio.mp3",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "6020a841-a380-43bd-b6ed-bd5b780acd9f",
+          "name": "MyRadio",
+          "url": "http://myradioug.duckdns.org:8000/radio.mp3",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

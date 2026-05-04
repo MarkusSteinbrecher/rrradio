@@ -1,0 +1,5344 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.876Z",
+  "country": "GR",
+  "sourceProbedAt": "2026-04-30T12:59:50.997Z",
+  "totals": {
+    "deadStreams": 54,
+    "internalDupes": 225,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "a4056fd3-3d24-48c0-ab75-979ac2a30159",
+      "name": "Zucca Radio",
+      "url": "https://stream.zuccaradio.com/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 651,
+      "lastProbedAt": "2026-04-30T12:59:02.652Z"
+    },
+    {
+      "stationuuid": "8f8bfe13-9411-46b4-9780-5d5f399f6e7e",
+      "name": "Στο κόκκινο 105.5",
+      "url": "https://n0a.radiojar.com/kokkino-ath.mp3?rj-ttl=5&rj-tok=AAABh-0eIcYAVz1x8OviF1g8jw",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 503",
+      "votes": 186,
+      "lastProbedAt": "2026-04-30T12:59:05.035Z"
+    },
+    {
+      "stationuuid": "f5a6fd33-479e-4953-94f4-712c5234695d",
+      "name": "Ellada 94.3",
+      "url": "https://stream.ellada943.gr:10198/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 125,
+      "lastProbedAt": "2026-04-30T12:59:06.379Z"
+    },
+    {
+      "stationuuid": "a700baca-8df7-4858-9f59-44b6e6c88514",
+      "name": "Radio Art - Oldies",
+      "url": "https://live.radioart.com/fOldies.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 92,
+      "lastProbedAt": "2026-04-30T12:59:07.511Z"
+    },
+    {
+      "stationuuid": "43b80d1b-a67f-4ea2-8016-e906b1577801",
+      "name": "Live 101 FM",
+      "url": "https://azuralive.streams.ovh/radio/8190/radio.mp3?1615372278",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 70,
+      "lastProbedAt": "2026-04-30T12:59:10.866Z"
+    },
+    {
+      "stationuuid": "b075c0de-8d0f-4b9b-a39a-8836f8f667b4",
+      "name": "Smooth Jazz 111",
+      "url": "https://cast.magicstreams.gr/sc/111radio/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 69,
+      "lastProbedAt": "2026-04-30T12:59:10.018Z"
+    },
+    {
+      "stationuuid": "b06694cb-a5ef-4ea3-a176-b3378b5efc89",
+      "name": "Electricity Web",
+      "url": "https://i9.streams.ovh/sc/electri1/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 33,
+      "lastProbedAt": "2026-04-30T12:59:16.633Z"
+    },
+    {
+      "stationuuid": "fe5d7288-54e5-474d-bfd2-c0a61fb99d30",
+      "name": "Ble 93.1 Θεσσαλονίκη",
+      "url": "https://radio.lancom.gr:9006/stream1?1706989300560",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 26,
+      "lastProbedAt": "2026-04-30T12:59:16.495Z"
+    },
+    {
+      "stationuuid": "36fe2f31-0b35-4eda-a8db-9a53a67a2670",
+      "name": "2000 sta FM",
+      "url": "https://radio.wt5.net/radio/8000/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 25,
+      "lastProbedAt": "2026-04-30T12:59:16.673Z"
+    },
+    {
+      "stationuuid": "c1f049d4-fcf9-4ad4-a3fa-94db51ac27d3",
+      "name": "Πάλκο",
+      "url": "https://cast4.magicstreams.gr:10194/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 23,
+      "lastProbedAt": "2026-04-30T12:59:17.349Z"
+    },
+    {
+      "stationuuid": "90e22c53-c626-4ac7-876d-d03d4ee8c3d2",
+      "name": "Marios BlackMan ",
+      "url": "https://control.tastreams.eu:2200/radio/black9326?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 22,
+      "lastProbedAt": "2026-04-30T12:59:17.833Z"
+    },
+    {
+      "stationuuid": "11c41ae1-06f5-44a7-85ea-5ab142b508e7",
+      "name": "Rock 104.7",
+      "url": "https://s9.yesstreaming.net:2199/proxy/anyhowmo/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 22,
+      "lastProbedAt": "2026-04-30T12:59:17.913Z"
+    },
+    {
+      "stationuuid": "29687e75-8aea-402f-8cf1-ff024e431776",
+      "name": "Larissa DeeJay 95.7",
+      "url": "https://a6.asurahosting.com:7030/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 21,
+      "lastProbedAt": "2026-04-30T12:59:18.898Z"
+    },
+    {
+      "stationuuid": "e8a48103-8fd8-461e-81dc-c68b6c983699",
+      "name": "2000 στα FM",
+      "url": "https://radio.wt5.net/radio/8000/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 19,
+      "lastProbedAt": "2026-04-30T12:59:18.474Z"
+    },
+    {
+      "stationuuid": "7be067da-2c18-4c35-99af-b10ff3db2bb7",
+      "name": "2000staFM",
+      "url": "https://radio.wt5.net/radio/8000/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 18,
+      "lastProbedAt": "2026-04-30T12:59:19.035Z"
+    },
+    {
+      "stationuuid": "abb3b7b4-522f-4420-9dbc-bdf2175d974a",
+      "name": "La Vita",
+      "url": "https://centova2.hostplus.gr/proxy/lavita?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 18,
+      "lastProbedAt": "2026-04-30T12:59:25.222Z"
+    },
+    {
+      "stationuuid": "621c83a6-2f68-419f-98a0-e41a2cd110bf",
+      "name": "Mix FM GR",
+      "url": "https://stream-69.zeno.fm/c5rxupaxvchvv?zs=VM0HMkevQYKEy2OfyoMFkg&acu-uid=727435602967&triton-uid=cookie%3A83ca5b14-582e-4c12-a5ab-255cdb39e2cb",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 17,
+      "lastProbedAt": "2026-04-30T12:59:19.928Z"
+    },
+    {
+      "stationuuid": "38af643d-f8f3-46d2-889f-dc831614b1c3",
+      "name": "Greek Oldies",
+      "url": "https://radio.newageradio.gr:8040/autodj.flac",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 15,
+      "lastProbedAt": "2026-04-30T12:59:30.840Z"
+    },
+    {
+      "stationuuid": "ca2d0314-9ca4-40bf-9087-29d090a12f79",
+      "name": "Ellada Sports 94.3 FM",
+      "url": "https://stream.ellada943.gr:10308/live.ogg",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 13,
+      "lastProbedAt": "2026-04-30T12:59:22.718Z"
+    },
+    {
+      "stationuuid": "9687eaf7-a306-4ffb-b1e0-0b1c10a0e644",
+      "name": "Essential Mix",
+      "url": "https://greeksonic.alphaserver.gr/8004/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 13,
+      "lastProbedAt": "2026-04-30T12:59:22.831Z"
+    },
+    {
+      "stationuuid": "61d6b1d2-a625-41f1-9eb6-e1b28f1cd334",
+      "name": "Orange 88.3",
+      "url": "https://netradio.live24.gr/orange883kavala",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 13,
+      "lastProbedAt": "2026-04-30T12:59:24.139Z"
+    },
+    {
+      "stationuuid": "38a3e837-16ff-49fd-b931-85ec09a8bc54",
+      "name": "Sfera Trap",
+      "url": "https://politismedia-sec3.live24.gr/sfera1022trap",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 13,
+      "lastProbedAt": "2026-04-30T12:59:24.050Z"
+    },
+    {
+      "stationuuid": "8b8502d1-39f4-4cbc-bc54-6cd34af085af",
+      "name": "Central 103.3",
+      "url": "https://i6.streams.ovh/sc/central/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 12,
+      "lastProbedAt": "2026-04-30T12:59:23.556Z"
+    },
+    {
+      "stationuuid": "531287e0-50bd-42b3-b2a7-a384e1cf4a16",
+      "name": "City 106.1",
+      "url": "https://radio.lancom.gr:9012/stream5?1700927157379",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 12,
+      "lastProbedAt": "2026-04-30T12:59:23.656Z"
+    },
+    {
+      "stationuuid": "572e9934-3bd4-4ca1-bc33-eb844e640be6",
+      "name": "City 106.1",
+      "url": "https://radio.lancom.gr:9012/stream5",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 12,
+      "lastProbedAt": "2026-04-30T12:59:24.684Z"
+    },
+    {
+      "stationuuid": "575d0526-c12e-415a-b0b2-7354ea7ee165",
+      "name": "Marios Blackman",
+      "url": "https://control.tastreams.eu:2200/radio/black9326?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 12,
+      "lastProbedAt": "2026-04-30T12:59:24.155Z"
+    },
+    {
+      "stationuuid": "2be63fd2-67ce-4cef-885b-5a569e79fa07",
+      "name": "Souxe",
+      "url": "https://n09.radiojar.com/ugs98yvkb?rj-ttl=5&rj-tok=AAABhSUTgCAAJJ7vOqIw4wkuXw",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 11,
+      "lastProbedAt": "2026-04-30T12:59:26.001Z"
+    },
+    {
+      "stationuuid": "b255a734-e5d7-4bfa-81e5-8cae29f7ca5c",
+      "name": "Arion Radio",
+      "url": "https://ice.onestreaming.com/arion",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 10,
+      "lastProbedAt": "2026-04-30T12:59:25.005Z"
+    },
+    {
+      "stationuuid": "1a930b0f-c8f5-40e8-b9e1-e7a329c03b6a",
+      "name": "Planet Web Radio GR",
+      "url": "https://cast1.asurahosting.com/proxy/planet/live",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 10,
+      "lastProbedAt": "2026-04-30T12:59:25.416Z"
+    },
+    {
+      "stationuuid": "a43cd940-ec5a-47de-b9dc-bc21686317e3",
+      "name": "Andromeda Essential Mix",
+      "url": "https://greeksonic.alphaserver.gr/8004/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 8,
+      "lastProbedAt": "2026-04-30T12:59:26.664Z"
+    },
+    {
+      "stationuuid": "ff7cc30d-7189-446f-b266-e1eeb2e9bc08",
+      "name": "LD Radio",
+      "url": "https://solid2.streamupsolutions.com/proxy/ugkkakew?mp=/;type=mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 8,
+      "lastProbedAt": "2026-04-30T12:59:28.033Z"
+    },
+    {
+      "stationuuid": "120201a1-54fe-4368-a079-2c02c02a89c9",
+      "name": "Soul Radio GR",
+      "url": "https://cast4.magicstreams.gr:10053/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-30T12:59:31.327Z"
+    },
+    {
+      "stationuuid": "8df35973-f32b-4a81-a3cd-7084b8befd15",
+      "name": "Ράδιο Ένα 87.6",
+      "url": "https://tls-chrome.live24.gr/313?http://78.129.132.7:8325/",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 7,
+      "lastProbedAt": "2026-04-30T12:59:30.614Z"
+    },
+    {
+      "stationuuid": "f5168f7a-6878-4a28-9d26-b91b0361ec0f",
+      "name": "Alpha 104.7",
+      "url": "https://stream.myip.gr/proxy/alpha1047?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 6,
+      "lastProbedAt": "2026-04-30T12:59:29.955Z"
+    },
+    {
+      "stationuuid": "32d20fbc-8752-4afe-b1ea-2fc42bdb8618",
+      "name": "PULSAR Radio",
+      "url": "https://rs-pulsar.doomdns.org:8443/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 6,
+      "lastProbedAt": "2026-04-30T12:59:40.885Z"
+    },
+    {
+      "stationuuid": "f95dfd0c-3ceb-4b04-948f-42b58f83d288",
+      "name": "Εκ Βαθέων",
+      "url": "https://ekvatheon.gr/radio-resource/high",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 5,
+      "lastProbedAt": "2026-04-30T12:59:33.333Z"
+    },
+    {
+      "stationuuid": "0f2d8734-a5dc-477f-b86a-99de305e47ee",
+      "name": "Akritas 94.8",
+      "url": "https://stream.ellada943.gr:10338/live.ogg",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T12:59:33.400Z"
+    },
+    {
+      "stationuuid": "824fe4a0-c140-4655-8e93-6b31f5992af6",
+      "name": "Ble 93.3 Κοζάνη",
+      "url": "https://radio.lancom.gr:9004/stream3?1706990199741",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T12:59:33.498Z"
+    },
+    {
+      "stationuuid": "85561c95-6e01-4ec2-890f-ce0e23387420",
+      "name": "Candia 93.6",
+      "url": "https://www.fmlive.gr/8004/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T12:59:33.920Z"
+    },
+    {
+      "stationuuid": "b5eec707-d9fc-4207-9881-5da66e937908",
+      "name": "Δίολκος 105.6",
+      "url": "https://sp1.19cloudsnetwork.gr:8020/stream?type=http&nocache=18",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T12:59:35.292Z"
+    },
+    {
+      "stationuuid": "e4e5a87c-979a-4206-91b1-ea9f6b107a31",
+      "name": "Cosmotrance Radio",
+      "url": "https://azuracast.eradioweb.com:8800/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T12:59:37.730Z"
+    },
+    {
+      "stationuuid": "5194e075-e445-412a-825d-bec0fd0b8e4c",
+      "name": "Mavento",
+      "url": "https://s12.ssl-stream.com/8024/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T12:59:37.835Z"
+    },
+    {
+      "stationuuid": "2b344f3c-2ddb-4eea-9f72-bd28c633fc40",
+      "name": "Schitul Buna Vestire - Muntele Athos",
+      "url": "https://bunavestire.mountathos.info/live",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T12:59:38.528Z"
+    },
+    {
+      "stationuuid": "249baa0e-4fd9-420e-bc9d-615f40f05963",
+      "name": "Top 93",
+      "url": "https://netradio.live24.gr/topfm93patra",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T12:59:39.296Z"
+    },
+    {
+      "stationuuid": "c00629e7-5f16-4aec-add3-9fe53386a0af",
+      "name": "Μεθόριος",
+      "url": "https://sc2.streamwithq.com:2000/stream/radiomethorios/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T12:59:39.065Z"
+    },
+    {
+      "stationuuid": "e6d259fd-1e75-402e-ae73-c8a9c1625fd6",
+      "name": "Ianos Radio",
+      "url": "https://radio.streamings.gr/proxy/feelmusic2021?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T12:59:41.860Z"
+    },
+    {
+      "stationuuid": "cfdcdc5a-582d-48de-af8d-81a086da22a8",
+      "name": "Schitul Buna Vestire - Muntele Athos",
+      "url": "https://bunavestire.mountathos.info/live",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T12:59:40.790Z"
+    },
+    {
+      "stationuuid": "c5c63b79-817a-42fb-aaae-4b10fdb37566",
+      "name": "Super Star GR",
+      "url": "https://centova.streams.gr:8016/stream?1726303819222",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T12:59:40.685Z"
+    },
+    {
+      "stationuuid": "7d1fce1f-5167-4228-b78f-5ca7b8e91ade",
+      "name": "Στο κόκκινο Πάτρας 107,7",
+      "url": "https://n01.radiojar.com/red-source?rj-ttl=5&rj-tok=AAABnLUVSBIA9XQwmBGZQZzHJw",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 503",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:59:48.576Z"
+    },
+    {
+      "stationuuid": "4fc1018e-ed2b-454a-a2ca-d1fa5c3ebe23",
+      "name": "1431AM",
+      "url": "https://www.1431am.org:8001/1431high",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:59:49.715Z"
+    },
+    {
+      "stationuuid": "688d08eb-a0ed-4713-85b7-71cc50e38b3a",
+      "name": "Giga 105.4",
+      "url": "https://s46.myradiostream.com/:7322/listen.mp3?nocache=1667217152",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 503",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:59:48.031Z"
+    },
+    {
+      "stationuuid": "ab2753d6-e5aa-43e9-acba-38a5e5062cb3",
+      "name": "my-radio-shmera-gr",
+      "url": "https://sp3.streams.ovh:8058/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:59:47.826Z"
+    },
+    {
+      "stationuuid": "374c5a52-e304-44b4-aa0c-dfd4f9c58e10",
+      "name": "tiamo.gr",
+      "url": "https://i5.streams.ovh:14126/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:59:48.697Z"
+    },
+    {
+      "stationuuid": "f03adcac-04ff-4180-932e-ab5d91f92fa8",
+      "name": "Λήμνος 97,9",
+      "url": "https://streaming.sbzsystems.com/proxy/fm00/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:59:49.190Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "b9e1f76e-41fd-11e9-aa55-52543be04c81",
+        "name": "Blues Radio",
+        "url": "http://cast3.radiohost.ovh:8352/",
+        "votes": 12678
+      },
+      "variants": [
+        {
+          "stationuuid": "c99e1b89-3b33-4408-b254-8ea1045f25b0",
+          "name": "Blues Radio Greece",
+          "url": "http://cast3.radiohost.ovh:8352/",
+          "votes": 1116,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "007ef0cb-333e-4ee3-be75-03cdc3b954d5",
+          "name": "Blues Radio",
+          "url": "http://cast3.radiohost.ovh:8352/",
+          "votes": 206,
+          "differs": []
+        },
+        {
+          "stationuuid": "ce7e3407-69d1-4d20-a2e5-6d5bd89ab336",
+          "name": "Blues Radio Greece",
+          "url": "http://cast3.radiohost.ovh:8352/",
+          "votes": 196,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ac1827e2-d38d-4f5e-abc3-2ca147cd27bf",
+          "name": "Blues Radio",
+          "url": "http://cast3.radiohost.ovh:8352/",
+          "votes": 102,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961f9a79-0601-11e8-ae97-52543be04c81",
+        "name": "Real FM 97.8",
+        "url": "http://netradio.live24.gr/realfm",
+        "votes": 9865
+      },
+      "variants": [
+        {
+          "stationuuid": "209df387-2e94-471f-bb79-f3421be6ffdf",
+          "name": "Real FM 97.8",
+          "url": "http://netradio.live24.gr/realfm",
+          "votes": 147,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b5455fcb-e07e-11e9-a8ba-52543be04c81",
+        "name": "Trance Athena",
+        "url": "http://cast.streams.ovh:8008/stream",
+        "votes": 9644
+      },
+      "variants": [
+        {
+          "stationuuid": "47f14c6e-741e-42fe-980b-98a6d1615225",
+          "name": "Trance Athena Radio",
+          "url": "http://cast.streams.ovh:8008/stream",
+          "votes": 128,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961ddf4b-0601-11e8-ae97-52543be04c81",
+        "name": "Kiss 92.9",
+        "url": "http://netradio.live24.gr/kissfmathens",
+        "votes": 9499
+      },
+      "variants": [
+        {
+          "stationuuid": "4baef746-5835-45ae-9e63-bd4103b52244",
+          "name": "Kiss 92.9",
+          "url": "http://netradio.live24.gr/kissfmathens",
+          "votes": 65,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "605b2521-e764-42ba-8be0-473fc096a3b3",
+        "name": "Zeppelin 106.7",
+        "url": "https://radiostreaming.ert.gr/ert-zeppelin",
+        "votes": 7808
+      },
+      "variants": [
+        {
+          "stationuuid": "1d7a2ef5-4cf7-475a-a24e-79c3af605486",
+          "name": "Zeppelin ",
+          "url": "https://radiostreaming.ert.gr/ert-zeppelin",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962418d1-0601-11e8-ae97-52543be04c81",
+        "name": "Παραπολιτικά FM 90.1",
+        "url": "http://netradio.live24.gr/athinaradio",
+        "votes": 6372
+      },
+      "variants": [
+        {
+          "stationuuid": "5a2ab5ea-ee5d-45d4-b3a8-0a6f48077157",
+          "name": "Παραπολιτικά FM 90.1",
+          "url": "http://netradio.live24.gr/athinaradio",
+          "votes": 23,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96463caa-0601-11e8-ae97-52543be04c81",
+        "name": "Ellinikos 93.2",
+        "url": "http://netradio.live24.gr/orange9320",
+        "votes": 5728
+      },
+      "variants": [
+        {
+          "stationuuid": "d94038a5-3001-4d8c-8508-39ca116853c2",
+          "name": "Ελληνικός 93.2",
+          "url": "http://netradio.live24.gr/orange9320",
+          "votes": 193,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "98ddb392-f89e-4a15-beaf-87e06c0e3573",
+          "name": "Ελληνικός 93.2",
+          "url": "http://netradio.live24.gr/orange9320",
+          "votes": 50,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "34486042-34ce-419f-a121-32c3735efe9e",
+          "name": "Ellinikos 93.2",
+          "url": "http://netradio.live24.gr/orange9320",
+          "votes": 26,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96103291-0601-11e8-ae97-52543be04c81",
+        "name": "Derti 98.6",
+        "url": "http://derti.live24.gr/derty1000",
+        "votes": 5112
+      },
+      "variants": [
+        {
+          "stationuuid": "41a4c385-b453-41d1-9269-329589ded18a",
+          "name": "Derti FM 98.6",
+          "url": "http://derti.live24.gr/derty1000",
+          "votes": 105,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d286d583-aab7-11e8-a907-52543be04c81",
+        "name": "Off Radio - Athens",
+        "url": "http://s3.yesstreaming.net:7062/stream",
+        "votes": 4483
+      },
+      "variants": [
+        {
+          "stationuuid": "6678d986-771c-493d-b578-6e1afedc12a2",
+          "name": "OFFRADIO",
+          "url": "http://s3.yesstreaming.net:7062/stream",
+          "votes": 751,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "964607f7-0601-11e8-ae97-52543be04c81",
+        "name": "Mad Radio 106.2",
+        "url": "http://mediaserver.mad.tv/stream",
+        "votes": 4111
+      },
+      "variants": [
+        {
+          "stationuuid": "0f7af3ab-7621-412f-bdb1-d3599e36083d",
+          "name": "Mad Radio 106.2 FM",
+          "url": "http://mediaserver.mad.tv/stream",
+          "votes": 22,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96183962-0601-11e8-ae97-52543be04c81",
+        "name": "ERA Kosmos",
+        "url": "http://radiostreaming.ert.gr/ert-kosmos",
+        "votes": 2794
+      },
+      "variants": [
+        {
+          "stationuuid": "da2e57f2-fa35-41b5-87c9-10572177e394",
+          "name": "ERA KOSMOS",
+          "url": "http://radiostreaming.ert.gr/ert-kosmos",
+          "votes": 193,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b29e5a1b-8548-475e-bf01-1d9c45c03524",
+          "name": "ERT echo KOSMOS",
+          "url": "http://radiostreaming.ert.gr/ert-kosmos",
+          "votes": 20,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c8f270d9-4836-448b-83e0-773aab6f5440",
+        "name": "Metropolis 95.5",
+        "url": "http://metropolis.live24.gr/metropolis955thess",
+        "votes": 2247
+      },
+      "variants": [
+        {
+          "stationuuid": "cc9d64d9-d2b1-4061-8df1-1aab429b9b1d",
+          "name": "Metropolis 95.5",
+          "url": "http://metropolis.live24.gr/metropolis955thess",
+          "votes": 647,
+          "differs": []
+        },
+        {
+          "stationuuid": "1aeb9f0a-fa65-4395-ad85-12efa8c3fea8",
+          "name": "Metropolis 95.5",
+          "url": "http://metropolis.live24.gr/metropolis955thess",
+          "votes": 107,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961bccf9-0601-11e8-ae97-52543be04c81",
+        "name": "1055 Rock",
+        "url": "http://radio.1055rock.gr:30000/1055",
+        "votes": 1921
+      },
+      "variants": [
+        {
+          "stationuuid": "bcc64d4b-e634-4057-9091-28f09b59bc3c",
+          "name": "1055 Rock Thessaloniki",
+          "url": "http://radio.1055rock.gr:30000/1055?ver=334672",
+          "votes": 103,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "5909a439-0b09-49d9-ad50-8889e0b4e3b1",
+          "name": "1055 ROCK - THESSALONIKI - RADIO2",
+          "url": "http://radio.1055rock.gr:30000/1055?ver=324406",
+          "votes": 63,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4ea2d213-d064-422c-bde9-e57550318023",
+        "name": "Disco Net",
+        "url": "https://stream1.468.gr/8004/stream",
+        "votes": 1747
+      },
+      "variants": [
+        {
+          "stationuuid": "0153b411-f5f3-48e9-ac72-d8e4c6765feb",
+          "name": "Disco Net Radio Athens",
+          "url": "https://stream1.468.gr/8004/stream",
+          "votes": 52,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8f174c53-5547-44d2-bb92-75a985cdb5ef",
+        "name": "Parapolitika 90.1",
+        "url": "https://netradio.live24.gr/athinaradio",
+        "votes": 1607
+      },
+      "variants": [
+        {
+          "stationuuid": "25e744df-5511-48b1-a011-b592101e1ac2",
+          "name": "Parapolitiká FM 90.1",
+          "url": "https://netradio.live24.gr/athinaradio",
+          "votes": 165,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "9e2b1c56-3eca-4455-9188-4130b90704cd",
+          "name": "Παραπολιτικά 90.1",
+          "url": "https://netradio.live24.gr/athinaradio",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961d1adb-0601-11e8-ae97-52543be04c81",
+        "name": "ERA Trito Programma",
+        "url": "http://radiostreaming.ert.gr/ert-trito",
+        "votes": 1585
+      },
+      "variants": [
+        {
+          "stationuuid": "07cdff02-57c7-46ef-8a7c-33ead8434b12",
+          "name": "ERA Trito Programma",
+          "url": "http://radiostreaming.ert.gr/ert-trito",
+          "votes": 56,
+          "differs": []
+        },
+        {
+          "stationuuid": "ca5f7478-6631-40d8-84b7-cc60ae3acf3d",
+          "name": "ERA Trito Programma",
+          "url": "http://radiostreaming.ert.gr/ert-trito",
+          "votes": 29,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2d9dfa25-7379-460b-8cd0-fe163af26ebe",
+        "name": "SKAI 100.3",
+        "url": "https://skai.live24.gr/skai1003",
+        "votes": 1128
+      },
+      "variants": [
+        {
+          "stationuuid": "2097a4c7-9886-4557-be56-e1c344341689",
+          "name": "ΣΚΑΪ 100.3",
+          "url": "https://skai.live24.gr/skai1003",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "446a3e3d-a2fb-453d-abbd-3369bde1c214",
+        "name": "ΕΡΑσπορ",
+        "url": "https://radiostreaming.ert.gr/ert-erasport",
+        "votes": 1065
+      },
+      "variants": [
+        {
+          "stationuuid": "5796e42b-1ff0-438c-a0bb-b5bf3f72bda2",
+          "name": "ERA Sport 101.8",
+          "url": "https://radiostreaming.ert.gr/ert-erasport",
+          "votes": 374,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b4489557-58f3-4971-bc3a-c57c9a6b497d",
+        "name": "ΕΡΤ Kosmos",
+        "url": "https://radiostreaming.ert.gr/ert-kosmos",
+        "votes": 974
+      },
+      "variants": [
+        {
+          "stationuuid": "158d78c7-c1fc-4de1-b1c8-cd8365e7e4b8",
+          "name": "ΕΡΤ Kosmos",
+          "url": "https://radiostreaming.ert.gr/ert-kosmos",
+          "votes": 4,
+          "differs": []
+        },
+        {
+          "stationuuid": "f8e5a94e-4fa0-4af6-afa2-b4dc87bee563",
+          "name": "ΕΡΑ Κόσμος ",
+          "url": "https://radiostreaming.ert.gr/ert-kosmos",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "30c8fd30-39f6-461c-9056-fd79a6e2eb58",
+        "name": "ΕΡΤ Δεύτερο Πρόγραμμα",
+        "url": "https://radiostreaming.ert.gr/ert-deftero",
+        "votes": 925
+      },
+      "variants": [
+        {
+          "stationuuid": "388c7f4c-9911-49e0-b7c9-3643c1373003",
+          "name": "ERA-DEFTERO 103.7 FM",
+          "url": "https://radiostreaming.ert.gr/ert-deftero",
+          "votes": 265,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "2c23293c-9508-44e6-89bf-e93b83b1d9e9",
+          "name": "ΕΡΤ Δεύτερο Πρόγραμμα",
+          "url": "https://radiostreaming.ert.gr/ert-deftero",
+          "votes": 7,
+          "differs": []
+        },
+        {
+          "stationuuid": "812fc0c4-68dc-4f0d-b53c-dbdcccae21a1",
+          "name": "ΕΡΑ 2ο",
+          "url": "https://radiostreaming.ert.gr/ert-deftero",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "77d13110-deb0-41d3-964d-b1458f9eb3d1",
+        "name": "Déftero Laïká",
+        "url": "http://radiostreaming.ert.gr/ert-talaika",
+        "votes": 881
+      },
+      "variants": [
+        {
+          "stationuuid": "101c3185-4e10-4a41-9903-fa1beead08db",
+          "name": "ΕΡΤ Δεύτερο Λαϊκά",
+          "url": "http://radiostreaming.ert.gr/ert-talaika",
+          "votes": 653,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "9f45dd09-170a-4bdb-b0f4-f72c4871f1bd",
+          "name": "ΕΡΑ Δεύτερο Λαϊκά",
+          "url": "http://radiostreaming.ert.gr/ert-talaika",
+          "votes": 27,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f2978900-a6ae-4206-9334-b23d6d43e01d",
+          "name": "ΕΡΑ 2ο λαϊκά",
+          "url": "http://radiostreaming.ert.gr/ert-talaika",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "08231184-20f1-4bc2-9ca5-d8fd34202f9d",
+        "name": "Imagine 897 Thessaloniki,gr ",
+        "url": "https://imagine897.radioca.st/stream",
+        "votes": 766
+      },
+      "variants": [
+        {
+          "stationuuid": "4d616bcf-f9b6-49dc-881e-7bf522e14ff9",
+          "name": "Imagine Radio 897 Thessaloniki Greece",
+          "url": "https://imagine897.radioca.st/stream",
+          "votes": 113,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4ffd4dfe-0dc1-4430-962e-8f513ffccf17",
+          "name": "Imagine 89.7",
+          "url": "https://imagine897.radioca.st/stream",
+          "votes": 30,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "58d67b9f-5ddf-4931-b878-2118d20200bc",
+        "name": "Metropolis",
+        "url": "https://metromedia.live24.gr/metropolis955thess",
+        "votes": 719
+      },
+      "variants": [
+        {
+          "stationuuid": "7eb5cf56-8f13-441c-9a6b-a864113b7bda",
+          "name": "Metropolis 95.5",
+          "url": "https://metromedia.live24.gr/metropolis955thess",
+          "votes": 95,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "27b34bf7-f8e1-45a0-ac01-ca89537dc48e",
+        "name": "Πειρατικός",
+        "url": "http://89.163.217.252:9800/;",
+        "votes": 700
+      },
+      "variants": [
+        {
+          "stationuuid": "90efd5b5-6879-43ee-a3fe-ef76cbde40df",
+          "name": "Peiratikos FM",
+          "url": "http://89.163.217.252:9800/;",
+          "votes": 46,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9c5b9610-805c-478f-ac5d-b6b561b78cab",
+        "name": "Kosmos Jazz GR",
+        "url": "https://radiostreaming.ert.gr/ert-webjazz",
+        "votes": 686
+      },
+      "variants": [
+        {
+          "stationuuid": "8cb1e9af-1135-4f45-b25f-fb6bcbf7a32c",
+          "name": "ΕΡΤ Kosmos jazz",
+          "url": "https://radiostreaming.ert.gr/ert-webjazz",
+          "votes": 594,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "e7bf27a6-0963-4efa-931c-adae10ee622f",
+          "name": "ΕΡΑ Κόσμος jazz",
+          "url": "https://radiostreaming.ert.gr/ert-webjazz",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5ff773ab-807e-4981-9425-a36c982ff134",
+        "name": "Αίολος 92.8",
+        "url": "http://eco.onestreaming.com:8552/;",
+        "votes": 671
+      },
+      "variants": [
+        {
+          "stationuuid": "6e9f23a6-3f7e-47f6-ad44-c6348d6dd319",
+          "name": "Αίολος 92.8",
+          "url": "http://eco.onestreaming.com:8552/;",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f2cadd18-ad6d-4a27-9130-524fd02db594",
+        "name": "Γλέντι 101.1",
+        "url": "http://onairmediagroup.live24.gr/glenti1011xanthi",
+        "votes": 656
+      },
+      "variants": [
+        {
+          "stationuuid": "d31d88d3-5a6c-43ff-a8be-bf974f11b385",
+          "name": "Glenti FM",
+          "url": "http://onairmediagroup.live24.gr/glenti1011xanthi",
+          "votes": 51,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "875c3cd6-7e37-44f8-99cf-dfccc5881c2e",
+          "name": "Γλέντι FM 101.1",
+          "url": "http://onairmediagroup.live24.gr/glenti1011xanthi",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e87fda89-97d8-4660-b049-0c0b8b84e6f3",
+        "name": "Rebetiko Sealabs",
+        "url": "https://rebetiko.sealabs.net/radio",
+        "votes": 654
+      },
+      "variants": [
+        {
+          "stationuuid": "2447dbd6-575b-4124-8d6e-2ffb6d044778",
+          "name": "rebetiko sealabs",
+          "url": "https://rebetiko.sealabs.net/radio",
+          "votes": 242,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e6d38cbb-868b-4345-8e5e-5cd76a770843",
+        "name": "Alpha 98.9",
+        "url": "http://stream.radiojar.com/xcdg6yggzfeuv",
+        "votes": 575
+      },
+      "variants": [
+        {
+          "stationuuid": "8aab6e13-f494-4f60-995c-8516a982479d",
+          "name": "Alpha 98.9",
+          "url": "http://stream.radiojar.com/xcdg6yggzfeuv",
+          "votes": 177,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fbc3e197-536e-4ceb-8518-3dbce47821b1",
+        "name": "Corfu Dee Jay 97.5",
+        "url": "https://sh.onweb.gr:7083/stream?type=http&nocache=35812",
+        "votes": 549
+      },
+      "variants": [
+        {
+          "stationuuid": "b615443c-03fa-4221-9e99-a5b613392967",
+          "name": "DeeJay 97.5 Greece Corfu",
+          "url": "https://sh.onweb.gr:7083/stream",
+          "votes": 499,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "06101631-24f0-4305-b325-40d6279d17a0",
+        "name": "ΕΡΤ Τρίτο Πρόγραμμα",
+        "url": "https://radiostreaming.ert.gr/ert-trito",
+        "votes": 545
+      },
+      "variants": [
+        {
+          "stationuuid": "f2bacd35-0586-4a56-bdf5-0edf1344adc1",
+          "name": "ΕΡΑ 3ο",
+          "url": "https://radiostreaming.ert.gr/ert-trito",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96294281-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Gold @net",
+        "url": "http://radiogold.live24.gr/radiogold",
+        "votes": 531
+      },
+      "variants": [
+        {
+          "stationuuid": "f06a5442-a993-4415-821c-c1416111247b",
+          "name": "Radio GOLD 103.3 FM Greece",
+          "url": "http://radiogold.live24.gr/radiogold?",
+          "votes": 70,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1f532046-2ea6-42ca-8298-6cd5635d7c8e",
+        "name": "Radio Art - New Age",
+        "url": "http://air.radioart.com/fNew_age.mp3",
+        "votes": 506
+      },
+      "variants": [
+        {
+          "stationuuid": "7c875d87-c1b0-48ac-a3b9-57079456f7c7",
+          "name": "Radio Art - New Age",
+          "url": "http://air.radioart.com/fNew_age.mp3",
+          "votes": 103,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "31a026cf-c45f-4984-8265-69eb98b86d64",
+        "name": "Radio Art - Vocal New Age",
+        "url": "http://air.radioart.com/fVocal_new_age.mp3",
+        "votes": 503
+      },
+      "variants": [
+        {
+          "stationuuid": "6e862b11-99c9-4ef4-bc07-5ab6bd69b7c9",
+          "name": "Radio Art Vocal New Age",
+          "url": "http://air.radioart.com/fVocal_new_age.mp3",
+          "votes": 164,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "51fe4c41-f03f-4ae2-a426-d52b48bd7135",
+        "name": "ΕΡΤ Πρώτο Πρόγραμμα",
+        "url": "https://radiostreaming.ert.gr/ert-proto",
+        "votes": 494
+      },
+      "variants": [
+        {
+          "stationuuid": "ab044907-7d8f-43ad-bb09-8431207aaf5a",
+          "name": "ERT news",
+          "url": "https://radiostreaming.ert.gr/ert-proto",
+          "votes": 88,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "535b9d6c-5d31-477d-9944-d801eaba95d4",
+          "name": "ΕΡΑ Πρώτο Πρόγραμμα",
+          "url": "https://radiostreaming.ert.gr/ert-proto",
+          "votes": 22,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "32cc288a-f7d0-47ad-be1f-bb6ffe701e18",
+          "name": "Πρώτο Πρόγραμμα 105.8",
+          "url": "https://radiostreaming.ert.gr/ert-proto",
+          "votes": 20,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c3cb95e3-8943-4aee-ba84-9da807d71150",
+          "name": "ΕΡΤ Πρώτο Πρόγραμμα",
+          "url": "https://radiostreaming.ert.gr/ert-proto",
+          "votes": 19,
+          "differs": []
+        },
+        {
+          "stationuuid": "5729c482-75bb-4377-be2d-1b84ee7620ca",
+          "name": "ΕΡΑ 1ο",
+          "url": "https://radiostreaming.ert.gr/ert-proto",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dec88d4d-39bc-4e53-8aca-3cb763536bab",
+        "name": "Sfera 102.2",
+        "url": "https://sfera.live24.gr/sfera4132",
+        "votes": 480
+      },
+      "variants": [
+        {
+          "stationuuid": "614eccdb-d268-4214-993b-dc3e076a02b4",
+          "name": "sfera",
+          "url": "https://sfera.live24.gr/sfera4132",
+          "votes": 50,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "1e1ce028-207c-4a9e-b7d9-7cb4f5d9f504",
+          "name": "Sfera 102.2",
+          "url": "https://sfera.live24.gr/sfera4132",
+          "votes": 37,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "20a3f907-2e82-4255-9f99-7fa11a08c92b",
+        "name": "MENTA 88",
+        "url": "https://netradio.live24.gr/menta88ath?1699021717",
+        "votes": 455
+      },
+      "variants": [
+        {
+          "stationuuid": "2dfc7ede-2f6b-466a-a94c-f775aef0b315",
+          "name": "MENTA 88",
+          "url": "https://netradio.live24.gr/menta88ath?1724077482",
+          "votes": 19,
+          "differs": [
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "41db2fa7-70e4-4f2f-b2f2-9218a46ea13c",
+          "name": "Menta 88",
+          "url": "https://netradio.live24.gr/menta88ath?1738173139",
+          "votes": 13,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d13972f9-95c6-4320-a132-ada4898220f1",
+        "name": "Music 89.2",
+        "url": "https://netradio.live24.gr/music892",
+        "votes": 394
+      },
+      "variants": [
+        {
+          "stationuuid": "c24314b1-32d0-4963-a7f5-0f41985a5e88",
+          "name": "MUSIC 892",
+          "url": "https://netradio.live24.gr/music892",
+          "votes": 22,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d498dff0-51a5-4d09-884c-3263bef6f763",
+          "name": "MUSIC 892",
+          "url": "https://netradio.live24.gr/music892",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "3d504cbf-1ffc-4337-9a2c-f534a7c6047e",
+          "name": "Music 88.9 GR",
+          "url": "https://netradio.live24.gr/music892",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c90a120f-1c4d-474c-9a8d-3750505c5670",
+        "name": "Focus 103.6",
+        "url": "https://ice.greekstream.net/focusfm",
+        "votes": 373
+      },
+      "variants": [
+        {
+          "stationuuid": "3dddd238-ee9a-4df2-9d5a-efa329440c0e",
+          "name": "focus fm 103.6  .gr",
+          "url": "https://ice.greekstream.net/focusfm",
+          "votes": 97,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "9b1fa541-468f-492b-8401-1eb73a992122",
+          "name": "Focus FM 103.6",
+          "url": "https://ice.greekstream.net/focusfm",
+          "votes": 46,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "54eec2ef-54a2-4190-af4d-762f2b5001ec",
+        "name": "Δρομοσ 89,8 | Dromos 89,8",
+        "url": "http://netradio.live24.gr/dromos2",
+        "votes": 360
+      },
+      "variants": [
+        {
+          "stationuuid": "94ccfb6e-3d68-4ec0-a106-908ad7b85292",
+          "name": "Δρόμος 89,8 FM",
+          "url": "http://netradio.live24.gr/dromos2",
+          "votes": 64,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "56662166-bec6-4cea-90f0-fd16bb8089c6",
+        "name": "Blues Radio alternative",
+        "url": "https://i4.streams.ovh/sc/bluesrad/stream",
+        "votes": 357
+      },
+      "variants": [
+        {
+          "stationuuid": "2cc1fd64-7297-4fe2-a669-514dd900d1cb",
+          "name": "Blues Radio",
+          "url": "https://i4.streams.ovh/sc/bluesrad/stream",
+          "votes": 41,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8b4cd7d2-60f0-406d-8443-a71e13fe9221",
+          "name": "Blues Radio Athens",
+          "url": "https://i4.streams.ovh/sc/bluesrad/stream",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cd902523-6c34-4c17-8854-d991bd207662",
+        "name": "2o ΠΑΡΑΔΟΣΙΑΚΑ",
+        "url": "https://radiostreaming.ert.gr/ert-defteroparadosiaka",
+        "votes": 348
+      },
+      "variants": [
+        {
+          "stationuuid": "3e0ef068-a982-490b-ad70-6b2fc2e92dfc",
+          "name": "ΕΡΤ Δεύτερο Παραδοσιακά",
+          "url": "https://radiostreaming.ert.gr/ert-defteroparadosiaka",
+          "votes": 66,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a70b4c5d-9cfb-438b-8834-26bf92449fdd",
+        "name": "REBEL FM 105.2",
+        "url": "https://netradio.live24.gr/rebel1052",
+        "votes": 332
+      },
+      "variants": [
+        {
+          "stationuuid": "c71655f6-ee0c-4605-af6c-b4ffa00b7292",
+          "name": "REBEL 105.2",
+          "url": "https://netradio.live24.gr/rebel1052",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "01af48f3-7772-44e8-9b3e-fa96391f0ab1",
+          "name": "Rebel 105.2",
+          "url": "https://netradio.live24.gr/rebel1052",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "396e5702-5ea5-46ba-89fd-bca05c9df845",
+        "name": "Dalkas 88.2",
+        "url": "https://stream.radiojar.com/pr9r38w802hvv",
+        "votes": 315
+      },
+      "variants": [
+        {
+          "stationuuid": "62b8bab8-3f84-4c5b-aa44-1fcc3eb6a1a8",
+          "name": "DALKAS 88.2",
+          "url": "https://stream.radiojar.com/pr9r38w802hvv",
+          "votes": 88,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4e79c0af-4dea-4b83-a850-f11329460dc7",
+        "name": "Δίεση 101.3",
+        "url": "http://orange.live24.gr/orange9320",
+        "votes": 301
+      },
+      "variants": [
+        {
+          "stationuuid": "c3d33977-ce93-4c7e-b0d3-6115fbd80244",
+          "name": "Ellinikos 93.2 FM",
+          "url": "http://orange.live24.gr/orange9320",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c778502c-1206-4f2b-82d3-ac91903000fc",
+        "name": "Μοναχική Διακονία 87.5",
+        "url": "http://eco.onestreaming.com:8019/;stream.mp3",
+        "votes": 300
+      },
+      "variants": [
+        {
+          "stationuuid": "ab862554-d468-4c73-a1dd-a8134c817856",
+          "name": "Ιερά Μονή Παμμεγίστων Ταξιαρχών",
+          "url": "http://eco.onestreaming.com:8019/;stream.mp3",
+          "votes": 39,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "97ec5cf7-5423-4b76-952c-62e9e0c82762",
+        "name": "1055 Rock - Thessaloniki",
+        "url": "https://radio.1055rock.gr:31056/live",
+        "votes": 291
+      },
+      "variants": [
+        {
+          "stationuuid": "ac061d68-7441-4767-a395-23e628548071",
+          "name": "1055 Rock 105.5",
+          "url": "https://radio.1055rock.gr:31056/live",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "32c6a3fd-8377-4816-985b-e49279c3f5b4",
+        "name": "Παραδοσιακός 106.6",
+        "url": "http://sp2.streams.ovh:8104/stream?type=http&nocache=763",
+        "votes": 266
+      },
+      "variants": [
+        {
+          "stationuuid": "3f47eb56-03b4-4b99-879a-4011e42e4a34",
+          "name": "Ηχόραμα 106.6",
+          "url": "http://sp2.streams.ovh:8104/stream?type=http&nocache=763",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4451b8c9-c73c-482a-8d9f-df43ba1254fc",
+        "name": "Mousikos 98,6",
+        "url": "https://netradio.live24.gr/mousikos986",
+        "votes": 247
+      },
+      "variants": [
+        {
+          "stationuuid": "703dac2b-b4ba-43bf-a75d-1a4f1e9a094a",
+          "name": "Mousikos ",
+          "url": "https://netradio.live24.gr/mousikos986",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "12f45ca4-3d96-4937-85e0-a424d36a4d09",
+        "name": "RadioActive",
+        "url": "https://streamyourdream.org:8050/radioactive",
+        "votes": 227
+      },
+      "variants": [
+        {
+          "stationuuid": "4af04ebc-fc21-4088-8675-819e987b92da",
+          "name": "RadioActive 91.3 - Sifnos",
+          "url": "https://streamyourdream.org:8050/radioactive",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d30ac0d6-671d-4533-ad9f-d7887aca0412",
+        "name": "METAL ZONE",
+        "url": "https://neos.win:48282/stream",
+        "votes": 222
+      },
+      "variants": [
+        {
+          "stationuuid": "43d164bc-589c-4429-b5c4-0bc7e7c5c5f0",
+          "name": "Metalzone ",
+          "url": "https://neos.win:48282/stream",
+          "votes": 146,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "80cc7186-2384-4e71-bed9-756108581acc",
+        "name": "Blue Space 107,2 FM Athens",
+        "url": "https://sp1.19cloudsnetwork.gr/8008/stream?1701442520261",
+        "votes": 220
+      },
+      "variants": [
+        {
+          "stationuuid": "f74123a2-bb43-4280-8bdf-b4d3b16ad621",
+          "name": "BLUE SPACE",
+          "url": "https://sp1.19cloudsnetwork.gr/8008/stream",
+          "votes": 5,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "19ca2fc7-a5c9-40a8-b8e0-31c73a2ac9c4",
+        "name": "Στο κόκκινο 105,5 Αθήνα",
+        "url": "http://n06.radiojar.com/kokkino-ath.mp3?rj-ttl=5&rj-tok=AAABe5JM3SoATYdU3sO03CR5Pw",
+        "votes": 186
+      },
+      "variants": [
+        {
+          "stationuuid": "313dbd5d-f9f3-474a-82cc-1b5472676982",
+          "name": "Στο Κόκκινο 105.5",
+          "url": "http://n06.radiojar.com/kokkino-ath.mp3?rj-ttl=5&rj-tok=AAABe5JM3SoATYdU3sO03CR5Pw",
+          "votes": 101,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "43a3c60b-0544-431a-8018-6fedba8fc3a4",
+          "name": "Στο Κόκκινο 105.5 Αθήνα",
+          "url": "http://n06.radiojar.com/kokkino-ath.mp3?rj-ttl=5&rj-tok=AAABe5JM3SoATYdU3sO03CR5Pw",
+          "votes": 59,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6cbaa6b6-bc85-4f67-924d-1f1027c67ca4",
+        "name": "92.9 KISS",
+        "url": "https://kissfm.live24.gr/kissfmathens",
+        "votes": 186
+      },
+      "variants": [
+        {
+          "stationuuid": "aff145d7-493f-4c13-9446-0d9506954c96",
+          "name": "KISS 92.9",
+          "url": "https://kissfm.live24.gr/kissfmathens",
+          "votes": 24,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5f695ae5-da9f-4366-a715-f4fa76b61bae",
+        "name": "Χρώμα 105,8 Θεσσαλονίκη",
+        "url": "https://hroma1058thess.live24.gr/hroma1058thess",
+        "votes": 185
+      },
+      "variants": [
+        {
+          "stationuuid": "9442a34d-7ab2-41ef-9734-ffaaf6e3fbf3",
+          "name": "Chroma 105.8 - Thessaloniki",
+          "url": "https://hroma1058thess.live24.gr/hroma1058thess",
+          "votes": 32,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "e6ae1436-3d0b-465c-8448-2031b8e7ed35",
+          "name": "Χρώμα 105.8 Θεσσαλονίκη",
+          "url": "https://hroma1058thess.live24.gr/hroma1058thess",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ea388340-3ebe-11e9-aa55-52543be04c81",
+        "name": "Ορθοδοξία και Παράδοση 103",
+        "url": "http://radio.lts-group.eu:52390/ANS",
+        "votes": 181
+      },
+      "variants": [
+        {
+          "stationuuid": "c919b0d8-74f9-445e-8049-b0e4797a2ed8",
+          "name": "Orthodoxia kai Paradosi",
+          "url": "http://radio.lts-group.eu:52390/ANS",
+          "votes": 90,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4206f0a5-ee44-47fc-9693-725f34a1ac3b",
+        "name": "2o laika",
+        "url": "https://radiostreaming.ert.gr/ert-talaika",
+        "votes": 181
+      },
+      "variants": [
+        {
+          "stationuuid": "4831e54f-3ef9-48b7-a945-4fb6d6c0d9b6",
+          "name": "ΕΡΤ Δεύτερο Λαϊκά",
+          "url": "https://radiostreaming.ert.gr/ert-talaika",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "867f9370-960c-4af5-87bd-ef3eddf2ce06",
+          "name": "ΕΡΤ 2ο λαϊκά",
+          "url": "https://radiostreaming.ert.gr/ert-talaika",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "be8a0a52-eefa-4799-addc-5b9fb18f9d0c",
+        "name": "Omega Radio Greek Music",
+        "url": "https://rdst.win:59962/stream",
+        "votes": 179
+      },
+      "variants": [
+        {
+          "stationuuid": "7c598881-99dc-4dcf-8587-cd23e6f2c7ff",
+          "name": "Mandra Radio",
+          "url": "https://rdst.win:59962/stream",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "229e9129-9b07-4c14-a753-f2e3abe1af62",
+        "name": "ELLADA SPORTS",
+        "url": "https://tls-chrome.live24.gr/3297?http://stream.ellada943.gr:10198/radio.mp3",
+        "votes": 174
+      },
+      "variants": [
+        {
+          "stationuuid": "177697c8-ed39-4eea-b7cd-eca610e436fa",
+          "name": "ELLADA SPORTS",
+          "url": "https://tls-chrome.live24.gr/3297?http://stream.ellada943.gr:10198/radio.mp3",
+          "votes": 9,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b3b5204f-bf7c-11e9-8502-52543be04c81",
+        "name": "BeRock Radio",
+        "url": "http://solid55.streamupsolutions.com:30013/stream",
+        "votes": 169
+      },
+      "variants": [
+        {
+          "stationuuid": "da858352-e07b-40da-808d-248d9080db2f",
+          "name": "BeRock Radio",
+          "url": "http://solid55.streamupsolutions.com:30013/stream",
+          "votes": 92,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b273b11d-f07b-41bd-b5fb-081010700cf8",
+        "name": "Bravo 89.6",
+        "url": "https://sp3.streams.ovh/8046/stream",
+        "votes": 167
+      },
+      "variants": [
+        {
+          "stationuuid": "108d1653-66a4-4fd6-8269-5c35759be31a",
+          "name": "Bravo FM 89.6",
+          "url": "https://sp3.streams.ovh/8046/stream",
+          "votes": 44,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1de391b2-f053-4d76-a9b8-79f638119695",
+        "name": "Alpha News 106.2",
+        "url": "https://antares.dribbcast.com/proxy/alpha1062?mp=/stream",
+        "votes": 160
+      },
+      "variants": [
+        {
+          "stationuuid": "1ffeb894-ead5-4053-8999-ceddff44849b",
+          "name": "Alpha News 106.2",
+          "url": "https://antares.dribbcast.com/proxy/alpha1062?mp=/stream",
+          "votes": 10,
+          "differs": []
+        },
+        {
+          "stationuuid": "2399b27e-5699-464e-abce-2ddb9b8684b8",
+          "name": "Alpha News 106.2",
+          "url": "https://antares.dribbcast.com/proxy/alpha1062?mp=/stream",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ce944cfa-9ba9-4e9b-98fe-e1045a4f9df6",
+        "name": "SokFM 104.8",
+        "url": "https://stream.radiojar.com/zeqcyyvu48hvv",
+        "votes": 156
+      },
+      "variants": [
+        {
+          "stationuuid": "ed2329a7-f1da-4c31-90ce-a644f2321d78",
+          "name": "Sok FM 104.8",
+          "url": "https://stream.radiojar.com/zeqcyyvu48hvv",
+          "votes": 26,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "93de008b-c5ee-4c6a-9ae9-d71480e29a1b",
+        "name": "Lampsi 92.3",
+        "url": "https://az11.yesstreaming.net:8140/radio.mp3",
+        "votes": 156
+      },
+      "variants": [
+        {
+          "stationuuid": "698b7737-0bb6-4976-97f2-2c9a36944e85",
+          "name": "Lampsi FM 92.3",
+          "url": "https://az11.yesstreaming.net:8140/radio.mp3",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "be455527-dc36-425c-a946-302bf082dda2",
+        "name": "Ερωτικός FM 94.8",
+        "url": "https://eu1.fastcast4u.com/proxy/nmarog01",
+        "votes": 148
+      },
+      "variants": [
+        {
+          "stationuuid": "0983e39c-ba91-494b-9149-acf3c8b2275d",
+          "name": "ερωτικός",
+          "url": "https://eu1.fastcast4u.com/proxy/nmarog01",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "476a2ada-4fa4-4111-a605-01c411e10ba7",
+          "name": "Ερωτικός 94.8",
+          "url": "https://eu1.fastcast4u.com/proxy/nmarog01?mp=/1",
+          "votes": 1,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9d23634b-e3ff-4af5-bbfa-5f8c2b5d0804",
+        "name": "Venus FM 105,1 GREECE",
+        "url": "https://sh.onweb.gr:7124/stream",
+        "votes": 146
+      },
+      "variants": [
+        {
+          "stationuuid": "6c177147-e4a4-46e4-81ab-c9113f877a5c",
+          "name": "Venus 105.1",
+          "url": "https://sh.onweb.gr:7124/stream",
+          "votes": 45,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "44eadfaf-d590-4017-a8e6-a1ee52924b24",
+        "name": "Electronica Vibes - Pirate Radio GR",
+        "url": "https://live.piratefm.net/electronica_vibes",
+        "votes": 141
+      },
+      "variants": [
+        {
+          "stationuuid": "39858332-cf6d-46e3-bc8c-ce606d537f04",
+          "name": "Electronica Vibes - Pirate Radio GR",
+          "url": "https://live.piratefm.net/electronica_vibes",
+          "votes": 34,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d6684ad3-f7ed-11e8-a471-52543be04c81",
+        "name": "ERT Voreio Aigaio 104.4 103.0 99.4 105.9 100.1 95.2 96.5 89.7 91.7 89.1",
+        "url": "http://radiostreaming.ert.gr/ert-aigaiou",
+        "votes": 138
+      },
+      "variants": [
+        {
+          "stationuuid": "1a0252cf-cc1e-4b94-ba0a-6c73d689c52b",
+          "name": "ΕΡΤ Αιγαίου",
+          "url": "http://radiostreaming.ert.gr/ert-aigaiou",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cb028e7d-e1c8-454e-983a-b1c811bcf111",
+        "name": "Rock Melodic Radio",
+        "url": "https://i4.streams.ovh:2200/ssl/rockmelo?mp=/stream",
+        "votes": 131
+      },
+      "variants": [
+        {
+          "stationuuid": "5ce250b5-b084-4813-b373-f2e6440c1996",
+          "name": "Rock Melodic Radio",
+          "url": "https://i4.streams.ovh:2200/ssl/rockmelo?mp=/stream",
+          "votes": 129,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3c8af901-fc35-416e-ab1d-1693cdd5d5de",
+        "name": "Radio Drama 99.1",
+        "url": "http://pstnet6.shoutcastnet.com:60160/stream",
+        "votes": 131
+      },
+      "variants": [
+        {
+          "stationuuid": "b67ed2a5-41c1-4f05-99d4-65fb879d19e4",
+          "name": "Ράδιο Δράμα 99.1",
+          "url": "http://pstnet6.shoutcastnet.com:60160/stream",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "94f0bdf5-8c1f-4f78-844a-05da4145eded",
+        "name": "Classic Radio Greece",
+        "url": "http://streaming.radionomy.com/JamendoLounge",
+        "votes": 124
+      },
+      "variants": [
+        {
+          "stationuuid": "ed1b67eb-8de5-4d9e-991c-ba0e41917280",
+          "name": "Elium Club",
+          "url": "http://streaming.radionomy.com/JamendoLounge",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "561f0c13-9235-481a-b7ca-a3fa3d2d2afa",
+          "name": "Agrinio",
+          "url": "http://streaming.radionomy.com/JamendoLounge",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8d2280b8-809b-471c-91c4-dd7587e212f4",
+        "name": "Radio 98.4",
+        "url": "https://cast4.my-control-panel.com/proxy/anastas2/stream",
+        "votes": 123
+      },
+      "variants": [
+        {
+          "stationuuid": "1f8d1e40-d0fa-4cf1-8bd6-6d0569164da0",
+          "name": "Radio 984",
+          "url": "https://cast4.my-control-panel.com/proxy/anastas2/stream",
+          "votes": 33,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1a2a13c4-ebca-448e-9ba1-f500c0b7f731",
+        "name": "Kardia",
+        "url": "https://stream.crete.ovh:8443/kardia",
+        "votes": 121
+      },
+      "variants": [
+        {
+          "stationuuid": "58c9754e-2605-4931-b7bc-2409f202c239",
+          "name": "Kardia",
+          "url": "https://stream.crete.ovh:8443/kardia",
+          "votes": 36,
+          "differs": []
+        },
+        {
+          "stationuuid": "e87433c0-f600-4e4a-a486-704d32c454d1",
+          "name": "Kardia",
+          "url": "https://stream.crete.ovh:8443/kardia",
+          "votes": 14,
+          "differs": []
+        },
+        {
+          "stationuuid": "4aabc32a-5bba-4d70-b6dd-fabf3ca8be82",
+          "name": "Kardia",
+          "url": "https://stream.crete.ovh:8443/kardia",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f29753f4-94db-4099-99b8-34415a22b04a",
+        "name": "Jadore",
+        "url": "https://i6.streams.ovh:2200/ssl/jadore?mp=/stream",
+        "votes": 120
+      },
+      "variants": [
+        {
+          "stationuuid": "c9702714-5c7d-460d-a215-83dbd0a18234",
+          "name": "Jadore ",
+          "url": "https://i6.streams.ovh:2200/ssl/jadore?mp=%2Fstream",
+          "votes": 12,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bf30ed04-060a-40c8-ae08-4a4e7784298c",
+        "name": "Jockey ",
+        "url": "https://ec4.yesstreaming.net:2135/stream",
+        "votes": 120
+      },
+      "variants": [
+        {
+          "stationuuid": "73d54100-b207-4c17-982e-7719915b9edc",
+          "name": "Jockey Radio",
+          "url": "https://ec4.yesstreaming.net:2135/stream",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "5df1550d-d7f3-494f-a5cb-69968efcf44b",
+          "name": "Epic Radio",
+          "url": "https://ec4.yesstreaming.net:2135/stream",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "873bc6e5-2632-424c-a044-5b08b9655c19",
+        "name": "Athens Noise Rocks",
+        "url": "https://radio.athensnoise.rocks/listen/athensnoise.rocks/radio.mp3",
+        "votes": 119
+      },
+      "variants": [
+        {
+          "stationuuid": "dc1bec0a-0665-4510-bec6-f33565c783e0",
+          "name": "Athens Noise Rocks",
+          "url": "https://radio.athensnoise.rocks/listen/athensnoise.rocks/radio.mp3",
+          "votes": 38,
+          "differs": []
+        },
+        {
+          "stationuuid": "420f85b3-b8d0-4132-906e-7bbd64c333f2",
+          "name": "Athensnoise.rocks",
+          "url": "https://radio.athensnoise.rocks/listen/athensnoise.rocks/radio.mp3",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "041e668c-567c-4d5c-931e-2e63b752ee95",
+        "name": "Real FM 97.8",
+        "url": "https://realfm.live24.gr/realfm",
+        "votes": 116
+      },
+      "variants": [
+        {
+          "stationuuid": "79225ba4-8f30-44fd-bccd-6c963432ff38",
+          "name": "realfm97.8",
+          "url": "https://realfm.live24.gr/realfm",
+          "votes": 81,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "2597393c-fe32-4801-ada1-1ae847f3cf82",
+          "name": "Real 97.8",
+          "url": "https://realfm.live24.gr/realfm",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f4f09f1f-7d8c-430d-9ff0-55cbea31ef58",
+        "name": "Gavdos 88.8",
+        "url": "https://sc2.streamwithq.com:2000/stream/GavdosFm",
+        "votes": 116
+      },
+      "variants": [
+        {
+          "stationuuid": "a26fe370-0ee2-4957-91f1-d07b6ff92b43",
+          "name": "Gavdos 88.8FM",
+          "url": "https://sc2.streamwithq.com:2000/stream/GavdosFm/",
+          "votes": 40,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96f31173-d5d7-4819-9cc4-da2c43c5317e",
+        "name": "Kiss Fm 100.4 Karditsa",
+        "url": "http://sp2.streams.ovh:8096/stream?type=http&nocache=176",
+        "votes": 114
+      },
+      "variants": [
+        {
+          "stationuuid": "249454c5-3139-4285-8dde-70e3988c6cef",
+          "name": "Kiss 100.4",
+          "url": "http://sp2.streams.ovh:8096/stream?type=http&nocache=99",
+          "votes": 94,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "d0a00d4a-238f-4720-a1db-120dadd9a13d",
+          "name": "Kiss 100.4",
+          "url": "http://sp2.streams.ovh:8096/stream?type=http&nocache=99",
+          "votes": 1,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "314b8d5b-b23b-48c2-af00-868f9a6be938",
+        "name": "Radio 90.4",
+        "url": "http://icecast.902.gr:8000/904",
+        "votes": 110
+      },
+      "variants": [
+        {
+          "stationuuid": "e184aaca-47f4-11e9-aa55-52543be04c81",
+          "name": "904",
+          "url": "http://icecast.902.gr:8000/904",
+          "votes": 56,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f4bb74c0-69e3-4234-837f-318b4befaecd",
+        "name": "Λάμψη",
+        "url": "https://i6.streams.ovh/sc/radiolampsi/stream",
+        "votes": 110
+      },
+      "variants": [
+        {
+          "stationuuid": "4e5e46b3-7fb0-4761-83c1-d352e15ede29",
+          "name": "Lampsi GR",
+          "url": "https://i6.streams.ovh/sc/radiolampsi/stream",
+          "votes": 56,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "7e003898-1de0-4a34-8757-ad6e52de4b17",
+          "name": "Radio Lampsi",
+          "url": "https://i6.streams.ovh/sc/radiolampsi/stream",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1c10bc25-fd5b-4904-a548-48b4e1908ca1",
+        "name": "RadioKyklos - Greek Hiphop",
+        "url": "https://azuracast.streams.ovh/listen/radiokyklos/radio.mp3",
+        "votes": 107
+      },
+      "variants": [
+        {
+          "stationuuid": "8fa04033-be8e-4e42-98fb-3c3fcc671968",
+          "name": "Radio Kyklos",
+          "url": "https://azuracast.streams.ovh/listen/radiokyklos/radio.mp3",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "070bfd23-6b2c-4293-b2ce-fefaf6f58f11",
+        "name": "Blues radio greece",
+        "url": "http://i4.streams.ovh:8352/stream",
+        "votes": 97
+      },
+      "variants": [
+        {
+          "stationuuid": "53fd04d5-76b3-4f5a-965e-8edb54cbbe0b",
+          "name": "Blues Radio GR",
+          "url": "http://i4.streams.ovh:8352/stream",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "761b40cb-4856-4bad-b7ea-ce83b5041789",
+        "name": "Nostos 100.6",
+        "url": "https://neos.win:37878/stream?type=.mp3?ver=325606",
+        "votes": 97
+      },
+      "variants": [
+        {
+          "stationuuid": "c01c9fb3-4158-486a-acda-e5aaebc0d2e5",
+          "name": "Nostos 100.6",
+          "url": "https://neos.win:37878/stream?type=.mp3?ver=325606",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fe95987a-fdfc-4d4d-9ee2-0efa4625f74b",
+        "name": "derti web radio",
+        "url": "https://derti.live24.gr/derty1000",
+        "votes": 96
+      },
+      "variants": [
+        {
+          "stationuuid": "957adb0b-6f0e-463b-b2b3-abe618720540",
+          "name": "derti",
+          "url": "https://derti.live24.gr/derty1000",
+          "votes": 46,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4889f0f9-fe8e-48ea-8fce-0fb8397a56b9",
+          "name": "Derti Radio",
+          "url": "https://derti.live24.gr/derty1000",
+          "votes": 36,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "6e3f7162-e7be-44c2-9124-6e1e28398ae9",
+          "name": "Derti Radio",
+          "url": "https://derti.live24.gr/derty1000",
+          "votes": 35,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7e698592-50bf-49f2-b610-b2784f226776",
+        "name": "BluesWave Radio",
+        "url": "https://blueswave.radio:8100/icyblues",
+        "votes": 95
+      },
+      "variants": [
+        {
+          "stationuuid": "4ee8e52f-5dad-4975-b48d-bb9950982119",
+          "name": "BluesWave Radio",
+          "url": "https://blueswave.radio:8100/icyblues",
+          "votes": 20,
+          "differs": []
+        },
+        {
+          "stationuuid": "10010d86-b973-4d28-af1d-f11902262f46",
+          "name": "BluesWave Radio",
+          "url": "https://blueswave.radio:8100/icyblues",
+          "votes": 7,
+          "differs": []
+        },
+        {
+          "stationuuid": "8683dd56-91aa-4f02-88ad-8fa4dc5ee28a",
+          "name": "BluesWave Radio",
+          "url": "https://blueswave.radio:8100/icyblues",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "874b5bee-0349-44dc-8057-109164c286ba",
+        "name": "100 FM Radio 1",
+        "url": "http://s3.onweb.gr:8814/;",
+        "votes": 95
+      },
+      "variants": [
+        {
+          "stationuuid": "977ca6ef-db94-42ae-afce-ed47277eb103",
+          "name": "101 Radio 1",
+          "url": "http://s3.onweb.gr:8814/;",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "40ffb457-e19b-42d1-a14b-b70756629bac",
+        "name": "Radio Martino",
+        "url": "https://eu1.fastcast4u.com/proxy/radiomartino?mp=/1",
+        "votes": 93
+      },
+      "variants": [
+        {
+          "stationuuid": "753aef0e-e148-4fcf-a861-eb4204113f78",
+          "name": "Ράδιο Μαρτίνο",
+          "url": "https://eu1.fastcast4u.com/proxy/radiomartino?mp=/1",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "912ed691-5054-4316-a7af-3c5ec7cbc120",
+        "name": "easy",
+        "url": "https://easy972.live24.gr/easy972",
+        "votes": 88
+      },
+      "variants": [
+        {
+          "stationuuid": "a115daa5-3640-430e-8890-8fa2ae065743",
+          "name": "Easy 97.2",
+          "url": "https://easy972.live24.gr/easy972",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "411d453c-5a42-4895-9f20-3284d0f9b6f3",
+        "name": "902.gr",
+        "url": "https://icecast.902.gr:8001/904",
+        "votes": 84
+      },
+      "variants": [
+        {
+          "stationuuid": "e999e8bb-5767-4966-ada9-9b510888031f",
+          "name": "Radio 90.4",
+          "url": "https://icecast.902.gr:8001/904",
+          "votes": 42,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b137f142-4cfb-45e6-9871-d5d5e666b79f",
+          "name": "90.4 Αριστερά στα FM",
+          "url": "https://icecast.902.gr:8001/904",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "84e2ab98-8ff1-4804-a2e3-011823865af4",
+        "name": "Music Corner",
+        "url": "https://stream1.468.gr/8010/stream",
+        "votes": 83
+      },
+      "variants": [
+        {
+          "stationuuid": "ee99b63d-32c7-4d99-b95e-5f3f73def33b",
+          "name": "Andromeda Net Radio",
+          "url": "https://stream1.468.gr/8010/stream",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4d688959-d7e8-444b-acef-404d1cb623f9",
+        "name": "movement.radio 2",
+        "url": "https://movementathens2.out.airtime.pro/movementathens2_a",
+        "votes": 78
+      },
+      "variants": [
+        {
+          "stationuuid": "fda6e44f-785b-4e42-b4c2-27461c5d149e",
+          "name": "Steigi Radio 3",
+          "url": "https://movementathens2.out.airtime.pro/movementathens2_a",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ec51a400-d45f-4314-8ae1-d93f5a6aac49",
+        "name": "Bottle O' Groove",
+        "url": "http://n06.radiojar.com/n8buhxbsk9duv?rj-ttl=5&rj-tok=AAABeD060SkAnhYCEHekyrYV6g",
+        "votes": 76
+      },
+      "variants": [
+        {
+          "stationuuid": "f79a2628-1691-4c64-823c-30a39c14f85d",
+          "name": "Bottle o'  Groove",
+          "url": "http://n06.radiojar.com/n8buhxbsk9duv?rj-ttl=5&rj-tok=AAABeD060SkAnhYCEHekyrYV6g",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3ad1a11e-95ce-4737-a2af-72beb73d501e",
+        "name": "Ελληνικός 90.3",
+        "url": "http://live.ellinikos.gr:8010/903.mp3",
+        "votes": 74
+      },
+      "variants": [
+        {
+          "stationuuid": "9e5b4a8c-6738-4a2a-8b03-8bd2b4858f23",
+          "name": "Ελληνικός 90.3",
+          "url": "http://live.ellinikos.gr:8010/903.mp3",
+          "votes": 17,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "09bc322a-cf66-4120-bcab-6b87a7220d01",
+        "name": "Βόλος",
+        "url": "http://www.gointernet.gr:8014/;stream.mp3",
+        "votes": 74
+      },
+      "variants": [
+        {
+          "stationuuid": "c85b2a4d-848f-4e46-86cc-f264a111bdbd",
+          "name": "Volos 98.6",
+          "url": "http://www.gointernet.gr:8014/;stream.mp3",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9e1fb996-1303-4e0c-8c5e-d6471ea8e01e",
+        "name": "Μάχη 99.8",
+        "url": "https://maxhfm.streams.gr/ic/maxhfm/stream",
+        "votes": 73
+      },
+      "variants": [
+        {
+          "stationuuid": "7ffc5fad-14f0-4a02-8610-daac4ef3c212",
+          "name": "Μάχη FM",
+          "url": "https://maxhfm.streams.gr/ic/maxhfm/stream",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a029e78b-67c0-4d09-9b35-206c7061c422",
+        "name": "movement.radio 1",
+        "url": "https://movementathens.out.airtime.pro/movementathens_a",
+        "votes": 72
+      },
+      "variants": [
+        {
+          "stationuuid": "6e2a1c0a-4c87-498e-9371-86e571f21eb9",
+          "name": "Stegi Radio",
+          "url": "https://movementathens.out.airtime.pro/movementathens_a",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ae1868b9-94be-4820-a9c3-a9969c5f3c0e",
+          "name": "Steigi Radio 1",
+          "url": "https://movementathens.out.airtime.pro/movementathens_a",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c321866d-b9e4-4017-ad1b-b49c132c8102",
+        "name": "Blu Lounge Radio",
+        "url": "https://streamyourdream.org:8100/stream",
+        "votes": 70
+      },
+      "variants": [
+        {
+          "stationuuid": "820b2a8f-67cd-42c9-a7d7-db3517c3173d",
+          "name": "Blu Radio",
+          "url": "https://streamyourdream.org:8100/stream",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f1daf4ef-d9dc-45f3-9c85-90b801cdf865",
+          "name": "Blu Radio",
+          "url": "https://streamyourdream.org:8100/stream",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "01b65f24-ff76-4f74-af8d-989908dbacfb",
+        "name": "Akous Palko",
+        "url": "https://live.akous.gr/akouspalko",
+        "votes": 70
+      },
+      "variants": [
+        {
+          "stationuuid": "0f9e93ff-c1e7-4b08-8069-cd368fe3b54b",
+          "name": "Ακούς πάλκο",
+          "url": "https://live.akous.gr/akouspalko",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8c0282bd-462b-4227-aeeb-1c0a15ff980f",
+        "name": "Star 88.8 fm",
+        "url": "https://onairmediagroup.live24.gr/star888xanthi",
+        "votes": 69
+      },
+      "variants": [
+        {
+          "stationuuid": "523dd8cc-7771-4b4c-b4b1-9d4380fe4eec",
+          "name": "Star 88.8",
+          "url": "https://onairmediagroup.live24.gr/star888xanthi",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "61e774e9-cd86-44b1-a5b0-95db4347e46f",
+        "name": "NRG Radio 88.3",
+        "url": "http://s1.onweb.gr:8412/stream",
+        "votes": 68
+      },
+      "variants": [
+        {
+          "stationuuid": "0fe23970-8af8-4492-962f-7db0803fed6a",
+          "name": "Energy 88.3",
+          "url": "http://s1.onweb.gr:8412/stream",
+          "votes": 63,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c14e6fa6-0c75-42e5-ba18-bdc91ea005d2",
+        "name": "Easy 93.2",
+        "url": "https://solid48.streamupsolutions.com/proxy/lhlamody?mp=/stream",
+        "votes": 66
+      },
+      "variants": [
+        {
+          "stationuuid": "21b7ef5c-5859-4780-8d70-da16ff02a65a",
+          "name": "Easy 93.2",
+          "url": "https://solid48.streamupsolutions.com/proxy/lhlamody?mp=/stream",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "088e5594-4094-453e-a77c-d15fce1ae591",
+        "name": "Melody",
+        "url": "https://i9.streams.ovh/sc/radiome2/stream",
+        "votes": 64
+      },
+      "variants": [
+        {
+          "stationuuid": "a5b57552-1132-4fa7-a749-f744f4a172c4",
+          "name": "Radio Melody Oldies",
+          "url": "https://i9.streams.ovh/sc/radiome2/stream",
+          "votes": 37,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e30208d8-cfd4-463f-9013-c66b6b947da7",
+        "name": "Radio Patra 106,5",
+        "url": "https://live.cast-control.eu:2000/stream/radiopatra",
+        "votes": 64
+      },
+      "variants": [
+        {
+          "stationuuid": "a9a06f68-7767-4dab-ab2d-39b8d30a16b1",
+          "name": "Radio Patra 106,5",
+          "url": "https://live.cast-control.eu:2000/stream/radiopatra",
+          "votes": 16,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "74f493da-c353-441b-9cca-95006d48b7ab",
+        "name": "Rádio Pólis 99.4",
+        "url": "https://sh.onweb.gr:7060/stream",
+        "votes": 61
+      },
+      "variants": [
+        {
+          "stationuuid": "6ee57039-7904-4d3a-b009-87eff8f4883d",
+          "name": "Πόλις 99.4",
+          "url": "https://sh.onweb.gr:7060/stream",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "377a6389-2766-4dab-b280-9dca8340073d",
+        "name": "Paranoise",
+        "url": "https://paranoisewebcast.radioca.st/stream",
+        "votes": 58
+      },
+      "variants": [
+        {
+          "stationuuid": "5d03a7d5-5159-4db7-80d8-6a2ff8b05229",
+          "name": "Paranoise Radio",
+          "url": "https://paranoisewebcast.radioca.st/stream",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "3842d6f0-509b-475b-b272-f7130db09a38",
+          "name": "Paranoise",
+          "url": "https://paranoisewebcast.radioca.st/stream",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "89147fe4-e369-44fe-b7e7-ffde152ad5c7",
+        "name": "ANT1 Νότιας Ελλάδας",
+        "url": "http://eco.onestreaming.com:8510/;",
+        "votes": 58
+      },
+      "variants": [
+        {
+          "stationuuid": "2ed1a211-418a-4770-bb41-1930269d3ef6",
+          "name": "Antenna Νότιας Ελλάδας 97.2",
+          "url": "http://eco.onestreaming.com:8510/;",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1ff7ae1e-9b21-45ae-9a9d-6d1dc8c3ae95",
+        "name": "905ROCK",
+        "url": "https://sh.onweb.gr:8905/stream",
+        "votes": 58
+      },
+      "variants": [
+        {
+          "stationuuid": "ecdc0740-e5e5-45af-9a92-2cbdf42b3e5a",
+          "name": "905 Rock 90.5",
+          "url": "https://sh.onweb.gr:8905/stream?type=http&nocache=13",
+          "votes": 1,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a43ecb5e-2940-4f9b-8717-afa9ad0dca43",
+        "name": "Music Art Club",
+        "url": "https://eu9.fastcast4u.com/proxy/musicart?mp=/1",
+        "votes": 57
+      },
+      "variants": [
+        {
+          "stationuuid": "3b2fb322-5ad8-4015-9a78-9e6805a67c3c",
+          "name": "MusicArtclub",
+          "url": "https://eu9.fastcast4u.com/proxy/musicart?mp=/1",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "1ac2e8a4-901b-4d4c-9af0-6eb05c5d8f3f",
+          "name": "MusicArtclub",
+          "url": "https://eu9.fastcast4u.com/proxy/musicart?mp=/1",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "92fdf73a-ac82-43fa-8497-bf19d65c82ce",
+        "name": "Atlantis Radio Greece",
+        "url": "https://radio.streamings.gr/proxy/atlantisfm?mp=/stream",
+        "votes": 57
+      },
+      "variants": [
+        {
+          "stationuuid": "1026ebe1-c8e8-41da-94aa-ae9148a68ee2",
+          "name": "Atlantis Radio",
+          "url": "https://radio.streamings.gr/proxy/atlantisfm?mp=/stream",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a9583fef-347d-41da-a1b5-0f7a5d8f15c9",
+        "name": "Thess 94.5",
+        "url": "https://eu7.fastcast4u.com/proxy/nmarog02?mp=/1",
+        "votes": 55
+      },
+      "variants": [
+        {
+          "stationuuid": "bdb3a9d6-e2ec-4030-8b23-da3a4c35ba18",
+          "name": "Ράδιο Θεσσαλονίκη 94.5 FM",
+          "url": "https://eu7.fastcast4u.com/proxy/nmarog02?mp=/1",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "44f0447e-58f7-4582-9609-9fcedb6d9140",
+        "name": "Glenti 892",
+        "url": "http://s2.e-resellers.gr:8076/stream",
+        "votes": 54
+      },
+      "variants": [
+        {
+          "stationuuid": "28e218a4-7815-4df6-b3e8-6424abe8090b",
+          "name": "Glenti 892",
+          "url": "http://s2.e-resellers.gr:8076/stream",
+          "votes": 27,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ed3dd158-bef7-4c6c-9af6-81b79ae8099e",
+        "name": "Rock Angels ",
+        "url": "https://azuracast.streams.ovh/radio/8030/radio.mp3",
+        "votes": 53
+      },
+      "variants": [
+        {
+          "stationuuid": "69012315-9077-4779-97af-0f453c4ba593",
+          "name": "Rock Angels",
+          "url": "https://azuracast.streams.ovh/radio/8030/radio.mp3",
+          "votes": 41,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "349d7042-656b-4267-aeff-69f7d121f972",
+        "name": "Jackson Palace",
+        "url": "https://jacksonspalace.radioca.st/stream?type=http&nocache=220",
+        "votes": 52
+      },
+      "variants": [
+        {
+          "stationuuid": "d49fdaa4-1284-4d54-8d1b-4a8426388579",
+          "name": "Jackson Palace ",
+          "url": "https://jacksonspalace.radioca.st/stream?type=http&nocache=220",
+          "votes": 20,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ea46bae3-3e29-403d-a6e5-505a74bcc260",
+        "name": "minore 96,1",
+        "url": "https://eu3.fastcast4u.com/proxy/nmarog00?mp=/1",
+        "votes": 52
+      },
+      "variants": [
+        {
+          "stationuuid": "e330a58e-a270-48f9-be42-fa28bed33b37",
+          "name": "Μinore 96.1",
+          "url": "https://eu3.fastcast4u.com/proxy/nmarog00?mp=/1",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e3b006cb-8cb6-43ab-92f6-5b73ee02394b",
+        "name": "Feel Good 104.9",
+        "url": "https://feelgood.radioca.st/stream",
+        "votes": 51
+      },
+      "variants": [
+        {
+          "stationuuid": "5055e328-f63a-4b8d-b27f-3744022a8c74",
+          "name": "Box Radio 104.9",
+          "url": "https://feelgood.radioca.st/stream",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "630f7b94-b140-4aad-b786-6c9392926e5b",
+          "name": "Feel Good Radio",
+          "url": "https://feelgood.radioca.st/stream",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8b1df626-aea8-4c5e-bdea-fc9fe13600b0",
+        "name": "Radio Cafe",
+        "url": "http://s6.onweb.gr:8046/;",
+        "votes": 50
+      },
+      "variants": [
+        {
+          "stationuuid": "fdd59905-9567-43b0-813a-00d4a7ce69df",
+          "name": "Cafe 102.4",
+          "url": "http://s6.onweb.gr:8046/;",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d722f2f0-03ad-4015-adf7-ca2cb7f0356f",
+        "name": "Radio Nostalgia GR",
+        "url": "http://radionostalgiagr.dyndns.org:2314/stream",
+        "votes": 46
+      },
+      "variants": [
+        {
+          "stationuuid": "023f335f-1256-4b48-b2e9-ecdfe5c389bc",
+          "name": "Νοσταλγία",
+          "url": "http://radionostalgiagr.dyndns.org:2314/stream?type=http&nocache=167",
+          "votes": 29,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3ff75054-1101-4841-afd4-e4e779bc4e64",
+        "name": "Thira Radio",
+        "url": "https://neos.win:59261/stream",
+        "votes": 43
+      },
+      "variants": [
+        {
+          "stationuuid": "d722b212-4f14-4b51-b703-fa21a93a7938",
+          "name": "101 FM1",
+          "url": "https://neos.win:59261/stream",
+          "votes": 29,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4e8b5db4-b1c5-4526-af76-92ad7a652432",
+        "name": "Λυχνάρι 91.4",
+        "url": "http://eco.onestreaming.com:8037/;",
+        "votes": 43
+      },
+      "variants": [
+        {
+          "stationuuid": "f9040297-0c9c-447c-aeab-c6c2f2206336",
+          "name": "Ράδιο Λυχνάρι",
+          "url": "http://eco.onestreaming.com:8037/;",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2a0313e3-f25f-433f-bc76-b41374983c88",
+        "name": "DIAVLOS FM 99.2",
+        "url": "https://server.el1.info:37060/stream",
+        "votes": 40
+      },
+      "variants": [
+        {
+          "stationuuid": "aefe2739-330f-4c41-91d9-7ce916872a67",
+          "name": "ΔΙΑΥΛΟΣ FM 99.2",
+          "url": "https://server.el1.info:37060/stream",
+          "votes": 30,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "61d23e80-5d92-41d1-bc9b-d70b541f3eda",
+        "name": "Fasma 99.7",
+        "url": "https://fasmafm.radioca.st/stream?type=http&nocache=83",
+        "votes": 40
+      },
+      "variants": [
+        {
+          "stationuuid": "e9f95480-e3ff-4b01-b58f-16e3f347fc31",
+          "name": "Fasma FM 99.7",
+          "url": "https://fasmafm.radioca.st/stream?type=http&nocache=83",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e35681de-deaf-4803-88a4-f6ad38da5006",
+        "name": "Velvet Ballads 96.8 FM ",
+        "url": "https://metromedia.live24.gr/velvet968thess",
+        "votes": 39
+      },
+      "variants": [
+        {
+          "stationuuid": "a97c49ec-2386-45bd-a481-7bb766754ea7",
+          "name": "Velvet 96.8",
+          "url": "https://metromedia.live24.gr/velvet968thess",
+          "votes": 21,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "3807e988-1751-4a0a-bab7-e3bdf76fbcc3",
+          "name": "Velvet 96.8",
+          "url": "https://metromedia.live24.gr/velvet968thess",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "977a6d58-0f4a-4981-9fa4-03c67efd6c2e",
+        "name": "ΕΡΤ 102fm",
+        "url": "https://radiostreaming.ert.gr/ert-102fm",
+        "votes": 38
+      },
+      "variants": [
+        {
+          "stationuuid": "280b1a83-ad99-40e8-8720-0176a3b41ebc",
+          "name": "ΕΡΤ3 Μακεδονίας 102",
+          "url": "https://radiostreaming.ert.gr/ert-102fm",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "0312332b-e59d-47b0-9258-b5763da211db",
+          "name": "ΕΡΤ3 102 FM",
+          "url": "https://radiostreaming.ert.gr/ert-102fm",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "31fc7950-eb66-4d44-beee-8c5397f8080b",
+        "name": "BluesWave Radio",
+        "url": "https://blueswave.radio:8000/blueswave",
+        "votes": 37
+      },
+      "variants": [
+        {
+          "stationuuid": "f56d5e78-05fc-4b28-b437-08bf58698417",
+          "name": "BluesWave Radio",
+          "url": "https://blueswave.radio:8000/blueswave",
+          "votes": 19,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "16cd5d91-7022-436c-ac1d-d05e9b78c93c",
+        "name": "Korinthos",
+        "url": "http://cast.radiohost.ovh:9004/stream?1501748611584.mp3",
+        "votes": 37
+      },
+      "variants": [
+        {
+          "stationuuid": "6edf2ae0-f050-4778-837e-89cdd866877e",
+          "name": "Korinthos 105.6",
+          "url": "http://cast.radiohost.ovh:9004/stream?1501748611584.mp3",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "362200ba-1bae-4ea4-9fcf-94058dae0cae",
+        "name": "Galaxy FM 92.0",
+        "url": "https://galaxy.live24.gr/galaxy9292",
+        "votes": 36
+      },
+      "variants": [
+        {
+          "stationuuid": "59db1ddb-1ecb-405c-ae97-133dd5fb16a8",
+          "name": "Galaxy 92",
+          "url": "https://galaxy.live24.gr/galaxy9292",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "e82b3c2b-665b-4745-82f2-990195dd8759",
+          "name": "G92",
+          "url": "https://galaxy.live24.gr/galaxy9292",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "65f9c7ca-4ae6-4c82-95db-aae591428469",
+        "name": "Στουρναραίικα 92.5",
+        "url": "https://i8.streams.ovh/sc/radiostournareika/stream",
+        "votes": 33
+      },
+      "variants": [
+        {
+          "stationuuid": "caa4aa2c-d32b-45d6-8e7a-145590006d83",
+          "name": "Radio Stournareika 92.5 fm Stereo",
+          "url": "https://i8.streams.ovh/sc/radiostournareika/stream",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ae983a01-e1b2-4fee-b06b-7b73efebdb86",
+        "name": "Ραδιοφωνική Λέσχη 97.6",
+        "url": "http://s3.onweb.gr:8438/stream?type=http&nocache=56820",
+        "votes": 33
+      },
+      "variants": [
+        {
+          "stationuuid": "638ec388-c455-4d2d-991d-5918a099faca",
+          "name": "Ραδιοφωνική Λέσχη 97,6",
+          "url": "http://s3.onweb.gr:8438/stream?type=http&nocache=56820",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1356620c-43f0-49bb-b0a8-444c5b4d45a4",
+        "name": "Βeton7Art",
+        "url": "https://uk1.streamingpulse.com/ssl/b7artradio",
+        "votes": 31
+      },
+      "variants": [
+        {
+          "stationuuid": "e51bb156-8aa8-4897-adaf-4f026bcaeee9",
+          "name": "Beton7 Art",
+          "url": "https://uk1.streamingpulse.com/ssl/b7artradio",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "1986484a-f525-42a7-9245-5c8d9353b5bc",
+          "name": "Beton7 Art Radio",
+          "url": "https://uk1.streamingpulse.com/ssl/b7artradio",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b76b13f1-ee06-4385-ad6c-4785e2acb098",
+        "name": "Yes! 91.2",
+        "url": "https://ams-pioneer02.dedicateware.com:1060/;?type=http&nocache=10656",
+        "votes": 31
+      },
+      "variants": [
+        {
+          "stationuuid": "d5a65430-5017-409f-ae1f-e96147b6d54f",
+          "name": "S-Fresh 91.2",
+          "url": "https://ams-pioneer02.dedicateware.com:1060/;?type=http&nocache=1680528746",
+          "votes": 6,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "67076765-05ae-4904-af33-dc6a5b1fa45f",
+          "name": "S-Fresh 91.2",
+          "url": "https://ams-pioneer02.dedicateware.com:1060/;?type=http&nocache=1680528746",
+          "votes": 1,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "63607b14-5817-45f9-b9b5-f1cae57f06d3",
+        "name": "My Radio 89.6",
+        "url": "https://eco.onestreaming.com/proxy/myradioice/stream",
+        "votes": 31
+      },
+      "variants": [
+        {
+          "stationuuid": "62dd6873-8747-4d00-967d-fd6ff20c474b",
+          "name": "My Radio 89,6",
+          "url": "https://eco.onestreaming.com/proxy/myradioice/stream",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c320801b-7d2f-493b-af29-4f37b83bb112",
+        "name": "Μελωδία 99.2",
+        "url": "https://stream.rcs.revma.com/8tdwa6ez1duvv",
+        "votes": 30
+      },
+      "variants": [
+        {
+          "stationuuid": "05b53b3a-5538-47e7-ba8c-6e8f25a4fa42",
+          "name": "Μελωδία 99.2",
+          "url": "https://stream.rcs.revma.com/8tdwa6ez1duvv",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fb718a9a-3913-41bd-95cd-0e3ecb3bd5cf",
+        "name": "Dream City",
+        "url": "http://cast.streams.ovh:9362/;stream.mp3",
+        "votes": 29
+      },
+      "variants": [
+        {
+          "stationuuid": "d6188b08-c5f3-4b45-bf68-275e083a1f9e",
+          "name": "DreamCity",
+          "url": "http://cast.streams.ovh:9362/;stream.mp3",
+          "votes": 20,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "291f4ad7-0fae-4f63-874a-3714087f7d27",
+        "name": "Notes",
+        "url": "https://neos.win:48720/stream",
+        "votes": 29
+      },
+      "variants": [
+        {
+          "stationuuid": "1edf8a18-3530-4288-bdea-e5e4de868bfd",
+          "name": "Radionotes ",
+          "url": "https://neos.win:48720/stream",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e9f32eea-2f74-441c-80e1-09877a4f40c5",
+        "name": "Star Radio",
+        "url": "https://sp.streams.ovh/8026/;stream/1",
+        "votes": 29
+      },
+      "variants": [
+        {
+          "stationuuid": "793eec2a-a048-4fb6-ba39-0f58cac5d2de",
+          "name": "Fokida FM",
+          "url": "https://sp.streams.ovh/8026/;stream/1",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3a38d39e-0d75-46d0-8d1e-512926c5f175",
+        "name": "Santorini 106.4",
+        "url": "http://eco.onestreaming.com:8316/stream?type=http&nocache=55775",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "4a06aa78-1352-497f-bf12-111f56fa0ddb",
+          "name": "Σαντορίνη",
+          "url": "http://eco.onestreaming.com:8316/stream?type=http&nocache=22964",
+          "votes": 14,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "eac51716-d07a-4ba1-b05a-de502e22cd68",
+        "name": "Farsala Web Radio",
+        "url": "https://ams-pioneer02.dedicateware.com:1955/stream",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "f1208689-6bff-4d29-b37e-661ff3d19736",
+          "name": "Πρώτος Τύπος Φαρσάλων",
+          "url": "https://ams-pioneer02.dedicateware.com:1955/stream",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "36fe2f31-0b35-4eda-a8db-9a53a67a2670",
+        "name": "2000 sta FM",
+        "url": "https://radio.wt5.net/radio/8000/radio.mp3",
+        "votes": 25
+      },
+      "variants": [
+        {
+          "stationuuid": "e8a48103-8fd8-461e-81dc-c68b6c983699",
+          "name": "2000 στα FM",
+          "url": "https://radio.wt5.net/radio/8000/radio.mp3",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "7be067da-2c18-4c35-99af-b10ff3db2bb7",
+          "name": "2000staFM",
+          "url": "https://radio.wt5.net/radio/8000/radio.mp3",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "475750d8-effd-4f8c-b7c7-605e0190931c",
+        "name": "art FM",
+        "url": "https://cast.artfmradio.com/radio/8000/radio.mp3?1579455658",
+        "votes": 25
+      },
+      "variants": [
+        {
+          "stationuuid": "314232a8-2655-433f-b713-e4865a1f1c8a",
+          "name": "ArtFM",
+          "url": "https://cast.artfmradio.com/radio/8000/radio.mp3?1579455658",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b317a787-4772-413e-9295-d15320cb7446",
+        "name": "D-Code 96.2",
+        "url": "https://s15.myradiostream.com/:13980/listen.mp3",
+        "votes": 24
+      },
+      "variants": [
+        {
+          "stationuuid": "4a382d48-2c06-4151-8eb4-080f6d284045",
+          "name": "D-code 96.2",
+          "url": "https://s15.myradiostream.com/:13980/listen.mp3",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "590d7147-9a0a-4a75-8788-5308c84d30c7",
+          "name": "D-Code 96,2",
+          "url": "https://s15.myradiostream.com/:13980/listen.mp3",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8bd18337-4a40-4025-897d-964191746547",
+        "name": "Διαχρονικό Ταξίδι",
+        "url": "http://i3.streams.ovh:12110/live",
+        "votes": 24
+      },
+      "variants": [
+        {
+          "stationuuid": "bf09096d-3ad3-496b-9390-f7ba2862348a",
+          "name": "Διαχρονικό Ταξίδι",
+          "url": "http://i3.streams.ovh:12110/live",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0bbc4c6a-e094-48af-b4e7-0552bf80e24d",
+        "name": "Hit Eclectic",
+        "url": "http://netradio.live24.gr/bootleg",
+        "votes": 23
+      },
+      "variants": [
+        {
+          "stationuuid": "f12c6c71-4af7-4ff8-96b0-7ebe7159b883",
+          "name": "Bootleg",
+          "url": "http://netradio.live24.gr/bootleg",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1c32e6f8-9915-4d76-b361-42fb44f17775",
+        "name": "Ρίζες",
+        "url": "https://rdst.win:59670/stream",
+        "votes": 23
+      },
+      "variants": [
+        {
+          "stationuuid": "de35b480-551d-48ef-a178-cf83cbbedd71",
+          "name": "Rizes",
+          "url": "https://rdst.win:59670/stream",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "63928282-2cf2-4d9c-9f67-f71aed5f3fdc",
+        "name": "Alepou Radio",
+        "url": "https://stream.radiojar.com/h693vkmhe5uvv",
+        "votes": 23
+      },
+      "variants": [
+        {
+          "stationuuid": "3219b33d-2416-4207-b1cc-b78958be026a",
+          "name": "Alepou Radio",
+          "url": "https://stream.radiojar.com/h693vkmhe5uvv",
+          "votes": 10,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bd80e484-878d-41e8-927f-1c1e9fe9e727",
+        "name": "Star 93.3",
+        "url": "http://proradio.gr:8004/star933",
+        "votes": 23
+      },
+      "variants": [
+        {
+          "stationuuid": "994676b2-d69a-4847-a718-21829e21f039",
+          "name": "Star Γρεβενά",
+          "url": "http://proradio.gr:8004/star933",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f4998489-6fc7-4cca-b562-0e893629890f",
+        "name": "Kiss 89",
+        "url": "https://kiss-89-kalamata.live24.gr/kiss89kalamata",
+        "votes": 23
+      },
+      "variants": [
+        {
+          "stationuuid": "e9797ff7-0249-48a5-a264-dc5288652308",
+          "name": "KISS 89.0",
+          "url": "https://kiss-89-kalamata.live24.gr/kiss89kalamata",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c7e16579-6e95-4ea6-80db-f4d01a30f0d1",
+          "name": "KISS FM 89.0",
+          "url": "https://kiss-89-kalamata.live24.gr/kiss89kalamata",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "90e22c53-c626-4ac7-876d-d03d4ee8c3d2",
+        "name": "Marios BlackMan ",
+        "url": "https://control.tastreams.eu:2200/radio/black9326?mp=/stream",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "575d0526-c12e-415a-b0b2-7354ea7ee165",
+          "name": "Marios Blackman",
+          "url": "https://control.tastreams.eu:2200/radio/black9326?mp=/stream",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0bb6f662-0784-41e4-8f62-056a140dae10",
+        "name": "Kerkyra 100.1",
+        "url": "http://live.cast-control.eu:9118/stream;?1552397300972",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "4c8e0aa6-fed1-42f4-9277-3227b1d6ca27",
+          "name": "Κέρκυρα",
+          "url": "http://live.cast-control.eu:9118/stream;?1552397300972",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0966527a-0308-4adc-927b-18dba91d57db",
+        "name": "Galaxy 106.1",
+        "url": "https://sh.onweb.gr/8818/stream",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "db9bf78a-9c06-4898-9ada-1f969b1b1e70",
+          "name": "Galaxy 106,1 Patra",
+          "url": "https://sh.onweb.gr/8818/stream",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d006de97-e082-4f56-aa80-b3c205cc3318",
+        "name": "Θάλασσα και Παράδοση",
+        "url": "http://i.streams.ovh:9391/stream",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "7c978211-a7ea-4d0e-9c95-17dd7bbcb8f5",
+          "name": "Θάλασσα και Παράδοση",
+          "url": "http://i.streams.ovh:9391/stream",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4ea557ef-b9d5-4de8-b48e-9d37f8bfc5fc",
+        "name": "Stoxos Θάσος",
+        "url": "http://s3.onweb.gr:8016/stream?type=http&nocache=14923",
+        "votes": 21
+      },
+      "variants": [
+        {
+          "stationuuid": "790885d1-6f98-4b1f-82fc-d95d984bee8c",
+          "name": "Στόχος 99",
+          "url": "http://s3.onweb.gr:8016/stream?type=http&nocache=906097",
+          "votes": 2,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0e4a47a7-7d3a-40df-85d6-1a4e0e8ec404",
+        "name": "96.2 FM1",
+        "url": "http://sc2.streamwithq.com:8092/;listen.pls",
+        "votes": 20
+      },
+      "variants": [
+        {
+          "stationuuid": "1c9813bb-387f-4aca-bfb1-624309971129",
+          "name": "Λαμία FM 1",
+          "url": "http://sc2.streamwithq.com:8092/;listen.pls",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d8c51c49-ca57-495e-a228-d8b1ba1fdd17",
+        "name": "Ble",
+        "url": "http://radio.lancom.gr:8006/stream1",
+        "votes": 20
+      },
+      "variants": [
+        {
+          "stationuuid": "619fac6f-274b-47b3-ac48-eedbb6489f70",
+          "name": "Ble 93.1",
+          "url": "http://radio.lancom.gr:8006/stream1",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96268d54-0601-11e8-ae97-52543be04c81",
+        "name": "RadioEgio",
+        "url": "http://eu7.fastcast4u.com:6130/stream",
+        "votes": 20
+      },
+      "variants": [
+        {
+          "stationuuid": "38af1da2-7492-4d72-89ca-aa309d43710b",
+          "name": "Αίγιο 99.2",
+          "url": "http://eu7.fastcast4u.com:6130/stream/",
+          "votes": 5,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b99b6dc0-7b77-4630-a683-1082fbf44156",
+        "name": "En Lefko 87.7",
+        "url": "https://n12a-eu.rcs.revma.com/trm75ret4c3vv?rj-ttl=5&rj-tok=AAABnHLBW28A7OTR3a298An3Yg",
+        "votes": 18
+      },
+      "variants": [
+        {
+          "stationuuid": "43eb3583-0c29-439b-bc1c-9db233ad3dea",
+          "name": "Εν Λευκώ ",
+          "url": "https://n12a-eu.rcs.revma.com/trm75ret4c3vv?rj-ttl=5&rj-tok=AAABnHLBW28A7OTR3a298An3Yg",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b0eeda1f-033d-49e0-849a-90b840b95357",
+        "name": "To Pikap",
+        "url": "http://comet.shoutca.st:8430/live?1513679743968",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "5565917c-7b61-47b1-b1ff-bc38cd0a9b7f",
+          "name": "To Pikap",
+          "url": "http://comet.shoutca.st:8430/live?1513679743968",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "253f2607-41b3-4490-aecd-9fee93a3032f",
+        "name": "Bhasa FM",
+        "url": "https://cdn2.cloudrad.io/mercuryradio/listen.pls",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "9ea337a4-5b78-4169-b8f6-fc6a969284a4",
+          "name": "Mercury Radio",
+          "url": "https://cdn2.cloudrad.io/mercuryradio/listen.pls",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4806292f-ab24-4c55-b93b-ba192f95ac87",
+        "name": "Radio 9 Θεσσαλονίκη",
+        "url": "https://solid55.streamupsolutions.com/proxy/gygasbfj?mp=/live",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "b576410d-5f5e-4a78-bac8-ec8462f5f0f4",
+          "name": "Radio 9",
+          "url": "https://solid55.streamupsolutions.com/proxy/gygasbfj?mp=/live",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5bb25ca9-c6ab-4767-b46d-e33422bda0f1",
+        "name": "Ράδιο 1 Χαλκίδα",
+        "url": "http://proradio.gr:8004/radio981m",
+        "votes": 16
+      },
+      "variants": [
+        {
+          "stationuuid": "48ee7403-cf5e-4ec5-a22a-68d0d4d41b93",
+          "name": "98.1 Radio 1",
+          "url": "http://proradio.gr:8004/radio981m",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5595a282-546c-44ba-90da-d3591b9b1390",
+        "name": "Evripos 90",
+        "url": "http://hyades.shoutca.st:8570/;",
+        "votes": 16
+      },
+      "variants": [
+        {
+          "stationuuid": "e4e9fdaf-c162-44c9-99ae-aaf0810c7077",
+          "name": "Evripos 90FM",
+          "url": "http://hyades.shoutca.st:8570/;",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4c86a26c-e803-4b72-aa50-d9e7100be79e",
+        "name": "Ένα Βόλος",
+        "url": "http://solid55.streamupsolutions.com:32015/stream",
+        "votes": 16
+      },
+      "variants": [
+        {
+          "stationuuid": "7f21d2f9-b762-4f8b-93b6-f43a1a00ef73",
+          "name": "Ένα 102.5",
+          "url": "http://solid55.streamupsolutions.com:32015/stream",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2c3250fe-12c5-43f3-905d-212a3f8c6e47",
+        "name": "Sokolata 102,4 ",
+        "url": "https://radio.streamings.gr/proxy/sokolatafm?mp=/stream",
+        "votes": 16
+      },
+      "variants": [
+        {
+          "stationuuid": "6d47a592-2980-4221-855f-8bfeeca25460",
+          "name": "SokolataFM",
+          "url": "https://radio.streamings.gr/proxy/sokolatafm?mp=/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2b5138e3-c271-47d4-9fd3-0928ffa63a60",
+        "name": "Hero",
+        "url": "https://stream.radiomustathens.com/must-hero",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "d940dba2-bd02-4e94-8a21-6d3403ada4fc",
+          "name": "Must Hero GR",
+          "url": "https://stream.radiomustathens.com/must-hero?app=true&refer=",
+          "votes": 13,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c6d31a0b-7ac9-45b1-87dc-c6bd74c6b3cb",
+        "name": "Dream Ηράκλειο",
+        "url": "https://neos.win:48420/stream",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "19a3da81-cfc6-4f06-8742-958dcfbdb805",
+          "name": "DREAM FM 90.7",
+          "url": "https://neos.win:48420/stream",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1e68aa3b-071a-4989-aefe-3945c55f50e7",
+        "name": "02 Dance Radio",
+        "url": "https://centova.gr-net.gr/proxy/dimitrio/stream",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "5d6da948-182d-4b30-a3ac-9c3b713f78f7",
+          "name": "02 radio station ",
+          "url": "https://centova.gr-net.gr/proxy/dimitrio/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b62c0f3c-534e-404c-ab9c-2e10c7ab9270",
+        "name": "GALAXIAS FM 92.1 MHZ",
+        "url": "https://sonic.serverps.gr/8018/stream",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "11dd646e-7067-4b0e-8037-983d072ac322",
+          "name": "Γαλαξίας 92.1",
+          "url": "https://sonic.serverps.gr/8018/stream",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7a12b00d-ac86-4815-95b7-5b1af682527e",
+        "name": "Αλιβέρι 102.2",
+        "url": "http://88.99.239.52:9300/;",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "fa33a4b0-ecc1-4514-845f-78dc4a2ed629",
+          "name": "102.2 Αλιβέρι 1",
+          "url": "http://88.99.239.52:9300/;",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9687eaf7-a306-4ffb-b1e0-0b1c10a0e644",
+        "name": "Essential Mix",
+        "url": "https://greeksonic.alphaserver.gr/8004/stream",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "a43cd940-ec5a-47de-b9dc-bc21686317e3",
+          "name": "Andromeda Essential Mix",
+          "url": "https://greeksonic.alphaserver.gr/8004/stream",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d5473bde-0d01-49b2-b11b-dc841f67eb3e",
+        "name": "Imera FM 90.4",
+        "url": "http://molonotiradio.gr:8000/molonoti-radio-stream",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "7b5eebc4-689a-467f-97d0-29e3bfc6f91a",
+          "name": "molonoti radio",
+          "url": "http://molonotiradio.gr:8000/molonoti-radio-stream",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b18cae37-c758-46d8-9df5-3694bdb3585f",
+        "name": "Best 94.7",
+        "url": "https://i2.streams.ovh:9470/stream",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "99c2792d-61a6-4e4d-9769-3295d937b20d",
+          "name": "Best Radio 94.7 FM",
+          "url": "https://i2.streams.ovh:9470/stream",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8a999d6f-ea18-4515-90b6-be0b3988c12b",
+          "name": "Best 94.7",
+          "url": "https://i2.streams.ovh:9470/stream",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "531287e0-50bd-42b3-b2a7-a384e1cf4a16",
+        "name": "City 106.1",
+        "url": "https://radio.lancom.gr:9012/stream5?1700927157379",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "572e9934-3bd4-4ca1-bc33-eb844e640be6",
+          "name": "City 106.1",
+          "url": "https://radio.lancom.gr:9012/stream5",
+          "votes": 12,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6afaefec-15ae-4ede-97ad-25d5d88e8856",
+        "name": "Palmos 96.5",
+        "url": "https://cast1.asurahosting.com/proxy/palmos965/stream",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "cee04e3e-3610-4682-9303-958117484821",
+          "name": "Palmos 96.5",
+          "url": "https://cast1.asurahosting.com/proxy/palmos965/stream",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0ba8f199-7239-4f4d-a3af-353b7c8661ce",
+        "name": "Pepper ",
+        "url": "https://stream.radiojar.com/pepper.m4a",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "c74ac34d-b595-443d-aeaf-f5b989892772",
+          "name": "Pepper ",
+          "url": "https://stream.radiojar.com/pepper.m4a",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "25ae8a24-e5d8-40b6-b1d6-67fd27653a1c",
+        "name": "Diceradio",
+        "url": "https://s2.radio.co/s4648f1c61/listen",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "99e4c23c-57c4-4281-878f-d8b411bd5308",
+          "name": "Dice Radio",
+          "url": "https://s2.radio.co/s4648f1c61/listen",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5b808d0c-f81f-4b9b-834a-66d52255b30b",
+        "name": "Music 102.1",
+        "url": "http://i3.streams.ovh:12022/stream",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "c052806d-a2eb-4340-87f4-090e04269d48",
+          "name": "7 Μέρες 101.5",
+          "url": "http://i3.streams.ovh:12022/stream",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c46ba40d-0f78-4c6b-ba0d-044c923651ba",
+        "name": "City 102.8",
+        "url": "https://i2.streams.ovh:7050/live",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "6f038635-1911-42d2-8e10-05deaec650a2",
+          "name": "City 102.8",
+          "url": "https://i2.streams.ovh:7050/live",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c79fd20a-ab65-4ddf-8396-fcc4846850ff",
+        "name": "Radio5",
+        "url": "https://streamer.out.gr/8006/stream",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "11d4c3fa-03e4-4abd-8991-95e1a838540b",
+          "name": "Radio 5 GR",
+          "url": "https://streamer.out.gr/8006/stream",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a013301d-5b46-49a4-9307-0e2730024ca6",
+        "name": "Πρακτορείο",
+        "url": "https://sh.onweb.gr:7048/;",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "d2a194c9-ce38-4e24-b60b-a2fa3d2c53a7",
+          "name": "Πρακτορείο 104.9",
+          "url": "https://sh.onweb.gr:7048/;",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8356a616-730c-4961-9da4-6f83731270fa",
+          "name": "Πρακτορείο 104.9",
+          "url": "https://sh.onweb.gr:7048/;",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "86bb93be-8add-43de-86ac-06aac2fe2f5d",
+        "name": "MUSIC CLUB 105.8",
+        "url": "https://antares.dribbcast.com/proxy/music1058?mp=/stream",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "6a93a350-6719-49e0-9887-6bc9908f082b",
+          "name": "Music Club 105.8",
+          "url": "https://antares.dribbcast.com/proxy/music1058?mp=/stream",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "1a45bc4f-0952-45f6-8a95-4396b3658d60",
+          "name": "MUSIC CLUB 105.8",
+          "url": "https://antares.dribbcast.com/proxy/music1058?mp=/stream",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "adfe382c-5d49-49a4-8b57-670d3b883e3b",
+        "name": "Αντέννα Δυτικής Κρήτης",
+        "url": "http://sc2.streamwithq.com:8008/;stream.mp3",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "fbeb03d9-f9e3-4be6-88ed-0e2e82cfa506",
+          "name": "Αντέννα Δυτικής Κρήτης 97.1",
+          "url": "http://sc2.streamwithq.com:8008/;stream.mp3",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a16cda22-5527-427c-93fd-e2851c640261",
+        "name": "Κραχ",
+        "url": "https://c32.radioboss.fm/stream/563",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "96ab8dcd-d81e-46a5-a24f-88df423f63f6",
+          "name": "Koinoniko Radiofono Xaniwn",
+          "url": "https://c32.radioboss.fm/stream/563",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "db102c39-b60c-4054-bb4a-9f7693e1e101",
+          "name": "ΚραΧ",
+          "url": "https://c32.radioboss.fm/stream/563",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "3ebe0b74-f37c-47f7-ac96-8cd86df70f3e",
+          "name": "KPaX Radio",
+          "url": "https://c32.radioboss.fm/stream/563",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d9a21854-2980-4c98-95af-401a362c2939",
+        "name": "Αρμονία 96.9",
+        "url": "https://loki.mental-media.gr/proxy/armonia?mp=/stream",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "32368032-a6f1-4479-9c1e-1f6d95d05a29",
+          "name": "Αρμονία 96.9",
+          "url": "https://loki.mental-media.gr/proxy/armonia?mp=/stream",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7da9600e-0681-4d1b-8b05-f00719bb8c8e",
+        "name": "Ένταση 93.5",
+        "url": "https://entasistream.tuc.gr:8000/main.mp3",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "d9a8ba21-4a11-4896-b1e6-73a170b787ee",
+          "name": "Entasi Radio 93.5",
+          "url": "https://entasistream.tuc.gr:8000/main.mp3",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "12e589c5-9482-431f-a786-50abad4a793e",
+        "name": "Radio Fantasy GR",
+        "url": "https://solid55.streamupsolutions.com/proxy/radiofantasy?mp=/stream&1727723697027",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "2c6be2fe-ef6b-43f8-a802-7a364b89b27b",
+          "name": "Fantasy GR",
+          "url": "https://solid55.streamupsolutions.com/proxy/radiofantasy?mp=/stream&1727723697027",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "70e55bcc-58ef-4a84-b242-554d781266e5",
+        "name": "Music Ward",
+        "url": "http://n04.radiojar.com/opa-radio?rj-ttl=5&rj-tok=AAABeL2lZi0AP1rw53sYM5PgdA",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "0c8b98ae-6c3b-4822-89d6-6bf3ad1829f1",
+          "name": "DMST",
+          "url": "http://n04.radiojar.com/opa-radio?rj-ttl=5&rj-tok=AAABeKlHl-AAZu5lL1pWJGUkog",
+          "votes": 9,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9016b1c6-cec3-48b4-bc49-210b92f47e20",
+        "name": "Island FM Zakynthos",
+        "url": "https://sp3.streams.ovh/cp/links.php?p=8014&m=pls",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "dce6c0aa-723f-4b3a-8721-313306415e11",
+          "name": "stigma Zakynthos",
+          "url": "https://sp3.streams.ovh/cp/links.php?p=8062&m=pls",
+          "votes": 5,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0330b31a-f668-4cc4-a882-f5037dfa0c10",
+        "name": "Epiloges Κιλκίς",
+        "url": "http://ice.streamcloud.mediacdn.com/epiloges1028",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "a15e589d-9459-4b1e-b825-4b8830cbad6f",
+          "name": "Επιλογές 102.8",
+          "url": "http://ice.streamcloud.mediacdn.com/epiloges1028",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ac967725-990a-4b60-87e9-f05c93514c47",
+        "name": "Lemon Web Radio",
+        "url": "https://s2.e-resellers.gr/proxy/radio888/stream",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "376a1350-e1d6-4f2a-ab51-3631b701fcc1",
+          "name": "Lemon Radio",
+          "url": "https://s2.e-resellers.gr/proxy/radio888/stream",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7c00ed76-3c33-4947-a636-0d74d63bf597",
+        "name": "Νότες 96",
+        "url": "https://netradio.live24.gr/stylfmathens",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "d4af7110-96bf-4388-8fd5-e2cf356c96a7",
+          "name": "Νότες 96",
+          "url": "https://netradio.live24.gr/stylfmathens",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a386d3fb-7bf6-4070-baa0-2c523d2b1442",
+        "name": "DRS FM 95.3",
+        "url": "https://drs953.live24.gr/drs953",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "5c663d47-2e30-4b3b-9e84-ed9a2fd4ef84",
+          "name": "D.R.S. FM",
+          "url": "https://drs953.live24.gr/drs953",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "86ba77b3-9987-41df-ae42-4dd9bd7d6374",
+          "name": "DRS 95.3",
+          "url": "https://drs953.live24.gr/drs953",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3b5c7abf-ebf4-4714-864b-439e9d079df4",
+        "name": "Capital Radio 90,7",
+        "url": "https://hotsoft.net.gr:9100/?1732451962720",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "36ca1735-240d-426a-8e81-25266b504be3",
+          "name": "Capital 90.7",
+          "url": "https://hotsoft.net.gr:9100/?1741851418662",
+          "votes": 5,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ac641df6-36b8-4199-80b0-c5ddce26fc0d",
+        "name": "Radio Meraklis",
+        "url": "https://meraklis.ddns.net:8443/live",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "d561fc99-f34a-44bf-925a-b590ef7f6e30",
+          "name": "Radio Meraklis",
+          "url": "https://meraklis.ddns.net:8443/live",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d08ed5fb-51c3-4aa1-8fe6-4c7f81e9430e",
+        "name": "Radio Mytilini",
+        "url": "http://cast5.magicstreams.gr:8041/stream?",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "248944a9-9a77-44ee-a3c0-da74223eec9a",
+          "name": "Μυτιλήνη 90",
+          "url": "http://cast5.magicstreams.gr:8041/stream?",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fad0582e-9a2c-4a6d-af04-489d1ac098c9",
+        "name": "PALMOS 94,9 FM KOS",
+        "url": "https://tls-chrome.live24.gr/3858?http://37.157.242.101:24467/",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "a6b601c3-94af-4908-8522-f721ac4efa02",
+          "name": "Παλμός 94,9",
+          "url": "https://tls-chrome.live24.gr/3858?http://37.157.242.101:24467/",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "695d1d91-671d-4f6b-a4f8-eebdd0c5816f",
+        "name": "loop",
+        "url": "http://eu2.fastcast4u.com/proxy/loopradiostation?mp=/;",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "b1a04db5-0392-4d3b-8675-50d997ab7838",
+          "name": "loop",
+          "url": "http://eu2.fastcast4u.com/proxy/loopradiostation?mp=/;",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bd663827-f65d-42c4-ba8e-4093dcfa34d6",
+        "name": "Ράδιο Αγιάσος",
+        "url": "https://centova.streams.gr:8088/stream",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "c0016664-207c-4326-805e-8a17461668cd",
+          "name": "Ράδιο Αγιάσος",
+          "url": "https://centova.streams.gr:8088/stream",
+          "votes": 2,
+          "differs": [
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aaed3352-f11f-4cae-812d-61aeba8e9df0",
+        "name": "RSO 91.7",
+        "url": "https://rso917greece.radioca.st/;",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "dd7a404f-fc55-494d-bbdd-e7abb0c0fc76",
+          "name": "RSO 91.7",
+          "url": "https://rso917greece.radioca.st/;",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3366f97e-f616-4ba2-910e-050eb480fa56",
+        "name": "Πρώτο 99",
+        "url": "http://s1.onweb.gr:8052/;",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "d815d038-65de-442f-bd6c-282a9716a53e",
+          "name": "Proto 99",
+          "url": "http://s1.onweb.gr:8052/;",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0ed74952-36d5-4869-bb1f-c1cad081ac28",
+        "name": "Creta Fans",
+        "url": "https://sc2.streamwithq.com:2000/stream/offifans",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "8c12bc50-2280-4f0b-ad1f-a1bbac919ffd",
+          "name": "Creta Fans Radio",
+          "url": "https://sc2.streamwithq.com:2000/stream/offifans",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0e78a333-f718-44b2-a125-f2b2c3e65df8",
+        "name": "Αλέξιος Κομηνός 105,8",
+        "url": "http://eco.onestreaming.com:8027/stream",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "5873a4c4-3d2c-44ac-9b0f-b03880ec5130",
+          "name": "Αλέξιος Κομηνός 105,8 FM",
+          "url": "http://eco.onestreaming.com:8027/stream",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "752b9d69-dd68-49f4-8e70-69e2afba95e3",
+        "name": "Radio Art - Broadway",
+        "url": "https://air.radioart.online/fBroadway.mp3",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "a5cc39a8-03ae-4783-8c18-1612c23e5f22",
+          "name": "Radio Art - Broadway",
+          "url": "https://air.radioart.online/fBroadway.mp3",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e8096854-cd02-44a7-aa2b-7aa8d045f2fb",
+        "name": "Radio Messatida 98 fm",
+        "url": "https://cast4.magicstreams.gr:2200/ssl/rnamozwi?mp=/stream&1728716435412",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "103f4aca-7b61-4169-8ad5-5dd922913024",
+          "name": "Μεσσατίδα 98",
+          "url": "https://cast4.magicstreams.gr:2200/ssl/rnamozwi?mp=/stream&1668884587044",
+          "votes": 4,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1a2894ba-496c-4f8a-8490-3bc055d8b3c1",
+        "name": "Creta Radio",
+        "url": "https://everest.streams.ovh:1145/stream?x=1741852250498",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "b623072b-32d4-4cf6-8a54-216cf946f8a3",
+          "name": "CretaRadio",
+          "url": "https://everest.streams.ovh:1145/stream?x=1740380034235",
+          "votes": 2,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9f1bc476-2b13-4122-a39a-26c03c742c90",
+        "name": "Σωτηρόπουλος",
+        "url": "https://rasp35.ddnsfree.com:3535/strpls",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "8a1924ad-b26f-4ff9-9e6c-9f2e2905a60f",
+          "name": "Κηρυγματικός λόγος",
+          "url": "https://rasp35.ddnsfree.com:3535/strpls",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "be68c462-b328-43aa-b234-109fb9c57805",
+          "name": "Ορθοδοξία - Σωτηρόπουλος Νικόλαος ",
+          "url": "https://rasp35.ddnsfree.com:3535/strpls",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4243f349-008b-425d-8825-7a751bb9d82b",
+          "name": "Ορθοδοξία Σωτηρόπουλος",
+          "url": "https://rasp35.ddnsfree.com:3535/strpls",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "197dd80a-d027-4edc-8df9-c42b20b04f9b",
+        "name": "Ti Amo Greek",
+        "url": "https://cast.streams.ovh/sc/tiamogreek/stream",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "3eed0f5d-18d1-4c76-a06b-4653e3c2cd8e",
+          "name": "Ti Amo",
+          "url": "https://cast.streams.ovh/sc/tiamogreek/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8e499ad7-1c98-434a-9505-00c632e0c35a",
+        "name": "My Laikos",
+        "url": "http://mcr.streams.gr:10200/stream",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "e9fecd1c-b38e-426e-bd78-8c76b928eded",
+          "name": "MyLaikos.gr",
+          "url": "http://mcr.streams.gr:10200/stream",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2b344f3c-2ddb-4eea-9f72-bd28c633fc40",
+        "name": "Schitul Buna Vestire - Muntele Athos",
+        "url": "https://bunavestire.mountathos.info/live",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "cfdcdc5a-582d-48de-af8d-81a086da22a8",
+          "name": "Schitul Buna Vestire - Muntele Athos",
+          "url": "https://bunavestire.mountathos.info/live",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8ff2c530-d8a0-4b0b-8f23-449bfee86208",
+        "name": "Ορθοδοξία Μυτηλιναίος",
+        "url": "https://rasp35.ddnsfree.com:3535/mtlns",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "94e78e08-eb23-4ac2-b83f-a47884496d7e",
+          "name": "Ορθοδοξία - Α. Μυτιληναίος",
+          "url": "https://rasp35.ddnsfree.com:3535/mtlns",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3f31ba59-5951-4a37-9190-cf9f3c873b72",
+        "name": "Μελωδία Τα τραγούδια του 90",
+        "url": "https://n41a-eu.rcs.revma.com/cdkb8a90ubuvv?rj-ttl=5&rj-tok=AAABnTgXywsAO9h7Cu0OQ1C0ww",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "65912786-0815-4856-bbe2-8788cbaa853c",
+          "name": "Τα τραγούδια του 90",
+          "url": "https://n41a-eu.rcs.revma.com/cdkb8a90ubuvv?rj-ttl=5&rj-tok=AAABnTgXywsAO9h7Cu0OQ1C0ww",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "44a931d3-1ed1-49fc-aa45-561ec09acf96",
+        "name": "Ορθοδοξία - Γραφή",
+        "url": "https://rasp35.ddnsfree.com:3535/radio_el",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "27a54c65-1824-458d-a5e2-354caf5028aa",
+          "name": "Ορθοδοξία - Αγία Γραφή",
+          "url": "https://rasp35.ddnsfree.com:3535/radio_el",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "59eb893a-daf2-4b80-88f4-abad1f239781",
+        "name": "Στράτος Emerson 846",
+        "url": "https://media.streambrothers.com:8552/stream",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "40aec012-d407-4653-ace9-80ac2f381c5c",
+          "name": "Στράτος Emerson 846",
+          "url": "https://media.streambrothers.com:8552/stream",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c00c62fc-1259-4811-813b-624957da4451",
+        "name": "Ορθοδοξία Ύμνοι",
+        "url": "https://rasp35.ddnsfree.com:3535/ymnoi",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "3882ae60-c55d-46d7-8ad8-be873a322e78",
+          "name": "Default stream",
+          "url": "https://rasp35.ddnsfree.com:3535/ymnoi",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "0903734f-50c0-4bbc-9e29-b59c46cdae74",
+          "name": "Default stream",
+          "url": "https://rasp35.ddnsfree.com:3535/ymnoi",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d1b8662d-6f1e-4972-9fb3-d77d58de1349",
+          "name": "Default stream",
+          "url": "https://rasp35.ddnsfree.com:3535/ymnoi",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3747b381-d86f-4eff-b41b-56c834d835fd",
+        "name": "Wave FM 97.4",
+        "url": "https://sp1.32bit.gr/8018/;",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "0fe75608-5fdf-4d75-8ee4-037726ab840c",
+          "name": "Wave 97.4",
+          "url": "https://sp1.32bit.gr/8018/;",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c5ad63b2-7238-48b0-b44f-bb624cf0baf2",
+        "name": "DREAMER",
+        "url": "http://uk15freenew.listen2myradio.com:5003/",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "047e5ebb-a89c-4b48-af4d-4a5b8981f796",
+          "name": "DREAMER",
+          "url": "http://uk15freenew.listen2myradio.com:5003/",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "62c86219-1879-4d24-b80f-2a1d24c0228c",
+          "name": "DREAMER",
+          "url": "http://uk15freenew.listen2myradio.com:5003/",
+          "votes": 0,
+          "differs": []
+        },
+        {
+          "stationuuid": "da689b9f-a69a-4e52-88f3-5eaa552166ff",
+          "name": "DREAMER",
+          "url": "http://uk15freenew.listen2myradio.com:5003/",
+          "votes": 0,
+          "differs": []
+        },
+        {
+          "stationuuid": "b163c7e0-6076-4f97-840a-d18fbd4dc3e6",
+          "name": "DREAMER",
+          "url": "http://uk15freenew.listen2myradio.com:5003/",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1dc15558-d46d-4a70-bebc-d83631a53c0b",
+        "name": "Radio Locomotiva",
+        "url": "https://whsh4u-panel.com/proxy/zukqpfqm?mp=/stream",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "463afe9e-10d2-4bb0-a6e5-6b16b641efc1",
+          "name": "Radio Locomotiva",
+          "url": "https://whsh4u-panel.com/proxy/zukqpfqm?mp=/stream",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "918dfeaf-5e8e-4385-9799-d7f4f24e21ca",
+          "name": "Radio Locomotiva",
+          "url": "https://whsh4u-panel.com/proxy/zukqpfqm?mp=/stream",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "17cb80e2-2c26-4706-8448-8c64f6a61f2d",
+        "name": "Ράδιο Σφακιά",
+        "url": "https://ams-pioneer02.dedicateware.com:1215/stream",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "042da7c2-48bd-4e94-b4dc-0b92273f1f2f",
+          "name": "Radio Sfakia",
+          "url": "https://ams-pioneer02.dedicateware.com:1215/stream",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d6b93a07-6fd0-4660-b05b-7a8eae7371ec",
+        "name": "A1812Radio ",
+        "url": "http://108.59.11.81:10073/stream",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "7c22650e-82d6-453f-b61d-f9fdc4862bbc",
+          "name": "A1812Radio ",
+          "url": "http://108.59.11.81:10073/stream",
+          "votes": 0,
+          "differs": []
+        },
+        {
+          "stationuuid": "fb9b8072-fe8c-4e27-8961-4146364155e4",
+          "name": "A1812Radio ",
+          "url": "http://108.59.11.81:10073/stream",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0c9d5d56-692a-4131-8d76-43bf6fd68e82",
+        "name": "DREAMER Radio Lounge",
+        "url": "http://uk3freenew.listen2myradio.com:24503/",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "db715aa9-d2d6-4344-9a5d-b8741d549607",
+          "name": "DREAMER",
+          "url": "http://uk3freenew.listen2myradio.com:24503/",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f41f652d-b577-44d2-8ae0-50538f8a34ae",
+        "name": "eMusic Site",
+        "url": "https://solid67.streamupsolutions.com/proxy/wvsivbgn/stream",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "ebdbf361-faf1-44cc-b27b-0cf5aa71b4b3",
+          "name": "eMusic Site",
+          "url": "https://solid67.streamupsolutions.com/proxy/wvsivbgn/stream",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1ad467e4-442f-4be0-bf82-cecc4edb1799",
+        "name": "RADIO MIRES 97.1",
+        "url": "https://s6.onweb.gr/8034/stream",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "73bcaa80-5d17-460c-ad92-52736e4ada95",
+          "name": "RADIO MIRES 97.1",
+          "url": "https://s6.onweb.gr/8034/stream",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9795c59e-5e49-41d1-87c6-f8f50bba90ca",
+        "name": "DREAMER",
+        "url": "https://cast1.asurahosting.com/proxy/ermis/stream",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "4ba92d81-a5db-419f-9489-2f166ad5fe3f",
+          "name": "DREAMER RADIO",
+          "url": "https://cast1.asurahosting.com/proxy/ermis/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f40c5137-2113-4782-a285-a0427c6a99bc",
+        "name": "Nt00 Radio",
+        "url": "https://nt00.xyz/listen/escape_the_algorithm/radio.mp3",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "8fa0aa9f-2a24-4e71-bffc-80fc2339b1a2",
+          "name": "Nt00 Radio",
+          "url": "https://nt00.xyz/listen/escape_the_algorithm/radio.mp3",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f553bbbc-42e1-4b40-9e97-3e02e0bdda3a",
+        "name": "TOP fm 102.4",
+        "url": "https://mcr.streams.gr/listen/topfm1024",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "579ebbb4-e84b-4493-8c6c-4009de1da984",
+          "name": "Vasilis Pliakas",
+          "url": "https://mcr.streams.gr/listen/topfm1024",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fa890617-7f6d-4487-8239-e8845dca3c7c",
+        "name": "Ράδιο Ελληνικά Ακούσματα",
+        "url": "https://s2.e-resellers.gr/proxy/kviwebradio/stream",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "1478adb0-c277-4eaf-9ea5-18fe08105435",
+          "name": "Ράδιο Ελληνικά Ακούσματα",
+          "url": "https://s2.e-resellers.gr/proxy/kviwebradio/stream",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

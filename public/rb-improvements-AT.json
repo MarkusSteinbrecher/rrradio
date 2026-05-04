@@ -1,0 +1,1238 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.855Z",
+  "country": "AT",
+  "sourceProbedAt": "2026-04-29T05:45:23.771Z",
+  "totals": {
+    "deadStreams": 61,
+    "internalDupes": 26,
+    "metadataAPIs": 12,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "e0d81bc0-3523-495e-b7a9-797ab955260d",
+      "name": "Antenne Vorarlberg Classic Rock",
+      "url": "https://web.radio.antennevorarlberg.at/av-classicrock/stream/mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 322,
+      "lastProbedAt": "2026-04-29T05:45:02.111Z"
+    },
+    {
+      "stationuuid": "6713f4b0-3056-4679-a112-4455d7fd2c6f",
+      "name": "Arabella schlager",
+      "url": "https://frontend.streams.arabella.at/arabella-schlager/stream/mp3?aggregator=arabella-playlistfile",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 312,
+      "lastProbedAt": "2026-04-29T05:45:02.083Z"
+    },
+    {
+      "stationuuid": "2e70591f-d42b-4b7b-84f1-62be2871d4a4",
+      "name": "Antenne Vorarlberg",
+      "url": "https://web.radio.antennevorarlberg.at/av-live?aggregator=Radioplayer",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 306,
+      "lastProbedAt": "2026-04-29T05:45:02.157Z"
+    },
+    {
+      "stationuuid": "1abda628-4353-4725-8eca-5fce5287f27f",
+      "name": "Life Radio Chill Out",
+      "url": "https://stream8.liferadio.at/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 295,
+      "lastProbedAt": "2026-04-29T05:45:02.654Z"
+    },
+    {
+      "stationuuid": "60ca2058-1785-4ee8-8b6a-bfed1a0bebf7",
+      "name": "Antenne Vorarlberg Dance Radio",
+      "url": "https://web.radio.antennevorarlberg.at/av-dance",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 244,
+      "lastProbedAt": "2026-04-29T05:45:02.571Z"
+    },
+    {
+      "stationuuid": "b9230e0b-1bb1-46c0-aa76-d2f55677619e",
+      "name": "Antenne Vorarlberg 70er Hits",
+      "url": "https://web.radio.antennevorarlberg.at/av-70er",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 235,
+      "lastProbedAt": "2026-04-29T05:45:02.633Z"
+    },
+    {
+      "stationuuid": "96bf6a72-a682-449e-8522-4411b9764071",
+      "name": "Life Radio ClassicRock",
+      "url": "https://stream.liferadio.at/clrock/mp3-192/stream.liferadio.at/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 204,
+      "lastProbedAt": "2026-04-29T05:45:02.766Z"
+    },
+    {
+      "stationuuid": "3016af1c-a844-4ad1-9eb0-1a9ec4dcc1bd",
+      "name": "Arabella Tiamo",
+      "url": "https://frontend.streams.arabella.at/arabella-tiamo/stream/mp3?aggregator=arabella-playlistfile",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 192,
+      "lastProbedAt": "2026-04-29T05:45:02.935Z"
+    },
+    {
+      "stationuuid": "a7ba271d-5f61-48b5-9a97-ea8091666fc1",
+      "name": "Arabella 90 er",
+      "url": "https://frontend.streams.arabella.at/arabella-90er?aggregator=arabella-playlistfile",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 191,
+      "lastProbedAt": "2026-04-29T05:45:02.986Z"
+    },
+    {
+      "stationuuid": "fc15266a-ed42-4f1d-bacf-733f545514be",
+      "name": "Antenne Vorarlberg 90s Hits",
+      "url": "https://web.radio.antennevorarlberg.at/av-90er",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 190,
+      "lastProbedAt": "2026-04-29T05:45:03.039Z"
+    },
+    {
+      "stationuuid": "7fa6b16b-65b5-447f-ae48-ecb92a91e0bf",
+      "name": "Antenna Österreich",
+      "url": "https://edge70.streamonkey.net/antoesterreich-live",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 172,
+      "lastProbedAt": "2026-04-29T05:45:03.099Z"
+    },
+    {
+      "stationuuid": "99d39cb5-0106-42d9-a656-3071ec3b4738",
+      "name": "Antenne Vorarlberg Chillout Lounge ",
+      "url": "https://web.radio.antennevorarlberg.at/av-chillout",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 162,
+      "lastProbedAt": "2026-04-29T05:45:03.282Z"
+    },
+    {
+      "stationuuid": "ce81296c-e7ac-4290-a2d8-aa961ca4be5c",
+      "name": "Antenne Vorarlberg Musica Italiana",
+      "url": "https://web.radio.antennevorarlberg.at/av-italiana",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 148,
+      "lastProbedAt": "2026-04-29T05:45:03.391Z"
+    },
+    {
+      "stationuuid": "ce8cf95d-b9d5-4edd-8d4b-5276b6d1d3b2",
+      "name": "Antenne Vorarlberg Schlagerkult",
+      "url": "https://web.radio.antennevorarlberg.at/av-schlagerkult",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 146,
+      "lastProbedAt": "2026-04-29T05:45:03.389Z"
+    },
+    {
+      "stationuuid": "17c43529-5a23-4e4d-a127-fbd95fc6e741",
+      "name": "Arabella hot",
+      "url": "https://frontend.streams.arabella.at/arabella-hot/stream/mp3?aggregator=arabella-playlistfile",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 146,
+      "lastProbedAt": "2026-04-29T05:45:03.464Z"
+    },
+    {
+      "stationuuid": "cf49fc02-51c5-4bb2-8bb3-c1f292f60603",
+      "name": "Antenne Vorarlberg 2000er Hits",
+      "url": "https://web.radio.antennevorarlberg.at/av-2000er",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 124,
+      "lastProbedAt": "2026-04-29T05:45:03.716Z"
+    },
+    {
+      "stationuuid": "a67edd92-177b-4ec1-9f74-58980fe89a80",
+      "name": "Life Radio Classic Rock ",
+      "url": "https://stream11.liferadio.at/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 122,
+      "lastProbedAt": "2026-04-29T05:45:03.694Z"
+    },
+    {
+      "stationuuid": "84c68a22-584c-453e-8ce5-58589be48f43",
+      "name": "Antenne Vorarlberg Coffee Hits",
+      "url": "https://web.radio.antennevorarlberg.at/av-coffee",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 117,
+      "lastProbedAt": "2026-04-29T05:45:04.024Z"
+    },
+    {
+      "stationuuid": "9f09ca2a-4af4-417d-8545-f74d5dd16eea",
+      "name": "Arabella Lovesongs",
+      "url": "https://frontend.streams.arabella.at/arabella-lovesongs/stream/mp3?aggregator=arabella-playlistfile",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 113,
+      "lastProbedAt": "2026-04-29T05:45:04.181Z"
+    },
+    {
+      "stationuuid": "a233f7a4-3a5b-41db-a659-dcbe5b0d6de2",
+      "name": "Antenne Vorarlberg 2010er Hits",
+      "url": "https://web.radio.antennevorarlberg.at/av-2010er",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 110,
+      "lastProbedAt": "2026-04-29T05:45:04.289Z"
+    },
+    {
+      "stationuuid": "be47349b-0b60-4f84-bea5-8ff225942ca6",
+      "name": "Arabella 80 r",
+      "url": "https://frontend.streams.arabella.at/arabella-80er?aggregator=arabella-playlistfile",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 105,
+      "lastProbedAt": "2026-04-29T05:45:04.513Z"
+    },
+    {
+      "stationuuid": "5cb4b85d-2719-418d-91d8-6dfa2be02329",
+      "name": "Radio886",
+      "url": "https://frontend.streamonkey.net/radio886-onair/stream/mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 105,
+      "lastProbedAt": "2026-04-29T05:45:04.506Z"
+    },
+    {
+      "stationuuid": "7308ec18-42c0-4bbf-ab0e-72b1800d3cba",
+      "name": "Antenne Vorarlberg Chillout Lounge ",
+      "url": "https://web.radio.antennevorarlberg.at/av-chillout",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 103,
+      "lastProbedAt": "2026-04-29T05:45:04.593Z"
+    },
+    {
+      "stationuuid": "3493572b-9798-40b2-98fb-aef2295b6133",
+      "name": "T-Rock",
+      "url": "https://trock.fluidstream.eu/trock.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 103,
+      "lastProbedAt": "2026-04-29T05:45:04.303Z"
+    },
+    {
+      "stationuuid": "a062f274-1424-4359-a206-7fdfc61e32fb",
+      "name": "Antenne Vorarlberg Chillout",
+      "url": "https://web.radio.antennevorarlberg.at/av-chillout/stream/mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 95,
+      "lastProbedAt": "2026-04-29T05:45:04.769Z"
+    },
+    {
+      "stationuuid": "75a2959e-7821-4b8f-8c6f-70a745ab5485",
+      "name": "Antenne Vorarlberg TOP40",
+      "url": "https://web.radio.antennevorarlberg.at/av-top40",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 87,
+      "lastProbedAt": "2026-04-29T05:45:04.961Z"
+    },
+    {
+      "stationuuid": "c6f95c04-e9f6-4ed6-b040-3e1a2760b210",
+      "name": "Arabella 70 r",
+      "url": "https://frontend.streams.arabella.at/arabella-70er?aggregator=arabella-playlistfile",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 80,
+      "lastProbedAt": "2026-04-29T05:45:05.163Z"
+    },
+    {
+      "stationuuid": "58a6d4ab-3a77-4969-b361-0bb2f537fba5",
+      "name": "Antenne Vorarlberg Lovesongs",
+      "url": "https://web.radio.antennevorarlberg.at/av-lovesongs/stream/mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 62,
+      "lastProbedAt": "2026-04-29T05:45:05.788Z"
+    },
+    {
+      "stationuuid": "850d15db-5b20-4031-982a-2fd774977ef4",
+      "name": "Arabella Rock",
+      "url": "https://frontend.streams.arabella.at/arabella-rock/stream/mp3?aggregator=arabella-playlistfile",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 62,
+      "lastProbedAt": "2026-04-29T05:45:05.877Z"
+    },
+    {
+      "stationuuid": "449774c7-e051-44ff-ab86-4901c61a365c",
+      "name": "Flash90s",
+      "url": "https://stream.flash90s.at/flash90s/mp3-192/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 62,
+      "lastProbedAt": "2026-04-29T05:45:05.884Z"
+    },
+    {
+      "stationuuid": "9cb7f80f-aa74-4907-9351-8e65ce3b4c27",
+      "name": "Antenne vorarlberg Non Stop",
+      "url": "https://web.radio.antennevorarlberg.at/av-nonstop",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 61,
+      "lastProbedAt": "2026-04-29T05:45:06.087Z"
+    },
+    {
+      "stationuuid": "daa5690c-62e7-4a69-9829-005c501851dd",
+      "name": "Arabella gold",
+      "url": "https://frontend.streams.arabella.at/arabella-gold/stream/mp3?aggregator=arabella-playlistfile",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 60,
+      "lastProbedAt": "2026-04-29T05:45:06.132Z"
+    },
+    {
+      "stationuuid": "3b5a0bb4-dd07-4b56-a176-0d9bae9f3dfa",
+      "name": "Antenne Vorarlberg Christkindl Radio",
+      "url": "https://web.radio.antennevorarlberg.at/av-christkindl",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 59,
+      "lastProbedAt": "2026-04-29T05:45:06.207Z"
+    },
+    {
+      "stationuuid": "aa2c5630-a5b6-41f8-8a13-a0193fcfbd8f",
+      "name": "Life Radio Greatest Hits",
+      "url": "https://stream.liferadio.at/greatest-hits/mp3-192/stream.liferadio.at/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 55,
+      "lastProbedAt": "2026-04-29T05:45:06.237Z"
+    },
+    {
+      "stationuuid": "dc7ff21d-0c1a-4f8b-a3a4-f74c70a20916",
+      "name": "Antenne Österreich",
+      "url": "https://edge08.streamonkey.net/antoesterreich-live",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 52,
+      "lastProbedAt": "2026-04-29T05:45:06.320Z"
+    },
+    {
+      "stationuuid": "a020a70d-8e4f-41f8-8441-530d6f587c0e",
+      "name": "Life Radio Chill Out Hits",
+      "url": "https://stream.liferadio.at/chillout/mp3-192/stream.liferadio.at/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 51,
+      "lastProbedAt": "2026-04-29T05:45:06.422Z"
+    },
+    {
+      "stationuuid": "bf359dd0-b38e-40e1-87da-2b20e29d12a8",
+      "name": "Arabella holiday",
+      "url": "https://frontend.streams.arabella.at/arabella-holiday/stream/mp3?aggregator=arabella-playlistfile",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 45,
+      "lastProbedAt": "2026-04-29T05:45:06.930Z"
+    },
+    {
+      "stationuuid": "d7c16c24-13b6-4baf-bf63-1f8b031b18d9",
+      "name": "Antenne Salzburg",
+      "url": "https://edge69.streamonkey.net/antsalzburg-live",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 41,
+      "lastProbedAt": "2026-04-29T05:45:07.152Z"
+    },
+    {
+      "stationuuid": "c570eead-2f0d-4cca-bfbf-1e4f607497a4",
+      "name": "Antenne Vorarlberg Rock Radio",
+      "url": "https://web.radio.antennevorarlberg.at/av-rock",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 41,
+      "lastProbedAt": "2026-04-29T05:45:07.237Z"
+    },
+    {
+      "stationuuid": "fd7406a5-0093-4e55-9e7f-ba6caa9f02a1",
+      "name": "Vorarlberg 80s",
+      "url": "https://edge63.radio.antennevorarlberg.at/av-live?listenerId=%5BIFA%5D&aw_0_req.userConsentV2=%5BPLAYER_TC_STRING%5D&aggregator=Webplayer",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 40,
+      "lastProbedAt": "2026-04-29T05:45:07.329Z"
+    },
+    {
+      "stationuuid": "c5132bd5-0127-49a9-91a3-f16589381da2",
+      "name": "Life Radio 80er",
+      "url": "https://stream.liferadio.at/80er/mp3-192/stream.liferadio.at/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 39,
+      "lastProbedAt": "2026-04-29T05:45:07.291Z"
+    },
+    {
+      "stationuuid": "a1224945-1856-465d-9d8e-baf81889df94",
+      "name": " Life Radio Tirol - MUSIC ONLY",
+      "url": "https://stream.liferadio.tirol/MUONLY/mp3-192/link",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 37,
+      "lastProbedAt": "2026-04-29T05:45:07.586Z"
+    },
+    {
+      "stationuuid": "f394515b-9076-4da2-9a03-7eb96a78bc4f",
+      "name": "Life Radio Tirol",
+      "url": "https://stream.liferadio.tirol/live/mp3-192/link",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 37,
+      "lastProbedAt": "2026-04-29T05:45:07.441Z"
+    },
+    {
+      "stationuuid": "6cf16bdf-528e-4ce5-a9d0-37db1cba7a5d",
+      "name": "Her.st Propaganda Broadcast",
+      "url": "https://radio.her.st/listen/listen/128.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 36,
+      "lastProbedAt": "2026-04-29T05:45:07.444Z"
+    },
+    {
+      "stationuuid": "6ae0e620-0c9e-4de7-b309-ecdbe6c95f87",
+      "name": "Life Radio Tirol - Schlagerpuls",
+      "url": "https://stream.liferadio.tirol/schlager/mp3-192/link",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 28,
+      "lastProbedAt": "2026-04-29T05:45:08.222Z"
+    },
+    {
+      "stationuuid": "216d8ef9-e1fe-49fc-a44b-1f6896f6a680",
+      "name": "Austrianpower radio",
+      "url": "https://streamsrv-austrianpub.kechit.eu/main_lo",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 24,
+      "lastProbedAt": "2026-04-29T05:45:08.384Z"
+    },
+    {
+      "stationuuid": "8837db1f-de40-4205-80c1-cc78ca807e84",
+      "name": "emap.fm",
+      "url": "https://s2.stationplaylist.com:9470/listen.aac",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 18,
+      "lastProbedAt": "2026-04-29T05:45:09.543Z"
+    },
+    {
+      "stationuuid": "e56af1d8-ec96-40c7-bb6c-00dc06e3b453",
+      "name": "AustrianPowerRadio",
+      "url": "https://streamsrv-austrianpub.kechit.eu/main_lo",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 16,
+      "lastProbedAt": "2026-04-29T05:45:09.570Z"
+    },
+    {
+      "stationuuid": "3b320e2d-c043-4cc5-85c4-5b9772fe7dc0",
+      "name": "Jö.Live",
+      "url": "https://edge85.stream.maxfive.com/max5-joelive",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 16,
+      "lastProbedAt": "2026-04-29T05:45:09.769Z"
+    },
+    {
+      "stationuuid": "6bda9294-bba6-4943-a923-ea20f9b15a20",
+      "name": "Life Radio Sommersongs",
+      "url": "https://stream.liferadio.at/sommer/mp3-192/stream.liferadio.at/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 12,
+      "lastProbedAt": "2026-04-29T05:45:10.320Z"
+    },
+    {
+      "stationuuid": "37f9aec0-333a-46e1-818e-6458a7115a13",
+      "name": "Atnnene sSterewich",
+      "url": "https://edge24.streamonkey.net/antoesterreich-live",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 10,
+      "lastProbedAt": "2026-04-29T05:45:10.766Z"
+    },
+    {
+      "stationuuid": "7519aeb9-dcc4-47e0-85a1-f3d95146c6b2",
+      "name": "Life Radio Tirol- Alles Malle",
+      "url": "https://stream.liferadio.tirol/malle/mp3-192/link",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 10,
+      "lastProbedAt": "2026-04-29T05:45:10.836Z"
+    },
+    {
+      "stationuuid": "afddab5c-01e7-4325-a1cc-57cbad3d92de",
+      "name": "jö.live - Mein Tag. Meine Musik.",
+      "url": "https://edge80.stream.maxfive.com/max5-joelive?aggregator=maxfive-homepage",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T05:45:12.596Z"
+    },
+    {
+      "stationuuid": "28ab7f9d-2cb7-4f56-9f10-69c59cc15916",
+      "name": "Superfly Radio",
+      "url": "https://stream01.superfly.fm/live",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T05:45:12.696Z"
+    },
+    {
+      "stationuuid": "7c630780-bfce-43d8-ae6a-fabfe4ca3a05",
+      "name": "88.6",
+      "url": "https://edge14.streamonkey.net/radio886-onair/stream/mp3",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T05:45:22.698Z"
+    },
+    {
+      "stationuuid": "3fee72ef-e869-4cc9-a3e0-18ef16b6acad",
+      "name": "Superfly webradio Easy",
+      "url": "https://edge81.stream.superfly.fm/superfly-easy",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T05:45:13.672Z"
+    },
+    {
+      "stationuuid": "1f99a2d2-0f5f-4d79-a34e-1abc8c25fce1",
+      "name": "Superfly Webradio Pure",
+      "url": "https://edge81.stream.superfly.fm/superfly-pure",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T05:45:13.762Z"
+    },
+    {
+      "stationuuid": "df6d4fe8-6f77-49fc-bb3a-9341e5d9f54c",
+      "name": "88.6",
+      "url": "https://edge14.streamonkey.net/radio886-onair/stream/mp3",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T05:45:23.712Z"
+    },
+    {
+      "stationuuid": "0cee0f71-175b-4c1d-9b32-8939e2797151",
+      "name": "88.6",
+      "url": "https://edge14.streamonkey.net/radio886-onair/stream/mp3",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T05:45:23.768Z"
+    },
+    {
+      "stationuuid": "1e001fc9-5e74-492c-9154-e8eae252a14a",
+      "name": "Sub FM Radio",
+      "url": "https://hearthis.at/subfm/live/stream.mp3?referer=https%3A%2F%2Fwww.sub.fm%2F&s=p6C&t=1768631963",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T05:45:14.265Z"
+    },
+    {
+      "stationuuid": "5734cc64-61d7-4525-82f1-7c104ae10c19",
+      "name": "Superfly Radio",
+      "url": "https://web.stream.superfly.fm/superfly-live?aggregator=Website",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 429",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T05:45:14.628Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "96057c18-0601-11e8-ae97-52543be04c81",
+        "name": "Austrian Rock Radio",
+        "url": "http://live.antenne.at/arr",
+        "votes": 2894
+      },
+      "variants": [
+        {
+          "stationuuid": "5e00ac3e-19fe-4f7d-ad47-237a917094eb",
+          "name": "Austrian Rock Radio",
+          "url": "http://live.antenne.at/arr",
+          "votes": 98,
+          "differs": []
+        },
+        {
+          "stationuuid": "50d614d7-8477-4bb9-841f-a3891f3ce4fe",
+          "name": "Austrian Rock Radio",
+          "url": "http://live.antenne.at/arr",
+          "votes": 69,
+          "differs": []
+        },
+        {
+          "stationuuid": "7173523c-6c3d-4630-ad85-fd5f168d061d",
+          "name": "Austrian Rock Radio",
+          "url": "http://live.antenne.at/arr",
+          "votes": 29,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8a3685e2-711e-4764-9080-6fa143c33014",
+        "name": "ORF Radio Wien",
+        "url": "http://orf-live.ors-shoutcast.at/wie-q1a",
+        "votes": 2789
+      },
+      "variants": [
+        {
+          "stationuuid": "e682fba7-e9ed-4797-af81-eab5658fe2e5",
+          "name": "ORF Slovenski spored",
+          "url": "http://orf-live.ors-shoutcast.at/wie-q1a",
+          "votes": 2205,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e723f7f8-0db1-4bc5-a64c-64d8377f9f9a",
+        "name": "ORF Hitradio Ö3 | HQ",
+        "url": "https://orf-live.ors-shoutcast.at/oe3-q2a",
+        "votes": 1456
+      },
+      "variants": [
+        {
+          "stationuuid": "aac6a88d-ddf1-45f4-8377-3426337c6a6e",
+          "name": "ORF Hitradio Ö3",
+          "url": "https://orf-live.ors-shoutcast.at/oe3-q2a",
+          "votes": 72,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "af1d60c9-5e0d-11ea-be63-52543be04c81",
+        "name": "radio 88.6",
+        "url": "http://radio886.at/streams/radio_88.6/mp3",
+        "votes": 1381
+      },
+      "variants": [
+        {
+          "stationuuid": "1ff60ce0-a974-44be-9476-3069effa8b77",
+          "name": "88.6 On Air",
+          "url": "http://radio886.at/streams/radio_88.6/mp3",
+          "votes": 36,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7bf200d7-c1fd-4f0d-a33c-be799cd4dfb4",
+        "name": "Kronehit",
+        "url": "http://onair.krone.at/kronehit.mp3",
+        "votes": 394
+      },
+      "variants": [
+        {
+          "stationuuid": "65122183-db0a-49fa-b36d-8c778b947f4f",
+          "name": "Kronehit",
+          "url": "http://onair.krone.at/kronehit.mp3",
+          "votes": 81,
+          "differs": []
+        },
+        {
+          "stationuuid": "2ed33eb3-3f64-45fe-814b-d695fd9a5ab2",
+          "name": "Kronehit",
+          "url": "http://onair.krone.at/kronehit.mp3",
+          "votes": 74,
+          "differs": []
+        },
+        {
+          "stationuuid": "66a7ef58-18e4-4291-a5b1-d0403761941e",
+          "name": "Kronehit",
+          "url": "http://onair.krone.at/kronehit.mp3",
+          "votes": 27,
+          "differs": []
+        },
+        {
+          "stationuuid": "d5a84fa3-0237-4c3b-a1ed-04d8206599ac",
+          "name": "Kronehit",
+          "url": "http://onair.krone.at/kronehit.mp3",
+          "votes": 17,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962ee480-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Xmas",
+        "url": "http://www.radio-xmas.at:443/xmas?1512905036085",
+        "votes": 357
+      },
+      "variants": [
+        {
+          "stationuuid": "96ad4f9c-8f3f-42f1-aceb-7f784b6c42c5",
+          "name": "Radio X-MAS",
+          "url": "http://www.radio-xmas.at:443/xmas?type=http",
+          "votes": 26,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "98449405-4f52-4acc-b501-912ed5595a2d",
+          "name": "Radio X-MAS",
+          "url": "http://www.radio-xmas.at:443/xmas?type=http",
+          "votes": 9,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "62e78417-563d-11ea-be63-52543be04c81",
+        "name": "Orange 94.0 secure",
+        "url": "https://securestream.o94.at/live.mp3",
+        "votes": 298
+      },
+      "variants": [
+        {
+          "stationuuid": "d86ea7b0-d1bc-4168-8157-4fa8a02b859e",
+          "name": "ORANGE 94.0",
+          "url": "https://securestream.o94.at/live.mp3",
+          "votes": 36,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b65b6a15-fede-473f-bb85-a91b31109b42",
+          "name": "ORANGE 94.0",
+          "url": "https://securestream.o94.at/live.mp3",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5971be6a-df87-4e50-9972-df9c93a47dc6",
+        "name": "Radio Vorarlberg HQ",
+        "url": "https://orf-live.ors-shoutcast.at/vbg-q2a",
+        "votes": 169
+      },
+      "variants": [
+        {
+          "stationuuid": "9011eaf6-2316-47ca-90a9-811f3a943d2e",
+          "name": "ORF Radio Vorarlberg",
+          "url": "https://orf-live.ors-shoutcast.at/vbg-q2a",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "99d39cb5-0106-42d9-a656-3071ec3b4738",
+        "name": "Antenne Vorarlberg Chillout Lounge ",
+        "url": "https://web.radio.antennevorarlberg.at/av-chillout",
+        "votes": 162
+      },
+      "variants": [
+        {
+          "stationuuid": "7308ec18-42c0-4bbf-ab0e-72b1800d3cba",
+          "name": "Antenne Vorarlberg Chillout Lounge ",
+          "url": "https://web.radio.antennevorarlberg.at/av-chillout",
+          "votes": 103,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6fc0397a-efc5-4ad7-921f-5df20374d0c1",
+        "name": "oe1 surround ",
+        "url": "https://oe1dd.mdn.ors.at/out/u/oe1dd/manifest.m3u8",
+        "votes": 126
+      },
+      "variants": [
+        {
+          "stationuuid": "31762732-8711-4279-98ad-95dd2184cf88",
+          "name": "111",
+          "url": "https://oe1dd.mdn.ors.at/out/u/oe1dd/manifest.m3u8",
+          "votes": 87,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c6660054-be82-4093-8f5d-6be113f63361",
+          "name": "oe1 dd",
+          "url": "https://oe1dd.mdn.ors.at/out/u/oe1dd/manifest.m3u8",
+          "votes": 45,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cfe922ac-2063-42b3-9bda-2c115488106d",
+        "name": "Museumsradio AM 1476",
+        "url": "https://museum.streamserver24.com:8080/stream",
+        "votes": 112
+      },
+      "variants": [
+        {
+          "stationuuid": "629fde89-f1d3-4935-a81b-20f927b4f198",
+          "name": "museumsradio",
+          "url": "https://museum.streamserver24.com:8080/stream",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "cc338f08-2284-412e-b8e1-c055e1145266",
+          "name": "museumsradio",
+          "url": "https://museum.streamserver24.com:8080/stream",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "73d444ea-c4e4-43cc-a8b1-4ea9ed7b5eea",
+          "name": "museumsradio",
+          "url": "https://museum.streamserver24.com:8080/stream",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b8d80240-6c88-477a-9e28-49b891489265",
+          "name": "museumsradio",
+          "url": "https://museum.streamserver24.com:8080/stream",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "171259e7-3712-4ce4-9af8-602eab100870",
+        "name": "Lo-Fi Halloween and Chill",
+        "url": "http://audio.gendercriminals.gay/listen/lo-fi_halloween_and_chill/radio-browser",
+        "votes": 66
+      },
+      "variants": [
+        {
+          "stationuuid": "93fbc908-ad0f-4fec-977b-b6296f89a9f1",
+          "name": "Lo-Fi Halloween and Chill",
+          "url": "http://audio.gendercriminals.gay/listen/lo-fi_halloween_and_chill/radio-browser",
+          "votes": 63,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "48cad816-47a4-4ec9-a1a9-8ccab1abdf71",
+        "name": "ViyanaFM",
+        "url": "https://radyo.viyanafm.at/1453/stream",
+        "votes": 65
+      },
+      "variants": [
+        {
+          "stationuuid": "f4e3ea24-0e68-4d56-b000-611bac9410dd",
+          "name": "Viyana FM",
+          "url": "https://radyo.viyanafm.at/1453/stream",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "baaf6fc4-c6ef-4d19-929b-193dc21e360e",
+        "name": "Popwelle. Das Musikradio,AutoDJ",
+        "url": "https://popwelle.sp.radio.fm/stream",
+        "votes": 46
+      },
+      "variants": [
+        {
+          "stationuuid": "ec0240dd-4e43-40e4-b200-b8417ddaf796",
+          "name": "Popwelle. Das Musikradio,AutoDJ",
+          "url": "https://popwelle.sp.radio.fm/stream",
+          "votes": 34,
+          "differs": []
+        },
+        {
+          "stationuuid": "f8ccc082-8845-4a7f-94e9-dd781047f0c6",
+          "name": "Popwelle. Das Musikradio,AutoDJ",
+          "url": "https://popwelle.sp.radio.fm/stream",
+          "votes": 28,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "51fc72b8-463f-4987-b3f7-940ea8b49170",
+        "name": "Campus & City Radio 94.4",
+        "url": "http://cr944.at:8000/cr944-high",
+        "votes": 40
+      },
+      "variants": [
+        {
+          "stationuuid": "9647af16-a09f-4b57-aa7c-4669a75be554",
+          "name": "Campus & City Radio St. Pölten",
+          "url": "http://cr944.at:8000/cr944-high",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7387b7ff-2778-4b0b-b001-e4f134586961",
+        "name": "Radio Agora 105,5",
+        "url": "https://livestream.agora.at/agora",
+        "votes": 40
+      },
+      "variants": [
+        {
+          "stationuuid": "5daaf267-22c2-4078-bf9d-068e99cd76d6",
+          "name": "Radio Agora",
+          "url": "https://livestream.agora.at/agora",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9606d88a-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Max Penny",
+        "url": "http://listen.radiomax.technology/penny",
+        "votes": 37
+      },
+      "variants": [
+        {
+          "stationuuid": "5f08476a-e6f9-40ba-94b3-f15269555c13",
+          "name": "PENNY live",
+          "url": "http://listen.radiomax.technology/penny",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "efd3f809-7224-413f-aa8b-18514083209d",
+        "name": "Popwelle Wörthersee,AutoDJ",
+        "url": "https://popwellezwei.sp.radio.fm/stream",
+        "votes": 33
+      },
+      "variants": [
+        {
+          "stationuuid": "16abcc9d-5d8f-46eb-89c7-438b05b96cb1",
+          "name": "Popwelle Wörthersee,AutoDJ",
+          "url": "https://popwellezwei.sp.radio.fm/stream",
+          "votes": 20,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ea59d91a-bf84-4650-8817-46bdda4f72a5",
+        "name": "28Radio - Rock",
+        "url": "https://streaming.28radio.cc:8000/rock.mp3",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "c15e7f15-b5b3-4bca-9a42-c97f345ed2f4",
+          "name": "28Radio - Rock",
+          "url": "https://streaming.28radio.cc:8000/rock.mp3",
+          "votes": 10,
+          "differs": []
+        },
+        {
+          "stationuuid": "3356312f-f88a-4fe1-b752-cc28c07ad927",
+          "name": "28Radio - Rock",
+          "url": "https://streaming.28radio.cc:8000/rock.mp3",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "216d8ef9-e1fe-49fc-a44b-1f6896f6a680",
+        "name": "Austrianpower radio",
+        "url": "https://streamsrv-austrianpub.kechit.eu/main_lo",
+        "votes": 24
+      },
+      "variants": [
+        {
+          "stationuuid": "e56af1d8-ec96-40c7-bb6c-00dc06e3b453",
+          "name": "AustrianPowerRadio",
+          "url": "https://streamsrv-austrianpub.kechit.eu/main_lo",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "70cc6884-7781-4d7a-8dcc-79a18b3fd0d3",
+        "name": "Radio Flamingo + Volksmusik",
+        "url": "https://live.radioflamingo.at/rfplusvolksmusik",
+        "votes": 24
+      },
+      "variants": [
+        {
+          "stationuuid": "e4f397a7-d8d1-4571-a2b8-4d85c905d978",
+          "name": "Radio Flamingo + Volksmusik",
+          "url": "https://live.radioflamingo.at/rfplusvolksmusik",
+          "votes": 14,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "70296bb5-3155-4d09-b40b-4478890a5104",
+        "name": "Radio OP",
+        "url": "https://server4.streamserver24.com:26250/stream",
+        "votes": 21
+      },
+      "variants": [
+        {
+          "stationuuid": "73d526af-d0c2-4e97-a2f7-a0f884d92d6c",
+          "name": "Radio MORA",
+          "url": "https://server4.streamserver24.com:26250/stream?1655820557881",
+          "votes": 16,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c24d963c-f4b5-4346-8001-ed30af0add6a",
+        "name": "Radio Rudina",
+        "url": "https://azuracast.datea.services:8000/radio.mp3",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "3d1b2ed6-f073-448e-a319-9195de90bb64",
+          "name": "Radio Rudina",
+          "url": "https://azuracast.datea.services:8000/radio.mp3",
+          "votes": 11,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0d61eb06-745b-464d-9745-6230a09d418d",
+        "name": "Grün-Weiss",
+        "url": "https://live.gruen-weiss.at/rgw.aac",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "12875c2c-9660-418a-b2fb-7b6427739c77",
+          "name": "Grün-Weiss",
+          "url": "https://live.gruen-weiss.at/rgw.aac",
+          "votes": 9,
+          "differs": []
+        },
+        {
+          "stationuuid": "c9580558-75fa-4bed-aecd-de069f64af52",
+          "name": "Grün-Weiss",
+          "url": "https://live.gruen-weiss.at/rgw.aac",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aadd3452-6231-4f9e-8e98-c86556d42d5b",
+        "name": "Diks Дикс",
+        "url": "http://strm112.1.fm/acpl_mobile_mp3",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "98e310fb-eb8c-42a7-89dc-6b147aeffae6",
+          "name": "Diks Дикс",
+          "url": "http://strm112.1.fm/acpl_mobile_mp3",
+          "votes": 3,
+          "differs": []
+        },
+        {
+          "stationuuid": "db589e34-16a4-491d-a914-c12d10271c28",
+          "name": "DIKS ДИКС",
+          "url": "http://strm112.1.fm/acpl_mobile_mp3",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7c630780-bfce-43d8-ae6a-fabfe4ca3a05",
+        "name": "88.6",
+        "url": "https://edge14.streamonkey.net/radio886-onair/stream/mp3",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "df6d4fe8-6f77-49fc-bb3a-9341e5d9f54c",
+          "name": "88.6",
+          "url": "https://edge14.streamonkey.net/radio886-onair/stream/mp3",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "0cee0f71-175b-4c1d-9b32-8939e2797151",
+          "name": "88.6",
+          "url": "https://edge14.streamonkey.net/radio886-onair/stream/mp3",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [
+    {
+      "stationuuid": "1e13ed4e-daa9-4728-8550-e08d89c1c8e7",
+      "name": "FM4",
+      "broadcasterKey": "orf",
+      "metadataUrl": "https://audioapi.orf.at/fm4/api/json/4.0/live"
+    },
+    {
+      "stationuuid": "657b7b0f-2ef9-45df-9915-4ca4f948c54f",
+      "name": "Ö1",
+      "broadcasterKey": "orf",
+      "metadataUrl": "https://audioapi.orf.at/oe1/api/json/4.0/live"
+    },
+    {
+      "stationuuid": "e723f7f8-0db1-4bc5-a64c-64d8377f9f9a",
+      "name": "Hitradio Ö3",
+      "broadcasterKey": "orf",
+      "metadataUrl": "https://audioapi.orf.at/oe3/api/json/4.0/live"
+    },
+    {
+      "stationuuid": "154fc4d3-4584-4b59-b2ed-e8656e0420e8",
+      "name": "Radio Wien",
+      "broadcasterKey": "orf",
+      "metadataUrl": "https://audioapi.orf.at/wie/api/json/4.0/live"
+    },
+    {
+      "stationuuid": "5971be6a-df87-4e50-9972-df9c93a47dc6",
+      "name": "Radio Vorarlberg",
+      "broadcasterKey": "orf",
+      "metadataUrl": "https://audioapi.orf.at/vbg/api/json/4.0/live"
+    },
+    {
+      "stationuuid": "ed03bcf5-86d2-45f7-848d-90d67f89e001",
+      "name": "Radio Oberösterreich",
+      "broadcasterKey": "orf",
+      "metadataUrl": "https://audioapi.orf.at/ooe/api/json/4.0/live"
+    },
+    {
+      "stationuuid": "c4a15de4-ce45-401f-bfb1-f98f818a74f0",
+      "name": "Radio Niederösterreich",
+      "broadcasterKey": "orf",
+      "metadataUrl": "https://audioapi.orf.at/noe/api/json/4.0/live"
+    },
+    {
+      "stationuuid": "f0787305-4e27-4494-b5ae-8f9082301f1a",
+      "name": "Radio Steiermark",
+      "broadcasterKey": "orf",
+      "metadataUrl": "https://audioapi.orf.at/stm/api/json/4.0/live"
+    },
+    {
+      "stationuuid": "477d5e54-24b0-48dd-97f0-5cf4f047eb55",
+      "name": "Radio Tirol",
+      "broadcasterKey": "orf",
+      "metadataUrl": "https://audioapi.orf.at/tir/api/json/4.0/live"
+    },
+    {
+      "stationuuid": "f9bc912f-dbd7-4a75-b3af-1a77c2231098",
+      "name": "Radio Kärnten",
+      "broadcasterKey": "orf",
+      "metadataUrl": "https://audioapi.orf.at/ktn/api/json/4.0/live"
+    },
+    {
+      "stationuuid": "77bb2bea-2de1-4909-bf9f-25021e173092",
+      "name": "Radio Burgenland",
+      "broadcasterKey": "orf",
+      "metadataUrl": "https://audioapi.orf.at/bgl/api/json/4.0/live"
+    },
+    {
+      "stationuuid": "cee9c38a-a2f2-40ef-8926-4c08e9f60279",
+      "name": "Radio Salzburg",
+      "broadcasterKey": "orf",
+      "metadataUrl": "https://audioapi.orf.at/sbg/api/json/4.0/live"
+    }
+  ],
+  "httpsVariants": []
+}

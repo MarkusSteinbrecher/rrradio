@@ -1,0 +1,786 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.877Z",
+  "country": "HR",
+  "sourceProbedAt": "2026-04-30T09:09:31.257Z",
+  "totals": {
+    "deadStreams": 5,
+    "internalDupes": 36,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "2cf7f232-2209-4f21-837c-8bf83c3eed12",
+      "name": "Club Music Radio - FOLK",
+      "url": "https://cmr-hosting.com:7001/;stream/1",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 503",
+      "votes": 64,
+      "lastProbedAt": "2026-04-30T09:09:17.949Z"
+    },
+    {
+      "stationuuid": "03abf0e3-7903-4f3f-a757-053631819f43",
+      "name": "Club Music Radio - LOVE SONG",
+      "url": "https://cmr-hosting.com:7004/;stream/1",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 503",
+      "votes": 53,
+      "lastProbedAt": "2026-04-30T09:09:18.005Z"
+    },
+    {
+      "stationuuid": "3c0d3177-d2fb-4c04-ac6f-0e03173c42cb",
+      "name": "RBB Internet Radio",
+      "url": "https://cast1.asurahosting.com/proxy/zoran/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 11,
+      "lastProbedAt": "2026-04-30T09:09:19.974Z"
+    },
+    {
+      "stationuuid": "483ab295-ea7a-4d2b-83db-f315d5c8a843",
+      "name": "Laganini Narodni i Folk Radio ",
+      "url": "https://sonic1-rbx.cloud-center.ro/8026/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T09:09:31.254Z"
+    },
+    {
+      "stationuuid": "f430b56d-3b8c-4e15-bfc9-89ee06dbcfc0",
+      "name": "Radio Kampus",
+      "url": "https://audio.alter-media.hr:7016/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T09:09:22.146Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "0be05318-b6ad-11e8-aaf2-52543be04c81",
+        "name": "Radio Dalmacija",
+        "url": "http://shoutcast.pondi.hr:8000/;",
+        "votes": 7920
+      },
+      "variants": [
+        {
+          "stationuuid": "2dfd48d8-734e-4ba4-9eb4-a0909b753573",
+          "name": "R. Dalmacija",
+          "url": "http://shoutcast.pondi.hr:8000/;",
+          "votes": 79,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "7eafad57-ec8e-48a1-999c-86093a496c84",
+          "name": "radio dalmacija",
+          "url": "http://shoutcast.pondi.hr:8000/;",
+          "votes": 64,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "868a3d1b-beaa-451d-afec-5adb1b995e3d",
+          "name": "Radio Dalmacija new",
+          "url": "http://shoutcast.pondi.hr:8000/;",
+          "votes": 28,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "aa4cd159-fcc5-49f6-a663-c1b7b1d77692",
+          "name": "R. Dalmacija",
+          "url": "http://shoutcast.pondi.hr:8000/;",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "51501335-c294-4084-97d6-6ee4e8441c0d",
+        "name": "Otvoreni Radio",
+        "url": "https://stream.otvoreni.hr/otvoreni",
+        "votes": 4559
+      },
+      "variants": [
+        {
+          "stationuuid": "3a23d0e2-4ceb-4439-a33a-6feb575b1bf6",
+          "name": "Otvoreni - Live",
+          "url": "https://stream.otvoreni.hr/otvoreni",
+          "votes": 88,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "52ec6f2a-79d8-4a2c-8088-d16caf2ddb00",
+          "name": "Otvoreni radio",
+          "url": "https://stream.otvoreni.hr/otvoreni",
+          "votes": 45,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ac78d4f5-ac2b-4d9e-8f33-2187a41fb539",
+        "name": "Yammat FM",
+        "url": "https://stream.yammat.fm/radio/8000/yammat.mp3",
+        "votes": 4242
+      },
+      "variants": [
+        {
+          "stationuuid": "f3d4ad2c-7252-4447-9cf4-fc4543ec54c6",
+          "name": "Yammat FM",
+          "url": "https://stream.yammat.fm/radio/8000/yammat.mp3",
+          "votes": 122,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fa82f10f-1711-43da-a3d8-71a40ec36a62",
+        "name": "Bravo",
+        "url": "http://c5.hostingcentar.com:8059/stream",
+        "votes": 3403
+      },
+      "variants": [
+        {
+          "stationuuid": "2b9512c9-375c-46ab-b28f-ef7c83c69ea3",
+          "name": "bravo!",
+          "url": "http://c5.hostingcentar.com:8059/stream?4960",
+          "votes": 764,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6b460145-8526-499c-8447-e3c8549f2346",
+        "name": "Laganini FM",
+        "url": "http://194.145.208.251:8000/start/lfmzg",
+        "votes": 2328
+      },
+      "variants": [
+        {
+          "stationuuid": "526dda35-9a66-4bea-83c2-d4d84c9bec0a",
+          "name": "Laganini Zagreb",
+          "url": "http://194.145.208.251:8000/start/lfmzg",
+          "votes": 276,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2dcb60cb-87a8-4640-819a-5a0c1c6e5022",
+        "name": "Radio Dalmacija - Oliver",
+        "url": "http://c5.hostingcentar.com:8275/stream",
+        "votes": 2190
+      },
+      "variants": [
+        {
+          "stationuuid": "be1af6a4-7870-4113-948f-0d1cb5a53361",
+          "name": "Radio Dalmacija - Oliver",
+          "url": "http://c5.hostingcentar.com:8275/stream",
+          "votes": 157,
+          "differs": []
+        },
+        {
+          "stationuuid": "2b72e4cd-edb6-4001-a7cd-7a824f3a3d59",
+          "name": "Radio Dalmacija - Olivet",
+          "url": "http://c5.hostingcentar.com:8275/stream",
+          "votes": 27,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "50678df9-1924-4eca-9629-bc760deae91a",
+        "name": "Laganini FM Rijeka",
+        "url": "http://194.145.208.251:8004/start/lfmri",
+        "votes": 1302
+      },
+      "variants": [
+        {
+          "stationuuid": "0b829d20-6296-4c01-8d5f-074beb39af3d",
+          "name": "Laganini Rijeka",
+          "url": "http://194.145.208.251:8004/start/lfmri",
+          "votes": 360,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f7a3de33-d88b-11e9-a861-52543be04c81",
+        "name": "Radio Brac",
+        "url": "http://s8.iqstreaming.com:8066/stream",
+        "votes": 1084
+      },
+      "variants": [
+        {
+          "stationuuid": "a6d33374-442b-45d1-aab8-f4f1acda1c03",
+          "name": "Radio Brac",
+          "url": "http://s8.iqstreaming.com:8066/stream",
+          "votes": 9,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5cf3d24c-1b1f-11e8-a334-52543be04c81",
+        "name": "Novi Radio Zadar",
+        "url": "http://s8.iqstreaming.com:8022/stream",
+        "votes": 933
+      },
+      "variants": [
+        {
+          "stationuuid": "2e779571-5cc1-4feb-9803-9b82632dcef1",
+          "name": "Novi radio Zadar",
+          "url": "http://s8.iqstreaming.com:8022/stream",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8e9af197-9772-49ae-a288-9bbc420827b5",
+        "name": "Online Radio Kneginec",
+        "url": "http://stream.zeno.fm/yetzdv442k8uv",
+        "votes": 782
+      },
+      "variants": [
+        {
+          "stationuuid": "99d94112-6eab-4b5b-a20d-a2c7757637cd",
+          "name": "Kneginec",
+          "url": "http://stream.zeno.fm/yetzdv442k8uv",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9a3bf13b-21b2-44ef-bd31-ccd371b80036",
+        "name": "Otvoreni Radio - Hot",
+        "url": "https://stream.otvoreni.hr/hot",
+        "votes": 580
+      },
+      "variants": [
+        {
+          "stationuuid": "4e57d9c6-267a-47c8-a55e-6473b3d2228c",
+          "name": "Otvoreni Hot",
+          "url": "https://stream.otvoreni.hr/hot",
+          "votes": 51,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "503a6fa2-6aba-48c7-af7d-467303752dae",
+        "name": "Narodni - Ne pitaj, samo sviraj!",
+        "url": "http://c5.hostingcentar.com:8348/;",
+        "votes": 434
+      },
+      "variants": [
+        {
+          "stationuuid": "ee0a71a1-fd26-449f-9bdf-e17a9f4dc746",
+          "name": "Narodni - Totalno opušteno",
+          "url": "http://c5.hostingcentar.com:8348/;",
+          "votes": 27,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a0a53101-7ce3-4a69-aa5c-cac3cef968cd",
+        "name": "Antena Zagreb - Live",
+        "url": "http://live.antenazagreb.hr:8000/;",
+        "votes": 429
+      },
+      "variants": [
+        {
+          "stationuuid": "79bcec97-6d62-45c6-a861-85463c32f864",
+          "name": "Antena ZG",
+          "url": "http://live.antenazagreb.hr:8000/;",
+          "votes": 93,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "023be5bc-f3fd-43c0-b25d-4f94a7567454",
+        "name": "Happy FM",
+        "url": "http://c5.hostingcentar.com:9543/stream?4923",
+        "votes": 367
+      },
+      "variants": [
+        {
+          "stationuuid": "babd2318-b073-4b86-b7c1-a66f5bfd5797",
+          "name": "Happy FM Croatia",
+          "url": "http://c5.hostingcentar.com:9543/stream?1820",
+          "votes": 89,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f4737266-8a7b-42c2-98de-78a30a72457e",
+        "name": "Otvoreni Radio - Chill",
+        "url": "https://stream.otvoreni.hr/chill",
+        "votes": 358
+      },
+      "variants": [
+        {
+          "stationuuid": "9f21fc9f-6cc0-4aea-b6d3-60ba1b546f71",
+          "name": "Otvoreni Chill",
+          "url": "https://stream.otvoreni.hr/chill",
+          "votes": 22,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "baceda46-01d3-485e-8026-cbbc3c4687b2",
+        "name": "Narodni - Uživo",
+        "url": "http://c5.hostingcentar.com:8059/;",
+        "votes": 271
+      },
+      "variants": [
+        {
+          "stationuuid": "8ff493c0-a656-4e24-a8b0-fffb818759e6",
+          "name": "Bravo!",
+          "url": "http://c5.hostingcentar.com:8059/;",
+          "votes": 156,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "cb6a1e40-09af-4177-81df-983c86896a1a",
+          "name": "Bravo",
+          "url": "http://c5.hostingcentar.com:8059/;",
+          "votes": 121,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "38dba53f-b60a-4dac-bf3a-40c2f5878847",
+        "name": "ZFM",
+        "url": "https://ec2s.crolive.com.hr:7015/stream",
+        "votes": 241
+      },
+      "variants": [
+        {
+          "stationuuid": "ed25c1d5-b229-449f-b66f-43be3643f661",
+          "name": "ZFM 99.5 & 96.0",
+          "url": "https://ec2s.crolive.com.hr:7015/stream",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "72c20df5-257c-11e9-a80b-52543be04c81",
+        "name": "ULTRA Split",
+        "url": "http://c5.hostingcentar.com:8061/stream",
+        "votes": 214
+      },
+      "variants": [
+        {
+          "stationuuid": "bc1ba6ab-468f-4c09-920e-96a9914dab8c",
+          "name": "ULTRA Split",
+          "url": "http://c5.hostingcentar.com:8061/stream",
+          "votes": 43,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5d429726-08ac-4785-8e12-292054d1d6cc",
+        "name": "Hrvatski Katolički Radio",
+        "url": "https://stream.hkr.hr/hkr.mp3",
+        "votes": 202
+      },
+      "variants": [
+        {
+          "stationuuid": "eefbebcd-0d3c-481b-810d-ba36129b2b2f",
+          "name": "Hrvatski katolicki radio",
+          "url": "https://stream.hkr.hr/hkr.mp3",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cb31301a-6e75-4d70-8139-e495cdeaaea2",
+        "name": "Radio Kaj",
+        "url": "http://s8.iqstreaming.com:8050/stream",
+        "votes": 181
+      },
+      "variants": [
+        {
+          "stationuuid": "9670b906-4038-4a64-97af-617f7b6196cc",
+          "name": "Radio Kaj",
+          "url": "http://s8.iqstreaming.com:8050/stream",
+          "votes": 23,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6a60f518-c951-4d19-8f7a-1e69ecbbda04",
+        "name": "Radio Ritam Šibenik",
+        "url": "https://ec2s.crolive.com.hr:8455/stream",
+        "votes": 109
+      },
+      "variants": [
+        {
+          "stationuuid": "82c6de29-905b-42bc-8f77-7d269403d15d",
+          "name": "Radio Ritam",
+          "url": "https://ec2s.crolive.com.hr:8455/stream",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "13caab3d-9245-4a9c-be62-84a858d8f65d",
+        "name": "Radio Maestral Pula",
+        "url": "http://ec2s.crolive.com.hr:1630/stream",
+        "votes": 101
+      },
+      "variants": [
+        {
+          "stationuuid": "e2ce80b6-9f2c-4122-9e87-5e0e0e21a950",
+          "name": "Radio Maestral",
+          "url": "http://ec2s.crolive.com.hr:1630/stream",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e33738f0-7482-4aa7-9a3d-4e6d299d9747",
+        "name": "Tvoj Feel Good radio ! Otvoreni",
+        "url": "https://stream2.otvoreni.hr/otvoreni",
+        "votes": 94
+      },
+      "variants": [
+        {
+          "stationuuid": "74e490a5-462b-4407-b6be-e0e298800a82",
+          "name": "Otvoreni Live",
+          "url": "https://stream2.otvoreni.hr/otvoreni",
+          "votes": 23,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961887ab-0601-11e8-ae97-52543be04c81",
+        "name": "Hit Rado Sinj",
+        "url": "http://s8.iqstreaming.com:8012/stream",
+        "votes": 94
+      },
+      "variants": [
+        {
+          "stationuuid": "3b2e95f1-0d42-469f-ad78-645c152aa388",
+          "name": "HIT RADIO",
+          "url": "http://s8.iqstreaming.com:8012/stream",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "10810cb5-dcdf-4608-ac3b-3d325ef11073",
+        "name": "Karlovac NOW Dance 90's radio",
+        "url": "http://s8.iqstreaming.com:8010/stream",
+        "votes": 73
+      },
+      "variants": [
+        {
+          "stationuuid": "b7b99e0d-b083-4606-9f5e-62dd0e64a3b7",
+          "name": "Karlovac NOW Dance 90's radio",
+          "url": "http://s8.iqstreaming.com:8010/stream",
+          "votes": 15,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c9cd8b34-8d5f-4c42-b891-c5355bae400e",
+        "name": "Radio Otok Krk",
+        "url": "https://s8.iqstreaming.com:8014/stream",
+        "votes": 72
+      },
+      "variants": [
+        {
+          "stationuuid": "d269b039-1cd2-4a1a-858b-63e5f81c9030",
+          "name": "Radio Otok Krk",
+          "url": "https://s8.iqstreaming.com:8014/stream",
+          "votes": 43,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d853347f-202a-49bc-9b13-2f2bea321c19",
+        "name": "Radio Max 99.3 (Cerje Nebojse, Maruševec)",
+        "url": "https://azuracast.novi-net.net/listen/radiomax/radiomax.aac?refresh=1676766574706",
+        "votes": 70
+      },
+      "variants": [
+        {
+          "stationuuid": "f5657e54-282b-4b3f-943f-347127108768",
+          "name": "Radio Max",
+          "url": "https://azuracast.novi-net.net/listen/radiomax/radiomax.aac",
+          "votes": 7,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2a16d3f0-1cd4-4264-9d24-eddb6d10bdf2",
+        "name": "Radio Šibenik",
+        "url": "http://144.76.219.22:8215/stream.mp3?ver=421911",
+        "votes": 49
+      },
+      "variants": [
+        {
+          "stationuuid": "695f181f-f20d-444c-b4c2-7a1edfc6fb63",
+          "name": "Županijski Radio Šibenik",
+          "url": "http://144.76.219.22:8215/stream.mp3",
+          "votes": 11,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "afdba2d7-0eee-4dcc-adf7-9a1819383eb6",
+        "name": "Braniteljski radio \"Nepokoreni grad\"",
+        "url": "http://s3.radio.co/se83499ee0/listen",
+        "votes": 48
+      },
+      "variants": [
+        {
+          "stationuuid": "8432562c-8902-4722-9583-881546fd845c",
+          "name": "Braniteljski radio \"Nepokoreni grad\"  - Osijek",
+          "url": "http://s3.radio.co/se83499ee0/listen",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0641ad9b-6935-4a1b-a406-d34971a09565",
+        "name": "Radio Otocac",
+        "url": "http://s8.iqstreaming.com:8024/stream",
+        "votes": 46
+      },
+      "variants": [
+        {
+          "stationuuid": "f411b3d9-8700-4049-bd4a-6579b3b613c2",
+          "name": "Hrvatski radio Otočac",
+          "url": "http://s8.iqstreaming.com:8024/stream",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96235f09-0601-11e8-ae97-52543be04c81",
+        "name": "Obiteljski Radio Ivanić",
+        "url": "http://s8.iqstreaming.com:8080/stream",
+        "votes": 42
+      },
+      "variants": [
+        {
+          "stationuuid": "2a8e0877-7f91-4109-9e0a-30d50c2c00a3",
+          "name": "OBITELJSKI RADIO IVANIĆ",
+          "url": "http://s8.iqstreaming.com:8080/stream",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cf965660-0a86-41d3-822f-9064f9a8020a",
+        "name": "Bijelo-plavi radio",
+        "url": "http://s8.iqstreaming.com:8028/stream",
+        "votes": 36
+      },
+      "variants": [
+        {
+          "stationuuid": "43a06798-bea3-4912-be7f-0f8dcc0f3369",
+          "name": "Bijelo Plavi radio",
+          "url": "http://s8.iqstreaming.com:8028/stream",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "311b357a-fd6a-483e-969d-cc8985e05413",
+        "name": "Hrvatski Radio Čakovec d.o.o. Stream",
+        "url": "http://live.radio-cakovec.hr:7020/stream",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "c4b33d60-422e-4aaf-a504-b808c5fddf4a",
+          "name": "Hrvatski radio Čakovec d.o.o. Stream",
+          "url": "http://live.radio-cakovec.hr:7020/stream",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cf16320d-d519-431e-b972-93e691cce9ab",
+        "name": "Tamburaški radio",
+        "url": "https://listen.radioking.com/radio/552965/stream/612287",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "6f47be9d-c341-4401-9d74-b087e83661ae",
+          "name": "Tamburaški radio",
+          "url": "https://listen.radioking.com/radio/552965/stream/612287",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2752be59-6ab9-4437-86a5-42d84c858535",
+        "name": "Radio Megaton",
+        "url": "https://chopin.bizmusic.net/radio/8030/radio.mp3",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "2e8e4cd5-7600-40a1-a2d4-ef687e9f9f2c",
+          "name": "Radio Megaton",
+          "url": "https://chopin.bizmusic.net/radio/8030/radio.mp3",
+          "votes": 13,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "630e56b9-7675-42e7-b1cc-bebbabdbf082",
+        "name": "Prigorski radio 96.6MHz",
+        "url": "http://s8.iqstreaming.com:8048/stream",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "cad2749b-c654-41fc-9aa5-6370e11f7ba9",
+          "name": "Prigorski radio",
+          "url": "http://s8.iqstreaming.com:8048/stream",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

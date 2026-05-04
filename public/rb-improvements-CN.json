@@ -1,0 +1,2963 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.861Z",
+  "country": "CN",
+  "sourceProbedAt": "2026-04-30T12:47:04.549Z",
+  "totals": {
+    "deadStreams": 116,
+    "internalDupes": 94,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "d84ba969-f1a3-49ef-830a-bd38e57c8e83",
+      "name": "AisaFM亚洲粤语台",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/999/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 1779,
+      "lastProbedAt": "2026-04-30T12:45:16.410Z"
+    },
+    {
+      "stationuuid": "288d0219-4d05-4f5d-8b1d-671bb6c51733",
+      "name": "安徽小说评书广播",
+      "url": "https://lhttp.qtfm.cn/live/1951/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 1593,
+      "lastProbedAt": "2026-04-30T12:45:16.034Z"
+    },
+    {
+      "stationuuid": "7f0d6d5c-7707-4812-bbc1-a44eb9ccc74a",
+      "name": "怀旧音乐广播",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2629/64.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 1322,
+      "lastProbedAt": "2026-04-30T12:45:15.706Z"
+    },
+    {
+      "stationuuid": "9b6699c4-576a-4ad7-a666-324cdefec14b",
+      "name": "Raggakings雷鬼音乐频道",
+      "url": "https://raggakings.radio:8443/stream.ogg",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 921,
+      "lastProbedAt": "2026-04-30T12:45:15.886Z"
+    },
+    {
+      "stationuuid": "1328e18b-ab1a-4471-a7c4-99bf68d34dbc",
+      "name": "AsiaFM亚洲音乐台(新)",
+      "url": "https://live.xmcdn.com/live/764/64.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 724,
+      "lastProbedAt": "2026-04-30T12:45:17.140Z"
+    },
+    {
+      "stationuuid": "e5545833-d1f0-4030-bb16-8b5baaed4714",
+      "name": "周杰伦音乐台",
+      "url": "https://stream.zeno.fm/zibntg5gtr7vv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 522,
+      "lastProbedAt": "2026-04-30T12:45:17.426Z"
+    },
+    {
+      "stationuuid": "40f008bb-bae0-4a53-805b-3bc654899d66",
+      "name": "大自然白噪音",
+      "url": "https://stream.zeno.fm/vg54x7r1exhvv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 412,
+      "lastProbedAt": "2026-04-30T12:45:18.051Z"
+    },
+    {
+      "stationuuid": "8e75147d-2a70-475b-8bee-2685e3a3c33b",
+      "name": "和谐铁路之声",
+      "url": "https://stream.zeno.fm/gzsk9r47sc9uv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 274,
+      "lastProbedAt": "2026-04-30T12:45:31.537Z"
+    },
+    {
+      "stationuuid": "d01fcb00-226d-44ef-8188-7663fccb1d00",
+      "name": "105.1成都简单音乐广播",
+      "url": "https://stream.zeno.fm/7brqs9rsbc9uv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 252,
+      "lastProbedAt": "2026-04-30T12:45:22.512Z"
+    },
+    {
+      "stationuuid": "1f5cd4f8-ae17-4fdd-9b7a-af5ddeea0517",
+      "name": "古风现代音乐",
+      "url": "https://stream.zeno.fm/tpyqvdsyexhvv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 205,
+      "lastProbedAt": "2026-04-30T12:45:24.227Z"
+    },
+    {
+      "stationuuid": "e10cffd0-9037-46e3-8a2f-876a3e111a70",
+      "name": "大使电台",
+      "url": "https://stream.zeno.fm/k2xy9e7zk0hvv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 203,
+      "lastProbedAt": "2026-04-30T12:45:24.332Z"
+    },
+    {
+      "stationuuid": "89f4a008-dc90-48b8-b1d3-db16c0d008c7",
+      "name": "内蒙古评书曲艺广播",
+      "url": "https://lhttp-hw.qtfm.cn/live/1887/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 169,
+      "lastProbedAt": "2026-04-30T12:45:25.883Z"
+    },
+    {
+      "stationuuid": "e9a41c0f-2be3-4c63-9ea6-327d782dddd3",
+      "name": "杭州音乐时尚广播",
+      "url": "https://live.xmcdn.com/live/1845/64.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 158,
+      "lastProbedAt": "2026-04-30T12:45:26.508Z"
+    },
+    {
+      "stationuuid": "2fb2daa2-7271-4b9d-a3f2-31a3598829df",
+      "name": "아리랑모바일방송",
+      "url": "https://lhttp.qingting.fm/live/5022144/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 150,
+      "lastProbedAt": "2026-04-30T12:45:27.596Z"
+    },
+    {
+      "stationuuid": "e07fb62f-19cf-4395-9294-2bd0d50e2221",
+      "name": "成都潮台",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2781/64.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 133,
+      "lastProbedAt": "2026-04-30T12:45:28.729Z"
+    },
+    {
+      "stationuuid": "24cbcc7c-0e0e-45a1-b4be-8f939688d037",
+      "name": "山东综合广播",
+      "url": "https://lhttp.qtfm.cn/live/20234/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 131,
+      "lastProbedAt": "2026-04-30T12:45:29.049Z"
+    },
+    {
+      "stationuuid": "d701a19f-0a79-41ee-b2e3-6c0bccf39751",
+      "name": "NUGS-China Radio",
+      "url": "https://stream.zeno.fm/ftap1exq6k8uv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 128,
+      "lastProbedAt": "2026-04-30T12:45:38.824Z"
+    },
+    {
+      "stationuuid": "6c36b453-62af-4888-a512-b36c93e98e8f",
+      "name": "中式婚礼后音乐",
+      "url": "https://stream.zeno.fm/pd3m209fnxhvv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 128,
+      "lastProbedAt": "2026-04-30T12:45:29.095Z"
+    },
+    {
+      "stationuuid": "fa8abc5b-eeb7-4234-9ac6-d7ec90e4a083",
+      "name": "婚礼鞭炮电台",
+      "url": "https://stream.zeno.fm/g058eyvfnxhvv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 117,
+      "lastProbedAt": "2026-04-30T12:45:29.645Z"
+    },
+    {
+      "stationuuid": "7151bcae-7867-4f18-a6f8-27e1410af843",
+      "name": "福建音乐广播",
+      "url": "https://lhttp.qtfm.cn/live/4585/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 108,
+      "lastProbedAt": "2026-04-30T12:45:31.685Z"
+    },
+    {
+      "stationuuid": "5d3c386b-954d-4d94-b309-5fad0ad5ff80",
+      "name": "峰峰电台",
+      "url": "https://lhttp.qingting.fm/live/20500109/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 88,
+      "lastProbedAt": "2026-04-30T12:45:34.802Z"
+    },
+    {
+      "stationuuid": "84d16c49-0056-4a20-8c93-01f7e54e6efe",
+      "name": "AsiaFM",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/999/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 71,
+      "lastProbedAt": "2026-04-30T12:45:37.638Z"
+    },
+    {
+      "stationuuid": "1bcea339-b8d7-49f2-af15-968df3c06927",
+      "name": "南阳综合广播",
+      "url": "https://lhttp.qingting.fm/live/1213/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 71,
+      "lastProbedAt": "2026-04-30T12:45:37.415Z"
+    },
+    {
+      "stationuuid": "5bb0d2d0-12d9-4440-9844-80dc803e74e3",
+      "name": "重庆经济广播",
+      "url": "https://lhttp.qtfm.cn/live/1499/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 68,
+      "lastProbedAt": "2026-04-30T12:45:39.505Z"
+    },
+    {
+      "stationuuid": "06a4c360-6077-477b-a94b-2267d156f107",
+      "name": "泉州经济生活广播",
+      "url": "https://live.xmcdn.com/live/1166/64.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 66,
+      "lastProbedAt": "2026-04-30T12:45:40.173Z"
+    },
+    {
+      "stationuuid": "55b9fabf-f6b9-4a68-acfd-5fdebc825eed",
+      "name": "西式婚礼音乐",
+      "url": "https://stream.zeno.fm/4vvv2kt70xhvv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 65,
+      "lastProbedAt": "2026-04-30T12:45:39.792Z"
+    },
+    {
+      "stationuuid": "d67ef458-8c9e-4b21-ab68-aeb6d62b203a",
+      "name": "BIG BIG MIX – 乐享音乐",
+      "url": "https://play.gojoy.org/web/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 62,
+      "lastProbedAt": "2026-04-30T12:45:40.775Z"
+    },
+    {
+      "stationuuid": "ed62a1ba-0f95-45bc-b6e8-7f638967bf04",
+      "name": "包头文艺广播",
+      "url": "https://lhttp.qingting.fm/live/21259/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 54,
+      "lastProbedAt": "2026-04-30T12:45:50.524Z"
+    },
+    {
+      "stationuuid": "41c76094-5d06-4e20-a8c7-a61f01c9ea20",
+      "name": "贵阳交通广播",
+      "url": "https://lhttp.qtfm.cn/live/1774/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 52,
+      "lastProbedAt": "2026-04-30T12:45:47.434Z"
+    },
+    {
+      "stationuuid": "b1553c73-2c78-4d71-b6ed-69d8d7f6b9ab",
+      "name": "AsiaFM",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/999/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 49,
+      "lastProbedAt": "2026-04-30T12:45:48.579Z"
+    },
+    {
+      "stationuuid": "bc7cb7ff-da8e-439f-9353-dc3d189b7966",
+      "name": "六盘水交通广播",
+      "url": "https://lhttp.qingting.fm/live/5021865/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 47,
+      "lastProbedAt": "2026-04-30T12:45:50.373Z"
+    },
+    {
+      "stationuuid": "0d02b866-3ba8-43ff-a9fa-c9ece40ef921",
+      "name": "云南教育广播",
+      "url": "https://lhttp.qtfm.cn/live/1930/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 46,
+      "lastProbedAt": "2026-04-30T12:45:51.781Z"
+    },
+    {
+      "stationuuid": "05579077-4285-4176-bac8-f2ad282b1392",
+      "name": "贺州交通音乐广播",
+      "url": "https://lhttp.qtfm.cn/live/5044/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 43,
+      "lastProbedAt": "2026-04-30T12:45:55.644Z"
+    },
+    {
+      "stationuuid": "d7f88cac-b569-4936-9583-0eaab50d131f",
+      "name": "tang4438",
+      "url": "https://stream.zeno.fm/9tev4k2hs0hvv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 42,
+      "lastProbedAt": "2026-04-30T12:46:05.382Z"
+    },
+    {
+      "stationuuid": "1881c331-6db8-44be-bbd6-1a6acc8bee9b",
+      "name": "泰安交通广播",
+      "url": "https://lhttp.qtfm.cn/live/20500142/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 42,
+      "lastProbedAt": "2026-04-30T12:45:56.944Z"
+    },
+    {
+      "stationuuid": "27826574-35e5-451a-b542-c679ea067cc3",
+      "name": "云南旅游广播·香格里拉之声",
+      "url": "https://lhttp.qtfm.cn/live/20139/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 39,
+      "lastProbedAt": "2026-04-30T12:45:58.346Z"
+    },
+    {
+      "stationuuid": "71097794-8a8b-49a1-ae12-fa01c90ea4c5",
+      "name": "垦利广播",
+      "url": "https://lhttp.qtfm.cn/live/20500117/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 39,
+      "lastProbedAt": "2026-04-30T12:45:58.350Z"
+    },
+    {
+      "stationuuid": "7bcc6678-c334-4554-8071-a5ca6ba324ef",
+      "name": "测试12",
+      "url": "https://s1-fmt2.liveatc.net/rjaa_app_s?nocache=2022041005033131990",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 39,
+      "lastProbedAt": "2026-04-30T12:46:08.398Z"
+    },
+    {
+      "stationuuid": "429f6d90-66f4-4a58-a23e-3232062b7fda",
+      "name": "贵阳旅游生活广播",
+      "url": "https://lhttp.qtfm.cn/live/4874/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 38,
+      "lastProbedAt": "2026-04-30T12:46:00.605Z"
+    },
+    {
+      "stationuuid": "86904a0f-0b22-4232-bd33-3783ec06daeb",
+      "name": "FM99.1大连都市之声广播",
+      "url": "https://lhttp.qtfm.cn/live/1086/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 36,
+      "lastProbedAt": "2026-04-30T12:46:01.253Z"
+    },
+    {
+      "stationuuid": "26f11d2b-c32a-471d-a8d9-20bf16ad7b0d",
+      "name": "浏阳河之音",
+      "url": "https://lhttp.qtfm.cn/live/5022710/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 34,
+      "lastProbedAt": "2026-04-30T12:46:04.553Z"
+    },
+    {
+      "stationuuid": "3e193349-cb9a-4059-81ed-bb2c91f54372",
+      "name": "喀什综合广播",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2773/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 33,
+      "lastProbedAt": "2026-04-30T12:46:05.990Z"
+    },
+    {
+      "stationuuid": "b549f86e-4bb5-4856-9787-9d9aabb6473e",
+      "name": "赣州农村科教广播",
+      "url": "https://lhttp.qingting.fm/live/4941/64k.mp3?",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 32,
+      "lastProbedAt": "2026-04-30T12:46:08.169Z"
+    },
+    {
+      "stationuuid": "1e72a3d1-183b-4232-988b-bad1a577d111",
+      "name": "FM103.3 AM882 大连新闻综合广播",
+      "url": "https://live.xmcdn.com/live/2732/64.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 31,
+      "lastProbedAt": "2026-04-30T12:46:08.701Z"
+    },
+    {
+      "stationuuid": "1e7e3b41-ada7-40ca-83ed-98ed1022c8dc",
+      "name": "肇庆综合广播",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2892/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 31,
+      "lastProbedAt": "2026-04-30T12:46:09.228Z"
+    },
+    {
+      "stationuuid": "30228d54-c158-4477-a79e-eea1b0e634b4",
+      "name": "自贡交通广播",
+      "url": "https://lhttp.qtfm.cn/live/20211650/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 31,
+      "lastProbedAt": "2026-04-30T12:46:09.322Z"
+    },
+    {
+      "stationuuid": "4ecbd1f4-6af8-4a25-bb5b-faecfd877c66",
+      "name": "赣州交通广播（2）",
+      "url": "https://lhttp.qingting.fm/live/4941/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 31,
+      "lastProbedAt": "2026-04-30T12:46:09.669Z"
+    },
+    {
+      "stationuuid": "7673bae4-8d17-45f3-98c1-f9b12feb491f",
+      "name": "第三师图木舒克市人民广播电台",
+      "url": "https://lhttp.qtfm.cn/live/20500135/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 30,
+      "lastProbedAt": "2026-04-30T12:46:10.227Z"
+    },
+    {
+      "stationuuid": "6b1df702-aa5f-4626-9e0e-0a8b3ad4ae1d",
+      "name": "哈密新闻广播",
+      "url": "https://tvpull.hmgbtv.com/hmtv/channel671f3b452d39387f/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 29,
+      "lastProbedAt": "2026-04-30T12:46:17.590Z"
+    },
+    {
+      "stationuuid": "5babe7d9-a3ff-46c5-b1cd-2502f6661fcb",
+      "name": "哈密综合广播",
+      "url": "https://tvpull.hmgbtv.com/hmtv/channel671f3b452d39387f/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 27,
+      "lastProbedAt": "2026-04-30T12:46:17.589Z"
+    },
+    {
+      "stationuuid": "85f67071-3ff8-4e1d-998c-e1b76fd0f5ac",
+      "name": "海城新闻综合广播（喜马拉雅线路）",
+      "url": "https://live.xmcdn.com/live/357/64.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 26,
+      "lastProbedAt": "2026-04-30T12:46:18.429Z"
+    },
+    {
+      "stationuuid": "c6fc8290-7244-44f2-a40e-af01822b52e8",
+      "name": "BIG BIG MIX – 乐享音乐 标清",
+      "url": "https://lhttp-hw.qtfm.cn/live/4913/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 25,
+      "lastProbedAt": "2026-04-30T12:46:18.885Z"
+    },
+    {
+      "stationuuid": "5b0085e0-e029-440a-913b-9c8ca875d30c",
+      "name": "克拉玛依音乐广播",
+      "url": "https://klmysjtzb.rcsxzx.com/hls/k971.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 25,
+      "lastProbedAt": "2026-04-30T12:46:19.173Z"
+    },
+    {
+      "stationuuid": "0941ed99-579a-472e-8306-e6c24e840bd6",
+      "name": "湛江经济广播（娱乐怀旧金曲）",
+      "url": "https://lhttp-hw.qtfm.cn/live/5069/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 25,
+      "lastProbedAt": "2026-04-30T12:46:19.842Z"
+    },
+    {
+      "stationuuid": "0861fee3-44e0-4f3b-9401-bb48567fc646",
+      "name": "哈密维语广播",
+      "url": "https://tvpull.hmgbtv.com/hmtv/channelab4fc157c1be4d86/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 23,
+      "lastProbedAt": "2026-04-30T12:46:20.905Z"
+    },
+    {
+      "stationuuid": "ab5650c9-8eeb-48ad-af4a-07d971dbb1d9",
+      "name": "淮北综合广播",
+      "url": "https://live.hbnews.net/audio/ZHGB_audio/index.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 23,
+      "lastProbedAt": "2026-04-30T12:46:23.885Z"
+    },
+    {
+      "stationuuid": "093cbbea-f51a-4d8e-98e9-d671970ada04",
+      "name": "阳江旅游环保广播",
+      "url": "https://lhttp.qtfm.cn/live/15318428/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 23,
+      "lastProbedAt": "2026-04-30T12:46:24.590Z"
+    },
+    {
+      "stationuuid": "6b0c5758-9911-4774-a792-a8b4ea6ff37d",
+      "name": "大理旅游文化广播",
+      "url": "https://lhttp-hw.qtfm.cn/live/20207748/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 21,
+      "lastProbedAt": "2026-04-30T12:46:25.196Z"
+    },
+    {
+      "stationuuid": "2cd26e18-34f7-492c-8e47-0bc15b93fce7",
+      "name": "杭州AM954老朋友广播频道",
+      "url": "https://lhttp.qtfm.cn/live/1132/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 21,
+      "lastProbedAt": "2026-04-30T12:46:26.095Z"
+    },
+    {
+      "stationuuid": "402140a0-4f6d-47f4-bde6-6a8105315629",
+      "name": "Gospel Living Water",
+      "url": "https://stream.zeno.fm/8cs8d1tp3a0uv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 20,
+      "lastProbedAt": "2026-04-30T12:46:36.126Z"
+    },
+    {
+      "stationuuid": "ef21c8df-b16b-4ad1-8711-a87568c11b4e",
+      "name": "克拉玛依汉语综合广播",
+      "url": "https://klmysjtzb.rcsxzx.com/hls/k926.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 18,
+      "lastProbedAt": "2026-04-30T12:46:28.009Z"
+    },
+    {
+      "stationuuid": "850f06e0-4950-493d-a79e-7a6de6a837dd",
+      "name": "内蒙古经济生活广播",
+      "url": "https://lhttp-hw.qtfm.cn/live/1885/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 18,
+      "lastProbedAt": "2026-04-30T12:46:28.299Z"
+    },
+    {
+      "stationuuid": "97ad9954-0000-44cb-854f-497278e7a7ca",
+      "name": "哈密交通文艺广播",
+      "url": "https://tvpull.hmgbtv.com/hmtv/channelf5a239effbee4c7c/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 18,
+      "lastProbedAt": "2026-04-30T12:46:28.303Z"
+    },
+    {
+      "stationuuid": "f1a9186a-c686-4691-a47f-20783c8536ca",
+      "name": "新疆音乐广播",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/1364/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 17,
+      "lastProbedAt": "2026-04-30T12:46:30.056Z"
+    },
+    {
+      "stationuuid": "17ad568d-2022-4760-bf91-c9d27a313f8e",
+      "name": "肇庆旅游之声",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2654/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 17,
+      "lastProbedAt": "2026-04-30T12:46:30.401Z"
+    },
+    {
+      "stationuuid": "018ebca1-2dfc-413d-a6c1-c5bead93b382",
+      "name": "黔东南综合广播",
+      "url": "https://lhttp-hw.qtfm.cn/live/5047/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 17,
+      "lastProbedAt": "2026-04-30T12:46:30.302Z"
+    },
+    {
+      "stationuuid": "bec19809-a04a-4205-af72-79d29d30bad2",
+      "name": "泰安综合广播",
+      "url": "https://lhttp-hw.qtfm.cn/live/20500185/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 14,
+      "lastProbedAt": "2026-04-30T12:46:32.811Z"
+    },
+    {
+      "stationuuid": "98ad1d71-f7fa-4fa4-96f6-c8a96462b9b6",
+      "name": "云南旅游广播",
+      "url": "https://gbw.ynradio.cn/radio/fm99.stream/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 13,
+      "lastProbedAt": "2026-04-30T12:46:42.176Z"
+    },
+    {
+      "stationuuid": "a6ca6bc7-bfc2-44ad-a23c-fb1eefafb96a",
+      "name": "克拉玛依维吾尔语综合广播",
+      "url": "https://klmysjtzb.rcsxzx.com/hls/k907.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 13,
+      "lastProbedAt": "2026-04-30T12:46:33.738Z"
+    },
+    {
+      "stationuuid": "202890b4-7b09-4d90-86e2-3824bced8d54",
+      "name": "大连新闻综合广播",
+      "url": "https://lhttp-hw.qtfm.cn/live/1089/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 13,
+      "lastProbedAt": "2026-04-30T12:46:34.616Z"
+    },
+    {
+      "stationuuid": "0428b191-ecd8-4e37-aea5-9fafd1377326",
+      "name": "大连交通广播",
+      "url": "https://lhttp-hw.qtfm.cn/live/3997/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 12,
+      "lastProbedAt": "2026-04-30T12:46:36.769Z"
+    },
+    {
+      "stationuuid": "d1ae2869-8d64-4d28-b138-9071a4d4a7bc",
+      "name": "深圳宝安湾区之声",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2912/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 12,
+      "lastProbedAt": "2026-04-30T12:46:38.367Z"
+    },
+    {
+      "stationuuid": "33d1b165-536b-438c-81a6-16456c6fc34b",
+      "name": "大连长海之声FM91.7",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2882/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 11,
+      "lastProbedAt": "2026-04-30T12:46:39.137Z"
+    },
+    {
+      "stationuuid": "20b6f4a9-c1a8-4e0d-a9d3-d52c3e3770a4",
+      "name": "榆树综合广播",
+      "url": "https://lhttp-hw.qtfm.cn/live/20500231/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 11,
+      "lastProbedAt": "2026-04-30T12:46:39.118Z"
+    },
+    {
+      "stationuuid": "9864c18c-954c-4523-91f8-191a09590d71",
+      "name": "汉源综合广播",
+      "url": "https://m3u8channel-hy.yunxya.com/nmip-media/audiolive/audio104633/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 11,
+      "lastProbedAt": "2026-04-30T12:46:49.101Z"
+    },
+    {
+      "stationuuid": "73677929-86b7-4163-8860-58410af2b03a",
+      "name": "邢台综合广播",
+      "url": "https://jwcdnqx.hebyun.com.cn/live/xinxingtaiRD/1500k/tzwj_video.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 11,
+      "lastProbedAt": "2026-04-30T12:46:40.395Z"
+    },
+    {
+      "stationuuid": "749e6067-443a-40d3-9fb3-f96d9e665ba5",
+      "name": "汉川综合广播",
+      "url": "https://lhttp-hw.qtfm.cn/live/20212411/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 10,
+      "lastProbedAt": "2026-04-30T12:46:40.822Z"
+    },
+    {
+      "stationuuid": "f4709aff-a156-4903-99cb-d62530bd18ce",
+      "name": "莫旗融媒FM103.5莫力达瓦综合广播",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2899/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 9,
+      "lastProbedAt": "2026-04-30T12:46:43.709Z"
+    },
+    {
+      "stationuuid": "d89101c5-7784-4eb8-8e6b-fd5631dcff69",
+      "name": "云南教育广播",
+      "url": "https://gbw.ynradio.cn/radio/jygb.stream/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 8,
+      "lastProbedAt": "2026-04-30T12:46:52.366Z"
+    },
+    {
+      "stationuuid": "9faa2c11-6e16-4b16-af74-d36ab30150c4",
+      "name": "惠州经济环保广播FM988(喜马拉雅)",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2847/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 8,
+      "lastProbedAt": "2026-04-30T12:46:44.707Z"
+    },
+    {
+      "stationuuid": "32ec3d4a-0ced-4b15-a9cf-4b18c7f5c85c",
+      "name": "惠州音乐广播FM90.7（蜻蜓）",
+      "url": "https://lhttp-hw.qtfm.cn/live/5021523/64k.mp3?app_id=web&ts=696b84bf&sign=7745ca9218a8cd19dc3cfa30c98c8f2e",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 8,
+      "lastProbedAt": "2026-04-30T12:46:44.593Z"
+    },
+    {
+      "stationuuid": "fb3bd8a8-0510-41e1-9de8-59f443641484",
+      "name": "自强之声",
+      "url": "https://lhttp-hw.qtfm.cn/live/5021905/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 8,
+      "lastProbedAt": "2026-04-30T12:46:45.833Z"
+    },
+    {
+      "stationuuid": "80738e7c-fd1a-4ba3-b3ff-6ba49bc777de",
+      "name": "沙县沙溪之声",
+      "url": "https://lhttp-hw.qtfm.cn/live/5021998/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 6,
+      "lastProbedAt": "2026-04-30T12:46:48.233Z"
+    },
+    {
+      "stationuuid": "a695339b-124a-4bc6-a47c-52553e786794",
+      "name": "彬州市人民广播电台",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2675/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T12:46:51.168Z"
+    },
+    {
+      "stationuuid": "90b2c619-2c61-4344-b208-6e746075b6f5",
+      "name": "滁州综合广播",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/154/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T12:46:51.243Z"
+    },
+    {
+      "stationuuid": "6e7e309a-b471-4178-87d4-e0525bd695ee",
+      "name": "蓬安综合广播",
+      "url": "https://lhttp-hw.qtfm.cn/live/20500206/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T12:46:51.443Z"
+    },
+    {
+      "stationuuid": "3908981f-63cc-49ca-87db-93c600d1c986",
+      "name": "临汾综合广播",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2514/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T12:46:52.425Z"
+    },
+    {
+      "stationuuid": "200ced17-98d1-402a-9a7c-c9e1a8c1c3d7",
+      "name": "兴和综合广播",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2907/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T12:46:52.898Z"
+    },
+    {
+      "stationuuid": "f84673dc-578a-4235-8a90-8f375a1dc744",
+      "name": "江门综合广播",
+      "url": "https://lhttp-hw.qtfm.cn/live/1282/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T12:46:53.045Z"
+    },
+    {
+      "stationuuid": "19d2c636-59ab-4f3b-a0ff-9b985ccaaf06",
+      "name": "滁州文艺广播",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/156/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T12:46:54.280Z"
+    },
+    {
+      "stationuuid": "07471ec8-13b9-41c1-86df-66198647803c",
+      "name": "滁州综合广播",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/156/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T12:46:53.574Z"
+    },
+    {
+      "stationuuid": "e541c9fc-71c1-4d16-a574-2b6615284429",
+      "name": "郁南音乐台",
+      "url": "https://lhttp-hw.qtfm.cn/live/20026/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T12:46:53.341Z"
+    },
+    {
+      "stationuuid": "c7b1cca9-3425-4b8c-94a3-2d1b733af0c4",
+      "name": "临汾交通文艺广播",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2515/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T12:46:53.807Z"
+    },
+    {
+      "stationuuid": "9b795181-2f82-417d-9b22-af82fe5c8b3b",
+      "name": "历城广播电视台",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2903/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T12:46:54.181Z"
+    },
+    {
+      "stationuuid": "e848a475-5f7d-431b-b374-92aa1a5cf909",
+      "name": "河美靖远930",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2646/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T12:46:55.103Z"
+    },
+    {
+      "stationuuid": "3ca25f10-febb-40c1-8791-e50492197761",
+      "name": "滁州旅游交通广播",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/174/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T12:46:55.190Z"
+    },
+    {
+      "stationuuid": "a120e591-2fec-4288-ac00-65704149c64b",
+      "name": "肇庆旅游之声",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2893/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T12:46:55.267Z"
+    },
+    {
+      "stationuuid": "5a714abd-1c0c-4564-9ee1-663d697fbdfc",
+      "name": "肇庆高要综合广播",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2870/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T12:46:55.358Z"
+    },
+    {
+      "stationuuid": "c6d695ce-4e1e-4911-8e8f-e50925e1636d",
+      "name": "鲅鱼圈综合广播",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2733/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T12:46:55.700Z"
+    },
+    {
+      "stationuuid": "b0a9d1cc-dd57-4c87-9953-19b6873315a4",
+      "name": "临汾音乐广播",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2516/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:46:56.251Z"
+    },
+    {
+      "stationuuid": "c7ab7474-55ca-43f8-b78c-c59ae92aa420",
+      "name": "北安综合广播",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2767/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:46:56.219Z"
+    },
+    {
+      "stationuuid": "a8d50b84-ee71-4c57-9648-0a704da68d96",
+      "name": "博罗综合广播",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2848/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:46:56.430Z"
+    },
+    {
+      "stationuuid": "961d924a-1a0e-49a5-a64a-f772edbd8478",
+      "name": "崂山921",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2806/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:46:57.232Z"
+    },
+    {
+      "stationuuid": "1d765201-6fc2-4a97-a8e5-ec8ee488c366",
+      "name": "德清之声",
+      "url": "https://lhttp-hw.qtfm.cn/live/5022033/64k.mp3?app_id=web&ts=69796fbc&sign=d386c71d615d5359cb2fdd33f5002c4f",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:46:57.760Z"
+    },
+    {
+      "stationuuid": "ea4080c4-ba71-46f2-baa2-7e88fc1502ea",
+      "name": "成都新闻广播",
+      "url": "https://lhttp-hw.qtfm.cn/live/4897/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:46:57.345Z"
+    },
+    {
+      "stationuuid": "2c153214-8b22-4fcb-b012-ff024771361c",
+      "name": "汝州新闻综合广播FM99.8",
+      "url": "https://lhttp-hw.qtfm.cn/live/5022650/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:46:57.599Z"
+    },
+    {
+      "stationuuid": "bffd66cb-1017-46a7-b706-5a8d6877dc3b",
+      "name": "江门新会电台",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2916/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:46:57.782Z"
+    },
+    {
+      "stationuuid": "56fc3a43-a6bb-4bc4-ba9d-6ddb3ba48c57",
+      "name": "羊城交通台",
+      "url": "https://rlizhi.gdtv.cn/audio/fm1052.m3u8?auth_key=1770627151-0-0-0e6780de5350e6a2359852985be1876a",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:46:57.762Z"
+    },
+    {
+      "stationuuid": "fb1af5a1-9930-4868-a59a-c3e49ad508fc",
+      "name": "蝠声综合频道",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/1428/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:46:58.518Z"
+    },
+    {
+      "stationuuid": "9930862f-1c44-4195-8b81-0a9960280173",
+      "name": "青州广播电视台",
+      "url": "https://live.ximalaya.com/radio-first-page-app/live/2901/64.m3u8?transcode=ts",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:46:58.507Z"
+    },
+    {
+      "stationuuid": "4126bc98-84ba-4d52-ba85-9f27452f5e59",
+      "name": "怀柔综合广播",
+      "url": "https://pili-live-hls-bjhr-tv.huairtv.com/bjhr-tv/FM101.m3u8?sign=7f858402fef017cb7676deacd1835b4f&t=69bb65a3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:47:01.018Z"
+    },
+    {
+      "stationuuid": "3a56cfd8-8769-47bc-bf52-7d949f8b0d8f",
+      "name": "梨树北方交通之声",
+      "url": "https://lhttp-hw.qtfm.cn/live/5022538/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:46:59.806Z"
+    },
+    {
+      "stationuuid": "cf3316eb-d3c5-4328-9a88-f256fceb4261",
+      "name": "武汉经济广播",
+      "url": "https://ytcastmp3.radio.cn/75/stream_11046.mp3?type=1&key=47fccb8241fa808e5bbcdf7e1c57e5ba&time=6969f548",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:47:00.447Z"
+    },
+    {
+      "stationuuid": "90a4de37-423a-41d3-9046-fdc13a69bcff",
+      "name": "江门旅游之声",
+      "url": "https://lhttp-hw.qtfm.cn/live/1283/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:46:59.952Z"
+    },
+    {
+      "stationuuid": "7b5b8ece-be19-43d9-8037-e88639401acd",
+      "name": "漯河交通广播mp3",
+      "url": "https://lhttp-hw.qtfm.cn/live/5022452/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:47:00.007Z"
+    },
+    {
+      "stationuuid": "9b62d19a-f311-43d7-aea9-b19674c22d1e",
+      "name": "漯河综合广播mp3",
+      "url": "https://lhttp-hw.qtfm.cn/live/5022660/64k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:47:00.048Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "951b325b-5b78-45ef-bebf-88f9a0f6c250",
+        "name": "华语金曲500首",
+        "url": "http://ls.qingting.fm/live/3412131.m3u8?bitrate=64",
+        "votes": 16842
+      },
+      "variants": [
+        {
+          "stationuuid": "34785bfd-f3ac-42f4-9228-aa43805ae7d3",
+          "name": "500 Çin Altın Şarkısı",
+          "url": "http://ls.qingting.fm/live/3412131.m3u8?bitrate=64",
+          "votes": 156,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2bf82625-6e78-445d-afff-e51e53c369a9",
+        "name": "CCTV-13新闻伴音",
+        "url": "https://piccpndali.v.myalicdn.com/audio/cctv13_2.m3u8",
+        "votes": 13931
+      },
+      "variants": [
+        {
+          "stationuuid": "0863581e-013e-465b-8db6-205bb29c217d",
+          "name": "CCTV-13 新闻（伴音）",
+          "url": "https://piccpndali.v.myalicdn.com/audio/cctv13_2.m3u8",
+          "votes": 2631,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "984551df-e095-4ace-aa81-d86580f12749",
+          "name": "CCTV-13 新闻（伴音）",
+          "url": "https://piccpndali.v.myalicdn.com/audio/cctv13_2.m3u8",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0c7e5ad0-b89b-466c-867e-a87866eb9a09",
+        "name": "凤凰卫视中文台",
+        "url": "http://playtv-live.ifeng.com/live/06OLEGEGM4G_audio.m3u8",
+        "votes": 6940
+      },
+      "variants": [
+        {
+          "stationuuid": "140613fb-2752-4e78-b2f2-2bbbf8230b11",
+          "name": "Fenghuang",
+          "url": "http://playtv-live.ifeng.com/live/06OLEGEGM4G_audio.m3u8",
+          "votes": 359,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "6dcc5116-4f73-4e07-a269-8e3d247bcd18",
+          "name": "凤凰卫视中文台",
+          "url": "http://playtv-live.ifeng.com/live/06OLEGEGM4G_audio.m3u8",
+          "votes": 36,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "815f20d0-3ecd-49d2-8449-9725e82b5f64",
+        "name": "500首华语经典",
+        "url": "https://lhttp.qtfm.cn/live/5022308/64k.mp3",
+        "votes": 4282
+      },
+      "variants": [
+        {
+          "stationuuid": "566da273-5165-4a17-91ab-5ea06caeba5a",
+          "name": "500首华语经典",
+          "url": "https://lhttp.qtfm.cn/live/5022308/64k.mp3",
+          "votes": 847,
+          "differs": []
+        },
+        {
+          "stationuuid": "0dcd805d-3cbc-4a91-9f34-e42d18eaa997",
+          "name": "500首华语经典",
+          "url": "https://lhttp.qtfm.cn/live/5022308/64k.mp3",
+          "votes": 701,
+          "differs": []
+        },
+        {
+          "stationuuid": "e135022a-d4b4-4519-ad9b-27ab4509c13a",
+          "name": "圆环之理广播电台",
+          "url": "https://lhttp.qtfm.cn/live/5022308/64k.mp3",
+          "votes": 70,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9aebbdea-d291-11e9-a861-52543be04c81",
+        "name": "80后音悦台",
+        "url": "http://lhttp.qingting.fm/live/20207761/64k.mp3",
+        "votes": 3245
+      },
+      "variants": [
+        {
+          "stationuuid": "f2d9ec8c-00a5-4b8d-8764-7d96e379a41a",
+          "name": "80后音悦台",
+          "url": "http://lhttp.qingting.fm/live/20207761/64k.mp3",
+          "votes": 715,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "acf7c318-9031-4763-930a-00a4b5a032ec",
+        "name": "CRI英语资讯广播 China Plus Radio",
+        "url": "http://sk.cri.cn/am846.m3u8",
+        "votes": 2828
+      },
+      "variants": [
+        {
+          "stationuuid": "698b3346-e26b-4c8b-874d-f5d13178901b",
+          "name": "China Plus Radio",
+          "url": "http://sk.cri.cn/am846.m3u8",
+          "votes": 915,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "05d42f0f-5cf2-4f3b-8e84-8442d121e894",
+          "name": "CRI News Plus AM846",
+          "url": "http://sk.cri.cn/am846.m3u8",
+          "votes": 35,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e4599290-f353-478d-b920-7e057d049dd5",
+        "name": "AsiaFM高清音乐台",
+        "url": "http://asiafm.hk:8000/asiahd",
+        "votes": 2697
+      },
+      "variants": [
+        {
+          "stationuuid": "ea5e18e6-8897-417f-bf9c-d696c9d8f887",
+          "name": "AsiaFM HD音樂臺",
+          "url": "http://asiafm.hk:8000/asiahd",
+          "votes": 757,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "94b627b7-7b61-4478-b797-bcb21973c4bf",
+        "name": "AsiaFM亚洲经典台",
+        "url": "http://goldfm.cn:8000/goldfm",
+        "votes": 1939
+      },
+      "variants": [
+        {
+          "stationuuid": "eacbdd98-2e57-4016-ae2e-7371fc72b7f7",
+          "name": "AsiaFM 亚洲经典台【2023.10.17】",
+          "url": "http://goldfm.cn:8000/goldfm",
+          "votes": 614,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "063db165-dc98-4a6b-8faf-850031d0cdb1",
+          "name": "AsiaFM亚洲经典台【192k】",
+          "url": "http://goldfm.cn:8000/goldfm",
+          "votes": 552,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f3638a83-ac26-4b05-b0b9-0245b023ae0f",
+        "name": "AsiaFM 亚洲粤语台",
+        "url": "https://lhttp.qtfm.cn/live/15318569/64k.mp3",
+        "votes": 1870
+      },
+      "variants": [
+        {
+          "stationuuid": "a6c531c9-74a0-4f92-b122-f4b3ffab4563",
+          "name": "Auto FM汽车联播网",
+          "url": "https://lhttp.qtfm.cn/live/15318569/64k.mp3",
+          "votes": 180,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d84ba969-f1a3-49ef-830a-bd38e57c8e83",
+        "name": "AisaFM亚洲粤语台",
+        "url": "https://live.ximalaya.com/radio-first-page-app/live/999/64.m3u8?transcode=ts",
+        "votes": 1779
+      },
+      "variants": [
+        {
+          "stationuuid": "84d16c49-0056-4a20-8c93-01f7e54e6efe",
+          "name": "AsiaFM",
+          "url": "https://live.ximalaya.com/radio-first-page-app/live/999/64.m3u8?transcode=ts",
+          "votes": 71,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b1553c73-2c78-4d71-b6ed-69d8d7f6b9ab",
+          "name": "AsiaFM",
+          "url": "https://live.ximalaya.com/radio-first-page-app/live/999/64.m3u8?transcode=ts",
+          "votes": 49,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "90cefd55-a82f-4ef8-96da-cc1723f7f544",
+        "name": "广东珠江经济台",
+        "url": "https://lhttp.qtfm.cn/live/1259/64k.mp3",
+        "votes": 1750
+      },
+      "variants": [
+        {
+          "stationuuid": "8c3ad7aa-a6dd-4047-a927-3293e9e1ea2e",
+          "name": "广东珠江经济台",
+          "url": "https://lhttp.qtfm.cn/live/1259/64k.mp3",
+          "votes": 8,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e2fe33ad-87a6-4bca-bb2a-f051212c82c2",
+        "name": "Chinese Music World",
+        "url": "http://radio.chinesemusicworld.com/chinesemusic.ogg",
+        "votes": 1729
+      },
+      "variants": [
+        {
+          "stationuuid": "4d0b4981-7a88-4f3b-a838-966d1bd7263b",
+          "name": "Chinese Music World",
+          "url": "http://radio.chinesemusicworld.com/chinesemusic.ogg",
+          "votes": 284,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "948c6e7c-aee1-4d50-87bf-ce338e38e311",
+        "name": "CCTV-2财经伴音",
+        "url": "https://piccpndali.v.myalicdn.com/audio/cctv2_2.m3u8",
+        "votes": 1696
+      },
+      "variants": [
+        {
+          "stationuuid": "701e4c8c-b2c2-42db-a535-65ac13de0e0f",
+          "name": "CNR-1 中国之声",
+          "url": "https://piccpndali.v.myalicdn.com/audio/cctv2_2.m3u8?",
+          "votes": 892,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ef678e2d-beea-40a2-b152-f73d57de4f52",
+        "name": "CRI环球资迅广播",
+        "url": "https://sk.cri.cn/905.m3u8",
+        "votes": 1448
+      },
+      "variants": [
+        {
+          "stationuuid": "050db29a-6c07-4db8-a407-5dec7b1f0009",
+          "name": "CMG环球资讯广播",
+          "url": "https://sk.cri.cn/905.m3u8",
+          "votes": 400,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c06b59ff-2e93-4805-83c6-22c35ce5a7ac",
+          "name": "CMG环球资讯广播",
+          "url": "https://sk.cri.cn/905.m3u8",
+          "votes": 86,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "59a882c5-29c8-4166-85f3-ddfc5043ff16",
+          "name": "CRI international radio",
+          "url": "https://sk.cri.cn/905.m3u8",
+          "votes": 51,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2a196f5e-1a14-4f97-b1e3-c4b67d092cfe",
+        "name": "广东音乐之声",
+        "url": "https://lhttp.qtfm.cn/live/1260/64k.mp3",
+        "votes": 1214
+      },
+      "variants": [
+        {
+          "stationuuid": "87e0e1df-a84c-4d3a-92c8-813a01bd7cc5",
+          "name": "广东音乐之声",
+          "url": "https://lhttp.qtfm.cn/live/1260/64k.mp3",
+          "votes": 12,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6420a400-38fe-47e4-ab5c-28f0d00667bf",
+        "name": "广东新闻广播",
+        "url": "https://lhttp.qtfm.cn/live/1254/64k.mp3",
+        "votes": 1152
+      },
+      "variants": [
+        {
+          "stationuuid": "4ff95bf5-4dec-40dc-990b-032e7976f318",
+          "name": "广东新闻广播",
+          "url": "https://lhttp.qtfm.cn/live/1254/64k.mp3",
+          "votes": 7,
+          "differs": []
+        },
+        {
+          "stationuuid": "e9b9b3d0-6f23-4acd-adf0-77896a569bd6",
+          "name": "广东新闻广播",
+          "url": "https://lhttp.qtfm.cn/live/1254/64k.mp3",
+          "votes": 5,
+          "differs": []
+        },
+        {
+          "stationuuid": "b80cca75-05ce-4dce-b097-a188e21ce5a8",
+          "name": "广东新闻广播",
+          "url": "https://lhttp.qtfm.cn/live/1254/64k.mp3",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5562c062-8a94-47dc-857f-73430c6d4020",
+        "name": "广东交通之声",
+        "url": "https://lhttp.qtfm.cn/live/1262/64k.mp3",
+        "votes": 959
+      },
+      "variants": [
+        {
+          "stationuuid": "b8ca2adc-5848-4625-8d8b-c767c404204e",
+          "name": "羊城交通电台",
+          "url": "https://lhttp.qtfm.cn/live/1262/64k.mp3",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "612d94bc-fe01-45fd-a84a-e3e495d23ce9",
+        "name": "江苏新闻广播",
+        "url": "http://lzlive.vojs.cn/5Fo8mMX/92/live.m3u8?",
+        "votes": 944
+      },
+      "variants": [
+        {
+          "stationuuid": "a816434f-ba86-11e8-aaf2-52543be04c81",
+          "name": "Kiangsu News Radio",
+          "url": "http://lzlive.vojs.cn/5Fo8mMX/92/live.m3u8",
+          "votes": 85,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3366bd2b-9e59-4bf0-ad99-96b5bfcd7111",
+        "name": "广州金曲音乐广播",
+        "url": "http://lhttp.qingting.fm/live/20192/64k.mp3",
+        "votes": 912
+      },
+      "variants": [
+        {
+          "stationuuid": "1d955c18-a5b3-4263-9a2d-e66b81a1ae61",
+          "name": "广州汽车音乐电台金曲音乐广播",
+          "url": "http://lhttp.qingting.fm/live/20192/64k.mp3",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e6f08fdb-dd41-4dac-a01d-47a3d5c5ac35",
+        "name": "Chinese Music World",
+        "url": "https://radio.chinesemusicworld.com/chinesemusic.ogg",
+        "votes": 897
+      },
+      "variants": [
+        {
+          "stationuuid": "7f1ccba3-9fa0-4636-afc1-91ac4d8f8cf5",
+          "name": "Chinese Classical Music (Ogg stream)",
+          "url": "https://radio.chinesemusicworld.com/chinesemusic.ogg",
+          "votes": 126,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "90812afa-6fd4-11e8-83fa-52543be04c81",
+        "name": "CRI Voice of South China Sea",
+        "url": "http://sk.cri.cn/nhzs.m3u8",
+        "votes": 818
+      },
+      "variants": [
+        {
+          "stationuuid": "5b84eb29-b5fb-412f-8292-e3e3da1675af",
+          "name": "CRI南海之声",
+          "url": "http://sk.cri.cn/nhzs.m3u8",
+          "votes": 127,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bcda24c8-20d5-4071-9c02-75c8bd20c650",
+        "name": "AsiaFM 亚洲热歌台【2023.10.17】",
+        "url": "http://hot.asiafm.net:8000/asiafm",
+        "votes": 761
+      },
+      "variants": [
+        {
+          "stationuuid": "c0007358-2609-41e4-a1f0-ddef3f92f3a8",
+          "name": "AsiaFM 亚洲热歌台【2023.10.17】",
+          "url": "http://hot.asiafm.net:8000/asiafm",
+          "votes": 233,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9fed76be-4d4f-4956-a766-7eae9647f025",
+        "name": "AsiaFM亚洲音乐台",
+        "url": "https://lhttp.qingting.fm/live/4581/64k.mp3",
+        "votes": 700
+      },
+      "variants": [
+        {
+          "stationuuid": "95a79112-a32a-4fd8-b7f5-dc0b4a6921c0",
+          "name": "AsiaFM郫都区综合广播",
+          "url": "https://lhttp.qingting.fm/live/4581/64k.mp3?",
+          "votes": 131,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "184505b8-d563-4876-b8e6-298a6516d03f",
+        "name": "Radio China Plus ",
+        "url": "https://sk.cri.cn/am846.m3u8",
+        "votes": 683
+      },
+      "variants": [
+        {
+          "stationuuid": "b15b81c9-9961-45a4-bb3f-b087a5881bf7",
+          "name": "CGTN Radio",
+          "url": "https://sk.cri.cn/am846.m3u8",
+          "votes": 658,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "424cdc54-39a1-4994-9a0e-4f008b301ec6",
+          "name": "China Plus",
+          "url": "https://sk.cri.cn/am846.m3u8",
+          "votes": 144,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a0f3ac2c-df6d-456d-a7c6-03fa5588668b",
+        "name": "河北新闻广播",
+        "url": "https://radio.pull.hebtv.com/live/hebxw.m3u8",
+        "votes": 675
+      },
+      "variants": [
+        {
+          "stationuuid": "f3ab5e63-a51e-4ed1-88f5-d7ae7ddb2a38",
+          "name": "春天的风",
+          "url": "https://radio.pull.hebtv.com/live/hebxw.m3u8",
+          "votes": 33,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "6479eefc-6929-47c8-9bb8-28849b2978d1",
+          "name": "春天的风",
+          "url": "https://radio.pull.hebtv.com/live/hebxw.m3u8",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6ee61dc9-f7ed-41a1-b483-b664c610c01c",
+        "name": "江苏经典流行音乐广播",
+        "url": "http://lzlive.vojs.cn/2wtSfrS/92/live.m3u8?",
+        "votes": 621
+      },
+      "variants": [
+        {
+          "stationuuid": "2d299c56-ba8a-11e8-aaf2-52543be04c81",
+          "name": "Kiangsu Classical Music Radio",
+          "url": "http://lzlive.vojs.cn/2wtSfrS/92/live.m3u8",
+          "votes": 97,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5bbeb892-0f47-4992-99f5-f20f1bdbba61",
+        "name": "江苏故事广播",
+        "url": "http://lzlive.vojs.cn/rWjyus9/92/live.m3u8?",
+        "votes": 556
+      },
+      "variants": [
+        {
+          "stationuuid": "43708d3f-ba8b-11e8-aaf2-52543be04c81",
+          "name": "Kiangsu Story Radio",
+          "url": "http://lzlive.vojs.cn/rWjyus9/92/live.m3u8",
+          "votes": 72,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c8f49f16-f969-4f73-b1db-fa2ef40e78b6",
+        "name": "广州新闻资讯广播",
+        "url": "http://lhttp.qingting.fm/live/4848/64k.mp3",
+        "votes": 533
+      },
+      "variants": [
+        {
+          "stationuuid": "7b2c2f84-0997-46f9-bfba-049a4bb2bff2",
+          "name": "广州新闻资讯广播台",
+          "url": "http://lhttp.qingting.fm/live/4848/64k.mp3",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "01c9306d-750d-11e9-af37-52543be04c81",
+        "name": "上海音乐广播",
+        "url": "http://lhttp.qingting.fm/live/273/64k.mp3",
+        "votes": 489
+      },
+      "variants": [
+        {
+          "stationuuid": "fe79a11f-8f0e-4586-a90b-503a447d6e68",
+          "name": "上海音乐广播",
+          "url": "http://lhttp.qingting.fm/live/273/64k.mp3",
+          "votes": 301,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fd5d7353-3298-4242-918f-dd7ef527b950",
+        "name": "北京文艺广播",
+        "url": "https://lhttp.qtfm.cn/live/333/64k.mp3",
+        "votes": 479
+      },
+      "variants": [
+        {
+          "stationuuid": "b20c3e9e-2c78-44d6-90a0-007c2a45b454",
+          "name": "北京文艺广播",
+          "url": "https://lhttp.qtfm.cn/live/333/64k.mp3",
+          "votes": 30,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6c5edef4-6a79-4ec7-84f7-b8430bcd0e4f",
+        "name": "经典105·山东经典音乐广播",
+        "url": "http://audiolive302.iqilu.com/sdradioShenghuo/sdradio04/playlist.m3u8",
+        "votes": 451
+      },
+      "variants": [
+        {
+          "stationuuid": "de5a20d9-1fad-478a-8016-7301cb0216fa",
+          "name": "山东经典音乐广播",
+          "url": "http://audiolive302.iqilu.com/sdradioShenghuo/sdradio04/playlist.m3u8",
+          "votes": 202,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "45d70f9c-94ab-45cd-8760-96da8ee24501",
+        "name": "江苏交通广播网",
+        "url": "http://lzlive.vojs.cn/4TaHTeL/92/live.m3u8?",
+        "votes": 353
+      },
+      "variants": [
+        {
+          "stationuuid": "0216cdfb-ba87-11e8-aaf2-52543be04c81",
+          "name": "Kiangsu Traffic Radio",
+          "url": "http://lzlive.vojs.cn/4TaHTeL/92/live.m3u8",
+          "votes": 52,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7dc043e0-1815-4e43-9208-cb25d5466151",
+        "name": "AsiaFM亚洲天空台",
+        "url": "http://funradio.cn:8000/funradio",
+        "votes": 352
+      },
+      "variants": [
+        {
+          "stationuuid": "2cff8955-796f-45d2-861c-1dddb892c74a",
+          "name": "AsiaFM 亚洲天空台【2023.10.18】",
+          "url": "http://funradio.cn:8000/funradio",
+          "votes": 225,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0db19a22-c3c2-4195-8f60-2f4a341f1af1",
+        "name": "高阳县怀旧金曲964",
+        "url": "http://lhttp.qingting.fm/live/5021555/64k.mp3?",
+        "votes": 347
+      },
+      "variants": [
+        {
+          "stationuuid": "47252ec4-ece9-46c6-9ad0-94a9c045c424",
+          "name": "高阳人民广播电台",
+          "url": "http://lhttp.qingting.fm/live/5021555/64k.mp3",
+          "votes": 60,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4922dc73-750c-11e9-af37-52543be04c81",
+        "name": "上海交通广播",
+        "url": "http://lhttp.qingting.fm/live/266/64k.mp3",
+        "votes": 336
+      },
+      "variants": [
+        {
+          "stationuuid": "6f805776-776e-41fe-8845-563b2e5621e0",
+          "name": "上海交通广播",
+          "url": "http://lhttp.qingting.fm/live/266/64k.mp3",
+          "votes": 70,
+          "differs": []
+        },
+        {
+          "stationuuid": "882aa818-7ee0-4bf0-8dba-1232aa56f2f9",
+          "name": "上海交通广播",
+          "url": "http://lhttp.qingting.fm/live/266/64k.mp3",
+          "votes": 67,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "030d3fc5-a775-4c61-a671-497766a51f32",
+        "name": "綠邨電台",
+        "url": "https://fm995.ddns.net/hls1/fm995.m3u8",
+        "votes": 307
+      },
+      "variants": [
+        {
+          "stationuuid": "56b490bf-0565-4016-8b5d-e5ae40523e2a",
+          "name": "澳门",
+          "url": "https://fm995.ddns.net/hls1/fm995.m3u8",
+          "votes": 86,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f686ae25-b33c-4f4b-977a-b7865945b815",
+          "name": "Green Village Radio FM 99.5",
+          "url": "https://fm995.ddns.net/hls1/fm995.m3u8",
+          "votes": 20,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "db7142a2-b1bd-4c74-bcd4-646f73a70123",
+        "name": "金典FM",
+        "url": "http://stream3.hndt.com/now/C5NvUpwy/playlist.m3u8",
+        "votes": 288
+      },
+      "variants": [
+        {
+          "stationuuid": "9047f146-c0a0-477b-8ec1-a13db4780af4",
+          "name": "河南网络经典FM",
+          "url": "http://stream3.hndt.com/now/C5NvUpwy/playlist.m3u8",
+          "votes": 165,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2f380320-0fdf-4225-8498-810c65879867",
+        "name": "江苏音乐广播",
+        "url": "http://lzlive.vojs.cn/jAmO6Ng/92/live.m3u8?",
+        "votes": 271
+      },
+      "variants": [
+        {
+          "stationuuid": "6dbda225-ba8a-11e8-aaf2-52543be04c81",
+          "name": "Kiangsu Music Radio",
+          "url": "http://lzlive.vojs.cn/jAmO6Ng/92/live.m3u8",
+          "votes": 60,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a2a654a0-ebac-4f4d-bfc6-54225029438c",
+        "name": "广州经济交通广播",
+        "url": "http://lhttp.qingting.fm/live/4955/64k.mp3",
+        "votes": 240
+      },
+      "variants": [
+        {
+          "stationuuid": "78bd1286-5ac2-4d98-adec-8740866b55ff",
+          "name": "广州经济交通广播电台",
+          "url": "http://lhttp.qingting.fm/live/4955/64k.mp3",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "eadabc82-ee72-405d-825c-f77c2e1bb70c",
+        "name": "西安音乐广播",
+        "url": "http://stream3.xiancity.cn/4/sd/live.m3u8",
+        "votes": 237
+      },
+      "variants": [
+        {
+          "stationuuid": "aee9f13d-436e-11e8-b74d-52543be04c81",
+          "name": "Sian Music Radio",
+          "url": "http://stream3.xiancity.cn/4/sd/live.m3u8",
+          "votes": 54,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e58589d8-a286-4d40-81b8-d5b345d100be",
+        "name": "Chinese Classical Music (Mp3 stream)",
+        "url": "https://radio.chinesemusicworld.com/chinesemusic.mp3",
+        "votes": 234
+      },
+      "variants": [
+        {
+          "stationuuid": "d396c819-ee14-4b79-8005-00545f225c6f",
+          "name": "Chinese Classical Music Online Radio",
+          "url": "https://radio.chinesemusicworld.com/chinesemusic.mp3",
+          "votes": 115,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "85600c22-79dd-465a-873a-bda637f95a8b",
+          "name": "Chinese Music World",
+          "url": "https://radio.chinesemusicworld.com/chinesemusic.mp3",
+          "votes": 60,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6e63baaf-cdfc-4c6e-abba-23a5bff66cf9",
+        "name": "广东文体广播",
+        "url": "https://lhttp.qtfm.cn/live/471/64k.mp3",
+        "votes": 226
+      },
+      "variants": [
+        {
+          "stationuuid": "eb6e5048-d4db-4e80-933a-2f48681bdcf3",
+          "name": "广东文体广播",
+          "url": "https://lhttp.qtfm.cn/live/471/64k.mp3",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "68213abf-bbd4-4f9e-a663-657e1a36bb1a",
+        "name": "南京交通广播",
+        "url": "http://live.xmcdn.com/live/70/64.m3u8",
+        "votes": 195
+      },
+      "variants": [
+        {
+          "stationuuid": "0a20d87a-ba25-4543-816c-6e5224914de1",
+          "name": "南京交通广播",
+          "url": "http://live.xmcdn.com/live/70/64.m3u8",
+          "votes": 13,
+          "differs": []
+        },
+        {
+          "stationuuid": "b9e470b2-01d0-4fac-bd2c-27a9612c10ab",
+          "name": "南京交通广播",
+          "url": "http://live.xmcdn.com/live/70/64.m3u8",
+          "votes": 12,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3e0b1ee2-17f3-46e5-b4e1-ea3bea8de349",
+        "name": "江苏新闻综合广播",
+        "url": "http://lzlive.vojs.cn/rTyLc36/92/live.m3u8",
+        "votes": 177
+      },
+      "variants": [
+        {
+          "stationuuid": "ade84795-ba89-11e8-aaf2-52543be04c81",
+          "name": "Kiangsu General News Radio",
+          "url": "http://lzlive.vojs.cn/rTyLc36/92/live.m3u8",
+          "votes": 46,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d8789b63-0f93-486a-8d4e-7d7e0a571099",
+        "name": "哈尔滨古典音乐广播",
+        "url": "https://stream.hrbtv.net/gdpl/playlist.m3u8",
+        "votes": 166
+      },
+      "variants": [
+        {
+          "stationuuid": "d5bbb304-0fbd-4663-a37b-2eb7427d6c32",
+          "name": "Heart FM冰城102.6·哈尔滨古典音乐广播",
+          "url": "https://stream.hrbtv.net/gdpl/playlist.m3u8",
+          "votes": 93,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7cbdb65f-be6a-43fa-88b9-1048aaa4796d",
+        "name": "无印良品BGM精选",
+        "url": "https://stream.zeno.fm/brv193g9468uv",
+        "votes": 156
+      },
+      "variants": [
+        {
+          "stationuuid": "50ad286c-2f7a-41cf-a384-9558b920b50d",
+          "name": "muji music",
+          "url": "https://stream.zeno.fm/brv193g9468uv",
+          "votes": 80,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d157ba7f-c998-42a2-b2ea-972a02f7610f",
+        "name": "栾城怀旧金曲965",
+        "url": "http://lhttp.qingting.fm/live/5022038/64k.mp3?",
+        "votes": 154
+      },
+      "variants": [
+        {
+          "stationuuid": "e479b652-a1ec-4ad1-a9f0-c6befad15eba",
+          "name": "栾城人民广播电台",
+          "url": "http://lhttp.qingting.fm/live/5022038/64k.mp3",
+          "votes": 49,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a3986e20-41db-4842-99e9-56051c675160",
+        "name": "西安新闻广播",
+        "url": "http://stream3.xiancity.cn/1/sd/live.m3u8",
+        "votes": 146
+      },
+      "variants": [
+        {
+          "stationuuid": "4c570e3c-436e-11e8-b74d-52543be04c81",
+          "name": "Sian News Radio",
+          "url": "http://stream3.xiancity.cn/1/sd/live.m3u8",
+          "votes": 44,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cfa42f8d-4457-474b-872d-40772992c27b",
+        "name": "主内真生命",
+        "url": "https://stream.tligradio.org/listen/chinese/radio.mp3",
+        "votes": 136
+      },
+      "variants": [
+        {
+          "stationuuid": "eaf6472c-7148-49bf-8089-a890080db392",
+          "name": "主內真生命",
+          "url": "https://stream.tligradio.org/listen/chinese/radio.mp3",
+          "votes": 84,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e0289f0b-333a-4289-b92d-8ab4c2bc8510",
+        "name": "崇州年代音乐1022",
+        "url": "http://lhttp.qingting.fm/live/20500066/64k.mp3?",
+        "votes": 136
+      },
+      "variants": [
+        {
+          "stationuuid": "2da3cc40-edbc-44dd-acc2-64ab72061bc8",
+          "name": "崇州人民广播电台",
+          "url": "http://lhttp.qingting.fm/live/20500066/64k.mp3",
+          "votes": 41,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "409bb05d-3dae-4ccf-b29a-a6950cd6c8f4",
+        "name": "江苏文艺广播",
+        "url": "http://lzlive.vojs.cn/pL6NkZo/92/live.m3u8?",
+        "votes": 105
+      },
+      "variants": [
+        {
+          "stationuuid": "91028306-ba8b-11e8-aaf2-52543be04c81",
+          "name": "Kiangsu Literature & Art Radio",
+          "url": "http://lzlive.vojs.cn/pL6NkZo/92/live.m3u8",
+          "votes": 71,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b330c36c-c117-4362-9681-9df3cb8d5c0a",
+        "name": "江苏金陵之声",
+        "url": "http://lzlive.vojs.cn/Hd2hIgM/92/live.m3u8?",
+        "votes": 104
+      },
+      "variants": [
+        {
+          "stationuuid": "ebf4314c-ba8a-11e8-aaf2-52543be04c81",
+          "name": "Kiangsu Voice of Kingling Radio",
+          "url": "http://lzlive.vojs.cn/Hd2hIgM/92/live.m3u8",
+          "votes": 57,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8bcd92c2-ab19-4ff3-b9cf-9edf29211219",
+        "name": "哈尔滨音乐广播",
+        "url": "https://stream.hrbtv.net/yypl/playlist.m3u8",
+        "votes": 98
+      },
+      "variants": [
+        {
+          "stationuuid": "57eb7a99-643c-4a6e-8750-d3ff1771eed0",
+          "name": "哈尔滨音乐广播",
+          "url": "https://stream.hrbtv.net/yypl/playlist.m3u8",
+          "votes": 81,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a3afccc6-1c20-4c75-9f9c-fc4671045f59",
+        "name": "江苏财经广播",
+        "url": "http://lzlive.vojs.cn/caijing/92/live.m3u8?",
+        "votes": 94
+      },
+      "variants": [
+        {
+          "stationuuid": "3c3b7c46-ba89-11e8-aaf2-52543be04c81",
+          "name": "Kiangsu Finance Radio",
+          "url": "http://lzlive.vojs.cn/caijing/92/live.m3u8",
+          "votes": 73,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d9cadca2-1ca3-4205-b983-f75d41436277",
+        "name": "Bridge Radio - 华语 HITS",
+        "url": "https://das-edge11-live365-dal03.cdnstream.com/a57743_2",
+        "votes": 94
+      },
+      "variants": [
+        {
+          "stationuuid": "189d86d1-95ef-4d2b-98d6-ce7577c70395",
+          "name": "Bridge Radio - 华语 HITS （2）",
+          "url": "https://das-edge11-live365-dal03.cdnstream.com/a57743_2",
+          "votes": 69,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3aee926a-e3b9-4026-ac47-29ad2c369830",
+        "name": "哈尔滨交通广播",
+        "url": "https://stream.hrbtv.net/jtpl/playlist.m3u8",
+        "votes": 93
+      },
+      "variants": [
+        {
+          "stationuuid": "4c3ab9f5-87f4-4f4c-8dea-d9994499aea1",
+          "name": "哈尔滨交通广播",
+          "url": "https://stream.hrbtv.net/jtpl/playlist.m3u8",
+          "votes": 58,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "efdd6b48-abaa-4bd3-899a-d3e2e6f563e5",
+        "name": "昆明汽车广播",
+        "url": "https://lhttp.qtfm.cn/live/1936/64k.mp3",
+        "votes": 93
+      },
+      "variants": [
+        {
+          "stationuuid": "0dd8200b-e378-4416-a58f-6f6ddf5877bd",
+          "name": "昆明城市管理广播",
+          "url": "https://lhttp.qtfm.cn/live/1936/64k.mp3",
+          "votes": 40,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b3e2e67c-cc2d-45ce-aede-475a661bda38",
+        "name": "西安资讯广播",
+        "url": "http://stream3.xiancity.cn/2/sd/live.m3u8",
+        "votes": 88
+      },
+      "variants": [
+        {
+          "stationuuid": "d53d8b9d-436e-11e8-b74d-52543be04c81",
+          "name": "Sian Info Radio",
+          "url": "http://stream3.xiancity.cn/2/sd/live.m3u8",
+          "votes": 47,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3ac160d3-bcfa-45e5-9c8e-20cfcaa507fe",
+        "name": "西安交通旅游广播",
+        "url": "http://stream3.xiancity.cn/5/sd/live.m3u8",
+        "votes": 86
+      },
+      "variants": [
+        {
+          "stationuuid": "7f9e926d-436e-11e8-b74d-52543be04c81",
+          "name": "Sian Traffic Radio",
+          "url": "http://stream3.xiancity.cn/5/sd/live.m3u8",
+          "votes": 42,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "75e931ea-ce7c-4fdb-bf3f-c26cd10833bb",
+        "name": "幻想乡电台Gensokyo Radio",
+        "url": "https://stream.gensokyoradio.net/1",
+        "votes": 84
+      },
+      "variants": [
+        {
+          "stationuuid": "d23fa0ba-10ee-4241-8d2c-5a940a1c337f",
+          "name": "Gensokyo Radio",
+          "url": "https://stream.gensokyoradio.net/1",
+          "votes": 34,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "53597adc-3188-43f3-93a8-c189adc29794",
+        "name": "海口交通广播",
+        "url": "http://lhttp.qingting.fm/live/5022079/64k.mp3?",
+        "votes": 79
+      },
+      "variants": [
+        {
+          "stationuuid": "b2a6f5b4-7a3a-4e51-8a1e-8edb205b3095",
+          "name": "海南交通广播",
+          "url": "http://lhttp.qingting.fm/live/5022079/64k.mp3",
+          "votes": 43,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c8c5a2e0-ed6c-4b8f-b75a-3e795f7cc427",
+        "name": "故城县经典音乐FM90.5",
+        "url": "http://lhttp.qingting.fm/live/20212269/64k.mp3?",
+        "votes": 76
+      },
+      "variants": [
+        {
+          "stationuuid": "057305cc-d9e4-4458-bece-98826f38a834",
+          "name": "故城人民广播电台",
+          "url": "http://lhttp.qingting.fm/live/20212269/64k.mp3",
+          "votes": 57,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e55aa09d-e8dc-11e8-a471-52543be04c81",
+        "name": "Siaoshan Cable Radio",
+        "url": "http://l.cztvcloud.com/channels/lantian/SXxiaoshanaud2/128k.m3u8",
+        "votes": 74
+      },
+      "variants": [
+        {
+          "stationuuid": "78937521-0ee1-49dd-a24c-6d9286aeb5a0",
+          "name": "萧山有线广播",
+          "url": "http://l.cztvcloud.com/channels/lantian/SXxiaoshanaud2/128k.m3u8",
+          "votes": 38,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5ff03ad4-c001-11e8-aaf2-52543be04c81",
+        "name": "Kunming Auto Radio",
+        "url": "http://ls.qingting.fm/live/1936.m3u8",
+        "votes": 73
+      },
+      "variants": [
+        {
+          "stationuuid": "b860406e-e620-4876-a58c-cdc42e9e1f2c",
+          "name": "昆明交通音乐广播",
+          "url": "http://ls.qingting.fm/live/1936.m3u8",
+          "votes": 55,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cacb51e2-ba8b-11e8-aaf2-52543be04c81",
+        "name": "Kiangsu Health Radio",
+        "url": "http://lzlive.vojs.cn/EWpb5Ov/92/live.m3u8",
+        "votes": 72
+      },
+      "variants": [
+        {
+          "stationuuid": "f4b82494-a590-4072-b36c-e09c27c05319",
+          "name": "江苏健康广播",
+          "url": "http://lzlive.vojs.cn/EWpb5Ov/92/live.m3u8?",
+          "votes": 56,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "441af6bf-e784-4f51-82d1-4b403f85d790",
+        "name": "哈尔滨文艺广播",
+        "url": "https://stream.hrbtv.net/wypl/playlist.m3u8",
+        "votes": 70
+      },
+      "variants": [
+        {
+          "stationuuid": "4a3c0953-1dd8-489a-932a-c70ef0d92088",
+          "name": "哈尔滨文艺广播",
+          "url": "https://stream.hrbtv.net/wypl/playlist.m3u8",
+          "votes": 57,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e020e342-c7d8-4c1d-ad99-a5b2ce1c3907",
+        "name": "士兵突击",
+        "url": "https://stream.zeno.fm/vs4zinqldp2vv",
+        "votes": 70
+      },
+      "variants": [
+        {
+          "stationuuid": "6af87b3e-70e5-4170-a0ce-2378669c7b6b",
+          "name": "士兵突击FM",
+          "url": "https://stream.zeno.fm/vs4zinqldp2vv",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1bb42d3d-8b0b-4f4d-a967-6ae3ba72fd59",
+        "name": "哈尔滨综合广播",
+        "url": "https://stream.hrbtv.net/xwpl/playlist.m3u8",
+        "votes": 69
+      },
+      "variants": [
+        {
+          "stationuuid": "da2faebd-807b-4319-b6fe-916862ab4d3f",
+          "name": "哈尔滨综合广播",
+          "url": "https://stream.hrbtv.net/xwpl/playlist.m3u8",
+          "votes": 54,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "776f40e1-1d24-4bca-b2ff-84612763c2dc",
+        "name": "十三师广播电视台FM106.5",
+        "url": "https://lhttp.qtfm.cn/live/5022506/64k.mp3",
+        "votes": 64
+      },
+      "variants": [
+        {
+          "stationuuid": "659f6c4a-9c6b-4b55-84c8-d499c4181461",
+          "name": "DLR-5 大连少儿广播",
+          "url": "https://lhttp.qtfm.cn/live/5022506/64k.mp3",
+          "votes": 35,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ba5a3192-12bb-4aff-944b-92e2704955bb",
+        "name": "张家口986音乐广播",
+        "url": "https://lhttp.qtfm.cn/live/5021801/64k.mp3",
+        "votes": 62
+      },
+      "variants": [
+        {
+          "stationuuid": "01a1e831-071e-462c-baaa-7d35ac234204",
+          "name": "张家口城市生活广播",
+          "url": "https://lhttp.qtfm.cn/live/5021801/64k.mp3",
+          "votes": 33,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9958101d-187b-4957-b393-0e625b6d78e9",
+        "name": "中江县年代音乐994",
+        "url": "https://lhttp.qtfm.cn/live/20500148/64k.mp3",
+        "votes": 61
+      },
+      "variants": [
+        {
+          "stationuuid": "66c36651-5a4e-4f49-9741-5558a37bf969",
+          "name": "中江综合广播年代音乐994",
+          "url": "https://lhttp.qtfm.cn/live/20500148/64k.mp3",
+          "votes": 61,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bc3e3a01-139f-4e97-8ec1-b43e4fbc80a6",
+        "name": "辉县经典916",
+        "url": "http://lhttp.qingting.fm/live/20207782/64k.mp3",
+        "votes": 61
+      },
+      "variants": [
+        {
+          "stationuuid": "5c4791e5-b424-45c6-9b4b-a20e98a2ddc5",
+          "name": "辉县人民广播电台",
+          "url": "http://lhttp.qingting.fm/live/20207782/64k.mp3",
+          "votes": 46,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c93d1995-51d8-4467-b177-a3934d2cc30d",
+        "name": "茂名交通广播",
+        "url": "https://lhttp.qingting.fm/live/20211574/64k.mp3",
+        "votes": 61
+      },
+      "variants": [
+        {
+          "stationuuid": "42e9bdc5-8cf4-4a87-8c97-4bbce88f6e0e",
+          "name": "茂名交通广播",
+          "url": "https://lhttp.qingting.fm/live/20211574/64k.mp3",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fbe269a6-664a-4843-9ecd-34431a58ce9a",
+        "name": "清苑区105.8飞扬调频",
+        "url": "http://lhttp.qingting.fm/live/5021803/64k.mp3?",
+        "votes": 57
+      },
+      "variants": [
+        {
+          "stationuuid": "424b692d-171f-11ea-a620-52543be04c81",
+          "name": "清苑人民广播电台",
+          "url": "http://lhttp.qingting.fm/live/5021803/64k.mp3",
+          "votes": 54,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e85de2a8-44a1-4a91-ae92-a3e4e288021e",
+        "name": "哈尔滨经济广播",
+        "url": "https://stream.hrbtv.net/876pl/playlist.m3u8",
+        "votes": 49
+      },
+      "variants": [
+        {
+          "stationuuid": "c9bf9281-5a00-434a-98ad-81310114f348",
+          "name": "哈尔滨经济广播",
+          "url": "https://stream.hrbtv.net/876pl/playlist.m3u8",
+          "votes": 44,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2c51b456-21b1-4e32-a7dc-d4e92a92dbb0",
+        "name": "青岛FM9.26",
+        "url": "https://lhttp.qtfm.cn/live/20176/64k.mp3",
+        "votes": 49
+      },
+      "variants": [
+        {
+          "stationuuid": "208f7843-4cde-417f-8d26-56f7828556a4",
+          "name": "青岛FM9.26",
+          "url": "https://lhttp.qtfm.cn/live/20176/64k.mp3",
+          "votes": 33,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a9e01fcb-792b-4531-8086-a9a304243c45",
+        "name": "tianyin fm",
+        "url": "https://stream.zeno.fm/cmbjv6tml6fuv",
+        "votes": 49
+      },
+      "variants": [
+        {
+          "stationuuid": "017987cf-b885-4fbf-a03e-b0f673d4ec9b",
+          "name": "三门峡交通文艺广播",
+          "url": "https://stream.zeno.fm/cmbjv6tml6fuv",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "80f1e70f-8ad3-4de2-8123-4ef18826d1fa",
+        "name": "济南交通广播",
+        "url": "https://lhttp.qingting.fm/live/1669/64k.mp3",
+        "votes": 45
+      },
+      "variants": [
+        {
+          "stationuuid": "1872e1dd-bace-4e5d-b09b-7fb27cbf9af7",
+          "name": "济南交通广播",
+          "url": "https://lhttp.qingting.fm/live/1669/64k.mp3",
+          "votes": 15,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ed46c417-495e-11e8-b1b0-52543be04c81",
+        "name": "Wukin Metro Radio",
+        "url": "http://live.wjyanghu.com/live/CH6.m3u8",
+        "votes": 42
+      },
+      "variants": [
+        {
+          "stationuuid": "2d60cbb3-0808-44a9-ae1a-6463e863ead5",
+          "name": "武进人民广播电台(2)",
+          "url": "http://live.wjyanghu.com/live/CH6.m3u8",
+          "votes": 34,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "84ab0b03-53bc-4493-9c78-4052caf12f3a",
+        "name": "盘锦综合广播",
+        "url": "http://live.xmcdn.com/live/348/64.m3u8",
+        "votes": 39
+      },
+      "variants": [
+        {
+          "stationuuid": "6ac5df80-8e54-4de9-a938-72f2c24749f6",
+          "name": "盘锦综合广播",
+          "url": "http://live.xmcdn.com/live/348/64.m3u8",
+          "votes": 32,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e8c1d8da-9434-487e-864b-dda41364f21a",
+        "name": "9527",
+        "url": "https://stream.zeno.fm/ijdx5orz8wqvv",
+        "votes": 39
+      },
+      "variants": [
+        {
+          "stationuuid": "cb3dc7c7-f260-4f21-ace7-41a5a862041e",
+          "name": "李大爷9527",
+          "url": "https://stream.zeno.fm/ijdx5orz8wqvv",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "51bc52dc-ce28-45ef-991b-b328bf0aa05c",
+        "name": "https://satellitepull.cnr.cn/live/wxahjtgb/playlist.m3u8?wsSession=99789a08add4ecdbfe9421e3-173752435390509&wsIPSercert=74983ed8210fffe44d53c2a258bb9a5d",
+        "url": "https://satellitepull.cnr.cn/live/wxahjtgb/playlist.m3u8?wsSession=99789a08add4ecdbfe9421e3-173752435390509&wsIPSercert=74983ed8210fffe44d53c2a258bb9a5d",
+        "votes": 37
+      },
+      "variants": [
+        {
+          "stationuuid": "16405613-796d-44af-9c77-96e08f45769c",
+          "name": "安徽交通广播",
+          "url": "https://satellitepull.cnr.cn/live/wxahjtgb/playlist.m3u8",
+          "votes": 25,
+          "differs": [
+            "name",
+            "url",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7457e4b4-15ad-42d1-a333-0346929be8c6",
+        "name": "绿洲俱乐部Live House",
+        "url": "https://stream.zeno.fm/by5n9vuubphvv",
+        "votes": 36
+      },
+      "variants": [
+        {
+          "stationuuid": "673ed8c7-db89-49d3-b2af-36726c0b98a3",
+          "name": "星球重启水吧歌单",
+          "url": "https://stream.zeno.fm/by5n9vuubphvv",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b549f86e-4bb5-4856-9787-9d9aabb6473e",
+        "name": "赣州农村科教广播",
+        "url": "https://lhttp.qingting.fm/live/4941/64k.mp3?",
+        "votes": 32
+      },
+      "variants": [
+        {
+          "stationuuid": "4ecbd1f4-6af8-4a25-bb5b-faecfd877c66",
+          "name": "赣州交通广播（2）",
+          "url": "https://lhttp.qingting.fm/live/4941/64k.mp3",
+          "votes": 31,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6b1df702-aa5f-4626-9e0e-0a8b3ad4ae1d",
+        "name": "哈密新闻广播",
+        "url": "https://tvpull.hmgbtv.com/hmtv/channel671f3b452d39387f/playlist.m3u8",
+        "votes": 29
+      },
+      "variants": [
+        {
+          "stationuuid": "5babe7d9-a3ff-46c5-b1cd-2502f6661fcb",
+          "name": "哈密综合广播",
+          "url": "https://tvpull.hmgbtv.com/hmtv/channel671f3b452d39387f/playlist.m3u8",
+          "votes": 27,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a52f4b5e-1404-4f3f-9adb-6347a6648468",
+        "name": "榆林交通文艺广播",
+        "url": "https://hplayer1.juyun.tv/camera/115978148.m3u8",
+        "votes": 29
+      },
+      "variants": [
+        {
+          "stationuuid": "1c0e9847-0a82-4ad4-b18c-9839bf1c6521",
+          "name": "榆林交通文艺广播",
+          "url": "https://hplayer1.juyun.tv/camera/115978148.m3u8",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dca23906-95a3-4baa-8c28-807d0b8d54e2",
+        "name": "昌吉交通广播",
+        "url": "https://lhttp.qtfm.cn/live/20440/64k.mp3",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "4603ad6d-db83-4714-867f-333b4dcacb9e",
+          "name": "昌吉综合广播",
+          "url": "https://lhttp.qtfm.cn/live/20440/64k.mp3",
+          "votes": 24,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2822b9c2-5cc9-4ab9-8017-2e47433a9a87",
+        "name": "榆林综合广播",
+        "url": "https://hplayer1.juyun.tv/camera/115987102.m3u8",
+        "votes": 25
+      },
+      "variants": [
+        {
+          "stationuuid": "05113b29-15b8-4c14-9173-44bb4d17712e",
+          "name": "榆林综合广播",
+          "url": "https://hplayer1.juyun.tv/camera/115987102.m3u8",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5fdccb14-89c7-49cd-9825-291588c30937",
+        "name": "少爷生活",
+        "url": "https://lhttp-hw.qtfm.cn/live/15318332/64k.mp3",
+        "votes": 24
+      },
+      "variants": [
+        {
+          "stationuuid": "bd612834-424d-471f-9633-2ea537c057c8",
+          "name": "⁡⁡⁡建平综合广播",
+          "url": "https://lhttp-hw.qtfm.cn/live/15318332/64k.mp3",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8c864fe5-3ef8-49a7-b906-7b7959eda334",
+        "name": "甘孜康巴藏语综合广播",
+        "url": "https://m3u8channel.ganzitv.com/nmip-media/audiolive/audio100645/playlist.m3u8",
+        "votes": 21
+      },
+      "variants": [
+        {
+          "stationuuid": "c72398ac-3155-460e-b596-ab90aeeb5e5f",
+          "name": "甘孜康巴藏语综合广播",
+          "url": "https://m3u8channel.ganzitv.com/nmip-media/audiolive/audio100645/playlist.m3u8",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b79ae4c4-27ad-4cca-9463-2d419ce3a383",
+        "name": "安徽交通广播",
+        "url": "http://satellitepull.cnr.cn/live/wxahjtgb/playlist.m3u8",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "78ed6f74-a4cf-4da4-b214-4bed9eb28375",
+          "name": "安徽交通广播 高清",
+          "url": "http://satellitepull.cnr.cn/live/wxahjtgb/playlist.m3u8?wsSession=d966c1f28016a758d88ba0c2-174830326162340&wsIPSercert=cd39a342afce39d82188ebae3a31d1b8",
+          "votes": 15,
+          "differs": [
+            "name",
+            "url",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "72235395-87ea-4019-aedf-d01f6a9dca88",
+        "name": "土默特左旗103.9HappyRadio",
+        "url": "https://lhttp-hw.qtfm.cn/live/4910/64k.mp3",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "781fc562-2938-465e-87c9-ab5085a3b04a",
+          "name": "土左旗综合广播 103.9HappyRadio",
+          "url": "https://lhttp-hw.qtfm.cn/live/4910/64k.mp3",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "878bd1de-a78e-4d4c-a62a-3f9758c72d91",
+        "name": "历城广播电视台",
+        "url": "https://lhttp-hw.qtfm.cn/live/20500194/64k.mp3",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "6b6a598a-4227-4ccf-afdd-498abbeb3412",
+          "name": "历城区融媒体中心综合广播",
+          "url": "https://lhttp-hw.qtfm.cn/live/20500194/64k.mp3",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "19d2c636-59ab-4f3b-a0ff-9b985ccaaf06",
+        "name": "滁州文艺广播",
+        "url": "https://live.ximalaya.com/radio-first-page-app/live/156/64.m3u8?transcode=ts",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "07471ec8-13b9-41c1-86df-66198647803c",
+          "name": "滁州综合广播",
+          "url": "https://live.ximalaya.com/radio-first-page-app/live/156/64.m3u8?transcode=ts",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

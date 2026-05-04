@@ -1,0 +1,308 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.882Z",
+  "country": "NO",
+  "sourceProbedAt": "2026-04-30T07:05:05.373Z",
+  "totals": {
+    "deadStreams": 8,
+    "internalDupes": 12,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "e488c7d7-4629-458a-98b1-8c883f7b26f4",
+      "name": "Radio Kos",
+      "url": "https://lyd.radiokos.no/kos_lq",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 55,
+      "lastProbedAt": "2026-04-30T07:04:51.733Z"
+    },
+    {
+      "stationuuid": "fb4fa30f-071a-4f76-a27d-ff4fa80016c5",
+      "name": " 🎥 ues 🎬 ",
+      "url": "https://listen.radionomy.com/unleashingepicsoundtracks",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 50,
+      "lastProbedAt": "2026-04-30T07:04:51.924Z"
+    },
+    {
+      "stationuuid": "090afb3b-63dc-439b-bd7f-5ea81122d620",
+      "name": "Radio Metro Sørlandet",
+      "url": "https://stream.oneplay.no/sorlandet128",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 46,
+      "lastProbedAt": "2026-04-30T07:04:51.898Z"
+    },
+    {
+      "stationuuid": "19711d30-f2e0-4eaa-9197-6e977616b926",
+      "name": "Radio Kos",
+      "url": "https://lyd.radiokos.no/kos_lq",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 11,
+      "lastProbedAt": "2026-04-30T07:04:54.088Z"
+    },
+    {
+      "stationuuid": "31b93aef-1b32-4a6f-b91a-dea7d92e691b",
+      "name": "radiOrakel FM 99.3",
+      "url": "https://stream.radiorakel.no/fm993.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 11,
+      "lastProbedAt": "2026-04-30T07:05:04.079Z"
+    },
+    {
+      "stationuuid": "ec48cec2-5093-4300-9a71-0d593e6eb950",
+      "name": "Radio Ålesund",
+      "url": "https://audio.radioaalesund.no/aalesund_mq",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 8,
+      "lastProbedAt": "2026-04-30T07:04:54.756Z"
+    },
+    {
+      "stationuuid": "c85ea118-4061-4b4e-bf09-9dc68ff14a0d",
+      "name": "Metro Buskerud",
+      "url": "https://stream.radiometro.no/buskerud128",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 6,
+      "lastProbedAt": "2026-04-30T07:04:55.044Z"
+    },
+    {
+      "stationuuid": "d09031a8-abea-44dc-bb5b-d7739ec28ceb",
+      "name": "radiOrakel",
+      "url": "https://stream.radiorakel.no/radiorakel_hq",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T07:05:05.371Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "ede7b712-b68a-11e8-aaf2-52543be04c81",
+        "name": "Metal Express Radio",
+        "url": "http://s39.myradiostream.com:11590/;",
+        "votes": 406
+      },
+      "variants": [
+        {
+          "stationuuid": "e0782cc1-6bfe-4023-9c49-480628664ef6",
+          "name": "Metal Express Radio",
+          "url": "http://s39.myradiostream.com:11590/;",
+          "votes": 50,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bb38c058-7757-48e7-a73e-ccdc4fad7d2e",
+        "name": "Radio Rock (NO)",
+        "url": "https://live-bauerno.sharp-stream.com/radiorock_no_mp3",
+        "votes": 311
+      },
+      "variants": [
+        {
+          "stationuuid": "9e2ad07b-1b16-4ad4-9bc2-17a55cf535e2",
+          "name": "Rock Radio Norway",
+          "url": "https://live-bauerno.sharp-stream.com/radiorock_no_mp3",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "1bfde494-b055-4361-9426-2626f2b5f0ea",
+          "name": "Rock Radio Norway",
+          "url": "https://live-bauerno.sharp-stream.com/radiorock_no_mp3",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "852affac-eefb-4ce6-80fa-2eb975a1d65d",
+        "name": "radiolatinamerika",
+        "url": "https://stream.radiolatinamerika.no/latam_hq",
+        "votes": 157
+      },
+      "variants": [
+        {
+          "stationuuid": "aea07db5-73c4-4e29-a903-3c239b29a169",
+          "name": "Radio Latin-Amerika",
+          "url": "https://stream.radiolatinamerika.no/latam_hq",
+          "votes": 29,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "80b3c98b-8a97-4b78-a53e-3e018ebea04c",
+        "name": "Radio Norge",
+        "url": "https://live-bauerno.sharp-stream.com/radionorge_no_mp3",
+        "votes": 135
+      },
+      "variants": [
+        {
+          "stationuuid": "25ffaefe-2781-4598-a4fd-120ba7b38eec",
+          "name": "Radio Norge",
+          "url": "https://live-bauerno.sharp-stream.com/radionorge_no_mp3",
+          "votes": 9,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e488c7d7-4629-458a-98b1-8c883f7b26f4",
+        "name": "Radio Kos",
+        "url": "https://lyd.radiokos.no/kos_lq",
+        "votes": 55
+      },
+      "variants": [
+        {
+          "stationuuid": "19711d30-f2e0-4eaa-9197-6e977616b926",
+          "name": "Radio Kos",
+          "url": "https://lyd.radiokos.no/kos_lq",
+          "votes": 11,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bbc99023-41ea-4162-b9d3-7f5ec43bb338",
+        "name": "Radio102",
+        "url": "https://stream.radio102.no/radio102_hq",
+        "votes": 54
+      },
+      "variants": [
+        {
+          "stationuuid": "64eb20e1-17b4-46b7-9276-a587c1cb7594",
+          "name": "Radio102",
+          "url": "https://stream.radio102.no/radio102_hq",
+          "votes": 27,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2f147458-9d03-47e3-a3c5-50e1c62459f5",
+        "name": "5000 Bergen",
+        "url": "https://bergen5000.radioca.st/stream",
+        "votes": 29
+      },
+      "variants": [
+        {
+          "stationuuid": "52458b21-a252-4391-b1d7-cc77174a9b6f",
+          "name": "5000 Bergen",
+          "url": "https://bergen5000.radioca.st/stream",
+          "votes": 23,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d4a0647e-d1b9-42d9-b09b-db2fe719d97c",
+        "name": "NRK Sport",
+        "url": "https://cdn0-47115-liveicecast0.dna.contentdelivery.net/sport_aac_h",
+        "votes": 24
+      },
+      "variants": [
+        {
+          "stationuuid": "f7339150-0cda-4505-a25f-8b6ceecd2674",
+          "name": "NRK Sport",
+          "url": "https://cdn0-47115-liveicecast0.dna.contentdelivery.net/sport_aac_h",
+          "votes": 12,
+          "differs": [
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5e6bd2c0-b52a-4208-ad37-a305886c8c62",
+        "name": "Radio Tromsø Hits",
+        "url": "https://stream.rthits.no/rthits192",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "77257628-c51f-43ca-94b4-52f4ac0296db",
+          "name": "Radio Tromsø Hits",
+          "url": "https://stream.rthits.no/rthits192",
+          "votes": 12,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8ecc85cf-de72-4c33-aae6-8005cdfceabd",
+        "name": "NRK P1 Østfold",
+        "url": "https://cdn0-47115-liveicecast0.dna.contentdelivery.net/p1_dk15_mp3_h",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "e3dbd695-3f50-46e3-ae9f-01ff1e082766",
+          "name": "NRK P1 Østfold",
+          "url": "https://cdn0-47115-liveicecast0.dna.contentdelivery.net/p1_dk15_mp3_h",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d974196b-362d-4473-ad0a-a88c3193f4a2",
+        "name": "P4 – Lyden av Norge",
+        "url": "https://p4.p4groupaudio.com/P04_MH",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "947e597e-9a41-492f-bc19-59335468dc69",
+          "name": "P4 – Lyden av Norge",
+          "url": "https://p4.p4groupaudio.com/P04_MH",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "14e84f95-187a-4f2a-b5c2-70b943a0d1b2",
+        "name": "Tune Tribe Radio",
+        "url": "https://tunetriberadio.com:8556/listen/tune_tribe_radio/radio.mp3",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "1e78ecab-037f-40e4-bd0b-b762cb6fde51",
+          "name": "Tune Tribe Radio",
+          "url": "https://tunetriberadio.com:8556/listen/tune_tribe_radio/radio.mp3",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

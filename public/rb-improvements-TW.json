@@ -1,0 +1,441 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.889Z",
+  "country": "TW",
+  "sourceProbedAt": "2026-04-30T11:14:03.570Z",
+  "totals": {
+    "deadStreams": 12,
+    "internalDupes": 16,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "bec65856-3481-43f7-9173-6999b5b5a465",
+      "name": "教育廣播電臺-臺北總臺FM臺",
+      "url": "https://cast.ner.gov.tw/1",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 1145,
+      "lastProbedAt": "2026-04-30T11:13:52.925Z"
+    },
+    {
+      "stationuuid": "8fd5d7a8-ea44-404c-99a0-6aeae1385739",
+      "name": "教育廣播電臺-臺北總臺AM臺",
+      "url": "https://cast.ner.gov.tw/2",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 856,
+      "lastProbedAt": "2026-04-30T11:13:53.134Z"
+    },
+    {
+      "stationuuid": "a7525cbc-0f09-4e35-b1d9-fb098ee1f7d0",
+      "name": "教育廣播電臺-臺北總臺FM臺",
+      "url": "https://cast.ner.gov.tw/1",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 234,
+      "lastProbedAt": "2026-04-30T11:13:54.515Z"
+    },
+    {
+      "stationuuid": "1639fe6b-6600-4508-952a-4b9ec70d9818",
+      "name": "Taiwan Plus",
+      "url": "https://bcovlive-a.akamaihd.net/rce33d845cb9e42dfa302c7ac345f7858/ap-northeast-1/6282251407001/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 225,
+      "lastProbedAt": "2026-04-30T11:13:45.235Z"
+    },
+    {
+      "stationuuid": "ec125f6d-dd85-47f9-8bc5-3ec8d5f788bd",
+      "name": "教育廣播電臺-高雄分臺",
+      "url": "https://cast.ner.gov.tw/5",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 141,
+      "lastProbedAt": "2026-04-30T11:13:56.095Z"
+    },
+    {
+      "stationuuid": "34d1e846-0342-4f6e-968d-be738122ee3d",
+      "name": "教育廣播電臺-彰化分臺FM",
+      "url": "https://cast.ner.gov.tw/4",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 100,
+      "lastProbedAt": "2026-04-30T11:13:57.154Z"
+    },
+    {
+      "stationuuid": "51e03469-1739-4ae3-8b77-6d9d74223570",
+      "name": "教育廣播電臺-臺東分臺FM-1",
+      "url": "https://cast.ner.gov.tw/6",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 98,
+      "lastProbedAt": "2026-04-30T11:13:58.255Z"
+    },
+    {
+      "stationuuid": "36d5dc13-0736-4c5e-859e-ae8336458a51",
+      "name": "教育廣播電臺-花蓮分臺FM-2",
+      "url": "https://cast.ner.gov.tw/9",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 87,
+      "lastProbedAt": "2026-04-30T11:13:58.842Z"
+    },
+    {
+      "stationuuid": "ed9d83c9-ece4-45d0-a25f-96dae4800d79",
+      "name": "教育廣播電臺-臺東分臺FM-2",
+      "url": "https://cast.ner.gov.tw/7",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 80,
+      "lastProbedAt": "2026-04-30T11:13:59.218Z"
+    },
+    {
+      "stationuuid": "f3ff7bbc-772b-461f-8f6e-3e714ff2d8c4",
+      "name": "教育廣播電臺-花蓮分臺FM-1",
+      "url": "https://cast.ner.gov.tw/8",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 78,
+      "lastProbedAt": "2026-04-30T11:14:02.928Z"
+    },
+    {
+      "stationuuid": "2a856420-1dd5-4551-bad9-6af549380692",
+      "name": "微微笑廣播網 - 桃園風城廣播電台FM98.7",
+      "url": "https://cast.tunzilla.com/http://61.220.245.236:8080",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 72,
+      "lastProbedAt": "2026-04-30T11:13:54.695Z"
+    },
+    {
+      "stationuuid": "96ec8154-33a5-444e-a111-28901378d10d",
+      "name": "大樹下 FM90.5",
+      "url": "https://cast.tunzilla.com/http://60.250.148.112:8000/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 50,
+      "lastProbedAt": "2026-04-30T11:13:56.227Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "96b88cb2-76a4-43fb-9257-e791103f5fa8",
+        "name": "臺北電台",
+        "url": "https://stream.ginnet.cloud/live0130lo-yfyo/_definst_/fm/playlist.m3u8",
+        "votes": 3895
+      },
+      "variants": [
+        {
+          "stationuuid": "e8ac5c8f-e0ce-4bea-8846-b9ff7d911aea",
+          "name": "台北廣播電台",
+          "url": "https://stream.ginnet.cloud/live0130lo-yfyo/_definst_/fm/playlist.m3u8",
+          "votes": 1140,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "de4271e4-74cf-4ffe-a7cf-15a11f71530f",
+        "name": "Classical 古典音樂台 FM 97.7",
+        "url": "http://59.120.88.155:8000/live.mp3",
+        "votes": 3274
+      },
+      "variants": [
+        {
+          "stationuuid": "ef2e5996-1f46-44bf-a07b-2949615f60ce",
+          "name": "Classical 古典音樂台 FM 97.7",
+          "url": "http://59.120.88.155:8000/live.mp3",
+          "votes": 468,
+          "differs": []
+        },
+        {
+          "stationuuid": "a2ae6e7e-e193-4f95-b25d-1fa4e5a7d632",
+          "name": "Classical 古典音樂台 FM 97.7",
+          "url": "http://59.120.88.155:8000/live.mp3",
+          "votes": 118,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b40c66c7-c7d1-498d-8a06-375fa94c03fc",
+        "name": "中央廣播電台",
+        "url": "https://streamak0138.akamaized.net/live0138lh-mbm9/_definst_/rti3/chunklist.m3u8",
+        "votes": 2949
+      },
+      "variants": [
+        {
+          "stationuuid": "a598b0a8-6863-4dac-9a62-74ceb084f39f",
+          "name": "RTI 臺灣之音",
+          "url": "https://streamak0138.akamaized.net/live0138lh-mbm9/_definst_/rti3/chunklist.m3u8",
+          "votes": 2129,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bec65856-3481-43f7-9173-6999b5b5a465",
+        "name": "教育廣播電臺-臺北總臺FM臺",
+        "url": "https://cast.ner.gov.tw/1",
+        "votes": 1145
+      },
+      "variants": [
+        {
+          "stationuuid": "a7525cbc-0f09-4e35-b1d9-fb098ee1f7d0",
+          "name": "教育廣播電臺-臺北總臺FM臺",
+          "url": "https://cast.ner.gov.tw/1",
+          "votes": 234,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "43e049f0-c8f5-11e8-a54a-52543be04c81",
+        "name": "城市廣播網•台南知音",
+        "url": "http://fm971.cityfm.tw:8080/971.mp3",
+        "votes": 897
+      },
+      "variants": [
+        {
+          "stationuuid": "af7cf56a-a366-47fc-bbb4-e6c4bd5b2ec6",
+          "name": "城市廣播網-台南知音",
+          "url": "http://fm971.cityfm.tw:8080/971.mp3",
+          "votes": 122,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4527d225-da4e-4bf1-be75-15a272cd4d49",
+        "name": "台中廣播",
+        "url": "http://211.20.119.101:8081/",
+        "votes": 683
+      },
+      "variants": [
+        {
+          "stationuuid": "4b69f9bb-9c13-4b01-a19b-fc2e8c5b21a9",
+          "name": "台中廣播",
+          "url": "http://211.20.119.101:8081/",
+          "votes": 133,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bf3382fb-d8b8-448c-b69f-35e2e39a4904",
+        "name": "佳音電台",
+        "url": "https://stream.ginnet.cloud/live0119lo-p4rb/_definst_/fm909/playlist.m3u8",
+        "votes": 430
+      },
+      "variants": [
+        {
+          "stationuuid": "1fbef30f-dfa0-471b-b0ea-dd296391d30e",
+          "name": "佳音電台 90.9 FM",
+          "url": "https://stream.ginnet.cloud/live0119lo-p4rb/_definst_/fm909/playlist.m3u8",
+          "votes": 61,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e0401ca6-9638-11e8-a767-52543be04c81",
+        "name": "Phate",
+        "url": "http://phate.io/listen",
+        "votes": 399
+      },
+      "variants": [
+        {
+          "stationuuid": "80a68b7e-66e4-4478-8065-c7c10f1cb934",
+          "name": "Phate",
+          "url": "http://phate.io/listen",
+          "votes": 18,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fa102bd1-a71d-4048-baad-e173b92ddad0",
+        "name": "台中城市廣播",
+        "url": "http://fm901.cityfm.tw:8080/901.mp3",
+        "votes": 364
+      },
+      "variants": [
+        {
+          "stationuuid": "9e31ffb7-8586-425c-b149-fc633a7507cc",
+          "name": "台北健康電台",
+          "url": "http://fm901.cityfm.tw:8080/901.mp3",
+          "votes": 318,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c9acf570-8018-473e-a345-97a1cd294619",
+          "name": "城市廣播網-台北健康",
+          "url": "http://fm901.cityfm.tw:8080/901.mp3",
+          "votes": 114,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3b7d5ee7-dbec-46fa-af65-e0d2de535c15",
+        "name": "寶島聯播網",
+        "url": "http://125.227.87.206:8000/FM98.5",
+        "votes": 361
+      },
+      "variants": [
+        {
+          "stationuuid": "a04e099e-c0b7-46f5-b4ad-ed9f669b394d",
+          "name": "寶島新聲廣播電台",
+          "url": "http://125.227.87.206:8000/FM98.5",
+          "votes": 299,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cf8f4744-c913-11e8-a54a-52543be04c81",
+        "name": "1766線上電臺-百家知識",
+        "url": "http://livestream.1766.today:1768/live1.mp3",
+        "votes": 320
+      },
+      "variants": [
+        {
+          "stationuuid": "08fd517b-8943-43b3-9371-f13fc77e9304",
+          "name": "1766線上電臺-百家知識",
+          "url": "http://livestream.1766.today:1768/live1.mp3",
+          "votes": 99,
+          "differs": []
+        },
+        {
+          "stationuuid": "8d4d2ada-c57c-46d6-b67d-aba881f9587a",
+          "name": "1766線上電臺-百家知識",
+          "url": "http://livestream.1766.today:1768/live1.mp3",
+          "votes": 83,
+          "differs": []
+        },
+        {
+          "stationuuid": "25970dbd-3591-46b6-bfaa-668e8be26152",
+          "name": "1766線上電臺-百家知識",
+          "url": "http://livestream.1766.today:1768/live1.mp3",
+          "votes": 76,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4aece3ae-e1d0-4347-9231-9d81207e2373",
+        "name": "太陽電台",
+        "url": "http://211.20.119.102:8081/",
+        "votes": 251
+      },
+      "variants": [
+        {
+          "stationuuid": "ef129d58-ac72-4e69-a1ae-2cb896611d3c",
+          "name": "太陽電台",
+          "url": "http://211.20.119.102:8081/",
+          "votes": 130,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "78d040bb-ebee-48b7-bb87-78a22c1e4d4a",
+        "name": "大千電台",
+        "url": "http://taiwan-radio.tw:8000/ML.FM97.1",
+        "votes": 141
+      },
+      "variants": [
+        {
+          "stationuuid": "ea256c29-779e-42ad-898e-d2b6a9a8db75",
+          "name": "大漢之音",
+          "url": "http://taiwan-radio.tw:8000/ML.FM97.1",
+          "votes": 42,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "93f83583-6964-4208-9446-15f4c2c51587",
+        "name": "正聲綜合",
+        "url": "http://flv.ccdntech.com/live/_definst_/mp4:vod117_Live/live2/playlist.m3u8",
+        "votes": 105
+      },
+      "variants": [
+        {
+          "stationuuid": "4c7d3d26-6339-4535-a4e6-98284f519cbc",
+          "name": "正聲綜合",
+          "url": "http://flv.ccdntech.com/live/_definst_/mp4:vod117_Live/live2/playlist.m3u8",
+          "votes": 88,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c976a1fa-100d-43e4-9fe1-52b60097c0f9",
+        "name": "Nei-Di's ACG Music",
+        "url": "http://neidi.homeip.net:8080/;",
+        "votes": 19
+      },
+      "variants": [
+        {
+          "stationuuid": "7431ad39-122d-4428-b268-b1a9fc8ddba1",
+          "name": "Nei-Di's ACG Music",
+          "url": "http://neidi.homeip.net:8080/;",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7ba4ad16-5c0c-433b-8815-a93ef8cf5832",
+        "name": "CanCheers",
+        "url": "https://us3.internet-radio.com/proxy/cancheers?mp=/stream",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "334b4b71-f816-4c73-8f36-acd76d0eb322",
+          "name": "CanCheers",
+          "url": "https://us3.internet-radio.com/proxy/cancheers?mp=/stream",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

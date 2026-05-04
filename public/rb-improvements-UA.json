@@ -1,0 +1,1180 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.889Z",
+  "country": "UA",
+  "sourceProbedAt": "2026-04-30T10:56:15.978Z",
+  "totals": {
+    "deadStreams": 15,
+    "internalDupes": 48,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "d0050edc-29b5-4b7e-83fb-c4584c54b811",
+      "name": "Europa Plus",
+      "url": "https://s5.radioforge.com:7908/live?n=77357",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 503",
+      "votes": 396,
+      "lastProbedAt": "2026-04-30T10:55:58.318Z"
+    },
+    {
+      "stationuuid": "3ac2b9cc-46f2-42c3-b63f-975da3b70000",
+      "name": "RockRadio UA (РокРадіо UA)",
+      "url": "https://rockradioua.online:8433/rock_256",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 326,
+      "lastProbedAt": "2026-04-30T10:55:58.143Z"
+    },
+    {
+      "stationuuid": "72e8ae22-3366-4123-b8ba-05ec6d4f6c5d",
+      "name": "Wolf Music Deep House Radio",
+      "url": "https://stream.wolfmusicradio.com:8000/Wolf_Music/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 268,
+      "lastProbedAt": "2026-04-30T10:56:08.232Z"
+    },
+    {
+      "stationuuid": "0fff80a7-81f6-4676-9026-820a4f3bb90b",
+      "name": "Радіо Ґарта / Garta",
+      "url": "https://rockradioua.online:8433/metal_256",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 65,
+      "lastProbedAt": "2026-04-30T10:56:00.611Z"
+    },
+    {
+      "stationuuid": "4e172256-486d-4e56-b431-d7a6ecd3506e",
+      "name": "xradioua",
+      "url": "https://giss.tv:666/xradio_channel.ogg",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 39,
+      "lastProbedAt": "2026-04-30T10:56:02.185Z"
+    },
+    {
+      "stationuuid": "2b11e548-801a-48f3-a74e-dab927c71ece",
+      "name": "РокРадіо Metal",
+      "url": "https://rockradioua.online:8433/metal_256",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 35,
+      "lastProbedAt": "2026-04-30T10:56:02.241Z"
+    },
+    {
+      "stationuuid": "f5f7cad7-e13f-4428-b3ff-51196e4816c8",
+      "name": "X Radio",
+      "url": "https://giss.tv:666/xradio_channel.ogg",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 29,
+      "lastProbedAt": "2026-04-30T10:56:02.885Z"
+    },
+    {
+      "stationuuid": "d006d344-f2eb-4df1-a6b4-f9f343161d41",
+      "name": "Радіо Gonivo",
+      "url": "https://stream.gonivo.com.ua/radio/8000/live",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 526",
+      "votes": 29,
+      "lastProbedAt": "2026-04-30T10:56:02.889Z"
+    },
+    {
+      "stationuuid": "7854411c-70ce-4fc3-b56c-87ce23e9fbce",
+      "name": "Подільське",
+      "url": "https://podilske.com:8013/p-radio",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 26,
+      "lastProbedAt": "2026-04-30T10:56:03.067Z"
+    },
+    {
+      "stationuuid": "f299b31d-73b0-4e2c-a299-6bff35a6f247",
+      "name": "Fress FM",
+      "url": "https://streaming.fressfm.com:11185/stream/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 25,
+      "lastProbedAt": "2026-04-30T10:56:03.579Z"
+    },
+    {
+      "stationuuid": "482d0a90-ac75-4e5e-baf3-e9d82eefeccd",
+      "name": "X-Mas Radio By X Radio",
+      "url": "https://stream.zeno.fm/woxtg7gdfuivv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 16,
+      "lastProbedAt": "2026-04-30T10:56:04.150Z"
+    },
+    {
+      "stationuuid": "8b25c413-0434-4766-9e85-c873d3095405",
+      "name": "Балта FM",
+      "url": "https://podilske.com:8013/online",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 14,
+      "lastProbedAt": "2026-04-30T10:56:04.465Z"
+    },
+    {
+      "stationuuid": "31049d60-9b47-444b-a8b0-6712339d606c",
+      "name": "Сок-FM",
+      "url": "https://online-sokfm.pp.ua:8443/SokFM_HD",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 7,
+      "lastProbedAt": "2026-04-30T10:56:05.549Z"
+    },
+    {
+      "stationuuid": "31a3aae7-9bc4-4c5f-9519-64793223133c",
+      "name": "Радіо Пульс",
+      "url": "https://pulzusfm.eu/sionelo",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 6,
+      "lastProbedAt": "2026-04-30T10:56:05.716Z"
+    },
+    {
+      "stationuuid": "0b9771ef-70b3-4905-a142-01e4ac0d3119",
+      "name": "Українське радіо",
+      "url": "https://radio2.ukr.radio/ur1-mp3",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T10:56:15.977Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "961949f3-0601-11e8-ae97-52543be04c81",
+        "name": "Hit FM (UKraine) - 128kb/s",
+        "url": "http://195.95.206.17/HitFM",
+        "votes": 57355
+      },
+      "variants": [
+        {
+          "stationuuid": "9d2b71ab-0135-45a7-8008-d7be59e40976",
+          "name": "Hit FM",
+          "url": "http://195.95.206.17/HitFM",
+          "votes": 104,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1f900b9a-ea3b-4eac-9505-1df5bef175be",
+        "name": "Люкс FМ 103.1",
+        "url": "http://lux.radio.tvstitch.com/kyiv/lux_adv_sd",
+        "votes": 44473
+      },
+      "variants": [
+        {
+          "stationuuid": "02aa69ab-0485-4ff1-a0f1-a6c4be29a8bb",
+          "name": "Lux FM",
+          "url": "http://lux.radio.tvstitch.com/kyiv/lux_adv_sd",
+          "votes": 5412,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "727cebaf-48c5-4c35-8988-d7fedce8055c",
+          "name": "Lux FM",
+          "url": "http://lux.radio.tvstitch.com/kyiv/lux_adv_sd",
+          "votes": 100,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8e315430-4a60-4274-a9cd-2fe4462957b2",
+        "name": "Хіт FM Сучасні хіти",
+        "url": "http://online.hitfm.ua/HitFM_Top",
+        "votes": 34816
+      },
+      "variants": [
+        {
+          "stationuuid": "41306884-9f08-4bd4-8ec2-27cb77239b28",
+          "name": "Hit FM (Modern hits)",
+          "url": "http://online.hitfm.ua/HitFM_Top",
+          "votes": 2026,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7aecf6b1-4724-4fd5-b66e-88d2e34e9b8a",
+        "name": "Хіт ФМ Найбільші хіти ",
+        "url": "http://online.hitfm.ua/HitFM_Best",
+        "votes": 13771
+      },
+      "variants": [
+        {
+          "stationuuid": "b3b6862d-0b2b-4e52-b839-4871a8635f52",
+          "name": "Hit FM (Best)",
+          "url": "http://online.hitfm.ua/HitFM_Best",
+          "votes": 1592,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d8d43926-79a6-4ccc-a396-c483ff6a013d",
+          "name": "Хіт ФМ Найбільші хіти ",
+          "url": "http://online.hitfm.ua/HitFM_Best",
+          "votes": 705,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1ed98005-80a7-4b91-922b-dcd99f894377",
+        "name": "HIT FM",
+        "url": "http://online.hitfm.ua/HitFM",
+        "votes": 11590
+      },
+      "variants": [
+        {
+          "stationuuid": "bc0956a0-dbf4-4c04-82c9-946ad74aeb06",
+          "name": "Хіт ФМ ",
+          "url": "http://online.hitfm.ua/HitFM",
+          "votes": 603,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d4d07ae0-6182-4353-97a0-921314ab3db9",
+          "name": "Хіт FM",
+          "url": "http://online.hitfm.ua/HitFM",
+          "votes": 35,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "55275efc-1ee2-4a52-9aef-7fb632c7f3e8",
+        "name": "Радіо Максимум 94.2",
+        "url": "http://lux.radio.tvstitch.com/kyiv/max_adv_sd",
+        "votes": 11041
+      },
+      "variants": [
+        {
+          "stationuuid": "96193bb3-0601-11e8-ae97-52543be04c81",
+          "name": "Radio 24",
+          "url": "http://lux.radio.tvstitch.com/kyiv/max_adv_sd",
+          "votes": 3321,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961f3711-0601-11e8-ae97-52543be04c81",
+        "name": "Громадське радіо / Hromadske radio",
+        "url": "http://91.218.212.67:8000/stream",
+        "votes": 10149
+      },
+      "variants": [
+        {
+          "stationuuid": "4d053715-e515-4116-b14e-410c27dee72a",
+          "name": "Hromadske Radio",
+          "url": "http://91.218.212.67:8000/stream",
+          "votes": 344,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "52be99a0-c223-4ddf-8e71-1eb0b43552f3",
+        "name": "Єдині новини",
+        "url": "https://online-news.radioplayer.ua/RadioNews",
+        "votes": 6850
+      },
+      "variants": [
+        {
+          "stationuuid": "8e6207f4-ed81-4ba0-980b-f612221b4b27",
+          "name": "Єдині новини 24 - BREAKING - LIVE",
+          "url": "https://online-news.radioplayer.ua/RadioNews",
+          "votes": 1041,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8c0a93e5-7e5a-499d-85eb-347e40445ad1",
+        "name": "Радіо НВ 96.0",
+        "url": "https://online-radio.nv.ua/radionv.mp3",
+        "votes": 6744
+      },
+      "variants": [
+        {
+          "stationuuid": "0e93d9bf-9858-4eaf-8c2c-c7a98adb8e36",
+          "name": "Radio NV (Радіо НВ)",
+          "url": "https://online-radio.nv.ua/radionv.mp3",
+          "votes": 840,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "a05a6ebb-b01e-48ae-bab3-2cdbf53635f7",
+          "name": "Radio NV",
+          "url": "https://online-radio.nv.ua/radionv.mp3",
+          "votes": 491,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8abe2f7f-a97a-42d1-b0c1-93b29d366e4c",
+          "name": "Радио НВ",
+          "url": "https://online-radio.nv.ua/radionv.mp3",
+          "votes": 340,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7ed52195-993a-4ecd-963f-c7f9ed665174",
+        "name": "Kiss FM Digital HD",
+        "url": "https://online.kissfm.ua/KissFM_Digital_HD",
+        "votes": 4978
+      },
+      "variants": [
+        {
+          "stationuuid": "de6a22f5-f88d-4320-967a-23a756f6962b",
+          "name": "Kiss FM Digital HD",
+          "url": "https://online.kissfm.ua/KissFM_Digital_HD",
+          "votes": 808,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "75049d79-955c-4014-a7b5-700422eaa447",
+        "name": "РАДІО КИЇВ – 98 FM",
+        "url": "https://cdn.vsnw.net:8943/kyiv_fm_128k",
+        "votes": 3007
+      },
+      "variants": [
+        {
+          "stationuuid": "e089e38a-1f24-4379-9e6b-58784032ebdf",
+          "name": "Kyiv 98 FM",
+          "url": "https://cdn.vsnw.net:8943/kyiv_fm_128k",
+          "votes": 173,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8eb1682c-6530-4639-af53-7b327fcd6d26",
+        "name": "Мелодія Int",
+        "url": "http://online.melodiafm.ua/MelodiaFM_Int_Live",
+        "votes": 2977
+      },
+      "variants": [
+        {
+          "stationuuid": "7584bca4-b4bb-45c5-9372-1a23d00757fc",
+          "name": "Мелодія Int",
+          "url": "http://online.melodiafm.ua/MelodiaFM_Int_Live",
+          "votes": 283,
+          "differs": []
+        },
+        {
+          "stationuuid": "a93119fc-0295-464c-ac42-367eb8415773",
+          "name": "Мелодія Int",
+          "url": "http://online.melodiafm.ua/MelodiaFM_Int_Live",
+          "votes": 173,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6f27e559-a3b4-4c94-8ec0-1f9496f75c87",
+        "name": "Jazz FM 104.6",
+        "url": "http://online.radiojazz.ua/RadioJazz",
+        "votes": 2930
+      },
+      "variants": [
+        {
+          "stationuuid": "5afe390d-6ad6-434a-816b-0a5c5052eaa9",
+          "name": "Radio Jazz FM Ukraine",
+          "url": "http://online.radiojazz.ua/RadioJazz",
+          "votes": 516,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1e8e48ce-5bd1-460c-8a23-64c61e03a9d6",
+        "name": "Радіо Байрактар",
+        "url": "https://online.radiobayraktar.ua/RadioBayraktar",
+        "votes": 2257
+      },
+      "variants": [
+        {
+          "stationuuid": "04ab24cb-b826-4573-9ced-f9433d62540f",
+          "name": "Radio Bayraktar",
+          "url": "https://online.radiobayraktar.ua/RadioBayraktar",
+          "votes": 28,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2925144c-f91a-47ee-b2e8-3a11c486d47b",
+        "name": "Громадське радіо",
+        "url": "http://5.9.8.20:8000/stream",
+        "votes": 2253
+      },
+      "variants": [
+        {
+          "stationuuid": "e02ce3c3-dcaf-4512-ac52-d16b46fc5d75",
+          "name": "Громадське радіо",
+          "url": "http://5.9.8.20:8000/stream",
+          "votes": 245,
+          "differs": []
+        },
+        {
+          "stationuuid": "5d62b4ca-4d6f-4847-9b08-d66cca960224",
+          "name": "Громадське радіо",
+          "url": "http://5.9.8.20:8000/stream",
+          "votes": 118,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ede55a22-f16e-4eb4-be1a-731816df3743",
+        "name": "Kiss FM",
+        "url": "https://online.kissfm.ua/KissFM_HD",
+        "votes": 1861
+      },
+      "variants": [
+        {
+          "stationuuid": "0a010e69-30ae-4b26-a3a8-b57b105d16ca",
+          "name": "106.5 Kiss FM",
+          "url": "https://online.kissfm.ua/KissFM_HD",
+          "votes": 603,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "a8b951db-ab69-4d6c-906e-33366e4f0353",
+          "name": "Kiss FM EDM Ukraine ",
+          "url": "https://online.kissfm.ua/KissFM_HD",
+          "votes": 102,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2b739ef4-593e-4190-be36-5c93f0d6ad7b",
+        "name": "Blues & Rock Radio",
+        "url": "http://stream.laut.fm/bluesrock",
+        "votes": 1684
+      },
+      "variants": [
+        {
+          "stationuuid": "0e2b72a2-8983-434c-acfe-d6bca88fc438",
+          "name": "Blues & Rock Radio",
+          "url": "http://stream.laut.fm/bluesrock",
+          "votes": 544,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "36530ca7-134c-4fda-a320-caa2d61e10bd",
+        "name": "Армія FM 94.6",
+        "url": "http://212.26.132.129:8000/ArmyFM",
+        "votes": 1296
+      },
+      "variants": [
+        {
+          "stationuuid": "b2273016-3fe2-40cc-80ff-80f5f4f97f64",
+          "name": "Armija FM",
+          "url": "http://212.26.132.129:8000/ArmyFM",
+          "votes": 184,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "eb07735c-65bd-4c7e-bae3-42316b51260a",
+        "name": "П'ятниця Кременчук",
+        "url": "http://radio.moa.org.ua/Friday",
+        "votes": 767
+      },
+      "variants": [
+        {
+          "stationuuid": "efd43b27-44de-4dec-aec0-d4b6187141fc",
+          "name": "П'ятниця Кременчук",
+          "url": "http://radio.moa.org.ua/Friday",
+          "votes": 345,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "17c57a5f-8d12-4b38-a70c-03b58bcac784",
+        "name": "Перець FM",
+        "url": "https://radio.perec.fm/radio-stilnoe",
+        "votes": 727
+      },
+      "variants": [
+        {
+          "stationuuid": "c9b8ccba-55e6-4675-a77b-dd2d7aaacdd8",
+          "name": "Radio Perec FM",
+          "url": "https://radio.perec.fm/radio-stilnoe",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a854e4eb-78b0-4b48-a7d2-c20845da886c",
+        "name": "LoungeFm Chill Out",
+        "url": "https://cast.mediaonline.net.ua/chillout320",
+        "votes": 483
+      },
+      "variants": [
+        {
+          "stationuuid": "026cebc6-9629-4b21-b29d-1596945182b7",
+          "name": "Lounge FM Chill Out",
+          "url": "https://cast.mediaonline.net.ua/chillout320",
+          "votes": 462,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "abe16a8d-855e-4b5f-b74c-314671a4e6bb",
+          "name": "LoungeFM  - Chill Out",
+          "url": "https://cast.mediaonline.net.ua/chillout320",
+          "votes": 211,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "2663055f-88c9-49d2-a45c-7a54be4820a5",
+          "name": "Lounge FM",
+          "url": "https://cast.mediaonline.net.ua/chillout320",
+          "votes": 161,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fb65132c-1194-4ef4-91b7-09d9f55a8cc5",
+        "name": "УХ-Радіо",
+        "url": "http://193.169.80.7:8001/efir",
+        "votes": 438
+      },
+      "variants": [
+        {
+          "stationuuid": "38bbd5f5-49e6-4472-9148-d26087c282cb",
+          "name": "УХ-Радіо",
+          "url": "http://193.169.80.7:8001/efir",
+          "votes": 93,
+          "differs": []
+        },
+        {
+          "stationuuid": "d9dc9bd1-9625-4578-a504-ea6bf484c048",
+          "name": "Ух радіо",
+          "url": "http://193.169.80.7:8001/efir",
+          "votes": 74,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a1f8845a-f2b9-46d1-b93d-4bd92e5e9204",
+        "name": "Galychyna",
+        "url": "https://stream320.galychyna.fm/WebSite",
+        "votes": 412
+      },
+      "variants": [
+        {
+          "stationuuid": "2bdeebd6-39d2-4c11-86c6-1713a1bcc281",
+          "name": "Радіо FM Галичина",
+          "url": "https://stream320.galychyna.fm/WebSite",
+          "votes": 37,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1c818d0a-31a3-432f-900c-1ed958838d21",
+        "name": "Наше Радіо HD",
+        "url": "https://online.nasheradio.ua/NasheRadio_HD",
+        "votes": 391
+      },
+      "variants": [
+        {
+          "stationuuid": "804ed08f-71b9-4a7d-900d-40994584b1b1",
+          "name": "Наше Радіо HD",
+          "url": "https://online.nasheradio.ua/NasheRadio_HD",
+          "votes": 111,
+          "differs": []
+        },
+        {
+          "stationuuid": "2354188e-32a3-4fe8-8219-cb537c92eaf9",
+          "name": "Наше Радіо 107,9",
+          "url": "https://online.nasheradio.ua/NasheRadio_HD",
+          "votes": 98,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "47e055f1-d6be-4e67-b2b3-22d318e4a245",
+          "name": "Наше Радіо 107.9",
+          "url": "https://online.nasheradio.ua/NasheRadio_HD",
+          "votes": 34,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "43d6ed69-bb53-44ab-bc5d-919c238e7708",
+          "name": "Наше Радіо 107,9",
+          "url": "https://online.nasheradio.ua/NasheRadio_HD",
+          "votes": 30,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d0da17ac-8dac-42c3-a0fa-017bbd91311b",
+          "name": "Наше Радіо 107,9",
+          "url": "https://online.nasheradio.ua/NasheRadio_HD",
+          "votes": 28,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961d185a-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Mariia",
+        "url": "http://91.203.4.121:8000/stream160",
+        "votes": 330
+      },
+      "variants": [
+        {
+          "stationuuid": "35bd0978-fbbf-4ee9-bba6-9fe0bed2e554",
+          "name": "Радіо Марія",
+          "url": "http://91.203.4.121:8000/stream160",
+          "votes": 37,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "82860630-87f2-4e10-8621-afac65754aa1",
+        "name": "Люкс FM Львів",
+        "url": "https://streamvideo.luxnet.ua/luxlviv/luxlviv.stream/playlist.m3u8",
+        "votes": 310
+      },
+      "variants": [
+        {
+          "stationuuid": "7d9d54f5-9d1b-43c1-b616-54ccd071aeeb",
+          "name": "Люкс FM Львів",
+          "url": "https://streamvideo.luxnet.ua/luxlviv/luxlviv.stream/playlist.m3u8",
+          "votes": 45,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "86d1b2ee-e494-4041-8117-2379ce3dffe2",
+        "name": "Radio TREK",
+        "url": "https://cast.radiotrek.rv.ua:8433/MP3_320",
+        "votes": 308
+      },
+      "variants": [
+        {
+          "stationuuid": "95197788-a251-4967-aeda-0c9b10aa41d8",
+          "name": "Радіо Трек",
+          "url": "https://cast.radiotrek.rv.ua:8433/MP3_320",
+          "votes": 21,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1163f05f-16cb-4fe4-a581-a11a7318308c",
+        "name": "Tik Tok Hits",
+        "url": "http://stream.europeanhitradio.com:8000/Stream_38.mp3",
+        "votes": 305
+      },
+      "variants": [
+        {
+          "stationuuid": "e96961c3-24dd-42ac-9cd2-52e7dd35fa4b",
+          "name": "Tik Tok Hits",
+          "url": "http://stream.europeanhitradio.com:8000/Stream_38.mp3",
+          "votes": 71,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f6040538-e43f-4117-bf96-df003bfb0bc4",
+        "name": "Мелодія FM Disco",
+        "url": "http://online.melodiafm.ua/MelodiaFM_Disco_Live",
+        "votes": 252
+      },
+      "variants": [
+        {
+          "stationuuid": "5c9aaddb-bf4a-4e45-b63f-e522fed810d1",
+          "name": "Мелодія FM Disco",
+          "url": "http://online.melodiafm.ua/MelodiaFM_Disco_Live",
+          "votes": 198,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9a4c6adc-d939-4086-9913-88739513caf2",
+        "name": "1] Авторадіо",
+        "url": "https://cast.mediaonline.net.ua/avtoradio",
+        "votes": 223
+      },
+      "variants": [
+        {
+          "stationuuid": "bfe4692c-4158-4fca-9a41-7eb7112aab59",
+          "name": "Avtoradio",
+          "url": "https://cast.mediaonline.net.ua/avtoradio",
+          "votes": 84,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "db8a3218-6d66-42c2-a97b-ab0550a318ee",
+        "name": "MFM STATION",
+        "url": "https://radio.mfm.ua/online128",
+        "votes": 179
+      },
+      "variants": [
+        {
+          "stationuuid": "76ed8895-5d5a-4ae0-889d-f53aa411b764",
+          "name": "MFM Ukraine",
+          "url": "https://radio.mfm.ua/online128",
+          "votes": 58,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6d2b9310-67e5-4246-97e3-49a460168b7c",
+        "name": "Segenswelle Ukrainisch",
+        "url": "http://www.segenswelle.de:8000/ukrainisch",
+        "votes": 157
+      },
+      "variants": [
+        {
+          "stationuuid": "f9ee2d8c-fb60-4efd-907b-e7f1a68e5d59",
+          "name": "SW-Radio Ukrainisch",
+          "url": "http://www.segenswelle.de:8000/ukrainisch",
+          "votes": 88,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f9672f01-73dc-456d-b768-cb25f408f299",
+        "name": "Хомякс ФМ Луганск 102.3",
+        "url": "https://radio.play-fm.ru:8001/homyak",
+        "votes": 151
+      },
+      "variants": [
+        {
+          "stationuuid": "71b6cd45-3290-49f6-815e-6426bffe71a6",
+          "name": "Хомякс ФМ Луганск 102.3",
+          "url": "https://radio.play-fm.ru:8001/homyak",
+          "votes": 43,
+          "differs": []
+        },
+        {
+          "stationuuid": "783c9af5-8c9c-4b73-801a-1abf880864e4",
+          "name": "Хомякс ФМ Луганск 102.3",
+          "url": "https://radio.play-fm.ru:8001/homyak",
+          "votes": 36,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "95a8fd5a-11a7-4237-90d2-4c10d0c5c175",
+        "name": "109FM",
+        "url": "https://solid48.streamupsolutions.com/proxy/cfujtbgw/109fm",
+        "votes": 87
+      },
+      "variants": [
+        {
+          "stationuuid": "1bd919f5-4014-41c8-b5bb-7e892c3af375",
+          "name": "109FM",
+          "url": "https://solid48.streamupsolutions.com/proxy/cfujtbgw/109fm",
+          "votes": 64,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dfeae7e0-005a-4a3d-89a3-2419b75efa0d",
+        "name": "Liqui Radio",
+        "url": "http://stream.zeno.fm/ug59eq099yzuv",
+        "votes": 86
+      },
+      "variants": [
+        {
+          "stationuuid": "ee24220c-e0db-4133-bbfb-05a5f186c8ef",
+          "name": "Liqui Radio",
+          "url": "http://stream.zeno.fm/ug59eq099yzuv",
+          "votes": 78,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5f1539a7-ce49-475e-862b-e9262d9eee18",
+        "name": "Західний полюс West Pole 32k AAC",
+        "url": "https://online.z-polus.info/mobile",
+        "votes": 86
+      },
+      "variants": [
+        {
+          "stationuuid": "f363dba1-817c-4e8e-8ac4-3f3de11ae374",
+          "name": "Радіо Західний полюс",
+          "url": "https://online.z-polus.info/mobile",
+          "votes": 51,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "192405d7-e683-418d-8bcc-07c4cc8e9aa1",
+        "name": "Tim FM Chernihiv",
+        "url": "https://tim-fm.tim.ua/mp3",
+        "votes": 84
+      },
+      "variants": [
+        {
+          "stationuuid": "e20c1c8b-7e5a-4112-a9ca-502bae53792a",
+          "name": "Tim FM Chernihiv",
+          "url": "https://tim-fm.tim.ua/mp3",
+          "votes": 45,
+          "differs": []
+        },
+        {
+          "stationuuid": "d19a08a6-7439-4e88-ae90-2759f1f43e76",
+          "name": "ТІМ FM",
+          "url": "https://tim-fm.tim.ua/mp3",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0b9bef1b-fe74-4023-9a00-b0fddbce72ab",
+        "name": "Kharkif Surf Rock",
+        "url": "http://stream-172.zeno.fm/td4yedynbwzuv",
+        "votes": 80
+      },
+      "variants": [
+        {
+          "stationuuid": "fd9ec304-d1e1-4457-b522-bdedbfa14cc4",
+          "name": "Kharkif Surf Rock",
+          "url": "http://stream-172.zeno.fm/td4yedynbwzuv",
+          "votes": 33,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0fff80a7-81f6-4676-9026-820a4f3bb90b",
+        "name": "Радіо Ґарта / Garta",
+        "url": "https://rockradioua.online:8433/metal_256",
+        "votes": 65
+      },
+      "variants": [
+        {
+          "stationuuid": "2b11e548-801a-48f3-a74e-dab927c71ece",
+          "name": "РокРадіо Metal",
+          "url": "https://rockradioua.online:8433/metal_256",
+          "votes": 35,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f9c5585d-1dee-45a0-a29f-9ad8533890e1",
+        "name": "Громадське радіо",
+        "url": "http://stream.hromadskeradio.org:8000/stream-ps-hi",
+        "votes": 64
+      },
+      "variants": [
+        {
+          "stationuuid": "e512fec3-600e-43ec-bb18-324183064b77",
+          "name": "Громадське радіо",
+          "url": "http://stream.hromadskeradio.org:8000/stream-ps-hi",
+          "votes": 46,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "101148c7-c51d-4fa2-aaa6-0938e0d90115",
+        "name": "Radio Social.net.ua",
+        "url": "https://radio.social.net.ua/live.mp3",
+        "votes": 45
+      },
+      "variants": [
+        {
+          "stationuuid": "280bae1a-b668-4098-b4c6-1c0f47672f5d",
+          "name": "Радіо Social.Net.Ua",
+          "url": "https://radio.social.net.ua/live.mp3",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "27519a87-74fd-4325-8c1a-43d3218dee08",
+        "name": "ZFM+ (Захид ФМ +)",
+        "url": "https://radio.zfm.com.ua:8443/zfm",
+        "votes": 41
+      },
+      "variants": [
+        {
+          "stationuuid": "313014df-4f67-467b-af15-ba2cfde41e8c",
+          "name": "Радіо Захід FM+",
+          "url": "https://radio.zfm.com.ua:8443/zfm",
+          "votes": 40,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4e172256-486d-4e56-b431-d7a6ecd3506e",
+        "name": "xradioua",
+        "url": "https://giss.tv:666/xradio_channel.ogg",
+        "votes": 39
+      },
+      "variants": [
+        {
+          "stationuuid": "f5f7cad7-e13f-4428-b3ff-51196e4816c8",
+          "name": "X Radio",
+          "url": "https://giss.tv:666/xradio_channel.ogg",
+          "votes": 29,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "57d876d3-1ccd-4236-a54e-ad3b2869aabd",
+        "name": "coma.fm",
+        "url": "https://stream.radio.co/s4360dbc20/listen",
+        "votes": 37
+      },
+      "variants": [
+        {
+          "stationuuid": "bf845f6a-cb74-420e-a61d-2345ab435830",
+          "name": "coma.fm",
+          "url": "https://stream.radio.co/s4360dbc20/listen",
+          "votes": 9,
+          "differs": []
+        },
+        {
+          "stationuuid": "6a571cac-0fc4-4e0b-84d2-9eb541712ba4",
+          "name": "coma.fm",
+          "url": "https://stream.radio.co/s4360dbc20/listen",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2eb23d48-a29c-47af-9568-83df0b80c537",
+        "name": "Радіо C4",
+        "url": "https://radio.c4.com.ua:8443/320",
+        "votes": 27
+      },
+      "variants": [
+        {
+          "stationuuid": "990aa9cd-b761-46ea-8c50-e79c5a235a31",
+          "name": "Радіо С4",
+          "url": "https://radio.c4.com.ua:8443/320",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ccd93105-adfb-40f2-b8ed-c2a1df34767f",
+        "name": "Місто над Бугом",
+        "url": "https://stream.mistonadbugom.com.ua/radiomistonadbugom",
+        "votes": 24
+      },
+      "variants": [
+        {
+          "stationuuid": "05176ba0-a4d5-4a54-a52f-c274d3530945",
+          "name": "Радіо Місто над Бугом",
+          "url": "https://stream.mistonadbugom.com.ua/radiomistonadbugom",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "927ad9f0-47db-41ad-982f-26a778bee9d7",
+        "name": "Радіо Ми-Україна",
+        "url": "https://cast.mediaonline.net.ua/wau320",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "16aa4d9b-c4f0-4e4e-881b-208d39e560e9",
+          "name": "Радіо Ми Україна",
+          "url": "https://cast.mediaonline.net.ua/wau320",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e7d77827-84cb-4090-8afb-840d6eb85ec7",
+        "name": "Radio Jazz Ukraine HD",
+        "url": "http://jazz.ipfm.net/RadioJazz_HD",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "e600438a-da40-40c6-829b-d296e2273cbd",
+          "name": "Radio Jazz Ukraine HD",
+          "url": "http://jazz.ipfm.net/RadioJazz_HD",
+          "votes": 8,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

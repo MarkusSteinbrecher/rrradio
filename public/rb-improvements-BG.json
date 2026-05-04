@@ -1,0 +1,1024 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.857Z",
+  "country": "BG",
+  "sourceProbedAt": "2026-04-30T10:56:10.876Z",
+  "totals": {
+    "deadStreams": 13,
+    "internalDupes": 43,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "25608063-9335-43a9-a911-4697ea76a0ad",
+      "name": "BadRock Radio",
+      "url": "https://radio.jump.bg:7028/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 180,
+      "lastProbedAt": "2026-04-30T10:55:57.639Z"
+    },
+    {
+      "stationuuid": "010265c7-9bf7-401b-8cf1-6dd124efc916",
+      "name": "Bad Rock Radio-Hard & Heavy Rock",
+      "url": "https://radio.jump.bg:7049/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 121,
+      "lastProbedAt": "2026-04-30T10:55:57.949Z"
+    },
+    {
+      "stationuuid": "68db2b22-56ab-4f8e-96a6-e50012884f65",
+      "name": "BadRock Radio National",
+      "url": "https://radiocp.jump.bg/proxy/stan1?mp=/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 96,
+      "lastProbedAt": "2026-04-30T10:55:58.192Z"
+    },
+    {
+      "stationuuid": "abd6bf4b-210a-45da-ad7a-c87241c68040",
+      "name": "Euronews Bulgaria",
+      "url": "https://play.euronews.bg/stream?1710950223133",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 89,
+      "lastProbedAt": "2026-04-30T10:55:58.207Z"
+    },
+    {
+      "stationuuid": "33b4fadb-b0ed-4db9-99d3-af347a1141f0",
+      "name": "Bad Rock Radio-Classic Rock",
+      "url": "https://radio.jump.bg:7489/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 70,
+      "lastProbedAt": "2026-04-30T10:55:58.422Z"
+    },
+    {
+      "stationuuid": "087bbce7-9fc7-48f3-9f8b-1b1109852108",
+      "name": "Радио „Епархийски глас“",
+      "url": "https://radio.mitropolia-sofia.org:7610/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 56,
+      "lastProbedAt": "2026-04-30T10:55:59.084Z"
+    },
+    {
+      "stationuuid": "72ed6ad2-92b4-47f1-9cea-b203fe237f9d",
+      "name": "Радио „Епархийски глас“",
+      "url": "https://radio.mitropolia-sofia.org:7610/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 30,
+      "lastProbedAt": "2026-04-30T10:55:59.822Z"
+    },
+    {
+      "stationuuid": "0c5c526f-d09f-49d7-89c6-4e82fe55b470",
+      "name": "Braille FM",
+      "url": "https://radio.jump.bg:7181/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 19,
+      "lastProbedAt": "2026-04-30T10:56:00.047Z"
+    },
+    {
+      "stationuuid": "479b3a8d-ed42-4bbc-8909-cee98865b72e",
+      "name": "Alma Mater",
+      "url": "https://a1.virtualradio.eu:8000/almamater",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T10:56:10.875Z"
+    },
+    {
+      "stationuuid": "6ec33d8e-3b83-4d86-933e-6810d628f5d2",
+      "name": "Alma Mater",
+      "url": "https://a1.virtualradio.eu:8001/almamater",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T10:56:01.163Z"
+    },
+    {
+      "stationuuid": "7c3a849a-21fe-4ec5-ab6d-a38c957fdc07",
+      "name": "Alma Mater",
+      "url": "https://a1.virtualradio.eu:8001/almamater",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T10:56:01.169Z"
+    },
+    {
+      "stationuuid": "3fe95cc5-a0f7-427e-a4d4-f71614bee29d",
+      "name": "Alma Mater",
+      "url": "https://a1.virtualradio.eu:8001/almamater",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T10:56:01.271Z"
+    },
+    {
+      "stationuuid": "ca387396-ca8b-45af-8f01-30c0a49644c2",
+      "name": "EYE SEE CHAOS RADIO STATION",
+      "url": "https://radio.eyeseechaos.net/listen/eye_see_chaos_radio/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 503",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T10:56:01.441Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "96165755-0601-11e8-ae97-52543be04c81",
+        "name": "Radio 1 (Bulgaria)",
+        "url": "http://149.13.0.81/radio1.ogg",
+        "votes": 13280
+      },
+      "variants": [
+        {
+          "stationuuid": "c26c7bbd-65fc-4142-930c-14d2aa3c7b6d",
+          "name": "Radio 1 (Bulgaria)",
+          "url": "http://149.13.0.81/radio1.ogg",
+          "votes": 49,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96163d8b-0601-11e8-ae97-52543be04c81",
+        "name": "BG Estrada",
+        "url": "https://play.global.audio/bgestrada",
+        "votes": 6204
+      },
+      "variants": [
+        {
+          "stationuuid": "40ccc5e3-d30a-44f7-990f-c6b72feac5e6",
+          "name": "BG Estrada",
+          "url": "https://play.global.audio/bgestrada",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961658c6-0601-11e8-ae97-52543be04c81",
+        "name": "Fresh!",
+        "url": "http://193.108.24.21:8000/fresh",
+        "votes": 4383
+      },
+      "variants": [
+        {
+          "stationuuid": "63547fd6-0cb3-4075-8211-c417f94e9cb4",
+          "name": "Radio Fresh!",
+          "url": "http://193.108.24.21:8000/fresh",
+          "votes": 153,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96423f28-0601-11e8-ae97-52543be04c81",
+        "name": "City Bulgaria",
+        "url": "http://31.13.223.148:8000/city.mp3",
+        "votes": 2801
+      },
+      "variants": [
+        {
+          "stationuuid": "e85f2cdf-af29-4765-8dc5-e75b6f519873",
+          "name": "Радио CITY",
+          "url": "http://31.13.223.148:8000/city.mp3",
+          "votes": 45,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "63bbbebd-bea1-4397-bce1-224cf6f874a3",
+          "name": "Радио CITY",
+          "url": "http://31.13.223.148:8000/city.mp3",
+          "votes": 45,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96429b7d-0601-11e8-ae97-52543be04c81",
+        "name": "Fresh Bulgaria",
+        "url": "http://31.13.223.148:8000/fresh.mp3",
+        "votes": 2098
+      },
+      "variants": [
+        {
+          "stationuuid": "3072e46f-f218-4fde-916e-a9af3ab7f835",
+          "name": "Радио Fresh!",
+          "url": "http://31.13.223.148:8000/fresh.mp3",
+          "votes": 43,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f4f82780-1bcb-4f5f-9f58-b0db5af0d568",
+        "name": "Radio Veselina",
+        "url": "https://bss1.neterra.tv/veselina/veselina.m3u8",
+        "votes": 1945
+      },
+      "variants": [
+        {
+          "stationuuid": "e6bc7ab4-f8da-405f-9b61-c8dbddfe9961",
+          "name": "Radio Veselina Bulgaria",
+          "url": "https://bss1.neterra.tv/veselina/veselina.m3u8",
+          "votes": 422,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96158e94-0601-11e8-ae97-52543be04c81",
+        "name": "БНР Христо Ботев",
+        "url": "http://stream.bnr.bg:8012/hristo-botev.aac",
+        "votes": 1840
+      },
+      "variants": [
+        {
+          "stationuuid": "0dec7232-1b72-4316-996b-09d318a29b38",
+          "name": "BNR - Hristo Botev",
+          "url": "http://stream.bnr.bg:8012/hristo-botev.aac",
+          "votes": 153,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9619f87b-0601-11e8-ae97-52543be04c81",
+        "name": "Ultra Sandanski",
+        "url": "http://88.80.96.25:8000/",
+        "votes": 1609
+      },
+      "variants": [
+        {
+          "stationuuid": "617696d3-8a01-46bb-a7f1-cf268e8b60f8",
+          "name": "Ultra Pernik",
+          "url": "http://88.80.96.25:8000/",
+          "votes": 122,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2345b180-c3c0-4178-9f80-42c7ca1ccb6f",
+        "name": "Радио Хоро",
+        "url": "http://g5.turbohost.eu:8020/stream256",
+        "votes": 1408
+      },
+      "variants": [
+        {
+          "stationuuid": "cdc70bdd-0050-4595-8be2-bf3ff7da6110",
+          "name": "Radio Horo Plus",
+          "url": "http://g5.turbohost.eu:8020/stream256",
+          "votes": 410,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "fa9bec39-6db4-4c97-b3d8-dcb965c96f66",
+          "name": "Radio Horo",
+          "url": "http://g5.turbohost.eu:8020/stream256",
+          "votes": 61,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96163e36-0601-11e8-ae97-52543be04c81",
+        "name": "KATRA FM",
+        "url": "http://www.katrafm.com:8000/live",
+        "votes": 1165
+      },
+      "variants": [
+        {
+          "stationuuid": "927a952c-ff3f-43e7-8c37-10644fd5ea25",
+          "name": "KATRA FM",
+          "url": "http://www.katrafm.com:8000/live",
+          "votes": 86,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5ecd2cab-8138-4023-ba47-c8c2d8308d5f",
+        "name": "MAGIC FM",
+        "url": "https://bss1.neterra.tv/magicfm/magicfm.m3u8",
+        "votes": 1149
+      },
+      "variants": [
+        {
+          "stationuuid": "32303d82-a603-413b-9b13-68a2b603f109",
+          "name": "Radio Magic Fm",
+          "url": "https://bss1.neterra.tv/magicfm/magicfm.m3u8",
+          "votes": 58,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "736c9d38-8947-4d73-b5d8-347c592654fc",
+        "name": "Extreme Deep House Radio",
+        "url": "https://whsh4u-panel.com/proxy/yfryujzw/stream",
+        "votes": 1089
+      },
+      "variants": [
+        {
+          "stationuuid": "b91475c1-688e-4f74-958b-d6865626970b",
+          "name": "Extreme Deep House Radio",
+          "url": "https://whsh4u-panel.com/proxy/yfryujzw/stream",
+          "votes": 282,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "964a1e75-0601-11e8-ae97-52543be04c81",
+        "name": "Радио Пауър ФМ - Radio Power FM",
+        "url": "http://a1.virtualradio.eu:8000/powerfm.mp3",
+        "votes": 1063
+      },
+      "variants": [
+        {
+          "stationuuid": "1c84a19e-99c4-47c9-8be4-6ce688881311",
+          "name": "Power FM 91.1",
+          "url": "http://a1.virtualradio.eu:8000/powerfm.mp3",
+          "votes": 123,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9618b6d0-0601-11e8-ae97-52543be04c81",
+        "name": "BNR Varna",
+        "url": "http://broadcast.masters.bg:8000/live",
+        "votes": 714
+      },
+      "variants": [
+        {
+          "stationuuid": "26cd7add-c936-4aea-91fd-a5cfda7c1276",
+          "name": "Радио Варна",
+          "url": "http://broadcast.masters.bg:8000/live",
+          "votes": 374,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3a6f4586-ce79-43f9-aad9-22c4467558c8",
+        "name": "Radio Jega Жега",
+        "url": "http://g5.turbohost.eu:8004/stream",
+        "votes": 526
+      },
+      "variants": [
+        {
+          "stationuuid": "819225b5-15bc-4bb5-a5e2-c79680f6baa7",
+          "name": "Radio Jega",
+          "url": "http://g5.turbohost.eu:8004/stream",
+          "votes": 255,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6a52f8f9-4ff1-4443-b501-4507d6070dbb",
+        "name": "BadRock Classic Rock",
+        "url": "https://play-radio0.jump.bg:7489/live",
+        "votes": 471
+      },
+      "variants": [
+        {
+          "stationuuid": "e70fca85-a797-40c4-bb47-2f032ed14da7",
+          "name": "BadRock Classic Rock",
+          "url": "https://play-radio0.jump.bg:7489/live",
+          "votes": 39,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "66041a35-1f6f-4579-95bd-97eebe7b60a1",
+        "name": "FM +",
+        "url": "http://193.108.24.21:8000/fmplus",
+        "votes": 411
+      },
+      "variants": [
+        {
+          "stationuuid": "3d836275-00e5-4df2-84ce-dea9957ea387",
+          "name": "Радио FM+",
+          "url": "http://193.108.24.21:8000/fmplus",
+          "votes": 264,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b3a8e73b-f079-4f5f-adc3-3f75d219a3a5",
+        "name": "Metro DANCE Radio",
+        "url": "https://eu1.reliastream.com/proxy/mdr?mp=/MDR",
+        "votes": 410
+      },
+      "variants": [
+        {
+          "stationuuid": "e22716d5-e746-4434-aafb-d1d4efa5c208",
+          "name": "Metro Dance Radio",
+          "url": "https://eu1.reliastream.com/proxy/mdr?mp=/MDR",
+          "votes": 21,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d583dee6-92ce-4bbd-9ef5-5d020ce892d8",
+        "name": "Radioplay Cafe",
+        "url": "https://play.global.audio/cafehi.aac",
+        "votes": 401
+      },
+      "variants": [
+        {
+          "stationuuid": "5d319be0-1be8-49e7-8300-b07065b4c2be",
+          "name": "Radioplay Cafe",
+          "url": "https://play.global.audio/cafehi.aac",
+          "votes": 125,
+          "differs": []
+        },
+        {
+          "stationuuid": "0cd0d5e4-41b6-485e-ad39-15250aaa18e1",
+          "name": "Radioplay Cafe",
+          "url": "https://play.global.audio/cafehi.aac",
+          "votes": 113,
+          "differs": []
+        },
+        {
+          "stationuuid": "d89f7a54-c6fa-4e60-a7ff-f787a4749576",
+          "name": "Radioplay Cafe",
+          "url": "https://play.global.audio/cafehi.aac",
+          "votes": 74,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "231b256b-06b1-44c6-abe4-cc6b136ec706",
+        "name": "BNR Horizont",
+        "url": "https://play.global.audio/testb.aac?dist=RADIOPLAY",
+        "votes": 364
+      },
+      "variants": [
+        {
+          "stationuuid": "479f7f2f-5e2d-4550-a49d-be5eb577749f",
+          "name": "BNR Horizont",
+          "url": "https://play.global.audio/testb.aac?dist=RADIOPLAY",
+          "votes": 239,
+          "differs": []
+        },
+        {
+          "stationuuid": "3a3b1465-6a6f-4289-901c-bd5890cb8370",
+          "name": "BNR Horizont",
+          "url": "https://play.global.audio/testb.aac?dist=RADIOPLAY",
+          "votes": 66,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b6263bc5-f1e3-47e5-b034-d93de9b0ab49",
+        "name": "Z-Rock Alt",
+        "url": "http://193.108.24.6:8000/zrock",
+        "votes": 326
+      },
+      "variants": [
+        {
+          "stationuuid": "4c8949a8-529c-4edd-9725-f3173935b55a",
+          "name": "Z-Rock radio",
+          "url": "http://193.108.24.6:8000/zrock",
+          "votes": 139,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "82f53581-d4fa-4d5f-9599-009c400a7a8f",
+        "name": "Metro HITS Radio",
+        "url": "https://eu1.reliastream.com/proxy/mhr?mp=/MHR",
+        "votes": 323
+      },
+      "variants": [
+        {
+          "stationuuid": "12220754-4e6c-4ae6-95eb-18122fbfc52c",
+          "name": "Metro Hits",
+          "url": "https://eu1.reliastream.com/proxy/mhr?mp=/MHR",
+          "votes": 63,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6866b413-18de-4eff-92d2-2405598a43a7",
+        "name": "Metro Love 90s Plus",
+        "url": "https://eu1.reliastream.com/proxy/love80?mp=/MLR90S",
+        "votes": 291
+      },
+      "variants": [
+        {
+          "stationuuid": "a4dd70ed-9120-43db-95a2-47fc09205fe4",
+          "name": "Metro Love 80s",
+          "url": "https://eu1.reliastream.com/proxy/love80?mp=/MLR80S",
+          "votes": 174,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "4e81cf51-3844-4a17-b377-54173f58fbae",
+          "name": "Metro Love 90s",
+          "url": "https://eu1.reliastream.com/proxy/love80?mp=/MLR80S",
+          "votes": 75,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f99b605b-8e53-11e8-aa66-52543be04c81",
+        "name": "Общинско Радио Разград",
+        "url": "http://188.126.1.25:8000/razgrad",
+        "votes": 277
+      },
+      "variants": [
+        {
+          "stationuuid": "d695ad18-81c0-47b2-902f-453663a88f76",
+          "name": "Radio Razgrad",
+          "url": "http://188.126.1.25:8000/razgrad",
+          "votes": 41,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d994df65-5c71-48ec-b675-96b8d14bd4e9",
+        "name": "SWEET RADIO - BULGARIA",
+        "url": "https://stream.sweetradio.online:8001/HD",
+        "votes": 141
+      },
+      "variants": [
+        {
+          "stationuuid": "bf1a0f56-bb9b-4c32-a4d9-03fb8e57005c",
+          "name": "Rosen Dimitrov",
+          "url": "https://stream.sweetradio.online:8001/HD",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d834a724-89c4-4ae6-8378-28ea8a75a82f",
+        "name": "Jazz FM",
+        "url": "https://cdn.bweb.bg/radio/jazz-fm.mp3",
+        "votes": 127
+      },
+      "variants": [
+        {
+          "stationuuid": "968079d6-451b-44a9-9602-9ea06169e212",
+          "name": "Jazz FM - Sofia",
+          "url": "https://cdn.bweb.bg/radio/jazz-fm.mp3",
+          "votes": 37,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7c1f1bff-d7d3-41b3-b640-8ce2757b2f4a",
+        "name": "Sunny Beach Radio",
+        "url": "https://sunny-beachradio.stream.laut.fm/sunny-beachradio",
+        "votes": 116
+      },
+      "variants": [
+        {
+          "stationuuid": "b931402f-f49d-4507-b98c-e728f3472d24",
+          "name": "Radio Sunny Beach",
+          "url": "https://sunny-beachradio.stream.laut.fm/sunny-beachradio",
+          "votes": 68,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5d08753c-335d-431b-824e-6b47f627e793",
+        "name": "БНР – Радио Бургас",
+        "url": "http://stream.bnr.bg:8037/radio-burgas.aac",
+        "votes": 115
+      },
+      "variants": [
+        {
+          "stationuuid": "9dc887fc-81d1-459c-b07f-c70d02581dbc",
+          "name": "BNR Burgas",
+          "url": "http://stream.bnr.bg:8037/radio-burgas.aac",
+          "votes": 58,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8fc1369b-c2fa-4cba-8563-548110540b12",
+        "name": "folk mix",
+        "url": "https://listen.radiofolkmix.com/folkmixios",
+        "votes": 111
+      },
+      "variants": [
+        {
+          "stationuuid": "e1ad62d7-44ef-4cb6-aa9f-fded04e06477",
+          "name": "folk mix ",
+          "url": "https://listen.radiofolkmix.com/folkmixios",
+          "votes": 52,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "45a1c011-fbef-4216-a60f-d9dfb3ead8bc",
+        "name": "Easy Radio FLAC",
+        "url": "http://live.easyradio.bg/flac",
+        "votes": 109
+      },
+      "variants": [
+        {
+          "stationuuid": "e1d2791a-9d9c-4c87-911e-0a953b835205",
+          "name": "Easy Radio",
+          "url": "http://live.easyradio.bg/flac",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3e71f3bc-b950-4b32-8e56-ada2ce0da600",
+        "name": "Радио Зиг Заг - Най-яките парчета",
+        "url": "https://radyo.yayin.com.tr:4474/stream",
+        "votes": 64
+      },
+      "variants": [
+        {
+          "stationuuid": "0ce7577f-df66-440f-aeb5-c6ee2988208b",
+          "name": "Радио Зиг заг - Най-яките парчета",
+          "url": "https://radyo.yayin.com.tr:4474/stream",
+          "votes": 38,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "7b0f797a-1bd9-4cfc-a256-92909be2d64d",
+          "name": "zig zag",
+          "url": "https://radyo.yayin.com.tr:4474/stream",
+          "votes": 34,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "1f3efc9f-8eff-49bf-a589-809a7d722368",
+          "name": "Радио Зиг заг - Най-яките парчета ",
+          "url": "https://radyo.yayin.com.tr:4474/stream",
+          "votes": 25,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "e88b436e-b28c-4e49-b554-e31609f68e5d",
+          "name": "Радио Зиг Заг - Най-яките парчета",
+          "url": "https://radyo.yayin.com.tr:4474/stream",
+          "votes": 22,
+          "differs": []
+        },
+        {
+          "stationuuid": "020ffe98-a5dc-4b6e-9913-864ab12a2f58",
+          "name": "Радио Зиг Заг - Най-яките парчета ",
+          "url": "https://radyo.yayin.com.tr:4474/stream",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f55f78a8-43e3-4b82-be4a-ad3e022ada65",
+          "name": "Радио Зиг Заг - Най-яките парчета ",
+          "url": "https://radyo.yayin.com.tr:4474/stream",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "280a4ae0-6946-4db7-8f5f-9cf122cfca1c",
+        "name": "EILO Techno Radio",
+        "url": "https://eilo.org/streamer.php?ch=techno",
+        "votes": 60
+      },
+      "variants": [
+        {
+          "stationuuid": "c7b0ec29-d191-41bd-8294-6086902b4166",
+          "name": "EILO Trance Radio",
+          "url": "https://eilo.org/streamer.php?ch=trance",
+          "votes": 48,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "087bbce7-9fc7-48f3-9f8b-1b1109852108",
+        "name": "Радио „Епархийски глас“",
+        "url": "https://radio.mitropolia-sofia.org:7610/stream",
+        "votes": 56
+      },
+      "variants": [
+        {
+          "stationuuid": "72ed6ad2-92b4-47f1-9cea-b203fe237f9d",
+          "name": "Радио „Епархийски глас“",
+          "url": "https://radio.mitropolia-sofia.org:7610/stream",
+          "votes": 30,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f716da14-3b8b-4d87-a680-6f40dba97f65",
+        "name": "Note FM",
+        "url": "https://sc.mpbnl.nl/notefm.mp3",
+        "votes": 51
+      },
+      "variants": [
+        {
+          "stationuuid": "652b1a93-eb0f-41d9-b030-a9215a73b21f",
+          "name": "Note FM",
+          "url": "https://sc.mpbnl.nl/notefm.mp3",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aaea8fca-00f1-423f-a2f9-5f80ebc8ff5f",
+        "name": "Metro Virtuoso",
+        "url": "https://eu1.reliastream.com/proxy/mvr?mp=/MVR",
+        "votes": 44
+      },
+      "variants": [
+        {
+          "stationuuid": "f610872e-d45f-4830-b792-1be6f49dccec",
+          "name": "Metro Virtuoso Hits",
+          "url": "https://eu1.reliastream.com/proxy/mvr?mp=/MVR",
+          "votes": 29,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8e9187e5-a6fe-449b-b378-0aad6af5b134",
+        "name": "Metro Love",
+        "url": "https://eu1.reliastream.com/proxy/service?mp=/service",
+        "votes": 42
+      },
+      "variants": [
+        {
+          "stationuuid": "7128ba37-7fd9-4e14-95f3-71178e101526",
+          "name": "Metro Love Hits",
+          "url": "https://eu1.reliastream.com/proxy/service?mp=/service",
+          "votes": 38,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "862b1105-8980-41eb-88b5-df2285afb385",
+        "name": "Radio ORV",
+        "url": "http://radio.orvmedia.com:8005/stream",
+        "votes": 28
+      },
+      "variants": [
+        {
+          "stationuuid": "a5071b03-9004-4329-a3ab-4788c563406c",
+          "name": "Radio ORV",
+          "url": "http://radio.orvmedia.com:8005/stream",
+          "votes": 25,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "19f5080a-9a9b-463b-afa5-a659c8ed445a",
+        "name": "Bumerang FM",
+        "url": "http://185.20.88.1:8010/",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "380f2d6f-eaac-4f64-ac88-30ff0203aa03",
+          "name": "Bumerang FM",
+          "url": "http://185.20.88.1:8010/",
+          "votes": 12,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "58974ea0-4459-4fc7-992e-945c85c64bb7",
+        "name": "Radio Evangelie",
+        "url": "http://79.98.108.170:8078/autodj",
+        "votes": 24
+      },
+      "variants": [
+        {
+          "stationuuid": "fa31fdf1-d6f5-46d5-b40a-5893c0afce5b",
+          "name": "Luxor Web Radio",
+          "url": "http://79.98.108.170:8078/autodj",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e60ba523-c593-4c1f-9cb2-5bdce0155c67",
+        "name": "ARHEA ORG",
+        "url": "http://stream.zeno.fm/na6nbx6qqwzuv",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "6aba3f3a-e654-4f5e-ae63-0dd52a8be621",
+          "name": "ARHEA ORG",
+          "url": "http://stream.zeno.fm/na6nbx6qqwzuv",
+          "votes": 9,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1d0d2f74-a818-4ae8-ab51-1458c70d69bb",
+        "name": "Radio FM+",
+        "url": "http://31.13.223.148:8000/fmplus.ogg",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "506ab128-67ec-4b81-9a98-51f113a3028a",
+          "name": "&#1056;&#1072;&#1076;&#1080;&#1086; FM+",
+          "url": "http://31.13.223.148:8000/fmplus.ogg",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4cd7c5b3-4b5e-41aa-a93e-cdfd46e71a1d",
+        "name": "Easy Radio BG",
+        "url": "https://live.easyradio.bg/192?type=.mp3",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "eeab63e3-9d8c-4b8e-8139-44412206400a",
+          "name": "Easy Radio BG",
+          "url": "https://live.easyradio.bg/192?type=.mp3",
+          "votes": 12,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6ec33d8e-3b83-4d86-933e-6810d628f5d2",
+        "name": "Alma Mater",
+        "url": "https://a1.virtualradio.eu:8001/almamater",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "7c3a849a-21fe-4ec5-ab6d-a38c957fdc07",
+          "name": "Alma Mater",
+          "url": "https://a1.virtualradio.eu:8001/almamater",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "3fe95cc5-a0f7-427e-a4d4-f71614bee29d",
+          "name": "Alma Mater",
+          "url": "https://a1.virtualradio.eu:8001/almamater",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

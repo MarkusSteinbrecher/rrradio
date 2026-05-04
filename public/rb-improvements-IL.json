@@ -1,0 +1,482 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.878Z",
+  "country": "IL",
+  "sourceProbedAt": "2026-04-30T11:13:46.705Z",
+  "totals": {
+    "deadStreams": 7,
+    "internalDupes": 18,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "29b28a1a-e60d-4b1a-b57d-e7d46b95f36c",
+      "name": "88FM",
+      "url": "https://kan88.media.kan.org.il/hls/live/2024812/2024812/kan88_mp3/chunklist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 232,
+      "lastProbedAt": "2026-04-30T11:13:43.220Z"
+    },
+    {
+      "stationuuid": "b5726cc9-2c77-4582-a775-f8f2e3163b23",
+      "name": "כאן מורשת - Kan Moreshet",
+      "url": "https://kanliveicy.media.kan.org.il/icy/749629_mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 117,
+      "lastProbedAt": "2026-04-30T11:13:43.668Z"
+    },
+    {
+      "stationuuid": "bb29196b-9ebb-412c-bed1-8cf5d836d57c",
+      "name": "כאן מורשת - Kan Moreshet",
+      "url": "https://kanliveicy.media.kan.org.il/icy/kanmoreshet_mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 80,
+      "lastProbedAt": "2026-04-30T11:13:43.704Z"
+    },
+    {
+      "stationuuid": "4f41fdf2-ee0e-4995-8e61-155255fd414c",
+      "name": "Kan Bet",
+      "url": "https://kanbet.media.kan.org.il/hls/live/2024811/2024811/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 39,
+      "lastProbedAt": "2026-04-30T11:13:44.058Z"
+    },
+    {
+      "stationuuid": "9687cb4b-6c60-429e-a7f0-28180e746075",
+      "name": "AudioVersity",
+      "url": "https://1062onair.runi.ac.il/idc123.mp3",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html; charset=utf-8 not audio-like",
+      "votes": 15,
+      "lastProbedAt": "2026-04-30T11:13:45.304Z"
+    },
+    {
+      "stationuuid": "3a752591-4cc0-4949-bd5d-2fb2b1935cd3",
+      "name": "toker",
+      "url": "https://live.toker.fm:6060/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-30T11:13:45.508Z"
+    },
+    {
+      "stationuuid": "0285cac9-9f41-4a51-82ad-0ef6695f533a",
+      "name": "toker fm",
+      "url": "https://live.toker.fm:6060/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T11:13:45.596Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "e2d0c227-b2d9-4ec3-8a01-bfd6e731d0ed",
+        "name": "Лучшее Радио",
+        "url": "http://live.cdnwz.net/thebest",
+        "votes": 5996
+      },
+      "variants": [
+        {
+          "stationuuid": "4e4b57a2-afb0-42e4-bcb6-797bcddc0d4c",
+          "name": "Лучшее Радио",
+          "url": "http://live.cdnwz.net/thebest",
+          "votes": 885,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962326cb-0601-11e8-ae97-52543be04c81",
+        "name": "Galei Zahal",
+        "url": "http://glzwizzlv.bynetcdn.com/glz_mp3",
+        "votes": 3124
+      },
+      "variants": [
+        {
+          "stationuuid": "fe82bb92-ccd6-4180-9c0e-44e847ac912f",
+          "name": "גלצ",
+          "url": "http://glzwizzlv.bynetcdn.com/glz_mp3?awCollectionId=misc&awEpisodeId=glz",
+          "votes": 419,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "2f605613-f5f8-4c8f-8edc-c7c3945023fb",
+          "name": "Glz",
+          "url": "http://glzwizzlv.bynetcdn.com/glz_mp3?awCollectionId=misc&awEpisodeId=glz",
+          "votes": 97,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "ef4cfa77-f36d-4b08-a24a-4288cae3b7fe",
+          "name": "Glz",
+          "url": "http://glzwizzlv.bynetcdn.com/glz_mp3?awCollectionId=misc&awEpisodeId=glz",
+          "votes": 33,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "1fb7e37b-a0cb-4c70-a386-0b002de3bafe",
+          "name": "גלי צה\"ל",
+          "url": "http://glzwizzlv.bynetcdn.com/glz_mp3?awCollectionId=misc&awEpisodeId=glz",
+          "votes": 10,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "77521022-781e-11ea-b1cf-52543be04c81",
+        "name": "Kan Israel 88 FM",
+        "url": "http://kanliveicy.media.kan.org.il/icy/kan88_mp3",
+        "votes": 617
+      },
+      "variants": [
+        {
+          "stationuuid": "6a8d9a2f-7c35-432a-a842-9993d2c70a41",
+          "name": "Kan 88 ",
+          "url": "http://kanliveicy.media.kan.org.il/icy/kan88_mp3",
+          "votes": 150,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c7a3001d-f31b-4f7a-90fe-ea4b689150e9",
+        "name": "גלי ישראל Galey Yisrael",
+        "url": "https://cdn.cybercdn.live/Galei_Israel/Live/icecast.audio",
+        "votes": 581
+      },
+      "variants": [
+        {
+          "stationuuid": "d793e2f9-5532-4033-96a0-33d021ec0c86",
+          "name": "94fm רדיו גלי ישראל",
+          "url": "https://cdn.cybercdn.live/Galei_Israel/Live/icecast.audio",
+          "votes": 29,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a757be45-799e-40b4-a23e-ee57ac55512b",
+        "name": "קול חי - Kol Chai",
+        "url": "https://media2.93fm.co.il/live-new",
+        "votes": 279
+      },
+      "variants": [
+        {
+          "stationuuid": "22cb6f71-ca0e-4f53-9093-c4760e646d2d",
+          "name": "קול חי - Kol Chai",
+          "url": "https://media2.93fm.co.il/live-new",
+          "votes": 102,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6698d366-17a6-4969-a28e-185c8dc1f91b",
+        "name": "קול חי מיוזיק - Kol Chai Music",
+        "url": "https://media2.93fm.co.il/livemusic",
+        "votes": 220
+      },
+      "variants": [
+        {
+          "stationuuid": "7390f369-9957-4ec2-bd83-cb28bac23302",
+          "name": "קול חי מיוזיק - Kol Chai Music",
+          "url": "https://media2.93fm.co.il/livemusic",
+          "votes": 75,
+          "differs": []
+        },
+        {
+          "stationuuid": "1b9eafe1-e6e2-4e9a-8f64-281b6ae31665",
+          "name": "קול חי מיוזיק - Kol Chai Music",
+          "url": "https://media2.93fm.co.il/livemusic",
+          "votes": 66,
+          "differs": []
+        },
+        {
+          "stationuuid": "9077fcb2-fbac-4d22-910f-378f5ae12dac",
+          "name": "קול חי מיוזיק - Kol Chai Music",
+          "url": "https://media2.93fm.co.il/livemusic",
+          "votes": 57,
+          "differs": []
+        },
+        {
+          "stationuuid": "5b7a953b-98a6-4823-a9f9-3ad52aa2ed88",
+          "name": "Kcm FM Channel 01 Live",
+          "url": "https://media2.93fm.co.il/livemusic",
+          "votes": 44,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9684cbbc-ea62-422c-bc93-20cf4ed4bac1",
+        "name": "#joint radio Reggae",
+        "url": "https://jointil.com/stream-reggae",
+        "votes": 217
+      },
+      "variants": [
+        {
+          "stationuuid": "06327e45-5b95-4164-b335-a1a5b8095a1b",
+          "name": "#Joint Radio Reggae",
+          "url": "https://jointil.com/stream-reggae",
+          "votes": 132,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2687dea7-8484-4156-ae36-5aa5ca56bc7b",
+        "name": "Israeli voice radio",
+        "url": "https://icecast.live/ivr",
+        "votes": 212
+      },
+      "variants": [
+        {
+          "stationuuid": "0b67ac8c-516d-4251-92c6-51991696f253",
+          "name": "Israeli voice radio",
+          "url": "https://icecast.live/ivr",
+          "votes": 69,
+          "differs": []
+        },
+        {
+          "stationuuid": "07c8fe2a-af70-4b7e-8aee-2eabb89d9368",
+          "name": "Israeli voice radio",
+          "url": "https://icecast.live/ivr",
+          "votes": 53,
+          "differs": []
+        },
+        {
+          "stationuuid": "0eb7423c-bb73-4772-8d12-ea602e875d9f",
+          "name": "Hedva Shaltiel",
+          "url": "https://icecast.live/ivr",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "40bbb648-fa7b-469b-86bc-153f6b4aec54",
+        "name": "radio lev hamedina",
+        "url": "https://cdn.cybercdn.live/Lev_Hamedina/Audio/icecast.audio",
+        "votes": 35
+      },
+      "variants": [
+        {
+          "stationuuid": "23dca315-cf08-4b87-9622-4cd205b89f26",
+          "name": "91FM",
+          "url": "https://cdn.cybercdn.live/Lev_Hamedina/Audio/icecast.audio",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "08993f63-44f2-4fa0-8541-99194d5fd838",
+        "name": "Tel Aviv 102FM רדיו תל אביב",
+        "url": "https://102.livecdn.biz/102fm_aac",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "8173aae8-4df9-4eb9-903c-6bdd6300003f",
+          "name": "רדיו תל אביב 102 FM",
+          "url": "https://102.livecdn.biz/102fm_aac",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8cca0e0b-ccd9-416e-89cc-325ecc325f69",
+        "name": "104.5fm radio זשכםמ",
+        "url": "https://radio.streamgates.net/stream/1045fm",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "36a1608a-e982-4000-82f4-eb6e279cf744",
+          "name": "104.5FM צפון",
+          "url": "https://radio.streamgates.net/stream/1045fm",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "18a9fbb5-3662-47e0-b2a9-fae376dd0ce6",
+        "name": "רדיו מזרחית",
+        "url": "https://mzr.mediacast.co.il/mzradio",
+        "votes": 21
+      },
+      "variants": [
+        {
+          "stationuuid": "10026f8b-3e16-442e-94b3-33a8bb30f5b3",
+          "name": "mizrahit radio",
+          "url": "https://mzr.mediacast.co.il/mzradio",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b5b9d7ed-2c9f-4f8a-98ac-440631f2b100",
+        "name": "Radio Sahar",
+        "url": "https://live.ecast.co.il/stream/sahar/stream",
+        "votes": 21
+      },
+      "variants": [
+        {
+          "stationuuid": "e1be6105-91ef-4190-80ec-f93928837323",
+          "name": "Radio Sahar",
+          "url": "https://live.ecast.co.il/stream/sahar/stream",
+          "votes": 9,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "23f2df70-a018-4aa0-a1f6-3fb497cf9d53",
+        "name": "Мессианское радио Орэну",
+        "url": "https://listen7.myradio24.com/orenu",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "5597e254-6357-4e57-bf73-6320b5952258",
+          "name": "Мессианское онлайн радио Орэну",
+          "url": "https://listen7.myradio24.com/orenu",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "abfcd777-432c-4c66-b622-d8582080e743",
+        "name": "Mizrahit FM Best",
+        "url": "http://rs.mizrahit.fm:7777/arabellavie",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "d55bf952-b767-426e-9376-e932f169f36e",
+          "name": "Mizrahit_Fm",
+          "url": "http://rs.mizrahit.fm:7777/arabellavie",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3a752591-4cc0-4949-bd5d-2fb2b1935cd3",
+        "name": "toker",
+        "url": "https://live.toker.fm:6060/",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "0285cac9-9f41-4a51-82ad-0ef6695f533a",
+          "name": "toker fm",
+          "url": "https://live.toker.fm:6060/",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a46e3a39-40cc-441f-b9f6-9fbaecaa4de3",
+        "name": "Nachman",
+        "url": "https://cast.breslevforyou.co.il/listen/radiobreslev/radio.mp3",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "1ac65585-0443-4f95-8d67-f232ec5915a2",
+          "name": "ברסלב פוריו: דעת רבנו",
+          "url": "https://cast.breslevforyou.co.il/listen/radiobreslev/radio.mp3",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7b7b87ce-eeab-439a-91aa-7e37597a0ed0",
+        "name": "Music-ToraVeZimra",
+        "url": "https://cast.breslevforyou.co.il/listen/music-toravezimra/radio.mp3",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "38c81bbc-f8c3-4447-ae0e-ff8880017e04",
+          "name": "ברסלב פוריו: תורה וזימרה",
+          "url": "https://cast.breslevforyou.co.il/listen/music-toravezimra/radio.mp3",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

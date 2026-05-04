@@ -1,0 +1,864 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.877Z",
+  "country": "HU",
+  "sourceProbedAt": "2026-04-30T09:09:29.327Z",
+  "totals": {
+    "deadStreams": 11,
+    "internalDupes": 35,
+    "metadataAPIs": 4,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "f287bd49-ed76-4305-a057-f7772079bb9c",
+      "name": "Luxfunk Blackmix",
+      "url": "https://luxfunkbroadcast.com/proxy/luxfunkblackmix/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 160,
+      "lastProbedAt": "2026-04-30T09:09:15.076Z"
+    },
+    {
+      "stationuuid": "89480435-16e7-4a7f-8e81-1c956477e96e",
+      "name": "Luxfunk Radio",
+      "url": "https://luxfunkbroadcast.com/proxy/luxfunkradio/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 143,
+      "lastProbedAt": "2026-04-30T09:09:15.146Z"
+    },
+    {
+      "stationuuid": "bae0d4c2-bdc2-4ab2-834d-4bfd7c095907",
+      "name": "Luxfunk Dance",
+      "url": "https://luxfunkbroadcast.com/proxy/luxfunkdance/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 132,
+      "lastProbedAt": "2026-04-30T09:09:15.346Z"
+    },
+    {
+      "stationuuid": "5ed50943-04d1-4883-995e-e0a93379bd00",
+      "name": "Jazzradio.hu",
+      "url": "https://www.jazzradio.hu:8000/jazzradio_192.ogg",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 98,
+      "lastProbedAt": "2026-04-30T09:09:16.985Z"
+    },
+    {
+      "stationuuid": "5e4d837f-bfc5-4494-bb26-4ee78c6a88b2",
+      "name": "Deja Vu Radio",
+      "url": "https://carina.streamerr.co:8178/dejavuradio?type=http&nocache=297",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 89,
+      "lastProbedAt": "2026-04-30T09:09:18.133Z"
+    },
+    {
+      "stationuuid": "8e57a8e7-fc1b-4883-93f5-7ffda45897bf",
+      "name": "Oxygen Xmas (320)",
+      "url": "https://oxygenmusic.hu:8000/xmas_320",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 48,
+      "lastProbedAt": "2026-04-30T09:09:19.143Z"
+    },
+    {
+      "stationuuid": "700aa831-d975-4de1-a7ec-99b79afacf6e",
+      "name": "Momó Rádió Mese",
+      "url": "https://stream.diazol.hu:7092/mese.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 41,
+      "lastProbedAt": "2026-04-30T09:09:19.275Z"
+    },
+    {
+      "stationuuid": "e46cc843-dd5c-4b16-8fc7-ff87113c01a3",
+      "name": "Momó Rádió",
+      "url": "https://stream.diazol.hu:7092/zene.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 33,
+      "lastProbedAt": "2026-04-30T09:09:19.333Z"
+    },
+    {
+      "stationuuid": "a16d52d9-1467-43e0-8e2b-c4911bcf0895",
+      "name": "OZONE FM",
+      "url": "https://oxygenmusic.hu:8000/ozonefm_128",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 32,
+      "lastProbedAt": "2026-04-30T09:09:19.353Z"
+    },
+    {
+      "stationuuid": "671ec970-d2ec-44ed-a908-88b4b073ac4e",
+      "name": "Periszkop Radio",
+      "url": "https://mumia.periszkopradio.hu:8443/;stream.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T09:09:21.889Z"
+    },
+    {
+      "stationuuid": "83c6b15d-850b-46a1-9d6f-b32fe1d97fa6",
+      "name": "Periszkóp Rádió",
+      "url": "https://mumia.periszkopradio.hu:8443/;stream.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T09:09:22.154Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "962cc6df-0601-11e8-ae97-52543be04c81",
+        "name": "Dance Wave!",
+        "url": "https://dancewave.online/dance.mp3",
+        "votes": 547952
+      },
+      "variants": [
+        {
+          "stationuuid": "2ffe5219-ba4d-4fa1-bfd8-6cf926c65f8f",
+          "name": "Dance Wave!",
+          "url": "https://dancewave.online/dance.mp3",
+          "votes": 135,
+          "differs": []
+        },
+        {
+          "stationuuid": "43cf1869-6849-4fff-954d-fdbad6e412e2",
+          "name": "Dance Wave!",
+          "url": "https://dancewave.online/dance.mp3",
+          "votes": 117,
+          "differs": []
+        },
+        {
+          "stationuuid": "131fead0-f024-410d-8812-6d6cc3659d03",
+          "name": "Dance Wave!",
+          "url": "https://dancewave.online/dance.mp3",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "964be8b7-0601-11e8-ae97-52543be04c81",
+        "name": "Dance Wave Retro!",
+        "url": "https://retro.dancewave.online/retrodance.mp3",
+        "votes": 53386
+      },
+      "variants": [
+        {
+          "stationuuid": "09411514-ee92-4afa-8be1-5a21945a5502",
+          "name": "Dance Wave Retro!",
+          "url": "https://retro.dancewave.online/retrodance.mp3",
+          "votes": 95,
+          "differs": []
+        },
+        {
+          "stationuuid": "9a223699-5871-4828-8a01-f8cb85933cfd",
+          "name": "Dance Wave Retro!",
+          "url": "https://retro.dancewave.online/retrodance.mp3",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960c0a73-0601-11e8-ae97-52543be04c81",
+        "name": "Kossuth Rádió",
+        "url": "http://mr-stream.mediaconnect.hu/4734/mr1.aac",
+        "votes": 14690
+      },
+      "variants": [
+        {
+          "stationuuid": "440f5925-fcf2-4393-b614-db40dcf5ced5",
+          "name": "Kossuth Radio",
+          "url": "http://mr-stream.mediaconnect.hu/4734/mr1.aac",
+          "votes": 256,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960e7334-0601-11e8-ae97-52543be04c81",
+        "name": "Petőfi Rádió",
+        "url": "http://mr-stream.mediaconnect.hu/4737/mr2.aac",
+        "votes": 10718
+      },
+      "variants": [
+        {
+          "stationuuid": "b7ab0d71-30fc-4daf-a8ac-b034fb24f23f",
+          "name": "Petőfi Rádió",
+          "url": "http://mr-stream.mediaconnect.hu/4737/mr2.aac",
+          "votes": 122,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960bec79-0601-11e8-ae97-52543be04c81",
+        "name": "Tilos Rádió",
+        "url": "http://stream.tilos.hu/tilos",
+        "votes": 6438
+      },
+      "variants": [
+        {
+          "stationuuid": "c7c8d89f-61b2-4716-b3e0-513b7e2f6666",
+          "name": "Tilos Rádió",
+          "url": "http://stream.tilos.hu/tilos",
+          "votes": 180,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960c0cbf-0601-11e8-ae97-52543be04c81",
+        "name": "Best FM",
+        "url": "http://stream.webthings.hu:8000/fm95-x-128.mp3",
+        "votes": 4576
+      },
+      "variants": [
+        {
+          "stationuuid": "611b0e08-adba-49f5-8bed-8407c1cfb1f2",
+          "name": "Best FM - Debrecen",
+          "url": "http://stream.webthings.hu:8000/fm95-x-128.mp3",
+          "votes": 637,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ff4c0ff6-1f3c-4b43-a2fc-46d1d75eda61",
+          "name": "BestFM Debrecen",
+          "url": "http://stream.webthings.hu:8000/fm95-x-128.mp3",
+          "votes": 164,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8f090ad7-2e78-4925-98c0-c404dd200971",
+          "name": "Best FM Debrecen-Debrecen kedvenc rádiója!",
+          "url": "http://stream.webthings.hu:8000/fm95-x-128.mp3",
+          "votes": 129,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f80001ac-d2af-4678-98a6-9617da6e94bd",
+        "name": "Danubius Rádió",
+        "url": "http://stream.danubiusradio.hu/danubius_128k",
+        "votes": 2983
+      },
+      "variants": [
+        {
+          "stationuuid": "b94b4a0b-f5b6-4870-afe0-c0ccfaedd788",
+          "name": "Danubius Rádió",
+          "url": "http://stream.danubiusradio.hu/danubius_128k",
+          "votes": 24,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ca77fe5c-3a5c-47f6-b643-587e7c045374",
+        "name": "Rádió 1",
+        "url": "https://icast.connectmedia.hu/5201/live.mp3",
+        "votes": 2908
+      },
+      "variants": [
+        {
+          "stationuuid": "f503d591-56b7-45d2-9a31-df046af717ae",
+          "name": "Rádió 1",
+          "url": "https://icast.connectmedia.hu/5201/live.mp3",
+          "votes": 966,
+          "differs": []
+        },
+        {
+          "stationuuid": "a48c73a8-03bb-40af-8f1c-69821fced3ab",
+          "name": "Rádió 1",
+          "url": "https://icast.connectmedia.hu/5201/live.mp3",
+          "votes": 57,
+          "differs": []
+        },
+        {
+          "stationuuid": "983dfc52-4d2f-4370-946d-3d9c3c36a445",
+          "name": "Radio 1",
+          "url": "https://icast.connectmedia.hu/5201/live.mp3",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "07bf63f2-5ffe-4865-a571-7b1b0f6e6e05",
+        "name": "Klasszik Rádió 92.1",
+        "url": "http://www.klasszikradio.hu/klasszik.mp3",
+        "votes": 2373
+      },
+      "variants": [
+        {
+          "stationuuid": "8d506cea-1979-4732-8cd5-a493d13cee72",
+          "name": "Klasszik Rádió 92.1",
+          "url": "http://www.klasszikradio.hu/klasszik.mp3",
+          "votes": 169,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5748c0aa-acb0-4823-9383-d8b40131eaf3",
+        "name": "Kossuth",
+        "url": "https://icast.connectmedia.hu/4736/mr1.mp3",
+        "votes": 1917
+      },
+      "variants": [
+        {
+          "stationuuid": "c76cf900-7a78-4831-9cab-5c5e35636cbc",
+          "name": "Kossuth",
+          "url": "https://icast.connectmedia.hu/4736/mr1.mp3",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7863fbdf-9687-466b-b784-675e898f92e6",
+        "name": "Dance Wave Retro!",
+        "url": "https://retro.dancewave.online/retrodance.aac",
+        "votes": 1571
+      },
+      "variants": [
+        {
+          "stationuuid": "c03283a0-bd33-438b-9b31-173bf7ab8e02",
+          "name": "Dance Wave Retro!",
+          "url": "https://retro.dancewave.online/retrodance.aac",
+          "votes": 21,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960ef68b-0601-11e8-ae97-52543be04c81",
+        "name": "Sunshine FM",
+        "url": "http://195.56.193.129:8100/;stream/1",
+        "votes": 1082
+      },
+      "variants": [
+        {
+          "stationuuid": "4c7cca1d-5d9c-4676-8393-c3ad622ec471",
+          "name": "Sunshine FM",
+          "url": "http://195.56.193.129:8100/;stream/1?icy=http",
+          "votes": 423,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "79d8bcc0-e8c8-49a7-a160-2b41923b054a",
+        "name": "Petőfi Rádió",
+        "url": "https://icast.connectmedia.hu/4738/mr2.mp3",
+        "votes": 881
+      },
+      "variants": [
+        {
+          "stationuuid": "3eb5c673-aacc-47ee-94a8-66dd554207a6",
+          "name": "Petőfi",
+          "url": "https://icast.connectmedia.hu/4738/mr2.mp3",
+          "votes": 173,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b943ed28-3edd-4638-8754-cdd9953af2e3",
+        "name": "Dance Wave!",
+        "url": "https://dancewave.online/dance.opus",
+        "votes": 553
+      },
+      "variants": [
+        {
+          "stationuuid": "b1fc30ab-95b3-4eb9-9309-2d93ac24d96f",
+          "name": "Dance Wave!",
+          "url": "https://dancewave.online/dance.opus",
+          "votes": 8,
+          "differs": []
+        },
+        {
+          "stationuuid": "aa447636-6d0f-4c38-a1af-ec58d2a30c84",
+          "name": "Dance Wave!",
+          "url": "https://dancewave.online/dance.opus",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c263c5f5-10c4-472f-b2f4-bb39cc2fa152",
+        "name": "MR2 - Petőfi Rádió",
+        "url": "https://mr-stream.connectmedia.hu/4738/mr2.mp3",
+        "votes": 537
+      },
+      "variants": [
+        {
+          "stationuuid": "98730d4d-bb7d-4fab-9760-830ea6708d8d",
+          "name": "Petőfi Rádió",
+          "url": "https://mr-stream.connectmedia.hu/4738/mr2.mp3",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9b67ef8f-272e-4922-a88d-095189f2d0a5",
+        "name": "Dance Wave!",
+        "url": "https://dancewave.online/dance.flac.ogg",
+        "votes": 431
+      },
+      "variants": [
+        {
+          "stationuuid": "5eaa5f99-cd3b-4763-8ad5-5b3ada10ce35",
+          "name": "Dance Wave!",
+          "url": "https://dancewave.online/dance.flac.ogg",
+          "votes": 12,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "20f45ba0-06af-4efb-86f4-9d739af3b175",
+        "name": "MixradioRetro",
+        "url": "https://stream.phost.hu:8004/retro",
+        "votes": 428
+      },
+      "variants": [
+        {
+          "stationuuid": "c1f6ab90-6a43-4bab-8ce0-b4abd516ea07",
+          "name": "MixradioRetro",
+          "url": "https://stream.phost.hu:8004/retro",
+          "votes": 250,
+          "differs": []
+        },
+        {
+          "stationuuid": "0ae47780-57a3-4e5a-9af2-4028c67bf610",
+          "name": "MixradioRetro",
+          "url": "https://stream.phost.hu:8004/retro",
+          "votes": 65,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "da1238b9-5b2e-4de2-af7d-51649da28369",
+        "name": "COOLFM Party",
+        "url": "https://mediagw.e-tiger.net/stream/zc18",
+        "votes": 399
+      },
+      "variants": [
+        {
+          "stationuuid": "d33f2777-aa0b-4171-a429-6c65683bef47",
+          "name": "Cool.FM PARTY Hits",
+          "url": "https://mediagw.e-tiger.net/stream/zc18?ver=975254",
+          "votes": 128,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e3617237-a16e-4499-913d-a78a6c2cdb17",
+        "name": "Mixradio Retró",
+        "url": "http://45.67.156.157:18004/retro",
+        "votes": 267
+      },
+      "variants": [
+        {
+          "stationuuid": "ba155321-b515-45dc-b188-3ce1c22b1149",
+          "name": "Mixradio Retró",
+          "url": "http://45.67.156.157:18004/retro",
+          "votes": 227,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "35606e1d-5a11-11ea-be63-52543be04c81",
+        "name": "Folkrádio",
+        "url": "https://stream.folkradio.hu/folkradio.mp3",
+        "votes": 220
+      },
+      "variants": [
+        {
+          "stationuuid": "f2cfe79a-bd51-4f4d-9117-5619352f9645",
+          "name": "Folkrádió",
+          "url": "https://stream.folkradio.hu/folkradio.mp3",
+          "votes": 61,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "123a6043-3804-4365-9d17-5c2e655e9f80",
+        "name": "103.9 rock",
+        "url": "https://icast.connectmedia.hu/5301/live.mp3",
+        "votes": 188
+      },
+      "variants": [
+        {
+          "stationuuid": "0924da3a-c8ae-4dfb-a24d-7f48b9f0b7ba",
+          "name": "ROCK FM: 103.9",
+          "url": "https://icast.connectmedia.hu/5301/live.mp3/",
+          "votes": 123,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "438cf074-d324-482f-9cfa-e0d41641b0eb",
+        "name": "Dance Wave Retro!",
+        "url": "https://retro.dancewave.online/retrodance.opus",
+        "votes": 165
+      },
+      "variants": [
+        {
+          "stationuuid": "58731948-665a-4f8e-8bca-49ef9ffed231",
+          "name": "Dance Wave Retro!",
+          "url": "https://retro.dancewave.online/retrodance.opus",
+          "votes": 16,
+          "differs": []
+        },
+        {
+          "stationuuid": "50687b6d-2f08-485f-a1eb-c05fa81f4efa",
+          "name": "Dance Wave Retro!",
+          "url": "https://retro.dancewave.online/retrodance.opus",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bb8cefd5-7f28-48aa-a803-359c8a82997b",
+        "name": "Megadance Rádió",
+        "url": "http://gamershouse.hu:8000/livemega.mp3",
+        "votes": 164
+      },
+      "variants": [
+        {
+          "stationuuid": "91587233-bd80-442c-ba3a-19ea3b509b04",
+          "name": "Hungarian dance ",
+          "url": "http://gamershouse.hu:8000/livemega.mp3",
+          "votes": 134,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8eda7062-8a8c-4ba5-ba7d-67f7da5bba32",
+          "name": "MegaMixer",
+          "url": "http://gamershouse.hu:8000/livemega.mp3",
+          "votes": 69,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "6de785e6-ee99-41a6-8b3a-3ee86d17c2a4",
+          "name": "MegaMixer",
+          "url": "http://gamershouse.hu:8000/livemega.mp3",
+          "votes": 46,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e0ca736a-0930-423d-a3dd-518350f81d29",
+        "name": "Radio Ozora",
+        "url": "https://trance.out.airtime.pro/trance_a",
+        "votes": 157
+      },
+      "variants": [
+        {
+          "stationuuid": "3280e71c-1df9-4805-98f3-9a5d60d5d5e7",
+          "name": "RadiOzora Trance",
+          "url": "https://trance.out.airtime.pro/trance_a",
+          "votes": 114,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7f2b897a-72eb-421e-8fa3-eccb8f5b875a",
+        "name": "Roxy Rádió",
+        "url": "https://s2.audiostream.hu/roxy_192k",
+        "votes": 140
+      },
+      "variants": [
+        {
+          "stationuuid": "f9ef521e-bff0-4177-b140-1fe08381a4b7",
+          "name": "Roxy Radio",
+          "url": "https://s2.audiostream.hu/roxy_192k",
+          "votes": 91,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dd72afd8-5613-427f-93bb-44ccf26f55d4",
+        "name": "Győr+",
+        "url": "https://stream.42netmedia.com:8443/sc_gyor1",
+        "votes": 96
+      },
+      "variants": [
+        {
+          "stationuuid": "f5a526ac-06ee-48f6-bf57-b9c951c8913d",
+          "name": " Győr+ Rádió ",
+          "url": "https://stream.42netmedia.com:8443/sc_gyor1",
+          "votes": 78,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "228dc5d0-5e01-446f-8eb0-b51867dae2cd",
+        "name": "Trend FM",
+        "url": "https://radio.trendfm.hu/trendfm_192k",
+        "votes": 65
+      },
+      "variants": [
+        {
+          "stationuuid": "21f495bc-5d2e-4ab0-9db2-2f9d572d3b3b",
+          "name": "TrendFM 94,2",
+          "url": "https://radio.trendfm.hu/trendfm_192k",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "632ca123-17d6-11e8-ae97-52543be04c81",
+        "name": "Sola Rádió",
+        "url": "http://188.165.11.30:7000/live.mp3",
+        "votes": 54
+      },
+      "variants": [
+        {
+          "stationuuid": "3e882afd-3bac-493b-8fd5-135064c26a18",
+          "name": "Sola Rádió",
+          "url": "http://188.165.11.30:7000/live.mp3",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "10635a33-3668-487d-ba10-0b824394a825",
+        "name": "Megadance",
+        "url": "https://gamershouse.hu:8080/livemega.mp3",
+        "votes": 49
+      },
+      "variants": [
+        {
+          "stationuuid": "77c67d6f-3b73-4c2b-8eab-8d6b6a974dd7",
+          "name": "MegaDance Rádió",
+          "url": "https://gamershouse.hu:8080/livemega.mp3",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0bd293db-e323-4645-9d5d-1e614b14b767",
+        "name": "Lépés Rádió",
+        "url": "http://stream.nmih.hu:4000/live.mp3",
+        "votes": 44
+      },
+      "variants": [
+        {
+          "stationuuid": "dacfa77d-d03e-4cef-8009-94b719536abc",
+          "name": "Lépés Rádió",
+          "url": "http://stream.nmih.hu:4000/live.mp3",
+          "votes": 25,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a45a1600-8fae-4449-b23d-9dc552a7adbd",
+        "name": "Rádió 1 Eger",
+        "url": "https://www.radio1eger.hu/radio1eger.mp3",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "bdb5260a-ae46-46d5-ac76-0df0df788d92",
+          "name": "Rádió 1 Eger",
+          "url": "https://www.radio1eger.hu/radio1eger.mp3",
+          "votes": 10,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e2c246c6-a81c-4296-ba8a-6ce6c020cf37",
+        "name": "Cegléd Rádió",
+        "url": "http://stream.cegledradio.hu:4387/mp3",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "a61f0072-26ad-408f-9df2-b5c4857933ff",
+          "name": "Cegléd Rádió",
+          "url": "http://stream.cegledradio.hu:4387/mp3",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "671ec970-d2ec-44ed-a908-88b4b073ac4e",
+        "name": "Periszkop Radio",
+        "url": "https://mumia.periszkopradio.hu:8443/;stream.mp3",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "83c6b15d-850b-46a1-9d6f-b32fe1d97fa6",
+          "name": "Periszkóp Rádió",
+          "url": "https://mumia.periszkopradio.hu:8443/;stream.mp3",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "58e80884-59a7-478c-a18d-cb389a2bd821",
+        "name": "Rádió 1 - Sopron",
+        "url": "http://icast.connectmedia.hu/5015/live.mp3",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "c2fbc0b5-2e6b-4e25-9fa6-957a5058b91e",
+          "name": "Radio 1 Sopron",
+          "url": "http://icast.connectmedia.hu/5015/live.mp3",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "950b5eec-c618-4c0a-8569-087b7580994a",
+        "name": "Bithang Yoo Radio",
+        "url": "http://s03.diazol.hu:35160/mobil",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "93a958a3-f700-4d7e-a863-5f4e5032cce3",
+          "name": "Bithang Yoo Radio",
+          "url": "http://s03.diazol.hu:35160/mobil",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [
+    {
+      "stationuuid": "960c0a73-0601-11e8-ae97-52543be04c81",
+      "name": "Kossuth Rádió",
+      "broadcasterKey": "mr",
+      "metadataUrl": "https://mediaklikk.hu/iface/radio_now/now_6.xml"
+    },
+    {
+      "stationuuid": "960e7334-0601-11e8-ae97-52543be04c81",
+      "name": "Petőfi Rádió",
+      "broadcasterKey": "mr",
+      "metadataUrl": "https://mediaklikk.hu/iface/radio_now/now_21.xml"
+    },
+    {
+      "stationuuid": "961d7d8c-0601-11e8-ae97-52543be04c81",
+      "name": "Bartók Rádió",
+      "broadcasterKey": "mr",
+      "metadataUrl": "https://mediaklikk.hu/iface/radio_now/now_12.xml"
+    },
+    {
+      "stationuuid": "960c0804-0601-11e8-ae97-52543be04c81",
+      "name": "Dankó Rádió",
+      "broadcasterKey": "mr",
+      "metadataUrl": "https://mediaklikk.hu/iface/radio_now/now_9.xml"
+    }
+  ],
+  "httpsVariants": []
+}

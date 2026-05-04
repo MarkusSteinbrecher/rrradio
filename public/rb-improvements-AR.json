@@ -1,0 +1,2234 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.854Z",
+  "country": "AR",
+  "sourceProbedAt": "2026-04-30T12:14:55.836Z",
+  "totals": {
+    "deadStreams": 32,
+    "internalDupes": 89,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "c7ce8af3-777f-4a50-ae1e-e5904ad73ae9",
+      "name": "Radio AM 750 Objetivos, pero no imparciales",
+      "url": "https://27433.live.streamtheworld.com/AM750AAC.aac?dist=triton-widget&amp;tdsdk=js-2.9&amp;swm=false&amp;pname=tdwidgets&amp;pversion=2.9&amp;banners=none&amp;burst-time=15&amp;sbmid=00ed0060-c497-4bc2-c0b8-3c8bf91188ab",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 368,
+      "lastProbedAt": "2026-04-30T12:14:09.371Z"
+    },
+    {
+      "stationuuid": "de61cb7e-41ae-45d0-b436-6c54899c2749",
+      "name": "FM La Tribu 88.5 Buenos Aires",
+      "url": "https://radio01.ferozo.com/proxy/ra01000659?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 218,
+      "lastProbedAt": "2026-04-30T12:14:12.217Z"
+    },
+    {
+      "stationuuid": "ae3e16d6-21f0-4aac-80d3-3c3f646d220d",
+      "name": "Dorado FM 98.3",
+      "url": "https://streamingraddios.online/proxy/dora?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 88,
+      "lastProbedAt": "2026-04-30T12:14:14.224Z"
+    },
+    {
+      "stationuuid": "2e96a168-956e-416c-946e-3240897ef6de",
+      "name": "Radiofonica 100.7",
+      "url": "https://radio02.ferozo.com/proxy/ra02000290?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 68,
+      "lastProbedAt": "2026-04-30T12:14:16.017Z"
+    },
+    {
+      "stationuuid": "ed3cb761-32e0-4075-877a-6a34c3a1a2a6",
+      "name": "Cienradios - Enamorados",
+      "url": "https://27573.live.streamtheworld.com/ENAMORADOS_PYTAAC.aac?",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 46,
+      "lastProbedAt": "2026-04-30T12:14:17.928Z"
+    },
+    {
+      "stationuuid": "2bc53ea6-d382-4d68-bbea-9b07c5ec0c6c",
+      "name": "Big FM 91.9 Rosario",
+      "url": "https://radio01.ferozo.com/proxy/ra01000666?mp=/stream;\\",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 45,
+      "lastProbedAt": "2026-04-30T12:14:18.457Z"
+    },
+    {
+      "stationuuid": "74fa6998-8a0a-4350-b048-477ebc92cb98",
+      "name": "Cienradios - 90s Internacional",
+      "url": "https://27603.live.streamtheworld.com/90INTER_PYTAAC.aac?",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 31,
+      "lastProbedAt": "2026-04-30T12:14:20.394Z"
+    },
+    {
+      "stationuuid": "68204de6-94d5-43e7-9f6f-a6993140f362",
+      "name": "FM 96.5 - Residencias",
+      "url": "https://01.solumedia.com.ar:8592/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 30,
+      "lastProbedAt": "2026-04-30T12:14:20.333Z"
+    },
+    {
+      "stationuuid": "4a6c057a-7a99-4cca-ab74-c4ab78010a82",
+      "name": "Radio Patagonia Puerto Madryn FM 105.5",
+      "url": "https://stream.servidorm24.net:7004/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 26,
+      "lastProbedAt": "2026-04-30T12:14:22.399Z"
+    },
+    {
+      "stationuuid": "6c38d901-7d4d-4a4e-bce9-d2436936bd30",
+      "name": "Cienradios - Grandes del Rock",
+      "url": "https://27393.live.streamtheworld.com/GRANDESDELROCK_PYTAAC.aac?",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 25,
+      "lastProbedAt": "2026-04-30T12:14:22.363Z"
+    },
+    {
+      "stationuuid": "7bc8469b-bd15-42f4-9622-9bec3445cde1",
+      "name": "Cienradios - Música de Películas",
+      "url": "https://27603.live.streamtheworld.com/PELICULAS_PYTAAC.aac?",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 22,
+      "lastProbedAt": "2026-04-30T12:14:22.738Z"
+    },
+    {
+      "stationuuid": "76502fbf-fecc-48d5-9b57-4b44ff84353a",
+      "name": "Cienradios - Pop",
+      "url": "https://27603.live.streamtheworld.com/POP_PYTAAC.aac?",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 19,
+      "lastProbedAt": "2026-04-30T12:14:24.269Z"
+    },
+    {
+      "stationuuid": "a04591d4-9594-47bb-9f87-2a5afbf963f4",
+      "name": "Radio FM Gualamba 93.7. Resistencia Chaco. Version 2",
+      "url": "https://audials.com/sslify/centova.radiosnethosting.com:9072",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 13,
+      "lastProbedAt": "2026-04-30T12:14:27.754Z"
+    },
+    {
+      "stationuuid": "54a7be1a-3b79-4f82-ad0f-0ff09326f344",
+      "name": "Rio Negro Radio 91.9 (General Roca)",
+      "url": "https://01.solumedia.com.ar:7004/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 13,
+      "lastProbedAt": "2026-04-30T12:14:27.890Z"
+    },
+    {
+      "stationuuid": "698dfebc-b99b-4f34-b5aa-2fb27979b2f1",
+      "name": "El Cafe del Mundo",
+      "url": "https://cloudstream2030.conectarhosting.com/8184/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 8,
+      "lastProbedAt": "2026-04-30T12:14:33.420Z"
+    },
+    {
+      "stationuuid": "f3101ad4-a811-4e15-a511-01ce74f35eaf",
+      "name": "DNA radio FM",
+      "url": "https://usa13.fastcast4u.com/proxy/dnaradiofm?mp=/;",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 7,
+      "lastProbedAt": "2026-04-30T12:14:45.111Z"
+    },
+    {
+      "stationuuid": "73a9d959-bed2-4a78-907c-19132bb93fb6",
+      "name": "Classique FM 106.5 FM",
+      "url": "https://radio.solumedia.com.ar:8562/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-30T12:14:37.975Z"
+    },
+    {
+      "stationuuid": "d5673926-4a57-4b79-9e8d-ddd0393ea39e",
+      "name": "Estacion X 93.5 FM",
+      "url": "https://streaming6.locucionar.com:24060/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 5,
+      "lastProbedAt": "2026-04-30T12:14:41.700Z"
+    },
+    {
+      "stationuuid": "c82edc11-8401-4c19-a5fc-934155766d4a",
+      "name": "FM ALEJANDRO 104.1",
+      "url": "https://vps-c0159cbc.vps.ovh.ca/8026/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-30T12:14:40.970Z"
+    },
+    {
+      "stationuuid": "ac784548-2762-4c85-a284-36dd5cec50be",
+      "name": "Latina 101.1 Argentina",
+      "url": "https://stream-gtlc.telecentro.net.ar/hls/latinatvhls/0/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 400",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T12:14:46.179Z"
+    },
+    {
+      "stationuuid": "0a02ca9f-1f68-41e8-92c2-f83de19b0ced",
+      "name": "FM Del Pueblo 100.7",
+      "url": "https://stream.zeno.fm/knmz0tf98e9uv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T12:14:47.103Z"
+    },
+    {
+      "stationuuid": "158e6a48-d1f0-4952-9d78-cd6e0afaa21d",
+      "name": "la conquista del pan",
+      "url": "https://giss.tv:666/lcdpan.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T12:14:47.432Z"
+    },
+    {
+      "stationuuid": "812c3011-87b5-4d28-85c8-1a9491dddcd1",
+      "name": "Nuevo tiempo Argentina",
+      "url": "https://stream.live.novotempo.com/radio/smil:radionuevotiempo.smil/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T12:14:47.628Z"
+    },
+    {
+      "stationuuid": "0a3e0009-2308-43e5-8bba-aece761a3b51",
+      "name": "FM Directa 98.3",
+      "url": "https://audio.questreaming.com:29308/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T12:14:49.196Z"
+    },
+    {
+      "stationuuid": "933614c1-d340-431b-a7d1-b3157c0e9ab0",
+      "name": "FM Arroyos 103.3",
+      "url": "https://stream.radioservice.org:7014/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:14:51.811Z"
+    },
+    {
+      "stationuuid": "c47971bc-6af4-41de-a3c8-f925bc7f331d",
+      "name": "FM Dale 91.1",
+      "url": "https://radio.solumedia.com.ar:7119/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:14:51.628Z"
+    },
+    {
+      "stationuuid": "dba7d83b-48dc-40e0-9aee-b0ca8e96c04e",
+      "name": "FM de La Montaña 105.1",
+      "url": "https://radio.solumedia.com.ar:8824/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:14:52.205Z"
+    },
+    {
+      "stationuuid": "7690c5d9-77f3-4fb6-b08b-89f0f2b794c3",
+      "name": "OK RADIO",
+      "url": "https://radios.solumedia.com:6162/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:14:52.776Z"
+    },
+    {
+      "stationuuid": "cb7e451d-8e5f-45d4-a92b-5ed6b87a177a",
+      "name": "Radio Beach Villa Gesell 91.5",
+      "url": "https://sonic.host-live.com/8092/stream",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:14:52.717Z"
+    },
+    {
+      "stationuuid": "0ef1f543-fdae-403c-8576-be8e04340230",
+      "name": "FM CONDOR 98.7",
+      "url": "https://radio.solumedia.com.ar:8384/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:14:53.488Z"
+    },
+    {
+      "stationuuid": "d0e763d7-d72b-48d3-9347-8631f15297a1",
+      "name": "La Radio 102.9 FM",
+      "url": "https://server4.hostradios.com:7051/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:14:53.909Z"
+    },
+    {
+      "stationuuid": "0664dd1e-f8d9-4428-88df-00542221290d",
+      "name": "Lw8 Radio Jujuy",
+      "url": "https://radio.arcast.cloud:1280/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:14:55.113Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "3c6c111c-6bbc-44ae-8ad8-46b502b3002a",
+        "name": "Radio Rivadavia AM 630. Ciudad de Buenos Aires",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RIVADAVIAAAC.aac",
+        "votes": 4222
+      },
+      "variants": [
+        {
+          "stationuuid": "7624ad5c-a8f6-4339-99e1-6a2adcb5360c",
+          "name": "Rivadavia AM 630 AAC Alta. Ciudad de Buenos Aires",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RIVADAVIAAAC.aac",
+          "votes": 312,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8ddfdc2b-6fc5-45a9-b100-9450b93a6ef4",
+        "name": "Blue FM 100.7. Ciudad de Buenos Aires",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/BLUE_FM_100_7AAC.aac",
+        "votes": 3263
+      },
+      "variants": [
+        {
+          "stationuuid": "4520c04e-0514-43f9-9fe6-89d2f6d746f5",
+          "name": "Blue 100.7 FM",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/BLUE_FM_100_7AAC.aac",
+          "votes": 282,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7bc38611-e8d6-494d-9f71-2c1be5341f12",
+        "name": "Radio 10",
+        "url": "https://radio10.stweb.tv/radio10/live/playlist.m3u8",
+        "votes": 3214
+      },
+      "variants": [
+        {
+          "stationuuid": "ca61e243-0120-4da2-94fb-7386667f3c1e",
+          "name": "AM710 - Radio 10 (El sonido de la realidad)",
+          "url": "https://radio10.stweb.tv/radio10/live/playlist.m3u8",
+          "votes": 133,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "9c7ea959-9006-4176-8bfa-7b392dea84f2",
+          "name": "Radio 10",
+          "url": "https://radio10.stweb.tv/radio10/live/playlist.m3u8",
+          "votes": 113,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d76b99ea-c4bf-47e5-8a42-e336ee48c031",
+        "name": "El Destape Radio",
+        "url": "https://ipanel.instream.audio/8004/stream",
+        "votes": 3087
+      },
+      "variants": [
+        {
+          "stationuuid": "df12530c-0ec3-4d97-8c54-d7fdffad2dae",
+          "name": "El Destape",
+          "url": "https://ipanel.instream.audio/8004/stream",
+          "votes": 472,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d5932907-2d3b-4bb9-9278-eaca41e86016",
+          "name": "el destape sin fin",
+          "url": "https://ipanel.instream.audio/8004/stream",
+          "votes": 340,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "46441e95-bc58-46c2-b094-49abf929a24c",
+          "name": "El Destape Radio",
+          "url": "https://ipanel.instream.audio/8004/stream",
+          "votes": 243,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ae7694a3-d499-11e9-a861-52543be04c81",
+        "name": "Radio Con Vos 89.9",
+        "url": "https://server1.stweb.tv/rcvos/live/playlist.m3u8",
+        "votes": 2900
+      },
+      "variants": [
+        {
+          "stationuuid": "6dcc81d7-c81a-48e2-9de3-e00075973439",
+          "name": "Radio Con Vos 89.9 FM",
+          "url": "https://server1.stweb.tv/rcvos/live/playlist.m3u8",
+          "votes": 534,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4b71738a-9eaf-11e8-a767-52543be04c81",
+        "name": "Feeling 91.9 FM",
+        "url": "http://turadioenvivo.com:8430/stream",
+        "votes": 1850
+      },
+      "variants": [
+        {
+          "stationuuid": "b2250755-fe2a-4800-91fe-0247a5733e13",
+          "name": "Feeling FM 97.1 - Corrientes, Argentina",
+          "url": "http://turadioenvivo.com:8430/stream",
+          "votes": 452,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "126aab05-fe78-4589-8d8d-004790436599",
+          "name": "Feeling FM 91.7",
+          "url": "http://turadioenvivo.com:8430/stream",
+          "votes": 24,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "57dd2160-9658-4607-9e3d-666c4f660d87",
+          "name": "Feeling 91.7",
+          "url": "http://turadioenvivo.com:8430/stream",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cfeebcdf-7b9f-4561-86b4-abf24a185bcf",
+        "name": "AM 530 Somos radio",
+        "url": "https://ipanel.instream.audio:7000/stream",
+        "votes": 1604
+      },
+      "variants": [
+        {
+          "stationuuid": "2b022b63-cadc-45d1-abd0-7b387b4d10cb",
+          "name": "Somos Radio",
+          "url": "https://ipanel.instream.audio:7000/stream",
+          "votes": 58,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3bd666a2-4c5d-4aa8-ace9-74465eebe578",
+        "name": "107.9 El Observador",
+        "url": "https://s8.stweb.tv/observador/live/playlist.m3u8",
+        "votes": 1320
+      },
+      "variants": [
+        {
+          "stationuuid": "bf6a7145-8baa-447e-b312-5bfa3b1aff98",
+          "name": "107.9 El Observador version 3",
+          "url": "https://s8.stweb.tv/observador/live/playlist.m3u8",
+          "votes": 56,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d2f327b0-471d-4465-95ba-6ebc372a3beb",
+        "name": "Urbana Play 104.3",
+        "url": "https://vmf.edge-apps.net/playlist/urbana.m3u8/play.m3u8",
+        "votes": 1198
+      },
+      "variants": [
+        {
+          "stationuuid": "ec6d7f77-f87c-4d37-b953-546ac5f3f331",
+          "name": "Urbana Play 104.3",
+          "url": "https://vmf.edge-apps.net/playlist/urbana.m3u8/play.m3u8",
+          "votes": 43,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f24927f3-da9c-49eb-a8af-f1d20f07ac82",
+        "name": "FutuRock",
+        "url": "https://mdstrm.com/audio/5d9d019112cbbb45d6a50960/live.m3u8",
+        "votes": 1168
+      },
+      "variants": [
+        {
+          "stationuuid": "f1b958c4-d1d8-4cc0-b4c3-cc9a3c2e129d",
+          "name": "FutuRÖck",
+          "url": "https://mdstrm.com/audio/5d9d019112cbbb45d6a50960/live.m3u8",
+          "votes": 378,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cdab75e3-1924-4103-86c0-33f049f6ca7a",
+        "name": "Pop Radio 101.5",
+        "url": "https://popradio.stweb.tv/popradio/live/playlist.m3u8",
+        "votes": 1000
+      },
+      "variants": [
+        {
+          "stationuuid": "0bab0c8c-d4c7-485a-9766-83c52f505734",
+          "name": "Pop Radio. FM 101.5. Ciudad de Bs. As. Version 3",
+          "url": "https://popradio.stweb.tv/popradio/live/playlist.m3u8",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4d97e7c1-dbea-4e16-ae51-8ebc3a643b17",
+          "name": "Pop Radui FM 101.5. Ciudad de Bs. As. Version 2",
+          "url": "https://popradio.stweb.tv/popradio/live/playlist.m3u8",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "05662b06-2dee-4673-8c13-0f21c2f82ce1",
+        "name": "FM Millenium 106.7",
+        "url": "https://sonicpanel.hostradios.com/8002/stream",
+        "votes": 982
+      },
+      "variants": [
+        {
+          "stationuuid": "43aca737-a8bf-43a8-8db6-ab4dd0c77c15",
+          "name": "Milenium 106.7 FM",
+          "url": "https://sonicpanel.hostradios.com/8002/stream",
+          "votes": 131,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4285a122-9c78-417e-879e-5440c0482c56",
+        "name": "Aspen 102.3",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/ASPEN.mp3",
+        "votes": 816
+      },
+      "variants": [
+        {
+          "stationuuid": "b6f8c65a-43c5-4990-be58-8440d2cbf9f6",
+          "name": "Aspen 102.3",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/ASPEN.mp3",
+          "votes": 558,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6c195bfc-33bd-40d2-a1d1-bfaebc060979",
+        "name": "d-Sports radio",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/DSPORTSRADIOAAC.aac",
+        "votes": 526
+      },
+      "variants": [
+        {
+          "stationuuid": "31360479-abb1-470e-96b2-4bf6f726b64f",
+          "name": "FM 103.1 DirecTV Sports Radio - Argentina",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/DSPORTSRADIOAAC.aac",
+          "votes": 270,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "af0345ca-6565-483c-9ccc-7129b7e78ecd",
+          "name": "D Sports Radio 103.1 FM",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/DSPORTSRADIOAAC.aac",
+          "votes": 63,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9257ed3b-c422-43cf-a8dd-8165861b3187",
+        "name": "   Radio Disney 94.3 - Buenos Aires, Argentina",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/DISNEY_ARG_BA_ADP.aac",
+        "votes": 517
+      },
+      "variants": [
+        {
+          "stationuuid": "fe448052-cef3-4981-bae2-3f7d82478d91",
+          "name": "Radio Disney - Argentina FM 94.3",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/DISNEY_ARG_BA_ADP.aac",
+          "votes": 259,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6cee259f-5aa9-42eb-92f0-fc61bdf4e0ec",
+        "name": "Radio Rivadavia",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RIVADAVIAAAC_SC?dist=triton-widget&pname=tdwidgets",
+        "votes": 492
+      },
+      "variants": [
+        {
+          "stationuuid": "cb52c00c-1f96-4cc9-b571-ea27b8f14168",
+          "name": "Rivadavia",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RIVADAVIAAAC_SC?dist=triton-widget&pname=tdwidgets",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "70f45026-a937-4084-95fb-95ddb581ca7c",
+        "name": "Radio Shopping",
+        "url": "https://stream4.suenas.net/shoppingclassics",
+        "votes": 489
+      },
+      "variants": [
+        {
+          "stationuuid": "9cfbad0e-eb3f-4b4d-9f34-effe0c8c27a2",
+          "name": "96.1 Shopping Classics",
+          "url": "https://stream4.suenas.net/shoppingclassics",
+          "votes": 33,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "55b910e3-ab26-4f13-8aae-6409bbdfe15d",
+        "name": "MEGA 98.3",
+        "url": "https://mega.stweb.tv/mega983/live/playlist.m3u8",
+        "votes": 477
+      },
+      "variants": [
+        {
+          "stationuuid": "4a74fa62-e0e7-4726-a7a2-b15835165cad",
+          "name": "Radio Mega",
+          "url": "https://mega.stweb.tv/mega983/live/playlist.m3u8",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "22e587bb-e9ca-42d9-863d-61470b697eb3",
+          "name": "Mega 98.3 FM",
+          "url": "https://mega.stweb.tv/mega983/live/playlist.m3u8",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "47c1e2be-cfae-48c2-be10-be9324f898ef",
+          "name": "Mega 98.3 FM",
+          "url": "https://mega.stweb.tv/mega983/live/playlist.m3u8",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "40751514-01bf-4862-b54e-26fe8fe32981",
+        "name": "La Radio De Los Lentos",
+        "url": "https://01.solumedia.com.ar:7828/stream",
+        "votes": 350
+      },
+      "variants": [
+        {
+          "stationuuid": "ace0894b-f833-4ac1-adaf-3773583d9a87",
+          "name": "LaRadioDeLosLentos - Just Ballads",
+          "url": "https://01.solumedia.com.ar:7828/stream",
+          "votes": 42,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ad563392-497b-4fe0-a3e6-4a6b30d57bbe",
+        "name": "FM 97.9 Vida",
+        "url": "https://streaming450tb.locucionar.com/proxy/fmvida979?mp=/stream",
+        "votes": 294
+      },
+      "variants": [
+        {
+          "stationuuid": "47b98530-6132-47b2-8f42-7fd27c32f81f",
+          "name": "FM 97.9 Vida",
+          "url": "https://streaming450tb.locucionar.com/proxy/fmvida979?mp=/stream",
+          "votes": 93,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b67bee65-159d-11e8-ae97-52543be04c81",
+        "name": "Milenium 94.1 FM",
+        "url": "http://23.111.184.195:8020/mileniumrosario.mp3",
+        "votes": 255
+      },
+      "variants": [
+        {
+          "stationuuid": "33999e0a-018c-49c5-8fc9-fcdfe7e0f81c",
+          "name": "M90 Vintage FM 94.1 Rosario",
+          "url": "http://23.111.184.195:8020/mileniumrosario.mp3",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962ca311-0601-11e8-ae97-52543be04c81",
+        "name": "FM UTN Mendoza",
+        "url": "http://streaming.fmutn.com.ar:8000/FMUTN#;.mp3",
+        "votes": 247
+      },
+      "variants": [
+        {
+          "stationuuid": "af54732d-4afa-418f-a2cd-6240235edb4e",
+          "name": "Radio UTN Mendoza 94.5",
+          "url": "http://streaming.fmutn.com.ar:8000/FMUTN",
+          "votes": 32,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "9f097bc3-0e35-4971-a2cb-a7f35e391464",
+          "name": "Radio FM UTN 94.5 - Regional Mendoza",
+          "url": "http://streaming.fmutn.com.ar:8000/FMUTN#;.mp3",
+          "votes": 30,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "eccafccb-21f5-4a04-8417-ef3a61d42c34",
+          "name": "Radio UTN Mendoza - FM 94.5",
+          "url": "http://streaming.fmutn.com.ar:8000/FMUTN",
+          "votes": 1,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1964f23f-b686-11e8-aaf2-52543be04c81",
+        "name": "LU6 Radio Atlántica",
+        "url": "http://173.255.205.241:9090/",
+        "votes": 191
+      },
+      "variants": [
+        {
+          "stationuuid": "58a07867-20a8-4100-a263-da42008e3c3d",
+          "name": "LU6 Radio Atlántica Mar Del Plata AM 760 Khz",
+          "url": "http://173.255.205.241:9090/",
+          "votes": 40,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "60685fbe-478b-4ee5-9090-f60791e17e7c",
+        "name": "Radio FM Gualamba 93.7. Resistencia Chaco",
+        "url": "https://ssl.radiosnethosting.com/index.php?port=9072",
+        "votes": 184
+      },
+      "variants": [
+        {
+          "stationuuid": "3dbda587-229f-4d9c-9149-7a48daeba6ef",
+          "name": "FMI TUCUMAN",
+          "url": "https://ssl.radiosnethosting.com/index.php?port=9808",
+          "votes": 31,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "b044714d-a9d8-4485-8091-bd0ce79593ed",
+          "name": "FM 10 Bolívar 106.1",
+          "url": "https://ssl.radiosnethosting.com/index.php?port=8004",
+          "votes": 5,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "5e3d900d-0ac5-4b5a-a479-4e715fa57805",
+          "name": "FMi 99.1",
+          "url": "https://ssl.radiosnethosting.com/index.php?port=9808",
+          "votes": 4,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "c3f9814c-e7bd-4c5e-9495-f91a31dd80bd",
+          "name": "Radio Láser 95.5 Piedrabuena ",
+          "url": "https://ssl.radiosnethosting.com/index.php?port=9244",
+          "votes": 3,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cb95b539-fa13-47a0-b440-f14ed86ef204",
+        "name": "Cadena Heat",
+        "url": "https://liveradio.mediainbox.net/fmcordoba.mp3",
+        "votes": 157
+      },
+      "variants": [
+        {
+          "stationuuid": "60ef0cf9-59d2-4cd9-a846-8c4703bcbb77",
+          "name": "FM Córdoba",
+          "url": "https://liveradio.mediainbox.net/fmcordoba.mp3",
+          "votes": 55,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8c8e803d-8ba4-40b3-a638-cd8fc89b731e",
+        "name": "Radio Universidad - FM93.5 La Tecno (UTN Tierra del Fuego)",
+        "url": "http://streamall.alsolnet.com/latecno",
+        "votes": 140
+      },
+      "variants": [
+        {
+          "stationuuid": "8673d9fa-12da-49c9-9399-8ba9622fabfe",
+          "name": "Radio Universidad FM 93.5 Rio Grande",
+          "url": "http://streamall.alsolnet.com/latecno",
+          "votes": 22,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6d4cc42b-f6c4-4e75-9ede-0ccad6b908a9",
+        "name": "Radio Universidad Mendoza",
+        "url": "https://fm.uncu.edu.ar/",
+        "votes": 126
+      },
+      "variants": [
+        {
+          "stationuuid": "bd4ca994-5d84-41e6-a671-50f3ff9e28c8",
+          "name": "Radio U 96.5",
+          "url": "https://fm.uncu.edu.ar/",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "539864b4-3a61-42e9-9a94-5802010687f2",
+          "name": "Radio Universidad Nacional de Cuyo FM 96.5",
+          "url": "https://fm.uncu.edu.ar/",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "bc476f32-7366-401e-a4ca-3463c4a3174e",
+          "name": "Radio Universidad Nacional de Uncuyo FM 96.5",
+          "url": "https://fm.uncu.edu.ar/",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ced4eb46-0a32-4ea7-bf28-e26c94d989f8",
+        "name": "LA NACION 104.9",
+        "url": "https://stream.radio.co/s2ed3bec0a/listen",
+        "votes": 106
+      },
+      "variants": [
+        {
+          "stationuuid": "7a4fef3b-13e8-4ad4-8e2a-c9c02da14ba7",
+          "name": "La Nacion Mas Musica 104.9",
+          "url": "https://stream.radio.co/s2ed3bec0a/listen",
+          "votes": 88,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "751ee93f-6be7-481a-a887-081d9176311d",
+        "name": "Radio Futura - FM 90.5 mhz",
+        "url": "https://streamer.fmfutura.com.ar/vivo.mp3",
+        "votes": 102
+      },
+      "variants": [
+        {
+          "stationuuid": "2eac5d27-f4dc-455b-8257-48899716b279",
+          "name": "Futura FM 90.5",
+          "url": "https://streamer.fmfutura.com.ar/vivo.mp3",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a571a206-324e-474a-9001-3e5947b18685",
+        "name": "Radio One 103.7",
+        "url": "https://one.stweb.tv/one/live/playlist.m3u8",
+        "votes": 101
+      },
+      "variants": [
+        {
+          "stationuuid": "76794189-fc21-41d3-a077-98145d3d75b9",
+          "name": "RadioOne",
+          "url": "https://one.stweb.tv/one/live/playlist.m3u8",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "93eeeeb2-12ea-4f63-aada-e2d53729d2a5",
+          "name": "Radio one",
+          "url": "https://one.stweb.tv/one/live/playlist.m3u8",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aff135a4-159a-11e8-ae97-52543be04c81",
+        "name": "Meridiano 107.1 FM",
+        "url": "http://23.111.184.195:8050/fmmeridiano.mp3",
+        "votes": 99
+      },
+      "variants": [
+        {
+          "stationuuid": "123904d6-69ec-4639-a4b6-ecb945d02e2d",
+          "name": "Radio Meridiano",
+          "url": "http://23.111.184.195:8050/fmmeridiano.mp3",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "902e817e-36d0-490e-a61a-09fb1ba9c3a8",
+        "name": "Rock & Pop 95.9 FM",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/ROCKANDPOP.mp3",
+        "votes": 99
+      },
+      "variants": [
+        {
+          "stationuuid": "c8d58585-109d-4486-ab89-9e7fe5a41968",
+          "name": "Rock & Pop 95.9 FM",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/ROCKANDPOP.mp3",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1ad6a94f-ab95-42aa-aee6-4e1c61f055b7",
+        "name": "Mucha Radio 94.7",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/MUCHA_RADIO.mp3",
+        "votes": 97
+      },
+      "variants": [
+        {
+          "stationuuid": "c82972c8-9048-4791-a296-b5cb5b482270",
+          "name": "Mucha Radio",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/MUCHA_RADIO.mp3",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a3451f14-05e8-45b2-a7f6-b3c20c2c90cb",
+        "name": "Delta 90.3 Buenos Aires",
+        "url": "https://cdn.instream.audio/:9069/stream?in_device_id=wp-5270c502-0535-444e-975b-d49592d1d988",
+        "votes": 90
+      },
+      "variants": [
+        {
+          "stationuuid": "9f3522e8-0d21-4cbc-b24a-f3fab7ae9920",
+          "name": "Delta 90.3",
+          "url": "https://cdn.instream.audio/:9069/stream",
+          "votes": 43,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "c3efcd60-1a73-418b-b006-93e26e460d90",
+          "name": "Delta 90.3",
+          "url": "https://cdn.instream.audio/:9069/stream?in_device_id=wp-0bd8ae0e-61bb-4c85-8d42-818ab95f0da2",
+          "votes": 6,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c96d6dd4-9414-4ffe-9183-e7700f5f672c",
+        "name": "Undinamo",
+        "url": "https://cdn.instream.audio/:9339/stream?in_device_id=WPU32ffbfaa3cd8ebaaa8f64ec868bf4b88XY177fdfd79a7",
+        "votes": 85
+      },
+      "variants": [
+        {
+          "stationuuid": "765d5d9a-cf89-484a-b420-fdc68195230b",
+          "name": "UnDinamo",
+          "url": "https://cdn.instream.audio/:9339/stream?in_device_id=WPU32ffbfaa3cd8ebaaa8f64ec868bf4b88XY177fdfd79a7",
+          "votes": 27,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9cc01fff-5c3a-401e-8609-cbf795516514",
+        "name": "Classique: Una radio de clásicos",
+        "url": "https://01.solumedia.com.ar:8562/stream",
+        "votes": 70
+      },
+      "variants": [
+        {
+          "stationuuid": "34c84547-cd08-4afc-a3ac-a50ef1c9a4f0",
+          "name": "Classique: Una radio de clásicos",
+          "url": "https://01.solumedia.com.ar:8562/stream",
+          "votes": 16,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "14fb6733-3aa6-4fdb-b4cf-0d890cd91e16",
+        "name": "Hollywood 101.3",
+        "url": "https://radio02.ferozo.com/proxy/ra02001328?mp=/stream",
+        "votes": 62
+      },
+      "variants": [
+        {
+          "stationuuid": "ee676179-5dbf-47be-bdef-37690ddd0822",
+          "name": "Hollywood FM 101.3 Rosario",
+          "url": "https://radio02.ferozo.com/proxy/ra02001328?mp=/stream",
+          "votes": 35,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "48e221a2-361c-407a-96bf-2041df0bec40",
+        "name": "CVC La Voz Urbano ",
+        "url": "https://chat-assets.frontapp.com/v1/149be82f568687535638c72a66facc34.ogg",
+        "votes": 62
+      },
+      "variants": [
+        {
+          "stationuuid": "ef31f3ef-4e8c-4aee-9feb-8f55919640ab",
+          "name": "CVC La Voz Urbano ",
+          "url": "https://chat-assets.frontapp.com/v1/149be82f568687535638c72a66facc34.ogg",
+          "votes": 30,
+          "differs": []
+        },
+        {
+          "stationuuid": "84771452-e9dd-46ae-a8a9-8e578aeac494",
+          "name": "CVC La Voz Urbano ",
+          "url": "https://chat-assets.frontapp.com/v1/149be82f568687535638c72a66facc34.ogg",
+          "votes": 23,
+          "differs": []
+        },
+        {
+          "stationuuid": "2b5f60ce-4cdd-4af1-8310-be56e9ef58e1",
+          "name": "CVC La Voz Urbano ",
+          "url": "https://chat-assets.frontapp.com/v1/149be82f568687535638c72a66facc34.ogg",
+          "votes": 13,
+          "differs": []
+        },
+        {
+          "stationuuid": "d336a80f-a08f-4de4-8e3b-ee90ca318e67",
+          "name": "CVC La Voz Urbano ",
+          "url": "https://chat-assets.frontapp.com/v1/149be82f568687535638c72a66facc34.ogg",
+          "votes": 13,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7305646d-4cdf-47f1-87d4-3b995249c72c",
+        "name": "Cristal FM",
+        "url": "https://radio02.ferozo.com/proxy/ra02001330?mp=/stream",
+        "votes": 61
+      },
+      "variants": [
+        {
+          "stationuuid": "1ed6a894-780e-479c-88f7-eb5427cc2c9a",
+          "name": "Cristal FM 107.9",
+          "url": "https://radio02.ferozo.com/proxy/ra02001330?mp=/stream",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8db31931-6c7b-4493-9fe4-486332bf2caf",
+        "name": "Radio NOW 97.9",
+        "url": "https://ipanel.instream.audio:7002/stream?_=18fea7232d5",
+        "votes": 58
+      },
+      "variants": [
+        {
+          "stationuuid": "dd1fa913-2d79-4663-a66b-e92e1e8dbb31",
+          "name": "NOW 97.9",
+          "url": "https://ipanel.instream.audio:7002/stream",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "07499cb0-b91e-4150-a085-26e5039c3033",
+        "name": "Radio Universidad Rosario",
+        "url": "https://cdn.instream.audio/:9202/stream",
+        "votes": 52
+      },
+      "variants": [
+        {
+          "stationuuid": "bb1b8dab-23ec-47b9-bc5e-1b8055ef64f7",
+          "name": "Radio UNR",
+          "url": "https://cdn.instream.audio/:9202/stream",
+          "votes": 42,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c30e559c-03bd-448d-a1bb-bc572a833c01",
+          "name": "radio universidad de rosario",
+          "url": "https://cdn.instream.audio/:9202/stream",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "af3e7d23-07d4-4037-9869-f78acdce1fcb",
+          "name": "RADIO UNR",
+          "url": "https://cdn.instream.audio/:9202/stream",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "864f4354-0584-441d-ba4d-bbca0255bb7f",
+        "name": "Chascomús AM 1520",
+        "url": "https://streaming1.locucionar.com/proxy/radiochascomus?mp=/stream",
+        "votes": 48
+      },
+      "variants": [
+        {
+          "stationuuid": "ba4d41c6-1dc4-4100-8079-c1c91363fbcb",
+          "name": "Radio chascomús La voz Regional AM 1520 khz",
+          "url": "https://streaming1.locucionar.com/proxy/radiochascomus?mp=/stream",
+          "votes": 40,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "37c3b553-3b31-4140-9171-487d38ba34e1",
+        "name": "Radio Verdad (Villa Dolores)",
+        "url": "https://streaming1.locucionar.com/proxy/radioverdad?mp=/stream",
+        "votes": 46
+      },
+      "variants": [
+        {
+          "stationuuid": "8109d285-0fa0-47da-97d5-bc0f7ccbe64c",
+          "name": "Radio Verdad Villa Dolores",
+          "url": "https://streaming1.locucionar.com/proxy/radioverdad?mp=/stream",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0d24740e-2f73-4f4e-8b89-674d9e1e4ec5",
+        "name": "Somos Radio - AM 530 (Radio de las Madres de Plaza de Mayo)",
+        "url": "https://cdn.instream.audio:9288/stream",
+        "votes": 44
+      },
+      "variants": [
+        {
+          "stationuuid": "561acce4-87b2-4b46-b875-cff0237e69df",
+          "name": "Somos Radio AM530",
+          "url": "https://cdn.instream.audio:9288/stream",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b8058f33-ea9a-426e-ac86-be2ef987c131",
+        "name": "Radio Bicentenario Tucumán",
+        "url": "http://01.solumedia.com.ar:7792/;stream/1",
+        "votes": 41
+      },
+      "variants": [
+        {
+          "stationuuid": "f8d08ac1-018a-4434-a88f-8b0aeeabaff5",
+          "name": "Radio Bicentenario",
+          "url": "http://01.solumedia.com.ar:7792/;stream/1",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1391cd49-440b-43c0-a84f-be9e6175ceb8",
+        "name": "FM Blackie 89.1",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/BLACKIE_89_1.mp3",
+        "votes": 39
+      },
+      "variants": [
+        {
+          "stationuuid": "a7b9ffd1-7a0b-4047-8d22-0f81c1dfff98",
+          "name": "Blackie 89.1",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/BLACKIE_89_1.mp3",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "02052484-6b24-4c54-9384-98d001d20dff",
+        "name": "Radio Provincia - AM1270",
+        "url": "https://streaming.provinciaradio.com.ar:7008/am",
+        "votes": 38
+      },
+      "variants": [
+        {
+          "stationuuid": "b51ad016-f7a3-45ab-84dc-792a2701666b",
+          "name": "AM 1270 - Radio Provincia de Buenos Aires",
+          "url": "https://streaming.provinciaradio.com.ar:7008/am",
+          "votes": 30,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "0f1429be-de4c-4b2b-bd10-3e9773ab9ba9",
+          "name": "Radio Provincia AM 1270",
+          "url": "https://streaming.provinciaradio.com.ar:7008/am",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "25044f96-81d1-44fb-87a2-650333a932b5",
+        "name": "radio Gráfica ",
+        "url": "http://radio13.servidorderadio.net:8110/",
+        "votes": 38
+      },
+      "variants": [
+        {
+          "stationuuid": "c30bbbf9-b1a8-4a27-b880-4c0c4c8b81a5",
+          "name": "radio Gráfica ",
+          "url": "http://radio13.servidorderadio.net:8110/",
+          "votes": 14,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6b0e13c5-3f5d-4d1d-b05e-ccb7f3885dc5",
+        "name": "LU22 Radio Tandil AM1140",
+        "url": "https://streaming01.shockmedia.com.ar/8170/live",
+        "votes": 34
+      },
+      "variants": [
+        {
+          "stationuuid": "55a155a6-a8d7-4a4f-9148-7c0bd70116f3",
+          "name": "Radio Tandil - LU22 AM140",
+          "url": "https://streaming01.shockmedia.com.ar/8170/live",
+          "votes": 25,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "79a6b49f-99b4-4993-934a-1f68e161838e",
+        "name": "LU20 Radio Chubut",
+        "url": "https://streaming1.locucionar.com/proxy/radiochubut?mp=/stream",
+        "votes": 33
+      },
+      "variants": [
+        {
+          "stationuuid": "f74a407d-f6a5-4b23-a8a5-2542daeab587",
+          "name": "LU20 Radio Chubut Trelew AM 580",
+          "url": "https://streaming1.locucionar.com/proxy/radiochubut?mp=/stream",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "af383965-125b-4b1e-b5d1-078498347b09",
+        "name": "Radiovision Comodoro Rivadavia FM 99.5 ",
+        "url": "https://cdn.instream.audio/:9061/stream?in_device_id=wp-5270c502-0535-444e-975b-d49592d1d988",
+        "votes": 31
+      },
+      "variants": [
+        {
+          "stationuuid": "77cd091c-572a-47f8-886a-08b8804f3663",
+          "name": "Radiovision 99.5 fm",
+          "url": "https://cdn.instream.audio/:9061/stream?in_device_id=wp-e80516ae-250e-4455-ac11-14ce5f370cc8",
+          "votes": 2,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "36029af3-ec48-4548-88ac-a1e1d1bff3a9",
+        "name": "Radio 10",
+        "url": "https://radio10.stweb.tv/radio10/live/chunks.m3u8",
+        "votes": 30
+      },
+      "variants": [
+        {
+          "stationuuid": "7a36295d-00f2-4559-81e6-3f1ec63393e5",
+          "name": "Radio 10 710 AM",
+          "url": "https://radio10.stweb.tv/radio10/live/chunks.m3u8",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ec81125d-379e-413f-9883-bd5628a8c72d",
+        "name": "RPM Oldies & Retro Hits",
+        "url": "https://radios.solumedia.com/6118/stream",
+        "votes": 27
+      },
+      "variants": [
+        {
+          "stationuuid": "188ef2a6-bc4e-4bb9-8078-7d600ffae328",
+          "name": "RPM Oldies & Retro Hits",
+          "url": "https://radios.solumedia.com/6118/stream",
+          "votes": 13,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c149fdd5-fe73-45a0-8d2d-56f3799b726d",
+        "name": "Radio Rio Cuarto",
+        "url": "https://server6.hostradios.com/8552/stream/;/;type=mp3",
+        "votes": 27
+      },
+      "variants": [
+        {
+          "stationuuid": "685fc4dd-f883-4c57-b3a6-d1fc83c51696",
+          "name": "Radio Rio Cuarto",
+          "url": "https://server6.hostradios.com/8552/stream/;/;type=mp3",
+          "votes": 10,
+          "differs": []
+        },
+        {
+          "stationuuid": "04b78f5a-a9f3-4555-8938-ba680b8bb402",
+          "name": "Radio Rio Cuarto",
+          "url": "https://server6.hostradios.com/8552/stream/;/;type=mp3",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6ad02747-a9c1-4a25-80e0-6ff400fb7afe",
+        "name": "cuarteto en la web",
+        "url": "https://masservidor.net/8616/stream",
+        "votes": 24
+      },
+      "variants": [
+        {
+          "stationuuid": "b485f6d9-2d3d-46d7-a124-1a899a4e17dd",
+          "name": "cuarteto en la web",
+          "url": "https://masservidor.net/8616/stream",
+          "votes": 18,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "93a6169c-8fd4-42fa-b1f4-9a958c13a9a2",
+        "name": "FM 90 Saladillo FM 90.7",
+        "url": "https://chino.republicahosting.com:2316/live",
+        "votes": 23
+      },
+      "variants": [
+        {
+          "stationuuid": "60521e5b-17a7-4968-8a17-e318868b74bd",
+          "name": "Radio Saladillo",
+          "url": "https://chino.republicahosting.com:2316/live",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fa79df9d-9b70-4162-a34c-0d0cc3884187",
+        "name": "Radio Universidad AM580",
+        "url": "https://radios.solumedia.com:10976/stream",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "564de354-d68f-43f8-a63e-cbfa06d826e2",
+          "name": "Universidad AM 580",
+          "url": "https://radios.solumedia.com:10976/stream",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b2804605-c482-4c92-ae2e-968eaf689e56",
+        "name": "FMQ",
+        "url": "https://streamlky.alsolnet.com/radiofmq",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "438935da-40d9-498e-b481-ebd7d9dc89a2",
+          "name": "FMQ 93.5",
+          "url": "https://streamlky.alsolnet.com/radiofmq",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2828ec80-35ea-4b75-91df-376d50d6b733",
+        "name": "Fm 95.5 Republica ",
+        "url": "https://edge-st1-audio.masterhost.com.ar/listen/radio_republica_955/radio.mp3",
+        "votes": 20
+      },
+      "variants": [
+        {
+          "stationuuid": "96ec771f-567f-493c-8f1e-4670217351e8",
+          "name": "FM 95.5 RADIO REPUBLICA",
+          "url": "https://edge-st1-audio.masterhost.com.ar/listen/radio_republica_955/radio.mp3",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961fabcc-0907-48ec-98da-efc7616c9619",
+        "name": "LU12 La Radio De La Gente, Rio Gallegos",
+        "url": "https://sa.mp3.icecast.magma.edge-access.net/LOA_LaOpinionAustral",
+        "votes": 19
+      },
+      "variants": [
+        {
+          "stationuuid": "68dcdb57-25cd-418d-ab80-5f6cdaa1fd01",
+          "name": "La Radio de la Gente LU12 AM 680 Rio Gallegos ",
+          "url": "https://sa.mp3.icecast.magma.edge-access.net/LOA_LaOpinionAustral",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b9307751-b03b-4998-9eb2-9543f2a1e2be",
+        "name": "FM 97.UNE - Provincia de Buenos Aires",
+        "url": "https://streaming.provinciaradio.com.ar:3352/fm",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "064fdef2-6704-4a47-9ed4-340b57a32b65",
+          "name": "FM 97.UNE - Provincia de Buenos Aires",
+          "url": "https://streaming.provinciaradio.com.ar:3352/fm",
+          "votes": 9,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d11ba334-2ab3-4778-886c-0c82911f9d0c",
+        "name": "Radio Flow On",
+        "url": "http://stream.zeno.fm/5rxr1mcdcxhvv",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "7412682e-e68e-4ab5-8d57-78c54346802f",
+          "name": "Radio Flow On",
+          "url": "http://stream.zeno.fm/5rxr1mcdcxhvv",
+          "votes": 9,
+          "differs": []
+        },
+        {
+          "stationuuid": "11c4ef02-8f14-42eb-8802-ef06490266de",
+          "name": "Radio Flow",
+          "url": "http://stream.zeno.fm/5rxr1mcdcxhvv",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7ef33df3-1bb2-44f0-af8c-555cd023f20a",
+        "name": "La 97",
+        "url": "https://streaming01.shockmedia.com.ar:10586/stream",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "5ae5dad7-31bd-46cb-8373-240b550025a0",
+          "name": "La 97",
+          "url": "https://streaming01.shockmedia.com.ar:10586/stream",
+          "votes": 5,
+          "differs": []
+        },
+        {
+          "stationuuid": "7a48415d-c4b1-41bc-bed1-7bf2f3cf295c",
+          "name": "FM HIT 97.3 Mar del Plata",
+          "url": "https://streaming01.shockmedia.com.ar:10586/stream",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a82a268b-bd3f-4ae0-b081-96b87d7fb6e8",
+        "name": "InfoPico Radio 99.9 - General Pico",
+        "url": "https://streaming3.locucionar.com/proxy/infopico999?mp=%2Fstream",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "a689223d-dcf3-4c24-8be7-44f1cae368dd",
+          "name": "InfoPico Radio 99.9",
+          "url": "https://streaming3.locucionar.com/proxy/infopico999?mp=/stream",
+          "votes": 4,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "33efd213-28e6-40d0-9e0a-dacf1f855c80",
+        "name": "FM CIUDAD 94.7",
+        "url": "https://streaming6.locucionar.com:24028/stream",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "28b09ba3-2b4a-4a53-bd41-1ac026118f84",
+          "name": "Fm ciudad",
+          "url": "https://streaming6.locucionar.com:24028/stream",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "e9169431-3a07-4b8c-8d78-8a48fd639556",
+          "name": "Fm Ciudad",
+          "url": "https://streaming6.locucionar.com:24028/stream",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "eb93eef0-87e2-4578-bdaf-ac75a8e59fa8",
+          "name": "Fm Ciudad",
+          "url": "https://streaming6.locucionar.com:24028/stream",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "936c0964-ea41-4fb9-892a-cc6fe0609fcd",
+          "name": "Fm ciudad",
+          "url": "https://streaming6.locucionar.com:24028/stream",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f692ceef-0df3-416f-b988-bfbc08f9ab47",
+        "name": "Sudaca FM",
+        "url": "https://sudaca.redenfoques.com.ar/sudaca",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "c51a08bb-f6ee-4905-ab25-bfc12972c2f7",
+          "name": "Radio Sudaca 103.3",
+          "url": "https://sudaca.redenfoques.com.ar/sudaca",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fc6421f2-e490-4d01-be12-626b074f0d14",
+        "name": "Colegio AMEN",
+        "url": "https://radio.eduneu.eu:8050/radio.mp3",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "9f93d2f9-d044-4a17-b6cd-7d9ea7306a19",
+          "name": "Colegio AMEN",
+          "url": "https://radio.eduneu.eu:8050/radio.mp3",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "21084ef3-0958-4591-9196-5868de99d406",
+        "name": "Radio Provincia de Santa Cruz AM 830 khz Rio Gallegos",
+        "url": "https://transmision-lu14.santacruz.gob.ar/lu14.mp3",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "d1b0080c-506b-49bc-bb25-9a302cbb3eb7",
+          "name": "LU14 Radio Provincia de Santa Cruz AM 830 khz",
+          "url": "https://transmision-lu14.santacruz.gob.ar/lu14.mp3",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a24e82bc-d43a-4afd-8cd0-c7ae363a7c1a",
+        "name": "FM 105.7",
+        "url": "https://streaming3.locucionar.com/proxy/fm1057?mp=/stream",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "99972c9c-5e23-4460-ae6d-8a34e64e860f",
+          "name": "FM105.7",
+          "url": "https://streaming3.locucionar.com/proxy/fm1057?mp=/stream",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "6061c8ac-1445-4230-9bde-5a33cd436581",
+          "name": "FM105.7",
+          "url": "https://streaming3.locucionar.com/proxy/fm1057?mp=/stream",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5585f8e1-b731-46c5-a717-0a1b9979c2fe",
+        "name": "Dale FM 93.1",
+        "url": "https://streaming01.shockmedia.com.ar:10891/;",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "c5730ce3-f190-467d-ab05-bf8785e71379",
+          "name": "Dale FM 93.1",
+          "url": "https://streaming01.shockmedia.com.ar:10891/;?hash=1659583597942",
+          "votes": 9,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b0b1f8f1-432d-4e4a-9bf5-7067bf609ad2",
+        "name": "Radio Amanecer AM 1290 - FM 92.7",
+        "url": "https://streaming2.locucionar.com/proxy/radioamanecer?mp=/stream",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "c3f21429-8d89-44e5-b2ea-a167d9208500",
+          "name": "Radio Amanecer",
+          "url": "https://streaming2.locucionar.com/proxy/radioamanecer?mp=/stream",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "eff66d04-4e04-4a4c-b07d-68e2f15aea51",
+        "name": "FM Laser 98.5 - General Pico",
+        "url": "https://streamconex.com:8076/stream/",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "47a3fc13-fb76-4f74-9421-a286bf61f11d",
+          "name": "FM Laser",
+          "url": "https://streamconex.com:8076/stream/",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "739c22a9-ed6b-4427-bf15-8ecea9e178b9",
+        "name": "Radio 2 Jujuy",
+        "url": "http://181.177.20.20:8000/radio2",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "4873389e-f2b7-43c1-bfd6-bd9a70216440",
+          "name": "RADIO 2 105.5 FM - Jujuy",
+          "url": "http://181.177.20.20:8000/radio2",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3533bcd5-7043-4587-877a-747541781a22",
+        "name": "FM 102.3",
+        "url": "https://radios.solumedia.com:6276/stream",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "0df11a87-7483-4ee1-a589-8c653869133a",
+          "name": "Mas que Musica",
+          "url": "https://radios.solumedia.com:6276/stream",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ca580b43-41d2-4a17-8814-d4c63a714623",
+        "name": "AM CUMBRE 1400",
+        "url": "https://cdn.instream.audio/:9366/stream",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "c46cbd29-f900-43c0-95e8-6201f5904892",
+          "name": "AM CUMBRE 1400",
+          "url": "https://cdn.instream.audio/:9366/stream",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "26f358d9-7127-400b-ba11-e4a1956ecabb",
+        "name": "Red 92",
+        "url": "https://radios.solumedia.com/6426/stream",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "ee5e3a50-80bb-440e-97ac-2d82145574bf",
+          "name": "Red 92",
+          "url": "https://radios.solumedia.com/6426/stream",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8f72f359-eb53-4a0b-85c7-07707df09980",
+        "name": "Radio 2: The Monday Revolution",
+        "url": "https://radio.eduneu.eu:8010/radio.mp3",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "6c7070c0-a473-4110-8020-826cf37ef4ff",
+          "name": "Radio 2: The Monday Revolution",
+          "url": "https://radio.eduneu.eu:8010/radio.mp3",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7dac6761-3afa-426a-a055-4590b6d5ba81",
+        "name": "Achala",
+        "url": "https://streaming2.mundoradio.com.ar/9134/stream",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "94f9c4eb-179c-4d92-8ae0-4777278d2d04",
+          "name": "Achala",
+          "url": "https://streaming2.mundoradio.com.ar/9134/stream",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "032df6ea-cd7a-465d-bc0e-3c81b5dc9b0e",
+        "name": "RADIO ZEN FM",
+        "url": "https://server.streamcasthd.com/8008/stream",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "fb3f2185-9f95-4de1-bc75-7717814508c7",
+          "name": "RADIO ZEN",
+          "url": "https://server.streamcasthd.com/8008/stream",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ffd3b544-5ab7-4ca1-ad2b-1df7a7e0bafc",
+        "name": "La Colectiva",
+        "url": "https://radios.solumedia.com/6198/stream",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "c83f69db-611c-4d61-a6f3-7c54f794e1a9",
+          "name": "La Colectiva",
+          "url": "https://radios.solumedia.com/6198/stream",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "84ac3c8a-1411-440f-8c16-b4bb1ea23d78",
+        "name": "FM EL CHUBUT",
+        "url": "https://radios.streamingdha.com.ar:9382/;",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "cc5aae14-31ef-469d-aabe-288d1ab6160c",
+          "name": "90.1 MHz FM EL CHUBUT",
+          "url": "https://radios.streamingdha.com.ar:9382/;",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1f09ed6e-14db-488c-a30b-3781a214db72",
+        "name": "GLAM FM",
+        "url": "https://streaming2.locucionar.com/proxy/glam963?mp=/stream",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "0587886c-a96a-4ee1-bd39-d8791a71faef",
+          "name": "Glam Fm  96.3",
+          "url": "https://streaming2.locucionar.com/proxy/glam963?mp=/stream",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cfb1d1f7-922e-472f-a3fb-a4a8538cdd0d",
+        "name": "FM ALAS - Correa (Sta Fe)",
+        "url": "http://stream.zeno.fm/7bs1rw5zw8quv",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "7a557cfa-0de9-4e09-a2ee-58f82979fc1e",
+          "name": "FM ALAS - Correa (Sta Fe)",
+          "url": "http://stream.zeno.fm/7bs1rw5zw8quv",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aa5e7738-9c2e-4d14-bc23-ae1d16d64c02",
+        "name": "Radio Comunitaria Cuyum",
+        "url": "https://radios.liberaturadio.org/Cuyum",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "9631c1f4-22e8-4f0c-82b2-754c099313ac",
+          "name": "Radio Comunitaria Cuyum",
+          "url": "https://radios.liberaturadio.org/Cuyum",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9609830e-9b7f-4dd5-97c6-846f8cbcc56a",
+        "name": "VIP Radio",
+        "url": "https://server6.hostradios.com:7232/;?1741613055764",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "b8adf1f2-3e65-4a35-bdf0-5c215a2d4d9c",
+          "name": "VIP Radio",
+          "url": "https://server6.hostradios.com:7232/;?",
+          "votes": 2,
+          "differs": [
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "2a2bbaec-9c58-47d0-b1cb-d392090e7370",
+          "name": "VIP Radio Clásicos",
+          "url": "https://server6.hostradios.com:7232/;?1775392057693",
+          "votes": 2,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fa9690fc-ec27-496f-b704-c475144506d7",
+        "name": "Otro Día Perfecto",
+        "url": "http://giss.tv:8000/odpradio.mp3",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "a65022b0-b696-4fbe-9d38-bff5e9ed74d0",
+          "name": "Otro Día Perfecto",
+          "url": "http://giss.tv:8000/odpradio.mp3",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "33c980ec-9b55-435e-ada9-579267c86c12",
+        "name": "Radio M",
+        "url": "https://streaming1.locucionar.com/proxy/radioeme?mp=/stream",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "ea63eebb-cdae-4821-aa1c-cda4f3bfae80",
+          "name": "Radio M",
+          "url": "https://streaming1.locucionar.com/proxy/radioeme?mp=/stream",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b1344ad1-4572-4c76-b5bc-2188412524e6",
+        "name": "GX Radio",
+        "url": "https://streaming01.radiosenlinea.com.ar:10961/stream",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "e59f6a16-ed7a-43f2-a273-33555ff4224b",
+          "name": "GX Radio",
+          "url": "https://streaming01.radiosenlinea.com.ar:10961/stream",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dc9572a1-dc65-42b2-9abf-2393f37f5b68",
+        "name": "Ranquel FM",
+        "url": "https://server6.hostradios.com/8556/stream/;type=mp3",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "5900d5d0-9e79-4a3a-b1dc-7ec7a928d11b",
+          "name": "Ranquel FM",
+          "url": "https://server6.hostradios.com/8556/stream/;type=mp3",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

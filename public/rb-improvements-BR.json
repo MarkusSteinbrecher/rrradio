@@ -1,0 +1,4539 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.858Z",
+  "country": "BR",
+  "sourceProbedAt": "2026-04-30T12:15:32.438Z",
+  "totals": {
+    "deadStreams": 112,
+    "internalDupes": 165,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "84a51775-4137-48c8-b72b-85f4b5edc7e5",
+      "name": "Super Radio Tupi 96.5 ",
+      "url": "https://8923.brasilstream.com.br/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 4999,
+      "lastProbedAt": "2026-04-30T12:14:04.167Z"
+    },
+    {
+      "stationuuid": "c8cfc213-6a39-4b45-b925-3c6acb3f8b68",
+      "name": "Rádio Band FM 96.1 FM",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/BANDFM_SPAAC",
+      "verdict": "broken-format",
+      "verdictReason": "content-type application/flv not audio-like",
+      "votes": 3078,
+      "lastProbedAt": "2026-04-30T12:14:06.110Z"
+    },
+    {
+      "stationuuid": "65a13604-d894-48dd-a240-e5611619c3e6",
+      "name": "Fay Só Forró das Antigas",
+      "url": "https://ssl.xcast.com.br:7132/stremig",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 687,
+      "lastProbedAt": "2026-04-30T12:14:07.043Z"
+    },
+    {
+      "stationuuid": "2b99061b-1630-4760-ba22-449bc1bf1053",
+      "name": "Fay Só Forró das Antigas",
+      "url": "https://ssl.xcast.com.br:7132/stremig",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 636,
+      "lastProbedAt": "2026-04-30T12:14:07.678Z"
+    },
+    {
+      "stationuuid": "6a568293-4924-4e22-b193-935e4ea397dd",
+      "name": "Dumont FM",
+      "url": "https://rrdns-dumont.webnow.com.br/dumont.aac?1692234215659",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 602,
+      "lastProbedAt": "2026-04-30T12:14:08.435Z"
+    },
+    {
+      "stationuuid": "4d9b07cb-51a6-4389-97a3-4de5f8aac911",
+      "name": "Rádio Bandeirantes 90.9 FM",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RadioBandeirantesAAC",
+      "verdict": "broken-format",
+      "verdictReason": "content-type application/flv not audio-like",
+      "votes": 363,
+      "lastProbedAt": "2026-04-30T12:14:11.395Z"
+    },
+    {
+      "stationuuid": "9bfd835e-332a-4984-bc4e-32d42fc47724",
+      "name": "Esportes Total",
+      "url": "https://s03.maxcast.com.br:8006/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 309,
+      "lastProbedAt": "2026-04-30T12:14:10.477Z"
+    },
+    {
+      "stationuuid": "edc7f47c-284b-4072-a055-a696bacd184e",
+      "name": "Radio Whisper ASMR",
+      "url": "https://stream.zeno.fm/309e0b84p48uv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 309,
+      "lastProbedAt": "2026-04-30T12:14:10.432Z"
+    },
+    {
+      "stationuuid": "1eaf6810-41de-4a43-827b-dcf8070748e5",
+      "name": "Rádio Globo 98.1 FM",
+      "url": "https://24493.live.streamtheworld.com:443/RADIO_GLOBO_RJAAC.aac?dist=radioscombr",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 304,
+      "lastProbedAt": "2026-04-30T12:14:10.834Z"
+    },
+    {
+      "stationuuid": "f4de8d39-0eec-4fc0-a95a-ca820864e39f",
+      "name": "Radio Tupi FM 96.5",
+      "url": "https://8923.brasilstream.com.br/stream?origem=site-tupi.fm",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 224,
+      "lastProbedAt": "2026-04-30T12:14:13.305Z"
+    },
+    {
+      "stationuuid": "9d4cc69b-bb83-41c3-b76c-9da2eacee424",
+      "name": "Rádio Globo - Rio de Janeiro",
+      "url": "https://27443.live.streamtheworld.com:443/RADIO_GLOBO_RJAAC.aac?dist=site",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 205,
+      "lastProbedAt": "2026-04-30T12:14:13.526Z"
+    },
+    {
+      "stationuuid": "95943ccc-bc1f-4d25-b734-c4f1568c6478",
+      "name": "Rádio Animu [320 kbps]",
+      "url": "https://cast.animu.com.br:9079/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 196,
+      "lastProbedAt": "2026-04-30T12:14:23.048Z"
+    },
+    {
+      "stationuuid": "e82302eb-496c-4fcc-aaf2-ed634107568f",
+      "name": "Amor FM",
+      "url": "https://r10.ciclano.io:15067/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 177,
+      "lastProbedAt": "2026-04-30T12:14:13.703Z"
+    },
+    {
+      "stationuuid": "b2444277-896b-4325-a169-0fec84712956",
+      "name": "Rádio Novo Tempo",
+      "url": "https://stream.live.novotempo.com/radio/smil:radionovotempo.smil/live.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 170,
+      "lastProbedAt": "2026-04-30T12:14:13.898Z"
+    },
+    {
+      "stationuuid": "56363d79-d9d7-40eb-9612-0ff1bcb0346a",
+      "name": "Rádio BandNews SP 96.9 FM",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/BANDNEWSFM_SPAAC",
+      "verdict": "broken-format",
+      "verdictReason": "content-type application/flv not audio-like",
+      "votes": 163,
+      "lastProbedAt": "2026-04-30T12:14:15.798Z"
+    },
+    {
+      "stationuuid": "8261610c-dc2d-4e8f-b7d1-efa43fe1e91e",
+      "name": "União FM - Porto Alegre",
+      "url": "https://stream.ouveai.com.br/proxy/uniaonh?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 137,
+      "lastProbedAt": "2026-04-30T12:14:16.423Z"
+    },
+    {
+      "stationuuid": "b8c3bf71-6363-4658-aea7-72ce7efe0e61",
+      "name": "105 FM - É só alegria!",
+      "url": "https://appradio.app:8010//live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 136,
+      "lastProbedAt": "2026-04-30T12:14:17.696Z"
+    },
+    {
+      "stationuuid": "7075e336-86e1-4a23-a245-f23ac46a5656",
+      "name": "Massa FM Londrina",
+      "url": "https://stm01.virtualcast.com.br:8120/live",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 127,
+      "lastProbedAt": "2026-04-30T12:14:17.956Z"
+    },
+    {
+      "stationuuid": "8eb03f0d-ebf8-4f97-ba85-cdce78522733",
+      "name": "Rádio Notícias Tatuí - 98,3 FM",
+      "url": "https://f100.fabricahost.com.br/radionoticias?f=1768438541N01KEZJDAT9KHYWBWD95YDM23WK&tid=01KEZJDAT9SJXP5SA466NHMTT6",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 114,
+      "lastProbedAt": "2026-04-30T12:14:18.503Z"
+    },
+    {
+      "stationuuid": "fadc35b7-0b1f-4238-ac53-25614edec241",
+      "name": "POP 95,1",
+      "url": "https://servidor39.brlogic.com:8152/live",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 88,
+      "lastProbedAt": "2026-04-30T12:14:23.243Z"
+    },
+    {
+      "stationuuid": "4dbf247c-52c0-44e8-bf5f-f9803f401fbd",
+      "name": "107 FM Tatuí",
+      "url": "https://f108.fabricahost.com.br/107fm?f=1768440014N01KEZKTA1M1TPDQW0KTF63Z481&tid=01KEZKTA1MJQM48EZ7NP81GYVW",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 85,
+      "lastProbedAt": "2026-04-30T12:14:22.334Z"
+    },
+    {
+      "stationuuid": "f9e626d3-370a-43a4-bd3d-ccda45c567bb",
+      "name": "Positividade FM - Rio de Janeiro",
+      "url": "https://27373.live.streamtheworld.com/POSITIVIDADE_FMAAC.aac",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 76,
+      "lastProbedAt": "2026-04-30T12:14:23.203Z"
+    },
+    {
+      "stationuuid": "beeae9b2-6c35-440f-b90a-b46fbc356be3",
+      "name": "Rádio Educadora 102,9 FM",
+      "url": "https://servidor40.brlogic.com:8252/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 76,
+      "lastProbedAt": "2026-04-30T12:14:22.672Z"
+    },
+    {
+      "stationuuid": "8d9e3aa7-2161-4a12-abf2-cce54156edff",
+      "name": "Alpha MPB",
+      "url": "https://27393.live.streamtheworld.com/ALPHAMPBAAC.aac",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 67,
+      "lastProbedAt": "2026-04-30T12:14:24.707Z"
+    },
+    {
+      "stationuuid": "63f3df26-1174-4ffe-b344-1b355c162d7c",
+      "name": "GOLD WEB RADIO (224kbps/mp3)",
+      "url": "https://centova.svdns.com.br:19418/stream2",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 50,
+      "lastProbedAt": "2026-04-30T12:14:27.693Z"
+    },
+    {
+      "stationuuid": "a071f06e-e7a2-4379-b9c9-3ca331f1db48",
+      "name": "Jovem Pan FM - Blumenau - SC",
+      "url": "https://f108.fabricahost.com.br/jpblumenau?f=1768464027N01KF0AQ438AT4MFMBHEV2NP5QH&tid=01KF0AQ438FRZFWMDPREG5YT3S",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 50,
+      "lastProbedAt": "2026-04-30T12:14:28.046Z"
+    },
+    {
+      "stationuuid": "cdd11572-fa0e-4d39-82fe-517efbce772c",
+      "name": "Grauna FM 95,5",
+      "url": "https://f108.fabricahost.com.br/graunafm?f=1768434569N01KEZEM4AAB8VSEVFTM75NQAE1&tid=01KEZEM4AA8K03BRVJTSHHCPCJ",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 48,
+      "lastProbedAt": "2026-04-30T12:14:28.947Z"
+    },
+    {
+      "stationuuid": "b57a7a67-0f63-4412-b79c-3274f64d4d47",
+      "name": "Bahia FM Sul 102.1",
+      "url": "https://f100.fabricahost.com.br/bahiafmsul?f=1768458561N01KF05GA1G1KC664JZFNCVZD3K&tid=01KF05GA1GY946MZ6404BFEXVP",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 44,
+      "lastProbedAt": "2026-04-30T12:14:29.755Z"
+    },
+    {
+      "stationuuid": "272ae372-1df7-4e12-935f-b0e9fad65282",
+      "name": "Estção FM 89.5",
+      "url": "https://play.radio.br:8089/estacaofm/estacaofm/icecast.audio",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 44,
+      "lastProbedAt": "2026-04-30T12:14:39.510Z"
+    },
+    {
+      "stationuuid": "376e6c51-60d9-4647-8231-5400285ace6a",
+      "name": "GOLD WEB RADIO (32kbps/aacPlus)",
+      "url": "https://centova.svdns.com.br:19418/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 44,
+      "lastProbedAt": "2026-04-30T12:14:29.769Z"
+    },
+    {
+      "stationuuid": "0b0c511d-a763-4abe-83d1-a7f04d896b27",
+      "name": "Rádio Nevasca FM 104.1",
+      "url": "https://cast2.youngtech.radio.br/radio/8110/radio",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 41,
+      "lastProbedAt": "2026-04-30T12:14:31.367Z"
+    },
+    {
+      "stationuuid": "79d45b42-0181-40a8-9859-0d77a0c8a6ec",
+      "name": "Serra negra FM Alterosa",
+      "url": "https://player.uaihost.audio/proxy/7014",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 41,
+      "lastProbedAt": "2026-04-30T12:14:31.791Z"
+    },
+    {
+      "stationuuid": "d170c881-4de3-4e11-9cde-9a12780bc7d4",
+      "name": "Nossa Sertaneja FM 99.7 MHz ZYN130 (Barbacena - MG)",
+      "url": "https://radio.audiosolutions.tech:8110/barbacena",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 39,
+      "lastProbedAt": "2026-04-30T12:14:32.651Z"
+    },
+    {
+      "stationuuid": "36fb00ed-0774-41c1-a8fb-9e13cef330c9",
+      "name": "FM Vale Verde",
+      "url": "https://f100.fabricahost.com.br/fmvaleverde?f=1768453284N01KF00F8HFSQAN97PZR80Z3KPF&tid=01KF00F8HF1RY165S7GNASV2VS",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 38,
+      "lastProbedAt": "2026-04-30T12:14:32.170Z"
+    },
+    {
+      "stationuuid": "69b073b3-bb02-495d-afff-52eb48e8c386",
+      "name": "Rádio Animu [64 kbps]",
+      "url": "https://cast.animu.com.br:9069/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 37,
+      "lastProbedAt": "2026-04-30T12:14:42.511Z"
+    },
+    {
+      "stationuuid": "411fcdcb-6cae-4365-be2c-22086445bb03",
+      "name": "Rádio Animu [192 kbps]",
+      "url": "https://cast.animu.com.br:9089/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 36,
+      "lastProbedAt": "2026-04-30T12:14:43.263Z"
+    },
+    {
+      "stationuuid": "42318752-be8e-4cd6-9bc0-24c4721fdfcb",
+      "name": "Kiss FM 92.5 São Paulo",
+      "url": "https://26673.live.streamtheworld.com/RADIO_KISSFMAAC.aac?1655609055880",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 34,
+      "lastProbedAt": "2026-04-30T12:14:35.253Z"
+    },
+    {
+      "stationuuid": "7eb61a59-81e7-45ca-a32e-3114853d0916",
+      "name": "Radio Viva 94.5",
+      "url": "https://r6.ciclano.io:15030/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 33,
+      "lastProbedAt": "2026-04-30T12:14:35.652Z"
+    },
+    {
+      "stationuuid": "8850c739-694b-464b-aee5-e5e129459e7f",
+      "name": "Sucesso FM 100.5 Brasília/DF",
+      "url": "https://sucessonews.brasilstream.com.br/hls/sucessonews/index.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 33,
+      "lastProbedAt": "2026-04-30T12:14:36.369Z"
+    },
+    {
+      "stationuuid": "ff6c42ee-87c2-484e-a47b-6ad86631390e",
+      "name": "Disco Music Radio",
+      "url": "https://discomusicradio.com:8100/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 29,
+      "lastProbedAt": "2026-04-30T12:14:38.137Z"
+    },
+    {
+      "stationuuid": "abd14170-1077-4330-b0a6-91a2f389310d",
+      "name": "Rádio Nova Paradiso Rio",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/NOVABRASIL_RIOAAC.aac",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 27,
+      "lastProbedAt": "2026-04-30T12:14:49.856Z"
+    },
+    {
+      "stationuuid": "2776340d-7615-4c03-ab16-59a058c26c94",
+      "name": "Rádio Atlântida FM Florianópolis",
+      "url": "https://27353.live.streamtheworld.com:443/ATL_FLO.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 26,
+      "lastProbedAt": "2026-04-30T12:14:41.578Z"
+    },
+    {
+      "stationuuid": "71a7e038-33b1-4647-880b-2d0eebfb2878",
+      "name": "Radio Tropical 103.7 FM",
+      "url": "https://f108.fabricahost.com.br/radiotropicalvix?f=1768435321N01KEZFB264JAJT9AFE7T7HV5TQ&tid=01KEZFB264K6KES30AM04QDSXQ",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 26,
+      "lastProbedAt": "2026-04-30T12:14:41.808Z"
+    },
+    {
+      "stationuuid": "f6c63b49-4aa5-43b1-a599-6036a9b053a7",
+      "name": "MIX Fortaleza 107.5 FM",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/MIXFM_FORTA1075.mp3?dist=mix-web-player-radio-ao-vivo&314233.5876496629",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 25,
+      "lastProbedAt": "2026-04-30T12:14:42.353Z"
+    },
+    {
+      "stationuuid": "912ff6c7-afd2-45ab-b529-fd37e11b2900",
+      "name": "Terra FM Goiânia 104.3",
+      "url": "https://12.stmip.net:8956/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 25,
+      "lastProbedAt": "2026-04-30T12:14:42.487Z"
+    },
+    {
+      "stationuuid": "19b9d4ed-cc1f-47a6-b9bb-59cbc94f712c",
+      "name": "Rádio Metró [320kbps]",
+      "url": "https://cast.animu.com.br:5010/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 23,
+      "lastProbedAt": "2026-04-30T12:14:53.749Z"
+    },
+    {
+      "stationuuid": "8be73812-b293-41b3-9ce3-afe653d6df0c",
+      "name": "Terra FM 99.9 MHz ZYC730 (Belo Horizonte - MG)",
+      "url": "https://servidor28-2.brlogic.com:8424/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 23,
+      "lastProbedAt": "2026-04-30T12:14:43.950Z"
+    },
+    {
+      "stationuuid": "6e6f1b38-61bf-4d8a-9853-d458db2f2f8b",
+      "name": "Ternura FM",
+      "url": "https://f108.fabricahost.com.br/ternurafm?f=1768460872N01KF07PTWR66X60Q6F8NN5A1RA&tid=01KF07PTWRTSECTE6HWF7F6Q6X",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 22,
+      "lastProbedAt": "2026-04-30T12:14:45.580Z"
+    },
+    {
+      "stationuuid": "0db29eac-2354-4cd6-8fcc-1810993bce03",
+      "name": "Musirama FM 92.1 MHz ZYC709 (Sete Lagoas - MG)",
+      "url": "https://f108.fabricahost.com.br/musirama?f=1768457075N01KF042YVD1YQHPM1KYRVNXY0V&tid=01KF042YVD6P8F0P6V9AK61T9N",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 21,
+      "lastProbedAt": "2026-04-30T12:14:46.646Z"
+    },
+    {
+      "stationuuid": "66201400-865f-452e-a0f4-64abc5f683c9",
+      "name": "Rádio Novo Tempo 96.9 FM - Florianópolis - SC",
+      "url": "https://stream.live.novotempo.com/radio/smil:rntFlorianopolisSC.smil/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 21,
+      "lastProbedAt": "2026-04-30T12:14:46.100Z"
+    },
+    {
+      "stationuuid": "b8aef1cd-4e76-4c99-a143-9e6cef694406",
+      "name": "POP MUSIC l Radio RighRise (Compre sua Radio - Instagram:@jpdofunk.ofc)",
+      "url": "https://jpdofunk3.com.br:8070/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 20,
+      "lastProbedAt": "2026-04-30T12:14:47.364Z"
+    },
+    {
+      "stationuuid": "1830bd70-742b-48ce-9d64-ed09d2a512f4",
+      "name": "Rádio Geografia Rock ",
+      "url": "https://servidor20.brlogic.com:7354/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 20,
+      "lastProbedAt": "2026-04-30T12:14:47.266Z"
+    },
+    {
+      "stationuuid": "0b401c47-202c-42b3-a635-588dc688e6fe",
+      "name": "Rádio Nova Mensagem",
+      "url": "https://appradio.app:8157/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 20,
+      "lastProbedAt": "2026-04-30T12:14:48.485Z"
+    },
+    {
+      "stationuuid": "01c07450-edd8-4533-b86b-6bde8c896343",
+      "name": "96 FM Bauru",
+      "url": "https://streaming.ei3.com.br/radio/8000/mp3?cb=1708358237473",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 17,
+      "lastProbedAt": "2026-04-30T12:14:49.445Z"
+    },
+    {
+      "stationuuid": "b72d081d-82ec-4d3d-93e9-fd7621dc7b91",
+      "name": "Correio FM Campina Grande",
+      "url": "https://shout25.crossradio.com.br:18078/live",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 503",
+      "votes": 17,
+      "lastProbedAt": "2026-04-30T12:14:49.753Z"
+    },
+    {
+      "stationuuid": "5552b505-ba37-49d5-be8c-2f78ed0ee7c2",
+      "name": "RADIO VOZ DO VALE",
+      "url": "https://stm17.xcast.com.br:9282/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 17,
+      "lastProbedAt": "2026-04-30T12:14:51.123Z"
+    },
+    {
+      "stationuuid": "5472237e-f2e2-41eb-b783-a3f63b225ffe",
+      "name": "Educadora FM Bahia- 107.5 fm",
+      "url": "https://streaming.educadorafm.ba.gov.br/stream-01",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 16,
+      "lastProbedAt": "2026-04-30T12:15:01.125Z"
+    },
+    {
+      "stationuuid": "9a3ef6e4-900f-4294-bdef-9f761fccf16a",
+      "name": "Rádio Centro América - Rondonópolis",
+      "url": "https://centova.svdns.com.br:20111/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 500",
+      "votes": 16,
+      "lastProbedAt": "2026-04-30T12:14:52.096Z"
+    },
+    {
+      "stationuuid": "5788fdfb-5ee0-49ad-b15b-b53ae2c68f7a",
+      "name": "Cidade FM NET",
+      "url": "https://08.stmip.net:8718/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 15,
+      "lastProbedAt": "2026-04-30T12:14:52.517Z"
+    },
+    {
+      "stationuuid": "56ff9951-f797-46d0-a139-35240459d442",
+      "name": "Pool FM",
+      "url": "https://radios.poolwebwork.com.br/8020/stream",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
+      "votes": 15,
+      "lastProbedAt": "2026-04-30T12:14:52.895Z"
+    },
+    {
+      "stationuuid": "5d89f896-5714-4b82-aa5e-39dff6e7b371",
+      "name": "Rádio Estereosom FM",
+      "url": "https://f108.fabricahost.com.br/estereosom?f=1768438654N01KEZJGSEBTRRFQY5319A7K0AS&tid=01KEZJGSEBQ4N841B2X84QNHS1",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 15,
+      "lastProbedAt": "2026-04-30T12:14:53.316Z"
+    },
+    {
+      "stationuuid": "86ad5721-4ea2-4f7b-8f24-e1bd8ffdb096",
+      "name": "Rádio Geografia Rock ",
+      "url": "https://servidor20.brlogic.com:7354/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 15,
+      "lastProbedAt": "2026-04-30T12:14:52.832Z"
+    },
+    {
+      "stationuuid": "fea104fc-d92f-4c73-bd5d-450634063dcb",
+      "name": "Rádio T 105,3 FM Ponta Grossa - PR",
+      "url": "https://s1.mediacp.com.br:8984/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 15,
+      "lastProbedAt": "2026-04-30T12:14:53.690Z"
+    },
+    {
+      "stationuuid": "d52af6c0-6557-45be-995b-2bb57f673472",
+      "name": "Rede Blast",
+      "url": "https://centova4.transmissaodigital.com:20143/principal;",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 500",
+      "votes": 15,
+      "lastProbedAt": "2026-04-30T12:14:53.601Z"
+    },
+    {
+      "stationuuid": "aceba6e9-2ab8-4244-a724-4c3d498a208b",
+      "name": "Animu Radio Brazil",
+      "url": "https://cast.animu.com.br:9079/;?type=http?0.546435004115698",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 14,
+      "lastProbedAt": "2026-04-30T12:15:03.317Z"
+    },
+    {
+      "stationuuid": "a40bf14b-ad2a-4c21-8628-c0ac7c855e55",
+      "name": "Atlantida Blumenau",
+      "url": "https://27593.live.streamtheworld.com:443/ATL_BLU.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 14,
+      "lastProbedAt": "2026-04-30T12:14:54.135Z"
+    },
+    {
+      "stationuuid": "243f0f8f-2a5f-46a9-8cb6-569add460d2e",
+      "name": "GAZETA FM LINHARES",
+      "url": "https://27383.live.streamtheworld.com:443/GAZETA_LINHARESAAC.aac?dist=web",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 14,
+      "lastProbedAt": "2026-04-30T12:14:54.335Z"
+    },
+    {
+      "stationuuid": "ab56a039-a433-4e59-83bf-e7682bf0c667",
+      "name": "Rádio Gospel Sobrenatural",
+      "url": "https://stm9.brsrv.xyz:7444/stream?1771935464299",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 14,
+      "lastProbedAt": "2026-04-30T12:15:04.010Z"
+    },
+    {
+      "stationuuid": "1ca16c78-915a-4789-bc57-0db5f61a9256",
+      "name": "Rádio Seara 102,7 FM",
+      "url": "https://stream.radioseara.fm/aac",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 13,
+      "lastProbedAt": "2026-04-30T12:14:56.066Z"
+    },
+    {
+      "stationuuid": "5243116f-b458-4d28-8747-9b5d81661229",
+      "name": "Cidade FM NET ",
+      "url": "https://08.stmip.net:8718/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 12,
+      "lastProbedAt": "2026-04-30T12:14:57.712Z"
+    },
+    {
+      "stationuuid": "586a2f9d-c550-4c0b-a260-ca8d2b838f80",
+      "name": "Cultural FM Torres",
+      "url": "https://01.stmip.net:8096/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 12,
+      "lastProbedAt": "2026-04-30T12:14:57.720Z"
+    },
+    {
+      "stationuuid": "60475f46-84cc-4316-9991-fdf5c4f8b5df",
+      "name": "Radio Interativa FM",
+      "url": "https://r6.ciclano.io:15090/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 12,
+      "lastProbedAt": "2026-04-30T12:14:58.870Z"
+    },
+    {
+      "stationuuid": "767897a4-367c-4769-862a-ce2b6a825255",
+      "name": "Radio Prata FM",
+      "url": "https://r15.ciclano.io/proxy/radiopr2/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 12,
+      "lastProbedAt": "2026-04-30T12:14:59.173Z"
+    },
+    {
+      "stationuuid": "3b5c6ce9-ff88-4976-92ac-e9e35b453e06",
+      "name": "Norte FM Manaus",
+      "url": "https://radio.saopaulo01.com.br:10839/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 11,
+      "lastProbedAt": "2026-04-30T12:15:00.529Z"
+    },
+    {
+      "stationuuid": "6b3e6998-e89e-4720-a21b-763aca27bc4b",
+      "name": "Super Radiopatos FM",
+      "url": "https://10.stmip.net:8794/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 11,
+      "lastProbedAt": "2026-04-30T12:15:01.224Z"
+    },
+    {
+      "stationuuid": "e6a9a89b-87d5-4103-ac5e-2b02bb9fe735",
+      "name": "Terra FM - 947",
+      "url": "https://f100.fabricahost.com.br/terrafm94?f=1768454711N01KF01TSVNQ70FFPVTRC6HPBY3&tid=01KF01TSVNWWNRQHKKDYMENSGG",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 11,
+      "lastProbedAt": "2026-04-30T12:15:01.629Z"
+    },
+    {
+      "stationuuid": "e66cae6b-8ef8-4998-85a6-f0588f04eb73",
+      "name": "Gold 94.7 FM",
+      "url": "https://r18.ciclano.io/proxy/rdogoldfm/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 10,
+      "lastProbedAt": "2026-04-30T12:15:02.240Z"
+    },
+    {
+      "stationuuid": "40916b3d-ebb9-4d5b-bdcf-dcedea7722ab",
+      "name": "POP MUSIC l Radio RighRise (Compre sua Radio - Instagram:@jpdofunk.ofc)",
+      "url": "https://jpdofunk3.com.br:8070/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 10,
+      "lastProbedAt": "2026-04-30T12:15:02.135Z"
+    },
+    {
+      "stationuuid": "eea8b3c4-241a-4c12-bcc6-23fa8781bc0b",
+      "name": "Rádio Terra FM 99.9",
+      "url": "https://servidor28-2.brlogic.com:8424/live?source=website",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 10,
+      "lastProbedAt": "2026-04-30T12:15:02.641Z"
+    },
+    {
+      "stationuuid": "ff631fc1-ec14-4aa2-a329-240670c8eb84",
+      "name": "ATL BLUMENAU",
+      "url": "https://27593.live.streamtheworld.com/ATL_BLU.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 9,
+      "lastProbedAt": "2026-04-30T12:15:03.643Z"
+    },
+    {
+      "stationuuid": "3de68171-973b-493b-ae10-1b1a56b4a5cf",
+      "name": "Rádio secular",
+      "url": "https://stream-178.zeno.fm/6cvqc50b568uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiI2Y3ZxYzUwYjU2OHV2IiwiaG9zdCI6InN0cmVhbS0xNzguemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiTDZaZnZxdHRRM2UxQmw3b25lNlRsUSIsImlhdCI6MTc2ODQ1MDk5NywiZXhwIjoxNzY4NDUxMDU3fQ.XGdlLbdnmmCyN1U_1vPhKUqKbcYb0hNli3bqK3ANzGQ",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 9,
+      "lastProbedAt": "2026-04-30T12:15:13.671Z"
+    },
+    {
+      "stationuuid": "c922d499-dba3-47e0-814b-7a264dd8cf59",
+      "name": "Rádio Viva 94.5 FM",
+      "url": "https://r6.ciclano.io:15030/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 9,
+      "lastProbedAt": "2026-04-30T12:15:03.874Z"
+    },
+    {
+      "stationuuid": "711f57a9-9539-4b49-b7f8-ce0c3423380b",
+      "name": "Rádio CBN Natal 91.1 FM",
+      "url": "https://radio.saopaulo01.com.br:10973/stream?1732974759055",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 7,
+      "lastProbedAt": "2026-04-30T12:15:07.684Z"
+    },
+    {
+      "stationuuid": "4c32a9fe-21f1-4abe-99cb-607cfd455fbf",
+      "name": "Rádio Litoral Paulista",
+      "url": "https://servidor23-3.brlogic.com:7036/live?source=website",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-30T12:15:07.078Z"
+    },
+    {
+      "stationuuid": "0d5287df-9770-4968-abcf-c2fda25efea0",
+      "name": "Rádio Timblesom ",
+      "url": "https://stream-168.zeno.fm/du5bny6cwmqvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJkdTVibnk2Y3dtcXZ2IiwiaG9zdCI6InN0cmVhbS0xNjguemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiQWU5V1FlMmpRN09zSWJYVlFZbnc1dyIsImlhdCI6MTc2ODQ0OTExNywiZXhwIjoxNzY4NDQ5MTc3fQ.06nO8hXFnOAeRqemHzdyHCNzpBmb_29Qh4c_eAa42AE",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 7,
+      "lastProbedAt": "2026-04-30T12:15:07.247Z"
+    },
+    {
+      "stationuuid": "5a912f90-ab94-4361-ab88-de693ec707eb",
+      "name": "Beats FM",
+      "url": "https://stm24.xcast.com.br:9910/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 6,
+      "lastProbedAt": "2026-04-30T12:15:08.178Z"
+    },
+    {
+      "stationuuid": "33154745-2e87-4e48-a9e2-39ad3c667e59",
+      "name": "MixFM-feat-LC",
+      "url": "https://www.bravecenterhost.com:8012/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 6,
+      "lastProbedAt": "2026-04-30T12:15:09.369Z"
+    },
+    {
+      "stationuuid": "c1e83ac9-d8d8-4fe7-a16b-dea1d5996245",
+      "name": "Rádio Mundo Rock",
+      "url": "https://servidor32-2.brlogic.com:7320/live?source=website",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-30T12:15:09.484Z"
+    },
+    {
+      "stationuuid": "c049ede6-a261-4851-872b-e6f5539658de",
+      "name": "Rainha FM 97.3",
+      "url": "https://stm23.xcast.com.br:9090/stream?1709563685340=",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-30T12:15:09.736Z"
+    },
+    {
+      "stationuuid": "971f3e25-81c0-4ec2-a7e4-3c912424114f",
+      "name": "Rádio Azul Mar Online",
+      "url": "https://stm8.stmsrv.com:8034/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-30T12:15:10.797Z"
+    },
+    {
+      "stationuuid": "3f5ab69d-254e-4399-a267-8b0a45835248",
+      "name": "Rádio Ótima 89.1 FM",
+      "url": "https://f108.fabricahost.com.br/otimafm891?f=1768437175N01KEZH3NEF9QXY6TAT9WJ3VS5D&tid=01KEZH3NEF5YQV674YKSCWC9NN",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 5,
+      "lastProbedAt": "2026-04-30T12:15:11.995Z"
+    },
+    {
+      "stationuuid": "71660681-3835-4a98-85c6-4579a931e3b5",
+      "name": "102 FM Itaperuna",
+      "url": "https://radio.saopaulo01.com.br:10948/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T12:15:12.730Z"
+    },
+    {
+      "stationuuid": "032b8f3a-b54c-4d49-b4f0-2c2b51df9ac1",
+      "name": "Correio do Vale FM",
+      "url": "https://shout25.crossradio.com.br:18088/live",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 503",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T12:15:13.017Z"
+    },
+    {
+      "stationuuid": "f3fd5052-f81a-4cf3-9dd5-9bb1705d2e5d",
+      "name": "Rádio A Sertaneja",
+      "url": "https://s2.tgastream.com.br:17992/stream?1771935274316",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T12:15:13.287Z"
+    },
+    {
+      "stationuuid": "23ad619a-83f2-4fbf-93e6-26712fdd1a61",
+      "name": "Rádio Mantiqueira",
+      "url": "https://server22.srvsh.com.br:8230/app?1746053921815",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T12:15:13.562Z"
+    },
+    {
+      "stationuuid": "ab623c89-651e-49e6-8f78-714a2c260a90",
+      "name": "VG Radio",
+      "url": "https://vgradio.sytes.net/listen/vg_radio/radio",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T12:15:14.917Z"
+    },
+    {
+      "stationuuid": "ac607d6d-5a44-47f7-ae85-f519c4859528",
+      "name": "Rádio Costazul FM",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/COSTAZULFMAAC.aac",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T12:15:16.919Z"
+    },
+    {
+      "stationuuid": "6014be9c-a8a5-4d7c-9268-60a50bfe34f5",
+      "name": "Radio Shock Box",
+      "url": "https://r6.ciclano.io:15110/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T12:15:16.972Z"
+    },
+    {
+      "stationuuid": "91fa23e2-bfcc-4a75-9f83-b1513aa7e043",
+      "name": "CBN Maringá",
+      "url": "https://ice.fabricahost.com.br/cbnmaringa",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T12:15:17.277Z"
+    },
+    {
+      "stationuuid": "b8e8b97f-17ed-44c9-bfbe-fac51cef460f",
+      "name": "Pablo",
+      "url": "https://jpdofunk3.com.br/stream/pablo",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:15:20.747Z"
+    },
+    {
+      "stationuuid": "5b6f5ad3-f99a-4090-9121-fe168a644719",
+      "name": "Rádio Meio Norte 91.1 FM",
+      "url": "https://webradio.amsolution.com.br/radio/8300/palmas",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:15:23.625Z"
+    },
+    {
+      "stationuuid": "82044a8f-597f-4d32-85df-d6a55927ceab",
+      "name": "CBN Vitória",
+      "url": "https://26673.live.streamtheworld.com/CBN_VITORIA_SC?dist=web",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:15:25.803Z"
+    },
+    {
+      "stationuuid": "57056e44-32ea-4e9b-af3f-29893aa3f537",
+      "name": "Lucas DJ",
+      "url": "https://jpdofunk3.com.br/stream/lucasdj",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:15:25.911Z"
+    },
+    {
+      "stationuuid": "3f26e977-213a-4277-9896-672bc02c5fac",
+      "name": "Novo Milenio Presidente Epitacio SP",
+      "url": "https://12.stmip.net:9624/stream?1770041914523",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:15:26.355Z"
+    },
+    {
+      "stationuuid": "1f03f836-223b-4643-a5cf-5613e27202df",
+      "name": "Rádio Alpha 101.7 FM",
+      "url": "https://27423.live.streamtheworld.com/RADIO_ALPHAFM_ADP.aac?1771934298150",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:15:27.425Z"
+    },
+    {
+      "stationuuid": "8628edce-aa5b-43a7-8ccb-85512bfb362a",
+      "name": "Rádio Cambirela - Virtual,mas real.",
+      "url": "https://stm1.srvif.com:7244/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:15:27.684Z"
+    },
+    {
+      "stationuuid": "a6a28318-e554-4260-a464-5358b2f3679f",
+      "name": "Rádio Cambirela - Virtual,mas real.",
+      "url": "https://stm1.srvif.com:7244/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:15:27.809Z"
+    },
+    {
+      "stationuuid": "e2ee42d0-2d7f-413e-81c6-dd7c98fabce4",
+      "name": "Rádio Elite",
+      "url": "https://jpdofunk3.com.br/stream/radio-elite",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:15:27.711Z"
+    },
+    {
+      "stationuuid": "f6f2ccd1-9c1a-47ca-9caf-1edd6c66eed1",
+      "name": "Rádio Itatiunga 102.9 FM",
+      "url": "https://str1.streamhostpg.com.br:8100/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:15:30.677Z"
+    },
+    {
+      "stationuuid": "506333a3-ad13-4180-834e-8dc4bc5805d8",
+      "name": "Rádio Meio Norte 91.1 FM",
+      "url": "https://webradio.amsolution.com.br/radio/8300/palmas",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:15:29.994Z"
+    },
+    {
+      "stationuuid": "b26b5bfa-f8bd-472b-86f8-098c0d0d6f2f",
+      "name": "RADIO ORIGINAL SERTANEJA",
+      "url": "https://cast7.midiazdx.com.br:6992/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:15:29.416Z"
+    },
+    {
+      "stationuuid": "3f01ac94-2da7-4acb-91f3-7af69b31035b",
+      "name": "RM Cast",
+      "url": "https://stm1.mxcast.com.br:7154/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:15:30.158Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "963fa65f-0601-11e8-ae97-52543be04c81",
+        "name": "Antena 1 São Paulo, SP (ZYD823 94,7 MHz FM) [aac]",
+        "url": "http://antena1.newradio.it/stream?ext=.mp3",
+        "votes": 31739
+      },
+      "variants": [
+        {
+          "stationuuid": "531fced7-b22b-11e8-afe1-52543be04c81",
+          "name": "Antena 1 FM 94.7 São Paulo",
+          "url": "http://antena1.newradio.it/stream",
+          "votes": 19451,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4534dd5f-b22a-11e8-afe1-52543be04c81",
+        "name": "Antena 1 FM 103.7 Rio de Janeiro",
+        "url": "http://a1rj.streams.com.br:7801/stream",
+        "votes": 15526
+      },
+      "variants": [
+        {
+          "stationuuid": "c6cbbbdf-6a9c-43fc-8400-c875db67d60c",
+          "name": "Antena 1 Rio",
+          "url": "http://a1rj.streams.com.br:7801/stream",
+          "votes": 32,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3c1d95a5-b477-11e8-afe1-52543be04c81",
+        "name": "Rádio Bossa Nova Brazil",
+        "url": "http://54.38.43.201:8009/stream-128kmp3-BossaNovaBrazil",
+        "votes": 12979
+      },
+      "variants": [
+        {
+          "stationuuid": "6351eff4-0594-48a8-b480-5136e4a95881",
+          "name": "Rádio Bossa Nova Brazil",
+          "url": "http://54.38.43.201:8009/stream-128kmp3-BossaNovaBrazil",
+          "votes": 381,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5dcbb03d-423a-4f97-8af5-b95981094c69",
+        "name": "Rádio Saudade FM 99.7",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SAUDADE_FMAAC.aac",
+        "votes": 10217
+      },
+      "variants": [
+        {
+          "stationuuid": "0560dc71-3149-4948-a5d5-2afeaae09a04",
+          "name": "Rádio Saudade FM 99.7",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SAUDADE_FMAAC.aac",
+          "votes": 135,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7ada8a81-5ae1-418c-8f18-51d2f38d86a4",
+        "name": "Bossa Jazz Brasil",
+        "url": "https://centova5.transmissaodigital.com:20104/live",
+        "votes": 8081
+      },
+      "variants": [
+        {
+          "stationuuid": "b499e09d-301f-4519-9ca1-628474d7bf20",
+          "name": "Bossa Jazz Brasil",
+          "url": "https://centova5.transmissaodigital.com:20104/live",
+          "votes": 71,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "65908a60-3a4c-4d8c-b66c-d8eb96faefc6",
+        "name": "89 A Radio Rock",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_89FM_ADP.aac?dist=site-89fm",
+        "votes": 6641
+      },
+      "variants": [
+        {
+          "stationuuid": "be54b4d2-f3f6-45d5-b449-06adcaf36830",
+          "name": "89 FM A Radio Rock",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_89FM_ADP.aac?dist=site-89fm",
+          "votes": 327,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4a7680b2-f3da-4454-b80d-ba739f267431",
+          "name": "89FM Radio Rock",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_89FM_ADP.aac",
+          "votes": 221,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "8e3429cd-6340-4248-8371-6540f3e9f7fe",
+          "name": "89 FM",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_89FM_ADP.aac",
+          "votes": 158,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "ed1b7322-76ee-4978-b014-fa01aae9e13b",
+          "name": "89FM A Radio Rock",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_89FM_ADP.aac",
+          "votes": 129,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "17e7e4db-ccf1-430d-80c8-7ec5b2d7ca54",
+          "name": "Rádio Rock - 89,1 FM",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_89FM_ADP.aac?dist=site-89fm",
+          "votes": 97,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ad039169-2969-4a7a-be83-86f079f4a55e",
+        "name": "Rádio Bandeirantes - São Paulo",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RadioBandeirantesAAC.m3u8",
+        "votes": 5364
+      },
+      "variants": [
+        {
+          "stationuuid": "354d8c7e-a490-4b67-bc23-dd719ea54c83",
+          "name": "Rádio Bandeirantes 90.9 FM",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RadioBandeirantesAAC.m3u8?dist=radios.com.br",
+          "votes": 259,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "84a51775-4137-48c8-b72b-85f4b5edc7e5",
+        "name": "Super Radio Tupi 96.5 ",
+        "url": "https://8923.brasilstream.com.br/stream",
+        "votes": 4999
+      },
+      "variants": [
+        {
+          "stationuuid": "f4de8d39-0eec-4fc0-a95a-ca820864e39f",
+          "name": "Radio Tupi FM 96.5",
+          "url": "https://8923.brasilstream.com.br/stream?origem=site-tupi.fm",
+          "votes": 224,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "61156199-ece3-413e-ac39-7b2483513ab2",
+        "name": "Radio Mix FM",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/MIXFM_SAOPAULOAAC.aac",
+        "votes": 3563
+      },
+      "variants": [
+        {
+          "stationuuid": "901c92bd-a757-449a-b8ce-652b079fd38a",
+          "name": "Rádio Mix 106.3 FM",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/MIXFM_SAOPAULOAAC.aac",
+          "votes": 1264,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d5c994a5-9a9b-4075-a557-702437956646",
+          "name": "Mix FM São Paulo ",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/MIXFM_SAOPAULOAAC.aac",
+          "votes": 83,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "72e626b2-aba6-4afa-933f-a6c5a61f16b6",
+          "name": "MIX São Paulo",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/MIXFM_SAOPAULOAAC.aac?dist=mix-web-player-radio-ao-vivo&934992.6600449783",
+          "votes": 4,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "46d02cdb-49a6-11e9-a4d7-52543be04c81",
+        "name": "Gaúcha",
+        "url": "https://1132747t.ha.azioncdn.net/primary/gaucha_rbs.sdp/playlist.m3u8",
+        "votes": 3345
+      },
+      "variants": [
+        {
+          "stationuuid": "a36df590-84eb-46d5-bd28-560436e135de",
+          "name": "Rádio Gaúcha",
+          "url": "https://1132747t.ha.azioncdn.net/primary/gaucha_rbs.sdp/playlist.m3u8",
+          "votes": 541,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b6d2dba2-acfd-4add-ab3a-085527279f2e",
+        "name": "Rádio Grenal",
+        "url": "https://grenal.audiostream.com.br:20000/aac",
+        "votes": 2893
+      },
+      "variants": [
+        {
+          "stationuuid": "ce157c64-a22e-49c7-a6e9-439573d8c3c8",
+          "name": "Rádio alô gospel ",
+          "url": "https://grenal.audiostream.com.br:20000/aac",
+          "votes": 40,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8914d51f-6458-4dee-9fe8-c2993fe1ec0e",
+          "name": "Rádio Grenal 95.9 FM",
+          "url": "https://grenal.audiostream.com.br:20000/aac?1771934582309",
+          "votes": 12,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f4b06e3c-abd4-4ab8-b8d8-04b83e324cc2",
+        "name": "Rádio MGT Sertanejo",
+        "url": "https://cast.mgtradio.net/radio/8000/aac",
+        "votes": 2646
+      },
+      "variants": [
+        {
+          "stationuuid": "7243de27-598a-4d88-8028-533da5a20d40",
+          "name": "MGT CLÁSSICOS SERTANEJOS",
+          "url": "https://cast.mgtradio.net/radio/8000/aac",
+          "votes": 314,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "447a1a5f-aee6-4b21-b85f-10ceb1896ad3",
+        "name": "Alpha FM 101.7 MHz (São Paulo - SP)",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_ALPHAFM_ADP.aac",
+        "votes": 2599
+      },
+      "variants": [
+        {
+          "stationuuid": "b78ee185-ad1c-4d88-adeb-ce993b10cdda",
+          "name": "ALPHA FM 101.7",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_ALPHAFM_ADP.aac",
+          "votes": 68,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2ca712c4-2d5f-4dbd-a2e3-1961136eec4e",
+        "name": "Fita Cassete",
+        "url": "https://server01.ouvir.radio.br:8018/stream",
+        "votes": 2457
+      },
+      "variants": [
+        {
+          "stationuuid": "c69b53f2-0b2b-4f9f-9e68-5b84b499f06a",
+          "name": "Adoro Flashback",
+          "url": "https://server01.ouvir.radio.br:8018/stream?1771866095421",
+          "votes": 8,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "39f1f009-2ec7-4d81-b28e-b8298885bb1b",
+        "name": "GOLD INSTRUMENTAL ",
+        "url": "https://centova.svdns.com.br:19373/stream1",
+        "votes": 2338
+      },
+      "variants": [
+        {
+          "stationuuid": "20cd3c94-1343-4ecb-a8c8-0b0deb1d60cc",
+          "name": "GOLD INSTRUMENTAL 32",
+          "url": "https://centova.svdns.com.br:19373/stream1",
+          "votes": 1466,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ab764881-4afe-4436-9582-1339fe0357ef",
+        "name": "Rádio Metropolitana 98.5 FM Sertanejo",
+        "url": "https://ice.fabricahost.com.br/metrospsertanejo",
+        "votes": 1800
+      },
+      "variants": [
+        {
+          "stationuuid": "caed4860-d99f-4bcf-ad8f-35141a937f33",
+          "name": "Metropolitana Sertanejo",
+          "url": "https://ice.fabricahost.com.br/metrospsertanejo",
+          "votes": 40,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6da066a5-eddf-4640-8bfb-25070c52858d",
+        "name": "Rádio Transamérica 100.1 FM",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RT_SPAAC.aac",
+        "votes": 1661
+      },
+      "variants": [
+        {
+          "stationuuid": "9cc39d6a-ee85-4b81-95bf-92b6141670c8",
+          "name": "Rádio Transamérica 100.1 FM",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RT_SPAAC.aac",
+          "votes": 26,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cf11fdab-e7f9-4c0d-ac09-b55743510978",
+        "name": "Rádio 80FM",
+        "url": "http://104.247.221.130:9020/stream1",
+        "votes": 1275
+      },
+      "variants": [
+        {
+          "stationuuid": "35dff0d5-b74c-4607-b240-dad44900b9d2",
+          "name": "Rádio 80FM - I Love 80s",
+          "url": "http://104.247.221.130:9020/stream1",
+          "votes": 70,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b2d88171-0a82-4940-a059-bc21ef4d0fbb",
+          "name": "Rádio 80FM",
+          "url": "http://104.247.221.130:9020/stream1",
+          "votes": 36,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "29ca7136-4747-4dcf-92db-69ad65e2182b",
+        "name": "Rádio Buteco Sertanejo",
+        "url": "https://stream.zeno.fm/6kumndewqbruv",
+        "votes": 814
+      },
+      "variants": [
+        {
+          "stationuuid": "1b575746-d639-45f9-b4b7-07b8d82b70f9",
+          "name": "Rádio Buteco Sertanejo",
+          "url": "https://stream.zeno.fm/6kumndewqbruv",
+          "votes": 648,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "eda6bad4-8015-4494-b43e-b3d5b97a41c3",
+        "name": "Só Cacarecos - Classic Rock",
+        "url": "http://sokakarecos.ddns.net:9030/rock128",
+        "votes": 751
+      },
+      "variants": [
+        {
+          "stationuuid": "19cbf3cf-33c5-4b50-b915-a383b9e8b1ce",
+          "name": "Só Kakarecos Classic Rock",
+          "url": "http://sokakarecos.ddns.net:9030/rock128",
+          "votes": 109,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "65a13604-d894-48dd-a240-e5611619c3e6",
+        "name": "Fay Só Forró das Antigas",
+        "url": "https://ssl.xcast.com.br:7132/stremig",
+        "votes": 687
+      },
+      "variants": [
+        {
+          "stationuuid": "2b99061b-1630-4760-ba22-449bc1bf1053",
+          "name": "Fay Só Forró das Antigas",
+          "url": "https://ssl.xcast.com.br:7132/stremig",
+          "votes": 636,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "70e5243b-507f-442b-a2d8-8137dacf97fc",
+        "name": "Radio Amigos da MPB",
+        "url": "http://stm4.voxhd.com.br:7086/",
+        "votes": 648
+      },
+      "variants": [
+        {
+          "stationuuid": "e50968d3-e509-4630-bf17-93d70b471ba2",
+          "name": "Radio Amigos do Flashback",
+          "url": "http://stm4.voxhd.com.br:7086/",
+          "votes": 543,
+          "differs": [
+            "name",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "69cb2356-459d-44a4-94d2-846f5d006cd3",
+          "name": "Radio Fut Music",
+          "url": "http://stm4.voxhd.com.br:7086/",
+          "votes": 34,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "570cc99a-9159-4d91-9a8f-96ddb5b30797",
+        "name": "Rádio Antena 1 94.7 FM",
+        "url": "https://antenaone.crossradio.com.br/stream/1;",
+        "votes": 644
+      },
+      "variants": [
+        {
+          "stationuuid": "1264c0bb-a2c3-41d2-8c47-903e91539802",
+          "name": "Rádio Antena 1 88.3 FM",
+          "url": "https://antenaone.crossradio.com.br/stream/1;",
+          "votes": 85,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "22b186c8-7afc-439c-af03-15ae488553c6",
+          "name": "Rádio Antena 1 Vitória",
+          "url": "https://antenaone.crossradio.com.br/stream/1;",
+          "votes": 41,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "31ea3244-7685-423c-9e18-bad7acf950c7",
+        "name": "Radio Alvorada 94.9 FM",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_ALVORADAAAC.aac",
+        "votes": 640
+      },
+      "variants": [
+        {
+          "stationuuid": "22476f57-1d03-4718-a56e-c3d1f58f2e0f",
+          "name": "Rádio Alvorada",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_ALVORADAAAC.aac",
+          "votes": 352,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "bae11a44-8257-4896-9a0f-7077ff899d23",
+          "name": "Alvorada FM 94,9 Mhz ZYC708 (Belo Horizonte - MG)",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_ALVORADAAAC.aac",
+          "votes": 266,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "247e4d32-39b8-48d7-a86a-ec6effea7723",
+        "name": "Radio Energia 97 FM",
+        "url": "https://streaming.inweb.com.br/energia",
+        "votes": 509
+      },
+      "variants": [
+        {
+          "stationuuid": "e813d0dd-b35b-4780-8afc-c430af856886",
+          "name": "Energia FM",
+          "url": "https://streaming.inweb.com.br/energia",
+          "votes": 130,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "891e8b33-7af8-470f-b298-3d1d02cbb090",
+          "name": "Energia FM",
+          "url": "https://streaming.inweb.com.br/energia",
+          "votes": 23,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "42df389c-af7d-11e8-afe1-52543be04c81",
+        "name": "Brasil de Fato",
+        "url": "https://s09.hstbr.net:8238/live?1514038524061",
+        "votes": 485
+      },
+      "variants": [
+        {
+          "stationuuid": "8425dde9-066d-4686-b2fa-82d87ecd3ddf",
+          "name": "Rádio Brasil de Fato",
+          "url": "https://s09.hstbr.net:8238/live",
+          "votes": 67,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d4f0f5ca-b0a5-4de4-be3b-e686920d94b0",
+        "name": "Jovem Pan FM - Belo Horizonte - MG - 99.1 Mhz",
+        "url": "https://8062.brasilstream.com.br/stream?origem=task_site",
+        "votes": 357
+      },
+      "variants": [
+        {
+          "stationuuid": "aba56ee3-be9c-4b85-add0-c748b679fbfb",
+          "name": "Jovem Pan BH",
+          "url": "https://8062.brasilstream.com.br/stream",
+          "votes": 5,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ba140809-2992-40de-b48c-3142be2d6836",
+        "name": "Rádio MGT Brasil Hits",
+        "url": "https://cast.mgtradio.net/radio/8030/aac",
+        "votes": 351
+      },
+      "variants": [
+        {
+          "stationuuid": "bfcdd1a3-5e7f-4b26-ac78-3717a48f51f5",
+          "name": "MGT BRASIL HITS",
+          "url": "https://cast.mgtradio.net/radio/8030/aac",
+          "votes": 97,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fd792bab-3d55-4396-9c5d-81e122eb5edd",
+        "name": "Jovem Pan FM - Sorocaba 91.1",
+        "url": "https://cast2.hoost.com.br:8039/stream",
+        "votes": 350
+      },
+      "variants": [
+        {
+          "stationuuid": "ed0de608-fb9a-49ab-9fd9-91609929be1d",
+          "name": "Rádio Jovem Pan 91.1 FM",
+          "url": "https://cast2.hoost.com.br:8039/stream",
+          "votes": 57,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ee7de2e3-67c5-4f3b-81f2-a36d0c0b37d5",
+        "name": "Rádio Sertaneja Raiz",
+        "url": "http://station.radionanet.com:8330/stream?1713376151781",
+        "votes": 322
+      },
+      "variants": [
+        {
+          "stationuuid": "b98c8ab0-5378-4a4f-806b-fc58589f6366",
+          "name": "Rádio Sertaneja Raiz",
+          "url": "http://station.radionanet.com:8330/stream?1713376151781",
+          "votes": 97,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0bceb6bd-da64-4225-b027-6a12e8c69ffd",
+        "name": "MGT SERTANEJO UNIVERSITÁRIO",
+        "url": "https://cast.mgtradio.net/radio/8020/aac",
+        "votes": 292
+      },
+      "variants": [
+        {
+          "stationuuid": "ed69a3ed-5a8a-4807-89f6-4705bcf77f17",
+          "name": "Rádio MGT Universitário",
+          "url": "https://cast.mgtradio.net/radio/8020/aac",
+          "votes": 74,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "857ea54d-534c-41c1-b361-a3b016a50664",
+        "name": "Rádio Gospel Hits",
+        "url": "https://servidor37.brlogic.com:7068/live",
+        "votes": 282
+      },
+      "variants": [
+        {
+          "stationuuid": "683c805d-7c30-43a9-bf51-80ee5f001565",
+          "name": "Rádio Gospel Hits",
+          "url": "https://servidor37.brlogic.com:7068/live",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0cec73fd-1690-42ad-9269-0c2d6b390820",
+        "name": "Clube FM Brasilia",
+        "url": "https://8157.brasilstream.com.br/stream",
+        "votes": 227
+      },
+      "variants": [
+        {
+          "stationuuid": "07b05c0b-a80b-4654-8e60-a6f8128a613d",
+          "name": "CLUBE FM BRASILIA",
+          "url": "https://8157.brasilstream.com.br/stream",
+          "votes": 108,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "26075833-3f0f-4763-a03e-6ada55e1ab39",
+          "name": "CLUBE FM BRASILIA",
+          "url": "https://8157.brasilstream.com.br/stream",
+          "votes": 92,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "96ed68e5-a506-435d-98c8-82f37a6bfbe5",
+          "name": "Rádio Clube 105.5 FM",
+          "url": "https://8157.brasilstream.com.br/stream",
+          "votes": 28,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4e265a9e-1f74-4269-b550-5510a56920f6",
+        "name": "Classic Pan",
+        "url": "https://stream.zeno.fm/rtk4pzcome3vv",
+        "votes": 224
+      },
+      "variants": [
+        {
+          "stationuuid": "ec7f9536-9cb2-4112-9f0a-b76c27bd3211",
+          "name": "Classic Pan",
+          "url": "https://stream.zeno.fm/rtk4pzcome3vv",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "13dea9bd-e0f0-4bd6-b5f1-f56ed8a91f45",
+        "name": "89 Goiânia",
+        "url": "https://ice.fabricahost.com.br/89aradiorockgo",
+        "votes": 185
+      },
+      "variants": [
+        {
+          "stationuuid": "56b29eb1-f513-49ef-a6d4-4c46e0a2f4b0",
+          "name": "89 Rock Goiânia",
+          "url": "https://ice.fabricahost.com.br/89aradiorockgo",
+          "votes": 64,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "61ce9de7-6d67-4bad-bd00-11ec8db1da48",
+        "name": "Ouvindo a Bilbia",
+        "url": "http://v3.directradios.com:8235/stream",
+        "votes": 181
+      },
+      "variants": [
+        {
+          "stationuuid": "eaec8346-31ce-4047-98bf-f4960f8f605a",
+          "name": "Ouvindo a Biblia ",
+          "url": "http://v3.directradios.com:8235/stream",
+          "votes": 76,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9b8557b3-565b-11e8-b0ce-52543be04c81",
+        "name": "OverRock Rádio (Brasil)",
+        "url": "http://streaming06.hstbr.net:8008/live",
+        "votes": 178
+      },
+      "variants": [
+        {
+          "stationuuid": "f7ee9649-bff9-4b66-a7c8-2bdc8298971f",
+          "name": "OverRock Radio",
+          "url": "http://streaming06.hstbr.net:8008/live",
+          "votes": 20,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0a5bb413-0b38-4d42-8967-b7c680dae5c0",
+        "name": "Rádio Cidade FM 100.1 MHz (Juiz de Fora - MG)",
+        "url": "http://wz1.dnip.com.br/cidadefmjf/cidadefmjf.stream/playlist.m3u8",
+        "votes": 175
+      },
+      "variants": [
+        {
+          "stationuuid": "8089807a-1201-11e9-a80b-52543be04c81",
+          "name": "Radio Cidade JF",
+          "url": "http://wz1.dnip.com.br/cidadefmjf/cidadefmjf.stream/playlist.m3u8",
+          "votes": 114,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a8e3ff95-272d-47d4-b5db-a2f2723abb5f",
+        "name": "Estilo FM Litoral 93.3 Mhz (Cubatão - SP) (ZYU943)",
+        "url": "https://cloud1.cdnseguro.com:20492/stream",
+        "votes": 173
+      },
+      "variants": [
+        {
+          "stationuuid": "0fead09a-0739-46e1-88b6-fa4617ad688b",
+          "name": "Estilo FM 86.7",
+          "url": "https://cloud1.cdnseguro.com:20492/stream",
+          "votes": 42,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "360ca421-3424-43a5-ae9e-9a239f6db472",
+        "name": "MGT LOVE HITS",
+        "url": "https://cast.mgtradio.net/radio/8010/aac",
+        "votes": 170
+      },
+      "variants": [
+        {
+          "stationuuid": "1ec78e38-9deb-4c9a-8db6-97211d0dd1af",
+          "name": "MGT BRASIL HITS",
+          "url": "https://cast.mgtradio.net/radio/8010/aac",
+          "votes": 86,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "75d4a047-57f6-4717-bb36-600c9f2d1ac3",
+        "name": "Radio Amigos do Sertanejo ",
+        "url": "https://stm10.voxhd.com.br:7846/",
+        "votes": 167
+      },
+      "variants": [
+        {
+          "stationuuid": "91f47e52-5346-44d7-b6f8-6dd9e8cda89c",
+          "name": "Radio Amigos do Rock Nacional ",
+          "url": "https://stm10.voxhd.com.br:7846/",
+          "votes": 61,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "551809da-6ea1-4d15-8d06-5a1e134ccd0e",
+          "name": "Rádio Amigos do Sertanejo ",
+          "url": "https://stm10.voxhd.com.br:7846/",
+          "votes": 46,
+          "differs": [
+            "name",
+            "bitrate",
+            "codec"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "982497ba-0b80-4597-9ea0-f9789ea6d5ef",
+        "name": "instrumentales",
+        "url": "https://protvradiostream.com:8350/live",
+        "votes": 150
+      },
+      "variants": [
+        {
+          "stationuuid": "ac7f60d4-3c41-4479-b6ad-d33e23d1470b",
+          "name": "instrumentales ",
+          "url": "https://protvradiostream.com:8350/live",
+          "votes": 96,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "77c0088f-9ae7-4bd3-a1de-edfc17f5ce86",
+        "name": "Jovem Pan FM - Brasília - DF - 106.3",
+        "url": "https://shout25.crossradio.com.br:18022/1",
+        "votes": 140
+      },
+      "variants": [
+        {
+          "stationuuid": "f2b280eb-dfd6-4642-af2b-5b4293c2c80c",
+          "name": "Jovem Pan FM - Vitória - ES - 100.1",
+          "url": "https://shout25.crossradio.com.br:18022/1",
+          "votes": 24,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "851ebe29-95da-4047-b846-d2dd99dd812a",
+        "name": "Radio Nuevo Tiempo",
+        "url": "http://stream.novotempo.com:1935/radio/radionuevotiempo.stream/live.m3u8",
+        "votes": 138
+      },
+      "variants": [
+        {
+          "stationuuid": "5ff19ebb-456d-4e8f-be24-b1115eb93cc5",
+          "name": "Radio Nuevo Tiempo",
+          "url": "http://stream.novotempo.com:1935/radio/radionuevotiempo.stream/live.m3u8",
+          "votes": 60,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a82af1f3-f11f-4465-b810-4bfc761e8a91",
+        "name": "Radio Pampa",
+        "url": "https://cast4.audiostream.com.br:2653/mp3",
+        "votes": 133
+      },
+      "variants": [
+        {
+          "stationuuid": "7705406b-b0d2-4a0d-88bc-ff841ca2b6f7",
+          "name": "Radio Pampa",
+          "url": "https://cast4.audiostream.com.br:2653/mp3",
+          "votes": 86,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9a4e3bac-30ae-47c8-af63-338741d13208",
+        "name": "Radio Terra 1330",
+        "url": "https://cloud1.cdnseguro.com:16020/stream",
+        "votes": 123
+      },
+      "variants": [
+        {
+          "stationuuid": "09c5b168-6d8c-451f-aa9b-f233e57c8c7e",
+          "name": "Terra 1330",
+          "url": "https://cloud1.cdnseguro.com:16020/stream",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cd2aedbd-acca-453b-a7cb-b1d6075dfd22",
+        "name": "Nova Brasil RJ 89.5",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/NOVABRASIL_RIOAAC.aac",
+        "votes": 116
+      },
+      "variants": [
+        {
+          "stationuuid": "abd14170-1077-4330-b0a6-91a2f389310d",
+          "name": "Rádio Nova Paradiso Rio",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/NOVABRASIL_RIOAAC.aac",
+          "votes": 27,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "46e300c2-4013-4442-baa0-eeaae28cff1f",
+        "name": "Light FM 103.9 MHz ZYC699 (Belo Horizonte - MG)",
+        "url": "https://8231.brasilstream.com.br/stream",
+        "votes": 114
+      },
+      "variants": [
+        {
+          "stationuuid": "3e149c5e-8895-40f2-be86-865b8740ed83",
+          "name": "Rádio Light 103.9 FM",
+          "url": "https://8231.brasilstream.com.br/stream?1771879486925",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3dcc5ceb-7bb4-4bf4-9270-4a6ee5c18a79",
+        "name": "Jovem Pan FM Campinas - 89.9",
+        "url": "https://paineldj5.com.br:20028/stream",
+        "votes": 108
+      },
+      "variants": [
+        {
+          "stationuuid": "daa0ac04-a9c4-4297-bcf1-778ccda6e4eb",
+          "name": "Rádio Jovem Pan 94.3 FM",
+          "url": "https://paineldj5.com.br:20028/stream",
+          "votes": 72,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8786fdf7-a25b-45b1-a42d-47f2b27a7ea7",
+        "name": "Diário FM -Ribeirão Preto",
+        "url": "https://rrdns-megasistema.webnow.com.br/diario.aac?v=5499",
+        "votes": 103
+      },
+      "variants": [
+        {
+          "stationuuid": "ba4e0d3a-809f-4714-93a8-da9e0d1c2e56",
+          "name": "Primeira Linha Web Rádio",
+          "url": "https://rrdns-megasistema.webnow.com.br/diario.aac?v=5499",
+          "votes": 79,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2c3bf58f-fd12-4e93-bcde-4d7f1899faf1",
+        "name": "GFM Salvador Bahia FM 90.1",
+        "url": "https://ice.fabricahost.com.br/radiogfm",
+        "votes": 103
+      },
+      "variants": [
+        {
+          "stationuuid": "b645ffbd-f6c6-4de7-90c3-d927bfb139a3",
+          "name": "GFM 90.1 MHz (Salvador - BA)",
+          "url": "https://ice.fabricahost.com.br/radiogfm",
+          "votes": 64,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "dca8ebc1-6e62-4341-b18a-4bf2b136b596",
+          "name": "Rádio GFM Salvador ",
+          "url": "https://ice.fabricahost.com.br/radiogfm",
+          "votes": 38,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "11ba94f2-fcd0-441e-ad30-4d29335d5715",
+          "name": "GFM Salvador ",
+          "url": "https://ice.fabricahost.com.br/radiogfm",
+          "votes": 33,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "48c86e7c-585c-45b4-a847-f01e9050c2f4",
+          "name": "Radio GFM - Rede Bahia",
+          "url": "https://ice.fabricahost.com.br/radiogfm",
+          "votes": 27,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e2f1a191-390e-46e2-893f-d92f6cc64844",
+        "name": "Melody 94.1 FM",
+        "url": "https://sc4s.cdn.upx.com:8080/stream",
+        "votes": 102
+      },
+      "variants": [
+        {
+          "stationuuid": "13af9d39-0f7d-4bbb-a0d6-9b50766e59d2",
+          "name": "Melody 94.1",
+          "url": "https://sc4s.cdn.upx.com:8080/stream",
+          "votes": 71,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "44a3af12-3436-477e-9e23-1f6f6866f800",
+          "name": "Melody FM - Brasil",
+          "url": "https://sc4s.cdn.upx.com:8080/stream",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "15fe7749-d688-4d38-8a05-4a2275ce5887",
+        "name": "Rádio BBN 92.3 FM",
+        "url": "https://audio-edge-es6pf.mia.g.radiomast.io/ec065d59-f358-48c9-a288-4efc797e5860",
+        "votes": 101
+      },
+      "variants": [
+        {
+          "stationuuid": "0a5d2b65-6a31-40b2-b577-ba462db52517",
+          "name": "Rádio BBN 93.5 FM",
+          "url": "https://audio-edge-es6pf.mia.g.radiomast.io/ec065d59-f358-48c9-a288-4efc797e5860",
+          "votes": 37,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "7129dc48-853d-465c-a179-f429141694e3",
+          "name": "Rádio BBN 94.7 FM",
+          "url": "https://audio-edge-es6pf.mia.g.radiomast.io/ec065d59-f358-48c9-a288-4efc797e5860",
+          "votes": 33,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "2e8a3aae-ef0e-410f-841f-42638f6db041",
+          "name": "Rádio BBN 96.1 FM",
+          "url": "https://audio-edge-es6pf.mia.g.radiomast.io/ec065d59-f358-48c9-a288-4efc797e5860",
+          "votes": 28,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "81354afe-a1d2-40c6-87f7-f38b170caf4c",
+        "name": "Amigos de Cristo Web Rádio ",
+        "url": "http://sv14.hdradios.net:6860/;?type=http&nocache=38",
+        "votes": 99
+      },
+      "variants": [
+        {
+          "stationuuid": "577c0241-1921-4fb5-a636-84eb589556ea",
+          "name": "Amigos de Cristo Web Rádio ",
+          "url": "http://sv14.hdradios.net:6860/;?type=http&nocache=38",
+          "votes": 88,
+          "differs": []
+        },
+        {
+          "stationuuid": "78c70614-efd3-48be-8e13-f7e900ff0814",
+          "name": "Amigos de Cristo Web Rádio ",
+          "url": "http://sv14.hdradios.net:6860/;?type=http&nocache=38",
+          "votes": 57,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7651908c-689c-4887-82b7-9a0f03ad3148",
+        "name": "Alpha FM 102.1 MHz (Goiânia - GO)",
+        "url": "https://ice.fabricahost.com.br/alphafm1021",
+        "votes": 96
+      },
+      "variants": [
+        {
+          "stationuuid": "6443cf6c-2483-4c1b-b407-11ef4721eb34",
+          "name": "Rádio Alpha 102.1 FM Goiânia / GO - Brasil",
+          "url": "https://ice.fabricahost.com.br/alphafm1021",
+          "votes": 27,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b5c3dafa-079d-44fa-84db-f1352f458a67",
+        "name": "FM93 Fortaleza",
+        "url": "http://zoeweb.net:8176/stream",
+        "votes": 96
+      },
+      "variants": [
+        {
+          "stationuuid": "6b3092d4-bbfc-4f72-98c9-bc70958def7f",
+          "name": "Rádio 93 FM",
+          "url": "http://zoeweb.net:8176/stream",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "085fb651-592e-426f-8fd7-cbc968d2d08c",
+        "name": "101.9 Radio Educativa - Campinas",
+        "url": "http://streaming.ima.sp.gov.br:8000/educativa.mp3",
+        "votes": 92
+      },
+      "variants": [
+        {
+          "stationuuid": "0af18d21-3ea0-46b9-85e2-12c82486da62",
+          "name": "Radio Educativa FM",
+          "url": "http://streaming.ima.sp.gov.br:8000/educativa.mp3",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "596d9a37-d1ba-45d8-b149-86503dedf4bf",
+        "name": "Rádio USP 93.7 FM",
+        "url": "https://flow.emm.usp.br:8008/radiousp-128.mp3",
+        "votes": 91
+      },
+      "variants": [
+        {
+          "stationuuid": "b09e4efe-a1c0-4cd4-8994-b4edf32dc5ed",
+          "name": "Rádio USP 93.7 FM",
+          "url": "https://flow.emm.usp.br:8008/radiousp-128.mp3",
+          "votes": 53,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8fc97442-bf24-42c0-8e77-22e3d176ea0d",
+        "name": "Radio Goioere FM 97,5",
+        "url": "https://8727.omegastreaming.com.br/stream?",
+        "votes": 86
+      },
+      "variants": [
+        {
+          "stationuuid": "d6d40afc-f293-43b4-8b12-072ff1f6610f",
+          "name": "GOIOERE FM 97,5",
+          "url": "https://8727.omegastreaming.com.br/stream?",
+          "votes": 52,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "84723061-7f45-4ac6-b724-06eb68fdccfe",
+        "name": "Imperial FM",
+        "url": "http://elle.martinspier.io/hls/imperial.m3u8",
+        "votes": 76
+      },
+      "variants": [
+        {
+          "stationuuid": "b5785712-98a0-468b-9343-7c681084c391",
+          "name": "Imperial FM 104.5",
+          "url": "http://elle.martinspier.io/hls/imperial.m3u8",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2fad40a8-8129-42aa-960a-5a5896433efd",
+        "name": "musical fm 2",
+        "url": "https://9176.brasilstream.com.br/stream",
+        "votes": 72
+      },
+      "variants": [
+        {
+          "stationuuid": "8e031e7a-9e17-44d1-a2e1-ccdb3e830eb5",
+          "name": "Musical FM 105.7",
+          "url": "https://9176.brasilstream.com.br/stream",
+          "votes": 63,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7d5d84ac-e01b-413b-a9b0-a491c74b7af2",
+        "name": "Rádio Digital Bahia ",
+        "url": "http://stm1.tcmcast.com.br:7050/",
+        "votes": 71
+      },
+      "variants": [
+        {
+          "stationuuid": "47dc77f7-b8b6-421a-aa54-95f10a07c3ed",
+          "name": "rádio Digital",
+          "url": "http://stm1.tcmcast.com.br:7050/",
+          "votes": 20,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "fa3a94f1-b368-4434-a724-bec9f645dd94",
+          "name": "rádio Digital fm",
+          "url": "http://stm1.tcmcast.com.br:7050/",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "a440a7cf-77a4-4ce3-8b4d-c0eb02698117",
+          "name": "Rádio Digital fm ",
+          "url": "http://stm1.tcmcast.com.br:7050/",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f1b4a5bc-14f7-4694-a48a-8cf1e101e8c8",
+          "name": "Rádio Digital ",
+          "url": "http://stm1.tcmcast.com.br:7050/",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ccb316a9-c480-4d86-9800-0e0609b46b85",
+          "name": "rádio Digital",
+          "url": "http://stm1.tcmcast.com.br:7050/",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8ee67b0d-757c-4adc-83db-5ab5e26ba2b7",
+        "name": "Mundial Rock",
+        "url": "https://azura.mundialmusic.net/radio/8010/radio.mp3",
+        "votes": 69
+      },
+      "variants": [
+        {
+          "stationuuid": "799c16c7-74b1-49f6-ba60-7b16e80d5cb9",
+          "name": "Mundial Rock",
+          "url": "https://azura.mundialmusic.net/radio/8010/radio.mp3",
+          "votes": 35,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "add7eaa7-3b88-4057-b989-33aef9957272",
+        "name": "Rádio Olavo de Carvalho",
+        "url": "https://radio.liv.fran.nom.br/radio",
+        "votes": 68
+      },
+      "variants": [
+        {
+          "stationuuid": "d5ab0db6-830d-42fa-bd4a-8ef73ca1b41d",
+          "name": "Rádio Olavo de Carvalho",
+          "url": "https://radio.liv.fran.nom.br/radio",
+          "votes": 51,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e4bb67e1-925b-4fea-aedb-79ebe0f2f403",
+        "name": "Rádio Forró ",
+        "url": "https://stm5.painelcast.com:7600/stream",
+        "votes": 68
+      },
+      "variants": [
+        {
+          "stationuuid": "75171a08-0b7e-4aea-a15a-b761c41b5ae2",
+          "name": "Rádio Forró ",
+          "url": "https://stm5.painelcast.com:7600/stream",
+          "votes": 10,
+          "differs": []
+        },
+        {
+          "stationuuid": "46caf738-9e39-4882-8102-93c31d2c0585",
+          "name": "Rádio Forró",
+          "url": "https://stm5.painelcast.com:7600/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "625a8b32-54e2-4458-b06d-a14157aa57f7",
+        "name": "Radio Nova Instrumental ",
+        "url": "https://streaming.radioempresabrasil.com.br/proxy/novainstrumental/stream",
+        "votes": 67
+      },
+      "variants": [
+        {
+          "stationuuid": "8a600121-77ef-465a-a348-b814f056ed9e",
+          "name": "Radio Nova Instrumental ",
+          "url": "https://streaming.radioempresabrasil.com.br/proxy/novainstrumental/stream",
+          "votes": 64,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7b659f56-336e-4712-8b9f-2d84d470b2c1",
+        "name": "Radio Auriverde Brasil",
+        "url": "https://stm2.conectastreaming.com:7030/stream",
+        "votes": 67
+      },
+      "variants": [
+        {
+          "stationuuid": "ba709b6b-49b9-4b56-b87c-a5442fe62665",
+          "name": "Radio Auriverde Bauru",
+          "url": "https://stm2.conectastreaming.com:7030/stream",
+          "votes": 36,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c73234c4-7c65-4ee4-a4da-e0fdb20f02f8",
+          "name": "Radio Auriverde Bauru",
+          "url": "https://stm2.conectastreaming.com:7030/stream",
+          "votes": 30,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2d5168a3-7e43-483c-9522-9d0989ddc3a8",
+        "name": "Rádio Liderança FM",
+        "url": "https://webradio.amsolution.com.br/radio/8320/lideranca",
+        "votes": 65
+      },
+      "variants": [
+        {
+          "stationuuid": "dbb7686a-2a06-4e0c-945a-7443617565fa",
+          "name": "RADIO LIDERANCA",
+          "url": "https://webradio.amsolution.com.br/radio/8320/lideranca",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "edd4ab52-ffef-4921-b70d-9c4d52b474ec",
+          "name": "RADIO LIDERANCA",
+          "url": "https://webradio.amsolution.com.br/radio/8320/lideranca",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e314945d-718e-11e8-83fa-52543be04c81",
+        "name": "Uniao FM",
+        "url": "http://stream.ouveai.com.br:8053/stream",
+        "votes": 64
+      },
+      "variants": [
+        {
+          "stationuuid": "826efd63-2c15-4721-a182-2ca6362ed26f",
+          "name": "Uniao FM",
+          "url": "http://stream.ouveai.com.br:8053/stream",
+          "votes": 14,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bbd8df92-6a8d-476b-b611-cf65ae1e5169",
+        "name": "Rádio CBN Vale 750 AM",
+        "url": "https://8018.brasilstream.com.br/stream",
+        "votes": 62
+      },
+      "variants": [
+        {
+          "stationuuid": "c1fb5788-5031-4eeb-bbc9-e08a8e9878df",
+          "name": "CBN Vale",
+          "url": "https://8018.brasilstream.com.br/stream",
+          "votes": 42,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "75cc8fdf-6cf1-4dfb-b90f-1ee693988ff8",
+        "name": "CBN Recife",
+        "url": "https://video09.logicahost.com.br/cbnrecife/cbnrecife/playlist.m3u8",
+        "votes": 56
+      },
+      "variants": [
+        {
+          "stationuuid": "c9b3e557-2215-49d0-9997-2b5ba6f1deab",
+          "name": "CBN Recife",
+          "url": "https://video09.logicahost.com.br/cbnrecife/cbnrecife/playlist.m3u8",
+          "votes": 44,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "68ceb8ad-604b-4232-90d3-cc89fe9c141a",
+        "name": "Rádio Metropole",
+        "url": "https://listen.radioking.com/radio/268642/stream/313975",
+        "votes": 55
+      },
+      "variants": [
+        {
+          "stationuuid": "ed074046-2fd9-483f-9511-e00da77469b9",
+          "name": "Rádio Metrópole FM 101.3 Salvador",
+          "url": "https://listen.radioking.com/radio/268642/stream/313975",
+          "votes": 45,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6ccae6b1-9d55-44e6-9037-106fd9e6d192",
+        "name": "Rádio Cristã Online",
+        "url": "https://servidor40.brlogic.com:8004/live",
+        "votes": 55
+      },
+      "variants": [
+        {
+          "stationuuid": "5f873558-7062-4a38-8281-989c367bc6d2",
+          "name": "Rádio Cristã Online",
+          "url": "https://servidor40.brlogic.com:8004/live",
+          "votes": 12,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d7aa98a3-072a-4336-be1a-6dc1cac59777",
+        "name": "RTM Brasil",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIOTRANSMUNDIALAAC_SC",
+        "votes": 54
+      },
+      "variants": [
+        {
+          "stationuuid": "86089540-925b-4dd8-8e12-d69c9308386c",
+          "name": "Rádio Trans Mundial - RTM",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIOTRANSMUNDIALAAC_SC",
+          "votes": 35,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bc0d26be-3ac9-4e98-954b-a65919b528c0",
+        "name": "Rádio yeshua 103.5 FM WEB",
+        "url": "https://stm24.srvaudio.com.br:9306/;",
+        "votes": 53
+      },
+      "variants": [
+        {
+          "stationuuid": "a4891efa-33b2-4ea2-94fa-a21ae01793b3",
+          "name": "Rádio yeshua 103.5 FM WEB",
+          "url": "https://stm24.srvaudio.com.br:9306/;",
+          "votes": 13,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "eeacb245-039b-4706-8775-07f31e712a71",
+        "name": "Rádio Educadora 91.7 FM",
+        "url": "https://stm22.xcast.com.br:11282/stream",
+        "votes": 50
+      },
+      "variants": [
+        {
+          "stationuuid": "24e1cc35-e8bb-4eef-9cf4-56227e8e17e8",
+          "name": "Educadora FM Campinas 91.7",
+          "url": "https://stm22.xcast.com.br:11282/stream",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "92d364fc-2bbe-48af-b0a5-847af1b0a1ec",
+        "name": "Rádio Sociedade News FM 102.1 Feira de Santana",
+        "url": "https://stream.zenolive.com/t799cry0yv8uv",
+        "votes": 50
+      },
+      "variants": [
+        {
+          "stationuuid": "3e87cb57-27a0-4344-be4d-d8d20a7f4587",
+          "name": "Rádio 95 FM 95.7 Alagoinhas",
+          "url": "https://stream.zenolive.com/t799cry0yv8uv",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "de01b857-ebe0-44fc-87c2-23db583ccd3b",
+        "name": "Tribuna soft FM 90,1",
+        "url": "https://ice.fabricahost.com.br/tribunafm",
+        "votes": 47
+      },
+      "variants": [
+        {
+          "stationuuid": "d003d1f3-380e-451d-ad8f-2810ec731c60",
+          "name": "Radio Soft Tribuna FM",
+          "url": "https://ice.fabricahost.com.br/tribunafm",
+          "votes": 36,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "51934ab2-c15b-489b-b411-0767cf7ee590",
+        "name": "Rádio 89 FM",
+        "url": "https://streaming.livespanel.com:8990/stream",
+        "votes": 47
+      },
+      "variants": [
+        {
+          "stationuuid": "5b4029cc-f604-4162-9ff9-841a65aa6d1d",
+          "name": "Rádio 89 FM",
+          "url": "https://streaming.livespanel.com:8990/stream",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d1c70e9c-6703-4f1d-9db2-fb095d8aacc9",
+        "name": "93,3 FM (Barbacena MG)",
+        "url": "https://sws.onradio.biz/8126/stream",
+        "votes": 46
+      },
+      "variants": [
+        {
+          "stationuuid": "beae34f5-a369-4dc9-99ae-a419313c601c",
+          "name": "93.3 FM (Barbacena)",
+          "url": "https://sws.onradio.biz/8126/stream?1746145643130",
+          "votes": 8,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5b875634-78cf-429f-acd3-43f2e3e6cab2",
+        "name": ".Quran",
+        "url": "https://backup.qurango.net/radio/ahmad_khader_altarabulsi",
+        "votes": 45
+      },
+      "variants": [
+        {
+          "stationuuid": "4d88b122-6b5c-45ee-964a-01800b76f9bf",
+          "name": ".Quran",
+          "url": "https://backup.qurango.net/radio/ahmad_khader_altarabulsi",
+          "votes": 38,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "10440c1d-0efd-4bc0-bc89-a12bdb854871",
+        "name": "104 FM Natal",
+        "url": "https://radios.braviahost.com.br:8000/radio.mp3",
+        "votes": 44
+      },
+      "variants": [
+        {
+          "stationuuid": "29d98505-7966-4807-8265-08dc4f46d0a9",
+          "name": "104 FM Natal",
+          "url": "https://radios.braviahost.com.br:8000/radio.mp3",
+          "votes": 31,
+          "differs": []
+        },
+        {
+          "stationuuid": "f8dad9f0-2871-4edb-a9f8-1fbb8f6c02bd",
+          "name": "Rádio 104 FM Natal RN",
+          "url": "https://radios.braviahost.com.br:8000/radio.mp3?1732983388728",
+          "votes": 17,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "a50d8a1a-70c8-40fa-be7a-591618cc8688",
+          "name": "Radio 104 FM Natal",
+          "url": "https://radios.braviahost.com.br:8000/radio.mp3",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b220458a-5559-49c7-9e46-6cbd1f28641f",
+          "name": "104.7 FM Natal RN Brazil",
+          "url": "https://radios.braviahost.com.br:8000/radio.mp3",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "a8ab203e-df01-4d80-9f09-481eafbc8af9",
+          "name": "104.7 FM Natal RN Brazil",
+          "url": "https://radios.braviahost.com.br:8000/radio.mp3",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2e51f45c-b9d2-4ade-8603-d9592750d505",
+        "name": "Rádio Som Brega ",
+        "url": "https://stm5.painelcast.com:7588/stream",
+        "votes": 42
+      },
+      "variants": [
+        {
+          "stationuuid": "f4a005b8-b99d-4234-bc06-0d7aa166e941",
+          "name": "Rádio Som Brega ",
+          "url": "https://stm5.painelcast.com:7588/stream",
+          "votes": 8,
+          "differs": []
+        },
+        {
+          "stationuuid": "54dcac6e-fd71-42e2-9705-4f455c0bdf43",
+          "name": "Rádio Som Brega",
+          "url": "https://stm5.painelcast.com:7588/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b5872bd0-4a97-4b34-a637-5b14b4f882af",
+        "name": "Zeno ",
+        "url": "https://stream-169.zeno.fm/0anygxe1b1duv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiIwYW55Z3hlMWIxZHV2IiwiaG9zdCI6InN0cmVhbS0xNjkuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6InZMNHZGcFJuU0YtWjFsSlV1WEtFdkEiLCJpYXQiOjE",
+        "votes": 40
+      },
+      "variants": [
+        {
+          "stationuuid": "827606d8-7a80-46e3-bfb0-5728bef9b41b",
+          "name": "zero ",
+          "url": "https://stream-169.zeno.fm/0anygxe1b1duv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiIwYW55Z3hlMWIxZHV2IiwiaG9zdCI6InN0cmVhbS0xNjkuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6InZMNHZGcFJuU0YtWjFsSlV1WEtFdkEiLCJpYXQiOjE",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "86e9afc9-e7bd-4864-87ab-58166e97662d",
+        "name": "94 FM Natal | Rádio Cidade",
+        "url": "https://cidadedosolaac.jmvstream.com/stream",
+        "votes": 40
+      },
+      "variants": [
+        {
+          "stationuuid": "3bf3d027-13a8-4840-9281-067d48c64b7c",
+          "name": "Rádio Cidade 94.3 FM Natal RN",
+          "url": "https://cidadedosolaac.jmvstream.com/stream?1732978147095",
+          "votes": 15,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "50cfb4f4-f96d-43af-9c7c-2f258382eb17",
+        "name": "Rádio UFRJ",
+        "url": "https://servidor21.brlogic.com:7712/live",
+        "votes": 38
+      },
+      "variants": [
+        {
+          "stationuuid": "82d7e115-be83-4cfc-93e6-3106e81146e1",
+          "name": "Rádio UFRJ",
+          "url": "https://servidor21.brlogic.com:7712/live",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0b3ea1b5-5231-42d8-8604-698481cf7716",
+        "name": "Hunter FM - Master",
+        "url": "https://live.hunter.fm/master_normal",
+        "votes": 37
+      },
+      "variants": [
+        {
+          "stationuuid": "622178e5-affd-435d-ae92-a332bec53328",
+          "name": "Hunter.FM - O Canal Master",
+          "url": "https://live.hunter.fm/master_normal",
+          "votes": 30,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6d24d90c-8a8b-447c-a8d6-514fd4bff799",
+        "name": "Rádio Hospício Tricolor",
+        "url": "https://servidor39.brlogic.com:8624/live#.mp3",
+        "votes": 35
+      },
+      "variants": [
+        {
+          "stationuuid": "25bea8ca-2f20-4c87-aae3-df6cb527cad0",
+          "name": "Rádio HT",
+          "url": "https://servidor39.brlogic.com:8624/live",
+          "votes": 21,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7eb61a59-81e7-45ca-a32e-3114853d0916",
+        "name": "Radio Viva 94.5",
+        "url": "https://r6.ciclano.io:15030/stream",
+        "votes": 33
+      },
+      "variants": [
+        {
+          "stationuuid": "c922d499-dba3-47e0-814b-7a264dd8cf59",
+          "name": "Rádio Viva 94.5 FM",
+          "url": "https://r6.ciclano.io:15030/stream",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aeae9162-babb-4c40-8e08-ce22dbbf08fe",
+        "name": "Radio Ativa Bom Despacho",
+        "url": "http://148.72.158.239:8036/live",
+        "votes": 32
+      },
+      "variants": [
+        {
+          "stationuuid": "13375421-d98f-4cfe-884c-e46973e90943",
+          "name": "Radio Ativa Bom Despacho",
+          "url": "http://148.72.158.239:8036/live",
+          "votes": 23,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7c1cc836-6e47-4675-beb4-ee8ca29f04e0",
+        "name": "NuMetal 1.0 - JubsTones ",
+        "url": "https://stream.zeno.fm/zg3ps1ckoeiuv",
+        "votes": 32
+      },
+      "variants": [
+        {
+          "stationuuid": "c32673b7-7ab4-4c84-b53a-a2df17afe6d6",
+          "name": "NuMetal 1.0 -JubsTones ",
+          "url": "https://stream.zeno.fm/zg3ps1ckoeiuv",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b9ab2a19-2a03-4a59-928f-73b8b056891b",
+        "name": "Sete Colinas FM 101.7",
+        "url": "https://8300.brasilstream.com.br/stream",
+        "votes": 32
+      },
+      "variants": [
+        {
+          "stationuuid": "bbb9fb30-79fa-44cf-abeb-24907fca9f0c",
+          "name": "Sete Colinas FM 101.7",
+          "url": "https://8300.brasilstream.com.br/stream",
+          "votes": 11,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "571d68cb-0a54-4e1c-83f6-6f3ef95b5dbb",
+        "name": "Santa Bárbara FM 95,9",
+        "url": "https://servidor36-4.brlogic.com:8474/live",
+        "votes": 31
+      },
+      "variants": [
+        {
+          "stationuuid": "44cab11b-3b59-4728-a0dc-eee04b6d341a",
+          "name": "Santa Barbara FM",
+          "url": "https://servidor36-4.brlogic.com:8474/live?source=website",
+          "votes": 11,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "0b696180-1aa1-4210-b401-f3946eb72b30",
+          "name": "Santa Barbara FM",
+          "url": "https://servidor36-4.brlogic.com:8474/live?source=website",
+          "votes": 7,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2dd3edfc-24ca-11e9-a80b-52543be04c81",
+        "name": "Diplomata-FM",
+        "url": "http://srv01.brasilstream.com.br:9512/stream",
+        "votes": 31
+      },
+      "variants": [
+        {
+          "stationuuid": "29d075ba-a741-4d45-be7e-3d03fa242ef9",
+          "name": "Diplomata 105,3 FM",
+          "url": "http://srv01.brasilstream.com.br:9512/stream",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "13b213ed-ae5d-4a54-af07-53f5814411f7",
+        "name": "Mix Fm Teresina",
+        "url": "https://webradio.amsolution.com.br/radio/8080/mix",
+        "votes": 29
+      },
+      "variants": [
+        {
+          "stationuuid": "4afd3392-e88a-4675-a10d-9e3c3a466cec",
+          "name": "Mix Fm Teresina",
+          "url": "https://webradio.amsolution.com.br/radio/8080/mix",
+          "votes": 17,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bb6ba0d5-294b-46e2-ba53-822d26655b8d",
+        "name": "Rádio Sertaneja ",
+        "url": "https://stm5.painelcast.com:7584/stream",
+        "votes": 29
+      },
+      "variants": [
+        {
+          "stationuuid": "36de98f9-00ae-451d-9c55-7fd25b6e3ec2",
+          "name": "Rádio Sertaneja ",
+          "url": "https://stm5.painelcast.com:7584/stream",
+          "votes": 5,
+          "differs": []
+        },
+        {
+          "stationuuid": "653b4b2a-399e-4ab6-9fbb-864503d23a2b",
+          "name": "Rádio Sertaneja",
+          "url": "https://stm5.painelcast.com:7584/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3700a67f-ae02-4aa6-8c5d-8a72f42e429f",
+        "name": "Conquista WebStation Brazil",
+        "url": "https://stream.zeno.fm/ecryaaflji9tv",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "62c15aba-1d58-4547-9cb5-f26d556e1f8a",
+          "name": "Conquista WebStation Brazil",
+          "url": "https://stream.zeno.fm/ecryaaflji9tv",
+          "votes": 18,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "faca1ae5-f170-4428-a0e7-b8ab6502f6bf",
+        "name": "Rádio Jornal 91.3 FM",
+        "url": "https://str1.streamhostpg.com.br:8124/stream",
+        "votes": 25
+      },
+      "variants": [
+        {
+          "stationuuid": "9c7a386f-8575-4f60-baae-f8c6db926fce",
+          "name": "Rádio Jornal 91.3 FM",
+          "url": "https://str1.streamhostpg.com.br:8124/stream?1771879202034",
+          "votes": 1,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8be73812-b293-41b3-9ce3-afe653d6df0c",
+        "name": "Terra FM 99.9 MHz ZYC730 (Belo Horizonte - MG)",
+        "url": "https://servidor28-2.brlogic.com:8424/live",
+        "votes": 23
+      },
+      "variants": [
+        {
+          "stationuuid": "eea8b3c4-241a-4c12-bcc6-23fa8781bc0b",
+          "name": "Rádio Terra FM 99.9",
+          "url": "https://servidor28-2.brlogic.com:8424/live?source=website",
+          "votes": 10,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "68d9bc8d-3014-4d93-8ed0-c2411e67d975",
+        "name": "No Mundo do Rock",
+        "url": "https://servidor34-1.brlogic.com:8014/live",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "872243e7-8c5e-47f8-a61c-7fe733ba35b3",
+          "name": "WEB RADIO NO MUNDO DO ROCK",
+          "url": "https://servidor34-1.brlogic.com:8014/live?source=website",
+          "votes": 12,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "371ed326-d331-4e2e-950c-7b1bd7b37ea8",
+        "name": "Rádio Marajá AM 660 kHz  - RFC -",
+        "url": "https://servidor28-1.brlogic.com:8028/live",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "ddcf7d66-4ea2-4983-a6e9-26d9cf0c798d",
+          "name": "Rádio Marajá AM 660 kHz - RFC -",
+          "url": "https://servidor28-1.brlogic.com:8028/live?source=website",
+          "votes": 10,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7a66305d-91cc-4274-a646-ff5179e3e6a1",
+        "name": "BandNews FM Belo Horizonte",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/BANDNEWSFM_BHAAC.aac",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "7379f99a-0f90-44a2-9f3c-fcc8fd9687a3",
+          "name": "BandNews FM Belo Horizonte",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/BANDNEWSFM_BHAAC.aac",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "08c8f693-71c7-4d98-92c8-9856a8d6b67d",
+        "name": "Rádio Católica ",
+        "url": "https://stm5.painelcast.com:7574/stream",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "2d632e1b-346b-43f7-9acf-fae672c7c6e1",
+          "name": "Rádio Católica ",
+          "url": "https://stm5.painelcast.com:7574/stream",
+          "votes": 3,
+          "differs": []
+        },
+        {
+          "stationuuid": "d5aa8e67-5c70-4d4e-a013-d0fe5128a196",
+          "name": "Rádio  Católica",
+          "url": "https://stm5.painelcast.com:7574/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5cdbc574-c119-4dec-8d18-acbf1a7b352d",
+        "name": "Rede 3.16",
+        "url": "https://servidor21.brlogic.com:7976/live?1661877997950",
+        "votes": 21
+      },
+      "variants": [
+        {
+          "stationuuid": "bda04c1b-4276-426a-b7fa-7b81beff0ddb",
+          "name": "Rádio Rede 3.16",
+          "url": "https://servidor21.brlogic.com:7976/live",
+          "votes": 11,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "82e68b11-9180-4790-a867-b284a65f7088",
+          "name": "Rede 3.16",
+          "url": "https://servidor21.brlogic.com:7976/live",
+          "votes": 9,
+          "differs": [
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "2c033065-4744-4d7d-8437-079345f11aa2",
+          "name": "Rede 3.16",
+          "url": "https://servidor21.brlogic.com:7976/live",
+          "votes": 7,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f13d5793-d1d7-446f-803a-2653c0518b8e",
+        "name": "Rádio Trianon 740 AM",
+        "url": "https://shout25.crossradio.com.br:18014/stream",
+        "votes": 21
+      },
+      "variants": [
+        {
+          "stationuuid": "7ee94a31-e83b-41fa-8937-daf8184a4323",
+          "name": "Rádio Trianon 740 AM",
+          "url": "https://shout25.crossradio.com.br:18014/stream?1771879759561",
+          "votes": 1,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1830bd70-742b-48ce-9d64-ed09d2a512f4",
+        "name": "Rádio Geografia Rock ",
+        "url": "https://servidor20.brlogic.com:7354/live",
+        "votes": 20
+      },
+      "variants": [
+        {
+          "stationuuid": "86ad5721-4ea2-4f7b-8f24-e1bd8ffdb096",
+          "name": "Rádio Geografia Rock ",
+          "url": "https://servidor20.brlogic.com:7354/live",
+          "votes": 15,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0e7401f2-cd63-4972-8801-2e1e1a999fa0",
+        "name": "voz do esporte 3",
+        "url": "https://paineldj.com.br:20172/stream",
+        "votes": 20
+      },
+      "variants": [
+        {
+          "stationuuid": "41977e1e-a0fc-4cba-ae28-db2f44497fb8",
+          "name": "voz do esporte 2",
+          "url": "https://paineldj.com.br:20172/stream",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "87b54a59-a332-497a-a052-2eca1dd4f78f",
+        "name": "Líder FM Santa Rosa",
+        "url": "https://servidor27-2.brlogic.com:8196/live?source=website",
+        "votes": 20
+      },
+      "variants": [
+        {
+          "stationuuid": "737ad5fc-a9f6-4244-9b7e-66463a551548",
+          "name": "Fema FM Santa Rosa",
+          "url": "https://servidor27-2.brlogic.com:8196/live?source=website",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9ee4ffcd-ac7f-4c09-98bf-91ce92782498",
+        "name": "Rádio Manawa",
+        "url": "http://161.97.82.133:8000/radio.mp3",
+        "votes": 20
+      },
+      "variants": [
+        {
+          "stationuuid": "5a148d35-69f3-4099-8c0f-ffc2f2d46687",
+          "name": "Rádio Manawa ",
+          "url": "http://161.97.82.133:8000/radio.mp3",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "76da0973-3269-4dd0-9e31-7b28d697812c",
+        "name": "Rádio Senado",
+        "url": "https://www12.senado.leg.br/radiosenado/fmaac/playlist.m3u8",
+        "votes": 20
+      },
+      "variants": [
+        {
+          "stationuuid": "2b0fe5cb-504a-489a-8c17-dd0ae888da14",
+          "name": "Rádio Senado",
+          "url": "https://www12.senado.leg.br/radiosenado/fmaac/playlist.m3u8",
+          "votes": 11,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b8aef1cd-4e76-4c99-a143-9e6cef694406",
+        "name": "POP MUSIC l Radio RighRise (Compre sua Radio - Instagram:@jpdofunk.ofc)",
+        "url": "https://jpdofunk3.com.br:8070/stream",
+        "votes": 20
+      },
+      "variants": [
+        {
+          "stationuuid": "40916b3d-ebb9-4d5b-bdcf-dcedea7722ab",
+          "name": "POP MUSIC l Radio RighRise (Compre sua Radio - Instagram:@jpdofunk.ofc)",
+          "url": "https://jpdofunk3.com.br:8070/stream",
+          "votes": 10,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7883f5ff-7977-4384-ba46-323b6d1c131c",
+        "name": "Digital FM 96.3",
+        "url": "https://8058.brasilstream.com.br/stream",
+        "votes": 20
+      },
+      "variants": [
+        {
+          "stationuuid": "7360b558-8f9d-4397-9996-92c531d85b73",
+          "name": "Digital FM",
+          "url": "https://8058.brasilstream.com.br/stream",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "65eca2ed-13fe-40a3-a197-74bac26e27da",
+        "name": "Rádio Paraiso FM 89,7",
+        "url": "https://str02.kfmidia.com.br:8084/stream",
+        "votes": 19
+      },
+      "variants": [
+        {
+          "stationuuid": "f8ea311b-cc42-4159-a0ee-4917b423f868",
+          "name": "Rádio Paraíso 89.7 FM",
+          "url": "https://str02.kfmidia.com.br:8084/stream?1771932832560",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8ac677e9-c0aa-4a5c-b58b-6811d14135de",
+        "name": "WEB RADIO REIS FM",
+        "url": "http://stream.zeno.fm/8w14fzzztchvv",
+        "votes": 18
+      },
+      "variants": [
+        {
+          "stationuuid": "047c92ab-8302-4a80-a050-bb9b6c28a21c",
+          "name": "WEB RADIO REIS FM",
+          "url": "http://stream.zeno.fm/8w14fzzztchvv",
+          "votes": 9,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "da1db972-5954-433c-a87b-2a36aca7e346",
+        "name": "Educativa Inatel - 107,9 FM",
+        "url": "https://educativainatel.radioca.st/stream",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "a33e8f9a-1bf4-43d5-a374-6391db01d42e",
+          "name": "Educativa Inatel",
+          "url": "https://educativainatel.radioca.st/stream",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c9721a72-4e7a-462a-8aa4-d71f906e9ae3",
+        "name": "Rádio Difusora Bondespachense",
+        "url": "https://ssl.conectastreaming.com:7040/;",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "de240058-265d-40c8-ad7c-4b87ffd1086d",
+          "name": "Difusora Bomdespachense",
+          "url": "https://ssl.conectastreaming.com:7040/;",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "18f4b8c4-0907-4edc-adf6-a6580844739b",
+        "name": "Rádio Nacional da Memória Adventista",
+        "url": "https://stream-178.zeno.fm/m3ytuubv0uhvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJtM3l0dXVidjB1aHZ2IiwiaG9zdCI6InN0cmVhbS0xNzguemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoieFdraFRhRm9RQmEwNjNvUEVrR0F6QSIsImlhdCI6MTc2ODQ1NTYwMCwiZXhwIjoxNzY4NDU1NjYwfQ.Of0Jsy6UULPCNYaDimCmYpf65l1Qtb4_PK3m4F33kBw",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "4df6a2c5-e467-4a40-9ebb-16de11d9446d",
+          "name": "Rádio CNMA",
+          "url": "https://stream-178.zeno.fm/m3ytuubv0uhvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJtM3l0dXVidjB1aHZ2IiwiaG9zdCI6InN0cmVhbS0xNzguemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiU2Zxa1AwcXJRS2FsaDZGdnF2RDFEdyIsImlhdCI6MTc2ODQ0MTYzOCwiZXhwIjoxNzY4NDQxNjk4fQ.0IYAKhdKdCXUoixvJOl5UzwbRSwrUVjp1yW1Ui7Hr_4",
+          "votes": 10,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cd1b1bcc-38cf-421f-83be-30e623671f9d",
+        "name": "Radio Espirita Luz do Amanha",
+        "url": "https://servidor39.brlogic.com:7146/live",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "3649928e-bc53-4040-8971-dd1972815e5c",
+          "name": "Radio Espirita Luz do Amanha",
+          "url": "https://servidor39.brlogic.com:7146/live",
+          "votes": 9,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "29c5ef11-8ea3-4291-b32c-7b886ad66734",
+        "name": "Rádio Rodeio Fm",
+        "url": "http://stm5.voxtreaming.com.br:6766/",
+        "votes": 16
+      },
+      "variants": [
+        {
+          "stationuuid": "2436edee-7432-474d-8686-8abe73404e75",
+          "name": "Radio Rodeio fm",
+          "url": "http://stm5.voxtreaming.com.br:6766/",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "58fbcd7d-fb61-4476-97f1-9102df1168f1",
+        "name": "Web Soul Radio",
+        "url": "http://ic142561.radioca.st:8136/stream",
+        "votes": 16
+      },
+      "variants": [
+        {
+          "stationuuid": "2416049f-e488-44ca-8c3f-7a6520ffee90",
+          "name": "WEBSOUL radio",
+          "url": "http://ic142561.radioca.st:8136/stream",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "957d2279-163b-4974-96c9-038499ec4886",
+        "name": "Rádio C Brasil ",
+        "url": "https://stm5.painelcast.com:7578/stream",
+        "votes": 16
+      },
+      "variants": [
+        {
+          "stationuuid": "d5c60264-6f50-4f33-be0f-c86abc5186c1",
+          "name": "Rádio C",
+          "url": "https://stm5.painelcast.com:7578/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "52b3c720-f54d-411e-9527-34eaeb17d66f",
+          "name": "Rádio C Brasil",
+          "url": "https://stm5.painelcast.com:7578/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5788fdfb-5ee0-49ad-b15b-b53ae2c68f7a",
+        "name": "Cidade FM NET",
+        "url": "https://08.stmip.net:8718/live",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "5243116f-b458-4d28-8747-9b5d81661229",
+          "name": "Cidade FM NET ",
+          "url": "https://08.stmip.net:8718/live",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96abf567-633e-44da-99fe-a112a0b9629e",
+        "name": "Rádio Prata FM",
+        "url": "https://r15.ciclano.io/proxy/radiopr2/stream",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "767897a4-367c-4769-862a-ce2b6a825255",
+          "name": "Radio Prata FM",
+          "url": "https://r15.ciclano.io/proxy/radiopr2/stream",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bc4b7050-b1de-492f-be69-d3f316ca7d62",
+        "name": "Rádio Claretiana FM Batatais",
+        "url": "http://148.72.158.239:8021/live",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "20887a94-3639-40c2-abba-5224742830ec",
+          "name": "Rádio Claretiana FM Batatais",
+          "url": "http://148.72.158.239:8021/live",
+          "votes": 10,
+          "differs": []
+        },
+        {
+          "stationuuid": "2299caf8-8e91-496a-b6f4-c65d1706e39f",
+          "name": "Rádio Claretiana FM Batatais",
+          "url": "http://148.72.158.239:8021/live",
+          "votes": 10,
+          "differs": []
+        },
+        {
+          "stationuuid": "a786adc1-5c41-4f0d-85c9-eddaadd713c8",
+          "name": "Rádio Claretiana FM",
+          "url": "http://148.72.158.239:8021/live",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "070eccfb-55aa-48fc-ba26-6bb6b0c27280",
+          "name": "Rádio Claretiana FM Batatais",
+          "url": "http://148.72.158.239:8021/live",
+          "votes": 8,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bc406763-0a3e-4137-9969-1562812c6447",
+        "name": "Radio Inconfidencia AM",
+        "url": "https://ssl.zoeweb.net/proxy/inconfidencia2?mp=/stream",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "30cdae7c-12b0-49a0-b885-56d3abbf62a2",
+          "name": "Rádio Inconfidência 880 AM",
+          "url": "https://ssl.zoeweb.net/proxy/inconfidencia2?mp=/stream&1771865214032",
+          "votes": 1,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4c0651ff-0253-4f40-8ef4-755621aacc23",
+        "name": "Rádio Nação Vitoriosa",
+        "url": "http://stream-179.zeno.fm/2rsloyfvsy9tv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiIycnNsb3lmdnN5OXR2IiwiaG9zdCI6InN0cmVhbS0xNzkuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiSWVuQnpMa2lSbXk2NlgxZl9Kdlc2QSIsImlhdCI6MTc2ODQzNzAxMSwiZXhwIjoxNzY4NDM3MDcxfQ.iB_-UKIZWEQ8W4n8F1ZkEt0ZDlLQmV_eABy8T5oEvY8",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "475a6c74-550f-450c-a8ef-6c57d4d9054d",
+          "name": "Rádio Nação Vitoriosa",
+          "url": "http://stream-179.zeno.fm/2rsloyfvsy9tv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiIycnNsb3lmdnN5OXR2IiwiaG9zdCI6InN0cmVhbS0xNzkuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiSWxCVFAwUGVSNENsakhkdWxXNnRjdyIsImlhdCI6MTc2ODQzNDkxMywiZXhwIjoxNzY4NDM0OTczfQ.NEihsqcry0CKjNdEBR1rxan3ODPWGqZwmeATSiXtU6I",
+          "votes": 13,
+          "differs": [
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "d649e7e1-d7a8-4790-a8d9-6a9f76a2a7cf",
+          "name": "Rádio Nação Vitoriosa",
+          "url": "http://stream-179.zeno.fm/2rsloyfvsy9tv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiIycnNsb3lmdnN5OXR2IiwiaG9zdCI6InN0cmVhbS0xNzkuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiOFVfdWJabWFSNG1rQlhQMEFqVnNXQSIsImlhdCI6MTc2ODQ2NjQ3OSwiZXhwIjoxNzY4NDY2NTM5fQ.-lSrpDWTkYtvSV9pGJ33Rh2YbHrVxJ5HmamN9r_NOpc",
+          "votes": 11,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "61f12535-1840-43dd-848a-beca2eaafb48",
+        "name": "Rádio 80 Fm Dance Music ",
+        "url": "https://servidor26.brlogic.com:7006/live",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "76f60a9f-3112-4df3-9b46-5c66baaa4bd7",
+          "name": "80 fm dance music ",
+          "url": "https://servidor26.brlogic.com:7006/live",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a40bf14b-ad2a-4c21-8628-c0ac7c855e55",
+        "name": "Atlantida Blumenau",
+        "url": "https://27593.live.streamtheworld.com:443/ATL_BLU.mp3",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "ff631fc1-ec14-4aa2-a329-240670c8eb84",
+          "name": "ATL BLUMENAU",
+          "url": "https://27593.live.streamtheworld.com/ATL_BLU.mp3",
+          "votes": 9,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3aeea828-d971-4ebf-9134-ab0266570d15",
+        "name": "Rádio Virgo Net",
+        "url": "https://cast.mgtradio.net/radio/8020/radio.aac",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "2bae2998-617a-4491-b40e-54c10866d148",
+          "name": "RÁDIO VIRG0 NET",
+          "url": "https://cast.mgtradio.net/radio/8020/radio.aac",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0349e207-d5c1-4f5d-8afe-6f2c983dcd13",
+        "name": "Radio Livre 95",
+        "url": "http://aovivo.radiolivre95.com:8000/aovivo",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "18d50a3e-b4a6-4bc2-9fb1-675145b1de83",
+          "name": "Radio Livre 95",
+          "url": "http://aovivo.radiolivre95.com:8000/aovivo",
+          "votes": 8,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7ebac1d9-4195-472e-bf22-6f0e70b8e210",
+        "name": "Rádio Regional Net",
+        "url": "https://servidor26-2.brlogic.com:8280/live",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "a456c355-b009-4966-973e-137f44fad098",
+          "name": "Rádio Regional Net",
+          "url": "https://servidor26-2.brlogic.com:8280/live",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d53c4cc9-1fbc-4df0-8455-1b274abb5670",
+        "name": "Rádio Lembrança ",
+        "url": "https://stm5.painelcast.com:7580/stream",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "111a813e-dba1-4a1c-abf3-46d7974daf21",
+          "name": "Rádio Lembrança ",
+          "url": "https://stm5.painelcast.com:7580/stream",
+          "votes": 2,
+          "differs": []
+        },
+        {
+          "stationuuid": "075016c7-5a59-4198-81cb-d3bdb875993e",
+          "name": "Rádio Lembrança",
+          "url": "https://stm5.painelcast.com:7580/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "af2dbea7-4901-45fa-bbdf-fff850f14499",
+        "name": "Radio Marinha (Manaus)",
+        "url": "https://stm0.inovativa.net/listen/radiomarinha/radio.mp3",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "46c4f8fd-af3e-4e94-9abb-3bdcfe7f1bc5",
+          "name": "Rádio Marinha (Natal) 100.1 FM  RN Brasil",
+          "url": "https://stm0.inovativa.net/listen/radiomarinha/radio.mp3",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7350f94c-a369-4f27-aa4a-1b9ebea2a87f",
+        "name": "Dj Guu Ofc - (QBY-N1L) - Sigam no Instagram @guu_duvak @familia_duvak_ofc",
+        "url": "http://jpdofunk3.com.br:8262/stream",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "7b6a1d7e-d056-46d7-bde6-948783182abd",
+          "name": "Dj Guu Ofc - (QBY-N1L) - Sigam no Instagram @guu_duvak @familia_duvak_ofc",
+          "url": "http://jpdofunk3.com.br:8262/stream",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "712aa09c-6b17-4bd4-8d46-ec531e30da55",
+        "name": "Fyber",
+        "url": "https://cast2.hoost.com.br:8957/stream",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "722b600b-f7d5-4c84-ac40-f988fbfcf082",
+          "name": "Rádio Fyber",
+          "url": "https://cast2.hoost.com.br:8957/stream",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4404b2f3-c18b-411a-9c74-90cf1e9465e7",
+        "name": "Rádio MEC FM",
+        "url": "https://radiomecfm-stream.ebc.com.br/ebc/radiomecfm/MEC_FM-mp4a_277200_eng=20000.m3u8",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "33629782-ab5b-4654-8012-3e80311b79ab",
+          "name": "Rádio MEC FM",
+          "url": "https://radiomecfm-stream.ebc.com.br/ebc/radiomecfm/MEC_FM-mp4a_277200_eng=20000.m3u8",
+          "votes": 2,
+          "differs": []
+        },
+        {
+          "stationuuid": "52e046ee-fdef-467e-932d-a4404d5a800b",
+          "name": "Rádio MEC FM",
+          "url": "https://radiomecfm-stream.ebc.com.br/ebc/radiomecfm/MEC_FM-mp4a_277200_eng=20000.m3u8",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "22b197ce-2d90-427c-a085-e33f580dd2df",
+        "name": "VINTAGE SERTÃO",
+        "url": "https://servidor16.brlogic.com:7022/live",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "2a16f0ad-93b2-4a0a-be33-999a0ef11763",
+          "name": "VINTAGE SERTÃO",
+          "url": "https://servidor16.brlogic.com:7022/live",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "64be3a17-ddc1-4a6a-a26b-6172c092786b",
+        "name": "Cultura AM 1260",
+        "url": "https://sonicpanel.oficialserver.com/9990/stream",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "e899c4bf-21b2-4f95-9afe-f8fa83addc02",
+          "name": "Cultura AM 1260",
+          "url": "https://sonicpanel.oficialserver.com/9990/stream",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6d9cd4c0-e779-49a0-8d2e-881ba82ea1d4",
+        "name": "Rádio Mundi 99,3 FM",
+        "url": "https://ice.fabricahost.com.br/mundifm",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "620cee01-f29b-44f8-9b96-70d6068bcca0",
+          "name": "Rádio Mundi 99,3 FM",
+          "url": "https://ice.fabricahost.com.br/mundifm",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1d4c34ed-3c32-4182-9232-6c3304f75b12",
+        "name": "Rádio Itay 88.7 FM",
+        "url": "https://stm1.streamproarte.com.br:7530/stream",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "55384874-a484-4365-8799-3a5e389699ad",
+          "name": "Rádio Itay 88.7 FM",
+          "url": "https://stm1.streamproarte.com.br:7530/stream",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "971fd611-7552-4ef2-8cf9-302d73e9e1ab",
+        "name": "Rádio Cordeiro ",
+        "url": "https://stm7.painelcast.com:7590/stream",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "f074f268-1d13-42d7-8f75-23ec723dee73",
+          "name": "Rádio Cordeiro ",
+          "url": "https://stm7.painelcast.com:7590/stream",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "7af712d3-5d31-4fd3-9bcf-1957fe892ecd",
+          "name": "Rádio Cordeiro",
+          "url": "https://stm7.painelcast.com:7590/stream",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6132375d-dccc-40d2-8c53-6f4522d500ce",
+        "name": "Rádio Sucesso ",
+        "url": "https://stm5.painelcast.com:7582/stream",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "a63f0d6b-59a2-458e-8ea2-0301b712f14c",
+          "name": "Rádio Sucesso ",
+          "url": "https://stm5.painelcast.com:7582/stream",
+          "votes": 0,
+          "differs": []
+        },
+        {
+          "stationuuid": "b6b7acab-2417-4dd3-84d7-dbdb622bed66",
+          "name": "Rádio Sucesso",
+          "url": "https://stm5.painelcast.com:7582/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ca3263e7-7987-449a-80ae-047e1bc232a7",
+        "name": "Kero Rock",
+        "url": "https://stm1.painelwshost.com.br:7012/",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "56bc3c1f-ca97-49f6-a212-e047dda93239",
+          "name": "Kero Rock",
+          "url": "https://stm1.painelwshost.com.br:7012/",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f97813f8-749a-4ab0-8a85-02ceed5734ed",
+        "name": "Rádio Almanaque ",
+        "url": "https://stm5.painelcast.com:7570/stream",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "65258b9a-a1b7-44eb-a99f-a2a1a9e9d22b",
+          "name": "Rádio Almanaque ",
+          "url": "https://stm5.painelcast.com:7570/stream",
+          "votes": 3,
+          "differs": []
+        },
+        {
+          "stationuuid": "6ff76a37-f778-452f-ad2c-ddf799d9c5f7",
+          "name": "Rádio Almanaque",
+          "url": "https://stm5.painelcast.com:7570/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dccc4010-9c0a-489b-a216-d47df5e4bafd",
+        "name": "Rádio Bom Sucesso 95.5 FM",
+        "url": "http://euroticast5.euroti.com.br:8110/stream",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "b6e92b75-2613-4d3d-b7e2-5b09ca33adb2",
+          "name": "Rádio Bom Sucesso 95.5 FM",
+          "url": "http://euroticast5.euroti.com.br:8110/stream?1771878954178",
+          "votes": 0,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e0ca9bcd-9b60-4733-9674-d2a88414e6da",
+        "name": "Capinzal FM",
+        "url": "https://noar.capinzalfm.com.br/capinzalfm.mp3",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "f749626f-ebb4-4dd3-adcd-b59af58bbc61",
+          "name": "Capinzal FM",
+          "url": "https://noar.capinzalfm.com.br/capinzalfm.mp3",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c94ac0e8-ec47-4b5b-9e53-1e20872412a4",
+        "name": "Arara azul FM",
+        "url": "https://azura.ez1fm.com/listen/arara_azul/radio.mp3?ver=642094",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "90d11ce5-7a40-4af9-afe2-6ad8422be04f",
+          "name": "Arara Azul FM",
+          "url": "https://azura.ez1fm.com/listen/arara_azul/radio.mp3",
+          "votes": 1,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7c198f98-6f06-49ea-b84e-b5bf0ff72a5b",
+        "name": "Rádio Clássica ",
+        "url": "https://stm11.painelcast.com:7530/stream",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "097a6470-fa11-4480-b777-bd453ed82b8f",
+          "name": "Rádio  Clássica",
+          "url": "https://stm11.painelcast.com:7530/stream",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "1bd6615c-aa0e-46ab-8a84-ea898eadc79e",
+          "name": "Rádio  Clássica",
+          "url": "https://stm11.painelcast.com:7530/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e03626d0-8df7-4ceb-ace4-c8e66a94d30e",
+        "name": "Rádio Universitária UFG",
+        "url": "https://streaming.ufg.br:8443/radiouniversitaria",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "f6f9eec3-70e3-46ca-ad9b-c92751933683",
+          "name": "Rádio UFG 88,5 FM",
+          "url": "https://streaming.ufg.br:8443/radiouniversitaria",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4238be95-2bab-41ee-8e2d-70e7ccb001de",
+        "name": "Rádio Estádio ",
+        "url": "https://stm5.painelcast.com:7556/stream",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "a8c654ae-ef89-4f82-9684-e79a7da51cdf",
+          "name": "Rádio Estádio ",
+          "url": "https://stm5.painelcast.com:7556/stream",
+          "votes": 0,
+          "differs": []
+        },
+        {
+          "stationuuid": "3988649c-6c74-4177-b55b-c33e470de7cd",
+          "name": "Rádio Estádio",
+          "url": "https://stm5.painelcast.com:7556/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f0ba63f6-43e7-4fcc-8db7-d62f731fa88f",
+        "name": "Espiritismo BH",
+        "url": "http://paineldj4.com.br:8047/stream",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "f20ff360-75f7-4288-8f2b-a8b939f8c77a",
+          "name": "Espiritismo BH",
+          "url": "http://paineldj4.com.br:8047/stream",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "02009a93-fb98-40cc-bce8-203fb239f372",
+        "name": "Gay FM Brasil",
+        "url": "https://gayfmbr.mooo.com/listen/gay_fm_br/radio.mp3",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "1396520b-9c83-4a79-ba2e-599e6d7a37a8",
+          "name": "Gay FM Brasil",
+          "url": "https://gayfmbr.mooo.com/listen/gay_fm_br/radio.mp3",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "04511260-f0a7-4be7-9acf-9b25c53c7526",
+        "name": "Rádio Aparecida",
+        "url": "https://aparecida.jmvstream.com/stream",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "975713a7-2786-4ce4-91b4-57009ae762b2",
+          "name": "Rádio Aparecida 104.3 FM",
+          "url": "https://aparecida.jmvstream.com/stream?1771934151722",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "eec23a68-22ff-4af0-8f00-b38753bf9b80",
+        "name": "Agenda Chill",
+        "url": "https://stream-159.zeno.fm/zanz4xbdtg8uv",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "ebc9f596-6ca0-4cc5-82c3-e7f96e53e64c",
+          "name": "AGENDA CULTURAL RELAX & CHILL",
+          "url": "https://stream-159.zeno.fm/zanz4xbdtg8uv",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bd208d9a-7901-425f-88a8-92aa6ea9ba66",
+        "name": "Midnight station lo-fi",
+        "url": "http://129.146.164.81:8181/listen/midnight_station/radio.mp3",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "e877b588-b416-4ce3-a093-f27fcddff84a",
+          "name": "Midnight station",
+          "url": "http://129.146.164.81:8181/listen/midnight_station/radio.mp3",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "69813756-ed6f-475b-8f3f-b64f320c6913",
+        "name": "Radio Cristo Vem",
+        "url": "http://server25.srvsh.com.br:7860/;?type=http&nocache=5",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "58ea9e17-24e4-4679-abd1-2e2ba0b2dd72",
+          "name": "Radio Cristo Vem",
+          "url": "http://server25.srvsh.com.br:7860/;?type=http&nocache=5",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "367ab54b-b891-405c-9409-b6467f0993b7",
+        "name": "Difusora de Franca",
+        "url": "https://stm1.hdmidia.srv.br:7010/;?type=http&nocache=28",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "d3dbc65a-80be-483a-83aa-e3f312e94fb5",
+          "name": "Difusora de Franca",
+          "url": "https://stm1.hdmidia.srv.br:7010/;?type=http&nocache=11&stream.mp3",
+          "votes": 0,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6531caf5-ab54-4045-9767-9d977b95830f",
+        "name": "RADIO EJN",
+        "url": "https://s10.maxcast.com.br:8304/live",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "5f845e21-24bb-467d-b5c0-f5a2717e559b",
+          "name": "edmilson de jesus novais",
+          "url": "https://s10.maxcast.com.br:8304/live",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "3dbbf4d5-48b3-449d-b751-7d6802e97b9c",
+          "name": "RADIO EJN",
+          "url": "https://s10.maxcast.com.br:8304/live",
+          "votes": 0,
+          "differs": []
+        },
+        {
+          "stationuuid": "3db82f80-c06e-486d-b69f-e80ff5dc8965",
+          "name": "RADIO EJN",
+          "url": "https://s10.maxcast.com.br:8304/live",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "df2f64a7-49fa-4c76-9f43-817a92178184",
+        "name": "Rádio Ouro Negro 100.5 FM",
+        "url": "http://stm50.conectastm.com:24964/stream?1773415212921",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "ff923e82-730f-43b8-89fc-0fadb05e63c6",
+          "name": "Radi Ouro Negro FM 100,7",
+          "url": "http://stm50.conectastm.com:24964/stream?1773415212921",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "748cedf1-55c8-4d2c-a134-f6100b716c75",
+        "name": "Rádio Livre Som",
+        "url": "https://server19.srvsh.com.br:8934/stream",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "a80ce0d0-2b1e-496a-ae57-1547926cfef6",
+          "name": "Rádio Livre som",
+          "url": "https://server19.srvsh.com.br:8934/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5b6f5ad3-f99a-4090-9121-fe168a644719",
+        "name": "Rádio Meio Norte 91.1 FM",
+        "url": "https://webradio.amsolution.com.br/radio/8300/palmas",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "506333a3-ad13-4180-834e-8dc4bc5805d8",
+          "name": "Rádio Meio Norte 91.1 FM",
+          "url": "https://webradio.amsolution.com.br/radio/8300/palmas",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "85f353b9-864f-4226-82e9-b178d5c493ca",
+        "name": "maresolwebradio",
+        "url": "https://stream.zeno.fm/pxbrdor4opmvv",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "946f5071-1993-47bc-9ef5-b24d84ad292e",
+          "name": "maresolwebradio",
+          "url": "https://stream.zeno.fm/pxbrdor4opmvv",
+          "votes": 0,
+          "differs": []
+        },
+        {
+          "stationuuid": "ba0fb815-7ffb-465d-9f11-dc4ab7cd8fc2",
+          "name": "maresolwebradio",
+          "url": "https://stream.zeno.fm/pxbrdor4opmvv",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6d2e2602-7569-4267-bb8e-644dafd6aaea",
+        "name": "Rádio Arapuan 98.9 FM",
+        "url": "https://streaming.engelhosting.com.br:10036/stream",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "823e517b-82e0-447c-a8ca-2f6454e9d852",
+          "name": "Rádio Arapuan 98.9 FM",
+          "url": "https://streaming.engelhosting.com.br:10036/stream",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8628edce-aa5b-43a7-8ccb-85512bfb362a",
+        "name": "Rádio Cambirela - Virtual,mas real.",
+        "url": "https://stm1.srvif.com:7244/stream",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "a6a28318-e554-4260-a464-5358b2f3679f",
+          "name": "Rádio Cambirela - Virtual,mas real.",
+          "url": "https://stm1.srvif.com:7244/stream",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d65b66ff-3d2d-41fe-8440-87285e2a43ad",
+        "name": "Rádio Líder web Paraopeba ",
+        "url": "http://stm2.brasilcast.xyz:6744/",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "f9708fdb-68ae-4810-8b19-4a9afde9ec27",
+          "name": "Rádio Líder web Paraopeba ",
+          "url": "http://stm2.brasilcast.xyz:6744/",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

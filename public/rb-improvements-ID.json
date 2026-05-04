@@ -1,0 +1,1585 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.877Z",
+  "country": "ID",
+  "sourceProbedAt": "2026-04-30T12:33:43.604Z",
+  "totals": {
+    "deadStreams": 49,
+    "internalDupes": 52,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "236b5aaf-cbd7-411d-9047-b1ab3e8849cd",
+      "name": "TraxFM Jakarta",
+      "url": "https://stream.radiojar.com/rrqf78p3bnzuv.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 503",
+      "votes": 4759,
+      "lastProbedAt": "2026-04-30T12:32:46.840Z"
+    },
+    {
+      "stationuuid": "2eeff69e-23ed-4edc-9db2-bc99d20755fc",
+      "name": "DANGDUT",
+      "url": "https://stream.zeno.fm/sgvq5xniobhuv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 4557,
+      "lastProbedAt": "2026-04-30T12:32:46.811Z"
+    },
+    {
+      "stationuuid": "9d22ff88-65e2-4e80-bb05-cb55e3037522",
+      "name": "RADIO CAKRA 90.5 FM",
+      "url": "https://stream.zeno.fm/yoengdcdzyauv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 3319,
+      "lastProbedAt": "2026-04-30T12:32:46.810Z"
+    },
+    {
+      "stationuuid": "33f8be1d-fd23-493f-97d6-e582f7b9bf03",
+      "name": "Rama FM Bandung 104.7 FM",
+      "url": "https://i.klikhost.com/8330/;",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 765,
+      "lastProbedAt": "2026-04-30T12:32:58.649Z"
+    },
+    {
+      "stationuuid": "6fde88b3-1d11-471e-abf0-5f25e468a9af",
+      "name": "KIARA FM IKIP PADANG",
+      "url": "https://stream.zeno.fm/cn1fanz7hkeuv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 676,
+      "lastProbedAt": "2026-04-30T12:32:49.270Z"
+    },
+    {
+      "stationuuid": "e4715c0a-ed7c-4255-92c4-7793139086aa",
+      "name": "Firza Radio Padang",
+      "url": "https://stream-029.zeno.fm/ptkeryrsu0ttv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 545,
+      "lastProbedAt": "2026-04-30T12:32:50.164Z"
+    },
+    {
+      "stationuuid": "ba97bbba-ae42-4071-9fea-f92023d23a2b",
+      "name": "Radio Wijang Songko",
+      "url": "https://static-s8.xajist.com:8787/live?title=Hello%20Dangdut%20RWS&timestamp=1701054762",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 447,
+      "lastProbedAt": "2026-04-30T12:32:51.012Z"
+    },
+    {
+      "stationuuid": "f6e181d7-dab3-434c-a4ec-ba10196776d8",
+      "name": "PARAMUDA Radio Bandung",
+      "url": "https://i.klikhost.com/8332/;",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 441,
+      "lastProbedAt": "2026-04-30T12:33:01.014Z"
+    },
+    {
+      "stationuuid": "a3da221b-9758-4198-b2ab-2cda8da1dc0b",
+      "name": "RASIKA FM USA SEMARANG",
+      "url": "https://svara-stream.radioddns.net/rasikafm_stereo",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 411,
+      "lastProbedAt": "2026-04-30T12:32:52.191Z"
+    },
+    {
+      "stationuuid": "a3fbed44-49c4-47d7-8fdc-15bd87d361eb",
+      "name": "Cosmopolitan FM",
+      "url": "https://n0c.radiojar.com/u7d8heq3bnzuv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 503",
+      "votes": 348,
+      "lastProbedAt": "2026-04-30T12:32:51.798Z"
+    },
+    {
+      "stationuuid": "fc4d5e3b-fe29-4ef8-b9d8-24773cde62db",
+      "name": "Sonora 92.0 FM Jakarta",
+      "url": "https://cast1.my-control-panel.com/proxy/radioso1/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 334,
+      "lastProbedAt": "2026-04-30T12:32:51.972Z"
+    },
+    {
+      "stationuuid": "c580792d-f54d-4238-8f74-c93f0a263816",
+      "name": "Cakra Radio Bandung 90.5 FM",
+      "url": "https://stream.zeno.fm/yoengdcdzyauv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 320,
+      "lastProbedAt": "2026-04-30T12:32:51.899Z"
+    },
+    {
+      "stationuuid": "78dee7e2-14ad-4303-af9a-785fc7f4e3ea",
+      "name": "MQFM Bandung - Indonesia",
+      "url": "https://mqfmstreaming.kamil.web.id/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 255,
+      "lastProbedAt": "2026-04-30T12:32:53.910Z"
+    },
+    {
+      "stationuuid": "4f02ff6c-877a-46e9-9ba7-9bd57f21a7e6",
+      "name": "Lopo Par85",
+      "url": "https://stream-047.zeno.fm/wbwfh9niu2fvv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 230,
+      "lastProbedAt": "2026-04-30T12:32:54.093Z"
+    },
+    {
+      "stationuuid": "f3699cf9-0ebf-49e8-a5df-7009dd25b51b",
+      "name": "Radio Dakwah Islam",
+      "url": "https://i.klikhost.com/8260/;radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 134,
+      "lastProbedAt": "2026-04-30T12:33:09.146Z"
+    },
+    {
+      "stationuuid": "af3cf329-eb15-44aa-a774-8e1bf960a80d",
+      "name": "Prosalina FM",
+      "url": "https://i.klikhost.com/8618/stream?1708788698312",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 125,
+      "lastProbedAt": "2026-04-30T12:33:10.475Z"
+    },
+    {
+      "stationuuid": "de60174a-6018-461d-97f0-c659725b026a",
+      "name": "Swara Kendal",
+      "url": "https://i.klikhost.com/8822/;",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 109,
+      "lastProbedAt": "2026-04-30T12:33:12.254Z"
+    },
+    {
+      "stationuuid": "bf5ed4a2-60a8-47f5-9898-0158d3304773",
+      "name": "Suara Pasuruan",
+      "url": "https://radiostream.pasuruankab.go.id/?type=https",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 99,
+      "lastProbedAt": "2026-04-30T12:33:04.581Z"
+    },
+    {
+      "stationuuid": "d80a922b-0892-4ac0-b9bb-0439bb6e46ff",
+      "name": "Radio Idola Semarang",
+      "url": "https://stream.radioidola.com/listen/idolafm/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 98,
+      "lastProbedAt": "2026-04-30T12:33:04.158Z"
+    },
+    {
+      "stationuuid": "7beeccf9-8426-4f54-9067-bfefba8819f0",
+      "name": "RAS FM Jakarta",
+      "url": "https://i.klikhost.com/9006/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 96,
+      "lastProbedAt": "2026-04-30T12:33:14.160Z"
+    },
+    {
+      "stationuuid": "a4202ae4-1f12-4fe1-97cb-b750856009f4",
+      "name": "PAS FM Jakarta",
+      "url": "https://i.klikhost.com/8266/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 92,
+      "lastProbedAt": "2026-04-30T12:33:16.063Z"
+    },
+    {
+      "stationuuid": "1e879be6-a5bf-4e67-871c-357199a28e4b",
+      "name": "Cosmopolitan",
+      "url": "https://n0c.radiojar.com/u7d8heq3bnzuv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 503",
+      "votes": 86,
+      "lastProbedAt": "2026-04-30T12:33:07.966Z"
+    },
+    {
+      "stationuuid": "7b17aa19-e2e9-44e3-8be5-d5e60e41fd04",
+      "name": "96,3 Medan FM",
+      "url": "https://sc.medanfm.id/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 85,
+      "lastProbedAt": "2026-04-30T12:33:08.979Z"
+    },
+    {
+      "stationuuid": "d7dc1b62-3f55-46bd-add7-65b8913795fa",
+      "name": "Lodiko MuLo",
+      "url": "https://stream-063.zeno.fm/sktzuxbiw5qvv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 84,
+      "lastProbedAt": "2026-04-30T12:33:08.415Z"
+    },
+    {
+      "stationuuid": "c852e532-a34d-4086-b3f0-48ac0b64f1d5",
+      "name": "KISS FM Jember",
+      "url": "https://i.klikhost.com/8894/;stream.aac?1737215476182",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 81,
+      "lastProbedAt": "2026-04-30T12:33:19.248Z"
+    },
+    {
+      "stationuuid": "e72e7256-23ad-4bb7-8da1-20d6502b6b66",
+      "name": "Lodiko Sodonyo",
+      "url": "https://stream-047.zeno.fm/nztzeroxluuuv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 78,
+      "lastProbedAt": "2026-04-30T12:33:09.620Z"
+    },
+    {
+      "stationuuid": "37a9cbce-07ec-4747-84d2-3774baac2e6f",
+      "name": "Brava Radio",
+      "url": "https://stream.radiojar.com/5k7t0rq3bnzuv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 503",
+      "votes": 76,
+      "lastProbedAt": "2026-04-30T12:33:10.257Z"
+    },
+    {
+      "stationuuid": "691728f3-a498-4fdb-beb2-c72405efa2d6",
+      "name": "City Radio Mandarin",
+      "url": "https://digital.cityradio.id/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 72,
+      "lastProbedAt": "2026-04-30T12:33:11.905Z"
+    },
+    {
+      "stationuuid": "6e3605b7-cc53-462c-83dd-4e8c58568e1e",
+      "name": "Trangkil FM",
+      "url": "https://i.klikhost.com/8228/;radio",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 62,
+      "lastProbedAt": "2026-04-30T12:33:23.290Z"
+    },
+    {
+      "stationuuid": "bce51a67-e922-48c2-9d52-0dd686d37cba",
+      "name": "Slawi FM Tegal",
+      "url": "https://i.klikhost.com/9032/;",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 61,
+      "lastProbedAt": "2026-04-30T12:33:23.958Z"
+    },
+    {
+      "stationuuid": "969de0c7-4c5a-4844-b955-1bdbf2c428a5",
+      "name": "Radio Kita 94.3 FM Cirebon Indonesia",
+      "url": "https://sunnah.radio.yufid.com/;stream.mp3;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 60,
+      "lastProbedAt": "2026-04-30T12:33:14.275Z"
+    },
+    {
+      "stationuuid": "ac2e11d7-b927-4134-8145-2de553fa4556",
+      "name": "SISNET RADIO",
+      "url": "https://i.klikhost.com/8716/stream?1709089914379",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 57,
+      "lastProbedAt": "2026-04-30T12:33:25.586Z"
+    },
+    {
+      "stationuuid": "8cf1797a-e216-4c9f-bc42-f593a0289770",
+      "name": "CityRadio 959 FM",
+      "url": "https://sc.cityradio.id/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 52,
+      "lastProbedAt": "2026-04-30T12:33:17.647Z"
+    },
+    {
+      "stationuuid": "8edcb6da-009a-4bf7-95f4-b2b78d570a76",
+      "name": "Female Radio",
+      "url": "https://s1.cloudmu.id/listen/female_radio/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 51,
+      "lastProbedAt": "2026-04-30T12:33:18.168Z"
+    },
+    {
+      "stationuuid": "0aee2a47-19d6-4532-9442-567b4820e89b",
+      "name": "Slawi FM Tegal",
+      "url": "https://i.klikhost.com/9032/;",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 47,
+      "lastProbedAt": "2026-04-30T12:33:28.363Z"
+    },
+    {
+      "stationuuid": "281b3203-b256-47aa-990c-321d8cd2f6a1",
+      "name": "KBR Jakarta",
+      "url": "https://pu.klikhost.com/proxy/kbr/kbr",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 46,
+      "lastProbedAt": "2026-04-30T12:33:19.251Z"
+    },
+    {
+      "stationuuid": "71e24e9a-a82c-4666-b61b-56b89c6f256d",
+      "name": "Radio Andy",
+      "url": "https://stream.zeno.fm/w6tqbtdvt4zuv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 41,
+      "lastProbedAt": "2026-04-30T12:33:20.711Z"
+    },
+    {
+      "stationuuid": "39e6bd0f-27d4-4748-93de-c9ce86c09611",
+      "name": "Slawi FM Tegal",
+      "url": "https://i.klikhost.com/9032/;",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 36,
+      "lastProbedAt": "2026-04-30T12:33:32.198Z"
+    },
+    {
+      "stationuuid": "f4a992d1-27a1-4686-bd32-7bfa82ce5e68",
+      "name": "Mustang 88 FM",
+      "url": "https://ic.mari.co.id:8443/mustangfm",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 32,
+      "lastProbedAt": "2026-04-30T12:33:24.680Z"
+    },
+    {
+      "stationuuid": "5f474f3f-ce07-4273-9f9e-1c23d18948db",
+      "name": "Spirit Online",
+      "url": "https://a11.asurahosting.com:7470/spirit_online",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 32,
+      "lastProbedAt": "2026-04-30T12:33:24.167Z"
+    },
+    {
+      "stationuuid": "b6be0e08-3860-4418-974a-00f7916c2550",
+      "name": "RAS",
+      "url": "https://i.klikhost.com/9006/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 31,
+      "lastProbedAt": "2026-04-30T12:33:34.170Z"
+    },
+    {
+      "stationuuid": "b9dfc5e8-bba1-49e2-97bd-5db30229dfac",
+      "name": "1921 BALI HEADBANGER",
+      "url": "https://stream.zeno.fm/vbyq86vnsp8uv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 28,
+      "lastProbedAt": "2026-04-30T12:33:25.610Z"
+    },
+    {
+      "stationuuid": "c287681e-34c4-4f85-a910-df626c4409ef",
+      "name": "V.O.S Radio SMANSA-MOZAR",
+      "url": "https://sv7.alhastream.com/radio/8050/radio",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 23,
+      "lastProbedAt": "2026-04-30T12:33:27.771Z"
+    },
+    {
+      "stationuuid": "298c621e-f7da-45b1-ad73-587243884b05",
+      "name": "LPPL BATARA",
+      "url": "https://a5.siar.us/listen/lpplbatara/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 21,
+      "lastProbedAt": "2026-04-30T12:33:28.560Z"
+    },
+    {
+      "stationuuid": "ba02fd4c-255b-4e11-9c99-63924ad34d97",
+      "name": "RAS",
+      "url": "https://i.klikhost.com/9006/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 21,
+      "lastProbedAt": "2026-04-30T12:33:37.764Z"
+    },
+    {
+      "stationuuid": "8abad8cd-e114-4e29-9a3e-a446f55c7879",
+      "name": "Radio Xtra FM Singkil",
+      "url": "https://i.klikhost.com/8864/;?1730902274150",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 18,
+      "lastProbedAt": "2026-04-30T12:33:38.561Z"
+    },
+    {
+      "stationuuid": "fa9a81e1-3481-47e3-b4f3-1b4c4b833af9",
+      "name": "AMANDIT FM",
+      "url": "https://live.amanditfm.com/listen/amanditfm/onair",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 17,
+      "lastProbedAt": "2026-04-30T12:33:31.952Z"
+    },
+    {
+      "stationuuid": "692fc361-387e-47a8-ad36-ec1052f153ee",
+      "name": "R2B Rembang",
+      "url": "https://i.klikhost.com:8892/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 6,
+      "lastProbedAt": "2026-04-30T12:33:43.095Z"
+    },
+    {
+      "stationuuid": "31e57a47-3737-4aa9-9461-9bd31eec8f24",
+      "name": "Radio Internet Indonesia (radio-i2.com)",
+      "url": "https://live.radio-i2.com/8014/stream?ver=130520",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T12:33:35.620Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "b2357cbe-d080-4099-8cae-770539945230",
+        "name": "elshinta  jakarta",
+        "url": "https://stream-ssl.arenastreaming.com:8000/jakarta",
+        "votes": 8553
+      },
+      "variants": [
+        {
+          "stationuuid": "b5a7450e-b2df-4b45-9bbf-d6972314eb5d",
+          "name": "Radio Elshinta",
+          "url": "https://stream-ssl.arenastreaming.com:8000/jakarta",
+          "votes": 1150,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8dd6a16d-f994-455f-8f6a-a285f07abebd",
+          "name": "Elshinta FM Jakarta",
+          "url": "https://stream-ssl.arenastreaming.com:8000/jakarta",
+          "votes": 565,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "24c9ce72-7f6e-4cf2-bac0-e2a5cbf2c7d0",
+          "name": "PT. Radio Elshinta",
+          "url": "https://stream-ssl.arenastreaming.com:8000/jakarta",
+          "votes": 416,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "37aaad0f-1cd6-4d68-9fd0-3a621251c546",
+          "name": "PT. Radio Elshinta",
+          "url": "https://stream-ssl.arenastreaming.com:8000/jakarta",
+          "votes": 101,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1bdb7538-d6af-4c77-ab1e-d51185aa9384",
+        "name": "89.2 FM Jakarta, Campur sari",
+        "url": "https://a8.siar.us/listen/campursari/stream",
+        "votes": 7030
+      },
+      "variants": [
+        {
+          "stationuuid": "ebdd105b-6d6d-41df-b783-20d32d6dc281",
+          "name": "Radio Campursari Yogyakarta",
+          "url": "https://a8.siar.us/listen/campursari/stream",
+          "votes": 805,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5f96f5c1-e75a-4129-abd3-d7e08360fa56",
+        "name": "Radio Dangdut 97.1 FM Jakarta",
+        "url": "http://202.147.199.99:8000/;",
+        "votes": 6631
+      },
+      "variants": [
+        {
+          "stationuuid": "1b586cd5-13f6-4be2-b69e-925169df928a",
+          "name": "Radio Dangdut Indonesia",
+          "url": "http://202.147.199.99:8000/;",
+          "votes": 971,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "598aa769-a27b-4d6a-9482-9456fe0543dd",
+        "name": "Suara Surabaya FM",
+        "url": "https://c5.siar.us/proxy/ssfm/stream",
+        "votes": 6329
+      },
+      "variants": [
+        {
+          "stationuuid": "1f33f36c-4ea8-4fb8-aac8-3fc83cd2a7ed",
+          "name": "Suara Surabaya",
+          "url": "https://c5.siar.us/proxy/ssfm/stream",
+          "votes": 853,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5e900633-27d6-4ee4-88e2-9064a6095a1f",
+        "name": "98,4 Suara Giri FM Gresik",
+        "url": "http://streaming.girifm.com:8010/;stream.nsv",
+        "votes": 3471
+      },
+      "variants": [
+        {
+          "stationuuid": "17724cb5-0d79-439d-9792-8037685950eb",
+          "name": "Suara Giri FM",
+          "url": "http://streaming.girifm.com:8010/;stream.nsv",
+          "votes": 640,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c3d1e054-d320-47e1-9998-512bf9f90d4f",
+        "name": "RRI Pro 3 KBRN",
+        "url": "https://stream-node0.rri.co.id/streaming/14/9014/kbrn.mp3",
+        "votes": 3449
+      },
+      "variants": [
+        {
+          "stationuuid": "af81b287-3e1a-4c5a-961e-2fab51d98763",
+          "name": "RRI PRO 3",
+          "url": "https://stream-node0.rri.co.id/streaming/14/9014/kbrn.mp3",
+          "votes": 537,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9d22ff88-65e2-4e80-bb05-cb55e3037522",
+        "name": "RADIO CAKRA 90.5 FM",
+        "url": "https://stream.zeno.fm/yoengdcdzyauv",
+        "votes": 3319
+      },
+      "variants": [
+        {
+          "stationuuid": "c580792d-f54d-4238-8f74-c93f0a263816",
+          "name": "Cakra Radio Bandung 90.5 FM",
+          "url": "https://stream.zeno.fm/yoengdcdzyauv",
+          "votes": 320,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2f80c876-86a0-4c3e-b104-94d26030da80",
+        "name": "95.1 Kiss FM",
+        "url": "http://103.246.184.62:1935/noice_kisfm/kisfm/chunklist.m3u8",
+        "votes": 2884
+      },
+      "variants": [
+        {
+          "stationuuid": "a6c85fd2-f610-4d72-91ea-3c14239a759e",
+          "name": "Kis 95.1 FM Jakarta",
+          "url": "http://103.246.184.62:1935/noice_kisfm/kisfm/chunklist.m3u8",
+          "votes": 282,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6282b213-c07e-4ec7-a8b2-4eb19e18d03b",
+        "name": "Gen 98.7 FM Jakarta",
+        "url": "http://103.246.184.62:1935/noice_genfm/genfm/chunklist_w279187457.m3u8",
+        "votes": 2734
+      },
+      "variants": [
+        {
+          "stationuuid": "c2b1c572-59f5-4334-a17f-9e04fcd682a2",
+          "name": "Gen 98.7 FM Jakarta",
+          "url": "http://103.246.184.62:1935/noice_genfm/genfm/chunklist_w279187457.m3u8",
+          "votes": 121,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "af9d2835-a790-4741-9044-278467fbc297",
+        "name": "gen 987 FM",
+        "url": "http://103.246.184.62:1935/noice_genfm/genfm/chunklist.m3u8",
+        "votes": 2498
+      },
+      "variants": [
+        {
+          "stationuuid": "56b2ae3e-9b35-4a05-991f-460a5bd898f3",
+          "name": "Gen 98.7 FM Jakarta",
+          "url": "http://103.246.184.62:1935/noice_genfm/genfm/chunklist.m3u8",
+          "votes": 671,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4f25ac5b-9688-4c72-9aa2-0ae61358909e",
+          "name": "Gen 98.7 FM Jakarta",
+          "url": "http://103.246.184.62:1935/noice_genfm/genfm/chunklist.m3u8",
+          "votes": 188,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "6d66e5e3-bd84-49a5-978d-6c19560dcd14",
+          "name": "Gen 98.7 FM Jakarta",
+          "url": "http://103.246.184.62:1935/noice_genfm/genfm/chunklist.m3u8",
+          "votes": 154,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cfe1148b-37d1-49be-814c-4a023f08beeb",
+        "name": "88.0  Mustang FM Jakarta",
+        "url": "http://103.246.184.62:1935/noice_mustangfm/mustangfm/chunklist.m3u8",
+        "votes": 2422
+      },
+      "variants": [
+        {
+          "stationuuid": "2eb02b8e-1f99-4e31-8796-c2fefd4f761e",
+          "name": "Mustang 88.0 FM",
+          "url": "http://103.246.184.62:1935/noice_mustangfm/mustangfm/chunklist.m3u8",
+          "votes": 483,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bafb06c5-1278-444f-81a4-b045dce5e80f",
+        "name": "Tarbiyah Sunnah",
+        "url": "https://radioislamindonesia.com/tarbiyah.mp3",
+        "votes": 1361
+      },
+      "variants": [
+        {
+          "stationuuid": "81ded047-7d82-42b3-b86c-0eff2380e92e",
+          "name": "Radio Tarbiyah Sunnah",
+          "url": "https://radioislamindonesia.com/tarbiyah.mp3?_=1",
+          "votes": 92,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "98749a3b-5b5f-46d1-8e69-41978946f4b3",
+        "name": "Female FM",
+        "url": "http://onlineradiobox.com/json/id/female/play",
+        "votes": 840
+      },
+      "variants": [
+        {
+          "stationuuid": "631d52e2-c371-49a6-9757-4867c093475b",
+          "name": "Female FM",
+          "url": "http://onlineradiobox.com/json/id/female/play",
+          "votes": 107,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "537e27f1-da35-4b91-b057-a8a1041a23c8",
+        "name": "Dahlia Bandung 101.5 FM",
+        "url": "https://svara-stream.radioddns.net/bandung_dahliafm",
+        "votes": 820
+      },
+      "variants": [
+        {
+          "stationuuid": "d54e5b17-6bc7-46a2-a8c6-fb657bff2b5e",
+          "name": "Radio Dahlia FM",
+          "url": "https://svara-stream.radioddns.net/bandung_dahliafm",
+          "votes": 211,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fd6e2783-293c-476e-8201-ddeda1336ca3",
+        "name": "Campursari FM Jakarta",
+        "url": "https://streaming.campursarifm.com/listen/campursari/campursari892",
+        "votes": 816
+      },
+      "variants": [
+        {
+          "stationuuid": "c8289944-5d46-4416-bfc4-5ddcceb26428",
+          "name": "Campursari FM",
+          "url": "https://streaming.campursarifm.com/listen/campursari/campursari892",
+          "votes": 100,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ff88b2dc-3993-4ff3-bcda-8fa74e3e1e2d",
+        "name": "Gajahmada FM",
+        "url": "https://server.radioimeldafm.co.id:8040/gajahmadafm",
+        "votes": 797
+      },
+      "variants": [
+        {
+          "stationuuid": "e4e8f150-f6ed-4486-a65f-d21467dd7af6",
+          "name": "Gajahmada FM",
+          "url": "https://server.radioimeldafm.co.id:8040/gajahmadafm",
+          "votes": 78,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a66636e2-6edb-443b-b5a0-9b9b400e73b2",
+        "name": "RRI Voice Of Indonesia",
+        "url": "https://stream-node0.rri.co.id/streaming/25/9125/voi.mp3",
+        "votes": 666
+      },
+      "variants": [
+        {
+          "stationuuid": "54064684-9e8c-45ad-85b9-4dd90d8ee01c",
+          "name": "RRI Voice of Indonesia",
+          "url": "https://stream-node0.rri.co.id/streaming/25/9125/voi.mp3",
+          "votes": 63,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f7a76fcb-d944-472a-8f23-835a90529536",
+          "name": "Voice of Indonesia RRI world service",
+          "url": "https://stream-node0.rri.co.id/streaming/25/9125/voi.mp3",
+          "votes": 1,
+          "differs": [
+            "name",
+            "bitrate",
+            "codec"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aeb477fd-ece0-40f3-b69d-f3db1a88cb28",
+        "name": "Pro1 RRI Makassar",
+        "url": "https://stream-node0.rri.co.id/streaming/22/9022/rrimakasarpro1.mp3",
+        "votes": 635
+      },
+      "variants": [
+        {
+          "stationuuid": "71d4f342-1f6f-46f3-adea-97d527810b11",
+          "name": "RRI Pro 1 Makassar",
+          "url": "https://stream-node0.rri.co.id/streaming/22/9022/rrimakasarpro1.mp3",
+          "votes": 279,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "0cea1450-1354-42e3-a4cc-ef45ae7af848",
+          "name": "PRO 1 RRI MAKASSAR ",
+          "url": "https://stream-node0.rri.co.id/streaming/22/9022/rrimakasarpro1.mp3",
+          "votes": 187,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b75d62a4-2df3-424a-b7f8-139cb8f3add6",
+          "name": "RRI Pro 1 Makkasar",
+          "url": "https://stream-node0.rri.co.id/streaming/22/9022/rrimakasarpro1.mp3",
+          "votes": 96,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "12fcc184-5c90-47e8-900c-9c76d977eb0c",
+        "name": "Gen 103.1 FM Surabaya",
+        "url": "http://103.246.184.62:1935/noice_genfmsby/gensbyic.stream/playlist.m3u8",
+        "votes": 536
+      },
+      "variants": [
+        {
+          "stationuuid": "16ac2603-7a40-4cd7-a6de-c01fd481559a",
+          "name": "Gen 103.1 FM Surabaya New",
+          "url": "http://103.246.184.62:1935/noice_genfmsby/gensbyic.stream/playlist.m3u8",
+          "votes": 128,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7e096af2-f010-4200-b58c-00a8415cb25d",
+        "name": "RRI Pro 2 92.1 FM Tanjungpinang",
+        "url": "https://stream-node2.rri.co.id/streaming/21/9221/rritjpinangpro2.mp3",
+        "votes": 494
+      },
+      "variants": [
+        {
+          "stationuuid": "9d317cb8-5632-4648-9c6b-5a7d26942844",
+          "name": "LIVE - RRI PRO 2 Tanjung Pinang",
+          "url": "https://stream-node2.rri.co.id/streaming/21/9221/rritjpinangpro2.mp3",
+          "votes": 249,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "68762dc4-3851-44fd-add2-48a8b2b9ec52",
+          "name": "RRI Pro 2 Tanjungpinang",
+          "url": "https://stream-node2.rri.co.id/streaming/21/9221/rritjpinangpro2.mp3",
+          "votes": 85,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7d390034-928b-4c7b-a5cb-966471ea12da",
+        "name": "Radio Islam Malang 1",
+        "url": "http://siaran.radioislam.my.id:11132/",
+        "votes": 475
+      },
+      "variants": [
+        {
+          "stationuuid": "6615d1b0-b782-4c2f-a8cf-e813490b9e54",
+          "name": "Radio Islam Malang 1",
+          "url": "http://siaran.radioislam.my.id:11132/",
+          "votes": 220,
+          "differs": []
+        },
+        {
+          "stationuuid": "595e04c5-ac06-4ee0-95c7-c66ec151e807",
+          "name": "Radio Islam Malang 1",
+          "url": "http://siaran.radioislam.my.id:11132/",
+          "votes": 120,
+          "differs": []
+        },
+        {
+          "stationuuid": "ddb576eb-449b-481b-9939-b676bbdfce84",
+          "name": "Radio Islam Malang 1",
+          "url": "http://siaran.radioislam.my.id:11132/",
+          "votes": 116,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e45432b8-4a04-4ec8-9f9f-670d0964f441",
+        "name": "101 Jak FM Streaming Online – Jakarta",
+        "url": "https://wz.mari.co.id:1936/web_jakfm/jakfm/playlist.m3u8",
+        "votes": 455
+      },
+      "variants": [
+        {
+          "stationuuid": "4da9b76d-a6f7-49a2-8692-13ea57a026ce",
+          "name": "Jak 101",
+          "url": "https://wz.mari.co.id:1936/web_jakfm/jakfm/playlist.m3u8",
+          "votes": 45,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a3fbed44-49c4-47d7-8fdc-15bd87d361eb",
+        "name": "Cosmopolitan FM",
+        "url": "https://n0c.radiojar.com/u7d8heq3bnzuv",
+        "votes": 348
+      },
+      "variants": [
+        {
+          "stationuuid": "1e879be6-a5bf-4e67-871c-357199a28e4b",
+          "name": "Cosmopolitan",
+          "url": "https://n0c.radiojar.com/u7d8heq3bnzuv",
+          "votes": 86,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1fc68030-02cc-436b-8e6f-1499f37d69b1",
+        "name": "Radio Gentara",
+        "url": "https://s1.gntr.net/listen/radio_gentara/gentara64",
+        "votes": 295
+      },
+      "variants": [
+        {
+          "stationuuid": "503b3b41-4233-49fa-8aa8-67b23ffdc25c",
+          "name": "Radio Gentara",
+          "url": "https://s1.gntr.net/listen/radio_gentara/gentara64",
+          "votes": 34,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a70e843f-9814-4e24-9163-63b028efffc4",
+        "name": "Radio Islam Malang 1",
+        "url": "http://malang.radioislam.my.id:11132/",
+        "votes": 263
+      },
+      "variants": [
+        {
+          "stationuuid": "cafdc879-71bc-4a92-9eea-e6016503749d",
+          "name": "Radio Islam Malang 1",
+          "url": "http://malang.radioislam.my.id:11132/",
+          "votes": 139,
+          "differs": []
+        },
+        {
+          "stationuuid": "dece7108-ae17-4f4f-a5db-394ea8a71b1b",
+          "name": "Radio Islam Malang 1",
+          "url": "http://malang.radioislam.my.id:11132/",
+          "votes": 98,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2af1f7b5-5974-4374-8082-a101e6d9e225",
+        "name": "RRI Pro 1 Tanjungpinang",
+        "url": "https://stream-node2.rri.co.id/streaming/21/9221/rritjpinangpro1.mp3",
+        "votes": 235
+      },
+      "variants": [
+        {
+          "stationuuid": "4bfb3b4e-d5ff-4442-b815-86915245fbc4",
+          "name": "RRI Pro 1 98.3 FM Tanjungpinang",
+          "url": "https://stream-node2.rri.co.id/streaming/21/9221/rritjpinangpro1.mp3",
+          "votes": 127,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8a39e300-23b3-40f1-95fd-41cd8a9df47b",
+        "name": "Beat Radio Bali",
+        "url": "https://c1.siar.us/radio/8030/stream",
+        "votes": 211
+      },
+      "variants": [
+        {
+          "stationuuid": "89155052-ee47-4629-9c52-a5eff0000268",
+          "name": "The Beat Radio Bali",
+          "url": "https://c1.siar.us/radio/8030/stream",
+          "votes": 95,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c1daa8cd-ebe6-47e0-bd70-7d7812f0e541",
+          "name": "The Beat Bali",
+          "url": "https://c1.siar.us/radio/8030/stream",
+          "votes": 61,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3f6edfec-bc0a-4dad-83ab-e56fb4d294b3",
+        "name": "RADIO K-LITE 107.1 FM BANDUNG",
+        "url": "https://svara-stream.radioddns.net/bandung_klitefm_acc",
+        "votes": 205
+      },
+      "variants": [
+        {
+          "stationuuid": "8c8d3d77-2048-421d-8852-ab82016eeb73",
+          "name": "K-Lite FM Bandung",
+          "url": "https://svara-stream.radioddns.net/bandung_klitefm_acc",
+          "votes": 61,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e0bc3e75-9cfa-4f3b-8e56-aeff87f2b30f",
+        "name": "Megaswara FM Bogor 100,8 MHZ",
+        "url": "https://server.adyadigitalteknologi.com:8010/1",
+        "votes": 187
+      },
+      "variants": [
+        {
+          "stationuuid": "00938dec-f954-4a3f-ac5c-210ff55444ac",
+          "name": "Megaswara Bogor",
+          "url": "https://server.adyadigitalteknologi.com:8010/1",
+          "votes": 95,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b6a23a5c-dead-40b7-9377-b0011943f210",
+        "name": "RRI Pro 1 Jakarta",
+        "url": "https://stream-node1.rri.co.id/streaming/25/9025/rrijakartapro1.mp3",
+        "votes": 152
+      },
+      "variants": [
+        {
+          "stationuuid": "b00e254d-ff0f-492a-bc13-32013ea0b5e7",
+          "name": "Pro1 RRI Jakarta",
+          "url": "https://stream-node1.rri.co.id/streaming/25/9025/rrijakartapro1.mp3",
+          "votes": 84,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "73da4df3-0539-4cdc-b81f-d5debbd6a19f",
+          "name": "RRI Pro 1",
+          "url": "https://stream-node1.rri.co.id/streaming/25/9025/rrijakartapro1.mp3",
+          "votes": 0,
+          "differs": [
+            "name",
+            "bitrate",
+            "codec"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f1e28c16-040e-4206-b6c3-fdb44ff26207",
+        "name": "mandarin station",
+        "url": "https://stream01-ssl.arenastreaming.com:8043/stream",
+        "votes": 141
+      },
+      "variants": [
+        {
+          "stationuuid": "9012b549-0209-4a1f-af82-2adb685e6cf1",
+          "name": "Mandarin Station 98.3 FM",
+          "url": "https://stream01-ssl.arenastreaming.com:8043/stream",
+          "votes": 138,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "731b17f8-5909-4e18-950f-c7a846afa3fa",
+          "name": "Mandarin station FM 98.3",
+          "url": "https://stream01-ssl.arenastreaming.com:8043/stream",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ae4c8f66-8e32-4ec9-b004-8f03a663db73",
+        "name": "RRI Pro 1 Tanjungpinang",
+        "url": "https://stream-node2.rri.co.id/streaming/21/9221/rritjpinangpro4.mp3",
+        "votes": 122
+      },
+      "variants": [
+        {
+          "stationuuid": "956153b2-5d0c-400b-8efd-3c81043170db",
+          "name": "RRI Pro 4 101,3 FM Tanjungpinang",
+          "url": "https://stream-node2.rri.co.id/streaming/21/9221/rritjpinangpro4.mp3",
+          "votes": 109,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "12913f54-1f23-4594-856e-556df441c97c",
+        "name": "ananda radio bandung",
+        "url": "http://sx.alhasmedia.com/radio/8220/radio",
+        "votes": 113
+      },
+      "variants": [
+        {
+          "stationuuid": "655ca493-7393-42c0-9956-a98b48136752",
+          "name": "Radio ananda",
+          "url": "http://sx.alhasmedia.com/radio/8220/radio",
+          "votes": 49,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7beeccf9-8426-4f54-9067-bfefba8819f0",
+        "name": "RAS FM Jakarta",
+        "url": "https://i.klikhost.com/9006/stream",
+        "votes": 96
+      },
+      "variants": [
+        {
+          "stationuuid": "b6be0e08-3860-4418-974a-00f7916c2550",
+          "name": "RAS",
+          "url": "https://i.klikhost.com/9006/stream",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ba02fd4c-255b-4e11-9c99-63924ad34d97",
+          "name": "RAS",
+          "url": "https://i.klikhost.com/9006/stream",
+          "votes": 21,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d28a9fd2-f0f9-4839-bbad-c98eec2d1f66",
+        "name": "KIARA 4U",
+        "url": "https://eu1.fastcast4u.com/proxy/kiarafm?mp=/1",
+        "votes": 94
+      },
+      "variants": [
+        {
+          "stationuuid": "d088d180-ffe2-4de3-ac8d-5fcb07f09af3",
+          "name": "KIARA 4U",
+          "url": "https://eu1.fastcast4u.com/proxy/kiarafm?mp=/1",
+          "votes": 50,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4dcf5e2c-0898-4e93-8243-95fd5009e61a",
+        "name": "RRI Channel 5",
+        "url": "https://stream-node1.rri.co.id/streaming/41/8941/chlima.mp3",
+        "votes": 87
+      },
+      "variants": [
+        {
+          "stationuuid": "0beac7cf-6bcd-47ee-a3d9-d4faf372a068",
+          "name": "RRI Channel 5",
+          "url": "https://stream-node1.rri.co.id/streaming/41/8941/chlima.mp3",
+          "votes": 77,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2a1303cc-ef13-401a-9383-4c9cae648807",
+        "name": "Nusa FM Yogyakarta",
+        "url": "https://stream.zeno.fm/n5tergcf4v8uv",
+        "votes": 82
+      },
+      "variants": [
+        {
+          "stationuuid": "937fac1f-a9cc-4d56-8024-758024d4e47e",
+          "name": "Nusa FM",
+          "url": "https://stream.zeno.fm/n5tergcf4v8uv",
+          "votes": 77,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "da361a92-fa6b-4855-8a31-0ce8434be791",
+        "name": "Wawa Radio 101.2",
+        "url": "https://securestream.casthost.net:8219/stream",
+        "votes": 67
+      },
+      "variants": [
+        {
+          "stationuuid": "59862988-9172-4fc1-9322-69c2ba55187a",
+          "name": "Wawa Radio 101.2",
+          "url": "https://securestream.casthost.net:8219/stream",
+          "votes": 39,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e4b7faa5-e810-4cde-8bb4-828fffd06e3e",
+        "name": "NAGASWARA Pop",
+        "url": "https://streaming.brol.tech/jamendolounge?https://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendolounge",
+        "votes": 64
+      },
+      "variants": [
+        {
+          "stationuuid": "14414e71-de96-4594-ab64-c190a13db231",
+          "name": "NAGASWARA World",
+          "url": "https://streaming.brol.tech/jamendolounge?https://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendolounge",
+          "votes": 57,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "909669b1-92fb-4fbc-aa2a-261f9deb5124",
+          "name": "NAGASWARA World",
+          "url": "https://streaming.brol.tech/jamendolounge?https://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendolounge",
+          "votes": 53,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f8c19849-701f-479c-b973-4452f6610c1d",
+          "name": "NAGASWARA RADIOTEMEN",
+          "url": "https://streaming.brol.tech/jamendolounge?https://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendoloungehttps://streaming.brol.tech/jamendolounge",
+          "votes": 50,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bce51a67-e922-48c2-9d52-0dd686d37cba",
+        "name": "Slawi FM Tegal",
+        "url": "https://i.klikhost.com/9032/;",
+        "votes": 61
+      },
+      "variants": [
+        {
+          "stationuuid": "0aee2a47-19d6-4532-9442-567b4820e89b",
+          "name": "Slawi FM Tegal",
+          "url": "https://i.klikhost.com/9032/;",
+          "votes": 47,
+          "differs": []
+        },
+        {
+          "stationuuid": "39e6bd0f-27d4-4748-93de-c9ce86c09611",
+          "name": "Slawi FM Tegal",
+          "url": "https://i.klikhost.com/9032/;",
+          "votes": 36,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "992ac137-e071-4bba-8c20-8d331213dd1b",
+        "name": "RadioQu Bogor",
+        "url": "https://ssg.streamingmurah.com:8398/stream",
+        "votes": 53
+      },
+      "variants": [
+        {
+          "stationuuid": "8563c426-db1e-4ad7-8661-5ea274879370",
+          "name": "RadioQu Bogor",
+          "url": "https://ssg.streamingmurah.com:8398/stream",
+          "votes": 48,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "86202045-8db9-4607-9208-ec3256cef434",
+        "name": "Sananta FM Tegal",
+        "url": "http://i.klikhost.com:8500/;super.mp3",
+        "votes": 53
+      },
+      "variants": [
+        {
+          "stationuuid": "bd184baa-cf75-470e-9edd-45465ac55df8",
+          "name": "Sananta FM Tegal",
+          "url": "http://i.klikhost.com:8500/;super.mp3",
+          "votes": 40,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9b9da305-87d7-49ec-bb52-8ee28992ebde",
+        "name": "Most Radio Jakarta",
+        "url": "https://wz.mari.co.id:1936/web_mostfm/mostfm/playlist.m3u8",
+        "votes": 41
+      },
+      "variants": [
+        {
+          "stationuuid": "88005381-b549-4a60-a822-e10e2211921c",
+          "name": "MOST Radio",
+          "url": "https://wz.mari.co.id:1936/web_mostfm/mostfm/playlist.m3u8",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b8e071ba-e538-40bf-8863-0f6d189214ad",
+        "name": "Galuh Media Streaming Cianjur Indonesia",
+        "url": "https://stream-sg1.galuhmedia.co.id/listen/galuhmedia/stream",
+        "votes": 35
+      },
+      "variants": [
+        {
+          "stationuuid": "cfb016db-c9cd-448d-9043-e6284789da17",
+          "name": "Galuh Media Streaming Cianjur Indonesia",
+          "url": "https://stream-sg1.galuhmedia.co.id/listen/galuhmedia/stream",
+          "votes": 8,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6d586733-f2d6-4a76-b96c-5f28f2e3ea1d",
+        "name": "DNA FM JEPARA",
+        "url": "https://sc.dnafm.net/listen/dnafm/live",
+        "votes": 34
+      },
+      "variants": [
+        {
+          "stationuuid": "5e9e974d-4768-463b-ad9d-19c6e48a9361",
+          "name": "DNA FM JEPARA",
+          "url": "https://sc.dnafm.net/listen/dnafm/live",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ef5cc29e-a90e-475f-a765-5cac41478ee4",
+        "name": "Hits Unikom Radio",
+        "url": "https://streaming.hitsunikomradio.com/",
+        "votes": 30
+      },
+      "variants": [
+        {
+          "stationuuid": "a1912cb2-b3b9-4954-b332-414fee24f822",
+          "name": "Hits Unikom Radio",
+          "url": "https://streaming.hitsunikomradio.com/",
+          "votes": 22,
+          "differs": []
+        },
+        {
+          "stationuuid": "9b614cfb-2338-48de-9ebf-2fa13c4119bf",
+          "name": "Hits Unikom Radio",
+          "url": "https://streaming.hitsunikomradio.com/",
+          "votes": 20,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4ffbf4dd-415f-433f-8404-4abc261d3cd8",
+        "name": "Style 94.6 FM Tasikmalaya",
+        "url": "https://stream-sg1.galuhmedia.co.id:9460/stream",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "10c96c09-2c0e-42fa-9a0a-c25fb8f90da7",
+          "name": "Style 94.6 FM Tasikmalaya",
+          "url": "https://stream-sg1.galuhmedia.co.id:9460/stream",
+          "votes": 12,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e4c36cba-3bac-45b9-a41b-13216967359e",
+        "name": "Nur FM Rembang",
+        "url": "https://ssi.streamingmurah.com:8002/live",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "0832e6d9-ad31-41b4-a555-03ec63226f02",
+          "name": "Radio NUR FM Rembang",
+          "url": "https://ssi.streamingmurah.com:8002/live",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f2442658-b3ab-4065-9d47-308ebddf3d42",
+        "name": "\tRadio Suara Al-Iman 846 AM Surabaya",
+        "url": "https://radioislamindonesia.com/aliman.mp3",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "44d6a4d9-e120-4caa-b7ea-b8ab31da47f0",
+          "name": "Radio Suara Al-Iman 846 AM Surabaya",
+          "url": "https://radioislamindonesia.com/aliman.mp3",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f37d5915-5838-4e92-a70d-2ab36a573561",
+        "name": "MERDEKA",
+        "url": "https://azuracast.suzananet.com/listen/merdeka_fm/radio",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "e6342066-8e9f-4113-b3bb-19137f377ef0",
+          "name": "MERDEKA",
+          "url": "https://azuracast.suzananet.com/listen/merdeka_fm/radio",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4eb96af6-524e-4236-9243-bd27a4624dbe",
+        "name": "KPFM Balikpapan",
+        "url": "https://pu.klikhost.com/proxy/kpfmbpn/stream",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "03a48833-aaeb-4576-aac2-2d5c7c106cbc",
+          "name": "KPFM Balikpapan",
+          "url": "https://pu.klikhost.com/proxy/kpfmbpn/stream",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7c84dc53-d82e-4a41-bde2-6ba258309844",
+        "name": "City Radio 959 FM",
+        "url": "https://live.cityradio.id/cityradio.ogg",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "443733b4-147b-43af-a6f3-faf987867924",
+          "name": "City Radio 959 FM",
+          "url": "https://live.cityradio.id/cityradio.ogg",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

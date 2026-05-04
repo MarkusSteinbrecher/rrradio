@@ -1,0 +1,592 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.869Z",
+  "country": "DK",
+  "sourceProbedAt": "2026-04-30T07:00:48.687Z",
+  "totals": {
+    "deadStreams": 3,
+    "internalDupes": 28,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "4b4e418e-b536-48f8-b970-78bab26845c5",
+      "name": "Radio Mars",
+      "url": "https://radio2.digidi.net/listen/mars/radio_mid.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 31,
+      "lastProbedAt": "2026-04-30T07:00:36.371Z"
+    },
+    {
+      "stationuuid": "7017408d-aae6-4565-a615-5654c1dc32cb",
+      "name": "Mix FM Gribskov, Retro Nord",
+      "url": "https://netradio.mixfm.dk/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 23,
+      "lastProbedAt": "2026-04-30T07:00:36.853Z"
+    },
+    {
+      "stationuuid": "f35d7138-3266-4865-981f-99762ca33b63",
+      "name": "Radio Diablo (AAC)",
+      "url": "https://radio1.jfmtech.dk/diablo.aac",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 8,
+      "lastProbedAt": "2026-04-30T07:00:48.686Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "962ee337-0601-11e8-ae97-52543be04c81",
+        "name": "Retro Radio",
+        "url": "http://stream128.retro-radio.dk/retro",
+        "votes": 981
+      },
+      "variants": [
+        {
+          "stationuuid": "e2116c20-ca0c-4f9e-a25c-4c66df33bf13",
+          "name": "Retro Radio",
+          "url": "http://stream128.retro-radio.dk/retro",
+          "votes": 40,
+          "differs": []
+        },
+        {
+          "stationuuid": "11c1b080-88c0-4dc1-a6aa-d77b1b30ff6d",
+          "name": "Retro-Radio",
+          "url": "http://stream128.retro-radio.dk/retro",
+          "votes": 37,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "86407434-f7f1-4de0-9f85-d5ecfe0016e4",
+          "name": "Retro-Radio",
+          "url": "http://stream128.retro-radio.dk/retro",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9610c01b-0601-11e8-ae97-52543be04c81",
+        "name": "DR P8 JAZZ",
+        "url": "http://live-icy.gslb01.dr.dk/A/A22H.mp3",
+        "votes": 805
+      },
+      "variants": [
+        {
+          "stationuuid": "2e6f472a-d7d3-42ff-b3e5-48bdab743ac8",
+          "name": "DR P8 Jazz",
+          "url": "http://live-icy.gslb01.dr.dk/A/A22H.mp3",
+          "votes": 355,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d1aff0af-3e9e-4ad2-a9d6-cfed3ffd6a66",
+        "name": "Tango Copenhagen Radio",
+        "url": "https://tangocopenhagen.stream.laut.fm/tangocopenhagen?t302=2021-01-15_18-47-40&uuid=64db9a91-4a6e-4bc8-ba24-26a2fa7f24d0",
+        "votes": 801
+      },
+      "variants": [
+        {
+          "stationuuid": "37e84ac0-5336-4ce8-badb-6fdc7ed8923e",
+          "name": "Tango Copenhagen",
+          "url": "https://tangocopenhagen.stream.laut.fm/tangocopenhagen?pl=m3u&t302=2026-01-15_07-29-52&uuid=2ce4484f-6ce9-4c5b-893f-fae1c3a7de8c",
+          "votes": 31,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1eb0a70c-2cc1-11e9-a35e-52543be04c81",
+        "name": "Nova 100% Dansk",
+        "url": "https://live-bauerdk.sharp-stream.com/DK_HQ_RP11.aac",
+        "votes": 673
+      },
+      "variants": [
+        {
+          "stationuuid": "effb3b79-8c7f-41c9-83d4-b7bdc393b937",
+          "name": "Nova 100 Dansk",
+          "url": "https://live-bauerdk.sharp-stream.com/DK_HQ_RP11.aac",
+          "votes": 35,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e8cf62bc-61f2-445c-b2ed-bec5bd5226ea",
+        "name": "DR P3",
+        "url": "http://live-icy.gss.dr.dk:8000/A/A05H.mp3",
+        "votes": 469
+      },
+      "variants": [
+        {
+          "stationuuid": "1e412c99-d6ac-4d25-9f14-417a7a219c60",
+          "name": "DR P3",
+          "url": "http://live-icy.gss.dr.dk:8000/A/A05H.mp3",
+          "votes": 109,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960f5af4-0601-11e8-ae97-52543be04c81",
+        "name": "DR P2",
+        "url": "http://live-icy.gslb01.dr.dk/A/A04H.mp3",
+        "votes": 395
+      },
+      "variants": [
+        {
+          "stationuuid": "871abc60-a5c2-459a-8294-b615f7b153b8",
+          "name": "DR P2",
+          "url": "http://live-icy.gslb01.dr.dk/A/A04H.mp3",
+          "votes": 127,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d252b764-8920-4d6f-9b03-a68813a6c93f",
+        "name": "Party Fm",
+        "url": "http://stream1.partyfm.dk/Party320",
+        "votes": 345
+      },
+      "variants": [
+        {
+          "stationuuid": "37de7ca3-9cad-479b-ad27-4f3a4d068636",
+          "name": "Partyfm ",
+          "url": "http://stream1.partyfm.dk/Party320",
+          "votes": 21,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4c493e5b-983d-4ad8-9e6a-290dccf730b7",
+          "name": "Partyfm ",
+          "url": "http://stream1.partyfm.dk/Party320",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "16e4f32b-81d3-42e5-b6ac-38a15ef148f1",
+        "name": "Radio ABC",
+        "url": "https://radioserver.dk/abc",
+        "votes": 206
+      },
+      "variants": [
+        {
+          "stationuuid": "9cb2aa9d-b96d-497e-8389-85664ebbf867",
+          "name": "Radio ABC",
+          "url": "https://radioserver.dk/abc",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960f5583-0601-11e8-ae97-52543be04c81",
+        "name": "DR P4 Nordjylland",
+        "url": "http://live-icy.gslb01.dr.dk/A/A10H.mp3",
+        "votes": 186
+      },
+      "variants": [
+        {
+          "stationuuid": "53cb3284-c504-40bd-898a-61825abbdc49",
+          "name": "DR P4 Nordjylland",
+          "url": "http://live-icy.gslb01.dr.dk/A/A10H.mp3",
+          "votes": 17,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "632fe760-a124-4385-9061-6acb4bd14d0f",
+        "name": "The Voice - Danmarks Hitstation",
+        "url": "https://live-bauerdk.sharp-stream.com/thevoice_dk_mp3",
+        "votes": 166
+      },
+      "variants": [
+        {
+          "stationuuid": "5182c037-4ae5-49ce-b40d-fee200ad199f",
+          "name": "GLR - Gentofte Lokal Radio",
+          "url": "https://live-bauerdk.sharp-stream.com/thevoice_dk_mp3",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96298c0b-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Nord",
+        "url": "http://netradio.radionord.dk:8000/RadioNord",
+        "votes": 119
+      },
+      "variants": [
+        {
+          "stationuuid": "f9ce659b-0727-4ac1-af3b-b3171b10d1d0",
+          "name": "Radio Nord",
+          "url": "http://netradio.radionord.dk:8000/RadioNord",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4bcb11ad-0ac0-4bb6-8b36-603ba1a4effd",
+        "name": "Nova FM",
+        "url": "https://live-bauerdk.sharp-stream.com/nova_dk_mp3",
+        "votes": 112
+      },
+      "variants": [
+        {
+          "stationuuid": "9929aca5-2a39-4915-87b4-c62d55761d4d",
+          "name": "NOVA - Horsens 103.6 FM",
+          "url": "https://live-bauerdk.sharp-stream.com/nova_dk_mp3",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "801ce973-f3d8-4c0f-b11f-832b5f6377d9",
+        "name": "Radio Alfa",
+        "url": "https://radioserver.dk/alfa",
+        "votes": 85
+      },
+      "variants": [
+        {
+          "stationuuid": "737884fb-a729-4ce7-ab24-c22245618e95",
+          "name": "Radio Alfa",
+          "url": "https://radioserver.dk/alfa",
+          "votes": 11,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a1631bea-d910-4fc2-bc88-a163009484d2",
+        "name": "DR P4 Nordjylland (AAC)",
+        "url": "https://drliveradio1.akamaized.net/hls/live/2097651/p4nordjylland/masterab.m3u8",
+        "votes": 82
+      },
+      "variants": [
+        {
+          "stationuuid": "addd84e9-2723-460e-8b8f-b2c19a854ece",
+          "name": "DR P4 Nordjylland",
+          "url": "https://drliveradio1.akamaized.net/hls/live/2097651/p4nordjylland/masterab.m3u8",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3afb7b74-5946-44d5-98c5-f70808d4526d",
+        "name": "Radio Viva - Kolding",
+        "url": "https://stream.probroadcast.dk/radioviva",
+        "votes": 79
+      },
+      "variants": [
+        {
+          "stationuuid": "d549216c-f943-48c7-8c39-324214177c60",
+          "name": "Radio Viva",
+          "url": "https://stream.probroadcast.dk/radioviva",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c3f54477-78f5-4796-bcfc-6b464295103e",
+        "name": "Radio Denmark FM",
+        "url": "https://live-bauerdk.sharp-stream.com/radio100_dk_mp3",
+        "votes": 73
+      },
+      "variants": [
+        {
+          "stationuuid": "2fec1d56-0045-44ae-9ead-c975cbcb3af1",
+          "name": "Radio 100",
+          "url": "https://live-bauerdk.sharp-stream.com/radio100_dk_mp3",
+          "votes": 69,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ed6dbdc4-3512-41d2-aa2d-136b83d8b505",
+        "name": "DR P8 Jazz",
+        "url": "http://live-icy.gss.dr.dk:8000/A/A22H.mp3",
+        "votes": 60
+      },
+      "variants": [
+        {
+          "stationuuid": "434c4e8f-ce9b-447c-80f6-1f2f75a3e566",
+          "name": "DR P8 Jazz",
+          "url": "http://live-icy.gss.dr.dk:8000/A/A22H.mp3",
+          "votes": 48,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "59a304c4-39f4-49f4-abc7-6a086f6d1de4",
+        "name": "Radio Klitholm",
+        "url": "http://stream.radioklitholm.dk:8000/stream",
+        "votes": 60
+      },
+      "variants": [
+        {
+          "stationuuid": "c47af956-7920-427d-91da-054288337ada",
+          "name": "Radio Klitholm - Det Ny Kanal 1",
+          "url": "http://stream.radioklitholm.dk:8000/stream",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e463f4fd-8de9-44e7-b139-7ffc309c4520",
+        "name": "Alfa Gold",
+        "url": "https://radioserver.dk/alfaevent",
+        "votes": 52
+      },
+      "variants": [
+        {
+          "stationuuid": "b6f5187a-e78a-4337-a023-bb589ee55f0b",
+          "name": "Radio Alfa - Gold",
+          "url": "https://radioserver.dk/alfaevent",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ee5c74c5-0440-4676-b6dc-4dfb70db6ded",
+        "name": "Radio Globus",
+        "url": "https://stream.probroadcast.dk/radioglobus",
+        "votes": 46
+      },
+      "variants": [
+        {
+          "stationuuid": "15d1a95a-abcc-478a-a87f-7cf5d2b242ae",
+          "name": "Radio Globus",
+          "url": "https://stream.probroadcast.dk/radioglobus",
+          "votes": 40,
+          "differs": []
+        },
+        {
+          "stationuuid": "2c47bda3-a75b-40f9-a96a-b132835128e0",
+          "name": "Radio Globus",
+          "url": "https://stream.probroadcast.dk/radioglobus",
+          "votes": 18,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9a5f3b79-13c6-4a0e-a41f-6b5ad048c1a4",
+        "name": "Retro Radio",
+        "url": "https://tx-2.retro-radio.dk/TX-2",
+        "votes": 45
+      },
+      "variants": [
+        {
+          "stationuuid": "cb5c98a0-9a51-45fc-b6a7-21b60f4225f3",
+          "name": "Retro Millennium",
+          "url": "https://tx-2.retro-radio.dk/TX-2",
+          "votes": 42,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1acd0e04-ea0c-46e8-9d5c-bd7d0233532c",
+        "name": "DR P4 Trekanten (AAC)",
+        "url": "https://drliveradio1.akamaized.net/hls/live/2097651/p4trekanten/masterab.m3u8",
+        "votes": 38
+      },
+      "variants": [
+        {
+          "stationuuid": "9aa58b89-2aae-4dc3-9634-fce0e92177a1",
+          "name": "DR P4 Trekanten (AAC)",
+          "url": "https://drliveradio1.akamaized.net/hls/live/2097651/p4trekanten/masterab.m3u8",
+          "votes": 25,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "805be5cd-1865-458d-82bd-80513dfb4423",
+        "name": "Radio Mælkebøtten",
+        "url": "http://live2.rcast.net:8722/;stream",
+        "votes": 29
+      },
+      "variants": [
+        {
+          "stationuuid": "9159f400-d6a3-4408-adfc-42ffd95f049d",
+          "name": "Radio MB",
+          "url": "http://live2.rcast.net:8722/;stream",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cd411cb2-bef5-4e75-87ce-76b3c8b3bbf0",
+        "name": "Midtfjord Radio / Radio Nibenitten",
+        "url": "http://stream.midtfjordradio.dk/netradio",
+        "votes": 20
+      },
+      "variants": [
+        {
+          "stationuuid": "c63d6c6e-4edc-4fe4-91fc-823dc0dc3c47",
+          "name": "Midtfjord Radio",
+          "url": "http://stream.midtfjordradio.dk/netradio",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c7e105b6-4e4d-4b30-a1a6-9f496c8d43b4",
+        "name": "Danmarks Radio P2",
+        "url": "https://live-icy.dr.dk/A/A27L.mp3",
+        "votes": 19
+      },
+      "variants": [
+        {
+          "stationuuid": "14c0f0ff-3aa6-4e6d-a764-0fad7c365f3c",
+          "name": "Danmarks Radio P3",
+          "url": "https://live-icy.dr.dk/A/A27L.mp3",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6e40e7fd-e80c-4409-910f-ed20d903d1f8",
+        "name": "Radio Humleborg",
+        "url": "http://media.wlmm.dk/humleborg.m3u",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "064e5ce0-bf9f-44d6-af36-e00b75e95217",
+          "name": "Jazzkanalen",
+          "url": "http://media.wlmm.dk/humleborg.m3u",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "661c92fb-a3bb-4b81-856f-7e93c6a5c38f",
+        "name": "Radio Østsjælland Rollo",
+        "url": "http://stream.radiosolutions.dk/rollo",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "1507676e-a63a-4b0b-817e-e63cad25a8af",
+          "name": "Radio Rollo",
+          "url": "http://stream.radiosolutions.dk/rollo",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9edda838-dfaf-44fa-8c13-23972afac6e7",
+        "name": "DR P4 Bornholm",
+        "url": "https://live-icy.dr.dk/A/A30H.mp3",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "d1bd8767-9780-42ed-b832-c9efecac205c",
+          "name": "DR P5 Bornholm",
+          "url": "https://live-icy.dr.dk/A/A30H.mp3",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

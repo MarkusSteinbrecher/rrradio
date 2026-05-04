@@ -1,0 +1,3024 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.884Z",
+  "country": "PL",
+  "sourceProbedAt": "2026-04-29T21:20:36.318Z",
+  "totals": {
+    "deadStreams": 17,
+    "internalDupes": 131,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "9617d67b-0601-11e8-ae97-52543be04c81",
+      "name": "Antyradio",
+      "url": "https://n-4-2.dcs.redcdn.pl/sc/o2/Eurozet/live/antyradio.livx?audio=5",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 500",
+      "votes": 26220,
+      "lastProbedAt": "2026-04-29T21:20:04.599Z"
+    },
+    {
+      "stationuuid": "7005fb24-5b0e-4880-9243-54b42287ddcc",
+      "name": "Antyradio",
+      "url": "https://n-4-2.dcs.redcdn.pl/sc/o2/Eurozet/live/antyradio.livx?audio=5",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 500",
+      "votes": 682,
+      "lastProbedAt": "2026-04-29T21:20:04.600Z"
+    },
+    {
+      "stationuuid": "f4dfff67-876a-4f2d-b49a-7bb643f4665d",
+      "name": "Antyradio",
+      "url": "https://n-4-2.dcs.redcdn.pl/sc/o2/Eurozet/live/antyradio.livx?audio=5",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 134,
+      "lastProbedAt": "2026-04-29T21:20:20.256Z"
+    },
+    {
+      "stationuuid": "15023d47-34cb-41a4-82e1-05aa36c21d4e",
+      "name": "trap",
+      "url": "https://getradio.reconv.pl/openfm?s=trap-pl",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 105,
+      "lastProbedAt": "2026-04-29T21:20:12.059Z"
+    },
+    {
+      "stationuuid": "d5b9e6b3-05e6-4335-a979-5c5fc2599fa9",
+      "name": "UJOT FM",
+      "url": "https://stream.ujot.fm/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 51,
+      "lastProbedAt": "2026-04-29T21:20:18.968Z"
+    },
+    {
+      "stationuuid": "2a6e1bf3-3fd8-40fa-be5b-b3e10edeb4b6",
+      "name": "trap pl",
+      "url": "https://getradio.reconv.pl/openfm?s=trap-pl",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 49,
+      "lastProbedAt": "2026-04-29T21:20:19.210Z"
+    },
+    {
+      "stationuuid": "b9daa3c9-b2f9-4d9b-9841-5f9fa1df9eae",
+      "name": "trap pl",
+      "url": "https://getradio.reconv.pl/openfm?s=trap",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 35,
+      "lastProbedAt": "2026-04-29T21:20:22.527Z"
+    },
+    {
+      "stationuuid": "5f813e14-69f6-4d29-8a87-ff6096ddf90c",
+      "name": "Radio Dzwiek",
+      "url": "https://streamhls.radiodzwiek.slask.pl/dzwiek-mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T21:20:31.877Z"
+    },
+    {
+      "stationuuid": "9762a581-cc6e-4647-bfab-9495be7eefb9",
+      "name": "Open FM - Impreza",
+      "url": "https://getradio.reconv.pl/openfm?s=impreza",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T21:20:32.802Z"
+    },
+    {
+      "stationuuid": "ef2957bd-4b9a-4e1a-9e9d-0364741f2056",
+      "name": "Radio Dzwiek",
+      "url": "https://streamhls.radiodzwiek.slask.pl/dzwiek",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T21:20:32.871Z"
+    },
+    {
+      "stationuuid": "f8b995b3-fcda-4a25-b4aa-ae7ee99f5c48",
+      "name": "Radio Dzwiek",
+      "url": "https://streamhls.radiodzwiek.slask.pl/dzwiek/hls.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T21:20:32.912Z"
+    },
+    {
+      "stationuuid": "1fefdf16-eab7-4893-a3b2-ad57f6355a20",
+      "name": "Radio Dzwiek",
+      "url": "https://streamhls.radiodzwiek.slask.pl/dzwiek128",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T21:20:33.242Z"
+    },
+    {
+      "stationuuid": "b8b79a84-59eb-4c6b-aa02-68ab1a730989",
+      "name": "Radio Dzwiek",
+      "url": "https://streamhls.radiodzwiek.slask.pl/dzwiek64",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T21:20:33.253Z"
+    },
+    {
+      "stationuuid": "92d1aaeb-707e-4d08-afc9-3c9732bf151e",
+      "name": "Radio Mrągowo ",
+      "url": "https://a1.asurahosting.com/listen/radio_mr%C4%85gowo/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T21:20:34.751Z"
+    },
+    {
+      "stationuuid": "a1354de6-bc3a-4760-b53b-a3fa8da8466e",
+      "name": "YoungMafijja FM",
+      "url": "https://stream.zeno.fm/oxfrdtyiy4auv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T21:20:34.918Z"
+    },
+    {
+      "stationuuid": "1684206e-0b45-4c07-aac3-c905e53e59a2",
+      "name": "Radio Dźwięk",
+      "url": "https://streamhls.radiodzwiek.slask.pl/dzwiek",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T21:20:35.119Z"
+    },
+    {
+      "stationuuid": "f7db66ba-827b-47de-8a5d-5a53494c128b",
+      "name": "Radio Dźwięk",
+      "url": "https://streamhls.radiodzwiek.slask.pl/dzwiek",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T21:20:35.179Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "399b7c2a-6680-11e8-b15b-52543be04c81",
+        "name": "RMF FM",
+        "url": "http://195.150.20.242:8000/rmf_fm",
+        "votes": 59202
+      },
+      "variants": [
+        {
+          "stationuuid": "85b1670f-eb1e-4b38-8bc4-687962ba9c06",
+          "name": "rmf",
+          "url": "http://195.150.20.242:8000/rmf_fm",
+          "votes": 104,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "59e30dda-64bf-11ea-be63-52543be04c81",
+        "name": "Radio Zet",
+        "url": "http://zet-net-01.cdn.eurozet.pl:8400/",
+        "votes": 48387
+      },
+      "variants": [
+        {
+          "stationuuid": "aedcfbaa-e39b-4066-a1b3-9f22e4ad2197",
+          "name": "Radia Zet ",
+          "url": "http://zet-net-01.cdn.eurozet.pl:8400/",
+          "votes": 469,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9617d67b-0601-11e8-ae97-52543be04c81",
+        "name": "Antyradio",
+        "url": "https://n-4-2.dcs.redcdn.pl/sc/o2/Eurozet/live/antyradio.livx?audio=5",
+        "votes": 26220
+      },
+      "variants": [
+        {
+          "stationuuid": "7005fb24-5b0e-4880-9243-54b42287ddcc",
+          "name": "Antyradio",
+          "url": "https://n-4-2.dcs.redcdn.pl/sc/o2/Eurozet/live/antyradio.livx?audio=5",
+          "votes": 682,
+          "differs": []
+        },
+        {
+          "stationuuid": "f4dfff67-876a-4f2d-b49a-7bb643f4665d",
+          "name": "Antyradio",
+          "url": "https://n-4-2.dcs.redcdn.pl/sc/o2/Eurozet/live/antyradio.livx?audio=5",
+          "votes": 134,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961a56e9-0601-11e8-ae97-52543be04c81",
+        "name": "Polskie Radio 24",
+        "url": "http://stream3.polskieradio.pl:8080/;.mp3",
+        "votes": 17501
+      },
+      "variants": [
+        {
+          "stationuuid": "75b823fc-f95f-4b88-a2e1-737750ac8ad9",
+          "name": "Polskie Radio 24",
+          "url": "http://stream3.polskieradio.pl:8080/;.mp3",
+          "votes": 1828,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "964558ba-0601-11e8-ae97-52543be04c81",
+        "name": "Polskie Radio Jedynka",
+        "url": "http://mp3.polskieradio.pl:8900/;.mp3",
+        "votes": 17206
+      },
+      "variants": [
+        {
+          "stationuuid": "775c131e-121c-4ed2-844d-6f38f366b514",
+          "name": "JEDYNKA",
+          "url": "http://mp3.polskieradio.pl:8900/;.mp3",
+          "votes": 26,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c7915f33-f401-4ab4-9f49-dcc1cce15ed6",
+        "name": "TOK FM",
+        "url": "https://radiostream.pl/tuba10-1.mp3#TOK_FM",
+        "votes": 8896
+      },
+      "variants": [
+        {
+          "stationuuid": "0013eb82-2dea-41f7-9534-936d0b2721b7",
+          "name": "TokFM",
+          "url": "https://radiostream.pl/tuba10-1.mp3",
+          "votes": 5778,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "9b595c4c-73da-4609-a3d1-0e49c349a672",
+          "name": "TOK FM",
+          "url": "https://radiostream.pl/tuba10-1.mp3",
+          "votes": 501,
+          "differs": [
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "0e1aba33-4773-4908-9f4a-48fa7fd41730",
+          "name": "TOK FM",
+          "url": "https://radiostream.pl/tuba10-1.mp3",
+          "votes": 226,
+          "differs": [
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "4dcf8a2b-bcd0-41f4-a48c-2c05ce39e4d8",
+          "name": "TokFM",
+          "url": "https://radiostream.pl/tuba10-1.mp3",
+          "votes": 106,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96117fec-0601-11e8-ae97-52543be04c81",
+        "name": "Polskie Radio Program 1",
+        "url": "http://mp3.polskieradio.pl:8900/",
+        "votes": 7954
+      },
+      "variants": [
+        {
+          "stationuuid": "145e0889-b1d9-4d01-83df-be90fd547c4c",
+          "name": "Jedynka",
+          "url": "http://mp3.polskieradio.pl:8900/",
+          "votes": 103,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "0b2b8fa1-9876-4e5e-8d00-ee0ea08f69ca",
+          "name": "Jedynka",
+          "url": "http://mp3.polskieradio.pl:8900/",
+          "votes": 73,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961b5bb7-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Szczecin (128K MP3)",
+        "url": "http://stream4.nadaje.com:11986/prs",
+        "votes": 6249
+      },
+      "variants": [
+        {
+          "stationuuid": "60c5a222-7a87-4187-bc34-c6869e2075ed",
+          "name": "Polskie Radio Szczecin 92FM",
+          "url": "http://stream4.nadaje.com:11986/prs",
+          "votes": 60,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "60af5388-a6f0-44e0-be54-16840bed22cb",
+          "name": "Polskie Radio Szczecin 92FM",
+          "url": "http://stream4.nadaje.com:11986/prs",
+          "votes": 38,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0a13c62c-5560-47de-8a64-a33870ca3798",
+        "name": "Polskie Radio Kierowców",
+        "url": "http://stream3.polskieradio.pl:8918/;",
+        "votes": 5080
+      },
+      "variants": [
+        {
+          "stationuuid": "fc74b5df-1773-4a5c-8a67-90a0aa2909ba",
+          "name": "PR KIEROWCÓW ",
+          "url": "http://stream3.polskieradio.pl:8918/;",
+          "votes": 233,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "9a3fb508-d38b-4b4d-8111-1556a40f4b96",
+          "name": "PR KIEROWCÓW ",
+          "url": "http://stream3.polskieradio.pl:8918/;",
+          "votes": 24,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "90877e51-c905-431d-aad2-cf7bea939a7b",
+        "name": "Radio Nowy Świat 256k",
+        "url": "https://go-audio.toya.net.pl/63214",
+        "votes": 5042
+      },
+      "variants": [
+        {
+          "stationuuid": "d81fd5d3-4c24-4768-88b3-57954e77c0e7",
+          "name": "Radio Nowy Świat",
+          "url": "https://go-audio.toya.net.pl/63214",
+          "votes": 2174,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "77e61015-4d45-40f1-a460-ee30cdd15c7b",
+          "name": "Radio Nowy Świat",
+          "url": "https://go-audio.toya.net.pl/63214",
+          "votes": 402,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8f1874e0-57ae-4b67-a7c9-d2002a813882",
+          "name": "Radio Nowy Świat",
+          "url": "https://go-audio.toya.net.pl/63214",
+          "votes": 375,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "6dcc981e-4602-401c-b175-7649736e2f11",
+          "name": "Radio Nowy Świat",
+          "url": "https://go-audio.toya.net.pl/63214",
+          "votes": 313,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960f4b0b-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Gdansk",
+        "url": "http://stream.task.gda.pl:8000/rg1",
+        "votes": 5011
+      },
+      "variants": [
+        {
+          "stationuuid": "d73be034-4393-48d0-91ef-79d1f67e5672",
+          "name": "Polskie Radio Gdańsk",
+          "url": "http://stream.task.gda.pl:8000/rg1",
+          "votes": 74,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "698edc0e-7027-11ea-b1cf-52543be04c81",
+        "name": "Wnet.fm",
+        "url": "https://media.wnet.fm/wnet.fm",
+        "votes": 3182
+      },
+      "variants": [
+        {
+          "stationuuid": "a0c54e9b-0131-4ee6-9f2a-eff2ba552713",
+          "name": "Radio WNET",
+          "url": "https://media.wnet.fm/wnet.fm",
+          "votes": 1232,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "52d1311f-328f-4de9-97d1-ab91b349c981",
+          "name": "WNET.fm",
+          "url": "https://media.wnet.fm/wnet.fm",
+          "votes": 416,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ad3f3041-7879-4abb-bfce-36efae67a43f",
+          "name": "Wnet.FM",
+          "url": "https://media.wnet.fm/wnet.fm",
+          "votes": 49,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96166d6e-0601-11e8-ae97-52543be04c81",
+        "name": "Minimal Mix Radio",
+        "url": "http://orion.shoutca.st:8750/",
+        "votes": 3095
+      },
+      "variants": [
+        {
+          "stationuuid": "4732081d-1bb0-472d-8e1e-6c78cf7abf2c",
+          "name": "Minimal Mix Radio",
+          "url": "http://orion.shoutca.st:8750/",
+          "votes": 182,
+          "differs": []
+        },
+        {
+          "stationuuid": "8a6545d4-9b5e-4412-8e32-f221e8594fa9",
+          "name": "Minimal Mix Radio",
+          "url": "http://orion.shoutca.st:8750/",
+          "votes": 11,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "da0174e1-a1b0-447d-befb-087a6c88d6d4",
+        "name": "Chilli Zet",
+        "url": "https://ch.cdn.eurozet.pl/chi-net.mp3",
+        "votes": 2931
+      },
+      "variants": [
+        {
+          "stationuuid": "14b795df-4210-49e2-b491-189523b49f4d",
+          "name": " Radio ZET Chilli ",
+          "url": "https://ch.cdn.eurozet.pl/chi-net.mp3",
+          "votes": 1156,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "53241c38-4a74-4beb-9514-1033913d1ede",
+        "name": "SmoothJazz.com.pl 320k MP3",
+        "url": "https://bcast.vigormultimedia.com:48888/sjcompl320mp3",
+        "votes": 2070
+      },
+      "variants": [
+        {
+          "stationuuid": "096b4e5d-e06f-4d19-b370-6329ca1773f1",
+          "name": "SmoothJazz.com.pl",
+          "url": "https://bcast.vigormultimedia.com:48888/sjcompl320mp3",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c5537928-638d-4eef-b603-11a089027f8c",
+        "name": "RadioFEST",
+        "url": "https://play.radiofest.pl:8443/fest",
+        "votes": 1783
+      },
+      "variants": [
+        {
+          "stationuuid": "60921fad-ac07-4efa-911e-726aae55cd33",
+          "name": "Radio Fest 100.2 FM",
+          "url": "https://play.radiofest.pl:8443/fest",
+          "votes": 337,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960d9954-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Jasna Gora",
+        "url": "http://online.radiojasnagora.pl:8000/rjg",
+        "votes": 1779
+      },
+      "variants": [
+        {
+          "stationuuid": "279f9156-6b11-4488-a6f5-4df568394458",
+          "name": "Radio Jasna Gora",
+          "url": "http://online.radiojasnagora.pl:8000/rjg",
+          "votes": 30,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "383945c6-6ca0-4da6-8d1e-c231bc7809f7",
+        "name": "Radio 7",
+        "url": "http://stream.radio7.pl:443/radio7.mp3",
+        "votes": 1504
+      },
+      "variants": [
+        {
+          "stationuuid": "cb722f3a-96a0-463f-bc31-2dab0ee176fe",
+          "name": "Radio7 Mława",
+          "url": "http://stream.radio7.pl:443/radio7.mp3",
+          "votes": 1412,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "05268b3b-2f57-4061-a619-5fd35e0f6971",
+        "name": "Polskie Radio Program 3",
+        "url": "http://stream3.polskieradio.pl:8954/;.mp3",
+        "votes": 1483
+      },
+      "variants": [
+        {
+          "stationuuid": "6b17348a-05c3-11e9-a3cd-52543be04c81",
+          "name": "Polskie Radio Trojka AAC",
+          "url": "http://stream3.polskieradio.pl:8954/;.mp3",
+          "votes": 1266,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6bf03632-07d9-4112-8119-03588ec8f556",
+        "name": "Anty Radio",
+        "url": "https://an.cdn.eurozet.pl/ant-web.mp3?t=1713710188361",
+        "votes": 1455
+      },
+      "variants": [
+        {
+          "stationuuid": "7baf76c1-6b23-4d1d-b571-eb94b383060f",
+          "name": "Antyradio Warszawa",
+          "url": "https://an.cdn.eurozet.pl/ant-web.mp3?t=1703697029993",
+          "votes": 176,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "66ea450e-b57c-4035-90c7-d25860df8c68",
+        "name": "PR TRÓJKA ",
+        "url": "http://mp3.polskieradio.pl:8904/;.mp3",
+        "votes": 1258
+      },
+      "variants": [
+        {
+          "stationuuid": "c2ec15c4-e6ca-45b8-bba6-e09bd8917047",
+          "name": "PR TRÓJKA ",
+          "url": "http://mp3.polskieradio.pl:8904/;.mp3",
+          "votes": 598,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "64e5a5d1-8b04-419c-b350-28f056818282",
+        "name": "ESKA POZNAŃ ",
+        "url": "https://ic2.smcdn.pl/2140-1.aac",
+        "votes": 1169
+      },
+      "variants": [
+        {
+          "stationuuid": "efd48eeb-f695-4375-8438-4ff6b4dd4e82",
+          "name": "ESKA POZNAŃ ",
+          "url": "https://ic2.smcdn.pl/2140-1.aac",
+          "votes": 94,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960f9400-0601-11e8-ae97-52543be04c81",
+        "name": "Polskie Radio RDC - Radio Dla Ciebie",
+        "url": "http://stream2.nadaje.com:11140/rdc",
+        "votes": 1057
+      },
+      "variants": [
+        {
+          "stationuuid": "02cf0d4b-61c6-4942-9da5-87deb0cd0ba8",
+          "name": "Radio RDC",
+          "url": "http://stream2.nadaje.com:11140/rdc",
+          "votes": 65,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961b5ae6-0601-11e8-ae97-52543be04c81",
+        "name": "Radio RAM",
+        "url": "http://stream4.nadaje.com:9220/ram",
+        "votes": 1020
+      },
+      "variants": [
+        {
+          "stationuuid": "853c4ec6-b1d9-42b0-9d64-2e463796d822",
+          "name": "Radio RAM",
+          "url": "http://stream4.nadaje.com:9220/ram",
+          "votes": 250,
+          "differs": []
+        },
+        {
+          "stationuuid": "6129f6bd-ab0a-4448-8280-d3ad12603d84",
+          "name": "Radio RAM (MP3)",
+          "url": "http://stream4.nadaje.com:9220/ram",
+          "votes": 139,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e8c27cc3-e6e8-40b4-aca1-5e293a548c63",
+        "name": "Radio Disco Party - Disco Polo",
+        "url": "https://s1.slotex.pl/shoutcast/7432/stream",
+        "votes": 993
+      },
+      "variants": [
+        {
+          "stationuuid": "89b7c2fb-91bd-4e4b-81aa-7bfcd06dc7be",
+          "name": "DISCOPARTY.PL - Kanał disco",
+          "url": "https://s1.slotex.pl/shoutcast/7432/stream",
+          "votes": 607,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b7b409d6-689d-4977-ba74-8ead870e1ccd",
+          "name": "DiscoParty.pl - Disco Polo",
+          "url": "https://s1.slotex.pl/shoutcast/7432/stream?sid=1",
+          "votes": 114,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "8412c718-43ec-4970-b878-1b91a7ad9769",
+          "name": "DiscoParty.pl - Disco Polo",
+          "url": "https://s1.slotex.pl/shoutcast/7432/stream?sid=1",
+          "votes": 97,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ed092732-49e1-449c-b7de-811b5241182a",
+        "name": "VOX FM DISCO 90",
+        "url": "http://ic1.smcdn.pl/6170-1.mp3",
+        "votes": 908
+      },
+      "variants": [
+        {
+          "stationuuid": "c20d1714-cdde-4b91-b0f1-006e2a4dfec1",
+          "name": "VOX FM DISCO 90",
+          "url": "http://ic1.smcdn.pl/6170-1.mp3",
+          "votes": 28,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "25390b62-ae1e-400d-aa68-ec248fbd20cb",
+        "name": "EskaROCK",
+        "url": "https://radio.stream.smcdn.pl/icradio-p/5380-1.aac/playlist.m3u8",
+        "votes": 859
+      },
+      "variants": [
+        {
+          "stationuuid": "e227d86f-eac0-4d6d-9398-4a780b2ac91b",
+          "name": "EskaROCK",
+          "url": "https://radio.stream.smcdn.pl/icradio-p/5380-1.aac/playlist.m3u8",
+          "votes": 117,
+          "differs": []
+        },
+        {
+          "stationuuid": "659998cc-bb05-4b9a-bf97-901b771ce891",
+          "name": "EskaROCK",
+          "url": "https://radio.stream.smcdn.pl/icradio-p/5380-1.aac/playlist.m3u8",
+          "votes": 104,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8aafbf38-346c-479c-b80c-abd308613d16",
+        "name": "Antyradio Classic Rock",
+        "url": "https://an01.cdn.eurozet.pl/ANTCLA.mp3?redirected=01",
+        "votes": 733
+      },
+      "variants": [
+        {
+          "stationuuid": "4d7db4fe-e764-4b66-93f1-5a78ff74f7dc",
+          "name": "Antyradio Classic Rock",
+          "url": "https://an01.cdn.eurozet.pl/ANTCLA.mp3?redirected=01",
+          "votes": 69,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dc579323-34b1-4b37-ad43-4db9cb00e710",
+        "name": "Radio TOP80",
+        "url": "https://top80.pl:8000/listen.mp3",
+        "votes": 718
+      },
+      "variants": [
+        {
+          "stationuuid": "f429966e-b79b-4787-9dd7-316752cee5c7",
+          "name": "Radio TOP80 - gra PiloNet [top80.pl Italo Disco]",
+          "url": "https://top80.pl:8000/listen.mp3",
+          "votes": 113,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b99357d9-2d23-4c47-903a-403c8830adfb",
+          "name": "top80.pl",
+          "url": "https://top80.pl:8000/listen.mp3",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5785313c-25f6-4e88-a382-756b69927ee2",
+        "name": "RMF MAXXX 99.7 Pomorze",
+        "url": "https://rs202-krk-cyfronet.rmfstream.pl/rmf_maxxx?aw_0_1st.playerid=RMF_TuneIn&skey=1616600473",
+        "votes": 717
+      },
+      "variants": [
+        {
+          "stationuuid": "dea9401e-2a1e-4000-a54e-3f2a459929e8",
+          "name": "RMFmaxx",
+          "url": "https://rs202-krk-cyfronet.rmfstream.pl/rmf_maxxx",
+          "votes": 208,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "388698fd-f555-49bc-9b8e-9297aa1c9b7e",
+        "name": "Radio Rzeszów",
+        "url": "https://streaming.g-news.pl:8040/rzeszow",
+        "votes": 715
+      },
+      "variants": [
+        {
+          "stationuuid": "75acae79-f105-43b2-a4ef-88b1e3dbb655",
+          "name": "Radio Rzeszów",
+          "url": "https://streaming.g-news.pl:8040/rzeszow",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c64f60f5-594a-43ab-bf7b-02c883ca2ab5",
+        "name": "Polskie Radio 24 (NEW STREAM)",
+        "url": "https://stream15.polskieradio.pl/pr24/pr24.sdp/playlist.m3u8",
+        "votes": 705
+      },
+      "variants": [
+        {
+          "stationuuid": "da6bf00e-3051-4d7b-a945-bf1f43ba0b69",
+          "name": "PR24",
+          "url": "https://stream15.polskieradio.pl/pr24/pr24.sdp/playlist.m3u8",
+          "votes": 604,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        },
+        {
+          "stationuuid": "5885fb03-a59e-4f14-9dcc-933b21af8e7b",
+          "name": "RADIO 24PL",
+          "url": "https://stream15.polskieradio.pl/pr24/pr24.sdp/playlist.m3u8",
+          "votes": 28,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2feb2001-ac7b-45d6-8c71-c12079f72e0e",
+        "name": "DISCOPARTY.PL - Kanał Club",
+        "url": "https://s3.slotex.pl/shoutcast/7354/stream",
+        "votes": 668
+      },
+      "variants": [
+        {
+          "stationuuid": "8ed13a99-657d-4935-9ef4-652731d9db8e",
+          "name": "Radio Disco Party - Club",
+          "url": "https://s3.slotex.pl/shoutcast/7354/stream",
+          "votes": 167,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ddd98adc-3ebc-4359-9afe-59b72716e156",
+          "name": "DiscoParty.pl - Club",
+          "url": "https://s3.slotex.pl/shoutcast/7354/stream?sid=1",
+          "votes": 53,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "00a662f8-d63f-4228-948a-11a2adf8903b",
+        "name": "Polskie Radio Czwórka",
+        "url": "https://stream14.polskieradio.pl/pr4/pr4.sdp/playlist.m3u8",
+        "votes": 657
+      },
+      "variants": [
+        {
+          "stationuuid": "3f965c9b-8f1e-47a8-b0c9-b51b00b711f7",
+          "name": "Polskie Radio Czwórka",
+          "url": "https://stream14.polskieradio.pl/pr4/pr4.sdp/playlist.m3u8",
+          "votes": 27,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2ac13bac-b3f2-48f5-8f27-072ace84c34d",
+        "name": "ESKA 2 KULTOWE  POLSKIE ",
+        "url": "https://radio.stream.smcdn.pl/icradio-p/6040-1.aac/playlist.m3u8",
+        "votes": 620
+      },
+      "variants": [
+        {
+          "stationuuid": "0b32050f-02b5-43e3-a237-0902394bad1f",
+          "name": "SUPERNOVA CLASIC",
+          "url": "https://radio.stream.smcdn.pl/icradio-p/6040-1.aac/playlist.m3u8",
+          "votes": 80,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8120d2a6-b86b-4489-ae8d-4bfa2e04963d",
+          "name": "ESKA 2 CLASSIC ",
+          "url": "https://radio.stream.smcdn.pl/icradio-p/6040-1.aac/playlist.m3u8",
+          "votes": 73,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96247cb9-0601-11e8-ae97-52543be04c81",
+        "name": "Pro-Radio",
+        "url": "http://radiointernetowe.net:7802/",
+        "votes": 620
+      },
+      "variants": [
+        {
+          "stationuuid": "6d5ea977-3eb5-4eeb-9c73-198c1562307b",
+          "name": "Proradio",
+          "url": "http://radiointernetowe.net:7802/",
+          "votes": 77,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "39e9719f-f3b4-4a08-b2c8-29881e3b8314",
+        "name": "MELORADIO HOT DANCE ",
+        "url": "http://ml02.cdn.eurozet.pl/MELHDN.mp3",
+        "votes": 604
+      },
+      "variants": [
+        {
+          "stationuuid": "f9343ff3-d814-49a1-a49b-15ca6396b525",
+          "name": "MELORADIO HOT DANCE",
+          "url": "http://ml02.cdn.eurozet.pl/MELHDN.mp3",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b58c54a9-ec79-4e89-8099-3a54d7a78581",
+        "name": "Eska Trójmiasto",
+        "url": "https://radio.stream.smcdn.pl/icradio-p/2170-1.aac/playlist.m3u8",
+        "votes": 552
+      },
+      "variants": [
+        {
+          "stationuuid": "eff4189d-3691-44b3-8a18-34da1ac28bd3",
+          "name": "Eska Gdańsk",
+          "url": "https://radio.stream.smcdn.pl/icradio-p/2170-1.aac/playlist.m3u8",
+          "votes": 213,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4021b06a-5787-44ca-9621-4dc63bf371c7",
+        "name": "Radio Kampus 97,1 FM",
+        "url": "https://stream.radiokampus.fm/kampus",
+        "votes": 551
+      },
+      "variants": [
+        {
+          "stationuuid": "263cf514-d057-4754-bec8-a9f47ee3e061",
+          "name": "Radio Kampus",
+          "url": "https://stream.radiokampus.fm/kampus",
+          "votes": 41,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96224577-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Dwójka (MP3)",
+        "url": "http://mp3.polskieradio.pl:8902/",
+        "votes": 524
+      },
+      "variants": [
+        {
+          "stationuuid": "0c26cd4c-a8d7-498d-9046-fb2ce42ef546",
+          "name": "Dwójka",
+          "url": "http://mp3.polskieradio.pl:8902/",
+          "votes": 72,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "a56c633f-411f-4ef1-a1da-a46c14f4febf",
+          "name": "Dwójka",
+          "url": "http://mp3.polskieradio.pl:8902/",
+          "votes": 64,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4585bcfb-4c32-4166-8a93-7892e14138c8",
+          "name": "Polish Radio 2",
+          "url": "http://mp3.polskieradio.pl:8902/",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9611e22b-0601-11e8-ae97-52543be04c81",
+        "name": "Trendy Radio",
+        "url": "http://stream.trendyradio.pl:8000/h",
+        "votes": 507
+      },
+      "variants": [
+        {
+          "stationuuid": "09de2d05-a9ea-4a4c-8483-fc8fb31bed6c",
+          "name": "Trendy Radio Online",
+          "url": "http://stream.trendyradio.pl:8000/h",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "583c2e60-bc39-4b6b-8fbc-944e67c22d49",
+        "name": "Bonton Chełm",
+        "url": "http://streaming.inten.pl:8022/bonton.mp3",
+        "votes": 502
+      },
+      "variants": [
+        {
+          "stationuuid": "874b7895-58b4-4974-84ef-9b96a997b544",
+          "name": "Bonton Chełm 2",
+          "url": "http://streaming.inten.pl:8022/bonton.mp3",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962c100c-0601-11e8-ae97-52543be04c81",
+        "name": "Radio 7",
+        "url": "http://137.74.5.240:443/;stream.mp3",
+        "votes": 500
+      },
+      "variants": [
+        {
+          "stationuuid": "304989d0-75ac-4a1a-a01e-661d0a4913a5",
+          "name": "Radio 7",
+          "url": "http://137.74.5.240:443/;stream.mp3",
+          "votes": 217,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "95e926b1-144d-429c-85b5-429e9aa8c3c8",
+        "name": "Radio Eska - Warszawa",
+        "url": "https://radio.stream.smcdn.pl/icradio-p/2380-1.aac/playlist.m3u8",
+        "votes": 487
+      },
+      "variants": [
+        {
+          "stationuuid": "648e7648-5685-4eb4-b59f-bf9e435a2fad",
+          "name": "TEST",
+          "url": "https://radio.stream.smcdn.pl/icradio-p/2380-1.aac/playlist.m3u8",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960ff7dc-0601-11e8-ae97-52543be04c81",
+        "name": "Katolickie Radio Rzeszow - VIA",
+        "url": "http://62.133.128.18:8040/",
+        "votes": 464
+      },
+      "variants": [
+        {
+          "stationuuid": "8cf3ac8b-78f3-4758-8db1-adca6579626c",
+          "name": "Radio Via Rzeszów",
+          "url": "http://62.133.128.18:8040/",
+          "votes": 57,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "27cfd2ef-f021-4b83-93f0-deb2c6d0851d",
+        "name": "Radio Silesia FM",
+        "url": "https://s1.slotex.pl/shoutcast/7926/stream?sid=1",
+        "votes": 456
+      },
+      "variants": [
+        {
+          "stationuuid": "46e1bdd1-f09e-4348-8471-cd461ebb213c",
+          "name": "Radio Silesia 96.2 FM",
+          "url": "https://s1.slotex.pl/shoutcast/7926/stream?sid=1",
+          "votes": 94,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960f9341-0601-11e8-ae97-52543be04c81",
+        "name": "Polskie Radio Bialystok",
+        "url": "http://stream4.nadaje.com:15476/radiobialystok",
+        "votes": 424
+      },
+      "variants": [
+        {
+          "stationuuid": "98152a6d-9a3d-46d7-8019-c8c03f29be38",
+          "name": "\tPolskie Radio Bialystok",
+          "url": "http://stream4.nadaje.com:15476/radiobialystok",
+          "votes": 327,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "32870eb0-9bac-447a-844e-3b98e9034bc1",
+          "name": "Polskie Radio Białystok",
+          "url": "http://stream4.nadaje.com:15476/radiobialystok",
+          "votes": 286,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "1c3bf64c-8f62-4209-9cfb-5f51f144ba9d",
+          "name": "Polskie Radio Bialystok",
+          "url": "http://stream4.nadaje.com:15476/radiobialystok",
+          "votes": 67,
+          "differs": []
+        },
+        {
+          "stationuuid": "a0892d0e-7093-4f05-887a-235e426aa900",
+          "name": "Polskie Radio Bialystok",
+          "url": "http://stream4.nadaje.com:15476/radiobialystok",
+          "votes": 34,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "549365c5-cc9b-4156-8617-b59841898462",
+        "name": "SUPER NOWA RZESZÓW ",
+        "url": "http://ic1.smcdn.pl/1240-1.mp3",
+        "votes": 423
+      },
+      "variants": [
+        {
+          "stationuuid": "1a16ec46-5be9-43d2-818c-232cc104b43c",
+          "name": "ESKA 2 RZESZÓW ",
+          "url": "http://ic1.smcdn.pl/1240-1.mp3",
+          "votes": 285,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "07dd0960-5709-475c-a515-c8a76df2bd14",
+        "name": "Radio pejpal",
+        "url": "https://radio.pejpal.cloud/stream",
+        "votes": 395
+      },
+      "variants": [
+        {
+          "stationuuid": "a510c055-3b15-4227-987f-34014a7b778f",
+          "name": "Radio pejpal",
+          "url": "https://radio.pejpal.cloud/stream",
+          "votes": 79,
+          "differs": []
+        },
+        {
+          "stationuuid": "c69232a5-31f3-4b09-97e1-b0c1ef001140",
+          "name": "Radio pejpal",
+          "url": "https://radio.pejpal.cloud/stream",
+          "votes": 22,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ab793bf1-a794-4aea-af16-f5d85ab333cb",
+        "name": "Radio RMF",
+        "url": "https://rs201-krk-cyfronet.rmfstream.pl/HARDHEAVY?listenerid=22faa5bd029362874d207dd68f5e4954&awparams=companionAds%3Atrue&aw_0_1st.version=1.1.4%3Ahtml5&aw_0_1st.playerid=RMF_Player_JS_P&aw_0_1st.skey=1649088434&aw_0_req.gdpr=false&aw_0_req.userConsentV2=CPW7rKhPW7rKhFKACAPLCHCgAAAAAEPAAB5YAAARTAJMNS8gC7EscGRaNKoUQIwrCQqgUAFFAMLREYAODgp2VgEuoAWACAVARgRAgxBRgwCAAQCAJCIgJACwQCIAiAAAAgARgIQAETAILACwMAgAFANCxACgAECQgyOCo5TAgIkWiglsrEEoK9hTCAMssAKBRGRUACJAgAWBkJCwcxwBICXCyQJMELxACMAA.YAAAD4AAAAAA&aw_0_1st.playerid=RMF_Player_JS_P&aw_0_1st.rmf_disable_preroll=true",
+        "votes": 373
+      },
+      "variants": [
+        {
+          "stationuuid": "c1b225e7-b0bf-4d7c-8c10-32f620ddd259",
+          "name": "Radio RMF Hard and Heavy",
+          "url": "https://rs201-krk-cyfronet.rmfstream.pl/HARDHEAVY?listenerid=22faa5bd029362874d207dd68f5e4954&awparams=companionAds%3Atrue&aw_0_1st.version=1.1.4%3Ahtml5&aw_0_1st.playerid=RMF_Player_JS_P&aw_0_1st.skey=1649088434&aw_0_req.gdpr=false&aw_0_req.userConsentV2=CPW7rKhPW7rKhFKACAPLCHCgAAAAAEPAAB5YAAARTAJMNS8gC7EscGRaNKoUQIwrCQqgUAFFAMLREYAODgp2VgEuoAWACAVARgRAgxBRgwCAAQCAJCIgJACwQCIAiAAAAgARgIQAETAILACwMAgAFANCxACgAECQgyOCo5TAgIkWiglsrEEoK9hTCAMssAKBRGRUACJAgAWBkJCwcxwBICXCyQJMELxACMAA.YAAAD4AAAAAA&aw_0_1st.playerid=RMF_Player_JS_P&aw_0_1st.rmf_disable_preroll=true",
+          "votes": 74,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "59ce3c92-211f-417a-9a41-2e79e639e386",
+        "name": "ESKA2 POLSKIE NA CZASIE ",
+        "url": "https://radio.stream.smcdn.pl/icradio-p/6230-1.aac/playlist.m3u8",
+        "votes": 362
+      },
+      "variants": [
+        {
+          "stationuuid": "2c0009b2-d20a-46ff-b9cb-5f9fda8c78c5",
+          "name": "13 ESKA 2",
+          "url": "https://radio.stream.smcdn.pl/icradio-p/6230-1.aac/playlist.m3u8",
+          "votes": 94,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "e2f471b5-05f4-48c2-96c4-18711fd8c45a",
+          "name": "13 SUPERNOVA ",
+          "url": "https://radio.stream.smcdn.pl/icradio-p/6230-1.aac/playlist.m3u8",
+          "votes": 40,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7c396e00-acce-4b86-bd88-a2e38689ce7b",
+        "name": "Radio Lublin",
+        "url": "https://streaming.radio.lublin.pl:8843/128k",
+        "votes": 361
+      },
+      "variants": [
+        {
+          "stationuuid": "76efd4c4-b0f0-4cdf-b280-4e85bfd5945d",
+          "name": "Radio Lublin",
+          "url": "https://streaming.radio.lublin.pl:8843/128k",
+          "votes": 183,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96124183-0601-11e8-ae97-52543be04c81",
+        "name": "Off Radio Krakow",
+        "url": "http://stream4.nadaje.com:13332/offradiokrakow",
+        "votes": 325
+      },
+      "variants": [
+        {
+          "stationuuid": "0c43c3ce-4471-484e-b58c-e062267fd7ec",
+          "name": "Offradio Kraków",
+          "url": "http://stream4.nadaje.com:13332/offradiokrakow",
+          "votes": 42,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "964abdeb-0601-11e8-ae97-52543be04c81",
+        "name": "MojePolskieRadio - Nostalgia",
+        "url": "http://stream3.polskieradio.pl:8118/",
+        "votes": 317
+      },
+      "variants": [
+        {
+          "stationuuid": "26b4aae7-6589-4c31-b0c0-80a7f215c492",
+          "name": "PR NOSTALGIA",
+          "url": "http://stream3.polskieradio.pl:8118/",
+          "votes": 61,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d47882bc-f58e-4fab-ac51-264169d1cebc",
+        "name": "Hitradio",
+        "url": "http://51.255.8.139:9090/stream",
+        "votes": 314
+      },
+      "variants": [
+        {
+          "stationuuid": "eed68fa9-c19c-4937-af9d-d0d58adf8a57",
+          "name": "Hitradio Polska",
+          "url": "http://51.255.8.139:9090/stream",
+          "votes": 72,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "975c8d38-33be-4222-8d49-6740ba592b7d",
+          "name": "Hit Radio",
+          "url": "http://51.255.8.139:9090/stream",
+          "votes": 52,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "204876d4-98d1-4919-95f0-c90a6e343ffe",
+        "name": "radio",
+        "url": "https://c16.radioboss.fm:18014/stream",
+        "votes": 314
+      },
+      "variants": [
+        {
+          "stationuuid": "14273259-95b1-4c88-aad6-8834eca980c4",
+          "name": "RadioRadio",
+          "url": "https://c16.radioboss.fm:18014/stream",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "3a4f3292-8295-404f-ad78-cd9372f0cd88",
+          "name": "RadioRadio",
+          "url": "https://c16.radioboss.fm:18014/stream",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "737299d9-6583-4103-aacf-9576b60baa82",
+        "name": "DiscoParty.pl - Disco Impreza",
+        "url": "https://s3.slotex.pl/shoutcast/7046/stream?sid=1",
+        "votes": 305
+      },
+      "variants": [
+        {
+          "stationuuid": "c79b6a33-4b8d-4dad-8ad0-a4139e4ebf21",
+          "name": "Radio Disco Party - Disco Impreza",
+          "url": "https://s3.slotex.pl/shoutcast/7046/stream",
+          "votes": 250,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3488780b-8880-418c-b945-61293dd9a79f",
+        "name": "Radio Plus Warszawa",
+        "url": "https://pl.cdn.eurozet.pl/plu-waw.mp3",
+        "votes": 275
+      },
+      "variants": [
+        {
+          "stationuuid": "19c44a5c-f18f-4e40-baf5-5cc5a901df27",
+          "name": "Radio Plus Warszawa",
+          "url": "https://pl.cdn.eurozet.pl/plu-waw.mp3",
+          "votes": 83,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c89ebb7f-577f-4017-abb6-0c83d11b6aa5",
+        "name": "Radio Eska Wrocław",
+        "url": "http://ic2.smcdn.pl/2180-1.mp3",
+        "votes": 264
+      },
+      "variants": [
+        {
+          "stationuuid": "9cfac613-657d-4937-90e9-9cad978de3ed",
+          "name": "Radio Eska - Wrocław",
+          "url": "http://ic2.smcdn.pl/2180-1.mp3",
+          "votes": 39,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f172576c-f7fc-416f-8ca4-b88a55eaa0ad",
+        "name": "supernova",
+        "url": "http://ic1.smcdn.pl/1510-1.mp3",
+        "votes": 256
+      },
+      "variants": [
+        {
+          "stationuuid": "0a3b613a-da5c-4ff3-accc-42bd1a95a3b3",
+          "name": " super nova trzebnica",
+          "url": "http://ic1.smcdn.pl/1510-1.mp3",
+          "votes": 62,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960f2e51-0601-11e8-ae97-52543be04c81",
+        "name": "Radio PiK",
+        "url": "http://stream.radiopik.pl:9004/",
+        "votes": 237
+      },
+      "variants": [
+        {
+          "stationuuid": "b02ba226-5974-4b2f-81c4-bf196c589bad",
+          "name": "Radio PiK",
+          "url": "http://stream.radiopik.pl:9004/",
+          "votes": 54,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b3184308-9bd0-40d6-9dc8-53b72ecf194e",
+        "name": "ESKA Białystok",
+        "url": "https://radio.stream.smcdn.pl/icradio-p/2020-1.aac/playlist.m3u8",
+        "votes": 232
+      },
+      "variants": [
+        {
+          "stationuuid": "3715a618-e20f-42eb-b4ee-12faab95596f",
+          "name": "ESKA Białystok",
+          "url": "https://radio.stream.smcdn.pl/icradio-p/2020-1.aac/playlist.m3u8",
+          "votes": 54,
+          "differs": []
+        },
+        {
+          "stationuuid": "bb2e16e6-6021-4146-9fc9-ccc8683d4efc",
+          "name": "ESKA Białystok",
+          "url": "https://radio.stream.smcdn.pl/icradio-p/2020-1.aac/playlist.m3u8",
+          "votes": 33,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3a1cb722-b83f-442e-acad-01c90d2ec528",
+        "name": "Radio Maryja",
+        "url": "http://51.68.135.155/stream",
+        "votes": 220
+      },
+      "variants": [
+        {
+          "stationuuid": "4d4dfe3d-7641-4ae9-9afa-aefaa950a4f3",
+          "name": "Radio Maryja",
+          "url": "http://51.68.135.155/stream",
+          "votes": 150,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8e3cd071-7175-412d-8e6d-900492ee595e",
+        "name": "CYBERStacja",
+        "url": "https://sc.cyberstacja.pl:8000/radio.mp3",
+        "votes": 214
+      },
+      "variants": [
+        {
+          "stationuuid": "1adb6cd2-ff5f-4097-80b6-00e30b5d2ed7",
+          "name": "CYBERStacja",
+          "url": "https://sc.cyberstacja.pl:8000/radio.mp3",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f762ebd5-3cf3-4010-a0df-82d12bd0077e",
+        "name": "RADIO KIEROWCÓW ",
+        "url": "https://stream10.polskieradio.pl/prk/rdk.sdp/playlist.m3u8",
+        "votes": 200
+      },
+      "variants": [
+        {
+          "stationuuid": "560697d7-72b5-497e-b0ec-57f3972c1d34",
+          "name": "PR KIEROWCÓW ",
+          "url": "https://stream10.polskieradio.pl/prk/rdk.sdp/playlist.m3u8",
+          "votes": 27,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "964ac838-0601-11e8-ae97-52543be04c81",
+        "name": "MojePolskieRadio - Szanty",
+        "url": "http://stream3.polskieradio.pl:8120/",
+        "votes": 185
+      },
+      "variants": [
+        {
+          "stationuuid": "70dbe43b-eadd-48e7-aad8-243fa6e6b36a",
+          "name": "MojePolskieRadio - Szanty",
+          "url": "http://stream3.polskieradio.pl:8120/",
+          "votes": 92,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ea305816-dc67-495e-a387-989e293074d1",
+        "name": "RMF DANCE FAKTY",
+        "url": "http://195.150.20.7/rmf_dance_f",
+        "votes": 179
+      },
+      "variants": [
+        {
+          "stationuuid": "b314dfbd-15fa-41e7-8de4-01a9e029cfad",
+          "name": "RMF DANCE FAKTY",
+          "url": "http://195.150.20.7/rmf_dance_f",
+          "votes": 33,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ba8d1ba4-3640-4ab3-b20c-816fbe47a369",
+        "name": "BEST Radio (192Kbps)",
+        "url": "http://stream.radiobest.eu:8000/192",
+        "votes": 174
+      },
+      "variants": [
+        {
+          "stationuuid": "d9942fb0-1964-4933-94bc-635422131908",
+          "name": "BEST Radio (192Kbps)",
+          "url": "http://stream.radiobest.eu:8000/192",
+          "votes": 9,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "92681851-39cd-11e9-9b4e-52543be04c81",
+        "name": "MC Radio",
+        "url": "http://stream4.nadaje.com:8624/mcradio",
+        "votes": 172
+      },
+      "variants": [
+        {
+          "stationuuid": "a1d0014d-149b-4670-af6e-55244f2b6208",
+          "name": "MC RADIO ",
+          "url": "http://stream4.nadaje.com:8624/mcradio",
+          "votes": 28,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b7154644-7519-4c14-8891-023c23387e4f",
+        "name": "Kapitał",
+        "url": "https://radiokapitalpl.out.airtime.pro/radiokapitalpl_a",
+        "votes": 167
+      },
+      "variants": [
+        {
+          "stationuuid": "39b7e18d-e632-4fc6-a219-44ed39203eb2",
+          "name": "Radio Kapitał",
+          "url": "https://radiokapitalpl.out.airtime.pro/radiokapitalpl_a",
+          "votes": 46,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1e3580d7-ce9a-425e-874a-e528e68734cc",
+        "name": "Punkowe Radio Underground",
+        "url": "http://s1.slotex.pl:7604/",
+        "votes": 164
+      },
+      "variants": [
+        {
+          "stationuuid": "f4dfd29e-69a3-4a78-b06c-92656d3f1e00",
+          "name": "Radio Underground",
+          "url": "http://s1.slotex.pl:7604/",
+          "votes": 114,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960fe76e-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Rodzina",
+        "url": "http://sluchaj.radiorodzina.pl/RadioRodzinaWroclawLIVE.mp3",
+        "votes": 151
+      },
+      "variants": [
+        {
+          "stationuuid": "a17a904b-803d-46cd-9c86-842a4c7ef5e7",
+          "name": "Radio Rodzina",
+          "url": "http://sluchaj.radiorodzina.pl/RadioRodzinaWroclawLIVE.mp3",
+          "votes": 25,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8916be0e-58c6-4784-b62c-20a43e95df30",
+        "name": "Akademickie Radio Luz 91.6",
+        "url": "http://stream.radioluz.pl:8000/luz_hifi.mp3",
+        "votes": 140
+      },
+      "variants": [
+        {
+          "stationuuid": "5015aec9-5fb3-44b6-be83-82883e8ecab4",
+          "name": "Akademickie Radio LUZ",
+          "url": "http://stream.radioluz.pl:8000/luz_hifi.mp3",
+          "votes": 67,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "cb465631-7f7b-48c8-9f8b-4f537bd214bc",
+          "name": "Akademickie Radio LUZ",
+          "url": "http://stream.radioluz.pl:8000/luz_hifi.mp3",
+          "votes": 62,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "521d8726-2ba4-44ac-a6ed-a3b643e89818",
+        "name": "Antyradio Greatest",
+        "url": "https://an02.cdn.eurozet.pl/ANTGRE.mp3",
+        "votes": 135
+      },
+      "variants": [
+        {
+          "stationuuid": "98c4e033-f599-49cf-abef-c27f1ae49c54",
+          "name": "Antyradio Greatest",
+          "url": "https://an02.cdn.eurozet.pl/ANTGRE.mp3",
+          "votes": 86,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c2f87d61-251d-41dc-bcac-3a3138dabf50",
+        "name": " PR PRZEBOJE PRL ",
+        "url": "http://mp3.polskieradio.pl:8066/;",
+        "votes": 132
+      },
+      "variants": [
+        {
+          "stationuuid": "3fbeb4a1-2a25-42cd-adb2-11aeaf046023",
+          "name": "PR PRZEBOJE PRL ",
+          "url": "http://mp3.polskieradio.pl:8066/;",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "aa12dafa-9521-4003-8db8-24c83155c8db",
+          "name": "PRZEBOJE PRL",
+          "url": "http://mp3.polskieradio.pl:8066/;",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3a301466-ef46-4112-866e-d90af34a1d7b",
+        "name": "Wesołe Slonzoki ",
+        "url": "http://51.255.8.139:8380/stream",
+        "votes": 131
+      },
+      "variants": [
+        {
+          "stationuuid": "5b3e2257-6b74-4626-85c7-f3f8df9fd54a",
+          "name": "Radio Wesołe Slonzoki ",
+          "url": "http://51.255.8.139:8380/stream",
+          "votes": 71,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960fc00f-0601-11e8-ae97-52543be04c81",
+        "name": "Radio SUD",
+        "url": "http://stream2.nadaje.com:8012/",
+        "votes": 128
+      },
+      "variants": [
+        {
+          "stationuuid": "efbc5123-0a7f-4001-aaad-e936acb0a193",
+          "name": "Radio SUD",
+          "url": "http://stream2.nadaje.com:8012/",
+          "votes": 18,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c4b1f9d4-7052-4e31-a397-f9ef4bc4c14a",
+        "name": "Radio Marconi PL",
+        "url": "https://stream12.hosterion.pl/stream/radiomarconi",
+        "votes": 116
+      },
+      "variants": [
+        {
+          "stationuuid": "9d3ec567-bac6-4308-8f94-5f36337098eb",
+          "name": "RM24.fm (test emision) ",
+          "url": "https://stream12.hosterion.pl/stream/radiomarconi",
+          "votes": 47,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "435425d6-8c65-11e9-ad01-52543be04c81",
+        "name": "Polskie Radio LAS",
+        "url": "http://mp3.polskieradio.pl:8128/",
+        "votes": 113
+      },
+      "variants": [
+        {
+          "stationuuid": "e200e4fe-bdc0-46d5-9f15-500064fbf10b",
+          "name": "Polskie Radio LAS",
+          "url": "http://mp3.polskieradio.pl:8128/",
+          "votes": 101,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aace0bb4-e8fc-4c68-9644-ab48de32c917",
+        "name": "Antyradio Unplugged",
+        "url": "https://an05.cdn.eurozet.pl/ANTUNP.mp3",
+        "votes": 108
+      },
+      "variants": [
+        {
+          "stationuuid": "c06ca505-ce48-4897-8202-e9608c491835",
+          "name": "Antyradio Unplugged",
+          "url": "https://an05.cdn.eurozet.pl/ANTUNP.mp3",
+          "votes": 35,
+          "differs": []
+        },
+        {
+          "stationuuid": "5a48c85f-ad03-4ce2-a0a5-e7e5eb0f3c91",
+          "name": "Antyradio Unplugged",
+          "url": "https://an05.cdn.eurozet.pl/ANTUNP.mp3",
+          "votes": 26,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9822a0c8-4ffa-45e8-bd6a-41f9f0253638",
+        "name": "Radio 7 Poland",
+        "url": "https://stream.radio7.pl/;",
+        "votes": 107
+      },
+      "variants": [
+        {
+          "stationuuid": "1d452358-fdbd-4acf-9c4c-67ff715ff079",
+          "name": "Radio 7",
+          "url": "https://stream.radio7.pl/;",
+          "votes": 101,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b003e8d2-25e8-11e8-91bf-52543be04c81",
+        "name": "Radio FTB Club",
+        "url": "http://play.radioftb.net:8000/stream",
+        "votes": 106
+      },
+      "variants": [
+        {
+          "stationuuid": "ee8dc99a-d691-40eb-af4a-b59ffdc6a87d",
+          "name": "Radio FTB - Club",
+          "url": "http://play.radioftb.net:8000/stream",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "15023d47-34cb-41a4-82e1-05aa36c21d4e",
+        "name": "trap",
+        "url": "https://getradio.reconv.pl/openfm?s=trap-pl",
+        "votes": 105
+      },
+      "variants": [
+        {
+          "stationuuid": "2a6e1bf3-3fd8-40fa-be5b-b3e10edeb4b6",
+          "name": "trap pl",
+          "url": "https://getradio.reconv.pl/openfm?s=trap-pl",
+          "votes": 49,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b9daa3c9-b2f9-4d9b-9841-5f9fa1df9eae",
+          "name": "trap pl",
+          "url": "https://getradio.reconv.pl/openfm?s=trap",
+          "votes": 35,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "9762a581-cc6e-4647-bfab-9495be7eefb9",
+          "name": "Open FM - Impreza",
+          "url": "https://getradio.reconv.pl/openfm?s=impreza",
+          "votes": 4,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bfe7368c-6b90-494c-ae7c-7a7d40663e92",
+        "name": "Leliwa",
+        "url": "https://streaming.g-news.pl/radio/8050/leliwa",
+        "votes": 100
+      },
+      "variants": [
+        {
+          "stationuuid": "b50aea3c-f06b-4c6b-ad9f-e946e259ae81",
+          "name": "Radio Leliwa",
+          "url": "https://streaming.g-news.pl/radio/8050/leliwa",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3258f031-ca87-4ef9-a72f-f87af968291b",
+        "name": "Folk Radio ",
+        "url": "https://streaming.g-news.pl:8030/fr1",
+        "votes": 99
+      },
+      "variants": [
+        {
+          "stationuuid": "e90516a7-224c-4a3e-85c9-96fd15657698",
+          "name": "Folk Radio",
+          "url": "https://streaming.g-news.pl:8030/fr1",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "857bb58b-61a8-4192-8426-afaeb9bb2a23",
+        "name": "Trendy Radio Mobile",
+        "url": "https://stream.trendyradio.pl/m",
+        "votes": 98
+      },
+      "variants": [
+        {
+          "stationuuid": "42a4e30b-da54-428f-bc6d-6df84f52910c",
+          "name": "Trendy Radio Mobile",
+          "url": "https://stream.trendyradio.pl/m",
+          "votes": 53,
+          "differs": []
+        },
+        {
+          "stationuuid": "91bfada2-22ee-40ac-a767-4a75ecd8f7d7",
+          "name": "Trendy Radio Mobile",
+          "url": "https://stream.trendyradio.pl/m",
+          "votes": 39,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b3452e7b-5954-47cf-b10d-8ba28dfe16c5",
+        "name": "Antyradio Hard",
+        "url": "https://an05.cdn.eurozet.pl/ANTHAR.mp3",
+        "votes": 98
+      },
+      "variants": [
+        {
+          "stationuuid": "9245e3a5-bf69-4a08-8fac-3903a55043bf",
+          "name": "Antyradio Hard",
+          "url": "https://an05.cdn.eurozet.pl/ANTHAR.mp3",
+          "votes": 51,
+          "differs": []
+        },
+        {
+          "stationuuid": "9e2164d6-c6ca-459f-9607-4e45681b5b82",
+          "name": "Antyradio Hard",
+          "url": "https://an05.cdn.eurozet.pl/ANTHAR.mp3",
+          "votes": 41,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c3e57425-e517-4d08-90ea-08565adb8add",
+        "name": "Metal Live Radio",
+        "url": "http://51.255.8.139:8738/stream",
+        "votes": 98
+      },
+      "variants": [
+        {
+          "stationuuid": "856499a2-6a8f-48b0-bb7b-eae43be92784",
+          "name": "Metal Live Radio",
+          "url": "http://51.255.8.139:8738/stream",
+          "votes": 42,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7117001a-8e20-40eb-9d51-e297f92e6d52",
+        "name": "Radio Jard",
+        "url": "http://online.jard.pl:8744/jard1",
+        "votes": 96
+      },
+      "variants": [
+        {
+          "stationuuid": "c374f60c-ba62-4e87-924f-f68c40adc0ff",
+          "name": "Radio JARD",
+          "url": "http://online.jard.pl:8744/jard1",
+          "votes": 40,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "890e70d8-15e1-44fb-8475-1558961e8353",
+        "name": "4fun tv",
+        "url": "https://stream.4fun.tv:8888/hls/4f.m3u8",
+        "votes": 94
+      },
+      "variants": [
+        {
+          "stationuuid": "f46b9b83-da10-42d1-b2cd-2210d78c5176",
+          "name": "4fun tv",
+          "url": "https://stream.4fun.tv:8888/hls/4f.m3u8",
+          "votes": 81,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5d208f6a-f817-469f-a6d2-322251a2ab8a",
+        "name": "WIELKOPOLSKA",
+        "url": "http://217.182.76.63:8000/webstream",
+        "votes": 80
+      },
+      "variants": [
+        {
+          "stationuuid": "8514d965-80ab-41a1-9c7f-b682891c9e23",
+          "name": " RADIO WIELKOPOLSKA",
+          "url": "http://217.182.76.63:8000/webstream",
+          "votes": 74,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8c486370-53c7-40ab-a611-8a591adecee1",
+          "name": "Radio Wielkopolska",
+          "url": "http://217.182.76.63:8000/webstream",
+          "votes": 72,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "a3cf1aec-5835-4bab-803a-5d0bd82d7c54",
+          "name": "RADIO WIELKOPOLSKA",
+          "url": "http://217.182.76.63:8000/webstream",
+          "votes": 45,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a2ec8459-ae47-4047-ace7-7095dd3b3da9",
+        "name": "ESKA 2 KONIN",
+        "url": "http://ic1.smcdn.pl/1530-1.mp3",
+        "votes": 75
+      },
+      "variants": [
+        {
+          "stationuuid": "7438de83-b251-4aed-a510-52cb311505b4",
+          "name": "supernovawielkopolska",
+          "url": "http://ic1.smcdn.pl/1530-1.mp3",
+          "votes": 60,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960fc577-0601-11e8-ae97-52543be04c81",
+        "name": "Studenckie Radio ZAK",
+        "url": "http://lodz.radio.pionier.net.pl:8000/radiozak.ogg",
+        "votes": 69
+      },
+      "variants": [
+        {
+          "stationuuid": "a8eee3b6-29d6-46a5-ac66-12672afbc5a4",
+          "name": "Żak - Studenckie Radio Politechniki Łódzkiej",
+          "url": "http://lodz.radio.pionier.net.pl:8000/radiozak.ogg",
+          "votes": 65,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bde5b794-eff2-4043-b6f9-4f1b3526d2a3",
+        "name": "RMF Game Music",
+        "url": "http://195.150.20.243:8000/rmf_gamemusic",
+        "votes": 62
+      },
+      "variants": [
+        {
+          "stationuuid": "1aa1b278-5420-4910-b910-ede7736a1505",
+          "name": "RMF Gamemusic",
+          "url": "http://195.150.20.243:8000/rmf_gamemusic",
+          "votes": 57,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ddbc3428-ed48-4555-9dbb-cb633dd00205",
+          "name": "RMF Gamemusic",
+          "url": "http://195.150.20.243:8000/rmf_gamemusic",
+          "votes": 23,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9610de08-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Glos",
+        "url": "http://87.204.92.180:8000/",
+        "votes": 62
+      },
+      "variants": [
+        {
+          "stationuuid": "df97a20d-bf32-4620-a89a-e92bc0f2dfbd",
+          "name": "Radio Głos Pelplin",
+          "url": "http://87.204.92.180:8000/",
+          "votes": 29,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "100e26ae-6c48-4dd2-8ad6-3c80888e2119",
+        "name": "Radio Elbląg",
+        "url": "https://rostr1.radioolsztyn.pl:8543/ELBLAG",
+        "votes": 50
+      },
+      "variants": [
+        {
+          "stationuuid": "e70ca294-1422-4e4e-96d2-d98903271de3",
+          "name": "Radio Elbląg",
+          "url": "https://rostr1.radioolsztyn.pl:8543/ELBLAG",
+          "votes": 9,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "964af308-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Spioch",
+        "url": "http://s1.slotex.pl:7138/",
+        "votes": 47
+      },
+      "variants": [
+        {
+          "stationuuid": "cc9b15d6-b115-4b2a-9ce1-e227d87775a6",
+          "name": "Radio Śpioch",
+          "url": "http://s1.slotex.pl:7138/",
+          "votes": 21,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d7076d1c-1473-4877-ba51-15b9aece7921",
+          "name": "Radio Śpioch",
+          "url": "http://s1.slotex.pl:7138/",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b63a6511-735b-4c15-aa31-d8c4b11d6db5",
+        "name": "Eska 2 Wroclaw",
+        "url": "https://radio.stream.smcdn.pl/timeradio-p/1180-1.aac/playlist.m3u8",
+        "votes": 46
+      },
+      "variants": [
+        {
+          "stationuuid": "d3e758e2-d461-4bb4-b05c-c1ffe23d4a58",
+          "name": "Eska 2 Wrocław",
+          "url": "https://radio.stream.smcdn.pl/timeradio-p/1180-1.aac/playlist.m3u8",
+          "votes": 22,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "76b95732-7211-4609-ba88-16a0f3d71778",
+          "name": "test",
+          "url": "https://radio.stream.smcdn.pl/timeradio-p/1180-1.aac/playlist.m3u8",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "766f306a-4bb8-42aa-9c7d-49480a7b8b72",
+          "name": "Radio Eska 2 Wrocław",
+          "url": "https://radio.stream.smcdn.pl/timeradio-p/1180-1.aac/playlist.m3u8",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2ee024c7-2561-4b38-894d-1be1a7b5f2e8",
+        "name": "Radio Freee 89.9",
+        "url": "https://streaming.radio.lublin.pl:8843/radiofreeeacp",
+        "votes": 45
+      },
+      "variants": [
+        {
+          "stationuuid": "29d78408-3fd3-4778-9786-526a03a7f428",
+          "name": "Radio Freee 89.9",
+          "url": "https://streaming.radio.lublin.pl:8843/radiofreeeacp",
+          "votes": 35,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8f057fd9-9d5d-41bb-9862-79d7e3cce814",
+        "name": "Trójka mp3",
+        "url": "http://mp3.polskieradio.pl:8904/",
+        "votes": 44
+      },
+      "variants": [
+        {
+          "stationuuid": "dce3aaa4-dad0-4eb1-bf9d-079d7813bf83",
+          "name": "Trójka",
+          "url": "http://mp3.polskieradio.pl:8904/",
+          "votes": 34,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "44404fd2-b0bd-4445-8d04-86a23c3f44f6",
+          "name": "Trójka",
+          "url": "http://mp3.polskieradio.pl:8904/",
+          "votes": 26,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "65ae0eb9-b8a0-4141-9ee3-be82c36e7b79",
+        "name": "Pallotyńskie Radio Ewangelizacyjne Pallotti.FM",
+        "url": "http://s1.slotex.pl:7074/stream/",
+        "votes": 43
+      },
+      "variants": [
+        {
+          "stationuuid": "2ebf910a-37e6-11ea-8dd7-52543be04c81",
+          "name": "Pallotti.fm",
+          "url": "http://s1.slotex.pl:7074/stream",
+          "votes": 38,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "16cd55c4-4a35-430d-8bcf-953011be93d6",
+        "name": "Radio Bezpieczna Podroz",
+        "url": "https://ssl-1.radiohost.pl:9162/stream",
+        "votes": 43
+      },
+      "variants": [
+        {
+          "stationuuid": "b8d8a0b4-aa65-4506-8edc-6bf7f12abab0",
+          "name": "BEZPIECZNA PODRÓŻ ",
+          "url": "https://ssl-1.radiohost.pl:9162/stream",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c8785af1-1014-4af1-bcd3-1f35e42d9a18",
+        "name": "Eska 2 Krakow",
+        "url": "https://radio.stream.smcdn.pl/timeradio-p/1070-1.aac/playlist.m3u8",
+        "votes": 41
+      },
+      "variants": [
+        {
+          "stationuuid": "c161835a-ccb2-4451-987b-858ee75ff624",
+          "name": "Radio Eska 2 Kraków",
+          "url": "https://radio.stream.smcdn.pl/timeradio-p/1070-1.aac/playlist.m3u8",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4361dffc-fa94-411e-8cb4-57e7888d88d1",
+        "name": "Super FM 97.5",
+        "url": "https://stream.super.fm:8443/superfm.mp3?1697692156303",
+        "votes": 40
+      },
+      "variants": [
+        {
+          "stationuuid": "38c051b4-9cf7-465a-ac33-7a64e17aebd0",
+          "name": "Radio Super FM 97,5 FM - Szczecin",
+          "url": "https://stream.super.fm:8443/superfm.mp3?1703660705890",
+          "votes": 36,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d5745e59-53f2-11e8-a4d1-52543be04c81",
+        "name": "Radio Pasja 128kb/s",
+        "url": "http://91.232.4.33:8049/stream2",
+        "votes": 39
+      },
+      "variants": [
+        {
+          "stationuuid": "3e628451-3413-489f-b8a7-22a81e27253f",
+          "name": "Radio Pasja Warszawa",
+          "url": "http://91.232.4.33:8049/stream2",
+          "votes": 26,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "db0ffda0-9736-42f5-bfc6-30dc9f543c14",
+        "name": "NAJPIĘKNIEJSZE POLSKIE PIOSENKI ",
+        "url": "http://mp3.polskieradio.pl:8420/",
+        "votes": 35
+      },
+      "variants": [
+        {
+          "stationuuid": "ec6903a8-d508-4482-87ab-56becfd619af",
+          "name": "NAJPIĘKNIEJSZE POLSKIE PIOSENKI ",
+          "url": "http://mp3.polskieradio.pl:8420/",
+          "votes": 21,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "135ee10b-8783-4d3e-b0ff-49a64dcc4ad4",
+        "name": "Radio Strefa FM",
+        "url": "http://play.strefa.fm:8000/strefa.mp3",
+        "votes": 33
+      },
+      "variants": [
+        {
+          "stationuuid": "e1fc7ae0-9289-46de-b4f1-efcf937b0752",
+          "name": "Strefa FM",
+          "url": "http://play.strefa.fm:8000/strefa.mp3",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b4e4ff05-e4e7-4305-ab1f-50d084222537",
+        "name": "Polmax 3",
+        "url": "http://stream.zeno.fm/2p4yw9sd8yzuv",
+        "votes": 30
+      },
+      "variants": [
+        {
+          "stationuuid": "f1084565-7f8f-4401-93f4-e5c1a6e2a6b6",
+          "name": "Polmax 3",
+          "url": "http://stream.zeno.fm/2p4yw9sd8yzuv",
+          "votes": 28,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "24bbb347-1274-480d-9eb6-a792aa4b054c",
+        "name": "Paranormalium {very low bitrate)",
+        "url": "https://azuracast.paranormalium.pl/listen/radio_paranormalium/opus8",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "33a4aec4-8248-4daf-8fad-264133774e5a",
+          "name": "Paranormalium [OPUS_8kbps]",
+          "url": "https://azuracast.paranormalium.pl/listen/radio_paranormalium/opus8",
+          "votes": 22,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "79af5bac-6282-4c6b-84cf-da967c5c8200",
+        "name": "Hitradio.pl",
+        "url": "http://51.255.8.139:9090/;",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "f7532b23-d266-4369-ae7c-52e8e33621b8",
+          "name": "Hit radio",
+          "url": "http://51.255.8.139:9090/;",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "00bb4ec3-cb3d-4503-999c-6c443f6615a9",
+        "name": "HitRadio 107.6 Wloclawek",
+        "url": "http://46.170.199.85:8000/;",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "973635c1-a4d8-4381-82b1-4b2ef7706c29",
+          "name": "Hitradio 106.7",
+          "url": "http://46.170.199.85:8000/;",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "65d9b254-f0ef-43f8-aaf0-93f1832b56fb",
+        "name": "VibeFM",
+        "url": "https://ic2.smcdn.pl/6490-1.aac",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "65b03e42-ffb8-40f3-8d70-fa1be58b6928",
+          "name": "VibeFM",
+          "url": "https://ic2.smcdn.pl/6490-1.aac",
+          "votes": 10,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "32d7b7ef-89cc-4faf-ab78-c851895afc4a",
+        "name": "Radio Famka",
+        "url": "http://stream4.nadaje.com:10118/famka",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "7ddbe600-731d-48eb-93c7-b2ef8d78180b",
+          "name": "Radio Famka",
+          "url": "http://stream4.nadaje.com:10118/famka",
+          "votes": 8,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "020284cf-c3df-459b-b7b3-514630a99256",
+        "name": "Radio Freee",
+        "url": "https://streaming.radio.lublin.pl:8843/radiofreee?ver=122186",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "0beca8cd-6438-4ac6-a8d5-51aec8c88069",
+          "name": "Radio Freee",
+          "url": "https://streaming.radio.lublin.pl:8843/radiofreee",
+          "votes": 11,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a7a9392d-f6a1-418a-aff3-58381fe9525f",
+        "name": "Mega Radio",
+        "url": "https://stream.rcs.revma.com/q18ty3qhwzzuv",
+        "votes": 21
+      },
+      "variants": [
+        {
+          "stationuuid": "88f25822-8d53-455e-a709-da0bd62a47b9",
+          "name": "Mega Radio",
+          "url": "https://stream.rcs.revma.com/q18ty3qhwzzuv",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1cd920e2-5810-4071-b558-e3db95944316",
+        "name": "FSSPX Radio",
+        "url": "http://radio.fsspx.pl:8000/radio.mp3",
+        "votes": 19
+      },
+      "variants": [
+        {
+          "stationuuid": "34cfdee6-4df4-4fd4-b215-71b7bde4a209",
+          "name": "FSSPX Radio Internetowe",
+          "url": "http://radio.fsspx.pl:8000/radio.mp3",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "73731295-d5cd-49f2-bb69-c8805a282634",
+        "name": "Radio ESKA Do Pracy",
+        "url": "https://radio.stream.smcdn.pl/timeradio-p/6140-1.aac/playlist.m3u8",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "c8af3e6a-077e-4bc2-ab67-8ec280e10060",
+          "name": "Radio Eska Do Pracy",
+          "url": "https://radio.stream.smcdn.pl/timeradio-p/6140-1.aac/playlist.m3u8",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a7a6c35d-8fc3-4b80-9a03-01775f097f58",
+        "name": "Radio Strefa Muzy",
+        "url": "https://radiosm.pl:8000/radio.mp3",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "ca22cd5b-0bc6-4391-b723-418955f2d279",
+          "name": "Radio Strefa Muzy",
+          "url": "https://radiosm.pl:8000/radio.mp3",
+          "votes": 11,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8de986f9-5c48-4b54-98e4-da49a4926b8d",
+        "name": "BayerFM",
+        "url": "https://streaming.radio5.com.pl:8888/bayerfm",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "712e2cb2-8c21-45e0-b96c-e3d5ad12adb2",
+          "name": "Bayer FM",
+          "url": "https://streaming.radio5.com.pl:8888/bayerfm",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "73e4e2a3-abfa-4903-a93a-b64925fb4177",
+          "name": "Bayerm FM",
+          "url": "https://streaming.radio5.com.pl:8888/bayerfm",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "609dfd83-62ca-493d-a401-5d260145aead",
+        "name": "Radio Prestige ",
+        "url": "https://s3.slotex.pl/shoutcast/7076/stream?sid=1",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "dcc6433e-cee0-416b-9999-52b1eecb83fc",
+          "name": "Radio Prestige ",
+          "url": "https://s3.slotex.pl/shoutcast/7076/stream?sid=1",
+          "votes": 7,
+          "differs": []
+        },
+        {
+          "stationuuid": "289a7ece-5d24-416a-a36b-1f5e14bf600a",
+          "name": "Radio Prestige",
+          "url": "https://s3.slotex.pl/shoutcast/7076/stream?sid=1",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4022c3bf-7138-4672-b722-980ce3b2db8a",
+          "name": "Radio Prestige ",
+          "url": "https://s3.slotex.pl/shoutcast/7076/stream?sid=1",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1dec62b3-159f-464b-b64d-69fea9fb4243",
+        "name": "Radio Zodiak",
+        "url": "https://fire.doscast.com/8084/stream",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "fe0469b6-73a0-4892-bf47-f1bcfc416797",
+          "name": "Radio Zodiak",
+          "url": "https://fire.doscast.com/8084/stream",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bd2febae-6fd6-471b-bfae-5a950722bf70",
+        "name": "Radio ESKA Impreska ",
+        "url": "https://radio.stream.smcdn.pl/timeradio-p/6030-1.aac/playlist.m3u8",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "371fd88e-2dd6-4b68-9192-fd4037dde021",
+          "name": "Radio Eska lmpreska Warszawa",
+          "url": "https://radio.stream.smcdn.pl/timeradio-p/6030-1.aac/playlist.m3u8",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "63b92d86-cdb0-49b2-abd4-07154c3ff57b",
+          "name": "Radio Eska Impreska ",
+          "url": "https://radio.stream.smcdn.pl/timeradio-p/6030-1.aac/playlist.m3u8",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cae741bc-2c3c-4daa-b4e6-a05155e503df",
+        "name": "Radio Strefa FM",
+        "url": "http://play.strefa.fm:8000/strefa.ogg",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "e37065ff-f47f-4ba5-a7e9-aeb8edd3c08b",
+          "name": "Strefa FM",
+          "url": "http://play.strefa.fm:8000/strefa.ogg",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "08801131-a31e-4dbe-af16-c62ce4bb0e16",
+        "name": "El-stacja",
+        "url": "http://radio.el-stacja.pl:8000/elstacja320.ogg",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "315877c9-372b-462e-a568-2bed665482cb",
+          "name": "EL-Stacja",
+          "url": "http://radio.el-stacja.pl:8000/elstacja320.ogg",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2f9669b7-e4fd-40b5-98d4-4a0afeddfb11",
+        "name": "Radio ESKA Rop 20",
+        "url": "https://radio.stream.smcdn.pl/timeradio-p/6190-1.aac/playlist.m3u8",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "a17e17ae-4b36-4792-9024-e19b1c7cf0cf",
+          "name": "Radio ESKA G 20",
+          "url": "https://radio.stream.smcdn.pl/timeradio-p/6190-1.aac/playlist.m3u8",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f726d751-74c7-4478-87fe-38e0eff25945",
+          "name": "Radio ESKA Rop 20",
+          "url": "https://radio.stream.smcdn.pl/timeradio-p/6190-1.aac/playlist.m3u8",
+          "votes": 9,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e70a7b18-4de4-4db5-a107-144db66ad257",
+        "name": "Radio ESKA G100",
+        "url": "https://radio.stream.smcdn.pl/timeradio-p/6120-1.aac/playlist.m3u8",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "4c56c46c-a812-4918-b790-9f939aa76fc0",
+          "name": "Radio ESKA G100",
+          "url": "https://radio.stream.smcdn.pl/timeradio-p/6120-1.aac/playlist.m3u8",
+          "votes": 10,
+          "differs": []
+        },
+        {
+          "stationuuid": "17b04aae-a008-4e77-80d8-6b3c6412bf77",
+          "name": "Radio ESKA G100",
+          "url": "https://radio.stream.smcdn.pl/timeradio-p/6120-1.aac/playlist.m3u8",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4f1e155b-85a4-4237-b41b-a3165ccc1007",
+        "name": "ListekFM",
+        "url": "http://stream10.hosterion.pl:8004/stream",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "3b71b6d6-14c2-40ec-84dc-13b455433472",
+          "name": "ListekFM",
+          "url": "http://stream10.hosterion.pl:8004/stream",
+          "votes": 9,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9ee3d66a-bce4-494f-be16-1e7c219a44bd",
+        "name": "Tail FM Poland",
+        "url": "http://play.ogon.ovh:8810/tail-fm",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "455fae06-dcf1-4d79-968f-690319bae9be",
+          "name": "Tail FM",
+          "url": "http://play.ogon.ovh:8810/tail-fm",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "821caf3f-b798-4984-b6f3-655570e64f64",
+        "name": "modules.pl",
+        "url": "http://radio.modules.pl:8500/;stream/1",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "a3df1c9c-f650-46b0-9273-4c3cba0e4476",
+          "name": "modules.pl",
+          "url": "http://radio.modules.pl:8500/;stream/1",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ef2957bd-4b9a-4e1a-9e9d-0364741f2056",
+        "name": "Radio Dzwiek",
+        "url": "https://streamhls.radiodzwiek.slask.pl/dzwiek",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "1684206e-0b45-4c07-aac3-c905e53e59a2",
+          "name": "Radio Dźwięk",
+          "url": "https://streamhls.radiodzwiek.slask.pl/dzwiek",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f7db66ba-827b-47de-8a5d-5a53494c128b",
+          "name": "Radio Dźwięk",
+          "url": "https://streamhls.radiodzwiek.slask.pl/dzwiek",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "46317322-eb22-4671-a3df-9b3ee155255a",
+        "name": "RadioCmp3.eu - Kanał Główny",
+        "url": "https://s1.cmp3.eu/stream128",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "7d9edffb-7a60-43b0-ad22-be0fac41899a",
+          "name": "RadioCmp3.eu - Kanał Główny",
+          "url": "https://s1.cmp3.eu/stream128",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

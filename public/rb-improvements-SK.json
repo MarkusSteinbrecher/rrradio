@@ -1,0 +1,846 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.888Z",
+  "country": "SK",
+  "sourceProbedAt": "2026-04-30T09:09:22.955Z",
+  "totals": {
+    "deadStreams": 10,
+    "internalDupes": 30,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "dfb1911a-35be-4df4-8214-1a83319e87a7",
+      "name": "mars dance",
+      "url": "https://stream-153.zeno.fm/683gf5xrxfeuv?zs=gtI4gERBSUGu8f0FOcDOWw&1686916511841",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 50,
+      "lastProbedAt": "2026-04-30T09:09:20.730Z"
+    },
+    {
+      "stationuuid": "3d9a1f30-6466-4e6b-a7b3-96f507b8674d",
+      "name": "Infovojna",
+      "url": "https://stream1.infovojna.com:8000/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 18,
+      "lastProbedAt": "2026-04-30T09:09:21.410Z"
+    },
+    {
+      "stationuuid": "4aab763b-38ad-42ba-af29-a377d9b26943",
+      "name": "InfoVojna 2",
+      "url": "https://stream2.infovojna.com:8000/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 15,
+      "lastProbedAt": "2026-04-30T09:09:21.724Z"
+    },
+    {
+      "stationuuid": "47751242-203e-49a0-9755-0a2aef69c581",
+      "name": "InfoVojna",
+      "url": "https://stream3.infovojna.com:8000/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T09:09:22.241Z"
+    },
+    {
+      "stationuuid": "8df48ad2-62ab-421d-828e-7a13e0499c77",
+      "name": "Infovojna",
+      "url": "https://stream1.infovojna.com:8000/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T09:09:22.263Z"
+    },
+    {
+      "stationuuid": "70e74968-bb73-4555-92fc-49004b0f525d",
+      "name": "Radio X 256",
+      "url": "https://stream.radiox.sk:8443/radiox_256.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T09:09:22.521Z"
+    },
+    {
+      "stationuuid": "b141d7a8-81a2-4e96-8b3d-23e7938193fa",
+      "name": "Radio X Metal",
+      "url": "https://stream.radiox.sk:8443/metal.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T09:09:22.522Z"
+    },
+    {
+      "stationuuid": "ede239eb-5ed8-449d-bcd9-6481c1a3ff24",
+      "name": "Info_vojna",
+      "url": "https://stream1.infovojna.com:8000/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:09:22.486Z"
+    },
+    {
+      "stationuuid": "def06385-f1ab-40a9-8cbb-ae61f9b53d08",
+      "name": "Radio X Ľudovky (Uniza)",
+      "url": "https://stream.radiox.sk:8443/ludovky.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:09:22.524Z"
+    },
+    {
+      "stationuuid": "9312ae29-0319-486a-854f-78e57493f2f9",
+      "name": "Radio X64",
+      "url": "https://stream.radiox.sk:8443/radiox_64.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T09:09:22.581Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "96121add-0601-11e8-ae97-52543be04c81",
+        "name": "Rádio Vlna",
+        "url": "http://stream.radiovlna.sk/vlna-hi.mp3",
+        "votes": 12796
+      },
+      "variants": [
+        {
+          "stationuuid": "2a1c284b-7ebc-4714-9f17-c5b164a68dbb",
+          "name": "Rádio Vlna",
+          "url": "http://stream.radiovlna.sk/vlna-hi.mp3",
+          "votes": 1761,
+          "differs": []
+        },
+        {
+          "stationuuid": "6f0d9de7-af4f-454f-81f1-cbb7b68b5f82",
+          "name": "RÁDIO VLNA",
+          "url": "http://stream.radiovlna.sk/vlna-hi.mp3",
+          "votes": 93,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960efe59-0601-11e8-ae97-52543be04c81",
+        "name": "Fun Radio",
+        "url": "http://stream.funradio.sk:8000/fun128.mp3",
+        "votes": 12048
+      },
+      "variants": [
+        {
+          "stationuuid": "9d69cc77-b698-40c0-8036-17cd1f09ca44",
+          "name": "\tFun Radio",
+          "url": "http://stream.funradio.sk:8000/fun128.mp3",
+          "votes": 729,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "685f6c24-67a0-41b3-b76a-df51e1243428",
+          "name": "FUN RÁDIO",
+          "url": "http://stream.funradio.sk:8000/fun128.mp3",
+          "votes": 191,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960efc45-0601-11e8-ae97-52543be04c81",
+        "name": "SRo1 Rádio Slovensko",
+        "url": "http://live.slovakradio.sk:8000/Slovensko_128.mp3",
+        "votes": 11029
+      },
+      "variants": [
+        {
+          "stationuuid": "4997994c-7e38-4263-a9db-3d262c995936",
+          "name": "SRo1 Rádio Slovensko",
+          "url": "http://live.slovakradio.sk:8000/Slovensko_128.mp3",
+          "votes": 256,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "576e64fd-74ac-11ea-b1cf-52543be04c81",
+        "name": "Radio FM",
+        "url": "https://icecast.stv.livebox.sk/fm_128.mp3",
+        "votes": 9548
+      },
+      "variants": [
+        {
+          "stationuuid": "329577b0-b2ed-4191-bab7-a44dd1d790c0",
+          "name": "Rádio FM",
+          "url": "https://icecast.stv.livebox.sk/fm_128.mp3",
+          "votes": 72,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ec91bee4-2482-4e7a-bdf0-05e02bcae6fb",
+          "name": "RÁDIO FM",
+          "url": "https://icecast.stv.livebox.sk/fm_128.mp3",
+          "votes": 64,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "24b5be31-68e8-4cb9-a5ce-4cefefeef98f",
+          "name": "Rádio FM",
+          "url": "https://icecast.stv.livebox.sk/fm_128.mp3",
+          "votes": 36,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960f000f-0601-11e8-ae97-52543be04c81",
+        "name": "Fun Radio Dance",
+        "url": "http://stream.funradio.sk:8000/dance128.mp3",
+        "votes": 7731
+      },
+      "variants": [
+        {
+          "stationuuid": "25bdc571-f069-408c-844d-9810075c2f89",
+          "name": "FUN RÁDIO DANCE",
+          "url": "http://stream.funradio.sk:8000/dance128.mp3",
+          "votes": 554,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "71d410fa-dedb-4566-ba65-09c42735096b",
+          "name": "FUN RÁDIO DANCE",
+          "url": "http://stream.funradio.sk:8000/dance128.mp3",
+          "votes": 47,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960f00de-0601-11e8-ae97-52543be04c81",
+        "name": "Fun Radio 80&90",
+        "url": "http://stream.funradio.sk:8000/80-90-128.mp3",
+        "votes": 4759
+      },
+      "variants": [
+        {
+          "stationuuid": "a7a481bd-e42b-42eb-91d8-76cb56642e67",
+          "name": "FUN RÁDIO 80-90",
+          "url": "http://stream.funradio.sk:8000/80-90-128.mp3",
+          "votes": 576,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "89902d6b-8d45-4856-ae81-ca2f769a8615",
+          "name": "FUN RÁDIO 80-90",
+          "url": "http://stream.funradio.sk:8000/80-90-128.mp3",
+          "votes": 159,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "847dd754-4b32-40d5-be4a-a8e91c2bd5e8",
+          "name": "FUN RÁDIO 80-90",
+          "url": "http://stream.funradio.sk:8000/80-90-128.mp3",
+          "votes": 57,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cb61763d-d635-4983-82c1-4a6a1e8ad17b",
+        "name": "Europa 2 ",
+        "url": "https://stream.bauermedia.sk/europa2.mp3",
+        "votes": 3596
+      },
+      "variants": [
+        {
+          "stationuuid": "5d4051ee-246c-429f-9fa2-651d9f043659",
+          "name": "Europa 2",
+          "url": "https://stream.bauermedia.sk/europa2.mp3",
+          "votes": 484,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f75cc3d3-10eb-40e3-926a-a9030eae3bba",
+        "name": "Rádio Melody",
+        "url": "https://stream.bauermedia.sk/melody-hi.mp3",
+        "votes": 3279
+      },
+      "variants": [
+        {
+          "stationuuid": "dfb09fd4-9844-46ef-8905-906e6b1e62eb",
+          "name": "Rádio Melody",
+          "url": "https://stream.bauermedia.sk/melody-hi.mp3",
+          "votes": 99,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96121f0f-0601-11e8-ae97-52543be04c81",
+        "name": "SRo4 Rádio FM",
+        "url": "http://live.slovakradio.sk:8000/FM_256.mp3",
+        "votes": 2848
+      },
+      "variants": [
+        {
+          "stationuuid": "f98d1243-c62c-4726-ae79-ab728182b098",
+          "name": "RÁDIO_FM",
+          "url": "http://live.slovakradio.sk:8000/FM_256.mp3",
+          "votes": 64,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b6c91be8-beb1-4d2e-8ab7-3c853e19bdb5",
+          "name": "RÁDIO_FM",
+          "url": "http://live.slovakradio.sk:8000/FM_256.mp3",
+          "votes": 45,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8586f9dc-278c-411b-89de-ba114db35c32",
+        "name": "Rádio Vlna CLASSIC ROCK ",
+        "url": "http://stream.radiovlna.sk:8000/rock-hi.mp3",
+        "votes": 1618
+      },
+      "variants": [
+        {
+          "stationuuid": "aa653f36-283a-4191-b980-33c5740c39f4",
+          "name": "RÁDIO VLNA Classic Rock",
+          "url": "http://stream.radiovlna.sk:8000/rock-hi.mp3",
+          "votes": 103,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "333d11b1-7841-4352-b023-549c87b27f8e",
+          "name": "RÁDIO VLNA Classic Rock",
+          "url": "http://stream.radiovlna.sk:8000/rock-hi.mp3",
+          "votes": 37,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "9b801122-248a-46ab-b15b-c4a7bacf36d4",
+          "name": "RÁDIO VLNA CLASSIC ROCK",
+          "url": "http://stream.radiovlna.sk:8000/rock-hi.mp3",
+          "votes": 29,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "90ad59d7-68b5-4a49-addd-9498843da6f2",
+        "name": "Radio Slovensko",
+        "url": "https://icecast.stv.livebox.sk/slovensko_128.mp3",
+        "votes": 1600
+      },
+      "variants": [
+        {
+          "stationuuid": "800803bb-a650-4711-b1eb-d7bd33674aee",
+          "name": "RÁDIO SLOVENSKO ",
+          "url": "https://icecast.stv.livebox.sk/slovensko_128.mp3",
+          "votes": 168,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "e131b9aa-3c63-4b58-a852-d1363158ea31",
+          "name": "Rádio Slovensko",
+          "url": "https://icecast.stv.livebox.sk/slovensko_128.mp3",
+          "votes": 90,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7759341b-7e8d-462b-885a-d6e974fc3816",
+        "name": "Rádio Expres",
+        "url": "http://stream.expres.sk/128.mp3",
+        "votes": 1423
+      },
+      "variants": [
+        {
+          "stationuuid": "d1b6b7c4-f503-4211-a99f-9a11b60fe649",
+          "name": "RÁDIO EXPRES",
+          "url": "http://stream.expres.sk/128.mp3",
+          "votes": 145,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6d8788ec-3006-40de-b674-35b367940e0d",
+        "name": "Rádio Vlna Golden hits",
+        "url": "https://stream.radiovlna.sk/gold-hi.mp3",
+        "votes": 1029
+      },
+      "variants": [
+        {
+          "stationuuid": "262ae0bf-b085-40a7-82dd-ab56b72cc9c9",
+          "name": "RÁDIO VLNA 60-70",
+          "url": "https://stream.radiovlna.sk/gold-hi.mp3",
+          "votes": 241,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "2237de8b-11bf-4c6f-a857-aa51d994c240",
+          "name": "RÁDIO VLNA 60-70",
+          "url": "https://stream.radiovlna.sk/gold-hi.mp3",
+          "votes": 92,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "982bbf49-215e-4d6c-ab01-0fe48b025e6c",
+          "name": "RÁDIO VLNA 60-70",
+          "url": "https://stream.radiovlna.sk/gold-hi.mp3",
+          "votes": 34,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "963c4b36-0601-11e8-ae97-52543be04c81",
+        "name": "Rádio Janko Hraško",
+        "url": "http://78.24.9.110:31088/",
+        "votes": 780
+      },
+      "variants": [
+        {
+          "stationuuid": "b799a7c1-d550-429c-a999-7e45d8711e10",
+          "name": "janko hraško",
+          "url": "http://78.24.9.110:31088/",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960f082d-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Viva Metropol",
+        "url": "http://stream.sepia.sk:8000/viva128.mp3",
+        "votes": 721
+      },
+      "variants": [
+        {
+          "stationuuid": "59223240-4a86-492d-aed7-14025920265d",
+          "name": "Rádio Viva",
+          "url": "http://stream.sepia.sk:8000/viva128.mp3",
+          "votes": 95,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "9fdb8374-aba2-4ecf-91e8-460c4761af7c",
+          "name": "RÁDIO VIVA",
+          "url": "http://stream.sepia.sk:8000/viva128.mp3",
+          "votes": 84,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c3b1d4ff-0e01-4139-95e6-c54da7b6acb0",
+        "name": "Rádio Beta",
+        "url": "http://109.71.67.102:8000/beta_live_high.mp3",
+        "votes": 676
+      },
+      "variants": [
+        {
+          "stationuuid": "53801113-bed5-4b44-979f-a56d610f3991",
+          "name": "RÁDIO BETA",
+          "url": "http://109.71.67.102:8000/beta_live_high.mp3",
+          "votes": 77,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9633f1f6-0601-11e8-ae97-52543be04c81",
+        "name": "SKY Rádio",
+        "url": "http://stream.skyradio.sk:8000/sky128",
+        "votes": 535
+      },
+      "variants": [
+        {
+          "stationuuid": "9c72a077-97ee-494a-80e8-6f6a30661185",
+          "name": "SKY Rádio",
+          "url": "http://stream.skyradio.sk:8000/sky128",
+          "votes": 51,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2faf7516-b743-4c34-a949-0e10a5c5b76f",
+        "name": "FRESH rádio",
+        "url": "https://icecast2.radionet.sk/freshradio.sk",
+        "votes": 410
+      },
+      "variants": [
+        {
+          "stationuuid": "188a79f7-f612-43b9-8216-afc25d9ce2bd",
+          "name": "FRESH Rádio ",
+          "url": "https://icecast2.radionet.sk/freshradio.sk",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c32c44f8-5493-4c9b-a1dc-ec5dc59ba611",
+          "name": "Fresh Rádio",
+          "url": "https://icecast2.radionet.sk/freshradio.sk",
+          "votes": 20,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2fb5eb01-7e34-42b7-9b06-2bff5084127b",
+        "name": "Rádio Vlna Oldies Party",
+        "url": "https://stream.radiovlna.sk/party-hi.mp3",
+        "votes": 364
+      },
+      "variants": [
+        {
+          "stationuuid": "b09e0f7c-b125-4c2b-9552-8a5e41f9e643",
+          "name": "RÁDIO VLNA OLDIES PARTY",
+          "url": "https://stream.radiovlna.sk/party-hi.mp3",
+          "votes": 75,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "571b264d-e432-4281-93fb-0efc77dd5fb6",
+          "name": "RÁDIO VLNA Oldies Party",
+          "url": "https://stream.radiovlna.sk/party-hi.mp3",
+          "votes": 67,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a5b3820c-14d8-4bde-a10a-9ebf75d8e296",
+        "name": "Slobodný vysielač",
+        "url": "http://vysielanie.online/radio/8020/SV128.mp3",
+        "votes": 221
+      },
+      "variants": [
+        {
+          "stationuuid": "cef9d349-beb3-4f40-978a-7160e163926f",
+          "name": "SLOBODNÝ VYSIELAČ",
+          "url": "http://vysielanie.online/radio/8020/SV128.mp3",
+          "votes": 154,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f0b20e25-3fcd-4d5c-95e9-85f051a81fbb",
+        "name": "Rádio BestFM",
+        "url": "https://stream3.bestfm.sk:8000/128.mp3",
+        "votes": 178
+      },
+      "variants": [
+        {
+          "stationuuid": "1a7b895a-56a7-422d-b498-8a282f73430f",
+          "name": "RÁDIO BEST FM",
+          "url": "https://stream3.bestfm.sk:8000/128.mp3",
+          "votes": 67,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cb61d755-6bb7-4575-98d1-cd7434bfa567",
+        "name": "Rádio ROCK",
+        "url": "https://stream.bauermedia.sk/rock-hi.mp3",
+        "votes": 140
+      },
+      "variants": [
+        {
+          "stationuuid": "2d04650f-78a6-41b5-8e0e-f5b79bc60afe",
+          "name": "Rock Radio",
+          "url": "https://stream.bauermedia.sk/rock-hi.mp3",
+          "votes": 140,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "6fecd080-93f8-41d6-8371-713221653fab",
+          "name": "Rádio ROCK",
+          "url": "https://stream.bauermedia.sk/rock-hi.mp3",
+          "votes": 110,
+          "differs": []
+        },
+        {
+          "stationuuid": "4b4bc460-26f2-4bd3-b845-53544d3ee990",
+          "name": "Rádio Rock",
+          "url": "https://stream.bauermedia.sk/rock-hi.mp3",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8fb8daed-9737-4848-84ff-83998d24f993",
+        "name": "Hitrádio Slovakia",
+        "url": "https://hitradioslovakia.stream.laut.fm/hitradioslovakia",
+        "votes": 101
+      },
+      "variants": [
+        {
+          "stationuuid": "10ee764e-6213-488b-bc2b-5b6d973a5c06",
+          "name": "Hitrádio Slovakia",
+          "url": "https://hitradioslovakia.stream.laut.fm/hitradioslovakia",
+          "votes": 52,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "42b85b36-77e3-11ea-b1cf-52543be04c81",
+        "name": "G-Radio",
+        "url": "http://88.212.34.18:8050/mp3midband",
+        "votes": 68
+      },
+      "variants": [
+        {
+          "stationuuid": "f0e06d4a-fdad-4773-a046-1eda297aa349",
+          "name": "G-Radio",
+          "url": "http://88.212.34.18:8050/mp3midband",
+          "votes": 25,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d936322c-e288-44e7-a60e-7f3d5e1d6d30",
+        "name": "Rádio KIKS",
+        "url": "https://online.radiokiks.sk:8000/kiks_hq.mp3",
+        "votes": 62
+      },
+      "variants": [
+        {
+          "stationuuid": "524c6d90-493a-4692-aa6d-292ab4cc6350",
+          "name": "Rádio KIKS",
+          "url": "https://online.radiokiks.sk:8000/kiks_hq.mp3",
+          "votes": 21,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f6da7b70-916b-4c64-bf73-ddbb5a561734",
+        "name": "TRNAVSKÉ RÁDIO",
+        "url": "https://solid33.streamupsolutions.com/proxy/mujdmamw/trnavske",
+        "votes": 57
+      },
+      "variants": [
+        {
+          "stationuuid": "7c46c1ce-376c-4b38-ab73-a43b9e2681e3",
+          "name": "TRNAVSKÉ RÁDIO",
+          "url": "https://solid33.streamupsolutions.com/proxy/mujdmamw/trnavske",
+          "votes": 12,
+          "differs": []
+        },
+        {
+          "stationuuid": "440031ae-eeeb-4dd0-beb7-4ca89492d843",
+          "name": "TT Rádio",
+          "url": "https://solid33.streamupsolutions.com/proxy/mujdmamw/trnavske",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ed3d4fe9-bb9e-4d9d-9985-fa0bda0c08dd",
+          "name": "Trnavské Rádio",
+          "url": "https://solid33.streamupsolutions.com/proxy/mujdmamw/trnavske",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "043fba3d-9977-4991-97b1-64576df4da6d",
+        "name": "Rádio REGINA ZÁPAD",
+        "url": "https://icecast.stv.livebox.sk/regina-ba_128.mp3",
+        "votes": 45
+      },
+      "variants": [
+        {
+          "stationuuid": "1592f35d-74f8-4ed1-a2bf-ad2df2f4e50d",
+          "name": "Rádio Regina Západ",
+          "url": "https://icecast.stv.livebox.sk/regina-ba_128.mp3",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "70680e8d-8b0e-4935-a2a6-8cb6a3d0bf64",
+        "name": "Rádio TOPOĽČANY ",
+        "url": "http://80.242.44.249:8000/;",
+        "votes": 32
+      },
+      "variants": [
+        {
+          "stationuuid": "7ee66666-7361-468c-ace4-1f7a357b58f6",
+          "name": "Rádio Topoľčany ",
+          "url": "http://80.242.44.249:8000/;",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3d9a1f30-6466-4e6b-a7b3-96f507b8674d",
+        "name": "Infovojna",
+        "url": "https://stream1.infovojna.com:8000/live",
+        "votes": 18
+      },
+      "variants": [
+        {
+          "stationuuid": "8df48ad2-62ab-421d-828e-7a13e0499c77",
+          "name": "Infovojna",
+          "url": "https://stream1.infovojna.com:8000/live",
+          "votes": 3,
+          "differs": []
+        },
+        {
+          "stationuuid": "ede239eb-5ed8-449d-bcd9-6481c1a3ff24",
+          "name": "Info_vojna",
+          "url": "https://stream1.infovojna.com:8000/live",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "000e17dc-b28b-453b-8de0-cfe0e2654c46",
+        "name": "Radiopokoj",
+        "url": "http://radioserver.online:8822/;",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "31e7d355-bdeb-4a05-8289-a2ee80c19ecf",
+          "name": "rádio pokoj",
+          "url": "http://radioserver.online:8822/;",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

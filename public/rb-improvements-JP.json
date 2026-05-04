@@ -1,0 +1,449 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.880Z",
+  "country": "JP",
+  "sourceProbedAt": "2026-04-30T11:13:52.927Z",
+  "totals": {
+    "deadStreams": 5,
+    "internalDupes": 19,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "918ec34d-9572-49c8-a6b5-653325f99eef",
+      "name": "A&G+",
+      "url": "https://www.uniqueradio.jp/agapps/hls/cdn.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 503",
+      "votes": 356,
+      "lastProbedAt": "2026-04-30T11:13:46.431Z"
+    },
+    {
+      "stationuuid": "651eb704-b106-4f2a-9344-59b37dcd61f2",
+      "name": "Friends Forever 128kbps MP3",
+      "url": "https://s5.radio.co/s6140c7241/listen",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 176,
+      "lastProbedAt": "2026-04-30T11:13:46.904Z"
+    },
+    {
+      "stationuuid": "2d86f125-6674-42d4-a450-b4941e784e59",
+      "name": "Friends Forever 64kbps AAC",
+      "url": "https://s5.radio.co/s6140c7241/low",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 78,
+      "lastProbedAt": "2026-04-30T11:13:49.047Z"
+    },
+    {
+      "stationuuid": "6d7805c0-1cfd-4f55-8e52-4568c271cf2a",
+      "name": "NHK WORLD RADIO 2",
+      "url": "https://nhkworld-radio.akamaized.net/hls/live/2115823/nhkworld-radio-rs1/index_rs1.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 13,
+      "lastProbedAt": "2026-04-30T11:13:51.136Z"
+    },
+    {
+      "stationuuid": "dbdd7846-8420-4354-9145-43ebffbf9fc5",
+      "name": "NHK WORLD RADIO 10",
+      "url": "https://nhkworld-radio.akamaized.net/hls/live/2115820/nhkworld-radio-rs5/index_rs5.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 12,
+      "lastProbedAt": "2026-04-30T11:13:51.436Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "1adf1539-e647-44c3-85d8-b437b768fb8c",
+        "name": "Anime Para Ti",
+        "url": "https://stream.zeno.fm/qpn8mkt8c4duv",
+        "votes": 4450
+      },
+      "variants": [
+        {
+          "stationuuid": "d57fca45-a811-48f9-b672-7047ac984b91",
+          "name": "Anime Para Ti",
+          "url": "https://stream.zeno.fm/qpn8mkt8c4duv",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e4e4d123-0616-11ea-afd6-52543be04c81",
+        "name": "Listen.Moe JPop Vorbis",
+        "url": "https://listen.moe/stream",
+        "votes": 3137
+      },
+      "variants": [
+        {
+          "stationuuid": "ba5af88c-6fa9-4f56-990f-c0eaaf7c37ba",
+          "name": "Listen.Moe JPop Vorbis",
+          "url": "https://listen.moe/stream",
+          "votes": 0,
+          "differs": [
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9f9cc220-3462-11e8-bb9b-52543be04c81",
+        "name": "Retro PC GAME MUSIC Streaming Radio",
+        "url": "http://gyusyabu.ddo.jp:8000/",
+        "votes": 2265
+      },
+      "variants": [
+        {
+          "stationuuid": "0f2de9ed-ce97-432f-8786-c6af09b81c85",
+          "name": "Retro PC Game Music Streaming Radio for Gyusyabu",
+          "url": "http://gyusyabu.ddo.jp:8000/",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "248a7684-7e28-4912-9812-efefc2bba2e1",
+        "name": "Gensokyo Radio",
+        "url": "https://stream.gensokyoradio.net/3",
+        "votes": 2194
+      },
+      "variants": [
+        {
+          "stationuuid": "b6512cd8-9b4d-4b25-82a6-3fcd9a6273c6",
+          "name": "Gensokyo Radio (Enhanced)",
+          "url": "https://stream.gensokyoradio.net/3",
+          "votes": 52,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7b85cb6b-ebb8-11e8-a471-52543be04c81",
+        "name": "R/a/dio",
+        "url": "https://relay0.r-a-d.io/main.mp3",
+        "votes": 2058
+      },
+      "variants": [
+        {
+          "stationuuid": "0d926201-13b3-4e14-9348-68b7666be53d",
+          "name": "R/a/dio",
+          "url": "https://relay0.r-a-d.io/main.mp3",
+          "votes": 29,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9f66a5b4-66c0-4389-88f3-f8285ad4239a",
+        "name": "Shonan Beach FM 78.9",
+        "url": "http://shonanbeachfm.out.airtime.pro:8000/shonanbeachfm_a",
+        "votes": 1547
+      },
+      "variants": [
+        {
+          "stationuuid": "121df42c-e7a1-4a57-ab0b-a5149ae3956f",
+          "name": "Shonan Beach FM 78.9 湘南ビーチ",
+          "url": "http://shonanbeachfm.out.airtime.pro:8000/shonanbeachfm_a",
+          "votes": 147,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "30b09043-9b67-43d7-b9c6-b4401e5cb636",
+        "name": "BOX : Japan City Pop - 日本のシティポップ",
+        "url": "https://play.streamafrica.net/japancitypop",
+        "votes": 818
+      },
+      "variants": [
+        {
+          "stationuuid": "c839f388-2f52-4ad3-9824-bc49bfa9c189",
+          "name": "BOX : Japan City Pop - 日本のシティポップ",
+          "url": "https://play.streamafrica.net/japancitypop",
+          "votes": 278,
+          "differs": []
+        },
+        {
+          "stationuuid": "90cbb60b-5a04-4e3a-aa30-5dc9307070e7",
+          "name": "BOX : Japan City Pop - 日本のシティポップ",
+          "url": "https://play.streamafrica.net/japancitypop",
+          "votes": 1,
+          "differs": [
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "37d1f4fb-0812-432d-af30-e91ca28ae05c",
+        "name": "Big B Radio - Jpop",
+        "url": "https://antares.dribbcast.com/proxy/jpop?mp=/s",
+        "votes": 671
+      },
+      "variants": [
+        {
+          "stationuuid": "ce46492b-3512-48e5-bf12-e992df4b4906",
+          "name": "Big B Radio #JPOP",
+          "url": "https://antares.dribbcast.com/proxy/jpop?mp=/s",
+          "votes": 71,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cf0ab710-020b-4e3f-99af-2bf059466d36",
+        "name": "J-POP Powerplay",
+        "url": "https://kathy.torontocast.com:3560/",
+        "votes": 471
+      },
+      "variants": [
+        {
+          "stationuuid": "84551b58-cc37-4ec2-8712-b29002804be9",
+          "name": "J-POP Powerplay",
+          "url": "https://kathy.torontocast.com:3560/",
+          "votes": 208,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5a4eb5bc-7fbd-43fb-a6a4-cc4517ce6ac4",
+        "name": "J1 HITS",
+        "url": "https://jenny.torontocast.com:2000/stream/J1HITS?_=184325",
+        "votes": 389
+      },
+      "variants": [
+        {
+          "stationuuid": "090ec5aa-54d0-4410-8442-82c5236c57b8",
+          "name": "J1 HITS",
+          "url": "https://jenny.torontocast.com:2000/stream/J1HITS?_=538100",
+          "votes": 59,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ecbcdd6f-ac5f-408f-9d9b-cc979e5344c4",
+        "name": "J-Pop Powerplay Kawaii(asia dream radio)",
+        "url": "https://kathy.torontocast.com:3060/;?shoutcast",
+        "votes": 369
+      },
+      "variants": [
+        {
+          "stationuuid": "3dc4d4af-a0fd-4d0d-b3a0-723668b68d24",
+          "name": "J-Pop Powerplay Kawaii",
+          "url": "https://kathy.torontocast.com:3060/;",
+          "votes": 235,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c874a140-6938-49d6-b7a5-4e649fab2245",
+        "name": "Tokyo Star Radio(八王子FM)",
+        "url": "https://mtist.as.smartstream.ne.jp/30081/livestream/playlist.m3u8",
+        "votes": 356
+      },
+      "variants": [
+        {
+          "stationuuid": "d609ee78-0936-468c-b52a-c72a11bbce5b",
+          "name": "Tokyo Star Radio",
+          "url": "https://mtist.as.smartstream.ne.jp/30081/livestream/playlist.m3u8",
+          "votes": 112,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "45ea052e-37c2-403e-be57-8bf66daa86af",
+        "name": "Real Love Music - Radio Future Funk",
+        "url": "https://stream-152.zeno.fm/48533y95cnruv?zs=doyTUcjfTvCVtBOS3nlI8g",
+        "votes": 354
+      },
+      "variants": [
+        {
+          "stationuuid": "2396ce2c-9fde-4353-98a8-7e307daefddc",
+          "name": "Real Love Music - Radio Future Funk",
+          "url": "https://stream-152.zeno.fm/48533y95cnruv?zs=doyTUcjfTvCVtBOS3nlI8g",
+          "votes": 125,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "deff64de-b1f4-442e-832c-1180917ac894",
+        "name": "Hitsujikai Radio",
+        "url": "http://streaming.radio.co/se4a8e6a93/listen",
+        "votes": 273
+      },
+      "variants": [
+        {
+          "stationuuid": "09983f06-279c-497a-8e96-8e1057fa094a",
+          "name": "Hitsujikai Radio",
+          "url": "http://streaming.radio.co/se4a8e6a93/listen",
+          "votes": 38,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "53e7d317-c9e8-4054-87a4-2e21893e80cc",
+        "name": "J-Club Powerplay HipHop(Asia DREAM Radio)",
+        "url": "https://kathy.torontocast.com:3350/;?shoutcast",
+        "votes": 177
+      },
+      "variants": [
+        {
+          "stationuuid": "bc33ea37-3935-41a5-bf9f-788496ef6959",
+          "name": "J-Club Powerplay HipHop",
+          "url": "https://kathy.torontocast.com:3350/;",
+          "votes": 81,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9142c884-33a5-4277-8bac-e299c0c1c18c",
+        "name": "JPHiP Radio",
+        "url": "http://radio.jphip.com:8800/",
+        "votes": 167
+      },
+      "variants": [
+        {
+          "stationuuid": "f7a003ad-1795-4eec-842d-b8d2396b3ce9",
+          "name": "JPHiP Radio",
+          "url": "http://radio.jphip.com:8800/",
+          "votes": 60,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ccabed56-42ab-4719-9aa3-3ca18d2d4815",
+        "name": "FMはまなすジャパン",
+        "url": "http://mtist.as.smartstream.ne.jp/30004/livestream/playlist.m3u8",
+        "votes": 59
+      },
+      "variants": [
+        {
+          "stationuuid": "fb7bfe0f-fc64-4c67-a1ce-83ffde1f96f3",
+          "name": "FMはまなす",
+          "url": "http://mtist.as.smartstream.ne.jp/30004/livestream/playlist.m3u8",
+          "votes": 51,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d62d116a-e1ce-4ce3-b18a-254dfa6c2914",
+          "name": "FMはまなすジャパン",
+          "url": "http://mtist.as.smartstream.ne.jp/30004/livestream/playlist.m3u8",
+          "votes": 44,
+          "differs": []
+        },
+        {
+          "stationuuid": "dc60c42c-0f18-4ace-ae7b-ac4a4a610ff7",
+          "name": "FMはまなすジャパン",
+          "url": "http://mtist.as.smartstream.ne.jp/30004/livestream/playlist.m3u8",
+          "votes": 44,
+          "differs": []
+        },
+        {
+          "stationuuid": "f8fe393c-ff15-4141-8310-d3536bcd15e7",
+          "name": "FMはまなすジャパン",
+          "url": "http://mtist.as.smartstream.ne.jp/30004/livestream/playlist.m3u8",
+          "votes": 42,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f4f69bbd-b8cd-4098-ad46-a3d501bf354c",
+        "name": "FMわたらせ",
+        "url": "https://mtist.as.smartstream.ne.jp/30048/livestream/playlist.m3u8",
+        "votes": 47
+      },
+      "variants": [
+        {
+          "stationuuid": "d99cdb15-147b-4f5e-ac47-60fff3c931ca",
+          "name": "FMわたらせ",
+          "url": "https://mtist.as.smartstream.ne.jp/30048/livestream/playlist.m3u8",
+          "votes": 30,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8d01010d-aea1-4226-9b48-8beb376f0d61",
+        "name": "J-Pop Sakura (asia DREAM radio)",
+        "url": "http://quincy.torontocast.com:2070/stream.mp3",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "ce03f456-47f6-447f-8834-19cf0b808fc8",
+          "name": "J-Pop Sakura",
+          "url": "http://quincy.torontocast.com:2070/stream.mp3",
+          "votes": 21,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f2e726c1-9cae-4a1f-baa8-da29be891dec",
+          "name": "Japan2",
+          "url": "http://quincy.torontocast.com:2070/stream.mp3",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

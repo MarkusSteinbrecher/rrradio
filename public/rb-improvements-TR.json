@@ -1,0 +1,2398 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.888Z",
+  "country": "TR",
+  "sourceProbedAt": "2026-04-30T12:45:38.468Z",
+  "totals": {
+    "deadStreams": 40,
+    "internalDupes": 85,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "5509836d-9ca5-4584-bd61-86298fa725b4",
+      "name": "Number one",
+      "url": "https://n10101m.mediatriple.net/numberone",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 2308,
+      "lastProbedAt": "2026-04-30T12:45:24.191Z"
+    },
+    {
+      "stationuuid": "4bead555-fefa-401b-b9e1-e5f525c714b8",
+      "name": "Numberone Turk",
+      "url": "https://n10101m.mediatriple.net/numberoneturk",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 1637,
+      "lastProbedAt": "2026-04-30T12:45:24.596Z"
+    },
+    {
+      "stationuuid": "7ab25d55-40ef-4dcc-8e85-1dd99650d830",
+      "name": "Halk Radyo",
+      "url": "https://anadolu.liderhost.com.tr:10876/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 985,
+      "lastProbedAt": "2026-04-30T12:45:15.463Z"
+    },
+    {
+      "stationuuid": "cad85f62-a486-4b1c-b90d-9a3a5956330b",
+      "name": "KİSS LOVE RADYO TURKEY",
+      "url": "https://anadolu.liderhost.com.tr:10964/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 625,
+      "lastProbedAt": "2026-04-30T12:45:16.118Z"
+    },
+    {
+      "stationuuid": "0934aa26-d212-441c-a47e-474c3f289bab",
+      "name": "Number One Türk",
+      "url": "https://n10101m.mediatriple.net/numberoneturk",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 512,
+      "lastProbedAt": "2026-04-30T12:45:26.368Z"
+    },
+    {
+      "stationuuid": "f34bebba-3a9e-4636-a593-d29538d7ed76",
+      "name": "radyo mezopotamya",
+      "url": "https://anadolu.liderhost.com.tr/9404/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 325,
+      "lastProbedAt": "2026-04-30T12:45:16.825Z"
+    },
+    {
+      "stationuuid": "429d64ec-d941-4b51-ac44-5f20e95f2f79",
+      "name": "KLAS RADİO TURKEY",
+      "url": "https://anadolu.liderhost.com.tr:10929/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 291,
+      "lastProbedAt": "2026-04-30T12:45:17.024Z"
+    },
+    {
+      "stationuuid": "d220e7fc-cfc3-48c0-895a-ec109709936d",
+      "name": "Lig Radyo",
+      "url": "https://turkmedya.radyotvonline.com/turkmedya/ligradyo.stream/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 244,
+      "lastProbedAt": "2026-04-30T12:45:18.549Z"
+    },
+    {
+      "stationuuid": "ce6b6ddb-db52-4dfe-ab54-23bee667744e",
+      "name": "NUMBERONE WORLD TURKEY",
+      "url": "https://n10101m.mediatriple.net/videoonlylive/mtkgeuihrlfwlive/u_stream_5c9e2f95dcb16_1/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 224,
+      "lastProbedAt": "2026-04-30T12:45:27.799Z"
+    },
+    {
+      "stationuuid": "4ee9a854-2f52-43d7-8707-31bed53cb19a",
+      "name": "NUMBER ONE WORLD",
+      "url": "https://n10101m.mediatriple.net/videoonlylive/mtkgeuihrlfwlive/u_stream_5c9e2f95dcb16_1/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 200,
+      "lastProbedAt": "2026-04-30T12:45:28.052Z"
+    },
+    {
+      "stationuuid": "d3bd3543-c2af-444f-9c73-b8d3bba6e740",
+      "name": "HOS MİX",
+      "url": "https://anadolu.liderhost.com.tr:10871/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 199,
+      "lastProbedAt": "2026-04-30T12:45:18.124Z"
+    },
+    {
+      "stationuuid": "9950412a-7c6f-4107-a284-3411877f5c7c",
+      "name": "Radyo Arkadaş",
+      "url": "https://ssl120.radyotelekom.com.tr/9998/stream",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
+      "votes": 182,
+      "lastProbedAt": "2026-04-30T12:45:21.503Z"
+    },
+    {
+      "stationuuid": "bd54a457-92ce-433c-aab6-f625518dbbad",
+      "name": "FENOMEN RAP",
+      "url": "https://live.radyofenomen.com/fenomenrap/abr/fenomenrap/128/chunks.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 123,
+      "lastProbedAt": "2026-04-30T12:45:22.493Z"
+    },
+    {
+      "stationuuid": "dd5c1e07-b1b0-47ee-8115-a83eac808807",
+      "name": "Dijital radyo",
+      "url": "https://anadolu.liderhost.com.tr:10961/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 119,
+      "lastProbedAt": "2026-04-30T12:45:22.307Z"
+    },
+    {
+      "stationuuid": "ec87d8d3-757c-41cd-b7de-c313adbc0f84",
+      "name": "Fırat FM",
+      "url": "https://anadolu.liderhost.com.tr:10912/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 61,
+      "lastProbedAt": "2026-04-30T12:45:24.553Z"
+    },
+    {
+      "stationuuid": "a415514b-30e0-4d07-9b0f-9e13c4b5af9f",
+      "name": "NUMBER ONE  TURK AJDA PEKKAN",
+      "url": "https://n10101m.mediatriple.net/videoonlylive/mtkgeuihrlfwlive/u_stream_5c9e3ed520608_1/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 54,
+      "lastProbedAt": "2026-04-30T12:45:34.708Z"
+    },
+    {
+      "stationuuid": "1020f3df-3507-476a-85ca-152e03cb75ff",
+      "name": "Radyo Nida",
+      "url": "https://anadolu.liderhost.com.tr/8106/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 50,
+      "lastProbedAt": "2026-04-30T12:45:24.913Z"
+    },
+    {
+      "stationuuid": "584e9b87-5d40-486e-a35f-c3e93974ce62",
+      "name": "Number One JAZZ",
+      "url": "https://n10101m.mediatriple.net/videoonlylive/mtkgeuihrlfwlive/u_stream_5c9e3e06878b9_1/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 34,
+      "lastProbedAt": "2026-04-30T12:45:35.866Z"
+    },
+    {
+      "stationuuid": "0e086ad4-2575-4437-b6db-796770537ea5",
+      "name": "Radyo Karabalı",
+      "url": "https://radyokarabali.ozelip.com:9884/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 31,
+      "lastProbedAt": "2026-04-30T12:45:26.177Z"
+    },
+    {
+      "stationuuid": "3812453c-cfdc-4686-a797-41c4ae384c6a",
+      "name": "Radyo light",
+      "url": "https://yayin.radiolight.net:8005/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 24,
+      "lastProbedAt": "2026-04-30T12:45:26.913Z"
+    },
+    {
+      "stationuuid": "65a5f24f-7381-452c-8d05-2aa942c9f95d",
+      "name": "S1lhoutte - Slow FM",
+      "url": "https://anadolu.liderhost.com.tr:10973/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 14,
+      "lastProbedAt": "2026-04-30T12:45:27.727Z"
+    },
+    {
+      "stationuuid": "4b2d157e-9741-4174-8731-6d6cb2bdf8e8",
+      "name": "Tarkan",
+      "url": "https://stream.pcradio.ru/tarkan-hi",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 8,
+      "lastProbedAt": "2026-04-30T12:45:38.466Z"
+    },
+    {
+      "stationuuid": "45c12674-0160-4fb7-a707-4a8b9ee6cb3d",
+      "name": "playdanceradio",
+      "url": "https://radyo1.radyo-dinle.tc/playdanceradio/stream",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
+      "votes": 7,
+      "lastProbedAt": "2026-04-30T12:45:28.922Z"
+    },
+    {
+      "stationuuid": "d315094f-6af9-4e34-a274-920035f9b3b2",
+      "name": "playdanceradio",
+      "url": "https://radyo1.radyo-dinle.tc/playdanceradio/stream",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T12:45:29.782Z"
+    },
+    {
+      "stationuuid": "306a62ba-58c5-4eec-bc21-d5a8718ac458",
+      "name": "(93.0) IGDIR FM",
+      "url": "https://yayin.yayindakiler.com:4158/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T12:45:30.014Z"
+    },
+    {
+      "stationuuid": "19af1cc7-2094-401c-9aa5-47402cb5fe39",
+      "name": "Slow Turk",
+      "url": "https://radyo.duhnet.tv/ak_dtvh_slowturk",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T12:45:30.868Z"
+    },
+    {
+      "stationuuid": "0546535d-5440-4b86-9e19-e829fe5fa420",
+      "name": "GENÇ KRAL FM",
+      "url": "https://anadolu.liderhost.com.tr:10853/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:45:31.155Z"
+    },
+    {
+      "stationuuid": "d8ed6337-bc5c-4d37-80ec-efe75881796b",
+      "name": "RADYO 75",
+      "url": "https://anadolu.liderhost.com.tr/8126/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:45:31.588Z"
+    },
+    {
+      "stationuuid": "255fb3fd-103a-475a-80e1-c55c6ada09ef",
+      "name": "DEDEMİN RADYOSU",
+      "url": "https://anadolu.liderhost.com.tr/9002/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:45:33.388Z"
+    },
+    {
+      "stationuuid": "89d50a21-18fa-483e-bfa6-1cee8519866e",
+      "name": "GENÇLİK RADYOSU",
+      "url": "https://canli.radyogenclik.com:9000/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:45:34.208Z"
+    },
+    {
+      "stationuuid": "7ae6b7bf-8629-4024-a9a8-ce62099b3b7e",
+      "name": "KENT RADYO",
+      "url": "https://anadolu.liderhost.com.tr:10906/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:45:34.210Z"
+    },
+    {
+      "stationuuid": "d2735526-f82d-43e2-85b2-15f56504c889",
+      "name": "LATERADİO",
+      "url": "https://radio.lateradio.live/;",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:45:37.589Z"
+    },
+    {
+      "stationuuid": "9f3cb98c-a1dd-48fa-9ada-19ffa7527e42",
+      "name": "ORDU FM",
+      "url": "https://radyo.yayindakiler.com:8012/",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:45:35.013Z"
+    },
+    {
+      "stationuuid": "8e8dddce-50c3-4684-b51c-2dab05736a65",
+      "name": "POWER 66",
+      "url": "https://anadolu.liderhost.com.tr:10921/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:45:34.912Z"
+    },
+    {
+      "stationuuid": "82a8b94c-70f7-4a66-aa3e-9f690659104f",
+      "name": "RADYO AVARE",
+      "url": "https://anadolu.liderhost.com.tr:10980/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:45:35.674Z"
+    },
+    {
+      "stationuuid": "be9c35bc-dad3-423a-9f33-d77713277fc8",
+      "name": "RADYO BLACK",
+      "url": "https://anadolu.liderhost.com.tr:10966/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:45:35.777Z"
+    },
+    {
+      "stationuuid": "3466c02a-e88f-479c-8f61-8114a0d58a12",
+      "name": "RADYO BLACK LOVE",
+      "url": "https://anadolu.liderhost.com.tr:10964/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:45:35.779Z"
+    },
+    {
+      "stationuuid": "0a79a954-3e10-49a0-956c-9a7318e3bc04",
+      "name": "RADYO EŞME",
+      "url": "https://anadolu.liderhost.com.tr:8358/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:45:35.948Z"
+    },
+    {
+      "stationuuid": "950a337b-ced9-4966-bc23-34c1e5ecf865",
+      "name": "RADYO HABER",
+      "url": "https://radyo.yayindakiler.com:4118/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:45:36.044Z"
+    },
+    {
+      "stationuuid": "ff44edd5-1e07-48ba-9a83-38435811660e",
+      "name": "RADYO HABER",
+      "url": "https://radyo.yayindakiler.com:4118/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:45:36.066Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "96201b3d-0601-11e8-ae97-52543be04c81",
+        "name": "Arabesk FM",
+        "url": "http://yayin.arabeskfm.biz:8042/",
+        "votes": 27375
+      },
+      "variants": [
+        {
+          "stationuuid": "da5c3f55-c1df-4f49-8727-d59f1787784d",
+          "name": "Arabesk FM",
+          "url": "http://yayin.arabeskfm.biz:8042/",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960969eb-0601-11e8-ae97-52543be04c81",
+        "name": "Virgin Radio Türkiye",
+        "url": "http://29103.live.streamtheworld.com/VIRGIN_RADIO_SC",
+        "votes": 19420
+      },
+      "variants": [
+        {
+          "stationuuid": "d40a095c-63dd-4c25-ab89-8bc33505786c",
+          "name": "Virgin Radio Türkiye",
+          "url": "http://29103.live.streamtheworld.com/VIRGIN_RADIO_SC",
+          "votes": 8,
+          "differs": []
+        },
+        {
+          "stationuuid": "cc691852-21a7-4f96-bfed-6b208eb73f34",
+          "name": "Virgin Radio Türkiye",
+          "url": "http://29103.live.streamtheworld.com/VIRGIN_RADIO_SC",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f3dfbec0-8ddb-457c-94cd-368631337c0f",
+        "name": "DAMAR TURK FM",
+        "url": "https://live.radyositesihazir.com:10997/",
+        "votes": 15855
+      },
+      "variants": [
+        {
+          "stationuuid": "f035ba3b-6ec5-418a-ba73-9a504ab70c13",
+          "name": "DAMAR TURK FM",
+          "url": "https://live.radyositesihazir.com:10997/",
+          "votes": 7,
+          "differs": []
+        },
+        {
+          "stationuuid": "607dfcbd-0c9d-42bf-b715-c182446c0671",
+          "name": "DAMAR TURK FM",
+          "url": "https://live.radyositesihazir.com:10997/",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "df369586-40fc-11e9-aa55-52543be04c81",
+        "name": "Radyo 7",
+        "url": "http://46.20.3.250/;stream",
+        "votes": 15682
+      },
+      "variants": [
+        {
+          "stationuuid": "74521f5f-40dd-48aa-9e01-05d9150feddd",
+          "name": "Radyo 7",
+          "url": "http://46.20.3.250/;stream",
+          "votes": 3,
+          "differs": []
+        },
+        {
+          "stationuuid": "f53fda3f-9d72-4ce6-9a08-b6262b8c1d7f",
+          "name": "Radyo 7",
+          "url": "http://46.20.3.250/;stream",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "82879587-53bb-44c3-82af-197ee8d28119",
+          "name": "Radyo 7",
+          "url": "http://46.20.3.250/;stream",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "ef9dac34-e304-4918-9b18-9e1430e9d323",
+          "name": "Radyo 7",
+          "url": "http://46.20.3.250/;stream",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "ce9f6ad3-edbf-46dd-b20d-f983142b2de4",
+          "name": "Radyo 7",
+          "url": "http://46.20.3.250/;stream",
+          "votes": 0,
+          "differs": []
+        },
+        {
+          "stationuuid": "85a48511-7f88-44dd-8044-bf1b68cbdf37",
+          "name": "Radyo 7",
+          "url": "http://46.20.3.250/;stream",
+          "votes": 0,
+          "differs": []
+        },
+        {
+          "stationuuid": "2c4cf7d2-44a5-4e31-851d-da429fd0fee7",
+          "name": "Radyo 7",
+          "url": "http://46.20.3.250/;stream",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "360028f5-46ba-11ea-a860-52543be04c81",
+        "name": "Türkülerle Türkiye",
+        "url": "http://37.247.98.8/stream/22/;",
+        "votes": 15053
+      },
+      "variants": [
+        {
+          "stationuuid": "43419b09-da78-4b2f-816d-3c7e0a60e528",
+          "name": "Türkülerle Türkiye",
+          "url": "http://37.247.98.8/stream/22/;",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0012c08a-31e7-48c6-87a9-7f64736e0a38",
+        "name": "Metro FM",
+        "url": "http://28503.live.streamtheworld.com:3690/METRO_FMAAC_SC",
+        "votes": 11410
+      },
+      "variants": [
+        {
+          "stationuuid": "434b73f8-2fc5-40e5-af3c-254b6d603d08",
+          "name": "Metro FM",
+          "url": "http://28503.live.streamtheworld.com:3690/METRO_FMAAC_SC",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fb1fd397-78fd-11ea-8a3b-52543be04c81",
+        "name": "Power POP",
+        "url": "https://listen.powerapp.com.tr/powerpop/128/chunks.m3u8",
+        "votes": 10369
+      },
+      "variants": [
+        {
+          "stationuuid": "17a2edeb-d1c4-4163-bfed-4554456832c9",
+          "name": "Power POP",
+          "url": "https://listen.powerapp.com.tr/powerpop/128/chunks.m3u8",
+          "votes": 5,
+          "differs": []
+        },
+        {
+          "stationuuid": "0319bd18-73e3-4cfc-bc0b-f4f82ca9b1ca",
+          "name": "Power POP",
+          "url": "https://listen.powerapp.com.tr/powerpop/128/chunks.m3u8",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "0a2c0043-02b4-422f-8238-deb715f47779",
+          "name": "Power POP",
+          "url": "https://listen.powerapp.com.tr/powerpop/128/chunks.m3u8",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "ab3f51c9-7ceb-45db-b48c-12e22515d086",
+          "name": "Power POP",
+          "url": "https://listen.powerapp.com.tr/powerpop/128/chunks.m3u8",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "5f0b487c-cc58-4bc0-95da-ac8804390618",
+          "name": "Power POP",
+          "url": "https://listen.powerapp.com.tr/powerpop/128/chunks.m3u8",
+          "votes": 0,
+          "differs": []
+        },
+        {
+          "stationuuid": "79c77adc-ca1a-49f3-925c-c8bdef55194b",
+          "name": "Power POP",
+          "url": "https://listen.powerapp.com.tr/powerpop/128/chunks.m3u8",
+          "votes": 0,
+          "differs": []
+        },
+        {
+          "stationuuid": "61b83023-f93c-49d5-b463-350b4511cd89",
+          "name": "Power POP",
+          "url": "https://listen.powerapp.com.tr/powerpop/128/chunks.m3u8",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "09f8922f-56bb-41bd-ad35-a7e54c5520e3",
+        "name": "KRAL TÜRK FM",
+        "url": "https://live.radyositesihazir.com/8032/stream",
+        "votes": 9665
+      },
+      "variants": [
+        {
+          "stationuuid": "77ff4907-dc68-4d3b-8d98-89b3e32a66dd",
+          "name": "KRAL TÜRK FM",
+          "url": "https://live.radyositesihazir.com/8032/stream",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4e758ac3-15ad-11e9-a80b-52543be04c81",
+        "name": "Alem FM",
+        "url": "http://turkmedya.radyotvonline.com/turkmedya/alemfm.stream/playlist.m3u8",
+        "votes": 9271
+      },
+      "variants": [
+        {
+          "stationuuid": "ed407779-d155-4fd3-8c90-1ca898407b0c",
+          "name": "Alem FM",
+          "url": "http://turkmedya.radyotvonline.com/turkmedya/alemfm.stream/playlist.m3u8",
+          "votes": 51,
+          "differs": []
+        },
+        {
+          "stationuuid": "6177cf2e-d597-43d3-9cde-6cfb1089e4fa",
+          "name": "rtste",
+          "url": "http://turkmedya.radyotvonline.com/turkmedya/alemfm.stream/playlist.m3u8",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1e3038cc-eafc-45d0-a2e5-ef4c5d40494a",
+        "name": "Baba Radyo",
+        "url": "http://46.20.7.116/",
+        "votes": 7805
+      },
+      "variants": [
+        {
+          "stationuuid": "c735707a-895b-4317-a173-f09a90f218ab",
+          "name": "Baba Radyo",
+          "url": "http://46.20.7.116/",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "862444ed-dcfb-4c23-b2ad-b85d5c8f91ba",
+        "name": "a HABER",
+        "url": "https://trkvz-radyolar.ercdn.net/ahaberradyo/playlist.m3u8",
+        "votes": 6685
+      },
+      "variants": [
+        {
+          "stationuuid": "7ec738e7-9e9f-4eb5-be74-ec08f2ecb7c2",
+          "name": "A Haber",
+          "url": "https://trkvz-radyolar.ercdn.net/ahaberradyo/playlist.m3u8",
+          "votes": 340,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "acc68151-1a3c-4e82-8fb7-4f050b02a292",
+          "name": "A Haber Radyo",
+          "url": "https://trkvz-radyolar.ercdn.net/ahaberradyo/playlist.m3u8",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "04407d31-2cc0-11e8-91bf-52543be04c81",
+        "name": "dinamo.fm sleep",
+        "url": "http://channels.dinamo.fm/sleep-mp3",
+        "votes": 5968
+      },
+      "variants": [
+        {
+          "stationuuid": "1111c128-3215-49dd-9741-7858967455c4",
+          "name": "dinamo.fm sleep",
+          "url": "http://channels.dinamo.fm/sleep-mp3",
+          "votes": 738,
+          "differs": []
+        },
+        {
+          "stationuuid": "e9a35351-4dfb-4312-9681-e533cc10f99c",
+          "name": "dinamo.fm sleep",
+          "url": "http://channels.dinamo.fm/sleep-mp3",
+          "votes": 403,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "de28a78a-6cee-453d-b9df-13557334dfdb",
+        "name": "Radyo Seymen",
+        "url": "https://yayin.radyoseymen.com.tr:1070/stream",
+        "votes": 5055
+      },
+      "variants": [
+        {
+          "stationuuid": "c7b54750-52e4-4602-a556-23a84619420e",
+          "name": "Radyo Seymen",
+          "url": "https://yayin.radyoseymen.com.tr:1070/stream",
+          "votes": 368,
+          "differs": []
+        },
+        {
+          "stationuuid": "ad4b38ec-ee71-4f15-8196-2cb71cbac328",
+          "name": "Radyo Seymen",
+          "url": "https://yayin.radyoseymen.com.tr:1070/stream",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "33128b7d-e1b9-46e3-be4d-8515b186a9a2",
+        "name": "90lar turkey",
+        "url": "http://37.247.98.8/stream/166/",
+        "votes": 3998
+      },
+      "variants": [
+        {
+          "stationuuid": "8efecf23-eec3-4500-bcf2-a9a028c142ca",
+          "name": "Radyo 90s",
+          "url": "http://37.247.98.8/stream/166/",
+          "votes": 69,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d18bc82b-cc63-40e3-87ff-69411d3ebadd",
+          "name": "S1lhoutte - 90's FM",
+          "url": "http://37.247.98.8/stream/166/",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "eb24e125-daa8-4cc8-a268-e6a36fdff606",
+          "name": "90lar turkey",
+          "url": "http://37.247.98.8/stream/166/",
+          "votes": 4,
+          "differs": []
+        },
+        {
+          "stationuuid": "bce4d719-d0dc-4a58-ae6b-41ab67b0afe3",
+          "name": "90lar turkey",
+          "url": "http://37.247.98.8/stream/166/",
+          "votes": 3,
+          "differs": []
+        },
+        {
+          "stationuuid": "9d0b8657-803c-4b30-b9c2-eca3c2884e8e",
+          "name": "90lar turkey",
+          "url": "http://37.247.98.8/stream/166/",
+          "votes": 2,
+          "differs": []
+        },
+        {
+          "stationuuid": "1a6c07b9-f8f8-414b-a6bf-99246c1a04e7",
+          "name": "90lar turkey",
+          "url": "http://37.247.98.8/stream/166/",
+          "votes": 2,
+          "differs": []
+        },
+        {
+          "stationuuid": "86ccd417-7ce0-4f26-94a2-698b88d3ee3c",
+          "name": "VİVA TEMPO",
+          "url": "http://37.247.98.8/stream/166/",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "706def0c-7017-4601-8305-db1cdb2e9420",
+        "name": "Super Fm",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SUPER_FM_SC",
+        "votes": 3979
+      },
+      "variants": [
+        {
+          "stationuuid": "d3279cf6-5703-4990-a693-eed1b34cc81d",
+          "name": "Super Fm",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SUPER_FM_SC",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "a413a04d-46b8-4a67-9690-a042fb95fb3d",
+          "name": "Super Fm",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SUPER_FM_SC",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fd92e72f-2cbe-11e8-91bf-52543be04c81",
+        "name": "dinamo.fm deep",
+        "url": "http://channels.dinamo.fm/deep-mp3",
+        "votes": 2665
+      },
+      "variants": [
+        {
+          "stationuuid": "288fe97a-9b9f-4af1-814f-24eed6e264ae",
+          "name": "dinamo.fm deep",
+          "url": "http://channels.dinamo.fm/deep-mp3",
+          "votes": 765,
+          "differs": []
+        },
+        {
+          "stationuuid": "b4d2f7c7-8681-47ff-8bcf-71c06e60e750",
+          "name": "dinamo.fm deep",
+          "url": "http://channels.dinamo.fm/deep-mp3",
+          "votes": 410,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "97f3bb39-24a0-461d-b282-b0ccae5a12c4",
+        "name": "Slow Turk",
+        "url": "https://radyo.duhnet.tv/ak_dtvh_slowturk",
+        "votes": 2634
+      },
+      "variants": [
+        {
+          "stationuuid": "19af1cc7-2094-401c-9aa5-47402cb5fe39",
+          "name": "Slow Turk",
+          "url": "https://radyo.duhnet.tv/ak_dtvh_slowturk",
+          "votes": 2,
+          "differs": []
+        },
+        {
+          "stationuuid": "d2dba30c-5bb6-4e65-bd5c-a5de71566b17",
+          "name": "Slow Turk",
+          "url": "https://radyo.duhnet.tv/ak_dtvh_slowturk",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "0d42ef06-c0a4-46f0-a4dd-d5455594c610",
+          "name": "Slow Turk",
+          "url": "https://radyo.duhnet.tv/ak_dtvh_slowturk",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "948408f4-0060-44fa-a26c-bf313f6c774d",
+        "name": "KRAL FM",
+        "url": "https://dygedge2.radyotvonline.net/kralfm/playlist.m3u8?listenerid=29d0a6a85b59cea2ca801b70d2a3ebaf&awparams=companionAds%3Atrue",
+        "votes": 2205
+      },
+      "variants": [
+        {
+          "stationuuid": "02b19b6c-e106-47ac-9628-39c5c5b591ac",
+          "name": "KRAL FM",
+          "url": "https://dygedge2.radyotvonline.net/kralfm/playlist.m3u8",
+          "votes": 423,
+          "differs": [
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "f9fe2c7e-6f2f-4780-a682-8317604fe0ce",
+          "name": "KRAL POP",
+          "url": "https://dygedge2.radyotvonline.net/kralfm/playlist.m3u8",
+          "votes": 341,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "b093b9c6-3572-4ed9-bb06-3108c9b523a9",
+          "name": "KRAL FM",
+          "url": "https://dygedge2.radyotvonline.net/kralfm/playlist.m3u8?listenerid=29d0a6a85b59cea2ca801b70d2a3ebaf&awparams=companionAds%3Atrue",
+          "votes": 5,
+          "differs": []
+        },
+        {
+          "stationuuid": "52c9cc10-217f-4a87-a3db-9a93f1a560b7",
+          "name": "KRAL FM",
+          "url": "https://dygedge2.radyotvonline.net/kralfm/playlist.m3u8?listenerid=29d0a6a85b59cea2ca801b70d2a3ebaf&awparams=companionAds%3Atrue",
+          "votes": 4,
+          "differs": []
+        },
+        {
+          "stationuuid": "04e2933e-d0cf-4e2b-8f9f-33d977186222",
+          "name": "KRAL FM",
+          "url": "https://dygedge2.radyotvonline.net/kralfm/playlist.m3u8?listenerid=29d0a6a85b59cea2ca801b70d2a3ebaf&awparams=companionAds%3Atrue",
+          "votes": 3,
+          "differs": []
+        },
+        {
+          "stationuuid": "5c0070a4-6094-476d-9af6-8a7a4b8c6425",
+          "name": "KRAL FM",
+          "url": "https://dygedge2.radyotvonline.net/kralfm/playlist.m3u8?listenerid=29d0a6a85b59cea2ca801b70d2a3ebaf&awparams=companionAds%3Atrue",
+          "votes": 2,
+          "differs": []
+        },
+        {
+          "stationuuid": "efee6296-e8b9-4997-9671-b4b7302f0148",
+          "name": "KRAL FM",
+          "url": "https://dygedge2.radyotvonline.net/kralfm/playlist.m3u8?listenerid=29d0a6a85b59cea2ca801b70d2a3ebaf&awparams=companionAds%3Atrue",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6420aa7b-70b7-4239-aa43-e3fb17638b0b",
+        "name": "Diyanet Radyo",
+        "url": "https://eustr73.mediatriple.net/videoonlylive/mtikoimxnztxlive/broadcast_5e3c1171d7d2a.smil/playlist.m3u8",
+        "votes": 2153
+      },
+      "variants": [
+        {
+          "stationuuid": "708f0a19-db7d-4f38-bee3-056ba560bff7",
+          "name": "Diyanet Radyo",
+          "url": "https://eustr73.mediatriple.net/videoonlylive/mtikoimxnztxlive/broadcast_5e3c1171d7d2a.smil/playlist.m3u8",
+          "votes": 169,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "585600d9-bdc4-4a2e-93c5-2421041cc55c",
+        "name": "Radyo 45lik yeni",
+        "url": "https://stream.radyo45lik.com:4545/",
+        "votes": 1786
+      },
+      "variants": [
+        {
+          "stationuuid": "c3cf5a4e-6673-42d8-9fb6-e7635ec69f64",
+          "name": "Radyo 45lik Canlı Yayın - En İyi Türkçe Nostalji Şarkılar | 70ler 80ler ve 90lar",
+          "url": "https://stream.radyo45lik.com:4545/",
+          "votes": 151,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ddded9d3-ae94-4856-b3bc-885995256c88",
+          "name": "Radyo 45lik Canlı Yayın - En İyi Türkçe Nostalji Şarkılar | 70ler 80ler ve 90lar",
+          "url": "https://stream.radyo45lik.com:4545/",
+          "votes": 75,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "27dc3e5e-8f61-47c8-9ce1-6d6e6b4d4a3a",
+          "name": "Radyo 45’lik, 1970’ler, 1980’ler ve 1990’lar ",
+          "url": "https://stream.radyo45lik.com:4545/",
+          "votes": 57,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "02ad59d8-eeb6-41f0-b850-f453bc0401ae",
+          "name": "Radyo 45lik - 45'lik Radyo",
+          "url": "https://stream.radyo45lik.com:4545/",
+          "votes": 37,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ae7b21fa-e664-4a31-ab98-1cc8c5b12064",
+          "name": "Radyo 45lik yeni",
+          "url": "https://stream.radyo45lik.com:4545/",
+          "votes": 0,
+          "differs": [
+            "codec"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6f54c6a5-7032-4a86-b00e-21f1169f678a",
+        "name": "SUPER FM 2 TURKEY",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SUPER2_SC?/",
+        "votes": 1776
+      },
+      "variants": [
+        {
+          "stationuuid": "2b54052e-d57b-4131-a072-a36bf7829965",
+          "name": "Süper Fm",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SUPER2_SC",
+          "votes": 284,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4bead555-fefa-401b-b9e1-e5f525c714b8",
+        "name": "Numberone Turk",
+        "url": "https://n10101m.mediatriple.net/numberoneturk",
+        "votes": 1637
+      },
+      "variants": [
+        {
+          "stationuuid": "0934aa26-d212-441c-a47e-474c3f289bab",
+          "name": "Number One Türk",
+          "url": "https://n10101m.mediatriple.net/numberoneturk",
+          "votes": 512,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f940cc74-1673-4bc8-adbc-832d5d51a012",
+        "name": "Kurd1 FM",
+        "url": "https://listen.radioking.com/radio/119251/stream/158701",
+        "votes": 1398
+      },
+      "variants": [
+        {
+          "stationuuid": "c06ef146-a5b0-485f-a6e3-1df09514a5bf",
+          "name": "Kurd1 ",
+          "url": "https://listen.radioking.com/radio/119251/stream/158701",
+          "votes": 1290,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "14db05f4-b028-40dc-a13f-c53d068d929e",
+        "name": "Habertürk Radyo",
+        "url": "https://haberturkradyo.radyotvonline.net/haberturkradyo",
+        "votes": 1314
+      },
+      "variants": [
+        {
+          "stationuuid": "0c61b20d-bfaa-4647-aa9b-3308087d5a4d",
+          "name": "HABER TÜRK RADYO",
+          "url": "https://haberturkradyo.radyotvonline.net/haberturkradyo",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "43061315-2893-46fa-ae1e-96e767d5bce3",
+        "name": "POWER TÜRK FM",
+        "url": "https://live.powerapp.com.tr/powerturk/abr/powerturk/128/playlist.m3u8",
+        "votes": 1144
+      },
+      "variants": [
+        {
+          "stationuuid": "54202ae3-a9b5-4eb0-8ebc-a0585a092256",
+          "name": "POWERTÜRK FM TURKEY 2",
+          "url": "https://live.powerapp.com.tr/powerturk/abr/powerturk/128/playlist.m3u8",
+          "votes": 572,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "3c6108ac-a12e-476b-8ce1-3f142485d6c9",
+          "name": "POWER TÜRK FM",
+          "url": "https://live.powerapp.com.tr/powerturk/abr/powerturk/128/playlist.m3u8",
+          "votes": 2,
+          "differs": [
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f4121c74-9b1a-4051-8864-9db00eab2848",
+        "name": "Pal Fm",
+        "url": "https://ssl4.radyotvonline.com/radyohome/palfmhome.stream/playlist.m3u8",
+        "votes": 828
+      },
+      "variants": [
+        {
+          "stationuuid": "1fb229a7-2f29-430a-8bfb-8d344945ba46",
+          "name": "Pal Fm",
+          "url": "https://ssl4.radyotvonline.com/radyohome/palfmhome.stream/playlist.m3u8",
+          "votes": 2,
+          "differs": [
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4dc09559-aa5c-4ecd-a8cf-4fc450471ae4",
+        "name": "Kafa Radyo",
+        "url": "https://moondigitalmaster.radyotvonline.net/kafaradyo/playlist.m3u8",
+        "votes": 779
+      },
+      "variants": [
+        {
+          "stationuuid": "48da3d7a-7d3b-4c93-b2a4-fa1ebc3a8f37",
+          "name": "Kafa Radyo",
+          "url": "https://moondigitalmaster.radyotvonline.net/kafaradyo/playlist.m3u8",
+          "votes": 3,
+          "differs": [
+            "bitrate"
+          ]
+        },
+        {
+          "stationuuid": "494ac8c0-1729-4406-a779-b7430c3c5374",
+          "name": "Kafa Radyo",
+          "url": "https://moondigitalmaster.radyotvonline.net/kafaradyo/playlist.m3u8",
+          "votes": 1,
+          "differs": [
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "097bda49-2be1-4306-a657-ce5bd922bd40",
+        "name": "Radyo Viva",
+        "url": "https://moondigitaledge.radyotvonline.net/radyoviva/playlist.m3u8",
+        "votes": 772
+      },
+      "variants": [
+        {
+          "stationuuid": "9ba83d03-ea3e-4726-8a48-85408d58c44d",
+          "name": "Radyo Viva",
+          "url": "https://moondigitaledge.radyotvonline.net/radyoviva/playlist.m3u8",
+          "votes": 59,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "520bfe3e-2556-49f9-9846-e2c610978b60",
+        "name": "PAL Nostalji",
+        "url": "https://moondigitaledge.radyotvonline.net/palnostalji/playlist.m3u8",
+        "votes": 767
+      },
+      "variants": [
+        {
+          "stationuuid": "f993645f-1cb4-442c-b5b0-5f623f481441",
+          "name": "PAL Nostalji",
+          "url": "https://moondigitaledge.radyotvonline.net/palnostalji/playlist.m3u8",
+          "votes": 2,
+          "differs": [
+            "bitrate"
+          ]
+        },
+        {
+          "stationuuid": "30051636-01e2-4d04-97f0-baced7aaed0f",
+          "name": "PAL Nostalji",
+          "url": "https://moondigitaledge.radyotvonline.net/palnostalji/playlist.m3u8",
+          "votes": 1,
+          "differs": [
+            "bitrate"
+          ]
+        },
+        {
+          "stationuuid": "b140d3c9-5f57-4b1e-9b55-9cce33e341cd",
+          "name": "PAL Nostalji",
+          "url": "https://moondigitaledge.radyotvonline.net/palnostalji/playlist.m3u8",
+          "votes": 0,
+          "differs": [
+            "bitrate"
+          ]
+        },
+        {
+          "stationuuid": "54ddcb67-4d2a-465e-9e0f-fc23728f2791",
+          "name": "PAL Nostalji",
+          "url": "https://moondigitaledge.radyotvonline.net/palnostalji/playlist.m3u8",
+          "votes": 0,
+          "differs": [
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "57d6c252-a148-4e96-9602-39f3d6f22eb1",
+        "name": "Radio 44",
+        "url": "https://radyo44.80.yayin.com.tr/stream",
+        "votes": 741
+      },
+      "variants": [
+        {
+          "stationuuid": "22f193e6-20b1-4396-aecc-2f960a2a9d59",
+          "name": "RADYO 44",
+          "url": "https://radyo44.80.yayin.com.tr/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cad85f62-a486-4b1c-b90d-9a3a5956330b",
+        "name": "KİSS LOVE RADYO TURKEY",
+        "url": "https://anadolu.liderhost.com.tr:10964/",
+        "votes": 625
+      },
+      "variants": [
+        {
+          "stationuuid": "3466c02a-e88f-479c-8f61-8114a0d58a12",
+          "name": "RADYO BLACK LOVE",
+          "url": "https://anadolu.liderhost.com.tr:10964/",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "14e157f8-3804-4b74-9086-0a168b8719e1",
+        "name": "Virgin Radio Türkiye",
+        "url": "http://28033.live.streamtheworld.com/VIRGIN_RADIOAAC_SC",
+        "votes": 607
+      },
+      "variants": [
+        {
+          "stationuuid": "5eb594b6-e2b3-4468-b6c5-79d5036cf736",
+          "name": "Virgin Radio Türkiye",
+          "url": "http://28033.live.streamtheworld.com/VIRGIN_RADIOAAC_SC",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960e363d-0601-11e8-ae97-52543be04c81",
+        "name": "Max Fm 95.8 Maximum Music",
+        "url": "http://live2.radyotvonline.com:8025/",
+        "votes": 604
+      },
+      "variants": [
+        {
+          "stationuuid": "62871502-f64e-480e-8b43-e23e25aa97f8",
+          "name": "Max FM",
+          "url": "http://live2.radyotvonline.com:8025/",
+          "votes": 25,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e07ce960-0fca-49c5-9f9f-4aa24feb77a8",
+        "name": "Gundi FM",
+        "url": "http://gundifm.ozelip.com:7830/;",
+        "votes": 594
+      },
+      "variants": [
+        {
+          "stationuuid": "e6549c43-15bd-4675-bc96-f39723bb6144",
+          "name": "Gundi Fm",
+          "url": "http://gundifm.ozelip.com:7830/;",
+          "votes": 435,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "474b5f9f-6202-4928-a3c0-0a9068ce040e",
+        "name": "102.1 Arabeskin Merkezi Fm",
+        "url": "http://canli.arabeskinmerkezi.com:9180/stream",
+        "votes": 574
+      },
+      "variants": [
+        {
+          "stationuuid": "c8b83fcd-74c3-426c-a213-f17717b4f88e",
+          "name": "Damarın Merkezi Fm",
+          "url": "http://canli.arabeskinmerkezi.com:9180/stream",
+          "votes": 111,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c1e2e152-71d0-458f-9c41-5fb54a33dbf8",
+        "name": "TRT Radyo 1",
+        "url": "https://trt.radyotvonline.net/trt1",
+        "votes": 571
+      },
+      "variants": [
+        {
+          "stationuuid": "5e4306b6-eed8-441a-b0fd-7bf61534144b",
+          "name": "TRT Radyo 1",
+          "url": "https://trt.radyotvonline.net/trt1",
+          "votes": 202,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "306970f9-8063-481d-9f6b-00b99833d206",
+        "name": "Radyo Banko",
+        "url": "http://yayin.netradyom.com:9910/RADYOBANKO",
+        "votes": 570
+      },
+      "variants": [
+        {
+          "stationuuid": "f54760bf-3667-435f-b1db-6fb74ba25653",
+          "name": "Banko Fm 1",
+          "url": "http://yayin.netradyom.com:9910/RADYOBANKO",
+          "votes": 27,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dd307ed2-052d-4373-85c6-24f15f96d89c",
+        "name": "Power FM Türkiye",
+        "url": "https://listen.powerapp.com.tr/powerfm/256/chunks.m3u8",
+        "votes": 533
+      },
+      "variants": [
+        {
+          "stationuuid": "c7cca8f9-2e40-4f3e-9834-be8bc2bad704",
+          "name": "Power FM Türkiye",
+          "url": "https://listen.powerapp.com.tr/powerfm/256/chunks.m3u8",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "45bb5fc8-84df-4561-b282-935bb5dd7c86",
+        "name": "dinamo.fm fluent",
+        "url": "http://channels.dinamo.fm/fluent-mp3",
+        "votes": 500
+      },
+      "variants": [
+        {
+          "stationuuid": "3f3b3c42-3b2b-4384-a12a-bd14acd51461",
+          "name": "dinamo.fm fluent",
+          "url": "http://channels.dinamo.fm/fluent-mp3",
+          "votes": 53,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3fa95d90-9b20-4c4c-91c9-1c556f55a084",
+        "name": "ALEM FM",
+        "url": "https://edge1.radyotvonline.net/shoutcast/play/alemfm",
+        "votes": 483
+      },
+      "variants": [
+        {
+          "stationuuid": "10f4ee63-82fa-413f-a862-14556d5f95b8",
+          "name": "ALEM FM",
+          "url": "https://edge1.radyotvonline.net/shoutcast/play/alemfm",
+          "votes": 142,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "12151b64-b476-4516-b7db-c1263ae422db",
+        "name": "Danceland turkey",
+        "url": "https://moondigitaledge.radyotvonline.net/danceland/playlist.m3u8",
+        "votes": 462
+      },
+      "variants": [
+        {
+          "stationuuid": "87d4f034-07d0-4d80-b185-1e29fc0ce445",
+          "name": "Danceland",
+          "url": "https://moondigitaledge.radyotvonline.net/danceland/playlist.m3u8",
+          "votes": 73,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e7336c56-10dc-4d43-8244-eee899cda358",
+        "name": "Damar Turk FM",
+        "url": "https://live.radyositesihazir.com:10997/;",
+        "votes": 419
+      },
+      "variants": [
+        {
+          "stationuuid": "a30ab711-5363-4db1-af70-733aee01e2c8",
+          "name": "Damar Turk FM",
+          "url": "https://live.radyositesihazir.com:10997/;",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "3a1acfc6-9002-427f-8532-aa10612cbc87",
+          "name": "Damar Turk FM",
+          "url": "https://live.radyositesihazir.com:10997/;",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2484f562-2a83-4c6d-9f91-038644ceb11e",
+        "name": "Radyo Trio",
+        "url": "https://radyotrio.radyotvonline.net/radyotrio",
+        "votes": 362
+      },
+      "variants": [
+        {
+          "stationuuid": "c800a509-eaa3-419a-a49c-b59261a8ba68",
+          "name": "trio",
+          "url": "https://radyotrio.radyotvonline.net/radyotrio",
+          "votes": 77,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "5f77c3cc-d5be-4bfd-8259-c8c9cbc264e8",
+          "name": "Radyo Trio",
+          "url": "https://radyotrio.radyotvonline.net/radyotrio",
+          "votes": 41,
+          "differs": []
+        },
+        {
+          "stationuuid": "9aa50707-03fa-4916-9c52-f19894339673",
+          "name": "Radyo Trio",
+          "url": "https://radyotrio.radyotvonline.net/radyotrio",
+          "votes": 28,
+          "differs": []
+        },
+        {
+          "stationuuid": "bbb718cc-1776-444e-9f78-e88540ca91b0",
+          "name": "Radyo Trio",
+          "url": "https://radyotrio.radyotvonline.net/radyotrio",
+          "votes": 11,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e053f98a-e195-48f0-b07b-b2143c6e0964",
+        "name": "Cnn Türk Radyo",
+        "url": "https://moondigitaledge2.radyotvonline.net/cnnturk/playlist.m3u8?listeningSessionID=669e367246737fe5_6249184_Zq120UIn__0000001w2Bs&downloadSessionID=0",
+        "votes": 358
+      },
+      "variants": [
+        {
+          "stationuuid": "800b985f-aed5-4ab6-adb9-854f774af2c3",
+          "name": "Cantürk Radyo",
+          "url": "https://moondigitaledge2.radyotvonline.net/cnnturk/playlist.m3u8?listeningSessionID=669e367246737fe5_6249184_Zq120UIn__0000001w2Bs&downloadSessionID=0",
+          "votes": 25,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3dfe8d72-9ba4-47f2-9f57-a16cd5b273df",
+        "name": "Radyo Alaturka",
+        "url": "https://yayin.jumboserver.net:9100/stream",
+        "votes": 300
+      },
+      "variants": [
+        {
+          "stationuuid": "43b00f9a-efb4-42b2-adbd-aaa4fa2c9c6d",
+          "name": "Radyo Alaturka",
+          "url": "https://yayin.jumboserver.net:9100/stream",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ce6b6ddb-db52-4dfe-ab54-23bee667744e",
+        "name": "NUMBERONE WORLD TURKEY",
+        "url": "https://n10101m.mediatriple.net/videoonlylive/mtkgeuihrlfwlive/u_stream_5c9e2f95dcb16_1/playlist.m3u8",
+        "votes": 224
+      },
+      "variants": [
+        {
+          "stationuuid": "4ee9a854-2f52-43d7-8707-31bed53cb19a",
+          "name": "NUMBER ONE WORLD",
+          "url": "https://n10101m.mediatriple.net/videoonlylive/mtkgeuihrlfwlive/u_stream_5c9e2f95dcb16_1/playlist.m3u8",
+          "votes": 200,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "81510d4f-cd42-433e-b1ef-77d2b309fa5a",
+        "name": "Hemdem Radyo",
+        "url": "https://radyoserver3.okeylisans.com:8040/stream",
+        "votes": 221
+      },
+      "variants": [
+        {
+          "stationuuid": "40374cc7-c4a4-4a0f-ac34-a0ecec726cc2",
+          "name": "Hemdem Radyo",
+          "url": "https://radyoserver3.okeylisans.com:8040/stream",
+          "votes": 25,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "23fb9ea6-caa7-4fc0-9cf5-85531d1e0391",
+        "name": "RADYO 42 FM MEDYA KONYA PR MUSIC TURKIYE",
+        "url": "https://a8.asurahosting.com/hls/radyo_42_fm_medya_konya_pr_music/live.m3u8",
+        "votes": 195
+      },
+      "variants": [
+        {
+          "stationuuid": "7e7f197f-6a5a-4d08-9b5b-52eee51bdae2",
+          "name": "RADYO 42 FM MEDYA KONYA PR MUSIC TURKIYE",
+          "url": "https://a8.asurahosting.com/hls/radyo_42_fm_medya_konya_pr_music/live.m3u8",
+          "votes": 119,
+          "differs": []
+        },
+        {
+          "stationuuid": "b6027daf-b96f-44a6-a337-cf5b265a8376",
+          "name": "RADYO 42 FM MEDYA KONYA PR MUSIC TURKIYE",
+          "url": "https://a8.asurahosting.com/hls/radyo_42_fm_medya_konya_pr_music/live.m3u8",
+          "votes": 112,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f297888e-220b-4345-bf03-8cb094e78ce0",
+        "name": "90 lar Pop",
+        "url": "https://moondigitaledge.radyotvonline.net/radyolanddoksanlar/playlist.m3u8",
+        "votes": 189
+      },
+      "variants": [
+        {
+          "stationuuid": "ff876840-a4d3-49a6-ab6e-b879a22bd88c",
+          "name": "Vokal Tr",
+          "url": "https://moondigitaledge.radyotvonline.net/radyolanddoksanlar/playlist.m3u8",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d1200755-0a89-4c2d-be25-cab6be56b56a",
+          "name": "RADYO DOKSANLAR",
+          "url": "https://moondigitaledge.radyotvonline.net/radyolanddoksanlar/playlist.m3u8",
+          "votes": 0,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bef9a5a3-997a-42ed-a480-f0302253b7d5",
+        "name": "HaYaTMiX Slow",
+        "url": "https://radyo.yayin.com.tr:4090/mp3",
+        "votes": 173
+      },
+      "variants": [
+        {
+          "stationuuid": "88dd68b2-eb2c-4a31-b6e5-19b1175fa6e2",
+          "name": "HAYAT MİX SLOW",
+          "url": "https://radyo.yayin.com.tr:4090/mp3",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bcf1eca1-d197-451b-bdd0-dde1e4bcaae1",
+        "name": "Radyo D",
+        "url": "https://moondigitaledge2.radyotvonline.net/radyod/playlist.m3u8",
+        "votes": 141
+      },
+      "variants": [
+        {
+          "stationuuid": "b5deedd1-5045-44e9-8322-f205b49963e1",
+          "name": "RADYO D",
+          "url": "https://moondigitaledge2.radyotvonline.net/radyod/playlist.m3u8",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cef30f27-1f96-4005-8b7c-e161dba43ccf",
+        "name": "Erkam Radyo",
+        "url": "https://api-tv5.yayin.com.tr:8002/mp3",
+        "votes": 122
+      },
+      "variants": [
+        {
+          "stationuuid": "1eaa11aa-8bff-48c4-9336-02a0d76389aa",
+          "name": "Erkam Radyo",
+          "url": "https://api-tv5.yayin.com.tr:8002/mp3",
+          "votes": 84,
+          "differs": []
+        },
+        {
+          "stationuuid": "d8b42597-8214-4a26-84ea-bbca5ec25ce3",
+          "name": "Erkam Radyo",
+          "url": "https://api-tv5.yayin.com.tr:8002/mp3",
+          "votes": 20,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c7ef0cc3-2ce1-4c4d-9506-ff1ca8d27197",
+        "name": "Batı Radyo",
+        "url": "https://sslyayin.netyayin.net:10902/",
+        "votes": 100
+      },
+      "variants": [
+        {
+          "stationuuid": "cf7df722-f854-4fb8-99ba-c8d397d27027",
+          "name": "BATI RADYO",
+          "url": "https://sslyayin.netyayin.net:10902/",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cc06c583-3875-4d75-8b90-383c310f1ba8",
+        "name": "KIYI Muzik",
+        "url": "https://kiyi.radioca.st/stream",
+        "votes": 97
+      },
+      "variants": [
+        {
+          "stationuuid": "cab3a3a0-78b8-4f8d-bb40-ab3d5d717ce8",
+          "name": "Kıyı Radyo",
+          "url": "https://kiyi.radioca.st/stream",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "0377dd73-ac4e-4ab4-88ae-ac81c70676be",
+          "name": "Kıyı Müzik",
+          "url": "https://kiyi.radioca.st/stream",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d5fb7ff2-4b30-4f0f-a66f-c44a480337ec",
+        "name": "Loops Radio Progressive",
+        "url": "https://progressive.ozelip.com/7670/stream",
+        "votes": 96
+      },
+      "variants": [
+        {
+          "stationuuid": "5c49eb0a-c973-4260-9574-ac0875964645",
+          "name": "loops radio",
+          "url": "https://progressive.ozelip.com/7670/stream",
+          "votes": 40,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2adbdfbb-1b24-479d-b956-f175c4bb2590",
+        "name": "Yeni Radyo Nostaljinin Sesi ",
+        "url": "http://51.255.235.165:26113/stream",
+        "votes": 95
+      },
+      "variants": [
+        {
+          "stationuuid": "5483caa9-b021-4351-94d5-0da5649e3f11",
+          "name": "Yeni Radyo Nostaljinin Sesi ",
+          "url": "http://51.255.235.165:26113/stream",
+          "votes": 51,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ddf94722-dd93-4fb5-ac19-ad42649a30e1",
+        "name": "Serhat FM 91.5",
+        "url": "http://yayin.serhatfm.com:9150/stream",
+        "votes": 91
+      },
+      "variants": [
+        {
+          "stationuuid": "2f8c9009-4a7f-46eb-bf5e-0dcff537d09f",
+          "name": "Serhat FM",
+          "url": "http://yayin.serhatfm.com:9150/stream",
+          "votes": 30,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dc8dcd60-8c02-49ab-b2bc-47a4599ae624",
+        "name": "Mega Ask FM",
+        "url": "https://embed.tawk.to/_s/v4/assets/audio/chat_sound.mp3",
+        "votes": 85
+      },
+      "variants": [
+        {
+          "stationuuid": "6399eac6-3a5c-4ce0-9f66-d50762f1543f",
+          "name": "Radyo Ender",
+          "url": "https://embed.tawk.to/_s/v4/assets/audio/chat_sound.mp3",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "455c485f-9d57-4b4a-a00d-c0d77347327c",
+        "name": "Max Fm 95.8 ‘Maximum Music' ",
+        "url": "https://maxfm.radyotvonline.net/stream/164/;",
+        "votes": 67
+      },
+      "variants": [
+        {
+          "stationuuid": "30377852-8d25-4773-be20-5dc65ba6b4f2",
+          "name": "Max Fm 95.8 ‘Maximum Music' ",
+          "url": "https://maxfm.radyotvonline.net/stream/164/;",
+          "votes": 35,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e211532e-a87f-42d9-907c-f2fa08898348",
+        "name": "MEGA SİTE",
+        "url": "http://yayin.netradyom.com:7900/;stream.mp3",
+        "votes": 63
+      },
+      "variants": [
+        {
+          "stationuuid": "3d42ef6b-46e0-4780-b1cb-9d339db6a189",
+          "name": "Radio Megasite ",
+          "url": "http://yayin.netradyom.com:7900/;stream.mp3",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "49b3af1a-7b22-4458-9440-7d450ddb4189",
+        "name": "Radyo Havaları",
+        "url": "http://37.247.98.8/stream/30/",
+        "votes": 61
+      },
+      "variants": [
+        {
+          "stationuuid": "7aeff8c5-2204-434f-b8ca-aed6cd8278f2",
+          "name": "101.1Megasite",
+          "url": "http://37.247.98.8/stream/30/",
+          "votes": 34,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b09c0736-3656-4675-b83b-9c6d6c1f9aa7",
+          "name": "S1LHOUTTE ANKARA HAVALARI",
+          "url": "http://37.247.98.8/stream/30/",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f9655ac2-b82c-49f4-b6d3-617bf41c26c7",
+          "name": "S1LHOUTTE ANKARA HAVALARI",
+          "url": "http://37.247.98.8/stream/30/",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "123cba9a-ec7c-41d9-bd13-a678451dd1ac",
+        "name": "Radyo Eksen",
+        "url": "https://dygedge.radyotvonline.net/radyoeksen/playlist.m3u8",
+        "votes": 61
+      },
+      "variants": [
+        {
+          "stationuuid": "ae32a05c-176d-4510-8ced-9a335cd13b03",
+          "name": "Radyo Eksen",
+          "url": "https://dygedge.radyotvonline.net/radyoeksen/playlist.m3u8",
+          "votes": 8,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "25cf80e1-ccae-4433-8cc3-50a685bae3e2",
+        "name": "Power R&B Hip-Hop",
+        "url": "https://listen.powerapp.com.tr/powerrbhiphop/256/chunks.m3u8",
+        "votes": 53
+      },
+      "variants": [
+        {
+          "stationuuid": "fb67362c-1a0e-45b2-8c53-dd84178f496a",
+          "name": "Power RB Hip Hop",
+          "url": "https://listen.powerapp.com.tr/powerrbhiphop/256/chunks.m3u8",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f21b4940-2b6e-4436-b30f-fe16ce46f15a",
+        "name": "X Radio",
+        "url": "https://stream.xradio.com.tr:8770/stream",
+        "votes": 49
+      },
+      "variants": [
+        {
+          "stationuuid": "3e6cac20-bfcd-4141-880f-a58ee9ad2a21",
+          "name": "X Radio",
+          "url": "https://stream.xradio.com.tr:8770/stream",
+          "votes": 30,
+          "differs": []
+        },
+        {
+          "stationuuid": "303013c9-2b10-4d0c-b184-407de1a1ac1f",
+          "name": "X RADYO",
+          "url": "https://stream.xradio.com.tr:8770/stream",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c0f5e413-4c6a-4146-90d9-774ef452ee4b",
+        "name": "KIYI Turkce",
+        "url": "https://kiyiturk.radioca.st/stream",
+        "votes": 43
+      },
+      "variants": [
+        {
+          "stationuuid": "488e973a-39bc-4720-92c7-1cb0607fd0ad",
+          "name": "Kıyı Türkçe",
+          "url": "https://kiyiturk.radioca.st/stream",
+          "votes": 32,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1c5e50a7-ae07-4aae-b9d8-e167c2c2f5ec",
+        "name": "radyo megasite",
+        "url": "http://mega.netradyom.com:7900/radio.mp3",
+        "votes": 43
+      },
+      "variants": [
+        {
+          "stationuuid": "a56b8f78-0ca0-4363-a326-97735b67482e",
+          "name": "Radyo Megasite",
+          "url": "http://mega.netradyom.com:7900/radio.mp3",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "abb57aa7-1106-4f63-95ba-608bfcc3ae3d",
+          "name": "Radioo Mega site ",
+          "url": "http://mega.netradyom.com:7900/radio.mp3",
+          "votes": 22,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "beb27462-45e9-48a5-82be-591c74347a12",
+          "name": "Radyo Megasite",
+          "url": "http://mega.netradyom.com:7900/radio.mp3",
+          "votes": 22,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ce26d234-1413-4a97-8f7d-5a476bacf104",
+        "name": "Apacik Radyo",
+        "url": "http://stream.34bit.net/ar.aac",
+        "votes": 41
+      },
+      "variants": [
+        {
+          "stationuuid": "3418b0e0-026d-4b2a-8a12-bf8d9de56165",
+          "name": "Apacik Radyo",
+          "url": "http://stream.34bit.net/ar.aac",
+          "votes": 27,
+          "differs": []
+        },
+        {
+          "stationuuid": "8729ad8c-9842-4737-a1fb-3823b92c2610",
+          "name": "Apacik Radyo",
+          "url": "http://stream.34bit.net/ar.aac",
+          "votes": 13,
+          "differs": []
+        },
+        {
+          "stationuuid": "d14b4b92-7c34-49c6-8b65-2da15bc51346",
+          "name": "Apacik Radyo",
+          "url": "http://stream.34bit.net/ar.aac",
+          "votes": 8,
+          "differs": []
+        },
+        {
+          "stationuuid": "d2bd2aa6-5fef-4a78-b664-49626f79be98",
+          "name": "Apacik Radyo",
+          "url": "http://stream.34bit.net/ar.aac",
+          "votes": 8,
+          "differs": []
+        },
+        {
+          "stationuuid": "a97a1351-d151-4689-ade3-bbdb918d256b",
+          "name": "Apacik Radyo",
+          "url": "http://stream.34bit.net/ar.aac",
+          "votes": 8,
+          "differs": []
+        },
+        {
+          "stationuuid": "41d9f9ac-ff15-4f08-929c-32f3d9270394",
+          "name": "Apacik Radyo",
+          "url": "http://stream.34bit.net/ar.aac",
+          "votes": 7,
+          "differs": []
+        },
+        {
+          "stationuuid": "a02603e1-01a3-4cb2-ba39-0f3b38d11af4",
+          "name": "no name",
+          "url": "http://stream.34bit.net/ar.aac",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "32005c9f-9f73-4dc7-82cd-14b4b0b866ee",
+        "name": "Sezen Radyo",
+        "url": "http://radyo1.radyo-dinle.tc:8038/",
+        "votes": 34
+      },
+      "variants": [
+        {
+          "stationuuid": "06e0a4f2-107d-41ae-ad24-f57f4005c3ea",
+          "name": "Sezen Radyo",
+          "url": "http://radyo1.radyo-dinle.tc:8038/",
+          "votes": 30,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2a3b2fc2-37ac-4872-bab7-7c40920e0397",
+        "name": "Mega Site",
+        "url": "http://yayin.netradyom.com:7900/;",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "4c58f80e-f4fa-4233-b336-17164cf934b9",
+          "name": "radio megasite",
+          "url": "http://yayin.netradyom.com:7900/;",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5c1055ea-bdbd-4a67-96d4-c6f52886b158",
+        "name": "Show radio ",
+        "url": "https://moondigitaledge.radyotvonline.net/show/playlist.m3u8",
+        "votes": 24
+      },
+      "variants": [
+        {
+          "stationuuid": "c230aa86-0eea-45df-a243-ae25ba23898c",
+          "name": "Show radio ",
+          "url": "https://moondigitaledge.radyotvonline.net/show/playlist.m3u8",
+          "votes": 12,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9cf8015c-8b88-476c-a2b8-093e52d75012",
+        "name": "Radyo 9",
+        "url": "https://radyo.yayin.com.tr:4010/",
+        "votes": 24
+      },
+      "variants": [
+        {
+          "stationuuid": "deb1f5f2-30fd-4879-b0a6-01ebc74a601e",
+          "name": "RADYO 9",
+          "url": "https://radyo.yayin.com.tr:4010/",
+          "votes": 0,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "38ccbf1e-0938-4e36-a2df-76b7a4c559c4",
+        "name": "imaj fm Erzurum",
+        "url": "https://sslyayin.netyayin.net/imajfm/stream/;stream.mp3",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "b80c5957-e97b-4d65-87fe-50f709e84516",
+          "name": "imaj fm",
+          "url": "https://sslyayin.netyayin.net/imajfm/stream/;stream.mp3",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2d122ba2-553e-45c5-8946-e41c60ace773",
+        "name": "JoyTürk Rock",
+        "url": "http://21633.live.streamtheworld.com/JOYTURK_ROCK128AAC.aac?/;stream.mp3",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "e9a47f3e-1734-43b5-8c19-1fc05d2f35fe",
+          "name": "JoyTürk Rock",
+          "url": "http://21633.live.streamtheworld.com/JOYTURK_ROCK128AAC.aac?/;stream.mp3",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "23f34553-6c06-46dd-9fe8-99cf0807c112",
+        "name": "İTÜ Klasik",
+        "url": "http://160.75.86.29:8088/ituklasikmp3",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "6d8f8858-7f5f-4223-956a-73ecd2b23b21",
+          "name": "İTÜ Klasik",
+          "url": "http://160.75.86.29:8088/ituklasikmp3",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f91c177e-7f45-4156-9699-d745993c6831",
+        "name": "FIND A CUTİE",
+        "url": "https://stream.zeno.fm/lyl2uv7fcvovv",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "91cfa5ad-03d3-4be8-941f-6905aa8b0222",
+          "name": "FIND A CUTİE <3",
+          "url": "https://stream.zeno.fm/lyl2uv7fcvovv",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "568ebc25-b2ba-4edc-baec-aa5e15f08512",
+        "name": "andromedaradio",
+        "url": "https://radyo1.radyo-dinle.tc/andromedaradio/stream",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "830d0acb-b14b-40dc-b417-ce86e0aa592a",
+          "name": "andromeda radio",
+          "url": "https://radyo1.radyo-dinle.tc/andromedaradio/stream",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "45c12674-0160-4fb7-a707-4a8b9ee6cb3d",
+        "name": "playdanceradio",
+        "url": "https://radyo1.radyo-dinle.tc/playdanceradio/stream",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "d315094f-6af9-4e34-a274-920035f9b3b2",
+          "name": "playdanceradio",
+          "url": "https://radyo1.radyo-dinle.tc/playdanceradio/stream",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c0aa78c7-8461-4c36-a85a-b651f2f5fa39",
+        "name": "KURAN ve TÜRKÇE MEAL",
+        "url": "http://82.145.41.8:19175/",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "1ded7dfc-ef59-43ff-a982-b48e1cda3e6a",
+          "name": "KURAN VE MEAL",
+          "url": "http://82.145.41.8:19175/",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "83ff951e-113e-4a50-9be7-3a730f472e05",
+        "name": "SIZIR FM",
+        "url": "http://stream.radiojar.com/tamm1f7kk48uv",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "37ba98b1-f055-4363-893a-b0efe305f6a4",
+          "name": "SIZIR FM",
+          "url": "http://stream.radiojar.com/tamm1f7kk48uv",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5ebff522-556b-4c1c-8699-e9f6eddafdcd",
+        "name": "POWER TÜRK TAPTAZE",
+        "url": "https://listen.powerapp.com.tr/powerturktaptaze/abr/playlist.m3u8",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "c4d91957-6013-4d21-9b8b-109b1453f791",
+          "name": "POWERTÜRK TAPTAZE",
+          "url": "https://listen.powerapp.com.tr/powerturktaptaze/abr/playlist.m3u8",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b671cc05-ffac-4f72-b2e3-99d46c4c2781",
+        "name": "SIZIR FM",
+        "url": "https://stream.radiojar.com/tamm1f7kk48uv",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "d1d595ad-1af6-4f49-a3cc-8d1df1506a79",
+          "name": "Sızır FM",
+          "url": "https://stream.radiojar.com/tamm1f7kk48uv",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6c412158-89e5-4c4f-affc-e2c3a05bd8c5",
+        "name": "90LAR",
+        "url": "https://moondigitaledge.radyotvonline.net/90lar/playlist.m3u8",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "10084661-ae10-451c-b0b1-ef02944d42cc",
+          "name": "90LAR RADYO HOME",
+          "url": "https://moondigitaledge.radyotvonline.net/90lar/playlist.m3u8",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "26dbb1b5-d26b-46a6-8402-fe84f093f3a6",
+        "name": "FLOW RADYO",
+        "url": "https://moondigitaledge.radyotvonline.net/flow/playlist.m3u8",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "a16cfab9-0b44-4718-8e72-6ee209ecfe37",
+          "name": "FLOWRADYO",
+          "url": "https://moondigitaledge.radyotvonline.net/flow/playlist.m3u8",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "950a337b-ced9-4966-bc23-34c1e5ecf865",
+        "name": "RADYO HABER",
+        "url": "https://radyo.yayindakiler.com:4118/",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "ff44edd5-1e07-48ba-9a83-38435811660e",
+          "name": "RADYO HABER",
+          "url": "https://radyo.yayindakiler.com:4118/",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ea6bf52b-e8b8-497c-a39c-ebd2d477d63d",
+        "name": "KARMA TÜRK SLOW",
+        "url": "https://yayin.radyomadyo.com:8004/stream",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "f6f727fc-4d42-4e77-af7f-8b506ef0adc8",
+          "name": "radyo madyo",
+          "url": "https://yayin.radyomadyo.com:8004/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

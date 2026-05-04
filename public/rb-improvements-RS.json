@@ -1,0 +1,981 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.885Z",
+  "country": "RS",
+  "sourceProbedAt": "2026-04-30T10:56:28.743Z",
+  "totals": {
+    "deadStreams": 24,
+    "internalDupes": 38,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "54858e6a-31ce-41a9-81be-a7f067c3b22b",
+      "name": "Radio S Južni",
+      "url": "https://53a7ed211fc32.streamlock.net/asmedia/radio_s_juzni/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 979,
+      "lastProbedAt": "2026-04-30T10:55:57.251Z"
+    },
+    {
+      "stationuuid": "bb1d8d18-b3c5-4b79-8b76-39ab57af8462",
+      "name": "Radio S EX YU",
+      "url": "https://53a7ed211fc32.streamlock.net/asmedia/radio_s_ex_yu/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 574,
+      "lastProbedAt": "2026-04-30T10:55:57.472Z"
+    },
+    {
+      "stationuuid": "d24068ef-3cdb-41fd-b929-175490049a17",
+      "name": "Radio S2",
+      "url": "https://53be5ef2d13aa.streamlock.net/asmedia/index/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 527,
+      "lastProbedAt": "2026-04-30T10:55:57.576Z"
+    },
+    {
+      "stationuuid": "99eab096-d331-4a4f-9f8f-5e864710d853",
+      "name": "Radio S3",
+      "url": "https://53be5ef2d13aa.streamlock.net/asmedia/pingvin/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 296,
+      "lastProbedAt": "2026-04-30T10:55:58.114Z"
+    },
+    {
+      "stationuuid": "d19af10d-f342-4665-945d-2966989c54d8",
+      "name": "Radio S Folk Stars",
+      "url": "https://53a7ed211fc32.streamlock.net/asmedia/radio_s_lounge/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 275,
+      "lastProbedAt": "2026-04-30T10:55:58.246Z"
+    },
+    {
+      "stationuuid": "871a586b-4aa2-47ae-94dc-32e03f2f1bc7",
+      "name": "Radio S4",
+      "url": "https://53a7ed211fc32.streamlock.net/asmedia/gradski/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 244,
+      "lastProbedAt": "2026-04-30T10:55:58.332Z"
+    },
+    {
+      "stationuuid": "1ed9bf56-b78e-11e9-acb2-52543be04c81",
+      "name": "Radio S",
+      "url": "https://53be5ef2d13aa.streamlock.net/asmedia/radios/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 152,
+      "lastProbedAt": "2026-04-30T10:55:59.120Z"
+    },
+    {
+      "stationuuid": "fd490f13-4a55-40af-ab91-ab4accfb9b42",
+      "name": "Radio S Cafe",
+      "url": "https://53be5ef2d13aa.streamlock.net/asmedia/radio_s_cafe/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 98,
+      "lastProbedAt": "2026-04-30T10:56:00.030Z"
+    },
+    {
+      "stationuuid": "296339f7-2b7b-4001-9ae2-37c573d36975",
+      "name": "Buca",
+      "url": "https://live.bucaradio.com/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 73,
+      "lastProbedAt": "2026-04-30T10:56:00.588Z"
+    },
+    {
+      "stationuuid": "f97d612c-792b-44b2-8737-aecfd567a064",
+      "name": "Radio S Trap&Rap",
+      "url": "https://53a7ed211fc32.streamlock.net/asmedia/radio_s_mchits/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 72,
+      "lastProbedAt": "2026-04-30T10:56:00.554Z"
+    },
+    {
+      "stationuuid": "8e549881-e0c9-46e6-9c3e-930d757223b3",
+      "name": "Radio S Dance",
+      "url": "https://53a7ed211fc32.streamlock.net/asmedia/radio_s_energy/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 58,
+      "lastProbedAt": "2026-04-30T10:56:01.016Z"
+    },
+    {
+      "stationuuid": "16844f50-34b8-46b5-b95e-ea26fa448714",
+      "name": "Radio S4",
+      "url": "https://53be5ef2d13aa.streamlock.net/asmedia/gradski/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 50,
+      "lastProbedAt": "2026-04-30T10:56:01.471Z"
+    },
+    {
+      "stationuuid": "481fe1a9-2519-4d5c-8a67-32898ea422be",
+      "name": "Radio S POP&ROCK",
+      "url": "https://53be5ef2d13aa.streamlock.net/asmedia/radio_s_pop_80_90/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 45,
+      "lastProbedAt": "2026-04-30T10:56:01.900Z"
+    },
+    {
+      "stationuuid": "6205f52c-7df3-426c-b2be-d62506c2fdd8",
+      "name": "Đorđe Balašević",
+      "url": "https://stream.zeno.fm/tsscn2wtzc9uv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 35,
+      "lastProbedAt": "2026-04-30T10:56:03.502Z"
+    },
+    {
+      "stationuuid": "7ec44552-ada2-4e3f-86a2-e835a9cb55fe",
+      "name": "Muzicki Radio 101",
+      "url": "https://as1.radioserveri.com:8090/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 32,
+      "lastProbedAt": "2026-04-30T10:56:03.701Z"
+    },
+    {
+      "stationuuid": "9c18ea0b-42b7-433f-b497-5ee68973f217",
+      "name": "Radio Kolubara Lajkovac",
+      "url": "https://a1.asurahosting.com:9130/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 32,
+      "lastProbedAt": "2026-04-30T10:56:03.760Z"
+    },
+    {
+      "stationuuid": "7fe1ef78-9624-42f1-add0-d3b7cd93cd84",
+      "name": "Radio S Kids",
+      "url": "https://53be5ef2d13aa.streamlock.net/asmedia/radio_s_kids/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 32,
+      "lastProbedAt": "2026-04-30T10:56:03.800Z"
+    },
+    {
+      "stationuuid": "06ce87dc-6360-4120-a0ba-fc3e59c29577",
+      "name": "Internet Radio Pingvin",
+      "url": "https://uzivo.radiopingvin.com/domaci1",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 25,
+      "lastProbedAt": "2026-04-30T10:56:04.166Z"
+    },
+    {
+      "stationuuid": "594054dc-e72b-453a-bee4-c1ff9939682f",
+      "name": "NAS Radio 97.8",
+      "url": "https://radio.dukahosting.com:7045/;",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 503",
+      "votes": 10,
+      "lastProbedAt": "2026-04-30T10:56:05.925Z"
+    },
+    {
+      "stationuuid": "647fbc68-32e3-421a-b109-b91a51aba3aa",
+      "name": "Radio Uzice",
+      "url": "https://uzice.yunethosting.net/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 9,
+      "lastProbedAt": "2026-04-30T10:56:15.932Z"
+    },
+    {
+      "stationuuid": "2734f845-8f08-4412-95a6-ce2e3dc0b6eb",
+      "name": "Dream Klub",
+      "url": "https://stream.spettro.info/listen/dream_klub_-_public_illegal/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 5,
+      "lastProbedAt": "2026-04-30T10:56:17.063Z"
+    },
+    {
+      "stationuuid": "38b35eae-6c1f-4d2c-92f6-3a63af18a573",
+      "name": "Radio S Classic",
+      "url": "https://6069699a9e3f3.streamlock.net/asmedia/s_classic/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-30T10:56:07.567Z"
+    },
+    {
+      "stationuuid": "ce295dce-334b-40c4-a88a-c8fdd59800ee",
+      "name": "Radio S Jazz",
+      "url": "https://53be5ef2d13aa.streamlock.net/asmedia/s_jazz/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-30T10:56:07.656Z"
+    },
+    {
+      "stationuuid": "38ff6706-919c-4f68-a013-46b2d32846a6",
+      "name": "Hype.FM",
+      "url": "https://93.87.22.105:8000/hypefm",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T10:56:15.835Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "964c0c26-0601-11e8-ae97-52543be04c81",
+        "name": "Cool Radio",
+        "url": "http://176.9.30.66/cool64",
+        "votes": 11691
+      },
+      "variants": [
+        {
+          "stationuuid": "d030d9eb-1d16-4185-826a-459871605a6e",
+          "name": "Cool Radio",
+          "url": "http://176.9.30.66/cool64",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "964755d5-0601-11e8-ae97-52543be04c81",
+        "name": "Hit FM Radio Beograd",
+        "url": "http://streaming.hitfm.rs:8000/hit",
+        "votes": 7889
+      },
+      "variants": [
+        {
+          "stationuuid": "f2bbf247-35d2-4ae1-86ad-62093720af45",
+          "name": "Hit FM Radio",
+          "url": "http://streaming.hitfm.rs:8000/hit",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0e0d15ed-2e2f-4b81-ac37-d20172966959",
+        "name": "Radio Lola - Domaca",
+        "url": "https://streaming.tdiradio.com/radiolola.mp3",
+        "votes": 3585
+      },
+      "variants": [
+        {
+          "stationuuid": "04315ab7-d06c-4ba0-b65b-c3a355027f27",
+          "name": "Radio Lola",
+          "url": "https://streaming.tdiradio.com/radiolola.mp3",
+          "votes": 392,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dd6ef396-b24c-46b6-af9a-05f4ef18ffe7",
+        "name": "Radio Beograd 1",
+        "url": "https://rtsradio-live.morescreens.com/RTS_2_001/audio/chunklist.m3u8",
+        "votes": 3034
+      },
+      "variants": [
+        {
+          "stationuuid": "ec830183-c384-4f24-80c0-cd3d119e0081",
+          "name": "РТС - Радио Београд - 1",
+          "url": "https://rtsradio-live.morescreens.com/RTS_2_001/audio/chunklist.m3u8",
+          "votes": 355,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "539684b6-9542-4cdc-be2d-1bb570ee545d",
+          "name": "Радио Београд - 1",
+          "url": "https://rtsradio-live.morescreens.com/RTS_2_001/audio/chunklist.m3u8",
+          "votes": 151,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "a937cbfe-2eed-47de-8387-b1b3f27adce0",
+          "name": "РТС - Радио Београд - 1",
+          "url": "https://rtsradio-live.morescreens.com/RTS_2_001/audio/chunklist.m3u8",
+          "votes": 129,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "56bc663d-b70d-424e-a155-f3dd348175ba",
+          "name": "Radio Beograd",
+          "url": "https://rtsradio-live.morescreens.com/RTS_2_001/audio/chunklist.m3u8",
+          "votes": 70,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "128183d0-29ca-419f-ba01-1b85c159ed4d",
+          "name": "РТС - Радио Београд - 1",
+          "url": "https://rtsradio-live.morescreens.com/RTS_2_001/audio/chunklist.m3u8",
+          "votes": 55,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "83aee402-c381-458e-b471-16a806e8dd69",
+        "name": "Play Radio Serbia",
+        "url": "https://stream.playradio.rs:8443/play.mp3",
+        "votes": 1522
+      },
+      "variants": [
+        {
+          "stationuuid": "29748ff1-77b8-4de2-bf6a-d27c5fad4600",
+          "name": "PLAY radio",
+          "url": "https://stream.playradio.rs:8443/play.mp3",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f25df3be-0f73-42a4-8e49-a6af07e8f433",
+        "name": "Naxi 80-e Radio",
+        "url": "https://naxidigital-80s128ssl.streaming.rs:8042/;",
+        "votes": 1382
+      },
+      "variants": [
+        {
+          "stationuuid": "90b40d99-6de2-408e-9e50-95df6a81249f",
+          "name": "Radio Naxi 80-e",
+          "url": "https://naxidigital-80s128ssl.streaming.rs:8042/;",
+          "votes": 99,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "eb67a2ec-5adf-45b1-b00c-7a37b8a8c7e3",
+          "name": "Naxi 80e",
+          "url": "https://naxidigital-80s128ssl.streaming.rs:8042/;",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "72a0c58a-54e6-43da-b493-b0e38baa9867",
+        "name": "Radio Beograd 202",
+        "url": "https://rtsradio-live.morescreens.com/RTS_2_004/playlist.m3u8",
+        "votes": 1318
+      },
+      "variants": [
+        {
+          "stationuuid": "4d174278-4e5a-412d-90c6-226ec2bda11d",
+          "name": "Radio Beograd 202",
+          "url": "https://rtsradio-live.morescreens.com/RTS_2_004/playlist.m3u8",
+          "votes": 81,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "db4feb1f-93ad-418d-8124-2896035429d3",
+        "name": "Rock Radio Beograd ",
+        "url": "https://edge9.pink.rs/rockstream/",
+        "votes": 933
+      },
+      "variants": [
+        {
+          "stationuuid": "2fc5631b-1e93-400d-8a85-496d2b0589db",
+          "name": "Rock Radio Belgrade (Рок Радио Београд)",
+          "url": "https://edge9.pink.rs/rockstream",
+          "votes": 260,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "d8cf4712-0fef-4617-8e9e-aafb4f9b1631",
+          "name": "rock beograd",
+          "url": "https://edge9.pink.rs/rockstream",
+          "votes": 3,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b873245f-c6fe-40c0-a9f3-4bbe5402c281",
+        "name": "Naxi Rock radio",
+        "url": "https://naxidigital-rock128ssl.streaming.rs:8182/;",
+        "votes": 609
+      },
+      "variants": [
+        {
+          "stationuuid": "365b3039-a72c-4770-99c5-1d0185553ba3",
+          "name": "Naxi Radio Rock",
+          "url": "https://naxidigital-rock128ssl.streaming.rs:8182/;",
+          "votes": 57,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5353f771-42ce-445a-aeca-9b0e57b202e3",
+        "name": "RSG Radio Stari Grad",
+        "url": "https://stream.rsg.rs/live/",
+        "votes": 374
+      },
+      "variants": [
+        {
+          "stationuuid": "f9a75cc9-aa3f-47f6-aa25-b6e0d9533c6f",
+          "name": "Radio Stari Grad",
+          "url": "https://stream.rsg.rs/live/",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b6c3612a-d0c3-4e0a-8e8b-9f50e74aa3f7",
+        "name": "UnderGRAND Radio",
+        "url": "http://stream.zeno.fm/rp1swb5pgzzuv",
+        "votes": 337
+      },
+      "variants": [
+        {
+          "stationuuid": "b01b08ab-2866-4ddf-a406-2c773ec1bfc7",
+          "name": "UnderGRAND RADIO",
+          "url": "http://stream.zeno.fm/rp1swb5pgzzuv",
+          "votes": 43,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4e87eae5-7781-4d51-bd8b-e259e0695ba9",
+        "name": "Naxi Mix Radio",
+        "url": "https://naxidigital-mix128ssl.streaming.rs:8222/;stream.nsv",
+        "votes": 321
+      },
+      "variants": [
+        {
+          "stationuuid": "0a4bc20b-4395-425d-9002-3da401924ef4",
+          "name": "Naxi MIX",
+          "url": "https://naxidigital-mix128ssl.streaming.rs:8222/;stream.nsv",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a52b9a10-200b-4a83-90d6-0d61a3f9d241",
+        "name": "Lotel2",
+        "url": "https://s1.skeletor.rs/lotel",
+        "votes": 253
+      },
+      "variants": [
+        {
+          "stationuuid": "c4f51cd6-8802-4a08-9f37-9753994ed001",
+          "name": "Lotel Radio",
+          "url": "https://s1.skeletor.rs/lotel",
+          "votes": 42,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "793f0f59-9ae2-4acf-94c5-762c75d42549",
+        "name": "Radio Levač",
+        "url": "http://213.239.205.210:8046/index.html/",
+        "votes": 250
+      },
+      "variants": [
+        {
+          "stationuuid": "ea2dbd9e-8ea5-4b69-9c51-db9feab3d36f",
+          "name": "Radio Levač",
+          "url": "http://213.239.205.210:8046/index.html/",
+          "votes": 23,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d7f89e58-ccce-4a46-8e12-82bb4ee769ba",
+        "name": "Naxi Latino Radio",
+        "url": "https://naxidigital-latino128ssl.streaming.rs:8232/;stream.nsv",
+        "votes": 199
+      },
+      "variants": [
+        {
+          "stationuuid": "c6bc5a58-1cad-40ab-a8ce-b274dad9f043",
+          "name": "Naxi Latino",
+          "url": "https://naxidigital-latino128ssl.streaming.rs:8232/;stream.nsv",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8c407085-64df-11e8-b15b-52543be04c81",
+        "name": "Radio S3",
+        "url": "http://edge-rs-01.maksnet.tv/asmedia/pingvin/chunklist_w12686921.m3u8",
+        "votes": 176
+      },
+      "variants": [
+        {
+          "stationuuid": "bfbe02c2-eadc-4d37-9f69-f57104aad8aa",
+          "name": "Radio S3",
+          "url": "http://edge-rs-01.maksnet.tv/asmedia/pingvin/chunklist_w12686921.m3u8",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e19df84d-609c-4cef-86d7-97bb55fa48bd",
+        "name": "Radio Bravo Fm Narodni",
+        "url": "http://195.252.68.166:8036/;",
+        "votes": 164
+      },
+      "variants": [
+        {
+          "stationuuid": "c2f4ee31-f428-4b1d-93b9-4082a6922b58",
+          "name": "Narodni Fm Radio",
+          "url": "http://195.252.68.166:8036/;",
+          "votes": 133,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6b32e837-9c4d-4a97-afed-906d307c383c",
+        "name": "Dženarika",
+        "url": "http://stream.dzenarika.net:8000/stream",
+        "votes": 97
+      },
+      "variants": [
+        {
+          "stationuuid": "1a47370a-420e-4138-9c3a-e59ede00c261",
+          "name": "Radio Dženarika",
+          "url": "http://stream.dzenarika.net:8000/stream",
+          "votes": 36,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c0a344c7-e949-4f25-b239-59f2fc8b4f89",
+        "name": "Radio Belami",
+        "url": "http://92.60.239.23:8000/stream",
+        "votes": 87
+      },
+      "variants": [
+        {
+          "stationuuid": "4564b273-281f-4435-a757-acf90917bf2a",
+          "name": "Belami Radio",
+          "url": "http://92.60.239.23:8000/stream",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "59bf9653-7115-4011-ac6d-24bf54383c93",
+        "name": "Radio B92",
+        "url": "http://stream.b92.net:7999/radio-b92.mp3",
+        "votes": 78
+      },
+      "variants": [
+        {
+          "stationuuid": "d93e5d84-f73a-4e3b-a07f-aaeff3080663",
+          "name": "B92",
+          "url": "http://stream.b92.net:7999/radio-b92.mp3",
+          "votes": 22,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "680c416e-fa36-4b6c-b262-e65b5eb91c3e",
+        "name": "Naxi Adore",
+        "url": "https://naxidigital-adore128ssl.streaming.rs:8332/;stream.nsv",
+        "votes": 58
+      },
+      "variants": [
+        {
+          "stationuuid": "dac8be38-09d0-49d2-b009-7e2cce77ad60",
+          "name": "Naxi Adore",
+          "url": "https://naxidigital-adore128ssl.streaming.rs:8332/;stream.nsv",
+          "votes": 22,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1b1f0fc3-8b03-461e-bd68-cb07987d58a1",
+        "name": "Naxi Kids Radio",
+        "url": "https://naxidigital-kids128ssl.streaming.rs:8052/;",
+        "votes": 57
+      },
+      "variants": [
+        {
+          "stationuuid": "02d57c4d-b7c9-4b3d-a3e8-2cdcc3b66b51",
+          "name": "Naxi Kids",
+          "url": "https://naxidigital-kids128ssl.streaming.rs:8052/;",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b8eed0cc-84c9-4365-a13d-5cfd2b57d088",
+        "name": "Radio S2 - Index radio",
+        "url": "https://stream.radios.rs:9002/;",
+        "votes": 51
+      },
+      "variants": [
+        {
+          "stationuuid": "f946a9d9-31de-4b07-be97-0ae734f8bc78",
+          "name": "Radio S2",
+          "url": "https://stream.radios.rs:9002/;",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7837ee62-dd8d-43e4-8fbb-35ecd7f141cf",
+        "name": "Radio S Easy",
+        "url": "https://stream.radios.rs:9044/stream",
+        "votes": 41
+      },
+      "variants": [
+        {
+          "stationuuid": "0dffe4b6-e72f-4ce7-b8b1-d08d743fda9f",
+          "name": "Radio S Easy",
+          "url": "https://stream.radios.rs:9044/stream",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2f92571d-1f22-473c-af9a-58bf71d22637",
+        "name": "Kiss FM Balkan",
+        "url": "https://stream.zeno.fm/kwku1q84p48uv",
+        "votes": 40
+      },
+      "variants": [
+        {
+          "stationuuid": "1a828276-98db-4dbf-985c-e5554b394754",
+          "name": "Kiss FM Balkan",
+          "url": "https://stream.zeno.fm/kwku1q84p48uv",
+          "votes": 12,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f3110eb9-206d-45e6-b6d8-8335d532a272",
+        "name": "Radio Krajina 019",
+        "url": "https://cmr-hosting.com:7021/;",
+        "votes": 40
+      },
+      "variants": [
+        {
+          "stationuuid": "a0b45fb9-01f4-4cfb-9f81-b70910f813a5",
+          "name": "Radio Krajina 019",
+          "url": "https://cmr-hosting.com:7021/;",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f9daee92-36ef-48bb-a18e-c34a03ae46cb",
+        "name": "Radio Naxi",
+        "url": "https://naxi128ssl.streaming.rs:9152/",
+        "votes": 28
+      },
+      "variants": [
+        {
+          "stationuuid": "b6c5a106-4ea9-4751-a406-42b477033ec8",
+          "name": "Naxi",
+          "url": "https://naxi128ssl.streaming.rs:9152/",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2afd4523-5ea7-484e-8951-d51c6095fa18",
+        "name": "Radio Delta 31",
+        "url": "https://cast4.asurahosting.com/proxy/dejan/stream",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "09602a06-6435-414b-8b0e-82ae7ec57026",
+          "name": "Radio 31 Plus",
+          "url": "https://cast4.asurahosting.com/proxy/dejan/stream",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7cee2585-5e29-40bf-b14a-bb9fc5b64338",
+        "name": "Radio Blagovesnik",
+        "url": "http://radio.eparhijabacka.info:8000/RadioBlagovesnik",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "89f177f1-dee6-4d96-9d8f-f50caa4f7935",
+          "name": "Radio Blagovesnik",
+          "url": "http://radio.eparhijabacka.info:8000/RadioBlagovesnik",
+          "votes": 14,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bbe6a65d-2301-4bb2-89f5-9391cb941133",
+        "name": "Radio Tavor",
+        "url": "http://radio.eparhijabacka.info:8000/RadioTavor",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "32b770c2-bc31-4b01-bc86-84351cb99e10",
+          "name": "Radio Tavor",
+          "url": "http://radio.eparhijabacka.info:8000/RadioTavor",
+          "votes": 9,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "becac46e-edad-44a8-9bf2-bac91a2259f9",
+        "name": "Nisville Radio",
+        "url": "https://radio.nisville.com/listen/live/live",
+        "votes": 16
+      },
+      "variants": [
+        {
+          "stationuuid": "eacadb70-087e-498c-90a0-cf29ba13dba4",
+          "name": "Nisville Online Radio",
+          "url": "https://radio.nisville.com/listen/live/live",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f446f8a3-592f-4ca3-8875-8a3fbbeb1b2e",
+        "name": "Kiss Club FM",
+        "url": "https://stream.zeno.fm/572ugg75ztzuv",
+        "votes": 16
+      },
+      "variants": [
+        {
+          "stationuuid": "09fd84d4-f03c-4e99-8740-5e9837ba73bc",
+          "name": "Kiss Club FM",
+          "url": "https://stream.zeno.fm/572ugg75ztzuv",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ef10a866-78d9-4b7b-9e37-faec81cd4026",
+        "name": "DENSOMANIAK Radio",
+        "url": "https://stream.iradio.pro/proxy/densomaniak?mp=/stream",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "9cdcb2ed-0d7c-43fc-93b1-9ddf84f678ba",
+          "name": "DENSOMANIAK Radio",
+          "url": "https://stream.iradio.pro/proxy/densomaniak?mp=/stream",
+          "votes": 13,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "129d2885-c3ee-4646-ab7a-76462478629d",
+        "name": "LiD Radio",
+        "url": "http://213.239.205.210:8064/",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "47e3fddc-221f-47c8-b4b5-5929e217c59a",
+          "name": "LiD Radio",
+          "url": "http://213.239.205.210:8064/",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "65bffb54-66ea-42ea-a31a-4070d5602d16",
+        "name": "radio centar",
+        "url": "http://195.252.68.166:8038/",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "2988bffa-a509-408f-8509-83f813c4389c",
+          "name": "radio centar",
+          "url": "http://195.252.68.166:8038/",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2330f476-d406-4b7e-b584-695f13054831",
+        "name": "Radio 021 Disco & Funk",
+        "url": "https://centova.dukahosting.com/proxy/021disco/stream",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "5251892e-ccf4-4bfa-ab42-8308feb35e63",
+          "name": "Radio 021 Disco & Funk",
+          "url": "https://centova.dukahosting.com/proxy/021disco/stream",
+          "votes": 8,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b0d048e5-413e-43f3-9ee6-1dca3263aa97",
+        "name": "Retro Plus FM 90s",
+        "url": "https://stream.zeno.fm/abn3hm6w768uv",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "c70d7f36-9776-40f3-ba11-be63d3fb9b8b",
+          "name": "KISS FM EX YU",
+          "url": "https://stream.zeno.fm/abn3hm6w768uv",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c7259252-7b42-44fe-a567-b703334755c9",
+        "name": "skc",
+        "url": "https://skc.fm/hls/skc_radio/live.m3u8",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "6d29a5a5-4018-4437-874f-8874a84f7276",
+          "name": "SKC",
+          "url": "https://skc.fm/hls/skc_radio/live.m3u8",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

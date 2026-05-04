@@ -1,0 +1,5464 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.856Z",
+  "country": "AU",
+  "sourceProbedAt": "2026-04-29T21:09:17.504Z",
+  "totals": {
+    "deadStreams": 27,
+    "internalDupes": 200,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "9628e108-0601-11e8-ae97-52543be04c81",
+      "name": "Radio Italian Music",
+      "url": "https://streaming.radiostreamlive.com/radioitalianmusic_devices",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 1462,
+      "lastProbedAt": "2026-04-29T21:07:13.060Z"
+    },
+    {
+      "stationuuid": "dbaa152a-c0c5-4e93-9d6d-49d8b169a6d5",
+      "name": "Triple M Melbourne",
+      "url": "https://wz3drp.scahw.com.au/live/3mmm_32.stream/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 542,
+      "lastProbedAt": "2026-04-29T21:07:15.552Z"
+    },
+    {
+      "stationuuid": "238baf96-ddba-4906-940d-ec9ca016727e",
+      "name": "Central Coast Radio.com",
+      "url": "https://s4.radio.co/scf2280c01/listen",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 381,
+      "lastProbedAt": "2026-04-29T21:07:18.508Z"
+    },
+    {
+      "stationuuid": "aa5dc44c-84bf-48dd-a8a3-e6821e46cc71",
+      "name": "2ME Radio Arabic",
+      "url": "https://streaming.2me.com.au/2me",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 254,
+      "lastProbedAt": "2026-04-29T21:07:22.764Z"
+    },
+    {
+      "stationuuid": "c0c4b436-3c7a-432e-98b5-9c768264dce5",
+      "name": "Radio Blues Djerdan",
+      "url": "https://stream.zeno.fm/vxr78nb51k8uv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 115,
+      "lastProbedAt": "2026-04-29T21:07:26.325Z"
+    },
+    {
+      "stationuuid": "cb85fc50-6f6e-4f9c-8910-10cfa29fdc94",
+      "name": "The 80s: Hits (MP3)",
+      "url": "https://play.radioking.io/the-80s",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 37,
+      "lastProbedAt": "2026-04-29T21:07:42.651Z"
+    },
+    {
+      "stationuuid": "e62a225a-c076-4d7c-97fc-c0011a08c568",
+      "name": "Magic 87.6",
+      "url": "https://syd02.sdn.dhcmedia.com.au/radio/8010/magic876",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 33,
+      "lastProbedAt": "2026-04-29T21:07:46.693Z"
+    },
+    {
+      "stationuuid": "f919b900-be81-4fd8-a3de-6132b9f2620b",
+      "name": "90.1 NBC FM - Narwee - 90.1 FM (AAC)",
+      "url": "https://studio.901nbcfm.com.au:8902/newstream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 26,
+      "lastProbedAt": "2026-04-29T21:07:52.759Z"
+    },
+    {
+      "stationuuid": "688a6f28-9c5c-4290-b796-131e30abb467",
+      "name": "Radio Italian Music - Mobile",
+      "url": "https://streaming.radiostreamlive.com/radioitalianmusic_devices-low?token=%3C?%20echo%20rand%20(1,200000);%20?%3E",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 23,
+      "lastProbedAt": "2026-04-29T21:07:54.678Z"
+    },
+    {
+      "stationuuid": "d0adcb11-6d43-4334-a759-9864bdf90455",
+      "name": "Sounds of the Mountains - THE LOCAL RADIO STATION FOR THE SNOWY VALLEYS & COOTAMUNDRA-GUNDAGAI REGIONAL COUNCIL AREAS",
+      "url": "https://stream.mjm-webhosting.com.au:8342/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 23,
+      "lastProbedAt": "2026-04-29T21:07:57.245Z"
+    },
+    {
+      "stationuuid": "2b0f66d1-d459-44ae-8dad-383625816284",
+      "name": "90.1 NBC FM - Narwee - 90.1 FM (MP3)",
+      "url": "https://studio.901nbcfm.com.au:8902/newstream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 16,
+      "lastProbedAt": "2026-04-29T21:08:01.807Z"
+    },
+    {
+      "stationuuid": "d2a92f65-21be-4d37-a696-a1548aa9fac8",
+      "name": "The Engineered Network",
+      "url": "https://stream.engineered.network:8002/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 12,
+      "lastProbedAt": "2026-04-29T21:08:10.947Z"
+    },
+    {
+      "stationuuid": "17f74315-0bac-4d1c-86de-3c58575c6f20",
+      "name": "2GB Sydney (Low Video Stream No Ads)",
+      "url": "https://2gblive.akamaized.net/hls/live/2033805-b/2GB/2GB360B/chunklist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 11,
+      "lastProbedAt": "2026-04-29T21:08:14.602Z"
+    },
+    {
+      "stationuuid": "a688a398-ab3d-403c-ae97-5335193d335d",
+      "name": "TABradio",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RWWA.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 8,
+      "lastProbedAt": "2026-04-29T21:08:25.676Z"
+    },
+    {
+      "stationuuid": "93163155-4352-4223-8b97-73185c990809",
+      "name": "Lofty 88.9",
+      "url": "https://stream01.sigile.net/lofty-24-aac",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T21:08:31.838Z"
+    },
+    {
+      "stationuuid": "388df3d2-f9b4-4e09-90f2-1d1299714ca0",
+      "name": "North West FM 98.9 - Hadfield, Melbourne - 98.9 FM (AAC)",
+      "url": "https://ssl1.viastreaming.net:8935/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T21:08:31.091Z"
+    },
+    {
+      "stationuuid": "37ce6dc6-66b9-4699-a2fa-995313bead95",
+      "name": "Crow FM 90.7 Wondai",
+      "url": "https://stream2.fre.hostgeek.com.au/8006/;",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T21:08:33.999Z"
+    },
+    {
+      "stationuuid": "9a99bf30-f97f-4e09-80d4-f81397ef1e89",
+      "name": "2 Oceans FM Augusta",
+      "url": "https://s2.stationplaylist.com:7032/listen.aac",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T21:08:37.165Z"
+    },
+    {
+      "stationuuid": "f2ccbce9-c4e5-4e09-8058-4485cf6a2e4b",
+      "name": "92.3FM 4TVR Mareeba",
+      "url": "https://listen.923.com.au:13098/stream.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T21:08:38.640Z"
+    },
+    {
+      "stationuuid": "935cdc0f-67ab-4c72-8652-f2bcdf9d5fd3",
+      "name": "Central Coast Radio",
+      "url": "https://s4.radio.co/scf2280c01/low",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T21:08:39.830Z"
+    },
+    {
+      "stationuuid": "d5417cab-78d6-44bb-ad1b-b29e0f73fc5e",
+      "name": "Australian Open Radio - AO Radio (AAC)",
+      "url": "https://streams.radiomast.io/32fda7c0-5457-4c24-8afb-d7ab1b9f9fc0",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T21:08:52.971Z"
+    },
+    {
+      "stationuuid": "47d86ba2-e13b-4489-94d8-4f31fda40466",
+      "name": "OCR FM - Colac - 98.3 FM (MP3)",
+      "url": "https://stream.mjm-webhosting.com.au:8310/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T21:08:54.822Z"
+    },
+    {
+      "stationuuid": "6b24eed7-f2b8-4cdc-a804-93ecb030be9e",
+      "name": "Critter Radio",
+      "url": "https://radio.lycanea.dev/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T21:09:01.078Z"
+    },
+    {
+      "stationuuid": "f76eba54-3629-4cc8-afc1-b5092b8dbbdc",
+      "name": "Diffusion FM",
+      "url": "https://giss.tv:666/diffusionfm919.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T21:09:01.165Z"
+    },
+    {
+      "stationuuid": "a592f011-6086-4376-b7da-de876365e1d4",
+      "name": "slayernetradio",
+      "url": "https://ir.slayer.network/listen/slayernetradio/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T21:09:05.524Z"
+    },
+    {
+      "stationuuid": "980320a3-4fe3-4d9c-8828-b8ab2910ceac",
+      "name": "BitWaves",
+      "url": "https://singapore.audio-stream.com/proxy/mlittl00?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T21:09:17.497Z"
+    },
+    {
+      "stationuuid": "bc7c4c4c-d3bf-4313-9a1b-255971acfaa0",
+      "name": "Power Cuts Radio",
+      "url": "https://samcloud.spacial.com/api/listen?sid=127816&rid=268244&f=aac,any&br=64000,any&m=sc&t=ssl",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T21:09:10.171Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "9615d27a-0601-11e8-ae97-52543be04c81",
+        "name": "ABC NewsRadio MP3",
+        "url": "http://abc.streamguys1.com/live/newsradio/icecast.audio",
+        "votes": 9482
+      },
+      "variants": [
+        {
+          "stationuuid": "5822f0c8-178e-11e8-ae97-52543be04c81",
+          "name": "ABC News Radio",
+          "url": "http://abc.streamguys1.com/live/newsradio/icecast.audio",
+          "votes": 8697,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8c5f29ea-f6b5-4348-9238-3f6095cf99e2",
+          "name": "ABC News Radio",
+          "url": "http://abc.streamguys1.com/live/newsradio/icecast.audio",
+          "votes": 486,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d873afb3-277f-4d42-9b36-ced320409734",
+          "name": "ABC News Radio",
+          "url": "http://abc.streamguys1.com/live/newsradio/icecast.audio",
+          "votes": 401,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "506dd5ea-1f85-4ee6-9d94-b1b839f8b8f5",
+          "name": "ABC News Radio MP3",
+          "url": "http://abc.streamguys1.com/live/newsradio/icecast.audio",
+          "votes": 69,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960986f3-0601-11e8-ae97-52543be04c81",
+        "name": "ABC Country (MP3)",
+        "url": "http://live-radio01.mediahubaustralia.com/CTRW/mp3/;*.mp3",
+        "votes": 4082
+      },
+      "variants": [
+        {
+          "stationuuid": "35fec570-d4c0-415e-8126-01fe445087fb",
+          "name": "ABC Country (MP3)",
+          "url": "http://live-radio01.mediahubaustralia.com/CTRW/mp3/;*.mp3",
+          "votes": 27,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96099dca-0601-11e8-ae97-52543be04c81",
+        "name": "ABC Classic FM (MP3)",
+        "url": "http://live-radio01.mediahubaustralia.com/2FMW/mp3/;*.mp3",
+        "votes": 2314
+      },
+      "variants": [
+        {
+          "stationuuid": "b1cfbcad-6bdc-43da-9873-b5f55c453968",
+          "name": "Classic FM NSW",
+          "url": "http://live-radio01.mediahubaustralia.com/2FMW/mp3/;*.mp3",
+          "votes": 26,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "964fb9c9-0601-11e8-ae97-52543be04c81",
+        "name": "Smooth FM 95.3",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/SMOOTH953_AAC48.aac?src=neweb",
+        "votes": 1134
+      },
+      "variants": [
+        {
+          "stationuuid": "b6228f64-0228-4f19-aff7-a7c2c212115d",
+          "name": "Smooth FM 95.3 - Sydney - 95.3 FM (AAC+ 48k)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/SMOOTH953_AAC48.aac",
+          "votes": 5,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "06faec0e-52eb-11e8-a4d1-52543be04c81",
+        "name": "Triple J",
+        "url": "http://abc.streamguys1.com/live/triplejnsw/icecast.audio",
+        "votes": 882
+      },
+      "variants": [
+        {
+          "stationuuid": "2ebb0a8a-3f3e-11e8-b74d-52543be04c81",
+          "name": "Tripple J JJJ",
+          "url": "http://abc.streamguys1.com/live/triplejnsw/icecast.audio",
+          "votes": 241,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6794ba90-1029-4673-8aeb-206e2b59d591",
+        "name": "2GB Sydney",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2GB.mp3",
+        "votes": 567
+      },
+      "variants": [
+        {
+          "stationuuid": "9572f71b-9657-4d02-94f4-c9fe05ba26d3",
+          "name": "2GB - Sydney - 873 AM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2GB.mp3",
+          "votes": 66,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "9e7f4c38-6e4f-4185-a5e8-0405c1f2483f",
+          "name": "2GB - Sydney - 873 AM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2GB.mp3",
+          "votes": 38,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fe852cc8-1a27-4dcd-8465-917ec32d8b64",
+        "name": "ABC Radio Sydney",
+        "url": "https://mediaserviceslive.akamaized.net/hls/live/2038302/localsydney/masterhq.m3u8",
+        "votes": 498
+      },
+      "variants": [
+        {
+          "stationuuid": "b10801ac-9691-4f9f-84de-fdc6829a6daf",
+          "name": "ABC 702kHz AM Sydney NSW Local Radio 20220701",
+          "url": "https://mediaserviceslive.akamaized.net/hls/live/2038302/localsydney/masterhq.m3u8",
+          "votes": 134,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3d913c40-3ef9-4a82-9f88-687e59193e35",
+        "name": "2FBI \"FBi Radio\" 94.5 FM Sydney, NSW",
+        "url": "https://streamer.fbiradio.com/stream",
+        "votes": 443
+      },
+      "variants": [
+        {
+          "stationuuid": "9ce2440f-b279-4081-8226-f3ddddc80ea7",
+          "name": "FBi Radio - Sydney - 94.5 FM (MP3)",
+          "url": "https://streamer.fbiradio.com/stream",
+          "votes": 32,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "bef9d309-5eee-486a-a954-f524220b6aee",
+          "name": "FBi Radio",
+          "url": "https://streamer.fbiradio.com/stream",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "6c5babb6-2c8d-44dc-82fe-74ab38c87edf",
+          "name": "FBi Radio",
+          "url": "https://streamer.fbiradio.com/stream",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ef42169c-4515-4011-b44a-5ae792af7424",
+        "name": "Australian Digital Radio Network - Old Time Radio Channel 4 - Films, Horror, Sci Fi, Adventure (MP3)",
+        "url": "http://abm21.com.au:8000/CONTAINER5",
+        "votes": 407
+      },
+      "variants": [
+        {
+          "stationuuid": "7bec7089-6f46-4b8a-80b3-db436a311b93",
+          "name": "films, horror, sci fi, adventure Australian Digital Radio Network Old Time Radio Channel 4",
+          "url": "http://abm21.com.au:8000/CONTAINER5",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a9c5e895-0b34-4f17-9147-2b9b9747a124",
+        "name": "ABC Radio Australia",
+        "url": "https://mediaserviceslive.akamaized.net/hls/live/2038266/ramulti/masterhq.m3u8",
+        "votes": 363
+      },
+      "variants": [
+        {
+          "stationuuid": "d3a6de63-1c42-401d-ba68-141dcbf486d1",
+          "name": "ABC Radio Australia 20220701",
+          "url": "https://mediaserviceslive.akamaized.net/hls/live/2038266/ramulti/masterhq.m3u8",
+          "votes": 187,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "94ab6f5f-b684-4ca1-ae5c-c5c868ed20c6",
+        "name": "3AW - Melbourne - 693 AM (MP3)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/3AW.mp3",
+        "votes": 319
+      },
+      "variants": [
+        {
+          "stationuuid": "3c481eff-6cfa-400d-b355-358aaff199d7",
+          "name": "3AW - Melbourne - 693 AM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/3AW.mp3",
+          "votes": 49,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "55b1529c-b0a4-4603-843e-b0d887fc0046",
+        "name": "Retro 80's - 80s Remix (MP3)",
+        "url": "http://stream.zeno.fm/2ptupyw61fxvv",
+        "votes": 303
+      },
+      "variants": [
+        {
+          "stationuuid": "774ac7aa-3a1a-4100-96ef-9b849e2582d4",
+          "name": "Retro 80's - 80s Remix (MP3)",
+          "url": "http://stream.zeno.fm/2ptupyw61fxvv",
+          "votes": 189,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "655b54c2-1e92-4346-80c5-8bb2ac1168b8",
+        "name": "70s Classics - Sydney (MP3)",
+        "url": "http://stream.zeno.fm/glsntnn7et8vv",
+        "votes": 264
+      },
+      "variants": [
+        {
+          "stationuuid": "bce6703f-3a02-4b71-ad94-62b5bcd343b6",
+          "name": "70s Classics - Sydney (MP3)",
+          "url": "http://stream.zeno.fm/glsntnn7et8vv",
+          "votes": 20,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "26aaf9ed-a765-4693-bcd2-1bebbe67615e",
+        "name": " B105 105.3 Brisbane",
+        "url": "https://wz4liw.scahw.com.au/live/4bbb_128.stream/playlist.m3u8",
+        "votes": 240
+      },
+      "variants": [
+        {
+          "stationuuid": "467de983-d4cf-4d0b-a69d-5bc2adb2c20d",
+          "name": "B105 105.3MHz FM Brisbane QLD Hits from Then to Now - 20230614",
+          "url": "https://wz4liw.scahw.com.au/live/4bbb_128.stream/playlist.m3u8?",
+          "votes": 231,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ebb7df21-bfd3-4dba-851f-ad2acc7234bc",
+        "name": "2SM SRN Sydney",
+        "url": "https://cast4.asurahosting.com/proxy/2sm1269/stream",
+        "votes": 210
+      },
+      "variants": [
+        {
+          "stationuuid": "9989ba6f-0cf0-4c7a-8890-b1fe40f01710",
+          "name": "2SM Sydney 1269AM",
+          "url": "https://cast4.asurahosting.com/proxy/2sm1269/stream",
+          "votes": 210,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9609c9f5-0601-11e8-ae97-52543be04c81",
+        "name": "5AA",
+        "url": "http://streaming.novaentertainment.com.au/fiveaa?type=.mp3",
+        "votes": 167
+      },
+      "variants": [
+        {
+          "stationuuid": "010a3aaf-3a27-4dba-8b84-de693a514f35",
+          "name": "Fiveaa Adelaide 5AA",
+          "url": "http://streaming.novaentertainment.com.au/fiveaa",
+          "votes": 36,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2a9f9882-6a0e-422e-9664-a44e6693aadf",
+        "name": "2UE - Sydney - 954 AM",
+        "url": "http://worldradio.online/proxy/?q=http://wz2liw.scahw.com.au/live/2ue_128.stream/playlist.m3u8",
+        "votes": 161
+      },
+      "variants": [
+        {
+          "stationuuid": "f242a8ca-ea48-4cae-b4a1-dfe752b6cbcc",
+          "name": "LiSTNR - Drum & Bass",
+          "url": "http://worldradio.online/proxy/?q=https://wz0liw.scahw.com.au/live/drumnbass_128.stream/playlist.m3u8",
+          "votes": 53,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "1f633d37-fc9d-4c07-b965-3f3c102d3798",
+          "name": "LiSTNR - 80s New Wave",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/780snewwave_128.stream/playlist.m3u8",
+          "votes": 43,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "0fc0218c-36c6-4a39-9a10-992b19125e07",
+          "name": "LiSTNR - RnB Chill",
+          "url": "http://worldradio.online/proxy/?q=http://wz0liw.scahw.com.au/live/rnb-chill.stream/playlist.m3u8",
+          "votes": 22,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "c7b1d441-df29-4c9c-ae42-7b172e967879",
+          "name": "LiSTNR - Girl Power",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/7girlpower_128.stream/playlist.m3u8",
+          "votes": 21,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "f1ab0be7-8060-40c7-a138-96e10ba38845",
+          "name": "LiSTNR - Lofi Study Beats",
+          "url": "http://worldradio.online/proxy/?q=http://wz0liw.scahw.com.au/live/lo-fi.stream/playlist.m3u8",
+          "votes": 21,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "4fed75d0-c54d-4a0d-b737-d104745b82b2",
+          "name": "LiSTNR - 60s Hits",
+          "url": "http://worldradio.online/proxy/?q=https://wz2liw.scahw.com.au/live/760shits_128.stream/playlist.m3u8",
+          "votes": 11,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "bdfb98a4-d3d9-433b-a890-da020eb857dc",
+          "name": "LiSTNR - 70s Hits",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/770shits_128.stream/playlist.m3u8",
+          "votes": 11,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "fa180673-6aac-41be-97d9-a27e13d0eff3",
+          "name": "LiSTNR - Chill Electronic",
+          "url": "http://worldradio.online/proxy/?q=http://wz0liw.scahw.com.au/live/chill-electronic.stream/playlist.m3u8",
+          "votes": 11,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "d1509c36-5283-4c02-810a-44fa129eb8ed",
+          "name": "LiSTNR - 90s Soft Pop",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/790ssoftpop_128.stream/playlist.m3u8",
+          "votes": 10,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "3c7d597e-c778-40dd-82ff-0c4dfffe1c1e",
+          "name": "LiSTNR - Good Vibes",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/7goodvibes_128.stream/playlist.m3u8",
+          "votes": 10,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "b05007eb-a9a0-4692-aa0a-d2c5ca963574",
+          "name": "LiSTNR - Rap Revolution",
+          "url": "http://worldradio.online/proxy/?q=http://wz0liw.scahw.com.au/live/rap-revolution.stream/playlist.m3u8",
+          "votes": 10,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "b42e105f-696f-4986-886a-8a09c388f981",
+          "name": "LiSTNR - K-Pop",
+          "url": "http://worldradio.online/proxy/?q=http://wz0liw.scahw.com.au/live/k-pop.stream/playlist.m3u8",
+          "votes": 9,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "8c292734-3706-4014-bce9-02b4777d1045",
+          "name": "LiSTNR - Almost Acoustic",
+          "url": "http://worldradio.online/proxy/?q=http://wz7liw.scahw.com.au/live/7almostacoustic_128.stream/playlist.m3u8",
+          "votes": 8,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "805b38f2-2d25-4d38-97f4-3a96abc2713f",
+          "name": "LiSTNR - Party",
+          "url": "http://worldradio.online/proxy/?q=https://wz0liw.scahw.com.au/live/party_128.stream/playlist.m3u8",
+          "votes": 8,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "15b10204-edd8-431a-89cb-d5b3a22ac713",
+          "name": "LiSTNR - Chill Pop Hits",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/7chillpophits_128.stream/playlist.m3u8",
+          "votes": 7,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "51c390d2-b127-4656-af2f-ec49a71cb0cc",
+          "name": "LiSTNR - Indie & Alt",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/7indieandalternative_128.stream/playlist.m3u8",
+          "votes": 7,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "9e53a6fa-6a12-46fb-ba8b-56cf8a6cfa72",
+          "name": "LiSTNR - Noughties",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/7noughties_128.stream/playlist.m3u8",
+          "votes": 7,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "b6aa9d9d-2f0a-413c-a5f3-84f00484e24f",
+          "name": "LiSTNR - Easy Hits",
+          "url": "http://worldradio.online/proxy/?q=https://wz2liw.scahw.com.au/live/2easyhits_128.stream/playlist.m3u8",
+          "votes": 6,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "1742cc0a-28be-45ed-8495-68f4cbebbf0b",
+          "name": "LiSTNR - Essential Emo",
+          "url": "http://worldradio.online/proxy/?q=http://wz0liw.scahw.com.au/live/essential-emo.stream/playlist.m3u8",
+          "votes": 6,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "9fc1fc97-1543-4a17-8fe6-3e1b3ec5c933",
+          "name": "LiSTNR - Hard N Heavy",
+          "url": "http://worldradio.online/proxy/?q=https://wz2liw.scahw.com.au/live/2hardnheavy_128.stream/playlist.m3u8",
+          "votes": 6,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "72c36556-186e-4cde-8bb4-ea531f93e4b7",
+          "name": "LiSTNR - Mushroom 50",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/7mushroom50_128.stream/playlist.m3u8",
+          "votes": 6,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "70bf958c-9251-472e-804c-48aa188d6493",
+          "name": "LiSTNR - Trending Now",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/7trendingnow_128.stream/playlist.m3u8",
+          "votes": 6,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "cd94bcae-9a5a-4793-97c0-c4731a88710b",
+          "name": "LiSTNR - Buddha",
+          "url": "http://worldradio.online/proxy/?q=https://wz2liw.scahw.com.au/live/2buddha_128.stream/playlist.m3u8",
+          "votes": 5,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "7d49aa1e-aea4-497d-9971-87f1b97c0c47",
+          "name": "LiSTNR - Cover Up",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/7coverme_128.stream/playlist.m3u8",
+          "votes": 5,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "00d72091-ed40-465b-9544-50f490fe013e",
+          "name": "LiSTNR - Fresh Folk Hits",
+          "url": "http://worldradio.online/proxy/?q=http://wz0liw.scahw.com.au/live/fresh-folk.stream/playlist.m3u8",
+          "votes": 5,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "bf461cc1-c0e0-4d2f-a30d-e5aaa2996cc0",
+          "name": "LiSTNR - Rock 'n' Road Trip",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/7rocknroadtrip_128.stream/playlist.m3u8",
+          "votes": 5,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "ae2cd535-12d4-4645-bbe2-7cf6503f9d4c",
+          "name": "LiSTNR - Stress Free",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/7stressfree_128.stream/playlist.m3u8",
+          "votes": 5,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "af12616f-c8bc-42c2-a00e-82d786fb3ea5",
+          "name": "Magic 1278 - Melbourne - 1278 AM",
+          "url": "http://worldradio.online/proxy/?q=http://wz3liw.scahw.com.au/live/3ee_128.stream/playlist.m3u8",
+          "votes": 5,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "42351833-3b73-4ca0-b885-742cfa4d828c",
+          "name": "3HA - Hamilton / Portland - 92.9 FM / 981 AM",
+          "url": "http://worldradio.online/proxy/?q=http://wz3liw.scahw.com.au/live/3ha_128.stream/playlist.m3u8",
+          "votes": 3,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "837330cf-653d-43cc-ae40-9df30101e510",
+          "name": "3MP - Melbourne - 1377 AM",
+          "url": "http://worldradio.online/proxy/?q=http://wz3liw.scahw.com.au/live/3mp_128.stream/playlist.m3u8",
+          "votes": 3,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "98ee0374-f78b-4ba0-8c98-ffb4fd1f0944",
+          "name": "LiSTNR - Aussie Dance",
+          "url": "http://worldradio.online/proxy/?q=https://wz0liw.scahw.com.au/live/aussiedance_128.stream/playlist.m3u8",
+          "votes": 3,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "269ed095-9528-405c-a731-4ddd0f6ec0c1",
+          "name": "LiSTNR - Fit Hits",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/7fithits_128.stream/playlist.m3u8",
+          "votes": 3,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "2ab1d449-2158-46e8-969e-759f1b61a9d5",
+          "name": "LiSTNR - Indigenous",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/7firstnations_128.stream/playlist.m3u8",
+          "votes": 3,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "e46b09cf-9863-4841-9d32-192ec5691a7f",
+          "name": "LiSTNR - Run Club",
+          "url": "http://worldradio.online/proxy/?q=http://wz0liw.scahw.com.au/live/run-club.stream/playlist.m3u8",
+          "votes": 3,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "4a4be39d-f931-4ac0-bdad-765c801196df",
+          "name": "LiSTNR - Top 30",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/7top30_128.stream/playlist.m3u8",
+          "votes": 3,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "eff41e5f-f8a0-4621-aed5-74ed323ab67d",
+          "name": "4BH - Brisbane - 1116 AM",
+          "url": "http://worldradio.online/proxy/?q=http://wz4liw.scahw.com.au/live/4bh_128.stream/playlist.m3u8",
+          "votes": 2,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "9adf380b-4ae7-475f-ab38-d9652da6aabc",
+          "name": "LiSTNR - 2010s",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/72010s_128.stream/playlist.m3u8",
+          "votes": 2,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "ca5a6af1-50c7-44c5-a9ff-a3c616807394",
+          "name": "LiSTNR - Aussie Pub Rock",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/7mushroom50_128.stream/playlist.m3u8",
+          "votes": 2,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "fe582b36-24b3-4744-a8cf-c98055ceb022",
+          "name": "LiSTNR - Billion Streams Club",
+          "url": "http://worldradio.online/proxy/?q=http://wz0liw.scahw.com.au/live/billion-streams.stream/playlist.m3u8",
+          "votes": 2,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "094c1447-6700-4c77-9b15-51e79a8d0340",
+          "name": "LiSTNR - Festival Bangers",
+          "url": "http://worldradio.online/proxy/?q=https://wz0liw.scahw.com.au/live/festivalbangers_128.stream/playlist.m3u8",
+          "votes": 2,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "febdcafb-42ad-4d30-afc6-e67024a31e8b",
+          "name": "3NE - Wangaratta - 1566 AM",
+          "url": "http://worldradio.online/proxy/?q=http://wz3liw.scahw.com.au/live/3ne_128.stream/playlist.m3u8",
+          "votes": 1,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "44918139-f294-4d52-b4e0-4500e1444d7e",
+          "name": "Edge FM - Deniliquin - 102.5 FM",
+          "url": "http://worldradio.online/proxy/?q=http://wz2liw.scahw.com.au/live/2mor_128.stream/playlist.m3u8",
+          "votes": 1,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "bac64668-47db-40ab-aca4-55c179792fef",
+          "name": "Edge FM - Deniliquin - 102.5 FM",
+          "url": "http://worldradio.online/proxy/?q=http://wz2liw.scahw.com.au/live/2mor_128.stream/playlist.m3u8",
+          "votes": 1,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "90df336e-bb0f-41c7-8157-5fdc882bc0ff",
+          "name": "Edge FM - Wangaratta - 102.1 FM",
+          "url": "http://worldradio.online/proxy/?q=http://wz3liw.scahw.com.au/live/3nnn_128.stream/playlist.m3u8",
+          "votes": 1,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "b4b06aca-ccfc-4db6-874b-0d994e607ebc",
+          "name": "Gold 1242 / Gold FM - Traralgon / East Gippsland - 1242 AM / 98.3 FM",
+          "url": "http://worldradio.online/proxy/?q=http://wz3liw.scahw.com.au/live/3gv_128.stream/playlist.m3u8",
+          "votes": 1,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "acf413c4-f088-4c24-980f-f92911de41a5",
+          "name": "LiSTNR - Heart Breakers",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/7heartbreaker_128.stream/playlist.m3u8",
+          "votes": 1,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "91ec03fb-8580-4410-b7f0-6bf1056994a7",
+          "name": "LiSTNR - Homegrown",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/7homegrown_128.stream/playlist.m3u8",
+          "votes": 1,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "56c0b4a3-b6b9-47c7-a182-8c5ef3e8f068",
+          "name": "LiSTNR - Pride",
+          "url": "http://worldradio.online/proxy/?q=http://wz0liw.scahw.com.au/live/pride.stream/playlist.m3u8",
+          "votes": 1,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "f815a4a2-86aa-45fa-9acd-adc43a724a8b",
+          "name": "LiSTNR - Santa Radio",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/7santa_128.stream/playlist.m3u8",
+          "votes": 1,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "6c9dfac0-0218-4b5c-a5e3-c2de3f0af356",
+          "name": "Mixx FM - Hamilton / Portland - 88.9 FM / 93.7 FM",
+          "url": "http://worldradio.online/proxy/?q=http://wz3liw.scahw.com.au/live/3hfm_128.stream/playlist.m3u8",
+          "votes": 1,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "936267b8-4525-4644-af58-fde76fa17f4c",
+          "name": "Mixx FM - Horsham / Ararat / Nhill - 101.3 FM / 98.5 FM / 94.5 FM",
+          "url": "http://worldradio.online/proxy/?q=http://wz3liw.scahw.com.au/live/3wwm_128.stream/playlist.m3u8",
+          "votes": 1,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "7507064b-67ee-4ad3-ae99-6081449191f7",
+          "name": "2AY - Albury - 1494 AM",
+          "url": "http://worldradio.online/proxy/?q=https://wz2liw.scahw.com.au/live/2ay_128.stream/playlist.m3u8",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "c3ae9cc2-cbef-45d9-849a-8cffcce16442",
+          "name": "2AY - Albury - 1494 AM",
+          "url": "http://worldradio.online/proxy/?q=https://wz2liw.scahw.com.au/live/2ay_128.stream/playlist.m3u8",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "f1334bd8-ea9c-42f9-8fc4-0475f11f6e99",
+          "name": "2QN - Deniliquin - 1521 AM",
+          "url": "http://worldradio.online/proxy/?q=http://wz2liw.scahw.com.au/live/2qn_128.stream/playlist.m3u8",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "5bf98f61-0ca2-42e9-9fa9-2baa9b132df6",
+          "name": "3CS - Colac - 1134 AM",
+          "url": "http://worldradio.online/proxy/?q=http://wz3liw.scahw.com.au/live/3cs_128.stream/playlist.m3u8",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "a3eb3de7-1c81-4373-9e75-17db19333684",
+          "name": "3SH - Swan Hill - 1332 AM",
+          "url": "http://worldradio.online/proxy/?q=http://wz3liw.scahw.com.au/live/3sh_128.stream/playlist.m3u8",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "41c4302e-a075-4458-a3fa-3b7724cbce80",
+          "name": "3WM - Horsham - 1089 AM",
+          "url": "http://worldradio.online/proxy/?q=http://wz3liw.scahw.com.au/live/3wm_128.stream/playlist.m3u8",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "96a9db76-5c8d-4a94-811a-801df08e8673",
+          "name": "3YB FM - Warrnambool - 94.5 FM",
+          "url": "http://worldradio.online/proxy/?q=http://wz3liw.scahw.com.au/live/3yb_128.stream/playlist.m3u8",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "7a6aebf0-2fcd-4e4b-bd7f-a076d76cf31b",
+          "name": "Coast FM - Warrnambool - 95.3 FM",
+          "url": "http://worldradio.online/proxy/?q=http://wz3liw.scahw.com.au/live/3yfm_128.stream/playlist.m3u8",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "46d558d3-df67-4aab-8a63-82e02b115a0a",
+          "name": "LiSTNR - Crooners & Swooners",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/7croonersandswooners_128.stream/playlist.m3u8",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "4120f229-d0a6-42d3-9f96-3b144c470001",
+          "name": "LiSTNR - Crooners & Swooners",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/7croonersandswooners_128.stream/playlist.m3u8",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "8ff9c40d-52d3-40ad-9617-4f77ffbf4d88",
+          "name": "LiSTNR - Karaoke Stage",
+          "url": "http://worldradio.online/proxy/?q=https://wz7liw.scahw.com.au/live/7karaokestage_128.stream/playlist.m3u8",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "f671b954-3779-4b69-9bb6-9fccf8264ef5",
+          "name": "Mixx FM - Colac / Apollo Bay - 106.3 FM / 95.9 FM",
+          "url": "http://worldradio.online/proxy/?q=http://wz3liw.scahw.com.au/live/3ccs_128.stream/playlist.m3u8",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "f7183553-edfd-4cb8-819a-93abdfd822b3",
+          "name": "Mixx FM - Swan Hill / Kerang - 107.7 FM / 98.7 FM",
+          "url": "http://worldradio.online/proxy/?q=http://wz3liw.scahw.com.au/live/3shi_128.stream/playlist.m3u8",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "edee7c7b-6a1c-4efe-8fdf-17429b884dcc",
+          "name": "TRFM - Sale / Gippsland - 99.5 FM / 99.9 FM",
+          "url": "http://worldradio.online/proxy/?q=http://wz3liw.scahw.com.au/live/3tfm_128.stream/playlist.m3u8",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "340c29cb-7e10-44f9-9f7b-cfc5bc5b3f95",
+        "name": "triple j | aac | NSW, VIC, ACT, TAS",
+        "url": "http://live-radio01.mediahubaustralia.com/2TJW/aac/",
+        "votes": 154
+      },
+      "variants": [
+        {
+          "stationuuid": "abf4504f-da48-41f8-a9f7-a0a4b5fe45d9",
+          "name": "ABC Triple J (AAC)",
+          "url": "http://live-radio01.mediahubaustralia.com/2TJW/aac/",
+          "votes": 70,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "92015688-ec5f-4e43-913a-1cbe831ed3d3",
+          "name": "ABC Triple J (AAC)",
+          "url": "http://live-radio01.mediahubaustralia.com/2TJW/aac/",
+          "votes": 63,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b3dcb958-bf35-466d-afd0-d75edb0d41aa",
+          "name": "triple j",
+          "url": "http://live-radio01.mediahubaustralia.com/2TJW/aac/",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960b9025-0601-11e8-ae97-52543be04c81",
+        "name": "Three D Radio",
+        "url": "http://sounds.threedradio.com:8000/stream",
+        "votes": 152
+      },
+      "variants": [
+        {
+          "stationuuid": "46c93011-b0ea-49e1-9075-2ac58fa70ce7",
+          "name": "Three D Radio",
+          "url": "http://sounds.threedradio.com:8000/stream",
+          "votes": 11,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b17c5a84-8a9a-462b-a8db-ad1d96c9e9d5",
+        "name": "LiSTNR - Aussie Pub Rock",
+        "url": "https://wz7liw.scahw.com.au/live/7mushroom50_128.stream/playlist.m3u8",
+        "votes": 151
+      },
+      "variants": [
+        {
+          "stationuuid": "3388f450-a16d-4a3c-b3ff-0e7d09ef1cf4",
+          "name": "LiSTNR - Mushroom 50",
+          "url": "https://wz7liw.scahw.com.au/live/7mushroom50_128.stream/playlist.m3u8",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "52691bbc-72f0-4b1c-93f0-2a0fd13d9018",
+        "name": "Sawt Sydney كل الفرق",
+        "url": "https://usa10.fastcast4u.com/nada22",
+        "votes": 150
+      },
+      "variants": [
+        {
+          "stationuuid": "ec7122c8-ffd6-4bd8-bd86-b6995892aab3",
+          "name": "Sawt Sydney كل الفرق",
+          "url": "https://usa10.fastcast4u.com/nada22",
+          "votes": 99,
+          "differs": []
+        },
+        {
+          "stationuuid": "0865e273-90cf-47fd-8edc-354b2fef32b6",
+          "name": "Sawt Sydney كل الفرق",
+          "url": "https://usa10.fastcast4u.com/nada22",
+          "votes": 72,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "db10a9b9-1efa-4e5f-a22f-c24666d0b1bf",
+        "name": "Smooth-Relax",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/SMOOTHRELAX_SYD_AAC.aac",
+        "votes": 142
+      },
+      "variants": [
+        {
+          "stationuuid": "01c582da-2e4d-42f7-83d2-acf566bc98be",
+          "name": "Smooth Relax Australia (AAC+)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/SMOOTHRELAX_SYD_AAC.aac",
+          "votes": 23,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a44e9b2b-ed6f-4245-862e-bc701da97fdb",
+        "name": "Systrum Sistum - SSR2",
+        "url": "https://systrum.net:8443/SSR2",
+        "votes": 131
+      },
+      "variants": [
+        {
+          "stationuuid": "9b92a15a-0256-48b7-a4eb-69dea81a7510",
+          "name": "Systrum Sistum (SSR2)",
+          "url": "https://systrum.net:8443/SSR2",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961dfae6-0601-11e8-ae97-52543be04c81",
+        "name": "ABC Local Radio 936 Hobart AAC",
+        "url": "http://live-radio01.mediahubaustralia.com/7LRW/aac/",
+        "votes": 129
+      },
+      "variants": [
+        {
+          "stationuuid": "6ade4fd1-98ca-49e4-9b13-64e6ae847cd6",
+          "name": "ABC Local Radio 936 Hobart AAC",
+          "url": "http://live-radio01.mediahubaustralia.com/7LRW/aac/",
+          "votes": 47,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fe7bf393-8d75-4db6-949b-4f9e7f00cd49",
+        "name": "107.1 SAFM Adelaide",
+        "url": "https://wz5liw.scahw.com.au/live/5ssa_128.stream/playlist.m3u8",
+        "votes": 124
+      },
+      "variants": [
+        {
+          "stationuuid": "4bcb65b2-232c-4c7a-bf1c-4a50c2866f0f",
+          "name": "SAFM 107.1 Adelaide",
+          "url": "https://wz5liw.scahw.com.au/live/5ssa_128.stream/playlist.m3u8",
+          "votes": 32,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "31c8fa88-bb15-11e9-acb2-52543be04c81",
+        "name": "RTRFM",
+        "url": "https://live.rtrfm.com.au/stream1",
+        "votes": 111
+      },
+      "variants": [
+        {
+          "stationuuid": "3cae3864-217f-4032-b3dc-61b0b33741f1",
+          "name": "RTRFM",
+          "url": "https://live.rtrfm.com.au/stream1",
+          "votes": 13,
+          "differs": []
+        },
+        {
+          "stationuuid": "6c01afd7-bd3f-4825-97ab-f82710b6c7e8",
+          "name": "RTR FM 92.1",
+          "url": "https://live.rtrfm.com.au/stream1",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a00fbcc2-d8e8-40df-a840-e7716a36882d",
+        "name": "Biloela 4BRZ 89.7MHz FM The Breeze Central Queensland",
+        "url": "https://s8.yesstreaming.net:17065/BrzCNQ",
+        "votes": 107
+      },
+      "variants": [
+        {
+          "stationuuid": "435ddfe4-da41-4d15-a5df-ee821f69af26",
+          "name": "The Breeze - Monto - 100.5 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17065/BrzCNQ",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "1295bd28-2441-4256-ac73-179f1e7b8d75",
+          "name": "The Breeze - Cooktown - 92.1 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17065/BrzCNQ",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4e943e9e-6466-4fbb-84f9-745662dbf04c",
+          "name": "The Breeze - Dugald River - 92.9 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17065/BrzCNQ",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d2ebafff-9b5e-4a74-aef1-4e201e52c39f",
+          "name": "The Breeze - Richmond - 104.5 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17065/BrzCNQ",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "eb2875d7-c0e6-48cf-8036-bb3a7079c06c",
+          "name": "The Breeze - Theodore - 99.5 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17065/BrzCNQ",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f4c650d0-9a03-4e06-88d8-6fb26e965a48",
+          "name": "The Breeze - Biloela - 89.7 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17065/BrzCNQ",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "997b6a5e-7cff-4245-985a-518c1effab37",
+          "name": "The Breeze - Collinsville - 90.1 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17065/BrzCNQ",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "1214d66b-9c3d-4c66-aee0-8785ffeebee7",
+          "name": "The Breeze - Cooktown - 92.1 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17065/BrzCNQ",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ba2bc59e-c141-4054-865f-4be18cf92280",
+          "name": "The Breeze - Taroom - 94.1 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17065/BrzCNQ",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "e6e05c53-a6ab-4f67-9f5c-79a0b2e47660",
+          "name": "The Breeze - Weipa - 97.7 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17065/BrzCNQ",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "349c1e42-c072-4311-8111-e8242af6af38",
+        "name": "5MBS 99.9FM",
+        "url": "https://stream.sigile.net/5mbs-128-mp3",
+        "votes": 105
+      },
+      "variants": [
+        {
+          "stationuuid": "fa50e599-af01-459e-b263-979c41305ee8",
+          "name": "5MBS",
+          "url": "https://stream.sigile.net/5mbs-128-mp3",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "49cedc35-151f-4ec7-86f8-5486224497c7",
+        "name": "ABC Radio National Live 20220701",
+        "url": "https://mediaserviceslive.akamaized.net/hls/live/2038318/rnnsw/masterhq.m3u8",
+        "votes": 100
+      },
+      "variants": [
+        {
+          "stationuuid": "b908e1ad-5a1f-4437-844a-4cc1e03864a6",
+          "name": "Radio National SA",
+          "url": "https://mediaserviceslive.akamaized.net/hls/live/2038318/rnnsw/masterhq.m3u8",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "37e6772a-5ab7-429d-84bc-fedc606cc8c4",
+        "name": "Systrum Sistum - SSR1",
+        "url": "https://systrum.net:8443/SSR1",
+        "votes": 93
+      },
+      "variants": [
+        {
+          "stationuuid": "1c3cc672-9a11-4b95-8f73-7f3d160560f3",
+          "name": "Systrum Sistum (SSR1)",
+          "url": "https://systrum.net:8443/SSR1",
+          "votes": 23,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "7d8c87e1-8cb0-4426-af4b-f18dcf19fcdd",
+          "name": "Systrum Sistum - SSR1",
+          "url": "https://systrum.net:8443/SSR1",
+          "votes": 20,
+          "differs": []
+        },
+        {
+          "stationuuid": "9fae8da3-2892-4a58-a8a7-68fe5629248f",
+          "name": "SSR1",
+          "url": "https://systrum.net:8443/SSR1",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0718374f-ed07-4131-81db-ee7b468869ae",
+        "name": "double j | aac | NSW, VIC, ACT, TAS",
+        "url": "http://live-radio01.mediahubaustralia.com/DJDW/aac/",
+        "votes": 92
+      },
+      "variants": [
+        {
+          "stationuuid": "59e28fe3-8be7-4f18-8bcf-e9ac100d0b4b",
+          "name": "Double J NSW",
+          "url": "http://live-radio01.mediahubaustralia.com/DJDW/aac",
+          "votes": 7,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4c2e615a-1cca-4017-ab9f-e9dd8dca6d71",
+        "name": "TLC FM The Lower Clarence Valley Yamba NSW Australia",
+        "url": "http://s7.viastreaming.net:8880/;?_=0.0037967189374782384",
+        "votes": 86
+      },
+      "variants": [
+        {
+          "stationuuid": "e4e110cd-9408-48e4-ac10-3ebb36435fe8",
+          "name": "TLC FM - Lower Clarence Community Radio - Yamba - 93.5 FM (AAC)",
+          "url": "http://s7.viastreaming.net:8880/;",
+          "votes": 12,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c3457e20-c5fb-4201-bc09-49d7f3745f36",
+        "name": "iHeartDance Australia (AAC)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_IHRT7AAC.aac",
+        "votes": 76
+      },
+      "variants": [
+        {
+          "stationuuid": "b05ac3ad-1635-40f7-94e8-4e9f395332a5",
+          "name": "KIIS Dance Australia (AAC+)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_IHRT7AAC.aac",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4557c3ba-42d1-4573-9bf7-fcd44c5d9de0",
+        "name": "Radio 4CC - AM 927 - Gladstone, QLD",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/GLA_4CCAAC.aac",
+        "votes": 72
+      },
+      "variants": [
+        {
+          "stationuuid": "e2daf662-7fcb-4114-b835-aae4754e2a3a",
+          "name": "4CC - Gladstone - 927 AM (AAC+)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/GLA_4CCAAC.aac",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "04d2e939-4968-47b3-8a34-e63b687dd4d6",
+        "name": "ASP Radio",
+        "url": "https://aspradio.au/listen/asp_radio/radio.mp3",
+        "votes": 63
+      },
+      "variants": [
+        {
+          "stationuuid": "e1dab346-4dc4-4724-b487-f70fc09d71b9",
+          "name": "ASP Radio",
+          "url": "https://aspradio.au/listen/asp_radio/radio.mp3",
+          "votes": 52,
+          "differs": []
+        },
+        {
+          "stationuuid": "bd64cd40-4b07-4fee-a5f1-2757c56bfa68",
+          "name": "ASP Radio",
+          "url": "https://aspradio.au/listen/asp_radio/radio.mp3",
+          "votes": 41,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b6794d5d-2053-4390-82b5-5dc750972069",
+        "name": "4zzz",
+        "url": "https://iheart.4zzz.org.au/4zzz",
+        "votes": 63
+      },
+      "variants": [
+        {
+          "stationuuid": "935d2898-5d9e-49a2-986f-f169831cfdcc",
+          "name": "4ZZZ FM",
+          "url": "https://iheart.4zzz.org.au/4zzz",
+          "votes": 34,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ffa0c0ef-c45d-42a4-9c66-01cc41c4ecb8",
+          "name": "4ZZZ - Brisbane - 102.1 FM (MP3)",
+          "url": "https://iheart.4zzz.org.au/4zzz",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "14183617-53a1-46fe-97bb-e7059b7d84af",
+          "name": "4ZZZ Community Radio",
+          "url": "https://iheart.4zzz.org.au/4zzz",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6a34086c-64e1-4f8b-981a-ae792692aabf",
+        "name": "Triple R 102.7FM",
+        "url": "https://ondemand.rrr.org.au/getstream?id=wshq",
+        "votes": 61
+      },
+      "variants": [
+        {
+          "stationuuid": "a455b3fc-fef1-4c86-b024-c2379363097b",
+          "name": "Triple R",
+          "url": "https://ondemand.rrr.org.au/getstream?id=web1",
+          "votes": 7,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8e3652ae-e6b8-47be-9cae-cda1c74afe42",
+        "name": "Australian Digital Radio Network - ABBA",
+        "url": "http://abm21.com.au:8000/CONTAINER150",
+        "votes": 58
+      },
+      "variants": [
+        {
+          "stationuuid": "0837c0f9-3d7a-41c2-82a2-69c09d3ab50b",
+          "name": "Australian Digital Radio Network - ABBA (MP3)",
+          "url": "http://abm21.com.au:8000/CONTAINER150",
+          "votes": 58,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6cccdf66-4ad0-4861-8e09-3f87eda759b6",
+        "name": "ABC 612kHz AM Brisbane QLD Queensland Local Radio 20220701",
+        "url": "https://mediaserviceslive.akamaized.net/hls/live/2038304/localbrisbane/masterhq.m3u8",
+        "votes": 58
+      },
+      "variants": [
+        {
+          "stationuuid": "eef0bb13-3c86-4ff9-9f7e-2a0610f09d1b",
+          "name": "ABC Radio Brisbane",
+          "url": "https://mediaserviceslive.akamaized.net/hls/live/2038304/localbrisbane/masterhq.m3u8",
+          "votes": 42,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f247517e-f10d-4311-817a-c8916337cabe",
+        "name": "Australian Digital Radio Network - Old Time Radio Channel 2 - Drama, Thriller (MP3)",
+        "url": "http://abm21.com.au:8000/CONTAINER3",
+        "votes": 56
+      },
+      "variants": [
+        {
+          "stationuuid": "5ea827e0-5ee5-4331-944b-fe21faa1e1ee",
+          "name": "drama, thriller     Australian Digital Radio Network Old Time Radio Channel 2",
+          "url": "http://abm21.com.au:8000/CONTAINER3",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4f7ee84f-4f8a-437f-8751-d16e42cd9ab2",
+        "name": "FSJ Radio - XRN Australia",
+        "url": "https://us01.xrn.com.au/listen/fsj/FsjSd",
+        "votes": 55
+      },
+      "variants": [
+        {
+          "stationuuid": "5ead7f57-65b6-4718-887e-153a8504eadc",
+          "name": "FSJ Radio - XRN Australia",
+          "url": "https://us01.xrn.com.au/listen/fsj/FsjSd",
+          "votes": 2,
+          "differs": []
+        },
+        {
+          "stationuuid": "c09d8b6b-b946-4d35-ad96-003496d72b4a",
+          "name": "FSJ Radio - XRN Australia",
+          "url": "https://us01.xrn.com.au/listen/fsj/FsjSd",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b762a0ce-1f90-472a-8fce-5cf9a07ed0fa",
+        "name": "The 80s iHeartRadio Australia (MP3)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_IHRT8.mp3",
+        "votes": 54
+      },
+      "variants": [
+        {
+          "stationuuid": "04af9380-a0af-4f73-8828-eeb01faa881e",
+          "name": "GOLD 104.3 (80s) - Melbourne (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_IHRT8.mp3",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "25774fe4-fce4-4cb7-914a-9098fb430aea",
+          "name": "GOLD 101.7 (80s) - Sydney (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_IHRT8.mp3",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d5366c19-e89e-4af2-8b3c-0aebec8e9267",
+        "name": "LiSTNR - Crooners & Swooners",
+        "url": "https://wz7liw.scahw.com.au/live/7croonersandswooners_128.stream/playlist.m3u8",
+        "votes": 52
+      },
+      "variants": [
+        {
+          "stationuuid": "286c3e8a-e83f-4127-ba08-dceedfb1306d",
+          "name": "LiSTNR - Crooners & Swooners",
+          "url": "https://wz7liw.scahw.com.au/live/7croonersandswooners_128.stream/playlist.m3u8",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "45ba2bed-0f35-4b87-9b0e-f57e3eb94389",
+        "name": "All Time Hits Radio Party - Melbourne (MP3)",
+        "url": "http://stream.zeno.fm/mkc0e9ymnchvv",
+        "votes": 50
+      },
+      "variants": [
+        {
+          "stationuuid": "4c85828d-f0dd-4b35-9fd4-0d11f060e181",
+          "name": "All Time Hits Party (MP3)",
+          "url": "http://stream.zeno.fm/mkc0e9ymnchvv",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "57615a7f-0363-4378-bdc4-0af49962d52a",
+          "name": "All Time Hits Party (MP3)",
+          "url": "http://stream.zeno.fm/mkc0e9ymnchvv",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fd9f32a7-e4f2-4cdd-a74f-9cf7987f42db",
+        "name": "The 90s iHeartRadio Australia (MP3)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_IHRT10.mp3",
+        "votes": 48
+      },
+      "variants": [
+        {
+          "stationuuid": "2574108a-e8bf-4530-b8bc-c6f7b009f2fe",
+          "name": "KIIS 101.1 (90s) - Melbourne (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_IHRT10.mp3",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "9fc0790e-7483-419e-b3ee-8a222b66a630",
+          "name": "KIIS 1065 (90s) - Sydney (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_IHRT10.mp3",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0719daa5-385c-42e7-8944-24ac158d6c75",
+        "name": "hit 4ROK 107.9MHz FM Rockhampton Central Queensland",
+        "url": "https://wz4liw.scahw.com.au/live/4rok_128.stream/playlist.m3u8?",
+        "votes": 47
+      },
+      "variants": [
+        {
+          "stationuuid": "0639b26d-287a-47a4-ace5-38d1fff7699c",
+          "name": "hit Central Queensland",
+          "url": "https://wz4liw.scahw.com.au/live/4rok_128.stream/playlist.m3u8",
+          "votes": 10,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "81801e2b-f650-4c2f-ab29-184450bfe0ef",
+        "name": "Australian Digital Radio Network - Old Time Radio Channel 3 - Non Fiction, Comedy, Western, History (MP3)",
+        "url": "http://abm21.com.au:8000/CONTAINER4",
+        "votes": 47
+      },
+      "variants": [
+        {
+          "stationuuid": "62964133-5f43-4268-a9e7-ad7c47bce10b",
+          "name": "non fiction, comedy, western, history       Australian Digital Radio Network Old Time Radio Channel 3",
+          "url": "http://abm21.com.au:8000/CONTAINER4",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "542ef53c-b349-4dea-9262-9b22eb91c736",
+        "name": "Vintage FM",
+        "url": "https://stream.radio.co/sd60e90ab1/listen",
+        "votes": 47
+      },
+      "variants": [
+        {
+          "stationuuid": "e695d417-1b34-4806-8acd-a4332d2437ba",
+          "name": "Vintage FM",
+          "url": "https://stream.radio.co/sd60e90ab1/listen",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1de4b695-44a5-4b01-8bb5-d0e753368d71",
+        "name": "Australian Digital Radio Network - AC/DC",
+        "url": "http://abm21.com.au:8000/CONTAINER170",
+        "votes": 46
+      },
+      "variants": [
+        {
+          "stationuuid": "a1028d8f-886d-4c9b-8cba-a388f98907c5",
+          "name": "Australian Digital Radio Network - AC/DC (MP3)",
+          "url": "http://abm21.com.au:8000/CONTAINER170",
+          "votes": 30,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4b899059-7bb3-4ed3-9345-5c432c0afe48",
+        "name": "ABC Radio South West WA",
+        "url": "http://abc.streamguys1.com/live/localsouthwestwa/icecast.audio",
+        "votes": 45
+      },
+      "variants": [
+        {
+          "stationuuid": "4fe82069-81f6-4ecd-b3d9-03d5d997e3d8",
+          "name": "ABC South West WA",
+          "url": "http://abc.streamguys1.com/live/localsouthwestwa/icecast.audio",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d9c98c8f-7f7d-40f4-8baa-2692f4691977",
+        "name": "LiSTNR - Indie & Alt",
+        "url": "https://wz7liw.scahw.com.au/live/7indieandalternative_128.stream/playlist.m3u8",
+        "votes": 44
+      },
+      "variants": [
+        {
+          "stationuuid": "2f29771d-4f89-412f-82eb-046a9c91f4d1",
+          "name": "Indie + Alt",
+          "url": "https://wz7liw.scahw.com.au/live/7indieandalternative_128.stream/playlist.m3u8?",
+          "votes": 26,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cffaa527-a90a-4042-984f-68c8444f132e",
+        "name": "4MK 1026 AM Mackay",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/MAC_4MKAAC.aac",
+        "votes": 44
+      },
+      "variants": [
+        {
+          "stationuuid": "3ad97328-255d-488b-8be7-300e1d1b3a33",
+          "name": "4MK - Mackay - 1026 AM (AAC+)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/MAC_4MKAAC.aac",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fbca431c-aaf1-406c-8d35-fab8f5cdd0a3",
+        "name": "The 80s iHeartRadio Australia (AAC+)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_IHRT8AAC.aac",
+        "votes": 43
+      },
+      "variants": [
+        {
+          "stationuuid": "cf107e3d-780a-4a12-a55b-851afd667508",
+          "name": "GOLD 101.7 (80s) - Sydney (AAC+)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_IHRT8AAC.aac",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "0d9edac7-6aa8-41f8-8bae-af672902ac22",
+          "name": "GOLD 104.3 (80s) - Melbourne (AAC+)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_IHRT8AAC.aac",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a9da9e3b-be92-4352-b88f-6738c6ff36b5",
+        "name": "Australian Digital Radio Network - Only Mozart (MP3)",
+        "url": "http://abm21.com.au:8000/CONTAINER10",
+        "votes": 42
+      },
+      "variants": [
+        {
+          "stationuuid": "9f381dd9-b4d6-48df-9fb9-e2c14cd2c8cf",
+          "name": "Only Mozart",
+          "url": "http://abm21.com.au:8000/CONTAINER10",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "fc19b74a-8447-4dd2-bf07-ab3bffe06a2d",
+          "name": "Only Mozart",
+          "url": "http://abm21.com.au:8000/CONTAINER10",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "085fcc87-1ae2-471b-9a8e-67c63fe2215d",
+        "name": "ABC Radio Perth",
+        "url": "http://live-radio01.mediahubaustralia.com/6RNW/aac",
+        "votes": 40
+      },
+      "variants": [
+        {
+          "stationuuid": "e2f06c17-6e8e-4468-8785-1f5a9e14b2c5",
+          "name": "ABC Radio Perth",
+          "url": "http://live-radio01.mediahubaustralia.com/6RNW/aac",
+          "votes": 26,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a9c9f532-408e-4d42-b9b3-c2c375bc6151",
+        "name": "Albayan Radio",
+        "url": "http://s9.viastreaming.net:9645/listen.mp3",
+        "votes": 40
+      },
+      "variants": [
+        {
+          "stationuuid": "9b706daa-14fb-4db6-9a0b-d0a140a211ed",
+          "name": "Albayan Radio",
+          "url": "http://s9.viastreaming.net:9645/listen.mp3",
+          "votes": 8,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e5cb1a01-c9bd-48cf-a8e4-d55fa16b8020",
+        "name": "Australian Digital Radio Network - Old Time Radio Channel 1 - Crime, Detective (MP3)",
+        "url": "http://abm21.com.au:8000/CONTAINER2",
+        "votes": 40
+      },
+      "variants": [
+        {
+          "stationuuid": "6732f038-995f-4828-9798-3935eee46f9c",
+          "name": "crime, detective         Australian Digital Radio Network Old Time Radio Channel 1",
+          "url": "http://abm21.com.au:8000/CONTAINER2",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9ea06b8a-f7d6-4695-9d41-17a901e2d2af",
+        "name": "hit 101.9 Fraser Coast",
+        "url": "https://wz4liw.scahw.com.au/live/4cee_128.stream/playlist.m3u8",
+        "votes": 39
+      },
+      "variants": [
+        {
+          "stationuuid": "e6e29664-2efb-43ba-bf62-980179850799",
+          "name": "hit101.9 Fraser Coast",
+          "url": "https://wz4liw.scahw.com.au/live/4cee_128.stream/playlist.m3u8",
+          "votes": 34,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "5e96a68f-6245-43a4-b92b-2222a8be714b",
+          "name": "hit 101.9 Fraser Coast",
+          "url": "https://wz4liw.scahw.com.au/live/4cee_128.stream/playlist.m3u8?listeningSessionID=638606f8054f91d9_1333854_7lWU9m5A_MTAuNzAuMS4xOA!!_00000002Iz1&downloadSessionID=0&dist=listnr-web&aw_0_1st.playerId=LiSTNR_Web_native&cb=1e9fa6d0-7c0a-11ed-83ac-73171c862f0d",
+          "votes": 13,
+          "differs": [
+            "url",
+            "bitrate",
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "053c0cbd-a378-4e47-9ba5-f8769dad6873",
+          "name": "hit 101.9 Fraser Coast",
+          "url": "https://wz4liw.scahw.com.au/live/4cee_128.stream/playlist.m3u8",
+          "votes": 11,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4488f95b-00be-4c7c-814c-565cae7941c2",
+        "name": "KIIS 1065 - Sydney - 106.5 FM (MP3)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_KIIS1065.mp3",
+        "votes": 39
+      },
+      "variants": [
+        {
+          "stationuuid": "77d4186b-f77b-46f1-bf36-011a0109ead1",
+          "name": "KIIS 1065 - Sydney - 106.5 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_KIIS1065.mp3",
+          "votes": 25,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5e1581c4-c017-4494-bf9c-f69d6a9b2e71",
+        "name": "iHeartAustralia (AAC)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_IHRT3AAC.aac",
+        "votes": 39
+      },
+      "variants": [
+        {
+          "stationuuid": "749545cb-46d2-4258-9f6c-9a1675f9a2c2",
+          "name": "KIIS Australia (AAC+)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_IHRT3AAC.aac",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "60ad428f-9a6a-4268-9676-be322e93f60e",
+        "name": "Classic Radio NSW - 1900s to 1950s (MP3)",
+        "url": "http://stream.zeno.fm/wbb1hramzd0uv",
+        "votes": 38
+      },
+      "variants": [
+        {
+          "stationuuid": "5f2c7e54-37c8-4d01-8e6b-9672962ff3a7",
+          "name": "Classic Radio NSW - 1900s to 1950s",
+          "url": "http://stream.zeno.fm/wbb1hramzd0uv",
+          "votes": 30,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4ed5306f-d8b8-47ef-83d0-ce07ac019a8d",
+        "name": "Nightride FM",
+        "url": "https://stream.nightride.fm/nightride.mp3",
+        "votes": 38
+      },
+      "variants": [
+        {
+          "stationuuid": "c231b693-d82c-4c05-9d93-a1349aee540c",
+          "name": "Nightride FM",
+          "url": "https://stream.nightride.fm/nightride.mp3",
+          "votes": 28,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a8b6d1e0-18c9-4e39-9fd5-10af4287d524",
+        "name": "LiSTNR - Noughties",
+        "url": "https://wz7liw.scahw.com.au/live/7noughties_128.stream/playlist.m3u8",
+        "votes": 38
+      },
+      "variants": [
+        {
+          "stationuuid": "32646fd7-911e-4cb0-a5bc-89ca5cb12c2d",
+          "name": "LiSTNR - Noughties",
+          "url": "https://wz7liw.scahw.com.au/live/7noughties_128.stream/playlist.m3u8",
+          "votes": 22,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f21e2ef0-536a-40f6-b10b-d765627e9fee",
+        "name": "iHeartDance Australia (MP3)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_IHRT7.mp3",
+        "votes": 38
+      },
+      "variants": [
+        {
+          "stationuuid": "b121079b-a8d6-4967-8280-b761981124d1",
+          "name": "iHeartDance Australia (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_IHRT7.mp3",
+          "votes": 19,
+          "differs": []
+        },
+        {
+          "stationuuid": "f9b8c9b1-d1f5-45b8-8955-75556c040672",
+          "name": "KIIS Dance Australia (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_IHRT7.mp3",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ac0c2151-b01e-48b4-9c6c-3858a2c99c04",
+        "name": "All Time Hits Radio Worship - Melbourne (MP3)",
+        "url": "http://stream.zeno.fm/7wt0pvuphs8uv",
+        "votes": 38
+      },
+      "variants": [
+        {
+          "stationuuid": "b8ff1973-32e4-4047-a16d-b00506c35507",
+          "name": "All Time Hits Radio Worship - Melbourne (MP3)",
+          "url": "http://stream.zeno.fm/7wt0pvuphs8uv",
+          "votes": 11,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "079a0321-e0ba-4add-9b67-21f444375668",
+        "name": "hit 103.1MHz FM Townsville QLD hitNETWORK Hits and Old Skool 20220701",
+        "url": "https://wz4liw.scahw.com.au/live/4ram_128.stream/playlist.m3u8?",
+        "votes": 38
+      },
+      "variants": [
+        {
+          "stationuuid": "a0efdb50-eb27-4ae3-8342-e3cb8b6739fa",
+          "name": "hit103.1 Townsville",
+          "url": "https://wz4liw.scahw.com.au/live/4ram_128.stream/playlist.m3u8",
+          "votes": 8,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d16bdc04-3f81-467f-88a5-e9950cb784f3",
+        "name": "4CA 846 AM CAIRNS ONLINE",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/CAI_4CAAAC.aac",
+        "votes": 38
+      },
+      "variants": [
+        {
+          "stationuuid": "4dcc21ca-7f83-4ce5-a9fb-acb24c583d04",
+          "name": "4CA - Cairns - 846 AM (AAC+)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/CAI_4CAAAC.aac",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f880343e-4f60-4fb5-9569-3b1ce6757774",
+        "name": "4RO 990 AM Rockhampton",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ROC_4ROAAC.aac",
+        "votes": 38
+      },
+      "variants": [
+        {
+          "stationuuid": "7d0f9482-bfaa-4b78-9081-05437265531b",
+          "name": "4RO - Rockhampton - 990 AM (AAC+)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ROC_4ROAAC.aac",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "371890e9-2dc2-468c-8bbc-f323f926a7dc",
+        "name": "ABC Radio National WA HLS",
+        "url": "https://mediaserviceslive.akamaized.net/hls/live/2038354/rnwa/index.m3u8",
+        "votes": 35
+      },
+      "variants": [
+        {
+          "stationuuid": "f7555a8f-3b89-4f95-8112-44b66319cb11",
+          "name": "Radio National WA",
+          "url": "https://mediaserviceslive.akamaized.net/hls/live/2038354/rnwa/index.m3u8",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f7da6ef0-5e07-4e01-b34e-e306d93863a4",
+        "name": "The 90s iHeartRadio Australia (AAC+)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_IHRT10AAC.aac",
+        "votes": 32
+      },
+      "variants": [
+        {
+          "stationuuid": "9c17c86a-a3a8-4ee7-b325-dca60d789429",
+          "name": "KIIS 101.1 (90s) - Melbourne (AAC+)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_IHRT10AAC.aac",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b77dd121-c667-4a2e-9dca-7c6f92b11158",
+          "name": "KIIS 1065 (90s) - Sydney (AAC+)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_IHRT10AAC.aac",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6a66aa84-57f2-4904-a737-af1521597f16",
+        "name": "104.1 Territory FM - Darwin - 104.1 FM (MP3)",
+        "url": "https://streaming.territoryfm.com:8443/TerritoryFM",
+        "votes": 31
+      },
+      "variants": [
+        {
+          "stationuuid": "cd338b1a-2400-4768-a5fa-115b4aff6d2c",
+          "name": "104.1 Territory FM - Darwin - 104.1 FM (MP3)",
+          "url": "https://streaming.territoryfm.com:8443/TerritoryFM",
+          "votes": 11,
+          "differs": []
+        },
+        {
+          "stationuuid": "a0b53465-58bb-4d63-a08a-f15cec9a63f5",
+          "name": "104.1 Territory FM - Darwin - 104.1 FM (MP3)",
+          "url": "https://streaming.territoryfm.com:8443/TerritoryFM",
+          "votes": 10,
+          "differs": []
+        },
+        {
+          "stationuuid": "baba31a5-ff36-43fb-a86b-5ddca4229105",
+          "name": "Territory FM Darwin",
+          "url": "https://streaming.territoryfm.com:8443/TerritoryFM",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4dfc2a8b-8766-4d38-adac-a06a459b28da",
+        "name": "2CA - Canberra - 1053 AM (MP3)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CA.mp3",
+        "votes": 31
+      },
+      "variants": [
+        {
+          "stationuuid": "f4b6f204-044d-42b6-8dbc-b6dc38deeab0",
+          "name": "2CA - 1053 AM",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CA.mp3",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "42391b1b-7bce-4b8f-9075-12558d6bd877",
+        "name": "rebel fm",
+        "url": "https://s8.yesstreaming.net:17099/RblLgn",
+        "votes": 31
+      },
+      "variants": [
+        {
+          "stationuuid": "2bd7c4f2-0c50-40de-b048-206211eb086d",
+          "name": "Rebel FM - Kooralbyn - 102.5 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblLgn",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "6f97f193-dca3-4024-b0e0-bd6f0edafd72",
+          "name": "Rebel FM - Logan - 90.5 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblLgn",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "606e04df-9d70-44bf-83b3-c3f44e53680b",
+        "name": "93.9",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/GEE_BAY939AAC.aac",
+        "votes": 30
+      },
+      "variants": [
+        {
+          "stationuuid": "6adaf8fa-c2a4-48f9-ba22-d6c363c27a13",
+          "name": "93.9 ",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/GEE_BAY939AAC.aac",
+          "votes": 30,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "9540fdde-b5bf-4531-b3d4-22ce905f0ae6",
+          "name": "93.9 ",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/GEE_BAY939AAC.aac",
+          "votes": 30,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "786d8d2f-0b9b-4cee-9da3-d692f63b08c7",
+          "name": "93.9 ",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/GEE_BAY939AAC.aac",
+          "votes": 25,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "30cbbbbc-446c-11e9-aa55-52543be04c81",
+        "name": "7HO FM Hobart",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/HOB_7HO.mp3",
+        "votes": 30
+      },
+      "variants": [
+        {
+          "stationuuid": "f08d23e8-bdf7-45f5-b68b-41ad7281bd06",
+          "name": "7HOFM - Hobart - 101.7 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/HOB_7HO.mp3",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6a22753c-5ecc-49af-aee6-c3dfd47bf1f1",
+        "name": "Nova (Taylor's Version) (MP3)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/NOVA_POPUP1.mp3",
+        "votes": 30
+      },
+      "variants": [
+        {
+          "stationuuid": "03e9d631-36a0-49d1-afca-b3a98b668f72",
+          "name": "Nova Fresh Country (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/NOVA_POPUP1.mp3",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9a678eb6-65ee-40c3-8158-23b03d1eedf1",
+        "name": "Good Vibes",
+        "url": "https://wz7liw.scahw.com.au/live/7goodvibes_128.stream/playlist.m3u8?",
+        "votes": 28
+      },
+      "variants": [
+        {
+          "stationuuid": "8f4c2360-9dd4-4c2f-a3e2-3d0b8367f327",
+          "name": "LiSTNR - Good Vibes",
+          "url": "https://wz7liw.scahw.com.au/live/7goodvibes_128.stream/playlist.m3u8",
+          "votes": 23,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "034aab31-43f2-41ca-b09c-ec23c8a57ffd",
+        "name": "iHeartAustralia (MP3)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_IHRT3.mp3",
+        "votes": 27
+      },
+      "variants": [
+        {
+          "stationuuid": "9153da21-e652-4d9d-880f-edab06aee2d5",
+          "name": "KIIS Australia (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_IHRT3.mp3",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f919b900-be81-4fd8-a3de-6132b9f2620b",
+        "name": "90.1 NBC FM - Narwee - 90.1 FM (AAC)",
+        "url": "https://studio.901nbcfm.com.au:8902/newstream",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "2b0f66d1-d459-44ae-8dad-383625816284",
+          "name": "90.1 NBC FM - Narwee - 90.1 FM (MP3)",
+          "url": "https://studio.901nbcfm.com.au:8902/newstream",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8f3323ed-ed03-48e4-8cac-d5956096feb7",
+        "name": "Glenwood Gurudwara Live Sydney Australia ",
+        "url": "http://radio2.sikhnet.com:8047/live",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "6b29239e-051a-4e07-ba79-b0658e505a7f",
+          "name": "Guy Glenwood Sydney ",
+          "url": "http://radio2.sikhnet.com:8047/live",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7d26eaef-54ec-4a6c-ba91-e1f49b4403fa",
+        "name": "Australian Digital Radio Network - Blues and Soul (MP3)",
+        "url": "http://abm21.com.au:8000/CONTAINER118",
+        "votes": 25
+      },
+      "variants": [
+        {
+          "stationuuid": "657bf3a6-077b-4239-9cef-22a2f9caebcf",
+          "name": "Radio Sydney - Blues and Soul",
+          "url": "http://abm21.com.au:8000/CONTAINER118",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c43feb7e-8b6d-4c15-b7f0-808b6b722382",
+        "name": "Treasure Emporium Christmas Radio - Central Coast (MP3)",
+        "url": "http://stream.zeno.fm/gker4h42c48uv",
+        "votes": 24
+      },
+      "variants": [
+        {
+          "stationuuid": "77290e0b-32f6-4658-b7b0-fe4f63db2700",
+          "name": "Treasure Emporium Christmas Radio (MP3)",
+          "url": "http://stream.zeno.fm/gker4h42c48uv",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5238dc3d-ce5a-4f42-8ca0-a4f3bb97b583",
+        "name": "2XXfm 98.3 - Canberra's Oldest Community Radio Station",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2XXAAC.aac",
+        "votes": 23
+      },
+      "variants": [
+        {
+          "stationuuid": "570fd21b-d8d9-42cb-aa54-d76009857495",
+          "name": "2XX - Canberra - 98.3 FM (AAC)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2XXAAC.aac",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c8004914-40ad-429a-b29f-4caaaf63b18c",
+          "name": "2XXfm 98.3 - Canberra's Oldest Community Radio Station",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2XXAAC.aac",
+          "votes": 8,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8618c655-29cf-4bd4-a00c-e63bcedc47e8",
+        "name": "TheLight Worship",
+        "url": "https://stream.thelight.com.au:8160/stream/",
+        "votes": 23
+      },
+      "variants": [
+        {
+          "stationuuid": "dcaf26a9-dfb3-42e3-b023-f6852fa8be2f",
+          "name": "TheLight Worship",
+          "url": "https://stream.thelight.com.au:8160/stream/",
+          "votes": 10,
+          "differs": []
+        },
+        {
+          "stationuuid": "6370afd4-5904-463b-a7bb-bf87e8d65430",
+          "name": "TheLight Worship",
+          "url": "https://stream.thelight.com.au:8160/stream/",
+          "votes": 8,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "57971254-dfe8-475e-bf06-ce3b1d48a764",
+        "name": "Newy 87.8 FM - Newcastle - 87.8 FM (MP3)",
+        "url": "https://radio.newy.com.au:8888/radio",
+        "votes": 21
+      },
+      "variants": [
+        {
+          "stationuuid": "4603dd9e-6a09-4527-9d83-ffc89b44f172",
+          "name": "Newy 87.8 FM - Newcastle - 87.8 FM (MP3)",
+          "url": "https://radio.newy.com.au:8888/radio",
+          "votes": 14,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4c951bc2-622c-4c19-b239-abeebd3256bd",
+        "name": "Gold Central Victoria",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/BEN_GOLDAAC.aac",
+        "votes": 20
+      },
+      "variants": [
+        {
+          "stationuuid": "8f634a75-5c70-4dea-904d-ab2dd453d65c",
+          "name": "Gold Central Victoria - Bendigo / Central Victoria - 98.3 FM / 1071 AM (AAC+)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/BEN_GOLDAAC.aac",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "15bf8ba3-8a58-4d1c-a874-2efe8f7ee62b",
+        "name": "JOY 94.9 Out Loud Proud",
+        "url": "https://stream.joy.org.au/proxy/joy949?mp=/live",
+        "votes": 19
+      },
+      "variants": [
+        {
+          "stationuuid": "24593ecf-273b-45e7-9a19-e929dceba9fc",
+          "name": "JOY 94.9",
+          "url": "https://stream.joy.org.au/proxy/joy949?mp=/live",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "32f65eaa-cd71-4d34-bbe5-7b9ac9152963",
+        "name": "The Breez 102.5 Wide Bay",
+        "url": "https://s8.yesstreaming.net:17099/BrzWB",
+        "votes": 19
+      },
+      "variants": [
+        {
+          "stationuuid": "05bb410a-6483-436b-916c-ac431209161f",
+          "name": "The Breeze - Wide Bay - 102.5 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/BrzWB",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e0fd933b-d746-45ee-aeed-f7df53661d27",
+        "name": "Rebel FM 106.7 Rocks Wide Bay",
+        "url": "https://s8.yesstreaming.net:17099/RblCNQ",
+        "votes": 18
+      },
+      "variants": [
+        {
+          "stationuuid": "608f9c47-619f-4de6-a8a8-ec6771fc1c63",
+          "name": "Rebel FM - Karumba - 98.1 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblCNQ",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "fb3eb76f-3a5d-4c2b-99fc-c5132866647f",
+          "name": "Rebel FM - Century Mine - 104.9 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblCNQ",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "148a8aa2-cbf7-40f5-9eb5-d77e3b27ae30",
+          "name": "Rebel FM - Richmond - 99.7 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblCNQ",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "a0385b03-7778-40f8-8a19-1921236a8dcb",
+          "name": "Rebel FM - Normanton - 101.7 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblCNQ",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f8ad8328-5d26-45a4-a330-e3b2bdae6dd7",
+          "name": "Rebel FM - Alpha - 95.9 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblCNQ",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "a5fb270c-71c4-4404-b853-9cf37be144ca",
+          "name": "Rebel FM - Collinsville - 94.9 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblCNQ",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "fec79c05-f091-45ec-aebd-24652f41a159",
+          "name": "Rebel FM - Dugald River - 94.5 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblCNQ",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "41f4bfda-5825-487a-9d4e-82b294e04dac",
+          "name": "Rebel FM - Weipa - 96.1 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblCNQ",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "42ce28ca-522c-4c0d-abc1-fa0cef330579",
+          "name": "Rebel FM - Biloela - 88.9 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblCNQ",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8abd6509-2d36-4ba3-bc04-3d3c8ffdec77",
+          "name": "Rebel FM - Cooktown - 93.7 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblCNQ",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "22afa127-172d-4bac-9235-8f6609baae39",
+          "name": "Rebel FM - Julia Creek - 99.5 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblCNQ",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c298f34b-bd3a-44c1-ae9f-af492509842d",
+          "name": "Rebel FM - Monto - 105.1 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblCNQ",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "015e07b5-e32b-47e2-bb05-7b1b8aa0db16",
+          "name": "Rebel FM - Taroom - 92.5 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblCNQ",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "cc2f4eae-6e9e-4965-a6ab-41471f503908",
+          "name": "Rebel FM - Theodore - 94.7 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblCNQ",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2abad990-b504-4af6-a37a-7cec21db7757",
+        "name": "Sea FM 90.9 Gold Coast",
+        "url": "https://wz4liw.scahw.com.au/live/4sea_128.stream/playlist.m3u8",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "d0a91f34-ac8f-45ff-88e6-2ecbc47a676a",
+          "name": "Sea FM 90.9 Gold Coast",
+          "url": "https://wz4liw.scahw.com.au/live/4sea_128.stream/playlist.m3u8",
+          "votes": 16,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e49e67b7-d486-4c50-947e-6744a6bfb201",
+        "name": "QBN FM - Queanbeyan - 96.7 FM",
+        "url": "http://streaming.qbn967.com.au:8000/stream/",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "26111e1d-faa4-4463-8ab5-9d6edd52c74b",
+          "name": "QBN FM - 96.7 FM",
+          "url": "http://streaming.qbn967.com.au:8000/stream/",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "947b900d-e401-43da-bd8e-d8cbd93cacbd",
+          "name": "QBN FM - 96.7 FM",
+          "url": "http://streaming.qbn967.com.au:8000/stream/",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3d6cf1b8-0649-4ce6-8b1d-a4a983df2d20",
+        "name": "UCFM 87.8 - Canberra - 87.8 FM (MP3)",
+        "url": "http://www.radioking.com/play/ucfm/631505",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "dd775b21-365c-4789-94b5-b9d967916990",
+          "name": "UCFM - Canberra - 87.8 FM (MP3)",
+          "url": "http://www.radioking.com/play/ucfm/631505",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4bbab618-32ac-4a2c-b48a-1b75663c648a",
+        "name": "Rebel 99.4 Gold Coast",
+        "url": "https://s8.yesstreaming.net:17099/RblGC",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "08b3ebc6-5412-4eef-b2eb-af902704068a",
+          "name": "Rebel FM - Gold Coast - 99.4 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblGC",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8945df15-497e-45ca-9e15-75ebe0e4e0c4",
+          "name": "Rebel FM - Canungra - 93.7 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblGC",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a232b3dd-1968-4a1b-a4c5-40cdd634ff34",
+        "name": "2MNO Monaro FM - 90.5 FM",
+        "url": "http://220.233.66.253:88/broadwave.mp3",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "27631371-5b01-4c5a-b671-bc90a17e580c",
+          "name": "2MNO Monaro FM - Cooma - 90.5 FM",
+          "url": "http://220.233.66.253:88/broadwave.mp3",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4d8d51e8-5370-49b5-b79d-e9c3fbe4ab85",
+        "name": "Australian Digital Radio Network - Midnight Oil (MP3)",
+        "url": "http://abm21.com.au:8000/CONTAINER176",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "3734ea48-2ef8-434e-a3d0-b30430e41bcc",
+          "name": "Midnight Oil",
+          "url": "http://abm21.com.au:8000/CONTAINER176",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "7656f0a9-b654-43fd-8700-0e10e48e60fd",
+          "name": "Midnight Oil",
+          "url": "http://abm21.com.au:8000/CONTAINER176",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b0df6818-9094-4696-af43-f6aef849f0e2",
+        "name": "2CC - 1206 AM",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CCAAC.aac",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "ea417a91-b3f4-4b7b-8b67-be65e2c6c652",
+          "name": "2CC - Canberra - 1206 AM (AAC)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CCAAC.aac",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "03c8bf97-491e-443b-9fc3-a5f96acf1c64",
+        "name": "Star 104.5",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/STARFM_AAC48.aac",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "e283daf7-b48b-4c84-873f-d9f25256f073",
+          "name": "Star 104.5 - Gosford - 104.5 FM (AAC 48k)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/STARFM_AAC48.aac",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2c315e40-2e19-44d3-80d5-2e94e8bc8e01",
+        "name": "ACBC Australia - Perth (MP3)",
+        "url": "http://stream.zeno.fm/sn6k2nbct1wvv",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "ffa057aa-1bc3-4b5b-8396-9ea56822f549",
+          "name": "ACBC Australia - Perth (MP3)",
+          "url": "http://stream.zeno.fm/sn6k2nbct1wvv",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dacf0883-9637-4abb-833a-123a5ab5290b",
+        "name": "Radio 1629 AM - Newcastle - 1629 AM (AAC)",
+        "url": "http://173.255.143.170:8007/stream",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "4aa2a33f-512a-406b-9e4d-3d15bd301217",
+          "name": "Radio 1629 AM - Newcastle - 1629 AM (MP3)",
+          "url": "http://173.255.143.170:8007/stream",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f83adb39-7daf-44dc-ad88-33779ac39b97",
+        "name": "Hit104.7 Canberra - 104.7 FM",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_1047HIT.mp3",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "1033ea3f-1439-40a7-bcbc-a6af6612ec24",
+          "name": "Hit104.7 Canberra - 104.7 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_1047HIT.mp3",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "21409826-c463-4d25-8f30-aaffdbb4b43a",
+        "name": "Gympie's Positive 91FIVE - Gympie - 91.5 FM (AAC+)",
+        "url": "http://s2.stationplaylist.com:7082/listen.aac",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "dfc032b9-6fc1-45e4-babc-cecd4631bc8f",
+          "name": "Positive 91FIVE - Gympie - 91.5 FM (AAC)",
+          "url": "http://s2.stationplaylist.com:7082/listen.aac",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "76f8ff38-a456-4375-8e30-83c6d2f4694a",
+        "name": "LiSTNR - Homegrown",
+        "url": "https://wz7liw.scahw.com.au/live/7homegrown_128.stream/playlist.m3u8",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "4d5bf259-3025-4fc3-9f59-9262d82cd9aa",
+          "name": "LiSTNR - Homegrown",
+          "url": "https://wz7liw.scahw.com.au/live/7homegrown_128.stream/playlist.m3u8",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "496d48c0-3a75-4306-9b71-736ec723ed6e",
+        "name": "Star 104.5 - Gosford - 104.5 FM (AAC 320k)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/STARFM_AAC320.aac",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "da6bcf24-c165-4050-bdbb-e53d33e3ae3d",
+          "name": "Star 104.5 - Gosford - 104.5 FM (AAC 128k)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/STARFM_AAC320.aac",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "341dc11d-6489-463d-8e38-283ddac75981",
+        "name": "Mix 106.3 Canberra - 106.3 FM",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_MIX1063.mp3",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "365a7cfd-a737-4fac-afa5-a4e5e8d12900",
+          "name": "Mix 106.3 - Canberra - 106.3 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_MIX1063.mp3",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d6ac8646-f003-4fde-922c-90bea9d6f008",
+          "name": "Mix 106.3 Canberra - 106.3 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_MIX1063.mp3",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0ea641ca-6eb1-493d-a264-03d90138d9d4",
+        "name": "hit93.1 Riverina",
+        "url": "https://wz2liw.scahw.com.au/live/2wzd_128.stream/playlist.m3u8",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "d43f21ef-0b2a-48d7-9e93-ff66901fd167",
+          "name": "Hit 93.1",
+          "url": "https://wz2liw.scahw.com.au/live/2wzd_128.stream/playlist.m3u8?",
+          "votes": 9,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3d360d4c-c45d-4626-bd3a-8a0bb7cc317d",
+        "name": "90.1 Happy Fm",
+        "url": "https://stream.sigile.net/happyfm-128-mp3?1692452622660",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "27e2d732-2afd-4378-a926-e24e6fcbd291",
+          "name": "90.1 Happy FM",
+          "url": "https://stream.sigile.net/happyfm-128-mp3?1692452622660",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "28c83847-fa26-499a-b3a6-48f38c8a49bf",
+        "name": "Radio Adelaide 101.5",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_ADEAAC.aac",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "e7af126a-b5ee-49ca-826f-13ccb2911cea",
+          "name": "RADIO ADELAIDE",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_ADEAAC.aac",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fc9d83cc-7166-4a8f-a0e6-1b8e432b5bcb",
+        "name": "Station X - XRN Australia",
+        "url": "https://us01.xrn.com.au/listen/stx/StxSd",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "19b4f64b-3983-4493-85f8-c4e6d7778e63",
+          "name": "Station X - XRN Australia",
+          "url": "https://us01.xrn.com.au/listen/stx/StxSd",
+          "votes": 4,
+          "differs": []
+        },
+        {
+          "stationuuid": "f32041fb-e3c6-4efa-a9bc-3a6ee961bbe3",
+          "name": "Station X - XRN Australia - SD",
+          "url": "https://us01.xrn.com.au/listen/stx/StxSd",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bb5dd6e8-aa4e-4af6-a631-bceae91f7fd5",
+        "name": "Triple A FM - Wagga Wagga - 107.1 FM (MP3)",
+        "url": "http://stream.mjm-webhosting.com.au:8040/;",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "8d2fb38c-c7c7-4da0-b7b0-2ab06e248e33",
+          "name": "Triple A FM - Wagga Wagga - 107.1 FM (MP3)",
+          "url": "http://stream.mjm-webhosting.com.au:8040/;",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "be0c2f14-e44a-49c3-a38c-fb27d52fdc39",
+        "name": "XLFM - Cooma - 96.1 FM (AAC)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/XLFMAAC.aac",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "5686a02a-1a43-4ed3-b44c-9428941e9bf2",
+          "name": "XLFM - Cooma - 96.1 FM (AAC)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/XLFMAAC.aac",
+          "votes": 10,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "af0d8541-ceac-45a1-9e9f-39978ba6aa40",
+        "name": "Australian Digital Radio Network - Radio Adelaide (MP3)",
+        "url": "http://abm22.com.au:8000/CONTAINER138",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "294315a6-8485-4db9-bbea-e98b93e99b2f",
+          "name": "Australian Digital Radio Network - Radio Adelaide",
+          "url": "http://abm22.com.au:8000/CONTAINER138",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e85c06f5-4adc-48a7-a9d7-87b2a91de9be",
+        "name": "ABC Radio Hobart",
+        "url": "http://abc.streamguys1.com/live/localhobart/icecast.audio",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "e09be200-3702-4fb4-bc96-edf8a11a9b38",
+          "name": "ABC Radio Hobart",
+          "url": "http://abc.streamguys1.com/live/localhobart/icecast.audio",
+          "votes": 6,
+          "differs": []
+        },
+        {
+          "stationuuid": "fd4b1e6c-ce45-4201-ba08-820079321972",
+          "name": "Anthony Borghesi",
+          "url": "http://abc.streamguys1.com/live/localhobart/icecast.audio",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "499abb39-c338-45f1-ba39-b0890a58df73",
+        "name": "Hot 100 - Darwin - 100.1 FM",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/DAR_HOT100.mp3",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "e0019fc6-41ea-4e6e-a5e0-9a863fa815ad",
+          "name": "Hot 100 - Darwin - 100.1 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/DAR_HOT100.mp3",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96014199-3465-4d0c-8e60-a2e58e32f7f4",
+        "name": "DCFM 88.9 - Dubbo - 88.9 FM (AAC)",
+        "url": "http://cast1.asurahosting.com/proxy/dcfmandr/stream",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "1231a0a3-b72a-4297-aa18-8c82b1d0f51f",
+          "name": "DCFM 88.9 - Dubbo - 88.9 FM (AAC)",
+          "url": "http://cast1.asurahosting.com/proxy/dcfmandr/stream",
+          "votes": 10,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "617cdb9a-2aa8-4238-b019-b73c096c8766",
+        "name": "Chilli FM",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/LAU_CHILLI.mp3",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "9317e043-9a0d-4d7b-934b-f090538049ac",
+          "name": "Chilli FM - Launceston - 90.1 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/LAU_CHILLI.mp3",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4409cd16-99c7-44d8-ae8f-15ffba826b5c",
+        "name": "hit 95.1 Maranoa",
+        "url": "https://wz4liw.scahw.com.au/live/4rgd_128.stream/playlist.m3u8",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "7c722051-a6da-4350-9c3c-606036717592",
+          "name": "hit100.7 Darling Downs",
+          "url": "https://wz4liw.scahw.com.au/live/4rgd_128.stream/playlist.m3u8",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d57e6592-dab1-46f6-929a-e53ef91a02be",
+          "name": "hit89.1 South Burnett",
+          "url": "https://wz4liw.scahw.com.au/live/4rgd_128.stream/playlist.m3u8",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b4144354-74ee-4f0f-85ae-fcdd8773c278",
+        "name": "Northside Radio 99.3",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/2NSBAAC.aac?_=1",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "7d36d699-ae48-47d2-90db-ef7e32d7e4f0",
+          "name": "Northside Radio 99.3",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/2NSBAAC.aac?_=1",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b8af373a-f485-41e0-89ba-0c83c35e65f7",
+        "name": "Australian Digital Radio Network - Alan Jackson",
+        "url": "http://abm22.com.au:8000/CONTAINER108",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "677682a2-4cb3-4214-8712-06a256fa1fc0",
+          "name": "Australian Digital Radio Network - Alan Jackson (MP3)",
+          "url": "http://abm22.com.au:8000/CONTAINER108",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0f35fa3a-100f-40b7-8728-ac6769993c92",
+        "name": "hit Wheatbelt",
+        "url": "https://wz6liw.scahw.com.au/live/6nam_128.stream/playlist.m3u8",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "f4aef07b-fd97-49e9-aaa0-c6059354c309",
+          "name": "hit Great Southern",
+          "url": "https://wz6liw.scahw.com.au/live/6nam_128.stream/playlist.m3u8",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c3674ebe-d423-4a99-80ed-ac091c5d055a",
+        "name": "Eastside Radio 89.7FM",
+        "url": "https://streamer.eastsidefm.org/stream",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "cf202500-6e8d-4e8f-bdb5-8cb7a2fbea7f",
+          "name": "Eastside Radio 89.7FM",
+          "url": "https://streamer.eastsidefm.org/stream",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "50568f43-863e-45ae-8a65-6d638cb6c4cc",
+        "name": "hit 96.9 Goulburn Valley",
+        "url": "https://wz3liw.scahw.com.au/live/3sun_128.stream/playlist.m3u8",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "29f50771-75d9-4dcb-8ff3-c79b0c41cc09",
+          "name": "hit Goulburn Valley",
+          "url": "https://wz3liw.scahw.com.au/live/3sun_128.stream/playlist.m3u8",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "72d06ccb-7f32-4b1e-b198-de3f3e25069b",
+        "name": "MAINfm",
+        "url": "http://s1.communitybroadcastnetwork.com.au:8000/MAINFM/stream",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "ee158645-d03a-4b4a-8234-b603ce1b6a41",
+          "name": "Main FM Castlemaine",
+          "url": "http://s1.communitybroadcastnetwork.com.au:8000/MAINFM/stream",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "70e68668-3d85-45a3-ad5b-5ebb21e0bb83",
+          "name": "MainFM - Castlemaine - 94.9 FM (MP3)",
+          "url": "http://s1.communitybroadcastnetwork.com.au:8000/MAINFM/stream",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bba6aaf9-e2b1-4158-95c7-0ed66ec5212d",
+        "name": "Triple T - Townsville - 103.9 FM (MP3)",
+        "url": "http://159.196.29.55:7000/TripleTFM",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "e2564960-1863-4d26-ad6c-d68ae3b0b9ac",
+          "name": "triple t Townsville",
+          "url": "http://159.196.29.55:7000/TripleTFM",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b4056d58-bc8f-4705-bdf1-3cb40ce96d40",
+        "name": "The Breeze - Gold Coast - 100.6 FM (AAC)",
+        "url": "https://s8.yesstreaming.net:17065/BrzGC",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "ec62d784-c11f-4dda-8c15-04b2013cc3cd",
+          "name": "The Breeze - Canungra - 92.9 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17065/BrzGC",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "438144c7-adef-4aa1-9420-2b523541d390",
+        "name": "Totally Radio (MP3)",
+        "url": "http://stream.zeno.fm/76ehbdmxtzutv",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "4fee4308-0df3-4093-a392-15e63bdf4faa",
+          "name": "Totally Radio (MP3)",
+          "url": "http://stream.zeno.fm/76ehbdmxtzutv",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4e9ee22a-e20f-4969-b3dc-4773b646a7ad",
+        "name": "Apple - Bacchus Marsh - 98.5 FM (MP3)",
+        "url": "http://s23.myradiostream.com:13240/;",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "2dc8495a-b4fc-4ef1-9ff1-4aeead816617",
+          "name": "Apple 98.5 FM Bacchus Marsh",
+          "url": "http://s23.myradiostream.com:13240/;",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6c56ca4b-5b65-4e4d-9cdb-2dea332a6e3a",
+        "name": "Australian Digital Radio Network - Dance (MP3)",
+        "url": "http://abm22.com.au:8000/CONTAINER52",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "57985c7e-b85a-4fe0-8dec-1d6e82b412b4",
+          "name": "Australian Digital Radio Network - Party Mix 1 (MP3)",
+          "url": "http://abm22.com.au:8000/CONTAINER52",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c5963658-bef9-4df0-b36f-ff68d90164e8",
+        "name": "Christmas Hope (MP3 80k)",
+        "url": "https://stream.hopemedia.com.au/christmashope-mp3",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "d9da6536-2a06-45cb-9a73-1a901d4d4a05",
+          "name": "Christmas Hope (MP3 80k)",
+          "url": "https://stream.hopemedia.com.au/christmashope-mp3",
+          "votes": 5,
+          "differs": []
+        },
+        {
+          "stationuuid": "8ce4edaa-3d1d-43a0-a253-d2ab1dc1d59d",
+          "name": "Christmas Hope (MP3 80k)",
+          "url": "https://stream.hopemedia.com.au/christmashope-mp3",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e536ad8a-3f2a-407e-95ff-26732b47df22",
+        "name": "2CBD FM - Glen Innes - 105.9 FM (AAC+)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CBDAAC.aac",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "a3bf209a-6d94-4204-9258-37cff93cb234",
+          "name": "2CBD FM - Glen Innes - 105.9 FM (AAC+)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CBDAAC.aac",
+          "votes": 2,
+          "differs": []
+        },
+        {
+          "stationuuid": "8670730e-b548-4a37-a1f7-9b3b08230c79",
+          "name": "2CBD FM - Glen Innes - 105.9 FM (AAC+)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CBDAAC.aac",
+          "votes": 2,
+          "differs": []
+        },
+        {
+          "stationuuid": "fe48a1f1-30e4-4991-b677-37cae87f07fe",
+          "name": "2CBD FM - Glen Innes - 105.9 FM (AAC+)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CBDAAC.aac",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "f615635d-da20-44d8-b351-20e855593498",
+          "name": "2CBD FM - Glen Innes - 105.9 FM (AAC+)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CBDAAC.aac",
+          "votes": 0,
+          "differs": []
+        },
+        {
+          "stationuuid": "6e2f0bbc-478e-496d-96ae-cf3bb7519302",
+          "name": "2CBD FM - Glen Innes - 105.9 FM (AAC+)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CBDAAC.aac",
+          "votes": 0,
+          "differs": []
+        },
+        {
+          "stationuuid": "95d67d43-7094-46d7-9b70-86b0ec11b1f7",
+          "name": "2CBD FM - Glen Innes - 105.9 FM (AAC+)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CBDAAC.aac",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "52c3078f-027b-42ef-93ab-f7b307b61fa3",
+        "name": "LiSTNR - Stress Free",
+        "url": "https://wz7liw.scahw.com.au/live/7stressfree_128.stream/playlist.m3u8",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "f2d06c45-c7b3-4ea8-9174-ba658e801872",
+          "name": "LiSTNR - Stress Free",
+          "url": "https://wz7liw.scahw.com.au/live/7stressfree_128.stream/playlist.m3u8",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "80646520-ef8c-40dd-be28-084090a87db5",
+        "name": "Australian Digital Radio Network - Radio Hobart (MP3)",
+        "url": "http://abm22.com.au:8000/CONTAINER137",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "00fa4832-cfc3-400a-8411-5ce6e3cda430",
+          "name": "Australian Digital Radio Network - Radio Hobart",
+          "url": "http://abm22.com.au:8000/CONTAINER137",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "230c7491-b085-40e5-9e76-6b7cd4554637",
+        "name": "Ten FM - Tenterfield - 89.7 FM (AAC+)",
+        "url": "https://stream.tcom.net.au/2ten",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "9e200b25-e1e3-4b70-a444-bec1e3cf05e5",
+          "name": "Ten FM - Tenderfield - 89.7 FM (AAC+)",
+          "url": "https://stream.tcom.net.au/2ten",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1e4fbd98-56ae-4ae0-9ac1-c7b9b464b881",
+        "name": "Triple A FM - Wagga Wagga - 107.1 FM (HTTP) (MP3)",
+        "url": "http://stream.tripleafm.com.au//",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "dec2a953-3338-4ca2-b8eb-dc577c8dca98",
+          "name": "Triple A FM - Wagga Wagga - 107.1 FM (MP3)",
+          "url": "http://stream.tripleafm.com.au//",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "48733b19-b758-492d-b64b-fa0767c05b31",
+        "name": "Australian Digital Radio Network - Radio Canberra",
+        "url": "http://abm22.com.au:8000/CONTAINER136",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "b99c5dfd-8896-4701-a88d-3a3837df9224",
+          "name": "Australian Digital Radio Network - Radio Canberra (MP3)",
+          "url": "http://abm22.com.au:8000/CONTAINER136",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2c96dcf0-4e9f-447c-a1e1-192d48190d85",
+        "name": "Australian Digital Radio Network - Radio Perth (MP3)",
+        "url": "http://abm22.com.au:8000/CONTAINER139",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "c8d4033d-b21c-4a95-a2dc-307511a0139a",
+          "name": "Australian Digital Radio Network - Radio Perth",
+          "url": "http://abm22.com.au:8000/CONTAINER139",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1e478ec9-b591-4cf6-b273-344c7af22a58",
+        "name": "Australian Digital Radio Network - Radio Sydney (MP3)",
+        "url": "http://abm21.com.au:8000/CONTAINER29",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "f0577992-3c7b-4245-b447-bbaf8dcb0bbd",
+          "name": "Australian Digital Radio Network - Pop (MP3)",
+          "url": "http://abm21.com.au:8000/CONTAINER29",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "459a6c13-6cff-45aa-a799-28c2cdbec339",
+          "name": "Australian Digital Radio Network - Pop Master Mix (MP3)",
+          "url": "http://abm21.com.au:8000/CONTAINER29",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6193109f-1a35-40e3-8f14-956b7e401800",
+        "name": "Christmas Hope",
+        "url": "https://stream.hopemedia.com.au/christmashope",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "35fe14d9-8d1a-40c4-bb56-b82bb4c672d9",
+          "name": "Christmas Hope (AAC+ 64k)",
+          "url": "https://stream.hopemedia.com.au/christmashope",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ce24066c-1f88-4d10-bd93-c2191e3572d3",
+        "name": "DooshFM",
+        "url": "https://a9.asurahosting.com:7050/stream",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "0f55ae76-2f7d-4e0f-9949-5199a74ad858",
+          "name": "DooshFM",
+          "url": "https://a9.asurahosting.com:7050/stream",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "10552471-1f9c-4486-b7b9-93987ddd37ad",
+        "name": "Golden Days Radio",
+        "url": "https://a2.asurahosting.com:6350/radio.aac",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "a8e255c7-420d-4559-8ca4-5d82c04e8be6",
+          "name": "Golden Days Radio",
+          "url": "https://a2.asurahosting.com:6350/radio.aac",
+          "votes": 3,
+          "differs": []
+        },
+        {
+          "stationuuid": "57b20175-9c52-4974-82e8-b0da435a313b",
+          "name": "Golden Days Radio",
+          "url": "https://a2.asurahosting.com:6350/radio.aac",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5da51426-5227-4df1-9325-0d2182c7d67c",
+        "name": "Your Hits Radio",
+        "url": "http://stream.zeno.fm/htcnnynw5fhvv",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "863946fb-12a5-4cc0-9069-c2f98936c445",
+          "name": "Your Hits Radio (MP3)",
+          "url": "http://stream.zeno.fm/htcnnynw5fhvv",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3d812836-f2f7-4a38-8c74-fe957199859d",
+        "name": "Australian Digital Radio Network - Radio Melbourne",
+        "url": "http://abm22.com.au:8000/CONTAINER140",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "2db77c5d-4cc6-4c2e-be88-46bd566cf6af",
+          "name": "Australian Digital Radio Network - Radio Melbourne (MP3)",
+          "url": "http://abm22.com.au:8000/CONTAINER140",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b0c170c7-28ca-4930-bd71-c2edc2f2e0ec",
+        "name": "Australian Digital Radio Network - Country (MP3)",
+        "url": "http://abm21.com.au:8000/CONTAINER140",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "fa256700-4696-493f-ae83-1867a0ca486c",
+          "name": "Australian Digital Radio Network - Country - Mix (MP3)",
+          "url": "http://abm21.com.au:8000/CONTAINER140",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b40fc816-4601-42c0-a980-cd3e25d66c66",
+        "name": "Mix 106.3 - Canberra - 106.3 FM (AAC)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_MIX1063AAC.aac",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "d7078dd5-8522-4d5c-92d3-463d82b65cd8",
+          "name": "Mix 106.3 Canberra - 106.3 FM (AAC)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_MIX1063AAC.aac",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5d046ad3-9927-4c0c-b0c3-36ae431d2efa",
+        "name": "Valley FM - 89.5 FM",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/1VFM.mp3",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "5e206f9c-35ab-490e-a626-7a2c040c20d7",
+          "name": "Valley FM - Tuggeranong - 89.5 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/1VFM.mp3",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "0f8e48ef-48dc-4f6a-889b-aad2af1c8566",
+          "name": "Valley FM - Tuggeranong - 89.5 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/1VFM.mp3",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "1e0a2c25-259b-4895-958f-6fde4a27edb4",
+          "name": "Valley FM - Tuggeranong - 89.5 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/1VFM.mp3",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "945cb993-d8ad-4584-bbbe-bfaf3ef65ec0",
+          "name": "Valley FM - Tuggeranong - 89.5 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/1VFM.mp3",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1bb2ff76-e32b-43ec-9b90-99af5108e167",
+        "name": "4RR - Charleville - 105.7 FM (Transmission) (MP3)",
+        "url": "http://azure.bullantcomm.com:8030/Transmission",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "e97624f6-c5e7-429c-8ff4-52cc265b142e",
+          "name": "4RR FM - Charleville - 105.7 FM (Transmission) (MP3)",
+          "url": "http://azure.bullantcomm.com:8030/Transmission",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7ca5d959-37f3-42a6-837c-ac779208be15",
+        "name": "Alive 90.5 - Parramatta - 90.5 FM (AAC)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CCRAAC.aac",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "a4dea563-28ea-4981-ba5d-1d97d6b3e940",
+          "name": "Alive 90.5 - Parramatta - 90.5 FM (AAC)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CCRAAC.aac",
+          "votes": 3,
+          "differs": []
+        },
+        {
+          "stationuuid": "cdbe0a98-ed37-4cc3-9ae3-81fce91ddca3",
+          "name": "Alive 90.5 - Parramatta - 90.5 FM (AAC)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CCRAAC.aac",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "abf200e9-56c8-442e-b349-dc4aecddccfa",
+        "name": "Mix 104.9 - Darwin - 104.9 FM (MP3)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/DAR_MIX1049.mp3",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "6797cd21-fd51-4bc9-80e8-0b599f90beae",
+          "name": "Mix 104.9 - Darwin - 104.9 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/DAR_MIX1049.mp3",
+          "votes": 3,
+          "differs": []
+        },
+        {
+          "stationuuid": "28a37783-ee38-4037-bffd-f6a8477a9b25",
+          "name": "Mix 104.9 - Darwin - 104.9 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/DAR_MIX1049.mp3",
+          "votes": 3,
+          "differs": []
+        },
+        {
+          "stationuuid": "a5f56ff5-1607-4cee-8a3e-99203d1dfe9d",
+          "name": "Mix 104.9 - Darwin - 104.9 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/DAR_MIX1049.mp3",
+          "votes": 2,
+          "differs": []
+        },
+        {
+          "stationuuid": "12fcf0e2-b59c-4a06-b48e-5fdfb4555d45",
+          "name": "Mix 104.9 - Darwin - 104.9 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/DAR_MIX1049.mp3",
+          "votes": 2,
+          "differs": []
+        },
+        {
+          "stationuuid": "1bfcea60-7474-4927-bf36-d7d18171b088",
+          "name": "Mix 104.9 - Darwin - 104.9 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/DAR_MIX1049.mp3",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "75ce97d9-0381-4343-a85c-8577368493b5",
+        "name": "2CHR - Cessnock - 96.5 FM (MP3)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CHR.mp3",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "02cbc00b-94c3-410b-9c42-132a53c329e9",
+          "name": "2CHR - Cessnock - 96.5 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CHR.mp3",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e87e7515-f645-4b2b-a1ff-2d6368ccc94c",
+        "name": "HarryOnCountryRadio - Brisbane (MP3)",
+        "url": "http://stream.zeno.fm/9xtwxx5ugs8uv",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "f5cf0293-002c-4df7-9520-5abb1f0d1edf",
+          "name": "HarryOnCountryRadio - Brisbane (MP3)",
+          "url": "http://stream.zeno.fm/9xtwxx5ugs8uv",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6f6a4251-ab64-42a7-9a13-a5fa17c0a905",
+        "name": "Australian Digital Radio Network - Radio Brisbane",
+        "url": "http://abm22.com.au:8000/CONTAINER135",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "8503aa14-6462-453a-9e7d-f48c27490034",
+          "name": "Australian Digital Radio Network - Radio Brisbane (MP3)",
+          "url": "http://abm22.com.au:8000/CONTAINER135",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4e526ced-d25f-48cb-92f1-a11ba7bd76f9",
+        "name": "Australian Digital Radio Network - Radio Darwin",
+        "url": "http://abm22.com.au:8000/CONTAINER134",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "b64a35ab-070c-45e0-b69e-3eff3d771e10",
+          "name": "Australian Digital Radio Network - Radio Darwin (MP3)",
+          "url": "http://abm22.com.au:8000/CONTAINER134",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "03da7ad4-3704-4f17-bf90-cbae6796502f",
+        "name": "hit96.5 Geraldton",
+        "url": "https://wz6liw.scahw.com.au/live/6ggg_128.stream/playlist.m3u8",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "01ba3859-fb16-41ff-912c-7646a7121840",
+          "name": "hit96.5 Geraldton",
+          "url": "https://wz6liw.scahw.com.au/live/6ggg_128.stream/playlist.m3u8",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4b4c220c-78af-4556-8c92-8b72cc43cd52",
+        "name": "2RRR - Ryde - 88.5 FM (MP3)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2rrr.mp3",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "a4314093-bcb7-4745-90a5-6184296e6a76",
+          "name": "2RRR - Ryde - 88.5 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2rrr.mp3",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aa4ece30-29eb-4f39-beb8-1d86110b1312",
+        "name": "GNFM - Goulburn - 107.7 FM (AAC)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2GNAAC.aac",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "ecfff2c4-aed7-438a-a15a-2cbab53b8b37",
+          "name": "GNFM - Goulburn - 107.7 FM (AAC)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2GNAAC.aac",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e805727e-7430-4b38-8091-7d8ebddb840f",
+        "name": "Triple U - Shoalhaven Community Radio - Nowra - 104.5 FM (MP3)",
+        "url": "http://stream.tripleu.org.au/live",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "5942a903-e79b-47b0-abc0-0e131c122d63",
+          "name": "Triple U - Shoalhaven Community Radio - Nowra - 104.5 FM (MP3)",
+          "url": "http://stream.tripleu.org.au/live",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3b88af6e-3585-4d33-b1a6-8349cedd0cf7",
+        "name": "PBS 106.7FM",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/3PBS_FMAACHIGH.aac",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "82da11bc-03d8-4b18-b851-892d287a28cd",
+          "name": "PBS 106.7FM",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/3PBS_FMAACHIGH.aac",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "41cc28ae-4139-4f5f-bdc7-4d331c0b0bb3",
+        "name": "Classic Radio NSW",
+        "url": "http://stream.zeno.fm/gtevhb0m5f0uv",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "88baabe8-7c90-4d51-9212-3d803ce423b1",
+          "name": "Classic Radio NSW (MP3)",
+          "url": "http://stream.zeno.fm/gtevhb0m5f0uv",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1372b707-627f-442b-aafe-50cb24a3744a",
+        "name": "ACBC Action - Perth (MP3)",
+        "url": "http://stream.zeno.fm/31byereegavvv",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "868ad6c2-1cfa-44ba-98c4-c8c3e31da511",
+          "name": "ACBC Action - Perth (MP3)",
+          "url": "http://stream.zeno.fm/31byereegavvv",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b859d4cf-940f-4574-9e08-445a4dbbcd14",
+        "name": "REALRADIO Australia (MP3)",
+        "url": "http://stream.zeno.fm/9bfsckh4dkhvv",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "642d3e4a-3cb2-4ef4-989a-469f7cfa0581",
+          "name": "REALRADIO Australia (MP3)",
+          "url": "http://stream.zeno.fm/9bfsckh4dkhvv",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "51742cd5-255a-4cbb-916f-f54c881fb105",
+        "name": "2RRR - Ryde - 88.5 FM (AAC)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2rrrAAC.aac",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "354c6ad0-dbcb-4db5-aed3-74865879244d",
+          "name": "2RRR - Ryde - 88.5 FM (AAC)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2rrrAAC.aac",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b550ce43-6300-4982-94dd-25fded53c747",
+        "name": "Fresh 92.7",
+        "url": "https://live.fresh927.com.au/freshmp3",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "33c742b0-2567-4723-a4e4-26d5ab3549db",
+          "name": "Fresh 92.7 (192kbps)",
+          "url": "https://live.fresh927.com.au/freshmp3",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f8d1dde6-5a48-48cc-95fe-2b328f891bea",
+        "name": "Mix 104.9 - Darwin - 104.9 FM (AAC)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/DAR_MIX1049AAC.aac",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "c0c4a80a-1b04-4073-87ee-31cde24420a8",
+          "name": "Mix 104.9 - Darwin - 104.9 FM (AAC)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/DAR_MIX1049AAC.aac",
+          "votes": 3,
+          "differs": []
+        },
+        {
+          "stationuuid": "e2392474-07ae-4d18-bdd7-c0d6cbc1e814",
+          "name": "Mix 104.9 - Darwin - 104.9 FM (AAC)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/DAR_MIX1049AAC.aac",
+          "votes": 2,
+          "differs": []
+        },
+        {
+          "stationuuid": "4169bfa9-c41c-4d5e-9510-ef371f23a8c7",
+          "name": "Mix 104.9 - Darwin - 104.9 FM (AAC)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/DAR_MIX1049AAC.aac",
+          "votes": 2,
+          "differs": []
+        },
+        {
+          "stationuuid": "c7cf97e6-b7ad-4e69-846d-39521d6116f9",
+          "name": "Mix 104.9 - Darwin - 104.9 FM (AAC)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/DAR_MIX1049AAC.aac",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "5dd13bbf-e073-4034-944b-07d5e7f9c593",
+          "name": "Mix 104.9 - Darwin - 104.9 FM (AAC)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/DAR_MIX1049AAC.aac",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f6905d74-1288-4f2e-9b3d-d0268ab5e5bc",
+        "name": "Radio Mansfield 99.7FM",
+        "url": "https://c7.radioboss.fm:18291/stream",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "95536c23-2e06-4771-9725-62afbc75a08b",
+          "name": "Radio Mansfield",
+          "url": "https://c7.radioboss.fm:18291/stream",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "51469689-d579-4bf5-9a77-78af01e36a17",
+        "name": "Great Lakes FM - Forster & Tuncurry - 101.5 FM (AAC+)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2GLAAAC.aac",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "97ba6ba7-290f-497b-b969-99b4d80bafe1",
+          "name": "Great Lakes FM - Forster & Tuncurry - 101.5 FM (AAC+)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2GLAAAC.aac",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8281de8e-8772-472e-aad2-9a744a4ecefd",
+        "name": "CMS RADIO",
+        "url": "https://c13.radioboss.fm:18190/stream",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "fa1a06fa-4791-4ad3-94c3-03c43df89507",
+          "name": "CMS Radio FM",
+          "url": "https://c13.radioboss.fm:18190/stream",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "23bf7550-fd77-4f42-9a20-77137951b4f4",
+        "name": "Hit104.7 Canberra - 104.7 FM (AAC)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_1047HITAAC.aac",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "e89c13cc-fae5-4efc-bd24-da9cf64e7541",
+          "name": "Hit104.7 Canberra - 104.7 FM (AAC)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ARN_1047HITAAC.aac",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2a02084d-4f8d-46cf-a003-4f9e92661584",
+        "name": "Rebel FM - Chinchilla - 97.1 FM (AAC)",
+        "url": "https://s8.yesstreaming.net:17099/RblDD",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "88c5ac7c-dda5-4edf-828c-db018e7950a0",
+          "name": "Rebel FM - Stanthorpe - 97.1 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblDD",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "14e6be06-90da-4800-ad2a-764a3d6905d1",
+          "name": "Rebel FM - Goondiwindi - 96.3 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblDD",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "51003f88-0831-49c3-92e8-920fd58e1e12",
+          "name": "Rebel FM - Tenterfield - 93.7 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblDD",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "99d1d137-0f4a-49cb-906b-96988d57f9d6",
+          "name": "Rebel FM - Miles - 94.5 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17099/RblDD",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d0163262-151a-4d35-bcba-ee7624727c0f",
+        "name": "Northside Radio - Chatswood - 99.3 FM (MP3)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2NSB.mp3",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "3f0c1a47-79c1-4645-b4be-59b7dbe29770",
+          "name": "Northside Radio - Chatswood - 99.3 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2NSB.mp3",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "af133e8e-3068-427e-9268-c86f86aa819d",
+        "name": "Rhema FM - Newcastle - 99.7 FM (MP3)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/RHEMA_FM.mp3",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "456c9160-b16b-4f63-b2ef-589dc334855f",
+          "name": "Rhema FM - Newcastle - 99.7 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/RHEMA_FM.mp3",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "98416c69-a886-463d-b8e6-a02e2c65b77d",
+        "name": "WAR FM - Gilgandra - 98.9 FM (MP3)",
+        "url": "http://110.141.216.207:88/broadwave.mp3",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "aef09fe7-3d02-4eab-bbd6-ef53901bdf13",
+          "name": "WAR FM - Gilgandra - 98.9 FM (MP3)",
+          "url": "http://110.141.216.207:88/broadwave.mp3",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6c57e7dc-3f30-4791-91de-5e4f6632af1a",
+        "name": "CMS FM - Canberra - 91.1 FM (MP3)",
+        "url": "http://c13.radioboss.fm:18190/stream",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "226c97ce-d088-4242-b354-27b4122951ae",
+          "name": "CMS FM - Canberra - 91.1 FM (MP3)",
+          "url": "http://c13.radioboss.fm:18190/stream",
+          "votes": 2,
+          "differs": []
+        },
+        {
+          "stationuuid": "f3c6cae3-5f81-4e7c-bb5f-2f1bd4fbca7e",
+          "name": "CMS FM - Canberra - 91.1 FM (MP3)",
+          "url": "http://c13.radioboss.fm:18190/stream",
+          "votes": 2,
+          "differs": []
+        },
+        {
+          "stationuuid": "d734c21f-a6b1-4a4a-9365-3afc13453eb7",
+          "name": "CMS FM - Canberra - 91.1 FM (MP3)",
+          "url": "http://c13.radioboss.fm:18190/stream",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3d7c2b4e-cd40-4615-a9b2-ab373daa5198",
+        "name": "Valley FM - Tuggeranong - 89.5 FM (AAC)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/1VFMAAC.aac",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "6b066e5a-6588-4f86-a806-ac6703d52fdd",
+          "name": "Valley FM - Tuggeranong - 89.5 FM (AAC)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/1VFMAAC.aac",
+          "votes": 2,
+          "differs": []
+        },
+        {
+          "stationuuid": "400d8827-6c46-4076-b175-e445fce9db10",
+          "name": "Valley FM - Tuggeranong - 89.5 FM (AAC)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/1VFMAAC.aac",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "f3fd3888-d36f-463c-9a62-687f3c51d149",
+          "name": "Valley FM - Tuggeranong - 89.5 FM (AAC)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/1VFMAAC.aac",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "6157234d-049f-47fa-be8f-41bc81e746fc",
+          "name": "Valley FM - Tuggeranong - 89.5 FM (AAC)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/1VFMAAC.aac",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0ad344f3-b08d-4442-b0fe-a9eff4c3fe40",
+        "name": "Southern FM Melbourne Australia",
+        "url": "https://stream.swifthosting.com.au/;",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "e1a3ed3c-4d4b-4808-a790-a98901b40809",
+          "name": "88.3 Southern FM",
+          "url": "https://stream.swifthosting.com.au/;",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e9e888d4-45de-47d6-88b7-4a0774e46fc8",
+        "name": "Koori Radio",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/2LNDAAC.aac?dist=2lndwebsite",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "0e416531-60cd-45c0-a1c0-f8c616af29bf",
+          "name": "Koori Radio",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/2LNDAAC.aac?dist=2LNDwebsite",
+          "votes": 1,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ae7143ff-9575-4733-a0a5-6d6c7069e764",
+        "name": "Alive 90.5 - Parramatta - 90.5 FM (MP3)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CCR.mp3",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "ee2ae716-5f15-4890-b687-fee4d2727df3",
+          "name": "Alive 90.5 - Parramatta - 90.5 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CCR.mp3",
+          "votes": 2,
+          "differs": []
+        },
+        {
+          "stationuuid": "5e775fc6-6ade-4cc7-942f-dc9129b60515",
+          "name": "Alive 90.5 - Parramatta - 90.5 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CCR.mp3",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6b1a42ca-66ca-479f-ba7a-687679683bf1",
+        "name": "Rose City FM Warwick ",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/4SDBAAC.aac",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "35c358b6-c913-418a-9db9-71b9734933f7",
+          "name": "Rose City FM",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/4SDBAAC.aac",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "25fa171a-2648-4146-a6ed-e1a5534f4e0c",
+        "name": "The Breeze - Tenterfield - 102.5 FM (AAC)",
+        "url": "https://s8.yesstreaming.net:17065/BrzDD",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "7152fbc5-e953-44cf-881d-b6107f4d1b4e",
+          "name": "The Breeze - Chinchilla - 95.5 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17065/BrzDD",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "5c032f19-5b54-4683-a4ce-94ce60b685c8",
+          "name": "The Breeze - Goondiwindi - 98.7 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17065/BrzDD",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "e6980fa5-6dd7-41ab-81ec-43e1fd39bfee",
+          "name": "The Breeze - Miles - 101.3 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17065/BrzDD",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "06a5d6d4-4502-4c1c-84bb-75b6a3858365",
+          "name": "The Breeze - Stanthorpe - 90.1 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17065/BrzDD",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "91476dc9-ccfd-45d7-a1ac-156181b782a3",
+        "name": "Treasure Emporium Christmas Radio - Central Coast (MP3)",
+        "url": "http://stream.zeno.fm/5z3f8h42c48uv",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "2e2ece70-aecf-4f43-9635-860d5230e712",
+          "name": "Treasure Emporium Christmas Radio - Central Coast (MP3)",
+          "url": "http://stream.zeno.fm/5z3f8h42c48uv",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d3a64dc6-b2a6-4d49-af60-24a497b3f4ce",
+        "name": "Gin Gin's Own 104.9",
+        "url": "https://ginginsown1049.out.airtime.pro/ginginsown1049_a",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "775d6d4b-ffba-4451-a25d-8a3d1aa6aa47",
+          "name": "Gin Gin's Own - Gin Gin - 104.9 FM (MP3)",
+          "url": "https://ginginsown1049.out.airtime.pro/ginginsown1049_a",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "225d7017-d049-4583-b81c-b5cf6440ede6",
+        "name": "Sapphire FM",
+        "url": "http://149.28.161.112/stream",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "5acfe691-98af-414d-8b25-b6a05523cde1",
+          "name": "Sapphire FM",
+          "url": "http://149.28.161.112/stream",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bcdce29d-0168-4e55-ae81-051534100bfc",
+        "name": "Casey Radio 97.7 FM",
+        "url": "https://s3.radio.co/s8f8288fe9/low",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "6a3a2d3f-12e6-4599-8f2c-316506f6c869",
+          "name": "Casey Radio 97.7 FM",
+          "url": "https://s3.radio.co/s8f8288fe9/low",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "289086bd-f04b-42f5-a660-e8a1dab888d4",
+        "name": "2CBD FM - Glen Innes - 105.9 FM (MP3)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CBD.mp3",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "3b756d80-3d2b-4330-9c28-e641e201394c",
+          "name": "2CBD FM - Glen Innes - 105.9 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CBD.mp3",
+          "votes": 2,
+          "differs": []
+        },
+        {
+          "stationuuid": "0ef65c6a-bc2f-4191-8557-34d91902de55",
+          "name": "2CBD FM - Glen Innes - 105.9 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CBD.mp3",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "57300ec2-7dad-46e7-aab6-46a271156292",
+          "name": "2CBD FM - Glen Innes - 105.9 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CBD.mp3",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "29d0cb6f-5d96-46ff-891b-529674653198",
+          "name": "2CBD FM - Glen Innes - 105.9 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CBD.mp3",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "0098443b-370c-4cec-8743-cb58f9b70a0d",
+          "name": "2CBD FM - Glen Innes - 105.9 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CBD.mp3",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "c48c01a3-394a-413f-b612-8389d5a87559",
+          "name": "2CBD FM - Glen Innes - 105.9 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2CBD.mp3",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "75c84a46-9955-475e-9d70-fc1e9f398dc7",
+        "name": "Great Lakes FM - Forster & Tuncurry - 101.5 FM (MP3)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2GLA.mp3",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "e4f63aac-c5c1-4c62-a733-421d012ecb38",
+          "name": "Great Lakes FM - Forster & Tuncurry - 101.5 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/2GLA.mp3",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6aa1e112-068d-4026-82dc-01370a3e01f5",
+        "name": "TEM-FM - Temora - 102.5 FM (MP3)",
+        "url": "http://s34.myradiostream.com:5066/;listen.mp3",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "6128157d-5a4a-429b-aedb-ba1751dbb54d",
+          "name": "TEM-FM - Temora - 102.5 FM (MP3)",
+          "url": "http://s34.myradiostream.com:5066/;listen.mp3",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "767422cd-b521-4b8c-81b4-3c9b565134c1",
+        "name": "2ST - Southern Highlands - 91.7 FM (AAC)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/BOW_2STAAC.aac",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "c9fefb61-a2d6-4e51-a85c-4cd72a0359ee",
+          "name": "2ST - Southern Highlands - 102.9 FM (AAC)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/BOW_2STAAC.aac",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b29cf93d-4327-4455-9ee0-f7c397961d9d",
+        "name": "2ST - Southern Highlands - 102.9 FM (MP3)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/BOW_2ST.mp3",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "feb2c6d4-0873-4f66-9d95-adb206234c0e",
+          "name": "2ST - Southern Highlands - 91.7 FM (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/BOW_2ST.mp3",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ee2889a2-35c4-4a1e-8fc7-6d7f39eec626",
+        "name": "Astron Interests - Glen Innes (MP3)",
+        "url": "http://stream.zeno.fm/gvddjd5foe3vv",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "4a6c53dc-71e3-45a7-8b60-341ffd27c3c6",
+          "name": "Astron Interests - Glen Innes (MP3)",
+          "url": "http://stream.zeno.fm/gvddjd5foe3vv",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ab9a4d55-6c30-482e-9b80-9440afc7f038",
+        "name": "QFM by Queye (MP3)",
+        "url": "http://stream.zeno.fm/wnbq9apyv14tv",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "aafeeeed-32f4-4461-a361-65d357223004",
+          "name": "QFM by Queye",
+          "url": "http://stream.zeno.fm/wnbq9apyv14tv",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a6f91bd3-5818-4b9a-b495-68d7fa9192e9",
+        "name": "Radio Northern Beaches - Manly North - 88.7 FM (MP3)",
+        "url": "http://198.74.51.37:9990/;",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "c3ac47ff-da7f-4972-8175-081e43edc8a0",
+          "name": "Radio Northern Beaches",
+          "url": "http://198.74.51.37:9990/;",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e4806048-d722-4f7e-8482-75792f5e8f4e",
+        "name": "Shack Radio Gippsland",
+        "url": "https://usa19.fastcast4u.com/theshack",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "39914ca6-90f3-46a1-8704-c89f463f90ce",
+          "name": "Shack Radio Gippsland",
+          "url": "https://usa19.fastcast4u.com/theshack",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "636b3b2a-1fcb-48ea-841e-fce1f9ddc827",
+        "name": "The Breeze - Kooralbyn - 103.3 FM (AAC)",
+        "url": "https://s8.yesstreaming.net:17065/BrzLgn",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "a01f0ceb-caef-49e6-8a6a-8ab5a9d6761a",
+          "name": "The Breeze - Logan - 92.1 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17065/BrzLgn",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "848ee788-c7ef-446a-9e29-66c92e6df228",
+        "name": "The Breeze - Gloucester - 97.7 FM (AAC)",
+        "url": "https://s8.yesstreaming.net:17065/BrzMNC",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "2a74282f-d93f-41f9-a9fa-b4cd7fb7d072",
+          "name": "The Breeze - Gloucester - 97.7 FM (AAC)",
+          "url": "https://s8.yesstreaming.net:17065/BrzMNC",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9dd50e27-389b-4904-8cef-48ff57ad7231",
+        "name": "Triple M Southwest",
+        "url": "https://wz6liw.scahw.com.au/live/6tz_128.stream/playlist.m3u8",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "498d8228-7212-41c8-9ad8-6446c1570050",
+          "name": "Triple M Southwest",
+          "url": "https://wz6liw.scahw.com.au/live/6tz_128.stream/playlist.m3u8",
+          "votes": 0,
+          "differs": []
+        },
+        {
+          "stationuuid": "8fe54de4-24f9-4492-a7d1-e29805c48738",
+          "name": "Triple M Southwest",
+          "url": "https://wz6liw.scahw.com.au/live/6tz_128.stream/playlist.m3u8",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3979f06a-f330-4836-b98c-3b2276400dab",
+        "name": "2SSR-FM",
+        "url": "https://radio12.shoutcast.net.au:8000/stream",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "e9d90029-5f41-47ab-ae04-29a1d158870a",
+          "name": "99.7 Sound of the Shire",
+          "url": "https://radio12.shoutcast.net.au:8000/stream",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ee16098a-a147-4532-a2c2-de53461b294e",
+        "name": "QFM by Queye",
+        "url": "https://stream.zeno.fm/wnbq9apyv14tv?an-uid=1741603114512061909&mm-uid=98c2665f-f368-4900-93b0-d427fd9777ee&dot-uid=0a98220400a951786d9e8802&triton-uid=cookie%3Aae35d476-584e-465b-ac85-898cc5e036d9&amb-uid=9042076293310527344&dbm-uid=CAESEEUSELk1rmCmdnxbYmAsIc4&cto-uid=9a8cd501-adcf-4a08-a60c-38259241445a-665ff379-5553&bsw-uid=49b8ee44-922b-41f4-96f4-02120aa6b5cd&dyn-uid=6107108616908101367&ttd-uid=3ec03d28-b1e8-4c90-ae88-97e66a9a7a11",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "ad32c4dc-9cfd-4f8d-bc44-e5ce512d117f",
+          "name": "QFM by Queye (MP3)",
+          "url": "https://stream.zeno.fm/wnbq9apyv14tv?an-uid=1741603114512061909&mm-uid=98c2665f-f368-4900-93b0-d427fd9777ee&dot-uid=0a98220400a951786d9e8802&triton-uid=cookie%3Aae35d476-584e-465b-ac85-898cc5e036d9&amb-uid=9042076293310527344&dbm-uid=CAESEEUSELk1rmCmdnxbYmAsIc4&cto-uid=9a8cd501-adcf-4a08-a60c-38259241445a-665ff379-5553&bsw-uid=49b8ee44-922b-41f4-96f4-02120aa6b5cd&dyn-uid=6107108616908101367&ttd-uid=3ec03d28-b1e8-4c90-ae88-97e66a9a7a11",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7c7bf976-330c-4542-8672-c4e5cd2b0a58",
+        "name": "Radio Upper Murray - Walwa / Corryong / Tumbarumba - 88.7 FM / 98.9 FM / 107.7 FM",
+        "url": "http://stream.mjm-webhosting.com.au:8036/;",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "bef56aa2-acd2-4bfd-88b6-948ad84a3174",
+          "name": "Radio Upper Murray - Walwa / Corryong / Tumbarumba - 88.7 FM / 98.9 FM / 107.7 FM (MP3)",
+          "url": "http://stream.mjm-webhosting.com.au:8036/;",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b0a84d93-b6e3-4413-b79d-f14002598148",
+        "name": "2GHR Greater Hume Radio",
+        "url": "https://stream.2ghr.org.au:8000/2ghr",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "1746e108-7a11-464f-b366-1e03e03ee7e5",
+          "name": "2GHR Greater Hume Radio",
+          "url": "https://stream.2ghr.org.au:8000/2ghr",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7f61817a-f4a4-4d41-b8af-87eb2c7abcef",
+        "name": "4RR FM - Charleville - 105.7 FM (HD) (MP3)",
+        "url": "http://azure.bullantcomm.com:8030/HD",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "1a126521-a96f-44e4-9ccf-26bd955a72a6",
+          "name": "4RR - Charleville - 105.7 FM (HD) (MP3)",
+          "url": "http://azure.bullantcomm.com:8030/HD",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "57b0fe13-8635-4333-bc1c-872f5f0da33b",
+        "name": "4RR - Charleville - 105.7 FM (Mobile) (MP3)",
+        "url": "http://azure.bullantcomm.com:8030/Mobile",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "b73ff13f-1f41-42ba-9669-16711efc50c0",
+          "name": "4RR FM - Charleville - 105.7 FM (Mobile) (MP3)",
+          "url": "http://azure.bullantcomm.com:8030/Mobile",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "03b46a2c-5f6e-48e5-bde8-b6bac717bb6e",
+        "name": "4RR - Charleville - 105.7 FM (SD) (MP3)",
+        "url": "http://azure.bullantcomm.com:8030/SD",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "ceae2e7b-f65c-417a-b040-80b0797f0086",
+          "name": "4RR FM - Charleville - 105.7 FM (SD) (MP3)",
+          "url": "http://azure.bullantcomm.com:8030/SD",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

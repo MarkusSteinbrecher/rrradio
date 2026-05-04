@@ -1,0 +1,948 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.878Z",
+  "country": "IE",
+  "sourceProbedAt": "2026-04-30T07:05:11.431Z",
+  "totals": {
+    "deadStreams": 24,
+    "internalDupes": 36,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "f778f85a-b4b4-48e8-89a0-c62a083c8bcd",
+      "name": "RTÉ Radio 1 Extra",
+      "url": "https://liveaudio.rte.ie/hls-radio/radio1extra/chunklist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 99,
+      "lastProbedAt": "2026-04-30T07:04:55.721Z"
+    },
+    {
+      "stationuuid": "61d4ab97-5064-4601-88f9-574b249d0d9d",
+      "name": "WLR FM",
+      "url": "https://live-bauerie.sharp-stream.com/WLRAAC",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 51,
+      "lastProbedAt": "2026-04-30T07:04:59.728Z"
+    },
+    {
+      "stationuuid": "6f467d39-ab94-4a53-bcbc-15b4ead18226",
+      "name": "RTÉ Radio 1 Extra",
+      "url": "https://liveaudio.rte.ie/hls-radio/radio1extra/chunklist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 44,
+      "lastProbedAt": "2026-04-30T07:04:59.353Z"
+    },
+    {
+      "stationuuid": "2292ed14-9af0-446a-9bc1-6e91a29b5aad",
+      "name": "UCC 98.3FM",
+      "url": "https://stream.btsstream.com:8062/ucc.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 41,
+      "lastProbedAt": "2026-04-30T07:04:59.582Z"
+    },
+    {
+      "stationuuid": "ffb085ed-d817-44b4-ad8c-68bb933dfbee",
+      "name": "RTÉ Pulse",
+      "url": "https://liveaudio.rte.ie/hls-radio/pulse/chunklist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 37,
+      "lastProbedAt": "2026-04-30T07:04:59.964Z"
+    },
+    {
+      "stationuuid": "b9433d92-e541-4eb6-8019-f22a07a967c8",
+      "name": "Ocean FM Sligo",
+      "url": "https://edge4.audioxi.com/OCEANSAAC",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 35,
+      "lastProbedAt": "2026-04-30T07:05:01.104Z"
+    },
+    {
+      "stationuuid": "6df6b2c1-df3e-4c7f-bbad-8d24ca804046",
+      "name": "RTÉ 2xM",
+      "url": "https://liveaudio.rte.ie/hls-radio/2xm/chunklist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 33,
+      "lastProbedAt": "2026-04-30T07:05:00.584Z"
+    },
+    {
+      "stationuuid": "76ec3bc1-29bb-475a-974a-995a00aea740",
+      "name": "RTÉ jr & RTÉ Chill",
+      "url": "https://liveaudio.rte.ie/hls-radio/junior/chunklist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 28,
+      "lastProbedAt": "2026-04-30T07:05:01.321Z"
+    },
+    {
+      "stationuuid": "54192068-303d-4f3d-9653-02a23f25feb9",
+      "name": "RTÉ Pulse",
+      "url": "https://liveaudio.rte.ie/hls-radio/pulse/chunklist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 28,
+      "lastProbedAt": "2026-04-30T07:05:01.447Z"
+    },
+    {
+      "stationuuid": "5aa8cdb3-aa51-49e2-a6ff-505a041e8a61",
+      "name": "RTÉ jr",
+      "url": "https://liveaudio.rte.ie/hls-radio/junior/chunklist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 23,
+      "lastProbedAt": "2026-04-30T07:05:01.684Z"
+    },
+    {
+      "stationuuid": "9a5e572a-866c-449a-9efe-edf0bf84549f",
+      "name": "2xM",
+      "url": "https://liveaudio.rte.ie/hls-radio/2xm/chunklist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 18,
+      "lastProbedAt": "2026-04-30T07:05:02.505Z"
+    },
+    {
+      "stationuuid": "f5a7e8d6-f25f-42d5-ac96-fc42c42629bc",
+      "name": "MPB Radio 1 MixMingle",
+      "url": "https://radiozender.mpbnetwerken.nl/radio1mixmingle.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 17,
+      "lastProbedAt": "2026-04-30T07:05:02.897Z"
+    },
+    {
+      "stationuuid": "d583df03-fff1-42dd-86fa-abd27a604f61",
+      "name": "TIPP FM",
+      "url": "https://live-bauerie.sharp-stream.com/TIPPFM",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 14,
+      "lastProbedAt": "2026-04-30T07:05:03.447Z"
+    },
+    {
+      "stationuuid": "715cbead-94a7-482f-afca-192d6b63086f",
+      "name": "1150 AM 101.7 FM WDEL",
+      "url": "https://live-bauerie.sharp-stream.com/KERRYAAC",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 11,
+      "lastProbedAt": "2026-04-30T07:05:03.847Z"
+    },
+    {
+      "stationuuid": "60381246-b0b2-4d46-988f-d4505633a55f",
+      "name": "Ocean FM Sligo",
+      "url": "https://edge4.audioxi.com/OCEANSAAC",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 10,
+      "lastProbedAt": "2026-04-30T07:05:05.280Z"
+    },
+    {
+      "stationuuid": "75ed6b66-b3dd-4e52-b30b-70c0d4bda9e8",
+      "name": "Northern Sound",
+      "url": "https://live-bauerie.sharp-stream.com/NORTHERNSOUNDAAC",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 9,
+      "lastProbedAt": "2026-04-30T07:05:05.090Z"
+    },
+    {
+      "stationuuid": "4c4f28cf-6102-4f62-bae4-55d125d2b548",
+      "name": "Heartbeat FM",
+      "url": "https://cast5.magicstreams.gr:8010/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-30T07:05:05.890Z"
+    },
+    {
+      "stationuuid": "e338a398-9b8e-452c-a414-f4c5118fc34d",
+      "name": "UCC FM",
+      "url": "https://stream.btsstream.com:8062/ucc.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-30T07:05:06.138Z"
+    },
+    {
+      "stationuuid": "d1796d3a-4e42-4393-85d8-0539e7d4a66f",
+      "name": "Heartbeat FM",
+      "url": "https://cast5.magicstreams.gr:8010/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-30T07:05:06.312Z"
+    },
+    {
+      "stationuuid": "eba63d9f-421e-4a75-9c57-f2d91ba0498b",
+      "name": "Community Radio Castlebar",
+      "url": "https://radiozender.mpbnetwerken.nl/crcfm",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T07:05:07.688Z"
+    },
+    {
+      "stationuuid": "de02a774-ae5b-4a8a-a975-b8cadfc066fa",
+      "name": "Community Radio Castlebar (Backup)",
+      "url": "https://radiozender.mpbnetwerken.nl/crcfm-backup",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T07:05:08.008Z"
+    },
+    {
+      "stationuuid": "f74aff65-d6ca-47b5-8832-c37ec9d8e522",
+      "name": "Longwave Music Radio",
+      "url": "https://longwave.out.airtime.pro/longwave_b?_ga=2.49867887.852857122.1712754709-729263087.1631270723",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T07:05:08.324Z"
+    },
+    {
+      "stationuuid": "8b10bc8c-7bad-4ad3-88ff-9efaa5ddac42",
+      "name": "Dunnes Radio",
+      "url": "https://radiozender.mpbnetwerken.nl/dunnesradio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T07:05:09.177Z"
+    },
+    {
+      "stationuuid": "af74fb64-d4be-4016-b797-1f01b6488954",
+      "name": "Dunnes Radio",
+      "url": "https://stream.dunnesroblox.com/dunnesradio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T07:05:09.279Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "d037031b-f31e-4298-b36e-654eaad6416e",
+        "name": "Newstalk",
+        "url": "https://edge.audioxi.com/NT",
+        "votes": 3237
+      },
+      "variants": [
+        {
+          "stationuuid": "395c7b09-6311-44d2-9593-61185e2c6b7a",
+          "name": "Newstalk Ireland",
+          "url": "https://edge.audioxi.com/NT",
+          "votes": 814,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8643cfcb-a7bb-4c46-8391-fffe266bce16",
+        "name": "RTE1",
+        "url": "http://icecast.rte.ie/radio1",
+        "votes": 1231
+      },
+      "variants": [
+        {
+          "stationuuid": "1692f135-2fca-4d2d-a315-5019bc890635",
+          "name": "RTÉ Radio 1",
+          "url": "http://icecast.rte.ie/radio1",
+          "votes": 117,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ca6de309-f3fc-4e52-80e7-eacb885dd318",
+        "name": "RTÉ Radio 1",
+        "url": "https://liveaudio.rte.ie/hls-radio/radio1/chunklist.m3u8",
+        "votes": 715
+      },
+      "variants": [
+        {
+          "stationuuid": "02dd025e-d691-4310-bd2f-cf16007bdefb",
+          "name": "RTÉ Radio 1",
+          "url": "https://liveaudio.rte.ie/hls-radio/radio1/chunklist.m3u8",
+          "votes": 102,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2e2e3729-2304-474c-a4d1-eeb91609f9bd",
+        "name": "Gem Radio New Wave",
+        "url": "https://gemradionw.radioca.st/;stream.nsv",
+        "votes": 520
+      },
+      "variants": [
+        {
+          "stationuuid": "14c2d4ae-4942-4bf6-bf38-d40dd484f841",
+          "name": "Gem New Wave Radio",
+          "url": "https://gemradionw.radioca.st/;stream.nsv",
+          "votes": 82,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8f7e7bbb-bfe6-453c-9213-fdc2eb88a561",
+        "name": "RTÉ Gold",
+        "url": "https://liveaudio.rte.ie/hls-radio/gold/chunklist.m3u8",
+        "votes": 401
+      },
+      "variants": [
+        {
+          "stationuuid": "e2a68842-b99a-4175-a139-4c842bd0268b",
+          "name": "RTÉ Gold",
+          "url": "https://liveaudio.rte.ie/hls-radio/gold/chunklist.m3u8",
+          "votes": 59,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "47c1604c-4607-41ae-85e9-cf84869bb487",
+        "name": "Christmas FM",
+        "url": "https://christmasfm.cdnstream1.com/2547_128.mp3?listenerId=esAdblock0724411&aw_0_1st.playerid=esPlayer&aw_0_1st.skey=1671316064&aw_0_req.gdpr=false",
+        "votes": 362
+      },
+      "variants": [
+        {
+          "stationuuid": "dab42837-8e90-43e0-8d50-c8e3742b4d3f",
+          "name": "Christmas FM Ireland",
+          "url": "https://christmasfm.cdnstream1.com/2547_128.mp3?listenerId=esTrackblock097016&aw_0_1st.playerid=esPlayer&aw_0_1st.skey=1692448019",
+          "votes": 295,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "c1b571b9-5aee-4ff1-952b-c3159338075a",
+          "name": "Christmas FM",
+          "url": "https://christmasfm.cdnstream1.com/2547_128.mp3",
+          "votes": 12,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9cd72f5e-5395-4c61-a9a3-923a70cbffcb",
+        "name": "Dublin's FM104",
+        "url": "https://wg.cdn.tibus.net/fm104MP3128",
+        "votes": 328
+      },
+      "variants": [
+        {
+          "stationuuid": "c3d4c77d-e090-44a4-ab26-dea91ab5d215",
+          "name": "FM104",
+          "url": "https://wg.cdn.tibus.net/fm104MP3128?aw_0_1st.playerId=wireless-website&listenerid=79ac2cc9cb7616aca4d7286d94dd9291&awparams=companionAds%3Atrue&aw_0_req.gdpr=false&aw_0_req.userConsentV2=undefined&aw_0_1st.octave_permutive=%5B%2282977%22%5D&_=472417",
+          "votes": 20,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "43385a94-e295-11e9-a8ba-52543be04c81",
+        "name": "LiveIreland Channel 1",
+        "url": "http://192.111.140.11:8058/stream",
+        "votes": 315
+      },
+      "variants": [
+        {
+          "stationuuid": "4dd6db87-3ad7-4239-821d-602e837ed135",
+          "name": "LiveIreland",
+          "url": "http://192.111.140.11:8058/stream",
+          "votes": 220,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d45a9c6f-8526-11e9-aa30-52543be04c81",
+        "name": "Limerick's Live 95FM",
+        "url": "https://wg.cdn.tibus.net/Live95fm",
+        "votes": 265
+      },
+      "variants": [
+        {
+          "stationuuid": "64d8a757-8514-415e-8aa6-0ea0fd9e22b4",
+          "name": "Live95FM",
+          "url": "https://wg.cdn.tibus.net/Live95fm?aw_0_1st.playerId=wireless-website&listenerid=48213c18339e02bbc93dc6ed298c2192&awparams=companionAds%3Atrue&aw_0_req.gdpr=false&aw_0_req.userConsentV2=undefined&_=796350",
+          "votes": 12,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9615c387-0601-11e8-ae97-52543be04c81",
+        "name": "Heartbeat FM",
+        "url": "http://cast5.magicstreams.gr:8010/stream",
+        "votes": 247
+      },
+      "variants": [
+        {
+          "stationuuid": "b43cd7fa-f2c1-4227-a98a-dd8a1737a346",
+          "name": "Heartbeat FM",
+          "url": "http://cast5.magicstreams.gr:8010/stream",
+          "votes": 18,
+          "differs": []
+        },
+        {
+          "stationuuid": "40fec7f4-fac4-41e1-8322-a13a84e00269",
+          "name": "Heartbeat FM",
+          "url": "http://cast5.magicstreams.gr:8010/stream",
+          "votes": 5,
+          "differs": []
+        },
+        {
+          "stationuuid": "706fa89f-6486-4d7d-b93f-3cc85102d6da",
+          "name": "Heartbeat FM",
+          "url": "http://cast5.magicstreams.gr:8010/stream",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "567c9759-6b33-4fd9-867d-73643955886f",
+        "name": "Galway Bay FM",
+        "url": "https://wg.cdn.tibus.net/galwaybay.mp3",
+        "votes": 242
+      },
+      "variants": [
+        {
+          "stationuuid": "79198dfd-2eda-4c10-a055-4d4a0a92cc39",
+          "name": "Galway Bay FM",
+          "url": "https://wg.cdn.tibus.net/galwaybay.mp3",
+          "votes": 18,
+          "differs": []
+        },
+        {
+          "stationuuid": "05900159-7e68-4f27-8db0-ea66371329f5",
+          "name": "Galway Bay FM",
+          "url": "https://wg.cdn.tibus.net/galwaybay.mp3",
+          "votes": 8,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5677bcd5-d83a-40d3-80d0-9378c0615ce6",
+        "name": "Nova Classic Rock",
+        "url": "https://edge2.audioxi.com/NOVA",
+        "votes": 235
+      },
+      "variants": [
+        {
+          "stationuuid": "a19882a7-5f94-437c-949d-6a8fcbd69748",
+          "name": "Radio NOVA 100",
+          "url": "https://edge2.audioxi.com/NOVA",
+          "votes": 61,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "79f786a8-0f1b-494c-a965-1fd4f90bfb73",
+        "name": "TrancePulse Dublin",
+        "url": "https://stream.trance.ie:8443/stream",
+        "votes": 219
+      },
+      "variants": [
+        {
+          "stationuuid": "4303734f-8ddd-4ecf-b78b-cc5a1c3347a7",
+          "name": "TrancePulse Dublin",
+          "url": "https://stream.trance.ie:8443/stream",
+          "votes": 59,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "280ec340-9c64-498c-b78a-f8cef5418d80",
+        "name": "Clare FM",
+        "url": "http://edge.audioxi.com/CLAREFM",
+        "votes": 147
+      },
+      "variants": [
+        {
+          "stationuuid": "c671b4c7-36ee-4d7f-bbce-1c522411e4a6",
+          "name": "Clare FM",
+          "url": "http://edge.audioxi.com/CLAREFM",
+          "votes": 44,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "04cf4250-cc1b-4a50-98e9-886058ab3096",
+        "name": "Wired FM - FM 99.9 - Limerick, Ireland",
+        "url": "https://s2.radio.co/sf0986595a/listen",
+        "votes": 145
+      },
+      "variants": [
+        {
+          "stationuuid": "91f28d4c-e1ce-48b6-a7a0-3f56f8385e4f",
+          "name": "Wired 99.9",
+          "url": "https://s2.radio.co/sf0986595a/listen",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "17bd5838-0913-498e-b914-bbdd564e2ee5",
+        "name": "RTÉ Raidió na Gaeltachta",
+        "url": "https://liveaudio.rte.ie/hls-radio/rnag/chunklist.m3u8",
+        "votes": 112
+      },
+      "variants": [
+        {
+          "stationuuid": "069656f5-0e23-4564-bd0a-33d9b220415b",
+          "name": "Raidió na Gaeltachta",
+          "url": "https://liveaudio.rte.ie/hls-radio/rnag/chunklist.m3u8",
+          "votes": 61,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8cd4957a-9a7f-4493-b231-196b434b34f5",
+        "name": "RTÉ 2FM",
+        "url": "https://liveaudio.rte.ie/hls-radio/2fm/chunklist.m3u8",
+        "votes": 104
+      },
+      "variants": [
+        {
+          "stationuuid": "f11919a5-3545-47a9-a420-80c5be17fe38",
+          "name": "RTÉ 2FM",
+          "url": "https://liveaudio.rte.ie/hls-radio/2fm/chunklist.m3u8",
+          "votes": 72,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f778f85a-b4b4-48e8-89a0-c62a083c8bcd",
+        "name": "RTÉ Radio 1 Extra",
+        "url": "https://liveaudio.rte.ie/hls-radio/radio1extra/chunklist.m3u8",
+        "votes": 99
+      },
+      "variants": [
+        {
+          "stationuuid": "6f467d39-ab94-4a53-bcbc-15b4ead18226",
+          "name": "RTÉ Radio 1 Extra",
+          "url": "https://liveaudio.rte.ie/hls-radio/radio1extra/chunklist.m3u8",
+          "votes": 44,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "89058f91-06c7-11e9-a80b-52543be04c81",
+        "name": "East Coast FM Wicklow",
+        "url": "http://sirius.shoutca.st:8461/",
+        "votes": 96
+      },
+      "variants": [
+        {
+          "stationuuid": "67d50de3-fda2-40d2-a962-641464341bf5",
+          "name": "East Coast FM",
+          "url": "http://sirius.shoutca.st:8461/",
+          "votes": 35,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "17b6bf00-b9e6-42ee-99d0-13fbbec2c99e",
+        "name": "Christmas FM Classical & Carols",
+        "url": "https://christmasfm.cdnstream1.com/2549_128.mp3?",
+        "votes": 74
+      },
+      "variants": [
+        {
+          "stationuuid": "96570d0f-a8c9-4083-bfd1-0cd783663662",
+          "name": "Christmas FM Classical",
+          "url": "https://christmasfm.cdnstream1.com/2549_128.mp3?listenerId=94d1ac3bf877b65e4e17cd7e9bfec132&aw_0_1st.playerid=esPlayer&aw_0_1st.skey=1692448390",
+          "votes": 34,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6597cfec-22fa-11e9-a80b-52543be04c81",
+        "name": "NearFM",
+        "url": "http://stream11.shoutcastsolutions.com:8114/stream",
+        "votes": 56
+      },
+      "variants": [
+        {
+          "stationuuid": "fa144ef5-60a2-4866-94ea-b44d2a197622",
+          "name": "NEAR FM",
+          "url": "http://stream11.shoutcastsolutions.com:8114/stream",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "317da756-0089-468d-941c-bb19c4533df2",
+          "name": "Near FM",
+          "url": "http://stream11.shoutcastsolutions.com:8114/stream",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d42c11ea-5b19-4ef9-a99c-9a8fbef05a8d",
+        "name": "Gem New Wave Radio",
+        "url": "https://gemradio.radioca.st/stream/1/",
+        "votes": 45
+      },
+      "variants": [
+        {
+          "stationuuid": "fdacbb42-82fd-48dc-a940-351b787a35d3",
+          "name": "Gem Radio Gold",
+          "url": "https://gemradio.radioca.st/stream/1/",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "713f93f3-e43b-496c-a119-9e7fa4b603d1",
+          "name": "Gem Radio Gold",
+          "url": "https://gemradio.radioca.st/stream/1/",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2292ed14-9af0-446a-9bc1-6e91a29b5aad",
+        "name": "UCC 98.3FM",
+        "url": "https://stream.btsstream.com:8062/ucc.mp3",
+        "votes": 41
+      },
+      "variants": [
+        {
+          "stationuuid": "e338a398-9b8e-452c-a414-f4c5118fc34d",
+          "name": "UCC FM",
+          "url": "https://stream.btsstream.com:8062/ucc.mp3",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ffb085ed-d817-44b4-ad8c-68bb933dfbee",
+        "name": "RTÉ Pulse",
+        "url": "https://liveaudio.rte.ie/hls-radio/pulse/chunklist.m3u8",
+        "votes": 37
+      },
+      "variants": [
+        {
+          "stationuuid": "54192068-303d-4f3d-9653-02a23f25feb9",
+          "name": "RTÉ Pulse",
+          "url": "https://liveaudio.rte.ie/hls-radio/pulse/chunklist.m3u8",
+          "votes": 28,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b9433d92-e541-4eb6-8019-f22a07a967c8",
+        "name": "Ocean FM Sligo",
+        "url": "https://edge4.audioxi.com/OCEANSAAC",
+        "votes": 35
+      },
+      "variants": [
+        {
+          "stationuuid": "60381246-b0b2-4d46-988f-d4505633a55f",
+          "name": "Ocean FM Sligo",
+          "url": "https://edge4.audioxi.com/OCEANSAAC",
+          "votes": 10,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f81d5a73-e2b2-4550-8acb-6db1fd57b98a",
+        "name": "South East Radio",
+        "url": "https://edge4.audioxi.com/SOUTHEAST",
+        "votes": 34
+      },
+      "variants": [
+        {
+          "stationuuid": "136c419c-e745-4e5a-a225-10a98e9c4226",
+          "name": "Southeast Radio",
+          "url": "https://edge4.audioxi.com/SOUTHEAST",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "cab0a989-f2a2-4f30-893e-4ffe1adb0bd0",
+          "name": "Southeast Radio",
+          "url": "https://edge4.audioxi.com/SOUTHEAST",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6df6b2c1-df3e-4c7f-bbad-8d24ca804046",
+        "name": "RTÉ 2xM",
+        "url": "https://liveaudio.rte.ie/hls-radio/2xm/chunklist.m3u8",
+        "votes": 33
+      },
+      "variants": [
+        {
+          "stationuuid": "9a5e572a-866c-449a-9efe-edf0bf84549f",
+          "name": "2xM",
+          "url": "https://liveaudio.rte.ie/hls-radio/2xm/chunklist.m3u8",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b61dd7ab-6f38-4ac6-9c62-24a53358c656",
+        "name": "RTÉ lyric fm",
+        "url": "https://liveaudio.rte.ie/hls-radio/lyric/chunklist.m3u8",
+        "votes": 31
+      },
+      "variants": [
+        {
+          "stationuuid": "8ea007b1-157d-4972-a967-ffcb4baa61c7",
+          "name": "RTÉ lyric fm",
+          "url": "https://liveaudio.rte.ie/hls-radio/lyric/chunklist.m3u8",
+          "votes": 30,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "de9ea92b-48a3-43c8-8dba-10e6e18a5e57",
+        "name": "XT independent alternate ",
+        "url": "http://xt.stream.ie/xt",
+        "votes": 30
+      },
+      "variants": [
+        {
+          "stationuuid": "adeb719c-d5de-4f81-9a5c-64685e30d53b",
+          "name": "XT Independent Alternative ",
+          "url": "http://xt.stream.ie/xt",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "76ec3bc1-29bb-475a-974a-995a00aea740",
+        "name": "RTÉ jr & RTÉ Chill",
+        "url": "https://liveaudio.rte.ie/hls-radio/junior/chunklist.m3u8",
+        "votes": 28
+      },
+      "variants": [
+        {
+          "stationuuid": "5aa8cdb3-aa51-49e2-a6ff-505a041e8a61",
+          "name": "RTÉ jr",
+          "url": "https://liveaudio.rte.ie/hls-radio/junior/chunklist.m3u8",
+          "votes": 23,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ee4af689-2f0d-490b-93d2-e72180b76784",
+        "name": "Rewind",
+        "url": "https://christmasfm.cdnstream1.com/2551_128.mp3",
+        "votes": 19
+      },
+      "variants": [
+        {
+          "stationuuid": "df44c4d5-df63-4f39-9230-ea57fa8d916b",
+          "name": "Rewind",
+          "url": "https://christmasfm.cdnstream1.com/2551_128.mp3",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e9a7b860-6641-491d-bde2-24cad72c3026",
+        "name": "98FM Throwback",
+        "url": "https://live-bauerie.sharp-stream.com/98",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "36fac466-1863-4940-a793-5a6c091e6a5d",
+          "name": "Dublin's 98FM",
+          "url": "https://live-bauerie.sharp-stream.com/98",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4c4f28cf-6102-4f62-bae4-55d125d2b548",
+        "name": "Heartbeat FM",
+        "url": "https://cast5.magicstreams.gr:8010/",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "d1796d3a-4e42-4393-85d8-0539e7d4a66f",
+          "name": "Heartbeat FM",
+          "url": "https://cast5.magicstreams.gr:8010/",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "973aedb0-2763-4e70-8ab7-90978ab4278d",
+        "name": "CFC FM",
+        "url": "https://visual.shoutca.st/stream/crcfm",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "61d45bd6-dc37-4965-b27d-7ffa66667240",
+          "name": "CRC FM 102.9",
+          "url": "https://visual.shoutca.st/stream/crcfm",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "986d16e9-4a9c-46ac-82e3-ccad34a256d8",
+        "name": "Radio Nova 100",
+        "url": "http://stream.audioxi.com/NOVA",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "391935f9-56f8-4a9a-9a31-47db3b36acec",
+          "name": "Radio Nova 100",
+          "url": "http://stream.audioxi.com/NOVA",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b27fcc5a-2949-4df6-8d0a-d812f6f48063",
+        "name": "Beat 102-103",
+        "url": "https://live-bauerie.sharp-stream.com/BEAT",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "0ba01db3-4616-432b-bcc3-634547a4e857",
+          "name": "Beat 102-103",
+          "url": "https://live-bauerie.sharp-stream.com/BEAT",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

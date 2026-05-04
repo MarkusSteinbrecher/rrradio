@@ -1,0 +1,1090 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.862Z",
+  "country": "CO",
+  "sourceProbedAt": "2026-04-30T12:14:55.080Z",
+  "totals": {
+    "deadStreams": 36,
+    "internalDupes": 33,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "2fc9e873-75b5-43e2-a317-f9d813849b6c",
+      "name": "MIX Cali 102.5 FM",
+      "url": "https://14133.live.streamtheworld.com/MIX_CALIAAC_SC",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 347,
+      "lastProbedAt": "2026-04-30T12:14:08.614Z"
+    },
+    {
+      "stationuuid": "eb06299b-2d4f-11e8-91bf-52543be04c81",
+      "name": "CyC Radio (Instituto Caro y Cuervo)",
+      "url": "https://stream.radio.co/s978e5f6bd/listen",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 178,
+      "lastProbedAt": "2026-04-30T12:14:12.054Z"
+    },
+    {
+      "stationuuid": "d79a1fe0-7df6-4a8a-b8fb-cafb59609a08",
+      "name": "Cristalina Estéreo Neiva 101.3 FM",
+      "url": "https://inrai05.radioca.st/cNeiva",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 110,
+      "lastProbedAt": "2026-04-30T12:14:13.577Z"
+    },
+    {
+      "stationuuid": "2da02883-86eb-41dd-96df-7eb1ea314c38",
+      "name": "LA KALLE 96.9 FM",
+      "url": "https://27443.live.streamtheworld.com/LA_KALLE_ADP.aac",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 57,
+      "lastProbedAt": "2026-04-30T12:14:18.613Z"
+    },
+    {
+      "stationuuid": "be6f8737-882b-4b5f-aab7-5b28d52c7755",
+      "name": "La Max Baladas Rock",
+      "url": "https://stream.zeno.fm/z47igaaa4xquv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 57,
+      "lastProbedAt": "2026-04-30T12:14:18.105Z"
+    },
+    {
+      "stationuuid": "c3458929-50c0-47f9-997d-2f305e86f6d6",
+      "name": "Candela Cali 102.5 FM",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/CANDELA_CALIAAC",
+      "verdict": "broken-format",
+      "verdictReason": "content-type application/flv not audio-like",
+      "votes": 51,
+      "lastProbedAt": "2026-04-30T12:14:20.694Z"
+    },
+    {
+      "stationuuid": "b34dcb6e-5be1-4256-b6ee-9fe2624ca179",
+      "name": "Radio Universidad Nacional",
+      "url": "https://radio.unal.edu.co/streaming/bogota/stream.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 51,
+      "lastProbedAt": "2026-04-30T12:14:28.977Z"
+    },
+    {
+      "stationuuid": "067b3c01-3d7d-48cd-8291-1dec8596e3b7",
+      "name": "Romántica Radio Digital",
+      "url": "https://stream.radiolive.com.co/listen/romantica_radio_digital/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 50,
+      "lastProbedAt": "2026-04-30T12:14:20.019Z"
+    },
+    {
+      "stationuuid": "500639f5-4b92-49e8-8ac1-280086d3c3e6",
+      "name": "La Costeña Stereo 91.0 FM",
+      "url": "https://play8.tikast.com:20060/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 43,
+      "lastProbedAt": "2026-04-30T12:14:20.450Z"
+    },
+    {
+      "stationuuid": "016ffe84-aaaf-4f92-a90e-57e5cae3378c",
+      "name": "Idólos del Pueblo",
+      "url": "https://stream.zeno.fm/ebbgcc46uxquv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 32,
+      "lastProbedAt": "2026-04-30T12:14:32.222Z"
+    },
+    {
+      "stationuuid": "131bff93-0e06-4753-a591-f2ee7b8d1fb5",
+      "name": "Radio UNAL Bogota",
+      "url": "https://radio.unal.edu.co/streaming/bogota/;stream.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 28,
+      "lastProbedAt": "2026-04-30T12:14:33.200Z"
+    },
+    {
+      "stationuuid": "7a1a8546-9445-4a25-a731-a0f649223d85",
+      "name": "El Café del Mundo",
+      "url": "https://cloudstream2030.conectarhosting.com/8184/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 23,
+      "lastProbedAt": "2026-04-30T12:14:25.935Z"
+    },
+    {
+      "stationuuid": "94bf4a1e-bc4a-4f48-a292-f878f003d193",
+      "name": "HJ DOBLE K HUILA 840 AM",
+      "url": "https://inrai1.radioca.st/HJKKneiva",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 23,
+      "lastProbedAt": "2026-04-30T12:14:26.058Z"
+    },
+    {
+      "stationuuid": "390a353d-68ec-4611-831c-7692b748d556",
+      "name": "Emisora nueva época ",
+      "url": "https://stream-152.zeno.fm/c1knbfegny8uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJjMWtuYmZlZ255OHV2IiwiaG9zdCI6InN0cmVhbS0xNTIuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoicEI0QVdyUldSVnVxQ2k5T1hMUkdHUSIsImlhdCI6MTc2ODQ1MDk4MywiZXhwIjoxNzY4NDUxMDQzfQ.wJR99gAaiNhV6dvwkWIC8RCnRb4y7CPqnru2zKRV77c",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 503",
+      "votes": 20,
+      "lastProbedAt": "2026-04-30T12:14:27.320Z"
+    },
+    {
+      "stationuuid": "6bf64dea-4ccb-4869-8927-a55ed97a62cb",
+      "name": "Arenosa stereo",
+      "url": "https://play8.tikast.com:20106/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 19,
+      "lastProbedAt": "2026-04-30T12:14:27.374Z"
+    },
+    {
+      "stationuuid": "3e30fe8d-1573-49e7-abe2-f5a0136996e6",
+      "name": "Emisora Mariana 1400 AM",
+      "url": "https://servidor24.brlogic.com:7654/live",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 19,
+      "lastProbedAt": "2026-04-30T12:14:29.755Z"
+    },
+    {
+      "stationuuid": "8680e6c9-0a34-46b6-b03f-fd5d6da94442",
+      "name": "La X Más Música 03.9 Bogotá",
+      "url": "https://s5.radio.co/s980fc5249/listen",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 19,
+      "lastProbedAt": "2026-04-30T12:14:28.337Z"
+    },
+    {
+      "stationuuid": "36e71800-2b6e-4d9d-91eb-5c2365224d9f",
+      "name": "Emisora Nueva Época 1200 AM",
+      "url": "https://stream-151.zeno.fm/c1knbfegny8uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJjMWtuYmZlZ255OHV2IiwiaG9zdCI6InN0cmVhbS0xNTEuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiYUNaQmRsOTRTWWF5ajhhWlBwM0JIZyIsImlhdCI6MTc2ODQzMzUwMCwiZXhwIjoxNzY4NDMzNTYwfQ.B4T2lQ-Z_Ls5BHqy1uTszmGKWVQzR5K4EV_sR7YavHc",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 503",
+      "votes": 18,
+      "lastProbedAt": "2026-04-30T12:14:28.568Z"
+    },
+    {
+      "stationuuid": "0d76d263-a0b4-47fb-8f1e-0fb760353ba3",
+      "name": "Barrancabermeja Virtual",
+      "url": "https://stream1.305stream.com/proxy/client322?mp=/stream",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html; charset=UTF-8 not audio-like",
+      "votes": 17,
+      "lastProbedAt": "2026-04-30T12:14:29.294Z"
+    },
+    {
+      "stationuuid": "07504685-0de1-4860-8b88-ac4f3f11baab",
+      "name": "Emisora Minuto de Dios Bogotá 107.9 FM",
+      "url": "https://sp4.colombiatelecom.com.co/8002/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 15,
+      "lastProbedAt": "2026-04-30T12:14:30.216Z"
+    },
+    {
+      "stationuuid": "2c698788-e07c-4db5-8fa6-aa539414633a",
+      "name": "Radio El Mundo Del Rock",
+      "url": "https://stream.zeno.fm/e6snw5vr6s8uv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 12,
+      "lastProbedAt": "2026-04-30T12:14:31.590Z"
+    },
+    {
+      "stationuuid": "88624d9a-d694-4e03-98b3-7244531b6092",
+      "name": "Radio Policia Nacional 95.7 FM",
+      "url": "https://stream.zeno.fm/7hnb530h1v8uv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 11,
+      "lastProbedAt": "2026-04-30T12:14:32.243Z"
+    },
+    {
+      "stationuuid": "760c67bf-657a-4fcf-b79f-d269111411c5",
+      "name": "La Voz de los Llaneros 106.3FM ",
+      "url": "https://1063.meta.gov.co/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 10,
+      "lastProbedAt": "2026-04-30T12:14:32.939Z"
+    },
+    {
+      "stationuuid": "6a4acd37-a63c-4724-ac52-81a5898c035b",
+      "name": "Radio Online Fusagasuga",
+      "url": "https://stream-176.zeno.fm/rxsg20wcfg8uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJyeHNnMjB3Y2ZnOHV2IiwiaG9zdCI6InN0cmVhbS0xNzYuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiTnc5NGVOV0ZRWDJXTW10anFtQ0U0QSIsImlhdCI6MTc2ODQ0ODYxMCwiZXhwIjoxNzY4NDQ4NjcwfQ.n-wul-HLTN7ycxfUPKYSXxuQNPvEDRDfMySS9Lm8iEc",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 10,
+      "lastProbedAt": "2026-04-30T12:14:33.156Z"
+    },
+    {
+      "stationuuid": "994c5727-28a0-4b93-b69f-3673ac2afb18",
+      "name": "Yacopi Stereo 107.8 FM",
+      "url": "https://play8.tikast.com:20033/stream/1/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 9,
+      "lastProbedAt": "2026-04-30T12:14:32.995Z"
+    },
+    {
+      "stationuuid": "5390d6d2-1135-4879-aabf-a9f936a158c7",
+      "name": "La mezcla FM 89.4",
+      "url": "https://stream.zeno.fm/kjnnqoql3qrtv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 8,
+      "lastProbedAt": "2026-04-30T12:14:33.269Z"
+    },
+    {
+      "stationuuid": "c3f32e5b-dd02-4e56-9a5f-445ceacaf3b2",
+      "name": "Emisora Sarare Stereo 88.3 FM",
+      "url": "https://cast.tunzilla.com/http://www.colombiaemite.com:10164/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T12:14:36.326Z"
+    },
+    {
+      "stationuuid": "c2f2a297-1f53-4cda-b032-2c1cf24a1d43",
+      "name": "HJUN - Radio UNAL Bogotá 98.5 FM",
+      "url": "https://radio.unal.edu.co/streaming/bogota/;stream.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T12:14:46.327Z"
+    },
+    {
+      "stationuuid": "32384b78-b3ca-444d-861f-ee5f03c8f7b2",
+      "name": "Namuy Wam 92.2 FM",
+      "url": "https://stream.zeno.fm/d2ctyx7x908uv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T12:14:37.246Z"
+    },
+    {
+      "stationuuid": "cdf40694-36c5-4b5f-a377-5ed62adf0652",
+      "name": "La Radio de mi Gente 93.5 FM",
+      "url": "https://stream.zeno.fm/gvdivgxxlg7tv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T12:14:37.575Z"
+    },
+    {
+      "stationuuid": "f393a190-0af8-45a7-9d3f-a707f0ecd751",
+      "name": "La Sonora 94.1 Bajo Ricaurte",
+      "url": "https://sonic.paulatina.co/8100/stream",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T12:14:37.719Z"
+    },
+    {
+      "stationuuid": "50392a4c-2913-43be-b3f2-10bc20c6e052",
+      "name": "UN Radio Bogotá",
+      "url": "https://radio.unal.edu.co/streaming/bogota/",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T12:14:48.021Z"
+    },
+    {
+      "stationuuid": "ca452e07-0eaa-41c5-9b40-0beee0609945",
+      "name": "Latina Stereo",
+      "url": "https://stream.latinastereo.com/proxy/latina/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T12:14:50.608Z"
+    },
+    {
+      "stationuuid": "24ff6683-aeb0-42df-bd7c-bfd4d8f5f7be",
+      "name": "Carnavalxsiempre",
+      "url": "https://streaming.radiosenlinea.com.ar/8880/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:14:43.856Z"
+    },
+    {
+      "stationuuid": "81c17c7a-8894-4b39-b4ea-624ecb001be6",
+      "name": "AS radio 690 am",
+      "url": "https://27393.live.streamtheworld.com/AS_COLAAC.aac?gdpr=0&gdpr_consent=&dist=caracol-web&ppid=50428527289607605859177371419013489275&pname=TDSdk&pversion=2.9&swm=false&tdsdk=js-2.9&banners=none&burst-time=15&sbmid=5bd61615-e45a-42a2-aaad-60bcd11305ab",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:14:47.546Z"
+    },
+    {
+      "stationuuid": "2458c4f7-5acb-4450-bf1d-3437a53be7cc",
+      "name": "San Sebastián stereo 107.0 fm",
+      "url": "https://stream.zeno.fm/acvoec7qdqntv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 503",
+      "votes": 0,
+      "lastProbedAt": "2026-04-30T12:14:51.076Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "cd4f771b-04b6-41ed-ba97-74d23d9f6e59",
+        "name": "Olímpica Stereo (Medellín) 104.9-FM",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/OLP_MEDELLINAAC.aac",
+        "votes": 6502
+      },
+      "variants": [
+        {
+          "stationuuid": "bc6840d8-645e-4ba0-ab6c-76f37808d2c7",
+          "name": "Medellin 104.9 - Olimpica Stereo",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/OLP_MEDELLINAAC.aac?1707017722",
+          "votes": 746,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4799c2c5-0dba-421c-b5e8-8a19a3935f8c",
+        "name": "Baladas Románticas",
+        "url": "http://stream.zeno.fm/y5ztkzpqhueuv",
+        "votes": 2880
+      },
+      "variants": [
+        {
+          "stationuuid": "8e75a19e-5df0-46e1-bd73-2fdaea520a26",
+          "name": "Tropical Bailable",
+          "url": "http://stream.zeno.fm/y5ztkzpqhueuv",
+          "votes": 2063,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aedecd51-846b-4b55-9738-7ce1b1d83c33",
+        "name": "Radio Policía (Medellín) Nacional 96.4 FM",
+        "url": "https://radio35.virtualtronics.com/proxy/radiopolicia964?mp=/stream",
+        "votes": 1694
+      },
+      "variants": [
+        {
+          "stationuuid": "5378a5c9-746a-461d-a4ea-7d97cc3669b7",
+          "name": "Radio Policia Nacional 96.4 FM Medellín",
+          "url": "https://radio35.virtualtronics.com/proxy/radiopolicia964?mp=/stream",
+          "votes": 28,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b580a071-f459-4c34-bcf8-faf92497e3c0",
+        "name": "Tropicanal 98.9 FM",
+        "url": "http://stream.zeno.fm/kmnekh2929duv",
+        "votes": 1005
+      },
+      "variants": [
+        {
+          "stationuuid": "0b1c2e96-d451-4901-aa95-7bda4b9e7086",
+          "name": "Tropicanal 98.9 FM",
+          "url": "http://stream.zeno.fm/kmnekh2929duv",
+          "votes": 467,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8e411494-28ad-11ea-aa0c-52543be04c81",
+        "name": "Radio Tiempo Barranquilla",
+        "url": "https://master.letio.com/io/?gs=9100&type=master.m3u8",
+        "votes": 745
+      },
+      "variants": [
+        {
+          "stationuuid": "1de0e115-28b0-11ea-aa0c-52543be04c81",
+          "name": "Mix Radio 103.9",
+          "url": "https://master.letio.com/io/?gs=9156&type=master.m3u8",
+          "votes": 533,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "1db8eeff-2fcb-4134-984d-8ff6430995c3",
+          "name": "Emisora Atlántico 1070 AM",
+          "url": "https://master.letio.com/io/?gs=9104&type=live.m3u8",
+          "votes": 122,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "98ab8e03-7be1-455a-93cf-456b57492316",
+          "name": "Olímpica Stéreo 92.1 Barranquilla",
+          "url": "https://master.letio.com/io/?gs=9102&type=live.mp3",
+          "votes": 26,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c0da52bf-066e-49d4-8dbe-18be46efe4f6",
+        "name": "Radioacktiva (Medellín) - 102.3 FM - PRISA Radio - Medellín, Colombia",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIOACKTIVA_MEDAAC.aac",
+        "votes": 728
+      },
+      "variants": [
+        {
+          "stationuuid": "be64e90f-0243-4c5f-862f-7bda14ce141a",
+          "name": "Radioacktiva (Medellín) 102.3 FM",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIOACKTIVA_MEDAAC.aac",
+          "votes": 129,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f9024682-ba7b-4cfd-9582-d9cd308ed885",
+        "name": "Radio Tiempo Cartagena Colombia",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RT_CARTAGENAAAC.aac?dist=RtCarWeb",
+        "votes": 382
+      },
+      "variants": [
+        {
+          "stationuuid": "535a4e0f-0d5d-429e-a0f1-35e3a93ab168",
+          "name": "Radio Tiempo",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RT_CARTAGENAAAC.aac?1715700626",
+          "votes": 48,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4286dd02-37a7-4106-9e0c-42d1e498a05b",
+        "name": "Fiesta Stereo 95.8 FM La Plata, Huila",
+        "url": "https://radiohd.streaminghd.co:7523/stream",
+        "votes": 341
+      },
+      "variants": [
+        {
+          "stationuuid": "7358db4b-dfbe-46a5-8b43-2d32ef6500f1",
+          "name": "Fiesta Stereo 95.8 FM",
+          "url": "https://radiohd.streaminghd.co:7523/stream",
+          "votes": 23,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e643713d-ec92-49e9-95bc-543e41a5a506",
+        "name": "Fuego AM",
+        "url": "https://radio35.virtualtronics.com:20017/stream",
+        "votes": 275
+      },
+      "variants": [
+        {
+          "stationuuid": "2f2d72e1-687c-4914-806e-1c770777fc17",
+          "name": "Fuego AM 1130",
+          "url": "https://radio35.virtualtronics.com:20017/stream",
+          "votes": 233,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0957a107-50fc-435e-a402-ddfa5cdda777",
+        "name": "ZonaSalsa Radio",
+        "url": "https://cast6.asurahosting.com/proxy/salsafou/stream",
+        "votes": 233
+      },
+      "variants": [
+        {
+          "stationuuid": "6bbfcd92-92b3-4756-b19d-e58df777ad2b",
+          "name": "ZonaSalsa",
+          "url": "https://cast6.asurahosting.com/proxy/salsafou/stream",
+          "votes": 117,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962bd56d-e7a0-41ef-9a09-d38a2792893a",
+        "name": "La Rockola FM",
+        "url": "https://stream.zeno.fm/uz2idrgoqnduv",
+        "votes": 223
+      },
+      "variants": [
+        {
+          "stationuuid": "1b5f29ea-9d4c-4275-b3ad-f87181a101f5",
+          "name": "La Rockola FM",
+          "url": "https://stream.zeno.fm/uz2idrgoqnduv",
+          "votes": 14,
+          "differs": [
+            "codec"
+          ]
+        },
+        {
+          "stationuuid": "335ccb0a-7e8c-444f-8a51-8727a95cb990",
+          "name": "La Rockola FM",
+          "url": "https://stream.zeno.fm/uz2idrgoqnduv",
+          "votes": 6,
+          "differs": [
+            "codec"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0dc6b495-86c2-4078-bb1e-d0f3da320527",
+        "name": "La Reina Barranquilla",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RNA_BARRANQUILLAAAC.aac?dist=oro_web",
+        "votes": 187
+      },
+      "variants": [
+        {
+          "stationuuid": "0ddba88f-b05e-4b61-9925-506b8ba776e2",
+          "name": "La Reina Barranquilla",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RNA_BARRANQUILLAAAC.aac",
+          "votes": 0,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ff8ab077-d7d2-4bc6-8484-1954ac5d0d67",
+        "name": "Radio Power Urbana",
+        "url": "https://stream.zeno.fm/cxf1r8zukyhuv",
+        "votes": 182
+      },
+      "variants": [
+        {
+          "stationuuid": "1e493628-ed64-496b-a39a-9361f8ebaa51",
+          "name": "Radio Power Urbana ",
+          "url": "https://stream.zeno.fm/cxf1r8zukyhuv",
+          "votes": 34,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d4780e22-7a70-11ea-8a3b-52543be04c81",
+        "name": "Su Presencia Radio",
+        "url": "https://supresenciaradio.out.airtime.pro/supresenciaradio_a",
+        "votes": 134
+      },
+      "variants": [
+        {
+          "stationuuid": "a4727bfb-7c59-4555-a5a5-25075c166028",
+          "name": "Su Presencia Radio",
+          "url": "https://supresenciaradio.out.airtime.pro/supresenciaradio_a",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4d876a01-d3c9-4f06-9576-566fdfa5d11d",
+        "name": "Durisima Radio Online",
+        "url": "http://stream.laut.fm/durisimaradio",
+        "votes": 104
+      },
+      "variants": [
+        {
+          "stationuuid": "747ec584-7b02-43ac-a0af-c89dd7b46cd3",
+          "name": "Durisima Radio Online",
+          "url": "http://stream.laut.fm/durisimaradio",
+          "votes": 55,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "190fdaae-d871-48d3-81c3-17aa887cd0d9",
+        "name": "Musical Stereo",
+        "url": "https://sonic.paulatina.co/8156/stream",
+        "votes": 101
+      },
+      "variants": [
+        {
+          "stationuuid": "e8f4047c-bb1a-4be7-b96f-8e222130c81d",
+          "name": "Musical Stereo",
+          "url": "https://sonic.paulatina.co/8156/stream",
+          "votes": 76,
+          "differs": []
+        },
+        {
+          "stationuuid": "630a785c-fd55-41d5-b244-0c2b13e6cea2",
+          "name": "Musical Stereo",
+          "url": "https://sonic.paulatina.co/8156/stream",
+          "votes": 58,
+          "differs": []
+        },
+        {
+          "stationuuid": "9a84edd7-0744-435c-a220-28aa57dde475",
+          "name": "Musical Stereo",
+          "url": "https://sonic.paulatina.co/8156/stream",
+          "votes": 34,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aed33022-0f94-4260-90a8-13e9914ea12a",
+        "name": "Viejitas pero Bonitas Radio",
+        "url": "https://stream.zeno.fm/fpzw6c6ootzvv",
+        "votes": 87
+      },
+      "variants": [
+        {
+          "stationuuid": "b47e98f2-49ec-4efd-81cb-e9991037e946",
+          "name": "Viejitas pero Bonitas Radio",
+          "url": "https://stream.zeno.fm/fpzw6c6ootzvv",
+          "votes": 38,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aeb210e7-baf2-4db9-b607-8d6313d629c3",
+        "name": "Alfa Stereo 106.3 FM",
+        "url": "https://radiolatina.info/8088/stream",
+        "votes": 66
+      },
+      "variants": [
+        {
+          "stationuuid": "df2dbf15-26e8-48dc-bc3d-1bb231dc7383",
+          "name": "Alfa Stereo 106.3 FM",
+          "url": "https://radiolatina.info/8088/stream",
+          "votes": 23,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "84fd7caf-8748-4659-b98a-a8d2fbe0e9b2",
+        "name": "Radio Power",
+        "url": "https://stream.zeno.fm/dlvtl3hthyxvv.mp3",
+        "votes": 52
+      },
+      "variants": [
+        {
+          "stationuuid": "e81e5888-1337-4e88-bb21-d461ada3ad30",
+          "name": "Radio Power",
+          "url": "https://stream.zeno.fm/dlvtl3hthyxvv.mp3",
+          "votes": 17,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0604da7e-85bb-469a-b5af-46db194998c6",
+        "name": "Champeta online ",
+        "url": "https://stream.zeno.fm/ptqtr8urtfiuv",
+        "votes": 51
+      },
+      "variants": [
+        {
+          "stationuuid": "e9b91e7d-4f78-444e-8b56-5397cd16d52f",
+          "name": "Champeta online ",
+          "url": "https://stream.zeno.fm/ptqtr8urtfiuv",
+          "votes": 26,
+          "differs": []
+        },
+        {
+          "stationuuid": "adb248d6-ebe3-4dab-a65f-321695daf653",
+          "name": "Champeta Radio ",
+          "url": "https://stream.zeno.fm/ptqtr8urtfiuv",
+          "votes": 21,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "e9f9154f-eede-4e4a-846e-6aee49260eb4",
+          "name": "Champeta online ",
+          "url": "https://stream.zeno.fm/ptqtr8urtfiuv",
+          "votes": 20,
+          "differs": []
+        },
+        {
+          "stationuuid": "a7b69985-01a2-48e3-83d0-5a5eaca6f764",
+          "name": "Champeta Online",
+          "url": "https://stream.zeno.fm/ptqtr8urtfiuv",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f5253517-054d-4fb4-a7af-47ee4c88ce42",
+          "name": "Champeta Radio ",
+          "url": "https://stream.zeno.fm/ptqtr8urtfiuv",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "610456e8-b7f2-4f08-89b1-6c60c3c6af19",
+        "name": "Radio Chipazaque Junín Cundinamarca ",
+        "url": "https://stream.zeno.fm/ig1twwgxkiavv",
+        "votes": 49
+      },
+      "variants": [
+        {
+          "stationuuid": "5e962613-eeee-4827-9d97-7b0c4157e4f3",
+          "name": "Radio Chipazaque Junin Cundinamarca",
+          "url": "https://stream.zeno.fm/ig1twwgxkiavv",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "425e70bc-c6a9-4689-b6cb-e1191116829b",
+        "name": "WOR FM Pre Recording Sessions Bogotá ",
+        "url": "https://stream.zeno.fm/x5zfbbtt83ktv",
+        "votes": 49
+      },
+      "variants": [
+        {
+          "stationuuid": "d8327e74-e5ce-457e-a66a-b357cbfc83ab",
+          "name": "WOR FM Pre Recording Sessions Bogota",
+          "url": "https://stream.zeno.fm/x5zfbbtt83ktv",
+          "votes": 24,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "7688c4ea-d98b-456c-9c43-5be43178118e",
+          "name": "WOR FM  Pre Recording Sessions Bogotá ",
+          "url": "https://stream.zeno.fm/x5zfbbtt83ktv",
+          "votes": 23,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "131bff93-0e06-4753-a591-f2ee7b8d1fb5",
+        "name": "Radio UNAL Bogota",
+        "url": "https://radio.unal.edu.co/streaming/bogota/;stream.mp3",
+        "votes": 28
+      },
+      "variants": [
+        {
+          "stationuuid": "c2f2a297-1f53-4cda-b032-2c1cf24a1d43",
+          "name": "HJUN - Radio UNAL Bogotá 98.5 FM",
+          "url": "https://radio.unal.edu.co/streaming/bogota/;stream.mp3",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4e25343e-d43c-4fcd-a23f-28e5135de9d2",
+        "name": "Marandua Stereo",
+        "url": "http://radiolatina.info/9430/stream",
+        "votes": 27
+      },
+      "variants": [
+        {
+          "stationuuid": "05c1ab90-11d5-4659-a3d6-234027c8b1df",
+          "name": "Marandua Stereo 100.7 FM",
+          "url": "http://radiolatina.info/9430/stream",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b5388f21-864b-4f03-8519-3b3e7ba3738c",
+        "name": "la Voz del Tao 6",
+        "url": "http://mediacp15.rootservers.co:18136/stream",
+        "votes": 24
+      },
+      "variants": [
+        {
+          "stationuuid": "7f1478cd-9804-4965-9d76-43e0deea389f",
+          "name": "la Voz del Tao 6",
+          "url": "http://mediacp15.rootservers.co:18136/stream",
+          "votes": 17,
+          "differs": []
+        },
+        {
+          "stationuuid": "9999f839-8c9b-4751-9071-9cda2d572e3e",
+          "name": "la Voz del Tao 6",
+          "url": "http://mediacp15.rootservers.co:18136/stream",
+          "votes": 12,
+          "differs": []
+        },
+        {
+          "stationuuid": "1c394252-ba6b-407f-9377-440b0b4f4812",
+          "name": "la Voz del Tao 4",
+          "url": "http://mediacp15.rootservers.co:18136/stream",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "9a32bb48-fdd3-4f61-b710-09ed4ca9dfe9",
+          "name": "la Voz del Tao 6",
+          "url": "http://mediacp15.rootservers.co:18136/stream",
+          "votes": 7,
+          "differs": []
+        },
+        {
+          "stationuuid": "ce437385-8cf7-413c-95e2-85aef3509565",
+          "name": "la Vos del Tao 6",
+          "url": "http://mediacp15.rootservers.co:18136/stream",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d2fb7640-61f7-4e68-b8e1-7bf31509fe31",
+        "name": "VILMAR STEREO 91.4 FM",
+        "url": "https://stream.zeno.fm/pfrwo2fzcbktv",
+        "votes": 24
+      },
+      "variants": [
+        {
+          "stationuuid": "4ea35c3f-8bbb-4beb-9a00-c1cbd6b7e3ff",
+          "name": "Vilmar Stereo",
+          "url": "https://stream.zeno.fm/pfrwo2fzcbktv?zt=",
+          "votes": 17,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a61582e9-efda-4e7e-922d-c5b893e125eb",
+        "name": "la Voz del Tao 4",
+        "url": "http://mediacp15.rootservers.co:18068/stream",
+        "votes": 16
+      },
+      "variants": [
+        {
+          "stationuuid": "cc89ec9f-cef8-49be-abc0-e92768f549ab",
+          "name": "la Vos del Tao 4",
+          "url": "http://mediacp15.rootservers.co:18068/stream",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "7fadd3ed-2e64-400a-b2ce-8aac40bd2d7f",
+          "name": "la Voz del Tao 4",
+          "url": "http://mediacp15.rootservers.co:18068/stream",
+          "votes": 12,
+          "differs": []
+        },
+        {
+          "stationuuid": "9253a2c6-91a3-47d9-a591-d821a155ae78",
+          "name": "La Voz del Tao 2",
+          "url": "http://mediacp15.rootservers.co:18068/stream",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "70355ea0-2792-4faa-b379-01cc6720f8d0",
+          "name": "la Voz del Tao 4",
+          "url": "http://mediacp15.rootservers.co:18068/stream",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aa173ad2-3a6e-4996-a160-067e9dc317f4",
+        "name": "MIX 103.9 FM Barranquilla",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/MIX_BARRANQUILLAAAC.aac?dist=oro_web",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "3d67c402-6656-46ef-b4ef-c875cefb4a71",
+          "name": "Mix Radio Barranquilla",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/MIX_BARRANQUILLAAAC.aac",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6d967628-9df7-43ba-95f7-f484be9cfc22",
+        "name": "Telemedellín Radio",
+        "url": "https://colombiawebs.com.co/proxy/stream320?mp=/stream",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "1a5589a6-525d-45b1-aa50-752c785286a7",
+          "name": "Telemedellín Radio",
+          "url": "https://colombiawebs.com.co/proxy/stream320?mp=/stream",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d2a83065-4b07-4c1c-bc0c-75f7c29cfbe1",
+        "name": "Nevermore Radio - Nevermore Network",
+        "url": "https://panel.nevermorenetwork.com/listen/nevermorenetwork.com/radio.mp3",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "baccaeaf-4cfa-4e52-bd01-031c617263ec",
+          "name": "Nevermore Radio - Nevermore Network",
+          "url": "https://panel.nevermorenetwork.com/listen/nevermorenetwork.com/radio.mp3",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "21cfa96e-c850-4695-a2d2-fa0dc41cdc3f",
+        "name": "Veracruz stereo",
+        "url": "https://radio.veracruzstereo.com:8000/live",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "efd697e0-9ebc-4777-9b1d-0d2c8dd1f8b2",
+          "name": "Veracruz Estereo Medellín",
+          "url": "https://radio.veracruzstereo.com:8000/live",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fea616ca-00ac-458a-8ab5-f0dc90f8e11f",
+        "name": "Bandida",
+        "url": "https://latina.streeemer.com/listen/latina/radio.aac",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "5cf8d0e1-04a4-424e-a54c-ec230333d13a",
+          "name": "Radio Bandida",
+          "url": "https://latina.streeemer.com/listen/latina/radio.aac",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "027645f5-6892-4c90-accf-42af167eb69e",
+        "name": "Radio Voltio",
+        "url": "https://radio.lacasaradio.com/radiovoltio/stream",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "d078ed78-75b3-49af-9bb2-017f589001fd",
+          "name": "Radio Voltio",
+          "url": "https://radio.lacasaradio.com/radiovoltio/stream",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

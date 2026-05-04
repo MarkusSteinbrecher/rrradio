@@ -1,0 +1,265 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.857Z",
+  "country": "BA",
+  "sourceProbedAt": "2026-04-30T10:55:59.004Z",
+  "totals": {
+    "deadStreams": 7,
+    "internalDupes": 10,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "b958c002-0986-4806-8fb9-a3aac4a36859",
+      "name": "Radios 8 Sarajevo",
+      "url": "https://radio8-bhcloud.radioca.st/1.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 376,
+      "lastProbedAt": "2026-04-30T10:55:57.120Z"
+    },
+    {
+      "stationuuid": "5cab177d-49de-492b-af93-f4467fd25690",
+      "name": "Radio Miljacka",
+      "url": "https://radiomiljacka-bhcloud.radioca.st/stream.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 156,
+      "lastProbedAt": "2026-04-30T10:55:57.313Z"
+    },
+    {
+      "stationuuid": "090ac8e3-e46a-4e45-ba7f-6cc578e62137",
+      "name": "Kalman Radio",
+      "url": "https://ssl.surfmusic.de/s.php?s=http://188.40.62.20:8004/stream?1707015516",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 67,
+      "lastProbedAt": "2026-04-30T10:55:57.244Z"
+    },
+    {
+      "stationuuid": "f0fbc23b-cc64-48a3-9e5b-0e130ce663c9",
+      "name": "Radio 8 Sarajevo",
+      "url": "https://radio8-bhcloud.radioca.st/1.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 44,
+      "lastProbedAt": "2026-04-30T10:55:57.347Z"
+    },
+    {
+      "stationuuid": "5e64847a-8514-4c52-9dd4-61bd3a3e320f",
+      "name": "Radio Miljacka",
+      "url": "https://radiomiljacka-bhcloud.radioca.st/stream.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 18,
+      "lastProbedAt": "2026-04-30T10:55:57.778Z"
+    },
+    {
+      "stationuuid": "835f042c-d7ef-4cd0-91ab-f6a4cc6be4bd",
+      "name": "Radio USK 2",
+      "url": "https://radiousk2.radioca.st/;",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T10:55:58.380Z"
+    },
+    {
+      "stationuuid": "67f3cad0-85d9-44c7-9b61-960a734b761b",
+      "name": "RadioSarajevo.ba",
+      "url": "https://radiosarajevo.ba/slusaj",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html; charset=UTF-8 not audio-like",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T10:55:58.462Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "9c421149-7dd8-11e8-b68b-52543be04c81",
+        "name": "Big2",
+        "url": "http://big2.bigportal.ba:8100/big2",
+        "votes": 4656
+      },
+      "variants": [
+        {
+          "stationuuid": "628b7db8-c211-4730-9752-6399d063aa7f",
+          "name": "Big :",
+          "url": "http://big2.bigportal.ba:8100/big2",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961fb8a9-0601-11e8-ae97-52543be04c81",
+        "name": "Big Radio 1 Banja Luka",
+        "url": "http://big1.bigportal.ba:8100/big1",
+        "votes": 1656
+      },
+      "variants": [
+        {
+          "stationuuid": "f7d6da8b-ec61-4121-89a2-6bfa77996eae",
+          "name": "BIG radio 1 Banja Luka",
+          "url": "http://big1.bigportal.ba:8100/big1",
+          "votes": 100,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0115bf0e-6c79-4c9b-a811-ebc7b55d842e",
+        "name": "Slon Radio Tuzla",
+        "url": "http://31.47.0.130:88/broadwavehigh.mp3?src=1;",
+        "votes": 683
+      },
+      "variants": [
+        {
+          "stationuuid": "23d83b85-8631-460b-aba8-c85ca83b50b4",
+          "name": "Radio Slon",
+          "url": "http://31.47.0.130:88/broadwavehigh.mp3",
+          "votes": 505,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b958c002-0986-4806-8fb9-a3aac4a36859",
+        "name": "Radios 8 Sarajevo",
+        "url": "https://radio8-bhcloud.radioca.st/1.mp3",
+        "votes": 376
+      },
+      "variants": [
+        {
+          "stationuuid": "f0fbc23b-cc64-48a3-9e5b-0e130ce663c9",
+          "name": "Radio 8 Sarajevo",
+          "url": "https://radio8-bhcloud.radioca.st/1.mp3",
+          "votes": 44,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5cab177d-49de-492b-af93-f4467fd25690",
+        "name": "Radio Miljacka",
+        "url": "https://radiomiljacka-bhcloud.radioca.st/stream.mp3",
+        "votes": 156
+      },
+      "variants": [
+        {
+          "stationuuid": "5e64847a-8514-4c52-9dd4-61bd3a3e320f",
+          "name": "Radio Miljacka",
+          "url": "https://radiomiljacka-bhcloud.radioca.st/stream.mp3",
+          "votes": 18,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5b0e8a05-6059-4d21-91ae-e14a987fe59f",
+        "name": "Pop FM - Slusaj glasno!!!",
+        "url": "http://188.40.62.20:8032/;stream.nsv",
+        "votes": 136
+      },
+      "variants": [
+        {
+          "stationuuid": "9420da6d-993d-40ae-ae23-b73e7d481bc6",
+          "name": "Pop FM Bosnia and Herzegovina",
+          "url": "http://188.40.62.20:8032/;stream.nsv",
+          "votes": 65,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "11c5f24d-fad5-4ceb-9579-d5aa8cd1efe6",
+        "name": "RADIO ZENIT",
+        "url": "http://5.189.168.133:8020/1",
+        "votes": 55
+      },
+      "variants": [
+        {
+          "stationuuid": "66009a9b-64f6-4302-9b4e-e6bb9fdd9a37",
+          "name": "Radio ZENIT Zenica",
+          "url": "http://5.189.168.133:8020/1",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "af183f50-a1ed-402b-a35a-5cf3f166bbd3",
+        "name": "Radio Usora",
+        "url": "https://webtvstream.bhtelecom.ba/radio_usora.m3u8",
+        "votes": 33
+      },
+      "variants": [
+        {
+          "stationuuid": "be352707-1663-483c-92f0-48e7123a764c",
+          "name": "Radio Usora",
+          "url": "https://webtvstream.bhtelecom.ba/radio_usora.m3u8",
+          "votes": 12,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5457b94d-4d12-42e5-88cb-bcef0cf74ea6",
+        "name": "Radio MIX, BiH",
+        "url": "https://stream.rsgmedia.ba/listen/radio_mix/radio.mp3",
+        "votes": 27
+      },
+      "variants": [
+        {
+          "stationuuid": "a86541e6-a985-44fb-9b7c-e2996908a12b",
+          "name": "RADIO MIX",
+          "url": "https://stream.rsgmedia.ba/listen/radio_mix/radio.mp3",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1c506bf0-7506-4b23-8ce0-b9b92d42677b",
+        "name": "Esoterica Radio S1",
+        "url": "https://esoterica.servemp3.com:444/listen/bigroom_electrohouse/radio.mp3",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "52e46973-6e4e-49b5-90b5-ea2b49f933a0",
+          "name": "Esoterica Radio S1",
+          "url": "https://esoterica.servemp3.com:444/listen/bigroom_electrohouse/radio.mp3",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

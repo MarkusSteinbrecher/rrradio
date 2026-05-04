@@ -1,0 +1,3998 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.859Z",
+  "country": "CA",
+  "sourceProbedAt": "2026-04-29T20:51:30.540Z",
+  "totals": {
+    "deadStreams": 30,
+    "internalDupes": 184,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "a434678c-3198-4293-9819-707b183c0215",
+      "name": "CBC Radio One - Vancouver, BC (MP3 stream)",
+      "url": "https://18303.live.streamtheworld.com/CBU2FM_CBC_SC",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 163,
+      "lastProbedAt": "2026-04-29T20:49:34.925Z"
+    },
+    {
+      "stationuuid": "dfef8a31-b08c-42ec-b724-16290e214087",
+      "name": "CJVB-AM 1470 \"Fairchild Radio\"  Vancouver, BC",
+      "url": "https://5b2959fe11444.streamlock.net/radio/am1470.stream/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 143,
+      "lastProbedAt": "2026-04-29T20:49:35.257Z"
+    },
+    {
+      "stationuuid": "3e30cc0e-ffa8-470a-a234-cd1236c0c7a4",
+      "name": "Maiqly Maher",
+      "url": "https://backup.qurango.net/radio/maher",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 500",
+      "votes": 104,
+      "lastProbedAt": "2026-04-29T20:49:38.717Z"
+    },
+    {
+      "stationuuid": "278df5f8-6b73-4254-a8df-07c62e07da8b",
+      "name": "CBC Music Eastern (Toronto) MP3 Stream",
+      "url": "https://18303.live.streamtheworld.com/CBLFM_CBC_SC",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 95,
+      "lastProbedAt": "2026-04-29T20:49:40.239Z"
+    },
+    {
+      "stationuuid": "7cd90466-6a01-11e9-af37-52543be04c81",
+      "name": "CJVB \"AM 1470 Fairchild Radio\" Vancouver, BC",
+      "url": "https://5b2959fe11444.streamlock.net/radio/am1470.stream/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 77,
+      "lastProbedAt": "2026-04-29T20:49:42.857Z"
+    },
+    {
+      "stationuuid": "9717bbf2-b2de-4fe3-a5e2-0358649365fe",
+      "name": "Beats Radio",
+      "url": "https://satcom.rfchosting.ca:8100/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 71,
+      "lastProbedAt": "2026-04-29T20:49:44.283Z"
+    },
+    {
+      "stationuuid": "4042d7f0-928c-4a2b-9854-ebedee0eec30",
+      "name": "Z103.5 - CIDC-FM",
+      "url": "https://evanov.leanstream.co/CIDCFM",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 51,
+      "lastProbedAt": "2026-04-29T20:49:50.711Z"
+    },
+    {
+      "stationuuid": "71bb5475-1805-4ab3-bd21-f990400f27d7",
+      "name": "BeatsRadio",
+      "url": "https://satcom.rfchosting.ca:8100/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 42,
+      "lastProbedAt": "2026-04-29T20:49:56.131Z"
+    },
+    {
+      "stationuuid": "ee1aa6f0-4f8f-49bd-857c-a218b8700e6b",
+      "name": "z103.5",
+      "url": "https://evanov.leanstream.co/CIDCFM?args=web_01",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 38,
+      "lastProbedAt": "2026-04-29T20:49:59.035Z"
+    },
+    {
+      "stationuuid": "e330ee1c-9a29-4cc7-a998-000cd12e1cd4",
+      "name": "CBC Radio One - Nord Quebec (MP3 stream)",
+      "url": "https://18303.live.streamtheworld.com/CBMPFM_CBC_SC",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 31,
+      "lastProbedAt": "2026-04-29T20:50:03.520Z"
+    },
+    {
+      "stationuuid": "dec9196a-6170-4d08-9d9a-da63281e226a",
+      "name": "Slow Radioactive",
+      "url": "https://bluford.torontocast.com/proxy/wynekpwy/slowradio",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 22,
+      "lastProbedAt": "2026-04-29T20:50:16.180Z"
+    },
+    {
+      "stationuuid": "1ccb37e2-3500-4501-94d3-2d1f657e06db",
+      "name": "CIDC-FM \"Z-103.5\" Orangeville, ON ",
+      "url": "https://evanov.leanstream.co/CIDCFM",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 16,
+      "lastProbedAt": "2026-04-29T20:50:28.196Z"
+    },
+    {
+      "stationuuid": "a4c2329a-a408-4071-b6e8-571eaeea25ec",
+      "name": "Christmas Melody (MP3)",
+      "url": "https://ssl1.viastreaming.net:7000/stream?icy=http",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 15,
+      "lastProbedAt": "2026-04-29T20:50:30.191Z"
+    },
+    {
+      "stationuuid": "ae1ac708-5658-4b15-8efb-9234daf08779",
+      "name": "UMFM 101.5 (CJUM)",
+      "url": "https://live.umfm.com:8015/stream/2;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 15,
+      "lastProbedAt": "2026-04-29T20:50:31.766Z"
+    },
+    {
+      "stationuuid": "3e47d405-02bf-4e57-8846-985b7d39041c",
+      "name": "CHIN Radio 100.7",
+      "url": "https://ice7.securenetsystems.net/CHINFM",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 13,
+      "lastProbedAt": "2026-04-29T20:50:35.535Z"
+    },
+    {
+      "stationuuid": "0572a07d-74a3-4497-b592-5817a3e0067b",
+      "name": "CKFU-FM 100.1 \"Moose FM\" Fort St. John, BC",
+      "url": "https://18863.live.streamtheworld.com/MOOSEFM_SC",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 12,
+      "lastProbedAt": "2026-04-29T20:50:39.294Z"
+    },
+    {
+      "stationuuid": "d1ab9390-99e0-4e04-87d9-9d20a7967d87",
+      "name": "CHUO-FM 89.1  University of Ottawa, ON",
+      "url": "https://stream.statsradio.com:8102/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 11,
+      "lastProbedAt": "2026-04-29T20:50:41.689Z"
+    },
+    {
+      "stationuuid": "3ddcdd47-5840-4b4e-b88c-ca52291d3e20",
+      "name": "CHOU 89.1 Community Radio Ottawa",
+      "url": "https://stream.statsradio.com:8102/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 8,
+      "lastProbedAt": "2026-04-29T20:50:54.066Z"
+    },
+    {
+      "stationuuid": "6a4eea29-5178-4b3a-ba69-03905c53e5b6",
+      "name": "CJRO-FM 107.7 Carlsbad Springs, ON",
+      "url": "https://c5.radioboss.fm:18049/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T20:51:08.872Z"
+    },
+    {
+      "stationuuid": "e29e510f-1efe-40cb-8e6f-3c8bfd17fbab",
+      "name": "CKAR-FM 88.7 \"The Bay\" Huntsville, ON",
+      "url": "https://thebay887.ca:8002/;stream.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T20:51:09.659Z"
+    },
+    {
+      "stationuuid": "1b2b524d-f850-414f-8a8d-cb95671670fa",
+      "name": "The Road & Radio",
+      "url": "https://s2.stationplaylist.com:7126/listen.aac",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T20:51:16.649Z"
+    },
+    {
+      "stationuuid": "b8754b8a-1018-4309-86a7-4beb22e1abe9",
+      "name": "The Borderline Radio",
+      "url": "https://satcom.rfchosting.ca:9015/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T20:51:22.725Z"
+    },
+    {
+      "stationuuid": "b545e20b-56bf-4a38-8bc3-690a4183a8e9",
+      "name": "Canary Radio",
+      "url": "https://streaming.live365.com/a90701",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T20:51:23.819Z"
+    },
+    {
+      "stationuuid": "0c82743b-9f29-4479-912a-8cd0193dc37b",
+      "name": "CJSF",
+      "url": "https://www.cjsf.ca/streaming",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T20:51:24.799Z"
+    },
+    {
+      "stationuuid": "bf6f36b4-b597-4536-a547-1430f898ce5c",
+      "name": "Moose FM 97.7 Bancroft",
+      "url": "https://stream.vistaradio.ca/CHMSFM.aac",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T20:51:26.982Z"
+    },
+    {
+      "stationuuid": "590a2463-4587-4ebf-b4fb-fe9cf68b92ef",
+      "name": "Techno.FM",
+      "url": "https://stream.techno.fm/radio1-320k.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T20:51:26.395Z"
+    },
+    {
+      "stationuuid": "7a796a63-e8e0-4f28-9ac5-8206a95bd6fe",
+      "name": "Virgin Radio Vancouver CFBT-FM ",
+      "url": "https://www.iheart.com/live/945-virgin-radio-6271/",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html; charset=utf-8 not audio-like",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T20:51:27.276Z"
+    },
+    {
+      "stationuuid": "d93102aa-baad-4037-b601-f398b44e1312",
+      "name": "NRZ FM 1",
+      "url": "https://serv1-online-ca.net/listen/nrzfm1/nrzfm1.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T20:51:29.209Z"
+    },
+    {
+      "stationuuid": "b9132ba0-43a1-431e-867e-05ff59fffbf1",
+      "name": "The Borderline Radio",
+      "url": "https://satcom.rfchosting.ca:9015/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T20:51:30.044Z"
+    },
+    {
+      "stationuuid": "08711a3d-c5e5-44d4-8460-78d4d475aab8",
+      "name": "Virgin Radio Vancouver CFBT-FM",
+      "url": "https://27283.live.streamtheworld.com/CFBTFM_ADP/HLS/504e1fe6-cae6-4fa9-aa54-9ebac0bf9b09/0/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 410",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T20:51:30.538Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "a3253a96-a1ba-4cf5-bf4b-ec7988afcfd3",
+        "name": "REGGAE CHILL CAFE",
+        "url": "https://maggie.torontocast.com:2020/stream/reggaechillcafe",
+        "votes": 7889
+      },
+      "variants": [
+        {
+          "stationuuid": "bceb7e71-3564-4cf6-aec6-3ba8adbe7e8a",
+          "name": "REGGAE CHILL CAFE",
+          "url": "https://maggie.torontocast.com:2020/stream/reggaechillcafe",
+          "votes": 211,
+          "differs": []
+        },
+        {
+          "stationuuid": "1e274773-b71f-4e00-8dc6-aae24f3757fd",
+          "name": "REGGAE CHILLI CAFE ",
+          "url": "https://maggie.torontocast.com:2020/stream/reggaechillcafe",
+          "votes": 22,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "44db1e25-6942-11ea-b1cf-52543be04c81",
+        "name": "680 News Toronto",
+        "url": "https://rogers-hls.leanstream.co/rogers/tor680.stream/playlist.m3u8",
+        "votes": 5691
+      },
+      "variants": [
+        {
+          "stationuuid": "03835a3a-928f-4b69-8974-215c80ad18bb",
+          "name": "CFTR \"City News 680\" Toronto, ON",
+          "url": "https://rogers-hls.leanstream.co/rogers/tor680.stream/playlist.m3u8",
+          "votes": 168,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0df85b66-7ef3-4e16-9283-2dc113a956dd",
+        "name": "Labgate - Progressive Rock",
+        "url": "https://s2.ssl-stream.com/radio/8180/radio.mp3",
+        "votes": 4398
+      },
+      "variants": [
+        {
+          "stationuuid": "ccc73dad-e625-47ba-810c-2b04a6d103c3",
+          "name": "Labgate Radio Prog Rock",
+          "url": "https://s2.ssl-stream.com/radio/8180/radio.mp3",
+          "votes": 294,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d95c1da9-838c-4684-a009-44fc73608279",
+        "name": "80's New Wave Radio",
+        "url": "https://puma.streemlion.com:2910/stream",
+        "votes": 2212
+      },
+      "variants": [
+        {
+          "stationuuid": "a2fa1a45-616d-48cd-8fe2-a866b205c4f8",
+          "name": "80s New Wave Radio",
+          "url": "https://puma.streemlion.com:2910/stream",
+          "votes": 573,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "de478916-6d8d-4997-9894-9d068bcf1857",
+        "name": "Labgate P.YG. Pink Floyd, Yes, Genesis",
+        "url": "https://s2.ssl-stream.com/radio/8160/radio.mp3",
+        "votes": 1971
+      },
+      "variants": [
+        {
+          "stationuuid": "5b9efcde-ba36-4670-8e0d-7d3589f161d3",
+          "name": "Labgate P.Y.G.",
+          "url": "https://s2.ssl-stream.com/radio/8160/radio.mp3",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8e8f1791-1408-49f7-a4fb-b7c7e2fb3636",
+        "name": "加拿大中文电台FM.96.1",
+        "url": "https://5b2959fe11444.streamlock.net/radio/fm961.stream/playlist.m3u8",
+        "votes": 1391
+      },
+      "variants": [
+        {
+          "stationuuid": "628e41f5-abea-4ead-ba84-72c6d9bdd391",
+          "name": "CHKG-FM 96.1 \"Fairchild Radio\" Vancouver, BC ",
+          "url": "https://5b2959fe11444.streamlock.net/radio/fm961.stream/playlist.m3u8",
+          "votes": 141,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "64d74c72-025e-4cea-8a32-906812691731",
+        "name": " #100 BEST IBIZA DEEP HOUSE",
+        "url": "https://stream.zeno.fm/lwv6zqgtv1dtv",
+        "votes": 1160
+      },
+      "variants": [
+        {
+          "stationuuid": "7cecc2a0-6167-49fa-aad5-abcfec674430",
+          "name": "100 BEST IBIZA DEEP HOUSE",
+          "url": "https://stream.zeno.fm/lwv6zqgtv1dtv",
+          "votes": 729,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cd150a3d-7ffc-4747-827b-158358d41ebe",
+        "name": "Clam Radio - Solo Piano & Guitar",
+        "url": "http://streams.calmradio.com:30228/",
+        "votes": 1154
+      },
+      "variants": [
+        {
+          "stationuuid": "2ac7587e-ae85-4125-b05a-00f93a0d7e3c",
+          "name": "Clam Radio - Solo Piano & Guitar",
+          "url": "http://streams.calmradio.com:30228/",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7c84ac30-1a0f-42f7-8b0d-40b5c6548abf",
+        "name": "DKFM Shoegaze Radio",
+        "url": "https://kathy.torontocast.com:2005/stream",
+        "votes": 1051
+      },
+      "variants": [
+        {
+          "stationuuid": "b5585301-1987-4605-9c4d-86da2488c0ad",
+          "name": "DKFM Shoegaze Radio",
+          "url": "https://kathy.torontocast.com:2005/stream",
+          "votes": 37,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4cc3e959-b572-4285-99e2-069151d03b5e",
+        "name": "# 100 GREATEST JAZZ LOUNGE BAR",
+        "url": "https://cast1.torontocast.com:4640/stream",
+        "votes": 1049
+      },
+      "variants": [
+        {
+          "stationuuid": "aeab6366-373b-4fee-98c9-ad2c9a7e7d71",
+          "name": "100 GREATEST JAZZ LOUNGE BAR",
+          "url": "https://cast1.torontocast.com:4640/stream",
+          "votes": 90,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "30af3c01-199e-11e9-a80b-52543be04c81",
+        "name": "CHOI 98.1 \"Radio X\" Quebec City, QC",
+        "url": "http://icecast-choi.rncm.ca/choi.mp3",
+        "votes": 1029
+      },
+      "variants": [
+        {
+          "stationuuid": "3e8ee4dc-f1c4-448d-9d2e-08c3ee4fb631",
+          "name": "Choi Radio X 98,1",
+          "url": "http://icecast-choi.rncm.ca/choi.mp3",
+          "votes": 93,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "89b63085-db05-4c2b-86a4-ee2f17ed2018",
+        "name": "# 100 GREATEST CLASSICAL MUSIC",
+        "url": "https://az1.mediacp.eu/listen/100greatestclassicalmusic/radio.mp3",
+        "votes": 782
+      },
+      "variants": [
+        {
+          "stationuuid": "3795035a-41ee-4387-b134-ccc271bcf772",
+          "name": "100 GREATEST CLASSICAL MUSIC",
+          "url": "https://az1.mediacp.eu/listen/100greatestclassicalmusic/radio.mp3",
+          "votes": 251,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "80e56153-1af2-43eb-8352-424524f804ed",
+        "name": "Indie88",
+        "url": "https://localradio.streamb.live/SB00348",
+        "votes": 729
+      },
+      "variants": [
+        {
+          "stationuuid": "1c37d7f6-8495-4985-b11c-0962034bf964",
+          "name": "Indie 88.1 CIND-FM",
+          "url": "https://localradio.streamb.live/SB00348",
+          "votes": 21,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "403b6475-cb7b-4a94-97df-1b10c141aef9",
+        "name": "Eurodance Classic ... Pure - Classic - Addictive",
+        "url": "http://quincy.torontocast.com:2380/stream",
+        "votes": 685
+      },
+      "variants": [
+        {
+          "stationuuid": "75aa2f24-1f06-45d1-a6ba-e5337592e707",
+          "name": "Radio Eurodance Classic - Pure and Addictive",
+          "url": "http://quincy.torontocast.com:2380/stream",
+          "votes": 361,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7549628d-d184-4eeb-8d1f-176f7fbc7226",
+        "name": "Prog Frog",
+        "url": "http://eagle.streemlion.com:4040/stream",
+        "votes": 603
+      },
+      "variants": [
+        {
+          "stationuuid": "ec5b03d8-db10-48b9-a0c2-e09be373599b",
+          "name": "Prog Frog",
+          "url": "http://eagle.streemlion.com:4040/stream?icy=http",
+          "votes": 26,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2b379e0f-2db6-49b5-ab06-c90dce68e162",
+        "name": "BPM sports 91.9",
+        "url": "http://icecast-cklx.rncm.ca/cklx.mp3",
+        "votes": 601
+      },
+      "variants": [
+        {
+          "stationuuid": "964e7a2b-0601-11e8-ae97-52543be04c81",
+          "name": "CKLX \"91.9 Sports\" Montreal, QC",
+          "url": "http://icecast-cklx.rncm.ca/cklx.mp3",
+          "votes": 433,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961ed1e1-0601-11e8-ae97-52543be04c81",
+        "name": "CHUP \"Soft Rock 97.7\" Calgary, AB",
+        "url": "http://rawlco.leanstream.co/CHUPFM-MP3",
+        "votes": 566
+      },
+      "variants": [
+        {
+          "stationuuid": "18e78e3b-0dc3-49e9-8bb5-a603cd98a31c",
+          "name": "CHUP \"Soft Rock 97.7\" Calgary, AB",
+          "url": "http://rawlco.leanstream.co/CHUPFM-MP3",
+          "votes": 76,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e4d9cbf4-29c8-49f1-a642-e2be978a7e83",
+        "name": "Addictive-50s - Golden oldies",
+        "url": "http://quincy.torontocast.com:2920/stream",
+        "votes": 560
+      },
+      "variants": [
+        {
+          "stationuuid": "a70852e1-2010-4c54-bddd-3673090f98cf",
+          "name": "Addictive-50s",
+          "url": "http://quincy.torontocast.com:2920/stream",
+          "votes": 77,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "46a4caf3-0176-4057-adf4-9739c414fd40",
+          "name": "Radio Addictive 50s",
+          "url": "http://quincy.torontocast.com:2920/stream",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ff24f0c9-2531-46f3-9de2-e35820a2f6d6",
+        "name": "The Lynx Retro 80s",
+        "url": "http://80s-lynxradio.radioca.st/stream",
+        "votes": 490
+      },
+      "variants": [
+        {
+          "stationuuid": "51554df2-3d51-4193-9e9f-6ea3be53206b",
+          "name": "The Lynx Retro 80s",
+          "url": "http://80s-lynxradio.radioca.st/stream",
+          "votes": 95,
+          "differs": []
+        },
+        {
+          "stationuuid": "00e82dee-e8ca-4cc8-abfe-1e83986718d2",
+          "name": "The Lynx Retro 80s",
+          "url": "http://80s-lynxradio.radioca.st/stream",
+          "votes": 54,
+          "differs": []
+        },
+        {
+          "stationuuid": "121eaf3b-eb54-4ac8-9622-7123b3665d91",
+          "name": "The Lynx Retro 80s",
+          "url": "http://80s-lynxradio.radioca.st/stream",
+          "votes": 35,
+          "differs": []
+        },
+        {
+          "stationuuid": "7fe27eca-4684-4b00-b01b-6c9acf1e9bbe",
+          "name": "The Lynx Retro 80s",
+          "url": "http://80s-lynxradio.radioca.st/stream",
+          "votes": 15,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cf2150a2-1cee-479f-a948-be7cd70c420e",
+        "name": "CHMP 985 FM",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/CHMPFMAAC.aac",
+        "votes": 474
+      },
+      "variants": [
+        {
+          "stationuuid": "56afb6c6-b221-45ae-9c50-03ae736a49fd",
+          "name": "98.5FM",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/CHMPFMAAC.aac",
+          "votes": 267,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "e939200c-f744-4ee0-9400-47927bac38a5",
+          "name": "MTLFM985",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/CHMPFMAAC.aac",
+          "votes": 133,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "265a40b6-8e96-4102-8ea7-26d162f970ca",
+        "name": "Radio-Classique",
+        "url": "https://listen.radioking.com/radio/228241/stream/271810",
+        "votes": 467
+      },
+      "variants": [
+        {
+          "stationuuid": "f76b8625-7cc5-4fe3-ba11-de80c6563d6a",
+          "name": "CJSQ \"Radio Classique\" Montreal, QC web stream (320K MP3)",
+          "url": "https://listen.radioking.com/radio/228241/stream/271810",
+          "votes": 190,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7c75ac34-cf40-4bb7-9892-7a5e67cee487",
+        "name": "Lighthouse VOAR-FM",
+        "url": "https://usa4.fastcast4u.com/proxy/lighthousefm?mp=/1",
+        "votes": 389
+      },
+      "variants": [
+        {
+          "stationuuid": "8192b08e-988e-42b5-99bb-f29a1dba559b",
+          "name": "VOAR 96.7 \"Lighthouse FM\" St. John's, NL",
+          "url": "https://usa4.fastcast4u.com/proxy/lighthousefm?mp=/1",
+          "votes": 94,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9620eb51-0601-11e8-ae97-52543be04c81",
+        "name": "VOCM-AM 590 St. John's, NL",
+        "url": "http://newcap.leanstream.co/VOCMAM",
+        "votes": 388
+      },
+      "variants": [
+        {
+          "stationuuid": "f74cd2d2-0862-4a71-9b5b-93c54784ac0f",
+          "name": "VOCM-AM 590 St. John's, NL",
+          "url": "http://newcap.leanstream.co/VOCMAM",
+          "votes": 30,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8452a46f-58b2-4f4b-b82b-de9026041208",
+        "name": "CKYE-FM 93.1 \"Red FM\" Vancouver, BC  ",
+        "url": "https://ice24.securenetsystems.net/CKYE",
+        "votes": 342
+      },
+      "variants": [
+        {
+          "stationuuid": "1cdea247-9c6d-4705-b642-526bb3e04eb7",
+          "name": "RED FM",
+          "url": "https://ice24.securenetsystems.net/CKYE?playSessionID=FEC6C3A5-AAAF-839F-F4F9CC684849AEA6",
+          "votes": 125,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "957eda2f-bb0b-4db4-b1fd-16d444dcf6fe",
+        "name": "irock24/7",
+        "url": "https://streamer.radio.co/s493283a7e/listen",
+        "votes": 332
+      },
+      "variants": [
+        {
+          "stationuuid": "6615c0f3-c43e-4b65-99f6-c5ea65bf8dfb",
+          "name": "iRock24/7",
+          "url": "https://streamer.radio.co/s493283a7e/listen",
+          "votes": 149,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b8efc30a-b7fb-4e2b-95c4-03b9439ee42d",
+          "name": "iRock24/7",
+          "url": "https://streamer.radio.co/s493283a7e/listen",
+          "votes": 129,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9615b225-0601-11e8-ae97-52543be04c81",
+        "name": "CKGY \"Real Country 95.5\"  Red Deer, AB",
+        "url": "http://newcap.leanstream.co/CKGYFM-MP3",
+        "votes": 320
+      },
+      "variants": [
+        {
+          "stationuuid": "88ed0da5-9aff-47e3-9ab7-57be58782609",
+          "name": "CKGY-FM 95.5 Real Country 95.5",
+          "url": "http://newcap.leanstream.co/CKGYFM-MP3",
+          "votes": 16,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961eeb59-0601-11e8-ae97-52543be04c81",
+        "name": "CHED 630 (Edmonton, AB)",
+        "url": "http://live.leanstream.co/CHEDAM",
+        "votes": 267
+      },
+      "variants": [
+        {
+          "stationuuid": "73be8818-caaf-42a9-b7e3-66275ffa460a",
+          "name": "CHED 630 \"Global News Radio\" Edmonton, AB",
+          "url": "http://live.leanstream.co/CHEDAM",
+          "votes": 67,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961c66b2-0601-11e8-ae97-52543be04c81",
+        "name": "CKNW 980 New Westminster, BC",
+        "url": "http://live.leanstream.co/CKNWAM",
+        "votes": 266
+      },
+      "variants": [
+        {
+          "stationuuid": "a1345629-1ac5-4336-b79f-b0a943c2a428",
+          "name": "CKNW",
+          "url": "http://live.leanstream.co/CKNWAM",
+          "votes": 37,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "331a9314-f71a-43da-99b6-88ce75fd1d62",
+        "name": "Labgate - Alt Rock Grunge",
+        "url": "https://s2.ssl-stream.com/radio/8190/radio.mp3",
+        "votes": 262
+      },
+      "variants": [
+        {
+          "stationuuid": "5a495b27-83a3-4459-b53a-1fe98b3c62bd",
+          "name": "Labgate Radio Alternative Rock",
+          "url": "https://s2.ssl-stream.com/radio/8190/radio.mp3",
+          "votes": 92,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dec62410-688c-45a8-b123-0a917888a408",
+        "name": "MetalRock.FM",
+        "url": "https://kathy.torontocast.com:1485/stream",
+        "votes": 257
+      },
+      "variants": [
+        {
+          "stationuuid": "70c4f61d-17f6-4b38-8e3c-ae6bc86dd093",
+          "name": "Metal Rock Radio",
+          "url": "https://kathy.torontocast.com:1485/stream",
+          "votes": 106,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9b35e640-6a0f-11e9-af37-52543be04c81",
+        "name": "CJAX \"Jack 96.9\"  Vancouver, BC",
+        "url": "https://rogers-hls.leanstream.co/rogers/van969.stream/playlist.m3u8",
+        "votes": 238
+      },
+      "variants": [
+        {
+          "stationuuid": "d7e95d26-0c2e-4fcf-a2ce-20e1d0502036",
+          "name": "CJAX \"Jack 96.9\"  Vancouver, BC",
+          "url": "https://rogers-hls.leanstream.co/rogers/van969.stream/playlist.m3u8",
+          "votes": 32,
+          "differs": []
+        },
+        {
+          "stationuuid": "f37acb6e-2e37-419c-8775-d3e8345387b2",
+          "name": "CJAX \"Jack 96.9\"  Vancouver, BC",
+          "url": "https://rogers-hls.leanstream.co/rogers/van969.stream/playlist.m3u8",
+          "votes": 24,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e40a54b1-7fac-4346-95de-1aa49334c97a",
+        "name": "The Oasis Modern Easy Listening",
+        "url": "https://jenny.torontocast.com:2000/stream/the-oasis/stream",
+        "votes": 219
+      },
+      "variants": [
+        {
+          "stationuuid": "24b332a5-a8c0-41e6-b9dc-957982108c64",
+          "name": "The Oasis Modern Easy Listening",
+          "url": "https://jenny.torontocast.com:2000/stream/the-oasis/stream",
+          "votes": 52,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8310b37b-7358-4484-936e-bd1073217848",
+        "name": "Jazz FM CJRT",
+        "url": "https://jazzfm91.streamb.live/SB00009?args=web_02&player_type=popup&uid=503beb0b-556c-4002-9ed8-cb847eb6402c&user_hash=9dctTbLqKqhACbI8GuosOLT2EbVMS0Oi&gdpr=true&aw_0_req.gdpr=true&listenerid=3f1526922470a8b11f0ebcf5ed4a4b03&awparams=companionAds%3Atrue",
+        "votes": 210
+      },
+      "variants": [
+        {
+          "stationuuid": "271b0aa0-053a-4461-9363-a4af2cb2a759",
+          "name": "JAZZ.FM91 (CJRT-FM)",
+          "url": "https://jazzfm91.streamb.live/SB00009?args=web_02&player_type=popup",
+          "votes": 120,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "1b237b6a-9023-44c9-8c53-dfcde1d51dac",
+          "name": "Jazz.FM91",
+          "url": "https://jazzfm91.streamb.live/SB00009?args=web_01",
+          "votes": 96,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7fc4b2c3-3348-40a9-a13a-b02f2f58bbaa",
+        "name": "Labgate - Classic Rock",
+        "url": "https://s2.ssl-stream.com/radio/8170/radio.mp3",
+        "votes": 198
+      },
+      "variants": [
+        {
+          "stationuuid": "402018c3-5a5f-4c63-a40d-197aba67d322",
+          "name": "Labgate Radio Clasic Rock",
+          "url": "https://s2.ssl-stream.com/radio/8170/radio.mp3",
+          "votes": 143,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "1677d63b-0986-418b-b3d4-3e436bd40420",
+          "name": "Labgate Classic Rock",
+          "url": "https://s2.ssl-stream.com/radio/8170/radio.mp3",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3cef0992-3437-484a-814c-9c73ab483a91",
+        "name": "CIWW CityNews Ottawa",
+        "url": "https://rogers-hls.leanstream.co/rogers/ott1011.stream/playlist.m3u8",
+        "votes": 196
+      },
+      "variants": [
+        {
+          "stationuuid": "8c5c3b85-e463-4696-937e-0eac7bdb051f",
+          "name": "CJET-FM \"City News 101.1\" Smith Falls, ON",
+          "url": "https://rogers-hls.leanstream.co/rogers/ott1011.stream/playlist.m3u8",
+          "votes": 28,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c4069ab4-9f76-4e2a-b991-0d5b81cd4579",
+        "name": "HAIR BAND RADIO",
+        "url": "https://quincy.torontocast.com:3115/stream?x=1703514162706",
+        "votes": 190
+      },
+      "variants": [
+        {
+          "stationuuid": "e0295c93-67a8-4ac1-a367-8898c91df97a",
+          "name": "Hair Band Radio",
+          "url": "https://quincy.torontocast.com:3115/stream?x=1733618321799",
+          "votes": 35,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e032cab0-e438-4cb5-9ac8-91a228413c49",
+        "name": "CHKT AM1430 FairChild",
+        "url": "https://5b2959fe11444.streamlock.net/radio/am1430.stream/playlist.m3u8",
+        "votes": 187
+      },
+      "variants": [
+        {
+          "stationuuid": "ec10de1d-8019-485e-98e5-e6713eaff24a",
+          "name": "CHKT 1430 \"Fairchild Radio\" Toronto, ON",
+          "url": "https://5b2959fe11444.streamlock.net/radio/am1430.stream/playlist.m3u8",
+          "votes": 86,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "35fa9c1c-4f62-4cdc-93fc-b895f6f91b73",
+        "name": "加拿大中文电台FM94.7",
+        "url": "https://5b2959fe11444.streamlock.net/radio/fm947.stream/playlist.m3u8",
+        "votes": 176
+      },
+      "variants": [
+        {
+          "stationuuid": "a7df0e8b-6929-11e9-af37-52543be04c81",
+          "name": "CHKF \"FM 94.7\" Calgary, AB (correction)",
+          "url": "https://5b2959fe11444.streamlock.net/radio/fm947.stream/playlist.m3u8",
+          "votes": 36,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f2f12449-3eb6-46c2-92bb-1ee912ac208c",
+        "name": "Radio Canada Ici Musique - Montréal, QC",
+        "url": "https://rcavliveaudio.akamaized.net/hls/live/2006979/M-7QMTL0_MTL/master.m3u8",
+        "votes": 173
+      },
+      "variants": [
+        {
+          "stationuuid": "89e485ba-ea69-460a-b112-803e82687d9e",
+          "name": "Radio Canada Ici Musique - Montréal, QC",
+          "url": "https://rcavliveaudio.akamaized.net/hls/live/2006979/M-7QMTL0_MTL/master.m3u8",
+          "votes": 42,
+          "differs": []
+        },
+        {
+          "stationuuid": "4c6b5ad3-46d2-48a7-88a1-1606b2e9b583",
+          "name": "ICI Musique - Montréal",
+          "url": "https://rcavliveaudio.akamaized.net/hls/live/2006979/M-7QMTL0_MTL/master.m3u8",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96207bd5-0601-11e8-ae97-52543be04c81",
+        "name": "CIBU \"Classic Rock 94.5\" Wingham, ON",
+        "url": "http://live.leanstream.co/CIBUFM",
+        "votes": 161
+      },
+      "variants": [
+        {
+          "stationuuid": "c5879879-c301-4c33-a793-589a084e9912",
+          "name": "CIBU-FM \"Cool 94.5\"  Wingham, ON (AAC Stream) ",
+          "url": "http://live.leanstream.co/CIBUFM",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5a72369b-d415-4f1f-80b7-ad29ccf7c665",
+        "name": "Fusion 101",
+        "url": "https://quincy.torontocast.com:2045/stream",
+        "votes": 159
+      },
+      "variants": [
+        {
+          "stationuuid": "7224487a-9e64-4b74-919c-ee4fdacf8aff",
+          "name": "Fusion 101",
+          "url": "https://quincy.torontocast.com:2045/stream",
+          "votes": 25,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e6003c36-6191-4341-b2ba-375c17d26152",
+        "name": "Classic Rock 109",
+        "url": "http://listen.classicrock109.com:10042/;",
+        "votes": 158
+      },
+      "variants": [
+        {
+          "stationuuid": "17838ac6-9198-4fef-887a-a8bfc39572e1",
+          "name": "Classic Hits 109 - Classic Rock 109",
+          "url": "http://listen.classicrock109.com:10042/;",
+          "votes": 39,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7c451d62-d147-4cc8-9a9a-08a82d2db488",
+        "name": "KISS 92.5",
+        "url": "https://rogers-hls.leanstream.co/rogers/tor925.stream/playlist.m3u8",
+        "votes": 150
+      },
+      "variants": [
+        {
+          "stationuuid": "6a38a4f5-3c66-413e-b3e2-33d0b1420e0a",
+          "name": "CKIS \"KISS 92.5\" Toronto, ON",
+          "url": "https://rogers-hls.leanstream.co/rogers/tor925.stream/playlist.m3u8",
+          "votes": 105,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96222ff0-0601-11e8-ae97-52543be04c81",
+        "name": "CIZZ \"Z 98.9\" Red Deer, AB",
+        "url": "http://newcap.leanstream.co/CIZZFM",
+        "votes": 149
+      },
+      "variants": [
+        {
+          "stationuuid": "336a3386-c9f1-4703-b89d-79a74688680a",
+          "name": "CIZZ-FM Z 98.9",
+          "url": "http://newcap.leanstream.co/CIZZFM",
+          "votes": 55,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dfef8a31-b08c-42ec-b724-16290e214087",
+        "name": "CJVB-AM 1470 \"Fairchild Radio\"  Vancouver, BC",
+        "url": "https://5b2959fe11444.streamlock.net/radio/am1470.stream/playlist.m3u8",
+        "votes": 143
+      },
+      "variants": [
+        {
+          "stationuuid": "7cd90466-6a01-11e9-af37-52543be04c81",
+          "name": "CJVB \"AM 1470 Fairchild Radio\" Vancouver, BC",
+          "url": "https://5b2959fe11444.streamlock.net/radio/am1470.stream/playlist.m3u8",
+          "votes": 77,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96225223-0601-11e8-ae97-52543be04c81",
+        "name": "CHLG 104.3 \"LG104\" Vancouver, BC",
+        "url": "http://newcap.leanstream.co/CHLGFM",
+        "votes": 140
+      },
+      "variants": [
+        {
+          "stationuuid": "3acc5134-a692-4c32-8209-730797c6f4c8",
+          "name": "CHLG-FM 104.3 \"The Breeze\" - Vancouver, BC",
+          "url": "http://newcap.leanstream.co/CHLGFM",
+          "votes": 29,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ef5c6c3c-bd1e-404a-b2cf-70e41cbe435c",
+        "name": "Labgate Pop Rock",
+        "url": "https://s2.ssl-stream.com/radio/8200/radio.mp3",
+        "votes": 137
+      },
+      "variants": [
+        {
+          "stationuuid": "c288c3cd-3193-4745-bc04-9ca7ebd5e9bf",
+          "name": "labgate pop rock",
+          "url": "https://s2.ssl-stream.com/radio/8200/radio.mp3",
+          "votes": 44,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "65dbde60-996f-4cf3-80bb-47d5308b698c",
+          "name": "Labgate Radio Pop Rock",
+          "url": "https://s2.ssl-stream.com/radio/8200/radio.mp3",
+          "votes": 35,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "5ef4f3bf-6a46-480b-bb52-df1203ab478d",
+          "name": "Labgate Hitwave Rewind",
+          "url": "https://s2.ssl-stream.com/radio/8200/radio.mp3",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ff0d0aa7-6738-41e5-a968-ea5435c665b4",
+        "name": "CJMO-FM 103.1 \"Q103\" - Moncton, NB",
+        "url": "http://newcap.leanstream.co/CJMOFM",
+        "votes": 134
+      },
+      "variants": [
+        {
+          "stationuuid": "961cc8d9-0601-11e8-ae97-52543be04c81",
+          "name": "CJMO 103.1 \"C103\" Moncton, NB",
+          "url": "http://newcap.leanstream.co/CJMOFM",
+          "votes": 24,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ddab1bfe-1f32-49ad-b9f6-61ad77841b7b",
+        "name": "ICI Musique Classique (Alberta)",
+        "url": "https://rcavliveaudio.akamaized.net/hls/live/2007000/MUSE/master.m3u8",
+        "votes": 128
+      },
+      "variants": [
+        {
+          "stationuuid": "5865e229-fe6b-4409-98b7-4f3beeb5fd9e",
+          "name": "Radio Canada Ici Musique Classique - Montreal, QC",
+          "url": "https://rcavliveaudio.akamaized.net/hls/live/2007000/MUSE/master.m3u8",
+          "votes": 90,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96212e65-0601-11e8-ae97-52543be04c81",
+        "name": "CFMI 101.1 \"Rock 101\" New Westminster, BC",
+        "url": "http://live.leanstream.co/CFMIFM-MP3",
+        "votes": 119
+      },
+      "variants": [
+        {
+          "stationuuid": "b8b3601f-6576-4c36-a75e-b70e3082afb3",
+          "name": "CFMI Rock 101.1 Vancouver",
+          "url": "http://live.leanstream.co/CFMIFM-MP3",
+          "votes": 85,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f173b77c-151e-4567-8e49-5588ef2e87ec",
+        "name": "Calm Radio - Zen",
+        "url": "http://streams.calmradio.com:14028/stream/1/",
+        "votes": 119
+      },
+      "variants": [
+        {
+          "stationuuid": "a07ebb0d-0566-46cb-9295-aa0b32574a3d",
+          "name": "CALMRADIO.COM - Zen",
+          "url": "http://streams.calmradio.com:14028/stream/1/",
+          "votes": 55,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9620f897-0601-11e8-ae97-52543be04c81",
+        "name": "CHHI \"95.9 Sun FM\" Miramichi, NB",
+        "url": "http://newcap.leanstream.co/CHHIFM",
+        "votes": 118
+      },
+      "variants": [
+        {
+          "stationuuid": "086126e6-76a1-445c-b710-ce65e8ffdcea",
+          "name": "CHHI-FM \"Rewind 95.9\" Miramichi, NB",
+          "url": "http://newcap.leanstream.co/CHHIFM",
+          "votes": 13,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "76c765b9-a579-4287-96ef-712cc45ad384",
+        "name": "The Oasis Modern Easy Listening",
+        "url": "https://jenny.torontocast.com:2000/stream/the-oasis",
+        "votes": 117
+      },
+      "variants": [
+        {
+          "stationuuid": "af5b7dc7-09a2-4b6a-86ce-c48fe1988743",
+          "name": "The oasis radio",
+          "url": "https://jenny.torontocast.com:2000/stream/the-oasis",
+          "votes": 27,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8c8a75f6-70b0-446c-8450-022c077c7301",
+        "name": "ICI Radio-Canada Première Edmonton - 90.1 FM (CHFA-FM)",
+        "url": "https://rcavliveaudio.akamaized.net/hls/live/2006949/P-2AEDM0_EDM/master.m3u8",
+        "votes": 109
+      },
+      "variants": [
+        {
+          "stationuuid": "1a129f85-03bb-4ed8-8b0c-f23607e64c73",
+          "name": "Radio Canada Ici Première (Alberta) Edmonton",
+          "url": "https://rcavliveaudio.akamaized.net/hls/live/2006949/P-2AEDM0_EDM/master.m3u8",
+          "votes": 35,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "938cdd21-af95-11e9-acb2-52543be04c81",
+        "name": "Time Capsule Show",
+        "url": "http://sc3.mystreamserver.com:8060/",
+        "votes": 105
+      },
+      "variants": [
+        {
+          "stationuuid": "f6d43012-00dc-4149-ac1d-c3df07e65c5d",
+          "name": "Time Capsule Audio Network",
+          "url": "http://sc3.mystreamserver.com:8060/",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "434ab4b9-252f-44c4-ad71-8f3c8dd9bcff",
+        "name": "CKWR 98.5  \"Real Community Radio\" Kitchener, ON ",
+        "url": "https://stream2.statsradio.com:8150/stream",
+        "votes": 101
+      },
+      "variants": [
+        {
+          "stationuuid": "1d768dc0-b317-4750-b899-e3044af7c9d0",
+          "name": "98.5 CKWR Real Community Radio",
+          "url": "https://stream2.statsradio.com:8150/stream",
+          "votes": 28,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961f7d9b-0601-11e8-ae97-52543be04c81",
+        "name": "CKLB 101.9 Yellowknife, NT",
+        "url": "http://cklb.streamon.fm:8000/CKLB-24k.aac",
+        "votes": 94
+      },
+      "variants": [
+        {
+          "stationuuid": "06d24bb7-cde8-4ad6-94ba-56f459f9a454",
+          "name": "CKLB-FM 101.9 Yellowknife, NT",
+          "url": "http://cklb.streamon.fm:8000/CKLB-24k.aac",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9620bcea-0601-11e8-ae97-52543be04c81",
+        "name": "CFGQ 107.3 \"Q107\" Calgary, AB",
+        "url": "http://live.leanstream.co/CFGQFM-MP3",
+        "votes": 93
+      },
+      "variants": [
+        {
+          "stationuuid": "d76373f7-9f8d-4cbd-ad96-a7caf480e9f4",
+          "name": "CFGQ 107.3 \"QR Calgary 107 & 770\" Calgary, AB   ",
+          "url": "http://live.leanstream.co/CFGQFM-MP3",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fa78faf3-c6c0-4dcf-84ca-60b6d817525e",
+        "name": "The Base",
+        "url": "https://listen.thebase.sc/",
+        "votes": 91
+      },
+      "variants": [
+        {
+          "stationuuid": "f6c23df9-e63b-43d7-bb2a-15fef6b4ff17",
+          "name": "The Base",
+          "url": "https://listen.thebase.sc/",
+          "votes": 60,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9621c030-0601-11e8-ae97-52543be04c81",
+        "name": "CFXJ \"93.5 The Move\" Toronto, ON",
+        "url": "http://newcap.leanstream.co/CFXJFM",
+        "votes": 89
+      },
+      "variants": [
+        {
+          "stationuuid": "ff4ecb02-af7f-43ca-ad52-cded0f48e754",
+          "name": "CFXJ 93.5 \"Today Radio\" Toronto, ON",
+          "url": "http://newcap.leanstream.co/CFXJFM",
+          "votes": 13,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e054f81c-d2ac-47ff-9f9e-e070cd24e6e3",
+        "name": "93.7 JR Country - Vancouver, BC",
+        "url": "https://redirect.jpbgdigital.com/CJJR",
+        "votes": 83
+      },
+      "variants": [
+        {
+          "stationuuid": "b92814df-4296-4dee-8cad-10cbf4e61e10",
+          "name": "CJJR 93.7 JR Country",
+          "url": "https://redirect.jpbgdigital.com/CJJR?player_type=mytuner",
+          "votes": 3,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "25075f54-4203-11ea-a95e-52543be04c81",
+        "name": "CFRO Vancouver Cooperative Radio",
+        "url": "https://listen-coopradio.sharp-stream.com/coopradio.mp3",
+        "votes": 81
+      },
+      "variants": [
+        {
+          "stationuuid": "145158a6-7853-4c87-9485-e36a1690cac3",
+          "name": "Vancouver Co-operative Radio",
+          "url": "https://listen-coopradio.sharp-stream.com/coopradio.mp3",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6d6f1d93-8cc8-4481-b0d0-5508fe717153",
+        "name": "Terry Callaghan's Real Oldies Channel ",
+        "url": "http://ec4.yesstreaming.net:2730/",
+        "votes": 80
+      },
+      "variants": [
+        {
+          "stationuuid": "bba79472-20e4-4566-9419-0896596c8224",
+          "name": "Terry Callahan's Real Oldies Channel ",
+          "url": "http://ec4.yesstreaming.net:2730/",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "20e82658-9064-4f68-9225-291955cc5be3",
+        "name": "Radio Classique Montréal 99.5",
+        "url": "https://listen.radioking.com/radio/228241/stream/271804",
+        "votes": 77
+      },
+      "variants": [
+        {
+          "stationuuid": "67e27262-337b-43ca-b501-91f19c43310c",
+          "name": "CJSQ \"Radio Classique\" Montreal, QC web stream (128K MP3)",
+          "url": "https://listen.radioking.com/radio/228241/stream/271804",
+          "votes": 29,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ab43ac57-0bec-4a78-acc4-bdf72ac00761",
+        "name": "Radio VM",
+        "url": "https://s5.radio.co/sec326ff8a/listen",
+        "votes": 74
+      },
+      "variants": [
+        {
+          "stationuuid": "2e9d19e2-1909-488f-9551-d29c259924fb",
+          "name": "CIRA-FM 91.3 \"Radio Ville Marie\", Montreal, QC",
+          "url": "https://s5.radio.co/sec326ff8a/listen",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9c80b23d-e15e-4499-bef4-3da9e26d11ba",
+        "name": "93.7 K Country",
+        "url": "https://torres-media.streamb.live/SB00191?starttime=1692206600",
+        "votes": 74
+      },
+      "variants": [
+        {
+          "stationuuid": "5948eb36-707c-43b7-bffd-2808a0c5b830",
+          "name": "CKOU \"K Country 93.7\" Georgina, ON",
+          "url": "https://torres-media.streamb.live/SB00191",
+          "votes": 14,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9717bbf2-b2de-4fe3-a5e2-0358649365fe",
+        "name": "Beats Radio",
+        "url": "https://satcom.rfchosting.ca:8100/stream",
+        "votes": 71
+      },
+      "variants": [
+        {
+          "stationuuid": "71bb5475-1805-4ab3-bd21-f990400f27d7",
+          "name": "BeatsRadio",
+          "url": "https://satcom.rfchosting.ca:8100/stream",
+          "votes": 42,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "76f17288-698f-11e9-af37-52543be04c81",
+        "name": "CJAQ \"Jack 96.9\" Calgary, AB",
+        "url": "https://rogers-hls.leanstream.co/rogers/cal969.stream/playlist.m3u8",
+        "votes": 70
+      },
+      "variants": [
+        {
+          "stationuuid": "9a1a7669-d592-4440-9dba-436d9bf95306",
+          "name": "CJAQ \"Jack 96.9\" Calgary, AB",
+          "url": "https://rogers-hls.leanstream.co/rogers/cal969.stream/playlist.m3u8",
+          "votes": 18,
+          "differs": [
+            "bitrate"
+          ]
+        },
+        {
+          "stationuuid": "48d409af-2bc4-4f0d-89cf-3b92b8f6041d",
+          "name": "CJAQ \"Jack 96.9\" Calgary, AB",
+          "url": "https://rogers-hls.leanstream.co/rogers/cal969.stream/playlist.m3u8",
+          "votes": 16,
+          "differs": []
+        },
+        {
+          "stationuuid": "e4a914a1-ec25-4127-b1df-4fe2fd50d5f8",
+          "name": "CJAQ \"Jack 96.9\" Calgary, AB",
+          "url": "https://rogers-hls.leanstream.co/rogers/cal969.stream/playlist.m3u8",
+          "votes": 8,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962035b1-0601-11e8-ae97-52543be04c81",
+        "name": "CFIM 92.7 Cap-Aux-Meules, QC",
+        "url": "http://stream02.ustream.ca:8000/cfim128.mp3",
+        "votes": 68
+      },
+      "variants": [
+        {
+          "stationuuid": "c9ec1a8c-0e64-4e8b-969c-982c59905b43",
+          "name": "CFIM 92.7 Cap-aux-Meules, QC ",
+          "url": "http://stream02.ustream.ca:8000/cfim128.mp3",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96205740-0601-11e8-ae97-52543be04c81",
+        "name": "CFWN \"Northumberland 89.7\" Cobourg, ON",
+        "url": "http://northumberland.serverroom.net:8850/;",
+        "votes": 68
+      },
+      "variants": [
+        {
+          "stationuuid": "b2cf65d6-ead0-4df9-8f37-dafa818dbf07",
+          "name": "Northumberland 89.7",
+          "url": "http://northumberland.serverroom.net:8850/;",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2324adb4-186c-4698-abf1-7103776a7137",
+        "name": "CKLO \"Classic Rock 98.1 FM\" London, ON",
+        "url": "http://live.leanstream.co/CKLOFM",
+        "votes": 65
+      },
+      "variants": [
+        {
+          "stationuuid": "960e5645-0601-11e8-ae97-52543be04c81",
+          "name": "CKLO \"Free 98.1\" London, ON",
+          "url": "http://live.leanstream.co/CKLOFM",
+          "votes": 44,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "40992737-792a-11e9-aa30-52543be04c81",
+        "name": "CJBB 103.1 \"The Train\" Englehart, ON",
+        "url": "https://ice10.securenetsystems.net/CJBB",
+        "votes": 65
+      },
+      "variants": [
+        {
+          "stationuuid": "f6e91ed8-369f-4679-a9c9-6ab2a803ecb4",
+          "name": "CJBB 103.1 \"Ranch Country\" Englehart, ON",
+          "url": "https://ice10.securenetsystems.net/CJBB",
+          "votes": 25,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d1297fd9-ac1e-45d6-8b90-d8538065115b",
+        "name": "Valley Heritage Radio 98.7 CJHR",
+        "url": "http://178.obj.netromedia.com:8000/6",
+        "votes": 64
+      },
+      "variants": [
+        {
+          "stationuuid": "71dd26b5-7f28-4136-bc61-2398de1b4ef2",
+          "name": "Valley Heritage Radio",
+          "url": "http://178.obj.netromedia.com:8000/6?type=http",
+          "votes": 5,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96216880-0601-11e8-ae97-52543be04c81",
+        "name": "CKUL \"Mix 96.5\" Halifax, NS",
+        "url": "http://newcap.leanstream.co/CKULFM",
+        "votes": 62
+      },
+      "variants": [
+        {
+          "stationuuid": "f2e2e668-41b4-46f6-a49d-40c71267b658",
+          "name": "CKUL-FM \"The Breeze 96.5\" Halifax, NS  ",
+          "url": "http://newcap.leanstream.co/CKULFM",
+          "votes": 13,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9620f7cc-0601-11e8-ae97-52543be04c81",
+        "name": "CJNW 107.1 \"Hot 107\" Edmonton, AB",
+        "url": "http://cjnw.streamon.fm/stream/CJNW-64k.aac",
+        "votes": 62
+      },
+      "variants": [
+        {
+          "stationuuid": "82ab06d7-e3f7-4218-8374-0f1e40be8c60",
+          "name": "CKPW-FM 107.1 \"Play 107\" Edmonton, AB",
+          "url": "http://cjnw.streamon.fm/stream/CJNW-64k.aac",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c970ccf5-732d-4633-bb24-dc9a9033ebe5",
+        "name": "Bolly radio Canada",
+        "url": "https://carina.streamerr.co/stream/8206",
+        "votes": 60
+      },
+      "variants": [
+        {
+          "stationuuid": "28b91e00-ce65-4ce9-9a24-59c16be1b34f",
+          "name": "Bolly radio.com",
+          "url": "https://carina.streamerr.co/stream/8206",
+          "votes": 45,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4dcdb5ac-a0c5-40fc-b037-0db6383ea410",
+        "name": "إذاعة القرآن الكريم",
+        "url": "https://n0a.radiojar.com/0tpy1h0kxtzuv?rj-ttl=5&rj-tok=AAABhdgGORQA-2acfyF3_4WY2g",
+        "votes": 60
+      },
+      "variants": [
+        {
+          "stationuuid": "be67be9b-20f6-4fe2-a1cd-a648377797a8",
+          "name": "##Radio Qur. Sa.",
+          "url": "https://n0a.radiojar.com/0tpy1h0kxtzuv?rj-ttl=5&rj-tok=AAABhdgGORQA-2acfyF3_4WY2g",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "deff2201-eeb9-4ea6-b18b-71dc61936e67",
+        "name": "((( WEFUNK Radio ))) . raw uncut funk . classic & underground hip-hop . playlist & archive on wefunkradio.com",
+        "url": "https://www.wefunkradio.com/play/radio.mp3",
+        "votes": 57
+      },
+      "variants": [
+        {
+          "stationuuid": "213d7b33-6c40-4ace-9900-bf4df16cba66",
+          "name": "WEFUNK Radio",
+          "url": "https://www.wefunkradio.com/play/radio.mp3",
+          "votes": 36,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "60725e5a-36ae-4384-98fa-85593eaa1a87",
+        "name": "Radio Enigma",
+        "url": "https://cast1.torontocast.com:4765/stream",
+        "votes": 55
+      },
+      "variants": [
+        {
+          "stationuuid": "1ac11d63-7ec3-40ed-a858-6d96789577a7",
+          "name": "Radio Enigma RDE",
+          "url": "https://cast1.torontocast.com:4765/stream",
+          "votes": 38,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f205439c-5a27-4e95-ae9f-bba7ac569439",
+        "name": "ICI Musique Calgary - 89.7 FM, Edmonton - 101.1 FM (CBCX-FM)",
+        "url": "https://rcavliveaudio.akamaized.net/hls/live/2006999/M-7AEDM0_EDM/master.m3u8",
+        "votes": 55
+      },
+      "variants": [
+        {
+          "stationuuid": "31166db1-8f6b-4bc6-9e2c-3ab0c3a6686f",
+          "name": "Radio Canada Ici Musique Alberta (Edmonton, AB)",
+          "url": "https://rcavliveaudio.akamaized.net/hls/live/2006999/M-7AEDM0_EDM/master.m3u8",
+          "votes": 30,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9620bdc6-0601-11e8-ae97-52543be04c81",
+        "name": "CHVO 103.9 \"KIXX Country\" Carbonear, NL",
+        "url": "http://newcap.leanstream.co/CHVOFM",
+        "votes": 55
+      },
+      "variants": [
+        {
+          "stationuuid": "6b67225e-dec6-4f37-a396-2330fa101baf",
+          "name": "CHVO \"New Country 103.9\" Carbonear, NL",
+          "url": "http://newcap.leanstream.co/CHVOFM",
+          "votes": 8,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4154540f-643d-4188-9ba9-39cd4b734e3e",
+        "name": "Radio Canada Ici Musique - Bas-Saint-Laurent, Côte-Nord, Gaspésie-Îles-de-la-Madeleine (Rimouski, QC)",
+        "url": "https://rcavliveaudio.akamaized.net/hls/live/2006987/M-7QRIM0_RIM/master.m3u8",
+        "votes": 52
+      },
+      "variants": [
+        {
+          "stationuuid": "087daaf7-e51e-43ab-b305-9bb76627a801",
+          "name": "Bas-Saint-Laurent, Côte-Nord, Gaspésie-Îles-de-la-Madeleine (Rimouski, QC)",
+          "url": "https://rcavliveaudio.akamaized.net/hls/live/2006987/M-7QRIM0_RIM/master.m3u8",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4042d7f0-928c-4a2b-9854-ebedee0eec30",
+        "name": "Z103.5 - CIDC-FM",
+        "url": "https://evanov.leanstream.co/CIDCFM",
+        "votes": 51
+      },
+      "variants": [
+        {
+          "stationuuid": "ee1aa6f0-4f8f-49bd-857c-a218b8700e6b",
+          "name": "z103.5",
+          "url": "https://evanov.leanstream.co/CIDCFM?args=web_01",
+          "votes": 38,
+          "differs": [
+            "name",
+            "url",
+            "bitrate"
+          ]
+        },
+        {
+          "stationuuid": "1ccb37e2-3500-4501-94d3-2d1f657e06db",
+          "name": "CIDC-FM \"Z-103.5\" Orangeville, ON ",
+          "url": "https://evanov.leanstream.co/CIDCFM",
+          "votes": 16,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96163682-0601-11e8-ae97-52543be04c81",
+        "name": "CKLU 96.7 Laurentian University - Sudbury, ON",
+        "url": "http://ckluradio.laurentian.ca:88/broadwave.mp3",
+        "votes": 51
+      },
+      "variants": [
+        {
+          "stationuuid": "a758510a-fb00-4e49-beb8-7076676bdf27",
+          "name": "CKLU 96.7 FM",
+          "url": "http://ckluradio.laurentian.ca:88/broadwave.mp3",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "251ed06f-4d8d-4873-a9c5-bab8fb1c2295",
+        "name": "570 News Kitchener",
+        "url": "https://rogers-hls.leanstream.co/rogers/kit570.stream/playlist.m3u8",
+        "votes": 50
+      },
+      "variants": [
+        {
+          "stationuuid": "89444c43-7d79-4211-9c4f-11c029739101",
+          "name": "CKGL \"City News 570\" Kitchener, ON",
+          "url": "https://rogers-hls.leanstream.co/rogers/kit570.stream/playlist.m3u8",
+          "votes": 43,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a58a839f-d85a-4958-933a-a89853c4c4ff",
+        "name": "106.1 CHEZ",
+        "url": "https://rogers-hls.leanstream.co/rogers/ott1061.stream/playlist.m3u8",
+        "votes": 50
+      },
+      "variants": [
+        {
+          "stationuuid": "de3b2824-54a7-489c-9204-83a11b3d94f6",
+          "name": "CHEZ-FM 106.1 \"Chez 106\" Ottawa, ON",
+          "url": "https://rogers-hls.leanstream.co/rogers/ott1061.stream/playlist.m3u8",
+          "votes": 13,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1a310409-363b-4ef6-aa3f-178d53c9a05a",
+        "name": "Flow 98 7 CKFG-FM - Toronto",
+        "url": "https://ice64.securenetsystems.net:80/CKFG",
+        "votes": 48
+      },
+      "variants": [
+        {
+          "stationuuid": "36daf245-b754-4490-a4b1-7a131a2d7fb1",
+          "name": "Flow 98 7 CKFG-FM Toronto",
+          "url": "https://ice64.securenetsystems.net:80/CKFG",
+          "votes": 28,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5989f586-8bf8-4868-a8b5-72de82248180",
+        "name": "CBC Radio One Saskatoon",
+        "url": "https://cbcradiolive.akamaized.net/hls/live/2041054/ES_R1SSA/adaptive_192/chunklist_ao.m3u8",
+        "votes": 48
+      },
+      "variants": [
+        {
+          "stationuuid": "47334a38-2282-478a-adf1-17a8593438cd",
+          "name": "CBC Radio 1 Saskatoon",
+          "url": "https://cbcradiolive.akamaized.net/hls/live/2041054/ES_R1SSA/adaptive_192/chunklist_ao.m3u8",
+          "votes": 24,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0d8f8ed0-3c8e-4b16-9d00-db4b8574713f",
+        "name": "CKAY 91.7 \"Coast FM\" Nanaimo, BC",
+        "url": "https://vistaradio.streamb.live/SB00081",
+        "votes": 48
+      },
+      "variants": [
+        {
+          "stationuuid": "9f42d6ba-e3aa-49fe-b66f-32883d210890",
+          "name": "91.7 ICON Radio",
+          "url": "https://vistaradio.streamb.live/SB00081?=&&___cb=30649978586825",
+          "votes": 5,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "17dc83ba-5fa2-4363-b664-05e09af3f8b6",
+        "name": "CHOZ-FM 94.7 \"OZ FM\" St. John's, NL",
+        "url": "https://ozfm.streamb.live/SB00174",
+        "votes": 47
+      },
+      "variants": [
+        {
+          "stationuuid": "960309f6-b093-4422-93b0-ab489aec467a",
+          "name": "OZ FM Newfoundland",
+          "url": "https://ozfm.streamb.live/SB00174",
+          "votes": 22,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "691b742a-b8c8-4c57-9737-fc6f5fa8b4b4",
+        "name": "Cina radio",
+        "url": "https://ice8.securenetsystems.net/CINA",
+        "votes": 46
+      },
+      "variants": [
+        {
+          "stationuuid": "7e7170d5-2c06-482a-a030-cad0e4fdafe6",
+          "name": "Cina radio",
+          "url": "https://ice8.securenetsystems.net/CINA",
+          "votes": 45,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ed18911f-a58a-4ffc-bf77-4a5d1c25da78",
+        "name": "The Tri City's Alternative",
+        "url": "https://conestoga.leanstream.co/CJIQFM?args=3rdparty_01&starttime=1605211812",
+        "votes": 45
+      },
+      "variants": [
+        {
+          "stationuuid": "2cbe0322-b42d-4547-8879-0d7bdfc886e1",
+          "name": "CJIQ 88.3 Conestoga College - Kitchener, ON",
+          "url": "https://conestoga.leanstream.co/CJIQFM",
+          "votes": 14,
+          "differs": [
+            "name",
+            "url",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96216dd0-0601-11e8-ae97-52543be04c81",
+        "name": "CKLN 97.1 \"KIXX Country\" Clarenville, NL",
+        "url": "http://newcap.leanstream.co/CKLNFM",
+        "votes": 44
+      },
+      "variants": [
+        {
+          "stationuuid": "6b857c22-72a9-4e9c-8cce-f5f696c825ba",
+          "name": "CKLN \"New Country 97.1\" Clarenville, NL ",
+          "url": "http://newcap.leanstream.co/CKLNFM",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8c6d3cd2-268b-4a7b-91d2-1526b46fc9af",
+        "name": "CHBN-FM  \"KISS 91.7\" Edmonton, AB",
+        "url": "https://rogers-hls.leanstream.co/rogers/edm917.stream/playlist.m3u8",
+        "votes": 42
+      },
+      "variants": [
+        {
+          "stationuuid": "5881923d-e84e-4a5c-8d9e-cd0ad1d8ad77",
+          "name": "CHBN-FM  \"KISS 91.7\" Edmonton, AB",
+          "url": "https://rogers-hls.leanstream.co/rogers/edm917.stream/playlist.m3u8",
+          "votes": 23,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "963c3660-0601-11e8-ae97-52543be04c81",
+        "name": "CHLQ 93.1 \"Q93\" Charlottetown, PE",
+        "url": "http://mbsradio.leanstream.co/CHLQFM-MP3",
+        "votes": 41
+      },
+      "variants": [
+        {
+          "stationuuid": "da9be64b-e637-450b-8d48-1200beda5678",
+          "name": "CHLQ-FM \"MAX 93.1\" Charlottetown, PE ",
+          "url": "http://mbsradio.leanstream.co/CHLQFM-MP3",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9621a448-0601-11e8-ae97-52543be04c81",
+        "name": "CJXK 95.3 \"K-Rock\" Cold Lake, AB",
+        "url": "http://newcap.leanstream.co/CJXKFM",
+        "votes": 41
+      },
+      "variants": [
+        {
+          "stationuuid": "931d3832-0967-424a-8191-dbb394e15479",
+          "name": "CJXK-FM \"Boom 95.3\" - Cold Lake, AB",
+          "url": "http://newcap.leanstream.co/CJXKFM",
+          "votes": 11,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8001b783-671b-11e9-af37-52543be04c81",
+        "name": "CKEZ \"Z97.9\"  New Glasgow, NS",
+        "url": "https://newcap.leanstream.co/CKEZFM",
+        "votes": 41
+      },
+      "variants": [
+        {
+          "stationuuid": "cc72ddc9-377e-4a78-b9fa-d4a66198cec1",
+          "name": "CKEZ-FM \"Q97.9\" - New Glasgow, NS",
+          "url": "https://newcap.leanstream.co/CKEZFM",
+          "votes": 10,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d91fc297-b1c1-40e8-972f-2d81ea7c3c35",
+        "name": "Cariboo Country",
+        "url": "https://vistaradio.streamb.live/SB00071",
+        "votes": 40
+      },
+      "variants": [
+        {
+          "stationuuid": "fa791962-a7cc-4879-88e1-0b71f62423d0",
+          "name": "CKCQ \"Cariboo Country\" 100.3 Quesnel & 570 Williams Lake, BC",
+          "url": "https://vistaradio.streamb.live/SB00071",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7bff7f20-e5e4-46bc-a4b7-6b5868bbcdaa",
+        "name": "CFQR 600",
+        "url": "https://centova.radioservers.biz/proxy/canadai1/stream",
+        "votes": 36
+      },
+      "variants": [
+        {
+          "stationuuid": "4510efc3-6eb8-4365-9ca2-1eb191a964cd",
+          "name": "CFQR 600 Montreal, QC",
+          "url": "https://centova.radioservers.biz/proxy/canadai1/stream",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "117dab3c-3e9e-431e-b9f0-1f73202ba9f5",
+          "name": "CFQR 600 AM",
+          "url": "https://centova.radioservers.biz/proxy/canadai1/stream",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9620f27c-0601-11e8-ae97-52543be04c81",
+        "name": "CHRK \"Giant 101.9\" Sydney, NS",
+        "url": "http://newcap.leanstream.co/CHRKFM",
+        "votes": 36
+      },
+      "variants": [
+        {
+          "stationuuid": "cd7b2e21-effe-4f55-a6cb-6dadff13148d",
+          "name": "CHRK-FM \"Hot 101.9\" - Sydney, NS",
+          "url": "http://newcap.leanstream.co/CHRKFM",
+          "votes": 3,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96204ce5-0601-11e8-ae97-52543be04c81",
+        "name": "CKIX 99.1 \"Hits FM\" St. John's, NL",
+        "url": "http://newcap.leanstream.co/CKIXFM",
+        "votes": 36
+      },
+      "variants": [
+        {
+          "stationuuid": "9b114c4d-3c5c-46a8-af70-18dcec573add",
+          "name": "CKIX-FM \"Hot 99.1\"  St. John's, NL",
+          "url": "http://newcap.leanstream.co/CKIXFM",
+          "votes": 3,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fced9186-fb98-4bc6-b618-905f5705c2e1",
+        "name": "HITS 100",
+        "url": "https://sboucher.radioca.st/stream",
+        "votes": 35
+      },
+      "variants": [
+        {
+          "stationuuid": "73c8003f-9ff1-46fd-aa83-c947e99be032",
+          "name": "CFRM-FM 100.7 \"Hits 100\" Little Current, ON",
+          "url": "https://sboucher.radioca.st/stream",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "3f6445a4-6bb4-497e-a0b9-d8c398277c6a",
+          "name": "HITS100",
+          "url": "https://sboucher.radioca.st/stream",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5fd43583-7165-4145-a6b0-678cf62dcb6d",
+        "name": "CITR - University of British Columbia",
+        "url": "https://live.citr.ca/live.aac",
+        "votes": 35
+      },
+      "variants": [
+        {
+          "stationuuid": "99dbaf52-8fcc-4585-807e-bcc7e501c15e",
+          "name": "CITR",
+          "url": "https://live.citr.ca/live.aac",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "79e49578-4b7b-4b3d-a08f-29212d5ebe69",
+        "name": "Moose FM 93.5 Haliburton - CFZN",
+        "url": "https://vistaradio.streamb.live/SB00113",
+        "votes": 34
+      },
+      "variants": [
+        {
+          "stationuuid": "e030f166-f1e9-49a2-95d1-aefc226c0461",
+          "name": "CFZN-FM \"93.5 Moose FM\" Haliburton, ON ",
+          "url": "https://vistaradio.streamb.live/SB00113",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "963f722e-0601-11e8-ae97-52543be04c81",
+        "name": "CKEN \"AVR 97.7\" Kentville, NS",
+        "url": "http://mbsradio.leanstream.co/CKENFM-MP3",
+        "votes": 34
+      },
+      "variants": [
+        {
+          "stationuuid": "c0c48262-be9c-4f75-8565-1ddbf9d4751b",
+          "name": "AVR 97.7",
+          "url": "http://mbsradio.leanstream.co/CKENFM-MP3",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "15928e36-5a32-4841-9edc-13b4f4c4462c",
+        "name": "La Bonita X101",
+        "url": "https://listen.labonita.torontocast.stream/",
+        "votes": 33
+      },
+      "variants": [
+        {
+          "stationuuid": "9fa14ddf-4fba-45dc-b630-50c2d120b935",
+          "name": "La Bonita X101",
+          "url": "https://listen.labonita.torontocast.stream/",
+          "votes": 13,
+          "differs": []
+        },
+        {
+          "stationuuid": "1c469232-1ce2-42af-ad9d-11ded64a5b8e",
+          "name": "La Bonita X101",
+          "url": "https://listen.labonita.torontocast.stream/",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a575e9ce-dfb1-48c6-8672-48ad748256e6",
+        "name": "CHMA 106.9 FM Sackville, NB",
+        "url": "https://securestreams6.autopo.st:2111/",
+        "votes": 32
+      },
+      "variants": [
+        {
+          "stationuuid": "f3426af3-fff2-4183-ae36-6e6b7504bacf",
+          "name": "CHMA 106.9 FM Sackville, NB",
+          "url": "https://securestreams6.autopo.st:2111/?1731303876903=",
+          "votes": 5,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96216150-0601-11e8-ae97-52543be04c81",
+        "name": "CIJK 89.3 \"K-Rock\" Kentville, NS",
+        "url": "http://newcap.leanstream.co/CIJKFM",
+        "votes": 31
+      },
+      "variants": [
+        {
+          "stationuuid": "d0be75e3-cfc9-4249-8937-62ed1069f125",
+          "name": "CIJK-FM \"Rewind 89.3\" - New Minas, NS",
+          "url": "http://newcap.leanstream.co/CIJKFM",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96095f5f-0601-11e8-ae97-52543be04c81",
+        "name": "CHNI \"Rock 88.9\" Saint John, NB",
+        "url": "http://newcap.leanstream.co/CHNIFM",
+        "votes": 31
+      },
+      "variants": [
+        {
+          "stationuuid": "62e8f9d3-e6fb-4b7d-9ef5-8b210331ef33",
+          "name": "CHNI-FM \"Q88.9\" - Saint John, NB",
+          "url": "http://newcap.leanstream.co/CHNIFM",
+          "votes": 8,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9620c7e2-0601-11e8-ae97-52543be04c81",
+        "name": "CKWY 93.7 \"Wayne FM\" Wainwright, AB",
+        "url": "http://newcap.leanstream.co/CKWYFM",
+        "votes": 31
+      },
+      "variants": [
+        {
+          "stationuuid": "52e412f3-17de-4850-ae81-6b4d1a483655",
+          "name": "CKWY-FM \"Hot 93.7\"  Wainwright, AB",
+          "url": "http://newcap.leanstream.co/CKWYFM",
+          "votes": 8,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3fb19748-a163-4b72-9cd7-a27ffafd1198",
+        "name": "CBC Music Central (Winnipeg) - MP3 Stream",
+        "url": "https://27033.live.streamtheworld.com/CBWFM_CBC_SC",
+        "votes": 30
+      },
+      "variants": [
+        {
+          "stationuuid": "f1e32545-f010-478e-9970-8760701b8b90",
+          "name": "CBC Music (Central) - Winnipeg, MB",
+          "url": "https://27033.live.streamtheworld.com/CBWFM_CBC_SC",
+          "votes": 21,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2e02dcee-6ae4-11e9-af37-52543be04c81",
+        "name": "CKBN \"VIA 90.5 FM\" Bécancour, QC",
+        "url": "http://stream.statsradio.com:8056/stream",
+        "votes": 29
+      },
+      "variants": [
+        {
+          "stationuuid": "375c658b-09af-476e-bbfb-7dcb5ed8311b",
+          "name": "CKBN \"Via 90.5\" Saint-Gregoire, QC ",
+          "url": "http://stream.statsradio.com:8056/stream",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2a635cd4-66b5-4d31-a3eb-990abbb8aba3",
+        "name": "JB Radio-2 (AAC)",
+        "url": "https://mediacp.jb-radio.net:8001/aac",
+        "votes": 28
+      },
+      "variants": [
+        {
+          "stationuuid": "f166eeab-cc54-4168-b7b7-468ea750c26c",
+          "name": "JBRadio2",
+          "url": "https://mediacp.jb-radio.net:8001/aac",
+          "votes": 26,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "26a66154-7de4-4583-b78d-ba0b8c6a71fb",
+        "name": "Radio Unicité",
+        "url": "https://listen.radioking.com/radio/521287/stream/579484",
+        "votes": 28
+      },
+      "variants": [
+        {
+          "stationuuid": "a4fdf689-3c11-4102-8fa2-8604f9f1b19c",
+          "name": "Radio Unicité",
+          "url": "https://listen.radioking.com/radio/521287/stream/579484",
+          "votes": 14,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1caced3d-0279-46b2-8f1b-06944a6024ab",
+        "name": "scifi.radio",
+        "url": "https://station.kryptonradio.com:8080/stream",
+        "votes": 28
+      },
+      "variants": [
+        {
+          "stationuuid": "a6348a3d-8c75-4dd9-bf7a-d65bd21d7a4b",
+          "name": "sci.radio",
+          "url": "https://station.kryptonradio.com:8080/stream",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96221e07-0601-11e8-ae97-52543be04c81",
+        "name": "CHMX \"My 92.1\" Regina. SK",
+        "url": "http://chmx.streamon.fm/stream/CHMX-64k.aac",
+        "votes": 27
+      },
+      "variants": [
+        {
+          "stationuuid": "9c3bcc0e-c08b-4a71-a702-aa8f0f41ec19",
+          "name": "CHMX \"Play 92.1\" Regina, SK",
+          "url": "http://chmx.streamon.fm/stream/CHMX-64k.aac",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "208b887f-28c5-410e-8981-129b97b77404",
+        "name": "RPGN Game Music Radio",
+        "url": "http://listen.rpgamers.net/rpgn",
+        "votes": 27
+      },
+      "variants": [
+        {
+          "stationuuid": "178f9ef0-57ec-4c27-b7d7-07246a1dcdee",
+          "name": "RPGN Radio",
+          "url": "http://listen.rpgamers.net/rpgn",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9621cc60-0601-11e8-ae97-52543be04c81",
+        "name": "CHOK 1070 & 103.9 Sarnia, ON",
+        "url": "http://live.leanstream.co/CHOKAM",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "757ffa9e-7711-4b97-a1d0-c0aae630521b",
+          "name": "CHOK 103.9 FM & 1070 AM  \"Country CHOK\" Sarnia, ON  (AAC Stream)",
+          "url": "http://live.leanstream.co/CHOKAM",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3996a85a-6724-4d92-ab89-636e12bb8578",
+        "name": "CJUV-FM 94.1 Sunny 94",
+        "url": "https://goldenwest.leanstream.co/CJUVFM-MP3",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "21dd5c12-30d2-49d5-a235-182dc3008629",
+          "name": "CJUV-FM 94.1 \"Sunny 94",
+          "url": "https://goldenwest.leanstream.co/CJUVFM-MP3?args=tunein_02",
+          "votes": 12,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "a91622c6-5103-4929-882f-7a2f69356ad0",
+          "name": "CJUV-FM 94.1 \"Sunny 94\" Lacombe, AB (MP3 Stream)",
+          "url": "https://goldenwest.leanstream.co/CJUVFM-MP3",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "de5db0ba-68b2-11e9-af37-52543be04c81",
+        "name": "CHFM 95.9 Calgary, AB",
+        "url": "https://rogers-hls.leanstream.co/rogers/cal959.stream/playlist.m3u8",
+        "votes": 25
+      },
+      "variants": [
+        {
+          "stationuuid": "e748dcdc-fb1b-4294-bc1b-c74b8859ae24",
+          "name": "CHFM-FM \"Star 95.9\" Calgary, AB  ",
+          "url": "https://rogers-hls.leanstream.co/rogers/cal959.stream/playlist.m3u8",
+          "votes": 14,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96216d09-0601-11e8-ae97-52543be04c81",
+        "name": "CJYQ \"930 KIXX Country\" St. John's, NL",
+        "url": "http://newcap.leanstream.co/CJYQAM",
+        "votes": 25
+      },
+      "variants": [
+        {
+          "stationuuid": "33b7ee78-d3fc-4cf3-88f3-bbc363bbabd7",
+          "name": "CJYQ \"New Country 930\" St. John's, NL",
+          "url": "http://newcap.leanstream.co/CJYQAM",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a1dacd30-2ce2-4c61-86dd-91e4978b9673",
+        "name": "CJXL \"New Country 96.9\" Moncton, NB",
+        "url": "http://newcap.leanstream.co/CJXLFM",
+        "votes": 24
+      },
+      "variants": [
+        {
+          "stationuuid": "96120852-0601-11e8-ae97-52543be04c81",
+          "name": "CJXL 96.1 \"XL 96\" Moncton, NB",
+          "url": "http://newcap.leanstream.co/CJXLFM",
+          "votes": 22,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a452c587-6154-4cdd-b81a-1dfc15783ae8",
+        "name": "CHOC 88.7",
+        "url": "https://stream2.statsradio.com:8110/stream",
+        "votes": 24
+      },
+      "variants": [
+        {
+          "stationuuid": "916b4fc2-421c-4cc4-96d8-ba1a2782f3ee",
+          "name": "CHOC-FM 88.7  Saint-Raymond de Portneuf, QC",
+          "url": "https://stream2.statsradio.com:8110/stream",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ba4e48cc-f721-41ed-930d-89ebc9b1e307",
+          "name": "Choc FM",
+          "url": "https://stream2.statsradio.com:8110/stream",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3c8ece15-4bb1-4479-be00-3fb95ea3c716",
+        "name": "CIUT 89.5FM",
+        "url": "https://ice23.securenetsystems.net/CIUT",
+        "votes": 23
+      },
+      "variants": [
+        {
+          "stationuuid": "c9f409ca-5f66-4dfd-824f-6b0006a29bc7",
+          "name": "CIUT University of Toronto",
+          "url": "https://ice23.securenetsystems.net/CIUT",
+          "votes": 21,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "1ed38c8b-f860-466b-809d-6ca95bf1453a",
+          "name": "CIUT University of Toronto",
+          "url": "https://ice23.securenetsystems.net/CIUT",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96215d31-0601-11e8-ae97-52543be04c81",
+        "name": "CIHI \"Up 93.1\" Fredericton, NB",
+        "url": "http://newcap.leanstream.co/CIHIFM",
+        "votes": 23
+      },
+      "variants": [
+        {
+          "stationuuid": "68da4fe8-7e67-4b0f-8f34-5cf2fbf0cc19",
+          "name": "CIHI-FM \"Rewind 93.1\" - Fredericton, NB",
+          "url": "http://newcap.leanstream.co/CIHIFM",
+          "votes": 13,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "68d98639-67d3-11e9-af37-52543be04c81",
+        "name": "CITI 92.1",
+        "url": "https://rogers-hls.leanstream.co/rogers/win921.stream/playlist.m3u8",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "9c97dc62-a2bf-438f-b765-6b5cff56983c",
+          "name": "CITI 92.1 Winnipeg, MB",
+          "url": "https://rogers-hls.leanstream.co/rogers/win921.stream/playlist.m3u8",
+          "votes": 22,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961fedf7-0601-11e8-ae97-52543be04c81",
+        "name": "CHKS \"K-106.3\" Sarnia, ON",
+        "url": "http://live.leanstream.co/CHKSFM",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "a21e19e0-4b74-404c-bf73-124c8af8073b",
+          "name": "CHKS-FM \"Cool 106.3\" Sarnia, ON ",
+          "url": "http://live.leanstream.co/CHKSFM",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961f7f2a-0601-11e8-ae97-52543be04c81",
+        "name": "CING 95.3 \"Fresh Radio\" Hamilton, ON",
+        "url": "http://live.leanstream.co/CINGFM-MP3",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "0b63b14d-0ee2-4811-a410-e2d0785f7ad3",
+          "name": "CING-FM \"Energy 95.3\" Hamilton, ON (MP3 Stream)",
+          "url": "http://live.leanstream.co/CINGFM-MP3",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7772f7a0-42bd-4010-a34a-4c58b2e322ed",
+        "name": "Seaside FM 105.9 - CFEP-FM - Eastern Passage",
+        "url": "https://seasidefm1059.radioca.st/;",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "ed98c6aa-0118-443b-9eef-b5033048221b",
+          "name": "Seaside FM",
+          "url": "https://seasidefm1059.radioca.st/;",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a2ee5360-69fc-11e9-af37-52543be04c81",
+        "name": "CFBX 92.5 \"The X\" Thompson Rivers University - Kamloops, BC",
+        "url": "http://198.162.21.84:8002/;",
+        "votes": 21
+      },
+      "variants": [
+        {
+          "stationuuid": "56d2e7c0-fca6-472e-974c-07b2ad3e2928",
+          "name": "92.5FM The X - CFBX, Kamloops, B.C. Canada",
+          "url": "http://198.162.21.84:8002/;?type=http&nocache=10%2Fstream.mp3&_=1",
+          "votes": 20,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "455f1931-671c-11e9-af37-52543be04c81",
+        "name": "CKEC \"Mix 94.1\" New Glasgow, NS",
+        "url": "https://newcap.leanstream.co/CKECFM",
+        "votes": 20
+      },
+      "variants": [
+        {
+          "stationuuid": "be63839c-0f9b-4582-aa93-74d67c26d25c",
+          "name": "CKEC-FM 94.1 \"The Breeze\" - New Glasgow, NS",
+          "url": "https://newcap.leanstream.co/CKECFM",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1bb4abb2-f9ab-47a7-996d-8109884b4ee4",
+        "name": "Greatest Hits Of All Time",
+        "url": "http://160.153.184.146:8018/mp3",
+        "votes": 20
+      },
+      "variants": [
+        {
+          "stationuuid": "f3aef538-fc88-45d4-8e6a-6a44610894e0",
+          "name": "GHOAT",
+          "url": "http://160.153.184.146:8018/mp3",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f8b2cd78-5142-4978-a222-5d0435fe10dd",
+        "name": "CKCU FM 93.1",
+        "url": "https://stream2.statsradio.com:8124/stream",
+        "votes": 19
+      },
+      "variants": [
+        {
+          "stationuuid": "e36c7ebe-2b72-497e-977e-bf05fd2e20fa",
+          "name": "CKCU The Mighty 93.1",
+          "url": "https://stream2.statsradio.com:8124/stream",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8087e3ab-c4c1-4697-b859-200420535e33",
+          "name": "CKCU 93.1 FM",
+          "url": "https://stream2.statsradio.com:8124/stream",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "01d3a8fd-0904-4d77-a28d-eff989054c97",
+        "name": "CJOC 94.1  \"Classic Hits\" Lethbridge, AB ",
+        "url": "https://vistaradio.streamb.live/SB00093",
+        "votes": 19
+      },
+      "variants": [
+        {
+          "stationuuid": "c841eb52-39a6-4083-8f04-a68e0cfa3568",
+          "name": "CJOC 94.1",
+          "url": "https://vistaradio.streamb.live/SB00093",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6f6c5640-4987-4ccd-9c5c-9d74689e03e3",
+        "name": "KONA Stream",
+        "url": "http://jenny.torontocast.com:9002/stereo",
+        "votes": 18
+      },
+      "variants": [
+        {
+          "stationuuid": "e3696739-8c68-440d-bc7a-d2bdaba95e25",
+          "name": "KONA Stream",
+          "url": "http://jenny.torontocast.com:9002/stereo",
+          "votes": 18,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c744b894-2744-44a7-afbf-ec6b915ff454",
+        "name": "Fighting Game Community Radio",
+        "url": "https://radio.fgcast.com/listen/fgc_radio/standard.mp3",
+        "votes": 18
+      },
+      "variants": [
+        {
+          "stationuuid": "5b7bddb3-d077-40c4-af97-eba0dc161ecb",
+          "name": "Fighting Game Community Radio",
+          "url": "https://radio.fgcast.com/listen/fgc_radio/standard.mp3",
+          "votes": 8,
+          "differs": []
+        },
+        {
+          "stationuuid": "f3e803e7-63ed-47ca-8b87-c19d99394193",
+          "name": "Fighting Game Community Radio",
+          "url": "https://radio.fgcast.com/listen/fgc_radio/standard.mp3",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e4a966a5-e423-4c25-b1b4-f529aba6dac4",
+        "name": "Rythme 100,1 Mauricie",
+        "url": "https://s33.myradiostream.com/15364/listen.mp3",
+        "votes": 18
+      },
+      "variants": [
+        {
+          "stationuuid": "7d9d82a2-155b-4002-bc67-4cd79f65d6b8",
+          "name": "CHMK 93.1 Manawan",
+          "url": "https://s33.myradiostream.com/15364/listen.mp3",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a7a8cb08-bedb-449c-96b9-7e0672e6d3c2",
+        "name": "95.5 Hits FM",
+        "url": "https://starboard.streamb.live/SB00160",
+        "votes": 16
+      },
+      "variants": [
+        {
+          "stationuuid": "930f808d-b9b8-42a3-a29f-1d4358bbdd26",
+          "name": "CJOJ-FM 95.5 \"Hits FM\" Belleville, ON  ",
+          "url": "https://starboard.streamb.live/SB00160",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f94554ef-579a-423a-8326-d87cbcfdfbd4",
+        "name": "103.9 MAX FM - Moncton's Greatest Hits",
+        "url": "http://mbsradio-ais.leanstream.co/CFQMFM-MP3?args=mobile_01&aw_0_req.gdpr=false&gdpr=false",
+        "votes": 16
+      },
+      "variants": [
+        {
+          "stationuuid": "bf35b717-8600-4f0e-bcff-c5ebd0cbc547",
+          "name": "103.9 MAX FM - Moncton's Greatest Hits",
+          "url": "http://mbsradio-ais.leanstream.co/CFQMFM-MP3?args=mobile_01&aw_0_req.gdpr=false&gdpr=false",
+          "votes": 15,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6bce7a62-ca7b-4fc5-8f59-79058cf17601",
+        "name": "CKCE-FM 101.5 \"Today Radio\" Calgary, AB  ",
+        "url": "https://stream.jpbgdigital.com/CKCE.m3u8",
+        "votes": 16
+      },
+      "variants": [
+        {
+          "stationuuid": "64f28cfb-645c-4566-8ed1-4f40dd800d12",
+          "name": "CKCE-FM 101.5 \"Today Radio\" Calgary, AB  ",
+          "url": "https://stream.jpbgdigital.com/CKCE.m3u8",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8b06d8d4-01ae-4a81-9c98-72425ce4a79e",
+        "name": "iHeart The Holidays (AAC+)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ST29_SO1AAC.aac",
+        "votes": 16
+      },
+      "variants": [
+        {
+          "stationuuid": "a1f49a50-6409-4922-86f7-579de3a05a9d",
+          "name": "iHeart The Holidays (AAC+)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ST29_SO1AAC.aac",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "04fff7df-6996-11e9-af37-52543be04c81",
+        "name": "CKJR \"W1440\" Wetaskiwin, AB",
+        "url": "https://newcap.leanstream.co/CKJRAM",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "fcc762af-f6cb-420a-a9ef-ff3a26296231",
+          "name": "CKJR \"Sports 1440\" Wetaskiwin, AB (AAC Stream)",
+          "url": "https://newcap.leanstream.co/CKJRAM",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e1f54922-dd0a-4b2e-9981-61016d42fb15",
+        "name": "CKVV 97.5 \"Juice FM\" Kemptville, ON ",
+        "url": "https://vistaradio.streamb.live/SB00108",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "27fb1674-2c96-403a-b5d3-dcc606c9f9b7",
+          "name": "CKVV 97.5 \"Moose FM\" Kemptville, ON ",
+          "url": "https://vistaradio.streamb.live/SB00108",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e70083a3-133b-4b8f-9509-ae2d37fdbe7b",
+        "name": "Uturn Radio - Drum And Bass",
+        "url": "http://listen.uturnradio.com/drum_and_bass",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "2c68a091-c21b-49df-89db-4b4410a42430",
+          "name": "Uturn Radio - Drum And Bass",
+          "url": "http://listen.uturnradio.com/drum_and_bass",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962136fa-0601-11e8-ae97-52543be04c81",
+        "name": "CJEG \"Kool 101.3 FM\" Bonnyville, AB",
+        "url": "http://newcap.leanstream.co/CJEGFM",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "9ac93c3f-a984-494b-be88-360b6de6c47d",
+          "name": "CJEG-FM \"Hot 101.3\" - Bonnyville, AB",
+          "url": "http://newcap.leanstream.co/CJEGFM",
+          "votes": 6,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        },
+        {
+          "stationuuid": "d52fb8d5-62fc-4185-bc74-4b6374500f30",
+          "name": "CJEG-FM \"Hot 101.3\" - Bonnyville, AB",
+          "url": "http://newcap.leanstream.co/CJEGFM",
+          "votes": 2,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7f52cbda-a9ad-42e6-96e4-b9d0cbaa4ce4",
+        "name": "ICI Radio-Canada Première Nouveau-Brinswick",
+        "url": "https://rcavliveaudio.akamaized.net/hls/live/2006952/P-2EMCT0_MCT/master.m3u8",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "ad0173f8-9c5d-4f14-84b5-a8e83fce32fc",
+          "name": "Radio Canada Ici Première (Nouveau-Brunswick) Moncton, NB",
+          "url": "https://rcavliveaudio.akamaized.net/hls/live/2006952/P-2EMCT0_MCT/master.m3u8",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "53b13b7f-e968-4eb7-afff-0e5ff19680fd",
+        "name": "CJFO 94.5 \"Unique FM\" Ottawa, ON",
+        "url": "http://stream2.statsradio.com:8038/stream",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "8495087d-77b7-49fb-b1eb-8431255de050",
+          "name": "CJFO \"Unique FM\"",
+          "url": "http://stream2.statsradio.com:8038/stream",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f561f269-427b-4fa7-9b7f-881e45a829d5",
+        "name": "Life 100.3",
+        "url": "https://netstream.lifeonline.fm/CJLF/ogg_high",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "52c93ff4-d87e-45f2-8135-1f5a955713b6",
+          "name": "CJLF \"LIFE 100.3\" Barrie, ON",
+          "url": "https://netstream.lifeonline.fm/CJLF/ogg_high",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4845c5a0-641f-46d4-a659-657e81c596df",
+        "name": "my FM 88.1",
+        "url": "https://mybroadcasting.streamb.live/SB00315",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "d489c280-a0b3-4ef4-a4b1-1d757894c9d4",
+          "name": "myFM88.1",
+          "url": "https://mybroadcasting.streamb.live/SB00315",
+          "votes": 6,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8217e7a3-7374-4358-ae14-078bd3abfd03",
+        "name": "CIKR \"K-Rock 105.7\" Kingston, ON",
+        "url": "https://rogers-hls.leanstream.co/rogers/kin1057.stream/playlist.m3u8",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "7e9bf2d6-cccc-4ddc-ab70-a3038bea715e",
+          "name": "K-Rock 105.7 Kingston's Rock Station",
+          "url": "https://rogers-hls.leanstream.co/rogers/kin1057.stream/playlist.m3u8?environment=web&args=app_03",
+          "votes": 4,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a8ed6cf6-9335-453f-9928-58c7f3449809",
+        "name": "CFXN 106.3 \"Jet FM\" North Bay, ON ",
+        "url": "https://vistaradio.streamb.live/SB00100",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "c810036f-be75-4058-893a-e07edbc5b92a",
+          "name": "CFXN",
+          "url": "https://vistaradio.streamb.live/SB00100?=&&___cb=27428096384366",
+          "votes": 2,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d1ab9390-99e0-4e04-87d9-9d20a7967d87",
+        "name": "CHUO-FM 89.1  University of Ottawa, ON",
+        "url": "https://stream.statsradio.com:8102/stream",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "3ddcdd47-5840-4b4e-b88c-ca52291d3e20",
+          "name": "CHOU 89.1 Community Radio Ottawa",
+          "url": "https://stream.statsradio.com:8102/stream",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0029f440-de06-4122-8c89-09e2ad0fa33e",
+        "name": "102.3 Juice FM Grand Forks BC",
+        "url": "https://vistaradio.streamb.live/SB00084",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "64873eb8-bac1-4f4c-af1f-b5291544d1d3",
+          "name": "CKGF 102.3 \"Juice FM\" Grand Forks, BC",
+          "url": "https://vistaradio.streamb.live/SB00084",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c6e06489-671e-4745-8eb2-c5c5789dae56",
+        "name": "iHeart The Holidays (MP3)",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ST29_SO1.mp3",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "51239cdd-d426-4473-9872-365c2468f644",
+          "name": "iHeart The Holidays (MP3)",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/ST29_SO1.mp3",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c0f70edf-19f3-4993-9258-954656c2746e",
+        "name": "CFRC 101.9fm - Queen's University, Kingston, ON",
+        "url": "https://audio.cfrc.ca/stream",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "2db2222e-866d-4ee4-9d43-2af9e5b89db7",
+          "name": "CFRC 101.9fm - Queen's University, Kingston, ON",
+          "url": "https://audio.cfrc.ca/stream",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "df6117f5-c79c-46bc-aec2-97d056d54e3d",
+        "name": "CHOI 98.1 Radio X",
+        "url": "https://lb0-stream.radiox981.ca/choi.aac",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "0dd90532-85a3-4e5b-93e7-fe83aefb68d7",
+          "name": "CHOI 98,1 Radio X",
+          "url": "https://lb0-stream.radiox981.ca/choi.aac",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "88026e68-5744-41ff-b5fe-108d94b31a05",
+        "name": "Ritmo X99",
+        "url": "https://listen.ritmo.torontocast.stream/",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "838b7009-5a0c-4bfe-ab5f-65bfe420e499",
+          "name": "Ritmo X99",
+          "url": "https://listen.ritmo.torontocast.stream/",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bb1a080d-d827-4ec4-87f4-40405fe31923",
+        "name": "CKWD-FM \"Wild 95.3\" Calgary, AB ",
+        "url": "https://stream.jpbgdigital.com/CKWD.m3u8",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "b9a130fb-d990-45f4-ae04-82b6a33d5bf2",
+          "name": "Wild95",
+          "url": "https://stream.jpbgdigital.com/CKWD.m3u8",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "03bd674a-559f-461b-9333-d5d1be169920",
+        "name": "CKC455 91.9 \"CFRE Radio\"  University of Toronto Mississauga, ON",
+        "url": "http://s2.yesstreaming.net:7069/stream",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "ce01502d-8f5a-4867-8104-fad3cbedb11e",
+          "name": "CFRE",
+          "url": "http://s2.yesstreaming.net:7069/stream",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "90b55c79-b8c3-40b1-a530-a664c2ae92f2",
+        "name": "Cabin Radio.ca - Yellowknife, NT",
+        "url": "https://streams.radiomast.io/5f60e08a-1c90-43ed-8714-66e41d15497d",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "008b9889-eab2-4afe-bafe-a5d20b78bf47",
+          "name": "Cabin Radio",
+          "url": "https://streams.radiomast.io/5f60e08a-1c90-43ed-8714-66e41d15497d?t=dark",
+          "votes": 6,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1302889b-2243-4b4f-a951-81dc85820741",
+        "name": "CHTM 102.9 FM & 610 AM \"Arctic Radio\" Thompson, MB",
+        "url": "https://us2.maindigitalstream.com/ssl/CHTM",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "4007b76e-7133-4f1d-948c-841a07b3f3fb",
+          "name": "102.9 CHTM Your Radio - Thompson",
+          "url": "https://us2.maindigitalstream.com/ssl/CHTM",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "695aab8e-c413-4449-9f97-83c2926b1e58",
+        "name": "MIX ROCK METAL RADIO",
+        "url": "https://s3.myradiostream.com:4202/listen.mp3",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "df7bb7ec-788c-4665-99ae-5243c3b24e2d",
+          "name": "MIX ROCK METAL RADIO",
+          "url": "https://s3.myradiostream.com:4202/listen.mp3",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4481723d-2101-4b87-8c42-fbc13463ffc6",
+        "name": "Countryradio.Musicbox4friends",
+        "url": "https://maggie.torontocast.com:8092/country",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "e02bf35d-d30d-4310-9f64-30626fc046fb",
+          "name": "Countryradio.Musicbox4friends",
+          "url": "https://maggie.torontocast.com:8092/country",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5aefbee1-5fbf-4321-8267-4327b1cd0159",
+        "name": "CFBV \"The Moose\" 870 Smithers, 106.5 Houston, 760 Burns Lake, BC",
+        "url": "https://vistaradio.streamb.live/SB00077",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "3960e607-9f53-4676-9605-92f74c8f29c9",
+          "name": "The Moose Smithers",
+          "url": "https://vistaradio.streamb.live/SB00077",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "71fdb07a-de31-4635-957c-c2f692fbe9bd",
+        "name": "NCI-FM Network (Manitoba-wide)",
+        "url": "http://201.netromedia.com/NCIFM1/NCIFM1/playlist.m3u8",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "d61559af-bb7d-43d9-b243-0ed54512db91",
+          "name": "NCI fm",
+          "url": "http://201.netromedia.com/NCIFM1/NCIFM1/playlist.m3u8",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f48f9e04-5167-4948-9fd7-285deb7aae4a",
+        "name": "CKUW Winnipeg",
+        "url": "http://shout.mtl.gameservers.com:9025/;",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "b5b85c64-52aa-4dd5-b48c-2a98d8400467",
+          "name": "CKUW 95.9fm",
+          "url": "http://shout.mtl.gameservers.com:9025/;",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f0a9d6f7-86a2-4d81-a251-e8feb0b4ae9d",
+          "name": "CKUW 95.9 FM ",
+          "url": "http://shout.mtl.gameservers.com:9025/;",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dbdc5295-5f3b-462d-8aaa-4f3fad1a1dca",
+        "name": "102.9 CFAR Your Radio - Flin Flon",
+        "url": "https://us2.maindigitalstream.com/ssl/CFAR",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "1ad5b220-5264-49c1-b5a3-abb5e2ea53a8",
+          "name": "CFAR 102.9 FM & 590 AM \"Arctic Radio\" Flin Flon, MB ",
+          "url": "https://us2.maindigitalstream.com/ssl/CFAR",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "44cf130b-2d7c-4fdc-85f0-b9189c11a2a0",
+        "name": "94.1 Juice FM",
+        "url": "https://vistaradio.streamb.live/SB00087?=&&___cb=750829174267127",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "a0a01206-e8d1-4775-9d10-967888d8347d",
+          "name": "CKCV 94.1 \"Juice FM\" Creston, BC",
+          "url": "https://vistaradio.streamb.live/SB00087",
+          "votes": 3,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "50f9334e-155f-4096-a98f-8ae468cafa1c",
+        "name": "CHRI 99.1 Ottawa",
+        "url": "https://s8.yesstreaming.net:17186/stream",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "8aee2cc0-ad62-4f54-82c0-608fb6133cad",
+          "name": "CHRI-FM Ottawa",
+          "url": "https://s8.yesstreaming.net:17186/stream",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "26f2363d-5861-4e7a-8ce5-a0f4eaa97b8f",
+        "name": "Radio Bellissima Relax Playlist",
+        "url": "https://listen.openstream.co/3607/audio",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "765eb99d-6670-4c04-9449-fa8d187b2800",
+          "name": "Radio Bellissima Relax M3U",
+          "url": "https://listen.openstream.co/3607/audio",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3b97dc04-bb7d-4184-8047-c4d009d4be95",
+        "name": "88.7 The Ghoat",
+        "url": "http://72.167.53.106:8018/MP3",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "788b4e4e-6ccb-43a4-a290-a8e970ed5383",
+          "name": "88.7 The Ghoat",
+          "url": "http://72.167.53.106:8018/MP3",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96f7c331-5f22-4c25-8456-6e8037ff67c1",
+        "name": "radio ckrl",
+        "url": "http://stream02.ustream.ca:8000/ckrl128.mp3",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "0270611c-8d2d-4888-aff9-c52d1a4c167e",
+          "name": "ckrl",
+          "url": "http://stream02.ustream.ca:8000/ckrl128.mp3",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "bd459810-3f85-4407-b99d-f9228169be78",
+          "name": "ckrl",
+          "url": "http://stream02.ustream.ca:8000/ckrl128.mp3",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96643f48-c85c-41d5-b9a0-6c6cd861e87b",
+        "name": "N10.AS",
+        "url": "https://n10as.radiocult.fm/stream",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "d3270e0c-5371-435c-8479-b543511d397f",
+          "name": "N10.AS",
+          "url": "https://n10as.radiocult.fm/stream",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ff06980b-94f3-460b-a0b4-c1a86c3e6fac",
+        "name": "Radio Mast",
+        "url": "https://streams.radiomast.io/ref-128k-mp3-stereo",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "e449f86a-ca2f-492e-9adb-2f6afb3e29f4",
+          "name": "Royalty Free Music 24/7 - MP3 - 128K Stereo",
+          "url": "https://streams.radiomast.io/ref-128k-mp3-stereo",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "86521b86-f106-49b0-89bd-5fdf414be62d",
+        "name": "Uturn Radio - Drum & Bass 32kb/s",
+        "url": "http://listen.uturnradio.com/drum_and_bass_32",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "a78dbd89-b544-4c58-8182-dbebaabb65ca",
+          "name": "Uturn Radio - Drum & Bass 32kb/s",
+          "url": "http://listen.uturnradio.com/drum_and_bass_32",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "596155ab-b940-4aa4-b11e-df42d7e8d451",
+        "name": "MyRadio.Kicks-Ass.net",
+        "url": "http://myradio.kicks-ass.net:8000/radio.mp3",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "2878e6ba-1501-49f1-b601-82a4bb754437",
+          "name": "MyRadio.Kicks-Ass.net",
+          "url": "http://myradio.kicks-ass.net:8000/radio.mp3",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "133f62a6-b29d-4df0-9a1d-40d96af504ae",
+        "name": "Radio Faro",
+        "url": "https://cast1.torontocast.com:5230/stream?x=1720272389034",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "81e772fa-322b-4f44-8672-7b150c1e6563",
+          "name": "Radio faro.net",
+          "url": "https://cast1.torontocast.com:5230/stream",
+          "votes": 1,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "d7b29742-184a-4a06-a9a2-c9aa19619f3d",
+          "name": "radio faro.net",
+          "url": "https://cast1.torontocast.com:5230/stream",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a119bb16-b75b-46b1-b78d-3939f6247281",
+        "name": "CISM 89.3 ",
+        "url": "http://stream03.ustream.ca:8000/cism128.mp3",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "13f18035-dc5b-4348-a6fe-6a312525290e",
+          "name": "CISM 89.3",
+          "url": "http://stream03.ustream.ca:8000/cism128.mp3",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1ab9f31d-41ee-43bc-b92b-f3c54b0bcf06",
+        "name": "SerrebiRadio",
+        "url": "https://radio.serrebiradio.com/listen/serrebiradio/SerrebiRadio",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "9c4eb345-7fd5-4020-af13-97a5f82ebdb8",
+          "name": "SerrebiRadio",
+          "url": "https://radio.serrebiradio.com/listen/serrebiradio/SerrebiRadio",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c3987ce1-0f93-42a6-8f7e-ed7b83a3ad55",
+        "name": "SerrebiRadio HD",
+        "url": "https://radio.serrebiradio.com/listen/serrebiradio/SerrebiRadioHD",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "7f20bd70-13be-41e5-8243-2443d4581cd0",
+          "name": "SerrebiRadio HD",
+          "url": "https://radio.serrebiradio.com/listen/serrebiradio/SerrebiRadioHD",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b8754b8a-1018-4309-86a7-4beb22e1abe9",
+        "name": "The Borderline Radio",
+        "url": "https://satcom.rfchosting.ca:9015/stream",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "b9132ba0-43a1-431e-867e-05ff59fffbf1",
+          "name": "The Borderline Radio",
+          "url": "https://satcom.rfchosting.ca:9015/stream",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4060a0dc-9183-41f7-b2ee-ee3954bf8da6",
+        "name": "Newfoundland and Labrador's Pioneer Radio Station",
+        "url": "https://c21.radioboss.fm/stream/193",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "d9877ac4-de31-4c91-980d-db00340c06a3",
+          "name": "VOWR 800 - Newfoundland and Labrador's Pioneer Radio Station",
+          "url": "https://c21.radioboss.fm/stream/193",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4ffed054-89e0-4fe9-a8c8-c73a2bd456bb",
+        "name": "Coast 101.1",
+        "url": "https://coast-broadcasting-limited.streamb.live/SB00357",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "564daf87-b53e-45c4-8be6-7a5e42eda415",
+          "name": "Coast 101.1",
+          "url": "https://coast-broadcasting-limited.streamb.live/SB00357",
+          "votes": 0,
+          "differs": []
+        },
+        {
+          "stationuuid": "cdf7102b-850c-4642-a908-844ac0974b04",
+          "name": "Coast 101.1",
+          "url": "https://coast-broadcasting-limited.streamb.live/SB00357",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a9001ace-0a44-4abb-a5fb-f0977971be3c",
+        "name": "SerrebiRadio",
+        "url": "http://radio.serrebiradio.com:8000/SerrebiRadio",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "dcd73261-f866-4f1d-a8fe-acf05f064b78",
+          "name": "SerrebiRadio",
+          "url": "http://radio.serrebiradio.com:8000/SerrebiRadio",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

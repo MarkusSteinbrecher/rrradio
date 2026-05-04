@@ -1,0 +1,298 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.870Z",
+  "country": "EC",
+  "sourceProbedAt": "2026-04-30T11:52:29.777Z",
+  "totals": {
+    "deadStreams": 11,
+    "internalDupes": 10,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "9d3cfaac-5c9a-11e9-a622-52543be04c81",
+      "name": "Radio Antena 3 91.7 FM",
+      "url": "https://streamingecuador.net:9368/radioantena3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2025,
+      "lastProbedAt": "2026-04-30T11:52:23.754Z"
+    },
+    {
+      "stationuuid": "a6a7a3c2-8085-44a0-bc9e-57d2ee13c7f2",
+      "name": "Radio Canela Pichincha",
+      "url": "https://ecuadorstreaming.net:9280/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 306,
+      "lastProbedAt": "2026-04-30T11:52:25.182Z"
+    },
+    {
+      "stationuuid": "fcc5e465-6871-4af2-8b51-754cfc8af693",
+      "name": "area deportiva",
+      "url": "https://cast.uncuartocomunicacion.com/listen/areadeportivafm/live",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 198,
+      "lastProbedAt": "2026-04-30T11:52:26.072Z"
+    },
+    {
+      "stationuuid": "67610ac2-99d5-4c89-95fe-a7b908e47f21",
+      "name": "Radio Canela Azuay 107.3 FM",
+      "url": "https://canelaradio.makrodigital.com/stream/canelaradiocuenca",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 97,
+      "lastProbedAt": "2026-04-30T11:52:26.211Z"
+    },
+    {
+      "stationuuid": "5ccc30fa-f63b-47d7-a9ab-4760d9999d9f",
+      "name": "Radio Canela Manabí 102.5 FM",
+      "url": "https://canelaradio.makrodigital.com/stream/canelaradiomanabi",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 94,
+      "lastProbedAt": "2026-04-30T11:52:26.312Z"
+    },
+    {
+      "stationuuid": "9a36312c-b96b-45ca-9d7b-0b3a98bfbef8",
+      "name": "Area Deportiva 99.3 FM",
+      "url": "https://radio.uncuartocomunicacion.com:8020/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 93,
+      "lastProbedAt": "2026-04-30T11:52:26.502Z"
+    },
+    {
+      "stationuuid": "28a896dc-ec7f-485e-bc30-e5b62f4722f1",
+      "name": "machdeportes",
+      "url": "https://ss.ecuastreamhd.com:8186/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 77,
+      "lastProbedAt": "2026-04-30T11:52:26.518Z"
+    },
+    {
+      "stationuuid": "af916bdd-93c6-41b3-aa44-5692a0ca2aa5",
+      "name": "Radio Eres",
+      "url": "https://sv70.ecuaradiotv.net:8000/eres933",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 65,
+      "lastProbedAt": "2026-04-30T11:52:26.722Z"
+    },
+    {
+      "stationuuid": "8a9ded8d-cd5e-4817-879d-1a37a36b407a",
+      "name": "RADIO VALLE FM",
+      "url": "https://stream-152.zeno.fm/veu31437sm0uv?zs=XGDQvsPmRX-Q-AFSbnseBg",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 42,
+      "lastProbedAt": "2026-04-30T11:52:28.072Z"
+    },
+    {
+      "stationuuid": "e8348928-5532-4607-a0a4-39a60e17b5c1",
+      "name": "Color Stereo 105.3 FM",
+      "url": "https://cloudstream2032.conectarhosting.com/9470/;",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
+      "votes": 39,
+      "lastProbedAt": "2026-04-30T11:52:28.293Z"
+    },
+    {
+      "stationuuid": "0f4eb92d-b735-4a75-a94f-46ae98ac0083",
+      "name": "Radio Mix 105.7 FM",
+      "url": "https://streaming.ecuaradios.com/radiomix/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 8,
+      "lastProbedAt": "2026-04-30T11:52:29.560Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "2730de1b-dcd9-41aa-adcb-ff202d4cad22",
+        "name": "Radio Canela Guayas",
+        "url": "https://canelaradio.makrodigital.com/stream/canelaradioguayaquil",
+        "votes": 905
+      },
+      "variants": [
+        {
+          "stationuuid": "2f72cb2b-f1f9-4c25-8140-50828c63b543",
+          "name": "Radio Canela Guayas 90.5 FM",
+          "url": "https://canelaradio.makrodigital.com/stream/canelaradioguayaquil",
+          "votes": 302,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4eaf7c6f-8fb0-46a5-858f-2e9337aa2046",
+        "name": "Radio Diblu",
+        "url": "https://streamingecuador.net:9002/stream",
+        "votes": 897
+      },
+      "variants": [
+        {
+          "stationuuid": "133b89bb-ef9b-4c56-b9d2-3f620b73efa6",
+          "name": "DIBLU FM 88.9",
+          "url": "https://streamingecuador.net:9002/stream",
+          "votes": 413,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1eb67513-409d-4a4b-aa6d-c713aad29112",
+        "name": "Mega St☆r Ecuador",
+        "url": "http://stream.zeno.fm/kc5hfz4aqs8uv",
+        "votes": 629
+      },
+      "variants": [
+        {
+          "stationuuid": "d57ca1f3-525d-48ea-8419-0ce295010f3b",
+          "name": "Mega St☆r Ecuador",
+          "url": "http://stream.zeno.fm/kc5hfz4aqs8uv",
+          "votes": 286,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cc80f07f-5caa-11e9-a622-52543be04c81",
+        "name": "Radio Elite 99.7 FM",
+        "url": "https://streamingecuador.net:8135/radioelite",
+        "votes": 546
+      },
+      "variants": [
+        {
+          "stationuuid": "db7e167f-9ef5-4b79-b4fb-ce63304c757d",
+          "name": "Radio Elite 99.7 FM",
+          "url": "https://streamingecuador.net:8135/radioelite",
+          "votes": 39,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5929ca57-9def-43b8-b884-4cb9af1f0481",
+        "name": "Radio Mágica 87.7 (Ecuador)",
+        "url": "https://usa10.fastcast4u.com:1680/;?type=http&nocache=1683302387",
+        "votes": 312
+      },
+      "variants": [
+        {
+          "stationuuid": "5fb9439d-36b1-40a4-934b-539e831fd04d",
+          "name": "Radio Mágica 87.7 (Ecuador)",
+          "url": "https://usa10.fastcast4u.com:1680/;?type=http&nocache=1683305161",
+          "votes": 209,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3b362f13-ca89-4c98-a7a3-2700d508f575",
+        "name": "Radio Pasion",
+        "url": "http://streamingecuador.net:7500/stream",
+        "votes": 182
+      },
+      "variants": [
+        {
+          "stationuuid": "8947e7f1-b474-4914-bc39-b08008e31ff1",
+          "name": "Abba FM",
+          "url": "http://streamingecuador.net:7500/stream",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9e8f5ff9-4155-45a5-b4ab-5800a2d67973",
+        "name": "Mega St☆r ",
+        "url": "http://stream.zeno.fm/4xcrps37zs8uv",
+        "votes": 166
+      },
+      "variants": [
+        {
+          "stationuuid": "0e59cd7f-c160-4444-ac8b-662c348571bb",
+          "name": "Mega St☆r ",
+          "url": "http://stream.zeno.fm/4xcrps37zs8uv",
+          "votes": 73,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "559c6829-65cc-4b36-aabb-ffd583a07cda",
+        "name": "Virgen de Guadalupe Radio",
+        "url": "http://stream.zeno.fm/9f0rk1re508uv",
+        "votes": 99
+      },
+      "variants": [
+        {
+          "stationuuid": "6ec9f024-706f-416e-9cfa-fd296fc7650f",
+          "name": "Virgen de Guadalupe Radio",
+          "url": "http://stream.zeno.fm/9f0rk1re508uv",
+          "votes": 56,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "85e60866-89fd-4513-91ad-2b006aa4c56a",
+        "name": "Cómplice FM 99.7 FM",
+        "url": "https://dattavolt.com/8422/stream",
+        "votes": 50
+      },
+      "variants": [
+        {
+          "stationuuid": "3a0fa341-349c-46ea-8214-0b22d20033e3",
+          "name": "Radio Complice Fm.",
+          "url": "https://dattavolt.com/8422/stream",
+          "votes": 50,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "49ebe1cc-f65e-4bc1-9393-465cd74d417a",
+        "name": "Radio Evolución",
+        "url": "https://stream.gradio.net/evolucion",
+        "votes": 25
+      },
+      "variants": [
+        {
+          "stationuuid": "462350cb-e599-48f1-8460-f725b9de82d9",
+          "name": "Radio Evolución 107.7 FM",
+          "url": "https://stream.gradio.net/evolucion",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

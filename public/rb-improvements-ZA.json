@@ -1,0 +1,530 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.893Z",
+  "country": "ZA",
+  "sourceProbedAt": "2026-04-30T12:32:59.387Z",
+  "totals": {
+    "deadStreams": 15,
+    "internalDupes": 20,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "84a1258a-a45a-4ede-8008-e27f89107d65",
+      "name": "Izwi LoMzansi",
+      "url": "https://streaming.fabrik.fm/izwi/echocast/audio/index.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 540,
+      "lastProbedAt": "2026-04-30T12:32:48.850Z"
+    },
+    {
+      "stationuuid": "489e2233-2d46-4998-97ed-5708a0b06a7c",
+      "name": "Gagasi FM",
+      "url": "https://streaming.fabrik.fm/gagasi/echocast/audio/low/index.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 260,
+      "lastProbedAt": "2026-04-30T12:32:49.355Z"
+    },
+    {
+      "stationuuid": "e35c02fe-5a63-4d6a-903f-04b00380c16a",
+      "name": "UbuntuFM Africa",
+      "url": "https://streaming.coollective.nl:8443/UbuntuFMafrica",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 226,
+      "lastProbedAt": "2026-04-30T12:32:49.573Z"
+    },
+    {
+      "stationuuid": "19328ca9-507a-4973-9e8a-8617a42f98c2",
+      "name": "Capital Radio 604",
+      "url": "https://stream.galaxywebsolutions.com/proxy/capitalradio604?mp=%2Fstream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 97,
+      "lastProbedAt": "2026-04-30T12:32:51.768Z"
+    },
+    {
+      "stationuuid": "6adfd307-cb44-4e0e-8fd0-85b272f02a78",
+      "name": "Magic 828",
+      "url": "https://streaming.fabrik.fm/magic828/echocast/audio/low/index.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 87,
+      "lastProbedAt": "2026-04-30T12:32:52.302Z"
+    },
+    {
+      "stationuuid": "2128490c-0414-4555-8146-596bb234e7da",
+      "name": "AGANANG FM",
+      "url": "https://streaming.fabrik.fm/aganangfm/echocast/audio/low/index.m3u8?session_id=1pbxzwxy1RWaVFv&device_id=Q7fauplH",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 69,
+      "lastProbedAt": "2026-04-30T12:32:52.554Z"
+    },
+    {
+      "stationuuid": "d33574a2-b4ac-4553-a309-539c3e15e414",
+      "name": "uMgungundlovu FM 107.6",
+      "url": "https://streaming.fabrik.fm/umgungundlovufm/echocast/audio/low/index.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 59,
+      "lastProbedAt": "2026-04-30T12:32:52.849Z"
+    },
+    {
+      "stationuuid": "91dbdf0b-57d0-452e-aaad-a1e0dabc7e17",
+      "name": "Inanda FM",
+      "url": "https://streaming.fabrik.fm/inandafm/echocast/audio/low/index.m3u8?session_id=F7QhCzr5lwhLx6D&device_id=gCWDK0co",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 43,
+      "lastProbedAt": "2026-04-30T12:32:53.411Z"
+    },
+    {
+      "stationuuid": "475bce46-41a5-4e8f-981a-a7f81a5eaf9e",
+      "name": "UbuntuFM Radio Africa",
+      "url": "https://streaming.coollective.nl:8443/UbuntuFMafrica",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 29,
+      "lastProbedAt": "2026-04-30T12:32:53.952Z"
+    },
+    {
+      "stationuuid": "8286f8cd-c17d-4322-b58b-a4aafbba2b87",
+      "name": "Magic 828",
+      "url": "https://streaming.fabrik.fm/magic828/echocast/audio/high/index.m3u8?",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 23,
+      "lastProbedAt": "2026-04-30T12:32:55.615Z"
+    },
+    {
+      "stationuuid": "f1248129-1d36-4075-8da8-d405e7ee2745",
+      "name": "Magic 828",
+      "url": "https://streaming.fabrik.fm/magic828/echocast/audio/high/index.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 14,
+      "lastProbedAt": "2026-04-30T12:32:56.907Z"
+    },
+    {
+      "stationuuid": "f257e332-aca1-4859-af61-f4d2347403b3",
+      "name": "Good Hope FM",
+      "url": "https://25453.live.streamtheworld.com/GOODHOPEFMAAC",
+      "verdict": "broken-format",
+      "verdictReason": "content-type application/flv not audio-like",
+      "votes": 9,
+      "lastProbedAt": "2026-04-30T12:32:56.891Z"
+    },
+    {
+      "stationuuid": "43f4f4d6-a481-406e-a43a-0d7df0430c8a",
+      "name": "zoibi FM",
+      "url": "https://radio.eclipse-streaming.co.za/listen/zoibi_fm/mainout",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 7,
+      "lastProbedAt": "2026-04-30T12:32:56.536Z"
+    },
+    {
+      "stationuuid": "cde89677-cb75-4e86-a7e3-8a53d008c3a9",
+      "name": "EVR",
+      "url": "https://radio.eclipse-streaming.co.za/listen/evr/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 6,
+      "lastProbedAt": "2026-04-30T12:32:56.576Z"
+    },
+    {
+      "stationuuid": "082884a5-99e4-4d21-9da4-bd4446f529b1",
+      "name": "Rocka FM",
+      "url": "https://live.urbanza.co.za/listen/roccafm/rockafm",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 2,
+      "lastProbedAt": "2026-04-30T12:32:57.284Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "bed37ad7-1542-4455-96ea-6b7608c7bc8f",
+        "name": "Amapiano FM",
+        "url": "https://stream.zeno.fm/xs6zeac1ts8uv",
+        "votes": 2740
+      },
+      "variants": [
+        {
+          "stationuuid": "cf477514-6fc0-446b-adf2-d252dba5ee75",
+          "name": "Amapiano FM",
+          "url": "https://stream.zeno.fm/xs6zeac1ts8uv",
+          "votes": 729,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fd4982b0-41c2-11e8-b74d-52543be04c81",
+        "name": "Bokradio",
+        "url": "http://bokradio.highquality.radiostream.co.za/",
+        "votes": 2711
+      },
+      "variants": [
+        {
+          "stationuuid": "a45361ad-fe7f-47d2-89a6-db858c9d0e1d",
+          "name": "Bok Radio",
+          "url": "http://bokradio.highquality.radiostream.co.za/",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1e18b9ec-9f32-4c8a-90b4-43764a66a093",
+        "name": "LM Radio South Africa",
+        "url": "http://cast.fabrik.fm:8008/",
+        "votes": 1882
+      },
+      "variants": [
+        {
+          "stationuuid": "f25e0a43-b6e9-4d63-849b-93b0522da04d",
+          "name": "LM Radio 87.8FM Komatipoort South Africa#",
+          "url": "http://cast.fabrik.fm:8008/",
+          "votes": 294,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "22a21e54-0c74-4c29-868c-8e8dd6ab8f22",
+        "name": "JOY GOSPEL RADIO",
+        "url": "https://servidor17.brlogic.com:7012/live",
+        "votes": 1637
+      },
+      "variants": [
+        {
+          "stationuuid": "a12c36da-728a-4551-b4f3-318b6aaf015d",
+          "name": "JOY GOSPEL RADIO",
+          "url": "https://servidor17.brlogic.com:7012/live",
+          "votes": 662,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "baecc41d-5879-4294-aa09-0adefefb141f",
+        "name": "Jacaranda FM",
+        "url": "https://live.jacarandafm.com/jacarandahigh.mp3",
+        "votes": 289
+      },
+      "variants": [
+        {
+          "stationuuid": "85d2f4f2-08c8-4c4f-b41d-60e9c06c52e7",
+          "name": "Jacaranda",
+          "url": "https://live.jacarandafm.com/jacarandahigh.mp3",
+          "votes": 239,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "cf1404fa-6fee-48a0-a85f-bab63f803dd5",
+          "name": "Jacaranda FM",
+          "url": "https://live.jacarandafm.com/jacarandahigh.mp3",
+          "votes": 33,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e35c02fe-5a63-4d6a-903f-04b00380c16a",
+        "name": "UbuntuFM Africa",
+        "url": "https://streaming.coollective.nl:8443/UbuntuFMafrica",
+        "votes": 226
+      },
+      "variants": [
+        {
+          "stationuuid": "475bce46-41a5-4e8f-981a-a7f81a5eaf9e",
+          "name": "UbuntuFM Radio Africa",
+          "url": "https://streaming.coollective.nl:8443/UbuntuFMafrica",
+          "votes": 29,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e7b9541b-de25-4be8-a4ed-bd9c7ba5326d",
+        "name": "AL-Ansaar Radio",
+        "url": "https://al-ansaar.simplestreaming.co.za/radio/8000/radio.mp3",
+        "votes": 176
+      },
+      "variants": [
+        {
+          "stationuuid": "fd183918-a6fe-4af2-8c18-9f4f91049a26",
+          "name": "AL-Ansaar Radio",
+          "url": "https://al-ansaar.simplestreaming.co.za/radio/8000/radio.mp3?refresh=1653300780766",
+          "votes": 46,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a6e8bb41-9417-46b8-8627-46d5e26b86c5",
+        "name": "StarFM",
+        "url": "https://edge.iono.fm/xice/112_medium.aac",
+        "votes": 168
+      },
+      "variants": [
+        {
+          "stationuuid": "7d9c37ec-0129-499c-9cf3-6c5fd30c0cc7",
+          "name": "919",
+          "url": "https://edge.iono.fm/xice/112_medium.aac",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d7371c0b-e4f1-445c-b66a-9fb11d0b41c7",
+        "name": "Cape Town Classic",
+        "url": "https://edge.iono.fm/xhls/fmr_live_high.m3u8",
+        "votes": 143
+      },
+      "variants": [
+        {
+          "stationuuid": "8bd6e684-e3f3-4ab8-8089-71e27f6ceb74",
+          "name": "Fine Music Radio",
+          "url": "https://edge.iono.fm/xhls/fmr_live_high.m3u8",
+          "votes": 26,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a61d65fb-63ed-43d6-a3ae-982a6aed4ecd",
+        "name": "Harties FM",
+        "url": "https://s5.radio.co/s68c6f4028/listen",
+        "votes": 118
+      },
+      "variants": [
+        {
+          "stationuuid": "e706282d-6ae5-46c4-8af1-a94caf5a102b",
+          "name": "Harties FM",
+          "url": "https://s5.radio.co/s68c6f4028/listen",
+          "votes": 106,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c29a8ef0-f80c-4263-a371-061e503d34b7",
+        "name": "Express-FM Digital",
+        "url": "http://198.7.59.28:34235/stream",
+        "votes": 111
+      },
+      "variants": [
+        {
+          "stationuuid": "6e3c6a56-f0e1-4ac8-a640-af2c3103f430",
+          "name": "Express 106.6FM",
+          "url": "http://198.7.59.28:34235/stream",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "003efaa4-e791-4095-84aa-81bedd09a986",
+        "name": "Link FM (RSA-EC)",
+        "url": "https://de2.streamingpulse.com/ssl/LinkFM",
+        "votes": 79
+      },
+      "variants": [
+        {
+          "stationuuid": "1ff050a9-24ac-40dc-862a-7616080be46e",
+          "name": "Link FM EC",
+          "url": "https://de2.streamingpulse.com/ssl/LinkFM",
+          "votes": 56,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bf83f318-ddb6-4d57-b0f1-4c9813855b9f",
+        "name": "Radio Today",
+        "url": "https://rt1485.out.airtime.pro/rt1485_b",
+        "votes": 44
+      },
+      "variants": [
+        {
+          "stationuuid": "8c0a5e3f-1c20-41be-9f81-efc3270b7b2c",
+          "name": "Radio Today",
+          "url": "https://rt1485.out.airtime.pro/rt1485_b",
+          "votes": 30,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "47b19cf6-3bb6-43fb-b3bb-de30e04d6a1a",
+        "name": "Radio Veritas",
+        "url": "https://zas5.ndx.co.za:9618/stream?1722433923032",
+        "votes": 42
+      },
+      "variants": [
+        {
+          "stationuuid": "4a687830-f905-408e-a291-782bbb24071f",
+          "name": "Radio Veritas",
+          "url": "https://zas5.ndx.co.za:9618/stream?1702476652972",
+          "votes": 42,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c8bf230b-7edb-4d4e-984c-855a49d13ee1",
+        "name": "Simply Making Success Radio",
+        "url": "https://stream.zeno.fm/ylvoyhv6tbntv",
+        "votes": 41
+      },
+      "variants": [
+        {
+          "stationuuid": "e1a8db15-123a-4ff9-a5d9-8f1de59944be",
+          "name": "Simply Making Success Radio",
+          "url": "https://stream.zeno.fm/ylvoyhv6tbntv",
+          "votes": 25,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c8de966e-df6f-445e-930d-d779227f5578",
+        "name": "Megazone South",
+        "url": "https://vm65162.streamerr.co/listen/megazone_south/radio.mp3",
+        "votes": 35
+      },
+      "variants": [
+        {
+          "stationuuid": "a168cef4-140b-44b0-bc6e-6582ef3cdac6",
+          "name": "Megazone South",
+          "url": "https://vm65162.streamerr.co/listen/megazone_south/radio.mp3",
+          "votes": 26,
+          "differs": []
+        },
+        {
+          "stationuuid": "a31ea18b-9ba9-4368-ad2e-5da164cb53b8",
+          "name": "Megazone South",
+          "url": "https://vm65162.streamerr.co/listen/megazone_south/radio.mp3",
+          "votes": 20,
+          "differs": [
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8286f8cd-c17d-4322-b58b-a4aafbba2b87",
+        "name": "Magic 828",
+        "url": "https://streaming.fabrik.fm/magic828/echocast/audio/high/index.m3u8?",
+        "votes": 23
+      },
+      "variants": [
+        {
+          "stationuuid": "f1248129-1d36-4075-8da8-d405e7ee2745",
+          "name": "Magic 828",
+          "url": "https://streaming.fabrik.fm/magic828/echocast/audio/high/index.m3u8",
+          "votes": 14,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6c3db0fd-3700-4d07-ae61-3f562bfe8202",
+        "name": "Hellenic Radio",
+        "url": "http://iceant.eclipse-streaming.co.za/Hellenic",
+        "votes": 20
+      },
+      "variants": [
+        {
+          "stationuuid": "dbb1e550-d0d4-4dbd-b956-57e65c4fb545",
+          "name": "Hellenic Radio",
+          "url": "http://iceant.eclipse-streaming.co.za/Hellenic",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "61fa9e9d-afeb-422c-bc0a-b22138ac674d",
+        "name": "Cassette Radio",
+        "url": "https://vm65162.streamerr.co/listen/cassette_radio/radio.mp3",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "81e6e014-151d-4a43-a5c5-09af4adfb9ea",
+          "name": "Cassette Radio",
+          "url": "https://vm65162.streamerr.co/listen/cassette_radio/radio.mp3",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8e5625fd-b4ec-4e11-a68a-5fa6fd8dd19b",
+        "name": "Radio Saranghae",
+        "url": "https://vm65162.streamerr.co/listen/radiosaranghae/radio.mp3",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "a8b4567f-909c-485a-bce0-754d63b53f4f",
+          "name": "Radio Saranghae",
+          "url": "https://vm65162.streamerr.co/listen/radiosaranghae/radio.mp3",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

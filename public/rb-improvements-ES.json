@@ -1,0 +1,3775 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.870Z",
+  "country": "ES",
+  "sourceProbedAt": "2026-04-29T19:54:15.962Z",
+  "totals": {
+    "deadStreams": 78,
+    "internalDupes": 140,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "6c9e1217-777f-4b80-a0f3-0fc4b5d2098e",
+      "name": "Ondamar80",
+      "url": "https://antares.dribbcast.com/proxy/ondamar80?mp=/live",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 347,
+      "lastProbedAt": "2026-04-29T19:52:33.112Z"
+    },
+    {
+      "stationuuid": "7c9d25ce-b80f-4567-bcbe-c81229137e13",
+      "name": "Corazón FM 89.2",
+      "url": "https://stream2.emisorasmusicales.net/listen/corazon_fm/corazonfm.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 270,
+      "lastProbedAt": "2026-04-29T19:52:37.162Z"
+    },
+    {
+      "stationuuid": "98711acd-3560-4c15-bb5d-0d797712c03b",
+      "name": "La Jungla Radio",
+      "url": "https://streaming12.elitecomunicacion.es:8626/stream?type=.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 243,
+      "lastProbedAt": "2026-04-29T19:52:38.696Z"
+    },
+    {
+      "stationuuid": "5ad63c0a-b8e3-4450-ae88-6900736685ec",
+      "name": "Remember Ràdio Joventut",
+      "url": "https://stream.idelta.es/listen/radio_joventut/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 523",
+      "votes": 151,
+      "lastProbedAt": "2026-04-29T19:52:42.518Z"
+    },
+    {
+      "stationuuid": "15596909-6d70-4268-a97e-9df70e5a2b35",
+      "name": "FUNKY TRACKS RADIO",
+      "url": "https://streaming2.elitecomunicacion.es:8134/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 143,
+      "lastProbedAt": "2026-04-29T19:52:44.241Z"
+    },
+    {
+      "stationuuid": "53379674-3ea4-446c-be0b-637294bbc08b",
+      "name": "Ràdio 90 (320k)",
+      "url": "https://giss.tv:666/r90.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 142,
+      "lastProbedAt": "2026-04-29T19:52:43.975Z"
+    },
+    {
+      "stationuuid": "b513bc26-93a5-453a-9877-725abcbc87da",
+      "name": "La jungla Radio",
+      "url": "https://streaming12.elitecomunicacion.es:8626/stream?type=.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 126,
+      "lastProbedAt": "2026-04-29T19:52:45.769Z"
+    },
+    {
+      "stationuuid": "171a06f8-1fe1-11ea-a955-52543be04c81",
+      "name": "Onda Sevilla Radio",
+      "url": "https://streaming2.elitecomunicacion.es:8630/stream?type=.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 115,
+      "lastProbedAt": "2026-04-29T19:52:47.675Z"
+    },
+    {
+      "stationuuid": "65ce1b81-184e-43e6-bfd4-2ad9b03c3852",
+      "name": "Onda 80 Radio Bellvitge",
+      "url": "https://antares.dribbcast.com/proxy/onda80/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 101,
+      "lastProbedAt": "2026-04-29T19:52:49.425Z"
+    },
+    {
+      "stationuuid": "8553ac06-6a43-482d-83c1-32a3c9984192",
+      "name": "DMT-FM Psytrance - EU Server",
+      "url": "https://eu2-centova.serverse.com/proxy/ywycfrxn/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 91,
+      "lastProbedAt": "2026-04-29T19:52:51.319Z"
+    },
+    {
+      "stationuuid": "12bcfa0c-9cf6-4ecf-8fe9-4289793e8f99",
+      "name": "FM MUSICAL",
+      "url": "https://stream.zenolive.com/mpgqwn4h0wzuv.aac",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 89,
+      "lastProbedAt": "2026-04-29T19:52:51.639Z"
+    },
+    {
+      "stationuuid": "3545c60e-229e-407d-afac-65c491f0ad50",
+      "name": "Cadena Mix FM Cantabria",
+      "url": "https://ns100.emisionlocal.com/proxy/radiomix?mp=/;stream.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 86,
+      "lastProbedAt": "2026-04-29T19:52:52.536Z"
+    },
+    {
+      "stationuuid": "22829c80-d6b9-4e48-a9df-2174abbcafde",
+      "name": "Chocolate FM",
+      "url": "https://streaming2.elitecomunicacion.es:8082/live.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 85,
+      "lastProbedAt": "2026-04-29T19:52:52.380Z"
+    },
+    {
+      "stationuuid": "50aa95a7-68ce-4699-ae76-106db15e0cf4",
+      "name": "Verbena FM",
+      "url": "https://streaming12.elitecomunicacion.es:8222/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 85,
+      "lastProbedAt": "2026-04-29T19:52:52.549Z"
+    },
+    {
+      "stationuuid": "b2ea18ea-1e66-4f36-924b-c08ff0d8a2f3",
+      "name": "Radio Estepona-Costa del Sol",
+      "url": "https://streaming2.elitecomunicacion.es:8602/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 77,
+      "lastProbedAt": "2026-04-29T19:52:53.797Z"
+    },
+    {
+      "stationuuid": "473519f5-7432-4c69-ad89-f7c057025140",
+      "name": "99.9 Plaza Radio Valencia",
+      "url": "https://stream1.solstreaming.com:8112/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 76,
+      "lastProbedAt": "2026-04-29T19:52:53.560Z"
+    },
+    {
+      "stationuuid": "86bbd775-1ca7-4179-9add-ebedf62f92d4",
+      "name": "Classic Rock Granada",
+      "url": "https://streaming2.elitecomunicacion.es:8054/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 64,
+      "lastProbedAt": "2026-04-29T19:52:57.417Z"
+    },
+    {
+      "stationuuid": "14c7e3ed-a1b9-4c46-b8a8-43aa714a02ce",
+      "name": "LA JUNGLA RADIO",
+      "url": "https://streaming12.elitecomunicacion.es:8626/stream?type=.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 55,
+      "lastProbedAt": "2026-04-29T19:52:58.769Z"
+    },
+    {
+      "stationuuid": "67575343-1b6b-463b-89cb-557aa0313a24",
+      "name": "RADIO BOB",
+      "url": "https://regiocast.streamabc.net/regc-boblivenational-mp3-192-4076554?sABC=6968604p%231%23p47683ss451oqs8ror068qrn8n897o50%23ubzrcntr&mode=preroll&aw_0_1st.skey=1671400102&cb=286873666&aw_0_1st.playerid=radiobob_web&aw_0_req.userConsentV2=CPkIkEAPkIkEAAFADBDECvCsAP_AAEPAAAYgI9td_H__bW9j-f5_aft0eY1P9_rz7uQzDhfNk-4F3L_W_LwX52E7NF36tq4KmR4ku1LBIQNlHMHUDUmwaokVryHsak2cpSNKJ7BEknMZOydYGF9Pmxtj-QKY5v5_d3bx2D-t_9v-39z338VXn3d53-_02PDdV599Dfn9fR_b89KP9958v4v8_____3_e__3_74I9gEmGrcQBdmWODNoGEUCIEYVhIRQKACCgGFogIAHBwU7KwCfWECABAKAIwIgQ4AowIBAAAJAEhEAEgRYIAAARAIAAQAIAEIAGBgEFgBYGAQAAgGgYohQACBIAZEBEUpgQFQJBAS2VCCUFUhphAFWWAFAIjYKABEEgIpAAEBYOAYIkBKxYIEmKN8gBGCFAKJUIAgaADAAEEexEAGAAII9ioAMAAQR7GQAYAAgj2AAA.YAAAAAAAAAAA&aw_0_1st.kuid=kppidff_PQ5ovBN7&aw_0_1st.ksg=[\"vz9c46692\"]&listenerid=c47683ff451bdf8ebe068dea8a897b50&amsparams=playerid:homepage;skey:1768448076",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 54,
+      "lastProbedAt": "2026-04-29T19:52:59.071Z"
+    },
+    {
+      "stationuuid": "683dbdb5-adec-4318-bdd0-42e8f42b6ad3",
+      "name": "RNE Murcia",
+      "url": "https://d121.rndfnk.com/star/crtve/rne1/mur/mp3/128/stream.mp3?cid=01GEP3ZKY6YSV20P6RMNTKNDD6&sid=2ar2W2AJRHCleglLtfnn6nLklsU&token=25qdZ9PRjFVlFZkLiFrLLCHGs5cDbRXkhlVCjXwNN8Q&tvf=kGi_U96sqRdkMTIxLnJuZGZuay5jb20",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 53,
+      "lastProbedAt": "2026-04-29T19:53:09.855Z"
+    },
+    {
+      "stationuuid": "f324cb47-0635-4bae-84c2-afdd5f5d4773",
+      "name": "999 Valencia Radio",
+      "url": "https://stream1.solstreaming.com:8112/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 47,
+      "lastProbedAt": "2026-04-29T19:53:01.587Z"
+    },
+    {
+      "stationuuid": "bbe81762-5906-4538-9bc9-0683536d2454",
+      "name": "Trendy FM",
+      "url": "https://broadcast.radioponiente.org:8038/index",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 45,
+      "lastProbedAt": "2026-04-29T19:53:03.893Z"
+    },
+    {
+      "stationuuid": "af29e9cb-eb31-4fd2-a971-892baa6dee45",
+      "name": "Chocolate FM",
+      "url": "https://streaming2.elitecomunicacion.es:8082/live.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 44,
+      "lastProbedAt": "2026-04-29T19:53:05.235Z"
+    },
+    {
+      "stationuuid": "2105a1b2-b484-4256-9161-a5bea2f13427",
+      "name": "Radio Estel ",
+      "url": "https://srv6021.dns-lcinternet.com:10244/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 44,
+      "lastProbedAt": "2026-04-29T19:53:05.159Z"
+    },
+    {
+      "stationuuid": "57f2d47a-12b7-439f-ae80-54eb2278cf19",
+      "name": "ES Radio",
+      "url": "https://livestreaming3.esradio.fm/stream64.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 39,
+      "lastProbedAt": "2026-04-29T19:53:08.000Z"
+    },
+    {
+      "stationuuid": "cf302629-0932-4253-9ef8-215aca58c308",
+      "name": "SER Murcia",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SER_MURCIA",
+      "verdict": "broken-format",
+      "verdictReason": "content-type application/flv not audio-like",
+      "votes": 38,
+      "lastProbedAt": "2026-04-29T19:53:09.419Z"
+    },
+    {
+      "stationuuid": "bdb6f997-76a1-4307-a6d5-dae7597d2644",
+      "name": "Radio Guiniguada",
+      "url": "https://stream.zeno.fm/49c0fmrwhrhvv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 36,
+      "lastProbedAt": "2026-04-29T19:53:10.375Z"
+    },
+    {
+      "stationuuid": "80e1fe92-9283-49d4-9fbd-ef2822132add",
+      "name": "La Mega Costa Del Sol",
+      "url": "https://streaming2.elitecomunicacion.es:8220/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 29,
+      "lastProbedAt": "2026-04-29T19:53:13.665Z"
+    },
+    {
+      "stationuuid": "14468df9-fefd-49a1-828e-206d273d98b9",
+      "name": "Radio 90",
+      "url": "https://giss.tv:666/r90.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 28,
+      "lastProbedAt": "2026-04-29T19:53:14.779Z"
+    },
+    {
+      "stationuuid": "8207ad87-a68c-4cf4-90cb-fce706436ac1",
+      "name": "DISCO MUSIC RADIO",
+      "url": "https://discomusicradio.com:8100/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 24,
+      "lastProbedAt": "2026-04-29T19:53:17.296Z"
+    },
+    {
+      "stationuuid": "8d0397fb-40d2-4ee3-9bf5-2d51a82e82ff",
+      "name": "Fiesta FM 87.6",
+      "url": "https://radio.fiestamallorca.com/fiesta?1724972882139",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 23,
+      "lastProbedAt": "2026-04-29T19:53:18.810Z"
+    },
+    {
+      "stationuuid": "37e31012-ccaa-11e9-8502-52543be04c81",
+      "name": "Radio Despi",
+      "url": "https://streaming12.elitecomunicacion.es:8228/stream?type=.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 23,
+      "lastProbedAt": "2026-04-29T19:53:19.417Z"
+    },
+    {
+      "stationuuid": "5404482b-910e-4b5b-a871-575bd406868e",
+      "name": "Ràdio 90",
+      "url": "https://giss.tv:666/r90.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 16,
+      "lastProbedAt": "2026-04-29T19:53:26.594Z"
+    },
+    {
+      "stationuuid": "a4c59cf3-090c-4ed2-9479-996ed96d9e1c",
+      "name": "Rumberos FM",
+      "url": "https://str1.mediatelekom.net:9952/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 15,
+      "lastProbedAt": "2026-04-29T19:53:26.997Z"
+    },
+    {
+      "stationuuid": "ac0d1c6d-0b4a-4c17-a97b-1f67baba3423",
+      "name": "AirmaxFM",
+      "url": "https://streaming2.elitecomunicacion.es:8014/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 11,
+      "lastProbedAt": "2026-04-29T19:53:31.232Z"
+    },
+    {
+      "stationuuid": "b935dac8-8610-470e-a2f8-80cfa6d1e3e1",
+      "name": "Radio Albolote",
+      "url": "https://streaming2.elitecomunicacion.es:8144/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 11,
+      "lastProbedAt": "2026-04-29T19:53:31.950Z"
+    },
+    {
+      "stationuuid": "0386deca-1ef2-41cd-aae2-0bfdd8dcd6aa",
+      "name": "Radio Salut Catalunya",
+      "url": "https://51.38.57.199:9001/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 11,
+      "lastProbedAt": "2026-04-29T19:53:32.555Z"
+    },
+    {
+      "stationuuid": "467015b4-7c86-4833-a651-1c9d02b6f55c",
+      "name": "Radio Flow",
+      "url": "https://topradio.uno:8018/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 10,
+      "lastProbedAt": "2026-04-29T19:53:35.319Z"
+    },
+    {
+      "stationuuid": "0f67eaec-c26b-4053-9c79-a22140f73220",
+      "name": "Verbena FM",
+      "url": "https://streaming12.elitecomunicacion.es:8222/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 10,
+      "lastProbedAt": "2026-04-29T19:53:37.338Z"
+    },
+    {
+      "stationuuid": "59fa441d-b653-4638-b05e-28e0f3437118",
+      "name": "Onda Valencia Radio",
+      "url": "https://streaming12.elitecomunicacion.es:8148/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 9,
+      "lastProbedAt": "2026-04-29T19:53:39.300Z"
+    },
+    {
+      "stationuuid": "808bfc30-a8ae-44ba-96d3-3c2514ca2eb9",
+      "name": "Radio Sitges",
+      "url": "https://s2.radio.co/s8e5dffe5e/listen",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 9,
+      "lastProbedAt": "2026-04-29T19:53:39.671Z"
+    },
+    {
+      "stationuuid": "b25ffb6d-b0fc-43ab-8f6d-df7ed16b45e4",
+      "name": "Activate FM",
+      "url": "https://streaming12.elitecomunicacion.es:8085/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 8,
+      "lastProbedAt": "2026-04-29T19:53:40.112Z"
+    },
+    {
+      "stationuuid": "d656008a-c624-441f-ab62-69f173b62551",
+      "name": "Actuality FM",
+      "url": "https://stream.zeno.fm/gqw62kfvbrruv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 8,
+      "lastProbedAt": "2026-04-29T19:53:39.985Z"
+    },
+    {
+      "stationuuid": "25cbfa46-0b99-4ecc-9606-359ecf57a17e",
+      "name": "Ràdio 90 (128k)",
+      "url": "https://giss.tv:666/r90-128.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 8,
+      "lastProbedAt": "2026-04-29T19:53:41.579Z"
+    },
+    {
+      "stationuuid": "bfdf9373-487a-4806-8d31-e3db32d2c5c4",
+      "name": "Radio Radio Network",
+      "url": "https://stream.radioradio.es:4020/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 8,
+      "lastProbedAt": "2026-04-29T19:53:41.672Z"
+    },
+    {
+      "stationuuid": "e856a510-f66c-4f18-9a3b-df75c01e3211",
+      "name": "Fiesta 89.1 FM",
+      "url": "https://acp2.lorini.net:36050/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T19:53:44.514Z"
+    },
+    {
+      "stationuuid": "827588db-5493-4c07-9fb6-b49ea14accf4",
+      "name": "Hot HiTS",
+      "url": "https://andromeda.urbanrevolution.es:8050/hothitsaac",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T19:53:43.415Z"
+    },
+    {
+      "stationuuid": "7dfdc915-1c58-4e86-b064-d892e384bdd5",
+      "name": "Irola Irratia 107.5 FM Bilbo",
+      "url": "https://s.streampunk.cc/irola_irratia.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T19:53:43.743Z"
+    },
+    {
+      "stationuuid": "8d841e1a-9907-402e-8dce-016602a4bed1",
+      "name": "Monster Radio Lanzarote",
+      "url": "https://monster.canarysat.eu/monster",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T19:53:43.943Z"
+    },
+    {
+      "stationuuid": "88eaa703-54f9-4322-a62c-51ae728bc7ea",
+      "name": "Radio Ilíberis",
+      "url": "https://streaming2.elitecomunicacion.es:8074/stream?type=.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T19:53:45.416Z"
+    },
+    {
+      "stationuuid": "11048718-f17e-4d53-8351-c5aed57856ab",
+      "name": "RKV Radio",
+      "url": "https://sonicpanel.globalstream.pro/8196/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T19:53:57.560Z"
+    },
+    {
+      "stationuuid": "7111efc7-f600-43e0-8fcb-2d815a4e51b1",
+      "name": "Radio Alhendín FM",
+      "url": "https://streaming2.elitecomunicacion.es:8002/stream?type=.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T19:53:49.626Z"
+    },
+    {
+      "stationuuid": "abcceef4-fa3a-4302-b532-bdd09a0cef73",
+      "name": "Radio Aventura Siglo21 (FM 107.8)",
+      "url": "https://streaming.enantena.com:8000/carmelomartinHD.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T19:53:49.728Z"
+    },
+    {
+      "stationuuid": "2ab30cae-1dc8-4f7a-96c5-23bcb9a89b1d",
+      "name": "Radio Campillos ",
+      "url": "https://srv7031.dns-lcinternet.com:8074/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T19:53:49.918Z"
+    },
+    {
+      "stationuuid": "2fe353da-8b7c-4595-a0e0-bdaa08f1e16d",
+      "name": "Cadena Élite",
+      "url": "https://streaming.elitecomunicacion.es:8000/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T19:53:50.943Z"
+    },
+    {
+      "stationuuid": "57c2deff-87fe-4fe4-94f2-bab1126dfe3e",
+      "name": "Radio Tirso Libertaria",
+      "url": "https://giss.tv:666/tirsolibertaria.ogg",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T19:53:57.042Z"
+    },
+    {
+      "stationuuid": "80d471d0-b9b8-490f-b272-3b412c6423a1",
+      "name": "Alto Jalon Radio",
+      "url": "https://streaming2.elitecomunicacion.es:8012/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T19:53:58.646Z"
+    },
+    {
+      "stationuuid": "58cae207-e93f-40a2-a389-bb376c57066e",
+      "name": "Eventos Otoño Libertario",
+      "url": "https://giss.tv:666/otonnolibertario.ogg",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T19:53:59.250Z"
+    },
+    {
+      "stationuuid": "71a5f468-c974-4e56-aa06-6ff6fec95e05",
+      "name": "Onda Mencía Radio",
+      "url": "https://streaming12.elitecomunicacion.es:8146/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T19:53:59.686Z"
+    },
+    {
+      "stationuuid": "8c688cbb-c9d2-41f8-8649-180fd399b4a1",
+      "name": "Radio Tirso Libertaria (RTL)",
+      "url": "https://giss.tv:666/tirsolibertaria.ogg",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T19:54:00.368Z"
+    },
+    {
+      "stationuuid": "bcf44680-8d35-4618-b39e-89b9acf14782",
+      "name": "CCmixes",
+      "url": "https://audio.apps.dj/ccmixes",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T19:54:10.370Z"
+    },
+    {
+      "stationuuid": "629a75e6-9b21-486d-ad31-f554a352bafa",
+      "name": "PabloMix Music",
+      "url": "https://sonic2.sistemahost.es/8068/stream",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T19:54:02.285Z"
+    },
+    {
+      "stationuuid": "7e8c68ff-b1dd-41fb-a1dc-6376d5ec490b",
+      "name": "PabloMix Music",
+      "url": "https://sonic2.sistemahost.es/8068/stream",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T19:54:02.498Z"
+    },
+    {
+      "stationuuid": "992a75b0-89eb-4c00-9f7e-89df69ee77c4",
+      "name": "Energia Fm Valencia",
+      "url": "https://servidor35.brlogic.com:7048/live",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T19:54:05.836Z"
+    },
+    {
+      "stationuuid": "e9d2beb1-16ae-4fbc-97b8-6f33bd3bad68",
+      "name": "Radio Tramuntana",
+      "url": "https://stream.zeno.fm/6nugf8s0nukvv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T19:54:08.277Z"
+    },
+    {
+      "stationuuid": "464d70ea-5940-4a7d-8fb9-8d79c45ecd17",
+      "name": "Sonaos fm",
+      "url": "https://centova.streamrdm.com:4449/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T19:54:08.300Z"
+    },
+    {
+      "stationuuid": "3f361d8f-17ef-4869-9088-fde30c49fefd",
+      "name": "The Sound of Chill",
+      "url": "https://itsshort.info/listen/thesoundofchill/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T19:54:08.385Z"
+    },
+    {
+      "stationuuid": "0bfa2bab-85f0-4f65-81c0-55e175e3c983",
+      "name": "JFK IBIZA",
+      "url": "https://nexstream.cloud/jfk",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T19:54:08.933Z"
+    },
+    {
+      "stationuuid": "a81f9707-7159-4483-b338-ccf0d046ad0f",
+      "name": "JFK IBIZA",
+      "url": "https://nexstream.cloud/jfk",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T19:54:08.942Z"
+    },
+    {
+      "stationuuid": "fcf53412-77cc-42e8-af52-e6250e7e1f78",
+      "name": "nexradio",
+      "url": "https://nexstream.cloud/jfk",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T19:54:09.000Z"
+    },
+    {
+      "stationuuid": "6776dbdd-2885-473f-b1bb-6f2becee1cc7",
+      "name": "nexradio",
+      "url": "https://nexstream.cloud/jfk",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T19:54:09.004Z"
+    },
+    {
+      "stationuuid": "8acdcdcd-6f93-4040-86fa-671c65601ed2",
+      "name": "nexradio",
+      "url": "https://nexstream.cloud/jfk",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T19:54:08.969Z"
+    },
+    {
+      "stationuuid": "aa8703ba-71ad-437d-9aa4-112de1911089",
+      "name": "nexradio",
+      "url": "https://nexstream.cloud/jfk",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T19:54:08.994Z"
+    },
+    {
+      "stationuuid": "ba96bdc8-99ae-46e8-9383-85f0e3942715",
+      "name": "nexradio",
+      "url": "https://nexstream.cloud/jfk",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T19:54:09.021Z"
+    },
+    {
+      "stationuuid": "b50ea432-72ff-49a5-9fb6-dabc1ae6f44f",
+      "name": "nexradio",
+      "url": "https://nexstream.cloud/jfk",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T19:54:09.032Z"
+    },
+    {
+      "stationuuid": "94625951-bc74-4583-83d2-ee9cebfe61e3",
+      "name": "nexradio",
+      "url": "https://nexstream.cloud/jfk",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T19:54:09.034Z"
+    },
+    {
+      "stationuuid": "418a45d8-52bc-46ad-98c5-0abb4fac50a2",
+      "name": "nexradio",
+      "url": "https://nexstream.cloud/jfk",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T19:54:09.044Z"
+    },
+    {
+      "stationuuid": "f06dda9a-0e47-41db-9806-56102eea6827",
+      "name": "radio sonaos stereo",
+      "url": "https://centova.streamrdm.com:4449/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T19:54:10.006Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "b81c57c3-eb05-47ac-a0ea-eb01a6960cc4",
+        "name": "LOS 40 Principales España",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/Los40.mp3",
+        "votes": 31624
+      },
+      "variants": [
+        {
+          "stationuuid": "7fd72110-aaa1-4f18-9dc9-6b0fcd2a3ca8",
+          "name": "Los 40",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/Los40.mp3",
+          "votes": 1397,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "2f30775e-f191-4ed5-aded-b49a29ec114b",
+          "name": "Los 40 españa",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/Los40.mp3",
+          "votes": 503,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4ec5a020-4a66-4d46-a13c-4a7ee4ff5320",
+          "name": "LOS 40",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/Los40.mp3",
+          "votes": 213,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "63fb77fb-4751-4cbe-96de-bfc7019d5ff3",
+          "name": "Los 40 Nacional",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/Los40.mp3",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "692a3b69-0f68-11ea-a87e-52543be04c81",
+        "name": "Cadena SER España",
+        "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3",
+        "votes": 27631
+      },
+      "variants": [
+        {
+          "stationuuid": "5ab7291b-cf83-4bbd-90fb-48f30db4c315",
+          "name": "cadena ser",
+          "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3",
+          "votes": 65,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b1cae36e-6db3-455c-ab2e-60be72e55b7c",
+        "name": "_80 EXITOS",
+        "url": "https://80sexitos.stream.laut.fm/80sexitos",
+        "votes": 18962
+      },
+      "variants": [
+        {
+          "stationuuid": "4a3bd909-1245-43bd-b77d-58053ad16f50",
+          "name": "__80 EXITOS",
+          "url": "https://80sexitos.stream.laut.fm/80sexitos",
+          "votes": 1419,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8cc2da8b-ae85-4e37-9027-9ad765a1ea7a",
+        "name": "Los 40 Urban",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/LOS40_URBAN.mp3",
+        "votes": 16319
+      },
+      "variants": [
+        {
+          "stationuuid": "7fb5bc91-f718-456e-9c65-529440f1ffc8",
+          "name": "LOS 40 URBAN",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/LOS40_URBAN.mp3",
+          "votes": 1056,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9611ecb1-0601-11e8-ae97-52543be04c81",
+        "name": "esRadio",
+        "url": "http://livestreaming.esradio.fm/stream64.mp3",
+        "votes": 14257
+      },
+      "variants": [
+        {
+          "stationuuid": "766ab81f-1d7d-4fb4-b74c-ec952df6be3c",
+          "name": "esRadio",
+          "url": "http://livestreaming.esradio.fm/stream64.mp3",
+          "votes": 62,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "26edc6b6-d221-4814-a6a9-0dd5d5d365d2",
+        "name": "Pure Ibiza Radio",
+        "url": "https://pureibizaradio.clubbingradios.com:9518/PureIbizaRadio",
+        "votes": 12266
+      },
+      "variants": [
+        {
+          "stationuuid": "8b423272-a116-42a8-9d1c-d825bbb34134",
+          "name": "Pure Ibiza Radio",
+          "url": "https://pureibizaradio.clubbingradios.com:9518/PureIbizaRadio",
+          "votes": 617,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b129bdd2-65bc-4363-8f74-14b474bc0500",
+        "name": "Radio Marca",
+        "url": "https://sonic.mediatelekom.net/9316/stream",
+        "votes": 11475
+      },
+      "variants": [
+        {
+          "stationuuid": "c0944630-04b4-4b9a-9842-670d19ed36d2",
+          "name": "Radio Marca",
+          "url": "https://sonic.mediatelekom.net/9316/stream",
+          "votes": 37,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9f348d9f-5285-11e8-a4d1-52543be04c81",
+        "name": "Costa Del Mar - Chillout (AAC 96kbps)",
+        "url": "http://stream.cdm-chillout.com:8020/stream-AAC-Chill",
+        "votes": 8233
+      },
+      "variants": [
+        {
+          "stationuuid": "54798787-3fbd-429e-9181-a87e9ee7f739",
+          "name": "COSTA DEL MAR ",
+          "url": "http://stream.cdm-chillout.com:8020/stream-AAC-Chill",
+          "votes": 120,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3fd18c3f-8157-11e9-aa30-52543be04c81",
+        "name": "Café del Mar",
+        "url": "https://streams.radio.co/se1a320b47/listen",
+        "votes": 8141
+      },
+      "variants": [
+        {
+          "stationuuid": "607cb03f-19d9-43ca-895a-86c6eaee0882",
+          "name": "Cafe Del Mar",
+          "url": "https://streams.radio.co/se1a320b47/listen",
+          "votes": 195,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c38c5147-7508-40fc-b102-aa1a8fcff4ce",
+          "name": "Café del Mar Radio",
+          "url": "https://streams.radio.co/se1a320b47/listen",
+          "votes": 188,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "633cc18f-ee4a-4afe-a33f-c545a758d864",
+          "name": "Café del Mar Radio",
+          "url": "https://streams.radio.co/se1a320b47/listen",
+          "votes": 98,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2b85feeb-2fb3-4144-af8e-d1df0b5d686b",
+        "name": "Absolute Chillout",
+        "url": "http://edge4.peta.live365.net/b05055_128mp3",
+        "votes": 7470
+      },
+      "variants": [
+        {
+          "stationuuid": "75e446a3-0077-46c6-a152-de80c78e9546",
+          "name": "Absolute Chillout - Spain",
+          "url": "http://edge4.peta.live365.net/b05055_128mp3",
+          "votes": 7,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "743889d5-5472-4e9f-ac61-5f0f04e7efa8",
+        "name": "KISS FM",
+        "url": "https://adhandler.kissfmradio.cires21.com/get_link?url=https://bbkissfm.kissfmradio.cires21.com/bbkissfm.mp3",
+        "votes": 3966
+      },
+      "variants": [
+        {
+          "stationuuid": "fd684dc5-fd22-4815-8f9e-a2901d0ef87f",
+          "name": "Kiss FM",
+          "url": "https://adhandler.kissfmradio.cires21.com/get_link?url=https://bbkissfm.kissfmradio.cires21.com/bbkissfm.mp3&lang=es",
+          "votes": 2164,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "d9484397-31a2-45f0-baf8-3db8878e8bc0",
+          "name": "Hit FM",
+          "url": "https://adhandler.kissfmradio.cires21.com/get_link?url=https://bbhitfm.kissfmradio.cires21.com/bbhitfm.mp3",
+          "votes": 1739,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "6f865173-8dc8-48e7-bbb8-c30a0261c074",
+          "name": "Kiss FM España",
+          "url": "https://adhandler.kissfmradio.cires21.com/get_link?url=https://bbkissfm.kissfmradio.cires21.com/bbkissfm.mp3",
+          "votes": 323,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ef15ea2a-35ea-446c-9e21-388bc8af58ea",
+          "name": "HitFM",
+          "url": "https://adhandler.kissfmradio.cires21.com/get_link?url=https://bbhitfm.kissfmradio.cires21.com/bbhitfm.mp3",
+          "votes": 254,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "e94e8baa-7350-4938-9843-6b7f417d071e",
+          "name": "Kiss FM",
+          "url": "https://adhandler.kissfmradio.cires21.com/get_link?url=https://bbkissfm.kissfmradio.cires21.com/bbkissfm.mp3&lang=es",
+          "votes": 120,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "74d86f0c-bfd3-462b-a3b5-54021564b3e4",
+          "name": "H!T FM",
+          "url": "https://adhandler.kissfmradio.cires21.com/get_link?url=https://bbhitfm.kissfmradio.cires21.com/bbhitfm.mp3&gdpr=0&gdpr_consent=false",
+          "votes": 14,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b8601593-152a-429d-9cb2-5065cf7c0185",
+        "name": "ONDA CERO (España)",
+        "url": "https://atres-live.ondacero.es/live/ondacero/bitrate_1.m3u8",
+        "votes": 3495
+      },
+      "variants": [
+        {
+          "stationuuid": "ad534068-9b96-4ece-a015-a310832b1453",
+          "name": "Onda Cero Madrid",
+          "url": "https://atres-live.ondacero.es/live/ondacero/bitrate_1.m3u8",
+          "votes": 2669,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "63dd5d75-855f-4e7e-9570-b8d3b338c016",
+        "name": "Perfect Deep House",
+        "url": "https://stream.radiojar.com/asngk2sg798uv?1659885393",
+        "votes": 3128
+      },
+      "variants": [
+        {
+          "stationuuid": "51df67a0-3477-473d-9452-558c556a58c9",
+          "name": "Perfect Deep Radio",
+          "url": "https://stream.radiojar.com/asngk2sg798uv?1659885393",
+          "votes": 340,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e34d6ca5-d554-49e1-a673-a04d8930f303",
+        "name": "24h RTVE Televisión",
+        "url": "https://ztnr.rtve.es/ztnr/1694255.m3u8",
+        "votes": 2951
+      },
+      "variants": [
+        {
+          "stationuuid": "754ce9c9-5d7c-49de-acb9-48b673b973be",
+          "name": "24h RTVE Original TELEVISION",
+          "url": "https://ztnr.rtve.es/ztnr/1694255.m3u8",
+          "votes": 348,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "e2c8b829-9646-42b8-b394-522b986558bb",
+          "name": "RTVE 24h",
+          "url": "https://ztnr.rtve.es/ztnr/1694255.m3u8",
+          "votes": 43,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c88a6d2c-104f-11e8-ae97-52543be04c81",
+        "name": "Rock FM",
+        "url": "http://rockfm.cope.stream.flumotion.com/cope/rockfm/playlist.m3u8",
+        "votes": 2676
+      },
+      "variants": [
+        {
+          "stationuuid": "787ae3de-f3bf-4c5e-8075-77a93c072c4f",
+          "name": "ROCK FM (España)",
+          "url": "http://rockfm.cope.stream.flumotion.com/cope/rockfm/playlist.m3u8",
+          "votes": 81,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d694ea42-d9a3-4d19-9ed1-a7edfe4ada35",
+        "name": "Loca FM Twchno",
+        "url": "http://s02.fjperezdj.com:8050/live",
+        "votes": 2654
+      },
+      "variants": [
+        {
+          "stationuuid": "8ce502c2-5ba0-43ad-a2dc-462e34ac85df",
+          "name": "LOCA FM Techno",
+          "url": "http://s02.fjperezdj.com:8050/live",
+          "votes": 420,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bc5e41ee-51da-454b-993a-56895be3e864",
+        "name": "punk irratia",
+        "url": "https://punkirratia.net:8443/punk",
+        "votes": 1740
+      },
+      "variants": [
+        {
+          "stationuuid": "9b198e36-57eb-4107-8412-97221333f531",
+          "name": "punk irratia",
+          "url": "https://punkirratia.net:8443/punk",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6ad5e93f-869d-4165-a685-25e8363c1bf4",
+        "name": "Radio Planeta Costa del Sol",
+        "url": "https://radioplaneta.emitironline.com/radio",
+        "votes": 1630
+      },
+      "variants": [
+        {
+          "stationuuid": "2cda3662-2d3f-4254-9a22-772a3850c9c1",
+          "name": "Radio Planeta Malaga",
+          "url": "https://radioplaneta.emitironline.com/radio",
+          "votes": 100,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2087b4c4-820a-4545-9bd7-eaf28792f44a",
+        "name": "Catalunya Radio",
+        "url": "https://shoutcast.ccma.cat/ccma/catalunyaradioHD.mp3",
+        "votes": 1468
+      },
+      "variants": [
+        {
+          "stationuuid": "f240bb1d-4079-4265-8747-92f8f2b67c29",
+          "name": "CatRàdio",
+          "url": "https://shoutcast.ccma.cat/ccma/catalunyaradioHD.mp3",
+          "votes": 165,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "3253df03-98b5-44f0-b060-1aceebb53c4d",
+          "name": "Catalunya Radio",
+          "url": "https://shoutcast.ccma.cat/ccma/catalunyaradioHD.mp3",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bf5b804b-45ba-41ed-a1a7-41e0544e08e9",
+        "name": "Radio Nature",
+        "url": "https://stream.zeno.fm/3ac97ysh6f0uv.aac",
+        "votes": 1343
+      },
+      "variants": [
+        {
+          "stationuuid": "87aa35fa-37b4-47bf-bb10-bceeb024a7d3",
+          "name": "Radio Nature",
+          "url": "https://stream.zeno.fm/3ac97ysh6f0uv.aac",
+          "votes": 183,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5fd13bc0-8f19-469b-bc53-9ba1a5d92286",
+        "name": "Loca FM 80s",
+        "url": "http://s02.fjperezdj.com:8075/live",
+        "votes": 1286
+      },
+      "variants": [
+        {
+          "stationuuid": "52ea662c-f600-43e0-a583-ef4c3bea3f50",
+          "name": "LOCA FM 80s",
+          "url": "http://s02.fjperezdj.com:8075/live",
+          "votes": 145,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0bfc545c-1927-4402-aee1-b7128d4ea161",
+        "name": "LOS 40 DANCE",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/LOS40_DANCE.mp3",
+        "votes": 1230
+      },
+      "variants": [
+        {
+          "stationuuid": "3d8b1a37-3c59-4d8a-ada4-d436d7ab8e82",
+          "name": "Los40 Dance",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/LOS40_DANCE.mp3",
+          "votes": 156,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3adc699b-c4e1-45dd-aa4a-13edb2b19cab",
+        "name": "Loca FM chillout",
+        "url": "http://s02.fjperezdj.com:8006/live",
+        "votes": 1207
+      },
+      "variants": [
+        {
+          "stationuuid": "d673d576-68ab-4672-a8d4-66cf3048eaef",
+          "name": "LOCA FM Child Out",
+          "url": "http://s02.fjperezdj.com:8006/live",
+          "votes": 295,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "55112aa4-5fca-4201-bc53-ae2b467ee087",
+        "name": "EsRadio Principal",
+        "url": "https://libertaddigital-radio-live1.flumotion.com/libertaddigital/ld-live1-low.mp3",
+        "votes": 1164
+      },
+      "variants": [
+        {
+          "stationuuid": "17edf96d-0b55-43da-bd72-79b45d0f0eb3",
+          "name": "EsRadio",
+          "url": "https://libertaddigital-radio-live1.flumotion.com/libertaddigital/ld-live1-low.mp3",
+          "votes": 441,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4e260b64-1140-4b6d-82a7-2796bc627d4d",
+          "name": "es radio",
+          "url": "https://libertaddigital-radio-live1.flumotion.com/libertaddigital/ld-live1-low.mp3",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "62bf5294-65dc-4a7a-9fb1-f60550dfa15b",
+        "name": "FUNKY TRACKS RADIO Barcelona",
+        "url": "http://streaming2.elitecomunicacion.es:8134/stream",
+        "votes": 1130
+      },
+      "variants": [
+        {
+          "stationuuid": "17969dd9-92e5-41b3-8b9f-8e92c43c994b",
+          "name": "FUNKY TRACKS RADIO",
+          "url": "http://streaming2.elitecomunicacion.es:8134/stream",
+          "votes": 127,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "eeed2483-9eb5-432f-a710-5daa0d686c64",
+        "name": "EsRadio Asturias",
+        "url": "http://server9.emitironline.com:8822/radio",
+        "votes": 1063
+      },
+      "variants": [
+        {
+          "stationuuid": "97bda9d8-c4c7-4ca7-b10e-113db6f29667",
+          "name": "esRadio",
+          "url": "http://server9.emitironline.com:8822/radio",
+          "votes": 191,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e29ee7e2-8bd6-454d-aae6-f54db3157fbd",
+        "name": "Cadena 100",
+        "url": "https://cadena100-cope.flumotion.com/chunks.m3u8",
+        "votes": 992
+      },
+      "variants": [
+        {
+          "stationuuid": "75d308ec-104d-40f7-9592-8630d2573419",
+          "name": "CADENA 100",
+          "url": "https://cadena100-cope.flumotion.com/chunks.m3u8",
+          "votes": 730,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "153777aa-209e-4769-bde5-46abafd375e7",
+        "name": "INFORMA RADIO",
+        "url": "https://24x7.red:42045/informa",
+        "votes": 881
+      },
+      "variants": [
+        {
+          "stationuuid": "04c12dc6-6eb7-477b-8e7d-354dce70155d",
+          "name": "Informa Radio",
+          "url": "https://24x7.red:42045/informa",
+          "votes": 46,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c9d75db2-d044-465a-9ec6-ee46c8d20a0b",
+        "name": "RadioBlues Flac",
+        "url": "https://streams.radiomast.io/radioblues-flac",
+        "votes": 849
+      },
+      "variants": [
+        {
+          "stationuuid": "ce64b81a-e023-427e-a20f-22c713d04be2",
+          "name": "RadioBlues-Flac",
+          "url": "https://streams.radiomast.io/radioblues-flac",
+          "votes": 377,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "93db812b-3732-459e-ae33-1af18062066d",
+        "name": "EsRadio (MP3 HQ)",
+        "url": "https://libertaddigital-radio-live1.flumotion.com/libertaddigital/ld-live1-high.mp3",
+        "votes": 840
+      },
+      "variants": [
+        {
+          "stationuuid": "da251f83-1897-457c-8e88-3ca32180aeb2",
+          "name": "esRadio",
+          "url": "https://libertaddigital-radio-live1.flumotion.com/libertaddigital/ld-live1-high.mp3",
+          "votes": 63,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "fe702991-5136-4db5-967a-aa406732de18",
+          "name": "esRadio",
+          "url": "https://libertaddigital-radio-live1.flumotion.com/libertaddigital/ld-live1-high.mp3",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f3373cfb-c89a-44c6-94c4-35bf853c13e1",
+        "name": "Inselradio Mallorca ",
+        "url": "http://addrad.io/445fxk9",
+        "votes": 806
+      },
+      "variants": [
+        {
+          "stationuuid": "7962b20c-3687-4b43-a3ae-8ff6ad4bc041",
+          "name": "Das Inselradio Mallorca",
+          "url": "http://addrad.io/445fxk9",
+          "votes": 82,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96273192-0601-11e8-ae97-52543be04c81",
+        "name": "Euskadi irratia",
+        "url": "http://mp3-eitb.stream.flumotion.com/eitb/euskadiirratia.mp3",
+        "votes": 771
+      },
+      "variants": [
+        {
+          "stationuuid": "007f961c-5dd6-4b34-9e84-f26b35b09853",
+          "name": "Euskadi Irratia",
+          "url": "http://mp3-eitb.stream.flumotion.com/eitb/euskadiirratia.mp3",
+          "votes": 36,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0e28a390-ac86-433e-84fa-137ea5de9562",
+        "name": "Ibiza Radios Relax",
+        "url": "http://54.38.43.201:8036/stream-128kmp3-IbizaRelax",
+        "votes": 738
+      },
+      "variants": [
+        {
+          "stationuuid": "7b738be5-6f6d-4424-b22b-dfbf7c7076dd",
+          "name": "Ibiza Relax",
+          "url": "http://54.38.43.201:8036/stream-128kmp3-IbizaRelax",
+          "votes": 541,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4d98ac08-5f85-45ae-85b3-1ece9bad3fec",
+        "name": "Ibiza Stardust Radio",
+        "url": "https://www.radioking.com/play/ibiza-stardust-radio-1",
+        "votes": 699
+      },
+      "variants": [
+        {
+          "stationuuid": "97225f88-4d24-4ecf-bb07-01238892df5b",
+          "name": "Ibiza Stardust Radio",
+          "url": "https://www.radioking.com/play/ibiza-stardust-radio-1",
+          "votes": 44,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4ae40853-8466-4187-ad49-c88b7b99edad",
+        "name": "Canarias Radio",
+        "url": "https://rtvc-radio.flumotion.com/rtvc-radio/radio1-high.mp3",
+        "votes": 680
+      },
+      "variants": [
+        {
+          "stationuuid": "e59e4873-06cf-4ee2-8f7a-c0dde211556c",
+          "name": "Radio Television Canaria",
+          "url": "https://rtvc-radio.flumotion.com/rtvc-radio/radio1-high.mp3",
+          "votes": 30,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "88a2899f-a42f-43ed-b2bc-6d5e40b8131c",
+        "name": "Mariskal Rock",
+        "url": "https://media.profesionalhosting.com:8047/stream",
+        "votes": 676
+      },
+      "variants": [
+        {
+          "stationuuid": "45a50ad8-c166-4e69-863c-f567e0167c27",
+          "name": "MariskalRock Radio",
+          "url": "https://media.profesionalhosting.com:8047/stream",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a8684e07-0c7f-498b-a3f1-fedebf5826e6",
+        "name": "Loca FM Ambient",
+        "url": "http://s02.fjperezdj.com:8036/live",
+        "votes": 511
+      },
+      "variants": [
+        {
+          "stationuuid": "8e6796a7-928f-430f-b20a-ecce3f2fdb8a",
+          "name": "Loca Ambient",
+          "url": "http://s02.fjperezdj.com:8036/live",
+          "votes": 425,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6b243743-91a0-4afc-9b9f-aa36cd19caf5",
+        "name": "Cafe del Mar Channel 2",
+        "url": "https://s4.radio.co/seeae9c220/listen",
+        "votes": 441
+      },
+      "variants": [
+        {
+          "stationuuid": "2c7e50bc-f998-4650-9ad6-d1bb56eeeb4c",
+          "name": "Cafe del Mar Channel 2",
+          "url": "https://s4.radio.co/seeae9c220/listen",
+          "votes": 47,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ac31acc8-4acc-488d-851c-19db501e8233",
+        "name": "Radio Nervión",
+        "url": "https://gruponervion.streaming-pro.com:6131/",
+        "votes": 404
+      },
+      "variants": [
+        {
+          "stationuuid": "9b952dc1-6e6f-4882-8bba-6cadbc9c7eeb",
+          "name": "Radio Nervión",
+          "url": "https://gruponervion.streaming-pro.com:6131/",
+          "votes": 91,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ba787931-b063-467e-88da-bfb5423f5e04",
+        "name": "Rock FM Espana Hi-Res",
+        "url": "https://rockfm-cope.flumotion.com/chunks.m3u8",
+        "votes": 383
+      },
+      "variants": [
+        {
+          "stationuuid": "acd28111-3e56-4c7f-bd07-cfb05f08b15e",
+          "name": "Rock FM Espana 128",
+          "url": "https://rockfm-cope.flumotion.com/chunks.m3u8",
+          "votes": 157,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c3d02175-fba0-4636-8f9c-2fb856caa963",
+          "name": "Rock FM",
+          "url": "https://rockfm-cope.flumotion.com/chunks.m3u8",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "de270391-ba27-4735-9913-59a71830827a",
+        "name": "Onda Cero Pontevedra",
+        "url": "https://atres-live.ondacero.es/live/delegaciones/oc/pontevedra/master.m3u8",
+        "votes": 378
+      },
+      "variants": [
+        {
+          "stationuuid": "1cea1132-16d0-4895-8570-6b15ca98fe3f",
+          "name": "Onda Cero Huelva",
+          "url": "https://atres-live.ondacero.es/live/delegaciones/oc/pontevedra/master.m3u8",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7dd8b01e-5d9b-11ea-be63-52543be04c81",
+        "name": "Radio Radio Network",
+        "url": "http://radioradio.es:8000/stream",
+        "votes": 376
+      },
+      "variants": [
+        {
+          "stationuuid": "3525e74e-2728-4703-b0cc-9d2f5ac6907b",
+          "name": "Radio Radio Network Spain",
+          "url": "http://radioradio.es:8000/stream",
+          "votes": 27,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aae29e02-707e-4cac-98f6-bfd325cecd87",
+        "name": "Kiss-FM Madrid",
+        "url": "https://kissfm.kissfmradio.cires21.com/kissfm.mp3",
+        "votes": 348
+      },
+      "variants": [
+        {
+          "stationuuid": "e298b647-fc0f-496a-854e-c754cee14bee",
+          "name": "kiss.fm",
+          "url": "https://kissfm.kissfmradio.cires21.com/kissfm.mp3",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d04c5afd-1cb7-4ca5-aac7-877e058f4bfc",
+        "name": "HKM Radio",
+        "url": "https://stream.zenolive.com/rhf9cqkz3yzuv.aac",
+        "votes": 294
+      },
+      "variants": [
+        {
+          "stationuuid": "88865227-2472-444f-8c1e-997eddbce9a2",
+          "name": "HKM radio",
+          "url": "https://stream.zenolive.com/rhf9cqkz3yzuv.aac",
+          "votes": 25,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6445c180-6a73-4e3f-834f-4ff6246d30fe",
+        "name": "Café del Mar CALM",
+        "url": "https://streamer.radio.co/sb748f24ad/listen",
+        "votes": 290
+      },
+      "variants": [
+        {
+          "stationuuid": "d8228e87-ff75-441b-b773-d559eb1c90a7",
+          "name": "Cafe del Mar Calm",
+          "url": "https://streamer.radio.co/sb748f24ad/listen",
+          "votes": 109,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "005d4865-d4a4-42bf-a4dd-a8127d9c59c5",
+        "name": "Blue Marlin Ibiza",
+        "url": "https://ibizasonica.streaming-pro.com:8001/bluemarlin",
+        "votes": 280
+      },
+      "variants": [
+        {
+          "stationuuid": "4841b947-7f81-44b9-92b1-9fc59f56e043",
+          "name": "Blue Marlin Ibiza",
+          "url": "https://ibizasonica.streaming-pro.com:8001/bluemarlin",
+          "votes": 80,
+          "differs": []
+        },
+        {
+          "stationuuid": "0f094a65-2d61-4873-a4a0-52c27c228761",
+          "name": "Blue Marlin Ibiza",
+          "url": "https://ibizasonica.streaming-pro.com:8001/bluemarlin",
+          "votes": 27,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "27a6509c-419b-4be5-b0c7-88ca9abeb640",
+        "name": "Mix Radio Gran Canaria",
+        "url": "https://mixfm.radionetz.de/mixfm.mp3",
+        "votes": 280
+      },
+      "variants": [
+        {
+          "stationuuid": "3fa5a146-58a6-483a-b335-c39fae04a806",
+          "name": "MixFM Gran Canaria",
+          "url": "https://mixfm.radionetz.de/mixfm.mp3",
+          "votes": 21,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aec73334-6cc6-418b-8e3c-8acdb661f17c",
+        "name": "Ibiza Radios Deep House",
+        "url": "http://radio2.vip-radios.fm:8027/stream-64kmp3-IbizaDeep_autodj",
+        "votes": 266
+      },
+      "variants": [
+        {
+          "stationuuid": "aecac03b-ba3c-4158-9bd9-b05ef0300959",
+          "name": "Ibiza_Radios/Deep House",
+          "url": "http://radio2.vip-radios.fm:8027/stream-64kmp3-IbizaDeep_autodj",
+          "votes": 53,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "eb27c8a7-50cf-410a-909c-8b160920305e",
+          "name": "Ibiza_Radios/Deep House",
+          "url": "http://radio2.vip-radios.fm:8027/stream-64kmp3-IbizaDeep_autodj",
+          "votes": 39,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "3115822c-1fff-48cf-80fe-6e069b772e17",
+          "name": "Ibiza_Radios",
+          "url": "http://radio2.vip-radios.fm:8027/stream-64kmp3-IbizaDeep_autodj",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1f3e27ba-6eab-4fcf-93f1-47f0d0bcbdf6",
+        "name": "Muy buena",
+        "url": "https://stream.emisorasmusicales.net/listen/muybuena/muybuena.mp3",
+        "votes": 265
+      },
+      "variants": [
+        {
+          "stationuuid": "d7f8f054-4148-43e5-a111-e2d93693094b",
+          "name": "Muy buena Valencia",
+          "url": "https://stream.emisorasmusicales.net/listen/muybuena/muybuena.mp3",
+          "votes": 124,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "72eec378-2827-4f5c-a55f-5c5ebe73a494",
+        "name": "Free FM",
+        "url": "https://rocafmadrid.radioca.st/",
+        "votes": 256
+      },
+      "variants": [
+        {
+          "stationuuid": "912a3000-f350-4195-a325-c7d7d49eae7b",
+          "name": "Free FM Mdrid",
+          "url": "https://rocafmadrid.radioca.st/",
+          "votes": 98,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "98711acd-3560-4c15-bb5d-0d797712c03b",
+        "name": "La Jungla Radio",
+        "url": "https://streaming12.elitecomunicacion.es:8626/stream?type=.mp3",
+        "votes": 243
+      },
+      "variants": [
+        {
+          "stationuuid": "b513bc26-93a5-453a-9877-725abcbc87da",
+          "name": "La jungla Radio",
+          "url": "https://streaming12.elitecomunicacion.es:8626/stream?type=.mp3",
+          "votes": 126,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "14c7e3ed-a1b9-4c46-b8a8-43aa714a02ce",
+          "name": "LA JUNGLA RADIO",
+          "url": "https://streaming12.elitecomunicacion.es:8626/stream?type=.mp3",
+          "votes": 55,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "970100f3-2b1a-4521-9d1d-4456e190f255",
+        "name": "Cadena Mix FM",
+        "url": "https://ns6.emisionlocal.com/proxy/radiomix?mp=/stream",
+        "votes": 235
+      },
+      "variants": [
+        {
+          "stationuuid": "89feab45-c8db-47c2-93e2-394e09526673",
+          "name": "Cadena Mix FM",
+          "url": "https://ns6.emisionlocal.com/proxy/radiomix?mp=/stream",
+          "votes": 39,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "710df20e-1d09-4370-adfa-b1ed843c8a46",
+        "name": "ONDA WANTUKI",
+        "url": "https://stream.zeno.fm/5dfkzqm70s8uv",
+        "votes": 229
+      },
+      "variants": [
+        {
+          "stationuuid": "9b00262c-d0be-4497-a4f9-e7a6740a3930",
+          "name": "Onda Wantuki ",
+          "url": "https://stream.zeno.fm/5dfkzqm70s8uv",
+          "votes": 106,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "13935adc-0cdf-429c-bc79-cff630a4e4db",
+          "name": "ONDA WANTUKI",
+          "url": "https://stream.zeno.fm/5dfkzqm70s8uv",
+          "votes": 16,
+          "differs": []
+        },
+        {
+          "stationuuid": "f49d2d6a-50d8-4fdc-86eb-2bd4e5868110",
+          "name": "Onda Wantuki ",
+          "url": "https://stream.zeno.fm/5dfkzqm70s8uv",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f9159284-4f37-4291-9233-5c91828b1e74",
+          "name": "Onda Wantuki ",
+          "url": "https://stream.zeno.fm/5dfkzqm70s8uv",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "3a2c9df4-16b0-487a-b6a5-c8cccc56a519",
+          "name": "ONDA WANTUKI",
+          "url": "https://stream.zeno.fm/5dfkzqm70s8uv",
+          "votes": 10,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "24affb27-d0da-4e7d-bc6f-4d3773eba549",
+        "name": "Radio Galega",
+        "url": "https://crtvg-radiogalega-hls.flumotion.cloud/playlist.m3u8",
+        "votes": 203
+      },
+      "variants": [
+        {
+          "stationuuid": "e4770979-0f0d-4893-bbbd-c66676c45aa3",
+          "name": "Radio Galega",
+          "url": "https://crtvg-radiogalega-hls.flumotion.cloud/playlist.m3u8",
+          "votes": 22,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "03ca007a-cc8d-4b31-93cf-28a6a10f922f",
+        "name": "Kiss FM",
+        "url": "https://frontend.streamonkey.net/fhn-gong971/stream/mp3",
+        "votes": 177
+      },
+      "variants": [
+        {
+          "stationuuid": "24366e49-0f95-437b-8617-4d1da1a216c2",
+          "name": "Kiss FM",
+          "url": "https://frontend.streamonkey.net/fhn-gong971/stream/mp3",
+          "votes": 17,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5fc62f93-56f8-4df8-92b2-0bf285df6996",
+        "name": "Radio Voz (A Coruña)",
+        "url": "https://live.radiovoz.es/mp3/stream_coruna.mp3",
+        "votes": 169
+      },
+      "variants": [
+        {
+          "stationuuid": "e3cc6efd-c8aa-45a3-9f01-5e7f9a94e860",
+          "name": "RadioVoz",
+          "url": "https://live.radiovoz.es/mp3/stream_coruna.mp3",
+          "votes": 49,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f4c5c633-f289-4045-a72c-b3827f665324",
+        "name": "EITB Euskal Kantak",
+        "url": "http://multimedia.eitb.eus/live-content/eitbeuskalkantak-hls/master.m3u8",
+        "votes": 167
+      },
+      "variants": [
+        {
+          "stationuuid": "3f2a6ef5-9a1c-4e0f-b447-ed7424d0f8a4",
+          "name": "EITB Euskal Kantak",
+          "url": "http://multimedia.eitb.eus/live-content/eitbeuskalkantak-hls/master.m3u8",
+          "votes": 31,
+          "differs": []
+        },
+        {
+          "stationuuid": "26247ede-ba2d-4c64-80a9-c3bfb7f8d12f",
+          "name": "ETIB Euskal Kantak",
+          "url": "http://multimedia.eitb.eus/live-content/eitbeuskalkantak-hls/master.m3u8",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d2d9e0f4-d9ef-4903-9542-61f88abb0b7c",
+        "name": "Feel Good Radio Costa del Sol",
+        "url": "https://caster05.streampakket.com/proxy/8321/stream",
+        "votes": 156
+      },
+      "variants": [
+        {
+          "stationuuid": "7f21cdb8-415f-44a2-8b59-51dd4df5d168",
+          "name": "A Super Radio - myradio.com/08opip0u0i8pio9i9i",
+          "url": "https://caster05.streampakket.com/proxy/8321/stream",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "53379674-3ea4-446c-be0b-637294bbc08b",
+        "name": "Ràdio 90 (320k)",
+        "url": "https://giss.tv:666/r90.mp3",
+        "votes": 142
+      },
+      "variants": [
+        {
+          "stationuuid": "14468df9-fefd-49a1-828e-206d273d98b9",
+          "name": "Radio 90",
+          "url": "https://giss.tv:666/r90.mp3",
+          "votes": 28,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "5404482b-910e-4b5b-a871-575bd406868e",
+          "name": "Ràdio 90",
+          "url": "https://giss.tv:666/r90.mp3",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e6899db2-6648-4e78-aab0-d72a807387bb",
+        "name": "ROCK FM",
+        "url": "https://rockfm-cope.flumotion.com/playlist.m3u8",
+        "votes": 132
+      },
+      "variants": [
+        {
+          "stationuuid": "2c5c57a0-935a-4850-8f14-4b602a2753ee",
+          "name": "Rock FM",
+          "url": "https://rockfm-cope.flumotion.com/playlist.m3u8",
+          "votes": 62,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "80854570-33e1-445e-8c72-103413faa297",
+          "name": "Rock FM",
+          "url": "https://rockfm-cope.flumotion.com/playlist.m3u8",
+          "votes": 52,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "5597c301-42b0-4147-bb16-7737feb746e4",
+          "name": "rockfm",
+          "url": "https://rockfm-cope.flumotion.com/playlist.m3u8",
+          "votes": 29,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ccf61c6d-19d3-436e-8018-1fe54e8c37d9",
+          "name": "Rock FM",
+          "url": "https://rockfm-cope.flumotion.com/playlist.m3u8",
+          "votes": 21,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "cda80d9a-2769-4baa-a010-526411c54960",
+          "name": "Rock FM",
+          "url": "https://rockfm-cope.flumotion.com/playlist.m3u8",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2207dac9-6549-4d2f-85cc-c247bc0326bb",
+        "name": "Urban Revolution",
+        "url": "https://st1.urbanrevolution.es:8443/hispano",
+        "votes": 118
+      },
+      "variants": [
+        {
+          "stationuuid": "c9290daa-a14b-4999-82a6-bd41b4113cb5",
+          "name": "Urban Revolution",
+          "url": "https://st1.urbanrevolution.es:8443/hispano",
+          "votes": 37,
+          "differs": []
+        },
+        {
+          "stationuuid": "b491fb10-5600-4f54-bde9-1d3ee626d40a",
+          "name": "Urban Revolution",
+          "url": "https://st1.urbanrevolution.es:8443/hispano",
+          "votes": 17,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e4149287-f6a5-4938-a3e9-322dbc3ed845",
+        "name": "Technolovers EDM",
+        "url": "https://stream.technolovers.fm/edm?ref=radiobrowser",
+        "votes": 117
+      },
+      "variants": [
+        {
+          "stationuuid": "f6c413e3-6581-4163-accb-11c81beb0d4c",
+          "name": "EDM Festival - Online Radio ",
+          "url": "https://stream.technolovers.fm/edm?ref=radiobrowser",
+          "votes": 79,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e4e286c7-7fc8-46d1-911f-aa6e584111f5",
+        "name": "Radios Libres",
+        "url": "https://radiobot.radioslibres.info/listen/radio_cadenazo_libre/cadenazo.mp3",
+        "votes": 116
+      },
+      "variants": [
+        {
+          "stationuuid": "13811715-e6ba-4212-a37c-4223137824e7",
+          "name": "Radios Libres",
+          "url": "https://radiobot.radioslibres.info/listen/radio_cadenazo_libre/cadenazo.mp3",
+          "votes": 54,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1b2bc259-6b9d-4340-968b-f5bf9fc571b3",
+        "name": "Dynamis Radio Madrid",
+        "url": "https://control.streaming-pro.com:8014/stream",
+        "votes": 114
+      },
+      "variants": [
+        {
+          "stationuuid": "37ab5ac3-b4a8-4848-99f6-730a75e489cc",
+          "name": "Dynamis Radio (87.5 FM) Madrid",
+          "url": "https://control.streaming-pro.com:8014/stream",
+          "votes": 90,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4dcce9d5-f195-42c1-bfb0-9e396deafa2e",
+        "name": "Radio Surco Tomelloso",
+        "url": "https://carina.streamerr.co:8032/surco",
+        "votes": 111
+      },
+      "variants": [
+        {
+          "stationuuid": "b488f0eb-f75f-49bc-a3a3-b53d44824e18",
+          "name": "Radio Surco Tomelloso",
+          "url": "https://carina.streamerr.co:8032/surco",
+          "votes": 34,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f3743508-8739-4357-b903-c3492e8caf31",
+        "name": "Free FM 80s",
+        "url": "https://freefm80.radioca.st/",
+        "votes": 108
+      },
+      "variants": [
+        {
+          "stationuuid": "651d234f-a1e7-4c27-aba8-4343f1a9f80b",
+          "name": "Free FM 80s Madrid",
+          "url": "https://freefm80.radioca.st/",
+          "votes": 84,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d40d2942-f7e2-46f3-9c55-340348385f9f",
+        "name": "Radio Vallekas",
+        "url": "https://radio.radiobot.org/listen/rvk/rvk.mp3",
+        "votes": 108
+      },
+      "variants": [
+        {
+          "stationuuid": "1f48bc62-6bfe-4adf-9c97-8d6e9baa1e2e",
+          "name": "Radio Vallekas",
+          "url": "https://radio.radiobot.org/listen/rvk/rvk.mp3",
+          "votes": 11,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a40056ba-5cfb-4290-bb8c-289309b21ad8",
+        "name": "Cadena SER Pontevedra",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SER_ASO_PONTEVEDRA.mp3",
+        "votes": 107
+      },
+      "variants": [
+        {
+          "stationuuid": "69401220-5797-4af0-b7fe-aeb5520c7247",
+          "name": "Cadena SER Pontevedra",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SER_ASO_PONTEVEDRA.mp3",
+          "votes": 38,
+          "differs": []
+        },
+        {
+          "stationuuid": "5b4ac14d-8a44-467b-bbd7-ab7ffdd1b9ee",
+          "name": "Cadena SER pontevedra",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SER_ASO_PONTEVEDRA.mp3",
+          "votes": 32,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "11f577b3-6036-46f1-a542-980d7669e877",
+        "name": "Radio Intereconomía",
+        "url": "https://intereconomia.emitironline.com/",
+        "votes": 100
+      },
+      "variants": [
+        {
+          "stationuuid": "dc1f4ec9-0962-41a7-9f32-98d0565435d0",
+          "name": "Radio Intereconomía",
+          "url": "https://intereconomia.emitironline.com/",
+          "votes": 14,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0ed2f980-7c38-40f4-9df7-5064f9b76486",
+        "name": "El Salto Radio",
+        "url": "https://radio.radiobot.org/listen/salto/elsaltoradio.mp3",
+        "votes": 95
+      },
+      "variants": [
+        {
+          "stationuuid": "27c94e87-506d-4cc5-9005-469e4fe6d896",
+          "name": "El Salto Radio",
+          "url": "https://radio.radiobot.org/listen/salto/elsaltoradio.mp3",
+          "votes": 39,
+          "differs": []
+        },
+        {
+          "stationuuid": "3aad6539-954b-40f2-acdc-bcad0b6d5ad9",
+          "name": "El Salto radio",
+          "url": "https://radio.radiobot.org/listen/salto/elsaltoradio.mp3",
+          "votes": 30,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "baf103ee-0bc7-492e-b2eb-5b19aff48ddc",
+        "name": "Gente Radio",
+        "url": "https://pr1cen101.emisionlocal.com/proxy/genteradio?mp=/live",
+        "votes": 95
+      },
+      "variants": [
+        {
+          "stationuuid": "c359d0b0-26c1-401d-ab68-339b660ef1a6",
+          "name": "Gente Radio",
+          "url": "https://pr1cen101.emisionlocal.com/proxy/genteradio?mp=/live",
+          "votes": 18,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "27f975bc-855f-4a8d-97a6-a4b8e02c035d",
+        "name": "RTPA",
+        "url": "https://cdn-rtpa.watchity.net/wct-3545e416-1a16-44b5-b0db-481136ecacc9/continuous/7be5c015-1da2-4927-a49b-8d232faa69be/radio/index.m3u8",
+        "votes": 95
+      },
+      "variants": [
+        {
+          "stationuuid": "24c6a5e3-5acf-48d1-90e2-7aba2384c7e3",
+          "name": "Radio Principau Asturies - RPA",
+          "url": "https://cdn-rtpa.watchity.net/wct-3545e416-1a16-44b5-b0db-481136ecacc9/continuous/7be5c015-1da2-4927-a49b-8d232faa69be/radio/index.m3u8",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e7a74b6f-9947-48f2-8735-87fc434c1902",
+        "name": "Ondacero Granada",
+        "url": "https://atres-live.ondacero.es/live/delegaciones/oc/granada/bitrate_1.m3u8",
+        "votes": 88
+      },
+      "variants": [
+        {
+          "stationuuid": "73fd1529-ee8b-408d-9ce9-6d77b39941f7",
+          "name": "Onda Cero Granada",
+          "url": "https://atres-live.ondacero.es/live/delegaciones/oc/granada/bitrate_1.m3u8",
+          "votes": 72,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "22829c80-d6b9-4e48-a9df-2174abbcafde",
+        "name": "Chocolate FM",
+        "url": "https://streaming2.elitecomunicacion.es:8082/live.mp3",
+        "votes": 85
+      },
+      "variants": [
+        {
+          "stationuuid": "af29e9cb-eb31-4fd2-a971-892baa6dee45",
+          "name": "Chocolate FM",
+          "url": "https://streaming2.elitecomunicacion.es:8082/live.mp3",
+          "votes": 44,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "50aa95a7-68ce-4699-ae76-106db15e0cf4",
+        "name": "Verbena FM",
+        "url": "https://streaming12.elitecomunicacion.es:8222/stream",
+        "votes": 85
+      },
+      "variants": [
+        {
+          "stationuuid": "0f67eaec-c26b-4053-9c79-a22140f73220",
+          "name": "Verbena FM",
+          "url": "https://streaming12.elitecomunicacion.es:8222/stream",
+          "votes": 10,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "be124e65-a7ac-4e2a-8def-dc4c9744336a",
+        "name": "EsRadio Tenerife",
+        "url": "https://panel5.soydigital.fm/8024/live?1678446871465",
+        "votes": 82
+      },
+      "variants": [
+        {
+          "stationuuid": "c4f826c4-0003-41c6-8002-8274b1a8ac28",
+          "name": "EsRadio Tenerife",
+          "url": "https://panel5.soydigital.fm/8024/live",
+          "votes": 58,
+          "differs": [
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "405d33ab-e409-4713-b857-5107ea6216b2",
+          "name": "EsRadio Tenerife",
+          "url": "https://panel5.soydigital.fm/8024/live?1678447316174",
+          "votes": 31,
+          "differs": [
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "d75add4e-3590-420b-b826-94359b69268f",
+          "name": "Canal 4 Tenerife",
+          "url": "https://panel5.soydigital.fm/8024/live",
+          "votes": 23,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9ba34fca-3e00-4481-a670-5b0337a824a9",
+        "name": "HappyFM-Fuerteventura",
+        "url": "https://happyfuerteventura.streaming-pro.com:6003/live",
+        "votes": 77
+      },
+      "variants": [
+        {
+          "stationuuid": "f1c38bad-1d04-4530-8b0f-8d8ed3152ddf",
+          "name": "HappyFM Fuerteventura",
+          "url": "https://happyfuerteventura.streaming-pro.com:6003/live",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "473519f5-7432-4c69-ad89-f7c057025140",
+        "name": "99.9 Plaza Radio Valencia",
+        "url": "https://stream1.solstreaming.com:8112/stream",
+        "votes": 76
+      },
+      "variants": [
+        {
+          "stationuuid": "f324cb47-0635-4bae-84c2-afdd5f5d4773",
+          "name": "999 Valencia Radio",
+          "url": "https://stream1.solstreaming.com:8112/stream",
+          "votes": 47,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ef4efea1-50ca-45c8-b028-69e01bbbac4e",
+        "name": "Original EDM FESTIVAL",
+        "url": "https://stream.0nlineradio.com/edm-festival?ref=radiobrowser",
+        "votes": 75
+      },
+      "variants": [
+        {
+          "stationuuid": "342d619d-0cb9-40e1-88ff-3034f11ceacb",
+          "name": "EDM FESTIVAL - Online Radio",
+          "url": "https://stream.0nlineradio.com/edm-festival?ref=radiobrowser",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ff85018d-5ecf-4a37-ae86-5925d2af9611",
+        "name": "RNE Andalucía",
+        "url": "https://f141.rndfnk.com/star/crtve/rne5/gra/mp3/128/stream.mp3?cid=01GEPXW032X3Y2SXM6M4X4F1X4&sid=2ar1MBXpFkcnL6WuaxAXO1hEITa&token=L_nTm1RjUems0IjZMMQ_ZzFu3XQ_1_faFzfSM3OR5t8&tvf=06JeYFmsqRdmMTQxLnJuZGZuay5jb20",
+        "votes": 70
+      },
+      "variants": [
+        {
+          "stationuuid": "89fac3f9-c54a-46b7-8157-1e4552b5b5b2",
+          "name": "RNE Radio 5 Granada",
+          "url": "https://f141.rndfnk.com/star/crtve/rne5/gra/mp3/128/stream.mp3?cid=01GEPXW032X3Y2SXM6M4X4F1X4&sid=2ar1MBXpFkcnL6WuaxAXO1hEITa&token=L_nTm1RjUems0IjZMMQ_ZzFu3XQ_1_faFzfSM3OR5t8&tvf=06JeYFmsqRdmMTQxLnJuZGZuay5jb20",
+          "votes": 27,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "36f6e5d0-d0c6-426e-8575-c687a61f458c",
+        "name": "Cadena Ser + Cadiz",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SER_MAS_CADIZ.mp3",
+        "votes": 66
+      },
+      "variants": [
+        {
+          "stationuuid": "1b80626b-726e-4557-94db-f77bdf5afc4c",
+          "name": "Cadena Ser + Cadiz - 93.2 FM",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SER_MAS_CADIZ.mp3",
+          "votes": 25,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "87befcbc-1a1c-4722-8fdc-c294648893c8",
+        "name": "Radio La Granja",
+        "url": "https://radiobot.radioslibres.info/listen/radio_la_granja/rlg.mp3",
+        "votes": 64
+      },
+      "variants": [
+        {
+          "stationuuid": "6e58e437-cdd2-419e-838e-c20139751e45",
+          "name": "Radio La Granja 102.1 FM",
+          "url": "https://radiobot.radioslibres.info/listen/radio_la_granja/rlg.mp3",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "e2776867-075f-400b-9746-51a037db4c42",
+          "name": "Radio La Granja 102.1 FM",
+          "url": "https://radiobot.radioslibres.info/listen/radio_la_granja/rlg.mp3",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "eecbb174-db4f-4bb1-95a2-96fc60312f84",
+        "name": "Radio Linguas",
+        "url": "https://radiolinguas.eu:8001/radiolinguas",
+        "votes": 61
+      },
+      "variants": [
+        {
+          "stationuuid": "29076e22-cdb9-424c-882a-88f53827ed63",
+          "name": "Radio Linguas",
+          "url": "https://radiolinguas.eu:8001/radiolinguas",
+          "votes": 31,
+          "differs": []
+        },
+        {
+          "stationuuid": "b408a547-138d-41b7-9ab5-5c2f8e6d26a7",
+          "name": "Radio Linguas",
+          "url": "https://radiolinguas.eu:8001/radiolinguas",
+          "votes": 11,
+          "differs": []
+        },
+        {
+          "stationuuid": "0612d046-0c4c-43a3-b577-8362378caeb7",
+          "name": "Radio Linguas",
+          "url": "https://radiolinguas.eu:8001/radiolinguas",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c018a39f-6620-414e-b3c7-f6d080eb397e",
+        "name": "Ondacero Cartagena",
+        "url": "https://atres-live.ondacero.es/live/delegaciones/oc/cartagena/bitrate_1.m3u8",
+        "votes": 61
+      },
+      "variants": [
+        {
+          "stationuuid": "9a0ad5ce-974c-464f-82c5-e61e73aa61b0",
+          "name": "Ondacero Cartagena",
+          "url": "https://atres-live.ondacero.es/live/delegaciones/oc/cartagena/bitrate_1.m3u8",
+          "votes": 18,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4d259d0d-9d4a-4188-9a51-de723257488f",
+        "name": "RNE 1 - Zaragoza",
+        "url": "https://dispatcher.rndfnk.com/crtve/rne5/zgz/mp3/high?idasset=3894741",
+        "votes": 61
+      },
+      "variants": [
+        {
+          "stationuuid": "7ca7241d-2147-4190-8a86-934e504cd1f4",
+          "name": "RNE - Radio 5 Zaragoza",
+          "url": "https://dispatcher.rndfnk.com/crtve/rne5/zgz/mp3/high?idasset=3894741",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "37ab1d05-7ec1-4b8e-8ae9-47c24e3cc132",
+        "name": "Radio Argayo",
+        "url": "https://radiobot.radioslibres.info/radio/8030/radio.ogg",
+        "votes": 58
+      },
+      "variants": [
+        {
+          "stationuuid": "f46229d0-d7d8-4c5e-860b-ed4e45b578c5",
+          "name": "Radio Argayo",
+          "url": "https://radiobot.radioslibres.info/radio/8030/radio.ogg",
+          "votes": 22,
+          "differs": []
+        },
+        {
+          "stationuuid": "061185cc-c509-40ef-8883-641aaeadf468",
+          "name": "Radio Argayo",
+          "url": "https://radiobot.radioslibres.info/radio/8030/radio.ogg?_=1",
+          "votes": 7,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "63d517b5-0d6b-4a7d-a6ee-c1dfbbe3bc63",
+        "name": "RadioRemember",
+        "url": "https://stream-164.zeno.fm/vth4gamdntzuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ2dGg0Z2FtZG50enV2IiwiaG9zdCI6InN0cmVhbS0xNjQuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IjBwMjdydG5LU1J5Uk1WdHVCSkJjcEEiLCJpYXQiOjE3NDA4NzY2ODksImV4cCI6MTc0MDg3Njc0OX0.C895dopT7rEuOlpWiF7fF2IwhjTj5Oje8WzcLOdV0G0",
+        "votes": 54
+      },
+      "variants": [
+        {
+          "stationuuid": "cf1615cd-100f-48d5-885a-ecf163b17874",
+          "name": "Radio Remember",
+          "url": "https://stream-164.zeno.fm/vth4gamdntzuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ2dGg0Z2FtZG50enV2IiwiaG9zdCI6InN0cmVhbS0xNjQuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IjBwMjdydG5LU1J5Uk1WdHVCSkJjcEEiLCJpYXQiOjE3NDA4NzY2ODksImV4cCI6MTc0MDg3Njc0OX0.C895dopT7rEuOlpWiF7fF2IwhjTj5Oje8WzcLOdV0G0",
+          "votes": 27,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1ec57dcc-6465-41af-ac22-11eea7d34c95",
+        "name": "Sonica Tribe",
+        "url": "https://ibizasonica.streaming-pro.com:8010/sonicatribe",
+        "votes": 51
+      },
+      "variants": [
+        {
+          "stationuuid": "302576c1-d92b-42d8-9e07-5780bb49cb74",
+          "name": "Sonica Tribe",
+          "url": "https://ibizasonica.streaming-pro.com:8010/sonicatribe",
+          "votes": 16,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "526808a6-5e95-4b91-936f-14f249ea55d6",
+        "name": "EME Radio fm",
+        "url": "https://streaming.enacast.com/emeradiofmHD.mp3",
+        "votes": 48
+      },
+      "variants": [
+        {
+          "stationuuid": "1aff5dfa-215a-43d8-88dd-4b6a49f45a8d",
+          "name": "Eme Radio",
+          "url": "https://streaming.enacast.com/emeradiofmHD.mp3",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e85f1e55-8015-48c8-9a5e-284f0899ef63",
+        "name": "Radio Barça",
+        "url": "https://open.http.mp.streamamg.com/p/3000707/sp/300070700/playManifest/entryId/0_dej0sx5j/format/applehttp/protocol/https/uiConfId/30024000/a.m3u8",
+        "votes": 47
+      },
+      "variants": [
+        {
+          "stationuuid": "d495c6a9-32a3-4a98-99b2-f7915f866ece",
+          "name": "Radio Barça",
+          "url": "https://open.http.mp.streamamg.com/p/3000707/sp/300070700/playManifest/entryId/0_dej0sx5j/format/applehttp/protocol/https/uiConfId/30024000/a.m3u8",
+          "votes": 35,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "70f54c52-7a53-4699-b03f-a26b519a492b",
+        "name": "La Diez Capital Radio",
+        "url": "https://panel5.soydigital.fm/8030/stream",
+        "votes": 47
+      },
+      "variants": [
+        {
+          "stationuuid": "ff9c76ba-17a8-4cf1-b82f-01a15f1f292d",
+          "name": "ladiez",
+          "url": "https://panel5.soydigital.fm/8030/stream",
+          "votes": 20,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5f3d1cea-8f5a-4b13-8013-15280948c1f2",
+        "name": "Radio Ateos de Barcelona",
+        "url": "https://servidor25.brlogic.com:7054/live",
+        "votes": 46
+      },
+      "variants": [
+        {
+          "stationuuid": "985ba392-ed8e-4919-bf89-fd1a84f655e7",
+          "name": "Radio Ateos de Barcelona",
+          "url": "https://servidor25.brlogic.com:7054/live",
+          "votes": 9,
+          "differs": []
+        },
+        {
+          "stationuuid": "93e25fba-9122-4aeb-a6b2-25f46b1069c9",
+          "name": "Radio Ateos de Barcelona",
+          "url": "https://servidor25.brlogic.com:7054/live",
+          "votes": 7,
+          "differs": []
+        },
+        {
+          "stationuuid": "ffce7510-2566-4059-a681-c7572655bb88",
+          "name": "Radio Ateos de Barcelona",
+          "url": "https://servidor25.brlogic.com:7054/live",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7a4c78ee-9a86-410d-97bf-83b99f59bc02",
+        "name": "S+ ibiza",
+        "url": "https://ice.studiopiu.net/studiopiuibiza.aac",
+        "votes": 42
+      },
+      "variants": [
+        {
+          "stationuuid": "40c8dbde-93e1-4061-baed-72cdf02ce4f9",
+          "name": "Studio Piu Ibiza",
+          "url": "https://ice.studiopiu.net/studiopiuibiza.aac",
+          "votes": 40,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fff5284d-ffcb-4e98-889d-939021e20fe0",
+        "name": "Radio Almaina",
+        "url": "http://radiobot.radioslibres.info:8020/radio.mp3",
+        "votes": 39
+      },
+      "variants": [
+        {
+          "stationuuid": "62f09fc0-a46c-4843-bbf5-767773403e83",
+          "name": "Radio Almaina",
+          "url": "http://radiobot.radioslibres.info:8020/radio.mp3",
+          "votes": 27,
+          "differs": []
+        },
+        {
+          "stationuuid": "8b8f077a-1b6c-4480-a6f5-a866214cddce",
+          "name": "Radio Almaina",
+          "url": "http://radiobot.radioslibres.info:8020/radio.mp3",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "74ea3f2d-0803-490f-9020-dfb30f91dd8c",
+        "name": "RPV Gran Canaria",
+        "url": "https://stream.radio-pv.com/",
+        "votes": 38
+      },
+      "variants": [
+        {
+          "stationuuid": "be3b3d36-e761-4193-83a5-7d9fa95c2c12",
+          "name": "Radio Primavera GC 107.3 FM",
+          "url": "https://stream.radio-pv.com/",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "569250a0-b6ed-4ad9-bfc4-ad9dd65dc917",
+        "name": "Talk Radio Europe",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/TALK_RADIO_EUROPE.mp3",
+        "votes": 37
+      },
+      "variants": [
+        {
+          "stationuuid": "26f01c0d-3390-424e-8ceb-a689a45f1f8d",
+          "name": "Talk Radio Europe",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/TALK_RADIO_EUROPE.mp3?DIST=TuneIn",
+          "votes": 28,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1028b3ce-6086-4125-9b1a-ba09223ffd30",
+        "name": "EDM Radio",
+        "url": "https://laut.fm/edmradio",
+        "votes": 37
+      },
+      "variants": [
+        {
+          "stationuuid": "d9b8bf71-5d4b-422b-ae5b-708279b7d1e1",
+          "name": "EDM.RADIO/DANCE",
+          "url": "https://laut.fm/edmradio",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8d406f12-985f-4af3-967e-697854f283e3",
+          "name": "EDM Radio",
+          "url": "https://laut.fm/edmradio",
+          "votes": 9,
+          "differs": []
+        },
+        {
+          "stationuuid": "762fbe46-c1e4-4ad5-acfb-d37ac0e1eece",
+          "name": "EDM Radio",
+          "url": "https://laut.fm/edmradio",
+          "votes": 6,
+          "differs": []
+        },
+        {
+          "stationuuid": "88e63f6e-1181-45bb-9f01-7facb8f7d24a",
+          "name": "EDM Radio",
+          "url": "https://laut.fm/edmradio",
+          "votes": 6,
+          "differs": []
+        },
+        {
+          "stationuuid": "c56cbeec-b198-4376-a5ce-dea667a90684",
+          "name": "EDM Radio",
+          "url": "https://laut.fm/edmradio",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "035dee5f-7b5e-4d10-8180-768c8db2e5ec",
+        "name": "CUAC FM (MP3)",
+        "url": "https://streaming.cuacfm.org/cuacfm-128k.mp3",
+        "votes": 34
+      },
+      "variants": [
+        {
+          "stationuuid": "3b23bb00-8002-408e-912e-51217ab64799",
+          "name": "Cuac FM",
+          "url": "https://streaming.cuacfm.org/cuacfm-128k.mp3",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "51de6033-5738-4866-aac5-cf6ab79aeac8",
+        "name": "Elite Fm",
+        "url": "http://stream.zeno.fm/atsvz45arm0uv",
+        "votes": 33
+      },
+      "variants": [
+        {
+          "stationuuid": "556523a9-0b09-4d9d-9b54-d16d17293301",
+          "name": "Elite fm new",
+          "url": "http://stream.zeno.fm/atsvz45arm0uv",
+          "votes": 25,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0be32db1-aa9e-45f1-9f40-52d2e0458657",
+        "name": "BayRadio Spain",
+        "url": "https://securestreams2.autopo.st:1317/stream",
+        "votes": 32
+      },
+      "variants": [
+        {
+          "stationuuid": "ffd05f19-66d7-41f4-b8b4-def95f7690e5",
+          "name": "BayRadio Spain",
+          "url": "https://securestreams2.autopo.st:1317/stream?1715088808599",
+          "votes": 17,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8bd1fba0-89d4-4bc0-9c6c-a51d1af2079d",
+        "name": "Radio Universitaria León (320)",
+        "url": "http://radio.unileon.es:8000/radio-unileon-320",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "a0b0a46b-49da-486e-817d-56457d9f6e9b",
+          "name": "Radio Universitaria León",
+          "url": "http://radio.unileon.es:8000/radio-unileon-320",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "82f057b9-d705-4f52-9c6c-d1fccde9ac2d",
+        "name": "Radio Popular",
+        "url": "https://stream.mediasector.es/listen/radio_popular/radiopopular.mp3",
+        "votes": 25
+      },
+      "variants": [
+        {
+          "stationuuid": "ee8db91e-55ee-4db3-952d-f0cedd24d159",
+          "name": "Radio Popular",
+          "url": "https://stream.mediasector.es/listen/radio_popular/radiopopular.mp3",
+          "votes": 23,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d8486f84-45a3-463c-8092-377fb0012281",
+        "name": "Radio The Club",
+        "url": "https://relay.stream.enacast-cloud.com:30256/radioclubmovilHD.mp3",
+        "votes": 25
+      },
+      "variants": [
+        {
+          "stationuuid": "9bded5c4-6002-438a-9ca5-0087a92e9100",
+          "name": "Radio THE CLUB - Mallorca 92.0 FM",
+          "url": "https://relay.stream.enacast-cloud.com:30256/radioclubmovilHD.mp3",
+          "votes": 20,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "24d01421-fbde-4694-8ec6-874a5dc06f90",
+          "name": "The club",
+          "url": "https://relay.stream.enacast-cloud.com:30256/radioclubmovilHD.mp3",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96314885-0601-11e8-ae97-52543be04c81",
+        "name": "Star People",
+        "url": "http://2.139.144.101:8020/2?1508151505",
+        "votes": 23
+      },
+      "variants": [
+        {
+          "stationuuid": "1ad12320-1987-4e2c-bb7b-45d57d2b4479",
+          "name": "Star People",
+          "url": "http://2.139.144.101:8020/2?1508151505",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8ab655f2-d710-4e66-a430-2dcd0187383e",
+        "name": "Radio FilispiM",
+        "url": "https://streaming.cuacfm.org/filispim.mp3",
+        "votes": 23
+      },
+      "variants": [
+        {
+          "stationuuid": "35b92fe1-ee81-46a6-bceb-1271b3fc22d3",
+          "name": "Radio Filispim",
+          "url": "https://streaming.cuacfm.org/filispim.mp3",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ea3c5e15-30e2-4543-b655-83fda5ff26a7",
+        "name": "RNE - Radio 5 Huesca",
+        "url": "https://dispatcher.rndfnk.com/crtve/rne5/ter/mp3/high?idasset=6116428",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "f8a9b5f9-5390-4ad0-a11e-e1e5e96fc8f9",
+          "name": "RNE - Radio 5 Teruel",
+          "url": "https://dispatcher.rndfnk.com/crtve/rne5/ter/mp3/high?idasset=6116428",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cad0174d-d74a-437e-9879-8c71d57db9e6",
+        "name": "dublab BCN",
+        "url": "https://dublabbcn.out.airtime.pro/dublabbcn_a",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "bfdab331-e03c-4a34-b9ff-7647e3b89d94",
+          "name": "dublab BCN",
+          "url": "https://dublabbcn.out.airtime.pro/dublabbcn_a",
+          "votes": 9,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "12375369-8af3-484e-b771-b22c2e57bdfe",
+        "name": "Dance Wave Retro!",
+        "url": "https://retro.dancewave.online/retrodance.flac.ogg",
+        "votes": 18
+      },
+      "variants": [
+        {
+          "stationuuid": "aac4406d-3e09-4faf-a53b-6b0cb4017d5c",
+          "name": "Dance Wave Retro!",
+          "url": "https://retro.dancewave.online/retrodance.flac.ogg",
+          "votes": 12,
+          "differs": []
+        },
+        {
+          "stationuuid": "41b5ee3b-bc67-49d5-b6ed-8921f8b9e8ca",
+          "name": "Dance Wave Retro!",
+          "url": "https://retro.dancewave.online/retrodance.flac.ogg",
+          "votes": 10,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2dc9a47d-3085-41a5-ac15-54220f1d70fa",
+        "name": "Sevilla FC Radio",
+        "url": "https://open.http.mp.streamamg.com/p/3001314/sp/300131400/playManifest/entryId/0_ye0b8tc0/format/applehttp/protocol/https/uiConfId/30026292/a.m3u8",
+        "votes": 18
+      },
+      "variants": [
+        {
+          "stationuuid": "0cd0331b-e57d-473f-827a-b3918dea317c",
+          "name": "Sevilla FC Radio",
+          "url": "https://open.http.mp.streamamg.com/p/3001314/sp/300131400/playManifest/entryId/0_ye0b8tc0/format/applehttp/protocol/https/uiConfId/30026292/a.m3u8",
+          "votes": 10,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "87b14a2a-02bd-420f-9cf1-d39d1067e066",
+        "name": "HAPPYFM - FUERTEVENTURA",
+        "url": "https://control.streaming-pro.com:6003/live",
+        "votes": 17
+      },
+      "variants": [
+        {
+          "stationuuid": "5e58b59f-6ffd-4b33-9ad6-9b840642e9b3",
+          "name": "HAPPYFM - FUERTEVENTURA",
+          "url": "https://control.streaming-pro.com:6003/live",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9a0b96c7-155b-44a6-bd54-36de98c6250e",
+        "name": "Cadena Ser + Córdoba",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SER_MAS_CORDOBA.mp3",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "16e21560-e0dd-4583-99bb-564c486efbd4",
+          "name": "Cadena Ser + Córdoba - 102.0 FM",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SER_MAS_CORDOBA.mp3",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "18da9be6-b394-49e7-8f6c-179d245c1c3b",
+        "name": "Radio Sintonia",
+        "url": "https://eu1.lhdserver.es:8055/stream",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "341e6626-5656-454d-8748-c7c98f8b9716",
+          "name": "Radio Sintonia",
+          "url": "https://eu1.lhdserver.es:8055/stream",
+          "votes": 10,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "654d7bf2-4364-41c2-95ce-5a7ddbca3764",
+        "name": "Segura irratia",
+        "url": "https://soporte.ikernet.net:6443/listen/segura_irratia/radio.mp3",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "f4c2a4ad-5aa7-495a-b090-ccd07ac398f9",
+          "name": "Segura irratia",
+          "url": "https://soporte.ikernet.net:6443/listen/segura_irratia/radio.mp3",
+          "votes": 10,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d7eff005-24cd-43ca-9ba0-6b3fcb0d5d6c",
+        "name": "Kiss FM Canarias",
+        "url": "https://bbkissfm.kissfmradio.cires21.com/bbkissfm.mp3",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "01ed949f-4545-4d82-b547-308e9a7b73b4",
+          "name": "Kiss Fm",
+          "url": "https://bbkissfm.kissfmradio.cires21.com/bbkissfm.mp3",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c751a25a-e4bd-4c83-bff3-afa06bf3ac19",
+        "name": "Mambo Radio",
+        "url": "https://streamer.radio.co/sd7b28e5f3/listen",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "8fe74dd1-d367-4117-b8ed-c25e26547d67",
+          "name": "Mambo Radio",
+          "url": "https://streamer.radio.co/sd7b28e5f3/listen",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a0fac47f-3af8-435f-bb43-fd69b89c1683",
+        "name": "Olímpica Valencia",
+        "url": "https://sonicpanel.zonaradio.net/8320/stream",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "0334bd85-d617-4877-9e09-f3602a599224",
+          "name": "Olimpica Valencia ",
+          "url": "https://sonicpanel.zonaradio.net/8320/stream",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "593add69-4b7c-4709-829b-08414e23bde3",
+        "name": "EduNeu Radio 3: DJ Johnson Somerset Remixes",
+        "url": "https://radio.eduneu.eu:8020/radio.mp3",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "d24f28df-72c4-46b7-800c-d740f246533e",
+          "name": "Radio EduNeu 3: The DJ Johnson Somerset Remixes",
+          "url": "https://radio.eduneu.eu:8020/radio.mp3",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c68383be-0211-4949-8b9b-d9d4d6ffc10b",
+        "name": "La MIX Radio",
+        "url": "https://lamixradio.com/radio",
+        "votes": 8
+      },
+      "variants": [
+        {
+          "stationuuid": "28acc889-437d-451f-bd36-741ecc220784",
+          "name": "La MIX Radio",
+          "url": "https://lamixradio.com/radio",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3edcaa18-72a1-44e8-ab3f-1bd04205b0be",
+        "name": "PS Audio ",
+        "url": "https://octaverecords.out.airtime.pro/octaverecords_a",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "8e9052c1-f32a-4ef7-a28a-9d88220efca7",
+          "name": "PS Audio ",
+          "url": "https://octaverecords.out.airtime.pro/octaverecords_a",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "655f4c4b-a2e3-46a1-92e1-48c167473aaa",
+        "name": "Toma Radio",
+        "url": "http://stvt.dynu.net:7008/directo",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "22951ba2-af5e-4a10-8abb-df66665228e3",
+          "name": "Toma Radio",
+          "url": "http://stvt.dynu.net:7008/directo",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b611042e-37e6-4d50-8e99-cfd4d495b602",
+        "name": "Flow Radio ",
+        "url": "https://st1.urbanrevolution.es:8445/flow",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "3c985a79-ca1e-4b21-9064-ffa959389c73",
+          "name": "Flow Radio",
+          "url": "https://st1.urbanrevolution.es:8445/flow",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "90f5b12c-ba19-4da8-a813-633720f4c801",
+          "name": "Flow Radio",
+          "url": "https://st1.urbanrevolution.es:8445/flow",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3d39d7dc-1436-4f17-aa3f-2c5a242a4100",
+        "name": "Fedi Drama Radio",
+        "url": "https://dramaradio.tuiter.ovh/listen/fedi_drama_radio/radio.mp3",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "e3e7075d-f22f-4373-a82b-b6ba72759029",
+          "name": "Fedi Drama Radio",
+          "url": "https://dramaradio.tuiter.ovh/listen/fedi_drama_radio/radio.mp3",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "104492ee-0a8f-432f-8730-6e405c72b179",
+        "name": "Coast FM Tenerife Spain",
+        "url": "https://securestreams.autopo.st:1209/tenerife?_=303402",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "fec806b3-632f-49b5-9f7a-c402c18d9004",
+          "name": "Coast FM Tenerife, Canary Islands",
+          "url": "https://securestreams.autopo.st:1209/tenerife?_=872308",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f639e237-b342-40b5-938b-d061e681f6bb",
+        "name": "Vive Radio Burgos",
+        "url": "https://streaming.viveradio.es/viveburgos",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "ce584738-2fd7-4546-8a93-6d47e68af8cd",
+          "name": "Vive Radio",
+          "url": "https://streaming.viveradio.es/viveburgos",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "57c2deff-87fe-4fe4-94f2-bab1126dfe3e",
+        "name": "Radio Tirso Libertaria",
+        "url": "https://giss.tv:666/tirsolibertaria.ogg",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "8c688cbb-c9d2-41f8-8649-180fd399b4a1",
+          "name": "Radio Tirso Libertaria (RTL)",
+          "url": "https://giss.tv:666/tirsolibertaria.ogg",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "71210d2c-cf12-4b05-98db-0550609ebcf2",
+        "name": "Kaibo Radio",
+        "url": "https://ibizasonica.streaming-pro.com:8013/kaiboradio",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "a4039d32-8771-4f86-a882-48eb46383adf",
+          "name": "KAIBO RADIO",
+          "url": "https://ibizasonica.streaming-pro.com:8013/kaiboradio",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d36bcbbf-40ab-460a-8344-b1d5028f3725",
+        "name": "Radio Guijuelo",
+        "url": "http://radio.guijuelo.es/emision/directo.ogg",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "0c4cedb6-710f-4078-8db3-659071371c70",
+          "name": "Radio Guijuelo",
+          "url": "http://radio.guijuelo.es/emision/directo.ogg",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c7d66685-c3a9-4f3a-9f27-fa8ce75a0f7a",
+        "name": "Radio Hallo",
+        "url": "https://stream.emisorasmusicales.net/listen/hallo_fm/hallofm.mp3",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "6aad43d6-9555-4a98-a344-33cec8665a79",
+          "name": "Radio Hallo",
+          "url": "https://stream.emisorasmusicales.net/listen/hallo_fm/hallofm.mp3",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "adeb6327-f6b5-4623-baf2-9ed8b029f5da",
+        "name": "salvaje fm",
+        "url": "http://164.138.208.21:8154/",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "123fe1cf-3793-4864-a5d5-4e6741d15ecf",
+          "name": "Salvaje FM",
+          "url": "http://164.138.208.21:8154/",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f1ca5eb1-0a22-4153-a11c-7e83976d5c0a",
+        "name": "Cinema Radio",
+        "url": "https://server5.mediasector.es:8090/cinemaradio",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "1760de51-61a1-406d-b100-e56227ba0e0a",
+          "name": "Cinema radio",
+          "url": "https://server5.mediasector.es:8090/cinemaradio",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c1ddc999-7d68-4928-b96e-db9ce9595f84",
+          "name": "Cinema Radio",
+          "url": "https://server5.mediasector.es:8090/cinemaradio",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aab3b0dd-726c-45f2-8f4d-cd003929d1cb",
+        "name": "Marbescop ",
+        "url": "https://play.radioking.io/marbescop",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "c51232ae-1ae8-4fdc-9af5-17cbd46658e0",
+          "name": "Marbescop",
+          "url": "https://play.radioking.io/marbescop",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b61ca1a6-d7b3-4165-b8e8-a8b3dc98af16",
+          "name": "Marbescop ",
+          "url": "https://play.radioking.io/marbescop",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "629a75e6-9b21-486d-ad31-f554a352bafa",
+        "name": "PabloMix Music",
+        "url": "https://sonic2.sistemahost.es/8068/stream",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "7e8c68ff-b1dd-41fb-a1dc-6376d5ec490b",
+          "name": "PabloMix Music",
+          "url": "https://sonic2.sistemahost.es/8068/stream",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1e52fb35-4a84-4b8a-9f7f-4c77fcccbe64",
+        "name": "Radio Ibizing",
+        "url": "https://a8.asurahosting.com:6850/radio.mp3",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "f28e2b23-2f1a-4140-a5bf-3ad5f4d62b11",
+          "name": "Radio Ibizing",
+          "url": "https://a8.asurahosting.com:6850/radio.mp3",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "da34db08-6b8d-45ab-a692-c738ad3c3862",
+        "name": "Ràdio Pollença",
+        "url": "https://stream.recasound.es/proxy/radiopollensa/stream",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "fa4b63ad-70a4-46e4-9a83-1aa49580e3c4",
+          "name": "Pollença ",
+          "url": "https://stream.recasound.es/proxy/radiopollensa/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "82f43feb-dab6-4c5c-b7a7-9d3c8b7e684d",
+        "name": "AivaRadioiA",
+        "url": "https://radio.aivaia.es/radio.ogg",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "5c5f07d5-8ffb-45d7-8c11-708d470acf25",
+          "name": "AivaRadioiA",
+          "url": "https://radio.aivaia.es/radio.ogg",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cf2783e1-850b-4a7d-8a05-2da09c1d8239",
+        "name": "Cadena SER Ceuta",
+        "url": "https://21223.live.streamtheworld.com/SER_CEUTA.mp3",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "a4510312-13f9-4996-b25b-be624838c38a",
+          "name": "Cadena SER Ceuta",
+          "url": "https://21223.live.streamtheworld.com/SER_CEUTA.mp3",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "32d76eb2-3774-4064-aa9d-0d4fafedb753",
+        "name": "Discomania",
+        "url": "https://server5.mediasector.es:8060/discomania",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "dc038ce7-5753-41f7-a16d-2bad27a42bec",
+          "name": "DiscomanÍa",
+          "url": "https://server5.mediasector.es:8060/discomania",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "464d70ea-5940-4a7d-8fb9-8d79c45ecd17",
+        "name": "Sonaos fm",
+        "url": "https://centova.streamrdm.com:4449/stream",
+        "votes": 1
+      },
+      "variants": [
+        {
+          "stationuuid": "f06dda9a-0e47-41db-9806-56102eea6827",
+          "name": "radio sonaos stereo",
+          "url": "https://centova.streamrdm.com:4449/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0bfa2bab-85f0-4f65-81c0-55e175e3c983",
+        "name": "JFK IBIZA",
+        "url": "https://nexstream.cloud/jfk",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "a81f9707-7159-4483-b338-ccf0d046ad0f",
+          "name": "JFK IBIZA",
+          "url": "https://nexstream.cloud/jfk",
+          "votes": 0,
+          "differs": []
+        },
+        {
+          "stationuuid": "fcf53412-77cc-42e8-af52-e6250e7e1f78",
+          "name": "nexradio",
+          "url": "https://nexstream.cloud/jfk",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "6776dbdd-2885-473f-b1bb-6f2becee1cc7",
+          "name": "nexradio",
+          "url": "https://nexstream.cloud/jfk",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8acdcdcd-6f93-4040-86fa-671c65601ed2",
+          "name": "nexradio",
+          "url": "https://nexstream.cloud/jfk",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "aa8703ba-71ad-437d-9aa4-112de1911089",
+          "name": "nexradio",
+          "url": "https://nexstream.cloud/jfk",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ba96bdc8-99ae-46e8-9383-85f0e3942715",
+          "name": "nexradio",
+          "url": "https://nexstream.cloud/jfk",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b50ea432-72ff-49a5-9fb6-dabc1ae6f44f",
+          "name": "nexradio",
+          "url": "https://nexstream.cloud/jfk",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "94625951-bc74-4583-83d2-ee9cebfe61e3",
+          "name": "nexradio",
+          "url": "https://nexstream.cloud/jfk",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "418a45d8-52bc-46ad-98c5-0abb4fac50a2",
+          "name": "nexradio",
+          "url": "https://nexstream.cloud/jfk",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "48bca02a-4224-48da-841a-6b5952288914",
+        "name": "Inthemix FM 96.2",
+        "url": "http://streaming.enantena.com:8000/radiosentmenat96.mp3",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "ed5e9cd1-9daa-47b4-868c-1d156c169b89",
+          "name": "Radio Sentmenat 96",
+          "url": "http://streaming.enantena.com:8000/radiosentmenat96.mp3",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

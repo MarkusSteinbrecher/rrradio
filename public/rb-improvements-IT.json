@@ -1,0 +1,5482 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.879Z",
+  "country": "IT",
+  "sourceProbedAt": "2026-04-29T06:56:23.281Z",
+  "totals": {
+    "deadStreams": 209,
+    "internalDupes": 167,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "eb10fc32-63d3-47a1-9d1b-3040f3580dee",
+      "name": "Rai News 24",
+      "url": "https://streamcdnb3-8e7439fdb1694c8da3a0fd63e4dda518.msvdn.net/rainews1/hls/rainews_2400/chunklist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 544,
+      "lastProbedAt": "2026-04-29T06:55:43.006Z"
+    },
+    {
+      "stationuuid": "12cfc0d8-0ff1-4dcb-9c63-1f8f46538dc9",
+      "name": "Radio Onda Rossa",
+      "url": "https://s.streampunk.cc/ondarossa.ogg",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 289,
+      "lastProbedAt": "2026-04-29T06:55:46.866Z"
+    },
+    {
+      "stationuuid": "ab765309-80d5-4197-8471-68d191b6e08d",
+      "name": "Web Radio Lucio Battisti 2",
+      "url": "https://stream-153.zeno.fm/ubgq1ghham8uv?zs=hmJlAUmnSa-8t6o-YCmJnQ",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 204,
+      "lastProbedAt": "2026-04-29T06:55:49.186Z"
+    },
+    {
+      "stationuuid": "7b95664c-2538-4aea-b42c-eb93879a59a3",
+      "name": "Hardstyle radio Italy",
+      "url": "https://stream.zeno.fm/q86g2sqwn18uv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 156,
+      "lastProbedAt": "2026-04-29T06:55:50.966Z"
+    },
+    {
+      "stationuuid": "1ef30337-ee09-4d7a-99f6-8511258d3db9",
+      "name": "Radiotime Italy",
+      "url": "https://stream.zeno.fm/25k224a26k0uv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 150,
+      "lastProbedAt": "2026-04-29T06:55:51.488Z"
+    },
+    {
+      "stationuuid": "bed86ed9-8c1c-4b90-a6f1-af2e3e267482",
+      "name": "Südtirol 1",
+      "url": "https://stream.suedtirol1.it/live/aac-64/app/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 137,
+      "lastProbedAt": "2026-04-29T06:55:52.227Z"
+    },
+    {
+      "stationuuid": "228e6d51-5f16-4482-8267-bd8cdc7aaa24",
+      "name": "Radio Serie A Con RDS",
+      "url": "https://stream.rds.radio/audio/seriea.stream_aac/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 121,
+      "lastProbedAt": "2026-04-29T06:55:53.054Z"
+    },
+    {
+      "stationuuid": "80865d74-a1b7-45e7-a6d8-55e9586765cc",
+      "name": "Rai News 24",
+      "url": "https://streamcdnb3-8e7439fdb1694c8da3a0fd63e4dda518.msvdn.net/rainews1/hls/rainews_2400/chunklist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 98,
+      "lastProbedAt": "2026-04-29T06:55:54.142Z"
+    },
+    {
+      "stationuuid": "8f634d94-3d07-47fc-beeb-43383f494006",
+      "name": "Rai News 24",
+      "url": "https://streamcdnb3-8e7439fdb1694c8da3a0fd63e4dda518.msvdn.net/rainews1/hls/rainews_2400/chunklist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 94,
+      "lastProbedAt": "2026-04-29T06:55:54.790Z"
+    },
+    {
+      "stationuuid": "11acdb81-80ef-4217-a367-1feb7f445ba9",
+      "name": "Fango Radio",
+      "url": "https://pantano.ovh:8444/pantano",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 68,
+      "lastProbedAt": "2026-04-29T06:55:57.432Z"
+    },
+    {
+      "stationuuid": "dbfdc734-f509-407c-bcd0-b7227085e43c",
+      "name": "Web Radio Network Lucio Battisti",
+      "url": "https://stream.zeno.fm/ubgq1ghham8uv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 65,
+      "lastProbedAt": "2026-04-29T06:55:57.987Z"
+    },
+    {
+      "stationuuid": "1e59fac5-fb91-463e-a725-05eb5890453c",
+      "name": "Radio Blackout Torino",
+      "url": "https://blimp.streampunk.cc/_stream/blackout.ogg",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 63,
+      "lastProbedAt": "2026-04-29T06:55:58.623Z"
+    },
+    {
+      "stationuuid": "6e361d16-d938-4cde-ae61-79f15f015784",
+      "name": "Radio Tirol",
+      "url": "https://stream.radiotirol.it/live/aac-64/app/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 59,
+      "lastProbedAt": "2026-04-29T06:55:58.793Z"
+    },
+    {
+      "stationuuid": "7566aa8d-0104-4653-bbdb-4e46a27902de",
+      "name": "Dreams Channel",
+      "url": "https://stream.zeno.fm/k0ttxt24fm0uv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 57,
+      "lastProbedAt": "2026-04-29T06:55:59.012Z"
+    },
+    {
+      "stationuuid": "c84e1cc7-aef4-44c6-ac67-dba8dd113bb2",
+      "name": "Fango Radio",
+      "url": "https://pantano.ovh:8444/pantano",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 54,
+      "lastProbedAt": "2026-04-29T06:55:59.339Z"
+    },
+    {
+      "stationuuid": "4c5fa310-fd73-4e43-a41c-42c343bb227d",
+      "name": "Radio Wombat",
+      "url": "https://s.streampunk.cc/wombat.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 37,
+      "lastProbedAt": "2026-04-29T06:56:02.868Z"
+    },
+    {
+      "stationuuid": "3d840e4f-5dd2-48c1-a17e-79e07942adcb",
+      "name": "OL3 Radio",
+      "url": "https://5c389faa13be3.streamlock.net:9553/ol3radio/ol3radio/chunklist_w1717825683.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 34,
+      "lastProbedAt": "2026-04-29T06:56:13.136Z"
+    },
+    {
+      "stationuuid": "ec46a2d5-1a2c-410c-999b-845f4fdbc2b1",
+      "name": "Lazio style radio",
+      "url": "https://livesg.sslazio.hiway.media/restreamer/sslazio_client/gpu-a-c1-1/restreamer/outgest/79b655d0-7924-4397-8d6c-b1e98b029b5d/manifest.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 29,
+      "lastProbedAt": "2026-04-29T06:56:05.212Z"
+    },
+    {
+      "stationuuid": "9be39e03-cee9-437d-a4be-0842333c3ca5",
+      "name": "Radio Carina",
+      "url": "https://audio.streamshow.it/proxy/radiocarina?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 25,
+      "lastProbedAt": "2026-04-29T06:56:07.025Z"
+    },
+    {
+      "stationuuid": "5583d6eb-87e8-43a3-acc8-b72ff552139b",
+      "name": "Fango Radio",
+      "url": "https://pantano.ovh:8444/pantano",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 24,
+      "lastProbedAt": "2026-04-29T06:56:07.129Z"
+    },
+    {
+      "stationuuid": "28c4baf2-3364-4de5-8149-d8c5bbbc4cfc",
+      "name": "Radio Idea Potenza",
+      "url": "https://audio.streamshow.it/proxy/radiocarinanapoli?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 19,
+      "lastProbedAt": "2026-04-29T06:56:11.557Z"
+    },
+    {
+      "stationuuid": "4c8ccea3-61f2-4e8b-9cd7-5829bf84fd4b",
+      "name": "Radio Sanremo",
+      "url": "https://nr14.newradio.it:8639/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 19,
+      "lastProbedAt": "2026-04-29T06:56:11.570Z"
+    },
+    {
+      "stationuuid": "aaf78cc6-4ffd-47c6-8ea6-c5294d7322e2",
+      "name": "Südtirol 1",
+      "url": "https://funkhaus-st.streamabc.net/106-suedtirol1-mp3-192-7572619",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 19,
+      "lastProbedAt": "2026-04-29T06:56:11.857Z"
+    },
+    {
+      "stationuuid": "b38243e2-73b8-4813-ab8b-ea8d3a81a332",
+      "name": "Fango Radio",
+      "url": "https://pantano.ovh:8444/pantano",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 17,
+      "lastProbedAt": "2026-04-29T06:56:12.971Z"
+    },
+    {
+      "stationuuid": "1f937969-27a2-4a58-a1dd-d51fa8ee888e",
+      "name": "Network Satellite",
+      "url": "https://sr2.inmystream.it/proxy/satellite?mp=%2F%3Bstream.mp3&_=2",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 17,
+      "lastProbedAt": "2026-04-29T06:56:13.038Z"
+    },
+    {
+      "stationuuid": "91e8646f-6c16-4bf9-8dbc-531ad42bf13d",
+      "name": "IL MORNING SHOW",
+      "url": "https://streams.radio.co/s7d2ed99a0/listen",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 15,
+      "lastProbedAt": "2026-04-29T06:56:15.044Z"
+    },
+    {
+      "stationuuid": "b9a47140-d83a-42ba-8271-79f5d4c2614a",
+      "name": "NRS",
+      "url": "https://nrf1.newradio.it:9790/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 403",
+      "votes": 15,
+      "lastProbedAt": "2026-04-29T06:56:15.063Z"
+    },
+    {
+      "stationuuid": "1237e314-26bf-460d-b782-0b9ae7cda8d2",
+      "name": "Radio Idea Potenza",
+      "url": "https://audio.streamshow.it/proxy/radiocarinanapoli?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 15,
+      "lastProbedAt": "2026-04-29T06:56:15.059Z"
+    },
+    {
+      "stationuuid": "49b04658-ac5f-4d7b-9e94-50e6e61e908d",
+      "name": "Radio Onda Rossa",
+      "url": "https://s.streampunk.cc/ondarossa.ogg",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 15,
+      "lastProbedAt": "2026-04-29T06:56:15.403Z"
+    },
+    {
+      "stationuuid": "3d4ad1d0-bbaf-4540-b442-40313ac35604",
+      "name": "Onda Rossa",
+      "url": "https://s.streampunk.cc/ondarossa.ogg",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 13,
+      "lastProbedAt": "2026-04-29T06:56:16.617Z"
+    },
+    {
+      "stationuuid": "866b10ac-f99c-4f70-8336-f609ae3feba2",
+      "name": "RADIO ALTRI SUONI",
+      "url": "https://onair7.xdevel.com/proxy/xautocloud_xsgp_1092?mp=/;stream/;",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 13,
+      "lastProbedAt": "2026-04-29T06:56:16.726Z"
+    },
+    {
+      "stationuuid": "bf4a7ae6-878a-4a2b-900e-464e487520a8",
+      "name": "radiomasterj",
+      "url": "https://stream.zeno.fm/vqmapufwrg0uv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 12,
+      "lastProbedAt": "2026-04-29T06:56:17.878Z"
+    },
+    {
+      "stationuuid": "020cc890-becb-4ef4-b405-b70b39f876a3",
+      "name": "Radio Ciroma",
+      "url": "https://s.streampunk.cc/ciroma.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 10,
+      "lastProbedAt": "2026-04-29T06:56:18.732Z"
+    },
+    {
+      "stationuuid": "00ce80a0-fa12-44d9-9d2b-055ad071027e",
+      "name": "Radio Game Firenze",
+      "url": "https://radiogame.radioca.st/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 10,
+      "lastProbedAt": "2026-04-29T06:56:19.072Z"
+    },
+    {
+      "stationuuid": "e2536168-eb67-4b51-8f3f-6af88f7ce9a5",
+      "name": "RADIO ALFA PIEMONTE",
+      "url": "https://stream.rcast.net/67259",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 8,
+      "lastProbedAt": "2026-04-29T06:56:21.588Z"
+    },
+    {
+      "stationuuid": "bbb76ba5-f09c-4a66-b069-d22e1557f0c6",
+      "name": "Radio Riders Italia",
+      "url": "https://nrf1.newradio.it:10050/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 8,
+      "lastProbedAt": "2026-04-29T06:56:21.074Z"
+    },
+    {
+      "stationuuid": "bc98193e-09fb-4b44-a5bc-f9c3ce393be0",
+      "name": "Radio Sorrriso",
+      "url": "https://klasse1.fluidstream.eu/sorriso.mp3?FLID=1&aw_0_req.gdpr=true&xrnd=6803be69b5bac?type=.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 8,
+      "lastProbedAt": "2026-04-29T06:56:21.078Z"
+    },
+    {
+      "stationuuid": "fd2d63e1-da59-47f4-9fb9-b4c2aea1ac8a",
+      "name": "RSD Radio Studio Delta",
+      "url": "https://rsd.streamingmedia.it/play.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 8,
+      "lastProbedAt": "2026-04-29T06:56:21.267Z"
+    },
+    {
+      "stationuuid": "f7e9fc43-a2cc-4c1f-8490-db8019a511d6",
+      "name": "SoloAnni80",
+      "url": "https://stream.laut.fm/soloanni80",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 8,
+      "lastProbedAt": "2026-04-29T06:56:21.512Z"
+    },
+    {
+      "stationuuid": "01290083-4abe-4ae5-9bd4-c5b07b4bd60c",
+      "name": "Studio Delta",
+      "url": "https://rsd.streamingmedia.it/play.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 8,
+      "lastProbedAt": "2026-04-29T06:56:21.515Z"
+    },
+    {
+      "stationuuid": "d4b9b692-c7a1-4416-a013-dd4c88121720",
+      "name": "Sunnei",
+      "url": "https://s3.radio.co/sc5c9a916c/listen",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 8,
+      "lastProbedAt": "2026-04-29T06:56:21.522Z"
+    },
+    {
+      "stationuuid": "a74911ec-f39c-46df-966b-cc0c6a049f94",
+      "name": "Virgin Radio Rock Hits",
+      "url": "https://icy.unitedradio.it/VirginRockHits.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 8,
+      "lastProbedAt": "2026-04-29T06:56:21.525Z"
+    },
+    {
+      "stationuuid": "ddcd554a-8770-4f85-bb0f-653b471387de",
+      "name": "ERRETI - RADIO TADINO",
+      "url": "https://erretismart.phon.in/live/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T06:56:21.557Z"
+    },
+    {
+      "stationuuid": "d304971a-a719-4402-90b0-ea972bacd3d9",
+      "name": "Fritto FM",
+      "url": "https://frittofm2020.out.airtime.pro/frittofm2020_b",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T06:56:21.699Z"
+    },
+    {
+      "stationuuid": "02e9b7e8-a07f-49bc-8404-29765c7cdc27",
+      "name": "House Network",
+      "url": "https://housenetwork.stream.laut.fm/housenetwork?pl=m3u&t302=2026-01-15_07-13-17&uuid=908ecea1-dbc2-458d-9fed-6ef40fb8ef3e",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T06:56:21.701Z"
+    },
+    {
+      "stationuuid": "61810961-813c-423e-a174-4d939bdef323",
+      "name": "R101 80",
+      "url": "https://icy.unitedradio.it/R10180.aac",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T06:56:21.703Z"
+    },
+    {
+      "stationuuid": "6d44be99-d645-4055-85ca-1cc853b9dad9",
+      "name": "Radio 106.6",
+      "url": "https://rrock.fluidstream.eu/radiorock_ita.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T06:56:21.710Z"
+    },
+    {
+      "stationuuid": "e8eff2b7-6c93-4647-9567-986d647094ba",
+      "name": "Radio 80",
+      "url": "https://sphera.fluidstream.eu/radio80.aac?FLID=1&aw_0_req.gdpr=true",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T06:56:21.713Z"
+    },
+    {
+      "stationuuid": "59fd1fbb-b49c-488a-97a9-dd792cc785be",
+      "name": "Radio Città Fujiko",
+      "url": "https://streaming.radiocittafujiko.it:8000/rcf.ogg",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T06:56:21.715Z"
+    },
+    {
+      "stationuuid": "9eb6670a-a32e-41ba-8747-58dd88823935",
+      "name": "Radio Icaro",
+      "url": "https://azuracast.dns-lab.it/listen/radio_icaro/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T06:56:21.781Z"
+    },
+    {
+      "stationuuid": "81af87fc-0a1d-4b10-bfa8-ae43bfc32bfb",
+      "name": "Radio Medua",
+      "url": "https://ssl1.azotosolutions.com:1030/1",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T06:56:21.730Z"
+    },
+    {
+      "stationuuid": "84611288-1388-4bc2-b788-a05db5b633c8",
+      "name": "Radio Merda Malata",
+      "url": "https://s.streampunk.cc/merdamalata.ogg",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T06:56:21.755Z"
+    },
+    {
+      "stationuuid": "5314153e-43f0-4179-96f6-4e7dbd87a7fa",
+      "name": "Radio Punto Zero",
+      "url": "https://ice01.fluidstream.net/rpz.aac",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T06:56:21.744Z"
+    },
+    {
+      "stationuuid": "70561e6b-ceb9-4562-98f7-ea7487cfa450",
+      "name": "Radio Studio Verona",
+      "url": "https://nr6.newradio.it/proxy/rgelmett?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T06:56:21.748Z"
+    },
+    {
+      "stationuuid": "8bb6575d-7d2e-4ab0-a2cc-06f2609d9e6a",
+      "name": "RADIO VALLEBELBO",
+      "url": "https://nr9.newradio.it/proxy/vallebelbo?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T06:56:21.752Z"
+    },
+    {
+      "stationuuid": "9cf148e1-7f07-45de-a80a-4009e45ea6d5",
+      "name": "radio/altriSuoni",
+      "url": "https://onair7.xdevel.com/proxy/xautocloud_xsgp_1092?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T06:56:21.754Z"
+    },
+    {
+      "stationuuid": "59bb481b-2075-45f8-a083-2cbfe004bbf6",
+      "name": "radioSimplythebest ",
+      "url": "https://stream-152.zeno.fm/0wkhthgnnyjuv?zs=Qkl9uMo5S7ijRGi-RwjgLw",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T06:56:21.756Z"
+    },
+    {
+      "stationuuid": "953e346c-5eca-4ae0-9877-d0d30be9863c",
+      "name": "Südtirol 1",
+      "url": "https://funkhaus-st.streamabc.net/106-suedtirol1-mp3-192-7572619",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T06:56:21.777Z"
+    },
+    {
+      "stationuuid": "eab97a30-7572-464f-b99c-90bc97c5ab27",
+      "name": "TG3",
+      "url": "https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=668461",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T06:56:21.778Z"
+    },
+    {
+      "stationuuid": "5464c21e-7037-4b5c-89a4-c22d1ebd0573",
+      "name": "UniBg OnAir",
+      "url": "https://stream4.xdevel.com/audio0s977017-1759/stream/icecast.audio",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T06:56:21.779Z"
+    },
+    {
+      "stationuuid": "eefa775b-f3ca-4870-8b0a-17590797182d",
+      "name": "Virgin Radio Rock ’70",
+      "url": "https://icy.unitedradio.it/VirginRock70.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 7,
+      "lastProbedAt": "2026-04-29T06:56:21.780Z"
+    },
+    {
+      "stationuuid": "faf3f026-ad96-42d0-b7e2-fc144b21d7aa",
+      "name": "7 RadioVisione",
+      "url": "https://stream10.xdevel.com/video1s976543-1932/stream/playlist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T06:56:21.782Z"
+    },
+    {
+      "stationuuid": "c8e3f36a-d51d-4f0c-96a6-3c228dbaee4f",
+      "name": "Art of Music",
+      "url": "https://artofmusic.radioca.st/stream/1/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T06:56:21.796Z"
+    },
+    {
+      "stationuuid": "12151728-a603-4a70-88ad-f9f1fffb51b5",
+      "name": "ART RADIO LARIANO",
+      "url": "https://dreamsiteradiocp3.com/proxy/artradio?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T06:56:21.783Z"
+    },
+    {
+      "stationuuid": "4de0d19c-0e8b-4b9f-a19a-7ba2c6de4818",
+      "name": "Europa Radio Jazz",
+      "url": "https://streams.radiomast.io/818607ce-8815-42fb-8dfc-344234a0ff83",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T06:56:21.800Z"
+    },
+    {
+      "stationuuid": "e89ffa83-732e-441e-8caf-b697c88745a8",
+      "name": "Fred Film Radio-29 Sardu",
+      "url": "https://s10.webradio-hosting.com/proxy/fredradiosar/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T06:56:21.802Z"
+    },
+    {
+      "stationuuid": "450bbb65-be55-427b-a252-6adc69d940b7",
+      "name": "Monkey's Radio",
+      "url": "https://nr12.newradio.it:8718/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T06:56:21.801Z"
+    },
+    {
+      "stationuuid": "eb72c5ea-c056-46cd-b086-2fccd680ca5d",
+      "name": "NO NOME Radio",
+      "url": "https://radiodueindie-live.akamaized.net/hls/live/2032593/radiodueindie/radiodueindie/playlist.m3u8?auth=daEbicJbwaQa5aZalc_d3boaydTd0cMbya1-bMl8rY-c0-IlwvtEp&aifp=V001",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T06:56:21.931Z"
+    },
+    {
+      "stationuuid": "54100b56-aed1-42ca-843c-2ab42b4e10f4",
+      "name": "Number One",
+      "url": "https://ice18.fluidstream.net/area05.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T06:56:21.810Z"
+    },
+    {
+      "stationuuid": "9f261106-be8a-4bb1-9377-fdefc9d69422",
+      "name": "Otto FM",
+      "url": "https://klasse1.fluidstream.eu/rete8fm.aac",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T06:56:21.812Z"
+    },
+    {
+      "stationuuid": "cc4f1171-0220-4ced-b5f3-1896c686e854",
+      "name": "Radio Amore i Migliori Anni",
+      "url": "https://stream10.xdevel.com/audio7s977886-2321/stream/icecast.audio",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T06:56:21.814Z"
+    },
+    {
+      "stationuuid": "c4512e3c-4871-45bb-be8c-fafba821f0a7",
+      "name": "Radio Luce FM",
+      "url": "https://c34.radioboss.fm:8255/RadioLuceFM",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T06:56:21.848Z"
+    },
+    {
+      "stationuuid": "9211ea68-1836-49c8-9bc1-e5717b6589cb",
+      "name": "Radio Meano",
+      "url": "https://stream.laut.fm/meteomeano",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T06:56:21.915Z"
+    },
+    {
+      "stationuuid": "2f6c4eb4-ec0d-4906-96cc-be641699eb1b",
+      "name": "RadiogrAMma",
+      "url": "https://stream.radiospore.oziosi.org:8003/zirudela.ogg?n=84fd45ac00e0d8b39c6f",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T06:56:21.851Z"
+    },
+    {
+      "stationuuid": "3b125437-9ddf-4099-99ce-dd08ac841ee2",
+      "name": "RADIOPIU",
+      "url": "https://radiopiu-danidi01.radioca.st/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T06:56:21.862Z"
+    },
+    {
+      "stationuuid": "a4da6eb7-3d2b-4fb3-a733-100612d458de",
+      "name": "RAI24",
+      "url": "https://icecdn-19d24861e90342cc8decb03c24c8a419.msvdn.net/icecastRelay/S35942484/yp5F67151K92/icecast",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T06:56:21.865Z"
+    },
+    {
+      "stationuuid": "c6c1de54-0345-4de5-99ca-b2c0dd1cb840",
+      "name": "RCS75",
+      "url": "https://stream3.xdevel.com/audio1s975429-132/stream/icecast.audio",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-29T06:56:21.867Z"
+    },
+    {
+      "stationuuid": "1b97bddd-fa42-4554-b742-997d79636b0c",
+      "name": "Bang Bang Radio",
+      "url": "https://nr7.newradio.it/proxy/danfoi00?mp=/stream?1731681345731",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T06:56:21.869Z"
+    },
+    {
+      "stationuuid": "bef84921-2d3f-4a32-a996-75a3fa3dc82b",
+      "name": "m2o originals radio",
+      "url": "https://eu4.fastcast4u.com/proxy/sentre2/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T06:56:21.870Z"
+    },
+    {
+      "stationuuid": "005d91fa-a923-46f9-92aa-d03089e7530f",
+      "name": "Monkey's Radio",
+      "url": "https://nr12.newradio.it:8718/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T06:56:21.872Z"
+    },
+    {
+      "stationuuid": "39d5cb1c-bf5f-4ab0-bf6b-e115645d1334",
+      "name": "name\tRadio Margherita ",
+      "url": "https://streaming.radiomargherita.com/stream/radiomargherita",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T06:56:21.874Z"
+    },
+    {
+      "stationuuid": "b2ea7f74-e841-4c4b-9f94-3f9c823b4621",
+      "name": "Radio 2000",
+      "url": "https://stream.radio2000.it/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T06:56:21.875Z"
+    },
+    {
+      "stationuuid": "eec9227f-fed7-4be8-82ef-eb24c6642647",
+      "name": "Radio CRT",
+      "url": "https://nr6.newradio.it/proxy/radiomar?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T06:56:21.877Z"
+    },
+    {
+      "stationuuid": "91eb181c-211d-48c9-9ef2-4dc5d05e279c",
+      "name": "Radio Monte Carlo VIP Lounge ",
+      "url": "https://icy.unitedradio.it/rmcweb020",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T06:56:21.917Z"
+    },
+    {
+      "stationuuid": "e4e780be-6189-46fd-9621-ace33a313241",
+      "name": "Radio Quadrifoglio",
+      "url": "https://audio.nemostream.tv/proxy/quadrifoglio/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T06:56:21.972Z"
+    },
+    {
+      "stationuuid": "9abcb6ab-a381-4904-9052-bf1d0c3f6c8d",
+      "name": "radioSimplythebest ",
+      "url": "https://stream-152.zeno.fm/0wkhthgnnyjuv?zs=Qkl9uMo5S7ijRGi-RwjgLw",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T06:56:21.934Z"
+    },
+    {
+      "stationuuid": "706a6d21-035c-4f18-ac91-8313daeee9bf",
+      "name": "Rai Radio 3 Classica",
+      "url": "https://icecdn-19d24861e90342cc8decb03c24c8a419.msvdn.net/icecastRelay/S53422322/bTdUFhYMnnra/icecast",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T06:56:21.937Z"
+    },
+    {
+      "stationuuid": "babc9612-cab4-4bfd-a455-14a612f7c8d6",
+      "name": "RDS",
+      "url": "https://stream.rds.radio/audio/rds.stream_aac/chunklist.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T06:56:21.941Z"
+    },
+    {
+      "stationuuid": "3567f643-aeb2-4dc1-90c2-eb60b7fa8750",
+      "name": "Riccardo Cioni ",
+      "url": "https://djft.radioca.st/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T06:56:21.944Z"
+    },
+    {
+      "stationuuid": "4f1b1943-b900-474e-8ec0-4d2cebc91894",
+      "name": "RTL 102.5 Best",
+      "url": "https://dd782ed59e2a4e86aabf6fc508674b59.msvdn.net/live/S76960628/fYNIdrsfP3xC/playlist_audio.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T06:56:21.949Z"
+    },
+    {
+      "stationuuid": "c61c669b-1f01-4f27-b56d-10195fcb687a",
+      "name": "sole",
+      "url": "https://radiosole-fellini.radioca.st/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-29T06:56:21.952Z"
+    },
+    {
+      "stationuuid": "43126fe1-f394-4960-81d0-f9a1939b31fc",
+      "name": ". Abdulbasit Abdulsamad",
+      "url": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T06:56:21.982Z"
+    },
+    {
+      "stationuuid": "b5dafabe-992c-4e0a-89f1-039e0b114b3e",
+      "name": "EDM RADIO Electronic Dance Music",
+      "url": "https://edm.streamingmedia.it/play",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T06:56:21.995Z"
+    },
+    {
+      "stationuuid": "2228aea0-4c04-4600-8fd6-4b6231e58271",
+      "name": "elettro lounge",
+      "url": "https://electrolounge.stream.laut.fm/electrolounge?pl=pls&t302=2026-01-15_07-08-43&uuid=201a3337-f021-446e-9428-a9f8c1a8e4a1",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T06:56:21.985Z"
+    },
+    {
+      "stationuuid": "8f64b06d-7c41-445e-9773-729b20eb7987",
+      "name": "Giornale Radio",
+      "url": "https://gr.fluidstream.eu/gr1.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T06:56:21.987Z"
+    },
+    {
+      "stationuuid": "d58b13f5-f8e5-4bf3-b334-aab3dfad8930",
+      "name": "Radi Villa Immacolata",
+      "url": "https://radiocast.cloud/listen/relays_villaimmacolata/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T06:56:21.989Z"
+    },
+    {
+      "stationuuid": "a868f1f6-a9ac-4629-80d7-08b7bab77962",
+      "name": "Radio Aelle",
+      "url": "https://be.server89.com/8012/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T06:56:21.990Z"
+    },
+    {
+      "stationuuid": "f4002be6-86b6-45d3-bedd-da245316f2c9",
+      "name": "Radio Amore Dance",
+      "url": "https://stream10.xdevel.com/audio5s977886-2319/stream/icecast.audio",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T06:56:21.992Z"
+    },
+    {
+      "stationuuid": "e7d31a9b-df93-4228-80f2-8c9469102ea3",
+      "name": "Radio Diaconia",
+      "url": "https://sr6.inmystream.it/proxy/diaconia?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T06:56:21.993Z"
+    },
+    {
+      "stationuuid": "24f65201-6d1f-4f06-b139-3b69b568963a",
+      "name": "RADIO FLAMES",
+      "url": "https://flames.radioca.st/stream?type=http&nocache=1712063720254",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T06:56:22.007Z"
+    },
+    {
+      "stationuuid": "ab8f2248-6989-42d5-a628-87c1ab59fbff",
+      "name": "Radio Margherita",
+      "url": "https://streaming.radiomargherita.com/stream/radiomargherita",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T06:56:21.997Z"
+    },
+    {
+      "stationuuid": "295da316-2f5a-4291-a91f-6955d7655713",
+      "name": "Radio Mater",
+      "url": "https://s2.shoutitaly.com/listen/radiomater/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T06:56:22.021Z"
+    },
+    {
+      "stationuuid": "2793b2fd-04a7-48c0-bd91-43a1fc3fc223",
+      "name": "Radio Scream Italia",
+      "url": "https://screaming.radioscreamitalia.it/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T06:56:22.089Z"
+    },
+    {
+      "stationuuid": "9c1b756f-f7d2-441e-a4b1-562a4d1ee0f5",
+      "name": "Radio WoW",
+      "url": "https://sphera.fluidstream.eu/fluid_wow.aac?FLID=1&aw_0_req.gdpr=true&listenerid=48213c18339e02bbc93dc6ed298c2192&awparams=companionAds%3Atrue",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T06:56:22.024Z"
+    },
+    {
+      "stationuuid": "6914afe5-96e9-4903-abaa-6de23d64e782",
+      "name": "RADIOVILLASOUND",
+      "url": "https://eu4.fastcast4u.com/proxy/lmarengo?mp=/1&1700924574342",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T06:56:22.025Z"
+    },
+    {
+      "stationuuid": "fcea32d8-572f-4640-8327-7c2cc750d417",
+      "name": "Rete Radio ",
+      "url": "https://reteradioazzurra.radioca.st/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T06:56:22.027Z"
+    },
+    {
+      "stationuuid": "ca6817c4-2885-4837-979d-db7b4b4fa13c",
+      "name": "Südtirol 1",
+      "url": "https://funkhaus-st.streamabc.net/106-suedtirol1-mp3-192-7572619",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T06:56:22.030Z"
+    },
+    {
+      "stationuuid": "2b3c2286-ae2a-4b18-9274-c6ba9978c0bf",
+      "name": "TieniLaBassa",
+      "url": "https://stream.esiliati.org:8003/tienilabassa.ogg",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T06:56:22.032Z"
+    },
+    {
+      "stationuuid": "5a21423f-6bd1-4a59-abf9-cc0bc6a38ad9",
+      "name": "Virgin Radio Rock ’80",
+      "url": "https://icy.unitedradio.it/VirginRock80.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T06:56:22.034Z"
+    },
+    {
+      "stationuuid": "49c0c51d-f8b1-4a57-bf76-3f27d236a6da",
+      "name": "Virgin Radio Rock ’90",
+      "url": "https://icy.unitedradio.it/Virgin_03.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T06:56:22.036Z"
+    },
+    {
+      "stationuuid": "83074c5a-3424-4e78-a159-660d8514e60e",
+      "name": "Wideline Radio",
+      "url": "https://sr9.inmystream.it:18106/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-29T06:56:22.051Z"
+    },
+    {
+      "stationuuid": "9f19d3d1-b0d0-4d62-ad89-f074cbb90997",
+      "name": "16Radio",
+      "url": "https://16radio.stream.laut.fm/16radio?t302=2026-01-15_01-13-08&uuid=59936d50-c09e-4bd2-97e1-a6b4b2134d5f",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.088Z"
+    },
+    {
+      "stationuuid": "3d7fecff-658b-4583-86db-6a120f3ac5b5",
+      "name": "Astarbene",
+      "url": "https://astarbeneradio.out.airtime.pro/astarbeneradio_a",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.562Z"
+    },
+    {
+      "stationuuid": "08e8a188-1d11-445b-b1d8-d36d079fc82b",
+      "name": "GR News",
+      "url": "https://gr.fluidstream.eu/gr2.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.254Z"
+    },
+    {
+      "stationuuid": "64537e16-ce2e-4564-9b46-4a8940d4db10",
+      "name": "Nane'",
+      "url": "https://stream4.xdevel.com/audio0s976774-1547/stream/icecast.audio",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.257Z"
+    },
+    {
+      "stationuuid": "aa885df6-6220-4102-95e0-0c272dbe4047",
+      "name": "PfarrRadio Schlern",
+      "url": "https://radiocast.cloud/listen/relays_bolzano/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.283Z"
+    },
+    {
+      "stationuuid": "899cbbc1-256a-47cd-a5cf-e76f3f140ad3",
+      "name": "R205",
+      "url": "https://halo.streamerr.co/listen/r205/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.286Z"
+    },
+    {
+      "stationuuid": "21849841-fba2-43a3-85ef-dad91232c168",
+      "name": "Radio A.R.C.",
+      "url": "https://arclibrary.grausof.it/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.323Z"
+    },
+    {
+      "stationuuid": "3de15d0f-ceb8-455d-8714-9c7bb624a0d7",
+      "name": "Radio Bops",
+      "url": "https://sr11.inmystream.it/proxy/radiobops?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.327Z"
+    },
+    {
+      "stationuuid": "64b6a060-3c12-451c-b07a-5c3a9f218e63",
+      "name": "Radio Centro Idea",
+      "url": "https://ssl.audio1.meway.tv/proxy/radiocentroidea?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.330Z"
+    },
+    {
+      "stationuuid": "6f9d0854-43c7-4c3f-9588-dc22e4e0c6df",
+      "name": "Radio Comunità Nuova",
+      "url": "https://stream10.xdevel.com/audio0s977760-2221/stream/icecast.audio",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.333Z"
+    },
+    {
+      "stationuuid": "7567c418-9137-46e4-80cc-7d8c2684087c",
+      "name": "Radio Domusnovas",
+      "url": "https://www.shoutcastitalia.com/proxy/domusnovas?mp=/stream?ext=.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.335Z"
+    },
+    {
+      "stationuuid": "d6dbefcd-1b3f-4561-bad5-a52c38f4fca5",
+      "name": "Radio FM Faleria",
+      "url": "https://nr6.newradio.it/proxy/radiofal?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.338Z"
+    },
+    {
+      "stationuuid": "c075e389-d565-4de9-a2db-4e73b8997468",
+      "name": "Radio Gamma Stereo",
+      "url": "https://gammastereo.meway.host/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.377Z"
+    },
+    {
+      "stationuuid": "3bb42bc8-1f57-45ac-910f-30a9b30fce76",
+      "name": "Radio Meano",
+      "url": "https://meteomeano.stream.laut.fm/meteomeano?pl=m3u&t302=2026-01-15_00-04-04&uuid=446ada20-ca32-4664-ae19-c54d52d743dc",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.379Z"
+    },
+    {
+      "stationuuid": "7bc8f36b-f6b3-441c-ba00-1316a5be3deb",
+      "name": "Radio MusicaVera",
+      "url": "https://nr12.newradio.it/stream/8818",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.380Z"
+    },
+    {
+      "stationuuid": "7c2a97dd-31cc-4aac-9a68-7d064b7e65c5",
+      "name": "RADIO PARSEC",
+      "url": "https://radio.server14.kariha.net/radioparsec/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.442Z"
+    },
+    {
+      "stationuuid": "490ed31d-69a4-4381-89c9-0948f0e1dea9",
+      "name": "RADIO POPIZZ",
+      "url": "https://nr11.newradio.it/proxy/belviso2?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.455Z"
+    },
+    {
+      "stationuuid": "4de22905-51a8-4764-9002-9027053321d5",
+      "name": "RADIO PROPOSTA AOSTA",
+      "url": "https://ssl1.mediastreaming.it:9068/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.460Z"
+    },
+    {
+      "stationuuid": "97f0f49a-3360-4d1d-9093-b1d7ea795f3d",
+      "name": "Radio Punto Zero Tre Venezie",
+      "url": "https://ice01.fluidstream.net/rpz.aac",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.462Z"
+    },
+    {
+      "stationuuid": "fa4793ab-ada5-48ce-b2c8-71d57755ec25",
+      "name": "Radio Reporter 98",
+      "url": "https://radio.mediacp.eu/stream/radiomusicaitaliana/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.493Z"
+    },
+    {
+      "stationuuid": "1797bc4c-3ff6-46d1-8fb7-da9778be4485",
+      "name": "Radio Romantica",
+      "url": "https://stream.radioromantica.net/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.532Z"
+    },
+    {
+      "stationuuid": "b7eab1f3-facd-48a6-a45e-a37e7130d6bb",
+      "name": "RadioGs",
+      "url": "https://stream.zeno.fm/f384h3c0r98uv",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.535Z"
+    },
+    {
+      "stationuuid": "79e23398-6d37-451b-b41e-d8c1604cf8d3",
+      "name": "radioSimplythebest ",
+      "url": "https://stream-152.zeno.fm/0wkhthgnnyjuv?zs=Qkl9uMo5S7ijRGi-RwjgLw",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.537Z"
+    },
+    {
+      "stationuuid": "c6f55b5d-ff81-49d8-ad26-f2b57c74cf20",
+      "name": "sole",
+      "url": "https://radiosole-fellini.radioca.st/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.538Z"
+    },
+    {
+      "stationuuid": "7141818e-0936-43d8-9d8e-58c30c3697db",
+      "name": "Stella Radio",
+      "url": "https://hosting.radiomedia.fr:1515/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.550Z"
+    },
+    {
+      "stationuuid": "dc03f4ee-c792-4246-a8ea-7ec8a91e1901",
+      "name": "Studioradio The Vintage Station",
+      "url": "https://www.shoutcastitalia.com/proxy/studioradio?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.552Z"
+    },
+    {
+      "stationuuid": "0f9b102e-55ba-43df-9bbf-0f53743b9187",
+      "name": "Virgin Radio Rockstar Acdc",
+      "url": "https://icy.unitedradio.it/um1026.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-29T06:56:22.553Z"
+    },
+    {
+      "stationuuid": "58699ab0-dbf8-4b0a-a19c-6affb883844a",
+      "name": " MC2 Cafè Del Mar Collection ",
+      "url": "https://n13a-eu.rcs.revma.com/a2n83wxayk3vv?rj-ttl=5&rj-tok=AAABndIfXksAiTXrqw2SmfAauA",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T06:56:22.573Z"
+    },
+    {
+      "stationuuid": "9a778c7b-47ff-4867-a7dc-f3fae0aa3708",
+      "name": "100 Nu-Disco Central Radio",
+      "url": "https://stream-179.zeno.fm/jqhhzffjynbuv",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T06:56:22.563Z"
+    },
+    {
+      "stationuuid": "7f3f43d3-9619-4541-98f2-7b85dc818aae",
+      "name": "Antenna Web",
+      "url": "https://mars.streamerr.co/8066/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T06:56:22.575Z"
+    },
+    {
+      "stationuuid": "b8d32318-b7fd-46ce-ba0c-1c1e8cf6f7db",
+      "name": "Babboleo Suono",
+      "url": "https://stream.rcs.revma.com/sv2hu8qqv6bwv",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T06:56:22.583Z"
+    },
+    {
+      "stationuuid": "0e9b718e-c78e-435d-9fe5-2afb95d8f927",
+      "name": "Free Radio Conselve",
+      "url": "https://ice17.fluidstream.net/conselve.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T06:56:22.584Z"
+    },
+    {
+      "stationuuid": "debdc716-4979-4e10-9d72-d1974fc5bd29",
+      "name": "Hot Block Radio",
+      "url": "https://stream.mandragola.com/hotblockradio",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T06:56:22.595Z"
+    },
+    {
+      "stationuuid": "4159ba82-0ef4-413c-8ce0-e3663f59e37c",
+      "name": "Mindpositivo",
+      "url": "https://streaming.radio.co/s5b8424eba/listen",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T06:56:22.600Z"
+    },
+    {
+      "stationuuid": "d8292082-3444-4fef-a8b3-e3a672bc2bd7",
+      "name": "Radio Bussola 24 (RadioBussola, RadioBussola24)",
+      "url": "https://radiobussola24.radioca.st/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T06:56:22.596Z"
+    },
+    {
+      "stationuuid": "dc5bf93a-5f30-4a5e-93be-1470056c9137",
+      "name": "Radio Lombardia",
+      "url": "https://stream6.xdevel.com/audio0s976574-1328/stream/icecast.audio",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T06:56:22.597Z"
+    },
+    {
+      "stationuuid": "1d3f19b1-be08-48f6-a911-d66890a1bc0d",
+      "name": "radio Lucrethia",
+      "url": "https://lucrethia.mynet.it:8040/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T06:56:22.626Z"
+    },
+    {
+      "stationuuid": "efab0c00-8e11-4a48-8df9-62fed762de54",
+      "name": "Radio Marte",
+      "url": "https://stream1.xdevel.com/audio0s975753-313/stream/icecast.audio",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T06:56:22.600Z"
+    },
+    {
+      "stationuuid": "f9d26ddd-061d-4e52-8494-3432023f907f",
+      "name": "Radio Metropolis",
+      "url": "https://sr14.inmystream.it/stream/citypress",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T06:56:22.601Z"
+    },
+    {
+      "stationuuid": "7438609c-59b9-44b3-9926-158b876e85a9",
+      "name": "radio polignano web",
+      "url": "https://sp3.server89.com:7018/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T06:56:22.602Z"
+    },
+    {
+      "stationuuid": "76c6bbaa-2622-4b13-b998-86d657181870",
+      "name": "RADIO SOUND 83",
+      "url": "https://sr11.inmystream.it/proxy/roberto?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T06:56:22.603Z"
+    },
+    {
+      "stationuuid": "ad91c5b0-8390-43f5-a09c-9060d26bdddf",
+      "name": "Radio Vanessa",
+      "url": "https://sr7.inmystream.it/proxy/vanessa?mp=/stream&1769754430506",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T06:56:22.604Z"
+    },
+    {
+      "stationuuid": "568b4761-7069-4521-bb09-e38a2d7abde7",
+      "name": "Radio Yacht Sunsation - Always Summer",
+      "url": "https://sr12.inmystream.it:2020/stream/radioyacht",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T06:56:22.629Z"
+    },
+    {
+      "stationuuid": "eba371f8-1e42-4f4f-9d4a-b0ffc662d2e1",
+      "name": "RCS Bisceglie",
+      "url": "https://nr6.newradio.it:19463/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T06:56:22.627Z"
+    },
+    {
+      "stationuuid": "29d56045-6abd-49d0-8e0a-37a475a4308f",
+      "name": "Studioradio",
+      "url": "https://www.shoutcastitalia.com/proxy/studioradio?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T06:56:22.628Z"
+    },
+    {
+      "stationuuid": "a2b36c90-49aa-4db6-a1cc-31c5ae09d503",
+      "name": "Te Ador Radio",
+      "url": "https://sonicpanel.namehost.ro:1260/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T06:56:22.743Z"
+    },
+    {
+      "stationuuid": "a755c287-0eb1-47c8-946c-0d4cb4082b66",
+      "name": "Vibra FM 88.7",
+      "url": "https://ice12.fluidstream.net/playstudio.aac",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T06:56:22.636Z"
+    },
+    {
+      "stationuuid": "4ed55c38-497b-44ec-9ebb-e6333f40f058",
+      "name": "wise radio",
+      "url": "https://ice.creacast.com/wise-radio",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 2,
+      "lastProbedAt": "2026-04-29T06:56:22.637Z"
+    },
+    {
+      "stationuuid": "a9ff80fc-1b03-4261-a78a-7a6c860902fe",
+      "name": " MC2 Buddha Bar Collection ",
+      "url": "https://stream.rcs.revma.com/m5819rrayk3vv",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.643Z"
+    },
+    {
+      "stationuuid": "33fb9b7d-81eb-453e-859e-6d88cdba6f41",
+      "name": "16Radio",
+      "url": "https://16radio.stream.laut.fm/16radio?t302=2026-01-15_05-26-03&uuid=ac3f47da-c8a9-4564-9220-d8bba0b920d2",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.644Z"
+    },
+    {
+      "stationuuid": "46f557cf-6d8c-4b48-8518-8f56f2a2796c",
+      "name": "AdriaticFM",
+      "url": "https://www.myipcast.com/radio/adriatic",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.655Z"
+    },
+    {
+      "stationuuid": "deb6d8b4-4354-4f5a-b36b-2796de0a9418",
+      "name": "Aldobaraldo - WebRadio",
+      "url": "https://sr10.inmystream.it/proxy/asdaldob/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.656Z"
+    },
+    {
+      "stationuuid": "56977372-d7eb-47f9-b42e-2978f3fcae1b",
+      "name": "GTT Digital Radio",
+      "url": "https://nr5.newradio.it/proxy/oparad00?mp=/stream?ext=.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.657Z"
+    },
+    {
+      "stationuuid": "2b15a770-4ed8-42c4-8102-0c62b344f992",
+      "name": "https://uk2.streamingpulse.com/ssl/bzr",
+      "url": "https://uk2.streamingpulse.com/ssl/bzr",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.658Z"
+    },
+    {
+      "stationuuid": "91e6b5cb-efc3-4187-ad04-eea62bd06856",
+      "name": "Italian Radio",
+      "url": "https://italianradio.streamingmedia.it/play",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.659Z"
+    },
+    {
+      "stationuuid": "ea54b0f6-4d93-49af-bafe-b91eaca3f4b9",
+      "name": "mikroradio",
+      "url": "https://sr11.inmystream.it/proxy/mikroradio?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.660Z"
+    },
+    {
+      "stationuuid": "07ad1db1-dbac-4e88-bbc8-ec3ac3ff189a",
+      "name": "MotoStorie",
+      "url": "https://radio.motostorie.blog/listen/motostorie/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.783Z"
+    },
+    {
+      "stationuuid": "8eeb0d19-b757-4168-be91-ccf2a2f09dda",
+      "name": "Nane'",
+      "url": "https://stream4.xdevel.com/audio0s976774-1547/stream/icecast.audio",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.745Z"
+    },
+    {
+      "stationuuid": "0794fc18-72d0-4a65-aa0b-479fb5f60611",
+      "name": "OneShot Radio",
+      "url": "https://stream.buraglio.it/oneshot",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.769Z"
+    },
+    {
+      "stationuuid": "fc17fb23-08bc-4a01-aa10-dac81933d6d2",
+      "name": "POLI.RADIO",
+      "url": "https://streaming.poliradio.it/hq",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.785Z"
+    },
+    {
+      "stationuuid": "98aab417-8b5c-494b-9e5c-9394bcf00515",
+      "name": "Q8 Radio",
+      "url": "https://nr15.newradio.it:9132/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.787Z"
+    },
+    {
+      "stationuuid": "d9ea1c66-9795-4856-9195-58a21811a780",
+      "name": "Radio Babboleo",
+      "url": "https://stream.rcs.revma.com/abxzruqqv6bwv",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.794Z"
+    },
+    {
+      "stationuuid": "2a7b4229-192f-48e7-b7ee-41e316a2569a",
+      "name": "Radio Belluno",
+      "url": "https://ice01.fluidstream.net/belluno.aac",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.796Z"
+    },
+    {
+      "stationuuid": "b252050e-c6e3-418c-8095-6c0984b56ea6",
+      "name": "Radio FTT - Trieste",
+      "url": "https://live.radioftt.org/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.823Z"
+    },
+    {
+      "stationuuid": "a16400c0-5e18-4768-b61a-2b9d287fdfa9",
+      "name": "Radio Italia Anni 60 - Lazio",
+      "url": "https://ice04.fluidstream.net/ria60_rm.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.797Z"
+    },
+    {
+      "stationuuid": "c5ad362a-f8e1-4b9f-850b-2ff37c2dccc2",
+      "name": "Radio Mediterranea",
+      "url": "https://stream.radiomediterranea.com:8160/lounge.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.798Z"
+    },
+    {
+      "stationuuid": "263e19bc-ef62-477d-9507-43ce4cf19086",
+      "name": "RADIO MI PIACI",
+      "url": "https://nr6.newradio.it/proxy/lbelvi01?mp=/stream;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.799Z"
+    },
+    {
+      "stationuuid": "6fcbdc21-6198-4cdf-a5ec-c94f11054b33",
+      "name": "Radio Punto",
+      "url": "https://antares.dribbcast.com/proxy/puntolive/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.809Z"
+    },
+    {
+      "stationuuid": "f1401942-93d0-4ec0-8c22-c24b0cb8a431",
+      "name": "Radio Studio One",
+      "url": "https://be.server89.com:10998/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.810Z"
+    },
+    {
+      "stationuuid": "8acdd459-6875-45ac-b3d6-152ef67b6df5",
+      "name": "Radio Valnevera",
+      "url": "https://admin.radiovalnevera.it/listen/radiovalnevera/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.834Z"
+    },
+    {
+      "stationuuid": "7bd0a378-7d60-4363-8699-764af50f30c7",
+      "name": "Rai Radio 1",
+      "url": "https://icecdn-19d24861e90342cc8decb03c24c8a419.msvdn.net/icecastRelay/S16355530/Q4zh3NTu28Rx/icecast",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.825Z"
+    },
+    {
+      "stationuuid": "cadfdd3f-ec8f-4389-9f73-13d9dba7341a",
+      "name": "Rai Radio 1 FVG",
+      "url": "https://8e7439fdb1694c8da3a0fd63e4dda518.msvdn.net/veneziaaudio1/hls/playlist_mo.m3u8?auth=daEbMaiabaSbObsdycNb3b2bDccbjcoboa_-bPQhvY-c0-IjzusEr&aifp=V001",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.856Z"
+    },
+    {
+      "stationuuid": "6b0c9901-ae10-4f5e-a5cf-b40319512633",
+      "name": "Rai Radio 2",
+      "url": "https://icecdn-19d24861e90342cc8decb03c24c8a419.msvdn.net/icecastRelay/S35942484/yp5F67151K92/icecast",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.836Z"
+    },
+    {
+      "stationuuid": "d40a6859-1077-405e-b1d8-c8cdf41b86f5",
+      "name": "Rai Radio Tutta Italiana",
+      "url": "https://icecdn-19d24861e90342cc8decb03c24c8a419.msvdn.net/icecastRelay/S2444220/HM9xhFhA0riM/icecast",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.838Z"
+    },
+    {
+      "stationuuid": "b65d1529-9b35-4e81-b63c-bd7795e48d24",
+      "name": "RDF - Radio da Vinci-Frank",
+      "url": "https://dreamsiteradiocp3.com/proxy/leonardodavinci?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.839Z"
+    },
+    {
+      "stationuuid": "ff95ab12-c93f-400f-a5a6-1b964ed88a83",
+      "name": "RMI Euro Disco",
+      "url": "https://nova.streamerr.co:6010/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.850Z"
+    },
+    {
+      "stationuuid": "161c6c2f-5e2b-400b-b743-36de7fca11a9",
+      "name": "SMC Radio",
+      "url": "https://nrf1.newradio.it:10418/stream?ver=261657",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.852Z"
+    },
+    {
+      "stationuuid": "e3f707ca-dc1d-4647-b8c4-7127f3e88601",
+      "name": "SMC Radio",
+      "url": "https://a2.asurahosting.com:6150/radio.mp3?ver=161797",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.859Z"
+    },
+    {
+      "stationuuid": "e735f334-2b64-4144-a9af-82bb531b1aee",
+      "name": "Wideline Radio",
+      "url": "https://sr9.inmystream.it:18106/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 1,
+      "lastProbedAt": "2026-04-29T06:56:22.858Z"
+    },
+    {
+      "stationuuid": "56120f89-8ef5-41a8-8e3d-104df98e22e4",
+      "name": "ANMIC 24",
+      "url": "https://onda24.aswifi.it/anmic24tv/live/index.m3u8",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T06:56:22.925Z"
+    },
+    {
+      "stationuuid": "03025c3e-c875-4906-8b10-b4b212dc93ea",
+      "name": "EDM.radio",
+      "url": "https://edm.streamingmedia.it/play",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T06:56:22.859Z"
+    },
+    {
+      "stationuuid": "99beac67-5645-4ff1-8aed-4857308256bb",
+      "name": "FLZARadio",
+      "url": "https://radio.nickflz.com/listen/flzaradio/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T06:56:22.875Z"
+    },
+    {
+      "stationuuid": "85a40513-3456-4232-986d-1ed37146137d",
+      "name": "m2o originals radio",
+      "url": "https://stream.laut.fm/m2o-originals-radio",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T06:56:22.941Z"
+    },
+    {
+      "stationuuid": "cb3bee30-9cfc-4ffb-acc3-454314be1374",
+      "name": "nonameradio",
+      "url": "https://radiodueindie-live.akamaized.net/hls/live/2032593/radiodueindie/radiodueindie/playlist.m3u8?auth=daEchcLcmcgctdAajcwaZd5dRb9akcFcQas-bPBmtI-c0-HlywtGt&aifp=V001",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T06:56:22.879Z"
+    },
+    {
+      "stationuuid": "144dfb65-92e8-49d7-a77b-77c41a522340",
+      "name": "Parole Di Vita",
+      "url": "https://stream1.multi-radio.com/paroledivita",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T06:56:22.902Z"
+    },
+    {
+      "stationuuid": "872f04f1-7723-4dab-84c6-4cc12ab53b4e",
+      "name": "PopWave Web Radio",
+      "url": "https://cast1.asurahosting.com/proxy/michelep/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T06:56:22.909Z"
+    },
+    {
+      "stationuuid": "19ad26a2-ed3e-49a2-bf2e-300b7b862f73",
+      "name": "Radio 105 Music Star Michael Jackson",
+      "url": "https://icy.unitedradio.it/um2908.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T06:56:22.910Z"
+    },
+    {
+      "stationuuid": "c2057821-b570-49a1-bdd4-d3ad878d1f31",
+      "name": "Radio Alfa Lombardia",
+      "url": "https://live.radioalfalombardia.it:9871/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T06:56:23.000Z"
+    },
+    {
+      "stationuuid": "7752d693-7357-4acd-95d7-45d2adde993b",
+      "name": "Radio Alfa Lombardia ",
+      "url": "https://live.radioalfalombardia.it:9871/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T06:56:22.939Z"
+    },
+    {
+      "stationuuid": "590c4da6-20e8-42a8-95ed-6344af25c5ca",
+      "name": "Radio Arya",
+      "url": "https://radioarya.it/listen/radio_arya/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T06:56:22.961Z"
+    },
+    {
+      "stationuuid": "89d8147c-b949-44e7-88d7-2b42e7026b71",
+      "name": "Radio Azimut",
+      "url": "https://sr10.inmystream.it/proxy/studioaz?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T06:56:22.942Z"
+    },
+    {
+      "stationuuid": "366a5ee5-f846-4d57-92a8-15b5e82c869a",
+      "name": "Radio Barocco",
+      "url": "https://radio.uiclecce.it/listen/radiobarocco/radio.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T06:56:22.957Z"
+    },
+    {
+      "stationuuid": "1eb62d5d-da5e-4c18-b989-33874e52514c",
+      "name": "RADIO STATION ONE",
+      "url": "https://sr10.inmystream.it/proxy/bwrso?mp=/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T06:56:22.958Z"
+    },
+    {
+      "stationuuid": "12ac3f34-8595-414d-bd56-8d91576e6072",
+      "name": "RadioVegit",
+      "url": "https://ac.mcaz.it/listen/radiovegit/radiovegit_mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T06:56:22.991Z"
+    },
+    {
+      "stationuuid": "9bf7fa5c-2531-49f1-b0a1-2ecd67faf191",
+      "name": "Rai Gr Parlamento",
+      "url": "https://icecdn-19d24861e90342cc8decb03c24c8a419.msvdn.net/icecastRelay/S32576004/GxPKuXIdZBcL/icecast",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T06:56:22.993Z"
+    },
+    {
+      "stationuuid": "6d84e863-fe99-491d-a737-d3c09275eead",
+      "name": "TempoRadio",
+      "url": "https://solid33.streamupsolutions.com/proxy/ecssfrka/stream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T06:56:23.001Z"
+    },
+    {
+      "stationuuid": "960eaa2e-742d-4e44-b133-eb38d3f5552b",
+      "name": "V2Beat Radio",
+      "url": "https://stream.v2beat.live/icecast.audio?t=file.mp3",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T06:56:23.277Z"
+    },
+    {
+      "stationuuid": "932521af-35fc-4f16-956f-4ebba702f05a",
+      "name": "Zeno FM Linkinpark",
+      "url": "https://stream.zeno.fm/w7gnxdiuuk3tv",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 0,
+      "lastProbedAt": "2026-04-29T06:56:23.090Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "96185693-0601-11e8-ae97-52543be04c81",
+        "name": "Rai Radio 1",
+        "url": "http://icestreaming.rai.it/1.mp3",
+        "votes": 40133
+      },
+      "variants": [
+        {
+          "stationuuid": "1a5184ae-7917-41b3-86c2-e0240e2c3b07",
+          "name": "Rai Radio 1",
+          "url": "http://icestreaming.rai.it/1.mp3",
+          "votes": 1775,
+          "differs": []
+        },
+        {
+          "stationuuid": "8326841b-66b6-4bc7-8a9f-abac1604d5a8",
+          "name": "Radio Rai 1",
+          "url": "http://icestreaming.rai.it/1.mp3",
+          "votes": 1480,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "83e9ae7c-c0fc-4864-9f08-0c52a1a40b92",
+          "name": "Rai Uno Radio ",
+          "url": "http://icestreaming.rai.it/1.mp3",
+          "votes": 419,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "370437b8-878d-4efd-b4f5-17f060a49a6e",
+          "name": "Rai Radio 1",
+          "url": "http://icestreaming.rai.it/1.mp3",
+          "votes": 335,
+          "differs": []
+        },
+        {
+          "stationuuid": "a7a94543-2f34-49d1-a246-0f3a9f13e31a",
+          "name": "Rai Radio Tutta italiana",
+          "url": "http://icestreaming.rai.it/1.mp3",
+          "votes": 223,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ba123667-3fa2-4398-b275-d16064b1f038",
+          "name": "Rai Radio 1",
+          "url": "http://icestreaming.rai.it/1.mp3",
+          "votes": 120,
+          "differs": []
+        },
+        {
+          "stationuuid": "6cdb3316-2999-4295-9155-2a267dd43ee4",
+          "name": "Rai Radio Uno",
+          "url": "http://icestreaming.rai.it/1.mp3",
+          "votes": 58,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "6d179402-1d2a-4bd5-a475-14e7e60ee550",
+          "name": "Rai Radio 1",
+          "url": "http://icestreaming.rai.it/1.mp3",
+          "votes": 46,
+          "differs": []
+        },
+        {
+          "stationuuid": "2874d5d6-12f7-4acc-a43b-9bb4bb01bd11",
+          "name": "Radiouno",
+          "url": "http://icestreaming.rai.it/1.mp3",
+          "votes": 34,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "2842bf39-a660-435b-ab48-a5a14a897223",
+          "name": "Rai Radio 1",
+          "url": "http://icestreaming.rai.it/1.mp3",
+          "votes": 31,
+          "differs": []
+        },
+        {
+          "stationuuid": "601318d0-9f7e-4bd9-b2c0-d5eab53c7206",
+          "name": "rai",
+          "url": "http://icestreaming.rai.it/1.mp3",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96181819-0601-11e8-ae97-52543be04c81",
+        "name": "Rai Radio 2",
+        "url": "http://icestreaming.rai.it/2.mp3",
+        "votes": 28693
+      },
+      "variants": [
+        {
+          "stationuuid": "5b3c0b41-f11c-4e2a-b954-074792fd09f7",
+          "name": "Rai Radio 2",
+          "url": "http://icestreaming.rai.it/2.mp3",
+          "votes": 1041,
+          "differs": []
+        },
+        {
+          "stationuuid": "31ff593f-3088-4d04-b698-ec6c93ccf649",
+          "name": "Rai Radio 2",
+          "url": "http://icestreaming.rai.it/2.mp3",
+          "votes": 788,
+          "differs": []
+        },
+        {
+          "stationuuid": "46c0c374-4b31-4eb2-ad8d-b16ddb03f2ca",
+          "name": "Rai Radio 2",
+          "url": "http://icestreaming.rai.it/2.mp3",
+          "votes": 375,
+          "differs": []
+        },
+        {
+          "stationuuid": "40cf9f8f-7479-4388-9a86-8da77e28a18f",
+          "name": "RAI Radio 2",
+          "url": "http://icestreaming.rai.it/2.mp3",
+          "votes": 35,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9608eb3e-0601-11e8-ae97-52543be04c81",
+        "name": "Rai Radio 3",
+        "url": "http://icestreaming.rai.it/3.mp3",
+        "votes": 22378
+      },
+      "variants": [
+        {
+          "stationuuid": "65b25e54-9f84-4128-900c-e57592f70d60",
+          "name": "RAI Radio 3",
+          "url": "http://icestreaming.rai.it/3.mp3",
+          "votes": 684,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8b2a4181-b083-4113-bedc-363504213012",
+          "name": "Rai Radio 3",
+          "url": "http://icestreaming.rai.it/3.mp3",
+          "votes": 601,
+          "differs": []
+        },
+        {
+          "stationuuid": "9986b7a6-1e48-480a-87fa-d17358d8c2ec",
+          "name": "Rai Radio 3",
+          "url": "http://icestreaming.rai.it/3.mp3",
+          "votes": 529,
+          "differs": []
+        },
+        {
+          "stationuuid": "470dd31b-edfd-4abc-8f38-d5507dd091b6",
+          "name": "radio rai 3",
+          "url": "http://icestreaming.rai.it/3.mp3",
+          "votes": 222,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "78e4f32f-21f5-4c0f-953f-1e9d780f8e94",
+          "name": "RAI Radio 3",
+          "url": "http://icestreaming.rai.it/3.mp3",
+          "votes": 91,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4b53a0ab-99c1-4a6b-bcb2-6ffdd3ece6a8",
+          "name": "RAI Radio3",
+          "url": "http://icestreaming.rai.it/3.mp3",
+          "votes": 27,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8399c785-0dac-4296-a817-6a850c0066fb",
+          "name": "RAI classic",
+          "url": "http://icestreaming.rai.it/3.mp3",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961a5a75-0601-11e8-ae97-52543be04c81",
+        "name": "RMC Radio Monte Carlo",
+        "url": "http://icecast.unitedradio.it/RMC.mp3",
+        "votes": 18057
+      },
+      "variants": [
+        {
+          "stationuuid": "bb8dfcf3-18c2-4816-b054-1162c35cb821",
+          "name": "Radio Montecarlo",
+          "url": "http://icecast.unitedradio.it/RMC.mp3",
+          "votes": 283,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "60325805-3664-41d9-9d6d-a5f4748eeacc",
+          "name": "RMC Radio Monte Carlo",
+          "url": "http://icecast.unitedradio.it/RMC.mp3",
+          "votes": 187,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "83dcfac4-b3c3-4731-afc1-a80dd271dffa",
+        "name": "Radio Armisa",
+        "url": "https://onair.armisa.it/listen/armisa/radio.mp3",
+        "votes": 16508
+      },
+      "variants": [
+        {
+          "stationuuid": "b1201e74-2979-44d8-866e-02f74347a8d0",
+          "name": "Radio Armisa",
+          "url": "https://onair.armisa.it/listen/armisa/radio.mp3",
+          "votes": 43,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9619eb8a-0601-11e8-ae97-52543be04c81",
+        "name": "Virgin Radio Italia",
+        "url": "http://icecast.unitedradio.it/Virgin.mp3",
+        "votes": 16087
+      },
+      "variants": [
+        {
+          "stationuuid": "92c8bc1e-6d48-4050-b99a-41efbd5227f6",
+          "name": "Virgin Radio Italia",
+          "url": "http://icecast.unitedradio.it/Virgin.mp3",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962841a9-0601-11e8-ae97-52543be04c81",
+        "name": "Radio 105 - Dance 90",
+        "url": "http://icy.unitedradio.it/105Dance90.mp3",
+        "votes": 15209
+      },
+      "variants": [
+        {
+          "stationuuid": "fe28c930-1aa3-4542-bf3d-378bec5652cc",
+          "name": "Radio 105 - Dance 90",
+          "url": "http://icy.unitedradio.it/105Dance90.mp3",
+          "votes": 330,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "44c862a3-27e7-4d88-be66-4c70a642bb38",
+        "name": "70 80 Hits HQ",
+        "url": "https://nr8.newradio.it:19574/stream",
+        "votes": 12622
+      },
+      "variants": [
+        {
+          "stationuuid": "31f6cf39-1ec0-403a-a399-c13917e701fb",
+          "name": "70 80 Hits HQ",
+          "url": "https://nr8.newradio.it:19574/stream",
+          "votes": 1079,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9619ef9e-0601-11e8-ae97-52543be04c81",
+        "name": "Virgin Radio Hard Rock",
+        "url": "http://icy.unitedradio.it/VirginHardRock.mp3",
+        "votes": 9357
+      },
+      "variants": [
+        {
+          "stationuuid": "35080d89-d7b9-4e1e-af80-ae4a50420f67",
+          "name": "Virgin Hard Rock",
+          "url": "http://icy.unitedradio.it/VirginHardRock.mp3",
+          "votes": 76,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ae6a44a0-2ae6-421f-b66b-d2700c8f92e8",
+        "name": "CLASSIC HITS RADIO Italia",
+        "url": "https://classichitsradio.streamingmedia.it/play",
+        "votes": 5818
+      },
+      "variants": [
+        {
+          "stationuuid": "d02c926b-6e4a-4d74-bf48-57eea61eb8ef",
+          "name": "Classic Hits Radio CLASSIC HITS anni 70 80 90",
+          "url": "https://classichitsradio.streamingmedia.it/play",
+          "votes": 350,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96262c07-0601-11e8-ae97-52543be04c81",
+        "name": "Rai Isoradio",
+        "url": "http://icestreaming.rai.it/6.mp3",
+        "votes": 5021
+      },
+      "variants": [
+        {
+          "stationuuid": "e45d7550-a70d-4ec3-b2fe-6669913041fa",
+          "name": "Rai Isoradio",
+          "url": "http://icestreaming.rai.it/6.mp3",
+          "votes": 152,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9ff8c9b6-34d5-4457-befd-bdad9c218217",
+        "name": "Radio Sportiva ",
+        "url": "https://sportiva.inmystream.it/stream/sportiva",
+        "votes": 4318
+      },
+      "variants": [
+        {
+          "stationuuid": "dd641269-eb06-4b43-8c6e-e4f8882e8cbb",
+          "name": "Radio Sportiva",
+          "url": "https://sportiva.inmystream.it/stream/sportiva",
+          "votes": 529,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "266c9ba9-7fad-11e8-a43d-52543be04c81",
+        "name": "MUSIC STAR Roger Waters - Pink Floyd",
+        "url": "http://icy.unitedradio.it/VirginRogerWaters.mp3",
+        "votes": 3999
+      },
+      "variants": [
+        {
+          "stationuuid": "8a1b4063-18c1-4f39-8872-d15fc5170579",
+          "name": "Virgin Radio Rockstar: Pink Floyd",
+          "url": "http://icy.unitedradio.it/VirginRogerWaters.mp3",
+          "votes": 1564,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "f7bdb4ba-8405-45ec-a973-f8501baaea5e",
+          "name": "VirginRadio - Pink Floyd",
+          "url": "http://icy.unitedradio.it/VirginRogerWaters.mp3",
+          "votes": 1254,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "22d0e6ba-6090-40ed-91d8-be21dd57362a",
+        "name": "Radio Sei (Italia)",
+        "url": "https://icecast.ithost.it/radiosei.ogg",
+        "votes": 3828
+      },
+      "variants": [
+        {
+          "stationuuid": "af42f402-dc96-4ae1-8b4c-063c7d86c0a6",
+          "name": "Radio Sei",
+          "url": "https://icecast.ithost.it/radiosei.ogg",
+          "votes": 141,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "daea35b7-ba89-11e8-aaf2-52543be04c81",
+        "name": "Rai Radio 1 Sport",
+        "url": "http://icestreaming.rai.it/13.mp3",
+        "votes": 3796
+      },
+      "variants": [
+        {
+          "stationuuid": "30f99511-84c1-4716-ab76-fd29d6d8bdbc",
+          "name": " Rai Radio 1 Sport",
+          "url": "http://icestreaming.rai.it/13.mp3",
+          "votes": 471,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "46904395-5af6-444d-bbf9-786000f39bac",
+        "name": "Radio Deejay",
+        "url": "http://streamcdnb1-4c4b867c89244861ac216426883d1ad0.msvdn.net/radiodeejay/radiodeejay/play1.m3u8",
+        "votes": 3771
+      },
+      "variants": [
+        {
+          "stationuuid": "63028c50-508d-4759-863c-f8732e3a0418",
+          "name": "Radio deejay",
+          "url": "http://streamcdnb1-4c4b867c89244861ac216426883d1ad0.msvdn.net/radiodeejay/radiodeejay/play1.m3u8",
+          "votes": 282,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "18512614-fed1-4712-8b7c-8014cb57b72b",
+          "name": "Radio Deejay",
+          "url": "http://streamcdnb1-4c4b867c89244861ac216426883d1ad0.msvdn.net/radiodeejay/radiodeejay/play1.m3u8",
+          "votes": 277,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "32c1aa82-c639-4c73-9236-948bbda511d7",
+        "name": "Radio Manà Manà Sport Roma",
+        "url": "https://stream10.xdevel.com/audio2s975363-2142/stream/icecast.audio",
+        "votes": 3041
+      },
+      "variants": [
+        {
+          "stationuuid": "33fa6ada-2665-47b3-84b9-92520cba12f5",
+          "name": "Radio Manà Manà Sport Roma",
+          "url": "https://stream10.xdevel.com/audio2s975363-2142/stream/icecast.audio",
+          "votes": 14,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "675bd925-8b13-43fe-a1b9-43bb0f90fbbd",
+        "name": "RTL 102.5",
+        "url": "https://dd782ed59e2a4e86aabf6fc508674b59.msvdn.net/live/S97044836/tbbP8T1ZRPBL/playlist_audio.m3u8",
+        "votes": 2527
+      },
+      "variants": [
+        {
+          "stationuuid": "b16ad874-7085-47b9-841c-a2fc551c1d65",
+          "name": "RTL 102.5",
+          "url": "https://dd782ed59e2a4e86aabf6fc508674b59.msvdn.net/live/S97044836/tbbP8T1ZRPBL/playlist_audio.m3u8",
+          "votes": 189,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "02814188-9141-4978-a307-daf19dbb799b",
+        "name": "Radio 24, Il Sole 24 Ore, AAC 48k",
+        "url": "http://shoutcast.radio24.it:8000/",
+        "votes": 2436
+      },
+      "variants": [
+        {
+          "stationuuid": "5e136402-172c-4851-8d1b-fb8e2987ecde",
+          "name": "Radio24 Il Sole 24 Ore",
+          "url": "http://shoutcast.radio24.it:8000/",
+          "votes": 50,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "880358d2-2696-430b-9a10-f42da2f5e9c8",
+          "name": "Radio24-Il Sole 24 ore",
+          "url": "http://shoutcast.radio24.it:8000/",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5a492e5f-48fc-4ad2-891b-e53c70499228",
+        "name": "ITALIAN RADIO - Only (romantic) Italian Music",
+        "url": "https://italianradio.streamingmedia.it/play",
+        "votes": 2295
+      },
+      "variants": [
+        {
+          "stationuuid": "2b4130d4-c6b1-4280-bc0e-e8359b1f070e",
+          "name": "Italian.Radio",
+          "url": "https://italianradio.streamingmedia.it/play",
+          "votes": 57,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "1f0cc3e4-73aa-40c9-af9d-e8cc2646abee",
+          "name": "italian Radio",
+          "url": "https://italianradio.streamingmedia.it/play",
+          "votes": 21,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "91e6b5cb-efc3-4187-ad04-eea62bd06856",
+          "name": "Italian Radio",
+          "url": "https://italianradio.streamingmedia.it/play",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f8a910c3-fd87-4376-af20-1af5bfec6ab4",
+        "name": "Radio M2O",
+        "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/radiom2o/radiom2o/master_ma.m3u8",
+        "votes": 1985
+      },
+      "variants": [
+        {
+          "stationuuid": "484e2020-8858-4509-aa1a-cc156f0c4d2f",
+          "name": "m2o",
+          "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/radiom2o/radiom2o/master_ma.m3u8",
+          "votes": 536,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ca9cb094-32f0-4fac-bed1-0c6bdb3d2297",
+          "name": "GEDI - m2o",
+          "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/radiom2o/radiom2o/master_ma.m3u8",
+          "votes": 453,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9624172b-0601-11e8-ae97-52543be04c81",
+        "name": "Lolli Radio Italia",
+        "url": "https://stream.lolliradio.net/lolli_italia.mp3",
+        "votes": 1838
+      },
+      "variants": [
+        {
+          "stationuuid": "40c63975-b5c8-4e25-8d9c-09ccb953ea75",
+          "name": "Lolliradio Italia",
+          "url": "https://stream.lolliradio.net/lolli_italia.mp3",
+          "votes": 208,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "999ff951-68eb-4f4a-bec9-ed972b99d258",
+        "name": "Radio Deejay",
+        "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/radiodeejay/radiodeejay/master_ma.m3u8",
+        "votes": 1837
+      },
+      "variants": [
+        {
+          "stationuuid": "496224d5-547d-4c53-a75f-536ad144c9d0",
+          "name": "GEDI - Radio Deejay",
+          "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/radiodeejay/radiodeejay/master_ma.m3u8",
+          "votes": 69,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "e7a4fe38-d564-452c-b6a5-bf446cab1026",
+          "name": "Radio Deejay",
+          "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/radiodeejay/radiodeejay/master_ma.m3u8",
+          "votes": 55,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fbe60456-15e8-4db4-a1f1-4ce77b7aaecc",
+        "name": "Radio Capital",
+        "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/radiocapital/radiocapital/master_ma.m3u8",
+        "votes": 1818
+      },
+      "variants": [
+        {
+          "stationuuid": "044acc55-255b-4382-af22-ccf28445bb3e",
+          "name": "\tRadio Capital",
+          "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/radiocapital/radiocapital/master_ma.m3u8",
+          "votes": 265,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4782ccd8-2a36-47ff-9e2f-af0da5400f9a",
+        "name": "Venice Classic Radio *LIVE",
+        "url": "http://116.202.241.212:8020/",
+        "votes": 1770
+      },
+      "variants": [
+        {
+          "stationuuid": "cfb5f97a-1cae-486f-888a-97231b903a5a",
+          "name": "Venice Classic Radio *LIVE",
+          "url": "http://116.202.241.212:8020/",
+          "votes": 746,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b05da069-bfb3-11e9-8502-52543be04c81",
+        "name": "Rai Radio Tutta Italiana",
+        "url": "http://icestreaming.rai.it/4.mp3",
+        "votes": 1698
+      },
+      "variants": [
+        {
+          "stationuuid": "636773fa-8503-4cee-8c16-c7e343e510b3",
+          "name": "Rai Radio Tutta italiana",
+          "url": "http://icestreaming.rai.it/4.mp3",
+          "votes": 302,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961a702f-0601-11e8-ae97-52543be04c81",
+        "name": "Musica Jazz Radio",
+        "url": "http://ice03.fluidstream.net/mjr.aac",
+        "votes": 1694
+      },
+      "variants": [
+        {
+          "stationuuid": "4bd11532-c8bc-4a23-b8d2-1555081273bd",
+          "name": "Musica Jazz Radio",
+          "url": "http://ice03.fluidstream.net/mjr.aac",
+          "votes": 23,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6b4d2d9d-1435-44aa-b5ee-1db50f833ddc",
+        "name": "Venice Classic Radio",
+        "url": "https://uk2.streamingpulse.com/ssl/vcr1",
+        "votes": 1483
+      },
+      "variants": [
+        {
+          "stationuuid": "a2ca8649-1cf9-4581-b599-54def2af50a7",
+          "name": "Venice Classic Radio Auditorium",
+          "url": "https://uk2.streamingpulse.com/ssl/vcr1",
+          "votes": 348,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "94629921-717b-4752-a945-f3795321cd0a",
+          "name": "VCR | Venice Classic Radio Auditorium",
+          "url": "https://uk2.streamingpulse.com/ssl/vcr1",
+          "votes": 312,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d14cb81b-4451-49b8-884b-915a5f327611",
+          "name": "Venice Classic Radio",
+          "url": "https://uk2.streamingpulse.com/ssl/vcr1",
+          "votes": 119,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "06d08b6f-e656-4ce9-ae3c-f352bd6bd924",
+        "name": "RADIO NOSTALGIA PIEMONTE",
+        "url": "http://rn1.fluidstream.eu/nostalgia_pv.mp3?FLID=1&aw_0_req.gdpr=true&type=.mp3",
+        "votes": 1435
+      },
+      "variants": [
+        {
+          "stationuuid": "125e4799-75f2-4171-b938-1856ff63a105",
+          "name": "Radio Nostalgia Piemonte",
+          "url": "http://rn1.fluidstream.eu/nostalgia_pv.mp3",
+          "votes": 153,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962607c7-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Marconi 2 \"Musica Clasica\"",
+        "url": "http://onair22.streaming.xdevel.com:7598/;stream.mp3",
+        "votes": 1391
+      },
+      "variants": [
+        {
+          "stationuuid": "5cf41a36-ff77-4bc0-935e-4a7964b63440",
+          "name": "Radio Marconi 2",
+          "url": "http://onair22.streaming.xdevel.com:7598/;stream.mp3",
+          "votes": 141,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96149c7f-0601-11e8-ae97-52543be04c81",
+        "name": "RMC Kay Kay",
+        "url": "http://edge.radiomontecarlo.net/rmcweb004",
+        "votes": 1265
+      },
+      "variants": [
+        {
+          "stationuuid": "2ae1909c-4278-4b58-aed4-3a3bc379f3e6",
+          "name": "RMC Cool",
+          "url": "http://edge.radiomontecarlo.net/rmcweb004",
+          "votes": 365,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "b76f0d2b-ece8-4307-a76f-de09c9bd09c6",
+          "name": "Cool Radio Monte Carlo ",
+          "url": "http://edge.radiomontecarlo.net/rmcweb004",
+          "votes": 76,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962848be-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Bruno",
+        "url": "http://onair18.xdevel.com:8062/;",
+        "votes": 1255
+      },
+      "variants": [
+        {
+          "stationuuid": "092626ad-4a82-44b8-883f-5d808260a529",
+          "name": "Radio Bruno",
+          "url": "http://onair18.xdevel.com:8062/;",
+          "votes": 58,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cb74060e-8b0b-45f0-8e6b-e2f8c6c1a152",
+        "name": "Radio Romanista",
+        "url": "https://romanista.newradio.it/stream",
+        "votes": 1237
+      },
+      "variants": [
+        {
+          "stationuuid": "4e51e5c2-ba43-4f7d-8c5f-c2adfd2c9547",
+          "name": "Radio Romanista | La Roma come non l'avete mai sentita FM 97.7",
+          "url": "https://romanista.newradio.it/stream",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "af6b114a-5c13-426e-b667-f58a9bd79b92",
+        "name": "ROMANTICA-RADIO",
+        "url": "https://vetrina.multi-radio.com/romanticaradio",
+        "votes": 1120
+      },
+      "variants": [
+        {
+          "stationuuid": "caf01ffe-e18a-4158-bf9e-e947aa50d2b9",
+          "name": "Romantica Radio (RomanticaRadio Web)",
+          "url": "https://vetrina.multi-radio.com/romanticaradio",
+          "votes": 142,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "df3a63d4-e944-4f00-abb7-4de1581e7533",
+        "name": "Rai Radio 1 +Calcio",
+        "url": "http://icecdn-19d24861e90342cc8decb03c24c8a419.msvdn.net/icecastRelay/S18493106/rCMKqdMFKPBB/icecast",
+        "votes": 999
+      },
+      "variants": [
+        {
+          "stationuuid": "22c8a12c-6d82-4b8d-874f-74074e9ec011",
+          "name": "Rai Radio 1",
+          "url": "http://icecdn-19d24861e90342cc8decb03c24c8a419.msvdn.net/icecastRelay/S18493106/rCMKqdMFKPBB/icecast",
+          "votes": 470,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "69aff725-522c-11e9-a4d7-52543be04c81",
+        "name": "Radio Bianconera",
+        "url": "https://stream.tmwradio.com/bianconera.aac",
+        "votes": 881
+      },
+      "variants": [
+        {
+          "stationuuid": "92982f0e-abed-43a9-9aed-19d5775a5765",
+          "name": "Radio Bianconera",
+          "url": "https://stream.tmwradio.com/bianconera.aac?FLID=1",
+          "votes": 23,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "85a96041-5734-43de-a351-9edddc88afd0",
+        "name": "Radio 80 Afro",
+        "url": "https://sphera.fluidstream.eu/r80_afro.mp3",
+        "votes": 851
+      },
+      "variants": [
+        {
+          "stationuuid": "d550f583-90d1-4856-b25c-1e349adb345c",
+          "name": "Radio 80 Afro",
+          "url": "https://sphera.fluidstream.eu/r80_afro.mp3?FLID=1&aw_0_req.gdpr=true",
+          "votes": 17,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7a67fe09-ab18-11e9-88f4-52543be04c81",
+        "name": "One Dance",
+        "url": "https://ice04.fluidstream.net/rn1_2.aac",
+        "votes": 839
+      },
+      "variants": [
+        {
+          "stationuuid": "7dd6710d-8e1b-4f36-a51b-b0257b1e7539",
+          "name": "One Dance ",
+          "url": "https://ice04.fluidstream.net/rn1_2.aac?FLID=1&type=.aac",
+          "votes": 126,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2a921377-d27d-4fc8-acd0-f7dee943c7f8",
+        "name": "RADIO SUBASIO",
+        "url": "https://icy.unitedradio.it/Subasio.mp3",
+        "votes": 785
+      },
+      "variants": [
+        {
+          "stationuuid": "4cae5ab7-991a-4808-bb50-c1df97988b37",
+          "name": "RADIO SUBASIO",
+          "url": "https://icy.unitedradio.it/Subasio.mp3",
+          "votes": 49,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a89028bc-0cef-4228-9fce-5c91039aca94",
+        "name": "Radio Capital IT",
+        "url": "https://streamcdnr8-4c4b867c89244861ac216426883d1ad0.msvdn.net/radiocapital/radiocapital/play1.m3u8",
+        "votes": 749
+      },
+      "variants": [
+        {
+          "stationuuid": "905c5b6f-627b-464e-90e6-809d5b5d6fda",
+          "name": "GEDI - Radio Capital",
+          "url": "https://streamcdnr8-4c4b867c89244861ac216426883d1ad0.msvdn.net/radiocapital/radiocapital/play1.m3u8",
+          "votes": 276,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "697cbf25-8cd5-49e6-bf3d-f4e20f797140",
+        "name": "RMC Jazz",
+        "url": "http://edge.radiomontecarlo.net/rmcweb019",
+        "votes": 672
+      },
+      "variants": [
+        {
+          "stationuuid": "85fc1a40-34ef-4d33-903f-191ec87f6982",
+          "name": "Radio Monte Carlo Jazz",
+          "url": "http://edge.radiomontecarlo.net/rmcweb019",
+          "votes": 272,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1df2ab44-7fb1-11e8-a43d-52543be04c81",
+        "name": "Running Radio",
+        "url": "http://edge.radiomontecarlo.net/rmcweb021",
+        "votes": 671
+      },
+      "variants": [
+        {
+          "stationuuid": "a1622d2e-280f-4b21-ac4c-6ff3daf3971e",
+          "name": "RMC Running",
+          "url": "http://edge.radiomontecarlo.net/rmcweb021",
+          "votes": 389,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96263034-0601-11e8-ae97-52543be04c81",
+        "name": "Rai Alto Adige",
+        "url": "http://radiobzlive.rai.it/RAI_AltoAdige",
+        "votes": 625
+      },
+      "variants": [
+        {
+          "stationuuid": "c2097a1c-fdab-41dd-b852-d54cb80a4766",
+          "name": "RAI Alto Adige",
+          "url": "http://radiobzlive.rai.it/RAI_AltoAdige",
+          "votes": 29,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d50de3ae-0aa8-46b6-9c1e-c4759d53ce22",
+        "name": "Giornale Radio",
+        "url": "https://gr.fluidstream.eu/gr1.mp3",
+        "votes": 624
+      },
+      "variants": [
+        {
+          "stationuuid": "b612c73e-f3d3-4c7c-9520-a1b2001368c7",
+          "name": "Giornale Radio",
+          "url": "https://gr.fluidstream.eu/gr1.mp3",
+          "votes": 71,
+          "differs": []
+        },
+        {
+          "stationuuid": "8f64b06d-7c41-445e-9773-729b20eb7987",
+          "name": "Giornale Radio",
+          "url": "https://gr.fluidstream.eu/gr1.mp3",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d49b828e-bdcc-11e8-aaf2-52543be04c81",
+        "name": "Gym Radio",
+        "url": "http://edge.radiomontecarlo.net/rmcweb023",
+        "votes": 558
+      },
+      "variants": [
+        {
+          "stationuuid": "3d104060-aa5f-4380-8cd8-45f1ae644635",
+          "name": "RMC Fitness",
+          "url": "http://edge.radiomontecarlo.net/rmcweb023",
+          "votes": 80,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "eb10fc32-63d3-47a1-9d1b-3040f3580dee",
+        "name": "Rai News 24",
+        "url": "https://streamcdnb3-8e7439fdb1694c8da3a0fd63e4dda518.msvdn.net/rainews1/hls/rainews_2400/chunklist.m3u8",
+        "votes": 544
+      },
+      "variants": [
+        {
+          "stationuuid": "80865d74-a1b7-45e7-a6d8-55e9586765cc",
+          "name": "Rai News 24",
+          "url": "https://streamcdnb3-8e7439fdb1694c8da3a0fd63e4dda518.msvdn.net/rainews1/hls/rainews_2400/chunklist.m3u8",
+          "votes": 98,
+          "differs": []
+        },
+        {
+          "stationuuid": "8f634d94-3d07-47fc-beeb-43383f494006",
+          "name": "Rai News 24",
+          "url": "https://streamcdnb3-8e7439fdb1694c8da3a0fd63e4dda518.msvdn.net/rainews1/hls/rainews_2400/chunklist.m3u8",
+          "votes": 94,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6cde51f1-c733-4170-99d6-483fa4c63f1d",
+        "name": "Radio Italia anni 60",
+        "url": "https://str01.fluidstream.net/anni60.mp3",
+        "votes": 528
+      },
+      "variants": [
+        {
+          "stationuuid": "ea3c8b3e-cce1-4a29-bbb5-498149d025f3",
+          "name": "Radio Italia Anni 60",
+          "url": "https://str01.fluidstream.net/anni60.mp3?FLID=1&listenerid=29d0a6a85b59cea2ca801b70d2a3ebaf&awparams=companionAds%3Atrue&aw_0_req.gdpr=true",
+          "votes": 74,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "8d1b7bfb-7434-4bd8-bb72-c904afc6e73b",
+          "name": "Radio Italia Anni 60",
+          "url": "https://str01.fluidstream.net/anni60.mp3?FLID=1&listenerid=29d0a6a85b59cea2ca801b70d2a3ebaf&awparams=companionAds%3Atrue&aw_0_req.gdpr=true",
+          "votes": 35,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9627bc91-0601-11e8-ae97-52543be04c81",
+        "name": "Radio 105 - Classics",
+        "url": "http://icy.unitedradio.it/105Classics.mp3",
+        "votes": 527
+      },
+      "variants": [
+        {
+          "stationuuid": "2894b7e3-314f-44e8-9fb1-645e0b060a65",
+          "name": "Radio 105 - Classics",
+          "url": "http://icy.unitedradio.it/105Classics.mp3",
+          "votes": 35,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962d8881-0601-11e8-ae97-52543be04c81",
+        "name": "MUSIC STAR Zucchero",
+        "url": "http://icy.unitedradio.it/Zucchero.mp3",
+        "votes": 516
+      },
+      "variants": [
+        {
+          "stationuuid": "d6208265-dde0-47d3-a6cc-f48b1925d9e3",
+          "name": "MusicStarZucchero",
+          "url": "http://icy.unitedradio.it/Zucchero.mp3",
+          "votes": 29,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "05d5a867-deea-4957-a810-7eefcaf508cd",
+        "name": "FOREVER 80",
+        "url": "https://stream.laut.fm/forever80",
+        "votes": 501
+      },
+      "variants": [
+        {
+          "stationuuid": "c5d0995e-ee6d-4448-b1f5-daafc4e541a5",
+          "name": "Radio Forever 80",
+          "url": "https://stream.laut.fm/forever80",
+          "votes": 87,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "74cb9de6-d8c8-4295-a73c-aa6d3ced4ec8",
+        "name": "Radio Radicale",
+        "url": "https://live.radioradicale.it/live.mp3",
+        "votes": 451
+      },
+      "variants": [
+        {
+          "stationuuid": "879ec5b6-d975-4ac0-a521-783b21626dbe",
+          "name": "Radio Radicale",
+          "url": "https://live.radioradicale.it/live.mp3",
+          "votes": 33,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8f159e64-9fc5-4cac-948f-c6dd303d78d2",
+        "name": "RADIO RELAX Italia",
+        "url": "https://radiorelax.streamingmedia.it/play",
+        "votes": 450
+      },
+      "variants": [
+        {
+          "stationuuid": "5ac0c350-c2af-4028-83d7-4dda5438e63b",
+          "name": "RADIO RELAX Italia",
+          "url": "https://radiorelax.streamingmedia.it/play",
+          "votes": 46,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "38767341-e305-4b48-9251-d833ba561dd9",
+        "name": "Music Star Franco Battiato",
+        "url": "https://icy.unitedradio.it/um057.mp3",
+        "votes": 433
+      },
+      "variants": [
+        {
+          "stationuuid": "590edfd7-8482-4c42-881c-ea019046c4ca",
+          "name": "RMC Music Star Franco Battiato",
+          "url": "https://icy.unitedradio.it/um057.mp3",
+          "votes": 117,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "3436ccf1-6abc-4719-ad5c-9d35f7e7fd2e",
+          "name": "Music star Franco Battiato",
+          "url": "https://icy.unitedradio.it/um057.mp3",
+          "votes": 53,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ac0e104d-6f38-4c7e-943b-ce9637a20acd",
+        "name": "Radio Liberta",
+        "url": "http://onair15.xdevel.com:8258/;stream.aac",
+        "votes": 404
+      },
+      "variants": [
+        {
+          "stationuuid": "96359eef-0601-11e8-ae97-52543be04c81",
+          "name": "Radio Padania Libera",
+          "url": "http://onair15.xdevel.com:8258/;stream.aac",
+          "votes": 214,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "86b7c416-5e84-4b61-b88e-17b21be94967",
+        "name": "rete radio azzurra",
+        "url": "https://reteradioazzurra.radioca.st/stream",
+        "votes": 399
+      },
+      "variants": [
+        {
+          "stationuuid": "fcea32d8-572f-4640-8327-7c2cc750d417",
+          "name": "Rete Radio ",
+          "url": "https://reteradioazzurra.radioca.st/stream",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bfcf9b2d-b008-420b-a342-b868aee01e19",
+        "name": "Globo Vintage",
+        "url": "https://m100.newradio.it/m100-64",
+        "votes": 386
+      },
+      "variants": [
+        {
+          "stationuuid": "6c2d922f-bcaf-40d8-9ef0-35d5f9f68435",
+          "name": "Globo Vintage",
+          "url": "https://m100.newradio.it/m100-64",
+          "votes": 23,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cdbe6306-c69f-420a-9a43-137e5b9c16ad",
+        "name": "Radio Popolare",
+        "url": "https://livex.radiopopolare.it/radiopop2",
+        "votes": 384
+      },
+      "variants": [
+        {
+          "stationuuid": "d994bdd9-5a16-4bc4-993e-03c52f83fc21",
+          "name": "Radio Popolare Milano",
+          "url": "https://livex.radiopopolare.it/radiopop2",
+          "votes": 157,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "04d75e0c-3406-41a9-ab12-199269a6e4c0",
+          "name": "Radio Popolare Milano",
+          "url": "https://livex.radiopopolare.it/radiopop2",
+          "votes": 44,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e98dc9e0-c582-4a8e-a90c-e14add53ed0f",
+        "name": "DeeGay Pop & Dance",
+        "url": "https://stream.deegay.fm/deegay1.mp3",
+        "votes": 379
+      },
+      "variants": [
+        {
+          "stationuuid": "ce252348-416d-4e43-b97e-c4bdee2ba712",
+          "name": "ADORO POP",
+          "url": "https://stream.deegay.fm/deegay1.mp3?id=m7eirxqSZx&FLID=1&aw_0_req.gdpr=true&listenerid=79ac2cc9cb7616aca4d7286d94dd9291&awparams=companionAds%3Atrue",
+          "votes": 13,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "422d2b66-2a6f-481e-b871-c907a52b3ffd",
+        "name": "70s 80s DiscoFunk ModernSoul Boogie",
+        "url": "http://my.streamingmedia.it:8020/play",
+        "votes": 356
+      },
+      "variants": [
+        {
+          "stationuuid": "9b9cbba2-f6d8-42c5-ac38-9ea33ff7e0e0",
+          "name": "70s 80s Disco Funk ModernSoul Boogie",
+          "url": "http://my.streamingmedia.it:8020/play",
+          "votes": 174,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ae0354a3-a57c-477d-8dc9-8bd4464aedbd",
+        "name": "Deejay 80",
+        "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/webradio/deejay80/playlist.m3u8",
+        "votes": 347
+      },
+      "variants": [
+        {
+          "stationuuid": "e188757f-725c-4bb2-8241-9fdba97129b8",
+          "name": "GEDI - Deejay 80",
+          "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/webradio/deejay80/playlist.m3u8",
+          "votes": 23,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aedb966a-69d2-4d72-afe1-61e66b6c3711",
+        "name": "DeeGay Classic",
+        "url": "https://stream.deegay.fm/deegay2.mp3",
+        "votes": 340
+      },
+      "variants": [
+        {
+          "stationuuid": "e4b1d8db-65b8-4708-8c49-f31fb708605b",
+          "name": "ADORO CLASSIC",
+          "url": "https://stream.deegay.fm/deegay2.mp3?id=KeCYrcTWRj&FLID=1&aw_0_req.gdpr=true&listenerid=79ac2cc9cb7616aca4d7286d94dd9291&awparams=companionAds%3Atrue",
+          "votes": 26,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962d8eda-0601-11e8-ae97-52543be04c81",
+        "name": "MUSIC STAR Mina",
+        "url": "http://edge.radiomontecarlo.net/rmcweb014",
+        "votes": 321
+      },
+      "variants": [
+        {
+          "stationuuid": "37e29298-81c9-4996-bd22-4e905296d7f8",
+          "name": "RMC Music Star Mina",
+          "url": "http://edge.radiomontecarlo.net/rmcweb014",
+          "votes": 102,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "af473ac5-1059-11e9-a80b-52543be04c81",
+        "name": "Radio Mitology",
+        "url": "http://onair15.xdevel.com:9120/;",
+        "votes": 314
+      },
+      "variants": [
+        {
+          "stationuuid": "fd3f0dfa-0c2d-463c-9cd3-65277bc246c8",
+          "name": "Radio Mitology",
+          "url": "http://onair15.xdevel.com:9120/;",
+          "votes": 18,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fa80ca1a-24a7-4b01-85d7-2b5417c73b74",
+        "name": "Giornale Radio Ultima Ora",
+        "url": "https://gr.fluidstream.eu/gr2.mp3",
+        "votes": 313
+      },
+      "variants": [
+        {
+          "stationuuid": "39c237ad-52bd-4855-8f2f-319c0cd7ae28",
+          "name": "Radio GR News",
+          "url": "https://gr.fluidstream.eu/gr2.mp3",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "08e8a188-1d11-445b-b1d8-d36d079fc82b",
+          "name": "GR News",
+          "url": "https://gr.fluidstream.eu/gr2.mp3",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "12cfc0d8-0ff1-4dcb-9c63-1f8f46538dc9",
+        "name": "Radio Onda Rossa",
+        "url": "https://s.streampunk.cc/ondarossa.ogg",
+        "votes": 289
+      },
+      "variants": [
+        {
+          "stationuuid": "49b04658-ac5f-4d7b-9e94-50e6e61e908d",
+          "name": "Radio Onda Rossa",
+          "url": "https://s.streampunk.cc/ondarossa.ogg",
+          "votes": 15,
+          "differs": []
+        },
+        {
+          "stationuuid": "3d4ad1d0-bbaf-4540-b442-40313ac35604",
+          "name": "Onda Rossa",
+          "url": "https://s.streampunk.cc/ondarossa.ogg",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aa0c4df3-e693-4120-ae62-3ac84aaa8543",
+        "name": "DeeGay Club",
+        "url": "https://stream.deegay.fm/deegay3.mp3",
+        "votes": 286
+      },
+      "variants": [
+        {
+          "stationuuid": "e1867af0-b807-47d6-a8c4-f75dea5b74ac",
+          "name": "ADORO CHILLIN'",
+          "url": "https://stream.deegay.fm/deegay3.mp3?id=Oa9irZz5Qm&FLID=1&aw_0_req.gdpr=true&listenerid=79ac2cc9cb7616aca4d7286d94dd9291&awparams=companionAds%3Atrue",
+          "votes": 14,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9142e9ce-a3b4-4a45-a55f-4160843e932e",
+        "name": "Radio Mozart Italia",
+        "url": "http://onair15.xdevel.com:7064/1/",
+        "votes": 284
+      },
+      "variants": [
+        {
+          "stationuuid": "4356e54d-df4d-4677-a280-1d01d249fd07",
+          "name": "Radio Mozart Italia",
+          "url": "http://onair15.xdevel.com:7064/1/",
+          "votes": 82,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e610c4ad-1989-498e-8234-a5ca6f23b40b",
+        "name": "Rai RadioDue",
+        "url": "https://icecdn-19d24861e90342cc8decb03c24c8a419.msvdn.net/icecastRelay/S35942484/yp5F67151K92/icecast",
+        "votes": 280
+      },
+      "variants": [
+        {
+          "stationuuid": "a4da6eb7-3d2b-4fb3-a733-100612d458de",
+          "name": "RAI24",
+          "url": "https://icecdn-19d24861e90342cc8decb03c24c8a419.msvdn.net/icecastRelay/S35942484/yp5F67151K92/icecast",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "6b0c9901-ae10-4f5e-a5cf-b40319512633",
+          "name": "Rai Radio 2",
+          "url": "https://icecdn-19d24861e90342cc8decb03c24c8a419.msvdn.net/icecastRelay/S35942484/yp5F67151K92/icecast",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f768db9e-bb3e-4b2c-b61a-dabc83f80afa",
+        "name": "Electro Lounge",
+        "url": "https://electrolounge.stream.laut.fm/electrolounge?pl=m3u&t302=2026-01-14_23-25-32&uuid=4a7f7217-7b1e-45d3-8bd7-ee9f329c080e",
+        "votes": 265
+      },
+      "variants": [
+        {
+          "stationuuid": "31ca1048-8f31-41c8-9f4b-570a6e556cba",
+          "name": "Electrolounge Milano",
+          "url": "https://electrolounge.stream.laut.fm/electrolounge?pl=m3u&t302=2026-01-15_02-06-49&uuid=90028019-e71d-4978-9be5-a4da5703b257",
+          "votes": 128,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "c7083965-6b47-45e6-9414-9d74d5dfbb39",
+          "name": "Electrolounge Milano",
+          "url": "https://electrolounge.stream.laut.fm/electrolounge?pl=m3u&t302=2026-01-15_04-43-00&uuid=44d05804-4ed7-4c52-b0e8-178e5edf8fc1",
+          "votes": 16,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "2228aea0-4c04-4600-8fd6-4b6231e58271",
+          "name": "elettro lounge",
+          "url": "https://electrolounge.stream.laut.fm/electrolounge?pl=pls&t302=2026-01-15_07-08-43&uuid=201a3337-f021-446e-9428-a9f8c1a8e4a1",
+          "votes": 4,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "69acf0e5-5fcb-41c0-940a-c0bb931fdfd5",
+        "name": "Easy Network Jazz & Soul",
+        "url": "https://sphera.fluidstream.eu/easy_jazz.mp3",
+        "votes": 254
+      },
+      "variants": [
+        {
+          "stationuuid": "8a32f596-2909-4ed5-9925-b47d1068a4e4",
+          "name": "Radio Easyy Network Jazz & Soul",
+          "url": "https://sphera.fluidstream.eu/easy_jazz.mp3",
+          "votes": 49,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dae88c89-92bf-4f15-a0dc-9b0a1440b827",
+        "name": "Radio Amore Napoli",
+        "url": "http://onair20.xdevel.com:8346/;",
+        "votes": 252
+      },
+      "variants": [
+        {
+          "stationuuid": "fbcb6f5b-cebe-427b-825b-b76a13609142",
+          "name": "Radio Amore Napoli",
+          "url": "http://onair20.xdevel.com:8346/;",
+          "votes": 31,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4517523d-6fb7-4e1b-9b1a-22fcae079099",
+        "name": "Venice Classic Radio Auditorium",
+        "url": "https://uk2.streamingpulse.com/ssl/vcr2",
+        "votes": 248
+      },
+      "variants": [
+        {
+          "stationuuid": "1148235c-eb9c-45fc-9a59-a1e41272a041",
+          "name": "VCR | Venice Classic Radio * Live",
+          "url": "https://uk2.streamingpulse.com/ssl/vcr2",
+          "votes": 98,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962d8f90-0601-11e8-ae97-52543be04c81",
+        "name": "MUSIC STAR Giorgia",
+        "url": "http://edge.radiomontecarlo.net/rmcweb013",
+        "votes": 245
+      },
+      "variants": [
+        {
+          "stationuuid": "2e26ad4b-9e8a-4024-82ce-467cb61c0693",
+          "name": "RMC Music Star Giorgia",
+          "url": "http://edge.radiomontecarlo.net/rmcweb013",
+          "votes": 84,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "259504da-522f-4668-8f0f-9746756959cf",
+        "name": "\tRadio Margherita ",
+        "url": "https://streaming.radiomargherita.com/stream/radiomargherita",
+        "votes": 217
+      },
+      "variants": [
+        {
+          "stationuuid": "10fa5595-8849-49c7-b494-373bf7ded6c4",
+          "name": "Radio Margherita ",
+          "url": "https://streaming.radiomargherita.com/stream/radiomargherita",
+          "votes": 36,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "39d5cb1c-bf5f-4ab0-bf6b-e115645d1334",
+          "name": "name\tRadio Margherita ",
+          "url": "https://streaming.radiomargherita.com/stream/radiomargherita",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "ab8f2248-6989-42d5-a628-87c1ab59fbff",
+          "name": "Radio Margherita",
+          "url": "https://streaming.radiomargherita.com/stream/radiomargherita",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d1a0717c-09b8-4d72-8413-53db61b80f43",
+        "name": "Giornale Radio La Dolce Vita",
+        "url": "https://gr.fluidstream.eu/gr7.mp3",
+        "votes": 213
+      },
+      "variants": [
+        {
+          "stationuuid": "442cd8bc-99bc-4323-bdeb-6cc4155d0522",
+          "name": "GR Dolce Vita",
+          "url": "https://gr.fluidstream.eu/gr7.mp3",
+          "votes": 53,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "067c6ed7-8190-4e67-8d9a-6e80fd313474",
+          "name": "Radio Italia Network",
+          "url": "https://gr.fluidstream.eu/gr7.mp3",
+          "votes": 30,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "84841b05-e29e-47f5-96d1-32781061a575",
+          "name": "Dolce la Vita",
+          "url": "https://gr.fluidstream.eu/gr7.mp3",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fd7c438f-6a86-11e9-af37-52543be04c81",
+        "name": "Radio Milano 1602",
+        "url": "http://91.121.104.139:1602/;",
+        "votes": 197
+      },
+      "variants": [
+        {
+          "stationuuid": "48a7e959-e22e-42d0-b647-0850607176d7",
+          "name": "POWER 927 AM Milano",
+          "url": "http://91.121.104.139:1602/;",
+          "votes": 69,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7a7db53d-ac80-4e26-a6c4-bf706657709f",
+        "name": "Radio Capital Music",
+        "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/webradio/capitalmusic/playlist.m3u8",
+        "votes": 195
+      },
+      "variants": [
+        {
+          "stationuuid": "c2bad231-1dd0-4a26-9cf8-d5e8b4fad518",
+          "name": "Radio Capital Music",
+          "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/webradio/capitalmusic/playlist.m3u8",
+          "votes": 56,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "abe84722-1ff1-471a-b048-7f761b2056a0",
+        "name": "Radio Onda d'urto",
+        "url": "https://hochimin.urtostream.org:8443/radiondadurto.mp3",
+        "votes": 193
+      },
+      "variants": [
+        {
+          "stationuuid": "b35cb43a-29a2-4743-85bd-016dc3e107fd",
+          "name": "Radio Onda D'Urto",
+          "url": "https://hochimin.urtostream.org:8443/radiondadurto.mp3",
+          "votes": 38,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "29535b8e-f58e-4d93-b354-b82b0d254cb5",
+        "name": "Discoradio",
+        "url": "https://stream.discoradio.radio/audio/disco.stream_aac64/chunklist.m3u8",
+        "votes": 189
+      },
+      "variants": [
+        {
+          "stationuuid": "eacb3494-6e48-4963-8e82-50f72156e26f",
+          "name": "Disco Radio",
+          "url": "https://stream.discoradio.radio/audio/disco.stream_aac64/chunklist.m3u8",
+          "votes": 86,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2c806fe7-67de-4bc4-9a53-1b2920ca4b81",
+        "name": "Deejay 30 Songs",
+        "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/radiodeejay30songs/radiodeejay30songs/master_ma.m3u8",
+        "votes": 186
+      },
+      "variants": [
+        {
+          "stationuuid": "a46cad00-c4bf-4969-8c9b-2e176af80372",
+          "name": "GEDI - Deejay 30 Songs",
+          "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/radiodeejay30songs/radiodeejay30songs/master_ma.m3u8",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "02d0b200-ac03-4351-a3ae-7c853340ebd6",
+        "name": "Deejay Time",
+        "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/webradio/deejaytime/playlist.m3u8",
+        "votes": 169
+      },
+      "variants": [
+        {
+          "stationuuid": "1a292eda-a74a-4d14-ade1-336b11b5adde",
+          "name": "GEDI - Deejay Time",
+          "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/webradio/deejaytime/playlist.m3u8",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6273ed0d-ce22-4cd9-84bd-c5ace0a402c2",
+        "name": "Rai Radio3Classica",
+        "url": "https://icecdn-19d24861e90342cc8decb03c24c8a419.msvdn.net/icecastRelay/S53422322/bTdUFhYMnnra/icecast",
+        "votes": 168
+      },
+      "variants": [
+        {
+          "stationuuid": "706a6d21-035c-4f18-ac91-8313daeee9bf",
+          "name": "Rai Radio 3 Classica",
+          "url": "https://icecdn-19d24861e90342cc8decb03c24c8a419.msvdn.net/icecastRelay/S53422322/bTdUFhYMnnra/icecast",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "56dced92-aa5e-4594-930f-3ddf524f5bcb",
+        "name": "Radio Kiss Kiss Disco Party",
+        "url": "https://kk.fluidstream.eu/kk_discoparty.mp3",
+        "votes": 165
+      },
+      "variants": [
+        {
+          "stationuuid": "5e651813-f2b5-41f7-b0f2-91ad3c4b7c32",
+          "name": "Radio Kiss Kiss Disco Party",
+          "url": "https://kk.fluidstream.eu/kk_discoparty.mp3",
+          "votes": 27,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3c07f666-302e-4fc1-b95c-12c28023d68d",
+        "name": "Radio Marte",
+        "url": "https://stream1.xdevel.com/audio0s975753-313/stream/icecast.audio",
+        "votes": 155
+      },
+      "variants": [
+        {
+          "stationuuid": "efab0c00-8e11-4a48-8df9-62fed762de54",
+          "name": "Radio Marte",
+          "url": "https://stream1.xdevel.com/audio0s975753-313/stream/icecast.audio",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c787b546-f486-4df6-8c5c-344c9bb8b9f5",
+        "name": "Radio Volami nel Cuore",
+        "url": "https://rci.canaleitalia.tv:8009/;",
+        "votes": 154
+      },
+      "variants": [
+        {
+          "stationuuid": "0a3df26b-18b7-4e93-b46f-b15ca06c0687",
+          "name": "RadioVolamiNelCuore",
+          "url": "https://rci.canaleitalia.tv:8009/;",
+          "votes": 23,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "644f77b4-1e72-4dfe-baa9-ce806b473439",
+        "name": "Napoli Lounge ",
+        "url": "http://stream.zeno.fm/cyau14bgqd0uv",
+        "votes": 144
+      },
+      "variants": [
+        {
+          "stationuuid": "55910977-3765-4e3e-b8e4-370d90e468d7",
+          "name": "Napoli Lounge",
+          "url": "http://stream.zeno.fm/cyau14bgqd0uv",
+          "votes": 54,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3dff0ca7-e8d7-4966-a37f-2d754819af6b",
+        "name": "Jungle Planet Radio",
+        "url": "https://phoebe.streamerr.co:3650/;?type=http&nocache=1739137731",
+        "votes": 126
+      },
+      "variants": [
+        {
+          "stationuuid": "663eaa00-8c75-488d-b64f-612533ab41bf",
+          "name": "Jungle Planet Radio",
+          "url": "https://phoebe.streamerr.co:3650/;?type=http&nocache=1740335216",
+          "votes": 28,
+          "differs": [
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "e6562855-8b4e-4dcf-b3dc-5f2acf3026e9",
+          "name": "Jungle Planet Radio",
+          "url": "https://phoebe.streamerr.co:3650/;?type=http&nocache=123",
+          "votes": 17,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9630bad0-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Punto Nuovo",
+        "url": "http://onair15.xdevel.com:8062/",
+        "votes": 125
+      },
+      "variants": [
+        {
+          "stationuuid": "e71169f9-6c34-450b-9559-63fe78bf5631",
+          "name": "Radio Punto Nuovo",
+          "url": "http://onair15.xdevel.com:8062/",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "533035b4-6352-4775-b7e0-4e7657e47dce",
+        "name": "Radio Legends",
+        "url": "https://ssl.audio1.meway.tv/proxy/radiolegends?mp=/stream",
+        "votes": 118
+      },
+      "variants": [
+        {
+          "stationuuid": "e15a2339-b82b-4d12-97bd-e637b3a5d7c7",
+          "name": "Radio Legends",
+          "url": "https://ssl.audio1.meway.tv/proxy/radiolegends?mp=/stream",
+          "votes": 25,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5eb7ecb7-20c1-4c32-af8f-a566505c90cd",
+        "name": "Deejay One Love",
+        "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/webradio/deejayonelove/playlist.m3u8",
+        "votes": 100
+      },
+      "variants": [
+        {
+          "stationuuid": "34675fd9-f33c-41f7-af78-19501647d93b",
+          "name": "GEDI - Deejay One Love",
+          "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/webradio/deejayonelove/playlist.m3u8",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b46e8ec3-f784-4a94-b852-3b59236b79bf",
+        "name": "Radio Mambo",
+        "url": "https://mambo.newradio.it/stream",
+        "votes": 99
+      },
+      "variants": [
+        {
+          "stationuuid": "010cb97f-69a4-4248-809e-38d89251ef6e",
+          "name": "Radio Mambo",
+          "url": "https://mambo.newradio.it/stream",
+          "votes": 15,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "24c13b56-d669-4127-98b3-b0b1c22b4676",
+        "name": "Radio Rock 106.6",
+        "url": "https://rrock.fluidstream.eu/radiorock.aac",
+        "votes": 98
+      },
+      "variants": [
+        {
+          "stationuuid": "d4ee30f4-04b5-4b4a-a1a2-86eeadac215a",
+          "name": "RadioRock",
+          "url": "https://rrock.fluidstream.eu/radiorock.aac",
+          "votes": 96,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "8eacf706-c8c5-4ff1-969f-604cf8af14f3",
+          "name": "Radio Rock",
+          "url": "https://rrock.fluidstream.eu/radiorock.aac",
+          "votes": 40,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2a4ece26-2d7f-49ba-8321-de62842fdc17",
+        "name": "RAITG",
+        "url": "https://tgrcampania-live.akamaized.net/hls/live/2025562/tgrcampania/tgrcampania/playlist.m3u8",
+        "votes": 97
+      },
+      "variants": [
+        {
+          "stationuuid": "b238d418-767a-4591-bc69-7f42a96b7a73",
+          "name": "TG3RAI",
+          "url": "https://tgrcampania-live.akamaized.net/hls/live/2025562/tgrcampania/tgrcampania/playlist.m3u8?auth=daEa4cQd5bWc2dXcZdLdgcKaga2a_c9b5cI-bITV25-c0-GltxyFv&aifp=V001",
+          "votes": 26,
+          "differs": [
+            "name",
+            "url",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8181132f-6e58-4e8d-ba62-ae6f63a81376",
+        "name": "Radio Padova History",
+        "url": "https://sphera.fluidstream.eu/rpd_history.mp3",
+        "votes": 89
+      },
+      "variants": [
+        {
+          "stationuuid": "d3392600-14fe-452a-ba8c-fabff6f90f75",
+          "name": "Fluidstream",
+          "url": "https://sphera.fluidstream.eu/rpd_history.mp3",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f84d2c60-7473-4634-b0c0-6c4f4bbb73bd",
+        "name": "RAI TG3",
+        "url": "https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=668461",
+        "votes": 86
+      },
+      "variants": [
+        {
+          "stationuuid": "eab97a30-7572-464f-b99c-90bc97c5ab27",
+          "name": "TG3",
+          "url": "https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=668461",
+          "votes": 7,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "032ffade-d50c-4281-8f7c-5272271619f7",
+        "name": "80s Remix Radio",
+        "url": "https://a10.asurahosting.com:8350/radio.mp3",
+        "votes": 85
+      },
+      "variants": [
+        {
+          "stationuuid": "7666337c-a52c-4fae-b835-f3d31c5bef59",
+          "name": "80s Remix Radio",
+          "url": "https://a10.asurahosting.com:8350/radio.mp3",
+          "votes": 30,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6bb402a8-0b23-4143-bc36-d7fee37a0139",
+        "name": "Futura FM (HD OGG)",
+        "url": "https://futura.fm/stream.ogg",
+        "votes": 81
+      },
+      "variants": [
+        {
+          "stationuuid": "49769e91-ccb5-4296-8bd2-d7ce8fe396c3",
+          "name": "easy and italy",
+          "url": "https://futura.fm/stream.ogg?ts=1723791202.627",
+          "votes": 65,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "5900dbf2-b8ef-47f6-be04-64ee329b8e0f",
+          "name": "FUTURA.FM HD – Musica anni 80 in HD",
+          "url": "https://futura.fm/stream.ogg",
+          "votes": 34,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3bbc371b-7899-4f6e-9e79-6da4d696c819",
+        "name": "Radio 60 70 80",
+        "url": "https://ice.studiopiu.net/607080.aac",
+        "votes": 81
+      },
+      "variants": [
+        {
+          "stationuuid": "9ec6cb44-ed24-4c0c-9783-59711d9b15fa",
+          "name": "Radio 60-70-80",
+          "url": "https://ice.studiopiu.net/607080.aac",
+          "votes": 49,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6f48bb10-f3cf-41da-9985-15630e84cf40",
+        "name": "Radio Capital Soft",
+        "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/webradio/capitalsoft/playlist.m3u8",
+        "votes": 79
+      },
+      "variants": [
+        {
+          "stationuuid": "20cda627-b827-454c-bab1-9daa778c28cb",
+          "name": "Radio Capital Yacht Rock",
+          "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/webradio/capitalsoft/playlist.m3u8",
+          "votes": 57,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "61a5a2ae-331a-48dd-8137-3e291cbc3197",
+        "name": "THE COAST FM",
+        "url": "http://s1.viastreaming.net:9235/stat",
+        "votes": 75
+      },
+      "variants": [
+        {
+          "stationuuid": "0d40d262-1faa-4fb3-a394-d0d154b77388",
+          "name": "THECOASTFM",
+          "url": "http://s1.viastreaming.net:9235/stat",
+          "votes": 38,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c8892f82-2087-4c5d-b7b8-f9ef4ce4e23c",
+        "name": "Power 927",
+        "url": "http://91.121.104.139:1602/",
+        "votes": 72
+      },
+      "variants": [
+        {
+          "stationuuid": "04795817-4021-46cc-aa8f-f7698bae9606",
+          "name": "Power 9 2 7",
+          "url": "http://91.121.104.139:1602/",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b3c31d8c-9312-491b-b2d1-3b933f98a261",
+        "name": "Spore",
+        "url": "https://stream.radiospore.oziosi.org:8003/spore.ogg",
+        "votes": 68
+      },
+      "variants": [
+        {
+          "stationuuid": "a4078a11-4b8b-44be-affd-a04ca0319559",
+          "name": "Spore",
+          "url": "https://stream.radiospore.oziosi.org:8003/spore.ogg",
+          "votes": 56,
+          "differs": []
+        },
+        {
+          "stationuuid": "6c484312-c103-486a-b0c1-c063ce3a3a98",
+          "name": "Spore",
+          "url": "https://stream.radiospore.oziosi.org:8003/spore.ogg",
+          "votes": 40,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "11acdb81-80ef-4217-a367-1feb7f445ba9",
+        "name": "Fango Radio",
+        "url": "https://pantano.ovh:8444/pantano",
+        "votes": 68
+      },
+      "variants": [
+        {
+          "stationuuid": "c84e1cc7-aef4-44c6-ac67-dba8dd113bb2",
+          "name": "Fango Radio",
+          "url": "https://pantano.ovh:8444/pantano",
+          "votes": 54,
+          "differs": []
+        },
+        {
+          "stationuuid": "5583d6eb-87e8-43a3-acc8-b72ff552139b",
+          "name": "Fango Radio",
+          "url": "https://pantano.ovh:8444/pantano",
+          "votes": 24,
+          "differs": []
+        },
+        {
+          "stationuuid": "b38243e2-73b8-4813-ab8b-ea8d3a81a332",
+          "name": "Fango Radio",
+          "url": "https://pantano.ovh:8444/pantano",
+          "votes": 17,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "42608dbc-995f-4f31-8a72-b24620622c6f",
+        "name": "Kiss Kiss History Lounge",
+        "url": "https://kk.fluidstream.eu/kk_history_lounge.mp3",
+        "votes": 64
+      },
+      "variants": [
+        {
+          "stationuuid": "ec25d199-3348-4385-9603-f6a43c3b4f08",
+          "name": "Radio Kiss Kiss Lounge",
+          "url": "https://kk.fluidstream.eu/kk_history_lounge.mp3?FLID=1?id=svK23kYW68&FLID=1",
+          "votes": 57,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5ddb136a-ec26-417c-b5ad-e9d6a71ce3b3",
+        "name": "Radio Rock Italia",
+        "url": "https://rrock.fluidstream.eu/radiorock_ita.mp3",
+        "votes": 62
+      },
+      "variants": [
+        {
+          "stationuuid": "6d44be99-d645-4055-85ca-1cc853b9dad9",
+          "name": "Radio 106.6",
+          "url": "https://rrock.fluidstream.eu/radiorock_ita.mp3",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4fc2c044-642c-11ea-be63-52543be04c81",
+        "name": "Radio Luna",
+        "url": "http://nr8.newradio.it:9095/;",
+        "votes": 61
+      },
+      "variants": [
+        {
+          "stationuuid": "39594bcf-89c2-45a2-be6f-e3777805275c",
+          "name": "Radio Luna Latina",
+          "url": "http://nr8.newradio.it:9095/;",
+          "votes": 24,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "08ac365c-4524-49ab-ad31-834831a5c025",
+        "name": "Easy Network Classic",
+        "url": "https://sphera.fluidstream.eu/easy_classica.mp3",
+        "votes": 60
+      },
+      "variants": [
+        {
+          "stationuuid": "67dd4eee-6e1a-45a5-8bd1-907109ab2b07",
+          "name": "Radio Easy Network Classic",
+          "url": "https://sphera.fluidstream.eu/easy_classica.mp3",
+          "votes": 37,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962dec21-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Diffusione Firenze",
+        "url": "http://onair22.streaming.xdevel.com:8244/;stream.mp3",
+        "votes": 60
+      },
+      "variants": [
+        {
+          "stationuuid": "ac674d49-35da-4cba-8109-d239a9ff2e6b",
+          "name": "RDF",
+          "url": "http://onair22.streaming.xdevel.com:8244/;stream.mp3",
+          "votes": 25,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4e3ff0db-6076-4ede-8f4a-50e11ba4693f",
+        "name": "Radio Mediterranea",
+        "url": "https://stream.radiomediterranea.com:8160/lounge.mp3",
+        "votes": 56
+      },
+      "variants": [
+        {
+          "stationuuid": "c5ad362a-f8e1-4b9f-850b-2ff37c2dccc2",
+          "name": "Radio Mediterranea",
+          "url": "https://stream.radiomediterranea.com:8160/lounge.mp3",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4a22109c-4ec4-4a93-93e7-d334da23484d",
+        "name": "Deejay One Two One Two",
+        "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/webradio/deejayonetwoonetwo/playlist.m3u8",
+        "votes": 55
+      },
+      "variants": [
+        {
+          "stationuuid": "131464a7-b805-4386-8a69-4e8fab611fa8",
+          "name": "Deejay One Two One Two",
+          "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/webradio/deejayonetwoonetwo/playlist.m3u8",
+          "votes": 46,
+          "differs": []
+        },
+        {
+          "stationuuid": "f96974db-70dd-455f-8e65-d8102b6feb6c",
+          "name": "GEDI - Deejay One Two One Two",
+          "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/webradio/deejayonetwoonetwo/playlist.m3u8",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "238369ef-bffa-4e5e-941b-630923423b35",
+        "name": "RSC Radio Studio Centrale",
+        "url": "https://stream.studiocentrale.it/radio/8020/radio.mp3?_=1",
+        "votes": 51
+      },
+      "variants": [
+        {
+          "stationuuid": "cbd66418-1f47-41bc-b6c2-9170062eaca2",
+          "name": "RSC Radio Senise Centrale",
+          "url": "https://stream.studiocentrale.it/radio/8020/radio.mp3?_=1",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "4997b089-8610-4c45-a4f0-e2518e2b42db",
+          "name": "RSC Radio Senise",
+          "url": "https://stream.studiocentrale.it/radio/8020/radio.mp3?_=1",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "963a6dfe-0601-11e8-ae97-52543be04c81",
+        "name": "Media Hotel Radio",
+        "url": "http://nr11.newradio.it:9306/stream",
+        "votes": 47
+      },
+      "variants": [
+        {
+          "stationuuid": "7cd180f2-1a6f-426d-a3b4-75d8d24d34db",
+          "name": "Talent Garden Radio",
+          "url": "http://nr11.newradio.it:9306/stream",
+          "votes": 37,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96284c09-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Dimensione Musica",
+        "url": "http://shoutcast.streamingmedia.it:7167/stream",
+        "votes": 46
+      },
+      "variants": [
+        {
+          "stationuuid": "f9be045e-8f9a-45c4-ac7c-7c2d3cfbc62b",
+          "name": "RDM Radio Dimensione Musica",
+          "url": "http://shoutcast.streamingmedia.it:7167/stream",
+          "votes": 24,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9624fa89-0601-11e8-ae97-52543be04c81",
+        "name": "Veronica My Radio",
+        "url": "http://sphera.fluidstream.eu/rpd.mp3?FLID=8",
+        "votes": 43
+      },
+      "variants": [
+        {
+          "stationuuid": "684caa47-9a3b-11e9-a787-52543be04c81",
+          "name": "Radio Iride",
+          "url": "http://sphera.fluidstream.eu/rpd.mp3?FLID=6",
+          "votes": 18,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96109626-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Tua",
+        "url": "http://5.135.39.189:8006/stream",
+        "votes": 39
+      },
+      "variants": [
+        {
+          "stationuuid": "72780cbe-5c0b-4a16-9472-3d72c7e158f3",
+          "name": "RADIO TUA",
+          "url": "http://5.135.39.189:8006/stream",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d6a8e39c-1cb2-4d14-85bd-638006ab6c0c",
+        "name": "dee Jay full time radio",
+        "url": "https://djft.radioca.st/",
+        "votes": 37
+      },
+      "variants": [
+        {
+          "stationuuid": "3567f643-aeb2-4dc1-90c2-eb60b7fa8750",
+          "name": "Riccardo Cioni ",
+          "url": "https://djft.radioca.st/",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f48903f2-de82-446a-81df-4e9c3d2660a5",
+        "name": "DJ FullTime",
+        "url": "http://djft.radioca.st:8152/stream",
+        "votes": 36
+      },
+      "variants": [
+        {
+          "stationuuid": "301036af-2efb-40b6-8135-e67f75ef6b3a",
+          "name": "Dee Jay Full Time Radio",
+          "url": "http://djft.radioca.st:8152/stream",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "d78b9485-7adb-4f69-bf22-a3c43920d658",
+          "name": "Riccardo Cioni Dee Jay Full Time Radio",
+          "url": "http://djft.radioca.st:8152/stream",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "eddaaf11-bfbc-4c27-872c-bf72de11efa6",
+        "name": "_Antenna Web Assisi",
+        "url": "https://italiavera.radioca.st/stream?type=http&nocache=296",
+        "votes": 34
+      },
+      "variants": [
+        {
+          "stationuuid": "55c65dac-c78d-4570-902c-fcf79ec654c9",
+          "name": "Radio Antenna Petrignano",
+          "url": "https://italiavera.radioca.st/stream",
+          "votes": 22,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b1628f4d-89e6-44d0-b270-638e4cbdba4f",
+        "name": "Deejay Tropical Pizza",
+        "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/webradio/deejaytropicalpizza/playlist.m3u8",
+        "votes": 32
+      },
+      "variants": [
+        {
+          "stationuuid": "e1b288f6-02cf-4743-b280-652c1e763b0f",
+          "name": "GEDI - Deejay Tropical Pizza",
+          "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/webradio/deejaytropicalpizza/playlist.m3u8",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9630cc8c-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Center Music",
+        "url": "http://ice17.fluidstream.net/conselve.mp3?FLID=6",
+        "votes": 32
+      },
+      "variants": [
+        {
+          "stationuuid": "963385df-0601-11e8-ae97-52543be04c81",
+          "name": "Radio LineAttiva",
+          "url": "http://ice17.fluidstream.net/conselve.mp3?FLID=H",
+          "votes": 11,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "38b6f8c8-2560-48b7-b53b-8e3d92bfcd36",
+        "name": "Radio emotions",
+        "url": "https://sr13.inmystream.it/proxy/radioemotions",
+        "votes": 30
+      },
+      "variants": [
+        {
+          "stationuuid": "38927e11-835d-4f70-ada4-c7fd6fdce62c",
+          "name": "Radio Emotions",
+          "url": "https://sr13.inmystream.it/proxy/radioemotions",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "eecb9c1d-a951-41ff-9434-88cf07aa58f9",
+          "name": "RADIO EMOTIONS",
+          "url": "https://sr13.inmystream.it/proxy/radioemotions?mp=/stream",
+          "votes": 18,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dc052190-99d1-45ac-bd04-da4f94297d17",
+        "name": "Mondello Radio (MRG.fm)",
+        "url": "http://listen.mrg.fm:8000/stream",
+        "votes": 29
+      },
+      "variants": [
+        {
+          "stationuuid": "f2dd391b-b5d5-447e-bd46-b1439a017e1d",
+          "name": "Mondello Radio (MRG.fm)",
+          "url": "http://listen.mrg.fm:8000/stream",
+          "votes": 12,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "39dff6b5-b58b-4e2e-a700-500a0f716cb6",
+        "name": "Radio Città Fujiko",
+        "url": "https://streaming.radiocittafujiko.it:8000/rcf.ogg",
+        "votes": 28
+      },
+      "variants": [
+        {
+          "stationuuid": "59fd1fbb-b49c-488a-97a9-dd792cc785be",
+          "name": "Radio Città Fujiko",
+          "url": "https://streaming.radiocittafujiko.it:8000/rcf.ogg",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c7f2c02b-a024-4b21-b307-a2fcc4ed3fbb",
+        "name": "Radio Bruno",
+        "url": "https://router.xdevel.com/audio4s975355-254/stream/icecast.audio",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "e30bcccf-7d17-4942-8b5f-fb73dc1f97cd",
+          "name": "Radio Bruno",
+          "url": "https://router.xdevel.com/audio4s975355-254/stream/icecast.audio",
+          "votes": 24,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b5da9668-cadf-4942-ad04-5644c3de084c",
+        "name": "Giornale Radio",
+        "url": "http://gr.fluidstream.eu/gr1.mp3",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "4ddc9150-6b2d-4000-b1e1-dc34dd44817b",
+          "name": "Giornale Radio",
+          "url": "http://gr.fluidstream.eu/gr1.mp3",
+          "votes": 16,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "99697308-29c5-4929-9054-2b9ed0726827",
+        "name": "Love FM",
+        "url": "https://rh.fluidstream.eu/lovefm.mp3?FLID=1",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "33044aea-5b34-42d5-ae35-9a9f43de2eb6",
+          "name": "Lovefm",
+          "url": "https://rh.fluidstream.eu/lovefm.mp3?FLID=1",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5c84a3be-cb85-4e44-af05-fdbf20fc0df9",
+        "name": "Radio Villa Immacolata",
+        "url": "https://radiocast.cloud/listen/relays_villaimmacolata/radio.mp3",
+        "votes": 26
+      },
+      "variants": [
+        {
+          "stationuuid": "d58b13f5-f8e5-4bf3-b334-aab3dfad8930",
+          "name": "Radi Villa Immacolata",
+          "url": "https://radiocast.cloud/listen/relays_villaimmacolata/radio.mp3",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "595e3085-33b2-11ea-afca-52543be04c81",
+        "name": "RVS Radio Villa Sound",
+        "url": "https://eu4.fastcast4u.com/proxy/lmarengo?mp=/;",
+        "votes": 24
+      },
+      "variants": [
+        {
+          "stationuuid": "6914afe5-96e9-4903-abaa-6de23d64e782",
+          "name": "RADIOVILLASOUND",
+          "url": "https://eu4.fastcast4u.com/proxy/lmarengo?mp=/1&1700924574342",
+          "votes": 4,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9627edf6-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Incontro Donna",
+        "url": "http://nr7.newradio.it:9375/stream",
+        "votes": 23
+      },
+      "variants": [
+        {
+          "stationuuid": "4a1cb6f7-30e6-44d1-b3e0-0824d151f0aa",
+          "name": "RID 96.8",
+          "url": "http://nr7.newradio.it:9375/stream",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c9f9d351-55ff-4d66-8349-c0c70fa07472",
+        "name": "Easy Network Classic",
+        "url": "http://sphera.fluidstream.eu/easy_classica.mp3",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "6e9fcab8-6752-4f63-a9fd-2a393346354d",
+          "name": "Easy Network Classic",
+          "url": "http://sphera.fluidstream.eu/easy_classica.mp3",
+          "votes": 16,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "85014495-cf49-4f63-a15e-071a9508c286",
+        "name": "Radio Linetti (Deejay Linus WFM)",
+        "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/webradio/deejaywfmlinus/playlist.m3u8",
+        "votes": 21
+      },
+      "variants": [
+        {
+          "stationuuid": "73e2dca3-2131-497e-8081-c01cac781b67",
+          "name": "GEDI - Deejay Linetti",
+          "url": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/webradio/deejaywfmlinus/playlist.m3u8",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "07645528-ff52-493b-8b8f-dac446e3787a",
+        "name": "ACI",
+        "url": "https://nr7.newradio.it:19353/stream",
+        "votes": 20
+      },
+      "variants": [
+        {
+          "stationuuid": "33cbb799-d252-4cef-8f30-004d72576a06",
+          "name": "RADIOACI",
+          "url": "https://nr7.newradio.it:19353/stream",
+          "votes": 13,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "a332c7f3-6ab9-4057-a34b-1e288c04a94f",
+          "name": "Luceverde Radio",
+          "url": "https://nr7.newradio.it:19353/stream",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "28c4baf2-3364-4de5-8149-d8c5bbbc4cfc",
+        "name": "Radio Idea Potenza",
+        "url": "https://audio.streamshow.it/proxy/radiocarinanapoli?mp=/stream",
+        "votes": 19
+      },
+      "variants": [
+        {
+          "stationuuid": "1237e314-26bf-460d-b782-0b9ae7cda8d2",
+          "name": "Radio Idea Potenza",
+          "url": "https://audio.streamshow.it/proxy/radiocarinanapoli?mp=/stream",
+          "votes": 15,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aaf78cc6-4ffd-47c6-8ea6-c5294d7322e2",
+        "name": "Südtirol 1",
+        "url": "https://funkhaus-st.streamabc.net/106-suedtirol1-mp3-192-7572619",
+        "votes": 19
+      },
+      "variants": [
+        {
+          "stationuuid": "953e346c-5eca-4ae0-9877-d0d30be9863c",
+          "name": "Südtirol 1",
+          "url": "https://funkhaus-st.streamabc.net/106-suedtirol1-mp3-192-7572619",
+          "votes": 7,
+          "differs": []
+        },
+        {
+          "stationuuid": "ca6817c4-2885-4837-979d-db7b4b4fa13c",
+          "name": "Südtirol 1",
+          "url": "https://funkhaus-st.streamabc.net/106-suedtirol1-mp3-192-7572619",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96337cd1-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Nuova",
+        "url": "http://ice09.fluidstream.net/fluid0903.mp3?FLID=E",
+        "votes": 19
+      },
+      "variants": [
+        {
+          "stationuuid": "984a7c06-2363-41e2-995a-2c84595858df",
+          "name": "Radio Nuova Macerata",
+          "url": "http://ice09.fluidstream.net/fluid0903.mp3?FLID=1&type=.mp3",
+          "votes": 2,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96323660-0601-11e8-ae97-52543be04c81",
+        "name": "Radio 6.75",
+        "url": "http://nr5.newradio.it:8819/stream",
+        "votes": 18
+      },
+      "variants": [
+        {
+          "stationuuid": "5360fcd3-f65a-48f4-a9c1-ee21cc63123a",
+          "name": "Radio 675 Hits",
+          "url": "http://nr5.newradio.it:8819/stream",
+          "votes": 11,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "18711d23-9eb1-4793-a042-081ec12a18c6",
+        "name": "radio polignano web",
+        "url": "https://sp3.server89.com:7018/",
+        "votes": 18
+      },
+      "variants": [
+        {
+          "stationuuid": "7438609c-59b9-44b3-9926-158b876e85a9",
+          "name": "radio polignano web",
+          "url": "https://sp3.server89.com:7018/",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6c1ed21c-bb69-4d0d-8640-802da635c003",
+        "name": "Bru Zane Classical Radio",
+        "url": "https://uk2.streamingpulse.com/ssl/bzr?v=20200621",
+        "votes": 16
+      },
+      "variants": [
+        {
+          "stationuuid": "2b15a770-4ed8-42c4-8102-0c62b344f992",
+          "name": "https://uk2.streamingpulse.com/ssl/bzr",
+          "url": "https://uk2.streamingpulse.com/ssl/bzr",
+          "votes": 1,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ae4a6839-328e-4719-ae25-0fd0b547a20c",
+        "name": "Radio 2000",
+        "url": "https://stream.radio2000.it/",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "b2ea7f74-e841-4c4b-9f94-3f9c823b4621",
+          "name": "Radio 2000",
+          "url": "https://stream.radio2000.it/",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "866b10ac-f99c-4f70-8336-f609ae3feba2",
+        "name": "RADIO ALTRI SUONI",
+        "url": "https://onair7.xdevel.com/proxy/xautocloud_xsgp_1092?mp=/;stream/;",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "9cf148e1-7f07-45de-a80a-4009e45ea6d5",
+          "name": "radio/altriSuoni",
+          "url": "https://onair7.xdevel.com/proxy/xautocloud_xsgp_1092?mp=/stream",
+          "votes": 7,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ae5ab591-f05b-4724-98c1-1a383e75d5da",
+        "name": "m2o originals radio",
+        "url": "https://stream.laut.fm/m2o-originals-radio",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "85a40513-3456-4232-986d-1ed37146137d",
+          "name": "m2o originals radio",
+          "url": "https://stream.laut.fm/m2o-originals-radio",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1fe3e755-51ea-413c-98cf-0c68acb579dc",
+        "name": "Radio Station One",
+        "url": "https://sr10.inmystream.it/proxy/bwrso?mp=/stream",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "1eb62d5d-da5e-4c18-b989-33874e52514c",
+          "name": "RADIO STATION ONE",
+          "url": "https://sr10.inmystream.it/proxy/bwrso?mp=/stream",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3470e0d8-fc92-4e28-947e-50bbb8470ea2",
+        "name": "Radio Voce Spazio",
+        "url": "http://nr1.newradio.it:9078/stream",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "522d83dd-9de6-484f-97b5-d8498c80c453",
+          "name": "Rete 1",
+          "url": "http://nr1.newradio.it:9078/stream",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b06955b3-2465-45be-854c-c8d0af2207d3",
+        "name": "Radio Studio Delta - la piu",
+        "url": "https://rsd.streamingmedia.it/play.mp3",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "fd2d63e1-da59-47f4-9fb9-b4c2aea1ac8a",
+          "name": "RSD Radio Studio Delta",
+          "url": "https://rsd.streamingmedia.it/play.mp3",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "01290083-4abe-4ae5-9bd4-c5b07b4bd60c",
+          "name": "Studio Delta",
+          "url": "https://rsd.streamingmedia.it/play.mp3",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f346d90c-9388-418f-832d-7db72990bd0e",
+        "name": "Radio Serra ",
+        "url": "http://nr9.newradio.it:9432/stream/",
+        "votes": 12
+      },
+      "variants": [
+        {
+          "stationuuid": "459cd5bd-ba95-457a-ad62-c09c78ffa953",
+          "name": "Radio Serra",
+          "url": "http://nr9.newradio.it:9432/stream",
+          "votes": 3,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b44619c3-9fdc-424e-8177-ef77b79184b8",
+        "name": "Radio Alfa Lombardia HD ",
+        "url": "http://live.radioalfalombardia.it:9871/",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "83779bc4-f173-4aaf-bd90-b8e2eb32129b",
+          "name": "Radio Alfa Lombardia HD ",
+          "url": "http://live.radioalfalombardia.it:9871/",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3a7c409a-ca9e-4bfd-87b5-96cd0bbb8e65",
+        "name": "Radio Sole Vittoria",
+        "url": "https://radiosole-fellini.radioca.st/",
+        "votes": 10
+      },
+      "variants": [
+        {
+          "stationuuid": "c61c669b-1f01-4f27-b56d-10195fcb687a",
+          "name": "sole",
+          "url": "https://radiosole-fellini.radioca.st/",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c6f55b5d-ff81-49d8-ad26-f2b57c74cf20",
+          "name": "sole",
+          "url": "https://radiosole-fellini.radioca.st/",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "183f6fe0-a75b-4c46-808a-b3453b7d1cef",
+        "name": "SoloAnni80",
+        "url": "https://stream.laut.fm/soloanni80",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "f7e9fc43-a2cc-4c1f-8490-db8019a511d6",
+          "name": "SoloAnni80",
+          "url": "https://stream.laut.fm/soloanni80",
+          "votes": 8,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2dbb1c08-fb63-4ec4-80de-54c4b9a5dd13",
+        "name": "Radio Lombardia",
+        "url": "https://stream6.xdevel.com/audio0s976574-1328/stream/icecast.audio",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "dc5bf93a-5f30-4a5e-93be-1470056c9137",
+          "name": "Radio Lombardia",
+          "url": "https://stream6.xdevel.com/audio0s976574-1328/stream/icecast.audio",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "59bb481b-2075-45f8-a083-2cbfe004bbf6",
+        "name": "radioSimplythebest ",
+        "url": "https://stream-152.zeno.fm/0wkhthgnnyjuv?zs=Qkl9uMo5S7ijRGi-RwjgLw",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "9abcb6ab-a381-4904-9052-bf1d0c3f6c8d",
+          "name": "radioSimplythebest ",
+          "url": "https://stream-152.zeno.fm/0wkhthgnnyjuv?zs=Qkl9uMo5S7ijRGi-RwjgLw",
+          "votes": 5,
+          "differs": []
+        },
+        {
+          "stationuuid": "79e23398-6d37-451b-b41e-d8c1604cf8d3",
+          "name": "radioSimplythebest ",
+          "url": "https://stream-152.zeno.fm/0wkhthgnnyjuv?zs=Qkl9uMo5S7ijRGi-RwjgLw",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e30f6d26-7bff-474c-8ec4-f09fc9bd4172",
+        "name": "Radio Dora",
+        "url": "http://195.201.29.94:9000/;",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "1e4c8f41-cca9-4de2-b4fc-30e9bbf53375",
+          "name": "Radio Dora",
+          "url": "http://195.201.29.94:9000/;",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5314153e-43f0-4179-96f6-4e7dbd87a7fa",
+        "name": "Radio Punto Zero",
+        "url": "https://ice01.fluidstream.net/rpz.aac",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "97f0f49a-3360-4d1d-9093-b1d7ea795f3d",
+          "name": "Radio Punto Zero Tre Venezie",
+          "url": "https://ice01.fluidstream.net/rpz.aac",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e4eb7e60-ed08-41f1-85b5-414498f2f5ad",
+        "name": "Radio Frejus",
+        "url": "http://195.201.31.54:8000/;",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "d4c74c04-1394-4a34-8418-9da2ef00ff6b",
+          "name": "Radio Frejus",
+          "url": "http://195.201.31.54:8000/;",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "450bbb65-be55-427b-a252-6adc69d940b7",
+        "name": "Monkey's Radio",
+        "url": "https://nr12.newradio.it:8718/stream",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "005d91fa-a923-46f9-92aa-d03089e7530f",
+          "name": "Monkey's Radio",
+          "url": "https://nr12.newradio.it:8718/stream",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "76ea3d5f-16d9-40d5-be36-8329f2a740fc",
+        "name": "Radio Bussola 24 (RadioBussola, RadioBussola24)",
+        "url": "https://radiobussola24.radioca.st/stream",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "d8292082-3444-4fef-a8b3-e3a672bc2bd7",
+          "name": "Radio Bussola 24 (RadioBussola, RadioBussola24)",
+          "url": "https://radiobussola24.radioca.st/stream",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bada72b7-bef2-4215-82d6-5d09f2cca9dc",
+        "name": "Radio Salsa4te",
+        "url": "http://188.165.206.81:8100/stream",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "e08edbf5-ae40-4891-9b8d-c24d0a4f567c",
+          "name": "Radio Salsa4te",
+          "url": "http://188.165.206.81:8100/stream",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "eb72c5ea-c056-46cd-b086-2fccd680ca5d",
+        "name": "NO NOME Radio",
+        "url": "https://radiodueindie-live.akamaized.net/hls/live/2032593/radiodueindie/radiodueindie/playlist.m3u8?auth=daEbicJbwaQa5aZalc_d3boaydTd0cMbya1-bMl8rY-c0-IlwvtEp&aifp=V001",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "cb3bee30-9cfc-4ffb-acc3-454314be1374",
+          "name": "nonameradio",
+          "url": "https://radiodueindie-live.akamaized.net/hls/live/2032593/radiodueindie/radiodueindie/playlist.m3u8?auth=daEchcLcmcgctdAajcwaZd5dRb9akcFcQas-bPBmtI-c0-HlywtGt&aifp=V001",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9b97ead9-17a5-4c65-90f1-419fa9a02560",
+        "name": "Radio Meano",
+        "url": "https://meteomeano.stream.laut.fm/meteomeano?.mp3",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "3bb42bc8-1f57-45ac-910f-30a9b30fce76",
+          "name": "Radio Meano",
+          "url": "https://meteomeano.stream.laut.fm/meteomeano?pl=m3u&t302=2026-01-15_00-04-04&uuid=446ada20-ca32-4664-ae19-c54d52d743dc",
+          "votes": 3,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "83074c5a-3424-4e78-a159-660d8514e60e",
+        "name": "Wideline Radio",
+        "url": "https://sr9.inmystream.it:18106/stream",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "e735f334-2b64-4144-a9af-82bb531b1aee",
+          "name": "Wideline Radio",
+          "url": "https://sr9.inmystream.it:18106/stream",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b5dafabe-992c-4e0a-89f1-039e0b114b3e",
+        "name": "EDM RADIO Electronic Dance Music",
+        "url": "https://edm.streamingmedia.it/play",
+        "votes": 4
+      },
+      "variants": [
+        {
+          "stationuuid": "03025c3e-c875-4906-8b10-b4b212dc93ea",
+          "name": "EDM.radio",
+          "url": "https://edm.streamingmedia.it/play",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d3b632f1-b39f-458c-9ee8-79e645f0b0a9",
+        "name": "Free Radio Conselve",
+        "url": "https://ice17.fluidstream.net/conselve.mp3?FLID=M",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "0e9b718e-c78e-435d-9fe5-2afb95d8f927",
+          "name": "Free Radio Conselve",
+          "url": "https://ice17.fluidstream.net/conselve.mp3",
+          "votes": 2,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dc03f4ee-c792-4246-a8ea-7ec8a91e1901",
+        "name": "Studioradio The Vintage Station",
+        "url": "https://www.shoutcastitalia.com/proxy/studioradio?mp=/stream",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "29d56045-6abd-49d0-8e0a-37a475a4308f",
+          "name": "Studioradio",
+          "url": "https://www.shoutcastitalia.com/proxy/studioradio?mp=/stream",
+          "votes": 2,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9f19d3d1-b0d0-4d62-ad89-f074cbb90997",
+        "name": "16Radio",
+        "url": "https://16radio.stream.laut.fm/16radio?t302=2026-01-15_01-13-08&uuid=59936d50-c09e-4bd2-97e1-a6b4b2134d5f",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "33fb9b7d-81eb-453e-859e-6d88cdba6f41",
+          "name": "16Radio",
+          "url": "https://16radio.stream.laut.fm/16radio?t302=2026-01-15_05-26-03&uuid=ac3f47da-c8a9-4564-9220-d8bba0b920d2",
+          "votes": 1,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "64537e16-ce2e-4564-9b46-4a8940d4db10",
+        "name": "Nane'",
+        "url": "https://stream4.xdevel.com/audio0s976774-1547/stream/icecast.audio",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "8eeb0d19-b757-4168-be91-ccf2a2f09dda",
+          "name": "Nane'",
+          "url": "https://stream4.xdevel.com/audio0s976774-1547/stream/icecast.audio",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a6946822-05ec-4633-8c16-30ae7bede634",
+        "name": "Radio Stereo Sound Italia ",
+        "url": "http://s5.myradiostream.com:39494/",
+        "votes": 3
+      },
+      "variants": [
+        {
+          "stationuuid": "c5a32ef5-4ff5-4c54-9116-260f3e66f4c0",
+          "name": "Radio Stereo Sound Italia ",
+          "url": "http://s5.myradiostream.com:39494/",
+          "votes": 1,
+          "differs": []
+        },
+        {
+          "stationuuid": "b38e17c7-ebb3-4fa0-96e5-46055b4a8582",
+          "name": "Radio Stereo Sound Italia ",
+          "url": "http://s5.myradiostream.com:39494/",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "61c85e4f-0885-4891-860e-e179aa1516d8",
+        "name": "SweetRadio",
+        "url": "http://108.59.9.147:8584/stream",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "ae8a84fa-a7c9-4699-875f-47608f6d64d8",
+          "name": "SweetRadio",
+          "url": "http://108.59.9.147:8584/stream",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c2057821-b570-49a1-bdd4-d3ad878d1f31",
+        "name": "Radio Alfa Lombardia",
+        "url": "https://live.radioalfalombardia.it:9871/",
+        "votes": 0
+      },
+      "variants": [
+        {
+          "stationuuid": "7752d693-7357-4acd-95d7-45d2adde993b",
+          "name": "Radio Alfa Lombardia ",
+          "url": "https://live.radioalfalombardia.it:9871/",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}

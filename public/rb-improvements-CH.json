@@ -1,0 +1,2129 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.860Z",
+  "country": "CH",
+  "sourceProbedAt": "2026-04-28T19:43:17.511Z",
+  "totals": {
+    "deadStreams": 42,
+    "internalDupes": 76,
+    "metadataAPIs": 18,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "00c9219e-61be-4972-ba96-cfa083cc9ac2",
+      "name": "1.fm Otto's Classical music",
+      "url": "https://strm112.1.fm/classical_mobile_aac",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 1293,
+      "lastProbedAt": "2026-04-28T19:42:50.943Z"
+    },
+    {
+      "stationuuid": "e3e08ba3-4ee0-4062-8e82-a75f8d22f52e",
+      "name": "Radio Melody",
+      "url": "https://chmedia.streamabc.net/79-rm-mp3-192-7754268?sABC=64726ssr%230%23565o8622n9638n515p1pqq82pnq6q099%23zlghare&aw_0_1st.playerid=mytuner&amsparams=playerid:mytuner;skey:1685221374",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 501,
+      "lastProbedAt": "2026-04-28T19:42:50.177Z"
+    },
+    {
+      "stationuuid": "bb0ab7f4-e1f0-495e-bdba-e57b7a428988",
+      "name": "1.fm Back To The 50's ",
+      "url": "https://strm112.1.fm/60s_70s_mobile_mp3?",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 364,
+      "lastProbedAt": "2026-04-28T19:42:51.898Z"
+    },
+    {
+      "stationuuid": "aa5f5294-8a35-4844-9294-92e4659b13d7",
+      "name": "FLASHBACK FM",
+      "url": "https://flashback.streambase.ch/001",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 307,
+      "lastProbedAt": "2026-04-28T19:42:51.116Z"
+    },
+    {
+      "stationuuid": "6cb03e29-0706-445d-9a28-282e3c21dcd6",
+      "name": "Sunshine Radio (Switzerland)",
+      "url": "https://stream.streambase.ch/rsunshine/mp3-192/chmedia-radio-web/1699795900047_8633080",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 285,
+      "lastProbedAt": "2026-04-28T19:42:51.706Z"
+    },
+    {
+      "stationuuid": "c1d4b62b-cb16-43ca-ae3a-41c2eb31b6e7",
+      "name": "Virgin Radio Switzerland",
+      "url": "https://stream.streambase.ch/vrock/mp3-192/direct/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 271,
+      "lastProbedAt": "2026-04-28T19:42:51.834Z"
+    },
+    {
+      "stationuuid": "a0c231ae-3be7-4e6f-9409-142c899a8e0d",
+      "name": "1.FM - Sunshine",
+      "url": "https://strm112.1.fm/allmixedup_mobile_mp3?",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 244,
+      "lastProbedAt": "2026-04-28T19:42:52.518Z"
+    },
+    {
+      "stationuuid": "31d78630-003c-4f95-9f66-dcff315336c7",
+      "name": "VirginRadio",
+      "url": "https://stream.streambase.ch/vrock/mp3-192/direct/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 234,
+      "lastProbedAt": "2026-04-28T19:42:52.254Z"
+    },
+    {
+      "stationuuid": "7fa043b5-6a69-40ce-abaa-2274634484bc",
+      "name": "Radio Pilatus",
+      "url": "https://stream.streambase.ch/radiopilatus/mp3-192/chmedia/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 230,
+      "lastProbedAt": "2026-04-28T19:42:52.365Z"
+    },
+    {
+      "stationuuid": "3786ca1c-bcbd-4c90-8ce2-6e363756b320",
+      "name": "RADIO FM1",
+      "url": "https://chmedia.streamabc.net/79-fm1-mp3-192-7523806?sABC=6499oos8%230%230016or1p1r381r4485n244q3016qs660%23qverpg&aw_0_1st.playerid=direct&amsparams=playerid:direct;skey:1687796728",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 218,
+      "lastProbedAt": "2026-04-28T19:42:52.517Z"
+    },
+    {
+      "stationuuid": "3bb2d57f-f7a6-49e7-afb5-89daf251de9d",
+      "name": "RADIO ARGOVIA",
+      "url": "https://stream.streambase.ch/argovia/mp3-192/direct/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 205,
+      "lastProbedAt": "2026-04-28T19:42:52.520Z"
+    },
+    {
+      "stationuuid": "2607c50d-b70e-4eaa-ad0f-cfcaa36c6824",
+      "name": "1.fm Movie Soundtrack Hits",
+      "url": "https://strm112.1.fm/moviesoundtracks_mobile_mp3?",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 204,
+      "lastProbedAt": "2026-04-28T19:42:53.099Z"
+    },
+    {
+      "stationuuid": "be9fa6d2-aace-46ea-bdbf-68092402066f",
+      "name": "Radio24",
+      "url": "https://chmedia.streamabc.net/79-r24-mp3-192-6659699?sABC=696840ro%230%23srp58oqr2q0127pq92r8qr5o3p87s1no%23qverpg&aw_0_1st.playerid=direct&amsparams=playerid:direct;skey:1768440043",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 199,
+      "lastProbedAt": "2026-04-28T19:42:52.694Z"
+    },
+    {
+      "stationuuid": "931af451-e02f-493d-a693-a1ea9d870419",
+      "name": "Gnu Radio - Metal FM",
+      "url": "https://fluxfm.streamabc.net/flx-metalfm-mp3-320-9154971?sABC=61s83r32%230%2389nqs1p1q8rrq2q126260sp7877or6oo%23fgernzf.syhksz.qr&amsparams=playerid:streams.fluxfm.de;skey:1643658802",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 197,
+      "lastProbedAt": "2026-04-28T19:42:52.757Z"
+    },
+    {
+      "stationuuid": "243cef8b-f02d-4490-bb02-e094c8aa0393",
+      "name": "1.FM Absolute 90's Radio",
+      "url": "https://strm112.1.fm/90s_mobile_mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 168,
+      "lastProbedAt": "2026-04-28T19:42:53.712Z"
+    },
+    {
+      "stationuuid": "95142051-a845-4523-a11a-2521e9ba0971",
+      "name": "RADIO BERN1",
+      "url": "https://stream.streambase.ch/radiobern1/mp3-192/direct/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 168,
+      "lastProbedAt": "2026-04-28T19:42:53.778Z"
+    },
+    {
+      "stationuuid": "3a88b9a3-0e12-4b0c-a1c3-f6ed2301d789",
+      "name": "Radio 32 Goldies",
+      "url": "https://stream.streambase.ch/r32goldies/mp3-192/direct/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 115,
+      "lastProbedAt": "2026-04-28T19:42:54.520Z"
+    },
+    {
+      "stationuuid": "a92a107d-3326-4d46-b7c1-d127b630bdfe",
+      "name": "FLASHBACK FM",
+      "url": "https://flashback.streambase.ch/001",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 114,
+      "lastProbedAt": "2026-04-28T19:42:54.642Z"
+    },
+    {
+      "stationuuid": "4e4c0093-5980-47eb-8816-ef53f3870482",
+      "name": "1.fm top rap",
+      "url": "https://strm112.1.fm/jamz_mobile_mp3?aw_0_req.gdpr=true&listenerid=bc625eb7aaf609dd3942dc610e46ed40&awparams=companionAds%3Atrue",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 100,
+      "lastProbedAt": "2026-04-28T19:42:55.318Z"
+    },
+    {
+      "stationuuid": "5a21309d-1b3e-4167-9481-3ea9e4132f5a",
+      "name": "Brazilian Birds Radio",
+      "url": "https://strm112.1.fm/brazilianbirds_mobile_mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 91,
+      "lastProbedAt": "2026-04-28T19:42:55.897Z"
+    },
+    {
+      "stationuuid": "980d4891-994c-46d9-9096-4ed0eb556aa8",
+      "name": "Radio 32",
+      "url": "https://stream.streambase.ch/radio32/mp3-192/chmedia-today-web",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 76,
+      "lastProbedAt": "2026-04-28T19:42:56.461Z"
+    },
+    {
+      "stationuuid": "4d548e92-325f-4f5a-ab85-6dcf7b63ba79",
+      "name": "Radio Eviva",
+      "url": "https://stream.streambase.ch/reviva/mp3-192/direct/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 64,
+      "lastProbedAt": "2026-04-28T19:42:56.815Z"
+    },
+    {
+      "stationuuid": "3a19f974-53ee-4805-8432-4a592be49cd1",
+      "name": "Radio 24",
+      "url": "https://stream.streambase.ch/radio24/mp3-192/direct/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 50,
+      "lastProbedAt": "2026-04-28T19:42:57.958Z"
+    },
+    {
+      "stationuuid": "1afd93f4-2061-48e2-ae13-df204c17c24c",
+      "name": "Radio Melody Schweiz",
+      "url": "https://stream.streambase.ch/rm/mp3-192/mytuner/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 48,
+      "lastProbedAt": "2026-04-28T19:42:58.284Z"
+    },
+    {
+      "stationuuid": "f78b5faa-d2a0-4c91-b891-e8889664d460",
+      "name": "Radio Argovia",
+      "url": "https://stream.streambase.ch/argovia/mp3-192/radiobrowser/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 42,
+      "lastProbedAt": "2026-04-28T19:42:58.829Z"
+    },
+    {
+      "stationuuid": "a80bd23d-9bd2-43f7-8e2c-205695451589",
+      "name": "Radio Central",
+      "url": "https://stream.streambase.ch/rcentral/mp3-192/direct/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 35,
+      "lastProbedAt": "2026-04-28T19:42:59.117Z"
+    },
+    {
+      "stationuuid": "05c2090b-e8f9-4f9b-ba5a-c7cead633178",
+      "name": "Gorilla.fm",
+      "url": "https://strm112.1.fm/gorillafm_mobile_mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 34,
+      "lastProbedAt": "2026-04-28T19:43:00.379Z"
+    },
+    {
+      "stationuuid": "cf128157-674e-46e1-a1b4-9251ee8d3ab7",
+      "name": "Radio Central",
+      "url": "https://stream.streambase.ch/rcentral/mp3-192/chmedia-radio-web/1723615196409_33800762",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 32,
+      "lastProbedAt": "2026-04-28T19:42:59.720Z"
+    },
+    {
+      "stationuuid": "2e2e802e-6036-47cc-96fb-b68df6783099",
+      "name": "Kanal K",
+      "url": "https://play.kanalk.ch/kanalk/mp3-192/webseite",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 28,
+      "lastProbedAt": "2026-04-28T19:43:00.641Z"
+    },
+    {
+      "stationuuid": "0c1afdef-1078-41fd-a585-c69b347ac045",
+      "name": "Radio Argovia",
+      "url": "https://stream.streambase.ch/argovia/mp3-192/direct/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 25,
+      "lastProbedAt": "2026-04-28T19:43:00.771Z"
+    },
+    {
+      "stationuuid": "8e361ac9-dc55-4778-8f68-3a7db2faa3f5",
+      "name": "Radio FM1",
+      "url": "https://chmedia.streamabc.net/79-fm1-mp3-192-7523806?sABC=6499o8o6%230%230016or1p1r381r4485n244q3016qs660%23qverpg&aw_0_1st.playerid=direct&amsparams=playerid:direct;skey:1687795894",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 21,
+      "lastProbedAt": "2026-04-28T19:43:02.300Z"
+    },
+    {
+      "stationuuid": "df4c9476-1d7c-4cc8-8a63-d47148152dcf",
+      "name": "Radio Pilatus",
+      "url": "https://stream.streambase.ch/radiopilatus/mp3-192/direct/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 21,
+      "lastProbedAt": "2026-04-28T19:43:02.356Z"
+    },
+    {
+      "stationuuid": "88b21d4f-529f-4adc-93f4-9d34622fc76c",
+      "name": "Kanal K",
+      "url": "https://play.kanalk.ch/kanalk/mp3-192/webstream",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 19,
+      "lastProbedAt": "2026-04-28T19:43:02.287Z"
+    },
+    {
+      "stationuuid": "8d5b0f19-986f-4671-9e37-73287a6bccba",
+      "name": "All time Urban Gospel",
+      "url": "https://strm112.1.fm/gospel_mobile_mp3",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 17,
+      "lastProbedAt": "2026-04-28T19:43:03.422Z"
+    },
+    {
+      "stationuuid": "c4b8c9ca-b0fc-489e-b8db-7bec2a693023",
+      "name": "kanalk",
+      "url": "https://play.kanalk.ch/kanalk/mp3-192/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 17,
+      "lastProbedAt": "2026-04-28T19:43:03.136Z"
+    },
+    {
+      "stationuuid": "3d18bca6-df71-4d40-bfd9-0d37635574c9",
+      "name": "Radio FM1",
+      "url": "https://chmedia.streamabc.net/79-fm1-mp3-192-7523806?sABC=6499oos8%230%230016or1p1r381r4485n244q3016qs660%23qverpg&aw_0_1st.playerid=direct&amsparams=playerid:direct;skey:1687796728",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 14,
+      "lastProbedAt": "2026-04-28T19:43:04.762Z"
+    },
+    {
+      "stationuuid": "c9b6d938-31fa-4276-ae8a-4313c4a9cf96",
+      "name": "RADIO FM1",
+      "url": "https://chmedia.streamabc.net/79-fm1-mp3-192-7523806?sABC=6499oos8%230%230016or1p1r381r4485n244q3016qs660%23qverpg&aw_0_1st.playerid=direct&amsparams=playerid:direct;skey:1687796728",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 9,
+      "lastProbedAt": "2026-04-28T19:43:05.633Z"
+    },
+    {
+      "stationuuid": "ca6ff887-138e-40b8-9866-577fb595cca1",
+      "name": "Klassik Radio (Switzerland)",
+      "url": "https://klassikr.streamabc.net/klr-krschweiz-mp3-192-8951205",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 8,
+      "lastProbedAt": "2026-04-28T19:43:05.727Z"
+    },
+    {
+      "stationuuid": "84394117-a44f-4d01-8db5-d74ef1c866d0",
+      "name": "Radio Gaia",
+      "url": "https://strm112.1.fm/radiogaia_128",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 7,
+      "lastProbedAt": "2026-04-28T19:43:06.221Z"
+    },
+    {
+      "stationuuid": "18ab38fe-ab15-448d-8a23-542a9daea2c4",
+      "name": "Kanal K",
+      "url": "https://play.kanalk.ch/kanalk/mp3-192/webseite",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 6,
+      "lastProbedAt": "2026-04-28T19:43:06.344Z"
+    },
+    {
+      "stationuuid": "23e128cb-60e6-47d3-97e9-71522969bd74",
+      "name": "RADIO FM1",
+      "url": "https://chmedia.streamabc.net/79-fm1-mp3-192-7523806?sABC=6499oos8%230%230016or1p1r381r4485n244q3016qs660%23qverpg&aw_0_1st.playerid=direct&amsparams=playerid:direct;skey:1687796728",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 5,
+      "lastProbedAt": "2026-04-28T19:43:07.359Z"
+    },
+    {
+      "stationuuid": "9d77a3ba-e9fe-4e87-b958-79927bec5f41",
+      "name": "Radio Central",
+      "url": "https://stream.streambase.ch/rcentral/mp3-192/chmedia-radio-web/",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 4,
+      "lastProbedAt": "2026-04-28T19:43:07.864Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "961ac56b-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Swiss Jazz",
+        "url": "http://stream.srg-ssr.ch/m/rsj/mp3_128",
+        "votes": 25905
+      },
+      "variants": [
+        {
+          "stationuuid": "d97faf80-324a-4a00-8e39-da5b473ab987",
+          "name": "Radio Swiss Jazz",
+          "url": "http://stream.srg-ssr.ch/m/rsj/mp3_128",
+          "votes": 66,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962a6637-0601-11e8-ae97-52543be04c81",
+        "name": "1.FM - Classic Rock Replay Radio",
+        "url": "http://strm112.1.fm/crock_mobile_mp3",
+        "votes": 16644
+      },
+      "variants": [
+        {
+          "stationuuid": "86b20e25-6719-4017-9592-e7f92de95dea",
+          "name": "1.FM - Classic Rock Replay Radio",
+          "url": "http://strm112.1.fm/crock_mobile_mp3",
+          "votes": 734,
+          "differs": []
+        },
+        {
+          "stationuuid": "f13203d2-1639-413b-9fe9-7017a541fe78",
+          "name": "1.FM - Classic Rock Replay Radio",
+          "url": "http://strm112.1.fm/crock_mobile_mp3",
+          "votes": 92,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962a63f2-0601-11e8-ae97-52543be04c81",
+        "name": "1.FM - Absolute Country Hits Radio",
+        "url": "http://strm112.1.fm/acountry_mobile_mp3",
+        "votes": 16059
+      },
+      "variants": [
+        {
+          "stationuuid": "08e16ae2-b6c0-443f-846d-2489d02a2378",
+          "name": "1.FM Hot Country Hits Radio",
+          "url": "http://strm112.1.fm/acountry_mobile_mp3",
+          "votes": 70,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "961fb4b2-0601-11e8-ae97-52543be04c81",
+        "name": "1.FM - Chillout Lounge Radio",
+        "url": "http://strm112.1.fm/chilloutlounge_mobile_mp3",
+        "votes": 11164
+      },
+      "variants": [
+        {
+          "stationuuid": "eba56c69-80c1-4f2b-8371-fd7f306f4e2c",
+          "name": "1.FM - Chillout Lounge Radio",
+          "url": "http://strm112.1.fm/chilloutlounge_mobile_mp3",
+          "votes": 622,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96077079-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Swiss Classic German",
+        "url": "http://stream.srg-ssr.ch/m/rsc_de/mp3_128",
+        "votes": 8952
+      },
+      "variants": [
+        {
+          "stationuuid": "34edbcea-ce81-4e39-81ab-71e74745d544",
+          "name": "Radio Swiss Classic",
+          "url": "http://stream.srg-ssr.ch/m/rsc_de/mp3_128",
+          "votes": 56,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962a68ef-0601-11e8-ae97-52543be04c81",
+        "name": "1.FM - Absolute TOP 40 Radio",
+        "url": "http://strm112.1.fm/top40_mobile_mp3",
+        "votes": 4258
+      },
+      "variants": [
+        {
+          "stationuuid": "e0764a19-baa6-4ed0-a25a-adc15f8f9891",
+          "name": "1.FM Top 40 Hits",
+          "url": "http://strm112.1.fm/top40_mobile_mp3",
+          "votes": 54,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9608efd5-0601-11e8-ae97-52543be04c81",
+        "name": "RTS La Première",
+        "url": "http://stream.srg-ssr.ch/m/la-1ere/mp3_128",
+        "votes": 4181
+      },
+      "variants": [
+        {
+          "stationuuid": "9c9127ad-b013-4567-aa02-e2938917adab",
+          "name": "RTS Première",
+          "url": "http://stream.srg-ssr.ch/m/la-1ere/mp3_128",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960f2d97-0601-11e8-ae97-52543be04c81",
+        "name": "1.FM - ReggaeTrade Radio",
+        "url": "http://strm112.1.fm/reggae_mobile_mp3",
+        "votes": 3464
+      },
+      "variants": [
+        {
+          "stationuuid": "252fa0a6-e28b-4317-ad5f-e0d4cbbc5b05",
+          "name": "1.FM Reggae",
+          "url": "http://strm112.1.fm/reggae_mobile_mp3",
+          "votes": 148,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962a69c7-0601-11e8-ae97-52543be04c81",
+        "name": "1.FM - A List 80s",
+        "url": "http://strm112.1.fm/back280s_mobile_mp3",
+        "votes": 2990
+      },
+      "variants": [
+        {
+          "stationuuid": "fe461109-a80c-4760-8fa4-24f3bc70d1f6",
+          "name": "1.FM - A List 80s",
+          "url": "http://strm112.1.fm/back280s_mobile_mp3",
+          "votes": 120,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cf430e7d-6fce-4931-8a53-5115acde3eb5",
+        "name": "Radio Swiss Pop",
+        "url": "http://stream.srg-ssr.ch/srgssr/rsp/aac/96",
+        "votes": 2644
+      },
+      "variants": [
+        {
+          "stationuuid": "b74c8d24-1639-11e9-a80b-52543be04c81",
+          "name": "Swiss Pop",
+          "url": "http://stream.srg-ssr.ch/srgssr/rsp/aac/96",
+          "votes": 406,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9607cdda-0601-11e8-ae97-52543be04c81",
+        "name": "RTS Couleur 3",
+        "url": "http://stream.srg-ssr.ch/m/couleur3/mp3_128",
+        "votes": 2218
+      },
+      "variants": [
+        {
+          "stationuuid": "05d34912-6456-4abf-a9ec-c3c10ad4c408",
+          "name": "RTS Couleur 3",
+          "url": "http://stream.srg-ssr.ch/m/couleur3/mp3_128",
+          "votes": 351,
+          "differs": []
+        },
+        {
+          "stationuuid": "c7b1c000-075f-48d8-868d-3e4503ed06d7",
+          "name": "RTS Couleur 3",
+          "url": "http://stream.srg-ssr.ch/m/couleur3/mp3_128",
+          "votes": 232,
+          "differs": []
+        },
+        {
+          "stationuuid": "bb82c0b5-2857-49b0-9134-6c55e393bac6",
+          "name": "RTS Couleur 3",
+          "url": "http://stream.srg-ssr.ch/m/couleur3/mp3_128",
+          "votes": 50,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9aa33d22-a6ef-11e9-a787-52543be04c81",
+        "name": "Radio Swiss Classic",
+        "url": "http://stream.srg-ssr.ch/srgssr/rsc_de/aac/96",
+        "votes": 2187
+      },
+      "variants": [
+        {
+          "stationuuid": "3603fb30-d023-4276-81d9-a12da5f16485",
+          "name": "Radio Swiss Classic",
+          "url": "http://stream.srg-ssr.ch/srgssr/rsc_de/aac/96",
+          "votes": 283,
+          "differs": []
+        },
+        {
+          "stationuuid": "ab08b88f-397e-4fd0-810e-9578418a1ace",
+          "name": "Radio Swiss Classic",
+          "url": "http://stream.srg-ssr.ch/srgssr/rsc_de/aac/96",
+          "votes": 152,
+          "differs": [
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962a6335-0601-11e8-ae97-52543be04c81",
+        "name": "1.FM - Adore Jazz Radio",
+        "url": "http://strm112.1.fm/ajazz_mobile_mp3",
+        "votes": 2036
+      },
+      "variants": [
+        {
+          "stationuuid": "0c74d4f4-e606-422b-9d52-31d8fabea0b7",
+          "name": "1.FM - Adore Jazz Radio",
+          "url": "http://strm112.1.fm/ajazz_mobile_mp3",
+          "votes": 518,
+          "differs": []
+        },
+        {
+          "stationuuid": "7c354521-321e-405c-abea-71f5c190c4bc",
+          "name": "Adore Jazz",
+          "url": "http://strm112.1.fm/ajazz_mobile_mp3",
+          "votes": 86,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "35e8de69-3013-44f1-aafa-4dedf08f948e",
+        "name": "Kontrafunk",
+        "url": "https://s5.radio.co/sca4082ebb/listen",
+        "votes": 2000
+      },
+      "variants": [
+        {
+          "stationuuid": "849d6d59-3c27-40f1-a3c8-9b047bc0e9eb",
+          "name": "Kontrafunk",
+          "url": "https://s5.radio.co/sca4082ebb/listen",
+          "votes": 54,
+          "differs": []
+        },
+        {
+          "stationuuid": "399c496f-0866-4007-9bbf-2b6e3a388e9f",
+          "name": "Kontrafunk",
+          "url": "https://s5.radio.co/sca4082ebb/listen",
+          "votes": 30,
+          "differs": []
+        },
+        {
+          "stationuuid": "22511118-c851-4e29-994a-23c7099bdfee",
+          "name": "Kontrafunk",
+          "url": "https://s5.radio.co/sca4082ebb/listen",
+          "votes": 23,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96466f91-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Swiss Jazz",
+        "url": "http://stream.srg-ssr.ch/m/rsj/aacp_96",
+        "votes": 1914
+      },
+      "variants": [
+        {
+          "stationuuid": "e4eb6895-e06a-4f7f-aa0d-68a8d5ae0181",
+          "name": "Radio Swiss Jazz",
+          "url": "http://stream.srg-ssr.ch/m/rsj/aacp_96",
+          "votes": 500,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962a7a8d-0601-11e8-ae97-52543be04c81",
+        "name": "1.FM - Otto's Opera House Music Radio",
+        "url": "http://strm112.1.fm/opera_mobile_mp3",
+        "votes": 1777
+      },
+      "variants": [
+        {
+          "stationuuid": "61cbd7d9-96f5-4200-9d3e-d1890ef84ead",
+          "name": "1.FM - Otto's Opera House",
+          "url": "http://strm112.1.fm/opera_mobile_mp3",
+          "votes": 117,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962af9b5-0601-11e8-ae97-52543be04c81",
+        "name": "Vintage Radio",
+        "url": "https://vintageradio.ice.infomaniak.ch/vintageradio-high.mp3",
+        "votes": 1675
+      },
+      "variants": [
+        {
+          "stationuuid": "a7a61f38-61e3-4491-a7ba-8c978fe51935",
+          "name": "Vintageradio.ch",
+          "url": "https://vintageradio.ice.infomaniak.ch/vintageradio-high.mp3",
+          "votes": 44,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "eec3a93a-744e-4c7a-b6fa-0b07e803b942",
+        "name": "Radio Swiss Jazz",
+        "url": "http://stream.srg-ssr.ch/srgssr/rsj/aac/96",
+        "votes": 1622
+      },
+      "variants": [
+        {
+          "stationuuid": "9a368941-71a3-4bda-9186-6604d9030514",
+          "name": "Radio Swiss Jazz",
+          "url": "http://stream.srg-ssr.ch/srgssr/rsj/aac/96",
+          "votes": 89,
+          "differs": [
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1c5674b0-2cfe-48e2-b859-2f3718c74598",
+        "name": "Radio Swiss Classic",
+        "url": "http://stream.srg-ssr.ch/m/rsc_it/mp3_128",
+        "votes": 1518
+      },
+      "variants": [
+        {
+          "stationuuid": "96394fed-0601-11e8-ae97-52543be04c81",
+          "name": "Radio Svizzera Classica",
+          "url": "http://stream.srg-ssr.ch/m/rsc_it/mp3_128",
+          "votes": 525,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960bbed9-0601-11e8-ae97-52543be04c81",
+        "name": "SRF 2",
+        "url": "http://stream.srg-ssr.ch/srgssr/srf2/mp3/128",
+        "votes": 1458
+      },
+      "variants": [
+        {
+          "stationuuid": "e7421a8b-7f2a-42d3-afaa-6b9de5dc03ad",
+          "name": "Radio SRF 2 Kultur",
+          "url": "http://stream.srg-ssr.ch/srgssr/srf2/mp3/128",
+          "votes": 22,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "92c3f2bd-d985-4998-9632-2e16fbfcab0e",
+        "name": "Kontrafunk (MP3 192)",
+        "url": "https://stream.kontrafunk.radio/listen/kontrafunk/radio.mp3",
+        "votes": 1294
+      },
+      "variants": [
+        {
+          "stationuuid": "00daa5de-9ff6-471f-8f42-ace677186f0d",
+          "name": "Kontrafunk News",
+          "url": "https://stream.kontrafunk.radio/listen/kontrafunk/radio.mp3",
+          "votes": 19,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "962a6b61-0601-11e8-ae97-52543be04c81",
+        "name": "1.FM - Absolute 90s Party Zone Radio",
+        "url": "http://strm112.1.fm/partyzone90s_mobile_mp3",
+        "votes": 1200
+      },
+      "variants": [
+        {
+          "stationuuid": "d39425be-4ece-4a28-9de0-d656f1ff8ce6",
+          "name": "1.FM 90s Alternative Radio",
+          "url": "http://strm112.1.fm/partyzone90s_mobile_mp3",
+          "votes": 134,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9607cc5d-0601-11e8-ae97-52543be04c81",
+        "name": "RTS Option Musique",
+        "url": "http://stream.srg-ssr.ch/srgssr/option-musique/mp3/128",
+        "votes": 1021
+      },
+      "variants": [
+        {
+          "stationuuid": "70f97520-176a-4436-b9cc-829c5c4eae9c",
+          "name": "RTS Option Musique",
+          "url": "http://stream.srg-ssr.ch/srgssr/option-musique/mp3/128",
+          "votes": 192,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "40ca8034-5373-11e8-a4d1-52543be04c81",
+        "name": "Rock The Blues",
+        "url": "http://stream.laut.fm/rock-the-blues",
+        "votes": 1006
+      },
+      "variants": [
+        {
+          "stationuuid": "5ecfdf6b-aa03-445f-8831-c02600dd02d9",
+          "name": "Rock the Blues",
+          "url": "http://stream.laut.fm/rock-the-blues",
+          "votes": 45,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9626c282-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Zürisee",
+        "url": "http://mp3.radio.ch/radiozuerisee128k",
+        "votes": 830
+      },
+      "variants": [
+        {
+          "stationuuid": "0d00baf1-676b-48d7-9eb3-62900c82191e",
+          "name": "Radio Zuerisee",
+          "url": "http://mp3.radio.ch/radiozuerisee128k",
+          "votes": 66,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960dae40-0601-11e8-ae97-52543be04c81",
+        "name": "SRF Musikwelle",
+        "url": "http://stream.srg-ssr.ch/srgssr/srfmw/mp3/128",
+        "votes": 800
+      },
+      "variants": [
+        {
+          "stationuuid": "0db93821-5b4f-458a-a11c-76f524a84b27",
+          "name": "Radio SRF Musikwelle",
+          "url": "http://stream.srg-ssr.ch/srgssr/srfmw/mp3/128",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "5a6ced6b-ac83-47c4-8762-d1521f732d2c",
+          "name": "Musikwälle",
+          "url": "http://stream.srg-ssr.ch/srgssr/srfmw/mp3/128",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4beb535e-6bf4-4535-84f9-d4a5698c2f8f",
+        "name": "ip music 320",
+        "url": "http://live7.avf.ch:8000/ipmusic320",
+        "votes": 732
+      },
+      "variants": [
+        {
+          "stationuuid": "592c688f-4bad-49aa-860d-cd2bfc1de372",
+          "name": "IP Music",
+          "url": "http://live7.avf.ch:8000/ipmusic320",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a879facb-7b92-4210-a1d3-578de4662736",
+        "name": "Spoon Radio - Classic Rock",
+        "url": "https://spoonradioclassicrock.ice.infomaniak.ch/spoon-classicrock-hd.aac",
+        "votes": 666
+      },
+      "variants": [
+        {
+          "stationuuid": "c1453dcf-4592-4f2f-b821-e1aa7ff5733b",
+          "name": "Spoon Radio - Classic Rock",
+          "url": "https://spoonradioclassicrock.ice.infomaniak.ch/spoon-classicrock-hd.aac",
+          "votes": 120,
+          "differs": []
+        },
+        {
+          "stationuuid": "3a30e75e-3f4a-460c-9a99-6fb86178a447",
+          "name": "Spoon Radio - Classic Rock",
+          "url": "https://spoonradioclassicrock.ice.infomaniak.ch/spoon-classicrock-hd.aac",
+          "votes": 37,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4488dc76-a690-4e51-a46c-3600be8195c4",
+        "name": "Spoon Radio - Hard Rock",
+        "url": "https://spoonradiohardrock.ice.infomaniak.ch/spoon-hardrock-hd.aac",
+        "votes": 562
+      },
+      "variants": [
+        {
+          "stationuuid": "74b2242c-6e3c-42a0-b96a-b49537d4c826",
+          "name": "Spoon Radio - Hard Rock",
+          "url": "https://spoonradiohardrock.ice.infomaniak.ch/spoon-hardrock-hd.aac",
+          "votes": 176,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ebfd9ee6-f7a5-41ab-9c0c-cc104d996067",
+        "name": "Spoon Radio - Rock Ballads",
+        "url": "https://spoonradiorockballads.ice.infomaniak.ch/spoon-rockballads-hd.aac",
+        "votes": 557
+      },
+      "variants": [
+        {
+          "stationuuid": "c948d121-67fd-43b2-a40b-6d122e546e29",
+          "name": "Spoon Radio - Rock Ballads",
+          "url": "https://spoonradiorockballads.ice.infomaniak.ch/spoon-rockballads-hd.aac",
+          "votes": 209,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9645be61-0601-11e8-ae97-52543be04c81",
+        "name": "Radio Swiss Classic French",
+        "url": "http://stream.srg-ssr.ch/srgssr/rsc_fr/aac/96",
+        "votes": 520
+      },
+      "variants": [
+        {
+          "stationuuid": "4d21fda1-cc6b-4b09-a0e3-6dc2e8d8eb29",
+          "name": "Radio Suisse Classique",
+          "url": "http://stream.srg-ssr.ch/srgssr/rsc_fr/aac/96",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2037c9d4-8d99-48f1-b5f1-eb60dc015773",
+        "name": "Jazz | Radio Swiss",
+        "url": "https://stream.srg-ssr.ch/m/rsj/mp3_128",
+        "votes": 480
+      },
+      "variants": [
+        {
+          "stationuuid": "7213602e-7218-40cb-b1f6-ba3a7887cd38",
+          "name": "Swiss Jazz Room",
+          "url": "https://stream.srg-ssr.ch/m/rsj/mp3_128",
+          "votes": 99,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "96460526-0601-11e8-ae97-52543be04c81",
+        "name": "True House Chill",
+        "url": "http://stream.truehouse.net:8000/chill",
+        "votes": 430
+      },
+      "variants": [
+        {
+          "stationuuid": "7b1ee15b-c19a-4e03-92e0-1955c6d2a77d",
+          "name": "Truehouse Chill",
+          "url": "http://stream.truehouse.net:8000/chill",
+          "votes": 79,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6d86fac2-7b86-41fd-b3eb-80fc16d30a4b",
+        "name": "Radio X FLAC",
+        "url": "https://mp3.radiox.ch/standard.ogg",
+        "votes": 350
+      },
+      "variants": [
+        {
+          "stationuuid": "f58d3116-4593-4851-878f-0820d7597f70",
+          "name": "radiox.ch",
+          "url": "https://mp3.radiox.ch/standard.ogg",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c68224d9-0082-47fb-976f-6c08e2e05b21",
+        "name": "Spoon Radio - Modern Rock",
+        "url": "https://spoonradiomodernrock.ice.infomaniak.ch/spoon-modernrock-hd.aac",
+        "votes": 337
+      },
+      "variants": [
+        {
+          "stationuuid": "be62721b-d05b-4abf-9599-ca677bad6a54",
+          "name": "Spoon Radio - Modern Rock",
+          "url": "https://spoonradiomodernrock.ice.infomaniak.ch/spoon-modernrock-hd.aac",
+          "votes": 92,
+          "differs": []
+        },
+        {
+          "stationuuid": "1db20054-adae-403f-8cac-353b0b0a52e8",
+          "name": "Spoon Radio Modern Rock",
+          "url": "https://spoonradiomodernrock.ice.infomaniak.ch/spoon-modernrock-hd.aac",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "0cacdda0-a9cf-4933-b45a-4fba003d9ecc",
+          "name": "Spoon Radio Modern Rock",
+          "url": "https://spoonradiomodernrock.ice.infomaniak.ch/spoon-modernrock-hd.aac",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1ff4a420-f6a8-4c09-8084-5cc834882cd2",
+        "name": "Radio Swiss Classic Italian",
+        "url": "http://stream.srg-ssr.ch/srgssr/rsc_it/aac/96",
+        "votes": 321
+      },
+      "variants": [
+        {
+          "stationuuid": "fdca915e-1dc9-4332-be61-e8e76c4b9590",
+          "name": "Radio Swiss Classic",
+          "url": "http://stream.srg-ssr.ch/srgssr/rsc_it/aac/96",
+          "votes": 157,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        },
+        {
+          "stationuuid": "9628ea33-0601-11e8-ae97-52543be04c81",
+          "name": "Radio Swiss Classic Italian",
+          "url": "http://stream.srg-ssr.ch/srgssr/rsc_it/aac/96",
+          "votes": 153,
+          "differs": [
+            "bitrate"
+          ]
+        },
+        {
+          "stationuuid": "fb137a06-88dc-43e8-b4fc-99b71e0398d2",
+          "name": "Radio Svizzera Classica",
+          "url": "http://stream.srg-ssr.ch/srgssr/rsc_it/aac/96",
+          "votes": 50,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c4d96924-850a-45e0-b847-acff9d121628",
+          "name": "Radio Swiss Classic",
+          "url": "http://stream.srg-ssr.ch/srgssr/rsc_it/aac/96",
+          "votes": 49,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        },
+        {
+          "stationuuid": "5e2cede4-a6d8-48f6-b1ad-0c87cf184a76",
+          "name": "RADIO SWISS CLASSICA ITALIA",
+          "url": "http://stream.srg-ssr.ch/srgssr/rsc_it/aac/96",
+          "votes": 37,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        },
+        {
+          "stationuuid": "af181b36-6e64-42b5-a8b6-201ec0dbd87d",
+          "name": "Radio Svizzera Classica",
+          "url": "http://stream.srg-ssr.ch/srgssr/rsc_it/aac/96",
+          "votes": 34,
+          "differs": [
+            "name",
+            "bitrate"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "aa5f5294-8a35-4844-9294-92e4659b13d7",
+        "name": "FLASHBACK FM",
+        "url": "https://flashback.streambase.ch/001",
+        "votes": 307
+      },
+      "variants": [
+        {
+          "stationuuid": "a92a107d-3326-4d46-b7c1-d127b630bdfe",
+          "name": "FLASHBACK FM",
+          "url": "https://flashback.streambase.ch/001",
+          "votes": 114,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c1d4b62b-cb16-43ca-ae3a-41c2eb31b6e7",
+        "name": "Virgin Radio Switzerland",
+        "url": "https://stream.streambase.ch/vrock/mp3-192/direct/",
+        "votes": 271
+      },
+      "variants": [
+        {
+          "stationuuid": "31d78630-003c-4f95-9f66-dcff315336c7",
+          "name": "VirginRadio",
+          "url": "https://stream.streambase.ch/vrock/mp3-192/direct/",
+          "votes": 234,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "40e0da97-9fd2-4729-8e86-4c65cdba7910",
+        "name": " A Fine Jazz Gumbo Radio ",
+        "url": "https://streaming.smartradio.ch:9502/stream",
+        "votes": 261
+      },
+      "variants": [
+        {
+          "stationuuid": "8842eff0-a7d7-4b29-ae51-c405c4a4c35e",
+          "name": "A Fine Jazz Gumbo Radio",
+          "url": "https://streaming.smartradio.ch:9502/stream",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9f185c8a-5274-44d8-8749-ddfeff901844",
+        "name": "1.FM Essential Classical",
+        "url": "http://strm112.1.fm/polskafm_mobile_mp3",
+        "votes": 243
+      },
+      "variants": [
+        {
+          "stationuuid": "8636fed2-f511-458b-9caa-d65b887ea841",
+          "name": "1.FM Essential Classical Polska FM",
+          "url": "http://strm112.1.fm/polskafm_mobile_mp3",
+          "votes": 75,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "3157a208-f68c-4f29-8aec-801fc45cdaa6",
+          "name": "1.FM Essential classical polska FM",
+          "url": "http://strm112.1.fm/polskafm_mobile_mp3",
+          "votes": 42,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3999c6df-6b30-44f2-bf11-39ed56f3f1c3",
+        "name": "Spoon Radio",
+        "url": "http://spoonradio.ice.infomaniak.ch/spoonradio-hd",
+        "votes": 225
+      },
+      "variants": [
+        {
+          "stationuuid": "41bafb95-dfd1-4c80-9d05-cfeb9cf34c6f",
+          "name": "Spoon Radio",
+          "url": "http://spoonradio.ice.infomaniak.ch/spoonradio-hd",
+          "votes": 22,
+          "differs": []
+        },
+        {
+          "stationuuid": "b0e15156-d111-412e-a962-3c7975265391",
+          "name": "Spoon Radio",
+          "url": "http://spoonradio.ice.infomaniak.ch/spoonradio-hd",
+          "votes": 11,
+          "differs": []
+        },
+        {
+          "stationuuid": "4d1b2716-8aaf-40a5-8100-50ce7e0e29f9",
+          "name": "Spoon Radio",
+          "url": "http://spoonradio.ice.infomaniak.ch/spoonradio-hd",
+          "votes": 7,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "147b92f3-ed17-4408-ac91-5f53b6ad2957",
+        "name": "SWISSCLASSICA ITALIA",
+        "url": "http://stream.srg-ssr.ch/srgssr/rsc_it/mp3/128",
+        "votes": 224
+      },
+      "variants": [
+        {
+          "stationuuid": "88e2b73c-c2ff-447c-8354-89dbc76f9d39",
+          "name": "RADIO SWISS CLASSICA ITALIA",
+          "url": "http://stream.srg-ssr.ch/srgssr/rsc_it/mp3/128",
+          "votes": 89,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3786ca1c-bcbd-4c90-8ce2-6e363756b320",
+        "name": "RADIO FM1",
+        "url": "https://chmedia.streamabc.net/79-fm1-mp3-192-7523806?sABC=6499oos8%230%230016or1p1r381r4485n244q3016qs660%23qverpg&aw_0_1st.playerid=direct&amsparams=playerid:direct;skey:1687796728",
+        "votes": 218
+      },
+      "variants": [
+        {
+          "stationuuid": "8e361ac9-dc55-4778-8f68-3a7db2faa3f5",
+          "name": "Radio FM1",
+          "url": "https://chmedia.streamabc.net/79-fm1-mp3-192-7523806?sABC=6499o8o6%230%230016or1p1r381r4485n244q3016qs660%23qverpg&aw_0_1st.playerid=direct&amsparams=playerid:direct;skey:1687795894",
+          "votes": 21,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "3d18bca6-df71-4d40-bfd9-0d37635574c9",
+          "name": "Radio FM1",
+          "url": "https://chmedia.streamabc.net/79-fm1-mp3-192-7523806?sABC=6499oos8%230%230016or1p1r381r4485n244q3016qs660%23qverpg&aw_0_1st.playerid=direct&amsparams=playerid:direct;skey:1687796728",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "c9b6d938-31fa-4276-ae8a-4313c4a9cf96",
+          "name": "RADIO FM1",
+          "url": "https://chmedia.streamabc.net/79-fm1-mp3-192-7523806?sABC=6499oos8%230%230016or1p1r381r4485n244q3016qs660%23qverpg&aw_0_1st.playerid=direct&amsparams=playerid:direct;skey:1687796728",
+          "votes": 9,
+          "differs": []
+        },
+        {
+          "stationuuid": "23e128cb-60e6-47d3-97e9-71522969bd74",
+          "name": "RADIO FM1",
+          "url": "https://chmedia.streamabc.net/79-fm1-mp3-192-7523806?sABC=6499oos8%230%230016or1p1r381r4485n244q3016qs660%23qverpg&aw_0_1st.playerid=direct&amsparams=playerid:direct;skey:1687796728",
+          "votes": 5,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3bb2d57f-f7a6-49e7-afb5-89daf251de9d",
+        "name": "RADIO ARGOVIA",
+        "url": "https://stream.streambase.ch/argovia/mp3-192/direct/",
+        "votes": 205
+      },
+      "variants": [
+        {
+          "stationuuid": "0c1afdef-1078-41fd-a585-c69b347ac045",
+          "name": "Radio Argovia",
+          "url": "https://stream.streambase.ch/argovia/mp3-192/direct/",
+          "votes": 25,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "dbcbdefe-8448-4997-ad46-1c921edd0174",
+        "name": "Spoon Radio - Acoustic Rock",
+        "url": "https://spoonradioacousticrock.ice.infomaniak.ch/spoon-acousticrock-hd.aac",
+        "votes": 178
+      },
+      "variants": [
+        {
+          "stationuuid": "b829ee5e-776f-4bcd-9328-c721aed13498",
+          "name": "Spoon Radio - Acoustic Rock",
+          "url": "https://spoonradioacousticrock.ice.infomaniak.ch/spoon-acousticrock-hd.aac",
+          "votes": 91,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3718f163-5868-11e9-a622-52543be04c81",
+        "name": "Radio Lac",
+        "url": "https://radiolac.ice.infomaniak.ch/radiolac-high.mp3",
+        "votes": 177
+      },
+      "variants": [
+        {
+          "stationuuid": "ba991cb5-a5ea-443d-81b3-af7c42d2ff2b",
+          "name": "Radio LAC",
+          "url": "https://radiolac.ice.infomaniak.ch/radiolac-high.mp3",
+          "votes": 47,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "bec62aba-aedf-4ead-82e3-31c39c1fc00a",
+          "name": "Radio LAC",
+          "url": "https://radiolac.ice.infomaniak.ch/radiolac-high.mp3",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ce0807e5-4f92-11e9-a4d7-52543be04c81",
+        "name": "Radio 1",
+        "url": "http://stream.radio1.ch/128k.m3u",
+        "votes": 171
+      },
+      "variants": [
+        {
+          "stationuuid": "1e61a87e-3a7d-4e32-8e1c-5c5dc548e102",
+          "name": "Radio1",
+          "url": "http://stream.radio1.ch/128k.m3u",
+          "votes": 21,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "0c0ff72d-dcb3-4215-bd08-49b580548e61",
+          "name": "Radio 1",
+          "url": "http://stream.radio1.ch/128k.m3u",
+          "votes": 11,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e9fd4c54-4e08-4311-8d7e-3a5f65a72465",
+        "name": "GRRIF",
+        "url": "https://rjb.ice.infomaniak.ch/rjb-high.mp3",
+        "votes": 134
+      },
+      "variants": [
+        {
+          "stationuuid": "960bbd4e-0601-11e8-ae97-52543be04c81",
+          "name": "RJB",
+          "url": "https://rjb.ice.infomaniak.ch/rjb-high.mp3",
+          "votes": 68,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5d216765-e434-4a60-87f0-40cecb5236fa",
+        "name": "Spoon Radio - Alternative Rock",
+        "url": "https://spoonradioalternativerock.ice.infomaniak.ch/spoon-alternativerock-hd.aac",
+        "votes": 132
+      },
+      "variants": [
+        {
+          "stationuuid": "c98f1648-2d03-44a0-a264-a4c248f467df",
+          "name": "Spoon Radio - Alternative Rock",
+          "url": "https://spoonradioalternativerock.ice.infomaniak.ch/spoon-alternativerock-hd.aac",
+          "votes": 110,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b614ffcb-684a-4fac-8395-17420f6ee27c",
+        "name": "Radio1.ch",
+        "url": "https://stream.radio1.ch/128k",
+        "votes": 115
+      },
+      "variants": [
+        {
+          "stationuuid": "c815d308-da70-4e4e-b9a9-8aa1edb09951",
+          "name": "Radio 1 - FM 93.6",
+          "url": "https://stream.radio1.ch/128k",
+          "votes": 56,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d2d15da1-84f8-4e02-91bb-4e0e7a223332",
+        "name": "open broadcast radio",
+        "url": "http://stream.openbroadcast.ch/320.mp3",
+        "votes": 110
+      },
+      "variants": [
+        {
+          "stationuuid": "92727bb4-f799-47a3-8b14-80d3b43558ab",
+          "name": "open broadcast",
+          "url": "http://stream.openbroadcast.ch/320.mp3",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "960ac8d1-0601-11e8-ae97-52543be04c81",
+        "name": "IP music",
+        "url": "http://live9.avf.ch:8000/ipmusicaacplus96",
+        "votes": 91
+      },
+      "variants": [
+        {
+          "stationuuid": "e3a42c79-f71a-417e-a17e-8ae47ff7a6aa",
+          "name": "IP music",
+          "url": "http://live9.avf.ch:8000/ipmusicaacplus96",
+          "votes": 12,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e8686dd3-443b-4a9f-b23f-ed8388bb6b77",
+        "name": "WRS \"Swiss Radio in English\"",
+        "url": "https://uksouth.streaming.broadcast.radio:10290/wrs?_=443217",
+        "votes": 88
+      },
+      "variants": [
+        {
+          "stationuuid": "4ef67919-0af9-4940-8ab5-92d0b06e961d",
+          "name": "World Radio Switzerland",
+          "url": "https://uksouth.streaming.broadcast.radio:10290/wrs",
+          "votes": 77,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "2fd252b6-30ff-4372-81e8-a30f960774c3",
+          "name": "WRS",
+          "url": "https://uksouth.streaming.broadcast.radio:10290/wrs?_=540910",
+          "votes": 0,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "31e8808b-8b27-4ffd-b75a-d612aa70b56d",
+        "name": "Classic | Radio Swiss",
+        "url": "https://stream.srg-ssr.ch/m/rsc_de/mp3_128",
+        "votes": 76
+      },
+      "variants": [
+        {
+          "stationuuid": "3f60485c-7e14-4635-987b-6d75bf98361f",
+          "name": "Radio Swiss Classic 2026",
+          "url": "https://stream.srg-ssr.ch/m/rsc_de/mp3_128",
+          "votes": 23,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "7344b0b8-2197-446f-a936-f61fb22f2fc8",
+          "name": "Radio Swiss Classic V2",
+          "url": "https://stream.srg-ssr.ch/m/rsc_de/mp3_128",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "373a9d4a-c528-11e9-8502-52543be04c81",
+        "name": "Radio R",
+        "url": "http://radior.ice.infomaniak.ch/radior-128.mp3",
+        "votes": 65
+      },
+      "variants": [
+        {
+          "stationuuid": "493c5a77-75b4-4a2e-908b-1fb3d334eea2",
+          "name": "Radio R",
+          "url": "http://radior.ice.infomaniak.ch/radior-128.mp3",
+          "votes": 16,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2bedb6f8-93f5-45c8-a7a6-eacf348565c7",
+        "name": "KTFM / Global Sport",
+        "url": "http://live9.avf.ch:8000/globalfmdabge",
+        "votes": 58
+      },
+      "variants": [
+        {
+          "stationuuid": "3a9eda56-9306-4691-8440-2ba698dc6be6",
+          "name": "Global Sport - Genève",
+          "url": "http://live9.avf.ch:8000/globalfmdabge",
+          "votes": 18,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "37d4ee78-88a9-4fbd-82f6-81d5eb0b3477",
+        "name": "Radio LoRa 97.5",
+        "url": "https://livestream.lora.ch/lora.mp3",
+        "votes": 51
+      },
+      "variants": [
+        {
+          "stationuuid": "19736015-a179-4fe8-b0ba-e7b869def54a",
+          "name": "Radio LoRa",
+          "url": "https://livestream.lora.ch/lora.mp3",
+          "votes": 37,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "36cec5dc-942e-4127-a317-9e3d5c173708",
+        "name": "publicdomainproject  swing jazz",
+        "url": "http://relay.publicdomainradio.org/jazz_swing.mp3",
+        "votes": 39
+      },
+      "variants": [
+        {
+          "stationuuid": "e97b90d7-d1b9-4358-8dec-d3fc5289a376",
+          "name": "Public Domain Jazz",
+          "url": "http://relay.publicdomainradio.org/jazz_swing.mp3",
+          "votes": 20,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "3eab2963-3d0d-43ee-bcba-d686a569e0ce",
+        "name": "One FM New-Hits",
+        "url": "https://webradio0001.ice.infomaniak.ch/webradio0001-128.mp3",
+        "votes": 36
+      },
+      "variants": [
+        {
+          "stationuuid": "f190cd5f-c91b-429e-af7b-dbc47d70be0e",
+          "name": "One FM New Hits",
+          "url": "https://webradio0001.ice.infomaniak.ch/webradio0001-128.mp3",
+          "votes": 5,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4cde8f3b-17fc-4802-ba40-e8feae5395a1",
+        "name": "Neo1",
+        "url": "https://neo1.ice.infomaniak.ch/neo1.mp3",
+        "votes": 29
+      },
+      "variants": [
+        {
+          "stationuuid": "9ba6be84-7690-4fbe-8d35-7a455628ec42",
+          "name": "Neo1",
+          "url": "https://neo1.ice.infomaniak.ch/neo1.mp3",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2e2e802e-6036-47cc-96fb-b68df6783099",
+        "name": "Kanal K",
+        "url": "https://play.kanalk.ch/kanalk/mp3-192/webseite",
+        "votes": 28
+      },
+      "variants": [
+        {
+          "stationuuid": "18ab38fe-ab15-448d-8a23-542a9daea2c4",
+          "name": "Kanal K",
+          "url": "https://play.kanalk.ch/kanalk/mp3-192/webseite",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5b884101-b14c-4377-8b96-7593ade7a2d1",
+        "name": "Radio R Louange",
+        "url": "https://radiorlouange.ice.infomaniak.ch/radiorlouange-96.aac?ver=666978",
+        "votes": 23
+      },
+      "variants": [
+        {
+          "stationuuid": "1989d84f-3412-4913-9473-956e0ea0f720",
+          "name": "Radio R Louange",
+          "url": "https://radiorlouange.ice.infomaniak.ch/radiorlouange-96.aac",
+          "votes": 14,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "39d0c850-9625-4e27-bc2d-582e2591290d",
+        "name": "Adonia-KidsRadio",
+        "url": "http://puma.streemlion.com:1930/stream",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "fd6bf8d3-6068-4527-bdca-fd9a5c2545a3",
+          "name": "Adonia-KidsRadio",
+          "url": "http://puma.streemlion.com:1930/stream",
+          "votes": 14,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "9e22008d-ce5c-43b9-a81f-cea56e57da6b",
+        "name": "Pineapple Juice",
+        "url": "http://stream.laut.fm/pineapplejuice",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "414493f3-4e29-4ebd-a8be-0097668a9f50",
+          "name": "Pineapplejuice",
+          "url": "http://stream.laut.fm/pineapplejuice",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ff6de11b-718f-480e-804b-79f4f3f6ea8e",
+        "name": "Spoon Rock",
+        "url": "https://ic2527.c972.fastserv.com:80/spoonradio_mp3_192",
+        "votes": 18
+      },
+      "variants": [
+        {
+          "stationuuid": "7b94bb6f-5e46-4424-a909-387d06a10df0",
+          "name": "Spoon Radio",
+          "url": "https://ic2527.c972.fastserv.com:80/spoonradio_mp3_192",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ac5fdde2-5bc3-435a-a016-37e93dfe79bc",
+        "name": "Radio Alta",
+        "url": "https://transmiss.ion.ovh/listen/alta/radio.mp3",
+        "votes": 18
+      },
+      "variants": [
+        {
+          "stationuuid": "19c92ecb-4a0e-4e5e-bd6e-8a9c40b83d93",
+          "name": "Radio Alta",
+          "url": "https://transmiss.ion.ovh/listen/alta/radio.mp3",
+          "votes": 13,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "70c5b03c-4d0d-44ae-915e-7392efd9f17e",
+        "name": "Radiopolis",
+        "url": "http://rs01.swissnwx.ch:20080/stream",
+        "votes": 18
+      },
+      "variants": [
+        {
+          "stationuuid": "6c7f8e0b-42f7-4238-9f78-615a8d65f7f6",
+          "name": "RadioPolis",
+          "url": "http://rs01.swissnwx.ch:20080/stream",
+          "votes": 9,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "cfad47f6-45dd-458a-a2fa-f9883cc239e9",
+        "name": "Rundfunk.fm",
+        "url": "https://rundfunkfm.broadcast.brandsarelive.com/listen/rundfunk.fm/radio.mp3",
+        "votes": 16
+      },
+      "variants": [
+        {
+          "stationuuid": "523fc637-9aeb-449f-ab45-62b25f5f86b1",
+          "name": "Rundfunk.fm",
+          "url": "https://rundfunkfm.broadcast.brandsarelive.com/listen/rundfunk.fm/radio.mp3",
+          "votes": 11,
+          "differs": []
+        },
+        {
+          "stationuuid": "86704d8f-918e-4e34-ad86-a6a89b9a9b15",
+          "name": "Rundfunk.fm",
+          "url": "https://rundfunkfm.broadcast.brandsarelive.com/listen/rundfunk.fm/radio.mp3",
+          "votes": 7,
+          "differs": []
+        },
+        {
+          "stationuuid": "efaa79bf-fc46-4864-9555-217cf69efdfc",
+          "name": "Rundfunk.fm",
+          "url": "https://rundfunkfm.broadcast.brandsarelive.com/listen/rundfunk.fm/radio.mp3",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0701c9cd-5dba-4101-b060-775f7889e33a",
+        "name": "radio swiss classic",
+        "url": "https://stream.srg-ssr.ch/m/rsc_de/aacp_96",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "eea19a83-97f4-4601-a943-ea12a379840c",
+          "name": "Radio Swiss Classic",
+          "url": "https://stream.srg-ssr.ch/m/rsc_de/aacp_96",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "446160e9-ec70-4499-bba4-bd56f5c0d75c",
+        "name": "Radio Neue Hoffnung",
+        "url": "https://stream.mnr.ch/rnh-mp3",
+        "votes": 15
+      },
+      "variants": [
+        {
+          "stationuuid": "e25f32ee-e4f7-4e50-a67f-a98948eb20d5",
+          "name": "Radio Neue Hoffnung",
+          "url": "https://stream.mnr.ch/rnh-mp3",
+          "votes": 7,
+          "differs": []
+        },
+        {
+          "stationuuid": "5b111b59-820c-46ca-aae1-09edb5a75067",
+          "name": "Radio Neue Hoffnung",
+          "url": "https://stream.mnr.ch/rnh-mp3",
+          "votes": 6,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4b8d625c-a8fc-4e4c-bbbf-62af99e78568",
+        "name": "Radio Südostschweiz",
+        "url": "https://somedia-1.streaming.deliver.media/rso_mp3_128?suffix0=RSO",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "8c0913c9-063c-4d18-a8e7-eed8dd86c948",
+          "name": "Radio Südostschweiz",
+          "url": "https://somedia-1.streaming.deliver.media/rso_mp3_128?suffix0=RSO",
+          "votes": 9,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ae066d78-28f7-474b-a537-d83ac7cc838a",
+        "name": "Global Sport SUISSE",
+        "url": "http://live7.avf.ch:8000/globalfm",
+        "votes": 11
+      },
+      "variants": [
+        {
+          "stationuuid": "a3b56bf3-ca1f-40f4-b080-33fbf59e6070",
+          "name": "Global Sport Suisse",
+          "url": "http://live7.avf.ch:8000/globalfm",
+          "votes": 0,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "23184af4-6a87-4cb4-a47f-5936ffd0f673",
+        "name": "One FM",
+        "url": "https://onefm.ice.infomaniak.ch/onefm-high.mp3",
+        "votes": 9
+      },
+      "variants": [
+        {
+          "stationuuid": "e8b82063-3cc4-4745-9a38-514b3b13c7b1",
+          "name": "One FM",
+          "url": "https://onefm.ice.infomaniak.ch/onefm-high.mp3",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2b96ded7-dcf5-4a27-bfd8-2ad09295b0e0",
+        "name": "Radio Zürich Nord",
+        "url": "https://bayern.streampanel.cloud:11145/stream",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "a0803c30-d586-45e0-90b6-77babe452f7e",
+          "name": "Radio Zuerich Nord: Musikbox",
+          "url": "https://bayern.streampanel.cloud:11145/stream",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "549ffb7b-879e-474f-8eda-806d8e2b05a2",
+        "name": "OnFlow Hot",
+        "url": "https://stream.zeno.fm/pxqdhcb7gqutv",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "d1deaea0-7558-4401-9410-0c5c9ba2a9cf",
+          "name": "OnFlow Hot",
+          "url": "https://stream.zeno.fm/pxqdhcb7gqutv",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5754a7d4-fa77-41c3-afaa-c364dfa1eafb",
+        "name": "Volnadavida Radio",
+        "url": "http://transmiss.ion.ovh/listen/volnadavida/radio.mp3",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "c6d504a1-353b-4dbb-9170-f2b861092bd5",
+          "name": "Volnadavida Radio",
+          "url": "http://transmiss.ion.ovh/listen/volnadavida/radio.mp3",
+          "votes": 1,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [
+    {
+      "stationuuid": "960e57c5-0601-11e8-ae97-52543be04c81",
+      "name": "SRF 1",
+      "broadcasterKey": "srf",
+      "metadataUrl": "https://il.srf.ch/integrationlayer/2.0/srf/songList/radio/byChannel/69e8ac16-4327-4af4-b873-fd5cd6e895a7.json"
+    },
+    {
+      "stationuuid": "960bbed9-0601-11e8-ae97-52543be04c81",
+      "name": "SRF 2 Kultur",
+      "broadcasterKey": "srf",
+      "metadataUrl": "https://il.srf.ch/integrationlayer/2.0/srf/songList/radio/byChannel/c8537421-c9c5-4461-9c9c-c15816458b46.json"
+    },
+    {
+      "stationuuid": "961f1da4-0601-11e8-ae97-52543be04c81",
+      "name": "SRF 3",
+      "broadcasterKey": "srf",
+      "metadataUrl": "https://il.srf.ch/integrationlayer/2.0/srf/songList/radio/byChannel/dd0fa1ba-4ff6-4e1a-ab74-d7e49057d96f.json"
+    },
+    {
+      "stationuuid": "960ed987-0601-11e8-ae97-52543be04c81",
+      "name": "SRF 4 News",
+      "broadcasterKey": "srf",
+      "metadataUrl": "https://il.srf.ch/integrationlayer/2.0/srf/songList/radio/byChannel/ee1fb348-2b6a-4958-9aac-ec6c87e190da.json"
+    },
+    {
+      "stationuuid": "960b6cd6-0601-11e8-ae97-52543be04c81",
+      "name": "SRF Virus",
+      "broadcasterKey": "srf",
+      "metadataUrl": "https://il.srf.ch/integrationlayer/2.0/srf/songList/radio/byChannel/66815fe2-9008-4853-80a5-f9caaffdf3a9.json"
+    },
+    {
+      "stationuuid": "960dae40-0601-11e8-ae97-52543be04c81",
+      "name": "SRF Musikwelle",
+      "broadcasterKey": "srf",
+      "metadataUrl": "https://il.srf.ch/integrationlayer/2.0/srf/songList/radio/byChannel/a9c5c070-8899-46c7-ac27-f04f1be902fd.json"
+    },
+    {
+      "stationuuid": "9608efd5-0601-11e8-ae97-52543be04c81",
+      "name": "RTS La 1ère",
+      "broadcasterKey": "rts",
+      "metadataUrl": "https://il.srf.ch/integrationlayer/2.0/rts/songList/radio/byChannel/a9e7621504c6959e35c3ecbe7f6bed0446cdf8da.json"
+    },
+    {
+      "stationuuid": "9607cf45-0601-11e8-ae97-52543be04c81",
+      "name": "RTS Espace 2",
+      "broadcasterKey": "rts",
+      "metadataUrl": "https://il.srf.ch/integrationlayer/2.0/rts/songList/radio/byChannel/a83f29dee7a5d0d3f9fccdb9c92161b1afb512db.json"
+    },
+    {
+      "stationuuid": "9607cdda-0601-11e8-ae97-52543be04c81",
+      "name": "RTS Couleur 3",
+      "broadcasterKey": "rts",
+      "metadataUrl": "https://il.srf.ch/integrationlayer/2.0/rts/songList/radio/byChannel/8ceb28d9b3f1dd876d1df1780f908578cbefc3d7.json"
+    },
+    {
+      "stationuuid": "9607cc5d-0601-11e8-ae97-52543be04c81",
+      "name": "RTS Option Musique",
+      "broadcasterKey": "rts",
+      "metadataUrl": "https://il.srf.ch/integrationlayer/2.0/rts/songList/radio/byChannel/f8517e5319a515e013551eea15aa114fa5cfbc3a.json"
+    },
+    {
+      "stationuuid": "96127e90-0601-11e8-ae97-52543be04c81",
+      "name": "RSI Rete Uno",
+      "broadcasterKey": "rsi",
+      "metadataUrl": "https://il.srf.ch/integrationlayer/2.0/rsi/songList/radio/byChannel/rete-uno.json"
+    },
+    {
+      "stationuuid": "96127f58-0601-11e8-ae97-52543be04c81",
+      "name": "RSI Rete Due",
+      "broadcasterKey": "rsi",
+      "metadataUrl": "https://il.srf.ch/integrationlayer/2.0/rsi/songList/radio/byChannel/rete-due.json"
+    },
+    {
+      "stationuuid": "96127dce-0601-11e8-ae97-52543be04c81",
+      "name": "RSI Rete Tre",
+      "broadcasterKey": "rsi",
+      "metadataUrl": "https://il.srf.ch/integrationlayer/2.0/rsi/songList/radio/byChannel/rete-tre.json"
+    },
+    {
+      "stationuuid": "961ac56b-0601-11e8-ae97-52543be04c81",
+      "name": "Radio Swiss Jazz",
+      "broadcasterKey": "swiss-radio",
+      "metadataUrl": "https://api.radioswissjazz.ch/api/v1/rsj/de/playlist_small"
+    },
+    {
+      "stationuuid": "961ac635-0601-11e8-ae97-52543be04c81",
+      "name": "Radio Swiss Pop",
+      "broadcasterKey": "swiss-radio",
+      "metadataUrl": "https://api.radioswisspop.ch/api/v1/rsp/de/playlist_small"
+    },
+    {
+      "stationuuid": "96077079-0601-11e8-ae97-52543be04c81",
+      "name": "Radio Swiss Classic",
+      "broadcasterKey": "swiss-radio",
+      "metadataUrl": "https://api.radioswissclassic.ch/api/v1/rsc/de/playlist_small"
+    },
+    {
+      "stationuuid": "9608933a-0601-11e8-ae97-52543be04c81",
+      "name": "Radio Rumantsch",
+      "broadcasterKey": "rtr",
+      "metadataUrl": "https://il.srf.ch/integrationlayer/2.0/rtr/songList/radio/byChannel/12fb886e-b7aa-4e55-beb2-45dbc619f3c4.json"
+    },
+    {
+      "stationuuid": "92c3f2bd-d985-4998-9632-2e16fbfcab0e",
+      "name": "Kontrafunk",
+      "broadcasterKey": "independent",
+      "metadataUrl": "https://stream.kontrafunk.radio/api/nowplaying/kontrafunk"
+    }
+  ],
+  "httpsVariants": []
+}

@@ -1,0 +1,1012 @@
+{
+  "generatedAt": "2026-05-04T15:05:38.860Z",
+  "country": "CL",
+  "sourceProbedAt": "2026-04-30T12:14:38.433Z",
+  "totals": {
+    "deadStreams": 26,
+    "internalDupes": 37,
+    "metadataAPIs": 0,
+    "httpsVariants": 0
+  },
+  "deadStreams": [
+    {
+      "stationuuid": "04c74563-90e1-48fe-9f8c-5d2ccd7d2bcb",
+      "name": "Festival",
+      "url": "https://stream.festival.cl/1",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 915,
+      "lastProbedAt": "2026-04-30T12:14:04.687Z"
+    },
+    {
+      "stationuuid": "c86fb74e-a344-47b0-876c-caf1a76835d7",
+      "name": "Chercan Radio",
+      "url": "https://stream.zeno.fm/es9h0crh74zuv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 141,
+      "lastProbedAt": "2026-04-30T12:14:08.623Z"
+    },
+    {
+      "stationuuid": "cf49f127-eaf1-41b4-a56c-8323be81e051",
+      "name": "Radio Festival",
+      "url": "https://stream.festival.cl/1",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 137,
+      "lastProbedAt": "2026-04-30T12:14:09.134Z"
+    },
+    {
+      "stationuuid": "24a0f30e-880e-4f84-a942-bc6545f285d9",
+      "name": "Radio Estallido Tuitero",
+      "url": "https://stream.zeno.fm/ws9z11fhrd0uv",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 64,
+      "lastProbedAt": "2026-04-30T12:14:21.164Z"
+    },
+    {
+      "stationuuid": "d16e8cf0-cd2b-4ebf-b311-1fad15e2a72b",
+      "name": "LibelulaChile.com señal 1",
+      "url": "https://streaming.viphosting.cl:7138/;",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 58,
+      "lastProbedAt": "2026-04-30T12:14:11.648Z"
+    },
+    {
+      "stationuuid": "e1ee60f3-eed5-4345-b902-b08140e3500a",
+      "name": "Radio Festival",
+      "url": "https://stream.festival.cl/1",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 43,
+      "lastProbedAt": "2026-04-30T12:14:13.109Z"
+    },
+    {
+      "stationuuid": "8bd698b0-f038-465d-be06-359561cc4efa",
+      "name": "Radio Nostalgica",
+      "url": "https://unlimited5-us.dps.live/nostalgica/aac/icecast.audio",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 28,
+      "lastProbedAt": "2026-04-30T12:14:14.794Z"
+    },
+    {
+      "stationuuid": "0007bc55-a9b4-4e93-a6e0-9b9b1e7c8f01",
+      "name": "Digital 105.5 FM - CONCEPCIÓN",
+      "url": "https://radio.digitalfm.cl:8000/concepcion1",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 24,
+      "lastProbedAt": "2026-04-30T12:14:16.367Z"
+    },
+    {
+      "stationuuid": "3d95f7f4-67cc-40d9-b998-a6cda0a14a13",
+      "name": "Digital 94.9 FM - VALPARAISO",
+      "url": "https://radio.digitalfm.cl:8000/valparaiso1",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 23,
+      "lastProbedAt": "2026-04-30T12:14:16.359Z"
+    },
+    {
+      "stationuuid": "b94a990d-bf54-4c0b-a2bb-c161e8aebe57",
+      "name": "Nostalgica ",
+      "url": "https://unlimited5-us.dps.live/nostalgica/aac/icecast.audio",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 20,
+      "lastProbedAt": "2026-04-30T12:14:16.992Z"
+    },
+    {
+      "stationuuid": "fc53b976-078f-4085-b9dc-049783c6bec9",
+      "name": "Digital 97.1 FM - ANTOFAGASTA",
+      "url": "https://radio.digitalfm.cl:8000/antofagasta1",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 16,
+      "lastProbedAt": "2026-04-30T12:14:18.449Z"
+    },
+    {
+      "stationuuid": "62fd3e2a-8dff-435c-b5de-b28ff84cadbd",
+      "name": "Digital 97.7 FM - LA SERENA",
+      "url": "https://radio.digitalfm.cl:8000/laserena1",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 15,
+      "lastProbedAt": "2026-04-30T12:14:19.096Z"
+    },
+    {
+      "stationuuid": "5058d941-f8c4-41f4-ba2b-b0c0388d224e",
+      "name": "FM De Los Recuerdos",
+      "url": "https://sonando.us.digitalproserver.com/fmdelosrecuerdos.aac",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 14,
+      "lastProbedAt": "2026-04-30T12:14:19.783Z"
+    },
+    {
+      "stationuuid": "acf9c973-a7f0-4f43-8e74-6410747891a8",
+      "name": "Radio Nostalgica",
+      "url": "https://unlimited11-cl.dps.live/nostalgica/aac/icecast.audio",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 12,
+      "lastProbedAt": "2026-04-30T12:14:20.962Z"
+    },
+    {
+      "stationuuid": "554d9077-4808-4ff8-8fd2-dc4546b84863",
+      "name": "Digital 99.1 FM - PUNTA ARENAS",
+      "url": "https://radio.digitalfm.cl:8000/ptaarenas",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 10,
+      "lastProbedAt": "2026-04-30T12:14:21.222Z"
+    },
+    {
+      "stationuuid": "a3713579-820d-4dad-82c8-f6ca71d4b76a",
+      "name": "Digital 105.5 FM - TALCA",
+      "url": "https://radio.digitalfm.cl:8000/talca",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 9,
+      "lastProbedAt": "2026-04-30T12:14:21.702Z"
+    },
+    {
+      "stationuuid": "c1d50f77-aff5-4ae1-a121-6c2bf1d5eaaf",
+      "name": "Radio Lautaro Talca",
+      "url": "https://audio2.tustreaming.cl/7320/stream",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
+      "votes": 9,
+      "lastProbedAt": "2026-04-30T12:14:22.206Z"
+    },
+    {
+      "stationuuid": "ae6c3cd0-bb5e-45ea-acab-093ac9df6e7a",
+      "name": "Digital 89.5 FM - CALAMA",
+      "url": "https://radio.digitalfm.cl:8000/calama1",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 8,
+      "lastProbedAt": "2026-04-30T12:14:22.152Z"
+    },
+    {
+      "stationuuid": "e5301c69-77e1-4f41-a3fa-196f52505307",
+      "name": "Digital 99.1 FM - IQUIQUE",
+      "url": "https://radio.digitalfm.cl:8000/iquique1",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 8,
+      "lastProbedAt": "2026-04-30T12:14:22.183Z"
+    },
+    {
+      "stationuuid": "1feef43d-ebd6-4a52-8fde-7a2d49d4f497",
+      "name": "Punto 9",
+      "url": "https://stream.zeno.fm/t5jmgbldfruvv.acc",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 8,
+      "lastProbedAt": "2026-04-30T12:14:22.045Z"
+    },
+    {
+      "stationuuid": "638d34f7-e633-492e-9e7d-f9fbe0cc71ba",
+      "name": "radio orocoipo",
+      "url": "https://live-audio-lite-1.digitalproserver.com/proxy/orocoipo/oroc",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 4,
+      "lastProbedAt": "2026-04-30T12:14:25.969Z"
+    },
+    {
+      "stationuuid": "ee36d0d3-2e96-4e2f-97da-f8206df341e6",
+      "name": "RADIO UVM",
+      "url": "https://streaming1.tecnoera.com:8020/;stream.mp3?_=1",
+      "verdict": "broken-network",
+      "verdictReason": "TypeError: fetch failed",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T12:14:27.985Z"
+    },
+    {
+      "stationuuid": "533d87f3-c812-4f91-aa92-f826bf164469",
+      "name": "trending",
+      "url": "https://cast6.my-control-panel.com/proxy/trending/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 502",
+      "votes": 3,
+      "lastProbedAt": "2026-04-30T12:14:26.573Z"
+    },
+    {
+      "stationuuid": "46620141-c7d1-4f26-b691-c6db57e83334",
+      "name": "Radio Punto 9",
+      "url": "https://stream.zeno.fm/t5jmgbldfruvv",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 401",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:14:28.326Z"
+    },
+    {
+      "stationuuid": "2ac67aa2-b8e1-4cb3-bf5d-5540af0d081d",
+      "name": "Radio Remusica",
+      "url": "https://v4.tustreaming.cl:8144/stream",
+      "verdict": "broken-network",
+      "verdictReason": "HTTP 404",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:14:28.844Z"
+    },
+    {
+      "stationuuid": "cf32d3ce-ad18-4c09-97c4-a65f3e22ac3e",
+      "name": "Trending radio",
+      "url": "https://c25.radioboss.fm:8162/stream",
+      "verdict": "broken-network",
+      "verdictReason": "AbortError: This operation was aborted",
+      "votes": 1,
+      "lastProbedAt": "2026-04-30T12:14:38.431Z"
+    }
+  ],
+  "internalDupes": [
+    {
+      "canonical": {
+        "stationuuid": "962db1df-0601-11e8-ae97-52543be04c81",
+        "name": "De los Recuerdos",
+        "url": "http://sonando.us.digitalproserver.com/fmdelosrecuerdos.aac",
+        "votes": 4502
+      },
+      "variants": [
+        {
+          "stationuuid": "62678be8-2d99-4bc3-ac62-25871c98e268",
+          "name": "FM de los Recuerdos",
+          "url": "http://sonando.us.digitalproserver.com/fmdelosrecuerdos.aac",
+          "votes": 1680,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c8916fc9-8f5a-4e63-a434-912e18c12f78",
+        "name": "Radio Sol 97.7",
+        "url": "https://us9.maindigitalstream.com/ssl/7389",
+        "votes": 2096
+      },
+      "variants": [
+        {
+          "stationuuid": "aed83900-30eb-49d8-b8d7-d3bed15c5416",
+          "name": "RADIO SOL",
+          "url": "https://us9.maindigitalstream.com/ssl/7389",
+          "votes": 12,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "2ef8e3c1-a7ec-42ee-b9cc-72498d7a40ef",
+        "name": "RADIO ACTIVA 92.5.",
+        "url": "http://stream.zeno.fm/pvs6hqz3crtvv",
+        "votes": 1807
+      },
+      "variants": [
+        {
+          "stationuuid": "f75f3ff8-8f83-4dd6-906a-1d6108c3b3ec",
+          "name": "RADIO ACTIVA 92.5°",
+          "url": "http://stream.zeno.fm/pvs6hqz3crtvv",
+          "votes": 217,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "7e005244-06bb-42a4-9f9a-164f35e34ca3",
+          "name": "RADIO ACTIVA 92.5 cl",
+          "url": "http://stream.zeno.fm/pvs6hqz3crtvv",
+          "votes": 93,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8bc8f710-0d16-4df5-8878-cfaedee7d4c5",
+        "name": "RADIO COOPERATIVA",
+        "url": "https://unlimited3-cl.dps.live/cooperativafm/mp3/icecast.audio",
+        "votes": 1523
+      },
+      "variants": [
+        {
+          "stationuuid": "9f95bdc1-9614-4a60-b515-c5253451d4b1",
+          "name": "Cooperativa",
+          "url": "https://unlimited3-cl.dps.live/cooperativafm/mp3/icecast.audio",
+          "votes": 252,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8d6ee408-b0e3-4342-90bc-079d3defb15f",
+        "name": "Radio El Conquistador FM (Santiago)",
+        "url": "https://stream10.usastreams.com/9314/stream/",
+        "votes": 1258
+      },
+      "variants": [
+        {
+          "stationuuid": "5457b0ad-b331-413c-8c35-420838c9c50d",
+          "name": "El Conquistador Fm (Santiago)",
+          "url": "https://stream10.usastreams.com/9314/stream/",
+          "votes": 213,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "1828587e-9b35-444a-b253-07ba53ac9039",
+          "name": "Radio El Conquistador",
+          "url": "https://stream10.usastreams.com/9314/stream",
+          "votes": 76,
+          "differs": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "stationuuid": "6edd2670-7808-40a5-a167-706317f38ee8",
+          "name": "El Conquistador FM",
+          "url": "https://stream10.usastreams.com/9314/stream",
+          "votes": 14,
+          "differs": [
+            "name",
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "04c74563-90e1-48fe-9f8c-5d2ccd7d2bcb",
+        "name": "Festival",
+        "url": "https://stream.festival.cl/1",
+        "votes": 915
+      },
+      "variants": [
+        {
+          "stationuuid": "cf49f127-eaf1-41b4-a56c-8323be81e051",
+          "name": "Radio Festival",
+          "url": "https://stream.festival.cl/1",
+          "votes": 137,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "e1ee60f3-eed5-4345-b902-b08140e3500a",
+          "name": "Radio Festival",
+          "url": "https://stream.festival.cl/1",
+          "votes": 43,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "129050a5-f6f1-40f1-b4df-862449ceab84",
+        "name": "Beethoven FM (Relanzada)",
+        "url": "http://unlimited3-cl.dps.live/beethovenfm/gotardis/audio/now/livestream1.m3u8",
+        "votes": 652
+      },
+      "variants": [
+        {
+          "stationuuid": "2bb3e267-a04d-43ff-9b7e-a5b79fa5739a",
+          "name": "BeethovenFM",
+          "url": "http://unlimited3-cl.dps.live/beethovenfm/gotardis/audio/now/livestream1.m3u8",
+          "votes": 46,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "28f098b9-40aa-4fd5-8e56-79519710d329",
+        "name": "Oasis FM Chile",
+        "url": "https://mdstrm.com/audio/5c915497c6fd7c085b29169d/live.m3u8",
+        "votes": 543
+      },
+      "variants": [
+        {
+          "stationuuid": "e88a9e2f-7c45-434a-9cc6-56211a4e5019",
+          "name": "13c Radio",
+          "url": "https://mdstrm.com/audio/5c915497c6fd7c085b29169d/live.m3u8",
+          "votes": 35,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "e90c1ec5-9453-4c38-8217-45663575a2d4",
+        "name": "City Radio FLAC",
+        "url": "http://cityradio.ddns.net:8000/cityradio48flac",
+        "votes": 411
+      },
+      "variants": [
+        {
+          "stationuuid": "6ab92caa-6c94-4918-b45c-cd294321d1df",
+          "name": "CITYRADIO - CHILE",
+          "url": "http://cityradio.ddns.net:8000/cityradio48flac",
+          "votes": 24,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "189935e5-c3ad-4ca6-afbd-52394f9cad06",
+          "name": "CITYRADIO - CHILE",
+          "url": "http://cityradio.ddns.net:8000/cityradio48flac",
+          "votes": 24,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a522b074-87e0-4808-ab15-2e609000537a",
+        "name": "Radio Futuro",
+        "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/FUTURO_SC.mp3",
+        "votes": 310
+      },
+      "variants": [
+        {
+          "stationuuid": "af84f8a3-a4af-42a2-b9d2-0b20587a1bdb",
+          "name": "Radio Fututo",
+          "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/FUTURO_SC.mp3",
+          "votes": 8,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6e3cf16f-c5bb-45e5-9226-65bb33f0c9e7",
+        "name": "Super45.fm",
+        "url": "https://s4.radio.co/s421105570/listen",
+        "votes": 220
+      },
+      "variants": [
+        {
+          "stationuuid": "2b957d50-4a98-4f70-a9e4-5860ddb6dc68",
+          "name": "Super45.fm",
+          "url": "https://s4.radio.co/s421105570/listen",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "04d1c3df-c9e6-4c3f-9054-f8cb1be1f193",
+        "name": "Tornagaleones",
+        "url": "http://tornagaleones.ddns.net:9000/stream",
+        "votes": 215
+      },
+      "variants": [
+        {
+          "stationuuid": "b4ef71ed-f45b-4ac7-94d1-14f23cebd0b9",
+          "name": "Radio Tornagaleones",
+          "url": "http://tornagaleones.ddns.net:9000/stream",
+          "votes": 37,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c3517203-bd27-4019-9ba9-a72a53e4c88f",
+        "name": "Isla Negra Slowbeat",
+        "url": "https://radioislanegra.org/radio/8010/basic.aac",
+        "votes": 148
+      },
+      "variants": [
+        {
+          "stationuuid": "29554a99-2e8d-4dcb-af87-b51a3443d69c",
+          "name": "Radio Isla Negra - Slowbeat",
+          "url": "https://radioislanegra.org/radio/8010/basic.aac",
+          "votes": 33,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "21ae720a-b5a3-4603-8ae2-bdf33bf9274b",
+        "name": "Radiofavoritaranchera",
+        "url": "https://stream.zeno.fm/pdlp0sxtdjkvv",
+        "votes": 100
+      },
+      "variants": [
+        {
+          "stationuuid": "ec53bf8b-3c22-4603-9a77-d3fe807f4a50",
+          "name": "Radiofavoritaranchera",
+          "url": "https://stream.zeno.fm/pdlp0sxtdjkvv",
+          "votes": 30,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0965d494-c3d8-4737-bea2-68b43cec3de2",
+        "name": "radio club 80 rock",
+        "url": "http://stream.radioclub80.cl:9040/live.flac",
+        "votes": 81
+      },
+      "variants": [
+        {
+          "stationuuid": "16ceadbc-d768-4a43-ad09-f7be37686496",
+          "name": "radioclub80 rock",
+          "url": "http://stream.radioclub80.cl:9040/live.flac",
+          "votes": 22,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7373ab5f-0d96-45ce-8cc0-0abd2edbb16b",
+        "name": "Radio rtl Curico",
+        "url": "https://radio.mediadev.cl/radio/8070/rtlcurico",
+        "votes": 74
+      },
+      "variants": [
+        {
+          "stationuuid": "4d389715-c36a-43c5-b22f-68ef8e2dc6c9",
+          "name": "Radio RTL ( curico )",
+          "url": "https://radio.mediadev.cl/radio/8070/rtlcurico",
+          "votes": 36,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c1d47fe1-4096-45c3-84d3-a4cf7c19618c",
+        "name": "Radio UdeC - Universidad de Concepción",
+        "url": "https://audio.divalstream.com:7019/stream",
+        "votes": 61
+      },
+      "variants": [
+        {
+          "stationuuid": "a9e3b067-1306-4a5d-a8c1-9a43d575a3ad",
+          "name": "Radio UdeC",
+          "url": "https://audio.divalstream.com:7019/stream",
+          "votes": 16,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "4dec2e65-095b-4e0b-9c03-1dfc96ca629c",
+        "name": "Radio El Carbón",
+        "url": "https://unlimited11-cl.dps.live/elcarbon/aac/icecast.audio",
+        "votes": 58
+      },
+      "variants": [
+        {
+          "stationuuid": "af38115c-13de-4f57-94f1-734dad56cda8",
+          "name": "Radio El Carbon",
+          "url": "https://unlimited11-cl.dps.live/elcarbon/aac/icecast.audio",
+          "votes": 14,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "0175a884-db8b-4b2f-8977-00b82d633824",
+        "name": "Radio Kurruf",
+        "url": "https://radio.latina.red/radiokurruf.mp3",
+        "votes": 43
+      },
+      "variants": [
+        {
+          "stationuuid": "df0b6a9a-1438-41a4-ac6c-79e9ec700906",
+          "name": "Radio Kurruf",
+          "url": "https://radio.latina.red/radiokurruf.mp3?_=1",
+          "votes": 1,
+          "differs": [
+            "url"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "19244016-fce9-479c-b234-6988d473b0f7",
+        "name": "Frecuencia Rock 95.3",
+        "url": "http://audio.streaminghd.cl:9206/stream",
+        "votes": 39
+      },
+      "variants": [
+        {
+          "stationuuid": "568b4bac-ab1f-4620-8143-679aa6336f03",
+          "name": "Frecuencia Rock 95.3",
+          "url": "http://audio.streaminghd.cl:9206/stream",
+          "votes": 19,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "fbcd8ad6-77c5-49db-850a-bca870474f89",
+        "name": "City Radio POP - Chile",
+        "url": "http://cityradio.ddns.net:8000/citypop",
+        "votes": 34
+      },
+      "variants": [
+        {
+          "stationuuid": "760eca49-938f-4cee-b8bb-410c47560952",
+          "name": "City Radio POP",
+          "url": "http://cityradio.ddns.net:8000/citypop",
+          "votes": 31,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "7dc7c3ec-bfb1-43c1-80dd-f2366a7aecaf",
+        "name": "BLUFM",
+        "url": "https://sonic.nnw.cl:7009/;",
+        "votes": 31
+      },
+      "variants": [
+        {
+          "stationuuid": "11c9c0fe-e80f-4553-9ff0-95d773eb8c88",
+          "name": "Blu FM 94.9",
+          "url": "https://sonic.nnw.cl:7009/;",
+          "votes": 21,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "28886c91-4984-4d04-9fe0-86dd180773b4",
+        "name": "Radio Picados Música 24/7 - Chile 🇨🇱",
+        "url": "https://a10.asurahosting.com:7630/radio.mp3",
+        "votes": 28
+      },
+      "variants": [
+        {
+          "stationuuid": "5b34637e-2dca-491d-a1d8-ee7741c08a6a",
+          "name": "🕷️ Radio Picados - Online - Música 24/7",
+          "url": "https://a10.asurahosting.com:7630/radio.mp3",
+          "votes": 21,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "02878bc4-3a03-4674-a0d8-4e0f41d1f981",
+          "name": "Radio Picados",
+          "url": "https://a10.asurahosting.com:7630/radio.mp3",
+          "votes": 4,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "9257d5ff-d40f-46c8-b9c9-317f951d764c",
+          "name": "Radio Picados",
+          "url": "https://a10.asurahosting.com:7630/radio.mp3",
+          "votes": 1,
+          "differs": [
+            "name",
+            "bitrate",
+            "codec"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "8bd698b0-f038-465d-be06-359561cc4efa",
+        "name": "Radio Nostalgica",
+        "url": "https://unlimited5-us.dps.live/nostalgica/aac/icecast.audio",
+        "votes": 28
+      },
+      "variants": [
+        {
+          "stationuuid": "b94a990d-bf54-4c0b-a2bb-c161e8aebe57",
+          "name": "Nostalgica ",
+          "url": "https://unlimited5-us.dps.live/nostalgica/aac/icecast.audio",
+          "votes": 20,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "5067f3e8-f144-4a64-a730-4711f8fbcaa9",
+        "name": "UCV Radio",
+        "url": "https://sonando-us.digitalproserver.com/ucvradio",
+        "votes": 25
+      },
+      "variants": [
+        {
+          "stationuuid": "f41d0313-9e66-4c33-9e66-e2d97485cc0e",
+          "name": "UCV Radio 103.5",
+          "url": "https://sonando-us.digitalproserver.com/ucvradio",
+          "votes": 1,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "bf965245-8dc6-4c9e-9a04-34eda4ff1d66",
+        "name": "ESTACION DEL PODER",
+        "url": "http://stream.zeno.fm/t7cdutykw38uv",
+        "votes": 22
+      },
+      "variants": [
+        {
+          "stationuuid": "bdd7e85e-33bc-4ab0-8e90-ce7cec5a80ab",
+          "name": "Radio  Estacion del Poder",
+          "url": "http://stream.zeno.fm/t7cdutykw38uv",
+          "votes": 7,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "b5af32d6-e8ab-4141-b6a0-1d81d54681dc",
+        "name": "Radio Dulce LA LIGUA - PAPUDO ZAPALLAR 95.3 FM",
+        "url": "https://stream.zeno.fm/3yv0enxnp7zuv",
+        "votes": 19
+      },
+      "variants": [
+        {
+          "stationuuid": "0af1ab60-f709-4de7-b90a-fa2289a0a27b",
+          "name": "Radio Dulce 95.3 en La Ligua",
+          "url": "https://stream.zeno.fm/3yv0enxnp7zuv",
+          "votes": 17,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "a787630c-3f66-43f1-ba77-4fc3e09f042e",
+        "name": "Radio Carnaval 104.5 FM",
+        "url": "https://cp2.streamchileno.cl//listen//radiocarnaval//radio.mp3",
+        "votes": 18
+      },
+      "variants": [
+        {
+          "stationuuid": "811dc9a2-4cf8-4aa0-ad8b-ec3d50eb9f8f",
+          "name": "Radio Carnaval (La Serena)",
+          "url": "https://cp2.streamchileno.cl//listen//radiocarnaval//radio.mp3",
+          "votes": 15,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ea6e849f-d740-4f23-b9e6-cb117354065b",
+        "name": "punto7",
+        "url": "https://unlimited11-cl.dps.live/p7concepcion/aac/icecast.audio",
+        "votes": 18
+      },
+      "variants": [
+        {
+          "stationuuid": "e4169db6-9b2d-4cbb-bffa-1ab3591f6ae0",
+          "name": "puntosiete",
+          "url": "https://unlimited11-cl.dps.live/p7concepcion/aac/icecast.audio",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "c814bc71-e223-42ba-a3e7-b0aece90d6c2",
+        "name": "Radio Edelweiss",
+        "url": "https://encoder.stationlink.cl/listen/edelweiss/radio.mp3",
+        "votes": 18
+      },
+      "variants": [
+        {
+          "stationuuid": "98014013-e76f-4156-aaf8-d994a6134039",
+          "name": "Radio Edelweiss",
+          "url": "https://encoder.stationlink.cl/listen/edelweiss/radio.mp3",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "454b1777-82ad-451c-b4bb-1f85d5246756",
+        "name": "maray",
+        "url": "https://video.mediawebchile.com:2000/stream/8212/stream",
+        "votes": 14
+      },
+      "variants": [
+        {
+          "stationuuid": "b337de38-d81c-4949-879b-f1292b45b63d",
+          "name": "Radio Maray",
+          "url": "https://video.mediawebchile.com:2000/stream/8212/stream",
+          "votes": 10,
+          "differs": [
+            "name"
+          ]
+        },
+        {
+          "stationuuid": "eb45293b-1604-4104-b596-60edc1a3de5d",
+          "name": "RADIO MARAY",
+          "url": "https://video.mediawebchile.com:2000/stream/8212/stream",
+          "votes": 3,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "ee88bf83-2c85-4568-9ec9-8fdc59d63c21",
+        "name": "Radio Amiga Fm 100.7",
+        "url": "https://streams.radiomast.io/aff8c0f0-5d0c-41d6-83b2-71daff574701",
+        "votes": 13
+      },
+      "variants": [
+        {
+          "stationuuid": "9c4129b7-6376-4baf-8fe9-66ad49dd7474",
+          "name": "Radio Amiga Fm 100.7",
+          "url": "https://streams.radiomast.io/aff8c0f0-5d0c-41d6-83b2-71daff574701",
+          "votes": 9,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "6eff18af-b438-4bf5-8125-068d6f635c24",
+        "name": "Radio picarona",
+        "url": "https://sonic.portalfoxmix.cl:7046/;",
+        "votes": 7
+      },
+      "variants": [
+        {
+          "stationuuid": "a5215466-24f0-40ae-a170-2d9e23e02409",
+          "name": "Radio Picarona",
+          "url": "https://sonic.portalfoxmix.cl:7046/;",
+          "votes": 6,
+          "differs": [
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "1d7ffdc8-ad09-41b0-894d-e05752bea1e9",
+        "name": "Radio Tornagaleones 105.3",
+        "url": "http://tornagaleones.ddns.net:9000/Flac",
+        "votes": 6
+      },
+      "variants": [
+        {
+          "stationuuid": "fb208654-1b0e-491a-a0f5-e78e55600752",
+          "name": "Radio Tornagaleones 105.3",
+          "url": "http://tornagaleones.ddns.net:9000/Flac",
+          "votes": 3,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "29555348-e483-429c-b355-ae686daa8ff2",
+        "name": "BlueRadio",
+        "url": "https://stream.zeno.fm/udk5orfzet5vv",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "1623b53c-64e6-40c0-8b05-983b50e24270",
+          "name": "BlueRadio",
+          "url": "https://stream.zeno.fm/udk5orfzet5vv",
+          "votes": 4,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "f2bf4b90-e1a0-4371-8c3c-9ddbb77c04fb",
+        "name": "FM+ 92.3 Radio Talca",
+        "url": "https://audio5.tustreaming.cl/8010/fmmas",
+        "votes": 5
+      },
+      "variants": [
+        {
+          "stationuuid": "272a8538-4703-4359-844a-3731d1ad0484",
+          "name": "FM+ 92.3 Radio Talca",
+          "url": "https://audio5.tustreaming.cl/8010/fmmas",
+          "votes": 0,
+          "differs": []
+        }
+      ]
+    },
+    {
+      "canonical": {
+        "stationuuid": "d7eba684-09c3-4503-9824-0b16d0cc9feb",
+        "name": "Radio Sol FM 97.7",
+        "url": "http://us9.maindigitalstream.com:7389/stream/;",
+        "votes": 2
+      },
+      "variants": [
+        {
+          "stationuuid": "6fdb3e93-18d9-449e-abfd-b1f27cf3c18f",
+          "name": "Radio Sol FM 97.7",
+          "url": "http://us9.maindigitalstream.com:7389/stream/;",
+          "votes": 2,
+          "differs": []
+        }
+      ]
+    }
+  ],
+  "metadataAPIs": [],
+  "httpsVariants": []
+}
