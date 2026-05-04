@@ -27,6 +27,7 @@ export const MINI_FRAGMENT = `
   <span id="mini-fav" aria-hidden="true"></span>
   <span class="mini-info">
     <span id="mini-name">—</span>
+    <span id="mini-track" hidden></span>
     <span class="mini-meta">
       <span id="mini-meta">STANDBY</span>
     </span>
