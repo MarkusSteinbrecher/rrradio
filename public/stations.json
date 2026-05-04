@@ -45292,6 +45292,87 @@
       "bitrate": 128,
       "codec": "MP3",
       "status": "stream-only"
+    },
+    {
+      "id": "ch-kontrafunk-aac-64",
+      "name": "Kontrafunk (AAC 64)",
+      "broadcaster": "independent",
+      "streamUrl": "https://s5.radio.co/sca4082ebb/low",
+      "homepage": "https://kontrafunk.radio/de/",
+      "country": "CH",
+      "tags": [
+        "conservative",
+        "news",
+        "politics",
+        "talk"
+      ],
+      "bitrate": 64,
+      "codec": "AAC",
+      "status": "stream-only"
+    },
+    {
+      "id": "ch-kontrafunk-mobil",
+      "name": "Kontrafunk (Mobil)",
+      "broadcaster": "independent",
+      "streamUrl": "https://icecast.multhielemedia.de/listen/kontrafunk/mobil",
+      "homepage": "https://kontrafunk.radio/",
+      "country": "CH",
+      "tags": [
+        "news",
+        "opinion",
+        "talk"
+      ],
+      "bitrate": 64,
+      "codec": "AAC",
+      "geo": [
+        47.6688,
+        8.986
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "ch-lounge-radio-com-swiss-made",
+      "name": "LOUNGE-RADIO.COM - swiss made",
+      "broadcaster": "independent",
+      "streamUrl": "https://player.streamhosting.ch/lounge64.aac",
+      "homepage": "https://lounge-radio.com/",
+      "country": "CH",
+      "tags": [
+        "lounge downtempo chillout ambient easy listening"
+      ],
+      "favicon": "https://lounge-radio.com/images/lounge-radio_logo.png",
+      "bitrate": 64,
+      "codec": "AAC+",
+      "geo": [
+        47.4729,
+        8.3081
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "ch-my105-x-mas-radio-aac",
+      "name": "my105 X-MAS Radio (AAC)",
+      "broadcaster": "independent",
+      "streamUrl": "https://stream01.my105.ch/my105xmas-aac.mp3",
+      "homepage": "https://www.my105.ch/xmas",
+      "country": "CH",
+      "bitrate": 96,
+      "codec": "AAC+",
+      "status": "stream-only"
+    },
+    {
+      "id": "ch-radio-schlagerpark",
+      "name": "Radio Schlagerpark",
+      "broadcaster": "independent",
+      "streamUrl": "https://radio.schlagerpark.com/",
+      "homepage": "https://www.schlagerpark.com/",
+      "country": "CH",
+      "tags": [
+        "partyschlager",
+        "schlager"
+      ],
+      "codec": "OGG",
+      "status": "stream-only"
     }
   ]
 }
