@@ -68,16 +68,19 @@
 - id: builtin-br-bayern1
   stationuuid: 7a49c017-1391-4e18-a4d8-a9bab58516e6
   changeuuid: efda1f14-1fd5-48bf-8f9b-fb11e494b9e6
-  reviewedAt: 2026-04-28
+  reviewedAt: 2026-05-06
   geo:
     - 48.1351
     - 11.582
   broadcaster: br
+  # mcdn.hf.br.de retired by BR — moved to the ARD-wide rndfnk dispatcher.
+  # `obb` = Oberbayern (matches the metadataUrl below, same as the regional
+  # Bayern 1 entries already on this dispatcher).
   name: Bayern 1
-  streamUrl: https://mcdn.hf.br.de/br/hf/b1obb/master.m3u8
+  streamUrl: https://dispatcher.rndfnk.com/br/br1/obb/mp3/mid
   metadataUrl: https://www.br.de/mediathek/audio/bayern1/audio-livestream-bayern1-oberbayern-100~radioplayer.json
   bitrate: 128
-  codec: HLS
+  codec: MP3
   tags:
     - pop
     - oldies
