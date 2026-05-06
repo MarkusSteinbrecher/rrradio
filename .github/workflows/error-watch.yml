@@ -1,0 +1,120 @@
+name: Error watch
+
+# Daily digest of runtime errors users hit. Pulls the top `error: *`
+# events from the rrradio-stats Worker (`/api/errors?days=7`) and
+# opens (or updates) a single tracking issue labelled `error-watch`
+# when anything is over the noise threshold. Auto-closes the issue
+# when the last 7 days are clean.
+#
+# Categories the app emits (see src/errors.ts):
+#   runtime · promise · catalog · worker · stream
+# Plus per-station legacy `error: <name>` events.
+#
+# Required secret: ADMIN_TOKEN — same value as `wrangler secret put
+# ADMIN_TOKEN` on the Worker. Mirror it as a GitHub Actions secret in
+# repo settings before this workflow can run.
+
+on:
+  schedule:
+    - cron: '30 7 * * *' # Daily 07:30 UTC, 30 min after catalog-watch
+  workflow_dispatch:
+    inputs:
+      days:
+        description: 'Lookback window (days)'
+        required: false
+        default: '7'
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  WORKER_BASE: https://rrradio-stats.markussteinbrecher.workers.dev
+  # Threshold for "notable": surface any single error with count >= this.
+  MIN_COUNT: 5
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch errors from worker
+        id: fetch
+        env:
+          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+          DAYS: ${{ github.event.inputs.days || '7' }}
+        run: |
+          set -euo pipefail
+          if [ -z "${ADMIN_TOKEN:-}" ]; then
+            echo "::error::ADMIN_TOKEN secret is missing — add it in repo settings (same value as the Worker's ADMIN_TOKEN)."
+            exit 1
+          fi
+          curl -fsS \
+            -H "Authorization: Bearer ${ADMIN_TOKEN}" \
+            "${WORKER_BASE}/api/errors?days=${DAYS}" \
+            > errors.json
+          # Echo a compact preview so the run log is useful at a glance.
+          jq '{ range_days, total, item_count: (.items | length), top: (.items[:5]) }' errors.json
+          # Decide whether to open / keep an issue: any item at or above
+          # MIN_COUNT triggers it.
+          NOTABLE=$(jq --argjson min "$MIN_COUNT" '[.items[] | select(.count >= $min)] | length' errors.json)
+          echo "notable=$NOTABLE" >> "$GITHUB_OUTPUT"
+
+      - name: Render issue body
+        if: steps.fetch.outputs.notable != '0'
+        run: |
+          set -euo pipefail
+          {
+            echo "Last run: $(date -u +'%Y-%m-%d %H:%M UTC')  ·  [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+            echo
+            DAYS=$(jq -r '.range_days' errors.json)
+            TOTAL=$(jq -r '.total' errors.json)
+            echo "Window: last ${DAYS} days  ·  Total error events: ${TOTAL}  ·  Threshold: count ≥ ${MIN_COUNT}"
+            echo
+            echo "### Top errors"
+            echo
+            echo "| Count | Unique | Category | Title |"
+            echo "|------:|------:|----------|-------|"
+            jq -r '.items[] | "| \(.count) | \(.unique) | \(.label) | \((.title // "") | gsub("\\|"; "\\|")) |"' errors.json
+            echo
+            echo "<details><summary>Raw response</summary>"
+            echo
+            echo '```json'
+            jq '.' errors.json
+            echo '```'
+            echo
+            echo "</details>"
+            echo
+            echo "_Categories: \`runtime\` (sync exceptions), \`promise\` (unhandled rejections), \`catalog\` (stations.json load), \`worker\` (rrradio-stats fetch), \`stream\` (audio playback). Per-station legacy entries appear as their station name._"
+          } > body.md
+
+      - name: Open or update tracking issue
+        if: steps.fetch.outputs.notable != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create error-watch \
+            --description "Daily error-watch surfaced events to triage" \
+            --color B60205 --force >/dev/null 2>&1 || true
+
+          NUM=$(gh issue list --label error-watch --state open --json number --jq '.[0].number // ""')
+          if [ -n "$NUM" ]; then
+            gh issue edit "$NUM" --body-file body.md
+            gh issue comment "$NUM" --body "Re-checked $(date -u +'%Y-%m-%d %H:%M UTC') — still has notable errors. Body updated."
+          else
+            gh issue create \
+              --title "Error watch: runtime errors need triage" \
+              --label error-watch \
+              --body-file body.md
+          fi
+
+      - name: Close tracking issue if quiet
+        if: steps.fetch.outputs.notable == '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          NUM=$(gh issue list --label error-watch --state open --json number --jq '.[0].number // ""')
+          if [ -n "$NUM" ]; then
+            gh issue close "$NUM" --comment "Last 7 days clean (no error category at or above count ${MIN_COUNT}) as of $(date -u +'%Y-%m-%d %H:%M UTC'). Closing."
+          fi
