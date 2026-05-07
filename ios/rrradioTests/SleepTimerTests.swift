@@ -15,11 +15,8 @@ final class SleepTimerTests: XCTestCase {
         let timer = SleepTimer()
 
         timer.cycle {}
-        XCTAssertEqual(timer.minutes, 15)
-        XCTAssertEqual(timer.chipText, "15m")
-
-        timer.cycle {}
         XCTAssertEqual(timer.minutes, 30)
+        XCTAssertEqual(timer.chipText, "0:30")
 
         timer.cycle {}
         XCTAssertEqual(timer.minutes, 60)
@@ -34,7 +31,7 @@ final class SleepTimerTests: XCTestCase {
 
     func testSetZeroCancels() {
         let timer = SleepTimer()
-        timer.set(minutes: 15) {}
+        timer.set(minutes: 30) {}
 
         timer.set(minutes: 0) {}
 
@@ -46,7 +43,7 @@ final class SleepTimerTests: XCTestCase {
     func testFireClearsStateAndRunsCallback() {
         let timer = SleepTimer()
         var fired = false
-        timer.set(minutes: 15) {}
+        timer.set(minutes: 30) {}
 
         timer.fireNowForTesting {
             fired = true

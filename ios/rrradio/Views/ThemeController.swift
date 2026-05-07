@@ -30,4 +30,9 @@ final class ThemeController {
         choice = colorScheme == .dark ? .light : .dark
         defaults.set(choice.rawValue, forKey: key)
     }
+
+    func setChoice(_ newChoice: Choice) {
+        choice = newChoice
+        defaults.set(newChoice.rawValue, forKey: key)
+    }
 }

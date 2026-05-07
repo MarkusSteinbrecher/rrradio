@@ -10,9 +10,11 @@ settings:
   base:
     SWIFT_VERSION: "5.10"
     MARKETING_VERSION: "0.1.0"
-    CURRENT_PROJECT_VERSION: 1
+    CURRENT_PROJECT_VERSION: 2
     GENERATE_INFOPLIST_FILE: YES
-    PRODUCT_BUNDLE_IDENTIFIER: org.rrradio.ios
+    PRODUCT_BUNDLE_IDENTIFIER: ios.rrradio.org
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: AMWM3DHJSG
 
 targets:
   rrradio:
@@ -27,7 +29,7 @@ targets:
     info:
       path: rrradio/Resources/Info.plist
       properties:
-        CFBundleDisplayName: rrradio
+        CFBundleDisplayName: rrradio.org
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         ITSAppUsesNonExemptEncryption: false
@@ -61,6 +63,9 @@ targets:
         UIRequiresFullScreen: false
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
         UIViewControllerBasedStatusBarAppearance: false
     settings:
       base:
