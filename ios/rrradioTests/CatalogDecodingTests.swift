@@ -82,6 +82,60 @@ final class CatalogDecodingTests: XCTestCase {
         XCTAssertNoThrow(try JSONDecoder().decode(CatalogResponse.self, from: json))
     }
 
+    func testIgnoresEmptyOptionalURLsFromLiveCatalog() throws {
+        let json = """
+        {
+          "stations": [
+            {
+              "id": "x",
+              "name": "X",
+              "streamUrl": "https://example.com/",
+              "homepage": "",
+              "favicon": ""
+            }
+          ]
+        }
+        """.data(using: .utf8)!
+        let station = try JSONDecoder().decode(CatalogResponse.self, from: json).stations[0]
+        XCTAssertNil(station.homepage)
+        XCTAssertNil(station.favicon)
+    }
+
+    func testResolvesRelativeFaviconAgainstCatalogOrigin() throws {
+        let json = """
+        {
+          "stations": [
+            {
+              "id": "builtin-fm4",
+              "name": "FM4",
+              "streamUrl": "https://orf-live.ors-shoutcast.at/fm4-q2a",
+              "favicon": "stations/fm4.png"
+            }
+          ]
+        }
+        """.data(using: .utf8)!
+
+        let station = try JSONDecoder().decode(CatalogResponse.self, from: json).stations[0]
+
+        XCTAssertEqual(station.favicon?.absoluteString, "https://rrradio.org/stations/fm4.png")
+    }
+
+    func testDecodesNumericStationNameFromLiveCatalog() throws {
+        let json = """
+        {
+          "stations": [
+            {
+              "id": "br-100e7",
+              "name": 1000000000,
+              "streamUrl": "https://radio.saopaulo01.com.br:10919/live"
+            }
+          ]
+        }
+        """.data(using: .utf8)!
+        let station = try JSONDecoder().decode(CatalogResponse.self, from: json).stations[0]
+        XCTAssertEqual(station.name, "1000000000")
+    }
+
     func testDecodesEmptyCatalog() throws {
         let json = #"{ "stations": [] }"#.data(using: .utf8)!
         let resp = try JSONDecoder().decode(CatalogResponse.self, from: json)

@@ -37,7 +37,7 @@ final class Catalog {
     private(set) var stations: [Station] = []
     private(set) var state: LoadState = .idle
 
-    static let canonicalURL = URL(string: "https://rrradio.org/stations.json")!
+    nonisolated static let canonicalURL = URL(string: "https://rrradio.org/stations.json")!
 
     private let fetch: CatalogDataFetcher
     private let cacheURL: URL

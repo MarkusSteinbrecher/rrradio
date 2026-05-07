@@ -64,7 +64,9 @@ worker/
 ios/                  — SwiftUI + AVFoundation app (Phase 2).
   rrradio/{App,Models,Player,Search,Views}/
   rrradioTests/       — XCTest target (catalog decoding, cache fallback,
-                        search normalization, AudioPlayer state contract).
+                        library storage, search normalization,
+                        direct + ICY metadata parsers,
+                        AudioPlayer state contract).
   project.yml         — xcodegen project definition.
 
 e2e/

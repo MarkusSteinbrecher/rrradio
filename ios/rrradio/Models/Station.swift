@@ -17,12 +17,11 @@ struct Station: Identifiable, Hashable, Codable {
     var bitrate: Int? = nil
     var codec: String? = nil
     var listeners: Int? = nil
-    /// Per-station "now-playing" endpoint when the broadcaster has one.
-    /// We don't consume it yet — the v1 player relies on AVPlayer's
-    /// built-in `timedMetadata` for HLS ICY data.
+    /// Per-station "now-playing" endpoint or fetcher-specific slug when
+    /// the broadcaster has one.
     var metadataUrl: String? = nil
-    /// Key into the (future) Swift-side metadata-fetcher registry.
-    /// Mirrors the TypeScript `metadata` field; ignored for now.
+    /// Key into the Swift-side metadata-fetcher registry. Mirrors the
+    /// TypeScript `metadata` field.
     var metadata: String? = nil
     /// `working` / `icy-only` / `stream-only` per the catalog taxonomy.
     var status: String? = nil
@@ -34,6 +33,75 @@ struct Station: Identifiable, Hashable, Codable {
         case id, name, streamUrl, homepage, country, tags, favicon
         case bitrate, codec, listeners, metadataUrl, metadata, status
         case geo, featured
+    }
+}
+
+extension Station {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
+        name = try Self.decodeLossyString(.name, from: container)
+
+        let streamUrlValue = try container.decode(String.self, forKey: .streamUrl)
+        guard let streamUrl = URL(string: streamUrlValue), !streamUrlValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            throw DecodingError.dataCorruptedError(
+                forKey: .streamUrl,
+                in: container,
+                debugDescription: "Invalid streamUrl",
+            )
+        }
+        self.streamUrl = streamUrl
+
+        homepage = Self.decodeOptionalURL(.homepage, from: container)
+        country = try container.decodeIfPresent(String.self, forKey: .country)
+        tags = try container.decodeIfPresent([String].self, forKey: .tags)
+        favicon = Self.decodeOptionalURL(.favicon, from: container, relativeTo: Catalog.canonicalURL)
+        bitrate = try container.decodeIfPresent(Int.self, forKey: .bitrate)
+        codec = try container.decodeIfPresent(String.self, forKey: .codec)
+        listeners = try container.decodeIfPresent(Int.self, forKey: .listeners)
+        metadataUrl = try container.decodeIfPresent(String.self, forKey: .metadataUrl)
+        metadata = try container.decodeIfPresent(String.self, forKey: .metadata)
+        status = try container.decodeIfPresent(String.self, forKey: .status)
+        geo = try container.decodeIfPresent([Double].self, forKey: .geo)
+        featured = try container.decodeIfPresent(Bool.self, forKey: .featured)
+    }
+
+    private static func decodeOptionalURL(
+        _ key: CodingKeys,
+        from container: KeyedDecodingContainer<CodingKeys>,
+        relativeTo baseURL: URL? = nil,
+    ) -> URL? {
+        guard let value = try? container.decodeIfPresent(String.self, forKey: key)?.trimmingCharacters(in: .whitespacesAndNewlines),
+              !value.isEmpty else {
+            return nil
+        }
+        if let url = URL(string: value), url.scheme != nil {
+            return url
+        }
+        guard let baseURL else { return URL(string: value) }
+        return URL(string: value, relativeTo: baseURL)?.absoluteURL
+    }
+
+    private static func decodeLossyString(
+        _ key: CodingKeys,
+        from container: KeyedDecodingContainer<CodingKeys>,
+    ) throws -> String {
+        if let value = try? container.decode(String.self, forKey: key) {
+            return value
+        }
+        if let value = try? container.decode(Int.self, forKey: key) {
+            return String(value)
+        }
+        if let value = try? container.decode(Double.self, forKey: key) {
+            return String(value)
+        }
+        throw DecodingError.typeMismatch(
+            String.self,
+            DecodingError.Context(
+                codingPath: container.codingPath + [key],
+                debugDescription: "Expected string-compatible value",
+            ),
+        )
     }
 }
 

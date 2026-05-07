@@ -8,12 +8,9 @@ import Observation
 /// commands (play / pause / from AirPods), and audio-session
 /// configuration so playback continues in the background.
 ///
-/// v1 surfaces only what AVPlayer publishes for free:
+/// v1 surfaces AVPlayer metadata plus selected broadcaster JSON fetchers:
 ///   - HLS streams: artist + title via AVPlayerItem.timedMetadata
-///   - Icecast streams: nothing (no built-in ICY-over-fetch on iOS).
-///     Phase-2 follow-up: port the Worker-proxied broadcaster fetchers
-///     (BR / HR / Antenne / SRG SSR / etc.) from src/builtins.ts to
-///     Swift and poll them like the web does.
+///   - ORF audioapi: polled via the shared catalog's metadataUrl.
 ///
 /// `@MainActor` (audit #72): all observable state must be mutated on
 /// the main thread or SwiftUI's @Observable tracking will fire warnings
@@ -29,14 +26,26 @@ final class AudioPlayer {
     private(set) var current: Station?
     private(set) var nowPlayingTitle: String?
     private(set) var nowPlayingArtist: String?
+    private(set) var nowPlayingProgramName: String?
+    private(set) var nowPlayingProgramSubtitle: String?
+    private(set) var nowPlayingCoverUrl: URL?
+    private(set) var nowPlayingSchedule: [ProgramScheduleDay] = []
+    private(set) var isScheduleLoading = false
+    private(set) var nowPlayingLyrics: LyricsResult?
+    private(set) var isLyricsLoading = false
 
     private var player: AVPlayer?
     private var timedMetaObserver: Any?
     private var statusObserver: NSKeyValueObservation?
     private var rateObserver: NSKeyValueObservation?
     private var cancellables = Set<AnyCancellable>()
+    private var metadataPoller: MetadataPoller?
+    private var scheduleTask: Task<Void, Never>?
+    private var lyricsTask: Task<Void, Never>?
+    private var lyricsKey = ""
 
     init() {
+        metadataPoller = MetadataPoller()
         configureAudioSession()
         wireRemoteCommands()
     }
@@ -55,6 +64,12 @@ final class AudioPlayer {
         state = .loading
         nowPlayingTitle = nil
         nowPlayingArtist = nil
+        nowPlayingProgramName = nil
+        nowPlayingProgramSubtitle = nil
+        nowPlayingCoverUrl = nil
+        nowPlayingSchedule = []
+        isScheduleLoading = false
+        resetLyrics()
 
         let item = AVPlayerItem(url: station.streamUrl)
         observeMetadata(on: item)
@@ -64,6 +79,8 @@ final class AudioPlayer {
         observeStatus(p)
         player = p
         p.play()
+        startMetadataPolling(for: station)
+        startScheduleLoading(for: station)
         updateNowPlaying()
     }
 
@@ -93,6 +110,12 @@ final class AudioPlayer {
         current = nil
         nowPlayingTitle = nil
         nowPlayingArtist = nil
+        nowPlayingProgramName = nil
+        nowPlayingProgramSubtitle = nil
+        nowPlayingCoverUrl = nil
+        nowPlayingSchedule = []
+        isScheduleLoading = false
+        resetLyrics()
         state = .idle
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
     }
@@ -198,7 +221,42 @@ final class AudioPlayer {
                 nowPlayingArtist = nil
                 nowPlayingTitle = v
             }
+            startLyricsLoadingIfNeeded()
             updateNowPlaying()
+        }
+    }
+
+    private func startMetadataPolling(for station: Station) {
+        guard let fetcher = metadataFetcher(for: station) else { return }
+        metadataPoller?.start(station: station, fetcher: fetcher) { [weak self] metadata in
+            guard let self, self.current?.id == station.id, let metadata else { return }
+            self.nowPlayingArtist = metadata.artist
+            self.nowPlayingTitle = metadata.title
+            self.nowPlayingProgramName = metadata.programName
+            self.nowPlayingProgramSubtitle = metadata.programSubtitle
+            self.nowPlayingCoverUrl = metadata.coverUrl
+            self.startLyricsLoadingIfNeeded()
+            self.updateNowPlaying()
+        }
+    }
+
+    private func startScheduleLoading(for station: Station) {
+        scheduleTask?.cancel()
+        nowPlayingSchedule = []
+        guard let fetcher = scheduleFetcher(for: station) else {
+            isScheduleLoading = false
+            return
+        }
+
+        isScheduleLoading = true
+        scheduleTask = Task { [weak self] in
+            let days = try? await fetcher(station)
+            guard !Task.isCancelled else { return }
+            await MainActor.run { [weak self] in
+                guard let self, self.current?.id == station.id else { return }
+                self.nowPlayingSchedule = days ?? []
+                self.isScheduleLoading = false
+            }
         }
     }
 
@@ -216,6 +274,13 @@ final class AudioPlayer {
     }
 
     private func teardownPlayer() {
+        metadataPoller?.stop()
+        scheduleTask?.cancel()
+        scheduleTask = nil
+        isScheduleLoading = false
+        lyricsTask?.cancel()
+        lyricsTask = nil
+        isLyricsLoading = false
         timedMetaObserver.map(NotificationCenter.default.removeObserver)
         timedMetaObserver = nil
         statusObserver?.invalidate()
@@ -226,5 +291,43 @@ final class AudioPlayer {
         player?.pause()
         player = nil
     }
-}
 
+    private func startLyricsLoadingIfNeeded() {
+        guard let artist = cleanLyricsComponent(nowPlayingArtist),
+              let title = cleanLyricsComponent(nowPlayingTitle) else {
+            resetLyrics()
+            return
+        }
+
+        let key = lyricsCacheKey(artist: artist, track: title)
+        guard key != lyricsKey else { return }
+
+        lyricsTask?.cancel()
+        lyricsKey = key
+        nowPlayingLyrics = nil
+        isLyricsLoading = true
+
+        lyricsTask = Task { [weak self] in
+            let lyrics = await lookupLyrics(artist: artist, track: title)
+            guard !Task.isCancelled else { return }
+            await MainActor.run { [weak self] in
+                guard let self, self.lyricsKey == key else { return }
+                self.nowPlayingLyrics = lyrics
+                self.isLyricsLoading = false
+            }
+        }
+    }
+
+    private func resetLyrics() {
+        lyricsTask?.cancel()
+        lyricsTask = nil
+        lyricsKey = ""
+        nowPlayingLyrics = nil
+        isLyricsLoading = false
+    }
+
+    private func cleanLyricsComponent(_ value: String?) -> String? {
+        let trimmed = value?.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed?.isEmpty == false ? trimmed : nil
+    }
+}
