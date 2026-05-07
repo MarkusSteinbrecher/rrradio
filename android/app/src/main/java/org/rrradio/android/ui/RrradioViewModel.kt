@@ -1,7 +1,6 @@
 package org.rrradio.android.ui
 
 import android.app.Application
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
@@ -118,6 +117,12 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
     fun refreshCatalog() {
         viewModelScope.launch {
             _uiState.update { it.copy(catalog = it.catalog.copy(loadState = CatalogLoadState.Loading)) }
+            val cached = catalogRepository.readCache()
+            if (cached.isNotEmpty()) {
+                _uiState.update {
+                    it.copy(catalog = CatalogState(stations = cached, loadState = CatalogLoadState.Loaded))
+                }
+            }
             _uiState.update { it.copy(catalog = catalogRepository.load()) }
         }
     }
@@ -148,7 +153,7 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
 
     fun play(station: Station) {
         val context = getApplication<Application>()
-        ContextCompat.startForegroundService(context, RadioPlaybackService.playIntent(context, station))
+        context.startService(RadioPlaybackService.playIntent(context, station))
         viewModelScope.launch { libraryRepository.pushRecent(station) }
     }
 
