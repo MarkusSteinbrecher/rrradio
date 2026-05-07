@@ -106,6 +106,13 @@ export function reorderFavorites(orderedIds: string[]): void {
   writeStations(FAVORITES_KEY, next);
 }
 
+/** Replace the entire favorites list. Used by backup-import to write a
+ *  merged list back; toggleFavorite / reorderFavorites cover the
+ *  per-row mutations. */
+export function setFavorites(list: Station[]): void {
+  writeStations(FAVORITES_KEY, list);
+}
+
 export function getRecents(): Station[] {
   return readStations(RECENTS_KEY);
 }
@@ -135,6 +142,12 @@ export function addCustom(station: Station): void {
 export function removeCustom(id: string): void {
   const next = getCustom().filter((s) => s.id !== id);
   writeStations(CUSTOM_KEY, next);
+}
+
+/** Replace the entire custom-stations list. Backup-import uses this to
+ *  write the merged result back in one call. */
+export function setCustom(list: Station[]): void {
+  writeStations(CUSTOM_KEY, list);
 }
 
 export function getWakeTo(): WakeTo | null {

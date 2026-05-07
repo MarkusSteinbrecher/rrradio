@@ -27,11 +27,21 @@ import {
   pushRecent,
   removeCustom,
   reorderFavorites,
+  setCustom,
+  setFavorites,
   setLastWakeTime,
   setString,
   setWakeTo,
   toggleFavorite,
 } from './storage';
+import {
+  BackupParseError,
+  backupFilename,
+  mergeSnapshot,
+  parseBackup,
+  serializeBackup,
+  summaryMessage,
+} from './backup';
 import { STATS_WORKER_BASE } from './config';
 import { countryName } from './country';
 import {
@@ -658,15 +668,31 @@ function renderTabBar(): void {
 // Render — Content
 // ─────────────────────────────────────────────────────────────
 
-function sectionLabel(label: string, count: number): HTMLDivElement {
+function sectionLabel(
+  label: string,
+  count: number,
+  actions?: HTMLElement[],
+): HTMLDivElement {
   const wrap = document.createElement('div');
   wrap.className = 'section-label';
+  if (actions?.length) wrap.classList.add('section-label--with-actions');
+
+  const title = document.createElement('div');
+  title.className = 'section-label__title';
   const left = document.createElement('span');
   left.textContent = label;
   const right = document.createElement('span');
   right.className = 'count';
   right.textContent = String(count).padStart(2, '0');
-  wrap.append(left, right);
+  title.append(left, right);
+  wrap.append(title);
+
+  if (actions?.length) {
+    const slot = document.createElement('div');
+    slot.className = 'section-label__actions';
+    slot.append(...actions);
+    wrap.append(slot);
+  }
   return wrap;
 }
 
@@ -1578,7 +1604,11 @@ function renderContent(): void {
     const all = getFavorites();
     const list = filterStations(all, query);
     const label = query ? 'Results' : 'Favorites';
-    $content.append(sectionLabel(label, list.length));
+    // Backup actions (export + import icons) appear only on the
+    // unfiltered Favorites view — they operate on the full stored list,
+    // not the search-filtered subset.
+    const actions = !query ? favoriteHeaderActions(all.length) : undefined;
+    $content.append(sectionLabel(label, list.length, actions));
     if (all.length === 0) {
       $content.append(
         emptyState(ICON_FAV, 'No favorites yet', 'Tap the heart on any station to save it here'),
@@ -2931,6 +2961,126 @@ $addForm.addEventListener('submit', handleAddSubmit);
 $themeBtn.addEventListener('click', onToggleTheme);
 $aboutBtn.addEventListener('click', () => openAboutSheet(true));
 $aboutClose.addEventListener('click', () => openAboutSheet(false));
+
+// ─── Backup & restore ──────────────────────────────────────────────
+// UI lives on the Favorites tab header (icons rendered by
+// renderFavoritesActions below). About sheet describes the feature
+// but holds no buttons of its own. A small toast under the topbar
+// reports the result; replaces itself on the next action.
+
+let $backupToast: HTMLElement | null = null;
+let backupToastTimer: ReturnType<typeof setTimeout> | null = null;
+
+function showBackupToast(text: string, tone: 'ok' | 'err'): void {
+  if (!$backupToast) {
+    $backupToast = document.createElement('div');
+    $backupToast.className = 'backup-toast';
+    $backupToast.setAttribute('role', 'status');
+    document.body.appendChild($backupToast);
+  }
+  $backupToast.textContent = text;
+  $backupToast.dataset.tone = tone;
+  $backupToast.hidden = false;
+  if (backupToastTimer) clearTimeout(backupToastTimer);
+  // Errors persist longer — users need time to read them.
+  backupToastTimer = setTimeout(() => {
+    if ($backupToast) $backupToast.hidden = true;
+  }, tone === 'err' ? 7_000 : 4_000);
+}
+
+function exportBackupNow(): void {
+  const favs = getFavorites();
+  const cus = getCustom();
+  const text = serializeBackup(favs, cus);
+  // Blob URL + temporary anchor for the download. Works on desktop;
+  // iOS Safari opens inline (Save to Files is two taps from there).
+  const blob = new Blob([text], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = backupFilename();
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  showBackupToast(
+    `Exported ${favs.length} favorite${favs.length === 1 ? '' : 's'}` +
+      (cus.length > 0 ? ` and ${cus.length} custom station${cus.length === 1 ? '' : 's'}` : '') +
+      '.',
+    'ok',
+  );
+  track('backup-export', `favs=${favs.length} custom=${cus.length}`);
+}
+
+function importBackupFromFile(file: File): void {
+  const reader = new FileReader();
+  reader.onerror = () => showBackupToast("Couldn't read that file.", 'err');
+  reader.onload = () => {
+    try {
+      const text = String(reader.result ?? '');
+      const snap = parseBackup(text);
+      const summary = mergeSnapshot(getFavorites(), getCustom(), snap);
+      setFavorites(summary.mergedFavorites);
+      setCustom(summary.mergedCustom);
+      showBackupToast(summaryMessage(summary), 'ok');
+      track(
+        'backup-import',
+        `favsAdded=${summary.favoritesAdded} customAdded=${summary.customAdded}`,
+      );
+      void runQuery();
+      renderCustomList();
+    } catch (err) {
+      const msg =
+        err instanceof BackupParseError
+          ? err.message
+          : `Import failed: ${err instanceof Error ? err.message : String(err)}`;
+      showBackupToast(msg, 'err');
+    }
+  };
+  reader.readAsText(file);
+}
+
+/** Trigger the file-picker. The input is created on demand so the DOM
+ *  doesn't carry a permanently-mounted hidden file input. */
+function pickImportFile(): void {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'application/json,.json';
+  input.style.display = 'none';
+  input.addEventListener('change', () => {
+    const file = input.files?.[0];
+    if (file) importBackupFromFile(file);
+    input.remove();
+  });
+  document.body.appendChild(input);
+  input.click();
+}
+
+/** Build the export + import icon buttons for the Favorites tab header.
+ *  Export is disabled when there's nothing to export; import is always
+ *  available (it's how a fresh device becomes populated). */
+function favoriteHeaderActions(favoriteCount: number): HTMLElement[] {
+  const exportBtn = document.createElement('button');
+  exportBtn.type = 'button';
+  exportBtn.className = 'section-label__action';
+  exportBtn.setAttribute('aria-label', 'Export favorites');
+  exportBtn.title = 'Export favorites to file';
+  exportBtn.disabled = favoriteCount === 0;
+  exportBtn.innerHTML =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>';
+  exportBtn.addEventListener('click', exportBackupNow);
+
+  const importBtn = document.createElement('button');
+  importBtn.type = 'button';
+  importBtn.className = 'section-label__action';
+  importBtn.setAttribute('aria-label', 'Import favorites');
+  importBtn.title = 'Import favorites from file';
+  importBtn.innerHTML =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V9"/><path d="m17 14-5-5-5 5"/><path d="M5 3h14"/></svg>';
+  importBtn.addEventListener('click', pickImportFile);
+
+  return [exportBtn, importBtn];
+}
 $dashboardBtn.addEventListener('click', () => void openDashboardSheet(true));
 $dashboardClose.addEventListener('click', () => void openDashboardSheet(false));
 
