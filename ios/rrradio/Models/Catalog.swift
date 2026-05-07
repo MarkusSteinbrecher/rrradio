@@ -61,11 +61,21 @@ final class Catalog {
     /// Idempotent — loads the catalog once per app session. Subsequent
     /// callers just see whatever's already loaded.
     func loadIfNeeded() async {
-        if !stations.isEmpty || state == .loading { return }
-        state = .loading
+        await load(force: false)
+    }
+
+    func refresh() async {
+        await load(force: true)
+    }
+
+    private func load(force: Bool) async {
+        if (!force && !stations.isEmpty) || state == .loading { return }
+        if stations.isEmpty {
+            state = .loading
+        }
 
         // Disk cache first — instant render even when offline.
-        if let cached = readCache() {
+        if stations.isEmpty, let cached = readCache() {
             stations = cached
             state = .loaded
         }

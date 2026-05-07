@@ -42,15 +42,7 @@ struct MiniPlayerView: View {
         .frame(minHeight: 66)
         .background(RrradioTheme.bg2)
         .overlay(alignment: .top) {
-            Rectangle()
-                .fill(RrradioTheme.line)
-                .frame(height: 1)
-        }
-        .overlay(alignment: .topLeading) {
-            if player.state == .playing {
-                MiniStreamingLine()
-                    .frame(height: 1)
-            }
+            MiniPlayerTopRule(isActive: player.current != nil)
         }
         .contentShape(Rectangle())
         .onTapGesture {
@@ -113,24 +105,15 @@ struct MiniPlayerView: View {
     }
 }
 
-private struct MiniStreamingLine: View {
+private struct MiniPlayerTopRule: View {
+    let isActive: Bool
+
     var body: some View {
-        TimelineView(.animation) { timeline in
-            let phase = timeline.date.timeIntervalSinceReferenceDate.truncatingRemainder(dividingBy: 2.4) / 2.4
-            GeometryReader { proxy in
-                let width = max(proxy.size.width, 1)
-                let segment = width * 0.42
-                Rectangle()
-                    .fill(
-                        LinearGradient(
-                            colors: [.clear, RrradioTheme.accent.opacity(0.72), .clear],
-                            startPoint: .leading,
-                            endPoint: .trailing,
-                        ),
-                    )
-                    .frame(width: segment)
-                    .offset(x: (width + segment) * phase - segment)
-            }
+        VStack(spacing: 0) {
+            Rectangle()
+                .fill(isActive ? RrradioTheme.accent : RrradioTheme.line)
+                .frame(height: isActive ? 2 : 1)
+            Spacer(minLength: 0)
         }
         .allowsHitTesting(false)
     }

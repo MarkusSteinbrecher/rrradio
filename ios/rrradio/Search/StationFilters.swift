@@ -1,6 +1,6 @@
 import Foundation
 
-let curatedGenreTags = [
+let genreFilterTags = [
     "jazz",
     "ambient",
     "classical",
@@ -28,9 +28,9 @@ func availableTags(from stations: [Station]) -> [String] {
     .sorted()
 }
 
-func availableCuratedGenres(from stations: [Station]) -> [String] {
+func availableGenres(from stations: [Station]) -> [String] {
     let available = Set(availableTags(from: stations))
-    return curatedGenreTags.filter { available.contains($0) }
+    return genreFilterTags.filter { available.contains($0) }
 }
 
 func stationMatchesFilters(_ station: Station, country: String?, tag: String?) -> Bool {
@@ -48,4 +48,18 @@ func stationMatchesFilters(_ station: Station, country: String?, tag: String?) -
 
 func countryDisplayName(_ code: String) -> String {
     Locale.current.localizedString(forRegionCode: code.uppercased()) ?? code.uppercased()
+}
+
+func countryFlagEmoji(_ code: String?) -> String {
+    guard let code else { return "" }
+    let scalars = code
+        .trimmingCharacters(in: .whitespacesAndNewlines)
+        .uppercased()
+        .unicodeScalars
+    guard scalars.count == 2, scalars.allSatisfy({ ("A"..."Z").contains(String($0)) }) else {
+        return ""
+    }
+    let regionalIndicatorOffset: UInt32 = 0x1F1E6 - 65
+    let flagScalars = scalars.compactMap { UnicodeScalar($0.value + regionalIndicatorOffset) }
+    return String(String.UnicodeScalarView(flagScalars))
 }
