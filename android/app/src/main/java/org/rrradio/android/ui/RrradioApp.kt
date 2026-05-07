@@ -69,6 +69,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -76,6 +77,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
 import org.rrradio.android.data.CatalogLoadState
 import org.rrradio.android.data.PlaybackUiState
 import org.rrradio.android.data.PlayerState
@@ -575,7 +577,7 @@ private fun StationRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(14.dp),
     ) {
-        StationAvatar(station, size = 38)
+        StationAvatar(station, size = 38, imageUrl = station.favicon)
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text(
@@ -659,7 +661,11 @@ private fun MiniPlayer(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(14.dp),
         ) {
-            StationAvatar(playback.station, size = 38)
+            StationAvatar(
+                playback.station,
+                size = 38,
+                imageUrl = playback.coverUrl ?: playback.station?.favicon,
+            )
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Text(
                     playback.station?.name.orEmpty(),
@@ -767,7 +773,7 @@ private fun NowPlayingSheet(
             verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                StationAvatar(station, size = 38)
+                StationAvatar(station, size = 38, imageUrl = station.favicon)
                 Text(
                     station.name,
                     color = MaterialTheme.colorScheme.onBackground,
@@ -797,7 +803,10 @@ private fun NowPlayingSheet(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
-            Artwork(station)
+            Artwork(
+                station = station,
+                imageUrl = state.playback.coverUrl ?: station.favicon,
+            )
             Text(
                 state.playback.title ?: "Live radio",
                 color = MaterialTheme.colorScheme.onBackground,
@@ -1079,7 +1088,11 @@ private fun CircleIconButton(
 }
 
 @Composable
-private fun StationAvatar(station: Station?, size: Int = 42) {
+private fun StationAvatar(
+    station: Station?,
+    size: Int = 42,
+    imageUrl: String? = station?.favicon,
+) {
     Box(
         Modifier
             .size(size.dp)
@@ -1095,11 +1108,20 @@ private fun StationAvatar(station: Station?, size: Int = 42) {
             fontWeight = FontWeight.SemiBold,
             fontFamily = FontFamily.Monospace,
         )
+        ResolvedAsyncImage(
+            url = imageUrl,
+            contentDescription = station?.name,
+            modifier = Modifier.matchParentSize(),
+            contentScale = ContentScale.Crop,
+        )
     }
 }
 
 @Composable
-private fun Artwork(station: Station) {
+private fun Artwork(
+    station: Station,
+    imageUrl: String?,
+) {
     Box(
         Modifier
             .size(220.dp)
@@ -1115,7 +1137,29 @@ private fun Artwork(station: Station) {
             fontWeight = FontWeight.SemiBold,
             fontFamily = FontFamily.Monospace,
         )
+        ResolvedAsyncImage(
+            url = imageUrl,
+            contentDescription = station.name,
+            modifier = Modifier.matchParentSize(),
+            contentScale = ContentScale.Crop,
+        )
     }
+}
+
+@Composable
+private fun ResolvedAsyncImage(
+    url: String?,
+    contentDescription: String?,
+    modifier: Modifier,
+    contentScale: ContentScale,
+) {
+    val resolved = resolveImageUrl(url) ?: return
+    AsyncImage(
+        model = resolved,
+        contentDescription = contentDescription,
+        modifier = modifier,
+        contentScale = contentScale,
+    )
 }
 
 @Composable
@@ -1191,6 +1235,12 @@ private fun tagLine(station: Station): String {
         station.tags.orEmpty().take(4).forEach(::add)
     }
     return parts.joinToString(" . ").ifEmpty { "stream" }.lowercase()
+}
+
+private fun resolveImageUrl(url: String?): String? {
+    val value = url?.trim()?.takeIf { it.isNotEmpty() } ?: return null
+    if (value.startsWith("https://") || value.startsWith("http://")) return value
+    return "https://rrradio.org/${value.removePrefix("/")}"
 }
 
 private fun trackLine(playback: PlaybackUiState): String? {
