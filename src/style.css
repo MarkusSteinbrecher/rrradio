@@ -1468,7 +1468,9 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
   justify-content: flex-start;
 }
 .open-in-badge--youtube-music {
-  width: 137px;
+  /* "YouTube Music" is wider than "Spotify"; the 137px shared
+     width clipped the brand text against the right padding. */
+  width: 175px;
   gap: 8px;
   padding: 0 10px;
   background: #000;
