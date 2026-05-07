@@ -31,6 +31,7 @@ function mountNp(): NowPlayingRefs {
     npTrackCoverFallback: byId('np-track-cover-fallback'),
     npTrackSpotify: byId('np-track-spotify') as HTMLAnchorElement,
     npTrackAppleMusic: byId('np-track-apple-music') as HTMLAnchorElement,
+    npTrackYoutubeMusic: byId('np-track-youtube-music') as HTMLAnchorElement,
     npTrackOpenInWrap: byId('np-track-open-in-wrap'),
     npStream: byId('np-stream') as HTMLAnchorElement,
     npStreamHost: byId('np-stream-host'),
@@ -143,7 +144,7 @@ describe('renderNowPlaying — track + open-in', () => {
     expect(refs.npTrackRow.hidden).toBe(false);
   });
 
-  it('shows track title + builds Spotify/Apple Music search URLs', () => {
+  it('shows track title + builds Spotify/Apple Music/YouTube Music search URLs', () => {
     const refs = mountNp();
     renderNowPlaying(
       refs,
@@ -155,6 +156,8 @@ describe('renderNowPlaying — track + open-in', () => {
     expect(refs.npTrackSpotify.href).toContain('open.spotify.com/search/');
     expect(refs.npTrackSpotify.href).toContain(encodeURIComponent('Radiohead - Pyramid Song'));
     expect(refs.npTrackAppleMusic.href).toContain('music.apple.com/search?term=');
+    expect(refs.npTrackYoutubeMusic.href).toContain('music.youtube.com/search?q=');
+    expect(refs.npTrackYoutubeMusic.href).toContain(encodeURIComponent('Radiohead - Pyramid Song'));
   });
 
   it('clears open-in (and calls callback) when no track', () => {
