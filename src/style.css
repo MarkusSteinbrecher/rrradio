@@ -560,6 +560,43 @@ html.theme-switching *::after {
   justify-content: center;
   gap: 10px;
 }
+.section-label__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+/* When a label carries actions, label+count drift to the left and
+   buttons sit on the right. Without actions, the centered layout
+   stays exactly as before. */
+.section-label--with-actions {
+  justify-content: space-between;
+}
+.section-label__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.section-label__action {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--ink-3);
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.section-label__action:hover { background: var(--bg-2); color: var(--ink); }
+.section-label__action:active { transform: scale(0.94); }
+.section-label__action:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.section-label__action svg { width: 18px; height: 18px; }
 .section-label .count {
   font-variant-numeric: tabular-nums;
   color: var(--ink-4);
@@ -2734,15 +2771,38 @@ body.is-wake-edit .np-pane-tabs { display: none; }
 .about-cta__logo { width: 18px; height: 18px; }
 .about-cta--ghost { background: transparent; }
 
-/* Inline result message under the Backup & restore CTAs. Tone is set
-   via data-tone="ok" | "err" so the same span doubles as success and
-   error feedback after Export / Import. */
-.about-backup-msg {
-  margin-top: 10px;
-  font-size: 13px;
-  color: var(--ink-2);
+/* Tiny inline icon used in About prose to point at the matching
+   button on another screen — e.g. "tap the [↓] icon on Favorites". */
+.about-inline-icon {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  vertical-align: -2px;
+  margin: 0 1px;
 }
-.about-backup-msg[data-tone="err"] { color: var(--accent, #c44); }
+
+/* Floating result toast for Backup & restore. Sits under the topbar,
+   centered, replaces itself on each new action and auto-dismisses
+   (4s on success, 7s on error — set in main.ts). */
+.backup-toast {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0) + 56px);
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: calc(100vw - 32px);
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-2);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 13px;
+  text-align: center;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  z-index: 1000;
+}
+.backup-toast[hidden] { display: none; }
+.backup-toast[data-tone="err"] { color: var(--accent, #c44); }
 
 /* ─── Reduced motion ─── */
 @media (prefers-reduced-motion: reduce) {
