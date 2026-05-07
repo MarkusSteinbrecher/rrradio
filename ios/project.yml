@@ -30,6 +30,7 @@ targets:
         CFBundleDisplayName: rrradio
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        ITSAppUsesNonExemptEncryption: false
         # Background audio so streams keep playing when the app
         # is backgrounded or the screen is locked.
         UIBackgroundModes: [audio]
