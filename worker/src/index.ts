@@ -99,14 +99,46 @@ function jsonResponse(body: unknown, status: number, headers: Record<string, str
   });
 }
 
+// 8s per upstream call. GoatCounter is normally <1s; anything slower is
+// almost certainly stuck and we'd rather fail this card than hold the
+// whole dashboard while siblings finish.
+const GC_FETCH_TIMEOUT_MS = 8_000;
+// One retry on transient GC errors (5xx, network hiccup). Backoff is
+// short on purpose — the dashboard waits inline and there's already a
+// 300ms gap between sibling calls.
+const GC_RETRY_BACKOFF_MS = 400;
+
 async function gcFetch<T>(path: string, env: Env): Promise<T> {
   const url = `https://${env.GOATCOUNTER_SITE}/api/v0${path}`;
-  const res = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${env.GOATCOUNTER_TOKEN}`,
-      Accept: 'application/json',
-    },
-  });
+  const headers = {
+    Authorization: `Bearer ${env.GOATCOUNTER_TOKEN}`,
+    Accept: 'application/json',
+  };
+
+  const attempt = async (): Promise<Response> => {
+    const ctl = new AbortController();
+    const timer = setTimeout(() => ctl.abort(), GC_FETCH_TIMEOUT_MS);
+    try {
+      return await fetch(url, { headers, signal: ctl.signal });
+    } finally {
+      clearTimeout(timer);
+    }
+  };
+
+  let res: Response;
+  try {
+    res = await attempt();
+    // Retry once on 5xx — GoatCounter occasionally hiccups under load.
+    if (res.status >= 500 && res.status < 600) {
+      await sleep(GC_RETRY_BACKOFF_MS);
+      res = await attempt();
+    }
+  } catch (err) {
+    // Network error or our own timeout. Retry once before giving up.
+    await sleep(GC_RETRY_BACKOFF_MS);
+    res = await attempt();
+  }
+
   if (!res.ok) {
     // Surface the upstream body (truncated) so the dashboard / wrangler-tail
     // shows what GoatCounter actually said, instead of an opaque 502.
@@ -173,6 +205,23 @@ async function totals(daysBack: number, env: Env): Promise<GcTotals & { range_da
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/** Run an upstream-fetching task and fall back to a default value if it
+ *  throws. Used by /api/everything to keep one bad GC call from
+ *  blanking the whole dashboard. The error is logged so wrangler-tail
+ *  still surfaces what failed. */
+async function tolerate<T>(task: () => Promise<T>, fallback: T): Promise<T> {
+  try {
+    return await task();
+  } catch (err) {
+    console.error('[gc-tolerate]', err instanceof Error ? err.message : String(err));
+    return fallback;
+  }
+}
+
+function emptyList(days: number): ListResponse {
+  return { items: [], total: 0, range_days: days };
 }
 
 /** Generic /stats/<group> reader. Used for browsers, systems, sizes,
@@ -421,15 +470,35 @@ export default {
           // with ~300ms gaps to stay under GoatCounter's 4 req/s limit.
           // The single fetchAllHits call backs all five prefix-filtered
           // sections (stations, favorites, errors, tabs, genres).
-          const hits = await fetchAllHits(days, env);
+          //
+          // Each upstream call is wrapped in tolerate() so one slow or
+          // flaky GC response degrades just its card instead of blanking
+          // the whole dashboard. The per-card error string surfaces to
+          // the frontend in the empty list, where it can be rendered
+          // alongside the working cards.
+          const hits = await tolerate(() => fetchAllHits(days, env), [] as GcHit[]);
           await sleep(300);
-          const tot = await totals(days, env);
+          const tot = await tolerate(
+            () => totals(days, env),
+            { range_days: days, total_pageviews: 0, total_unique_visitors: 0 } as GcTotals & {
+              range_days: number;
+            },
+          );
           await sleep(300);
-          const locations = await fetchStatGroup('locations', days, 20, env);
+          const locations = await tolerate(
+            () => fetchStatGroup('locations', days, 20, env),
+            emptyList(days),
+          );
           await sleep(300);
-          const browsers = await fetchStatGroup('browsers', days, 10, env);
+          const browsers = await tolerate(
+            () => fetchStatGroup('browsers', days, 10, env),
+            emptyList(days),
+          );
           await sleep(300);
-          const systems = await fetchStatGroup('systems', days, 10, env);
+          const systems = await tolerate(
+            () => fetchStatGroup('systems', days, 10, env),
+            emptyList(days),
+          );
           // Compute event total from the hits buffer — /stats/total
           // doesn't break this out reliably across GC versions.
           const eventCount = hits
