@@ -27,11 +27,21 @@ import {
   pushRecent,
   removeCustom,
   reorderFavorites,
+  setCustom,
+  setFavorites,
   setLastWakeTime,
   setString,
   setWakeTo,
   toggleFavorite,
 } from './storage';
+import {
+  BackupParseError,
+  backupFilename,
+  mergeSnapshot,
+  parseBackup,
+  serializeBackup,
+  summaryMessage,
+} from './backup';
 import { STATS_WORKER_BASE } from './config';
 import { countryName } from './country';
 import {
@@ -241,6 +251,10 @@ const $themeBtn = document.getElementById('theme-btn') as HTMLButtonElement;
 const $aboutBtn = document.getElementById('about-btn') as HTMLButtonElement;
 const $aboutSheet = document.getElementById('about-sheet') as HTMLElement;
 const $aboutClose = document.getElementById('about-close') as HTMLButtonElement;
+const $backupExportBtn = document.getElementById('backup-export-btn') as HTMLButtonElement;
+const $backupImportBtn = document.getElementById('backup-import-btn') as HTMLButtonElement;
+const $backupImportInput = document.getElementById('backup-import-input') as HTMLInputElement;
+const $backupMsg = document.getElementById('backup-msg') as HTMLElement;
 
 const $dashboardBtn = document.getElementById('dashboard-btn') as HTMLButtonElement;
 const $dashboardSheet = document.getElementById('dashboard-sheet') as HTMLElement;
@@ -2931,6 +2945,76 @@ $addForm.addEventListener('submit', handleAddSubmit);
 $themeBtn.addEventListener('click', onToggleTheme);
 $aboutBtn.addEventListener('click', () => openAboutSheet(true));
 $aboutClose.addEventListener('click', () => openAboutSheet(false));
+
+function setBackupMsg(text: string, tone: 'ok' | 'err'): void {
+  $backupMsg.textContent = text;
+  $backupMsg.dataset.tone = tone;
+  $backupMsg.hidden = false;
+}
+
+$backupExportBtn.addEventListener('click', () => {
+  const favs = getFavorites();
+  const cus = getCustom();
+  const text = serializeBackup(favs, cus);
+  // Use a Blob URL + temporary anchor for the download. Works on
+  // desktop browsers; iOS Safari opens it inline (an iCloud Drive /
+  // Files-app save is two taps from there). The data: scheme would
+  // skip the inline-open detour but is blocked by some browsers'
+  // download heuristics for large payloads.
+  const blob = new Blob([text], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = backupFilename();
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  setBackupMsg(
+    `Exported ${favs.length} favorite${favs.length === 1 ? '' : 's'}` +
+      (cus.length > 0 ? ` and ${cus.length} custom station${cus.length === 1 ? '' : 's'}` : '') +
+      '.',
+    'ok',
+  );
+  track('backup-export', `favs=${favs.length} custom=${cus.length}`);
+});
+
+$backupImportBtn.addEventListener('click', () => {
+  $backupImportInput.value = ''; // allow re-picking the same file
+  $backupImportInput.click();
+});
+
+$backupImportInput.addEventListener('change', () => {
+  const file = $backupImportInput.files?.[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onerror = () => setBackupMsg("Couldn't read that file.", 'err');
+  reader.onload = () => {
+    try {
+      const text = String(reader.result ?? '');
+      const snap = parseBackup(text);
+      const summary = mergeSnapshot(getFavorites(), getCustom(), snap);
+      setFavorites(summary.mergedFavorites);
+      setCustom(summary.mergedCustom);
+      setBackupMsg(summaryMessage(summary), 'ok');
+      track(
+        'backup-import',
+        `favsAdded=${summary.favoritesAdded} customAdded=${summary.customAdded}`,
+      );
+      // Re-render whatever the user might be looking at right now so
+      // the imported entries appear without a page refresh.
+      void runQuery();
+      renderCustomList();
+    } catch (err) {
+      const msg =
+        err instanceof BackupParseError
+          ? err.message
+          : `Import failed: ${err instanceof Error ? err.message : String(err)}`;
+      setBackupMsg(msg, 'err');
+    }
+  };
+  reader.readAsText(file);
+});
 $dashboardBtn.addEventListener('click', () => void openDashboardSheet(true));
 $dashboardClose.addEventListener('click', () => void openDashboardSheet(false));
 

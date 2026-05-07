@@ -749,6 +749,33 @@
           </div>
 
           <div class="about-section">
+            <h3>Backup &amp; restore</h3>
+            <p>
+              Carry your favorites and custom stations to another device.
+              Export a small JSON file from this browser, move it to the
+              other device however you like (AirDrop, USB, share sheet,
+              email to yourself), and import it there. The file lives on
+              your device only — no upload, no account.
+            </p>
+            <p>
+              Importing <em>adds</em> to whatever's already on the device;
+              it never deletes or replaces existing favorites.
+            </p>
+            <div class="about-ctas">
+              <button type="button" class="about-cta" id="backup-export-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+                <span>Export favorites</span>
+              </button>
+              <button type="button" class="about-cta" id="backup-import-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V9"/><path d="m17 14-5-5-5 5"/><path d="M5 3h14"/></svg>
+                <span>Import from file</span>
+              </button>
+              <input type="file" id="backup-import-input" accept="application/json,.json" hidden />
+            </div>
+            <p class="about-backup-msg" id="backup-msg" hidden></p>
+          </div>
+
+          <div class="about-section">
             <h3>Privacy</h3>
             <p>
               No cookies. Your favorites, theme choice, and recently-played

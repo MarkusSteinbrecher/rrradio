@@ -2734,6 +2734,16 @@ body.is-wake-edit .np-pane-tabs { display: none; }
 .about-cta__logo { width: 18px; height: 18px; }
 .about-cta--ghost { background: transparent; }
 
+/* Inline result message under the Backup & restore CTAs. Tone is set
+   via data-tone="ok" | "err" so the same span doubles as success and
+   error feedback after Export / Import. */
+.about-backup-msg {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.about-backup-msg[data-tone="err"] { color: var(--accent, #c44); }
+
 /* ─── Reduced motion ─── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
