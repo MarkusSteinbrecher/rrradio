@@ -1424,74 +1424,38 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
   top: 0;
   right: 0;
   z-index: 100;
-  padding: 8px;
+  padding: 10px 12px;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
   background: var(--bg-2);
-  border-radius: 10px;
+  border-radius: 12px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
 }
 .np-track__open-in-popup[hidden] { display: none; }
 
-/* "Listen on …" pills.
-   · Apple Music renders the official SVG badge from Apple
-     (public/badges/listen-on-apple-music.svg) — a self-contained
-     pill with logo + typography baked in. The link is just a
-     transparent wrapper around the image.
-   · Spotify has no stable public-CDN equivalent, so we compose a
-     matching pill in HTML/CSS using the official Spotify Icon. */
-.open-in-badge {
+/* Music-service icon row — mirrors the iOS NowPlayingView pattern:
+   a 3-up HStack of brand icons, no surrounding pill, no "Listen on"
+   text. Each anchor wraps a single SVG (Apple Music, Spotify,
+   YouTube Music) sourced from `ios/LogoSources/` so web + iOS stay
+   visually identical. The 44px tap target wraps a 32px icon. */
+.open-in-icon {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
   text-decoration: none;
   transition: opacity 0.15s, transform 0.15s;
-  height: 40px;
 }
-.open-in-badge:hover { opacity: 0.85; }
-.open-in-badge:active { transform: scale(0.98); }
-.open-in-badge--apple-music img {
+.open-in-icon img {
   display: block;
-  height: 40px;
-  width: 137px;
+  width: 32px;
+  height: 32px;
 }
-.open-in-badge--spotify {
-  width: 137px;
-  gap: 8px;
-  padding: 0 10px;
-  background: #000;
-  color: #fff;
-  border-radius: 6px;
-  text-align: left;
-  justify-content: flex-start;
-}
-.open-in-badge__icon-img {
-  display: block;
-  width: 22px;
-  height: 22px;
-  flex-shrink: 0;
-}
-.open-in-badge__text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.05;
-  white-space: nowrap;
-}
-.open-in-badge__lead {
-  font-size: 9px;
-  font-weight: 400;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  opacity: 0.78;
-}
-.open-in-badge__brand {
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  margin-top: 2px;
-}
+.open-in-icon:hover { opacity: 0.85; }
+.open-in-icon:active { transform: scale(0.92); }
 
 /* ─── Tuner Dial ─── */
 .dial {

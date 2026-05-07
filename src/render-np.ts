@@ -35,6 +35,7 @@ export interface NowPlayingRefs {
   npTrackCoverFallback: HTMLElement;
   npTrackSpotify: HTMLAnchorElement;
   npTrackAppleMusic: HTMLAnchorElement;
+  npTrackYoutubeMusic: HTMLAnchorElement;
   npTrackOpenInWrap: HTMLElement;
   npStream: HTMLAnchorElement;
   npStreamHost: HTMLElement;
@@ -114,10 +115,12 @@ export function renderNowPlaying(
     const q = encodeURIComponent((np.trackTitle as string).trim());
     refs.npTrackSpotify.href = `https://open.spotify.com/search/${q}`;
     refs.npTrackAppleMusic.href = `https://music.apple.com/search?term=${q}`;
+    refs.npTrackYoutubeMusic.href = `https://music.youtube.com/search?q=${q}`;
     refs.npTrackOpenInWrap.hidden = false;
   } else {
     refs.npTrackSpotify.removeAttribute('href');
     refs.npTrackAppleMusic.removeAttribute('href');
+    refs.npTrackYoutubeMusic.removeAttribute('href');
     refs.npTrackOpenInWrap.hidden = true;
     ctx.onClearOpenIn();
   }

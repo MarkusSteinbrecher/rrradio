@@ -54,6 +54,7 @@ export const NP_FRAGMENT = `
     <div id="np-track-open-in-wrap" hidden>
       <a id="np-track-spotify" href="#"></a>
       <a id="np-track-apple-music" href="#"></a>
+      <a id="np-track-youtube-music" href="#"></a>
     </div>
   </div>
   <div id="np-bitrate">—</div>

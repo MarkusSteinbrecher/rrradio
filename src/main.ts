@@ -205,6 +205,7 @@ const $npTrackTitle = document.getElementById('np-track-title') as HTMLElement;
 const $npTrackCover = document.getElementById('np-track-cover') as HTMLImageElement;
 const $npTrackSpotify = document.getElementById('np-track-spotify') as HTMLAnchorElement;
 const $npTrackAppleMusic = document.getElementById('np-track-apple-music') as HTMLAnchorElement;
+const $npTrackYoutubeMusic = document.getElementById('np-track-youtube-music') as HTMLAnchorElement;
 const $npTrackOpenInWrap = document.getElementById('np-track-open-in-wrap') as HTMLElement;
 const $npTrackOpenIn = document.getElementById('np-track-open-in') as HTMLButtonElement;
 const $npTrackOpenInPopup = document.getElementById('np-track-open-in-popup') as HTMLElement;
@@ -589,6 +590,7 @@ const NP_REFS: NowPlayingRefs = {
   ) as HTMLElement,
   npTrackSpotify: $npTrackSpotify,
   npTrackAppleMusic: $npTrackAppleMusic,
+  npTrackYoutubeMusic: $npTrackYoutubeMusic,
   npTrackOpenInWrap: $npTrackOpenInWrap,
   npStream: $npStream,
   npStreamHost: $npStreamHost,
@@ -3041,6 +3043,10 @@ $npTrackSpotify.addEventListener('click', () => {
 });
 $npTrackAppleMusic.addEventListener('click', () => {
   track('open-apple-music', currentNP.trackTitle ?? '');
+  closeOpenInPopup();
+});
+$npTrackYoutubeMusic.addEventListener('click', () => {
+  track('open-youtube-music', currentNP.trackTitle ?? '');
   closeOpenInPopup();
 });
 $npMute.addEventListener('click', () => {
