@@ -6,10 +6,10 @@ Four stacks, each owns its slice of the pipeline. CI runs the first three on eve
 |---|---|---|---|
 | **Vitest (web)** | `src/*.test.ts` | `npm test` | Pure logic + DOM-render harness tests with happy-dom. Co-located with subjects (`src/foo.ts` ↔ `src/foo.test.ts`). |
 | **Vitest (worker)** | `worker/src/*.test.ts` | `cd worker && npm test` | Calls the worker's default export's `fetch()` directly with stub Request + Env; intercepts upstream fetches via `globalThis.fetch` stub. |
-| **XCTest (iOS)** | `ios/rrradioTests/*.swift` | `xcodebuild test` | App-hosted unit bundle. Covers Catalog DI (real fetch closure swap-out), search normalization, AudioPlayer idle-state contract. |
+| **XCTest (iOS)** | `ios/rrradioTests/*.swift` | `xcodebuild test` | App-hosted unit bundle. Covers Catalog DI, library storage, sleep timer, ORF/direct/ICY broadcaster metadata parsing, search/filter normalization, AudioPlayer idle-state contract. |
 | **Playwright (e2e)** | `e2e/smoke.spec.ts` | `npm run test:e2e` | Cold-boot Chromium against `vite preview` of the built `dist/`. CSP regression + add-custom HTTPS-only + catalog renders + search filters. |
 
-Cumulative count today: ~280 web, 32 worker, ~36 iOS, 8 e2e ≈ ~360 cases.
+Cumulative count today: ~280 web, 32 worker, 101 iOS, 8 e2e ≈ ~421 cases.
 
 ## DOM render-test harness (audit #77 pattern)
 
