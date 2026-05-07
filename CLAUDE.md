@@ -23,7 +23,7 @@ GitHub Pages via `.github/workflows/deploy.yml`. Pushes to `main` build and publ
 - **Stations may bind to a Radio Browser record** via `stationuuid` + `changeuuid` (drift signal) + `reviewedAt`. Per field: **local YAML wins → broadcaster fallback → RB baseline.** See `docs/operations.md`.
 - **Strict TypeScript**, no `any` unless commented why. Small focused modules — each file fits on one screen. No premature abstraction.
 - **DOM updates go through small render functions**, not scattered `innerHTML`. Refs-based render modules (`src/render-*.ts`) with a typed `*Refs` interface go through the harness in `src/render-test-harness.ts`. See `docs/testing.md`.
-- **Repository is public.** Most operational docs (this file included) ship publicly. Internal-only items remain gitignored: `session-log.md` (per-session log), `notes/` (scratch), `*.local.md`, `design_handoff_*/` (design exports), `AGENTS.md` (Claude-specific mirror of this file), `.claude/` (agent settings). Verify with `git status` before committing; add new internal patterns to `.gitignore` in the same change.
+- **Repository is public.** Most operational docs (this file included) ship publicly. `AGENTS.md` is a symlink to this file so Codex and Claude read the same operating manual. Internal-only items remain gitignored: `session-log.md` (per-session log), `notes/` (scratch), `*.local.md`, `design_handoff_*/` (design exports), `.claude/` (agent settings). Verify with `git status` before committing; add new internal patterns to `.gitignore` in the same change.
 
 ## Constraints
 
@@ -71,4 +71,47 @@ Only the first three publish into the bundled catalog.
 
 ## Wiki
 
-The LLM Wiki at `~/Code/HQ/wiki/` is the persistent cross-project knowledge surface. Read its `CLAUDE.md` for conventions. This project's wiki page is at `~/Code/HQ/wiki/projects/rrradio/` (not yet populated).
+The LLM Wiki at `~/Code/HQ/wiki/` is the persistent cross-project knowledge surface. Read its `CLAUDE.md` for conventions. This project's wiki page is at `~/Code/HQ/wiki/projects/rrradio/`. HQ itself is public at <https://github.com/MarkusSteinbrecher/HQ>.
+
+## Issue tracking and task discipline
+
+This project follows the portfolio's spec-first stance per [HQ ADR 0003](https://github.com/MarkusSteinbrecher/HQ/blob/main/wiki/decisions/0003-spec-first-task-tracking.md) (and [ADR 0002 retire-beads](https://github.com/MarkusSteinbrecher/HQ/blob/main/wiki/decisions/0002-retire-beads.md)). **No `bd`, no `beads`, no graph-based task tracker.**
+
+- **Decisions** → ADRs at `design/decisions/`.
+- **Per-session work** → `session-log.md` at the project root (gitignored — local-only). Append-only.
+- **Active work surface** → GitHub issues at <https://github.com/MarkusSteinbrecher/rrradio/issues>. Use `Closes #N` / `Blocks #N` keywords in PR bodies.
+- **Within-session todos** → in-harness only (Claude `TaskCreate` / Codex equivalents). Not persisted across sessions.
+
+Do not install `bd`, do not create `.beads/`, do not add markdown TODO blocks at the top of files. If you discover follow-up work mid-task, file a GitHub issue (or note it in the session log if it's small).
+
+## Non-interactive shell commands
+
+Some shell aliases on the workstation inject `-i` (interactive) into `cp` / `mv` / `rm`, which can hang an agent session waiting for `y/n` input. Always use the non-interactive forms:
+
+```bash
+cp -f source dest          # NOT: cp source dest
+mv -f source dest          # NOT: mv source dest
+rm -f file                 # NOT: rm file
+rm -rf directory           # NOT: rm -r directory
+cp -rf source dest         # NOT: cp -r source dest
+```
+
+Other commands that may prompt: `scp` and `ssh` take `-o BatchMode=yes`; `apt-get` takes `-y`; `brew` takes `HOMEBREW_NO_AUTO_UPDATE=1`.
+
+## Session completion (Landing the Plane)
+
+When ending a work session, complete every step. Work is **not done** until `git push` succeeds and the session log has an entry.
+
+1. **Run quality gates** (if code changed) — typecheck, tests, build, the catalog gates from `tools/check-catalog.mjs`.
+2. **Append a session-log entry** at `session-log.md` (root, gitignored). One paragraph: what was done, what's next, friction notes.
+3. **File GitHub issues** for any follow-up work that should persist beyond the session.
+4. **Push to remote**:
+   ```bash
+   git pull --rebase
+   git push
+   git status                  # MUST show "up to date with origin"
+   ```
+5. **Clean up** — clear stashes, prune merged remote branches.
+6. **Verify** — every change committed and pushed; the session-log entry exists.
+
+Never `--no-verify`, never `--no-gpg-sign`, never force-push to `main` without explicit sponsor instruction. If `git push` fails, resolve and retry until it succeeds — don't leave work stranded locally.

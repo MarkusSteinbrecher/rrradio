@@ -9,9 +9,8 @@ dist
 
 # Local project notes — not for upload. The repo is public on GitHub
 # Pages; anything in here is internal-only and should never ship.
-# (CLAUDE.md is now public — operational orientation appropriate for
-# open source. AGENTS.md remains private; it duplicates CLAUDE.md
-# with Claude-specific conventions.)
+# (CLAUDE.md is the public operating manual. AGENTS.md is a symlink
+# to CLAUDE.md so Codex and Claude read the same file — both tracked.)
 session-log.md
 session-log*.md
 notes/
@@ -33,7 +32,6 @@ data/metadata-discovery/
 # Local agent state — Claude-specific instructions / settings that
 # have no place in a public repo.
 .claude/
-AGENTS.md
 
 # Playwright e2e (audit #63)
 playwright-report/
