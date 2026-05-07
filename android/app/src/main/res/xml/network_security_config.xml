@@ -1,0 +1,7 @@
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false" />
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">shoutcast.rtvc.gov.co</domain>
+        <domain includeSubdomains="false">162.244.80.52</domain>
+    </domain-config>
+</network-security-config>
