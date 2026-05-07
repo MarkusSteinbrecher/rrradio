@@ -577,7 +577,7 @@ private fun StationRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(14.dp),
     ) {
-        StationAvatar(station, size = 38, imageUrl = station.favicon)
+        StationAvatar(station, size = 46, imageUrl = station.favicon)
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text(
@@ -663,7 +663,7 @@ private fun MiniPlayer(
         ) {
             StationAvatar(
                 playback.station,
-                size = 38,
+                size = 46,
                 imageUrl = playback.coverUrl ?: playback.station?.favicon,
             )
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
@@ -773,7 +773,7 @@ private fun NowPlayingSheet(
             verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                StationAvatar(station, size = 38, imageUrl = station.favicon)
+                StationAvatar(station, size = 46, imageUrl = station.favicon)
                 Text(
                     station.name,
                     color = MaterialTheme.colorScheme.onBackground,
