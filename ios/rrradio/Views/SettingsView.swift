@@ -12,7 +12,7 @@ struct SettingsView: View {
             settingsTabs
 
             TabView(selection: $page) {
-                SettingsPageView()
+                SettingsPageView(page: $page)
                     .tag(SettingsPage.settings)
                 AboutContentView()
                     .tag(SettingsPage.about)
@@ -20,6 +20,8 @@ struct SettingsView: View {
                     dismiss()
                 }
                 .tag(SettingsPage.upload)
+                ListeningHistoryPageView()
+                    .tag(SettingsPage.listening)
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
         }
@@ -28,24 +30,31 @@ struct SettingsView: View {
     }
 
     private var settingsTabs: some View {
-        HStack(spacing: 22) {
-            ForEach(SettingsPage.allCases) { item in
-                Button {
-                    withAnimation(.easeInOut(duration: 0.2)) {
-                        page = item
+        GeometryReader { proxy in
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 18) {
+                    ForEach(SettingsPage.allCases) { item in
+                        Button {
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                page = item
+                            }
+                        } label: {
+                            Text(item.title(locale))
+                                .font(.system(size: 12, weight: .medium, design: .monospaced))
+                                .textCase(.uppercase)
+                                .tracking(1.4)
+                                .foregroundStyle(page == item ? RrradioTheme.accent : RrradioTheme.ink3)
+                                .padding(.vertical, 12)
+                                .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
                     }
-                } label: {
-                    Text(item.title(locale))
-                        .font(.system(size: 12, weight: .medium, design: .monospaced))
-                        .textCase(.uppercase)
-                        .tracking(1.4)
-                        .foregroundStyle(page == item ? RrradioTheme.accent : RrradioTheme.ink3)
-                        .padding(.vertical, 12)
-                        .contentShape(Rectangle())
                 }
-                .buttonStyle(.plain)
+                .padding(.horizontal, 20)
+                .frame(minWidth: proxy.size.width, alignment: .center)
             }
         }
+        .frame(height: 42)
         .frame(maxWidth: .infinity)
         .background(RrradioTheme.bg)
         .overlay(alignment: .bottom) {
@@ -65,11 +74,13 @@ private struct SettingsPageView: View {
     @Environment(WakeAlarm.self) private var wakeAlarm
     @Environment(SleepTimer.self) private var sleepTimer
     @Environment(CarModeController.self) private var carMode
+    @Environment(ListeningHistory.self) private var listeningHistory
     @AppStorage(StationViewLayout.storageKey) private var stationLayoutRaw = StationViewLayout.list.rawValue
     @AppStorage(LandingPage.storageKey) private var landingPageRaw = LandingPage.browse.rawValue
     @AppStorage(LandingPage.stationIDKey) private var landingStationID = ""
     @AppStorage(WakeAlarm.defaultTimeKey) private var defaultWakeTime = WakeAlarm.fallbackDefaultTime
     @AppStorage(SleepTimer.defaultMinutesKey) private var defaultSleepMinutes = SleepTimer.fallbackDefaultMinutes
+    @Binding var page: SettingsPage
     @State private var landingStationQuery = ""
 
     var body: some View {
@@ -155,6 +166,20 @@ private struct SettingsPageView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
 
+                settingsSection("Listening History") {
+                    VStack(spacing: 0) {
+                        listeningHistoryToggle
+                        if listeningHistory.isEnabled {
+                            listeningHistoryDashboardLink
+                            listeningHistoryLevelRows
+                            listeningHistoryRetentionRows
+                        }
+                    }
+                    .background(RrradioTheme.bg2)
+                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
+
                 settingsSection(locale.text(.language)) {
                     VStack(spacing: 0) {
                         ForEach(LocaleController.Choice.allCases) { choice in
@@ -198,6 +223,169 @@ private struct SettingsPageView: View {
             Rectangle()
                 .fill(RrradioTheme.line)
                 .frame(height: 1)
+        }
+    }
+
+    private var listeningHistoryToggle: some View {
+        Toggle(isOn: Binding(
+            get: { listeningHistory.isEnabled },
+            set: { listeningHistory.isEnabled = $0 },
+        )) {
+            HStack(spacing: 12) {
+                Image(systemName: "chart.bar.xaxis")
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .frame(width: 22)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Store listening history")
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundStyle(RrradioTheme.ink)
+                    Text("Off by default. Stored only on this device and never sent to rrradio.org.")
+                        .font(.system(size: 12))
+                        .foregroundStyle(RrradioTheme.ink3)
+                        .lineLimit(3)
+                }
+            }
+            .padding(.vertical, 10)
+        }
+        .tint(RrradioTheme.accent)
+        .padding(.horizontal, 14)
+        .frame(minHeight: 66)
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(RrradioTheme.line)
+                .frame(height: 1)
+        }
+    }
+
+    private var listeningHistoryDashboardLink: some View {
+        Button {
+            withAnimation(.easeInOut(duration: 0.2)) {
+                page = .listening
+            }
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: "chart.line.uptrend.xyaxis")
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(RrradioTheme.accent)
+                    .frame(width: 22)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Open Listening dashboard")
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundStyle(RrradioTheme.ink)
+                    Text("Review your local listening stats.")
+                        .font(.system(size: 12))
+                        .foregroundStyle(RrradioTheme.ink3)
+                }
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(RrradioTheme.ink3)
+            }
+            .padding(.horizontal, 14)
+            .frame(minHeight: 58)
+            .contentShape(Rectangle())
+            .overlay(alignment: .bottom) {
+                Rectangle()
+                    .fill(RrradioTheme.line)
+                    .frame(height: 1)
+            }
+        }
+        .buttonStyle(.plain)
+    }
+
+    private var listeningHistoryLevelRows: some View {
+        VStack(spacing: 0) {
+            historyChoiceRow(
+                icon: "dot.radiowaves.left.and.right",
+                title: "Stations only",
+                detail: "Station, country, start time, and listening duration.",
+                selected: listeningHistory.level == .stations,
+            ) {
+                listeningHistory.level = .stations
+            }
+            historyChoiceRow(
+                icon: "music.note",
+                title: "Stations + tracks",
+                detail: "Also stores artist and title when a station publishes them.",
+                selected: listeningHistory.level == .tracks,
+            ) {
+                listeningHistory.level = .tracks
+            }
+        }
+    }
+
+    private var listeningHistoryRetentionRows: some View {
+        VStack(spacing: 0) {
+            ForEach(ListeningHistoryRetention.allCases) { retention in
+                historyChoiceRow(
+                    icon: "calendar",
+                    title: retentionTitle(retention),
+                    detail: "Keep local history for \(retentionDetail(retention)).",
+                    selected: listeningHistory.retention == retention,
+                ) {
+                    listeningHistory.retention = retention
+                }
+            }
+        }
+    }
+
+    private func historyChoiceRow(
+        icon: String,
+        title: String,
+        detail: String,
+        selected: Bool,
+        action: @escaping () -> Void,
+    ) -> some View {
+        Button(action: action) {
+            HStack(spacing: 12) {
+                Image(systemName: icon)
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .frame(width: 22)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(title)
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundStyle(RrradioTheme.ink)
+                    Text(detail)
+                        .font(.system(size: 12))
+                        .foregroundStyle(RrradioTheme.ink3)
+                        .lineLimit(2)
+                }
+                Spacer()
+                if selected {
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(RrradioTheme.accent)
+                }
+            }
+            .padding(.horizontal, 14)
+            .frame(minHeight: 58)
+            .contentShape(Rectangle())
+            .overlay(alignment: .bottom) {
+                Rectangle()
+                    .fill(RrradioTheme.line)
+                    .frame(height: 1)
+            }
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func retentionTitle(_ retention: ListeningHistoryRetention) -> String {
+        switch retention {
+        case .days30: "30 days"
+        case .days90: "90 days"
+        case .year1: "1 year"
+        case .forever: "Forever"
+        }
+    }
+
+    private func retentionDetail(_ retention: ListeningHistoryRetention) -> String {
+        switch retention {
+        case .days30: "30 days"
+        case .days90: "90 days"
+        case .year1: "1 year"
+        case .forever: "as long as you keep it"
         }
     }
 
@@ -636,14 +824,16 @@ private enum SettingsPage: Int, CaseIterable, Identifiable {
     case settings
     case about
     case upload
+    case listening
 
     var id: Int { rawValue }
 
     func title(_ locale: LocaleController) -> String {
         switch self {
-        case .settings: locale.text(.settings)
+        case .settings: "Preferences"
         case .about: locale.text(.about)
         case .upload: locale.text(.upload)
+        case .listening: "History"
         }
     }
 }

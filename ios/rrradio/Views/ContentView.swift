@@ -17,15 +17,7 @@ struct ContentView: View {
         StationListView(tab: $tab, searchFocusedExternally: $searchFocused)
             .background(RrradioTheme.bg.ignoresSafeArea())
         .safeAreaInset(edge: .bottom) {
-            if !searchFocused {
-                VStack(spacing: 0) {
-                    if player.current != nil {
-                        MiniPlayerView()
-                            .transition(.move(edge: .bottom))
-                    }
-                    BottomTabBar(tab: $tab)
-                }
-            }
+            bottomChrome
         }
         .animation(.snappy, value: player.current?.id)
         .sheet(isPresented: $showingLandingNowPlaying) {
@@ -41,6 +33,23 @@ struct ContentView: View {
         }
         .onChange(of: catalog.stations.count) { _, _ in
             applyLandingPreferenceIfReady()
+        }
+    }
+
+    @ViewBuilder
+    private var bottomChrome: some View {
+        if !searchFocused {
+            VStack(spacing: 0) {
+                if player.current != nil {
+                    MiniPlayerView()
+                }
+                BottomTabBar(tab: $tab)
+            }
+            .id("bottom-chrome")
+            .zIndex(100)
+            .transaction { transaction in
+                transaction.animation = nil
+            }
         }
     }
 

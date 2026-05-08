@@ -10,6 +10,7 @@ struct rrradioApp: App {
     @State private var theme = ThemeController()
     @State private var locale = LocaleController()
     @State private var carMode = CarModeController()
+    @State private var listeningHistory = ListeningHistory()
 
     var body: some Scene {
         WindowGroup {
@@ -22,7 +23,11 @@ struct rrradioApp: App {
                 .environment(theme)
                 .environment(locale)
                 .environment(carMode)
+                .environment(listeningHistory)
                 .preferredColorScheme(theme.preferredColorScheme)
+                .onAppear {
+                    player.setListeningHistory(listeningHistory)
+                }
                 .task { await catalog.loadIfNeeded() }
         }
     }

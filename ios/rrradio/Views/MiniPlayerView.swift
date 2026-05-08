@@ -11,11 +11,12 @@ struct MiniPlayerView: View {
                 url: player.nowPlayingCoverUrl ?? player.current?.favicon,
                 stationName: player.current?.name ?? "",
                 stationID: player.current?.id ?? "",
+                size: 38,
             )
             .frame(width: 38, height: 38)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(player.current?.name ?? "")
+                Text(primaryLine)
                     .font(.system(size: 13, weight: .medium))
                     .foregroundStyle(RrradioTheme.ink)
                     .lineLimit(1)
@@ -76,6 +77,14 @@ struct MiniPlayerView: View {
                     .lineLimit(1)
             }
         }
+    }
+
+    private var primaryLine: String {
+        let stationName = player.current?.name ?? ""
+        guard let programName = player.nowPlayingProgramName?.trimmingCharacters(in: .whitespacesAndNewlines), !programName.isEmpty else {
+            return stationName
+        }
+        return "\(stationName) - \(programName)"
     }
 
     private var trackLine: String? {

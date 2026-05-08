@@ -66,7 +66,7 @@ struct NowPlayingView: View {
             .overlay(alignment: .top) {
                 Rectangle()
                     .fill(RrradioTheme.line)
-                    .frame(height: 1)
+                    .frame(width: UIScreen.main.bounds.width, height: 1)
             }
         }
         .background(RrradioTheme.bg.ignoresSafeArea())
@@ -227,6 +227,7 @@ struct NowPlayingView: View {
                 url: player.current?.favicon,
                 stationName: player.current?.name ?? "",
                 stationID: player.current?.id ?? "",
+                size: 38,
             )
             .frame(width: 38, height: 38)
             .frame(width: 44, height: 44, alignment: .leading)
@@ -255,8 +256,7 @@ struct NowPlayingView: View {
     private var stationDivider: some View {
         Rectangle()
             .fill(RrradioTheme.line)
-            .frame(height: 1)
-            .frame(maxWidth: .infinity)
+            .frame(width: UIScreen.main.bounds.width, height: 1)
     }
 
     @ViewBuilder
@@ -686,7 +686,7 @@ struct NowPlayingView: View {
                 VStack(spacing: 10) {
                     detailRow(locale.text(.countryDetail), player.current?.country?.uppercased() ?? locale.text(.unknown))
                     detailRow(locale.text(.codec), player.current?.codec?.uppercased() ?? locale.text(.unknown))
-                    detailRow(locale.text(.bitrate), bitrateText)
+                    detailRow(locale.text(.bitrate), bitrateDetailText)
                     detailRow(locale.text(.metadata), player.current?.metadata ?? player.current?.status ?? locale.text(.stream))
                 }
                 .padding(.vertical, 12)
@@ -896,12 +896,27 @@ struct NowPlayingView: View {
     private var formatLine: String {
         let codec = player.current?.codec?.uppercased()
         let bitrate = bitrateText
-        return [codec, bitrate == locale.text(.unknown) ? nil : bitrate].compactMap { $0 }.joined(separator: " . ")
+        return [
+            codec,
+            bitrate == locale.text(.unknown) ? nil : bitrate,
+            streamQualityMeter(codec: player.current?.codec, bitrate: player.current?.bitrate),
+        ]
+        .compactMap { $0 }
+        .joined(separator: " . ")
     }
 
     private var bitrateText: String {
         guard let bitrate = player.current?.bitrate else { return locale.text(.unknown) }
         return "\(bitrate) kbps"
+    }
+
+    private var bitrateDetailText: String {
+        guard player.current?.bitrate != nil else { return locale.text(.unknown) }
+        return [
+            bitrateText,
+            streamQualityMeter(codec: player.current?.codec, bitrate: player.current?.bitrate),
+        ]
+        .joined(separator: " . ")
     }
 }
 

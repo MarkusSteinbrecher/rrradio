@@ -58,10 +58,22 @@ final class SearchTests: XCTestCase {
         XCTAssertTrue(stationMatches(station(name: "NDR 90,3"), query: "ndr903"))
     }
 
+    func testPunctuationInsensitiveStationNameMatch() {
+        XCTAssertTrue(stationMatches(station(name: "_80-Station"), query: "80 Station"))
+        XCTAssertTrue(stationMatches(station(name: "80 Station"), query: "_80-Station"))
+    }
+
     func testTagMatch() {
         XCTAssertTrue(stationMatches(
             station(name: "Public", tags: ["jazz", "swing"]),
             query: "jazz",
+        ))
+    }
+
+    func testPunctuationInsensitiveTagMatch() {
+        XCTAssertTrue(stationMatches(
+            station(name: "Public", tags: ["electro-pop"]),
+            query: "electro pop",
         ))
     }
 
