@@ -55,6 +55,16 @@ final class StationFiltersTests: XCTestCase {
         XCTAssertEqual(result, ["jazz", "news", "rock"])
     }
 
+    func testAvailableGenresComeFromStationTagsAndExcludeNews() {
+        let result = availableGenres(from: [
+            station(tags: ["Jazz", " new-rrradio-genre "]),
+            station(tags: ["news", "ambient"]),
+            station(tags: ["jazz"]),
+        ])
+
+        XCTAssertEqual(result, ["ambient", "jazz", "new-rrradio-genre"])
+    }
+
     func testNoFiltersMatchesEveryStation() {
         XCTAssertTrue(stationMatchesFilters(station(tags: ["jazz"], country: "DE"), country: nil, tag: nil))
     }

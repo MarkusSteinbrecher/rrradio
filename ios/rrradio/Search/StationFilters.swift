@@ -1,15 +1,5 @@
 import Foundation
 
-let genreFilterTags = [
-    "jazz",
-    "ambient",
-    "classical",
-    "electronic",
-    "indie",
-    "rock",
-    "eclectic",
-]
-
 func availableCountries(from stations: [Station], preferredCountry: String? = deviceRegionCode()) -> [String] {
     let countries = Array(Set(stations.compactMap { station in
         let code = station.country?.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
@@ -36,8 +26,7 @@ func availableTags(from stations: [Station]) -> [String] {
 }
 
 func availableGenres(from stations: [Station]) -> [String] {
-    let available = Set(availableTags(from: stations))
-    return genreFilterTags.filter { available.contains($0) }
+    availableTags(from: stations).filter { $0 != "news" }
 }
 
 func stationMatchesFilters(_ station: Station, country: String?, tag: String?) -> Bool {
