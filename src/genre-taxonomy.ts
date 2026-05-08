@@ -28,9 +28,16 @@ export interface Genre {
   id: string;
   /** Display label for the chip / dropdown option. */
   label: string;
-  /** Tag forms that count as this genre. Case-insensitive. Substring
-   *  match — "rock" also matches "classic rock", "punk rock", … */
-  match: string[];
+  /** Tag forms that count as this genre. Each entry is either:
+   *    · a string — case-insensitive substring match. "rock" matches
+   *      "rock", "classic rock", "punk rock", "alpenrock", …
+   *    · a RegExp — used as-is. Reserve for the rare term whose
+   *      substring would catch a non-music word. The motivating case
+   *      is "funk" matching "rundfunk" (German for "broadcasting"),
+   *      which mis-bucketed every German public broadcaster into
+   *      Soul/R&B. Use word-boundary regex `/\bfunk[a-z]*\b/` to keep
+   *      "funk", "funky", "future funk" while excluding "rundfunk". */
+  match: Array<string | RegExp>;
   /** Tag string sent to Radio Browser when this chip is active on the
    *  long-tail browse view. */
   rbTag: string;
@@ -57,7 +64,7 @@ export const GENRES: Genre[] = [
   { id: 'sports',       label: 'Sports',       match: ['sports', 'sport'],                                                                                                                                                                                                   rbTag: 'sports' },
   { id: 'folk',         label: 'Folk',         match: ['folk'],                                                                                                                                                                                                              rbTag: 'folk' },
   { id: 'reggae',       label: 'Reggae',       match: ['reggae', 'ska', 'dancehall'],                                                                                                                                                                                        rbTag: 'reggae' },
-  { id: 'soul',         label: 'Soul/R&B',     match: ['soul', 'rnb', 'rhythm and blues', 'funk'],                                                                                                                                                                           rbTag: 'soul' },
+  { id: 'soul',         label: 'Soul/R&B',     match: ['soul', 'rnb', 'rhythm and blues', /\bfunk[a-z]*\b/i],                                                                                                                                                                rbTag: 'soul' },
   { id: 'metal',        label: 'Metal',        match: ['metal'],                                                                                                                                                                                                             rbTag: 'metal' },
 ];
 
@@ -68,9 +75,10 @@ export function findGenre(id: string | null | undefined): Genre | undefined {
   return BY_ID.get(id);
 }
 
-/** Does the station's tag list match this genre? Case-insensitive
- *  substring against any of the genre's `match` terms. Empty/missing
- *  tag list → no match. */
+/** Does the station's tag list match this genre? String entries in
+ *  `genre.match` are case-insensitive substring checks; RegExp entries
+ *  are tested against the lowercased tag as-is. Empty/missing tag list
+ *  → no match. */
 export function stationMatchesGenre(
   station: { tags?: string[] | null },
   genre: Genre,
@@ -80,7 +88,11 @@ export function stationMatchesGenre(
   for (const t of tags) {
     const tl = String(t).toLowerCase();
     for (const m of genre.match) {
-      if (tl.includes(m)) return true;
+      if (typeof m === 'string') {
+        if (tl.includes(m)) return true;
+      } else if (m.test(tl)) {
+        return true;
+      }
     }
   }
   return false;
