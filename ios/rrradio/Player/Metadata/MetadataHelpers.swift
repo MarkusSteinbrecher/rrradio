@@ -65,6 +65,11 @@ func metadataRaw(artist: String?, title: String) -> String {
         .joined(separator: " - ")
 }
 
+func cleanMetadataComponent(_ value: String?) -> String? {
+    let trimmed = value?.trimmingCharacters(in: .whitespacesAndNewlines)
+    return trimmed?.isEmpty == false ? trimmed : nil
+}
+
 func metadataStripHTML(_ input: String?) -> String? {
     guard let input else { return nil }
     let withoutTags = input.replacingOccurrences(

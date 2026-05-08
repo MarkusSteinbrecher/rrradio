@@ -1351,6 +1351,8 @@ struct StationRow: View {
                 }
                 if let trackLine {
                     detailText(trackLine, style: .primary)
+                } else if let headlineLine {
+                    detailText(headlineLine, style: .primary)
                 }
                 streamDetailView
             }
@@ -1455,6 +1457,15 @@ struct StationRow: View {
             return "\(artist) - \(title)"
         }
         return title
+    }
+
+    private var headlineLine: String? {
+        guard let raw = clean(nowPlaying?.raw),
+              raw != station.name,
+              raw != programInfoLine else {
+            return nil
+        }
+        return raw
     }
 
     private var programInfoLine: String? {

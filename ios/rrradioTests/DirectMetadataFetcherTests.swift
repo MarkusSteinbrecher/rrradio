@@ -378,6 +378,73 @@ final class DirectMetadataFetcherTests: XCTestCase {
         XCTAssertEqual(metadata, NowPlayingMetadata(artist: "Br Artist", title: "Br Song", raw: "BR ARTIST - BR SONG"))
     }
 
+    func testFetchesBrNewsBroadcastHeadlineWhenTrackIsNotMusic() async throws {
+        let sourceURL = "https://www.br.de/mediathek/audio/br24/br24-audio-livestream-100~radioplayer.json"
+        let body = """
+        //@formatter:off
+        {
+          "tracks": [
+            {
+              "interpret": "",
+              "title": "NACHRICHTEN: BR24",
+              "startTime": "2024-05-04T10:00:00Z",
+              "endTime": "2024-05-04T12:00:00Z"
+            }
+          ],
+          "broadcasts": [
+            {
+              "headline": "ARD-Infonacht",
+              "broadcastSeriesName": "ARD-Infonacht",
+              "startTime": "2024-05-04T10:00:00Z",
+              "endTime": "2024-05-04T12:00:00Z"
+            }
+          ]
+        }
+        """.data(using: .utf8)!
+
+        let metadata = try await fetchBrMetadata(station: station(metadata: "br-radioplayer", metadataUrl: sourceURL), now: now) { request in
+            XCTAssertEqual(request.url?.host, "rrradio-stats.markussteinbrecher.workers.dev")
+            return (body, self.response(for: request.url!))
+        }
+
+        XCTAssertEqual(metadata, NowPlayingMetadata(
+            artist: nil,
+            title: "Nachrichten: Br24",
+            raw: "ARD-Infonacht - NACHRICHTEN: BR24",
+            programName: "ARD-Infonacht",
+            programSubtitle: nil,
+        ))
+    }
+
+    func testFetchesBrBroadcastHeadlineWithoutCurrentTrack() async throws {
+        let sourceURL = "https://www.br.de/mediathek/audio/br24/br24-audio-livestream-100~radioplayer.json"
+        let body = """
+        {
+          "tracks": [],
+          "broadcasts": [
+            {
+              "headline": "Nachrichten",
+              "broadcastSeriesName": "BR24",
+              "startTime": "2024-05-04T10:00:00Z",
+              "endTime": "2024-05-04T12:00:00Z"
+            }
+          ]
+        }
+        """.data(using: .utf8)!
+
+        let metadata = try await fetchBrMetadata(station: station(metadata: "br-radioplayer", metadataUrl: sourceURL), now: now) { request in
+            return (body, self.response(for: request.url!))
+        }
+
+        XCTAssertEqual(metadata, NowPlayingMetadata(
+            artist: nil,
+            title: nil,
+            raw: "Nachrichten",
+            programName: "Nachrichten",
+            programSubtitle: "BR24",
+        ))
+    }
+
     func testFetchesBbcProgramTitle() async throws {
         let body = """
         {

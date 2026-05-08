@@ -469,8 +469,16 @@ private struct BrTrack: Decodable {
     let endTime: String?
 }
 
+private struct BrBroadcast: Decodable {
+    let headline: String?
+    let broadcastSeriesName: String?
+    let startTime: String?
+    let endTime: String?
+}
+
 private struct BrPlayer: Decodable {
     let tracks: [BrTrack]?
+    let broadcasts: [BrBroadcast]?
 }
 
 func fetchBrMetadata(
@@ -491,15 +499,53 @@ func fetchBrMetadata(
     } ?? tracks.first
 
     guard let title = current?.title?.trimmingCharacters(in: .whitespacesAndNewlines), !title.isEmpty else {
-        return nil
+        return currentBrBroadcastMetadata(from: data.broadcasts ?? [], now: now)
     }
     let artist = current?.interpret?.trimmingCharacters(in: .whitespacesAndNewlines)
+    let broadcast = currentBrBroadcast(from: data.broadcasts ?? [], now: now)
+
+    if artist?.isEmpty != false, let broadcast {
+        let headline = cleanMetadataComponent(broadcast.headline)
+        let series = cleanMetadataComponent(broadcast.broadcastSeriesName)
+        return NowPlayingMetadata(
+            artist: nil,
+            title: metadataTitleCase(title),
+            raw: [headline, title].compactMap { cleanMetadataComponent($0) }.joined(separator: " - "),
+            programName: headline,
+            programSubtitle: series != headline ? series : nil,
+        )
+    }
 
     return NowPlayingMetadata(
         artist: artist.flatMap { $0.isEmpty ? nil : metadataTitleCase($0) },
         title: metadataTitleCase(title),
         raw: metadataRaw(artist: artist, title: title),
     )
+}
+
+private func currentBrBroadcastMetadata(from broadcasts: [BrBroadcast], now: Date) -> NowPlayingMetadata? {
+    guard let broadcast = currentBrBroadcast(from: broadcasts, now: now),
+          let headline = cleanMetadataComponent(broadcast.headline) else {
+        return nil
+    }
+    let series = cleanMetadataComponent(broadcast.broadcastSeriesName)
+    return NowPlayingMetadata(
+        artist: nil,
+        title: nil,
+        raw: headline,
+        programName: headline,
+        programSubtitle: series != headline ? series : nil,
+    )
+}
+
+private func currentBrBroadcast(from broadcasts: [BrBroadcast], now: Date) -> BrBroadcast? {
+    broadcasts.first { broadcast in
+        guard let start = broadcast.startTime.flatMap(isoDate),
+              let end = broadcast.endTime.flatMap(isoDate) else {
+            return false
+        }
+        return start <= now && now < end
+    } ?? broadcasts.first
 }
 
 private struct BbcEnvelope: Decodable {

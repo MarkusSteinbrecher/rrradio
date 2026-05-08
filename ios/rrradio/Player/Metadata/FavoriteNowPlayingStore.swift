@@ -87,7 +87,9 @@ final class FavoriteNowPlayingStore {
 
     private nonisolated static func metadata(for station: Station) async throws -> NowPlayingMetadata? {
         if let fetcher = metadataFetcher(for: station) {
-            return try await fetcher(station)
+            if let metadata = try await fetcher(station) {
+                return metadata
+            }
         }
         return try await fetchIcyMetadata(station: station)
     }
