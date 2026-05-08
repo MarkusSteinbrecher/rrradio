@@ -15,6 +15,7 @@ import { AudioPlayer } from './player';
 import { track } from './telemetry';
 import { pseudoFrequency } from './radioBrowser';
 import { composeBrowseFilter, PAGE_SIZE, fetchStations, searchStations } from './stations';
+import { GENRES, findGenre, stationMatchesGenre } from './genre-taxonomy';
 import {
   addCustom,
   getCustom,
@@ -174,6 +175,16 @@ const $wordmark = document.getElementById('wordmark') as HTMLButtonElement;
 const $search = document.getElementById('search') as HTMLInputElement;
 const $searchClear = document.getElementById('search-clear') as HTMLButtonElement;
 const $genre = document.getElementById('genre') as HTMLSelectElement;
+// Populate genre dropdown from the taxonomy. Boot-time so it's
+// available before the first render. The "All genres" option is
+// already in the static markup as the default; we just append the
+// canonical chip list after it.
+for (const g of GENRES) {
+  const opt = document.createElement('option');
+  opt.value = g.id;
+  opt.textContent = g.label;
+  $genre.appendChild(opt);
+}
 const $country = document.getElementById('country') as HTMLSelectElement;
 const $modePlayed = document.getElementById('mode-played') as HTMLButtonElement;
 const $mapToggle = document.getElementById('map-toggle') as HTMLButtonElement;
@@ -1497,10 +1508,14 @@ function renderContent(): void {
 
   if (activeTab === 'browse') {
     const query = $search.value.trim();
-    const genreTag = activeTag === 'all' ? undefined : activeTag;
+    const activeGenre = findGenre(activeTag);
     const countryFilter = activeCountry === 'all' ? undefined : activeCountry.toUpperCase();
-    const noFilter = !query && !genreTag && !countryFilter;
-    const tagFilter = browseMode === 'news' ? 'news' : genreTag;
+    const noFilter = !query && !activeGenre && !countryFilter;
+    // News mode is a special case that pretends the "news" chip is
+    // active even when the dropdown says "all". Resolve it through the
+    // taxonomy so synonyms (noticias / local news) fold in.
+    const newsGenre = browseMode === 'news' ? findGenre('news') : undefined;
+    const effectiveGenre = newsGenre ?? activeGenre;
     // Map view only renders inside the home view (no genre/country/search);
     // disable the toggle visually when it'd be a no-op.
     $mapToggle.disabled = !noFilter;
@@ -1572,7 +1587,7 @@ function renderContent(): void {
     // Filtered view (search / genre / country): built-ins + custom
     // matches first ("My stations"), then Radio Browser long-tail.
     const tagMatch = (s: Station): boolean =>
-      !tagFilter || (s.tags ?? []).some((t) => t.toLowerCase().includes(tagFilter));
+      !effectiveGenre || stationMatchesGenre(s, effectiveGenre);
     const countryMatch = (s: Station): boolean =>
       !countryFilter || (s.country ?? '').toUpperCase() === countryFilter;
     const mySource = [...BUILTIN_STATIONS, ...getCustom()];
@@ -1586,7 +1601,7 @@ function renderContent(): void {
       if (remainingMy > 0) $content.append(homeShowMoreButton(remainingMy));
     }
     if (lastBrowseStations.length > 0) {
-      const label = query ? 'Results' : tagFilter ?? 'Results';
+      const label = query ? 'Results' : effectiveGenre?.label ?? 'Results';
       $content.append(sectionLabel(label, lastBrowseStations.length));
       $content.append(renderRows(lastBrowseStations));
       if (browseHasMore) $content.append(loadMoreButton());
