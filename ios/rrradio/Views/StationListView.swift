@@ -27,8 +27,16 @@ enum RrradioTheme {
     static let ink4 = ink.opacity(0.40)
     static let line = ink.opacity(0.08)
     static let buttonFill = adaptive(
-        light: UIColor(red: 0.165, green: 0.165, blue: 0.150, alpha: 1),
+        light: UIColor(red: 0.305, green: 0.305, blue: 0.280, alpha: 1),
         dark: UIColor(red: 0.957, green: 0.957, blue: 0.949, alpha: 1),
+    )
+    static let favoriteFill = adaptive(
+        light: UIColor(red: 0.430, green: 0.430, blue: 0.390, alpha: 1),
+        dark: UIColor(red: 0.957, green: 0.957, blue: 0.949, alpha: 0.72),
+    )
+    static let stationStars = adaptive(
+        light: UIColor(red: 0.380, green: 0.380, blue: 0.350, alpha: 1),
+        dark: UIColor(red: 0.860, green: 0.860, blue: 0.820, alpha: 1),
     )
 
     private static func adaptive(light: UIColor, dark: UIColor) -> Color {
@@ -56,6 +64,7 @@ enum StationViewLayout: String, CaseIterable, Identifiable {
 
 struct StationListView: View {
     @Binding private var tab: AppTab
+    @Binding private var searchFocusedExternally: Bool
     @Environment(Catalog.self) private var catalog
     @Environment(Library.self) private var library
     @Environment(AudioPlayer.self) private var player
@@ -64,8 +73,10 @@ struct StationListView: View {
     @Environment(ThemeController.self) private var theme
     @Environment(LocaleController.self) private var locale
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
     private let radioBrowser = RadioBrowserClient()
     private let shareURL = URL(string: "https://rrradio.org")!
+    @State private var searchText = ""
     @State private var query = ""
     @State private var source: StationSource = .all
     @State private var librarySource: StationSource = .favorites
@@ -83,6 +94,9 @@ struct StationListView: View {
     @State private var radioBrowserOffset = 0
     @State private var radioBrowserHasMore = true
     @State private var radioBrowserLoading = false
+    @State private var filteredStations: [Station] = []
+    @State private var filterTask: Task<Void, Never>?
+    @State private var searchUpdateTask: Task<Void, Never>?
     @FocusState private var searchFocused: Bool
 
     private let stationPageSize = 220
@@ -133,8 +147,12 @@ struct StationListView: View {
         var id: String { rawValue }
     }
 
-    init(tab: Binding<AppTab> = .constant(.browse)) {
+    init(
+        tab: Binding<AppTab> = .constant(.browse),
+        searchFocusedExternally: Binding<Bool> = .constant(false),
+    ) {
         _tab = tab
+        _searchFocusedExternally = searchFocusedExternally
     }
 
     private var allStations: [Station] { library.customStations + catalog.browseOrdered }
@@ -153,21 +171,28 @@ struct StationListView: View {
         }
     }
 
-    private var filtered: [Station] {
-        stations.filter {
-            stationMatches($0, query: query)
-                && stationMatchesFilters($0, country: selectedCountry, tag: selectedTag)
-        }
-    }
-
     private var displayLimit: Int {
-        min(stationDisplayLimit, filtered.count)
+        min(stationDisplayLimit, filteredStations.count)
     }
 
-    private var visibleStations: [Station] { Array(filtered.prefix(displayLimit)) }
+    private var visibleStations: [Station] { Array(filteredStations.prefix(displayLimit)) }
     private var hasActiveFilters: Bool { selectedCountry != nil || selectedTag != nil }
     private var stationLayout: StationViewLayout {
         StationViewLayout(rawValue: stationLayoutRaw) ?? .list
+    }
+    private var filterSignature: String {
+        [
+            source.rawValue,
+            query,
+            selectedCountry ?? "",
+            selectedTag ?? "",
+            checkedOnly ? "checked" : "all",
+            "\(catalog.browseOrdered.count)",
+            "\(library.favorites.count)",
+            "\(library.recents.count)",
+            "\(library.customStations.count)",
+            "\(radioBrowserStations.count)",
+        ].joined(separator: "\u{1f}")
     }
 
     var body: some View {
@@ -248,13 +273,8 @@ struct StationListView: View {
         } message: { target in
             Text(target.message)
         }
-        .toolbar {
-            ToolbarItemGroup(placement: .keyboard) {
-                Spacer()
-                Button(locale.text(.done)) {
-                    searchFocused = false
-                }
-            }
+        .onAppear {
+            recomputeFilteredStations()
         }
         .onChange(of: tab) { _, value in
             switch value {
@@ -277,6 +297,9 @@ struct StationListView: View {
             resetStationDisplayLimit()
             resetRadioBrowserStations()
         }
+        .onChange(of: searchText) { _, value in
+            scheduleSearchUpdate(value)
+        }
         .onChange(of: selectedCountry) { _, _ in
             resetStationDisplayLimit()
             resetRadioBrowserStations()
@@ -289,50 +312,31 @@ struct StationListView: View {
             resetStationDisplayLimit()
             resetRadioBrowserStations()
         }
+        .onChange(of: filterSignature) { _, _ in
+            recomputeFilteredStations()
+        }
+        .onChange(of: searchFocused) { _, focused in
+            searchFocusedExternally = focused
+        }
+        .onDisappear {
+            filterTask?.cancel()
+            searchUpdateTask?.cancel()
+            searchFocusedExternally = false
+        }
     }
 
+    @ViewBuilder
     private var topbar: some View {
+        if verticalSizeClass == .compact {
+            compactTopbar
+        } else {
+            regularTopbar
+        }
+    }
+
+    private var regularTopbar: some View {
         VStack(spacing: 14) {
-            HStack(alignment: .center) {
-                Button {
-                    query = ""
-                    searchFocused = false
-                    source = .all
-                    selectedCountry = nil
-                    selectedTag = nil
-                    checkedOnly = true
-                    activeFilterPicker = nil
-                } label: {
-                    HStack(alignment: .firstTextBaseline, spacing: 6) {
-                        Text("r r r")
-                            .foregroundStyle(RrradioTheme.accent)
-                        Text("a d i o . o r g")
-                            .foregroundStyle(RrradioTheme.ink)
-                        Text("beta")
-                            .font(.system(size: 11, weight: .medium))
-                            .foregroundStyle(RrradioTheme.accent)
-                            .baselineOffset(4)
-                    }
-                    .font(.system(size: 16, weight: .medium))
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel(locale.text(.goHome))
-
-                Spacer()
-
-                HStack(spacing: 8) {
-                    ShareLink(item: shareURL) {
-                        circularIconLabel("square.and.arrow.up")
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(locale.text(.share))
-
-                    circularIconButton("gearshape", label: locale.text(.settings)) {
-                        showingSettings = true
-                    }
-                }
-            }
-
+            brandActionsRow
             searchField
             if tab == .browse {
                 filterRow
@@ -341,10 +345,74 @@ struct StationListView: View {
             }
             statusToolbar
         }
-        .padding(.horizontal, 20)
-        .padding(.top, 14)
-        .padding(.bottom, 10)
-        .background(RrradioTheme.bg)
+        .topbarChrome(top: 14, bottom: 10)
+    }
+
+    private var compactTopbar: some View {
+        VStack(spacing: 8) {
+            brandActionsRow
+            HStack(spacing: 10) {
+                searchField
+                    .frame(minWidth: 220)
+                if tab == .browse {
+                    compactFilterRow
+                        .frame(maxWidth: .infinity)
+                } else {
+                    librarySegments
+                }
+            }
+            statusToolbar
+        }
+        .topbarChrome(top: 8, bottom: 6)
+    }
+
+    private var brandActionsRow: some View {
+        HStack(alignment: .center) {
+            Button {
+                searchText = ""
+                query = ""
+                searchFocused = false
+                source = .all
+                selectedCountry = nil
+                selectedTag = nil
+                checkedOnly = true
+                activeFilterPicker = nil
+            } label: {
+                HStack(alignment: .firstTextBaseline, spacing: 6) {
+                    Text("r r r")
+                        .foregroundStyle(RrradioTheme.accent)
+                    Text("a d i o . o r g")
+                        .foregroundStyle(RrradioTheme.ink)
+                    Text("beta")
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundStyle(RrradioTheme.accent)
+                        .baselineOffset(4)
+                }
+                .font(.system(size: 16, weight: .medium))
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(locale.text(.goHome))
+
+            Spacer()
+
+            HStack(spacing: 8) {
+                ShareLink(
+                    item: shareURL,
+                    subject: Text("rrradio.org"),
+                    message: Text("Free internet radio without ads.")
+                ) {
+                    circularIconLabel("square.and.arrow.up")
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(locale.text(.share))
+                .simultaneousGesture(TapGesture().onEnded(dismissSearch))
+
+                circularIconButton("gearshape", label: locale.text(.settings)) {
+                    dismissSearch()
+                    showingSettings = true
+                }
+            }
+        }
     }
 
     private var searchField: some View {
@@ -352,7 +420,7 @@ struct StationListView: View {
             Image(systemName: "magnifyingglass")
                 .font(.system(size: 14, weight: .medium))
                 .foregroundStyle(RrradioTheme.ink3)
-            TextField(searchPlaceholder, text: $query)
+            TextField(searchPlaceholder, text: $searchText)
                 .font(.system(size: 16))
                 .foregroundStyle(RrradioTheme.ink)
                 .textInputAutocapitalization(.never)
@@ -360,6 +428,8 @@ struct StationListView: View {
                 .submitLabel(.search)
                 .focused($searchFocused)
                 .onSubmit {
+                    searchUpdateTask?.cancel()
+                    query = searchText
                     searchFocused = false
                 }
                 .onChange(of: searchFocused) { _, focused in
@@ -367,8 +437,10 @@ struct StationListView: View {
                         activeFilterPicker = nil
                     }
                 }
-            if !query.isEmpty {
+            if !searchText.isEmpty {
                 Button {
+                    searchUpdateTask?.cancel()
+                    searchText = ""
                     query = ""
                 } label: {
                     Image(systemName: "xmark")
@@ -398,6 +470,7 @@ struct StationListView: View {
                             active: source == .all && checkedOnly,
                         ) {
                             source = .all
+                            dismissSearch()
                             checkedOnly.toggle()
                             activeFilterPicker = nil
                         }
@@ -405,6 +478,7 @@ struct StationListView: View {
                     filterCell(locale.text(.news)) {
                         circularFilterButton(icon: "newspaper", active: selectedTag == "news") {
                             source = .all
+                            dismissSearch()
                             selectedTag = selectedTag == "news" ? nil : "news"
                             activeFilterPicker = nil
                         }
@@ -415,6 +489,7 @@ struct StationListView: View {
                             active: activeFilterPicker == .genre || (selectedTag != nil && selectedTag != "news"),
                         ) {
                             source = .all
+                            dismissSearch()
                             activeFilterPicker = activeFilterPicker == .genre ? nil : .genre
                         }
                     }
@@ -424,12 +499,14 @@ struct StationListView: View {
                             active: activeFilterPicker == .country || selectedCountry != nil,
                         ) {
                             source = .all
+                            dismissSearch()
                             activeFilterPicker = activeFilterPicker == .country ? nil : .country
                         }
                     }
                     filterCell(locale.text(.map)) {
                         circularFilterButton(icon: "map", active: false) {
                             source = .all
+                            dismissSearch()
                             activeFilterPicker = nil
                             showingMap = true
                         }
@@ -440,6 +517,73 @@ struct StationListView: View {
             }
         }
         .frame(height: 52)
+        .popover(
+            isPresented: Binding(
+                get: { activeFilterPicker != nil },
+                set: { if !$0 { activeFilterPicker = nil } },
+            ),
+            attachmentAnchor: .rect(.bounds),
+            arrowEdge: .top,
+        ) {
+            filterPickerPopover
+                .presentationCompactAdaptation(.popover)
+        }
+    }
+
+    private var compactFilterRow: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                circularFilterButton(
+                    icon: "star.fill",
+                    active: source == .all && checkedOnly,
+                ) {
+                    source = .all
+                    dismissSearch()
+                    checkedOnly.toggle()
+                    activeFilterPicker = nil
+                }
+                .accessibilityLabel(locale.text(.checked))
+
+                circularFilterButton(icon: "newspaper", active: selectedTag == "news") {
+                    source = .all
+                    dismissSearch()
+                    selectedTag = selectedTag == "news" ? nil : "news"
+                    activeFilterPicker = nil
+                }
+                .accessibilityLabel(locale.text(.news))
+
+                circularFilterButton(
+                    icon: "music.note",
+                    active: activeFilterPicker == .genre || (selectedTag != nil && selectedTag != "news"),
+                ) {
+                    source = .all
+                    dismissSearch()
+                    activeFilterPicker = activeFilterPicker == .genre ? nil : .genre
+                }
+                .accessibilityLabel(locale.text(.genre))
+
+                circularFilterButton(
+                    icon: "flag",
+                    active: activeFilterPicker == .country || selectedCountry != nil,
+                ) {
+                    source = .all
+                    dismissSearch()
+                    activeFilterPicker = activeFilterPicker == .country ? nil : .country
+                }
+                .accessibilityLabel(locale.text(.country))
+
+                circularFilterButton(icon: "map", active: false) {
+                    source = .all
+                    dismissSearch()
+                    activeFilterPicker = nil
+                    showingMap = true
+                }
+                .accessibilityLabel(locale.text(.map))
+            }
+            .padding(.horizontal, 1)
+            .frame(maxWidth: .infinity, alignment: .trailing)
+        }
+        .frame(height: 38)
         .popover(
             isPresented: Binding(
                 get: { activeFilterPicker != nil },
@@ -515,7 +659,7 @@ struct StationListView: View {
             Text(statusLabel)
             Text(".")
                 .foregroundStyle(RrradioTheme.ink4)
-            Text("\(filtered.count)")
+            Text("\(filteredStations.count)")
                 .foregroundStyle(RrradioTheme.ink4)
         }
         .font(.system(size: 10, weight: .medium, design: .monospaced))
@@ -548,6 +692,7 @@ struct StationListView: View {
 
     private func layoutButton(_ layout: StationViewLayout, label: String) -> some View {
         Button {
+            dismissSearch()
             stationLayoutRaw = layout.rawValue
         } label: {
             Image(systemName: layout.icon)
@@ -563,16 +708,18 @@ struct StationListView: View {
 
     @ViewBuilder
     private var content: some View {
-        if filtered.isEmpty {
-            ContentUnavailableView(
-                emptyTitle,
-                systemImage: emptyIcon,
-                description: Text(emptyDescription),
-            )
-            .foregroundStyle(RrradioTheme.ink)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-        } else {
-            list
+        Group {
+            if filteredStations.isEmpty {
+                ContentUnavailableView(
+                    emptyTitle,
+                    systemImage: emptyIcon,
+                    description: Text(emptyDescription),
+                )
+                .foregroundStyle(RrradioTheme.ink)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                list
+            }
         }
     }
 
@@ -617,7 +764,7 @@ struct StationListView: View {
                         }
                         .padding(.top, 1)
                     }
-                    if visibleStations.count < filtered.count || canLoadWorldwideStations {
+                    if visibleStations.count < filteredStations.count || canLoadWorldwideStations {
                         loadMoreRow
                     }
                 } header: {
@@ -626,7 +773,7 @@ struct StationListView: View {
             }
             .padding(.bottom, 12)
         }
-        .scrollDismissesKeyboard(.interactively)
+        .scrollDismissesKeyboard(.immediately)
         .refreshable {
             await catalog.refresh()
         }
@@ -640,6 +787,7 @@ struct StationListView: View {
     }
 
     private func play(_ station: Station) {
+        dismissSearch()
         player.play(station)
         library.pushRecent(station)
         showingNowPlaying = true
@@ -647,7 +795,7 @@ struct StationListView: View {
 
     private var loadMoreRow: some View {
         VStack(spacing: 10) {
-            Text("\(locale.text(.showing)) \(visibleStations.count) \(locale.text(.of)) \(filtered.count)")
+            Text("\(locale.text(.showing)) \(visibleStations.count) \(locale.text(.of)) \(filteredStations.count)")
                 .font(.system(size: 10, weight: .medium, design: .monospaced))
                 .textCase(.uppercase)
                 .tracking(1.2)
@@ -805,7 +953,7 @@ struct StationListView: View {
                     .font(.system(size: 8))
             }
         }
-        .foregroundStyle(RrradioTheme.accent.opacity(0.85))
+        .foregroundStyle(RrradioTheme.stationStars)
     }
 
     private func timerStarCount(for station: Station?) -> Int {
@@ -893,9 +1041,27 @@ struct StationListView: View {
         radioBrowserLoading = false
     }
 
+    private func recomputeFilteredStations() {
+        let query = query
+        let selectedCountry = selectedCountry
+        let selectedTag = selectedTag
+        let stations = stations
+        filterTask?.cancel()
+        filterTask = Task.detached(priority: .userInitiated) {
+            let matches = stations.filter {
+                stationMatches($0, query: query)
+                    && stationMatchesFilters($0, country: selectedCountry, tag: selectedTag)
+            }
+            guard !Task.isCancelled else { return }
+            await MainActor.run {
+                filteredStations = matches
+            }
+        }
+    }
+
     private func loadMoreStations() {
-        if visibleStations.count < filtered.count {
-            stationDisplayLimit = min(stationDisplayLimit + stationPageSize, filtered.count)
+        if visibleStations.count < filteredStations.count {
+            stationDisplayLimit = min(stationDisplayLimit + stationPageSize, filteredStations.count)
             return
         }
         guard canLoadWorldwideStations, !radioBrowserLoading else { return }
@@ -916,7 +1082,8 @@ struct StationListView: View {
                 radioBrowserStations.append(contentsOf: fresh)
                 radioBrowserOffset += RadioBrowserClient.pageSize
                 radioBrowserHasMore = !fetched.isEmpty
-                stationDisplayLimit = min(stationDisplayLimit + max(fresh.count, stationPageSize), filtered.count)
+                recomputeFilteredStations()
+                stationDisplayLimit += max(fresh.count, stationPageSize)
             } catch {
                 radioBrowserHasMore = false
             }
@@ -938,6 +1105,7 @@ struct StationListView: View {
 
     private func sourceButton(_ value: StationSource) -> some View {
         Button {
+            dismissSearch()
             source = value
         } label: {
             Text(sourceTitle(value))
@@ -1022,6 +1190,23 @@ struct StationListView: View {
         .buttonStyle(.plain)
     }
 
+    private func dismissSearch() {
+        searchUpdateTask?.cancel()
+        query = searchText
+        searchFocused = false
+    }
+
+    private func scheduleSearchUpdate(_ value: String) {
+        searchUpdateTask?.cancel()
+        searchUpdateTask = Task {
+            try? await Task.sleep(for: .milliseconds(180))
+            guard !Task.isCancelled else { return }
+            await MainActor.run {
+                query = value
+            }
+        }
+    }
+
     private func circularFilterLabel(icon: String, active: Bool) -> some View {
         Image(systemName: icon)
             .font(.system(size: 15, weight: .medium))
@@ -1090,7 +1275,7 @@ struct StationRow: View {
             Button(action: onToggleFavorite) {
                 Image(systemName: isFavorite ? "heart.fill" : "heart")
                     .font(.system(size: 17, weight: .medium))
-                    .foregroundStyle(isFavorite ? RrradioTheme.ink : RrradioTheme.ink4)
+                    .foregroundStyle(isFavorite ? RrradioTheme.favoriteFill : RrradioTheme.ink4)
                     .frame(width: 36, height: 36)
                     .contentShape(Circle())
             }
@@ -1132,7 +1317,7 @@ struct StationRow: View {
                     .font(.system(size: 8))
             }
         }
-        .foregroundStyle(RrradioTheme.accent.opacity(0.85))
+        .foregroundStyle(RrradioTheme.stationStars)
     }
 
     private var starCount: Int {
@@ -1162,7 +1347,7 @@ struct StationTile: View {
                     Button(action: onToggleFavorite) {
                         Image(systemName: isFavorite ? "heart.fill" : "heart")
                             .font(.system(size: 16, weight: .medium))
-                            .foregroundStyle(isFavorite ? RrradioTheme.ink : RrradioTheme.ink4)
+                            .foregroundStyle(isFavorite ? RrradioTheme.favoriteFill : RrradioTheme.ink4)
                             .frame(width: 32, height: 32)
                             .contentShape(Circle())
                     }
@@ -1214,14 +1399,7 @@ struct StationTile: View {
             }
             .overlay {
                 Rectangle()
-                    .stroke(isCurrent ? RrradioTheme.accent : RrradioTheme.line, lineWidth: isCurrent ? 2 : 1)
-            }
-            .overlay(alignment: .leading) {
-                if isCurrent {
-                    Rectangle()
-                        .fill(RrradioTheme.accent)
-                        .frame(width: 2)
-                }
+                    .strokeBorder(isCurrent ? RrradioTheme.accent : RrradioTheme.line, lineWidth: isCurrent ? 2 : 1)
             }
             .contentShape(Rectangle())
         }
@@ -1314,4 +1492,13 @@ func stationInitials(_ name: String) -> String {
         .joined()
         .prefix(2)
     return letters.isEmpty ? ".." : String(letters)
+}
+
+private extension View {
+    func topbarChrome(top: CGFloat, bottom: CGFloat) -> some View {
+        padding(.horizontal, 20)
+            .padding(.top, top)
+            .padding(.bottom, bottom)
+            .background(RrradioTheme.bg)
+    }
 }

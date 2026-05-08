@@ -9,6 +9,7 @@ struct rrradioApp: App {
     @State private var wakeAlarm = WakeAlarm()
     @State private var theme = ThemeController()
     @State private var locale = LocaleController()
+    @State private var carMode = CarModeController()
 
     var body: some Scene {
         WindowGroup {
@@ -20,6 +21,7 @@ struct rrradioApp: App {
                 .environment(wakeAlarm)
                 .environment(theme)
                 .environment(locale)
+                .environment(carMode)
                 .preferredColorScheme(theme.preferredColorScheme)
                 .task { await catalog.loadIfNeeded() }
         }

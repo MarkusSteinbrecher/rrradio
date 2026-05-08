@@ -3,6 +3,7 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(LocaleController.self) private var locale
+    @Environment(ThemeController.self) private var theme
     @State private var page: SettingsPage = .settings
 
     var body: some View {
@@ -23,6 +24,7 @@ struct SettingsView: View {
             .tabViewStyle(.page(indexDisplayMode: .never))
         }
         .background(RrradioTheme.bg.ignoresSafeArea())
+        .preferredColorScheme(theme.preferredColorScheme)
     }
 
     private var settingsTabs: some View {
@@ -62,6 +64,7 @@ private struct SettingsPageView: View {
     @Environment(LocaleController.self) private var locale
     @Environment(WakeAlarm.self) private var wakeAlarm
     @Environment(SleepTimer.self) private var sleepTimer
+    @Environment(CarModeController.self) private var carMode
     @AppStorage(StationViewLayout.storageKey) private var stationLayoutRaw = StationViewLayout.list.rawValue
     @AppStorage(LandingPage.storageKey) private var landingPageRaw = LandingPage.browse.rawValue
     @AppStorage(LandingPage.stationIDKey) private var landingStationID = ""
@@ -126,6 +129,32 @@ private struct SettingsPageView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
 
+                settingsSection(locale.text(.carMode)) {
+                    VStack(spacing: 0) {
+                        carModeToggle(
+                            icon: "car.fill",
+                            title: locale.text(.automaticCarMode),
+                            detail: "\(locale.text(.currentAudioRoute)): \(carMode.routeLabel)",
+                            isOn: Binding(
+                                get: { carMode.automaticEnabled },
+                                set: { carMode.setAutomaticEnabled($0) },
+                            ),
+                        )
+                        carModeToggle(
+                            icon: "steeringwheel",
+                            title: locale.text(.manualCarMode),
+                            detail: carMode.isActive ? locale.text(.carModeActive) : locale.text(.carModeInactive),
+                            isOn: Binding(
+                                get: { carMode.manualEnabled },
+                                set: { carMode.setManualEnabled($0) },
+                            ),
+                        )
+                    }
+                    .background(RrradioTheme.bg2)
+                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
+
                 settingsSection(locale.text(.language)) {
                     VStack(spacing: 0) {
                         ForEach(LocaleController.Choice.allCases) { choice in
@@ -140,6 +169,35 @@ private struct SettingsPageView: View {
             .padding(.horizontal, 24)
             .padding(.top, 20)
             .padding(.bottom, 32)
+        }
+    }
+
+    private func carModeToggle(icon: String, title: String, detail: String, isOn: Binding<Bool>) -> some View {
+        Toggle(isOn: isOn) {
+            HStack(spacing: 12) {
+                Image(systemName: icon)
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .frame(width: 22)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(title)
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundStyle(RrradioTheme.ink)
+                    Text(detail)
+                        .font(.system(size: 12))
+                        .foregroundStyle(RrradioTheme.ink3)
+                        .lineLimit(2)
+                }
+            }
+            .padding(.vertical, 10)
+        }
+        .tint(RrradioTheme.accent)
+        .padding(.horizontal, 14)
+        .frame(minHeight: 58)
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(RrradioTheme.line)
+                .frame(height: 1)
         }
     }
 
@@ -231,32 +289,55 @@ private struct SettingsPageView: View {
         Button {
             theme.setChoice(choice)
         } label: {
-            HStack(spacing: 12) {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(title)
-                        .font(.system(size: 15, weight: .medium))
-                        .foregroundStyle(RrradioTheme.ink)
-                    Text(detail)
-                        .font(.system(size: 12))
-                        .foregroundStyle(RrradioTheme.ink3)
-                }
-                Spacer()
-                if theme.choice == choice {
-                    Image(systemName: "checkmark")
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundStyle(RrradioTheme.accent)
-                }
-            }
-            .padding(.horizontal, 14)
-            .frame(minHeight: 54)
-            .contentShape(Rectangle())
-            .overlay(alignment: .bottom) {
-                Rectangle()
-                    .fill(RrradioTheme.line)
-                    .frame(height: 1)
+            if let previewScheme = themePreviewScheme(for: choice) {
+                themeRowContent(title, detail: detail, choice: choice, previewed: true)
+                    .environment(\.colorScheme, previewScheme)
+            } else {
+                themeRowContent(title, detail: detail, choice: choice, previewed: false)
             }
         }
         .buttonStyle(.plain)
+    }
+
+    private func themeRowContent(
+        _ title: String,
+        detail: String,
+        choice: ThemeController.Choice,
+        previewed: Bool,
+    ) -> some View {
+        HStack(spacing: 12) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(previewed ? RrradioTheme.accent : RrradioTheme.ink)
+                Text(detail)
+                    .font(.system(size: 12))
+                    .foregroundStyle(RrradioTheme.ink3)
+            }
+            Spacer()
+            if theme.choice == choice {
+                Image(systemName: "checkmark")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(RrradioTheme.accent)
+            }
+        }
+        .padding(.horizontal, 14)
+        .frame(minHeight: 54)
+        .background(previewed ? RrradioTheme.bg : .clear)
+        .contentShape(Rectangle())
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(RrradioTheme.line)
+                .frame(height: 1)
+        }
+    }
+
+    private func themePreviewScheme(for choice: ThemeController.Choice) -> ColorScheme? {
+        switch choice {
+        case .system: nil
+        case .light: .light
+        case .dark: .dark
+        }
     }
 
     private func landingPageRow(_ landingPage: LandingPage) -> some View {

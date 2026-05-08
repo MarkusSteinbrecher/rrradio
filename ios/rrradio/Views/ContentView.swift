@@ -7,21 +7,24 @@ struct ContentView: View {
     @Environment(WakeAlarm.self) private var wakeAlarm
     @Environment(LocaleController.self) private var locale
     @State private var tab: AppTab = .browse
+    @State private var searchFocused = false
     @State private var didApplyLandingPreference = false
     @State private var showingLandingNowPlaying = false
     @AppStorage(LandingPage.storageKey) private var landingPageRaw = LandingPage.browse.rawValue
     @AppStorage(LandingPage.stationIDKey) private var landingStationID = ""
 
     var body: some View {
-        StationListView(tab: $tab)
+        StationListView(tab: $tab, searchFocusedExternally: $searchFocused)
             .background(RrradioTheme.bg.ignoresSafeArea())
         .safeAreaInset(edge: .bottom) {
-            VStack(spacing: 0) {
-                if player.current != nil {
-                    MiniPlayerView()
-                        .transition(.move(edge: .bottom))
+            if !searchFocused {
+                VStack(spacing: 0) {
+                    if player.current != nil {
+                        MiniPlayerView()
+                            .transition(.move(edge: .bottom))
+                    }
+                    BottomTabBar(tab: $tab)
                 }
-                BottomTabBar(tab: $tab)
             }
         }
         .animation(.snappy, value: player.current?.id)

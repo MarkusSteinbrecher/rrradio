@@ -33,6 +33,7 @@ final class LyricsFetcherTests: XCTestCase {
 
         XCTAssertEqual(lyrics?.plain, "Line one\nLine two")
         XCTAssertEqual(lyrics?.synced.count, 2)
+        XCTAssertEqual(lyrics?.source?.name, "LRCLIB")
     }
 
     func testFallsBackToLyricsOvh() async {
@@ -51,6 +52,7 @@ final class LyricsFetcherTests: XCTestCase {
 
         XCTAssertEqual(hosts, ["lrclib.net", "api.lyrics.ovh"])
         XCTAssertEqual(lyrics?.plain, "Fallback lyrics")
+        XCTAssertEqual(lyrics?.source?.name, "Lyrics.ovh")
     }
 
     func testInstrumentalSkipsFallback() async {

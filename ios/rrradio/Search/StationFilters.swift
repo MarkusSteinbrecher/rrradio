@@ -10,12 +10,19 @@ let genreFilterTags = [
     "eclectic",
 ]
 
-func availableCountries(from stations: [Station]) -> [String] {
-    Array(Set(stations.compactMap { station in
+func availableCountries(from stations: [Station], preferredCountry: String? = deviceRegionCode()) -> [String] {
+    let countries = Array(Set(stations.compactMap { station in
         let code = station.country?.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         return code?.count == 2 ? code : nil
     }))
     .sorted { countryDisplayName($0) < countryDisplayName($1) }
+
+    let preferred = preferredCountry?.uppercased()
+    guard let preferred, countries.contains(preferred) else {
+        return countries
+    }
+
+    return [preferred] + countries.filter { $0 != preferred }
 }
 
 func availableTags(from stations: [Station]) -> [String] {
@@ -48,6 +55,10 @@ func stationMatchesFilters(_ station: Station, country: String?, tag: String?) -
 
 func countryDisplayName(_ code: String) -> String {
     Locale.current.localizedString(forRegionCode: code.uppercased()) ?? code.uppercased()
+}
+
+func deviceRegionCode(locale: Locale = .current) -> String? {
+    locale.region?.identifier.uppercased()
 }
 
 func countryFlagEmoji(_ code: String?) -> String {

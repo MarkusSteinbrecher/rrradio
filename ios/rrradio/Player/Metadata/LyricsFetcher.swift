@@ -12,6 +12,7 @@ struct SyncedLyricsLine: Equatable, Identifiable {
 struct LyricsResult: Equatable {
     let plain: String?
     let synced: [SyncedLyricsLine]
+    let source: LyricsSource?
 
     var displayText: String {
         if let plain, !plain.isEmpty {
@@ -23,6 +24,11 @@ struct LyricsResult: Equatable {
     var isEmpty: Bool {
         (plain?.isEmpty != false) && synced.isEmpty
     }
+}
+
+struct LyricsSource: Equatable {
+    let name: String
+    let url: URL
 }
 
 actor LyricsCache {
@@ -40,7 +46,9 @@ actor LyricsCache {
 }
 
 private let lrclibURL = URL(string: "https://lrclib.net/api/get")!
+private let lrclibSource = LyricsSource(name: "LRCLIB", url: URL(string: "https://lrclib.net/")!)
 private let lyricsOvhURL = URL(string: "https://api.lyrics.ovh/v1")!
+private let lyricsOvhSource = LyricsSource(name: "Lyrics.ovh", url: URL(string: "https://lyrics.ovh/")!)
 
 func lyricsCacheKey(artist: String, track: String) -> String {
     "\(artist.trimmingCharacters(in: .whitespacesAndNewlines).lowercased())::\(track.trimmingCharacters(in: .whitespacesAndNewlines).lowercased())"
@@ -154,6 +162,7 @@ private func tryLrclibLyrics(
         let result = LyricsResult(
             plain: plain?.isEmpty == false ? plain : nil,
             synced: synced,
+            source: lrclibSource,
         )
         return result.isEmpty ? .miss : .found(result)
     } catch {
@@ -180,7 +189,7 @@ private func tryLyricsOvh(
         let response = try JSONDecoder().decode(LyricsOvhResponse.self, from: data)
         let plain = response.lyrics?.trimmingCharacters(in: .whitespacesAndNewlines)
         guard let plain, !plain.isEmpty else { return nil }
-        return LyricsResult(plain: plain, synced: [])
+        return LyricsResult(plain: plain, synced: [], source: lyricsOvhSource)
     } catch {
         return nil
     }

@@ -1,5 +1,4 @@
 import AVFoundation
-import Combine
 import MediaPlayer
 import Observation
 
@@ -9,7 +8,7 @@ import Observation
 /// configuration so playback continues in the background.
 ///
 /// v1 surfaces AVPlayer metadata plus selected broadcaster JSON fetchers:
-///   - HLS streams: artist + title via AVPlayerItem.timedMetadata
+///   - HLS streams: artist + title via AVPlayerItemMetadataOutput
 ///   - ORF audioapi: polled via the shared catalog's metadataUrl.
 ///
 /// `@MainActor` (audit #72): all observable state must be mutated on
@@ -35,10 +34,10 @@ final class AudioPlayer {
     private(set) var isLyricsLoading = false
 
     private var player: AVPlayer?
-    private var timedMetaObserver: Any?
+    private var metadataOutput: AVPlayerItemMetadataOutput?
+    private var metadataOutputDelegate: TimedMetadataOutputDelegate?
     private var statusObserver: NSKeyValueObservation?
     private var rateObserver: NSKeyValueObservation?
-    private var cancellables = Set<AnyCancellable>()
     private var metadataPoller: MetadataPoller?
     private var scheduleTask: Task<Void, Never>?
     private var lyricsTask: Task<Void, Never>?
@@ -189,30 +188,27 @@ final class AudioPlayer {
     }
 
     /// AVPlayer publishes ICY-style metadata for HLS streams via
-    /// `timedMetadata`. For Icecast/Shoutcast we get nothing here —
-    /// the Phase-2 broadcaster fetchers will fill that in.
+    /// `AVPlayerItemMetadataOutput`. For Icecast/Shoutcast we get
+    /// nothing here — the broadcaster fetchers fill that in.
     private func observeMetadata(on item: AVPlayerItem) {
-        timedMetaObserver = NotificationCenter.default.addObserver(
-            forName: .AVPlayerItemNewAccessLogEntry, object: item, queue: .main
-        ) { _ in /* placeholder — kept for future ICY parsing */ }
-
-        // `.receive(on: DispatchQueue.main)` so the sink runs on main
-        // before mutating @Observable state.
-        item.publisher(for: \.timedMetadata)
-            .compactMap { $0 }
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] (metas: [AVMetadataItem]) in
-                MainActor.assumeIsolated { self?.applyTimedMetadata(metas) }
+        let output = AVPlayerItemMetadataOutput(identifiers: nil)
+        let delegate = TimedMetadataOutputDelegate { [weak self] metas in
+            Task { @MainActor [weak self] in
+                await self?.applyTimedMetadata(metas)
             }
-            .store(in: &cancellables)
+        }
+        output.setDelegate(delegate, queue: .main)
+        item.add(output)
+        metadataOutput = output
+        metadataOutputDelegate = delegate
     }
 
-    private func applyTimedMetadata(_ metas: [AVMetadataItem]) {
+    private func applyTimedMetadata(_ metas: [AVMetadataItem]) async {
         // ICY title comes through with commonKey == .commonKeyTitle for
         // most HLS-wrapped Icecast feeds. Take the most recent string.
         for m in metas {
             guard let key = m.commonKey, key.rawValue == "title",
-                  let v = m.stringValue, !v.isEmpty else { continue }
+                  let v = try? await m.load(.stringValue), !v.isEmpty else { continue }
             // StreamTitle is usually "Artist - Title". Split once.
             if let dash = v.range(of: " - ") {
                 nowPlayingArtist = String(v[..<dash.lowerBound])
@@ -281,13 +277,15 @@ final class AudioPlayer {
         lyricsTask?.cancel()
         lyricsTask = nil
         isLyricsLoading = false
-        timedMetaObserver.map(NotificationCenter.default.removeObserver)
-        timedMetaObserver = nil
+        if let metadataOutput, let currentItem = player?.currentItem {
+            currentItem.remove(metadataOutput)
+        }
+        metadataOutput = nil
+        metadataOutputDelegate = nil
         statusObserver?.invalidate()
         statusObserver = nil
         rateObserver?.invalidate()
         rateObserver = nil
-        cancellables.removeAll()
         player?.pause()
         player = nil
     }
@@ -329,5 +327,21 @@ final class AudioPlayer {
     private func cleanLyricsComponent(_ value: String?) -> String? {
         let trimmed = value?.trimmingCharacters(in: .whitespacesAndNewlines)
         return trimmed?.isEmpty == false ? trimmed : nil
+    }
+}
+
+private final class TimedMetadataOutputDelegate: NSObject, AVPlayerItemMetadataOutputPushDelegate {
+    private let onMetadata: ([AVMetadataItem]) -> Void
+
+    init(onMetadata: @escaping ([AVMetadataItem]) -> Void) {
+        self.onMetadata = onMetadata
+    }
+
+    func metadataOutput(
+        _ output: AVPlayerItemMetadataOutput,
+        didOutputTimedMetadataGroups groups: [AVTimedMetadataGroup],
+        from track: AVPlayerItemTrack?,
+    ) {
+        onMetadata(groups.flatMap(\.items))
     }
 }
