@@ -7,11 +7,13 @@ struct NowPlayingView: View {
     @Environment(SleepTimer.self) private var sleepTimer
     @Environment(WakeAlarm.self) private var wakeAlarm
     @Environment(LocaleController.self) private var locale
+    @Environment(CarModeController.self) private var carMode
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
     @State private var detailsOpen = false
     @State private var pane: Pane = .now
     @State private var showingWakeAlarm = false
+    @State private var showingSleepTimer = false
 
     private enum Pane: Hashable {
         case now
@@ -20,13 +22,37 @@ struct NowPlayingView: View {
     }
 
     var body: some View {
+        Group {
+            if carMode.isActive {
+                carModeBody
+            } else {
+                regularBody
+            }
+        }
+        .sheet(isPresented: $showingWakeAlarm) {
+            WakeAlarmView()
+                .presentationDetents([.medium])
+                .presentationDragIndicator(.visible)
+        }
+        .sheet(isPresented: $showingSleepTimer) {
+            SleepTimerView()
+                .presentationDetents([.medium])
+                .presentationDragIndicator(.visible)
+        }
+    }
+
+    private var regularBody: some View {
         VStack(spacing: 0) {
             header
 
             topPanel
 
             pagedPaneContent
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            musicServiceRail
+                .padding(.horizontal, 24)
+                .padding(.bottom, 8)
 
             VStack(spacing: 0) {
                 controlsBlock
@@ -40,15 +66,117 @@ struct NowPlayingView: View {
             .overlay(alignment: .top) {
                 Rectangle()
                     .fill(RrradioTheme.line)
-                    .frame(height: 1)
+                    .frame(width: UIScreen.main.bounds.width, height: 1)
             }
         }
         .background(RrradioTheme.bg.ignoresSafeArea())
-        .sheet(isPresented: $showingWakeAlarm) {
-            WakeAlarmView()
-                .presentationDetents([.medium])
-                .presentationDragIndicator(.visible)
+    }
+
+    private var carModeBody: some View {
+        VStack(spacing: 0) {
+            header
+            stationDivider
+                .padding(.top, 8)
+
+            Spacer(minLength: 18)
+
+            ArtworkView(
+                url: player.nowPlayingCoverUrl ?? player.current?.favicon,
+                stationName: player.current?.name ?? "",
+                stationID: player.current?.id ?? "",
+            )
+            .frame(width: 250, height: 250)
+
+            VStack(spacing: 8) {
+                Text(player.current?.name ?? locale.text(.noStation))
+                    .font(.system(size: 24, weight: .medium))
+                    .foregroundStyle(RrradioTheme.ink)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.7)
+
+                Text(trackTitle)
+                    .font(.system(size: 18, weight: .medium))
+                    .foregroundStyle(RrradioTheme.ink2)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+
+                Text(trackSubtitle)
+                    .font(.system(size: 13))
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(1)
+            }
+            .padding(.horizontal, 28)
+            .padding(.top, 22)
+
+            HStack(spacing: 8) {
+                Image(systemName: "car.fill")
+                    .font(.system(size: 12, weight: .semibold))
+                Text(locale.text(.carMode))
+                Text(carMode.routeLabel)
+                    .foregroundStyle(RrradioTheme.ink4)
+                    .lineLimit(1)
+            }
+            .font(.system(size: 10, weight: .medium, design: .monospaced))
+            .textCase(.uppercase)
+            .tracking(1.1)
+            .foregroundStyle(RrradioTheme.ink3)
+            .padding(.top, 14)
+            .padding(.horizontal, 24)
+
+            Spacer(minLength: 18)
+
+            VStack(spacing: 18) {
+                Button {
+                    player.toggle()
+                } label: {
+                    ZStack {
+                        Circle()
+                            .fill(RrradioTheme.accent)
+                            .shadow(color: RrradioTheme.accent.opacity(0.18), radius: 20)
+                        if player.state == .loading {
+                            LoadingDots()
+                                .foregroundStyle(RrradioTheme.bg)
+                        } else {
+                            Image(systemName: player.state == .playing ? "pause.fill" : "play.fill")
+                                .font(.system(size: 34, weight: .semibold))
+                                .foregroundStyle(RrradioTheme.bg)
+                                .offset(x: player.state == .playing ? 0 : 3)
+                        }
+                    }
+                    .frame(width: 92, height: 92)
+                }
+                .buttonStyle(.plain)
+                .disabled(player.current == nil || player.state == .loading)
+
+                HStack(spacing: 24) {
+                    roundControlButton(favoriteIcon, label: favoriteIcon == "heart.fill" ? locale.text(.removeFavorite) : locale.text(.addFavorite)) {
+                        if let station = player.current {
+                            library.toggleFavorite(station)
+                        }
+                    }
+                    .disabled(player.current == nil)
+
+                    roundControlButton(wakeAlarm.isArmed ? "alarm.fill" : "alarm", label: locale.text(.wakeToRadio)) {
+                        showingWakeAlarm = true
+                    } chip: {
+                        wakeAlarm.isArmed ? wakeAlarm.chipText : nil
+                    }
+                    .disabled(player.current == nil && !wakeAlarm.isArmed)
+
+                    roundControlButton(sleepTimer.isArmed ? "moon.zzz.fill" : "moon.zzz", label: locale.text(.sleepTimer)) {
+                        showingSleepTimer = true
+                    } chip: {
+                        sleepTimer.isArmed ? sleepTimer.chipText : nil
+                    }
+                    .disabled(player.current == nil && !sleepTimer.isArmed)
+                }
+            }
+            .padding(.horizontal, 28)
+            .padding(.bottom, 24)
         }
+        .background(RrradioTheme.bg.ignoresSafeArea())
     }
 
     private var header: some View {
@@ -77,23 +205,20 @@ struct NowPlayingView: View {
         .padding(.leading, 14)
         .padding(.trailing, 24)
         .padding(.top, 12)
-        .padding(.bottom, 4)
+        .padding(.bottom, 0)
     }
 
     private var topPanel: some View {
-        VStack(spacing: 18) {
+        VStack(spacing: 0) {
             stationBlock
+            stationDivider
+                .padding(.top, 10)
             paneTabs
+                .padding(.top, 14)
         }
-        .padding(.horizontal, 24)
-        .padding(.top, 18)
-        .padding(.bottom, 14)
+        .padding(.top, 4)
+        .padding(.bottom, 10)
         .background(RrradioTheme.bg)
-        .overlay(alignment: .bottom) {
-            Rectangle()
-                .fill(RrradioTheme.line)
-                .frame(height: 1)
-        }
     }
 
     private var stationBlock: some View {
@@ -102,6 +227,7 @@ struct NowPlayingView: View {
                 url: player.current?.favicon,
                 stationName: player.current?.name ?? "",
                 stationID: player.current?.id ?? "",
+                size: 38,
             )
             .frame(width: 38, height: 38)
             .frame(width: 44, height: 44, alignment: .leading)
@@ -123,29 +249,29 @@ struct NowPlayingView: View {
             .disabled(player.current == nil)
             .frame(width: 44, height: 44)
         }
-        .padding(.top, 6)
+        .padding(.horizontal, 24)
         .frame(maxWidth: .infinity)
+    }
+
+    private var stationDivider: some View {
+        Rectangle()
+            .fill(RrradioTheme.line)
+            .frame(width: UIScreen.main.bounds.width, height: 1)
     }
 
     @ViewBuilder
     private var pagedPaneContent: some View {
         TabView(selection: $pane) {
-            paneScroll {
-                trackBlock
-            }
+            nowPaneContent
             .tag(Pane.now)
 
             if hasProgram {
-                paneScroll {
-                    programBlock
-                }
+                programPaneContent
                 .tag(Pane.program)
             }
 
             if hasLyrics {
-                paneScroll {
-                    lyricsBlock
-                }
+                lyricsPaneContent
                 .tag(Pane.lyrics)
             }
         }
@@ -171,6 +297,42 @@ struct NowPlayingView: View {
         }
     }
 
+    private var nowPaneContent: some View {
+        GeometryReader { proxy in
+            ScrollView {
+                trackBlock
+                    .padding(.horizontal, 24)
+                    .padding(.top, max(8, (proxy.size.height - 314) / 2))
+                    .padding(.bottom, 18)
+                    .frame(maxWidth: .infinity)
+            }
+        }
+    }
+
+    private var programPaneContent: some View {
+        ScrollViewReader { proxy in
+            ScrollView {
+                programBlock
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 18)
+                    .frame(maxWidth: .infinity)
+            }
+            .onAppear {
+                scrollToLiveProgram(using: proxy, animated: false)
+            }
+            .onChange(of: pane) { _, value in
+                if value == .program {
+                    scrollToLiveProgram(using: proxy)
+                }
+            }
+            .onChange(of: liveScheduleBroadcastID) { _, _ in
+                if pane == .program {
+                    scrollToLiveProgram(using: proxy)
+                }
+            }
+        }
+    }
+
     private var trackBlock: some View {
         VStack(spacing: 14) {
             ArtworkView(
@@ -193,25 +355,18 @@ struct NowPlayingView: View {
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
             }
-
-            musicServiceButtons
         }
     }
 
-    @ViewBuilder
     private var paneTabs: some View {
-        if hasProgram || hasLyrics {
-            HStack(spacing: 8) {
-                paneButton("music.note", title: locale.text(.now), pane: .now)
-                if hasProgram {
-                    paneButton("calendar", title: programTabTitle, pane: .program)
-                }
-                if hasLyrics {
-                    paneButton("text.quote", title: locale.text(.lyrics), pane: .lyrics)
-                }
-            }
-            .frame(maxWidth: .infinity)
+        HStack(spacing: 8) {
+            paneButton("music.note", title: locale.text(.now), pane: .now, enabled: true)
+            paneButton("calendar", title: programTabTitle, pane: .program, enabled: hasProgram)
+            paneButton("text.quote", title: locale.text(.lyrics), pane: .lyrics, enabled: hasLyrics)
         }
+        .frame(height: 32)
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, 24)
     }
 
     private var programBlock: some View {
@@ -258,6 +413,7 @@ struct NowPlayingView: View {
 
                     ForEach(currentScheduleBroadcasts) { broadcast in
                         programRow(broadcast)
+                            .id(broadcast.id)
                     }
                 }
             }
@@ -304,10 +460,12 @@ struct NowPlayingView: View {
         }
     }
 
-    private func paneButton(_ icon: String, title: String, pane target: Pane) -> some View {
+    private func paneButton(_ icon: String, title: String, pane target: Pane, enabled: Bool) -> some View {
         Button {
-            withAnimation(.snappy) {
-                pane = target
+            if enabled {
+                withAnimation(.snappy) {
+                    pane = target
+                }
             }
         } label: {
             HStack(spacing: 7) {
@@ -316,32 +474,39 @@ struct NowPlayingView: View {
                     .lineLimit(1)
             }
             .font(.system(size: 12, weight: .medium))
-            .foregroundStyle(pane == target ? RrradioTheme.bg : RrradioTheme.ink3)
+            .foregroundStyle(pane == target ? RrradioTheme.bg : enabled ? RrradioTheme.ink3 : RrradioTheme.ink4)
             .padding(.horizontal, 14)
             .frame(height: 32)
             .background(pane == target ? RrradioTheme.buttonFill : .clear)
-            .overlay(Capsule().stroke(pane == target ? RrradioTheme.buttonFill : RrradioTheme.line))
+            .overlay(Capsule().stroke(pane == target ? RrradioTheme.buttonFill : enabled ? RrradioTheme.line : RrradioTheme.line.opacity(0.45)))
             .clipShape(Capsule())
         }
         .buttonStyle(.plain)
+        .disabled(!enabled)
+    }
+
+    private var musicServiceRail: some View {
+        HStack(spacing: 12) {
+            if pane != .lyrics {
+                musicServiceButtons
+            }
+        }
+        .frame(height: 44)
+        .frame(maxWidth: .infinity)
+        .background(RrradioTheme.bg)
     }
 
     @ViewBuilder
     private var musicServiceButtons: some View {
         let links = musicServiceLinks(artist: player.nowPlayingArtist, title: player.nowPlayingTitle)
-        if !links.isEmpty {
-            HStack(spacing: 12) {
-                ForEach(links) { link in
-                    Button {
-                        openURL(link.url)
-                    } label: {
-                        musicServiceLogo(link)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel("Open in \(link.title)")
-                }
+        ForEach(links) { link in
+            Button {
+                openURL(link.url)
+            } label: {
+                musicServiceLogo(link)
             }
-            .padding(.top, 4)
+            .buttonStyle(.plain)
+            .accessibilityLabel("Open in \(link.title)")
         }
     }
 
@@ -368,30 +533,70 @@ struct NowPlayingView: View {
 
     private var lyricsBlock: some View {
         VStack(alignment: .leading, spacing: 14) {
-            VStack(alignment: .leading, spacing: 5) {
-                Text(trackTitle)
-                    .font(.system(size: 18, weight: .medium))
-                    .foregroundStyle(RrradioTheme.ink)
-                    .lineLimit(2)
-                    .minimumScaleFactor(0.72)
-                Text(trackSubtitle)
-                    .font(.system(size: 12))
-                    .foregroundStyle(RrradioTheme.ink3)
-                    .lineLimit(1)
-                musicServiceButtons
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-
             Text(player.nowPlayingLyrics?.displayText ?? "")
                 .font(.system(size: 14))
                 .lineSpacing(5)
                 .foregroundStyle(RrradioTheme.ink2)
                 .textSelection(.enabled)
                 .frame(maxWidth: .infinity, alignment: .leading)
+
+            if let source = player.nowPlayingLyrics?.source {
+                Link(destination: source.url) {
+                    HStack(spacing: 7) {
+                        Image(systemName: "link")
+                            .font(.system(size: 11, weight: .medium))
+                        Text("Lyrics source: \(source.name)")
+                            .lineLimit(1)
+                    }
+                    .font(.system(size: 10, weight: .medium, design: .monospaced))
+                    .textCase(.uppercase)
+                    .tracking(1.1)
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.top, 2)
+                }
+            }
         }
-        .padding(16)
-        .background(RoundedRectangle(cornerRadius: 6).fill(RrradioTheme.bg2))
-        .overlay(RoundedRectangle(cornerRadius: 6).stroke(RrradioTheme.line))
+    }
+
+    private var lyricsPaneContent: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            lyricsHeader
+                .padding(.horizontal, 24)
+                .padding(.top, 18)
+                .padding(.bottom, 12)
+                .background(RrradioTheme.bg)
+                .overlay(alignment: .bottom) {
+                    Rectangle()
+                        .fill(RrradioTheme.line)
+                        .frame(height: 1)
+                }
+
+            ScrollView {
+                lyricsBlock
+                    .padding(.horizontal, 24)
+                    .padding(.top, 16)
+                    .padding(.bottom, 18)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .background(RrradioTheme.bg)
+    }
+
+    private var lyricsHeader: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Text(trackTitle)
+                .font(.system(size: 18, weight: .medium))
+                .foregroundStyle(RrradioTheme.ink)
+                .lineLimit(2)
+                .minimumScaleFactor(0.72)
+            Text(trackSubtitle)
+                .font(.system(size: 12))
+                .foregroundStyle(RrradioTheme.ink3)
+                .lineLimit(1)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private var controlsBlock: some View {
@@ -431,11 +636,11 @@ struct NowPlayingView: View {
                 }
                 .disabled(player.current == nil && !wakeAlarm.isArmed)
                 roundControlButton(sleepTimer.isArmed ? "moon.zzz.fill" : "moon.zzz", label: locale.text(.sleepTimer)) {
-                    sleepTimer.cycle { player.pause() }
+                    showingSleepTimer = true
                 } chip: {
-                    sleepTimer.isArmed ? sleepTimer.chipText : SleepTimer.format(sleepTimer.defaultMinutes)
+                    sleepTimer.isArmed ? sleepTimer.chipText : nil
                 }
-                .disabled(player.current == nil)
+                .disabled(player.current == nil && !sleepTimer.isArmed)
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
         }
@@ -481,7 +686,7 @@ struct NowPlayingView: View {
                 VStack(spacing: 10) {
                     detailRow(locale.text(.countryDetail), player.current?.country?.uppercased() ?? locale.text(.unknown))
                     detailRow(locale.text(.codec), player.current?.codec?.uppercased() ?? locale.text(.unknown))
-                    detailRow(locale.text(.bitrate), bitrateText)
+                    detailRow(locale.text(.bitrate), bitrateDetailText)
                     detailRow(locale.text(.metadata), player.current?.metadata ?? player.current?.status ?? locale.text(.stream))
                 }
                 .padding(.vertical, 12)
@@ -563,7 +768,9 @@ struct NowPlayingView: View {
 
     private func activeControlIconColor(_ systemName: String) -> Color {
         switch systemName {
-        case "heart.fill", "alarm.fill", "moon.zzz.fill":
+        case "heart.fill":
+            return RrradioTheme.favoriteFill
+        case "alarm.fill", "moon.zzz.fill":
             return RrradioTheme.accent
         default:
             return RrradioTheme.ink2
@@ -630,8 +837,7 @@ struct NowPlayingView: View {
     }
 
     private var programTabTitle: String {
-        guard let name = clean(player.nowPlayingProgramName) else { return "Program" }
-        return "Now on \(name)"
+        clean(player.nowPlayingProgramName) ?? locale.text(.program)
     }
 
     private func clean(_ value: String?) -> String? {
@@ -648,9 +854,26 @@ struct NowPlayingView: View {
         return day?.broadcasts ?? []
     }
 
+    private var liveScheduleBroadcastID: String? {
+        currentScheduleBroadcasts.first(where: isLive)?.id
+    }
+
     private func isLive(_ broadcast: ProgramScheduleBroadcast) -> Bool {
         let now = Date()
         return broadcast.start <= now && now < broadcast.end
+    }
+
+    private func scrollToLiveProgram(using proxy: ScrollViewProxy, animated: Bool = true) {
+        guard let id = liveScheduleBroadcastID else { return }
+        DispatchQueue.main.async {
+            if animated {
+                withAnimation(.snappy) {
+                    proxy.scrollTo(id, anchor: .center)
+                }
+            } else {
+                proxy.scrollTo(id, anchor: .center)
+            }
+        }
     }
 
     private func timeString(_ date: Date) -> String {
@@ -673,12 +896,27 @@ struct NowPlayingView: View {
     private var formatLine: String {
         let codec = player.current?.codec?.uppercased()
         let bitrate = bitrateText
-        return [codec, bitrate == locale.text(.unknown) ? nil : bitrate].compactMap { $0 }.joined(separator: " . ")
+        return [
+            codec,
+            bitrate == locale.text(.unknown) ? nil : bitrate,
+            streamQualityMeter(codec: player.current?.codec, bitrate: player.current?.bitrate),
+        ]
+        .compactMap { $0 }
+        .joined(separator: " . ")
     }
 
     private var bitrateText: String {
         guard let bitrate = player.current?.bitrate else { return locale.text(.unknown) }
         return "\(bitrate) kbps"
+    }
+
+    private var bitrateDetailText: String {
+        guard player.current?.bitrate != nil else { return locale.text(.unknown) }
+        return [
+            bitrateText,
+            streamQualityMeter(codec: player.current?.codec, bitrate: player.current?.bitrate),
+        ]
+        .joined(separator: " . ")
     }
 }
 
@@ -793,6 +1031,108 @@ private struct WakeAlarmView: View {
         components.hour = hour
         components.minute = minute
         return Calendar.current.date(from: components)
+    }
+}
+
+private struct SleepTimerView: View {
+    @Environment(AudioPlayer.self) private var player
+    @Environment(SleepTimer.self) private var sleepTimer
+    @Environment(LocaleController.self) private var locale
+    @Environment(\.dismiss) private var dismiss
+    @State private var sleepDate = Date()
+
+    var body: some View {
+        VStack(spacing: 18) {
+            VStack(spacing: 8) {
+                Image(systemName: sleepTimer.isArmed ? "moon.zzz.fill" : "moon.zzz")
+                    .font(.system(size: 28, weight: .medium))
+                    .foregroundStyle(sleepTimer.isArmed ? RrradioTheme.accent : RrradioTheme.ink3)
+                HStack(alignment: .firstTextBaseline, spacing: 10) {
+                    Text(locale.text(.sleepTimer))
+                        .font(.system(size: 22, weight: .medium))
+                        .foregroundStyle(RrradioTheme.ink)
+                    if sleepTimer.isArmed {
+                        TimelineView(.periodic(from: .now, by: 30)) { timeline in
+                            Text(sleepTimer.countdownText(at: timeline.date))
+                                .font(.system(size: 11, weight: .semibold, design: .monospaced))
+                                .textCase(.uppercase)
+                                .foregroundStyle(RrradioTheme.bg)
+                                .padding(.horizontal, 7)
+                                .padding(.vertical, 3)
+                                .background(Capsule().fill(RrradioTheme.accent))
+                        }
+                    }
+                }
+                Text(targetLine)
+                    .font(.system(size: 12))
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+            }
+
+            DatePicker(locale.text(.sleepTimer), selection: $sleepDate, displayedComponents: .hourAndMinute)
+                .datePickerStyle(.wheel)
+                .labelsHidden()
+                .frame(maxHeight: 132)
+
+            Button {
+                if sleepTimer.isArmed {
+                    sleepTimer.cancel()
+                } else {
+                    sleepTimer.set(minutes: max(1, minutes(from: sleepDate))) {
+                        player.pause()
+                    }
+                }
+                dismiss()
+            } label: {
+                Text(sleepTimer.isArmed ? locale.text(.unset) : locale.text(.set))
+                    .font(.system(size: 14, weight: .semibold, design: .monospaced))
+                    .textCase(.uppercase)
+                .foregroundStyle(sleepTimer.isArmed ? RrradioTheme.ink : RrradioTheme.bg)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 13)
+                .background(sleepTimer.isArmed ? RrradioTheme.bg2 : RrradioTheme.buttonFill)
+                .overlay(RoundedRectangle(cornerRadius: 6).stroke(sleepTimer.isArmed ? RrradioTheme.line : RrradioTheme.buttonFill))
+                .clipShape(RoundedRectangle(cornerRadius: 6))
+            }
+            .buttonStyle(.plain)
+            .disabled(!sleepTimer.isArmed && player.current == nil)
+
+            Text(locale.text(.playStationFirst))
+                .font(.system(size: 11))
+                .foregroundStyle(RrradioTheme.ink4)
+                .multilineTextAlignment(.center)
+                .lineSpacing(3)
+                .opacity(player.current == nil && !sleepTimer.isArmed ? 1 : 0)
+        }
+        .padding(24)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(RrradioTheme.bg.ignoresSafeArea())
+        .onAppear {
+            sleepDate = dateFromMinutes(sleepTimer.isArmed ? sleepTimer.minutes : sleepTimer.defaultMinutes)
+        }
+    }
+
+    private var targetLine: String {
+        if sleepTimer.isArmed {
+            return "Playback pauses when the timer ends"
+        }
+        if let station = player.current {
+            return "Set a sleep timer for \(station.name)"
+        }
+        return locale.text(.playStationFirst)
+    }
+
+    private func minutes(from date: Date) -> Int {
+        let components = Calendar.current.dateComponents([.hour, .minute], from: date)
+        return ((components.hour ?? 0) * 60) + (components.minute ?? 0)
+    }
+
+    private func dateFromMinutes(_ minutes: Int) -> Date {
+        var components = Calendar.current.dateComponents([.year, .month, .day], from: Date())
+        components.hour = minutes / 60
+        components.minute = minutes % 60
+        return Calendar.current.date(from: components) ?? Date()
     }
 }
 
@@ -942,4 +1282,5 @@ private struct LoadingDots: View {
         .environment(SleepTimer())
         .environment(WakeAlarm())
         .environment(LocaleController())
+        .environment(CarModeController())
 }

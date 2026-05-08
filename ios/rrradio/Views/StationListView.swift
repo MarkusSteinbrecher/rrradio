@@ -27,8 +27,16 @@ enum RrradioTheme {
     static let ink4 = ink.opacity(0.40)
     static let line = ink.opacity(0.08)
     static let buttonFill = adaptive(
-        light: UIColor(red: 0.165, green: 0.165, blue: 0.150, alpha: 1),
+        light: UIColor(red: 0.305, green: 0.305, blue: 0.280, alpha: 1),
         dark: UIColor(red: 0.957, green: 0.957, blue: 0.949, alpha: 1),
+    )
+    static let favoriteFill = adaptive(
+        light: UIColor(red: 0.430, green: 0.430, blue: 0.390, alpha: 1),
+        dark: UIColor(red: 0.957, green: 0.957, blue: 0.949, alpha: 0.72),
+    )
+    static let stationStars = adaptive(
+        light: UIColor(red: 0.380, green: 0.380, blue: 0.350, alpha: 1),
+        dark: UIColor(red: 0.860, green: 0.860, blue: 0.820, alpha: 1),
     )
 
     private static func adaptive(light: UIColor, dark: UIColor) -> Color {
@@ -56,6 +64,7 @@ enum StationViewLayout: String, CaseIterable, Identifiable {
 
 struct StationListView: View {
     @Binding private var tab: AppTab
+    @Binding private var searchFocusedExternally: Bool
     @Environment(Catalog.self) private var catalog
     @Environment(Library.self) private var library
     @Environment(AudioPlayer.self) private var player
@@ -64,8 +73,10 @@ struct StationListView: View {
     @Environment(ThemeController.self) private var theme
     @Environment(LocaleController.self) private var locale
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
     private let radioBrowser = RadioBrowserClient()
     private let shareURL = URL(string: "https://rrradio.org")!
+    @State private var searchText = ""
     @State private var query = ""
     @State private var source: StationSource = .all
     @State private var librarySource: StationSource = .favorites
@@ -83,6 +94,11 @@ struct StationListView: View {
     @State private var radioBrowserOffset = 0
     @State private var radioBrowserHasMore = true
     @State private var radioBrowserLoading = false
+    @State private var filteredStations: [Station] = []
+    @State private var filterTask: Task<Void, Never>?
+    @State private var searchUpdateTask: Task<Void, Never>?
+    @State private var radioBrowserSearchTask: Task<Void, Never>?
+    @State private var favoriteNowPlaying = FavoriteNowPlayingStore()
     @FocusState private var searchFocused: Bool
 
     private let stationPageSize = 220
@@ -133,8 +149,12 @@ struct StationListView: View {
         var id: String { rawValue }
     }
 
-    init(tab: Binding<AppTab> = .constant(.browse)) {
+    init(
+        tab: Binding<AppTab> = .constant(.browse),
+        searchFocusedExternally: Binding<Bool> = .constant(false),
+    ) {
         _tab = tab
+        _searchFocusedExternally = searchFocusedExternally
     }
 
     private var allStations: [Station] { library.customStations + catalog.browseOrdered }
@@ -153,21 +173,31 @@ struct StationListView: View {
         }
     }
 
-    private var filtered: [Station] {
-        stations.filter {
-            stationMatches($0, query: query)
-                && stationMatchesFilters($0, country: selectedCountry, tag: selectedTag)
-        }
-    }
-
     private var displayLimit: Int {
-        min(stationDisplayLimit, filtered.count)
+        min(stationDisplayLimit, filteredStations.count)
     }
 
-    private var visibleStations: [Station] { Array(filtered.prefix(displayLimit)) }
+    private var visibleStations: [Station] { Array(filteredStations.prefix(displayLimit)) }
     private var hasActiveFilters: Bool { selectedCountry != nil || selectedTag != nil }
     private var stationLayout: StationViewLayout {
         StationViewLayout(rawValue: stationLayoutRaw) ?? .list
+    }
+    private var isFavoritesPage: Bool {
+        tab == .library && source == .favorites
+    }
+    private var filterSignature: String {
+        [
+            source.rawValue,
+            query,
+            selectedCountry ?? "",
+            selectedTag ?? "",
+            checkedOnly ? "checked" : "all",
+            "\(catalog.browseOrdered.count)",
+            "\(library.favorites.count)",
+            "\(library.recents.count)",
+            "\(library.customStations.count)",
+            "\(radioBrowserStations.count)",
+        ].joined(separator: "\u{1f}")
     }
 
     var body: some View {
@@ -248,13 +278,9 @@ struct StationListView: View {
         } message: { target in
             Text(target.message)
         }
-        .toolbar {
-            ToolbarItemGroup(placement: .keyboard) {
-                Spacer()
-                Button(locale.text(.done)) {
-                    searchFocused = false
-                }
-            }
+        .onAppear {
+            recomputeFilteredStations()
+            updateFavoriteNowPlayingPolling()
         }
         .onChange(of: tab) { _, value in
             switch value {
@@ -276,63 +302,54 @@ struct StationListView: View {
         .onChange(of: query) { _, _ in
             resetStationDisplayLimit()
             resetRadioBrowserStations()
+            fetchInitialRadioBrowserSearchIfNeeded()
+        }
+        .onChange(of: searchText) { _, value in
+            scheduleSearchUpdate(value)
         }
         .onChange(of: selectedCountry) { _, _ in
             resetStationDisplayLimit()
             resetRadioBrowserStations()
+            fetchInitialRadioBrowserSearchIfNeeded()
         }
         .onChange(of: selectedTag) { _, _ in
             resetStationDisplayLimit()
             resetRadioBrowserStations()
+            fetchInitialRadioBrowserSearchIfNeeded()
         }
         .onChange(of: checkedOnly) { _, _ in
             resetStationDisplayLimit()
             resetRadioBrowserStations()
+            fetchInitialRadioBrowserSearchIfNeeded()
+        }
+        .onChange(of: filterSignature) { _, _ in
+            recomputeFilteredStations()
+            updateFavoriteNowPlayingPolling()
+        }
+        .onChange(of: searchFocused) { _, focused in
+            searchFocusedExternally = focused
+        }
+        .onDisappear {
+            filterTask?.cancel()
+            searchUpdateTask?.cancel()
+            radioBrowserSearchTask?.cancel()
+            favoriteNowPlaying.stop()
+            searchFocusedExternally = false
         }
     }
 
+    @ViewBuilder
     private var topbar: some View {
+        if verticalSizeClass == .compact {
+            compactTopbar
+        } else {
+            regularTopbar
+        }
+    }
+
+    private var regularTopbar: some View {
         VStack(spacing: 14) {
-            HStack(alignment: .center) {
-                Button {
-                    query = ""
-                    searchFocused = false
-                    source = .all
-                    selectedCountry = nil
-                    selectedTag = nil
-                    checkedOnly = true
-                    activeFilterPicker = nil
-                } label: {
-                    HStack(alignment: .firstTextBaseline, spacing: 6) {
-                        Text("r r r")
-                            .foregroundStyle(RrradioTheme.accent)
-                        Text("a d i o . o r g")
-                            .foregroundStyle(RrradioTheme.ink)
-                        Text("beta")
-                            .font(.system(size: 11, weight: .medium))
-                            .foregroundStyle(RrradioTheme.accent)
-                            .baselineOffset(4)
-                    }
-                    .font(.system(size: 16, weight: .medium))
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel(locale.text(.goHome))
-
-                Spacer()
-
-                HStack(spacing: 8) {
-                    ShareLink(item: shareURL) {
-                        circularIconLabel("square.and.arrow.up")
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(locale.text(.share))
-
-                    circularIconButton("gearshape", label: locale.text(.settings)) {
-                        showingSettings = true
-                    }
-                }
-            }
-
+            brandActionsRow
             searchField
             if tab == .browse {
                 filterRow
@@ -341,10 +358,74 @@ struct StationListView: View {
             }
             statusToolbar
         }
-        .padding(.horizontal, 20)
-        .padding(.top, 14)
-        .padding(.bottom, 10)
-        .background(RrradioTheme.bg)
+        .topbarChrome(top: 14, bottom: 10)
+    }
+
+    private var compactTopbar: some View {
+        VStack(spacing: 8) {
+            brandActionsRow
+            HStack(spacing: 10) {
+                searchField
+                    .frame(minWidth: 220)
+                if tab == .browse {
+                    compactFilterRow
+                        .frame(maxWidth: .infinity)
+                } else {
+                    librarySegments
+                }
+            }
+            statusToolbar
+        }
+        .topbarChrome(top: 8, bottom: 6)
+    }
+
+    private var brandActionsRow: some View {
+        HStack(alignment: .center) {
+            Button {
+                searchText = ""
+                query = ""
+                searchFocused = false
+                source = .all
+                selectedCountry = nil
+                selectedTag = nil
+                checkedOnly = true
+                activeFilterPicker = nil
+            } label: {
+                HStack(alignment: .firstTextBaseline, spacing: 6) {
+                    Text("r r r")
+                        .foregroundStyle(RrradioTheme.accent)
+                    Text("a d i o . o r g")
+                        .foregroundStyle(RrradioTheme.ink)
+                    Text("beta")
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundStyle(RrradioTheme.accent)
+                        .baselineOffset(4)
+                }
+                .font(.system(size: 16, weight: .medium))
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(locale.text(.goHome))
+
+            Spacer()
+
+            HStack(spacing: 8) {
+                ShareLink(
+                    item: shareURL,
+                    subject: Text("rrradio.org"),
+                    message: Text("Free internet radio without ads.")
+                ) {
+                    circularIconLabel("square.and.arrow.up")
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(locale.text(.share))
+                .simultaneousGesture(TapGesture().onEnded(dismissSearch))
+
+                circularIconButton("gearshape", label: locale.text(.settings)) {
+                    dismissSearch()
+                    showingSettings = true
+                }
+            }
+        }
     }
 
     private var searchField: some View {
@@ -352,7 +433,7 @@ struct StationListView: View {
             Image(systemName: "magnifyingglass")
                 .font(.system(size: 14, weight: .medium))
                 .foregroundStyle(RrradioTheme.ink3)
-            TextField(searchPlaceholder, text: $query)
+            TextField(searchPlaceholder, text: $searchText)
                 .font(.system(size: 16))
                 .foregroundStyle(RrradioTheme.ink)
                 .textInputAutocapitalization(.never)
@@ -360,6 +441,8 @@ struct StationListView: View {
                 .submitLabel(.search)
                 .focused($searchFocused)
                 .onSubmit {
+                    searchUpdateTask?.cancel()
+                    query = searchText
                     searchFocused = false
                 }
                 .onChange(of: searchFocused) { _, focused in
@@ -367,8 +450,10 @@ struct StationListView: View {
                         activeFilterPicker = nil
                     }
                 }
-            if !query.isEmpty {
+            if !searchText.isEmpty {
                 Button {
+                    searchUpdateTask?.cancel()
+                    searchText = ""
                     query = ""
                 } label: {
                     Image(systemName: "xmark")
@@ -398,6 +483,7 @@ struct StationListView: View {
                             active: source == .all && checkedOnly,
                         ) {
                             source = .all
+                            dismissSearch()
                             checkedOnly.toggle()
                             activeFilterPicker = nil
                         }
@@ -405,6 +491,7 @@ struct StationListView: View {
                     filterCell(locale.text(.news)) {
                         circularFilterButton(icon: "newspaper", active: selectedTag == "news") {
                             source = .all
+                            dismissSearch()
                             selectedTag = selectedTag == "news" ? nil : "news"
                             activeFilterPicker = nil
                         }
@@ -415,6 +502,7 @@ struct StationListView: View {
                             active: activeFilterPicker == .genre || (selectedTag != nil && selectedTag != "news"),
                         ) {
                             source = .all
+                            dismissSearch()
                             activeFilterPicker = activeFilterPicker == .genre ? nil : .genre
                         }
                     }
@@ -424,12 +512,14 @@ struct StationListView: View {
                             active: activeFilterPicker == .country || selectedCountry != nil,
                         ) {
                             source = .all
+                            dismissSearch()
                             activeFilterPicker = activeFilterPicker == .country ? nil : .country
                         }
                     }
                     filterCell(locale.text(.map)) {
                         circularFilterButton(icon: "map", active: false) {
                             source = .all
+                            dismissSearch()
                             activeFilterPicker = nil
                             showingMap = true
                         }
@@ -440,6 +530,73 @@ struct StationListView: View {
             }
         }
         .frame(height: 52)
+        .popover(
+            isPresented: Binding(
+                get: { activeFilterPicker != nil },
+                set: { if !$0 { activeFilterPicker = nil } },
+            ),
+            attachmentAnchor: .rect(.bounds),
+            arrowEdge: .top,
+        ) {
+            filterPickerPopover
+                .presentationCompactAdaptation(.popover)
+        }
+    }
+
+    private var compactFilterRow: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                circularFilterButton(
+                    icon: "star.fill",
+                    active: source == .all && checkedOnly,
+                ) {
+                    source = .all
+                    dismissSearch()
+                    checkedOnly.toggle()
+                    activeFilterPicker = nil
+                }
+                .accessibilityLabel(locale.text(.checked))
+
+                circularFilterButton(icon: "newspaper", active: selectedTag == "news") {
+                    source = .all
+                    dismissSearch()
+                    selectedTag = selectedTag == "news" ? nil : "news"
+                    activeFilterPicker = nil
+                }
+                .accessibilityLabel(locale.text(.news))
+
+                circularFilterButton(
+                    icon: "music.note",
+                    active: activeFilterPicker == .genre || (selectedTag != nil && selectedTag != "news"),
+                ) {
+                    source = .all
+                    dismissSearch()
+                    activeFilterPicker = activeFilterPicker == .genre ? nil : .genre
+                }
+                .accessibilityLabel(locale.text(.genre))
+
+                circularFilterButton(
+                    icon: "flag",
+                    active: activeFilterPicker == .country || selectedCountry != nil,
+                ) {
+                    source = .all
+                    dismissSearch()
+                    activeFilterPicker = activeFilterPicker == .country ? nil : .country
+                }
+                .accessibilityLabel(locale.text(.country))
+
+                circularFilterButton(icon: "map", active: false) {
+                    source = .all
+                    dismissSearch()
+                    activeFilterPicker = nil
+                    showingMap = true
+                }
+                .accessibilityLabel(locale.text(.map))
+            }
+            .padding(.horizontal, 1)
+            .frame(maxWidth: .infinity, alignment: .trailing)
+        }
+        .frame(height: 38)
         .popover(
             isPresented: Binding(
                 get: { activeFilterPicker != nil },
@@ -515,7 +672,7 @@ struct StationListView: View {
             Text(statusLabel)
             Text(".")
                 .foregroundStyle(RrradioTheme.ink4)
-            Text("\(filtered.count)")
+            Text("\(filteredStations.count)")
                 .foregroundStyle(RrradioTheme.ink4)
         }
         .font(.system(size: 10, weight: .medium, design: .monospaced))
@@ -529,7 +686,9 @@ struct StationListView: View {
         ZStack {
             sectionStatus
             HStack {
-                layoutToggle
+                if !isFavoritesPage {
+                    layoutToggle
+                }
                 Spacer()
             }
         }
@@ -548,6 +707,7 @@ struct StationListView: View {
 
     private func layoutButton(_ layout: StationViewLayout, label: String) -> some View {
         Button {
+            dismissSearch()
             stationLayoutRaw = layout.rawValue
         } label: {
             Image(systemName: layout.icon)
@@ -563,20 +723,31 @@ struct StationListView: View {
 
     @ViewBuilder
     private var content: some View {
-        if filtered.isEmpty {
-            ContentUnavailableView(
-                emptyTitle,
-                systemImage: emptyIcon,
-                description: Text(emptyDescription),
-            )
-            .foregroundStyle(RrradioTheme.ink)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-        } else {
-            list
+        Group {
+            if filteredStations.isEmpty {
+                ContentUnavailableView(
+                    emptyTitle,
+                    systemImage: emptyIcon,
+                    description: Text(emptyDescription),
+                )
+                .foregroundStyle(RrradioTheme.ink)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                list
+            }
         }
     }
 
+    @ViewBuilder
     private var list: some View {
+        if isFavoritesPage {
+            sortableFavoritesList
+        } else {
+            stationScrollList
+        }
+    }
+
+    private var stationScrollList: some View {
         ScrollView {
             LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
                 Section {
@@ -585,6 +756,8 @@ struct StationListView: View {
                         ForEach(visibleStations) { station in
                             StationRow(
                                 station: station,
+                                nowPlaying: isFavoritesPage ? favoriteNowPlaying.entries[station.id]?.metadata : nil,
+                                mode: isFavoritesPage ? .favoritesExpanded : .standard,
                                 isCurrent: player.current?.id == station.id,
                                 isPlaying: player.current?.id == station.id && player.state == .playing,
                                 isFavorite: library.isFavorite(station),
@@ -595,29 +768,18 @@ struct StationListView: View {
                                 onToggleFavorite: {
                                     library.toggleFavorite(station)
                                 },
+                                showsFavoriteButton: !isFavoritesPage,
                             )
                         }
                     case .tiles:
                         LazyVGrid(columns: tileColumns, spacing: 0) {
                             ForEach(visibleStations) { station in
-                                StationTile(
-                                    station: station,
-                                    isCurrent: player.current?.id == station.id,
-                                    isPlaying: player.current?.id == station.id && player.state == .playing,
-                                    isFavorite: library.isFavorite(station),
-                                    isCustom: library.isCustom(station),
-                                    onPlay: {
-                                        play(station)
-                                    },
-                                    onToggleFavorite: {
-                                        library.toggleFavorite(station)
-                                    },
-                                )
+                                tileView(for: station)
                             }
                         }
                         .padding(.top, 1)
                     }
-                    if visibleStations.count < filtered.count || canLoadWorldwideStations {
+                    if visibleStations.count < filteredStations.count || canLoadWorldwideStations {
                         loadMoreRow
                     }
                 } header: {
@@ -626,10 +788,54 @@ struct StationListView: View {
             }
             .padding(.bottom, 12)
         }
-        .scrollDismissesKeyboard(.interactively)
+        .scrollDismissesKeyboard(.immediately)
         .refreshable {
             await catalog.refresh()
         }
+        .background(RrradioTheme.bg)
+    }
+
+    private var sortableFavoritesList: some View {
+        List {
+            Section {
+                ForEach(visibleStations) { station in
+                    StationRow(
+                        station: station,
+                        nowPlaying: favoriteNowPlaying.entries[station.id]?.metadata,
+                        mode: .favoritesExpanded,
+                        isCurrent: player.current?.id == station.id,
+                        isPlaying: player.current?.id == station.id && player.state == .playing,
+                        isFavorite: true,
+                        isCustom: library.isCustom(station),
+                        onPlay: {
+                            play(station)
+                        },
+                        onToggleFavorite: {},
+                        showsFavoriteButton: false,
+                    )
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(RrradioTheme.bg)
+                    .moveDisabled(!canReorderFavorites)
+                }
+                .onMove(perform: moveFavoriteRows)
+
+                if visibleStations.count < filteredStations.count {
+                    loadMoreRow
+                        .listRowInsets(EdgeInsets())
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(RrradioTheme.bg)
+                }
+            } header: {
+                timerStatusStrip
+                    .listRowInsets(EdgeInsets())
+                    .textCase(nil)
+            }
+        }
+        .environment(\.editMode, .constant(.active))
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .scrollDismissesKeyboard(.immediately)
         .background(RrradioTheme.bg)
     }
 
@@ -640,14 +846,96 @@ struct StationListView: View {
     }
 
     private func play(_ station: Station) {
+        dismissSearch()
         player.play(station)
+        if let metadata = favoriteNowPlaying.entries[station.id]?.metadata {
+            player.applyPrefetchedMetadata(metadata, for: station)
+        }
         library.pushRecent(station)
         showingNowPlaying = true
     }
 
+    @ViewBuilder
+    private func tileView(for station: Station) -> some View {
+        let tile = StationTile(
+            station: station,
+            nowPlaying: isFavoritesPage ? favoriteNowPlaying.entries[station.id]?.metadata : nil,
+            hidesFallbackDetails: isFavoritesPage,
+            isCurrent: player.current?.id == station.id,
+            isPlaying: player.current?.id == station.id && player.state == .playing,
+            isFavorite: library.isFavorite(station),
+            isCustom: library.isCustom(station),
+            onPlay: {
+                play(station)
+            },
+            onToggleFavorite: {
+                library.toggleFavorite(station)
+            },
+            showsFavoriteButton: !isFavoritesPage,
+        )
+
+        if canReorderFavoriteTiles {
+            tile
+                .draggable(station.id)
+                .dropDestination(for: String.self) { draggedIDs, _ in
+                    guard let draggedID = draggedIDs.first else { return false }
+                    return moveFavoriteTile(draggedID: draggedID, over: station.id)
+                }
+        } else {
+            tile
+        }
+    }
+
+    private var canReorderFavoriteTiles: Bool {
+        isFavoritesPage && stationLayout == .tiles && query.isEmpty && selectedCountry == nil && selectedTag == nil
+    }
+
+    private var canReorderFavorites: Bool {
+        isFavoritesPage && query.isEmpty && selectedCountry == nil && selectedTag == nil
+    }
+
+    private func moveFavoriteRows(from source: IndexSet, to destination: Int) {
+        guard canReorderFavorites else { return }
+        filterTask?.cancel()
+
+        var ordered = filteredStations
+        ordered.move(fromOffsets: source, toOffset: destination)
+        filteredStations = ordered
+        library.reorderFavorites(ordered.map(\.id))
+    }
+
+    @discardableResult
+    private func moveFavoriteTile(draggedID: String, over targetID: String) -> Bool {
+        guard canReorderFavoriteTiles else { return false }
+        filterTask?.cancel()
+
+        var ordered = filteredStations
+        guard let from = ordered.firstIndex(where: { $0.id == draggedID }),
+              let to = ordered.firstIndex(where: { $0.id == targetID }),
+              from != to
+        else { return false }
+
+        let moved = ordered.remove(at: from)
+        ordered.insert(moved, at: to)
+
+        withAnimation(.snappy(duration: 0.18)) {
+            filteredStations = ordered
+            library.reorderFavorites(ordered.map(\.id))
+        }
+        return true
+    }
+
+    private func updateFavoriteNowPlayingPolling() {
+        guard isFavoritesPage else {
+            favoriteNowPlaying.stop()
+            return
+        }
+        favoriteNowPlaying.start(stations: library.favorites)
+    }
+
     private var loadMoreRow: some View {
         VStack(spacing: 10) {
-            Text("\(locale.text(.showing)) \(visibleStations.count) \(locale.text(.of)) \(filtered.count)")
+            Text("\(locale.text(.showing)) \(visibleStations.count) \(locale.text(.of)) \(filteredStations.count)")
                 .font(.system(size: 10, weight: .medium, design: .monospaced))
                 .textCase(.uppercase)
                 .tracking(1.2)
@@ -784,12 +1072,12 @@ struct StationListView: View {
         .overlay(alignment: .top) {
             Rectangle()
                 .fill(RrradioTheme.accent)
-                .frame(height: 2)
+                .frame(width: UIScreen.main.bounds.width, height: 2)
         }
         .overlay(alignment: .bottom) {
             Rectangle()
                 .fill(RrradioTheme.accent)
-                .frame(height: 2)
+                .frame(width: UIScreen.main.bounds.width, height: 2)
         }
     }
 
@@ -805,7 +1093,7 @@ struct StationListView: View {
                     .font(.system(size: 8))
             }
         }
-        .foregroundStyle(RrradioTheme.accent.opacity(0.85))
+        .foregroundStyle(RrradioTheme.stationStars)
     }
 
     private func timerStarCount(for station: Station?) -> Int {
@@ -887,24 +1175,55 @@ struct StationListView: View {
     }
 
     private func resetRadioBrowserStations() {
+        radioBrowserSearchTask?.cancel()
         radioBrowserStations = []
         radioBrowserOffset = 0
         radioBrowserHasMore = true
         radioBrowserLoading = false
     }
 
+    private func recomputeFilteredStations() {
+        let query = query
+        let selectedCountry = selectedCountry
+        let selectedTag = selectedTag
+        let stations = stations
+        filterTask?.cancel()
+        filterTask = Task.detached(priority: .userInitiated) {
+            let matches = stations.filter {
+                stationMatches($0, query: query)
+                    && stationMatchesFilters($0, country: selectedCountry, tag: selectedTag)
+            }
+            guard !Task.isCancelled else { return }
+            await MainActor.run {
+                filteredStations = matches
+            }
+        }
+    }
+
     private func loadMoreStations() {
-        if visibleStations.count < filtered.count {
-            stationDisplayLimit = min(stationDisplayLimit + stationPageSize, filtered.count)
+        if visibleStations.count < filteredStations.count {
+            stationDisplayLimit = min(stationDisplayLimit + stationPageSize, filteredStations.count)
             return
         }
+        guard canLoadWorldwideStations, !radioBrowserLoading else { return }
+        fetchRadioBrowserStations()
+    }
+
+    private func fetchInitialRadioBrowserSearchIfNeeded() {
+        guard source == .all,
+              !checkedOnly,
+              !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+        fetchRadioBrowserStations()
+    }
+
+    private func fetchRadioBrowserStations() {
         guard canLoadWorldwideStations, !radioBrowserLoading else { return }
         radioBrowserLoading = true
         let query = query.trimmingCharacters(in: .whitespacesAndNewlines)
         let tag = selectedTag
         let country = selectedCountry
         let existingIDs = Set(stationPool.map(\.id))
-        Task {
+        radioBrowserSearchTask = Task {
             do {
                 let fetched = try await radioBrowser.search(
                     query: query.isEmpty ? nil : query,
@@ -916,11 +1235,13 @@ struct StationListView: View {
                 radioBrowserStations.append(contentsOf: fresh)
                 radioBrowserOffset += RadioBrowserClient.pageSize
                 radioBrowserHasMore = !fetched.isEmpty
-                stationDisplayLimit = min(stationDisplayLimit + max(fresh.count, stationPageSize), filtered.count)
+                recomputeFilteredStations()
+                stationDisplayLimit += max(fresh.count, stationPageSize)
             } catch {
                 radioBrowserHasMore = false
             }
             radioBrowserLoading = false
+            radioBrowserSearchTask = nil
         }
     }
 
@@ -938,6 +1259,7 @@ struct StationListView: View {
 
     private func sourceButton(_ value: StationSource) -> some View {
         Button {
+            dismissSearch()
             source = value
         } label: {
             Text(sourceTitle(value))
@@ -1022,6 +1344,23 @@ struct StationListView: View {
         .buttonStyle(.plain)
     }
 
+    private func dismissSearch() {
+        searchUpdateTask?.cancel()
+        query = searchText
+        searchFocused = false
+    }
+
+    private func scheduleSearchUpdate(_ value: String) {
+        searchUpdateTask?.cancel()
+        searchUpdateTask = Task {
+            try? await Task.sleep(for: .milliseconds(180))
+            guard !Task.isCancelled else { return }
+            await MainActor.run {
+                query = value
+            }
+        }
+    }
+
     private func circularFilterLabel(icon: String, active: Bool) -> some View {
         Image(systemName: icon)
             .font(.system(size: 15, weight: .medium))
@@ -1034,46 +1373,35 @@ struct StationListView: View {
 }
 
 struct StationRow: View {
+    enum Mode {
+        case standard
+        case favoritesExpanded
+    }
+
     let station: Station
+    var nowPlaying: NowPlayingMetadata?
+    var mode: Mode = .standard
     let isCurrent: Bool
     let isPlaying: Bool
     let isFavorite: Bool
     let isCustom: Bool
     let onPlay: () -> Void
     let onToggleFavorite: () -> Void
+    var showsFavoriteButton = true
 
     var body: some View {
         HStack(spacing: 14) {
             Button(action: onPlay) {
-                HStack(spacing: 14) {
-                    FaviconView(url: station.favicon, stationName: station.name, stationID: station.id)
-                        .frame(width: 38, height: 38)
-	                    VStack(alignment: .leading, spacing: 3) {
-	                        HStack(spacing: 4) {
-	                            Text(station.name)
-	                                .font(.system(size: 15, weight: .medium))
-	                                .foregroundStyle(isCurrent ? RrradioTheme.accent : RrradioTheme.ink)
-	                                .lineLimit(1)
-	                            let flag = countryFlagEmoji(station.country)
-	                            if !flag.isEmpty {
-	                                Text(flag)
-	                                    .font(.system(size: 12))
-	                                    .foregroundStyle(.primary)
-	                            }
-	                        }
-                        HStack(spacing: 5) {
-                            capabilityStars
-                            if let tags = station.tags, !tags.isEmpty {
-                                Text(tags.prefix(3).joined(separator: " . "))
-                                    .lineLimit(1)
-                            }
-                        }
-                        .font(.system(size: 10.5, weight: .regular, design: .monospaced))
-                        .foregroundStyle(RrradioTheme.ink3)
-                        .textCase(.lowercase)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                HStack(spacing: mode == .favoritesExpanded ? 16 : 14) {
+                    rowArtwork
+                    rowText
+                        .frame(maxWidth: .infinity, alignment: .leading)
 
+                    if mode == .favoritesExpanded, nowPlaying?.coverUrl != nil {
+                        expandedCoverArtwork
+                            .frame(width: 58, height: 58)
+                            .layoutPriority(1)
+                    }
                     if isPlaying {
                         EqualizerView()
                     }
@@ -1083,22 +1411,25 @@ struct StationRow: View {
                             .foregroundStyle(RrradioTheme.ink3)
                     }
                 }
+                .frame(minHeight: mode == .favoritesExpanded ? 58 : 38)
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
 
-            Button(action: onToggleFavorite) {
-                Image(systemName: isFavorite ? "heart.fill" : "heart")
-                    .font(.system(size: 17, weight: .medium))
-                    .foregroundStyle(isFavorite ? RrradioTheme.ink : RrradioTheme.ink4)
-                    .frame(width: 36, height: 36)
-                    .contentShape(Circle())
+            if showsFavoriteButton {
+                Button(action: onToggleFavorite) {
+                    Image(systemName: isFavorite ? "heart.fill" : "heart")
+                        .font(.system(size: 17, weight: .medium))
+                        .foregroundStyle(isFavorite ? RrradioTheme.favoriteFill : RrradioTheme.ink4)
+                        .frame(width: 36, height: 36)
+                        .contentShape(Circle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(isFavorite ? "Remove from favorites" : "Add to favorites")
             }
-            .buttonStyle(.plain)
-            .accessibilityLabel(isFavorite ? "Remove from favorites" : "Add to favorites")
         }
         .padding(.horizontal, 20)
-        .padding(.vertical, 14)
+        .padding(.vertical, mode == .favoritesExpanded ? 16 : 14)
         .background {
             if isCurrent {
                 LinearGradient(
@@ -1120,9 +1451,169 @@ struct StationRow: View {
         .overlay(alignment: .top) {
             Rectangle()
                 .fill(RrradioTheme.line)
-                .frame(height: 1)
+            .frame(width: UIScreen.main.bounds.width, height: 1)
         }
         .contentShape(Rectangle())
+    }
+
+    @ViewBuilder
+    private var rowArtwork: some View {
+        FaviconView(url: station.favicon, stationName: station.name, stationID: station.id, size: 38)
+            .frame(width: 38, height: 38)
+    }
+
+    @ViewBuilder
+    private var rowText: some View {
+        if mode == .favoritesExpanded {
+            VStack(alignment: .leading, spacing: 4) {
+                stationTitleLine
+                if let programInfoLine {
+                    detailText(programInfoLine, style: .secondary)
+                }
+                if let trackLine {
+                    detailText(trackLine, style: .primary)
+                }
+                streamDetailView
+            }
+        } else {
+            VStack(alignment: .leading, spacing: 3) {
+                stationTitleLine
+                if let trackLine {
+                    Text(trackLine)
+                        .font(.system(size: 11.5))
+                        .foregroundStyle(RrradioTheme.ink2)
+                        .lineLimit(1)
+                } else if mode != .standard {
+                    EmptyView()
+                } else {
+                    HStack(spacing: 6) {
+                        capabilityStars
+                        qualityMeter
+                    }
+                    .font(.system(size: 10.5, weight: .regular, design: .monospaced))
+                    .foregroundStyle(RrradioTheme.ink3)
+                }
+            }
+        }
+    }
+
+    private var stationTitleLine: some View {
+        HStack(spacing: 4) {
+            Text(mode == .favoritesExpanded ? station.name : primaryLine)
+                .font(.system(size: 15, weight: .medium))
+                .foregroundStyle(isCurrent ? RrradioTheme.accent : RrradioTheme.ink)
+                .lineLimit(1)
+            let flag = countryFlagEmoji(station.country)
+            if !flag.isEmpty {
+                Text(flag)
+                    .font(.system(size: 12))
+                    .foregroundStyle(.primary)
+            }
+            if mode == .standard, let tags = station.tags, !tags.isEmpty {
+                Text(tags.prefix(3).joined(separator: " . "))
+                    .font(.system(size: 10.5, weight: .regular, design: .monospaced))
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .textCase(.lowercase)
+                    .lineLimit(1)
+            }
+        }
+    }
+
+    private enum DetailTextStyle {
+        case primary
+        case secondary
+        case mono
+    }
+
+    private func detailText(_ value: String, style: DetailTextStyle) -> some View {
+        Text(value)
+            .font(detailFont(for: style))
+            .foregroundStyle(detailColor(for: style))
+            .lineLimit(1)
+    }
+
+    private func detailFont(for style: DetailTextStyle) -> Font {
+        switch style {
+        case .primary:
+            .system(size: 11.5)
+        case .secondary:
+            .system(size: 11.5)
+        case .mono:
+            .system(size: 10.5, weight: .regular, design: .monospaced)
+        }
+    }
+
+    private func detailColor(for style: DetailTextStyle) -> Color {
+        switch style {
+        case .primary:
+            RrradioTheme.ink2
+        case .secondary, .mono:
+            RrradioTheme.ink3
+        }
+    }
+
+    private var expandedCoverArtwork: some View {
+        NowPlayingArtworkThumb(
+            url: nowPlaying?.coverUrl,
+            stationName: station.name,
+            stationID: station.id,
+            size: 58,
+        )
+    }
+
+    private var primaryLine: String {
+        guard let program = clean(nowPlaying?.programName) else {
+            return station.name
+        }
+        return "\(station.name) - \(program)"
+    }
+
+    private var trackLine: String? {
+        guard let title = clean(nowPlaying?.title) else { return nil }
+        if let artist = clean(nowPlaying?.artist) {
+            return "\(artist) - \(title)"
+        }
+        return title
+    }
+
+    private var programInfoLine: String? {
+        [
+            clean(nowPlaying?.programName),
+            clean(nowPlaying?.programSubtitle),
+        ]
+        .compactMap { $0 }
+        .joined(separator: " . ")
+        .nilIfEmpty
+    }
+
+    @ViewBuilder
+    private var streamDetailView: some View {
+        let codec = station.codec?.uppercased()
+        let bitrate = station.bitrate.map { "\($0) kbps" }
+        if codec != nil || bitrate != nil {
+            HStack(spacing: 5) {
+                if let codec {
+                    detailText(codec, style: .mono)
+                }
+                if codec != nil, bitrate != nil {
+                    detailText(".", style: .mono)
+                }
+                if let bitrate {
+                    detailText(bitrate, style: .mono)
+                }
+                detailText(".", style: .mono)
+                qualityMeter
+                    .font(.system(size: 10.5, weight: .regular, design: .monospaced))
+                    .fixedSize(horizontal: true, vertical: false)
+            }
+            .lineLimit(1)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+
+    private func clean(_ value: String?) -> String? {
+        let trimmed = value?.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed?.isEmpty == false ? trimmed : nil
     }
 
     private var capabilityStars: some View {
@@ -1132,7 +1623,7 @@ struct StationRow: View {
                     .font(.system(size: 8))
             }
         }
-        .foregroundStyle(RrradioTheme.accent.opacity(0.85))
+        .foregroundStyle(RrradioTheme.stationStars)
     }
 
     private var starCount: Int {
@@ -1141,38 +1632,53 @@ struct StationRow: View {
         if station.status != nil { return 1 }
         return 0
     }
+
+    private var qualityMeter: some View {
+        let level = streamQualityLevel(codec: station.codec, bitrate: station.bitrate)
+        return HStack(spacing: 1) {
+            ForEach(1...3, id: \.self) { index in
+                Text("▮")
+                    .foregroundStyle(index <= level ? RrradioTheme.accent : RrradioTheme.ink4)
+            }
+        }
+    }
 }
 
 struct StationTile: View {
     let station: Station
+    var nowPlaying: NowPlayingMetadata?
+    var hidesFallbackDetails = false
     let isCurrent: Bool
     let isPlaying: Bool
     let isFavorite: Bool
     let isCustom: Bool
     let onPlay: () -> Void
     let onToggleFavorite: () -> Void
+    var showsFavoriteButton = true
 
     var body: some View {
         Button(action: onPlay) {
             VStack(alignment: .leading, spacing: 9) {
                 HStack(alignment: .top) {
-                    FaviconView(url: station.favicon, stationName: station.name, stationID: station.id)
+                    FaviconView(url: nowPlaying?.coverUrl ?? station.favicon, stationName: station.name, stationID: station.id, size: 54)
                         .frame(width: 54, height: 54)
                     Spacer()
-                    Button(action: onToggleFavorite) {
-                        Image(systemName: isFavorite ? "heart.fill" : "heart")
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundStyle(isFavorite ? RrradioTheme.ink : RrradioTheme.ink4)
-                            .frame(width: 32, height: 32)
-                            .contentShape(Circle())
+                    if showsFavoriteButton {
+                        Button(action: onToggleFavorite) {
+                            Image(systemName: isFavorite ? "heart.fill" : "heart")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundStyle(isFavorite ? RrradioTheme.favoriteFill : RrradioTheme.ink4)
+                                .frame(width: 32, height: 32)
+                                .contentShape(Circle())
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel(isFavorite ? "Remove from favorites" : "Add to favorites")
                     }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(isFavorite ? "Remove from favorites" : "Add to favorites")
                 }
 
                 VStack(alignment: .leading, spacing: 5) {
                     HStack(spacing: 5) {
-                        Text(station.name)
+                        Text(primaryLine)
                             .font(.system(size: 15, weight: .medium))
                             .foregroundStyle(isCurrent ? RrradioTheme.accent : RrradioTheme.ink)
                             .lineLimit(2)
@@ -1185,16 +1691,23 @@ struct StationTile: View {
                         }
                     }
 
-                    HStack(spacing: 5) {
-                        capabilityStars
-                        if let tags = station.tags, !tags.isEmpty {
-                            Text(tags.prefix(2).joined(separator: " . "))
-                                .lineLimit(1)
+                    if let trackLine {
+                        Text(trackLine)
+                            .font(.system(size: 11.5))
+                            .foregroundStyle(RrradioTheme.ink2)
+                            .lineLimit(2)
+                    } else if !hidesFallbackDetails {
+                        HStack(spacing: 5) {
+                            capabilityStars
+                            if let tags = station.tags, !tags.isEmpty {
+                                Text(tags.prefix(2).joined(separator: " . "))
+                                    .lineLimit(1)
+                            }
                         }
+                        .font(.system(size: 10, weight: .regular, design: .monospaced))
+                        .foregroundStyle(RrradioTheme.ink3)
+                        .textCase(.lowercase)
                     }
-                    .font(.system(size: 10, weight: .regular, design: .monospaced))
-                    .foregroundStyle(RrradioTheme.ink3)
-                    .textCase(.lowercase)
                 }
             }
             .padding(.horizontal, 12)
@@ -1214,18 +1727,31 @@ struct StationTile: View {
             }
             .overlay {
                 Rectangle()
-                    .stroke(isCurrent ? RrradioTheme.accent : RrradioTheme.line, lineWidth: isCurrent ? 2 : 1)
-            }
-            .overlay(alignment: .leading) {
-                if isCurrent {
-                    Rectangle()
-                        .fill(RrradioTheme.accent)
-                        .frame(width: 2)
-                }
+                    .strokeBorder(isCurrent ? RrradioTheme.accent : RrradioTheme.line, lineWidth: isCurrent ? 2 : 1)
             }
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+    }
+
+    private var primaryLine: String {
+        guard let program = clean(nowPlaying?.programName) else {
+            return station.name
+        }
+        return "\(station.name) - \(program)"
+    }
+
+    private var trackLine: String? {
+        guard let title = clean(nowPlaying?.title) else { return nil }
+        if let artist = clean(nowPlaying?.artist) {
+            return "\(artist) - \(title)"
+        }
+        return title
+    }
+
+    private func clean(_ value: String?) -> String? {
+        let trimmed = value?.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed?.isEmpty == false ? trimmed : nil
     }
 
     private var capabilityStars: some View {
@@ -1259,10 +1785,49 @@ struct EqualizerView: View {
     }
 }
 
+private struct NowPlayingArtworkThumb: View {
+    let url: URL?
+    let stationName: String
+    let stationID: String
+    let size: CGFloat
+
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                .fill(RrradioTheme.bg2)
+            if let url {
+                AsyncImage(url: url) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .padding(3)
+                    default:
+                        initials
+                    }
+                }
+            } else {
+                initials
+            }
+        }
+        .frame(width: size, height: size)
+        .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 6, style: .continuous).stroke(RrradioTheme.line))
+    }
+
+    private var initials: some View {
+        Text(stationInitials(stationName))
+            .font(.system(size: 18, weight: .medium, design: .monospaced))
+            .foregroundStyle(RrradioTheme.ink3)
+    }
+}
+
 struct FaviconView: View {
     let url: URL?
     var stationName = ""
     var stationID = ""
+    var size: CGFloat = 38
 
     var body: some View {
         ZStack {
@@ -1285,7 +1850,7 @@ struct FaviconView: View {
                 initials
             }
         }
-        .frame(width: 38, height: 38)
+        .frame(width: size, height: size)
         .clipShape(Circle())
         .overlay(Circle().stroke(RrradioTheme.line))
     }
@@ -1298,6 +1863,12 @@ struct FaviconView: View {
 
     private var faviconPalette: (background: Color, foreground: Color) {
         (Color.white, Color.black)
+    }
+}
+
+private extension String {
+    var nilIfEmpty: String? {
+        isEmpty ? nil : self
     }
 }
 
@@ -1314,4 +1885,13 @@ func stationInitials(_ name: String) -> String {
         .joined()
         .prefix(2)
     return letters.isEmpty ? ".." : String(letters)
+}
+
+private extension View {
+    func topbarChrome(top: CGFloat, bottom: CGFloat) -> some View {
+        padding(.horizontal, 20)
+            .padding(.top, top)
+            .padding(.bottom, bottom)
+            .background(RrradioTheme.bg)
+    }
 }

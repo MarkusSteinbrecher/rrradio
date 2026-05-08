@@ -24,9 +24,25 @@ final class StationFiltersTests: XCTestCase {
             station(country: "DE"),
             station(country: "bad"),
             station(country: nil),
-        ])
+        ], preferredCountry: nil)
 
         XCTAssertEqual(result, ["AT", "DE"])
+    }
+
+    func testAvailableCountriesMovesPreferredCountryToTop() {
+        let result = availableCountries(from: [
+            station(country: "DE"),
+            station(country: "CH"),
+            station(country: "AT"),
+        ], preferredCountry: "ch")
+
+        XCTAssertEqual(result, ["CH", "AT", "DE"])
+    }
+
+    func testDeviceRegionCodeUsesLocaleRegion() {
+        let locale = Locale(identifier: "de_CH")
+
+        XCTAssertEqual(deviceRegionCode(locale: locale), "CH")
     }
 
     func testAvailableTagsAreUniqueLowercaseAndSorted() {

@@ -34,7 +34,12 @@ final class Catalog {
         case failed(String)
     }
 
-    private(set) var stations: [Station] = []
+    private(set) var stations: [Station] = [] {
+        didSet {
+            browseOrdered = Self.orderForBrowse(stations)
+        }
+    }
+    private(set) var browseOrdered: [Station] = []
     private(set) var state: LoadState = .idle
 
     nonisolated static let canonicalURL = URL(string: "https://rrradio.org/stations.json")!
@@ -110,7 +115,7 @@ final class Catalog {
 
     /// Stations in the order the YAML lists them, with `featured: true`
     /// floated to the top — same convention as the web home view.
-    var browseOrdered: [Station] {
+    private static func orderForBrowse(_ stations: [Station]) -> [Station] {
         let featured = stations.filter { $0.featured == true }
         let rest = stations.filter { $0.featured != true }
         return featured + rest

@@ -625,6 +625,18 @@ private struct AntenneStation: Decodable {
     let `class`: String?
 }
 
+private struct GrrifTrack: Decodable {
+    let title: String?
+    let artist: String?
+    let coverPath: String?
+
+    enum CodingKeys: String, CodingKey {
+        case title = "Title"
+        case artist = "Artist"
+        case coverPath = "URLCover"
+    }
+}
+
 func fetchAntenneMetadata(
     station: Station,
     fetch: MetadataDataFetcher = { try await URLSession.shared.data(for: $0) },
@@ -651,6 +663,42 @@ func fetchAntenneMetadata(
         title: metadataTitleCase(title),
         raw: metadataRaw(artist: artist, title: title),
     )
+}
+
+func fetchGrrifMetadata(
+    fetch: MetadataDataFetcher = { try await URLSession.shared.data(for: $0) },
+) async throws -> NowPlayingMetadata? {
+    var components = URLComponents(string: "https://www.grrif.ch/live/covers.json")
+    components?.queryItems = [URLQueryItem(name: "_", value: "\(Int(Date().timeIntervalSince1970))")]
+    guard let url = components?.url else { return nil }
+
+    let data = try await fetchMetadataJSON([GrrifTrack].self, url: url, fetch: fetch)
+    guard let latest = data.last,
+          let title = latest.title?.trimmingCharacters(in: .whitespacesAndNewlines),
+          !title.isEmpty else {
+        return nil
+    }
+
+    let artist = latest.artist?.trimmingCharacters(in: .whitespacesAndNewlines)
+    return NowPlayingMetadata(
+        artist: artist.flatMap { $0.isEmpty ? nil : metadataTitleCase($0) },
+        title: metadataTitleCase(title),
+        raw: metadataRaw(artist: artist, title: title),
+        coverUrl: grrifCoverURL(from: latest.coverPath),
+    )
+}
+
+private func grrifCoverURL(from value: String?) -> URL? {
+    guard let value = value?.trimmingCharacters(in: .whitespacesAndNewlines),
+          !value.isEmpty,
+          value.range(of: #"/default\.jpg$"#, options: [.regularExpression, .caseInsensitive]) == nil else {
+        return nil
+    }
+
+    if let absolute = URL(string: value), absolute.scheme != nil {
+        return absolute
+    }
+    return URL(string: value, relativeTo: URL(string: "https://www.grrif.ch"))?.absoluteURL
 }
 
 private struct BremenResponse: Decodable {

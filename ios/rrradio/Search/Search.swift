@@ -15,15 +15,22 @@ func normalizeForSearch(_ s: String) -> String {
 
 /// Match a station's searchable surface (name + tags + country code)
 /// against a query. Empty query returns true (filter is a no-op).
-/// Both raw substring and whitespace-insensitive normalized match are
-/// tried so "wdr5" finds "WDR 5".
+/// Both raw substring and punctuation-insensitive normalized matches are
+/// tried so "wdr5" finds "WDR 5" and "80 Station" finds "_80-Station".
 func stationMatches(_ station: Station, query: String) -> Bool {
     let q = query.trimmingCharacters(in: .whitespaces).lowercased()
     if q.isEmpty { return true }
     if station.name.lowercased().contains(q) { return true }
     if (station.tags ?? []).contains(where: { $0.lowercased().contains(q) }) { return true }
     if let cc = station.country?.lowercased(), cc.contains(q) { return true }
+
     let qNorm = normalizeForSearch(q)
-    if !qNorm.isEmpty && normalizeForSearch(station.name).contains(qNorm) { return true }
+    guard !qNorm.isEmpty else { return false }
+
+    let normalizedSurface = ([station.name] + (station.tags ?? []) + [station.country ?? ""])
+        .map(normalizeForSearch)
+        .joined(separator: " ")
+    if normalizedSurface.contains(qNorm) { return true }
+
     return false
 }

@@ -100,6 +100,12 @@ enum L10nKey: String {
     case timerDefaults
     case defaultWake
     case defaultSleep
+    case carMode
+    case automaticCarMode
+    case manualCarMode
+    case currentAudioRoute
+    case carModeActive
+    case carModeInactive
     case browse
     case library
     case done
@@ -207,6 +213,12 @@ enum L10n {
             .timerDefaults: "Timer defaults",
             .defaultWake: "Default wake time",
             .defaultSleep: "Default sleep timer",
+            .carMode: "Car Mode",
+            .automaticCarMode: "Automatic Car Mode",
+            .manualCarMode: "Manual Car Mode",
+            .currentAudioRoute: "Current audio route",
+            .carModeActive: "Large Now Playing controls are active",
+            .carModeInactive: "Use this to force Car Mode",
             .browse: "Browse",
             .library: "Library",
             .done: "Done",
@@ -311,6 +323,12 @@ enum L10n {
             .timerDefaults: "Timer-Standards",
             .defaultWake: "Standard-Weckzeit",
             .defaultSleep: "Standard-Sleep-Timer",
+            .carMode: "Auto-Modus",
+            .automaticCarMode: "Auto-Modus automatisch",
+            .manualCarMode: "Auto-Modus manuell",
+            .currentAudioRoute: "Aktuelle Audio-Ausgabe",
+            .carModeActive: "Große Now-Playing-Bedienung ist aktiv",
+            .carModeInactive: "Aktiviere den Auto-Modus manuell",
             .browse: "Suchen",
             .library: "Mediathek",
             .done: "Fertig",
@@ -415,6 +433,12 @@ enum L10n {
             .timerDefaults: "Réglages des minuteurs",
             .defaultWake: "Heure de réveil par défaut",
             .defaultSleep: "Minuterie sommeil par défaut",
+            .carMode: "Mode voiture",
+            .automaticCarMode: "Mode voiture automatique",
+            .manualCarMode: "Mode voiture manuel",
+            .currentAudioRoute: "Sortie audio actuelle",
+            .carModeActive: "Les grands contrôles de lecture sont actifs",
+            .carModeInactive: "Activer le mode voiture manuellement",
             .browse: "Parcourir",
             .library: "Bibliothèque",
             .done: "OK",
@@ -519,6 +543,12 @@ enum L10n {
             .timerDefaults: "Temporizadores predeterminados",
             .defaultWake: "Hora de alarma predeterminada",
             .defaultSleep: "Temporizador predeterminado",
+            .carMode: "Modo coche",
+            .automaticCarMode: "Modo coche automático",
+            .manualCarMode: "Modo coche manual",
+            .currentAudioRoute: "Salida de audio actual",
+            .carModeActive: "Los controles grandes están activos",
+            .carModeInactive: "Activa el modo coche manualmente",
             .browse: "Explorar",
             .library: "Biblioteca",
             .done: "Listo",

@@ -106,6 +106,11 @@ func metadataFetcher(for station: Station, fetch: @escaping MetadataDataFetcher 
             try await fetchAntenneMetadata(station: station, fetch: fetch)
         }
     }
+    if station.metadata == "grrif" {
+        return { _ in
+            try await fetchGrrifMetadata(fetch: fetch)
+        }
+    }
     if station.metadata == "rb-bremen" {
         return { station in
             try await fetchRadioBremenMetadata(station: station, fetch: fetch)

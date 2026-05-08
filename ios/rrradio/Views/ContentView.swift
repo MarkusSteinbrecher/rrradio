@@ -7,22 +7,17 @@ struct ContentView: View {
     @Environment(WakeAlarm.self) private var wakeAlarm
     @Environment(LocaleController.self) private var locale
     @State private var tab: AppTab = .browse
+    @State private var searchFocused = false
     @State private var didApplyLandingPreference = false
     @State private var showingLandingNowPlaying = false
     @AppStorage(LandingPage.storageKey) private var landingPageRaw = LandingPage.browse.rawValue
     @AppStorage(LandingPage.stationIDKey) private var landingStationID = ""
 
     var body: some View {
-        StationListView(tab: $tab)
+        StationListView(tab: $tab, searchFocusedExternally: $searchFocused)
             .background(RrradioTheme.bg.ignoresSafeArea())
         .safeAreaInset(edge: .bottom) {
-            VStack(spacing: 0) {
-                if player.current != nil {
-                    MiniPlayerView()
-                        .transition(.move(edge: .bottom))
-                }
-                BottomTabBar(tab: $tab)
-            }
+            bottomChrome
         }
         .animation(.snappy, value: player.current?.id)
         .sheet(isPresented: $showingLandingNowPlaying) {
@@ -38,6 +33,23 @@ struct ContentView: View {
         }
         .onChange(of: catalog.stations.count) { _, _ in
             applyLandingPreferenceIfReady()
+        }
+    }
+
+    @ViewBuilder
+    private var bottomChrome: some View {
+        if !searchFocused {
+            VStack(spacing: 0) {
+                if player.current != nil {
+                    MiniPlayerView()
+                }
+                BottomTabBar(tab: $tab)
+            }
+            .id("bottom-chrome")
+            .zIndex(100)
+            .transaction { transaction in
+                transaction.animation = nil
+            }
         }
     }
 

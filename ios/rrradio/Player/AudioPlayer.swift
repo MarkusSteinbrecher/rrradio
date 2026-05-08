@@ -1,7 +1,7 @@
 import AVFoundation
-import Combine
 import MediaPlayer
 import Observation
+import UIKit
 
 /// Thin wrapper around AVPlayer with the iOS bits the web app handles
 /// via the Media Session API: lock-screen now-playing card, remote
@@ -9,7 +9,7 @@ import Observation
 /// configuration so playback continues in the background.
 ///
 /// v1 surfaces AVPlayer metadata plus selected broadcaster JSON fetchers:
-///   - HLS streams: artist + title via AVPlayerItem.timedMetadata
+///   - HLS streams: artist + title via AVPlayerItemMetadataOutput
 ///   - ORF audioapi: polled via the shared catalog's metadataUrl.
 ///
 /// `@MainActor` (audit #72): all observable state must be mutated on
@@ -35,13 +35,19 @@ final class AudioPlayer {
     private(set) var isLyricsLoading = false
 
     private var player: AVPlayer?
-    private var timedMetaObserver: Any?
+    private var metadataOutput: AVPlayerItemMetadataOutput?
+    private var metadataOutputDelegate: TimedMetadataOutputDelegate?
     private var statusObserver: NSKeyValueObservation?
     private var rateObserver: NSKeyValueObservation?
-    private var cancellables = Set<AnyCancellable>()
     private var metadataPoller: MetadataPoller?
     private var scheduleTask: Task<Void, Never>?
     private var lyricsTask: Task<Void, Never>?
+    private var coverArtTask: Task<Void, Never>?
+    private var coverArtKey = ""
+    private var lockScreenArtworkTask: Task<Void, Never>?
+    private var lockScreenArtworkURL: URL?
+    private var lockScreenArtwork: MPMediaItemArtwork?
+    private weak var listeningHistory: ListeningHistory?
     private var lyricsKey = ""
 
     init() {
@@ -50,11 +56,16 @@ final class AudioPlayer {
         wireRemoteCommands()
     }
 
+    func setListeningHistory(_ history: ListeningHistory) {
+        listeningHistory = history
+    }
+
     func play(_ station: Station) {
         // If we're already on this station, just unpause.
         if current?.id == station.id, let p = player {
             p.play()
             state = .playing
+            listeningHistory?.resumeSession(for: station)
             updateNowPlaying()
             return
         }
@@ -79,14 +90,31 @@ final class AudioPlayer {
         observeStatus(p)
         player = p
         p.play()
+        listeningHistory?.startSession(for: station)
         startMetadataPolling(for: station)
         startScheduleLoading(for: station)
+        updateNowPlaying()
+    }
+
+    func applyPrefetchedMetadata(_ metadata: NowPlayingMetadata, for station: Station) {
+        guard current?.id == station.id else { return }
+        nowPlayingArtist = metadata.artist
+        nowPlayingTitle = metadata.title
+        nowPlayingProgramName = metadata.programName
+        nowPlayingProgramSubtitle = metadata.programSubtitle
+        if let coverUrl = metadata.coverUrl {
+            nowPlayingCoverUrl = coverUrl
+        }
+        startLyricsLoadingIfNeeded()
+        startCoverArtLoadingIfNeeded(sourceCoverUrl: metadata.coverUrl)
+        listeningHistory?.updateCurrentTrack(artist: metadata.artist, title: metadata.title)
         updateNowPlaying()
     }
 
     func pause() {
         player?.pause()
         if state == .playing { state = .paused }
+        listeningHistory?.closeActiveSession()
         updateNowPlaying()
     }
 
@@ -94,6 +122,9 @@ final class AudioPlayer {
         guard let p = player, current != nil else { return }
         p.play()
         state = .playing
+        if let current {
+            listeningHistory?.resumeSession(for: current)
+        }
         updateNowPlaying()
     }
 
@@ -106,6 +137,7 @@ final class AudioPlayer {
     }
 
     func stop() {
+        listeningHistory?.closeActiveSession()
         teardownPlayer()
         current = nil
         nowPlayingTitle = nil
@@ -189,30 +221,27 @@ final class AudioPlayer {
     }
 
     /// AVPlayer publishes ICY-style metadata for HLS streams via
-    /// `timedMetadata`. For Icecast/Shoutcast we get nothing here —
-    /// the Phase-2 broadcaster fetchers will fill that in.
+    /// `AVPlayerItemMetadataOutput`. For Icecast/Shoutcast we get
+    /// nothing here — the broadcaster fetchers fill that in.
     private func observeMetadata(on item: AVPlayerItem) {
-        timedMetaObserver = NotificationCenter.default.addObserver(
-            forName: .AVPlayerItemNewAccessLogEntry, object: item, queue: .main
-        ) { _ in /* placeholder — kept for future ICY parsing */ }
-
-        // `.receive(on: DispatchQueue.main)` so the sink runs on main
-        // before mutating @Observable state.
-        item.publisher(for: \.timedMetadata)
-            .compactMap { $0 }
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] (metas: [AVMetadataItem]) in
-                MainActor.assumeIsolated { self?.applyTimedMetadata(metas) }
+        let output = AVPlayerItemMetadataOutput(identifiers: nil)
+        let delegate = TimedMetadataOutputDelegate { [weak self] metas in
+            Task { @MainActor [weak self] in
+                await self?.applyTimedMetadata(metas)
             }
-            .store(in: &cancellables)
+        }
+        output.setDelegate(delegate, queue: .main)
+        item.add(output)
+        metadataOutput = output
+        metadataOutputDelegate = delegate
     }
 
-    private func applyTimedMetadata(_ metas: [AVMetadataItem]) {
+    private func applyTimedMetadata(_ metas: [AVMetadataItem]) async {
         // ICY title comes through with commonKey == .commonKeyTitle for
         // most HLS-wrapped Icecast feeds. Take the most recent string.
         for m in metas {
             guard let key = m.commonKey, key.rawValue == "title",
-                  let v = m.stringValue, !v.isEmpty else { continue }
+                  let v = try? await m.load(.stringValue), !v.isEmpty else { continue }
             // StreamTitle is usually "Artist - Title". Split once.
             if let dash = v.range(of: " - ") {
                 nowPlayingArtist = String(v[..<dash.lowerBound])
@@ -222,6 +251,8 @@ final class AudioPlayer {
                 nowPlayingTitle = v
             }
             startLyricsLoadingIfNeeded()
+            startCoverArtLoadingIfNeeded(sourceCoverUrl: nil)
+            listeningHistory?.updateCurrentTrack(artist: nowPlayingArtist, title: nowPlayingTitle)
             updateNowPlaying()
         }
     }
@@ -234,8 +265,12 @@ final class AudioPlayer {
             self.nowPlayingTitle = metadata.title
             self.nowPlayingProgramName = metadata.programName
             self.nowPlayingProgramSubtitle = metadata.programSubtitle
-            self.nowPlayingCoverUrl = metadata.coverUrl
+            if let coverUrl = metadata.coverUrl {
+                self.nowPlayingCoverUrl = coverUrl
+            }
             self.startLyricsLoadingIfNeeded()
+            self.startCoverArtLoadingIfNeeded(sourceCoverUrl: metadata.coverUrl)
+            self.listeningHistory?.updateCurrentTrack(artist: metadata.artist, title: metadata.title)
             self.updateNowPlaying()
         }
     }
@@ -266,14 +301,19 @@ final class AudioPlayer {
             return
         }
         var info: [String: Any] = [:]
-        info[MPMediaItemPropertyTitle] = nowPlayingTitle ?? s.name
-        info[MPMediaItemPropertyArtist] = nowPlayingArtist ?? s.country?.uppercased() ?? ""
+        info[MPMediaItemPropertyTitle] = lockScreenTitle(for: s)
+        info[MPMediaItemPropertyArtist] = lockScreenSubtitle(for: s)
         info[MPNowPlayingInfoPropertyIsLiveStream] = true
         info[MPNowPlayingInfoPropertyPlaybackRate] = (state == .playing) ? 1.0 : 0.0
+        if let lockScreenArtwork {
+            info[MPMediaItemPropertyArtwork] = lockScreenArtwork
+        }
         MPNowPlayingInfoCenter.default().nowPlayingInfo = info
+        updateLockScreenArtwork(from: nowPlayingCoverUrl ?? s.favicon)
     }
 
     private func teardownPlayer() {
+        listeningHistory?.closeActiveSession()
         metadataPoller?.stop()
         scheduleTask?.cancel()
         scheduleTask = nil
@@ -281,13 +321,22 @@ final class AudioPlayer {
         lyricsTask?.cancel()
         lyricsTask = nil
         isLyricsLoading = false
-        timedMetaObserver.map(NotificationCenter.default.removeObserver)
-        timedMetaObserver = nil
+        coverArtTask?.cancel()
+        coverArtTask = nil
+        coverArtKey = ""
+        lockScreenArtworkTask?.cancel()
+        lockScreenArtworkTask = nil
+        lockScreenArtworkURL = nil
+        lockScreenArtwork = nil
+        if let metadataOutput, let currentItem = player?.currentItem {
+            currentItem.remove(metadataOutput)
+        }
+        metadataOutput = nil
+        metadataOutputDelegate = nil
         statusObserver?.invalidate()
         statusObserver = nil
         rateObserver?.invalidate()
         rateObserver = nil
-        cancellables.removeAll()
         player?.pause()
         player = nil
     }
@@ -326,8 +375,139 @@ final class AudioPlayer {
         isLyricsLoading = false
     }
 
+    private func startCoverArtLoadingIfNeeded(sourceCoverUrl: URL?) {
+        guard sourceCoverUrl == nil || sourceCoverUrl.map(isLowResolutionCoverURL) == true else {
+            resetCoverArtLookup()
+            return
+        }
+        guard let title = cleanLyricsComponent(nowPlayingTitle) else {
+            resetCoverArtLookup()
+            return
+        }
+
+        let artist = cleanLyricsComponent(nowPlayingArtist)
+        let key = "\((artist ?? "").lowercased())|\(title.lowercased())"
+        guard key != coverArtKey else { return }
+
+        coverArtTask?.cancel()
+        coverArtKey = key
+        coverArtTask = Task { [weak self] in
+            let coverUrl = await lookupCoverArt(artist: artist, title: title)
+            guard !Task.isCancelled, let coverUrl else { return }
+            await MainActor.run { [weak self] in
+                guard let self, self.coverArtKey == key else { return }
+                self.nowPlayingCoverUrl = coverUrl
+                self.updateNowPlaying()
+            }
+        }
+    }
+
+    private func resetCoverArtLookup() {
+        coverArtTask?.cancel()
+        coverArtTask = nil
+        coverArtKey = ""
+    }
+
     private func cleanLyricsComponent(_ value: String?) -> String? {
         let trimmed = value?.trimmingCharacters(in: .whitespacesAndNewlines)
         return trimmed?.isEmpty == false ? trimmed : nil
+    }
+
+    private func lockScreenTitle(for station: Station) -> String {
+        guard let program = cleanLyricsComponent(nowPlayingProgramName) else {
+            return station.name
+        }
+        return "\(station.name) - \(program)"
+    }
+
+    private func lockScreenSubtitle(for station: Station) -> String {
+        if let title = cleanLyricsComponent(nowPlayingTitle) {
+            if let artist = cleanLyricsComponent(nowPlayingArtist) {
+                return "\(artist) - \(title)"
+            }
+            return title
+        }
+
+        switch state {
+        case .idle:
+            return station.country?.uppercased() ?? "Standby"
+        case .loading:
+            return "Loading"
+        case .playing:
+            return "Live"
+        case .paused:
+            return "Paused"
+        case .error:
+            return "Error"
+        }
+    }
+
+    private func updateLockScreenArtwork(from url: URL?) {
+        guard lockScreenArtworkURL != url else { return }
+        lockScreenArtworkTask?.cancel()
+        lockScreenArtworkURL = url
+        lockScreenArtwork = nil
+
+        guard let url else { return }
+
+        lockScreenArtworkTask = Task { [weak self] in
+            guard let (data, _) = try? await URLSession.shared.data(from: url),
+                  !Task.isCancelled,
+                  let image = UIImage(data: data) else { return }
+
+            let artwork = makeLockScreenArtwork(from: image)
+            await MainActor.run { [weak self] in
+                guard let self, self.lockScreenArtworkURL == url else { return }
+                self.lockScreenArtwork = artwork
+                self.updateNowPlaying()
+            }
+        }
+    }
+}
+
+private func makeLockScreenArtwork(from image: UIImage) -> MPMediaItemArtwork {
+    let artworkSize = CGSize(width: 512, height: 512)
+    return MPMediaItemArtwork(boundsSize: artworkSize) { requestedSize in
+        renderLockScreenArtwork(image, requestedSize: requestedSize)
+    }
+}
+
+private func renderLockScreenArtwork(_ image: UIImage, requestedSize: CGSize) -> UIImage {
+    let targetSize = normalizedArtworkSize(requestedSize)
+    let sourceSize = normalizedArtworkSize(image.size)
+    let fitScale = min(targetSize.width / sourceSize.width, targetSize.height / sourceSize.height)
+    let drawScale = min(1, fitScale)
+    let drawSize = CGSize(width: sourceSize.width * drawScale, height: sourceSize.height * drawScale)
+    let drawOrigin = CGPoint(
+        x: (targetSize.width - drawSize.width) / 2,
+        y: (targetSize.height - drawSize.height) / 2
+    )
+
+    let format = UIGraphicsImageRendererFormat()
+    format.scale = UIScreen.main.scale
+    format.opaque = false
+
+    return UIGraphicsImageRenderer(size: targetSize, format: format).image { _ in
+        image.draw(in: CGRect(origin: drawOrigin, size: drawSize))
+    }
+}
+
+private func normalizedArtworkSize(_ size: CGSize) -> CGSize {
+    CGSize(width: max(size.width, 1), height: max(size.height, 1))
+}
+
+private final class TimedMetadataOutputDelegate: NSObject, AVPlayerItemMetadataOutputPushDelegate {
+    private let onMetadata: ([AVMetadataItem]) -> Void
+
+    init(onMetadata: @escaping ([AVMetadataItem]) -> Void) {
+        self.onMetadata = onMetadata
+    }
+
+    func metadataOutput(
+        _ output: AVPlayerItemMetadataOutput,
+        didOutputTimedMetadataGroups groups: [AVTimedMetadataGroup],
+        from track: AVPlayerItemTrack?,
+    ) {
+        onMetadata(groups.flatMap(\.items))
     }
 }
