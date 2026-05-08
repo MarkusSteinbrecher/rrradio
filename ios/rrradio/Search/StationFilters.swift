@@ -1,9 +1,35 @@
 import Foundation
 
+/// One entry in a `Genre.match` list. `.text` is a case-insensitive
+/// substring check (the default — "rock" also matches "classic rock",
+/// "punk rock", "alpenrock"). `.regex` is used as-is against the
+/// lowercased tag — reserve it for the rare term whose substring
+/// would catch a non-music word.
+///
+/// The motivating case is "funk" vs the German "rundfunk"
+/// ("broadcasting"): plain-substring "funk" matches every public
+/// broadcaster tagged "mitteldeutscher rundfunk" /
+/// "westdeutscher rundfunk" and dumps them into Soul/R&B. The
+/// word-boundary regex `\bfunk[a-z]*\b` keeps "funk", "funky",
+/// "future funk" while excluding "rundfunk". Mirrors the web fix
+/// in src/genre-taxonomy.ts (PR #191).
+///
+/// `ExpressibleByStringLiteral` lets every other (non-tricky) genre
+/// keep declaring its match list as `["pop", "pop music"]` without
+/// per-entry wrapping.
+enum MatchPattern: Equatable, ExpressibleByStringLiteral {
+    case text(String)
+    case regex(String)
+
+    init(stringLiteral value: StringLiteralType) {
+        self = .text(value)
+    }
+}
+
 struct Genre: Equatable, Identifiable {
     let id: String
     let label: String
-    let match: [String]
+    let match: [MatchPattern]
     let rbTag: String
 }
 
@@ -28,7 +54,7 @@ let genres: [Genre] = [
     Genre(id: "sports", label: "Sports", match: ["sports", "sport"], rbTag: "sports"),
     Genre(id: "folk", label: "Folk", match: ["folk"], rbTag: "folk"),
     Genre(id: "reggae", label: "Reggae", match: ["reggae", "ska", "dancehall"], rbTag: "reggae"),
-    Genre(id: "soul", label: "Soul/R&B", match: ["soul", "rnb", "rhythm and blues", "funk"], rbTag: "soul"),
+    Genre(id: "soul", label: "Soul/R&B", match: ["soul", "rnb", "rhythm and blues", .regex(#"\bfunk[a-z]*\b"#)], rbTag: "soul"),
     Genre(id: "metal", label: "Metal", match: ["metal"], rbTag: "metal"),
 ]
 
@@ -74,8 +100,19 @@ func stationMatchesGenre(_ station: Station, genre: Genre) -> Bool {
     guard let tags = station.tags, !tags.isEmpty else { return false }
     for tag in tags {
         let normalizedTag = tag.lowercased()
-        if genre.match.contains(where: { normalizedTag.contains($0) }) {
-            return true
+        for pattern in genre.match {
+            switch pattern {
+            case .text(let needle):
+                if normalizedTag.contains(needle) { return true }
+            case .regex(let raw):
+                // Case-insensitive — both the tag and the regex are
+                // lowercased already, so we don't need NSRegularExpression
+                // case flags. Compiled per-call; the patterns are short
+                // and the genre list is fixed, so this isn't hot.
+                if normalizedTag.range(of: raw, options: .regularExpression) != nil {
+                    return true
+                }
+            }
         }
     }
     return false

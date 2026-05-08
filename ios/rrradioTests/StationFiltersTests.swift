@@ -108,4 +108,46 @@ final class StationFiltersTests: XCTestCase {
         XCTAssertTrue(stationMatchesFilters(station(tags: ["news"], country: "DE"), country: "DE", tag: "news"))
         XCTAssertFalse(stationMatchesFilters(station(tags: ["jazz"], country: "DE"), country: "DE", tag: "news"))
     }
+
+    // MARK: - Soul/R&B funk regex (regression for the rundfunk false positive)
+
+    func testFunkPlainTagMatchesSoul() {
+        XCTAssertTrue(stationMatchesGenre(station(tags: ["funk"]), genre: findGenre("soul")!))
+    }
+
+    func testFunkVariantsMatchSoul() {
+        XCTAssertTrue(stationMatchesGenre(station(tags: ["funky"]), genre: findGenre("soul")!))
+        XCTAssertTrue(stationMatchesGenre(station(tags: ["funkadelic"]), genre: findGenre("soul")!))
+        XCTAssertTrue(stationMatchesGenre(station(tags: ["future funk"]), genre: findGenre("soul")!))
+    }
+
+    func testRundfunkDoesNotMatchSoul() {
+        // Pre-fix: every German public broadcaster tagged
+        // "mitteldeutscher rundfunk" / "westdeutscher rundfunk" was
+        // showing up under Soul/R&B because plain-substring "funk"
+        // matched inside "rundfunk" (German for "broadcasting").
+        // Concrete report: MDR Klassik (a classical-music station)
+        // appeared in the R&B chip on iOS.
+        XCTAssertFalse(stationMatchesGenre(
+            station(tags: ["mitteldeutscher rundfunk"]),
+            genre: findGenre("soul")!
+        ))
+        XCTAssertFalse(stationMatchesGenre(
+            station(tags: ["classical", "ard", "mitteldeutscher rundfunk"]),
+            genre: findGenre("soul")!
+        ))
+        XCTAssertFalse(stationMatchesGenre(
+            station(tags: ["westdeutscher rundfunk"]),
+            genre: findGenre("soul")!
+        ))
+    }
+
+    func testFunkAndRundfunkTogetherStillMatchSoul() {
+        // If a station carries both rundfunk and a real funk tag, the
+        // funk tag should still earn it the Soul match.
+        XCTAssertTrue(stationMatchesGenre(
+            station(tags: ["mitteldeutscher rundfunk", "funk"]),
+            genre: findGenre("soul")!
+        ))
+    }
 }
