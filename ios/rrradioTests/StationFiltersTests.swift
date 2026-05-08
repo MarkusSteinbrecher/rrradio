@@ -55,14 +55,33 @@ final class StationFiltersTests: XCTestCase {
         XCTAssertEqual(result, ["jazz", "news", "rock"])
     }
 
-    func testAvailableGenresComeFromStationTagsAndExcludeNews() {
+    func testGenreTaxonomyHasCanonicalEntries() {
+        XCTAssertEqual(genres.count, 22)
+        XCTAssertEqual(Set(genres.map(\.id)).count, genres.count)
+        XCTAssertEqual(findGenre("rock")?.label, "Rock")
+        XCTAssertEqual(findGenre("hiphop")?.rbTag, "hip hop")
+        XCTAssertNil(findGenre("all"))
+        XCTAssertNil(findGenre(nil))
+        XCTAssertNil(findGenre("not-a-genre"))
+    }
+
+    func testAvailableGenresComeFromTaxonomyAndExcludeNews() {
         let result = availableGenres(from: [
-            station(tags: ["Jazz", " new-rrradio-genre "]),
-            station(tags: ["news", "ambient"]),
-            station(tags: ["jazz"]),
+            station(tags: ["classic rock"]),
+            station(tags: ["news"]),
+            station(tags: ["chillout"]),
         ])
 
-        XCTAssertEqual(result, ["ambient", "jazz", "new-rrradio-genre"])
+        XCTAssertEqual(result.map(\.id), ["rock", "ambient"])
+    }
+
+    func testStationMatchesGenreWithSynonymsAndSubstrings() {
+        XCTAssertTrue(stationMatchesGenre(station(tags: ["classic rock"]), genre: findGenre("rock")!))
+        XCTAssertTrue(stationMatchesGenre(station(tags: ["hip-hop"]), genre: findGenre("hiphop")!))
+        XCTAssertTrue(stationMatchesGenre(station(tags: ["80s"]), genre: findGenre("oldies")!))
+        XCTAssertTrue(stationMatchesGenre(station(tags: ["noticias"]), genre: findGenre("latin")!))
+        XCTAssertTrue(stationMatchesGenre(station(tags: ["lounge"]), genre: findGenre("ambient")!))
+        XCTAssertFalse(stationMatchesGenre(station(tags: nil), genre: findGenre("rock")!))
     }
 
     func testNoFiltersMatchesEveryStation() {
@@ -77,6 +96,12 @@ final class StationFiltersTests: XCTestCase {
     func testTagFilterIsCaseInsensitive() {
         XCTAssertTrue(stationMatchesFilters(station(tags: ["Jazz"]), country: nil, tag: "jazz"))
         XCTAssertFalse(stationMatchesFilters(station(tags: ["rock"]), country: nil, tag: "jazz"))
+    }
+
+    func testGenreFilterUsesTaxonomyMatching() {
+        XCTAssertTrue(stationMatchesFilters(station(tags: ["classic rock"]), country: nil, tag: "rock"))
+        XCTAssertTrue(stationMatchesFilters(station(tags: ["rap"]), country: nil, tag: "hiphop"))
+        XCTAssertFalse(stationMatchesFilters(station(tags: ["classical"]), country: nil, tag: "rock"))
     }
 
     func testCombinesCountryAndTag() {

@@ -7,7 +7,7 @@ struct StationFilterView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var countries: [String] { availableCountries(from: stations) }
-    private var tags: [String] { availableTags(from: stations) }
+    private var tags: [Genre] { availableGenres(from: stations) }
 
     var body: some View {
         NavigationStack {
@@ -36,9 +36,9 @@ struct StationFilterView: View {
                     filterRow("All tags", selected: selectedTag == nil) {
                         selectedTag = nil
                     }
-                    ForEach(tags, id: \.self) { tag in
-                        filterRow(tag, selected: selectedTag == tag) {
-                            selectedTag = tag
+                    ForEach(tags) { tag in
+                        filterRow(tag.label, selected: selectedTag == tag.id) {
+                            selectedTag = tag.id
                         }
                     }
                 }

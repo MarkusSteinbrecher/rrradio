@@ -145,7 +145,7 @@ struct StationListView: View {
         checkedOnly ? allStations : allStations + radioBrowserStations
     }
     private var countries: [String] { availableCountries(from: allStations) }
-    private var genres: [String] { availableGenres(from: allStations) }
+    private var genres: [Genre] { availableGenres(from: allStations) }
 
     private var stations: [Station] {
         switch source {
@@ -608,9 +608,9 @@ struct StationListView: View {
                                 selectedTag = nil
                                 self.activeFilterPicker = nil
                             }
-                            ForEach(genres, id: \.self) { tag in
-                                filterPickerRow(tag, selected: selectedTag == tag) {
-                                    selectedTag = tag
+                            ForEach(genres) { genre in
+                                filterPickerRow(genre.label, selected: selectedTag == genre.id) {
+                                    selectedTag = genre.id
                                     self.activeFilterPicker = nil
                                 }
                             }
@@ -1033,7 +1033,7 @@ struct StationListView: View {
             labels.append(locale.text(.search))
         }
         if let selectedTag {
-            labels.append(selectedTag == "news" ? locale.text(.news) : selectedTag)
+            labels.append(selectedTag == "news" ? locale.text(.news) : (findGenre(selectedTag)?.label ?? selectedTag))
         }
         if let selectedCountry {
             labels.append(selectedCountry.uppercased())
@@ -1099,7 +1099,7 @@ struct StationListView: View {
         guard canLoadWorldwideStations, !radioBrowserLoading else { return }
         radioBrowserLoading = true
         let query = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        let tag = selectedTag
+        let tag = findGenre(selectedTag)?.rbTag ?? selectedTag
         let country = selectedCountry
         let existingIDs = Set(stationPool.map(\.id))
         radioBrowserSearchTask = Task {
