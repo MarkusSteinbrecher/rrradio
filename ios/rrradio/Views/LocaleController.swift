@@ -83,11 +83,6 @@ enum L10nKey: String {
     case dark
     case alwaysDark
     case language
-    case stationView
-    case listView
-    case tileView
-    case listViewDetail
-    case tileViewDetail
     case landingPage
     case playStation
     case landingBrowseDetail
@@ -196,11 +191,6 @@ enum L10n {
             .dark: "Dark",
             .alwaysDark: "Always use dark mode",
             .language: "Language",
-            .stationView: "Station view",
-            .listView: "List",
-            .tileView: "Tiles",
-            .listViewDetail: "Show stations in rows",
-            .tileViewDetail: "Show stations in a compact grid",
             .landingPage: "Landing page",
             .playStation: "Play station",
             .landingBrowseDetail: "Open the browse page on launch",
@@ -306,11 +296,6 @@ enum L10n {
             .dark: "Dunkel",
             .alwaysDark: "Immer dunkel verwenden",
             .language: "Sprache",
-            .stationView: "Stationsansicht",
-            .listView: "Liste",
-            .tileView: "Kacheln",
-            .listViewDetail: "Stationen als Zeilen anzeigen",
-            .tileViewDetail: "Stationen als kompaktes Raster anzeigen",
             .landingPage: "Startseite",
             .playStation: "Station starten",
             .landingBrowseDetail: "Beim Start die Suche öffnen",
@@ -416,11 +401,6 @@ enum L10n {
             .dark: "Sombre",
             .alwaysDark: "Toujours utiliser le mode sombre",
             .language: "Langue",
-            .stationView: "Affichage des stations",
-            .listView: "Liste",
-            .tileView: "Tuiles",
-            .listViewDetail: "Afficher les stations en lignes",
-            .tileViewDetail: "Afficher les stations en grille compacte",
             .landingPage: "Page d'accueil",
             .playStation: "Lire une station",
             .landingBrowseDetail: "Ouvrir la page Parcourir au lancement",
@@ -526,11 +506,6 @@ enum L10n {
             .dark: "Oscuro",
             .alwaysDark: "Usar siempre modo oscuro",
             .language: "Idioma",
-            .stationView: "Vista de emisoras",
-            .listView: "Lista",
-            .tileView: "Mosaicos",
-            .listViewDetail: "Mostrar emisoras en filas",
-            .tileViewDetail: "Mostrar emisoras en una cuadrícula compacta",
             .landingPage: "Página inicial",
             .playStation: "Reproducir emisora",
             .landingBrowseDetail: "Abrir Explorar al iniciar",

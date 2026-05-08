@@ -90,6 +90,23 @@ final class LibraryTests: XCTestCase {
         XCTAssertEqual(library.favorites.map(\.id), ["a", "c", "b"])
     }
 
+    func testRefreshFavoritesUpdatesMatchingCatalogSnapshots() {
+        let library = Library(defaults: defaults)
+        library.toggleFavorite(station("fm4", name: "Old FM4"))
+        library.toggleFavorite(station("custom", name: "Custom"))
+
+        var catalogFM4 = station("fm4", name: "FM4")
+        catalogFM4.favicon = URL(string: "https://example.com/fm4.png")
+        catalogFM4.metadata = "orf"
+        library.refreshFavorites(from: [catalogFM4])
+
+        XCTAssertEqual(library.favorites.map(\.id), ["custom", "fm4"])
+        XCTAssertEqual(library.favorites[1].name, "FM4")
+        XCTAssertEqual(library.favorites[1].favicon, URL(string: "https://example.com/fm4.png"))
+        XCTAssertEqual(library.favorites[1].metadata, "orf")
+        XCTAssertEqual(library.favorites[0].name, "Custom")
+    }
+
     func testAddCustomPersistsAcrossInstances() {
         let first = Library(defaults: defaults)
         first.addCustom(station("custom-a", name: "Custom A"))

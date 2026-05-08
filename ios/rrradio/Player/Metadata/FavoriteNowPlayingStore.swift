@@ -70,10 +70,8 @@ final class FavoriteNowPlayingStore {
     }
 
     private nonisolated static func fetchMetadata(for station: Station) async -> NowPlayingMetadata? {
-        guard let fetcher = metadataFetcher(for: station) else { return nil }
-
         do {
-            guard var metadata = try await fetcher(station) else { return nil }
+            guard var metadata = try await metadata(for: station) else { return nil }
             if let title = clean(metadata.title),
                metadata.coverUrl == nil || metadata.coverUrl.map(isLowResolutionCoverURL) == true {
                 let cover = await lookupCoverArt(artist: clean(metadata.artist), title: title)
@@ -85,6 +83,13 @@ final class FavoriteNowPlayingStore {
         } catch {
             return nil
         }
+    }
+
+    private nonisolated static func metadata(for station: Station) async throws -> NowPlayingMetadata? {
+        if let fetcher = metadataFetcher(for: station) {
+            return try await fetcher(station)
+        }
+        return try await fetchIcyMetadata(station: station)
     }
 
     private nonisolated static func clean(_ value: String?) -> String? {

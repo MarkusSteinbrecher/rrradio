@@ -46,22 +46,6 @@ enum RrradioTheme {
     }
 }
 
-enum StationViewLayout: String, CaseIterable, Identifiable {
-    case list
-    case tiles
-
-    static let storageKey = "rrradio.stationLayout"
-
-    var id: String { rawValue }
-
-    var icon: String {
-        switch self {
-        case .list: "list.bullet"
-        case .tiles: "square.grid.2x2"
-        }
-    }
-}
-
 struct StationListView: View {
     @Binding private var tab: AppTab
     @Binding private var searchFocusedExternally: Bool
@@ -88,7 +72,6 @@ struct StationListView: View {
     @State private var selectedCountry: String?
     @State private var selectedTag: String?
     @State private var activeFilterPicker: ActiveFilterPicker?
-    @AppStorage(StationViewLayout.storageKey) private var stationLayoutRaw = StationViewLayout.list.rawValue
     @State private var stationDisplayLimit = 220
     @State private var radioBrowserStations: [Station] = []
     @State private var radioBrowserOffset = 0
@@ -179,9 +162,6 @@ struct StationListView: View {
 
     private var visibleStations: [Station] { Array(filteredStations.prefix(displayLimit)) }
     private var hasActiveFilters: Bool { selectedCountry != nil || selectedTag != nil }
-    private var stationLayout: StationViewLayout {
-        StationViewLayout(rawValue: stationLayoutRaw) ?? .list
-    }
     private var isFavoritesPage: Bool {
         tab == .library && source == .favorites
     }
@@ -279,6 +259,7 @@ struct StationListView: View {
             Text(target.message)
         }
         .onAppear {
+            library.refreshFavorites(from: catalog.stations)
             recomputeFilteredStations()
             updateFavoriteNowPlayingPolling()
         }
@@ -323,6 +304,11 @@ struct StationListView: View {
             fetchInitialRadioBrowserSearchIfNeeded()
         }
         .onChange(of: filterSignature) { _, _ in
+            recomputeFilteredStations()
+            updateFavoriteNowPlayingPolling()
+        }
+        .onChange(of: catalog.stations) { _, stations in
+            library.refreshFavorites(from: stations)
             recomputeFilteredStations()
             updateFavoriteNowPlayingPolling()
         }
@@ -683,42 +669,7 @@ struct StationListView: View {
     }
 
     private var statusToolbar: some View {
-        ZStack {
-            sectionStatus
-            HStack {
-                if !isFavoritesPage {
-                    layoutToggle
-                }
-                Spacer()
-            }
-        }
-    }
-
-    private var layoutToggle: some View {
-        HStack(spacing: 6) {
-            layoutButton(.list, label: "List view")
-            layoutButton(.tiles, label: "Tile view")
-        }
-        .padding(3)
-        .background(RrradioTheme.bg2)
-        .overlay(Capsule().stroke(RrradioTheme.line))
-        .clipShape(Capsule())
-    }
-
-    private func layoutButton(_ layout: StationViewLayout, label: String) -> some View {
-        Button {
-            dismissSearch()
-            stationLayoutRaw = layout.rawValue
-        } label: {
-            Image(systemName: layout.icon)
-                .font(.system(size: 14, weight: .medium))
-                .foregroundStyle(stationLayout == layout ? RrradioTheme.bg : RrradioTheme.ink3)
-                .frame(width: 34, height: 28)
-                .background(stationLayout == layout ? RrradioTheme.buttonFill : .clear)
-                .clipShape(Capsule())
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(label)
+        sectionStatus
     }
 
     @ViewBuilder
@@ -751,33 +702,23 @@ struct StationListView: View {
         ScrollView {
             LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
                 Section {
-                    switch stationLayout {
-                    case .list:
-                        ForEach(visibleStations) { station in
-                            StationRow(
-                                station: station,
-                                nowPlaying: isFavoritesPage ? favoriteNowPlaying.entries[station.id]?.metadata : nil,
-                                mode: isFavoritesPage ? .favoritesExpanded : .standard,
-                                isCurrent: player.current?.id == station.id,
-                                isPlaying: player.current?.id == station.id && player.state == .playing,
-                                isFavorite: library.isFavorite(station),
-                                isCustom: library.isCustom(station),
-                                onPlay: {
-                                    play(station)
-                                },
-                                onToggleFavorite: {
-                                    library.toggleFavorite(station)
-                                },
-                                showsFavoriteButton: !isFavoritesPage,
-                            )
-                        }
-                    case .tiles:
-                        LazyVGrid(columns: tileColumns, spacing: 0) {
-                            ForEach(visibleStations) { station in
-                                tileView(for: station)
-                            }
-                        }
-                        .padding(.top, 1)
+                    ForEach(visibleStations) { station in
+                        StationRow(
+                            station: station,
+                            nowPlaying: isFavoritesPage ? favoriteNowPlaying.entries[station.id]?.metadata : nil,
+                            mode: isFavoritesPage ? .favoritesExpanded : .standard,
+                            isCurrent: player.current?.id == station.id,
+                            isPlaying: player.current?.id == station.id && player.state == .playing,
+                            isFavorite: library.isFavorite(station),
+                            isCustom: library.isCustom(station),
+                            onPlay: {
+                                play(station)
+                            },
+                            onToggleFavorite: {
+                                library.toggleFavorite(station)
+                            },
+                            showsFavoriteButton: !isFavoritesPage,
+                        )
                     }
                     if visibleStations.count < filteredStations.count || canLoadWorldwideStations {
                         loadMoreRow
@@ -839,12 +780,6 @@ struct StationListView: View {
         .background(RrradioTheme.bg)
     }
 
-    private var tileColumns: [GridItem] {
-        [
-            GridItem(.adaptive(minimum: 148, maximum: 190), spacing: 0, alignment: .top),
-        ]
-    }
-
     private func play(_ station: Station) {
         dismissSearch()
         player.play(station)
@@ -853,41 +788,6 @@ struct StationListView: View {
         }
         library.pushRecent(station)
         showingNowPlaying = true
-    }
-
-    @ViewBuilder
-    private func tileView(for station: Station) -> some View {
-        let tile = StationTile(
-            station: station,
-            nowPlaying: isFavoritesPage ? favoriteNowPlaying.entries[station.id]?.metadata : nil,
-            hidesFallbackDetails: isFavoritesPage,
-            isCurrent: player.current?.id == station.id,
-            isPlaying: player.current?.id == station.id && player.state == .playing,
-            isFavorite: library.isFavorite(station),
-            isCustom: library.isCustom(station),
-            onPlay: {
-                play(station)
-            },
-            onToggleFavorite: {
-                library.toggleFavorite(station)
-            },
-            showsFavoriteButton: !isFavoritesPage,
-        )
-
-        if canReorderFavoriteTiles {
-            tile
-                .draggable(station.id)
-                .dropDestination(for: String.self) { draggedIDs, _ in
-                    guard let draggedID = draggedIDs.first else { return false }
-                    return moveFavoriteTile(draggedID: draggedID, over: station.id)
-                }
-        } else {
-            tile
-        }
-    }
-
-    private var canReorderFavoriteTiles: Bool {
-        isFavoritesPage && stationLayout == .tiles && query.isEmpty && selectedCountry == nil && selectedTag == nil
     }
 
     private var canReorderFavorites: Bool {
@@ -902,27 +802,6 @@ struct StationListView: View {
         ordered.move(fromOffsets: source, toOffset: destination)
         filteredStations = ordered
         library.reorderFavorites(ordered.map(\.id))
-    }
-
-    @discardableResult
-    private func moveFavoriteTile(draggedID: String, over targetID: String) -> Bool {
-        guard canReorderFavoriteTiles else { return false }
-        filterTask?.cancel()
-
-        var ordered = filteredStations
-        guard let from = ordered.firstIndex(where: { $0.id == draggedID }),
-              let to = ordered.firstIndex(where: { $0.id == targetID }),
-              from != to
-        else { return false }
-
-        let moved = ordered.remove(at: from)
-        ordered.insert(moved, at: to)
-
-        withAnimation(.snappy(duration: 0.18)) {
-            filteredStations = ordered
-            library.reorderFavorites(ordered.map(\.id))
-        }
-        return true
     }
 
     private func updateFavoriteNowPlayingPolling() {
@@ -1397,12 +1276,12 @@ struct StationRow: View {
                     rowText
                         .frame(maxWidth: .infinity, alignment: .leading)
 
-                    if mode == .favoritesExpanded, nowPlaying?.coverUrl != nil {
+                    if mode == .favoritesExpanded, expandedArtworkURL != nil {
                         expandedCoverArtwork
                             .frame(width: 58, height: 58)
                             .layoutPriority(1)
                     }
-                    if isPlaying {
+                    if isPlaying && mode != .favoritesExpanded {
                         EqualizerView()
                     }
                     if isCustom {
@@ -1555,10 +1434,12 @@ struct StationRow: View {
     private var expandedCoverArtwork: some View {
         NowPlayingArtworkThumb(
             url: nowPlaying?.coverUrl,
-            stationName: station.name,
-            stationID: station.id,
             size: 58,
         )
+    }
+
+    private var expandedArtworkURL: URL? {
+        nowPlaying?.coverUrl
     }
 
     private var primaryLine: String {
@@ -1644,134 +1525,6 @@ struct StationRow: View {
     }
 }
 
-struct StationTile: View {
-    let station: Station
-    var nowPlaying: NowPlayingMetadata?
-    var hidesFallbackDetails = false
-    let isCurrent: Bool
-    let isPlaying: Bool
-    let isFavorite: Bool
-    let isCustom: Bool
-    let onPlay: () -> Void
-    let onToggleFavorite: () -> Void
-    var showsFavoriteButton = true
-
-    var body: some View {
-        Button(action: onPlay) {
-            VStack(alignment: .leading, spacing: 9) {
-                HStack(alignment: .top) {
-                    FaviconView(url: nowPlaying?.coverUrl ?? station.favicon, stationName: station.name, stationID: station.id, size: 54)
-                        .frame(width: 54, height: 54)
-                    Spacer()
-                    if showsFavoriteButton {
-                        Button(action: onToggleFavorite) {
-                            Image(systemName: isFavorite ? "heart.fill" : "heart")
-                                .font(.system(size: 16, weight: .medium))
-                                .foregroundStyle(isFavorite ? RrradioTheme.favoriteFill : RrradioTheme.ink4)
-                                .frame(width: 32, height: 32)
-                                .contentShape(Circle())
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityLabel(isFavorite ? "Remove from favorites" : "Add to favorites")
-                    }
-                }
-
-                VStack(alignment: .leading, spacing: 5) {
-                    HStack(spacing: 5) {
-                        Text(primaryLine)
-                            .font(.system(size: 15, weight: .medium))
-                            .foregroundStyle(isCurrent ? RrradioTheme.accent : RrradioTheme.ink)
-                            .lineLimit(2)
-                            .minimumScaleFactor(0.78)
-                        let flag = countryFlagEmoji(station.country)
-                        if !flag.isEmpty {
-                            Text(flag)
-                                .font(.system(size: 12))
-                                .foregroundStyle(.primary)
-                        }
-                    }
-
-                    if let trackLine {
-                        Text(trackLine)
-                            .font(.system(size: 11.5))
-                            .foregroundStyle(RrradioTheme.ink2)
-                            .lineLimit(2)
-                    } else if !hidesFallbackDetails {
-                        HStack(spacing: 5) {
-                            capabilityStars
-                            if let tags = station.tags, !tags.isEmpty {
-                                Text(tags.prefix(2).joined(separator: " . "))
-                                    .lineLimit(1)
-                            }
-                        }
-                        .font(.system(size: 10, weight: .regular, design: .monospaced))
-                        .foregroundStyle(RrradioTheme.ink3)
-                        .textCase(.lowercase)
-                    }
-                }
-            }
-            .padding(.horizontal, 12)
-            .padding(.top, 12)
-            .padding(.bottom, 10)
-            .frame(maxWidth: .infinity, minHeight: 128, alignment: .topLeading)
-            .background {
-                if isCurrent {
-                    LinearGradient(
-                        colors: [RrradioTheme.ink.opacity(0.035), .clear],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing,
-                    )
-                } else {
-                    RrradioTheme.bg
-                }
-            }
-            .overlay {
-                Rectangle()
-                    .strokeBorder(isCurrent ? RrradioTheme.accent : RrradioTheme.line, lineWidth: isCurrent ? 2 : 1)
-            }
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-    }
-
-    private var primaryLine: String {
-        guard let program = clean(nowPlaying?.programName) else {
-            return station.name
-        }
-        return "\(station.name) - \(program)"
-    }
-
-    private var trackLine: String? {
-        guard let title = clean(nowPlaying?.title) else { return nil }
-        if let artist = clean(nowPlaying?.artist) {
-            return "\(artist) - \(title)"
-        }
-        return title
-    }
-
-    private func clean(_ value: String?) -> String? {
-        let trimmed = value?.trimmingCharacters(in: .whitespacesAndNewlines)
-        return trimmed?.isEmpty == false ? trimmed : nil
-    }
-
-    private var capabilityStars: some View {
-        HStack(spacing: 1) {
-            ForEach(0..<starCount, id: \.self) { _ in
-                Image(systemName: "star.fill")
-                    .font(.system(size: 8))
-            }
-        }
-        .foregroundStyle(RrradioTheme.accent.opacity(0.85))
-    }
-
-    private var starCount: Int {
-        if station.metadata != nil { return 3 }
-        if station.status == "icy-only" { return 2 }
-        if station.status != nil { return 1 }
-        return 0
-    }
-}
-
 struct EqualizerView: View {
     var body: some View {
         HStack(alignment: .bottom, spacing: 2) {
@@ -1787,8 +1540,6 @@ struct EqualizerView: View {
 
 private struct NowPlayingArtworkThumb: View {
     let url: URL?
-    let stationName: String
-    let stationID: String
     let size: CGFloat
 
     var body: some View {
@@ -1804,22 +1555,14 @@ private struct NowPlayingArtworkThumb: View {
                             .scaledToFit()
                             .padding(3)
                     default:
-                        initials
+                        Color.clear
                     }
                 }
-            } else {
-                initials
             }
         }
         .frame(width: size, height: size)
         .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 6, style: .continuous).stroke(RrradioTheme.line))
-    }
-
-    private var initials: some View {
-        Text(stationInitials(stationName))
-            .font(.system(size: 18, weight: .medium, design: .monospaced))
-            .foregroundStyle(RrradioTheme.ink3)
     }
 }
 

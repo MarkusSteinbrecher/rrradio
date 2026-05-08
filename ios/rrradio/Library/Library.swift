@@ -67,6 +67,20 @@ final class Library {
         writeFavorites()
     }
 
+    func refreshFavorites(from catalogStations: [Station]) {
+        guard !favorites.isEmpty, !catalogStations.isEmpty else { return }
+        let catalogByID = Dictionary(uniqueKeysWithValues: catalogStations.map { ($0.id, $0) })
+        var changed = false
+        let refreshed = favorites.map { station in
+            guard let catalogStation = catalogByID[station.id] else { return station }
+            changed = changed || catalogStation != station
+            return catalogStation
+        }
+        guard changed else { return }
+        favorites = refreshed
+        writeFavorites()
+    }
+
     func isCustom(_ station: Station) -> Bool {
         customStations.contains { $0.id == station.id }
     }

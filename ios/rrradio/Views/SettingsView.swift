@@ -75,7 +75,6 @@ private struct SettingsPageView: View {
     @Environment(SleepTimer.self) private var sleepTimer
     @Environment(CarModeController.self) private var carMode
     @Environment(ListeningHistory.self) private var listeningHistory
-    @AppStorage(StationViewLayout.storageKey) private var stationLayoutRaw = StationViewLayout.list.rawValue
     @AppStorage(LandingPage.storageKey) private var landingPageRaw = LandingPage.browse.rawValue
     @AppStorage(LandingPage.stationIDKey) private var landingStationID = ""
     @AppStorage(WakeAlarm.defaultTimeKey) private var defaultWakeTime = WakeAlarm.fallbackDefaultTime
@@ -100,16 +99,6 @@ private struct SettingsPageView: View {
                         themeRow(locale.text(.system), detail: locale.text(.followIOSAppearance), choice: .system)
                         themeRow(locale.text(.light), detail: locale.text(.alwaysLight), choice: .light)
                         themeRow(locale.text(.dark), detail: locale.text(.alwaysDark), choice: .dark)
-                    }
-                    .background(RrradioTheme.bg2)
-                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                }
-
-                settingsSection(locale.text(.stationView)) {
-                    VStack(spacing: 0) {
-                        stationLayoutRow(.list)
-                        stationLayoutRow(.tiles)
                     }
                     .background(RrradioTheme.bg2)
                     .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
@@ -718,56 +707,6 @@ private struct SettingsPageView: View {
         case .browse: locale.text(.landingBrowseDetail)
         case .favorites: locale.text(.landingFavoritesDetail)
         case .station: locale.text(.landingStationDetail)
-        }
-    }
-
-    private func stationLayoutRow(_ layout: StationViewLayout) -> some View {
-        Button {
-            stationLayoutRaw = layout.rawValue
-        } label: {
-            HStack(spacing: 12) {
-                Image(systemName: layout.icon)
-                    .font(.system(size: 15, weight: .medium))
-                    .foregroundStyle(RrradioTheme.ink3)
-                    .frame(width: 22)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(stationLayoutTitle(layout))
-                        .font(.system(size: 15, weight: .medium))
-                        .foregroundStyle(RrradioTheme.ink)
-                    Text(stationLayoutDetail(layout))
-                        .font(.system(size: 12))
-                        .foregroundStyle(RrradioTheme.ink3)
-                }
-                Spacer()
-                if stationLayoutRaw == layout.rawValue {
-                    Image(systemName: "checkmark")
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundStyle(RrradioTheme.accent)
-                }
-            }
-            .padding(.horizontal, 14)
-            .frame(minHeight: 54)
-            .contentShape(Rectangle())
-            .overlay(alignment: .bottom) {
-                Rectangle()
-                    .fill(RrradioTheme.line)
-                    .frame(height: 1)
-            }
-        }
-        .buttonStyle(.plain)
-    }
-
-    private func stationLayoutTitle(_ layout: StationViewLayout) -> String {
-        switch layout {
-        case .list: locale.text(.listView)
-        case .tiles: locale.text(.tileView)
-        }
-    }
-
-    private func stationLayoutDetail(_ layout: StationViewLayout) -> String {
-        switch layout {
-        case .list: locale.text(.listViewDetail)
-        case .tiles: locale.text(.tileViewDetail)
         }
     }
 
