@@ -1,4 +1,5 @@
 import { BUILTIN_STATIONS } from './builtins';
+import { findGenre } from './genre-taxonomy';
 import { normalizeStreamUrl, radioBrowser } from './radioBrowser';
 import type { Station } from './types';
 
@@ -102,17 +103,23 @@ export interface BrowseInputs {
 
 /** Build the StationFilter and hasAnyFilter signal that the Browse
  *  page sends to RB. Pure — every read happens in one place, so
- *  runQuery and loadMore can never drift out of sync. */
+ *  runQuery and loadMore can never drift out of sync.
+ *
+ *  The genre id (e.g. `hiphop`) maps to a single RB tag string
+ *  (e.g. `hip hop`) via the taxonomy. RB does substring matching
+ *  server-side, so picking the most-common form of the tag also
+ *  catches the synonyms (`hip-hop`, `hiphop`). */
 export function composeBrowseFilter(
   inputs: BrowseInputs,
   opts: { offset?: number } = {},
 ): { filter: StationFilter; hasAnyFilter: boolean } {
   const query = inputs.query.trim();
-  const genreTag = inputs.activeTag === 'all' ? undefined : inputs.activeTag;
+  // News mode replaces any user-picked genre with `news` — same
+  // precedence runQuery used before extraction.
+  const genreId = inputs.browseMode === 'news' ? 'news' : inputs.activeTag;
+  const genre = findGenre(genreId);
+  const tag = genre?.rbTag;
   const countryCode = inputs.activeCountry === 'all' ? undefined : inputs.activeCountry;
-  // News mode replaces any user-picked genre with the literal `news`
-  // tag — same precedence runQuery used before extraction.
-  const tag = inputs.browseMode === 'news' ? 'news' : genreTag;
   return {
     filter: {
       query: query || undefined,
