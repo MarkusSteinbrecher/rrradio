@@ -13,7 +13,10 @@ describe('GENRES', () => {
       expect(g.label.length).toBeGreaterThan(0);
       expect(g.rbTag.length).toBeGreaterThan(0);
       expect(g.match.length).toBeGreaterThan(0);
-      for (const m of g.match) expect(m).toBe(m.toLowerCase());
+      for (const m of g.match) {
+        if (typeof m === 'string') expect(m).toBe(m.toLowerCase());
+        else expect(m).toBeInstanceOf(RegExp);
+      }
     }
   });
 });
@@ -89,5 +92,40 @@ describe('stationMatchesGenre', () => {
     expect(stationMatchesGenre({ tags: ['chillout'] }, ambient)).toBe(true);
     expect(stationMatchesGenre({ tags: ['lounge'] }, ambient)).toBe(true);
     expect(stationMatchesGenre({ tags: ['easy listening'] }, ambient)).toBe(true);
+  });
+
+  describe('Soul/R&B funk regex (regression)', () => {
+    const soul = byId.get('soul')!;
+
+    it('matches plain funk', () => {
+      expect(stationMatchesGenre({ tags: ['funk'] }, soul)).toBe(true);
+    });
+
+    it('matches funk variants (funky, funkadelic, future funk)', () => {
+      expect(stationMatchesGenre({ tags: ['funky'] }, soul)).toBe(true);
+      expect(stationMatchesGenre({ tags: ['funkadelic'] }, soul)).toBe(true);
+      expect(stationMatchesGenre({ tags: ['future funk'] }, soul)).toBe(true);
+    });
+
+    it('matches funk in multi-word tags', () => {
+      expect(stationMatchesGenre({ tags: ['groove, funk, motown'] }, soul)).toBe(true);
+      expect(stationMatchesGenre({ tags: ['funk soul brother'] }, soul)).toBe(true);
+    });
+
+    it('does NOT match the German "rundfunk" (broadcasting)', () => {
+      // The original bug: every German public broadcaster tagged
+      // "mitteldeutscher rundfunk", "westdeutscher rundfunk", etc.
+      // was getting bucketed under Soul/R&B because "funk" matched
+      // as a substring of "rundfunk".
+      expect(stationMatchesGenre({ tags: ['mitteldeutscher rundfunk'] }, soul)).toBe(false);
+      expect(stationMatchesGenre({ tags: ['westdeutscher rundfunk'] }, soul)).toBe(false);
+      expect(stationMatchesGenre({ tags: ['ard', 'rundfunk'] }, soul)).toBe(false);
+    });
+
+    it('still matches when a station has BOTH rundfunk and a real funk tag', () => {
+      expect(
+        stationMatchesGenre({ tags: ['mitteldeutscher rundfunk', 'funk'] }, soul),
+      ).toBe(true);
+    });
   });
 });
