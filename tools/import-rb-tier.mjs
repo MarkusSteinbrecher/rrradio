@@ -163,6 +163,22 @@ function normalizeTags(rbTags) {
     .slice(0, 6);
 }
 
+function yamlTag(t) {
+  // Quote anything YAML would coerce to a non-string scalar (numbers,
+  // true/false/null, "yes"/"no"), or anything with YAML-significant
+  // chars / leading indicators / " - " sequences. Without this the
+  // tag round-trips as a number/boolean and `t.toLowerCase()` throws
+  // at runtime. See backfill-tags.mjs:yamlSafe for the full rationale.
+  if (!t) return '""';
+  if (/^-?\d+(?:\.\d+)?$/.test(t)) return JSON.stringify(t);
+  if (/^(true|false|null|yes|no|on|off|~)$/i.test(t)) return JSON.stringify(t);
+  if (/[:#&*!|>'"%@`,\[\]{}?]/.test(t)) return JSON.stringify(t);
+  if (/^[-\s?:!&*|>%@`]/.test(t)) return JSON.stringify(t);
+  if (/^\s|\s$/.test(t)) return JSON.stringify(t);
+  if (/\s-\s/.test(t)) return JSON.stringify(t);
+  return t;
+}
+
 function buildYamlEntry(station, id) {
   const lines = [];
   lines.push('');
@@ -174,7 +190,7 @@ function buildYamlEntry(station, id) {
   if (station.bitrate && station.bitrate > 0) lines.push(`  bitrate: ${station.bitrate}`);
   if (station.codec) lines.push(`  codec: ${station.codec.toUpperCase()}`);
   const tags = normalizeTags(station.tags);
-  if (tags.length > 0) lines.push(`  tags: [${tags.join(', ')}]`);
+  if (tags.length > 0) lines.push(`  tags: [${tags.map(yamlTag).join(', ')}]`);
   // Skip data: URIs — not allowed by check-catalog
   if (station.favicon && !station.favicon.startsWith('data:')) {
     lines.push(`  favicon: ${quoteYaml(station.favicon)}`);

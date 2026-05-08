@@ -1463,7 +1463,14 @@ function normaliseStation(raw: unknown): Station | null {
     streamUrl: r.streamUrl,
     homepage: r.homepage,
     country: r.country,
-    tags: Array.isArray(r.tags) ? r.tags : undefined,
+    // Coerce every tag to a string at the boundary. YAML auto-parses
+    // bare numerics ("70", "11.11") and reserved words (true/false/null/
+    // yes/no) as non-strings, and `t.toLowerCase()` in the local
+    // search filter throws on those. Fixed at the importer layer
+    // already; this is the runtime second line of defense.
+    tags: Array.isArray(r.tags)
+      ? r.tags.map((t) => String(t)).filter((t): t is string => t.length > 0)
+      : undefined,
     favicon: resolveFavicon(r.favicon),
     bitrate: typeof r.bitrate === 'number' ? r.bitrate : undefined,
     codec: r.codec,

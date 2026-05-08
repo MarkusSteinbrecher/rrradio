@@ -93,7 +93,14 @@ function yamlSafe(t) {
   // block-sequence start inside a flow array. Without this, RB tags
   // like "#top100", "- dj charts", "?something" or "* hot" silently
   // corrupt the YAML when written into a flow-style `tags: [...]` line.
+  // Also: quote anything that YAML would coerce to a non-string scalar
+  // (numbers, true/false/null, "yes"/"no") — string tags written bare
+  // come back as numbers/booleans on parse, and downstream JS filters
+  // crash on `t.toLowerCase()`. Was the root cause of the WDR5 e2e
+  // failure post-#187 (tags "70", "80", "11.11" → numeric in JSON).
   if (!t) return '""';
+  if (/^-?\d+(?:\.\d+)?$/.test(t)) return JSON.stringify(t);
+  if (/^(true|false|null|yes|no|on|off|~)$/i.test(t)) return JSON.stringify(t);
   if (/[:#&*!|>'"%@`,\[\]{}?]/.test(t)) return JSON.stringify(t);
   if (/^[-\s?:!&*|>%@`]/.test(t)) return JSON.stringify(t);
   if (/^\s|\s$/.test(t)) return JSON.stringify(t);

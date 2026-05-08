@@ -134,6 +134,19 @@ function quote(s) {
     : s;
 }
 
+function yamlTag(t) {
+  // See backfill-tags.mjs:yamlSafe for the full rationale. Mirrors
+  // that quoting logic so RB tags never round-trip as non-strings.
+  if (!t) return '""';
+  if (/^-?\d+(?:\.\d+)?$/.test(t)) return JSON.stringify(t);
+  if (/^(true|false|null|yes|no|on|off|~)$/i.test(t)) return JSON.stringify(t);
+  if (/[:#&*!|>'"%@`,\[\]{}?]/.test(t)) return JSON.stringify(t);
+  if (/^[-\s?:!&*|>%@`]/.test(t)) return JSON.stringify(t);
+  if (/^\s|\s$/.test(t)) return JSON.stringify(t);
+  if (/\s-\s/.test(t)) return JSON.stringify(t);
+  return t;
+}
+
 function normaliseTags(rbTags) {
   if (!rbTags) return [];
   return rbTags
@@ -155,7 +168,10 @@ function buildYamlEntry(s, id) {
   if (s.bitrate && s.bitrate > 0) lines.push(`  bitrate: ${s.bitrate}`);
   if (s.codec) lines.push(`  codec: ${s.codec.toUpperCase()}`);
   const tags = normaliseTags(s.tags);
-  if (tags.length > 0) lines.push(`  tags: [${tags.join(', ')}]`);
+  // Per-tag quote: bare numerics ("70", "11.11") and YAML reserved
+  // forms (true/false/null, leading "-", "#", etc.) would round-trip
+  // as non-strings and crash downstream `t.toLowerCase()` calls.
+  if (tags.length > 0) lines.push(`  tags: [${tags.map(yamlTag).join(', ')}]`);
   if (s.favicon) lines.push(`  favicon: ${s.favicon}`);
   if (s.homepage) lines.push(`  homepage: ${s.homepage}`);
   if (s.country) lines.push(`  country: ${s.country}`);
