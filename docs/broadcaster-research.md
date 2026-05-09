@@ -1462,6 +1462,113 @@ Note: the character encoding issue makes `fetchWdrMetadata` slightly more comple
 
 ---
 
+## sveriges-radio — Sveriges Radio (SE)
+
+Investigated: 2026-05-09.
+
+### Channel-ID mapping
+
+| Channel | ID | Notes |
+|---|---|---|
+| P1 | 132 | National talk/news |
+| P2 (Språk och musik) | 163 | Classical + language |
+| P2 Musik | 2562 | Classical music stream |
+| P3 | 164 | Pop / youth |
+| P4 Stockholm | 701 | Regional (most-listened P4 variant) |
+| P4 Göteborg | 212 | Regional |
+| P4 Malmöhus | 207 | Regional |
+| P4 Norrbotten | 209 | Regional |
+| P4 Plus | 4951 | Digital extra |
+| P6 | 166 | International / minority languages |
+| SR Sápmi | 224 | Sami-language service |
+| Sveriges Radio Finska | 226 | Finnish-language service |
+| P3 Din gata | 2576 | Digital pop sub-channel |
+| Ekot sänder direkt | 4540 | News live |
+
+Full channel list (54 entries including SR Extra01–15) available in `data/metadata-discovery/sveriges-radio-channels.json`.
+
+### Endpoints
+
+| What | URL template | Auth | CORS | Sample |
+|---|---|---|---|---|
+| Now-playing (current + previous song) | `https://api.sr.se/api/v2/playlists/rightnow?channelid=<id>&format=json` | none | `*` | `data/metadata-discovery/sveriges-radio-playlist-rightnow-p3.json` |
+| Now-playing P2 Musik (classical, richer) | `https://api.sr.se/api/v2/playlists/rightnow?channelid=2562&format=json` | none | `*` | `data/metadata-discovery/sveriges-radio-playlist-rightnow-p2musik.json` |
+| Programme now/prev/next (schedule episode) | `https://api.sr.se/api/v2/scheduledepisodes/rightnow?channelid=<id>&format=json` | none | `*` | `data/metadata-discovery/sveriges-radio-scheduledepisodes-rightnow-p1.json` |
+| Full-day schedule | `https://api.sr.se/api/v2/scheduledepisodes?channelid=<id>&format=json&date=YYYY-MM-DD` | none | `*` | `data/metadata-discovery/sveriges-radio-schedule-p3.json` |
+| Channel list | `https://api.sr.se/api/v2/channels?format=json&pagination=false` | none | `*` | `data/metadata-discovery/sveriges-radio-channels.json` |
+| Track history (`/playlists`) | `https://api.sr.se/api/v2/playlists?channelid=<id>&format=json` | none | `*` | 500 Server Error — requires `startdatetime` param; exact format unclear |
+
+### Response shape
+
+#### `/playlists/rightnow` (music channels)
+
+```
+playlist.song           — current track (absent on talk/news channels or between tracks)
+  .title                → track title
+  .artist               → artist name
+  .composer             → composer (especially classical — P2/P2 Musik)
+  .conductor            → conductor (P2 Musik, e.g. "Herbert von Karajan")
+  .albumname            → album
+  .recordlabel          → label
+  .producer             → ensemble (P2 Musik, e.g. "Berlins filharmoniker")
+  .starttimeutc         → "/Date(1778315850000)/" — Unix ms wrapped, needs stripping
+  .stoptimeutc          → same format
+playlist.previoussong   — same shape as .song, always present when a song just finished
+playlist.channel.id     → numeric channel id
+playlist.channel.name   → channel name string
+```
+
+Note: `playlist.song` is absent when nothing is currently playing (between tracks, news segments). P1/P3 often show only `previoussong` during talk segments. Timestamps use Microsoft `/Date(ms)/` format; parse with `parseInt(s.replace(/^\/Date\((\d+)\)\/$/, '$1'), 10)`.
+
+#### `/scheduledepisodes/rightnow`
+
+```
+channel.currentscheduledepisode  — current programme slot
+  .episodeid
+  .title                → programme episode title
+  .subtitle             → episode subtitle (e.g. "med Branne Pavlovic och Jens Falk")
+  .description          → long description
+  .starttimeutc         → "/Date(ms)/" format
+  .endtimeutc           → same
+  .program.id           → programme series id
+  .program.name         → series name
+  .socialimage          → square cover art URL (CDN: static-cdn.sr.se)
+channel.previousscheduledepisode — same shape
+channel.nextscheduledepisode     — same shape
+```
+
+#### `/scheduledepisodes` (full-day)
+
+Array under `schedule[]`. Each episode: `episodeid`, `title`, `description`, `starttimeutc`, `endtimeutc`, `program.{id,name}`, `imageurl`, `imageurltemplate`, `channel.{id,name}`. The `imageurltemplate` is the base URL without preset; append `?preset=api-default-square` for a square crop.
+
+### Wirable today?
+
+✅ **Both endpoints are directly wirable** — HTTPS, CORS `*`, no auth, no proxy needed. This is among the most complete broadcaster APIs in the catalog: track + artist + album for music channels, programme cover art via the schedule endpoint, and unusually rich classical metadata (conductor, ensemble, label) on P2 Musik.
+
+### Suggested fetcher
+
+New shape — needs its own `fetchSverigesRadioMetadata` in `src/builtins.ts`.
+
+**Strategy**: fetch both endpoints in parallel (`playlists/rightnow` + `scheduledepisodes/rightnow`). Merge:
+- If `playlist.song` present → use `song.title` / `song.artist` as track + artist. For classical channels, fold `conductor` + `albumname` into a program subtitle.
+- If `playlist.song` absent → track = undefined; surface `currentscheduledepisode.title` as programme name.
+- Use `currentscheduledepisode.socialimage` as `coverUrl` when no per-track cover is available (playlist endpoint has no image URLs; only schedule endpoint returns images).
+- Parse `/Date(ms)/` timestamps via `parseInt(s.replace(/^\/Date\((\d+)\)\/$/, '$1'), 10)`.
+- `metadataUrl` on each station = bare channel ID (numeric string, e.g. `"132"`). The fetcher derives both endpoint URLs from it. Matches the BBC/FFH pattern.
+
+Closest analogue: `fetchCroMetadata` (ČRo) — parallel now + schedule fetch, merge result.
+
+### Notes
+
+- **`cache-control: public,max-age=60`** on `playlists/rightnow` — poll no faster than 60 s.
+- **`cache-control: public,max-age=10`** on `scheduledepisodes/rightnow` — updates faster, but playlist cache constrains effective cadence.
+- **`previoussong` only**: when P3/P4 is between songs only `previoussong` appears. Do NOT surface it as "now playing" (it already ended) — return null for track and fall through to programme info.
+- **P4 regional**: 22+ P4 regional variants, all unique IDs. Wire Stockholm (701), Göteborg (212), Malmöhus (207) to cover the catalog; others can use `stream-only` or ICY.
+- **Talk channels (P1, P6, Ekot)**: `playlist.song` is almost never populated. Programme info from `scheduledepisodes/rightnow` is the only metadata available — still worthwhile.
+- **ToS**: SR's public API is documented at `https://api.sr.se/` with an explicit note that it is free for use. No rate-limit headers observed beyond `max-age`. No API key required. Attribution ("Sveriges Radio") per their ToS.
+
+---
+
 ## soma-fm — SomaFM (US)
 
 Investigated: 2026-05-09.
