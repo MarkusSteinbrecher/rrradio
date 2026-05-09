@@ -76,7 +76,11 @@ final class CloudKitSyncStore: CloudSyncStoring {
     private let container: CKContainer
     private let database: CKDatabase
 
-    convenience init(containerIdentifier: String = CloudKitSyncStore.containerIdentifier) {
+    convenience init() {
+        self.init(containerIdentifier: CloudKitSyncStore.containerIdentifier)
+    }
+
+    convenience init(containerIdentifier: String) {
         self.init(container: CKContainer(identifier: containerIdentifier))
     }
 
