@@ -1702,3 +1702,230 @@ Once wired, set `metadata: soma-fm` on the broadcaster entry in `broadcasters.ya
 - **ToS**: SomaFM is a listener-supported internet-only broadcaster that actively publishes this API for third-party integrations. No restrictive ToS found for the songs/channels endpoints. Appropriate to use with reasonable polling cadence.
 
 ---
+
+## rte — Raidió Teilifís Éireann (IE)
+
+Investigated: 2026-05-09.
+
+### Channels in catalog
+
+| Station | Status before | stationId (live_stations) | Schedule slug |
+|---|---|---|---|
+| RTÉ Radio 1 | `fetcher-todo` | 9 | `radio1` |
+| RTÉ 2FM | `fetcher-todo` | 1 | `2fm` |
+| RTÉ Lyric FM | `fetcher-todo` | 16 | `lyricfm` |
+| RTÉ Raidió na Gaeltachta | `fetcher-todo` | 17 | `rnag` |
+| RTÉ Gold | `fetcher-todo` | 22 | `gold` |
+| RTÉ Pulse | `fetcher-todo` | — (not in live_stations) | `pulse` |
+| RTÉ 2XM | `fetcher-todo` | — (not in live_stations) | `2xm` |
+| RTÉ Junior | `fetcher-todo` | — (not in live_stations) | `junior` |
+
+### Discovery method
+
+RTÉ's radio pages load an Angular SPA bundle (`/djstatic/dotie/radio/js/angular/web-components-app/main.js`).
+The bundle was fetched and grepped for API path strings. Two machine-readable endpoints were
+found. The Icecast server at `icecast.rte.ie` was also probed directly via its standard
+`/status-json.xsl` path. No track-level JSON API was found after exhaustive probing.
+
+### Endpoints
+
+| What | URL template | Auth | CORS | Sample |
+|---|---|---|---|---|
+| Live stations (programme-level, 5 channels) | `https://www.rte.ie/radio/live_stations/json` | none | **none** | `data/metadata-discovery/rte-live-stations.json` |
+| Programme schedule (per-channel, per-day) | `https://www.rte.ie/radio/<slug>/schedule/<YYYYMMDD>/` | none | **none** | `data/metadata-discovery/rte-schedule-radio1.json` |
+| Icecast server status (all mounts) | `https://icecast.rte.ie/status-json.xsl` | none | n/a (server status page) | `data/metadata-discovery/rte-icecast-status.json` |
+
+**No track-level now-playing API found.** Icecast `title` fields are empty strings for all
+mounts. The Angular bundle contains no artist/track/cover fields — it is exclusively a
+programme schedule widget.
+
+**CORS:** Neither `live_stations/json` nor the schedule endpoint returns
+`Access-Control-Allow-Origin`. Both would require the worker proxy for browser-side fetch.
+
+**Channel mapping** from the Angular bundle logos object and `live_stations/json` response:
+
+| Channel | `stationId` | Icecast mount | Schedule slug |
+|---|---|---|---|
+| RTÉ Radio 1 | 9 | `/radio1` | `radio1` |
+| RTÉ 2FM | 1 | `/2fm` | `2fm` |
+| RTÉ Lyric FM | 16 | `/lyric` | `lyricfm` |
+| RTÉ Raidió na Gaeltachta | 17 | `/rnag` | `rnag` |
+| RTÉ Gold | 22 | `/gold` | `gold` |
+| RTÉ Pulse | — | — | `pulse` (schedule 200 OK, empty today) |
+| RTÉ 2XM | — | — | `2xm` (schedule 200 OK, empty today) |
+| RTÉ Junior | — | — | `junior` (schedule 200 OK, empty today) |
+
+Pulse, 2XM, and Junior are absent from the `live_stations/json` response and have no Icecast
+mount. Their schedule endpoints return empty arrays on the day investigated — they may be
+primarily music-relay / digital-only channels with lighter EPG coverage.
+
+### Response shape — `live_stations/json`
+
+```json
+{
+  "stations": [
+    {
+      "id": 9,
+      "slug": "radio1",
+      "name": "RTÉ Radio 1",
+      "url": "/radio/radio1/",
+      "logoSvgUrl": "https://www.rte.ie/static/dotie/radio-logos/RTE-Radio1.svg",
+      "accentColour": "#57a9d3",
+      "liveListing": {
+        "stationId": 9,
+        "showName": "Playback",
+        "showDate": "2026-05-09T09:00:00",
+        "showEndDate": "2026-05-09T10:00:00",
+        "showDescription": "Sinéad Mooney brings you the best of the week's wireless…",
+        "showImage1x1": "https://www.rte.ie/images/0023f37a.jpg",
+        "showImage16x9": "https://www.rte.ie/images/0023f381.jpg",
+        "showUrl": "/radio/radio1/playback/",
+        "genre": "FACTUAL"
+      }
+    }
+  ]
+}
+```
+
+**Field mappings (programme-level):**
+- Programme name → `liveListing.showName`
+- Programme description → `liveListing.showDescription`
+- Programme art (1:1) → `liveListing.showImage1x1`
+- Programme art (16:9) → `liveListing.showImage16x9`
+- Programme start → `liveListing.showDate` (ISO 8601 local time, no TZ offset)
+- Programme end → `liveListing.showEndDate`
+- Channel logo (SVG) → `logoSvgUrl`
+
+**No track-level (artist/title/album) data.** The `live_stations/json` payload is
+programme-schedule information only.
+
+### Response shape — schedule endpoint
+
+URL: `https://www.rte.ie/radio/<slug>/schedule/<YYYYMMDD>/`
+
+The Angular component builds this URL as:
+`window.location.protocol + window.location.host + window.location.pathname + dates[index].url`
+where `dates[index].url = "schedule/<YYYYMMDD>/"`.
+
+The response is an array of time-block groups, each with a `data` array of programme entries:
+
+```json
+[
+  {
+    "active": "active active-bg",
+    "data": [
+      {
+        "image": "https://www.rte.ie/images/0023f38b-100.jpg",
+        "showName": "CountryWide",
+        "showDate": "Saturday 09 May",
+        "showTime": "08:00",
+        "showEndDate": "2026-05-09 09:00:00",
+        "is_last": true,
+        "is_now": false,
+        "is_next": false,
+        "showUrl": "https://www.rte.ie/radio/radio1/countrywide/"
+      }
+    ]
+  }
+]
+```
+
+**Field mappings:**
+- Programme name → `data[i].showName`
+- Programme start → `data[i].showTime` (HH:MM, local)
+- Programme end → `data[i].showEndDate` (datetime string, local)
+- Programme art (thumbnail, ~100px) → `data[i].image`
+- Current programme indicator → `data[i].is_now` (boolean)
+- Previous programme → `data[i].is_last`
+- Next programme → `data[i].is_next`
+
+**No track-level data.** This is a flattened programme EPG widget response.
+
+### Response shape — Icecast status (`/status-json.xsl`)
+
+Lists 11 mounts: `/2fm`, `/2fm_proctest`, `/gold`, `/gold_proctest`, `/ie2fm`, `/ieradio1`,
+`/lyric`, `/radio1`, `/radio1_proctest`, `/rnag`, `/test`. The `title` field is `""` (empty
+string) for all mounts — RTÉ does not inject ICY track metadata into the stream. The Icecast
+server is using a custom server ID `"RSAS"` (not the standard Icecast version string).
+
+### Wirable today?
+
+| Signal | Status | Verdict |
+|---|---|---|
+| Track artist + title | ❌ not found anywhere | No track API exists |
+| Cover art (per-track) | ❌ not available | No track data → no track art |
+| Programme name + art | ⚠️ **via-worker** | `live_stations/json` has it — no CORS, needs proxy |
+| Programme schedule (EPG) | ⚠️ **via-worker** | Per-channel `/schedule/<YYYYMMDD>/` — no CORS, needs proxy |
+| Channel logo SVG | ✅ | Embedded in `live_stations/json`, absolute URL, open |
+| ICY metadata | ❌ | Icecast `title` always empty |
+
+Overall: ⚠️ **partial, via-worker.** Programme-level wirable via proxy for 5 main channels.
+Track-level not available from any RTÉ endpoint found. RTÉ Radio 1, RnaG, and Junior are
+primarily talk/children's — no music metadata expected. 2FM, Lyric, Gold, Pulse, 2XM are
+music channels where track metadata would be valuable but the broadcaster does not expose it.
+
+### Suggested fetcher
+
+**Programme-level only.** New `fetchRteMetadata` in `src/builtins.ts`. Closest analogues:
+`fetchSrMetadata` (programme-only, no tracks) and `fetchRaiMetadata` (single endpoint
+covers all channels, programme art embedded).
+
+Since `live_stations/json` returns all 5 main channels in one response, cache it and
+look up by `stationId` (same shared-fetch pattern as FFH and RAI):
+
+1. Fetch `https://www.rte.ie/radio/live_stations/json` via worker proxy (no CORS).
+2. `station.metadataUrl` stores the `stationId` as a string (e.g. `"9"` for Radio 1).
+3. Find `stations.find(s => String(s.id) === station.metadataUrl)`.
+4. Extract `liveListing.showName` → programme name.
+5. Extract `liveListing.showDescription` → programme subtitle (optional).
+6. Extract `liveListing.showImage1x1` → cover URL.
+7. Extract `liveListing.showDate` / `showEndDate` → schedule window.
+8. Return `{ track: undefined, raw: '', program: { name, subtitle }, coverUrl }`.
+
+For Pulse, 2XM, and Junior (absent from `live_stations/json`), the schedule endpoint
+`/radio/<slug>/schedule/<YYYYMMDD>/` returns programme data — but also needs a proxy.
+A schedule fetcher could be built from this if those channels are ever upgraded.
+
+Add to worker proxy allowlist in `worker/src/index.ts`:
+```
+^https://www\.rte\.ie/radio/live_stations/json$
+```
+
+Register as `rte` in `FETCHERS_BY_KEY` and `SCHEDULE_FETCHERS` maps.
+
+### Notes
+
+- **No track-level API.** After exhaustive investigation (Angular bundle grep, Icecast status,
+  `live_stations/json` inspection, schedule endpoint inspection, multiple API URL probes),
+  no JSON endpoint exposing artist/title/cover for currently playing music was found.
+  RTÉ's web player relies on programme-level EPG data only — consistent with RTÉ being
+  primarily a public-service talk/news broadcaster (Radio 1, RnaG) and music channels
+  that apparently do not publish a real-time track feed.
+- **CORS absent from all endpoints.** Neither `live_stations/json` nor the schedule endpoint
+  returns CORS headers, even with an `Origin` request header sent. A worker proxy entry
+  is required for both.
+- **Pulse, 2XM, Junior not in `live_stations/json`.** These three channels have no `stationId`
+  in the Angular app's logo map or the live_stations response. Their schedule endpoints exist
+  but returned empty arrays on 2026-05-09. They may be low-editorial-priority channels with
+  sparse EPG coverage. Programme data for those channels is not reliably available via the
+  discovered API.
+- **Icecast `title` fields are empty.** The streams at `icecast.rte.ie` do not emit ICY
+  metadata. Channels at `status: icy-only` in the catalog will not show track info.
+- **`live_stations/json` refreshes on a 60 s `s-maxage` CDN cache** (observed in response
+  headers: `cache-control: max-age=0, s-maxage=60`). A 60 s poll cadence respects the
+  broadcaster's own update frequency for this endpoint.
+- **Channel logo SVGs** are served from `https://www.rte.ie/static/dotie/radio-logos/`
+  with no CORS requirement. Available: `RTE-Radio1.svg`, `2fm.svg`, `lyricFM.svg`,
+  `RnaG.svg`, `RTE-Gold.svg`. These could be used as `favicon` overrides in `stations.yaml`.
+- **Dates object in Angular component** reveals the schedule URL pattern and confirms
+  a 21-day lookback + 21-day lookahead window of schedule data is served.
+- **`ieradio1` and `ie2fm` Icecast mounts** are geo-restricted variants (the `ie` prefix
+  is likely an Ireland-only redundancy stream or internal relay). Listener counts were 0
+  and 5 respectively at time of capture; the primary streams (`/radio1`, `/2fm`) had 3
+  and 26 listeners.
+- **No rate-limit headers** observed on any endpoint. The RTÉ site runs on Cloudflare CDN.
+- **ToS:** RTÉ is Ireland's national public broadcaster funded by the licence fee. No
+  explicit API ToS found; the endpoints are served publicly and called by every rte.ie
+  visitor. Reasonable polling cadence (60 s for `live_stations/json`) is appropriate.
+
+---
