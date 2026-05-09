@@ -8,6 +8,12 @@ import Observation
 @Observable
 @MainActor
 final class Library {
+    enum Change {
+        case favorites
+        case customStations
+        case recents
+    }
+
     private enum Keys {
         static let favorites = "rrradio.favorites.v2"
         static let recents = "rrradio.recents.v2"
@@ -20,6 +26,7 @@ final class Library {
     private(set) var favorites: [Station]
     private(set) var recents: [Station]
     private(set) var customStations: [Station]
+    @ObservationIgnored var onChange: ((Change) -> Void)?
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
@@ -130,13 +137,23 @@ final class Library {
 
     private func writeFavorites() {
         Self.writeStations(favorites, key: Keys.favorites, to: defaults)
+        onChange?(.favorites)
     }
 
     private func writeRecents() {
         Self.writeStations(recents, key: Keys.recents, to: defaults)
+        onChange?(.recents)
     }
 
     private func writeCustom() {
+        Self.writeStations(customStations, key: Keys.custom, to: defaults)
+        onChange?(.customStations)
+    }
+
+    func applyCloudSync(favorites nextFavorites: [Station], customStations nextCustomStations: [Station]) {
+        favorites = nextFavorites
+        customStations = nextCustomStations
+        Self.writeStations(favorites, key: Keys.favorites, to: defaults)
         Self.writeStations(customStations, key: Keys.custom, to: defaults)
     }
 

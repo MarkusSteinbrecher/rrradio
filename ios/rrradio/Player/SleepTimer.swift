@@ -6,13 +6,14 @@ import Observation
 @Observable
 @MainActor
 final class SleepTimer {
-    static let cycleMinutes = [0, 30, 60, 90]
-    static let defaultMinutesKey = "rrradio.sleep.defaultMinutes.v1"
-    static let fallbackDefaultMinutes = 30
+    nonisolated static let cycleMinutes = [0, 30, 60, 90]
+    nonisolated static let defaultMinutesKey = "rrradio.sleep.defaultMinutes.v1"
+    nonisolated static let fallbackDefaultMinutes = 30
 
     private let defaults: UserDefaults
     private(set) var minutes: Int = 0
     private(set) var firesAt: Date?
+    @ObservationIgnored var onDefaultChanged: (() -> Void)?
 
     @ObservationIgnored
     private var timer: Timer?
@@ -51,6 +52,12 @@ final class SleepTimer {
     }
 
     func setDefaultMinutes(_ next: Int) {
+        guard next > 0 else { return }
+        defaults.set(next, forKey: Self.defaultMinutesKey)
+        onDefaultChanged?()
+    }
+
+    func applyCloudSyncDefaultMinutes(_ next: Int) {
         guard next > 0 else { return }
         defaults.set(next, forKey: Self.defaultMinutesKey)
     }

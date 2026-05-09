@@ -79,6 +79,7 @@ private struct SettingsPageView: View {
     @Environment(CarModeController.self) private var carMode
     @Environment(ListeningHistory.self) private var listeningHistory
     @Environment(Diagnostics.self) private var diagnostics
+    @Environment(CloudSyncController.self) private var cloudSync
     @AppStorage(LandingPage.storageKey) private var landingPageRaw = LandingPage.browse.rawValue
     @AppStorage(LandingPage.stationIDKey) private var landingStationID = ""
     @AppStorage(WakeAlarm.defaultTimeKey) private var defaultWakeTime = WakeAlarm.fallbackDefaultTime
@@ -86,6 +87,7 @@ private struct SettingsPageView: View {
     @Binding var page: SettingsPage
     @State private var landingStationQuery = ""
     @State private var copiedDiagnostics = false
+    @State private var confirmCloudDelete = false
 
     var body: some View {
         ScrollView {
@@ -99,6 +101,10 @@ private struct SettingsPageView: View {
                         .background(RrradioTheme.bg2)
                         .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
                         .clipShape(RoundedRectangle(cornerRadius: 8))
+                    }
+
+                    settingsSection("iCloud Sync") {
+                        cloudSyncSection
                     }
 
                     settingsSection(locale.text(.landingPage)) {
@@ -184,6 +190,109 @@ private struct SettingsPageView: View {
             .padding(.horizontal, 24)
             .padding(.top, 20)
             .padding(.bottom, 32)
+        }
+        .alert("Remove iCloud data?", isPresented: $confirmCloudDelete) {
+            Button(locale.text(.cancel), role: .cancel) {}
+            Button("Remove", role: .destructive) {
+                Task { await cloudSync.removeAllCloudData() }
+            }
+        } message: {
+            Text("This clears synced rrradio favorites, custom stations, and preferences from iCloud. iCloud-enabled devices will converge to an empty synced library.")
+        }
+    }
+
+    private var cloudSyncSection: some View {
+        VStack(spacing: 0) {
+            Toggle(isOn: Binding(
+                get: { cloudSync.isEnabled },
+                set: { cloudSync.setEnabled($0) },
+            )) {
+                HStack(spacing: 12) {
+                    Image(systemName: cloudSyncIcon)
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundStyle(cloudSync.availability == .available ? RrradioTheme.accent : RrradioTheme.ink3)
+                        .frame(width: 22)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Sync favorites with iCloud")
+                            .font(.system(size: 15, weight: .medium))
+                            .foregroundStyle(RrradioTheme.ink)
+                        Text(cloudSyncDetail)
+                            .font(.system(size: 12))
+                            .foregroundStyle(RrradioTheme.ink3)
+                            .lineLimit(3)
+                    }
+                }
+                .padding(.vertical, 10)
+            }
+            .disabled(cloudSyncToggleDisabled)
+            .tint(RrradioTheme.accent)
+            .padding(.horizontal, 14)
+            .frame(minHeight: 68)
+            .overlay(alignment: .bottom) {
+                Rectangle()
+                    .fill(RrradioTheme.line)
+                    .frame(height: 1)
+            }
+
+            HStack(spacing: 10) {
+                diagnosticsButton(cloudSync.isSyncing ? "Syncing" : "Sync now", systemImage: "arrow.triangle.2.circlepath") {
+                    Task { await cloudSync.refreshFromCloud() }
+                }
+                .disabled(cloudSync.isSyncing || !cloudSync.isEnabled)
+
+                diagnosticsButton("iPhone Settings", systemImage: "gear") {
+                    cloudSync.openICloudSettings()
+                }
+            }
+            .font(.system(size: 12, weight: .semibold, design: .monospaced))
+            .padding(14)
+            .overlay(alignment: .bottom) {
+                Rectangle()
+                    .fill(RrradioTheme.line)
+                    .frame(height: 1)
+            }
+
+            Button(role: .destructive) {
+                confirmCloudDelete = true
+            } label: {
+                Label("Remove all rrradio data from iCloud", systemImage: "trash")
+                    .font(.system(size: 13, weight: .semibold))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 14)
+                    .frame(minHeight: 48)
+            }
+            .buttonStyle(.plain)
+            .foregroundStyle(RrradioTheme.favoriteFill)
+            .disabled(!cloudSync.isEnabled || cloudSync.isSyncing)
+        }
+        .background(RrradioTheme.bg2)
+        .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    private var cloudSyncIcon: String {
+        if !cloudSync.isEnabled { return "icloud.slash" }
+        return cloudSync.availability == .available ? "icloud.fill" : "icloud"
+    }
+
+    private var cloudSyncToggleDisabled: Bool {
+        cloudSync.isEnabled && cloudSync.availability != .available
+    }
+
+    private var cloudSyncDetail: String {
+        if !cloudSync.isEnabled {
+            return "Off for this device. Existing iCloud data is kept for other devices."
+        }
+        switch cloudSync.availability {
+        case .checking:
+            return "Checking iCloud availability..."
+        case .available:
+            if let lastSync = cloudSync.lastSync {
+                return "Favorites, custom stations, theme, language, and sleep timer defaults sync privately through iCloud. Last sync: \(lastSync.formatted(date: .omitted, time: .shortened))."
+            }
+            return "Favorites, custom stations, theme, language, and sleep timer defaults sync privately through iCloud."
+        case let .unavailable(message):
+            return message
         }
     }
 

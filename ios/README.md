@@ -25,6 +25,9 @@ What works in this scaffold:
 - Plays any station via `AVPlayer` — MP3, AAC, HLS all handled.
 - Favorites + recents persisted locally in `UserDefaults`.
 - Add custom HTTPS streams, saved locally and playable immediately.
+- iCloud sync for favorites, custom stations, theme, language, and
+  default sleep timer. CloudKit uses the user's private iCloud
+  database; when iCloud is unavailable the app stays local-only.
 - Sleep timer cycles through off / 15 / 30 / 60 / 90 minutes and
   pauses playback when it fires.
 - Lock-screen now-playing card via `MPNowPlayingInfoCenter` +
@@ -106,6 +109,10 @@ rrradio/
   Library/
     Library.swift            — UserDefaults-backed favorites + recents
     CustomStationBuilder.swift — HTTPS-only custom station validation
+  CloudSync/
+    CloudSyncController.swift — iCloud availability, sync lifecycle
+    CloudSyncStore.swift      — CloudKit private database adapter
+    CloudSyncSnapshot.swift   — merge model + conflict behavior
   Search/
     Search.swift             — normalizeForSearch + stationMatches
     StationFilters.swift     — country/tag option extraction + matching
@@ -152,6 +159,8 @@ Test targets:
   follow-up.
 - **LibraryTests** — favorites persistence, reordering, recent dedupe
   and limit, custom station persistence.
+- **CloudSyncMergeTests** — local/iCloud favorites union, custom
+  station merge, and remote favorite order conflict behavior.
 - **CustomStationBuilderTests** — custom stream validation, HTTPS-only
   rule, tag/country normalization.
 - **SearchTests** — `normalizeForSearch` + `stationMatches` parity

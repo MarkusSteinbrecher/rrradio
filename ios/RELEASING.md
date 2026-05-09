@@ -79,9 +79,30 @@ Once enrolled in the Developer Program:
 4. **Capabilities** — tick:
    - **Background Modes** (the `UIBackgroundModes: [audio]` from the
      Info.plist needs the corresponding entitlement).
-   - Nothing else is needed for v0.1. (Push notifications, iCloud,
-     Game Center, etc. — none apply yet.)
+   - **iCloud → CloudKit**. Add container
+     `iCloud.ios.rrradio.org` and keep it aligned with
+     `ios/rrradio/Resources/rrradio.entitlements`.
 5. Continue → Register.
+
+### CloudKit schema
+
+Before TestFlight builds exercise iCloud sync, open CloudKit Console
+for `iCloud.ios.rrradio.org` and create these private database record
+types in the Development environment:
+
+- `Favorite`: `stationId` String, `stationData` Bytes, `addedAt`
+  Date/Time.
+- `FavoritesOrder`: `stationIds` List<String>.
+- `CustomStationsIndex`: `stationIds` List<String>.
+- `CustomStation`: `stationId` String, `stationData` Bytes.
+- `Preferences`: `theme` String, `locale` String,
+  `sleepTimerDefaultMinutes` Int64.
+- `SyncState`: `resetAt` Date/Time.
+
+After a real-device TestFlight smoke test can read/write those records,
+promote the Development schema to Production in CloudKit Console
+before submitting an App Store build. Treat schema changes after that
+as additive.
 
 ---
 

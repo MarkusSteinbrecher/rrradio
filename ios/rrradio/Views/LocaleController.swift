@@ -46,6 +46,7 @@ final class LocaleController {
     private let defaults: UserDefaults
     private let key = "rrradio.locale"
     private(set) var choice: Choice
+    @ObservationIgnored var onChange: (() -> Void)?
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
@@ -61,6 +62,12 @@ final class LocaleController {
     }
 
     func setChoice(_ newChoice: Choice) {
+        choice = newChoice
+        defaults.set(newChoice.rawValue, forKey: key)
+        onChange?()
+    }
+
+    func applyCloudSync(_ newChoice: Choice) {
         choice = newChoice
         defaults.set(newChoice.rawValue, forKey: key)
     }

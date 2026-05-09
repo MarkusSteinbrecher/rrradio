@@ -16,6 +16,7 @@ struct rrradioApp: App {
     @State private var carMode = CarModeController()
     @State private var listeningHistory = ListeningHistory()
     @State private var diagnostics = Diagnostics.shared
+    @State private var cloudSync = CloudSyncController()
 
     var body: some Scene {
         WindowGroup {
@@ -30,13 +31,24 @@ struct rrradioApp: App {
                 .environment(carMode)
                 .environment(listeningHistory)
                 .environment(diagnostics)
+                .environment(cloudSync)
                 .preferredColorScheme(theme.preferredColorScheme)
                 .onAppear {
                     diagnostics.record("app", "appeared")
                     player.setListeningHistory(listeningHistory)
+                    cloudSync.configure(
+                        library: library,
+                        theme: theme,
+                        locale: locale,
+                        sleepTimer: sleepTimer,
+                        diagnostics: diagnostics,
+                    )
                 }
                 .onChange(of: scenePhase) { _, phase in
                     diagnostics.record("app", "scene phase", details: ["phase": "\(phase)"])
+                    if phase == .active {
+                        Task { await cloudSync.refreshFromCloud() }
+                    }
                 }
                 .task { await catalog.loadIfNeeded() }
         }

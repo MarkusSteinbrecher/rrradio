@@ -8,6 +8,7 @@ struct NowPlayingView: View {
     @Environment(WakeAlarm.self) private var wakeAlarm
     @Environment(LocaleController.self) private var locale
     @Environment(CarModeController.self) private var carMode
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
     @State private var detailsOpen = false
@@ -25,6 +26,8 @@ struct NowPlayingView: View {
         Group {
             if carMode.isActive {
                 carModeBody
+            } else if verticalSizeClass == .compact {
+                landscapeBody
             } else {
                 regularBody
             }
@@ -70,6 +73,203 @@ struct NowPlayingView: View {
             }
         }
         .background(RrradioTheme.bg.ignoresSafeArea())
+    }
+
+    private var landscapeBody: some View {
+        VStack(spacing: 0) {
+            landscapeStationBar
+
+            VStack(spacing: 0) {
+                GeometryReader { proxy in
+                    let artworkColumnWidth = min(320, max(268, proxy.size.width * 0.39))
+                    HStack(spacing: 0) {
+                        landscapeArtworkPanel(
+                            availableHeight: proxy.size.height,
+                            availableWidth: artworkColumnWidth,
+                        )
+                            .frame(width: artworkColumnWidth)
+                            .frame(maxHeight: .infinity)
+                            .background(RrradioTheme.bg)
+
+                        VStack(spacing: 0) {
+                            if hasProgram || hasLyrics {
+                                landscapePaneTabs
+                                    .padding(.top, 8)
+                                    .padding(.bottom, 8)
+                                    .background(RrradioTheme.bg)
+                            }
+
+                            landscapePaneContent
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    }
+                }
+
+                landscapeBottomBar
+            }
+        }
+        .background(RrradioTheme.bg.ignoresSafeArea())
+        .onAppear {
+            if hasProgram {
+                pane = .program
+            } else if hasLyrics {
+                pane = .lyrics
+            }
+        }
+    }
+
+    private var landscapeStationBar: some View {
+        ZStack {
+            Text(player.current?.name ?? locale.text(.noStation))
+                .font(.system(size: 17, weight: .medium))
+                .foregroundStyle(RrradioTheme.ink)
+                .multilineTextAlignment(.center)
+                .lineLimit(1)
+                .minimumScaleFactor(0.62)
+                .padding(.horizontal, 166)
+                .frame(maxWidth: .infinity)
+
+            HStack(spacing: 12) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.down")
+                        .font(.system(size: 18, weight: .medium))
+                        .foregroundStyle(RrradioTheme.ink2)
+                        .frame(width: 38, height: 38)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(locale.text(.dismissNowPlaying))
+
+                FaviconView(
+                    url: player.current?.favicon,
+                    stationName: player.current?.name ?? "",
+                    stationID: player.current?.id ?? "",
+                    size: 34,
+                )
+                .frame(width: 34, height: 34)
+
+                Spacer(minLength: 12)
+
+                HStack(spacing: 2) {
+                    musicServiceButtons
+                }
+
+                roundControlButton(favoriteIcon, label: favoriteIcon == "heart.fill" ? locale.text(.removeFavorite) : locale.text(.addFavorite)) {
+                    if let station = player.current {
+                        library.toggleFavorite(station)
+                    }
+                }
+                .disabled(player.current == nil)
+            }
+            .padding(.horizontal, 12)
+        }
+        .frame(height: 58)
+        .background(RrradioTheme.bg)
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(RrradioTheme.line)
+                .frame(height: 1)
+        }
+    }
+
+    private func landscapeArtworkPanel(availableHeight: CGFloat, availableWidth: CGFloat) -> some View {
+        let artworkSize = min(max(160, availableWidth - 18), max(160, availableHeight - 92))
+        return VStack(spacing: 8) {
+            Image(systemName: "photo.on.rectangle")
+                .font(.system(size: 16, weight: .medium))
+                .foregroundStyle(RrradioTheme.ink3)
+                .frame(width: 46, height: 32)
+                .overlay(Capsule().stroke(RrradioTheme.line))
+                .clipShape(Capsule())
+                .padding(.top, 8)
+
+            ArtworkView(
+                url: player.nowPlayingCoverUrl ?? player.current?.favicon,
+                stationName: player.current?.name ?? "",
+                stationID: player.current?.id ?? "",
+            )
+            .frame(width: artworkSize, height: artworkSize)
+            .padding(.top, 0)
+
+            VStack(spacing: 4) {
+                Text(trackTitle)
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(RrradioTheme.ink)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(3)
+                    .minimumScaleFactor(0.75)
+
+                Text(trackSubtitle)
+                    .font(.system(size: 12))
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(1)
+            }
+            .padding(.horizontal, 12)
+
+            Spacer(minLength: 0)
+        }
+    }
+
+    private var landscapeBottomBar: some View {
+        HStack(alignment: .center) {
+            playerStatusButton
+                .frame(minWidth: 98, maxWidth: .infinity, alignment: .leading)
+
+            Button {
+                player.toggle()
+            } label: {
+                ZStack {
+                    Circle()
+                        .fill(RrradioTheme.accent)
+                        .overlay(Circle().stroke(RrradioTheme.accent))
+                        .shadow(color: RrradioTheme.accent.opacity(0.18), radius: 14)
+                    if player.state == .loading {
+                        LoadingDots()
+                            .foregroundStyle(RrradioTheme.bg)
+                    } else {
+                        Image(systemName: player.state == .playing ? "pause.fill" : "play.fill")
+                            .font(.system(size: 19, weight: .semibold))
+                            .foregroundStyle(RrradioTheme.bg)
+                            .offset(x: player.state == .playing ? 0 : 2)
+                    }
+                }
+                .frame(width: 52, height: 52)
+            }
+            .buttonStyle(.plain)
+            .disabled(player.current == nil || player.state == .loading)
+            .accessibilityLabel(player.state == .playing ? locale.text(.pause) : locale.text(.play))
+
+            HStack(spacing: 14) {
+                roundControlButton(wakeAlarm.isArmed ? "alarm.fill" : "alarm", label: locale.text(.wakeToRadio)) {
+                    showingWakeAlarm = true
+                } chip: {
+                    wakeAlarm.isArmed ? wakeAlarm.chipText : nil
+                }
+                .disabled(player.current == nil && !wakeAlarm.isArmed)
+
+                roundControlButton(sleepTimer.isArmed ? "moon.zzz.fill" : "moon.zzz", label: locale.text(.sleepTimer)) {
+                    showingSleepTimer = true
+                } chip: {
+                    sleepTimer.isArmed ? sleepTimer.chipText : nil
+                }
+                .disabled(player.current == nil && !sleepTimer.isArmed)
+            }
+            .frame(maxWidth: .infinity, alignment: .trailing)
+        }
+        .padding(.horizontal, 12)
+        .padding(.top, 6)
+        .padding(.bottom, 2)
+        .background(RrradioTheme.bg)
+        .overlay(alignment: .top) {
+            Rectangle()
+                .fill(RrradioTheme.line)
+                .frame(maxWidth: .infinity)
+                .frame(height: 1)
+        }
+        .ignoresSafeArea(.container, edges: .bottom)
     }
 
     private var carModeBody: some View {
@@ -288,6 +488,50 @@ struct NowPlayingView: View {
         }
     }
 
+    @ViewBuilder
+    private var landscapePaneContent: some View {
+        if hasProgram || hasLyrics {
+            TabView(selection: $pane) {
+                if hasProgram {
+                    landscapeProgramPaneContent
+                        .tag(Pane.program)
+                }
+
+                if hasLyrics {
+                    landscapeLyricsPaneContent
+                        .tag(Pane.lyrics)
+                }
+            }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .onChange(of: hasProgram) { _, hasProgram in
+                if !hasProgram && pane == .program {
+                    pane = hasLyrics ? .lyrics : .now
+                } else if hasProgram && pane == .now {
+                    pane = .program
+                }
+            }
+            .onChange(of: hasLyrics) { _, hasLyrics in
+                if !hasLyrics && pane == .lyrics {
+                    pane = hasProgram ? .program : .now
+                } else if hasLyrics && pane == .now && !hasProgram {
+                    pane = .lyrics
+                }
+            }
+        } else {
+            landscapeNowPaneContent
+        }
+    }
+
+    private var landscapePaneTabs: some View {
+        HStack(spacing: 8) {
+            paneButton("calendar", title: programTabTitle, pane: .program, enabled: hasProgram)
+            paneButton("text.quote", title: locale.text(.lyrics), pane: .lyrics, enabled: hasLyrics)
+        }
+        .frame(height: 32)
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, 16)
+    }
+
     private func paneScroll<Content: View>(@ViewBuilder content: () -> Content) -> some View {
         ScrollView {
             content()
@@ -309,6 +553,39 @@ struct NowPlayingView: View {
         }
     }
 
+    private var landscapeNowPaneContent: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 14) {
+                Text(trackTitle)
+                    .font(.system(size: 24, weight: .medium))
+                    .foregroundStyle(RrradioTheme.ink)
+                    .lineLimit(3)
+                    .minimumScaleFactor(0.7)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                Text(trackSubtitle)
+                    .font(.system(size: 15))
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .lineLimit(2)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                if let station = player.current {
+                    VStack(spacing: 10) {
+                        detailRow(locale.text(.stream), station.streamUrl.absoluteString)
+                        detailRow(locale.text(.countryDetail), countryDetailText)
+                        detailRow(locale.text(.format), formatDetailText)
+                        detailRow(locale.text(.genres), genresDetailText)
+                    }
+                    .padding(.top, 10)
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 18)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .background(RrradioTheme.bg)
+    }
+
     private var programPaneContent: some View {
         ScrollViewReader { proxy in
             ScrollView {
@@ -317,6 +594,32 @@ struct NowPlayingView: View {
                     .padding(.vertical, 18)
                     .frame(maxWidth: .infinity)
             }
+            .onAppear {
+                scrollToLiveProgram(using: proxy, animated: false)
+            }
+            .onChange(of: pane) { _, value in
+                if value == .program {
+                    scrollToLiveProgram(using: proxy)
+                }
+            }
+            .onChange(of: liveScheduleBroadcastID) { _, _ in
+                if pane == .program {
+                    scrollToLiveProgram(using: proxy)
+                }
+            }
+        }
+    }
+
+    private var landscapeProgramPaneContent: some View {
+        ScrollViewReader { proxy in
+            ScrollView {
+                programBlock
+                    .padding(.horizontal, 16)
+                    .padding(.top, 16)
+                    .padding(.bottom, 18)
+                    .frame(maxWidth: .infinity, alignment: .top)
+            }
+            .background(RrradioTheme.bg)
             .onAppear {
                 scrollToLiveProgram(using: proxy, animated: false)
             }
@@ -360,7 +663,7 @@ struct NowPlayingView: View {
 
     private var paneTabs: some View {
         HStack(spacing: 8) {
-            paneButton("music.note", title: locale.text(.now), pane: .now, enabled: true)
+            paneButton("photo.on.rectangle", title: locale.text(.now), pane: .now, enabled: true)
             paneButton("calendar", title: programTabTitle, pane: .program, enabled: hasProgram)
             paneButton("text.quote", title: locale.text(.lyrics), pane: .lyrics, enabled: hasLyrics)
         }
@@ -576,6 +879,26 @@ struct NowPlayingView: View {
                 lyricsBlock
                     .padding(.horizontal, 24)
                     .padding(.top, 16)
+                    .padding(.bottom, 18)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .background(RrradioTheme.bg)
+    }
+
+    private var landscapeLyricsPaneContent: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            lyricsHeader
+                .padding(.horizontal, 16)
+                .padding(.top, 14)
+                .padding(.bottom, 10)
+                .background(RrradioTheme.bg)
+
+            ScrollView {
+                lyricsBlock
+                    .padding(.horizontal, 16)
+                    .padding(.top, 14)
                     .padding(.bottom, 18)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
