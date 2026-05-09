@@ -343,3 +343,152 @@ are CORS-open so no proxy needed except rbb888).
 - ToS: RBB is a German public broadcaster (ARD). No explicit API ToS; the endpoints
   are served publicly from their CMS without authentication. Reasonable polling cadence
   (30–60 s) is appropriate.
+
+---
+
+## dlf — Deutschlandradio (DE)
+
+Investigated: 2026-05-09.
+
+### Channels in catalog
+
+| Channel | Site | Status before | Wirable? |
+|---|---|---|---|
+| Deutschlandfunk | `deutschlandfunk.de` | `icy-only` (no fetcher) | ❌ no JSON API found |
+| Deutschlandfunk Kultur | `deutschlandfunkkultur.de` | `icy-only` (no fetcher) | ❌ no JSON API found |
+| Deutschlandfunk Nova | `deutschlandfunknova.de` | `icy-only` (no fetcher) | ⚠️ via-worker |
+
+### Background
+
+Deutschlandradio operates three channels under one corporate umbrella but on entirely
+separate technical platforms:
+
+- **Deutschlandfunk (DLF)** and **Deutschlandfunk Kultur** share the Sophora CMS
+  (`deutschlandradio.de` umbrella), served as fully SSR-rendered pages. No client-side
+  JSON API for now-playing or programme data was found. Both are primarily news/talk/feature
+  stations; music is incidental and not the main content type.
+- **Deutschlandfunk Nova** runs a separate Node.js application on its own domain
+  (`deutschlandfunknova.de`) with a static CDN at `static.deutschlandfunknova.de`.
+  This is a music-focused digital-only station with a proper JSON onair endpoint.
+
+The `broadcasters.yaml` note "share an API" does not hold: only Nova has a usable
+now-playing API. DLF and DLF Kultur have no machine-readable equivalent.
+
+### Endpoints
+
+#### Deutschlandfunk Nova — now-playing
+
+| What | URL | Auth | CORS | Sample |
+|---|---|---|---|---|
+| Now-playing | `https://static.deutschlandfunknova.de/actions/dradio/playlist/onair` | none | **none** (needs proxy) | `data/metadata-discovery/dlfnova.json` |
+
+The endpoint is an S3 object served via CloudFront. `cache-control: max-age=15` (15 s).
+No `Access-Control-Allow-Origin` header is returned even with an `Origin` request header —
+direct browser fetch will be blocked. Requires the rrradio-stats Worker proxy.
+
+There is also a `onair_test` path (`/actions/dradio/playlist/onair_test`) referenced in
+the DLF Nova JS bundle, but it is not a stable production endpoint.
+
+#### Deutschlandfunk (main) and Deutschlandfunk Kultur
+
+No JSON now-playing or programme API found. Both sites use the Sophora CMS
+(`player.dist.js` is an identical 581 KB file on both), which renders programme data
+server-side. The `/musikliste` page on both sites shows past tracks but is SSR-only —
+no AJAX or JSON endpoint backs it.
+
+Alternatives investigated and ruled out:
+- `api.deutschlandradio.de` — DNS does not resolve.
+- ARD Audiothek GraphQL (`api.ardaudiothek.de`) — user-facing; no live now-playing query.
+- ARD Sounds (`ardsounds.de/api/programmes/dlf/current`) — 404.
+- Sophora REST/JSP patterns — no JSON endpoints found.
+- `programm.deutschlandradio.de` — DNS does not resolve.
+
+### Response shape — Deutschlandfunk Nova `/onair`
+
+```json
+{
+  "playlistItem": {
+    "title":     "Goodbye Mr A",           // track title
+    "artist":    "The Hoosiers",           // track artist
+    "type":      "Music",                  // "Music" | other (skip non-Music)
+    "length":    266928,                   // duration ms
+    "starttime": 1778307374,               // Unix seconds (NOT ms)
+    "stoptime":  1778307641,               // Unix seconds (NOT ms)
+    "cover":     "",                       // always empty string — no cover art
+    "services": {
+      "spotify": "", "lastfm": "", "itunes": "",
+      "soundcloud": "", "amazon": "", "deezer": "", "podcast": ""
+    }                                      // all empty in production
+  },
+  "presenter": {
+    "displayname": "Anke van de Weyer",
+    "url":    "https://www.deutschlandfunknova.de/profil/...",
+    "avatar": "https://static.deutschlandfunknova.de/transformations/profil/..."
+    // avatar is a presenter headshot, not a per-track cover
+  },
+  "show": {
+    "starttime": "1778306400",             // Unix seconds as string
+    "title":     "Deutschlandfunk Nova",   // show/programme name
+    "cover":     ""                        // always empty
+  }
+}
+```
+
+Field mapping:
+- `playlistItem.artist` → artist
+- `playlistItem.title` → track
+- `playlistItem.type` — skip if not `"Music"` (speech/podcast segments appear here)
+- `playlistItem.starttime` / `stoptime` — Unix **seconds**, not milliseconds. The endpoint
+  always returns the current track directly; no time-window lookup needed.
+- `playlistItem.cover` — always `""` in production; no usable cover art from this API.
+- `show.title` → programme name (always `"Deutschlandfunk Nova"` for the live stream).
+
+No cover art source found. `services.spotify` / `services.lastfm` etc. are always empty.
+
+### Wirable today?
+
+| Channel | Track | Programme | Verdict |
+|---|---|---|---|
+| Deutschlandfunk Nova | ⚠️ **via-worker** — endpoint live, no CORS headers | ⚠️ show name only | Wire via proxy; no cover art |
+| Deutschlandfunk | ❌ no API found | ❌ no API found | Stays `icy-only` |
+| Deutschlandfunk Kultur | ❌ no API found | ❌ no API found | Stays `icy-only` |
+
+### Suggested fetcher
+
+**DLF Nova:** New `fetchDlfNovaMetadata` in `src/builtins.ts`. Shape is simpler than most:
+single fetch, flat JSON object, `type === "Music"` guard, no schedule endpoint, proxy required.
+
+Closest existing analogue: `fetchGrrifMetadata` or `fetchStreamabcMetadata`
+(both: single-fetch, flat JSON response, no schedule).
+
+The worker proxy allowlist in `worker/src/index.ts` needs an entry for:
+```
+^https://static\.deutschlandfunknova\.de/actions/dradio/playlist/onair$
+```
+
+Stations YAML updates needed (Nova only):
+```yaml
+metadata: dlf-nova
+metadataUrl: https://static.deutschlandfunknova.de/actions/dradio/playlist/onair
+```
+
+### Notes
+
+- `playlistItem.starttime` / `stoptime` are **Unix seconds**, not milliseconds — different
+  from every other broadcaster in the catalog. The fetcher does not need a time-window
+  comparison; the endpoint always returns the current track directly.
+- No track history endpoint. S3 returns 403 on all paths except `/onair` and `/onair_test`.
+- No cover art available from this API. `playlistItem.cover` and `show.cover` are always
+  `""` in production. The presenter `avatar` is a headshot CDN URL, not a per-track image.
+- CloudFront serves with `cache-control: max-age=15`. Poll every 20–30 s.
+- ToS: Deutschlandradio is a German federal public broadcaster (not ARD). No explicit
+  API ToS for this endpoint. The URL is called by every `deutschlandfunknova.de/playlist`
+  page visitor. Reasonable polling cadence is appropriate.
+- DLF (main) is primarily news/talk; even if a now-playing API existed, music occupies
+  perhaps 15–20% of airtime. ICY metadata from the stream is the practical fallback.
+- DLF Kultur similarly mixes speech/feature/classical — the absence of a track API is
+  not a significant gap; programme info (show title) would be more useful for that
+  channel anyway.
+- The `broadcasters.yaml` note "share an API" is **incorrect for wiring purposes**:
+  only Nova has a machine-readable now-playing API. DLF and DLF Kultur should not
+  receive a `metadata:` key until a real API is found.
