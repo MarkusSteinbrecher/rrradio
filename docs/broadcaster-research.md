@@ -858,3 +858,207 @@ Required work (station-file only — handled via `wire-metadata` / curate-statio
 - No rate-limit headers observed on any endpoint. MDR's own player polls every ~30 s.
 - ToS: MDR is a German public broadcaster (ARD). No explicit API ToS; endpoints
   are served publicly without authentication. Reasonable polling cadence (30–60 s).
+
+---
+
+## rai — RAI (Radio Audizioni Italiane) (IT)
+
+Investigated: 2026-05-09.
+
+### Channels in catalog
+
+| Station | Status before | Channel name in onAir.json |
+|---|---|---|
+| RAI Radio 1 | `stream-only` | `Rai Radio 1` |
+| RAI Radio 2 | `stream-only` | `Rai Radio 2` |
+| RAI Radio 3 | `stream-only` | `Rai Radio 3` |
+| RAI Radio Classica | `stream-only` | `Rai Radio 3 Classica` |
+| RAI Isoradio | not in catalog | `Rai Isoradio` |
+| RAI GR Parlamento | not in catalog | `Rai Radio GR Parlamento` |
+| RAI Radio Tutta Italiana | not in catalog | `Rai Radio Tutta Italiana` |
+
+Additional channels in the onAir feed (not yet in catalog):
+`Rai Radio 1 Sport`, `Rai Radio Kids`, `Rai Radio Live Napoli`,
+`Rai Radio Südtirol`, `Rai Radio Techete`, `Rai Radio Trst A`,
+`No Name Radio`, `Radio San Marino`.
+
+### Discovery method
+
+raiplaysound.it is a SPA with a Web Worker architecture. The worker file
+(`/assets/js/workers/sound.worker.js`) was fetched and grepped for the
+onAir.json URL, revealing the two primary endpoints below.
+The channel-schedule URL template was also found in the worker script
+(`$e` function). WebFetch was blocked for this domain; all discovery
+was done via direct `curl`.
+
+### Endpoints
+
+| What | URL template | Auth | CORS | Sample |
+|---|---|---|---|---|
+| Now-playing — all channels | `https://www.raiplaysound.it/palinsesto/onAir.json` | none | `*` | `data/metadata-discovery/rai-onair.json` |
+| Channel / dirette listing | `https://www.raiplaysound.it/dirette.json` | none | `*` | `data/metadata-discovery/rai-dirette.json` |
+| Programme schedule (days available) | `https://www.raiplaysound.it/palinsesto/app/<palinsesto_url>/giorni.json` | none | `*` | `data/metadata-discovery/rai-schedule-giorni.json` |
+| Programme schedule (day detail) | `https://www.raiplaysound.it/palinsesto/app/lite/<palinsesto_url>/<date>.json` | none | `*` | (not captured — days-available response needed first) |
+| Per-programme cover art | Embedded in `currentItem.image` (path relative to `https://www.raiplaysound.it`) | none | `*` | (URL embedded in onAir response) |
+| Per-channel logo (SVG) | `https://www.raiplaysound.it<currentItem.channel.logo_svg>` | none | `*` | (URL embedded in onAir response) |
+
+All endpoints return `access-control-allow-origin: *` with no auth requirement.
+
+**`palinsesto_url` mapping** (from `dirette.json`):
+
+| Channel name (onAir) | `palinsesto_url` | Notes |
+|---|---|---|
+| `Rai Radio 1` | `rai-radio-1` | |
+| `Rai Radio 2` | `rai-radio-2` | |
+| `Rai Radio 3` | `rai-radio-3` | |
+| `Rai Radio 3 Classica` | `rai-radio-3-classica` | catalog: RAI Radio Classica |
+| `Rai Isoradio` | `rai-isoradio` | |
+| `Rai Radio GR Parlamento` | `rai-radio-gr-parlamento` | name mismatch vs dirette (accent/case) — normalise |
+| `Rai Radio Tutta Italiana` | `rai-radio-tutta-italiana` | |
+| `Rai Radio Techete` | `rai-radio-techete` | name mismatch (accent on `è`) — normalise |
+
+### Response shape — `onAir.json`
+
+```json
+{
+  "on_air": [
+    {
+      "channel": "Rai Radio 1",
+      "currentItem": {
+        "id": "ContentItem-51d05333-...",
+        "name": "INVIATO SPECIALE",
+        "episode_title": "",
+        "description": "A cura di Carmen Santoro.",
+        "channel": {
+          "name": "Rai Radio 1",
+          "logo": "/dl/components/img/sound/loghi/logo-rairadio1-transparent.png",
+          "logo_svg": "/assets/img/canali/logo-rairadio1-transparent.svg"
+        },
+        "date": "09/05/2026",
+        "hour": "08:30",
+        "duration": "01:00:00",
+        "image": "/dl/img/2025/06/05/1749110373725_Inviato%20Speciale%20-%202048x2048.jpg",
+        "images": {
+          "square": "/dl/img/2025/06/05/1749110373725_Inviato%20Speciale%20-%202048x2048.jpg",
+          "landscape": "/dl/img/2021/11/23/1637626693141_2048x1152.jpg"
+        },
+        "program": {
+          "name": "Inviato Speciale",
+          "path_id": "/programmi/inviatospeciale.json",
+          "weblink": "/programmi/inviatospeciale"
+        },
+        "start_date": "2026-05-09T06:30:00+0000",
+        "end_date":   "2026-05-09T07:30:00+0000",
+        "time_interval": "08:30 - 09:30"
+      },
+      "nextItem": {
+        "name": "GR 1",
+        "hour": "10:30",
+        ...
+      }
+    }
+  ]
+}
+```
+
+**Key field mappings:**
+- Channel lookup → `on_air[i].channel` (string, matches `dirette.json` `channel.name` with
+  Unicode normalisation — two channels have accent/capitalisation differences)
+- Programme name → `currentItem.name` (all-caps in feed; apply `titleCase` before display)
+- Programme subtitle → `currentItem.description` (presenter/editor credits)
+- Programme art (per-show cover) → `https://www.raiplaysound.it` + `currentItem.image`
+  or `currentItem.images.square` — 2048×2048 JPEGs served with `CORS: *`
+- Programme start/end → `currentItem.start_date` / `currentItem.end_date` — ISO 8601 UTC
+  (`+0000`); these are the timestamps to use for "is this still current?" logic
+- Per-channel logo SVG → `https://www.raiplaysound.it` + `currentItem.channel.logo_svg`
+  (e.g. `/assets/img/canali/logo-rairadio1-transparent.svg`)
+- Next programme → `on_air[i].nextItem` (same shape as `currentItem`)
+
+**No track-level (artist/title) data.** All RAI radio channels are primarily
+talk / news / programme-based. The `onAir.json` endpoint is a programme schedule
+snapshot, not a music playlist endpoint. There is no per-track artist/title or album
+art in the response.
+
+### Response shape — `dirette.json`
+
+Contains 15 live channel cards with rich metadata including `audio.url`
+(a relinker URL resolving to the actual HLS/MP3 stream), per-channel logos,
+and the `palinsesto_url` needed to build schedule endpoint URLs. This endpoint
+is useful for initial setup (building the `palinsesto_url` map) but is not needed
+at poll time once the mapping is embedded in `metadataUrl`.
+
+### Wirable today?
+
+⚠️ **partial — programme-level only.** No track-level artist/title data is available
+from any RAI endpoint (RAI channels broadcast primarily news, talk, and curated
+programming without a public "now playing track" feed). The `onAir.json` endpoint
+is wirable for programme name + cover art + next-programme info. This is similar to
+the `fetchSrMetadata` (SR, programme-level only) and `fetchRadioBremenMetadata`
+(Radio Bremen, programme-level only) patterns.
+
+CORS is open on all endpoints — no proxy needed.
+
+Cover art: ✅ per-programme artwork available (2048×2048 JPEGs, relative paths,
+`CORS: *`). This is a significant improvement over the current generic favicon
+(`raiplaysound.it/assets/img/icons/apple/apple-touch-icon.png`) used by all
+RAI stations in `data/stations.yaml`.
+
+Per-channel logos: ✅ per-channel SVG logos available via
+`/assets/img/canali/logo-rai<channel>-transparent.svg`. These are real
+channel-specific logos (Radio 1, Radio 2, etc.), replacing the generic apple-touch-icon.
+
+### Suggested fetcher
+
+New `fetchRaiMetadata` in `src/builtins.ts`. Closest analogues:
+`fetchSrMetadata` (programme-only, no tracks) and `fetchRadioBremenMetadata`
+(programme-only, cover art from response).
+
+Pattern:
+1. Single fetch to `https://www.raiplaysound.it/palinsesto/onAir.json` (no proxy — CORS open).
+2. `station.metadataUrl` stores the channel display name as it appears in `on_air[].channel`
+   (e.g. `"Rai Radio 1"`). Use Unicode-normalised comparison (`.normalize('NFC').toLowerCase()`)
+   to handle the two mismatched channel names (GR Parlamento, Techete).
+3. Find the matching `on_air` entry. If `currentItem` is absent or stale (`end_date < now`),
+   return `null`.
+4. Extract `currentItem.name` → `titleCase(name)` as programme title.
+   `currentItem.description` → programme subtitle (presenter/credit line).
+5. Build cover URL: `"https://www.raiplaysound.it" + currentItem.images.square` (or `.image`).
+   The images are 2048×2048 — pass the URL through as-is; the UI already handles large covers.
+6. Return `{ track: undefined, raw: '', program: { name, subtitle }, coverUrl }`.
+
+Since the single endpoint covers all 15 channels, a single fetch per poll cycle returns
+data for all RAI stations simultaneously — consider caching the response for 30 s and
+sharing across fetcher invocations (same pattern opportunity as FFH's single-endpoint design).
+
+Register as `rai` in `FETCHERS_BY_KEY`. A schedule fetcher could also be built using the
+`/palinsesto/app/<palinsesto_url>/giorni.json` endpoint for multi-day EPG data.
+
+### Notes
+
+- The `onAir.json` response covers **all 15 channels** in one ~50 KB payload. Fetching
+  it once and sharing the result across all RAI station poll cycles is strongly recommended
+  to avoid multiplying requests.
+- Programme names arrive in ALL-CAPS (e.g. `"INVIATO SPECIALE"`). Apply `titleCase` before
+  display (matching `fetchMdrMetadata`, `fetchCroMetadata` etc.).
+- Two channels have naming mismatches between `onAir.json` and `dirette.json`:
+  `"Rai Radio GR Parlamento"` vs `"Rai Gr Parlamento"`, and `"Rai Radio Techete"` vs
+  `"Rai Radio Techetè"`. The fetcher should use `currentItem.channel.name` (embedded
+  in the response) or Unicode-normalised channel string matching.
+- `start_date` / `end_date` are ISO 8601 UTC with `+0000` offset — no timezone conversion
+  needed. `Date.parse()` handles this format directly.
+- The `hour` field in the response is Italian local time (CET/CEST) — use `start_date` for
+  all time comparisons.
+- Per-channel SVG logos (`/assets/img/canali/logo-rai<channel>-transparent.svg`) are
+  accessible with CORS and could be used as `favicon` overrides in `stations.yaml`,
+  replacing the current generic apple-touch-icon. E.g. Radio 1:
+  `https://www.raiplaysound.it/assets/img/canali/logo-rairadio1-transparent.svg`
+- `dirette.json` also exposes `audio.url` relinker URLs
+  (`https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=<id>`) — not needed
+  for the metadata fetcher but could be used to verify/update stream URLs if the
+  direct `icestreaming.rai.it` endpoints ever move.
+- No rate-limit headers observed. The worker polls `onAir.json` on a 3-minute timer
+  (`Wt(18e4)` = 180,000 ms). A 60–90 s poll cadence is fine given this is
+  programme-level data (show lengths are typically 30–90 minutes).
+- ToS: RAI is Italy's national public broadcaster. No explicit API ToS; endpoints are
+  publicly served without authentication and are called by every raiplaysound.it visitor.
+  Reasonable polling cadence is appropriate.
