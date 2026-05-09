@@ -1328,3 +1328,136 @@ Register as `radio-france` in `FETCHERS_BY_KEY`. A schedule fetcher is not neede
   is not the portal API.
 
 ---
+
+## wdr — Westdeutscher Rundfunk (DE)
+
+Investigated: 2026-05-09.
+
+### Channels in catalog
+
+| Station | Status before | Radiotext slug | Has track data? |
+|---|---|---|---|
+| 1Live | `icy-only` | `1live` | yes (music station) |
+| 1Live Diggi | `icy-only` | `1live_diggi` | unreliable (often promo text) |
+| WDR 2 | `icy-only` | `wdr2` | yes (music/talk, track when music plays) |
+| WDR 3 | `icy-only` | `wdr3` | yes (classical, "Composer - Work" format) |
+| WDR 4 | `icy-only` | `wdr4` | partial (track when music plays; programme otherwise) |
+| WDR 5 | `icy-only` | `wdr5` | no (talk station; returns programme promo text) |
+| WDR COSMO | `icy-only` | `fhe` | partial (track when music plays; presenter otherwise) |
+| KiRaKa (Die Maus) | `icy-only` | `kiraka` | no (returns phone-in promo text) |
+
+### Endpoints
+
+| What | URL template | Auth | CORS | Sample |
+|---|---|---|---|---|
+| Now-playing (track or programme text) | `https://www.wdr.de/radio/radiotext/streamtitle_<slug>.txt` | none | `*` | `data/metadata-discovery/wdr-radiotext-1live.txt` |
+| WDR 2 radiotext | `https://www.wdr.de/radio/radiotext/streamtitle_wdr2.txt` | none | `*` | `data/metadata-discovery/wdr-radiotext-wdr2.txt` |
+| WDR 3 radiotext | `https://www.wdr.de/radio/radiotext/streamtitle_wdr3.txt` | none | `*` | `data/metadata-discovery/wdr-radiotext-wdr3.txt` |
+| COSMO (fhe) radiotext | `https://www.wdr.de/radio/radiotext/streamtitle_fhe.txt` | none | `*` | `data/metadata-discovery/wdr-radiotext-cosmo.txt` |
+| WDR 5 radiotext | `https://www.wdr.de/radio/radiotext/streamtitle_wdr5.txt` | none | `*` | `data/metadata-discovery/wdr-radiotext-wdr5.txt` |
+| 1Live Diggi radiotext | `https://www.wdr.de/radio/radiotext/streamtitle_1live_diggi.txt` | none | `*` | `data/metadata-discovery/wdr-radiotext-1live-diggi.txt` |
+| Playlist HTML fragment (1Live) | `https://www1.wdr.de/radio/player/einslive-playlist100~radioplayerPlaylist.html` | none | **none** | (no capture — not usable) |
+| Playlist HTML fragment (WDR 2) | `https://www1.wdr.de/radio/wdr2/musik/playlist/playlist-wdrzwei-100~radioplayerPlaylist.html` | none | **none** | (no capture — not usable) |
+
+**NDR-style pattern check:** `https://www1.wdr.de/public/radioplaylists/<slug>.json` → HTTP 404 for all slugs tried. WDR does **not** share NDR's playlist endpoint pattern.
+
+**ARD Audiothek GraphQL (`api.ardaudiothek.de/graphql`):** WDR channels are present as `permanentLivestreams` (1Live ID: 42620604, WDR 2: 42950274, WDR 3: 42748798, etc.) but the `current` and `next` fields are `null` for all WDR channels. The ARD Audiothek does not surface WDR's now-playing data.
+
+**Slug mapping** (from `https://www.wdr.de/radio/radiotext/` directory):
+
+| Station | Radiotext slug |
+|---|---|
+| 1Live | `1live` |
+| 1Live Diggi | `1live_diggi` |
+| WDR 2 | `wdr2` |
+| WDR 3 | `wdr3` |
+| WDR 4 | `wdr4` |
+| WDR 5 | `wdr5` |
+| WDR COSMO | `fhe` |
+| KiRaKa / Die Maus | `diemaus` (also: `kiraka` returns 200) |
+| WDR Event | `event` |
+
+### Response shape
+
+The radiotext endpoint returns a single UTF-8 (actually `iso-8859-1`) plain-text line with no JSON wrapper.
+
+**When music is playing:**
+```
+Natasha Bedingfield - Unwritten
+Shaboozey - A Bar Song (Tipsy)
+Wolfgang Amadeus Mozart - Konzert Es-Dur, KV 271
+```
+Format is `<Artist> - <Track>`. The separator is always ` - ` (space-hyphen-space). The WDR 3 classical channel uses `<Composer> - <Work Title (key/opus info)>` which is the same format but the "artist" is the composer.
+
+**When no music is playing (news, talk, promo):**
+```
+WDR 4 am Samstag mit Steffi Schmitz
+WDR 5 Hotline: 0221-56789 555
+Infos und Playlist auch im Netz: 1LIVEDIGGI.de
+```
+These don't contain ` - ` (the hyphen is only in music entries). The fetcher should use the presence of ` - ` as the guard: if the text contains no ` - `, treat as programme/promo and return `null` for track (let ICY fallback run).
+
+**Cache-Control:** `max-age=10` (seconds). This is WDR's natural poll cadence hint — identical to NDR's `nextVisitIn: "10"`.
+
+**Character encoding:** `Content-Type: text/plain; charset=iso-8859-1`. The content often contains `\xfc` (`ü`), `\xe4` (`ä`), `\xf6` (`ö`) in raw bytes — the fetcher must decode as `iso-8859-1` (or do `TextDecoder('iso-8859-1')` on the response bytes). Browsers' default `Response.text()` uses UTF-8 and will misread umlauts (they appear as `?` or `ü` garbled). Use `response.arrayBuffer()` + `new TextDecoder('iso-8859-1').decode(...)`.
+
+**No cover art.** The radiotext endpoint carries only the text string. No image URL is embedded. No separate cover endpoint was found.
+
+**No programme schedule.** The WDR EPG is served as Sophora CMS HTML fragments (`~radioplayerjetztimprogramm.html`) with no CORS — not usable from the browser without a proxy. The programme name sometimes appears in the radiotext when no music is playing.
+
+### Wirable today?
+
+| Channel | Track | Programme | Verdict |
+|---|---|---|---|
+| 1Live | ✅ wire-now — `?` test selects track vs promo | ❌ no structured EPG API | wire-now for track |
+| WDR 2 | ✅ wire-now — same ` - ` guard | ❌ no structured EPG API | wire-now for track |
+| WDR 3 | ✅ wire-now — classical `Composer - Work` | ❌ no structured EPG API | wire-now for classical track |
+| WDR 4 | ✅ wire-now — ` - ` guard filters music vs talk | ❌ | wire-now for track |
+| WDR COSMO | ✅ wire-now — ` - ` guard | ❌ | wire-now for track |
+| 1Live Diggi | ⚠️ partial — promo text blocks most polls | ❌ | low value; same fetcher applies |
+| WDR 5 | ❌ talk station — radiotext never contains ` - ` track | ❌ | stays `icy-only` |
+| KiRaKa | ❌ kids station — radiotext is always phone promo | ❌ | stays `icy-only` |
+
+Overall: ✅ **wire-now** for 5 of 8 channels. HTTPS-only, `CORS: *`, no auth, plain-text with a reliable ` - ` track guard. No cover art or programme schedule available via this endpoint.
+
+### Suggested fetcher
+
+New `fetchWdrMetadata` in `src/builtins.ts`. This is the **simplest possible fetcher** — simpler than NDR (no JSON parsing, no cover UUID) but requires `iso-8859-1` decoding.
+
+Pattern:
+1. `station.metadataUrl` stores the full radiotext URL:
+   `https://www.wdr.de/radio/radiotext/streamtitle_<slug>.txt`
+2. Fetch with `cache: 'no-store'`; no proxy needed (CORS open).
+3. Decode response as `iso-8859-1`:
+   ```ts
+   const buf = await res.arrayBuffer();
+   const text = new TextDecoder('iso-8859-1').decode(buf).trim();
+   ```
+4. Apply ` - ` guard:
+   ```ts
+   const sep = text.indexOf(' - ');
+   if (sep === -1) return null;  // programme/promo text, not a track
+   const artist = text.slice(0, sep).trim();
+   const track = text.slice(sep + 3).trim();
+   ```
+5. No cover art. No programme info. Return `{ artist, track, raw: text }`.
+6. No schedule fetcher needed (no EPG API found).
+
+Register as `wdr` in `FETCHERS_BY_KEY`. Closest existing analogue: `fetchDlfNovaMetadata` (single-fetch, flat text, no cover, no schedule). However DLF Nova returns JSON; WDR is raw text — there's no precedent for a raw-text fetcher in the codebase. A new pattern must be added.
+
+Note: the character encoding issue makes `fetchWdrMetadata` slightly more complex than other fetchers. The `TextDecoder('iso-8859-1')` approach is the correct fix. Alternatively, the fetcher can return the raw string without umlaut correction and rely on WDR updating to UTF-8 (which they have not done as of 2026-05-09).
+
+### Notes
+
+- **iso-8859-1 encoding**: All WDR radiotext files are served with `charset=iso-8859-1`. Umlauts (ä, ö, ü, ß) will be garbled if the fetcher uses the default `response.text()` (which assumes UTF-8). Use `response.arrayBuffer()` + `new TextDecoder('iso-8859-1').decode(...)`.
+- **No JSON API found**: WDR's CMS (Sophora) renders all playlist/EPG data server-side. The only machine-readable now-playing signal is the radiotext `.txt` file. The Sophora HTML playlist fragments (`~radioplayerPlaylist.html`) are CORS-blocked and HTML-only.
+- **NDR pattern (www.ndr.de/public/radioplaylists/<slug>.json) does not apply to WDR.** That path returns HTTP 404 on www1.wdr.de.
+- **ARD Audiothek GraphQL** lists WDR channels but the `current`/`next` now-playing fields are all `null` for WDR — that API does not surface WDR metadata.
+- **Playlist HTML fragments** at `~radioplayerPlaylist.html` are polled by the WDR web player via jQuery `$.ajax` but they return HTML (not JSON) and have no `Access-Control-Allow-Origin` header. They cannot be used from rrradio's browser context without a proxy.
+- **WDR 4 is music-heavy** (Schlager, Oldies) and the radiotext reliably returns "Artist - Track" during music segments. Worth wiring.
+- **COSMO slug is `fhe`** — not `cosmo`. The `fhe` slug (likely "Funkhaus Europa", the predecessor brand) is the official radiotext key for COSMO.
+- **KiRaKa slug is `kiraka`** — confirmed 200 OK, but content is always the Maus phone-in promo, never a track. The `diemaus` slug also exists (returns identical content). No track data available.
+- **`max-age=10`** matches NDR's 10-second poll cadence hint. The rrradio fetcher should respect this.
+- **ToS**: WDR is a German public broadcaster (ARD). No explicit API ToS for the radiotext endpoint. It is served publicly from `www.wdr.de` without authentication, called by every wdr.de radio player visitor. Reasonable polling cadence (10–30 s) is appropriate.
+
+---
