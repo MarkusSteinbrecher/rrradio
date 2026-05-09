@@ -492,3 +492,196 @@ metadataUrl: https://static.deutschlandfunknova.de/actions/dradio/playlist/onair
 - The `broadcasters.yaml` note "share an API" is **incorrect for wiring purposes**:
   only Nova has a machine-readable now-playing API. DLF and DLF Kultur should not
   receive a `metadata:` key until a real API is found.
+
+---
+
+## mdr — Mitteldeutscher Rundfunk (DE)
+
+Investigated: 2026-05-09.
+
+### Channels in catalog
+
+| Station | Status before | metadataUrl / endpoint pattern | Wired? |
+|---|---|---|---|
+| MDR Sachsen | `working` | `xmlresp-index.do?idwelle=4` | yes |
+| MDR Sachsen-Anhalt | `icy-only` | none | no — idwelle=5 now confirmed |
+| MDR Thüringen | `working` | `xmlresp-index.do?idwelle=6` | yes |
+| MDR Aktuell | `working` | `xmlresp-index.do?idwelle=2` | yes (news captions, not tracks) |
+| MDR Klassik | `working` | `xmlresp-index.do?idwelle=7` | yes |
+| MDR Jump | `working` | `XML/titellisten/jump_onair.json` | yes |
+| MDR Sputnik | `working` | `XML/titellisten/sputnik_onair.json` | yes |
+| MDR Schlagerwelt | `icy-only` | none | no — idwelle=22 now confirmed |
+| MDR Tweens | `icy-only` | none | no — idwelle=23 now confirmed |
+| MDR Kultur | not in catalog | none | no — idwelle=8 newly found |
+
+### Background — existing fetcher
+
+`fetchMdrMetadata` already exists in `src/builtins.ts` and handles two URL patterns
+that share the same `Songs` JSON shape:
+
+- **Pattern A (onair):** `https://www.mdr.de/XML/titellisten/<slug>_onair.json`
+  — Used by Jump and Sputnik. Returns a small history list; the entry with
+  `status:"now"` is the current track. `artist_image_id.imageVariant` carries
+  per-artist images including a 960×960 `variantBig1x1`.
+
+- **Pattern B (xmlresp):** `https://www.mdr.de/scripts4/titellisten/xmlresp-index.do?output=json&idwelle=<id>&amount=<N>`
+  — Used by all other channels. **Requires `&startdate=YYYYMMDD`** (auto-appended
+  by the fetcher today). Without `startdate`, the endpoint returns an empty `Songs`
+  object for most channels. Returns a day's playlist in descending order; [0] is most
+  recent. The fetcher takes `songs.find(s => s.status === 'now') ?? songs[0]`.
+
+The `idwelle` is the channel identifier embedded in the URL. The fetcher already
+handles both patterns — the `metadataUrl` stored per-station in `stations.yaml`
+determines which pattern is used.
+
+### Endpoints
+
+| What | URL template | Auth | CORS | Sample |
+|---|---|---|---|---|
+| Now-playing (onair, Jump) | `https://www.mdr.de/XML/titellisten/jump_onair.json` | none | `*` | `data/metadata-discovery/mdr-onair-jump.json` |
+| Now-playing (onair, Sputnik) | `https://www.mdr.de/XML/titellisten/sputnik_onair.json` | none | `*` | `data/metadata-discovery/mdr-onair-sputnik.json` |
+| Now-playing + history (xmlresp, Klassik) | `https://www.mdr.de/scripts4/titellisten/xmlresp-index.do?output=json&idwelle=7&amount=2&startdate=YYYYMMDD` | none | `*` | `data/metadata-discovery/mdr-xmlresp-klassik.json` |
+| Now-playing + history (xmlresp, Sachsen) | `…?idwelle=4…` | none | `*` | `data/metadata-discovery/mdr-xmlresp-sachsen.json` |
+| Now-playing + history (xmlresp, Thüringen) | `…?idwelle=6…` | none | `*` | `data/metadata-discovery/mdr-xmlresp-thueringen.json` |
+| Now-playing + history (xmlresp, Aktuell) | `…?idwelle=2…` | none | `*` | `data/metadata-discovery/mdr-xmlresp-aktuell.json` |
+| Now-playing + history (xmlresp, Sachsen-Anhalt) | `…?idwelle=5…` | none | `*` | `data/metadata-discovery/mdr-xmlresp-sachsen-anhalt.json` |
+| Now-playing + history (xmlresp, Schlagerwelt) | `…?idwelle=22…` | none | `*` | `data/metadata-discovery/mdr-xmlresp-schlagerwelt.json` |
+| Now-playing + history (xmlresp, Tweens) | `…?idwelle=23…` | none | `*` | `data/metadata-discovery/mdr-xmlresp-tweens.json` |
+| Now-playing + history (xmlresp, MDR Kultur) | `…?idwelle=8…` | none | `*` | `data/metadata-discovery/mdr-xmlresp-kultur.json` |
+| Cover art | Embedded in `artist_image_id.imageVariant` array (onair only; absent on xmlresp channels) | none | `*` | (URL embedded in now-playing response) |
+
+**Full xmlresp base URL:**
+`https://www.mdr.de/scripts4/titellisten/xmlresp-index.do?output=json&idwelle=<N>&amount=2&startdate=YYYYMMDD`
+
+CORS headers on all endpoints: `access-control-allow-origin: *`, `access-control-allow-methods: GET,POST`,
+`access-control-max-age: 86400`. No auth, no rate-limit headers observed.
+
+### idwelle mapping (complete, confirmed via `avCustom` XML + track-content verification)
+
+| idwelle | Channel | Status in catalog | Has cover art in response? |
+|---|---|---|---|
+| 1 | MDR Jump (also available as `jump_onair.json`) | `working` | yes (onair pattern) |
+| 2 | MDR Aktuell | `working` | no (news captions) |
+| 3 | MDR Sputnik (also available as `sputnik_onair.json`) | `working` | yes (onair pattern) |
+| 4 | MDR Sachsen | `working` | no |
+| 5 | MDR Sachsen-Anhalt | `icy-only` — **wireable** | no |
+| 6 | MDR Thüringen | `working` | no |
+| 7 | MDR Klassik | `working` | no (art absent for classical pieces) |
+| 8 | MDR Kultur | not in catalog | no |
+| 22 | MDR Schlagerwelt | `icy-only` — **wireable** | no |
+| 23 | MDR Tweens | `icy-only` — **wireable** | no |
+
+idwelles 9–21 and 24+ return HTTP 200 but empty `Songs` objects — inactive or
+internal channels. idwelle=10 returns programme-level text entries (no `interpret`
+field) — likely MDR Fernsehen (TV audio) or an internal broadcast feed.
+
+Discovery method: `https://www.mdr.de/static/radiolivestreams/config/mdr_<channel>.json`
+→ `streams[0].url` → `avCustom.xml` → `dynamicDataUrl` contains
+`xml-index.do?idwelle=<N>`. The XML and JSON endpoints share the same idwelle namespace.
+
+### Response shape
+
+**Pattern A (onair endpoints — Jump, Sputnik):**
+```json
+{
+  "Resulttype": "OK",
+  "Songs": {
+    "0": {
+      "status": "now",
+      "id_titel": "A393BD81",
+      "title": "End of the World",
+      "interpret": "Miley Cyrus",
+      "starttime": "2026-05-09 08:12:30",
+      "duration": "00:03:49",
+      "artist_image_id": {
+        "imageVariant": [
+          { "@attributes": { "name": "variantBig1x1", "width": "960", "height": "960",
+              "mimeType": "image/jpeg",
+              "url": "https://www.mdrjump.de/musik/interpret/miley-cyrus-122-resimage_v-variantBig1x1_w-960.jpg?version=50199" } },
+          { "@attributes": { "name": "variantSmall1x1", "width": "512", "height": "512", ... } }
+        ]
+      },
+      "komponist": "Shawn Everett",
+      "label": "SMI/ RCA",
+      "tontraeger": "End of the World"
+    },
+    "1": { "status": "old", ... }
+  }
+}
+```
+
+**Pattern B (xmlresp endpoints, music channels — Sachsen, Thüringen, Klassik, etc.):**
+Same `Songs` shape but `imageVariant` is typically absent (`{"@root":"root"}`) —
+no cover art. `status` is `"old"` for all entries (no `"now"` tag); the fetcher uses
+`songs[0]` as the most recent track. Available bonus fields: `komponist` (composer),
+`label`, `tontraeger` (album/release). Not currently surfaced in the UI.
+
+**Pattern B (xmlresp, news/talk — MDR Aktuell, idwelle=2):**
+`interpret` holds the reporter's name or is absent; `title` holds the news headline.
+The fetcher still returns a result (the headline appears as the "now playing" title).
+
+**Key field mappings:**
+- Artist → `interpret` (trim + title-case in fetcher)
+- Track title → `title`
+- Cover URL → `artist_image_id.imageVariant[name="variantBig1x1"]["@attributes"].url`
+  (present on Jump/Sputnik onair; absent on xmlresp channels)
+- Most-recent track → `songs.find(s => s.status === 'now') ?? songs[0]`
+
+### Wirable today?
+
+✅ **wire-now (no code changes)** for three unwired channels with confirmed idwelles —
+the existing `fetchMdrMetadata` handles them directly:
+
+- **MDR Sachsen-Anhalt** (`idwelle=5`): add `metadata: mdr` + `metadataUrl` in `stations.yaml`, flip to `working`.
+- **MDR Schlagerwelt** (`idwelle=22`): same. No cover art in responses, but track titles present.
+- **MDR Tweens** (`idwelle=23`): same.
+
+⚠️ **partial / new station entry needed** for MDR Kultur:
+
+- **MDR Kultur** (`idwelle=8`): Track data confirmed (soft adult-contemporary / indie folk:
+  Steely Dan, Kate Bush, Joe Bel). Fetcher works. But MDR Kultur is **not currently in
+  `data/stations.yaml`** — a new station entry is needed before wiring. No cover art.
+
+No proxy needed for any MDR channel — all endpoints have `CORS: *`.
+
+### Suggested fetcher
+
+The existing `fetchMdrMetadata` in `src/builtins.ts` is **fully wirable as-is** for
+all three unwired channels. No code changes needed.
+
+Required work (station-file only — handled via `wire-metadata` / curate-stations):
+
+1. **`data/stations.yaml`** — add `metadata: mdr` and
+   `metadataUrl: https://www.mdr.de/scripts4/titellisten/xmlresp-index.do?output=json&idwelle=<N>&amount=2`
+   to MDR Sachsen-Anhalt (idwelle=5), MDR Schlagerwelt (idwelle=22), MDR Tweens (idwelle=23),
+   and flip `status` from `icy-only` to `working`.
+2. **`data/broadcasters.yaml`** — update the `mdr` notes block to record the newly confirmed
+   idwelles (5, 22, 23, 8) and remove the "unconfirmed" caveat on Sachsen-Anhalt.
+3. Optionally: add a new station entry for **MDR Kultur** (`idwelle=8`).
+
+### Notes
+
+- The `startdate=YYYYMMDD` query parameter is **required** on `xmlresp-index.do`
+  for music channels. Without it the endpoint returns `"Songs": {}`. The fetcher
+  already auto-appends today's date when `xmlresp-index.do` appears in the URL —
+  confirmed working.
+- The `onair.json` pattern (Jump, Sputnik) does not require `startdate`. It returns
+  a short history including the `status:"now"` current track.
+- Cover art (`artist_image_id.imageVariant`) is only populated on the onair-pattern
+  endpoints (Jump and Sputnik). The xmlresp endpoints return `{"@root":"root"}` for
+  `artist_image_id` — no image URL. Fetching per-artist cover would require a
+  separate undiscovered endpoint.
+- MDR Klassik (`idwelle=7`): art absent in responses. Classical pieces show
+  `artist_image_id: {"@root":"root"}`. The `komponist` field carries the composer name;
+  `interpret` holds the performer; `tontraeger` is the album/release. For richer
+  classical display, `komponist` and `tontraeger` could supplement the subtitle —
+  not currently done by the fetcher.
+- MDR Aktuell (`idwelle=2`) is a news station. The fetcher returns news headline
+  strings — this is arguably a misuse of the "now playing" field. Consider changing
+  MDR Aktuell's status to `stream-only` or suppressing the fetcher for that channel.
+- idwelle=1 (Jump) and idwelle=3 (Sputnik) are redundant with the `_onair.json`
+  pattern. The onair pattern is preferred for those two channels since it returns
+  `status:"now"` explicitly and includes artist images.
+- No rate-limit headers observed on any endpoint. MDR's own player polls every ~30 s.
+- ToS: MDR is a German public broadcaster (ARD). No explicit API ToS; endpoints
+  are served publicly without authentication. Reasonable polling cadence (30–60 s).
