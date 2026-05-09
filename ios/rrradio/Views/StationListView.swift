@@ -283,7 +283,7 @@ struct StationListView: View {
         .onChange(of: query) { _, _ in
             resetStationDisplayLimit()
             resetRadioBrowserStations()
-            fetchInitialRadioBrowserSearchIfNeeded()
+            fetchInitialRadioBrowserPageIfNeeded()
         }
         .onChange(of: searchText) { _, value in
             scheduleSearchUpdate(value)
@@ -291,17 +291,17 @@ struct StationListView: View {
         .onChange(of: selectedCountry) { _, _ in
             resetStationDisplayLimit()
             resetRadioBrowserStations()
-            fetchInitialRadioBrowserSearchIfNeeded()
+            fetchInitialRadioBrowserPageIfNeeded()
         }
         .onChange(of: selectedTag) { _, _ in
             resetStationDisplayLimit()
             resetRadioBrowserStations()
-            fetchInitialRadioBrowserSearchIfNeeded()
+            fetchInitialRadioBrowserPageIfNeeded()
         }
         .onChange(of: checkedOnly) { _, _ in
             resetStationDisplayLimit()
             resetRadioBrowserStations()
-            fetchInitialRadioBrowserSearchIfNeeded()
+            fetchInitialRadioBrowserPageIfNeeded()
         }
         .onChange(of: filterSignature) { _, _ in
             recomputeFilteredStations()
@@ -1088,10 +1088,9 @@ struct StationListView: View {
         fetchRadioBrowserStations()
     }
 
-    private func fetchInitialRadioBrowserSearchIfNeeded() {
+    private func fetchInitialRadioBrowserPageIfNeeded() {
         guard source == .all,
-              !checkedOnly,
-              !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+              !checkedOnly else { return }
         fetchRadioBrowserStations()
     }
 
