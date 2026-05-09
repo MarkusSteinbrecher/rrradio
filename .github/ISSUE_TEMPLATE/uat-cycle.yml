@@ -1,0 +1,102 @@
+name: UAT cycle
+description: Open one issue per UAT cycle. One tester, one build, dated.
+title: "UAT cycle: <build-label> (<YYYY-MM-DD>)"
+labels: [test, uat-cycle]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Per [HQ testing convention](https://github.com/MarkusSteinbrecher/HQ/blob/main/wiki/conventions/testing.md). One issue per cycle. Failures spawn child bug issues — link back here. Close this issue when all flows are accounted for (passed, failed-and-handed-off, or skipped-with-reason).
+
+  - type: input
+    id: build
+    attributes:
+      label: Build under test
+      description: "Commit SHA, release tag, or TestFlight build number."
+      placeholder: "abc1234 / v0.5.0 / TF build 12"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Surface
+      description: "Which surface of rrradio is being tested."
+      options:
+        - web (PWA)
+        - iOS app
+        - Android app
+        - Worker proxy
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      options:
+        - simulator
+        - real-device
+        - local (npm run dev)
+        - prod (rrradio.org)
+        - TestFlight
+        - prod-canary
+    validations:
+      required: true
+
+  - type: input
+    id: device
+    attributes:
+      label: Device / browser
+      description: "iPhone Air iOS 18.3 / iPhone 15 Pro iOS 17.5 / Safari 17 macOS 14 / Chrome 121 etc."
+      placeholder: "iPhone 15 Pro, iOS 17.5"
+    validations:
+      required: false
+
+  - type: input
+    id: tester
+    attributes:
+      label: Tester
+      description: "GitHub @-handle, or 'self'."
+      placeholder: "@MarkusSteinbrecher"
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope (flows in this cycle)
+      description: "Check off each flow as it passes. For failures, change the label to '— failed, see #<bug>' and open a child bug issue."
+      value: |
+        - [ ] tests/manual/ios/first-run.md
+        - [ ] tests/manual/ios/browse-and-play.md
+        - [ ] tests/manual/ios/search-and-filter.md
+        - [ ] tests/manual/ios/favorites-and-recents.md
+        - [ ] tests/manual/ios/custom-station.md
+        - [ ] tests/manual/ios/background-and-lock-screen.md
+        - [ ] tests/manual/ios/audio-interruption.md
+        - [ ] tests/manual/ios/network-recovery.md
+        - [ ] tests/manual/ios/sleep-timer.md
+        - [ ] tests/manual/ios/icloud-sync.md
+    validations:
+      required: true
+
+  - type: textarea
+    id: known
+    attributes:
+      label: Known issues / things to ignore
+      description: "Anything in this build the tester should know about going in (broken catalog entries, in-progress features, etc.)."
+      value: "_None._"
+
+  - type: textarea
+    id: result
+    attributes:
+      label: Result (filled at close)
+      description: "Per-flow outcomes. Link any child bug issues opened from this cycle."
+      value: |
+        _To be filled at cycle close._
+
+        - **Passed:** ...
+        - **Failed:** ... — see #<bug>
+        - **Skipped:** ... — reason: ...
+        - **Bundle/build delta vs previous cycle:** ...
