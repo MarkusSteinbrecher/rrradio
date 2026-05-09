@@ -61,10 +61,12 @@ final class AudioPlayer {
     }
 
     func play(_ station: Station) {
+        diagnosticRecord("playback", "play requested", details: stationDiagnostics(station))
         // If we're already on this station, just unpause.
         if current?.id == station.id, let p = player {
             p.play()
             state = .playing
+            diagnosticRecord("playback", "resumed current station", details: stationDiagnostics(station))
             listeningHistory?.resumeSession(for: station)
             updateNowPlaying()
             return
@@ -90,6 +92,7 @@ final class AudioPlayer {
         observeStatus(p)
         player = p
         p.play()
+        diagnosticRecord("playback", "avplayer started", details: stationDiagnostics(station))
         listeningHistory?.startSession(for: station)
         startMetadataPolling(for: station)
         startScheduleLoading(for: station)
@@ -98,6 +101,7 @@ final class AudioPlayer {
 
     func applyPrefetchedMetadata(_ metadata: NowPlayingMetadata, for station: Station) {
         guard current?.id == station.id else { return }
+        diagnosticRecord("metadata", "prefetched metadata applied", details: metadataDiagnostics(metadata, station: station))
         nowPlayingArtist = metadata.artist
         nowPlayingTitle = metadata.title
         nowPlayingProgramName = metadata.programName
@@ -114,6 +118,7 @@ final class AudioPlayer {
     func pause() {
         player?.pause()
         if state == .playing { state = .paused }
+        diagnosticRecord("playback", "paused", details: current.map(stationDiagnostics) ?? [:])
         listeningHistory?.closeActiveSession()
         updateNowPlaying()
     }
@@ -123,6 +128,7 @@ final class AudioPlayer {
         p.play()
         state = .playing
         if let current {
+            diagnosticRecord("playback", "resume requested", details: stationDiagnostics(current))
             listeningHistory?.resumeSession(for: current)
         }
         updateNowPlaying()
@@ -137,6 +143,7 @@ final class AudioPlayer {
     }
 
     func stop() {
+        diagnosticRecord("playback", "stopped", details: current.map(stationDiagnostics) ?? [:])
         listeningHistory?.closeActiveSession()
         teardownPlayer()
         current = nil
@@ -159,8 +166,10 @@ final class AudioPlayer {
         do {
             try session.setCategory(.playback, mode: .default, options: [])
             try session.setActive(true)
+            diagnosticRecord("playback", "audio session configured")
         } catch {
             // Non-fatal — playback still works in foreground.
+            diagnosticRecord("playback", "audio session failed", details: ["error": error.localizedDescription])
         }
     }
 
@@ -202,8 +211,21 @@ final class AudioPlayer {
                 switch status {
                 case .readyToPlay:
                     self.state = (rate > 0) ? .playing : .paused
+                    if let current = self.current {
+                        diagnosticRecord("playback", "ready to play", details: self.stationDiagnostics(current))
+                    }
                 case .failed:
                     self.state = .error(errMsg ?? "playback failed")
+                    diagnosticRecord(
+                        "playback",
+                        "item failed",
+                        details: [
+                            "station": self.current?.name ?? "",
+                            "stationID": self.current?.id ?? "",
+                            "streamHost": self.current?.streamUrl.host() ?? "",
+                            "error": errMsg ?? "playback failed",
+                        ],
+                    )
                 default: break
                 }
                 self.updateNowPlaying()
@@ -213,8 +235,17 @@ final class AudioPlayer {
             let rate = player.rate
             Task { @MainActor [weak self] in
                 guard let self else { return }
-                if rate > 0 { self.state = .playing }
-                else if case .playing = self.state { self.state = .paused }
+                if rate > 0 {
+                    self.state = .playing
+                    if let current = self.current {
+                        diagnosticRecord("playback", "rate playing", details: self.stationDiagnostics(current))
+                    }
+                } else if case .playing = self.state {
+                    self.state = .paused
+                    if let current = self.current {
+                        diagnosticRecord("playback", "rate paused", details: self.stationDiagnostics(current))
+                    }
+                }
                 self.updateNowPlaying()
             }
         }
@@ -236,6 +267,26 @@ final class AudioPlayer {
         metadataOutputDelegate = delegate
     }
 
+    private func stationDiagnostics(_ station: Station) -> [String: String] {
+        [
+            "station": station.name,
+            "stationID": station.id,
+            "streamHost": station.streamUrl.host() ?? "",
+            "codec": station.codec ?? "",
+            "bitrate": station.bitrate.map(String.init) ?? "",
+        ]
+    }
+
+    private func metadataDiagnostics(_ metadata: NowPlayingMetadata, station: Station) -> [String: String] {
+        [
+            "station": station.name,
+            "artist": metadata.artist ?? "",
+            "title": metadata.title ?? "",
+            "program": metadata.programName ?? "",
+            "coverHost": metadata.coverUrl?.host() ?? "",
+        ]
+    }
+
     private func applyTimedMetadata(_ metas: [AVMetadataItem]) async {
         // ICY title comes through with commonKey == .commonKeyTitle for
         // most HLS-wrapped Icecast feeds. Take the most recent string.
@@ -253,14 +304,30 @@ final class AudioPlayer {
             startLyricsLoadingIfNeeded()
             startCoverArtLoadingIfNeeded(sourceCoverUrl: nil)
             listeningHistory?.updateCurrentTrack(artist: nowPlayingArtist, title: nowPlayingTitle)
+            if let current {
+                diagnosticRecord(
+                    "metadata",
+                    "timed metadata received",
+                    details: [
+                        "station": current.name,
+                        "artist": nowPlayingArtist ?? "",
+                        "title": nowPlayingTitle ?? "",
+                    ],
+                )
+            }
             updateNowPlaying()
         }
     }
 
     private func startMetadataPolling(for station: Station) {
-        guard let fetcher = metadataFetcher(for: station) else { return }
+        guard let fetcher = metadataFetcher(for: station) else {
+            diagnosticRecord("metadata", "no fetcher", details: stationDiagnostics(station))
+            return
+        }
+        diagnosticRecord("metadata", "polling started", details: stationDiagnostics(station))
         metadataPoller?.start(station: station, fetcher: fetcher) { [weak self] metadata in
             guard let self, self.current?.id == station.id, let metadata else { return }
+            diagnosticRecord("metadata", "polling received", details: self.metadataDiagnostics(metadata, station: station))
             self.nowPlayingArtist = metadata.artist
             self.nowPlayingTitle = metadata.title
             self.nowPlayingProgramName = metadata.programName
@@ -285,12 +352,23 @@ final class AudioPlayer {
 
         isScheduleLoading = true
         scheduleTask = Task { [weak self] in
-            let days = try? await fetcher(station)
-            guard !Task.isCancelled else { return }
-            await MainActor.run { [weak self] in
-                guard let self, self.current?.id == station.id else { return }
-                self.nowPlayingSchedule = days ?? []
-                self.isScheduleLoading = false
+            do {
+                let days = try await fetcher(station) ?? []
+                guard !Task.isCancelled else { return }
+                await MainActor.run { [weak self] in
+                    guard let self, self.current?.id == station.id else { return }
+                    self.nowPlayingSchedule = days
+                    self.isScheduleLoading = false
+                    diagnosticRecord("schedule", "loaded", details: ["station": station.name, "days": String(days.count)])
+                }
+            } catch {
+                guard !Task.isCancelled else { return }
+                await MainActor.run { [weak self] in
+                    guard let self, self.current?.id == station.id else { return }
+                    self.nowPlayingSchedule = []
+                    self.isScheduleLoading = false
+                    diagnosticRecord("schedule", "failed", details: ["station": station.name, "error": error.localizedDescription])
+                }
             }
         }
     }
@@ -363,6 +441,7 @@ final class AudioPlayer {
                 guard let self, self.lyricsKey == key else { return }
                 self.nowPlayingLyrics = lyrics
                 self.isLyricsLoading = false
+                diagnosticRecord("lyrics", lyrics == nil ? "not found" : "loaded", details: ["artist": artist, "title": title])
             }
         }
     }
@@ -393,10 +472,15 @@ final class AudioPlayer {
         coverArtKey = key
         coverArtTask = Task { [weak self] in
             let coverUrl = await lookupCoverArt(artist: artist, title: title)
-            guard !Task.isCancelled, let coverUrl else { return }
+            guard !Task.isCancelled else { return }
             await MainActor.run { [weak self] in
                 guard let self, self.coverArtKey == key else { return }
+                guard let coverUrl else {
+                    diagnosticRecord("cover-art", "not found", details: ["artist": artist ?? "", "title": title])
+                    return
+                }
                 self.nowPlayingCoverUrl = coverUrl
+                diagnosticRecord("cover-art", "loaded", details: ["artist": artist ?? "", "title": title, "host": coverUrl.host() ?? ""])
                 self.updateNowPlaying()
             }
         }

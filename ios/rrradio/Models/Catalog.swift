@@ -75,6 +75,7 @@ final class Catalog {
 
     private func load(force: Bool) async {
         if (!force && !stations.isEmpty) || state == .loading { return }
+        diagnosticRecord("catalog", force ? "refresh started" : "load started")
         if stations.isEmpty {
             state = .loading
         }
@@ -83,6 +84,7 @@ final class Catalog {
         if stations.isEmpty, let cached = readCache() {
             stations = cached
             state = .loaded
+            diagnosticRecord("catalog", "cache loaded", details: ["stations": String(cached.count)])
         }
 
         // Then refresh from network.
@@ -97,6 +99,7 @@ final class Catalog {
             stations = parsed.stations
             state = .loaded
             try? data.write(to: cacheURL, options: .atomic)
+            diagnosticRecord("catalog", "network loaded", details: ["stations": String(parsed.stations.count)])
         } catch {
             // Keep the cached data we already showed; surface the error
             // only when there's nothing on screen at all.
@@ -105,6 +108,7 @@ final class Catalog {
             } else {
                 state = .loaded
             }
+            diagnosticRecord("catalog", "network failed", details: ["error": error.localizedDescription, "hasStations": String(!stations.isEmpty)])
         }
     }
 

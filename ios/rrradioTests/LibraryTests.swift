@@ -113,6 +113,7 @@ final class LibraryTests: XCTestCase {
 
         let second = Library(defaults: defaults)
         XCTAssertEqual(second.customStations.map(\.id), ["custom-a"])
+        XCTAssertEqual(second.favorites.map(\.id), ["custom-a"])
         XCTAssertEqual(second.customStations.first?.name, "Custom A")
     }
 
@@ -123,6 +124,17 @@ final class LibraryTests: XCTestCase {
 
         XCTAssertEqual(library.customStations.count, 1)
         XCTAssertEqual(library.customStations.first?.name, "New")
+        XCTAssertEqual(library.favorites.count, 1)
+        XCTAssertEqual(library.favorites.first?.name, "New")
+    }
+
+    func testAddCustomCanSkipFavoriteWhenCatalogMatchWillBeFavorited() {
+        let library = Library(defaults: defaults)
+        library.addCustom(station("custom-a", name: "Custom A"), favorite: false)
+        library.addFavorite(station("catalog-a", name: "Catalog A"))
+
+        XCTAssertEqual(library.customStations.map(\.id), ["custom-a"])
+        XCTAssertEqual(library.favorites.map(\.id), ["catalog-a"])
     }
 
     func testRemoveCustom() {
@@ -133,5 +145,31 @@ final class LibraryTests: XCTestCase {
         library.removeCustom(id: "custom-a")
 
         XCTAssertEqual(library.customStations.map(\.id), ["custom-b"])
+    }
+
+    func testRemoveCustomAlsoRemovesSavedCopies() {
+        let library = Library(defaults: defaults)
+        let custom = station("custom-a")
+        library.addCustom(custom)
+        library.pushRecent(custom)
+
+        library.removeCustom(id: "custom-a")
+
+        XCTAssertTrue(library.customStations.isEmpty)
+        XCTAssertTrue(library.favorites.isEmpty)
+        XCTAssertTrue(library.recents.isEmpty)
+    }
+
+    func testUnfavoritingCustomStationRemovesCustomRecord() {
+        let library = Library(defaults: defaults)
+        let custom = station("custom-a")
+        library.addCustom(custom)
+        library.pushRecent(custom)
+
+        XCTAssertFalse(library.toggleFavorite(custom))
+
+        XCTAssertTrue(library.customStations.isEmpty)
+        XCTAssertTrue(library.favorites.isEmpty)
+        XCTAssertTrue(library.recents.isEmpty)
     }
 }

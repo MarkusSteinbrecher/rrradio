@@ -118,18 +118,22 @@ enum L10nKey: String {
     case clearSearch
     case searchAll
     case searchFavorites
+    case searchCustomStations
     case searchRecents
     case allStations
     case favorites
+    case customStations
     case recents
     case search
     case noStationsFound
     case catalogEmpty
     case noFavorites
+    case noCustomStations
     case noRecents
     case trySearch
     case catalogNoRows
     case tapHeart
+    case customStationsHint
     case recentsHint
     case showing
     case of
@@ -164,8 +168,12 @@ enum L10nKey: String {
     case countryDetail
     case codec
     case bitrate
+    case format
+    case genres
     case metadata
     case unknown
+    case website
+    case open
     case stream
     case wakeTime
     case unset
@@ -174,6 +182,7 @@ enum L10nKey: String {
     case playStationFirst
     case addStation
     case saveAndPlay
+    case saveAnyway
 }
 
 enum L10n {
@@ -226,18 +235,22 @@ enum L10n {
             .clearSearch: "Clear search",
             .searchAll: "Search all stations...",
             .searchFavorites: "Search your favorites...",
+            .searchCustomStations: "Search your stations...",
             .searchRecents: "Search recently played...",
             .allStations: "All stations",
             .favorites: "Favorites",
+            .customStations: "My stations",
             .recents: "Recents",
             .search: "Search",
             .noStationsFound: "No stations found",
             .catalogEmpty: "Catalog empty",
             .noFavorites: "No favorites yet",
+            .noCustomStations: "No custom stations yet",
             .noRecents: "No recents yet",
             .trySearch: "Try a station name, country code, or tag.",
             .catalogNoRows: "The catalog has not loaded any rows.",
             .tapHeart: "Tap the heart in Now Playing to save a station.",
+            .customStationsHint: "Tap the plus button to add your own stream.",
             .recentsHint: "Stations appear here after you play them.",
             .showing: "Showing",
             .of: "of",
@@ -272,16 +285,21 @@ enum L10n {
             .countryDetail: "country",
             .codec: "codec",
             .bitrate: "bitrate",
+            .format: "format",
+            .genres: "genres",
             .metadata: "metadata",
             .unknown: "unknown",
+            .website: "website",
+            .open: "open",
             .stream: "stream",
             .wakeTime: "Wake time",
             .unset: "Unset",
             .set: "Set",
-            .wakeHint: "Keep rrradio installed in memory for best results. iOS can show the fallback notification, but a terminated app cannot start radio playback by itself.",
+            .wakeHint: "Do not quit the app, or the wake will not be able to play music.",
             .playStationFirst: "Play a station first",
             .addStation: "Add station",
             .saveAndPlay: "Save & Play",
+            .saveAnyway: "Save anyway",
         ],
         "de": [
             .settings: "Einstellungen",
@@ -331,18 +349,22 @@ enum L10n {
             .clearSearch: "Suche löschen",
             .searchAll: "Alle Stationen suchen...",
             .searchFavorites: "Favoriten suchen...",
+            .searchCustomStations: "Eigene Stationen suchen...",
             .searchRecents: "Zuletzt gespielt suchen...",
             .allStations: "Alle Stationen",
             .favorites: "Favoriten",
+            .customStations: "Eigene",
             .recents: "Zuletzt",
             .search: "Suche",
             .noStationsFound: "Keine Stationen gefunden",
             .catalogEmpty: "Katalog leer",
             .noFavorites: "Noch keine Favoriten",
+            .noCustomStations: "Noch keine eigenen Stationen",
             .noRecents: "Noch keine zuletzt gespielten Stationen",
             .trySearch: "Versuche Stationsname, Ländercode oder Tag.",
             .catalogNoRows: "Der Katalog hat noch keine Einträge geladen.",
             .tapHeart: "Tippe in Now Playing auf das Herz, um eine Station zu speichern.",
+            .customStationsHint: "Tippe auf Plus, um einen eigenen Stream hinzuzufügen.",
             .recentsHint: "Stationen erscheinen hier, nachdem du sie gespielt hast.",
             .showing: "Zeige",
             .of: "von",
@@ -377,16 +399,21 @@ enum L10n {
             .countryDetail: "land",
             .codec: "codec",
             .bitrate: "bitrate",
+            .format: "format",
+            .genres: "genres",
             .metadata: "metadaten",
             .unknown: "unbekannt",
+            .website: "website",
+            .open: "öffnen",
             .stream: "stream",
             .wakeTime: "Weckzeit",
             .unset: "Aus",
             .set: "Setzen",
-            .wakeHint: "Lass rrradio für beste Ergebnisse im Speicher. iOS kann die Ersatz-Benachrichtigung zeigen, aber eine beendete App kann Radio nicht selbst starten.",
+            .wakeHint: "Beende die App nicht, sonst kann der Wecker keine Musik abspielen.",
             .playStationFirst: "Erst eine Station abspielen",
             .addStation: "Station hinzufügen",
             .saveAndPlay: "Speichern & abspielen",
+            .saveAnyway: "Trotzdem speichern",
         ],
         "fr": [
             .settings: "Réglages",
@@ -436,18 +463,22 @@ enum L10n {
             .clearSearch: "Effacer la recherche",
             .searchAll: "Rechercher des stations...",
             .searchFavorites: "Rechercher dans les favoris...",
+            .searchCustomStations: "Rechercher vos stations...",
             .searchRecents: "Rechercher les écoutes récentes...",
             .allStations: "Toutes les stations",
             .favorites: "Favoris",
+            .customStations: "Mes stations",
             .recents: "Récents",
             .search: "Recherche",
             .noStationsFound: "Aucune station trouvée",
             .catalogEmpty: "Catalogue vide",
             .noFavorites: "Aucun favori",
+            .noCustomStations: "Aucune station personnelle",
             .noRecents: "Aucune écoute récente",
             .trySearch: "Essayez un nom de station, un code pays ou un tag.",
             .catalogNoRows: "Le catalogue n'a chargé aucune ligne.",
             .tapHeart: "Touchez le cœur dans Now Playing pour enregistrer une station.",
+            .customStationsHint: "Touchez le bouton plus pour ajouter votre propre flux.",
             .recentsHint: "Les stations apparaissent ici après écoute.",
             .showing: "Affiche",
             .of: "sur",
@@ -482,16 +513,21 @@ enum L10n {
             .countryDetail: "pays",
             .codec: "codec",
             .bitrate: "débit",
+            .format: "format",
+            .genres: "genres",
             .metadata: "métadonnées",
             .unknown: "inconnu",
+            .website: "site web",
+            .open: "ouvrir",
             .stream: "flux",
             .wakeTime: "Heure du réveil",
             .unset: "Retirer",
             .set: "Définir",
-            .wakeHint: "Gardez rrradio en mémoire pour de meilleurs résultats. iOS peut afficher la notification de secours, mais une app fermée ne peut pas lancer la radio seule.",
+            .wakeHint: "Ne quittez pas l'app, sinon le réveil ne pourra pas lancer la musique.",
             .playStationFirst: "Lancez d'abord une station",
             .addStation: "Ajouter une station",
             .saveAndPlay: "Enregistrer et lire",
+            .saveAnyway: "Enregistrer quand meme",
         ],
         "es": [
             .settings: "Ajustes",
@@ -541,18 +577,22 @@ enum L10n {
             .clearSearch: "Borrar búsqueda",
             .searchAll: "Buscar emisoras...",
             .searchFavorites: "Buscar favoritos...",
+            .searchCustomStations: "Buscar tus emisoras...",
             .searchRecents: "Buscar recientes...",
             .allStations: "Todas las emisoras",
             .favorites: "Favoritos",
+            .customStations: "Mis emisoras",
             .recents: "Recientes",
             .search: "Búsqueda",
             .noStationsFound: "No se encontraron emisoras",
             .catalogEmpty: "Catálogo vacío",
             .noFavorites: "Aun no hay favoritos",
+            .noCustomStations: "Aun no hay emisoras propias",
             .noRecents: "Aun no hay recientes",
             .trySearch: "Prueba con nombre, código de país o etiqueta.",
             .catalogNoRows: "El catálogo no ha cargado filas.",
             .tapHeart: "Toca el corazón en Now Playing para guardar una emisora.",
+            .customStationsHint: "Toca el botón más para añadir tu propio stream.",
             .recentsHint: "Las emisoras aparecen aquí después de escucharlas.",
             .showing: "Mostrando",
             .of: "de",
@@ -587,16 +627,21 @@ enum L10n {
             .countryDetail: "país",
             .codec: "codec",
             .bitrate: "bitrate",
+            .format: "formato",
+            .genres: "géneros",
             .metadata: "metadatos",
             .unknown: "desconocido",
+            .website: "web",
+            .open: "abrir",
             .stream: "stream",
             .wakeTime: "Hora de alarma",
             .unset: "Quitar",
             .set: "Activar",
-            .wakeHint: "Mantenga rrradio en memoria para mejores resultados. iOS puede mostrar la notificación de respaldo, pero una app cerrada no puede iniciar la radio sola.",
+            .wakeHint: "No cierres la app, o el despertador no podrá reproducir música.",
             .playStationFirst: "Reproduce una emisora primero",
             .addStation: "Añadir emisora",
             .saveAndPlay: "Guardar y reproducir",
+            .saveAnyway: "Guardar de todos modos",
         ],
     ]
 

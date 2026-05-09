@@ -684,9 +684,15 @@ struct NowPlayingView: View {
         VStack(spacing: 0) {
             if detailsOpen {
                 VStack(spacing: 10) {
-                    detailRow(locale.text(.countryDetail), player.current?.country?.uppercased() ?? locale.text(.unknown))
-                    detailRow(locale.text(.codec), player.current?.codec?.uppercased() ?? locale.text(.unknown))
-                    detailRow(locale.text(.bitrate), bitrateDetailText)
+                    if let homepage = player.current?.homepage {
+                        detailLinkRow(locale.text(.website), url: homepage)
+                    }
+                    if let station = player.current {
+                        detailLinkRow(locale.text(.stream), url: station.streamUrl)
+                    }
+                    detailRow(locale.text(.countryDetail), countryDetailText)
+                    detailRow(locale.text(.format), formatDetailText)
+                    detailRow(locale.text(.genres), genresDetailText)
                     detailRow(locale.text(.metadata), player.current?.metadata ?? player.current?.status ?? locale.text(.stream))
                 }
                 .padding(.vertical, 12)
@@ -785,6 +791,22 @@ struct NowPlayingView: View {
             Text(value)
                 .foregroundStyle(RrradioTheme.ink2)
                 .lineLimit(1)
+        }
+        .font(.system(size: 11, weight: .medium, design: .monospaced))
+    }
+
+    private func detailLinkRow(_ label: String, url: URL) -> some View {
+        HStack(alignment: .firstTextBaseline) {
+            Text(label)
+                .foregroundStyle(RrradioTheme.ink4)
+            Spacer()
+            Link(destination: url) {
+                Text(url.absoluteString)
+                    .foregroundStyle(RrradioTheme.accent)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+            }
+            .lineLimit(1)
         }
         .font(.system(size: 11, weight: .medium, design: .monospaced))
     }
@@ -910,6 +932,14 @@ struct NowPlayingView: View {
         return "\(bitrate) kbps"
     }
 
+    private var countryDetailText: String {
+        guard let country = player.current?.country?.trimmingCharacters(in: .whitespacesAndNewlines),
+              !country.isEmpty else {
+            return locale.text(.unknown)
+        }
+        return countryDisplayName(country)
+    }
+
     private var bitrateDetailText: String {
         guard player.current?.bitrate != nil else { return locale.text(.unknown) }
         return [
@@ -917,6 +947,27 @@ struct NowPlayingView: View {
             streamQualityMeter(codec: player.current?.codec, bitrate: player.current?.bitrate),
         ]
         .joined(separator: " . ")
+    }
+
+    private var formatDetailText: String {
+        let codec = player.current?.codec?
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .uppercased()
+        let bitrate = player.current?.bitrate.map { "\($0) kbps" }
+        let quality = codec?.isEmpty == false || bitrate != nil
+            ? "\(streamQualityLevel(codec: player.current?.codec, bitrate: player.current?.bitrate))/4"
+            : nil
+        let parts = [codec?.isEmpty == false ? codec : nil, bitrate, quality].compactMap { $0 }
+        return parts.isEmpty ? locale.text(.unknown) : parts.joined(separator: " . ")
+    }
+
+    private var genresDetailText: String {
+        let tags = player.current?.tags?
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
+            .prefix(5)
+            .joined(separator: " . ")
+        return tags?.isEmpty == false ? tags! : locale.text(.unknown)
     }
 }
 
@@ -993,7 +1044,7 @@ private struct WakeAlarmView: View {
 
             Text(locale.text(.wakeHint))
                 .font(.system(size: 11))
-                .foregroundStyle(RrradioTheme.ink4)
+                .foregroundStyle(RrradioTheme.accent)
                 .multilineTextAlignment(.center)
                 .lineSpacing(3)
         }

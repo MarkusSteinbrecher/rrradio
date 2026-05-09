@@ -1,9 +1,11 @@
 import SwiftUI
+import UIKit
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(LocaleController.self) private var locale
     @Environment(ThemeController.self) private var theme
+    var onCustomStationSaved: (Station) -> Void = { _ in }
     @State private var page: SettingsPage = .settings
 
     var body: some View {
@@ -16,7 +18,8 @@ struct SettingsView: View {
                     .tag(SettingsPage.settings)
                 AboutContentView()
                     .tag(SettingsPage.about)
-                AddStationContentView {
+                AddStationContentView { station in
+                    onCustomStationSaved(station)
                     dismiss()
                 }
                 .tag(SettingsPage.upload)
@@ -75,115 +78,180 @@ private struct SettingsPageView: View {
     @Environment(SleepTimer.self) private var sleepTimer
     @Environment(CarModeController.self) private var carMode
     @Environment(ListeningHistory.self) private var listeningHistory
+    @Environment(Diagnostics.self) private var diagnostics
     @AppStorage(LandingPage.storageKey) private var landingPageRaw = LandingPage.browse.rawValue
     @AppStorage(LandingPage.stationIDKey) private var landingStationID = ""
     @AppStorage(WakeAlarm.defaultTimeKey) private var defaultWakeTime = WakeAlarm.fallbackDefaultTime
     @AppStorage(SleepTimer.defaultMinutesKey) private var defaultSleepMinutes = SleepTimer.fallbackDefaultMinutes
     @Binding var page: SettingsPage
     @State private var landingStationQuery = ""
+    @State private var copiedDiagnostics = false
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 22) {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(locale.text(.settings))
-                        .font(.system(size: 30, weight: .medium))
-                        .foregroundStyle(RrradioTheme.ink)
-                    Text(locale.text(.appPreferences))
-                        .font(.system(size: 15))
-                        .foregroundStyle(RrradioTheme.ink3)
-                }
-
-                settingsSection(locale.text(.theme)) {
-                    VStack(spacing: 0) {
-                        themeRow(locale.text(.system), detail: locale.text(.followIOSAppearance), choice: .system)
-                        themeRow(locale.text(.light), detail: locale.text(.alwaysLight), choice: .light)
-                        themeRow(locale.text(.dark), detail: locale.text(.alwaysDark), choice: .dark)
-                    }
-                    .background(RrradioTheme.bg2)
-                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                }
-
-                settingsSection(locale.text(.landingPage)) {
-                    VStack(spacing: 0) {
-                        landingPageRow(.browse)
-                        landingPageRow(.favorites)
-                        landingPageRow(.station)
-                        if currentLandingPage == .station {
-                            landingStationPicker
+                    settingsSection(locale.text(.theme)) {
+                        VStack(spacing: 0) {
+                            themeRow(locale.text(.system), detail: locale.text(.followIOSAppearance), choice: .system)
+                            themeRow(locale.text(.light), detail: locale.text(.alwaysLight), choice: .light)
+                            themeRow(locale.text(.dark), detail: locale.text(.alwaysDark), choice: .dark)
                         }
+                        .background(RrradioTheme.bg2)
+                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
-                    .background(RrradioTheme.bg2)
-                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                }
 
-                settingsSection(locale.text(.timerDefaults)) {
-                    VStack(spacing: 0) {
-                        wakeDefaultRow
-                        sleepDefaultRow
-                    }
-                    .background(RrradioTheme.bg2)
-                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                }
-
-                settingsSection(locale.text(.carMode)) {
-                    VStack(spacing: 0) {
-                        carModeToggle(
-                            icon: "car.fill",
-                            title: locale.text(.automaticCarMode),
-                            detail: "\(locale.text(.currentAudioRoute)): \(carMode.routeLabel)",
-                            isOn: Binding(
-                                get: { carMode.automaticEnabled },
-                                set: { carMode.setAutomaticEnabled($0) },
-                            ),
-                        )
-                        carModeToggle(
-                            icon: "steeringwheel",
-                            title: locale.text(.manualCarMode),
-                            detail: carMode.isActive ? locale.text(.carModeActive) : locale.text(.carModeInactive),
-                            isOn: Binding(
-                                get: { carMode.manualEnabled },
-                                set: { carMode.setManualEnabled($0) },
-                            ),
-                        )
-                    }
-                    .background(RrradioTheme.bg2)
-                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                }
-
-                settingsSection("Listening History") {
-                    VStack(spacing: 0) {
-                        listeningHistoryToggle
-                        if listeningHistory.isEnabled {
-                            listeningHistoryDashboardLink
-                            listeningHistoryLevelRows
-                            listeningHistoryRetentionRows
+                    settingsSection(locale.text(.landingPage)) {
+                        VStack(spacing: 0) {
+                            landingPageRow(.browse)
+                            landingPageRow(.favorites)
+                            landingPageRow(.station)
+                            if currentLandingPage == .station {
+                                landingStationPicker
+                            }
                         }
+                        .background(RrradioTheme.bg2)
+                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
-                    .background(RrradioTheme.bg2)
-                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                }
 
-                settingsSection(locale.text(.language)) {
-                    VStack(spacing: 0) {
-                        ForEach(LocaleController.Choice.allCases) { choice in
-                            languageRow(choice)
+                    settingsSection(locale.text(.timerDefaults)) {
+                        VStack(spacing: 0) {
+                            wakeDefaultRow
+                            wakeNotificationRow
+                            sleepDefaultRow
                         }
+                        .background(RrradioTheme.bg2)
+                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
-                    .background(RrradioTheme.bg2)
-                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                }
+
+                    settingsSection(locale.text(.carMode)) {
+                        VStack(spacing: 0) {
+                            carModeToggle(
+                                icon: "car.fill",
+                                title: locale.text(.automaticCarMode),
+                                detail: "\(locale.text(.currentAudioRoute)): \(carMode.routeLabel)",
+                                isOn: Binding(
+                                    get: { carMode.automaticEnabled },
+                                    set: { carMode.setAutomaticEnabled($0) },
+                                ),
+                            )
+                            carModeToggle(
+                                icon: "steeringwheel",
+                                title: locale.text(.manualCarMode),
+                                detail: carMode.isActive ? locale.text(.carModeActive) : locale.text(.carModeInactive),
+                                isOn: Binding(
+                                    get: { carMode.manualEnabled },
+                                    set: { carMode.setManualEnabled($0) },
+                                ),
+                            )
+                        }
+                        .background(RrradioTheme.bg2)
+                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                    }
+
+                    settingsSection("Listening History") {
+                        VStack(spacing: 0) {
+                            listeningHistoryToggle
+                            if listeningHistory.isEnabled {
+                                listeningHistoryDashboardLink
+                                listeningHistoryLevelRows
+                                listeningHistoryRetentionRows
+                            }
+                        }
+                        .background(RrradioTheme.bg2)
+                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                    }
+
+                    settingsSection(locale.text(.language)) {
+                        VStack(spacing: 0) {
+                            ForEach(LocaleController.Choice.allCases) { choice in
+                                languageRow(choice)
+                            }
+                        }
+                        .background(RrradioTheme.bg2)
+                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                    }
+
+                    settingsSection("Diagnostics") {
+                        diagnosticsSection
+                    }
             }
             .padding(.horizontal, 24)
             .padding(.top, 20)
             .padding(.bottom, 32)
         }
+    }
+
+    private var diagnosticsSection: some View {
+        VStack(spacing: 0) {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Local troubleshooting log")
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(RrradioTheme.ink)
+                Text("Stored only on this device. Share it when a tester reports playback, wake, catalog, or metadata issues.")
+                    .font(.system(size: 12))
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .lineLimit(3)
+                Text(diagnostics.recentSummary)
+                    .font(.system(size: 10, weight: .medium, design: .monospaced))
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .lineLimit(8)
+                    .textSelection(.enabled)
+                    .padding(10)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(RrradioTheme.bg)
+                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(RrradioTheme.line))
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+            }
+            .padding(14)
+            .overlay(alignment: .bottom) {
+                Rectangle()
+                    .fill(RrradioTheme.line)
+                    .frame(height: 1)
+            }
+
+            HStack(spacing: 10) {
+                diagnosticsButton(copiedDiagnostics ? "Copied" : "Copy", systemImage: "doc.on.doc") {
+                    UIPasteboard.general.string = diagnostics.exportText()
+                    copiedDiagnostics = true
+                    diagnostics.record("diagnostics", "copied")
+                }
+
+                ShareLink(item: diagnostics.exportText()) {
+                    Label("Share", systemImage: "square.and.arrow.up")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.bordered)
+                .tint(RrradioTheme.accent)
+                .simultaneousGesture(TapGesture().onEnded {
+                    diagnostics.record("diagnostics", "share opened")
+                })
+
+                diagnosticsButton("Clear", systemImage: "trash") {
+                    diagnostics.clear()
+                    copiedDiagnostics = false
+                }
+            }
+            .font(.system(size: 12, weight: .semibold, design: .monospaced))
+            .padding(14)
+        }
+        .background(RrradioTheme.bg2)
+        .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    private func diagnosticsButton(_ title: String, systemImage: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Label(title, systemImage: systemImage)
+                .frame(maxWidth: .infinity)
+        }
+        .buttonStyle(.bordered)
+        .tint(RrradioTheme.accent)
     }
 
     private func carModeToggle(icon: String, title: String, detail: String, isOn: Binding<Bool>) -> some View {
@@ -409,6 +477,38 @@ private struct SettingsPageView: View {
         }
         .padding(.horizontal, 14)
         .frame(minHeight: 54)
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(RrradioTheme.line)
+                .frame(height: 1)
+        }
+    }
+
+    private var wakeNotificationRow: some View {
+        Toggle(isOn: Binding(
+            get: { wakeAlarm.notificationsEnabled },
+            set: { wakeAlarm.setNotificationsEnabled($0) },
+        )) {
+            HStack(spacing: 12) {
+                Image(systemName: wakeAlarm.notificationsEnabled ? "bell.fill" : "bell.slash")
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(wakeAlarm.notificationsEnabled ? RrradioTheme.accent : RrradioTheme.ink3)
+                    .frame(width: 22)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Wake notification")
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundStyle(RrradioTheme.ink)
+                    Text("Off by default. The wake can play music without vibrating if the app is still running.")
+                        .font(.system(size: 12))
+                        .foregroundStyle(RrradioTheme.ink3)
+                        .lineLimit(3)
+                }
+            }
+            .padding(.vertical, 10)
+        }
+        .tint(RrradioTheme.accent)
+        .padding(.horizontal, 14)
+        .frame(minHeight: 66)
         .overlay(alignment: .bottom) {
             Rectangle()
                 .fill(RrradioTheme.line)

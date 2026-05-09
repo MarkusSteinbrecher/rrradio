@@ -207,11 +207,14 @@ struct AboutContentView: View {
 
 struct SheetChromeHeader: View {
     let title: String
-    var titleAlignment: Alignment = .leading
+    var titleAlignment: Alignment = .center
     let dismiss: () -> Void
 
     var body: some View {
-        ZStack {
+        HStack(spacing: 0) {
+            Color.clear
+                .frame(width: 36, height: 36)
+
             Text(title)
                 .font(.system(size: 12, weight: .medium, design: .monospaced))
                 .textCase(.uppercase)
@@ -219,23 +222,19 @@ struct SheetChromeHeader: View {
                 .foregroundStyle(RrradioTheme.ink3)
                 .frame(maxWidth: .infinity, alignment: titleAlignment)
 
-            HStack {
-                Spacer()
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "xmark")
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundStyle(RrradioTheme.ink2)
-                        .frame(width: 36, height: 36)
-                        .overlay(Circle().stroke(RrradioTheme.line))
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel("Close")
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(RrradioTheme.ink2)
+                    .frame(width: 36, height: 36)
+                    .overlay(Circle().stroke(RrradioTheme.line))
             }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Close")
         }
-        .padding(.leading, 24)
-        .padding(.trailing, 18)
+        .padding(.horizontal, 18)
         .padding(.vertical, 10)
         .background(RrradioTheme.bg)
         .overlay(alignment: .bottom) {

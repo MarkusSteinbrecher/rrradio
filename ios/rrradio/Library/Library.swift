@@ -32,11 +32,26 @@ final class Library {
         favorites.contains { $0.id == station.id }
     }
 
+    func addFavorite(_ station: Station) {
+        if let idx = favorites.firstIndex(where: { $0.id == station.id }) {
+            favorites[idx] = station
+        } else {
+            favorites.insert(station, at: 0)
+        }
+        writeFavorites()
+    }
+
     /// Toggle favorite and return the new state, matching the web helper.
     @discardableResult
     func toggleFavorite(_ station: Station) -> Bool {
         if let idx = favorites.firstIndex(where: { $0.id == station.id }) {
             favorites.remove(at: idx)
+            if isCustom(station) {
+                customStations.removeAll { $0.id == station.id }
+                recents.removeAll { $0.id == station.id }
+                writeCustom()
+                writeRecents()
+            }
             writeFavorites()
             return false
         }
@@ -85,11 +100,17 @@ final class Library {
         customStations.contains { $0.id == station.id }
     }
 
-    func addCustom(_ station: Station) {
+    func addCustom(_ station: Station, favorite: Bool = true) {
         if let idx = customStations.firstIndex(where: { $0.id == station.id }) {
             customStations[idx] = station
         } else {
             customStations.insert(station, at: 0)
+        }
+        if favorite {
+            addFavorite(station)
+        } else {
+            favorites.removeAll { $0.id == station.id }
+            writeFavorites()
         }
         writeCustom()
     }
@@ -100,7 +121,11 @@ final class Library {
 
     func removeCustom(id: String) {
         customStations.removeAll { $0.id == id }
+        favorites.removeAll { $0.id == id }
+        recents.removeAll { $0.id == id }
         writeCustom()
+        writeFavorites()
+        writeRecents()
     }
 
     private func writeFavorites() {

@@ -12,6 +12,7 @@ struct LocalWakeAlarmNotifier: WakeAlarmNotifying {
 
     func schedule(station: Station, time: String, firesAt: Date) {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, _ in
+            diagnosticRecordAsync("wake", "notification authorization", details: ["granted": String(granted)])
             guard granted else { return }
             let content = UNMutableNotificationContent()
             content.title = "Wake to \(station.name)"
@@ -22,27 +23,41 @@ struct LocalWakeAlarmNotifier: WakeAlarmNotifying {
             let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
             let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [identifier])
-            UNUserNotificationCenter.current().add(request)
+            UNUserNotificationCenter.current().add(request) { error in
+                diagnosticRecordAsync(
+                    "wake",
+                    error == nil ? "notification scheduled" : "notification schedule failed",
+                    details: [
+                        "station": station.name,
+                        "time": time,
+                        "firesAt": ISO8601DateFormatter().string(from: firesAt),
+                        "error": error?.localizedDescription ?? "",
+                    ],
+                )
+            }
         }
     }
 
     func cancel() {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [identifier])
+        diagnosticRecordAsync("wake", "notification cancelled")
     }
 }
 
 /// One-shot wake-to-radio alarm. Native iOS still cannot behave exactly
 /// like Clock.app: a terminated third-party app cannot launch itself and
 /// start audio. While the app is alive, this timer starts the chosen
-/// station; a local notification is scheduled as a fallback cue.
+/// station; an optional local notification can be scheduled as a fallback cue.
 @Observable
 @MainActor
 final class WakeAlarm {
     private enum Keys {
         static let wake = "rrradio.wake.v1"
         static let lastTime = "rrradio.wake.lastTime.v1"
+        static let notificationsEnabled = "rrradio.wake.notificationsEnabled.v1"
     }
     static let defaultTimeKey = Keys.lastTime
+    static let notificationsEnabledKey = Keys.notificationsEnabled
     static let fallbackDefaultTime = "07:00"
 
     private struct StoredWake: Codable {
@@ -61,6 +76,17 @@ final class WakeAlarm {
     private(set) var station: Station?
     private(set) var armedAt: Date?
     private(set) var firesAt: Date?
+    var notificationsEnabled: Bool {
+        didSet {
+            defaults.set(notificationsEnabled, forKey: Keys.notificationsEnabled)
+            diagnosticRecord("wake", "notification preference changed", details: ["enabled": String(notificationsEnabled)])
+            if notificationsEnabled {
+                scheduleWakeNotificationIfNeeded()
+            } else {
+                notifier.cancel()
+            }
+        }
+    }
 
     @ObservationIgnored
     private var timer: Timer?
@@ -84,6 +110,7 @@ final class WakeAlarm {
         self.notifier = notifier
         self.now = now
         time = defaults.string(forKey: Keys.lastTime) ?? Self.fallbackDefaultTime
+        notificationsEnabled = defaults.bool(forKey: Keys.notificationsEnabled)
 
         if let stored = Self.readWake(from: defaults),
            let next = Self.nextFireDate(time: stored.time, armedAt: stored.armedAt) {
@@ -93,21 +120,26 @@ final class WakeAlarm {
                 station = stored.station
                 armedAt = stored.armedAt
                 firesAt = next
+                diagnosticRecord("wake", "restored", details: wakeDetails(station: stored.station, firesAt: next))
             } else {
+                diagnosticRecord("wake", "cleared stale stored alarm")
                 Self.clearWake(from: defaults)
             }
         } else {
             Self.clearWake(from: defaults)
         }
+
+        if !notificationsEnabled {
+            notifier.cancel()
+        }
     }
 
     func activate(onFire: @escaping (Station) -> Void) {
         self.onFire = onFire
+        diagnosticRecord("wake", "activated", details: ["armed": String(isArmed)])
         guard isArmed else { return }
         scheduleTimer()
-        if let station, let firesAt {
-            notifier.schedule(station: station, time: time, firesAt: firesAt)
-        }
+        scheduleWakeNotificationIfNeeded()
         if let firesAt, firesAt <= now() {
             fire()
         }
@@ -126,10 +158,14 @@ final class WakeAlarm {
         self.station = station
         armedAt = armed
         firesAt = nextFire
-        defaults.set(cleanTime, forKey: Keys.lastTime)
         writeWake()
+        diagnosticRecord("wake", "armed", details: wakeDetails(station: station, firesAt: nextFire))
         scheduleTimer()
-        notifier.schedule(station: station, time: cleanTime, firesAt: nextFire)
+        scheduleWakeNotificationIfNeeded()
+    }
+
+    func setNotificationsEnabled(_ enabled: Bool) {
+        notificationsEnabled = enabled
     }
 
     func setDefaultTime(_ nextTime: String) {
@@ -142,9 +178,11 @@ final class WakeAlarm {
     func disarm() {
         timer?.invalidate()
         timer = nil
+        diagnosticRecord("wake", "disarmed", details: station.map { wakeDetails(station: $0, firesAt: firesAt) } ?? [:])
         station = nil
         armedAt = nil
         firesAt = nil
+        time = defaults.string(forKey: Keys.lastTime) ?? Self.fallbackDefaultTime
         Self.clearWake(from: defaults)
         notifier.cancel()
     }
@@ -186,6 +224,7 @@ final class WakeAlarm {
         timer?.invalidate()
         guard let firesAt else { return }
         let interval = max(0, firesAt.timeIntervalSince(now()))
+        diagnosticRecord("wake", "timer scheduled", details: ["seconds": String(Int(interval)), "firesAt": ISO8601DateFormatter().string(from: firesAt)])
         timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false) { [weak self] _ in
             Task { @MainActor [weak self] in
                 self?.fire()
@@ -193,13 +232,33 @@ final class WakeAlarm {
         }
     }
 
+    private func scheduleWakeNotificationIfNeeded() {
+        guard notificationsEnabled, let station, let firesAt else {
+            notifier.cancel()
+            diagnosticRecord("wake", "notification skipped", details: ["enabled": String(notificationsEnabled)])
+            return
+        }
+        notifier.schedule(station: station, time: time, firesAt: firesAt)
+    }
+
     private func fire() {
         guard let station else { return }
         timer?.invalidate()
         timer = nil
         let target = station
+        diagnosticRecord("wake", "timer fired", details: wakeDetails(station: target, firesAt: firesAt))
         disarm()
         onFire?(target)
+    }
+
+    private func wakeDetails(station: Station, firesAt: Date?) -> [String: String] {
+        [
+            "station": station.name,
+            "stationID": station.id,
+            "streamHost": station.streamUrl.host() ?? "",
+            "time": time,
+            "firesAt": firesAt.map { ISO8601DateFormatter().string(from: $0) } ?? "",
+        ]
     }
 
     private func writeWake() {

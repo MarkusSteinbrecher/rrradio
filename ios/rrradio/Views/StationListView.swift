@@ -8,15 +8,15 @@ enum RrradioTheme {
     )
     static let bg = adaptive(
         light: UIColor(red: 0.973, green: 0.973, blue: 0.953, alpha: 1),
-        dark: UIColor(red: 0.039, green: 0.039, blue: 0.039, alpha: 1),
+        dark: UIColor(red: 0.245, green: 0.245, blue: 0.225, alpha: 1),
     )
     static let bg2 = adaptive(
         light: UIColor(red: 1, green: 1, blue: 0.984, alpha: 1),
-        dark: UIColor(red: 0.075, green: 0.075, blue: 0.075, alpha: 1),
+        dark: UIColor(red: 0.305, green: 0.305, blue: 0.280, alpha: 1),
     )
     static let bg3 = adaptive(
         light: UIColor(red: 0.925, green: 0.925, blue: 0.895, alpha: 1),
-        dark: UIColor(red: 0.102, green: 0.102, blue: 0.102, alpha: 1),
+        dark: UIColor(red: 0.365, green: 0.365, blue: 0.335, alpha: 1),
     )
     static let ink = adaptive(
         light: UIColor(red: 0.055, green: 0.055, blue: 0.050, alpha: 1),
@@ -74,6 +74,7 @@ struct StationListView: View {
     @State private var activeFilterPicker: ActiveFilterPicker?
     @State private var stationDisplayLimit = 220
     @State private var radioBrowserStations: [Station] = []
+    @State private var radioBrowserTotalCount: Int?
     @State private var radioBrowserOffset = 0
     @State private var radioBrowserHasMore = true
     @State private var radioBrowserLoading = false
@@ -140,7 +141,7 @@ struct StationListView: View {
         _searchFocusedExternally = searchFocusedExternally
     }
 
-    private var allStations: [Station] { library.customStations + catalog.browseOrdered }
+    private var allStations: [Station] { catalog.browseOrdered }
     private var stationPool: [Station] {
         checkedOnly ? allStations : allStations + radioBrowserStations
     }
@@ -211,7 +212,9 @@ struct StationListView: View {
         }
         .background(RrradioTheme.bg)
         .sheet(isPresented: $showingSettings) {
-            SettingsView()
+            SettingsView(onCustomStationSaved: { station in
+                handleCustomStationSaved(station)
+            })
         }
         .sheet(isPresented: $showingMap) {
             StationMapView(
@@ -658,7 +661,7 @@ struct StationListView: View {
             Text(statusLabel)
             Text(".")
                 .foregroundStyle(RrradioTheme.ink4)
-            Text("\(filteredStations.count)")
+            Text(statusCountLabel)
                 .foregroundStyle(RrradioTheme.ink4)
         }
         .font(.system(size: 10, weight: .medium, design: .monospaced))
@@ -738,39 +741,41 @@ struct StationListView: View {
 
     private var sortableFavoritesList: some View {
         List {
-            Section {
-                ForEach(visibleStations) { station in
-                    StationRow(
-                        station: station,
-                        nowPlaying: favoriteNowPlaying.entries[station.id]?.metadata,
-                        mode: .favoritesExpanded,
-                        isCurrent: player.current?.id == station.id,
-                        isPlaying: player.current?.id == station.id && player.state == .playing,
-                        isFavorite: true,
-                        isCustom: library.isCustom(station),
-                        onPlay: {
-                            play(station)
-                        },
-                        onToggleFavorite: {},
-                        showsFavoriteButton: false,
-                    )
+            if hasTimerStatus {
+                timerStatusStrip
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
                     .listRowBackground(RrradioTheme.bg)
-                    .moveDisabled(!canReorderFavorites)
-                }
-                .onMove(perform: moveFavoriteRows)
-
-                if visibleStations.count < filteredStations.count {
-                    loadMoreRow
-                        .listRowInsets(EdgeInsets())
-                        .listRowSeparator(.hidden)
-                        .listRowBackground(RrradioTheme.bg)
-                }
-            } header: {
-                timerStatusStrip
-                    .listRowInsets(EdgeInsets())
                     .textCase(nil)
+            }
+
+            ForEach(visibleStations) { station in
+                StationRow(
+                    station: station,
+                    nowPlaying: favoriteNowPlaying.entries[station.id]?.metadata,
+                    mode: .favoritesExpanded,
+                    isCurrent: player.current?.id == station.id,
+                    isPlaying: player.current?.id == station.id && player.state == .playing,
+                    isFavorite: true,
+                    isCustom: library.isCustom(station),
+                    onPlay: {
+                        play(station)
+                    },
+                    onToggleFavorite: {},
+                    showsFavoriteButton: false,
+                )
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
+                .listRowBackground(RrradioTheme.bg)
+                .moveDisabled(!canReorderFavorites)
+            }
+            .onMove(perform: moveFavoriteRows)
+
+            if visibleStations.count < filteredStations.count {
+                loadMoreRow
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(RrradioTheme.bg)
             }
         }
         .environment(\.editMode, .constant(.active))
@@ -786,8 +791,27 @@ struct StationListView: View {
         if let metadata = favoriteNowPlaying.entries[station.id]?.metadata {
             player.applyPrefetchedMetadata(metadata, for: station)
         }
-        library.pushRecent(station)
+        if !library.isCustom(station) {
+            library.pushRecent(station)
+        }
         showingNowPlaying = true
+    }
+
+    private func handleCustomStationSaved(_ station: Station) {
+        tab = .library
+        source = .favorites
+        librarySource = .favorites
+        searchText = ""
+        query = ""
+        selectedCountry = nil
+        selectedTag = nil
+        checkedOnly = true
+        resetStationDisplayLimit()
+        recomputeFilteredStations()
+        diagnosticRecord("library", "custom station saved", details: [
+            "station": station.name,
+            "host": station.streamUrl.host() ?? "",
+        ])
     }
 
     private var canReorderFavorites: Bool {
@@ -847,7 +871,7 @@ struct StationListView: View {
 
     @ViewBuilder
     private var timerStatusStrip: some View {
-        if wakeAlarm.isArmed || sleepTimer.isArmed {
+        if hasTimerStatus {
             TimelineView(.periodic(from: .now, by: 30)) { timeline in
                 VStack(spacing: 0) {
                     if wakeAlarm.isArmed {
@@ -871,6 +895,10 @@ struct StationListView: View {
                 }
             }
         }
+    }
+
+    private var hasTimerStatus: Bool {
+        wakeAlarm.isArmed || sleepTimer.isArmed
     }
 
     private func timerStatusRow(
@@ -1024,6 +1052,15 @@ struct StationListView: View {
         }
     }
 
+    private var statusCountLabel: String {
+        guard source == .all else { return "\(filteredStations.count)" }
+        if checkedOnly { return "\(filteredStations.count)" }
+        if hasActiveFilters || !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            return "\(filteredStations.count)+"
+        }
+        return "\(radioBrowserTotalCount ?? filteredStations.count)"
+    }
+
     private var activeFilterLabels: [String] {
         var labels: [String] = []
         if checkedOnly {
@@ -1091,7 +1128,15 @@ struct StationListView: View {
     private func fetchInitialRadioBrowserPageIfNeeded() {
         guard source == .all,
               !checkedOnly else { return }
+        fetchRadioBrowserTotalCountIfNeeded()
         fetchRadioBrowserStations()
+    }
+
+    private func fetchRadioBrowserTotalCountIfNeeded() {
+        guard radioBrowserTotalCount == nil else { return }
+        Task {
+            radioBrowserTotalCount = try? await radioBrowser.stationCount()
+        }
     }
 
     private func fetchRadioBrowserStations() {
@@ -1144,6 +1189,8 @@ struct StationListView: View {
                 .font(.system(size: 11, weight: .medium, design: .monospaced))
                 .textCase(.uppercase)
                 .tracking(1.2)
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
                 .foregroundStyle(source == value ? RrradioTheme.bg : RrradioTheme.ink3)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 8)
@@ -1266,6 +1313,7 @@ struct StationRow: View {
     let onPlay: () -> Void
     let onToggleFavorite: () -> Void
     var showsFavoriteButton = true
+    @State private var showingStreamQuality = false
 
     var body: some View {
         HStack(spacing: 14) {
@@ -1294,6 +1342,18 @@ struct StationRow: View {
             }
             .buttonStyle(.plain)
 
+            if mode == .standard, hasStreamDetail {
+                Button {
+                    showingStreamQuality = true
+                } label: {
+                    qualityMeter
+                        .frame(width: 26, height: 36, alignment: .center)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Stream quality")
+            }
+
             if showsFavoriteButton {
                 Button(action: onToggleFavorite) {
                     Image(systemName: isFavorite ? "heart.fill" : "heart")
@@ -1308,6 +1368,11 @@ struct StationRow: View {
         }
         .padding(.horizontal, 20)
         .padding(.vertical, mode == .favoritesExpanded ? 16 : 14)
+        .alert("Stream quality", isPresented: $showingStreamQuality) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(streamQualityMessage)
+        }
         .background {
             if isCurrent {
                 LinearGradient(
@@ -1366,12 +1431,7 @@ struct StationRow: View {
                 } else if mode != .standard {
                     EmptyView()
                 } else {
-                    HStack(spacing: 6) {
-                        capabilityStars
-                        qualityMeter
-                    }
-                    .font(.system(size: 10.5, weight: .regular, design: .monospaced))
-                    .foregroundStyle(RrradioTheme.ink3)
+                    stationTagLine
                 }
             }
         }
@@ -1379,24 +1439,45 @@ struct StationRow: View {
 
     private var stationTitleLine: some View {
         HStack(spacing: 4) {
-            Text(mode == .favoritesExpanded ? station.name : primaryLine)
-                .font(.system(size: 15, weight: .medium))
-                .foregroundStyle(isCurrent ? RrradioTheme.accent : RrradioTheme.ink)
-                .lineLimit(1)
-            let flag = countryFlagEmoji(station.country)
-            if !flag.isEmpty {
-                Text(flag)
-                    .font(.system(size: 12))
-                    .foregroundStyle(.primary)
+            HStack(spacing: 4) {
+                Text(mode == .favoritesExpanded ? station.name : primaryLine)
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(isCurrent ? RrradioTheme.accent : RrradioTheme.ink)
+                    .lineLimit(1)
+                let flag = countryFlagEmoji(station.country)
+                if !flag.isEmpty {
+                    Text(flag)
+                        .font(.system(size: 12))
+                        .foregroundStyle(.primary)
+                }
             }
-            if mode == .standard, let tags = station.tags, !tags.isEmpty {
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .layoutPriority(1)
+        }
+    }
+
+    @ViewBuilder
+    private var stationTagLine: some View {
+        HStack(spacing: 6) {
+            if isCustom {
+                Text("added station")
+                    .font(.system(size: 10.5, weight: .regular, design: .monospaced))
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .textCase(.lowercase)
+                    .lineLimit(1)
+            } else {
+                capabilityStars
+            }
+            if !isCustom, let tags = station.tags, !tags.isEmpty {
                 Text(tags.prefix(3).joined(separator: " . "))
                     .font(.system(size: 10.5, weight: .regular, design: .monospaced))
                     .foregroundStyle(RrradioTheme.ink3)
                     .textCase(.lowercase)
                     .lineLimit(1)
+                    .truncationMode(.tail)
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private enum DetailTextStyle {
@@ -1479,27 +1560,33 @@ struct StationRow: View {
 
     @ViewBuilder
     private var streamDetailView: some View {
-        let codec = station.codec?.uppercased()
-        let bitrate = station.bitrate.map { "\($0) kbps" }
-        if codec != nil || bitrate != nil {
+        if hasStreamDetail {
             HStack(spacing: 5) {
-                if let codec {
-                    detailText(codec, style: .mono)
-                }
-                if codec != nil, bitrate != nil {
-                    detailText(".", style: .mono)
-                }
-                if let bitrate {
-                    detailText(bitrate, style: .mono)
-                }
+                detailText(streamDetailText, style: .mono)
                 detailText(".", style: .mono)
                 qualityMeter
-                    .font(.system(size: 10.5, weight: .regular, design: .monospaced))
-                    .fixedSize(horizontal: true, vertical: false)
             }
             .lineLimit(1)
             .frame(maxWidth: .infinity, alignment: .leading)
         }
+    }
+
+    private var hasStreamDetail: Bool {
+        station.codec?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false || station.bitrate != nil
+    }
+
+    private var streamDetailText: String {
+        [
+            station.codec?.trimmingCharacters(in: .whitespacesAndNewlines).uppercased().nilIfEmpty,
+            station.bitrate.map { "\($0) kbps" },
+        ]
+        .compactMap { $0 }
+        .joined(separator: ", ")
+    }
+
+    private var streamQualityMessage: String {
+        let detail = streamDetailText.isEmpty ? "Unknown codec and bitrate" : streamDetailText
+        return "\(detail)\nQuality: \(streamQualityLevel(codec: station.codec, bitrate: station.bitrate))/4"
     }
 
     private func clean(_ value: String?) -> String? {
@@ -1526,12 +1613,14 @@ struct StationRow: View {
 
     private var qualityMeter: some View {
         let level = streamQualityLevel(codec: station.codec, bitrate: station.bitrate)
-        return HStack(spacing: 1) {
-            ForEach(1...3, id: \.self) { index in
-                Text("▮")
-                    .foregroundStyle(index <= level ? RrradioTheme.accent : RrradioTheme.ink4)
+        return HStack(alignment: .bottom, spacing: 2) {
+            ForEach(1...4, id: \.self) { index in
+                RoundedRectangle(cornerRadius: 1.2, style: .continuous)
+                    .fill(index <= level ? RrradioTheme.ink3 : RrradioTheme.ink4.opacity(0.45))
+                    .frame(width: 3, height: CGFloat(3 + index * 3))
             }
         }
+        .frame(width: 18, height: 16, alignment: .bottom)
     }
 }
 

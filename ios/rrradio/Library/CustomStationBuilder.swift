@@ -4,7 +4,8 @@ enum CustomStationValidationError: LocalizedError, Equatable {
     case missingName
     case missingStreamURL
     case invalidStreamURL
-    case insecureStreamURL
+    case unsupportedStreamURLScheme
+    case duplicateStreamURL
     case invalidHomepage
     case invalidCountry
 
@@ -16,8 +17,10 @@ enum CustomStationValidationError: LocalizedError, Equatable {
             return "Stream URL is required."
         case .invalidStreamURL:
             return "Stream URL must be a valid URL."
-        case .insecureStreamURL:
-            return "Stream URL must use https://."
+        case .unsupportedStreamURLScheme:
+            return "Stream URL must use http:// or https://."
+        case .duplicateStreamURL:
+            return "This stream URL is already in rrradio."
         case .invalidHomepage:
             return "Homepage must be a valid http:// or https:// URL."
         case .invalidCountry:
@@ -43,9 +46,10 @@ func makeCustomStation(
           streamURL.host != nil else {
         throw CustomStationValidationError.invalidStreamURL
     }
-    guard streamScheme == "https" else {
-        throw CustomStationValidationError.insecureStreamURL
+    guard ["http", "https"].contains(streamScheme) else {
+        throw CustomStationValidationError.unsupportedStreamURLScheme
     }
+    let secureStreamURL = streamScheme == "http" ? upgradedHTTPSURL(streamURL) : streamURL
 
     let homepage = try parseOptionalHTTPURL(rawHomepage)
     let country = rawCountry.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
@@ -56,12 +60,37 @@ func makeCustomStation(
     return Station(
         id: id,
         name: name,
-        streamUrl: streamURL,
+        streamUrl: secureStreamURL,
         homepage: homepage,
         country: country.isEmpty ? nil : country,
         tags: parseCustomTags(rawTags),
         status: "stream-only",
     )
+}
+
+func canonicalStreamURL(_ url: URL) -> String {
+    guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+        return url.absoluteString
+    }
+    components.scheme = "https"
+    components.host = components.host?.lowercased()
+    return components.url?.absoluteString ?? url.absoluteString
+}
+
+func streamURLExists(_ url: URL, in stations: [Station]) -> Bool {
+    stations.contains { streamURLsMatch(url, $0.streamUrl) }
+}
+
+func streamURLsMatch(_ lhs: URL, _ rhs: URL) -> Bool {
+    canonicalStreamURL(lhs) == canonicalStreamURL(rhs)
+}
+
+private func upgradedHTTPSURL(_ url: URL) -> URL {
+    guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+        return url
+    }
+    components.scheme = "https"
+    return components.url ?? url
 }
 
 private func parseOptionalHTTPURL(_ raw: String) throws -> URL? {

@@ -14,6 +14,27 @@ struct RadioBrowserClient {
         self.session = session
     }
 
+    func stationCount() async throws -> Int? {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = seedHosts[0]
+        components.path = "/json/stats"
+        guard let url = components.url else { return nil }
+        diagnosticRecordAsync("radio-browser", "station count requested", details: ["host": seedHosts[0]])
+        do {
+            let (data, response) = try await session.data(from: url)
+            guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
+                throw URLError(.badServerResponse)
+            }
+            let count = try JSONDecoder().decode(RadioBrowserStats.self, from: data).stations
+            diagnosticRecordAsync("radio-browser", "station count loaded", details: ["count": count.map(String.init) ?? "unknown"])
+            return count
+        } catch {
+            diagnosticRecordAsync("radio-browser", "station count failed", details: ["error": error.localizedDescription])
+            throw error
+        }
+    }
+
     func search(
         query: String? = nil,
         tag: String? = nil,
@@ -42,12 +63,34 @@ struct RadioBrowserClient {
             components.queryItems?.append(URLQueryItem(name: "countrycode", value: country.uppercased()))
         }
         guard let url = components.url else { return [] }
-        let (data, response) = try await session.data(from: url)
-        guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
-            throw URLError(.badServerResponse)
+        diagnosticRecordAsync(
+            "radio-browser",
+            "search requested",
+            details: [
+                "query": query ?? "",
+                "tag": tag ?? "",
+                "country": country ?? "",
+                "offset": String(offset),
+                "limit": String(limit),
+            ],
+        )
+        do {
+            let (data, response) = try await session.data(from: url)
+            guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
+                throw URLError(.badServerResponse)
+            }
+            let raw = try JSONDecoder().decode([RadioBrowserStation].self, from: data)
+            let stations = dedupeByStreamUrl(raw.filter { !$0.effectiveURL.isEmpty }).map(\.station)
+            diagnosticRecordAsync(
+                "radio-browser",
+                "search loaded",
+                details: ["raw": String(raw.count), "stations": String(stations.count), "offset": String(offset)],
+            )
+            return stations
+        } catch {
+            diagnosticRecordAsync("radio-browser", "search failed", details: ["error": error.localizedDescription, "offset": String(offset)])
+            throw error
         }
-        let raw = try JSONDecoder().decode([RadioBrowserStation].self, from: data)
-        return dedupeByStreamUrl(raw.filter { !$0.effectiveURL.isEmpty }).map(\.station)
     }
 
     private func looseSearchQuery(_ query: String?) -> String? {
@@ -106,6 +149,10 @@ struct RadioBrowserClient {
     }
 }
 
+private struct RadioBrowserStats: Decodable {
+    let stations: Int?
+}
+
 private struct RadioBrowserStation: Decodable {
     let stationuuid: String
     let name: String?
@@ -159,4 +206,3 @@ private struct RadioBrowserStation: Decodable {
         return parsed.isEmpty ? nil : parsed
     }
 }
-

@@ -33,10 +33,27 @@ final class CustomStationBuilderTests: XCTestCase {
         }
     }
 
-    func testRejectsHTTPStreamURL() {
-        XCTAssertThrowsError(try makeCustomStation(name: "Test", streamURL: "http://example.com/live")) { error in
-            XCTAssertEqual(error as? CustomStationValidationError, .insecureStreamURL)
+    func testUpgradesHTTPStreamURLToHTTPS() throws {
+        let station = try makeCustomStation(name: "Test", streamURL: "http://example.com/live")
+
+        XCTAssertEqual(station.streamUrl.absoluteString, "https://example.com/live")
+    }
+
+    func testRejectsUnsupportedStreamURLScheme() {
+        XCTAssertThrowsError(try makeCustomStation(name: "Test", streamURL: "ftp://example.com/live")) { error in
+            XCTAssertEqual(error as? CustomStationValidationError, .unsupportedStreamURLScheme)
         }
+    }
+
+    func testCanonicalStreamURLMatchesHTTPAndHTTPS() throws {
+        let existing = try makeCustomStation(
+            name: "Existing",
+            streamURL: "https://Example.com/live",
+            id: "custom-existing",
+        )
+        let candidate = URL(string: "http://example.com/live")!
+
+        XCTAssertTrue(streamURLExists(candidate, in: [existing]))
     }
 
     func testRejectsInvalidHomepage() {
