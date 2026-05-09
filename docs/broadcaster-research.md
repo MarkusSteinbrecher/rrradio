@@ -1461,3 +1461,137 @@ Note: the character encoding issue makes `fetchWdrMetadata` slightly more comple
 - **ToS**: WDR is a German public broadcaster (ARD). No explicit API ToS for the radiotext endpoint. It is served publicly from `www.wdr.de` without authentication, called by every wdr.de radio player visitor. Reasonable polling cadence (10–30 s) is appropriate.
 
 ---
+
+## soma-fm — SomaFM (US)
+
+Investigated: 2026-05-09.
+
+### Channels in catalog
+
+| Station | id (slug) | Status before |
+|---|---|---|
+| SomaFM Groove Salad | `groovesalad` | `stream-only` |
+| SomaFM Secret Agent | `secretagent` | `stream-only` |
+| SomaFM Underground 80s | `u80s` | `stream-only` |
+| SomaFM Space Station Soma | `spacestation` | `stream-only` |
+| SomaFM Indie Pop Rocks | `indiepop` | `stream-only` |
+| SomaFM Drone Zone | `dronezone` | `stream-only` |
+
+SomaFM publishes 46 channels total (`channels.json`). We carry 6; the slug mapping is 1:1 between the mount segment in our stream URLs and the API slug.
+
+**Slug derivation**: the stream URL mount is `<slug>-<bitrate>-<codec>` (e.g. `groovesalad-128-mp3`). Strip everything from the first `-<digit>` suffix to obtain the API slug. All 6 catalog slugs confirmed present in `channels.json`.
+
+### Endpoints
+
+| What | URL template | Auth | CORS | Cache | Sample |
+|---|---|---|---|---|---|
+| Song history (per-channel) | `https://somafm.com/songs/<slug>.json` | none | `Access-Control-Allow-Origin: *` | `max-age=10` | `data/metadata-discovery/soma-fm-songs-groovesalad.json`, `soma-fm-songs-secretagent.json` |
+| Channel list (all 46 channels) | `https://somafm.com/channels.json` | none | `Access-Control-Allow-Origin: *` | `max-age=20` | `data/metadata-discovery/soma-fm-channels.json` |
+
+No separate "now-playing only" endpoint was found, but `songs[0]` in the per-channel feed is always the most recently started track (descending by `date` unix timestamp). The `channels.json` `lastPlaying` field is a convenience raw string (`"Artist - Title"`) and does not need to be parsed — `songs/<slug>.json` provides the structured data.
+
+### Response shape
+
+**`https://somafm.com/songs/<slug>.json`**
+
+```json
+{
+  "id": "groovesalad",
+  "songs": [
+    {
+      "title": "I'm the One",
+      "artist": "Gold Lounge",
+      "album": "Cool Off Chillout Vol. 4",
+      "albumArt": "",
+      "date": "1778315937"
+    },
+    ...
+  ]
+}
+```
+
+Field mapping:
+- **artist** → `songs[0].artist`
+- **track title** → `songs[0].title`
+- **album** → `songs[0].album` (present but not surfaced by current `MetadataResult` type)
+- **cover art** → `songs[0].albumArt` — **always empty string in observed responses**. No per-track cover art is available from this endpoint.
+- **programme / show** → not provided (SomaFM runs automated playlists, no live show schedule)
+- **channel art** → `channels.json` → channel entry → `xlimage` (`https://api.somafm.com/logos/512/<slug>512.png`) — channel-level image only, not track-level.
+- **track history** → `songs[1..N]` (19 entries observed) — full recent history available in the same response.
+
+The `date` field is a unix timestamp string (seconds, not ms). Current track = `songs[0]`; no time-bracketing logic needed.
+
+**`https://somafm.com/channels.json`**
+
+```json
+{
+  "channels": [
+    {
+      "id": "groovesalad",
+      "title": "Groove Salad",
+      "description": "...",
+      "dj": "Rusty Hodge",
+      "genre": "ambient|electronic",
+      "image": "https://api.somafm.com/img/groovesalad120.png",
+      "largeimage": "https://api.somafm.com/logos/256/groovesalad256.png",
+      "xlimage": "https://api.somafm.com/logos/512/groovesalad512.png",
+      "listeners": "1694",
+      "lastPlaying": "Gold Lounge - I'm the One",
+      "playlists": [...],
+      ...
+    }
+  ]
+}
+```
+
+The channel-list endpoint is useful for bootstrapping (channel art, genre, stream URLs) but is not needed for a per-poll now-playing fetcher. The `songs/<slug>.json` endpoint is the right target for polling.
+
+### Wirable today?
+
+✅ **wire-now** — HTTPS, `Access-Control-Allow-Origin: *`, no auth, structured `artist` + `title` + `album` fields, `songs[0]` is current track. No proxy required.
+
+Partial: no per-track cover art (`albumArt` always empty). Channel-level `xlimage` from `channels.json` could be used as a static cover for each station (set once via `favicon` or a `coverUrl` override in YAML), but there is no dynamic per-song art from this API.
+
+### Suggested fetcher
+
+New shape; needs its own `fetchSomaFmMetadata` in `src/builtins.ts`. Closest analogue: `fetchGrrifMetadata` — both are single-channel JSON arrays of recent songs, no time-bracketing needed, `songs[0]` / last-in-array is current.
+
+Sketch:
+```ts
+// station.metadataUrl = "groovesalad"  (just the slug, not the full URL)
+const fetchSomaFmMetadata: MetadataFetcher = async (station, signal) => {
+  const slug = station.metadataUrl;
+  if (!slug) return null;
+  try {
+    const res = await fetch(`https://somafm.com/songs/${slug}.json?_=${Date.now()}`, {
+      signal,
+      cache: 'no-store',
+    });
+    if (!res.ok) return null;
+    const data = await res.json() as { songs?: Array<{ artist?: string; title?: string; album?: string }> };
+    const song = data.songs?.[0];
+    if (!song?.title) return null;
+    return {
+      artist: song.artist || undefined,
+      track: song.title,
+      raw: `${song.artist ?? ''} - ${song.title}`.trim(),
+    };
+  } catch {
+    return null;
+  }
+};
+```
+
+Set `station.metadataUrl` to the slug string (e.g. `groovesalad`). No full URL needed since the template is uniform. Register as `soma-fm` in `FETCHERS_BY_KEY`.
+
+Once wired, set `metadata: soma-fm` on the broadcaster entry in `broadcasters.yaml`, which will apply to all 6 catalog stations automatically (each already has the correct slug derivable from its `streamUrl`).
+
+### Notes
+
+- **No per-track cover art** — `albumArt` field exists in the schema but is always `""` in current responses. SomaFM does not publish per-track artwork from this API. Channel art (`xlimage`) from `channels.json` is available as a static fallback.
+- **`max-age=10`** — the songs endpoint is served with `Cache-Control: max-age=10`. A 15–30 second poll interval in the fetcher respects this cadence.
+- **No rate-limit headers** — no `X-RateLimit-*` or `Retry-After` headers observed. SomaFM has published this API publicly for years (visible in `X-SomaVersion: 202110181757`). Standard respectful cadence applies.
+- **No show / programme info** — SomaFM channels run algorithmic / DJ-curated playlists, not scheduled programmes. No EPG API exists or is needed.
+- **ToS**: SomaFM is a listener-supported internet-only broadcaster that actively publishes this API for third-party integrations. No restrictive ToS found for the songs/channels endpoints. Appropriate to use with reasonable polling cadence.
+
+---
