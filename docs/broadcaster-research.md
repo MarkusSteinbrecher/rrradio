@@ -495,6 +495,179 @@ metadataUrl: https://static.deutschlandfunknova.de/actions/dradio/playlist/onair
 
 ---
 
+## npo — Nederlandse Publieke Omroep (NL)
+
+Investigated: 2026-05-09.
+
+### Channels in catalog
+
+| Station | Status before | Channel slug | Has tracks? |
+|---|---|---|---|
+| NPO Radio 1 | `stream-only` | `npo-radio-1` | yes (news/talk — tracks still present) |
+| NPO Radio 2 | `stream-only` | `npo-radio-2` | yes |
+| NPO 3FM | `stream-only` | `npo-3fm` | yes |
+| NPO Radio 4 | `stream-only` | `npo-radio-4` | yes (classical — tracks present) |
+| NPO Radio 5 | `stream-only` | `npo-radio-5` | yes |
+| NPO Radio 2 Soul & Jazz | `stream-only` | `npo-radio-2-soul-jazz` | yes |
+| NPO FunX | `stream-only` | `npo-funx` | yes |
+
+### Endpoints
+
+| What | URL template | Auth | CORS | Sample |
+|---|---|---|---|---|
+| Now-playing + recent tracks + programme + upcoming | `https://www.nporadio2.nl/api/miniplayer/info?channel=<slug>` | none | reflects Origin (open) | `data/metadata-discovery/npo-miniplayer-radio2.json` |
+| Now-playing (NPO Radio 1 — broadcast-heavy) | `https://www.nporadio2.nl/api/miniplayer/info?channel=npo-radio-1` | none | reflects Origin (open) | `data/metadata-discovery/npo-miniplayer-radio1.json` |
+| Now-playing + recent (NPO 3FM) | `https://www.nporadio2.nl/api/miniplayer/info?channel=npo-3fm` | none | reflects Origin (open) | `data/metadata-discovery/npo-miniplayer-3fm.json` |
+| Now-playing + recent (NPO FunX) | `https://www.nporadio2.nl/api/miniplayer/info?channel=npo-funx` | none | reflects Origin (open) | `data/metadata-discovery/npo-miniplayer-funx.json` |
+| Cover art (artist DB CDN) | `https://npo-artistdb.b-cdn.net/images/<id>__<slug>.jpg?aspect_ratio=501%3A500&width=500&height=500` | none | — | embedded in now-playing response |
+| Cover art (Spotify CDN, when available) | `https://i.scdn.co/image/<id>` | none | — | embedded in 3FM response |
+| Programme photo | `https://radioimages.npox.nl/s3-nporadio2/<id>.jpg?width=600` | none | — | embedded in now-playing response |
+
+**Important:** All seven channels share one API endpoint on `www.nporadio2.nl`. The `channel=` parameter is the slug.
+The per-channel subdomains (`npo3fm.nl`, `nporadio1.nl`, etc.) each serve the same Next.js app and also respond to the same `/api/miniplayer/info` path, but `www.nporadio2.nl` is the stable canonical host.
+
+**CORS:** The server echoes back whatever `Origin` header is sent (`access-control-allow-origin: <origin>`), which means any origin is allowed. Equivalent to `*` for practical purposes. No proxy needed.
+
+**Channel slug mapping (all confirmed 200):**
+
+| Station | Slug |
+|---|---|
+| NPO Radio 1 | `npo-radio-1` |
+| NPO Radio 2 | `npo-radio-2` |
+| NPO 3FM | `npo-3fm` |
+| NPO Radio 4 | `npo-radio-4` |
+| NPO Radio 5 | `npo-radio-5` |
+| NPO Radio 2 Soul & Jazz | `npo-radio-2-soul-jazz` |
+| NPO FunX | `npo-funx` |
+
+### Response shape
+
+```json
+{
+  "data": {
+    "radioTrackPlays": {
+      "data": [
+        {
+          "id": "019e0b83-aa79-70e5-9651-65838686d839",
+          "artist": "Mark Ambor",
+          "song": "Good To Be",
+          "from": "2026-05-09 08:53:54",
+          "until": "2026-05-09 08:56:20",
+          "radioTracks": {
+            "id": "73e57472-336c-4a94-bfe2-32e33aca3fca",
+            "slug": "good-to-be",
+            "artist": "Mark Ambor",
+            "name": "Good To Be",
+            "coverUrl": "https://npo-artistdb.b-cdn.net/images/...jpg",
+            "isAvailable": true
+          },
+          "cmsChartEditionPositions": null
+        }
+      ]
+    },
+    "radioBroadcasts": {
+      "data": [
+        {
+          "name": "De T van Tannaz",
+          "from": "2026-05-09 06:00:00",
+          "until": "2026-05-09 09:00:00",
+          "slug": "de-t-van-tannaz",
+          "coreBroadcasters": [{ "name": "MAX", "alias": "omroep-max" }],
+          "radioPresenters": [{ "name": "Tannaz Hajeby" }],
+          "radioPhotoAssets": {
+            "url360": "https://radioimages.npox.nl/s3-nporadio2/...jpg?width=360",
+            "url600": "...",
+            "url1200": "..."
+          }
+        }
+      ]
+    },
+    "upcomingBroadcasts": {
+      "data": [ { ... } ]
+    }
+  },
+  "loading": false,
+  "networkStatus": 7
+}
+```
+
+**Key field mappings:**
+- Artist → `data.radioTrackPlays.data[0].artist`
+- Track title → `data.radioTrackPlays.data[0].song`
+- Cover art URL → `data.radioTrackPlays.data[0].radioTracks.coverUrl`
+  (can be `npo-artistdb.b-cdn.net` or `i.scdn.co` depending on availability)
+- Track history → `data.radioTrackPlays.data` — array of 3 most-recent plays, descending
+- Track start → `data.radioTrackPlays.data[0].from` (local time string `YYYY-MM-DD HH:MM:SS`)
+- Track end → `data.radioTrackPlays.data[0].until`
+- Programme name → `data.radioBroadcasts.data[0].name`
+- Programme presenter → `data.radioBroadcasts.data[0].radioPresenters[0].name`
+- Programme photo → `data.radioBroadcasts.data[0].radioPhotoAssets.url600`
+- Programme window → `data.radioBroadcasts.data[0].from` / `.until`
+
+The "current" track is `radioTrackPlays.data[0]` (most recent). It can be verified as "now"
+by checking `from <= now <= until`, but in practice `data[0]` is always the current track
+when the array is non-empty. When `radioTrackPlays.data` is empty (very rare), fall back to
+`radioBroadcasts` for programme-only display.
+
+NPO Radio 1 (news/talk) still populates `radioTrackPlays` — it plays music between news
+blocks. NPO Radio 4 (classical) similarly returns track plays from the response. Both are
+wirable using the same fetcher.
+
+### Wirable today?
+
+✅ **wire-now** for all 7 channels. HTTPS-only, CORS open (Origin-reflect), no auth,
+structured JSON, covers included. A single fetcher handles the full channel set.
+
+Track-level metadata: available for all 7 channels.
+Programme/schedule info: available (current + upcoming broadcasts in the same response).
+Cover art: available (CDN-hosted, either NPO artist DB or Spotify CDN).
+
+### Suggested fetcher
+
+New `fetchNpoMetadata` in `src/builtins.ts`. Each station stores its channel slug in
+`metadataUrl` (just the slug, e.g. `npo-radio-2`), matching the FFH / Laut.FM mountpoint
+pattern — keeps YAML small and the fetcher constructs the full URL.
+
+Pattern (closest analogue: `fetchFfhMetadata` for the slug-as-metadataUrl pattern,
+`fetchSwrMetadata` for the programme+track combination):
+
+1. `station.metadataUrl` = channel slug (e.g. `"npo-radio-2"`).
+2. Build URL: `https://www.nporadio2.nl/api/miniplayer/info?channel=${slug}`.
+3. Fetch with `cache: 'no-store'`; no proxy needed.
+4. Parse `data.radioTrackPlays.data[0]` → artist + song + coverUrl.
+5. Parse `data.radioBroadcasts.data[0]` → programme name + presenter.
+6. Return `{ artist, track: song, coverUrl, program: { name, subtitle: presenter } }`.
+7. If `radioTrackPlays.data` is empty, return programme-only result.
+
+Register as `npo` in `FETCHERS_BY_KEY`. A schedule fetcher is optional but could be built
+from `upcomingBroadcasts` (next programme only, not a multi-day schedule).
+
+### Notes
+
+- The endpoint is a Next.js API route backed by a GraphQL query (`__typename` fields are
+  visible in the response — the response shape reflects the Apollo/GraphQL result format).
+  The URL has been stable; the build ID (`rW6EvHx1frhkb2BOIwhhK`) is **not** required —
+  the `/api/` routes are independent of the Next.js static build.
+- `cache-control: public, s-maxage=30, max-age=5` — the CDN updates the response every
+  30 s. Polling every 30 s is appropriate and respects the broadcaster's own cadence.
+- Track timestamps (`from`, `until`) are **local Amsterdam time** (`CET`/`CEST`), not UTC.
+  The fetcher can use `data[0]` directly without time-window comparison.
+- Cover URLs from `npo-artistdb.b-cdn.net` are reliable. Some 3FM and FunX tracks use
+  Spotify CDN covers (`i.scdn.co`). Both are HTTPS and load without CORS issues in `<img>`.
+- `radioTracks.isAvailable` indicates whether the track is available for on-demand replay
+  in the NPO catalogue — not relevant for the now-playing fetcher, ignore it.
+- The `npo-funx` slug returned a track title with `**FF FunX New Week 47 Waist`-style
+  internal label prefixes — the fetcher should not filter these but they are worth noting
+  as potential display noise. The `song` field is the broadcast-level title; track details
+  come from `radioTracks.name` which was cleaner in all other captured responses.
+- `funx` (without `npo-` prefix) returns HTTP 500. Use `npo-funx` only.
+- No rate-limit headers observed on any endpoint.
+- ToS: NPO is the Dutch national public broadcaster. No explicit API ToS for this endpoint;
+  it is served publicly without authentication and is called by every visitor to the
+  nporadio websites. Reasonable polling cadence (30–60 s) is appropriate.
+
+---
+
 ## mdr — Mitteldeutscher Rundfunk (DE)
 
 Investigated: 2026-05-09.
