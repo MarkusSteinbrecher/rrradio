@@ -1062,3 +1062,269 @@ Register as `rai` in `FETCHERS_BY_KEY`. A schedule fetcher could also be built u
 - ToS: RAI is Italy's national public broadcaster. No explicit API ToS; endpoints are
   publicly served without authentication and are called by every raiplaysound.it visitor.
   Reasonable polling cadence is appropriate.
+
+---
+
+## radio-france — Radio France (FR)
+
+Investigated: 2026-05-09.
+
+### Channels in catalog
+
+| Station | Status before | Channel ID | Recommended format |
+|---|---|---|---|
+| France Inter | `fetcher-todo` | `1` | `inter_player` |
+| France Info | `fetcher-todo` | `2` | `info_player` |
+| France Musique | `fetcher-todo` | `4` | `musique_player` |
+| France Culture | `fetcher-todo` | `5` | `culture_player` |
+| Mouv' | `fetcher-todo` | `6` | `mouv_player` |
+| FIP (main) | `fetcher-todo` | `7` | `fip_extended` |
+| FIP Rock | `fetcher-todo` | `64` | `fip_extended` |
+| FIP Jazz | `fetcher-todo` | `65` | `fip_extended` |
+| FIP Groove | `fetcher-todo` | `66` | `fip_extended` |
+| FIP Monde | `fetcher-todo` | `69` | `fip_extended` |
+| FIP Nouveautés | `fetcher-todo` | `70` | `fip_extended` |
+| FIP Reggae | `fetcher-todo` | `71` | `fip_extended` |
+| FIP Electro | `fetcher-todo` | `74` | `fip_extended` |
+| FIP Pop | `fetcher-todo` | `78` | `fip_extended` |
+| FIP Metal | `fetcher-todo` | `77` | `fip_extended` |
+
+Note: IDs 11–50 are France Bleu regional stations (not in rrradio catalog). IDs 75 (`Mouv' 100% Mix`)
+and 77/78 (`FIP Metal`/`FIP Pop`) are bonus sub-channels. `fip_extended` is the richest format for
+music channels; talk stations (`inter_player`, `culture_player`, `info_player`, `mouv_player`) use
+their own format but any format works — the `musique_player` format additionally includes presenter
+credits in `firstLine`.
+
+### Endpoints
+
+| What | URL template | Auth | CORS | Sample |
+|---|---|---|---|---|
+| Now-playing (music — FIP family) | `https://api.radiofrance.fr/livemeta/live/{id}/fip_extended` | none | `*` | `data/metadata-discovery/radio-france-fip-now-playing.json` |
+| Now-playing (programme — France Inter) | `https://api.radiofrance.fr/livemeta/live/{id}/inter_player` | none | `*` | `data/metadata-discovery/radio-france-inter-now-playing.json` |
+| Now-playing (programme — France Musique) | `https://api.radiofrance.fr/livemeta/live/{id}/musique_player` | none | `*` | `data/metadata-discovery/radio-france-musique-now-playing.json` |
+| Now-playing (programme — France Info) | `https://api.radiofrance.fr/livemeta/live/{id}/info_player` | none | `*` | `data/metadata-discovery/radio-france-info-now-playing.json` |
+| Now-playing (programme — FIP sub-channels, compact) | `https://api.radiofrance.fr/livemeta/live/{id}/fip_player` | none | `*` | `data/metadata-discovery/radio-france-fip-rock-now-playing.json` |
+| Cover art image | `https://www.radiofrance.fr/pikapi/images/{uuid}/{size}` | none | none (img-only) | (UUID embedded in now-playing response) |
+| GraphQL API (Open API) | `https://openapi.radiofrance.fr/v1/graphql` | `x-token` required | `*` | ❌ blocked (401 without token) |
+
+**CORS:** `api.radiofrance.fr` returns `access-control-allow-origin: *` — directly callable
+from the browser, no worker proxy needed.
+
+**pikapi images:** No CORS headers on `www.radiofrance.fr/pikapi/images/…`. Safe for `<img>` src
+use, but not for `fetch()`. Use URL directly in `coverUrl` — the rrradio UI renders covers as `<img>`.
+Image sizes available: `200x200`, `400x400`, `132x132`, `300x169`, `2048` (original). Recommended: `400x400`.
+
+**delayToRefresh:** The `fip_extended` response includes a `delayToRefresh` field in milliseconds
+(values observed: 30 000–180 000 ms). This is the broadcaster's own polling cadence hint.
+
+### Channel ID discovery
+
+The channel numeric ID and format string together identify the endpoint. The format string can
+be any valid value from the allowlist — the channel ID is the primary discriminant. Both are
+embedded in the URL: `…/livemeta/live/{id}/{format}`. The wrong format for a station returns
+either `errCode: e400` (Bad Request) or valid data with a different programme context.
+
+Channel IDs were confirmed by matching `firstLinePath` in responses against known station paths
+(e.g. `franceinter/podcasts/…`, `franceinfo/podcasts/…`, `franceculture/podcasts/…`).
+
+### Response shapes
+
+#### `fip_extended` — FIP family (music stations)
+
+```json
+{
+  "prev": [
+    {
+      "title": "Le direct",
+      "interpreters": null,
+      "album": null,
+      "label": null,
+      "cover": null,
+      "musicalKind": null,
+      "startTime": null,
+      "endTime": null
+    }
+  ],
+  "now": {
+    "title": "Emotion",
+    "interpreters": "Destiny's Child & Beyonce",
+    "album": "Survivor",
+    "label": "COLUMBIA",
+    "cover": "58823f41-f06a-44be-aee7-fcf7374116bc",
+    "musicalKind": "Soul / RnB ",
+    "startTime": 1778310418,
+    "endTime": 1778310653
+  },
+  "next": [
+    {
+      "title": "Love t.k.o.",
+      "interpreters": "Teddy Pendergrass",
+      "album": "Greatest hits",
+      "label": "PHILADELPHIA INTERNATIONAL RECORDS",
+      "cover": "27ef8330-8c98-480a-bf7d-9b96f693b815",
+      "musicalKind": "Soul / RnB ",
+      "startTime": 1778310652,
+      "endTime": 1778310871
+    }
+  ],
+  "delayToRefresh": 180000
+}
+```
+
+**Key field mappings (music channels):**
+- Track title → `now.title`
+- Artist → `now.interpreters` (single string, may contain `&` for multi-artist)
+- Album → `now.album`
+- Record label → `now.label`
+- Genre → `now.musicalKind` (e.g. `"Soul / RnB "` — note trailing space; trim before use)
+- Cover UUID → `now.cover`; build URL as `https://www.radiofrance.fr/pikapi/images/{uuid}/400x400`
+- Start/end → `now.startTime` / `now.endTime` — **Unix seconds** (not milliseconds)
+- Next track → `next[0]` (same shape as `now`, available for lookahead)
+- Polling cadence hint → `delayToRefresh` (milliseconds)
+
+When `now.title` is null or `now.interpreters` is null but `now.title` is not null, the station
+is in a programme segment (jingle, live set, programme). When `now.cover` is null, skip cover art.
+
+#### `inter_player` / `culture_player` / `info_player` / `mouv_player` — talk/news stations
+
+```json
+{
+  "prev": [{ "firstLine": "Le direct", "secondLine": "Le direct", "cover": "...", "startTime": null, "endTime": null, "contact": null }],
+  "now": {
+    "firstLine": "Le 6/9",
+    "firstLinePath": "franceinter/podcasts/le-6-9",
+    "firstLineUuid": "c3c143f7-f54c-403a-b206-554091e6c66a",
+    "firstLineConceptUuid": "c3c143f7-f54c-403a-b206-554091e6c66a",
+    "secondLine": "Le journal de 9h - Le journal de 09h00 du samedi 09 mai 2026",
+    "secondLinePath": "franceinter/podcasts/le-journal-de-9h",
+    "secondLineUuid": "4ebdaf30-16bb-11e1-a6ab-842b2b72cd1d",
+    "cover": "369c09d6-3bae-4e2f-ad31-c838a0dfa945",
+    "startTime": 1778299200,
+    "endTime": 1778310804,
+    "contact": [{ "type": "mail", "url": "6-9duweekend@radiofrance.com", "title": null }]
+  },
+  "next": [{ ... same shape ... }],
+  "delayToRefresh": 230000
+}
+```
+
+**Key field mappings (talk/programme stations):**
+- Programme name → `now.firstLine` (show title)
+- Programme subtitle → `now.secondLine` (episode title or bulletin name)
+- Programme cover → `now.cover` UUID → `https://www.radiofrance.fr/pikapi/images/{uuid}/400x400`
+- Programme start/end → `now.startTime` / `now.endTime` — **Unix seconds**
+- Contact → `now.contact[0].url` (editorial email; not useful for UI)
+
+The `musique_player` format adds presenter credit to `firstLine` as `"Programme par Présentateur"`.
+
+#### `fip_player` — compact format for FIP sub-channels
+
+```json
+{
+  "now": {
+    "firstLine": "FIP Rock",
+    "secondLine": "Te Quiero Igual",
+    "secondLineSongUuid": "0cfe2bae-8233-42d4-99c6-7813fbd44f63",
+    "thirdLine": "Novedades Carminha",
+    "thirdLineSongUuid": "0cfe2bae-8233-42d4-99c6-7813fbd44f63",
+    "cover": "26190730-8121-43a7-ab82-0189c8740b06",
+    "startTime": 1778310356,
+    "endTime": 1778310535
+  }
+}
+```
+
+Fields: `secondLine` = track title, `thirdLine` = artist, `cover` = UUID. Less rich than
+`fip_extended` (no album, label, genre). **Use `fip_extended` for all FIP channels instead.**
+
+### Track history
+
+The livemeta API always returns exactly three items: `prev[0]` (most recently completed track),
+`now` (current track), `next[0]` (upcoming track). `prev[0]` on first load is typically
+`{"title": "Le direct", …}` (a placeholder), not a real previous track. There is **no multi-track
+history endpoint** discoverable from the browser-side API. The FIP "Titres diffusés" page
+renders client-side from the same livemeta API; it only shows current/next, not a scrollable
+history. The GraphQL API (`openapi.radiofrance.fr/v1/graphql`) would support richer queries
+but requires an `x-token` API key — not publicly accessible.
+
+### Wirable today?
+
+| Channel family | Track | Programme | Cover art | Verdict |
+|---|---|---|---|---|
+| FIP main + all sub-channels | ✅ wire-now — `fip_extended` gives title + artist + album + label + genre | ✅ via `fip_player` firstLine | ✅ pikapi UUID → `<img>` src | **Wire-now — richest of all European public broadcasters** |
+| France Inter | ❌ no track API (talk radio) | ✅ wire-now — `inter_player` gives show + episode | ✅ pikapi cover | Wire programme-only |
+| France Culture | ❌ no track API (talk radio) | ✅ wire-now — `culture_player` | ✅ pikapi cover | Wire programme-only |
+| France Musique | ⚠️ partial — classical pieces do appear in `fip_extended` when using ID 4, but `musique_player` is programme-level | ✅ wire-now — `musique_player` | ✅ pikapi cover | Wire programme-only; revisit track wiring |
+| France Info | ❌ no track API (24/7 news) | ✅ wire-now — `info_player` | ✅ pikapi cover | Wire programme-only |
+| Mouv' | ⚠️ has music but `mouv_player` returns programme-level; `fip_extended` returns `null` for ID 6 | ✅ wire-now — `mouv_player` | ✅ pikapi cover | Wire programme-only; FIP-style track wiring possible if format confirmed |
+
+**No proxy needed for any channel.** All `api.radiofrance.fr` endpoints have `CORS: *`.
+
+### Suggested fetcher
+
+New `fetchRadioFranceMetadata` in `src/builtins.ts`. The broadcaster has two distinct response
+shapes gated by which format string is used:
+
+**Shape A — music (FIP family):** `fip_extended` format, fields `now.title` / `now.interpreters` /
+`now.album` / `now.cover`. Closest analogues: `fetchCroMetadata` (structured JSON, now/next shape)
+and `fetchSwrMetadata` (track + programme + cover in one response).
+
+**Shape B — programme (France Inter/Culture/Info/Mouv'):** `*_player` format, fields
+`now.firstLine` / `now.secondLine` / `now.cover`. Closest analogues: `fetchSrMetadata` and
+`fetchRadioBremenMetadata` (programme-only, no tracks).
+
+Recommended implementation:
+1. `station.metadataUrl` = `https://api.radiofrance.fr/livemeta/live/{id}/{format}` — the full
+   endpoint URL including the numeric ID and format string. This keeps the fetcher generic and lets
+   each station declare its own format.
+2. Fetch with `cache: 'no-store'`; no proxy.
+3. Branch on response shape: if `now.title` is defined → Shape A (music); else → Shape B (programme).
+4. Shape A: return `{ artist: now.interpreters, track: now.title, album: now.album, coverUrl }`.
+5. Shape B: return `{ track: undefined, raw: '', program: { name: now.firstLine, subtitle: now.secondLine } }`.
+6. Cover URL: `https://www.radiofrance.fr/pikapi/images/${now.cover}/400x400` (when `now.cover` is a UUID string).
+7. `delayToRefresh` (ms) can inform the polling interval — use `Math.max(delayToRefresh, 15_000)`.
+
+`station.metadataUrl` examples:
+```
+FIP main:       https://api.radiofrance.fr/livemeta/live/7/fip_extended
+FIP Rock:       https://api.radiofrance.fr/livemeta/live/64/fip_extended
+France Inter:   https://api.radiofrance.fr/livemeta/live/1/inter_player
+France Culture: https://api.radiofrance.fr/livemeta/live/5/culture_player
+France Musique: https://api.radiofrance.fr/livemeta/live/4/musique_player
+France Info:    https://api.radiofrance.fr/livemeta/live/2/info_player
+Mouv':          https://api.radiofrance.fr/livemeta/live/6/mouv_player
+```
+
+Register as `radio-france` in `FETCHERS_BY_KEY`. A schedule fetcher is not needed since `next[0]`
+(the upcoming track/programme) is already embedded in the livemeta response.
+
+### Notes
+
+- `now.startTime` / `now.endTime` are **Unix seconds** (not milliseconds). Multiply by 1000 for
+  `Date.now()` comparisons.
+- `delayToRefresh` is the broadcaster's explicit polling cadence hint in **milliseconds**. Observed
+  values: 30 000 ms (FIP live, active track), 90 000–180 000 ms (FIP between tracks), 3 600 000 ms
+  (France Musique, long programme). Use `Math.min(delayToRefresh, 30_000)` for music channels to
+  stay responsive; for talk channels 60–90 s is fine.
+- `now.interpreters` is a free-form string (may contain `&` or `,` for multi-artist). No separate
+  array structure — treat as a single display string. It can be `null` during programme/jingle segments.
+- `now.cover` is a UUID string (or `null`). The `pikapi` service at
+  `https://www.radiofrance.fr/pikapi/images/{uuid}/{size}` serves it as WebP. No CORS on the image
+  CDN — use only in `<img>` src, not in `fetch()`. Sizes: `200x200`, `400x400` confirmed working.
+- The `fip_rds` format returns all-caps combined string `"TRACK - ARTIST (YEAR) - FIP"` in
+  `now.firstLine`, plus raw `songId` and `stepId` UUIDs — designed for RDS display hardware, not
+  useful for rrradio.
+- The `openapi.radiofrance.fr/v1/graphql` endpoint would provide richer data (multi-track song
+  history, podcast metadata, programme schedule depth). It requires an `x-token` API key obtained
+  via `https://openapi.radiofrance.fr` developer registration. Not blocked — Radio France invites
+  API consumers — but needs a registered token. The free livemeta API is sufficient for rrradio's
+  needs.
+- No rate-limit headers observed. France Bleu regional stations (IDs 11–50) also work with the
+  same livemeta endpoint — those stations are not in the rrradio catalog but the fetcher supports
+  them for free.
+- ToS: Radio France is France's national public broadcaster. The livemeta API is served publicly,
+  called by every radiofrance.fr visitor. No explicit API ToS for the livemeta endpoint. The
+  `openapi.radiofrance.fr` developer API has a formal ToS via the portal. The livemeta endpoint
+  is not the portal API.
+
+---
