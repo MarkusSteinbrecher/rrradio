@@ -52,7 +52,11 @@ final class AudioPlayer {
     private var coverArtKey = ""
     private var lockScreenArtworkTask: Task<Void, Never>?
     private var lockScreenArtworkURL: URL?
+    private var lockScreenArtworkSourceImage: UIImage?
     private var lockScreenArtwork: MPMediaItemArtwork?
+    private var lockScreenSleepTimerFiresAt: Date?
+    @ObservationIgnored
+    private var lockScreenSleepTimerRefreshTimer: Timer?
     private var shortcutActivity: NSUserActivity?
     private var wakeKeepAlivePlayer: AVAudioPlayer?
     private weak var listeningHistory: ListeningHistory?
@@ -66,6 +70,15 @@ final class AudioPlayer {
 
     func setListeningHistory(_ history: ListeningHistory) {
         listeningHistory = history
+    }
+
+    func setLockScreenSleepTimer(firesAt: Date?) {
+        lockScreenSleepTimerFiresAt = firesAt
+        scheduleLockScreenSleepTimerRefresh()
+        if let lockScreenArtworkSourceImage {
+            lockScreenArtwork = makeLockScreenArtwork(from: lockScreenArtworkSourceImage, sleepTimerActive: firesAt.map { $0 > Date() } == true)
+        }
+        updateNowPlaying()
     }
 
     func play(_ station: Station) {
@@ -479,7 +492,10 @@ final class AudioPlayer {
         lockScreenArtworkTask?.cancel()
         lockScreenArtworkTask = nil
         lockScreenArtworkURL = nil
+        lockScreenArtworkSourceImage = nil
         lockScreenArtwork = nil
+        lockScreenSleepTimerRefreshTimer?.invalidate()
+        lockScreenSleepTimerRefreshTimer = nil
         if let metadataOutput, let currentItem = player?.currentItem {
             currentItem.remove(metadataOutput)
         }
@@ -572,31 +588,70 @@ final class AudioPlayer {
     }
 
     private func lockScreenTitle(for station: Station) -> String {
-        guard let program = cleanLyricsComponent(nowPlayingProgramName) else {
-            return station.name
+        let title: String
+        if let program = cleanLyricsComponent(nowPlayingProgramName) {
+            title = "\(station.name) - \(program)"
+        } else {
+            title = station.name
         }
-        return "\(station.name) - \(program)"
+
+        guard let sleepTimerText = lockScreenSleepTimerText() else { return title }
+        return "\(title) - Sleep in \(sleepTimerText)"
     }
 
     private func lockScreenSubtitle(for station: Station) -> String {
+        let subtitle: String
         if let title = cleanLyricsComponent(nowPlayingTitle) {
             if let artist = cleanLyricsComponent(nowPlayingArtist) {
-                return "\(artist) - \(title)"
+                subtitle = "\(artist) - \(title)"
+            } else {
+                subtitle = title
             }
-            return title
+        } else {
+            switch state {
+            case .idle:
+                subtitle = station.country?.uppercased() ?? "Standby"
+            case .loading:
+                subtitle = "Loading"
+            case .playing:
+                subtitle = "Live"
+            case .paused:
+                subtitle = "Paused"
+            case .error:
+                subtitle = "Error"
+            }
         }
 
-        switch state {
-        case .idle:
-            return station.country?.uppercased() ?? "Standby"
-        case .loading:
-            return "Loading"
-        case .playing:
-            return "Live"
-        case .paused:
-            return "Paused"
-        case .error:
-            return "Error"
+        return subtitle
+    }
+
+    private func lockScreenSleepTimerText(at date: Date = Date()) -> String? {
+        guard let firesAt = lockScreenSleepTimerFiresAt else { return nil }
+        let interval = firesAt.timeIntervalSince(date)
+        guard interval > 0 else { return nil }
+        let totalMinutes = max(1, Int(ceil(interval / 60)))
+        return "\(totalMinutes)m"
+    }
+
+    private func scheduleLockScreenSleepTimerRefresh() {
+        lockScreenSleepTimerRefreshTimer?.invalidate()
+        lockScreenSleepTimerRefreshTimer = nil
+
+        guard let firesAt = lockScreenSleepTimerFiresAt, firesAt > Date() else { return }
+        lockScreenSleepTimerRefreshTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { [weak self] timer in
+            Task { @MainActor [weak self] in
+                guard let self else {
+                    timer.invalidate()
+                    return
+                }
+                if let firesAt = self.lockScreenSleepTimerFiresAt, firesAt > Date() {
+                    self.updateNowPlaying()
+                } else {
+                    timer.invalidate()
+                    self.lockScreenSleepTimerRefreshTimer = nil
+                    self.updateNowPlaying()
+                }
+            }
         }
     }
 
@@ -604,6 +659,7 @@ final class AudioPlayer {
         guard lockScreenArtworkURL != url else { return }
         lockScreenArtworkTask?.cancel()
         lockScreenArtworkURL = url
+        lockScreenArtworkSourceImage = nil
         lockScreenArtwork = nil
 
         guard let url else { return }
@@ -613,9 +669,10 @@ final class AudioPlayer {
                   !Task.isCancelled,
                   let image = UIImage(data: data) else { return }
 
-            let artwork = makeLockScreenArtwork(from: image)
+            let artwork = makeLockScreenArtwork(from: image, sleepTimerActive: self?.lockScreenSleepTimerFiresAt.map { $0 > Date() } == true)
             await MainActor.run { [weak self] in
                 guard let self, self.lockScreenArtworkURL == url else { return }
+                self.lockScreenArtworkSourceImage = image
                 self.lockScreenArtwork = artwork
                 self.updateNowPlaying()
             }
@@ -623,14 +680,14 @@ final class AudioPlayer {
     }
 }
 
-private func makeLockScreenArtwork(from image: UIImage) -> MPMediaItemArtwork {
+private func makeLockScreenArtwork(from image: UIImage, sleepTimerActive: Bool = false) -> MPMediaItemArtwork {
     let artworkSize = CGSize(width: 512, height: 512)
     return MPMediaItemArtwork(boundsSize: artworkSize) { requestedSize in
-        renderLockScreenArtwork(image, requestedSize: requestedSize)
+        renderLockScreenArtwork(image, requestedSize: requestedSize, sleepTimerActive: sleepTimerActive)
     }
 }
 
-private func renderLockScreenArtwork(_ image: UIImage, requestedSize: CGSize) -> UIImage {
+private func renderLockScreenArtwork(_ image: UIImage, requestedSize: CGSize, sleepTimerActive: Bool) -> UIImage {
     let targetSize = normalizedArtworkSize(requestedSize)
     let sourceSize = normalizedArtworkSize(image.size)
     let fitScale = min(targetSize.width / sourceSize.width, targetSize.height / sourceSize.height)
@@ -645,8 +702,38 @@ private func renderLockScreenArtwork(_ image: UIImage, requestedSize: CGSize) ->
     format.scale = UIScreen.main.scale
     format.opaque = false
 
-    return UIGraphicsImageRenderer(size: targetSize, format: format).image { _ in
+    return UIGraphicsImageRenderer(size: targetSize, format: format).image { context in
         image.draw(in: CGRect(origin: drawOrigin, size: drawSize))
+        guard sleepTimerActive else { return }
+
+        let badgeSize = min(targetSize.width, targetSize.height) * 0.23
+        let badgePadding = badgeSize * 0.18
+        let badgeRect = CGRect(
+            x: targetSize.width - badgeSize - badgePadding,
+            y: targetSize.height - badgeSize - badgePadding,
+            width: badgeSize,
+            height: badgeSize
+        )
+        let badgePath = UIBezierPath(ovalIn: badgeRect)
+        UIColor(red: 1, green: 1, blue: 0, alpha: 0.94).setFill()
+        badgePath.fill()
+
+        UIColor(red: 0.145, green: 0.145, blue: 0.130, alpha: 0.72).setStroke()
+        badgePath.lineWidth = max(2, badgeSize * 0.045)
+        badgePath.stroke()
+
+        let iconConfig = UIImage.SymbolConfiguration(pointSize: badgeSize * 0.43, weight: .semibold)
+        guard let icon = UIImage(systemName: "moon.zzz.fill", withConfiguration: iconConfig)?
+            .withTintColor(UIColor(red: 0.245, green: 0.245, blue: 0.225, alpha: 1), renderingMode: .alwaysOriginal) else { return }
+        let iconSize = icon.size
+        let iconRect = CGRect(
+            x: badgeRect.midX - iconSize.width / 2,
+            y: badgeRect.midY - iconSize.height / 2,
+            width: iconSize.width,
+            height: iconSize.height
+        )
+        icon.draw(in: iconRect)
+        context.cgContext.setBlendMode(.normal)
     }
 }
 

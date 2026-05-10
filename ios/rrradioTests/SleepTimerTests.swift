@@ -40,6 +40,19 @@ final class SleepTimerTests: XCTestCase {
         XCTAssertFalse(timer.isArmed)
     }
 
+    func testStateChangeCallbackRunsWhenArmedAndCancelled() {
+        let timer = SleepTimer()
+        var changeCount = 0
+        timer.onStateChanged = {
+            changeCount += 1
+        }
+
+        timer.set(minutes: 30) {}
+        timer.cancel()
+
+        XCTAssertEqual(changeCount, 2)
+    }
+
     func testFireClearsStateAndRunsCallback() {
         let timer = SleepTimer()
         var fired = false

@@ -36,6 +36,10 @@ struct rrradioApp: App {
                 .onAppear {
                     diagnostics.record("app", "appeared")
                     player.setListeningHistory(listeningHistory)
+                    sleepTimer.onStateChanged = { [sleepTimer, player] in
+                        player.setLockScreenSleepTimer(firesAt: sleepTimer.firesAt)
+                    }
+                    player.setLockScreenSleepTimer(firesAt: sleepTimer.firesAt)
                     cloudSync.configure(
                         library: library,
                         theme: theme,

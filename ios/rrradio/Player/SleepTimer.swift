@@ -14,6 +14,7 @@ final class SleepTimer {
     private(set) var minutes: Int = 0
     private(set) var firesAt: Date?
     @ObservationIgnored var onDefaultChanged: (() -> Void)?
+    @ObservationIgnored var onStateChanged: (() -> Void)?
 
     @ObservationIgnored
     private var timer: Timer?
@@ -69,6 +70,7 @@ final class SleepTimer {
         guard next > 0 else {
             minutes = 0
             firesAt = nil
+            onStateChanged?()
             return
         }
 
@@ -79,6 +81,7 @@ final class SleepTimer {
                 self?.fire(onFire: onFire)
             }
         }
+        onStateChanged?()
     }
 
     func cancel() {
@@ -94,6 +97,7 @@ final class SleepTimer {
         timer = nil
         minutes = 0
         firesAt = nil
+        onStateChanged?()
         onFire()
     }
 

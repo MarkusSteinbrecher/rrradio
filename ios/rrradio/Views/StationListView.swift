@@ -1040,22 +1040,13 @@ struct StationListView: View {
                             cancelTarget: .wake,
                         )
                     }
-                    if sleepTimer.isArmed {
-                        timerStatusRow(
-                            icon: "moon.zzz.fill",
-                            title: locale.text(.sleep),
-                            detail: "in \(sleepTimer.countdownText(at: timeline.date))",
-                            station: player.current,
-                            cancelTarget: .sleep,
-                        )
-                    }
                 }
             }
         }
     }
 
     private var hasTimerStatus: Bool {
-        wakeAlarm.isArmed || sleepTimer.isArmed
+        wakeAlarm.isArmed
     }
 
     private func timerStatusRow(

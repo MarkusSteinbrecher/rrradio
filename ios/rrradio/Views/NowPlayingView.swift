@@ -1,6 +1,8 @@
 import SwiftUI
 import UIKit
 
+private let modalActionButtonWidth: CGFloat = 180
+
 /// Full-screen player surface opened from the mini player.
 struct NowPlayingView: View {
     @Environment(Library.self) private var library
@@ -1489,7 +1491,7 @@ struct WakeAlarmView: View {
                     }
                 }
                 .foregroundStyle(buttonSetsWake ? RrradioTheme.bg : RrradioTheme.ink)
-                .frame(maxWidth: .infinity)
+                .frame(width: modalActionButtonWidth)
                 .padding(.vertical, 13)
                 .background(buttonSetsWake ? RrradioTheme.buttonFill : RrradioTheme.bg2)
                 .overlay(RoundedRectangle(cornerRadius: 6).stroke(buttonSetsWake ? RrradioTheme.buttonFill : RrradioTheme.line))
@@ -1706,7 +1708,7 @@ private struct SleepTimerView: View {
                     .font(.system(size: 14, weight: .semibold, design: .monospaced))
                     .textCase(.uppercase)
                 .foregroundStyle(sleepTimer.isArmed ? RrradioTheme.ink : RrradioTheme.bg)
-                .frame(maxWidth: .infinity)
+                .frame(width: modalActionButtonWidth)
                 .padding(.vertical, 13)
                 .background(sleepTimer.isArmed ? RrradioTheme.bg2 : RrradioTheme.buttonFill)
                 .overlay(RoundedRectangle(cornerRadius: 6).stroke(sleepTimer.isArmed ? RrradioTheme.line : RrradioTheme.buttonFill))

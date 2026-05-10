@@ -3,6 +3,7 @@ import SwiftUI
 /// Persistent bottom strip mirroring the web app's mini player.
 struct MiniPlayerView: View {
     @Environment(AudioPlayer.self) private var player
+    @Environment(SleepTimer.self) private var sleepTimer
     @State private var presentNowPlaying = false
 
     var body: some View {
@@ -23,6 +24,14 @@ struct MiniPlayerView: View {
                 subtitleLine
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+
+            if sleepTimer.isArmed {
+                Image(systemName: "moon.zzz.fill")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(RrradioTheme.accent)
+                    .frame(width: 24, height: 36)
+                    .accessibilityLabel("Sleep timer active")
+            }
 
             Button {
                 player.toggle()
@@ -131,4 +140,5 @@ private struct MiniPlayerTopRule: View {
 #Preview {
     MiniPlayerView()
         .environment(AudioPlayer())
+        .environment(SleepTimer())
 }
