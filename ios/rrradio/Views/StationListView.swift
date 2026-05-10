@@ -851,9 +851,18 @@ struct StationListView: View {
                 .listRowInsets(EdgeInsets())
                 .listRowSeparator(.hidden)
                 .listRowBackground(RrradioTheme.bg)
+                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                    Button(role: .destructive) {
+                        removeFavorite(station)
+                    } label: {
+                        Label(locale.text(.removeFavorite), systemImage: "trash")
+                    }
+                    .tint(.red)
+                }
                 .moveDisabled(!canReorderFavorites)
             }
             .onMove(perform: moveFavoriteRows)
+            .onDelete(perform: removeFavoriteRows)
 
             if visibleStations.count < filteredStations.count {
                 loadMoreRow
@@ -862,7 +871,6 @@ struct StationListView: View {
                     .listRowBackground(RrradioTheme.bg)
             }
         }
-        .environment(\.editMode, .constant(.active))
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .scrollDismissesKeyboard(.immediately)
@@ -983,6 +991,21 @@ struct StationListView: View {
         ordered.move(fromOffsets: source, toOffset: destination)
         filteredStations = ordered
         library.reorderFavorites(ordered.map(\.id))
+    }
+
+    private func removeFavoriteRows(at offsets: IndexSet) {
+        let stationsToRemove = offsets.compactMap { index in
+            visibleStations.indices.contains(index) ? visibleStations[index] : nil
+        }
+        stationsToRemove.forEach(removeFavorite)
+    }
+
+    private func removeFavorite(_ station: Station) {
+        guard isFavoritesPage else { return }
+        filterTask?.cancel()
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        _ = library.toggleFavorite(station)
+        filteredStations.removeAll { $0.id == station.id }
     }
 
     private func updateFavoriteNowPlayingPolling() {
