@@ -21,19 +21,23 @@ struct SettingsView: View {
             SheetChromeHeader(title: locale.text(.settings)) { dismiss() }
             settingsTabs
 
-            TabView(selection: $page) {
-                SettingsPageView(page: $page)
-                    .tag(SettingsPage.settings)
-                AboutContentView()
-                    .tag(SettingsPage.about)
-                AddStationContentView()
-                    .tag(SettingsPage.upload)
-                ListeningHistoryPageView()
-                    .tag(SettingsPage.listening)
-            }
-            .tabViewStyle(.page(indexDisplayMode: .never))
+            settingsPageContent
         }
         .background(RrradioTheme.bg.ignoresSafeArea())
+    }
+
+    @ViewBuilder
+    private var settingsPageContent: some View {
+        switch page {
+        case .settings:
+            SettingsPageView(page: $page)
+        case .about:
+            AboutContentView()
+        case .upload:
+            AddStationContentView()
+        case .listening:
+            ListeningHistoryPageView()
+        }
     }
 
     private var settingsTabs: some View {
