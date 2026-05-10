@@ -630,20 +630,21 @@ struct StationListView: View {
                         activeFilterPicker = nil
                     }
                 }
-            if !searchText.isEmpty {
-                Button {
-                    searchUpdateTask?.cancel()
-                    searchText = ""
-                    query = ""
-                } label: {
-                    Image(systemName: "xmark")
-                        .font(.system(size: 12, weight: .semibold))
-                        .foregroundStyle(RrradioTheme.ink3)
-                        .frame(width: 24, height: 24)
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel(locale.text(.clearSearch))
+            Button {
+                searchUpdateTask?.cancel()
+                searchText = ""
+                query = ""
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .frame(width: 24, height: 24)
             }
+            .buttonStyle(.plain)
+            .opacity(searchText.isEmpty ? 0 : 1)
+            .disabled(searchText.isEmpty)
+            .accessibilityHidden(searchText.isEmpty)
+            .accessibilityLabel(locale.text(.clearSearch))
         }
         .padding(.leading, 12)
         .padding(.trailing, 6)
@@ -2216,6 +2217,9 @@ private struct ScrollOffsetObserver: UIViewRepresentable {
         var offset: Binding<CGFloat>
         private weak var scrollView: UIScrollView?
         private var observation: NSKeyValueObservation?
+        private var lastOffset: CGFloat = 0
+        private var pendingOffset: CGFloat?
+        private var offsetUpdateScheduled = false
 
         init(offset: Binding<CGFloat>) {
             self.offset = offset
@@ -2236,8 +2240,23 @@ private struct ScrollOffsetObserver: UIViewRepresentable {
             }
             guard scrollView !== self.scrollView else { return }
             self.scrollView = scrollView
-            observation = scrollView.observe(\.contentOffset, options: [.initial, .new]) { [weak self] scrollView, _ in
-                self?.offset.wrappedValue = max(0, scrollView.contentOffset.y + scrollView.adjustedContentInset.top)
+            observation = scrollView.observe(\.contentOffset, options: [.new]) { [weak self] scrollView, _ in
+                self?.scheduleOffsetUpdate(from: scrollView)
+            }
+            scheduleOffsetUpdate(from: scrollView)
+        }
+
+        private func scheduleOffsetUpdate(from scrollView: UIScrollView) {
+            pendingOffset = max(0, scrollView.contentOffset.y + scrollView.adjustedContentInset.top)
+            guard !offsetUpdateScheduled else { return }
+            offsetUpdateScheduled = true
+            DispatchQueue.main.async { [weak self] in
+                guard let self, let value = self.pendingOffset else { return }
+                self.pendingOffset = nil
+                self.offsetUpdateScheduled = false
+                guard abs(self.lastOffset - value) > 0.5 else { return }
+                self.lastOffset = value
+                self.offset.wrappedValue = value
             }
         }
     }
