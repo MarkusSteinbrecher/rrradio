@@ -165,7 +165,9 @@ private struct BottomTabBar: View {
 
     private func tabButton(_ value: AppTab, icon: String, title: String) -> some View {
         Button {
-            tab = value
+            withAnimation(.snappy) {
+                tab = value
+            }
         } label: {
             VStack(spacing: 4) {
                 Image(systemName: icon)

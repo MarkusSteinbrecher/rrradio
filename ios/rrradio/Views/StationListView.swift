@@ -84,6 +84,7 @@ struct StationListView: View {
     @State private var radioBrowserSearchTask: Task<Void, Never>?
     @State private var favoriteNowPlaying = FavoriteNowPlayingStore()
     @State private var listScrollOffset: CGFloat = 0
+    @State private var pageTransitionDirection = PageTransitionDirection.forward
     @State private var stationInfoPreview: Station?
     @State private var stationInfoPreviewMetadata: [String: NowPlayingMetadata] = [:]
     @State private var stationInfoMetadataTask: Task<Void, Never>?
@@ -142,6 +143,25 @@ struct StationListView: View {
         var id: String { rawValue }
     }
 
+    private enum PageTransitionDirection {
+        case forward
+        case backward
+
+        var insertionEdge: Edge {
+            switch self {
+            case .forward: .trailing
+            case .backward: .leading
+            }
+        }
+
+        var removalEdge: Edge {
+            switch self {
+            case .forward: .leading
+            case .backward: .trailing
+            }
+        }
+    }
+
     init(
         tab: Binding<AppTab> = .constant(.browse),
         searchFocusedExternally: Binding<Bool> = .constant(false),
@@ -191,6 +211,131 @@ struct StationListView: View {
     }
 
     var body: some View {
+        pageShell
+            .background(RrradioTheme.bg)
+            .simultaneousGesture(pageSwipeGesture)
+            .sheet(isPresented: $showingSettings) {
+                SettingsView()
+            }
+            .sheet(isPresented: $showingMap) {
+                StationMapView(
+                    stations: allStations,
+                    selectedCountry: $selectedCountry,
+                    onSelectCountry: { country in
+                        setSource(.all, animated: true)
+                        selectedCountry = country
+                        checkedOnly = false
+                    },
+                    onOpenStation: { station in
+                        player.play(station)
+                        library.pushRecent(station)
+                        showingMap = false
+                        Task { @MainActor in
+                            try? await Task.sleep(nanoseconds: 250_000_000)
+                            showingNowPlaying = true
+                        }
+                    },
+                )
+            }
+            .sheet(isPresented: $showingNowPlaying) {
+                NowPlayingView()
+                    .presentationDetents([.large])
+                    .presentationDragIndicator(.hidden)
+            }
+            .sheet(isPresented: $showingWakeAlarm) {
+                WakeAlarmView()
+                    .presentationDetents([.large])
+                    .presentationDragIndicator(.visible)
+            }
+            .overlay {
+                stationInfoPreviewOverlay
+            }
+            .animation(.spring(response: 0.24, dampingFraction: 0.86), value: stationInfoPreview?.id)
+            .confirmationDialog(
+                timerCancelConfirmation?.title ?? "",
+                isPresented: Binding(
+                    get: { timerCancelConfirmation != nil },
+                    set: { if !$0 { timerCancelConfirmation = nil } },
+                ),
+                presenting: timerCancelConfirmation,
+            ) { target in
+                Button(target.confirmLabel, role: .destructive) {
+                    switch target {
+                    case .wake:
+                        wakeAlarm.disarm()
+                    case .sleep:
+                        sleepTimer.cancel()
+                    }
+                    timerCancelConfirmation = nil
+                }
+            } message: { target in
+                Text(target.message)
+            }
+            .onAppear {
+                library.refreshFavorites(from: catalog.stations)
+                recomputeFilteredStations()
+                updateFavoriteNowPlayingPolling()
+            }
+            .onChange(of: tab) { oldValue, value in
+                updatePageTransitionDirection(from: oldValue, to: value)
+                setSource(stationSource(for: value), animated: true)
+            }
+            .onChange(of: source) { _, value in
+                resetStationDisplayLimit()
+                listScrollOffset = 0
+                let targetTab = appTab(for: value)
+                guard targetTab != tab else { return }
+                updatePageTransitionDirection(from: tab, to: targetTab)
+                withAnimation(.snappy) {
+                    tab = targetTab
+                }
+            }
+            .onChange(of: query) { _, _ in
+                resetStationDisplayLimit()
+                resetRadioBrowserStations()
+                fetchInitialRadioBrowserPageIfNeeded()
+            }
+            .onChange(of: searchText) { _, value in
+                scheduleSearchUpdate(value)
+            }
+            .onChange(of: selectedCountry) { _, _ in
+                resetStationDisplayLimit()
+                resetRadioBrowserStations()
+                fetchInitialRadioBrowserPageIfNeeded()
+            }
+            .onChange(of: selectedTag) { _, _ in
+                resetStationDisplayLimit()
+                resetRadioBrowserStations()
+                fetchInitialRadioBrowserPageIfNeeded()
+            }
+            .onChange(of: checkedOnly) { _, _ in
+                resetStationDisplayLimit()
+                resetRadioBrowserStations()
+                fetchInitialRadioBrowserPageIfNeeded()
+            }
+            .onChange(of: filterSignature) { _, _ in
+                recomputeFilteredStations()
+                updateFavoriteNowPlayingPolling()
+            }
+            .onChange(of: catalog.stations) { _, stations in
+                library.refreshFavorites(from: stations)
+                recomputeFilteredStations()
+                updateFavoriteNowPlayingPolling()
+            }
+            .onChange(of: searchFocused) { _, focused in
+                searchFocusedExternally = focused
+            }
+            .onDisappear {
+                filterTask?.cancel()
+                searchUpdateTask?.cancel()
+                radioBrowserSearchTask?.cancel()
+                stationInfoMetadataTask?.cancel()
+                favoriteNowPlaying.stop()
+                searchFocusedExternally = false
+            }
+    }
+
+    private var pageShell: some View {
         VStack(spacing: 0) {
             topbar
             switch catalog.state {
@@ -219,121 +364,16 @@ struct StationListView: View {
                 }
             }
         }
-        .background(RrradioTheme.bg)
-        .simultaneousGesture(pageSwipeGesture)
-        .sheet(isPresented: $showingSettings) {
-            SettingsView()
-        }
-        .sheet(isPresented: $showingMap) {
-            StationMapView(
-                stations: allStations,
-                selectedCountry: $selectedCountry,
-                onSelectCountry: { country in
-                    source = .all
-                    selectedCountry = country
-                    checkedOnly = false
-                },
-                onOpenStation: { station in
-                    player.play(station)
-                    library.pushRecent(station)
-                    showingMap = false
-                    Task { @MainActor in
-                        try? await Task.sleep(nanoseconds: 250_000_000)
-                        showingNowPlaying = true
-                    }
-                },
-            )
-        }
-        .sheet(isPresented: $showingNowPlaying) {
-            NowPlayingView()
-                .presentationDetents([.large])
-                .presentationDragIndicator(.hidden)
-        }
-        .sheet(isPresented: $showingWakeAlarm) {
-            WakeAlarmView()
-                .presentationDetents([.large])
-                .presentationDragIndicator(.visible)
-        }
-        .overlay {
-            stationInfoPreviewOverlay
-        }
-        .animation(.spring(response: 0.24, dampingFraction: 0.86), value: stationInfoPreview?.id)
-        .confirmationDialog(
-            timerCancelConfirmation?.title ?? "",
-            isPresented: Binding(
-                get: { timerCancelConfirmation != nil },
-                set: { if !$0 { timerCancelConfirmation = nil } },
-            ),
-            presenting: timerCancelConfirmation,
-        ) { target in
-            Button(target.confirmLabel, role: .destructive) {
-                switch target {
-                case .wake:
-                    wakeAlarm.disarm()
-                case .sleep:
-                    sleepTimer.cancel()
-                }
-                timerCancelConfirmation = nil
-            }
-        } message: { target in
-            Text(target.message)
-        }
-        .onAppear {
-            library.refreshFavorites(from: catalog.stations)
-            recomputeFilteredStations()
-            updateFavoriteNowPlayingPolling()
-        }
-        .onChange(of: tab) { _, value in
-            source = stationSource(for: value)
-        }
-        .onChange(of: source) { _, value in
-            resetStationDisplayLimit()
-            listScrollOffset = 0
-            tab = appTab(for: value)
-        }
-        .onChange(of: query) { _, _ in
-            resetStationDisplayLimit()
-            resetRadioBrowserStations()
-            fetchInitialRadioBrowserPageIfNeeded()
-        }
-        .onChange(of: searchText) { _, value in
-            scheduleSearchUpdate(value)
-        }
-        .onChange(of: selectedCountry) { _, _ in
-            resetStationDisplayLimit()
-            resetRadioBrowserStations()
-            fetchInitialRadioBrowserPageIfNeeded()
-        }
-        .onChange(of: selectedTag) { _, _ in
-            resetStationDisplayLimit()
-            resetRadioBrowserStations()
-            fetchInitialRadioBrowserPageIfNeeded()
-        }
-        .onChange(of: checkedOnly) { _, _ in
-            resetStationDisplayLimit()
-            resetRadioBrowserStations()
-            fetchInitialRadioBrowserPageIfNeeded()
-        }
-        .onChange(of: filterSignature) { _, _ in
-            recomputeFilteredStations()
-            updateFavoriteNowPlayingPolling()
-        }
-        .onChange(of: catalog.stations) { _, stations in
-            library.refreshFavorites(from: stations)
-            recomputeFilteredStations()
-            updateFavoriteNowPlayingPolling()
-        }
-        .onChange(of: searchFocused) { _, focused in
-            searchFocusedExternally = focused
-        }
-        .onDisappear {
-            filterTask?.cancel()
-            searchUpdateTask?.cancel()
-            radioBrowserSearchTask?.cancel()
-            stationInfoMetadataTask?.cancel()
-            favoriteNowPlaying.stop()
-            searchFocusedExternally = false
-        }
+        .id(source)
+        .transition(pageTransition)
+        .animation(.snappy, value: source)
+    }
+
+    private var pageTransition: AnyTransition {
+        .asymmetric(
+            insertion: .move(edge: pageTransitionDirection.insertionEdge).combined(with: .opacity),
+            removal: .move(edge: pageTransitionDirection.removalEdge).combined(with: .opacity),
+        )
     }
 
     private var pageSwipeGesture: some Gesture {
@@ -365,6 +405,22 @@ struct StationListView: View {
         }
     }
 
+    private func setSource(_ newSource: StationSource, animated: Bool) {
+        guard source != newSource else { return }
+        if animated {
+            withAnimation(.snappy) {
+                source = newSource
+            }
+        } else {
+            source = newSource
+        }
+    }
+
+    private func updatePageTransitionDirection(from oldTab: AppTab, to newTab: AppTab) {
+        guard oldTab != newTab else { return }
+        pageTransitionDirection = tabPosition(newTab) > tabPosition(oldTab) ? .forward : .backward
+    }
+
     private func stationSource(for tab: AppTab) -> StationSource {
         switch tab {
         case .browse: .all
@@ -378,6 +434,14 @@ struct StationListView: View {
         case .all: .browse
         case .favorites: .favorites
         case .recents: .recents
+        }
+    }
+
+    private func tabPosition(_ tab: AppTab) -> Int {
+        switch tab {
+        case .browse: 0
+        case .recents: 1
+        case .favorites: 2
         }
     }
 
