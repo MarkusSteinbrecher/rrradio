@@ -97,6 +97,7 @@ final class WakeAlarm {
         static let lastTime = "rrradio.wake.lastTime.v1"
         static let notificationsEnabled = "rrradio.wake.notificationsEnabled.v1"
         static let pauseWarningSuppressed = "rrradio.wake.pauseWarningSuppressed.v1"
+        static let keepAliveDefault = "rrradio.wake.keepAliveDefault.v1"
     }
     nonisolated static let defaultTimeKey = Keys.lastTime
     nonisolated static let notificationsEnabledKey = Keys.notificationsEnabled
@@ -106,6 +107,7 @@ final class WakeAlarm {
         let time: String
         let station: Station
         let armedAt: Date
+        let keepAliveEnabled: Bool?
     }
 
     static let staleGrace: TimeInterval = 60
@@ -119,6 +121,7 @@ final class WakeAlarm {
     private(set) var armedAt: Date?
     private(set) var firesAt: Date?
     private(set) var notificationPermissionDenied = false
+    private(set) var keepAliveEnabled: Bool
     var notificationsEnabled: Bool {
         didSet {
             defaults.set(notificationsEnabled, forKey: Keys.notificationsEnabled)
@@ -156,6 +159,7 @@ final class WakeAlarm {
         self.notifier = notifier
         self.now = now
         time = defaults.string(forKey: Keys.lastTime) ?? Self.fallbackDefaultTime
+        keepAliveEnabled = defaults.bool(forKey: Keys.keepAliveDefault)
         let storedWake = Self.readWake(from: defaults)
         if defaults.object(forKey: Keys.notificationsEnabled) == nil {
             let defaultEnabled = storedWake == nil
@@ -173,6 +177,7 @@ final class WakeAlarm {
                 station = stored.station
                 armedAt = stored.armedAt
                 firesAt = next
+                keepAliveEnabled = stored.keepAliveEnabled ?? defaults.bool(forKey: Keys.keepAliveDefault)
                 diagnosticRecord("wake", "restored", details: wakeDetails(station: stored.station, firesAt: next))
             } else {
                 diagnosticRecord("wake", "cleared stale stored alarm")
@@ -199,7 +204,7 @@ final class WakeAlarm {
         }
     }
 
-    func arm(station: Station, time nextTime: String, onFire: ((Station) -> Void)? = nil) {
+    func arm(station: Station, time nextTime: String, keepAliveEnabled nextKeepAliveEnabled: Bool? = nil, onFire: ((Station) -> Void)? = nil) {
         let cleanTime = nextTime.trimmingCharacters(in: .whitespacesAndNewlines)
         let armed = now()
         guard let nextFire = Self.nextFireDate(time: cleanTime, armedAt: armed) else { return }
@@ -212,11 +217,21 @@ final class WakeAlarm {
         self.station = station
         armedAt = armed
         firesAt = nextFire
+        keepAliveEnabled = nextKeepAliveEnabled ?? keepAliveEnabled
+        defaults.set(keepAliveEnabled, forKey: Keys.keepAliveDefault)
         pauseWarningArmedAt = nil
         writeWake()
         diagnosticRecord("wake", "armed", details: wakeDetails(station: station, firesAt: nextFire))
         scheduleTimer()
         scheduleWakeNotificationIfNeeded()
+    }
+
+    func setKeepAliveEnabled(_ enabled: Bool) {
+        keepAliveEnabled = enabled
+        defaults.set(enabled, forKey: Keys.keepAliveDefault)
+        if isArmed {
+            writeWake()
+        }
     }
 
     func requestNotificationAuthorizationIfNeeded() async -> Bool {
@@ -287,6 +302,7 @@ final class WakeAlarm {
         station = nil
         armedAt = nil
         firesAt = nil
+        keepAliveEnabled = defaults.bool(forKey: Keys.keepAliveDefault)
         pauseWarningArmedAt = nil
         time = defaults.string(forKey: Keys.lastTime) ?? Self.fallbackDefaultTime
         Self.clearWake(from: defaults)
@@ -372,12 +388,18 @@ final class WakeAlarm {
             "streamHost": station.streamUrl.host() ?? "",
             "time": time,
             "firesAt": firesAt.map { ISO8601DateFormatter().string(from: $0) } ?? "",
+            "keepAlive": String(keepAliveEnabled),
         ]
     }
 
     private func writeWake() {
         guard let station, let armedAt,
-              let data = try? JSONEncoder().encode(StoredWake(time: time, station: station, armedAt: armedAt)) else {
+              let data = try? JSONEncoder().encode(StoredWake(
+                time: time,
+                station: station,
+                armedAt: armedAt,
+                keepAliveEnabled: keepAliveEnabled,
+              )) else {
             return
         }
         defaults.set(data, forKey: Keys.wake)

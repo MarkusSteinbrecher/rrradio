@@ -1,11 +1,12 @@
 # Wake To Radio On iOS
 
-rrradio has two wake-to-radio paths on iPhone:
+rrradio has three wake-to-radio paths on iPhone:
 
 - In-app wake alarm: rrradio keeps a timer while the app remains alive, and schedules a local notification fallback.
-- Shortcuts Personal Automation: iOS launches rrradio on a schedule and runs a rrradio action.
+- Keep audio alive until wake: rrradio plays a near-silent local sound to keep its audio session active, then switches to the selected station at wake time.
+- Shortcuts Personal Automation: iOS can run a rrradio action on a schedule when it allows app launch.
 
-Use the Shortcuts path when you need reliable scheduled autoplay.
+Use the in-app wake alarm with "Keep audio alive until wake" when you need the best chance of unattended autoplay.
 
 ## Why The In-App Alarm Has Limits
 
@@ -15,9 +16,26 @@ That means:
 
 - If rrradio is still alive at the wake time, the in-app alarm can start the station.
 - If iOS suspended rrradio, the notification fallback is the reliable signal.
-- If you want unattended autoplay from a locked phone, use Shortcuts Personal Automation.
+- If the app is closed or force-quit, rrradio cannot relaunch itself and start audio.
+- Shortcuts can fail from the lock screen when iOS decides the app would need to unlock before launch.
+
+## Keep Audio Alive Until Wake
+
+The wake sheet includes a "Keep audio alive until wake" option. When enabled, rrradio starts a looped near-silent local sound if no real station is playing. That keeps the background audio session active so iOS is less likely to suspend the app before the wake time.
+
+This is the closest in-app path to reliable autoplay, but it has tradeoffs:
+
+- It uses battery overnight.
+- It only works while rrradio remains installed and running.
+- It does not survive force-quit.
+- iOS may still change behavior in future releases.
+- It should be tested on the actual iPhone before relying on it as an alarm.
 
 ## Recommended Setup
+
+For unattended wake-to-radio, use the in-app wake alarm and enable "Keep audio alive until wake" in the wake sheet. This keeps rrradio's audio session active with a near-silent local sound until the selected station starts.
+
+If you prefer a Shortcuts automation:
 
 1. Open the Shortcuts app.
 2. Go to Automation.
@@ -30,7 +48,7 @@ That means:
 9. Enable Run Without Asking when iOS offers it.
 10. Save the automation.
 
-For a simple morning setup, choose Play Last Station and play the desired station once in rrradio before going to sleep.
+For a simple morning setup, choose Play Last Station and play the desired station once in rrradio before going to sleep. If iOS reports that it could not start the app because the phone could not unlock, use the in-app wake alarm with "Keep audio alive until wake" instead.
 
 ## Available rrradio Actions
 
@@ -52,11 +70,14 @@ Starts the most recently played station. This is useful for a stable "morning re
 
 ## Testing
 
-To verify a scheduled wake:
+To verify keep-alive wake:
 
-1. Set the automation for a few minutes in the future.
-2. Lock the iPhone.
-3. Wait without touching the screen.
-4. Confirm rrradio opens and playback starts.
+1. Set the in-app wake alarm for a few minutes in the future.
+2. In rrradio, play a station and open the wake sheet.
+3. Enable "Keep audio alive until wake" and set the wake.
+4. Pause playback if you want rrradio to use the near-silent local sound.
+5. Lock the iPhone.
+6. Wait without touching the screen.
+7. Confirm rrradio switches to the selected wake station.
 
-For the real morning case, test once overnight with the phone locked and the automation set to your actual wake time.
+For the real morning case, test once overnight with the phone locked and the in-app wake alarm set to your actual wake time.

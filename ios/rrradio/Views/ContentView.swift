@@ -32,6 +32,7 @@ struct ContentView: View {
             }
             applyLandingPreferenceIfReady()
             playPendingIntentStationIfPossible()
+            syncWakeKeepAlive()
         }
         .onChange(of: catalog.stations.count) { _, _ in
             applyLandingPreferenceIfReady()
@@ -41,8 +42,16 @@ struct ContentView: View {
             playPendingIntentStationIfPossible()
         }
         .onChange(of: player.state) { oldState, newState in
-            guard oldState == .playing, newState == .paused, wakeAlarm.shouldShowPauseWarning() else { return }
-            showingWakePauseWarning = true
+            if oldState == .playing, newState == .paused, wakeAlarm.shouldShowPauseWarning() {
+                showingWakePauseWarning = true
+            }
+            syncWakeKeepAlive()
+        }
+        .onChange(of: wakeAlarm.isArmed) { _, _ in
+            syncWakeKeepAlive()
+        }
+        .onChange(of: wakeAlarm.keepAliveEnabled) { _, _ in
+            syncWakeKeepAlive()
         }
         .alert(locale.text(.wakePauseWarningTitle), isPresented: $showingWakePauseWarning) {
             Button(locale.text(.ok), role: .cancel) {}
@@ -114,6 +123,14 @@ struct ContentView: View {
         Task { @MainActor in
             try? await Task.sleep(nanoseconds: 300_000_000)
             showingLandingNowPlaying = true
+        }
+    }
+
+    private func syncWakeKeepAlive() {
+        if wakeAlarm.isArmed, wakeAlarm.keepAliveEnabled, player.state != .playing {
+            _ = player.startWakeKeepAlive()
+        } else if !wakeAlarm.isArmed || !wakeAlarm.keepAliveEnabled || player.state == .playing {
+            player.stopWakeKeepAlive()
         }
     }
 }

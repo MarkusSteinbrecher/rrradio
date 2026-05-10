@@ -58,13 +58,25 @@ final class WakeAlarmTests: XCTestCase {
         let now = try date("2026-05-07 09:00")
         let alarm = WakeAlarm(defaults: defaults, notifier: NoopWakeNotifier(), now: { now })
 
-        alarm.arm(station: station, time: "17:30")
+        alarm.arm(station: station, time: "17:30", keepAliveEnabled: true)
 
         let restored = WakeAlarm(defaults: defaults, notifier: NoopWakeNotifier(), now: { now })
         XCTAssertTrue(restored.isArmed)
         XCTAssertEqual(restored.time, "17:30")
         XCTAssertEqual(restored.station?.id, station.id)
         XCTAssertEqual(restored.chipText, "17:30")
+        XCTAssertTrue(restored.keepAliveEnabled)
+    }
+
+    func testKeepAliveDefaultPersistsAcrossNewWake() throws {
+        let now = try date("2026-05-07 09:00")
+        let alarm = WakeAlarm(defaults: defaults, notifier: NoopWakeNotifier(), now: { now })
+
+        alarm.arm(station: station, time: "17:30", keepAliveEnabled: true)
+        alarm.disarm()
+
+        let next = WakeAlarm(defaults: defaults, notifier: NoopWakeNotifier(), now: { now })
+        XCTAssertTrue(next.keepAliveEnabled)
     }
 
     func testNewWakeDefaultsNotificationsOn() throws {

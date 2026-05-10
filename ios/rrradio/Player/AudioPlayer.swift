@@ -3,6 +3,12 @@ import MediaPlayer
 import Observation
 import UIKit
 
+private extension FixedWidthInteger {
+    var littleEndianBytes: [UInt8] {
+        withUnsafeBytes(of: littleEndian) { Array($0) }
+    }
+}
+
 /// Thin wrapper around AVPlayer with the iOS bits the web app handles
 /// via the Media Session API: lock-screen now-playing card, remote
 /// commands (play / pause / from AirPods), and audio-session
@@ -48,6 +54,7 @@ final class AudioPlayer {
     private var lockScreenArtworkURL: URL?
     private var lockScreenArtwork: MPMediaItemArtwork?
     private var shortcutActivity: NSUserActivity?
+    private var wakeKeepAlivePlayer: AVAudioPlayer?
     private weak var listeningHistory: ListeningHistory?
     private var lyricsKey = ""
 
@@ -62,6 +69,7 @@ final class AudioPlayer {
     }
 
     func play(_ station: Station) {
+        stopWakeKeepAlive()
         diagnosticRecord("playback", "play requested", details: stationDiagnostics(station))
         // If we're already on this station, just unpause.
         if current?.id == station.id, let p = player {
@@ -145,6 +153,7 @@ final class AudioPlayer {
     }
 
     func stop() {
+        stopWakeKeepAlive()
         diagnosticRecord("playback", "stopped", details: current.map(stationDiagnostics) ?? [:])
         listeningHistory?.closeActiveSession()
         teardownPlayer()
@@ -161,6 +170,35 @@ final class AudioPlayer {
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
     }
 
+    @discardableResult
+    func startWakeKeepAlive() -> Bool {
+        guard wakeKeepAlivePlayer == nil else { return true }
+        configureAudioSession()
+        do {
+            let player = try AVAudioPlayer(data: Self.keepAliveWavData())
+            player.numberOfLoops = -1
+            player.volume = 0.001
+            player.prepareToPlay()
+            guard player.play() else {
+                diagnosticRecord("wake", "keep alive failed", details: ["error": "play returned false"])
+                return false
+            }
+            wakeKeepAlivePlayer = player
+            diagnosticRecord("wake", "keep alive started")
+            return true
+        } catch {
+            diagnosticRecord("wake", "keep alive failed", details: ["error": error.localizedDescription])
+            return false
+        }
+    }
+
+    func stopWakeKeepAlive() {
+        guard let wakeKeepAlivePlayer else { return }
+        wakeKeepAlivePlayer.stop()
+        self.wakeKeepAlivePlayer = nil
+        diagnosticRecord("wake", "keep alive stopped")
+    }
+
     // MARK: - Internals
 
     private func configureAudioSession() {
@@ -173,6 +211,29 @@ final class AudioPlayer {
             // Non-fatal — playback still works in foreground.
             diagnosticRecord("playback", "audio session failed", details: ["error": error.localizedDescription])
         }
+    }
+
+    private static func keepAliveWavData() -> Data {
+        let sampleRate = 8_000
+        let durationSeconds = 1
+        let samples = sampleRate * durationSeconds
+        let dataSize = samples * 2
+        var data = Data()
+        data.append(contentsOf: "RIFF".utf8)
+        data.append(contentsOf: UInt32(36 + dataSize).littleEndianBytes)
+        data.append(contentsOf: "WAVE".utf8)
+        data.append(contentsOf: "fmt ".utf8)
+        data.append(contentsOf: UInt32(16).littleEndianBytes)
+        data.append(contentsOf: UInt16(1).littleEndianBytes)
+        data.append(contentsOf: UInt16(1).littleEndianBytes)
+        data.append(contentsOf: UInt32(sampleRate).littleEndianBytes)
+        data.append(contentsOf: UInt32(sampleRate * 2).littleEndianBytes)
+        data.append(contentsOf: UInt16(2).littleEndianBytes)
+        data.append(contentsOf: UInt16(16).littleEndianBytes)
+        data.append(contentsOf: "data".utf8)
+        data.append(contentsOf: UInt32(dataSize).littleEndianBytes)
+        data.append(Data(repeating: 0, count: dataSize))
+        return data
     }
 
     private func donatePlaybackActivity(for station: Station) {

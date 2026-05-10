@@ -42,7 +42,7 @@ struct NowPlayingView: View {
         }
         .sheet(isPresented: $showingWakeAlarm) {
             WakeAlarmView()
-                .presentationDetents([.medium])
+                .presentationDetents([.large])
                 .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $showingSleepTimer) {
@@ -1396,6 +1396,7 @@ private struct WakeAlarmView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
     @State private var wakeDate = Date()
+    @State private var keepAliveEnabled = false
 
     var body: some View {
         VStack(spacing: 18) {
@@ -1435,17 +1436,40 @@ private struct WakeAlarmView: View {
                 notificationWarning
             }
 
+            Toggle(isOn: $keepAliveEnabled) {
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(locale.text(.wakeKeepAlive))
+                        .font(.system(size: 13, weight: .medium))
+                        .foregroundStyle(RrradioTheme.ink)
+                    Text(locale.text(.wakeKeepAliveDetail))
+                        .font(.system(size: 11))
+                        .foregroundStyle(RrradioTheme.ink3)
+                        .lineLimit(3)
+                }
+            }
+            .tint(RrradioTheme.accent)
+            .padding(12)
+            .background(RrradioTheme.bg2)
+            .overlay(RoundedRectangle(cornerRadius: 6).stroke(RrradioTheme.line))
+            .clipShape(RoundedRectangle(cornerRadius: 6))
+            .disabled(wakeAlarm.isArmed)
+
             Button {
                 if wakeAlarm.isArmed {
                     wakeAlarm.disarm()
+                    player.stopWakeKeepAlive()
                     dismiss()
                 } else if let station = player.current {
                     Task {
                         let notificationsAvailable = wakeAlarm.notificationsEnabled
                             ? await wakeAlarm.requestNotificationAuthorizationIfNeeded()
                             : true
-                        wakeAlarm.arm(station: station, time: timeString(from: wakeDate)) { station in
+                        wakeAlarm.arm(station: station, time: timeString(from: wakeDate), keepAliveEnabled: keepAliveEnabled) { station in
+                            player.stopWakeKeepAlive()
                             player.play(station)
+                        }
+                        if keepAliveEnabled, player.state != .playing {
+                            _ = player.startWakeKeepAlive()
                         }
                         if notificationsAvailable {
                             dismiss()
@@ -1484,6 +1508,7 @@ private struct WakeAlarmView: View {
         .background(RrradioTheme.bg.ignoresSafeArea())
         .onAppear {
             wakeDate = dateFromTime(wakeAlarm.time) ?? Date()
+            keepAliveEnabled = wakeAlarm.keepAliveEnabled
             wakeAlarm.refreshNotificationAuthorization()
         }
     }
