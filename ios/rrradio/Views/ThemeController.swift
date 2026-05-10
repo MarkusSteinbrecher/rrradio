@@ -12,6 +12,7 @@ final class ThemeController {
     private let defaults: UserDefaults
     private let key = "rrradio.theme"
     private(set) var choice: Choice
+    private(set) var systemColorScheme: ColorScheme = .light
     @ObservationIgnored var onChange: (() -> Void)?
 
     init(defaults: UserDefaults = .standard) {
@@ -37,6 +38,10 @@ final class ThemeController {
         choice = newChoice
         defaults.set(newChoice.rawValue, forKey: key)
         onChange?()
+    }
+
+    func setSystemColorScheme(_ colorScheme: ColorScheme) {
+        systemColorScheme = colorScheme
     }
 
     func applyCloudSync(_ newChoice: Choice) {

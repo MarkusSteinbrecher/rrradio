@@ -6,6 +6,7 @@ import UIKit
 struct rrradioApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.colorScheme) private var systemColorScheme
     @State private var catalog = Catalog()
     @State private var library = Library()
     @State private var player = AudioPlayer()
@@ -38,6 +39,7 @@ struct rrradioApp: App {
                 .environment(network)
                 .preferredColorScheme(theme.preferredColorScheme)
                 .onAppear {
+                    theme.setSystemColorScheme(systemColorScheme)
                     diagnostics.record("app", "appeared")
                     wasOffline = network.snapshot.isOffline
                     player.setListeningHistory(listeningHistory)
@@ -55,6 +57,9 @@ struct rrradioApp: App {
                         listeningHistory: listeningHistory,
                         diagnostics: diagnostics,
                     )
+                }
+                .onChange(of: systemColorScheme) { _, newColorScheme in
+                    theme.setSystemColorScheme(newColorScheme)
                 }
                 .onChange(of: scenePhase) { _, phase in
                     diagnostics.record("app", "scene phase", details: ["phase": "\(phase)"])

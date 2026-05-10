@@ -775,7 +775,7 @@ private struct SettingsPageView: View {
 
     private func themePreviewScheme(for choice: ThemeController.Choice) -> ColorScheme? {
         switch choice {
-        case .system: nil
+        case .system: theme.systemColorScheme
         case .light: .light
         case .dark: .dark
         }
