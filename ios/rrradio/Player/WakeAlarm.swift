@@ -159,7 +159,7 @@ final class WakeAlarm {
         self.notifier = notifier
         self.now = now
         time = defaults.string(forKey: Keys.lastTime) ?? Self.fallbackDefaultTime
-        keepAliveEnabled = defaults.bool(forKey: Keys.keepAliveDefault)
+        keepAliveEnabled = Self.defaultKeepAliveEnabled(from: defaults)
         let storedWake = Self.readWake(from: defaults)
         if defaults.object(forKey: Keys.notificationsEnabled) == nil {
             let defaultEnabled = storedWake == nil
@@ -177,7 +177,7 @@ final class WakeAlarm {
                 station = stored.station
                 armedAt = stored.armedAt
                 firesAt = next
-                keepAliveEnabled = stored.keepAliveEnabled ?? defaults.bool(forKey: Keys.keepAliveDefault)
+                keepAliveEnabled = stored.keepAliveEnabled ?? Self.defaultKeepAliveEnabled(from: defaults)
                 diagnosticRecord("wake", "restored", details: wakeDetails(station: stored.station, firesAt: next))
             } else {
                 diagnosticRecord("wake", "cleared stale stored alarm")
@@ -302,7 +302,7 @@ final class WakeAlarm {
         station = nil
         armedAt = nil
         firesAt = nil
-        keepAliveEnabled = defaults.bool(forKey: Keys.keepAliveDefault)
+        keepAliveEnabled = Self.defaultKeepAliveEnabled(from: defaults)
         pauseWarningArmedAt = nil
         time = defaults.string(forKey: Keys.lastTime) ?? Self.fallbackDefaultTime
         Self.clearWake(from: defaults)
@@ -408,6 +408,11 @@ final class WakeAlarm {
     private static func readWake(from defaults: UserDefaults) -> StoredWake? {
         guard let data = defaults.data(forKey: Keys.wake) else { return nil }
         return try? JSONDecoder().decode(StoredWake.self, from: data)
+    }
+
+    private static func defaultKeepAliveEnabled(from defaults: UserDefaults) -> Bool {
+        guard defaults.object(forKey: Keys.keepAliveDefault) != nil else { return true }
+        return defaults.bool(forKey: Keys.keepAliveDefault)
     }
 
     private static func clearWake(from defaults: UserDefaults) {

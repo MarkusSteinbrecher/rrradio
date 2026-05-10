@@ -54,6 +54,24 @@ final class WakeAlarmTests: XCTestCase {
         XCTAssertNil(WakeAlarm.nextFireDate(time: "abc", armedAt: armedAt, calendar: calendar))
     }
 
+    func testKeepAliveDefaultsOnForNewInstall() throws {
+        let now = try date("2026-05-07 09:00")
+
+        let alarm = WakeAlarm(defaults: defaults, notifier: NoopWakeNotifier(), now: { now })
+
+        XCTAssertTrue(alarm.keepAliveEnabled)
+    }
+
+    func testKeepAliveExplicitOffPersists() throws {
+        let now = try date("2026-05-07 09:00")
+        let alarm = WakeAlarm(defaults: defaults, notifier: NoopWakeNotifier(), now: { now })
+
+        alarm.setKeepAliveEnabled(false)
+
+        let restored = WakeAlarm(defaults: defaults, notifier: NoopWakeNotifier(), now: { now })
+        XCTAssertFalse(restored.keepAliveEnabled)
+    }
+
     func testArmPersistsAndRestoresWake() throws {
         let now = try date("2026-05-07 09:00")
         let alarm = WakeAlarm(defaults: defaults, notifier: NoopWakeNotifier(), now: { now })
