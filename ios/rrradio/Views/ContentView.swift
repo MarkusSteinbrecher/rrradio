@@ -152,8 +152,8 @@ private struct BottomTabBar: View {
     var body: some View {
         HStack(spacing: 0) {
             tabButton(.browse, icon: "globe", title: locale.text(.browse))
-            tabButton(.favorites, icon: "heart", title: locale.text(.favorites))
             tabButton(.recents, icon: "clock", title: locale.text(.recents))
+            tabButton(.favorites, icon: "heart", title: locale.text(.favorites))
         }
         .background(RrradioTheme.bg)
         .overlay(alignment: .top) {

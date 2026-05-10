@@ -383,17 +383,17 @@ struct StationListView: View {
 
     private func nextTab(after tab: AppTab) -> AppTab? {
         switch tab {
-        case .browse: .favorites
-        case .favorites: .recents
-        case .recents: nil
+        case .browse: .recents
+        case .recents: .favorites
+        case .favorites: nil
         }
     }
 
     private func previousTab(before tab: AppTab) -> AppTab? {
         switch tab {
         case .browse: nil
-        case .favorites: .browse
-        case .recents: .favorites
+        case .recents: .browse
+        case .favorites: .recents
         }
     }
 
