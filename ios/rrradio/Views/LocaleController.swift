@@ -128,12 +128,14 @@ enum L10nKey: String {
     case searchFavorites
     case searchCustomStations
     case searchRecents
+    case searchCountries
     case allStations
     case favorites
     case customStations
     case recents
     case search
     case noStationsFound
+    case noFavoriteSearchResultsShowingCatalog
     case catalogEmpty
     case noFavorites
     case noCustomStations
@@ -254,12 +256,14 @@ enum L10n {
             .searchFavorites: "Search your favorites...",
             .searchCustomStations: "Search your stations...",
             .searchRecents: "Search recently played...",
+            .searchCountries: "Search countries...",
             .allStations: "All stations",
             .favorites: "Favorites",
             .customStations: "My stations",
             .recents: "Recents",
             .search: "Search",
             .noStationsFound: "No stations found",
+            .noFavoriteSearchResultsShowingCatalog: "No results found in your favorites.\nShowing results from the catalog.",
             .catalogEmpty: "Catalog empty",
             .noFavorites: "No favorites yet",
             .noCustomStations: "No custom stations yet",
@@ -377,12 +381,14 @@ enum L10n {
             .searchFavorites: "Favoriten suchen...",
             .searchCustomStations: "Eigene Stationen suchen...",
             .searchRecents: "Zuletzt gespielt suchen...",
+            .searchCountries: "Länder suchen...",
             .allStations: "Alle Stationen",
             .favorites: "Favoriten",
             .customStations: "Eigene",
             .recents: "Zuletzt",
             .search: "Suche",
             .noStationsFound: "Keine Stationen gefunden",
+            .noFavoriteSearchResultsShowingCatalog: "No results found in your favorites.\nShowing results from the catalog.",
             .catalogEmpty: "Katalog leer",
             .noFavorites: "Noch keine Favoriten",
             .noCustomStations: "Noch keine eigenen Stationen",
@@ -500,12 +506,14 @@ enum L10n {
             .searchFavorites: "Rechercher dans les favoris...",
             .searchCustomStations: "Rechercher vos stations...",
             .searchRecents: "Rechercher les écoutes récentes...",
+            .searchCountries: "Rechercher les pays...",
             .allStations: "Toutes les stations",
             .favorites: "Favoris",
             .customStations: "Mes stations",
             .recents: "Récents",
             .search: "Recherche",
             .noStationsFound: "Aucune station trouvée",
+            .noFavoriteSearchResultsShowingCatalog: "No results found in your favorites.\nShowing results from the catalog.",
             .catalogEmpty: "Catalogue vide",
             .noFavorites: "Aucun favori",
             .noCustomStations: "Aucune station personnelle",
@@ -623,12 +631,14 @@ enum L10n {
             .searchFavorites: "Buscar favoritos...",
             .searchCustomStations: "Buscar tus emisoras...",
             .searchRecents: "Buscar recientes...",
+            .searchCountries: "Buscar países...",
             .allStations: "Todas las emisoras",
             .favorites: "Favoritos",
             .customStations: "Mis emisoras",
             .recents: "Recientes",
             .search: "Búsqueda",
             .noStationsFound: "No se encontraron emisoras",
+            .noFavoriteSearchResultsShowingCatalog: "No results found in your favorites.\nShowing results from the catalog.",
             .catalogEmpty: "Catálogo vacío",
             .noFavorites: "Aun no hay favoritos",
             .noCustomStations: "Aun no hay emisoras propias",

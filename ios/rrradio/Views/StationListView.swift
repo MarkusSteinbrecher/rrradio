@@ -72,6 +72,7 @@ struct StationListView: View {
     @State private var selectedCountry: String?
     @State private var selectedTag: String?
     @State private var activeFilterPicker: ActiveFilterPicker?
+    @State private var countrySearchText = ""
     @State private var stationDisplayLimit = 220
     @State private var radioBrowserStations: [Station] = []
     @State private var radioBrowserTotalCount: Int?
@@ -79,6 +80,7 @@ struct StationListView: View {
     @State private var radioBrowserHasMore = true
     @State private var radioBrowserLoading = false
     @State private var filteredStations: [Station] = []
+    @State private var showingFavoritesCatalogFallback = false
     @State private var filterTask: Task<Void, Never>?
     @State private var searchUpdateTask: Task<Void, Never>?
     @State private var radioBrowserSearchTask: Task<Void, Never>?
@@ -174,6 +176,18 @@ struct StationListView: View {
         checkedOnly ? allStations : allStations + radioBrowserStations
     }
     private var countries: [String] { availableCountries(from: allStations) }
+    private var filteredCountries: [String] {
+        let trimmed = countrySearchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return countries }
+        let normalized = normalizeForSearch(trimmed)
+        return countries.filter { code in
+            let surface = "\(countryFlagEmoji(code)) \(countryDisplayName(code)) \(code)"
+            if surface.localizedCaseInsensitiveContains(trimmed) {
+                return true
+            }
+            return !normalized.isEmpty && normalizeForSearch(surface).contains(normalized)
+        }
+    }
     private var genres: [Genre] { availableGenres(from: allStations) }
 
     private var stations: [Station] {
@@ -190,6 +204,9 @@ struct StationListView: View {
     }
 
     private var visibleStations: [Station] { Array(filteredStations.prefix(displayLimit)) }
+    private var usesFavoritesRows: Bool {
+        isFavoritesPage && !showingFavoritesCatalogFallback
+    }
     private var settingsColorScheme: ColorScheme {
         theme.preferredColorScheme ?? colorScheme
     }
@@ -796,11 +813,14 @@ struct StationListView: View {
                         case .country:
                             filterPickerRow(locale.text(.allCountries), selected: selectedCountry == nil) {
                                 selectedCountry = nil
+                                countrySearchText = ""
                                 self.activeFilterPicker = nil
                             }
-                            ForEach(countries, id: \.self) { code in
-                                filterPickerRow("\(countryDisplayName(code)) (\(code))", selected: selectedCountry == code) {
+                            countrySearchRow
+                            ForEach(filteredCountries, id: \.self) { code in
+                                filterPickerRow("\(countryDisplayName(code)) (\(code))", selected: selectedCountry == code, leadingText: countryFlagEmoji(code)) {
                                     selectedCountry = code
+                                    countrySearchText = ""
                                     self.activeFilterPicker = nil
                                 }
                             }
@@ -860,7 +880,7 @@ struct StationListView: View {
 
     @ViewBuilder
     private var list: some View {
-        if isFavoritesPage {
+        if usesFavoritesRows {
             sortableFavoritesList
         } else {
             stationScrollList
@@ -874,11 +894,15 @@ struct StationListView: View {
 
             LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
                 Section {
+                    if showingFavoritesCatalogFallback {
+                        favoritesCatalogFallbackNotice
+                    }
+
                     ForEach(visibleStations) { station in
                         StationRow(
                             station: station,
-                            nowPlaying: isFavoritesPage ? favoriteNowPlaying.entries[station.id]?.metadata : nil,
-                            mode: isFavoritesPage ? .favoritesExpanded : .standard,
+                            nowPlaying: usesFavoritesRows ? favoriteNowPlaying.entries[station.id]?.metadata : nil,
+                            mode: usesFavoritesRows ? .favoritesExpanded : .standard,
                             isCurrent: player.current?.id == station.id,
                             isPlaying: player.current?.id == station.id && player.state == .playing,
                             isFavorite: library.isFavorite(station),
@@ -889,7 +913,7 @@ struct StationListView: View {
                             onToggleFavorite: {
                                 library.toggleFavorite(station)
                             },
-                            showsFavoriteButton: !isFavoritesPage,
+                            showsFavoriteButton: !usesFavoritesRows,
                             onInfoHoldChanged: source == .all ? { isHolding in
                                 handleStationInfoHoldChanged(isHolding, station: station)
                             } : nil,
@@ -909,6 +933,21 @@ struct StationListView: View {
             await catalog.refresh()
         }
         .background(RrradioTheme.bg)
+    }
+
+    private var favoritesCatalogFallbackNotice: some View {
+        Text(locale.text(.noFavoriteSearchResultsShowingCatalog))
+            .font(.system(size: 12, weight: .medium))
+            .foregroundStyle(RrradioTheme.ink2)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 18)
+            .padding(.vertical, 12)
+            .background(RrradioTheme.bg2)
+            .overlay(alignment: .bottom) {
+                Rectangle()
+                    .fill(RrradioTheme.line)
+                    .frame(height: 1)
+            }
     }
 
     private var sortableFavoritesList: some View {
@@ -1099,7 +1138,7 @@ struct StationListView: View {
     }
 
     private func updateFavoriteNowPlayingPolling() {
-        guard isFavoritesPage else {
+        guard usesFavoritesRows else {
             favoriteNowPlaying.stop()
             return
         }
@@ -1385,10 +1424,12 @@ struct StationListView: View {
         filterTask = Task.detached(priority: .userInitiated) {
             let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
             let matches: [Station]
+            let showFavoritesCatalogFallback: Bool
             if source == .all,
                !trimmedQuery.isEmpty,
                let searchIndex,
                Self.searchIndexCoversCurrentCatalog(searchIndex, catalogStations: catalogStations) {
+                showFavoritesCatalogFallback = false
                 matches = Self.searchIndexedStations(
                     query: trimmedQuery,
                     selectedCountry: selectedCountry,
@@ -1401,9 +1442,23 @@ struct StationListView: View {
                     limit: searchResultLimit,
                 )
             } else {
-                let searchStations = source == .all && !trimmedQuery.isEmpty
-                    ? Self.uniqueStations(stations + customStations)
-                    : stations
+                let favoriteMatches = source == .favorites && !trimmedQuery.isEmpty
+                    ? stations.filter {
+                        stationMatches($0, query: query)
+                            && stationMatchesFilters($0, country: selectedCountry, tag: selectedTag)
+                    }
+                    : []
+                showFavoritesCatalogFallback = source == .favorites
+                    && !trimmedQuery.isEmpty
+                    && favoriteMatches.isEmpty
+                let searchStations: [Station]
+                if showFavoritesCatalogFallback {
+                    searchStations = catalogStations
+                } else if source == .all && !trimmedQuery.isEmpty {
+                    searchStations = Self.uniqueStations(stations + customStations)
+                } else {
+                    searchStations = stations
+                }
                 matches = searchStations.filter {
                     stationMatches($0, query: query)
                         && stationMatchesFilters($0, country: selectedCountry, tag: selectedTag)
@@ -1412,6 +1467,7 @@ struct StationListView: View {
             guard !Task.isCancelled else { return }
             await MainActor.run {
                 filteredStations = matches
+                showingFavoritesCatalogFallback = showFavoritesCatalogFallback && !matches.isEmpty
             }
         }
     }
@@ -1560,9 +1616,37 @@ struct StationListView: View {
             .overlay(Circle().stroke(RrradioTheme.line))
     }
 
-    private func filterPickerRow(_ title: String, selected: Bool, action: @escaping () -> Void) -> some View {
+    private var countrySearchRow: some View {
+        HStack(spacing: 10) {
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 14, weight: .medium))
+                .foregroundStyle(RrradioTheme.ink3)
+                .frame(width: 22, alignment: .leading)
+            TextField(locale.text(.searchCountries), text: $countrySearchText)
+                .font(.system(size: 15))
+                .foregroundStyle(RrradioTheme.ink)
+                .tint(RrradioTheme.accent)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+                .submitLabel(.search)
+        }
+        .padding(.horizontal, 20)
+        .frame(maxWidth: .infinity, minHeight: 42, alignment: .leading)
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(RrradioTheme.line)
+                .frame(height: 1)
+        }
+    }
+
+    private func filterPickerRow(_ title: String, selected: Bool, leadingText: String? = nil, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             HStack(spacing: 10) {
+                if let leadingText {
+                    Text(leadingText)
+                        .font(.system(size: 17))
+                        .frame(width: 22, alignment: .leading)
+                }
                 Text(title)
                     .font(.system(size: 15))
                     .foregroundStyle(RrradioTheme.ink)
