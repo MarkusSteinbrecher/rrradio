@@ -22,6 +22,8 @@ struct NowPlayingView: View {
     @State private var showingDisableCarModeConfirmation = false
     @State private var isReportingBrokenStation = false
     @State private var brokenReportStatus: BrokenReportStatus?
+    @State private var showingBrokenReportAlert = false
+    @State private var lastBrokenReportStation: Station?
     private let offlineTint = Color(red: 1, green: 0.45, blue: 0.45)
 
     private enum Pane: Hashable {
@@ -64,8 +66,22 @@ struct NowPlayingView: View {
         } message: {
             Text("This disables manual and automatic Car Mode.")
         }
+        .alert(brokenReportAlertTitle, isPresented: $showingBrokenReportAlert) {
+            if brokenReportStatus == .failed,
+               let station = lastBrokenReportStation,
+               let url = brokenReportMailURL(station) {
+                Button("Send Email") {
+                    openURL(url)
+                }
+            }
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(brokenReportAlertMessage)
+        }
         .onChange(of: player.current?.id) { _, _ in
             brokenReportStatus = nil
+            showingBrokenReportAlert = false
+            lastBrokenReportStation = nil
         }
     }
 
@@ -1041,12 +1057,21 @@ struct NowPlayingView: View {
                         Button {
                             Task { await reportBroken(station) }
                         } label: {
-                            Label(brokenReportTitle, systemImage: brokenReportIcon)
-                                .font(.system(size: 11, weight: .semibold, design: .monospaced))
-                                .textCase(.uppercase)
-                                .tracking(1.0)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.top, 4)
+                            HStack(spacing: 8) {
+                                if isReportingBrokenStation {
+                                    ProgressView()
+                                        .controlSize(.mini)
+                                } else {
+                                    Image(systemName: brokenReportIcon)
+                                }
+                                Text(brokenReportTitle)
+                                Spacer(minLength: 0)
+                            }
+                            .font(.system(size: 11, weight: .semibold, design: .monospaced))
+                            .textCase(.uppercase)
+                            .tracking(1.0)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.top, 4)
                         }
                         .buttonStyle(.plain)
                         .foregroundStyle(brokenReportColor)
@@ -1220,15 +1245,39 @@ struct NowPlayingView: View {
         }
     }
 
+    private var brokenReportAlertTitle: String {
+        switch brokenReportStatus {
+        case .sent:
+            return "Report sent"
+        case .failed:
+            return "Report failed"
+        case nil:
+            return "Report"
+        }
+    }
+
+    private var brokenReportAlertMessage: String {
+        switch brokenReportStatus {
+        case .sent:
+            return "Thanks. The station report was submitted."
+        case .failed:
+            return "The report server did not accept the report. You can send the station details by email instead."
+        case nil:
+            return ""
+        }
+    }
+
     @MainActor
     private func reportBroken(_ station: Station) async {
         guard !isReportingBrokenStation else { return }
         isReportingBrokenStation = true
         brokenReportStatus = nil
+        lastBrokenReportStation = station
 
         do {
             try await BrokenStationReporter.report(station: station, playbackState: player.state)
             brokenReportStatus = .sent
+            showingBrokenReportAlert = true
             diagnosticRecord(
                 "report",
                 "broken station sent",
@@ -1236,6 +1285,7 @@ struct NowPlayingView: View {
             )
         } catch {
             brokenReportStatus = .failed
+            showingBrokenReportAlert = true
             diagnosticRecord(
                 "report",
                 "broken station failed",
@@ -1248,6 +1298,29 @@ struct NowPlayingView: View {
         }
 
         isReportingBrokenStation = false
+    }
+
+    private func brokenReportMailURL(_ station: Station) -> URL? {
+        let subject = "rrradio broken station report"
+        let body = """
+        This station seems broken in the iOS app.
+
+        Name: \(station.name)
+        ID: \(station.id)
+        Stream URL: \(station.streamUrl.absoluteString)
+        Playback state: \(player.state)
+
+        Notes:
+        """
+
+        var components = URLComponents()
+        components.scheme = "mailto"
+        components.path = "redsukramst@gmail.com"
+        components.queryItems = [
+            URLQueryItem(name: "subject", value: subject),
+            URLQueryItem(name: "body", value: body),
+        ]
+        return components.url
     }
 
     private var favoriteIcon: String {
