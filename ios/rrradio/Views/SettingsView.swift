@@ -8,6 +8,15 @@ struct SettingsView: View {
     @State private var page: SettingsPage = .settings
 
     var body: some View {
+        if let preferredColorScheme = theme.preferredColorScheme {
+            content
+                .preferredColorScheme(preferredColorScheme)
+        } else {
+            content
+        }
+    }
+
+    private var content: some View {
         VStack(spacing: 0) {
             SheetChromeHeader(title: locale.text(.settings)) { dismiss() }
             settingsTabs
@@ -25,7 +34,6 @@ struct SettingsView: View {
             .tabViewStyle(.page(indexDisplayMode: .never))
         }
         .background(RrradioTheme.bg.ignoresSafeArea())
-        .preferredColorScheme(theme.preferredColorScheme)
     }
 
     private var settingsTabs: some View {
