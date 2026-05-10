@@ -5,7 +5,6 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(LocaleController.self) private var locale
     @Environment(ThemeController.self) private var theme
-    var onCustomStationSaved: (Station) -> Void = { _ in }
     @State private var page: SettingsPage = .settings
 
     var body: some View {
@@ -18,11 +17,8 @@ struct SettingsView: View {
                     .tag(SettingsPage.settings)
                 AboutContentView()
                     .tag(SettingsPage.about)
-                AddStationContentView { station in
-                    onCustomStationSaved(station)
-                    dismiss()
-                }
-                .tag(SettingsPage.upload)
+                AddStationContentView()
+                    .tag(SettingsPage.upload)
                 ListeningHistoryPageView()
                     .tag(SettingsPage.listening)
             }

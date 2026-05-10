@@ -74,6 +74,8 @@ func canonicalStreamURL(_ url: URL) -> String {
     }
     components.scheme = "https"
     components.host = components.host?.lowercased()
+    components.fragment = nil
+    components.queryItems = canonicalStreamQueryItems(components.queryItems)
     return components.url?.absoluteString ?? url.absoluteString
 }
 
@@ -81,8 +83,39 @@ func streamURLExists(_ url: URL, in stations: [Station]) -> Bool {
     stations.contains { streamURLsMatch(url, $0.streamUrl) }
 }
 
+func stationsMatchingStreamURL(_ url: URL, in stations: [Station]) -> [Station] {
+    stations.filter { streamURLsMatch(url, $0.streamUrl) }
+}
+
 func streamURLsMatch(_ lhs: URL, _ rhs: URL) -> Bool {
     canonicalStreamURL(lhs) == canonicalStreamURL(rhs)
+}
+
+private func canonicalStreamQueryItems(_ queryItems: [URLQueryItem]?) -> [URLQueryItem]? {
+    guard let queryItems else { return nil }
+    let stableItems = queryItems
+        .filter { !isVolatileStreamQueryName($0.name) }
+        .sorted {
+            if $0.name == $1.name {
+                return ($0.value ?? "") < ($1.value ?? "")
+            }
+            return $0.name < $1.name
+        }
+    return stableItems.isEmpty ? nil : stableItems
+}
+
+private func isVolatileStreamQueryName(_ name: String) -> Bool {
+    let normalized = name.lowercased()
+    return normalized.hasPrefix("_") ||
+        [
+            "cachebuster",
+            "cachebust",
+            "cb",
+            "nocache",
+            "t",
+            "ts",
+            "timestamp",
+        ].contains(normalized)
 }
 
 private func upgradedHTTPSURL(_ url: URL) -> URL {

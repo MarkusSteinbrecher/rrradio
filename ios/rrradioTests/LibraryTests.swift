@@ -128,13 +128,25 @@ final class LibraryTests: XCTestCase {
         XCTAssertEqual(library.favorites.first?.name, "New")
     }
 
-    func testAddCustomCanSkipFavoriteWhenCatalogMatchWillBeFavorited() {
+    func testPreviouslyUnfavoritedCustomStationsAreRestoredAsFavorites() {
         let library = Library(defaults: defaults)
-        library.addCustom(station("custom-a", name: "Custom A"), favorite: false)
         library.addFavorite(station("catalog-a", name: "Catalog A"))
+        library.addCustom(station("custom-a", name: "Custom A"), favorite: false)
+
+        let restored = Library(defaults: defaults)
+
+        XCTAssertEqual(restored.customStations.map(\.id), ["custom-a"])
+        XCTAssertEqual(restored.favorites.map(\.id), ["custom-a", "catalog-a"])
+        XCTAssertEqual(restored.favorites.first?.name, "Custom A")
+    }
+
+    func testCustomStationSaveFavoritesTheCustomStationItself() {
+        let library = Library(defaults: defaults)
+        library.addCustom(station("custom-a", name: "Custom A"), favorite: true)
 
         XCTAssertEqual(library.customStations.map(\.id), ["custom-a"])
-        XCTAssertEqual(library.favorites.map(\.id), ["catalog-a"])
+        XCTAssertEqual(library.favorites.map(\.id), ["custom-a"])
+        XCTAssertEqual(library.favorites.first?.name, "Custom A")
     }
 
     func testRemoveCustom() {

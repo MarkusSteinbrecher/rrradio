@@ -212,9 +212,7 @@ struct StationListView: View {
         }
         .background(RrradioTheme.bg)
         .sheet(isPresented: $showingSettings) {
-            SettingsView(onCustomStationSaved: { station in
-                handleCustomStationSaved(station)
-            })
+            SettingsView()
         }
         .sheet(isPresented: $showingMap) {
             StationMapView(
@@ -797,23 +795,6 @@ struct StationListView: View {
         showingNowPlaying = true
     }
 
-    private func handleCustomStationSaved(_ station: Station) {
-        tab = .library
-        source = .favorites
-        librarySource = .favorites
-        searchText = ""
-        query = ""
-        selectedCountry = nil
-        selectedTag = nil
-        checkedOnly = true
-        resetStationDisplayLimit()
-        recomputeFilteredStations()
-        diagnosticRecord("library", "custom station saved", details: [
-            "station": station.name,
-            "host": station.streamUrl.host() ?? "",
-        ])
-    }
-
     private var canReorderFavorites: Bool {
         isFavoritesPage && query.isEmpty && selectedCountry == nil && selectedTag == nil
     }
@@ -1331,11 +1312,6 @@ struct StationRow: View {
                     if isPlaying && mode != .favoritesExpanded {
                         EqualizerView()
                     }
-                    if isCustom {
-                        Image(systemName: "plus.circle.fill")
-                            .font(.system(size: 13))
-                            .foregroundStyle(RrradioTheme.ink3)
-                    }
                 }
                 .frame(minHeight: mode == .favoritesExpanded ? 58 : 38)
                 .contentShape(Rectangle())
@@ -1401,8 +1377,13 @@ struct StationRow: View {
 
     @ViewBuilder
     private var rowArtwork: some View {
-        FaviconView(url: station.favicon, stationName: station.name, stationID: station.id, size: 38)
-            .frame(width: 38, height: 38)
+        if isCustom {
+            LocalStationArtworkView(size: 38)
+                .frame(width: 38, height: 38)
+        } else {
+            FaviconView(url: station.favicon, stationName: station.name, stationID: station.id, size: 38)
+                .frame(width: 38, height: 38)
+        }
     }
 
     @ViewBuilder
@@ -1705,6 +1686,24 @@ struct FaviconView: View {
 
     private var faviconPalette: (background: Color, foreground: Color) {
         (Color.white, Color.black)
+    }
+}
+
+struct LocalStationArtworkView: View {
+    var size: CGFloat = 38
+
+    var body: some View {
+        ZStack {
+            Circle()
+                .fill(RrradioTheme.bg2)
+            Image(systemName: "house.fill")
+                .font(.system(size: size * 0.42, weight: .semibold))
+                .foregroundStyle(RrradioTheme.ink3)
+        }
+        .frame(width: size, height: size)
+        .clipShape(Circle())
+        .overlay(Circle().stroke(RrradioTheme.line))
+        .accessibilityHidden(true)
     }
 }
 

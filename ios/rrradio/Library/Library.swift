@@ -33,6 +33,7 @@ final class Library {
         favorites = Self.readStations(Keys.favorites, from: defaults)
         recents = Self.readStations(Keys.recents, from: defaults)
         customStations = Self.readStations(Keys.custom, from: defaults)
+        ensureCustomStationsAreFavorites()
     }
 
     func isFavorite(_ station: Station) -> Bool {
@@ -120,6 +121,14 @@ final class Library {
             writeFavorites()
         }
         writeCustom()
+    }
+
+    private func ensureCustomStationsAreFavorites() {
+        let favoriteIds = Set(favorites.map(\.id))
+        let missingCustomFavorites = customStations.filter { !favoriteIds.contains($0.id) }
+        guard !missingCustomFavorites.isEmpty else { return }
+        favorites = missingCustomFavorites + favorites
+        writeFavorites()
     }
 
     func removeCustom(_ station: Station) {

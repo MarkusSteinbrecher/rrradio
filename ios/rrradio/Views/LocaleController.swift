@@ -188,7 +188,6 @@ enum L10nKey: String {
     case wakeHint
     case playStationFirst
     case addStation
-    case saveAndPlay
     case saveAnyway
 }
 
@@ -305,7 +304,6 @@ enum L10n {
             .wakeHint: "Do not quit the app, or the wake will not be able to play music.",
             .playStationFirst: "Play a station first",
             .addStation: "Add station",
-            .saveAndPlay: "Save & Play",
             .saveAnyway: "Save anyway",
         ],
         "de": [
@@ -419,7 +417,6 @@ enum L10n {
             .wakeHint: "Beende die App nicht, sonst kann der Wecker keine Musik abspielen.",
             .playStationFirst: "Erst eine Station abspielen",
             .addStation: "Station hinzufügen",
-            .saveAndPlay: "Speichern & abspielen",
             .saveAnyway: "Trotzdem speichern",
         ],
         "fr": [
@@ -533,7 +530,6 @@ enum L10n {
             .wakeHint: "Ne quittez pas l'app, sinon le réveil ne pourra pas lancer la musique.",
             .playStationFirst: "Lancez d'abord une station",
             .addStation: "Ajouter une station",
-            .saveAndPlay: "Enregistrer et lire",
             .saveAnyway: "Enregistrer quand meme",
         ],
         "es": [
@@ -647,7 +643,6 @@ enum L10n {
             .wakeHint: "No cierres la app, o el despertador no podrá reproducir música.",
             .playStationFirst: "Reproduce una emisora primero",
             .addStation: "Añadir emisora",
-            .saveAndPlay: "Guardar y reproducir",
             .saveAnyway: "Guardar de todos modos",
         ],
     ]

@@ -56,6 +56,44 @@ final class CustomStationBuilderTests: XCTestCase {
         XCTAssertTrue(streamURLExists(candidate, in: [existing]))
     }
 
+    func testCanonicalStreamURLIgnoresVolatileQueryItems() throws {
+        let existing = try makeCustomStation(
+            name: "FM4",
+            streamURL: "https://orf-live.ors-shoutcast.at/fm4-q2a",
+            id: "builtin-fm4",
+        )
+        let candidate = URL(string: "https://orf-live.ors-shoutcast.at/fm4-q2a?_ic2=1778394866913")!
+
+        XCTAssertTrue(streamURLExists(candidate, in: [existing]))
+    }
+
+    func testCanonicalStreamURLKeepsStableQueryItems() throws {
+        let existing = try makeCustomStation(
+            name: "Existing",
+            streamURL: "https://example.com/live?mount=main",
+            id: "custom-existing",
+        )
+        let candidate = URL(string: "https://example.com/live?mount=side&_ic2=1778394866913")!
+
+        XCTAssertFalse(streamURLExists(candidate, in: [existing]))
+    }
+
+    func testFindsExistingStationsByCanonicalStreamURL() throws {
+        let existing = try makeCustomStation(
+            name: "Existing",
+            streamURL: "https://Example.com/live",
+            id: "custom-existing",
+        )
+        let unrelated = try makeCustomStation(
+            name: "Unrelated",
+            streamURL: "https://example.com/other",
+            id: "custom-other",
+        )
+        let candidate = URL(string: "http://example.com/live")!
+
+        XCTAssertEqual(stationsMatchingStreamURL(candidate, in: [unrelated, existing]), [existing])
+    }
+
     func testRejectsInvalidHomepage() {
         XCTAssertThrowsError(
             try makeCustomStation(name: "Test", streamURL: "https://example.com/live", homepage: "ftp://example.com"),
