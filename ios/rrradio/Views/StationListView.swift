@@ -543,7 +543,7 @@ struct StationListView: View {
     private var filterRow: some View {
         GeometryReader { proxy in
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(alignment: .top, spacing: 14) {
+                HStack(alignment: .top, spacing: 18) {
                     filterCell(locale.text(.checked)) {
                         circularFilterButton(
                             icon: "star.fill",
@@ -612,7 +612,7 @@ struct StationListView: View {
 
     private var compactFilterRow: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
+            HStack(spacing: 11) {
                 circularFilterButton(
                     icon: "star.fill",
                     active: source == .all && checkedOnly,
