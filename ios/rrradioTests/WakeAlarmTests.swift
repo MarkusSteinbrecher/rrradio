@@ -1,9 +1,16 @@
 import XCTest
+import UserNotifications
 @testable import rrradio
 
 private struct NoopWakeNotifier: WakeAlarmNotifying {
     func schedule(station: Station, time: String, firesAt: Date) {}
     func cancel() {}
+    func authorizationStatus(completion: @escaping (UNAuthorizationStatus) -> Void) {
+        completion(.authorized)
+    }
+    func requestAuthorization(completion: @escaping (Bool) -> Void) {
+        completion(true)
+    }
 }
 
 @MainActor
@@ -58,6 +65,27 @@ final class WakeAlarmTests: XCTestCase {
         XCTAssertEqual(restored.time, "17:30")
         XCTAssertEqual(restored.station?.id, station.id)
         XCTAssertEqual(restored.chipText, "17:30")
+    }
+
+    func testNewWakeDefaultsNotificationsOn() throws {
+        let now = try date("2026-05-07 09:00")
+
+        let alarm = WakeAlarm(defaults: defaults, notifier: NoopWakeNotifier(), now: { now })
+
+        XCTAssertTrue(alarm.notificationsEnabled)
+        XCTAssertTrue(defaults.bool(forKey: WakeAlarm.notificationsEnabledKey))
+    }
+
+    func testExistingStoredWakeKeepsMissingNotificationPreferenceOff() throws {
+        let now = try date("2026-05-07 09:00")
+        let legacy = WakeAlarm(defaults: defaults, notifier: NoopWakeNotifier(), now: { now })
+        legacy.setNotificationsEnabled(false)
+        legacy.arm(station: station, time: "17:30")
+        defaults.removeObject(forKey: WakeAlarm.notificationsEnabledKey)
+
+        let restored = WakeAlarm(defaults: defaults, notifier: NoopWakeNotifier(), now: { now })
+
+        XCTAssertFalse(restored.notificationsEnabled)
     }
 
     func testDisarmClearsWake() throws {

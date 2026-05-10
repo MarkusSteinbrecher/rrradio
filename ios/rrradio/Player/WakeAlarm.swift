@@ -5,15 +5,19 @@ import UserNotifications
 protocol WakeAlarmNotifying {
     func schedule(station: Station, time: String, firesAt: Date)
     func cancel()
+    func authorizationStatus(completion: @escaping (UNAuthorizationStatus) -> Void)
+    func requestAuthorization(completion: @escaping (Bool) -> Void)
 }
 
 struct LocalWakeAlarmNotifier: WakeAlarmNotifying {
     private let identifier = "rrradio.wake.v1"
 
     func schedule(station: Station, time: String, firesAt: Date) {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, _ in
-            diagnosticRecordAsync("wake", "notification authorization", details: ["granted": String(granted)])
-            guard granted else { return }
+        authorizationStatus { status in
+            guard status.allowsWakeNotification else {
+                diagnosticRecordAsync("wake", "notification schedule skipped", details: ["authorization": status.diagnosticValue])
+                return
+            }
             let content = UNMutableNotificationContent()
             content.title = "Wake to \(station.name)"
             content.body = "It is \(time). Open rrradio if playback did not start automatically."
@@ -42,6 +46,43 @@ struct LocalWakeAlarmNotifier: WakeAlarmNotifying {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [identifier])
         diagnosticRecordAsync("wake", "notification cancelled")
     }
+
+    func authorizationStatus(completion: @escaping (UNAuthorizationStatus) -> Void) {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            completion(settings.authorizationStatus)
+        }
+    }
+
+    func requestAuthorization(completion: @escaping (Bool) -> Void) {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, _ in
+            diagnosticRecordAsync("wake", "notification authorization", details: ["granted": String(granted)])
+            completion(granted)
+        }
+    }
+}
+
+private extension UNAuthorizationStatus {
+    var allowsWakeNotification: Bool {
+        switch self {
+        case .authorized, .provisional, .ephemeral:
+            return true
+        case .denied, .notDetermined:
+            return false
+        @unknown default:
+            return false
+        }
+    }
+
+    var diagnosticValue: String {
+        switch self {
+        case .notDetermined: "notDetermined"
+        case .denied: "denied"
+        case .authorized: "authorized"
+        case .provisional: "provisional"
+        case .ephemeral: "ephemeral"
+        @unknown default: "unknown"
+        }
+    }
 }
 
 /// One-shot wake-to-radio alarm. Native iOS still cannot behave exactly
@@ -55,6 +96,7 @@ final class WakeAlarm {
         static let wake = "rrradio.wake.v1"
         static let lastTime = "rrradio.wake.lastTime.v1"
         static let notificationsEnabled = "rrradio.wake.notificationsEnabled.v1"
+        static let pauseWarningSuppressed = "rrradio.wake.pauseWarningSuppressed.v1"
     }
     nonisolated static let defaultTimeKey = Keys.lastTime
     nonisolated static let notificationsEnabledKey = Keys.notificationsEnabled
@@ -76,6 +118,7 @@ final class WakeAlarm {
     private(set) var station: Station?
     private(set) var armedAt: Date?
     private(set) var firesAt: Date?
+    private(set) var notificationPermissionDenied = false
     var notificationsEnabled: Bool {
         didSet {
             defaults.set(notificationsEnabled, forKey: Keys.notificationsEnabled)
@@ -93,6 +136,8 @@ final class WakeAlarm {
     @ObservationIgnored
     private var onFire: ((Station) -> Void)?
     @ObservationIgnored var onPreferencesChanged: (() -> Void)?
+    @ObservationIgnored
+    private var pauseWarningArmedAt: Date?
 
     var isArmed: Bool { station != nil && armedAt != nil && firesAt != nil }
     var chipText: String { isArmed ? time : "" }
@@ -111,9 +156,16 @@ final class WakeAlarm {
         self.notifier = notifier
         self.now = now
         time = defaults.string(forKey: Keys.lastTime) ?? Self.fallbackDefaultTime
-        notificationsEnabled = defaults.bool(forKey: Keys.notificationsEnabled)
+        let storedWake = Self.readWake(from: defaults)
+        if defaults.object(forKey: Keys.notificationsEnabled) == nil {
+            let defaultEnabled = storedWake == nil
+            notificationsEnabled = defaultEnabled
+            defaults.set(defaultEnabled, forKey: Keys.notificationsEnabled)
+        } else {
+            notificationsEnabled = defaults.bool(forKey: Keys.notificationsEnabled)
+        }
 
-        if let stored = Self.readWake(from: defaults),
+        if let stored = storedWake,
            let next = Self.nextFireDate(time: stored.time, armedAt: stored.armedAt) {
             let remaining = next.timeIntervalSince(now())
             if remaining >= -Self.staleGrace {
@@ -133,6 +185,7 @@ final class WakeAlarm {
         if !notificationsEnabled {
             notifier.cancel()
         }
+        refreshNotificationAuthorization()
     }
 
     func activate(onFire: @escaping (Station) -> Void) {
@@ -159,10 +212,48 @@ final class WakeAlarm {
         self.station = station
         armedAt = armed
         firesAt = nextFire
+        pauseWarningArmedAt = nil
         writeWake()
         diagnosticRecord("wake", "armed", details: wakeDetails(station: station, firesAt: nextFire))
         scheduleTimer()
         scheduleWakeNotificationIfNeeded()
+    }
+
+    func requestNotificationAuthorizationIfNeeded() async -> Bool {
+        let status = await currentAuthorizationStatus()
+        if status == .denied {
+            notificationPermissionDenied = true
+            return false
+        }
+        guard status == .notDetermined else {
+            notificationPermissionDenied = false
+            return status.allowsWakeNotification
+        }
+        let granted = await withCheckedContinuation { continuation in
+            notifier.requestAuthorization { granted in
+                continuation.resume(returning: granted)
+            }
+        }
+        notificationPermissionDenied = !granted
+        return granted
+    }
+
+    func refreshNotificationAuthorization() {
+        Task { @MainActor in
+            let status = await currentAuthorizationStatus()
+            notificationPermissionDenied = status == .denied
+        }
+    }
+
+    func shouldShowPauseWarning() -> Bool {
+        guard isArmed, !defaults.bool(forKey: Keys.pauseWarningSuppressed) else { return false }
+        guard pauseWarningArmedAt != armedAt else { return false }
+        pauseWarningArmedAt = armedAt
+        return true
+    }
+
+    func suppressPauseWarning() {
+        defaults.set(true, forKey: Keys.pauseWarningSuppressed)
     }
 
     func setNotificationsEnabled(_ enabled: Bool) {
@@ -196,6 +287,7 @@ final class WakeAlarm {
         station = nil
         armedAt = nil
         firesAt = nil
+        pauseWarningArmedAt = nil
         time = defaults.string(forKey: Keys.lastTime) ?? Self.fallbackDefaultTime
         Self.clearWake(from: defaults)
         notifier.cancel()
@@ -253,6 +345,14 @@ final class WakeAlarm {
             return
         }
         notifier.schedule(station: station, time: time, firesAt: firesAt)
+    }
+
+    private func currentAuthorizationStatus() async -> UNAuthorizationStatus {
+        await withCheckedContinuation { continuation in
+            notifier.authorizationStatus { status in
+                continuation.resume(returning: status)
+            }
+        }
     }
 
     private func fire() {

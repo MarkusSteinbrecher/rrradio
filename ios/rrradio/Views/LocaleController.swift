@@ -113,6 +113,7 @@ enum L10nKey: String {
     case done
     case cancel
     case close
+    case ok
     case checked
     case news
     case genre
@@ -186,6 +187,13 @@ enum L10nKey: String {
     case unset
     case set
     case wakeHint
+    case wakeNotificationsDeniedWarning
+    case openSettings
+    case wakePauseWarningTitle
+    case wakePauseWarningMessage
+    case dontShowAgain
+    case setupScheduledPlay
+    case setupScheduledPlayDetail
     case playStationFirst
     case addStation
     case saveAnyway
@@ -229,6 +237,7 @@ enum L10n {
             .done: "Done",
             .cancel: "Cancel",
             .close: "Close",
+            .ok: "OK",
             .checked: "Checked",
             .news: "News",
             .genre: "Genre",
@@ -301,7 +310,14 @@ enum L10n {
             .wakeTime: "Wake time",
             .unset: "Unset",
             .set: "Set",
-            .wakeHint: "Do not quit the app, or the wake will not be able to play music.",
+            .wakeHint: "Keep rrradio installed in memory for best results. For reliable scheduled autoplay, use a Shortcuts Personal Automation.",
+            .wakeNotificationsDeniedWarning: "Notifications are off. Wake alarm cannot reliably fire - your phone may stay asleep at the set time.",
+            .openSettings: "Open Settings",
+            .wakePauseWarningTitle: "Wake alarm may not auto-play",
+            .wakePauseWarningMessage: "You paused playback. iOS may suspend rrradio before your alarm.\n\nThe alarm will still fire as a notification you can tap - but it cannot auto-start the radio.\n\nTo auto-play, keep the radio playing through the wake time, or set up a Shortcuts Personal Automation.",
+            .dontShowAgain: "Don't show again",
+            .setupScheduledPlay: "Set up scheduled play",
+            .setupScheduledPlayDetail: "Recommended for reliable wake-to-radio autoplay through Shortcuts.",
             .playStationFirst: "Play a station first",
             .addStation: "Add station",
             .saveAnyway: "Save anyway",
@@ -342,6 +358,7 @@ enum L10n {
             .done: "Fertig",
             .cancel: "Abbrechen",
             .close: "Schließen",
+            .ok: "OK",
             .checked: "Geprüft",
             .news: "Nachrichten",
             .genre: "Genre",
@@ -414,7 +431,14 @@ enum L10n {
             .wakeTime: "Weckzeit",
             .unset: "Aus",
             .set: "Setzen",
-            .wakeHint: "Beende die App nicht, sonst kann der Wecker keine Musik abspielen.",
+            .wakeHint: "Lass rrradio im Speicher, damit der Wecker am besten funktioniert. Für zuverlässiges geplantes Autoplay nutze eine Kurzbefehle-Automation.",
+            .wakeNotificationsDeniedWarning: "Mitteilungen sind aus. Der Wecker kann nicht zuverlässig auslösen - dein iPhone bleibt zur Weckzeit eventuell im Ruhezustand.",
+            .openSettings: "Einstellungen öffnen",
+            .wakePauseWarningTitle: "Wecker spielt eventuell nicht automatisch",
+            .wakePauseWarningMessage: "Du hast die Wiedergabe pausiert. iOS kann rrradio vor dem Wecker anhalten.\n\nDer Wecker erscheint weiterhin als Mitteilung, die du antippen kannst - aber er kann das Radio nicht automatisch starten.\n\nFür Autoplay lass das Radio bis zur Weckzeit laufen oder richte eine Kurzbefehle-Automation ein.",
+            .dontShowAgain: "Nicht mehr zeigen",
+            .setupScheduledPlay: "Geplante Wiedergabe einrichten",
+            .setupScheduledPlayDetail: "Empfohlen für zuverlässiges Wake-to-Radio-Autoplay über Kurzbefehle.",
             .playStationFirst: "Erst eine Station abspielen",
             .addStation: "Station hinzufügen",
             .saveAnyway: "Trotzdem speichern",
@@ -455,6 +479,7 @@ enum L10n {
             .done: "OK",
             .cancel: "Annuler",
             .close: "Fermer",
+            .ok: "OK",
             .checked: "Vérifiées",
             .news: "Infos",
             .genre: "Genre",
@@ -527,7 +552,14 @@ enum L10n {
             .wakeTime: "Heure du réveil",
             .unset: "Retirer",
             .set: "Définir",
-            .wakeHint: "Ne quittez pas l'app, sinon le réveil ne pourra pas lancer la musique.",
+            .wakeHint: "Gardez rrradio en mémoire pour de meilleurs résultats. Pour une lecture planifiée fiable, utilisez une automatisation Raccourcis.",
+            .wakeNotificationsDeniedWarning: "Les notifications sont désactivées. Le réveil ne peut pas se déclencher de façon fiable - votre iPhone peut rester en veille.",
+            .openSettings: "Ouvrir Réglages",
+            .wakePauseWarningTitle: "Le réveil peut ne pas lancer la lecture",
+            .wakePauseWarningMessage: "Vous avez mis la lecture en pause. iOS peut suspendre rrradio avant le réveil.\n\nLe réveil s'affichera quand même comme notification à toucher - mais il ne peut pas lancer la radio automatiquement.\n\nPour la lecture automatique, gardez la radio active jusqu'à l'heure du réveil ou configurez une automatisation Raccourcis.",
+            .dontShowAgain: "Ne plus afficher",
+            .setupScheduledPlay: "Configurer la lecture planifiée",
+            .setupScheduledPlayDetail: "Recommandé pour un réveil radio automatique fiable avec Raccourcis.",
             .playStationFirst: "Lancez d'abord une station",
             .addStation: "Ajouter une station",
             .saveAnyway: "Enregistrer quand meme",
@@ -568,6 +600,7 @@ enum L10n {
             .done: "Listo",
             .cancel: "Cancelar",
             .close: "Cerrar",
+            .ok: "OK",
             .checked: "Revisadas",
             .news: "Noticias",
             .genre: "Género",
@@ -640,7 +673,14 @@ enum L10n {
             .wakeTime: "Hora de alarma",
             .unset: "Quitar",
             .set: "Activar",
-            .wakeHint: "No cierres la app, o el despertador no podrá reproducir música.",
+            .wakeHint: "Mantén rrradio en memoria para mejores resultados. Para reproducción programada fiable, usa una automatización de Atajos.",
+            .wakeNotificationsDeniedWarning: "Las notificaciones están desactivadas. La alarma no puede activarse de forma fiable - el iPhone puede seguir dormido a esa hora.",
+            .openSettings: "Abrir Ajustes",
+            .wakePauseWarningTitle: "La alarma puede no reproducir automáticamente",
+            .wakePauseWarningMessage: "Pausaste la reproducción. iOS puede suspender rrradio antes de la alarma.\n\nLa alarma seguirá llegando como notificación que puedes tocar - pero no puede iniciar la radio automáticamente.\n\nPara reproducir automáticamente, mantén la radio sonando hasta la hora o crea una automatización de Atajos.",
+            .dontShowAgain: "No mostrar de nuevo",
+            .setupScheduledPlay: "Configurar reproducción programada",
+            .setupScheduledPlayDetail: "Recomendado para despertar con radio de forma fiable mediante Atajos.",
             .playStationFirst: "Reproduce una emisora primero",
             .addStation: "Añadir emisora",
             .saveAnyway: "Guardar de todos modos",

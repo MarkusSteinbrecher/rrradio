@@ -65,6 +65,7 @@ struct SettingsView: View {
 }
 
 private struct SettingsPageView: View {
+    @Environment(\.openURL) private var openURL
     @Environment(Catalog.self) private var catalog
     @Environment(Library.self) private var library
     @Environment(AudioPlayer.self) private var player
@@ -121,6 +122,7 @@ private struct SettingsPageView: View {
                         VStack(spacing: 0) {
                             wakeDefaultRow
                             wakeNotificationRow
+                            wakeShortcutsRow
                             sleepDefaultRow
                         }
                         .background(RrradioTheme.bg2)
@@ -619,6 +621,49 @@ private struct SettingsPageView: View {
                 .fill(RrradioTheme.line)
                 .frame(height: 1)
         }
+    }
+
+    private var wakeShortcutsRow: some View {
+        Button {
+            openShortcutsSetup()
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: "calendar.badge.clock")
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(RrradioTheme.accent)
+                    .frame(width: 22)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(locale.text(.setupScheduledPlay))
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundStyle(RrradioTheme.ink)
+                    Text(locale.text(.setupScheduledPlayDetail))
+                        .font(.system(size: 12))
+                        .foregroundStyle(RrradioTheme.ink3)
+                        .lineLimit(3)
+                }
+                Spacer()
+                Image(systemName: "arrow.up.forward.app")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(RrradioTheme.ink3)
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 10)
+            .frame(minHeight: 66)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(RrradioTheme.line)
+                .frame(height: 1)
+        }
+    }
+
+    private func openShortcutsSetup() {
+        let encodedName = "rrradio%20Scheduled%20Play"
+        let encodedAction = "Play%20Last%20Station"
+        guard let url = URL(string: "shortcuts://create-shortcut?name=\(encodedName)&actions=\(encodedAction)") else { return }
+        openURL(url)
     }
 
     private var sleepDefaultRow: some View {

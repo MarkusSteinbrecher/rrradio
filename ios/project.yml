@@ -36,6 +36,8 @@ targets:
         # Background audio so streams keep playing when the app
         # is backgrounded or the screen is locked.
         UIBackgroundModes: [audio]
+        NSUserActivityTypes:
+          - org.rrradio.playStation
         # ATS exceptions — by default iOS enforces HTTPS-only for all
         # network requests; this block opens that up only for the two
         # specific HTTP hosts on the catalog's `httpAllowed: true`

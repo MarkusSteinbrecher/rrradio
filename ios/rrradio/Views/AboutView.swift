@@ -18,6 +18,7 @@ struct AboutContentView: View {
     private let issueURL = URL(string: "https://github.com/MarkusSteinbrecher/rrradio/issues/new")!
     private let emailURL = URL(string: "mailto:redsukramst@gmail.com?subject=rrradio%20feedback")!
     private let privacyURL = URL(string: "https://rrradio.org/privacy.html")!
+    private let wakeGuideURL = URL(string: "https://github.com/MarkusSteinbrecher/rrradio/blob/main/docs/wake-to-radio.md")!
     private let imprintURL = URL(string: "https://rrradio.org/imprint.html")!
     private let radioBrowserURL = URL(string: "https://www.radio-browser.info/")!
     private let lrclibURL = URL(string: "https://lrclib.net/")!
@@ -44,6 +45,7 @@ struct AboutContentView: View {
                         featureRow("lock", "Lock-screen controls", "Play and pause from iOS Now Playing, bluetooth headphones, and system media controls.")
                         featureRow("heart", "Favorites & recents", "Heart stations to save them locally; recently played stations fill in automatically.")
                         featureRow("alarm", "Wake to radio", "Pick a station and time. The app can start playback while it remains alive; iOS shows a notification fallback if needed.")
+                        inlineLink("Wake-to-radio reliability guide", url: wakeGuideURL)
                         featureRow("alarm", "Sleep timer", "Auto-stop after 30, 60, or 90 minutes.")
                         featureRow("music.note", "Now-playing track", "Current artist, title, cover art, and links to Apple Music, Spotify, and YouTube Music when metadata is available.")
                         featureRow("calendar", "On-air schedule", "Show name and the day's grid for supported major broadcasters.")

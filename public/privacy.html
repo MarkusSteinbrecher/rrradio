@@ -142,8 +142,10 @@
       <li>Stations you mark as favorites.</li>
       <li>Recently played stations.</li>
       <li>Theme preference, volume, sleep-timer settings, custom-station URLs you add yourself.</li>
+      <li>Wake alarm settings and any Shortcuts automation you create for scheduled playback.</li>
     </ul>
     <p>On the web this lives in your browser's <code>localStorage</code>; on iOS in the app's local storage. Clearing your browser's site data (web) or deleting the app (iOS) wipes it instantly.</p>
+    <p>The iOS wake-to-radio guide explains why reliable autoplay uses Apple's Shortcuts automation system: <a href="https://github.com/MarkusSteinbrecher/rrradio/blob/main/docs/wake-to-radio.md">Wake-to-radio reliability guide</a>.</p>
 
     <h2>Connections to broadcaster servers</h2>
     <p>When you play a station, your device opens an audio stream directly to that broadcaster's server (BR, WDR, BBC, SRG SSR, and so on — see the catalog for the full list). That server receives your IP address — the same as if you typed their stream URL into a browser yourself. We have no access to and no insight into what those broadcasters log. Their privacy policies apply to that connection, not ours.</p>

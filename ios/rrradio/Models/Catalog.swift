@@ -43,6 +43,11 @@ final class Catalog {
     private(set) var state: LoadState = .idle
 
     nonisolated static let canonicalURL = URL(string: "https://rrradio.org/stations.json")!
+    nonisolated static var defaultCacheURL: URL {
+        FileManager.default
+            .urls(for: .cachesDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("stations.json")
+    }
 
     private let fetch: CatalogDataFetcher
     private let cacheURL: URL
@@ -58,9 +63,7 @@ final class Catalog {
     ) {
         self.url = url
         self.fetch = fetch
-        self.cacheURL = cacheURL ?? FileManager.default
-            .urls(for: .cachesDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("stations.json")
+        self.cacheURL = cacheURL ?? Self.defaultCacheURL
     }
 
     /// Idempotent — loads the catalog once per app session. Subsequent

@@ -10,6 +10,7 @@ struct ContentView: View {
     @State private var searchFocused = false
     @State private var didApplyLandingPreference = false
     @State private var showingLandingNowPlaying = false
+    @State private var showingWakePauseWarning = false
     @AppStorage(LandingPage.storageKey) private var landingPageRaw = LandingPage.browse.rawValue
     @AppStorage(LandingPage.stationIDKey) private var landingStationID = ""
 
@@ -30,9 +31,26 @@ struct ContentView: View {
                 player.play(station)
             }
             applyLandingPreferenceIfReady()
+            playPendingIntentStationIfPossible()
         }
         .onChange(of: catalog.stations.count) { _, _ in
             applyLandingPreferenceIfReady()
+            playPendingIntentStationIfPossible()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .intentPlaybackRequested)) { _ in
+            playPendingIntentStationIfPossible()
+        }
+        .onChange(of: player.state) { oldState, newState in
+            guard oldState == .playing, newState == .paused, wakeAlarm.shouldShowPauseWarning() else { return }
+            showingWakePauseWarning = true
+        }
+        .alert(locale.text(.wakePauseWarningTitle), isPresented: $showingWakePauseWarning) {
+            Button(locale.text(.ok), role: .cancel) {}
+            Button(locale.text(.dontShowAgain)) {
+                wakeAlarm.suppressPauseWarning()
+            }
+        } message: {
+            Text(locale.text(.wakePauseWarningMessage))
         }
     }
 
@@ -87,6 +105,16 @@ struct ContentView: View {
     private var landingStation: Station? {
         let stations = catalog.browseOrdered + library.favorites + library.recents + library.customStations
         return stations.first { $0.id == landingStationID }
+    }
+
+    private func playPendingIntentStationIfPossible() {
+        let stations = catalog.browseOrdered + library.favorites + library.recents + library.customStations
+        guard let station = IntentPlaybackRequest.consumePendingStation(from: stations) else { return }
+        player.play(station)
+        Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 300_000_000)
+            showingLandingNowPlaying = true
+        }
     }
 }
 

@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 /// Full-screen player surface opened from the mini player.
 struct NowPlayingView: View {
@@ -1393,6 +1394,7 @@ private struct WakeAlarmView: View {
     @Environment(WakeAlarm.self) private var wakeAlarm
     @Environment(LocaleController.self) private var locale
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.openURL) private var openURL
     @State private var wakeDate = Date()
 
     var body: some View {
@@ -1429,15 +1431,27 @@ private struct WakeAlarmView: View {
                 .labelsHidden()
                 .frame(maxHeight: 132)
 
+            if wakeAlarm.notificationPermissionDenied {
+                notificationWarning
+            }
+
             Button {
                 if wakeAlarm.isArmed {
                     wakeAlarm.disarm()
+                    dismiss()
                 } else if let station = player.current {
-                    wakeAlarm.arm(station: station, time: timeString(from: wakeDate)) { station in
-                        player.play(station)
+                    Task {
+                        let notificationsAvailable = wakeAlarm.notificationsEnabled
+                            ? await wakeAlarm.requestNotificationAuthorizationIfNeeded()
+                            : true
+                        wakeAlarm.arm(station: station, time: timeString(from: wakeDate)) { station in
+                            player.play(station)
+                        }
+                        if notificationsAvailable {
+                            dismiss()
+                        }
                     }
                 }
-                dismiss()
             } label: {
                 VStack(spacing: 3) {
                     Text(wakeAlarm.isArmed ? locale.text(.unset) : locale.text(.set))
@@ -1470,7 +1484,42 @@ private struct WakeAlarmView: View {
         .background(RrradioTheme.bg.ignoresSafeArea())
         .onAppear {
             wakeDate = dateFromTime(wakeAlarm.time) ?? Date()
+            wakeAlarm.refreshNotificationAuthorization()
         }
+    }
+
+    private var notificationWarning: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(alignment: .top, spacing: 10) {
+                Image(systemName: "bell.slash.fill")
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundStyle(RrradioTheme.accent)
+                    .frame(width: 20)
+                Text(locale.text(.wakeNotificationsDeniedWarning))
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundStyle(RrradioTheme.ink)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Button {
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    openURL(url)
+                }
+            } label: {
+                Text(locale.text(.openSettings))
+                    .font(.system(size: 12, weight: .semibold, design: .monospaced))
+                    .textCase(.uppercase)
+                    .foregroundStyle(RrradioTheme.bg)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 9)
+                    .background(RrradioTheme.buttonFill)
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(12)
+        .background(RrradioTheme.bg2)
+        .overlay(RoundedRectangle(cornerRadius: 6).stroke(RrradioTheme.accent.opacity(0.7)))
+        .clipShape(RoundedRectangle(cornerRadius: 6))
     }
 
     private var targetLine: String {

@@ -14,7 +14,7 @@ final class Library {
         case recents
     }
 
-    private enum Keys {
+    nonisolated enum Keys {
         static let favorites = "rrradio.favorites.v2"
         static let recents = "rrradio.recents.v2"
         static let custom = "rrradio.custom.v1"
@@ -166,7 +166,7 @@ final class Library {
         Self.writeStations(customStations, key: Keys.custom, to: defaults)
     }
 
-    private static func readStations(_ key: String, from defaults: UserDefaults) -> [Station] {
+    nonisolated static func readStations(_ key: String, from defaults: UserDefaults) -> [Station] {
         guard let data = defaults.data(forKey: key) else { return [] }
         return (try? JSONDecoder().decode([Station].self, from: data)) ?? []
     }

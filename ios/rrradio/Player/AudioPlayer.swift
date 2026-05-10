@@ -47,6 +47,7 @@ final class AudioPlayer {
     private var lockScreenArtworkTask: Task<Void, Never>?
     private var lockScreenArtworkURL: URL?
     private var lockScreenArtwork: MPMediaItemArtwork?
+    private var shortcutActivity: NSUserActivity?
     private weak var listeningHistory: ListeningHistory?
     private var lyricsKey = ""
 
@@ -93,6 +94,7 @@ final class AudioPlayer {
         player = p
         p.play()
         diagnosticRecord("playback", "avplayer started", details: stationDiagnostics(station))
+        donatePlaybackActivity(for: station)
         listeningHistory?.startSession(for: station)
         startMetadataPolling(for: station)
         startScheduleLoading(for: station)
@@ -171,6 +173,17 @@ final class AudioPlayer {
             // Non-fatal — playback still works in foreground.
             diagnosticRecord("playback", "audio session failed", details: ["error": error.localizedDescription])
         }
+    }
+
+    private func donatePlaybackActivity(for station: Station) {
+        let activity = NSUserActivity(activityType: "org.rrradio.playStation")
+        activity.title = "Play \(station.name) in rrradio"
+        activity.userInfo = ["stationID": station.id]
+        activity.persistentIdentifier = "org.rrradio.playStation.\(station.id)"
+        activity.isEligibleForSearch = true
+        activity.isEligibleForPrediction = true
+        activity.becomeCurrent()
+        shortcutActivity = activity
     }
 
     private func wireRemoteCommands() {
