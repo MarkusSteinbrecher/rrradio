@@ -1015,28 +1015,9 @@ struct NowPlayingView: View {
                 detailsOpen.toggle()
             }
         } label: {
-            HStack(alignment: .center, spacing: 9) {
-                VStack(alignment: .leading, spacing: 3) {
-                    HStack(spacing: 6) {
-                        Circle()
-                            .fill(statusTint)
-                            .frame(width: 6, height: 6)
-                        Text(bottomState)
-                    }
-                    Text(formatLine)
-                        .lineLimit(1)
-                }
-                .font(.system(size: 10, weight: .medium, design: .monospaced))
-                .textCase(.uppercase)
-                .tracking(1.1)
-                .foregroundStyle(statusTextColor)
-
-                Image(systemName: detailsOpen ? "chevron.down" : "chevron.up")
-                    .font(.system(size: 12, weight: .medium))
-                    .foregroundStyle(RrradioTheme.ink3)
-            }
-            .frame(minWidth: 86, maxWidth: 118, alignment: .leading)
-            .contentShape(Rectangle())
+            playerStatusLabel(icon: detailsOpen ? "chevron.down" : "chevron.up")
+                .frame(maxWidth: 150, alignment: .leading)
+                .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .accessibilityLabel(detailsOpen ? locale.text(.collapseStreamDetails) : locale.text(.expandStreamDetails))
@@ -1084,41 +1065,53 @@ struct NowPlayingView: View {
     }
 
     private var bottomStrip: some View {
-        HStack(spacing: 12) {
-            HStack(spacing: 6) {
-                Circle()
-                    .fill(statusTint)
-                    .frame(width: 6, height: 6)
-                Text(bottomState)
+        playerStatusLabel(icon: "chevron.up")
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 24)
+            .padding(.top, 10)
+            .padding(.bottom, 12)
+            .background(RrradioTheme.bg)
+            .overlay(alignment: .top) {
+                Rectangle()
+                    .fill(RrradioTheme.line)
+                    .frame(height: 1)
             }
+            .contentShape(Rectangle())
+            .onTapGesture {
+                withAnimation(.snappy) {
+                    detailsOpen.toggle()
+                }
+            }
+    }
 
-            Spacer(minLength: 10)
-
-            Text(formatLine)
-                .lineLimit(1)
-
-            Image(systemName: "chevron.up")
+    private func playerStatusLabel(icon: String) -> some View {
+        HStack(alignment: .center, spacing: 14) {
+            Image(systemName: icon)
                 .font(.system(size: 12, weight: .medium))
+                .foregroundStyle(RrradioTheme.ink3)
+                .frame(width: 14)
+
+            VStack(alignment: .leading, spacing: 3) {
+                HStack(spacing: 6) {
+                    Circle()
+                        .fill(statusTint)
+                        .frame(width: 6, height: 6)
+                    Text(bottomState)
+                        .lineLimit(1)
+                }
+
+                Text(codecLine)
+                    .lineLimit(1)
+
+                Text(bitrateLine)
+                    .lineLimit(1)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .font(.system(size: 10, weight: .medium, design: .monospaced))
         .textCase(.uppercase)
         .tracking(1.2)
         .foregroundStyle(statusTextColor)
-        .padding(.horizontal, 24)
-        .padding(.top, 10)
-        .padding(.bottom, 12)
-        .background(RrradioTheme.bg)
-        .overlay(alignment: .top) {
-            Rectangle()
-                .fill(RrradioTheme.line)
-                .frame(height: 1)
-        }
-        .contentShape(Rectangle())
-        .onTapGesture {
-            withAnimation(.snappy) {
-                detailsOpen.toggle()
-            }
-        }
     }
 
     private func roundControlButton(
@@ -1378,19 +1371,18 @@ struct NowPlayingView: View {
         }
     }
 
-    private var formatLine: String {
+    private var codecLine: String {
         if network.snapshot.isOffline {
             return "Connection offline"
         }
-        let codec = player.current?.codec?.uppercased()
-        let bitrate = bitrateText
-        return [
-            codec,
-            bitrate == locale.text(.unknown) ? nil : bitrate,
-            streamQualityMeter(codec: player.current?.codec, bitrate: player.current?.bitrate),
-        ]
-        .compactMap { $0 }
-        .joined(separator: " . ")
+        return player.current?.codec?.uppercased() ?? locale.text(.unknown)
+    }
+
+    private var bitrateLine: String {
+        if network.snapshot.isOffline {
+            return "No stream"
+        }
+        return bitrateText
     }
 
     private var statusTint: Color {
