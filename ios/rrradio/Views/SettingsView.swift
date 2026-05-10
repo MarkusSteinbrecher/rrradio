@@ -284,9 +284,9 @@ private struct SettingsPageView: View {
             return "Checking iCloud availability..."
         case .available:
             if let lastSync = cloudSync.lastSync {
-                return "Favorites, custom stations, theme, language, and sleep timer defaults sync privately through iCloud. Last sync: \(lastSync.formatted(date: .omitted, time: .shortened))."
+                return "Favorites, custom stations, and preferences sync privately through iCloud. Last sync: \(lastSync.formatted(date: .omitted, time: .shortened))."
             }
-            return "Favorites, custom stations, theme, language, and sleep timer defaults sync privately through iCloud."
+            return "Favorites, custom stations, and preferences sync privately through iCloud."
         case let .unavailable(message):
             return message
         }
@@ -728,6 +728,7 @@ private struct SettingsPageView: View {
             if landingPage == .station, landingStationID.isEmpty, let station = player.current ?? landingStationOptions.first {
                 landingStationID = station.id
             }
+            cloudSync.noteSettingsChanged()
         } label: {
             HStack(spacing: 12) {
                 Image(systemName: landingPage.icon)
@@ -767,6 +768,7 @@ private struct SettingsPageView: View {
             if let current = player.current {
                 Button {
                     landingStationID = current.id
+                    cloudSync.noteSettingsChanged()
                 } label: {
                     HStack(spacing: 10) {
                         Image(systemName: "dot.radiowaves.left.and.right")
@@ -840,6 +842,7 @@ private struct SettingsPageView: View {
         Button {
             landingStationID = station.id
             landingPageRaw = LandingPage.station.rawValue
+            cloudSync.noteSettingsChanged()
         } label: {
             HStack(spacing: 10) {
                 Text(countryFlagEmoji(station.country))

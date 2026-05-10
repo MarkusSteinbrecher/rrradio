@@ -13,11 +13,18 @@ final class CarModeController {
     private(set) var routeName = ""
     private(set) var detectedCarRoute = false
     var automaticEnabled: Bool {
-        didSet { defaults.set(automaticEnabled, forKey: Self.autoKey) }
+        didSet {
+            defaults.set(automaticEnabled, forKey: Self.autoKey)
+            onChange?()
+        }
     }
     var manualEnabled: Bool {
-        didSet { defaults.set(manualEnabled, forKey: Self.manualKey) }
+        didSet {
+            defaults.set(manualEnabled, forKey: Self.manualKey)
+            onChange?()
+        }
     }
+    @ObservationIgnored var onChange: (() -> Void)?
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
@@ -50,6 +57,13 @@ final class CarModeController {
 
     func setManualEnabled(_ enabled: Bool) {
         manualEnabled = enabled
+    }
+
+    func applyCloudSync(automaticEnabled nextAutomaticEnabled: Bool, manualEnabled nextManualEnabled: Bool) {
+        defaults.set(nextAutomaticEnabled, forKey: Self.autoKey)
+        defaults.set(nextManualEnabled, forKey: Self.manualKey)
+        automaticEnabled = nextAutomaticEnabled
+        manualEnabled = nextManualEnabled
     }
 
     func refreshRoute() {

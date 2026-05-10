@@ -25,9 +25,10 @@ What works in this scaffold:
 - Plays any station via `AVPlayer` — MP3, AAC, HLS all handled.
 - Favorites + recents persisted locally in `UserDefaults`.
 - Add custom HTTPS streams, saved locally and playable immediately.
-- iCloud sync for favorites, custom stations, theme, language, and
-  default sleep timer. CloudKit uses the user's private iCloud
-  database; when iCloud is unavailable the app stays local-only.
+- iCloud sync for favorites, custom stations, theme, language, landing,
+  timer, car mode, and listening-history preferences. CloudKit uses the
+  user's private iCloud database; when iCloud is unavailable the app stays
+  local-only.
 - Sleep timer cycles through off / 15 / 30 / 60 / 90 minutes and
   pauses playback when it fires.
 - Lock-screen now-playing card via `MPNowPlayingInfoCenter` +

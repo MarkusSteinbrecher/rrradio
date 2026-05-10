@@ -126,6 +126,7 @@ final class ListeningHistory {
             if !isEnabled {
                 closeActiveSession(at: Date())
             }
+            onPreferencesChanged?()
         }
     }
 
@@ -135,6 +136,7 @@ final class ListeningHistory {
             if level == .stations {
                 stripTrackData()
             }
+            onPreferencesChanged?()
         }
     }
 
@@ -143,8 +145,10 @@ final class ListeningHistory {
             defaults.set(retention.rawValue, forKey: ListeningHistoryRetention.storageKey)
             applyRetention()
             saveRecords()
+            onPreferencesChanged?()
         }
     }
+    @ObservationIgnored var onPreferencesChanged: (() -> Void)?
 
     init(defaults: UserDefaults = .standard, recordsURL: URL? = nil) {
         self.defaults = defaults
@@ -158,6 +162,19 @@ final class ListeningHistory {
         self.recordsURL = recordsURL ?? Self.makeRecordsURL()
         records = Self.readRecords(from: self.recordsURL)
         applyRetention()
+    }
+
+    func applyCloudSyncPreferences(
+        enabled nextEnabled: Bool,
+        level nextLevel: ListeningHistoryLevel,
+        retention nextRetention: ListeningHistoryRetention,
+    ) {
+        defaults.set(nextEnabled, forKey: Self.enabledKey)
+        defaults.set(nextLevel.rawValue, forKey: ListeningHistoryLevel.storageKey)
+        defaults.set(nextRetention.rawValue, forKey: ListeningHistoryRetention.storageKey)
+        isEnabled = nextEnabled
+        level = nextLevel
+        retention = nextRetention
     }
 
     func startSession(for station: Station, at date: Date = Date()) {

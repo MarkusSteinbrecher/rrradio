@@ -41,6 +41,9 @@ struct rrradioApp: App {
                         theme: theme,
                         locale: locale,
                         sleepTimer: sleepTimer,
+                        wakeAlarm: wakeAlarm,
+                        carMode: carMode,
+                        listeningHistory: listeningHistory,
                         diagnostics: diagnostics,
                     )
                 }

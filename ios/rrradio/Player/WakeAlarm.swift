@@ -56,9 +56,9 @@ final class WakeAlarm {
         static let lastTime = "rrradio.wake.lastTime.v1"
         static let notificationsEnabled = "rrradio.wake.notificationsEnabled.v1"
     }
-    static let defaultTimeKey = Keys.lastTime
-    static let notificationsEnabledKey = Keys.notificationsEnabled
-    static let fallbackDefaultTime = "07:00"
+    nonisolated static let defaultTimeKey = Keys.lastTime
+    nonisolated static let notificationsEnabledKey = Keys.notificationsEnabled
+    nonisolated static let fallbackDefaultTime = "07:00"
 
     private struct StoredWake: Codable {
         let time: String
@@ -92,6 +92,7 @@ final class WakeAlarm {
     private var timer: Timer?
     @ObservationIgnored
     private var onFire: ((Station) -> Void)?
+    @ObservationIgnored var onPreferencesChanged: (() -> Void)?
 
     var isArmed: Bool { station != nil && armedAt != nil && firesAt != nil }
     var chipText: String { isArmed ? time : "" }
@@ -166,6 +167,7 @@ final class WakeAlarm {
 
     func setNotificationsEnabled(_ enabled: Bool) {
         notificationsEnabled = enabled
+        onPreferencesChanged?()
     }
 
     func setDefaultTime(_ nextTime: String) {
@@ -173,6 +175,18 @@ final class WakeAlarm {
         if !isArmed {
             time = nextTime
         }
+        onPreferencesChanged?()
+    }
+
+    func applyCloudSyncPreferences(defaultTime: String, notificationsEnabled nextNotificationsEnabled: Bool) {
+        let cleanTime = defaultTime.trimmingCharacters(in: .whitespacesAndNewlines)
+        if Self.nextFireDate(time: cleanTime, armedAt: now()) != nil {
+            defaults.set(cleanTime, forKey: Keys.lastTime)
+            if !isArmed {
+                time = cleanTime
+            }
+        }
+        notificationsEnabled = nextNotificationsEnabled
     }
 
     func disarm() {

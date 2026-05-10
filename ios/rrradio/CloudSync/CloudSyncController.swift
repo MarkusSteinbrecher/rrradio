@@ -21,6 +21,9 @@ final class CloudSyncController {
     private weak var theme: ThemeController?
     private weak var locale: LocaleController?
     private weak var sleepTimer: SleepTimer?
+    private weak var wakeAlarm: WakeAlarm?
+    private weak var carMode: CarModeController?
+    private weak var listeningHistory: ListeningHistory?
     private weak var diagnostics: Diagnostics?
     private var configured = false
     private var applyingRemote = false
@@ -46,6 +49,9 @@ final class CloudSyncController {
         theme: ThemeController,
         locale: LocaleController,
         sleepTimer: SleepTimer,
+        wakeAlarm: WakeAlarm,
+        carMode: CarModeController,
+        listeningHistory: ListeningHistory,
         diagnostics: Diagnostics,
     ) {
         guard !configured else { return }
@@ -54,6 +60,9 @@ final class CloudSyncController {
         self.theme = theme
         self.locale = locale
         self.sleepTimer = sleepTimer
+        self.wakeAlarm = wakeAlarm
+        self.carMode = carMode
+        self.listeningHistory = listeningHistory
         self.diagnostics = diagnostics
 
         library.onChange = { [weak self] change in
@@ -69,8 +78,21 @@ final class CloudSyncController {
         sleepTimer.onDefaultChanged = { [weak self] in
             Task { @MainActor in self?.schedulePush() }
         }
+        wakeAlarm.onPreferencesChanged = { [weak self] in
+            Task { @MainActor in self?.schedulePush() }
+        }
+        carMode.onChange = { [weak self] in
+            Task { @MainActor in self?.schedulePush() }
+        }
+        listeningHistory.onPreferencesChanged = { [weak self] in
+            Task { @MainActor in self?.schedulePush() }
+        }
 
         Task { await refreshFromCloud() }
+    }
+
+    func noteSettingsChanged() {
+        schedulePush()
     }
 
     func setEnabled(_ enabled: Bool) {
@@ -198,8 +220,18 @@ final class CloudSyncController {
             theme: theme?.choice.rawValue ?? ThemeController.Choice.system.rawValue,
             locale: locale?.choice.rawValue ?? LocaleController.Choice.system.rawValue,
             sleepTimerDefaultMinutes: sleepTimer?.defaultMinutes ?? SleepTimer.fallbackDefaultMinutes,
+            landingPage: defaults.string(forKey: LandingPage.storageKey) ?? LandingPage.browse.rawValue,
+            landingStationID: defaults.string(forKey: LandingPage.stationIDKey) ?? "",
+            wakeDefaultTime: defaults.string(forKey: WakeAlarm.defaultTimeKey) ?? WakeAlarm.fallbackDefaultTime,
+            wakeNotificationsEnabled: wakeAlarm?.notificationsEnabled ?? defaults.bool(forKey: WakeAlarm.notificationsEnabledKey),
+            carModeAutomaticEnabled: carMode?.automaticEnabled ?? true,
+            carModeManualEnabled: carMode?.manualEnabled ?? false,
+            listeningHistoryEnabled: listeningHistory?.isEnabled ?? defaults.bool(forKey: ListeningHistory.enabledKey),
+            listeningHistoryLevel: listeningHistory?.level.rawValue ?? ListeningHistoryLevel.stations.rawValue,
+            listeningHistoryRetention: listeningHistory?.retention.rawValue ?? ListeningHistoryRetention.days90.rawValue,
             favoritesOrder: library?.favorites.map(\.id) ?? [],
             resetAt: nil,
+            hasPreferences: true,
         )
     }
 
@@ -212,6 +244,26 @@ final class CloudSyncController {
             locale?.applyCloudSync(choice)
         }
         sleepTimer?.applyCloudSyncDefaultMinutes(snapshot.sleepTimerDefaultMinutes)
+        if LandingPage(rawValue: snapshot.landingPage) != nil {
+            defaults.set(snapshot.landingPage, forKey: LandingPage.storageKey)
+        }
+        defaults.set(snapshot.landingStationID, forKey: LandingPage.stationIDKey)
+        wakeAlarm?.applyCloudSyncPreferences(
+            defaultTime: snapshot.wakeDefaultTime,
+            notificationsEnabled: snapshot.wakeNotificationsEnabled,
+        )
+        carMode?.applyCloudSync(
+            automaticEnabled: snapshot.carModeAutomaticEnabled,
+            manualEnabled: snapshot.carModeManualEnabled,
+        )
+        if let level = ListeningHistoryLevel(rawValue: snapshot.listeningHistoryLevel),
+           let retention = ListeningHistoryRetention(rawValue: snapshot.listeningHistoryRetention) {
+            listeningHistory?.applyCloudSyncPreferences(
+                enabled: snapshot.listeningHistoryEnabled,
+                level: level,
+                retention: retention,
+            )
+        }
     }
 
     private func sanitized(_ error: Error) -> String {

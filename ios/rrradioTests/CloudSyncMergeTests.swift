@@ -18,8 +18,18 @@ final class CloudSyncMergeTests: XCTestCase {
         theme: String = ThemeController.Choice.system.rawValue,
         locale: String = LocaleController.Choice.system.rawValue,
         sleepTimerDefaultMinutes: Int = SleepTimer.fallbackDefaultMinutes,
+        landingPage: String = LandingPage.browse.rawValue,
+        landingStationID: String = "",
+        wakeDefaultTime: String = WakeAlarm.fallbackDefaultTime,
+        wakeNotificationsEnabled: Bool = false,
+        carModeAutomaticEnabled: Bool = true,
+        carModeManualEnabled: Bool = false,
+        listeningHistoryEnabled: Bool = false,
+        listeningHistoryLevel: String = ListeningHistoryLevel.stations.rawValue,
+        listeningHistoryRetention: String = ListeningHistoryRetention.days90.rawValue,
         favoritesOrder: [String] = [],
         resetAt: Date? = nil,
+        hasPreferences: Bool = true,
     ) -> CloudSyncSnapshot {
         CloudSyncSnapshot(
             favorites: favorites,
@@ -27,8 +37,18 @@ final class CloudSyncMergeTests: XCTestCase {
             theme: theme,
             locale: locale,
             sleepTimerDefaultMinutes: sleepTimerDefaultMinutes,
+            landingPage: landingPage,
+            landingStationID: landingStationID,
+            wakeDefaultTime: wakeDefaultTime,
+            wakeNotificationsEnabled: wakeNotificationsEnabled,
+            carModeAutomaticEnabled: carModeAutomaticEnabled,
+            carModeManualEnabled: carModeManualEnabled,
+            listeningHistoryEnabled: listeningHistoryEnabled,
+            listeningHistoryLevel: listeningHistoryLevel,
+            listeningHistoryRetention: listeningHistoryRetention,
             favoritesOrder: favoritesOrder,
             resetAt: resetAt,
+            hasPreferences: hasPreferences,
         )
     }
 
@@ -100,5 +120,24 @@ final class CloudSyncMergeTests: XCTestCase {
 
         XCTAssertEqual(merged.customStations.map(\.id), ["custom-a", "custom-b"])
         XCTAssertEqual(merged.customStations.first?.name, "New")
+    }
+
+    func testMissingRemotePreferencesKeepLocalSettings() {
+        let merged = CloudSyncMerge.merged(
+            local: snapshot(
+                theme: ThemeController.Choice.dark.rawValue,
+                landingPage: LandingPage.station.rawValue,
+                wakeDefaultTime: "06:30",
+                carModeManualEnabled: true,
+                listeningHistoryRetention: ListeningHistoryRetention.forever.rawValue,
+            ),
+            remote: snapshot(hasPreferences: false),
+        )
+
+        XCTAssertEqual(merged.theme, ThemeController.Choice.dark.rawValue)
+        XCTAssertEqual(merged.landingPage, LandingPage.station.rawValue)
+        XCTAssertEqual(merged.wakeDefaultTime, "06:30")
+        XCTAssertTrue(merged.carModeManualEnabled)
+        XCTAssertEqual(merged.listeningHistoryRetention, ListeningHistoryRetention.forever.rawValue)
     }
 }

@@ -6,8 +6,18 @@ struct CloudSyncSnapshot: Equatable {
     var theme: String
     var locale: String
     var sleepTimerDefaultMinutes: Int
+    var landingPage: String
+    var landingStationID: String
+    var wakeDefaultTime: String
+    var wakeNotificationsEnabled: Bool
+    var carModeAutomaticEnabled: Bool
+    var carModeManualEnabled: Bool
+    var listeningHistoryEnabled: Bool
+    var listeningHistoryLevel: String
+    var listeningHistoryRetention: String
     var favoritesOrder: [String]
     var resetAt: Date?
+    var hasPreferences: Bool
 
     static let empty = CloudSyncSnapshot(
         favorites: [],
@@ -15,8 +25,18 @@ struct CloudSyncSnapshot: Equatable {
         theme: ThemeController.Choice.system.rawValue,
         locale: LocaleController.Choice.system.rawValue,
         sleepTimerDefaultMinutes: SleepTimer.fallbackDefaultMinutes,
+        landingPage: LandingPage.browse.rawValue,
+        landingStationID: "",
+        wakeDefaultTime: WakeAlarm.fallbackDefaultTime,
+        wakeNotificationsEnabled: false,
+        carModeAutomaticEnabled: true,
+        carModeManualEnabled: false,
+        listeningHistoryEnabled: false,
+        listeningHistoryLevel: ListeningHistoryLevel.stations.rawValue,
+        listeningHistoryRetention: ListeningHistoryRetention.days90.rawValue,
         favoritesOrder: [],
         resetAt: nil,
+        hasPreferences: false,
     )
 }
 
@@ -29,13 +49,35 @@ enum CloudSyncMerge {
                 remoteOrder: remote.favoritesOrder,
             ),
             customStations: mergeStations(local: local.customStations, remote: remote.customStations),
-            theme: remote.theme.isEmpty ? local.theme : remote.theme,
-            locale: remote.locale.isEmpty ? local.locale : remote.locale,
-            sleepTimerDefaultMinutes: remote.sleepTimerDefaultMinutes > 0
+            theme: remote.hasPreferences ? remote.theme : local.theme,
+            locale: remote.hasPreferences ? remote.locale : local.locale,
+            sleepTimerDefaultMinutes: remote.hasPreferences && remote.sleepTimerDefaultMinutes > 0
                 ? remote.sleepTimerDefaultMinutes
                 : local.sleepTimerDefaultMinutes,
+            landingPage: remote.hasPreferences ? remote.landingPage : local.landingPage,
+            landingStationID: remote.hasPreferences ? remote.landingStationID : local.landingStationID,
+            wakeDefaultTime: remote.hasPreferences ? remote.wakeDefaultTime : local.wakeDefaultTime,
+            wakeNotificationsEnabled: remote.hasPreferences
+                ? remote.wakeNotificationsEnabled
+                : local.wakeNotificationsEnabled,
+            carModeAutomaticEnabled: remote.hasPreferences
+                ? remote.carModeAutomaticEnabled
+                : local.carModeAutomaticEnabled,
+            carModeManualEnabled: remote.hasPreferences
+                ? remote.carModeManualEnabled
+                : local.carModeManualEnabled,
+            listeningHistoryEnabled: remote.hasPreferences
+                ? remote.listeningHistoryEnabled
+                : local.listeningHistoryEnabled,
+            listeningHistoryLevel: remote.hasPreferences
+                ? remote.listeningHistoryLevel
+                : local.listeningHistoryLevel,
+            listeningHistoryRetention: remote.hasPreferences
+                ? remote.listeningHistoryRetention
+                : local.listeningHistoryRetention,
             favoritesOrder: remote.favoritesOrder,
             resetAt: remote.resetAt,
+            hasPreferences: local.hasPreferences || remote.hasPreferences,
         )
     }
 

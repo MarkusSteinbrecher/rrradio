@@ -107,8 +107,18 @@ final class CloudKitSyncStore: CloudSyncStoring {
             theme: remotePreferences.theme,
             locale: remotePreferences.locale,
             sleepTimerDefaultMinutes: remotePreferences.sleepTimerDefaultMinutes,
+            landingPage: remotePreferences.landingPage,
+            landingStationID: remotePreferences.landingStationID,
+            wakeDefaultTime: remotePreferences.wakeDefaultTime,
+            wakeNotificationsEnabled: remotePreferences.wakeNotificationsEnabled,
+            carModeAutomaticEnabled: remotePreferences.carModeAutomaticEnabled,
+            carModeManualEnabled: remotePreferences.carModeManualEnabled,
+            listeningHistoryEnabled: remotePreferences.listeningHistoryEnabled,
+            listeningHistoryLevel: remotePreferences.listeningHistoryLevel,
+            listeningHistoryRetention: remotePreferences.listeningHistoryRetention,
             favoritesOrder: try await order,
             resetAt: try await resetAt,
+            hasPreferences: remotePreferences.exists,
         )
     }
 
@@ -163,19 +173,53 @@ final class CloudKitSyncStore: CloudSyncStoring {
             .compactMap(stationData(from:))
     }
 
-    private func fetchPreferences() async throws -> (theme: String, locale: String, sleepTimerDefaultMinutes: Int) {
+    private func fetchPreferences() async throws -> (
+        theme: String,
+        locale: String,
+        sleepTimerDefaultMinutes: Int,
+        landingPage: String,
+        landingStationID: String,
+        wakeDefaultTime: String,
+        wakeNotificationsEnabled: Bool,
+        carModeAutomaticEnabled: Bool,
+        carModeManualEnabled: Bool,
+        listeningHistoryEnabled: Bool,
+        listeningHistoryLevel: String,
+        listeningHistoryRetention: String,
+        exists: Bool
+    ) {
         do {
             let record = try await database.record(for: CKRecord.ID(recordName: RecordName.preferences))
             return (
                 record["theme"] as? String ?? ThemeController.Choice.system.rawValue,
                 record["locale"] as? String ?? LocaleController.Choice.system.rawValue,
-                record["sleepTimerDefaultMinutes"] as? Int ?? SleepTimer.fallbackDefaultMinutes
+                record["sleepTimerDefaultMinutes"] as? Int ?? SleepTimer.fallbackDefaultMinutes,
+                record["landingPage"] as? String ?? LandingPage.browse.rawValue,
+                record["landingStationID"] as? String ?? "",
+                record["wakeDefaultTime"] as? String ?? WakeAlarm.fallbackDefaultTime,
+                record["wakeNotificationsEnabled"] as? Bool ?? false,
+                record["carModeAutomaticEnabled"] as? Bool ?? true,
+                record["carModeManualEnabled"] as? Bool ?? false,
+                record["listeningHistoryEnabled"] as? Bool ?? false,
+                record["listeningHistoryLevel"] as? String ?? ListeningHistoryLevel.stations.rawValue,
+                record["listeningHistoryRetention"] as? String ?? ListeningHistoryRetention.days90.rawValue,
+                true
             )
         } catch let error as CKError where error.code == .unknownItem {
             return (
-                ThemeController.Choice.system.rawValue,
-                LocaleController.Choice.system.rawValue,
-                SleepTimer.fallbackDefaultMinutes
+                "",
+                "",
+                0,
+                "",
+                "",
+                "",
+                false,
+                true,
+                false,
+                false,
+                "",
+                "",
+                false
             )
         }
     }
@@ -256,6 +300,15 @@ final class CloudKitSyncStore: CloudSyncStoring {
         record["theme"] = snapshot.theme
         record["locale"] = snapshot.locale
         record["sleepTimerDefaultMinutes"] = snapshot.sleepTimerDefaultMinutes
+        record["landingPage"] = snapshot.landingPage
+        record["landingStationID"] = snapshot.landingStationID
+        record["wakeDefaultTime"] = snapshot.wakeDefaultTime
+        record["wakeNotificationsEnabled"] = snapshot.wakeNotificationsEnabled
+        record["carModeAutomaticEnabled"] = snapshot.carModeAutomaticEnabled
+        record["carModeManualEnabled"] = snapshot.carModeManualEnabled
+        record["listeningHistoryEnabled"] = snapshot.listeningHistoryEnabled
+        record["listeningHistoryLevel"] = snapshot.listeningHistoryLevel
+        record["listeningHistoryRetention"] = snapshot.listeningHistoryRetention
         return record
     }
 
