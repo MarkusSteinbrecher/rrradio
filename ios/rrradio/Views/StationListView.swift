@@ -95,7 +95,6 @@ struct StationListView: View {
     private let statusCollapseDistance: CGFloat = 26
     private let filterCollapseDistance: CGFloat = 52
     private let browseControlsExpandedHeight: CGFloat = 78
-    private let pageSwipeThreshold: CGFloat = 72
 
     private enum ActiveFilterPicker {
         case genre
@@ -213,7 +212,6 @@ struct StationListView: View {
     var body: some View {
         pageShell
             .background(RrradioTheme.bg)
-            .simultaneousGesture(pageSwipeGesture)
             .sheet(isPresented: $showingSettings) {
                 SettingsView()
             }
@@ -376,35 +374,6 @@ struct StationListView: View {
         )
     }
 
-    private var pageSwipeGesture: some Gesture {
-        DragGesture(minimumDistance: 28, coordinateSpace: .local)
-            .onEnded { value in
-                handlePageSwipe(value)
-            }
-    }
-
-    private func handlePageSwipe(_ value: DragGesture.Value) {
-        let horizontal = value.predictedEndTranslation.width
-        let vertical = value.predictedEndTranslation.height
-        guard abs(horizontal) >= pageSwipeThreshold, abs(horizontal) > abs(vertical) * 1.4 else { return }
-
-        if tab == .favorites, horizontal < 0 {
-            return
-        }
-
-        if horizontal < 0, let next = nextTab(after: tab) {
-            dismissSearch()
-            withAnimation(.snappy) {
-                tab = next
-            }
-        } else if horizontal > 0, let previous = previousTab(before: tab) {
-            dismissSearch()
-            withAnimation(.snappy) {
-                tab = previous
-            }
-        }
-    }
-
     private func setSource(_ newSource: StationSource, animated: Bool) {
         guard source != newSource else { return }
         if animated {
@@ -442,22 +411,6 @@ struct StationListView: View {
         case .browse: 0
         case .recents: 1
         case .favorites: 2
-        }
-    }
-
-    private func nextTab(after tab: AppTab) -> AppTab? {
-        switch tab {
-        case .browse: .recents
-        case .recents: .favorites
-        case .favorites: nil
-        }
-    }
-
-    private func previousTab(before tab: AppTab) -> AppTab? {
-        switch tab {
-        case .browse: nil
-        case .recents: .browse
-        case .favorites: .recents
         }
     }
 
