@@ -6,6 +6,7 @@ struct ContentView: View {
     @Environment(AudioPlayer.self) private var player
     @Environment(WakeAlarm.self) private var wakeAlarm
     @Environment(LocaleController.self) private var locale
+    @Environment(NetworkMonitor.self) private var network
     @State private var tab: AppTab = .browse
     @State private var searchFocused = false
     @State private var didApplyLandingPreference = false
@@ -67,7 +68,7 @@ struct ContentView: View {
     private var bottomChrome: some View {
         if !searchFocused {
             VStack(spacing: 0) {
-                if player.current != nil {
+                if player.current != nil || network.snapshot.isOffline {
                     MiniPlayerView()
                 }
                 BottomTabBar(tab: $tab)
@@ -169,7 +170,7 @@ private struct BottomTabBar: View {
                     .textCase(.uppercase)
                     .tracking(1.1)
             }
-            .foregroundStyle(tab == value ? RrradioTheme.ink : RrradioTheme.ink3)
+            .foregroundStyle(RrradioTheme.ink3)
             .frame(maxWidth: .infinity)
             .padding(.top, 10)
             .padding(.bottom, 8)
@@ -194,4 +195,5 @@ private struct BottomTabBar: View {
         .environment(WakeAlarm())
         .environment(ThemeController())
         .environment(LocaleController())
+        .environment(NetworkMonitor(startsAutomatically: false))
 }

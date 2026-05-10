@@ -1451,7 +1451,7 @@ struct StationListView: View {
         Image(systemName: icon)
             .font(.system(size: 15, weight: .medium))
             .frame(width: 36, height: 36)
-            .foregroundStyle(RrradioTheme.ink2)
+            .foregroundStyle(RrradioTheme.ink3)
             .overlay(Circle().stroke(RrradioTheme.line))
     }
 

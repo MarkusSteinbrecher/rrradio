@@ -65,6 +65,15 @@ final class AudioPlayerStateTests: XCTestCase {
         XCTAssertEqual(p.state, .loading)
     }
 
+    func testAutoResumeRequiresActiveStation() {
+        let p = AudioPlayer()
+        XCTAssertFalse(p.shouldAutoResumeAfterConnectivityRestored)
+
+        p.play(station(id: "abc", name: "ABC FM"))
+
+        XCTAssertTrue(p.shouldAutoResumeAfterConnectivityRestored)
+    }
+
     func testStateEnumEquality() {
         XCTAssertEqual(AudioPlayer.State.idle, AudioPlayer.State.idle)
         XCTAssertEqual(AudioPlayer.State.error("net"), AudioPlayer.State.error("net"))

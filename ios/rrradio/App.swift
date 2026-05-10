@@ -17,6 +17,9 @@ struct rrradioApp: App {
     @State private var listeningHistory = ListeningHistory()
     @State private var diagnostics = Diagnostics.shared
     @State private var cloudSync = CloudSyncController()
+    @State private var network = NetworkMonitor()
+    @State private var wasOffline = false
+    @State private var shouldAutoResumeAfterNetworkRestored = false
 
     var body: some Scene {
         WindowGroup {
@@ -32,9 +35,11 @@ struct rrradioApp: App {
                 .environment(listeningHistory)
                 .environment(diagnostics)
                 .environment(cloudSync)
+                .environment(network)
                 .preferredColorScheme(theme.preferredColorScheme)
                 .onAppear {
                     diagnostics.record("app", "appeared")
+                    wasOffline = network.snapshot.isOffline
                     player.setListeningHistory(listeningHistory)
                     sleepTimer.onStateChanged = { [sleepTimer, player] in
                         player.setLockScreenSleepTimer(firesAt: sleepTimer.firesAt)
@@ -55,6 +60,20 @@ struct rrradioApp: App {
                     diagnostics.record("app", "scene phase", details: ["phase": "\(phase)"])
                     if phase == .active {
                         Task { await cloudSync.refreshFromCloud() }
+                    }
+                }
+                .onChange(of: network.snapshot) { oldSnapshot, newSnapshot in
+                    if newSnapshot.isOffline {
+                        wasOffline = true
+                        shouldAutoResumeAfterNetworkRestored = shouldAutoResumeAfterNetworkRestored || player.shouldAutoResumeAfterConnectivityRestored
+                        return
+                    }
+
+                    guard oldSnapshot.isOffline || wasOffline else { return }
+                    wasOffline = false
+                    if shouldAutoResumeAfterNetworkRestored {
+                        shouldAutoResumeAfterNetworkRestored = false
+                        _ = player.reconnectCurrentAfterConnectivityRestored()
                     }
                 }
                 .task { await catalog.loadIfNeeded() }

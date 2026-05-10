@@ -11,6 +11,7 @@ struct NowPlayingView: View {
     @Environment(WakeAlarm.self) private var wakeAlarm
     @Environment(LocaleController.self) private var locale
     @Environment(CarModeController.self) private var carMode
+    @Environment(NetworkMonitor.self) private var network
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
@@ -21,6 +22,7 @@ struct NowPlayingView: View {
     @State private var showingDisableCarModeConfirmation = false
     @State private var isReportingBrokenStation = false
     @State private var brokenReportStatus: BrokenReportStatus?
+    private let offlineTint = Color(red: 1, green: 0.45, blue: 0.45)
 
     private enum Pane: Hashable {
         case now
@@ -219,14 +221,14 @@ struct NowPlayingView: View {
             VStack(spacing: 4) {
                 Text(trackTitle)
                     .font(.system(size: 15, weight: .medium))
-                    .foregroundStyle(RrradioTheme.ink)
+                    .foregroundStyle(trackTitleColor)
                     .multilineTextAlignment(.center)
                     .lineLimit(3)
                     .minimumScaleFactor(0.75)
 
                 Text(trackSubtitle)
                     .font(.system(size: 12))
-                    .foregroundStyle(RrradioTheme.ink3)
+                    .foregroundStyle(trackSubtitleColor)
                     .multilineTextAlignment(.center)
                     .lineLimit(1)
             }
@@ -334,13 +336,13 @@ struct NowPlayingView: View {
 
                 Text(trackTitle)
                     .font(.system(size: 18, weight: .medium))
-                    .foregroundStyle(RrradioTheme.ink2)
+                    .foregroundStyle(trackTitleColor)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
 
                 Text(trackSubtitle)
                     .font(.system(size: 13))
-                    .foregroundStyle(RrradioTheme.ink3)
+                    .foregroundStyle(trackSubtitleColor)
                     .multilineTextAlignment(.center)
                     .lineLimit(1)
             }
@@ -595,14 +597,14 @@ struct NowPlayingView: View {
             VStack(alignment: .leading, spacing: 14) {
                 Text(trackTitle)
                     .font(.system(size: 24, weight: .medium))
-                    .foregroundStyle(RrradioTheme.ink)
+                    .foregroundStyle(trackTitleColor)
                     .lineLimit(3)
                     .minimumScaleFactor(0.7)
                     .frame(maxWidth: .infinity, alignment: .leading)
 
                 Text(trackSubtitle)
                     .font(.system(size: 15))
-                    .foregroundStyle(RrradioTheme.ink3)
+                    .foregroundStyle(trackSubtitleColor)
                     .lineLimit(2)
                     .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -685,13 +687,13 @@ struct NowPlayingView: View {
             VStack(spacing: 6) {
                 Text(trackTitle)
                     .font(.system(size: 18, weight: .medium))
-                    .foregroundStyle(RrradioTheme.ink)
+                    .foregroundStyle(trackTitleColor)
                     .multilineTextAlignment(.center)
                     .lineLimit(3)
                     .minimumScaleFactor(0.72)
                 Text(trackSubtitle)
                     .font(.system(size: 13))
-                    .foregroundStyle(RrradioTheme.ink3)
+                    .foregroundStyle(trackSubtitleColor)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
             }
@@ -948,12 +950,12 @@ struct NowPlayingView: View {
         VStack(alignment: .leading, spacing: 5) {
             Text(trackTitle)
                 .font(.system(size: 18, weight: .medium))
-                .foregroundStyle(RrradioTheme.ink)
+                .foregroundStyle(trackTitleColor)
                 .lineLimit(2)
                 .minimumScaleFactor(0.72)
             Text(trackSubtitle)
                 .font(.system(size: 12))
-                .foregroundStyle(RrradioTheme.ink3)
+                .foregroundStyle(trackSubtitleColor)
                 .lineLimit(1)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -1017,7 +1019,7 @@ struct NowPlayingView: View {
                 VStack(alignment: .leading, spacing: 3) {
                     HStack(spacing: 6) {
                         Circle()
-                            .fill(player.state == .playing ? RrradioTheme.accent : RrradioTheme.ink3)
+                            .fill(statusTint)
                             .frame(width: 6, height: 6)
                         Text(bottomState)
                     }
@@ -1027,7 +1029,7 @@ struct NowPlayingView: View {
                 .font(.system(size: 10, weight: .medium, design: .monospaced))
                 .textCase(.uppercase)
                 .tracking(1.1)
-                .foregroundStyle(player.state == .playing ? RrradioTheme.ink2 : RrradioTheme.ink3)
+                .foregroundStyle(statusTextColor)
 
                 Image(systemName: detailsOpen ? "chevron.down" : "chevron.up")
                     .font(.system(size: 12, weight: .medium))
@@ -1085,7 +1087,7 @@ struct NowPlayingView: View {
         HStack(spacing: 12) {
             HStack(spacing: 6) {
                 Circle()
-                    .fill(player.state == .playing ? RrradioTheme.accent : RrradioTheme.ink3)
+                    .fill(statusTint)
                     .frame(width: 6, height: 6)
                 Text(bottomState)
             }
@@ -1101,7 +1103,7 @@ struct NowPlayingView: View {
         .font(.system(size: 10, weight: .medium, design: .monospaced))
         .textCase(.uppercase)
         .tracking(1.2)
-        .foregroundStyle(player.state == .playing ? RrradioTheme.ink2 : RrradioTheme.ink3)
+        .foregroundStyle(statusTextColor)
         .padding(.horizontal, 24)
         .padding(.top, 10)
         .padding(.bottom, 12)
@@ -1274,6 +1276,9 @@ struct NowPlayingView: View {
     }
 
     private var trackTitle: String {
+        if network.snapshot.isOffline {
+            return "No internet connection"
+        }
         if let title = player.nowPlayingTitle?.trimmingCharacters(in: .whitespacesAndNewlines), !title.isEmpty {
             return title
         }
@@ -1285,6 +1290,9 @@ struct NowPlayingView: View {
     }
 
     private var trackSubtitle: String {
+        if network.snapshot.isOffline {
+            return player.current?.name ?? "Streams unavailable"
+        }
         if let artist = player.nowPlayingArtist?.trimmingCharacters(in: .whitespacesAndNewlines), !artist.isEmpty {
             return artist
         }
@@ -1292,6 +1300,14 @@ struct NowPlayingView: View {
             return message
         }
         return player.current?.name ?? ""
+    }
+
+    private var trackTitleColor: Color {
+        network.snapshot.isOffline ? offlineTint.opacity(0.90) : RrradioTheme.ink
+    }
+
+    private var trackSubtitleColor: Color {
+        network.snapshot.isOffline ? offlineTint.opacity(0.76) : RrradioTheme.ink3
     }
 
     private var hasProgram: Bool {
@@ -1350,7 +1366,10 @@ struct NowPlayingView: View {
     }
 
     private var bottomState: String {
-        switch player.state {
+        if network.snapshot.isOffline {
+            return "No internet"
+        }
+        return switch player.state {
         case .idle: locale.text(.standby)
         case .loading: locale.text(.loading)
         case .playing: locale.text(.live)
@@ -1360,6 +1379,9 @@ struct NowPlayingView: View {
     }
 
     private var formatLine: String {
+        if network.snapshot.isOffline {
+            return "Connection offline"
+        }
         let codec = player.current?.codec?.uppercased()
         let bitrate = bitrateText
         return [
@@ -1369,6 +1391,20 @@ struct NowPlayingView: View {
         ]
         .compactMap { $0 }
         .joined(separator: " . ")
+    }
+
+    private var statusTint: Color {
+        if network.snapshot.isOffline {
+            return offlineTint.opacity(0.82)
+        }
+        return player.state == .playing ? RrradioTheme.accent : RrradioTheme.ink3
+    }
+
+    private var statusTextColor: Color {
+        if network.snapshot.isOffline {
+            return offlineTint.opacity(0.82)
+        }
+        return player.state == .playing ? RrradioTheme.ink2 : RrradioTheme.ink3
     }
 
     private var bitrateText: String {
@@ -1902,4 +1938,5 @@ private struct LoadingDots: View {
         .environment(WakeAlarm())
         .environment(LocaleController())
         .environment(CarModeController())
+        .environment(NetworkMonitor(startsAutomatically: false))
 }

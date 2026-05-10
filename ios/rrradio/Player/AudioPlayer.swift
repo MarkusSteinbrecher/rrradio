@@ -62,6 +62,23 @@ final class AudioPlayer {
     private weak var listeningHistory: ListeningHistory?
     private var lyricsKey = ""
 
+    var isWaitingForConnection: Bool {
+        if case .error = state {
+            return true
+        }
+        return false
+    }
+
+    var shouldAutoResumeAfterConnectivityRestored: Bool {
+        guard current != nil else { return false }
+        switch state {
+        case .loading, .playing, .error:
+            return true
+        case .idle, .paused:
+            return false
+        }
+    }
+
     init() {
         metadataPoller = MetadataPoller()
         configureAudioSession()
@@ -155,6 +172,18 @@ final class AudioPlayer {
             listeningHistory?.resumeSession(for: current)
         }
         updateNowPlaying()
+    }
+
+    @discardableResult
+    func reconnectCurrentAfterConnectivityRestored() -> Bool {
+        guard shouldAutoResumeAfterConnectivityRestored, let station = current else {
+            return false
+        }
+        diagnosticRecord("playback", "auto resume after network restored", details: stationDiagnostics(station))
+        teardownPlayer()
+        current = nil
+        play(station)
+        return true
     }
 
     func toggle() {
