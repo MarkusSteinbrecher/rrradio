@@ -46,7 +46,6 @@ struct ListeningRaceChart: View {
                         }
                     }
                 }
-                .animation(.snappy(duration: 0.55), value: currentEntries.map(\.stationID))
             }
         }
         .padding(14)
@@ -58,9 +57,7 @@ struct ListeningRaceChart: View {
                 selectedIndex = snapshots.count - 1
             } else {
                 let nextPosition = min(Double(snapshots.count - 1), playbackPosition + playbackStep)
-                withAnimation(.linear(duration: 0.08)) {
-                    playbackPosition = nextPosition
-                }
+                playbackPosition = nextPosition
                 selectedIndex = Int(nextPosition.rounded())
             }
         }
@@ -165,19 +162,25 @@ struct ListeningRaceChart: View {
                     .frame(maxWidth: .infinity, alignment: .trailing)
             }
 
-            Slider(
-                value: Binding(
-                    get: { Double(selectedIndex) },
-                    set: { value in
-                        isPlaying = false
-                        selectedIndex = min(max(Int(value.rounded()), 0), snapshots.count - 1)
-                        playbackPosition = Double(selectedIndex)
-                    },
-                ),
-                in: 0...Double(max(snapshots.count - 1, 0)),
-                step: 1,
-            )
-            .tint(RrradioTheme.accent)
+            if snapshots.count > 1 {
+                Slider(
+                    value: Binding(
+                        get: { Double(selectedIndex) },
+                        set: { value in
+                            isPlaying = false
+                            selectedIndex = min(max(Int(value.rounded()), 0), snapshots.count - 1)
+                            playbackPosition = Double(selectedIndex)
+                        },
+                    ),
+                    in: 0...Double(snapshots.count - 1),
+                    step: 1,
+                )
+                .tint(RrradioTheme.accent)
+            } else {
+                Capsule()
+                    .fill(RrradioTheme.line)
+                    .frame(height: 4)
+            }
 
             Text(currentSnapshot.date.formatted(date: .abbreviated, time: .omitted))
                 .font(.system(size: 12, weight: .medium, design: .monospaced))

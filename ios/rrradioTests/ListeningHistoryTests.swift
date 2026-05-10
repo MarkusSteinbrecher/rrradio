@@ -62,6 +62,28 @@ final class ListeningHistoryTests: XCTestCase {
         XCTAssertEqual(snapshots[1].entries[0].share, 50.0 / 80.0, accuracy: 0.001)
     }
 
+    func testRaceSnapshotsClampLongDateRanges() {
+        let history = makeHistory()
+        history.isEnabled = true
+        history.retention = .forever
+
+        let calendar = Calendar(identifier: .gregorian)
+        let oldStart = calendar.date(from: DateComponents(year: 2020, month: 1, day: 1, hour: 9))!
+        let recentStart = calendar.date(from: DateComponents(year: 2026, month: 1, day: 1, hour: 9))!
+        let oldStation = station(id: "old", name: "Old Station", country: "DE")
+        let recentStation = station(id: "recent", name: "Recent Station", country: "CH")
+
+        history.startSession(for: oldStation, at: oldStart)
+        history.closeActiveSession(at: oldStart.addingTimeInterval(60 * 60))
+        history.startSession(for: recentStation, at: recentStart)
+        history.closeActiveSession(at: recentStart.addingTimeInterval(30 * 60))
+
+        let snapshots = history.raceSnapshots(maxStations: 10)
+
+        XCTAssertLessThanOrEqual(snapshots.count, 366)
+        XCTAssertEqual(snapshots.last?.entries.map(\.stationID), ["old", "recent"])
+    }
+
     func testExportCSVQuotesFieldsAndSortsNewestFirst() {
         let history = makeHistory()
         history.isEnabled = true

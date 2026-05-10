@@ -149,6 +149,7 @@ final class ListeningHistory {
         }
     }
     @ObservationIgnored var onPreferencesChanged: (() -> Void)?
+    private static let maxRaceSnapshotDays = 366
 
     init(defaults: UserDefaults = .standard, recordsURL: URL? = nil) {
         self.defaults = defaults
@@ -243,83 +244,6 @@ final class ListeningHistory {
         activeRecordID = nil
         saveRecords()
     }
-
-    #if DEBUG
-    func seedDemoYear(stations sourceStations: [Station]) {
-        let seedStations = Array(sourceStations.filter { $0.featured == true }.prefix(12))
-            + Array(sourceStations.filter { $0.featured != true }.prefix(18))
-        let stations = Array(seedStations.prefix(18))
-        guard !stations.isEmpty else { return }
-
-        isEnabled = true
-        level = .tracks
-        retention = .year1
-        activeRecordID = nil
-
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: Date())
-        var seeded: [ListeningHistoryRecord] = []
-
-        for dayOffset in stride(from: 364, through: 0, by: -1) {
-            guard let day = calendar.date(byAdding: .day, value: -dayOffset, to: today) else { continue }
-            let weekday = calendar.component(.weekday, from: day)
-            let listensToday = demoSessionCount(dayOffset: dayOffset, weekday: weekday)
-            guard listensToday > 0 else { continue }
-
-            for sessionIndex in 0..<listensToday {
-                let station = demoStation(for: dayOffset, sessionIndex: sessionIndex, stations: stations)
-                let minute = 20 + ((dayOffset * 19 + sessionIndex * 37) % 760)
-                let durationMinutes = 12 + ((dayOffset * 11 + sessionIndex * 23) % 104)
-                let startedAt = calendar.date(byAdding: .minute, value: minute, to: day) ?? day
-                let duration = TimeInterval(durationMinutes * 60)
-                let track = demoTrack(dayOffset: dayOffset, sessionIndex: sessionIndex)
-                seeded.append(ListeningHistoryRecord(
-                    id: UUID(),
-                    stationID: station.id,
-                    stationName: station.name,
-                    country: station.country,
-                    startedAt: startedAt,
-                    endedAt: startedAt.addingTimeInterval(duration),
-                    durationSeconds: duration,
-                    trackArtist: track.artist,
-                    trackTitle: track.title,
-                ))
-            }
-        }
-
-        records = seeded.sorted { $0.startedAt > $1.startedAt }
-        applyRetention()
-        saveRecords()
-    }
-
-    private func demoSessionCount(dayOffset: Int, weekday: Int) -> Int {
-        if dayOffset % 13 == 0 { return 0 }
-        let base = weekday == 1 || weekday == 7 ? 2 : 1
-        let extra = dayOffset % 9 == 0 ? 2 : dayOffset % 4 == 0 ? 1 : 0
-        return min(base + extra, 5)
-    }
-
-    private func demoStation(for dayOffset: Int, sessionIndex: Int, stations: [Station]) -> Station {
-        let seasonalShift = (dayOffset / 45) % max(stations.count, 1)
-        let weightedIndex: Int
-        switch (dayOffset + sessionIndex * 3) % 10 {
-        case 0...3: weightedIndex = 0
-        case 4...5: weightedIndex = 1
-        case 6: weightedIndex = 2
-        default: weightedIndex = (dayOffset + sessionIndex + seasonalShift) % stations.count
-        }
-        return stations[min(weightedIndex, stations.count - 1)]
-    }
-
-    private func demoTrack(dayOffset: Int, sessionIndex: Int) -> (artist: String, title: String) {
-        let artists = ["Mira Vale", "Northern Service", "Le Club", "Paper Lights", "Azul Mono"]
-        let titles = ["Late Signal", "Small Hours", "Across Town", "Frequency", "Window Seat"]
-        return (
-            artists[(dayOffset + sessionIndex) % artists.count],
-            titles[(dayOffset * 2 + sessionIndex) % titles.count]
-        )
-    }
-    #endif
 
     func summary(for interval: DateInterval? = nil) -> ListeningHistorySummary {
         let now = Date()
@@ -431,7 +355,19 @@ final class ListeningHistory {
 
         var totals: [String: (name: String, country: String?, seconds: TimeInterval)] = [:]
         var snapshots: [ListeningHistoryRaceSnapshot] = []
-        var cursor = start
+        let boundedStart: Date
+        if let visibleStart = calendar.date(byAdding: .day, value: -(Self.maxRaceSnapshotDays - 1), to: end),
+           start < visibleStart {
+            boundedStart = visibleStart
+            for record in scoped where calendar.startOfDay(for: record.startedAt) < boundedStart {
+                var current = totals[record.stationID] ?? (record.stationName, record.country, 0)
+                current.seconds += record.durationSeconds
+                totals[record.stationID] = current
+            }
+        } else {
+            boundedStart = start
+        }
+        var cursor = boundedStart
 
         while cursor <= end {
             for record in recordsByDay[cursor, default: []] {

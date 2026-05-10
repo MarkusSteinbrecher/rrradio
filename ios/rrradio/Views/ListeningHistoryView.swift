@@ -4,10 +4,13 @@ import SwiftUI
 struct ListeningHistoryPageView: View {
     @Environment(ListeningHistory.self) private var history
     @Environment(Catalog.self) private var catalog
-    @State private var range: RangeChoice = .all
+    @State private var range: RangeChoice = .days30
     @State private var confirmingClear = false
     @State private var showingMailComposer = false
+    @State private var showingShareExporter = false
     @State private var refreshedAt = Date()
+    @State private var dashboardData: ListeningDashboardData?
+    @State private var isLoadingDashboard = false
 
     private enum RangeChoice: String, CaseIterable, Identifiable {
         case days7
@@ -43,25 +46,17 @@ struct ListeningHistoryPageView: View {
 
                     Spacer(minLength: 10)
 
-                    if MFMailComposeViewController.canSendMail() {
-                        Button {
+                    Button {
+                        if MFMailComposeViewController.canSendMail() {
                             showingMailComposer = true
-                        } label: {
-                            mailIcon
+                        } else {
+                            showingShareExporter = true
                         }
-                        .buttonStyle(.plain)
-                        .accessibilityLabel("Email listening history")
-                    } else {
-                        ShareLink(
-                            item: history.exportCSV(),
-                            subject: Text(mailSubject),
-                            message: Text("Listening history exported from rrradio.")
-                        ) {
-                            mailIcon
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityLabel("Send listening history")
+                    } label: {
+                        mailIcon
                     }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Send listening history")
 
                     Button {
                         refreshedAt = Date()
@@ -75,6 +70,14 @@ struct ListeningHistoryPageView: View {
                     .buttonStyle(.plain)
                     .accessibilityLabel("Refresh listening history")
                 }
+
+                Picker("Range", selection: $range) {
+                    ForEach(RangeChoice.allCases) { choice in
+                        Text(choice.title).tag(choice)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .tint(RrradioTheme.accent)
 
                 if history.isEnabled {
                     enabledDashboard
@@ -105,6 +108,36 @@ struct ListeningHistoryPageView: View {
                 attachmentName: mailAttachmentName,
             )
         }
+        .sheet(isPresented: $showingShareExporter) {
+            NavigationStack {
+                VStack(spacing: 18) {
+                    ShareLink(
+                        item: history.exportCSV(),
+                        subject: Text(mailSubject),
+                        message: Text("Listening history exported from rrradio."),
+                    ) {
+                        Label("Share listening history", systemImage: "square.and.arrow.up")
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundStyle(RrradioTheme.bg)
+                            .padding(.horizontal, 16)
+                            .frame(height: 44)
+                            .background(RrradioTheme.buttonFill)
+                            .clipShape(Capsule())
+                    }
+                    .buttonStyle(.plain)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(RrradioTheme.bg.ignoresSafeArea())
+                .navigationTitle("Export history")
+                .navigationBarTitleDisplayMode(.inline)
+            }
+        }
+        .task(id: dashboardRefreshKey) {
+            await refreshDashboard()
+        }
+        .onDisappear {
+            dashboardData = nil
+        }
     }
 
     private var mailIcon: some View {
@@ -124,61 +157,50 @@ struct ListeningHistoryPageView: View {
         return "rrradio-listening-history-\(rawDate).csv"
     }
 
+    private var dashboardRefreshKey: String {
+        [
+            range.rawValue,
+            "\(Int(refreshedAt.timeIntervalSince1970))",
+            "\(history.records.count)",
+            "\(history.isEnabled)",
+            history.level.rawValue,
+        ].joined(separator: ":")
+    }
+
+    private func refreshDashboard() async {
+        guard history.isEnabled else {
+            dashboardData = nil
+            isLoadingDashboard = false
+            return
+        }
+
+        isLoadingDashboard = true
+        dashboardData = nil
+
+        let records = history.records
+        let interval = selectedInterval
+        let includesTracks = history.level == .tracks
+        let data = await Task.detached(priority: .userInitiated) {
+            ListeningDashboardData.build(
+                records: records,
+                interval: interval,
+                includesTracks: includesTracks,
+            )
+        }.value
+
+        guard !Task.isCancelled else { return }
+        dashboardData = data
+        isLoadingDashboard = false
+    }
+
     private var enabledDashboard: some View {
-        let summary = history.summary(for: selectedInterval)
-        return VStack(alignment: .leading, spacing: 22) {
-            #if DEBUG
-            demoHistoryButton
-            #endif
-
-            HStack(spacing: 0) {
-                statTile("Time", value: durationText(summary.totalSeconds))
-                statTile("Sessions", value: "\(summary.sessionCount)")
-                statTile("Stations", value: "\(summary.stationCount)")
-            }
-            .background(RrradioTheme.bg2)
-            .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
-            .clipShape(RoundedRectangle(cornerRadius: 8))
-
-            if summary.sessionCount == 0 {
-                emptyDashboard
+        VStack(alignment: .leading, spacing: 22) {
+            if let dashboardData {
+                dashboardContent(dashboardData)
+            } else if isLoadingDashboard {
+                loadingDashboard
             } else {
-                dashboardSection("Most listened") {
-                    ListeningRaceChart(
-                        snapshots: history.raceSnapshots(for: selectedInterval, maxStations: 10),
-                        stations: catalog.stations,
-                    )
-                }
-
-                dashboardSection("Minutes by day") {
-                    dayBars(summary.dailyTotals, interval: selectedInterval)
-                }
-
-                dashboardSection("Countries") {
-                    VStack(spacing: 0) {
-                        ForEach(summary.topCountries) { row in
-                            metricRow(
-                                title: row.country,
-                                detail: "\(row.sessionCount)x",
-                                value: durationText(row.totalSeconds),
-                            )
-                        }
-                    }
-                }
-
-                if history.level == .tracks && !summary.recentTracks.isEmpty {
-                    dashboardSection("Recent tracks") {
-                        VStack(spacing: 0) {
-                            ForEach(summary.recentTracks) { row in
-                                metricRow(
-                                    title: trackTitle(row),
-                                    detail: row.stationName,
-                                    value: relativeDate(row.lastPlayedAt),
-                                )
-                            }
-                        }
-                    }
-                }
+                emptyDashboard
             }
 
             Button(role: .destructive) {
@@ -201,33 +223,59 @@ struct ListeningHistoryPageView: View {
         }
     }
 
-    #if DEBUG
-    private var demoHistoryButton: some View {
-        Button {
-            history.seedDemoYear(stations: catalog.stations)
-            range = .all
-            refreshedAt = Date()
-        } label: {
-            HStack(spacing: 10) {
-                Image(systemName: "wand.and.stars")
-                    .font(.system(size: 14, weight: .semibold))
-                Text("Seed one year demo history")
-                    .font(.system(size: 13, weight: .medium))
-                Spacer()
-                Text("DEBUG")
-                    .font(.system(size: 10, weight: .medium, design: .monospaced))
-                    .foregroundStyle(RrradioTheme.ink3)
-            }
-            .foregroundStyle(RrradioTheme.ink)
-            .padding(.horizontal, 14)
-            .frame(minHeight: 44)
-            .background(RrradioTheme.bg2)
-            .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
-            .clipShape(RoundedRectangle(cornerRadius: 8))
+    @ViewBuilder
+    private func dashboardContent(_ data: ListeningDashboardData) -> some View {
+        let summary = data.summary
+        HStack(spacing: 0) {
+            statTile("Time", value: durationText(summary.totalSeconds))
+            statTile("Sessions", value: "\(summary.sessionCount)")
+            statTile("Stations", value: "\(summary.stationCount)")
         }
-        .buttonStyle(.plain)
+        .background(RrradioTheme.bg2)
+        .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+
+        if summary.sessionCount == 0 {
+            emptyDashboard
+        } else {
+            dashboardSection("Most listened") {
+                ListeningRaceChart(
+                    snapshots: data.raceSnapshots,
+                    stations: catalog.stations,
+                )
+            }
+
+            dashboardSection("Minutes by day") {
+                dayBars(summary.dailyTotals, interval: selectedInterval)
+            }
+
+            dashboardSection("Countries") {
+                VStack(spacing: 0) {
+                    ForEach(summary.topCountries) { row in
+                        metricRow(
+                            title: row.country,
+                            detail: "\(row.sessionCount)x",
+                            value: durationText(row.totalSeconds),
+                        )
+                    }
+                }
+            }
+
+            if data.includesTracks && !summary.recentTracks.isEmpty {
+                dashboardSection("Recent tracks") {
+                    VStack(spacing: 0) {
+                        ForEach(summary.recentTracks) { row in
+                            metricRow(
+                                title: trackTitle(row),
+                                detail: row.stationName,
+                                value: relativeDate(row.lastPlayedAt),
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
-    #endif
 
     private var disabledState: some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -269,6 +317,22 @@ struct ListeningHistoryPageView: View {
             .background(RrradioTheme.bg2)
             .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
             .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    private var loadingDashboard: some View {
+        HStack(spacing: 12) {
+            ProgressView()
+                .tint(RrradioTheme.accent)
+            Text("Loading listening history...")
+                .font(.system(size: 14))
+                .foregroundStyle(RrradioTheme.ink3)
+            Spacer()
+        }
+        .padding(18)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(RrradioTheme.bg2)
+        .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
     private func dashboardSection<Content: View>(
@@ -369,6 +433,7 @@ struct ListeningHistoryPageView: View {
     }
 
     private func daySeries(_ days: [ListeningHistoryDaySummary], interval: DateInterval?) -> [ListeningHistoryDaySummary] {
+        let maxVisibleDays = 366
         let calendar = Calendar.current
         let totalsByDay = Dictionary(uniqueKeysWithValues: days.map { (calendar.startOfDay(for: $0.date), $0.totalSeconds) })
         guard let start = interval.map({ calendar.startOfDay(for: $0.start) }) ?? days.map({ calendar.startOfDay(for: $0.date) }).min(),
@@ -376,8 +441,16 @@ struct ListeningHistoryPageView: View {
             return []
         }
 
+        let boundedStart: Date
+        if let visibleStart = calendar.date(byAdding: .day, value: -(maxVisibleDays - 1), to: end),
+           start < visibleStart {
+            boundedStart = visibleStart
+        } else {
+            boundedStart = start
+        }
+
         var result: [ListeningHistoryDaySummary] = []
-        var cursor = start
+        var cursor = boundedStart
         while cursor <= end {
             result.append(ListeningHistoryDaySummary(date: cursor, totalSeconds: totalsByDay[cursor, default: 0]))
             guard let next = calendar.date(byAdding: .day, value: 1, to: cursor) else { break }
@@ -386,7 +459,21 @@ struct ListeningHistoryPageView: View {
         return result
     }
 
-    private var selectedInterval: DateInterval? { nil }
+    private var selectedInterval: DateInterval? {
+        let calendar = Calendar.current
+        let end = Date()
+        let days: Int
+        switch range {
+        case .days7:
+            days = 7
+        case .days30:
+            days = 30
+        case .all:
+            return nil
+        }
+        let start = calendar.date(byAdding: .day, value: -(days - 1), to: calendar.startOfDay(for: end)) ?? end
+        return DateInterval(start: start, end: end)
+    }
 
     private func durationText(_ seconds: TimeInterval) -> String {
         let minutes = Int(seconds / 60)
@@ -402,6 +489,193 @@ struct ListeningHistoryPageView: View {
 
     private func trackTitle(_ row: ListeningHistoryTrackSummary) -> String {
         row.artist.isEmpty ? row.title : "\(row.artist) - \(row.title)"
+    }
+}
+
+private struct ListeningDashboardData {
+    let summary: ListeningHistorySummary
+    let raceSnapshots: [ListeningHistoryRaceSnapshot]
+    let includesTracks: Bool
+
+    private static let minimumStoredDuration: TimeInterval = 5
+    private static let maxRaceSnapshotDays = 366
+
+    static func build(
+        records: [ListeningHistoryRecord],
+        interval: DateInterval?,
+        includesTracks: Bool,
+    ) -> ListeningDashboardData {
+        let now = Date()
+        let measured = records.map { record in
+            var copy = record
+            if copy.isOpen {
+                copy.durationSeconds = max(0, now.timeIntervalSince(copy.startedAt))
+            }
+            return copy
+        }
+        let closed = measured.filter { $0.durationSeconds >= Self.minimumStoredDuration }
+        let scoped = interval.map { range in
+            closed.filter { range.contains($0.startedAt) }
+        } ?? closed
+
+        return ListeningDashboardData(
+            summary: summary(for: scoped, includesTracks: includesTracks),
+            raceSnapshots: raceSnapshots(for: scoped, interval: interval, now: now, maxStations: 10),
+            includesTracks: includesTracks,
+        )
+    }
+
+    private static func summary(
+        for scoped: [ListeningHistoryRecord],
+        includesTracks: Bool,
+    ) -> ListeningHistorySummary {
+        let totalSeconds = scoped.reduce(0) { $0 + $1.durationSeconds }
+        let stationIDs = Set(scoped.map(\.stationID))
+        let topStations = scoped
+            .reduce(into: [String: (name: String, country: String?, seconds: TimeInterval, count: Int)]()) { result, record in
+                var current = result[record.stationID] ?? (record.stationName, record.country, 0, 0)
+                current.seconds += record.durationSeconds
+                current.count += 1
+                result[record.stationID] = current
+            }
+            .map { key, value in
+                ListeningHistoryStationSummary(
+                    stationID: key,
+                    stationName: value.name,
+                    country: value.country,
+                    totalSeconds: value.seconds,
+                    sessionCount: value.count,
+                )
+            }
+            .sorted { $0.totalSeconds > $1.totalSeconds }
+
+        let topCountries = scoped
+            .reduce(into: [String: (seconds: TimeInterval, count: Int)]()) { result, record in
+                let country = record.country?.uppercased() ?? "??"
+                var current = result[country] ?? (0, 0)
+                current.seconds += record.durationSeconds
+                current.count += 1
+                result[country] = current
+            }
+            .map { key, value in
+                ListeningHistoryCountrySummary(country: key, totalSeconds: value.seconds, sessionCount: value.count)
+            }
+            .sorted { $0.totalSeconds > $1.totalSeconds }
+
+        let recentTracks: [ListeningHistoryTrackSummary]
+        if includesTracks {
+            recentTracks = Array(scoped
+                .compactMap { record -> ListeningHistoryTrackSummary? in
+                    guard let title = record.trackTitle, !title.isEmpty else { return nil }
+                    return ListeningHistoryTrackSummary(
+                        artist: record.trackArtist ?? "",
+                        title: title,
+                        stationName: record.stationName,
+                        lastPlayedAt: record.startedAt,
+                    )
+                }
+                .prefix(20))
+        } else {
+            recentTracks = []
+        }
+
+        let dailyTotals = scoped
+            .reduce(into: [Date: TimeInterval]()) { result, record in
+                let day = Calendar.current.startOfDay(for: record.startedAt)
+                result[day, default: 0] += record.durationSeconds
+            }
+            .map { ListeningHistoryDaySummary(date: $0.key, totalSeconds: $0.value) }
+            .sorted { $0.date < $1.date }
+
+        return ListeningHistorySummary(
+            totalSeconds: totalSeconds,
+            sessionCount: scoped.count,
+            stationCount: stationIDs.count,
+            topStations: Array(topStations.prefix(12)),
+            topCountries: Array(topCountries.prefix(8)),
+            recentTracks: recentTracks,
+            dailyTotals: dailyTotals,
+            recentSessions: Array(scoped.prefix(12)),
+        )
+    }
+
+    private static func raceSnapshots(
+        for scoped: [ListeningHistoryRecord],
+        interval: DateInterval?,
+        now: Date,
+        maxStations: Int,
+    ) -> [ListeningHistoryRaceSnapshot] {
+        guard !scoped.isEmpty else { return [] }
+
+        let calendar = Calendar.current
+        let start = interval.map { calendar.startOfDay(for: $0.start) }
+            ?? scoped.map { calendar.startOfDay(for: $0.startedAt) }.min()
+            ?? calendar.startOfDay(for: now)
+        let end = interval.map { calendar.startOfDay(for: $0.end) }
+            ?? scoped.map { calendar.startOfDay(for: $0.startedAt) }.max()
+            ?? calendar.startOfDay(for: now)
+
+        let recordsByDay = scoped.reduce(into: [Date: [ListeningHistoryRecord]]()) { result, record in
+            let day = calendar.startOfDay(for: record.startedAt)
+            result[day, default: []].append(record)
+        }
+
+        var totals: [String: (name: String, country: String?, seconds: TimeInterval)] = [:]
+        var snapshots: [ListeningHistoryRaceSnapshot] = []
+        let boundedStart: Date
+        if let visibleStart = calendar.date(byAdding: .day, value: -(Self.maxRaceSnapshotDays - 1), to: end),
+           start < visibleStart {
+            boundedStart = visibleStart
+            for record in scoped where calendar.startOfDay(for: record.startedAt) < boundedStart {
+                var current = totals[record.stationID] ?? (record.stationName, record.country, 0)
+                current.seconds += record.durationSeconds
+                totals[record.stationID] = current
+            }
+        } else {
+            boundedStart = start
+        }
+
+        var cursor = boundedStart
+        while cursor <= end {
+            for record in recordsByDay[cursor, default: []] {
+                var current = totals[record.stationID] ?? (record.stationName, record.country, 0)
+                current.seconds += record.durationSeconds
+                totals[record.stationID] = current
+            }
+
+            let totalSeconds = totals.values.reduce(0) { $0 + $1.seconds }
+            let entries = totals
+                .map { key, value in
+                    (stationID: key, stationName: value.name, country: value.country, totalSeconds: value.seconds)
+                }
+                .sorted { lhs, rhs in
+                    if lhs.totalSeconds == rhs.totalSeconds {
+                        return lhs.stationName.localizedCaseInsensitiveCompare(rhs.stationName) == .orderedAscending
+                    }
+                    return lhs.totalSeconds > rhs.totalSeconds
+                }
+                .prefix(maxStations)
+                .enumerated()
+                .map { index, value in
+                    ListeningHistoryRaceEntry(
+                        stationID: value.stationID,
+                        stationName: value.stationName,
+                        country: value.country,
+                        totalSeconds: value.totalSeconds,
+                        rank: index + 1,
+                        share: totalSeconds > 0 ? value.totalSeconds / totalSeconds : 0,
+                    )
+                }
+
+            if !entries.isEmpty {
+                snapshots.append(ListeningHistoryRaceSnapshot(date: cursor, entries: Array(entries), totalSeconds: totalSeconds))
+            }
+
+            guard let next = calendar.date(byAdding: .day, value: 1, to: cursor) else { break }
+            cursor = next
+        }
+
+        return snapshots
     }
 }
 

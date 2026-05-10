@@ -46,9 +46,7 @@ struct SettingsView: View {
                 HStack(spacing: 18) {
                     ForEach(SettingsPage.allCases) { item in
                         Button {
-                            withAnimation(.easeInOut(duration: 0.2)) {
-                                page = item
-                            }
+                            page = item
                         } label: {
                             Text(item.title(locale))
                                 .font(.system(size: 12, weight: .medium, design: .monospaced))
@@ -437,9 +435,7 @@ private struct SettingsPageView: View {
 
     private var listeningHistoryDashboardLink: some View {
         Button {
-            withAnimation(.easeInOut(duration: 0.2)) {
-                page = .listening
-            }
+            page = .listening
         } label: {
             HStack(spacing: 12) {
                 Image(systemName: "chart.line.uptrend.xyaxis")
