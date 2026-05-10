@@ -95,6 +95,7 @@ struct StationListView: View {
     private let statusCollapseDistance: CGFloat = 26
     private let filterCollapseDistance: CGFloat = 52
     private let browseControlsExpandedHeight: CGFloat = 78
+    private let pageSwipeThreshold: CGFloat = 72
 
     private enum ActiveFilterPicker {
         case genre
@@ -220,6 +221,7 @@ struct StationListView: View {
             }
         }
         .background(RrradioTheme.bg)
+        .simultaneousGesture(pageSwipeGesture)
         .sheet(isPresented: $showingSettings) {
             SettingsView()
         }
@@ -342,6 +344,31 @@ struct StationListView: View {
             stationInfoMetadataTask?.cancel()
             favoriteNowPlaying.stop()
             searchFocusedExternally = false
+        }
+    }
+
+    private var pageSwipeGesture: some Gesture {
+        DragGesture(minimumDistance: 28, coordinateSpace: .local)
+            .onEnded { value in
+                handlePageSwipe(value)
+            }
+    }
+
+    private func handlePageSwipe(_ value: DragGesture.Value) {
+        let horizontal = value.predictedEndTranslation.width
+        let vertical = value.predictedEndTranslation.height
+        guard abs(horizontal) >= pageSwipeThreshold, abs(horizontal) > abs(vertical) * 1.4 else { return }
+
+        if tab == .browse, horizontal < 0 {
+            dismissSearch()
+            withAnimation(.snappy) {
+                tab = .library
+            }
+        } else if tab == .library, horizontal > 0 {
+            dismissSearch()
+            withAnimation(.snappy) {
+                tab = .browse
+            }
         }
     }
 
