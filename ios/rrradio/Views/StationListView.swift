@@ -85,6 +85,9 @@ struct StationListView: View {
     @State private var radioBrowserSearchTask: Task<Void, Never>?
     @State private var favoriteNowPlaying = FavoriteNowPlayingStore()
     @State private var listScrollOffset: CGFloat = 0
+    @State private var stationInfoPreview: Station?
+    @State private var stationInfoPreviewMetadata: [String: NowPlayingMetadata] = [:]
+    @State private var stationInfoMetadataTask: Task<Void, Never>?
     @FocusState private var searchFocused: Bool
 
     private let stationPageSize = 220
@@ -249,6 +252,10 @@ struct StationListView: View {
                 .presentationDetents([.large])
                 .presentationDragIndicator(.visible)
         }
+        .overlay {
+            stationInfoPreviewOverlay
+        }
+        .animation(.spring(response: 0.24, dampingFraction: 0.86), value: stationInfoPreview?.id)
         .confirmationDialog(
             timerCancelConfirmation?.title ?? "",
             isPresented: Binding(
@@ -331,6 +338,7 @@ struct StationListView: View {
             filterTask?.cancel()
             searchUpdateTask?.cancel()
             radioBrowserSearchTask?.cancel()
+            stationInfoMetadataTask?.cancel()
             favoriteNowPlaying.stop()
             searchFocusedExternally = false
         }
@@ -793,6 +801,9 @@ struct StationListView: View {
                                 library.toggleFavorite(station)
                             },
                             showsFavoriteButton: !isFavoritesPage,
+                            onInfoHoldChanged: source == .all ? { isHolding in
+                                handleStationInfoHoldChanged(isHolding, station: station)
+                            } : nil,
                         )
                     }
                     if visibleStations.count < filteredStations.count || canLoadWorldwideStations {
@@ -871,6 +882,92 @@ struct StationListView: View {
             library.pushRecent(station)
         }
         showingNowPlaying = true
+    }
+
+    @ViewBuilder
+    private var stationInfoPreviewOverlay: some View {
+        if let station = stationInfoPreview {
+            ZStack {
+                Color.black.opacity(0.18)
+                    .ignoresSafeArea()
+                StationInfoPreview(
+                    station: station,
+                    nowPlaying: stationInfoMetadata(for: station),
+                    isCurrent: player.current?.id == station.id,
+                    isPlaying: player.current?.id == station.id && player.state == .playing,
+                )
+                .padding(.horizontal, 22)
+                .transition(.scale(scale: 0.96).combined(with: .opacity))
+            }
+            .allowsHitTesting(false)
+        }
+    }
+
+    private func handleStationInfoHoldChanged(_ isHolding: Bool, station: Station) {
+        if isHolding {
+            showStationInfoPreview(station)
+        } else {
+            closeStationInfoPreview()
+        }
+    }
+
+    private func showStationInfoPreview(_ station: Station) {
+        dismissSearch()
+        let didChangeStation = stationInfoPreview?.id != station.id
+        stationInfoPreview = station
+        if didChangeStation {
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        }
+        fetchStationInfoMetadataIfNeeded(for: station)
+    }
+
+    private func closeStationInfoPreview() {
+        stationInfoMetadataTask?.cancel()
+        stationInfoMetadataTask = nil
+        stationInfoPreview = nil
+    }
+
+    private func stationInfoMetadata(for station: Station) -> NowPlayingMetadata? {
+        if player.current?.id == station.id {
+            let raw = [
+                cleanInfoValue(player.nowPlayingArtist),
+                cleanInfoValue(player.nowPlayingTitle),
+            ]
+            .compactMap { $0 }
+            .joined(separator: " - ")
+            .nilIfEmpty
+
+            return NowPlayingMetadata(
+                artist: cleanInfoValue(player.nowPlayingArtist),
+                title: cleanInfoValue(player.nowPlayingTitle),
+                raw: raw ?? station.name,
+                programName: cleanInfoValue(player.nowPlayingProgramName),
+                programSubtitle: cleanInfoValue(player.nowPlayingProgramSubtitle),
+                coverUrl: player.nowPlayingCoverUrl,
+            )
+        }
+        return stationInfoPreviewMetadata[station.id] ?? favoriteNowPlaying.entries[station.id]?.metadata
+    }
+
+    private func fetchStationInfoMetadataIfNeeded(for station: Station) {
+        guard player.current?.id != station.id,
+              stationInfoPreviewMetadata[station.id] == nil,
+              favoriteNowPlaying.entries[station.id] == nil else {
+            return
+        }
+        stationInfoMetadataTask?.cancel()
+        stationInfoMetadataTask = Task {
+            let metadata = await FavoriteNowPlayingStore.fetchMetadata(for: station)
+            guard !Task.isCancelled, let metadata else { return }
+            await MainActor.run {
+                guard stationInfoPreview?.id == station.id else { return }
+                stationInfoPreviewMetadata[station.id] = metadata
+            }
+        }
+    }
+
+    private func cleanInfoValue(_ value: String?) -> String? {
+        value?.trimmingCharacters(in: .whitespacesAndNewlines).nilIfEmpty
     }
 
     private var canReorderFavorites: Bool {
@@ -1380,29 +1477,37 @@ struct StationRow: View {
     let onPlay: () -> Void
     let onToggleFavorite: () -> Void
     var showsFavoriteButton = true
+    var onInfoHoldChanged: ((Bool) -> Void)?
     @State private var showingStreamQuality = false
+    @State private var infoPressRecognized = false
+    @State private var suppressNextPlay = false
 
     var body: some View {
         HStack(spacing: 14) {
-            Button(action: onPlay) {
-                HStack(spacing: mode == .favoritesExpanded ? 16 : 14) {
-                    rowArtwork
-                    rowText
-                        .frame(maxWidth: .infinity, alignment: .leading)
+            HStack(spacing: mode == .favoritesExpanded ? 16 : 14) {
+                rowArtwork
+                rowText
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-                    if mode == .favoritesExpanded, expandedArtworkURL != nil {
-                        expandedCoverArtwork
-                            .frame(width: 58, height: 58)
-                            .layoutPriority(1)
-                    }
-                    if isPlaying && mode != .favoritesExpanded {
-                        EqualizerView()
-                    }
+                if mode == .favoritesExpanded, expandedArtworkURL != nil {
+                    expandedCoverArtwork
+                        .frame(width: 58, height: 58)
+                        .layoutPriority(1)
                 }
-                .frame(minHeight: mode == .favoritesExpanded ? 58 : 38)
-                .contentShape(Rectangle())
+                if isPlaying && mode != .favoritesExpanded {
+                    EqualizerView()
+                }
             }
-            .buttonStyle(.plain)
+            .frame(minHeight: mode == .favoritesExpanded ? 58 : 38)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                if suppressNextPlay {
+                    suppressNextPlay = false
+                    return
+                }
+                onPlay()
+            }
+            .accessibilityAddTraits(.isButton)
 
             if mode == .standard, hasStreamDetail {
                 Button {
@@ -1459,6 +1564,40 @@ struct StationRow: View {
             .frame(width: UIScreen.main.bounds.width, height: 1)
         }
         .contentShape(Rectangle())
+        .onLongPressGesture(
+            minimumDuration: 0.36,
+            maximumDistance: 24,
+            pressing: { pressing in
+                if !pressing {
+                    handleInfoHoldChanged(false)
+                }
+            },
+            perform: {
+                handleInfoHoldChanged(true)
+            },
+        )
+    }
+
+    private func handleInfoHoldChanged(_ isHolding: Bool) {
+        guard let onInfoHoldChanged else { return }
+        if isHolding {
+            infoPressRecognized = true
+            suppressNextPlay = true
+        } else {
+            if infoPressRecognized {
+                suppressNextPlay = true
+            }
+            infoPressRecognized = false
+            clearSuppressedPlaySoon()
+        }
+        onInfoHoldChanged(isHolding)
+    }
+
+    private func clearSuppressedPlaySoon() {
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(350))
+            suppressNextPlay = false
+        }
     }
 
     @ViewBuilder
@@ -1704,7 +1843,7 @@ struct EqualizerView: View {
     }
 }
 
-private struct NowPlayingArtworkThumb: View {
+struct NowPlayingArtworkThumb: View {
     let url: URL?
     let size: CGFloat
 

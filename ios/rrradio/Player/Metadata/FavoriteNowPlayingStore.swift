@@ -69,7 +69,7 @@ final class FavoriteNowPlayingStore {
         }
     }
 
-    private nonisolated static func fetchMetadata(for station: Station) async -> NowPlayingMetadata? {
+    nonisolated static func fetchMetadata(for station: Station) async -> NowPlayingMetadata? {
         do {
             guard var metadata = try await metadata(for: station) else { return nil }
             if let title = clean(metadata.title),
