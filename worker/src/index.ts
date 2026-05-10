@@ -9,9 +9,13 @@
  *   /api/totals        — pageview / event / unique-visitor totals
  *   /api/top-stations  — most-played stations (filter: "play: ")
  *   /api/errors        — stations that errored, with reason in title
+ *   /api/reports       — user-submitted broken-station reports
  *   /api/tabs          — tab usage (filter: "tab/")
  *   /api/genres        — genre filter selections (filter: "genre/")
  *   /api/favorites     — most-favorited stations (filter: "favorite: ")
+ *
+ * Public endpoints:
+ *   POST /api/public/report-broken — anonymous structured station report
  *
  * Range: ?days=N (1–90, default 7). Response cached 5 min in the
  * Cloudflare edge cache to be a polite GC API consumer.
@@ -78,7 +82,7 @@ function corsHeaders(origin: string, allowed: string): Record<string, string> {
   const out = origin === allowed ? origin : allowed;
   return {
     'Access-Control-Allow-Origin': out,
-    'Access-Control-Allow-Methods': 'GET, OPTIONS',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Authorization, Content-Type',
     'Access-Control-Max-Age': '86400',
     Vary: 'Origin',
@@ -94,6 +98,17 @@ function jsonResponse(body: unknown, status: number, headers: Record<string, str
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
       'Cache-Control': cacheControl,
+      ...headers,
+    },
+  });
+}
+
+function noStoreJsonResponse(body: unknown, status: number, headers: Record<string, string>): Response {
+  return new Response(JSON.stringify(body, null, 2), {
+    status,
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Cache-Control': 'no-store',
       ...headers,
     },
   });
@@ -224,6 +239,80 @@ function emptyList(days: number): ListResponse {
   return { items: [], total: 0, range_days: days };
 }
 
+function cleanField(value: unknown, max = 120): string {
+  if (typeof value !== 'string') return '';
+  return value.replace(/\s+/g, ' ').trim().slice(0, max);
+}
+
+function cleanHost(value: unknown): string {
+  if (typeof value !== 'string') return '';
+  try {
+    return new URL(value).host.slice(0, 120);
+  } catch {
+    return cleanField(value, 120);
+  }
+}
+
+function cleanToken(value: unknown, fallback: string, max = 40): string {
+  const cleaned = cleanField(value, max).replace(/[^a-z0-9._:-]/gi, '-');
+  return cleaned || fallback;
+}
+
+async function recordGoatCounterEvent(path: string, title: string, env: Env): Promise<void> {
+  const params = new URLSearchParams({
+    p: path,
+    t: title,
+    e: '1',
+  });
+  const res = await fetch(`https://${env.GOATCOUNTER_SITE}/count?${params}`, {
+    headers: {
+      'User-Agent': 'rrradio-stats/1.0 (+https://rrradio.org)',
+      Accept: 'image/gif,*/*',
+    },
+  });
+  if (!res.ok) {
+    throw new Error(`goatcounter count failed: ${res.status}`);
+  }
+}
+
+async function reportBrokenStation(req: Request, env: Env, headers: Record<string, string>): Promise<Response> {
+  const raw = await req.text();
+  if (raw.length > 4096) {
+    return noStoreJsonResponse({ error: 'payload too large' }, 413, headers);
+  }
+
+  let body: unknown;
+  try {
+    body = JSON.parse(raw);
+  } catch {
+    return noStoreJsonResponse({ error: 'invalid json' }, 400, headers);
+  }
+  const data = body && typeof body === 'object' ? (body as Record<string, unknown>) : {};
+  const stationId = cleanToken(data.stationId, '');
+  if (!stationId) {
+    return noStoreJsonResponse({ error: 'stationId required' }, 400, headers);
+  }
+
+  const stationName = cleanField(data.stationName, 90) || stationId;
+  const streamHost = cleanHost(data.streamUrl);
+  const platform = cleanToken(data.platform, 'unknown', 24);
+  const appVersion = cleanField(data.appVersion, 48);
+  const reason = cleanField(data.reason, 160);
+  const source = cleanToken(data.source, 'manual', 24);
+
+  const title = [
+    `station=${stationId}`,
+    streamHost ? `host=${streamHost}` : '',
+    `platform=${platform}`,
+    appVersion ? `app=${appVersion}` : '',
+    reason ? `reason=${reason}` : '',
+    `source=${source}`,
+  ].filter(Boolean).join(' · ');
+
+  await recordGoatCounterEvent(`report-broken: ${stationName}`, title, env);
+  return noStoreJsonResponse({ ok: true }, 202, headers);
+}
+
 /** Generic /stats/<group> reader. Used for browsers, systems, sizes,
  *  locations (country), toprefs, etc. */
 async function fetchStatGroup(
@@ -251,15 +340,14 @@ export default {
   async fetch(req: Request, env: Env): Promise<Response> {
     const origin = req.headers.get('Origin') ?? '';
     const cors = corsHeaders(origin, env.ALLOWED_ORIGIN);
+    const url = new URL(req.url);
 
     if (req.method === 'OPTIONS') {
-      return new Response(null, { status: 204, headers: cors });
+      const headers = url.pathname.startsWith('/api/public/')
+        ? { ...cors, 'Access-Control-Allow-Origin': '*' }
+        : cors;
+      return new Response(null, { status: 204, headers });
     }
-    if (req.method !== 'GET') {
-      return jsonResponse({ error: 'method not allowed' }, 405, cors);
-    }
-
-    const url = new URL(req.url);
     const days = clampDays(url.searchParams.get('days'));
 
     // Public, unauthenticated endpoints. Allowed origin is wide-open
@@ -268,6 +356,17 @@ export default {
     if (url.pathname.startsWith('/api/public/')) {
       const publicCors = { ...cors, 'Access-Control-Allow-Origin': '*' };
       try {
+        if (url.pathname === '/api/public/report-broken') {
+          if (req.method !== 'POST') {
+            return noStoreJsonResponse({ error: 'method not allowed' }, 405, publicCors);
+          }
+          return await reportBrokenStation(req, env, publicCors);
+        }
+
+        if (req.method !== 'GET') {
+          return jsonResponse({ error: 'method not allowed' }, 405, publicCors);
+        }
+
         if (url.pathname === '/api/public/top-stations') {
           const limit = Math.min(50, Math.max(1, Number(url.searchParams.get('limit')) || 5));
           const list = pickByPrefix(await fetchAllHits(days, env), 'play: ', limit, days);
@@ -422,6 +521,10 @@ export default {
       }
     }
 
+    if (req.method !== 'GET') {
+      return jsonResponse({ error: 'method not allowed' }, 405, cors);
+    }
+
     const auth = req.headers.get('Authorization');
     if (!env.ADMIN_TOKEN || auth !== `Bearer ${env.ADMIN_TOKEN}`) {
       return jsonResponse({ error: 'unauthorized' }, 401, cors);
@@ -438,6 +541,9 @@ export default {
           break;
         case '/api/errors':
           data = pickByPrefix(await fetchAllHits(days, env), 'error: ', 20, days);
+          break;
+        case '/api/reports':
+          data = pickByPrefix(await fetchAllHits(days, env), 'report-broken: ', 20, days);
           break;
         case '/api/tabs':
           data = pickByPrefix(await fetchAllHits(days, env), 'tab/', 10, days);
@@ -513,6 +619,7 @@ export default {
             stations: pickByPrefix(hits, 'play: ', 20, days),
             favorites: pickByPrefix(hits, 'favorite: ', 20, days),
             errors: pickByPrefix(hits, 'error: ', 20, days),
+            reports: pickByPrefix(hits, 'report-broken: ', 20, days),
             tabs: pickByPrefix(hits, 'tab/', 10, days),
             genres: pickByPrefix(hits, 'genre/', 10, days),
             locations,

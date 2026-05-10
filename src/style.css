@@ -1624,6 +1624,7 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
   border-bottom: 1px solid var(--line);
 }
 .np-source__row {
+  width: 100%;
   display: grid;
   grid-template-columns: 60px 1fr auto;
   align-items: center;
@@ -1634,11 +1635,21 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
   text-decoration: none;
   color: var(--ink-2);
   transition: color 0.15s;
+  text-align: left;
 }
 .np-source__row:first-child { border-top: 0; }
 .np-source__row[hidden]     { display: none; }
 .np-source__row:hover,
 .np-source__row:active      { color: var(--ink); }
+.np-source__report {
+  cursor: pointer;
+}
+.np-source__report.is-sent {
+  color: var(--accent);
+}
+.np-source__report.is-error {
+  color: #ff8b6b;
+}
 .np-source__k {
   font-size: 9px;
   letter-spacing: 0.18em;

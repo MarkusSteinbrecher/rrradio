@@ -37,6 +37,7 @@ function mountNp(): NowPlayingRefs {
     npStreamHost: byId('np-stream-host'),
     npHome: byId('np-home') as HTMLAnchorElement,
     npHomeHost: byId('np-home-host'),
+    npReportBroken: byId('np-report-broken') as HTMLButtonElement,
     npFav: byId('np-fav'),
     npPlay: byId('np-play'),
   };
@@ -228,6 +229,17 @@ describe('renderNowPlaying — source links', () => {
     const noHome = { ...fm4, homepage: undefined };
     renderNowPlaying(refs, { station: noHome, state: 'playing' }, ctx());
     expect(refs.npHome.hidden).toBe(true);
+  });
+
+  it('enables broken-station reporting only for real stations', () => {
+    const refs = mountNp();
+    renderNowPlaying(refs, { station: fm4, state: 'playing' }, ctx());
+    expect(refs.npReportBroken.hidden).toBe(false);
+    expect(refs.npReportBroken.disabled).toBe(false);
+
+    renderNowPlaying(refs, { station: { id: '', name: '', streamUrl: '' }, state: 'idle' }, ctx());
+    expect(refs.npReportBroken.hidden).toBe(true);
+    expect(refs.npReportBroken.disabled).toBe(true);
   });
 });
 

@@ -87,6 +87,7 @@ Privacy-friendly pageview + event analytics. No cookies, no consent banner, no u
 | `pause: <station name>` | state goes playing → paused (same station) |
 | `resume: <station name>` | state goes paused → loading (same station) |
 | `error: <station name>` | state enters error; title field carries the error message; deduped while error persists |
+| `report-broken: <station name>` | user taps "Report broken station"; title carries station id, stream host, platform, app version, and current playback reason when available |
 | `favorite: <station name>` | user adds a favorite |
 | `unfavorite: <station name>` | user removes a favorite |
 | `add-custom-station` | user submits the Add sheet |
@@ -110,7 +111,7 @@ worker/                   — Cloudflare Worker that proxies the GC API
 
 The browser never sees the GoatCounter API token. The Worker holds it as a Cloudflare secret along with `ADMIN_TOKEN`, the bearer that the dashboard sends. Dashboard prompts for the admin token on first load and stores it in localStorage; the page is open to anyone but reveals nothing without the token.
 
-Endpoints: `/api/totals`, `/api/top-stations`, `/api/errors`, `/api/tabs`, `/api/genres`, `/api/favorites`. All accept `?days=N` (1–90, default 7). Responses cached 5 min at the Cloudflare edge.
+Endpoints: `/api/totals`, `/api/top-stations`, `/api/errors`, `/api/reports`, `/api/tabs`, `/api/genres`, `/api/favorites`. All accept `?days=N` (1–90, default 7). Responses cached 5 min at the Cloudflare edge.
 
 To re-deploy the Worker after editing `src/index.ts`:
 

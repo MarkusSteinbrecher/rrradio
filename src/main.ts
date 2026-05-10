@@ -60,6 +60,7 @@ import {
   reportStreamError,
   reportWorkerError,
 } from './errors';
+import { reportBrokenStation } from './reportBroken';
 import { fmtSharePct, normalizeForSearch } from './format';
 import { SILENT_BED_ID } from './np-display';
 import {
@@ -234,6 +235,8 @@ const $npStream = document.getElementById('np-stream') as HTMLAnchorElement;
 const $npStreamHost = document.getElementById('np-stream-host') as HTMLElement;
 const $npHome = document.getElementById('np-home') as HTMLAnchorElement;
 const $npHomeHost = document.getElementById('np-home-host') as HTMLElement;
+const $npReportBroken = document.getElementById('np-report-broken') as HTMLButtonElement;
+const $npReportBrokenLabel = document.getElementById('np-report-broken-label') as HTMLElement;
 const $npFav = document.getElementById('np-fav') as HTMLButtonElement;
 const $npSleep = document.getElementById('np-sleep') as HTMLButtonElement;
 const $npSleepChip = document.getElementById('np-sleep-chip') as HTMLElement;
@@ -617,6 +620,7 @@ const NP_REFS: NowPlayingRefs = {
   npStreamHost: $npStreamHost,
   npHome: $npHome,
   npHomeHost: $npHomeHost,
+  npReportBroken: $npReportBroken,
   npFav: $npFav,
   npPlay: $npPlay,
 };
@@ -3227,6 +3231,33 @@ $npDetailsToggle.addEventListener('click', () => {
   track(open ? 'np-details/open' : 'np-details/close');
 });
 
+function setReportBrokenState(state: 'idle' | 'sending' | 'sent' | 'error'): void {
+  $npReportBroken.classList.toggle('is-sent', state === 'sent');
+  $npReportBroken.classList.toggle('is-error', state === 'error');
+  $npReportBroken.disabled = state === 'sending' || !currentNP.station.id;
+  $npReportBrokenLabel.textContent =
+    state === 'sending'
+      ? 'Sending...'
+      : state === 'sent'
+        ? 'Report sent'
+        : state === 'error'
+          ? 'Could not send'
+          : 'Broken station';
+}
+
+$npReportBroken.addEventListener('click', async () => {
+  const station = currentNP.station;
+  if (!station.id || station.id === SILENT_BED_ID) return;
+  setReportBrokenState('sending');
+  try {
+    await reportBrokenStation(station, currentNP.errorMessage);
+    setReportBrokenState('sent');
+  } catch (err) {
+    reportWorkerError(err, '/api/public/report-broken');
+    setReportBrokenState('error');
+  }
+});
+
 $npFav.addEventListener('click', () => {
   const s = currentNP.station;
   if (!s.id) return;
@@ -3256,6 +3287,7 @@ player.subscribe((np) => {
   if (stationChanged) {
     void loadSchedule(np.station);
     resetLyrics();
+    setReportBrokenState('idle');
   }
   $body.classList.toggle('is-playing', np.state === 'playing');
   $body.classList.toggle('has-station', !!np.station.id);

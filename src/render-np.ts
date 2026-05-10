@@ -9,7 +9,7 @@
  */
 
 import { countryName } from './country';
-import { displayStation, isWakeBedActive } from './np-display';
+import { SILENT_BED_ID, displayStation, isWakeBedActive } from './np-display';
 import { npFormatText, npLiveText } from './np-labels';
 import { stationInitials } from './station-display';
 import { urlDisplay } from './url';
@@ -41,6 +41,7 @@ export interface NowPlayingRefs {
   npStreamHost: HTMLElement;
   npHome: HTMLAnchorElement;
   npHomeHost: HTMLElement;
+  npReportBroken: HTMLButtonElement;
   npFav: HTMLElement;
   npPlay: HTMLElement;
 }
@@ -171,4 +172,7 @@ export function renderNowPlaying(
   } else {
     refs.npHome.hidden = true;
   }
+
+  refs.npReportBroken.hidden = !s.id || s.id === SILENT_BED_ID;
+  refs.npReportBroken.disabled = !s.id || s.id === SILENT_BED_ID;
 }

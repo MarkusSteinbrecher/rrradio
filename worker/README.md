@@ -47,6 +47,7 @@ call per hour regardless of traffic.
 | `/api/totals` | `{ total, total_events, range_days }` |
 | `/api/top-stations` | top 20 from `play: <name>` events |
 | `/api/errors` | top 20 from `error: <name>` events; `title` carries the error message |
+| `/api/reports` | top 20 from `report-broken: <name>` events; `title` carries station id, stream host, platform, app version, and reason |
 | `/api/tabs` | counts for `tab/<browse\|fav\|recent\|playing>` |
 | `/api/genres` | counts for `genre/<all\|jazz\|...>` |
 | `/api/favorites` | top 20 from `favorite: <name>` events |
@@ -54,7 +55,7 @@ call per hour regardless of traffic.
 | `/api/browsers` | top 10 browser shares (GC `/stats/browsers`) |
 | `/api/systems` | top 10 OS shares (GC `/stats/systems`) |
 | `/api/debug` | raw upstream `/stats/total` body — surfaces which fields this GC account/version actually exposes |
-| `/api/everything` | one call returns totals + stations + favorites + errors + tabs + genres + locations + browsers + systems. Sequential internally with 300 ms sleeps to stay under GC's 4 req/s limit. |
+| `/api/everything` | one call returns totals + stations + favorites + errors + reports + tabs + genres + locations + browsers + systems. Sequential internally with 300 ms sleeps to stay under GC's 4 req/s limit. |
 
 All admin endpoints accept `?days=N` (1–90, default 7). All responses
 cache 5 min at the Cloudflare edge.

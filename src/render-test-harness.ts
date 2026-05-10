@@ -68,6 +68,7 @@ export const NP_FRAGMENT = `
   <a id="np-home" href="#" hidden>
     <span id="np-home-host">—</span>
   </a>
+  <button id="np-report-broken" hidden></button>
   <button id="np-fav"></button>
   <button id="np-play"></button>
 </section>

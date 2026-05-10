@@ -113,6 +113,15 @@ describe('CORS', () => {
     const res = await call('/api/totals', { method: 'POST' });
     expect(res.status).toBe(405);
   });
+
+  it('allows public broken-station report preflight for POST', async () => {
+    const res = await call('/api/public/report-broken', {
+      method: 'OPTIONS',
+      headers: { Origin: 'https://rrradio.org' },
+    });
+    expect(res.status).toBe(204);
+    expect(res.headers.get('Access-Control-Allow-Methods')).toContain('POST');
+  });
 });
 
 describe('admin auth', () => {
@@ -196,6 +205,51 @@ describe('public endpoints', () => {
     const body = await json(res);
     expect(body.total).toBe(1234);
     expect(body.range_days).toBe(30);
+  });
+
+  it('POST /api/public/report-broken records a structured GoatCounter event', async () => {
+    const calls: UpstreamCall[] = [];
+    stubFetch(async (call) => {
+      calls.push(call);
+      return new Response(null, { status: 204 });
+    });
+
+    const res = await call('/api/public/report-broken', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Origin: 'https://rrradio.org' },
+      body: JSON.stringify({
+        stationId: 'fm4',
+        stationName: 'FM4',
+        streamUrl: 'https://example.com/live.mp3?token=private',
+        platform: 'web',
+        appVersion: 'abc123',
+        reason: 'MediaError: network',
+        source: 'manual',
+      }),
+    });
+
+    expect(res.status).toBe(202);
+    expect(res.headers.get('Cache-Control')).toBe('no-store');
+    expect(calls).toHaveLength(1);
+    const url = new URL(calls[0].url);
+    expect(url.origin).toBe('https://test.goatcounter.com');
+    expect(url.pathname).toBe('/count');
+    expect(url.searchParams.get('p')).toBe('report-broken: FM4');
+    expect(url.searchParams.get('e')).toBe('1');
+    expect(url.searchParams.get('t')).toContain('station=fm4');
+    expect(url.searchParams.get('t')).toContain('host=example.com');
+    expect(url.searchParams.get('t')).not.toContain('token=private');
+  });
+
+  it('POST /api/public/report-broken rejects missing station id', async () => {
+    const res = await call('/api/public/report-broken', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ stationName: 'No ID' }),
+    });
+    expect(res.status).toBe(400);
+    const body = await json(res);
+    expect(body.error).toBe('stationId required');
   });
 
   it('returns 404 for unknown public paths', async () => {

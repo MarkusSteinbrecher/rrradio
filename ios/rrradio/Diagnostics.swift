@@ -118,3 +118,41 @@ func diagnosticRecordAsync(_ category: String, _ message: String, details: [Stri
         Diagnostics.shared.record(category, message, details: details)
     }
 }
+
+struct BrokenStationReporter {
+    private static let endpoint = URL(string: "https://rrradio-stats.markussteinbrecher.workers.dev/api/public/report-broken")!
+
+    static func report(station: Station, playbackState: AudioPlayer.State) async throws {
+        var request = URLRequest(url: endpoint)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try JSONSerialization.data(withJSONObject: [
+            "stationId": station.id,
+            "stationName": station.name,
+            "streamUrl": station.streamUrl.absoluteString,
+            "platform": "ios",
+            "appVersion": appVersion,
+            "reason": playbackReason(playbackState),
+            "source": "manual",
+        ])
+
+        let (_, response) = try await URLSession.shared.data(for: request)
+        guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
+            throw URLError(.badServerResponse)
+        }
+    }
+
+    private static func playbackReason(_ state: AudioPlayer.State) -> String {
+        if case let .error(message) = state {
+            return String(message.prefix(160))
+        }
+        return ""
+    }
+
+    private static var appVersion: String {
+        let info = Bundle.main.infoDictionary
+        let version = info?["CFBundleShortVersionString"] as? String ?? "unknown"
+        let build = info?["CFBundleVersion"] as? String ?? "unknown"
+        return "\(version) (\(build))"
+    }
+}

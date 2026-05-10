@@ -612,6 +612,7 @@
             backlog,
             listCard('top stations', all.stations.items),
             listCard('favorites added', all.favorites.items),
+            listCard('broken reports', all.reports?.items ?? [], { showSub: true }),
             listCard('errors', all.errors.items, { showSub: true }),
             listCard('top countries', all.locations.items, { showSub: true }),
             listCard('tabs', all.tabs.items),

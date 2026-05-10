@@ -15,11 +15,18 @@ struct NowPlayingView: View {
     @State private var pane: Pane = .now
     @State private var showingWakeAlarm = false
     @State private var showingSleepTimer = false
+    @State private var isReportingBrokenStation = false
+    @State private var brokenReportStatus: BrokenReportStatus?
 
     private enum Pane: Hashable {
         case now
         case program
         case lyrics
+    }
+
+    private enum BrokenReportStatus: Equatable {
+        case sent
+        case failed
     }
 
     var body: some View {
@@ -41,6 +48,9 @@ struct NowPlayingView: View {
             SleepTimerView()
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
+        }
+        .onChange(of: player.current?.id) { _, _ in
+            brokenReportStatus = nil
         }
     }
 
@@ -1017,6 +1027,21 @@ struct NowPlayingView: View {
                     detailRow(locale.text(.format), formatDetailText)
                     detailRow(locale.text(.genres), genresDetailText)
                     detailRow(locale.text(.metadata), player.current?.metadata ?? player.current?.status ?? locale.text(.stream))
+                    if let station = player.current {
+                        Button {
+                            Task { await reportBroken(station) }
+                        } label: {
+                            Label(brokenReportTitle, systemImage: brokenReportIcon)
+                                .font(.system(size: 11, weight: .semibold, design: .monospaced))
+                                .textCase(.uppercase)
+                                .tracking(1.0)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.top, 4)
+                        }
+                        .buttonStyle(.plain)
+                        .foregroundStyle(brokenReportColor)
+                        .disabled(isReportingBrokenStation)
+                    }
                 }
                 .padding(.vertical, 12)
                 .transition(.opacity.combined(with: .move(edge: .top)))
@@ -1132,6 +1157,75 @@ struct NowPlayingView: View {
             .lineLimit(1)
         }
         .font(.system(size: 11, weight: .medium, design: .monospaced))
+    }
+
+    private var brokenReportTitle: String {
+        if isReportingBrokenStation {
+            return "Sending report"
+        }
+        switch brokenReportStatus {
+        case .sent:
+            return "Report sent"
+        case .failed:
+            return "Report failed"
+        case nil:
+            return "Report broken station"
+        }
+    }
+
+    private var brokenReportIcon: String {
+        if isReportingBrokenStation {
+            return "paperplane"
+        }
+        switch brokenReportStatus {
+        case .sent:
+            return "checkmark.circle.fill"
+        case .failed:
+            return "exclamationmark.triangle.fill"
+        case nil:
+            return "exclamationmark.triangle"
+        }
+    }
+
+    private var brokenReportColor: Color {
+        switch brokenReportStatus {
+        case .sent:
+            return RrradioTheme.accent
+        case .failed:
+            return RrradioTheme.favoriteFill
+        case nil:
+            return RrradioTheme.ink2
+        }
+    }
+
+    @MainActor
+    private func reportBroken(_ station: Station) async {
+        guard !isReportingBrokenStation else { return }
+        isReportingBrokenStation = true
+        brokenReportStatus = nil
+
+        do {
+            try await BrokenStationReporter.report(station: station, playbackState: player.state)
+            brokenReportStatus = .sent
+            diagnosticRecord(
+                "report",
+                "broken station sent",
+                details: ["station": station.name, "stationID": station.id],
+            )
+        } catch {
+            brokenReportStatus = .failed
+            diagnosticRecord(
+                "report",
+                "broken station failed",
+                details: [
+                    "station": station.name,
+                    "stationID": station.id,
+                    "error": error.localizedDescription,
+                ],
+            )
+        }
+
+        isReportingBrokenStation = false
     }
 
     private var favoriteIcon: String {

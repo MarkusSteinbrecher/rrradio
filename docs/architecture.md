@@ -58,7 +58,8 @@ src/
 
 worker/
   src/index.ts        — Cloudflare Worker (GoatCounter proxy + BBC
-                        proxy + broadcaster CORS proxy with allowlist).
+                        proxy + broadcaster CORS proxy with allowlist +
+                        anonymous broken-station reports).
   src/index.test.ts   — 32 vitest cases (CORS / auth / allowlist / etc).
 
 ios/                  — SwiftUI + AVFoundation app (Phase 2).
