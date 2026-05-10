@@ -31,7 +31,7 @@ struct AboutContentView: View {
                         Text("r r r a d i o . o r g")
                             .font(.system(size: 30, weight: .medium))
                             .foregroundStyle(RrradioTheme.ink)
-                        Text("Minimal, ad-free internet radio.")
+                        Text("A simple internet radio app, no ads, no userdata collection.")
                             .font(.system(size: 15))
                             .foregroundStyle(RrradioTheme.ink3)
                     }
