@@ -26,6 +26,9 @@ targets:
           - "Info.plist"
     resources:
       - path: rrradio/Resources/Assets.xcassets
+      - path: rrradio/Resources/stations.fts5.db
+    dependencies:
+      - sdk: libsqlite3.tbd
     info:
       path: rrradio/Resources/Info.plist
       properties:

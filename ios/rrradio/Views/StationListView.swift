@@ -91,6 +91,7 @@ struct StationListView: View {
     @FocusState private var searchFocused: Bool
 
     private let stationPageSize = 220
+    private let searchResultLimit = 5000
     private let statusCollapseDistance: CGFloat = 26
     private let filterCollapseDistance: CGFloat = 52
     private let browseControlsExpandedHeight: CGFloat = 78
@@ -1267,16 +1268,91 @@ struct StationListView: View {
         let selectedCountry = selectedCountry
         let selectedTag = selectedTag
         let stations = stations
+        let catalogStations = allStations
+        let customStations = library.customStations
+        let searchIndex = catalog.searchIndex
+        let source = source
+        let checkedOnly = checkedOnly
+        let radioBrowserStations = radioBrowserStations
+        let searchResultLimit = searchResultLimit
         filterTask?.cancel()
         filterTask = Task.detached(priority: .userInitiated) {
-            let matches = stations.filter {
-                stationMatches($0, query: query)
-                    && stationMatchesFilters($0, country: selectedCountry, tag: selectedTag)
+            let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
+            let matches: [Station]
+            if source == .all,
+               !trimmedQuery.isEmpty,
+               let searchIndex,
+               searchIndex.stationCount == catalogStations.count {
+                matches = Self.searchIndexedStations(
+                    query: trimmedQuery,
+                    selectedCountry: selectedCountry,
+                    selectedTag: selectedTag,
+                    checkedOnly: checkedOnly,
+                    catalogStations: catalogStations,
+                    customStations: customStations,
+                    radioBrowserStations: radioBrowserStations,
+                    searchIndex: searchIndex,
+                    limit: searchResultLimit,
+                )
+            } else {
+                let searchStations = source == .all && !trimmedQuery.isEmpty
+                    ? Self.uniqueStations(stations + customStations)
+                    : stations
+                matches = searchStations.filter {
+                    stationMatches($0, query: query)
+                        && stationMatchesFilters($0, country: selectedCountry, tag: selectedTag)
+                }
             }
             guard !Task.isCancelled else { return }
             await MainActor.run {
                 filteredStations = matches
             }
+        }
+    }
+
+    nonisolated private static func searchIndexedStations(
+        query: String,
+        selectedCountry: String?,
+        selectedTag: String?,
+        checkedOnly: Bool,
+        catalogStations: [Station],
+        customStations: [Station],
+        radioBrowserStations: [Station],
+        searchIndex: SearchIndex,
+        limit: Int,
+    ) -> [Station] {
+        let stationsByID = Dictionary(uniqueKeysWithValues: catalogStations.map { ($0.id, $0) })
+        let catalogMatches: [Station]
+        do {
+            catalogMatches = try searchIndex.search(query: query, limit: limit).compactMap { hit in
+                guard let station = stationsByID[hit.stationID] else { return nil }
+                guard !checkedOnly || station.status != nil else { return nil }
+                guard stationMatchesFilters(station, country: selectedCountry, tag: selectedTag) else { return nil }
+                return station
+            }
+        } catch {
+            diagnosticRecordAsync("search", "fts failed", details: ["error": String(describing: error)])
+            let fallbackStations = uniqueStations(catalogStations + customStations + (checkedOnly ? [] : radioBrowserStations))
+            return fallbackStations.filter {
+                (!checkedOnly || $0.status != nil)
+                    && stationMatches($0, query: query)
+                    && stationMatchesFilters($0, country: selectedCountry, tag: selectedTag)
+            }
+        }
+
+        let sideMatches = (customStations + (checkedOnly ? [] : radioBrowserStations)).filter {
+            stationMatches($0, query: query)
+                && stationMatchesFilters($0, country: selectedCountry, tag: selectedTag)
+        }
+        return uniqueStations(catalogMatches + sideMatches)
+    }
+
+    nonisolated private static func uniqueStations(_ stations: [Station]) -> [Station] {
+        var seen = Set<String>()
+        return stations.filter { station in
+            if seen.contains(station.id) { return false }
+            seen.insert(station.id)
+            return true
         }
     }
 

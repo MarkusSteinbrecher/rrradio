@@ -52,6 +52,7 @@ final class Catalog {
     private let fetch: CatalogDataFetcher
     private let cacheURL: URL
     private let url: URL
+    let searchIndex: SearchIndex?
 
     /// Production callers use the no-arg init; tests inject a custom
     /// `fetch` closure + a temp `cacheURL` so the URL-session fallback
@@ -64,6 +65,7 @@ final class Catalog {
         self.url = url
         self.fetch = fetch
         self.cacheURL = cacheURL ?? Self.defaultCacheURL
+        searchIndex = SearchIndex.bundled()
     }
 
     /// Idempotent — loads the catalog once per app session. Subsequent

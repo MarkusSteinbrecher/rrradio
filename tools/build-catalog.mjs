@@ -25,6 +25,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse as parseYaml } from 'yaml';
+import { buildFtsDatabase } from './build-catalog-fts.mjs';
 import { fetchByUuid } from './rb-client.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -206,12 +207,15 @@ const payload = {
 };
 writeFileSync(outPath, JSON.stringify(payload, null, 2) + '\n');
 
+const ftsPath = buildFtsDatabase(built, { log: false });
+
 const summary = Object.entries(counts.byStatus)
   .map(([k, v]) => `${k}=${v}`)
   .join(', ');
 console.log(
   `catalog: ${counts.published}/${counts.total} stations published → public/stations.json (${summary})`,
 );
+console.log(`catalog: SQLite FTS5 index → ${ftsPath.replace(`${root}/`, '')}`);
 if (driftWarnings.length > 0) {
   console.log(`catalog: ${driftWarnings.length} drift warning(s) — run \`npm run check-drift\` for details`);
   for (const w of driftWarnings.slice(0, 5)) console.log(`  · ${w}`);

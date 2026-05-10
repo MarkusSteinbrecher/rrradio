@@ -16,6 +16,7 @@
     "test:e2e:install": "playwright install --with-deps chromium",
     "typecheck": "tsc --noEmit",
     "catalog": "node tools/build-catalog.mjs",
+    "catalog:fts": "node tools/build-catalog-fts.mjs",
     "probe": "node tools/probe-station.mjs",
     "candidates": "node tools/candidates.mjs",
     "validate-catalog": "node tools/validate-catalog.mjs",
