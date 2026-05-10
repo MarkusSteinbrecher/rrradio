@@ -855,9 +855,11 @@ struct StationListView: View {
                     Button(role: .destructive) {
                         removeFavorite(station)
                     } label: {
-                        Label(locale.text(.removeFavorite), systemImage: "trash")
+                        Image(systemName: "trash")
+                            .frame(width: 58, height: 58)
                     }
                     .tint(.red)
+                    .accessibilityLabel(locale.text(.removeFavorite))
                 }
                 .moveDisabled(!canReorderFavorites)
             }
