@@ -63,7 +63,6 @@ struct StationListView: View {
     @State private var searchText = ""
     @State private var query = ""
     @State private var source: StationSource = .all
-    @State private var librarySource: StationSource = .favorites
     @State private var showingSettings = false
     @State private var showingMap = false
     @State private var showingNowPlaying = false
@@ -174,7 +173,7 @@ struct StationListView: View {
     private var visibleStations: [Station] { Array(filteredStations.prefix(displayLimit)) }
     private var hasActiveFilters: Bool { selectedCountry != nil || selectedTag != nil }
     private var isFavoritesPage: Bool {
-        tab == .library && source == .favorites
+        tab == .favorites && source == .favorites
     }
     private var filterSignature: String {
         [
@@ -285,22 +284,12 @@ struct StationListView: View {
             updateFavoriteNowPlayingPolling()
         }
         .onChange(of: tab) { _, value in
-            switch value {
-            case .browse:
-                source = .all
-            case .library:
-                source = librarySource
-            }
+            source = stationSource(for: value)
         }
         .onChange(of: source) { _, value in
             resetStationDisplayLimit()
             listScrollOffset = 0
-            if value == .all {
-                tab = .browse
-            } else {
-                librarySource = value
-                tab = .library
-            }
+            tab = appTab(for: value)
         }
         .onChange(of: query) { _, _ in
             resetStationDisplayLimit()
@@ -359,16 +348,52 @@ struct StationListView: View {
         let vertical = value.predictedEndTranslation.height
         guard abs(horizontal) >= pageSwipeThreshold, abs(horizontal) > abs(vertical) * 1.4 else { return }
 
-        if tab == .browse, horizontal < 0 {
+        if tab == .favorites, horizontal < 0 {
+            return
+        }
+
+        if horizontal < 0, let next = nextTab(after: tab) {
             dismissSearch()
             withAnimation(.snappy) {
-                tab = .library
+                tab = next
             }
-        } else if tab == .library, horizontal > 0 {
+        } else if horizontal > 0, let previous = previousTab(before: tab) {
             dismissSearch()
             withAnimation(.snappy) {
-                tab = .browse
+                tab = previous
             }
+        }
+    }
+
+    private func stationSource(for tab: AppTab) -> StationSource {
+        switch tab {
+        case .browse: .all
+        case .favorites: .favorites
+        case .recents: .recents
+        }
+    }
+
+    private func appTab(for source: StationSource) -> AppTab {
+        switch source {
+        case .all: .browse
+        case .favorites: .favorites
+        case .recents: .recents
+        }
+    }
+
+    private func nextTab(after tab: AppTab) -> AppTab? {
+        switch tab {
+        case .browse: .favorites
+        case .favorites: .recents
+        case .recents: nil
+        }
+    }
+
+    private func previousTab(before tab: AppTab) -> AppTab? {
+        switch tab {
+        case .browse: nil
+        case .favorites: .browse
+        case .recents: .favorites
         }
     }
 
@@ -417,28 +442,26 @@ struct StationListView: View {
     }
 
     private var collapsibleRegularControls: some View {
-        VStack(spacing: 14) {
-            topbarControlRow
-                .offset(y: -filterCollapseProgress * filterCollapseDistance)
-                .opacity(1 - filterCollapseProgress)
-            statusToolbar
-                .offset(y: -statusCollapseProgress * statusCollapseDistance)
-                .opacity(1 - statusCollapseProgress)
-        }
-        .frame(
-            height: max(0, browseControlsExpandedHeight - topbarCollapse),
-            alignment: .top,
-        )
-        .clipped()
-        .allowsHitTesting(filterCollapseProgress < 0.8)
-    }
-
-    @ViewBuilder
-    private var topbarControlRow: some View {
-        if tab == .browse {
-            filterRow
-        } else {
-            librarySegments
+        Group {
+            if tab == .browse {
+                VStack(spacing: 14) {
+                    filterRow
+                        .offset(y: -filterCollapseProgress * filterCollapseDistance)
+                        .opacity(1 - filterCollapseProgress)
+                    statusToolbar
+                        .offset(y: -statusCollapseProgress * statusCollapseDistance)
+                        .opacity(1 - statusCollapseProgress)
+                }
+                .frame(
+                    height: max(0, browseControlsExpandedHeight - topbarCollapse),
+                    alignment: .top,
+                )
+                .clipped()
+                .allowsHitTesting(filterCollapseProgress < 0.8)
+            } else {
+                statusToolbar
+                    .frame(height: 14, alignment: .center)
+            }
         }
     }
 
@@ -447,13 +470,15 @@ struct StationListView: View {
             HStack(spacing: 10) {
                 searchField
                     .frame(minWidth: 220, maxWidth: .infinity)
-                compactTopbarControlRow
-                    .frame(maxWidth: .infinity)
-                    .offset(y: -filterCollapseProgress * 38)
-                    .opacity(1 - filterCollapseProgress)
-                    .frame(width: max(0, (1 - filterCollapseProgress) * 180), alignment: .trailing)
-                    .clipped()
-                    .allowsHitTesting(filterCollapseProgress < 0.8)
+                if tab == .browse {
+                    compactFilterRow
+                        .frame(maxWidth: .infinity)
+                        .offset(y: -filterCollapseProgress * 38)
+                        .opacity(1 - filterCollapseProgress)
+                        .frame(width: max(0, (1 - filterCollapseProgress) * 180), alignment: .trailing)
+                        .clipped()
+                        .allowsHitTesting(filterCollapseProgress < 0.8)
+                }
             }
 
             statusToolbar
@@ -461,15 +486,6 @@ struct StationListView: View {
                 .opacity(1 - statusCollapseProgress)
                 .frame(height: max(0, 12 - statusCollapseProgress * 12), alignment: .top)
                 .clipped()
-        }
-    }
-
-    @ViewBuilder
-    private var compactTopbarControlRow: some View {
-        if tab == .browse {
-            compactFilterRow
-        } else {
-            librarySegments
         }
     }
 
@@ -748,17 +764,6 @@ struct StationListView: View {
                     .stroke(RrradioTheme.line)
             }
         }
-    }
-
-    private var librarySegments: some View {
-        HStack(spacing: 4) {
-            sourceButton(.favorites)
-            sourceButton(.recents)
-        }
-        .padding(4)
-        .background(RrradioTheme.bg2)
-        .overlay(Capsule().stroke(RrradioTheme.line))
-        .clipShape(Capsule())
     }
 
     private var sectionStatus: some View {
@@ -1461,34 +1466,6 @@ struct StationListView: View {
 
     private var themeIcon: String {
         colorScheme == .dark ? "moon" : "sun.max"
-    }
-
-    private func sourceButton(_ value: StationSource) -> some View {
-        Button {
-            dismissSearch()
-            source = value
-        } label: {
-            Text(sourceTitle(value))
-                .font(.system(size: 11, weight: .medium, design: .monospaced))
-                .textCase(.uppercase)
-                .tracking(1.2)
-                .lineLimit(1)
-                .minimumScaleFactor(0.75)
-                .foregroundStyle(source == value ? RrradioTheme.bg : RrradioTheme.ink3)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 8)
-                .background(source == value ? RrradioTheme.buttonFill : .clear)
-                .clipShape(Capsule())
-        }
-        .buttonStyle(.plain)
-    }
-
-    private func sourceTitle(_ value: StationSource) -> String {
-        switch value {
-        case .all: locale.text(.allStations)
-        case .favorites: locale.text(.favorites)
-        case .recents: locale.text(.recents)
-        }
     }
 
     private func circularIconButton(_ icon: String, label: String, action: @escaping () -> Void) -> some View {
