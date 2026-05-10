@@ -20,6 +20,14 @@ final class SearchIndexTests: XCTestCase {
         XCTAssertEqual(try index.search(query: "jazz", limit: 10).map(\.stationID).first, "name")
     }
 
+    func testMixedLetterNumberQueryMatchesSeparatedTokens() throws {
+        let index = try makeIndex(stations: [
+            station(id: "wdr5", name: "WDR 5", tags: ["news"], country: "DE"),
+        ])
+
+        XCTAssertEqual(try index.search(query: "wdr5", limit: 10).map(\.stationID), ["wdr5"])
+    }
+
     func testLimitIsApplied() throws {
         let index = try makeIndex(stations: [
             station(id: "one", name: "Rock One"),

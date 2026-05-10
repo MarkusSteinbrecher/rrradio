@@ -116,13 +116,57 @@ final class SearchIndex: @unchecked Sendable {
     }
 
     private static func matchQuery(for query: String) -> String {
-        query
-            .lowercased()
-            .split { !$0.isLetter && !$0.isNumber }
-            .map(String.init)
+        searchTokens(for: query)
             .filter { !$0.isEmpty }
             .map { "\"\($0)\"*" }
             .joined(separator: " ")
+    }
+
+    private static func searchTokens(for query: String) -> [String] {
+        var tokens: [String] = []
+        var current = ""
+        var currentKind: CharacterKind?
+
+        for character in query.lowercased() {
+            guard let kind = CharacterKind(character) else {
+                if !current.isEmpty {
+                    tokens.append(current)
+                    current = ""
+                    currentKind = nil
+                }
+                continue
+            }
+
+            if currentKind == kind {
+                current.append(character)
+            } else {
+                if !current.isEmpty {
+                    tokens.append(current)
+                }
+                current = String(character)
+                currentKind = kind
+            }
+        }
+
+        if !current.isEmpty {
+            tokens.append(current)
+        }
+        return tokens
+    }
+
+    private enum CharacterKind {
+        case letter
+        case number
+
+        init?(_ character: Character) {
+            if character.isLetter {
+                self = .letter
+            } else if character.isNumber {
+                self = .number
+            } else {
+                return nil
+            }
+        }
     }
 
     private static func errorMessage(_ database: OpaquePointer) -> String {

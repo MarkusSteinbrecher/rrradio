@@ -16,6 +16,7 @@ struct NowPlayingView: View {
     @State private var pane: Pane = .now
     @State private var showingWakeAlarm = false
     @State private var showingSleepTimer = false
+    @State private var showingDisableCarModeConfirmation = false
     @State private var isReportingBrokenStation = false
     @State private var brokenReportStatus: BrokenReportStatus?
 
@@ -49,6 +50,15 @@ struct NowPlayingView: View {
             SleepTimerView()
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
+        }
+        .confirmationDialog("Turn off Car Mode?", isPresented: $showingDisableCarModeConfirmation, titleVisibility: .visible) {
+            Button("Turn Off", role: .destructive) {
+                carMode.setManualEnabled(false)
+                carMode.setAutomaticEnabled(false)
+            }
+            Button(locale.text(.cancel), role: .cancel) {}
+        } message: {
+            Text("This disables manual and automatic Car Mode.")
         }
         .onChange(of: player.current?.id) { _, _ in
             brokenReportStatus = nil
@@ -289,7 +299,21 @@ struct NowPlayingView: View {
             stationDivider
                 .padding(.top, 8)
 
-            Spacer(minLength: 18)
+            Button {
+                showingDisableCarModeConfirmation = true
+            } label: {
+                Image(systemName: "car.fill")
+                    .font(.system(size: 34, weight: .semibold))
+                    .foregroundStyle(RrradioTheme.bg)
+                    .frame(width: 92, height: 92)
+                    .background(Circle().fill(RrradioTheme.accent))
+                    .shadow(color: RrradioTheme.accent.opacity(0.18), radius: 20)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Turn off Car Mode")
+            .padding(.top, 18)
+
+            Spacer(minLength: 14)
 
             ArtworkView(
                 url: player.nowPlayingCoverUrl ?? player.current?.favicon,
