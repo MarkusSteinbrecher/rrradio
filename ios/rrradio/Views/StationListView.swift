@@ -84,9 +84,13 @@ struct StationListView: View {
     @State private var searchUpdateTask: Task<Void, Never>?
     @State private var radioBrowserSearchTask: Task<Void, Never>?
     @State private var favoriteNowPlaying = FavoriteNowPlayingStore()
+    @State private var listScrollOffset: CGFloat = 0
     @FocusState private var searchFocused: Bool
 
     private let stationPageSize = 220
+    private let statusCollapseDistance: CGFloat = 26
+    private let filterCollapseDistance: CGFloat = 52
+    private let browseControlsExpandedHeight: CGFloat = 78
 
     private enum ActiveFilterPicker {
         case genre
@@ -280,6 +284,7 @@ struct StationListView: View {
         }
         .onChange(of: source) { _, value in
             resetStationDisplayLimit()
+            listScrollOffset = 0
             if value == .all {
                 tab = .browse
             } else {
@@ -344,32 +349,92 @@ struct StationListView: View {
         VStack(spacing: 14) {
             brandActionsRow
             searchField
-            if tab == .browse {
-                filterRow
-            } else {
-                librarySegments
-            }
-            statusToolbar
+            collapsibleRegularControls
         }
         .topbarChrome(top: 14, bottom: 10)
+        .collapsingTopbarDivider(opacity: topbarDividerOpacity)
     }
 
     private var compactTopbar: some View {
         VStack(spacing: 8) {
             brandActionsRow
-            HStack(spacing: 10) {
-                searchField
-                    .frame(minWidth: 220)
-                if tab == .browse {
-                    compactFilterRow
-                        .frame(maxWidth: .infinity)
-                } else {
-                    librarySegments
-                }
-            }
-            statusToolbar
+            compactCollapsibleControls
         }
         .topbarChrome(top: 8, bottom: 6)
+        .collapsingTopbarDivider(opacity: topbarDividerOpacity)
+    }
+
+    private var topbarCollapse: CGFloat {
+        min(max(listScrollOffset, 0), statusCollapseDistance + filterCollapseDistance)
+    }
+
+    private var topbarDividerOpacity: CGFloat {
+        min(max(topbarCollapse / 8, 0), 1)
+    }
+
+    private var statusCollapseProgress: CGFloat {
+        min(topbarCollapse / statusCollapseDistance, 1)
+    }
+
+    private var filterCollapseProgress: CGFloat {
+        min(max((topbarCollapse - statusCollapseDistance) / filterCollapseDistance, 0), 1)
+    }
+
+    private var collapsibleRegularControls: some View {
+        VStack(spacing: 14) {
+            topbarControlRow
+                .offset(y: -filterCollapseProgress * filterCollapseDistance)
+                .opacity(1 - filterCollapseProgress)
+            statusToolbar
+                .offset(y: -statusCollapseProgress * statusCollapseDistance)
+                .opacity(1 - statusCollapseProgress)
+        }
+        .frame(
+            height: max(0, browseControlsExpandedHeight - topbarCollapse),
+            alignment: .top,
+        )
+        .clipped()
+        .allowsHitTesting(filterCollapseProgress < 0.8)
+    }
+
+    @ViewBuilder
+    private var topbarControlRow: some View {
+        if tab == .browse {
+            filterRow
+        } else {
+            librarySegments
+        }
+    }
+
+    private var compactCollapsibleControls: some View {
+        VStack(spacing: 8) {
+            HStack(spacing: 10) {
+                searchField
+                    .frame(minWidth: 220, maxWidth: .infinity)
+                compactTopbarControlRow
+                    .frame(maxWidth: .infinity)
+                    .offset(y: -filterCollapseProgress * 38)
+                    .opacity(1 - filterCollapseProgress)
+                    .frame(width: max(0, (1 - filterCollapseProgress) * 180), alignment: .trailing)
+                    .clipped()
+                    .allowsHitTesting(filterCollapseProgress < 0.8)
+            }
+
+            statusToolbar
+                .offset(y: -statusCollapseProgress * statusCollapseDistance)
+                .opacity(1 - statusCollapseProgress)
+                .frame(height: max(0, 12 - statusCollapseProgress * 12), alignment: .top)
+                .clipped()
+        }
+    }
+
+    @ViewBuilder
+    private var compactTopbarControlRow: some View {
+        if tab == .browse {
+            compactFilterRow
+        } else {
+            librarySegments
+        }
     }
 
     private var brandActionsRow: some View {
@@ -707,6 +772,9 @@ struct StationListView: View {
 
     private var stationScrollList: some View {
         ScrollView {
+            ScrollOffsetObserver(offset: $listScrollOffset)
+                .frame(width: 0, height: 0)
+
             LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
                 Section {
                     ForEach(visibleStations) { station in
@@ -787,6 +855,10 @@ struct StationListView: View {
         .scrollContentBackground(.hidden)
         .scrollDismissesKeyboard(.immediately)
         .background(RrradioTheme.bg)
+        .background {
+            ScrollOffsetObserver(offset: $listScrollOffset)
+                .frame(width: 0, height: 0)
+        }
     }
 
     private func play(_ station: Station) {
@@ -1721,6 +1793,81 @@ struct LocalStationArtworkView: View {
     }
 }
 
+private struct ScrollOffsetObserver: UIViewRepresentable {
+    @Binding var offset: CGFloat
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(offset: $offset)
+    }
+
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView(frame: .zero)
+        view.isUserInteractionEnabled = false
+        DispatchQueue.main.async {
+            context.coordinator.attach(to: view)
+        }
+        return view
+    }
+
+    func updateUIView(_ view: UIView, context: Context) {
+        context.coordinator.offset = $offset
+        DispatchQueue.main.async {
+            context.coordinator.attach(to: view)
+        }
+    }
+
+    final class Coordinator: NSObject {
+        var offset: Binding<CGFloat>
+        private weak var scrollView: UIScrollView?
+        private var observation: NSKeyValueObservation?
+
+        init(offset: Binding<CGFloat>) {
+            self.offset = offset
+        }
+
+        func attach(to view: UIView) {
+            attach(to: view, attempt: 0)
+        }
+
+        private func attach(to view: UIView, attempt: Int) {
+            guard let scrollView = view.enclosingScrollView ?? view.window?.firstDescendantScrollView else {
+                guard attempt < 8 else { return }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak self, weak view] in
+                    guard let view else { return }
+                    self?.attach(to: view, attempt: attempt + 1)
+                }
+                return
+            }
+            guard scrollView !== self.scrollView else { return }
+            self.scrollView = scrollView
+            observation = scrollView.observe(\.contentOffset, options: [.initial, .new]) { [weak self] scrollView, _ in
+                self?.offset.wrappedValue = max(0, scrollView.contentOffset.y + scrollView.adjustedContentInset.top)
+            }
+        }
+    }
+}
+
+private extension UIView {
+    var enclosingScrollView: UIScrollView? {
+        if let scrollView = self as? UIScrollView {
+            return scrollView
+        }
+        return superview?.enclosingScrollView
+    }
+
+    var firstDescendantScrollView: UIScrollView? {
+        if let scrollView = self as? UIScrollView {
+            return scrollView
+        }
+        for subview in subviews {
+            if let scrollView = subview.firstDescendantScrollView {
+                return scrollView
+            }
+        }
+        return nil
+    }
+}
+
 private extension String {
     var nilIfEmpty: String? {
         isEmpty ? nil : self
@@ -1748,5 +1895,15 @@ private extension View {
             .padding(.top, top)
             .padding(.bottom, bottom)
             .background(RrradioTheme.bg)
+    }
+
+    func collapsingTopbarDivider(opacity: CGFloat) -> some View {
+        self
+            .overlay(alignment: .bottom) {
+                Rectangle()
+                    .fill(RrradioTheme.line)
+                    .frame(height: 1)
+                    .opacity(opacity)
+            }
     }
 }
