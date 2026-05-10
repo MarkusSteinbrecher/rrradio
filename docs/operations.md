@@ -95,9 +95,43 @@ Privacy-friendly pageview + event analytics. No cookies, no consent banner, no u
 | `add-custom-station` | user submits the Add sheet |
 | `search` | debounced 300ms; query content is **not** sent |
 | `genre/<all\|jazz\|...>` | user picks from the genre dropdown |
+| `country/<cc>` | user picks a country filter |
+| `mode/<map\|list\|none>` | user changes Browse mode |
+| `curated/<on\|off>` | user toggles curated-only filtering |
+| `map-view/<on\|off>` | user toggles the station map |
+| `theme/<system\|light\|dark>` | user changes theme |
+| `wake/arm` / `wake/disarm` / `wake/fire` / `wake/play-failed` | wake-to-radio lifecycle; title carries local fire timing or station name |
+| `backup-export` / `backup-import` | user exports/imports local favorites/custom stations; title carries counts only |
+| `open-in/show` / `open-spotify` / `open-apple-music` / `open-youtube-music` | user opens a music-service search from Now Playing; no track title is sent |
+| `lock-skip-next` / `lock-skip-prev` | user skips via Media Session controls; title carries the target station name |
 | `np-details/open` / `np-details/close` | user toggles the details panel on Now Playing |
 
 To add another event, call `track('event-name', 'optional title')` from the right hook point.
+
+Avoid adding events for high-frequency success paths such as every metadata poll, every cover-art lookup, or every playback rate tick. These make production debugging noisier without explaining failures. Prefer coarse lifecycle events and explicit error/report events. Do not send full stream URLs, search queries, stack traces, track titles, artist names, or arbitrary user-entered strings unless the user explicitly invokes an export/share flow.
+
+## Storage and retention
+
+**Web localStorage**
+
+| Key | Data | Retention |
+|---|---|---|
+| `rrradio.favorites.v2` | favorite station snapshots | until site data is cleared |
+| `rrradio.recents.v2` | 12 most recent station snapshots | capped at 12, until site data is cleared |
+| `rrradio.custom.v1` | custom station snapshots, including user-entered stream URLs | until deleted or site data is cleared |
+| `rrradio.wake.v1` | one armed wake-to-radio station/time snapshot | until fired, disarmed, or site data is cleared |
+| `rrradio.wake.lastTime.v1` | last wake time only | until site data is cleared |
+| theme / UI preference keys | non-sensitive UI choices | until site data is cleared |
+
+**iOS local storage**
+
+| Store | Data | Retention |
+|---|---|---|
+| `UserDefaults` library keys | favorites, recents capped at 12, custom stations | until deleted or app removal |
+| Catalog cache | latest `stations.json` payload in Caches | OS-managed cache lifetime |
+| Listening history file | station sessions; optional track artist/title only when the user selects track-level history | off by default; 90 days by default when enabled; user can choose 30 days, 1 year, or forever |
+| Diagnostics | recent app operational events, when the user enables Collect Diagnostics | off by default; capped at 100 events and 14 days; turning it off clears local diagnostics; copyable by the user from Settings |
+| CloudKit private database | favorites, custom stations, and preferences only | until the user disables/removes iCloud data; listening-history records and diagnostics are not synced |
 
 ## Admin dashboard
 

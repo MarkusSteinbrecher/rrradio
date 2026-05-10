@@ -307,13 +307,22 @@ private struct SettingsPageView: View {
     private var diagnosticsSection: some View {
         VStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 8) {
-                Text("Local troubleshooting log")
-                    .font(.system(size: 15, weight: .medium))
-                    .foregroundStyle(RrradioTheme.ink)
-                Text("Stored only on this device. Share it when a tester reports playback, wake, catalog, or metadata issues.")
-                    .font(.system(size: 12))
-                    .foregroundStyle(RrradioTheme.ink3)
-                    .lineLimit(3)
+                Toggle(isOn: Binding(
+                    get: { diagnostics.isEnabled },
+                    set: { diagnostics.isEnabled = $0 },
+                )) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Collect Diagnostics")
+                            .font(.system(size: 15, weight: .medium))
+                            .foregroundStyle(RrradioTheme.ink)
+                        Text("Off by default. Stores a local troubleshooting log on this device so you can share it with the app owner when issues happen.")
+                            .font(.system(size: 12))
+                            .foregroundStyle(RrradioTheme.ink3)
+                            .lineLimit(4)
+                    }
+                }
+                .tint(RrradioTheme.accent)
+
                 Text(diagnostics.recentSummary)
                     .font(.system(size: 10, weight: .medium, design: .monospaced))
                     .foregroundStyle(RrradioTheme.ink3)
@@ -338,6 +347,7 @@ private struct SettingsPageView: View {
                     copiedDiagnostics = true
                     diagnostics.record("diagnostics", "copied")
                 }
+                .disabled(!diagnostics.isEnabled || diagnostics.events.isEmpty)
 
                 ShareLink(item: diagnostics.exportText()) {
                     Label("Share", systemImage: "square.and.arrow.up")
@@ -345,6 +355,7 @@ private struct SettingsPageView: View {
                 }
                 .buttonStyle(.bordered)
                 .tint(RrradioTheme.accent)
+                .disabled(!diagnostics.isEnabled || diagnostics.events.isEmpty)
                 .simultaneousGesture(TapGesture().onEnded {
                     diagnostics.record("diagnostics", "share opened")
                 })
@@ -353,6 +364,7 @@ private struct SettingsPageView: View {
                     diagnostics.clear()
                     copiedDiagnostics = false
                 }
+                .disabled(diagnostics.events.isEmpty)
             }
             .font(.system(size: 12, weight: .semibold, design: .monospaced))
             .padding(14)

@@ -396,9 +396,9 @@ final class AudioPlayer {
     private func metadataDiagnostics(_ metadata: NowPlayingMetadata, station: Station) -> [String: String] {
         [
             "station": station.name,
-            "artist": metadata.artist ?? "",
-            "title": metadata.title ?? "",
-            "program": metadata.programName ?? "",
+            "hasArtist": String(metadata.artist?.isEmpty == false),
+            "hasTitle": String(metadata.title?.isEmpty == false),
+            "hasProgram": String(metadata.programName?.isEmpty == false),
             "coverHost": metadata.coverUrl?.host() ?? "",
         ]
     }
@@ -426,8 +426,8 @@ final class AudioPlayer {
                     "timed metadata received",
                     details: [
                         "station": current.name,
-                        "artist": nowPlayingArtist ?? "",
-                        "title": nowPlayingTitle ?? "",
+                        "hasArtist": String(nowPlayingArtist?.isEmpty == false),
+                        "hasTitle": String(nowPlayingTitle?.isEmpty == false),
                     ],
                 )
             }
@@ -560,7 +560,7 @@ final class AudioPlayer {
                 guard let self, self.lyricsKey == key else { return }
                 self.nowPlayingLyrics = lyrics
                 self.isLyricsLoading = false
-                diagnosticRecord("lyrics", lyrics == nil ? "not found" : "loaded", details: ["artist": artist, "title": title])
+                diagnosticRecord("lyrics", lyrics == nil ? "not found" : "loaded")
             }
         }
     }
@@ -595,11 +595,11 @@ final class AudioPlayer {
             await MainActor.run { [weak self] in
                 guard let self, self.coverArtKey == key else { return }
                 guard let coverUrl else {
-                    diagnosticRecord("cover-art", "not found", details: ["artist": artist ?? "", "title": title])
+                    diagnosticRecord("cover-art", "not found")
                     return
                 }
                 self.nowPlayingCoverUrl = coverUrl
-                diagnosticRecord("cover-art", "loaded", details: ["artist": artist ?? "", "title": title, "host": coverUrl.host() ?? ""])
+                diagnosticRecord("cover-art", "loaded", details: ["host": coverUrl.host() ?? ""])
                 self.updateNowPlaying()
             }
         }

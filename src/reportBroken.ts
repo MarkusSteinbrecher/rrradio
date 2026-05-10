@@ -13,7 +13,7 @@ export async function reportBrokenStation(
   const body = {
     stationId: station.id,
     stationName: station.name,
-    streamUrl: station.streamUrl,
+    streamHost: streamHost(station.streamUrl),
     platform: 'web',
     appVersion: BUILD,
     reason: truncateErrorMessage(reason ?? ''),
@@ -27,5 +27,13 @@ export async function reportBrokenStation(
   });
   if (!res.ok) {
     throw new Error(`report failed: ${res.status}`);
+  }
+}
+
+function streamHost(streamUrl: string): string {
+  try {
+    return new URL(streamUrl).host;
+  } catch {
+    return '';
   }
 }

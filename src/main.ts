@@ -59,6 +59,7 @@ import {
   installGlobalErrorHandlers,
   reportStreamError,
   reportWorkerError,
+  truncateErrorMessage,
 } from './errors';
 import { reportBrokenStation } from './reportBroken';
 import { fmtSharePct, normalizeForSearch } from './format';
@@ -3178,7 +3179,7 @@ function openOpenInPopup() {
   $npTrackOpenInPopup.hidden = false;
   $npTrackOpenInWrap.dataset.open = 'true';
   $npTrackOpenIn.setAttribute('aria-expanded', 'true');
-  track('open-in/show', currentNP.trackTitle ?? '');
+  track('open-in/show');
 }
 function closeOpenInPopup() {
   $npTrackOpenInPopup.hidden = true;
@@ -3205,17 +3206,17 @@ window.addEventListener('resize', () => {
 });
 
 // Streaming-service deep links — count taps so we can see if anyone
-// uses them. Title carries the track string for the dashboard.
+// uses them. Track strings stay out of telemetry.
 $npTrackSpotify.addEventListener('click', () => {
-  track('open-spotify', currentNP.trackTitle ?? '');
+  track('open-spotify');
   closeOpenInPopup();
 });
 $npTrackAppleMusic.addEventListener('click', () => {
-  track('open-apple-music', currentNP.trackTitle ?? '');
+  track('open-apple-music');
   closeOpenInPopup();
 });
 $npTrackYoutubeMusic.addEventListener('click', () => {
-  track('open-youtube-music', currentNP.trackTitle ?? '');
+  track('open-youtube-music');
   closeOpenInPopup();
 });
 $npMute.addEventListener('click', () => {
@@ -3318,8 +3319,9 @@ player.subscribe((np) => {
       // structured `error/stream` event so the same regression shows up
       // in the global error feed alongside catalog/worker/runtime
       // errors. Audit #76.
-      track(`error: ${np.station.name || 'unknown'}`, reason);
-      reportStreamError(reason, np.station.id);
+      const sanitizedReason = truncateErrorMessage(reason);
+      track(`error: ${np.station.name || 'unknown'}`, sanitizedReason);
+      reportStreamError(sanitizedReason, np.station.id);
     }
   } else if (np.state !== 'error') {
     lastErrorMessage = '';

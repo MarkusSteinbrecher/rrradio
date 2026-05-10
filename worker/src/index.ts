@@ -253,6 +253,14 @@ function cleanHost(value: unknown): string {
   }
 }
 
+function cleanReportedHost(data: Record<string, unknown>): string {
+  const host = cleanToken(data.streamHost, '', 120);
+  if (host) return host;
+  // Backward compatibility for older clients. New clients send only
+  // streamHost so query strings never reach this Worker.
+  return cleanHost(data.streamUrl);
+}
+
 function cleanToken(value: unknown, fallback: string, max = 40): string {
   const cleaned = cleanField(value, max).replace(/[^a-z0-9._:-]/gi, '-');
   return cleaned || fallback;
@@ -294,7 +302,7 @@ async function reportBrokenStation(req: Request, env: Env, headers: Record<strin
   }
 
   const stationName = cleanField(data.stationName, 90) || stationId;
-  const streamHost = cleanHost(data.streamUrl);
+  const streamHost = cleanReportedHost(data);
   const platform = cleanToken(data.platform, 'unknown', 24);
   const appVersion = cleanField(data.appVersion, 48);
   const reason = cleanField(data.reason, 160);

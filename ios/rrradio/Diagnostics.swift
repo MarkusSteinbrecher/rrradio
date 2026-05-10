@@ -16,30 +16,44 @@ final class Diagnostics {
     }
 
     private enum Constants {
+        static let enabledKey = "rrradio.diagnostics.enabled.v1"
         static let storageKey = "rrradio.diagnostics.events.v1"
-        static let maxEvents = 200
+        static let maxEvents = 100
+        static let maxAge: TimeInterval = 14 * 24 * 60 * 60
+        static let maxValueLength = 120
     }
 
     private let defaults: UserDefaults
     private(set) var events: [Event] = []
+    var isEnabled: Bool {
+        didSet {
+            defaults.set(isEnabled, forKey: Constants.enabledKey)
+            if !isEnabled {
+                clear()
+            }
+        }
+    }
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
-        events = Self.readEvents(from: defaults)
+        isEnabled = defaults.bool(forKey: Constants.enabledKey)
+        events = isEnabled ? Self.readEvents(from: defaults) : []
+        if !isEnabled {
+            defaults.removeObject(forKey: Constants.storageKey)
+        }
     }
 
     func record(_ category: String, _ message: String, details: [String: String] = [:]) {
+        guard isEnabled else { return }
         let cleanDetails = details.reduce(into: [String: String]()) { result, item in
             let key = item.key.trimmingCharacters(in: .whitespacesAndNewlines)
-            let value = item.value.trimmingCharacters(in: .whitespacesAndNewlines)
+            let value = Self.cleanDetailValue(item.value)
             if !key.isEmpty, !value.isEmpty {
                 result[key] = value
             }
         }
         events.append(Event(id: UUID(), timestamp: Date(), category: category, message: message, details: cleanDetails))
-        if events.count > Constants.maxEvents {
-            events.removeFirst(events.count - Constants.maxEvents)
-        }
+        pruneEvents()
         persist()
     }
 
@@ -52,6 +66,7 @@ final class Diagnostics {
         var lines = [
             "rrradio diagnostics",
             "generated: \(Self.timestampFormatter.string(from: Date()))",
+            "collection: \(isEnabled ? "on" : "off")",
             "app: \(Self.appVersion)",
             "device: \(UIDevice.current.model) \(UIDevice.current.systemName) \(UIDevice.current.systemVersion)",
             "locale: \(Locale.current.identifier)",
@@ -68,6 +83,7 @@ final class Diagnostics {
     }
 
     var recentSummary: String {
+        if !isEnabled { return "Diagnostics collection is off." }
         if events.isEmpty { return "No diagnostic events yet." }
         return events.suffix(6).map(Self.format).joined(separator: "\n")
     }
@@ -77,12 +93,32 @@ final class Diagnostics {
         defaults.set(data, forKey: Constants.storageKey)
     }
 
+    private func pruneEvents(now: Date = Date()) {
+        let cutoff = now.addingTimeInterval(-Constants.maxAge)
+        events.removeAll { $0.timestamp < cutoff }
+        if events.count > Constants.maxEvents {
+            events.removeFirst(events.count - Constants.maxEvents)
+        }
+    }
+
     private static func readEvents(from defaults: UserDefaults) -> [Event] {
         guard let data = defaults.data(forKey: Constants.storageKey),
               let events = try? JSONDecoder().decode([Event].self, from: data) else {
             return []
         }
-        return Array(events.suffix(Constants.maxEvents))
+        let cutoff = Date().addingTimeInterval(-Constants.maxAge)
+        return Array(events.filter { $0.timestamp >= cutoff }.suffix(Constants.maxEvents))
+    }
+
+    private static func cleanDetailValue(_ raw: String) -> String {
+        let value = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+            .replacingOccurrences(of: #"\s+"#, with: " ", options: .regularExpression)
+        guard !value.isEmpty else { return "" }
+        if let url = URL(string: value), let host = url.host {
+            return host
+        }
+        if value.count <= Constants.maxValueLength { return value }
+        return String(value.prefix(Constants.maxValueLength - 1)) + "..."
     }
 
     private static func format(_ event: Event) -> String {
@@ -129,7 +165,7 @@ struct BrokenStationReporter {
         request.httpBody = try JSONSerialization.data(withJSONObject: [
             "stationId": station.id,
             "stationName": station.name,
-            "streamUrl": station.streamUrl.absoluteString,
+            "streamHost": station.streamUrl.host() ?? "",
             "platform": "ios",
             "appVersion": appVersion,
             "reason": playbackReason(playbackState),
