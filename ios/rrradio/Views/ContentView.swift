@@ -91,9 +91,6 @@ struct ContentView: View {
         case .favorites:
             tab = .favorites
             didApplyLandingPreference = true
-        case .recents:
-            tab = .recents
-            didApplyLandingPreference = true
         case .station:
             guard !landingStationID.isEmpty else {
                 tab = .browse
@@ -142,7 +139,6 @@ struct ContentView: View {
 enum AppTab {
     case browse
     case favorites
-    case recents
 }
 
 private struct BottomTabBar: View {
@@ -152,7 +148,6 @@ private struct BottomTabBar: View {
     var body: some View {
         HStack(spacing: 0) {
             tabButton(.browse, icon: "globe", title: locale.text(.browse))
-            tabButton(.recents, icon: "clock", title: locale.text(.recents))
             tabButton(.favorites, icon: "heart", title: locale.text(.favorites))
         }
         .background(RrradioTheme.bg)

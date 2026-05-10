@@ -385,6 +385,32 @@ struct StationListView: View {
         }
     }
 
+    private func toggleRecentsFilter() {
+        let wasShowingRecents = source == .recents
+        dismissSearch()
+        activeFilterPicker = nil
+        selectedCountry = nil
+        selectedTag = nil
+        checkedOnly = wasShowingRecents
+        setSource(wasShowingRecents ? .all : .recents, animated: true)
+    }
+
+    private func toggleCheckedFilter() {
+        let wasShowingRecents = source == .recents
+        source = .all
+        dismissSearch()
+        checkedOnly = wasShowingRecents ? true : !checkedOnly
+        activeFilterPicker = nil
+    }
+
+    private func showBrowseFilters() {
+        if source == .recents {
+            checkedOnly = false
+        }
+        source = .all
+        dismissSearch()
+    }
+
     private func updatePageTransitionDirection(from oldTab: AppTab, to newTab: AppTab) {
         guard oldTab != newTab else { return }
         pageTransitionDirection = tabPosition(newTab) > tabPosition(oldTab) ? .forward : .backward
@@ -394,7 +420,6 @@ struct StationListView: View {
         switch tab {
         case .browse: .all
         case .favorites: .favorites
-        case .recents: .recents
         }
     }
 
@@ -402,15 +427,14 @@ struct StationListView: View {
         switch source {
         case .all: .browse
         case .favorites: .favorites
-        case .recents: .recents
+        case .recents: .browse
         }
     }
 
     private func tabPosition(_ tab: AppTab) -> Int {
         switch tab {
         case .browse: 0
-        case .recents: 1
-        case .favorites: 2
+        case .favorites: 1
         }
     }
 
@@ -492,7 +516,7 @@ struct StationListView: View {
                         .frame(maxWidth: .infinity)
                         .offset(y: -filterCollapseProgress * 38)
                         .opacity(1 - filterCollapseProgress)
-                        .frame(width: max(0, (1 - filterCollapseProgress) * 180), alignment: .trailing)
+                        .frame(width: max(0, (1 - filterCollapseProgress) * 220), alignment: .trailing)
                         .clipped()
                         .allowsHitTesting(filterCollapseProgress < 0.8)
                 }
@@ -604,21 +628,25 @@ struct StationListView: View {
         GeometryReader { proxy in
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .top, spacing: 18) {
+                    filterCell(locale.text(.recents)) {
+                        circularFilterButton(
+                            icon: "clock",
+                            active: source == .recents,
+                        ) {
+                            toggleRecentsFilter()
+                        }
+                    }
                     filterCell(locale.text(.checked)) {
                         circularFilterButton(
                             icon: "star.fill",
                             active: source == .all && checkedOnly,
                         ) {
-                            source = .all
-                            dismissSearch()
-                            checkedOnly.toggle()
-                            activeFilterPicker = nil
+                            toggleCheckedFilter()
                         }
                     }
                     filterCell(locale.text(.news)) {
                         circularFilterButton(icon: "newspaper", active: selectedTag == "news") {
-                            source = .all
-                            dismissSearch()
+                            showBrowseFilters()
                             selectedTag = selectedTag == "news" ? nil : "news"
                             activeFilterPicker = nil
                         }
@@ -628,8 +656,7 @@ struct StationListView: View {
                             icon: "music.note",
                             active: activeFilterPicker == .genre || (selectedTag != nil && selectedTag != "news"),
                         ) {
-                            source = .all
-                            dismissSearch()
+                            showBrowseFilters()
                             activeFilterPicker = activeFilterPicker == .genre ? nil : .genre
                         }
                     }
@@ -638,15 +665,13 @@ struct StationListView: View {
                             icon: "flag",
                             active: activeFilterPicker == .country || selectedCountry != nil,
                         ) {
-                            source = .all
-                            dismissSearch()
+                            showBrowseFilters()
                             activeFilterPicker = activeFilterPicker == .country ? nil : .country
                         }
                     }
                     filterCell(locale.text(.map)) {
                         circularFilterButton(icon: "map", active: false) {
-                            source = .all
-                            dismissSearch()
+                            showBrowseFilters()
                             activeFilterPicker = nil
                             showingMap = true
                         }
@@ -674,19 +699,23 @@ struct StationListView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 11) {
                 circularFilterButton(
+                    icon: "clock",
+                    active: source == .recents,
+                ) {
+                    toggleRecentsFilter()
+                }
+                .accessibilityLabel(locale.text(.recents))
+
+                circularFilterButton(
                     icon: "star.fill",
                     active: source == .all && checkedOnly,
                 ) {
-                    source = .all
-                    dismissSearch()
-                    checkedOnly.toggle()
-                    activeFilterPicker = nil
+                    toggleCheckedFilter()
                 }
                 .accessibilityLabel(locale.text(.checked))
 
                 circularFilterButton(icon: "newspaper", active: selectedTag == "news") {
-                    source = .all
-                    dismissSearch()
+                    showBrowseFilters()
                     selectedTag = selectedTag == "news" ? nil : "news"
                     activeFilterPicker = nil
                 }
@@ -696,8 +725,7 @@ struct StationListView: View {
                     icon: "music.note",
                     active: activeFilterPicker == .genre || (selectedTag != nil && selectedTag != "news"),
                 ) {
-                    source = .all
-                    dismissSearch()
+                    showBrowseFilters()
                     activeFilterPicker = activeFilterPicker == .genre ? nil : .genre
                 }
                 .accessibilityLabel(locale.text(.genre))
@@ -706,15 +734,13 @@ struct StationListView: View {
                     icon: "flag",
                     active: activeFilterPicker == .country || selectedCountry != nil,
                 ) {
-                    source = .all
-                    dismissSearch()
+                    showBrowseFilters()
                     activeFilterPicker = activeFilterPicker == .country ? nil : .country
                 }
                 .accessibilityLabel(locale.text(.country))
 
                 circularFilterButton(icon: "map", active: false) {
-                    source = .all
-                    dismissSearch()
+                    showBrowseFilters()
                     activeFilterPicker = nil
                     showingMap = true
                 }

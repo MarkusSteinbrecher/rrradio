@@ -3,7 +3,6 @@ import Foundation
 enum LandingPage: String, CaseIterable, Identifiable {
     case browse
     case favorites
-    case recents
     case station
 
     static let storageKey = "rrradio.landing.page.v1"
@@ -15,7 +14,6 @@ enum LandingPage: String, CaseIterable, Identifiable {
         switch self {
         case .browse: "globe"
         case .favorites: "heart"
-        case .recents: "clock"
         case .station: "play.circle"
         }
     }

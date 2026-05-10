@@ -118,7 +118,6 @@ private struct SettingsPageView: View {
                         VStack(spacing: 0) {
                             landingPageRow(.browse)
                             landingPageRow(.favorites)
-                            landingPageRow(.recents)
                             landingPageRow(.station)
                             if currentLandingPage == .station {
                                 landingStationPicker
@@ -960,7 +959,6 @@ private struct SettingsPageView: View {
         switch landingPage {
         case .browse: locale.text(.browse)
         case .favorites: locale.text(.favorites)
-        case .recents: locale.text(.recents)
         case .station: locale.text(.playStation)
         }
     }
@@ -969,7 +967,6 @@ private struct SettingsPageView: View {
         switch landingPage {
         case .browse: locale.text(.landingBrowseDetail)
         case .favorites: locale.text(.landingFavoritesDetail)
-        case .recents: locale.text(.recentsHint)
         case .station: locale.text(.landingStationDetail)
         }
     }
