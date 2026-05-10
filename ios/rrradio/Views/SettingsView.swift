@@ -4,16 +4,10 @@ import UIKit
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(LocaleController.self) private var locale
-    @Environment(ThemeController.self) private var theme
     @State private var page: SettingsPage = .settings
 
     var body: some View {
-        if let preferredColorScheme = theme.preferredColorScheme {
-            content
-                .preferredColorScheme(preferredColorScheme)
-        } else {
-            content
-        }
+        content
     }
 
     private var content: some View {

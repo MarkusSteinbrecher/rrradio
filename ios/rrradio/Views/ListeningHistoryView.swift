@@ -8,7 +8,6 @@ struct ListeningHistoryPageView: View {
     @State private var confirmingClear = false
     @State private var showingMailComposer = false
     @State private var showingShareExporter = false
-    @State private var refreshedAt = Date()
     @State private var dashboardData: ListeningDashboardData?
     @State private var isLoadingDashboard = false
 
@@ -58,17 +57,6 @@ struct ListeningHistoryPageView: View {
                     .buttonStyle(.plain)
                     .accessibilityLabel("Send listening history")
 
-                    Button {
-                        refreshedAt = Date()
-                    } label: {
-                        Image(systemName: "arrow.clockwise")
-                            .font(.system(size: 15, weight: .medium))
-                            .foregroundStyle(RrradioTheme.ink3)
-                            .frame(width: 36, height: 36)
-                            .contentShape(Circle())
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel("Refresh listening history")
                 }
 
                 Picker("Range", selection: $range) {
@@ -160,7 +148,6 @@ struct ListeningHistoryPageView: View {
     private var dashboardRefreshKey: String {
         [
             range.rawValue,
-            "\(Int(refreshedAt.timeIntervalSince1970))",
             "\(history.records.count)",
             "\(history.isEnabled)",
             history.level.rawValue,
@@ -175,7 +162,6 @@ struct ListeningHistoryPageView: View {
         }
 
         isLoadingDashboard = true
-        dashboardData = nil
 
         let records = history.records
         let interval = selectedInterval

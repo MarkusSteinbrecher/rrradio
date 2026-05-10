@@ -190,6 +190,16 @@ struct StationListView: View {
     }
 
     private var visibleStations: [Station] { Array(filteredStations.prefix(displayLimit)) }
+    private var settingsColorScheme: ColorScheme {
+        theme.preferredColorScheme ?? colorScheme
+    }
+    private var settingsColorSchemeKey: String {
+        switch settingsColorScheme {
+        case .light: "light"
+        case .dark: "dark"
+        @unknown default: "system"
+        }
+    }
     private var hasActiveFilters: Bool { selectedCountry != nil || selectedTag != nil }
     private var isFavoritesPage: Bool {
         tab == .favorites && source == .favorites
@@ -214,6 +224,8 @@ struct StationListView: View {
             .background(RrradioTheme.bg)
             .sheet(isPresented: $showingSettings) {
                 SettingsView()
+                    .id("\(theme.choice.rawValue)-\(settingsColorSchemeKey)")
+                    .preferredColorScheme(settingsColorScheme)
             }
             .sheet(isPresented: $showingMap) {
                 StationMapView(
