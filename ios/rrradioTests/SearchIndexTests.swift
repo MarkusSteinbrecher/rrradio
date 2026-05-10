@@ -28,6 +28,21 @@ final class SearchIndexTests: XCTestCase {
         XCTAssertEqual(try index.search(query: "wdr5", limit: 10).map(\.stationID), ["wdr5"])
     }
 
+    func testSearchMatchesBroadcasterAndUrlSurfaceCaseInsensitively() throws {
+        let index = try makeIndex(stations: [
+            station(
+                id: "b5",
+                name: "B5 aktuell",
+                streamUrl: URL(string: "http://streams.br.de/b5aktuell_2.m3u")!,
+                broadcaster: "br",
+                country: "DE",
+            ),
+        ])
+
+        XCTAssertEqual(try index.search(query: "BR", limit: 10).map(\.stationID), ["b5"])
+        XCTAssertEqual(try index.search(query: "br", limit: 10).map(\.stationID), ["b5"])
+    }
+
     func testLimitIsApplied() throws {
         let index = try makeIndex(stations: [
             station(id: "one", name: "Rock One"),
@@ -37,16 +52,29 @@ final class SearchIndexTests: XCTestCase {
         XCTAssertEqual(try index.search(query: "rock", limit: 1).count, 1)
     }
 
+    func testExposesIndexedStationIDs() throws {
+        let index = try makeIndex(stations: [
+            station(id: "br24", name: "BR24"),
+            station(id: "br24-aktuell", name: "BR24 aktuell"),
+        ])
+
+        XCTAssertEqual(index.stationCount, 2)
+        XCTAssertEqual(index.stationIDs, ["br24", "br24-aktuell"])
+    }
+
     private func station(
         id: String,
         name: String,
+        streamUrl: URL? = nil,
+        broadcaster: String? = nil,
         tags: [String]? = nil,
         country: String? = nil,
     ) -> Station {
         Station(
             id: id,
             name: name,
-            streamUrl: URL(string: "https://example.com/\(id)")!,
+            streamUrl: streamUrl ?? URL(string: "https://example.com/\(id)")!,
+            broadcaster: broadcaster,
             country: country,
             tags: tags,
         )
@@ -63,7 +91,7 @@ final class SearchIndexTests: XCTestCase {
         }
         try exec(
             database,
-            "CREATE VIRTUAL TABLE stations_fts USING fts5(name, tags, country, tokenize='unicode61 remove_diacritics 2');",
+            "CREATE VIRTUAL TABLE stations_fts USING fts5(name, tags, country, surface, tokenize='unicode61 remove_diacritics 2');",
         )
         try exec(
             database,
@@ -73,7 +101,8 @@ final class SearchIndexTests: XCTestCase {
         for (index, station) in stations.enumerated() {
             let rowid = index + 1
             let tags = station.tags?.joined(separator: " ") ?? ""
-            try exec(database, "INSERT INTO stations_fts(rowid, name, tags, country) VALUES(\(rowid), \(sql(station.name)), \(sql(tags)), \(sql(station.country ?? "")));")
+            let surface = stationSearchSurface(station).joined(separator: " ")
+            try exec(database, "INSERT INTO stations_fts(rowid, name, tags, country, surface) VALUES(\(rowid), \(sql(station.name)), \(sql(tags)), \(sql(station.country ?? "")), \(sql(surface)));")
             try exec(database, "INSERT INTO stations_meta(rowid, station_id, has_logo, recents_rank_hint) VALUES(\(rowid), \(sql(station.id)), 0, \(index));")
         }
         try exec(database, "COMMIT;")

@@ -7,6 +7,7 @@ struct Station: Identifiable, Hashable, Codable {
     let id: String
     let name: String
     let streamUrl: URL
+    var broadcaster: String? = nil
     // Explicit `= nil` defaults so the synthesized memberwise initializer
     // accepts test fixtures that only need a few fields, without having
     // to fill in the long tail of optionals (audit #72).
@@ -30,7 +31,7 @@ struct Station: Identifiable, Hashable, Codable {
     var featured: Bool? = nil
 
     enum CodingKeys: String, CodingKey {
-        case id, name, streamUrl, homepage, country, tags, favicon
+        case id, name, streamUrl, broadcaster, homepage, country, tags, favicon
         case bitrate, codec, listeners, metadataUrl, metadata, status
         case geo, featured
     }
@@ -52,6 +53,7 @@ extension Station {
         }
         self.streamUrl = streamUrl
 
+        broadcaster = try container.decodeIfPresent(String.self, forKey: .broadcaster)
         homepage = Self.decodeOptionalURL(.homepage, from: container)
         country = try container.decodeIfPresent(String.self, forKey: .country)
         tags = try container.decodeIfPresent([String].self, forKey: .tags)

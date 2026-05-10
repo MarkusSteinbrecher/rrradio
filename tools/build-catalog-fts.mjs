@@ -35,15 +35,20 @@ export function buildFtsDatabase(stations, { log = true } = {}) {
   const statements = [
     'PRAGMA journal_mode=OFF;',
     'PRAGMA synchronous=OFF;',
-    "CREATE VIRTUAL TABLE stations_fts USING fts5(name, tags, country, tokenize='unicode61 remove_diacritics 2');",
+    "CREATE VIRTUAL TABLE stations_fts USING fts5(name, tags, country, surface, tokenize='unicode61 remove_diacritics 2');",
     'CREATE TABLE stations_meta(rowid INTEGER PRIMARY KEY, station_id TEXT NOT NULL UNIQUE, has_logo INTEGER NOT NULL, recents_rank_hint INTEGER NOT NULL);',
     'BEGIN;',
   ];
   stations.forEach((station, index) => {
     const rowid = index + 1;
     const tags = Array.isArray(station.tags) ? station.tags.join(' ') : '';
+    const surface = [
+      station.broadcaster,
+      station.streamUrl,
+      station.homepage,
+    ].filter(Boolean).join(' ');
     statements.push(
-      `INSERT INTO stations_fts(rowid, name, tags, country) VALUES(${rowid}, ${sqlString(station.name)}, ${sqlString(tags)}, ${sqlString(station.country)});`,
+      `INSERT INTO stations_fts(rowid, name, tags, country, surface) VALUES(${rowid}, ${sqlString(station.name)}, ${sqlString(tags)}, ${sqlString(station.country)}, ${sqlString(surface)});`,
     );
     statements.push(
       `INSERT INTO stations_meta(rowid, station_id, has_logo, recents_rank_hint) VALUES(${rowid}, ${sqlString(station.id)}, ${station.favicon ? 1 : 0}, ${index});`,

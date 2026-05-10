@@ -20,6 +20,7 @@ final class SearchIndex: @unchecked Sendable {
     private let signpostLog = OSLog(subsystem: "org.rrradio.ios", category: "search")
 
     let stationCount: Int
+    let stationIDs: Set<String>
 
     static func bundled(bundle: Bundle = .main) -> SearchIndex? {
         guard let url = bundle.url(forResource: "stations", withExtension: "fts5.db") else {
@@ -46,6 +47,7 @@ final class SearchIndex: @unchecked Sendable {
         }
         database = handle
         stationCount = Self.readStationCount(handle)
+        stationIDs = Self.readStationIDs(handle)
     }
 
     deinit {
@@ -69,7 +71,7 @@ final class SearchIndex: @unchecked Sendable {
         defer { lock.unlock() }
 
         let sql = """
-        SELECT stations_meta.station_id, bm25(stations_fts, 4.0, 1.0, 0.5) AS score
+        SELECT stations_meta.station_id, bm25(stations_fts, 4.0, 1.0, 0.5, 0.25) AS score
         FROM stations_fts
         JOIN stations_meta ON stations_meta.rowid = stations_fts.rowid
         WHERE stations_fts MATCH ?
@@ -113,6 +115,22 @@ final class SearchIndex: @unchecked Sendable {
         }
         guard sqlite3_step(statement) == SQLITE_ROW else { return 0 }
         return Int(sqlite3_column_int(statement, 0))
+    }
+
+    private static func readStationIDs(_ database: OpaquePointer) -> Set<String> {
+        let sql = "SELECT station_id FROM stations_meta;"
+        var statement: OpaquePointer?
+        guard sqlite3_prepare_v2(database, sql, -1, &statement, nil) == SQLITE_OK else { return [] }
+        defer {
+            sqlite3_finalize(statement)
+        }
+
+        var ids = Set<String>()
+        while sqlite3_step(statement) == SQLITE_ROW {
+            guard let idPointer = sqlite3_column_text(statement, 0) else { continue }
+            ids.insert(String(cString: idPointer))
+        }
+        return ids
     }
 
     private static func matchQuery(for query: String) -> String {

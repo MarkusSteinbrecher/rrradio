@@ -811,7 +811,8 @@ struct StationListView: View {
                 .padding(.horizontal, 6)
                 .padding(.vertical, 6)
             }
-            .frame(width: min(UIScreen.main.bounds.width - 44, 320), height: UIScreen.main.bounds.height * 0.7)
+            .frame(width: 320)
+            .frame(maxHeight: 560)
             .background(RrradioTheme.bg2)
             .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             .overlay {
@@ -1247,12 +1248,14 @@ struct StationListView: View {
         .overlay(alignment: .top) {
             Rectangle()
                 .fill(RrradioTheme.accent)
-                .frame(width: UIScreen.main.bounds.width, height: 2)
+                .frame(maxWidth: .infinity)
+                .frame(height: 2)
         }
         .overlay(alignment: .bottom) {
             Rectangle()
                 .fill(RrradioTheme.accent)
-                .frame(width: UIScreen.main.bounds.width, height: 2)
+                .frame(maxWidth: .infinity)
+                .frame(height: 2)
         }
     }
 
@@ -1385,7 +1388,7 @@ struct StationListView: View {
             if source == .all,
                !trimmedQuery.isEmpty,
                let searchIndex,
-               searchIndex.stationCount == catalogStations.count {
+               Self.searchIndexCoversCurrentCatalog(searchIndex, catalogStations: catalogStations) {
                 matches = Self.searchIndexedStations(
                     query: trimmedQuery,
                     selectedCountry: selectedCountry,
@@ -1450,6 +1453,14 @@ struct StationListView: View {
         return uniqueStations(catalogMatches + sideMatches)
     }
 
+    nonisolated private static func searchIndexCoversCurrentCatalog(
+        _ searchIndex: SearchIndex,
+        catalogStations: [Station],
+    ) -> Bool {
+        guard searchIndex.stationCount == catalogStations.count else { return false }
+        return Set(catalogStations.map(\.id)) == searchIndex.stationIDs
+    }
+
     nonisolated private static func uniqueStations(_ stations: [Station]) -> [Station] {
         var seen = Set<String>()
         return stations.filter { station in
@@ -1488,11 +1499,12 @@ struct StationListView: View {
         let query = query.trimmingCharacters(in: .whitespacesAndNewlines)
         let tag = findGenre(selectedTag)?.rbTag ?? selectedTag
         let country = selectedCountry
+        let radioBrowserQuery = Self.radioBrowserQuery(query, country: country)
         let existingIDs = Set(stationPool.map(\.id))
         radioBrowserSearchTask = Task {
             do {
                 let fetched = try await radioBrowser.search(
-                    query: query.isEmpty ? nil : query,
+                    query: radioBrowserQuery,
                     tag: tag,
                     country: country,
                     offset: radioBrowserOffset,
@@ -1509,6 +1521,15 @@ struct StationListView: View {
             radioBrowserLoading = false
             radioBrowserSearchTask = nil
         }
+    }
+
+    nonisolated private static func radioBrowserQuery(_ query: String, country: String?) -> String? {
+        let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return nil }
+        if country != nil, normalizeForSearch(trimmed).count <= 2 {
+            return nil
+        }
+        return trimmed
     }
 
     private var searchPlaceholder: String {
@@ -1712,7 +1733,8 @@ struct StationRow: View {
         .overlay(alignment: .top) {
             Rectangle()
                 .fill(RrradioTheme.line)
-            .frame(width: UIScreen.main.bounds.width, height: 1)
+                .frame(maxWidth: .infinity)
+                .frame(height: 1)
         }
         .contentShape(Rectangle())
         .onLongPressGesture(

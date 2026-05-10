@@ -13,24 +13,38 @@ func normalizeForSearch(_ s: String) -> String {
     }
 }
 
-/// Match a station's searchable surface (name + tags + country code)
+/// Match a station's searchable surface (name + tags + country code +
+/// broadcaster + stream/homepage hosts)
 /// against a query. Empty query returns true (filter is a no-op).
 /// Both raw substring and punctuation-insensitive normalized matches are
 /// tried so "wdr5" finds "WDR 5" and "80 Station" finds "_80-Station".
 func stationMatches(_ station: Station, query: String) -> Bool {
     let q = query.trimmingCharacters(in: .whitespaces).lowercased()
     if q.isEmpty { return true }
-    if station.name.lowercased().contains(q) { return true }
-    if (station.tags ?? []).contains(where: { $0.lowercased().contains(q) }) { return true }
-    if let cc = station.country?.lowercased(), cc.contains(q) { return true }
+    let surface = stationSearchSurface(station)
+    if surface.contains(where: { $0.lowercased().contains(q) }) { return true }
 
     let qNorm = normalizeForSearch(q)
     guard !qNorm.isEmpty else { return false }
 
-    let normalizedSurface = ([station.name] + (station.tags ?? []) + [station.country ?? ""])
+    let normalizedSurface = surface
         .map(normalizeForSearch)
         .joined(separator: " ")
     if normalizedSurface.contains(qNorm) { return true }
 
     return false
+}
+
+func stationSearchSurface(_ station: Station) -> [String] {
+    var surface = [station.name]
+    surface.append(contentsOf: station.tags ?? [])
+    surface.append(station.country ?? "")
+    surface.append(station.broadcaster ?? "")
+    surface.append(station.streamUrl.host ?? "")
+    surface.append(station.streamUrl.absoluteString)
+    if let homepage = station.homepage {
+        surface.append(homepage.host ?? "")
+        surface.append(homepage.absoluteString)
+    }
+    return surface.filter { !$0.isEmpty }
 }

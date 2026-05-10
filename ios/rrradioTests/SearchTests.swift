@@ -30,13 +30,18 @@ final class SearchTests: XCTestCase {
     private func station(
         id: String = "x",
         name: String,
+        streamUrl: URL = URL(string: "https://example.com/stream")!,
+        broadcaster: String? = nil,
+        homepage: URL? = nil,
         tags: [String]? = nil,
         country: String? = nil,
     ) -> Station {
         Station(
             id: id,
             name: name,
-            streamUrl: URL(string: "https://example.com/stream")!,
+            streamUrl: streamUrl,
+            broadcaster: broadcaster,
+            homepage: homepage,
             country: country,
             tags: tags,
         )
@@ -82,6 +87,19 @@ final class SearchTests: XCTestCase {
             station(name: "Public", country: "DE"),
             query: "de",
         ))
+    }
+
+    func testBroadcasterAndUrlMatchCaseInsensitively() {
+        let station = station(
+            name: "B5 aktuell",
+            streamUrl: URL(string: "http://streams.br.de/b5aktuell_2.m3u")!,
+            broadcaster: "br",
+            homepage: URL(string: "https://www.br.de/radio/br24/index.html")!,
+            country: "DE",
+        )
+
+        XCTAssertTrue(stationMatches(station, query: "BR"))
+        XCTAssertTrue(stationMatches(station, query: "br"))
     }
 
     func testNoMatch() {

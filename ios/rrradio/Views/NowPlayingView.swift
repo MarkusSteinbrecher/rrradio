@@ -24,7 +24,12 @@ struct NowPlayingView: View {
     @State private var brokenReportStatus: BrokenReportStatus?
     @State private var showingBrokenReportAlert = false
     @State private var lastBrokenReportStation: Station?
+    let showsDismissButton: Bool
     private let offlineTint = Color(red: 1, green: 0.45, blue: 0.45)
+
+    init(showsDismissButton: Bool = true) {
+        self.showsDismissButton = showsDismissButton
+    }
 
     private enum Pane: Hashable {
         case now
@@ -110,7 +115,8 @@ struct NowPlayingView: View {
             .overlay(alignment: .top) {
                 Rectangle()
                     .fill(RrradioTheme.line)
-                    .frame(width: UIScreen.main.bounds.width, height: 1)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 1)
             }
         }
         .background(RrradioTheme.bg.ignoresSafeArea())
@@ -443,16 +449,21 @@ struct NowPlayingView: View {
                 .tracking(2)
 
             HStack {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "chevron.down")
-                        .font(.system(size: 20, weight: .medium))
-                        .foregroundStyle(RrradioTheme.ink2)
+                if showsDismissButton {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "chevron.down")
+                            .font(.system(size: 20, weight: .medium))
+                            .foregroundStyle(RrradioTheme.ink2)
+                            .frame(width: 40, height: 40)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel(locale.text(.dismissNowPlaying))
+                } else {
+                    Color.clear
                         .frame(width: 40, height: 40)
                 }
-                .buttonStyle(.plain)
-                .accessibilityLabel(locale.text(.dismissNowPlaying))
 
                 Spacer()
             }
@@ -511,7 +522,8 @@ struct NowPlayingView: View {
     private var stationDivider: some View {
         Rectangle()
             .fill(RrradioTheme.line)
-            .frame(width: UIScreen.main.bounds.width, height: 1)
+            .frame(maxWidth: .infinity)
+            .frame(height: 1)
     }
 
     @ViewBuilder
