@@ -67,6 +67,7 @@ struct StationListView: View {
     @State private var showingSettings = false
     @State private var showingMap = false
     @State private var showingNowPlaying = false
+    @State private var showingWakeAlarm = false
     @State private var timerCancelConfirmation: TimerCancelTarget?
     @State private var checkedOnly = true
     @State private var selectedCountry: String?
@@ -238,6 +239,11 @@ struct StationListView: View {
             NowPlayingView()
                 .presentationDetents([.large])
                 .presentationDragIndicator(.hidden)
+        }
+        .sheet(isPresented: $showingWakeAlarm) {
+            WakeAlarmView()
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
         }
         .confirmationDialog(
             timerCancelConfirmation?.title ?? "",
@@ -890,55 +896,63 @@ struct StationListView: View {
         cancelTarget: TimerCancelTarget,
     ) -> some View {
         HStack(spacing: 14) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 2)
-                    .fill(RrradioTheme.bg2)
-                    .overlay(RoundedRectangle(cornerRadius: 2).stroke(RrradioTheme.line))
-                Image(systemName: icon)
-                    .font(.system(size: 17, weight: .semibold))
-                    .foregroundStyle(RrradioTheme.accent)
-            }
-            .frame(width: 38, height: 38)
-
-            VStack(alignment: .leading, spacing: 3) {
-                HStack(spacing: 4) {
-                    Text(station?.name ?? locale.text(.noStation))
-                        .font(.system(size: 15, weight: .medium))
-                        .foregroundStyle(RrradioTheme.ink)
-                        .lineLimit(1)
-                    if let cc = station?.country {
-                        Text(cc.uppercased())
-                            .font(.system(size: 10.5, weight: .medium, design: .monospaced))
-                            .foregroundStyle(RrradioTheme.ink3)
-                    }
+            HStack(spacing: 14) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(RrradioTheme.bg2)
+                        .overlay(RoundedRectangle(cornerRadius: 2).stroke(RrradioTheme.line))
+                    Image(systemName: icon)
+                        .font(.system(size: 17, weight: .semibold))
+                        .foregroundStyle(RrradioTheme.accent)
                 }
+                .frame(width: 38, height: 38)
 
-                HStack(spacing: 5) {
-                    timerCapabilityStars(for: station)
-                    if cancelTarget == .sleep {
-                        Text(title.lowercased())
+                VStack(alignment: .leading, spacing: 3) {
+                    HStack(spacing: 4) {
+                        Text(station?.name ?? locale.text(.noStation))
+                            .font(.system(size: 15, weight: .medium))
+                            .foregroundStyle(RrradioTheme.ink)
                             .lineLimit(1)
+                        if let cc = station?.country {
+                            Text(cc.uppercased())
+                                .font(.system(size: 10.5, weight: .medium, design: .monospaced))
+                                .foregroundStyle(RrradioTheme.ink3)
+                        }
                     }
-                }
-                .font(.system(size: 10.5, weight: .regular, design: .monospaced))
-                .foregroundStyle(RrradioTheme.ink3)
-                .textCase(.lowercase)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .layoutPriority(1)
 
-            VStack(alignment: .leading, spacing: 3) {
-                Text(title)
-                    .foregroundStyle(RrradioTheme.accent)
-                Text(detail)
-                    .foregroundStyle(RrradioTheme.ink2)
-                    .lineLimit(1)
+                    HStack(spacing: 5) {
+                        timerCapabilityStars(for: station)
+                        if cancelTarget == .sleep {
+                            Text(title.lowercased())
+                                .lineLimit(1)
+                        }
+                    }
+                    .font(.system(size: 10.5, weight: .regular, design: .monospaced))
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .textCase(.lowercase)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .layoutPriority(1)
+
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(title)
+                        .foregroundStyle(RrradioTheme.accent)
+                    Text(detail)
+                        .foregroundStyle(RrradioTheme.ink2)
+                        .lineLimit(1)
+                }
+                .font(.system(size: 11, weight: .semibold, design: .monospaced))
+                .textCase(.uppercase)
+                .tracking(1.1)
+                .frame(width: 86, alignment: .leading)
+                .padding(.leading, 10)
             }
-            .font(.system(size: 11, weight: .semibold, design: .monospaced))
-            .textCase(.uppercase)
-            .tracking(1.1)
-            .frame(width: 86, alignment: .leading)
-            .padding(.leading, 10)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                if cancelTarget == .wake {
+                    showingWakeAlarm = true
+                }
+            }
 
             Button {
                 timerCancelConfirmation = cancelTarget

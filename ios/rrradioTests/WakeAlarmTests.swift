@@ -97,6 +97,15 @@ final class WakeAlarmTests: XCTestCase {
         XCTAssertTrue(next.keepAliveEnabled)
     }
 
+    func testKeepAliveSuppressesPauseWarning() throws {
+        let now = try date("2026-05-07 09:00")
+        let alarm = WakeAlarm(defaults: defaults, notifier: NoopWakeNotifier(), now: { now })
+
+        alarm.arm(station: station, time: "17:30", keepAliveEnabled: true)
+
+        XCTAssertFalse(alarm.shouldShowPauseWarning())
+    }
+
     func testNewWakeDefaultsNotificationsOn() throws {
         let now = try date("2026-05-07 09:00")
 

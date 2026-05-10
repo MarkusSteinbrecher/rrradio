@@ -1389,7 +1389,7 @@ struct NowPlayingView: View {
     }
 }
 
-private struct WakeAlarmView: View {
+struct WakeAlarmView: View {
     @Environment(AudioPlayer.self) private var player
     @Environment(WakeAlarm.self) private var wakeAlarm
     @Environment(LocaleController.self) private var locale
@@ -1399,38 +1399,13 @@ private struct WakeAlarmView: View {
     @State private var keepAliveEnabled = false
 
     var body: some View {
-        VStack(spacing: 18) {
-            VStack(spacing: 8) {
-                Image(systemName: wakeAlarm.isArmed ? "alarm.fill" : "alarm")
-                    .font(.system(size: 28, weight: .medium))
-                    .foregroundStyle(wakeAlarm.isArmed ? RrradioTheme.accent : RrradioTheme.ink3)
-                HStack(alignment: .firstTextBaseline, spacing: 10) {
-                    Text(locale.text(.wakeToRadio))
-                        .font(.system(size: 22, weight: .medium))
-                        .foregroundStyle(RrradioTheme.ink)
-                    if wakeAlarm.isArmed {
-                        TimelineView(.periodic(from: .now, by: 30)) { timeline in
-                            Text(WakeAlarm.formatCountdown(wakeAlarm.firesAt?.timeIntervalSince(timeline.date) ?? 0))
-                                .font(.system(size: 11, weight: .semibold, design: .monospaced))
-                                .textCase(.uppercase)
-                                .foregroundStyle(RrradioTheme.bg)
-                                .padding(.horizontal, 7)
-                                .padding(.vertical, 3)
-                                .background(Capsule().fill(RrradioTheme.accent))
-                        }
-                    }
-                }
-                Text(targetLine)
-                    .font(.system(size: 12))
-                    .foregroundStyle(RrradioTheme.ink3)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-            }
+        VStack(spacing: 20) {
+            header
 
             DatePicker(locale.text(.wakeTime), selection: $wakeDate, displayedComponents: .hourAndMinute)
                 .datePickerStyle(.wheel)
                 .labelsHidden()
-                .frame(maxHeight: 132)
+                .frame(height: 190)
 
             if wakeAlarm.notificationPermissionDenied {
                 notificationWarning
@@ -1455,47 +1430,49 @@ private struct WakeAlarmView: View {
             .disabled(wakeAlarm.isArmed)
 
             Button {
-                if wakeAlarm.isArmed {
-                    wakeAlarm.disarm()
-                    player.stopWakeKeepAlive()
-                    dismiss()
-                } else if let station = player.current {
+                if buttonSetsWake, let station = wakeTargetStation {
                     Task {
                         let notificationsAvailable = wakeAlarm.notificationsEnabled
                             ? await wakeAlarm.requestNotificationAuthorizationIfNeeded()
                             : true
-                        wakeAlarm.arm(station: station, time: timeString(from: wakeDate), keepAliveEnabled: keepAliveEnabled) { station in
+                        wakeAlarm.arm(station: station, time: selectedWakeTime, keepAliveEnabled: keepAliveEnabled) { station in
                             player.stopWakeKeepAlive()
                             player.play(station)
                         }
-                        if keepAliveEnabled, player.state != .playing {
-                            _ = player.startWakeKeepAlive()
+                        if keepAliveEnabled {
+                            if player.state != .playing {
+                                _ = player.startWakeKeepAlive()
+                            }
                         }
                         if notificationsAvailable {
                             dismiss()
                         }
                     }
+                } else if wakeAlarm.isArmed {
+                    wakeAlarm.disarm()
+                    player.stopWakeKeepAlive()
+                    dismiss()
                 }
             } label: {
                 VStack(spacing: 3) {
-                    Text(wakeAlarm.isArmed ? locale.text(.unset) : locale.text(.set))
+                    Text(buttonSetsWake ? locale.text(.set) : locale.text(.unset))
                         .font(.system(size: 14, weight: .semibold, design: .monospaced))
                         .textCase(.uppercase)
                     if wakeAlarm.isArmed {
-                        Text("\(wakeAlarm.time) . \(wakeAlarm.countdownText)")
+                        Text(buttonSubtitle)
                             .font(.system(size: 11, weight: .medium, design: .monospaced))
                             .textCase(.lowercase)
                     }
                 }
-                .foregroundStyle(wakeAlarm.isArmed ? RrradioTheme.ink : RrradioTheme.bg)
+                .foregroundStyle(buttonSetsWake ? RrradioTheme.bg : RrradioTheme.ink)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 13)
-                .background(wakeAlarm.isArmed ? RrradioTheme.bg2 : RrradioTheme.buttonFill)
-                .overlay(RoundedRectangle(cornerRadius: 6).stroke(wakeAlarm.isArmed ? RrradioTheme.line : RrradioTheme.buttonFill))
+                .background(buttonSetsWake ? RrradioTheme.buttonFill : RrradioTheme.bg2)
+                .overlay(RoundedRectangle(cornerRadius: 6).stroke(buttonSetsWake ? RrradioTheme.buttonFill : RrradioTheme.line))
                 .clipShape(RoundedRectangle(cornerRadius: 6))
             }
             .buttonStyle(.plain)
-            .disabled(!wakeAlarm.isArmed && player.current == nil)
+            .disabled(buttonSetsWake && wakeTargetStation == nil)
 
             Text(locale.text(.wakeHint))
                 .font(.system(size: 11))
@@ -1503,7 +1480,9 @@ private struct WakeAlarmView: View {
                 .multilineTextAlignment(.center)
                 .lineSpacing(3)
         }
-        .padding(24)
+        .padding(.horizontal, 24)
+        .padding(.top, 4)
+        .padding(.bottom, 24)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(RrradioTheme.bg.ignoresSafeArea())
         .onAppear {
@@ -1511,6 +1490,88 @@ private struct WakeAlarmView: View {
             keepAliveEnabled = wakeAlarm.keepAliveEnabled
             wakeAlarm.refreshNotificationAuthorization()
         }
+    }
+
+    private var header: some View {
+        VStack(spacing: 14) {
+            Image(systemName: wakeAlarm.isArmed ? "alarm.fill" : "alarm")
+                .font(.system(size: 24, weight: .medium))
+                .foregroundStyle(wakeAlarm.isArmed ? RrradioTheme.accent : RrradioTheme.ink3)
+
+            HStack(alignment: .center, spacing: 10) {
+                Text(locale.text(.wakeToRadio))
+                    .font(.system(size: 22, weight: .medium))
+                    .foregroundStyle(RrradioTheme.ink)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.85)
+
+                if wakeAlarm.isArmed {
+                    TimelineView(.periodic(from: .now, by: 30)) { timeline in
+                        Text(WakeAlarm.formatCountdown(wakeAlarm.firesAt?.timeIntervalSince(timeline.date) ?? 0))
+                            .font(.system(size: 11, weight: .semibold, design: .monospaced))
+                            .textCase(.uppercase)
+                            .foregroundStyle(RrradioTheme.bg)
+                            .padding(.horizontal, 7)
+                            .padding(.vertical, 3)
+                            .background(Capsule().fill(RrradioTheme.accent))
+                    }
+                    .fixedSize()
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+
+            stationIdentity
+                .padding(.top, 2)
+        }
+    }
+
+    @ViewBuilder
+    private var stationIdentity: some View {
+        if let station = wakeTargetStation {
+            HStack(spacing: 10) {
+                FaviconView(url: station.favicon, stationName: station.name, stationID: station.id, size: 42)
+                    .frame(width: 42, height: 42)
+                Text(station.name)
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(RrradioTheme.ink)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 10)
+            .background(RrradioTheme.bg2)
+            .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .frame(maxWidth: .infinity)
+        } else {
+            Text(locale.text(.playStationFirst))
+                .font(.system(size: 12))
+                .foregroundStyle(RrradioTheme.ink3)
+                .lineLimit(1)
+        }
+    }
+
+    private var selectedWakeTime: String {
+        timeString(from: wakeDate)
+    }
+
+    private var isEditingArmedWake: Bool {
+        wakeAlarm.isArmed && selectedWakeTime != wakeAlarm.time
+    }
+
+    private var buttonSetsWake: Bool {
+        !wakeAlarm.isArmed || isEditingArmedWake
+    }
+
+    private var buttonSubtitle: String {
+        if isEditingArmedWake {
+            return selectedWakeTime
+        }
+        return "\(wakeAlarm.time) . \(wakeAlarm.countdownText)"
+    }
+
+    private var wakeTargetStation: Station? {
+        wakeAlarm.station ?? player.current
     }
 
     private var notificationWarning: some View {
@@ -1545,16 +1606,6 @@ private struct WakeAlarmView: View {
         .background(RrradioTheme.bg2)
         .overlay(RoundedRectangle(cornerRadius: 6).stroke(RrradioTheme.accent.opacity(0.7)))
         .clipShape(RoundedRectangle(cornerRadius: 6))
-    }
-
-    private var targetLine: String {
-        if let station = wakeAlarm.station {
-            return "Armed for \(station.name)"
-        }
-        if let station = player.current {
-            return "Set an alarm for \(station.name)"
-        }
-        return locale.text(.playStationFirst)
     }
 
     private func timeString(from date: Date) -> String {

@@ -262,6 +262,7 @@ final class WakeAlarm {
 
     func shouldShowPauseWarning() -> Bool {
         guard isArmed, !defaults.bool(forKey: Keys.pauseWarningSuppressed) else { return false }
+        guard !keepAliveEnabled else { return false }
         guard pauseWarningArmedAt != armedAt else { return false }
         pauseWarningArmedAt = armedAt
         return true
