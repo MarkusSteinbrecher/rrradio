@@ -309,7 +309,7 @@ private struct SettingsPageView: View {
                         Text("Collect Diagnostics")
                             .font(.system(size: 15, weight: .medium))
                             .foregroundStyle(RrradioTheme.ink)
-                        Text("Off by default. Stores a local troubleshooting log on this device so you can share it with the app owner when issues happen.")
+                        Text("Off by default. Stores a local troubleshooting log on this device; shared copies redact station and host details.")
                             .font(.system(size: 12))
                             .foregroundStyle(RrradioTheme.ink3)
                             .lineLimit(4)
