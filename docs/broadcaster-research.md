@@ -2110,3 +2110,133 @@ New `fetchYleAreenaMetadata` in `src/builtins.ts`. Closest analogue: `fetchBbcMe
 - **Podcast RSS** at `feeds.yle.fi/areena/v1/series/<series-id>.rss` is publicly reachable but has no CORS header. Not relevant for live metadata; mention only because the discovery checklist asks. Series IDs aren't trivially discoverable from the live API (`pointer.uri` references opaque package IDs like `57-p89RepWE0`, not the series IDs RSS uses).
 - **HLS livestreams** (the player's actual audio) ship via `*.akamaized.net` HLS. Our catalog already uses the icecast endpoints (`icecast.live.yle.fi/radio/<…>/icecast.audio`); HLS is a possible upgrade later but unrelated to metadata.
 - Captured `data/metadata-discovery/yle-*.json` files are gitignored (per `.gitignore` `data/metadata-discovery/`), so this PR commits only the docs section. To re-capture, run the curls in this file with `app_id`+`app_key` from any current load of `https://areena.yle.fi/suorat` (look for `window.envVariables`).
+
+## dr — DR / Danmarks Radio (DK)
+
+Investigated: 2026-05-09.
+
+### Channels in catalog
+
+| Station | Status before | DR channel slug | DR channel URN |
+|---|---|---|---|
+| DR P1 | `stream-only` | `p1` | `urn:dr:radio:channel:5fa156d1da351264f87b462d` |
+| DR P2 (klassisk) | `stream-only` | `p2` | `urn:dr:radio:channel:5fa156d2da351264f87b4633` |
+| DR P3 | `stream-only` | `p3` | `urn:dr:radio:channel:5fa156d2da351264f87b4634` |
+| DR P4 København | `stream-only` | `p4` | `urn:dr:radio:channel:5fa156d2da351264f87b4644` |
+| DR P5 København | `stream-only` | `p5` | `urn:dr:radio:channel:5fa156d2da351264f87b4638` |
+| DR P6 BEAT | `stream-only` | `p6beat` | `urn:dr:radio:channel:5fa156d2da351264f87b463e` |
+| DR P8 JAZZ | `stream-only` | `p8jazz` | `urn:dr:radio:channel:5fa156d1da351264f87b4631` |
+
+The `/radio/v5/channels` listing returns 18 entries total (also `ly1`, `ly2`, `p7mix`, `special-radio`, plus internal `mcrweb*` / `dr-web-*` / `p3webcam` channels). Our catalog has the seven public broadcast channels above. **Note:** the DR API exposes only one `p4` channel — the regional P4 split (København, Bornholm, Fyn, Midt & Vest, Nordjylland, Syd, Sjælland, Trekanten, Østjylland) is not modelled at this level. Our `DR P4 København` station maps to plain `p4` for now-playing purposes; same for `p5` (one shared slug, our station is `DR P5 København`).
+
+### One API surface — public, no auth needed
+
+DR's `dr.dk/lyd` web player is a Next.js SPA whose runtime config exposes a single backend host: `apiHostname = "api.dr.dk"`. All player calls hit `https://api.dr.dk/radio/v5/...`. The bundle includes a hard-coded `x-apikey` header (value `6Wkh8s98Afx1ZAaTT4FuWODTmvWGDPpR`, found in chunk `pages/_app-*.js` module 10394 as constant `BH`), but **the live now-playing endpoints we care about return `200 OK` even without the key** — they're public-by-default; the key only gates write/private resources. CORS is wildcard. This is the cleanest broadcaster surface we've audited so far.
+
+### Endpoints (api.dr.dk/radio/v5)
+
+| What | URL template | Auth | CORS | Sample |
+|---|---|---|---|---|
+| **Now-playing tracks (live, per channel)** — primary fetcher target | `https://api.dr.dk/radio/v5/indexpoints/live/<channel-slug>` | none required (key tolerated) | `*` | `data/metadata-discovery/dr-indexpoints-live-{p1,p2,p3,p4,p5,p6beat,p8jazz}.json` |
+| Live programme (now show) per channel | `https://api.dr.dk/radio/v5/schedules/<channel-slug>/now` | `x-apikey` required | `*` | `data/metadata-discovery/dr-schedules-p3-now.json` |
+| Bulk live programmes (all channels in one call) | `https://api.dr.dk/radio/v5/schedules/all/now` | none | `*` | `data/metadata-discovery/dr-schedules-all-now.json` |
+| Day schedule (programme list) per channel | `https://api.dr.dk/radio/v5/schedules/snapshot/<channel-slug>` | none | `*` | `data/metadata-discovery/dr-schedules-snapshot-p3.json` |
+| Channel listing | `https://api.dr.dk/radio/v5/channels` | none | `*` | `data/metadata-discovery/dr-channels.json` |
+| Channel details (incl. stream URLs) | `https://api.dr.dk/radio/v5/channels/<channel-slug>` | none | `*` | `data/metadata-discovery/dr-channels-p3.json` |
+| Track detail (recording, release, **cover art**) | `https://api.dr.dk/radio/v5/music/tracks/live/<channel-slug>/<url-encoded track-urn>` | `x-apikey` required | `*` | `data/metadata-discovery/dr-music-track-live-p8jazz.json` |
+| Podcast/RSS feed | not on this API surface (separate `dr.dk` podcast pages) | — | — | — |
+
+Versions `v3` and `v4` of the same paths also respond (200), but the player is on `v5` — use `v5`.
+
+**Cache hint:** the server sets `Cache-Control: public, max-age=1` on `indexpoints/live/*` (truly live data) and `max-age=62`/`66` on `channels` and `schedules/all/now`. No `X-RateLimit-*` or `Retry-After` headers seen across any endpoint. Treat the API as polite-quota-only — 30–60 s polling per channel is well within sane budget.
+
+### Response shape (indexpoints/live/<slug> — primary)
+
+```json
+{
+  "type": "List",
+  "channel": { "title": "P3", "id": "urn:dr:radio:channel:…", "slug": "p3", "type": "Channel",
+               "presentationUrl": "https://www.dr.dk/lyd/p3" },
+  "totalSize": 18,
+  "items": [
+    {
+      "type": "Track",
+      "durationMilliseconds": 230000,
+      "playedTime": "2026-05-09T20:13:22+00:00",
+      "musicUrl": "https://www.dr.dk/musik/titel/lyden-af-livet/9075733-1-8",
+      "trackUrn": "urn:dr:music:track:9075733-1-8",
+      "classical": false,
+      "roles": [
+        { "artistUrn": "urn:dr:music:artist:10739362",
+          "role": "Hovedkunstner",
+          "name": "Barselona",
+          "musicUrl": "https://www.dr.dk/musik/kunstner/barselona/10739362" }
+      ],
+      "title": "Lyden af livet",
+      "description": "Barselona"
+    }
+    /* …most-recent first; up to ~20 historical items per channel… */
+  ],
+  "id": "urn:dr:radio:index:…"
+}
+```
+
+Field map for a fetcher:
+
+- **Track title** → `items[0].title`
+- **Track artist** → `items[0].roles.find(r => r.role === "Hovedkunstner")?.name` (primary artist). Fallback: `items[0].description` (the player's own subtitle string, often just the artist's display name; for classical it's a composer line).
+- **Played-at timestamp** → `items[0].playedTime` (ISO-8601, used to know when to advance the now-playing display).
+- **Track duration** → `items[0].durationMilliseconds`
+- **Channel match** → `channel.slug` (one of `p1`, `p2`, `p3`, `p4`, `p5`, `p6beat`, `p8jazz`).
+- **Cover art** → not in this response; requires a follow-up to `music/tracks/live/<slug>/<encoded trackUrn>` (with `x-apikey`), then read `release.images[0].sizes[?size=="medium"].source` (`small` / `medium` / `large` / `native` available, all `https://asset.dr.dk/drdk_releases/...front-*.jpg`).
+- **Track history** → `items[1..]` (this same response carries up to ~20 recent tracks; no separate history endpoint needed).
+- **Empty case** → talk channels (`p1`, `p4`) return `totalSize: 0, items: []` while the host is on air (no music currently playing). Fetcher should fall back to programme info from `schedules/<slug>/now` in that case, or simply return `null`.
+- **Classical convention** → `classical: true` flips `roles` to include `"role": "Komponist"` (composer) and `"role": "Solist/featuring"` (performers). For P2 / classical-tagged tracks, prefer composer name + work title rather than primary artist.
+
+### Response shape (schedules/<slug>/now — programme info fallback)
+
+```json
+{
+  "type": "Live",
+  "title": "P3 Musik",
+  "startTime": "2026-05-09T20:00:00+00:00",
+  "endTime":   "2026-05-10T03:00:00+00:00",
+  "series":  { "title": "P3 Musik", "id": "urn:dr:radio:series:…", "slug": "p3-musik-…" },
+  "channel": { "title": "P3", "slug": "p3", "id": "urn:dr:radio:channel:…" },
+  "audioAssets": [ { "format": "HLS", "url": "https://drliveradio2.akamaized.net/hls/live/2118698/p3/masterab.m3u8" } /* …+ ICY low/high… */ ],
+  "isAvailableOnDemand": false,
+  "id": "urn:dr:radio:episode:…",
+  "slug": "p3-musik-…"
+}
+```
+
+Use `title` as the programme name and `series.title` if `title` is identical (same string for music blocks); the tuple `startTime/endTime` gives the programme window for a "X – Y" subtitle.
+
+### Wirable today?
+
+✅ **wire-now.** HTTPS-only, CORS wildcard, no auth required for the now-playing endpoint, structured JSON, stable schema, real track-level data with artist + title. No worker proxy needed for the primary path. The `music/tracks/live/...` cover-art enrichment call needs the public `x-apikey` (also embedded in the page) — still browser-safe (it's a public client key, not a secret), but to keep our fetcher tidy we can either hard-code it or skip cover art until we add it as a second-pass enrichment.
+
+### Suggested fetcher
+
+New `fetchDrMetadata` in `src/builtins.ts`. **Closest analogue:** `fetchSrgssrIlMetadata` (lines ~760–810) — both are public CORS-clean JSON endpoints returning a `now/items[]` list with `title` + `artist` siblings. Pattern:
+
+1. Add `metadata: dr` to the `dr:` entry in `data/broadcasters.yaml`.
+2. Add `metadataUrl: <slug>` (one of `p1`, `p2`, `p3`, `p4`, `p5`, `p6beat`, `p8jazz`) to each DR station in `data/stations.yaml`. The slug doubles as the channel selector.
+3. Implement `fetchDrMetadata`:
+   - Direct fetch `https://api.dr.dk/radio/v5/indexpoints/live/${station.metadataUrl}` with `Accept: application/json`. Sending `x-apikey: 6Wkh8s98Afx1ZAaTT4FuWODTmvWGDPpR` is harmless and avoids intermittent 401s on cache-miss (see notes).
+   - If `items.length === 0` or `items[0].playedTime` is more than ~10 minutes old, return `null` (talk hour) — the np-display will fall back to other sources.
+   - Otherwise return `{ track: { artist, title: items[0].title }, raw: '' }` where `artist = items[0].roles.find(r => r.role === "Hovedkunstner")?.name ?? items[0].description`.
+   - For classical (`items[0].classical === true`): prefer `roles.find(r => r.role === "Komponist")?.name` as the artist; `items[0].title` is the work title.
+4. **Optional v2:** add `fetchDrSchedule` that hits `schedules/<slug>/now` (with `x-apikey`) and returns `program: { name, subtitle: HH:MM–HH:MM }` for talk channels (P1, P4 København) where `indexpoints` is empty. Same fetcher key, second branch.
+5. **Optional v3:** cover art — if `track.classical === false` and `trackUrn` present, follow-up GET `music/tracks/live/<slug>/<encoded trackUrn>` with `x-apikey` header, pull `release.images[?size=="medium"].source`. Worth wiring only after v1 ships and we see how often P3/P6/P8 listeners spend time on the now-playing card.
+6. Register `dr: fetchDrMetadata` in `FETCHERS_BY_KEY`.
+
+### Notes
+
+- **API key.** `6Wkh8s98Afx1ZAaTT4FuWODTmvWGDPpR` is shipped in the public web bundle and used unconditionally by the official player; reusing it is doing exactly what the browser does. It's not a per-user credential. Still — don't leak it in error logs, and don't use it on endpoints we haven't tested as public. Some routes (e.g. `schedules/<slug>/now`, `music/tracks/...`) return `401 No API key found in request` without it; the now-playing route does not.
+- **Auth-free vs key-required is per-route, not consistent.** Tested mid-investigation: `indexpoints/live/p3` and `…/p6beat` returned 200 anonymous, `…/p8jazz` returned 401 once and 200 next call (likely CDN cache hit/miss). To be safe, **always send the `x-apikey` header** even on routes that don't strictly need it — costs nothing and avoids intermittent 401s.
+- **No regional P4 / P5.** The API exposes one `p4` and one `p5` channel slug with one schedule. `dr.dk/lyd/p4` shows a region-picker UI but the regional split happens later (different streams for the same `p4` schedule entry, switched by listener). Our `DR P4 København` and `DR P5 København` stations map to those single API slugs — accept that the *programme name* will be the national P4/P5 block; the *audio* still routes through the København-specific HLS variant we already have.
+- **No anti-bot / fingerprinting.** Plain JSON over HTTPS, no cookies, no JS challenge, no `Sec-Fetch-Site` enforcement. Curl with a `Mozilla/5.0` UA works identically to a browser.
+- **Firestore live updates.** The web player additionally subscribes to a Firestore document at `liveIndexPointLists/<channel-urn>` for sub-second push updates (we don't need this — polling `indexpoints/live` every ~30 s is plenty).
+- **ToS.** No published developer ToS for `api.dr.dk/radio/v5`. The historic `developer.dr.dk` portal was retired years ago. As a Danish public-service broadcaster funded by media licence, DR's metadata is in spirit public-good; reusing programme/track info with an attribution line ("Track info © Danmarks Radio") is the friendly default. If we ever get a "please stop" email, switch off the fetcher — easy.
+- **Sample files** at `data/metadata-discovery/dr-*.json` are gitignored (per `.gitignore` `data/metadata-discovery/`), so this PR commits only the docs section. To re-capture, run the curls in the table above (no auth needed for `indexpoints/live/<slug>`; pass `-H "x-apikey: 6Wkh8s98Afx1ZAaTT4FuWODTmvWGDPpR"` for `schedules/<slug>/now` and `music/tracks/live/...`).
