@@ -5005,3 +5005,297 @@ separate signal turns up.
   trust boundary.
 - **HTTPS only — already compliant** with the catalog's HTTPS-only
   rule (audit #71).
+
+## hrt — HRT / Hrvatska radiotelevizija (HR)
+
+Investigated: 2026-05-09.
+
+### TL;DR
+
+HRT's web player at `radio.hrt.hr` is a Next.js app that does **not**
+poll any HRT-owned now-playing endpoint — instead the broadcaster
+publishes per-channel song metadata via **Triton Digital's public
+`np.tritondigital.com/public/nowplaying` API** (the same upstream
+that drives the StreamTheWorld stream URLs we already serve). Triton
+returns artist + title + recent history (5–20 entries) with full
+HTTPS, `Access-Control-Allow-Origin: *`, no auth, no rate-limit
+headers. Music-heavy channels (HR 1, HR 2, Sljeme, Pop, Classics)
+emit real song data; talk channels (HR 3 talk slots, regional
+news/talk) emit station idents (`cue_title="HRVATSKI RADIO"`,
+`track_artist_name="<channel name>"`) which the fetcher should
+interpret as "no track" and fall back to the EPG. Programme-level
+data (show name, description, cover art) comes from a separate
+**XMLTV daily schedule** at `arhiv-raspored.hrt.hr` — HTTPS but
+**no CORS**, so EPG would either ride the worker proxy or get
+SSR-baked at build time.
+
+### Topology
+
+```
+radio.hrt.hr (Next.js SPA)
+  └─ __NEXT_DATA__ ships:
+       - allChannelsData[14]: StreamId, MountName (= STW mount),
+         NetworkId (= XMLTV mreza), Alias, DisplayName
+       - radioProgramData[14]: today's XMLTV converted to JSON
+                               (channel.url + programme[])
+  └─ <audio> src = playerservices.streamtheworld.com/api/livestream-redirect/<MountName>.aac
+  └─ no XHR poll for now-playing — UI shows only the programme name
+     from the SSR'd EPG. Triton Digital's `np.` endpoint is
+     populated for every mount but is not surfaced in HRT's web UI.
+
+np.tritondigital.com/public/nowplaying?mountName=<MountName>AAC
+  → XML <nowplaying-info-list> with up to N <nowplaying-info> entries
+    (track_artist_name, cue_title, optional track_album_name)
+
+arhiv-raspored.hrt.hr/format/xmltv.xml?mreza=<NetworkId>&datum=<YYYY-MM-DD>
+  → XMLTV (DTD-compliant) for the day. No CORS. Programme blocks have
+    title, desc, category, img (https://api.hrt.hr/media/...webp).
+```
+
+### Channel inventory (14 channels, full mapping)
+
+From `allChannelsData` in radio.hrt.hr's `__NEXT_DATA__` (also
+duplicated in chunk 7a73d1be...js as a static array):
+
+| Display | Alias | StreamId | MountName | NetworkId (mreza) | XMLTV id | Catalog? |
+|---|---|---|---|---|---|---|
+| HR 1 (Prvi program) | prvi-program | 6 | PROGRAM1 | 16 | hrt - hr1.tv.hrt.hr | yes |
+| HR 2 (Drugi program) | drugi-program | 7 | PROGRAM2 | 17 | hrt - hr2.tv.hrt.hr | yes |
+| HR 3 (Treći program) | treci-program | 8 | PROGRAM3 | 18 | hrt - hr3.tv.hrt.hr | yes |
+| Glas Hrvatske | radio-glas-hrvatske | 9 | VOICEOFCROATIA | 20 | gh.tv.hrt.hr | no |
+| Radio Sljeme (Zagreb) | radio-sljeme | 10 | SLJEME | 19 | hr_slj.tv.hrt.hr | yes |
+| Radio Rijeka | radio-rijeka | 11 | RIJEKA | 31 | rij.tv.hrt.hr | yes |
+| Radio Pula | radio-pula | 12 | PULA | 30 | pul.tv.hrt.hr | no |
+| Radio Osijek | radio-osijek | 13 | OSIJEK | 29 | osi.tv.hrt.hr | no |
+| Radio Split | radio-split | 14 | SPLIT | 34 | spl.tv.hrt.hr | yes |
+| Radio Dubrovnik | radio-dubrovnik | 15 | DUBROVNIK | 35 | dub.tv.hrt.hr | no |
+| Radio Zadar | radio-zadar | 16 | ZADAR | 32 | zad.tv.hrt.hr | no |
+| Radio Knin | radio-knin | 17 | KNIN | 33 | kni.tv.hrt.hr | no |
+| Klasik (HR Classics) | klasicni-program | 25 | HR_CLASSICS | 60 | klas.tv.hrt.hr | no |
+| Pop | pop-program | 26 | HR_POP | 61 | pop.tv.hrt.hr | no |
+
+Our catalog ships HR 1, HR 2, HR 3, Radio Sljeme, Radio Rijeka, Radio
+Split (6 stations). Glas Hrvatske, Radio Pula, Osijek, Dubrovnik,
+Zadar, Knin, Klasik, and Pop (8 channels) are catalog gaps a curator
+could close once a fetcher exists. Stream URLs follow `playerservices.streamtheworld.com/api/livestream-redirect/<MountName>AAC.aac`.
+
+### Endpoints
+
+| What | URL template | Auth | CORS | Sample |
+|---|---|---|---|---|
+| **Now-playing + history (5)** | `https://np.tritondigital.com/public/nowplaying?mountName=<MOUNT>AAC&numberToFetch=5&eventType=track` | none | `*` | `data/metadata-discovery/hrt-nowplaying-{program1,program2,program3,sljeme,rijeka,split,pula,osijek,zadar,knin,dubrovnik,voiceofcroatia,hr_classics,hr_pop}aac.xml` |
+| Programme schedule (XMLTV per channel/day) | `https://arhiv-raspored.hrt.hr/format/xmltv.xml?mreza=<NetworkId>&datum=<YYYY-MM-DD>` | none | **none** (no `Access-Control-Allow-Origin`) | `data/metadata-discovery/hrt-xmltv-mreza{16,18}-{hr1,hr3}.xml` |
+| Programme schedule (SSR-baked) | embedded in `radio.hrt.hr` SSR `__NEXT_DATA__.props.pageProps.radioProgramData[i].tv.programme[]` | none | `*` (it's the page itself) | (not committed; same shape as the XMLTV file converted to JSON) |
+| Cover art (programme-level) | `<programme>.img._text` in XMLTV → `https://api.hrt.hr/media/<...>.webp` | none | (need to verify; api.hrt.hr serves images for `www.hrt.hr` so likely `*`) | embedded in XMLTV |
+| Cover art (track-level) | **none** — Triton response has no image fields | — | — | — |
+| Track history | same Triton endpoint with `numberToFetch=20` (default 1; tested up to 10 returned) | none | `*` | sample list inline |
+| Podcast feed | not investigated this pass — HRT's "slušaonica" pages have per-show pages with episode URLs (`?epizoda=YYYYMMDDHHMM`); no obvious RSS surfaced | — | — | — |
+
+### Response shape — `np.tritondigital.com` (XML)
+
+Music channel example (HR 1, MountName=PROGRAM1AAC):
+
+```xml
+<nowplaying-info-list>
+  <nowplaying-info mountName="PROGRAM1AAC" timestamp="1778360108" type="track">
+    <property name="cue_time_start"><![CDATA[1778360108754]]></property>
+    <property name="cue_title"><![CDATA[WISH YOU WERE HERE]]></property>
+    <property name="track_artist_name"><![CDATA[CANDY DULFER]]></property>
+  </nowplaying-info>
+  <nowplaying-info mountName="PROGRAM1AAC" timestamp="1778360372" type="track">
+    <property name="cue_time_start"><![CDATA[1778360372900]]></property>
+    <property name="cue_title"><![CDATA[HRVATSKI RADIO]]></property>
+    <property name="track_artist_name"><![CDATA[PRVI PROGRAM]]></property>
+  </nowplaying-info>
+  ...
+</nowplaying-info-list>
+```
+
+Classical channel (HR_CLASSICSAAC) — same shape, plus a third
+property:
+
+```xml
+<nowplaying-info mountName="HR_CLASSICSAAC" type="track">
+  <property name="cue_title"><![CDATA[HOLBERG SUITA, OP.40]]></property>
+  <property name="track_album_name"><![CDATA[EDVARD GRIEG]]></property>
+  <property name="track_artist_name"><![CDATA[GUDAČI NORDIJSKOG SIMFONIJSKOG ORKESTRA]]></property>
+</nowplaying-info>
+```
+
+(Note: Triton uses `track_album_name` for the *composer* — common
+classical-station mapping. The fetcher should display this as
+"composer" or fold it into a "Composer — Performer · Title" string
+for HR_CLASSICS specifically. This matches the BR-Klassik /
+Radio Swiss Classic conventions we already handle.)
+
+Field mapping:
+
+| Abstract field | Triton property | Notes |
+|---|---|---|
+| Title | `cue_title` | When equals "HRVATSKI RADIO", treat as station-ident sweeper, not a real track |
+| Artist | `track_artist_name` | When equals channel display name (e.g. "PRVI PROGRAM", "RADIO SLJEME"), same — sweeper |
+| Album / composer | `track_album_name` | Only present on HR_CLASSICS |
+| Started at | `cue_time_start` | ms epoch (note the `timestamp` attribute is sec epoch — both are the same instant) |
+| List order | top entry = current; subsequent = history (newest first) | Default `numberToFetch=1` — request 5–20 |
+| Cover art | not surfaced | Combine with EPG `programme.img` for show-level art; track art unavailable |
+| Programme name | not in Triton | Pull from XMLTV `programme.title` matching `start ≤ now < stop` |
+
+### Wirable today?
+
+✅ **Now-playing wirable today, no worker needed.** Triton's
+endpoint is HTTPS, CORS-open (`*`), no auth, no token, sub-2 KB
+responses. The exact same surface drives all 14 HRT channels and
+covers the catalog gap for HR 1/2/3 + the regionals + a future
+Klasik/Pop expansion. Music channels return real artist+title;
+talk slots return identifiable sweepers we can detect and
+fall through to programme info.
+
+⚠️ **Programme/cover art via XMLTV needs the worker proxy** —
+`arhiv-raspored.hrt.hr` doesn't set `Access-Control-Allow-Origin`,
+so a browser fetch will fail. Two paths:
+1. Allowlist `arhiv-raspored.hrt.hr` in `worker/src/index.ts`
+   `/api/public/proxy` — clean fetch via worker for the EPG XML.
+2. Alternative: SSR-bake daily — fetch the 14 daily XMLTVs at
+   build time, ship as `public/hrt-epg-<date>.json`, refresh on
+   each Pages deploy. Cheaper at runtime, less fresh.
+
+The minimum-viable wiring is **Triton-only** (artist + title,
+no programme), which is comparable to ABC's Triple J / Classic
+shape — pure now-playing, no EPG.
+
+### Suggested fetcher
+
+**Two reasonable paths:**
+
+**(A) New broadcaster-specific `fetchHrtMetadata`** keyed on
+`metadata: hrt`. Body:
+- Read `metadataUrl` from station YAML (full Triton URL with
+  mount baked in).
+- Parse XML; extract first `<nowplaying-info>` element's
+  `cue_title`, `track_artist_name`, optional `track_album_name`.
+- Sweeper detection: if `cue_title === "HRVATSKI RADIO"` or
+  `track_artist_name` matches the channel display name in upper
+  case (HR_CLASSICS exception: `GUDAČI NORDIJSKOG SIMFONIJSKOG
+  ORKESTRA` is a real performer, not a sweeper), return
+  `{ track: null, programme: null }` and let the UI fall
+  through.
+- Optional: if HR_CLASSICS mount, format as
+  `"<track_album_name> — <track_artist_name>: <cue_title>"`
+  (composer — performer: title).
+
+**(B) Generic `fetchTritonNowplayingMetadata`** keyed on
+`metadata: triton-nowplaying`. Same parser, but reusable for
+**any** of the ~819 stations in our catalog already streaming
+through `playerservices.streamtheworld.com`. Most will return
+ad-only data or sweepers (radio brands like "iHeartRadio",
+"Cadena SER" use other metadata channels), but a non-trivial
+fraction populate it. Worth a follow-up sweep.
+
+I'd lean toward **(B) generic Triton fetcher** for the first cut
+— HRT becomes the reference broadcaster, and we get a free
+"try Triton on every StreamTheWorld station" curation pass.
+Then add `fetchHrtMetadata` later if HRT-specific quirks
+(EPG fallback, classical formatting) need their own seam.
+
+Closest existing analogue: **`fetchRadioSwissMetadata`**
+(simple GET → XML → first item) and **`fetchSrgssrIlMetadata`**
+(GET → JSON → list, take [0]). Both are ~50 lines; the Triton
+fetcher would be similar.
+
+YAML extension required (no schema break — new fetcher key
+`hrt` or `triton-nowplaying`):
+
+```yaml
+# HR 1
+broadcaster: hrt
+name: HRT HR 1
+metadata: hrt   # or 'triton-nowplaying' if path (B)
+metadataUrl: https://np.tritondigital.com/public/nowplaying?mountName=PROGRAM1AAC&numberToFetch=5&eventType=track
+status: working   # promote from current status (likely stream-only)
+
+# HR 3 (cultural — same fetcher, classical formatting in fetcher)
+broadcaster: hrt
+name: HRT HR 3
+metadata: hrt
+metadataUrl: https://np.tritondigital.com/public/nowplaying?mountName=PROGRAM3AAC&numberToFetch=5&eventType=track
+status: working
+
+# HR Classics (mount HR_CLASSICSAAC) — composer-aware formatting
+broadcaster: hrt
+name: HRT Klasik
+metadata: hrt
+metadataUrl: https://np.tritondigital.com/public/nowplaying?mountName=HR_CLASSICSAAC&numberToFetch=5&eventType=track
+status: working
+```
+
+Polling cadence: 30–60 s is plenty. Sweepers update every few
+minutes during talk slots; tracks every 3–5 min on music
+channels. Triton's edge caches; one capture per minute is
+trivial load.
+
+### Notes
+
+- **Triton Digital is the upstream for ~819 of our streams** (every
+  station whose `streamUrl` points at `playerservices.streamtheworld.com`).
+  HRT is a clean reference for that broader pattern. After this PR
+  lands, a curate-stations sweep that probes Triton against
+  every StreamTheWorld station would discover dozens more
+  wire-able now-playing surfaces for free. Filed as a follow-up
+  thought, not in scope here.
+- **Sweeper detection.** `cue_title === "HRVATSKI RADIO"` is the
+  station ident loop. The fetcher must treat it as "no track,
+  fall back to programme" rather than display "PRVI PROGRAM —
+  HRVATSKI RADIO" as if it were a song. All 14 channels emit it
+  several times per hour.
+- **Classical channel quirk.** HR_CLASSICS uses `track_album_name`
+  for the composer (Edvard Grieg, Sergej Rahmanjinov, Johann
+  Strauss ml.) and `track_artist_name` for the performer.
+  This is the standard classical-radio Triton convention — same
+  as some BR-Klassik mounts and Radio Swiss Classic. The
+  fetcher should detect mount names ending in `_CLASSICSAAC` (or
+  read a station-level `classical: true` hint) and format as
+  `composer — performer: piece` rather than artist–title.
+- **HR 3 is mostly classical too.** Even though HR 3 is the
+  cultural/talk station, much of its overnight + weekend output
+  is classical music. Sample HR 3 fetch (PROGRAM3AAC) returned
+  Gerhard Oppitz performing variations on op. 21 with a
+  composer name in plain text inside `cue_title`. HR 3 does
+  **not** populate `track_album_name`, so classical formatting
+  is best-effort there. Recommend treating HR 3 like HR 1/2 in
+  the fetcher and accept that HR 3 classical pieces will display
+  as "performer — piece" (no composer breakout).
+- **EPG without CORS.** `arhiv-raspored.hrt.hr` is plain HTTPS XML,
+  no `Access-Control-Allow-Origin`. To use programme info in the
+  browser fetcher would require either:
+  (a) Adding it to the worker `/api/public/proxy` allowlist
+      (`worker/src/index.ts`).
+  (b) Fetching the SSR-baked copy via `radio.hrt.hr/stream/<id>`
+      — same data lives in `__NEXT_DATA__.props.pageProps.radioProgramData`,
+      and that page **is** CORS-clean. Heavier fetch (80–280 KB
+      HTML per channel) and brittle (Next.js build hash changes).
+      Worker allowlist is cleaner.
+  Both paths are doable; not blocking the now-playing PR.
+- **HTML scrape fallback (RNZ-style, PR #226).** Not needed for
+  HRT — Triton gives us structured XML directly. Documenting the
+  RNZ-style HTML-scrape route was the fallback; HRT didn't need
+  it.
+- **HTTPS only — already compliant.** Both Triton and arhiv-raspored
+  serve HTTPS. The XMLTV `<channel>` element references
+  `http://arhiv-raspored.hrt.hr/...` in the body but the host
+  itself responds on HTTPS with HSTS preload.
+- **No auth, no rate-limit headers, no robots restrictions.**
+  Triton's `np.tritondigital.com` is a public endpoint hit by
+  every Triton-using broadcaster's web/mobile players globally.
+  Same trust boundary as the stream URL itself.
+- **Stream URL pattern.** `https://playerservices.streamtheworld.com/api/livestream-redirect/<MountName>.aac`
+  — already in our catalog; matches what `__NEXT_DATA__` MountName
+  field tells us. Useful for future curation: any HRT mount can
+  be derived from MountName ↔ `<MOUNT>AAC` (Triton always wants
+  the `AAC` suffix; the StreamTheWorld redirect omits it).
+- **Catalog gap.** The catalog ships 6 of HRT's 14 channels.
+  Glas Hrvatske (Croatian international service), Radio Pula,
+  Radio Osijek, Radio Dubrovnik, Radio Zadar, Radio Knin, Klasik,
+  and Pop are missing. Stream URLs follow the same StreamTheWorld
+  pattern (`<MOUNT>AAC.aac`) so adding them is mechanical once a
+  curator confirms each mount resolves. Worth folding into the
+  same PR that wires the fetcher.
