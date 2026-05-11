@@ -1,3 +1,4 @@
+import AVFoundation
 import XCTest
 @testable import rrradio
 
@@ -16,6 +17,11 @@ final class AudioPlayerStateTests: XCTestCase {
             name: name,
             streamUrl: URL(string: "https://example.com/stream")!,
         )
+    }
+
+    private func yieldNotificationTasks() async {
+        await Task.yield()
+        await Task.yield()
     }
 
     func testStartsIdle() {
@@ -72,6 +78,62 @@ final class AudioPlayerStateTests: XCTestCase {
         p.play(station(id: "abc", name: "ABC FM"))
 
         XCTAssertTrue(p.shouldAutoResumeAfterConnectivityRestored)
+    }
+
+    func testInterruptionPausesAndResumesWhenSystemAllows() async {
+        let p = AudioPlayer(streamRetryDelayNanoseconds: { _ in 0 })
+        p.play(station(id: "abc", name: "ABC FM"))
+        p.resume()
+        XCTAssertEqual(p.state, .playing)
+
+        NotificationCenter.default.post(
+            name: AVAudioSession.interruptionNotification,
+            object: AVAudioSession.sharedInstance(),
+            userInfo: [AVAudioSessionInterruptionTypeKey: AVAudioSession.InterruptionType.began.rawValue],
+        )
+        await yieldNotificationTasks()
+
+        XCTAssertEqual(p.state, .paused)
+
+        NotificationCenter.default.post(
+            name: AVAudioSession.interruptionNotification,
+            object: AVAudioSession.sharedInstance(),
+            userInfo: [
+                AVAudioSessionInterruptionTypeKey: AVAudioSession.InterruptionType.ended.rawValue,
+                AVAudioSessionInterruptionOptionKey: AVAudioSession.InterruptionOptions.shouldResume.rawValue,
+            ],
+        )
+        await yieldNotificationTasks()
+
+        XCTAssertEqual(p.state, .playing)
+    }
+
+    func testOldAudioRouteUnavailablePausesPlayback() async {
+        let p = AudioPlayer(streamRetryDelayNanoseconds: { _ in 0 })
+        p.play(station(id: "abc", name: "ABC FM"))
+        p.resume()
+        XCTAssertEqual(p.state, .playing)
+
+        NotificationCenter.default.post(
+            name: AVAudioSession.routeChangeNotification,
+            object: AVAudioSession.sharedInstance(),
+            userInfo: [AVAudioSessionRouteChangeReasonKey: AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue],
+        )
+        await yieldNotificationTasks()
+
+        XCTAssertEqual(p.state, .paused)
+    }
+
+    func testPlaybackProblemSchedulesRetryForCurrentStation() {
+        let p = AudioPlayer(streamRetryDelayNanoseconds: { _ in 0 })
+        p.play(station(id: "abc", name: "ABC FM"))
+        p.resume()
+
+        p.handlePlayerItemPlaybackProblem(reason: "test", error: nil)
+
+        XCTAssertEqual(p.current?.id, "abc")
+        XCTAssertEqual(p.state, .loading)
+        p.stop()
     }
 
     func testStateEnumEquality() {
