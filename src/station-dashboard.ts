@@ -13,6 +13,7 @@ export const STATION_CHECKS = [
 export type StationCheckKey = (typeof STATION_CHECKS)[number];
 export type StationCheckState = 'ok' | 'warn' | 'bad' | 'na';
 export type StationHealthFilter = 'all' | 'attention' | 'working';
+export type StationReviewFilter = 'all' | 'reviewed' | 'unreviewed' | 'rb-linked' | 'local-only';
 
 export interface StationStatusCheck {
   state: StationCheckState;
@@ -38,6 +39,18 @@ export interface StationStatusReport {
   stations?: StationStatusItem[];
 }
 
+export interface StationCurationItem {
+  id: string;
+  stationuuid?: string;
+  changeuuid?: string;
+  reviewedAt?: string;
+}
+
+export interface StationCurationReport {
+  generatedAt?: string;
+  stations?: StationCurationItem[];
+}
+
 export interface StationDashboardRow {
   id: string;
   name: string;
@@ -49,6 +62,9 @@ export interface StationDashboardRow {
   bitrate?: number;
   metadataKey?: string;
   metadataUrl?: string;
+  stationuuid?: string;
+  changeuuid?: string;
+  reviewedAt?: string;
   checks: StationChecks;
   warningCount: number;
   badCount: number;
@@ -68,6 +84,8 @@ export interface StationDashboardFilters {
   status: string;
   health: StationHealthFilter;
   check?: 'all' | StationCheckKey;
+  checkState?: 'all' | 'attention' | StationCheckState;
+  review?: StationReviewFilter;
 }
 
 const EMPTY_CHECK: StationStatusCheck = { state: 'na' };
@@ -92,14 +110,20 @@ function normalizeChecks(item: StationStatusItem | undefined): StationChecks {
 export function buildStationDashboardRows(
   catalog: Station[],
   report: StationStatusReport | null,
+  curationReport?: StationCurationReport | null,
 ): StationDashboardRow[] {
   const statusById = new Map<string, StationStatusItem>();
   for (const item of report?.stations ?? []) {
     if (item?.id) statusById.set(item.id, item);
   }
+  const curationById = new Map<string, StationCurationItem>();
+  for (const item of curationReport?.stations ?? []) {
+    if (item?.id) curationById.set(item.id, item);
+  }
 
   return catalog.map((station) => {
     const status = statusById.get(station.id);
+    const curation = curationById.get(station.id);
     const checks = normalizeChecks(status);
     const values = Object.values(checks);
     const warningCount = values.filter((check) => check.state === 'warn').length;
@@ -115,6 +139,9 @@ export function buildStationDashboardRows(
       bitrate: station.bitrate,
       metadataKey: status?.metadataKey ?? station.metadata,
       metadataUrl: station.metadataUrl,
+      stationuuid: curation?.stationuuid,
+      changeuuid: curation?.changeuuid,
+      reviewedAt: curation?.reviewedAt,
       checks,
       warningCount,
       badCount,
@@ -154,7 +181,15 @@ export function filterStationDashboardRows(
     if (filters.status !== 'all' && row.status !== filters.status) return false;
     if (filters.check && filters.check !== 'all') {
       const state = row.checks[filters.check].state;
-      if (state !== 'bad' && state !== 'warn') return false;
+      const checkState = filters.checkState ?? 'attention';
+      if (checkState === 'attention' && state !== 'bad' && state !== 'warn') return false;
+      if (checkState !== 'all' && checkState !== 'attention' && state !== checkState) return false;
+    }
+    if (filters.review && filters.review !== 'all') {
+      if (filters.review === 'reviewed' && !row.reviewedAt) return false;
+      if (filters.review === 'unreviewed' && row.reviewedAt) return false;
+      if (filters.review === 'rb-linked' && !row.stationuuid) return false;
+      if (filters.review === 'local-only' && row.stationuuid) return false;
     }
     if (filters.health === 'attention' && row.badCount === 0 && row.warningCount === 0) {
       return false;

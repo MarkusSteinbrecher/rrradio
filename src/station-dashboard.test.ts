@@ -56,15 +56,28 @@ const report: StationStatusReport = {
   ],
 };
 
+const curation = {
+  stations: [
+    {
+      id: 'fm4',
+      stationuuid: 'rb-fm4',
+      changeuuid: 'change-fm4',
+      reviewedAt: '2026-04-28',
+    },
+  ],
+};
+
 describe('buildStationDashboardRows', () => {
   it('joins catalog fields with status checks', () => {
-    const rows = buildStationDashboardRows(catalog, report);
+    const rows = buildStationDashboardRows(catalog, report, curation);
     expect(rows[0]).toMatchObject({
       id: 'fm4',
       country: 'AT',
       broadcaster: 'orf',
       status: 'working',
       metadataKey: 'orf',
+      stationuuid: 'rb-fm4',
+      reviewedAt: '2026-04-28',
       warningCount: 1,
       badCount: 0,
     });
@@ -113,6 +126,41 @@ describe('filterStationDashboardRows', () => {
         country: 'all',
         status: 'all',
         health: 'attention',
+      }).map((row) => row.id),
+    ).toEqual(['grrif']);
+  });
+
+  it('filters by exact check state when provided', () => {
+    expect(
+      filterStationDashboardRows(rows, {
+        query: '',
+        country: 'all',
+        status: 'all',
+        health: 'all',
+        check: 'logo',
+        checkState: 'warn',
+      }).map((row) => row.id),
+    ).toEqual(['fm4']);
+  });
+
+  it('filters by review state', () => {
+    const reviewedRows = buildStationDashboardRows(catalog, report, curation);
+    expect(
+      filterStationDashboardRows(reviewedRows, {
+        query: '',
+        country: 'all',
+        status: 'all',
+        health: 'all',
+        review: 'reviewed',
+      }).map((row) => row.id),
+    ).toEqual(['fm4']);
+    expect(
+      filterStationDashboardRows(reviewedRows, {
+        query: '',
+        country: 'all',
+        status: 'all',
+        health: 'all',
+        review: 'unreviewed',
       }).map((row) => row.id),
     ).toEqual(['grrif']);
   });

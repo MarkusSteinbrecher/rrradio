@@ -11,7 +11,9 @@ import {
   type StationDashboardFilters,
   type StationDashboardRow,
   type StationHealthFilter,
+  type StationReviewFilter,
   type StationStatusReport,
+  type StationCurationReport,
 } from './station-dashboard';
 import type { Station } from './types';
 
@@ -24,6 +26,8 @@ interface CatalogPayload {
 
 type TrackerFilter = StationDashboardFilters & {
   check: 'all' | StationCheckKey;
+  checkState: 'all' | 'attention' | StationCheckState;
+  review: StationReviewFilter;
 };
 
 const state: {
@@ -43,6 +47,8 @@ const state: {
     status: 'all',
     health: 'all',
     check: 'all',
+    checkState: 'attention',
+    review: 'all',
   },
 };
 
@@ -61,6 +67,7 @@ const refs = {
   country: byId<HTMLSelectElement>('filter-country'),
   status: byId<HTMLSelectElement>('filter-status'),
   health: byId<HTMLSelectElement>('filter-health'),
+  review: byId<HTMLSelectElement>('filter-review'),
   check: byId<HTMLSelectElement>('filter-check'),
   summary: byId('table-summary'),
   pagePrev: byId<HTMLButtonElement>('page-prev'),
@@ -129,6 +136,16 @@ async function loadStatusReport(): Promise<StationStatusReport | null> {
     return (await res.json()) as StationStatusReport;
   } catch (err) {
     state.statusError = err instanceof Error ? err.message : String(err);
+    return null;
+  }
+}
+
+async function loadCurationReport(): Promise<StationCurationReport | null> {
+  try {
+    const res = await fetch(`${BASE}station-curation.json`, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`station-curation.json HTTP ${res.status}`);
+    return (await res.json()) as StationCurationReport;
+  } catch {
     return null;
   }
 }
@@ -207,6 +224,15 @@ function renderQualityDonuts(): void {
 
     const card = document.createElement('article');
     card.className = 'quality-card';
+    card.tabIndex = 0;
+    card.title = `Filter ${checkName(check)} rows needing attention`;
+    card.addEventListener('click', () => setQualityFilter(check, 'attention'));
+    card.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        setQualityFilter(check, 'attention');
+      }
+    });
 
     const donut = document.createElement('div');
     donut.className = 'quality-donut';
@@ -232,8 +258,17 @@ function renderQualityDonuts(): void {
     const legend = document.createElement('div');
     legend.className = 'quality-card__legend';
     for (const key of ['ok', 'warn', 'bad', 'na'] as const) {
-      const item = document.createElement('div');
+      const item = document.createElement('button');
+      item.type = 'button';
       item.className = 'quality-legend-item';
+      item.classList.toggle(
+        'is-active',
+        state.filters.check === check && state.filters.checkState === key,
+      );
+      item.addEventListener('click', (event) => {
+        event.stopPropagation();
+        setQualityFilter(check, key);
+      });
       const dot = document.createElement('span');
       dot.className = 'quality-legend-dot';
       dot.dataset.state = key;
@@ -246,6 +281,14 @@ function renderQualityDonuts(): void {
     card.append(donut, body);
     refs.qualityDonuts.append(card);
   }
+}
+
+function setQualityFilter(check: StationCheckKey, checkState: TrackerFilter['checkState']): void {
+  state.filters.check = check;
+  state.filters.checkState = checkState;
+  refs.check.value = check;
+  applyFilters();
+  renderQualityDonuts();
 }
 
 function countBy<T extends string>(
@@ -431,8 +474,14 @@ function bindEvents(): void {
     state.filters.health = refs.health.value as StationHealthFilter;
     applyFilters();
   });
+  refs.review.addEventListener('change', () => {
+    state.filters.review = refs.review.value as StationReviewFilter;
+    applyFilters();
+  });
   refs.check.addEventListener('change', () => {
     state.filters.check = refs.check.value as TrackerFilter['check'];
+    state.filters.checkState = state.filters.check === 'all' ? 'all' : 'attention';
+    renderQualityDonuts();
     applyFilters();
   });
   refs.pagePrev.addEventListener('click', () => {
@@ -451,8 +500,12 @@ function bindEvents(): void {
 async function main(): Promise<void> {
   bindEvents();
   try {
-    const [catalog, report] = await Promise.all([loadCatalog(), loadStatusReport()]);
-    state.rows = buildStationDashboardRows(catalog, report);
+    const [catalog, report, curationReport] = await Promise.all([
+      loadCatalog(),
+      loadStatusReport(),
+      loadCurationReport(),
+    ]);
+    state.rows = buildStationDashboardRows(catalog, report, curationReport);
     state.generatedAt = report?.generatedAt;
     syncFilterOptions();
     renderKpis();

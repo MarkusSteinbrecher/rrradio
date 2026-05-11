@@ -207,6 +207,14 @@ h1 {
   padding: 12px;
   border: 1px solid var(--line);
   background: var(--bg);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.quality-card:hover,
+.quality-card:focus-within {
+  border-color: var(--line-2);
+  background: color-mix(in srgb, var(--bg) 82%, var(--ink) 18%);
 }
 
 .quality-donut {
@@ -277,6 +285,16 @@ h1 {
   font-family: var(--mono);
   font-size: 10px;
   font-variant-numeric: tabular-nums;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.quality-legend-item:hover,
+.quality-legend-item.is-active {
+  color: var(--ink);
 }
 
 .quality-legend-dot {
@@ -373,7 +391,7 @@ h1 {
 
 .filters {
   display: grid;
-  grid-template-columns: minmax(280px, 1.5fr) repeat(4, minmax(150px, 1fr));
+  grid-template-columns: minmax(260px, 1.5fr) repeat(5, minmax(130px, 1fr));
   gap: 10px;
   padding: 18px;
   border-bottom: 1px solid var(--line);
