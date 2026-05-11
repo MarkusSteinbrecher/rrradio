@@ -208,7 +208,7 @@
               <svg class="icon-theme-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
               <svg class="icon-theme-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m4.93 19.07 1.41-1.41"/><path d="m17.66 6.34 1.41-1.41"/></svg>
             </button>
-            <button type="button" class="add-btn" id="dashboard-btn" aria-label="Stats dashboard">
+            <button type="button" class="add-btn" id="dashboard-btn" aria-label="Station dashboard">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="11" width="3.2" height="9" rx="0.6"/><rect x="10.4" y="6" width="3.2" height="14" rx="0.6"/><rect x="16.8" y="14" width="3.2" height="6" rx="0.6"/></svg>
             </button>
             <button type="button" class="add-btn" id="about-btn" aria-label="About rrradio">
@@ -545,17 +545,93 @@
       </section>
 
       <!-- ============== DASHBOARD (slide-up sheet) ============== -->
-      <section class="sheet" id="dashboard-sheet" aria-label="Stats dashboard" aria-hidden="true">
+      <section class="sheet" id="dashboard-sheet" aria-label="Station dashboard" aria-hidden="true">
         <header class="sheet-head">
-          <div class="np-label">Stats</div>
+          <div class="np-label">Dashboard</div>
           <button type="button" class="icon-btn" id="dashboard-close" aria-label="Close">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
           </button>
         </header>
 
         <div class="sheet-body dashboard-body">
-          <h2 class="sheet-title">Listener stats</h2>
-          <p class="sheet-lede">Last 7 days · aggregate, anonymous</p>
+          <h2 class="sheet-title">Station dashboard</h2>
+          <p class="sheet-lede">Catalog health, metadata coverage, and anonymous listener signal</p>
+
+          <div class="dash-kpis station-dash-kpis">
+            <div class="dash-kpi">
+              <div class="dash-kpi__num" id="station-dash-total">—</div>
+              <div class="dash-kpi__label">Stations</div>
+            </div>
+            <div class="dash-kpi">
+              <div class="dash-kpi__num" id="station-dash-working">—</div>
+              <div class="dash-kpi__label">Working</div>
+            </div>
+            <div class="dash-kpi">
+              <div class="dash-kpi__num" id="station-dash-rich">—</div>
+              <div class="dash-kpi__label">Fetcher</div>
+            </div>
+            <div class="dash-kpi dash-kpi--muted">
+              <div class="dash-kpi__num" id="station-dash-attention">—</div>
+              <div class="dash-kpi__label">Attention</div>
+            </div>
+          </div>
+
+          <div class="dash-section station-dash-section">
+            <div class="dash-section__head">
+              <h3>Station status</h3>
+              <span class="station-dash-count" id="station-dash-count">—</span>
+            </div>
+            <div class="station-dash-filters">
+              <label class="station-dash-search">
+                <span class="field-key">Search</span>
+                <input type="search" id="station-dash-search" autocomplete="off" placeholder="Station, broadcaster, codec…" />
+              </label>
+              <label class="station-dash-filter">
+                <span class="field-key">Country</span>
+                <select id="station-dash-country">
+                  <option value="all">All countries</option>
+                </select>
+              </label>
+              <label class="station-dash-filter">
+                <span class="field-key">Status</span>
+                <select id="station-dash-status">
+                  <option value="all">All statuses</option>
+                </select>
+              </label>
+              <label class="station-dash-filter">
+                <span class="field-key">Health</span>
+                <select id="station-dash-health">
+                  <option value="all">All</option>
+                  <option value="attention">Needs attention</option>
+                  <option value="working">Working</option>
+                </select>
+              </label>
+            </div>
+            <div class="station-dash-table-wrap">
+              <table class="dash-table station-dash-table" id="station-dash-table">
+                <thead>
+                  <tr>
+                    <th class="station">Station</th>
+                    <th>Country</th>
+                    <th>Status</th>
+                    <th>Stream</th>
+                    <th>HTTPS</th>
+                    <th>ICY</th>
+                    <th>Meta</th>
+                    <th>Fetcher</th>
+                    <th>Program</th>
+                    <th>Logo</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <p class="dash-note" id="station-dash-generated">Status checks load from the committed station-status artifact.</p>
+          </div>
+
+          <div class="dash-section">
+            <h3>Listener stats</h3>
+          </div>
           <div class="dash-kpis">
             <div class="dash-kpi">
               <div class="dash-kpi__num" id="dash-plays">—</div>

@@ -54,6 +54,20 @@ import {
   type PublicTotals,
   type TopStationItem,
 } from './dashboard';
+import {
+  buildStationDashboardRows,
+  filterStationDashboardRows,
+  stationDashboardCountries,
+  stationDashboardKpis,
+  stationDashboardStatuses,
+  STATION_CHECKS,
+  type StationCheckKey,
+  type StationCheckState,
+  type StationDashboardFilters,
+  type StationDashboardRow,
+  type StationHealthFilter,
+  type StationStatusReport,
+} from './station-dashboard';
 import { emptyState, statusLine } from './empty';
 import {
   installGlobalErrorHandlers,
@@ -280,6 +294,17 @@ const $dashStationTable = document.querySelector('#dash-station-table tbody') as
 const $dashCountryHeading = document.getElementById('dash-country-heading') as HTMLElement;
 const $dashCountryToggle = document.getElementById('dash-country-toggle') as HTMLElement;
 const $dashCountryCountHeader = document.getElementById('dash-country-count-header') as HTMLElement;
+const $stationDashTotal = document.getElementById('station-dash-total') as HTMLElement;
+const $stationDashWorking = document.getElementById('station-dash-working') as HTMLElement;
+const $stationDashRich = document.getElementById('station-dash-rich') as HTMLElement;
+const $stationDashAttention = document.getElementById('station-dash-attention') as HTMLElement;
+const $stationDashCount = document.getElementById('station-dash-count') as HTMLElement;
+const $stationDashSearch = document.getElementById('station-dash-search') as HTMLInputElement;
+const $stationDashCountry = document.getElementById('station-dash-country') as HTMLSelectElement;
+const $stationDashStatus = document.getElementById('station-dash-status') as HTMLSelectElement;
+const $stationDashHealth = document.getElementById('station-dash-health') as HTMLSelectElement;
+const $stationDashGenerated = document.getElementById('station-dash-generated') as HTMLElement;
+const $stationDashTable = document.querySelector('#station-dash-table tbody') as HTMLTableSectionElement;
 
 // ─────────────────────────────────────────────────────────────
 // State
@@ -2051,6 +2076,15 @@ const COUNTRY_CENTROIDS: Record<string, [number, number]> = {
 
 let dashView: DashCountryView = 'listeners';
 let lastDashboardData: DashboardData | null = null;
+let stationDashRows: StationDashboardRow[] = [];
+let stationDashReportGeneratedAt: string | undefined;
+let stationDashReportError: string | undefined;
+let stationDashFilters: StationDashboardFilters = {
+  query: '',
+  country: 'all',
+  status: 'all',
+  health: 'all',
+};
 
 async function fetchTopStationsWithCounts(): Promise<{
   items: TopStationItem[];
@@ -2097,6 +2131,152 @@ async function fetchPublicLocations(): Promise<PublicLocationItem[]> {
   } catch (err) {
     reportWorkerError(err, '/api/public/locations');
     return [];
+  }
+}
+
+async function fetchStationStatusReport(): Promise<StationStatusReport | null> {
+  try {
+    const res = await fetch(`${import.meta.env.BASE_URL}station-status.json`, {
+      cache: 'no-store',
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return (await res.json()) as StationStatusReport;
+  } catch (err) {
+    stationDashReportError = err instanceof Error ? err.message : String(err);
+    return null;
+  }
+}
+
+function setSelectOptions(
+  select: HTMLSelectElement,
+  entries: Array<{ value: string; label: string }>,
+  current: string,
+): void {
+  select.replaceChildren();
+  for (const entry of entries) {
+    const opt = document.createElement('option');
+    opt.value = entry.value;
+    opt.textContent = entry.label;
+    select.append(opt);
+  }
+  select.value = entries.some((entry) => entry.value === current) ? current : 'all';
+}
+
+function syncStationDashFilters(): void {
+  const countries = stationDashboardCountries(stationDashRows)
+    .sort((a, b) => countryName(a).localeCompare(countryName(b)));
+  setSelectOptions(
+    $stationDashCountry,
+    [
+      { value: 'all', label: 'All countries' },
+      ...countries.map((code) => ({ value: code, label: countryName(code) })),
+    ],
+    stationDashFilters.country,
+  );
+  setSelectOptions(
+    $stationDashStatus,
+    [
+      { value: 'all', label: 'All statuses' },
+      ...stationDashboardStatuses(stationDashRows).map((status) => ({ value: status, label: status })),
+    ],
+    stationDashFilters.status,
+  );
+  $stationDashHealth.value = stationDashFilters.health;
+  stationDashFilters = {
+    ...stationDashFilters,
+    country: $stationDashCountry.value,
+    status: $stationDashStatus.value,
+    health: $stationDashHealth.value as StationHealthFilter,
+  };
+}
+
+function checkLabel(state: StationCheckState): string {
+  if (state === 'ok') return 'ok';
+  if (state === 'warn') return 'warn';
+  if (state === 'bad') return 'bad';
+  return '-';
+}
+
+function checkCell(row: StationDashboardRow, key: StationCheckKey): HTMLTableCellElement {
+  const td = document.createElement('td');
+  const check = row.checks[key];
+  const badge = document.createElement('span');
+  badge.className = 'station-dash-check';
+  badge.dataset.state = check.state;
+  badge.textContent = checkLabel(check.state);
+  badge.title = check.detail ?? key;
+  td.append(badge);
+  return td;
+}
+
+function renderStationDashboardTable(rows: StationDashboardRow[]): void {
+  $stationDashTable.replaceChildren();
+  if (rows.length === 0) {
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = 10;
+    td.className = 'station-dash-empty';
+    td.textContent = 'No stations match these filters.';
+    tr.append(td);
+    $stationDashTable.append(tr);
+    return;
+  }
+
+  for (const row of rows) {
+    const tr = document.createElement('tr');
+
+    const station = document.createElement('td');
+    const name = document.createElement('div');
+    name.className = 'station-dash-name';
+    const title = document.createElement('span');
+    title.className = 'station-dash-name__title';
+    title.textContent = row.name;
+    const meta = document.createElement('span');
+    meta.className = 'station-dash-name__meta';
+    const format = [row.codec, row.bitrate ? `${row.bitrate}kbps` : undefined]
+      .filter(Boolean)
+      .join(' ');
+    meta.textContent = [row.broadcaster, row.metadataKey, format].filter(Boolean).join(' · ') || row.id;
+    name.append(title, meta);
+    station.append(name);
+
+    const country = document.createElement('td');
+    country.textContent = row.country ? countryName(row.country) : '-';
+
+    const status = document.createElement('td');
+    const statusPill = document.createElement('span');
+    statusPill.className = 'station-dash-status';
+    statusPill.textContent = row.status;
+    status.append(statusPill);
+
+    tr.append(
+      station,
+      country,
+      status,
+      ...STATION_CHECKS.map((key) => checkCell(row, key)),
+    );
+    $stationDashTable.append(tr);
+  }
+}
+
+function renderStationDashboard(): void {
+  const kpis = stationDashboardKpis(stationDashRows);
+  $stationDashTotal.textContent = kpis.total.toLocaleString();
+  $stationDashWorking.textContent = kpis.working.toLocaleString();
+  $stationDashRich.textContent = kpis.richMetadata.toLocaleString();
+  $stationDashAttention.textContent = kpis.attention.toLocaleString();
+
+  const filtered = filterStationDashboardRows(stationDashRows, stationDashFilters);
+  $stationDashCount.textContent = `${filtered.length.toLocaleString()} of ${stationDashRows.length.toLocaleString()}`;
+  renderStationDashboardTable(filtered);
+
+  if (stationDashReportError) {
+    $stationDashGenerated.textContent = `Status checks unavailable: ${stationDashReportError}. Showing catalog fields only.`;
+  } else if (stationDashReportGeneratedAt) {
+    $stationDashGenerated.textContent =
+      `Status checks generated ${new Date(stationDashReportGeneratedAt).toLocaleString()}.`;
+  } else {
+    $stationDashGenerated.textContent = 'Status checks load from the committed station-status artifact.';
   }
 }
 
@@ -2313,20 +2493,33 @@ async function openDashboardSheet(open: boolean): Promise<void> {
     teardownDashMap();
     return;
   }
+  stationDashReportError = undefined;
   // Initial render — show "…" placeholders, fetch fresh data.
+  $stationDashTotal.textContent = '…';
+  $stationDashWorking.textContent = '…';
+  $stationDashRich.textContent = '…';
+  $stationDashAttention.textContent = '…';
+  $stationDashCount.textContent = '…';
+  $stationDashTable.replaceChildren();
   $dashPlays.textContent = '…';
   $dashVisits.textContent = '…';
   $dashCountries.textContent = '…';
   $dashStations.textContent = '…';
-  const [topStations, totals, locations] = await Promise.all([
+  const [catalog, statusReport, topStations, totals, locations] = await Promise.all([
+    loadBuiltinStations(),
+    fetchStationStatusReport(),
     fetchTopStationsWithCounts(),
     fetchPublicTotals(),
     fetchPublicLocations(),
   ]);
+  stationDashRows = buildStationDashboardRows(catalog, statusReport);
+  stationDashReportGeneratedAt = statusReport?.generatedAt;
+  syncStationDashFilters();
+  renderStationDashboard();
   const data = aggregateDashboard(
     topStations.items,
     locations,
-    BUILTIN_STATIONS,
+    catalog,
     topStations.total,
   );
   lastDashboardData = data;
@@ -3103,6 +3296,25 @@ function favoriteHeaderActions(favoriteCount: number): HTMLElement[] {
 }
 $dashboardBtn.addEventListener('click', () => void openDashboardSheet(true));
 $dashboardClose.addEventListener('click', () => void openDashboardSheet(false));
+$stationDashSearch.addEventListener('input', () => {
+  stationDashFilters = { ...stationDashFilters, query: $stationDashSearch.value };
+  renderStationDashboard();
+});
+$stationDashCountry.addEventListener('change', () => {
+  stationDashFilters = { ...stationDashFilters, country: $stationDashCountry.value };
+  renderStationDashboard();
+});
+$stationDashStatus.addEventListener('change', () => {
+  stationDashFilters = { ...stationDashFilters, status: $stationDashStatus.value };
+  renderStationDashboard();
+});
+$stationDashHealth.addEventListener('change', () => {
+  stationDashFilters = {
+    ...stationDashFilters,
+    health: $stationDashHealth.value as StationHealthFilter,
+  };
+  renderStationDashboard();
+});
 
 // Tap the alarm icon at the bottom of NP controls → toggle the
 // inline wake-edit pane. Second tap exits back to the regular track
