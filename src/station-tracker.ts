@@ -53,6 +53,7 @@ const refs = {
   kpiRich: byId('kpi-rich'),
   kpiCountries: byId('kpi-countries'),
   kpiAttention: byId('kpi-attention'),
+  qualityDonuts: byId('quality-donuts'),
   statusBars: byId('status-bars'),
   countryBars: byId('country-bars'),
   checkBars: byId('check-bars'),
@@ -163,6 +164,88 @@ function renderKpis(): void {
   setText(refs.kpiRich, kpis.richMetadata);
   setText(refs.kpiCountries, kpis.countries);
   setText(refs.kpiAttention, kpis.attention);
+}
+
+function qualityCounts(rows: StationDashboardRow[], check: StationCheckKey): Record<StationCheckState, number> {
+  return rows.reduce<Record<StationCheckState, number>>(
+    (counts, row) => {
+      counts[row.checks[check].state]++;
+      return counts;
+    },
+    { ok: 0, warn: 0, bad: 0, na: 0 },
+  );
+}
+
+function donutGradient(counts: Record<StationCheckState, number>): string {
+  const total = Object.values(counts).reduce((sum, value) => sum + value, 0);
+  if (total === 0) return 'conic-gradient(var(--ink-4) 0deg 360deg)';
+  const colors: Record<StationCheckState, string> = {
+    ok: 'var(--ok)',
+    warn: 'var(--accent)',
+    bad: 'var(--bad)',
+    na: 'var(--ink-4)',
+  };
+  let cursor = 0;
+  const stops: string[] = [];
+  for (const key of ['ok', 'warn', 'bad', 'na'] as const) {
+    const value = counts[key];
+    if (value === 0) continue;
+    const start = cursor;
+    cursor += (value / total) * 360;
+    stops.push(`${colors[key]} ${start.toFixed(2)}deg ${cursor.toFixed(2)}deg`);
+  }
+  return `conic-gradient(${stops.join(', ')})`;
+}
+
+function renderQualityDonuts(): void {
+  refs.qualityDonuts.replaceChildren();
+  for (const check of STATION_CHECKS) {
+    const counts = qualityCounts(state.rows, check);
+    const total = Object.values(counts).reduce((sum, value) => sum + value, 0);
+    const okPct = total > 0 ? Math.round((counts.ok / total) * 100) : 0;
+    const attention = counts.warn + counts.bad;
+
+    const card = document.createElement('article');
+    card.className = 'quality-card';
+
+    const donut = document.createElement('div');
+    donut.className = 'quality-donut';
+    donut.style.background =
+      `radial-gradient(circle at center, var(--bg) 0 52%, transparent 53%), ${donutGradient(counts)}`;
+    donut.setAttribute(
+      'aria-label',
+      `${checkName(check)} quality: ${okPct}% ok, ${attention.toLocaleString()} need attention`,
+    );
+    const center = document.createElement('div');
+    center.className = 'quality-donut__center';
+    center.textContent = `${okPct}%`;
+    donut.append(center);
+
+    const body = document.createElement('div');
+    body.className = 'quality-card__body';
+    const title = document.createElement('div');
+    title.className = 'quality-card__title';
+    title.textContent = checkName(check);
+    const meta = document.createElement('div');
+    meta.className = 'quality-card__meta';
+    meta.textContent = `${attention.toLocaleString()} attention`;
+    const legend = document.createElement('div');
+    legend.className = 'quality-card__legend';
+    for (const key of ['ok', 'warn', 'bad', 'na'] as const) {
+      const item = document.createElement('div');
+      item.className = 'quality-legend-item';
+      const dot = document.createElement('span');
+      dot.className = 'quality-legend-dot';
+      dot.dataset.state = key;
+      const label = document.createElement('span');
+      label.textContent = `${key} ${counts[key].toLocaleString()}`;
+      item.append(dot, label);
+      legend.append(item);
+    }
+    body.append(title, meta, legend);
+    card.append(donut, body);
+    refs.qualityDonuts.append(card);
+  }
 }
 
 function countBy<T extends string>(
@@ -373,6 +456,7 @@ async function main(): Promise<void> {
     state.generatedAt = report?.generatedAt;
     syncFilterOptions();
     renderKpis();
+    renderQualityDonuts();
     renderSidePanel();
     updateGeneratedText();
     applyFilters();
