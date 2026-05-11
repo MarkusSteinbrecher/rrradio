@@ -7,7 +7,6 @@ struct ContentView: View {
     @Environment(WakeAlarm.self) private var wakeAlarm
     @Environment(LocaleController.self) private var locale
     @Environment(NetworkMonitor.self) private var network
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var tab: AppTab = .browse
     @State private var searchFocused = false
     @State private var didApplyLandingPreference = false
@@ -17,12 +16,10 @@ struct ContentView: View {
     @AppStorage(LandingPage.stationIDKey) private var landingStationID = ""
 
     var body: some View {
-        Group {
-            if horizontalSizeClass == .regular {
-                IPadRootView(tab: $tab, searchFocused: $searchFocused)
-            } else {
-                compactRoot
-            }
+        StationListView(tab: $tab, searchFocusedExternally: $searchFocused)
+            .background(RrradioTheme.bg.ignoresSafeArea())
+        .safeAreaInset(edge: .bottom) {
+            bottomChrome
         }
         .animation(.snappy, value: player.current?.id)
         .sheet(isPresented: $showingLandingNowPlaying) {
@@ -65,14 +62,6 @@ struct ContentView: View {
         } message: {
             Text(locale.text(.wakePauseWarningMessage))
         }
-    }
-
-    private var compactRoot: some View {
-        StationListView(tab: $tab, searchFocusedExternally: $searchFocused)
-            .background(RrradioTheme.bg.ignoresSafeArea())
-            .safeAreaInset(edge: .bottom) {
-                bottomChrome
-            }
     }
 
     @ViewBuilder
