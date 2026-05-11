@@ -2410,3 +2410,303 @@ Three new functions in `src/builtins.ts`, mapped on a per-station basis (the `me
 - **Composer is the right shape if we can get UCS values.** Well-designed (CORS=`*`, `?format=json` on every endpoint, separate now/tracks/day/week paths, no auth on the widget endpoints). It's used by many smaller PRSS-style member stations. The blocker is purely the UCS lookup, which is OAuth-gated. Suggested follow-up: file a sponsor question or run a Playwright session against `wnyc.org` / `kqed.org` / `wamu.org` live player UI to capture the UCS from in-browser fetch traffic.
 - **No anti-bot on the wirable APIs.** `api.wnyc.org` and `api.wbur.org` accept plain curl with `Mozilla/5.0` UA, no cookies, no JS challenge.
 - **Sample files** at `data/metadata-discovery/npr-*.json` are gitignored (per `.gitignore` `data/metadata-discovery/`), so this PR commits only the docs section. To re-capture: `curl -s "https://api.wnyc.org/api/v1/whats_on/"`, `curl -s "https://api.wbur.org/schedule"`, `curl -s "https://api.wbur.org/channels/wbur"`, `curl -s "https://api.composer.nprstations.org/v1/api-docs/widget"`.
+
+## abc — Australian Broadcasting Corporation (AU)
+
+Investigated: 2026-05-09.
+
+ABC's web player at `abc.net.au/listen` is a Next.js SPA. The audio component
+hooks into two distinct backend services on `abcradio.net.au`:
+
+- **`music.abcradio.net.au`** — track-level "what's playing now" (artist, title,
+  release, artwork). Used on music channels (Triple J, Classic, Country, Jazz,
+  Double J, Unearthed, Kids Listen).
+- **`program.abcradio.net.au`** — broadcast-level programme guide (show title,
+  presenter, synopsis, start/end). Used on talk + spoken channels (Radio
+  National, NewsRadio, Local Radio) and as the EPG for music channels.
+
+The Next.js page also exposes `/listen/core-next/api/musicNowPlaying/<ID>` and
+`/listen/core-next/api/epgNowPlaying/<ID>/now` as a thin server-side proxy,
+but those are not directly callable from outside the SPA (return the ABC
+"sorry" 404 page when hit cold). Wire to the underlying `*.abcradio.net.au`
+hosts directly — they have proper CORS.
+
+### Endpoints
+
+| What | URL template | Auth | CORS | Cache hint | Sample |
+|---|---|---|---|---|---|
+| Now-playing track | `https://music.abcradio.net.au/api/v1/plays/<service>/now.json` | none | `*` | `max-age=93` | `data/metadata-discovery/abc-triplej-now.json` |
+| Track history | `https://music.abcradio.net.au/api/v1/plays/search.json?station=<service>&order=desc&limit=10` | none | `*` | `max-age=60` | `data/metadata-discovery/abc-triplej-history.json` |
+| Programme guide | `https://program.abcradio.net.au/api/v1/programitems/search.json?service=<service>&from=<ISO>&to=<ISO>&include=next,with_images,resized_images&limit=N` | none | `*` | `max-age=163` | `data/metadata-discovery/abc-triplej-epg.json`, `…abc-local-sydney-epg.json` |
+| Cover art | embedded in now-playing under `now.recording.releases[0].artwork[0].sizes[]` (multiple ratios + widths) | — | — | — | (in `abc-triplej-now.json`) |
+| Podcast feeds | per-show RSS exposed on each programme page (e.g. `abc.net.au/radionational/programs/<show>/feed/<id>/podcast.xml`) — out of scope for now-playing | none | varies | varies | n/a |
+
+All three JSON endpoints are HTTPS-only, return `Content-Type: application/json`,
+and ship `Access-Control-Allow-Origin: *` (verified via `curl -I`). No cookies,
+no `Authorization` header, no query-param tokens. No `X-RateLimit-*` headers
+were returned; respect the `Cache-Control: max-age=…` (60–163 s).
+
+### Service-ID taxonomy
+
+The `<service>` slug is the same on both APIs but is **not** the `papiServiceId`
+used by the player config. Empirically derived from the player config and from
+`creating_service.service_id` values returned by the unfiltered EPG endpoint:
+
+| Channel | papiServiceId (player) | service slug (APIs) |
+|---|---|---|
+| Triple J | `TRIPLEJ` | `triplej` |
+| Triple J Unearthed | `UNEARTHED` | `unearthed` |
+| Double J | `DOUBLEJ` | `doublej` |
+| ABC Classic | `CLASSIC` | `classic` |
+| ABC Country | `COUNTRY` | `country` |
+| ABC Jazz | `JAZZ` | `jazz` |
+| Kids Listen | `KIDS_LISTEN` | `kidslisten` |
+| ABC Radio National | `RN` | `RN` *(case-sensitive — uppercase)* |
+| ABC NewsRadio | `NEWS` | `news` |
+| ABC Sport | `SPORT` | (no EPG match found — see below) |
+| ABC Radio Sydney (local) | `LOCAL_SYDNEY` | `local_sydney` |
+| ABC Radio Melbourne | `LOCAL_MELBOURNE` | `local_melbourne` |
+| ABC Radio (other locals) | `LOCAL_<CITY>` | `local_<city>` |
+| Radio Australia | `RA` | `ra` |
+| Radio Australia ML | — | `ra_ml` |
+
+The mapping rule: roughly `lowercase(papiServiceId)` — except `RN` which
+remains uppercase. Suggest using a lookup table keyed by `papiServiceId`
+rather than a transform; future channels may add new exceptions.
+
+Note: passing an unknown `service` slug to `programitems/search.json` does
+**not** return an error — it returns the unfiltered live-program list, which
+makes naive "does this slug work" probing return false positives. The reliable
+check is: does the response contain at least one item whose
+`creating_service.service_id == <expected>`?
+
+### Response shape — `plays/<service>/now.json`
+
+```json
+{
+  "next_updated": "2026-05-09T20:23:06+00:00",
+  "last_updated": "2026-05-09T20:20:51+00:00",
+  "next": { /* upcoming track, may be {} */ },
+  "now": {
+    "summary": { "artist": "...", "title": "...", "links": {...} },
+    "entity": "Play",
+    "played_time": "2026-05-09T20:20:41+00:00",
+    "service_id": "triplej",
+    "recording": {
+      "title": "...",
+      "duration": 155,
+      "artists": [{ "name": "...", "is_australian": true, ... }],
+      "releases": [{
+        "title": "...",
+        "format": "Single",
+        "artwork": [{
+          "url": "https://www.abc.net.au/.../cover.jpg",
+          "type": "cover",
+          "width": 600, "height": 600,
+          "sizes": [
+            { "url": "...100x100...", "width": 100, "aspect_ratio": "1x1" },
+            { "url": "...160x160...", "width": 160, "aspect_ratio": "1x1" },
+            { "url": "...340x340...", "width": 340, "aspect_ratio": "1x1" },
+            { "url": "...580x580...", "width": 580, "aspect_ratio": "1x1" }
+          ]
+        }]
+      }]
+    }
+  },
+  "prev": { /* previous track, same shape as `now` */ }
+}
+```
+
+Field map for the rrradio fetcher:
+
+- **artist** → `now.summary.artist` (also `now.recording.artists[0].name` —
+  prefer `summary.artist` because it's the broadcaster-canonical join).
+- **track** → `now.summary.title`.
+- **raw / ICY-style line** → `${artist} - ${title}`.
+- **cover art** → `now.recording.releases[0].artwork[0].sizes[]` — pick a 1x1
+  size by width (we render in a square slot). 340×340 is a sensible default.
+- **track duration** → `now.recording.duration` (seconds) if we ever surface a
+  progress bar.
+- **next track** → `next.summary.{artist,title}` (often `{}` on talk channels).
+- **previous track** → `prev.summary.{artist,title}` (rotating history).
+
+Talk channels (NewsRadio `service=news`, Radio National `service=RN`) return
+`{ "now": {}, "next": {}, "prev": {} }` — they don't push tracks. Fall back to
+the EPG endpoint to surface programme info on those.
+
+### Response shape — `programitems/search.json` (EPG)
+
+```json
+{
+  "total": 1,
+  "offset": 0,
+  "count": 1,
+  "items": [{
+    "arid": "pe989a106f",
+    "title": "Weekends",
+    "short_synopsis": "Kick off your weekend...",
+    "mini_synopsis": "...",
+    "creating_service": { "service_id": "triplej", "title": "triple j" },
+    "primary_publication_event": {
+      "schedule_type": "Live",
+      "start": "2026-05-09T21:00:00+0000",
+      "end":   "2026-05-10T01:00:00+0000",
+      "defining_timezone": "Australia/Sydney"
+    },
+    "series":     { "title": "Weekends" },
+    "program":    { "title": "Weekends", "short_synopsis": "..." },
+    "presenters": [{ "name": "...", "primary_image": {...} }],
+    "primary_image": { "sizes": [...] }
+  }]
+}
+```
+
+For "what is on right now" send `from=<NOW>&to=<NOW+1h>&limit=1`. For a multi-
+day schedule (`ScheduleFetcher`-style), send `from=<NOW>&to=<NOW+24h>&limit=N`
+and group by day.
+
+Field map:
+- **programme.name** → `items[0].title` (fall back to `program.title`).
+- **programme.subtitle** → `items[0].short_synopsis` or `mini_synopsis`.
+- **programme.start/end** → parse `primary_publication_event.start/.end`.
+- **schedule day boundary** → use `defining_timezone` (`Australia/Sydney`) so
+  late-night shows attach to the right calendar day.
+
+### Response shape — `plays/search.json` (track history)
+
+Same play-record shape as the `/now.json` endpoint, but `items[]` is an array
+of recent plays (up to ~10000 on `total`, default 10 per page). The `played_time`
+field is the dispatch timestamp; `service_id` confirms the channel.
+
+### Wirable today?
+
+✅ **Wire-now.** All endpoints HTTPS, CORS-open (`*`), no auth, structured
+JSON, public cache headers. No worker proxy needed. The only friction is the
+service-ID lookup table and the per-channel decision (music vs talk) about
+which endpoint to consult.
+
+### Suggested fetcher
+
+New shape; needs its own `fetchAbcMetadata` in `src/builtins.ts`. Closest
+analogues:
+
+- **`fetchSrgssrIlMetadata`** for the now-playing call shape (also
+  artist+title with rich nested release/artwork, also from a public
+  `*.<broadcaster>.<tld>` host with CORS open).
+- **`fetchOrfMetadata` / `fetchHrMetadata`** for the dual-endpoint pattern
+  (one music API + one programme API).
+
+Outline:
+
+```ts
+// service-id lookup keyed off papiServiceId (stored on the station entry,
+// or derived from station.broadcaster + station.name).
+const ABC_SERVICE_BY_PAPI: Record<string, { music?: string; epg?: string }> = {
+  TRIPLEJ:        { music: 'triplej',     epg: 'triplej' },
+  CLASSIC:        { music: 'classic',     epg: 'classic' },
+  COUNTRY:        { music: 'country',     epg: 'country' },
+  JAZZ:           { music: 'jazz',        epg: 'jazz' },
+  DOUBLEJ:        { music: 'doublej',     epg: 'doublej' },
+  UNEARTHED:      { music: 'unearthed',   epg: 'unearthed' },
+  KIDS_LISTEN:    { music: 'kidslisten',  epg: 'kidslisten' },
+  RN:             {                       epg: 'RN' },
+  NEWS:           {                       epg: 'news' },
+  LOCAL_SYDNEY:   {                       epg: 'local_sydney' },
+  LOCAL_MELBOURNE:{                       epg: 'local_melbourne' },
+  // ...other locals follow the LOCAL_<CITY>/local_<city> pattern
+};
+
+const fetchAbcMetadata: MetadataFetcher = async (station, signal) => {
+  const ids = abcServiceIds(station);
+  if (!ids) return null;
+
+  // 1. Music channel: try plays/now.json first.
+  if (ids.music) {
+    try {
+      const url = `https://music.abcradio.net.au/api/v1/plays/${ids.music}/now.json`;
+      const res = await fetch(url, { signal, cache: 'no-store' });
+      if (res.ok) {
+        const data = (await res.json()) as AbcPlaysNow;
+        const now = data.now;
+        if (now?.summary?.title) {
+          const cover = pickAbcArtwork(now.recording?.releases?.[0]?.artwork?.[0]);
+          return {
+            artist: now.summary.artist?.trim() || undefined,
+            track: now.summary.title.trim(),
+            raw: `${now.summary.artist ?? ''} - ${now.summary.title}`.trim(),
+            cover,
+          };
+        }
+      }
+    } catch {/* fall through */}
+  }
+
+  // 2. Talk channel (or music channel mid-program): hit EPG and return programme.
+  if (ids.epg) {
+    try {
+      const now = new Date();
+      const to = new Date(now.getTime() + 60 * 60 * 1000);
+      const u = new URL('https://program.abcradio.net.au/api/v1/programitems/search.json');
+      u.searchParams.set('service', ids.epg);
+      u.searchParams.set('from', now.toISOString());
+      u.searchParams.set('to', to.toISOString());
+      u.searchParams.set('include', 'next,with_images,resized_images');
+      u.searchParams.set('limit', '1');
+      const res = await fetch(u, { signal, cache: 'no-store' });
+      if (res.ok) {
+        const data = (await res.json()) as AbcEpgResponse;
+        const item = data.items?.[0];
+        // Important: confirm creating_service.service_id matches our slug —
+        // the API silently returns unfiltered results when the slug is unknown.
+        if (item && item.creating_service?.service_id === ids.epg && item.title) {
+          return {
+            track: undefined,
+            raw: '',
+            program: {
+              name: item.title.trim(),
+              subtitle: (item.short_synopsis || item.mini_synopsis || '').trim() || undefined,
+            },
+          };
+        }
+      }
+    } catch {/* fall through */}
+  }
+  return null;
+};
+```
+
+A `fetchAbcSchedule: ScheduleFetcher` can be written against the same
+`programitems/search.json` endpoint with `from=<midnight>&to=<midnight+24h>`
+and grouped by `defining_timezone` (Australia/Sydney). Mirror the BBC schedule
+implementation.
+
+### Notes / weirdness
+
+- **Talk channels return empty `now`.** Don't treat that as an error — it just
+  means "no track playing." Surface programme info from the EPG endpoint
+  instead.
+- **EPG service filter is permissive.** Passing an unrecognised `service=` slug
+  returns the unfiltered live-program firehose. The fetcher MUST verify
+  `items[0].creating_service.service_id` matches the requested slug, or it'll
+  show "Country Jukebox" on Triple J.
+- **Service-ID casing.** Most slugs are lowercased — except `RN`. Hardcode the
+  lookup table; don't rely on a transform.
+- **Local Radio gaps.** Local stations relay national feeds overnight, so an
+  empty `from→to=NOW+1h` window is normal at 02:00 AEST and is not a bug.
+- **Cover art domains.** Original full-size assets are on
+  `www.abc.net.au/<network>/albums/...`; resized variants live on
+  `resize.abcradio.net.au/<sig>/<dim>/center/middle/<urlencoded source>`. Both
+  HTTPS, both CORS-friendly.
+- **Track duration is in seconds** (not ms), unsigned int, often present.
+- **`is_australian: true`** on artists is a nice signal we could surface in
+  rrradio someday (Australian-music tag).
+- **Terms of use.** Endpoints are unauthenticated and used by abc.net.au's own
+  player, but the broader ABC site is © ABC and only the player UI is licensed
+  for broadcast. Polling at `max-age` cadence (60–163 s) is the natural fit.
+- **Streaming hosts.** Note for the human reviewer: the player config also
+  exposed an HLS host `https://streaming.abc-cdn.net.au/audio/hls/<slug>.m3u8`
+  that may be a higher-quality alternative to the existing
+  `live-radio01.mediahubaustralia.com` / `abc.streamguys1.com` URLs in
+  `data/stations.yaml`. Out of scope for this metadata recon, but worth noting
+  for a future curation pass.
+- **Sample files** at `data/metadata-discovery/abc-*.json` are gitignored (per `.gitignore` `data/metadata-discovery/`), so this PR commits only the docs section. To re-capture: `curl -s "https://music.abcradio.net.au/api/v1/plays/triplej/now.json"`, `curl -s "https://music.abcradio.net.au/api/v1/plays/search.json?station=triplej&order=desc&limit=10"`, `curl -s "https://program.abcradio.net.au/api/v1/programitems/search.json?service=triplej&from=$(date -u +%FT%TZ)&to=$(date -u -v+1H +%FT%TZ)&include=next,with_images,resized_images&limit=5"`.
