@@ -2240,3 +2240,173 @@ New `fetchDrMetadata` in `src/builtins.ts`. **Closest analogue:** `fetchSrgssrIl
 - **Firestore live updates.** The web player additionally subscribes to a Firestore document at `liveIndexPointLists/<channel-urn>` for sub-second push updates (we don't need this — polling `indexpoints/live` every ~30 s is plenty).
 - **ToS.** No published developer ToS for `api.dr.dk/radio/v5`. The historic `developer.dr.dk` portal was retired years ago. As a Danish public-service broadcaster funded by media licence, DR's metadata is in spirit public-good; reusing programme/track info with an attribution line ("Track info © Danmarks Radio") is the friendly default. If we ever get a "please stop" email, switch off the fetcher — easy.
 - **Sample files** at `data/metadata-discovery/dr-*.json` are gitignored (per `.gitignore` `data/metadata-discovery/`), so this PR commits only the docs section. To re-capture, run the curls in the table above (no auth needed for `indexpoints/live/<slug>`; pass `-H "x-apikey: 6Wkh8s98Afx1ZAaTT4FuWODTmvWGDPpR"` for `schedules/<slug>/now` and `music/tracks/live/...`).
+
+## npr — NPR (United States)
+
+Investigated: 2026-05-09.
+
+### Federation note (read this first)
+
+NPR is **not a single broadcaster.** It is a network of ~250 independently-operated member stations (WNYC, WBUR, KQED, WAMU, WBEZ, MPR News, plus separately-tracked broadcasters like KCRW and KEXP) **plus** a national production unit. There is **no single live now-playing API** that covers the whole network. Each member station runs its own web stack (WordPress / Laravel / Astro / Next.js / custom React) and publishes — or doesn't — its live metadata on its own infrastructure.
+
+NPR HQ ships *national* content via podcast feeds (Morning Edition, All Things Considered, Fresh Air, NPR News Now) and via the NPR One mobile app, which uses an OAuth-gated Listening Service (`listening.api.npr.org`). The linear "NPR 24-Hour Program Stream" we list as `builtin-npr-program-stream` does **not** appear to expose a public unauthenticated current-show endpoint of its own. The legacy `api.npr.org/queryservice/` REST service is alive but key-gated, and the documented "free for non-commercial" key registration was retired several years ago.
+
+The practical consequence: an "NPR fetcher" is really N fetchers, one per member station, since the API shape and metadata posture differ by member. Treat `broadcaster: npr` as a UI grouping label, not a single fetcher key. Wiring will be per-station, not per-broadcaster.
+
+### Channels in catalog (broadcaster: npr)
+
+| Station | Stream | Notes |
+|---|---|---|
+| `builtin-npr-program-stream` | `https://npr-ice.streamguys1.com/live.mp3` | NPR HQ 24-hour linear. No public live-show endpoint located. |
+| `builtin-wnyc-fm` | `https://fm939.wnyc.org/wnycfm` | Covered by `api.wnyc.org/api/v1/whats_on/`. |
+| `builtin-wbur` | `https://fm909.wbur.org/wbur_www` | Covered by `api.wbur.org/schedule` (programme grid only). |
+| `builtin-wamu` | `https://wamu.cdnstream1.com/wamu.mp3` | StreamGuys w/ `icy-metaint: 0`. No public metadata endpoint located. |
+| `builtin-wbez` | `https://stream.wbez.org/wbez128.mp3` | Same StreamGuys posture. Not investigated in depth. |
+| `builtin-kqed` | `https://hls.kqed.org/hls/kqed_app/playlist.m3u8` | `/radio` page surfaced no metadata API. |
+| `builtin-mpr-news` | `https://nis.stream.publicradio.org/nis.mp3` | mprnews.org Next.js routes 404 for `/api/now`, `/api/whats-on`, etc. |
+
+### Endpoints
+
+| What | URL template | Auth | CORS | Sample |
+|---|---|---|---|---|
+| WNYC / WQXR live "what's on" + current track | `https://api.wnyc.org/api/v1/whats_on/` | none | **no `Access-Control-Allow-Origin` reflected back** (worker proxy needed) | `data/metadata-discovery/npr-wnyc-whats-on.json` |
+| WBUR programming schedule (weekly grid) | `https://api.wbur.org/schedule` | none | `*` | `data/metadata-discovery/npr-wbur-schedule.json` |
+| WBUR channel / programme metadata | `https://api.wbur.org/channels/{slug}` | none | `*` | `data/metadata-discovery/npr-wbur-channel.json` |
+| NPR Composer "On Now" widget | `https://api.composer.nprstations.org/v1/widget/{ucs}/now?format=json` | none on the widget path | `*` | swagger only — no live UCS captured (`data/metadata-discovery/npr-composer-widget-swagger.json`) |
+| NPR Composer track history | `https://api.composer.nprstations.org/v1/widget/{ucs}/tracks?format=json` | none | `*` | (same swagger) |
+| NPR Composer day / week schedule | `https://api.composer.nprstations.org/v1/widget/{ucs}/{day,week}?format=json&date=…` | none | `*` | (same swagger) |
+| NPR Composer UCS lookup (call-letters → UCS) | `https://api.composer.nprstations.org/v1/ucs/search?name=WAMU` | **OAuth** (returns `Unauthorized`) | `*` | not capturable |
+| NPR Listening Service v2 (NPR One backend) | `https://listening.api.npr.org/v2/...` | **OAuth** (consumer key + bearer) | n/a | n/a — out of scope |
+| NPR legacy queryservice | `https://api.npr.org/queryservice/play/v3/...?apiKey=…` | **API key** (registration retired) | `*` | n/a |
+| NPR national podcast feeds (per-show) | `https://feeds.npr.org/{showId}/podcast.xml` | none | `*` (Akamai) | n/a (RSS) |
+| `legacy.npr.org/feeds/streaming/onair.json` (historical) | redirect target from `npr.org/feeds/streaming/onair.json` | none | — | **404** as of this investigation |
+
+### Response shape — `api.wnyc.org/api/v1/whats_on/`
+
+Top-level: object keyed by stream slug. Stream slugs returned today: `wnyc-fm939`, `wnyc-am820`, `q2`, `wqxr`, `wqxr-special` (Operavore), `wqxr-special2` (Holiday Channel). Each value:
+
+```jsonc
+{
+  "name": "WNYC 93.9 FM",
+  "slug": "wnyc-fm939",
+  "has_playlists": false,                // true for music streams (q2, wqxr-*)
+  "current_show": {
+    "title": "BBC Newshour",             // ← programme name
+    "show_url": "https://www.wnyc.org/shows/bbc-newshour",
+    "description": "<p>...</p>",         // HTML, may need stripping
+    "start": "2026-05-09T16:00:00-0400", // local
+    "end":   "2026-05-09T17:00:00-0400",
+    "iso_start": "2026-05-09T20:00:00+00:00",
+    "iso_end":   "2026-05-09T21:00:00+00:00",
+    "fullImage":   { "url": "...", "width": 300, "height": 300 },
+    "listImage":   { "url": "...", ... },
+    "detailImage": { "url": "...", ... }
+  },
+  "current_playlist_item": null,         // null for talk streams; populated for music
+  "future": [],                           // upcoming shows (often empty)
+  "expires": "2026-05-09T16:16:29",      // ← polling hint
+  "expires_ts": 1778357776.0
+}
+```
+
+For music streams (`q2`, `wqxr*`), `current_playlist_item` is populated:
+
+```jsonc
+"current_playlist_item": {
+  "stream": "q2",
+  "start_time": "2026-05-09T16:15:16",
+  "iso_start_time": "2026-05-09T20:15:16+00:00",
+  "catalog_entry": {
+    "title": "For The Culture feat. D Double E",
+    "composer": { "name": "Sons of Kemet", "url": "..." },  // ← primary credit (artist for pop, composer for classical)
+    "soloists":  [{ "musician": { "name": "..." } }],
+    "ensemble":  { "name": "..." },
+    "reclabel":  { "name": "Impulse!" },
+    "audio":     "https://pdst.fm/...",
+    "length":    240
+  }
+}
+```
+
+Track-level cover art is **not** present — only programme imagery on `current_show`. The catalog model is classical-music-flavoured (composer + soloists + ensemble + conductor); for pop/jazz streams the "composer" field carries the artist's name.
+
+### Response shape — `api.wbur.org/schedule`
+
+```jsonc
+{
+  "body": {
+    "weekday": [
+      { "time": "12:00 AM", "items": [{ "label": "BBC World Service", "image": "...", "excerpt": "..." }] },
+      { "time": "5:00 AM",  "items": [{ "label": "Morning Edition", "image": "...", "excerpt": "..." }] },
+      ...
+    ],
+    "saturday": [...],
+    "sunday":   [...]
+  },
+  "code": 200,
+  "built": "2026-05-09T15:53:37-04:00"
+}
+```
+
+`time` strings are local Eastern, no time-zone marker — fetcher must assume `America/New_York`. There is **no live current-show endpoint** at `api.wbur.org`; the schedule has to be cross-walked against current local time to derive "what's on now". `api.wbur.org/channels/{slug}` returns programme metadata (image, description, podcast RSS) but again no live position. WBUR is therefore *partial*: programme name + image derivable, no track data, no auto-correcting.
+
+### Response shape — `api.composer.nprstations.org/v1/widget/{ucs}/now?format=json`
+
+Per the Swagger spec at `https://api.composer.nprstations.org/v1/api-docs/widget` (saved). The path supports query params `format=html|json|jsonp|string`, `prog_id`, `limit`, `show_song`, `style=v2`, plus several affiliate-link toggles. Sister endpoints:
+
+- `{ucs}/tracks` — recent track history
+- `{ucs}/playlist` — deep history with `before`/`after` filtering
+- `{ucs}/day?date=YYYY-MM-DD` — daily schedule
+- `{ucs}/week?date=START,END` — weekly schedule
+
+All return JSON when `format=json` and serve `Access-Control-Allow-Origin: *`. The 24-character hex **UCS** is a Mongo ObjectId tied to a stream (a member station could have multiple, e.g. one per channel).
+
+The friction: `/v1/ucs/search?name=WAMU` returns `Unauthorized` without a signed OAuth request, and we don't have a UCS for any of the seven NPR-tagged stations in the catalog. Composer-using stations typically embed the UCS in their own player JS bundle — but inspecting `wamu.org`'s 1.5 MB `app.min.js` bundle found no `composer`, `nprstations`, or 24-hex pattern reference, suggesting WAMU has moved off Composer. KQED's `/radio` page similarly surfaced no Composer references. **Composer is real and useful in principle, but most of *our* NPR-tagged stations don't appear to use it.** Discovering UCS values would need either a Playwright session against each member's live player UI, or a list provided by the sponsor.
+
+### Wirable today?
+
+⚠️ **Partial, per-station only.** No single NPR-network fetcher is viable. Three sub-cases:
+
+1. **WNYC + WQXR family** (`builtin-wnyc-fm`, plus future WQXR/WNYC-AM imports) — ⚠️ **wirable via worker proxy.** `api.wnyc.org/api/v1/whats_on/` is the richest endpoint found in this session: structured live data covering programme name, programme imagery, plus track artist/title for the music streams. CORS is the blocker — the response includes `Vary: Origin` and `Access-Control-Allow-Credentials: true` but **no `Access-Control-Allow-Origin` header is reflected back** to non-WNYC origins, so a direct browser fetch from `rrradio.org` will fail. Add `api.wnyc.org` to the `worker/src/index.ts` `/api/public/proxy` allowlist regex and wire a `fetchWnycMetadata` that selects the relevant slug from the multi-stream payload.
+
+2. **WBUR** (`builtin-wbur`) — ⚠️ **partial.** `api.wbur.org/schedule` plus `/channels/{slug}` is CORS-clean (`*`) and gives a weekly programme grid + per-show images. No live track and no live "what's on now" — fetcher has to cross-walk current `America/New_York` time against the schedule grid. Programme name + image only, no music data, never auto-corrects mid-show. Worth a dedicated `fetchWburSchedule` for the schedule fetcher slot; the metadata fetcher would synthesise a current-programme guess from the same payload.
+
+3. **WAMU, WBEZ, KQED, MPR News, plus `builtin-npr-program-stream`** — ❌ **not wirable from a public web endpoint in this session.** No metadata API surfaced; streams expose either ICY metaint=0 or HLS without ID3 timed metadata in the player path. Each would need either a per-station live capture (browser devtools on the actual web player, ideally Playwright) or a separate Composer UCS lookup. They stay `status: stream-only`.
+
+### Suggested fetchers
+
+Three new functions in `src/builtins.ts`, mapped on a per-station basis (the `metadata:` field in `data/stations.yaml` is per-station, so this works without giving NPR itself a network-wide fetcher):
+
+```ts
+// 1. fetchWnycMetadata — pulls api.wnyc.org/api/v1/whats_on/ once via worker
+//    proxy, picks station.metadata.wnycSlug ("wnyc-fm939" | "wnyc-am820"
+//    | "wqxr" | "q2" | "wqxr-special" | "wqxr-special2"), maps
+//    current_show.title to programme + current_playlist_item.catalog_entry
+//    to artist/title where present. Add `api\.wnyc\.org` to the
+//    /api/public/proxy allowlist in worker/src/index.ts.
+//
+// 2. fetchWburSchedule + fetchWburMetadata — direct fetch api.wbur.org/schedule
+//    (CORS=*), pick the row for the current America/New_York wall-clock,
+//    emit programme name + image. No track data ever; no worker proxy needed.
+//
+// 3. (deferred) fetchNprComposerMetadata — generic helper that reads
+//    station.metadata.composerUcs (24-char hex) and queries
+//    api.composer.nprstations.org/v1/widget/{ucs}/now?format=json. No worker
+//    needed (CORS=*); blocked on humans supplying UCS values per station.
+```
+
+**Closest existing analogues to copy from:**
+
+- WNYC payload shape ≈ `fetchSrgssrIlMetadata` (multi-channel JSON keyed by slug — pick the one matching `station.metadata.wnycSlug`).
+- WBUR schedule shape ≈ `fetchOrfSchedule` (weekly programme grid → current block by wall-clock).
+- Composer ≈ a brand-new shape; closest is `fetchBrMetadata`'s "single now-playing JSON keyed by widget id" pattern.
+
+### Notes
+
+- **Treat `broadcaster: npr` as a UI-grouping label, not a fetcher key.** `metadataFetchers[broadcaster]` lookups in `src/builtins.ts` will always need to be per-station for NPR. Cleaner long-term: split the seven NPR-tagged catalogue entries across multiple broadcaster slugs (`wnyc`, `wbur`, `wamu`, `kqed`, `wbez`, `mpr`, `npr-national`) and add broadcaster entries to `data/broadcasters.yaml` for each. The current single-`npr` slug under-models the data shape.
+- **Rate-limit posture.** No `X-RateLimit-*` headers seen on `api.wnyc.org` (cache-control is `max-age=10`, so polling once every 10–30 seconds is generous). `api.wbur.org` returns `s-maxage=86400` on channel data and `s-maxage=240` on the schedule, so a few requests per hour per client suffice.
+- **WAMU's stream uses `Server: AIS Streaming Server 9.x` and `icy-metaint: 0`** — StreamGuys's "metadata stripped" configuration. There is no inline ICY title to extract. Same CDN posture for KQED HLS at `hls.kqed.org/hls/kqed_app/playlist.m3u8` (no public ID3 metadata in the m3u8).
+- **KCRW** (separately tagged in `data/broadcasters.yaml`) is on Vercel with an aggressive bot challenge that returns `429 x-vercel-mitigated: challenge` to non-browser user agents. KCRW needs a real-browser session (Playwright) for any meaningful capture.
+- **Composer is the right shape if we can get UCS values.** Well-designed (CORS=`*`, `?format=json` on every endpoint, separate now/tracks/day/week paths, no auth on the widget endpoints). It's used by many smaller PRSS-style member stations. The blocker is purely the UCS lookup, which is OAuth-gated. Suggested follow-up: file a sponsor question or run a Playwright session against `wnyc.org` / `kqed.org` / `wamu.org` live player UI to capture the UCS from in-browser fetch traffic.
+- **No anti-bot on the wirable APIs.** `api.wnyc.org` and `api.wbur.org` accept plain curl with `Mozilla/5.0` UA, no cookies, no JS challenge.
+- **Sample files** at `data/metadata-discovery/npr-*.json` are gitignored (per `.gitignore` `data/metadata-discovery/`), so this PR commits only the docs section. To re-capture: `curl -s "https://api.wnyc.org/api/v1/whats_on/"`, `curl -s "https://api.wbur.org/schedule"`, `curl -s "https://api.wbur.org/channels/wbur"`, `curl -s "https://api.composer.nprstations.org/v1/api-docs/widget"`.
