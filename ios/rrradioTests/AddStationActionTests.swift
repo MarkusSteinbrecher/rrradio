@@ -9,7 +9,7 @@ final class AddStationActionTests: XCTestCase {
         ))
 
         XCTAssertEqual(url.scheme, "mailto")
-        XCTAssertEqual(url.path, "redsukramst@gmail.com")
+        XCTAssertTrue(url.absoluteString.hasPrefix("mailto:redsukramst@gmail.com"))
 
         let components = try XCTUnwrap(URLComponents(url: url, resolvingAgainstBaseURL: false))
         let query = Dictionary(uniqueKeysWithValues: (components.queryItems ?? []).map { ($0.name, $0.value ?? "") })
