@@ -1,6 +1,6 @@
 import Foundation
 
-struct RadioBrowserClient {
+final class RadioBrowserClient {
     static let pageSize = 60
 
     private let seedHosts = [
@@ -9,23 +9,18 @@ struct RadioBrowserClient {
         "nl1.api.radio-browser.info",
     ]
     private let session: URLSession
+    private let userAgent: String
+    private var lastSuccessfulHost: String?
 
-    init(session: URLSession = .shared) {
+    init(session: URLSession = .shared, userAgent: String = RadioBrowserClient.defaultUserAgent) {
         self.session = session
+        self.userAgent = userAgent
     }
 
     func stationCount() async throws -> Int? {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = seedHosts[0]
-        components.path = "/json/stats"
-        guard let url = components.url else { return nil }
-        diagnosticRecordAsync("radio-browser", "station count requested", details: ["host": seedHosts[0]])
+        diagnosticRecordAsync("radio-browser", "station count requested")
+        let data = try await dataWithMirrorFailover(path: "/json/stats")
         do {
-            let (data, response) = try await session.data(from: url)
-            guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
-                throw URLError(.badServerResponse)
-            }
             let count = try JSONDecoder().decode(RadioBrowserStats.self, from: data).stations
             diagnosticRecordAsync("radio-browser", "station count loaded", details: ["count": count.map(String.init) ?? "unknown"])
             return count
@@ -40,13 +35,9 @@ struct RadioBrowserClient {
         tag: String? = nil,
         country: String? = nil,
         offset: Int = 0,
-        limit: Int = Self.pageSize,
+        limit: Int = RadioBrowserClient.pageSize,
     ) async throws -> [Station] {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = seedHosts[0]
-        components.path = "/json/stations/search"
-        components.queryItems = [
+        var queryItems = [
             URLQueryItem(name: "limit", value: String(limit)),
             URLQueryItem(name: "offset", value: String(offset)),
             URLQueryItem(name: "order", value: "votes"),
@@ -54,15 +45,14 @@ struct RadioBrowserClient {
             URLQueryItem(name: "hidebroken", value: "true"),
         ]
         if let query = looseSearchQuery(query), !query.isEmpty {
-            components.queryItems?.append(URLQueryItem(name: "name", value: query))
+            queryItems.append(URLQueryItem(name: "name", value: query))
         }
         if let tag, !tag.isEmpty {
-            components.queryItems?.append(URLQueryItem(name: "tag", value: tag))
+            queryItems.append(URLQueryItem(name: "tag", value: tag))
         }
         if let country, !country.isEmpty {
-            components.queryItems?.append(URLQueryItem(name: "countrycode", value: country.uppercased()))
+            queryItems.append(URLQueryItem(name: "countrycode", value: country.uppercased()))
         }
-        guard let url = components.url else { return [] }
         diagnosticRecordAsync(
             "radio-browser",
             "search requested",
@@ -74,13 +64,11 @@ struct RadioBrowserClient {
                 "limit": String(limit),
             ],
         )
+        let data: Data
         do {
-            let (data, response) = try await session.data(from: url)
-            guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
-                throw URLError(.badServerResponse)
-            }
+            data = try await dataWithMirrorFailover(path: "/json/stations/search", queryItems: queryItems)
             let raw = try JSONDecoder().decode([RadioBrowserStation].self, from: data)
-            let stations = dedupeByStreamUrl(raw.filter { !$0.effectiveURL.isEmpty }).map(\.station)
+            let stations = dedupeByStreamUrl(raw.filter { !$0.effectiveURL.isEmpty }).compactMap(\.station)
             diagnosticRecordAsync(
                 "radio-browser",
                 "search loaded",
@@ -91,6 +79,51 @@ struct RadioBrowserClient {
             diagnosticRecordAsync("radio-browser", "search failed", details: ["error": error.localizedDescription, "offset": String(offset)])
             throw error
         }
+    }
+
+    private func dataWithMirrorFailover(path: String, queryItems: [URLQueryItem] = []) async throws -> Data {
+        var lastError: Error = URLError(.badServerResponse)
+        for host in orderedHosts() {
+            guard let request = request(host: host, path: path, queryItems: queryItems) else { continue }
+            do {
+                let (data, response) = try await session.data(for: request)
+                guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
+                    lastError = URLError(.badServerResponse)
+                    diagnosticRecordAsync("radio-browser", "mirror failed", details: ["host": host, "error": "bad status"])
+                    continue
+                }
+                lastSuccessfulHost = host
+                diagnosticRecordAsync("radio-browser", "mirror loaded", details: ["host": host])
+                return data
+            } catch let error as URLError {
+                lastError = error
+                diagnosticRecordAsync("radio-browser", "mirror failed", details: ["host": host, "error": error.localizedDescription])
+            }
+        }
+        throw lastError
+    }
+
+    private func request(host: String, path: String, queryItems: [URLQueryItem]) -> URLRequest? {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = host
+        components.path = path
+        components.queryItems = queryItems.isEmpty ? nil : queryItems
+        guard let url = components.url else { return nil }
+        var request = URLRequest(url: url)
+        request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
+        return request
+    }
+
+    private func orderedHosts() -> [String] {
+        guard let lastSuccessfulHost, seedHosts.contains(lastSuccessfulHost) else { return seedHosts }
+        return [lastSuccessfulHost] + seedHosts.filter { $0 != lastSuccessfulHost }
+    }
+
+    private static var defaultUserAgent: String {
+        let info = Bundle.main.infoDictionary
+        let version = info?["CFBundleShortVersionString"] as? String ?? "unknown"
+        return "rrradio-ios/\(version)"
     }
 
     private func looseSearchQuery(_ query: String?) -> String? {
@@ -181,11 +214,12 @@ private struct RadioBrowserStation: Decodable {
         return url?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
     }
 
-    var station: Station {
-        Station(
+    var station: Station? {
+        guard let streamUrl = URL(string: effectiveURL), streamUrl.scheme != nil else { return nil }
+        return Station(
             id: "rb-\(stationuuid)",
             name: name?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false ? name!.trimmingCharacters(in: .whitespacesAndNewlines) : "Unknown",
-            streamUrl: URL(string: effectiveURL)!,
+            streamUrl: streamUrl,
             homepage: homepage.flatMap(URL.init(string:)),
             country: countrycode?.isEmpty == false ? countrycode : nil,
             tags: parsedTags,
