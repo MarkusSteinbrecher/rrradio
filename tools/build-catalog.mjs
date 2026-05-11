@@ -117,19 +117,19 @@ function pickGeo(rb) {
 }
 
 function pickTags(rb) {
-  if (!rb?.tags) return undefined;
-  const list = rb.tags
-    .split(/[,;]/)
-    .map((t) => t.trim().toLowerCase())
-    .filter(Boolean);
-  return list.length > 0 ? [...new Set(list)].slice(0, 6) : undefined;
+  return normalizeTags(rb?.tags, 6);
 }
 
-function normalizeTags(tags) {
+function normalizeTags(tags, limit) {
   if (tags === null || tags === undefined) return undefined;
   const source = Array.isArray(tags) ? tags : [tags];
-  const list = source.map((t) => String(t).trim().toLowerCase()).filter(Boolean);
-  return list.length > 0 ? [...new Set(list)] : undefined;
+  const list = source
+    .flatMap((t) => String(t).split(/[,;]/))
+    .map((t) => t.trim().toLowerCase())
+    .filter(Boolean);
+  const unique = [...new Set(list)];
+  const normalized = typeof limit === 'number' ? unique.slice(0, limit) : unique;
+  return normalized.length > 0 ? normalized : undefined;
 }
 
 function merged(s) {

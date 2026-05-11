@@ -97,7 +97,10 @@ function clip(s, max = 155) {
 function normalizeTags(tags) {
   if (tags === null || tags === undefined) return [];
   const source = Array.isArray(tags) ? tags : [tags];
-  return source.map((t) => String(t).trim().toLowerCase()).filter(Boolean);
+  return source
+    .flatMap((t) => String(t).split(/[,;]/))
+    .map((t) => t.trim().toLowerCase())
+    .filter(Boolean);
 }
 
 function pickTags(s) {

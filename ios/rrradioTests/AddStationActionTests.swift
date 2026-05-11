@@ -31,6 +31,18 @@ final class AddStationActionTests: XCTestCase {
         XCTAssertEqual(normalizedHTTPSStreamURLString("http://example.com/live"), "https://example.com/live")
     }
 
+    func testShowsNoticeForExplicitHTTPUpgrade() {
+        XCTAssertTrue(shouldShowHTTPSUpgradeNotice(for: " http://example.com/live "))
+    }
+
+    func testDoesNotShowNoticeForBareHTTPSNormalization() {
+        XCTAssertFalse(shouldShowHTTPSUpgradeNotice(for: "example.com/live"))
+    }
+
+    func testDoesNotShowNoticeForAlreadyHTTPSURL() {
+        XCTAssertFalse(shouldShowHTTPSUpgradeNotice(for: "https://example.com/live"))
+    }
+
     func testCollapsesDuplicateHTTPSStreamURLScheme() {
         XCTAssertEqual(normalizedHTTPSStreamURLString("https://https://example.com/live"), "https://example.com/live")
     }
