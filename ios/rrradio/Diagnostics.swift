@@ -77,7 +77,7 @@ final class Diagnostics {
         if events.isEmpty {
             lines.append("- none")
         } else {
-            lines.append(contentsOf: events.map(Self.format))
+            lines.append(contentsOf: events.map { Self.format($0, redactingSensitiveDetails: true) })
         }
         return lines.joined(separator: "\n")
     }
@@ -85,7 +85,7 @@ final class Diagnostics {
     var recentSummary: String {
         if !isEnabled { return "Diagnostics collection is off." }
         if events.isEmpty { return "No diagnostic events yet." }
-        return events.suffix(6).map(Self.format).joined(separator: "\n")
+        return events.suffix(6).map { Self.format($0, redactingSensitiveDetails: false) }.joined(separator: "\n")
     }
 
     private func persist() {
@@ -121,14 +121,54 @@ final class Diagnostics {
         return String(value.prefix(Constants.maxValueLength - 1)) + "..."
     }
 
-    private static func format(_ event: Event) -> String {
-        let detailText = event.details
+    private static func format(_ event: Event, redactingSensitiveDetails: Bool) -> String {
+        let details = redactingSensitiveDetails ? exportableDetails(event.details) : event.details
+        let detailText = details
             .sorted { $0.key < $1.key }
             .map { "\($0.key)=\($0.value)" }
             .joined(separator: " ")
         let suffix = detailText.isEmpty ? "" : " \(detailText)"
         return "- \(timestampFormatter.string(from: event.timestamp)) [\(event.category)] \(event.message)\(suffix)"
     }
+
+    private static func exportableDetails(_ details: [String: String]) -> [String: String] {
+        details.reduce(into: [String: String]()) { result, item in
+            let normalizedKey = item.key.lowercased()
+            guard !sensitiveExportKeys.contains(normalizedKey) else { return }
+            let value = redactExportValue(item.value)
+            if !value.isEmpty {
+                result[item.key] = value
+            }
+        }
+    }
+
+    private static func redactExportValue(_ value: String) -> String {
+        let withoutURLs = value.replacingOccurrences(
+            of: #"https?://[^\s]+"#,
+            with: "[url]",
+            options: .regularExpression,
+        )
+        return withoutURLs.replacingOccurrences(
+            of: #"\b[A-Za-z0-9][A-Za-z0-9.-]*\.[A-Za-z]{2,}\b"#,
+            with: "[host]",
+            options: .regularExpression,
+        )
+    }
+
+    private static let sensitiveExportKeys: Set<String> = [
+        "coverhost",
+        "host",
+        "hostname",
+        "homepage",
+        "metadataurl",
+        "station",
+        "stationid",
+        "stationname",
+        "stream",
+        "streamhost",
+        "streamurl",
+        "url",
+    ]
 
     private static let timestampFormatter: ISO8601DateFormatter = {
         let formatter = ISO8601DateFormatter()

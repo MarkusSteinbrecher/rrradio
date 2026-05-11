@@ -16,6 +16,34 @@ final class DiagnosticsTests: XCTestCase {
 
         XCTAssertEqual(diagnostics.events.first?.details["stream"], "example.com")
         XCTAssertFalse(diagnostics.exportText().contains("token=secret"))
+        XCTAssertFalse(diagnostics.exportText().contains("example.com"))
+    }
+
+    func testDiagnosticsExportRedactsListeningIdentifiersButKeepsLocalSummary() {
+        let suiteName = "org.rrradio.tests.\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: suiteName)!
+        defaults.removePersistentDomain(forName: suiteName)
+        let diagnostics = Diagnostics(defaults: defaults)
+        diagnostics.isEnabled = true
+
+        diagnostics.record("playback", "failed", details: [
+            "station": "Test FM",
+            "stationID": "abc123",
+            "streamHost": "stream.example.com",
+            "count": "2",
+            "error": "failed loading https://stream.example.com/live?token=secret",
+        ])
+
+        XCTAssertTrue(diagnostics.recentSummary.contains("Test FM"))
+        XCTAssertTrue(diagnostics.recentSummary.contains("stream.example.com"))
+
+        let export = diagnostics.exportText()
+        XCTAssertTrue(export.contains("[playback] failed"))
+        XCTAssertTrue(export.contains("count=2"))
+        XCTAssertFalse(export.contains("Test FM"))
+        XCTAssertFalse(export.contains("abc123"))
+        XCTAssertFalse(export.contains("stream.example.com"))
+        XCTAssertFalse(export.contains("token=secret"))
     }
 
     func testDiagnosticsKeepOnlyRecentHundredEvents() {
