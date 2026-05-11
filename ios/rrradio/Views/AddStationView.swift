@@ -28,6 +28,8 @@ struct AddStationContentView: View {
     @State private var name = ""
     @State private var streamURL = ""
     @State private var errorMessage: String?
+    @State private var streamURLNoticeMessage: String?
+    @State private var upgradedHTTPStreamURL: String?
     @State private var shouldHighlightNameField = false
     @State private var stationBeingEdited: Station?
     @State private var stationPendingDeletion: Station?
@@ -50,6 +52,9 @@ struct AddStationContentView: View {
                     .autocorrectionDisabled()
                 if streamCheckState.showsStatusMessage {
                     streamCheckStatusView
+                }
+                if let streamURLNoticeMessage {
+                    streamURLNoticeView(streamURLNoticeMessage)
                 }
                 if hasEnteredFormData {
                     addStationControlsRow
@@ -170,6 +175,16 @@ struct AddStationContentView: View {
             }
         }
         .font(.caption)
+        .listRowBackground(Color.clear)
+    }
+
+    private func streamURLNoticeView(_ message: String) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: "lock.fill")
+            Text(message)
+        }
+        .font(.caption)
+        .foregroundStyle(RrradioTheme.ink3)
         .listRowBackground(Color.clear)
     }
 
@@ -323,6 +338,8 @@ struct AddStationContentView: View {
         name = ""
         streamURL = ""
         errorMessage = nil
+        streamURLNoticeMessage = nil
+        upgradedHTTPStreamURL = nil
         shouldHighlightNameField = false
         stationBeingEdited = nil
         savedStationSignature = nil
@@ -335,6 +352,8 @@ struct AddStationContentView: View {
         name = station.name
         streamURL = station.streamUrl.absoluteString
         errorMessage = nil
+        streamURLNoticeMessage = nil
+        upgradedHTTPStreamURL = nil
         shouldHighlightNameField = false
         savedStationSignature = currentStationSignature(name: station.name, streamURL: station.streamUrl.absoluteString)
         streamCheckState = .playable
@@ -347,7 +366,14 @@ struct AddStationContentView: View {
         let value = rawURL.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !value.isEmpty else {
             streamCheckState = .idle
+            streamURLNoticeMessage = nil
+            upgradedHTTPStreamURL = nil
             return
+        }
+
+        if upgradedHTTPStreamURL != value {
+            streamURLNoticeMessage = nil
+            upgradedHTTPStreamURL = nil
         }
 
         streamCheckState = .checking
@@ -357,7 +383,13 @@ struct AddStationContentView: View {
                 try Task.checkCancellation()
                 let normalizedValue = normalizedHTTPSStreamURLString(value)
                 if normalizedValue != value {
+                    let showsUpgradeNotice = shouldShowHTTPSUpgradeNotice(for: value)
                     await MainActor.run {
+                        if showsUpgradeNotice {
+                            upgradedHTTPStreamURL = normalizedValue
+                            streamURLNoticeMessage = "Saved and tested as https://. If this stream only supports http://, it may not play."
+                            diagnosticRecord("add-station", "stream URL upgraded to HTTPS", details: ["sourceScheme": "http"])
+                        }
                         streamURL = normalizedValue
                     }
                     return
@@ -597,6 +629,12 @@ func normalizedHTTPSStreamURLString(_ raw: String) -> String {
         return value
     }
     return "https://\(value)"
+}
+
+func shouldShowHTTPSUpgradeNotice(for raw: String) -> Bool {
+    let value = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+    return value.lowercased().hasPrefix("http://") &&
+        normalizedHTTPSStreamURLString(value) != value
 }
 
 #Preview {
