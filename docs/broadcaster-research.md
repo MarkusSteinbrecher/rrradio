@@ -5299,3 +5299,276 @@ trivial load.
   pattern (`<MOUNT>AAC.aac`) so adding them is mechanical once a
   curator confirms each mount resolves. Worth folding into the
   same PR that wires the fetcher.
+
+## rne — Radio Nacional de España / RTVE (ES)
+
+Investigated: 2026-05-09.
+
+### TL;DR
+
+RTVE Play's "Directo Radio" carousel is driven by a single
+**programme-schedule** endpoint shared across every RNE channel:
+`https://api.rtve.es/servicios/programasRadio/{R1|R2|R3|R5|R6}.json?emision=ahora-sig`.
+The response is a wrapped programme grid (`emisiones[].programas.items[]`)
+where the currently-on-air entry is flagged `isNow: true`. Each item
+carries `nombre` (programme title), `presentador`, `descripcion`,
+`hora` / `horaFin` (HH:MM, Madrid local), `imagen` (programme art),
+and `genero` (forward-slash hierarchy ending in the show name).
+**No track-level feed exists.** Radio Clásica (R2) and Radio 3 (R3)
+do **not** publish artist/title/composer JSON anywhere on
+api.rtve.es, ztnr.rtve.es, or www.rtve.es — Radio Clásica returns
+the same programme-only shape as the talk channels, with no composer
+or work fields. (This mirrors the parallel finding for RTP Antena 2:
+Iberian classical public radio simply doesn't expose track logging
+to its web players.) **Wirable today, ✅ direct fetch** — `api.rtve.es`
+sends `Access-Control-Allow-Origin: *` and `Cache-Control: max-age=90`,
+no auth, no rate-limit headers. RNE joins the **programme-only** tier
+alongside SRR, MR (programme-mode), CRo Radiožurnál/Plus on talk hours.
+
+### Topology
+
+```
+www.rtve.es/play/radio/             Next.js SSR (pf-radio app, v0.8.7)
+  └─ embedded module: /play/modulos/directoRadio/?isFromRadio=true
+       └─ HTML fragment with .live.radio{N} cards;
+          each card has data-setup='{"idAsset":"…","id":"r3","title":"…"}'
+          and data-start / data-end Unix timestamps (programme window)
+  └─ chunk 638-0.8.7.js → handleClickLive() →
+       fetch(`${globalURL}/servicios/programasRadio/${u.id}.json?emision=ahora-sig`)
+         where u.id ∈ {R1, R2, R3, R4, R5, R6}
+  └─ chunk 351-0.8.7.js → secondary lookups:
+       fetch(`${globalURL}/api/audios/${assetId}.json`)   (live audio asset)
+       fetch(`${globalURL}/api/programas/${progId}.json`) (programme detail)
+```
+
+The Next.js bundle calls `/servicios/programasRadio/...` against
+`globalURL` (resolves to `https://www.rtve.es`), but the same path is
+served identically — and with permissive CORS — from `api.rtve.es`.
+We should hit `api.rtve.es` for browser-side fetches.
+
+### Channel-key map
+
+| Display name | RB / catalog id | API `?` channel | css | assetDirecto |
+|---|---|---|---|---|
+| Radio Nacional (R1) | `builtin-rne-r1` | `R1` | `rn1` | `1712486` |
+| Radio Clásica (R2) | `builtin-rne-clasica` | `R2` | `rn2` | `1712494` |
+| Radio 3 (R3) | `builtin-rne-r3` | `R3` | `rn3` | `1712469` |
+| Radio 4 (Catalan) | not in catalog | `R4` | `rn4` | `1712438` |
+| Radio 5 Todo Noticias | `builtin-rne-r5` | `R5` | `rn5` | `1712404` |
+| Radio Exterior | not in catalog | `R6` | `rne` | `1712490` |
+
+`assetDirecto` (the `id` for `/api/audios/{id}.json`) and the channel
+key (`R1`…`R6`) are stable; harvested from the directoRadio module
+HTML and confirmed inside the JSON response (`emisiones[0].id`,
+`emisiones[0].assetDirecto`). The fetcher only needs the channel key
+— `assetDirecto` is required only if we ever want station-portrait
+images, which we already serve from `favicon` in YAML.
+
+### Endpoints
+
+| What | URL template | Auth | CORS | Cache | Sample |
+|---|---|---|---|---|---|
+| Programme schedule (now + upcoming) | `https://api.rtve.es/servicios/programasRadio/{R1\|R2\|R3\|R5}.json?emision=ahora-sig` | none | `*` | 90s | `data/metadata-discovery/rne-programas-{R1,R2,R3,R5}.json` |
+| Programme detail | `https://api.rtve.es/api/programas/{progId}.json` | none | `*` | 600s | `data/metadata-discovery/rne-programa-{2088,22290}.json` |
+| Live audio asset | `https://api.rtve.es/api/audios/{assetId}.json` | none | `*` | 600s | `data/metadata-discovery/rne-audio-r3-asset.json` |
+| directoRadio module (HTML fragment, all channels) | `https://www.rtve.es/play/modulos/directoRadio/?isFromRadio=true` | none | (not needed — server-side ref) | 30s | `data/metadata-discovery/rne-directoRadio.html` |
+| Podcast feed (per programme) | `https://www.rtve.es/api/programas/{progId}/audios.rss` | none | `*` | — | n/a (RSS) |
+| **Track-level now-playing** | **— does not exist —** | — | — | — | — |
+
+### Response shape — `programasRadio/{Rn}.json?emision=ahora-sig`
+
+```jsonc
+{
+  "emisiones": [
+    {
+      "id": "R3",
+      "idCanal": "849",
+      "nombre": "Radio 3",
+      "css": "rn3",
+      "urlDirecto": "/radio/radio3-endirecto/",
+      "assetDirecto": "1712469",      // → /api/audios/1712469.json
+      "filePath": "R3-202619.xml",    // internal SGCE export, ignore
+      "programas": {
+        "items": [
+          {
+            "id": "22290",            // programa id → /api/programas/{id}.json
+            "sgce": "MNA30163",        // internal ID, ignore
+            "nombre": "Como lo oyes",  // ← MAIN PROGRAMME TITLE
+            "descripcion": "La música, …",
+            "txt": "Como Lo Oyes",     // already title-cased
+            "presentador": "Santiago Alcanda",
+            "director": "Santiago Alcanda",
+            "equipo": "",
+            "imagen": "https://img2.rtve.es/p/22290/imgbackground/",
+            "hora": "23:00",           // HH:MM Madrid local (start)
+            "horaFin": "00:00",        // end
+            "url": "https://www.rtve.es/play/audios/como-lo-oyes/",
+            "genero": "Radio/Programas de RNE/Música/Rock/Pop/Como lo oyes",
+            "isNow": true,             // ← FLAG; exactly one item per channel
+            "dia": "sabado",
+            "fechaInicio": "09-05-2026"
+          },
+          { "isNow": false, ... },     // next programmes (5–7 items typical)
+          ...
+        ]
+      }
+    }
+  ],
+  "imgSrc1px": "...",
+  "is_radio": true,
+  "numEmisiones": 1
+}
+```
+
+Field map for our `Metadata` shape:
+
+| Our field | Source |
+|---|---|
+| `track` (programme name) | `programas.items[isNow].nombre` |
+| `program.name` | `programas.items[isNow].nombre` (same — it's programme-only) |
+| `program.subtitle` | `programas.items[isNow].presentador` (host name) |
+| `coverUrl` / programme image | `programas.items[isNow].imagen` |
+| `program.start` / `end` (epoch ms) | combine `fechaInicio` + `hora` / `horaFin` (Madrid local TZ — Europe/Madrid; CET/CEST) |
+| `artist` | — (no track-level data; leave undefined) |
+
+The `fechaInicio` field is missing on most non-`isNow` items, so for
+schedule rendering we'd need to derive day boundaries from `dia`
+(e.g. `"sabado"` / `"domingo"`) plus the channel's tz. Programme
+windows can cross midnight (e.g. R3 `23:00` → `00:00`), so the
+fetcher must handle wrap-around.
+
+### Wirable today?
+
+✅ **Wire-now (programme-only).** Direct browser fetch works against
+`api.rtve.es`: HTTPS, `Access-Control-Allow-Origin: *`,
+`Cache-Control: max-age=90`, no auth, no fingerprinting, no rate
+limits observed. Worker proxy not required. Single endpoint covers
+all four catalog stations (R1, R2/Clásica, R3, R5).
+
+⚠️ **Caveat: no track-level data ever.** RNE Radio 3 and Radio
+Clásica will surface programme + presenter only — never artist /
+song / composer / work. Status taxonomy: keep as `stream-only`
+unless we decide that "programme info via API" upgrades to a new
+intermediate label (it currently doesn't, per `CLAUDE.md`). The
+fetcher should still ship — programme info noticeably improves the
+"now playing" UI even without tracks, and it gives us correct cover
+art per programme rather than a static channel logo.
+
+### Suggested fetcher
+
+**New shape; needs its own `fetchRneMetadata` in `src/builtins.ts`.**
+Closest analogues, in order of fit:
+
+1. **`fetchSrrMetadata`** (Radio România, lines ~667+ in `src/builtins.ts`).
+   Same pattern: single endpoint per broadcaster, all stations keyed
+   by id, programme-only (no track field), populates `program` only.
+   The RNE fetcher mirrors this almost line-for-line — replace the
+   single `live.php` URL with the four `programasRadio/R{n}.json`
+   URLs and the `id`-keyed lookup with `isNow:true` filter.
+2. **`fetchCroMetadata`** (Czech Radio, line 416+) — has the
+   programme-only fall-through path (`return program ? { track:
+   undefined, raw: '', program } : null`) we want for talk hours,
+   except RNE has no track endpoint at all so we just skip the
+   `nowRes` branch.
+
+Recommended sketch:
+
+```ts
+// metadataUrl ends in "#R1" / "#R2" / "#R3" / "#R5"
+const fetchRneMetadata: MetadataFetcher = async (station, signal) => {
+  const url = station.metadataUrl;
+  if (!url) return null;
+  const channel = url.split('#')[1]; // R1 | R2 | R3 | R5
+  if (!/^R[1-6]$/.test(channel)) return null;
+  try {
+    const res = await fetch(
+      `https://api.rtve.es/servicios/programasRadio/${channel}.json?emision=ahora-sig`,
+      { signal, cache: 'no-store' },
+    );
+    if (!res.ok) return null;
+    const d = (await res.json()) as RneEnvelope;
+    const items = d.emisiones?.[0]?.programas?.items ?? [];
+    const current = items.find((i) => i.isNow);
+    if (!current?.nombre) return null;
+    const program = {
+      name: titleCase(current.nombre),
+      subtitle: current.presentador?.trim() || undefined,
+    };
+    return {
+      track: undefined,
+      raw: '',
+      program,
+      coverUrl: current.imagen || undefined,
+    };
+  } catch {
+    return null;
+  }
+};
+```
+
+A `fetchRneSchedule` is straightforward to add too — the same
+endpoint already returns 5–7 upcoming items per call, enough for
+"what's on today" without a separate request.
+
+`station.metadataUrl` should be set to e.g.
+`https://api.rtve.es/servicios/programasRadio/R3.json#R3` — the
+`#R3` fragment selects the channel; the URL itself is informative
+for the human reader. (Same `#`-suffix trick we use for `srr`.)
+
+### Notes
+
+- **Endpoint discovery breadcrumb.** The `programasRadio` URL is
+  emitted only by chunk `638-0.8.7.js` of the pf-radio Next.js
+  bundle (`https://js2.rtve.es/pages/pf-radio/0.8.7/_next/static/chunks/`),
+  inside `handleClickLive()` event handler. It's hit when the user
+  clicks one of the live-channel cards in the carousel. The same
+  module is also referenced from the schedule grid below the carousel.
+- **No track-level feed across RTVE Play.** I checked
+  `api.rtve.es/api/{programas,audios,videos}/{id}` (live asset and
+  programme), `cuepoints` (empty array), `config/audio` (player
+  config only), the `/play/modulos/livesCollection/coleccion/{38,40}/`
+  HTML modules, and the `__next_f` SSR payload of the play radio
+  homepage. None expose artist/title. This matches what frequent
+  Radio 3 listeners report — the broadcaster's only public track
+  surface is the *show*-level "playlists" on each programme's podcast
+  page (HTML scrape, not in scope here).
+- **Radio Clásica classical metadata gap.** The `genero` field
+  ("Radio/Programas de RNE/Música/Clásica/Música y significado") is
+  programme-genre, not work-level. No composer, no opus, no
+  performer. Same gap as RTP Antena 2 — call it a documented Iberian
+  pattern. The classical-rich tier (NRK Klassisk, BR Klassik, SR
+  P2, RNZ Concert) is firmly Northern European in origin.
+- **Endpoint host choice.** `www.rtve.es/servicios/...` is the
+  origin the bundle hits, but it does **not** send CORS headers.
+  `api.rtve.es/servicios/...` serves the identical body with
+  `Access-Control-Allow-Origin: *` (verified with `Origin:
+  https://rrradio.org` in the request). Use `api.rtve.es` for the
+  browser fetch path; `www.rtve.es` works only via worker proxy.
+- **Madrid timezone.** All `hora` / `horaFin` values are
+  Europe/Madrid local. Currently CEST (UTC+2). Use the IANA tz id
+  `Europe/Madrid` when normalising to epoch ms — DST transitions
+  matter for early-morning programme boundaries.
+- **Programme art quality.** `imagen` URLs use the path
+  `https://img2.rtve.es/p/{progId}/imgbackground/` — these are
+  ~1280×720 photo backgrounds (per-show editorial art), not square
+  logos. They're CORS-free for `<img>` rendering (same-origin via
+  `<img>` tag works regardless of CORS headers). Good visual
+  upgrade vs. the current static channel-logo fallback.
+- **`R4` exists in the API but not in our catalog.** Radio 4 is
+  the Catalan-language regional service. We currently catalog only
+  the four Spanish-national channels (R1, Clásica, R3, R5). Worth
+  considering R4 (and R6 Radio Exterior) as additions — they're
+  HLS streams under the same `rtvelivestream.rtve.es` host pattern.
+  Not blocking this fetcher.
+- **Cache-control 90s on the schedule endpoint.** That's the
+  natural polling cadence — once per minute is plenty.
+  Programme transitions happen on hour / half-hour boundaries
+  anyway; a 60s poll catches them with at most 60s lag.
+- **No rate-limit headers.** Standard CDN headers only
+  (`x-served-by`, `x-cache`). Fastly fronts api.rtve.es. Treat the
+  endpoint as polite-public — same trust boundary as the stream URL.
+- **Stream URLs already in catalog.** R1/R2/R3 use HLS at
+  `rtvelivestream.rtve.es/rtvesec/rne/rne_{r1,r2,r3}_main.m3u8`.
+  R5 uses an MP3 mount at `dispatcher.rndfnk.com/crtve/rne5/main/mp3/high`
+  (the Open Broadcaster / RND dispatcher network — no fetcher work
+  needed here). Stream side is healthy; fetcher is the only gap.
