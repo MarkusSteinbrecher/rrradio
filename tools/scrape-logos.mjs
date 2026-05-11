@@ -1,52 +1,68 @@
 #!/usr/bin/env node
 /**
- * Scrape favicons / og:images from broadcaster homepages for stations
- * that have no `favicon` field yet. Pure deterministic — no LLM, no
- * external API beyond the broadcaster's own homepage.
+ * Scrape logo candidates from station homepages and write `favicon:`
+ * overrides into data/stations.yaml.
  *
- *   node tools/scrape-logos.mjs                # full sweep
- *   node tools/scrape-logos.mjs --limit 50     # first 50 (validation run)
- *   node tools/scrape-logos.mjs --limit 50 --dry-run   # don't mutate yaml
- *   node tools/scrape-logos.mjs --concurrency 12       # default 8
+ *   node tools/scrape-logos.mjs
+ *   node tools/scrape-logos.mjs --mode missing --limit 50 --dry-run
+ *   node tools/scrape-logos.mjs --mode upgrade --concurrency 12
+ *   node tools/scrape-logos.mjs --mode all --replace-good --dry-run
+ *
+ * Modes:
+ *   missing  only stations with no favicon (default, historical behavior)
+ *   upgrade  stations whose current favicon is weak/generic/http/missing
+ *   all      any non-local station with a homepage
  *
  * Per station:
- *   1. GET the station's `homepage` HTML (5s timeout, real-ish UA).
- *   2. Parse <link rel="icon|apple-touch-icon|...">, <meta property="og:image">,
- *      <meta name="twitter:image"> tags.
+ *   1. GET the station homepage HTML (8s timeout, 256 KB cap).
+ *   2. Parse icons, apple-touch-icon, og/twitter images, itemprop logo,
+ *      JSON-LD logo/image fields, and web app manifest icons.
  *   3. Resolve relative URLs against the homepage.
- *   4. Drop non-HTTPS candidates (mixed-content blocks them in the player).
- *   5. Score & pick the best candidate (apple-touch-icon > og:image > sized icon > plain icon).
- *   6. HEAD the chosen URL — must return 2xx + content-type starting with `image/`.
- *   7. Surgical YAML insert: `  favicon: <url>` after the row's `id:` line.
+ *   4. Drop non-HTTPS candidates.
+ *   5. Score candidates and verify the best few return image/*.
+ *   6. Insert or replace the row's `favicon:` line.
  *
- * Read-only on the network side except for the final writeFileSync.
- * Mirrors the surgical-insert pattern in tools/wire-metadata.mjs so the
- * existing hand-formatted YAML structure stays intact.
+ * The script never replaces curated local assets (`stations/...`). It
+ * mirrors the surgical-insert pattern in wire-metadata/wiki-logos so the
+ * hand-formatted YAML structure stays intact.
  */
 
-import { readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse as parseYaml } from 'yaml';
+import {
+  classifyLogoUrl,
+  isLocalLogo,
+  parseIconSize,
+  scoreLogoCandidate,
+  shouldReplaceLogo,
+} from './logo-quality.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
 
-// ─── args ──────────────────────────────────────────────────────────
 const argv = process.argv.slice(2);
 const argFlag = (name) => argv.includes(name);
 const argVal = (name, fallback) => {
   const i = argv.indexOf(name);
   return i >= 0 && argv[i + 1] ? argv[i + 1] : fallback;
 };
+
+const MODE = argVal('--mode', 'missing');
+if (!['missing', 'upgrade', 'all'].includes(MODE)) {
+  console.error('scrape-logos: --mode must be one of: missing, upgrade, all');
+  process.exit(1);
+}
+
 const LIMIT = Number(argVal('--limit', Infinity));
 const CONCURRENCY = Math.max(1, Math.min(20, Number(argVal('--concurrency', 8))));
 const DRY_RUN = argFlag('--dry-run');
+const REPLACE_GOOD = argFlag('--replace-good');
 const FETCH_TIMEOUT_MS = 8_000;
 const UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15';
 
-// ─── load YAML ─────────────────────────────────────────────────────
 const stationsPath = join(root, 'data/stations.yaml');
 let text = readFileSync(stationsPath, 'utf8');
 const list = parseYaml(text);
@@ -55,21 +71,27 @@ if (!Array.isArray(list)) {
   process.exit(1);
 }
 
+function targetReason(station) {
+  if (!station || typeof station.id !== 'string' || !station.homepage) return null;
+  if (isLocalLogo(station.favicon)) return null;
+  const logo = classifyLogoUrl(station.favicon);
+  if (MODE === 'missing') return logo.tier === 'missing' ? 'missing' : null;
+  if (MODE === 'upgrade') return logo.upgradeRecommended ? logo.tier : null;
+  return logo.tier;
+}
+
 const candidates = list
-  .filter((s) => s && typeof s.id === 'string' && !s.favicon && s.homepage)
+  .map((station) => ({ station, reason: targetReason(station) }))
+  .filter((item) => item.reason)
   .slice(0, Number.isFinite(LIMIT) ? LIMIT : list.length);
 
 console.log(
-  `scrape-logos: ${candidates.length} candidate(s) (no favicon, has homepage)` +
-    (DRY_RUN ? ' — DRY RUN, no YAML writes' : '') +
-    ` — concurrency ${CONCURRENCY}`,
+  `scrape-logos: ${candidates.length} candidate(s) ` +
+    `(mode=${MODE}, concurrency=${CONCURRENCY}${REPLACE_GOOD ? ', replace-good' : ''})` +
+    (DRY_RUN ? ' — DRY RUN, no YAML writes' : ''),
 );
 
-// ─── HTML parsing ──────────────────────────────────────────────────
 function parseAttrs(raw) {
-  // Tolerant attribute extractor for <link>/<meta>. Handles single quotes,
-  // double quotes, unquoted, and attribute-name-only forms. Not a full
-  // HTML parser — we only need rel/href/sizes/property/name/content.
   const attrs = {};
   const re = /([a-zA-Z][a-zA-Z0-9_:.-]*)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s/>]+)))?/g;
   let m;
@@ -81,86 +103,139 @@ function parseAttrs(raw) {
   return attrs;
 }
 
-function parseSize(sizes) {
-  // "180x180" / "32x32 16x16" / "any" → numeric max-edge or 0.
-  if (!sizes) return 0;
-  const parts = String(sizes).toLowerCase().split(/\s+/);
-  let max = 0;
-  for (const p of parts) {
-    if (p === 'any') return 1024;
-    const m = /^(\d+)x(\d+)$/.exec(p);
-    if (m) max = Math.max(max, Number(m[1]), Number(m[2]));
+function resolveCandidate(c, baseUrl) {
+  try {
+    return { ...c, url: new URL(c.url, baseUrl).href };
+  } catch {
+    return null;
   }
-  return max;
 }
 
-function scoreCandidate(c) {
-  // Higher is better. Apple touch icons are usually 180×180 PNGs and
-  // the closest thing broadcasters publish to a "real" logo. og:image
-  // is similarly intentional content. Mask icons (Safari pinned tab)
-  // are typically monochrome SVGs — usable but not ideal.
-  let base;
-  switch (c.rel) {
-    case 'apple-touch-icon-precomposed': base = 1000; break;
-    case 'apple-touch-icon': base = 950; break;
-    case 'og:image':
-    case 'og:image:secure_url': base = 800; break;
-    case 'twitter:image':
-    case 'twitter:image:src': base = 700; break;
-    case 'mask-icon': base = 200; break;
-    case 'shortcut icon':
-    case 'icon': base = 400; break;
-    default: base = 100;
-  }
-  base += Math.min(c.size, 512); // up to +512 for explicit larger sizes
-  if (c.url.startsWith('https://')) base += 50;
-  return base;
-}
-
-function extractCandidates(html, baseUrl) {
+function extractHtmlCandidates(html, baseUrl) {
   const out = [];
 
-  // <link …> tags
   const linkRe = /<link\s+([^>]*?)\/?>/gi;
   let m;
   while ((m = linkRe.exec(html)) !== null) {
     const a = parseAttrs(m[1]);
     if (!a.rel || !a.href) continue;
     const rel = a.rel.toLowerCase().trim();
+    if (/manifest/.test(rel)) {
+      out.push({ rel: 'manifest', url: a.href, size: 0 });
+      continue;
+    }
     if (!/icon/.test(rel)) continue;
-    out.push({ rel, url: a.href, size: parseSize(a.sizes) });
+    out.push({ rel, url: a.href, size: parseIconSize(a.sizes) });
   }
 
-  // <meta property="og:image" content="…"> and twitter variants
   const metaRe = /<meta\s+([^>]*?)\/?>/gi;
   while ((m = metaRe.exec(html)) !== null) {
     const a = parseAttrs(m[1]);
-    const key = (a.property || a.name || '').toLowerCase().trim();
+    const key = (a.property || a.name || a.itemprop || '').toLowerCase().trim();
     if (!a.content) continue;
     if (
       key === 'og:image' ||
       key === 'og:image:secure_url' ||
+      key === 'og:logo' ||
       key === 'twitter:image' ||
-      key === 'twitter:image:src'
+      key === 'twitter:image:src' ||
+      key === 'logo' ||
+      key === 'image'
     ) {
-      out.push({ rel: key, url: a.content, size: 0 });
+      out.push({ rel: key === 'logo' || key === 'image' ? `itemprop:${key}` : key, url: a.content, size: 0 });
     }
   }
 
-  // Resolve relative URLs against the homepage. Drop unparseable.
+  for (const c of extractJsonLdCandidates(html)) out.push(c);
+
   return out
-    .map((c) => {
-      try {
-        c.url = new URL(c.url, baseUrl).href;
-        return c;
-      } catch {
-        return null;
-      }
-    })
+    .map((c) => resolveCandidate(c, baseUrl))
     .filter((c) => c && c.url);
 }
 
-// ─── network ───────────────────────────────────────────────────────
+function extractJsonLdCandidates(html) {
+  const out = [];
+  const scriptRe = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi;
+  let m;
+  while ((m = scriptRe.exec(html)) !== null) {
+    const attrs = parseAttrs(m[1]);
+    if ((attrs.type || '').toLowerCase() !== 'application/ld+json') continue;
+    try {
+      collectJsonLdImages(JSON.parse(m[2]), out);
+    } catch {
+      /* ignore malformed site JSON */
+    }
+  }
+  return out;
+}
+
+function collectJsonLdImages(value, out, depth = 0) {
+  if (depth > 6 || !value) return;
+  if (Array.isArray(value)) {
+    for (const item of value) collectJsonLdImages(item, out, depth + 1);
+    return;
+  }
+  if (typeof value === 'string') return;
+  if (typeof value !== 'object') return;
+
+  for (const key of ['logo', 'image']) {
+    const raw = value[key];
+    if (typeof raw === 'string') {
+      out.push({ rel: key === 'logo' ? 'jsonld-logo' : 'jsonld-image', url: raw, size: 0 });
+    } else if (raw && typeof raw === 'object') {
+      const url = raw.url || raw.contentUrl || raw['@id'];
+      const width = Number(raw.width) || 0;
+      const height = Number(raw.height) || 0;
+      if (typeof url === 'string') {
+        out.push({
+          rel: key === 'logo' ? 'jsonld-logo' : 'jsonld-image',
+          url,
+          size: Math.max(width, height),
+        });
+      }
+      collectJsonLdImages(raw, out, depth + 1);
+    }
+  }
+
+  if (value['@graph']) collectJsonLdImages(value['@graph'], out, depth + 1);
+}
+
+async function fetchManifestCandidates(manifestCandidates, baseUrl) {
+  const out = [];
+  for (const manifest of manifestCandidates.slice(0, 2)) {
+    try {
+      const res = await fetchWithTimeout(manifest.url, {
+        headers: { Accept: 'application/manifest+json,application/json,*/*' },
+      });
+      if (!res.ok) continue;
+      const data = await res.json();
+      for (const icon of data.icons || []) {
+        if (!icon?.src) continue;
+        const c = resolveCandidate(
+          { rel: 'manifest-icon', url: icon.src, size: parseIconSize(icon.sizes) },
+          manifest.url || baseUrl,
+        );
+        if (c) out.push(c);
+      }
+    } catch {
+      /* manifest is optional */
+    }
+  }
+  return out;
+}
+
+function uniqueCandidates(candidates) {
+  const byUrl = new Map();
+  for (const c of candidates) {
+    if (!c.url?.startsWith('https://')) continue;
+    const current = byUrl.get(c.url);
+    if (!current || scoreLogoCandidate(c) > scoreLogoCandidate(current)) {
+      byUrl.set(c.url, c);
+    }
+  }
+  return [...byUrl.values()];
+}
+
 async function fetchWithTimeout(url, opts = {}) {
   const ctl = new AbortController();
   const t = setTimeout(() => ctl.abort(), FETCH_TIMEOUT_MS);
@@ -181,7 +256,6 @@ async function fetchHomepage(url) {
     headers: { Accept: 'text/html,application/xhtml+xml' },
   });
   if (!res.ok) throw new Error(`homepage ${res.status}`);
-  // Cap at 256KB — favicons are always in <head>; no need for the body.
   const reader = res.body?.getReader();
   if (!reader) return await res.text();
   const chunks = [];
@@ -189,6 +263,7 @@ async function fetchHomepage(url) {
   while (total < 256 * 1024) {
     const { value, done } = await reader.read();
     if (done) break;
+    if (!value) continue;
     chunks.push(value);
     total += value.byteLength;
   }
@@ -197,35 +272,52 @@ async function fetchHomepage(url) {
 }
 
 async function verifyImage(url) {
-  // Try HEAD first; some CDNs don't allow it, fall back to ranged GET.
   try {
     const head = await fetchWithTimeout(url, { method: 'HEAD' });
     if (head.ok && (head.headers.get('content-type') ?? '').startsWith('image/')) {
-      return true;
+      return {
+        ok: true,
+        contentType: head.headers.get('content-type') ?? '',
+        contentLength: Number(head.headers.get('content-length')) || null,
+      };
     }
-  } catch { /* fall through */ }
-  try {
-    const get = await fetchWithTimeout(url, { headers: { Range: 'bytes=0-15' } });
-    return get.ok && (get.headers.get('content-type') ?? '').startsWith('image/');
   } catch {
-    return false;
+    /* fall through */
+  }
+  try {
+    const get = await fetchWithTimeout(url, { headers: { Range: 'bytes=0-31' } });
+    return {
+      ok: get.ok && (get.headers.get('content-type') ?? '').startsWith('image/'),
+      contentType: get.headers.get('content-type') ?? '',
+      contentLength: Number(get.headers.get('content-length')) || null,
+    };
+  } catch {
+    return { ok: false };
   }
 }
 
-// ─── per-station pipeline ──────────────────────────────────────────
 async function discover(station) {
   const html = await fetchHomepage(station.homepage);
-  const cands = extractCandidates(html, station.homepage)
-    .filter((c) => c.url.startsWith('https://')); // mixed-content rule
-  if (cands.length === 0) return { ok: false, reason: 'no-https-candidates' };
-  cands.sort((a, b) => scoreCandidate(b) - scoreCandidate(a));
-  for (const c of cands.slice(0, 5)) {
-    if (await verifyImage(c.url)) return { ok: true, url: c.url, picked: c };
+  const htmlCandidates = extractHtmlCandidates(html, station.homepage);
+  const manifests = htmlCandidates.filter((c) => c.rel === 'manifest');
+  const manifestCandidates = await fetchManifestCandidates(manifests, station.homepage);
+  const all = uniqueCandidates([
+    ...htmlCandidates.filter((c) => c.rel !== 'manifest'),
+    ...manifestCandidates,
+  ]).sort((a, b) => scoreLogoCandidate(b) - scoreLogoCandidate(a));
+
+  if (all.length === 0) return { ok: false, reason: 'no-https-candidates' };
+
+  for (const c of all.slice(0, 8)) {
+    if (station.favicon && !shouldReplaceLogo(station.favicon, c, { replaceGood: REPLACE_GOOD })) {
+      continue;
+    }
+    const verified = await verifyImage(c.url);
+    if (verified.ok) return { ok: true, url: c.url, picked: c, verified };
   }
-  return { ok: false, reason: 'no-verifiable-image' };
+  return { ok: false, reason: 'no-verifiable-upgrade' };
 }
 
-// ─── concurrency runner ────────────────────────────────────────────
 async function runPool(items, worker, concurrency) {
   const results = [];
   let i = 0;
@@ -239,47 +331,75 @@ async function runPool(items, worker, concurrency) {
   return results;
 }
 
-const counters = { ok: 0, noCands: 0, noImage: 0, fetchFail: 0 };
-const writes = []; // { id, url } pairs
+const counters = { inserted: 0, replaced: 0, noCands: 0, noImage: 0, fetchFail: 0, skipped: 0 };
+const writes = [];
+const runRows = [];
 
 const t0 = Date.now();
 await runPool(
   candidates,
-  async (s, idx) => {
-    const tag = `[${String(idx + 1).padStart(4)}/${candidates.length}] ${s.id}`;
+  async ({ station, reason }, idx) => {
+    const tag = `[${String(idx + 1).padStart(4)}/${candidates.length}] ${station.id}`;
     try {
-      const r = await discover(s);
+      const r = await discover(station);
       if (r.ok) {
-        counters.ok++;
-        writes.push({ id: s.id, url: r.url });
-        console.log(`${tag}  OK  ${r.picked.rel} ${r.url}`);
+        const action = station.favicon ? 'replace' : 'insert';
+        writes.push({ id: station.id, url: r.url, action });
+        counters[action === 'replace' ? 'replaced' : 'inserted']++;
+        runRows.push({
+          id: station.id,
+          action,
+          from: station.favicon ?? null,
+          to: r.url,
+          rel: r.picked.rel,
+          targetReason: reason,
+          score: scoreLogoCandidate(r.picked),
+        });
+        console.log(`${tag}  ${action === 'replace' ? 'REPL' : 'OK  '} ${r.picked.rel} ${r.url}`);
       } else if (r.reason === 'no-https-candidates') {
         counters.noCands++;
+        runRows.push({ id: station.id, action: 'none', reason: r.reason, targetReason: reason });
         console.log(`${tag}  --  no https candidates`);
       } else {
         counters.noImage++;
-        console.log(`${tag}  --  no verifiable image`);
+        runRows.push({ id: station.id, action: 'none', reason: r.reason, targetReason: reason });
+        console.log(`${tag}  --  no verifiable upgrade`);
       }
     } catch (err) {
       counters.fetchFail++;
       const msg = err?.name === 'AbortError' ? 'timeout' : err?.message || String(err);
+      runRows.push({ id: station.id, action: 'none', reason: msg, targetReason: reason });
       console.log(`${tag}  !!  fetch failed: ${msg}`);
     }
   },
   CONCURRENCY,
 );
-const wallS = ((Date.now() - t0) / 1000).toFixed(1);
 
+const wallS = ((Date.now() - t0) / 1000).toFixed(1);
 console.log('');
 console.log(
-  `scrape-logos done in ${wallS}s — ` +
-    `OK: ${counters.ok}, no-https-cands: ${counters.noCands}, ` +
-    `no-verifiable-image: ${counters.noImage}, fetch-failed: ${counters.fetchFail}`,
+  `scrape-logos done in ${wallS}s — inserted: ${counters.inserted}, replaced: ${counters.replaced}, ` +
+    `no-https-cands: ${counters.noCands}, no-verifiable-upgrade: ${counters.noImage}, fetch-failed: ${counters.fetchFail}`,
 );
-const hitRate = candidates.length > 0 ? ((counters.ok / candidates.length) * 100).toFixed(1) : '0';
-console.log(`hit rate: ${hitRate}% (${counters.ok}/${candidates.length})`);
+const hitRate = candidates.length > 0
+  ? (((counters.inserted + counters.replaced) / candidates.length) * 100).toFixed(1)
+  : '0';
+console.log(`hit rate: ${hitRate}% (${counters.inserted + counters.replaced}/${candidates.length})`);
 
-// ─── YAML write (surgical insert) ──────────────────────────────────
+mkdirSync(join(root, '.cache'), { recursive: true });
+writeFileSync(
+  join(root, '.cache/logo-scrape-report.json'),
+  JSON.stringify({
+    generatedAt: new Date().toISOString(),
+    mode: MODE,
+    dryRun: DRY_RUN,
+    replaceGood: REPLACE_GOOD,
+    counters,
+    rows: runRows,
+  }, null, 2) + '\n',
+);
+console.log('run report: .cache/logo-scrape-report.json');
+
 if (DRY_RUN) {
   console.log('\n--dry-run: not writing data/stations.yaml');
   process.exit(0);
@@ -290,27 +410,48 @@ if (writes.length === 0) {
 }
 
 let inserted = 0;
+let replaced = 0;
 let missLine = 0;
+let missingFavLine = 0;
+
 for (const w of writes) {
   const idLine = `- id: ${w.id}\n`;
-  const idx = text.indexOf(idLine);
-  if (idx === -1) {
+  const idIdx = text.indexOf(idLine);
+  if (idIdx === -1) {
     missLine++;
     console.warn(`  ! couldn't locate id line for ${w.id}`);
     continue;
   }
-  const insertAt = idx + idLine.length;
-  // Quote the URL only when it contains YAML-special chars; the URL
-  // formats RB and broadcasters emit don't normally need it, but the
-  // insert is conservative because a stray `:` or `#` would corrupt
-  // the file silently.
   const quoted = /[:#&*!|>'"%@`,\[\]{}]/.test(w.url) ? JSON.stringify(w.url) : w.url;
-  text = text.slice(0, insertAt) + `  favicon: ${quoted}\n` + text.slice(insertAt);
-  inserted++;
+  const insertAt = idIdx + idLine.length;
+
+  if (w.action === 'replace') {
+    let p = insertAt;
+    let didReplace = false;
+    while (p < text.length) {
+      const lineEnd = text.indexOf('\n', p);
+      const line = text.slice(p, lineEnd === -1 ? text.length : lineEnd);
+      if (line.startsWith('- id:')) break;
+      if (line.startsWith('  favicon:')) {
+        const next = lineEnd === -1 ? text.length : lineEnd + 1;
+        text = text.slice(0, p) + `  favicon: ${quoted}\n` + text.slice(next);
+        replaced++;
+        didReplace = true;
+        break;
+      }
+      if (lineEnd === -1) break;
+      p = lineEnd + 1;
+    }
+    if (!didReplace) missingFavLine++;
+  } else {
+    text = text.slice(0, insertAt) + `  favicon: ${quoted}\n` + text.slice(insertAt);
+    inserted++;
+  }
 }
 
 writeFileSync(stationsPath, text);
 console.log(
-  `\nstations.yaml updated: ${inserted} favicon line(s) inserted` +
-    (missLine > 0 ? `, ${missLine} id line(s) missing` : ''),
+  `\nstations.yaml updated: ${inserted} inserted, ${replaced} replaced` +
+    (missLine > 0 ? `, ${missLine} id line(s) missing` : '') +
+    (missingFavLine > 0 ? `, ${missingFavLine} favicon line(s) missing for replace` : ''),
 );

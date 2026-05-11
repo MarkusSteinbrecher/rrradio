@@ -24,6 +24,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { classifyLogoUrl } from './logo-quality.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
@@ -217,10 +218,8 @@ function classifyProgram(metadataKey) {
 }
 
 function classifyLogo(favicon) {
-  if (!favicon) return { state: 'bad', detail: 'no favicon' };
-  if (/^stations\//.test(favicon)) return { state: 'ok', detail: favicon };
-  if (/^https?:\/\//.test(favicon)) return { state: 'warn', detail: 'imported (Radio Browser favicon)' };
-  return { state: 'warn', detail: favicon };
+  const logo = classifyLogoUrl(favicon);
+  return { state: logo.state, detail: logo.reason };
 }
 
 // ─────────────────────────────────────────────────────────────
