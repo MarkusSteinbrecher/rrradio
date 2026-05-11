@@ -91,6 +91,7 @@ final class FavoriteNowPlayingStore {
                 return metadata
             }
         }
+        guard station.status == "icy-only" else { return nil }
         return try await fetchIcyMetadata(station: station)
     }
 

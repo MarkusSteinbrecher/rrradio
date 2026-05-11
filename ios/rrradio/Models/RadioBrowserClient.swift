@@ -80,7 +80,7 @@ struct RadioBrowserClient {
                 throw URLError(.badServerResponse)
             }
             let raw = try JSONDecoder().decode([RadioBrowserStation].self, from: data)
-            let stations = dedupeByStreamUrl(raw.filter { !$0.effectiveURL.isEmpty }).map(\.station)
+            let stations = dedupeByStreamUrl(raw.filter { !$0.effectiveURL.isEmpty }).compactMap(\.station)
             diagnosticRecordAsync(
                 "radio-browser",
                 "search loaded",
@@ -181,11 +181,12 @@ private struct RadioBrowserStation: Decodable {
         return url?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
     }
 
-    var station: Station {
-        Station(
+    var station: Station? {
+        guard let streamUrl = URL(string: effectiveURL), streamUrl.scheme != nil else { return nil }
+        return Station(
             id: "rb-\(stationuuid)",
             name: name?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false ? name!.trimmingCharacters(in: .whitespacesAndNewlines) : "Unknown",
-            streamUrl: URL(string: effectiveURL)!,
+            streamUrl: streamUrl,
             homepage: homepage.flatMap(URL.init(string:)),
             country: countrycode?.isEmpty == false ? countrycode : nil,
             tags: parsedTags,

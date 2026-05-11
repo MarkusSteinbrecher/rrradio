@@ -16,8 +16,9 @@ final class MetadataPoller {
         stop()
         let myGeneration = generation
 
-        let tick = {
-            Task {
+        let tick = { [weak self] in
+            Task { [weak self] in
+                guard let self else { return }
                 do {
                     let metadata = try await fetcher(station)
                     await MainActor.run {
@@ -27,14 +28,15 @@ final class MetadataPoller {
                 } catch {
                     await MainActor.run {
                         guard self.generation == myGeneration else { return }
-                        self.stop()
+                        diagnosticRecord("metadata", "polling failed", details: ["station": station.name, "error": error.localizedDescription])
                     }
                 }
             }
         }
 
         _ = tick()
-        timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
+        timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
+            guard self != nil else { return }
             _ = tick()
         }
     }

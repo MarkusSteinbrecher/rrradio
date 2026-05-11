@@ -22,6 +22,13 @@ import UIKit
 final class AudioPlayer {
     enum State: Equatable { case idle, loading, playing, paused, error(String) }
 
+    private enum Constants {
+        static let maxStreamRetryAttempts = 3
+        static let maxStreamRetryDelay: Double = 30
+        static let lockScreenArtworkTimeout: TimeInterval = 8
+        static let maxLockScreenArtworkBytes = 5_000_000
+    }
+
     private(set) var state: State = .idle
     private(set) var current: Station?
     private(set) var nowPlayingTitle: String?
@@ -39,6 +46,13 @@ final class AudioPlayer {
     private var metadataOutputDelegate: TimedMetadataOutputDelegate?
     private var statusObserver: NSKeyValueObservation?
     private var rateObserver: NSKeyValueObservation?
+    private var audioInterruptionObserver: NSObjectProtocol?
+    private var routeChangeObserver: NSObjectProtocol?
+    private var itemFailureObserver: NSObjectProtocol?
+    private var itemStallObserver: NSObjectProtocol?
+    private var streamRetryTask: Task<Void, Never>?
+    private var streamRetryAttempt = 0
+    private var resumeAfterInterruption = false
     private var metadataPoller: MetadataPoller?
     private var scheduleTask: Task<Void, Never>?
     private var lyricsTask: Task<Void, Never>?
@@ -53,6 +67,7 @@ final class AudioPlayer {
     init() {
         metadataPoller = MetadataPoller()
         configureAudioSession()
+        observeAudioSessionEvents()
         wireRemoteCommands()
     }
 
@@ -64,6 +79,8 @@ final class AudioPlayer {
         diagnosticRecord("playback", "play requested", details: stationDiagnostics(station))
         // If we're already on this station, just unpause.
         if current?.id == station.id, let p = player {
+            streamRetryTask?.cancel()
+            streamRetryTask = nil
             p.play()
             state = .playing
             diagnosticRecord("playback", "resumed current station", details: stationDiagnostics(station))
@@ -74,6 +91,7 @@ final class AudioPlayer {
 
         teardownPlayer()
         current = station
+        streamRetryAttempt = 0
         state = .loading
         nowPlayingTitle = nil
         nowPlayingArtist = nil
@@ -84,8 +102,7 @@ final class AudioPlayer {
         isScheduleLoading = false
         resetLyrics()
 
-        let item = AVPlayerItem(url: station.streamUrl)
-        observeMetadata(on: item)
+        let item = makePlayerItem(for: station)
 
         let p = AVPlayer(playerItem: item)
         p.automaticallyWaitsToMinimizeStalling = true
@@ -116,6 +133,8 @@ final class AudioPlayer {
     }
 
     func pause() {
+        streamRetryTask?.cancel()
+        streamRetryTask = nil
         player?.pause()
         if state == .playing { state = .paused }
         diagnosticRecord("playback", "paused", details: current.map(stationDiagnostics) ?? [:])
@@ -173,6 +192,29 @@ final class AudioPlayer {
         }
     }
 
+    private func observeAudioSessionEvents() {
+        let center = NotificationCenter.default
+        let session = AVAudioSession.sharedInstance()
+        audioInterruptionObserver = center.addObserver(
+            forName: AVAudioSession.interruptionNotification,
+            object: session,
+            queue: .main,
+        ) { [weak self] notification in
+            Task { @MainActor [weak self] in
+                self?.handleAudioSessionInterruption(notification)
+            }
+        }
+        routeChangeObserver = center.addObserver(
+            forName: AVAudioSession.routeChangeNotification,
+            object: session,
+            queue: .main,
+        ) { [weak self] notification in
+            Task { @MainActor [weak self] in
+                self?.handleRouteChange(notification)
+            }
+        }
+    }
+
     private func wireRemoteCommands() {
         let cmd = MPRemoteCommandCenter.shared()
         // MPRemoteCommand handlers fire on the main thread (per Apple
@@ -198,6 +240,48 @@ final class AudioPlayer {
         cmd.changePlaybackPositionCommand.isEnabled = false
     }
 
+    private func makePlayerItem(for station: Station) -> AVPlayerItem {
+        let item = AVPlayerItem(url: station.streamUrl)
+        observeMetadata(on: item)
+        observePlayerItemNotifications(on: item, station: station)
+        return item
+    }
+
+    private func observePlayerItemNotifications(on item: AVPlayerItem, station: Station) {
+        clearPlayerItemObservers()
+        let center = NotificationCenter.default
+        itemFailureObserver = center.addObserver(
+            forName: AVPlayerItem.failedToPlayToEndTimeNotification,
+            object: item,
+            queue: .main,
+        ) { [weak self] notification in
+            Task { @MainActor [weak self] in
+                let error = notification.userInfo?[AVPlayerItemFailedToPlayToEndTimeErrorKey] as? Error
+                self?.scheduleStreamRetry(for: station, reason: error?.localizedDescription ?? "item failed")
+            }
+        }
+        itemStallObserver = center.addObserver(
+            forName: AVPlayerItem.playbackStalledNotification,
+            object: item,
+            queue: .main,
+        ) { [weak self] _ in
+            Task { @MainActor [weak self] in
+                self?.scheduleStreamRetry(for: station, reason: "playback stalled")
+            }
+        }
+    }
+
+    private func clearPlayerItemObservers() {
+        if let itemFailureObserver {
+            NotificationCenter.default.removeObserver(itemFailureObserver)
+            self.itemFailureObserver = nil
+        }
+        if let itemStallObserver {
+            NotificationCenter.default.removeObserver(itemStallObserver)
+            self.itemStallObserver = nil
+        }
+    }
+
     private func observeStatus(_ p: AVPlayer) {
         // KVO change blocks fire on whatever queue caused the property
         // change (often main, but not contractually). Hop to main before
@@ -210,12 +294,17 @@ final class AudioPlayer {
                 guard let self else { return }
                 switch status {
                 case .readyToPlay:
+                    self.streamRetryAttempt = 0
                     self.state = (rate > 0) ? .playing : .paused
                     if let current = self.current {
                         diagnosticRecord("playback", "ready to play", details: self.stationDiagnostics(current))
                     }
                 case .failed:
-                    self.state = .error(errMsg ?? "playback failed")
+                    if let current = self.current {
+                        self.scheduleStreamRetry(for: current, reason: errMsg ?? "playback failed")
+                    } else {
+                        self.state = .error(errMsg ?? "playback failed")
+                    }
                     diagnosticRecord(
                         "playback",
                         "item failed",
@@ -249,6 +338,118 @@ final class AudioPlayer {
                 self.updateNowPlaying()
             }
         }
+    }
+
+    private func handleAudioSessionInterruption(_ notification: Notification) {
+        guard let rawType = notification.userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt,
+              let type = AVAudioSession.InterruptionType(rawValue: rawType) else {
+            return
+        }
+
+        switch type {
+        case .began:
+            resumeAfterInterruption = state == .playing
+            streamRetryTask?.cancel()
+            streamRetryTask = nil
+            player?.pause()
+            if state == .playing {
+                state = .paused
+                listeningHistory?.closeActiveSession()
+            }
+            do {
+                try AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+            } catch {
+                diagnosticRecord("playback", "audio session deactivate failed", details: ["error": error.localizedDescription])
+            }
+            diagnosticRecord("playback", "audio session interrupted", details: current.map(stationDiagnostics) ?? [:])
+            updateNowPlaying()
+        case .ended:
+            do {
+                try AVAudioSession.sharedInstance().setActive(true)
+            } catch {
+                diagnosticRecord("playback", "audio session reactivate failed", details: ["error": error.localizedDescription])
+            }
+            let rawOptions = notification.userInfo?[AVAudioSessionInterruptionOptionKey] as? UInt ?? 0
+            let options = AVAudioSession.InterruptionOptions(rawValue: rawOptions)
+            let shouldResume = resumeAfterInterruption && options.contains(.shouldResume)
+            resumeAfterInterruption = false
+            diagnosticRecord("playback", "audio session interruption ended", details: ["shouldResume": String(shouldResume)])
+            if shouldResume {
+                resume()
+            } else {
+                updateNowPlaying()
+            }
+        @unknown default:
+            break
+        }
+    }
+
+    private func handleRouteChange(_ notification: Notification) {
+        guard let rawReason = notification.userInfo?[AVAudioSessionRouteChangeReasonKey] as? UInt,
+              let reason = AVAudioSession.RouteChangeReason(rawValue: rawReason),
+              reason == .oldDeviceUnavailable else {
+            return
+        }
+
+        let wasActive = state == .playing || (player?.rate ?? 0) > 0
+        guard wasActive else { return }
+        pause()
+        diagnosticRecord("playback", "paused after route loss", details: current.map(stationDiagnostics) ?? [:])
+    }
+
+    private func scheduleStreamRetry(for station: Station, reason: String) {
+        guard current?.id == station.id else { return }
+        guard streamRetryTask == nil else { return }
+
+        if streamRetryAttempt >= Constants.maxStreamRetryAttempts {
+            state = .error("stream retry failed")
+            diagnosticRecord("playback", "stream retry exhausted", details: stationDiagnostics(station).merging(["reason": reason]) { current, _ in current })
+            updateNowPlaying()
+            return
+        }
+
+        streamRetryAttempt += 1
+        let attempt = streamRetryAttempt
+        let delay = min(pow(2.0, Double(attempt - 1)), Constants.maxStreamRetryDelay)
+        state = .loading
+        diagnosticRecord(
+            "playback",
+            "stream retry scheduled",
+            details: stationDiagnostics(station).merging(["attempt": String(attempt), "reason": reason]) { current, _ in current },
+        )
+        updateNowPlaying()
+
+        streamRetryTask = Task { [weak self] in
+            do {
+                try await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+            } catch {
+                return
+            }
+            await MainActor.run { [weak self] in
+                self?.retryStream(stationID: station.id, attempt: attempt)
+            }
+        }
+    }
+
+    private func retryStream(stationID: String, attempt: Int) {
+        streamRetryTask = nil
+        guard let station = current, station.id == stationID, let player else { return }
+
+        if let metadataOutput, let currentItem = player.currentItem {
+            currentItem.remove(metadataOutput)
+        }
+        metadataOutput = nil
+        metadataOutputDelegate = nil
+        let item = makePlayerItem(for: station)
+        player.replaceCurrentItem(with: item)
+        state = .loading
+        player.play()
+        diagnosticRecord(
+            "playback",
+            "stream retry started",
+            details: stationDiagnostics(station).merging(["attempt": String(attempt)]) { current, _ in current },
+        )
+        updateNowPlaying()
     }
 
     /// AVPlayer publishes ICY-style metadata for HLS streams via
@@ -411,6 +612,10 @@ final class AudioPlayer {
         }
         metadataOutput = nil
         metadataOutputDelegate = nil
+        clearPlayerItemObservers()
+        streamRetryTask?.cancel()
+        streamRetryTask = nil
+        streamRetryAttempt = 0
         statusObserver?.invalidate()
         statusObserver = nil
         rateObserver?.invalidate()
@@ -535,7 +740,11 @@ final class AudioPlayer {
         guard let url else { return }
 
         lockScreenArtworkTask = Task { [weak self] in
-            guard let (data, _) = try? await URLSession.shared.data(from: url),
+            var request = URLRequest(url: url)
+            request.timeoutInterval = Constants.lockScreenArtworkTimeout
+            guard let (data, response) = try? await URLSession.shared.data(for: request),
+                  (response as? HTTPURLResponse).map({ (200..<300).contains($0.statusCode) }) ?? true,
+                  data.count <= Constants.maxLockScreenArtworkBytes,
                   !Task.isCancelled,
                   let image = UIImage(data: data) else { return }
 
