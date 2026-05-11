@@ -2710,3 +2710,247 @@ implementation.
   `data/stations.yaml`. Out of scope for this metadata recon, but worth noting
   for a future curation pass.
 - **Sample files** at `data/metadata-discovery/abc-*.json` are gitignored (per `.gitignore` `data/metadata-discovery/`), so this PR commits only the docs section. To re-capture: `curl -s "https://music.abcradio.net.au/api/v1/plays/triplej/now.json"`, `curl -s "https://music.abcradio.net.au/api/v1/plays/search.json?station=triplej&order=desc&limit=10"`, `curl -s "https://program.abcradio.net.au/api/v1/programitems/search.json?service=triplej&from=$(date -u +%FT%TZ)&to=$(date -u -v+1H +%FT%TZ)&include=next,with_images,resized_images&limit=5"`.
+
+## kexp — KEXP 90.3 FM (US)
+
+Investigated: 2026-05-09.
+
+KEXP runs a clean, fully public Django REST Framework v2 API at
+`api.kexp.org` powering their player and the open-source KEXP iOS
+/ Android apps. CORS is wide-open (`*`) on every endpoint probed,
+no auth, no rate-limit headers observed. The data is the richest
+of any broadcaster recon'd so far: every play row carries
+MusicBrainz release / recording / artist / label IDs, a cover-art
+URL sourced from the Internet Archive, and three boolean flags
+(`is_live`, `is_local`, `is_request`) that flag in-studio
+sessions, Pacific-Northwest local artists, and listener requests
+respectively. The current show carries DJ name + headshot, the
+program name + program artwork, and a free-form `tagline` the DJ
+edits live (today's read: `Happy Saturday! Reach out
+dj@kexp.org, text 206-903-5397, @djmorganseattle :)`).
+
+### Endpoints
+
+| What | URL template | Auth | CORS | Sample |
+|---|---|---|---|---|
+| API root (lists collections) | `https://api.kexp.org/v2/` | none | `*` | `data/metadata-discovery/kexp-api-root.json` |
+| Now-playing (most recent play) | `https://api.kexp.org/v2/plays/?limit=1` | none | `*` | `data/metadata-discovery/kexp-plays-latest.json` |
+| Track history (paged, default desc by airdate) | `https://api.kexp.org/v2/plays/?limit=N` | none | `*` | `data/metadata-discovery/kexp-plays-history.json` |
+| Current show | `https://api.kexp.org/v2/shows/?limit=1` (or `…/shows/<id>/` from play.show_uri) | none | `*` | `data/metadata-discovery/kexp-show.json`, `kexp-shows-list.json` |
+| Program detail | `https://api.kexp.org/v2/programs/<id>/` | none | `*` | `data/metadata-discovery/kexp-program.json` |
+| Host detail | `https://api.kexp.org/v2/hosts/<id>/` | none | `*` | `data/metadata-discovery/kexp-host.json` |
+| Schedule (timeslots) | `https://api.kexp.org/v2/timeslots/?limit=N` | none | `*` | `data/metadata-discovery/kexp-timeslots.json` |
+| Cover art | `play.image_uri` / `play.thumbnail_uri` (Internet Archive CDN) | none | n/a (img tag) | embedded |
+| Podcast feed | not via this API — KEXP archives live at <https://archive.kexp.org/> and select shows on Mixcloud / Apple Podcasts | n/a | n/a | n/a |
+
+Headers from `GET https://api.kexp.org/v2/plays/?limit=1` (with
+`Origin: https://rrradio.org`):
+
+```
+HTTP/2 200
+content-type: application/json
+access-control-allow-origin: *
+vary: Accept, Cookie, Origin
+allow: GET, HEAD, OPTIONS
+strict-transport-security: max-age=15768000
+cf-cache-status: DYNAMIC
+server: cloudflare
+```
+
+OPTIONS preflight returns `access-control-allow-methods: DELETE,
+GET, OPTIONS, PATCH, POST, PUT` and a 24-hour `access-control-
+max-age`. No `X-RateLimit-*` or `Retry-After` headers seen.
+
+### Response shape — `/v2/plays/`
+
+The `plays` collection is the single most useful endpoint. One
+row per song, per airbreak, per timesignal etc. — distinguished
+by `play_type`. Two values observed:
+
+- `trackplay` — actual song. All track fields populated.
+- `airbreak` — DJ talking, ad break, station ID. `song`,
+  `artist`, `album` etc. are absent. `image_uri` is `""`. The
+  fetcher must skip these and pull the most recent
+  `trackplay`.
+
+Annotated `trackplay` row (from `kexp-plays-latest.json`):
+
+```json
+{
+  "id": 3652561,                              // primary key
+  "uri": "https://api.kexp.org/v2/plays/3652561/",
+  "airdate": "2026-05-09T13:41:37-07:00",     // ISO8601 with TZ; sort key (default desc)
+  "show": 66672,                              // FK -> /shows/<id>/
+  "show_uri": "https://api.kexp.org/v2/shows/66672/",
+
+  // Cover art — Internet Archive CDN, MusicBrainz-keyed
+  "image_uri":     "https://dn721502.ca.archive.org/.../mbid-68eb725d-…_thumb500.jpg",
+  "thumbnail_uri": "https://dn721502.ca.archive.org/.../mbid-68eb725d-…_thumb250.jpg",
+
+  // Track identity (MusicBrainz IDs are gold for downstream linking)
+  "song":              "Deny",
+  "track_id":          "b96e290c-0156-4f79-ac51-3f7d5cea5c65",
+  "recording_id":      "e093086d-b925-404b-94ec-467127a40672",
+  "artist":            "La Sécurité",
+  "artist_ids":        ["a03666b0-23ba-455f-bc74-1e8a7140fed3"],
+  "album":             "Bingo!",
+  "release_id":        "68eb725d-8856-45b5-a530-99e8293bac0a",
+  "release_group_id":  "26e8b170-ff2a-462b-92a1-638d7c6015d0",
+  "labels":            ["Bella Union"],
+  "label_ids":         ["2e72153d-8eb0-49a3-8b18-3a054d2c7f33"],
+  "release_date":      "2026-06-12",
+
+  // KEXP-specific signals
+  "rotation_status": "Medium",                // Heavy / Medium / Light / null — KEXP rotation tier
+  "is_local":   false,                        // Pacific Northwest artist
+  "is_request": false,                        // listener-requested
+  "is_live":    false,                        // played from an in-studio session
+  "comment":    null,                         // DJ free-form note (sometimes long with newlines)
+  "location": 1,
+  "location_name": "Default",
+  "play_type": "trackplay"
+}
+```
+
+Pagination wrapper (DRF `PageNumberPagination` shape):
+
+```json
+{
+  "count":    66551,
+  "next":     "https://api.kexp.org/v2/plays/?limit=10&offset=10",
+  "previous": null,
+  "results":  [ … ]
+}
+```
+
+`/v2/plays/` does NOT return `count` (likely cursor-style on the
+unbounded plays collection); `/v2/shows/`, `/v2/timeslots/`,
+`/v2/hosts/`, `/v2/programs/` all do.
+
+### Response shape — `/v2/shows/<id>/`
+
+Picks up the now-on-air programme + DJ. Retrievable either by
+following `play.show_uri` from a fresh play row, or by hitting
+`/v2/shows/?limit=1` (the shows collection is sorted by
+`start_time` desc — index 0 is the current show).
+
+```json
+{
+  "id": 66672,
+  "uri": "https://api.kexp.org/v2/shows/66672/",
+  "program":      18,
+  "program_uri":  "https://api.kexp.org/v2/programs/18/",
+  "hosts":        [34],
+  "host_uris":    ["https://api.kexp.org/v2/hosts/34/"],
+  "program_name": "Variety Mix",
+  "program_tags": "Rock,Eclectic,Variety Mix",   // CSV string, not array
+  "host_names":   ["Morgan"],
+  "tagline":      "Happy Saturday! Reach out dj@kexp.org, text 206-903-5397, @djmorganseattle :)",
+  "image_uri":         "https://www.kexp.org/.../morgan_800x800.jpg",       // DJ photo
+  "program_image_uri": "https://www.kexp.org/.../variety-800x800.jpg",      // programme tile
+  "start_time":   "2026-05-09T12:00:38-07:00",   // no end_time on the show object
+  "location": 1,
+  "location_name": "Default"
+}
+```
+
+Note: `start_time` is when the *current* show began, but there's
+no `end_time` on the show object — the next show's `start_time`
+is the implicit boundary, or you cross-reference `/v2/timeslots/`
+for the scheduled window.
+
+### Response shape — `/v2/timeslots/`
+
+Repeating weekly schedule (day-of-week + clock window). Useful
+for an EPG / "what's on at 19:00" view, less so for live
+now-playing.
+
+```json
+{
+  "id": 57,
+  "program_name": "Midnight in a Perfect World",
+  "program_tags": "Eclectic,DJ,Variety Mix",
+  "host_names":   ["Guest DJ"],
+  "weekday":    1,                 // 1 = Monday (DRF default; Sunday=7 inferred — verify)
+  "start_date": "2020-08-20",      // when this slot started in the rotation
+  "end_date":   null,              // null = ongoing
+  "start_time": "00:00:00",
+  "end_time":   "01:00:00",
+  "duration":   "01:00:00"
+}
+```
+
+Total: 59 timeslots covering one week.
+
+### Wirable today?
+
+✅ **Wire-now, fully.** HTTPS, CORS `*`, no auth, structured
+JSON with consistent shapes, MusicBrainz-grade IDs. This is the
+cleanest broadcaster API in the catalog.
+
+Recommended polling cadence: **15 s** for `/v2/plays/?limit=2`
+(2 in case the latest is an `airbreak`; pick the most recent
+`trackplay`). Show / programme / host can be cached for 5 min
+keyed off `play.show`. KEXP's apps poll roughly that often, no
+rate-limit signal.
+
+### Suggested fetcher
+
+New shape — needs its own `fetchKexpMetadata` in
+`src/builtins.ts`. Closest existing analogue is
+**`fetchOrfMetadata`** (also a multi-collection paged JSON API
+with separate "now playing" + "current show" calls). Pattern:
+
+1. `GET https://api.kexp.org/v2/plays/?limit=2`.
+2. `result = first row whose play_type === 'trackplay'`. If
+   none in the top 2, fall through to `null` (rare — happens
+   only during long airbreaks).
+3. Map: `artist = result.artist`, `track = result.song`,
+   `coverUrl = result.image_uri || result.thumbnail_uri ||
+   undefined`, `raw = `${artist} - ${track}``.
+4. Optional second fetch (cache-keyed off `result.show`):
+   `GET https://api.kexp.org/v2/shows/${result.show}/` to
+   surface programme + DJ (`programme = `${program_name} with
+   ${host_names.join(', ')}``).
+5. Optional flag surfacing — if `is_live`, prefix track with
+   `(In-studio) `; if `is_local`, surface a Pacific-Northwest
+   tag; both are KEXP-defining UX touches we don't get
+   elsewhere.
+
+Schedule fetcher (`ScheduleFetcher`) is also straightforward off
+`/v2/timeslots/` keyed by `weekday` + `start_time` / `end_time`,
+but live now-playing is the priority.
+
+### Notes
+
+- **Terms of service:** the API has no public ToS page that
+  came up; KEXP has historically been generous with its data
+  (their iOS app is open source on GitHub, their archive is
+  public). Honor the obvious "be a good citizen" defaults:
+  attribute KEXP, cap polling at the player's cadence, set a
+  recognizable `User-Agent`.
+- **`api.kexp.org` is fronted by Cloudflare** with `cf-cache-
+  status: DYNAMIC` on plays — they're NOT serving stale plays
+  through the CDN. Good for freshness, modest extra origin
+  load; another reason to keep our cadence at ~15 s.
+- **`play_type` enum** observed: `trackplay`, `airbreak`. Older
+  KEXP code in the wild references `nontrackplay` and
+  `timesignal` — those may exist historically, treat any
+  non-`trackplay` as "skip and look further back".
+- **Image hosting on the Internet Archive** means we don't need
+  CORS on the image (image tags don't enforce it). Some
+  image_uri values are empty strings (`""`) on airbreaks —
+  fetcher must coerce to `undefined`.
+- **MusicBrainz IDs** open up future enrichment paths (artist
+  bio, related artists, label catalog) without re-scraping
+  KEXP. Worth recording in the catalog if we ever want
+  cross-broadcaster track linking.
+- **Archive / on-demand:** KEXP's "Streaming Archive" is on the
+  main site (e.g. `https://www.kexp.org/playlist/streaming-
+  archive/`) and select shows mirror to Mixcloud (e.g.
+  `mixcloud.com/KEXP`). No on-demand API surfaced from the v2
+  router — Phase-2 concern; live now-playing is fully covered.
+- **Seattle time:** `airdate` and `start_time` always carry the
+  `-07:00` (PDT) / `-08:00` (PST) offset — fetcher should pass
+  through, not normalize away the offset (downstream "live now"
+  comparisons want the absolute instant, not local clock).
