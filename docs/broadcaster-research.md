@@ -3539,3 +3539,323 @@ metadataChannel:
   `services.radio-canada.ca` likewise. No "no-AI" or
   "no-aggregation" clauses spotted; these are the same surfaces
   that power Radio Browser's regional CBC entries.
+
+## kcrw — KCRW 89.9 FM (US)
+
+Investigated: 2026-05-09.
+
+KCRW exposes a single public Rails-backed read API at
+`tracklist-api.kcrw.com` (CloudFront-fronted, hosted on Heroku-
+ish infrastructure: `Server: Puma`, Rails 6.1.7.8, NewRelic
+instrumentation visible in error responses). It powers KCRW's
+internal "Playlist Manager" UI at the same host (`/Programs`)
+and surfaces public read endpoints for the **two music-tracked
+channels** the station logs:
+
+- **`Simulcast`** — the live FM signal at 89.9 (KCRW main).
+  Music plays interleaved with NPR talk programming, so most
+  hours of the day this channel returns rows for music shows
+  only (`Morning Becomes Eclectic`, `Anne Litt`, evening DJs)
+  with gaps during news / talk blocks. Programme metadata
+  (start/end, host, programme title) is included on every row.
+- **`Music`** — internal name for **Eclectic 24** (`program_id:
+  e24`), KCRW's 24/7 always-music stream. Single rolling
+  programme; ~100 plays per day in the captured sample. This
+  is the one to point at for continuous track ticker.
+
+Other KCRW streams in our catalog — **News24** and **Summer
+Nights** — are **not** in the tracklist API surface. News24 is
+all talk (no music tracking), and Summer Nights is a seasonal
+DJ-mixed feed that doesn't currently log into the playlist
+manager. `GET /News24`, `/SummerNights`, `/Eclectic24` (with
+that exact case), `/jazz`, `/Programs/...` etc. all return the
+playlist-manager HTML rather than JSON. Only `/Simulcast` and
+`/Music` produce JSON.
+
+The endpoint has been stable and publicly documented since at
+least March 2016 (KCRW developer Alec Mitchell on Hacker News
+[`news.ycombinator.com/item?id=11242187`]: "I'm pulling the
+day's songs via the API: `tracklist-api.kcrw.com/Simulcast/...`")
+and the schema has been backwards-compatible across that decade.
+
+### Endpoints
+
+| What | URL template | Auth | CORS | Sample |
+|---|---|---|---|---|
+| Simulcast — now-playing (single object) | `https://tracklist-api.kcrw.com/Simulcast` | none | `*` | `data/metadata-discovery/kcrw-root-simulcast.json` |
+| Simulcast — day history (array, desc) | `https://tracklist-api.kcrw.com/Simulcast/date/YYYY/MM/DD` | none | `*` | `data/metadata-discovery/kcrw-simulcast-history.json` |
+| Music / Eclectic 24 — now-playing (single object) | `https://tracklist-api.kcrw.com/Music` | none | `*` | `data/metadata-discovery/kcrw-music-now.json` |
+| Music / Eclectic 24 — day history (array, desc) | `https://tracklist-api.kcrw.com/Music/date/YYYY/MM/DD` | none | `*` | `data/metadata-discovery/kcrw-music-history.json` |
+| Now-playing with rrradio Origin (CORS verify capture) | `https://tracklist-api.kcrw.com/Simulcast` (with `Origin: https://rrradio.org`) | none | `*` | `data/metadata-discovery/kcrw-simulcast-now-cors.json` |
+| Cover art | `albumImage` / `albumImageLarge` (Spotify CDN, `i.scdn.co`) | none | n/a (img tag) | embedded |
+| Programme schedule | not exposed; programme info is denormalised onto each play row | — | — | — |
+| Podcast / on-demand feeds | not via this API; KCRW shows mirror to Apple Podcasts / Spotify | n/a | n/a | n/a |
+
+Headers from `GET https://tracklist-api.kcrw.com/Simulcast`
+(with `Origin: https://rrradio.org`):
+
+```
+HTTP/2 200
+content-type: application/json; charset=utf-8
+access-control-allow-origin: *
+access-control-allow-methods: GET,OPTIONS
+access-control-allow-headers: Origin, Content-Type, Accept, X-REQUESTED-WITH
+access-control-max-age: 1728000
+cache-control: max-age=15, public, must-revalidate
+etag: W/"edf2e224b6f9656a44cb1d0f92607351"
+x-cache: RefreshHit from cloudfront
+x-frame-options: SAMEORIGIN
+x-runtime: 0.078004
+```
+
+OPTIONS preflight returns **`access-control-allow-origin: *`**
+in the headers but the body is a Rails 500
+(`No route matches [OPTIONS] "/Simulcast"`). For our use this
+is fine — a `GET application/json` is a CORS-simple request and
+does not require a preflight. Any non-simple request (custom
+header, non-GET) would trip on this 500. No `X-RateLimit-*` or
+`Retry-After` headers seen across multiple captures.
+
+CloudFront edge-caches each now-playing response for 15 s
+(`cache-control: max-age=15`); polling faster than that just
+hits a cached body. The sweet spot is **15 s**, matching the
+CDN TTL — KCRW's own player polls at roughly that cadence.
+
+### Response shape — `/Simulcast` and `/Music` (now-playing)
+
+Both endpoints return **a single flat play object** (not a
+list, not an envelope). Annotated:
+
+```json
+{
+  // Affiliate / "buy this song" links — pre-baked URLs to iTunes,
+  // Spotify, Amazon. Not useful for now-playing UI directly,
+  // but interesting for a "where to listen" card.
+  "affiliateLinkiPhone":  "https://itunes.apple.com/...?term=%22Sleater%E2%80%90Kinney%22+%22Modern+Girl%22",
+  "affiliateLinkiTunes":  "...",
+  "affiliateLinkSpotify": "spotify:search:Sleater%E2%80%90Kinney+Modern+Girl",
+  "affiliateLinkAmazon":  "http://www.amazon.com/...&tag=kcco04-20",
+
+  // External IDs — KCRW does MusicBrainz + Spotify lookups on
+  // the backend (`/music_brainz/recordings?...` is in their
+  // playlist-manager bundle). When matched, spotify_id /
+  // spotify_preview / itunes_url get populated; otherwise null.
+  "itunes_id":     null,
+  "itunes_time":   null,
+  "itunes_url":    null,
+  "spotify_id":    "2GOQVqZ3uVp7LKVAY1T0mk",            // 22-char base64 — Spotify track URI suffix
+  "spotify_preview": "https://p.scdn.co/mp3-preview/...?cid=...",  // 30-second mp3, public
+
+  // Programme block context (denormalised onto every row)
+  "program_id":    "wb",                                 // short slug; e24 = Eclectic 24, mb = Morning Becomes Eclectic, wb = ?, varies by show
+  "program_start": "12:00",                              // local clock string, no date
+  "program_end":   "15:00",                              // → "this programme block runs 12:00–15:00 today"
+  "program_title": "Anne Litt",                          // human-readable title (sometimes the host's name when the show IS that host)
+  "host":          "Anne Litt",                          // explicit DJ field; "" when programme is host-anonymous (Eclectic 24 stream)
+  "credits":       null,
+  "guest":         null,                                 // populated when a guest DJ / live session is on
+
+  // Track identity
+  "title":         "Modern Girl",
+  "artist":        "Sleater‐Kinney",                // unicode-non-breaking-hyphen used in artist names
+  "album":         "The Woods",
+  "label":         "Sub Pop Records",
+  "year":          "2005",                               // string, sometimes null
+  "artist_url":    "http://www.sleater-kinney.com/",     // editorial URL (may be http://, may be empty/null)
+
+  // Cover art — Spotify CDN images (when matched)
+  "albumImage":      "https://i.scdn.co/image/ab67616d00001e027d7487703050853d8d952bb7",  // ~300x300 thumb
+  "albumImageLarge": "https://i.scdn.co/image/ab67616d0000b2737d7487703050853d8d952bb7",  // ~640x640 full
+
+  // Channel + timing
+  "channel":  "Simulcast",                               // or "Music" for Eclectic 24 endpoint (NB: NOT "Eclectic24")
+  "offset":   7706,                                      // seconds since midnight local — NOT a timestamp, NOT track position
+  "time":     "02:08 PM",                                // local clock string (Pacific)
+  "date":     "2026-05-09",                              // ISO date string (local Pacific)
+  "datetime": "2026-05-09T14:08:26-07:00",               // ISO 8601 with Pacific offset — the canonical sort key
+  "comments": "",                                        // DJ free-form note — usually empty, but used on some shows
+  "play_id":  1055338                                    // monotonically increasing primary key
+}
+```
+
+Empty / null patterns to handle:
+
+- `albumImage` and `albumImageLarge` are **`null`** when KCRW
+  hasn't matched the track on Spotify (small indie / live-in-
+  studio recordings). Coerce to `undefined` for the cover-art
+  field.
+- `host` is empty string `""` for the Eclectic 24 channel (no
+  named DJ — it's a curation feed). Coerce to `undefined`.
+- `year`, `label`, `artist_url`, `guest`, `credits` are
+  frequently `null` / `""`. Treat as missing.
+- `spotify_id`, `spotify_preview`, `itunes_*` are null when no
+  external match — fine, those are optional enrichment, not
+  primary now-playing.
+
+### Response shape — `/Simulcast/date/YYYY/MM/DD` and `/Music/date/...`
+
+Returns **an array of the same shape**, sorted by `datetime`
+descending (newest first). Sample sizes seen:
+
+- `/Simulcast/date/2026/05/09` (today, partial): 35 rows from
+  one programme block (`Anne Litt`, 12:00–15:00). The morning
+  hours of Simulcast are mostly NPR talk and produce no rows.
+- `/Simulcast/date/2026/05/08` (yesterday, full day): 60 rows
+  across two programmes (`Morning Becomes Eclectic`,
+  `Resident DJ`).
+- `/Music/date/2026/05/09` (today, partial): 100 rows — single
+  rolling Eclectic 24 programme.
+
+Pagination via `?page=N` is **silently ignored** on now-playing
+(`/Simulcast` always returns the latest single object) and is
+not needed on `/date/...` (the array is the full day, not paged).
+
+### Wirable today?
+
+✅ **Wire-now, fully.** HTTPS, CORS `*`, no auth, single-object
+JSON shape with consistent fields, ~10-year-stable schema,
+denormalised programme info on every row. Slightly less rich
+than KEXP (no MusicBrainz IDs surfaced; programme metadata
+lacks an end-of-show boundary signal beyond `program_end`
+clock string) but cleaner than most public-radio APIs we've
+seen because the now-playing call is **one round trip**, no
+separate show / DJ / programme lookup needed.
+
+Recommended polling cadence: **15 s** for the now-playing
+endpoint, matching the CloudFront edge TTL. Faster polling
+returns the same cached body. KCRW's own playlist-manager UI
+polls at roughly that cadence.
+
+The two streams that map to tracklist-api channels:
+
+| Catalog id | Stream | Map to |
+|---|---|---|
+| `builtin-kcrw-live` / `us-kcrw-live-89-9-fm-aac` | `streams.kcrw.com/kcrw_{mp3,aac}` | `/Simulcast` |
+| `builtin-kcrw-eclectic` / `us-kcrw-eclectic-24-aac` | `streams.kcrw.com/e24_{mp3,aac}` | `/Music` |
+
+The two streams that **don't** map (no music metadata
+available; leave at status `stream-only`):
+
+- `us-kcrw-news24` (`streams.kcrw.com/news24_mp3`) — NPR talk; no track data.
+- `us-kcrw-summer-nights` (if present) — seasonal DJ feed; not tracked.
+
+### Suggested fetcher
+
+New shape — needs its own `fetchKcrwMetadata` in
+`src/builtins.ts`. Closest existing analogues:
+
+- **`fetchKexpMetadata`** (about to ship in PR #221) — same US
+  public-radio profile, same "single endpoint surfaces both
+  track and programme" pattern, similar Spotify/MB ID
+  enrichment. The structural difference is that KEXP returns a
+  paged list with one row per *play* (including non-track
+  airbreaks that the fetcher skips); KCRW returns a single
+  pre-filtered "current track" object directly. So **the KCRW
+  parser is simpler** — no list traversal, no airbreak skip,
+  just map fields one-to-one. About 60–70 % of `fetchKexp`'s
+  surface logic transfers; the actual fetch + parse is shorter.
+- **`fetchOrfMetadata`** as a structural cousin — both have a
+  channel/programme/track tree returned in a single response,
+  differing in whether to surface programme name + host
+  prominently.
+
+Pattern:
+
+```ts
+// channel: derived from station.metadataChannel — "Simulcast" | "Music"
+// (Catalog YAML extension: each KCRW station entry gets
+// metadataChannel: Simulcast or metadataChannel: Music)
+
+const url = `https://tracklist-api.kcrw.com/${channel}`;
+const res = await fetch(url, { headers: { Accept: 'application/json' } });
+const r = await res.json() as KcrwPlay;
+
+return {
+  artist: r.artist || undefined,
+  track:  r.title  || undefined,
+  raw:    r.artist && r.title ? `${r.artist} - ${r.title}` : undefined,
+  coverUrl: r.albumImageLarge || r.albumImage || undefined,
+  programme: r.program_title || undefined,
+  host: r.host || undefined,           // empty on Eclectic 24 — surfaces as undefined
+  album: r.album || undefined,
+  // Optional extras the catalog-side renderer can pick up later:
+  // spotifyId: r.spotify_id, spotifyPreview: r.spotify_preview, year: r.year, label: r.label
+};
+```
+
+No worker proxy entry needed — `tracklist-api.kcrw.com` returns
+`access-control-allow-origin: *` so the browser can fetch
+directly. (Contrast with broadcasters where the worker has to
+spoof an Origin header for a missing-CORS endpoint.)
+
+### Notes
+
+- **Vercel mitigation on `www.kcrw.com`.** The main KCRW site
+  is on Vercel and returns `429 + x-vercel-challenge-token`
+  for non-browser User-Agents on every path. Their actual
+  player JS bundle (which would document this same API in
+  context) was unreachable from our recon network. We cross-
+  validated the `tracklist-api.kcrw.com` endpoint via direct
+  schema capture + the 2016 Hacker News post + GitHub
+  references (`ciyer/kcrw-playlists`, `KCRW-org/*` repos) —
+  the API has been the canonical surface for a decade, and
+  the live data sample pulled today (2026-05-09) shows the
+  same shape that's been used since at least 2016 (additive
+  changes only: `affiliateLink*` keys, `spotify_preview` are
+  newer; everything else is original).
+- **Cover art is on Spotify's CDN** (`i.scdn.co`). Spotify
+  serves images CORS-friendly and HTTPS-only; no proxy needed.
+  Expect ~70 – 80 % match rate; small/indie/live tracks won't
+  have an image.
+- **Time zone: Pacific.** All `time`, `date`, and `datetime`
+  fields are in `-07:00` (PDT) / `-08:00` (PST). The fetcher
+  should pass through, not normalise to UTC — downstream "is
+  this current?" comparisons want the absolute instant.
+- **`offset` is seconds-since-midnight local**, not a
+  timestamp. Useful for "minutes into the show" displays;
+  irrelevant for now-playing. Don't confuse with track
+  position.
+- **`program_end` is a clock string** with no end-of-day
+  carry. Programmes that span midnight (`23:00`–`02:00`)
+  would presumably break this naive interval check; haven't
+  observed one yet. For KCRW the music programmes mostly run
+  3-hour daytime/evening windows and don't cross midnight.
+- **Eclectic 24 channel name asymmetry.** Catalog stations use
+  the slug `eclectic24` and KCRW's own URLs say
+  `kcrw.com/music/shows/eclectic24`, but the tracklist-api
+  channel is **`Music`** (capital M, no number). The
+  `program_id` field is `e24` and `program_title` is
+  `Eclectic 24`. The catalog YAML extension should pin
+  `metadataChannel: Music` explicitly and not auto-derive.
+- **No history endpoint per-track.** `/Music/song/<id>` and
+  `/play/<id>` return the manager-UI HTML, not JSON. If we
+  ever want a per-track detail surface (writer credits, full
+  Spotify profile), we'd have to follow the `spotify_id` to
+  Spotify's open API or to MusicBrainz directly using the
+  external IDs as keys.
+- **`/Programs` is the playlist-manager UI**, not a public
+  programme schedule. It's a Rails-served SPA at the same host
+  (bundle: `/packs-test/js/application-<hash>.js`) — staff-
+  facing, requires auth for write ops. Reads of `/Simulcast`
+  and `/Music` are open to anyone; the SPA is just the editor
+  on top.
+- **Robots / ToS:** no `robots.txt` or developer-terms page
+  surfaced for `tracklist-api.kcrw.com`. KCRW historically
+  publishes its data widely (the 2016 HN post explicitly
+  documents the endpoint as the way to do it); their sister
+  station KEXP is similarly open-handed. Honour the obvious
+  defaults: identifiable User-Agent, attribute KCRW, cap
+  polling at the CDN TTL.
+- **No rate-limit headers seen** across 6 captures. CloudFront
+  edge caching means our load on origin is negligible at any
+  reasonable cadence.
+- **Suggested next broadcaster:** **WFMU** (Jersey City, the
+  freeform public-radio peer to KCRW/KEXP — already in
+  `broadcasters.yaml`, station count in catalog, distinctly
+  different shape: known to publish per-show playlists at
+  `wfmu.org/playlists/<show>` rather than a unified API,
+  which makes it a good test of the "no canonical API
+  endpoint" branch of the recon flow). Alternative: **WNYC**
+  / **NPR member-station umbrella** if we want to cover the
+  US public-radio cluster systematically before moving to
+  international.
