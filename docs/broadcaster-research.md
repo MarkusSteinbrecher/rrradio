@@ -3859,3 +3859,278 @@ spoof an Origin header for a missing-CORS endpoint.)
   / **NPR member-station umbrella** if we want to cover the
   US public-radio cluster systematically before moving to
   international.
+
+## sbs — SBS / Special Broadcasting Service (AU)
+
+Investigated: 2026-05-09.
+
+SBS is Australia's secondary public broadcaster (sister to ABC). Multilingual /
+multicultural focus, runs eight live audio channels: SBS Radio 1/2/3 (talk +
+language services), SBS Chill (downtempo), SBS PopAsia (J/K/C/V-pop), SBS
+PopDesi (South Asian pop, page is now `/audio/radio/south-asian`), SBS Arabic24
+(`sbs-pop-araby` internally), and SBS Sounds of Home / SBS EuroPop on the
+`sbs4` HLS slot.
+
+The web player at `sbs.com.au/audio/radio/{slug}` (and
+`sbs.com.au/audio/music/{slug}`) is a Next.js 14 app whose live-channel page
+calls **two endpoints on `https://fos.sbs.com.au`** (the "Front Of Site" service)
+to render the now-playing UI:
+
+1. `GET /web/audio/current-song/{epgId}?delay=90` — the live track now playing
+   on a music channel (or `{}` if the channel is currently airing a talk
+   programme or no fingerprinting is happening).
+2. `GET /web/audio/channels?ids={bspId}` — programme-level metadata for one or
+   more channels: `currentProgram`, `schedule[]` (next ~10 entries), `bspId`,
+   `epgId`, `streamUrl`, `streamMimeType`, `name`, `leadImage`, `description`,
+   plus a **denormalised `currentSong` object** (same shape as endpoint 1) when
+   the channel `hasSongs: true` and a track is being recognised.
+
+A third endpoint exists for the "Recently played" UI:
+
+3. `GET /web/audio/songs?channels={epgId}&date={ISO-hour}&delay=90` — track
+   history for one channel for a given hour bucket. Returns
+   `{ "{epgId}": [...songs...] }` with each song carrying `status: "history"`
+   (or `status: "playing"` for the still-airing track at top).
+
+All three endpoints are open `Access-Control-Allow-Origin: *`, no auth, plain
+GET, return `application/json; charset=utf-8`. The `delay=90` query parameter
+is hardcoded in the bundle (chunk module `43075`); it tells the server to look
+~90 s back to align with HLS audio buffer. The bundle code is at
+`/_next/static/chunks/7984-*.js` (`useQuery` hook id `OS` → fetches `current-song`
++ `channels` in parallel via `Promise.allSettled`) and
+`/_next/static/chunks/6302-*.js` (the `Songs` history hook).
+
+**Two key IDs per channel:**
+
+- `epgId` (string slug) — used by the `current-song/{epgId}` and `songs?channels=`
+  endpoints. Values: `sbs-radio-1`, `sbs-radio-2`, `sbs-radio-3`, `sbs-pop-araby`
+  (Arabic24), `sbs-chill`, `sbs-pop-asia`, `sbs-pop-desi`, `sbs-euro-pop`.
+  Short variants like `chill`, `popasia`, `poparaby`, `popdesi` exist as
+  alternate `channelId`s on the page DOM but the FOS API only accepts the
+  `sbs-*` prefixed form.
+- `bspId` (Brightspot CMS UUID) — used by `channels?ids={bspId}`.
+  Both IDs are inlined in the page's `__next_f` SSR data.
+
+### Channel mapping (catalog ↔ SBS API)
+
+| rrradio station id | epgId | bspId | HLS slug | hasSongs |
+|---|---|---|---|---|
+| `builtin-sbs-chill` | `sbs-chill` | `00000183-abaa-db73-ab83-ffbf5e740000` | `sbschill` | true |
+| `au-sbs-popasia` *(currently `broadcaster: independent`)* | `sbs-pop-asia` | `00000183-abac-d32e-a3cb-bbffa66c0000` | `popasia` | true |
+| `au-sbs-radio-1` *(currently `broadcaster: independent`)* | `sbs-radio-1` | `00000183-ab9e-d32e-a3cb-bbdfda660000` | `sbs1` | false |
+| *(not in catalog)* SBS Radio 2 | `sbs-radio-2` | `00000183-aba0-d32e-a3cb-bbff0b7d0000` | `sbs2` | false |
+| *(not in catalog)* SBS Radio 3 | `sbs-radio-3` | `00000183-aba2-db73-ab83-ffbf96a40000` | `sbs3` | false |
+| *(not in catalog)* SBS PopDesi / South Asian | `sbs-pop-desi` | `00000183-abae-da02-a9df-fbbf27f30000` | `popdesi` | true |
+| *(not in catalog)* SBS Arabic24 | `sbs-pop-araby` | `00000183-abaf-db73-ab83-ffbfdec20000` | `arabic` | true (advertised; today saw `currentSong: null` mid-talk-show) |
+
+The SBS player uses **HTTP** HLS URLs in some places (e.g. `streamUrl` field of
+the `channels` response, and the `sbs-sounds-of-home-fm` entry of
+`livestreamUrls`); the page-level `livestreamUrls` block uses HTTPS for everything
+except sbs4. Catalog stays HTTPS-only — the front-end metadata fetcher only
+needs `fos.sbs.com.au` (HTTPS) regardless.
+
+### Endpoints
+
+| What | URL template | Auth | CORS | Sample |
+|---|---|---|---|---|
+| Now-playing track (music channels) | `https://fos.sbs.com.au/web/audio/current-song/{epgId}?delay=90` | none | `*` | `data/metadata-discovery/sbs-current-song-sbs-chill.json`, `…sbs-pop-asia.json`, `…sbs-pop-desi.json` (talk channels return `{}`: `…sbs-radio-1.json`, `…sbs-radio-2.json`, `…sbs-radio-3.json`, `…sbs-pop-araby.json`, `…sbs-euro-pop.json`) |
+| Channel info + programme + denormalised currentSong + schedule | `https://fos.sbs.com.au/web/audio/channels?ids={bspId}` (comma-separable for batch) | none | `*` | `sbs-channels-sbs1.json` (talk; 23 KB, 15-entry schedule), `sbs-channels-chill.json`, `sbs-channels-popasia.json`, `sbs-channels-popdesi.json`, `sbs-channels-arabic.json` |
+| Track history for a channel (per-hour bucket) | `https://fos.sbs.com.au/web/audio/songs?channels={epgId}&date={ISO-hour:00:00.000Z}&delay=90` | none | `*` | `sbs-songs-history-chill.json` (15 tracks for the previous-hour bucket on SBS Chill) |
+| Cover art | embedded — track-level `image` is an iTunes/Apple Music CDN URL (`is1-ssl.mzstatic.com/.../450x450bb.jpg`); programme-level `thumbnail` is `images.sbs.com.au/...` | — | n/a (img tag) | — |
+| HLS stream manifest | `https://sbs-hls.streamguys1.com/hls/{slug}/playlist.m3u8` (already the catalog `streamUrl`) | none | n/a (stream) | — |
+| Brightspot CMS GraphQL | `https://cms.sbs.com.au/graphql/delivery/sbscontentapi` | none (uses cookie session for editorial UI) | (not probed in this pass — page-content surface, not now-playing) | n/a |
+| Podcast feed | n/a — SBS publishes per-show feeds on `sbs-podcast.streamguys1.com/` directly as MP3 + analytics URL params, no public RSS index found via the SPA. The CMS GraphQL likely surfaces episode lists if needed | — | — | — |
+
+### Response shape
+
+**`/web/audio/current-song/{epgId}`** (music channel, song playing):
+
+```jsonc
+{
+  "image":           "https://is1-ssl.mzstatic.com/image/thumb/Music221/.../450x450bb.jpg",
+  "songName":        "Caravan",
+  "artist":          "Novelbright",
+  "startTime":       "2026-05-10T07:15:44+10:00",       // ISO 8601 with AEST offset
+  "endTime":         1778361575000,                     // epoch ms (UTC)
+  "duration":        "00:03:51",                        // HH:MM:SS string
+  "channel":         "sbs-pop-asia",
+  "status":          "playing",
+  "songDisplayName": "Caravan by Novelbright"
+}
+```
+
+Talk channel or no recognition: `{}` (literally — empty object, not 404, not
+null fields). Detect via `Object.keys(payload).length === 0` or the absence of
+`songName`.
+
+**`/web/audio/channels?ids={bspId}`** — top-level array of one entry per `id`:
+
+```jsonc
+[
+  {
+    "epgId":          "sbs-pop-asia",
+    "bspId":          "00000183-abac-d32e-a3cb-bbffa66c0000",
+    "name":           "SBS PopAsia",
+    "description":    "…",
+    "streamUrl":      "http://sbs-hls.streamguys1.com/hls/popasia/playlist.m3u8",  // ← HTTP, ignore in favour of catalog
+    "streamMimeType": "application/x-mpegURL",
+    "leadImage":      { "alt": "...", "attributes": { "sizes": [{ "src": "..." }] } },
+    "route":          { "permalink": "/audio/music/popasia", … },
+    "hasSongs":       true,
+    "currentProgram": {
+      "title":       "Sunday Sleep-in",
+      "description": "Turn it on, but keep it down low.",
+      "thumbnail":   "https://images.sbs.com.au/.../popasia-music-4.jpg",
+      "startTime":   "2026-05-09T19:00:00.000Z",       // ISO 8601 UTC
+      "endTime":     "2026-05-09T23:00:00.000Z",
+      "duration":    14400000,                          // ms
+      "programMetadata": {
+        "programmeType": "music",                       // "music" | "news"
+        "isReplay":      false
+      }
+    },
+    "currentSong": {
+      "songName": "Back to Life", "artist": "&TEAM", "image": "https://...",
+      "startTime": "2026-05-10T07:18:01+10:00", "endTime": 1778361680000,
+      "duration": "00:03:19", "channel": "sbs-pop-asia",
+      "status": "playing", "songDisplayName": "Back to Life by &TEAM"
+    },
+    "schedule":     [ /* next ~10–15 programmes, same shape as currentProgram */ ],
+    "allPrograms":  [ /* full directory entries — used for "All Programs" UI */ ]
+  }
+]
+```
+
+Talk channels (Radio 1/2/3, Arabic24 mid-talk-show): `currentSong` is omitted
+or `null`, `hasSongs` is `false` (or `true` but `currentSong: null` for Arabic24).
+`currentProgram` is always populated.
+
+**`/web/audio/songs?channels={epgId}&date={hour}`** — bucketed by hour:
+
+```jsonc
+{
+  "sbs-chill": [
+    { "songName": "Melting Hazard", "artist": "Salamanda", "image": "...",
+      "startTime": "2026-05-10T06:55:44+10:00", "endTime": 1778360450000,
+      "duration": "00:05:06", "channel": "sbs-chill",
+      "status": "history", "songDisplayName": "Melting Hazard by Salamanda" },
+    { "songName": "Bluafterglow", "artist": "Tasuki", … },
+    // ~12–15 entries per hour for an active music channel
+  ]
+}
+```
+
+The first entry's `status` may be `"playing"` if it's still airing; the rest
+are `"history"`. Tracks without artwork have no `image` key (rather than
+`image: null`).
+
+### Wirable today?
+
+✅ for the music channels (Chill, PopAsia, PopDesi) — full track-level
+now-playing + cover art + recent-history list, all CORS-clean and auth-free,
+direct browser fetch. No worker proxy needed.
+
+⚠️ partial for the talk/language channels (Radio 1/2/3, Arabic24, EuroPop):
+the `current-song` endpoint always returns `{}`, but the `channels` endpoint
+returns rich programme-level data — show title, description, host-language
+thumbnail, start/end window. Equivalent to BBC's `/schedules/now/.../` shape.
+Wirable as programme-only metadata.
+
+❌ for cross-fading / segue-tight DJ-mix tracks: SBS Chill's track ticker has
+the same 90-second buffer-alignment delay as its competitors and a few entries
+land slightly out of order against actual airtime. Acceptable for our use.
+
+### Suggested fetcher
+
+New `fetchSbsMetadata` in `src/builtins.ts`. Closest analogues:
+
+- **`fetchAbcMetadata`** — same country, same Next.js + `fos`-style live-audio
+  service split. ABC's `music.abcradio.net.au` ↔ SBS's
+  `fos.sbs.com.au/web/audio/current-song/`; ABC's `program.abcradio.net.au` ↔
+  SBS's `fos.sbs.com.au/web/audio/channels`. Pattern-match the parser.
+- **`fetchHrMetadata`** / **`fetchSrgssrIlMetadata`** for the
+  "channels-style endpoint that also embeds `currentSong`" pattern — single
+  fetch returns programme + song.
+
+Recommended call strategy:
+
+```
+For SBS music channels (epgId in {sbs-chill, sbs-pop-asia, sbs-pop-desi}):
+  1. GET /web/audio/channels?ids={bspId}
+     → if currentSong present, use it for track + programme.
+     → else use currentProgram only (the channel briefly went into a talk
+       segment).
+  2. Optionally batch multiple ids with `?ids=A,B,C` (not yet probed but the
+     HTML's plural query param + `[ ... ]` array-of-N response shape strongly
+     suggests it). One call covers Chill+PopAsia+PopDesi.
+
+For SBS talk channels (sbs-radio-1/2/3, sbs-pop-araby, sbs-euro-pop):
+  GET /web/audio/channels?ids={bspId}
+  Map currentProgram → metadata "now showing" slot. No track signal.
+```
+
+Polling cadence: ~60 s is conservative. The bundle's `react-query` hook uses
+the default `staleTime: 0` + page-focus refetch; no polling timer in the chunk.
+The `delay=90` already absorbs HLS skew, so no per-track timing magic needed.
+
+Catalog YAML extension (optional fields, no schema break):
+
+```yaml
+# SBS Chill
+metadata:
+  broadcaster: sbs
+  epgId: sbs-chill                       # for /current-song/ + /songs
+  bspId: 00000183-abaa-db73-ab83-ffbf5e740000  # for /channels
+```
+
+The fetcher reads both fields; if `epgId` is present and the channel has
+`hasSongs: true` per the directory, it queries `current-song` first; otherwise
+it falls back to `channels` for programme-only.
+
+### Catalog hygiene
+
+The current catalog has only **one** correctly-tagged SBS station
+(`builtin-sbs-chill`). Two more (`au-sbs-popasia`, `au-sbs-radio-1`) exist but
+are tagged `broadcaster: independent` (likely RB-import artefact —
+`broadcaster: independent` is the default for unattributed Radio Browser
+entries). When the fetcher PR lands, those two should be retagged
+`broadcaster: sbs` so the per-broadcaster fetcher actually picks them up.
+SBS Radio 2/3, PopDesi, Arabic24, EuroPop are all live and reachable via
+`https://sbs-hls.streamguys1.com/hls/{slug}/playlist.m3u8` but not yet in our
+catalog — worth a curate-pass after wiring metadata.
+
+### Notes
+
+- **No rate-limit headers** observed (`X-RateLimit-*` absent, no `Retry-After`).
+  The CDN (CloudFront fronting AWS API Gateway — see
+  `x-amzn-requestid`, `x-amz-apigw-id`) caches at the edge; headers reflect
+  short TTLs (< 60 s) on `current-song` and `songs` since responses are time-
+  sensitive. The `channels` endpoint returns `etag: W/"..."` and supports
+  conditional `If-None-Match` if we want to be polite.
+- **No auth, no cookies, no signed URLs.** The CORS preflight returns
+  `access-control-allow-methods: GET,HEAD,PUT,PATCH,POST,DELETE` (overly
+  permissive — they didn't lock down to GET, but we only call GETs).
+- **`fosService` host is environment-templated** in the page (`clientEnvVars`):
+  the production value is `https://fos.sbs.com.au`. SBS may have other env
+  values for staging; the SPA reads `window.config` at boot. Use the prod
+  hostname statically.
+- **`delay=90` is mandatory in practice.** Setting it to `0` gives "playing
+  right now" data which leads our HLS buffer; SBS's audio is delayed ~80–95 s
+  end-to-end. Keep the default 90.
+- **Apple Music as artwork CDN.** Track artwork URLs are `is1-ssl.mzstatic.com`
+  (Apple Music) — SBS resolves track → iTunes ID server-side. Fast, reliable,
+  CORS-open, and matches what other Aus broadcasters (Triple M, Nova, KIIS)
+  also do. Programme-level art lives on `images.sbs.com.au`
+  (Brightspot-fronted, also CORS-open).
+- **Brightspot CMS GraphQL** (`cms.sbs.com.au/graphql/delivery/sbscontentapi`)
+  was not probed in this pass — it's the editorial-content surface (articles,
+  podcast pages, language-section pages), not the live now-playing surface.
+  Worth a follow-up only if we want to surface podcast-episode metadata
+  alongside live channels.
+- **iOS app uses the same FOS endpoints.** The bundle hint:
+  `userProfileApiUrl: "https://user-profile.pr.sbsod.com"` and the `pr.sbsod.com`
+  pattern is shared with the iOS / smart-TV apps. No app-only metadata API
+  found.
+- **ToS / robots:** `sbs.com.au/robots.txt` allows `*` for `/audio/`,
+  `/news/`, etc. `fos.sbs.com.au` has no public robots. The endpoints are
+  the same surface used by the public web player.
