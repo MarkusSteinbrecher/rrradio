@@ -2954,3 +2954,291 @@ but live now-playing is the priority.
   `-07:00` (PDT) / `-08:00` (PST) offset — fetcher should pass
   through, not normalize away the offset (downstream "live now"
   comparisons want the absolute instant, not local clock).
+
+## nrk — NRK / Norsk rikskringkasting (NO)
+
+Investigated: 2026-05-09.
+
+NRK exposes its programme service through the public **PSAPI** at
+`https://psapi.nrk.no/` (a documented developer-facing host —
+the docs index lives at `psapi.nrk.no/documentation` and the
+source is at `github.com/nrkno/psapi-documentation`). The web
+player at `radio.nrk.no` is a server-rendered Astro SPA that
+hits PSAPI client-side; the player module is
+`/_astro/Player.<hash>.js`. There is also a newer
+`pages.radio.api.nrk.no` host but it is auth-walled
+(redirects to NRK SSO) — PSAPI is the right surface.
+
+**Two-step now-playing pipeline.** PSAPI does **not** expose a
+single "current track on channel" endpoint. The web player
+combines two calls:
+
+1. `GET /epg/{slug}` — daily programme guide for the channel.
+   Pick the entry whose `plannedStart` is the latest value
+   `<= now`. Read its `programId` (e.g. `MKKL01025726`).
+2. `GET /radio/catalog/programs/{programId}` — episode detail
+   with a `playlist[]` array of music tracks (start time,
+   duration, performer, work). Pick the entry whose
+   `startTime <= now < startTime + duration`.
+
+Step 2's `playlist` is **populated as the programme airs** for
+music-led channels (P3, mP3, Klassisk, Jazz, Folkemusikk) but
+typically lags by 1–2 tracks and is sometimes empty for the
+*currently airing* episode if it's just started (the just-prior
+programme is fully populated). For talk-led channels (P1, P2,
+Sápmi, Alltid Nyheter, Nyheter) the `playlist` is usually empty;
+talk shows instead populate `indexPoints[]` (segment markers
+with reporter/title), which is useful for an "in this hour"
+display rather than a track ticker.
+
+### Endpoints
+
+| What | URL template | Auth | CORS | Sample |
+|---|---|---|---|---|
+| Channel directory (live) | `https://psapi.nrk.no/radio/live` | none | allowlist `radio.nrk.no` only | `data/metadata-discovery/nrk-radio-live.json` |
+| Programme guide (per channel, today) | `https://psapi.nrk.no/epg/{slug}` | none | allowlist | `data/metadata-discovery/nrk-epg-p1.json`, `nrk-epg-p3.json`, `nrk-epg-klassisk.json`, `nrk-epg-jazz.json`, `nrk-epg-sapmi.json` |
+| Episode detail with track playlist | `https://psapi.nrk.no/radio/catalog/programs/{programId}` | none | allowlist | `nrk-catalog-program-klassisk.json` (33 tracks, classical), `nrk-catalog-program-p3-detteer.json` (78 tracks, pop) |
+| Channel-level metadata (title + cover) | `https://psapi.nrk.no/playback/metadata/channel/{slug}` | none | allowlist | `nrk-playback-metadata-p1.json`, `nrk-playback-metadata-klassisk.json` |
+| HLS manifest (already used for streaming) | `https://psapi.nrk.no/playback/manifest/channel/{slug}` | none | allowlist | `nrk-playback-manifest-p1.json` |
+| Series detail (covers, descriptions) | `https://psapi.nrk.no/radio/catalog/series/{seriesId}` | none | allowlist | n/a |
+| Programme detail (legacy, sparse) | `https://psapi.nrk.no/programs/{programId}` | none | allowlist | `nrk-program-klassisk-natt.json` (NO `playlist` field — use `/radio/catalog/programs/` instead) |
+| Cover art | embedded in EPG entries (`image.webImages[].imageUrl`, multiple widths on `gfx.nrk.no`) and in episode `image[]`/`series.image[]` | none | n/a (img tag, no fetch) | — |
+| Podcast feed | n/a — `podkast.nrk.no` is a private SSO host, no public RSS surfaced from PSAPI | — | — | — |
+
+**Channel slugs in PSAPI** (verified against `/radio/live`):
+`p1`, `p1pluss`, `p2`, `p3`, `p3musikk`, `mp3`, `klassisk`,
+`jazz`, `folkemusikk`, `sapmi`, `alltid_nyheter`, `radio_super`,
+`sport`, plus 14 regional `p1_*` variants
+(`p1_oslo_akershus`, `p1_hordaland`, …).
+
+All seven catalog channels match: `p1`, `p1pluss` (NRK P1+),
+`p2`, `p3`, `mp3`, `klassisk`, `jazz`, `folkemusikk`, `sapmi`.
+
+### Response shape
+
+**`/epg/{slug}`** — top-level array of length 1, the day. Each
+day has an `entries[]` array of programme objects:
+
+```jsonc
+{
+  "_links": { "program": { "href": "/programs/{programId}" } },
+  "programId": "DMPT03105626",        // ← pass to /radio/catalog/programs/
+  "seriesId": "dette-er-p3",
+  "seriesTitle": "Dette er P3",
+  "title": "Dette er P3",
+  "description": "…",
+  "category": { "id": "musikk", "displayValue": "Musikk" },
+  "plannedStart": "/Date(1778365800000+0200)/",  // ← millis since epoch (.NET WCF format!)
+  "actualStart":  "/Date(1778365800000+0200)/",
+  "duration": "PT1H",                  // ISO 8601
+  "image": { "webImages": [{ "imageUrl": "https://gfx.nrk.no/…", "pixelWidth": 300 }, …] },
+  "firstTransmission": { "publicationDate": "2026-05-09T13:00:00+02:00", … },
+  "type": "program"
+}
+```
+
+**`/radio/catalog/programs/{programId}`** — episode detail
+shaped like:
+
+```jsonc
+{
+  "_links": {
+    "self":   { "href": "/radio/catalog/programs/MKKL01025726" },
+    "series": { "href": "/radio/catalog/series/klassisk-natt", "title": "Klassisk natt" },
+    "share":  { "href": "https://radio.nrk.no/serie/klassisk-natt/MKKL01025726" }
+  },
+  "id": "c104f0…",                    // internal hash
+  "episodeId": "MKKL01025726",        // ← matches the EPG programId
+  "titles":         { "title": "I dag", "subtitle": "" },
+  "temporalTitles": { "defaultTitles": { "mainTitle": "Klassisk natt", "subtitle": "9. mai 2026" } },
+  "duration": { "iso8601": "PT2H51M", "displayValue": "2 t 51 min" },
+  "image":     [{ "url": "https://gfx.nrk.no/…", "width": 300 }, …],
+  "indexPoints": [],                  // talk-show segment markers when used
+  "playlist":   [
+    {
+      "title":       "Kathryn Stott + Truls Mørk",                                    // performers (Klassisk) / song title (P3)
+      "description": "Frédéric Chopin - Nocturne nr. 20, op. posth, ciss-moll",       // composer-work (Klassisk) / artist (P3)
+      "startTime":   "2026-05-08T22:03:05.914+00:00",                                 // ISO 8601 UTC ← the live anchor
+      "duration":    "PT4M34S",                                                       // ISO 8601
+      "startPoint":  "PT5.914S",                                                      // offset from programme start
+      "type":        "Music",
+      "channelId":   "klassisk",
+      "programId":   "MKKL01025726",
+      "programTitle": ""
+    }, …
+  ]
+}
+```
+
+### Field map (abstract → NRK keys)
+
+| rrradio field | source | NRK key path |
+|---|---|---|
+| current programme name | `/epg/{slug}` entry | `entries[].title` (or `seriesTitle`) |
+| current programme image | same | `entries[].image.webImages[].imageUrl` |
+| programme start / end (window) | same | `actualStart` / `plannedStart` (`/Date(ms+offset)/`), `+ duration` (ISO 8601) |
+| current programme id | same | `entries[].programId` |
+| current track artist | `/radio/catalog/programs/{id}` playlist[] | **Klassisk/Folkemusikk:** `title`. **P3/mP3/Jazz:** `description`. |
+| current track title | same | **Klassisk/Folkemusikk:** `description` (composer + work). **P3/mP3/Jazz:** `title`. |
+| current track start | same | `startTime` (ISO 8601 UTC) |
+| current track duration | same | `duration` (ISO 8601, parse `PT…` to seconds) |
+| episode cover | same | `image[].url` (multiple widths) |
+
+The artist/title swap by genre is annoying but consistent. The
+fetcher should branch on the channel slug (or
+`category.id === "musikk"` plus a slug allowlist of classical
+channels). For Klassisk the `description` field is gold:
+`"<Composer> - <Work>"` parses cleanly on `" - "`.
+
+### `/Date(ms+tz)/` quirk
+
+EPG entries use the .NET WCF date format
+(`/Date(1778277600000+0200)/`) for `plannedStart`,
+`actualStart`, `maxTransmissionWindow`, etc. The episode
+playlist uses ISO 8601 (`2026-05-08T22:03:05.914+00:00`). Mixed
+shapes — fetcher needs both parsers. Same `/Date()/` shape
+appears in DR samples (PR #218) and is straightforward:
+`Number(/Date\((\d+)/.exec(s)?.[1])` → epoch ms.
+
+### Wirable today?
+
+⚠️ **via worker proxy.** Mechanism is clean (HTTPS, public,
+documented, no auth, no rate-limit headers, generous
+`cache-control: public,max-age=60,stale-while-revalidate=300`),
+but **CORS is allowlisted to `https://radio.nrk.no` only** —
+not `*` and not `https://rrradio.org`. Verified with both a
+preflight (`Access-Control-Allow-Origin: https://radio.nrk.no`)
+and a `Origin: https://rrradio.org` GET (no `Access-Control-*`
+returned).
+
+The fetcher must therefore route through the rrradio worker
+proxy (`worker/src/index.ts` allowlist), same pattern as the
+SR (Saarländischer Rundfunk) fetcher.
+
+### Suggested fetcher
+
+New `fetchNrkMetadata` in `src/builtins.ts`. **Closest
+analogue:** `fetchSrgssrIlMetadata` (HAL `_links` shape, public
+JSON, ISO 8601 timestamps) and `fetchCroMetadata` (parallel
+fetch + merge programme + track). Sketch:
+
+```ts
+// metadataUrl on each NRK station = the channel slug, e.g. "p1", "klassisk".
+const NRK_BASE = `${PROXY}?url=${encodeURIComponent('https://psapi.nrk.no')}`;
+// (or, more cleanly, encodeURIComponent the full URL each time)
+
+const fetchNrkMetadata: MetadataFetcher = async (station, signal) => {
+  const slug = station.metadataUrl;                  // e.g. "klassisk"
+  if (!slug) return null;
+  const epgUrl = `${PROXY}?url=${encodeURIComponent(`https://psapi.nrk.no/epg/${slug}`)}`;
+  const epgRes = await fetch(epgUrl, { signal, cache: 'no-store' });
+  if (!epgRes.ok) return null;
+  const epg = (await epgRes.json()) as NrkEpgDay[];
+  const entries = epg[0]?.entries ?? [];
+  const nowMs = Date.now();
+  const current = pickCurrentEntry(entries, nowMs);
+  if (!current) return null;
+
+  // Programme info (always available).
+  const program = {
+    name: current.seriesTitle ?? current.title,
+    subtitle: undefined,
+    coverArt: pickWebImage(current.image, 600),
+    startsAt: parseDotNetDate(current.actualStart),
+    endsAt:   parseDotNetDate(current.actualStart) + parseIsoDuration(current.duration),
+  };
+
+  // Track info (best-effort).
+  const progUrl = `${PROXY}?url=${encodeURIComponent(`https://psapi.nrk.no/radio/catalog/programs/${current.programId}`)}`;
+  const progRes = await fetch(progUrl, { signal, cache: 'no-store' });
+  if (!progRes.ok) return { track: undefined, raw: '', program };
+  const prog = (await progRes.json()) as NrkProgram;
+  const cur = (prog.playlist ?? []).find(t => isLive(t, nowMs));
+  if (!cur) return { track: undefined, raw: '', program };
+
+  // Field swap by channel genre (Klassisk/Folkemusikk are inverted).
+  const isClassical = slug === 'klassisk' || slug === 'folkemusikk';
+  const artist = isClassical ? cur.title : cur.description;
+  const title  = isClassical ? cur.description.replace(/^.+? - /, '') : cur.title;
+  return {
+    track: { artist, title, raw: `${artist} – ${title}` },
+    raw: `${artist} – ${title}`,
+    program,
+  };
+};
+
+// pickCurrentEntry: latest entry where parseDotNetDate(actualStart) <= nowMs.
+// isLive(t, nowMs): startTime <= nowMs < startTime + duration.
+// parseDotNetDate('/Date(1778277600000+0200)/'): Number(/(\d+)/.exec(s)![1]).
+```
+
+Schedule fetcher (`SCHEDULE_FETCHERS_BY_KEY['nrk']`) is trivial
+on the same EPG response — return the next ~6 entries with
+their start times and images.
+
+### Comparison with SR (PR #205) and DR (PR #218)
+
+NRK is the **third Nordic public broadcaster** investigated and
+sits between the other two:
+
+|  | SR (sveriges-radio) | NRK (this PR) | DR (danmarks-radio) |
+|---|---|---|---|
+| host | `api.sr.se/api/v2` | `psapi.nrk.no` | `api.dr.dk/radio/v5` |
+| now-playing track endpoint | `/playlists/rightnow?channelid=N` (single call) | EPG → catalog/programs (two calls, derive from playlist[]) | `/indexpoints/live/{slug}` (single call) |
+| classical metadata | dedicated `composer` / `conductor` / `producer` fields on P2 Musik | swap of `title` / `description` semantics on Klassisk | `roles[].role === "Komponist"` flag |
+| CORS | `*` (no proxy needed) | allowlist `radio.nrk.no` (proxy needed) | `*` (no proxy needed) |
+| auth | none | none | public `x-apikey` recommended |
+| timestamp shape | mixed — `startTime` ISO 8601, programme dates `/Date(ms)/` | mixed — playlist ISO 8601, EPG `/Date(ms+tz)/` | ISO 8601 throughout |
+| programme cover | `socialimage` on episode | `image.webImages[].imageUrl` on EPG entry, `gfx.nrk.no` | `imageAssets[]` on channel |
+
+**No, the three cannot share a single fetcher.** Wire shape
+differs at every layer — host, route, response keys, CORS
+posture. They share the *spirit* (public JSON, no auth, EPG +
+track separation) but the keys don't line up. `fetchNrkMetadata`
+should be its own function.
+
+The classical-music richness is **most comparable to SR P2
+Musik**: NRK Klassisk gives composer + work + performers +
+durations on every track once the playlist populates. Worth
+prioritising in the eventual fetcher rollout — it's a
+genuinely beautiful dataset.
+
+### Notes
+
+- **Allowlist the worker:** add `psapi.nrk.no` to
+  `worker/src/index.ts` `/api/public/proxy` allowlist before
+  shipping the fetcher (same pattern as SR/Saarländischer
+  Rundfunk and other proxy-routed broadcasters).
+- **`playlist` lag:** the just-aired programme is the most
+  reliable source. Live programme's playlist often lags by
+  one track or is briefly empty at programme boundaries —
+  fetcher should fall back to programme-level metadata
+  (programme name + cover) when the playlist is empty, not
+  return `null`.
+- **Talk channels:** P1, P2, Alltid Nyheter, Sápmi rarely
+  populate `playlist`. The fetcher should still surface
+  programme info (`current.title` + `seriesTitle`) so the UI
+  doesn't go dark. Optionally use `indexPoints[]` for "now in
+  this segment" if we ever want sub-programme granularity.
+- **Sápmi note:** EPG slug is `sapmi` (no diacritics). Returns
+  same shape as P1; mostly Sami-language news / culture, low
+  music density.
+- **Image widths:** EPG entries return `webImages[]` at 300 /
+  600 / 960 / 1280 / 1600 / 1920 px; `playback/metadata` returns
+  `posters[].image.items[]` at 300 / 600 / 960 / 1920. Pick 600
+  for mobile, 1280 for tablet/desktop hero.
+- **Geo-blocking:** EPG endpoints work globally; on-demand
+  programme content is geo-blocked to Norway (`isGeoBlocked:
+  true` on past episodes). Live streaming + EPG + playlist
+  metadata: no geo-block observed from a non-NO origin.
+- **Cache headers:** `playback/metadata` is `max-age=15`,
+  `radio/live` is `max-age=60`, `radio/catalog/programs` is
+  `max-age=60, stale-while-revalidate=300, stale-if-error=600`.
+  Comfortable polling cadence: programme info every 30 s,
+  track playlist every 20 s.
+- **No auth/token requirement detected.** No `Authorization`,
+  no cookies, no query-param tokens. The `pages.radio.api.nrk.no`
+  variant *does* require NRK SSO — avoid that host.
+- **Repository public:** `github.com/nrkno/psapi-documentation`
+  — useful but light on examples; the live SPA is a better
+  reference.
