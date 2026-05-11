@@ -54,7 +54,9 @@ struct CloudSyncUnavailableError: LocalizedError {
     }
 }
 
-final class CloudKitSyncStore: CloudSyncStoring {
+// CloudKit handle types are immutable references used only through async APIs here,
+// but the SDK does not currently annotate them as Sendable.
+final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
     static let containerIdentifier = "iCloud.ios.rrradio.org"
 
     private enum RecordType {
