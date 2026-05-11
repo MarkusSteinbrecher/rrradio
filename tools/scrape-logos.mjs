@@ -7,6 +7,7 @@
  *   node tools/scrape-logos.mjs --mode missing --limit 50 --dry-run
  *   node tools/scrape-logos.mjs --mode upgrade --concurrency 12
  *   node tools/scrape-logos.mjs --mode all --replace-good --dry-run
+ *   node tools/scrape-logos.mjs --id de-deutschrap,de-total-instrumental --dry-run
  *
  * Modes:
  *   missing  only stations with no favicon (default, historical behavior)
@@ -48,6 +49,13 @@ const argVal = (name, fallback) => {
   const i = argv.indexOf(name);
   return i >= 0 && argv[i + 1] ? argv[i + 1] : fallback;
 };
+const argVals = (name) => {
+  const vals = [];
+  for (let i = 0; i < argv.length; i++) {
+    if (argv[i] === name && argv[i + 1]) vals.push(...argv[i + 1].split(','));
+  }
+  return vals.map((v) => v.trim()).filter(Boolean);
+};
 
 const MODE = argVal('--mode', 'missing');
 if (!['missing', 'upgrade', 'all'].includes(MODE)) {
@@ -59,6 +67,7 @@ const LIMIT = Number(argVal('--limit', Infinity));
 const CONCURRENCY = Math.max(1, Math.min(20, Number(argVal('--concurrency', 8))));
 const DRY_RUN = argFlag('--dry-run');
 const REPLACE_GOOD = argFlag('--replace-good');
+const ONLY_IDS = new Set(argVals('--id'));
 const FETCH_TIMEOUT_MS = 8_000;
 const UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15';
@@ -71,8 +80,66 @@ if (!Array.isArray(list)) {
   process.exit(1);
 }
 
+function loadCatalogById() {
+  const raw = JSON.parse(readFileSync(join(root, 'public', 'stations.json'), 'utf8'));
+  const stations = Array.isArray(raw) ? raw : raw?.stations;
+  const byId = new Map();
+  for (const station of Array.isArray(stations) ? stations : []) {
+    if (station?.id) byId.set(station.id, station);
+  }
+  return byId;
+}
+
+const catalogById = loadCatalogById();
+
+function streamSlug(station) {
+  if (station.metadataUrl) return String(station.metadataUrl);
+  try {
+    const url = new URL(station.streamUrl);
+    const parts = url.pathname.split('/').filter(Boolean);
+    return parts.at(-1) || null;
+  } catch {
+    return null;
+  }
+}
+
+function derivedStreamHomepages(station) {
+  if (!station.streamUrl) return [];
+  try {
+    const url = new URL(station.streamUrl);
+    if (!url.hostname.includes('.')) return [];
+    const hosts = [url.hostname.replace(/^stream\./, 'www.'), url.hostname.replace(/^stream\./, '')];
+    return [...new Set(hosts)].map((host) => `https://${host}/`);
+  } catch {
+    return [];
+  }
+}
+
+function isGenericCatalogHomepage(url) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '') === 'radio-browser.info';
+  } catch {
+    return false;
+  }
+}
+
+function homepageCandidates(station, catalogStation) {
+  const merged = { ...(catalogStation ?? {}), ...station };
+  const urls = [];
+  const slug = streamSlug(merged);
+  if (merged.broadcaster === 'laut-fm' && slug) {
+    urls.push(`https://laut.fm/${slug}`);
+    urls.push(`https://www.laut.fm/${slug}`);
+  }
+  urls.push(station.homepage, catalogStation?.homepage);
+  urls.push(...derivedStreamHomepages(merged));
+  return [...new Set(urls.filter((url) => url && !isGenericCatalogHomepage(url)))];
+}
+
 function targetReason(station) {
-  if (!station || typeof station.id !== 'string' || !station.homepage) return null;
+  if (!station || typeof station.id !== 'string') return null;
+  const catalogStation = catalogById.get(station.id);
+  if (homepageCandidates(station, catalogStation).length === 0) return null;
   if (isLocalLogo(station.favicon)) return null;
   const logo = classifyLogoUrl(station.favicon);
   if (MODE === 'missing') return logo.tier === 'missing' ? 'missing' : null;
@@ -81,15 +148,29 @@ function targetReason(station) {
 }
 
 const candidates = list
-  .map((station) => ({ station, reason: targetReason(station) }))
+  .filter((station) => ONLY_IDS.size === 0 || ONLY_IDS.has(station.id))
+  .map((station) => ({
+    station: {
+      ...station,
+      homepageCandidates: homepageCandidates(station, catalogById.get(station.id)),
+    },
+    reason: targetReason(station),
+  }))
   .filter((item) => item.reason)
   .slice(0, Number.isFinite(LIMIT) ? LIMIT : list.length);
 
 console.log(
   `scrape-logos: ${candidates.length} candidate(s) ` +
     `(mode=${MODE}, concurrency=${CONCURRENCY}${REPLACE_GOOD ? ', replace-good' : ''})` +
+    (ONLY_IDS.size > 0 ? `, ids=${[...ONLY_IDS].join(',')}` : '') +
     (DRY_RUN ? ' — DRY RUN, no YAML writes' : ''),
 );
+if (ONLY_IDS.size > 0) {
+  const foundIds = new Set(candidates.map(({ station }) => station.id));
+  for (const id of ONLY_IDS) {
+    if (!foundIds.has(id)) console.log(`scrape-logos: ${id} is not targetable in mode=${MODE}`);
+  }
+}
 
 function parseAttrs(raw) {
   const attrs = {};
@@ -296,26 +377,44 @@ async function verifyImage(url) {
   }
 }
 
+function isAcceptableScrapedLogo(candidate) {
+  const logo = classifyLogoUrl(candidate.url);
+  return logo.state === 'ok' || logo.tier === 'remote';
+}
+
 async function discover(station) {
-  const html = await fetchHomepage(station.homepage);
-  const htmlCandidates = extractHtmlCandidates(html, station.homepage);
-  const manifests = htmlCandidates.filter((c) => c.rel === 'manifest');
-  const manifestCandidates = await fetchManifestCandidates(manifests, station.homepage);
-  const all = uniqueCandidates([
-    ...htmlCandidates.filter((c) => c.rel !== 'manifest'),
-    ...manifestCandidates,
-  ]).sort((a, b) => scoreLogoCandidate(b) - scoreLogoCandidate(a));
+  const failures = [];
+  for (const homepage of station.homepageCandidates || [station.homepage]) {
+    try {
+      const html = await fetchHomepage(homepage);
+      const htmlCandidates = extractHtmlCandidates(html, homepage);
+      const manifests = htmlCandidates.filter((c) => c.rel === 'manifest');
+      const manifestCandidates = await fetchManifestCandidates(manifests, homepage);
+      const all = uniqueCandidates([
+        ...htmlCandidates.filter((c) => c.rel !== 'manifest'),
+        ...manifestCandidates,
+      ]).sort((a, b) => scoreLogoCandidate(b) - scoreLogoCandidate(a));
 
-  if (all.length === 0) return { ok: false, reason: 'no-https-candidates' };
+      if (all.length === 0) {
+        failures.push(`${homepage}: no-https-candidates`);
+        continue;
+      }
 
-  for (const c of all.slice(0, 8)) {
-    if (station.favicon && !shouldReplaceLogo(station.favicon, c, { replaceGood: REPLACE_GOOD })) {
-      continue;
+      for (const c of all.slice(0, 8)) {
+        if (!isAcceptableScrapedLogo(c)) continue;
+        if (station.favicon && !shouldReplaceLogo(station.favicon, c, { replaceGood: REPLACE_GOOD })) {
+          continue;
+        }
+        const verified = await verifyImage(c.url);
+        if (verified.ok) return { ok: true, url: c.url, picked: c, verified, homepage };
+      }
+      failures.push(`${homepage}: no-verifiable-upgrade`);
+    } catch (err) {
+      const msg = err?.name === 'AbortError' ? 'timeout' : err?.message || String(err);
+      failures.push(`${homepage}: ${msg}`);
     }
-    const verified = await verifyImage(c.url);
-    if (verified.ok) return { ok: true, url: c.url, picked: c, verified };
   }
-  return { ok: false, reason: 'no-verifiable-upgrade' };
+  return { ok: false, reason: failures.join('; ') || 'no-verifiable-upgrade' };
 }
 
 async function runPool(items, worker, concurrency) {
@@ -355,7 +454,7 @@ await runPool(
           targetReason: reason,
           score: scoreLogoCandidate(r.picked),
         });
-        console.log(`${tag}  ${action === 'replace' ? 'REPL' : 'OK  '} ${r.picked.rel} ${r.url}`);
+        console.log(`${tag}  ${action === 'replace' ? 'REPL' : 'OK  '} ${r.picked.rel} ${r.url} via ${r.homepage}`);
       } else if (r.reason === 'no-https-candidates') {
         counters.noCands++;
         runRows.push({ id: station.id, action: 'none', reason: r.reason, targetReason: reason });

@@ -15,6 +15,8 @@ const THIRD_PARTY_HOST_PATTERNS = [
 const GENERIC_PATH_PATTERNS = [
   /\/favicon(?:[-_.]?\d+x\d+)?\.(?:ico|png|jpg|jpeg|webp|svg)$/i,
   /\/apple-touch-icon(?:[-_.]?\d+x\d+)?\.(?:png|jpg|jpeg|webp)$/i,
+  /\/android-chrome-\d+x\d+\.(?:png|jpg|jpeg|webp)$/i,
+  /\/assets\/images\/touch-icons\//i,
   /\/icon(?:[-_.]?\d+x\d+)?\.(?:ico|png|jpg|jpeg|webp|svg)$/i,
   /\/static\/favicon\.(?:ico|png|jpg|jpeg|webp|svg)$/i,
 ];
