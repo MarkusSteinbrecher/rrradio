@@ -1860,12 +1860,13 @@ struct StationRow: View {
 
     @ViewBuilder
     private var rowArtwork: some View {
+        let artworkSize: CGFloat = mode == .favoritesExpanded ? 46 : 38
         if isCustom {
-            LocalStationArtworkView(size: 38)
-                .frame(width: 38, height: 38)
+            LocalStationArtworkView(size: artworkSize)
+                .frame(width: artworkSize, height: artworkSize)
         } else {
-            FaviconView(url: station.favicon, stationName: station.name, stationID: station.id, size: 38)
-                .frame(width: 38, height: 38)
+            FaviconView(url: station.favicon, stationName: station.name, stationID: station.id, size: artworkSize)
+                .frame(width: artworkSize, height: artworkSize)
         }
     }
 
@@ -2163,7 +2164,7 @@ struct FaviconView: View {
 
     private var initials: some View {
         Text(stationInitials(stationName))
-            .font(.system(size: 13, weight: .medium, design: .monospaced))
+            .font(.system(size: max(13, size * 0.34), weight: .medium, design: .monospaced))
             .foregroundStyle(faviconPalette.foreground)
     }
 
