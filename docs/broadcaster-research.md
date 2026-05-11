@@ -4134,3 +4134,353 @@ catalog — worth a curate-pass after wiring metadata.
 - **ToS / robots:** `sbs.com.au/robots.txt` allows `*` for `/audio/`,
   `/news/`, etc. `fos.sbs.com.au` has no public robots. The endpoints are
   the same surface used by the public web player.
+
+## rnz — RNZ / Radio New Zealand (NZ)
+
+Investigated: 2026-05-09.
+
+RNZ runs a Rails-rendered website at `www.rnz.co.nz` with a
+small React/Vite player bundle hosted at
+`resources.rnz.co.nz/assets/index.js` (Vercel-fronted). The
+player is a custom-element-based widget (`<rnz-queue-player>`,
+`<rnz-queue-media>`, `<rnz-site-header>` registered via
+`customElements.define`) that takes its data from server-rendered
+HTML attributes — there is **no JSON now-playing endpoint**
+hit by the live player. The four streams are hard-coded into
+the bundle:
+
+```js
+// from resources.rnz.co.nz/assets/index.js, kG variable
+national:   https://radionz.streamguys1.com/national/national/playlist.m3u8
+concert:    https://radionz.streamguys1.com/concert/concert/playlist.m3u8
+pacific:    https://radionz.streamguys1.com/pacific/pacific/playlist.m3u8
+parliament: https://radionz.streamguys1.com/parliament/parliament/playlist.m3u8
+```
+
+There is an AWS API Gateway host at `api.rnz.co.nz` but it
+returns `403 Forbidden { "message": "Forbidden" }` to anonymous
+GETs (CloudFront -> API Gateway with auth required). Not a
+public surface — likely the editorial CMS / mobile-app backend.
+Stop signal per the skill: *no anonymous JSON endpoint* for
+live track data exists.
+
+**The only signals available to a fetcher are server-rendered
+into the schedule pages.** Specifically:
+
+1. `/concert/schedules/<YYYYMMDD>` — RNZ Concert daily schedule
+   with **full classical track lists** for each programme block:
+   composer, work, performer, catalogue/label, optional
+   instrument annotations. This is the high-value output.
+2. `/<channel>/schedules/<YYYYMMDD>` — for `national`,
+   `international` (Pacific), and concert: programme-level
+   schedule grid (time, title, optional description). National
+   and Pacific are talk-led and surface only programme metadata,
+   not tracks.
+3. `<rnz-site-header>` web-component attributes — `current-programme`
+   and `latest-bulletin` JSON blobs. **Note**: the
+   `current-programme` value is **global RNZ-wide** (the same
+   "Mediawatch" payload appeared on `/concert` as on `/national`
+   in the capture), so it cannot be used as a per-channel
+   on-now signal. The `latest-bulletin` is the most recent RNZ
+   News bulletin podcast MP3 — useful for an "RNZ News" surface
+   but not channel-bound.
+
+There is no JSON / GraphQL / podcast-feed surface that exposes
+*currently airing* programme + track on a per-channel basis.
+The schedule HTML is the substitute, scraped + parsed
+client-side, with the consumer picking the entry whose start
+time is the latest value `<= now`.
+
+### Endpoints
+
+| What | URL template | Auth | CORS | Sample |
+|---|---|---|---|---|
+| Daily schedule (Concert) — programme + track lists | `https://www.rnz.co.nz/concert/schedules/<YYYYMMDD>` | none | absent | `data/metadata-discovery/rnz-concert-schedule-day.html` |
+| Daily schedule (National) — programme + descriptions | `https://www.rnz.co.nz/national/schedules/<YYYYMMDD>` | none | absent | `data/metadata-discovery/rnz-national-schedule-day.html` |
+| Daily schedule (Pacific) — programme + descriptions | `https://www.rnz.co.nz/international/schedules/<YYYYMMDD>` | none | absent | `data/metadata-discovery/rnz-pacific-schedule-day.html` |
+| Whole-week schedule (any channel) | `https://www.rnz.co.nz/<channel>/schedules/whole_week/<YYYYMMDD>` | none | absent | n/a (same shape, denser) |
+| Channel homepage — current programme block | `https://www.rnz.co.nz/<channel>` | none | absent | `data/metadata-discovery/rnz-national-homepage.html`, `rnz-concert-homepage.html` |
+| Streams config (player bundle) | `https://resources.rnz.co.nz/assets/index.js` | none | `https://staging.rnz.co.nz` only | `data/metadata-discovery/rnz-streams-config.json` |
+| Site-header current-programme + latest-bulletin (global, not per-channel) | embedded in any rnz.co.nz page HTML | none | absent | `data/metadata-discovery/rnz-site-header-{national,concert}.json` |
+| News RSS | `https://www.rnz.co.nz/rss/news.xml` | none | absent | not captured (XML, not metadata) |
+| Concert RSS | `https://www.rnz.co.nz/rss/concert.xml` | none | absent | not captured |
+| Auth-walled JSON gateway | `https://api.rnz.co.nz/...` | required | n/a | returns 403; stop |
+| Stream-side ICY metadata | `https://radionz.streamguys1.com/<channel>/<channel>/playlist.m3u8` | none | absent | n/a (HLS, no in-band ICY exposed) |
+
+`Cache-Control: max-age=900, public` (15 min) on schedule
+pages — Fastly edge cache. `max-age=300` on the Vercel-hosted
+player bundle. Polling cadence well above 60 s is safe;
+robots.txt `Crawl-delay: 7` is the broadcaster's stated floor
+for crawlers.
+
+### Response shape
+
+#### Concert daily schedule HTML — the high-value surface
+
+Programme blocks are `<li class="o-digest o-digest--schedule o-digest--standard">`,
+each with:
+
+- `<em class="o-digest__time">12:00 <small class="ampm">AM</small></em>`
+  — start time in 12 h local NZ time. **No date/timezone in the
+  markup**; the day comes from the URL path.
+- `<a href="/concert/programmes/<slug>">Programme Title</a>`
+  inside the `<h4 class="o-digest__title">` (or just title text
+  if no programme page exists).
+- `<div class="o-digest__detail">` containing `<p>` blocks. For
+  Concert, each `<p>` is one track in the form:
+  ```
+  Composer, FirstName: Work title <em>(catalog/movement)</em> -
+    Performer <em>(instrument)</em> [, additional performers]
+    <em>(Label CATNUM)</em>
+  ```
+  with hour markers like `<p><strong>1:00</strong> approx</p>`
+  scattered through the list.
+
+Example single track from the capture:
+
+```
+<p>Beethoven, Ludwig van: Piano Sonata No 24 in F# Op 78 -
+Jonathan Biss <em>(piano)</em> <em>(Onyx 4094)</em></p>
+```
+
+Mapping to abstract fields:
+- **artist** -> composer (`Beethoven, Ludwig van`) or performer
+  depending on display preference. For a classical fetcher I'd
+  set `artist = composer`, `title = work`, and stash performer
+  + catalogue in a free-text subtitle.
+- **title** -> work (`Piano Sonata No 24 in F# Op 78`).
+- **performer** -> text after the ` - ` separator, before the
+  closing `<em>` (`Jonathan Biss (piano)`).
+- **catalogue** -> final `<em>` (`Onyx 4094`).
+- **track start time** -> not exposed per track. Only programme-
+  block start time (e.g. `12:00 AM`) and approximate hour
+  markers (`<strong>3:00</strong> approx`) are visible. This is
+  RNZ Concert's editorial reality — they publish the *order*
+  but not minute-precise timestamps for the music played within
+  a multi-hour show.
+
+This pairs well with the SR P2 Musik / NRK Klassisk
+classical-rich tier in spirit, but with **lower precision**:
+NRK ships per-track `startTime + duration` via the PSAPI
+`programs/{programId}.playlist[]` array; RNZ Concert ships only
+hourly approximations baked into static HTML.
+
+#### National / Pacific daily schedule HTML
+
+Same `o-digest--schedule` block structure, but `o-digest__detail`
+contains a one-paragraph programme description rather than a
+track list. Useful for a programme-name now-playing display
+(equivalent to NRK's talk-channel `playlist=[]` + `indexPoints`
+fallback), not for track tickers.
+
+#### Channel homepage "on now" widget
+
+Every channel page has a fixed-position card:
+
+```html
+<a class="content" href="/national/programmes/mediawatch">
+  <span class="label _small_caps">on now</span>
+  <h4>Mediawatch</h4>
+  <span class="other _small_caps">Sundays at 9:05am and 10:12pm</span>
+</a>
+```
+
+**Per-channel current programme** lives here, not in the
+`<rnz-site-header>` `current-programme` attribute. The `<h4>`
+is the programme title, the `<a href>` slug uniquely identifies
+it, and the trailing `<span class="other">` is a static
+recurrence note ("Weekdays at 6am") rather than a precise time
+window. No image URL is in this widget directly; the cover art
+comes from the adjacent `<rnz-queue-media media='{"images":...}'>`
+JSON blob in the same row.
+
+#### `<rnz-queue-media media='{...}'>` blob (per-row JSON)
+
+For every play button in the page (live stream, podcast episode,
+news bulletin), the media JSON has a stable shape:
+
+```json
+{
+  "id": "concert",
+  "audioSrc": "https://radionz.streamguys1.com/concert/concert/playlist.m3u8",
+  "liveStreamName": "concert",
+  "title": "RNZ Concert",
+  "images": {
+    "detail":    "https://rnz-ressh.cloudinary.com/.../rnz-concert-stream-cover",
+    "detail_2x": "...",
+    "thumb":     "...",
+    "thumb_2x":  "..."
+  }
+}
+```
+
+For on-demand episodes the same shape carries `id` (numeric),
+`title` (episode title), `context` (programme name),
+`audioSrc` (mp3), `releaseDate`, `duration` in seconds, and
+the same `images` map. This is the right place to source
+**channel cover art** — the four strings above
+(`rnz-{national,concert,pacific,parliament}-stream-cover`) are
+deterministic Cloudinary public IDs, so a fetcher can hard-code
+the cover URL rather than scrape it.
+
+#### Site-header (global, not per-channel)
+
+`<rnz-site-header current-programme='{"name":"...","code":"...",
+"thumbnailUrl":"..."}' latest-bulletin='{"id":"...","audioSrc":
+"...","duration":...}'>` — the `current-programme` is RNZ-wide
+(same value on `/national` and `/concert`); the
+`latest-bulletin` is the most recent RNZ News audio. Not
+useful as a per-channel signal but a reasonable source for an
+"RNZ news" pseudo-channel.
+
+#### Cover art
+
+Channel cover art lives at deterministic Cloudinary URLs (taken
+from the player bundle):
+
+```
+https://media.rnztools.nz/rnz/image/upload/.../rnz-national-stream-cover
+https://media.rnztools.nz/rnz/image/upload/.../rnz-concert-stream-cover
+https://media.rnztools.nz/rnz/image/upload/.../rnz-pacific-stream-cover
+https://media.rnztools.nz/rnz/image/upload/.../rnz-parliament-stream-cover
+```
+
+Programme-specific covers are at
+`media.rnztools.nz/rnz/image/upload/<signed-prefix>/.../<asset-id>_<slug>_..._<ext>?_a=...`.
+The signed prefix changes per transformation, so the cleanest
+source is to take the URL directly from the
+`<rnz-queue-media media='{...}'>` blob next to the on-now
+widget rather than constructing it.
+
+### Wirable today?
+
+[warning] partial-via-worker — programme-level only.
+
+Justification: There is no clean JSON now-playing endpoint.
+The data is ingestable but only by HTML-scraping
+`/concert/schedules/<YYYYMMDD>` (and
+`/<channel>/schedules/<YYYYMMDD>` for national/pacific) plus
+the on-page "on now" widget on each channel homepage. None of
+these surfaces emit CORS headers, so a fetcher would route
+through `worker/src/index.ts` `/api/public/proxy` with a new
+allowlist entry. RNZ Concert is the one channel where the
+output is meaningfully richer than ICY-over-fetch (full
+composer/work/performer/label, hourly-precision); RNZ National
+and RNZ Pacific gain only programme-name + description, which
+ICY would already cover if the streams emitted it (they don't —
+the HLS playlists are bare).
+
+Status taxonomy implication: the three published RNZ stations
+(`stream-only` today) would step up to `working` or
+`fetcher-todo` once a fetcher lands; cover art and channel-card
+metadata are ready to wire immediately even without the
+schedule scraper.
+
+### Suggested fetcher
+
+New shape; needs its own `fetchRnzMetadata` in `src/builtins.ts`.
+
+Closest analogue: **none of the existing JSON fetchers**, since
+all of them parse JSON. The parsing is closer to the BBC
+station-page fallback path, but RNZ doesn't have a Sounds-style
+JSON twin to fall back to.
+
+Sketch:
+1. `metadataChannel` per station — one of `national`, `concert`,
+   `international` (or `pacific`), `parliament`. Map to URL
+   `https://www.rnz.co.nz/<channel>/schedules/<YYYYMMDD>` where
+   `YYYYMMDD` is today's date in **Pacific/Auckland**.
+2. Fetch through worker proxy (CORS missing).
+3. Parse the HTML: extract every `<li class="o-digest--schedule">`,
+   pull the `<em class="o-digest__time">`, the `<h4>` title +
+   slug, and the `<div class="o-digest__detail">` body.
+4. Combine the schedule slot start times with the day's date
+   (NZST/NZDT) to compute UTC start instants. Pick the entry
+   with the latest start `<= now`.
+5. For RNZ Concert: when the `o-digest__detail` contains
+   `<p>` blocks matching the composer pattern
+   `^[^:]+:\s.+\s-\s.+\(.+\)$`, treat each `<p>` as a track in
+   sequence. Use the hourly `<strong>HH:MM</strong> approx`
+   markers to bisect the list against current time. Result:
+   approximate now-playing track. Confidence: hour-bucket-level.
+6. For RNZ National/Pacific: emit programme-name only as
+   "now playing" with the description as subtitle; leave
+   artist/title null.
+7. Cover art: hard-code the four Cloudinary URLs from the
+   bundle into the fetcher; treat as static channel metadata.
+
+Catalog YAML extension (optional, no schema break):
+
+```yaml
+# RNZ Concert
+metadataChannel: concert         # one of national | concert | international | parliament
+classicalRich: true              # enable composer/work/performer parsing
+```
+
+`classicalRich` is the toggle that gates the
+`o-digest__detail` `<p>` walker; the National and Pacific
+stations leave it false.
+
+Day-boundary handling: at NZ midnight, fetch *both* yesterday
+and today; the hour `<strong>11:00</strong> approx` markers in
+overnight programmes (e.g. "Music Through the Night") run past
+midnight and are easier to bisect with both pages in hand.
+
+### Notes
+
+- **No live API; no JSON path.** Several "obvious" probes
+  (`/api/live/national`, `/api/now-playing/<channel>`,
+  `/api/v1/...`, `services.rnz.co.nz`, `audio.rnz.co.nz`,
+  `radionz.streamguys1.com/.../metadata.json`) all return 404 /
+  NXDOMAIN. The only `api.rnz.co.nz` host that resolves is
+  AWS-API-Gateway-fronted and 403s to anonymous traffic.
+- **`<rnz-site-header current-programme>` is a trap.** It
+  reads like a per-channel current programme but in practice
+  serves the same global RNZ-news payload across all channel
+  pages. Use the in-page `<a class="content"><span>on now</span><h4>`
+  block, not the header attribute.
+- **Schedule HTML has no per-track timestamps on Concert.**
+  Programmes have a single start time (e.g. `06:00 AM`) and the
+  body is a `<p>`-per-track list, with optional hour markers
+  (`<strong>7:00</strong> approx`). The fetcher's resolution is
+  hour-bucket, not minute. This is RNZ's editorial product —
+  not a missing field we can request, just how Concert
+  publishes its log.
+- **CORS is uniformly absent on rnz.co.nz.** Every schedule and
+  homepage URL serves no `Access-Control-Allow-*`. Fetcher
+  must go through the worker. The bundle host
+  `resources.rnz.co.nz` *does* set
+  `Access-Control-Allow-Origin: https://staging.rnz.co.nz`
+  (single origin, not `*`) — irrelevant to us anyway since the
+  bundle has no live data.
+- **Cloudinary is the cover-art store.** `media.rnztools.nz`
+  fronts a Cloudinary tenant; URLs are signed but the asset
+  IDs (`rnz-national-stream-cover` etc.) are stable. Channel
+  thumbnails can be hard-coded; programme thumbnails should be
+  read out of the in-page `<rnz-queue-media>` JSON blob since
+  the signature prefix rotates.
+- **robots.txt** at `https://www.rnz.co.nz/robots.txt`:
+  `Crawl-delay: 7`, `Disallow: /admin/`, blanket `Allow: /` for
+  the catch-all `User-Agent: *`. AI-specific bots
+  (`Amazonbot`, `PerplexityBot`, `Perplexity-User`,
+  `AdsBot-Google`, `YouBot`, `Webz.io`, etc.) are explicitly
+  Disallowed. rrradio's fetcher polling is well below the
+  crawl-delay floor (1 request per minute per channel <= 1 / 7s),
+  but a clear `User-Agent` string and a citation of RNZ as the
+  source on the now-playing surface are both warranted.
+- **No rate-limit headers** (`X-RateLimit-*`, `Retry-After`)
+  observed on any captured endpoint. Cache TTLs (`max-age=900`
+  on schedule HTML) implicitly cap useful poll frequency.
+- **Streamguys HLS** for the audio is bare-bones — no in-band
+  ID3 metadata, no `metadata.json` sidecar. ICY-over-fetch
+  doesn't help; HTML-scrape is the only path.
+- **API gateway exists but is private.** `api.rnz.co.nz` is
+  AWS-API-Gateway-fronted (CloudFront -> API Gateway, returns
+  `x-amzn-errortype: ForbiddenException`). Likely powers the
+  RNZ mobile app(s) with an embedded key — not investigated
+  further; bypassing auth is out of scope for this skill.
+- **Smaller catalog than ABC.** 3 published rrradio stations
+  (National, Concert, Pacific) + 1 not-currently-listed
+  (Parliament, NZ-only relevance). Concert is the only channel
+  where a fetcher would be a meaningful upgrade over the
+  current `stream-only` status.
