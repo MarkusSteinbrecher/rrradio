@@ -1,4 +1,5 @@
 import { execSync } from 'node:child_process';
+import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 
 // Build version stamp — short git SHA + ISO date. Audit #76: surfaces
@@ -25,5 +26,11 @@ export default defineConfig({
   build: {
     target: 'es2022',
     sourcemap: true,
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        stationTracker: resolve(__dirname, 'station-tracker.html'),
+      },
+    },
   },
 });

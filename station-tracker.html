@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self';
+      style-src 'self';
+      img-src 'self' https: data:;
+      connect-src 'self' https:;
+      font-src 'self' https://fonts.gstatic.com;
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+    " />
+    <title>rrradio · station tracker</title>
+    <link rel="stylesheet" href="/src/station-tracker.css" />
+  </head>
+  <body>
+    <div class="mobile-block">
+      <div class="mobile-block__mark">rrradio</div>
+      <h1>Station tracker is desktop-only for now.</h1>
+      <p>Open this page on a wider screen to inspect the catalog dashboard.</p>
+    </div>
+
+    <main class="tracker-shell" aria-label="Station tracker">
+      <header class="tracker-head">
+        <div>
+          <a class="brand" href="/" aria-label="Back to rrradio">rrradio<span></span></a>
+          <h1>Station tracker</h1>
+          <p>Catalog health, metadata coverage, and curation status across the shipped station set.</p>
+        </div>
+        <div class="tracker-meta">
+          <div id="tracker-generated">Loading status artifact...</div>
+          <a href="/dashboard.html">Admin stats</a>
+        </div>
+      </header>
+
+      <section class="kpi-grid" aria-label="Catalog KPIs">
+        <article class="kpi">
+          <div class="kpi__value" id="kpi-total">...</div>
+          <div class="kpi__label">Stations</div>
+        </article>
+        <article class="kpi">
+          <div class="kpi__value" id="kpi-working">...</div>
+          <div class="kpi__label">Working</div>
+        </article>
+        <article class="kpi">
+          <div class="kpi__value" id="kpi-rich">...</div>
+          <div class="kpi__label">Fetcher</div>
+        </article>
+        <article class="kpi">
+          <div class="kpi__value" id="kpi-countries">...</div>
+          <div class="kpi__label">Countries</div>
+        </article>
+        <article class="kpi kpi--attention">
+          <div class="kpi__value" id="kpi-attention">...</div>
+          <div class="kpi__label">Attention</div>
+        </article>
+      </section>
+
+      <section class="workspace">
+        <aside class="side-panel" aria-label="Catalog summary">
+          <section class="panel-section">
+            <h2>Status mix</h2>
+            <div class="bars" id="status-bars"></div>
+          </section>
+          <section class="panel-section">
+            <h2>Top countries</h2>
+            <div class="bars" id="country-bars"></div>
+          </section>
+          <section class="panel-section">
+            <h2>Checks needing attention</h2>
+            <div class="bars" id="check-bars"></div>
+          </section>
+        </aside>
+
+        <section class="table-panel">
+          <div class="filters" aria-label="Station filters">
+            <label class="filter filter--search">
+              <span>Search</span>
+              <input type="search" id="filter-query" autocomplete="off" placeholder="Station, broadcaster, codec, country..." />
+            </label>
+            <label class="filter">
+              <span>Country</span>
+              <select id="filter-country">
+                <option value="all">All countries</option>
+              </select>
+            </label>
+            <label class="filter">
+              <span>Status</span>
+              <select id="filter-status">
+                <option value="all">All statuses</option>
+              </select>
+            </label>
+            <label class="filter">
+              <span>Health</span>
+              <select id="filter-health">
+                <option value="all">All</option>
+                <option value="attention">Needs attention</option>
+                <option value="working">Working</option>
+              </select>
+            </label>
+            <label class="filter">
+              <span>Problem area</span>
+              <select id="filter-check">
+                <option value="all">Any check</option>
+                <option value="stream">Stream</option>
+                <option value="https">HTTPS</option>
+                <option value="icy">ICY</option>
+                <option value="metadataApi">Metadata API</option>
+                <option value="fetcher">Fetcher</option>
+                <option value="program">Program</option>
+                <option value="logo">Logo</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="table-head">
+            <div>
+              <h2>Stations</h2>
+              <p id="table-summary">Loading...</p>
+            </div>
+            <div class="pager">
+              <button type="button" id="page-prev">Previous</button>
+              <span id="page-label">Page 1</span>
+              <button type="button" id="page-next">Next</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="station-table">
+              <thead>
+                <tr>
+                  <th>Station</th>
+                  <th>Country</th>
+                  <th>Status</th>
+                  <th>Format</th>
+                  <th>Stream</th>
+                  <th>HTTPS</th>
+                  <th>ICY</th>
+                  <th>Meta API</th>
+                  <th>Fetcher</th>
+                  <th>Program</th>
+                  <th>Logo</th>
+                </tr>
+              </thead>
+              <tbody id="station-rows"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script type="module" src="/src/station-tracker.ts"></script>
+  </body>
+</html>

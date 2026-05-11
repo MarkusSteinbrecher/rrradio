@@ -1460,6 +1460,7 @@ function normaliseStation(raw: unknown): Station | null {
   return {
     id: r.id,
     name: r.name,
+    broadcaster: r.broadcaster,
     streamUrl: r.streamUrl,
     homepage: r.homepage,
     country: r.country,

@@ -67,6 +67,7 @@ export interface StationDashboardFilters {
   country: string;
   status: string;
   health: StationHealthFilter;
+  check?: 'all' | StationCheckKey;
 }
 
 const EMPTY_CHECK: StationStatusCheck = { state: 'na' };
@@ -106,7 +107,7 @@ export function buildStationDashboardRows(
     return {
       id: station.id,
       name: station.name,
-      broadcaster: status?.broadcaster,
+      broadcaster: status?.broadcaster ?? station.broadcaster,
       country: station.country?.toUpperCase(),
       status: status?.status ?? station.status ?? 'unknown',
       streamUrl: station.streamUrl,
@@ -151,6 +152,10 @@ export function filterStationDashboardRows(
   return rows.filter((row) => {
     if (country !== 'ALL' && row.country !== country) return false;
     if (filters.status !== 'all' && row.status !== filters.status) return false;
+    if (filters.check && filters.check !== 'all') {
+      const state = row.checks[filters.check].state;
+      if (state !== 'bad' && state !== 'warn') return false;
+    }
     if (filters.health === 'attention' && row.badCount === 0 && row.warningCount === 0) {
       return false;
     }
