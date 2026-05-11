@@ -1,11 +1,124 @@
 {
-  "generatedAt": "2026-05-11T07:06:28.726Z",
-  "totalScanned": 15636,
-  "collisionCount": 0,
+  "generatedAt": "2026-05-11T16:21:25.662Z",
+  "totalScanned": 17006,
+  "collisionCount": 7,
   "byKind": {
     "stationuuid": 0,
     "streamUrl": 0,
-    "name": 0
+    "name": 7
   },
-  "collisions": []
+  "blockingCollisionCount": 0,
+  "collisions": [
+    {
+      "kind": "name",
+      "key": "retro radio",
+      "entries": [
+        {
+          "id": "dk-retro-radio",
+          "name": "Retro Radio",
+          "streamUrl": "https://stream128.retro-radio.dk/retro"
+        },
+        {
+          "id": "si-retro-radio",
+          "name": "Retro Radio",
+          "streamUrl": "https://zvok.ragla.si/gr?1670057106819"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "rock radio",
+      "entries": [
+        {
+          "id": "cz-rock-radio",
+          "name": "Rock Radio"
+        },
+        {
+          "id": "si-rock-radio",
+          "name": "Rock Radio",
+          "streamUrl": "https://stream.nextmedia.si/proxy/rockr1_1?mp=/rock;"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "vibefm",
+      "entries": [
+        {
+          "id": "pl-vibefm",
+          "name": "VibeFM",
+          "streamUrl": "https://ic2.smcdn.pl/6490-1.aac"
+        },
+        {
+          "id": "md-vibefm",
+          "name": "VibeFM",
+          "streamUrl": "https://stream.radio.co/s6a544f6c9/listen"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "jurnal fm",
+      "entries": [
+        {
+          "id": "ro-jurnal-fm",
+          "name": "Jurnal FM",
+          "streamUrl": "https://ssl.radios.show:7009/stream"
+        },
+        {
+          "id": "md-jurnal-fm",
+          "name": "Jurnal Fm",
+          "streamUrl": "https://audio.jurnalfm.md/hq"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio1",
+      "entries": [
+        {
+          "id": "hu-radio1-2",
+          "name": "Radio1",
+          "streamUrl": "https://icast.connectmedia.hu/5202/live.mp3"
+        },
+        {
+          "id": "si-radio1",
+          "name": "Radio1",
+          "streamUrl": "https://live.radio1.si/Radio80"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio fiesta",
+      "entries": [
+        {
+          "id": "lt-radio-fiesta",
+          "name": "Radio Fiesta",
+          "streamUrl": "https://stream2.radiofiesta.lt/rfs128.mp3"
+        },
+        {
+          "id": "sv-radio-fiesta-sv",
+          "name": "Radio Fiesta ",
+          "streamUrl": "https://sp4.colombiatelecom.com.co/8026/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "sha3by fm",
+      "entries": [
+        {
+          "id": "eg-sha3by-fm",
+          "name": "SHA3BY FM",
+          "streamUrl": "https://radio95.radioca.st/;"
+        },
+        {
+          "id": "af-sha3by-fm",
+          "name": "Sha3by FM",
+          "streamUrl": "https://radio95.radioca.st/stream/1/"
+        }
+      ]
+    }
+  ]
 }

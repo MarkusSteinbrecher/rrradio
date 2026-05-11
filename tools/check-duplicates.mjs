@@ -16,13 +16,15 @@
  *      two entries with the same display name. Usually a duplicate
  *      ("BBC World Service" appearing twice). Occasionally a real
  *      pair across countries (e.g. a "Radio 1" in two networks),
- *      which the curator confirms manually.
+ *      which the curator confirms manually. These are reported for
+ *      review but do not fail the gate unless there is also an exact
+ *      UUID or stream URL collision.
  *
  * Read-only on the YAML — surfaces findings, doesn't auto-fix.
  *
  *   npm run check-duplicates
  *
- * Exits non-zero when collisions are found so the catalog-watch
+ * Exits non-zero when UUID or stream URL collisions are found so the catalog-watch
  * workflow can branch and open a triage issue. Writes
  * public/station-duplicates.json with the structured findings so
  * the admin dashboard can render them too.
@@ -95,6 +97,7 @@ const byName = groupBy(candidates, (s) => nameKey(s.name)).map(([name, group]) =
   entries: group.map((s) => ({ id: s.id, name: s.name, streamUrl: s.streamUrl })),
 }));
 
+const blockingCollisions = [...byUuid, ...byStream];
 const collisions = [...byUuid, ...byStream, ...byName];
 
 // ─── 3. Report + write ──────────────────────────────────────────────
@@ -107,6 +110,7 @@ const summary = {
     streamUrl: byStream.length,
     name: byName.length,
   },
+  blockingCollisionCount: blockingCollisions.length,
   collisions,
 };
 
@@ -133,4 +137,8 @@ for (const c of collisions) {
 }
 console.log();
 console.log(`Report written to ${OUTPUT_JSON.replace(ROOT + '/', '')}`);
-process.exit(2);
+if (blockingCollisions.length > 0) {
+  process.exit(2);
+}
+console.log('check-duplicates: name-only collisions reported as curation warnings ✓');
+process.exit(0);

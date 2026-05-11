@@ -94,8 +94,14 @@ function clip(s, max = 155) {
   return (lastSpace > max - 30 ? cut.slice(0, lastSpace) : cut).trim() + '…';
 }
 
+function normalizeTags(tags) {
+  if (tags === null || tags === undefined) return [];
+  const source = Array.isArray(tags) ? tags : [tags];
+  return source.map((t) => String(t).trim().toLowerCase()).filter(Boolean);
+}
+
 function pickTags(s) {
-  const tags = (s.tags ?? []).map((t) => String(t).trim().toLowerCase()).filter(Boolean);
+  const tags = normalizeTags(s.tags);
   // Prefer the first 3 short, descriptive tags; drop noise like "uk".
   return tags.slice(0, 3);
 }
@@ -115,7 +121,7 @@ for (const s of stations) {
     if (!byCountry.has(c)) byCountry.set(c, []);
     byCountry.get(c).push(s);
   }
-  for (const t of s.tags ?? []) {
+  for (const t of normalizeTags(s.tags)) {
     const tag = String(t).trim().toLowerCase();
     if (!tag) continue;
     if (!byTag.has(tag)) byTag.set(tag, []);
