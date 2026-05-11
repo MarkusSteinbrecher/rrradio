@@ -85,13 +85,18 @@ final class FavoriteNowPlayingStore {
         }
     }
 
-    private nonisolated static func metadata(for station: Station) async throws -> NowPlayingMetadata? {
-        if let fetcher = metadataFetcher(for: station) {
-            if let metadata = try await fetcher(station) {
-                return metadata
-            }
+    nonisolated static func metadata(
+        for station: Station,
+        fetcher: StationMetadataFetcher? = nil,
+        icyFetch: @escaping StationMetadataFetcher = { try await fetchIcyMetadata(station: $0) },
+    ) async throws -> NowPlayingMetadata? {
+        let resolvedFetcher = fetcher ?? (station.status == "icy-only" ? nil : metadataFetcher(for: station))
+        if let fetcher = resolvedFetcher,
+           let metadata = try await fetcher(station) {
+            return metadata
         }
-        return try await fetchIcyMetadata(station: station)
+        guard station.status == "icy-only" else { return nil }
+        return try await icyFetch(station)
     }
 
     private nonisolated static func clean(_ value: String?) -> String? {

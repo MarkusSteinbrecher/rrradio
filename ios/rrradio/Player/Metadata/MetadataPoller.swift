@@ -16,25 +16,34 @@ final class MetadataPoller {
         stop()
         let myGeneration = generation
 
-        let tick = {
-            Task {
+        let tick = { [weak self] in
+            Task { [weak self] in
+                guard let self else { return }
                 do {
                     let metadata = try await fetcher(station)
-                    await MainActor.run {
-                        guard self.generation == myGeneration else { return }
+                    await MainActor.run { [weak self] in
+                        guard let self, self.generation == myGeneration else { return }
                         onUpdate(metadata)
                     }
                 } catch {
-                    await MainActor.run {
-                        guard self.generation == myGeneration else { return }
-                        self.stop()
+                    await MainActor.run { [weak self] in
+                        guard let self, self.generation == myGeneration else { return }
+                        var details = ["station": station.name]
+                        if let urlError = error as? URLError {
+                            details["error"] = String(urlError.code.rawValue)
+                        }
+                        diagnosticRecord("metadata", "polling failed", details: details)
                     }
                 }
             }
         }
 
         _ = tick()
-        timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
+        timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] timer in
+            guard self != nil else {
+                timer.invalidate()
+                return
+            }
             _ = tick()
         }
     }

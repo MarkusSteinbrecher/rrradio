@@ -69,6 +69,9 @@ final class AudioPlayer {
     private weak var listeningHistory: ListeningHistory?
     private var lyricsKey = ""
 
+    private static let lockScreenArtworkMaximumBytes = 5_000_000
+    private static let lockScreenArtworkTimeout: TimeInterval = 8
+
     var isWaitingForConnection: Bool {
         if case .error = state {
             return true
@@ -917,7 +920,11 @@ final class AudioPlayer {
         guard let url else { return }
 
         lockScreenArtworkTask = Task { [weak self] in
-            guard let (data, _) = try? await URLSession.shared.data(from: url),
+            var request = URLRequest(url: url)
+            request.timeoutInterval = Self.lockScreenArtworkTimeout
+            guard let (data, response) = try? await URLSession.shared.data(for: request),
+                  (response as? HTTPURLResponse).map({ (200...299).contains($0.statusCode) }) != false,
+                  data.count <= Self.lockScreenArtworkMaximumBytes,
                   !Task.isCancelled,
                   let image = UIImage(data: data) else { return }
 
