@@ -3242,3 +3242,300 @@ genuinely beautiful dataset.
 - **Repository public:** `github.com/nrkno/psapi-documentation`
   — useful but light on examples; the live SPA is a better
   reference.
+
+## cbc — CBC / Radio-Canada (CA)
+
+Investigated: 2026-05-09.
+
+CBC and Radio-Canada (the same crown corporation, two web brands)
+expose **two genuinely separate metadata APIs** — they share the
+back-end stream/CDN infrastructure (`services.radio-canada.ca`
+fronts the HLS validation + media-meta for *both* brands) but
+the schedule/now-playing surfaces are different shapes on
+different hosts:
+
+- **English CBC (cbc.ca/listen)** — Apollo GraphQL at
+  `https://www.cbc.ca/graphql`. Open CORS (`*`),
+  introspection-disabled but the SPA ships `linearScheduleOnNow`
+  and `linearScheduleUpNext` queries inline. Programme-level
+  only (no track-level musics — Radio One is talk, CBC Music's
+  per-track data flows through the gated `/music/dj/v1`
+  user-keyed API, not surfaced anonymously).
+- **French Radio-Canada (ici.radio-canada.ca/ohdio)** — Apollo
+  GraphQL at `https://services.radio-canada.ca/bff/audio/graphql`.
+  Schema is **introspectable** (`__schema { queryType { fields }
+  }` works). Returns BOTH programme-level and **track-level
+  music metadata** (title / artists / composers / per-track
+  startTime+endTime) for ICI Musique and ICI Musique Classique
+  via `broadcastSchedule` → `Broadcast.musics[]`. ICI Première
+  (talk) returns the programme list with `musics: []` — same
+  shape, just empty for talk shows. CORS is **scoped to
+  `https://ici.radio-canada.ca`** — calls from any other origin
+  return without `Access-Control-Allow-Origin`, so a worker
+  proxy is mandatory for the French side.
+
+Both surfaces also expose REST APIs that the SPAs use for
+non-realtime data:
+
+- `https://www.cbc.ca/listen/api/v1/program-queue/{networkID}/{location}`
+  — full daily schedule for an English CBC region (no CORS,
+  worker-proxy needed). Returns `programImage`, `hostName`,
+  `epochStart/End`, plus a `neuroID` field that points at
+  `services.radio-canada.ca/neuro/v1` (the per-show track
+  history surface the iOS/Sonos apps use; the v1 root accepts
+  the public `Client-Key 55e07958-9508-4084-b447-fff9b11a8b82`
+  but every plain `/playlists/{neuroID}`-style probe returned
+  404 — the right path shape lives in the mobile bundles, not
+  the web bundle, so deferring deeper neuro investigation
+  unless track-level CBC Music becomes a priority).
+- `https://www.cbc.ca/listen/api/v1/live-radio/getLiveRadioStations?locations=…`
+  and `…/live-streams` — the channel/region directory that
+  maps `callSign` (e.g. `CBC_R1_TOR`) to streamID, idMedia,
+  programGuideLocationKey. Useful for the catalog migration
+  more than runtime now-playing.
+- `https://services.radio-canada.ca/media/validation/v2?appCode=medianetlive&idMedia={N}&tech=hls&output=json`
+  — resolves `idMedia` (15095..15137 currently) to the
+  Akamai HLS master URL. Already used implicitly: our
+  `cbcradiolive.akamaized.net` URLs were pre-resolved at
+  curation time. Same model for French (different `appCode`).
+- `https://services.radio-canada.ca/media/meta/v1/index.ashx?appCode=medianetlive&idMedia={N}&output=json`
+  — channel metadata (TitleID, network, fallback image URL).
+  No CORS. Useful for cover art and channel name normalisation
+  but not now-playing.
+
+**Catalog mapping discovered:**
+
+| Station id | English callSign / French networkId+regionId |
+|---|---|
+| `builtin-cbc-radio-1-toronto` | `CBC_R1_TOR` (idMedia 15103) |
+| `builtin-cbc-radio-1-vancouver` | `CBC_R1_VCR` (idMedia 15119) |
+| `builtin-cbc-radio-1-montreal` | `CBC_R1_MTL` (idMedia ~15110) |
+| `builtin-cbc-music` | `CBC_R2_TOR` (idMedia 15129; networkID=2 in `program-queue`) |
+| `builtin-ici-premiere` (Montréal) | networkId 3 + regionId 8 |
+| `builtin-ici-musique` (Montréal) | networkId 4 + regionId 8 |
+
+The full callSign list (38 R1 regions + 5 R2 regions) is in
+`data/metadata-discovery/cbc-live-radio-stations.json`. The
+French regionId map is in `cbc-graphql-liveschedules-region8.json`
+plus the per-region probes captured in this session
+(regionId 1 = Abitibi/Rouyn, 4 = Sherbrooke, 7 = Trois-Rivières,
+8 = Montréal, 9 = Québec, 10 = Saguenay, etc.; full map needs
+one walk through regionIds 1–30 — only six showed up in the
+ten probes I ran, the rest probably exist as well).
+
+### Endpoints
+
+| What | URL template | Auth | CORS | Sample |
+|---|---|---|---|---|
+| **EN now/next programme** | `POST https://www.cbc.ca/graphql` body `{ onNow: linearScheduleOnNow(callSign: "CBC_R1_TOR") { programTitle startTime endTime program { thumbnail title description } } upNext: linearScheduleUpNext(callSign: "CBC_R1_TOR") { … } }` | none | `*` | `cbc-graphql-onnow-r1tor.json`, `cbc-graphql-onnow-r2tor.json`, `cbc-graphql-onnow-r2vcr.json` |
+| **EN daily schedule** | `https://www.cbc.ca/listen/api/v1/program-queue/{1\|2}/{programGuideLocationKey}` | none | absent — needs worker proxy | `cbc-program-queue-1-toronto.json`, `cbc-program-queue-2-toronto.json` |
+| **EN station directory** | `https://www.cbc.ca/listen/api/v1/live-radio/live-streams` and `…/getLiveRadioStations?locations={a,b}` | none | absent | `cbc-live-streams.json`, `cbc-live-radio-stations.json` |
+| **EN aggregate config** | `https://www.cbc.ca/aggregate_api/v1/key-values?key=phoenix.config` | none | `*` | `cbc-aggregate-phoenix-config.json` |
+| **FR now-playing + schedule** | `POST https://services.radio-canada.ca/bff/audio/graphql` op `Broadcasts` with `params: { regionId: 8, broadcastingNetworkId: 4, device: "Web", liveSchedule: true }` selecting `broadcasts { startTime endTime title hosts kicker picture { pattern } musics { title artists composers startTime endTime } }` | none | `https://ici.radio-canada.ca` only — needs worker proxy | `rc-graphql-broadcastSchedule-icimusique-live.json` (current programme + track list), `rc-graphql-broadcastSchedule-icimusique.json` (full day), `rc-graphql-broadcastSchedule-icipremiere.json` (talk; empty `musics`) |
+| **FR multi-network live schedules** | same endpoint, op `LiveSchedules` with `params: { regionId: N }` selecting `schedules { broadcastingNetwork { id title } broadcastingStationCallSign: broadcastingStationCodeName broadcasts { startTime endTime title } }` | none | scoped (worker) | `rc-graphql-liveschedules-region8.json`, `rc-graphql-liveschedules.json` |
+| **Stream URL resolver (both brands)** | `https://services.radio-canada.ca/media/validation/v2?appCode=medianetlive&idMedia={N}&tech=hls&output=json` | none | absent | `cbc-media-validation-15095.json` |
+| **Channel meta + fallback art** | `https://services.radio-canada.ca/media/meta/v1/index.ashx?appCode=medianetlive&idMedia={N}&output=json` | none | absent | `cbc-media-meta-15095-json.json` |
+| **Cover art** | embedded in `program.thumbnail` (EN GQL) and `Broadcast.picture.pattern` (FR GQL — pattern is a CDN URL with `{width}` / `{ratio}` placeholders) | — | — | — |
+| Podcast feed | n/a here — CBC publishes per-show feeds at `https://www.cbc.ca/podcasting/includes/{slug}.xml` but those are episode-level, not the live channel surface | — | — | — |
+
+### Response shape
+
+**EN — `linearScheduleOnNow / UpNext`** (via `cbc.ca/graphql`):
+
+```jsonc
+{
+  "data": {
+    "onNow": {
+      "programTitle": "Saturday Afternoon at the Opera",
+      "startTime": 1778356800000,        // epoch ms (UTC)
+      "endTime":   1778371200000,
+      "program": {
+        "thumbnail":   null,             // sometimes a CDN URL, often null
+        "title":       "Saturday Afternoon at the Opera",
+        "description": "\nHere's where to get your weekly opera fix, presented by …"
+      }
+    },
+    "upNext": { /* same shape */ }
+  }
+}
+```
+
+`program` is **frequently `null`** for Radio One on the GraphQL
+side (only `programTitle` + start/end ms are reliable). The
+richer `programImage` + `hostName` come from the REST
+`program-queue` endpoint instead.
+
+**FR — `Broadcasts(broadcastSchedule)`** (via
+`services.radio-canada.ca/bff/audio/graphql`):
+
+```jsonc
+{
+  "data": {
+    "broadcastSchedule": {
+      "broadcasts": [
+        {
+          "startTime": "2026-05-09T20:00:30.000Z",   // ISO 8601 (UTC)
+          "endTime":   "2026-05-09T23:00:30.000Z",
+          "title":     "C'est si bon",
+          "subtitle":  "Marc Hervieux",
+          "hosts":     "Marc Hervieux",
+          "kicker":    "ICI Musique",
+          "picture": {
+            "alt":     "…",
+            "pattern": "https://images.radio-canada.ca/q_auto,w_{width}/v1/audio/animateur/{ratio}/marc-hervieux-musique.png"
+          },
+          "musics": [
+            {
+              "title":     "MUSIC, MUSIC, MUSIC",
+              "artists":   "AMES BROTHERS",
+              "composers": "STEPHEN WEISS, BERNIE BAUM",
+              "startTime": "2026-05-09T20:00:35.000Z",
+              "endTime":   "2026-05-09T20:03:09.000Z"
+            },
+            // … 30+ tracks per programme
+          ]
+        }
+      ]
+    }
+  }
+}
+```
+
+`liveSchedule: true` filters the response to *just the currently
+airing* programme(s), with the day's full track list embedded —
+the fetcher walks `musics[]` and picks the entry where
+`startTime <= now < endTime`. Without `liveSchedule: true` the
+whole day comes back; either works, the live flag just keeps the
+payload smaller.
+
+The `picture.pattern` is a templated URL — substitute `{width}`
+(e.g. `380`) and `{ratio}` (e.g. `1x1`) before using.
+
+### Wirable today?
+
+⚠️ partly — split by brand:
+
+- **English CBC**: ✅ wirable directly. `cbc.ca/graphql` is
+  CORS-open, GraphQL POSTs work from the browser. Programme-only
+  (no track), but that matches Radio One's talk-heavy character
+  and the existing `stream-only` baseline. Wins us programme
+  title + start/end + sometimes thumbnail/description on six
+  builtin entries (Toronto/Vancouver/Montréal Radio One + CBC
+  Music). For CBC Music's track-level data, the public surface
+  is gated (DJ API needs userId+playlistId pair); ICY-over-fetch
+  is the only realistic anonymous track signal there until we
+  reverse-engineer the mobile/Sonos neuro shape.
+- **French Radio-Canada**: ⚠️ via-worker. Same wins as English
+  *plus* track-level music for ICI Musique / Musique Classique,
+  but only via the worker proxy (CORS scoped to
+  `ici.radio-canada.ca`). Worth the proxy entry — track-level
+  metadata is rarer than programme-level and ICI Musique is the
+  best-case track signal in the catalog after BR/SWR/DR.
+
+### Suggested fetcher
+
+Two new fetchers in `src/builtins.ts`. They share enough
+structure (programme schedule with start/endTime windowing) to
+sit next to each other but are best kept separate — different
+URLs, different shapes, different parsing rules.
+
+```
+fetchCbcMetadata     // POST cbc.ca/graphql with linearScheduleOnNow/UpNext, callSign per station.metadataChannel
+fetchCbcSchedule     // GET cbc.ca/listen/api/v1/program-queue/{1|2}/{location} via worker proxy
+
+fetchRadioCanadaMetadata  // POST services.radio-canada.ca/bff/audio/graphql via worker, op Broadcasts, liveSchedule:true
+fetchRadioCanadaSchedule  // same call without liveSchedule:true → all-day list
+```
+
+Closest existing analogues:
+
+- **`fetchBbcMetadata`** for the EN GraphQL pattern — both POST a
+  fixed query, both return programme-level only, both do "pick
+  the on-now block from a structured response". Shape-translate
+  `data.onNow.programTitle` → track.program in our envelope.
+- **`fetchSrgssrIlMetadata`** + **`fetchSwrMetadata`** for the FR
+  shape — those scan a programme's `playlist[]` for the entry
+  whose time window contains `now`. Same logic against
+  `Broadcast.musics[]`. The ABC/SRG track-history pattern in
+  `data/metadata-discovery/abc-*.json` is a closer match for the
+  list semantics (history-of-N tracks per programme).
+
+The worker proxy needs **two new allowlist entries** in
+`worker/src/index.ts` (`/api/public/proxy`):
+
+```js
+/^https:\/\/www\.cbc\.ca\/listen\/api\/v1\/(program-queue|live-radio)\/.+$/i,
+/^https:\/\/services\.radio-canada\.ca\/bff\/audio\/graphql$/i,  // POST — proxy must forward Origin: ici.radio-canada.ca
+```
+
+The Radio-Canada GraphQL POST needs the worker to spoof
+`Origin: https://ici.radio-canada.ca` in the upstream request
+(same trick as the BBC `/api/public/bbc/...` route uses for
+`bbc.co.uk`). The current `/api/public/proxy` route forwards
+plain GETs; for RC we either (a) extend it to forward POST
+bodies + Origin header, or (b) add a dedicated
+`/api/public/radio-canada/graphql` route mirroring the BBC
+pattern, which is cleaner and probably the right shape.
+
+Catalog YAML extension to support the fetchers (no schema break
+needed, just new optional fields):
+
+```yaml
+# CBC Radio One Toronto
+metadataChannel: CBC_R1_TOR     # → linearScheduleOnNow
+programGuideKey:                 # → program-queue REST
+  network: 1
+  location: toronto
+
+# ICI Musique Montréal
+metadataChannel:
+  networkId: 4
+  regionId: 8
+  brand: radio-canada
+```
+
+### Notes
+
+- **Brand split is real.** English and French *do* share infrastructure
+  (Akamai HLS, `services.radio-canada.ca` for stream resolution
+  and metadata) but the live programme/now-playing surfaces are
+  fundamentally different shapes — one Apollo GraphQL with
+  callSign+English-only schema on `www.cbc.ca`, one Apollo
+  GraphQL with regionId/networkId/French-aware schema on
+  `services.radio-canada.ca/bff/audio`. Treat as two fetchers.
+- **Introspection is open on the FR endpoint** (`services.radio-canada.ca/bff/audio/graphql`)
+  — useful for verifying field names without touching the
+  bundle. EN endpoint has introspection disabled by Apollo (the
+  bundle inlines the queries we need anyway).
+- **Public Client-Key for the legacy media player:**
+  `Client-Key 55e07958-9508-4084-b447-fff9b11a8b82` (from
+  `services.radio-canada.ca/media/player/js/prod`). Required by
+  the `/neuro/v1/...` endpoints. Public/embedded; not an auth
+  secret. Useful only if we end up wanting CBC Music track-level
+  data via the neuro path (which I couldn't shape out from the
+  web bundle).
+- **No rate-limit headers** observed on either GraphQL host. The
+  EN host caches at the CDN edge (`cache-control: max-age=300`
+  on the REST live-radio endpoints). The SPA polls `linearSchedule*`
+  on programme transitions only, not on a fixed interval — for
+  rrradio, polling every 60–90 s is conservative.
+- **No auth/cookies/tokens detected** for any of the documented
+  endpoints. The ones that 403/404 (`hubcap`, `pages.radio.api.nrk.no`,
+  `/api/v1/live-radio/...` without the `/listen/` prefix) are
+  just stale paths in the bundle, not gated surfaces.
+- **`MEDIA_NET_PLAYBACK_LOG_URL`** in `aggregate_api/v1/key-values?key=phoenix.config`
+  points at `services.radio-canada.ca/music/dj/v1/playbacklog` —
+  a POST-only analytics endpoint where the *client* logs plays
+  back to CBC. Do not call from a fetcher. The phoenix.config
+  payload itself is open-CORS and harmless to inspect.
+- **iOS / mobile app neuro paths not surfaced.** The web bundle
+  only references `/music/dj/v1/playlists/{userId}` (gated) and
+  `/music/dj/v1/playbacklog` (logging). Track-level CBC Music
+  on the live web stream is not anonymously available through
+  the surfaces I found in this pass — deferring unless a future
+  curation pass needs it.
+- **Robots / ToS:** `cbc.ca/robots.txt` allows `*` on
+  `/listen/api/`, `/api/`, and `/graphql`. `radio-canada.ca` /
+  `services.radio-canada.ca` likewise. No "no-AI" or
+  "no-aggregation" clauses spotted; these are the same surfaces
+  that power Radio Browser's regional CBC entries.
