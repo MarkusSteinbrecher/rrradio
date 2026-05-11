@@ -1929,3 +1929,184 @@ Register as `rte` in `FETCHERS_BY_KEY` and `SCHEDULE_FETCHERS` maps.
   visitor. Reasonable polling cadence (60 s for `live_stations/json`) is appropriate.
 
 ---
+
+## yle — YLE / Yleisradio (FI)
+
+Investigated: 2026-05-09.
+
+### Channels in catalog
+
+| Station | Status before | Areena service ID |
+|---|---|---|
+| YLE Radio Suomi | `stream-only` | `yle-radio-suomi` (+ regional variants `yle-radio-suomi-helsinki`, …-turku, …-tampere, …-oulu, …-rovaniemi, etc.) |
+| YLE Radio 1 | `stream-only` | `yle-radio-1` |
+| YleX | `stream-only` | `ylex` |
+| YLE Klassinen | `stream-only` | `yle-klassinen` |
+| YLE Puhe (not in catalog) | n/a | `yle-puhe` |
+| YLE Mondo (not in catalog) | n/a | `yle-mondo` |
+| YLE Sami Radio (not in catalog) | n/a | `yle-sami-radio` |
+| Radio Vega + X3M (Swedish-language, not in catalog) | n/a | `yle-radio-vega`, `radio-vega-huvudstadsregionen`, …, `yle-x3m` |
+
+### Two distinct APIs — only one is browser-wirable
+
+YLE publishes **two** API surfaces:
+
+1. **`external.api.yle.fi`** — the historic developer-portal API. Required `app_id`+`app_key` issued via signup at `developer.yle.fi`. Per the public docs and community references, **this API was disabled by Yle during spring 2021** and most endpoints (`/v1/programs/nowplaying/<service>.json` etc.) no longer respond. Confirmed dead-end: not the path forward.
+
+2. **`areena.api.yle.fi`** — the **internal API that the live web player at `areena.yle.fi/suorat` actually calls**. This is the real one. It is auth-gated, but the credentials are *shipped publicly in the player's own JS bundle* (more on this below) and a CloudFront WAF rejects requests without them with `HTTP 403`.
+
+The Areena API is what the player uses, and it is technically reachable — but only with caveats described under "Auth" and "CORS" below.
+
+### Endpoints (areena.api.yle.fi)
+
+All paths take a fixed query suffix the player always sends:
+
+```
+?language=fi&v=10&client=yle-areena-web&app_id=areena-web-items&app_key=wlTs5D9OjIdeS9krPzRQR4I1PYVzoazN
+```
+
+| What | URL template | Auth | CORS | Sample |
+|---|---|---|---|---|
+| Now-playing programme (bulk, all radio channels) | `https://areena.api.yle.fi/v1/ui/schedules/now.json?service=<csv-of-service-ids>&transmissionlimit=1` | `app_id`+`app_key` (public, hard-coded in JS bundle) | origin-pinned to `https://areena.yle.fi` | `data/metadata-discovery/yle-schedules-now-bulk.json` |
+| Full-day schedule per channel | `https://areena.api.yle.fi/v1/ui/schedules/<service-id>.json` | same | same | `data/metadata-discovery/yle-schedules-radio1-day.json` |
+| Current programme details (richest single-channel call) | `https://areena.api.yle.fi/v1/ui/services/<service-id>/transmissions/current.json` | same | same | `data/metadata-discovery/yle-transmission-current-radio1.json`, `…-klassinen.json` |
+| Live page driver (with controls + IDs) | `https://areena.api.yle.fi/v1/ui/views/live.json` | same | same | `data/metadata-discovery/yle-views-live.json` |
+| Radio guide for a date | `https://areena.api.yle.fi/v1/ui/views/radio-guides/YYYY-MM-DD.json` | same | same | `data/metadata-discovery/yle-views-radio-guides-day.json` |
+| Player resource (gives `currentProgramSource` URI) | `https://areena.api.yle.fi/v1/ui/players/<service-id>.json` | same | same | `data/metadata-discovery/yle-player-radio1.json` |
+| Podcast feed (separate, public) | `https://feeds.yle.fi/areena/v1/series/<series-id>.rss` | none | no `Access-Control-Allow-Origin` header (server-side parse only) | n/a |
+| Track-level "now playing song" | **does not exist** | — | — | — |
+
+The web player's CSP `connect-src` allows only `*.yle.fi`, `wss://*.yle.fi`, `*.ylestatic.fi`, `endpoint.finnpanel.fi`, `*.akamaized.net`, `*.litix.io`, `sdk.fra-02.braze.eu`, `fi-yle-dev1.mini.snplow.net`. There is no other backing API in scope.
+
+### Auth
+
+- Every endpoint above is annotated `"authentication": ["yle-api"]` in the page driver JSON. Without `app_id`+`app_key`, requests get HTTP 403 from CloudFront / nginx.
+- The web player injects credentials by appending `?app_id=…&app_key=…` to every URL via this helper (de-minified from `pages/_app-*.js`):
+
+  ```js
+  function addApiKeys(urlStr, appId, appKey) {
+    const u = new URL(urlStr);
+    u.searchParams.set("app_id", appId);
+    u.searchParams.set("app_key", appKey);
+    return u.href;
+  }
+  // appId, appKey come from window.envVariables, injected SSR into the HTML:
+  //   window.envVariables = { ..., appIdFrontend:"areena-web-items",
+  //                           appKeyFrontend:"wlTs5D9OjIdeS9krPzRQR4I1PYVzoazN", ... };
+  ```
+
+- These are **not personal credentials**. They are the shared frontend keys for `areena-web-items` (the Areena web client) and ship in the page source on every load. Reusing them is not auth-bypass — it is doing exactly what the browser does.
+- That said: the keys can rotate at any time, and Yle's ToS may treat third-party use as out of scope. Treat as fragile.
+
+### CORS
+
+- `Access-Control-Allow-Origin: https://areena.yle.fi` (single origin, exact match) with `Access-Control-Allow-Credentials: true`. Confirmed via two GETs from different Origins — second one returns the same body but the response ACAO header still pins to areena.yle.fi.
+- Preflight `OPTIONS` from `https://rrradio.org` returns HTTP 403 with no CORS headers at all.
+- **Direct browser fetch from `rrradio.org` is impossible.** The worker proxy with an `Origin: https://areena.yle.fi` override (BBC-style) is the only path.
+- Cache: `Cache-Control: max-age=300` (5 min). No `X-RateLimit-*` or `Retry-After` headers seen. `bulk schedules/now.json` covers 30+ services in a single response, so one call per ~5 min for *all* YLE channels is well within sane budget.
+
+### Response shape (schedules/now.json — bulk)
+
+```json
+{
+  "apiVersion": "1.3.9792",
+  "meta": { "service": "yle-radio-1,ylex,...", "count": 7 },
+  "data": [
+    {
+      "title": "Keinuva talo - Mika Kauhanen: Elämä junamatkana",
+      "image": { "id": "yle-radio-1_channel", "version": "1750676272" },
+      "labels": [
+        { "type": "generic",          "formatted": "22.40–23.39" },
+        { "type": "progress",         "raw": "2026-05-09T22:40:13+03:00/2026-05-09T23:39:18+03:00",
+                                      "rawType": "interval" },
+        { "type": "broadcastService", "formatted": "Yle Radio 1", "raw": "yle-radio-1" }
+      ],
+      "presentation": "broadcastCard",
+      "controls": [
+        { "type": "navigator",
+          "destination": {
+            "type": "player",
+            "uri": "https://areena.api.yle.fi/v1/ui/players/yle-radio-1.json?…",
+            "authentication": ["yle-api"]
+          }
+        }
+      ],
+      "type": "card"
+    },
+    /* …one entry per channel… */
+  ]
+}
+```
+
+Field map for a fetcher:
+
+- **Programme name** → `data[i].title`
+- **Channel match** → `labels[?type=="broadcastService"].raw` (one of `yle-radio-1`, `ylex`, `yle-radio-suomi`, `yle-klassinen`, …)
+- **Programme time window** → `labels[?type=="progress"].raw` is an ISO-8601 interval `start/end`; `labels[?type=="generic"].formatted` has the human-readable `22.40–23.39`.
+- **Image** → reconstruct via `https://images.cdn.yle.fi/image/upload/{id}.jpg` (image asset domain seen in catalog favicons + CSP `img-src`); the response itself only carries the asset id + version.
+- **No track artist/title/album.** Confirmed by reading the JS chunks (`879-*.js`, `153-*.js`) — only `trackClick` / `trackPlayClick` *analytics* hooks, no `nowPlaying` / `currentTrack` / `playlist` field anywhere.
+
+### Response shape (services/<id>/transmissions/current.json — richest)
+
+```json
+{
+  "apiVersion": "1.3.9792",
+  "meta": { "asOf": "2026-05-09T23:12:42+03:00", "expiresIn": "PT1605S" },
+  "data": {
+    "title": "Keinuva talo - Mika Kauhanen: Elämä junamatkana",
+    "description": "Pohjois-Amerikan juurimusiikissa…\n\nEric Bibb: Freedom train…\n…",
+    "image": { "id": "yle-radio-1_square", "version": "1750676272" },
+    "labels": [
+      { "type": "broadcastStartDate",  "raw": "2026-05-09T22:40:13+03:00" },
+      { "type": "broadcastEndDate",    "raw": "2026-05-09T23:39:18+03:00" },
+      { "type": "duration",            "formatted": "59 min" },
+      { "type": "seriesTitle",         "formatted": "Keinuva talo - Mika Kauhanen" },
+      { "type": "broadcastService",    "formatted": "Yle Radio 1", "raw": "yle-radio-1" }
+    ],
+    "presentation": "scheduleCard",
+    "cards": [ { "type":"card", "title":"Elämä junamatkana", "description":"…" } ],
+    "type": "card"
+  }
+}
+```
+
+Notable: for **Yle Klassinen** the `description` field contains the classical-music programme's *prose track listing* with timestamps:
+
+```
+Santoliquido: I Canti della sera (Iltalauluja) (Joyce DiDonato, mezzosopraano…).
+
+18:11 Berlioz: Alkusoitto oopp. Benvenuto Cellini (Baltimoren SO/David Zinman).
+18:22 E. Mayer: Sinfonia n:o 6 E-duuri (Bremerhavenin FO/Marc Niemann).
+…
+```
+
+This is unstructured (no separate fields), but a regex over `^(\d{1,2}:\d{2})\s+([^:]+):\s*(.+)$` lines would extract a track schedule for classical only. The standard channels' `description` is just programme prose, no tracks.
+
+### Wirable today?
+
+⚠️ **via worker** — programme-level only, no per-track data, but otherwise clean.
+
+Justification: HTTPS-only, structured JSON, stable schema, `app_id`+`app_key` are public client-side credentials we'd be reusing the same way the browser does, but `Access-Control-Allow-Origin` is pinned to `https://areena.yle.fi` so direct browser fetch from `rrradio.org` will fail. The Cloudflare worker would need a dedicated `/api/public/yle/<service>` route that injects `Origin: https://areena.yle.fi` and the credentials — exactly the BBC pattern (`fetchBbcMetadata` + `worker/src/index.ts` BBC route). One bulk call covers all 7 catalog YLE channels per polling tick.
+
+If a worker route is not desired: **❌ unwirable** from the static site — there is no CORS-open YLE endpoint. ICY-over-fetch is the only fallback (current state) and produces nothing because the YLE Icecast streams don't emit ICY title metadata.
+
+### Suggested fetcher
+
+New `fetchYleAreenaMetadata` in `src/builtins.ts`. Closest analogue: `fetchBbcMetadata` (lines ~868–890). Pattern:
+
+1. Add `metadata: yle-areena` and `metadataUrl: <yle-service-id>` (e.g. `yle-radio-1`, `ylex`) to each YLE station in `data/stations.yaml`.
+2. Add a worker route `/api/public/yle/now/<csv-of-services>` that fetches `https://areena.api.yle.fi/v1/ui/schedules/now.json?service=<csv>&transmissionlimit=1&language=fi&v=10&client=yle-areena-web&app_id=areena-web-items&app_key=…` with `Origin: https://areena.yle.fi` + `Referer: https://areena.yle.fi/`, returns the body with public CORS. Cache 60 s. Treat `app_key` as a worker env var so it can be rotated without a redeploy.
+3. The fetcher reads the bulk response, finds the entry whose `labels[?type=="broadcastService"].raw == station.metadataUrl`, returns `program: { name: title, subtitle: undefined }`. No `track` field — same as BBC.
+4. Optional `fetchYleAreenaSchedule` mirrors the BBC schedule fetcher: hit `…/schedules/<service>.json` and map `labels[broadcastStartDate]/[broadcastEndDate]` + `data[i].title` into `ScheduleBroadcast`.
+5. Optional Klassinen-only: parse `transmissions/current.json` `description` for `^HH:MM Composer: Title…` lines — but this is bonus, defer.
+
+### Notes
+
+- **No track-level metadata anywhere.** The Areena web player itself only displays the programme title on radio cards — there is no "now playing song" UI on areena.yle.fi for live radio. Don't promise track data to users.
+- **Credentials may rotate.** `app_key=wlTs5D9OjIdeS9krPzRQR4I1PYVzoazN` is hard-coded in the bundle that ships from `areena-web-items.ylestatic.fi/4.0.2519/_next/static/…/_app-*.js`; when Yle redeploys with a new key, the static bundle changes too. Worker should treat the key as injected env config (re-extractable from the page if it ever 401s).
+- **No published ToS on the Areena API specifically.** The retired `developer.yle.fi` portal had a CC-BY-style attribution requirement on metadata reuse. Same spirit likely applies here. If we wire this, attribute "Programme info © Yleisradio Oy" on the now-playing card.
+- **Regional Yle Radio Suomi.** The bulk endpoint returns 17+ regional variants (`yle-radio-suomi-helsinki`, `…-tampere`, etc.). Our catalog has one generic `YLE Radio Suomi` station; the bulk now-playing for the parent `yle-radio-suomi` ID returns whichever region happens to be selected by the CDN at request time (we got `yle-radio-suomi-pori` in the sample). To get a stable national-network programme, prefer querying with a specific regional ID, or accept that "Radio Suomi" current programme drifts by region — usually the same nationwide block anyway.
+- **Swedish-language Yle channels** (Radio Vega, X3M) are not in our catalog yet. Same API, same shape — adding them later costs nothing.
+- **Podcast RSS** at `feeds.yle.fi/areena/v1/series/<series-id>.rss` is publicly reachable but has no CORS header. Not relevant for live metadata; mention only because the discovery checklist asks. Series IDs aren't trivially discoverable from the live API (`pointer.uri` references opaque package IDs like `57-p89RepWE0`, not the series IDs RSS uses).
+- **HLS livestreams** (the player's actual audio) ship via `*.akamaized.net` HLS. Our catalog already uses the icecast endpoints (`icecast.live.yle.fi/radio/<…>/icecast.audio`); HLS is a possible upgrade later but unrelated to metadata.
+- Captured `data/metadata-discovery/yle-*.json` files are gitignored (per `.gitignore` `data/metadata-discovery/`), so this PR commits only the docs section. To re-capture, run the curls in this file with `app_id`+`app_key` from any current load of `https://areena.yle.fi/suorat` (look for `window.envVariables`).
