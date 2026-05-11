@@ -125,6 +125,13 @@ function pickTags(rb) {
   return list.length > 0 ? [...new Set(list)].slice(0, 6) : undefined;
 }
 
+function normalizeTags(tags) {
+  if (tags === null || tags === undefined) return undefined;
+  const source = Array.isArray(tags) ? tags : [tags];
+  const list = source.map((t) => String(t).trim().toLowerCase()).filter(Boolean);
+  return list.length > 0 ? [...new Set(list)] : undefined;
+}
+
 function merged(s) {
   const b = broadcasters[s.broadcaster] ?? {};
   const rb = s.stationuuid ? rbByUuid.get(s.stationuuid) : undefined;
@@ -156,7 +163,7 @@ function merged(s) {
     streamUrl: s.streamUrl ?? fromRb.streamUrl,
     homepage: s.homepage ?? b.homepage ?? fromRb.homepage,
     country: s.country ?? b.country ?? fromRb.country,
-    tags: s.tags ?? fromRb.tags,
+    tags: normalizeTags(s.tags) ?? fromRb.tags,
     favicon: s.favicon ?? fromRb.favicon,
     bitrate: s.bitrate ?? fromRb.bitrate,
     codec: s.codec ?? fromRb.codec,
