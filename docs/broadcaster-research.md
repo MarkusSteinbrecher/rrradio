@@ -4739,3 +4739,269 @@ The streamabc CDN edge-caches; no rate-limit pressure.
   `api.streamabc.net` have no robots files. The streamabc endpoint
   is the same surface their own web player uses — same trust
   boundary as Klassik Radio.
+
+## rtp — RTP / Rádio e Televisão de Portugal (PT)
+
+Investigated: 2026-05-09.
+
+### TL;DR
+
+RTP's "RTP Play" web player drives **all** live radio (Antena 1/2/3,
+RDP África, RDP Internacional) from a single PHP-style endpoint at
+`www.rtp.pt/play/livechannelonairnow.php?channel=<key>`. The response
+is a JSON array: index 0 is the now-playing item (with full EPG
+programme block) and indices 1–4 are the previous four tracks. Music
+channels (Antena 1, Antena 3, RDP África, RDP Internacional) return
+real artist + song. **Antena 2 (classical) does NOT** — it returns
+empty `dtitulo` / "Programação Indisponível" placeholders, so it does
+*not* join the SR P2 / NRK Klassisk / RNZ Concert / BR Klassik
+classical-rich tier despite the matching format. Wirable today only
+**via the worker proxy** — the endpoint is HTTPS but lacks
+`Access-Control-Allow-Origin`.
+
+### Topology
+
+```
+www.rtp.pt/play/direto/<slug>          (page-rendered SPA, jQuery-era)
+  └─ var playerlive = new RTPPlayer({ channelKey: "at1", … })
+  └─ liveMetadataOnairNow('at1', '3', 'play', 'live')
+       → /play/livechannelonairnow.php?channel=at1
+         (text/html content-type but body is JSON array;
+          no CORS; player polls per response.reload seconds,
+          observed 30–1300s window)
+
+       (also, used by Antena 2 in lieu of the now-playing path:)
+       liveMetadata('92', '1', '0', '260509', '2236', 'radio', 'play','live','…')
+       → /play/livechannelmetadata.php?channel=…&howmanynext=…&howmanybefore=…
+         (returns base64-encoded HTML fragments for direct DOM
+          injection — not useful for clean parsing; the
+          underlying data is the same shape as
+          livechannelonairnow.php anyway, just wrapped in
+          presentation.)
+```
+
+The page-source-embedded `RTPPlayer({ … })` block already exposes a
+useful pre-render: `metadata.program.title`, `metadata.channel.name`,
+and `mediaSession.metadata.artwork[]`. That's static SSR though —
+the polling loop is what carries live track data.
+
+### Channel-key map (PHP `?channel=` parameter)
+
+This is **not** the same as the `channelKey` in the player config,
+nor the numeric `channel.id`. The PHP endpoint takes the short keys
+passed to `liveMetadataOnairNow(...)`:
+
+| Display name | Page slug | Player `channelKey` | API `?channel=` | Numeric `id` |
+|---|---|---|---|---|
+| Antena 1 | `antena1` | `at1` | **`at1`** | 91 |
+| Antena 2 (classical) | `antena2` | `at2` | **`at2`** | 92 |
+| Antena 3 | `antena3` | `at3` | **`at3`** | 93 |
+| RDP Internacional | `rdpinternacional` | `rdp_internacional` | **`int`** | — |
+| RDP África | `rdpafrica` | `rdp_africa` | **`afr`** | — |
+
+(Numeric IDs are *not* interchangeable — `?channel=92` returns
+Antena 1's data, not Antena 2's. Likely a fallback default.)
+
+### Endpoints
+
+| What | URL template | Auth | CORS | Sample |
+|---|---|---|---|---|
+| Now-playing + 4-item history | `https://www.rtp.pt/play/livechannelonairnow.php?channel=<key>` | none | **missing** (worker proxy required) | `data/metadata-discovery/rtp-onairnow-{at1,at2,at3,int,afr}.json` |
+| EPG-rich live (HTML fragments, base64) | `https://www.rtp.pt/play/livechannelmetadata.php?channel=<numeric>&howmanynext=N&howmanybefore=N&grid=1&prog=1&channeltype=live&typeView=live` | none | none | `data/metadata-discovery/rtp-channelmetadata-at1.json`, `rtp-channelmetadata-at2.json` |
+| Live channel directory (TV) | `https://www.rtp.pt/play/livechannelonair.php?channel=<key>` | none | `*` | `data/metadata-discovery/rtp-onair-*.json` (TV-only — radio keys all default to RTP1; **not useful for radio**) |
+| Geo-rights / DRM | `https://www.rtp.pt/services/rtpplay/?ch_k=<key>` | none | `*` | not captured (returns `{country, rights, video, timeout, live, cachefile}` — no track data) |
+| Podcast feed | `https://www.rtp.pt/play/podcast/rss/<channel-slug>` (e.g. `antena1`) | none | `*` | n/a (RSS, not JSON) |
+
+### Response shape — `livechannelonairnow.php` (the one that matters)
+
+Top-level: a JSON array of 5 items (current + 4 prior tracks).
+
+```json
+[
+  {
+    "id": "0",                          // current track marker
+    "reload": 61,                       // seconds until next poll
+    "depg": {                           // optional deep-EPG block (Antena 1 only)
+      "TITULO": "Tubarão-Azul",         // ← TRACK TITLE
+      "COMENT1": "Eu.Clides",           // ← TRACK ARTIST
+      "realDateTime": "2026-05-09 22:37:23",
+      "realEndDateTime": "2026-05-09 22:40:25",
+      "duracao": "00:03:02",
+      "IMAGE": "//cdn-images.rtp.pt/common/img/channels/logos/...",
+      "EPG": {
+        "TITULO": "Rui Santos",         // ← PROGRAMME / SHOW NAME
+        "NOMEG": "Música Variada",      // ← PROGRAMME GENRE
+        "COD_PROG": "7571",
+        "IMAGE": "//cdn-images.rtp.pt/EPG/radio/imagens/7571_11456_90964.jpg",  // ← PROGRAMME COVER
+        "realDateTime": "2026-05-09 20:09:00",
+        "realEndDateTime": "2026-05-09 22:59:59",
+        "DIRECTO": "S",
+        "live": "1",
+        "timeToEnd": "00:20"
+      },
+      "PLAY": {
+        "program_id": 7571,
+        "program_title": "Três Vidas e Uma Só Morte",  // (often a sibling show — looks like the same channel's adjacent slot; treat as supplementary)
+        "program_rewrite": "tres-vidas-e-uma-so-morte"
+      }
+    },
+    "dtitulo": "Tubarão-Azul",          // ← ALIAS TRACK TITLE (always present)
+    "dcoment1": "Eu.Clides",            // ← ALIAS TRACK ARTIST
+    "dcomentlabel": "Eu.Clides",
+    "dhora": "22:37",                   // ← TRACK START (HH:MM, local PT)
+    "dhorafinal": "22:40"               // ← TRACK END (HH:MM, only on item 0)
+  },
+  { "id": "1", "dtitulo": "Yougotmefeeling", "dcoment1": "Parcels", "dcomentlabel": "Parcels", "dhora": "22:34" },
+  { "id": "2", "dtitulo": "Pop Toma", "dcoment1": "Lena DÁgua", "dcomentlabel": "Lena DÁgua", "dhora": "22:30" },
+  { "id": "3", "dtitulo": "Meu Norte", "dcoment1": "Matilda", "dcomentlabel": "Matilda", "dhora": "22:27" },
+  { "id": "4", "dtitulo": "Frágil", "dcoment1": "Jorge Palma", "dcomentlabel": "Jorge Palma", "dhora": "22:24" }
+]
+```
+
+**Field mapping for the fetcher:**
+
+- **Track title** → `[0].dtitulo` (fallback `[0].depg.TITULO`).
+- **Track artist** → `[0].dcoment1` (fallback `[0].depg.COMENT1`).
+- **Track timing** → `[0].dhora`–`[0].dhorafinal` (HH:MM, local PT timezone; or `[0].depg.realDateTime`–`[0].depg.realEndDateTime` for full timestamps + duration).
+- **Programme name** → `[0].depg.EPG.TITULO` (e.g. *"Rui Santos"*; the show currently on air).
+- **Programme genre** → `[0].depg.EPG.NOMEG` (e.g. *"Música Variada"*).
+- **Programme cover art** → `[0].depg.EPG.IMAGE` (relative `//cdn-images.rtp.pt/EPG/radio/imagens/<id>.jpg` — prepend `https:`).
+- **Track history** → `[1..4]` (only `dtitulo`/`dcoment1`/`dhora`; no end times, no cover art).
+- **Polling cadence** → respect `[0].reload` seconds; observed values 30, 47, 61, 162, 1300. Floor to 30s as a polite default if missing.
+
+**Caveats:**
+
+- `depg` is `""` (empty string) on most channels except Antena 1; only Antena 1 ships the deep EPG block today. Treat `depg` as either an object **or** an empty string.
+- Some channels return HTML entities in fields (`&ccedil;` / `&iacute;` / `&aacute;`). Decode before display.
+- The PLAY.program_title on Antena 1 today (`Três Vidas e Uma Só Morte`) does *not* match the EPG.TITULO (`Rui Santos`) — they're different shows. The EPG block is the authoritative "what's on now"; PLAY.program_title appears to point at a related on-demand episode. Prefer `depg.EPG.TITULO` for programme display.
+- Per-channel today (2026-05-09 22:37 WEST):
+  - **at1**: full track + EPG (✅ richest)
+  - **at3**: track title + artist (✅) — no `depg`
+  - **int**: track title + artist (✅) — no `depg`
+  - **afr**: track title + artist (✅) — no `depg`
+  - **at2**: `dtitulo: null`, history items all "Programação Indisponível" (❌ no track data published)
+
+### Wirable today?
+
+⚠️ **wirable via worker proxy.** The endpoint is HTTPS, no auth, no
+session token, returns clean structured JSON, polite reload field —
+but it lacks `Access-Control-Allow-Origin`. Add a regex to
+`worker/src/index.ts` `/api/public/proxy` allowlist:
+
+```ts
+/^https:\/\/www\.rtp\.pt\/play\/livechannelonairnow\.php\?channel=(?:at1|at2|at3|int|afr)$/i,
+```
+
+Once proxied, the four music channels (Antena 1/3, RDP África, RDP
+Internacional) ship `working`. Antena 2 stays `stream-only` (no
+broadcaster signal to fetch — separate ticket if we want to chase
+classical metadata via a different path).
+
+### Suggested fetcher
+
+New shape; needs its own `fetchRtpMetadata` in `src/builtins.ts`.
+
+**Closest analogues:**
+
+- **`fetchHrMetadata`** (`src/builtins.ts:328`) — same "fetch via
+  `/api/public/proxy?url=…`" path, parse JSON, pluck a nested
+  `current` block. Mirror its proxy-routing prelude.
+- **`fetchSrMetadata`** (`src/builtins.ts:1317`) — also worker-routed
+  PHP endpoint with simple `?welle=` channel param; the structural
+  mirror for "single endpoint, channel-keyed, no separate history
+  call". Probably the closest single fetcher.
+
+**Sketch (to be reviewed/finalised by a human):**
+
+```ts
+// channel-key map, keyed by station name suffix or stationuuid
+const RTP_CHANNEL_KEYS: Record<string, string> = {
+  'Antena 1': 'at1',
+  'Antena 2': 'at2',
+  'Antena 3': 'at3',
+  'RDP Internacional': 'int',
+  'RDP África': 'afr',
+};
+
+const fetchRtpMetadata: MetadataFetcher = async (station, signal) => {
+  const key = RTP_CHANNEL_KEYS[station.name];
+  if (!key) return null;
+  const upstream = `https://www.rtp.pt/play/livechannelonairnow.php?channel=${key}`;
+  const url = `${WORKER_BASE}/api/public/proxy?url=${encodeURIComponent(upstream)}`;
+  const res = await fetch(url, { signal });
+  if (!res.ok) return null;
+  const items = (await res.json()) as RtpItem[];
+  const cur = items?.[0];
+  if (!cur) return null;
+
+  const title = cleanEntities(cur.dtitulo || cur.depg?.TITULO || '');
+  const artist = cleanEntities(cur.dcoment1 || cur.depg?.COMENT1 || '');
+  if (!title && !artist) return null; // Antena 2 path
+
+  const epg = typeof cur.depg === 'object' ? cur.depg.EPG : undefined;
+  const programmeName = epg?.TITULO ? cleanEntities(epg.TITULO) : undefined;
+  const programmeImage = epg?.IMAGE ? `https:${epg.IMAGE}` : undefined;
+
+  return {
+    title,
+    artist,
+    programme: programmeName,
+    coverArt: programmeImage,
+    pollAfterSeconds: cur.reload ?? 60,
+  };
+};
+```
+
+(Type-stub is illustrative — match the actual `MetadataFetcher`
+return shape used by neighbouring builtins.)
+
+For station-level wiring, the four music channels each set
+`metadata: rtp` on their `data/stations.yaml` entry (no per-station
+config needed; the fetcher derives the channel key from
+`station.name`). Antena 2 stays without a metadata binding until a
+separate signal turns up.
+
+### Notes
+
+- **Same-platform-as-TV.** RTP runs one "RTP Play" SPA for both TV
+  and radio; the TV-side endpoint `livechannelonair.php` is
+  CORS-open but radio keys (`at1`/`at2`/etc.) all collapse onto
+  `RTP1` (TV channel id 5) — confirmed by probing five different
+  parameter names (`ch`, `chan`, `channel_key`, `key`, `id`,
+  `ch_k`, `station`, all with the same RTP1 default). So we
+  cannot reuse the CORS-open endpoint as a shortcut.
+- **Antena 2 (classical) does NOT join the classical-rich tier.**
+  The endpoint returns `dtitulo: null` for current and
+  "Programação Indisponível" history items. Confirmed across both
+  the now-playing endpoint and the alternate `livechannelmetadata`
+  path (whose decoded base64 HTML also says "Programação
+  Indisponível"). RTP appears to simply not publish a track-level
+  feed for Antena 2. (Hypothesis: their classical workflow doesn't
+  log titles into the broadcast automation in real time. Same gap
+  exists at RNE Radio Clásica — verifiable once the parallel RNE
+  recon lands.)
+- **Mismatch between `EPG.TITULO` ("Rui Santos") and
+  `PLAY.program_title` ("Três Vidas e Uma Só Morte").** The two
+  reference different programmes — `EPG.TITULO` is the show
+  currently on air, `PLAY.program_title` looks like a related
+  podcast/episode rewrite. Use `EPG.TITULO`.
+- **Content-type lies.** `livechannelonairnow.php` returns
+  `Content-Type: text/html` even though the body is JSON. The
+  worker proxy already overrides the response Content-Type to
+  `application/json; charset=utf-8`, so the client doesn't see
+  this — but a direct `fetch().json()` against the upstream URL
+  would still parse fine as long as you don't gate on the header.
+- **Reload cadence.** The `reload` field at index 0 ranges from
+  30s to 1300s. For talk-heavy slots (no track changes for an
+  hour) RTP returns 1300s; for music-driven slots it's typically
+  30–60s. Respect this; it's the broadcaster's hint about how
+  often their queue actually rotates.
+- **HTML entity decoding.** Some fields ship as HTML-escaped
+  Portuguese text (`&ccedil;`, `&iacute;`, `&atilde;`). Decode in
+  the fetcher (existing helper or a small entity map for the
+  Portuguese-specific characters).
+- **No auth, no rate-limit headers, no robots restrictions on the
+  player path.** The endpoint is what their own SPA hits; same
+  trust boundary.
+- **HTTPS only — already compliant** with the catalog's HTTPS-only
+  rule (audit #71).
