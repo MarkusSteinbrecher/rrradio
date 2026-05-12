@@ -9,54 +9,55 @@
    `data-theme="light"` on <html>. The toggle in main.ts persists the
    user's choice in localStorage and falls back to prefers-color-scheme.
    Every accent-tinted shadow / border uses color-mix() so changing
-   --accent automatically restyles every glow. */
+   --accent automatically restyles every glow. Values mirror the SwiftUI
+   `RrradioTheme` palette used by the iOS app. */
 :root, [data-theme="dark"] {
   --accent:  #ffff00;                       /* pure yellow */
-  --bg:      #0a0a0a;
-  --bg-2:    #131313;
-  --bg-3:    #1a1a1a;
-  --line:    rgba(255,255,255,0.08);
-  --line-2:  rgba(255,255,255,0.14);
+  --bg:      #3e3e39;
+  --bg-2:    #4e4e47;
+  --bg-3:    #5d5d55;
+  --line:    rgba(244,244,242,0.08);
+  --line-2:  rgba(244,244,242,0.14);
   --ink:     #f4f4f2;                  /* primary text */
   --ink-2:   rgba(244,244,242,0.80);   /* secondary text — was 0.62, bumped for legibility */
   --ink-3:   rgba(244,244,242,0.62);   /* labels + mono captions — was 0.38 (failed AA on small text) */
   --ink-4:   rgba(244,244,242,0.40);   /* faint borders / disabled — was 0.22 */
   --row-glow:        linear-gradient(90deg, rgba(255,255,255,0.02), transparent 60%);
-  --dial-overlay:    linear-gradient(180deg, rgba(255,255,255,0.015), transparent 30%, rgba(0,0,0,0.4));
-  --live-on: #4ade80;                  /* on-air green */
+  --dial-overlay:    linear-gradient(180deg, rgba(255,255,255,0.015), transparent 30%, rgba(0,0,0,0.28));
+  --live-on: #ffff00;
 }
 
 [data-theme="light"] {
   --accent:  #00a040;                  /* full green, visible on white */
-  --bg:      #fafaf8;                  /* warm off-white, paired with the warm dark */
-  --bg-2:    #f0f0ec;
-  --bg-3:    #e6e6e1;
-  --line:    rgba(10,10,10,0.10);
-  --line-2:  rgba(10,10,10,0.20);
-  --ink:     #0a0a0a;
-  --ink-2:   rgba(10,10,10,0.78);
-  --ink-3:   rgba(10,10,10,0.55);
-  --ink-4:   rgba(10,10,10,0.32);
+  --bg:      #f8f8f3;                  /* warm off-white, paired with the warm dark */
+  --bg-2:    #fffffb;
+  --bg-3:    #ecece4;
+  --line:    rgba(14,14,13,0.10);
+  --line-2:  rgba(14,14,13,0.20);
+  --ink:     #0e0e0d;
+  --ink-2:   rgba(14,14,13,0.80);
+  --ink-3:   rgba(14,14,13,0.62);
+  --ink-4:   rgba(14,14,13,0.40);
   --row-glow:        linear-gradient(90deg, rgba(0,0,0,0.025), transparent 60%);
   --dial-overlay:    linear-gradient(180deg, rgba(0,0,0,0.02), transparent 30%, rgba(0,0,0,0.10));
-  --live-on: #16a34a;                  /* darker on-air green for white bg */
+  --live-on: #00a040;
 }
 
 @media (prefers-color-scheme: light) {
   :root:not([data-theme]) {
     --accent:  #00a040;
-    --bg:      #fafaf8;
-    --bg-2:    #f0f0ec;
-    --bg-3:    #e6e6e1;
-    --line:    rgba(10,10,10,0.10);
-    --line-2:  rgba(10,10,10,0.20);
-    --ink:     #0a0a0a;
-    --ink-2:   rgba(10,10,10,0.78);
-    --ink-3:   rgba(10,10,10,0.55);
-    --ink-4:   rgba(10,10,10,0.32);
+    --bg:      #f8f8f3;
+    --bg-2:    #fffffb;
+    --bg-3:    #ecece4;
+    --line:    rgba(14,14,13,0.10);
+    --line-2:  rgba(14,14,13,0.20);
+    --ink:     #0e0e0d;
+    --ink-2:   rgba(14,14,13,0.80);
+    --ink-3:   rgba(14,14,13,0.62);
+    --ink-4:   rgba(14,14,13,0.40);
     --row-glow:     linear-gradient(90deg, rgba(0,0,0,0.025), transparent 60%);
     --dial-overlay: linear-gradient(180deg, rgba(0,0,0,0.02), transparent 30%, rgba(0,0,0,0.10));
-    --live-on: #16a34a;
+    --live-on: #00a040;
   }
 }
 
@@ -177,33 +178,23 @@ html.theme-switching *::after {
   align-items: center;
   background: transparent;
   border: 0;
-  padding: 4px 0;
+  padding: 0;
   color: var(--ink);
   cursor: pointer;
   transition: opacity 0.12s ease;
 }
 .wordmark:active { opacity: 0.6; }
-/* Spaced wordmark — replaces the original SVG zigzag mark. The leading
-   "r r r" keeps the accent color so the brand still reads as
-   "accent signal + ink type". */
-.wordmark-text {
-  font-family: var(--sans);
-  font-weight: 500;
-  font-size: 16px;
-  letter-spacing: 0.02em;
-  color: var(--ink);
-  white-space: nowrap;
+.wordmark-logo {
+  width: 34px;
+  height: 34px;
+  display: block;
 }
-.wordmark-text__rrr { color: var(--accent); }
-.wordmark-beta {
-  font-family: var(--sans);
-  font-weight: 500;
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  color: var(--accent);
-  margin-left: 6px;
-  align-self: flex-start;
-  padding-top: 2px;
+.wordmark-logo--light { display: none; }
+[data-theme="light"] .wordmark-logo--dark { display: none; }
+[data-theme="light"] .wordmark-logo--light { display: block; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) .wordmark-logo--dark { display: none; }
+  :root:not([data-theme]) .wordmark-logo--light { display: block; }
 }
 
 .topbar-actions {

@@ -106,10 +106,10 @@ describe('applyTheme', () => {
   it('syncs the theme-color meta tag', () => {
     theme.applyTheme('light');
     expect(document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.content)
-      .toBe('#fafaf8');
+      .toBe('#f8f8f3');
     theme.applyTheme('dark');
     expect(document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.content)
-      .toBe('#0a0a0a');
+      .toBe('#3e3e39');
   });
 });
 
