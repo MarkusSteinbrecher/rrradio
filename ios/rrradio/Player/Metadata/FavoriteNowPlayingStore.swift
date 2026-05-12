@@ -89,14 +89,18 @@ final class FavoriteNowPlayingStore {
         for station: Station,
         fetcher: StationMetadataFetcher? = nil,
         icyFetch: @escaping StationMetadataFetcher = { try await fetchIcyMetadata(station: $0) },
+        hlsFetch: @escaping StationMetadataFetcher = { try await fetchHlsTimedMetadata(station: $0) },
     ) async throws -> NowPlayingMetadata? {
         let resolvedFetcher = fetcher ?? (station.status == "icy-only" ? nil : metadataFetcher(for: station))
         if let fetcher = resolvedFetcher,
            let metadata = try await fetcher(station) {
             return metadata
         }
-        guard station.status == "icy-only" else { return nil }
-        return try await icyFetch(station)
+        if station.status == "icy-only" {
+            return try await icyFetch(station)
+        }
+        guard station.streamUrl.pathExtension.lowercased() == "m3u8" else { return nil }
+        return try await hlsFetch(station)
     }
 
     private nonisolated static func clean(_ value: String?) -> String? {

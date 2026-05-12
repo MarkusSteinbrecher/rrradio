@@ -123,7 +123,7 @@ struct StationListView: View {
     @State private var draggedFavoriteStationID: String?
     @State private var targetedFavoriteStationID: String?
     @State private var lastHandledFavoriteDropTargetID: String?
-    @State private var favoriteDeleteStationID: String?
+    @State private var favoriteDeleteModeEnabled = false
     @State private var filterTask: Task<Void, Never>?
     @State private var searchUpdateTask: Task<Void, Never>?
     @State private var radioBrowserSearchTask: Task<Void, Never>?
@@ -150,6 +150,7 @@ struct StationListView: View {
     private let pageSwipeDirectionTolerance: CGFloat = 0.55
     private let topbarControlSize: CGFloat = 36
     private let topbarControlSpacing: CGFloat = 8
+    private let favoriteRemoveControlTrailingInset: CGFloat = 20
     private let sortNameColumnOffset: CGFloat = 54
     private let sortAlphabetControlWidth: CGFloat = 44
     private var sortSideColumnWidth: CGFloat { sortNameColumnOffset + sortAlphabetControlWidth }
@@ -297,6 +298,16 @@ struct StationListView: View {
     }
     private var settingsColorScheme: ColorScheme {
         theme.preferredColorScheme ?? colorScheme
+    }
+    private var brandLogoColorScheme: ColorScheme {
+        switch theme.choice {
+        case .system:
+            theme.systemColorScheme
+        case .light:
+            .light
+        case .dark:
+            .dark
+        }
     }
     private var settingsColorSchemeKey: String {
         switch settingsColorScheme {
@@ -458,6 +469,7 @@ struct StationListView: View {
             }
             .onChange(of: favoritesDisplayModeRaw) { _, _ in
                 listScrollOffset = 0
+                hideFavoriteDeleteMode(animated: false)
                 resetPageSwipeTracking()
                 updateFavoriteNowPlayingPolling()
             }
@@ -865,6 +877,10 @@ struct StationListView: View {
         return itemCount * topbarControlSize + itemSpacing + 6
     }
 
+    private var favoriteRemoveControlSlotWidth: CGFloat {
+        topbarControlSize + favoriteRemoveControlTrailingInset
+    }
+
     private var topbarCollapse: CGFloat {
         min(max(listScrollOffset, 0), statusCollapseDistance)
     }
@@ -916,8 +932,34 @@ struct StationListView: View {
 
     private var inlineFavoritesControls: some View {
         inlineHeaderControls(topPadding: 6) {
-            statusToolbar
+            ZStack {
+                statusToolbar
+                if showsFavoriteDeleteModeButton {
+                    HStack {
+                        Spacer()
+                        favoriteDeleteModeButton
+                    }
+                }
+            }
         }
+    }
+
+    private var showsFavoriteDeleteModeButton: Bool {
+        canReorderFavorites
+    }
+
+    private var favoriteDeleteModeButton: some View {
+        Button {
+            toggleFavoriteDeleteMode()
+        } label: {
+            Image(systemName: favoriteDeleteModeEnabled ? "minus.circle" : "trash")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(RrradioTheme.ink3)
+                .frame(width: topbarControlSize, height: topbarControlSize)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(favoriteDeleteModeEnabled ? "Done removing favorites" : "Remove favorites")
     }
 
     private var brandActionsRow: some View {
@@ -937,6 +979,7 @@ struct StationListView: View {
                     .scaledToFit()
                     .frame(width: 36, height: 36)
                     .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                    .environment(\.colorScheme, brandLogoColorScheme)
             }
             .buttonStyle(.plain)
             .accessibilityLabel(locale.text(.goHome))
@@ -1541,7 +1584,7 @@ struct StationListView: View {
                     ForEach(visibleStations) { station in
                         StationRow(
                             station: station,
-                            nowPlaying: usesFavoritesRows ? favoriteNowPlaying.entries[station.id]?.metadata : nil,
+                            nowPlaying: usesFavoritesRows ? favoriteNowPlayingMetadata(for: station) : nil,
                             mode: usesFavoritesRows ? .favoritesExpanded : .standard,
                             isCurrent: player.current?.id == station.id,
                             isPlaying: player.current?.id == station.id && player.state == .playing,
@@ -1606,20 +1649,7 @@ struct StationListView: View {
             }
 
             ForEach(visibleStations) { station in
-                StationRow(
-                    station: station,
-                    nowPlaying: favoriteNowPlaying.entries[station.id]?.metadata,
-                    mode: .favoritesListCard,
-                    isCurrent: player.current?.id == station.id,
-                    isPlaying: player.current?.id == station.id && player.state == .playing,
-                    isFavorite: true,
-                    isCustom: library.isCustom(station),
-                    onPlay: {
-                        play(station)
-                    },
-                    onToggleFavorite: {},
-                    showsFavoriteButton: false,
-                )
+                favoriteListRow(station)
                 .listRowInsets(EdgeInsets())
                 .listRowSeparator(.hidden)
                 .listRowBackground(RrradioTheme.bg)
@@ -1645,6 +1675,52 @@ struct StationListView: View {
             ScrollOffsetObserver(offset: $listScrollOffset)
                 .frame(width: 0, height: 0)
         }
+    }
+
+    private func favoriteListRow(_ station: Station) -> some View {
+        ZStack(alignment: .trailing) {
+            HStack(spacing: 0) {
+                StationRow(
+                    station: station,
+                    nowPlaying: favoriteNowPlayingMetadata(for: station),
+                    mode: .favoritesListCard,
+                    isCurrent: player.current?.id == station.id,
+                    isPlaying: player.current?.id == station.id && player.state == .playing,
+                    isFavorite: true,
+                    isCustom: library.isCustom(station),
+                    onPlay: {
+                        if favoriteDeleteModeEnabled {
+                            hideFavoriteDeleteMode()
+                        } else {
+                            play(station)
+                        }
+                    },
+                    onToggleFavorite: {},
+                    showsFavoriteButton: false,
+                )
+                .frame(maxWidth: .infinity)
+
+                if favoriteDeleteModeEnabled {
+                    Color.clear
+                        .frame(width: favoriteRemoveControlSlotWidth)
+                        .accessibilityHidden(true)
+                }
+            }
+
+            if favoriteDeleteModeEnabled {
+                favoriteDeleteButton(station)
+                    .padding(.trailing, favoriteRemoveControlTrailingInset)
+                    .transition(.scale(scale: 0.82).combined(with: .opacity))
+            }
+        }
+        .animation(.snappy(duration: 0.16), value: favoriteDeleteModeEnabled)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            if favoriteDeleteModeEnabled {
+                hideFavoriteDeleteMode()
+            }
+        }
+        .accessibilityHint(favoriteDeleteModeEnabled ? "Tap outside remove buttons to exit remove mode" : "")
     }
 
     private var favoritesTileGrid: some View {
@@ -1692,6 +1768,9 @@ struct StationListView: View {
             }
             .padding(.top, 0)
             .padding(.bottom, 16)
+            .background {
+                favoriteDeleteModeDismissBackground
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .scrollDismissesKeyboard(.immediately)
@@ -1744,12 +1823,26 @@ struct StationListView: View {
             }
             .padding(.top, 0)
             .padding(.bottom, 18)
+            .background {
+                favoriteDeleteModeDismissBackground
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .scrollDismissesKeyboard(.immediately)
         .scrollDisabled(isHorizontalPageSwipeLocked)
         .background(RrradioTheme.bg)
         .onDisappear(perform: clearFavoriteGridDragState)
+    }
+
+    @ViewBuilder
+    private var favoriteDeleteModeDismissBackground: some View {
+        if favoriteDeleteModeEnabled {
+            Color.clear
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    hideFavoriteDeleteMode()
+                }
+        }
     }
 
     @ViewBuilder
@@ -1760,40 +1853,31 @@ struct StationListView: View {
         if canReorderFavorites {
             let showsReorderPlaceholder = draggedFavoriteStationID == station.id
                 && targetedFavoriteStationID != nil
-            let showsDeleteButton = favoriteDeleteStationID == station.id
+            let showsDeleteButton = favoriteDeleteModeEnabled
                 && targetedFavoriteStationID == nil
             ZStack(alignment: .topTrailing) {
                 content()
 
                 if showsDeleteButton {
                     favoriteDeleteButton(station)
-                        .padding(.top, -8)
-                        .padding(.trailing, -8)
+                        .padding(4)
                 }
             }
                 .opacity(showsReorderPlaceholder ? 0 : 1)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    if favoriteDeleteStationID != nil {
-                        hideFavoriteDeleteButton()
+                    if favoriteDeleteModeEnabled {
+                        hideFavoriteDeleteMode()
                     } else {
                         handleFavoriteGridTap(station)
                     }
                 }
                 .accessibilityAddTraits(.isButton)
-                .simultaneousGesture(
-                    LongPressGesture(minimumDuration: 0.42, maximumDistance: 10)
-                        .onEnded { _ in
-                            showFavoriteDeleteButton(for: station)
-                        },
-                )
                 .onDrag {
                     draggedFavoriteStationID = station.id
                     targetedFavoriteStationID = nil
                     lastHandledFavoriteDropTargetID = nil
-                    withAnimation(.snappy(duration: 0.16)) {
-                        favoriteDeleteStationID = station.id
-                    }
+                    favoriteDeleteModeEnabled = false
                     UIImpactFeedbackGenerator(style: .light).impactOccurred()
                     return NSItemProvider(object: station.id as NSString)
                 }
@@ -1808,7 +1892,7 @@ struct StationListView: View {
                     ),
                 )
                 .accessibilityHidden(showsReorderPlaceholder)
-                .accessibilityHint("Drag to reorder favorites")
+                .accessibilityHint(favoriteDeleteModeEnabled ? "Tap outside remove buttons to exit remove mode" : "Drag to reorder favorites")
         } else {
             content()
                 .contentShape(Rectangle())
@@ -1823,27 +1907,32 @@ struct StationListView: View {
         guard draggedFavoriteStationID != nil
             || targetedFavoriteStationID != nil
             || lastHandledFavoriteDropTargetID != nil
-            || favoriteDeleteStationID != nil else { return }
+            || favoriteDeleteModeEnabled else { return }
         draggedFavoriteStationID = nil
         targetedFavoriteStationID = nil
         lastHandledFavoriteDropTargetID = nil
-        favoriteDeleteStationID = nil
+        favoriteDeleteModeEnabled = false
     }
 
-    private func showFavoriteDeleteButton(for station: Station) {
-        guard canReorderFavorites,
-              targetedFavoriteStationID == nil,
-              draggedFavoriteStationID == nil || draggedFavoriteStationID == station.id else { return }
+    private func toggleFavoriteDeleteMode() {
+        guard canReorderFavorites else { return }
+        activeFilterPicker = nil
         withAnimation(.snappy(duration: 0.16)) {
-            favoriteDeleteStationID = station.id
+            favoriteDeleteModeEnabled.toggle()
         }
-        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        if favoriteDeleteModeEnabled {
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        }
     }
 
-    private func hideFavoriteDeleteButton() {
-        guard favoriteDeleteStationID != nil else { return }
-        withAnimation(.snappy(duration: 0.12)) {
-            favoriteDeleteStationID = nil
+    private func hideFavoriteDeleteMode(animated: Bool = true) {
+        guard favoriteDeleteModeEnabled else { return }
+        if animated {
+            withAnimation(.snappy(duration: 0.12)) {
+                favoriteDeleteModeEnabled = false
+            }
+        } else {
+            favoriteDeleteModeEnabled = false
         }
     }
 
@@ -1851,12 +1940,11 @@ struct StationListView: View {
         Button {
             removeFavoriteFromGrid(station)
         } label: {
-            Image(systemName: "trash")
+            Image(systemName: "minus.circle")
                 .font(.system(size: 14, weight: .semibold))
-                .foregroundStyle(.red)
-                .frame(width: 32, height: 32)
-                .background(Circle().fill(RrradioTheme.bg2))
-                .overlay(Circle().stroke(Color.red.opacity(0.34)))
+                .foregroundStyle(RrradioTheme.ink3)
+                .frame(width: topbarControlSize, height: topbarControlSize)
+                .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .accessibilityLabel("Remove from favorites")
@@ -1864,7 +1952,6 @@ struct StationListView: View {
     }
 
     private func removeFavoriteFromGrid(_ station: Station) {
-        hideFavoriteDeleteButton()
         filterTask?.cancel()
         withAnimation(.snappy(duration: 0.18)) {
             filteredStations.removeAll { $0.id == station.id }
@@ -1955,6 +2042,42 @@ struct StationListView: View {
         return stationInfoPreviewMetadata[station.id] ?? favoriteNowPlaying.entries[station.id]?.metadata
     }
 
+    private func favoriteNowPlayingMetadata(for station: Station) -> NowPlayingMetadata? {
+        let cached = favoriteNowPlaying.entries[station.id]?.metadata
+        guard player.current?.id == station.id else { return cached }
+
+        let liveArtist = cleanInfoValue(player.nowPlayingArtist)
+        let liveTitle = cleanInfoValue(player.nowPlayingTitle)
+        let liveProgramName = cleanInfoValue(player.nowPlayingProgramName)
+        let liveProgramSubtitle = cleanInfoValue(player.nowPlayingProgramSubtitle)
+        let coverUrl = player.nowPlayingCoverUrl ?? cached?.coverUrl
+
+        guard liveArtist != nil
+                || liveTitle != nil
+                || liveProgramName != nil
+                || liveProgramSubtitle != nil
+                || coverUrl != nil else {
+            return cached
+        }
+
+        let title = liveTitle ?? cached?.title
+        let artist = liveTitle == nil ? liveArtist ?? cached?.artist : liveArtist
+        let raw = liveTitle.map { title in
+            [liveArtist, title]
+                .compactMap { $0 }
+                .joined(separator: " - ")
+        } ?? cached?.raw ?? liveProgramName ?? station.name
+
+        return NowPlayingMetadata(
+            artist: artist,
+            title: title,
+            raw: raw,
+            programName: liveProgramName ?? cached?.programName,
+            programSubtitle: liveProgramSubtitle ?? cached?.programSubtitle,
+            coverUrl: coverUrl,
+        )
+    }
+
     private func fetchStationInfoMetadataIfNeeded(for station: Station) {
         guard player.current?.id != station.id,
               stationInfoPreviewMetadata[station.id] == nil,
@@ -2000,7 +2123,7 @@ struct StationListView: View {
               let sourceIndex = filteredStations.firstIndex(where: { $0.id == draggedID }),
               let targetIndex = filteredStations.firstIndex(where: { $0.id == targetID }) else { return }
         filterTask?.cancel()
-        favoriteDeleteStationID = nil
+        favoriteDeleteModeEnabled = false
 
         var ordered = filteredStations
         let destination = targetIndex > sourceIndex ? targetIndex + 1 : targetIndex
@@ -2857,8 +2980,8 @@ struct StationRow: View {
                 rowText
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                if usesFavoritesMetadataLayout, expandedArtworkURL != nil {
-                    expandedCoverArtwork
+                if usesFavoritesMetadataLayout {
+                    expandedCoverArtworkSlot
                         .frame(width: expandedCoverArtworkSize, height: expandedCoverArtworkSize)
                         .layoutPriority(1)
                 }
@@ -3100,7 +3223,9 @@ struct StationRow: View {
         Text(value)
             .font(detailFont(for: style))
             .foregroundStyle(detailColor(for: style))
-            .lineLimit(1)
+            .lineLimit(detailLineLimit(for: style))
+            .multilineTextAlignment(.leading)
+            .fixedSize(horizontal: false, vertical: true)
     }
 
     private func detailFont(for style: DetailTextStyle) -> Font {
@@ -3120,6 +3245,25 @@ struct StationRow: View {
             RrradioTheme.ink2
         case .secondary, .mono:
             RrradioTheme.ink3
+        }
+    }
+
+    private func detailLineLimit(for style: DetailTextStyle) -> Int {
+        switch style {
+        case .primary, .secondary:
+            usesFavoritesMetadataLayout ? 2 : 1
+        case .mono:
+            1
+        }
+    }
+
+    @ViewBuilder
+    private var expandedCoverArtworkSlot: some View {
+        if expandedArtworkURL != nil {
+            expandedCoverArtwork
+        } else {
+            Color.clear
+                .accessibilityHidden(true)
         }
     }
 
@@ -3401,7 +3545,7 @@ private struct FavoriteStationAppIcon: View {
                 .frame(maxWidth: .infinity)
                 .fixedSize(horizontal: false, vertical: true)
         }
-        .frame(maxWidth: .infinity, minHeight: 96, alignment: .top)
+        .frame(maxWidth: .infinity, minHeight: 112, alignment: .center)
         .contentShape(Rectangle())
     }
 

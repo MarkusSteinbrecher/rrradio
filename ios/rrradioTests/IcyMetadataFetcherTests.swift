@@ -106,6 +106,70 @@ final class IcyMetadataFetcherTests: XCTestCase {
         XCTAssertEqual(result, NowPlayingMetadata(artist: "Artist", title: "Song", raw: "Artist - Song"))
     }
 
+    func testFindsLastHlsTimedMetadataSegmentURL() {
+        let playlist = """
+        #EXTM3U
+        #EXT-X-TARGETDURATION:7
+        #EXTINF:6.016,
+        first.aac
+        #EXTINF:6.016,
+        segments/latest.aac
+        """
+
+        XCTAssertEqual(
+            hlsTimedMetadataSegmentURL(
+                from: playlist,
+                playlistURL: URL(string: "https://example.com/live/chunks.m3u8")!,
+            ),
+            URL(string: "https://example.com/live/segments/latest.aac"),
+        )
+    }
+
+    func testParsesHlsTimedMetadataTitleFrame() {
+        let metadata = parseHlsTimedMetadata(from: hlsID3Segment(title: "Pablo López - El niño del espacio"))
+
+        XCTAssertEqual(
+            metadata,
+            NowPlayingMetadata(artist: "Pablo López", title: "El niño del espacio", raw: "Pablo López - El niño del espacio"),
+        )
+    }
+
+    func testFetchHlsTimedMetadataReadsPlaylistAndSegmentHeader() async throws {
+        let playlistURL = URL(string: "https://example.com/live/chunks.m3u8")!
+        let segmentURL = URL(string: "https://example.com/live/latest.aac")!
+        let station = Station(
+            id: "hls",
+            name: "HLS",
+            streamUrl: playlistURL,
+            metadataUrl: nil,
+            metadata: nil,
+            status: "stream-only",
+        )
+        let playlist = """
+        #EXTM3U
+        #EXT-X-TARGETDURATION:7
+        #EXTINF:6.016,
+        latest.aac
+        """.data(using: .utf8)!
+        let segment = hlsID3Segment(title: "Artist - Song")
+        var segmentRange: String?
+
+        let metadata = try await fetchHlsTimedMetadata(station: station) { request in
+            if request.url == playlistURL {
+                return (playlist, self.response(for: playlistURL))
+            }
+            if request.url == segmentURL {
+                segmentRange = request.value(forHTTPHeaderField: "Range")
+                return (segment, self.response(for: segmentURL, statusCode: 206))
+            }
+            XCTFail("Unexpected request: \(request.url?.absoluteString ?? "nil")")
+            return (Data(), self.response(for: request.url ?? playlistURL, statusCode: 404))
+        }
+
+        XCTAssertEqual(metadata, NowPlayingMetadata(artist: "Artist", title: "Song", raw: "Artist - Song"))
+        XCTAssertEqual(segmentRange, "bytes=0-98303")
+    }
+
     func testRegistryFindsIcyOnlyStations() {
         var station = station()
         station.status = "icy-only"
@@ -120,5 +184,35 @@ final class IcyMetadataFetcherTests: XCTestCase {
             data.append(contentsOf: repeatElement(0, count: targetLength - data.count))
         }
         return data
+    }
+
+    private func hlsID3Segment(title: String) -> Data {
+        let frames = id3TextFrame(id: "TIT2", value: title)
+        var tag = Data("ID3".utf8)
+        tag.append(contentsOf: [4, 0, 0])
+        tag.append(contentsOf: synchsafeBytes(frames.count))
+        tag.append(frames)
+        tag.append(Data("audio".utf8))
+        return tag
+    }
+
+    private func id3TextFrame(id: String, value: String) -> Data {
+        var payload = Data([3])
+        payload.append(Data(value.utf8))
+
+        var frame = Data(id.utf8)
+        frame.append(contentsOf: synchsafeBytes(payload.count))
+        frame.append(contentsOf: [0, 0])
+        frame.append(payload)
+        return frame
+    }
+
+    private func synchsafeBytes(_ value: Int) -> [UInt8] {
+        [
+            UInt8((value >> 21) & 0x7F),
+            UInt8((value >> 14) & 0x7F),
+            UInt8((value >> 7) & 0x7F),
+            UInt8(value & 0x7F),
+        ]
     }
 }
