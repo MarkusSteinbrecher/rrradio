@@ -65,6 +65,7 @@ struct rrradioApp: App {
                     diagnostics.record("app", "scene phase", details: ["phase": "\(phase)"])
                     if phase == .active {
                         Task { await cloudSync.refreshFromCloud() }
+                        Task { await catalog.refreshIfStale() }
                     }
                 }
                 .onChange(of: network.snapshot) { oldSnapshot, newSnapshot in

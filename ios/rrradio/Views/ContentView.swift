@@ -18,7 +18,7 @@ struct ContentView: View {
     var body: some View {
         StationListView(tab: $tab, searchFocusedExternally: $searchFocused)
             .background(RrradioTheme.bg.ignoresSafeArea())
-        .safeAreaInset(edge: .bottom) {
+        .safeAreaInset(edge: .bottom, spacing: 0) {
             bottomChrome
         }
         .animation(.snappy, value: player.current?.id)
@@ -150,41 +150,47 @@ private struct BottomTabBar: View {
             tabButton(.browse, icon: "globe", title: locale.text(.browse))
             tabButton(.favorites, icon: "heart", title: locale.text(.favorites))
         }
-        .background(RrradioTheme.bg)
+        .background(RrradioTheme.bg.ignoresSafeArea(edges: .bottom))
         .overlay(alignment: .top) {
             Rectangle()
                 .fill(RrradioTheme.line)
                 .frame(height: 1)
         }
+        .overlay(alignment: .top) {
+            HStack(spacing: 0) {
+                tabIndicator(.browse)
+                tabIndicator(.favorites)
+            }
+            .frame(height: 2)
+        }
+    }
+
+    private func tabIndicator(_ value: AppTab) -> Color {
+        tab == value ? RrradioTheme.accent : .clear
     }
 
     private func tabButton(_ value: AppTab, icon: String, title: String) -> some View {
-        Button {
+        let selected = tab == value
+        return Button {
             withAnimation(.snappy) {
                 tab = value
             }
         } label: {
             VStack(spacing: 4) {
                 Image(systemName: icon)
-                    .font(.system(size: 20, weight: .regular))
+                    .font(.system(size: 21, weight: selected ? .semibold : .regular))
                 Text(title)
-                    .font(.system(size: 9.5, weight: .medium, design: .monospaced))
+                    .font(.system(size: 9.5, weight: selected ? .semibold : .medium, design: .monospaced))
                     .textCase(.uppercase)
                     .tracking(1.1)
             }
-            .foregroundStyle(RrradioTheme.ink3)
+            .foregroundStyle(selected ? RrradioTheme.accent : RrradioTheme.ink3)
             .frame(maxWidth: .infinity)
-            .padding(.top, 10)
-            .padding(.bottom, 8)
-            .overlay(alignment: .top) {
-                if tab == value {
-                    Rectangle()
-                        .fill(RrradioTheme.accent)
-                        .frame(width: 66, height: 2)
-                }
-            }
+            .padding(.top, 6)
+            .padding(.bottom, 0)
         }
         .buttonStyle(.plain)
+        .frame(maxWidth: .infinity)
     }
 }
 

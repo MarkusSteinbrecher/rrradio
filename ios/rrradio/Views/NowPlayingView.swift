@@ -1956,16 +1956,13 @@ private struct ArtworkView: View {
                 .overlay(RoundedRectangle(cornerRadius: 6).stroke(RrradioTheme.line))
 
             if let url {
-                AsyncImage(url: url) { phase in
-                    switch phase {
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .scaledToFit()
-                            .padding(0)
-                    default:
-                        fallback
-                    }
+                CachedRemoteImage(url: url) { image in
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .padding(0)
+                } placeholder: {
+                    fallback
                 }
             } else {
                 fallback

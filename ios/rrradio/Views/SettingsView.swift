@@ -89,6 +89,7 @@ private struct SettingsPageView: View {
     @State private var landingStationQuery = ""
     @State private var copiedDiagnostics = false
     @State private var confirmCloudDelete = false
+    @State private var isRefreshingCatalog = false
 
     var body: some View {
         ScrollView {
@@ -106,6 +107,10 @@ private struct SettingsPageView: View {
 
                     settingsSection("iCloud Sync") {
                         cloudSyncSection
+                    }
+
+                    settingsSection("Catalog") {
+                        catalogSection
                     }
 
                     settingsSection(locale.text(.landingPage)) {
@@ -270,6 +275,74 @@ private struct SettingsPageView: View {
         .background(RrradioTheme.bg2)
         .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
         .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    private var catalogSection: some View {
+        VStack(spacing: 0) {
+            HStack(spacing: 12) {
+                Image(systemName: "antenna.radiowaves.left.and.right")
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .frame(width: 22)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Station catalog")
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundStyle(RrradioTheme.ink)
+                    Text(catalogDetail)
+                        .font(.system(size: 12))
+                        .foregroundStyle(RrradioTheme.ink3)
+                        .lineLimit(3)
+                }
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 10)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(minHeight: 68)
+            .overlay(alignment: .bottom) {
+                Rectangle()
+                    .fill(RrradioTheme.line)
+                    .frame(height: 1)
+            }
+
+            HStack(spacing: 10) {
+                diagnosticsButton(isRefreshingCatalog ? "Refreshing" : "Refresh", systemImage: "arrow.clockwise") {
+                    refreshCatalogFromSettings()
+                }
+                .disabled(isRefreshingCatalog)
+            }
+            .font(.system(size: 12, weight: .semibold, design: .monospaced))
+            .padding(14)
+        }
+        .background(RrradioTheme.bg2)
+        .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    private var catalogDetail: String {
+        if isRefreshingCatalog {
+            return "Refreshing station list..."
+        }
+
+        switch catalog.state {
+        case .idle:
+            return "Loaded on app start and checked occasionally when the app becomes active."
+        case .loading:
+            return "Loading station list..."
+        case .loaded:
+            return "\(catalog.stations.count) stations loaded. The app checks for updates occasionally."
+        case let .failed(message):
+            return "Could not refresh: \(message)"
+        }
+    }
+
+    private func refreshCatalogFromSettings() {
+        guard !isRefreshingCatalog else { return }
+        isRefreshingCatalog = true
+        Task { @MainActor in
+            await catalog.refresh()
+            isRefreshingCatalog = false
+        }
     }
 
     private var cloudSyncIcon: String {

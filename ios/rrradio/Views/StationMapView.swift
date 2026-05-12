@@ -243,16 +243,13 @@ private struct StationMapPin: View {
     var body: some View {
         ZStack {
             if showsLogo, let favicon {
-                AsyncImage(url: favicon) { phase in
-                    switch phase {
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .scaledToFill()
-                    default:
-                        Circle()
-                            .fill(fill)
-                    }
+                CachedRemoteImage(url: favicon) { image in
+                    image
+                        .resizable()
+                        .scaledToFill()
+                } placeholder: {
+                    Circle()
+                        .fill(fill)
                 }
                 .frame(width: size, height: size)
                 .clipShape(Circle())

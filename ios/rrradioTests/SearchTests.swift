@@ -55,6 +55,7 @@ final class SearchTests: XCTestCase {
     func testSubstringMatchOnName() {
         XCTAssertTrue(stationMatches(station(name: "Radio Eins"), query: "eins"))
         XCTAssertTrue(stationMatches(station(name: "Radio Eins"), query: "RADIO"))
+        XCTAssertTrue(stationMatches(station(name: "Kontrafunk"), query: "ontra"))
     }
 
     func testWhitespaceInsensitiveMatch() {

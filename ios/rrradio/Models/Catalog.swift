@@ -41,6 +41,7 @@ final class Catalog {
     }
     private(set) var browseOrdered: [Station] = []
     private(set) var state: LoadState = .idle
+    private(set) var lastNetworkRefreshAt: Date?
 
     nonisolated static let canonicalURL = URL(string: "https://rrradio.org/stations.json")!
     nonisolated static var defaultCacheURL: URL {
@@ -78,6 +79,13 @@ final class Catalog {
         await load(force: true)
     }
 
+    func refreshIfStale(minimumInterval: TimeInterval = 6 * 60 * 60, now: Date = Date()) async {
+        if let lastNetworkRefreshAt, now.timeIntervalSince(lastNetworkRefreshAt) < minimumInterval {
+            return
+        }
+        await load(force: true)
+    }
+
     private func load(force: Bool) async {
         if (!force && !stations.isEmpty) || state == .loading { return }
         diagnosticRecord("catalog", force ? "refresh started" : "load started")
@@ -103,6 +111,7 @@ final class Catalog {
             let parsed = try JSONDecoder().decode(CatalogResponse.self, from: data)
             stations = parsed.stations
             state = .loaded
+            lastNetworkRefreshAt = Date()
             try? data.write(to: cacheURL, options: .atomic)
             diagnosticRecord("catalog", "network loaded", details: ["stations": String(parsed.stations.count)])
         } catch {
