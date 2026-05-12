@@ -165,8 +165,18 @@ private struct BottomTabBar: View {
         }
     }
 
-    private func tabIndicator(_ value: AppTab) -> Color {
-        tab == value ? RrradioTheme.accent : .clear
+    private func tabIndicator(_ value: AppTab) -> some View {
+        GeometryReader { proxy in
+            ZStack(alignment: .top) {
+                if tab == value {
+                    Rectangle()
+                        .fill(RrradioTheme.accent)
+                        .frame(width: proxy.size.width * 0.5, height: 2)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        }
+        .frame(maxWidth: .infinity)
     }
 
     private func tabButton(_ value: AppTab, icon: String, title: String) -> some View {
@@ -186,7 +196,7 @@ private struct BottomTabBar: View {
             }
             .foregroundStyle(selected ? RrradioTheme.accent : RrradioTheme.ink3)
             .frame(maxWidth: .infinity)
-            .padding(.top, 6)
+            .padding(.top, 9)
             .padding(.bottom, 0)
         }
         .buttonStyle(.plain)
@@ -203,5 +213,6 @@ private struct BottomTabBar: View {
         .environment(WakeAlarm())
         .environment(ThemeController())
         .environment(LocaleController())
+        .environment(CloudSyncController())
         .environment(NetworkMonitor(startsAutomatically: false))
 }

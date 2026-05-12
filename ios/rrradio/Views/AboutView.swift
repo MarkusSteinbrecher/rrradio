@@ -41,7 +41,7 @@ struct AboutContentView: View {
                     }
 
                     aboutSection("Features") {
-                        featureRow("magnifyingglass", "Browse & search", "Curated stations plus thousands more from Radio Browser, filterable by genre, country, news, curated status, or map.")
+                        featureRow("magnifyingglass", "Browse & search", "Curated stations plus thousands more from Radio Browser, filterable by genre, country, news, or map.")
                         featureRow("lock", "Lock-screen controls", "Play and pause from iOS Now Playing, bluetooth headphones, and system media controls.")
                         featureRow("heart", "Favorites & recents", "Heart stations to save them locally; recently played stations fill in automatically.")
                         featureRow("alarm", "Wake to radio", "Pick a station and time. The app can start playback while it remains alive; iOS shows a notification fallback if needed.")
@@ -65,10 +65,7 @@ struct AboutContentView: View {
 
                     aboutSection("Catalog") {
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("Curated stations are hand-picked. Each one shows up to three small stars next to its tags:")
-                            Text("* verified stream")
-                            Text("** current track")
-                            Text("*** program and richer metadata")
+                            Text("Curated stations are hand-picked. A calendar icon next to the country flag marks stations where the app can show program information.")
                             Text("The wider catalog comes from Radio Browser, a community-maintained directory of internet radio stations around the world. You can also add your own stream; your private list lives on this device only.")
                             inlineLink("Radio Browser", url: radioBrowserURL)
                         }

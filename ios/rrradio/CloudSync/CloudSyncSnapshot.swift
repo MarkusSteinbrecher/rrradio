@@ -8,6 +8,7 @@ struct CloudSyncSnapshot: Equatable {
     var sleepTimerDefaultMinutes: Int
     var landingPage: String
     var landingStationID: String
+    var favoritesDisplayMode: String
     var wakeDefaultTime: String
     var wakeNotificationsEnabled: Bool
     var carModeAutomaticEnabled: Bool
@@ -27,6 +28,7 @@ struct CloudSyncSnapshot: Equatable {
         sleepTimerDefaultMinutes: SleepTimer.fallbackDefaultMinutes,
         landingPage: LandingPage.browse.rawValue,
         landingStationID: "",
+        favoritesDisplayMode: FavoritesDisplayMode.list.rawValue,
         wakeDefaultTime: WakeAlarm.fallbackDefaultTime,
         wakeNotificationsEnabled: false,
         carModeAutomaticEnabled: true,
@@ -56,6 +58,7 @@ enum CloudSyncMerge {
                 : local.sleepTimerDefaultMinutes,
             landingPage: remote.hasPreferences ? remote.landingPage : local.landingPage,
             landingStationID: remote.hasPreferences ? remote.landingStationID : local.landingStationID,
+            favoritesDisplayMode: remote.hasPreferences ? remote.favoritesDisplayMode : local.favoritesDisplayMode,
             wakeDefaultTime: remote.hasPreferences ? remote.wakeDefaultTime : local.wakeDefaultTime,
             wakeNotificationsEnabled: remote.hasPreferences
                 ? remote.wakeNotificationsEnabled

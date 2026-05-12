@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 /// Persistent bottom strip mirroring the web app's mini player.
 struct MiniPlayerView: View {
@@ -6,6 +7,7 @@ struct MiniPlayerView: View {
     @Environment(SleepTimer.self) private var sleepTimer
     @Environment(NetworkMonitor.self) private var network
     @State private var presentNowPlaying = false
+    @State private var showingClosePrompt = false
     private let offlineTint = Color(red: 1, green: 0.45, blue: 0.45)
 
     var body: some View {
@@ -36,6 +38,21 @@ struct MiniPlayerView: View {
                     .frame(width: 36, height: 36)
                     .overlay(Circle().stroke(offlineTint.opacity(0.22), lineWidth: 1))
                     .accessibilityHidden(true)
+            } else if showingClosePrompt {
+                Button {
+                    closePlayer()
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundStyle(.white)
+                        .frame(width: 36, height: 36)
+                        .background(Color.red)
+                        .clipShape(Circle())
+                }
+                .buttonStyle(.plain)
+                .disabled(player.current == nil)
+                .accessibilityLabel("Close mini player")
+                .transition(.scale(scale: 0.92).combined(with: .opacity))
             } else {
                 Button {
                     player.toggle()
@@ -60,14 +77,30 @@ struct MiniPlayerView: View {
             MiniPlayerTopRule(isActive: player.current != nil || network.snapshot.isOffline, tint: topRuleTint)
         }
         .contentShape(Rectangle())
+        .simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.45)
+                .onEnded { _ in
+                    showClosePrompt()
+                },
+        )
         .onTapGesture {
             guard player.current != nil else { return }
+            guard !showingClosePrompt else {
+                withAnimation(.snappy(duration: 0.12)) {
+                    showingClosePrompt = false
+                }
+                return
+            }
             presentNowPlaying = true
         }
         .sheet(isPresented: $presentNowPlaying) {
             NowPlayingView()
                 .presentationDetents([.large])
                 .presentationDragIndicator(.hidden)
+        }
+        .onChange(of: player.current?.id) { _, stationID in
+            guard stationID == nil else { return }
+            showingClosePrompt = false
         }
     }
 
@@ -171,6 +204,22 @@ struct MiniPlayerView: View {
 
     private var topRuleTint: Color {
         network.snapshot.isOffline ? offlineTint.opacity(0.70) : RrradioTheme.accent
+    }
+
+    private func showClosePrompt() {
+        guard player.current != nil else { return }
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        withAnimation(.snappy(duration: 0.12)) {
+            showingClosePrompt = true
+        }
+    }
+
+    private func closePlayer() {
+        withAnimation(.snappy(duration: 0.12)) {
+            showingClosePrompt = false
+        }
+        presentNowPlaying = false
+        player.stop()
     }
 }
 

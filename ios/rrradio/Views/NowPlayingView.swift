@@ -209,6 +209,17 @@ struct NowPlayingView: View {
                     }
                 }
                 .disabled(player.current == nil)
+
+                Button {
+                    closePlayerAndDismiss()
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(RrradioTheme.ink2)
+                        .frame(width: 38, height: 38)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(locale.text(.close))
             }
             .padding(.horizontal, 12)
         }
@@ -456,20 +467,30 @@ struct NowPlayingView: View {
                         Image(systemName: "chevron.down")
                             .font(.system(size: 20, weight: .medium))
                             .foregroundStyle(RrradioTheme.ink2)
-                            .frame(width: 40, height: 40)
+                            .frame(width: 38, height: 38)
                     }
                     .buttonStyle(.plain)
                     .accessibilityLabel(locale.text(.dismissNowPlaying))
                 } else {
                     Color.clear
-                        .frame(width: 40, height: 40)
+                        .frame(width: 38, height: 38)
                 }
 
                 Spacer()
+
+                Button {
+                    closePlayerAndDismiss()
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 17, weight: .semibold))
+                        .foregroundStyle(RrradioTheme.ink2)
+                        .frame(width: 44, height: 44)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(locale.text(.close))
             }
         }
-        .padding(.leading, 14)
-        .padding(.trailing, 24)
+        .padding(.horizontal, 24)
         .padding(.top, 12)
         .padding(.bottom, 0)
     }
@@ -482,9 +503,14 @@ struct NowPlayingView: View {
             paneTabs
                 .padding(.top, 14)
         }
-        .padding(.top, 4)
+        .padding(.top, 10)
         .padding(.bottom, 10)
         .background(RrradioTheme.bg)
+    }
+
+    private func closePlayerAndDismiss() {
+        player.stop()
+        dismiss()
     }
 
     private var stationBlock: some View {

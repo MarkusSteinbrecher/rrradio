@@ -111,6 +111,7 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
             sleepTimerDefaultMinutes: remotePreferences.sleepTimerDefaultMinutes,
             landingPage: remotePreferences.landingPage,
             landingStationID: remotePreferences.landingStationID,
+            favoritesDisplayMode: remotePreferences.favoritesDisplayMode,
             wakeDefaultTime: remotePreferences.wakeDefaultTime,
             wakeNotificationsEnabled: remotePreferences.wakeNotificationsEnabled,
             carModeAutomaticEnabled: remotePreferences.carModeAutomaticEnabled,
@@ -181,6 +182,7 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
         sleepTimerDefaultMinutes: Int,
         landingPage: String,
         landingStationID: String,
+        favoritesDisplayMode: String,
         wakeDefaultTime: String,
         wakeNotificationsEnabled: Bool,
         carModeAutomaticEnabled: Bool,
@@ -198,6 +200,7 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
                 record["sleepTimerDefaultMinutes"] as? Int ?? SleepTimer.fallbackDefaultMinutes,
                 record["landingPage"] as? String ?? LandingPage.browse.rawValue,
                 record["landingStationID"] as? String ?? "",
+                record["favoritesDisplayMode"] as? String ?? FavoritesDisplayMode.list.rawValue,
                 record["wakeDefaultTime"] as? String ?? WakeAlarm.fallbackDefaultTime,
                 record["wakeNotificationsEnabled"] as? Bool ?? false,
                 record["carModeAutomaticEnabled"] as? Bool ?? true,
@@ -212,6 +215,7 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
                 "",
                 "",
                 0,
+                "",
                 "",
                 "",
                 "",
@@ -304,6 +308,7 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
         record["sleepTimerDefaultMinutes"] = snapshot.sleepTimerDefaultMinutes
         record["landingPage"] = snapshot.landingPage
         record["landingStationID"] = snapshot.landingStationID
+        record["favoritesDisplayMode"] = snapshot.favoritesDisplayMode
         record["wakeDefaultTime"] = snapshot.wakeDefaultTime
         record["wakeNotificationsEnabled"] = snapshot.wakeNotificationsEnabled
         record["carModeAutomaticEnabled"] = snapshot.carModeAutomaticEnabled

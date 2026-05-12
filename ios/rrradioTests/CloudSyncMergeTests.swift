@@ -20,6 +20,7 @@ final class CloudSyncMergeTests: XCTestCase {
         sleepTimerDefaultMinutes: Int = SleepTimer.fallbackDefaultMinutes,
         landingPage: String = LandingPage.browse.rawValue,
         landingStationID: String = "",
+        favoritesDisplayMode: String = FavoritesDisplayMode.list.rawValue,
         wakeDefaultTime: String = WakeAlarm.fallbackDefaultTime,
         wakeNotificationsEnabled: Bool = false,
         carModeAutomaticEnabled: Bool = true,
@@ -39,6 +40,7 @@ final class CloudSyncMergeTests: XCTestCase {
             sleepTimerDefaultMinutes: sleepTimerDefaultMinutes,
             landingPage: landingPage,
             landingStationID: landingStationID,
+            favoritesDisplayMode: favoritesDisplayMode,
             wakeDefaultTime: wakeDefaultTime,
             wakeNotificationsEnabled: wakeNotificationsEnabled,
             carModeAutomaticEnabled: carModeAutomaticEnabled,
@@ -127,6 +129,7 @@ final class CloudSyncMergeTests: XCTestCase {
             local: snapshot(
                 theme: ThemeController.Choice.dark.rawValue,
                 landingPage: LandingPage.station.rawValue,
+                favoritesDisplayMode: FavoritesDisplayMode.app.rawValue,
                 wakeDefaultTime: "06:30",
                 carModeManualEnabled: true,
                 listeningHistoryRetention: ListeningHistoryRetention.forever.rawValue,
@@ -136,6 +139,7 @@ final class CloudSyncMergeTests: XCTestCase {
 
         XCTAssertEqual(merged.theme, ThemeController.Choice.dark.rawValue)
         XCTAssertEqual(merged.landingPage, LandingPage.station.rawValue)
+        XCTAssertEqual(merged.favoritesDisplayMode, FavoritesDisplayMode.app.rawValue)
         XCTAssertEqual(merged.wakeDefaultTime, "06:30")
         XCTAssertTrue(merged.carModeManualEnabled)
         XCTAssertEqual(merged.listeningHistoryRetention, ListeningHistoryRetention.forever.rawValue)

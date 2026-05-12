@@ -222,6 +222,7 @@ final class CloudSyncController {
             sleepTimerDefaultMinutes: sleepTimer?.defaultMinutes ?? SleepTimer.fallbackDefaultMinutes,
             landingPage: defaults.string(forKey: LandingPage.storageKey) ?? LandingPage.browse.rawValue,
             landingStationID: defaults.string(forKey: LandingPage.stationIDKey) ?? "",
+            favoritesDisplayMode: defaults.string(forKey: FavoritesDisplayMode.storageKey) ?? FavoritesDisplayMode.list.rawValue,
             wakeDefaultTime: defaults.string(forKey: WakeAlarm.defaultTimeKey) ?? WakeAlarm.fallbackDefaultTime,
             wakeNotificationsEnabled: wakeAlarm?.notificationsEnabled ?? defaults.bool(forKey: WakeAlarm.notificationsEnabledKey),
             carModeAutomaticEnabled: carMode?.automaticEnabled ?? true,
@@ -248,6 +249,9 @@ final class CloudSyncController {
             defaults.set(snapshot.landingPage, forKey: LandingPage.storageKey)
         }
         defaults.set(snapshot.landingStationID, forKey: LandingPage.stationIDKey)
+        if FavoritesDisplayMode(rawValue: snapshot.favoritesDisplayMode) != nil {
+            defaults.set(snapshot.favoritesDisplayMode, forKey: FavoritesDisplayMode.storageKey)
+        }
         wakeAlarm?.applyCloudSyncPreferences(
             defaultTime: snapshot.wakeDefaultTime,
             notificationsEnabled: snapshot.wakeNotificationsEnabled,

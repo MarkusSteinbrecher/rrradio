@@ -85,6 +85,7 @@ private struct SettingsPageView: View {
     @AppStorage(LandingPage.stationIDKey) private var landingStationID = ""
     @AppStorage(WakeAlarm.defaultTimeKey) private var defaultWakeTime = WakeAlarm.fallbackDefaultTime
     @AppStorage(SleepTimer.defaultMinutesKey) private var defaultSleepMinutes = SleepTimer.fallbackDefaultMinutes
+    @AppStorage(FavoritesDisplayMode.storageKey) private var favoritesDisplayModeRaw = FavoritesDisplayMode.list.rawValue
     @Binding var page: SettingsPage
     @State private var landingStationQuery = ""
     @State private var copiedDiagnostics = false
@@ -120,6 +121,17 @@ private struct SettingsPageView: View {
                             landingPageRow(.station)
                             if currentLandingPage == .station {
                                 landingStationPicker
+                            }
+                        }
+                        .background(RrradioTheme.bg2)
+                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                    }
+
+                    settingsSection("Favorites view") {
+                        VStack(spacing: 0) {
+                            ForEach(FavoritesDisplayMode.allCases) { mode in
+                                favoritesDisplayModeRow(mode)
                             }
                         }
                         .background(RrradioTheme.bg2)
@@ -999,6 +1011,48 @@ private struct SettingsPageView: View {
 
     private var currentLandingPage: LandingPage {
         LandingPage(rawValue: landingPageRaw) ?? .browse
+    }
+
+    private var currentFavoritesDisplayMode: FavoritesDisplayMode {
+        FavoritesDisplayMode(rawValue: favoritesDisplayModeRaw) ?? .list
+    }
+
+    private func favoritesDisplayModeRow(_ mode: FavoritesDisplayMode) -> some View {
+        Button {
+            favoritesDisplayModeRaw = mode.rawValue
+            cloudSync.noteSettingsChanged()
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: mode.systemImage)
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .frame(width: 22)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(mode.title)
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundStyle(RrradioTheme.ink)
+                    Text(mode.detail)
+                        .font(.system(size: 12))
+                        .foregroundStyle(RrradioTheme.ink3)
+                        .lineLimit(2)
+                }
+                Spacer()
+                if currentFavoritesDisplayMode == mode {
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(RrradioTheme.accent)
+                }
+            }
+            .padding(.horizontal, 14)
+            .frame(minHeight: 54)
+            .contentShape(Rectangle())
+            .overlay(alignment: .bottom) {
+                Rectangle()
+                    .fill(RrradioTheme.line)
+                    .frame(height: 1)
+            }
+        }
+        .buttonStyle(.plain)
     }
 
     private var selectedLandingStationName: String {

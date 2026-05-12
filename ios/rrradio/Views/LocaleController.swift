@@ -114,7 +114,6 @@ enum L10nKey: String {
     case cancel
     case close
     case ok
-    case checked
     case news
     case genre
     case country
@@ -242,7 +241,6 @@ enum L10n {
             .cancel: "Cancel",
             .close: "Close",
             .ok: "OK",
-            .checked: "Checked",
             .news: "News",
             .genre: "Genre",
             .country: "Country",
@@ -367,7 +365,6 @@ enum L10n {
             .cancel: "Abbrechen",
             .close: "Schließen",
             .ok: "OK",
-            .checked: "Geprüft",
             .news: "Nachrichten",
             .genre: "Genre",
             .country: "Land",
@@ -492,7 +489,6 @@ enum L10n {
             .cancel: "Annuler",
             .close: "Fermer",
             .ok: "OK",
-            .checked: "Vérifiées",
             .news: "Infos",
             .genre: "Genre",
             .country: "Pays",
@@ -617,7 +613,6 @@ enum L10n {
             .cancel: "Cancelar",
             .close: "Cerrar",
             .ok: "OK",
-            .checked: "Revisadas",
             .news: "Noticias",
             .genre: "Género",
             .country: "País",
