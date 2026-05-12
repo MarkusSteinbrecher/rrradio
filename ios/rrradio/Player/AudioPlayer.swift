@@ -68,6 +68,10 @@ final class AudioPlayer {
     private var wakeKeepAlivePlayer: AVAudioPlayer?
     private weak var listeningHistory: ListeningHistory?
     private var lyricsKey = ""
+    @ObservationIgnored
+    private var favoriteStationStepHandler: ((FavoriteStationStepDirection, Station?) -> Station?)?
+    @ObservationIgnored
+    private var favoriteStationQueueInfoProvider: ((Station?) -> FavoriteStationQueueInfo?)?
 
     private static let lockScreenArtworkMaximumBytes = 5_000_000
     private static let lockScreenArtworkTimeout: TimeInterval = 8
@@ -103,6 +107,16 @@ final class AudioPlayer {
 
     func setListeningHistory(_ history: ListeningHistory) {
         listeningHistory = history
+    }
+
+    func setFavoriteStationRemoteControls(
+        stepHandler: @escaping (FavoriteStationStepDirection, Station?) -> Station?,
+        queueInfoProvider: @escaping (Station?) -> FavoriteStationQueueInfo?
+    ) {
+        favoriteStationStepHandler = stepHandler
+        favoriteStationQueueInfoProvider = queueInfoProvider
+        updateRemoteStationCommandAvailability()
+        updateNowPlaying()
     }
 
     func setLockScreenSleepTimer(firesAt: Date?) {
@@ -337,11 +351,44 @@ final class AudioPlayer {
             Task { @MainActor in self?.toggle() }
             return .success
         }
-        // Live streams have no scrub / skip — disable those explicitly
-        // so the lock-screen UI hides them.
+        cmd.previousTrackCommand.addTarget { [weak self] _ in
+            Task { @MainActor in self?.playFavoriteStationStep(.backward) }
+            return .success
+        }
+        cmd.nextTrackCommand.addTarget { [weak self] _ in
+            Task { @MainActor in self?.playFavoriteStationStep(.forward) }
+            return .success
+        }
+        // Live streams have no scrub / timed skip — disable those explicitly
+        // so the lock-screen UI only exposes station changes.
         cmd.skipForwardCommand.isEnabled = false
         cmd.skipBackwardCommand.isEnabled = false
         cmd.changePlaybackPositionCommand.isEnabled = false
+        updateRemoteStationCommandAvailability()
+    }
+
+    private func updateRemoteStationCommandAvailability() {
+        let cmd = MPRemoteCommandCenter.shared()
+        let hasFavoriteStepper = favoriteStationStepHandler != nil
+        cmd.previousTrackCommand.isEnabled = hasFavoriteStepper
+        cmd.nextTrackCommand.isEnabled = hasFavoriteStepper
+    }
+
+    private func playFavoriteStationStep(_ direction: FavoriteStationStepDirection) {
+        guard let station = favoriteStationStepHandler?(direction, current) else {
+            diagnosticRecord("playback", "remote station step unavailable", details: current.map(stationDiagnostics) ?? [:])
+            return
+        }
+
+        let directionName = direction == .forward ? "forward" : "backward"
+        diagnosticRecord(
+            "playback",
+            "remote station step",
+            details: stationDiagnostics(station).merging(["direction": directionName], uniquingKeysWith: { _, new in new }),
+        )
+
+        guard station.id != current?.id else { return }
+        play(station)
     }
 
     private func wireAudioSessionNotifications() {
@@ -716,6 +763,10 @@ final class AudioPlayer {
         info[MPMediaItemPropertyArtist] = lockScreenSubtitle(for: s)
         info[MPNowPlayingInfoPropertyIsLiveStream] = true
         info[MPNowPlayingInfoPropertyPlaybackRate] = (state == .playing) ? 1.0 : 0.0
+        if let queueInfo = favoriteStationQueueInfoProvider?(s) {
+            info[MPNowPlayingInfoPropertyPlaybackQueueIndex] = queueInfo.index
+            info[MPNowPlayingInfoPropertyPlaybackQueueCount] = queueInfo.count
+        }
         if let lockScreenArtwork {
             info[MPMediaItemPropertyArtwork] = lockScreenArtwork
         }

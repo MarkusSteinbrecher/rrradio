@@ -90,6 +90,67 @@ final class LibraryTests: XCTestCase {
         XCTAssertEqual(library.favorites.map(\.id), ["a", "c", "b"])
     }
 
+    func testSaveAsFavoriteStationZeroInsertsOnlyNewStationsAtFront() {
+        let library = Library(defaults: defaults)
+        library.addFavorite(station("a"))
+        library.addFavorite(station("b"))
+
+        library.saveAsFavoriteStationZeroIfNeeded(station("x"))
+
+        XCTAssertEqual(library.favorites.map(\.id), ["x", "b", "a"])
+
+        library.saveAsFavoriteStationZeroIfNeeded(station("a", name: "Updated A"))
+
+        XCTAssertEqual(library.favorites.map(\.id), ["x", "b", "a"])
+        XCTAssertEqual(library.favorites[2].name, "Updated A")
+    }
+
+    func testFavoriteStepCyclesThroughOrderedFavorites() {
+        let library = Library(defaults: defaults)
+        library.addFavorite(station("a"))
+        library.addFavorite(station("b"))
+        library.addFavorite(station("c"))
+
+        XCTAssertEqual(
+            library.stationForFavoriteStep(from: station("b"), direction: .forward)?.id,
+            "a",
+        )
+        XCTAssertEqual(
+            library.stationForFavoriteStep(from: station("b"), direction: .backward)?.id,
+            "c",
+        )
+        XCTAssertEqual(
+            library.stationForFavoriteStep(from: station("a"), direction: .forward)?.id,
+            "c",
+        )
+    }
+
+    func testFavoriteStepAnchorsNonFavoriteAsStationZero() {
+        let library = Library(defaults: defaults)
+        library.addFavorite(station("a"))
+        library.addFavorite(station("b"))
+
+        let next = library.stationForFavoriteStep(from: station("x"), direction: .forward)
+
+        XCTAssertEqual(next?.id, "b")
+        XCTAssertEqual(library.favorites.map(\.id), ["x", "b", "a"])
+    }
+
+    func testFavoriteQueueInfoTreatsNonFavoriteCurrentAsStationZero() {
+        let library = Library(defaults: defaults)
+        library.addFavorite(station("a"))
+        library.addFavorite(station("b"))
+
+        XCTAssertEqual(
+            library.favoriteQueueInfo(for: station("x")),
+            FavoriteStationQueueInfo(index: 0, count: 3),
+        )
+        XCTAssertEqual(
+            library.favoriteQueueInfo(for: station("a")),
+            FavoriteStationQueueInfo(index: 1, count: 2),
+        )
+    }
+
     func testRefreshFavoritesUpdatesMatchingCatalogSnapshots() {
         let library = Library(defaults: defaults)
         library.toggleFavorite(station("fm4", name: "Old FM4"))
