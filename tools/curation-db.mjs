@@ -127,10 +127,15 @@ CREATE TABLE IF NOT EXISTS logo_candidates (
   action TEXT NOT NULL,
   source_url TEXT,
   candidate_url TEXT,
+  scraped_page TEXT,
   rel TEXT,
   target_reason TEXT,
   score INTEGER,
+  content_type TEXT,
+  content_length INTEGER,
   result_reason TEXT,
+  candidate_json TEXT,
+  attempts_json TEXT,
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 `;
@@ -138,7 +143,22 @@ CREATE TABLE IF NOT EXISTS logo_candidates (
 function init() {
   ensureSqlite();
   runSql(schema);
+  ensureColumn('logo_candidates', 'scraped_page', 'TEXT');
+  ensureColumn('logo_candidates', 'content_type', 'TEXT');
+  ensureColumn('logo_candidates', 'content_length', 'INTEGER');
+  ensureColumn('logo_candidates', 'candidate_json', 'TEXT');
+  ensureColumn('logo_candidates', 'attempts_json', 'TEXT');
   console.log(`curation-db: initialized ${dbPath}`);
+}
+
+function ensureColumn(table, column, definition) {
+  const raw = runSql(`PRAGMA table_info(${table});`, { mode: 'csv' });
+  const exists = raw
+    .trim()
+    .split('\n')
+    .slice(1)
+    .some((line) => line.split(',')[1]?.replace(/^"|"$/g, '') === column);
+  if (!exists) runSql(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition};`);
 }
 
 function loadJson(path, fallback = null) {
@@ -283,17 +303,23 @@ function ingestLogoScrapeReport() {
   sql.push('CREATE TEMP TABLE _last_run_id AS SELECT last_insert_rowid() AS id;');
   for (const row of report.rows || []) {
     sql.push(`INSERT INTO logo_candidates (
-      run_id, station_id, action, source_url, candidate_url, rel, target_reason, score, result_reason
+      run_id, station_id, action, source_url, candidate_url, scraped_page, rel,
+      target_reason, score, content_type, content_length, result_reason, candidate_json, attempts_json
     ) VALUES (
       (SELECT id FROM _last_run_id),
       ${sqlString(row.id)},
       ${sqlString(row.action ?? 'none')},
       ${sqlString(row.from ?? null)},
       ${sqlString(row.to ?? null)},
+      ${sqlString(row.scrapedPage ?? row.candidate?.scrapedPage ?? null)},
       ${sqlString(row.rel ?? null)},
       ${sqlString(row.targetReason ?? null)},
       ${sqlNumber(row.score)},
-      ${sqlString(row.reason ?? null)}
+      ${sqlString(row.candidate?.contentType ?? null)},
+      ${sqlNumber(row.candidate?.contentLength ?? null)},
+      ${sqlString(row.reason ?? null)},
+      ${sqlString(jsonText(row.candidate ?? null))},
+      ${sqlString(jsonText(row.attempts ?? row.rejectedCandidates ?? null))}
     );`);
   }
   runSql(`BEGIN;\n${sql.join('\n')}\nCOMMIT;`);

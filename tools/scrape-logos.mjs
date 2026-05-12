@@ -123,6 +123,24 @@ function isGenericCatalogHomepage(url) {
   }
 }
 
+function isGenericScrapePage(url) {
+  try {
+    const host = new URL(url).hostname.toLowerCase();
+    return (
+      host === 'zeno.fm' ||
+      host === 'www.zeno.fm' ||
+      host === 'radio.co' ||
+      host === 'www.radio.co' ||
+      host.endsWith('.streampanel.cloud') ||
+      host.endsWith('.sp.radio.fm') ||
+      host.startsWith('icecast.') ||
+      /^ip\d+[.-]/.test(host)
+    );
+  } catch {
+    return true;
+  }
+}
+
 function homepageCandidates(station, catalogStation) {
   const merged = { ...(catalogStation ?? {}), ...station };
   const urls = [];
@@ -140,8 +158,9 @@ function targetReason(station) {
   if (!station || typeof station.id !== 'string') return null;
   const catalogStation = catalogById.get(station.id);
   if (homepageCandidates(station, catalogStation).length === 0) return null;
-  if (isLocalLogo(station.favicon)) return null;
-  const logo = classifyLogoUrl(station.favicon);
+  const effectiveFavicon = station.favicon ?? catalogStation?.favicon ?? null;
+  if (isLocalLogo(effectiveFavicon)) return null;
+  const logo = classifyLogoUrl(effectiveFavicon);
   if (MODE === 'missing') return logo.tier === 'missing' ? 'missing' : null;
   if (MODE === 'upgrade') return logo.upgradeRecommended ? logo.tier : null;
   return logo.tier;
@@ -149,13 +168,17 @@ function targetReason(station) {
 
 const candidates = list
   .filter((station) => ONLY_IDS.size === 0 || ONLY_IDS.has(station.id))
-  .map((station) => ({
-    station: {
-      ...station,
-      homepageCandidates: homepageCandidates(station, catalogById.get(station.id)),
-    },
-    reason: targetReason(station),
-  }))
+  .map((station) => {
+    const catalogStation = catalogById.get(station.id);
+    return {
+      station: {
+        ...station,
+        effectiveFavicon: station.favicon ?? catalogStation?.favicon ?? null,
+        homepageCandidates: homepageCandidates(station, catalogStation),
+      },
+      reason: targetReason(station),
+    };
+  })
   .filter((item) => item.reason)
   .slice(0, Number.isFinite(LIMIT) ? LIMIT : list.length);
 
@@ -206,7 +229,7 @@ function extractHtmlCandidates(html, baseUrl) {
       continue;
     }
     if (!/icon/.test(rel)) continue;
-    out.push({ rel, url: a.href, size: parseIconSize(a.sizes) });
+    out.push({ rel, url: a.href, size: parseIconSize(a.sizes), discoveredOn: baseUrl });
   }
 
   const metaRe = /<meta\s+([^>]*?)\/?>/gi;
@@ -223,7 +246,12 @@ function extractHtmlCandidates(html, baseUrl) {
       key === 'logo' ||
       key === 'image'
     ) {
-      out.push({ rel: key === 'logo' || key === 'image' ? `itemprop:${key}` : key, url: a.content, size: 0 });
+      out.push({
+        rel: key === 'logo' || key === 'image' ? `itemprop:${key}` : key,
+        url: a.content,
+        size: 0,
+        discoveredOn: baseUrl,
+      });
     }
   }
 
@@ -231,6 +259,7 @@ function extractHtmlCandidates(html, baseUrl) {
 
   return out
     .map((c) => resolveCandidate(c, baseUrl))
+    .map((c) => (c ? { ...c, discoveredOn: c.discoveredOn ?? baseUrl } : null))
     .filter((c) => c && c.url);
 }
 
@@ -293,7 +322,13 @@ async function fetchManifestCandidates(manifestCandidates, baseUrl) {
       for (const icon of data.icons || []) {
         if (!icon?.src) continue;
         const c = resolveCandidate(
-          { rel: 'manifest-icon', url: icon.src, size: parseIconSize(icon.sizes) },
+          {
+            rel: 'manifest-icon',
+            url: icon.src,
+            size: parseIconSize(icon.sizes),
+            discoveredOn: baseUrl,
+            manifestUrl: manifest.url,
+          },
           manifest.url || baseUrl,
         );
         if (c) out.push(c);
@@ -315,6 +350,23 @@ function uniqueCandidates(candidates) {
     }
   }
   return [...byUrl.values()];
+}
+
+function candidateProvenance(candidate, verified = null) {
+  const classified = classifyLogoUrl(candidate.url);
+  return {
+    url: candidate.url,
+    rel: candidate.rel,
+    scrapedPage: candidate.discoveredOn ?? null,
+    manifestUrl: candidate.manifestUrl ?? null,
+    sizeHint: Number(candidate.size) || 0,
+    score: scoreLogoCandidate(candidate),
+    logoTier: classified.tier,
+    logoState: classified.state,
+    logoReason: classified.reason,
+    contentType: verified?.contentType ?? null,
+    contentLength: verified?.contentLength ?? null,
+  };
 }
 
 async function fetchWithTimeout(url, opts = {}) {
@@ -386,6 +438,10 @@ async function discover(station) {
   const failures = [];
   for (const homepage of station.homepageCandidates || [station.homepage]) {
     try {
+      if (isGenericScrapePage(homepage)) {
+        failures.push({ homepage, reason: 'generic-scrape-page', candidates: [] });
+        continue;
+      }
       const html = await fetchHomepage(homepage);
       const htmlCandidates = extractHtmlCandidates(html, homepage);
       const manifests = htmlCandidates.filter((c) => c.rel === 'manifest');
@@ -394,27 +450,47 @@ async function discover(station) {
         ...htmlCandidates.filter((c) => c.rel !== 'manifest'),
         ...manifestCandidates,
       ]).sort((a, b) => scoreLogoCandidate(b) - scoreLogoCandidate(a));
+      const rejected = [];
 
       if (all.length === 0) {
-        failures.push(`${homepage}: no-https-candidates`);
+        failures.push({ homepage, reason: 'no-https-candidates', candidates: [] });
         continue;
       }
 
       for (const c of all.slice(0, 8)) {
-        if (!isAcceptableScrapedLogo(c)) continue;
-        if (station.favicon && !shouldReplaceLogo(station.favicon, c, { replaceGood: REPLACE_GOOD })) {
+        if (!isAcceptableScrapedLogo(c)) {
+          rejected.push({ ...candidateProvenance(c), rejectReason: 'generic-or-weak-candidate' });
+          continue;
+        }
+        if (station.effectiveFavicon && !shouldReplaceLogo(station.effectiveFavicon, c, { replaceGood: REPLACE_GOOD })) {
+          rejected.push({ ...candidateProvenance(c), rejectReason: 'does-not-improve-existing-logo' });
           continue;
         }
         const verified = await verifyImage(c.url);
-        if (verified.ok) return { ok: true, url: c.url, picked: c, verified, homepage };
+        if (verified.ok) {
+          return {
+            ok: true,
+            url: c.url,
+            picked: c,
+            verified,
+            homepage,
+            candidate: candidateProvenance(c, verified),
+            rejectedCandidates: rejected,
+          };
+        }
+        rejected.push({ ...candidateProvenance(c, verified), rejectReason: 'not-verifiable-image' });
       }
-      failures.push(`${homepage}: no-verifiable-upgrade`);
+      failures.push({ homepage, reason: 'no-verifiable-upgrade', candidates: rejected });
     } catch (err) {
       const msg = err?.name === 'AbortError' ? 'timeout' : err?.message || String(err);
-      failures.push(`${homepage}: ${msg}`);
+      failures.push({ homepage, reason: msg, candidates: [] });
     }
   }
-  return { ok: false, reason: failures.join('; ') || 'no-verifiable-upgrade' };
+  return {
+    ok: false,
+    reason: failures.map((f) => `${f.homepage}: ${f.reason}`).join('; ') || 'no-verifiable-upgrade',
+    attempts: failures,
+  };
 }
 
 async function runPool(items, worker, concurrency) {
@@ -448,20 +524,23 @@ await runPool(
         runRows.push({
           id: station.id,
           action,
-          from: station.favicon ?? null,
+          from: station.favicon ?? station.effectiveFavicon ?? null,
           to: r.url,
           rel: r.picked.rel,
+          scrapedPage: r.homepage,
+          candidate: r.candidate,
+          rejectedCandidates: r.rejectedCandidates,
           targetReason: reason,
           score: scoreLogoCandidate(r.picked),
         });
         console.log(`${tag}  ${action === 'replace' ? 'REPL' : 'OK  '} ${r.picked.rel} ${r.url} via ${r.homepage}`);
       } else if (r.reason === 'no-https-candidates') {
         counters.noCands++;
-        runRows.push({ id: station.id, action: 'none', reason: r.reason, targetReason: reason });
+        runRows.push({ id: station.id, action: 'none', reason: r.reason, targetReason: reason, attempts: r.attempts ?? [] });
         console.log(`${tag}  --  no https candidates`);
       } else {
         counters.noImage++;
-        runRows.push({ id: station.id, action: 'none', reason: r.reason, targetReason: reason });
+        runRows.push({ id: station.id, action: 'none', reason: r.reason, targetReason: reason, attempts: r.attempts ?? [] });
         console.log(`${tag}  --  no verifiable upgrade`);
       }
     } catch (err) {
