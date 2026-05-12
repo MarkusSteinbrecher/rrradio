@@ -99,6 +99,8 @@ cross-site tracking, IPs are hashed and discarded within hours.
 
 Built with HTML, CSS, TypeScript and a healthy distrust of
 dependencies. Released under the [MIT License](./LICENSE).
+Asset provenance and third-party notices live in
+[THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md).
 
 ## Imprint
 

@@ -3,7 +3,6 @@ import Foundation
 struct MusicServiceLink: Identifiable, Equatable {
     let id: String
     let title: String
-    let imageName: String
     let url: URL
 }
 
@@ -19,19 +18,16 @@ func musicServiceLinks(artist: String?, title: String?) -> [MusicServiceLink] {
         MusicServiceLink(
             id: "apple-music",
             title: "Apple Music",
-            imageName: "AppleMusicIcon",
             url: appleMusicSearchURL(query),
         ),
         MusicServiceLink(
             id: "spotify",
             title: "Spotify",
-            imageName: "SpotifyIcon",
             url: spotifySearchURL(query),
         ),
         MusicServiceLink(
             id: "youtube-music",
             title: "YouTube Music",
-            imageName: "YouTubeMusicIcon",
             url: youtubeMusicSearchURL(query),
         ),
     ]

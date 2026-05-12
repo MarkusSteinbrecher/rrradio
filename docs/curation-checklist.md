@@ -106,7 +106,8 @@ both publish program info via their respective APIs. Grrif's
 
 ### 7. Logo
 
-**Question:** Do we have a curated, square PNG logo for this station?
+**Question:** Do we have a curated, square PNG logo for this station with
+provenance recorded?
 
 **Pass criteria:** `favicon:` field is a relative path under
 `stations/` (e.g. `stations/fm4.png`), and the file is checked in.
@@ -115,9 +116,17 @@ both publish program info via their respective APIs. Grrif's
 URL from Radio Browser, which is often low-res or off-brand. To
 upgrade:
 1. Find a high-res square logo on the broadcaster's site (their press
-   kit, brand page, or the `og:image` meta on their main page)
+   kit, brand page, web app manifest, or the `og:image` meta on their
+   main page). Prefer the broadcaster site over generic image search.
 2. Save as `public/stations/<station-id>.png` at 256-512px square
 3. Set `favicon: stations/<station-id>.png` on the YAML row
+4. Record the source URL, retrieval date, station ID, and any transform
+   in the PR body or `THIRD_PARTY_NOTICES.md`
+5. If terms are unclear, keep the remote `favicon` URL or leave the logo
+   unset instead of bundling a copy
+
+Do not redraw station marks, and do not add third-party platform marks
+(Apple Music, Spotify, YouTube, app-store badges, etc.) as station logos.
 
 ### 8. Tags
 
