@@ -2,6 +2,10 @@ const GENERIC_HOST_PATTERNS = [
   /(^|\.)facebook\.com$/i,
   /(^|\.)control\.divio\.com$/i,
   /(^|\.)media-ssl\.musicradio\.com$/i,
+  /^zeno\.fm$/i,
+  /^www\.zeno\.fm$/i,
+  /^www\.radio\.co$/i,
+  /^external\.spcast\.eu$/i,
 ];
 
 const THIRD_PARTY_HOST_PATTERNS = [
@@ -14,9 +18,15 @@ const THIRD_PARTY_HOST_PATTERNS = [
 
 const GENERIC_PATH_PATTERNS = [
   /\/favicon(?:[-_.]?\d+x\d+)?\.(?:ico|png|jpg|jpeg|webp|svg)$/i,
+  /favicon[^/]*\.(?:ico|png|jpg|jpeg|webp|svg)$/i,
   /\/apple-touch-icon(?:[-_.]?\d+x\d+)?\.(?:png|jpg|jpeg|webp)$/i,
+  /\/apple-icon-\d+x\d+\.(?:png|jpg|jpeg|webp)$/i,
   /\/android-chrome-\d+x\d+\.(?:png|jpg|jpeg|webp)$/i,
   /\/assets\/images\/touch-icons\//i,
+  /\/lautfm-logo-share-image\.(?:png|jpg|jpeg|webp)$/i,
+  /\/og-image\.(?:png|jpg|jpeg|webp)$/i,
+  /webclip[^/]*\.(?:png|jpg|jpeg|webp)$/i,
+  /\/static\/icons\/production\/\d+\.(?:png|jpg|jpeg|webp)$/i,
   /\/icon(?:[-_.]?\d+x\d+)?\.(?:ico|png|jpg|jpeg|webp|svg)$/i,
   /\/static\/favicon\.(?:ico|png|jpg|jpeg|webp|svg)$/i,
 ];
