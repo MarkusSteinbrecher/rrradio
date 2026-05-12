@@ -899,7 +899,7 @@ struct NowPlayingView: View {
             Button {
                 openURL(link.url)
             } label: {
-                musicServiceLogo(link)
+                musicServiceLabel(link)
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Open in \(link.title)")
@@ -907,24 +907,18 @@ struct NowPlayingView: View {
     }
 
     @ViewBuilder
-    private func musicServiceLogo(_ link: MusicServiceLink) -> some View {
-        Group {
-            switch link.id {
-            case "apple-music":
-                AppleMusicLogoMark()
-            case "spotify":
-                SpotifyLogoMark()
-            case "youtube-music":
-                YouTubeMusicLogoMark()
-            default:
-                Image(link.imageName)
-                    .resizable()
-                    .scaledToFit()
-            }
-        }
-        .frame(width: 32, height: 32)
-        .frame(width: 44, height: 44)
-        .contentShape(Rectangle())
+    private func musicServiceLabel(_ link: MusicServiceLink) -> some View {
+        Text(link.title)
+            .lineLimit(1)
+            .minimumScaleFactor(0.85)
+            .font(.system(size: 12, weight: .semibold))
+            .foregroundStyle(RrradioTheme.ink)
+            .padding(.horizontal, 10)
+            .frame(height: 32)
+            .background(RrradioTheme.bg2)
+            .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .contentShape(RoundedRectangle(cornerRadius: 8))
     }
 
     private var lyricsBlock: some View {
@@ -1891,82 +1885,6 @@ private struct SleepTimerView: View {
         components.hour = minutes / 60
         components.minute = minutes % 60
         return Calendar.current.date(from: components) ?? Date()
-    }
-}
-
-private struct AppleMusicLogoMark: View {
-    var body: some View {
-        RoundedRectangle(cornerRadius: 7, style: .continuous)
-            .fill(
-                LinearGradient(
-                    colors: [
-                        Color(red: 0.98, green: 0.18, blue: 0.44),
-                        Color(red: 0.62, green: 0.20, blue: 0.98),
-                        Color(red: 0.16, green: 0.48, blue: 1),
-                    ],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing,
-                ),
-            )
-            .overlay {
-                Image(systemName: "music.note")
-                    .font(.system(size: 18, weight: .bold))
-                    .foregroundStyle(.white)
-            }
-    }
-}
-
-private struct SpotifyLogoMark: View {
-    var body: some View {
-        ZStack {
-            Circle()
-                .fill(Color(red: 0.12, green: 0.84, blue: 0.38))
-            Canvas { context, size in
-                let width = size.width
-                let height = size.height
-                let strokes: [(CGFloat, CGFloat, CGFloat, CGFloat)] = [
-                    (0.22, 0.42, 0.78, 0.34),
-                    (0.27, 0.56, 0.73, 0.51),
-                    (0.31, 0.69, 0.68, 0.66),
-                ]
-
-                for (index, stroke) in strokes.enumerated() {
-                    var path = Path()
-                    path.move(to: CGPoint(x: stroke.0 * width, y: stroke.1 * height))
-                    path.addCurve(
-                        to: CGPoint(x: stroke.2 * width, y: stroke.3 * height),
-                        control1: CGPoint(x: 0.38 * width, y: (stroke.1 - 0.07) * height),
-                        control2: CGPoint(x: 0.58 * width, y: (stroke.3 - 0.05) * height),
-                    )
-                    context.stroke(
-                        path,
-                        with: .color(.white),
-                        style: StrokeStyle(
-                            lineWidth: max(2.8, width * (index == 0 ? 0.09 : 0.075)),
-                            lineCap: .round,
-                            lineJoin: .round,
-                        ),
-                    )
-                }
-            }
-            .padding(2)
-        }
-    }
-}
-
-private struct YouTubeMusicLogoMark: View {
-    var body: some View {
-        ZStack {
-            Circle()
-                .fill(Color(red: 1, green: 0, blue: 0))
-            Circle()
-                .stroke(.white, lineWidth: 3)
-                .frame(width: 18, height: 18)
-            Image(systemName: "play.fill")
-                .font(.system(size: 10, weight: .bold))
-                .foregroundStyle(.white)
-                .offset(x: 1)
-        }
     }
 }
 

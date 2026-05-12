@@ -3159,9 +3159,9 @@ $miniSkip.addEventListener('click', (e) => {
 
 $npPlay.addEventListener('click', () => handlePlayToggle());
 
-// Open-in popup — arrow trigger reveals a small panel with the
-// official "Listen on" badges. Click outside / Esc / pick a badge
-// closes it. The wrapper carries the open-state for hover styling.
+// Open-in popup — arrow trigger reveals a small panel with service
+// text links. Click outside / Esc / pick a link closes it. The
+// wrapper carries the open-state for hover styling.
 //
 // The popup must escape `.np-body { overflow: hidden }` AND `.np`'s
 // transform (a transformed ancestor turns `position: fixed` into a

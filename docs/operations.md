@@ -42,7 +42,7 @@ See `docs/curation-checklist.md` for the full per-activity playbook. The standar
 
 1. `npm run wire-metadata` — auto-derives metadataUrl for known broadcasters (br, orf, bbc, hr). Run first, before manual research.
 2. `npm run analyze` — confirms stream / icy / meta API / fetcher coverage and flags wireable-but-not-wired stations.
-3. Replace RB-imported favicon with curated PNG in `public/stations/` when image quality matters (small or off-brand defaults).
+3. Replace RB-imported favicon with curated PNG in `public/stations/` when image quality matters (small or off-brand defaults), and record source/provenance per `THIRD_PARTY_NOTICES.md`.
 4. If broadcaster has a metadata API but no fetcher yet — add one in `src/builtins.ts` AND a discoverer in `tools/wire-metadata.mjs` (so future channels of the same family auto-wire).
 5. Bump status from `stream-only` → `icy-only` (ICY-only metadata) or `working` (full per-broadcaster fetcher with logo).
 
@@ -52,7 +52,7 @@ Existing fetchers cover Grrif, ORF (any channel via metadataUrl), BR (any channe
 
 1. **Probe** the stream + metadata URL: `npm run probe -- '<stream>' '<meta>'`
 2. **Add the YAML row** to `data/stations.yaml` referencing the existing broadcaster, with the channel-specific `metadataUrl` and a `status:`.
-3. **Logo**: drop a PNG into `public/stations/`, point `favicon:` at it.
+3. **Logo**: drop a PNG into `public/stations/`, point `favicon:` at it, and record the source URL/retrieval date in the PR body or `THIRD_PARTY_NOTICES.md`.
 4. **Done** — `npm run dev` regenerates the catalog automatically.
 
 ## Adding a NEW broadcaster (different metadata API shape)

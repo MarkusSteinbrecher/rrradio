@@ -1405,10 +1405,10 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
   text-wrap: balance;
 }
 /* On-air title row: centred title with a small "open-in" arrow
-   pinned to the right edge. Tapping reveals a popup with the
-   official "Listen on" badges for Apple Music + Spotify. Symmetric
-   padding on the title reserves the trigger width on both sides so
-   the title keeps reading as horizontally centred. */
+   pinned to the right edge. Tapping reveals text links to music
+   services. Symmetric padding on the title reserves the trigger
+   width on both sides so the title keeps reading as horizontally
+   centred. */
 .np-track__title-row {
   position: relative;
   display: block;
@@ -1454,35 +1454,33 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
   z-index: 100;
   padding: 10px 12px;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
   background: var(--bg-2);
   border-radius: 12px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  min-width: 160px;
 }
 .np-track__open-in-popup[hidden] { display: none; }
 
-/* Music-service icon row — mirrors the iOS NowPlayingView pattern:
-   a 3-up HStack of brand icons, no surrounding pill, no "Listen on"
-   text. Each anchor wraps a single SVG (Apple Music, Spotify,
-   YouTube Music) sourced from `ios/LogoSources/` so web + iOS stay
-   visually identical. The 44px tap target wraps a 32px icon. */
+/* Music-service link list. We intentionally use plain service names
+   instead of bundled third-party brand marks; see THIRD_PARTY_NOTICES. */
 .open-in-icon {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
+  justify-content: flex-start;
+  width: auto;
+  height: 36px;
+  padding: 0 10px;
+  color: var(--ink);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
   text-decoration: none;
-  transition: opacity 0.15s, transform 0.15s;
+  transition: background 0.15s, color 0.15s, transform 0.15s;
 }
-.open-in-icon img {
-  display: block;
-  width: 32px;
-  height: 32px;
-}
-.open-in-icon:hover { opacity: 0.85; }
+.open-in-icon:hover { background: var(--bg-3); color: var(--ink); }
 .open-in-icon:active { transform: scale(0.92); }
 
 /* ─── Tuner Dial ─── */
