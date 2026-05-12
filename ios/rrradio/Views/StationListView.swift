@@ -129,8 +129,6 @@ struct StationListView: View {
     @State private var radioBrowserSearchTask: Task<Void, Never>?
     @State private var favoriteNowPlaying = FavoriteNowPlayingStore()
     @State private var listScrollOffset: CGFloat = 0
-    @State private var pageTransitionDirection = PageTransitionDirection.forward
-    @State private var pageDragOffset: CGFloat = 0
     @State private var pageSwipeAxis: PageSwipeAxis?
     @State private var favoritesSearchPresented = false
     @State private var stationInfoPreview: Station?
@@ -143,8 +141,6 @@ struct StationListView: View {
     private var statusCollapseDistance: CGFloat { browseControlsExpandedHeight }
     private let browseControlsExpandedHeight: CGFloat = 20
     private let pageSwipeThreshold: CGFloat = 58
-    private let pageSwipePreviewThreshold: CGFloat = 24
-    private let pageSwipePreviewLimit: CGFloat = 36
     private let pageSwipeAxisLockThreshold: CGFloat = 12
     private let pageSwipeAxisLockRatio: CGFloat = 1.15
     private let pageSwipeDirectionTolerance: CGFloat = 0.55
@@ -226,25 +222,6 @@ struct StationListView: View {
         case recents = "Recents"
 
         var id: String { rawValue }
-    }
-
-    private enum PageTransitionDirection {
-        case forward
-        case backward
-
-        var insertionEdge: Edge {
-            switch self {
-            case .forward: .trailing
-            case .backward: .leading
-            }
-        }
-
-        var removalEdge: Edge {
-            switch self {
-            case .forward: .leading
-            case .backward: .trailing
-            }
-        }
     }
 
     init(
@@ -379,9 +356,7 @@ struct StationListView: View {
 
     var body: some View {
         pageShell
-            .offset(x: pageDragOffset)
             .background(RrradioTheme.bg)
-            .simultaneousGesture(pageSwipeGesture, including: pageSwipeGestureMask)
             .sheet(isPresented: $showingSettings) {
                 SettingsView()
                     .id("\(theme.choice.rawValue)-\(settingsColorSchemeKey)")
@@ -426,8 +401,7 @@ struct StationListView: View {
                 recomputeFilteredStations()
                 updateFavoriteNowPlayingPolling()
             }
-            .onChange(of: tab) { oldValue, value in
-                updatePageTransitionDirection(from: oldValue, to: value)
+            .onChange(of: tab) { _, value in
                 setSource(stationSource(for: value), animated: true)
             }
             .onChange(of: source) { _, value in
@@ -435,10 +409,7 @@ struct StationListView: View {
                 listScrollOffset = 0
                 let targetTab = appTab(for: value)
                 guard targetTab != tab else { return }
-                updatePageTransitionDirection(from: tab, to: targetTab)
-                withAnimation(.snappy) {
-                    tab = targetTab
-                }
+                tab = targetTab
             }
             .onChange(of: query) { _, _ in
                 resetStationDisplayLimit()
@@ -508,21 +479,6 @@ struct StationListView: View {
         let horizontal = translation.width
         let vertical = translation.height
         updatePageSwipeAxis(horizontal: horizontal, vertical: vertical)
-        guard pageSwipeAxis == .horizontal else {
-            resetPageSwipeOffset()
-            return
-        }
-        guard abs(horizontal) >= pageSwipePreviewThreshold,
-              isPageSwipeDirection(horizontal: horizontal, vertical: vertical) else {
-            resetPageSwipeOffset()
-            return
-        }
-        guard (horizontal < 0 && nextTab != nil) || (horizontal > 0 && previousTab != nil) else {
-            resetPageSwipeOffset()
-            return
-        }
-
-        pageDragOffset = min(max(horizontal * 0.28, -pageSwipePreviewLimit), pageSwipePreviewLimit)
     }
 
     private func handlePageSwipe(translation: CGSize) {
@@ -540,33 +496,32 @@ struct StationListView: View {
         guard pageSwipeAxis == .horizontal,
               abs(horizontal) >= pageSwipeThreshold,
               isPageSwipeDirection(horizontal: horizontal, vertical: vertical) else {
-            resetPageSwipeOffset()
             return
         }
 
-        if horizontal < 0, let nextTab {
-            switchToSwipeTab(nextTab)
-        } else if horizontal > 0, let previousTab {
-            switchToSwipeTab(previousTab)
-        } else {
-            resetPageSwipeOffset()
+        if horizontal < 0, let nextFavoritesDisplayMode {
+            switchToFavoritesDisplayMode(nextFavoritesDisplayMode)
+        } else if horizontal > 0, let previousFavoritesDisplayMode {
+            switchToFavoritesDisplayMode(previousFavoritesDisplayMode)
         }
     }
 
     private var canUsePageSwipe: Bool {
-        allowsPageSwipeGesture && activeFilterPicker == nil && stationInfoPreview == nil && !searchFocused
-    }
-
-    private var allowsPageSwipeGesture: Bool {
-        !(isFavoritesPage && favoritesDisplayMode != .list)
+        isFavoritesPage
+            && !showingFavoritesCatalogFallback
+            && activeFilterPicker == nil
+            && stationInfoPreview == nil
+            && !searchFocused
+            && !favoriteDeleteModeEnabled
+            && draggedFavoriteStationID == nil
     }
 
     private var pageSwipeGestureMask: GestureMask {
-        allowsPageSwipeGesture ? .all : .none
+        canUsePageSwipe ? .all : .none
     }
 
     private var isHorizontalPageSwipeLocked: Bool {
-        allowsPageSwipeGesture && pageSwipeAxis == .horizontal
+        canUsePageSwipe && pageSwipeAxis == .horizontal
     }
 
     private func updatePageSwipeAxis(horizontal: CGFloat, vertical: CGFloat) {
@@ -587,38 +542,29 @@ struct StationListView: View {
         abs(horizontal) > abs(vertical) * pageSwipeDirectionTolerance
     }
 
-    private var nextTab: AppTab? {
-        switch tab {
-        case .browse: .favorites
-        case .favorites: nil
+    private var nextFavoritesDisplayMode: FavoritesDisplayMode? {
+        switch favoritesDisplayMode {
+        case .list: .tiles
+        case .tiles: .app
+        case .app: nil
         }
     }
 
-    private var previousTab: AppTab? {
-        switch tab {
-        case .browse: nil
-        case .favorites: .browse
+    private var previousFavoritesDisplayMode: FavoritesDisplayMode? {
+        switch favoritesDisplayMode {
+        case .list: nil
+        case .tiles: .list
+        case .app: .tiles
         }
     }
 
-    private func switchToSwipeTab(_ newTab: AppTab) {
-        guard newTab != tab else { return }
-        withAnimation(.snappy) {
-            pageDragOffset = 0
-            tab = newTab
-        }
-    }
-
-    private func resetPageSwipeOffset() {
-        guard pageDragOffset != 0 else { return }
-        withAnimation(.snappy) {
-            pageDragOffset = 0
-        }
+    private func switchToFavoritesDisplayMode(_ mode: FavoritesDisplayMode) {
+        guard mode != favoritesDisplayMode else { return }
+        setFavoritesDisplayMode(mode)
     }
 
     private func resetPageSwipeTracking() {
         pageSwipeAxis = nil
-        resetPageSwipeOffset()
     }
 
     private func handleDisappear() {
@@ -660,26 +606,11 @@ struct StationListView: View {
             }
         }
         .id(source)
-        .transition(pageTransition)
-        .animation(.snappy, value: source)
     }
 
-    private var pageTransition: AnyTransition {
-        .asymmetric(
-            insertion: .move(edge: pageTransitionDirection.insertionEdge).combined(with: .opacity),
-            removal: .move(edge: pageTransitionDirection.removalEdge).combined(with: .opacity),
-        )
-    }
-
-    private func setSource(_ newSource: StationSource, animated: Bool) {
+    private func setSource(_ newSource: StationSource, animated _: Bool) {
         guard source != newSource else { return }
-        if animated {
-            withAnimation(.snappy) {
-                source = newSource
-            }
-        } else {
-            source = newSource
-        }
+        source = newSource
     }
 
     private func toggleRecentsFilter(closePicker: Bool = true) {
@@ -784,11 +715,6 @@ struct StationListView: View {
         }
     }
 
-    private func updatePageTransitionDirection(from oldTab: AppTab, to newTab: AppTab) {
-        guard oldTab != newTab else { return }
-        pageTransitionDirection = tabPosition(newTab) > tabPosition(oldTab) ? .forward : .backward
-    }
-
     private func stationSource(for tab: AppTab) -> StationSource {
         switch tab {
         case .browse: .all
@@ -801,13 +727,6 @@ struct StationListView: View {
         case .all: .browse
         case .favorites: .favorites
         case .recents: .browse
-        }
-    }
-
-    private func tabPosition(_ tab: AppTab) -> Int {
-        switch tab {
-        case .browse: 0
-        case .favorites: 1
         }
     }
 
@@ -1551,6 +1470,14 @@ struct StationListView: View {
     @ViewBuilder
     private var list: some View {
         if isFavoritesPage && !showingFavoritesCatalogFallback {
+            favoritesDisplayPage
+        } else {
+            stationScrollList
+        }
+    }
+
+    private var favoritesDisplayPage: some View {
+        Group {
             switch favoritesDisplayMode {
             case .list:
                 sortableFavoritesList
@@ -1559,9 +1486,10 @@ struct StationListView: View {
             case .app:
                 favoritesAppGrid
             }
-        } else {
-            stationScrollList
         }
+        .id(favoritesDisplayMode)
+        .contentShape(Rectangle())
+        .simultaneousGesture(pageSwipeGesture, including: pageSwipeGestureMask)
     }
 
     private var stationScrollList: some View {
@@ -3526,13 +3454,15 @@ private struct FavoriteStationAppIcon: View {
     let station: Station
     let isCurrent: Bool
     let isCustom: Bool
+    private let iconSize: CGFloat = 64
+    private let iconCornerRadius: CGFloat = 15
 
     var body: some View {
-        VStack(spacing: 7) {
-            artwork(size: 58)
+        VStack(spacing: 8) {
+            artwork
                 .overlay {
                     if isCurrent {
-                        Circle()
+                        RoundedRectangle(cornerRadius: iconCornerRadius, style: .continuous)
                             .stroke(RrradioTheme.accent, lineWidth: 2)
                             .padding(-3)
                     }
@@ -3550,14 +3480,42 @@ private struct FavoriteStationAppIcon: View {
     }
 
     @ViewBuilder
-    private func artwork(size: CGFloat) -> some View {
-        if isCustom {
-            LocalStationArtworkView(size: size)
-                .frame(width: size, height: size)
-        } else {
-            FaviconView(url: station.favicon, stationName: station.name, stationID: station.id, size: size)
-                .frame(width: size, height: size)
+    private var artwork: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: iconCornerRadius, style: .continuous)
+                .fill(isCustom ? RrradioTheme.bg2 : Color.white)
+            if isCustom {
+                Image(systemName: "house.fill")
+                    .font(.system(size: iconSize * 0.40, weight: .semibold))
+                    .foregroundStyle(RrradioTheme.ink3)
+            } else if let url = station.favicon {
+                CachedRemoteImage(url: url) { image in
+                    image
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: iconSize, height: iconSize)
+                        .clipped()
+                } placeholder: {
+                    initials
+                }
+            } else {
+                initials
+            }
         }
+        .frame(width: iconSize, height: iconSize)
+        .clipShape(RoundedRectangle(cornerRadius: iconCornerRadius, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: iconCornerRadius, style: .continuous)
+                .stroke(RrradioTheme.line)
+        }
+        .accessibilityHidden(true)
+    }
+
+    private var initials: some View {
+        Text(stationInitials(station.name))
+            .font(.system(size: 22, weight: .semibold, design: .monospaced))
+            .foregroundStyle(Color.black)
+            .frame(width: iconSize, height: iconSize)
     }
 }
 
