@@ -1,6 +1,15 @@
 <p align="center">
   <a href="https://rrradio.org">
     <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="public/rrradio-logo-app-dark.svg">
+      <img alt="rrradio logo" src="public/rrradio-logo-app-light.svg" width="96">
+    </picture>
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://rrradio.org">
+    <picture>
       <source media="(prefers-color-scheme: dark)" srcset="docs/wordmark-dark.svg">
       <img alt="rrradio.org" src="docs/wordmark-light.svg" width="480">
     </picture>
