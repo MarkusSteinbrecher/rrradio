@@ -123,6 +123,7 @@ struct StationListView: View {
     @State private var draggedFavoriteStationID: String?
     @State private var targetedFavoriteStationID: String?
     @State private var lastHandledFavoriteDropTargetID: String?
+    @State private var favoriteDeleteStationID: String?
     @State private var filterTask: Task<Void, Never>?
     @State private var searchUpdateTask: Task<Void, Never>?
     @State private var radioBrowserSearchTask: Task<Void, Never>?
@@ -131,6 +132,7 @@ struct StationListView: View {
     @State private var pageTransitionDirection = PageTransitionDirection.forward
     @State private var pageDragOffset: CGFloat = 0
     @State private var pageSwipeAxis: PageSwipeAxis?
+    @State private var favoritesSearchPresented = false
     @State private var stationInfoPreview: Station?
     @State private var stationInfoPreviewMetadata: [String: NowPlayingMetadata] = [:]
     @State private var stationInfoMetadataTask: Task<Void, Never>?
@@ -736,7 +738,7 @@ struct StationListView: View {
     }
 
     private func openBrowseFilterWidget() {
-        searchFocused = false
+        collapseFavoritesSearch()
         if activeFilterPicker == .main {
             activeFilterPicker = nil
             return
@@ -811,7 +813,7 @@ struct StationListView: View {
             brandActionsRow
             searchAndFilterRow
         }
-        .topbarChrome(top: 14, bottom: tab == .favorites ? 2 : 8)
+        .topbarChrome(top: 14, bottom: 8)
         .collapsingTopbarDivider(opacity: topbarDividerOpacity)
     }
 
@@ -821,24 +823,21 @@ struct StationListView: View {
             searchAndFilterRow
                 .frame(minWidth: 220, maxWidth: .infinity)
         }
-        .topbarChrome(top: 8, bottom: tab == .favorites ? 2 : 6)
+        .topbarChrome(top: 8, bottom: 6)
         .collapsingTopbarDivider(opacity: topbarDividerOpacity)
     }
 
     private var favoritesDisplayModeSelector: some View {
         HStack(spacing: 4) {
-            ForEach(FavoritesDisplayMode.allCases) { mode in
+            ForEach(FavoritesDisplayMode.allCases, id: \.self) { mode in
                 let selected = favoritesDisplayMode == mode
                 Button {
                     setFavoritesDisplayMode(mode)
                 } label: {
-                    Label(mode.title, systemImage: mode.systemImage)
-                        .font(.system(size: 11, weight: selected ? .semibold : .medium, design: .monospaced))
-                        .textCase(.uppercase)
-                        .tracking(1.1)
-                        .labelStyle(.titleAndIcon)
+                    Image(systemName: mode.systemImage)
+                        .font(.system(size: 13, weight: selected ? .semibold : .medium))
                         .foregroundStyle(selected ? RrradioTheme.bg : RrradioTheme.ink3)
-                        .frame(maxWidth: .infinity, minHeight: 28)
+                        .frame(width: topbarControlSize, height: topbarControlSize - 6)
                         .background(selected ? RrradioTheme.buttonFill : .clear)
                         .clipShape(Capsule())
                         .contentShape(Capsule())
@@ -848,17 +847,22 @@ struct StationListView: View {
             }
         }
         .padding(3)
-        .frame(maxWidth: 284)
         .background(RrradioTheme.bg2)
         .overlay(Capsule().stroke(RrradioTheme.line))
         .clipShape(Capsule())
-        .frame(maxWidth: .infinity, alignment: .center)
+        .frame(width: favoritesDisplayModeSelectorWidth, height: topbarControlSize)
     }
 
     private func setFavoritesDisplayMode(_ mode: FavoritesDisplayMode) {
         guard favoritesDisplayMode != mode else { return }
         favoritesDisplayModeRaw = mode.rawValue
         cloudSync.noteSettingsChanged()
+    }
+
+    private var favoritesDisplayModeSelectorWidth: CGFloat {
+        let itemCount = CGFloat(FavoritesDisplayMode.allCases.count)
+        let itemSpacing = CGFloat(max(FavoritesDisplayMode.allCases.count - 1, 0)) * 4
+        return itemCount * topbarControlSize + itemSpacing + 6
     }
 
     private var topbarCollapse: CGFloat {
@@ -881,22 +885,39 @@ struct StationListView: View {
         .frame(maxWidth: .infinity, alignment: .center)
     }
 
+    private var headerRule: some View {
+        Rectangle()
+            .fill(RrradioTheme.line)
+            .frame(height: 1)
+            .accessibilityHidden(true)
+    }
+
+    private func inlineHeaderControls<Controls: View>(
+        topPadding: CGFloat,
+        @ViewBuilder controls: () -> Controls,
+    ) -> some View {
+        VStack(spacing: 6) {
+            controls()
+                .frame(height: browseControlsExpandedHeight, alignment: .center)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.horizontal, 20)
+            headerRule
+        }
+        .padding(.top, topPadding)
+        .padding(.bottom, 4)
+        .frame(maxWidth: .infinity)
+    }
+
     private var inlineBrowseControls: some View {
-        secondaryBrowseControls
-            .padding(.horizontal, 20)
-            .frame(maxWidth: .infinity)
+        inlineHeaderControls(topPadding: 0) {
+            secondaryBrowseControls
+        }
     }
 
     private var inlineFavoritesControls: some View {
-        VStack(spacing: 6) {
-            favoritesDisplayModeSelector
+        inlineHeaderControls(topPadding: 6) {
             statusToolbar
-                .frame(height: 14, alignment: .center)
         }
-        .padding(.horizontal, 20)
-        .padding(.top, 6)
-        .padding(.bottom, 4)
-        .frame(maxWidth: .infinity)
     }
 
     private var brandActionsRow: some View {
@@ -905,22 +926,17 @@ struct StationListView: View {
                 searchText = ""
                 query = ""
                 searchFocused = false
+                favoritesSearchPresented = false
                 source = .all
                 clearBrowseFilters()
                 browseStationSort = nil
                 activeFilterPicker = nil
             } label: {
-                HStack(alignment: .firstTextBaseline, spacing: 6) {
-                    Text("r r r")
-                        .foregroundStyle(RrradioTheme.accent)
-                    Text("a d i o . o r g")
-                        .foregroundStyle(RrradioTheme.ink)
-                    Text("beta")
-                        .font(.system(size: 11, weight: .medium))
-                        .foregroundStyle(RrradioTheme.accent)
-                        .baselineOffset(4)
-                }
-                .font(.system(size: 16, weight: .medium))
+                Image("RrradioLogo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 36, height: 36)
+                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             }
             .buttonStyle(.plain)
             .accessibilityLabel(locale.text(.goHome))
@@ -947,60 +963,132 @@ struct StationListView: View {
         }
     }
 
-    private var searchField: some View {
-        HStack(spacing: 8) {
+    private func searchField(collapsed: Bool = false) -> some View {
+        HStack(spacing: collapsed ? 0 : 8) {
             Image(systemName: "magnifyingglass")
                 .font(.system(size: 14, weight: .medium))
                 .foregroundStyle(RrradioTheme.ink3)
-            TextField(searchPlaceholder, text: $searchText)
-                .font(.system(size: 16))
-                .foregroundStyle(RrradioTheme.ink)
-                .textInputAutocapitalization(.never)
-                .autocorrectionDisabled()
-                .submitLabel(.search)
-                .focused($searchFocused)
-                .onSubmit {
-                    searchUpdateTask?.cancel()
-                    query = searchText
-                    searchFocused = false
-                }
-                .onChange(of: searchFocused) { _, focused in
-                    if focused {
-                        activeFilterPicker = nil
+
+            if !collapsed {
+                TextField(searchPlaceholder, text: $searchText)
+                    .font(.system(size: 16))
+                    .foregroundStyle(RrradioTheme.ink)
+                    .tint(RrradioTheme.accent)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled()
+                    .submitLabel(.search)
+                    .focused($searchFocused)
+                    .onSubmit {
+                        searchUpdateTask?.cancel()
+                        query = searchText
+                        searchFocused = false
                     }
+
+                Button {
+                    searchUpdateTask?.cancel()
+                    searchText = ""
+                    query = ""
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(RrradioTheme.ink3)
+                        .frame(width: 24, height: 24)
                 }
-            Button {
-                searchUpdateTask?.cancel()
-                searchText = ""
-                query = ""
-            } label: {
-                Image(systemName: "xmark")
-                    .font(.system(size: 12, weight: .semibold))
-                    .foregroundStyle(RrradioTheme.ink3)
-                    .frame(width: 24, height: 24)
+                .buttonStyle(.plain)
+                .opacity(searchText.isEmpty ? 0 : 1)
+                .disabled(searchText.isEmpty)
+                .accessibilityHidden(searchText.isEmpty)
+                .accessibilityLabel(locale.text(.clearSearch))
             }
-            .buttonStyle(.plain)
-            .opacity(searchText.isEmpty ? 0 : 1)
-            .disabled(searchText.isEmpty)
-            .accessibilityHidden(searchText.isEmpty)
-            .accessibilityLabel(locale.text(.clearSearch))
         }
-        .padding(.leading, 12)
-        .padding(.trailing, 6)
-        .padding(.vertical, 9)
+        .padding(.leading, collapsed ? 0 : 12)
+        .padding(.trailing, collapsed ? 0 : 6)
+        .frame(width: collapsed ? topbarControlSize : nil, height: topbarControlSize)
         .background(RrradioTheme.bg2)
         .overlay(Capsule().stroke(RrradioTheme.line))
         .clipShape(Capsule())
+        .contentShape(Capsule())
+        .onTapGesture {
+            if collapsed {
+                expandFavoritesSearch()
+            }
+        }
+        .onChange(of: searchFocused) { _, focused in
+            if focused {
+                activeFilterPicker = nil
+            } else if tab == .favorites && searchText.isEmpty {
+                favoritesSearchPresented = false
+            }
+        }
     }
 
+    @ViewBuilder
     private var searchAndFilterRow: some View {
-        HStack(spacing: topbarControlSpacing) {
-            searchField
-                .frame(maxWidth: .infinity)
-            if tab == .browse || tab == .favorites {
+        if tab == .favorites {
+            favoritesTopbarControlRow
+        } else {
+            HStack(spacing: topbarControlSpacing) {
+                searchField()
+                    .frame(maxWidth: .infinity)
                 filterPill
             }
         }
+    }
+
+    private var favoritesSearchExpanded: Bool {
+        tab == .favorites && (favoritesSearchPresented || searchFocused || !searchText.isEmpty)
+    }
+
+    private func expandFavoritesSearch() {
+        favoritesSearchPresented = true
+        activeFilterPicker = nil
+        Task { @MainActor in
+            await Task.yield()
+            searchFocused = true
+        }
+    }
+
+    private func collapseFavoritesSearch() {
+        searchFocused = false
+        if searchText.isEmpty {
+            favoritesSearchPresented = false
+        }
+    }
+
+    private var filterPillWidth: CGFloat {
+        hasActiveBrowseFilter ? topbarControlSize * 2 + topbarControlSpacing : topbarControlSize
+    }
+
+    private var favoritesTopbarControlRow: some View {
+        GeometryReader { proxy in
+            let availableWidth = proxy.size.width
+            let selectorLeading = max(
+                0,
+                (availableWidth - favoritesDisplayModeSelectorWidth) / 2
+            )
+            let maximumSearchWidth = max(
+                topbarControlSize,
+                selectorLeading - topbarControlSpacing
+            )
+            let searchWidth = favoritesSearchExpanded ? maximumSearchWidth : topbarControlSize
+
+            ZStack {
+                HStack(spacing: topbarControlSpacing) {
+                    searchField(collapsed: !favoritesSearchExpanded)
+                        .frame(width: searchWidth)
+
+                    Spacer(minLength: 0)
+
+                    filterPill
+                        .frame(width: filterPillWidth)
+                }
+
+                favoritesDisplayModeSelector
+            }
+        }
+        .frame(height: topbarControlSize)
+        .animation(.snappy(duration: 0.18), value: favoritesSearchExpanded)
+        .animation(.snappy(duration: 0.18), value: hasActiveBrowseFilter)
     }
 
     @ViewBuilder
@@ -1441,6 +1529,8 @@ struct StationListView: View {
             LazyVStack(spacing: 6, pinnedViews: [.sectionHeaders]) {
                 if tab == .browse {
                     inlineBrowseControls
+                } else if tab == .favorites {
+                    inlineFavoritesControls
                 }
 
                 Section {
@@ -1476,7 +1566,7 @@ struct StationListView: View {
                     timerStatusStrip
                 }
             }
-            .padding(.top, 6)
+            .padding(.top, tab == .browse ? 6 : 0)
             .padding(.bottom, 12)
         }
         .scrollDismissesKeyboard(.immediately)
@@ -1519,7 +1609,7 @@ struct StationListView: View {
                 StationRow(
                     station: station,
                     nowPlaying: favoriteNowPlaying.entries[station.id]?.metadata,
-                    mode: .favoritesExpanded,
+                    mode: .favoritesListCard,
                     isCurrent: player.current?.id == station.id,
                     isPlaying: player.current?.id == station.id && player.state == .playing,
                     isFavorite: true,
@@ -1545,6 +1635,7 @@ struct StationListView: View {
             }
         }
         .listStyle(.plain)
+        .listRowSpacing(6)
         .scrollContentBackground(.hidden)
         .scrollDismissesKeyboard(.immediately)
         .scrollIndicators(.hidden)
@@ -1592,12 +1683,13 @@ struct StationListView: View {
                         lastHandledTargetID: $lastHandledFavoriteDropTargetID,
                     ),
                 )
+                .padding(.horizontal, 14)
 
                 if visibleStations.count < filteredStations.count {
                     loadMoreRow
+                        .padding(.horizontal, 14)
                 }
             }
-            .padding(.horizontal, 14)
             .padding(.top, 0)
             .padding(.bottom, 16)
         }
@@ -1643,12 +1735,13 @@ struct StationListView: View {
                         lastHandledTargetID: $lastHandledFavoriteDropTargetID,
                     ),
                 )
+                .padding(.horizontal, 18)
 
                 if visibleStations.count < filteredStations.count {
                     loadMoreRow
+                        .padding(.horizontal, 18)
                 }
             }
-            .padding(.horizontal, 18)
             .padding(.top, 0)
             .padding(.bottom, 18)
         }
@@ -1665,16 +1758,42 @@ struct StationListView: View {
         @ViewBuilder content: () -> Content,
     ) -> some View {
         if canReorderFavorites {
-            content()
+            let showsReorderPlaceholder = draggedFavoriteStationID == station.id
+                && targetedFavoriteStationID != nil
+            let showsDeleteButton = favoriteDeleteStationID == station.id
+                && targetedFavoriteStationID == nil
+            ZStack(alignment: .topTrailing) {
+                content()
+
+                if showsDeleteButton {
+                    favoriteDeleteButton(station)
+                        .padding(.top, -8)
+                        .padding(.trailing, -8)
+                }
+            }
+                .opacity(showsReorderPlaceholder ? 0 : 1)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    handleFavoriteGridTap(station)
+                    if favoriteDeleteStationID != nil {
+                        hideFavoriteDeleteButton()
+                    } else {
+                        handleFavoriteGridTap(station)
+                    }
                 }
                 .accessibilityAddTraits(.isButton)
+                .simultaneousGesture(
+                    LongPressGesture(minimumDuration: 0.42, maximumDistance: 10)
+                        .onEnded { _ in
+                            showFavoriteDeleteButton(for: station)
+                        },
+                )
                 .onDrag {
                     draggedFavoriteStationID = station.id
                     targetedFavoriteStationID = nil
                     lastHandledFavoriteDropTargetID = nil
+                    withAnimation(.snappy(duration: 0.16)) {
+                        favoriteDeleteStationID = station.id
+                    }
                     UIImpactFeedbackGenerator(style: .light).impactOccurred()
                     return NSItemProvider(object: station.id as NSString)
                 }
@@ -1688,6 +1807,7 @@ struct StationListView: View {
                         moveStation: moveFavoriteGridStation,
                     ),
                 )
+                .accessibilityHidden(showsReorderPlaceholder)
                 .accessibilityHint("Drag to reorder favorites")
         } else {
             content()
@@ -1702,11 +1822,55 @@ struct StationListView: View {
     private func clearFavoriteGridDragState() {
         guard draggedFavoriteStationID != nil
             || targetedFavoriteStationID != nil
-            || lastHandledFavoriteDropTargetID != nil else { return }
+            || lastHandledFavoriteDropTargetID != nil
+            || favoriteDeleteStationID != nil else { return }
+        draggedFavoriteStationID = nil
+        targetedFavoriteStationID = nil
+        lastHandledFavoriteDropTargetID = nil
+        favoriteDeleteStationID = nil
+    }
+
+    private func showFavoriteDeleteButton(for station: Station) {
+        guard canReorderFavorites,
+              targetedFavoriteStationID == nil,
+              draggedFavoriteStationID == nil || draggedFavoriteStationID == station.id else { return }
+        withAnimation(.snappy(duration: 0.16)) {
+            favoriteDeleteStationID = station.id
+        }
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+    }
+
+    private func hideFavoriteDeleteButton() {
+        guard favoriteDeleteStationID != nil else { return }
         withAnimation(.snappy(duration: 0.12)) {
-            draggedFavoriteStationID = nil
-            targetedFavoriteStationID = nil
-            lastHandledFavoriteDropTargetID = nil
+            favoriteDeleteStationID = nil
+        }
+    }
+
+    private func favoriteDeleteButton(_ station: Station) -> some View {
+        Button {
+            removeFavoriteFromGrid(station)
+        } label: {
+            Image(systemName: "trash")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(.red)
+                .frame(width: 32, height: 32)
+                .background(Circle().fill(RrradioTheme.bg2))
+                .overlay(Circle().stroke(Color.red.opacity(0.34)))
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Remove from favorites")
+        .transition(.scale(scale: 0.82).combined(with: .opacity))
+    }
+
+    private func removeFavoriteFromGrid(_ station: Station) {
+        hideFavoriteDeleteButton()
+        filterTask?.cancel()
+        withAnimation(.snappy(duration: 0.18)) {
+            filteredStations.removeAll { $0.id == station.id }
+        }
+        if library.isFavorite(station) {
+            library.toggleFavorite(station)
         }
     }
 
@@ -1836,6 +2000,7 @@ struct StationListView: View {
               let sourceIndex = filteredStations.firstIndex(where: { $0.id == draggedID }),
               let targetIndex = filteredStations.firstIndex(where: { $0.id == targetID }) else { return }
         filterTask?.cancel()
+        favoriteDeleteStationID = nil
 
         var ordered = filteredStations
         let destination = targetIndex > sourceIndex ? targetIndex + 1 : targetIndex
@@ -2601,11 +2766,9 @@ private struct FavoriteStationDropDelegate: DropDelegate {
     }
 
     private func clearDragState() {
-        withAnimation(.snappy(duration: 0.12)) {
-            draggedStationID = nil
-            targetedStationID = nil
-            lastHandledTargetID = nil
-        }
+        draggedStationID = nil
+        targetedStationID = nil
+        lastHandledTargetID = nil
     }
 }
 
@@ -2633,11 +2796,9 @@ private struct FavoriteGridDropResetDelegate: DropDelegate {
     }
 
     private func clearDragState() {
-        withAnimation(.snappy(duration: 0.12)) {
-            draggedStationID = nil
-            targetedStationID = nil
-            lastHandledTargetID = nil
-        }
+        draggedStationID = nil
+        targetedStationID = nil
+        lastHandledTargetID = nil
     }
 }
 
@@ -2656,6 +2817,7 @@ private func stationHasProgramInfo(_ station: Station) -> Bool {
 struct StationRow: View {
     enum Mode {
         case standard
+        case favoritesListCard
         case favoritesExpanded
     }
 
@@ -2676,26 +2838,35 @@ struct StationRow: View {
     private let trailingControlSize: CGFloat = 36
     private let trailingControlSpacing: CGFloat = 8
     private var rowContentTrailingPadding: CGFloat {
-        mode == .standard ? 6 : 20
+        mode == .standard ? 6 : 14
+    }
+    private var usesFavoritesMetadataLayout: Bool {
+        mode == .favoritesListCard || mode == .favoritesExpanded
+    }
+    private var usesCardBackground: Bool {
+        mode == .standard || mode == .favoritesListCard
+    }
+    private var usesTopSeparator: Bool {
+        mode == .favoritesExpanded
     }
 
     var body: some View {
         HStack(spacing: 14) {
-            HStack(spacing: mode == .favoritesExpanded ? 16 : 14) {
+            HStack(spacing: usesFavoritesMetadataLayout ? 16 : 14) {
                 rowArtwork
                 rowText
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                if mode == .favoritesExpanded, expandedArtworkURL != nil {
+                if usesFavoritesMetadataLayout, expandedArtworkURL != nil {
                     expandedCoverArtwork
-                        .frame(width: 58, height: 58)
+                        .frame(width: expandedCoverArtworkSize, height: expandedCoverArtworkSize)
                         .layoutPriority(1)
                 }
-                if isPlaying && mode != .favoritesExpanded {
+                if isPlaying && !usesFavoritesMetadataLayout {
                     EqualizerView()
                 }
             }
-            .frame(minHeight: mode == .favoritesExpanded ? 58 : 38)
+            .frame(minHeight: usesFavoritesMetadataLayout ? 72 : 38)
             .contentShape(Rectangle())
             .onTapGesture {
                 if suppressNextPlay {
@@ -2710,14 +2881,14 @@ struct StationRow: View {
         }
         .padding(.leading, 20)
         .padding(.trailing, rowContentTrailingPadding)
-        .padding(.vertical, mode == .favoritesExpanded ? 16 : 14)
+        .padding(.vertical, usesFavoritesMetadataLayout ? 16 : 14)
         .alert("Stream quality", isPresented: $showingStreamQuality) {
             Button("OK", role: .cancel) {}
         } message: {
             Text(streamQualityMessage)
         }
         .background {
-            if mode == .standard {
+            if usesCardBackground {
                 RoundedRectangle(cornerRadius: 6, style: .continuous)
                     .fill(RrradioTheme.bg2)
             } else if isCurrent {
@@ -2738,14 +2909,14 @@ struct StationRow: View {
             }
         }
         .overlay(alignment: .top) {
-            if mode != .standard {
+            if usesTopSeparator {
                 Rectangle()
                     .fill(RrradioTheme.line)
                     .frame(maxWidth: .infinity)
                     .frame(height: 1)
             }
         }
-        .padding(.horizontal, mode == .standard ? 14 : 0)
+        .padding(.horizontal, usesCardBackground ? 14 : 0)
         .contentShape(Rectangle())
         .onLongPressGesture(
             minimumDuration: 0.36,
@@ -2831,7 +3002,7 @@ struct StationRow: View {
 
     @ViewBuilder
     private var rowArtwork: some View {
-        let artworkSize: CGFloat = mode == .favoritesExpanded ? 46 : 38
+        let artworkSize: CGFloat = usesFavoritesMetadataLayout ? 46 : 38
         if isCustom {
             LocalStationArtworkView(size: artworkSize)
                 .frame(width: artworkSize, height: artworkSize)
@@ -2843,18 +3014,17 @@ struct StationRow: View {
 
     @ViewBuilder
     private var rowText: some View {
-        if mode == .favoritesExpanded {
+        if usesFavoritesMetadataLayout {
             VStack(alignment: .leading, spacing: 4) {
                 stationTitleLine
-                if let programInfoLine {
-                    detailText(programInfoLine, style: .secondary)
-                }
                 if let trackLine {
                     detailText(trackLine, style: .primary)
                 } else if let headlineLine {
                     detailText(headlineLine, style: .primary)
                 }
-                streamDetailView
+                if let programInfoLine {
+                    detailText(programInfoLine, style: .secondary)
+                }
             }
         } else {
             VStack(alignment: .leading, spacing: 3) {
@@ -2876,7 +3046,7 @@ struct StationRow: View {
     private var stationTitleLine: some View {
         HStack(spacing: 4) {
             HStack(spacing: 4) {
-                Text(mode == .favoritesExpanded ? station.name : primaryLine)
+                Text(usesFavoritesMetadataLayout ? station.name : primaryLine)
                     .font(.system(size: 15, weight: .medium))
                     .foregroundStyle(isCurrent ? RrradioTheme.accent : RrradioTheme.ink)
                     .lineLimit(1)
@@ -2956,8 +3126,13 @@ struct StationRow: View {
     private var expandedCoverArtwork: some View {
         NowPlayingArtworkThumb(
             url: nowPlaying?.coverUrl,
-            size: 58,
+            size: expandedCoverArtworkSize,
+            showsBorder: false,
         )
+    }
+
+    private var expandedCoverArtworkSize: CGFloat {
+        64
     }
 
     private var expandedArtworkURL: URL? {
@@ -3258,6 +3433,7 @@ struct EqualizerView: View {
 struct NowPlayingArtworkThumb: View {
     let url: URL?
     let size: CGFloat
+    var showsBorder = true
 
     var body: some View {
         ZStack {
@@ -3276,7 +3452,12 @@ struct NowPlayingArtworkThumb: View {
         }
         .frame(width: size, height: size)
         .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 6, style: .continuous).stroke(RrradioTheme.line))
+        .overlay {
+            if showsBorder {
+                RoundedRectangle(cornerRadius: 6, style: .continuous)
+                    .stroke(RrradioTheme.line)
+            }
+        }
     }
 }
 
