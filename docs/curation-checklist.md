@@ -114,7 +114,8 @@ provenance recorded?
 
 **Failure path:** Auto-imported stations get the broadcaster's favicon
 URL from Radio Browser, which is often low-res or off-brand. To
-upgrade:
+upgrade remote logos in batches, use `docs/logo-extraction.md`. For
+curated bundled assets:
 1. Find a high-res square logo on the broadcaster's site (their press
    kit, brand page, web app manifest, or the `og:image` meta on their
    main page). Prefer the broadcaster site over generic image search.
