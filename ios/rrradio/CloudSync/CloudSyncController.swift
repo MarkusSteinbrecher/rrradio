@@ -87,7 +87,7 @@ final class CloudSyncController {
         self.diagnostics = diagnostics
 
         library.onChange = { [weak self] change in
-            guard change != .recents else { return }
+            guard change == .favorites || change == .customStations else { return }
             Task { @MainActor in self?.schedulePush() }
         }
         theme.onChange = { [weak self] in

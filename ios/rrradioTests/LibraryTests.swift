@@ -35,6 +35,7 @@ final class LibraryTests: XCTestCase {
         XCTAssertTrue(library.favorites.isEmpty)
         XCTAssertTrue(library.recents.isEmpty)
         XCTAssertTrue(library.customStations.isEmpty)
+        XCTAssertTrue(library.stationLists.isEmpty)
     }
 
     func testToggleFavoriteAddsAndRemoves() {
@@ -88,6 +89,110 @@ final class LibraryTests: XCTestCase {
         library.reorderFavorites(["a", "missing", "c"])
 
         XCTAssertEqual(library.favorites.map(\.id), ["a", "c", "b"])
+    }
+
+    func testCreateStationListPersistsAcrossInstances() {
+        let first = Library(defaults: defaults)
+        let list = first.createStationList(name: " Morning ", stations: [station("a"), station("b")])
+
+        let second = Library(defaults: defaults)
+
+        XCTAssertEqual(second.stationLists.map(\.id), [list.id])
+        XCTAssertEqual(second.stationLists.first?.name, "Morning")
+        XCTAssertEqual(second.stationLists.first?.stations.map(\.id), ["a", "b"])
+    }
+
+    func testCreateStationListDedupesStationsAndUsesFallbackName() {
+        let library = Library(defaults: defaults)
+
+        let list = library.createStationList(name: "   ", stations: [station("a"), station("b"), station("a")])
+
+        XCTAssertEqual(list.name, "Station List")
+        XCTAssertEqual(list.stations.map(\.id), ["a", "b"])
+        XCTAssertEqual(library.stationLists.first?.stations.map(\.id), ["a", "b"])
+    }
+
+    func testRenameStationList() {
+        let library = Library(defaults: defaults)
+        let list = library.createStationList(name: "Old")
+
+        XCTAssertTrue(library.renameStationList(id: list.id, name: " New "))
+        XCTAssertFalse(library.renameStationList(id: "missing", name: "Other"))
+
+        XCTAssertEqual(library.stationLists.first?.name, "New")
+    }
+
+    func testRemoveStationList() {
+        let library = Library(defaults: defaults)
+        let first = library.createStationList(name: "First")
+        let second = library.createStationList(name: "Second")
+
+        XCTAssertTrue(library.removeStationList(id: first.id))
+        XCTAssertFalse(library.removeStationList(id: "missing"))
+
+        XCTAssertEqual(library.stationLists.map(\.id), [second.id])
+    }
+
+    func testReorderStationListsDropsUnknownIdsAndKeepsMissedLists() {
+        let library = Library(defaults: defaults)
+        let first = library.createStationList(name: "First")
+        let second = library.createStationList(name: "Second")
+        let third = library.createStationList(name: "Third")
+
+        XCTAssertTrue(library.reorderStationLists([first.id, "missing", third.id]))
+
+        XCTAssertEqual(library.stationLists.map(\.id), [first.id, third.id, second.id])
+    }
+
+    func testAddStationToStationListPreventsDuplicates() {
+        let library = Library(defaults: defaults)
+        let list = library.createStationList(name: "Morning")
+        let fm4 = station("fm4", name: "FM4")
+
+        XCTAssertTrue(library.addStation(fm4, toStationList: list.id))
+        XCTAssertFalse(library.addStation(fm4, toStationList: list.id))
+
+        XCTAssertEqual(library.stationList(id: list.id)?.stations.map(\.id), ["fm4"])
+    }
+
+    func testAddStationToStationListUpdatesExistingSnapshot() {
+        let library = Library(defaults: defaults)
+        let list = library.createStationList(name: "Morning", stations: [station("fm4", name: "Old")])
+
+        XCTAssertTrue(library.addStation(station("fm4", name: "New"), toStationList: list.id))
+
+        XCTAssertEqual(library.stationList(id: list.id)?.stations.map(\.id), ["fm4"])
+        XCTAssertEqual(library.stationList(id: list.id)?.stations.first?.name, "New")
+    }
+
+    func testRemoveStationFromStationList() {
+        let library = Library(defaults: defaults)
+        let list = library.createStationList(name: "Morning", stations: [station("a"), station("b")])
+
+        XCTAssertTrue(library.removeStation(stationID: "a", fromStationList: list.id))
+        XCTAssertFalse(library.removeStation(stationID: "missing", fromStationList: list.id))
+
+        XCTAssertEqual(library.stationList(id: list.id)?.stations.map(\.id), ["b"])
+    }
+
+    func testReorderStationListStationsDropsUnknownIdsAndKeepsMissedStations() {
+        let library = Library(defaults: defaults)
+        let list = library.createStationList(name: "Morning", stations: [station("a"), station("b"), station("c")])
+
+        XCTAssertTrue(library.reorderStations(inStationList: list.id, orderedIds: ["c", "missing", "a"]))
+
+        XCTAssertEqual(library.stationList(id: list.id)?.stations.map(\.id), ["c", "a", "b"])
+    }
+
+    func testStationListChangesAreReported() {
+        let library = Library(defaults: defaults)
+        var changes: [Library.Change] = []
+        library.onChange = { changes.append($0) }
+
+        let list = library.createStationList(name: "Morning")
+        library.addStation(station("a"), toStationList: list.id)
+
+        XCTAssertEqual(changes, [.stationLists, .stationLists])
     }
 
     func testRefreshFavoritesUpdatesMatchingCatalogSnapshots() {
@@ -172,16 +277,31 @@ final class LibraryTests: XCTestCase {
         XCTAssertTrue(library.recents.isEmpty)
     }
 
+    func testRemoveCustomAlsoRemovesSavedStationListCopies() {
+        let library = Library(defaults: defaults)
+        let custom = station("custom-a")
+        library.addCustom(custom)
+        let list = library.createStationList(name: "Custom", stations: [custom, station("catalog-a")])
+
+        library.removeCustom(id: "custom-a")
+
+        XCTAssertEqual(library.stationList(id: list.id)?.stations.map(\.id), ["catalog-a"])
+    }
+
     func testUnfavoritingCustomStationRemovesCustomRecord() {
         let library = Library(defaults: defaults)
         let custom = station("custom-a")
         library.addCustom(custom)
         library.pushRecent(custom)
+        library.createStationList(name: "Custom", stations: [custom])
 
         XCTAssertFalse(library.toggleFavorite(custom))
 
         XCTAssertTrue(library.customStations.isEmpty)
         XCTAssertTrue(library.favorites.isEmpty)
         XCTAssertTrue(library.recents.isEmpty)
+        XCTAssertTrue(library.stationLists.allSatisfy { list in
+            !list.stations.contains { $0.id == custom.id }
+        })
     }
 }
