@@ -3,6 +3,7 @@ options:
   bundleIdPrefix: org.rrradio
   deploymentTarget:
     iOS: "17.0"
+    watchOS: "10.0"
   developmentLanguage: en
   createIntermediateGroups: true
 
@@ -24,11 +25,14 @@ targets:
       - path: rrradio
         excludes:
           - "Info.plist"
+      - path: Shared/WatchRemoteProtocol.swift
     resources:
       - path: rrradio/Resources/Assets.xcassets
       - path: rrradio/Resources/stations.fts5.db
     dependencies:
+      - target: rrradioWatch
       - sdk: libsqlite3.tbd
+      - sdk: WatchConnectivity.framework
     info:
       path: rrradio/Resources/Info.plist
       properties:
@@ -84,6 +88,29 @@ targets:
         ENABLE_PREVIEWS: YES
         TARGETED_DEVICE_FAMILY: "1,2"
 
+  rrradioWatch:
+    type: application
+    platform: watchOS
+    deploymentTarget: "10.0"
+    sources:
+      - path: rrradioWatch
+      - path: Shared/WatchRemoteProtocol.swift
+    dependencies:
+      - sdk: WatchConnectivity.framework
+    info:
+      path: rrradioWatch/Info.plist
+      properties:
+        CFBundleDisplayName: rrradio
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        ITSAppUsesNonExemptEncryption: false
+        WKApplication: true
+        WKCompanionAppBundleIdentifier: ios.rrradio.org
+        WKRunsIndependentlyOfCompanionApp: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: ios.rrradio.org.watchkitapp
+
   # XCTest target — covers the parts of the iOS app that don't need a
   # SwiftUI host: catalog decoding, cache fallback, search matching, and
   # the AudioPlayer's idle-state contract. Real AVPlayer behaviour is
@@ -108,3 +135,7 @@ schemes:
       targets:
         - rrradioTests
       gatherCoverageData: true
+  rrradioWatch:
+    build:
+      targets:
+        rrradioWatch: all
