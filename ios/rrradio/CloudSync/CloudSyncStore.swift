@@ -62,6 +62,10 @@ struct CloudSyncRecordFetchError: LocalizedError {
     }
 }
 
+enum CloudSyncPreferencesSchema {
+    static let currentVersion = 1
+}
+
 // CloudKit handle types are immutable references used only through async APIs here,
 // but the SDK does not currently annotate them as Sendable.
 final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
@@ -272,6 +276,9 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
             do {
                 records.append(try recordResult.get())
             } catch {
+                if Self.isMissingRecordError(error) {
+                    continue
+                }
                 failedNames.append(id.recordName)
             }
         }
@@ -285,19 +292,7 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
 
     private func fetchStations(ids: [CKRecord.ID]) async throws -> [Station] {
         let records = try await fetchRecords(ids: ids)
-        var stations: [Station] = []
-        var invalidNames: [String] = []
-        for record in records {
-            guard let station = stationData(from: record) else {
-                invalidNames.append(record.recordID.recordName)
-                continue
-            }
-            stations.append(station)
-        }
-        guard invalidNames.isEmpty else {
-            throw CloudSyncRecordFetchError(recordNames: invalidNames)
-        }
-        return stations
+        return records.compactMap(Self.stationData)
     }
 
     private func modify(recordsToSave: [CKRecord], recordIDsToDelete: [CKRecord.ID]) async throws {
@@ -338,6 +333,8 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
 
     private func makePreferencesRecord(_ snapshot: CloudSyncSnapshot) -> CKRecord {
         let record = CKRecord(recordType: RecordType.preferences, recordID: CKRecord.ID(recordName: RecordName.preferences))
+        record["schemaVersion"] = CloudSyncPreferencesSchema.currentVersion
+        record["updatedAt"] = Date()
         record["theme"] = snapshot.theme
         record["locale"] = snapshot.locale
         record["sleepTimerDefaultMinutes"] = snapshot.sleepTimerDefaultMinutes
@@ -365,7 +362,7 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
         return data as NSData
     }
 
-    private func stationData(from record: CKRecord) -> Station? {
+    static func stationData(from record: CKRecord) -> Station? {
         let data = (record["stationData"] as? Data) ?? (record["stationData"] as? NSData).map { Data(referencing: $0) }
         guard let data else { return nil }
         return try? JSONDecoder().decode(Station.self, from: data)
@@ -375,5 +372,10 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
         let digest = SHA256.hash(data: Data(stationID.utf8))
         let hash = digest.map { String(format: "%02x", $0) }.joined()
         return CKRecord.ID(recordName: "\(prefix)-\(hash)")
+    }
+
+    private static func isMissingRecordError(_ error: Error) -> Bool {
+        guard let cloudError = error as? CKError else { return false }
+        return cloudError.code == .unknownItem
     }
 }

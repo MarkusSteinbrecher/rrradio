@@ -94,6 +94,50 @@ final class CloudSyncControllerTests: XCTestCase {
         )
     }
 
+    func testInvalidRemotePreferenceEnumsDoNotClobberLocalChoices() async throws {
+        let defaults = makeDefaults()
+        defaults.set(ThemeController.Choice.dark.rawValue, forKey: "rrradio.theme")
+        defaults.set(LocaleController.Choice.german.rawValue, forKey: "rrradio.locale")
+        defaults.set(FavoritesDisplayMode.app.rawValue, forKey: FavoritesDisplayMode.storageKey)
+        defaults.set(true, forKey: ListeningHistory.enabledKey)
+        defaults.set(ListeningHistoryLevel.tracks.rawValue, forKey: ListeningHistoryLevel.storageKey)
+        defaults.set(ListeningHistoryRetention.forever.rawValue, forKey: ListeningHistoryRetention.storageKey)
+        let store = FakeCloudSyncStore(
+            snapshot: snapshot(
+                theme: "future-theme",
+                locale: "future-locale",
+                favoritesDisplayMode: "future-display",
+                listeningHistoryLevel: "future-level",
+                listeningHistoryRetention: "future-retention",
+            ),
+        )
+        let dependencies = makeDependencies(defaults: defaults, store: store)
+
+        await dependencies.controller.refreshFromCloud()
+
+        XCTAssertEqual(dependencies.theme.choice, .dark)
+        XCTAssertEqual(dependencies.locale.choice, .german)
+        XCTAssertEqual(defaults.string(forKey: FavoritesDisplayMode.storageKey), FavoritesDisplayMode.app.rawValue)
+        XCTAssertTrue(dependencies.listeningHistory.isEnabled)
+        XCTAssertEqual(dependencies.listeningHistory.level, .tracks)
+        XCTAssertEqual(dependencies.listeningHistory.retention, .forever)
+    }
+
+    func testCloudKitStationRecordDecoderRejectsLegacyInvalidPayloads() throws {
+        let valid = station("valid")
+        let validRecord = CKRecord(recordType: "Favorite", recordID: CKRecord.ID(recordName: "favorite-valid"))
+        validRecord["stationData"] = try JSONEncoder().encode(valid) as NSData
+        XCTAssertEqual(CloudKitSyncStore.stationData(from: validRecord)?.id, valid.id)
+
+        let legacyRecord = CKRecord(recordType: "Favorite", recordID: CKRecord.ID(recordName: "favorite-legacy"))
+        legacyRecord["stationData"] = Data(#"{"id":"legacy"}"#.utf8) as NSData
+        XCTAssertNil(CloudKitSyncStore.stationData(from: legacyRecord))
+    }
+
+    func testCloudSyncPreferencesSchemaVersionIsExplicit() {
+        XCTAssertEqual(CloudSyncPreferencesSchema.currentVersion, 1)
+    }
+
     private func makeDependencies(
         defaults: UserDefaults,
         store: CloudSyncStoring,

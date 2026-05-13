@@ -95,7 +95,8 @@ types in the Development environment:
 - `FavoritesOrder`: `stationIds` List<String>.
 - `CustomStationsIndex`: `stationIds` List<String>.
 - `CustomStation`: `stationId` String, `stationData` Bytes.
-- `Preferences`: `theme` String, `locale` String,
+- `Preferences`: `schemaVersion` Int64, `updatedAt` Date/Time,
+  `theme` String, `locale` String,
   `sleepTimerDefaultMinutes` Int64, `landingPage` String,
   `landingStationID` String, `favoritesDisplayMode` String,
   `wakeDefaultTime` String,
@@ -118,6 +119,29 @@ normally use Development; TestFlight and App Store builds use
 Production. In that environment, confirm the expected `Favorite`,
 `FavoritesOrder`, `CustomStation`, `CustomStationsIndex`, `Preferences`,
 and `SyncState` records exist before deleting and reinstalling the app.
+
+### CloudKit settings compatibility
+
+Treat the `Preferences` record as a versioned public contract between
+app builds. Additive fields are safe when older builds can ignore them
+and newer builds provide defaults when the field is missing. Renaming a
+field, deleting a field, changing a field type, changing a raw enum
+value, or changing the meaning of a stored value is a breaking settings
+change and needs a compatibility reader/migration before release.
+
+When changing synced settings:
+
+1. Keep reading every old key until all supported builds can be assumed
+   to have migrated.
+2. Keep old enum raw values valid, or map them explicitly to a new
+   value.
+3. Bump `CloudSyncPreferencesSchema.currentVersion` only when the
+   record's meaning changes, not for purely additive optional fields.
+4. Add or update tests that restore a snapshot from the previous shipped
+   schema and verify the user-visible setting is applied.
+5. In CloudKit Console, deploy new Development schema fields to
+   Production before the TestFlight/App Store build that depends on
+   them.
 
 ---
 
