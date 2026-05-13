@@ -830,7 +830,7 @@ struct StationListView: View {
             brandActionsRow
             searchAndFilterRow
         }
-        .topbarChrome(top: 14, bottom: 8)
+        .topbarChrome(top: 14, bottom: 0)
     }
 
     private var compactTopbar: some View {
@@ -839,7 +839,7 @@ struct StationListView: View {
             searchAndFilterRow
                 .frame(minWidth: 220, maxWidth: .infinity)
         }
-        .topbarChrome(top: 8, bottom: 6)
+        .topbarChrome(top: 8, bottom: 0)
     }
 
     private var favoritesDisplayModeSelector: some View {
@@ -1635,9 +1635,10 @@ struct StationListView: View {
                 Section {
                     if showingFavoritesCatalogFallback {
                         favoritesCatalogFallbackNotice
+                            .padding(.top, stationHeaderStackSpacing)
                     }
 
-                    ForEach(visibleStations) { station in
+                    ForEach(Array(visibleStations.enumerated()), id: \.element.id) { index, station in
                         StationRow(
                             station: station,
                             nowPlaying: usesFavoritesRows ? favoriteNowPlayingMetadata(for: station) : nil,
@@ -1657,6 +1658,7 @@ struct StationListView: View {
                                 handleStationInfoHoldChanged(isHolding, station: station)
                             } : nil,
                         )
+                        .padding(.top, !showingFavoritesCatalogFallback && index == 0 ? stationHeaderStackSpacing : 0)
                     }
                     if visibleStations.count < filteredStations.count || canLoadWorldwideStations {
                         loadMoreRow
@@ -1716,8 +1718,9 @@ struct StationListView: View {
                 inlineFavoritesControls()
 
                 Section {
-                    ForEach(visibleStations) { station in
+                    ForEach(Array(visibleStations.enumerated()), id: \.element.id) { index, station in
                         favoriteListSortableRow(station)
+                            .padding(.top, index == 0 ? stationHeaderStackSpacing : 0)
                     }
 
                     if visibleStations.count < filteredStations.count {
@@ -1847,6 +1850,7 @@ struct StationListView: View {
                         ),
                     )
                     .onPreferenceChange(FavoriteGridItemSizePreferenceKey.self, perform: updateFavoriteGridItemSizes)
+                    .padding(.top, stationHeaderStackSpacing)
                     .padding(.horizontal, 14)
 
                     if visibleStations.count < filteredStations.count {
@@ -1907,6 +1911,7 @@ struct StationListView: View {
                         ),
                     )
                     .onPreferenceChange(FavoriteGridItemSizePreferenceKey.self, perform: updateFavoriteGridItemSizes)
+                    .padding(.top, stationHeaderStackSpacing)
                     .padding(.horizontal, 18)
 
                     if visibleStations.count < filteredStations.count {
