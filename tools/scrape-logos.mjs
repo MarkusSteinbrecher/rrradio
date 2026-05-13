@@ -612,7 +612,11 @@ for (const w of writes) {
       if (line.startsWith('- id:')) break;
       if (line.startsWith('  favicon:')) {
         const next = lineEnd === -1 ? text.length : lineEnd + 1;
-        text = text.slice(0, p) + `  favicon: ${quoted}\n` + text.slice(next);
+        // Also consume an existing faviconSource: line immediately after.
+        const srcLineEnd = text.indexOf('\n', next);
+        const srcLine = text.slice(next, srcLineEnd === -1 ? text.length : srcLineEnd);
+        const blockEnd = srcLine.startsWith('  faviconSource:') ? srcLineEnd + 1 : next;
+        text = text.slice(0, p) + `  favicon: ${quoted}\n  faviconSource: broadcaster\n` + text.slice(blockEnd);
         replaced++;
         didReplace = true;
         break;
@@ -622,7 +626,7 @@ for (const w of writes) {
     }
     if (!didReplace) missingFavLine++;
   } else {
-    text = text.slice(0, insertAt) + `  favicon: ${quoted}\n` + text.slice(insertAt);
+    text = text.slice(0, insertAt) + `  favicon: ${quoted}\n  faviconSource: broadcaster\n` + text.slice(insertAt);
     inserted++;
   }
 }

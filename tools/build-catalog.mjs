@@ -173,6 +173,8 @@ function merged(s) {
     country: s.country ?? b.country ?? fromRb.country,
     tags: normalizeTags(s.tags) ?? fromRb.tags,
     favicon: s.favicon ?? fromRb.favicon,
+    faviconSource: s.faviconSource || undefined,
+    faviconOk: s.faviconOk === true ? true : undefined,
     bitrate: s.bitrate ?? fromRb.bitrate,
     codec: s.codec ?? fromRb.codec,
     metadata: s.metadata ?? b.metadata,

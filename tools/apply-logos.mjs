@@ -53,17 +53,31 @@ for (const w of ok) {
 
   const insertAt = idIdx + idLine.length;
   const quoted = /[:#&*!|>'"%@`,\[\]{}]/.test(w.url) ? JSON.stringify(w.url) : w.url;
-  const newLine = `  favicon: ${quoted}\n`;
+  const newFavLine = `  favicon: ${quoted}\n`;
+  const newSrcLine = w.source ? `  faviconSource: ${w.source}\n` : '';
 
-  // Find whether the station block already has a favicon: line.
+  // Find whether the station block already has a favicon: line, and
+  // whether a faviconSource: line immediately follows it.
   let favStart = -1;
   let favEnd = -1;
+  let srcStart = -1;
+  let srcEnd = -1;
   let p = insertAt;
   while (p < text.length) {
     const lineEnd = text.indexOf('\n', p);
     const line = text.slice(p, lineEnd === -1 ? text.length : lineEnd);
     if (line.startsWith('- id:')) break;
-    if (line.startsWith('  favicon:')) { favStart = p; favEnd = lineEnd + 1; break; }
+    if (line.startsWith('  favicon:')) {
+      favStart = p;
+      favEnd = lineEnd + 1;
+      const nextLineEnd = text.indexOf('\n', favEnd);
+      const nextLine = text.slice(favEnd, nextLineEnd === -1 ? text.length : nextLineEnd);
+      if (nextLine.startsWith('  faviconSource:')) {
+        srcStart = favEnd;
+        srcEnd = nextLineEnd + 1;
+      }
+      break;
+    }
     if (lineEnd === -1) break;
     p = lineEnd + 1;
   }
@@ -73,11 +87,12 @@ for (const w of ok) {
       skippedAlreadyHas++;
       continue;
     }
-    // Replace the existing favicon: line in place.
-    text = text.slice(0, favStart) + newLine + text.slice(favEnd);
+    // Replace the existing favicon: block (and faviconSource: if present) in place.
+    const blockEnd = srcStart !== -1 ? srcEnd : favEnd;
+    text = text.slice(0, favStart) + newFavLine + newSrcLine + text.slice(blockEnd);
     replaced++;
   } else {
-    text = text.slice(0, insertAt) + newLine + text.slice(insertAt);
+    text = text.slice(0, insertAt) + newFavLine + newSrcLine + text.slice(insertAt);
     inserted++;
   }
 }
