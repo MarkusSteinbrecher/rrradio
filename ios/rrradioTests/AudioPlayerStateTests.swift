@@ -80,6 +80,58 @@ final class AudioPlayerStateTests: XCTestCase {
         XCTAssertTrue(p.shouldAutoResumeAfterConnectivityRestored)
     }
 
+    func testPlaybackQueueCyclesThroughBrowseSnapshot() {
+        let a = station(id: "a")
+        let b = station(id: "b")
+        let c = station(id: "c")
+        let queue = StationPlaybackQueue(source: .browse, stations: [a, b, c], current: b)
+
+        XCTAssertEqual(queue.station(from: b, direction: .forward)?.id, "c")
+        XCTAssertEqual(queue.station(from: b, direction: .backward)?.id, "a")
+        XCTAssertEqual(queue.station(from: c, direction: .forward)?.id, "a")
+    }
+
+    func testPlaybackQueueKeepsCurrentStationWhenItIsOutsideTheList() {
+        let a = station(id: "a")
+        let b = station(id: "b")
+        let x = station(id: "x")
+        let queue = StationPlaybackQueue(source: .favorites, stations: [a, b], current: x)
+
+        XCTAssertEqual(queue.stations.map(\.id), ["x", "a", "b"])
+        XCTAssertEqual(queue.station(from: x, direction: .forward)?.id, "a")
+        XCTAssertEqual(queue.station(from: x, direction: .backward)?.id, "b")
+    }
+
+    func testPlayingStationWithQueueStoresActivePlaybackQueue() {
+        let p = AudioPlayer()
+        let a = station(id: "a")
+        let b = station(id: "b")
+        let c = station(id: "c")
+
+        p.play(b, queue: StationPlaybackQueue(source: .browse, stations: [a, b, c]))
+
+        XCTAssertEqual(p.activePlaybackQueue?.source, .browse)
+        XCTAssertEqual(p.activePlaybackQueue?.stations.map(\.id), ["a", "b", "c"])
+        XCTAssertEqual(p.stationForActivePlaybackStep(.forward)?.id, "c")
+        XCTAssertEqual(p.stationForActivePlaybackStep(.backward)?.id, "a")
+        p.stop()
+    }
+
+    func testPlayingNextQueuedStationWithoutNewQueuePreservesActiveQueue() {
+        let p = AudioPlayer()
+        let a = station(id: "a")
+        let b = station(id: "b")
+        let c = station(id: "c")
+
+        p.play(b, queue: StationPlaybackQueue(source: .favorites, stations: [a, b, c]))
+        p.play(c)
+
+        XCTAssertEqual(p.activePlaybackQueue?.source, .favorites)
+        XCTAssertEqual(p.activePlaybackQueue?.stations.map(\.id), ["a", "b", "c"])
+        XCTAssertEqual(p.stationForActivePlaybackStep(.forward)?.id, "a")
+        p.stop()
+    }
+
     func testInterruptionPausesAndResumesWhenSystemAllows() async {
         let p = AudioPlayer(streamRetryDelayNanoseconds: { _ in 0 })
         p.play(station(id: "abc", name: "ABC FM"))

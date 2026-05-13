@@ -43,8 +43,6 @@ struct rrradioApp: App {
                     diagnostics.record("app", "appeared")
                     wasOffline = network.snapshot.isOffline
                     player.setListeningHistory(listeningHistory)
-                    configureFavoriteRemoteControls()
-                    saveCurrentStationAsFavoriteZeroIfNeeded()
                     sleepTimer.onStateChanged = { [sleepTimer, player] in
                         player.setLockScreenSleepTimer(firesAt: sleepTimer.firesAt)
                     }
@@ -70,9 +68,6 @@ struct rrradioApp: App {
                         Task { await catalog.refreshIfStale() }
                     }
                 }
-                .onChange(of: player.current?.id) { _, _ in
-                    saveCurrentStationAsFavoriteZeroIfNeeded()
-                }
                 .onChange(of: network.snapshot) { oldSnapshot, newSnapshot in
                     if newSnapshot.isOffline {
                         wasOffline = true
@@ -89,22 +84,6 @@ struct rrradioApp: App {
                 }
                 .task { await catalog.loadIfNeeded() }
         }
-    }
-
-    private func configureFavoriteRemoteControls() {
-        player.setFavoriteStationRemoteControls(
-            stepHandler: { direction, current in
-                library.stationForFavoriteStep(from: current, direction: direction)
-            },
-            queueInfoProvider: { current in
-                library.favoriteQueueInfo(for: current)
-            },
-        )
-    }
-
-    private func saveCurrentStationAsFavoriteZeroIfNeeded() {
-        guard let station = player.current else { return }
-        library.saveAsFavoriteStationZeroIfNeeded(station)
     }
 }
 

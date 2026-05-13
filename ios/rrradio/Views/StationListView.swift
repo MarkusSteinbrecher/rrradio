@@ -280,6 +280,19 @@ struct StationListView: View {
     }
 
     private var visibleStations: [Station] { Array(filteredStations.prefix(displayLimit)) }
+    private var playbackQueueSource: StationPlaybackQueue.Source {
+        if showingFavoritesCatalogFallback {
+            return .browse
+        }
+        switch source {
+        case .all:
+            return .browse
+        case .favorites:
+            return .favorites
+        case .recents:
+            return .recents
+        }
+    }
     private var favoritesDisplayMode: FavoritesDisplayMode {
         FavoritesDisplayMode(rawValue: favoritesDisplayModeRaw) ?? .list
     }
@@ -726,7 +739,7 @@ struct StationListView: View {
     }
 
     private func openMapStation(_ station: Station) {
-        player.play(station)
+        player.play(station, queue: playbackQueue(for: station))
         library.pushRecent(station)
         showingMap = false
         Task { @MainActor in
@@ -2104,7 +2117,7 @@ struct StationListView: View {
 
     private func play(_ station: Station) {
         dismissSearch()
-        player.play(station)
+        player.play(station, queue: playbackQueue(for: station))
         if let metadata = favoriteNowPlaying.entries[station.id]?.metadata {
             player.applyPrefetchedMetadata(metadata, for: station)
         }
@@ -2112,6 +2125,10 @@ struct StationListView: View {
             library.pushRecent(station)
         }
         showingNowPlaying = true
+    }
+
+    private func playbackQueue(for station: Station) -> StationPlaybackQueue {
+        StationPlaybackQueue(source: playbackQueueSource, stations: visibleStations, current: station)
     }
 
     @ViewBuilder

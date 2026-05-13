@@ -3,6 +3,70 @@ import MediaPlayer
 import Observation
 import UIKit
 
+enum StationStepDirection: Equatable {
+    case backward
+    case forward
+}
+
+struct StationPlaybackQueue: Equatable {
+    enum Source: String, Equatable {
+        case browse
+        case favorites
+        case recents
+        case stationList
+        case single
+    }
+
+    let source: Source
+    let stations: [Station]
+
+    init(source: Source, stations: [Station], current: Station? = nil) {
+        self.source = source
+        self.stations = Self.uniqueStations(stations, current: current)
+    }
+
+    func contains(_ station: Station) -> Bool {
+        stations.contains { $0.id == station.id }
+    }
+
+    func station(from current: Station?, direction: StationStepDirection) -> Station? {
+        guard !stations.isEmpty else { return nil }
+        guard let current,
+              let currentIndex = stations.firstIndex(where: { $0.id == current.id }) else {
+            return direction == .forward ? stations.first : stations.last
+        }
+        guard stations.count > 1 else { return stations[currentIndex] }
+
+        switch direction {
+        case .backward:
+            return stations[(currentIndex - 1 + stations.count) % stations.count]
+        case .forward:
+            return stations[(currentIndex + 1) % stations.count]
+        }
+    }
+
+    func queueInfo(for current: Station) -> StationPlaybackQueueInfo? {
+        guard let currentIndex = stations.firstIndex(where: { $0.id == current.id }) else { return nil }
+        return StationPlaybackQueueInfo(index: currentIndex, count: stations.count)
+    }
+
+    private static func uniqueStations(_ stations: [Station], current: Station?) -> [Station] {
+        var seen = Set<String>()
+        var unique = stations.filter { station in
+            seen.insert(station.id).inserted
+        }
+        if let current, !seen.contains(current.id) {
+            unique.insert(current, at: 0)
+        }
+        return unique
+    }
+}
+
+struct StationPlaybackQueueInfo: Equatable {
+    let index: Int
+    let count: Int
+}
+
 private extension FixedWidthInteger {
     var littleEndianBytes: [UInt8] {
         withUnsafeBytes(of: littleEndian) { Array($0) }
@@ -30,6 +94,7 @@ final class AudioPlayer {
 
     private(set) var state: State = .idle
     private(set) var current: Station?
+    @ObservationIgnored private(set) var activePlaybackQueue: StationPlaybackQueue?
     private(set) var nowPlayingTitle: String?
     private(set) var nowPlayingArtist: String?
     private(set) var nowPlayingProgramName: String?
@@ -68,10 +133,6 @@ final class AudioPlayer {
     private var wakeKeepAlivePlayer: AVAudioPlayer?
     private weak var listeningHistory: ListeningHistory?
     private var lyricsKey = ""
-    @ObservationIgnored
-    private var favoriteStationStepHandler: ((FavoriteStationStepDirection, Station?) -> Station?)?
-    @ObservationIgnored
-    private var favoriteStationQueueInfoProvider: ((Station?) -> FavoriteStationQueueInfo?)?
 
     private static let lockScreenArtworkMaximumBytes = 5_000_000
     private static let lockScreenArtworkTimeout: TimeInterval = 8
@@ -109,16 +170,6 @@ final class AudioPlayer {
         listeningHistory = history
     }
 
-    func setFavoriteStationRemoteControls(
-        stepHandler: @escaping (FavoriteStationStepDirection, Station?) -> Station?,
-        queueInfoProvider: @escaping (Station?) -> FavoriteStationQueueInfo?
-    ) {
-        favoriteStationStepHandler = stepHandler
-        favoriteStationQueueInfoProvider = queueInfoProvider
-        updateRemoteStationCommandAvailability()
-        updateNowPlaying()
-    }
-
     func setLockScreenSleepTimer(firesAt: Date?) {
         lockScreenSleepTimerFiresAt = firesAt
         scheduleLockScreenSleepTimerRefresh()
@@ -128,8 +179,9 @@ final class AudioPlayer {
         updateNowPlaying()
     }
 
-    func play(_ station: Station) {
+    func play(_ station: Station, queue: StationPlaybackQueue? = nil) {
         stopWakeKeepAlive()
+        setActivePlaybackQueue(queue, for: station)
         diagnosticRecord("playback", "play requested", details: stationDiagnostics(station))
         // If we're already on this station, just unpause.
         if current?.id == station.id, let p = player {
@@ -138,6 +190,7 @@ final class AudioPlayer {
             state = .playing
             diagnosticRecord("playback", "resumed current station", details: stationDiagnostics(station))
             listeningHistory?.resumeSession(for: station)
+            updateRemoteStationCommandAvailability()
             updateNowPlaying()
             return
         }
@@ -169,6 +222,7 @@ final class AudioPlayer {
         listeningHistory?.startSession(for: station)
         startMetadataPolling(for: station)
         startScheduleLoading(for: station)
+        updateRemoteStationCommandAvailability()
         updateNowPlaying()
     }
 
@@ -239,6 +293,7 @@ final class AudioPlayer {
         listeningHistory?.closeActiveSession()
         teardownPlayer()
         current = nil
+        activePlaybackQueue = nil
         nowPlayingTitle = nil
         nowPlayingArtist = nil
         nowPlayingProgramName = nil
@@ -249,6 +304,7 @@ final class AudioPlayer {
         resetLyrics()
         state = .idle
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
+        updateRemoteStationCommandAvailability()
     }
 
     @discardableResult
@@ -333,6 +389,18 @@ final class AudioPlayer {
         shortcutActivity = activity
     }
 
+    private func setActivePlaybackQueue(_ queue: StationPlaybackQueue?, for station: Station) {
+        if let queue {
+            activePlaybackQueue = StationPlaybackQueue(
+                source: queue.source,
+                stations: queue.stations,
+                current: station,
+            )
+        } else if activePlaybackQueue?.contains(station) != true {
+            activePlaybackQueue = StationPlaybackQueue(source: .single, stations: [station])
+        }
+    }
+
     private func wireRemoteCommands() {
         let cmd = MPRemoteCommandCenter.shared()
         // MPRemoteCommand handlers fire on the main thread (per Apple
@@ -352,11 +420,11 @@ final class AudioPlayer {
             return .success
         }
         cmd.previousTrackCommand.addTarget { [weak self] _ in
-            Task { @MainActor in self?.playFavoriteStationStep(.backward) }
+            Task { @MainActor in self?.playStationStep(.backward) }
             return .success
         }
         cmd.nextTrackCommand.addTarget { [weak self] _ in
-            Task { @MainActor in self?.playFavoriteStationStep(.forward) }
+            Task { @MainActor in self?.playStationStep(.forward) }
             return .success
         }
         // Live streams have no scrub / timed skip — disable those explicitly
@@ -369,13 +437,17 @@ final class AudioPlayer {
 
     private func updateRemoteStationCommandAvailability() {
         let cmd = MPRemoteCommandCenter.shared()
-        let hasFavoriteStepper = favoriteStationStepHandler != nil
-        cmd.previousTrackCommand.isEnabled = hasFavoriteStepper
-        cmd.nextTrackCommand.isEnabled = hasFavoriteStepper
+        let canStepStations = current != nil && (activePlaybackQueue?.stations.count ?? 0) > 1
+        cmd.previousTrackCommand.isEnabled = canStepStations
+        cmd.nextTrackCommand.isEnabled = canStepStations
     }
 
-    private func playFavoriteStationStep(_ direction: FavoriteStationStepDirection) {
-        guard let station = favoriteStationStepHandler?(direction, current) else {
+    func stationForActivePlaybackStep(_ direction: StationStepDirection) -> Station? {
+        activePlaybackQueue?.station(from: current, direction: direction)
+    }
+
+    private func playStationStep(_ direction: StationStepDirection) {
+        guard let station = stationForActivePlaybackStep(direction) else {
             diagnosticRecord("playback", "remote station step unavailable", details: current.map(stationDiagnostics) ?? [:])
             return
         }
@@ -384,7 +456,13 @@ final class AudioPlayer {
         diagnosticRecord(
             "playback",
             "remote station step",
-            details: stationDiagnostics(station).merging(["direction": directionName], uniquingKeysWith: { _, new in new }),
+            details: stationDiagnostics(station).merging(
+                [
+                    "direction": directionName,
+                    "queueSource": activePlaybackQueue?.source.rawValue ?? "",
+                ],
+                uniquingKeysWith: { _, new in new },
+            ),
         )
 
         guard station.id != current?.id else { return }
@@ -763,7 +841,7 @@ final class AudioPlayer {
         info[MPMediaItemPropertyArtist] = lockScreenSubtitle(for: s)
         info[MPNowPlayingInfoPropertyIsLiveStream] = true
         info[MPNowPlayingInfoPropertyPlaybackRate] = (state == .playing) ? 1.0 : 0.0
-        if let queueInfo = favoriteStationQueueInfoProvider?(s) {
+        if let queueInfo = activePlaybackQueue?.queueInfo(for: s) {
             info[MPNowPlayingInfoPropertyPlaybackQueueIndex] = queueInfo.index
             info[MPNowPlayingInfoPropertyPlaybackQueueCount] = queueInfo.count
         }

@@ -1,16 +1,6 @@
 import Foundation
 import Observation
 
-enum FavoriteStationStepDirection: Equatable {
-    case backward
-    case forward
-}
-
-struct FavoriteStationQueueInfo: Equatable {
-    let index: Int
-    let count: Int
-}
-
 /// Device-local library state. Mirrors the web app's localStorage-backed
 /// favorites + recents model, but stores the encoded station records in
 /// UserDefaults so the app can render saved rows before the catalog has
@@ -76,57 +66,6 @@ final class Library {
         favorites.insert(station, at: 0)
         writeFavorites()
         return true
-    }
-
-    func saveAsFavoriteStationZeroIfNeeded(_ station: Station) {
-        if let idx = favorites.firstIndex(where: { $0.id == station.id }) {
-            guard favorites[idx] != station else { return }
-            favorites[idx] = station
-        } else {
-            favorites.insert(station, at: 0)
-        }
-        writeFavorites()
-    }
-
-    func stationForFavoriteStep(from current: Station?, direction: FavoriteStationStepDirection) -> Station? {
-        guard let current else {
-            return favorites.first
-        }
-
-        guard let currentIndex = favorites.firstIndex(where: { $0.id == current.id }) else {
-            saveAsFavoriteStationZeroIfNeeded(current)
-            guard favorites.count > 1 else { return favorites.first }
-            switch direction {
-            case .backward:
-                return favorites.last
-            case .forward:
-                return favorites[1]
-            }
-        }
-
-        guard favorites.count > 1 else {
-            return favorites[currentIndex]
-        }
-
-        switch direction {
-        case .backward:
-            return favorites[(currentIndex - 1 + favorites.count) % favorites.count]
-        case .forward:
-            return favorites[(currentIndex + 1) % favorites.count]
-        }
-    }
-
-    func favoriteQueueInfo(for current: Station?) -> FavoriteStationQueueInfo? {
-        guard !favorites.isEmpty || current != nil else { return nil }
-        guard let current else {
-            return FavoriteStationQueueInfo(index: 0, count: favorites.count)
-        }
-
-        if let currentIndex = favorites.firstIndex(where: { $0.id == current.id }) {
-            return FavoriteStationQueueInfo(index: currentIndex, count: favorites.count)
-        }
-
-        return FavoriteStationQueueInfo(index: 0, count: favorites.count + 1)
     }
 
     func pushRecent(_ station: Station) {
