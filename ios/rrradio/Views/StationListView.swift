@@ -123,6 +123,7 @@ struct StationListView: View {
     @State private var draggedFavoriteStationID: String?
     @State private var targetedFavoriteStationID: String?
     @State private var lastHandledFavoriteDropTargetID: String?
+    @State private var favoriteGridItemSizes: [String: CGSize] = [:]
     @State private var favoriteDeleteModeEnabled = false
     @State private var filterTask: Task<Void, Never>?
     @State private var searchUpdateTask: Task<Void, Never>?
@@ -138,6 +139,8 @@ struct StationListView: View {
 
     private let stationPageSize = 220
     private let searchResultLimit = 5000
+    private let favoriteTileGridColumnCount = 2
+    private let favoriteAppGridColumnCount = 4
     private var statusCollapseDistance: CGFloat { browseControlsExpandedHeight }
     private let browseControlsExpandedHeight: CGFloat = 20
     private let pageSwipeThreshold: CGFloat = 58
@@ -1664,11 +1667,14 @@ struct StationListView: View {
                 }
 
                 LazyVGrid(
-                    columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: 2),
+                    columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteTileGridColumnCount),
                     spacing: 10,
                 ) {
                     ForEach(visibleStations) { station in
-                        favoriteGridItem(station: station) {
+                        favoriteGridItem(
+                            station: station,
+                            dropBehavior: .targetSlot,
+                        ) {
                             FavoriteStationTile(
                                 station: station,
                                 nowPlaying: favoriteNowPlaying.entries[station.id]?.metadata,
@@ -1687,6 +1693,7 @@ struct StationListView: View {
                         lastHandledTargetID: $lastHandledFavoriteDropTargetID,
                     ),
                 )
+                .onPreferenceChange(FavoriteGridItemSizePreferenceKey.self, perform: updateFavoriteGridItemSizes)
                 .padding(.horizontal, 14)
 
                 if visibleStations.count < filteredStations.count {
@@ -1720,7 +1727,7 @@ struct StationListView: View {
                 }
 
                 LazyVGrid(
-                    columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: 4),
+                    columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteAppGridColumnCount),
                     alignment: .center,
                     spacing: 18,
                 ) {
@@ -1746,6 +1753,7 @@ struct StationListView: View {
                         lastHandledTargetID: $lastHandledFavoriteDropTargetID,
                     ),
                 )
+                .onPreferenceChange(FavoriteGridItemSizePreferenceKey.self, perform: updateFavoriteGridItemSizes)
                 .padding(.horizontal, 18)
 
                 if visibleStations.count < filteredStations.count {
@@ -1781,11 +1789,12 @@ struct StationListView: View {
     private func favoriteGridItem<Content: View>(
         station: Station,
         dragSource: FavoriteGridDragSource = .item,
+        dropBehavior: FavoriteGridDropBehavior = .horizontalSplit,
         @ViewBuilder content: () -> Content,
     ) -> some View {
         if canReorderFavorites {
             let showsReorderPlaceholder = draggedFavoriteStationID == station.id
-                && targetedFavoriteStationID != nil
+                && lastHandledFavoriteDropTargetID != nil
             let showsDeleteButton = favoriteDeleteModeEnabled
                 && targetedFavoriteStationID == nil
             let item = ZStack(alignment: .topTrailing) {
@@ -1817,12 +1826,15 @@ struct StationListView: View {
                         of: [UTType.plainText],
                         delegate: FavoriteStationDropDelegate(
                             targetStationID: station.id,
+                            targetSize: favoriteGridItemSizes[station.id],
+                            dropBehavior: dropBehavior,
                             draggedStationID: $draggedFavoriteStationID,
                             targetedStationID: $targetedFavoriteStationID,
                             lastHandledTargetID: $lastHandledFavoriteDropTargetID,
                             moveStation: moveFavoriteGridStation,
                         ),
                     )
+                    .background(favoriteGridItemSizeReader(stationID: station.id))
                     .accessibilityHidden(showsReorderPlaceholder)
                     .accessibilityHint(favoriteDeleteModeEnabled ? "Tap outside remove buttons to exit remove mode" : "Drag to reorder favorites")
             case .content:
@@ -1831,12 +1843,15 @@ struct StationListView: View {
                         of: [UTType.plainText],
                         delegate: FavoriteStationDropDelegate(
                             targetStationID: station.id,
+                            targetSize: favoriteGridItemSizes[station.id],
+                            dropBehavior: dropBehavior,
                             draggedStationID: $draggedFavoriteStationID,
                             targetedStationID: $targetedFavoriteStationID,
                             lastHandledTargetID: $lastHandledFavoriteDropTargetID,
                             moveStation: moveFavoriteGridStation,
                         ),
                     )
+                    .background(favoriteGridItemSizeReader(stationID: station.id))
                     .accessibilityHidden(showsReorderPlaceholder)
                     .accessibilityHint(favoriteDeleteModeEnabled ? "Tap outside remove buttons to exit remove mode" : "Drag to reorder favorites")
             }
@@ -2078,21 +2093,77 @@ struct StationListView: View {
         library.reorderFavorites(ordered.map(\.id))
     }
 
-    private func moveFavoriteGridStation(_ draggedID: String, before targetID: String) {
+    private func moveFavoriteGridStation(
+        _ draggedID: String,
+        relativeTo targetID: String,
+        location: CGPoint,
+        targetSize: CGSize?,
+        dropBehavior: FavoriteGridDropBehavior,
+    ) -> Bool {
         guard canReorderFavorites,
               draggedID != targetID,
               let sourceIndex = filteredStations.firstIndex(where: { $0.id == draggedID }),
-              let targetIndex = filteredStations.firstIndex(where: { $0.id == targetID }) else { return }
+              let targetIndex = filteredStations.firstIndex(where: { $0.id == targetID }) else { return false }
+        let placement = favoriteGridDropPlacement(
+            sourceIndex: sourceIndex,
+            targetIndex: targetIndex,
+            location: location,
+            targetSize: targetSize,
+            dropBehavior: dropBehavior,
+        )
+        guard let placement else { return false }
+
+        let destination = placement == .after ? targetIndex + 1 : targetIndex
+        guard destination != sourceIndex,
+              destination != sourceIndex + 1 else { return false }
+
         filterTask?.cancel()
         favoriteDeleteModeEnabled = false
 
         var ordered = filteredStations
-        let destination = targetIndex > sourceIndex ? targetIndex + 1 : targetIndex
         withAnimation(.easeInOut(duration: 0.32)) {
             ordered.move(fromOffsets: IndexSet(integer: sourceIndex), toOffset: destination)
             filteredStations = ordered
         }
         library.reorderFavorites(ordered.map(\.id))
+        return true
+    }
+
+    private func favoriteGridDropPlacement(
+        sourceIndex: Int,
+        targetIndex: Int,
+        location: CGPoint,
+        targetSize: CGSize?,
+        dropBehavior: FavoriteGridDropBehavior,
+    ) -> FavoriteGridDropPlacement? {
+        guard sourceIndex != targetIndex else { return nil }
+        switch dropBehavior {
+        case .targetSlot:
+            return targetIndex > sourceIndex ? .after : .before
+        case .horizontalSplit:
+            guard let targetSize,
+                  targetSize.width > 0,
+                  targetSize.height > 0 else {
+                return targetIndex > sourceIndex ? .after : .before
+            }
+
+            let horizontalProgress = min(max(location.x / targetSize.width, 0), 1)
+            return horizontalProgress < 0.5 ? .before : .after
+        }
+    }
+
+    private func updateFavoriteGridItemSizes(_ sizes: [String: CGSize]) {
+        guard favoriteGridItemSizes != sizes else { return }
+        favoriteGridItemSizes = sizes
+    }
+
+    private func favoriteGridItemSizeReader(stationID: String) -> some View {
+        GeometryReader { proxy in
+            Color.clear.preference(
+                key: FavoriteGridItemSizePreferenceKey.self,
+                value: [stationID: proxy.size],
+            )
+        }
     }
 
     private func updateFavoriteNowPlayingPolling() {
@@ -2813,28 +2884,53 @@ struct StationListView: View {
     }
 }
 
+private enum FavoriteGridDropPlacement {
+    case before
+    case after
+}
+
+private enum FavoriteGridDropBehavior {
+    case horizontalSplit
+    case targetSlot
+}
+
+private struct FavoriteGridItemSizePreferenceKey: PreferenceKey {
+    static var defaultValue: [String: CGSize] = [:]
+
+    static func reduce(value: inout [String: CGSize], nextValue: () -> [String: CGSize]) {
+        value.merge(nextValue(), uniquingKeysWith: { _, new in new })
+    }
+}
+
 private struct FavoriteStationDropDelegate: DropDelegate {
     let targetStationID: String
+    let targetSize: CGSize?
+    let dropBehavior: FavoriteGridDropBehavior
     @Binding var draggedStationID: String?
     @Binding var targetedStationID: String?
     @Binding var lastHandledTargetID: String?
-    let moveStation: (String, String) -> Void
+    let moveStation: (String, String, CGPoint, CGSize?, FavoriteGridDropBehavior) -> Bool
 
     func validateDrop(info: DropInfo) -> Bool {
         draggedStationID != nil
     }
 
     func dropEntered(info: DropInfo) {
-        guard let draggedStationID,
-              draggedStationID != targetStationID,
-              lastHandledTargetID != targetStationID else { return }
-        targetedStationID = targetStationID
-        lastHandledTargetID = targetStationID
-        moveStation(draggedStationID, targetStationID)
+        moveIfReady(info: info)
     }
 
     func dropUpdated(info: DropInfo) -> DropProposal? {
-        DropProposal(operation: .move)
+        moveIfReady(info: info)
+        return DropProposal(operation: .move)
+    }
+
+    private func moveIfReady(info: DropInfo) {
+        guard let draggedStationID,
+              draggedStationID != targetStationID,
+              lastHandledTargetID != targetStationID else { return }
+        guard moveStation(draggedStationID, targetStationID, info.location, targetSize, dropBehavior) else { return }
+        targetedStationID = targetStationID
+        lastHandledTargetID = targetStationID
     }
 
     func dropExited(info: DropInfo) {
@@ -2871,6 +2967,7 @@ private struct FavoriteGridDropResetDelegate: DropDelegate {
 
     func dropExited(info: DropInfo) {
         targetedStationID = nil
+        lastHandledTargetID = nil
     }
 
     func performDrop(info: DropInfo) -> Bool {
