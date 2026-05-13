@@ -26,7 +26,12 @@ struct WatchRemoteRootView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.vertical, 6)
             }
-            .navigationTitle("rrradio")
+            .navigationTitle("")
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    WatchHeaderLogo()
+                }
+            }
             .onAppear { model.refresh() }
         }
     }
@@ -41,13 +46,6 @@ struct WatchRemoteRootView: View {
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
             Spacer(minLength: 4)
-            Button {
-                model.refresh()
-            } label: {
-                Image(systemName: "arrow.clockwise")
-            }
-            .disabled(!model.canSendCommand)
-            .accessibilityLabel("Refresh")
         }
     }
 
@@ -168,6 +166,17 @@ struct WatchRemoteRootView: View {
         model.snapshot.nowPlayingArtist
             ?? model.snapshot.currentStation?.broadcaster
             ?? model.snapshot.currentStation?.country
+    }
+}
+
+private struct WatchHeaderLogo: View {
+    var body: some View {
+        Image("RrradioLogo")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 26, height: 26)
+            .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+            .accessibilityLabel("rrradio")
     }
 }
 
