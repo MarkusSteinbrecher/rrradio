@@ -61,7 +61,7 @@ import {
   reportWorkerError,
   truncateErrorMessage,
 } from './errors';
-import { buildPollBanner } from './poll';
+import { buildPollBanner, POLL_CHOICE_LABELS } from './poll';
 import { reportBrokenStation } from './reportBroken';
 import { fmtSharePct, normalizeForSearch } from './format';
 import { SILENT_BED_ID } from './np-display';
@@ -278,6 +278,8 @@ const $dashStations = document.getElementById('dash-stations') as HTMLElement;
 const $dashMap = document.getElementById('dash-map') as HTMLElement;
 const $dashCountryTable = document.querySelector('#dash-country-table tbody') as HTMLTableSectionElement;
 const $dashStationTable = document.querySelector('#dash-station-table tbody') as HTMLTableSectionElement;
+const $dashPollTable = document.querySelector('#dash-poll-table tbody') as HTMLTableSectionElement;
+const $dashPollEmpty = document.getElementById('dash-poll-empty') as HTMLElement;
 const $dashCountryHeading = document.getElementById('dash-country-heading') as HTMLElement;
 const $dashCountryToggle = document.getElementById('dash-country-toggle') as HTMLElement;
 const $dashCountryCountHeader = document.getElementById('dash-country-count-header') as HTMLElement;
@@ -762,6 +764,10 @@ const STATS_DAYS = 7;
 const TOP_STATIONS_URL = `${STATS_WORKER_BASE}/api/public/top-stations?days=${STATS_DAYS}&limit=25`;
 const PUBLIC_TOTALS_URL = `${STATS_WORKER_BASE}/api/public/totals?days=${STATS_DAYS}`;
 const PUBLIC_LOCATIONS_URL = `${STATS_WORKER_BASE}/api/public/locations?days=${STATS_DAYS}&limit=50`;
+// Poll uses a 90-day window — sentiment doesn't expire on the same
+// cadence as listening stats; the long window matters more than the
+// 7-day default the rest of the dashboard uses.
+const POLL_URL = `${STATS_WORKER_BASE}/api/public/poll?days=90`;
 
 interface BacklogEntry {
   name: string;
@@ -1510,8 +1516,9 @@ function renderContent(): void {
   // renders. Only on the browse tab — Library views are intent-driven
   // and shouldn't carry a top-of-list interrupt.
   if (activeTab === 'browse') {
-    const pollBanner = buildPollBanner();
-    if (pollBanner) $content.append(pollBanner);
+    $content.append(
+      buildPollBanner({ onSeeResults: () => void openDashboardSheet(true) }),
+    );
   }
 
   // View-signature reset for the local-catalog cap. Same view across
@@ -2111,6 +2118,31 @@ async function fetchPublicLocations(): Promise<PublicLocationItem[]> {
   }
 }
 
+interface PollCounts {
+  ios: number;
+  android: number;
+  'dont-care': number;
+}
+interface PollResults {
+  counts: PollCounts;
+  total: number;
+  range_days?: number;
+}
+
+async function fetchPollResults(): Promise<PollResults | null> {
+  try {
+    const res = await fetch(POLL_URL);
+    if (!res.ok) {
+      reportWorkerError(new Error(`HTTP ${res.status}`), '/api/public/poll', res.status);
+      return null;
+    }
+    return (await res.json()) as PollResults;
+  } catch (err) {
+    reportWorkerError(err, '/api/public/poll');
+    return null;
+  }
+}
+
 // aggregateDashboard + activeCountryMap live in ./dashboard.
 function activeMap(d: DashboardData): Map<string, number> {
   return activeCountryMap(d, dashView);
@@ -2157,6 +2189,45 @@ function renderDashCountryTable(d: DashboardData): void {
     pct.textContent = fmtSharePct(count, total);
     tr.append(rank, country, bar, num, pct);
     $dashCountryTable.append(tr);
+  });
+}
+
+function renderDashPollTable(results: PollResults | null): void {
+  $dashPollTable.replaceChildren();
+  if (!results || results.total === 0) {
+    $dashPollEmpty.hidden = false;
+    return;
+  }
+  $dashPollEmpty.hidden = true;
+  const ORDER: Array<['ios' | 'android' | 'dont-care', string]> = [
+    ['ios', POLL_CHOICE_LABELS.ios],
+    ['android', POLL_CHOICE_LABELS.android],
+    ['dont-care', POLL_CHOICE_LABELS['dont-care']],
+  ];
+  const rows = ORDER.map(([k, label]) => ({ key: k, label, count: results.counts[k] ?? 0 }));
+  rows.sort((a, b) => b.count - a.count);
+  const max = rows[0]?.count ?? 1;
+  rows.forEach((r, i) => {
+    const tr = document.createElement('tr');
+    const rank = document.createElement('td');
+    rank.className = 'rank';
+    rank.textContent = String(i + 1).padStart(2, '0');
+    const name = document.createElement('td');
+    name.className = 'country';
+    name.textContent = r.label;
+    const bar = document.createElement('td');
+    bar.className = 'bar';
+    bar.innerHTML = `<div class="bar__track"><div class="bar__fill" style="width:${
+      max > 0 ? (r.count / max) * 100 : 0
+    }%"></div></div>`;
+    const num = document.createElement('td');
+    num.className = 'count';
+    num.textContent = String(r.count);
+    const pct = document.createElement('td');
+    pct.className = 'pct';
+    pct.textContent = fmtSharePct(r.count, results.total);
+    tr.append(rank, name, bar, num, pct);
+    $dashPollTable.append(tr);
   });
 }
 
@@ -2329,10 +2400,11 @@ async function openDashboardSheet(open: boolean): Promise<void> {
   $dashVisits.textContent = '…';
   $dashCountries.textContent = '…';
   $dashStations.textContent = '…';
-  const [topStations, totals, locations] = await Promise.all([
+  const [topStations, totals, locations, poll] = await Promise.all([
     fetchTopStationsWithCounts(),
     fetchPublicTotals(),
     fetchPublicLocations(),
+    fetchPollResults(),
   ]);
   const data = aggregateDashboard(
     topStations.items,
@@ -2345,6 +2417,7 @@ async function openDashboardSheet(open: boolean): Promise<void> {
   renderDashKpis(data, totals);
   renderDashCountryTable(data);
   renderDashStationTable(topStations.items);
+  renderDashPollTable(poll);
   void renderDashMap(data);
 }
 

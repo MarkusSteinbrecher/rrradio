@@ -16,6 +16,8 @@
  *
  * Public endpoints:
  *   POST /api/public/report-broken — anonymous structured station report
+ *   GET  /api/public/poll          — native-app interest poll tallies
+ *                                    (filter: "vote: ")
  *
  * Range: ?days=N (1–90, default 7). Response cached 5 min in the
  * Cloudflare edge cache to be a polite GC API consumer.
@@ -431,6 +433,39 @@ export default {
           items.sort((a, b) => b.count - a.count);
           return new Response(
             JSON.stringify({ items, total: raw.total ?? 0, range_days: days }),
+            {
+              status: 200,
+              headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                'Cache-Control': `public, max-age=${PUBLIC_CACHE_TTL_S}`,
+                ...publicCors,
+              },
+            },
+          );
+        }
+
+        // Public native-app interest poll counts. Picks `vote: <choice>`
+        // events from the GC hits buffer and returns per-choice tallies
+        // for the three published options. Edge-cached for an hour like
+        // the other public endpoints. Default window is the request's
+        // `?days=N` (max 90), since vote sentiment doesn't decay on a
+        // 7-day cadence the way listening stats do.
+        if (url.pathname === '/api/public/poll') {
+          const list = pickByPrefix(await fetchAllHits(days, env), 'vote: ', 10, days);
+          const counts: Record<'ios' | 'android' | 'dont-care', number> = {
+            ios: 0,
+            android: 0,
+            'dont-care': 0,
+          };
+          let total = 0;
+          for (const item of list.items) {
+            if (item.label === 'ios' || item.label === 'android' || item.label === 'dont-care') {
+              counts[item.label] = item.count;
+              total += item.count;
+            }
+          }
+          return new Response(
+            JSON.stringify({ counts, total, range_days: days }),
             {
               status: 200,
               headers: {

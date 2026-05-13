@@ -9,10 +9,11 @@
  * without storing anything that could identify a voter.
  *
  * Local state: a single localStorage flag (`rrradio.poll.platform.v1`)
- * remembers the user's choice so the banner hides after voting (and
- * doesn't reappear). Trivially bypassable (incognito / clear storage),
- * which is fine — the cosmetic dedup just stops accidental
- * double-clicks. Server-side dedup is GoatCounter's job.
+ * remembers the user's choice so the banner switches to a
+ * "You voted: X" panel after voting (instead of disappearing) with a
+ * link to live results in the Stats sheet. Trivially bypassable
+ * (incognito / clear storage), which is fine — server-side dedup is
+ * GoatCounter's job.
  */
 
 import { getString, setString } from './storage';
@@ -22,7 +23,7 @@ export const POLL_KEY = 'rrradio.poll.platform.v1';
 
 export type PollChoice = 'ios' | 'android' | 'dont-care';
 
-const CHOICE_LABELS: Record<PollChoice, string> = {
+export const POLL_CHOICE_LABELS: Record<PollChoice, string> = {
   ios: 'I want an iOS app',
   android: 'I want an Android app',
   'dont-care': "I don't care",
@@ -41,8 +42,7 @@ export function getVote(): PollChoice | null {
 
 /** Records a vote. Idempotent — re-voting with the same choice is a
  *  no-op; switching choice updates local state but does NOT re-emit
- *  the event (server-side dedup would discard the duplicate anyway,
- *  and we don't want to bias counts toward people who hesitate). */
+ *  the event (server-side dedup would discard the duplicate anyway). */
 export function recordVote(choice: PollChoice): void {
   const prior = getVote();
   if (prior === choice) return;
@@ -50,13 +50,20 @@ export function recordVote(choice: PollChoice): void {
   if (prior === null) track(`vote: ${choice}`);
 }
 
-/** Build a fresh banner element for the top of the browse view.
- *  Returns `null` once the user has voted (the caller skips append).
- *  A new DOM is built per call — renderContent() wipes #content on
- *  every view change, so there's nothing to reuse. */
-export function buildPollBanner(): HTMLElement | null {
-  if (getVote() !== null) return null;
+export interface PollBannerOptions {
+  onSeeResults?: () => void;
+}
 
+interface PollBannerRefs {
+  banner: HTMLElement;
+  prompt: HTMLElement;
+  voted: HTMLElement;
+  votedChoice: HTMLElement;
+  options: HTMLElement;
+  statsBtn: HTMLButtonElement;
+}
+
+function buildBannerSkeleton(): PollBannerRefs {
   const banner = document.createElement('section');
   banner.className = 'poll-banner';
   banner.setAttribute('aria-label', 'User poll: native app interest');
@@ -64,6 +71,9 @@ export function buildPollBanner(): HTMLElement | null {
   const eyebrow = document.createElement('div');
   eyebrow.className = 'poll-banner__eyebrow';
   eyebrow.textContent = 'USER POLL';
+
+  const prompt = document.createElement('div');
+  prompt.className = 'poll-banner__prompt';
 
   const title = document.createElement('h2');
   title.className = 'poll-banner__title';
@@ -73,42 +83,78 @@ export function buildPollBanner(): HTMLElement | null {
   subtitle.className = 'poll-banner__subtitle';
   subtitle.textContent = 'One tap, anonymous — helps me decide whether to build native apps.';
 
-  const buttonsWrap = document.createElement('div');
-  buttonsWrap.className = 'poll-banner__options';
-  buttonsWrap.setAttribute('role', 'group');
-  buttonsWrap.setAttribute('aria-label', 'Native-app interest poll');
-
+  const options = document.createElement('div');
+  options.className = 'poll-banner__options';
+  options.setAttribute('role', 'group');
+  options.setAttribute('aria-label', 'Native-app interest poll');
   for (const c of CHOICES) {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'poll-banner__btn';
     btn.dataset.choice = c;
-    btn.textContent = CHOICE_LABELS[c];
-    buttonsWrap.appendChild(btn);
+    btn.textContent = POLL_CHOICE_LABELS[c];
+    options.appendChild(btn);
   }
 
-  const thanks = document.createElement('div');
-  thanks.className = 'poll-banner__thanks';
-  thanks.hidden = true;
-  thanks.textContent = 'Thanks for voting — your input is recorded.';
+  prompt.append(title, subtitle, options);
 
-  banner.append(eyebrow, title, subtitle, buttonsWrap, thanks);
+  const voted = document.createElement('div');
+  voted.className = 'poll-banner__voted';
+  voted.hidden = true;
 
-  buttonsWrap.addEventListener('click', (ev) => {
+  const votedLine = document.createElement('p');
+  votedLine.className = 'poll-banner__voted-line';
+  const votedPre = document.createElement('span');
+  votedPre.textContent = 'You voted: ';
+  const votedChoice = document.createElement('strong');
+  votedChoice.className = 'poll-banner__voted-choice';
+  votedLine.append(votedPre, votedChoice);
+
+  const votedNote = document.createElement('p');
+  votedNote.className = 'poll-banner__voted-note';
+  votedNote.textContent = 'See live results in the Stats panel.';
+
+  const statsBtn = document.createElement('button');
+  statsBtn.type = 'button';
+  statsBtn.className = 'poll-banner__stats-btn';
+  statsBtn.textContent = 'See results in Stats →';
+
+  voted.append(votedLine, votedNote, statsBtn);
+
+  banner.append(eyebrow, prompt, voted);
+
+  return { banner, prompt, voted, votedChoice, options, statsBtn };
+}
+
+function applyVotedState(refs: PollBannerRefs, vote: PollChoice): void {
+  refs.banner.classList.add('poll-banner--voted');
+  refs.prompt.hidden = true;
+  refs.voted.hidden = false;
+  refs.votedChoice.textContent = POLL_CHOICE_LABELS[vote];
+}
+
+/** Build a fresh banner element for the top of the browse view.
+ *  Always returns an element — pre-vote shows the choices, post-vote
+ *  shows the user's vote + a link into the Stats sheet. */
+export function buildPollBanner(opts: PollBannerOptions = {}): HTMLElement {
+  const refs = buildBannerSkeleton();
+
+  const initial = getVote();
+  if (initial !== null) applyVotedState(refs, initial);
+
+  refs.options.addEventListener('click', (ev) => {
     const target = ev.target as HTMLElement | null;
     const btn = target?.closest<HTMLButtonElement>('.poll-banner__btn');
     if (!btn) return;
     const choice = btn.dataset.choice;
     if (!isChoice(choice ?? null)) return;
     recordVote(choice as PollChoice);
-    buttonsWrap.hidden = true;
-    subtitle.hidden = true;
-    thanks.hidden = false;
-    setTimeout(() => {
-      banner.classList.add('is-leaving');
-      setTimeout(() => banner.remove(), 600);
-    }, 1400);
+    applyVotedState(refs, choice as PollChoice);
   });
 
-  return banner;
+  refs.statsBtn.addEventListener('click', () => {
+    opts.onSeeResults?.();
+  });
+
+  return refs.banner;
 }
