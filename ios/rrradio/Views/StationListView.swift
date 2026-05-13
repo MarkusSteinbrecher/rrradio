@@ -1725,11 +1725,15 @@ struct StationListView: View {
                     spacing: 18,
                 ) {
                     ForEach(visibleStations) { station in
-                        favoriteGridItem(station: station) {
+                        favoriteGridItem(
+                            station: station,
+                            dragSource: .content,
+                        ) {
                             FavoriteStationAppIcon(
                                 station: station,
                                 isCurrent: player.current?.id == station.id,
                                 isCustom: library.isCustom(station),
+                                dragProvider: canReorderFavorites ? { favoriteGridDragProvider(for: station) } : nil,
                             )
                         }
                     }
@@ -1776,6 +1780,7 @@ struct StationListView: View {
     @ViewBuilder
     private func favoriteGridItem<Content: View>(
         station: Station,
+        dragSource: FavoriteGridDragSource = .item,
         @ViewBuilder content: () -> Content,
     ) -> some View {
         if canReorderFavorites {
@@ -1783,7 +1788,7 @@ struct StationListView: View {
                 && targetedFavoriteStationID != nil
             let showsDeleteButton = favoriteDeleteModeEnabled
                 && targetedFavoriteStationID == nil
-            ZStack(alignment: .topTrailing) {
+            let item = ZStack(alignment: .topTrailing) {
                 content()
 
                 if showsDeleteButton {
@@ -1801,26 +1806,40 @@ struct StationListView: View {
                     }
                 }
                 .accessibilityAddTraits(.isButton)
-                .onDrag {
-                    draggedFavoriteStationID = station.id
-                    targetedFavoriteStationID = nil
-                    lastHandledFavoriteDropTargetID = nil
-                    favoriteDeleteModeEnabled = false
-                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                    return NSItemProvider(object: station.id as NSString)
-                }
-                .onDrop(
-                    of: [UTType.plainText],
-                    delegate: FavoriteStationDropDelegate(
-                        targetStationID: station.id,
-                        draggedStationID: $draggedFavoriteStationID,
-                        targetedStationID: $targetedFavoriteStationID,
-                        lastHandledTargetID: $lastHandledFavoriteDropTargetID,
-                        moveStation: moveFavoriteGridStation,
-                    ),
-                )
-                .accessibilityHidden(showsReorderPlaceholder)
-                .accessibilityHint(favoriteDeleteModeEnabled ? "Tap outside remove buttons to exit remove mode" : "Drag to reorder favorites")
+
+            switch dragSource {
+            case .item:
+                item
+                    .onDrag {
+                        favoriteGridDragProvider(for: station)
+                    }
+                    .onDrop(
+                        of: [UTType.plainText],
+                        delegate: FavoriteStationDropDelegate(
+                            targetStationID: station.id,
+                            draggedStationID: $draggedFavoriteStationID,
+                            targetedStationID: $targetedFavoriteStationID,
+                            lastHandledTargetID: $lastHandledFavoriteDropTargetID,
+                            moveStation: moveFavoriteGridStation,
+                        ),
+                    )
+                    .accessibilityHidden(showsReorderPlaceholder)
+                    .accessibilityHint(favoriteDeleteModeEnabled ? "Tap outside remove buttons to exit remove mode" : "Drag to reorder favorites")
+            case .content:
+                item
+                    .onDrop(
+                        of: [UTType.plainText],
+                        delegate: FavoriteStationDropDelegate(
+                            targetStationID: station.id,
+                            draggedStationID: $draggedFavoriteStationID,
+                            targetedStationID: $targetedFavoriteStationID,
+                            lastHandledTargetID: $lastHandledFavoriteDropTargetID,
+                            moveStation: moveFavoriteGridStation,
+                        ),
+                    )
+                    .accessibilityHidden(showsReorderPlaceholder)
+                    .accessibilityHint(favoriteDeleteModeEnabled ? "Tap outside remove buttons to exit remove mode" : "Drag to reorder favorites")
+            }
         } else {
             content()
                 .contentShape(Rectangle())
@@ -1829,6 +1848,20 @@ struct StationListView: View {
                 }
                 .accessibilityAddTraits(.isButton)
         }
+    }
+
+    private func favoriteGridDragProvider(for station: Station) -> NSItemProvider {
+        draggedFavoriteStationID = station.id
+        targetedFavoriteStationID = nil
+        lastHandledFavoriteDropTargetID = nil
+        favoriteDeleteModeEnabled = false
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        return NSItemProvider(object: station.id as NSString)
+    }
+
+    private enum FavoriteGridDragSource {
+        case item
+        case content
     }
 
     private func clearFavoriteGridDragState() {
@@ -3454,21 +3487,13 @@ private struct FavoriteStationAppIcon: View {
     let station: Station
     let isCurrent: Bool
     let isCustom: Bool
-    private let iconSize: CGFloat = 64
-    private let iconCornerRadius: CGFloat = 15
+    let dragProvider: (() -> NSItemProvider)?
     private let labelHeight: CGFloat = 32
-    private var cellHeight: CGFloat { iconSize + 8 + labelHeight }
+    private var cellHeight: CGFloat { FavoriteStationAppArtwork.iconSize + 8 + labelHeight }
 
     var body: some View {
         VStack(spacing: 8) {
             artwork
-                .overlay {
-                    if isCurrent {
-                        RoundedRectangle(cornerRadius: iconCornerRadius, style: .continuous)
-                            .stroke(RrradioTheme.accent, lineWidth: 2)
-                            .padding(-3)
-                    }
-                }
             Text(station.name)
                 .font(.system(size: 11.5, weight: .medium))
                 .foregroundStyle(isCurrent ? RrradioTheme.accent : RrradioTheme.ink)
@@ -3485,19 +3510,54 @@ private struct FavoriteStationAppIcon: View {
 
     @ViewBuilder
     private var artwork: some View {
+        if let dragProvider {
+            FavoriteStationAppArtwork(
+                station: station,
+                isCurrent: isCurrent,
+                isCustom: isCustom,
+            )
+            .onDrag {
+                dragProvider()
+            } preview: {
+                FavoriteStationAppArtwork(
+                    station: station,
+                    isCurrent: isCurrent,
+                    isCustom: isCustom,
+                )
+            }
+        } else {
+            FavoriteStationAppArtwork(
+                station: station,
+                isCurrent: isCurrent,
+                isCustom: isCustom,
+            )
+        }
+    }
+}
+
+private struct FavoriteStationAppArtwork: View {
+    static let iconSize: CGFloat = 64
+    static let iconCornerRadius: CGFloat = 15
+
+    let station: Station
+    let isCurrent: Bool
+    let isCustom: Bool
+
+    @ViewBuilder
+    var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: iconCornerRadius, style: .continuous)
+            RoundedRectangle(cornerRadius: Self.iconCornerRadius, style: .continuous)
                 .fill(isCustom ? RrradioTheme.bg2 : Color.white)
             if isCustom {
                 Image(systemName: "house.fill")
-                    .font(.system(size: iconSize * 0.40, weight: .semibold))
+                    .font(.system(size: Self.iconSize * 0.40, weight: .semibold))
                     .foregroundStyle(RrradioTheme.ink3)
             } else if let url = station.favicon {
                 CachedRemoteImage(url: url) { image in
                     image
                         .resizable()
                         .scaledToFill()
-                        .frame(width: iconSize, height: iconSize)
+                        .frame(width: Self.iconSize, height: Self.iconSize)
                         .clipped()
                 } placeholder: {
                     initials
@@ -3506,11 +3566,19 @@ private struct FavoriteStationAppIcon: View {
                 initials
             }
         }
-        .frame(width: iconSize, height: iconSize)
-        .clipShape(RoundedRectangle(cornerRadius: iconCornerRadius, style: .continuous))
+        .frame(width: Self.iconSize, height: Self.iconSize)
+        .clipShape(RoundedRectangle(cornerRadius: Self.iconCornerRadius, style: .continuous))
+        .contentShape(.dragPreview, RoundedRectangle(cornerRadius: Self.iconCornerRadius, style: .continuous))
         .overlay {
-            RoundedRectangle(cornerRadius: iconCornerRadius, style: .continuous)
+            RoundedRectangle(cornerRadius: Self.iconCornerRadius, style: .continuous)
                 .stroke(RrradioTheme.line)
+        }
+        .overlay {
+            if isCurrent {
+                RoundedRectangle(cornerRadius: Self.iconCornerRadius, style: .continuous)
+                    .stroke(RrradioTheme.accent, lineWidth: 2)
+                    .padding(-3)
+            }
         }
         .accessibilityHidden(true)
     }
@@ -3519,7 +3587,7 @@ private struct FavoriteStationAppIcon: View {
         Text(stationInitials(station.name))
             .font(.system(size: 22, weight: .semibold, design: .monospaced))
             .foregroundStyle(Color.black)
-            .frame(width: iconSize, height: iconSize)
+            .frame(width: Self.iconSize, height: Self.iconSize)
     }
 }
 
