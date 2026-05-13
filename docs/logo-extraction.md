@@ -142,10 +142,45 @@ instead of making the catalog noisier.
 
 ## Apply A Reviewed Subset
 
+### Single-country (simple) workflow
+
 After review, rerun with only accepted IDs and without `--dry-run`:
 
 ```bash
 npm run scrape-logos -- --mode upgrade --id accepted-id-1,accepted-id-2 --concurrency 8
+```
+
+### Multi-country consolidated workflow (preferred for parallel agent runs)
+
+Each agent writes its accepted pairs to a JSON patch file instead of
+modifying `stations.yaml` directly. This avoids per-PR rebases when
+running multiple countries in parallel.
+
+**Agent output format** (`/tmp/rrradio-logo-patches/<cc>-accepted.json`):
+
+```json
+[
+  { "id": "station-id", "url": "https://example.com/logo.png" },
+  …
+]
+```
+
+**Consolidate and apply all patches in one pass:**
+
+```bash
+# Merge all patch files into one
+node -e "
+  const fs = require('fs');
+  const dir = '/tmp/rrradio-logo-patches';
+  const all = fs.readdirSync(dir)
+    .filter(f => f.endsWith('.json'))
+    .flatMap(f => JSON.parse(fs.readFileSync(dir+'/'+f,'utf8')));
+  fs.writeFileSync(dir+'/all.json', JSON.stringify(all, null, 2));
+  console.log('merged', all.length, 'entries from', dir);
+"
+
+# Apply to stations.yaml (--replace handles both inserts and upgrades)
+npm run apply-logos -- --in /tmp/rrradio-logo-patches/all.json --replace
 ```
 
 Then regenerate and verify:
@@ -215,3 +250,5 @@ Verification:
   stays small and results are easy to summarize.
 - Keep skipped candidates visible in the PR or issue notes when they explain
   why a country still has missing or weak logos.
+- Multi-country parallel runs should use the consolidated workflow (patch
+  files + `apply-logos --replace`) to avoid per-PR rebases on stations.yaml.
