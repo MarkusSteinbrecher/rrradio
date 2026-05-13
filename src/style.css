@@ -2776,6 +2776,50 @@ body.is-wake-edit .np-pane-tabs { display: none; }
 .about-cta__logo { width: 18px; height: 18px; }
 .about-cta--ghost { background: transparent; }
 
+/* Platform-interest poll (Native apps? section). Pill buttons that
+   stack on narrow viewports and row out on wider. After voting the
+   options vanish and a one-line thanks line takes their place. */
+.poll {
+  margin-top: 10px;
+}
+.poll-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.poll-btn {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-2);
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.poll-btn:hover {
+  border-color: var(--ink-3);
+  background: var(--bg-3);
+}
+.poll-btn:focus-visible {
+  outline: 2px solid var(--ink-3);
+  outline-offset: 2px;
+}
+.poll-thanks {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+  padding: 4px 0;
+}
+.poll-thanks__choice {
+  color: var(--ink);
+  font-weight: 500;
+}
+
 /* Tiny inline icon used in About prose to point at the matching
    button on another screen — e.g. "tap the [↓] icon on Favorites". */
 .about-inline-icon {

@@ -61,6 +61,7 @@ import {
   reportWorkerError,
   truncateErrorMessage,
 } from './errors';
+import { initPoll } from './poll';
 import { reportBrokenStation } from './reportBroken';
 import { fmtSharePct, normalizeForSearch } from './format';
 import { SILENT_BED_ID } from './np-display';
@@ -2016,6 +2017,10 @@ function onToggleTheme(): void {
 function openAboutSheet(open: boolean): void {
   $aboutSheet.classList.toggle('open', open);
   $aboutSheet.setAttribute('aria-hidden', String(!open));
+  if (open) {
+    const pollRoot = document.getElementById('platform-poll');
+    if (pollRoot) initPoll(pollRoot);
+  }
 }
 
 // ─────────────────────────────────────────────────────────────
