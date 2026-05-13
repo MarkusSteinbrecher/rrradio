@@ -3191,6 +3191,9 @@ struct StationRow: View {
     private var usesTopSeparator: Bool {
         mode == .favoritesExpanded
     }
+    private var usesCurrentCardShadow: Bool {
+        usesCardBackground && isCurrent
+    }
 
     var body: some View {
         HStack(spacing: 14) {
@@ -3232,7 +3235,19 @@ struct StationRow: View {
         .background {
             if usesCardBackground {
                 RoundedRectangle(cornerRadius: 6, style: .continuous)
-                    .fill(RrradioTheme.bg2)
+                    .fill(usesCurrentCardShadow ? RrradioTheme.bg3 : RrradioTheme.bg2)
+                    .shadow(
+                        color: usesCurrentCardShadow ? RrradioTheme.accent.opacity(0.20) : .clear,
+                        radius: usesCurrentCardShadow ? 9 : 0,
+                        x: 0,
+                        y: 0,
+                    )
+                    .shadow(
+                        color: usesCurrentCardShadow ? RrradioTheme.accent.opacity(0.10) : .clear,
+                        radius: usesCurrentCardShadow ? 14 : 0,
+                        x: 0,
+                        y: 3,
+                    )
             } else if isCurrent {
                 LinearGradient(
                     colors: [RrradioTheme.ink.opacity(0.035), .clear],
@@ -3244,7 +3259,7 @@ struct StationRow: View {
             }
         }
         .overlay(alignment: .leading) {
-            if isCurrent {
+            if isCurrent && !usesCardBackground {
                 Rectangle()
                     .fill(RrradioTheme.accent)
                     .frame(width: 2)
@@ -3602,25 +3617,15 @@ private struct FavoriteStationTile: View {
             HStack(alignment: .top, spacing: 10) {
                 artwork(size: 46)
                 Spacer(minLength: 6)
-                if isPlaying {
-                    EqualizerView()
-                        .padding(.top, 4)
-                }
+                topRightArtwork
             }
 
             VStack(alignment: .leading, spacing: 4) {
                 titleLine
-                if let detailLine {
-                    Text(detailLine)
-                        .font(.system(size: 11.5))
-                        .foregroundStyle(RrradioTheme.ink2)
-                        .lineLimit(2)
-                        .multilineTextAlignment(.leading)
-                }
+                tileMetadataLines
             }
 
             Spacer(minLength: 0)
-            streamDetailView
         }
         .padding(12)
         .frame(maxWidth: .infinity, minHeight: 142, alignment: .topLeading)
@@ -3630,16 +3635,21 @@ private struct FavoriteStationTile: View {
         }
         .overlay {
             RoundedRectangle(cornerRadius: 6, style: .continuous)
-                .stroke(isCurrent ? RrradioTheme.accent.opacity(0.55) : RrradioTheme.line)
-        }
-        .overlay(alignment: .leading) {
-            if isCurrent {
-                Rectangle()
-                    .fill(RrradioTheme.accent)
-                    .frame(width: 2)
-            }
+                .stroke(RrradioTheme.line)
         }
         .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+        .shadow(
+            color: isCurrent ? RrradioTheme.accent.opacity(0.26) : .clear,
+            radius: isCurrent ? 9 : 0,
+            x: 0,
+            y: 0,
+        )
+        .shadow(
+            color: isCurrent ? RrradioTheme.accent.opacity(0.12) : .clear,
+            radius: isCurrent ? 13 : 0,
+            x: 0,
+            y: 3,
+        )
         .contentShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
     }
 
@@ -3665,13 +3675,72 @@ private struct FavoriteStationTile: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    private var detailLine: String? {
-        if let title = clean(nowPlaying?.title) {
-            if let artist = clean(nowPlaying?.artist) {
-                return "\(artist) - \(title)"
-            }
-            return title
+    @ViewBuilder
+    private var tileMetadataLines: some View {
+        if let trackLine {
+            tileDetailText(trackLine, color: RrradioTheme.ink2, lineLimit: 2)
+        } else if let headlineLine {
+            tileDetailText(headlineLine, color: RrradioTheme.ink2, lineLimit: 2)
         }
+
+        if let programInfoLine {
+            tileDetailText(programInfoLine, color: RrradioTheme.ink3, lineLimit: 2)
+        } else if trackLine == nil && headlineLine == nil, let fallbackDetailLine {
+            tileDetailText(fallbackDetailLine, color: RrradioTheme.ink3, lineLimit: 2)
+        }
+    }
+
+    @ViewBuilder
+    private var topRightArtwork: some View {
+        if let coverUrl = nowPlaying?.coverUrl {
+            NowPlayingArtworkThumb(
+                url: coverUrl,
+                size: 46,
+                showsBorder: false,
+            )
+        } else if isPlaying {
+            EqualizerView()
+                .padding(.top, 4)
+        }
+    }
+
+    private func tileDetailText(_ value: String, color: Color, lineLimit: Int) -> some View {
+        Text(value)
+            .font(.system(size: 11.5))
+            .foregroundStyle(color)
+            .lineLimit(lineLimit)
+            .multilineTextAlignment(.leading)
+            .fixedSize(horizontal: false, vertical: true)
+    }
+
+    private var trackLine: String? {
+        guard let title = clean(nowPlaying?.title) else { return nil }
+        if let artist = clean(nowPlaying?.artist) {
+            return "\(artist) - \(title)"
+        }
+        return title
+    }
+
+    private var headlineLine: String? {
+        guard let raw = clean(nowPlaying?.raw),
+              raw != station.name,
+              raw != programInfoLine else {
+            return nil
+        }
+        return raw
+    }
+
+    private var programInfoLine: String? {
+        [
+            clean(nowPlaying?.programName),
+            clean(nowPlaying?.programSubtitle),
+        ]
+        .compactMap { $0 }
+        .joined(separator: " . ")
+        .nilIfEmpty
+    }
+
+    private var fallbackDetailLine: String? {
         if let program = clean(nowPlaying?.programName) {
             if let subtitle = clean(nowPlaying?.programSubtitle) {
                 return "\(program) . \(subtitle)"
@@ -3682,46 +3751,6 @@ private struct FavoriteStationTile: View {
             return "added station"
         }
         return station.tags?.prefix(2).joined(separator: " . ").nilIfEmpty
-    }
-
-    @ViewBuilder
-    private var streamDetailView: some View {
-        if hasStreamDetail {
-            HStack(spacing: 5) {
-                Text(streamDetailText)
-                    .font(.system(size: 10.5, weight: .regular, design: .monospaced))
-                    .foregroundStyle(RrradioTheme.ink3)
-                    .lineLimit(1)
-                qualityMeter
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-        }
-    }
-
-    private var hasStreamDetail: Bool {
-        station.codec?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false || station.bitrate != nil
-    }
-
-    private var streamDetailText: String {
-        [
-            station.codec?.trimmingCharacters(in: .whitespacesAndNewlines).uppercased().nilIfEmpty,
-            station.bitrate.map { "\($0) kbps" },
-        ]
-        .compactMap { $0 }
-        .joined(separator: ", ")
-    }
-
-    private var qualityMeter: some View {
-        let level = streamQualityLevel(codec: station.codec, bitrate: station.bitrate)
-        let heights: [CGFloat] = [5, 8, 11, 14]
-        return HStack(alignment: .bottom, spacing: 2.5) {
-            ForEach(0..<4, id: \.self) { index in
-                Capsule(style: .continuous)
-                    .fill(index < level ? RrradioTheme.ink2 : RrradioTheme.ink4.opacity(0.24))
-                    .frame(width: 3.5, height: heights[index])
-            }
-        }
-        .frame(width: 22, height: 18, alignment: .bottom)
     }
 
     @ViewBuilder
@@ -3826,18 +3855,23 @@ private struct FavoriteStationAppArtwork: View {
         }
         .frame(width: Self.iconSize, height: Self.iconSize)
         .clipShape(RoundedRectangle(cornerRadius: Self.iconCornerRadius, style: .continuous))
-        .contentShape(.dragPreview, RoundedRectangle(cornerRadius: Self.iconCornerRadius, style: .continuous))
         .overlay {
             RoundedRectangle(cornerRadius: Self.iconCornerRadius, style: .continuous)
                 .stroke(RrradioTheme.line)
         }
-        .overlay {
-            if isCurrent {
-                RoundedRectangle(cornerRadius: Self.iconCornerRadius, style: .continuous)
-                    .stroke(RrradioTheme.accent, lineWidth: 2)
-                    .padding(-3)
-            }
-        }
+        .shadow(
+            color: isCurrent ? RrradioTheme.accent.opacity(0.26) : .clear,
+            radius: isCurrent ? 9 : 0,
+            x: 0,
+            y: 0,
+        )
+        .shadow(
+            color: isCurrent ? RrradioTheme.accent.opacity(0.12) : .clear,
+            radius: isCurrent ? 13 : 0,
+            x: 0,
+            y: 3,
+        )
+        .contentShape(.dragPreview, RoundedRectangle(cornerRadius: Self.iconCornerRadius, style: .continuous))
         .accessibilityHidden(true)
     }
 
