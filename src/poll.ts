@@ -100,7 +100,6 @@ function buildBannerSkeleton(): PollBannerRefs {
 
   const voted = document.createElement('div');
   voted.className = 'poll-banner__voted';
-  voted.hidden = true;
 
   const votedLine = document.createElement('p');
   votedLine.className = 'poll-banner__voted-line';
@@ -128,8 +127,6 @@ function buildBannerSkeleton(): PollBannerRefs {
 
 function applyVotedState(refs: PollBannerRefs, vote: PollChoice): void {
   refs.banner.classList.add('poll-banner--voted');
-  refs.prompt.hidden = true;
-  refs.voted.hidden = false;
   refs.votedChoice.textContent = POLL_CHOICE_LABELS[vote];
 }
 

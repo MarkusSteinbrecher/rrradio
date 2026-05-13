@@ -77,7 +77,7 @@ describe('buildPollBanner — pre-vote', () => {
     expect(btns).toHaveLength(3);
     const choices = Array.from(btns, (b) => (b as HTMLButtonElement).dataset.choice);
     expect(choices).toEqual(['ios', 'android', 'dont-care']);
-    expect(banner.querySelector<HTMLElement>('.poll-banner__voted')?.hidden).toBe(true);
+    expect(banner.classList.contains('poll-banner--voted')).toBe(false);
   });
 
   it('switches to the voted panel after a click and persists the vote', () => {
@@ -88,8 +88,6 @@ describe('buildPollBanner — pre-vote', () => {
     expect(getVote()).toBe('ios');
     expect(trackCalls).toEqual(['vote: ios']);
     expect(banner.classList.contains('poll-banner--voted')).toBe(true);
-    expect(banner.querySelector<HTMLElement>('.poll-banner__prompt')?.hidden).toBe(true);
-    expect(banner.querySelector<HTMLElement>('.poll-banner__voted')?.hidden).toBe(false);
     expect(banner.querySelector('.poll-banner__voted-choice')?.textContent).toBe(
       POLL_CHOICE_LABELS.ios,
     );
@@ -111,7 +109,6 @@ describe('buildPollBanner — post-vote', () => {
     recordVote('android');
     const banner = buildPollBanner();
     expect(banner.classList.contains('poll-banner--voted')).toBe(true);
-    expect(banner.querySelector<HTMLElement>('.poll-banner__prompt')?.hidden).toBe(true);
     expect(banner.querySelector('.poll-banner__voted-choice')?.textContent).toBe(
       POLL_CHOICE_LABELS.android,
     );

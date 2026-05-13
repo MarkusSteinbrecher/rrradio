@@ -2865,12 +2865,28 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   margin-top: 2px;
 }
 
-/* ─── Poll banner post-vote panel ─── */
+/* ─── Poll banner state gating ───
+   Pre-vote: only the prompt block is visible (title + subtitle +
+   choice buttons). Post-vote (.poll-banner--voted is set): only the
+   voted panel is visible (you-voted line + stats button).
+   Using class-gated CSS — not the [hidden] attribute — because the
+   voted block uses display:flex, and a class-level display rule wins
+   over the user-agent [hidden] { display: none } rule. */
+.poll-banner .poll-banner__voted { display: none; }
+.poll-banner--voted .poll-banner__prompt { display: none; }
 .poll-banner--voted {
   padding: 12px 16px;
 }
-.poll-banner__voted {
+.poll-banner--voted .poll-banner__voted {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+}
+.poll-banner__voted {
+  /* layout-only fallback so the block keeps its shape if the parent
+     ever forgets the --voted class (defensive — should not happen
+     in normal use). */
   flex-wrap: wrap;
   align-items: center;
   gap: 6px 14px;
