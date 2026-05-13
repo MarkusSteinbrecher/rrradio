@@ -44,6 +44,11 @@ function countryOf(station) {
 
 function rowAction(station, logo) {
   if (logo.source === 'local') return 'keep-curated';
+  // Explicit human approval overrides URL heuristics entirely.
+  if (station.faviconOk === true) return 'keep';
+  // Known-provenance sources suppress upgrade churn — URL was already validated.
+  // Still allow scrape-missing if the favicon is actually absent/dead.
+  if (station.faviconSource && logo.tier !== 'missing') return 'keep';
   if (!station.homepage) {
     return logo.upgradeRecommended ? 'needs-manual-homepage' : 'keep';
   }
@@ -62,6 +67,8 @@ const rows = stations.map((station) => {
     status: station.status,
     homepage: station.homepage ?? null,
     favicon: station.favicon ?? null,
+    faviconSource: station.faviconSource ?? null,
+    faviconOk: station.faviconOk ?? null,
     source: logo.source,
     tier: logo.tier,
     state: logo.state,

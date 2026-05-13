@@ -27,6 +27,35 @@ rights are clear enough to record in `THIRD_PARTY_NOTICES.md`.
 - a local `stations/<id>.png` asset, reserved for curated bundled logos
 - absent, in which case the UI falls back to generated initials
 
+### Provenance fields
+
+Two optional YAML fields track logo provenance. Both flow through to
+`public/stations.json` and are consumed by `logo-status.mjs`.
+
+`faviconSource:` — where the logo URL came from:
+
+| Value | Set by |
+|---|---|
+| `broadcaster` | `scrape-logos` (HTML/manifest image from broadcaster homepage) |
+| `wiki` | `wiki-logos` (Wikipedia CC-licensed article image) |
+| `curated` | hand-picked by a human operator |
+| `http-upgraded` | mechanical HTTP→HTTPS swap with no content change |
+
+`faviconOk: true` — explicit human sign-off. Suppresses all upgrade
+recommendations for that station regardless of URL heuristics.
+
+Absent `faviconSource` means the URL came from Radio Browser or TuneIn
+(origin unknown, may be licensed). Those stations stay in the upgrade
+queue until a known-good source is confirmed.
+
+**Patch format for `apply-logos`** accepts an optional `source` key:
+
+```json
+[{ "id": "station-id", "url": "https://…", "source": "http-upgraded" }]
+```
+
+When `source` is present, `faviconSource:` is written alongside `favicon:`.
+
 ## Candidate Queues
 
 Start from a fresh generated catalog and logo report:
