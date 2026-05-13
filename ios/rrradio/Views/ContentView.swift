@@ -274,6 +274,8 @@ struct ContentView: View {
                 }
                 BottomTabBar(tab: $tab)
             }
+            .fixedSize(horizontal: false, vertical: true)
+            .frame(maxWidth: .infinity)
             .id("bottom-chrome")
             .zIndex(100)
             .transaction { transaction in

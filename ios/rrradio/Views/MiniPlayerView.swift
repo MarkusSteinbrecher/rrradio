@@ -9,33 +9,40 @@ struct MiniPlayerView: View {
     @State private var presentNowPlaying = false
     @State private var showingClosePrompt = false
     private let offlineTint = Color(red: 1, green: 0.45, blue: 0.45)
+    private let miniPlayerHeight: CGFloat = 104
+    private let stationArtworkSize: CGFloat = 46
+    private let albumArtworkSize: CGFloat = 64
+    private let controlSize: CGFloat = 36
 
     var body: some View {
         HStack(spacing: 14) {
             leadingIcon
 
-            VStack(alignment: .leading, spacing: 2) {
-                Text(primaryLine)
-                    .font(.system(size: 13, weight: .medium))
-                    .foregroundStyle(primaryColor)
-                    .lineLimit(1)
-                subtitleLine
-            }
+            metadataLines
             .frame(maxWidth: .infinity, alignment: .leading)
 
             if sleepTimer.isArmed {
                 Image(systemName: "moon.zzz.fill")
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundStyle(RrradioTheme.accent)
-                    .frame(width: 24, height: 36)
+                    .frame(width: 24, height: controlSize)
                     .accessibilityLabel("Sleep timer active")
+            }
+
+            if let artworkURL = albumArtworkURL {
+                NowPlayingArtworkThumb(
+                    url: artworkURL,
+                    size: albumArtworkSize,
+                    showsBorder: false
+                )
+                .frame(width: albumArtworkSize, height: albumArtworkSize)
             }
 
             if player.current == nil, network.snapshot.isOffline {
                 Image(systemName: "wifi.slash")
                     .font(.system(size: 15, weight: .semibold))
                     .foregroundStyle(offlineTint.opacity(0.82))
-                    .frame(width: 36, height: 36)
+                    .frame(width: controlSize, height: controlSize)
                     .overlay(Circle().stroke(offlineTint.opacity(0.22), lineWidth: 1))
                     .accessibilityHidden(true)
             } else if showingClosePrompt {
@@ -45,7 +52,7 @@ struct MiniPlayerView: View {
                     Image(systemName: "xmark")
                         .font(.system(size: 14, weight: .bold))
                         .foregroundStyle(.white)
-                        .frame(width: 36, height: 36)
+                        .frame(width: controlSize, height: controlSize)
                         .background(Color.red)
                         .clipShape(Circle())
                 }
@@ -60,7 +67,7 @@ struct MiniPlayerView: View {
                     Image(systemName: player.state == .playing ? "pause.fill" : "play.fill")
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundStyle(RrradioTheme.ink)
-                        .frame(width: 36, height: 36)
+                        .frame(width: controlSize, height: controlSize)
                         .overlay(Circle().stroke(RrradioTheme.ink.opacity(0.16), lineWidth: 1))
                 }
                 .buttonStyle(.plain)
@@ -69,9 +76,9 @@ struct MiniPlayerView: View {
             }
         }
         .padding(.leading, 20)
-        .padding(.trailing, 14)
-        .padding(.vertical, 10)
-        .frame(minHeight: 66)
+        .padding(.trailing, 20)
+        .padding(.vertical, 16)
+        .frame(height: miniPlayerHeight)
         .background(RrradioTheme.bg2)
         .overlay(alignment: .top) {
             MiniPlayerTopRule(isActive: player.current != nil || network.snapshot.isOffline, tint: topRuleTint)
@@ -115,20 +122,64 @@ struct MiniPlayerView: View {
                     .font(.system(size: 15, weight: .semibold))
                     .foregroundStyle(offlineTint.opacity(0.82))
             }
-            .frame(width: 38, height: 38)
+            .frame(width: stationArtworkSize, height: stationArtworkSize)
         } else {
-            FaviconView(
-                url: player.nowPlayingCoverUrl ?? player.current?.favicon,
-                stationName: player.current?.name ?? "",
-                stationID: player.current?.id ?? "",
-                size: 38,
-            )
-            .frame(width: 38, height: 38)
+            ZStack(alignment: .topTrailing) {
+                FaviconView(
+                    url: player.current?.favicon,
+                    stationName: player.current?.name ?? "",
+                    stationID: player.current?.id ?? "",
+                    size: stationArtworkSize,
+                )
+                .frame(width: stationArtworkSize, height: stationArtworkSize)
+
+                if isStationListPlayback {
+                    stationListBadge
+                        .offset(x: 4, y: -4)
+                }
+            }
+            .frame(width: stationArtworkSize, height: stationArtworkSize)
+        }
+    }
+
+    private var stationListBadge: some View {
+        Image(systemName: "list.bullet")
+            .font(.system(size: 8, weight: .bold))
+            .foregroundStyle(RrradioTheme.accent)
+            .frame(width: 18, height: 18)
+            .background(Circle().fill(RrradioTheme.bg2))
+            .overlay(Circle().stroke(RrradioTheme.accent.opacity(0.55), lineWidth: 1))
+            .accessibilityLabel("Playing from list")
+    }
+
+    private var albumArtworkURL: URL? {
+        guard player.current != nil, !network.snapshot.isOffline else {
+            return nil
+        }
+        return player.nowPlayingCoverUrl
+    }
+
+    @ViewBuilder
+    private var metadataLines: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            stationTitleLine
+
+            if !network.snapshot.isOffline {
+                if let track = trackLine {
+                    detailText(track, color: RrradioTheme.ink2)
+                }
+
+                if let program = programInfoLine {
+                    detailText(program, color: RrradioTheme.ink3)
+                } else if trackLine == nil {
+                    stateLineView
+                }
+            }
         }
     }
 
     @ViewBuilder
-    private var subtitleLine: some View {
+    private var stationTitleLine: some View {
         if network.snapshot.isOffline {
             HStack(spacing: 6) {
                 Image(systemName: "wifi.slash")
@@ -138,37 +189,75 @@ struct MiniPlayerView: View {
                     .textCase(.uppercase)
                     .lineLimit(1)
             }
-            .foregroundStyle(offlineTint.opacity(0.86))
-        } else if let track = trackLine {
-            Text(track)
-                .font(.system(size: 11.5))
-                .foregroundStyle(RrradioTheme.ink2)
-                .lineLimit(1)
+            .foregroundStyle(offlineTint.opacity(0.90))
         } else {
-            HStack(spacing: 6) {
-                if player.state == .playing {
-                    Circle()
-                        .fill(RrradioTheme.accent)
-                        .frame(width: 5, height: 5)
-                }
-                Text(stateLine)
-                    .font(.system(size: 10, weight: .medium, design: .monospaced))
-                    .textCase(.uppercase)
-                    .foregroundStyle(RrradioTheme.ink3)
+            HStack(spacing: 4) {
+                Text(player.current?.name ?? "")
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(RrradioTheme.ink)
                     .lineLimit(1)
+                let flag = countryFlagEmoji(player.current?.country)
+                if !flag.isEmpty {
+                    Text(flag)
+                        .font(.system(size: 12))
+                        .foregroundStyle(.primary)
+                }
+                if hasProgramInfo {
+                    Image(systemName: "calendar")
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundStyle(RrradioTheme.ink3)
+                        .accessibilityLabel("Program info")
+                }
             }
         }
     }
 
-    private var primaryLine: String {
-        if player.current == nil, network.snapshot.isOffline {
-            return "No internet connection"
+    private func detailText(_ value: String, color: Color) -> some View {
+        Text(value)
+            .font(.system(size: 11.5))
+            .foregroundStyle(color)
+            .lineLimit(1)
+    }
+
+    private var stateLineView: some View {
+        HStack(spacing: 6) {
+            if player.state == .playing {
+                Circle()
+                    .fill(RrradioTheme.accent)
+                    .frame(width: 5, height: 5)
+            }
+            Text(stateLine)
+                .font(.system(size: 10, weight: .medium, design: .monospaced))
+                .textCase(.uppercase)
+                .foregroundStyle(RrradioTheme.ink3)
+                .lineLimit(1)
         }
-        let stationName = player.current?.name ?? ""
-        guard let programName = player.nowPlayingProgramName?.trimmingCharacters(in: .whitespacesAndNewlines), !programName.isEmpty else {
-            return stationName
+    }
+
+    private var programInfoLine: String? {
+        let line = [
+            clean(player.nowPlayingProgramName),
+            clean(player.nowPlayingProgramSubtitle),
+        ]
+        .compactMap { $0 }
+        .joined(separator: " . ")
+        return line.isEmpty ? nil : line
+    }
+
+    private var isStationListPlayback: Bool {
+        player.activePlaybackQueueSource == .stationList
+    }
+
+    private var hasProgramInfo: Bool {
+        guard let station = player.current else {
+            return programInfoLine != nil
         }
-        return "\(stationName) - \(programName)"
+        return stationHasProgramInfo(station) || programInfoLine != nil
+    }
+
+    private func clean(_ value: String?) -> String? {
+        let trimmed = value?.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed?.isEmpty == false ? trimmed : nil
     }
 
     private var trackLine: String? {
@@ -196,10 +285,6 @@ struct MiniPlayerView: View {
         case .error:
             return "Error"
         }
-    }
-
-    private var primaryColor: Color {
-        player.current == nil && network.snapshot.isOffline ? offlineTint.opacity(0.90) : RrradioTheme.ink
     }
 
     private var topRuleTint: Color {

@@ -111,10 +111,12 @@ final class AudioPlayerStateTests: XCTestCase {
         p.play(b, queue: StationPlaybackQueue(source: .browse, stations: [a, b, c]))
 
         XCTAssertEqual(p.activePlaybackQueue?.source, .browse)
+        XCTAssertEqual(p.activePlaybackQueueSource, .browse)
         XCTAssertEqual(p.activePlaybackQueue?.stations.map(\.id), ["a", "b", "c"])
         XCTAssertEqual(p.stationForActivePlaybackStep(.forward)?.id, "c")
         XCTAssertEqual(p.stationForActivePlaybackStep(.backward)?.id, "a")
         p.stop()
+        XCTAssertEqual(p.activePlaybackQueueSource, .single)
     }
 
     func testPlayingNextQueuedStationWithoutNewQueuePreservesActiveQueue() {
@@ -127,9 +129,27 @@ final class AudioPlayerStateTests: XCTestCase {
         p.play(c)
 
         XCTAssertEqual(p.activePlaybackQueue?.source, .favorites)
+        XCTAssertEqual(p.activePlaybackQueueSource, .favorites)
         XCTAssertEqual(p.activePlaybackQueue?.stations.map(\.id), ["a", "b", "c"])
         XCTAssertEqual(p.stationForActivePlaybackStep(.forward)?.id, "a")
         p.stop()
+    }
+
+    func testStationListQueuePreservesSourceIDAcrossStationChanges() {
+        let p = AudioPlayer()
+        let a = station(id: "a")
+        let b = station(id: "b")
+        let c = station(id: "c")
+
+        p.play(a, queue: StationPlaybackQueue(source: .stationList, sourceID: "list-one", stations: [a, b, c]))
+        p.play(b)
+
+        XCTAssertEqual(p.activePlaybackQueueSource, .stationList)
+        XCTAssertEqual(p.activePlaybackQueueSourceID, "list-one")
+        XCTAssertEqual(p.activePlaybackQueue?.sourceID, "list-one")
+        XCTAssertEqual(p.stationForActivePlaybackStep(.forward)?.id, "c")
+        p.stop()
+        XCTAssertNil(p.activePlaybackQueueSourceID)
     }
 
     func testInterruptionPausesAndResumesWhenSystemAllows() async {

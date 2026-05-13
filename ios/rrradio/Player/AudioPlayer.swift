@@ -18,10 +18,12 @@ struct StationPlaybackQueue: Equatable {
     }
 
     let source: Source
+    let sourceID: String?
     let stations: [Station]
 
-    init(source: Source, stations: [Station], current: Station? = nil) {
+    init(source: Source, sourceID: String? = nil, stations: [Station], current: Station? = nil) {
         self.source = source
+        self.sourceID = sourceID
         self.stations = Self.uniqueStations(stations, current: current)
     }
 
@@ -95,6 +97,8 @@ final class AudioPlayer {
     private(set) var state: State = .idle
     private(set) var current: Station?
     @ObservationIgnored private(set) var activePlaybackQueue: StationPlaybackQueue?
+    private(set) var activePlaybackQueueSource: StationPlaybackQueue.Source = .single
+    private(set) var activePlaybackQueueSourceID: String?
     private(set) var nowPlayingTitle: String?
     private(set) var nowPlayingArtist: String?
     private(set) var nowPlayingProgramName: String?
@@ -294,6 +298,8 @@ final class AudioPlayer {
         teardownPlayer()
         current = nil
         activePlaybackQueue = nil
+        activePlaybackQueueSource = .single
+        activePlaybackQueueSourceID = nil
         nowPlayingTitle = nil
         nowPlayingArtist = nil
         nowPlayingProgramName = nil
@@ -393,12 +399,15 @@ final class AudioPlayer {
         if let queue {
             activePlaybackQueue = StationPlaybackQueue(
                 source: queue.source,
+                sourceID: queue.sourceID,
                 stations: queue.stations,
                 current: station,
             )
         } else if activePlaybackQueue?.contains(station) != true {
             activePlaybackQueue = StationPlaybackQueue(source: .single, stations: [station])
         }
+        activePlaybackQueueSource = activePlaybackQueue?.source ?? .single
+        activePlaybackQueueSourceID = activePlaybackQueue?.sourceID
     }
 
     private func wireRemoteCommands() {

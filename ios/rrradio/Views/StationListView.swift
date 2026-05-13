@@ -138,6 +138,7 @@ struct StationListView: View {
     @State private var favoritesSearchPresented = false
     @State private var selectedStationListID: String?
     @State private var showingCreateStationList = false
+    @State private var stationListDeleteModeEnabled = false
     @State private var stationListNameDraft = ""
     @State private var browseListSelectionActive = false
     @State private var browseListSelectedStationIDs: Set<String> = []
@@ -171,10 +172,11 @@ struct StationListView: View {
     private let favoriteRemoveControlTrailingInset: CGFloat = 20
     private let stationHeaderTopPadding: CGFloat = 6
     private let stationHeaderStackSpacing: CGFloat = 6
-    private let sortNameColumnOffset: CGFloat = 54
+    private let sortSideColumnWidth: CGFloat = 98
+    // Centers the Browse list-selection icon above the standard row artwork.
+    private let sortListSelectionControlLeadingSpacerWidth: CGFloat = 19
     private let sortListSelectionControlWidth: CGFloat = 28
     private let sortAlphabetControlWidth: CGFloat = 44
-    private var sortSideColumnWidth: CGFloat { sortNameColumnOffset + sortAlphabetControlWidth }
 
     private enum ActiveFilterPicker {
         case main
@@ -316,6 +318,9 @@ struct StationListView: View {
         case .recents:
             return .recents
         }
+    }
+    private var playbackQueueSourceID: String? {
+        isStationListsDetail ? selectedStationListID : nil
     }
     private var favoritesDisplayMode: FavoritesDisplayMode {
         FavoritesDisplayMode(rawValue: favoritesDisplayModeRaw) ?? .list
@@ -723,6 +728,9 @@ struct StationListView: View {
     }
 
     private func handleTabChange(_: AppTab, _ value: AppTab) {
+        if value != .stationLists {
+            hideStationListDeleteMode(animated: false)
+        }
         guard fixedTab == nil else {
             if fixedTab == value, fixedTab == .favorites, source != .favorites {
                 setSource(.favorites, animated: false)
@@ -749,6 +757,7 @@ struct StationListView: View {
     }
 
     private func handleQueryChange(_: String, _: String) {
+        hideStationListDeleteMode(animated: false)
         resetStationDisplayLimit()
         resetRadioBrowserStations()
         fetchInitialRadioBrowserPageIfNeeded()
@@ -763,6 +772,9 @@ struct StationListView: View {
     }
 
     private func handleSearchTextChange(_: String, _ value: String) {
+        if !value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            hideStationListDeleteMode(animated: false)
+        }
         scheduleSearchUpdate(value)
     }
 
@@ -819,6 +831,7 @@ struct StationListView: View {
         stationInfoMetadataTask?.cancel()
         favoriteNowPlaying.stop()
         cancelBrowseListSelection()
+        hideStationListDeleteMode(animated: false)
         searchFocusedExternally = false
     }
 
@@ -1110,6 +1123,14 @@ struct StationListView: View {
                     HStack {
                         stationListBackButton
                         Spacer()
+                        if showsStationListDeleteModeButton {
+                            stationListDeleteModeButton
+                        }
+                    }
+                } else if showsStationListDeleteModeButton {
+                    HStack {
+                        Spacer()
+                        stationListDeleteModeButton
                     }
                 }
             }
@@ -1134,6 +1155,17 @@ struct StationListView: View {
         canReorderFavorites
     }
 
+    private var showsStationListDeleteModeButton: Bool {
+        canUseStationListDeleteMode
+    }
+
+    private var stationListDeleteModeAccessibilityLabel: String {
+        if stationListDeleteModeEnabled {
+            return isStationListsDetail ? "Done removing stations" : "Done removing lists"
+        }
+        return isStationListsDetail ? "Remove stations from list" : "Remove lists"
+    }
+
     private var favoriteDeleteModeButton: some View {
         Button {
             toggleFavoriteDeleteMode()
@@ -1146,6 +1178,20 @@ struct StationListView: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel(favoriteDeleteModeEnabled ? "Done removing favorites" : "Remove favorites")
+    }
+
+    private var stationListDeleteModeButton: some View {
+        Button {
+            toggleStationListDeleteMode()
+        } label: {
+            Image(systemName: stationListDeleteModeEnabled ? "minus.circle" : "trash")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(RrradioTheme.ink3)
+                .frame(width: topbarControlSize, height: topbarControlSize)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(stationListDeleteModeAccessibilityLabel)
     }
 
     private var brandActionsRow: some View {
@@ -1346,7 +1392,7 @@ struct StationListView: View {
             HStack(spacing: 0) {
                 HStack(spacing: 0) {
                     Color.clear
-                        .frame(width: max(0, sortNameColumnOffset - sortListSelectionControlWidth), height: 1)
+                        .frame(width: sortListSelectionControlLeadingSpacerWidth, height: 1)
                         .accessibilityHidden(true)
                     browseListSelectionModeButton
                     alphabetSortButton
@@ -1887,6 +1933,9 @@ struct StationListView: View {
             }
             .padding(.top, stationHeaderTopPadding)
             .padding(.bottom, 12)
+            .background {
+                stationListDeleteModeDismissBackground
+            }
         }
         .scrollDismissesKeyboard(.immediately)
         .scrollDisabled(isHorizontalPageSwipeLocked)
@@ -1904,6 +1953,8 @@ struct StationListView: View {
             }
             .padding(.leading, 2)
             .transition(.opacity.combined(with: .move(edge: .leading)))
+        } else if isStationListStationDeleteMode {
+            stationListStationDeleteRow(station)
         } else {
             standardStationRow(station, selectingForList: false)
         }
@@ -1921,6 +1972,8 @@ struct StationListView: View {
             onPlay: {
                 if selectingForList {
                     toggleBrowseStationSelection(station)
+                } else if isStationListStationDeleteMode {
+                    hideStationListDeleteMode()
                 } else {
                     play(station)
                 }
@@ -1928,11 +1981,35 @@ struct StationListView: View {
             onToggleFavorite: {
                 library.toggleFavorite(station)
             },
-            showsFavoriteButton: !usesFavoritesRows,
-            onInfoHoldChanged: !selectingForList && source == .all ? { isHolding in
+            showsFavoriteButton: !usesFavoritesRows && !isStationListStationDeleteMode,
+            showsStreamQualityButton: !isStationListStationDeleteMode,
+            onInfoHoldChanged: !selectingForList && !isStationListStationDeleteMode && source == .all ? { isHolding in
                 handleStationInfoHoldChanged(isHolding, station: station)
             } : nil,
         )
+    }
+
+    private func stationListStationDeleteRow(_ station: Station) -> some View {
+        ZStack(alignment: .trailing) {
+            HStack(spacing: 0) {
+                standardStationRow(station, selectingForList: false)
+                    .frame(maxWidth: .infinity)
+
+                Color.clear
+                    .frame(width: favoriteRemoveControlSlotWidth)
+                    .accessibilityHidden(true)
+            }
+
+            stationListStationDeleteButton(station)
+                .padding(.trailing, favoriteRemoveControlTrailingInset)
+                .transition(.scale(scale: 0.82).combined(with: .opacity))
+        }
+        .animation(.snappy(duration: 0.16), value: stationListDeleteModeEnabled)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            hideStationListDeleteMode()
+        }
+        .accessibilityHint("Tap outside remove buttons to exit remove mode")
     }
 
     private func browseStationSelectionButton(_ station: Station) -> some View {
@@ -1967,9 +2044,23 @@ struct StationListView: View {
                             StationListCard(
                                 stationList: list,
                                 emptyLabel: locale.text(.emptyStationList),
-                                isCurrent: stationListContainsCurrentStation(list),
+                                isCurrent: stationListIsCurrentPlaybackSource(list),
+                                isFirstStationCustom: list.stations.first.map(library.isCustom) ?? false,
+                                isDeleteModeEnabled: stationListDeleteModeEnabled && canDeleteStationListsOverview,
                             ) {
-                                openStationList(list)
+                                if stationListDeleteModeEnabled {
+                                    hideStationListDeleteMode()
+                                } else {
+                                    openStationList(list)
+                                }
+                            } onPlay: {
+                                if stationListDeleteModeEnabled {
+                                    hideStationListDeleteMode()
+                                } else {
+                                    playStationList(list)
+                                }
+                            } onDelete: {
+                                removeStationListFromOverview(list)
                             }
                             .padding(.horizontal, 14)
                             .padding(.top, list.id == filteredStationLists.first?.id ? stationHeaderStackSpacing : 0)
@@ -1981,6 +2072,9 @@ struct StationListView: View {
             }
             .padding(.top, stationHeaderTopPadding)
             .padding(.bottom, 12)
+            .background {
+                stationListDeleteModeDismissBackground
+            }
         }
         .scrollDismissesKeyboard(.immediately)
         .background(RrradioTheme.bg)
@@ -2490,6 +2584,28 @@ struct StationListView: View {
         }
     }
 
+    private func toggleStationListDeleteMode() {
+        guard canUseStationListDeleteMode else { return }
+        activeFilterPicker = nil
+        withAnimation(.snappy(duration: 0.16)) {
+            stationListDeleteModeEnabled.toggle()
+        }
+        if stationListDeleteModeEnabled {
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        }
+    }
+
+    private func hideStationListDeleteMode(animated: Bool = true) {
+        guard stationListDeleteModeEnabled else { return }
+        if animated {
+            withAnimation(.snappy(duration: 0.12)) {
+                stationListDeleteModeEnabled = false
+            }
+        } else {
+            stationListDeleteModeEnabled = false
+        }
+    }
+
     private func favoriteDeleteButton(_ station: Station) -> some View {
         Button {
             removeFavoriteFromGrid(station)
@@ -2505,6 +2621,21 @@ struct StationListView: View {
         .transition(.scale(scale: 0.82).combined(with: .opacity))
     }
 
+    private func stationListStationDeleteButton(_ station: Station) -> some View {
+        Button {
+            removeStationFromSelectedList(station)
+        } label: {
+            Image(systemName: "minus.circle")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(RrradioTheme.ink3)
+                .frame(width: topbarControlSize, height: topbarControlSize)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Remove \(station.name) from list")
+        .transition(.scale(scale: 0.82).combined(with: .opacity))
+    }
+
     private func removeFavoriteFromGrid(_ station: Station) {
         filterTask?.cancel()
         withAnimation(.snappy(duration: 0.18)) {
@@ -2512,6 +2643,31 @@ struct StationListView: View {
         }
         if library.isFavorite(station) {
             library.toggleFavorite(station)
+        }
+    }
+
+    private func removeStationListFromOverview(_ list: StationList) {
+        guard library.removeStationList(id: list.id) else { return }
+        if browseListTargetStationListID == list.id {
+            browseListTargetStationListID = nil
+        }
+        if selectedStationListID == list.id {
+            closeStationListDetail()
+        }
+        if library.stationLists.isEmpty {
+            hideStationListDeleteMode(animated: false)
+        }
+    }
+
+    private func removeStationFromSelectedList(_ station: Station) {
+        guard let selectedStationListID,
+              library.removeStation(station, fromStationList: selectedStationListID) else { return }
+        filterTask?.cancel()
+        withAnimation(.snappy(duration: 0.18)) {
+            filteredStations.removeAll { $0.id == station.id }
+        }
+        if selectedStationList?.stations.isEmpty ?? true {
+            hideStationListDeleteMode(animated: false)
         }
     }
 
@@ -2595,6 +2751,7 @@ struct StationListView: View {
     }
 
     private func openCreateStationListDialog() {
+        hideStationListDeleteMode(animated: false)
         clearSearchState()
         stationListNameDraft = ""
         showingCreateStationList = true
@@ -2607,6 +2764,7 @@ struct StationListView: View {
     }
 
     private func openStationList(_ list: StationList) {
+        hideStationListDeleteMode(animated: false)
         clearSearchState()
         selectedStationListID = list.id
         resetStationDisplayLimit()
@@ -2615,6 +2773,7 @@ struct StationListView: View {
     }
 
     private func closeStationListDetail() {
+        hideStationListDeleteMode(animated: false)
         clearSearchState()
         selectedStationListID = nil
         resetStationDisplayLimit()
@@ -2628,9 +2787,9 @@ struct StationListView: View {
         recomputeFilteredStations()
     }
 
-    private func stationListContainsCurrentStation(_ list: StationList) -> Bool {
-        guard let currentID = player.current?.id else { return false }
-        return list.stations.contains { $0.id == currentID }
+    private func stationListIsCurrentPlaybackSource(_ list: StationList) -> Bool {
+        player.activePlaybackQueueSource == .stationList
+            && player.activePlaybackQueueSourceID == list.id
     }
 
     private func play(_ station: Station) {
@@ -2645,8 +2804,29 @@ struct StationListView: View {
         showingNowPlaying = true
     }
 
+    private func playStationList(_ list: StationList) {
+        guard let firstStation = list.stations.first else { return }
+        dismissSearch()
+        let queue = StationPlaybackQueue(
+            source: .stationList,
+            sourceID: list.id,
+            stations: list.stations,
+            current: firstStation,
+        )
+        player.play(firstStation, queue: queue)
+        if !library.isCustom(firstStation) {
+            library.pushRecent(firstStation)
+        }
+        showingNowPlaying = true
+    }
+
     private func playbackQueue(for station: Station) -> StationPlaybackQueue {
-        StationPlaybackQueue(source: playbackQueueSource, stations: visibleStations, current: station)
+        StationPlaybackQueue(
+            source: playbackQueueSource,
+            sourceID: playbackQueueSourceID,
+            stations: visibleStations,
+            current: station,
+        )
     }
 
     @ViewBuilder
@@ -2767,6 +2947,17 @@ struct StationListView: View {
         }
     }
 
+    @ViewBuilder
+    private var stationListDeleteModeDismissBackground: some View {
+        if stationListDeleteModeEnabled {
+            Color.clear
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    hideStationListDeleteMode()
+                }
+        }
+    }
+
     private func cleanInfoValue(_ value: String?) -> String? {
         value?.trimmingCharacters(in: .whitespacesAndNewlines).nilIfEmpty
     }
@@ -2777,6 +2968,30 @@ struct StationListView: View {
             && query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
             && searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
             && !hasActiveFiltersForCurrentSource
+    }
+
+    private var canUseStationListDeleteMode: Bool {
+        canDeleteStationListsOverview || canDeleteStationsFromSelectedList
+    }
+
+    private var canDeleteStationListsOverview: Bool {
+        isStationListsPage
+            && !isStationListsDetail
+            && !library.stationLists.isEmpty
+            && query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            && searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
+    private var canDeleteStationsFromSelectedList: Bool {
+        isStationListsPage
+            && isStationListsDetail
+            && selectedStationList?.stations.isEmpty == false
+            && query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            && searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
+    private var isStationListStationDeleteMode: Bool {
+        stationListDeleteModeEnabled && canDeleteStationsFromSelectedList
     }
 
     private func moveFavoriteRows(from source: IndexSet, to destination: Int) {
@@ -3725,7 +3940,7 @@ private struct FavoriteGridDropResetDelegate: DropDelegate {
     }
 }
 
-private func stationHasProgramInfo(_ station: Station) -> Bool {
+func stationHasProgramInfo(_ station: Station) -> Bool {
     if scheduleFetcher(for: station) != nil {
         return true
     }
@@ -3754,6 +3969,7 @@ struct StationRow: View {
     let onPlay: () -> Void
     let onToggleFavorite: () -> Void
     var showsFavoriteButton = true
+    var showsStreamQualityButton = true
     var onInfoHoldChanged: ((Bool) -> Void)?
     @State private var showingStreamQuality = false
     @State private var infoPressRecognized = false
@@ -3817,17 +4033,23 @@ struct StationRow: View {
             if usesCardBackground {
                 RoundedRectangle(cornerRadius: 6, style: .continuous)
                     .fill(usesCurrentCardShadow ? RrradioTheme.bg3 : RrradioTheme.bg2)
+                    .overlay {
+                        if usesCurrentCardShadow {
+                            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                .stroke(RrradioTheme.line, lineWidth: 1)
+                        }
+                    }
                     .shadow(
-                        color: usesCurrentCardShadow ? RrradioTheme.accent.opacity(0.20) : .clear,
-                        radius: usesCurrentCardShadow ? 9 : 0,
+                        color: usesCurrentCardShadow ? RrradioTheme.accent.opacity(0.15) : .clear,
+                        radius: usesCurrentCardShadow ? 4 : 0,
                         x: 0,
                         y: 0,
                     )
                     .shadow(
-                        color: usesCurrentCardShadow ? RrradioTheme.accent.opacity(0.10) : .clear,
-                        radius: usesCurrentCardShadow ? 14 : 0,
+                        color: usesCurrentCardShadow ? RrradioTheme.accent.opacity(0.08) : .clear,
+                        radius: usesCurrentCardShadow ? 6 : 0,
                         x: 0,
-                        y: 3,
+                        y: 1,
                     )
             } else if isCurrent {
                 LinearGradient(
@@ -3872,9 +4094,9 @@ struct StationRow: View {
 
     @ViewBuilder
     private var trailingControls: some View {
-        if mode == .standard || showsFavoriteButton {
+        if (mode == .standard && showsStreamQualityButton) || showsFavoriteButton {
             HStack(spacing: trailingControlSpacing) {
-                if mode == .standard {
+                if mode == .standard && showsStreamQualityButton {
                     streamQualityButton
                 }
 
@@ -4221,13 +4443,13 @@ private struct FavoriteStationTile: View {
         .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
         .shadow(
             color: isCurrent ? RrradioTheme.accent.opacity(0.26) : .clear,
-            radius: isCurrent ? 9 : 0,
+            radius: isCurrent ? 6 : 0,
             x: 0,
             y: 0,
         )
         .shadow(
             color: isCurrent ? RrradioTheme.accent.opacity(0.12) : .clear,
-            radius: isCurrent ? 13 : 0,
+            radius: isCurrent ? 9 : 0,
             x: 0,
             y: 3,
         )
@@ -4442,13 +4664,13 @@ private struct FavoriteStationAppArtwork: View {
         }
         .shadow(
             color: isCurrent ? RrradioTheme.accent.opacity(0.26) : .clear,
-            radius: isCurrent ? 9 : 0,
+            radius: isCurrent ? 6 : 0,
             x: 0,
             y: 0,
         )
         .shadow(
             color: isCurrent ? RrradioTheme.accent.opacity(0.12) : .clear,
-            radius: isCurrent ? 13 : 0,
+            radius: isCurrent ? 9 : 0,
             x: 0,
             y: 3,
         )
@@ -4491,7 +4713,7 @@ struct NowPlayingArtworkThumb: View {
                     image
                         .resizable()
                         .scaledToFit()
-                        .padding(3)
+                        .padding(1)
                 } placeholder: {
                     Color.clear
                 }
@@ -4505,6 +4727,7 @@ struct NowPlayingArtworkThumb: View {
                     .stroke(RrradioTheme.line)
             }
         }
+        .shadow(color: Color.gray.opacity(0.23), radius: 7, x: 0, y: 3)
     }
 }
 
@@ -4680,69 +4903,148 @@ private struct StationListCard: View {
     let stationList: StationList
     let emptyLabel: String
     let isCurrent: Bool
+    let isFirstStationCustom: Bool
+    let isDeleteModeEnabled: Bool
     let onOpen: () -> Void
+    let onPlay: () -> Void
+    let onDelete: () -> Void
 
     var body: some View {
-        Button(action: onOpen) {
-            HStack(spacing: 14) {
-                Image(systemName: "list.bullet.rectangle")
-                    .font(.system(size: 17, weight: .semibold))
-                    .foregroundStyle(isCurrent ? RrradioTheme.accent : RrradioTheme.ink3)
-                    .frame(width: 38, height: 38)
-                    .background(RrradioTheme.bg)
-                    .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 6, style: .continuous)
-                            .stroke(RrradioTheme.line)
+        ZStack(alignment: .trailing) {
+            Button(action: onPlay) {
+                HStack(spacing: 14) {
+                    leadingArtwork
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack(spacing: 7) {
+                            Text(stationList.name)
+                                .font(.system(size: 15, weight: .medium))
+                                .foregroundStyle(isCurrent ? RrradioTheme.accent : RrradioTheme.ink)
+                                .lineLimit(1)
+                                .layoutPriority(1)
+
+                            stationCountBadge
+                                .fixedSize()
+                        }
+
+                        Text(summaryLine)
+                            .font(.system(size: 10.5, weight: .regular, design: .monospaced))
+                            .foregroundStyle(RrradioTheme.ink3)
+                            .lineLimit(1)
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(stationList.name)
-                        .font(.system(size: 15, weight: .medium))
-                        .foregroundStyle(isCurrent ? RrradioTheme.accent : RrradioTheme.ink)
-                        .lineLimit(1)
-
-                    Text(summaryLine)
-                        .font(.system(size: 10.5, weight: .regular, design: .monospaced))
-                        .foregroundStyle(RrradioTheme.ink3)
-                        .lineLimit(1)
+                    Color.clear
+                        .frame(width: isDeleteModeEnabled ? 56 : 36)
+                        .accessibilityHidden(true)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-                Text("\(stationList.stations.count)")
-                    .font(.system(size: 11, weight: .semibold, design: .monospaced))
-                    .foregroundStyle(RrradioTheme.ink3)
-                    .frame(minWidth: 26, minHeight: 26)
-                    .background(RrradioTheme.bg)
-                    .clipShape(Capsule())
-                    .overlay(Capsule().stroke(RrradioTheme.line))
-
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundStyle(RrradioTheme.ink4)
+                .padding(.leading, 20)
+                .padding(.trailing, 14)
+                .padding(.vertical, 14)
+                .background {
+                    cardBackground
+                }
+                .contentShape(Rectangle())
             }
-            .padding(.leading, 20)
-            .padding(.trailing, 14)
-            .padding(.vertical, 14)
-            .background {
-                RoundedRectangle(cornerRadius: 6, style: .continuous)
-                    .fill(isCurrent ? RrradioTheme.bg3 : RrradioTheme.bg2)
-                    .shadow(
-                        color: isCurrent ? RrradioTheme.accent.opacity(0.20) : .clear,
-                        radius: isCurrent ? 9 : 0,
-                        x: 0,
-                        y: 0,
-                    )
-                    .shadow(
-                        color: isCurrent ? RrradioTheme.accent.opacity(0.10) : .clear,
-                        radius: isCurrent ? 14 : 0,
-                        x: 0,
-                        y: 3,
-                    )
+            .buttonStyle(.plain)
+            .accessibilityLabel(
+                stationList.stations.isEmpty ? "\(stationList.name), empty list" : "Play \(stationList.name)"
+            )
+
+            if isDeleteModeEnabled {
+                deleteButton
+                    .padding(.trailing, 20)
+                    .transition(.scale(scale: 0.82).combined(with: .opacity))
+            } else {
+                openButton
+                    .padding(.trailing, 6)
             }
-            .contentShape(Rectangle())
+        }
+        .animation(.snappy(duration: 0.16), value: isDeleteModeEnabled)
+    }
+
+    @ViewBuilder
+    private var leadingArtwork: some View {
+        if let firstStation {
+            if isFirstStationCustom {
+                LocalStationArtworkView(size: 38)
+            } else {
+                FaviconView(url: firstStation.favicon, stationName: firstStation.name, stationID: firstStation.id, size: 38)
+                    .frame(width: 38, height: 38)
+            }
+        } else {
+            Image(systemName: "list.bullet.rectangle")
+                .font(.system(size: 17, weight: .semibold))
+                .foregroundStyle(isCurrent ? RrradioTheme.accent : RrradioTheme.ink3)
+                .frame(width: 38, height: 38)
+                .background(RrradioTheme.bg)
+                .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 6, style: .continuous)
+                        .stroke(RrradioTheme.line)
+                }
+        }
+    }
+
+    private var stationCountBadge: some View {
+        Text("\(stationList.stations.count)")
+            .font(.system(size: 10.5, weight: .semibold, design: .monospaced))
+            .foregroundStyle(RrradioTheme.ink3)
+            .frame(minWidth: 22, minHeight: 22)
+            .background(RrradioTheme.bg)
+            .clipShape(Capsule())
+            .overlay(Capsule().stroke(RrradioTheme.line))
+    }
+
+    private var openButton: some View {
+        Button(action: onOpen) {
+            Image(systemName: "chevron.right")
+                .font(.system(size: 11, weight: .bold))
+                .foregroundStyle(RrradioTheme.ink4)
+                .frame(width: 36, height: 36)
+                .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .accessibilityLabel("Show stations in \(stationList.name)")
+    }
+
+    private var deleteButton: some View {
+        Button(action: onDelete) {
+            Image(systemName: "minus.circle")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(RrradioTheme.ink3)
+                .frame(width: 36, height: 36)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Remove \(stationList.name)")
+    }
+
+    private var cardBackground: some View {
+        RoundedRectangle(cornerRadius: 6, style: .continuous)
+            .fill(isCurrent ? RrradioTheme.bg3 : RrradioTheme.bg2)
+            .overlay {
+                if isCurrent {
+                    RoundedRectangle(cornerRadius: 6, style: .continuous)
+                        .stroke(RrradioTheme.line, lineWidth: 1)
+                }
+            }
+            .shadow(
+                color: isCurrent ? RrradioTheme.accent.opacity(0.15) : .clear,
+                radius: isCurrent ? 6 : 0,
+                x: 0,
+                y: 0,
+            )
+            .shadow(
+                color: isCurrent ? RrradioTheme.accent.opacity(0.08) : .clear,
+                radius: isCurrent ? 9 : 0,
+                x: 0,
+                y: 1,
+            )
+    }
+
+    private var firstStation: Station? {
+        stationList.stations.first
     }
 
     private var summaryLine: String {
