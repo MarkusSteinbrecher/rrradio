@@ -111,7 +111,7 @@ function buildBannerSkeleton(): PollBannerRefs {
 
   const votedNote = document.createElement('p');
   votedNote.className = 'poll-banner__voted-note';
-  votedNote.textContent = 'See live results in the Stats panel.';
+  votedNote.textContent = 'Check stats on top for results.';
 
   const statsBtn = document.createElement('button');
   statsBtn.type = 'button';
