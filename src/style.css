@@ -1,9 +1,14 @@
 /* ============================================================
    rrradio — monochrome typography-led
    Ported from design_handoff_rrradio/styles.css
+
+   No external font @import here: the CSP forbids fonts.googleapis.com
+   under style-src, so the Google Fonts URL it used to carry was being
+   blocked on every page load. var(--sans) / var(--mono) below resolve
+   through the full system-stack fallback (San Francisco on Apple,
+   Segoe on Windows, ui-monospace / Menlo for code).
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap');
 
 /* Theme tokens. Two palettes, dark default, switched via
    `data-theme="light"` on <html>. The toggle in main.ts persists the
