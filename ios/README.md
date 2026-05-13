@@ -42,11 +42,17 @@ What works in this scaffold:
   catalog field.
 - Raw-Icecast/Shoutcast ICY-over-fetch for catalog entries marked
   `status: icy-only`, using a bounded `URLSession.bytes(for:)` reader.
+- watchOS companion target (`rrradioWatch`) that controls iPhone
+  playback over WatchConnectivity: now playing, play/pause/stop,
+  previous/next favorite, and favorite station launch.
 
 What's not here yet:
 
 - Wake-to-radio (BackgroundTasks + UNUserNotificationCenter).
 - Map view (MapKit).
+- Direct Apple Watch playback. The watch app is remote-first for now;
+  the shared protocol keeps the path open for a later independent
+  playback mode.
 
 ## Building
 
@@ -84,6 +90,9 @@ If you'd rather not use xcodegen:
 ## Running
 
 - iPhone simulator: select any iPhone → ⌘R.
+- Apple Watch simulator: select the `rrradioWatch` scheme and a watchOS
+  destination. Full remote-control behavior needs a paired iPhone app
+  session; validate that on physical iPhone + Apple Watch before release.
 - Real device: plug in, select it, ⌘R. First run prompts to trust the
   developer certificate.
 - Audio in the simulator routes through your Mac's audio output. Lock-
@@ -124,8 +133,15 @@ rrradio/
     AddStationView.swift     — custom station form + local list
     MiniPlayerView.swift     — bottom bar over every screen
     NowPlayingView.swift     — full-screen sheet with controls
+  WatchRemote/
+    PhoneRemoteControlController.swift — WatchConnectivity bridge
   Resources/
     Assets.xcassets/         — AppIcon + AccentColor placeholders
+Shared/
+  WatchRemoteProtocol.swift   — command/snapshot payload contract
+rrradioWatch/
+  App.swift                   — watchOS SwiftUI remote UI
+  WatchRemoteModel.swift      — WCSession client for the Watch app
 rrradioTests/                — XCTest target (audit #72)
   CatalogDecodingTests.swift
   CatalogCacheTests.swift
@@ -135,11 +151,13 @@ project.yml                  — xcodegen project definition
 .gitignore                   — Xcode build / DerivedData / xcuserdata
 ```
 
-Source files use `@Observable` (Swift 5.9+ macro) — the modern SwiftUI
-state pattern, no Combine boilerplate. The two `@Observable` classes
-(`AudioPlayer`, `Catalog`) are also `@MainActor` so SwiftUI's tracking
-never sees an off-main mutation. AVPlayer KVO and Combine sinks hop to
-main via `Task { @MainActor in … }` and `.receive(on: DispatchQueue.main)`.
+iOS source files use `@Observable` (Swift 5.9+ macro) — the modern
+SwiftUI state pattern, no Combine boilerplate. The watch target uses
+`ObservableObject` / `@Published` for the small WCSession client. The
+main observable classes (`AudioPlayer`, `Catalog`) are also `@MainActor`
+so SwiftUI's tracking never sees an off-main mutation. AVPlayer KVO and
+Combine sinks hop to main via `Task { @MainActor in … }` and
+`.receive(on: DispatchQueue.main)`.
 
 ## Tests
 
@@ -175,6 +193,8 @@ Test targets:
   the CI baseline.
 - **SleepTimerTests** — web-compatible duration cycle, cancel, and fire
   state transitions.
+- **WatchRemoteProtocolTests** — WatchConnectivity command/snapshot
+  payload round trips.
 - **OrfMetadataFetcherTests** — ORF live/detail JSON parsing and
   fetcher registry resolution.
 - **DirectMetadataFetcherTests** — direct broadcaster JSON/HTML/XML parsing

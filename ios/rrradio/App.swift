@@ -57,6 +57,7 @@ struct rrradioApp: App {
                         listeningHistory: listeningHistory,
                         diagnostics: diagnostics,
                     )
+                    configurePhoneRemoteControl()
                 }
                 .onChange(of: systemColorScheme) { _, newColorScheme in
                     theme.setSystemColorScheme(newColorScheme)
@@ -66,23 +67,56 @@ struct rrradioApp: App {
                     if phase == .active {
                         Task { await cloudSync.refreshFromCloud() }
                         Task { await catalog.refreshIfStale() }
+                        publishPhoneRemoteSnapshot()
                     }
+                }
+                .onChange(of: phoneRemoteSnapshotToken) { _, _ in
+                    publishPhoneRemoteSnapshot()
                 }
                 .onChange(of: network.snapshot) { oldSnapshot, newSnapshot in
-                    if newSnapshot.isOffline {
-                        wasOffline = true
-                        shouldAutoResumeAfterNetworkRestored = shouldAutoResumeAfterNetworkRestored || player.shouldAutoResumeAfterConnectivityRestored
-                        return
-                    }
-
-                    guard oldSnapshot.isOffline || wasOffline else { return }
-                    wasOffline = false
-                    if shouldAutoResumeAfterNetworkRestored {
-                        shouldAutoResumeAfterNetworkRestored = false
-                        _ = player.reconnectCurrentAfterConnectivityRestored()
-                    }
+                    handleNetworkChange(oldSnapshot: oldSnapshot, newSnapshot: newSnapshot)
                 }
                 .task { await catalog.loadIfNeeded() }
+        }
+    }
+
+    private var phoneRemoteSnapshotToken: String {
+        let parts = [
+            player.current?.id ?? "",
+            String(describing: player.state),
+            player.nowPlayingArtist ?? "",
+            player.nowPlayingTitle ?? "",
+            player.nowPlayingProgramName ?? "",
+            player.nowPlayingCoverUrl?.absoluteString ?? "",
+            String(catalog.stations.count),
+        ] + library.favorites.map(\.id)
+        return parts.joined(separator: "|")
+    }
+
+    private func configurePhoneRemoteControl() {
+        PhoneRemoteControlController.shared.configure(
+            catalog: catalog,
+            library: library,
+            player: player,
+        )
+    }
+
+    private func publishPhoneRemoteSnapshot() {
+        PhoneRemoteControlController.shared.publishSnapshot()
+    }
+
+    private func handleNetworkChange(oldSnapshot: NetworkSnapshot, newSnapshot: NetworkSnapshot) {
+        if newSnapshot.isOffline {
+            wasOffline = true
+            shouldAutoResumeAfterNetworkRestored = shouldAutoResumeAfterNetworkRestored || player.shouldAutoResumeAfterConnectivityRestored
+            return
+        }
+
+        guard oldSnapshot.isOffline || wasOffline else { return }
+        wasOffline = false
+        if shouldAutoResumeAfterNetworkRestored {
+            shouldAutoResumeAfterNetworkRestored = false
+            _ = player.reconnectCurrentAfterConnectivityRestored()
         }
     }
 }
@@ -94,6 +128,9 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
     ) -> Bool {
         UNUserNotificationCenter.current().delegate = self
         diagnosticRecordAsync("app", "did finish launching")
+        Task { @MainActor in
+            PhoneRemoteControlController.shared.activate()
+        }
         return true
     }
 
