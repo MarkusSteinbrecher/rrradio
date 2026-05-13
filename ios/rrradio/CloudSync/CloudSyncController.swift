@@ -12,6 +12,25 @@ final class CloudSyncController {
         case unavailable(String)
     }
 
+    struct SnapshotSummary: Equatable {
+        let favorites: Int
+        let customStations: Int
+        let hasPreferences: Bool
+    }
+
+    enum DiagnosticState: Equatable {
+        case idle
+        case checking
+        case unavailable(String)
+        case emptyRemote
+        case restored(SnapshotSummary)
+        case synced(SnapshotSummary)
+        case pushed(SnapshotSummary)
+        case resetApplied
+        case removedCloudData
+        case failed(String)
+    }
+
     static let enabledKey = "rrradio.icloudSync.enabled.v1"
     private static let resetAcknowledgedAtKey = "rrradio.icloudSync.resetAcknowledgedAt.v1"
 
@@ -33,6 +52,7 @@ final class CloudSyncController {
     private(set) var isSyncing = false
     private(set) var lastSync: Date?
     private(set) var lastError: String?
+    private(set) var diagnosticState: DiagnosticState = .idle
     var isEnabled: Bool
 
     init(defaults: UserDefaults = .standard, store: CloudSyncStoring = CloudSyncStoreFactory.make()) {
@@ -53,6 +73,7 @@ final class CloudSyncController {
         carMode: CarModeController,
         listeningHistory: ListeningHistory,
         diagnostics: Diagnostics,
+        refreshOnLaunch: Bool = true,
     ) {
         guard !configured else { return }
         configured = true
@@ -88,7 +109,9 @@ final class CloudSyncController {
             Task { @MainActor in self?.schedulePush() }
         }
 
-        Task { await refreshFromCloud() }
+        if refreshOnLaunch {
+            Task { await refreshFromCloud() }
+        }
     }
 
     func noteSettingsChanged() {
@@ -101,21 +124,43 @@ final class CloudSyncController {
         diagnostics?.record("icloud", enabled ? "enabled" : "disabled")
         if enabled {
             Task { await refreshFromCloud() }
+        } else {
+            let message = "iCloud sync is off for rrradio."
+            availability = .unavailable(message)
+            diagnosticState = .unavailable(message)
         }
     }
 
     func refreshFromCloud() async {
         guard isEnabled else {
-            availability = .unavailable("iCloud sync is off for rrradio.")
+            let message = "iCloud sync is off for rrradio."
+            availability = .unavailable(message)
+            diagnosticState = .unavailable(message)
             return
         }
         guard !isSyncing else { return }
         isSyncing = true
+        diagnosticState = .checking
         defer { isSyncing = false }
 
         do {
             try await updateAvailability()
-            guard availability == .available else { return }
+        } catch {
+            lastError = sanitized(error)
+            let message = lastError ?? "iCloud sync is unavailable."
+            availability = .unavailable(message)
+            diagnosticState = .unavailable(message)
+            diagnostics?.record("icloud", "availability failed", details: ["error": message])
+            return
+        }
+
+        guard availability == .available else {
+            diagnosticState = .unavailable(unavailableAvailabilityMessage)
+            return
+        }
+
+        do {
+            let local = localSnapshot()
             let remote = try await store.fetchSnapshot()
             if let resetAt = remote.resetAt, shouldApplyReset(resetAt) {
                 applyingRemote = true
@@ -124,21 +169,31 @@ final class CloudSyncController {
                 acknowledgeReset(resetAt)
                 lastSync = Date()
                 lastError = nil
+                diagnosticState = .resetApplied
                 diagnostics?.record("icloud", "applied reset")
                 return
             }
-            let merged = CloudSyncMerge.merged(local: localSnapshot(), remote: remote)
+            if !remote.hasCloudData, !local.hasLocalUserPayload {
+                lastSync = Date()
+                lastError = nil
+                diagnosticState = .emptyRemote
+                diagnostics?.record("icloud", "empty remote")
+                return
+            }
+            let merged = CloudSyncMerge.merged(local: local, remote: remote)
             applyingRemote = true
             apply(snapshot: merged)
             applyingRemote = false
             try await store.save(snapshot: localSnapshot())
             lastSync = Date()
             lastError = nil
-            diagnostics?.record("icloud", "synced")
+            let summary = Self.summary(for: merged)
+            diagnosticState = local.hasLocalUserPayload ? .synced(summary) : .restored(summary)
+            diagnostics?.record("icloud", local.hasLocalUserPayload ? "synced" : "restored")
         } catch {
             applyingRemote = false
             lastError = sanitized(error)
-            availability = .unavailable(lastError ?? "iCloud sync is unavailable.")
+            diagnosticState = .failed(lastError ?? "iCloud sync failed.")
             diagnostics?.record("icloud", "sync failed", details: ["error": lastError ?? "unknown"])
         }
     }
@@ -156,9 +211,11 @@ final class CloudSyncController {
             acknowledgeReset(resetAt)
             lastSync = Date()
             lastError = nil
+            diagnosticState = .removedCloudData
             diagnostics?.record("icloud", "removed cloud data")
         } catch {
             lastError = sanitized(error)
+            diagnosticState = .failed(lastError ?? "iCloud remove failed.")
             diagnostics?.record("icloud", "remove failed", details: ["error": lastError ?? "unknown"])
         }
     }
@@ -186,6 +243,21 @@ final class CloudSyncController {
         }
     }
 
+    private var unavailableAvailabilityMessage: String {
+        if case let .unavailable(message) = availability {
+            return message
+        }
+        return "iCloud sync is unavailable."
+    }
+
+    private static func summary(for snapshot: CloudSyncSnapshot) -> SnapshotSummary {
+        SnapshotSummary(
+            favorites: snapshot.favorites.count,
+            customStations: snapshot.customStations.count,
+            hasPreferences: snapshot.hasPreferences,
+        )
+    }
+
     private func schedulePush() {
         guard !applyingRemote, isEnabled else { return }
         pendingPushTask?.cancel()
@@ -202,13 +274,19 @@ final class CloudSyncController {
         defer { isSyncing = false }
         do {
             try await updateAvailability()
-            guard availability == .available else { return }
-            try await store.save(snapshot: localSnapshot())
+            guard availability == .available else {
+                diagnosticState = .unavailable(unavailableAvailabilityMessage)
+                return
+            }
+            let snapshot = localSnapshot()
+            try await store.save(snapshot: snapshot)
             lastSync = Date()
             lastError = nil
+            diagnosticState = .pushed(Self.summary(for: snapshot))
             diagnostics?.record("icloud", "pushed")
         } catch {
             lastError = sanitized(error)
+            diagnosticState = .failed(lastError ?? "iCloud push failed.")
             diagnostics?.record("icloud", "push failed", details: ["error": lastError ?? "unknown"])
         }
     }
@@ -271,6 +349,9 @@ final class CloudSyncController {
     }
 
     private func sanitized(_ error: Error) -> String {
+        if error is CloudSyncRecordFetchError {
+            return "iCloud schema or record fetch failed. Local data was not changed."
+        }
         if let cloudError = error as? CKError {
             if let serverMessage = cloudError.userInfo["ServerErrorDescription"] as? String,
                !serverMessage.isEmpty {

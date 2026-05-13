@@ -97,7 +97,8 @@ types in the Development environment:
 - `CustomStation`: `stationId` String, `stationData` Bytes.
 - `Preferences`: `theme` String, `locale` String,
   `sleepTimerDefaultMinutes` Int64, `landingPage` String,
-  `landingStationID` String, `wakeDefaultTime` String,
+  `landingStationID` String, `favoritesDisplayMode` String,
+  `wakeDefaultTime` String,
   `wakeNotificationsEnabled` Int64/Bool,
   `carModeAutomaticEnabled` Int64/Bool,
   `carModeManualEnabled` Int64/Bool,
@@ -110,6 +111,13 @@ After a real-device TestFlight smoke test can read/write those records,
 promote the Development schema to Production in CloudKit Console
 before submitting an App Store build. Treat schema changes after that
 as additive.
+
+For fresh-install restore checks, verify the private database in the
+same CloudKit environment the installed build reads. Debug/device builds
+normally use Development; TestFlight and App Store builds use
+Production. In that environment, confirm the expected `Favorite`,
+`FavoritesOrder`, `CustomStation`, `CustomStationsIndex`, `Preferences`,
+and `SyncState` records exist before deleting and reinstalling the app.
 
 ---
 

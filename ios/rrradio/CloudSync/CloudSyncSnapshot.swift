@@ -20,6 +20,37 @@ struct CloudSyncSnapshot: Equatable {
     var resetAt: Date?
     var hasPreferences: Bool
 
+    var hasCloudData: Bool {
+        hasPreferences
+            || resetAt != nil
+            || !favorites.isEmpty
+            || !customStations.isEmpty
+            || !favoritesOrder.isEmpty
+    }
+
+    var hasLocalUserPayload: Bool {
+        !favorites.isEmpty
+            || !customStations.isEmpty
+            || !favoritesOrder.isEmpty
+            || hasNonDefaultLocalPreferences
+    }
+
+    private var hasNonDefaultLocalPreferences: Bool {
+        theme != ThemeController.Choice.system.rawValue
+            || locale != LocaleController.Choice.system.rawValue
+            || sleepTimerDefaultMinutes != SleepTimer.fallbackDefaultMinutes
+            || landingPage != LandingPage.browse.rawValue
+            || !landingStationID.isEmpty
+            || favoritesDisplayMode != FavoritesDisplayMode.list.rawValue
+            || wakeDefaultTime != WakeAlarm.fallbackDefaultTime
+            || !wakeNotificationsEnabled
+            || !carModeAutomaticEnabled
+            || carModeManualEnabled
+            || listeningHistoryEnabled
+            || listeningHistoryLevel != ListeningHistoryLevel.stations.rawValue
+            || listeningHistoryRetention != ListeningHistoryRetention.days90.rawValue
+    }
+
     static let empty = CloudSyncSnapshot(
         favorites: [],
         customStations: [],

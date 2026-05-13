@@ -160,8 +160,9 @@ Test targets:
   follow-up.
 - **LibraryTests** — favorites persistence, reordering, recent dedupe
   and limit, custom station persistence.
-- **CloudSyncMergeTests** — local/iCloud favorites union, custom
-  station merge, and remote favorite order conflict behavior.
+- **CloudSyncMergeTests / CloudSyncControllerTests** — local/iCloud
+  favorites union, custom station merge, remote favorite order conflict
+  behavior, and fresh-install restore safeguards.
 - **CustomStationBuilderTests** — custom stream validation, HTTPS-only
   rule, tag/country normalization.
 - **SearchTests** — `normalizeForSearch` + `stationMatches` parity

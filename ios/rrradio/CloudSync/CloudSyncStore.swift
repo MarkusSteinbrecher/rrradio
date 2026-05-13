@@ -54,6 +54,14 @@ struct CloudSyncUnavailableError: LocalizedError {
     }
 }
 
+struct CloudSyncRecordFetchError: LocalizedError {
+    let recordNames: [String]
+
+    var errorDescription: String? {
+        "CloudKit did not return every expected rrradio record."
+    }
+}
+
 // CloudKit handle types are immutable references used only through async APIs here,
 // but the SDK does not currently annotate them as Sendable.
 final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
@@ -158,8 +166,7 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
     }
 
     private func fetchFavorites() async throws -> [Station] {
-        try await fetchRecords(ids: favoriteRecordIDsFromOrder())
-            .compactMap(stationData(from:))
+        try await fetchStations(ids: favoriteRecordIDsFromOrder())
     }
 
     private func fetchFavoritesOrder() async throws -> [String] {
@@ -172,8 +179,7 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
     }
 
     private func fetchCustomStations() async throws -> [Station] {
-        try await fetchRecords(ids: customStationRecordIDsFromIndex())
-            .compactMap(stationData(from:))
+        try await fetchStations(ids: customStationRecordIDsFromIndex())
     }
 
     private func fetchPreferences() async throws -> (
@@ -260,9 +266,38 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
     private func fetchRecords(ids: [CKRecord.ID]) async throws -> [CKRecord] {
         guard !ids.isEmpty else { return [] }
         let result = try await database.records(for: ids)
-        return result.compactMap { _, recordResult in
-            try? recordResult.get()
+        var records: [CKRecord] = []
+        var failedNames: [String] = []
+        for (id, recordResult) in result {
+            do {
+                records.append(try recordResult.get())
+            } catch {
+                failedNames.append(id.recordName)
+            }
         }
+        let returnedIDs = Set(result.map(\.key))
+        failedNames.append(contentsOf: ids.filter { !returnedIDs.contains($0) }.map(\.recordName))
+        guard failedNames.isEmpty else {
+            throw CloudSyncRecordFetchError(recordNames: failedNames)
+        }
+        return records
+    }
+
+    private func fetchStations(ids: [CKRecord.ID]) async throws -> [Station] {
+        let records = try await fetchRecords(ids: ids)
+        var stations: [Station] = []
+        var invalidNames: [String] = []
+        for record in records {
+            guard let station = stationData(from: record) else {
+                invalidNames.append(record.recordID.recordName)
+                continue
+            }
+            stations.append(station)
+        }
+        guard invalidNames.isEmpty else {
+            throw CloudSyncRecordFetchError(recordNames: invalidNames)
+        }
+        return stations
     }
 
     private func modify(recordsToSave: [CKRecord], recordIDsToDelete: [CKRecord.ID]) async throws {

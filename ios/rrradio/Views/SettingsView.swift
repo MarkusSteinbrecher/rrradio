@@ -370,6 +370,28 @@ private struct SettingsPageView: View {
         if !cloudSync.isEnabled {
             return "Off for this device. Existing iCloud data is kept for other devices."
         }
+        switch cloudSync.diagnosticState {
+        case .checking:
+            return "Checking iCloud availability and restore data..."
+        case let .unavailable(message):
+            return message
+        case .emptyRemote:
+            return "iCloud is available, but no rrradio favorites, custom stations, or preferences are stored yet."
+        case let .restored(summary):
+            return "Restored \(cloudSyncSummary(summary)) from iCloud.\(cloudSyncLastSyncSuffix)"
+        case let .synced(summary):
+            return "Synced \(cloudSyncSummary(summary)) with iCloud.\(cloudSyncLastSyncSuffix)"
+        case let .pushed(summary):
+            return "Uploaded \(cloudSyncSummary(summary)) to iCloud.\(cloudSyncLastSyncSuffix)"
+        case .resetApplied:
+            return "Applied a cloud reset. Local synced favorites, custom stations, and preferences were cleared."
+        case .removedCloudData:
+            return "Removed rrradio favorites, custom stations, and preferences from iCloud."
+        case let .failed(message):
+            return message
+        case .idle:
+            break
+        }
         switch cloudSync.availability {
         case .checking:
             return "Checking iCloud availability..."
@@ -381,6 +403,16 @@ private struct SettingsPageView: View {
         case let .unavailable(message):
             return message
         }
+    }
+
+    private var cloudSyncLastSyncSuffix: String {
+        guard let lastSync = cloudSync.lastSync else { return "" }
+        return " Last sync: \(lastSync.formatted(date: .omitted, time: .shortened))."
+    }
+
+    private func cloudSyncSummary(_ summary: CloudSyncController.SnapshotSummary) -> String {
+        let preferences = summary.hasPreferences ? "preferences" : "no preferences"
+        return "\(summary.favorites) \(summary.favorites == 1 ? "favorite" : "favorites"), \(summary.customStations) custom \(summary.customStations == 1 ? "station" : "stations"), and \(preferences)"
     }
 
     private var diagnosticsSection: some View {
