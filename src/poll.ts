@@ -1,6 +1,7 @@
 /**
- * Platform-interest poll — a one-shot question shown in the About
- * sheet: "I want an iOS app", "I want an Android app", "I don't care".
+ * Platform-interest poll — a highlighted banner above the station list:
+ * "USER POLL — ANYBODY WANT AN APP FOR THIS?" with three choices
+ * ("I want an iOS app", "I want an Android app", "I don't care").
  *
  * Vote storage: GoatCounter event (`vote: ios` / `vote: android` /
  * `vote: dont-care`) via track(). GoatCounter dedupes by an 8h
@@ -8,8 +9,8 @@
  * without storing anything that could identify a voter.
  *
  * Local state: a single localStorage flag (`rrradio.poll.platform.v1`)
- * remembers the user's choice so the UI flips to a thank-you state
- * after voting. Trivially bypassable (incognito / clear storage),
+ * remembers the user's choice so the banner hides after voting (and
+ * doesn't reappear). Trivially bypassable (incognito / clear storage),
  * which is fine — the cosmetic dedup just stops accidental
  * double-clicks. Server-side dedup is GoatCounter's job.
  */
@@ -49,81 +50,65 @@ export function recordVote(choice: PollChoice): void {
   if (prior === null) track(`vote: ${choice}`);
 }
 
-export interface PollRefs {
-  root: HTMLElement;
-  buttonsWrap: HTMLElement;
-  thanksWrap: HTMLElement;
-  thanksChoice: HTMLElement;
-}
+/** Build a fresh banner element for the top of the browse view.
+ *  Returns `null` once the user has voted (the caller skips append).
+ *  A new DOM is built per call — renderContent() wipes #content on
+ *  every view change, so there's nothing to reuse. */
+export function buildPollBanner(): HTMLElement | null {
+  if (getVote() !== null) return null;
 
-export function buildPollRefs(root: HTMLElement): PollRefs {
+  const banner = document.createElement('section');
+  banner.className = 'poll-banner';
+  banner.setAttribute('aria-label', 'User poll: native app interest');
+
+  const eyebrow = document.createElement('div');
+  eyebrow.className = 'poll-banner__eyebrow';
+  eyebrow.textContent = 'USER POLL';
+
+  const title = document.createElement('h2');
+  title.className = 'poll-banner__title';
+  title.textContent = 'ANYBODY WANT AN APP FOR THIS?';
+
+  const subtitle = document.createElement('p');
+  subtitle.className = 'poll-banner__subtitle';
+  subtitle.textContent = 'One tap, anonymous — helps me decide whether to build native apps.';
+
   const buttonsWrap = document.createElement('div');
-  buttonsWrap.className = 'poll-options';
+  buttonsWrap.className = 'poll-banner__options';
   buttonsWrap.setAttribute('role', 'group');
   buttonsWrap.setAttribute('aria-label', 'Native-app interest poll');
 
   for (const c of CHOICES) {
     const btn = document.createElement('button');
     btn.type = 'button';
-    btn.className = 'poll-btn';
+    btn.className = 'poll-banner__btn';
     btn.dataset.choice = c;
     btn.textContent = CHOICE_LABELS[c];
     buttonsWrap.appendChild(btn);
   }
 
-  const thanksWrap = document.createElement('div');
-  thanksWrap.className = 'poll-thanks';
-  thanksWrap.hidden = true;
-  const thanksMsg = document.createElement('span');
-  thanksMsg.className = 'poll-thanks__msg';
-  thanksMsg.textContent = 'Thanks — your vote: ';
-  const thanksChoice = document.createElement('strong');
-  thanksChoice.className = 'poll-thanks__choice';
-  thanksWrap.append(thanksMsg, thanksChoice);
+  const thanks = document.createElement('div');
+  thanks.className = 'poll-banner__thanks';
+  thanks.hidden = true;
+  thanks.textContent = 'Thanks for voting — your input is recorded.';
 
-  root.appendChild(buttonsWrap);
-  root.appendChild(thanksWrap);
+  banner.append(eyebrow, title, subtitle, buttonsWrap, thanks);
 
-  return { root, buttonsWrap, thanksWrap, thanksChoice };
-}
-
-export function renderPoll(refs: PollRefs, vote: PollChoice | null): void {
-  if (vote === null) {
-    refs.buttonsWrap.hidden = false;
-    refs.thanksWrap.hidden = true;
-    for (const btn of refs.buttonsWrap.querySelectorAll<HTMLButtonElement>('.poll-btn')) {
-      btn.classList.remove('is-chosen');
-      btn.setAttribute('aria-pressed', 'false');
-    }
-    return;
-  }
-  refs.buttonsWrap.hidden = true;
-  refs.thanksWrap.hidden = false;
-  refs.thanksChoice.textContent = CHOICE_LABELS[vote];
-}
-
-/** Mount the poll inside `root` (a container provided by index.html)
- *  and wire click handlers. Idempotent — repeat calls reuse the same
- *  refs by stashing them on the root element. */
-export function initPoll(root: HTMLElement): PollRefs {
-  const existing = (root as HTMLElement & { __pollRefs?: PollRefs }).__pollRefs;
-  if (existing) {
-    renderPoll(existing, getVote());
-    return existing;
-  }
-  const refs = buildPollRefs(root);
-  (root as HTMLElement & { __pollRefs?: PollRefs }).__pollRefs = refs;
-
-  refs.buttonsWrap.addEventListener('click', (ev) => {
+  buttonsWrap.addEventListener('click', (ev) => {
     const target = ev.target as HTMLElement | null;
-    const btn = target?.closest<HTMLButtonElement>('.poll-btn');
+    const btn = target?.closest<HTMLButtonElement>('.poll-banner__btn');
     if (!btn) return;
     const choice = btn.dataset.choice;
     if (!isChoice(choice ?? null)) return;
     recordVote(choice as PollChoice);
-    renderPoll(refs, getVote());
+    buttonsWrap.hidden = true;
+    subtitle.hidden = true;
+    thanks.hidden = false;
+    setTimeout(() => {
+      banner.classList.add('is-leaving');
+      setTimeout(() => banner.remove(), 600);
+    }, 1400);
   });
 
-  renderPoll(refs, getVote());
-  return refs;
+  return banner;
 }

@@ -61,7 +61,7 @@ import {
   reportWorkerError,
   truncateErrorMessage,
 } from './errors';
-import { initPoll } from './poll';
+import { buildPollBanner } from './poll';
 import { reportBrokenStation } from './reportBroken';
 import { fmtSharePct, normalizeForSearch } from './format';
 import { SILENT_BED_ID } from './np-display';
@@ -1504,6 +1504,16 @@ function attachGripDrag(
 function renderContent(): void {
   $content.replaceChildren();
 
+  // Platform-interest poll banner — shown at the top of the browse
+  // view until the user votes. buildPollBanner() returns null once a
+  // vote is recorded so the banner stops appearing on subsequent
+  // renders. Only on the browse tab — Library views are intent-driven
+  // and shouldn't carry a top-of-list interrupt.
+  if (activeTab === 'browse') {
+    const pollBanner = buildPollBanner();
+    if (pollBanner) $content.append(pollBanner);
+  }
+
   // View-signature reset for the local-catalog cap. Same view across
   // calls = persist the user's "Show more" clicks; new view = reset.
   const sig = `${activeTab}|${browseMode}|${curatedOnly}|${activeTag}|${activeCountry}|${$search.value.trim()}`;
@@ -2017,10 +2027,6 @@ function onToggleTheme(): void {
 function openAboutSheet(open: boolean): void {
   $aboutSheet.classList.toggle('open', open);
   $aboutSheet.setAttribute('aria-hidden', String(!open));
-  if (open) {
-    const pollRoot = document.getElementById('platform-poll');
-    if (pollRoot) initPoll(pollRoot);
-  }
 }
 
 // ─────────────────────────────────────────────────────────────

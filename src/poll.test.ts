@@ -1,9 +1,6 @@
 /// <reference lib="dom" />
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-/** In-memory localStorage stub — matches storage.test.ts's approach.
- *  happy-dom 20 doesn't expose `localStorage` as a global by default
- *  and we want a deterministic per-test surface anyway. */
 class MemoryStorage {
   private map = new Map<string, string>();
   getItem(k: string): string | null { return this.map.get(k) ?? null; }
@@ -19,7 +16,6 @@ vi.stubGlobal('localStorage', mem);
 
 const trackCalls: string[] = [];
 
-// Stub window.goatcounter.count so track() captures events into trackCalls.
 beforeEach(() => {
   mem.clear();
   trackCalls.length = 0;
@@ -28,17 +24,16 @@ beforeEach(() => {
       if (v.path) trackCalls.push(v.path);
     },
   };
+  vi.useFakeTimers();
 });
 
 afterEach(() => {
   document.body.innerHTML = '';
   (window as Window & { goatcounter?: unknown }).goatcounter = undefined;
+  vi.useRealTimers();
 });
 
-// Import AFTER the localStorage stub is in place so the module-internal
-// reference in storage.ts resolves to MemoryStorage.
-const { POLL_KEY, getVote, recordVote, initPoll, renderPoll, buildPollRefs } =
-  await import('./poll');
+const { POLL_KEY, getVote, recordVote, buildPollBanner } = await import('./poll');
 
 describe('recordVote', () => {
   it('persists the choice', () => {
@@ -71,65 +66,56 @@ describe('recordVote', () => {
   });
 });
 
-describe('initPoll', () => {
-  function mount(): HTMLElement {
-    const root = document.createElement('div');
-    root.id = 'platform-poll';
-    document.body.appendChild(root);
-    return root;
-  }
-
-  it('renders three choice buttons before any vote', () => {
-    const root = mount();
-    initPoll(root);
-    const btns = root.querySelectorAll('.poll-btn');
+describe('buildPollBanner', () => {
+  it('returns a section with eyebrow, title, and three buttons before any vote', () => {
+    const banner = buildPollBanner();
+    expect(banner).not.toBeNull();
+    expect(banner!.classList.contains('poll-banner')).toBe(true);
+    expect(banner!.querySelector('.poll-banner__eyebrow')?.textContent).toBe('USER POLL');
+    expect(banner!.querySelector('.poll-banner__title')?.textContent).toBe(
+      'ANYBODY WANT AN APP FOR THIS?',
+    );
+    const btns = banner!.querySelectorAll('.poll-banner__btn');
     expect(btns).toHaveLength(3);
     const choices = Array.from(btns, (b) => (b as HTMLButtonElement).dataset.choice);
     expect(choices).toEqual(['ios', 'android', 'dont-care']);
   });
 
-  it('flips to thanks state after a click and records the vote', () => {
-    const root = mount();
-    initPoll(root);
-    const iosBtn = root.querySelector<HTMLButtonElement>('[data-choice="ios"]');
-    expect(iosBtn).toBeTruthy();
-    iosBtn!.click();
+  it('returns null when the user has already voted', () => {
+    recordVote('ios');
+    expect(buildPollBanner()).toBeNull();
+  });
+
+  it('records the vote on click and hides the buttons', () => {
+    const banner = buildPollBanner()!;
+    document.body.appendChild(banner);
+    const iosBtn = banner.querySelector<HTMLButtonElement>('[data-choice="ios"]')!;
+    iosBtn.click();
     expect(getVote()).toBe('ios');
     expect(trackCalls).toEqual(['vote: ios']);
-    const thanks = root.querySelector<HTMLElement>('.poll-thanks');
-    const buttons = root.querySelector<HTMLElement>('.poll-options');
-    expect(thanks?.hidden).toBe(false);
-    expect(buttons?.hidden).toBe(true);
-    expect(root.querySelector('.poll-thanks__choice')?.textContent).toBe('I want an iOS app');
+    expect(banner.querySelector<HTMLElement>('.poll-banner__options')?.hidden).toBe(true);
+    expect(banner.querySelector<HTMLElement>('.poll-banner__thanks')?.hidden).toBe(false);
   });
 
-  it('renders thanks state on mount when a vote was already cast', () => {
-    recordVote('dont-care');
-    const root = mount();
-    initPoll(root);
-    expect(root.querySelector<HTMLElement>('.poll-thanks')?.hidden).toBe(false);
-    expect(root.querySelector<HTMLElement>('.poll-options')?.hidden).toBe(true);
+  it('fades the banner out and removes it from the DOM after the thank-you beat', () => {
+    const banner = buildPollBanner()!;
+    document.body.appendChild(banner);
+    const iosBtn = banner.querySelector<HTMLButtonElement>('[data-choice="ios"]')!;
+    iosBtn.click();
+    expect(banner.isConnected).toBe(true);
+    vi.advanceTimersByTime(1400);
+    expect(banner.classList.contains('is-leaving')).toBe(true);
+    vi.advanceTimersByTime(600);
+    expect(banner.isConnected).toBe(false);
   });
 
-  it('is idempotent — re-initialising the same root reuses refs', () => {
-    const root = mount();
-    initPoll(root);
-    const firstButtons = root.querySelector('.poll-options');
-    initPoll(root);
-    const secondButtons = root.querySelector('.poll-options');
-    expect(secondButtons).toBe(firstButtons);
-    expect(root.querySelectorAll('.poll-btn')).toHaveLength(3);
-  });
-});
-
-describe('renderPoll', () => {
-  it('clears is-chosen + restores button visibility when vote becomes null', () => {
-    const root = document.createElement('div');
-    const refs = buildPollRefs(root);
-    renderPoll(refs, 'ios');
-    expect(refs.thanksWrap.hidden).toBe(false);
-    renderPoll(refs, null);
-    expect(refs.buttonsWrap.hidden).toBe(false);
-    expect(refs.thanksWrap.hidden).toBe(true);
+  it('treats invalid data-choice values as a no-op', () => {
+    const banner = buildPollBanner()!;
+    document.body.appendChild(banner);
+    const btn = banner.querySelector<HTMLButtonElement>('[data-choice="ios"]')!;
+    btn.dataset.choice = 'maybe';
+    btn.click();
+    expect(getVote()).toBeNull();
+    expect(trackCalls).toEqual([]);
   });
 });
