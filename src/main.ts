@@ -84,7 +84,15 @@ import {
 } from './icons';
 import { bootstrapTheme, toggleTheme } from './theme';
 import { safeUrl, urlDisplay } from './url';
-import { classifyStoredWake, fadeVolume, formatCountdown, nextFireTime, WakeScheduler } from './wake';
+import {
+  classifyStoredWake,
+  fadeVolume,
+  formatCountdown,
+  formatWakeLockScreenNote,
+  formatWakeLockScreenStandby,
+  nextFireTime,
+  WakeScheduler,
+} from './wake';
 import type { NowPlaying, Station, WakeTo } from './types';
 
 // ─────────────────────────────────────────────────────────────
@@ -2639,10 +2647,7 @@ function armWakeFromSheet(): void {
   // weaken on iOS over hours of idle audio, so a freshly-activated
   // sidecar is the reliable path for the morning station swap.
   void player.play(SILENT_BED, { loop: true, silent: true }).then(() => {
-    player.setTrackTitle(`Wake to ${wake.station.name} at ${wake.time}`, {
-      track: `Wake to ${wake.station.name} at ${wake.time}`,
-      artist: 'rrradio',
-    });
+    syncWakeLockScreenNote();
   });
   void player.prime(wake.station);
 }
@@ -2771,6 +2776,22 @@ function syncWakeUi(): void {
   // Keep the merged Arm/Disarm button in sync so its countdown ticks
   // alongside the chip when the wake-edit pane is open.
   syncWakeArmButton();
+  syncWakeLockScreenNote();
+}
+
+function syncWakeLockScreenNote(): void {
+  const wake = wakeScheduler.current();
+  if (!wake) {
+    player.setLockScreenNote(undefined);
+    return;
+  }
+  player.setLockScreenNote(formatWakeLockScreenNote(wake));
+  if (currentNP.station.id !== SILENT_BED.id) return;
+  const standby = formatWakeLockScreenStandby(wake);
+  player.setTrackTitle(standby.title, {
+    track: standby.title,
+    artist: standby.artist,
+  });
 }
 
 // Wake-aware stop. Pausing the audio element on iOS makes the tab
@@ -2785,12 +2806,7 @@ function syncWakeUi(): void {
 function pausePreservingWake(): void {
   if (wakeScheduler.current() && currentNP.station.id !== SILENT_BED.id) {
     void player.play(SILENT_BED, { loop: true, silent: true }).then(() => {
-      const armed = wakeScheduler.current();
-      if (!armed) return;
-      player.setTrackTitle(`Wake to ${armed.station.name} at ${armed.time}`, {
-        track: `Wake to ${armed.station.name} at ${armed.time}`,
-        artist: 'rrradio',
-      });
+      syncWakeLockScreenNote();
     });
   } else {
     player.pause();

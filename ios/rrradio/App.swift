@@ -47,6 +47,7 @@ struct rrradioApp: App {
                         player.setLockScreenSleepTimer(firesAt: sleepTimer.firesAt)
                     }
                     player.setLockScreenSleepTimer(firesAt: sleepTimer.firesAt)
+                    syncLockScreenWakeAlarm()
                     cloudSync.configure(
                         library: library,
                         theme: theme,
@@ -68,6 +69,12 @@ struct rrradioApp: App {
                         Task { await catalog.refreshIfStale() }
                     }
                 }
+                .onChange(of: wakeAlarm.isArmed) { _, _ in
+                    syncLockScreenWakeAlarm()
+                }
+                .onChange(of: wakeAlarm.firesAt) { _, _ in
+                    syncLockScreenWakeAlarm()
+                }
                 .onChange(of: network.snapshot) { oldSnapshot, newSnapshot in
                     if newSnapshot.isOffline {
                         wasOffline = true
@@ -84,6 +91,14 @@ struct rrradioApp: App {
                 }
                 .task { await catalog.loadIfNeeded() }
         }
+    }
+
+    private func syncLockScreenWakeAlarm() {
+        guard wakeAlarm.isArmed, let station = wakeAlarm.station, let firesAt = wakeAlarm.firesAt else {
+            player.setLockScreenWakeAlarm(station: nil, time: nil, firesAt: nil)
+            return
+        }
+        player.setLockScreenWakeAlarm(station: station, time: wakeAlarm.time, firesAt: firesAt)
     }
 }
 

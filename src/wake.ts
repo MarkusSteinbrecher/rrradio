@@ -77,6 +77,21 @@ export function formatCountdown(ms: number): string {
   return m === 0 ? `in ${h}h` : `in ${h}h ${m}m`;
 }
 
+export function formatWakeLockScreenNote(wake: WakeTo, now = Date.now()): string {
+  return `Alarm ${wake.time} · ${formatCountdown(nextFireTime(wake, now) - now)}`;
+}
+
+export function formatWakeLockScreenStandby(wake: WakeTo, now = Date.now()): {
+  title: string;
+  artist: string;
+} {
+  const note = formatWakeLockScreenNote(wake, now);
+  return {
+    title: 'Wake alarm active',
+    artist: `${note} · ${wake.station.name}`,
+  };
+}
+
 export class WakeScheduler {
   private wake: WakeTo | null = null;
   private timer: number | undefined;

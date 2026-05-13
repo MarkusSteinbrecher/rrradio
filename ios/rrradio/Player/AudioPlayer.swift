@@ -131,8 +131,11 @@ final class AudioPlayer {
     private var lockScreenArtworkSourceImage: UIImage?
     private var lockScreenArtwork: MPMediaItemArtwork?
     private var lockScreenSleepTimerFiresAt: Date?
+    private var lockScreenWakeAlarmNote: LockScreenWakeAlarmNote?
     @ObservationIgnored
     private var lockScreenSleepTimerRefreshTimer: Timer?
+    @ObservationIgnored
+    private var lockScreenWakeAlarmRefreshTimer: Timer?
     private var shortcutActivity: NSUserActivity?
     private var wakeKeepAlivePlayer: AVAudioPlayer?
     private weak var listeningHistory: ListeningHistory?
@@ -180,6 +183,16 @@ final class AudioPlayer {
         if let lockScreenArtworkSourceImage {
             lockScreenArtwork = makeLockScreenArtwork(from: lockScreenArtworkSourceImage, sleepTimerActive: firesAt.map { $0 > Date() } == true)
         }
+        updateNowPlaying()
+    }
+
+    func setLockScreenWakeAlarm(station: Station?, time: String?, firesAt: Date?) {
+        if let station, let time, let firesAt, firesAt > Date() {
+            lockScreenWakeAlarmNote = LockScreenWakeAlarmNote(station: station, time: time, firesAt: firesAt)
+        } else {
+            lockScreenWakeAlarmNote = nil
+        }
+        scheduleLockScreenWakeAlarmRefresh()
         updateNowPlaying()
     }
 
@@ -328,6 +341,7 @@ final class AudioPlayer {
             }
             wakeKeepAlivePlayer = player
             diagnosticRecord("wake", "keep alive started")
+            updateNowPlaying()
             return true
         } catch {
             diagnosticRecord("wake", "keep alive failed", details: ["error": error.localizedDescription])
@@ -340,6 +354,7 @@ final class AudioPlayer {
         wakeKeepAlivePlayer.stop()
         self.wakeKeepAlivePlayer = nil
         diagnosticRecord("wake", "keep alive stopped")
+        updateNowPlaying()
     }
 
     // MARK: - Internals
@@ -842,6 +857,11 @@ final class AudioPlayer {
 
     private func updateNowPlaying() {
         guard let s = current else {
+            if let wakeInfo = lockScreenWakeAlarmInfo() {
+                MPNowPlayingInfoCenter.default().nowPlayingInfo = wakeInfo
+                updateLockScreenArtwork(from: lockScreenWakeAlarmNote?.station.favicon)
+                return
+            }
             MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
             return
         }
@@ -988,8 +1008,15 @@ final class AudioPlayer {
             title = station.name
         }
 
-        guard let sleepTimerText = lockScreenSleepTimerText() else { return title }
-        return "\(title) - Sleep in \(sleepTimerText)"
+        var suffixes: [String] = []
+        if let wakeAlarmText = lockScreenWakeAlarmText() {
+            suffixes.append(wakeAlarmText)
+        }
+        if let sleepTimerText = lockScreenSleepTimerText() {
+            suffixes.append("Sleep in \(sleepTimerText)")
+        }
+        guard !suffixes.isEmpty else { return title }
+        return ([title] + suffixes).joined(separator: " - ")
     }
 
     private func lockScreenSubtitle(for station: Station) -> String {
@@ -1026,6 +1053,26 @@ final class AudioPlayer {
         return "\(totalMinutes)m"
     }
 
+    private func lockScreenWakeAlarmText(at date: Date = Date()) -> String? {
+        lockScreenWakeAlarmNote?.titleSuffix(at: date)
+    }
+
+    private func lockScreenWakeAlarmInfo(at date: Date = Date()) -> [String: Any]? {
+        guard wakeKeepAlivePlayer != nil,
+              let wakeTitle = lockScreenWakeAlarmNote?.standbyTitle(at: date),
+              let wakeSubtitle = lockScreenWakeAlarmNote?.standbySubtitle(at: date) else { return nil }
+
+        var info: [String: Any] = [:]
+        info[MPMediaItemPropertyTitle] = wakeTitle
+        info[MPMediaItemPropertyArtist] = wakeSubtitle
+        info[MPNowPlayingInfoPropertyIsLiveStream] = true
+        info[MPNowPlayingInfoPropertyPlaybackRate] = 1.0
+        if let lockScreenArtwork {
+            info[MPMediaItemPropertyArtwork] = lockScreenArtwork
+        }
+        return info
+    }
+
     private func scheduleLockScreenSleepTimerRefresh() {
         lockScreenSleepTimerRefreshTimer?.invalidate()
         lockScreenSleepTimerRefreshTimer = nil
@@ -1042,6 +1089,29 @@ final class AudioPlayer {
                 } else {
                     timer.invalidate()
                     self.lockScreenSleepTimerRefreshTimer = nil
+                    self.updateNowPlaying()
+                }
+            }
+        }
+    }
+
+    private func scheduleLockScreenWakeAlarmRefresh() {
+        lockScreenWakeAlarmRefreshTimer?.invalidate()
+        lockScreenWakeAlarmRefreshTimer = nil
+
+        guard let firesAt = lockScreenWakeAlarmNote?.firesAt, firesAt > Date() else { return }
+        lockScreenWakeAlarmRefreshTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { [weak self] timer in
+            Task { @MainActor [weak self] in
+                guard let self else {
+                    timer.invalidate()
+                    return
+                }
+                if let firesAt = self.lockScreenWakeAlarmNote?.firesAt, firesAt > Date() {
+                    self.updateNowPlaying()
+                } else {
+                    timer.invalidate()
+                    self.lockScreenWakeAlarmRefreshTimer = nil
+                    self.lockScreenWakeAlarmNote = nil
                     self.updateNowPlaying()
                 }
             }

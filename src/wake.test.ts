@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { classifyStoredWake, formatCountdown, nextFireTime, STALE_WAKE_GRACE_MS } from './wake';
+import {
+  classifyStoredWake,
+  formatCountdown,
+  formatWakeLockScreenNote,
+  formatWakeLockScreenStandby,
+  nextFireTime,
+  STALE_WAKE_GRACE_MS,
+} from './wake';
 import type { Station, WakeTo } from './types';
 
 /** Build a fixed `now` so tests are deterministic regardless of when they
@@ -91,6 +98,19 @@ describe('formatCountdown', () => {
 
   it('drops the minutes suffix when even hours', () => {
     expect(formatCountdown(2 * 60 * 60_000)).toBe('in 2h');
+  });
+});
+
+describe('lock-screen wake note', () => {
+  it('includes the alarm time and remaining time', () => {
+    expect(formatWakeLockScreenNote(wake('17:30', NOW), NOW)).toBe('Alarm 17:30 · in 8h 30m');
+  });
+
+  it('builds a standby Media Session title and artist for the silent bed', () => {
+    expect(formatWakeLockScreenStandby(wake('17:30', NOW), NOW)).toEqual({
+      title: 'Wake alarm active',
+      artist: 'Alarm 17:30 · in 8h 30m · Fixture',
+    });
   });
 });
 

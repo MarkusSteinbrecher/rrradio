@@ -2,6 +2,11 @@ import Hls from 'hls.js';
 import type { NowPlaying, PlayerState, Station } from './types';
 
 type Listener = (state: NowPlaying) => void;
+type MediaSessionParts = {
+  artist?: string;
+  track?: string;
+  coverUrl?: string;
+};
 
 /**
  * MediaError code → user-facing label. Code 4 (SRC_NOT_SUPPORTED) is what
@@ -260,6 +265,7 @@ export class AudioPlayer {
   ): Promise<void> {
     this.silentLoad = opts.silent;
     this.playGeneration += 1;
+    if (!opts.sameStation) this.mediaSessionParts = undefined;
     // Preserve trackTitle + coverUrl when re-playing the same station so
     // the on-air line and cover don't snap to "—" during the loading flash.
     // Reset them when switching stations. Routed through update() so the
@@ -415,6 +421,8 @@ export class AudioPlayer {
   private watchdogTimer: number | undefined;
   private lastTime = 0;
   private stallTicks = 0;
+  private mediaSessionParts: MediaSessionParts | undefined;
+  private lockScreenNote: string | undefined;
   private static readonly WATCHDOG_INTERVAL_MS = 2000;
   private static readonly STALL_TICK_THRESHOLD = 4;
 
@@ -466,6 +474,7 @@ export class AudioPlayer {
       programSubtitle?: string;
     },
   ): void {
+    if (trackTitle === undefined && !parts) this.mediaSessionParts = undefined;
     this.update({
       trackTitle,
       coverUrl: parts?.coverUrl,
@@ -473,6 +482,11 @@ export class AudioPlayer {
       programSubtitle: parts?.programSubtitle,
     });
     this.updateMediaSessionMetadata(this.current.station, parts);
+  }
+
+  setLockScreenNote(note: string | undefined): void {
+    this.lockScreenNote = note;
+    if (this.current.station.id) this.updateMediaSessionMetadata(this.current.station);
   }
 
   private update(patch: Partial<NowPlaying>): void {
@@ -538,20 +552,22 @@ export class AudioPlayer {
 
   private updateMediaSessionMetadata(
     station: Station,
-    parts?: { artist?: string; track?: string; coverUrl?: string },
+    parts?: MediaSessionParts,
   ): void {
     if (!('mediaSession' in navigator)) return;
-    const title = parts?.track || station.name;
-    const artist = parts?.artist || station.name;
-    const artwork = parts?.coverUrl
-      ? [{ src: parts.coverUrl, sizes: '300x300' }]
+    if (parts) this.mediaSessionParts = parts;
+    const metadataParts = parts ?? this.mediaSessionParts;
+    const title = metadataParts?.track || this.current.trackTitle || station.name;
+    const artist = metadataParts?.artist || station.name;
+    const artwork = metadataParts?.coverUrl
+      ? [{ src: metadataParts.coverUrl, sizes: '300x300' }]
       : station.favicon
         ? [{ src: station.favicon, sizes: '512x512' }]
         : [];
     navigator.mediaSession.metadata = new MediaMetadata({
       title,
       artist,
-      album: 'rrradio',
+      album: this.lockScreenNote ?? 'rrradio',
       artwork,
     });
   }

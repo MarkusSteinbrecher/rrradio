@@ -152,6 +152,39 @@ final class WakeAlarmTests: XCTestCase {
         XCTAssertFalse(alarm.isArmed)
     }
 
+    func testLockScreenWakeAlarmNoteIncludesAlarmTimeAndRemainingTime() throws {
+        let note = LockScreenWakeAlarmNote(
+            station: station,
+            time: "07:30",
+            firesAt: try date("2026-05-07 07:30"),
+        )
+
+        XCTAssertEqual(note.titleSuffix(at: try date("2026-05-07 06:12")), "Alarm 07:30 - in 1h 18m")
+    }
+
+    func testLockScreenWakeAlarmStandbyTextShowsActiveAlarmAndTargetStation() throws {
+        let note = LockScreenWakeAlarmNote(
+            station: station,
+            time: "07:30",
+            firesAt: try date("2026-05-07 07:30"),
+        )
+
+        XCTAssertEqual(note.standbyTitle(at: try date("2026-05-07 06:12")), "Wake alarm active")
+        XCTAssertEqual(note.standbySubtitle(at: try date("2026-05-07 06:12")), "Alarm 07:30 - in 1h 18m - Test FM")
+    }
+
+    func testExpiredLockScreenWakeAlarmNoteDoesNotRender() throws {
+        let note = LockScreenWakeAlarmNote(
+            station: station,
+            time: "07:30",
+            firesAt: try date("2026-05-07 07:30"),
+        )
+
+        XCTAssertNil(note.titleSuffix(at: try date("2026-05-07 07:31")))
+        XCTAssertNil(note.standbyTitle(at: try date("2026-05-07 07:31")))
+        XCTAssertNil(note.standbySubtitle(at: try date("2026-05-07 07:31")))
+    }
+
     private var station: Station {
         Station(
             id: "test",

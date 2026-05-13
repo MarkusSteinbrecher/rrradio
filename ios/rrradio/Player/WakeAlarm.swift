@@ -85,6 +85,28 @@ private extension UNAuthorizationStatus {
     }
 }
 
+struct LockScreenWakeAlarmNote: Equatable {
+    let station: Station
+    let time: String
+    let firesAt: Date
+
+    func titleSuffix(at date: Date = Date()) -> String? {
+        let interval = firesAt.timeIntervalSince(date)
+        guard interval > 0 else { return nil }
+        return "Alarm \(time) - \(WakeAlarm.formatCountdown(interval))"
+    }
+
+    func standbyTitle(at date: Date = Date()) -> String? {
+        guard titleSuffix(at: date) != nil else { return nil }
+        return "Wake alarm active"
+    }
+
+    func standbySubtitle(at date: Date = Date()) -> String? {
+        guard let suffix = titleSuffix(at: date) else { return nil }
+        return "\(suffix) - \(station.name)"
+    }
+}
+
 /// One-shot wake-to-radio alarm. Native iOS still cannot behave exactly
 /// like Clock.app: a terminated third-party app cannot launch itself and
 /// start audio. While the app is alive, this timer starts the chosen
@@ -333,7 +355,7 @@ final class WakeAlarm {
         return calendar.date(byAdding: .day, value: 1, to: sameDay)
     }
 
-    static func formatCountdown(_ interval: TimeInterval) -> String {
+    nonisolated static func formatCountdown(_ interval: TimeInterval) -> String {
         if interval <= 0 { return "now" }
         let totalMinutes = Int(interval / 60)
         if totalMinutes < 1 { return "soon" }
