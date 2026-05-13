@@ -83,6 +83,7 @@ enum FavoritesDisplayMode: String, CaseIterable, Identifiable {
 struct StationListView: View {
     @Binding private var tab: AppTab
     @Binding private var searchFocusedExternally: Bool
+    private let fixedTab: AppTab?
     @Environment(Catalog.self) private var catalog
     @Environment(Library.self) private var library
     @Environment(AudioPlayer.self) private var player
@@ -131,6 +132,8 @@ struct StationListView: View {
     @State private var favoriteNowPlaying = FavoriteNowPlayingStore()
     @State private var listScrollOffset: CGFloat = 0
     @State private var pageSwipeAxis: PageSwipeAxis?
+    @State private var pageSwipeDragOffset: CGFloat = 0
+    @State private var pageSwipeSettlingTarget: FavoritesDisplayMode?
     @State private var favoritesSearchPresented = false
     @State private var stationInfoPreview: Station?
     @State private var stationInfoPreviewMetadata: [String: NowPlayingMetadata] = [:]
@@ -147,9 +150,12 @@ struct StationListView: View {
     private let pageSwipeAxisLockThreshold: CGFloat = 12
     private let pageSwipeAxisLockRatio: CGFloat = 1.15
     private let pageSwipeDirectionTolerance: CGFloat = 0.55
+    private let pageSwipeCompletionDuration: TimeInterval = 0.24
     private let topbarControlSize: CGFloat = 36
     private let topbarControlSpacing: CGFloat = 8
     private let favoriteRemoveControlTrailingInset: CGFloat = 20
+    private let stationHeaderTopPadding: CGFloat = 6
+    private let stationHeaderStackSpacing: CGFloat = 6
     private let sortNameColumnOffset: CGFloat = 54
     private let sortAlphabetControlWidth: CGFloat = 44
     private var sortSideColumnWidth: CGFloat { sortNameColumnOffset + sortAlphabetControlWidth }
@@ -230,9 +236,13 @@ struct StationListView: View {
     init(
         tab: Binding<AppTab> = .constant(.browse),
         searchFocusedExternally: Binding<Bool> = .constant(false),
+        fixedTab: AppTab? = nil,
     ) {
         _tab = tab
         _searchFocusedExternally = searchFocusedExternally
+        self.fixedTab = fixedTab
+        let initialTab = fixedTab ?? tab.wrappedValue
+        _source = State(initialValue: initialTab == .favorites ? .favorites : .all)
     }
 
     private var allStations: [Station] { catalog.browseOrdered }
@@ -339,7 +349,10 @@ struct StationListView: View {
         source == .recents || hasActiveFilters
     }
     private var isFavoritesPage: Bool {
-        tab == .favorites && source == .favorites
+        pageTab == .favorites && source == .favorites
+    }
+    private var pageTab: AppTab {
+        fixedTab ?? tab
     }
     private var filterSignature: String {
         [
@@ -405,11 +418,18 @@ struct StationListView: View {
                 updateFavoriteNowPlayingPolling()
             }
             .onChange(of: tab) { _, value in
+                guard fixedTab == nil else {
+                    if fixedTab == value, fixedTab == .favorites, source != .favorites {
+                        setSource(.favorites, animated: false)
+                    }
+                    return
+                }
                 setSource(stationSource(for: value), animated: true)
             }
             .onChange(of: source) { _, value in
                 resetStationDisplayLimit()
                 listScrollOffset = 0
+                guard fixedTab == nil else { return }
                 let targetTab = appTab(for: value)
                 guard targetTab != tab else { return }
                 tab = targetTab
@@ -463,50 +483,62 @@ struct StationListView: View {
             }
     }
 
-    private var pageSwipeGesture: some Gesture {
-        DragGesture(minimumDistance: 28, coordinateSpace: .local)
+    private func pageSwipeGesture(pageWidth: CGFloat) -> some Gesture {
+        DragGesture(minimumDistance: 16, coordinateSpace: .local)
             .onChanged { value in
-                updatePageSwipeOffset(translation: value.translation)
+                updatePageSwipeOffset(value, pageWidth: pageWidth)
             }
             .onEnded { value in
-                handlePageSwipe(translation: value.translation)
+                handlePageSwipe(value, pageWidth: pageWidth)
             }
     }
 
-    private func updatePageSwipeOffset(translation: CGSize) {
+    private func updatePageSwipeOffset(_ value: DragGesture.Value, pageWidth: CGFloat) {
         guard canUsePageSwipe else {
             resetPageSwipeTracking()
             return
         }
 
-        let horizontal = translation.width
-        let vertical = translation.height
+        let horizontal = value.translation.width
+        let vertical = value.translation.height
         updatePageSwipeAxis(horizontal: horizontal, vertical: vertical)
+        guard pageSwipeAxis == .horizontal else {
+            pageSwipeDragOffset = 0
+            return
+        }
+        pageSwipeDragOffset = constrainedPageSwipeOffset(horizontal, pageWidth: pageWidth)
     }
 
-    private func handlePageSwipe(translation: CGSize) {
+    private func handlePageSwipe(_ value: DragGesture.Value, pageWidth: CGFloat) {
         guard canUsePageSwipe else {
             resetPageSwipeTracking()
             return
         }
 
-        let horizontal = translation.width
-        let vertical = translation.height
+        let horizontal = value.translation.width
+        let vertical = value.translation.height
         updatePageSwipeAxis(horizontal: horizontal, vertical: vertical)
-        defer {
-            pageSwipeAxis = nil
-        }
         guard pageSwipeAxis == .horizontal,
-              abs(horizontal) >= pageSwipeThreshold,
               isPageSwipeDirection(horizontal: horizontal, vertical: vertical) else {
+            settlePageSwipe(to: nil, pageWidth: pageWidth)
             return
         }
 
-        if horizontal < 0, let nextFavoritesDisplayMode {
-            switchToFavoritesDisplayMode(nextFavoritesDisplayMode)
-        } else if horizontal > 0, let previousFavoritesDisplayMode {
-            switchToFavoritesDisplayMode(previousFavoritesDisplayMode)
+        let offset = constrainedPageSwipeOffset(horizontal, pageWidth: pageWidth)
+        let predictedOffset = constrainedPageSwipeOffset(value.predictedEndTranslation.width, pageWidth: pageWidth)
+        let target: FavoritesDisplayMode?
+        if offset < 0 {
+            target = shouldCompletePageSwipe(offset: offset, predictedOffset: predictedOffset, pageWidth: pageWidth)
+                ? nextFavoritesDisplayMode
+                : nil
+        } else if offset > 0 {
+            target = shouldCompletePageSwipe(offset: offset, predictedOffset: predictedOffset, pageWidth: pageWidth)
+                ? previousFavoritesDisplayMode
+                : nil
+        } else {
+            target = nil
         }
+        settlePageSwipe(to: target, pageWidth: pageWidth)
     }
 
     private var canUsePageSwipe: Bool {
@@ -517,6 +549,7 @@ struct StationListView: View {
             && !searchFocused
             && !favoriteDeleteModeEnabled
             && targetedFavoriteStationID == nil
+            && pageSwipeSettlingTarget == nil
     }
 
     private var pageSwipeGestureMask: GestureMask {
@@ -545,6 +578,29 @@ struct StationListView: View {
         abs(horizontal) > abs(vertical) * pageSwipeDirectionTolerance
     }
 
+    private func constrainedPageSwipeOffset(_ horizontal: CGFloat, pageWidth: CGFloat) -> CGFloat {
+        let width = max(pageWidth, 1)
+        if horizontal < 0 {
+            guard nextFavoritesDisplayMode != nil else {
+                return 0
+            }
+            return max(horizontal, -width)
+        } else if horizontal > 0 {
+            guard previousFavoritesDisplayMode != nil else {
+                return 0
+            }
+            return min(horizontal, width)
+        }
+        return 0
+    }
+
+    private func shouldCompletePageSwipe(offset: CGFloat, predictedOffset: CGFloat, pageWidth: CGFloat) -> Bool {
+        let width = max(pageWidth, 1)
+        let distanceThreshold = max(pageSwipeThreshold, width * 0.28)
+        let predictedThreshold = width * 0.42
+        return abs(offset) >= distanceThreshold || abs(predictedOffset) >= predictedThreshold
+    }
+
     private var nextFavoritesDisplayMode: FavoritesDisplayMode? {
         switch favoritesDisplayMode {
         case .list: .tiles
@@ -566,8 +622,36 @@ struct StationListView: View {
         setFavoritesDisplayMode(mode)
     }
 
+    private func settlePageSwipe(to target: FavoritesDisplayMode?, pageWidth: CGFloat) {
+        pageSwipeAxis = nil
+        guard let target else {
+            withAnimation(.snappy(duration: pageSwipeCompletionDuration)) {
+                pageSwipeDragOffset = 0
+            }
+            return
+        }
+
+        let finalOffset: CGFloat = target == nextFavoritesDisplayMode ? -max(pageWidth, 1) : max(pageWidth, 1)
+        pageSwipeSettlingTarget = target
+        withAnimation(.snappy(duration: pageSwipeCompletionDuration)) {
+            pageSwipeDragOffset = finalOffset
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + pageSwipeCompletionDuration) {
+            guard pageSwipeSettlingTarget == target else { return }
+            var transaction = Transaction()
+            transaction.animation = nil
+            withTransaction(transaction) {
+                setFavoritesDisplayMode(target)
+                pageSwipeDragOffset = 0
+                pageSwipeSettlingTarget = nil
+            }
+        }
+    }
+
     private func resetPageSwipeTracking() {
         pageSwipeAxis = nil
+        pageSwipeDragOffset = 0
+        pageSwipeSettlingTarget = nil
     }
 
     private func handleDisappear() {
@@ -608,7 +692,6 @@ struct StationListView: View {
                 }
             }
         }
-        .id(source)
     }
 
     private func setSource(_ newSource: StationSource, animated _: Bool) {
@@ -627,7 +710,7 @@ struct StationListView: View {
     }
 
     private func showBrowseFilters() {
-        if tab == .browse {
+        if pageTab == .browse {
             source = .all
         }
         dismissSearch()
@@ -748,7 +831,6 @@ struct StationListView: View {
             searchAndFilterRow
         }
         .topbarChrome(top: 14, bottom: 8)
-        .collapsingTopbarDivider(opacity: topbarDividerOpacity)
     }
 
     private var compactTopbar: some View {
@@ -758,7 +840,6 @@ struct StationListView: View {
                 .frame(minWidth: 220, maxWidth: .infinity)
         }
         .topbarChrome(top: 8, bottom: 6)
-        .collapsingTopbarDivider(opacity: topbarDividerOpacity)
     }
 
     private var favoritesDisplayModeSelector: some View {
@@ -803,14 +884,6 @@ struct StationListView: View {
         topbarControlSize + favoriteRemoveControlTrailingInset
     }
 
-    private var topbarCollapse: CGFloat {
-        min(max(listScrollOffset, 0), statusCollapseDistance)
-    }
-
-    private var topbarDividerOpacity: CGFloat {
-        min(max(topbarCollapse / 8, 0), 1)
-    }
-
     private var secondaryBrowseControls: some View {
         Group {
             if showsBrowseSortControls {
@@ -832,28 +905,31 @@ struct StationListView: View {
 
     private func inlineHeaderControls<Controls: View>(
         topPadding: CGFloat,
+        includesRule: Bool,
         @ViewBuilder controls: () -> Controls,
     ) -> some View {
-        VStack(spacing: 6) {
+        VStack(spacing: includesRule ? 6 : 0) {
             controls()
                 .frame(height: browseControlsExpandedHeight, alignment: .center)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.horizontal, 20)
-            headerRule
+            if includesRule {
+                headerRule
+            }
         }
         .padding(.top, topPadding)
-        .padding(.bottom, 4)
+        .padding(.bottom, includesRule ? 4 : 0)
         .frame(maxWidth: .infinity)
     }
 
     private var inlineBrowseControls: some View {
-        inlineHeaderControls(topPadding: 0) {
+        inlineHeaderControls(topPadding: 0, includesRule: false) {
             secondaryBrowseControls
         }
     }
 
-    private var inlineFavoritesControls: some View {
-        inlineHeaderControls(topPadding: 6) {
+    private func inlineFavoritesControls(topPadding: CGFloat = 0) -> some View {
+        inlineHeaderControls(topPadding: topPadding, includesRule: false) {
             ZStack {
                 statusToolbar
                 if showsFavoriteDeleteModeButton {
@@ -891,7 +967,11 @@ struct StationListView: View {
                 query = ""
                 searchFocused = false
                 favoritesSearchPresented = false
-                source = .all
+                if pageTab == .favorites {
+                    tab = .browse
+                } else {
+                    source = .all
+                }
                 clearBrowseFilters()
                 browseStationSort = nil
                 activeFilterPicker = nil
@@ -981,7 +1061,7 @@ struct StationListView: View {
         .onChange(of: searchFocused) { _, focused in
             if focused {
                 activeFilterPicker = nil
-            } else if tab == .favorites && searchText.isEmpty {
+            } else if pageTab == .favorites && searchText.isEmpty {
                 favoritesSearchPresented = false
             }
         }
@@ -989,7 +1069,7 @@ struct StationListView: View {
 
     @ViewBuilder
     private var searchAndFilterRow: some View {
-        if tab == .favorites {
+        if pageTab == .favorites {
             favoritesTopbarControlRow
         } else {
             HStack(spacing: topbarControlSpacing) {
@@ -1001,7 +1081,7 @@ struct StationListView: View {
     }
 
     private var favoritesSearchExpanded: Bool {
-        tab == .favorites && (favoritesSearchPresented || searchFocused || !searchText.isEmpty)
+        pageTab == .favorites && (favoritesSearchPresented || searchFocused || !searchText.isEmpty)
     }
 
     private func expandFavoritesSearch() {
@@ -1183,7 +1263,7 @@ struct StationListView: View {
                             }
                         }
 
-                        if tab == .browse {
+                        if pageTab == .browse {
                             filterPickerRow(locale.text(.recents), selected: source == .recents, leadingSystemImage: "clock", showsSeparator: false) {
                                 toggleRecentsFilter(closePicker: false)
                             }
@@ -1271,7 +1351,7 @@ struct StationListView: View {
     }
 
     private var showsBrowseSortControls: Bool {
-        tab == .browse && source == .all
+        pageTab == .browse && source == .all
     }
 
     private var isAlphabetSortActive: Bool {
@@ -1480,8 +1560,33 @@ struct StationListView: View {
     }
 
     private var favoritesDisplayPage: some View {
+        GeometryReader { proxy in
+            let pageWidth = max(proxy.size.width, 1)
+            let activeOffset = constrainedPageSwipeOffset(pageSwipeDragOffset, pageWidth: pageWidth)
+            ZStack {
+                if let adjacentMode = adjacentFavoritesDisplayMode(for: activeOffset) {
+                    favoritesDisplayView(for: adjacentMode)
+                        .id(adjacentMode)
+                        .frame(width: pageWidth, height: proxy.size.height)
+                        .offset(x: adjacentPageOffset(for: activeOffset, pageWidth: pageWidth))
+                }
+
+                favoritesDisplayView(for: favoritesDisplayMode)
+                    .id(favoritesDisplayMode)
+                    .frame(width: pageWidth, height: proxy.size.height)
+                    .offset(x: activeOffset)
+            }
+            .frame(width: pageWidth, height: proxy.size.height)
+            .clipped()
+            .contentShape(Rectangle())
+            .simultaneousGesture(pageSwipeGesture(pageWidth: pageWidth), including: pageSwipeGestureMask)
+        }
+    }
+
+    @ViewBuilder
+    private func favoritesDisplayView(for mode: FavoritesDisplayMode) -> some View {
         Group {
-            switch favoritesDisplayMode {
+            switch mode {
             case .list:
                 sortableFavoritesList
             case .tiles:
@@ -1490,9 +1595,29 @@ struct StationListView: View {
                 favoritesAppGrid
             }
         }
-        .id(favoritesDisplayMode)
-        .contentShape(Rectangle())
-        .simultaneousGesture(pageSwipeGesture, including: pageSwipeGestureMask)
+    }
+
+    private func adjacentFavoritesDisplayMode(for offset: CGFloat) -> FavoritesDisplayMode? {
+        if let pageSwipeSettlingTarget {
+            return pageSwipeSettlingTarget
+        }
+        if offset < 0 {
+            return nextFavoritesDisplayMode
+        } else if offset > 0 {
+            return previousFavoritesDisplayMode
+        }
+        return nil
+    }
+
+    private func adjacentPageOffset(for activeOffset: CGFloat, pageWidth: CGFloat) -> CGFloat {
+        if let pageSwipeSettlingTarget {
+            return pageSwipeSettlingTarget == nextFavoritesDisplayMode
+                ? max(pageWidth, 1) + activeOffset
+                : -max(pageWidth, 1) + activeOffset
+        }
+        return activeOffset < 0
+            ? max(pageWidth, 1) + activeOffset
+            : -max(pageWidth, 1) + activeOffset
     }
 
     private var stationScrollList: some View {
@@ -1500,11 +1625,11 @@ struct StationListView: View {
             ScrollOffsetObserver(offset: $listScrollOffset, maximumOffset: statusCollapseDistance)
                 .frame(width: 0, height: 0)
 
-            LazyVStack(spacing: 6, pinnedViews: [.sectionHeaders]) {
-                if tab == .browse {
+            LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: [.sectionHeaders]) {
+                if pageTab == .browse {
                     inlineBrowseControls
-                } else if tab == .favorites {
-                    inlineFavoritesControls
+                } else if pageTab == .favorites {
+                    inlineFavoritesControls()
                 }
 
                 Section {
@@ -1537,15 +1662,34 @@ struct StationListView: View {
                         loadMoreRow
                     }
                 } header: {
-                    timerStatusStrip
+                    stationScrollSectionHeader
                 }
             }
-            .padding(.top, tab == .browse ? 6 : 0)
+            .padding(.top, stationHeaderTopPadding)
             .padding(.bottom, 12)
         }
         .scrollDismissesKeyboard(.immediately)
         .scrollDisabled(isHorizontalPageSwipeLocked)
         .background(RrradioTheme.bg)
+    }
+
+    @ViewBuilder
+    private var stationScrollSectionHeader: some View {
+        stickySectionHeader(includesRule: pageTab == .browse || pageTab == .favorites)
+    }
+
+    @ViewBuilder
+    private func stickySectionHeader(includesRule: Bool) -> some View {
+        if includesRule || hasTimerStatus {
+            VStack(spacing: 0) {
+                if includesRule {
+                    headerRule
+                }
+                timerStatusStrip
+            }
+            .frame(maxWidth: .infinity)
+            .background(RrradioTheme.bg)
+        }
     }
 
     private var favoritesCatalogFallbackNotice: some View {
@@ -1564,47 +1708,59 @@ struct StationListView: View {
     }
 
     private var sortableFavoritesList: some View {
-        List {
-            inlineFavoritesControls
-                .listRowInsets(EdgeInsets())
-                .listRowSeparator(.hidden)
-                .listRowBackground(RrradioTheme.bg)
-                .textCase(nil)
-
-            if hasTimerStatus {
-                timerStatusStrip
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(RrradioTheme.bg)
-                    .textCase(nil)
-            }
-
-            ForEach(visibleStations) { station in
-                favoriteListRow(station)
-                .listRowInsets(EdgeInsets())
-                .listRowSeparator(.hidden)
-                .listRowBackground(RrradioTheme.bg)
-                .moveDisabled(!canReorderFavorites)
-            }
-            .onMove(perform: moveFavoriteRows)
-
-            if visibleStations.count < filteredStations.count {
-                loadMoreRow
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(RrradioTheme.bg)
-            }
-        }
-        .listStyle(.plain)
-        .listRowSpacing(6)
-        .scrollContentBackground(.hidden)
-        .scrollDismissesKeyboard(.immediately)
-        .scrollIndicators(.hidden)
-        .scrollDisabled(isHorizontalPageSwipeLocked)
-        .background(RrradioTheme.bg)
-        .background {
+        ScrollView(showsIndicators: false) {
             ScrollOffsetObserver(offset: $listScrollOffset)
                 .frame(width: 0, height: 0)
+
+            LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: [.sectionHeaders]) {
+                inlineFavoritesControls()
+
+                Section {
+                    ForEach(visibleStations) { station in
+                        favoriteListSortableRow(station)
+                    }
+
+                    if visibleStations.count < filteredStations.count {
+                        loadMoreRow
+                    }
+                } header: {
+                    stickySectionHeader(includesRule: true)
+                }
+            }
+            .padding(.top, stationHeaderTopPadding)
+            .padding(.bottom, 12)
+            .background {
+                favoriteDeleteModeDismissBackground
+            }
+        }
+        .scrollDismissesKeyboard(.immediately)
+        .scrollDisabled(isHorizontalPageSwipeLocked)
+        .background(RrradioTheme.bg)
+        .onDisappear(perform: clearFavoriteGridDragState)
+    }
+
+    @ViewBuilder
+    private func favoriteListSortableRow(_ station: Station) -> some View {
+        if canReorderFavorites {
+            favoriteListRow(station)
+                .onDrag {
+                    favoriteGridDragProvider(for: station)
+                }
+                .onDrop(
+                    of: [UTType.plainText],
+                    delegate: FavoriteStationDropDelegate(
+                        targetStationID: station.id,
+                        targetSize: nil,
+                        dropBehavior: .targetSlot,
+                        draggedStationID: $draggedFavoriteStationID,
+                        targetedStationID: $targetedFavoriteStationID,
+                        lastHandledTargetID: $lastHandledFavoriteDropTargetID,
+                        moveStation: moveFavoriteGridStation,
+                    ),
+                )
+                .accessibilityHint(favoriteDeleteModeEnabled ? "Tap outside remove buttons to exit remove mode" : "Drag to reorder favorites")
+        } else {
+            favoriteListRow(station)
         }
     }
 
@@ -1659,49 +1815,49 @@ struct StationListView: View {
             ScrollOffsetObserver(offset: $listScrollOffset)
                 .frame(width: 0, height: 0)
 
-            VStack(spacing: 10) {
-                inlineFavoritesControls
+            LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: [.sectionHeaders]) {
+                inlineFavoritesControls()
 
-                if hasTimerStatus {
-                    timerStatusStrip
-                }
-
-                LazyVGrid(
-                    columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteTileGridColumnCount),
-                    spacing: 10,
-                ) {
-                    ForEach(visibleStations) { station in
-                        favoriteGridItem(
-                            station: station,
-                            dropBehavior: .targetSlot,
-                        ) {
-                            FavoriteStationTile(
+                Section {
+                    LazyVGrid(
+                        columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteTileGridColumnCount),
+                        spacing: 10,
+                    ) {
+                        ForEach(visibleStations) { station in
+                            favoriteGridItem(
                                 station: station,
-                                nowPlaying: favoriteNowPlaying.entries[station.id]?.metadata,
-                                isCurrent: player.current?.id == station.id,
-                                isPlaying: player.current?.id == station.id && player.state == .playing,
-                                isCustom: library.isCustom(station),
-                            )
+                                dropBehavior: .targetSlot,
+                            ) {
+                                FavoriteStationTile(
+                                    station: station,
+                                    nowPlaying: favoriteNowPlaying.entries[station.id]?.metadata,
+                                    isCurrent: player.current?.id == station.id,
+                                    isPlaying: player.current?.id == station.id && player.state == .playing,
+                                    isCustom: library.isCustom(station),
+                                )
+                            }
                         }
                     }
-                }
-                .onDrop(
-                    of: [UTType.plainText],
-                    delegate: FavoriteGridDropResetDelegate(
-                        draggedStationID: $draggedFavoriteStationID,
-                        targetedStationID: $targetedFavoriteStationID,
-                        lastHandledTargetID: $lastHandledFavoriteDropTargetID,
-                    ),
-                )
-                .onPreferenceChange(FavoriteGridItemSizePreferenceKey.self, perform: updateFavoriteGridItemSizes)
-                .padding(.horizontal, 14)
+                    .onDrop(
+                        of: [UTType.plainText],
+                        delegate: FavoriteGridDropResetDelegate(
+                            draggedStationID: $draggedFavoriteStationID,
+                            targetedStationID: $targetedFavoriteStationID,
+                            lastHandledTargetID: $lastHandledFavoriteDropTargetID,
+                        ),
+                    )
+                    .onPreferenceChange(FavoriteGridItemSizePreferenceKey.self, perform: updateFavoriteGridItemSizes)
+                    .padding(.horizontal, 14)
 
-                if visibleStations.count < filteredStations.count {
-                    loadMoreRow
-                        .padding(.horizontal, 14)
+                    if visibleStations.count < filteredStations.count {
+                        loadMoreRow
+                            .padding(.horizontal, 14)
+                    }
+                } header: {
+                    stickySectionHeader(includesRule: true)
                 }
             }
-            .padding(.top, 0)
+            .padding(.top, stationHeaderTopPadding)
             .padding(.bottom, 16)
             .background {
                 favoriteDeleteModeDismissBackground
@@ -1719,49 +1875,49 @@ struct StationListView: View {
             ScrollOffsetObserver(offset: $listScrollOffset)
                 .frame(width: 0, height: 0)
 
-            VStack(spacing: 14) {
-                inlineFavoritesControls
+            LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: [.sectionHeaders]) {
+                inlineFavoritesControls()
 
-                if hasTimerStatus {
-                    timerStatusStrip
-                }
-
-                LazyVGrid(
-                    columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteAppGridColumnCount),
-                    alignment: .center,
-                    spacing: 18,
-                ) {
-                    ForEach(visibleStations) { station in
-                        favoriteGridItem(
-                            station: station,
-                            dragSource: .content,
-                        ) {
-                            FavoriteStationAppIcon(
+                Section {
+                    LazyVGrid(
+                        columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteAppGridColumnCount),
+                        alignment: .center,
+                        spacing: 18,
+                    ) {
+                        ForEach(visibleStations) { station in
+                            favoriteGridItem(
                                 station: station,
-                                isCurrent: player.current?.id == station.id,
-                                isCustom: library.isCustom(station),
-                                dragProvider: canReorderFavorites ? { favoriteGridDragProvider(for: station) } : nil,
-                            )
+                                dragSource: .content,
+                            ) {
+                                FavoriteStationAppIcon(
+                                    station: station,
+                                    isCurrent: player.current?.id == station.id,
+                                    isCustom: library.isCustom(station),
+                                    dragProvider: canReorderFavorites ? { favoriteGridDragProvider(for: station) } : nil,
+                                )
+                            }
                         }
                     }
-                }
-                .onDrop(
-                    of: [UTType.plainText],
-                    delegate: FavoriteGridDropResetDelegate(
-                        draggedStationID: $draggedFavoriteStationID,
-                        targetedStationID: $targetedFavoriteStationID,
-                        lastHandledTargetID: $lastHandledFavoriteDropTargetID,
-                    ),
-                )
-                .onPreferenceChange(FavoriteGridItemSizePreferenceKey.self, perform: updateFavoriteGridItemSizes)
-                .padding(.horizontal, 18)
+                    .onDrop(
+                        of: [UTType.plainText],
+                        delegate: FavoriteGridDropResetDelegate(
+                            draggedStationID: $draggedFavoriteStationID,
+                            targetedStationID: $targetedFavoriteStationID,
+                            lastHandledTargetID: $lastHandledFavoriteDropTargetID,
+                        ),
+                    )
+                    .onPreferenceChange(FavoriteGridItemSizePreferenceKey.self, perform: updateFavoriteGridItemSizes)
+                    .padding(.horizontal, 18)
 
-                if visibleStations.count < filteredStations.count {
-                    loadMoreRow
-                        .padding(.horizontal, 18)
+                    if visibleStations.count < filteredStations.count {
+                        loadMoreRow
+                            .padding(.horizontal, 18)
+                    }
+                } header: {
+                    stickySectionHeader(includesRule: true)
                 }
             }
-            .padding(.top, 0)
+            .padding(.top, stationHeaderTopPadding)
             .padding(.bottom, 18)
             .background {
                 favoriteDeleteModeDismissBackground
@@ -4024,15 +4180,5 @@ private extension View {
             .padding(.top, top)
             .padding(.bottom, bottom)
             .background(RrradioTheme.bg)
-    }
-
-    func collapsingTopbarDivider(opacity: CGFloat) -> some View {
-        self
-            .overlay(alignment: .bottom) {
-                Rectangle()
-                    .fill(RrradioTheme.line)
-                    .frame(height: 1)
-                    .opacity(opacity)
-            }
     }
 }
