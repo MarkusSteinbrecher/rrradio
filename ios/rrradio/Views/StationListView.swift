@@ -83,6 +83,7 @@ enum FavoritesDisplayMode: String, CaseIterable, Identifiable {
 struct StationListView: View {
     @Binding private var tab: AppTab
     @Binding private var searchFocusedExternally: Bool
+    @Binding private var browseStationListSelectionActiveExternally: Bool
     private let fixedTab: AppTab?
     @Environment(Catalog.self) private var catalog
     @Environment(Library.self) private var library
@@ -135,6 +136,15 @@ struct StationListView: View {
     @State private var pageSwipeDragOffset: CGFloat = 0
     @State private var pageSwipeSettlingTarget: FavoritesDisplayMode?
     @State private var favoritesSearchPresented = false
+    @State private var selectedStationListID: String?
+    @State private var showingCreateStationList = false
+    @State private var stationListNameDraft = ""
+    @State private var browseListSelectionActive = false
+    @State private var browseListSelectedStationIDs: Set<String> = []
+    @State private var browseListSelectedStationOrder: [String] = []
+    @State private var browseListNameDraft = ""
+    @State private var browseListTargetStationListID: String?
+    @State private var showingBrowseListPicker = false
     @State private var stationInfoPreview: Station?
     @State private var stationInfoPreviewMetadata: [String: NowPlayingMetadata] = [:]
     @State private var stationInfoMetadataTask: Task<Void, Never>?
@@ -162,6 +172,7 @@ struct StationListView: View {
     private let stationHeaderTopPadding: CGFloat = 6
     private let stationHeaderStackSpacing: CGFloat = 6
     private let sortNameColumnOffset: CGFloat = 54
+    private let sortListSelectionControlWidth: CGFloat = 28
     private let sortAlphabetControlWidth: CGFloat = 44
     private var sortSideColumnWidth: CGFloat { sortNameColumnOffset + sortAlphabetControlWidth }
 
@@ -241,10 +252,12 @@ struct StationListView: View {
     init(
         tab: Binding<AppTab> = .constant(.browse),
         searchFocusedExternally: Binding<Bool> = .constant(false),
+        browseStationListSelectionActiveExternally: Binding<Bool> = .constant(false),
         fixedTab: AppTab? = nil,
     ) {
         _tab = tab
         _searchFocusedExternally = searchFocusedExternally
+        _browseStationListSelectionActiveExternally = browseStationListSelectionActiveExternally
         self.fixedTab = fixedTab
         let initialTab = fixedTab ?? tab.wrappedValue
         _source = State(initialValue: initialTab == .favorites ? .favorites : .all)
@@ -273,10 +286,13 @@ struct StationListView: View {
     private var genres: [Genre] { availableGenres(from: filterOptionStations) }
 
     private var stations: [Station] {
+        if isStationListsDetail {
+            return selectedStationList?.stations ?? []
+        }
         switch source {
-        case .all: stationPool
-        case .favorites: library.favorites
-        case .recents: library.recents
+        case .all: return stationPool
+        case .favorites: return library.favorites
+        case .recents: return library.recents
         }
     }
 
@@ -286,6 +302,9 @@ struct StationListView: View {
 
     private var visibleStations: [Station] { Array(filteredStations.prefix(displayLimit)) }
     private var playbackQueueSource: StationPlaybackQueue.Source {
+        if isStationListsDetail {
+            return .stationList
+        }
         if showingFavoritesCatalogFallback {
             return .browse
         }
@@ -366,16 +385,64 @@ struct StationListView: View {
     private var hasActiveBrowseFilter: Bool {
         source == .recents || hasActiveFilters
     }
+    private var canUseBrowseListSelection: Bool {
+        pageTab == .browse && source == .all
+    }
+    private var isBrowseListSelectionMode: Bool {
+        canUseBrowseListSelection && browseListSelectionActive
+    }
+    private var canSaveBrowseListSelection: Bool {
+        !browseListSelectedStationIDs.isEmpty
+            && !browseListNameDraft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+    private var browseListSelectionCountLabel: String {
+        "\(browseListSelectedStationIDs.count)"
+    }
+    private var selectedBrowseStationsForSave: [Station] {
+        let stationLookup = Dictionary(uniqueKeysWithValues: Self.uniqueStations(
+            filteredStations + visibleStations + stationPool + library.customStations + library.favorites + library.recents,
+        ).map { ($0.id, $0) })
+        return browseListSelectedStationOrder.compactMap { stationLookup[$0] }
+    }
+    private var browseListTargetStationList: StationList? {
+        browseListTargetStationListID.flatMap { library.stationList(id: $0) }
+    }
     private var isFavoritesPage: Bool {
         pageTab == .favorites && source == .favorites
+    }
+    private var isStationListsPage: Bool {
+        pageTab == .stationLists
+    }
+    private var isStationListsDetail: Bool {
+        isStationListsPage && selectedStationList != nil
+    }
+    private var selectedStationList: StationList? {
+        selectedStationListID.flatMap { library.stationList(id: $0) }
+    }
+    private var filteredStationLists: [StationList] {
+        let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedQuery.isEmpty else { return library.stationLists }
+        return library.stationLists.filter { Self.stationListMatches($0, query: trimmedQuery) }
+    }
+    private var stationListsSignature: String {
+        library.stationLists.map { list in
+            [
+                list.id,
+                list.name,
+                list.stations.map(\.id).joined(separator: ","),
+            ].joined(separator: ":")
+        }.joined(separator: "\u{1e}")
     }
     private var pageTab: AppTab {
         fixedTab ?? tab
     }
     private var filterSignature: String {
         [
+            "\(pageTab.navigationIndex)",
             source.rawValue,
             query,
+            selectedStationListID ?? "",
+            stationListsSignature,
             selectedGenreIDs.sorted().joined(separator: ","),
             selectedCountryCodes.sorted().joined(separator: ","),
             newsFilterSelected ? "news" : "",
@@ -389,6 +456,30 @@ struct StationListView: View {
     }
 
     var body: some View {
+        pageShellWithLifecycle
+    }
+
+    private var pageShellWithLifecycle: some View {
+        pageShellWithPresentations
+            .onAppear(perform: handleAppear)
+            .onChange(of: tab, handleTabChange)
+            .onChange(of: source, handleSourceChange)
+            .onChange(of: query, handleQueryChange)
+            .onChange(of: browseListSelectionActive, handleBrowseListSelectionActiveChange)
+            .onChange(of: browseListNameDraft, handleBrowseListNameDraftChange)
+            .onChange(of: searchText, handleSearchTextChange)
+            .onChange(of: selectedCountryCodes, handleSelectedCountryCodesChange)
+            .onChange(of: selectedGenreIDs, handleSelectedGenreIDsChange)
+            .onChange(of: newsFilterSelected, handleNewsFilterSelectedChange)
+            .onChange(of: filterSignature, handleFilterSignatureChange)
+            .onChange(of: favoritesDisplayModeRaw, handleFavoritesDisplayModeChange)
+            .onChange(of: catalog.stations, handleCatalogStationsChange)
+            .onChange(of: searchFocused, handleSearchFocusedChange)
+            .onDisappear(perform: handleDisappear)
+            .onChange(of: activeFilterPicker, handleActiveFilterPickerChange)
+    }
+
+    private var pageShellWithPresentations: some View {
         pageShell
             .background(RrradioTheme.bg)
             .sheet(isPresented: $showingSettings) {
@@ -412,6 +503,11 @@ struct StationListView: View {
             .overlay {
                 stationInfoPreviewOverlay
             }
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                if isBrowseListSelectionMode {
+                    browseListSelectionBar
+                }
+            }
             .animation(.spring(response: 0.24, dampingFraction: 0.86), value: stationInfoPreview?.id)
             .confirmationDialog(
                 timerCancelConfirmationTitle,
@@ -430,74 +526,22 @@ struct StationListView: View {
             } message: { target in
                 Text(target.message)
             }
-            .onAppear {
-                library.refreshFavorites(from: catalog.stations)
-                recomputeFilteredStations()
-                updateFavoriteNowPlayingPolling()
+            .alert(locale.text(.createStationList), isPresented: $showingCreateStationList) {
+                TextField(locale.text(.stationListName), text: $stationListNameDraft)
+                Button(locale.text(.cancel), role: .cancel) {
+                    stationListNameDraft = ""
+                }
+                Button(locale.text(.createStationList)) {
+                    createStationListFromDraft()
+                }
             }
-            .onChange(of: tab) { _, value in
-                guard fixedTab == nil else {
-                    if fixedTab == value, fixedTab == .favorites, source != .favorites {
-                        setSource(.favorites, animated: false)
+            .confirmationDialog(locale.text(.chooseStationList), isPresented: $showingBrowseListPicker) {
+                ForEach(library.stationLists) { list in
+                    Button(list.name) {
+                        selectBrowseListTarget(list)
                     }
-                    return
                 }
-                setSource(stationSource(for: value), animated: true)
-            }
-            .onChange(of: source) { _, value in
-                resetStationDisplayLimit()
-                listScrollOffset = 0
-                guard fixedTab == nil else { return }
-                let targetTab = appTab(for: value)
-                guard targetTab != tab else { return }
-                tab = targetTab
-            }
-            .onChange(of: query) { _, _ in
-                resetStationDisplayLimit()
-                resetRadioBrowserStations()
-                fetchInitialRadioBrowserPageIfNeeded()
-            }
-            .onChange(of: searchText) { _, value in
-                scheduleSearchUpdate(value)
-            }
-            .onChange(of: selectedCountryCodes) { _, _ in
-                resetStationDisplayLimit()
-                resetRadioBrowserStations()
-                fetchInitialRadioBrowserPageIfNeeded()
-            }
-            .onChange(of: selectedGenreIDs) { _, _ in
-                resetStationDisplayLimit()
-                resetRadioBrowserStations()
-                fetchInitialRadioBrowserPageIfNeeded()
-            }
-            .onChange(of: newsFilterSelected) { _, _ in
-                resetStationDisplayLimit()
-                resetRadioBrowserStations()
-                fetchInitialRadioBrowserPageIfNeeded()
-            }
-            .onChange(of: filterSignature) { _, _ in
-                recomputeFilteredStations()
-                updateFavoriteNowPlayingPolling()
-            }
-            .onChange(of: favoritesDisplayModeRaw) { _, _ in
-                listScrollOffset = 0
-                hideFavoriteDeleteMode(animated: false)
-                resetPageSwipeTracking()
-                updateFavoriteNowPlayingPolling()
-            }
-            .onChange(of: catalog.stations) { _, stations in
-                library.refreshFavorites(from: stations)
-                recomputeFilteredStations()
-                updateFavoriteNowPlayingPolling()
-            }
-            .onChange(of: searchFocused) { _, focused in
-                searchFocusedExternally = focused
-            }
-            .onDisappear(perform: handleDisappear)
-            .onChange(of: activeFilterPicker) { _, picker in
-                if picker == nil {
-                    pendingBrowseFilterState = nil
-                }
+                Button(locale.text(.cancel), role: .cancel) {}
             }
     }
 
@@ -672,12 +716,109 @@ struct StationListView: View {
         pageSwipeSettlingTarget = nil
     }
 
+    private func handleAppear() {
+        library.refreshFavorites(from: catalog.stations)
+        recomputeFilteredStations()
+        updateFavoriteNowPlayingPolling()
+    }
+
+    private func handleTabChange(_: AppTab, _ value: AppTab) {
+        guard fixedTab == nil else {
+            if fixedTab == value, fixedTab == .favorites, source != .favorites {
+                setSource(.favorites, animated: false)
+            } else if fixedTab == value, fixedTab == .stationLists {
+                resetStationListPage()
+            } else if fixedTab == .browse, value != .browse {
+                cancelBrowseListSelection()
+            }
+            return
+        }
+        setSource(stationSource(for: value), animated: true)
+    }
+
+    private func handleSourceChange(_: StationSource, _ value: StationSource) {
+        resetStationDisplayLimit()
+        listScrollOffset = 0
+        if value != .all {
+            cancelBrowseListSelection()
+        }
+        guard fixedTab == nil else { return }
+        let targetTab = appTab(for: value)
+        guard targetTab != tab else { return }
+        tab = targetTab
+    }
+
+    private func handleQueryChange(_: String, _: String) {
+        resetStationDisplayLimit()
+        resetRadioBrowserStations()
+        fetchInitialRadioBrowserPageIfNeeded()
+    }
+
+    private func handleBrowseListSelectionActiveChange(_: Bool, _ active: Bool) {
+        browseStationListSelectionActiveExternally = active
+    }
+
+    private func handleBrowseListNameDraftChange(_: String, _ value: String) {
+        clearBrowseListTargetIfNameChanged(value)
+    }
+
+    private func handleSearchTextChange(_: String, _ value: String) {
+        scheduleSearchUpdate(value)
+    }
+
+    private func handleSelectedCountryCodesChange(_: Set<String>, _: Set<String>) {
+        resetStationDisplayLimit()
+        resetRadioBrowserStations()
+        fetchInitialRadioBrowserPageIfNeeded()
+    }
+
+    private func handleSelectedGenreIDsChange(_: Set<String>, _: Set<String>) {
+        resetStationDisplayLimit()
+        resetRadioBrowserStations()
+        fetchInitialRadioBrowserPageIfNeeded()
+    }
+
+    private func handleNewsFilterSelectedChange(_: Bool, _: Bool) {
+        resetStationDisplayLimit()
+        resetRadioBrowserStations()
+        fetchInitialRadioBrowserPageIfNeeded()
+    }
+
+    private func handleFilterSignatureChange(_: String, _: String) {
+        recomputeFilteredStations()
+        updateFavoriteNowPlayingPolling()
+    }
+
+    private func handleFavoritesDisplayModeChange(_: String, _: String) {
+        listScrollOffset = 0
+        hideFavoriteDeleteMode(animated: false)
+        resetPageSwipeTracking()
+        updateFavoriteNowPlayingPolling()
+    }
+
+    private func handleCatalogStationsChange(_: [Station], _ stations: [Station]) {
+        library.refreshFavorites(from: stations)
+        recomputeFilteredStations()
+        updateFavoriteNowPlayingPolling()
+    }
+
+    private func handleSearchFocusedChange(_: Bool, _ focused: Bool) {
+        searchFocusedExternally = focused
+    }
+
+    private func handleActiveFilterPickerChange(_: ActiveFilterPicker?, _ picker: ActiveFilterPicker?) {
+        if picker == nil {
+            pendingBrowseFilterState = nil
+        }
+    }
+
     private func handleDisappear() {
         filterTask?.cancel()
         searchUpdateTask?.cancel()
         radioBrowserSearchTask?.cancel()
         stationInfoMetadataTask?.cancel()
         favoriteNowPlaying.stop()
+        cancelBrowseListSelection()
         searchFocusedExternally = false
     }
 
@@ -686,7 +827,7 @@ struct StationListView: View {
             topbar
             switch catalog.state {
             case .idle, .loading:
-                if source == .all && catalog.stations.isEmpty {
+                if pageTab == .browse && source == .all && catalog.stations.isEmpty {
                     ProgressView("Loading catalog...")
                         .tint(RrradioTheme.accent)
                         .foregroundStyle(RrradioTheme.ink2)
@@ -697,7 +838,7 @@ struct StationListView: View {
             case .loaded:
                 content
             case .failed(let message):
-                if source == .all {
+                if pageTab == .browse && source == .all {
                     ContentUnavailableView(
                         "Catalog unavailable",
                         systemImage: "antenna.radiowaves.left.and.right.slash",
@@ -821,6 +962,7 @@ struct StationListView: View {
 
     private func stationSource(for tab: AppTab) -> StationSource {
         switch tab {
+        case .stationLists: .all
         case .browse: .all
         case .favorites: .favorites
         }
@@ -960,6 +1102,34 @@ struct StationListView: View {
         }
     }
 
+    private func inlineStationListsControls(topPadding: CGFloat = 0) -> some View {
+        inlineHeaderControls(topPadding: topPadding, includesRule: false) {
+            ZStack {
+                statusToolbar
+                if isStationListsDetail {
+                    HStack {
+                        stationListBackButton
+                        Spacer()
+                    }
+                }
+            }
+        }
+    }
+
+    private var stationListBackButton: some View {
+        Button {
+            closeStationListDetail()
+        } label: {
+            Image(systemName: "chevron.left")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(RrradioTheme.ink3)
+                .frame(width: topbarControlSize, height: topbarControlSize)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(locale.text(.stationLists))
+    }
+
     private var showsFavoriteDeleteModeButton: Bool {
         canReorderFavorites
     }
@@ -985,7 +1155,8 @@ struct StationListView: View {
                 query = ""
                 searchFocused = false
                 favoritesSearchPresented = false
-                if pageTab == .favorites {
+                selectedStationListID = nil
+                if pageTab != .browse {
                     tab = .browse
                 } else {
                     source = .all
@@ -1089,11 +1260,26 @@ struct StationListView: View {
     private var searchAndFilterRow: some View {
         if pageTab == .favorites {
             favoritesTopbarControlRow
+        } else if pageTab == .stationLists {
+            stationListsTopbarControlRow
         } else {
             HStack(spacing: topbarControlSpacing) {
                 searchField()
                     .frame(maxWidth: .infinity)
                 filterPill
+            }
+        }
+    }
+
+    private var stationListsTopbarControlRow: some View {
+        HStack(spacing: topbarControlSpacing) {
+            searchField()
+                .frame(maxWidth: .infinity)
+
+            if !isStationListsDetail {
+                circularIconButton("plus", label: locale.text(.createStationList)) {
+                    openCreateStationListDialog()
+                }
             }
         }
     }
@@ -1160,8 +1346,9 @@ struct StationListView: View {
             HStack(spacing: 0) {
                 HStack(spacing: 0) {
                     Color.clear
-                        .frame(width: sortNameColumnOffset, height: 1)
+                        .frame(width: max(0, sortNameColumnOffset - sortListSelectionControlWidth), height: 1)
                         .accessibilityHidden(true)
+                    browseListSelectionModeButton
                     alphabetSortButton
                 }
                 .frame(width: sortSideColumnWidth, alignment: .leading)
@@ -1356,11 +1543,12 @@ struct StationListView: View {
     }
 
     private var showsStatusLabel: Bool {
+        if isStationListsPage { return true }
         switch source {
         case .all:
-            !activeFilterLabels.isEmpty
+            return !activeFilterLabels.isEmpty
         case .favorites, .recents:
-            true
+            return true
         }
     }
 
@@ -1481,6 +1669,20 @@ struct StationListView: View {
         }
     }
 
+    private var browseListSelectionModeButton: some View {
+        Button {
+            toggleBrowseListSelectionMode()
+        } label: {
+            Image(systemName: "list.bullet.rectangle")
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundStyle(isBrowseListSelectionMode ? RrradioTheme.accent : RrradioTheme.ink3)
+                .frame(width: sortListSelectionControlWidth, height: 20)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(locale.text(.addStationsToList))
+    }
+
     private var alphabetSortButton: some View {
         Button(action: cycleAlphabetSort) {
             Text(alphabetSortTitle)
@@ -1554,7 +1756,9 @@ struct StationListView: View {
     @ViewBuilder
     private var content: some View {
         Group {
-            if filteredStations.isEmpty {
+            if isStationListsPage {
+                stationListsContent
+            } else if filteredStations.isEmpty {
                 ContentUnavailableView(
                     emptyTitle,
                     systemImage: emptyIcon,
@@ -1574,6 +1778,15 @@ struct StationListView: View {
             favoritesDisplayPage
         } else {
             stationScrollList
+        }
+    }
+
+    @ViewBuilder
+    private var stationListsContent: some View {
+        if isStationListsDetail {
+            stationScrollList
+        } else {
+            stationListsOverview
         }
     }
 
@@ -1648,35 +1861,22 @@ struct StationListView: View {
                     inlineBrowseControls
                 } else if pageTab == .favorites {
                     inlineFavoritesControls()
+                } else if pageTab == .stationLists {
+                    inlineStationListsControls()
                 }
 
                 Section {
-                    if showingFavoritesCatalogFallback {
+                    if isStationListsDetail && filteredStations.isEmpty {
+                        stationListEmptyState
+                            .padding(.top, stationHeaderStackSpacing)
+                    } else if showingFavoritesCatalogFallback {
                         favoritesCatalogFallbackNotice
                             .padding(.top, stationHeaderStackSpacing)
                     }
 
                     ForEach(Array(visibleStations.enumerated()), id: \.element.id) { index, station in
-                        StationRow(
-                            station: station,
-                            nowPlaying: usesFavoritesRows ? favoriteNowPlayingMetadata(for: station) : nil,
-                            mode: usesFavoritesRows ? .favoritesExpanded : .standard,
-                            isCurrent: player.current?.id == station.id,
-                            isPlaying: player.current?.id == station.id && player.state == .playing,
-                            isFavorite: library.isFavorite(station),
-                            isCustom: library.isCustom(station),
-                            onPlay: {
-                                play(station)
-                            },
-                            onToggleFavorite: {
-                                library.toggleFavorite(station)
-                            },
-                            showsFavoriteButton: !usesFavoritesRows,
-                            onInfoHoldChanged: source == .all ? { isHolding in
-                                handleStationInfoHoldChanged(isHolding, station: station)
-                            } : nil,
-                        )
-                        .padding(.top, !showingFavoritesCatalogFallback && index == 0 ? stationHeaderStackSpacing : 0)
+                        stationScrollRow(station)
+                            .padding(.top, !showingFavoritesCatalogFallback && index == 0 ? stationHeaderStackSpacing : 0)
                     }
                     if visibleStations.count < filteredStations.count || canLoadWorldwideStations {
                         loadMoreRow
@@ -1694,8 +1894,206 @@ struct StationListView: View {
     }
 
     @ViewBuilder
+    private func stationScrollRow(_ station: Station) -> some View {
+        if isBrowseListSelectionMode {
+            HStack(spacing: 0) {
+                browseStationSelectionButton(station)
+                    .frame(width: 42)
+                standardStationRow(station, selectingForList: true)
+                    .frame(maxWidth: .infinity)
+            }
+            .padding(.leading, 2)
+            .transition(.opacity.combined(with: .move(edge: .leading)))
+        } else {
+            standardStationRow(station, selectingForList: false)
+        }
+    }
+
+    private func standardStationRow(_ station: Station, selectingForList: Bool) -> some View {
+        StationRow(
+            station: station,
+            nowPlaying: usesFavoritesRows ? favoriteNowPlayingMetadata(for: station) : nil,
+            mode: usesFavoritesRows ? .favoritesExpanded : .standard,
+            isCurrent: player.current?.id == station.id,
+            isPlaying: player.current?.id == station.id && player.state == .playing,
+            isFavorite: library.isFavorite(station),
+            isCustom: library.isCustom(station),
+            onPlay: {
+                if selectingForList {
+                    toggleBrowseStationSelection(station)
+                } else {
+                    play(station)
+                }
+            },
+            onToggleFavorite: {
+                library.toggleFavorite(station)
+            },
+            showsFavoriteButton: !usesFavoritesRows,
+            onInfoHoldChanged: !selectingForList && source == .all ? { isHolding in
+                handleStationInfoHoldChanged(isHolding, station: station)
+            } : nil,
+        )
+    }
+
+    private func browseStationSelectionButton(_ station: Station) -> some View {
+        let selected = browseListSelectedStationIDs.contains(station.id)
+        return Button {
+            toggleBrowseStationSelection(station)
+        } label: {
+            Image(systemName: selected ? "checkmark.circle.fill" : "circle")
+                .font(.system(size: 20, weight: selected ? .semibold : .regular))
+                .foregroundStyle(selected ? RrradioTheme.accent : RrradioTheme.ink3)
+                .frame(width: 42, height: 42)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(locale.text(.selectStation))
+    }
+
+    private var stationListsOverview: some View {
+        ScrollView(showsIndicators: false) {
+            ScrollOffsetObserver(offset: $listScrollOffset, maximumOffset: stickyHeaderPinnedOffset)
+                .frame(width: 0, height: 0)
+
+            LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: [.sectionHeaders]) {
+                inlineStationListsControls()
+
+                Section {
+                    if filteredStationLists.isEmpty {
+                        stationListEmptyState
+                            .padding(.top, stationHeaderStackSpacing)
+                    } else {
+                        ForEach(filteredStationLists) { list in
+                            StationListCard(
+                                stationList: list,
+                                emptyLabel: locale.text(.emptyStationList),
+                                isCurrent: stationListContainsCurrentStation(list),
+                            ) {
+                                openStationList(list)
+                            }
+                            .padding(.horizontal, 14)
+                            .padding(.top, list.id == filteredStationLists.first?.id ? stationHeaderStackSpacing : 0)
+                        }
+                    }
+                } header: {
+                    stickySectionHeader(includesRule: true)
+                }
+            }
+            .padding(.top, stationHeaderTopPadding)
+            .padding(.bottom, 12)
+        }
+        .scrollDismissesKeyboard(.immediately)
+        .background(RrradioTheme.bg)
+    }
+
+    private var stationListEmptyState: some View {
+        ContentUnavailableView(
+            stationListEmptyTitle,
+            systemImage: stationListEmptyIcon,
+            description: Text(stationListEmptyDescription),
+        )
+        .foregroundStyle(RrradioTheme.ink)
+        .padding(.horizontal, 24)
+        .padding(.vertical, 42)
+        .frame(maxWidth: .infinity)
+    }
+
+    private var stationListEmptyTitle: String {
+        if !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            return locale.text(.noStationsFound)
+        }
+        return isStationListsDetail ? locale.text(.emptyStationList) : locale.text(.noStationLists)
+    }
+
+    private var stationListEmptyIcon: String {
+        isStationListsDetail ? "antenna.radiowaves.left.and.right.slash" : "list.bullet.rectangle"
+    }
+
+    private var stationListEmptyDescription: String {
+        if !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            return locale.text(.trySearch)
+        }
+        return isStationListsDetail ? locale.text(.emptyStationListHint) : locale.text(.stationListsHint)
+    }
+
+    private var browseListSelectionBar: some View {
+        HStack(spacing: 10) {
+            Button {
+                cancelBrowseListSelection()
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .frame(width: 34, height: 34)
+                    .contentShape(Circle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(locale.text(.cancel))
+
+            HStack(spacing: 8) {
+                TextField(locale.text(.stationListName), text: $browseListNameDraft)
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundStyle(RrradioTheme.ink)
+                    .tint(RrradioTheme.accent)
+                    .textInputAutocapitalization(.words)
+                    .submitLabel(.done)
+
+                if !browseListSelectedStationIDs.isEmpty {
+                    Text(browseListSelectionCountLabel)
+                        .font(.system(size: 10, weight: .bold, design: .monospaced))
+                        .foregroundStyle(RrradioTheme.bg)
+                        .frame(minWidth: 20, minHeight: 20)
+                        .background(Circle().fill(RrradioTheme.accent))
+                }
+            }
+            .padding(.leading, 13)
+            .padding(.trailing, 10)
+            .frame(maxWidth: .infinity, minHeight: 36)
+            .background(RrradioTheme.bg2)
+            .clipShape(Capsule())
+            .overlay(Capsule().stroke(RrradioTheme.line))
+
+            Button {
+                showingBrowseListPicker = true
+            } label: {
+                Image(systemName: "list.bullet.rectangle")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(library.stationLists.isEmpty ? RrradioTheme.ink4 : RrradioTheme.ink3)
+                    .frame(width: 34, height: 34)
+                    .contentShape(Circle())
+            }
+            .buttonStyle(.plain)
+            .disabled(library.stationLists.isEmpty)
+            .accessibilityLabel(locale.text(.chooseStationList))
+
+            Button {
+                saveBrowseListSelection()
+            } label: {
+                Image(systemName: "checkmark")
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundStyle(canSaveBrowseListSelection ? RrradioTheme.bg : RrradioTheme.ink4)
+                    .frame(width: 34, height: 34)
+                    .background(canSaveBrowseListSelection ? RrradioTheme.accent : RrradioTheme.bg2)
+                    .clipShape(Circle())
+                    .contentShape(Circle())
+            }
+            .buttonStyle(.plain)
+            .disabled(!canSaveBrowseListSelection)
+            .accessibilityLabel(locale.text(.save))
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 8)
+        .background(RrradioTheme.bg)
+        .overlay(alignment: .top) {
+            Rectangle()
+                .fill(RrradioTheme.line)
+                .frame(height: 1)
+        }
+    }
+
+    @ViewBuilder
     private var stationScrollSectionHeader: some View {
-        stickySectionHeader(includesRule: pageTab == .browse || pageTab == .favorites)
+        stickySectionHeader(includesRule: pageTab == .browse || pageTab == .favorites || pageTab == .stationLists)
     }
 
     @ViewBuilder
@@ -2121,6 +2519,120 @@ struct StationListView: View {
         play(station)
     }
 
+    private func toggleBrowseListSelectionMode() {
+        guard canUseBrowseListSelection else { return }
+        if isBrowseListSelectionMode {
+            cancelBrowseListSelection()
+        } else {
+            dismissSearch()
+            activeFilterPicker = nil
+            closeStationInfoPreview()
+            browseListSelectionActive = true
+            browseStationListSelectionActiveExternally = true
+        }
+    }
+
+    private func toggleBrowseStationSelection(_ station: Station) {
+        guard isBrowseListSelectionMode else { return }
+        if browseListSelectedStationIDs.contains(station.id) {
+            browseListSelectedStationIDs.remove(station.id)
+            browseListSelectedStationOrder.removeAll { $0 == station.id }
+        } else {
+            browseListSelectedStationIDs.insert(station.id)
+            browseListSelectedStationOrder.append(station.id)
+        }
+    }
+
+    private func selectBrowseListTarget(_ list: StationList) {
+        browseListTargetStationListID = list.id
+        browseListNameDraft = list.name
+    }
+
+    private func clearBrowseListTargetIfNameChanged(_ value: String) {
+        guard let target = browseListTargetStationList else { return }
+        let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed != target.name {
+            browseListTargetStationListID = nil
+        }
+    }
+
+    private func saveBrowseListSelection() {
+        let name = browseListNameDraft.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !name.isEmpty else { return }
+        let selectedStations = selectedBrowseStationsForSave
+        guard !selectedStations.isEmpty else { return }
+
+        if let targetID = browseListTargetStationListID,
+           library.stationList(id: targetID) != nil {
+            for station in selectedStations {
+                library.addStation(station, toStationList: targetID)
+            }
+        } else if let existing = library.stationLists.first(where: { $0.name.localizedCaseInsensitiveCompare(name) == .orderedSame }) {
+            for station in selectedStations {
+                library.addStation(station, toStationList: existing.id)
+            }
+        } else {
+            library.createStationList(name: name, stations: selectedStations)
+        }
+
+        cancelBrowseListSelection()
+    }
+
+    private func cancelBrowseListSelection() {
+        guard browseListSelectionActive
+            || !browseListSelectedStationIDs.isEmpty
+            || !browseListSelectedStationOrder.isEmpty
+            || !browseListNameDraft.isEmpty
+            || browseListTargetStationListID != nil
+            || showingBrowseListPicker else { return }
+        browseListSelectionActive = false
+        browseStationListSelectionActiveExternally = false
+        browseListSelectedStationIDs = []
+        browseListSelectedStationOrder = []
+        browseListNameDraft = ""
+        browseListTargetStationListID = nil
+        showingBrowseListPicker = false
+    }
+
+    private func openCreateStationListDialog() {
+        clearSearchState()
+        stationListNameDraft = ""
+        showingCreateStationList = true
+    }
+
+    private func createStationListFromDraft() {
+        let list = library.createStationList(name: stationListNameDraft)
+        stationListNameDraft = ""
+        openStationList(list)
+    }
+
+    private func openStationList(_ list: StationList) {
+        clearSearchState()
+        selectedStationListID = list.id
+        resetStationDisplayLimit()
+        listScrollOffset = 0
+        recomputeFilteredStations()
+    }
+
+    private func closeStationListDetail() {
+        clearSearchState()
+        selectedStationListID = nil
+        resetStationDisplayLimit()
+        listScrollOffset = 0
+        recomputeFilteredStations()
+    }
+
+    private func resetStationListPage() {
+        guard isStationListsPage else { return }
+        listScrollOffset = 0
+        recomputeFilteredStations()
+    }
+
+    private func stationListContainsCurrentStation(_ list: StationList) -> Bool {
+        guard let currentID = player.current?.id else { return false }
+        return list.stations.contains { $0.id == currentID }
+    }
+
     private func play(_ station: Station) {
         dismissSearch()
         player.play(station, queue: playbackQueue(for: station))
@@ -2521,6 +3033,9 @@ struct StationListView: View {
         if !query.trimmingCharacters(in: .whitespaces).isEmpty || hasActiveFiltersForCurrentSource {
             return locale.text(.noStationsFound)
         }
+        if isStationListsDetail {
+            return locale.text(.emptyStationList)
+        }
         switch source {
         case .all: return locale.text(.catalogEmpty)
         case .favorites: return locale.text(.noFavorites)
@@ -2530,6 +3045,7 @@ struct StationListView: View {
 
     private var emptyIcon: String {
         if hasActiveFiltersForCurrentSource { return "line.3.horizontal.decrease.circle" }
+        if isStationListsDetail { return "antenna.radiowaves.left.and.right.slash" }
         switch source {
         case .all: return "antenna.radiowaves.left.and.right.slash"
         case .favorites: return "heart"
@@ -2541,6 +3057,9 @@ struct StationListView: View {
         if !query.trimmingCharacters(in: .whitespaces).isEmpty || hasActiveFiltersForCurrentSource {
             return locale.text(.trySearch)
         }
+        if isStationListsDetail {
+            return locale.text(.emptyStationListHint)
+        }
         switch source {
         case .all: return locale.text(.catalogNoRows)
         case .favorites: return locale.text(.tapHeart)
@@ -2549,6 +3068,9 @@ struct StationListView: View {
     }
 
     private var statusLabel: String {
+        if isStationListsPage {
+            return selectedStationList?.name ?? locale.text(.stationLists)
+        }
         switch source {
         case .all:
             let filters = activeFilterLabels
@@ -2561,6 +3083,9 @@ struct StationListView: View {
     }
 
     private var statusCountLabel: String {
+        if isStationListsPage {
+            return "\(isStationListsDetail ? filteredStations.count : filteredStationLists.count)"
+        }
         guard source == .all else { return "\(filteredStations.count)" }
         if hasActiveFilters || !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             return "\(filteredStations.count)+"
@@ -2590,7 +3115,7 @@ struct StationListView: View {
     }
 
     private var canLoadWorldwideStations: Bool {
-        source == .all && radioBrowserHasMore
+        pageTab == .browse && source == .all && radioBrowserHasMore
     }
 
     private func resetStationDisplayLimit() {
@@ -2607,6 +3132,19 @@ struct StationListView: View {
 
     private func recomputeFilteredStations() {
         let query = query
+        if isStationListsPage {
+            filterTask?.cancel()
+            showingFavoritesCatalogFallback = false
+            guard let selectedStationList else {
+                filteredStations = []
+                return
+            }
+            let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
+            filteredStations = selectedStationList.stations.filter {
+                trimmedQuery.isEmpty || stationMatches($0, query: query)
+            }
+            return
+        }
         let source = source
         let stationFiltersApply = source == .all || source == .favorites
         let selectedCountryCodes = stationFiltersApply ? selectedCountryCodes : []
@@ -2706,6 +3244,15 @@ struct StationListView: View {
                 showingFavoritesCatalogFallback = showFavoritesCatalogFallback && !matches.isEmpty
             }
         }
+    }
+
+    nonisolated private static func stationListMatches(_ list: StationList, query: String) -> Bool {
+        let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedQuery.isEmpty else { return true }
+        if list.name.localizedCaseInsensitiveContains(trimmedQuery) {
+            return true
+        }
+        return list.stations.contains { stationMatches($0, query: trimmedQuery) }
     }
 
     nonisolated private static func sortedStations(
@@ -2923,6 +3470,9 @@ struct StationListView: View {
     }
 
     private var searchPlaceholder: String {
+        if isStationListsPage {
+            return isStationListsDetail ? locale.text(.searchStationList) : locale.text(.searchStationLists)
+        }
         switch source {
         case .all: return locale.text(.searchAll)
         case .favorites: return locale.text(.searchFavorites)
@@ -3044,6 +3594,14 @@ struct StationListView: View {
         searchUpdateTask?.cancel()
         query = searchText
         searchFocused = false
+    }
+
+    private func clearSearchState() {
+        searchUpdateTask?.cancel()
+        searchText = ""
+        query = ""
+        searchFocused = false
+        favoritesSearchPresented = false
     }
 
     private func scheduleSearchUpdate(_ value: String) {
@@ -4115,6 +4673,81 @@ struct LocalStationArtworkView: View {
         .clipShape(Circle())
         .overlay(Circle().stroke(RrradioTheme.line))
         .accessibilityHidden(true)
+    }
+}
+
+private struct StationListCard: View {
+    let stationList: StationList
+    let emptyLabel: String
+    let isCurrent: Bool
+    let onOpen: () -> Void
+
+    var body: some View {
+        Button(action: onOpen) {
+            HStack(spacing: 14) {
+                Image(systemName: "list.bullet.rectangle")
+                    .font(.system(size: 17, weight: .semibold))
+                    .foregroundStyle(isCurrent ? RrradioTheme.accent : RrradioTheme.ink3)
+                    .frame(width: 38, height: 38)
+                    .background(RrradioTheme.bg)
+                    .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 6, style: .continuous)
+                            .stroke(RrradioTheme.line)
+                    }
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(stationList.name)
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundStyle(isCurrent ? RrradioTheme.accent : RrradioTheme.ink)
+                        .lineLimit(1)
+
+                    Text(summaryLine)
+                        .font(.system(size: 10.5, weight: .regular, design: .monospaced))
+                        .foregroundStyle(RrradioTheme.ink3)
+                        .lineLimit(1)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+                Text("\(stationList.stations.count)")
+                    .font(.system(size: 11, weight: .semibold, design: .monospaced))
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .frame(minWidth: 26, minHeight: 26)
+                    .background(RrradioTheme.bg)
+                    .clipShape(Capsule())
+                    .overlay(Capsule().stroke(RrradioTheme.line))
+
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundStyle(RrradioTheme.ink4)
+            }
+            .padding(.leading, 20)
+            .padding(.trailing, 14)
+            .padding(.vertical, 14)
+            .background {
+                RoundedRectangle(cornerRadius: 6, style: .continuous)
+                    .fill(isCurrent ? RrradioTheme.bg3 : RrradioTheme.bg2)
+                    .shadow(
+                        color: isCurrent ? RrradioTheme.accent.opacity(0.20) : .clear,
+                        radius: isCurrent ? 9 : 0,
+                        x: 0,
+                        y: 0,
+                    )
+                    .shadow(
+                        color: isCurrent ? RrradioTheme.accent.opacity(0.10) : .clear,
+                        radius: isCurrent ? 14 : 0,
+                        x: 0,
+                        y: 3,
+                    )
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+    }
+
+    private var summaryLine: String {
+        guard !stationList.stations.isEmpty else { return emptyLabel }
+        return stationList.stations.prefix(3).map(\.name).joined(separator: " . ")
     }
 }
 

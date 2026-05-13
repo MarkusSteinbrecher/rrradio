@@ -12,6 +12,7 @@ struct ContentView: View {
     @State private var didApplyLandingPreference = false
     @State private var showingLandingNowPlaying = false
     @State private var showingWakePauseWarning = false
+    @State private var browseStationListSelectionActive = false
     @State private var rootSwipeAxis: RootSwipeAxis?
     @State private var rootSwipeDragOffset: CGFloat = 0
     @State private var rootSwipeSettlingTarget: AppTab?
@@ -84,17 +85,13 @@ struct ContentView: View {
             let pageWidth = max(proxy.size.width, 1)
             let activeOffset = constrainedRootSwipeOffset(rootSwipeDragOffset, pageWidth: pageWidth)
             ZStack {
-                stationPage(for: .browse, isActive: tab == .browse && rootSwipeSettlingTarget == nil)
-                    .frame(width: pageWidth, height: proxy.size.height)
-                    .offset(x: rootPageOffset(for: .browse, activeOffset: activeOffset, pageWidth: pageWidth))
-                    .allowsHitTesting(tab == .browse && rootSwipeSettlingTarget == nil)
-                    .zIndex(rootPageZIndex(for: .browse))
-
-                stationPage(for: .favorites, isActive: tab == .favorites && rootSwipeSettlingTarget == nil)
-                    .frame(width: pageWidth, height: proxy.size.height)
-                    .offset(x: rootPageOffset(for: .favorites, activeOffset: activeOffset, pageWidth: pageWidth))
-                    .allowsHitTesting(tab == .favorites && rootSwipeSettlingTarget == nil)
-                    .zIndex(rootPageZIndex(for: .favorites))
+                ForEach(AppTab.allCases, id: \.self) { pageTab in
+                    stationPage(for: pageTab, isActive: tab == pageTab && rootSwipeSettlingTarget == nil)
+                        .frame(width: pageWidth, height: proxy.size.height)
+                        .offset(x: rootPageOffset(for: pageTab, activeOffset: activeOffset, pageWidth: pageWidth))
+                        .allowsHitTesting(tab == pageTab && rootSwipeSettlingTarget == nil)
+                        .zIndex(rootPageZIndex(for: pageTab))
+                }
             }
             .frame(width: pageWidth, height: proxy.size.height)
             .clipped()
@@ -107,6 +104,7 @@ struct ContentView: View {
         StationListView(
             tab: $tab,
             searchFocusedExternally: isActive ? $searchFocused : .constant(false),
+            browseStationListSelectionActiveExternally: pageTab == .browse ? $browseStationListSelectionActive : .constant(false),
             fixedTab: pageTab,
         )
         .id(pageTab)
@@ -164,7 +162,16 @@ struct ContentView: View {
     private var canUseRootSwipe: Bool {
         !searchFocused
             && rootSwipeSettlingTarget == nil
-            && (tab == .browse || (tab == .favorites && currentFavoritesDisplayMode == .list))
+            && rootSwipeTargetIsAvailable
+    }
+
+    private var rootSwipeTargetIsAvailable: Bool {
+        switch tab {
+        case .stationLists, .browse:
+            true
+        case .favorites:
+            currentFavoritesDisplayMode == .list
+        }
     }
 
     private var rootSwipeGestureMask: GestureMask {
@@ -205,12 +212,8 @@ struct ContentView: View {
     }
 
     private func rootSwipeTarget(for offset: CGFloat) -> AppTab? {
-        if offset < 0, tab == .browse {
-            return .favorites
-        } else if offset > 0, tab == .favorites, currentFavoritesDisplayMode == .list {
-            return .browse
-        }
-        return nil
+        guard offset != 0 else { return nil }
+        return offset < 0 ? tab.next : tab.previous
     }
 
     private func shouldCompleteRootSwipe(offset: CGFloat, predictedOffset: CGFloat, pageWidth: CGFloat) -> Bool {
@@ -222,14 +225,7 @@ struct ContentView: View {
 
     private func rootPageOffset(for pageTab: AppTab, activeOffset: CGFloat, pageWidth: CGFloat) -> CGFloat {
         let width = max(pageWidth, 1)
-        switch (tab, pageTab) {
-        case (.browse, .browse), (.favorites, .favorites):
-            return activeOffset
-        case (.browse, .favorites):
-            return width + activeOffset
-        case (.favorites, .browse):
-            return -width + activeOffset
-        }
+        return CGFloat(pageTab.navigationIndex - tab.navigationIndex) * width + activeOffset
     }
 
     private func rootPageZIndex(for pageTab: AppTab) -> Double {
@@ -246,7 +242,7 @@ struct ContentView: View {
             return
         }
 
-        let finalOffset: CGFloat = target == .favorites ? -max(pageWidth, 1) : max(pageWidth, 1)
+        let finalOffset = CGFloat(tab.navigationIndex - target.navigationIndex) * max(pageWidth, 1)
         rootSwipeSettlingTarget = target
         withAnimation(.snappy(duration: rootSwipeCompletionDuration)) {
             rootSwipeDragOffset = finalOffset
@@ -273,7 +269,7 @@ struct ContentView: View {
     private var bottomChrome: some View {
         if !searchFocused {
             VStack(spacing: 0) {
-                if player.current != nil || network.snapshot.isOffline {
+                if !browseStationListSelectionActive, player.current != nil || network.snapshot.isOffline {
                     MiniPlayerView()
                 }
                 BottomTabBar(tab: $tab)
@@ -341,9 +337,26 @@ struct ContentView: View {
     }
 }
 
-enum AppTab {
+enum AppTab: CaseIterable, Hashable {
+    case stationLists
     case browse
     case favorites
+
+    var navigationIndex: Int {
+        switch self {
+        case .stationLists: 0
+        case .browse: 1
+        case .favorites: 2
+        }
+    }
+
+    var previous: AppTab? {
+        AppTab.allCases.last { $0.navigationIndex < navigationIndex }
+    }
+
+    var next: AppTab? {
+        AppTab.allCases.first { $0.navigationIndex > navigationIndex }
+    }
 }
 
 private struct BottomTabBar: View {
@@ -352,8 +365,9 @@ private struct BottomTabBar: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            tabButton(.browse, icon: "globe", title: locale.text(.browse))
-            tabButton(.favorites, icon: "heart", title: locale.text(.favorites))
+            ForEach(AppTab.allCases, id: \.self) { value in
+                tabButton(value, icon: icon(for: value), title: title(for: value))
+            }
         }
         .background(RrradioTheme.bg.ignoresSafeArea(edges: .bottom))
         .overlay(alignment: .top) {
@@ -363,10 +377,27 @@ private struct BottomTabBar: View {
         }
         .overlay(alignment: .top) {
             HStack(spacing: 0) {
-                tabIndicator(.browse)
-                tabIndicator(.favorites)
+                ForEach(AppTab.allCases, id: \.self) { value in
+                    tabIndicator(value)
+                }
             }
             .frame(height: 2)
+        }
+    }
+
+    private func icon(for value: AppTab) -> String {
+        switch value {
+        case .stationLists: "list.bullet.rectangle"
+        case .browse: "globe"
+        case .favorites: "heart"
+        }
+    }
+
+    private func title(for value: AppTab) -> String {
+        switch value {
+        case .stationLists: locale.text(.stationListsNav)
+        case .browse: locale.text(.browse)
+        case .favorites: locale.text(.favorites)
         }
     }
 
