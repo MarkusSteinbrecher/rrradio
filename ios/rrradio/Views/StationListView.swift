@@ -513,7 +513,7 @@ struct StationListView: View {
             && stationInfoPreview == nil
             && !searchFocused
             && !favoriteDeleteModeEnabled
-            && draggedFavoriteStationID == nil
+            && targetedFavoriteStationID == nil
     }
 
     private var pageSwipeGestureMask: GestureMask {
@@ -3456,6 +3456,8 @@ private struct FavoriteStationAppIcon: View {
     let isCustom: Bool
     private let iconSize: CGFloat = 64
     private let iconCornerRadius: CGFloat = 15
+    private let labelHeight: CGFloat = 32
+    private var cellHeight: CGFloat { iconSize + 8 + labelHeight }
 
     var body: some View {
         VStack(spacing: 8) {
@@ -3472,10 +3474,12 @@ private struct FavoriteStationAppIcon: View {
                 .foregroundStyle(isCurrent ? RrradioTheme.accent : RrradioTheme.ink)
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
+                .truncationMode(.tail)
+                .frame(height: labelHeight, alignment: .top)
                 .frame(maxWidth: .infinity)
-                .fixedSize(horizontal: false, vertical: true)
         }
-        .frame(maxWidth: .infinity, minHeight: 112, alignment: .center)
+        .frame(height: cellHeight, alignment: .top)
+        .frame(maxWidth: .infinity)
         .contentShape(Rectangle())
     }
 
