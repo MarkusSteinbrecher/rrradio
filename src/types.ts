@@ -1,6 +1,8 @@
 export interface Station {
   id: string;
   name: string;
+  /** Source broadcaster key from data/broadcasters.yaml when known. */
+  broadcaster?: string;
   streamUrl: string;
   /** Optional homepage URL for attribution / "more info" links */
   homepage?: string;
