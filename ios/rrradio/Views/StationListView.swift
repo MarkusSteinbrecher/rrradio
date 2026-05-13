@@ -144,8 +144,13 @@ struct StationListView: View {
     private let searchResultLimit = 5000
     private let favoriteTileGridColumnCount = 2
     private let favoriteAppGridColumnCount = 4
-    private var statusCollapseDistance: CGFloat { browseControlsExpandedHeight }
     private let browseControlsExpandedHeight: CGFloat = 20
+    private var stickyHeaderPinnedOffset: CGFloat {
+        stationHeaderTopPadding + browseControlsExpandedHeight + stationHeaderStackSpacing
+    }
+    private var stickyHeaderPinnedTopPadding: CGFloat {
+        listScrollOffset >= stickyHeaderPinnedOffset ? stationHeaderStackSpacing : 0
+    }
     private let pageSwipeThreshold: CGFloat = 58
     private let pageSwipeAxisLockThreshold: CGFloat = 12
     private let pageSwipeAxisLockRatio: CGFloat = 1.15
@@ -1635,7 +1640,7 @@ struct StationListView: View {
 
     private var stationScrollList: some View {
         ScrollView(showsIndicators: false) {
-            ScrollOffsetObserver(offset: $listScrollOffset, maximumOffset: statusCollapseDistance)
+            ScrollOffsetObserver(offset: $listScrollOffset, maximumOffset: stickyHeaderPinnedOffset)
                 .frame(width: 0, height: 0)
 
             LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: [.sectionHeaders]) {
@@ -1703,6 +1708,7 @@ struct StationListView: View {
                 timerStatusStrip
             }
             .frame(maxWidth: .infinity)
+            .padding(.top, stickyHeaderPinnedTopPadding)
             .background(RrradioTheme.bg)
         }
     }
