@@ -99,6 +99,9 @@ final class AudioPlayer {
     @ObservationIgnored private(set) var activePlaybackQueue: StationPlaybackQueue?
     private(set) var activePlaybackQueueSource: StationPlaybackQueue.Source = .single
     private(set) var activePlaybackQueueSourceID: String?
+    var canStepStations: Bool {
+        current != nil && (activePlaybackQueue?.stations.count ?? 0) > 1
+    }
     private(set) var nowPlayingTitle: String?
     private(set) var nowPlayingArtist: String?
     private(set) var nowPlayingProgramName: String?
@@ -446,7 +449,6 @@ final class AudioPlayer {
 
     private func updateRemoteStationCommandAvailability() {
         let cmd = MPRemoteCommandCenter.shared()
-        let canStepStations = current != nil && (activePlaybackQueue?.stations.count ?? 0) > 1
         cmd.previousTrackCommand.isEnabled = canStepStations
         cmd.nextTrackCommand.isEnabled = canStepStations
     }
@@ -455,7 +457,7 @@ final class AudioPlayer {
         activePlaybackQueue?.station(from: current, direction: direction)
     }
 
-    private func playStationStep(_ direction: StationStepDirection) {
+    func playStationStep(_ direction: StationStepDirection) {
         guard let station = stationForActivePlaybackStep(direction) else {
             diagnosticRecord("playback", "remote station step unavailable", details: current.map(stationDiagnostics) ?? [:])
             return

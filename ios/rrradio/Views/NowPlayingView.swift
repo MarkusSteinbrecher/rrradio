@@ -104,20 +104,16 @@ struct NowPlayingView: View {
                 .padding(.bottom, 8)
 
             VStack(spacing: 0) {
+                streamInfoStrip
+                stationDivider
                 controlsBlock
-                    .padding(.horizontal, 24)
-                    .padding(.top, 12)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 10)
                     .padding(.bottom, 14)
                 detailsBlock
                     .padding(.horizontal, 24)
             }
             .background(RrradioTheme.bg)
-            .overlay(alignment: .top) {
-                Rectangle()
-                    .fill(RrradioTheme.line)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 1)
-            }
         }
         .background(RrradioTheme.bg.ignoresSafeArea())
     }
@@ -272,61 +268,33 @@ struct NowPlayingView: View {
     }
 
     private var landscapeBottomBar: some View {
-        HStack(alignment: .center) {
+        VStack(spacing: 0) {
             playerStatusButton
-                .frame(minWidth: 98, maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 12)
+                .padding(.top, 6)
+                .padding(.bottom, 6)
 
-            Button {
-                player.toggle()
-            } label: {
-                ZStack {
-                    Circle()
-                        .fill(RrradioTheme.accent)
-                        .overlay(Circle().stroke(RrradioTheme.accent))
-                        .shadow(color: RrradioTheme.accent.opacity(0.18), radius: 14)
-                    if player.state == .loading {
-                        LoadingDots()
-                            .foregroundStyle(RrradioTheme.bg)
-                    } else {
-                        Image(systemName: player.state == .playing ? "pause.fill" : "play.fill")
-                            .font(.system(size: 19, weight: .semibold))
-                            .foregroundStyle(RrradioTheme.bg)
-                            .offset(x: player.state == .playing ? 0 : 2)
-                    }
-                }
-                .frame(width: 52, height: 52)
-            }
-            .buttonStyle(.plain)
-            .disabled(player.current == nil || player.state == .loading)
-            .accessibilityLabel(player.state == .playing ? locale.text(.pause) : locale.text(.play))
+            stationDivider
 
             HStack(spacing: 14) {
-                roundControlButton(wakeAlarm.isArmed ? "alarm.fill" : "alarm", label: locale.text(.wakeToRadio)) {
-                    showingWakeAlarm = true
-                } chip: {
-                    wakeAlarm.isArmed ? wakeAlarm.chipText : nil
-                }
-                .disabled(player.current == nil && !wakeAlarm.isArmed)
+                wakeControlButton
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-                roundControlButton(sleepTimer.isArmed ? "moon.zzz.fill" : "moon.zzz", label: locale.text(.sleepTimer)) {
-                    showingSleepTimer = true
-                } chip: {
-                    sleepTimer.isArmed ? sleepTimer.chipText : nil
-                }
-                .disabled(player.current == nil && !sleepTimer.isArmed)
+                stationStepButton(.backward)
+
+                playPauseButton(size: 52, iconSize: 19, shadowRadius: 14)
+
+                stationStepButton(.forward)
+
+                sleepControlButton
+                    .frame(maxWidth: .infinity, alignment: .trailing)
             }
-            .frame(maxWidth: .infinity, alignment: .trailing)
+            .padding(.horizontal, 12)
+            .padding(.top, 6)
+            .padding(.bottom, 2)
         }
-        .padding(.horizontal, 12)
-        .padding(.top, 6)
-        .padding(.bottom, 2)
         .background(RrradioTheme.bg)
-        .overlay(alignment: .top) {
-            Rectangle()
-                .fill(RrradioTheme.line)
-                .frame(maxWidth: .infinity)
-                .frame(height: 1)
-        }
         .ignoresSafeArea(.container, edges: .bottom)
     }
 
@@ -1010,51 +978,28 @@ struct NowPlayingView: View {
     }
 
     private var controlsBlock: some View {
-        HStack(alignment: .center) {
-            playerStatusButton
-            .frame(maxWidth: .infinity, alignment: .leading)
+        HStack(alignment: .center, spacing: 12) {
+            wakeControlButton
+                .frame(maxWidth: .infinity, alignment: .leading)
 
-            Button {
-                player.toggle()
-            } label: {
-                ZStack {
-                    Circle()
-                        .fill(RrradioTheme.accent)
-                        .overlay(Circle().stroke(RrradioTheme.accent))
-                        .shadow(color: RrradioTheme.accent.opacity(0.18), radius: 18)
-                    if player.state == .loading {
-                        LoadingDots()
-                            .foregroundStyle(RrradioTheme.bg)
-                    } else {
-                        Image(systemName: player.state == .playing ? "pause.fill" : "play.fill")
-                            .font(.system(size: 23, weight: .semibold))
-                            .foregroundStyle(RrradioTheme.bg)
-                            .offset(x: player.state == .playing ? 0 : 2)
-                    }
-                }
-                .frame(width: 64, height: 64)
-            }
-            .buttonStyle(.plain)
-            .disabled(player.current == nil || player.state == .loading)
-            .accessibilityLabel(player.state == .playing ? locale.text(.pause) : locale.text(.play))
+            stationStepButton(.backward)
 
-            HStack(spacing: 14) {
-                roundControlButton(wakeAlarm.isArmed ? "alarm.fill" : "alarm", label: locale.text(.wakeToRadio)) {
-                    showingWakeAlarm = true
-                } chip: {
-                    wakeAlarm.isArmed ? wakeAlarm.chipText : nil
-                }
-                .disabled(player.current == nil && !wakeAlarm.isArmed)
-                roundControlButton(sleepTimer.isArmed ? "moon.zzz.fill" : "moon.zzz", label: locale.text(.sleepTimer)) {
-                    showingSleepTimer = true
-                } chip: {
-                    sleepTimer.isArmed ? sleepTimer.chipText : nil
-                }
-                .disabled(player.current == nil && !sleepTimer.isArmed)
-            }
-            .frame(maxWidth: .infinity, alignment: .trailing)
+            playPauseButton(size: 64, iconSize: 23, shadowRadius: 18)
+
+            stationStepButton(.forward)
+
+            sleepControlButton
+                .frame(maxWidth: .infinity, alignment: .trailing)
         }
         .padding(.top, 4)
+    }
+
+    private var streamInfoStrip: some View {
+        playerStatusButton
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 24)
+            .padding(.top, 8)
+            .padding(.bottom, 10)
     }
 
     private var playerStatusButton: some View {
@@ -1064,7 +1009,7 @@ struct NowPlayingView: View {
             }
         } label: {
             playerStatusLabel(icon: detailsOpen ? "chevron.down" : "chevron.up")
-                .frame(maxWidth: 150, alignment: .leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
@@ -1197,6 +1142,66 @@ struct NowPlayingView: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel(label)
+    }
+
+    private var wakeControlButton: some View {
+        roundControlButton(wakeAlarm.isArmed ? "alarm.fill" : "alarm", label: locale.text(.wakeToRadio)) {
+            showingWakeAlarm = true
+        } chip: {
+            wakeAlarm.isArmed ? wakeAlarm.chipText : nil
+        }
+        .disabled(player.current == nil && !wakeAlarm.isArmed)
+    }
+
+    private var sleepControlButton: some View {
+        roundControlButton(sleepTimer.isArmed ? "moon.zzz.fill" : "moon.zzz", label: locale.text(.sleepTimer)) {
+            showingSleepTimer = true
+        } chip: {
+            sleepTimer.isArmed ? sleepTimer.chipText : nil
+        }
+        .disabled(player.current == nil && !sleepTimer.isArmed)
+    }
+
+    private func stationStepButton(_ direction: StationStepDirection) -> some View {
+        let isForward = direction == .forward
+        return Button {
+            player.playStationStep(direction)
+        } label: {
+            Image(systemName: isForward ? "forward.end.fill" : "backward.end.fill")
+                .font(.system(size: 17, weight: .semibold))
+                .foregroundStyle(player.canStepStations ? RrradioTheme.ink2 : RrradioTheme.ink4)
+                .frame(width: 44, height: 44)
+                .overlay(Circle().stroke(RrradioTheme.line, lineWidth: 1))
+        }
+        .buttonStyle(.plain)
+        .disabled(!player.canStepStations)
+        .accessibilityLabel(locale.text(isForward ? .nextStation : .previousStation))
+    }
+
+    private func playPauseButton(size: CGFloat, iconSize: CGFloat, shadowRadius: CGFloat) -> some View {
+        Button {
+            player.toggle()
+        } label: {
+            ZStack {
+                Circle()
+                    .fill(RrradioTheme.accent)
+                    .overlay(Circle().stroke(RrradioTheme.accent))
+                    .shadow(color: RrradioTheme.accent.opacity(0.18), radius: shadowRadius)
+                if player.state == .loading {
+                    LoadingDots()
+                        .foregroundStyle(RrradioTheme.bg)
+                } else {
+                    Image(systemName: player.state == .playing ? "pause.fill" : "play.fill")
+                        .font(.system(size: iconSize, weight: .semibold))
+                        .foregroundStyle(RrradioTheme.bg)
+                        .offset(x: player.state == .playing ? 0 : 2)
+                }
+            }
+            .frame(width: size, height: size)
+        }
+        .buttonStyle(.plain)
+        .disabled(player.current == nil || player.state == .loading)
+        .accessibilityLabel(player.state == .playing ? locale.text(.pause) : locale.text(.play))
     }
 
     private func activeControlIconColor(_ systemName: String) -> Color {

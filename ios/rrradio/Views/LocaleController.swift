@@ -177,6 +177,8 @@ enum L10nKey: String {
     case liveStream
     case play
     case pause
+    case previousStation
+    case nextStation
     case wakeToRadio
     case sleepTimer
     case collapseStreamDetails
@@ -318,6 +320,8 @@ enum L10n {
             .liveStream: "Live stream",
             .play: "Play",
             .pause: "Pause",
+            .previousStation: "Previous station",
+            .nextStation: "Next station",
             .wakeToRadio: "Wake to radio",
             .sleepTimer: "Sleep timer",
             .collapseStreamDetails: "Collapse stream details",
@@ -456,6 +460,8 @@ enum L10n {
             .liveStream: "Livestream",
             .play: "Play",
             .pause: "Pause",
+            .previousStation: "Vorherige Station",
+            .nextStation: "Nächste Station",
             .wakeToRadio: "Mit Radio wecken",
             .sleepTimer: "Sleep-Timer",
             .collapseStreamDetails: "Streamdetails einklappen",
@@ -594,6 +600,8 @@ enum L10n {
             .liveStream: "Flux live",
             .play: "Lire",
             .pause: "Pause",
+            .previousStation: "Station précédente",
+            .nextStation: "Station suivante",
             .wakeToRadio: "Réveil radio",
             .sleepTimer: "Minuterie sommeil",
             .collapseStreamDetails: "Masquer les détails du flux",
@@ -732,6 +740,8 @@ enum L10n {
             .liveStream: "Stream en vivo",
             .play: "Reproducir",
             .pause: "Pausar",
+            .previousStation: "Emisora anterior",
+            .nextStation: "Emisora siguiente",
             .wakeToRadio: "Despertar con radio",
             .sleepTimer: "Temporizador",
             .collapseStreamDetails: "Ocultar detalles del stream",

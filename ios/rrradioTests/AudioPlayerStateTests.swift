@@ -30,6 +30,7 @@ final class AudioPlayerStateTests: XCTestCase {
         XCTAssertNil(p.current)
         XCTAssertNil(p.nowPlayingTitle)
         XCTAssertNil(p.nowPlayingArtist)
+        XCTAssertFalse(p.canStepStations)
     }
 
     func testToggleFromIdleIsNoOp() {
@@ -113,10 +114,12 @@ final class AudioPlayerStateTests: XCTestCase {
         XCTAssertEqual(p.activePlaybackQueue?.source, .browse)
         XCTAssertEqual(p.activePlaybackQueueSource, .browse)
         XCTAssertEqual(p.activePlaybackQueue?.stations.map(\.id), ["a", "b", "c"])
+        XCTAssertTrue(p.canStepStations)
         XCTAssertEqual(p.stationForActivePlaybackStep(.forward)?.id, "c")
         XCTAssertEqual(p.stationForActivePlaybackStep(.backward)?.id, "a")
         p.stop()
         XCTAssertEqual(p.activePlaybackQueueSource, .single)
+        XCTAssertFalse(p.canStepStations)
     }
 
     func testPlayingNextQueuedStationWithoutNewQueuePreservesActiveQueue() {
