@@ -3387,6 +3387,7 @@ struct StationListView: View {
         filterTask?.cancel()
         filterTask = Task.detached(priority: .userInitiated) {
             let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
+            let resultSort = trimmedQuery.isEmpty ? browseStationSort : nil
             let matches: [Station]
             let showFavoritesCatalogFallback: Bool
             if source == .all,
@@ -3409,7 +3410,7 @@ struct StationListView: View {
                 await MainActor.run {
                     filteredStations = Self.sortedStations(
                         quickMatches,
-                        sort: browseStationSort,
+                        sort: resultSort,
                         favoriteIDs: favoriteIDs,
                     )
                     showingFavoritesCatalogFallback = false
@@ -3461,7 +3462,7 @@ struct StationListView: View {
             guard !Task.isCancelled else { return }
             let sortedMatches = Self.sortedStations(
                 matches,
-                sort: browseStationSort,
+                sort: resultSort,
                 favoriteIDs: favoriteIDs,
             )
             await MainActor.run {

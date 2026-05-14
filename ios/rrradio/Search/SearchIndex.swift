@@ -59,6 +59,9 @@ final class SearchIndex: @unchecked Sendable {
     func search(query: String, limit: Int) throws -> [SearchHit] {
         let matchQuery = Self.matchQuery(for: query)
         guard !matchQuery.isEmpty else { return [] }
+        let compactQuery = Self.compactSearchText(query)
+        let requestedLimit = max(1, limit)
+        let fetchLimit = max(requestedLimit, min(500, requestedLimit + 50))
         guard let database else { throw SearchIndexError.unavailable }
 
         let signpostID = OSSignpostID(log: signpostLog)
@@ -71,7 +74,7 @@ final class SearchIndex: @unchecked Sendable {
         defer { lock.unlock() }
 
         let sql = """
-        SELECT stations_meta.station_id, bm25(stations_fts, 4.0, 1.0, 0.5, 0.25) AS score
+        SELECT stations_meta.station_id, stations_fts.name, bm25(stations_fts, 4.0, 1.0, 0.5, 0.25) AS score
         FROM stations_fts
         JOIN stations_meta ON stations_meta.rowid = stations_fts.rowid
         WHERE stations_fts MATCH ?
@@ -87,19 +90,30 @@ final class SearchIndex: @unchecked Sendable {
         }
 
         sqlite3_bind_text(statement, 1, matchQuery, -1, sqliteTransient)
-        sqlite3_bind_int(statement, 2, Int32(max(1, limit)))
+        sqlite3_bind_int(statement, 2, Int32(fetchLimit))
 
-        var hits: [SearchHit] = []
+        var hits: [RankedSearchHit] = []
         while true {
             let result = sqlite3_step(statement)
             if result == SQLITE_ROW {
                 guard let idPointer = sqlite3_column_text(statement, 0) else { continue }
-                hits.append(SearchHit(
+                guard let namePointer = sqlite3_column_text(statement, 1) else { continue }
+                hits.append(RankedSearchHit(
                     stationID: String(cString: idPointer),
-                    score: sqlite3_column_double(statement, 1),
+                    name: String(cString: namePointer),
+                    score: sqlite3_column_double(statement, 2),
                 ))
             } else if result == SQLITE_DONE {
                 return hits
+                    .sorted { lhs, rhs in
+                        let lhsTier = Self.nameMatchTier(name: lhs.name, compactQuery: compactQuery)
+                        let rhsTier = Self.nameMatchTier(name: rhs.name, compactQuery: compactQuery)
+                        if lhsTier != rhsTier { return lhsTier < rhsTier }
+                        if lhs.score != rhs.score { return lhs.score < rhs.score }
+                        return lhs.stationID.localizedCaseInsensitiveCompare(rhs.stationID) == .orderedAscending
+                    }
+                    .prefix(requestedLimit)
+                    .map { SearchHit(stationID: $0.stationID, score: $0.score) }
             } else {
                 throw SearchIndexError.queryFailed(Self.errorMessage(database))
             }
@@ -134,10 +148,16 @@ final class SearchIndex: @unchecked Sendable {
     }
 
     private static func matchQuery(for query: String) -> String {
-        searchTokens(for: query)
-            .filter { !$0.isEmpty }
+        let tokens = searchTokens(for: query).filter { !$0.isEmpty }
+        guard !tokens.isEmpty else { return "" }
+
+        let splitQuery = tokens
             .map { "\"\($0)\"*" }
             .joined(separator: " ")
+        guard tokens.count > 1 else { return splitQuery }
+
+        let compactQuery = tokens.joined()
+        return "\(splitQuery) OR \"\(compactQuery)\"*"
     }
 
     private static func searchTokens(for query: String) -> [String] {
@@ -170,6 +190,25 @@ final class SearchIndex: @unchecked Sendable {
             tokens.append(current)
         }
         return tokens
+    }
+
+    private static func compactSearchText(_ text: String) -> String {
+        searchTokens(for: text).joined()
+    }
+
+    private static func nameMatchTier(name: String, compactQuery: String) -> Int {
+        guard !compactQuery.isEmpty else { return 3 }
+        let compactName = compactSearchText(name)
+        if compactName == compactQuery { return 0 }
+        if compactName.hasPrefix(compactQuery) { return 1 }
+        if compactName.contains(compactQuery) { return 2 }
+        return 3
+    }
+
+    private struct RankedSearchHit {
+        let stationID: String
+        let name: String
+        let score: Double
     }
 
     private enum CharacterKind {

@@ -28,6 +28,15 @@ final class SearchIndexTests: XCTestCase {
         XCTAssertEqual(try index.search(query: "wdr5", limit: 10).map(\.stationID), ["wdr5"])
     }
 
+    func testMixedLetterNumberQueryRanksCompactTokenAheadOfSplitNoise() throws {
+        let index = try makeIndex(stations: [
+            station(id: "noise", name: "BR 24Seven", tags: ["music"], country: "US"),
+            station(id: "compact", name: "BR24", tags: ["news"], country: "DE"),
+        ])
+
+        XCTAssertEqual(try index.search(query: "BR 24", limit: 10).map(\.stationID).first, "compact")
+    }
+
     func testSearchMatchesBroadcasterAndUrlSurfaceCaseInsensitively() throws {
         let index = try makeIndex(stations: [
             station(
