@@ -285,6 +285,16 @@ struct StationListView: View {
             return !normalized.isEmpty && normalizeForSearch(surface).contains(normalized)
         }
     }
+    private var countryPickerCountries: [String] {
+        guard !selectedCountryCodes.isEmpty else { return filteredCountries }
+        let selected = countries.filter { selectedCountryCodes.contains($0) }
+        let missingSelected = selectedCountryCodes
+            .filter { !countries.contains($0) }
+            .sorted { countryDisplayName($0) < countryDisplayName($1) }
+        let selectedCountries = selected + missingSelected
+        let remaining = filteredCountries.filter { !selectedCountryCodes.contains($0) }
+        return selectedCountries + remaining
+    }
     private var genres: [Genre] { availableGenres(from: filterOptionStations) }
 
     private var stations: [Station] {
@@ -1507,7 +1517,7 @@ struct StationListView: View {
                         )
                         if expandedFilterSections.contains(.country) {
                             countrySearchRow
-                            ForEach(filteredCountries, id: \.self) { code in
+                            ForEach(countryPickerCountries, id: \.self) { code in
                                 filterPickerRow("\(countryDisplayName(code)) (\(code))", selected: selectedCountryCodes.contains(code), leadingText: countryFlagEmoji(code)) {
                                     applyCountryFilter(code)
                                 }
