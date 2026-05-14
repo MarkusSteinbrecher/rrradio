@@ -14,10 +14,34 @@ final class WatchRemoteProtocolTests: XCTestCase {
 
         XCTAssertEqual(decoded.kind, .playStation)
         XCTAssertEqual(decoded.stationID, "fm4")
+        XCTAssertNil(decoded.stationListID)
+        XCTAssertEqual(decoded.requestedAt, command.requestedAt)
+    }
+
+    func testStationListCommandMessageRoundTrips() throws {
+        let command = WatchPlaybackCommandEnvelope(
+            kind: .playStationList,
+            stationListID: "morning",
+            requestedAt: Date(timeIntervalSince1970: 1_700_000_000),
+        )
+
+        let message = try WatchRemoteMessageCodec.message(for: command)
+        let decoded = try XCTUnwrap(try WatchRemoteMessageCodec.command(from: message))
+
+        XCTAssertEqual(decoded.kind, .playStationList)
+        XCTAssertEqual(decoded.stationListID, "morning")
+        XCTAssertNil(decoded.stationID)
         XCTAssertEqual(decoded.requestedAt, command.requestedAt)
     }
 
     func testSnapshotMessageRoundTrips() throws {
+        let fm4 = WatchStationSummary(
+            id: "fm4",
+            name: "FM4",
+            broadcaster: "ORF",
+            country: "AT",
+            favicon: nil,
+        )
         let snapshot = WatchPlaybackSnapshot(
             playbackState: .playing,
             currentStation: WatchStationSummary(
@@ -31,15 +55,22 @@ final class WatchRemoteProtocolTests: XCTestCase {
             nowPlayingArtist: "Artist",
             nowPlayingProgramName: "Program",
             nowPlayingCoverURL: URL(string: "https://example.com/cover.jpg"),
-            favorites: [
-                WatchStationSummary(
-                    id: "fm4",
-                    name: "FM4",
-                    broadcaster: "ORF",
-                    country: "AT",
-                    favicon: nil,
+            favorites: [fm4],
+            stationLists: [
+                WatchStationListSummary(
+                    id: "morning",
+                    name: "Morning",
+                    stationCount: 3,
+                    firstStation: fm4,
                 ),
             ],
+            activeQueue: WatchPlaybackQueueSummary(
+                source: .stationList,
+                sourceID: "morning",
+                name: "Morning",
+                stationCount: 3,
+                currentIndex: 1,
+            ),
             catalogStationCount: 42,
             generatedAt: Date(timeIntervalSince1970: 1_700_000_001),
         )

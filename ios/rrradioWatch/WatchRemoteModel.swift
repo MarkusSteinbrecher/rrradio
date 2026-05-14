@@ -21,6 +21,10 @@ final class WatchRemoteModel: NSObject, ObservableObject, WCSessionDelegate {
         isReachable && !isSending
     }
 
+    var canStepStations: Bool {
+        snapshot.activeQueue.map { $0.stationCount > 1 } ?? false
+    }
+
     override init() {
         super.init()
         activate()
@@ -45,22 +49,28 @@ final class WatchRemoteModel: NSObject, ObservableObject, WCSessionDelegate {
         send(.playStation, stationID: stationID)
     }
 
+    func playStationList(id stationListID: String) {
+        send(.playStationList, stationListID: stationListID)
+    }
+
     func primaryPlaybackAction() {
         if isPlaying {
             send(.pause)
         } else if snapshot.currentStation != nil {
             send(.resume)
+        } else if let firstList = snapshot.stationLists.first, firstList.stationCount > 0 {
+            send(.playStationList, stationListID: firstList.id)
         } else if let firstFavorite = snapshot.favorites.first {
             send(.playStation, stationID: firstFavorite.id)
         }
     }
 
-    func previousFavorite() {
-        send(.previousFavorite)
+    func previousStation() {
+        send(.previousStation)
     }
 
-    func nextFavorite() {
-        send(.nextFavorite)
+    func nextStation() {
+        send(.nextStation)
     }
 
     func stop() {
@@ -94,7 +104,7 @@ final class WatchRemoteModel: NSObject, ObservableObject, WCSessionDelegate {
         }
     }
 
-    private func send(_ kind: WatchPlaybackCommandKind, stationID: String? = nil) {
+    private func send(_ kind: WatchPlaybackCommandKind, stationID: String? = nil, stationListID: String? = nil) {
         guard let session, session.activationState == .activated else {
             lastError = "iPhone connection is not ready."
             return
@@ -107,7 +117,7 @@ final class WatchRemoteModel: NSObject, ObservableObject, WCSessionDelegate {
         do {
             isSending = true
             lastError = nil
-            let command = WatchPlaybackCommandEnvelope(kind: kind, stationID: stationID)
+            let command = WatchPlaybackCommandEnvelope(kind: kind, stationID: stationID, stationListID: stationListID)
             let message = try WatchRemoteMessageCodec.message(for: command)
             session.sendMessage(message) { [weak self] reply in
                 Task { @MainActor in

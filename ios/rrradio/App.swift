@@ -88,8 +88,13 @@ struct rrradioApp: App {
             player.nowPlayingTitle ?? "",
             player.nowPlayingProgramName ?? "",
             player.nowPlayingCoverUrl?.absoluteString ?? "",
+            player.activePlaybackQueueSource.rawValue,
+            player.activePlaybackQueueSourceID ?? "",
             String(catalog.stations.count),
         ] + library.favorites.map(\.id)
+            + library.stationLists.flatMap { list in
+                [list.id, list.name, String(list.stations.count)] + list.stations.map(\.id)
+            }
         return parts.joined(separator: "|")
     }
 

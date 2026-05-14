@@ -6,6 +6,7 @@ final class PhoneRemoteControlController: NSObject, WCSessionDelegate {
     static let shared = PhoneRemoteControlController()
 
     private static let favoriteSnapshotLimit = 30
+    private static let stationListSnapshotLimit = 20
     private static let pendingCommandLimit = 5
 
     private weak var catalog: Catalog?
@@ -112,6 +113,10 @@ final class PhoneRemoteControlController: NSObject, WCSessionDelegate {
             guard let stationID = command.stationID else { return }
             playStation(id: stationID)
 
+        case .playStationList:
+            guard let stationListID = command.stationListID else { return }
+            playStationList(id: stationListID)
+
         case .pause:
             player?.pause()
 
@@ -124,11 +129,17 @@ final class PhoneRemoteControlController: NSObject, WCSessionDelegate {
         case .stop:
             player?.stop()
 
+        case .nextStation:
+            playRemoteStep(direction: .forward)
+
+        case .previousStation:
+            playRemoteStep(direction: .backward)
+
         case .nextFavorite:
-            playFavoriteStep(direction: .forward)
+            playRemoteStep(direction: .forward)
 
         case .previousFavorite:
-            playFavoriteStep(direction: .backward)
+            playRemoteStep(direction: .backward)
 
         case .requestSnapshot:
             break
@@ -157,6 +168,33 @@ final class PhoneRemoteControlController: NSObject, WCSessionDelegate {
         library.pushRecent(station)
     }
 
+    private func playStationList(id stationListID: String) {
+        guard let list = library?.stationList(id: stationListID),
+              let firstStation = list.stations.first,
+              let player else { return }
+
+        let queue = StationPlaybackQueue(
+            source: .stationList,
+            sourceID: list.id,
+            stations: list.stations,
+            current: firstStation,
+        )
+        player.play(firstStation, queue: queue)
+        library?.pushRecent(firstStation)
+    }
+
+    private func playRemoteStep(direction: StationStepDirection) {
+        guard let player else { return }
+        if let station = player.stationForActivePlaybackStep(direction) {
+            guard station.id != player.current?.id else { return }
+            player.play(station)
+            library?.pushRecent(station)
+            return
+        }
+
+        playFavoriteStep(direction: direction)
+    }
+
     private func playFavoriteStep(direction: StationStepDirection) {
         guard let library, let player, !library.favorites.isEmpty else { return }
 
@@ -181,13 +219,16 @@ final class PhoneRemoteControlController: NSObject, WCSessionDelegate {
 
     private func station(id stationID: String) -> Station? {
         guard let catalog, let library else { return nil }
-        let candidates = library.favorites + library.customStations + catalog.stations
+        let stationListStations = library.stationLists.flatMap(\.stations)
+        let activeQueueStations = player?.activePlaybackQueue?.stations ?? []
+        let candidates = activeQueueStations + library.favorites + library.customStations + stationListStations + catalog.stations
         return candidates.first { $0.id == stationID }
     }
 
     private func makeSnapshot() -> WatchPlaybackSnapshot {
         let player = player
         let favorites = library?.favorites.prefix(Self.favoriteSnapshotLimit).map(WatchStationSummary.init(station:)) ?? []
+        let stationLists = library?.stationLists.prefix(Self.stationListSnapshotLimit).map(WatchStationListSummary.init(stationList:)) ?? []
         return WatchPlaybackSnapshot(
             playbackState: player.map(Self.playbackState) ?? .idle,
             currentStation: player?.current.map(WatchStationSummary.init(station:)),
@@ -196,9 +237,39 @@ final class PhoneRemoteControlController: NSObject, WCSessionDelegate {
             nowPlayingProgramName: player?.nowPlayingProgramName,
             nowPlayingCoverURL: player?.nowPlayingCoverUrl ?? player?.current?.favicon,
             favorites: Array(favorites),
+            stationLists: Array(stationLists),
+            activeQueue: player.flatMap { activeQueueSummary(for: $0) },
             catalogStationCount: catalog?.stations.count ?? 0,
             generatedAt: Date(),
         )
+    }
+
+    private func activeQueueSummary(for player: AudioPlayer) -> WatchPlaybackQueueSummary? {
+        guard let queue = player.activePlaybackQueue else { return nil }
+        let queueInfo = player.current.flatMap { queue.queueInfo(for: $0) }
+        return WatchPlaybackQueueSummary(
+            source: WatchPlaybackQueueSource(source: queue.source),
+            sourceID: queue.sourceID,
+            name: activeQueueName(source: queue.source, sourceID: queue.sourceID),
+            stationCount: queue.stations.count,
+            currentIndex: queueInfo.map { $0.index },
+        )
+    }
+
+    private func activeQueueName(source: StationPlaybackQueue.Source, sourceID: String?) -> String? {
+        switch source {
+        case .browse:
+            return "Browse"
+        case .favorites:
+            return "Favorites"
+        case .recents:
+            return "Recents"
+        case .stationList:
+            guard let sourceID else { return "List" }
+            return library?.stationList(id: sourceID)?.name ?? "List"
+        case .single:
+            return nil
+        }
     }
 
     private static func playbackState(for player: AudioPlayer) -> WatchRemotePlaybackState {
@@ -226,5 +297,33 @@ private extension WatchStationSummary {
             country: station.country,
             favicon: station.favicon,
         )
+    }
+}
+
+private extension WatchStationListSummary {
+    init(stationList: StationList) {
+        self.init(
+            id: stationList.id,
+            name: stationList.name,
+            stationCount: stationList.stations.count,
+            firstStation: stationList.stations.first.map(WatchStationSummary.init(station:)),
+        )
+    }
+}
+
+private extension WatchPlaybackQueueSource {
+    init(source: StationPlaybackQueue.Source) {
+        switch source {
+        case .browse:
+            self = .browse
+        case .favorites:
+            self = .favorites
+        case .recents:
+            self = .recents
+        case .stationList:
+            self = .stationList
+        case .single:
+            self = .single
+        }
     }
 }
