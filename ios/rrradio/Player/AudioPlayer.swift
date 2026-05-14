@@ -309,7 +309,7 @@ final class AudioPlayer {
         isScheduleLoading = false
         resetLyrics()
         state = .idle
-        MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
+        clearNowPlaying()
         updateRemoteStationCommandAvailability()
     }
 
@@ -842,12 +842,13 @@ final class AudioPlayer {
 
     private func updateNowPlaying() {
         guard let s = current else {
-            MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
+            clearNowPlaying()
             return
         }
         var info: [String: Any] = [:]
         info[MPMediaItemPropertyTitle] = lockScreenTitle(for: s)
         info[MPMediaItemPropertyArtist] = lockScreenSubtitle(for: s)
+        info[MPNowPlayingInfoPropertyMediaType] = MPNowPlayingInfoMediaType.audio.rawValue
         info[MPNowPlayingInfoPropertyIsLiveStream] = true
         info[MPNowPlayingInfoPropertyPlaybackRate] = (state == .playing) ? 1.0 : 0.0
         if let queueInfo = activePlaybackQueue?.queueInfo(for: s) {
@@ -857,8 +858,27 @@ final class AudioPlayer {
         if let lockScreenArtwork {
             info[MPMediaItemPropertyArtwork] = lockScreenArtwork
         }
-        MPNowPlayingInfoCenter.default().nowPlayingInfo = info
+        let center = MPNowPlayingInfoCenter.default()
+        center.nowPlayingInfo = info
+        center.playbackState = nowPlayingPlaybackState
         updateLockScreenArtwork(from: nowPlayingCoverUrl ?? s.favicon)
+    }
+
+    private func clearNowPlaying() {
+        let center = MPNowPlayingInfoCenter.default()
+        center.nowPlayingInfo = nil
+        center.playbackState = .stopped
+    }
+
+    private var nowPlayingPlaybackState: MPNowPlayingPlaybackState {
+        switch state {
+        case .playing, .loading:
+            return .playing
+        case .paused:
+            return .paused
+        case .idle, .error:
+            return .stopped
+        }
     }
 
     private func teardownPlayer() {
