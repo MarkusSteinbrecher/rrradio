@@ -107,7 +107,7 @@ struct NowPlayingView: View {
                 streamInfoStrip
                 stationDivider
                 controlsBlock
-                    .padding(.horizontal, 16)
+                    .padding(.horizontal, 24)
                     .padding(.top, 10)
                     .padding(.bottom, 14)
                 detailsBlock
@@ -1087,28 +1087,20 @@ struct NowPlayingView: View {
     }
 
     private func playerStatusLabel(icon: String) -> some View {
-        HStack(alignment: .center, spacing: 14) {
+        HStack(alignment: .center, spacing: 10) {
             Image(systemName: icon)
                 .font(.system(size: 12, weight: .medium))
                 .foregroundStyle(RrradioTheme.ink3)
                 .frame(width: 14)
 
-            VStack(alignment: .leading, spacing: 3) {
-                HStack(spacing: 6) {
-                    Circle()
-                        .fill(statusTint)
-                        .frame(width: 6, height: 6)
-                    Text(bottomState)
-                        .lineLimit(1)
-                }
+            Circle()
+                .fill(statusTint)
+                .frame(width: 6, height: 6)
 
-                Text(codecLine)
-                    .lineLimit(1)
-
-                Text(bitrateLine)
-                    .lineLimit(1)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            Text(streamInfoLine)
+                .lineLimit(1)
+                .minimumScaleFactor(0.82)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
         .font(.system(size: 10, weight: .medium, design: .monospaced))
         .textCase(.uppercase)
@@ -1168,7 +1160,7 @@ struct NowPlayingView: View {
             player.playStationStep(direction)
         } label: {
             Image(systemName: isForward ? "forward.end.fill" : "backward.end.fill")
-                .font(.system(size: 17, weight: .semibold))
+                .font(.system(size: 18, weight: .medium))
                 .foregroundStyle(player.canStepStations ? RrradioTheme.ink2 : RrradioTheme.ink4)
                 .frame(width: 44, height: 44)
                 .overlay(Circle().stroke(RrradioTheme.line, lineWidth: 1))
@@ -1493,6 +1485,10 @@ struct NowPlayingView: View {
             return "No stream"
         }
         return bitrateText
+    }
+
+    private var streamInfoLine: String {
+        [bottomState, codecLine, bitrateLine].joined(separator: " . ")
     }
 
     private var statusTint: Color {
