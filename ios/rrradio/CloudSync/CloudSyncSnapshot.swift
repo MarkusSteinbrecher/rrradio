@@ -4,11 +4,14 @@ struct CloudSyncSnapshot: Equatable {
     var favorites: [Station]
     var customStations: [Station]
     var theme: String
+    var themeAccent: String
     var locale: String
     var sleepTimerDefaultMinutes: Int
     var landingPage: String
     var landingStationID: String
     var favoritesDisplayMode: String
+    var favoritesDisplayModeOrder: String
+    var favoritesDisplayModeVisible: String
     var wakeDefaultTime: String
     var wakeNotificationsEnabled: Bool
     var carModeAutomaticEnabled: Bool
@@ -37,11 +40,14 @@ struct CloudSyncSnapshot: Equatable {
 
     private var hasNonDefaultLocalPreferences: Bool {
         theme != ThemeController.Choice.system.rawValue
+            || themeAccent != ThemeController.classicAccentRawValue
             || locale != LocaleController.Choice.system.rawValue
             || sleepTimerDefaultMinutes != SleepTimer.fallbackDefaultMinutes
             || landingPage != LandingPage.browse.rawValue
             || !landingStationID.isEmpty
             || favoritesDisplayMode != FavoritesDisplayMode.list.rawValue
+            || favoritesDisplayModeOrder != FavoritesDisplayMode.defaultRawValue
+            || favoritesDisplayModeVisible != FavoritesDisplayMode.defaultRawValue
             || wakeDefaultTime != WakeAlarm.fallbackDefaultTime
             || !wakeNotificationsEnabled
             || !carModeAutomaticEnabled
@@ -55,11 +61,14 @@ struct CloudSyncSnapshot: Equatable {
         favorites: [],
         customStations: [],
         theme: ThemeController.Choice.system.rawValue,
+        themeAccent: ThemeController.classicAccentRawValue,
         locale: LocaleController.Choice.system.rawValue,
         sleepTimerDefaultMinutes: SleepTimer.fallbackDefaultMinutes,
         landingPage: LandingPage.browse.rawValue,
         landingStationID: "",
         favoritesDisplayMode: FavoritesDisplayMode.list.rawValue,
+        favoritesDisplayModeOrder: FavoritesDisplayMode.defaultRawValue,
+        favoritesDisplayModeVisible: FavoritesDisplayMode.defaultRawValue,
         wakeDefaultTime: WakeAlarm.fallbackDefaultTime,
         wakeNotificationsEnabled: false,
         carModeAutomaticEnabled: true,
@@ -83,6 +92,7 @@ enum CloudSyncMerge {
             ),
             customStations: mergeStations(local: local.customStations, remote: remote.customStations),
             theme: remote.hasPreferences ? remote.theme : local.theme,
+            themeAccent: remote.hasPreferences ? remote.themeAccent : local.themeAccent,
             locale: remote.hasPreferences ? remote.locale : local.locale,
             sleepTimerDefaultMinutes: remote.hasPreferences && remote.sleepTimerDefaultMinutes > 0
                 ? remote.sleepTimerDefaultMinutes
@@ -90,6 +100,12 @@ enum CloudSyncMerge {
             landingPage: remote.hasPreferences ? remote.landingPage : local.landingPage,
             landingStationID: remote.hasPreferences ? remote.landingStationID : local.landingStationID,
             favoritesDisplayMode: remote.hasPreferences ? remote.favoritesDisplayMode : local.favoritesDisplayMode,
+            favoritesDisplayModeOrder: remote.hasPreferences
+                ? remote.favoritesDisplayModeOrder
+                : local.favoritesDisplayModeOrder,
+            favoritesDisplayModeVisible: remote.hasPreferences
+                ? remote.favoritesDisplayModeVisible
+                : local.favoritesDisplayModeVisible,
             wakeDefaultTime: remote.hasPreferences ? remote.wakeDefaultTime : local.wakeDefaultTime,
             wakeNotificationsEnabled: remote.hasPreferences
                 ? remote.wakeNotificationsEnabled

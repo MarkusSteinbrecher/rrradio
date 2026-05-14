@@ -16,11 +16,14 @@ final class CloudSyncMergeTests: XCTestCase {
         favorites: [Station] = [],
         customStations: [Station] = [],
         theme: String = ThemeController.Choice.system.rawValue,
+        themeAccent: String = ThemeController.classicAccentRawValue,
         locale: String = LocaleController.Choice.system.rawValue,
         sleepTimerDefaultMinutes: Int = SleepTimer.fallbackDefaultMinutes,
         landingPage: String = LandingPage.browse.rawValue,
         landingStationID: String = "",
         favoritesDisplayMode: String = FavoritesDisplayMode.list.rawValue,
+        favoritesDisplayModeOrder: String = FavoritesDisplayMode.defaultRawValue,
+        favoritesDisplayModeVisible: String = FavoritesDisplayMode.defaultRawValue,
         wakeDefaultTime: String = WakeAlarm.fallbackDefaultTime,
         wakeNotificationsEnabled: Bool = false,
         carModeAutomaticEnabled: Bool = true,
@@ -36,11 +39,14 @@ final class CloudSyncMergeTests: XCTestCase {
             favorites: favorites,
             customStations: customStations,
             theme: theme,
+            themeAccent: themeAccent,
             locale: locale,
             sleepTimerDefaultMinutes: sleepTimerDefaultMinutes,
             landingPage: landingPage,
             landingStationID: landingStationID,
             favoritesDisplayMode: favoritesDisplayMode,
+            favoritesDisplayModeOrder: favoritesDisplayModeOrder,
+            favoritesDisplayModeVisible: favoritesDisplayModeVisible,
             wakeDefaultTime: wakeDefaultTime,
             wakeNotificationsEnabled: wakeNotificationsEnabled,
             carModeAutomaticEnabled: carModeAutomaticEnabled,
@@ -128,8 +134,11 @@ final class CloudSyncMergeTests: XCTestCase {
         let merged = CloudSyncMerge.merged(
             local: snapshot(
                 theme: ThemeController.Choice.dark.rawValue,
+                themeAccent: "#AD96FF",
                 landingPage: LandingPage.station.rawValue,
                 favoritesDisplayMode: FavoritesDisplayMode.app.rawValue,
+                favoritesDisplayModeOrder: "app,tiles,list",
+                favoritesDisplayModeVisible: "app,tiles",
                 wakeDefaultTime: "06:30",
                 carModeManualEnabled: true,
                 listeningHistoryRetention: ListeningHistoryRetention.forever.rawValue,
@@ -138,8 +147,11 @@ final class CloudSyncMergeTests: XCTestCase {
         )
 
         XCTAssertEqual(merged.theme, ThemeController.Choice.dark.rawValue)
+        XCTAssertEqual(merged.themeAccent, "#AD96FF")
         XCTAssertEqual(merged.landingPage, LandingPage.station.rawValue)
         XCTAssertEqual(merged.favoritesDisplayMode, FavoritesDisplayMode.app.rawValue)
+        XCTAssertEqual(merged.favoritesDisplayModeOrder, "app,tiles,list")
+        XCTAssertEqual(merged.favoritesDisplayModeVisible, "app,tiles")
         XCTAssertEqual(merged.wakeDefaultTime, "06:30")
         XCTAssertTrue(merged.carModeManualEnabled)
         XCTAssertEqual(merged.listeningHistoryRetention, ListeningHistoryRetention.forever.rawValue)

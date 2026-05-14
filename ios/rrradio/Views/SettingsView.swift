@@ -86,11 +86,16 @@ private struct SettingsPageView: View {
     @AppStorage(WakeAlarm.defaultTimeKey) private var defaultWakeTime = WakeAlarm.fallbackDefaultTime
     @AppStorage(SleepTimer.defaultMinutesKey) private var defaultSleepMinutes = SleepTimer.fallbackDefaultMinutes
     @AppStorage(FavoritesDisplayMode.storageKey) private var favoritesDisplayModeRaw = FavoritesDisplayMode.list.rawValue
+    @AppStorage(FavoritesDisplayMode.orderStorageKey) private var favoritesDisplayModeOrderRaw = FavoritesDisplayMode.defaultRawValue
+    @AppStorage(FavoritesDisplayMode.visibleStorageKey) private var favoritesDisplayModeVisibleRaw = FavoritesDisplayMode.defaultRawValue
     @Binding var page: SettingsPage
     @State private var landingStationQuery = ""
     @State private var copiedDiagnostics = false
     @State private var confirmCloudDelete = false
     @State private var isRefreshingCatalog = false
+    @State private var accentHexDraft = ThemeController.classicAccentHex
+    @State private var accentHexInvalid = false
+    @FocusState private var accentHexFocused: Bool
 
     var body: some View {
         ScrollView {
@@ -104,6 +109,10 @@ private struct SettingsPageView: View {
                         .background(RrradioTheme.bg2)
                         .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
                         .clipShape(RoundedRectangle(cornerRadius: 8))
+                    }
+
+                    settingsSection("Color") {
+                        accentColorSection
                     }
 
                     settingsSection("iCloud Sync") {
@@ -128,9 +137,20 @@ private struct SettingsPageView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
 
-                    settingsSection("Favorites view") {
+                    settingsSection("Favorites views") {
                         VStack(spacing: 0) {
-                            ForEach(FavoritesDisplayMode.allCases) { mode in
+                            ForEach(Array(favoritesDisplayOrder.enumerated()), id: \.element) { index, mode in
+                                favoritesDisplayModeConfigurationRow(mode, index: index)
+                            }
+                        }
+                        .background(RrradioTheme.bg2)
+                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                    }
+
+                    settingsSection("Default favorites view") {
+                        VStack(spacing: 0) {
+                            ForEach(visibleFavoritesDisplayModes) { mode in
                                 favoritesDisplayModeRow(mode)
                             }
                         }
@@ -217,6 +237,10 @@ private struct SettingsPageView: View {
             }
         } message: {
             Text("This clears synced rrradio favorites, custom stations, and preferences from iCloud. iCloud-enabled devices will converge to an empty synced library.")
+        }
+        .onAppear(perform: syncAccentHexDraft)
+        .onChange(of: theme.accentRawValue) { _, _ in
+            syncAccentHexDraft()
         }
     }
 
@@ -898,6 +922,144 @@ private struct SettingsPageView: View {
         }
     }
 
+    private var accentColorSection: some View {
+        VStack(spacing: 0) {
+            ColorPicker(
+                selection: Binding(
+                    get: { theme.accentColor },
+                    set: { color in
+                        theme.setAccentColor(color)
+                        syncAccentHexDraft()
+                    },
+                ),
+                supportsOpacity: false,
+            ) {
+                HStack(spacing: 12) {
+                    Image(systemName: "paintpalette")
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundStyle(RrradioTheme.ink3)
+                        .frame(width: 22)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Accent")
+                            .font(.system(size: 15, weight: .medium))
+                            .foregroundStyle(RrradioTheme.ink)
+                        Text(theme.hasCustomAccent ? theme.accentHexValue : "Classic rrradio color")
+                            .font(.system(size: 12))
+                            .foregroundStyle(RrradioTheme.ink3)
+                    }
+                }
+            }
+            .padding(.horizontal, 14)
+            .frame(minHeight: 58)
+            .tint(RrradioTheme.accent)
+            .overlay(alignment: .bottom) {
+                Rectangle()
+                    .fill(RrradioTheme.line)
+                    .frame(height: 1)
+            }
+
+            HStack(spacing: 12) {
+                Image(systemName: "number")
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .frame(width: 22)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Hex color")
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundStyle(RrradioTheme.ink)
+                    Text(accentHexInvalid ? "Use #RRGGBB or RGB." : "Enter a custom accent color.")
+                        .font(.system(size: 12))
+                        .foregroundStyle(accentHexInvalid ? .red : RrradioTheme.ink3)
+                        .lineLimit(2)
+                }
+                Spacer()
+                TextField("#FFFF00", text: $accentHexDraft)
+                    .font(.system(size: 14, weight: .medium, design: .monospaced))
+                    .foregroundStyle(RrradioTheme.ink)
+                    .multilineTextAlignment(.trailing)
+                    .textInputAutocapitalization(.characters)
+                    .autocorrectionDisabled()
+                    .keyboardType(.asciiCapable)
+                    .focused($accentHexFocused)
+                    .frame(width: 96)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 7)
+                    .background(RrradioTheme.bg)
+                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(accentHexInvalid ? Color.red : RrradioTheme.line))
+                    .onSubmit(applyAccentHexDraft)
+                Button {
+                    applyAccentHexDraft()
+                } label: {
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(RrradioTheme.bg)
+                        .frame(width: 28, height: 28)
+                        .background(Circle().fill(RrradioTheme.accent))
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Apply hex color")
+            }
+            .padding(.horizontal, 14)
+            .frame(minHeight: 64)
+            .contentShape(Rectangle())
+            .overlay(alignment: .bottom) {
+                Rectangle()
+                    .fill(RrradioTheme.line)
+                    .frame(height: 1)
+            }
+
+            Button {
+                theme.resetAccent()
+                syncAccentHexDraft()
+            } label: {
+                HStack(spacing: 12) {
+                    Image(systemName: "arrow.counterclockwise")
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundStyle(theme.hasCustomAccent ? RrradioTheme.ink3 : RrradioTheme.ink4)
+                        .frame(width: 22)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Classic")
+                            .font(.system(size: 15, weight: .medium))
+                            .foregroundStyle(theme.hasCustomAccent ? RrradioTheme.ink : RrradioTheme.ink3)
+                        Text("Use rrradio green in light mode and yellow in dark mode.")
+                            .font(.system(size: 12))
+                            .foregroundStyle(RrradioTheme.ink3)
+                            .lineLimit(2)
+                    }
+                    Spacer()
+                    if !theme.hasCustomAccent {
+                        Image(systemName: "checkmark")
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundStyle(RrradioTheme.accent)
+                    }
+                }
+                .padding(.horizontal, 14)
+                .frame(minHeight: 54)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .disabled(!theme.hasCustomAccent)
+        }
+        .background(RrradioTheme.bg2)
+        .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    private func applyAccentHexDraft() {
+        if theme.setAccentHex(accentHexDraft) {
+            accentHexInvalid = false
+            accentHexFocused = false
+            syncAccentHexDraft()
+        } else {
+            accentHexInvalid = true
+        }
+    }
+
+    private func syncAccentHexDraft() {
+        accentHexDraft = theme.accentHexValue
+        accentHexInvalid = false
+    }
+
     private func landingPageRow(_ landingPage: LandingPage) -> some View {
         Button {
             landingPageRaw = landingPage.rawValue
@@ -1046,11 +1208,120 @@ private struct SettingsPageView: View {
     }
 
     private var currentFavoritesDisplayMode: FavoritesDisplayMode {
-        FavoritesDisplayMode(rawValue: favoritesDisplayModeRaw) ?? .list
+        FavoritesDisplayMode.normalizedSelection(
+            rawValue: favoritesDisplayModeRaw,
+            orderRawValue: favoritesDisplayModeOrderRaw,
+            visibleRawValue: favoritesDisplayModeVisibleRaw,
+        )
+    }
+
+    private var favoritesDisplayOrder: [FavoritesDisplayMode] {
+        FavoritesDisplayMode.normalizedOrder(from: favoritesDisplayModeOrderRaw)
+    }
+
+    private var visibleFavoritesDisplayModes: [FavoritesDisplayMode] {
+        FavoritesDisplayMode.visibleModes(
+            orderRawValue: favoritesDisplayModeOrderRaw,
+            visibleRawValue: favoritesDisplayModeVisibleRaw,
+        )
+    }
+
+    private func favoritesDisplayModeConfigurationRow(_ mode: FavoritesDisplayMode, index: Int) -> some View {
+        let visible = visibleFavoritesDisplayModes.contains(mode)
+        let canHide = !visible || visibleFavoritesDisplayModes.count > 1
+        return HStack(spacing: 12) {
+            Image(systemName: mode.systemImage)
+                .font(.system(size: 15, weight: .medium))
+                .foregroundStyle(visible ? RrradioTheme.ink3 : RrradioTheme.ink4)
+                .frame(width: 22)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(mode.title)
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(visible ? RrradioTheme.ink : RrradioTheme.ink3)
+                Text(visible ? "Shown on Favorites" : "Hidden from Favorites")
+                    .font(.system(size: 12))
+                    .foregroundStyle(RrradioTheme.ink3)
+            }
+            Spacer()
+            HStack(spacing: 2) {
+                favoritesDisplayModeMoveButton(systemName: "chevron.up", mode: mode, offset: -1, disabled: index == 0)
+                favoritesDisplayModeMoveButton(systemName: "chevron.down", mode: mode, offset: 1, disabled: index == favoritesDisplayOrder.count - 1)
+            }
+            Toggle("", isOn: Binding(
+                get: { visible },
+                set: { setFavoritesDisplayMode(mode, visible: $0) },
+            ))
+            .labelsHidden()
+            .tint(RrradioTheme.accent)
+            .disabled(!canHide)
+        }
+        .padding(.horizontal, 14)
+        .frame(minHeight: 58)
+        .contentShape(Rectangle())
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(RrradioTheme.line)
+                .frame(height: 1)
+        }
+    }
+
+    private func favoritesDisplayModeMoveButton(
+        systemName: String,
+        mode: FavoritesDisplayMode,
+        offset: Int,
+        disabled: Bool,
+    ) -> some View {
+        Button {
+            moveFavoritesDisplayMode(mode, by: offset)
+        } label: {
+            Image(systemName: systemName)
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundStyle(disabled ? RrradioTheme.ink4 : RrradioTheme.ink3)
+                .frame(width: 28, height: 28)
+                .contentShape(Circle())
+        }
+        .buttonStyle(.plain)
+        .disabled(disabled)
+    }
+
+    private func moveFavoritesDisplayMode(_ mode: FavoritesDisplayMode, by offset: Int) {
+        let updatedOrder = FavoritesDisplayMode.rawValueByMoving(
+            mode,
+            by: offset,
+            orderRawValue: favoritesDisplayModeOrderRaw,
+        )
+        guard updatedOrder != favoritesDisplayModeOrderRaw else { return }
+        favoritesDisplayModeOrderRaw = updatedOrder
+        favoritesDisplayModeVisibleRaw = FavoritesDisplayMode.normalizedVisibleRawValue(
+            orderRawValue: updatedOrder,
+            visibleRawValue: favoritesDisplayModeVisibleRaw,
+        )
+        cloudSync.noteSettingsChanged()
+    }
+
+    private func setFavoritesDisplayMode(_ mode: FavoritesDisplayMode, visible: Bool) {
+        let updatedVisible = FavoritesDisplayMode.rawValueBySettingVisibility(
+            mode,
+            visible: visible,
+            orderRawValue: favoritesDisplayModeOrderRaw,
+            visibleRawValue: favoritesDisplayModeVisibleRaw,
+        )
+        guard updatedVisible != favoritesDisplayModeVisibleRaw else { return }
+        favoritesDisplayModeVisibleRaw = updatedVisible
+        let normalizedMode = FavoritesDisplayMode.normalizedSelection(
+            rawValue: favoritesDisplayModeRaw,
+            orderRawValue: favoritesDisplayModeOrderRaw,
+            visibleRawValue: updatedVisible,
+        )
+        if favoritesDisplayModeRaw != normalizedMode.rawValue {
+            favoritesDisplayModeRaw = normalizedMode.rawValue
+        }
+        cloudSync.noteSettingsChanged()
     }
 
     private func favoritesDisplayModeRow(_ mode: FavoritesDisplayMode) -> some View {
         Button {
+            guard visibleFavoritesDisplayModes.contains(mode) else { return }
             favoritesDisplayModeRaw = mode.rawValue
             cloudSync.noteSettingsChanged()
         } label: {

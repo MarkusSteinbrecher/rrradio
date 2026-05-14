@@ -296,11 +296,23 @@ final class CloudSyncController {
             favorites: library?.favorites ?? [],
             customStations: library?.customStations ?? [],
             theme: theme?.choice.rawValue ?? ThemeController.Choice.system.rawValue,
+            themeAccent: theme?.accentRawValue ?? ThemeController.classicAccentRawValue,
             locale: locale?.choice.rawValue ?? LocaleController.Choice.system.rawValue,
             sleepTimerDefaultMinutes: sleepTimer?.defaultMinutes ?? SleepTimer.fallbackDefaultMinutes,
             landingPage: defaults.string(forKey: LandingPage.storageKey) ?? LandingPage.browse.rawValue,
             landingStationID: defaults.string(forKey: LandingPage.stationIDKey) ?? "",
-            favoritesDisplayMode: defaults.string(forKey: FavoritesDisplayMode.storageKey) ?? FavoritesDisplayMode.list.rawValue,
+            favoritesDisplayMode: FavoritesDisplayMode.normalizedSelection(
+                rawValue: defaults.string(forKey: FavoritesDisplayMode.storageKey),
+                orderRawValue: defaults.string(forKey: FavoritesDisplayMode.orderStorageKey),
+                visibleRawValue: defaults.string(forKey: FavoritesDisplayMode.visibleStorageKey),
+            ).rawValue,
+            favoritesDisplayModeOrder: FavoritesDisplayMode.normalizedOrderRawValue(
+                defaults.string(forKey: FavoritesDisplayMode.orderStorageKey),
+            ),
+            favoritesDisplayModeVisible: FavoritesDisplayMode.normalizedVisibleRawValue(
+                orderRawValue: defaults.string(forKey: FavoritesDisplayMode.orderStorageKey),
+                visibleRawValue: defaults.string(forKey: FavoritesDisplayMode.visibleStorageKey),
+            ),
             wakeDefaultTime: defaults.string(forKey: WakeAlarm.defaultTimeKey) ?? WakeAlarm.fallbackDefaultTime,
             wakeNotificationsEnabled: wakeAlarm?.notificationsEnabled ?? defaults.bool(forKey: WakeAlarm.notificationsEnabledKey),
             carModeAutomaticEnabled: carMode?.automaticEnabled ?? true,
@@ -319,6 +331,9 @@ final class CloudSyncController {
         if let choice = ThemeController.Choice(rawValue: snapshot.theme) {
             theme?.applyCloudSync(choice)
         }
+        if ThemeController.isValidAccentStorageValue(snapshot.themeAccent) {
+            theme?.applyCloudSyncAccent(snapshot.themeAccent)
+        }
         if let choice = LocaleController.Choice(rawValue: snapshot.locale) {
             locale?.applyCloudSync(choice)
         }
@@ -328,7 +343,7 @@ final class CloudSyncController {
         }
         defaults.set(snapshot.landingStationID, forKey: LandingPage.stationIDKey)
         if FavoritesDisplayMode(rawValue: snapshot.favoritesDisplayMode) != nil {
-            defaults.set(snapshot.favoritesDisplayMode, forKey: FavoritesDisplayMode.storageKey)
+            applyFavoritesDisplayPreferences(snapshot)
         }
         wakeAlarm?.applyCloudSyncPreferences(
             defaultTime: snapshot.wakeDefaultTime,
@@ -346,6 +361,30 @@ final class CloudSyncController {
                 retention: retention,
             )
         }
+    }
+
+    private func applyFavoritesDisplayPreferences(_ snapshot: CloudSyncSnapshot) {
+        var orderRawValue = defaults.string(forKey: FavoritesDisplayMode.orderStorageKey)
+        if FavoritesDisplayMode.containsValidMode(in: snapshot.favoritesDisplayModeOrder) {
+            orderRawValue = FavoritesDisplayMode.normalizedOrderRawValue(snapshot.favoritesDisplayModeOrder)
+            defaults.set(orderRawValue, forKey: FavoritesDisplayMode.orderStorageKey)
+        }
+
+        var visibleRawValue = defaults.string(forKey: FavoritesDisplayMode.visibleStorageKey)
+        if FavoritesDisplayMode.containsValidMode(in: snapshot.favoritesDisplayModeVisible) {
+            visibleRawValue = FavoritesDisplayMode.normalizedVisibleRawValue(
+                orderRawValue: orderRawValue,
+                visibleRawValue: snapshot.favoritesDisplayModeVisible,
+            )
+            defaults.set(visibleRawValue, forKey: FavoritesDisplayMode.visibleStorageKey)
+        }
+
+        let normalizedMode = FavoritesDisplayMode.normalizedSelection(
+            rawValue: snapshot.favoritesDisplayMode,
+            orderRawValue: orderRawValue,
+            visibleRawValue: visibleRawValue,
+        )
+        defaults.set(normalizedMode.rawValue, forKey: FavoritesDisplayMode.storageKey)
     }
 
     private func sanitized(_ error: Error) -> String {

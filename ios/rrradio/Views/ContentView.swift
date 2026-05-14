@@ -19,6 +19,8 @@ struct ContentView: View {
     @AppStorage(LandingPage.storageKey) private var landingPageRaw = LandingPage.browse.rawValue
     @AppStorage(LandingPage.stationIDKey) private var landingStationID = ""
     @AppStorage(FavoritesDisplayMode.storageKey) private var favoritesDisplayModeRaw = FavoritesDisplayMode.list.rawValue
+    @AppStorage(FavoritesDisplayMode.orderStorageKey) private var favoritesDisplayModeOrderRaw = FavoritesDisplayMode.defaultRawValue
+    @AppStorage(FavoritesDisplayMode.visibleStorageKey) private var favoritesDisplayModeVisibleRaw = FavoritesDisplayMode.defaultRawValue
 
     private let rootSwipeThreshold: CGFloat = 58
     private let rootSwipeAxisLockThreshold: CGFloat = 12
@@ -170,7 +172,7 @@ struct ContentView: View {
         case .stationLists, .browse:
             true
         case .favorites:
-            currentFavoritesDisplayMode == .list
+            previousFavoritesDisplayMode == nil
         }
     }
 
@@ -179,7 +181,20 @@ struct ContentView: View {
     }
 
     private var currentFavoritesDisplayMode: FavoritesDisplayMode {
-        FavoritesDisplayMode(rawValue: favoritesDisplayModeRaw) ?? .list
+        FavoritesDisplayMode.normalizedSelection(
+            rawValue: favoritesDisplayModeRaw,
+            orderRawValue: favoritesDisplayModeOrderRaw,
+            visibleRawValue: favoritesDisplayModeVisibleRaw,
+        )
+    }
+
+    private var previousFavoritesDisplayMode: FavoritesDisplayMode? {
+        FavoritesDisplayMode.adjacentMode(
+            to: currentFavoritesDisplayMode,
+            direction: -1,
+            orderRawValue: favoritesDisplayModeOrderRaw,
+            visibleRawValue: favoritesDisplayModeVisibleRaw,
+        )
     }
 
     private func updateRootSwipeAxis(horizontal: CGFloat, vertical: CGFloat) {

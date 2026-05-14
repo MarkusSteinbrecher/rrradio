@@ -96,9 +96,11 @@ types in the Development environment:
 - `CustomStationsIndex`: `stationIds` List<String>.
 - `CustomStation`: `stationId` String, `stationData` Bytes.
 - `Preferences`: `schemaVersion` Int64, `updatedAt` Date/Time,
-  `theme` String, `locale` String,
+  `theme` String, `themeAccent` String (`classic` or `#RRGGBB`), `locale` String,
   `sleepTimerDefaultMinutes` Int64, `landingPage` String,
   `landingStationID` String, `favoritesDisplayMode` String,
+  `favoritesDisplayModeOrder` String,
+  `favoritesDisplayModeVisible` String,
   `wakeDefaultTime` String,
   `wakeNotificationsEnabled` Int64/Bool,
   `carModeAutomaticEnabled` Int64/Bool,

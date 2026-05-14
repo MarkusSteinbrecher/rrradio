@@ -14,11 +14,14 @@ final class CloudSyncControllerTests: XCTestCase {
             favorites: [favoriteA, favoriteB],
             customStations: [custom],
             theme: ThemeController.Choice.dark.rawValue,
+            themeAccent: "#0A84FF",
             locale: LocaleController.Choice.german.rawValue,
             sleepTimerDefaultMinutes: 60,
             landingPage: LandingPage.favorites.rawValue,
             landingStationID: favoriteB.id,
             favoritesDisplayMode: FavoritesDisplayMode.tiles.rawValue,
+            favoritesDisplayModeOrder: FavoritesDisplayMode.encode([.app, .tiles, .list]),
+            favoritesDisplayModeVisible: FavoritesDisplayMode.encode([.app, .tiles]),
             wakeDefaultTime: "06:45",
             wakeNotificationsEnabled: false,
             carModeAutomaticEnabled: false,
@@ -36,11 +39,14 @@ final class CloudSyncControllerTests: XCTestCase {
         XCTAssertEqual(dependencies.library.favorites.map(\.id), [favoriteB.id, favoriteA.id])
         XCTAssertEqual(dependencies.library.customStations.map(\.id), [custom.id])
         XCTAssertEqual(dependencies.theme.choice, .dark)
+        XCTAssertEqual(dependencies.theme.accentRawValue, "#0A84FF")
         XCTAssertEqual(dependencies.locale.choice, .german)
         XCTAssertEqual(dependencies.sleepTimer.defaultMinutes, 60)
         XCTAssertEqual(defaults.string(forKey: LandingPage.storageKey), LandingPage.favorites.rawValue)
         XCTAssertEqual(defaults.string(forKey: LandingPage.stationIDKey), favoriteB.id)
         XCTAssertEqual(defaults.string(forKey: FavoritesDisplayMode.storageKey), FavoritesDisplayMode.tiles.rawValue)
+        XCTAssertEqual(defaults.string(forKey: FavoritesDisplayMode.orderStorageKey), "app,tiles,list")
+        XCTAssertEqual(defaults.string(forKey: FavoritesDisplayMode.visibleStorageKey), "app,tiles")
         XCTAssertEqual(dependencies.wakeAlarm.time, "06:45")
         XCTAssertFalse(dependencies.wakeAlarm.notificationsEnabled)
         XCTAssertFalse(dependencies.carMode.automaticEnabled)
@@ -58,6 +64,9 @@ final class CloudSyncControllerTests: XCTestCase {
         XCTAssertEqual(saved.first?.favorites.map(\.id), [favoriteB.id, favoriteA.id])
         XCTAssertEqual(saved.first?.customStations.map(\.id), [custom.id])
         XCTAssertEqual(saved.first?.favoritesDisplayMode, FavoritesDisplayMode.tiles.rawValue)
+        XCTAssertEqual(saved.first?.themeAccent, "#0A84FF")
+        XCTAssertEqual(saved.first?.favoritesDisplayModeOrder, "app,tiles,list")
+        XCTAssertEqual(saved.first?.favoritesDisplayModeVisible, "app,tiles")
     }
 
     func testEmptyFreshInstallDoesNotUploadLocalDefaults() async throws {
@@ -97,16 +106,22 @@ final class CloudSyncControllerTests: XCTestCase {
     func testInvalidRemotePreferenceEnumsDoNotClobberLocalChoices() async throws {
         let defaults = makeDefaults()
         defaults.set(ThemeController.Choice.dark.rawValue, forKey: "rrradio.theme")
+        defaults.set("#FF7AA3", forKey: ThemeController.accentStorageKey)
         defaults.set(LocaleController.Choice.german.rawValue, forKey: "rrradio.locale")
         defaults.set(FavoritesDisplayMode.app.rawValue, forKey: FavoritesDisplayMode.storageKey)
+        defaults.set("app,list,tiles", forKey: FavoritesDisplayMode.orderStorageKey)
+        defaults.set("app,list", forKey: FavoritesDisplayMode.visibleStorageKey)
         defaults.set(true, forKey: ListeningHistory.enabledKey)
         defaults.set(ListeningHistoryLevel.tracks.rawValue, forKey: ListeningHistoryLevel.storageKey)
         defaults.set(ListeningHistoryRetention.forever.rawValue, forKey: ListeningHistoryRetention.storageKey)
         let store = FakeCloudSyncStore(
             snapshot: snapshot(
                 theme: "future-theme",
+                themeAccent: "future-accent",
                 locale: "future-locale",
                 favoritesDisplayMode: "future-display",
+                favoritesDisplayModeOrder: "future-order",
+                favoritesDisplayModeVisible: "future-visible",
                 listeningHistoryLevel: "future-level",
                 listeningHistoryRetention: "future-retention",
             ),
@@ -116,8 +131,11 @@ final class CloudSyncControllerTests: XCTestCase {
         await dependencies.controller.refreshFromCloud()
 
         XCTAssertEqual(dependencies.theme.choice, .dark)
+        XCTAssertEqual(dependencies.theme.accentRawValue, "#FF7AA3")
         XCTAssertEqual(dependencies.locale.choice, .german)
         XCTAssertEqual(defaults.string(forKey: FavoritesDisplayMode.storageKey), FavoritesDisplayMode.app.rawValue)
+        XCTAssertEqual(defaults.string(forKey: FavoritesDisplayMode.orderStorageKey), "app,list,tiles")
+        XCTAssertEqual(defaults.string(forKey: FavoritesDisplayMode.visibleStorageKey), "app,list")
         XCTAssertTrue(dependencies.listeningHistory.isEnabled)
         XCTAssertEqual(dependencies.listeningHistory.level, .tracks)
         XCTAssertEqual(dependencies.listeningHistory.retention, .forever)
@@ -209,11 +227,14 @@ final class CloudSyncControllerTests: XCTestCase {
         favorites: [Station] = [],
         customStations: [Station] = [],
         theme: String = ThemeController.Choice.system.rawValue,
+        themeAccent: String = ThemeController.classicAccentRawValue,
         locale: String = LocaleController.Choice.system.rawValue,
         sleepTimerDefaultMinutes: Int = SleepTimer.fallbackDefaultMinutes,
         landingPage: String = LandingPage.browse.rawValue,
         landingStationID: String = "",
         favoritesDisplayMode: String = FavoritesDisplayMode.list.rawValue,
+        favoritesDisplayModeOrder: String = FavoritesDisplayMode.defaultRawValue,
+        favoritesDisplayModeVisible: String = FavoritesDisplayMode.defaultRawValue,
         wakeDefaultTime: String = WakeAlarm.fallbackDefaultTime,
         wakeNotificationsEnabled: Bool = false,
         carModeAutomaticEnabled: Bool = true,
@@ -229,11 +250,14 @@ final class CloudSyncControllerTests: XCTestCase {
             favorites: favorites,
             customStations: customStations,
             theme: theme,
+            themeAccent: themeAccent,
             locale: locale,
             sleepTimerDefaultMinutes: sleepTimerDefaultMinutes,
             landingPage: landingPage,
             landingStationID: landingStationID,
             favoritesDisplayMode: favoritesDisplayMode,
+            favoritesDisplayModeOrder: favoritesDisplayModeOrder,
+            favoritesDisplayModeVisible: favoritesDisplayModeVisible,
             wakeDefaultTime: wakeDefaultTime,
             wakeNotificationsEnabled: wakeNotificationsEnabled,
             carModeAutomaticEnabled: carModeAutomaticEnabled,

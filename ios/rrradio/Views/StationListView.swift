@@ -3,10 +3,7 @@ import UIKit
 import UniformTypeIdentifiers
 
 enum RrradioTheme {
-    static let accent = adaptive(
-        light: UIColor(red: 0, green: 0.627, blue: 0.251, alpha: 1),
-        dark: UIColor(red: 1, green: 1, blue: 0, alpha: 1),
-    )
+    static var accent: Color { ThemeController.accentColor() }
     static let bg = adaptive(
         light: UIColor(red: 0.945, green: 0.945, blue: 0.925, alpha: 1),
         dark: UIColor(red: 0.245, green: 0.245, blue: 0.225, alpha: 1),
@@ -47,13 +44,18 @@ enum RrradioTheme {
 }
 
 enum FavoritesDisplayMode: String, CaseIterable, Identifiable {
-    static let storageKey = "rrradio.favorites.displayMode"
-
     case list
     case tiles
     case app
 
+    static let storageKey = "rrradio.favorites.displayMode"
+    static let orderStorageKey = "rrradio.favorites.displayModeOrder"
+    static let visibleStorageKey = "rrradio.favorites.visibleDisplayModes"
+
     var id: String { rawValue }
+
+    static var defaultOrder: [FavoritesDisplayMode] { [.list, .tiles, .app] }
+    static var defaultRawValue: String { encode(defaultOrder) }
 
     var title: String {
         switch self {
@@ -78,6 +80,107 @@ enum FavoritesDisplayMode: String, CaseIterable, Identifiable {
         case .app: "square.grid.3x3"
         }
     }
+
+    static func encode(_ modes: [FavoritesDisplayMode]) -> String {
+        modes.map(\.rawValue).joined(separator: ",")
+    }
+
+    static func containsValidMode(in rawValue: String?) -> Bool {
+        !decodedModes(from: rawValue).isEmpty
+    }
+
+    static func normalizedOrder(from rawValue: String?) -> [FavoritesDisplayMode] {
+        var result: [FavoritesDisplayMode] = []
+        for mode in decodedModes(from: rawValue) where !result.contains(mode) {
+            result.append(mode)
+        }
+        for mode in defaultOrder where !result.contains(mode) {
+            result.append(mode)
+        }
+        return result
+    }
+
+    static func normalizedOrderRawValue(_ rawValue: String?) -> String {
+        encode(normalizedOrder(from: rawValue))
+    }
+
+    static func visibleModes(orderRawValue: String?, visibleRawValue: String?) -> [FavoritesDisplayMode] {
+        let order = normalizedOrder(from: orderRawValue)
+        let visible = decodedModes(from: visibleRawValue)
+        let visibleSet = Set(visible.isEmpty ? order : visible)
+        let result = order.filter { visibleSet.contains($0) }
+        return result.isEmpty ? [order.first ?? .list] : result
+    }
+
+    static func normalizedVisibleRawValue(orderRawValue: String?, visibleRawValue: String?) -> String {
+        encode(visibleModes(orderRawValue: orderRawValue, visibleRawValue: visibleRawValue))
+    }
+
+    static func normalizedSelection(
+        rawValue: String?,
+        orderRawValue: String?,
+        visibleRawValue: String?,
+    ) -> FavoritesDisplayMode {
+        let visible = visibleModes(orderRawValue: orderRawValue, visibleRawValue: visibleRawValue)
+        if let rawValue,
+           let mode = FavoritesDisplayMode(rawValue: rawValue),
+           visible.contains(mode) {
+            return mode
+        }
+        return visible.first ?? .list
+    }
+
+    static func adjacentMode(
+        to mode: FavoritesDisplayMode,
+        direction: Int,
+        orderRawValue: String?,
+        visibleRawValue: String?,
+    ) -> FavoritesDisplayMode? {
+        let visible = visibleModes(orderRawValue: orderRawValue, visibleRawValue: visibleRawValue)
+        guard let index = visible.firstIndex(of: mode) else { return nil }
+        let targetIndex = index + direction
+        guard visible.indices.contains(targetIndex) else { return nil }
+        return visible[targetIndex]
+    }
+
+    static func rawValueByMoving(
+        _ mode: FavoritesDisplayMode,
+        by offset: Int,
+        orderRawValue: String?,
+    ) -> String {
+        var order = normalizedOrder(from: orderRawValue)
+        guard let index = order.firstIndex(of: mode) else { return encode(order) }
+        let targetIndex = index + offset
+        guard order.indices.contains(targetIndex) else { return encode(order) }
+        order.swapAt(index, targetIndex)
+        return encode(order)
+    }
+
+    static func rawValueBySettingVisibility(
+        _ mode: FavoritesDisplayMode,
+        visible isVisible: Bool,
+        orderRawValue: String?,
+        visibleRawValue: String?,
+    ) -> String {
+        let order = normalizedOrder(from: orderRawValue)
+        var visible = visibleModes(orderRawValue: orderRawValue, visibleRawValue: visibleRawValue)
+        if isVisible {
+            if !visible.contains(mode) {
+                visible.append(mode)
+            }
+        } else if visible.contains(mode), visible.count > 1 {
+            visible.removeAll { $0 == mode }
+        }
+        let visibleSet = Set(visible)
+        return encode(order.filter { visibleSet.contains($0) })
+    }
+
+    private static func decodedModes(from rawValue: String?) -> [FavoritesDisplayMode] {
+        guard let rawValue else { return [] }
+        return rawValue
+            .split(separator: ",")
+            .compactMap { FavoritesDisplayMode(rawValue: String($0)) }
+    }
 }
 
 struct StationListView: View {
@@ -96,6 +199,8 @@ struct StationListView: View {
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     @AppStorage(FavoritesDisplayMode.storageKey) private var favoritesDisplayModeRaw = FavoritesDisplayMode.list.rawValue
+    @AppStorage(FavoritesDisplayMode.orderStorageKey) private var favoritesDisplayModeOrderRaw = FavoritesDisplayMode.defaultRawValue
+    @AppStorage(FavoritesDisplayMode.visibleStorageKey) private var favoritesDisplayModeVisibleRaw = FavoritesDisplayMode.defaultRawValue
     private let radioBrowser = RadioBrowserClient()
     private let shareURL = URL(string: "https://rrradio.org")!
     @State private var searchText = ""
@@ -333,7 +438,17 @@ struct StationListView: View {
         isStationListsDetail ? selectedStationListID : nil
     }
     private var favoritesDisplayMode: FavoritesDisplayMode {
-        FavoritesDisplayMode(rawValue: favoritesDisplayModeRaw) ?? .list
+        FavoritesDisplayMode.normalizedSelection(
+            rawValue: favoritesDisplayModeRaw,
+            orderRawValue: favoritesDisplayModeOrderRaw,
+            visibleRawValue: favoritesDisplayModeVisibleRaw,
+        )
+    }
+    private var visibleFavoritesDisplayModes: [FavoritesDisplayMode] {
+        FavoritesDisplayMode.visibleModes(
+            orderRawValue: favoritesDisplayModeOrderRaw,
+            visibleRawValue: favoritesDisplayModeVisibleRaw,
+        )
     }
     private var usesFavoritesRows: Bool {
         isFavoritesPage && !showingFavoritesCatalogFallback && favoritesDisplayMode == .list
@@ -488,6 +603,8 @@ struct StationListView: View {
             .onChange(of: newsFilterSelected, handleNewsFilterSelectedChange)
             .onChange(of: filterSignature, handleFilterSignatureChange)
             .onChange(of: favoritesDisplayModeRaw, handleFavoritesDisplayModeChange)
+            .onChange(of: favoritesDisplayModeOrderRaw, handleFavoritesDisplayConfigurationChange)
+            .onChange(of: favoritesDisplayModeVisibleRaw, handleFavoritesDisplayConfigurationChange)
             .onChange(of: catalog.stations, handleCatalogStationsChange)
             .onChange(of: searchFocused, handleSearchFocusedChange)
             .onDisappear(perform: handleDisappear)
@@ -679,19 +796,21 @@ struct StationListView: View {
     }
 
     private var nextFavoritesDisplayMode: FavoritesDisplayMode? {
-        switch favoritesDisplayMode {
-        case .list: .tiles
-        case .tiles: .app
-        case .app: nil
-        }
+        FavoritesDisplayMode.adjacentMode(
+            to: favoritesDisplayMode,
+            direction: 1,
+            orderRawValue: favoritesDisplayModeOrderRaw,
+            visibleRawValue: favoritesDisplayModeVisibleRaw,
+        )
     }
 
     private var previousFavoritesDisplayMode: FavoritesDisplayMode? {
-        switch favoritesDisplayMode {
-        case .list: nil
-        case .tiles: .list
-        case .app: .tiles
-        }
+        FavoritesDisplayMode.adjacentMode(
+            to: favoritesDisplayMode,
+            direction: -1,
+            orderRawValue: favoritesDisplayModeOrderRaw,
+            visibleRawValue: favoritesDisplayModeVisibleRaw,
+        )
     }
 
     private func switchToFavoritesDisplayMode(_ mode: FavoritesDisplayMode) {
@@ -816,6 +935,14 @@ struct StationListView: View {
         hideFavoriteDeleteMode(animated: false)
         resetPageSwipeTracking()
         updateFavoriteNowPlayingPolling()
+    }
+
+    private func handleFavoritesDisplayConfigurationChange(_: String, _: String) {
+        let normalized = favoritesDisplayMode
+        if favoritesDisplayModeRaw != normalized.rawValue {
+            favoritesDisplayModeRaw = normalized.rawValue
+        }
+        handleFavoritesDisplayModeChange("", "")
     }
 
     private func handleCatalogStationsChange(_: [Station], _ stations: [Station]) {
@@ -1027,7 +1154,7 @@ struct StationListView: View {
 
     private var favoritesDisplayModeSelector: some View {
         HStack(spacing: 4) {
-            ForEach(FavoritesDisplayMode.allCases, id: \.self) { mode in
+            ForEach(visibleFavoritesDisplayModes, id: \.self) { mode in
                 let selected = favoritesDisplayMode == mode
                 Button {
                     setFavoritesDisplayMode(mode)
@@ -1052,14 +1179,15 @@ struct StationListView: View {
     }
 
     private func setFavoritesDisplayMode(_ mode: FavoritesDisplayMode) {
+        guard visibleFavoritesDisplayModes.contains(mode) else { return }
         guard favoritesDisplayMode != mode else { return }
         favoritesDisplayModeRaw = mode.rawValue
         cloudSync.noteSettingsChanged()
     }
 
     private var favoritesDisplayModeSelectorWidth: CGFloat {
-        let itemCount = CGFloat(FavoritesDisplayMode.allCases.count)
-        let itemSpacing = CGFloat(max(FavoritesDisplayMode.allCases.count - 1, 0)) * 4
+        let itemCount = CGFloat(visibleFavoritesDisplayModes.count)
+        let itemSpacing = CGFloat(max(visibleFavoritesDisplayModes.count - 1, 0)) * 4
         return itemCount * topbarControlSize + itemSpacing + 6
     }
 

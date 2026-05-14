@@ -119,11 +119,14 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
             favorites: try await favorites,
             customStations: try await customStations,
             theme: remotePreferences.theme,
+            themeAccent: remotePreferences.themeAccent,
             locale: remotePreferences.locale,
             sleepTimerDefaultMinutes: remotePreferences.sleepTimerDefaultMinutes,
             landingPage: remotePreferences.landingPage,
             landingStationID: remotePreferences.landingStationID,
             favoritesDisplayMode: remotePreferences.favoritesDisplayMode,
+            favoritesDisplayModeOrder: remotePreferences.favoritesDisplayModeOrder,
+            favoritesDisplayModeVisible: remotePreferences.favoritesDisplayModeVisible,
             wakeDefaultTime: remotePreferences.wakeDefaultTime,
             wakeNotificationsEnabled: remotePreferences.wakeNotificationsEnabled,
             carModeAutomaticEnabled: remotePreferences.carModeAutomaticEnabled,
@@ -188,11 +191,14 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
 
     private func fetchPreferences() async throws -> (
         theme: String,
+        themeAccent: String,
         locale: String,
         sleepTimerDefaultMinutes: Int,
         landingPage: String,
         landingStationID: String,
         favoritesDisplayMode: String,
+        favoritesDisplayModeOrder: String,
+        favoritesDisplayModeVisible: String,
         wakeDefaultTime: String,
         wakeNotificationsEnabled: Bool,
         carModeAutomaticEnabled: Bool,
@@ -206,11 +212,14 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
             let record = try await database.record(for: CKRecord.ID(recordName: RecordName.preferences))
             return (
                 record["theme"] as? String ?? ThemeController.Choice.system.rawValue,
+                record["themeAccent"] as? String ?? ThemeController.classicAccentRawValue,
                 record["locale"] as? String ?? LocaleController.Choice.system.rawValue,
                 record["sleepTimerDefaultMinutes"] as? Int ?? SleepTimer.fallbackDefaultMinutes,
                 record["landingPage"] as? String ?? LandingPage.browse.rawValue,
                 record["landingStationID"] as? String ?? "",
                 record["favoritesDisplayMode"] as? String ?? FavoritesDisplayMode.list.rawValue,
+                record["favoritesDisplayModeOrder"] as? String ?? FavoritesDisplayMode.defaultRawValue,
+                record["favoritesDisplayModeVisible"] as? String ?? FavoritesDisplayMode.defaultRawValue,
                 record["wakeDefaultTime"] as? String ?? WakeAlarm.fallbackDefaultTime,
                 record["wakeNotificationsEnabled"] as? Bool ?? false,
                 record["carModeAutomaticEnabled"] as? Bool ?? true,
@@ -224,7 +233,10 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
             return (
                 "",
                 "",
+                "",
                 0,
+                "",
+                "",
                 "",
                 "",
                 "",
@@ -336,11 +348,14 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
         record["schemaVersion"] = CloudSyncPreferencesSchema.currentVersion
         record["updatedAt"] = Date()
         record["theme"] = snapshot.theme
+        record["themeAccent"] = snapshot.themeAccent
         record["locale"] = snapshot.locale
         record["sleepTimerDefaultMinutes"] = snapshot.sleepTimerDefaultMinutes
         record["landingPage"] = snapshot.landingPage
         record["landingStationID"] = snapshot.landingStationID
         record["favoritesDisplayMode"] = snapshot.favoritesDisplayMode
+        record["favoritesDisplayModeOrder"] = snapshot.favoritesDisplayModeOrder
+        record["favoritesDisplayModeVisible"] = snapshot.favoritesDisplayModeVisible
         record["wakeDefaultTime"] = snapshot.wakeDefaultTime
         record["wakeNotificationsEnabled"] = snapshot.wakeNotificationsEnabled
         record["carModeAutomaticEnabled"] = snapshot.carModeAutomaticEnabled
