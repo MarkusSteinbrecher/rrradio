@@ -17,9 +17,12 @@ import org.rrradio.android.data.LibraryRepository
 import org.rrradio.android.data.PlaybackUiState
 import org.rrradio.android.data.PlayerState
 import org.rrradio.android.data.Station
+import org.rrradio.android.data.StreamProbe
+import org.rrradio.android.data.StreamProbeResult
 import org.rrradio.android.data.availableCountries
 import org.rrradio.android.data.availableCuratedGenres
 import org.rrradio.android.data.makeCustomStation
+import org.rrradio.android.playback.activePlaybackQueue
 import org.rrradio.android.data.stationMatches
 import org.rrradio.android.data.stationMatchesFilters
 import org.rrradio.android.playback.PlaybackStateStore
@@ -85,6 +88,7 @@ data class RrradioUiState(
 class RrradioViewModel(application: Application) : AndroidViewModel(application) {
     private val catalogRepository = CatalogRepository(application)
     private val libraryRepository = LibraryRepository(application)
+    private val streamProbe = StreamProbe()
     private var sleepJob: Job? = null
 
     private val _uiState = MutableStateFlow(RrradioUiState())
@@ -153,7 +157,8 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
 
     fun play(station: Station) {
         val context = getApplication<Application>()
-        context.startService(RadioPlaybackService.playIntent(context, station))
+        val queue = activePlaybackQueue(uiState.value.visibleStations, station)
+        context.startService(RadioPlaybackService.playIntent(context, station, queue))
         viewModelScope.launch { libraryRepository.pushRecent(station) }
     }
 
@@ -177,8 +182,22 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
     ) {
         viewModelScope.launch {
             try {
-                libraryRepository.addCustom(makeCustomStation(name, streamUrl, homepage, country, tags))
-                onSaved()
+                val station = makeCustomStation(
+                    name = name,
+                    streamUrl = streamUrl,
+                    homepage = homepage,
+                    country = country,
+                    tags = tags,
+                    existingStations = uiState.value.allStations,
+                )
+                when (val result = streamProbe.verify(station.streamUrl)) {
+                    StreamProbeResult.Playable -> {
+                        libraryRepository.addCustom(station)
+                        libraryRepository.addFavorite(station)
+                        onSaved()
+                    }
+                    is StreamProbeResult.Failed -> onError(result.message)
+                }
             } catch (error: IllegalArgumentException) {
                 onError(error.message ?: "Invalid station")
             }

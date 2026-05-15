@@ -32,4 +32,33 @@ class CustomStationBuilderTest {
             )
         }
     }
+
+    @Test
+    fun makeCustomStationRejectsPrivateStreamUrl() {
+        assertThrows(CustomStationValidationError.PrivateStreamUrl::class.java) {
+            makeCustomStation(
+                name = "Test",
+                streamUrl = "https://192.168.1.20/live.mp3",
+            )
+        }
+    }
+
+    @Test
+    fun makeCustomStationRejectsDuplicateStreamUrl() {
+        val existing = Station(
+            id = "fm4",
+            name = "FM4",
+            streamUrl = "https://stream.example.com/live/",
+        )
+
+        val error = assertThrows(CustomStationValidationError.DuplicateStreamUrl::class.java) {
+            makeCustomStation(
+                name = "Copy",
+                streamUrl = "https://stream.example.com/live",
+                existingStations = listOf(existing),
+            )
+        }
+
+        assertEquals("FM4", error.stationName)
+    }
 }

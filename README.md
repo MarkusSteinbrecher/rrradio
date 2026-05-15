@@ -102,6 +102,10 @@ dependencies. Released under the [MIT License](./LICENSE).
 Asset provenance and third-party notices live in
 [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md).
 
+The cross-platform product specification lives in
+[docs/spec/](./docs/spec/) and tracks web, iOS, and future Android
+parity.
+
 ## Imprint
 
 rrradio.org is a non-commercial side project.

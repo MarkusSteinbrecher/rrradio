@@ -26,4 +26,18 @@ class SearchTest {
         assertTrue(stationMatches(station, "de"))
         assertFalse(stationMatches(station, "jazz"))
     }
+
+    @Test
+    fun stationMatchesFoldedDiacriticInput() {
+        val station = Station(
+            id = "oe1-campus",
+            name = "Ö1 Campus",
+            streamUrl = "https://example.com/live.mp3",
+            country = "AT",
+            tags = listOf("classical"),
+        )
+
+        assertTrue(stationMatches(station, "O1"))
+        assertTrue(stationMatches(station, "Austria"))
+    }
 }
