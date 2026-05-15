@@ -49,6 +49,10 @@ final class WatchRemoteModel: NSObject, ObservableObject, WCSessionDelegate {
         send(.playStation, stationID: stationID)
     }
 
+    func playActiveQueueStation(id stationID: String) {
+        send(.playActiveQueueStation, stationID: stationID)
+    }
+
     func playStationList(id stationListID: String) {
         send(.playStationList, stationListID: stationListID)
     }

@@ -34,6 +34,22 @@ final class WatchRemoteProtocolTests: XCTestCase {
         XCTAssertEqual(decoded.requestedAt, command.requestedAt)
     }
 
+    func testActiveQueueStationCommandMessageRoundTrips() throws {
+        let command = WatchPlaybackCommandEnvelope(
+            kind: .playActiveQueueStation,
+            stationID: "fm4",
+            requestedAt: Date(timeIntervalSince1970: 1_700_000_000),
+        )
+
+        let message = try WatchRemoteMessageCodec.message(for: command)
+        let decoded = try XCTUnwrap(try WatchRemoteMessageCodec.command(from: message))
+
+        XCTAssertEqual(decoded.kind, .playActiveQueueStation)
+        XCTAssertEqual(decoded.stationID, "fm4")
+        XCTAssertNil(decoded.stationListID)
+        XCTAssertEqual(decoded.requestedAt, command.requestedAt)
+    }
+
     func testSnapshotMessageRoundTrips() throws {
         let fm4 = WatchStationSummary(
             id: "fm4",
@@ -71,6 +87,7 @@ final class WatchRemoteProtocolTests: XCTestCase {
                 stationCount: 3,
                 currentIndex: 1,
             ),
+            activeQueueStations: [fm4],
             catalogStationCount: 42,
             generatedAt: Date(timeIntervalSince1970: 1_700_000_001),
         )

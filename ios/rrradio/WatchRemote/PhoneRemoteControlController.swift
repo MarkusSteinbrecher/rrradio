@@ -7,6 +7,7 @@ final class PhoneRemoteControlController: NSObject, WCSessionDelegate {
 
     private static let favoriteSnapshotLimit = 30
     private static let stationListSnapshotLimit = 20
+    private static let activeQueueStationSnapshotLimit = 60
     private static let pendingCommandLimit = 5
 
     private weak var catalog: Catalog?
@@ -113,6 +114,10 @@ final class PhoneRemoteControlController: NSObject, WCSessionDelegate {
             guard let stationID = command.stationID else { return }
             playStation(id: stationID)
 
+        case .playActiveQueueStation:
+            guard let stationID = command.stationID else { return }
+            playActiveQueueStation(id: stationID)
+
         case .playStationList:
             guard let stationListID = command.stationListID else { return }
             playStationList(id: stationListID)
@@ -163,9 +168,23 @@ final class PhoneRemoteControlController: NSObject, WCSessionDelegate {
 
     private func playStation(id stationID: String) {
         guard let station = station(id: stationID), let library, let player else { return }
-        let queue = StationPlaybackQueue(source: .favorites, stations: library.favorites, current: station)
-        player.play(station, queue: queue)
+        if library.favorites.contains(where: { $0.id == station.id }) {
+            let queue = StationPlaybackQueue(source: .favorites, stations: library.favorites, current: station)
+            player.play(station, queue: queue)
+        } else {
+            player.play(station)
+        }
         library.pushRecent(station)
+    }
+
+    private func playActiveQueueStation(id stationID: String) {
+        guard let station = station(id: stationID), let library, let player else { return }
+        if player.activePlaybackQueue?.contains(station) == true {
+            player.play(station)
+            library.pushRecent(station)
+        } else {
+            playStation(id: stationID)
+        }
     }
 
     private func playStationList(id stationListID: String) {
@@ -235,13 +254,26 @@ final class PhoneRemoteControlController: NSObject, WCSessionDelegate {
             nowPlayingTitle: player?.nowPlayingTitle,
             nowPlayingArtist: player?.nowPlayingArtist,
             nowPlayingProgramName: player?.nowPlayingProgramName,
-            nowPlayingCoverURL: player?.nowPlayingCoverUrl ?? player?.current?.favicon,
+            nowPlayingCoverURL: player?.nowPlayingCoverUrl,
             favorites: Array(favorites),
             stationLists: Array(stationLists),
             activeQueue: player.flatMap { activeQueueSummary(for: $0) },
+            activeQueueStations: activeQueueStations(for: player),
             catalogStationCount: catalog?.stations.count ?? 0,
             generatedAt: Date(),
         )
+    }
+
+    private func activeQueueStations(for player: AudioPlayer?) -> [WatchStationSummary] {
+        guard let queue = player?.activePlaybackQueue else { return [] }
+        switch queue.source {
+        case .favorites, .stationList:
+            return queue.stations
+                .prefix(Self.activeQueueStationSnapshotLimit)
+                .map(WatchStationSummary.init(station:))
+        case .browse, .recents, .single:
+            return []
+        }
     }
 
     private func activeQueueSummary(for player: AudioPlayer) -> WatchPlaybackQueueSummary? {

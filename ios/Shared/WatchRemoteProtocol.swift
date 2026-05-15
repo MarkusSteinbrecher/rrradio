@@ -2,6 +2,7 @@ import Foundation
 
 enum WatchPlaybackCommandKind: String, Codable, Hashable {
     case playStation
+    case playActiveQueueStation
     case playStationList
     case pause
     case resume
@@ -82,6 +83,7 @@ struct WatchPlaybackSnapshot: Codable, Hashable {
     let favorites: [WatchStationSummary]
     let stationLists: [WatchStationListSummary]
     let activeQueue: WatchPlaybackQueueSummary?
+    let activeQueueStations: [WatchStationSummary]
     let catalogStationCount: Int
     let generatedAt: Date
 
@@ -95,6 +97,7 @@ struct WatchPlaybackSnapshot: Codable, Hashable {
         case favorites
         case stationLists
         case activeQueue
+        case activeQueueStations
         case catalogStationCount
         case generatedAt
     }
@@ -109,6 +112,7 @@ struct WatchPlaybackSnapshot: Codable, Hashable {
         favorites: [WatchStationSummary],
         stationLists: [WatchStationListSummary] = [],
         activeQueue: WatchPlaybackQueueSummary? = nil,
+        activeQueueStations: [WatchStationSummary] = [],
         catalogStationCount: Int,
         generatedAt: Date
     ) {
@@ -121,6 +125,7 @@ struct WatchPlaybackSnapshot: Codable, Hashable {
         self.favorites = favorites
         self.stationLists = stationLists
         self.activeQueue = activeQueue
+        self.activeQueueStations = activeQueueStations
         self.catalogStationCount = catalogStationCount
         self.generatedAt = generatedAt
     }
@@ -136,6 +141,7 @@ struct WatchPlaybackSnapshot: Codable, Hashable {
         self.favorites = try container.decode([WatchStationSummary].self, forKey: .favorites)
         self.stationLists = try container.decodeIfPresent([WatchStationListSummary].self, forKey: .stationLists) ?? []
         self.activeQueue = try container.decodeIfPresent(WatchPlaybackQueueSummary.self, forKey: .activeQueue)
+        self.activeQueueStations = try container.decodeIfPresent([WatchStationSummary].self, forKey: .activeQueueStations) ?? []
         self.catalogStationCount = try container.decode(Int.self, forKey: .catalogStationCount)
         self.generatedAt = try container.decode(Date.self, forKey: .generatedAt)
     }
@@ -151,6 +157,7 @@ struct WatchPlaybackSnapshot: Codable, Hashable {
             favorites: [],
             stationLists: [],
             activeQueue: nil,
+            activeQueueStations: [],
             catalogStationCount: 0,
             generatedAt: generatedAt,
         )
