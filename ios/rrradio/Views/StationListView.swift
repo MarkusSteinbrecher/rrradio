@@ -4033,50 +4033,64 @@ private struct FavoriteGridItemSizePreferenceKey: PreferenceKey {
 }
 
 /// SpringBoard-style jiggle modifier for the favorites grid icons.
-/// Active when the user is in delete mode; off otherwise. Each tile
-/// passes its `station.id.hashValue` as `seed` so rotation period and
-/// starting phase vary slightly across tiles — without that, all tiles
-/// would jiggle in perfect lockstep and the eye would read it as one
-/// rigid object shaking, not many small ones.
+/// Active when the user is in delete mode; off otherwise.
+///
+/// Implementation note: this used to be `@State + withAnimation(...).
+/// repeatForever`, which is the canonical SwiftUI pattern but is
+/// fragile inside a ViewModifier — the parent reconstructs the
+/// modifier on every render (because `isActive` is part of its init),
+/// and the @State / animation lifecycle around that can drop the
+/// repeat without warning. TimelineView with time-driven sin/cos is
+/// deterministic: each frame computes the rotation from absolute time,
+/// so the oscillation is guaranteed to run regardless of whether the
+/// modifier was just reconstructed or how SwiftUI batched the state
+/// changes.
+///
+/// Each tile passes `station.id.hashValue` as `seed`, which seeds a
+/// small per-tile period offset and a phase shift — adjacent tiles
+/// jiggle at slightly different rates so the eye reads it as many
+/// independent icons rather than one rigid grid shaking together.
 private struct FavoriteJiggleModifier: ViewModifier {
     let isActive: Bool
     let seed: Int
 
-    @State private var oscillate = false
-
-    // Per-tile period jitter: 120–149 ms. Starting phase is seeded so
-    // about half the tiles begin at the opposite extreme.
-    private var period: Double { 0.12 + Double(abs(seed) % 30) / 1000.0 }
-    private var startsFlipped: Bool { (abs(seed) % 2) == 0 }
-
-    func body(content: Content) -> some View {
-        content
-            // Rotation amplitude tuned to ~iOS Home: small enough to
-            // read as nervous, large enough to be unmistakably "edit
-            // mode". The translation is intentionally tiny — without
-            // it the rotation alone looks like a metronome.
-            .rotationEffect(.degrees(oscillate ? 1.4 : -1.4))
-            .offset(y: oscillate ? 0.6 : -0.6)
-            .onAppear { applyJiggle(active: isActive) }
-            .onChange(of: isActive) { _, active in applyJiggle(active: active) }
+    // Rotation amplitude tuned to be unmistakably "edit mode" but not
+    // cartoonish. iPhone SpringBoard runs closer to ~3°; that reads as
+    // shaky on a 64-pt app tile and is too much on a 46-pt list cell.
+    private static let rotationDegrees: Double = 2.4
+    private static let translationPixels: Double = 1.0
+    // Baseline ~280 ms full cycle (140 ms each direction). Per-tile
+    // jitter spreads tiles across a 280–340 ms band.
+    private var period: Double { 0.28 + Double(abs(seed) % 60) / 1000.0 }
+    // Seeded phase offset across the full 2π cycle. Without this the
+    // first-render snapshot of every tile would be rotated the same
+    // direction, which reads as a moment of unison.
+    private var phaseOffset: Double {
+        (Double(abs(seed) % 100) / 100.0) * .pi * 2
     }
 
-    private func applyJiggle(active: Bool) {
-        if active {
-            // Set the rest pose immediately, then start the repeating
-            // ease-in-out so the first transition crosses through the
-            // resting orientation (instead of snapping past it).
-            oscillate = startsFlipped
-            withAnimation(.easeInOut(duration: period).repeatForever(autoreverses: true)) {
-                oscillate = !startsFlipped
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if isActive {
+            TimelineView(.animation) { context in
+                let t = context.date.timeIntervalSinceReferenceDate
+                let phase = (t / period) * 2 * .pi + phaseOffset
+                content
+                    .rotationEffect(.degrees(sin(phase) * Self.rotationDegrees))
+                    // Offset on a slightly different beat (using cos
+                    // instead of sin) so rotation + translation aren't
+                    // in lockstep — gives the jiggle a bit of organic
+                    // wobble rather than a pure rotation-around-center.
+                    .offset(y: cos(phase) * Self.translationPixels)
             }
         } else {
-            // Settle back to neutral. Without an explicit animation
-            // here the repeatForever would just keep going against a
-            // false `isActive`.
-            withAnimation(.easeOut(duration: 0.12)) {
-                oscillate = false
-            }
+            // Settle back to neutral on a brief easeOut when the user
+            // leaves delete mode. Without an animation here the icons
+            // would snap to upright the moment the modifier disappears.
+            content
+                .rotationEffect(.zero)
+                .offset(.zero)
+                .animation(.easeOut(duration: 0.18), value: isActive)
         }
     }
 }
