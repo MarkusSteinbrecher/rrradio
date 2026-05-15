@@ -2623,6 +2623,13 @@ struct StationListView: View {
             let showsReorderPlaceholder = draggedFavoriteStationID == station.id
             let showsDeleteButton = favoriteDeleteModeEnabled
                 && targetedFavoriteStationID == nil
+            // SpringBoard-style jiggle while the user is in delete mode.
+            // Skipped for the tile currently being dragged so the drag
+            // preview snapshot isn't tilted. Per-station seed gives each
+            // tile a slightly different oscillation period so adjacent
+            // tiles don't beat in unison.
+            let isJiggling = favoriteDeleteModeEnabled
+                && draggedFavoriteStationID != station.id
             let item = ZStack(alignment: .topTrailing) {
                 content()
 
@@ -2631,6 +2638,7 @@ struct StationListView: View {
                         .padding(4)
                 }
             }
+                .modifier(FavoriteJiggleModifier(isActive: isJiggling, seed: station.id.hashValue))
                 .opacity(showsReorderPlaceholder ? 0 : 1)
                 .contentShape(Rectangle())
                 .onTapGesture {
@@ -4021,6 +4029,55 @@ private struct FavoriteGridItemSizePreferenceKey: PreferenceKey {
 
     static func reduce(value: inout [String: CGSize], nextValue: () -> [String: CGSize]) {
         value.merge(nextValue(), uniquingKeysWith: { _, new in new })
+    }
+}
+
+/// SpringBoard-style jiggle modifier for the favorites grid icons.
+/// Active when the user is in delete mode; off otherwise. Each tile
+/// passes its `station.id.hashValue` as `seed` so rotation period and
+/// starting phase vary slightly across tiles — without that, all tiles
+/// would jiggle in perfect lockstep and the eye would read it as one
+/// rigid object shaking, not many small ones.
+private struct FavoriteJiggleModifier: ViewModifier {
+    let isActive: Bool
+    let seed: Int
+
+    @State private var oscillate = false
+
+    // Per-tile period jitter: 120–149 ms. Starting phase is seeded so
+    // about half the tiles begin at the opposite extreme.
+    private var period: Double { 0.12 + Double(abs(seed) % 30) / 1000.0 }
+    private var startsFlipped: Bool { (abs(seed) % 2) == 0 }
+
+    func body(content: Content) -> some View {
+        content
+            // Rotation amplitude tuned to ~iOS Home: small enough to
+            // read as nervous, large enough to be unmistakably "edit
+            // mode". The translation is intentionally tiny — without
+            // it the rotation alone looks like a metronome.
+            .rotationEffect(.degrees(oscillate ? 1.4 : -1.4))
+            .offset(y: oscillate ? 0.6 : -0.6)
+            .onAppear { applyJiggle(active: isActive) }
+            .onChange(of: isActive) { _, active in applyJiggle(active: active) }
+    }
+
+    private func applyJiggle(active: Bool) {
+        if active {
+            // Set the rest pose immediately, then start the repeating
+            // ease-in-out so the first transition crosses through the
+            // resting orientation (instead of snapping past it).
+            oscillate = startsFlipped
+            withAnimation(.easeInOut(duration: period).repeatForever(autoreverses: true)) {
+                oscillate = !startsFlipped
+            }
+        } else {
+            // Settle back to neutral. Without an explicit animation
+            // here the repeatForever would just keep going against a
+            // false `isActive`.
+            withAnimation(.easeOut(duration: 0.12)) {
+                oscillate = false
+            }
+        }
     }
 }
 
