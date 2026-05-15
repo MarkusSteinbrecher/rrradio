@@ -44,14 +44,15 @@
   country: CH
   status: working
   featured: true
-  # All four Infomaniak stream URLs (grrif-128.aac, grrif-48.mp3,
-  # grrif-high.mp3, grrif-64.aac) return HTTP 401 "Authorization
-  # required" from non-Swiss IPs (AIS9 server's geo-block response).
-  # Music-licensing decision (SUISA/SwissPerform); no international
-  # stream exists. Sister station RJB on the same Infomaniak fleet is
-  # not geo-gated, confirming this is broadcaster-side and intentional.
-  availableIn:
-    - CH
+  # Geo-restriction note (do NOT re-flag without fresh evidence):
+  # Grrif's four Infomaniak streams return HTTP 401 from some non-CH
+  # IPs (Deutsche Telekom DSL from Munich, confirmed 2026-05-15). But
+  # the block is NOT uniform — other DE egresses can play the station
+  # fine, and the AIS9 deny-list appears to be edited per-ASN over
+  # time. A `availableIn: [CH]` flag was removed 2026-05-15 because
+  # the resulting "Switzerland only" badge gave false negatives for
+  # German visitors who could in fact listen. Re-flag only if a sweep
+  # across multiple non-CH ASNs shows the block is universal.
 - id: builtin-fm4
   stationuuid: 1e13ed4e-daa9-4728-8550-e08d89c1c8e7
   changeuuid: ae34eaf7-5e77-4144-9eb9-c27a9f33ada2
