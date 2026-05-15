@@ -230,7 +230,11 @@ struct StationListView: View {
     @State private var showingFavoritesCatalogFallback = false
     @State private var draggedFavoriteStationID: String?
     @State private var targetedFavoriteStationID: String?
-    @State private var lastHandledFavoriteDropTargetID: String?
+    // Timestamp of the last successful reorder during the active drag.
+    // moveIfReady gates on a short interval since this stamp instead of
+    // the previous "same target ID" lock, so dragging back and forth
+    // across the same boundary lets fine adjustments through.
+    @State private var lastFavoriteDropMoveAt: Date?
     @State private var favoriteGridItemSizes: [String: CGSize] = [:]
     @State private var favoriteDeleteModeEnabled = false
     @State private var filterTask: Task<Void, Never>?
@@ -2414,7 +2418,7 @@ struct StationListView: View {
                         dropBehavior: .targetSlot,
                         draggedStationID: $draggedFavoriteStationID,
                         targetedStationID: $targetedFavoriteStationID,
-                        lastHandledTargetID: $lastHandledFavoriteDropTargetID,
+                        lastMoveAt: $lastFavoriteDropMoveAt,
                         moveStation: moveFavoriteGridStation,
                     ),
                 )
@@ -2503,7 +2507,7 @@ struct StationListView: View {
                         delegate: FavoriteGridDropResetDelegate(
                             draggedStationID: $draggedFavoriteStationID,
                             targetedStationID: $targetedFavoriteStationID,
-                            lastHandledTargetID: $lastHandledFavoriteDropTargetID,
+                            lastMoveAt: $lastFavoriteDropMoveAt,
                         ),
                     )
                     .onPreferenceChange(FavoriteGridItemSizePreferenceKey.self, perform: updateFavoriteGridItemSizes)
@@ -2564,7 +2568,7 @@ struct StationListView: View {
                         delegate: FavoriteGridDropResetDelegate(
                             draggedStationID: $draggedFavoriteStationID,
                             targetedStationID: $targetedFavoriteStationID,
-                            lastHandledTargetID: $lastHandledFavoriteDropTargetID,
+                            lastMoveAt: $lastFavoriteDropMoveAt,
                         ),
                     )
                     .onPreferenceChange(FavoriteGridItemSizePreferenceKey.self, perform: updateFavoriteGridItemSizes)
@@ -2611,10 +2615,21 @@ struct StationListView: View {
         @ViewBuilder content: () -> Content,
     ) -> some View {
         if canReorderFavorites {
+            // Hide the source as soon as the drag is picked up — not
+            // after the first drop target registers. Previously the
+            // original tile stayed full-opacity until lastHandledTarget
+            // was set, so the user saw both the drag preview and the
+            // source at full opacity during the initial pickup.
             let showsReorderPlaceholder = draggedFavoriteStationID == station.id
-                && lastHandledFavoriteDropTargetID != nil
             let showsDeleteButton = favoriteDeleteModeEnabled
                 && targetedFavoriteStationID == nil
+            // SpringBoard-style jiggle while the user is in delete mode.
+            // Skipped for the tile currently being dragged so the drag
+            // preview snapshot isn't tilted. Per-station seed gives each
+            // tile a slightly different oscillation period so adjacent
+            // tiles don't beat in unison.
+            let isJiggling = favoriteDeleteModeEnabled
+                && draggedFavoriteStationID != station.id
             let item = ZStack(alignment: .topTrailing) {
                 content()
 
@@ -2623,6 +2638,7 @@ struct StationListView: View {
                         .padding(4)
                 }
             }
+                .modifier(FavoriteJiggleModifier(isActive: isJiggling, seed: station.id.hashValue))
                 .opacity(showsReorderPlaceholder ? 0 : 1)
                 .contentShape(Rectangle())
                 .onTapGesture {
@@ -2648,7 +2664,7 @@ struct StationListView: View {
                             dropBehavior: dropBehavior,
                             draggedStationID: $draggedFavoriteStationID,
                             targetedStationID: $targetedFavoriteStationID,
-                            lastHandledTargetID: $lastHandledFavoriteDropTargetID,
+                            lastMoveAt: $lastFavoriteDropMoveAt,
                             moveStation: moveFavoriteGridStation,
                         ),
                     )
@@ -2665,7 +2681,7 @@ struct StationListView: View {
                             dropBehavior: dropBehavior,
                             draggedStationID: $draggedFavoriteStationID,
                             targetedStationID: $targetedFavoriteStationID,
-                            lastHandledTargetID: $lastHandledFavoriteDropTargetID,
+                            lastMoveAt: $lastFavoriteDropMoveAt,
                             moveStation: moveFavoriteGridStation,
                         ),
                     )
@@ -2686,7 +2702,7 @@ struct StationListView: View {
     private func favoriteGridDragProvider(for station: Station) -> NSItemProvider {
         draggedFavoriteStationID = station.id
         targetedFavoriteStationID = nil
-        lastHandledFavoriteDropTargetID = nil
+        lastFavoriteDropMoveAt = nil
         favoriteDeleteModeEnabled = false
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
         return NSItemProvider(object: station.id as NSString)
@@ -2700,11 +2716,11 @@ struct StationListView: View {
     private func clearFavoriteGridDragState() {
         guard draggedFavoriteStationID != nil
             || targetedFavoriteStationID != nil
-            || lastHandledFavoriteDropTargetID != nil
+            || lastFavoriteDropMoveAt != nil
             || favoriteDeleteModeEnabled else { return }
         draggedFavoriteStationID = nil
         targetedFavoriteStationID = nil
-        lastHandledFavoriteDropTargetID = nil
+        lastFavoriteDropMoveAt = nil
         favoriteDeleteModeEnabled = false
     }
 
@@ -3178,11 +3194,21 @@ struct StationListView: View {
         favoriteDeleteModeEnabled = false
 
         var ordered = filteredStations
-        withAnimation(.easeInOut(duration: 0.32)) {
+        // Spring instead of easeInOut: drag-hover fires many moves per
+        // second, and an easeInOut tween locks each one in for its full
+        // duration so consecutive moves stack on top of each other and
+        // the row chases the finger. A spring of this response/damping
+        // is what iOS Home / Settings reorder uses — overlapping moves
+        // supersede smoothly instead of queueing.
+        withAnimation(.spring(response: 0.28, dampingFraction: 0.78)) {
             ordered.move(fromOffsets: IndexSet(integer: sourceIndex), toOffset: destination)
             filteredStations = ordered
         }
         library.reorderFavorites(ordered.map(\.id))
+        // Per-move selection haptic so each "slot crossed" is confirmed
+        // to the user the moment the array changes, instead of waiting
+        // for the spring to settle. Matches the SpringBoard reorder feel.
+        UISelectionFeedbackGenerator().selectionChanged()
         return true
     }
 
@@ -4006,13 +4032,70 @@ private struct FavoriteGridItemSizePreferenceKey: PreferenceKey {
     }
 }
 
+/// SpringBoard-style jiggle modifier for the favorites grid icons.
+/// Active when the user is in delete mode; off otherwise. Each tile
+/// passes its `station.id.hashValue` as `seed` so rotation period and
+/// starting phase vary slightly across tiles — without that, all tiles
+/// would jiggle in perfect lockstep and the eye would read it as one
+/// rigid object shaking, not many small ones.
+private struct FavoriteJiggleModifier: ViewModifier {
+    let isActive: Bool
+    let seed: Int
+
+    @State private var oscillate = false
+
+    // Per-tile period jitter: 120–149 ms. Starting phase is seeded so
+    // about half the tiles begin at the opposite extreme.
+    private var period: Double { 0.12 + Double(abs(seed) % 30) / 1000.0 }
+    private var startsFlipped: Bool { (abs(seed) % 2) == 0 }
+
+    func body(content: Content) -> some View {
+        content
+            // Rotation amplitude tuned to ~iOS Home: small enough to
+            // read as nervous, large enough to be unmistakably "edit
+            // mode". The translation is intentionally tiny — without
+            // it the rotation alone looks like a metronome.
+            .rotationEffect(.degrees(oscillate ? 1.4 : -1.4))
+            .offset(y: oscillate ? 0.6 : -0.6)
+            .onAppear { applyJiggle(active: isActive) }
+            .onChange(of: isActive) { _, active in applyJiggle(active: active) }
+    }
+
+    private func applyJiggle(active: Bool) {
+        if active {
+            // Set the rest pose immediately, then start the repeating
+            // ease-in-out so the first transition crosses through the
+            // resting orientation (instead of snapping past it).
+            oscillate = startsFlipped
+            withAnimation(.easeInOut(duration: period).repeatForever(autoreverses: true)) {
+                oscillate = !startsFlipped
+            }
+        } else {
+            // Settle back to neutral. Without an explicit animation
+            // here the repeatForever would just keep going against a
+            // false `isActive`.
+            withAnimation(.easeOut(duration: 0.12)) {
+                oscillate = false
+            }
+        }
+    }
+}
+
 private struct FavoriteStationDropDelegate: DropDelegate {
+    // Minimum gap between successful reorders during a single drag.
+    // Previously the gate was "ignore the same target ID until the
+    // finger leaves it", which locked out back-and-forth across a
+    // single boundary. A time-based throttle lets fine adjustments
+    // through while still preventing the array from being thrashed at
+    // dropUpdated's call rate.
+    static let moveThrottleInterval: TimeInterval = 0.08
+
     let targetStationID: String
     let targetSize: CGSize?
     let dropBehavior: FavoriteGridDropBehavior
     @Binding var draggedStationID: String?
     @Binding var targetedStationID: String?
-    @Binding var lastHandledTargetID: String?
+    @Binding var lastMoveAt: Date?
     let moveStation: (String, String, CGPoint, CGSize?, FavoriteGridDropBehavior) -> Bool
 
     func validateDrop(info: DropInfo) -> Bool {
@@ -4030,11 +4113,14 @@ private struct FavoriteStationDropDelegate: DropDelegate {
 
     private func moveIfReady(info: DropInfo) {
         guard let draggedStationID,
-              draggedStationID != targetStationID,
-              lastHandledTargetID != targetStationID else { return }
+              draggedStationID != targetStationID else { return }
+        if let lastMoveAt,
+           Date().timeIntervalSince(lastMoveAt) < Self.moveThrottleInterval {
+            return
+        }
         guard moveStation(draggedStationID, targetStationID, info.location, targetSize, dropBehavior) else { return }
         targetedStationID = targetStationID
-        lastHandledTargetID = targetStationID
+        lastMoveAt = Date()
     }
 
     func dropExited(info: DropInfo) {
@@ -4052,14 +4138,14 @@ private struct FavoriteStationDropDelegate: DropDelegate {
     private func clearDragState() {
         draggedStationID = nil
         targetedStationID = nil
-        lastHandledTargetID = nil
+        lastMoveAt = nil
     }
 }
 
 private struct FavoriteGridDropResetDelegate: DropDelegate {
     @Binding var draggedStationID: String?
     @Binding var targetedStationID: String?
-    @Binding var lastHandledTargetID: String?
+    @Binding var lastMoveAt: Date?
 
     func validateDrop(info: DropInfo) -> Bool {
         draggedStationID != nil
@@ -4071,7 +4157,7 @@ private struct FavoriteGridDropResetDelegate: DropDelegate {
 
     func dropExited(info: DropInfo) {
         targetedStationID = nil
-        lastHandledTargetID = nil
+        lastMoveAt = nil
     }
 
     func performDrop(info: DropInfo) -> Bool {
@@ -4083,7 +4169,7 @@ private struct FavoriteGridDropResetDelegate: DropDelegate {
     private func clearDragState() {
         draggedStationID = nil
         targetedStationID = nil
-        lastHandledTargetID = nil
+        lastMoveAt = nil
     }
 }
 
