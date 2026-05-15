@@ -188,6 +188,14 @@ function merged(s) {
     geo: Array.isArray(s.geo) && s.geo.length === 2 ? s.geo : fromRb.geo,
     featured: s.featured === true ? true : undefined,
     status: s.status,
+    // Geo-restriction allow-list (ISO 3166-1 alpha-2, uppercase). Only
+    // emitted when the local YAML sets the field — there's no RB
+    // equivalent and no broadcaster fallback. Empty arrays are
+    // intentionally dropped (treated as "no restriction known").
+    availableIn:
+      Array.isArray(s.availableIn) && s.availableIn.length > 0
+        ? s.availableIn.map((cc) => String(cc).toUpperCase())
+        : undefined,
     _rb: rb, // kept for post-merge validation; stripped before write
   };
 }

@@ -77,6 +77,15 @@ export interface Station {
    *  - `stream-only` — stream confirmed, no metadata source
    *  Drives the row capability badges. Absent on RB long-tail / custom adds. */
   status?: 'working' | 'icy-only' | 'stream-only';
+  /** ISO-3166 alpha-2 country codes where the stream is known to be
+   *  reachable. Absent means "no known restriction" — the default and
+   *  the case for the overwhelming majority of stations. When set, the
+   *  UI dims the row with a "<Country> only" badge for users outside
+   *  the allow-list, and the playback error path translates upstream
+   *  401s into a friendly geo-restricted message rather than a generic
+   *  stream-failed alert. Set by curation when a broadcaster geo-gates
+   *  (typically a music-licensing constraint — SUISA, GEMA, etc.). */
+  availableIn?: string[];
 }
 
 export type PlayerState = 'idle' | 'loading' | 'playing' | 'paused' | 'error';

@@ -44,6 +44,14 @@
   country: CH
   status: working
   featured: true
+  # All four Infomaniak stream URLs (grrif-128.aac, grrif-48.mp3,
+  # grrif-high.mp3, grrif-64.aac) return HTTP 401 "Authorization
+  # required" from non-Swiss IPs (AIS9 server's geo-block response).
+  # Music-licensing decision (SUISA/SwissPerform); no international
+  # stream exists. Sister station RJB on the same Infomaniak fleet is
+  # not geo-gated, confirming this is broadcaster-side and intentional.
+  availableIn:
+    - CH
 - id: builtin-fm4
   stationuuid: 1e13ed4e-daa9-4728-8550-e08d89c1c8e7
   changeuuid: ae34eaf7-5e77-4144-9eb9-c27a9f33ada2
