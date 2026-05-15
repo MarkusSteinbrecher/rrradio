@@ -461,29 +461,10 @@ export default {
         // PII to redact in the first place. GoatCounter `/stats/total`
         // returns aggregate visit + event counts only. Used by the
         // public stats sheet so it matches the admin dashboard's headline
-        // numbers (which default to 7-day windows). Also returns a
-        // `daily` series (pageviews per day, oldest → newest, aligned
-        // to `days`) so the dashboard can show a 7-day visit trend
-        // line. GoatCounter has no per-day total endpoint, so we sum
-        // non-event hits from /stats/hits as the trend proxy. Events
-        // (play:, favorite:, …) are excluded to stay aligned with the
-        // `total` field's "visits" semantic.
+        // numbers (which default to 7-day windows).
         if (url.pathname === '/api/public/totals') {
-          const [t, hits] = await Promise.all([
-            totals(days, env),
-            tolerate(() => fetchAllHits(days, env), [] as GcHit[]),
-          ]);
-          const trendDays = rangeDays(days);
-          const dayIndex = new Map(trendDays.map((d, i) => [d, i]));
-          const daily = new Array<number>(trendDays.length).fill(0);
-          for (const h of hits) {
-            if (h.event) continue;
-            for (const s of h.stats ?? []) {
-              const idx = dayIndex.get(s.day);
-              if (idx !== undefined) daily[idx] += s.daily;
-            }
-          }
-          return new Response(JSON.stringify({ ...t, daily, days: trendDays }), {
+          const t = await totals(days, env);
+          return new Response(JSON.stringify(t), {
             status: 200,
             headers: {
               'Content-Type': 'application/json; charset=utf-8',
@@ -494,24 +475,62 @@ export default {
         }
 
         // Public visitor locations — visitor-country counts from
-        // GoatCounter /stats/locations. Country granularity only; no
-        // city/region. Aggregate, no PII. Items shape:
-        //   { code: ISO3166-1 alpha-2, name: localized, count: int }
+        // GoatCounter /stats/locations, one day at a time. GC has no
+        // built-in per-day breakdown for /stats/locations, but it does
+        // accept start+end, so N parallel single-day queries get us
+        // the per-country daily series the dashboard needs for the
+        // Listeners-view sparkline. Aggregate counts are summed across
+        // days. Country granularity only; no city/region. No PII.
+        //   items: { code, name, count, series }
+        //   days:  [YYYY-MM-DD, …] oldest → newest, aligned to series
         if (url.pathname === '/api/public/locations') {
           const limit = Math.min(50, Math.max(1, Number(url.searchParams.get('limit')) || 30));
-          const params = new URLSearchParams({
-            start: rangeStart(days),
-            limit: String(limit),
-          });
-          const raw = await gcFetch<GcStatGroup>(`/stats/locations?${params}`, env);
-          const items = (raw.stats ?? []).map((s) => ({
-            code: s.id || '',
-            name: s.name || s.id || '—',
-            count: s.count,
+          const trendDays = rangeDays(days);
+          // One GC call per day in the window, in parallel. Each one
+          // tolerates failure so a single bad day shows as zeros rather
+          // than blanking the whole response.
+          const perDay = await Promise.all(
+            trendDays.map((day) =>
+              tolerate(
+                () =>
+                  gcFetch<GcStatGroup>(
+                    `/stats/locations?${new URLSearchParams({
+                      start: day,
+                      end: day,
+                      limit: String(limit),
+                    })}`,
+                    env,
+                  ),
+                { stats: [], total: 0 } as GcStatGroup,
+              ),
+            ),
+          );
+          // Stitch per-country series across the day responses. Day
+          // index = position in trendDays. A country may be absent from
+          // some days entirely; those slots stay 0.
+          const seriesByCC = new Map<string, number[]>();
+          const nameByCC = new Map<string, string>();
+          for (let i = 0; i < perDay.length; i++) {
+            for (const s of perDay[i].stats ?? []) {
+              const cc = (s.id || '').toUpperCase();
+              if (!cc) continue;
+              if (!seriesByCC.has(cc)) {
+                seriesByCC.set(cc, new Array<number>(trendDays.length).fill(0));
+              }
+              seriesByCC.get(cc)![i] = s.count;
+              if (!nameByCC.has(cc)) nameByCC.set(cc, s.name || cc);
+            }
+          }
+          const items = [...seriesByCC.entries()].map(([cc, series]) => ({
+            code: cc,
+            name: nameByCC.get(cc) ?? cc,
+            count: series.reduce((s, v) => s + v, 0),
+            series,
           }));
           items.sort((a, b) => b.count - a.count);
+          const total = items.reduce((s, i) => s + i.count, 0);
           return new Response(
-            JSON.stringify({ items, total: raw.total ?? 0, range_days: days }),
+            JSON.stringify({ items, total, range_days: days, days: trendDays }),
             {
               status: 200,
               headers: {

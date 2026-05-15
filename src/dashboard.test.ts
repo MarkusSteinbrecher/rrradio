@@ -176,37 +176,58 @@ describe('aggregateDashboard — per-country daily series', () => {
   });
 });
 
-describe('aggregateDashboard — daily-visits trend', () => {
-  it('passes through the daily-visits series when it matches the window', () => {
+describe('aggregateDashboard — per-listener-country daily series', () => {
+  it('passes through per-country series when length matches the window', () => {
     const d = aggregateDashboard(
       [],
-      [],
+      [
+        { code: 'CH', name: 'Switzerland', count: 30, series: [10, 5, 15] },
+        { code: 'DE', name: 'Germany', count: 12, series: [3, 4, 5] },
+      ],
       catalog,
       undefined,
       ['d1', 'd2', 'd3'],
-      [10, 20, 30],
     );
-    expect(d.dailyVisits).toEqual([10, 20, 30]);
+    expect(d.byListenerCountrySeries.get('CH')).toEqual([10, 5, 15]);
+    expect(d.byListenerCountrySeries.get('DE')).toEqual([3, 4, 5]);
   });
 
-  it('drops a daily-visits series whose length disagrees with the window', () => {
-    // Defensive: the trend series comes from a separate worker call
-    // (/api/public/totals). If it somehow returns a different window
-    // size than top-stations, drop it rather than line up off-by-one.
+  it('sums series across duplicate country codes (case-normalised)', () => {
     const d = aggregateDashboard(
       [],
-      [],
+      [
+        { code: 'CH', name: 'Switzerland', count: 10, series: [5, 5, 0] },
+        { code: 'ch', name: 'Switzerland', count: 4, series: [1, 1, 2] },
+      ],
       catalog,
       undefined,
       ['d1', 'd2', 'd3'],
-      [10, 20], // wrong length
     );
-    expect(d.dailyVisits).toEqual([]);
+    expect(d.byListenerCountrySeries.get('CH')).toEqual([6, 6, 2]);
   });
 
-  it('returns an empty trend when the worker omitted the daily series', () => {
-    const d = aggregateDashboard([], [], catalog);
-    expect(d.dailyVisits).toEqual([]);
+  it('omits per-country series when the worker shipped none', () => {
+    const d = aggregateDashboard(
+      [],
+      [{ code: 'CH', name: 'Switzerland', count: 10 }],
+      catalog,
+    );
+    expect(d.byListenerCountrySeries.size).toBe(0);
+  });
+
+  it('drops a per-country series whose length disagrees with the window', () => {
+    const d = aggregateDashboard(
+      [],
+      [
+        { code: 'CH', name: 'Switzerland', count: 10, series: [10] },
+        { code: 'DE', name: 'Germany', count: 8, series: [2, 3, 3] },
+      ],
+      catalog,
+      undefined,
+      ['d1', 'd2', 'd3'],
+    );
+    expect(d.byListenerCountrySeries.get('CH')).toBeUndefined();
+    expect(d.byListenerCountrySeries.get('DE')).toEqual([2, 3, 3]);
   });
 });
 
@@ -217,8 +238,8 @@ describe('activeCountryMap', () => {
     byListenerCountry: new Map([['CH', 100]]),
     byStationCountry: new Map([['DE', 50]]),
     byStationCountrySeries: new Map(),
+    byListenerCountrySeries: new Map(),
     days: [],
-    dailyVisits: [],
   };
 
   it('returns listener map when view is "listeners"', () => {

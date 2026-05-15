@@ -31,18 +31,16 @@ export interface PublicLocationItem {
   code: string;
   name: string;
   count: number;
+  /** Per-day visit counts, oldest → newest. Aligned to the worker's
+   *  top-level `days` array. Optional because older worker builds
+   *  didn't emit it — frontends fall back to a single bar then. */
+  series?: number[];
 }
 
 export interface PublicTotals {
   total?: number;
   total_events?: number;
   range_days?: number;
-  /** Per-day pageview count, oldest → newest, aligned to `days`.
-   *  Used as the trend signal on the Listeners view, where
-   *  GoatCounter offers no per-country daily breakdown. */
-  daily?: number[];
-  /** Day labels (YYYY-MM-DD) matching `daily`. */
-  days?: string[];
 }
 
 /** Which country map drives the table + map view. The "Listeners"
@@ -62,14 +60,16 @@ export interface DashboardData {
    *  the map key. Same length as `days` for every entry. Empty when
    *  the worker didn't supply per-station series (older builds). */
   byStationCountrySeries: Map<string, number[]>;
+  /** Per-day visits per visitor country, aligned to `days`. Built by
+   *  the worker via one /stats/locations call per day in the window
+   *  (GoatCounter has no built-in daily breakdown on /stats/locations,
+   *  but it accepts start+end so per-day queries get us the same data).
+   *  Empty when the worker didn't ship a series — frontends should
+   *  fall back to the single share-of-max bar in that case. */
+  byListenerCountrySeries: Map<string, number[]>;
   /** Day labels (YYYY-MM-DD), oldest → newest. Empty when the worker
    *  didn't supply a daily series. */
   days: string[];
-  /** Site-wide pageviews per day, oldest → newest, aligned to `days`.
-   *  Empty when /api/public/totals didn't return a daily series. Used
-   *  as the Listeners-view trend line — GoatCounter doesn't break
-   *  visits down per country, so every row shares the same trend. */
-  dailyVisits: number[];
 }
 
 /** Roll up the three Worker payloads into the dashboard's view model.
@@ -85,7 +85,6 @@ export function aggregateDashboard(
   catalog: Station[],
   playsTotal?: number,
   days: string[] = [],
-  dailyVisits: number[] = [],
 ): DashboardData {
   let summedPlays = 0;
   let totalStations = 0;
@@ -119,10 +118,21 @@ export function aggregateDashboard(
   }
 
   const byListenerCountry = new Map<string, number>();
+  const byListenerCountrySeries = new Map<string, number[]>();
   for (const loc of locations) {
     if (!loc.code) continue;
     const cc = loc.code.toUpperCase();
     byListenerCountry.set(cc, (byListenerCountry.get(cc) ?? 0) + loc.count);
+    // Adopt the series only when it matches the canonical window. Drop
+    // mismatched-length payloads rather than render off-by-one bars.
+    if (seriesLen > 0 && loc.series && loc.series.length === seriesLen) {
+      let bucket = byListenerCountrySeries.get(cc);
+      if (!bucket) {
+        bucket = new Array<number>(seriesLen).fill(0);
+        byListenerCountrySeries.set(cc, bucket);
+      }
+      for (let i = 0; i < seriesLen; i++) bucket[i] += loc.series[i] ?? 0;
+    }
   }
 
   return {
@@ -131,11 +141,8 @@ export function aggregateDashboard(
     byListenerCountry,
     byStationCountry,
     byStationCountrySeries,
+    byListenerCountrySeries,
     days,
-    // Only adopt the daily-visits series when it matches the same
-    // window the rest of the dashboard is on — keeps render code from
-    // having to detect/skip a mismatched-length array.
-    dailyVisits: dailyVisits.length === days.length ? dailyVisits : [],
   };
 }
 

@@ -257,74 +257,90 @@ describe('public endpoints', () => {
     expect(body.range_days).toBe(90);
   });
 
-  it('GET /api/public/totals proxies GC totals and sums daily pageviews', async () => {
-    // Now makes two upstream calls in parallel: /stats/total for the
-    // aggregate, /stats/hits?daily=true for the trend series.
+  it('GET /api/public/totals proxies GC totals', async () => {
+    stubFetch(async () =>
+      new Response(JSON.stringify({ total: 1234, total_events: 567 }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      }),
+    );
+    const res = await call('/api/public/totals?days=30');
+    expect(res.status).toBe(200);
+    const body = await json<{ total: number; range_days: number }>(res);
+    expect(body.total).toBe(1234);
+    expect(body.range_days).toBe(30);
+  });
+
+  it('GET /api/public/locations stitches per-day GC calls into a series', async () => {
+    // The worker now hits /stats/locations once per day in the window
+    // (GC has no daily=true on /stats/locations but accepts start+end).
+    // Stub returns different per-country counts per day so the series
+    // assertions are meaningful.
     const today = new Date();
     const day = (offset: number): string => {
       const d = new Date(today);
       d.setUTCDate(d.getUTCDate() - offset);
       return d.toISOString().slice(0, 10);
     };
+    // Build a per-day fixture: oldest → newest, 8 days for days=7.
+    // CH grows linearly; DE has one big spike; FR appears on day 5 only.
+    const fixture: Record<string, { stats: Array<{ id: string; name: string; count: number }>; total: number }> = {};
+    for (let i = 0; i <= 7; i++) {
+      const d = day(7 - i); // oldest first
+      fixture[d] = {
+        stats: [
+          { id: 'CH', name: 'Switzerland', count: i + 1 },
+          { id: 'DE', name: 'Germany', count: i === 3 ? 100 : 5 },
+          ...(i === 5 ? [{ id: 'FR', name: 'France', count: 7 }] : []),
+        ],
+        total: 0,
+      };
+      fixture[d].total = fixture[d].stats.reduce((s, x) => s + x.count, 0);
+    }
     stubFetch(async ({ url }) => {
       const u = new URL(url);
-      if (u.pathname.endsWith('/stats/total')) {
-        return new Response(JSON.stringify({ total: 1234, total_events: 567 }), {
-          status: 200,
-          headers: { 'Content-Type': 'application/json' },
-        });
+      if (!u.pathname.endsWith('/stats/locations')) {
+        throw new Error(`unexpected upstream: ${u.pathname}`);
       }
-      if (u.pathname.endsWith('/stats/hits')) {
-        // Two non-event hits with one shared day, one event (skipped).
-        return new Response(
-          JSON.stringify({
-            hits: [
-              {
-                path: '/',
-                count: 5,
-                stats: [
-                  { day: day(0), daily: 3 },
-                  { day: day(1), daily: 2 },
-                ],
-              },
-              {
-                path: '/about',
-                count: 4,
-                stats: [{ day: day(0), daily: 4 }],
-              },
-              {
-                path: 'play: FM4',
-                event: true,
-                count: 99,
-                stats: [{ day: day(0), daily: 99 }], // event → excluded
-              },
-            ],
-            total: 9,
-          }),
-          { status: 200, headers: { 'Content-Type': 'application/json' } },
-        );
-      }
-      throw new Error(`unexpected upstream: ${u.pathname}`);
+      const start = u.searchParams.get('start');
+      const end = u.searchParams.get('end');
+      expect(start).toBe(end); // single-day query
+      const data = fixture[start ?? ''] ?? { stats: [], total: 0 };
+      return new Response(JSON.stringify(data), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
     });
-    const res = await call('/api/public/totals?days=7');
+    const res = await call('/api/public/locations?days=7');
     expect(res.status).toBe(200);
     const body = await json<{
+      items: Array<{ code: string; name: string; count: number; series: number[] }>;
       total: number;
       range_days: number;
-      daily: number[];
       days: string[];
     }>(res);
-    expect(body.total).toBe(1234);
     expect(body.range_days).toBe(7);
-    expect(body.days[body.days.length - 1]).toBe(day(0));
-    expect(body.days[body.days.length - 1 - 1]).toBe(day(1));
-    // today = 3 (from /) + 4 (from /about) = 7; yesterday = 2 (from /).
-    // play: event is excluded entirely.
-    expect(body.daily[body.daily.length - 1]).toBe(7);
-    expect(body.daily[body.daily.length - 1 - 1]).toBe(2);
-    // All other days are zero.
-    const trailing = body.daily.slice(0, body.daily.length - 2);
-    expect(trailing.every((v) => v === 0)).toBe(true);
+    expect(body.days).toHaveLength(8);
+    const ch = body.items.find((i) => i.code === 'CH');
+    const de = body.items.find((i) => i.code === 'DE');
+    const fr = body.items.find((i) => i.code === 'FR');
+    expect(ch).toBeDefined();
+    expect(de).toBeDefined();
+    expect(fr).toBeDefined();
+    // CH series: 1..8 across the 8 days. Sum = 36.
+    expect(ch!.series).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+    expect(ch!.count).toBe(36);
+    // DE series: 5 every day except day index 3 = 100. Sum = 5*7 + 100 = 135.
+    expect(de!.series).toEqual([5, 5, 5, 100, 5, 5, 5, 5]);
+    expect(de!.count).toBe(135);
+    // FR series: 0 everywhere except day index 5 = 7. Sum = 7.
+    expect(fr!.series[5]).toBe(7);
+    expect(fr!.count).toBe(7);
+    expect(fr!.series.filter((v) => v > 0)).toHaveLength(1);
+    // Items ordered by total count desc.
+    expect(body.items[0].code).toBe('DE');
+    expect(body.items[1].code).toBe('CH');
+    expect(body.items[2].code).toBe('FR');
   });
 
   it('POST /api/public/report-broken records a structured GoatCounter event', async () => {

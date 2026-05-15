@@ -2179,26 +2179,20 @@ function renderDashCountryTable(d: DashboardData): void {
   const sorted = [...activeMap(d).entries()].sort((a, b) => b[1] - a[1]);
   const max = sorted[0]?.[1] ?? 1;
   const total = sorted.reduce((s, [, c]) => s + c, 0);
-  // Three rendering modes for the bar column:
-  //   Stations view + per-country series → daily bar sparkline per row.
-  //   Listeners view + global daily visits → trend line per row
-  //     (identical line on every row — GC doesn't break visits down per
-  //     country, so the line is global, repeated to fill the rhythm).
-  //   Otherwise → fall back to single share-of-max bar.
-  const showBars = dashView === 'stations' && d.byStationCountrySeries.size > 0;
-  const showLine = dashView === 'listeners' && d.dailyVisits.length > 0;
+  // Both Listeners and Stations views now render the same daily bar
+  // sparkline when per-country daily series are available. Sparkline
+  // bars are normalised to the highest single-day value across the
+  // active map so heights are cross-comparable between rows.
+  const activeSeries =
+    dashView === 'listeners' ? d.byListenerCountrySeries : d.byStationCountrySeries;
+  const showSpark = activeSeries.size > 0;
   let sparkMax = 0;
-  if (showBars) {
-    for (const series of d.byStationCountrySeries.values()) {
+  if (showSpark) {
+    for (const series of activeSeries.values()) {
       for (const v of series) if (v > sparkMax) sparkMax = v;
     }
     if (sparkMax === 0) sparkMax = 1;
   }
-  // The line uses the global daily-visits series, built once and
-  // reused as a single SVG instance per row via cloneNode for cheap
-  // re-render across many rows.
-  let lineTemplate: SVGSVGElement | null = null;
-  if (showLine) lineTemplate = buildVisitTrendLine(d.dailyVisits, d.days);
   sorted.forEach(([cc, count], i) => {
     const tr = document.createElement('tr');
     const rank = document.createElement('td');
@@ -2209,11 +2203,9 @@ function renderDashCountryTable(d: DashboardData): void {
     country.textContent = countryName(cc);
     const bar = document.createElement('td');
     bar.className = 'bar';
-    const series = showBars ? d.byStationCountrySeries.get(cc) : undefined;
+    const series = showSpark ? activeSeries.get(cc) : undefined;
     if (series && series.length > 0) {
       bar.append(renderSparkline(series, sparkMax, d.days));
-    } else if (lineTemplate) {
-      bar.append(lineTemplate.cloneNode(true));
     } else {
       bar.innerHTML = `<div class="bar__track"><div class="bar__fill" style="width:${(count / max) * 100}%"></div></div>`;
     }
@@ -2228,52 +2220,6 @@ function renderDashCountryTable(d: DashboardData): void {
   });
 }
 
-/** Build an SVG line sparkline from a daily series. Used by the
- *  Listeners view to show the global visit trend on every row — the
- *  same SVG is cloned per row so DOM cost stays linear in rows, not
- *  rows × days. The line is normalised against its own max so the
- *  trend shape reads clearly even when totals are small. */
-function buildVisitTrendLine(series: number[], days: string[]): SVGSVGElement {
-  const w = 100;
-  const h = 22;
-  const pad = 1;
-  const max = Math.max(1, ...series);
-  const n = series.length;
-  // x: evenly spaced across the available width. y: inverted (SVG
-  // origin top-left) so higher values sit higher on screen. A 1-px
-  // pad keeps the stroke from being clipped at the extremes.
-  const points = series
-    .map((v, i) => {
-      const x = n <= 1 ? w / 2 : pad + (i / (n - 1)) * (w - 2 * pad);
-      const y = pad + (1 - v / max) * (h - 2 * pad);
-      return `${x.toFixed(1)},${y.toFixed(1)}`;
-    })
-    .join(' ');
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.setAttribute('class', 'bar__line');
-  svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
-  svg.setAttribute('preserveAspectRatio', 'none');
-  svg.setAttribute('role', 'img');
-  const total = series.reduce((s, v) => s + v, 0);
-  svg.setAttribute(
-    'aria-label',
-    `${total} visits over the last ${n} days (site-wide trend, same for every country)`,
-  );
-  const line = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-  line.setAttribute('points', points);
-  line.setAttribute('fill', 'none');
-  line.setAttribute('vector-effect', 'non-scaling-stroke');
-  svg.append(line);
-  // Hover tooltip with the per-day breakdown. <title> is the simplest
-  // accessible hover affordance inside SVG, no JS listener wanted.
-  const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
-  title.textContent = series
-    .map((v, i) => `${days[i] ?? `d${i}`}: ${v}`)
-    .join('\n');
-  svg.prepend(title);
-  return svg;
-}
-
 /** Build a fixed-height bar sparkline. Each `series` entry is one
  *  calendar day; bars share a single max across the whole table (passed
  *  in `maxAcrossTable`) so a country with one big day reads as taller
@@ -2283,9 +2229,10 @@ function renderSparkline(series: number[], maxAcrossTable: number, days: string[
   wrap.className = 'bar__spark';
   wrap.setAttribute('role', 'img');
   const totalRow = series.reduce((s, v) => s + v, 0);
+  const unit = dashView === 'listeners' ? 'visits' : 'plays';
   wrap.setAttribute(
     'aria-label',
-    `${totalRow} plays over the last ${series.length} days`,
+    `${totalRow} ${unit} over the last ${series.length} days`,
   );
   series.forEach((v, idx) => {
     const cell = document.createElement('div');
@@ -2542,7 +2489,6 @@ async function openDashboardSheet(open: boolean): Promise<void> {
     BUILTIN_STATIONS,
     topStations.total,
     topStations.days,
-    totals?.daily ?? [],
   );
   lastDashboardData = data;
   syncDashToggle();
