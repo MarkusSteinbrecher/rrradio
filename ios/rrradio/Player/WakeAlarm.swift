@@ -3,7 +3,7 @@ import Observation
 import UserNotifications
 
 protocol WakeAlarmNotifying {
-    func schedule(station: Station, time: String, firesAt: Date)
+    func schedule(station: Station, time: String, firesAt: Date, title: String?)
     func cancel()
     func authorizationStatus(completion: @escaping (UNAuthorizationStatus) -> Void)
     func requestAuthorization(completion: @escaping (Bool) -> Void)
@@ -12,15 +12,20 @@ protocol WakeAlarmNotifying {
 struct LocalWakeAlarmNotifier: WakeAlarmNotifying {
     private let identifier = "rrradio.wake.v1"
 
-    func schedule(station: Station, time: String, firesAt: Date) {
+    func schedule(station: Station, time: String, firesAt: Date, title: String?) {
         authorizationStatus { status in
             guard status.allowsWakeNotification else {
                 diagnosticRecordAsync("wake", "notification schedule skipped", details: ["authorization": status.diagnosticValue])
                 return
             }
             let content = UNMutableNotificationContent()
-            content.title = "Wake to \(station.name)"
-            content.body = "It is \(time). Open rrradio if playback did not start automatically."
+            if let title, !title.isEmpty {
+                content.title = title
+                content.body = "Wake to \(station.name) at \(time). Open rrradio if playback did not start automatically."
+            } else {
+                content.title = "Wake to \(station.name)"
+                content.body = "It is \(time). Open rrradio if playback did not start automatically."
+            }
             content.sound = .default
 
             let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: firesAt)
@@ -35,6 +40,7 @@ struct LocalWakeAlarmNotifier: WakeAlarmNotifying {
                         "station": station.name,
                         "time": time,
                         "firesAt": ISO8601DateFormatter().string(from: firesAt),
+                        "title": title ?? "",
                         "error": error?.localizedDescription ?? "",
                     ],
                 )
@@ -108,6 +114,7 @@ final class WakeAlarm {
         let station: Station
         let armedAt: Date
         let keepAliveEnabled: Bool?
+        let title: String?
     }
 
     static let staleGrace: TimeInterval = 60
@@ -118,6 +125,7 @@ final class WakeAlarm {
 
     private(set) var time: String
     private(set) var station: Station?
+    private(set) var title: String?
     private(set) var armedAt: Date?
     private(set) var firesAt: Date?
     private(set) var notificationPermissionDenied = false
@@ -175,6 +183,7 @@ final class WakeAlarm {
             if remaining >= -Self.staleGrace {
                 time = stored.time
                 station = stored.station
+                title = stored.title
                 armedAt = stored.armedAt
                 firesAt = next
                 keepAliveEnabled = stored.keepAliveEnabled ?? Self.defaultKeepAliveEnabled(from: defaults)
@@ -204,8 +213,15 @@ final class WakeAlarm {
         }
     }
 
-    func arm(station: Station, time nextTime: String, keepAliveEnabled nextKeepAliveEnabled: Bool? = nil, onFire: ((Station) -> Void)? = nil) {
+    func arm(
+        station: Station,
+        time nextTime: String,
+        title nextTitle: String? = nil,
+        keepAliveEnabled nextKeepAliveEnabled: Bool? = nil,
+        onFire: ((Station) -> Void)? = nil,
+    ) {
         let cleanTime = nextTime.trimmingCharacters(in: .whitespacesAndNewlines)
+        let cleanTitle = Self.cleanTitle(nextTitle)
         let armed = now()
         guard let nextFire = Self.nextFireDate(time: cleanTime, armedAt: armed) else { return }
 
@@ -215,6 +231,7 @@ final class WakeAlarm {
         }
         time = cleanTime
         self.station = station
+        title = cleanTitle
         armedAt = armed
         firesAt = nextFire
         keepAliveEnabled = nextKeepAliveEnabled ?? keepAliveEnabled
@@ -301,6 +318,7 @@ final class WakeAlarm {
         timer = nil
         diagnosticRecord("wake", "disarmed", details: station.map { wakeDetails(station: $0, firesAt: firesAt) } ?? [:])
         station = nil
+        title = nil
         armedAt = nil
         firesAt = nil
         keepAliveEnabled = Self.defaultKeepAliveEnabled(from: defaults)
@@ -361,7 +379,7 @@ final class WakeAlarm {
             diagnosticRecord("wake", "notification skipped", details: ["enabled": String(notificationsEnabled)])
             return
         }
-        notifier.schedule(station: station, time: time, firesAt: firesAt)
+        notifier.schedule(station: station, time: time, firesAt: firesAt, title: title)
     }
 
     private func currentAuthorizationStatus() async -> UNAuthorizationStatus {
@@ -383,7 +401,7 @@ final class WakeAlarm {
     }
 
     private func wakeDetails(station: Station, firesAt: Date?) -> [String: String] {
-        [
+        var details = [
             "station": station.name,
             "stationID": station.id,
             "streamHost": station.streamUrl.host() ?? "",
@@ -391,6 +409,10 @@ final class WakeAlarm {
             "firesAt": firesAt.map { ISO8601DateFormatter().string(from: $0) } ?? "",
             "keepAlive": String(keepAliveEnabled),
         ]
+        if let title {
+            details["title"] = title
+        }
+        return details
     }
 
     private func writeWake() {
@@ -400,6 +422,7 @@ final class WakeAlarm {
                 station: station,
                 armedAt: armedAt,
                 keepAliveEnabled: keepAliveEnabled,
+                title: title,
               )) else {
             return
         }
@@ -414,6 +437,11 @@ final class WakeAlarm {
     private static func defaultKeepAliveEnabled(from defaults: UserDefaults) -> Bool {
         guard defaults.object(forKey: Keys.keepAliveDefault) != nil else { return true }
         return defaults.bool(forKey: Keys.keepAliveDefault)
+    }
+
+    private static func cleanTitle(_ value: String?) -> String? {
+        let trimmed = value?.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed?.isEmpty == false ? trimmed : nil
     }
 
     private static func clearWake(from defaults: UserDefaults) {

@@ -3,7 +3,23 @@ import UserNotifications
 @testable import rrradio
 
 private struct NoopWakeNotifier: WakeAlarmNotifying {
-    func schedule(station: Station, time: String, firesAt: Date) {}
+    func schedule(station: Station, time: String, firesAt: Date, title: String?) {}
+    func cancel() {}
+    func authorizationStatus(completion: @escaping (UNAuthorizationStatus) -> Void) {
+        completion(.authorized)
+    }
+    func requestAuthorization(completion: @escaping (Bool) -> Void) {
+        completion(true)
+    }
+}
+
+private final class RecordingWakeNotifier: WakeAlarmNotifying {
+    private(set) var scheduledTitle: String?
+
+    func schedule(station: Station, time: String, firesAt: Date, title: String?) {
+        scheduledTitle = title
+    }
+
     func cancel() {}
     func authorizationStatus(completion: @escaping (UNAuthorizationStatus) -> Void) {
         completion(.authorized)
@@ -76,14 +92,25 @@ final class WakeAlarmTests: XCTestCase {
         let now = try date("2026-05-07 09:00")
         let alarm = WakeAlarm(defaults: defaults, notifier: NoopWakeNotifier(), now: { now })
 
-        alarm.arm(station: station, time: "17:30", keepAliveEnabled: true)
+        alarm.arm(station: station, time: "17:30", title: "Morning Show", keepAliveEnabled: true)
 
         let restored = WakeAlarm(defaults: defaults, notifier: NoopWakeNotifier(), now: { now })
         XCTAssertTrue(restored.isArmed)
         XCTAssertEqual(restored.time, "17:30")
+        XCTAssertEqual(restored.title, "Morning Show")
         XCTAssertEqual(restored.station?.id, station.id)
         XCTAssertEqual(restored.chipText, "17:30")
         XCTAssertTrue(restored.keepAliveEnabled)
+    }
+
+    func testNotificationReceivesWakeTitle() throws {
+        let now = try date("2026-05-07 09:00")
+        let notifier = RecordingWakeNotifier()
+        let alarm = WakeAlarm(defaults: defaults, notifier: notifier, now: { now })
+
+        alarm.arm(station: station, time: "17:30", title: "Morning Show")
+
+        XCTAssertEqual(notifier.scheduledTitle, "Morning Show")
     }
 
     func testKeepAliveDefaultPersistsAcrossNewWake() throws {

@@ -197,6 +197,8 @@ enum L10nKey: String {
     case unset
     case set
     case wakeHint
+    case wakeNotification
+    case wakeNotificationDetail
     case wakeNotificationsDeniedWarning
     case openSettings
     case wakePauseWarningTitle
@@ -340,6 +342,8 @@ enum L10n {
             .unset: "Unset",
             .set: "Set",
             .wakeHint: "For the best chance of autoplay, keep rrradio running and enable the audio keep-alive option.",
+            .wakeNotification: "Lock Screen notification",
+            .wakeNotificationDetail: "Shows a wake alert at the set time. Program alarms turn this on by default.",
             .wakeNotificationsDeniedWarning: "Notifications are off. Wake alarm cannot reliably fire - your phone may stay asleep at the set time.",
             .openSettings: "Open Settings",
             .wakePauseWarningTitle: "Wake alarm may not auto-play",
@@ -480,6 +484,8 @@ enum L10n {
             .unset: "Aus",
             .set: "Setzen",
             .wakeHint: "Für die beste Autoplay-Chance lass rrradio laufen und aktiviere die Audio-Keep-Alive-Option.",
+            .wakeNotification: "Mitteilung auf dem Sperrbildschirm",
+            .wakeNotificationDetail: "Zeigt zur Weckzeit eine Mitteilung. Programm-Wecker aktivieren das standardmäßig.",
             .wakeNotificationsDeniedWarning: "Mitteilungen sind aus. Der Wecker kann nicht zuverlässig auslösen - dein iPhone bleibt zur Weckzeit eventuell im Ruhezustand.",
             .openSettings: "Einstellungen öffnen",
             .wakePauseWarningTitle: "Wecker spielt eventuell nicht automatisch",
@@ -620,6 +626,8 @@ enum L10n {
             .unset: "Retirer",
             .set: "Définir",
             .wakeHint: "Pour maximiser les chances de lecture automatique, gardez rrradio ouvert et activez l'option audio keep-alive.",
+            .wakeNotification: "Notification sur l'écran verrouillé",
+            .wakeNotificationDetail: "Affiche une alerte à l'heure du réveil. Les réveils de programme l'activent par défaut.",
             .wakeNotificationsDeniedWarning: "Les notifications sont désactivées. Le réveil ne peut pas se déclencher de façon fiable - votre iPhone peut rester en veille.",
             .openSettings: "Ouvrir Réglages",
             .wakePauseWarningTitle: "Le réveil peut ne pas lancer la lecture",
@@ -760,6 +768,8 @@ enum L10n {
             .unset: "Quitar",
             .set: "Activar",
             .wakeHint: "Para mejorar la probabilidad de reproducción automática, mantén rrradio activo y habilita la opción de audio keep-alive.",
+            .wakeNotification: "Notificación en pantalla bloqueada",
+            .wakeNotificationDetail: "Muestra una alerta a la hora de alarma. Las alarmas de programa la activan por defecto.",
             .wakeNotificationsDeniedWarning: "Las notificaciones están desactivadas. La alarma no puede activarse de forma fiable - el iPhone puede seguir dormido a esa hora.",
             .openSettings: "Abrir Ajustes",
             .wakePauseWarningTitle: "La alarma puede no reproducir automáticamente",

@@ -188,6 +188,7 @@ struct StationListView: View {
     @Binding private var searchFocusedExternally: Bool
     @Binding private var browseStationListSelectionActiveExternally: Bool
     private let fixedTab: AppTab?
+    private let horizontalSwipeLockedExternally: Bool
     @Environment(Catalog.self) private var catalog
     @Environment(Library.self) private var library
     @Environment(AudioPlayer.self) private var player
@@ -361,11 +362,13 @@ struct StationListView: View {
         searchFocusedExternally: Binding<Bool> = .constant(false),
         browseStationListSelectionActiveExternally: Binding<Bool> = .constant(false),
         fixedTab: AppTab? = nil,
+        horizontalSwipeLockedExternally: Bool = false,
     ) {
         _tab = tab
         _searchFocusedExternally = searchFocusedExternally
         _browseStationListSelectionActiveExternally = browseStationListSelectionActiveExternally
         self.fixedTab = fixedTab
+        self.horizontalSwipeLockedExternally = horizontalSwipeLockedExternally
         let initialTab = fixedTab ?? tab.wrappedValue
         _source = State(initialValue: initialTab == .favorites ? .favorites : .all)
     }
@@ -752,6 +755,10 @@ struct StationListView: View {
 
     private var isHorizontalPageSwipeLocked: Bool {
         canUsePageSwipe && pageSwipeAxis == .horizontal
+    }
+
+    private var isHorizontalSwipeLocked: Bool {
+        horizontalSwipeLockedExternally || isHorizontalPageSwipeLocked
     }
 
     private func updatePageSwipeAxis(horizontal: CGFloat, vertical: CGFloat) {
@@ -2076,7 +2083,7 @@ struct StationListView: View {
             }
         }
         .scrollDismissesKeyboard(.immediately)
-        .scrollDisabled(isHorizontalPageSwipeLocked)
+        .scrollDisabled(isHorizontalSwipeLocked)
         .background(RrradioTheme.bg)
     }
 
@@ -2215,6 +2222,7 @@ struct StationListView: View {
             }
         }
         .scrollDismissesKeyboard(.immediately)
+        .scrollDisabled(isHorizontalSwipeLocked)
         .background(RrradioTheme.bg)
     }
 
@@ -2386,7 +2394,7 @@ struct StationListView: View {
             }
         }
         .scrollDismissesKeyboard(.immediately)
-        .scrollDisabled(isHorizontalPageSwipeLocked)
+        .scrollDisabled(isHorizontalSwipeLocked)
         .background(RrradioTheme.bg)
         .onDisappear(perform: clearFavoriteGridDragState)
     }
@@ -2518,7 +2526,7 @@ struct StationListView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .scrollDismissesKeyboard(.immediately)
-        .scrollDisabled(isHorizontalPageSwipeLocked)
+        .scrollDisabled(isHorizontalSwipeLocked)
         .background(RrradioTheme.bg)
         .onDisappear(perform: clearFavoriteGridDragState)
     }
@@ -2579,7 +2587,7 @@ struct StationListView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .scrollDismissesKeyboard(.immediately)
-        .scrollDisabled(isHorizontalPageSwipeLocked)
+        .scrollDisabled(isHorizontalSwipeLocked)
         .background(RrradioTheme.bg)
         .onDisappear(perform: clearFavoriteGridDragState)
     }

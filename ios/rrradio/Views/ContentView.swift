@@ -88,7 +88,11 @@ struct ContentView: View {
             let activeOffset = constrainedRootSwipeOffset(rootSwipeDragOffset, pageWidth: pageWidth)
             ZStack {
                 ForEach(AppTab.allCases, id: \.self) { pageTab in
-                    stationPage(for: pageTab, isActive: tab == pageTab && rootSwipeSettlingTarget == nil)
+                    stationPage(
+                        for: pageTab,
+                        isActive: tab == pageTab && rootSwipeSettlingTarget == nil,
+                        horizontalSwipeLocked: isHorizontalRootSwipeLocked,
+                    )
                         .frame(width: pageWidth, height: proxy.size.height)
                         .offset(x: rootPageOffset(for: pageTab, activeOffset: activeOffset, pageWidth: pageWidth))
                         .allowsHitTesting(tab == pageTab && rootSwipeSettlingTarget == nil)
@@ -102,12 +106,17 @@ struct ContentView: View {
         }
     }
 
-    private func stationPage(for pageTab: AppTab, isActive: Bool) -> some View {
+    private func stationPage(
+        for pageTab: AppTab,
+        isActive: Bool,
+        horizontalSwipeLocked: Bool,
+    ) -> some View {
         StationListView(
             tab: $tab,
             searchFocusedExternally: isActive ? $searchFocused : .constant(false),
             browseStationListSelectionActiveExternally: pageTab == .browse ? $browseStationListSelectionActive : .constant(false),
             fixedTab: pageTab,
+            horizontalSwipeLockedExternally: horizontalSwipeLocked,
         )
         .id(pageTab)
     }
@@ -178,6 +187,10 @@ struct ContentView: View {
 
     private var rootSwipeGestureMask: GestureMask {
         canUseRootSwipe ? .all : .none
+    }
+
+    private var isHorizontalRootSwipeLocked: Bool {
+        canUseRootSwipe && rootSwipeAxis == .horizontal
     }
 
     private var currentFavoritesDisplayMode: FavoritesDisplayMode {
@@ -377,8 +390,10 @@ enum AppTab: CaseIterable, Hashable {
 }
 
 private struct BottomTabBar: View {
+    @Environment(ThemeController.self) private var theme
     @Environment(LocaleController.self) private var locale
     @Binding var tab: AppTab
+    private let tabBarHeight: CGFloat = 54
 
     var body: some View {
         HStack(spacing: 0) {
@@ -386,6 +401,7 @@ private struct BottomTabBar: View {
                 tabButton(value, icon: icon(for: value), title: title(for: value))
             }
         }
+        .frame(height: tabBarHeight, alignment: .top)
         .background(RrradioTheme.bg.ignoresSafeArea(edges: .bottom))
         .overlay(alignment: .top) {
             Rectangle()
@@ -423,7 +439,7 @@ private struct BottomTabBar: View {
             ZStack(alignment: .top) {
                 if tab == value {
                     Rectangle()
-                        .fill(RrradioTheme.accent)
+                        .fill(theme.accentColor)
                         .frame(width: proxy.size.width * 0.5, height: 2)
                 }
             }
@@ -446,8 +462,10 @@ private struct BottomTabBar: View {
                     .font(.system(size: 9.5, weight: selected ? .semibold : .medium, design: .monospaced))
                     .textCase(.uppercase)
                     .tracking(1.1)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.75)
             }
-            .foregroundStyle(selected ? RrradioTheme.accent : RrradioTheme.ink3)
+            .foregroundStyle(selected ? theme.accentColor : RrradioTheme.ink3)
             .frame(maxWidth: .infinity)
             .padding(.top, 9)
             .padding(.bottom, 0)

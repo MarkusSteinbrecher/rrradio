@@ -3,6 +3,13 @@ import UIKit
 
 private let modalActionButtonWidth: CGFloat = 180
 
+private struct WakeAlarmPreset {
+    let station: Station
+    let date: Date
+    let title: String?
+    let notificationsEnabledByDefault: Bool
+}
+
 /// Full-screen player surface opened from the mini player.
 struct NowPlayingView: View {
     @Environment(Library.self) private var library
@@ -18,6 +25,7 @@ struct NowPlayingView: View {
     @State private var detailsOpen = false
     @State private var pane: Pane = .now
     @State private var showingWakeAlarm = false
+    @State private var wakeAlarmPreset: WakeAlarmPreset?
     @State private var showingSleepTimer = false
     @State private var showingDisableCarModeConfirmation = false
     @State private var isReportingBrokenStation = false
@@ -52,8 +60,10 @@ struct NowPlayingView: View {
                 regularBody
             }
         }
-        .sheet(isPresented: $showingWakeAlarm) {
-            WakeAlarmView()
+        .sheet(isPresented: $showingWakeAlarm, onDismiss: {
+            wakeAlarmPreset = nil
+        }) {
+            WakeAlarmView(preset: wakeAlarmPreset)
                 .presentationDetents([.large])
                 .presentationDragIndicator(.visible)
         }
@@ -399,6 +409,7 @@ struct NowPlayingView: View {
                     .disabled(player.current == nil)
 
                     roundControlButton(wakeAlarm.isArmed ? "alarm.fill" : "alarm", label: locale.text(.wakeToRadio)) {
+                        wakeAlarmPreset = nil
                         showingWakeAlarm = true
                     } chip: {
                         wakeAlarm.isArmed ? wakeAlarm.chipText : nil
@@ -786,37 +797,43 @@ struct NowPlayingView: View {
 
     private func programRow(_ broadcast: ProgramScheduleBroadcast) -> some View {
         let live = isLive(broadcast)
-        return HStack(alignment: .top, spacing: 12) {
-            Text(timeString(broadcast.start))
-                .font(.system(size: 11, weight: live ? .semibold : .medium, design: .monospaced))
-                .foregroundStyle(live ? RrradioTheme.accent : RrradioTheme.ink4)
-                .frame(width: 48, alignment: .leading)
+        return Button {
+            showWakeAlarm(for: broadcast)
+        } label: {
+            HStack(alignment: .top, spacing: 12) {
+                Text(timeString(broadcast.start))
+                    .font(.system(size: 11, weight: live ? .semibold : .medium, design: .monospaced))
+                    .foregroundStyle(live ? RrradioTheme.accent : RrradioTheme.ink4)
+                    .frame(width: 48, alignment: .leading)
 
-            VStack(alignment: .leading, spacing: 4) {
-                Text(broadcast.title)
-                    .font(.system(size: 14, weight: live ? .semibold : .medium))
-                    .foregroundStyle(live ? RrradioTheme.ink : RrradioTheme.ink2)
-                    .lineLimit(2)
-                if let subtitle = clean(broadcast.subtitle) {
-                    Text(subtitle)
-                        .font(.system(size: 11))
-                        .foregroundStyle(RrradioTheme.ink4)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(broadcast.title)
+                        .font(.system(size: 14, weight: live ? .semibold : .medium))
+                        .foregroundStyle(live ? RrradioTheme.ink : RrradioTheme.ink2)
                         .lineLimit(2)
+                    if let subtitle = clean(broadcast.subtitle) {
+                        Text(subtitle)
+                            .font(.system(size: 11))
+                            .foregroundStyle(RrradioTheme.ink4)
+                            .lineLimit(2)
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+                if live {
+                    Text("Live")
+                        .font(.system(size: 9, weight: .semibold, design: .monospaced))
+                        .textCase(.uppercase)
+                        .foregroundStyle(RrradioTheme.bg)
+                        .padding(.horizontal, 7)
+                        .padding(.vertical, 3)
+                        .background(Capsule().fill(RrradioTheme.accent))
                 }
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-
-            if live {
-                Text("Live")
-                    .font(.system(size: 9, weight: .semibold, design: .monospaced))
-                    .textCase(.uppercase)
-                    .foregroundStyle(RrradioTheme.bg)
-                    .padding(.horizontal, 7)
-                    .padding(.vertical, 3)
-                    .background(Capsule().fill(RrradioTheme.accent))
-            }
+            .padding(.vertical, 11)
+            .contentShape(Rectangle())
         }
-        .padding(.vertical, 11)
+        .buttonStyle(.plain)
         .overlay(alignment: .bottom) {
             Rectangle()
                 .fill(RrradioTheme.line)
@@ -1138,6 +1155,7 @@ struct NowPlayingView: View {
 
     private var wakeControlButton: some View {
         roundControlButton(wakeAlarm.isArmed ? "alarm.fill" : "alarm", label: locale.text(.wakeToRadio)) {
+            wakeAlarmPreset = nil
             showingWakeAlarm = true
         } chip: {
             wakeAlarm.isArmed ? wakeAlarm.chipText : nil
@@ -1440,6 +1458,17 @@ struct NowPlayingView: View {
         return broadcast.start <= now && now < broadcast.end
     }
 
+    private func showWakeAlarm(for broadcast: ProgramScheduleBroadcast) {
+        guard let station = player.current else { return }
+        wakeAlarmPreset = WakeAlarmPreset(
+            station: station,
+            date: broadcast.start,
+            title: broadcast.title,
+            notificationsEnabledByDefault: true,
+        )
+        showingWakeAlarm = true
+    }
+
     private func scrollToLiveProgram(using proxy: ScrollViewProxy, animated: Bool = true) {
         guard let id = liveScheduleBroadcastID else { return }
         DispatchQueue.main.async {
@@ -1556,7 +1585,17 @@ struct WakeAlarmView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
     @State private var wakeDate = Date()
+    @State private var notificationEnabled = false
     @State private var keepAliveEnabled = false
+    private let preset: WakeAlarmPreset?
+
+    init() {
+        preset = nil
+    }
+
+    fileprivate init(preset: WakeAlarmPreset?) {
+        self.preset = preset
+    }
 
     var body: some View {
         VStack(spacing: 20) {
@@ -1566,6 +1605,8 @@ struct WakeAlarmView: View {
                 .datePickerStyle(.wheel)
                 .labelsHidden()
                 .frame(height: 190)
+
+            wakeNotificationToggle
 
             if wakeAlarm.notificationPermissionDenied {
                 notificationWarning
@@ -1592,10 +1633,18 @@ struct WakeAlarmView: View {
             Button {
                 if buttonSetsWake, let station = wakeTargetStation {
                     Task {
-                        let notificationsAvailable = wakeAlarm.notificationsEnabled
+                        if wakeAlarm.notificationsEnabled != notificationEnabled {
+                            wakeAlarm.setNotificationsEnabled(notificationEnabled)
+                        }
+                        let notificationsAvailable = notificationEnabled
                             ? await wakeAlarm.requestNotificationAuthorizationIfNeeded()
                             : true
-                        wakeAlarm.arm(station: station, time: selectedWakeTime, keepAliveEnabled: keepAliveEnabled) { station in
+                        wakeAlarm.arm(
+                            station: station,
+                            time: selectedWakeTime,
+                            title: selectedWakeTitle,
+                            keepAliveEnabled: keepAliveEnabled
+                        ) { station in
                             player.stopWakeKeepAlive()
                             player.play(station)
                         }
@@ -1646,7 +1695,8 @@ struct WakeAlarmView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(RrradioTheme.bg.ignoresSafeArea())
         .onAppear {
-            wakeDate = dateFromTime(wakeAlarm.time) ?? Date()
+            wakeDate = preset?.date ?? dateFromTime(wakeAlarm.time) ?? Date()
+            notificationEnabled = preset?.notificationsEnabledByDefault ?? wakeAlarm.notificationsEnabled
             keepAliveEnabled = wakeAlarm.keepAliveEnabled
             wakeAlarm.refreshNotificationAuthorization()
         }
@@ -1691,11 +1741,21 @@ struct WakeAlarmView: View {
             HStack(spacing: 10) {
                 FaviconView(url: station.favicon, stationName: station.name, stationID: station.id, size: 42)
                     .frame(width: 42, height: 42)
-                Text(station.name)
-                    .font(.system(size: 15, weight: .medium))
-                    .foregroundStyle(RrradioTheme.ink)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.8)
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(station.name)
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundStyle(RrradioTheme.ink)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
+                    if let title = selectedWakeTitle {
+                        Text(title)
+                            .font(.system(size: 11.5, weight: .medium))
+                            .foregroundStyle(RrradioTheme.ink3)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.8)
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 10)
@@ -1715,8 +1775,22 @@ struct WakeAlarmView: View {
         timeString(from: wakeDate)
     }
 
+    private var selectedWakeTitle: String? {
+        clean(preset?.title) ?? wakeAlarm.title
+    }
+
     private var isEditingArmedWake: Bool {
-        wakeAlarm.isArmed && selectedWakeTime != wakeAlarm.time
+        wakeAlarm.isArmed
+            && (selectedWakeTime != wakeAlarm.time || selectedWakeStationChanged || selectedWakeTitleChanged)
+    }
+
+    private var selectedWakeStationChanged: Bool {
+        guard let selectedStation = wakeTargetStation else { return false }
+        return selectedStation.id != wakeAlarm.station?.id
+    }
+
+    private var selectedWakeTitleChanged: Bool {
+        selectedWakeTitle != wakeAlarm.title
     }
 
     private var buttonSetsWake: Bool {
@@ -1731,7 +1805,27 @@ struct WakeAlarmView: View {
     }
 
     private var wakeTargetStation: Station? {
-        wakeAlarm.station ?? player.current
+        preset?.station ?? wakeAlarm.station ?? player.current
+    }
+
+    private var wakeNotificationToggle: some View {
+        Toggle(isOn: $notificationEnabled) {
+            VStack(alignment: .leading, spacing: 3) {
+                Text(locale.text(.wakeNotification))
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundStyle(RrradioTheme.ink)
+                Text(locale.text(.wakeNotificationDetail))
+                    .font(.system(size: 11))
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .lineLimit(3)
+            }
+        }
+        .tint(RrradioTheme.accent)
+        .padding(12)
+        .background(RrradioTheme.bg2)
+        .overlay(RoundedRectangle(cornerRadius: 6).stroke(RrradioTheme.line))
+        .clipShape(RoundedRectangle(cornerRadius: 6))
+        .disabled(wakeAlarm.isArmed && !isEditingArmedWake)
     }
 
     private var notificationWarning: some View {
@@ -1784,6 +1878,11 @@ struct WakeAlarmView: View {
         components.hour = hour
         components.minute = minute
         return Calendar.current.date(from: components)
+    }
+
+    private func clean(_ value: String?) -> String? {
+        let trimmed = value?.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed?.isEmpty == false ? trimmed : nil
     }
 }
 

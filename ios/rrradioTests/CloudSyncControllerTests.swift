@@ -319,7 +319,7 @@ private actor FakeCloudSyncStore: CloudSyncStoring {
 }
 
 private struct NoopWakeNotifier: WakeAlarmNotifying {
-    func schedule(station: Station, time: String, firesAt: Date) {}
+    func schedule(station: Station, time: String, firesAt: Date, title: String?) {}
     func cancel() {}
     func authorizationStatus(completion: @escaping (UNAuthorizationStatus) -> Void) {
         completion(.authorized)

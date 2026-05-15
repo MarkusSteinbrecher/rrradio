@@ -757,10 +757,10 @@ private struct SettingsPageView: View {
                     .foregroundStyle(wakeAlarm.notificationsEnabled ? RrradioTheme.accent : RrradioTheme.ink3)
                     .frame(width: 22)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Wake notification")
+                    Text(locale.text(.wakeNotification))
                         .font(.system(size: 15, weight: .medium))
                         .foregroundStyle(RrradioTheme.ink)
-                    Text("Off by default. The wake can play music without vibrating if the app is still running.")
+                    Text(locale.text(.wakeNotificationDetail))
                         .font(.system(size: 12))
                         .foregroundStyle(RrradioTheme.ink3)
                         .lineLimit(3)
