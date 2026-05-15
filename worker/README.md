@@ -28,7 +28,7 @@ are JSON. All endpoints accept GET. All errors have shape
 
 | Path | Query | Returns | Cache |
 | --- | --- | --- | --- |
-| `/api/public/top-stations` | `days` (1–90, default 7), `limit` (1–50, default 5) | `{ items: [{ name, count }], range_days }` — top stations from `play: <name>` events | 1 h |
+| `/api/public/top-stations` | `days` (1–90, default 7), `limit` (1–50, default 5) | `{ items: [{ name, count, series }], total, range_days, days }` — top stations from `play: <name>` events. `series[i]` is the play count on `days[i]` (oldest → newest, zero-filled for empty days). | 1 h |
 | `/api/public/totals` | `days` | `{ total, total_events, range_days }` — site-wide pageview + event counts | 1 h |
 | `/api/public/locations` | `days`, `limit` | `{ items: [{ code, name, count }], total, range_days }` — visitor country breakdown | 1 h |
 | `/api/public/proxy` | `url=<encoded>` | Forwarded JSON body of the upstream URL, **only** if the URL matches the allowlist (else 403) | 1 m |

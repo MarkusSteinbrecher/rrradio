@@ -20,6 +20,11 @@ import type { Station } from './types';
 export interface TopStationItem {
   name: string;
   count: number;
+  /** Per-day plays in the requested window, oldest → newest. Same
+   *  length as `DashboardData.days`. Optional because older worker
+   *  builds didn't emit it — frontends should treat missing as
+   *  "no sparkline available". */
+  series?: number[];
 }
 
 export interface PublicLocationItem {
@@ -47,6 +52,13 @@ export interface DashboardData {
   /** Station-origin counts (where each played station is from),
    *  built from the top-stations payload joined against the catalog. */
   byStationCountry: Map<string, number>;
+  /** Per-day plays summed across all stations whose origin country is
+   *  the map key. Same length as `days` for every entry. Empty when
+   *  the worker didn't supply per-station series (older builds). */
+  byStationCountrySeries: Map<string, number[]>;
+  /** Day labels (YYYY-MM-DD), oldest → newest. Empty when the worker
+   *  didn't supply a daily series. */
+  days: string[];
 }
 
 /** Roll up the three Worker payloads into the dashboard's view model.
@@ -61,13 +73,22 @@ export function aggregateDashboard(
   locations: PublicLocationItem[],
   catalog: Station[],
   playsTotal?: number,
+  days: string[] = [],
 ): DashboardData {
   let summedPlays = 0;
   let totalStations = 0;
   const builtinByName = new Map<string, Station>();
   for (const s of catalog) builtinByName.set(s.name.toLowerCase(), s);
 
+  // Lock the series length to the first non-empty series we see — every
+  // station's series is sourced from the same /stats/hits call so they
+  // all match. Stays 0 if the worker didn't emit any series, which
+  // signals "no sparkline data" to the render layer.
+  const seriesLen =
+    days.length || items.find((i) => i.series && i.series.length > 0)?.series?.length || 0;
+
   const byStationCountry = new Map<string, number>();
+  const byStationCountrySeries = new Map<string, number[]>();
   for (const it of items) {
     totalStations++;
     summedPlays += it.count;
@@ -75,6 +96,14 @@ export function aggregateDashboard(
     const cc = builtin?.country?.toUpperCase();
     if (!cc) continue;
     byStationCountry.set(cc, (byStationCountry.get(cc) ?? 0) + it.count);
+    if (seriesLen > 0 && it.series && it.series.length === seriesLen) {
+      let bucket = byStationCountrySeries.get(cc);
+      if (!bucket) {
+        bucket = new Array<number>(seriesLen).fill(0);
+        byStationCountrySeries.set(cc, bucket);
+      }
+      for (let i = 0; i < seriesLen; i++) bucket[i] += it.series[i] ?? 0;
+    }
   }
 
   const byListenerCountry = new Map<string, number>();
@@ -89,6 +118,8 @@ export function aggregateDashboard(
     totalStations,
     byListenerCountry,
     byStationCountry,
+    byStationCountrySeries,
+    days,
   };
 }
 

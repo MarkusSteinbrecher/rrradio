@@ -49,7 +49,15 @@ function stubFetch(handler: FetchStub): void {
   );
 }
 
-function gcHits(items: Array<{ path: string; count: number; title?: string; event?: boolean }>) {
+function gcHits(
+  items: Array<{
+    path: string;
+    count: number;
+    title?: string;
+    event?: boolean;
+    stats?: Array<{ day: string; daily: number }>;
+  }>,
+) {
   return new Response(JSON.stringify({ hits: items, total: items.length }), {
     status: 200,
     headers: { 'Content-Type': 'application/json' },
@@ -177,13 +185,69 @@ describe('public endpoints', () => {
     );
     const res = await call('/api/public/top-stations?limit=5');
     expect(res.status).toBe(200);
-    const body = await json(res);
-    expect(body.items).toEqual([
-      { name: 'Alpha FM', count: 10 },
-      { name: 'Beta FM', count: 5 },
-    ]);
+    const body = await json<{
+      items: Array<{ name: string; count: number; series: number[] }>;
+      total: number;
+      range_days: number;
+      days: string[];
+    }>(res);
+    // `days` is built from `new Date()` so we can't assert the literal
+    // values; just shape + counts + zeroed series (no per-day stats in
+    // the stub, so every day is zero).
+    expect(body.items).toHaveLength(2);
+    expect(body.items[0]).toMatchObject({ name: 'Alpha FM', count: 10 });
+    expect(body.items[1]).toMatchObject({ name: 'Beta FM', count: 5 });
+    expect(body.items[0].series).toBeInstanceOf(Array);
+    expect(body.items[0].series.length).toBe(body.days.length);
+    expect(body.items[0].series.every((v: number) => v === 0)).toBe(true);
     expect(body.total).toBe(15);
     expect(body.range_days).toBe(7);
+    expect(body.days).toHaveLength(8); // 7-day window = today + 7 prior days
+  });
+
+  it('GET /api/public/top-stations zero-fills the series and maps stats by day', async () => {
+    // Synthesize a daily breakdown for one of two hits. GC omits days
+    // with zero events; the worker should fill those slots with 0 and
+    // align by date so the series length matches `days`.
+    const today = new Date();
+    const day = (offset: number): string => {
+      const d = new Date(today);
+      d.setUTCDate(d.getUTCDate() - offset);
+      return d.toISOString().slice(0, 10);
+    };
+    stubFetch(async () =>
+      gcHits([
+        {
+          path: 'play: Alpha FM',
+          count: 12,
+          stats: [
+            { day: day(0), daily: 5 }, // today
+            { day: day(3), daily: 7 }, // 3 days ago
+            // GC would normally omit zero-event days; we test that fill.
+          ],
+        },
+        { path: 'play: Beta FM', count: 0 }, // no stats at all
+      ]),
+    );
+    const res = await call('/api/public/top-stations?days=7&limit=5');
+    const body = await json<{
+      items: Array<{ name: string; count: number; series: number[] }>;
+      days: string[];
+    }>(res);
+    expect(body.days[body.days.length - 1]).toBe(day(0));
+    expect(body.days[body.days.length - 1 - 3]).toBe(day(3));
+    expect(body.items[0].name).toBe('Alpha FM');
+    // today and (today-3) should be the only non-zero slots
+    const nonZero = body.items[0].series
+      .map((v, i) => ({ v, i }))
+      .filter((e) => e.v > 0);
+    expect(nonZero).toEqual([
+      { i: body.days.length - 1 - 3, v: 7 },
+      { i: body.days.length - 1, v: 5 },
+    ]);
+    // Hit with no stats → fully zero-filled series matching `days`.
+    expect(body.items[1].series.length).toBe(body.days.length);
+    expect(body.items[1].series.every((v) => v === 0)).toBe(true);
   });
 
   it('clamps days to [1,90]', async () => {

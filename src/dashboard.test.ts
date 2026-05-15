@@ -122,12 +122,68 @@ describe('aggregateDashboard', () => {
   });
 });
 
+describe('aggregateDashboard — per-country daily series', () => {
+  it('sums series across stations whose origin country matches', () => {
+    // FM4 (AT) + Bayern 1 (DE) + Bayern 2 (DE). Days arg is the
+    // canonical day index from the worker; series length matches it.
+    const d = aggregateDashboard(
+      [
+        { name: 'FM4', count: 30, series: [10, 5, 0, 15] },
+        { name: 'Bayern 1', count: 20, series: [4, 4, 4, 8] },
+        { name: 'Bayern 2', count: 10, series: [2, 2, 2, 4] },
+      ],
+      [],
+      catalog,
+      undefined,
+      ['2026-05-12', '2026-05-13', '2026-05-14', '2026-05-15'],
+    );
+    expect(d.byStationCountrySeries.get('AT')).toEqual([10, 5, 0, 15]);
+    expect(d.byStationCountrySeries.get('DE')).toEqual([6, 6, 6, 12]);
+    expect(d.days).toEqual(['2026-05-12', '2026-05-13', '2026-05-14', '2026-05-15']);
+  });
+
+  it('omits series rollup when items carry no series', () => {
+    // Older worker builds didn't emit `series`; aggregator should
+    // still produce a valid DashboardData with an empty series map.
+    const d = aggregateDashboard(
+      [
+        { name: 'FM4', count: 10 },
+        { name: 'Bayern 1', count: 5 },
+      ],
+      [],
+      catalog,
+    );
+    expect(d.byStationCountrySeries.size).toBe(0);
+    expect(d.days).toEqual([]);
+  });
+
+  it('skips an item whose series length disagrees with the window', () => {
+    // Defensive: if one item somehow has a shorter/longer series than
+    // the rest, we drop just that contribution rather than corrupt the
+    // per-country sum.
+    const d = aggregateDashboard(
+      [
+        { name: 'FM4', count: 10, series: [10] },
+        { name: 'Bayern 1', count: 5, series: [1, 1, 1] }, // wrong length
+      ],
+      [],
+      catalog,
+      undefined,
+      ['d1'],
+    );
+    expect(d.byStationCountrySeries.get('AT')).toEqual([10]);
+    expect(d.byStationCountrySeries.get('DE')).toBeUndefined();
+  });
+});
+
 describe('activeCountryMap', () => {
   const d: DashboardData = {
     totalPlays: 0,
     totalStations: 0,
     byListenerCountry: new Map([['CH', 100]]),
     byStationCountry: new Map([['DE', 50]]),
+    byStationCountrySeries: new Map(),
+    days: [],
   };
 
   it('returns listener map when view is "listeners"', () => {

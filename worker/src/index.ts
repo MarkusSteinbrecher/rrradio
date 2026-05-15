@@ -42,6 +42,10 @@ interface GcHit {
   event?: boolean;
   count: number;
   count_unique?: number;
+  // Per-day breakdown when /stats/hits is called with daily=true. Each
+  // entry is one calendar day in the requested range; missing days are
+  // omitted by GC. Ordering is oldest → newest.
+  stats?: Array<{ day: string; daily: number; daily_unique?: number }>;
 }
 
 interface GcStatsHits {
@@ -73,9 +77,22 @@ interface GcStatGroup {
 }
 
 interface ListResponse {
-  items: Array<{ label: string; count: number; unique?: number; title: string }>;
+  items: Array<{
+    label: string;
+    count: number;
+    unique?: number;
+    title: string;
+    // Per-day counts aligned to the response's `days` array — same
+    // length, zeros for days with no events. Pulled through from
+    // GoatCounter's daily=true /stats/hits response.
+    series?: number[];
+  }>;
   total: number;
   range_days: number;
+  // ISO YYYY-MM-DD for every day in the requested window, oldest →
+  // newest. Lets the dashboard label its sparkline x-axis without each
+  // item carrying its own day-string array.
+  days?: string[];
 }
 
 function corsHeaders(origin: string, allowed: string): Record<string, string> {
@@ -185,14 +202,35 @@ function clampDays(raw: string | null): number {
 // across all topByPrefix calls. GoatCounter's /stats/hits doesn't
 // accept a `filter` query param (we got 400 trying), and its results
 // are already aggregated per-path with counts ordered desc.
+//
+// `daily=true` so each hit also carries a per-day breakdown — the
+// public dashboard renders sparklines per station/country from it.
+// GC's `daily` param is documented as deprecated in favor of
+// `group=day`, but the two are equivalent and the deprecated form is
+// what's wired up here.
 async function fetchAllHits(daysBack: number, env: Env): Promise<GcHit[]> {
   const params = new URLSearchParams({
     start: rangeStart(daysBack),
     limit: '500',
-    daily: 'false',
+    daily: 'true',
   });
   const data = await gcFetch<GcStatsHits>(`/stats/hits?${params}`, env);
   return data.hits ?? [];
+}
+
+// Build the canonical [oldest..today] list of YYYY-MM-DD day strings
+// for a `daysBack`-window. Used as the index for per-item series so
+// every item's series array has the same length and lines up with the
+// same days, even when GC omits days where the item had zero events.
+function rangeDays(daysBack: number): string[] {
+  const days: string[] = [];
+  const today = new Date();
+  for (let i = daysBack; i >= 0; i--) {
+    const d = new Date(today);
+    d.setUTCDate(d.getUTCDate() - i);
+    days.push(d.toISOString().slice(0, 10));
+  }
+  return days;
 }
 
 function pickByPrefix(
@@ -201,17 +239,30 @@ function pickByPrefix(
   limit: number,
   daysBack: number,
 ): ListResponse {
+  const days = rangeDays(daysBack);
+  const dayIndex = new Map(days.map((d, i) => [d, i]));
   const matched = hits
     .filter((h) => h.path.startsWith(prefix))
-    .map((h) => ({
-      label: h.path.slice(prefix.length).trim(),
-      count: h.count,
-      unique: h.count_unique,
-      title: h.title ?? '',
-    }));
+    .map((h) => {
+      // Zero-fill so the series is always the same length as `days`.
+      // GC omits days with zero events; the dashboard wants an even
+      // grid for the sparkline.
+      const series = new Array<number>(days.length).fill(0);
+      for (const s of h.stats ?? []) {
+        const idx = dayIndex.get(s.day);
+        if (idx !== undefined) series[idx] = s.daily;
+      }
+      return {
+        label: h.path.slice(prefix.length).trim(),
+        count: h.count,
+        unique: h.count_unique,
+        title: h.title ?? '',
+        series,
+      };
+    });
   matched.sort((a, b) => b.count - a.count);
   const total = matched.reduce((s, i) => s + i.count, 0);
-  return { items: matched.slice(0, limit), total, range_days: daysBack };
+  return { items: matched.slice(0, limit), total, range_days: daysBack, days };
 }
 
 async function totals(daysBack: number, env: Env): Promise<GcTotals & { range_days: number }> {
@@ -385,16 +436,25 @@ export default {
           // matched `play:` events in the window (not just the top
           // `limit` items), so the dashboard can show an honest
           // total-plays headline even when more than `limit` distinct
-          // stations were played.
-          const items = list.items.map((i) => ({ name: i.label, count: i.count }));
-          return new Response(JSON.stringify({ items, total: list.total, range_days: days }), {
-            status: 200,
-            headers: {
-              'Content-Type': 'application/json; charset=utf-8',
-              'Cache-Control': `public, max-age=${PUBLIC_CACHE_TTL_S}`,
-              ...publicCors,
+          // stations were played. `series` is the per-day plays array,
+          // aligned to the response's `days` list — the dashboard rolls
+          // these up per country for the sparkline column.
+          const items = list.items.map((i) => ({
+            name: i.label,
+            count: i.count,
+            series: i.series,
+          }));
+          return new Response(
+            JSON.stringify({ items, total: list.total, range_days: days, days: list.days }),
+            {
+              status: 200,
+              headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                'Cache-Control': `public, max-age=${PUBLIC_CACHE_TTL_S}`,
+                ...publicCors,
+              },
             },
-          });
+          );
         }
 
         // Public totals — same shape as /api/totals (admin) but with no

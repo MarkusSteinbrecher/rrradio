@@ -2073,19 +2073,28 @@ let lastDashboardData: DashboardData | null = null;
 async function fetchTopStationsWithCounts(): Promise<{
   items: TopStationItem[];
   total: number | undefined;
+  days: string[];
 }> {
   try {
     const res = await fetch(TOP_STATIONS_URL);
     if (!res.ok) {
       reportWorkerError(new Error(`HTTP ${res.status}`), '/api/public/top-stations', res.status);
-      return { items: [], total: undefined };
+      return { items: [], total: undefined, days: [] };
     }
-    const data = (await res.json()) as { items?: TopStationItem[]; total?: number };
+    const data = (await res.json()) as {
+      items?: TopStationItem[];
+      total?: number;
+      days?: string[];
+    };
     const items = (data.items ?? []).filter((i) => typeof i.name === 'string' && i.name.length > 0);
-    return { items, total: typeof data.total === 'number' ? data.total : undefined };
+    return {
+      items,
+      total: typeof data.total === 'number' ? data.total : undefined,
+      days: Array.isArray(data.days) ? data.days : [],
+    };
   } catch (err) {
     reportWorkerError(err, '/api/public/top-stations');
-    return { items: [], total: undefined };
+    return { items: [], total: undefined, days: [] };
   }
 }
 
@@ -2170,6 +2179,20 @@ function renderDashCountryTable(d: DashboardData): void {
   const sorted = [...activeMap(d).entries()].sort((a, b) => b[1] - a[1]);
   const max = sorted[0]?.[1] ?? 1;
   const total = sorted.reduce((s, [, c]) => s + c, 0);
+  // In Stations view we draw a 7-day sparkline per country built from
+  // the per-station daily series. GoatCounter doesn't expose per-day
+  // visit counts per country, so Listeners view keeps the single
+  // share-of-max bar. Sparkline bars are normalised to the highest
+  // single-day value across the whole table so heights are
+  // cross-comparable between rows.
+  const showSpark = dashView === 'stations' && d.byStationCountrySeries.size > 0;
+  let sparkMax = 0;
+  if (showSpark) {
+    for (const series of d.byStationCountrySeries.values()) {
+      for (const v of series) if (v > sparkMax) sparkMax = v;
+    }
+    if (sparkMax === 0) sparkMax = 1;
+  }
   sorted.forEach(([cc, count], i) => {
     const tr = document.createElement('tr');
     const rank = document.createElement('td');
@@ -2180,7 +2203,12 @@ function renderDashCountryTable(d: DashboardData): void {
     country.textContent = countryName(cc);
     const bar = document.createElement('td');
     bar.className = 'bar';
-    bar.innerHTML = `<div class="bar__track"><div class="bar__fill" style="width:${(count / max) * 100}%"></div></div>`;
+    const series = showSpark ? d.byStationCountrySeries.get(cc) : undefined;
+    if (series && series.length > 0) {
+      bar.append(renderSparkline(series, sparkMax, d.days));
+    } else {
+      bar.innerHTML = `<div class="bar__track"><div class="bar__fill" style="width:${(count / max) * 100}%"></div></div>`;
+    }
     const num = document.createElement('td');
     num.className = 'count';
     num.textContent = String(count);
@@ -2190,6 +2218,38 @@ function renderDashCountryTable(d: DashboardData): void {
     tr.append(rank, country, bar, num, pct);
     $dashCountryTable.append(tr);
   });
+}
+
+/** Build a fixed-height bar sparkline. Each `series` entry is one
+ *  calendar day; bars share a single max across the whole table (passed
+ *  in `maxAcrossTable`) so a country with one big day reads as taller
+ *  than a country with a flat baseline. */
+function renderSparkline(series: number[], maxAcrossTable: number, days: string[]): HTMLElement {
+  const wrap = document.createElement('div');
+  wrap.className = 'bar__spark';
+  wrap.setAttribute('role', 'img');
+  const totalRow = series.reduce((s, v) => s + v, 0);
+  wrap.setAttribute(
+    'aria-label',
+    `${totalRow} plays over the last ${series.length} days`,
+  );
+  series.forEach((v, idx) => {
+    const cell = document.createElement('div');
+    cell.className = 'bar__spark-cell';
+    const fill = document.createElement('div');
+    fill.className = 'bar__spark-fill';
+    // sqrt-scale would compress big spikes; the brief is "show the
+    // shape per day", so a linear scale stays honest. Floor at 4% so
+    // a single-play day still leaves a visible nub instead of vanishing.
+    const pct = v > 0 ? Math.max(4, (v / maxAcrossTable) * 100) : 0;
+    fill.style.height = `${pct}%`;
+    if (v === 0) fill.classList.add('is-empty');
+    const day = days[idx];
+    cell.title = day ? `${day}: ${v}` : String(v);
+    cell.append(fill);
+    wrap.append(cell);
+  });
+  return wrap;
 }
 
 function renderDashPollTable(results: PollResults | null): void {
@@ -2411,6 +2471,7 @@ async function openDashboardSheet(open: boolean): Promise<void> {
     locations,
     BUILTIN_STATIONS,
     topStations.total,
+    topStations.days,
   );
   lastDashboardData = data;
   syncDashToggle();
