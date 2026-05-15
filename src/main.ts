@@ -2291,11 +2291,23 @@ function renderDashPollTable(results: PollResults | null): void {
   });
 }
 
-function renderDashStationTable(items: TopStationItem[]): void {
+function renderDashStationTable(items: TopStationItem[], days: string[]): void {
   $dashStationTable.replaceChildren();
   if (items.length === 0) return;
   const max = items[0]?.count ?? 1;
   const total = items.reduce((s, it) => s + it.count, 0);
+  // Per-day plays sparkline when the worker ships a series. Falls back
+  // to the single share-of-max bar for older worker builds. Max is the
+  // highest single-day value across every visible row so the bars are
+  // cross-station-comparable.
+  const showSpark = items.some((it) => it.series && it.series.length > 0);
+  let sparkMax = 0;
+  if (showSpark) {
+    for (const it of items) {
+      for (const v of it.series ?? []) if (v > sparkMax) sparkMax = v;
+    }
+    if (sparkMax === 0) sparkMax = 1;
+  }
   items.forEach((it, i) => {
     const tr = document.createElement('tr');
     const rank = document.createElement('td');
@@ -2306,7 +2318,11 @@ function renderDashStationTable(items: TopStationItem[]): void {
     name.textContent = it.name;
     const bar = document.createElement('td');
     bar.className = 'bar';
-    bar.innerHTML = `<div class="bar__track"><div class="bar__fill" style="width:${(it.count / max) * 100}%"></div></div>`;
+    if (showSpark && it.series && it.series.length > 0) {
+      bar.append(renderSparkline(it.series, sparkMax, days));
+    } else {
+      bar.innerHTML = `<div class="bar__track"><div class="bar__fill" style="width:${(it.count / max) * 100}%"></div></div>`;
+    }
     const num = document.createElement('td');
     num.className = 'count';
     num.textContent = String(it.count);
@@ -2477,7 +2493,7 @@ async function openDashboardSheet(open: boolean): Promise<void> {
   syncDashToggle();
   renderDashKpis(data, totals);
   renderDashCountryTable(data);
-  renderDashStationTable(topStations.items);
+  renderDashStationTable(topStations.items, topStations.days);
   renderDashPollTable(poll);
   void renderDashMap(data);
 }
