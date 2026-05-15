@@ -158,12 +158,14 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
         let existingFavoriteIDs = try await favoriteRecordIDsFromOrder()
         let existingCustomIDs = try await customStationRecordIDsFromIndex()
         let existingStationListIDs = try await stationListRecordIDsFromIndex()
+        let existingSyncStateIDs = try await syncStateRecordIDsIfPresent()
         let wantedFavoriteIDs = Set(snapshot.favorites.map { recordID(prefix: "favorite", stationID: $0.id) })
         let wantedCustomIDs = Set(snapshot.customStations.map { recordID(prefix: "custom", stationID: $0.id) })
         let wantedStationListIDs = Set(snapshot.stationLists.map { recordID(prefix: "station-list", stationID: $0.id) })
         let staleIDs = existingFavoriteIDs.filter { !wantedFavoriteIDs.contains($0) }
             + existingCustomIDs.filter { !wantedCustomIDs.contains($0) }
             + existingStationListIDs.filter { !wantedStationListIDs.contains($0) }
+            + existingSyncStateIDs
 
         try await modify(recordsToSave: recordsToSave, recordIDsToDelete: staleIDs)
     }
@@ -280,6 +282,11 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
         } catch let error as CKError where error.code == .unknownItem {
             return nil
         }
+    }
+
+    private func syncStateRecordIDsIfPresent() async throws -> [CKRecord.ID] {
+        let resetAt = try await fetchResetAt()
+        return resetAt == nil ? [] : [CKRecord.ID(recordName: RecordName.syncState)]
     }
 
     private func favoriteRecordIDsFromOrder() async throws -> [CKRecord.ID] {

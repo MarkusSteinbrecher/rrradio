@@ -3,6 +3,7 @@ import SwiftUI
 import UIKit
 
 @Observable
+@MainActor
 final class ThemeController {
     enum Choice: String {
         case system
@@ -10,9 +11,9 @@ final class ThemeController {
         case dark
     }
 
-    static let accentStorageKey = "rrradio.theme.accent"
-    static let classicAccentRawValue = "classic"
-    static let classicAccentHex = "#FFFF00"
+    nonisolated static let accentStorageKey = "rrradio.theme.accent"
+    nonisolated static let classicAccentRawValue = "classic"
+    nonisolated static let classicAccentHex = "#FFFF00"
 
     private let defaults: UserDefaults
     private let key = "rrradio.theme"
@@ -99,7 +100,7 @@ final class ThemeController {
         defaults.set(normalized, forKey: Self.accentStorageKey)
     }
 
-    static func accentColor(for rawValue: String? = UserDefaults.standard.string(forKey: accentStorageKey)) -> Color {
+    nonisolated static func accentColor(for rawValue: String? = UserDefaults.standard.string(forKey: accentStorageKey)) -> Color {
         if let hexValue = hexValue(for: normalizedAccentStorageValue(rawValue)),
            let uiColor = uiColor(from: hexValue) {
             return Color(uiColor)
@@ -111,7 +112,7 @@ final class ThemeController {
         })
     }
 
-    static func normalizedAccentStorageValue(_ rawValue: String?) -> String {
+    nonisolated static func normalizedAccentStorageValue(_ rawValue: String?) -> String {
         guard let value = rawValue?.trimmingCharacters(in: .whitespacesAndNewlines),
               !value.isEmpty else {
             return classicAccentRawValue
@@ -125,7 +126,7 @@ final class ThemeController {
         return normalizedHexValue(value) ?? classicAccentRawValue
     }
 
-    static func isValidAccentStorageValue(_ rawValue: String?) -> Bool {
+    nonisolated static func isValidAccentStorageValue(_ rawValue: String?) -> Bool {
         guard let value = rawValue?.trimmingCharacters(in: .whitespacesAndNewlines),
               !value.isEmpty else {
             return false
@@ -135,7 +136,7 @@ final class ThemeController {
             || normalizedHexValue(value) != nil
     }
 
-    static func normalizedHexValue(_ value: String) -> String? {
+    nonisolated static func normalizedHexValue(_ value: String) -> String? {
         var trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         if trimmed.hasPrefix("#") {
             trimmed.removeFirst()
@@ -152,13 +153,13 @@ final class ThemeController {
         return "#\(trimmed)"
     }
 
-    static func hexValue(for rawValue: String?) -> String? {
+    nonisolated static func hexValue(for rawValue: String?) -> String? {
         let normalized = normalizedAccentStorageValue(rawValue)
         guard normalized != classicAccentRawValue else { return nil }
         return normalized
     }
 
-    static func hexValue(from color: Color) -> String? {
+    nonisolated static func hexValue(from color: Color) -> String? {
         let uiColor = UIColor(color)
         var red: CGFloat = 0
         var green: CGFloat = 0
@@ -173,7 +174,7 @@ final class ThemeController {
         )
     }
 
-    private static func uiColor(from hexValue: String) -> UIColor? {
+    nonisolated private static func uiColor(from hexValue: String) -> UIColor? {
         guard let normalized = normalizedHexValue(hexValue) else { return nil }
         let value = String(normalized.dropFirst())
         guard let number = Int(value, radix: 16) else { return nil }
@@ -185,7 +186,7 @@ final class ThemeController {
         )
     }
 
-    private static func legacyPresetHexValue(for rawValue: String) -> String? {
+    nonisolated private static func legacyPresetHexValue(for rawValue: String) -> String? {
         switch rawValue.lowercased() {
         case "blue": "#0A84FF"
         case "rose": "#FF7AA3"

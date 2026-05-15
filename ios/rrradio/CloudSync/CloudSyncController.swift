@@ -48,6 +48,8 @@ final class CloudSyncController {
     private var configured = false
     private var applyingRemote = false
     private var pendingPushTask: Task<Void, Never>?
+    private var pendingPushRequested = false
+    private let pushDebounceNanoseconds: UInt64
 
     private(set) var availability: Availability = .checking
     private(set) var isSyncing = false
@@ -56,13 +58,18 @@ final class CloudSyncController {
     private(set) var diagnosticState: DiagnosticState = .idle
     var isEnabled: Bool
 
-    init(defaults: UserDefaults = .standard, store: CloudSyncStoring = CloudSyncStoreFactory.make()) {
+    init(
+        defaults: UserDefaults = .standard,
+        store: CloudSyncStoring = CloudSyncStoreFactory.make(),
+        pushDebounceNanoseconds: UInt64 = 750_000_000,
+    ) {
         self.defaults = defaults
         if defaults.object(forKey: Self.enabledKey) == nil {
             defaults.set(true, forKey: Self.enabledKey)
         }
         isEnabled = defaults.bool(forKey: Self.enabledKey)
         self.store = store
+        self.pushDebounceNanoseconds = pushDebounceNanoseconds
     }
 
     func configure(
@@ -142,7 +149,7 @@ final class CloudSyncController {
         guard !isSyncing else { return }
         isSyncing = true
         diagnosticState = .checking
-        defer { isSyncing = false }
+        defer { finishSync() }
 
         do {
             try await updateAvailability()
@@ -161,19 +168,25 @@ final class CloudSyncController {
         }
 
         do {
-            let local = localSnapshot()
+            let initialLocal = localSnapshot()
             let remote = try await store.fetchSnapshot()
             if let resetAt = remote.resetAt, shouldApplyReset(resetAt) {
-                applyingRemote = true
-                apply(snapshot: .empty)
-                applyingRemote = false
-                acknowledgeReset(resetAt)
-                lastSync = Date()
-                lastError = nil
-                diagnosticState = .resetApplied
-                diagnostics?.record("icloud", "applied reset")
-                return
+                if remote.hasCloudPayloadBeyondReset {
+                    acknowledgeReset(resetAt)
+                    diagnostics?.record("icloud", "ignored stale reset marker")
+                } else {
+                    applyingRemote = true
+                    apply(snapshot: .empty)
+                    applyingRemote = false
+                    acknowledgeReset(resetAt)
+                    lastSync = Date()
+                    lastError = nil
+                    diagnosticState = .resetApplied
+                    diagnostics?.record("icloud", "applied reset")
+                    return
+                }
             }
+            let local = pendingPushRequested ? localSnapshot() : initialLocal
             if !remote.hasCloudData, !local.hasLocalUserPayload {
                 lastSync = Date()
                 lastError = nil
@@ -202,7 +215,7 @@ final class CloudSyncController {
     func removeAllCloudData() async {
         guard isEnabled else { return }
         isSyncing = true
-        defer { isSyncing = false }
+        defer { finishSync() }
         do {
             let resetAt = Date()
             try await store.resetAll(resetAt: resetAt)
@@ -262,18 +275,26 @@ final class CloudSyncController {
 
     private func schedulePush() {
         guard !applyingRemote, isEnabled else { return }
+        pendingPushRequested = true
         pendingPushTask?.cancel()
+        let delay = pushDebounceNanoseconds
         pendingPushTask = Task { [weak self] in
-            try? await Task.sleep(nanoseconds: 750_000_000)
+            try? await Task.sleep(nanoseconds: delay)
             guard !Task.isCancelled else { return }
-            await self?.pushLocalSnapshot()
+            await self?.runScheduledPush()
         }
+    }
+
+    private func runScheduledPush() async {
+        pendingPushTask = nil
+        await pushLocalSnapshot()
     }
 
     private func pushLocalSnapshot() async {
         guard isEnabled, !isSyncing else { return }
+        pendingPushRequested = false
         isSyncing = true
-        defer { isSyncing = false }
+        defer { finishSync() }
         do {
             try await updateAvailability()
             guard availability == .available else {
@@ -290,6 +311,19 @@ final class CloudSyncController {
             lastError = sanitized(error)
             diagnosticState = .failed(lastError ?? "iCloud push failed.")
             diagnostics?.record("icloud", "push failed", details: ["error": lastError ?? "unknown"])
+        }
+    }
+
+    private func finishSync() {
+        isSyncing = false
+        scheduleDeferredPushIfNeeded()
+    }
+
+    private func scheduleDeferredPushIfNeeded() {
+        guard pendingPushRequested, isEnabled, !applyingRemote else { return }
+        pendingPushTask?.cancel()
+        pendingPushTask = Task { [weak self] in
+            await self?.runScheduledPush()
         }
     }
 

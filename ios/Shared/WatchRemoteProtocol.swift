@@ -81,7 +81,9 @@ struct WatchPlaybackSnapshot: Codable, Hashable {
     let nowPlayingProgramName: String?
     let nowPlayingCoverURL: URL?
     let favorites: [WatchStationSummary]
+    let favoriteCount: Int
     let stationLists: [WatchStationListSummary]
+    let stationListCount: Int
     let activeQueue: WatchPlaybackQueueSummary?
     let activeQueueStations: [WatchStationSummary]
     let catalogStationCount: Int
@@ -95,7 +97,9 @@ struct WatchPlaybackSnapshot: Codable, Hashable {
         case nowPlayingProgramName
         case nowPlayingCoverURL
         case favorites
+        case favoriteCount
         case stationLists
+        case stationListCount
         case activeQueue
         case activeQueueStations
         case catalogStationCount
@@ -110,7 +114,9 @@ struct WatchPlaybackSnapshot: Codable, Hashable {
         nowPlayingProgramName: String?,
         nowPlayingCoverURL: URL?,
         favorites: [WatchStationSummary],
+        favoriteCount: Int? = nil,
         stationLists: [WatchStationListSummary] = [],
+        stationListCount: Int? = nil,
         activeQueue: WatchPlaybackQueueSummary? = nil,
         activeQueueStations: [WatchStationSummary] = [],
         catalogStationCount: Int,
@@ -123,7 +129,9 @@ struct WatchPlaybackSnapshot: Codable, Hashable {
         self.nowPlayingProgramName = nowPlayingProgramName
         self.nowPlayingCoverURL = nowPlayingCoverURL
         self.favorites = favorites
+        self.favoriteCount = favoriteCount ?? favorites.count
         self.stationLists = stationLists
+        self.stationListCount = stationListCount ?? stationLists.count
         self.activeQueue = activeQueue
         self.activeQueueStations = activeQueueStations
         self.catalogStationCount = catalogStationCount
@@ -139,7 +147,9 @@ struct WatchPlaybackSnapshot: Codable, Hashable {
         self.nowPlayingProgramName = try container.decodeIfPresent(String.self, forKey: .nowPlayingProgramName)
         self.nowPlayingCoverURL = try container.decodeIfPresent(URL.self, forKey: .nowPlayingCoverURL)
         self.favorites = try container.decode([WatchStationSummary].self, forKey: .favorites)
+        self.favoriteCount = try container.decodeIfPresent(Int.self, forKey: .favoriteCount) ?? favorites.count
         self.stationLists = try container.decodeIfPresent([WatchStationListSummary].self, forKey: .stationLists) ?? []
+        self.stationListCount = try container.decodeIfPresent(Int.self, forKey: .stationListCount) ?? stationLists.count
         self.activeQueue = try container.decodeIfPresent(WatchPlaybackQueueSummary.self, forKey: .activeQueue)
         self.activeQueueStations = try container.decodeIfPresent([WatchStationSummary].self, forKey: .activeQueueStations) ?? []
         self.catalogStationCount = try container.decode(Int.self, forKey: .catalogStationCount)

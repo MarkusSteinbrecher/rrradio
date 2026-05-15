@@ -91,6 +91,19 @@ final class LibraryTests: XCTestCase {
         XCTAssertEqual(library.favorites.map(\.id), ["a", "c", "b"])
     }
 
+    func testReorderFavoritesKeepsMultipleMissedStationsInOriginalOrder() {
+        let library = Library(defaults: defaults)
+        library.toggleFavorite(station("a"))
+        library.toggleFavorite(station("b"))
+        library.toggleFavorite(station("c"))
+        library.toggleFavorite(station("d"))
+        library.toggleFavorite(station("e"))
+
+        library.reorderFavorites(["a", "missing", "c"])
+
+        XCTAssertEqual(library.favorites.map(\.id), ["a", "c", "e", "d", "b"])
+    }
+
     func testCreateStationListPersistsAcrossInstances() {
         let first = Library(defaults: defaults)
         let list = first.createStationList(name: " Morning ", stations: [station("a"), station("b")])
@@ -248,6 +261,21 @@ final class LibraryTests: XCTestCase {
     func testCustomStationSaveFavoritesTheCustomStationItself() {
         let library = Library(defaults: defaults)
         library.addCustom(station("custom-a", name: "Custom A"), favorite: true)
+
+        XCTAssertEqual(library.customStations.map(\.id), ["custom-a"])
+        XCTAssertEqual(library.favorites.map(\.id), ["custom-a"])
+        XCTAssertEqual(library.favorites.first?.name, "Custom A")
+    }
+
+    func testCloudSyncApplyRestoresCustomStationsAsFavorites() {
+        let library = Library(defaults: defaults)
+        let custom = station("custom-a", name: "Custom A")
+
+        library.applyCloudSync(
+            favorites: [],
+            customStations: [custom],
+            stationLists: [],
+        )
 
         XCTAssertEqual(library.customStations.map(\.id), ["custom-a"])
         XCTAssertEqual(library.favorites.map(\.id), ["custom-a"])

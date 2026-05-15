@@ -50,6 +50,9 @@ struct WatchRemoteRootView: View {
                         }
                         .disabled(!model.canSendCommand || list.stationCount == 0)
                     }
+                    if let stationListBoundaryText {
+                        boundaryText(stationListBoundaryText)
+                    }
                 }
             }
         }
@@ -270,6 +273,9 @@ struct WatchRemoteRootView: View {
                         .disabled(!model.canSendCommand)
                     }
                 }
+                if let favoritesBoundaryText {
+                    boundaryText(favoritesBoundaryText)
+                }
             }
         }
     }
@@ -291,6 +297,9 @@ struct WatchRemoteRootView: View {
                         )
                     }
                     .disabled(!model.canSendCommand)
+                }
+                if let activeQueueBoundaryText {
+                    boundaryText(activeQueueBoundaryText)
                 }
             }
             .padding(.top, 4)
@@ -329,6 +338,44 @@ struct WatchRemoteRootView: View {
             return "\(prefix) \(currentIndex + 1)/\(queue.stationCount)"
         }
         return "\(prefix) \(queue.stationCount)"
+    }
+
+    private var favoritesBoundaryText: String? {
+        boundaryText(
+            shown: model.snapshot.favorites.count,
+            total: model.snapshot.favoriteCount,
+            noun: "favorites",
+        )
+    }
+
+    private var stationListBoundaryText: String? {
+        boundaryText(
+            shown: model.snapshot.stationLists.count,
+            total: model.snapshot.stationListCount,
+            noun: "lists",
+        )
+    }
+
+    private var activeQueueBoundaryText: String? {
+        guard let total = model.snapshot.activeQueue?.stationCount else { return nil }
+        return boundaryText(
+            shown: activeQueueStations.count,
+            total: total,
+            noun: "stations",
+        )
+    }
+
+    private func boundaryText(shown: Int, total: Int, noun: String) -> String? {
+        guard total > shown else { return nil }
+        return "Showing \(shown) of \(total) \(noun)"
+    }
+
+    private func boundaryText(_ text: String) -> some View {
+        Text(text)
+            .font(.system(size: 9, weight: .medium))
+            .foregroundStyle(.secondary)
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding(.top, 2)
     }
 
     private var nowPlayingHeadline: String {

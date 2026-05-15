@@ -25,8 +25,12 @@ struct CloudSyncSnapshot: Equatable {
     var hasPreferences: Bool
 
     var hasCloudData: Bool {
-        hasPreferences
+        hasCloudPayloadBeyondReset
             || resetAt != nil
+    }
+
+    var hasCloudPayloadBeyondReset: Bool {
+        hasPreferences
             || !favorites.isEmpty
             || !customStations.isEmpty
             || !stationLists.isEmpty

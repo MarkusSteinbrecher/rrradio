@@ -1464,6 +1464,7 @@ private enum SettingsPage: Int, CaseIterable, Identifiable {
 
     var id: Int { rawValue }
 
+    @MainActor
     func title(_ locale: LocaleController) -> String {
         switch self {
         case .settings: "Preferences"

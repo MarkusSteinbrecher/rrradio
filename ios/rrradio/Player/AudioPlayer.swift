@@ -1080,13 +1080,12 @@ final class AudioPlayer {
         guard let url else { return }
 
         lockScreenArtworkTask = Task { [weak self] in
-            var request = URLRequest(url: url)
-            request.timeoutInterval = Self.lockScreenArtworkTimeout
-            guard let (data, response) = try? await URLSession.shared.data(for: request),
-                  (response as? HTTPURLResponse).map({ (200...299).contains($0.statusCode) }) != false,
-                  data.count <= Self.lockScreenArtworkMaximumBytes,
-                  !Task.isCancelled,
-                  let image = UIImage(data: data) else { return }
+            let image = await RemoteImageCache.shared.image(
+                for: url,
+                maximumBytes: Self.lockScreenArtworkMaximumBytes,
+                timeout: Self.lockScreenArtworkTimeout,
+            )
+            guard let image, !Task.isCancelled else { return }
 
             let artwork = makeLockScreenArtwork(from: image, sleepTimerActive: self?.lockScreenSleepTimerFiresAt.map { $0 > Date() } == true)
             await MainActor.run { [weak self] in

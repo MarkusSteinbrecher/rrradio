@@ -246,6 +246,8 @@ final class PhoneRemoteControlController: NSObject, WCSessionDelegate {
 
     private func makeSnapshot() -> WatchPlaybackSnapshot {
         let player = player
+        let favoriteCount = library?.favorites.count ?? 0
+        let stationListCount = library?.stationLists.count ?? 0
         let favorites = library?.favorites.prefix(Self.favoriteSnapshotLimit).map(WatchStationSummary.init(station:)) ?? []
         let stationLists = library?.stationLists.prefix(Self.stationListSnapshotLimit).map(WatchStationListSummary.init(stationList:)) ?? []
         return WatchPlaybackSnapshot(
@@ -256,7 +258,9 @@ final class PhoneRemoteControlController: NSObject, WCSessionDelegate {
             nowPlayingProgramName: player?.nowPlayingProgramName,
             nowPlayingCoverURL: player?.nowPlayingCoverUrl,
             favorites: Array(favorites),
+            favoriteCount: favoriteCount,
             stationLists: Array(stationLists),
+            stationListCount: stationListCount,
             activeQueue: player.flatMap { activeQueueSummary(for: $0) },
             activeQueueStations: activeQueueStations(for: player),
             catalogStationCount: catalog?.stations.count ?? 0,

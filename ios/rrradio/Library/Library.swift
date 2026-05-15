@@ -93,15 +93,9 @@ final class Library {
     }
 
     func reorderFavorites(_ orderedIds: [String]) {
-        var byId = Dictionary(uniqueKeysWithValues: favorites.map { ($0.id, $0) })
-        var next: [Station] = []
-        for id in orderedIds {
-            if let station = byId.removeValue(forKey: id) {
-                next.append(station)
-            }
-        }
-        next.append(contentsOf: byId.values)
-        favorites = next
+        let reordered = Self.reorderedStations(favorites, orderedIds: orderedIds)
+        guard reordered != favorites else { return }
+        favorites = reordered
         writeFavorites()
     }
 
@@ -229,10 +223,9 @@ final class Library {
     }
 
     private func ensureCustomStationsAreFavorites() {
-        let favoriteIds = Set(favorites.map(\.id))
-        let missingCustomFavorites = customStations.filter { !favoriteIds.contains($0.id) }
-        guard !missingCustomFavorites.isEmpty else { return }
-        favorites = missingCustomFavorites + favorites
+        let normalizedFavorites = Self.favoritesIncludingCustomStations(favorites, customStations: customStations)
+        guard normalizedFavorites != favorites else { return }
+        favorites = normalizedFavorites
         writeFavorites()
     }
 
@@ -278,7 +271,7 @@ final class Library {
         customStations nextCustomStations: [Station],
         stationLists nextStationLists: [StationList],
     ) {
-        favorites = nextFavorites
+        favorites = Self.favoritesIncludingCustomStations(nextFavorites, customStations: nextCustomStations)
         customStations = nextCustomStations
         stationLists = nextStationLists
         Self.writeStations(favorites, key: Keys.favorites, to: defaults)
@@ -327,6 +320,15 @@ final class Library {
         return stations.filter { station in
             seen.insert(station.id).inserted
         }
+    }
+
+    private static func favoritesIncludingCustomStations(
+        _ favorites: [Station],
+        customStations: [Station],
+    ) -> [Station] {
+        let favoriteIds = Set(favorites.map(\.id))
+        let missingCustomFavorites = customStations.filter { !favoriteIds.contains($0.id) }
+        return missingCustomFavorites.isEmpty ? favorites : missingCustomFavorites + favorites
     }
 
     private static func reorderedStations(_ stations: [Station], orderedIds: [String]) -> [Station] {

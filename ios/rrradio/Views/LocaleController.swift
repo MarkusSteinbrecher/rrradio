@@ -2,6 +2,7 @@ import Observation
 import SwiftUI
 
 @Observable
+@MainActor
 final class LocaleController {
     enum Choice: String, CaseIterable, Identifiable {
         case system

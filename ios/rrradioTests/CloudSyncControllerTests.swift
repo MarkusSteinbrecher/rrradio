@@ -38,7 +38,7 @@ final class CloudSyncControllerTests: XCTestCase {
 
         await dependencies.controller.refreshFromCloud()
 
-        XCTAssertEqual(dependencies.library.favorites.map(\.id), [favoriteB.id, favoriteA.id])
+        XCTAssertEqual(dependencies.library.favorites.map(\.id), [custom.id, favoriteB.id, favoriteA.id])
         XCTAssertEqual(dependencies.library.customStations.map(\.id), [custom.id])
         XCTAssertEqual(dependencies.library.stationLists.map(\.id), [stationList.id])
         XCTAssertEqual(dependencies.library.stationLists.first?.stations.map(\.id), [favoriteA.id, custom.id])
@@ -65,7 +65,7 @@ final class CloudSyncControllerTests: XCTestCase {
 
         let saved = await store.savedSnapshots()
         XCTAssertEqual(saved.count, 1)
-        XCTAssertEqual(saved.first?.favorites.map(\.id), [favoriteB.id, favoriteA.id])
+        XCTAssertEqual(saved.first?.favorites.map(\.id), [custom.id, favoriteB.id, favoriteA.id])
         XCTAssertEqual(saved.first?.customStations.map(\.id), [custom.id])
         XCTAssertEqual(saved.first?.stationLists.map(\.id), [stationList.id])
         XCTAssertEqual(saved.first?.favoritesDisplayMode, FavoritesDisplayMode.tiles.rawValue)
@@ -85,6 +85,48 @@ final class CloudSyncControllerTests: XCTestCase {
         let saved = await waitForSavedSnapshot(in: store)
         XCTAssertEqual(saved?.stationLists.map(\.id), [list.id])
         XCTAssertEqual(saved?.stationLists.first?.stations.map(\.id), [stationA.id])
+    }
+
+    func testLocalChangeDuringInFlightPushIsPushedAfterSyncFinishes() async throws {
+        let defaults = makeDefaults()
+        let store = FakeCloudSyncStore(
+            snapshot: .empty,
+            saveDelayNanoseconds: 90_000_000,
+        )
+        let dependencies = makeDependencies(
+            defaults: defaults,
+            store: store,
+            pushDebounceNanoseconds: 5_000_000,
+        )
+        let first = station("first")
+        let second = station("second")
+
+        dependencies.library.addFavorite(first)
+        try await Task.sleep(nanoseconds: 30_000_000)
+        dependencies.library.addFavorite(second)
+
+        let saved = await waitForSavedSnapshot(in: store, minimumCount: 2)
+        XCTAssertEqual(saved?.favorites.map(\.id), [second.id, first.id])
+    }
+
+    func testResetMarkerWithRemotePayloadIsTreatedAsStale() async throws {
+        let defaults = makeDefaults()
+        let remote = station("remote-a")
+        let store = FakeCloudSyncStore(
+            snapshot: snapshot(
+                favorites: [remote],
+                favoritesOrder: [remote.id],
+                resetAt: Date(timeIntervalSince1970: 1_700_000_000),
+            ),
+        )
+        let dependencies = makeDependencies(defaults: defaults, store: store)
+
+        await dependencies.controller.refreshFromCloud()
+
+        XCTAssertEqual(dependencies.library.favorites.map(\.id), [remote.id])
+        XCTAssertEqual(dependencies.controller.diagnosticState, .restored(.init(favorites: 1, customStations: 0, stationLists: 0, hasPreferences: true)))
+        let saved = await store.savedSnapshots()
+        XCTAssertNil(saved.last?.resetAt)
     }
 
     func testEmptyFreshInstallDoesNotUploadLocalDefaults() async throws {
@@ -187,6 +229,7 @@ final class CloudSyncControllerTests: XCTestCase {
         defaults: UserDefaults,
         store: CloudSyncStoring,
         configure shouldConfigure: Bool = true,
+        pushDebounceNanoseconds: UInt64 = 750_000_000,
     ) -> TestDependencies {
         let library = Library(defaults: defaults)
         let theme = ThemeController(defaults: defaults)
@@ -196,7 +239,11 @@ final class CloudSyncControllerTests: XCTestCase {
         let carMode = CarModeController(defaults: defaults)
         let listeningHistory = ListeningHistory(defaults: defaults, recordsURL: temporaryRecordsURL())
         let diagnostics = Diagnostics(defaults: defaults)
-        let controller = CloudSyncController(defaults: defaults, store: store)
+        let controller = CloudSyncController(
+            defaults: defaults,
+            store: store,
+            pushDebounceNanoseconds: pushDebounceNanoseconds,
+        )
         let dependencies = TestDependencies(
             library: library,
             theme: theme,
@@ -240,10 +287,14 @@ final class CloudSyncControllerTests: XCTestCase {
             .appendingPathComponent("CloudSyncControllerTests-\(UUID().uuidString).json")
     }
 
-    private func waitForSavedSnapshot(in store: FakeCloudSyncStore) async -> CloudSyncSnapshot? {
+    private func waitForSavedSnapshot(
+        in store: FakeCloudSyncStore,
+        minimumCount: Int = 1,
+    ) async -> CloudSyncSnapshot? {
         for _ in 0..<20 {
-            if let saved = await store.savedSnapshots().last {
-                return saved
+            let snapshots = await store.savedSnapshots()
+            if snapshots.count >= minimumCount {
+                return snapshots.last
             }
             try? await Task.sleep(nanoseconds: 100_000_000)
         }
@@ -326,11 +377,20 @@ private struct TestDependencies {
 private actor FakeCloudSyncStore: CloudSyncStoring {
     private let snapshot: CloudSyncSnapshot
     private let fetchError: Error?
+    private let fetchDelayNanoseconds: UInt64
+    private let saveDelayNanoseconds: UInt64
     private var saved: [CloudSyncSnapshot] = []
 
-    init(snapshot: CloudSyncSnapshot, fetchError: Error? = nil) {
+    init(
+        snapshot: CloudSyncSnapshot,
+        fetchError: Error? = nil,
+        fetchDelayNanoseconds: UInt64 = 0,
+        saveDelayNanoseconds: UInt64 = 0,
+    ) {
         self.snapshot = snapshot
         self.fetchError = fetchError
+        self.fetchDelayNanoseconds = fetchDelayNanoseconds
+        self.saveDelayNanoseconds = saveDelayNanoseconds
     }
 
     func accountStatus() async throws -> CKAccountStatus {
@@ -338,6 +398,9 @@ private actor FakeCloudSyncStore: CloudSyncStoring {
     }
 
     func fetchSnapshot() async throws -> CloudSyncSnapshot {
+        if fetchDelayNanoseconds > 0 {
+            try? await Task.sleep(nanoseconds: fetchDelayNanoseconds)
+        }
         if let fetchError {
             throw fetchError
         }
@@ -345,6 +408,9 @@ private actor FakeCloudSyncStore: CloudSyncStoring {
     }
 
     func save(snapshot: CloudSyncSnapshot) async throws {
+        if saveDelayNanoseconds > 0 {
+            try? await Task.sleep(nanoseconds: saveDelayNanoseconds)
+        }
         saved.append(snapshot)
     }
 

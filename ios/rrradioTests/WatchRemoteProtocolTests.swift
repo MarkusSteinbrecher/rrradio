@@ -72,6 +72,7 @@ final class WatchRemoteProtocolTests: XCTestCase {
             nowPlayingProgramName: "Program",
             nowPlayingCoverURL: URL(string: "https://example.com/cover.jpg"),
             favorites: [fm4],
+            favoriteCount: 5,
             stationLists: [
                 WatchStationListSummary(
                     id: "morning",
@@ -80,6 +81,7 @@ final class WatchRemoteProtocolTests: XCTestCase {
                     firstStation: fm4,
                 ),
             ],
+            stationListCount: 2,
             activeQueue: WatchPlaybackQueueSummary(
                 source: .stationList,
                 sourceID: "morning",
