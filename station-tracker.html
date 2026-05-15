@@ -23,164 +23,102 @@
     <div class="mobile-block">
       <div class="mobile-block__mark">rrradio</div>
       <h1>Station tracker is desktop-only for now.</h1>
-      <p>Open this page on a wider screen to inspect the catalog dashboard.</p>
+      <p>Open this page on a wider screen to inspect the catalog matrix.</p>
     </div>
+
+    <nav class="top-nav" aria-label="Primary">
+      <a class="brand" href="/" aria-label="Back to rrradio">rrradio<span></span></a>
+      <div class="top-nav__links">
+        <a class="top-nav__link is-active" href="/station-tracker.html">Tracker</a>
+        <a class="top-nav__link" href="/dashboard.html">Admin stats</a>
+      </div>
+      <div class="top-nav__meta">
+        <span id="tracker-generated">Loading status…</span>
+        <span id="logo-generated"></span>
+      </div>
+    </nav>
 
     <main class="tracker-shell" aria-label="Station tracker">
       <header class="tracker-head">
-        <div>
-          <a class="brand" href="/" aria-label="Back to rrradio">rrradio<span></span></a>
-          <h1>Station tracker</h1>
-          <p>Catalog health, metadata coverage, and curation status across the shipped station set.</p>
-        </div>
-        <div class="tracker-meta">
-          <div id="tracker-generated">Loading status artifact...</div>
-          <div id="logo-generated"></div>
-          <a href="/dashboard.html">Admin stats</a>
-        </div>
+        <h1>Station tracker</h1>
+        <p>Matrix view of catalog metadata. Click a topic header to collapse / expand.</p>
       </header>
 
-      <section class="kpi-grid" aria-label="Catalog KPIs">
-        <article class="kpi">
-          <div class="kpi__value" id="kpi-total">...</div>
-          <div class="kpi__label">Stations</div>
-        </article>
-        <article class="kpi">
-          <div class="kpi__value" id="kpi-working">...</div>
-          <div class="kpi__label">Working</div>
-        </article>
-        <article class="kpi">
-          <div class="kpi__value" id="kpi-rich">...</div>
-          <div class="kpi__label">Fetcher</div>
-        </article>
-        <article class="kpi">
-          <div class="kpi__value" id="kpi-countries">...</div>
-          <div class="kpi__label">Countries</div>
-        </article>
-        <article class="kpi kpi--attention">
-          <div class="kpi__value" id="kpi-attention">...</div>
-          <div class="kpi__label">Attention</div>
-        </article>
+      <section class="search-bar" aria-label="Search stations">
+        <input type="search" id="filter-query-top" autocomplete="off" placeholder="Search stations, broadcasters, countries…" />
       </section>
 
-      <section class="quality-panel" aria-label="Quality check overview">
-        <div class="quality-panel__head">
-          <h2>Quality checks</h2>
-          <p>Distribution by station for each tracked catalog field.</p>
-        </div>
-        <div class="quality-grid" id="quality-donuts"></div>
+      <section class="matrix-filters" aria-label="Matrix filters">
+        <label class="filter">
+          <span>Country</span>
+          <select id="filter-country">
+            <option value="all">All countries</option>
+          </select>
+        </label>
+        <label class="filter">
+          <span>Status</span>
+          <select id="filter-status">
+            <option value="all">All statuses</option>
+          </select>
+        </label>
+        <label class="filter">
+          <span>Image state</span>
+          <select id="filter-image-state">
+            <option value="all">All</option>
+            <option value="ok">OK</option>
+            <option value="warn">Warn</option>
+            <option value="bad">Bad / missing</option>
+          </select>
+        </label>
+        <label class="filter">
+          <span>License</span>
+          <select id="filter-license">
+            <option value="all">All licenses</option>
+          </select>
+        </label>
       </section>
 
-      <section class="logo-panel" aria-label="Logo quality">
-        <div class="logo-panel__head">
-          <h2>Logo quality</h2>
-          <p>All catalog entries · <code>npm run logo-status</code></p>
+      <section class="matrix-panel" aria-label="Station matrix">
+        <div class="matrix-toolbar">
+          <p id="matrix-summary">Loading…</p>
+          <div class="matrix-pager">
+            <button type="button" id="matrix-page-prev">Previous</button>
+            <span id="matrix-page-label">Page 1</span>
+            <button type="button" id="matrix-page-next">Next</button>
+          </div>
         </div>
-        <div id="logo-panel-body" style="display:contents">
-          <div style="color:var(--ink-4);font-family:var(--mono);font-size:11px;grid-column:2/-1">Loading…</div>
+        <div class="matrix-wrap">
+          <table class="matrix" id="matrix-table">
+            <thead>
+              <tr class="matrix-groups">
+                <th class="matrix-group matrix-group--locked" colspan="4" data-group="id">
+                  <span class="matrix-group__label">Identification</span>
+                </th>
+                <th class="matrix-group" colspan="8" data-group="image" data-full-colspan="8">
+                  <button type="button" class="matrix-group__toggle" data-toggle-group="image" aria-expanded="true">
+                    <span class="matrix-group__caret" aria-hidden="true">▾</span>
+                    <span class="matrix-group__label">Image quality</span>
+                  </button>
+                </th>
+              </tr>
+              <tr class="matrix-cols">
+                <th class="matrix-col-thumb" data-group="id">Logo</th>
+                <th data-group="id">Station</th>
+                <th data-group="id">Country</th>
+                <th data-group="id">Status</th>
+                <th data-group="image">Favicon URL</th>
+                <th data-group="image">Source type</th>
+                <th data-group="image">Provenance</th>
+                <th data-group="image">Original URL</th>
+                <th data-group="image">License</th>
+                <th data-group="image">Tier</th>
+                <th data-group="image">State</th>
+                <th data-group="image">Action</th>
+              </tr>
+            </thead>
+            <tbody id="matrix-rows"></tbody>
+          </table>
         </div>
-      </section>
-
-      <section class="workspace">
-        <aside class="side-panel" aria-label="Catalog summary">
-          <section class="panel-section">
-            <h2>Status mix</h2>
-            <div class="bars" id="status-bars"></div>
-          </section>
-          <section class="panel-section">
-            <h2>Top countries</h2>
-            <div class="bars" id="country-bars"></div>
-          </section>
-          <section class="panel-section">
-            <h2>Checks needing attention</h2>
-            <div class="bars" id="check-bars"></div>
-          </section>
-        </aside>
-
-        <section class="table-panel">
-          <div class="filters" aria-label="Station filters">
-            <label class="filter filter--search">
-              <span>Search</span>
-              <input type="search" id="filter-query" autocomplete="off" placeholder="Station, broadcaster, codec, country..." />
-            </label>
-            <label class="filter">
-              <span>Country</span>
-              <select id="filter-country">
-                <option value="all">All countries</option>
-              </select>
-            </label>
-            <label class="filter">
-              <span>Status</span>
-              <select id="filter-status">
-                <option value="all">All statuses</option>
-              </select>
-            </label>
-            <label class="filter">
-              <span>Health</span>
-              <select id="filter-health">
-                <option value="all">All</option>
-                <option value="attention">Needs attention</option>
-                <option value="working">Working</option>
-              </select>
-            </label>
-            <label class="filter">
-              <span>Review</span>
-              <select id="filter-review">
-                <option value="all">All review states</option>
-                <option value="reviewed">Reviewed</option>
-                <option value="unreviewed">Unreviewed</option>
-                <option value="rb-linked">RB linked</option>
-                <option value="local-only">Local only</option>
-              </select>
-            </label>
-            <label class="filter">
-              <span>Problem area</span>
-              <select id="filter-check">
-                <option value="all">Any check</option>
-                <option value="stream">Stream</option>
-                <option value="https">HTTPS</option>
-                <option value="icy">ICY</option>
-                <option value="metadataApi">Metadata API</option>
-                <option value="fetcher">Fetcher</option>
-                <option value="program">Program</option>
-                <option value="logo">Logo</option>
-              </select>
-            </label>
-          </div>
-
-          <div class="table-head">
-            <div>
-              <h2>Stations</h2>
-              <p id="table-summary">Loading...</p>
-            </div>
-            <div class="pager">
-              <button type="button" id="page-prev">Previous</button>
-              <span id="page-label">Page 1</span>
-              <button type="button" id="page-next">Next</button>
-            </div>
-          </div>
-
-          <div class="table-wrap">
-            <table class="station-table">
-              <thead>
-                <tr>
-                  <th>Station</th>
-                  <th>Country</th>
-                  <th>Status</th>
-                  <th>Format</th>
-                  <th>Stream</th>
-                  <th>HTTPS</th>
-                  <th>ICY</th>
-                  <th>Meta API</th>
-                  <th>Fetcher</th>
-                  <th>Program</th>
-                  <th>Logo</th>
-                </tr>
-              </thead>
-              <tbody id="station-rows"></tbody>
-            </table>
-          </div>
-        </section>
       </section>
     </main>
 

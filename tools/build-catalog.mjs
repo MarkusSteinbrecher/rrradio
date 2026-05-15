@@ -172,8 +172,14 @@ function merged(s) {
     homepage: s.homepage ?? b.homepage ?? fromRb.homepage,
     country: s.country ?? b.country ?? fromRb.country,
     tags: normalizeTags(s.tags) ?? fromRb.tags,
-    favicon: s.favicon ?? fromRb.favicon,
+    // Local YAML always wins. `faviconBlocked: true` only suppresses the
+    // Radio Browser fallback — so once tools/scrape-logos or wiki-logos write
+    // a real favicon into YAML, it ships and the block flag becomes vestigial.
+    favicon: s.favicon ?? (s.faviconBlocked === true ? undefined : fromRb.favicon),
     faviconSource: s.faviconSource || undefined,
+    faviconSourceType: s.faviconSourceType || undefined,
+    faviconSourceUrl: s.faviconSourceUrl || undefined,
+    faviconLicense: s.faviconLicense || undefined,
     faviconOk: s.faviconOk === true ? true : undefined,
     bitrate: s.bitrate ?? fromRb.bitrate,
     codec: s.codec ?? fromRb.codec,

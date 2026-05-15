@@ -32,8 +32,14 @@ data/icy-labels.jsonl
 data/metadata-discovery/
 
 # Local agent state — Claude-specific instructions / settings that
-# have no place in a public repo.
-.claude/
+# have no place in a public repo. Skills are an exception: project-
+# scoped agent skills (`.claude/skills/<name>/SKILL.md`) ship with
+# the repo so anyone cloning gets the same automation surface.
+# (We exclude contents rather than the dir itself so the !exception
+# below actually re-includes — git can't un-ignore a path whose
+# parent dir is ignored.)
+.claude/*
+!.claude/skills/
 
 # Playwright e2e (audit #63)
 playwright-report/
