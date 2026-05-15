@@ -201,6 +201,29 @@ final class CloudSyncControllerTests: XCTestCase {
         XCTAssertEqual(dependencies.listeningHistory.retention, .forever)
     }
 
+    func testPendingLocalSettingsSurviveLaunchRefreshBeforeCloudPush() async throws {
+        let defaults = makeDefaults()
+        defaults.set(FavoritesDisplayMode.tiles.rawValue, forKey: FavoritesDisplayMode.storageKey)
+        let staleRemote = snapshot(favoritesDisplayMode: FavoritesDisplayMode.list.rawValue)
+        let markerController = CloudSyncController(
+            defaults: defaults,
+            store: FakeCloudSyncStore(snapshot: staleRemote),
+            pushDebounceNanoseconds: 60_000_000_000,
+        )
+        markerController.noteSettingsChanged()
+        XCTAssertTrue(defaults.bool(forKey: CloudSyncController.pendingPreferencesPushKey))
+
+        let store = FakeCloudSyncStore(snapshot: staleRemote)
+        let dependencies = makeDependencies(defaults: defaults, store: store)
+
+        await dependencies.controller.refreshFromCloud()
+
+        XCTAssertEqual(defaults.string(forKey: FavoritesDisplayMode.storageKey), FavoritesDisplayMode.tiles.rawValue)
+        XCTAssertFalse(defaults.bool(forKey: CloudSyncController.pendingPreferencesPushKey))
+        let saved = await store.savedSnapshots()
+        XCTAssertEqual(saved.last?.favoritesDisplayMode, FavoritesDisplayMode.tiles.rawValue)
+    }
+
     func testCloudKitStationRecordDecoderRejectsLegacyInvalidPayloads() throws {
         let valid = station("valid")
         let validRecord = CKRecord(recordType: "Favorite", recordID: CKRecord.ID(recordName: "favorite-valid"))

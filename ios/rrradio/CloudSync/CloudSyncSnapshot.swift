@@ -91,8 +91,13 @@ struct CloudSyncSnapshot: Equatable {
 }
 
 enum CloudSyncMerge {
-    static func merged(local: CloudSyncSnapshot, remote: CloudSyncSnapshot) -> CloudSyncSnapshot {
-        CloudSyncSnapshot(
+    static func merged(
+        local: CloudSyncSnapshot,
+        remote: CloudSyncSnapshot,
+        preferLocalPreferences: Bool = false,
+    ) -> CloudSyncSnapshot {
+        let useRemotePreferences = remote.hasPreferences && !preferLocalPreferences
+        return CloudSyncSnapshot(
             favorites: mergeFavorites(
                 local: local.favorites,
                 remote: remote.favorites,
@@ -100,38 +105,38 @@ enum CloudSyncMerge {
             ),
             customStations: mergeStations(local: local.customStations, remote: remote.customStations),
             stationLists: mergeStationLists(local: local.stationLists, remote: remote.stationLists),
-            theme: remote.hasPreferences ? remote.theme : local.theme,
-            themeAccent: remote.hasPreferences ? remote.themeAccent : local.themeAccent,
-            locale: remote.hasPreferences ? remote.locale : local.locale,
-            sleepTimerDefaultMinutes: remote.hasPreferences && remote.sleepTimerDefaultMinutes > 0
+            theme: useRemotePreferences ? remote.theme : local.theme,
+            themeAccent: useRemotePreferences ? remote.themeAccent : local.themeAccent,
+            locale: useRemotePreferences ? remote.locale : local.locale,
+            sleepTimerDefaultMinutes: useRemotePreferences && remote.sleepTimerDefaultMinutes > 0
                 ? remote.sleepTimerDefaultMinutes
                 : local.sleepTimerDefaultMinutes,
-            landingPage: remote.hasPreferences ? remote.landingPage : local.landingPage,
-            landingStationID: remote.hasPreferences ? remote.landingStationID : local.landingStationID,
-            favoritesDisplayMode: remote.hasPreferences ? remote.favoritesDisplayMode : local.favoritesDisplayMode,
-            favoritesDisplayModeOrder: remote.hasPreferences
+            landingPage: useRemotePreferences ? remote.landingPage : local.landingPage,
+            landingStationID: useRemotePreferences ? remote.landingStationID : local.landingStationID,
+            favoritesDisplayMode: useRemotePreferences ? remote.favoritesDisplayMode : local.favoritesDisplayMode,
+            favoritesDisplayModeOrder: useRemotePreferences
                 ? remote.favoritesDisplayModeOrder
                 : local.favoritesDisplayModeOrder,
-            favoritesDisplayModeVisible: remote.hasPreferences
+            favoritesDisplayModeVisible: useRemotePreferences
                 ? remote.favoritesDisplayModeVisible
                 : local.favoritesDisplayModeVisible,
-            wakeDefaultTime: remote.hasPreferences ? remote.wakeDefaultTime : local.wakeDefaultTime,
-            wakeNotificationsEnabled: remote.hasPreferences
+            wakeDefaultTime: useRemotePreferences ? remote.wakeDefaultTime : local.wakeDefaultTime,
+            wakeNotificationsEnabled: useRemotePreferences
                 ? remote.wakeNotificationsEnabled
                 : local.wakeNotificationsEnabled,
-            carModeAutomaticEnabled: remote.hasPreferences
+            carModeAutomaticEnabled: useRemotePreferences
                 ? remote.carModeAutomaticEnabled
                 : local.carModeAutomaticEnabled,
-            carModeManualEnabled: remote.hasPreferences
+            carModeManualEnabled: useRemotePreferences
                 ? remote.carModeManualEnabled
                 : local.carModeManualEnabled,
-            listeningHistoryEnabled: remote.hasPreferences
+            listeningHistoryEnabled: useRemotePreferences
                 ? remote.listeningHistoryEnabled
                 : local.listeningHistoryEnabled,
-            listeningHistoryLevel: remote.hasPreferences
+            listeningHistoryLevel: useRemotePreferences
                 ? remote.listeningHistoryLevel
                 : local.listeningHistoryLevel,
-            listeningHistoryRetention: remote.hasPreferences
+            listeningHistoryRetention: useRemotePreferences
                 ? remote.listeningHistoryRetention
                 : local.listeningHistoryRetention,
             favoritesOrder: remote.favoritesOrder,

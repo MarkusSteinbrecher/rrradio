@@ -186,4 +186,27 @@ final class CloudSyncMergeTests: XCTestCase {
         XCTAssertTrue(merged.carModeManualEnabled)
         XCTAssertEqual(merged.listeningHistoryRetention, ListeningHistoryRetention.forever.rawValue)
     }
+
+    func testPendingLocalPreferencesWinOverStaleRemotePreferences() {
+        let merged = CloudSyncMerge.merged(
+            local: snapshot(
+                theme: ThemeController.Choice.dark.rawValue,
+                favoritesDisplayMode: FavoritesDisplayMode.tiles.rawValue,
+                favoritesDisplayModeOrder: "tiles,list,app",
+                favoritesDisplayModeVisible: "tiles,list",
+            ),
+            remote: snapshot(
+                theme: ThemeController.Choice.light.rawValue,
+                favoritesDisplayMode: FavoritesDisplayMode.list.rawValue,
+                favoritesDisplayModeOrder: "list,tiles,app",
+                favoritesDisplayModeVisible: "list,tiles,app",
+            ),
+            preferLocalPreferences: true,
+        )
+
+        XCTAssertEqual(merged.theme, ThemeController.Choice.dark.rawValue)
+        XCTAssertEqual(merged.favoritesDisplayMode, FavoritesDisplayMode.tiles.rawValue)
+        XCTAssertEqual(merged.favoritesDisplayModeOrder, "tiles,list,app")
+        XCTAssertEqual(merged.favoritesDisplayModeVisible, "tiles,list")
+    }
 }

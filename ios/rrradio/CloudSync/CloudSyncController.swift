@@ -33,6 +33,7 @@ final class CloudSyncController {
     }
 
     static let enabledKey = "rrradio.icloudSync.enabled.v1"
+    static let pendingPreferencesPushKey = "rrradio.icloudSync.pendingPreferencesPush.v1"
     private static let resetAcknowledgedAtKey = "rrradio.icloudSync.resetAcknowledgedAt.v1"
 
     private let defaults: UserDefaults
@@ -96,25 +97,25 @@ final class CloudSyncController {
 
         library.onChange = { [weak self] change in
             guard change == .favorites || change == .customStations || change == .stationLists else { return }
-            Task { @MainActor in self?.schedulePush() }
+            self?.schedulePush()
         }
         theme.onChange = { [weak self] in
-            Task { @MainActor in self?.schedulePush() }
+            self?.schedulePreferencesPush()
         }
         locale.onChange = { [weak self] in
-            Task { @MainActor in self?.schedulePush() }
+            self?.schedulePreferencesPush()
         }
         sleepTimer.onDefaultChanged = { [weak self] in
-            Task { @MainActor in self?.schedulePush() }
+            self?.schedulePreferencesPush()
         }
         wakeAlarm.onPreferencesChanged = { [weak self] in
-            Task { @MainActor in self?.schedulePush() }
+            self?.schedulePreferencesPush()
         }
         carMode.onChange = { [weak self] in
-            Task { @MainActor in self?.schedulePush() }
+            self?.schedulePreferencesPush()
         }
         listeningHistory.onPreferencesChanged = { [weak self] in
-            Task { @MainActor in self?.schedulePush() }
+            self?.schedulePreferencesPush()
         }
 
         if refreshOnLaunch {
@@ -123,7 +124,7 @@ final class CloudSyncController {
     }
 
     func noteSettingsChanged() {
-        schedulePush()
+        schedulePreferencesPush()
     }
 
     func setEnabled(_ enabled: Bool) {
@@ -178,6 +179,7 @@ final class CloudSyncController {
                     applyingRemote = true
                     apply(snapshot: .empty)
                     applyingRemote = false
+                    clearPendingPreferencesPush()
                     acknowledgeReset(resetAt)
                     lastSync = Date()
                     lastError = nil
@@ -187,18 +189,24 @@ final class CloudSyncController {
                 }
             }
             let local = pendingPushRequested ? localSnapshot() : initialLocal
-            if !remote.hasCloudData, !local.hasLocalUserPayload {
+            let preferLocalPreferences = hasPendingPreferencesPush
+            if !remote.hasCloudData, !local.hasLocalUserPayload, !preferLocalPreferences {
                 lastSync = Date()
                 lastError = nil
                 diagnosticState = .emptyRemote
                 diagnostics?.record("icloud", "empty remote")
                 return
             }
-            let merged = CloudSyncMerge.merged(local: local, remote: remote)
+            let merged = CloudSyncMerge.merged(
+                local: local,
+                remote: remote,
+                preferLocalPreferences: preferLocalPreferences,
+            )
             applyingRemote = true
             apply(snapshot: merged)
             applyingRemote = false
             try await store.save(snapshot: localSnapshot())
+            clearPendingPreferencesPushIfNoDeferredPush()
             lastSync = Date()
             lastError = nil
             let summary = Self.summary(for: merged)
@@ -222,6 +230,7 @@ final class CloudSyncController {
             applyingRemote = true
             apply(snapshot: .empty)
             applyingRemote = false
+            clearPendingPreferencesPush()
             acknowledgeReset(resetAt)
             lastSync = Date()
             lastError = nil
@@ -273,6 +282,25 @@ final class CloudSyncController {
         )
     }
 
+    private func schedulePreferencesPush() {
+        guard !applyingRemote else { return }
+        defaults.set(true, forKey: Self.pendingPreferencesPushKey)
+        schedulePush()
+    }
+
+    private var hasPendingPreferencesPush: Bool {
+        defaults.bool(forKey: Self.pendingPreferencesPushKey)
+    }
+
+    private func clearPendingPreferencesPush() {
+        defaults.removeObject(forKey: Self.pendingPreferencesPushKey)
+    }
+
+    private func clearPendingPreferencesPushIfNoDeferredPush() {
+        guard !pendingPushRequested else { return }
+        clearPendingPreferencesPush()
+    }
+
     private func schedulePush() {
         guard !applyingRemote, isEnabled else { return }
         pendingPushRequested = true
@@ -303,6 +331,7 @@ final class CloudSyncController {
             }
             let snapshot = localSnapshot()
             try await store.save(snapshot: snapshot)
+            clearPendingPreferencesPushIfNoDeferredPush()
             lastSync = Date()
             lastError = nil
             diagnosticState = .pushed(Self.summary(for: snapshot))
