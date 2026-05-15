@@ -5,8 +5,6 @@ import UIKit
 @main
 struct rrradioApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-    @Environment(\.scenePhase) private var scenePhase
-    @Environment(\.colorScheme) private var systemColorScheme
     @State private var catalog = Catalog()
     @State private var library = Library()
     @State private var player = AudioPlayer()
@@ -19,64 +17,110 @@ struct rrradioApp: App {
     @State private var diagnostics = Diagnostics.shared
     @State private var cloudSync = CloudSyncController()
     @State private var network = NetworkMonitor()
-    @State private var wasOffline = false
-    @State private var shouldAutoResumeAfterNetworkRestored = false
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(catalog)
-                .environment(library)
-                .environment(player)
-                .environment(sleepTimer)
-                .environment(wakeAlarm)
-                .environment(theme)
-                .environment(locale)
-                .environment(carMode)
-                .environment(listeningHistory)
-                .environment(diagnostics)
-                .environment(cloudSync)
-                .environment(network)
-                .preferredColorScheme(theme.preferredColorScheme)
-                .onAppear {
-                    theme.setSystemColorScheme(systemColorScheme)
-                    diagnostics.record("app", "appeared")
-                    wasOffline = network.snapshot.isOffline
-                    player.setListeningHistory(listeningHistory)
-                    sleepTimer.onStateChanged = { [sleepTimer, player] in
-                        player.setLockScreenSleepTimer(firesAt: sleepTimer.firesAt)
-                    }
-                    player.setLockScreenSleepTimer(firesAt: sleepTimer.firesAt)
-                    cloudSync.configure(
-                        library: library,
-                        theme: theme,
-                        locale: locale,
-                        sleepTimer: sleepTimer,
-                        wakeAlarm: wakeAlarm,
-                        carMode: carMode,
-                        listeningHistory: listeningHistory,
-                        diagnostics: diagnostics,
-                    )
-                    configurePhoneRemoteControl()
-                }
-                .onChange(of: systemColorScheme) { _, newColorScheme in
-                    theme.setSystemColorScheme(newColorScheme)
-                }
-                .onChange(of: scenePhase) { _, phase in
-                    diagnostics.record("app", "scene phase", details: ["phase": "\(phase)"])
-                    if phase == .active {
-                        Task { await cloudSync.refreshFromCloud() }
-                        Task { await catalog.refreshIfStale() }
-                        publishPhoneRemoteSnapshot()
-                    }
-                }
-                .onChange(of: phoneRemoteSnapshotToken) { _, _ in
-                    publishPhoneRemoteSnapshot()
-                }
-                .onChange(of: network.snapshot) { oldSnapshot, newSnapshot in
-                    handleNetworkChange(oldSnapshot: oldSnapshot, newSnapshot: newSnapshot)
-                }
-                .task { await catalog.loadIfNeeded() }
+            AppRootView(
+                catalog: catalog,
+                library: library,
+                player: player,
+                sleepTimer: sleepTimer,
+                wakeAlarm: wakeAlarm,
+                theme: theme,
+                locale: locale,
+                carMode: carMode,
+                listeningHistory: listeningHistory,
+                diagnostics: diagnostics,
+                cloudSync: cloudSync,
+                network: network,
+            )
+        }
+    }
+}
+
+private struct AppRootView: View {
+    @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.colorScheme) private var systemColorScheme
+    let catalog: Catalog
+    let library: Library
+    let player: AudioPlayer
+    let sleepTimer: SleepTimer
+    let wakeAlarm: WakeAlarm
+    let theme: ThemeController
+    let locale: LocaleController
+    let carMode: CarModeController
+    let listeningHistory: ListeningHistory
+    let diagnostics: Diagnostics
+    let cloudSync: CloudSyncController
+    let network: NetworkMonitor
+    @State private var wasOffline = false
+    @State private var shouldAutoResumeAfterNetworkRestored = false
+
+    var body: some View {
+        content
+            .onAppear(perform: handleAppear)
+            .onChange(of: systemColorScheme) { _, newColorScheme in
+                theme.setSystemColorScheme(newColorScheme)
+            }
+            .onChange(of: scenePhase) { _, phase in
+                handleScenePhaseChange(phase)
+            }
+            .onChange(of: phoneRemoteSnapshotToken) { _, _ in
+                publishPhoneRemoteSnapshot()
+            }
+            .onChange(of: network.snapshot) { oldSnapshot, newSnapshot in
+                handleNetworkChange(oldSnapshot: oldSnapshot, newSnapshot: newSnapshot)
+            }
+            .task {
+                await catalog.loadIfNeeded()
+            }
+    }
+
+    private var content: some View {
+        ContentView()
+            .environment(catalog)
+            .environment(library)
+            .environment(player)
+            .environment(sleepTimer)
+            .environment(wakeAlarm)
+            .environment(theme)
+            .environment(locale)
+            .environment(carMode)
+            .environment(listeningHistory)
+            .environment(diagnostics)
+            .environment(cloudSync)
+            .environment(network)
+            .preferredColorScheme(theme.preferredColorScheme)
+    }
+
+    private func handleAppear() {
+        theme.setSystemColorScheme(systemColorScheme)
+        diagnostics.record("app", "appeared")
+        wasOffline = network.snapshot.isOffline
+        player.setListeningHistory(listeningHistory)
+        sleepTimer.onStateChanged = { [sleepTimer, player] in
+            player.setLockScreenSleepTimer(firesAt: sleepTimer.firesAt)
+        }
+        player.setLockScreenSleepTimer(firesAt: sleepTimer.firesAt)
+        cloudSync.configure(
+            library: library,
+            theme: theme,
+            locale: locale,
+            sleepTimer: sleepTimer,
+            wakeAlarm: wakeAlarm,
+            carMode: carMode,
+            listeningHistory: listeningHistory,
+            diagnostics: diagnostics,
+        )
+        configurePhoneRemoteControl()
+    }
+
+    private func handleScenePhaseChange(_ phase: ScenePhase) {
+        diagnostics.record("app", "scene phase", details: ["phase": "\(phase)"])
+        if phase == .active {
+            Task { await cloudSync.refreshFromCloud() }
+            Task { await catalog.refreshIfStale() }
+            publishPhoneRemoteSnapshot()
         }
     }
 
