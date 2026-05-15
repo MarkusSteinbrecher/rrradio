@@ -587,16 +587,14 @@ final class AudioPlayer {
                     // streaming server returns gets buried under a
                     // generic NSURLError, so without this override
                     // the user just sees "playback failed".
-                    let geoMessage: String? = {
-                        guard let station = self.current,
-                              !RegionResolver.shared.isAvailable(station),
-                              let label = RegionResolver.shared.restrictionLabel(
-                                station,
-                                countryName: countryDisplayName,
-                              )
-                        else { return nil }
-                        return "\(label) — region-locked by the broadcaster."
-                    }()
+                    //
+                    // handlePlayerItemPlaybackProblem (below) also
+                    // short-circuits retries for geo-restricted
+                    // stations and keeps the friendly message
+                    // sticking — without that, the retry loop would
+                    // overwrite this state with the raw error string
+                    // after 3 attempts.
+                    let geoMessage = self.geoRestrictionErrorMessage()
                     let displayMsg = geoMessage ?? errMsg ?? "playback failed"
                     self.state = .error(displayMsg)
                     diagnosticRecord(
@@ -667,7 +665,32 @@ final class AudioPlayer {
     }
 
     func handlePlayerItemPlaybackProblem(reason: String, error: String?) {
-        guard allowsAutomaticStreamRetry, current != nil else { return }
+        guard let station = current else { return }
+        // Geo-restricted stations don't retry — the 401 from the
+        // upstream geo-gate is permanent, not transient. Retrying
+        // would flip state between .loading and .error three times
+        // and overwrite the friendly message with the raw upstream
+        // error from the retry-exhausted branch. Stop now, keep the
+        // curated message, save the user (and our diagnostics
+        // budget) from three pointless retries.
+        if let geoMessage = geoRestrictionErrorMessage() {
+            allowsAutomaticStreamRetry = false
+            isStreamRetryScheduled = false
+            streamRetryTask?.cancel()
+            streamRetryTask = nil
+            state = .error(geoMessage)
+            diagnosticRecord(
+                "playback",
+                "geo restricted",
+                details: stationDiagnostics(station).merging(
+                    ["reason": reason, "error": error ?? ""],
+                    uniquingKeysWith: { _, new in new },
+                ),
+            )
+            updateNowPlaying()
+            return
+        }
+        guard allowsAutomaticStreamRetry else { return }
         scheduleStreamRetry(reason: reason, error: error)
     }
 
@@ -678,7 +701,13 @@ final class AudioPlayer {
         let attempt = streamRetryAttempt
         guard attempt <= Self.maxStreamRetryAttempts else {
             allowsAutomaticStreamRetry = false
-            state = .error(error ?? "stream unavailable")
+            // Defence in depth: if we somehow reach the
+            // exhausted-retry branch for a geo-restricted station
+            // (e.g., the catalog flag was added between the .failed
+            // case firing and now), still surface the friendly
+            // message instead of the raw upstream error.
+            let geoMessage = geoRestrictionErrorMessage()
+            state = .error(geoMessage ?? error ?? "stream unavailable")
             diagnosticRecord(
                 "playback",
                 "stream retry exhausted",
@@ -764,6 +793,22 @@ final class AudioPlayer {
             "codec": station.codec ?? "",
             "bitrate": station.bitrate.map(String.init) ?? "",
         ]
+    }
+
+    /// Friendly error string for a station whose `availableIn` excludes
+    /// the visitor's region, or nil when the station has no curated
+    /// restriction (or we don't know where the visitor is). Used by
+    /// every code path that sets `state = .error(...)` so the message
+    /// stays consistent regardless of which retry branch fires.
+    func geoRestrictionErrorMessage() -> String? {
+        guard let station = current,
+              !RegionResolver.shared.isAvailable(station),
+              let label = RegionResolver.shared.restrictionLabel(
+                station,
+                countryName: countryDisplayName,
+              )
+        else { return nil }
+        return "\(label) — region-locked by the broadcaster."
     }
 
     private func metadataDiagnostics(_ metadata: NowPlayingMetadata, station: Station) -> [String: String] {

@@ -282,8 +282,16 @@ struct MiniPlayerView: View {
             return "Live"
         case .paused:
             return "Paused"
-        case .error:
-            return "Error"
+        case .error(let message):
+            // Short enough to fit the miniplayer — the regular geo
+            // message is "Switzerland only — region-locked by the
+            // broadcaster.", which would truncate. Trim to the
+            // country phrase ahead of the em-dash when present, fall
+            // back to the message otherwise.
+            if let dash = message.range(of: " — "), dash.lowerBound > message.startIndex {
+                return String(message[..<dash.lowerBound])
+            }
+            return message
         }
     }
 
