@@ -125,20 +125,23 @@ private struct AppRootView: View {
     }
 
     private var phoneRemoteSnapshotToken: String {
-        let parts = [
-            player.current?.id ?? "",
-            String(describing: player.state),
-            player.nowPlayingArtist ?? "",
-            player.nowPlayingTitle ?? "",
-            player.nowPlayingProgramName ?? "",
-            player.nowPlayingCoverUrl?.absoluteString ?? "",
-            player.activePlaybackQueueSource.rawValue,
-            player.activePlaybackQueueSourceID ?? "",
-            String(catalog.stations.count),
-        ] + library.favorites.map(\.id)
-            + library.stationLists.flatMap { list in
-                [list.id, list.name, String(list.stations.count)] + list.stations.map(\.id)
-            }
+        var parts: [String] = []
+        parts.append(player.current?.id ?? "")
+        parts.append(String(describing: player.state))
+        parts.append(player.nowPlayingArtist ?? "")
+        parts.append(player.nowPlayingTitle ?? "")
+        parts.append(player.nowPlayingProgramName ?? "")
+        parts.append(player.nowPlayingCoverUrl?.absoluteString ?? "")
+        parts.append(player.activePlaybackQueueSource.rawValue)
+        parts.append(player.activePlaybackQueueSourceID ?? "")
+        parts.append(String(catalog.stations.count))
+        parts.append(contentsOf: library.favorites.map(\.id))
+        for list in library.stationLists {
+            parts.append(list.id)
+            parts.append(list.name)
+            parts.append(String(list.stations.count))
+            parts.append(contentsOf: list.stations.map(\.id))
+        }
         return parts.joined(separator: "|")
     }
 
