@@ -392,6 +392,32 @@ describe('public endpoints', () => {
     const res = await call('/api/public/nope');
     expect(res.status).toBe(404);
   });
+
+  it('GET /api/public/region surfaces the CF-IPCountry country code', async () => {
+    const res = await worker.fetch(
+      new Request('https://worker.test/api/public/region', {
+        headers: { 'CF-IPCountry': 'de' },
+      }),
+      ENV,
+    );
+    expect(res.status).toBe(200);
+    const body = await json<{ country: string | null }>(res);
+    expect(body.country).toBe('DE');
+    expect(res.headers.get('Cache-Control')).toBe('no-store');
+  });
+
+  it('GET /api/public/region returns null for unknown / Tor / missing geo', async () => {
+    for (const header of [undefined, 'XX', 'T1', '']) {
+      const headers: Record<string, string> = {};
+      if (header !== undefined) headers['CF-IPCountry'] = header;
+      const res = await worker.fetch(
+        new Request('https://worker.test/api/public/region', { headers }),
+        ENV,
+      );
+      const body = await json<{ country: string | null }>(res);
+      expect(body.country).toBeNull();
+    }
+  });
 });
 
 describe('proxy allowlist', () => {

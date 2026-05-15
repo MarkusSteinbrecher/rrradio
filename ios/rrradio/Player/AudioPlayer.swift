@@ -579,7 +579,26 @@ final class AudioPlayer {
                         diagnosticRecord("playback", "ready to play", details: self.stationDiagnostics(current))
                     }
                 case .failed:
-                    self.state = .error(errMsg ?? "playback failed")
+                    // Translate generic playback failures into a
+                    // friendly geo-restricted message when the
+                    // curated `availableIn` field tells us this
+                    // station is region-locked and the visitor is
+                    // outside the allow-list. The 401 the AIS9
+                    // streaming server returns gets buried under a
+                    // generic NSURLError, so without this override
+                    // the user just sees "playback failed".
+                    let geoMessage: String? = {
+                        guard let station = self.current,
+                              !RegionResolver.shared.isAvailable(station),
+                              let label = RegionResolver.shared.restrictionLabel(
+                                station,
+                                countryName: countryDisplayName,
+                              )
+                        else { return nil }
+                        return "\(label) — region-locked by the broadcaster."
+                    }()
+                    let displayMsg = geoMessage ?? errMsg ?? "playback failed"
+                    self.state = .error(displayMsg)
                     diagnosticRecord(
                         "playback",
                         "item failed",
@@ -588,6 +607,7 @@ final class AudioPlayer {
                             "stationID": self.current?.id ?? "",
                             "streamHost": self.current?.streamUrl.host() ?? "",
                             "error": errMsg ?? "playback failed",
+                            "geoRestricted": geoMessage != nil ? "true" : "false",
                         ],
                     )
                     self.handlePlayerItemPlaybackProblem(reason: "item failed", error: errMsg)

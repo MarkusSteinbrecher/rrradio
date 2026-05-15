@@ -457,6 +457,30 @@ export default {
           );
         }
 
+        // Public region — visitor's country code from Cloudflare's
+        // CF-IPCountry header. Used by the apps to decide whether to
+        // dim a geo-restricted station's row ("Switzerland only" badge,
+        // etc.). Country code only — no city, no IP, no coordinates —
+        // so this is intentionally less identifying than the
+        // /api/public/locations stats endpoint we already ship.
+        //
+        // Not edge-cached (Vary on the country header would shard the
+        // cache and the response is tiny anyway). The frontend caches
+        // the value in localStorage for a session.
+        if (url.pathname === '/api/public/region') {
+          const country = (req.headers.get('CF-IPCountry') || '').toUpperCase();
+          // CF returns "XX" for unrecognized and "T1" for Tor exits;
+          // surface both as "unknown" rather than a fake country code
+          // so the frontend doesn't try to badge with garbage.
+          const known =
+            country.length === 2 && country !== 'XX' && country !== 'T1' ? country : null;
+          return noStoreJsonResponse(
+            { country: known },
+            200,
+            publicCors,
+          );
+        }
+
         // Public totals — same shape as /api/totals (admin) but with no
         // PII to redact in the first place. GoatCounter `/stats/total`
         // returns aggregate visit + event counts only. Used by the

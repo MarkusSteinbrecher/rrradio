@@ -4177,6 +4177,13 @@ struct StationRow: View {
                 }
             }
             .frame(minHeight: usesFavoritesMetadataLayout ? 72 : 38)
+            // Dim the artwork + text body when this station is
+            // geo-restricted away from the user's region. We still
+            // let them tap (in case they're VPN'd to CH or the
+            // CF-IPCountry lookup misread their region); the player
+            // then surfaces the friendly restriction message if the
+            // stream fails.
+            .opacity(isGeoRestricted ? 0.6 : 1)
             .contentShape(Rectangle())
             .onTapGesture {
                 if suppressNextPlay {
@@ -4388,6 +4395,19 @@ struct StationRow: View {
     @ViewBuilder
     private var stationTagLine: some View {
         HStack(spacing: 6) {
+            if let label = geoRestrictionLabel {
+                Text(label)
+                    .font(.system(size: 10, weight: .medium))
+                    .foregroundStyle(Color(red: 0.94, green: 0.72, blue: 0.36))
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 1)
+                    .background(
+                        RoundedRectangle(cornerRadius: 4, style: .continuous)
+                            .fill(Color(red: 1.0, green: 0.72, blue: 0.30).opacity(0.16)),
+                    )
+                    .lineLimit(1)
+                    .accessibilityLabel("Geo-restricted: \(label)")
+            }
             if isCustom {
                 Text("added station")
                     .font(.system(size: 10.5, weight: .regular, design: .monospaced))
@@ -4405,6 +4425,20 @@ struct StationRow: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    /// Non-nil when the station has a curated `availableIn` allow-list
+    /// and the visitor's region (per RegionResolver) is outside it.
+    /// Touching `RegionResolver.shared.current` here means SwiftUI
+    /// observation re-renders the row when the fetch resolves.
+    private var geoRestrictionLabel: String? {
+        RegionResolver.shared.restrictionLabel(station, countryName: countryDisplayName)
+    }
+
+    /// True when the station has a geo-restriction and the visitor
+    /// isn't inside the allow-list. Drives the dimmed appearance.
+    private var isGeoRestricted: Bool {
+        !RegionResolver.shared.isAvailable(station)
     }
 
     private enum DetailTextStyle {

@@ -767,6 +767,34 @@ html.theme-switching *::after {
 }
 .row-stars__star svg { width: 11px; height: 11px; display: block; }
 
+/* Geo-restriction badge — shown on rows whose curated `availableIn`
+   excludes the visitor's country. Sits inside .row-tags between the
+   capability stars and the tag list, in the warm-amber accent so it
+   reads as "heads up" rather than as an error. The whole row is
+   dimmed via .row.is-geo-restricted so the badge isn't the only
+   visual cue. */
+.row-geo {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(255, 184, 76, 0.16);
+  color: #f0b75c;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-size: 10px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.row.is-geo-restricted .row-name,
+.row.is-geo-restricted .row-tags__text {
+  opacity: 0.6;
+}
+.row.is-geo-restricted .row-favicon {
+  opacity: 0.7;
+}
+
 .row-right {
   display: flex;
   align-items: center;

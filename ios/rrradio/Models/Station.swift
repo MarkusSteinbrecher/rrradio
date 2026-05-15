@@ -29,11 +29,20 @@ struct Station: Identifiable, Hashable, Codable {
     /// `[lat, lon]` for map view.
     var geo: [Double]? = nil
     var featured: Bool? = nil
+    /// ISO 3166-1 alpha-2 country codes where the stream is known to be
+    /// reachable. Absent (or empty) means "no known restriction" — the
+    /// default and the case for the overwhelming majority of stations.
+    /// When set, the UI dims the row with a "<Country> only" badge for
+    /// users outside the allow-list, and the AVPlayer error path maps
+    /// upstream 401s to a friendly geo-restricted message instead of
+    /// the generic "stream failed". Set by curation when a broadcaster
+    /// geo-gates (typically a SUISA/SwissPerform/GEMA licensing issue).
+    var availableIn: [String]? = nil
 
     enum CodingKeys: String, CodingKey {
         case id, name, streamUrl, broadcaster, homepage, country, tags, favicon
         case bitrate, codec, listeners, metadataUrl, metadata, status
-        case geo, featured
+        case geo, featured, availableIn
     }
 }
 
@@ -66,6 +75,10 @@ extension Station {
         status = try container.decodeIfPresent(String.self, forKey: .status)
         geo = try container.decodeIfPresent([Double].self, forKey: .geo)
         featured = try container.decodeIfPresent(Bool.self, forKey: .featured)
+        // Uppercase on decode so callers can compare against the visitor's
+        // country code (also stored uppercase) without per-call normalization.
+        availableIn = try container.decodeIfPresent([String].self, forKey: .availableIn)?
+            .map { $0.uppercased() }
     }
 
     private static func decodeOptionalURL(

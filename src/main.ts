@@ -46,6 +46,11 @@ import {
 import { STATS_WORKER_BASE } from './config';
 import { countryName } from './country';
 import {
+  fetchUserRegion,
+  geoRestrictionLabel,
+  isAvailableInUserRegion,
+} from './region';
+import {
   activeCountryMap,
   aggregateDashboard,
   type DashboardData,
@@ -510,9 +515,17 @@ function buildRow(station: Station, currentId: string, state: NowPlaying['state'
   const isCurrent = !!currentId && station.id === currentId;
   const isPaused = isCurrent && state !== 'playing';
   const isFav = favs.has(station.id);
+  // `availableIn` is a curated list of countries where the stream is
+  // known to be reachable. When the visitor's country (from the
+  // worker's CF-IPCountry lookup) is outside that list, dim the row
+  // and append a "Switzerland only" / "Only in CH, FR" badge so the
+  // user knows up front rather than discovering it on a tap.
+  const geoRestricted = !isAvailableInUserRegion(station);
+  const geoLabel = geoRestricted ? geoRestrictionLabel(station, countryName) : null;
 
   const row = document.createElement('div');
-  row.className = 'row' + (isCurrent ? ' is-playing' : '');
+  row.className =
+    'row' + (isCurrent ? ' is-playing' : '') + (geoRestricted ? ' is-geo-restricted' : '');
   row.setAttribute('role', 'button');
   row.tabIndex = 0;
   row.dataset.id = station.id;
@@ -536,6 +549,15 @@ function buildRow(station: Station, currentId: string, state: NowPlaying['state'
   tags.className = 'row-tags';
   const stars = buildCapabilityStars(station);
   if (stars) tags.append(stars);
+  if (geoLabel) {
+    const geo = document.createElement('span');
+    geo.className = 'row-geo';
+    geo.textContent = geoLabel;
+    // Hover/long-press tooltip — same copy the player error path
+    // falls back to when AVPlayer or the browser fails on the 401.
+    geo.title = `${geoLabel} — likely a music-licensing geo-block from the broadcaster.`;
+    tags.append(geo);
+  }
   const tagsText = document.createElement('span');
   tagsText.className = 'row-tags__text';
   tagsText.textContent = (station.tags ?? []).slice(0, 3).join(' · ');
@@ -3442,6 +3464,21 @@ let prevStationId = '';
 let lastErrorMessage = '';
 
 player.subscribe((np) => {
+  // Translate a generic stream-failed error into a friendly
+  // geo-restricted message when the curated `availableIn` flag tells
+  // us this station is region-locked and the visitor is outside the
+  // allow-list. The browser only surfaces a vague MediaError code on
+  // the 401 the AIS9 streaming server returns, so without this
+  // override the user would see "Cannot decode stream" or "Stream
+  // error" for what's really a licensing geo-gate. Telemetry then
+  // records the override message too, which is actually more useful
+  // than the generic code — confirmed-geo errors get their own bucket.
+  if (np.state === 'error' && !isAvailableInUserRegion(np.station)) {
+    const label = geoRestrictionLabel(np.station, countryName);
+    if (label) {
+      np = { ...np, errorMessage: `${label} — region-locked by the broadcaster.` };
+    }
+  }
   const stationLost = !np.station.id && currentNP.station.id && activeTab === 'playing';
   const stationChanged = np.station.id && np.station.id !== currentNP.station.id;
   currentNP = np;
@@ -3533,6 +3570,17 @@ void loadBuiltinStations().then(() => {
   syncCountryOptions();
   if (activeTab === 'browse') renderContent();
   autoLoadStationFromUrl();
+});
+// Fetch the visitor's country from the worker so geo-restricted
+// station rows can show a "<Country> only" badge instead of failing
+// silently at play time. Fire-and-forget — the result is cached in
+// localStorage for 24h, and the rerender on resolve is cheap when
+// nothing geo-restricted is visible. We re-render unconditionally
+// because the answer could just as easily be "unknown" (in which
+// case we already render correctly), but a single extra renderContent
+// pass on page load is harmless.
+void fetchUserRegion().then(() => {
+  renderContent();
 });
 // Sitelinks search box (Google / Bing) and any inbound link with
 // `?q=...` lands on '/' with a query — prefill the search input so

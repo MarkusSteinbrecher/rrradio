@@ -55,6 +55,36 @@ Existing fetchers cover Grrif, ORF (any channel via metadataUrl), BR (any channe
 3. **Logo**: drop a PNG into `public/stations/`, point `favicon:` at it, and record the source URL/retrieval date in the PR body or `THIRD_PARTY_NOTICES.md`.
 4. **Done** — `npm run dev` regenerates the catalog automatically.
 
+## Geo-restricted stations
+
+Some broadcasters geo-gate their streams for music-licensing reasons — SUISA/SwissPerform for Switzerland, GEMA for Germany, similar agencies elsewhere. The stream returns an `HTTP 401` (Infomaniak's AIS9 server) or a 403 to non-allowed IPs, with no auth challenge body; it's a server-side IP geo-block dressed up as auth.
+
+Catalog flag: set `availableIn: [<ISO-3166-alpha-2 codes>]` on the station entry in `data/stations.yaml`.
+
+```yaml
+- id: builtin-grrif
+  ...
+  availableIn:
+    - CH
+```
+
+Effect:
+- **Web** dims the row, adds a "Switzerland only" badge in `.row-tags`, and the player error path translates the 401-driven `MediaError` into a friendly geo-restricted message instead of generic "stream failed".
+- **iOS** dims the row + adds the same badge, and `AudioPlayer`'s `.failed` path overrides the error message with the curated reason. The visitor's country comes from the rrradio-stats Worker's `/api/public/region` endpoint, which surfaces Cloudflare's `CF-IPCountry` header. Result is cached per session (web `localStorage`, iOS `UserDefaults`) for 24h.
+- **Absent or empty** ⇒ no restriction known. Default for the overwhelming majority of stations; the UI and player behave exactly as before.
+
+How to confirm a station is geo-restricted before flagging:
+
+```bash
+# From a non-broadcaster country. Look for 401/403 with no WWW-Authenticate
+# challenge — that's the geo-gate signature, not real HTTP auth.
+curl -sI 'https://example.broadcaster.com/stream'
+```
+
+A control test on a sibling station from the same broadcaster's infrastructure (RJB on Infomaniak responded 200 OK from DE while Grrif on the same fleet returned 401) is the cleanest way to distinguish "broadcaster geo-block" from "broadcaster down".
+
+Do not set `availableIn` speculatively — it dims and labels the row for everyone outside the allow-list. Only set it after a confirmed reproduction from at least one out-of-region IP.
+
 ## Adding a NEW broadcaster (different metadata API shape)
 
 1. **Research** the broadcaster's now-playing endpoint (DevTools network tab on their player page). Verify CORS allow-origin.
