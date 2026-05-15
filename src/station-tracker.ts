@@ -1,105 +1,93 @@
 import { countryName } from './country';
-import {
-  buildStationDashboardRows,
-  filterStationDashboardRows,
-  stationDashboardCountries,
-  stationDashboardKpis,
-  stationDashboardStatuses,
-  STATION_CHECKS,
-  type StationCheckKey,
-  type StationCheckState,
-  type StationDashboardFilters,
-  type StationDashboardRow,
-  type StationHealthFilter,
-  type StationReviewFilter,
-  type StationStatusReport,
-  type StationCurationReport,
-} from './station-dashboard';
 import type { Station } from './types';
 
 const BASE = import.meta.env.BASE_URL;
-const PAGE_SIZE = 220;
+const PAGE_SIZE = 200;
 
 interface CatalogPayload {
   stations?: unknown[];
 }
 
-interface LogoStatusTotals {
-  stations: number;
-  ok: number;
-  upgradeCandidates: number;
-  missing: number;
-}
-
 interface LogoStatusStation {
   id: string;
   country?: string;
+  source?: string;
+  tier?: string;
+  state?: string;
+  reason?: string;
   action?: string;
+  faviconSource?: string;
 }
 
 interface LogoStatusReport {
   generatedAt?: string;
-  totals?: LogoStatusTotals;
   stations?: LogoStatusStation[];
 }
 
-interface LogoCountryRow {
-  code: string;
-  upgrade: number;
-  missing: number;
+type SourceType = 'bundle' | 'api' | 'cdn' | 'none';
+
+interface MatrixRow {
+  id: string;
+  name: string;
+  broadcaster?: string;
+  country?: string;
+  status?: string;
+  favicon?: string;
+  faviconSource?: string;
+  faviconSourceUrl?: string;
+  faviconLicense: string;
+  /** Where we *got the URL from* (provenance). Prefers YAML `faviconSource`,
+   *  falls back to the logo-status report, defaults to `unknown`. */
+  source: string;
+  /** What *kind of asset* the URL points at (api/cdn/bundle/none). Heuristic
+   *  from URL pattern unless `faviconSourceType` is set in YAML. */
+  sourceType: SourceType;
+  /** Resolved upstream URL — YAML faviconSourceUrl when set; otherwise the favicon URL when remote. */
+  originalUrl?: string;
+  tier: string;
+  state: 'ok' | 'warn' | 'bad' | 'na';
+  action: string;
+  reason?: string;
 }
 
-type TrackerFilter = StationDashboardFilters & {
-  check: 'all' | StationCheckKey;
-  checkState: 'all' | 'attention' | StationCheckState;
-  review: StationReviewFilter;
-};
+type ImageState = 'all' | 'ok' | 'warn' | 'bad';
 
 const state: {
-  rows: StationDashboardRow[];
-  filtered: StationDashboardRow[];
+  rows: MatrixRow[];
+  filtered: MatrixRow[];
   page: number;
-  filters: TrackerFilter;
   generatedAt?: string;
-  statusError?: string;
+  logoGeneratedAt?: string;
+  filters: {
+    query: string;
+    country: string;
+    status: string;
+    imageState: ImageState;
+    license: string;
+  };
+  collapsedGroups: Set<string>;
 } = {
   rows: [],
   filtered: [],
   page: 0,
-  filters: {
-    query: '',
-    country: 'all',
-    status: 'all',
-    health: 'all',
-    check: 'all',
-    checkState: 'attention',
-    review: 'all',
-  },
+  filters: { query: '', country: 'all', status: 'all', imageState: 'all', license: 'all' },
+  collapsedGroups: new Set(),
 };
 
 const refs = {
   generated: byId('tracker-generated'),
-  kpiTotal: byId('kpi-total'),
-  kpiWorking: byId('kpi-working'),
-  kpiRich: byId('kpi-rich'),
-  kpiCountries: byId('kpi-countries'),
-  kpiAttention: byId('kpi-attention'),
-  qualityDonuts: byId('quality-donuts'),
-  statusBars: byId('status-bars'),
-  countryBars: byId('country-bars'),
-  checkBars: byId('check-bars'),
-  query: byId<HTMLInputElement>('filter-query'),
+  logoGenerated: byId('logo-generated'),
+  query: byId<HTMLInputElement>('filter-query-top'),
   country: byId<HTMLSelectElement>('filter-country'),
   status: byId<HTMLSelectElement>('filter-status'),
-  health: byId<HTMLSelectElement>('filter-health'),
-  review: byId<HTMLSelectElement>('filter-review'),
-  check: byId<HTMLSelectElement>('filter-check'),
-  summary: byId('table-summary'),
-  pagePrev: byId<HTMLButtonElement>('page-prev'),
-  pageNext: byId<HTMLButtonElement>('page-next'),
-  pageLabel: byId('page-label'),
-  rows: byId<HTMLTableSectionElement>('station-rows'),
-  logoPanel: byId('logo-panel-body'),
+  imageState: byId<HTMLSelectElement>('filter-image-state'),
+  license: byId<HTMLSelectElement>('filter-license'),
+  summary: byId('matrix-summary'),
+  pagePrev: byId<HTMLButtonElement>('matrix-page-prev'),
+  pageNext: byId<HTMLButtonElement>('matrix-page-next'),
+  pageLabel: byId('matrix-page-label'),
+  table: byId<HTMLTableElement>('matrix-table'),
+  rows: byId<HTMLTableSectionElement>('matrix-rows'),
 };
 
 function byId<T extends HTMLElement = HTMLElement>(id: string): T {
@@ -127,6 +115,7 @@ function normalizeStation(raw: unknown): Station | null {
   const streamUrl = optionalString(raw.streamUrl);
   if (!id || !name || !streamUrl) return null;
   const status = optionalString(raw.status);
+  const sourceType = optionalString(raw.faviconSourceType);
   return {
     id,
     name,
@@ -134,18 +123,38 @@ function normalizeStation(raw: unknown): Station | null {
     streamUrl,
     homepage: optionalString(raw.homepage),
     country: optionalString(raw.country),
-    tags: Array.isArray(raw.tags)
-      ? raw.tags.map((tag) => String(tag)).filter((tag) => tag.length > 0)
-      : undefined,
     favicon: optionalString(raw.favicon),
+    faviconSource: optionalString(raw.faviconSource),
+    faviconSourceUrl: optionalString(raw.faviconSourceUrl),
+    faviconLicense: optionalString(raw.faviconLicense),
+    faviconSourceType:
+      sourceType === 'bundle' || sourceType === 'api' || sourceType === 'cdn' || sourceType === 'none'
+        ? sourceType
+        : undefined,
     bitrate: optionalNumber(raw.bitrate),
     codec: optionalString(raw.codec),
-    metadata: optionalString(raw.metadata),
-    metadataUrl: optionalString(raw.metadataUrl),
-    status: status === 'working' || status === 'icy-only' || status === 'stream-only'
-      ? status
-      : undefined,
+    status:
+      status === 'working' || status === 'icy-only' || status === 'stream-only' ? status : undefined,
   };
+}
+
+// URL-pattern-based source-type heuristic. Mirrors the rules in
+// tools/backfill-favicon-source.mjs so the JS view and the YAML stay
+// consistent. Service endpoints (image-service, ?w=, /v3/re/, /_ipx/,
+// dims4 thumbnailers…) → `api`; plain hosted assets → `cdn`.
+const API_HOSTS_RE = /^(?:api\.ardmediathek\.de|audioapi\.orf\.at|images\.zeno\.fm)$/i;
+const API_URL_RE =
+  /(?:\/api\/|\/image-service\/|\/v3\/re\/|\/_ipx\/|\bdims\d+\b|\/dims4\/|\?ops=|\?w=|\?fit=|\?s=\d+x\d+|\?t=_\d+x\d+)/i;
+
+function deriveSourceType(favicon: string | undefined, override?: SourceType): SourceType {
+  if (override) return override;
+  if (!favicon) return 'none';
+  if (/^stations\//.test(favicon)) return 'bundle';
+  let host: string | null = null;
+  try { host = new URL(favicon).host.toLowerCase(); } catch { /* malformed → treat as cdn */ }
+  if (host && API_HOSTS_RE.test(host)) return 'api';
+  if (API_URL_RE.test(favicon)) return 'api';
+  return 'cdn';
 }
 
 async function loadCatalog(): Promise<Station[]> {
@@ -153,27 +162,6 @@ async function loadCatalog(): Promise<Station[]> {
   if (!res.ok) throw new Error(`stations.json HTTP ${res.status}`);
   const data = (await res.json()) as CatalogPayload;
   return (data.stations ?? []).map(normalizeStation).filter((s): s is Station => s !== null);
-}
-
-async function loadStatusReport(): Promise<StationStatusReport | null> {
-  try {
-    const res = await fetch(`${BASE}station-status.json`, { cache: 'no-store' });
-    if (!res.ok) throw new Error(`station-status.json HTTP ${res.status}`);
-    return (await res.json()) as StationStatusReport;
-  } catch (err) {
-    state.statusError = err instanceof Error ? err.message : String(err);
-    return null;
-  }
-}
-
-async function loadCurationReport(): Promise<StationCurationReport | null> {
-  try {
-    const res = await fetch(`${BASE}station-curation.json`, { cache: 'no-store' });
-    if (!res.ok) throw new Error(`station-curation.json HTTP ${res.status}`);
-    return (await res.json()) as StationCurationReport;
-  } catch {
-    return null;
-  }
 }
 
 async function loadLogoStatusReport(): Promise<LogoStatusReport | null> {
@@ -186,8 +174,60 @@ async function loadLogoStatusReport(): Promise<LogoStatusReport | null> {
   }
 }
 
-function setText(el: HTMLElement, value: number | string): void {
-  el.textContent = typeof value === 'number' ? value.toLocaleString() : value;
+function deriveMatrixRow(station: Station, status?: LogoStatusStation): MatrixRow {
+  // After the 2026-05-15 backfill every published station carries a
+  // `faviconSource` in YAML. We still fall back to logo-status for
+  // anything that slipped through, and "unknown" as the last resort —
+  // *not* "radio-browser", which used to be a misleading guess.
+  const yamlSource = station.faviconSource;
+  const reportSource = status?.faviconSource ?? status?.source;
+
+  let source: string;
+  if (yamlSource) source = yamlSource;
+  else if (reportSource === 'missing') source = 'missing';
+  else if (station.favicon) source = reportSource && reportSource !== 'remote' ? reportSource : 'unknown';
+  else source = 'missing';
+
+  const sourceType = deriveSourceType(station.favicon, station.faviconSourceType);
+
+  // Original URL: prefer explicit YAML field, fall back to favicon iff it's
+  // a remote URL (skip local `stations/...` paths).
+  const isLocalFavicon = station.favicon ? /^stations\//.test(station.favicon) : false;
+  const originalUrl =
+    station.faviconSourceUrl ?? (station.favicon && !isLocalFavicon ? station.favicon : undefined);
+
+  const reportState = status?.state;
+  const rowState: MatrixRow['state'] =
+    reportState === 'ok' || reportState === 'warn' || reportState === 'bad'
+      ? reportState
+      : station.favicon
+        ? 'ok'
+        : 'bad';
+
+  return {
+    id: station.id,
+    name: station.name,
+    broadcaster: station.broadcaster,
+    country: station.country,
+    status: station.status,
+    favicon: station.favicon,
+    faviconSource: station.faviconSource,
+    faviconSourceUrl: station.faviconSourceUrl,
+    faviconLicense: station.faviconLicense ?? 'unknown',
+    source,
+    sourceType,
+    originalUrl,
+    tier: status?.tier ?? (station.favicon ? 'ok' : 'missing'),
+    state: rowState,
+    action: status?.action ?? '-',
+    reason: status?.reason,
+  };
+}
+
+function buildMatrix(catalog: Station[], report: LogoStatusReport | null): MatrixRow[] {
+  const byId = new Map<string, LogoStatusStation>();
+  for (const s of report?.stations ?? []) byId.set(s.id, s);
+  return catalog.map((station) => deriveMatrixRow(station, byId.get(station.id)));
 }
 
 function option(value: string, label: string): HTMLOptionElement {
@@ -197,358 +237,212 @@ function option(value: string, label: string): HTMLOptionElement {
   return opt;
 }
 
-function syncFilterOptions(): void {
+function syncFilterOptions(rows: MatrixRow[]): void {
+  const countries = new Set<string>();
+  const statuses = new Set<string>();
+  const licenses = new Set<string>();
+  for (const r of rows) {
+    if (r.country) countries.add(r.country);
+    if (r.status) statuses.add(r.status);
+    licenses.add(r.faviconLicense);
+  }
   refs.country.replaceChildren(
     option('all', 'All countries'),
-    ...stationDashboardCountries(state.rows)
+    ...[...countries]
       .sort((a, b) => countryName(a).localeCompare(countryName(b)))
       .map((code) => option(code, countryName(code))),
   );
   refs.status.replaceChildren(
     option('all', 'All statuses'),
-    ...stationDashboardStatuses(state.rows).map((status) => option(status, status)),
+    ...[...statuses].sort().map((s) => option(s, s)),
+  );
+  refs.license.replaceChildren(
+    option('all', 'All licenses'),
+    ...[...licenses].sort().map((l) => option(l, l)),
   );
 }
 
-function renderKpis(): void {
-  const kpis = stationDashboardKpis(state.rows);
-  setText(refs.kpiTotal, kpis.total);
-  setText(refs.kpiWorking, kpis.working);
-  setText(refs.kpiRich, kpis.richMetadata);
-  setText(refs.kpiCountries, kpis.countries);
-  setText(refs.kpiAttention, kpis.attention);
-}
-
-function qualityCounts(rows: StationDashboardRow[], check: StationCheckKey): Record<StationCheckState, number> {
-  return rows.reduce<Record<StationCheckState, number>>(
-    (counts, row) => {
-      counts[row.checks[check].state]++;
-      return counts;
-    },
-    { ok: 0, warn: 0, bad: 0, na: 0 },
-  );
-}
-
-function donutGradient(counts: Record<StationCheckState, number>): string {
-  const total = Object.values(counts).reduce((sum, value) => sum + value, 0);
-  if (total === 0) return 'conic-gradient(var(--ink-4) 0deg 360deg)';
-  const colors: Record<StationCheckState, string> = {
-    ok: 'var(--ok)',
-    warn: 'var(--accent)',
-    bad: 'var(--bad)',
-    na: 'var(--ink-4)',
-  };
-  let cursor = 0;
-  const stops: string[] = [];
-  for (const key of ['ok', 'warn', 'bad', 'na'] as const) {
-    const value = counts[key];
-    if (value === 0) continue;
-    const start = cursor;
-    cursor += (value / total) * 360;
-    stops.push(`${colors[key]} ${start.toFixed(2)}deg ${cursor.toFixed(2)}deg`);
-  }
-  return `conic-gradient(${stops.join(', ')})`;
-}
-
-function renderQualityDonuts(): void {
-  refs.qualityDonuts.replaceChildren();
-  for (const check of STATION_CHECKS) {
-    const counts = qualityCounts(state.rows, check);
-    const total = Object.values(counts).reduce((sum, value) => sum + value, 0);
-    const okPct = total > 0 ? Math.round((counts.ok / total) * 100) : 0;
-    const attention = counts.warn + counts.bad;
-
-    const card = document.createElement('article');
-    card.className = 'quality-card';
-    card.tabIndex = 0;
-    card.title = `Filter ${checkName(check)} rows needing attention`;
-    card.addEventListener('click', () => setQualityFilter(check, 'attention'));
-    card.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        setQualityFilter(check, 'attention');
-      }
-    });
-
-    const donut = document.createElement('div');
-    donut.className = 'quality-donut';
-    donut.style.background =
-      `radial-gradient(circle at center, var(--bg) 0 52%, transparent 53%), ${donutGradient(counts)}`;
-    donut.setAttribute(
-      'aria-label',
-      `${checkName(check)} quality: ${okPct}% ok, ${attention.toLocaleString()} need attention`,
-    );
-    const center = document.createElement('div');
-    center.className = 'quality-donut__center';
-    center.textContent = `${okPct}%`;
-    donut.append(center);
-
-    const body = document.createElement('div');
-    body.className = 'quality-card__body';
-    const title = document.createElement('div');
-    title.className = 'quality-card__title';
-    title.textContent = checkName(check);
-    const meta = document.createElement('div');
-    meta.className = 'quality-card__meta';
-    meta.textContent = `${attention.toLocaleString()} attention`;
-    const legend = document.createElement('div');
-    legend.className = 'quality-card__legend';
-    for (const key of ['ok', 'warn', 'bad', 'na'] as const) {
-      const item = document.createElement('button');
-      item.type = 'button';
-      item.className = 'quality-legend-item';
-      item.classList.toggle(
-        'is-active',
-        state.filters.check === check && state.filters.checkState === key,
-      );
-      item.addEventListener('click', (event) => {
-        event.stopPropagation();
-        setQualityFilter(check, key);
-      });
-      const dot = document.createElement('span');
-      dot.className = 'quality-legend-dot';
-      dot.dataset.state = key;
-      const label = document.createElement('span');
-      label.textContent = `${key} ${counts[key].toLocaleString()}`;
-      item.append(dot, label);
-      legend.append(item);
+function applyFilters(resetPage = true): void {
+  if (resetPage) state.page = 0;
+  const q = state.filters.query.trim().toLowerCase();
+  state.filtered = state.rows.filter((r) => {
+    if (state.filters.country !== 'all' && r.country !== state.filters.country) return false;
+    if (state.filters.status !== 'all' && r.status !== state.filters.status) return false;
+    if (state.filters.imageState !== 'all' && r.state !== state.filters.imageState) return false;
+    if (state.filters.license !== 'all' && r.faviconLicense !== state.filters.license) return false;
+    if (q) {
+      const hay = [r.name, r.id, r.broadcaster, r.country, r.source, r.tier, r.favicon, r.originalUrl]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+      if (!hay.includes(q)) return false;
     }
-    body.append(title, meta, legend);
-    card.append(donut, body);
-    refs.qualityDonuts.append(card);
+    return true;
+  });
+  renderMatrix();
+}
+
+function appendIdGroupCells(tr: HTMLTableRowElement, row: MatrixRow): void {
+  // Thumb
+  const thumbTd = document.createElement('td');
+  thumbTd.dataset.group = 'id';
+  const thumb = document.createElement('div');
+  thumb.className = 'image-thumb';
+  // Page CSP allows img-src 'self' https: data: only — skip http:// to avoid CSP errors.
+  const httpsLike = row.favicon && /^(?:https:|\/|data:)/i.test(row.favicon);
+  if (httpsLike) {
+    const img = document.createElement('img');
+    img.src = row.favicon!;
+    img.alt = '';
+    img.loading = 'lazy';
+    img.referrerPolicy = 'no-referrer';
+    img.addEventListener('error', () => {
+      thumb.classList.add('image-thumb--missing');
+      thumb.textContent = '?';
+    });
+    thumb.append(img);
+  } else if (row.favicon) {
+    thumb.classList.add('image-thumb--missing');
+    thumb.textContent = 'http';
+    thumb.title = 'HTTP-only favicon — not rendered under page CSP';
+  } else {
+    thumb.classList.add('image-thumb--missing');
+    thumb.textContent = '—';
   }
-}
+  thumbTd.append(thumb);
 
-function setQualityFilter(check: StationCheckKey, checkState: TrackerFilter['checkState']): void {
-  state.filters.check = check;
-  state.filters.checkState = checkState;
-  refs.check.value = check;
-  applyFilters();
-  renderQualityDonuts();
-}
-
-function countBy<T extends string>(
-  rows: StationDashboardRow[],
-  pick: (row: StationDashboardRow) => T | undefined,
-): Array<[T, number]> {
-  const counts = new Map<T, number>();
-  for (const row of rows) {
-    const key = pick(row);
-    if (!key) continue;
-    counts.set(key, (counts.get(key) ?? 0) + 1);
-  }
-  return [...counts.entries()].sort((a, b) => b[1] - a[1]);
-}
-
-function renderBars(
-  target: HTMLElement,
-  entries: Array<[string, number]>,
-  label: (key: string) => string = (key) => key,
-  maxRows = 10,
-): void {
-  target.replaceChildren();
-  const top = entries.slice(0, maxRows);
-  const max = top[0]?.[1] ?? 1;
-  for (const [key, value] of top) {
-    const row = document.createElement('div');
-    row.className = 'bar-row';
-    const text = document.createElement('div');
-    text.className = 'bar-row__label';
-    text.textContent = label(key);
-    text.title = text.textContent;
-    const count = document.createElement('div');
-    count.className = 'bar-row__value';
-    count.textContent = value.toLocaleString();
-    const track = document.createElement('div');
-    track.className = 'bar-row__track';
-    const fill = document.createElement('div');
-    fill.className = 'bar-row__fill';
-    fill.style.width = `${Math.max(3, (value / max) * 100)}%`;
-    track.append(fill);
-    row.append(text, count, track);
-    target.append(row);
-  }
-}
-
-function renderSidePanel(): void {
-  renderBars(refs.statusBars, countBy(state.rows, (row) => row.status));
-  renderBars(refs.countryBars, countBy(state.rows, (row) => row.country), countryName, 12);
-  const checkCounts: Array<[string, number]> = STATION_CHECKS.map((check): [string, number] => [
-    check,
-    state.rows.filter((row) => {
-      const checkState = row.checks[check].state;
-      return checkState === 'bad' || checkState === 'warn';
-    }).length,
-  ]).sort((a, b) => b[1] - a[1]);
-  renderBars(refs.checkBars, checkCounts, checkName, STATION_CHECKS.length);
-}
-
-function renderLogoPanel(report: LogoStatusReport): void {
-  const totals = report.totals;
-  if (!totals) {
-    refs.logoPanel.textContent = 'No totals in station-logo-status.json.';
-    return;
-  }
-
-  const { stations: total, ok, upgradeCandidates: upgrade, missing } = totals;
-  const pctOf = (n: number) => total > 0 ? ((n / total) * 100).toFixed(1) : '0';
-
-  // Build per-country breakdown from station entries
-  const byCountry = new Map<string, LogoCountryRow>();
-  for (const s of report.stations ?? []) {
-    const cc = s.country?.toUpperCase();
-    if (!cc || cc === 'UNDEFINED') continue;
-    if (!byCountry.has(cc)) byCountry.set(cc, { code: cc, upgrade: 0, missing: 0 });
-    const row = byCountry.get(cc)!;
-    if (s.action === 'scrape-upgrade') row.upgrade++;
-    else if (s.action === 'scrape-missing') row.missing++;
-  }
-  const topCountries = [...byCountry.values()]
-    .filter((r) => r.upgrade + r.missing > 0)
-    .sort((a, b) => (b.upgrade + b.missing) - (a.upgrade + a.missing))
-    .slice(0, 10);
-  const maxActionable = topCountries[0] ? topCountries[0].upgrade + topCountries[0].missing : 1;
-
-  // Metrics
-  const metrics = document.createElement('div');
-  metrics.className = 'logo-metrics';
-
-  const mkMetric = (value: number, label: string, cls: string) => {
-    const m = document.createElement('div');
-    m.className = 'logo-metric';
-    const v = document.createElement('div');
-    v.className = `logo-metric__value ${cls}`;
-    v.textContent = value.toLocaleString();
-    const l = document.createElement('div');
-    l.className = 'logo-metric__label';
-    l.textContent = label;
-    m.append(v, l);
-    return m;
-  };
-
-  metrics.append(
-    mkMetric(total, 'total', ''),
-    mkMetric(ok, 'ok', 'is-ok'),
-    mkMetric(upgrade, 'upgrade queue', 'is-upgrade'),
-    mkMetric(missing, 'missing', 'is-missing'),
-  );
-
-  // Progress bar
-  const progress = document.createElement('div');
-  progress.className = 'logo-progress';
-
-  const bar = document.createElement('div');
-  bar.className = 'logo-progress__bar';
-
-  const mkSeg = (pct: string, cls: string) => {
-    const seg = document.createElement('div');
-    seg.className = `logo-progress__seg ${cls}`;
-    seg.style.width = `${pct}%`;
-    return seg;
-  };
-  bar.append(
-    mkSeg(pctOf(ok), 'is-ok'),
-    mkSeg(pctOf(upgrade), 'is-upgrade'),
-    mkSeg(pctOf(missing), 'is-missing'),
-  );
-
-  const legend = document.createElement('div');
-  legend.className = 'logo-progress__legend';
-  legend.innerHTML =
-    `<span style="color:var(--ok)">${pctOf(ok)}% ok</span>` +
-    `<span style="color:var(--accent)">${pctOf(upgrade)}% upgrade</span>` +
-    `<span>${pctOf(missing)}% missing</span>`;
-
-  progress.append(bar, legend);
-
-  // Country breakdown
-  const countries = document.createElement('div');
-  countries.className = 'logo-countries';
-  const list = document.createElement('div');
-  list.className = 'logo-countries__list';
-
-  for (const c of topCountries) {
-    const actionable = c.upgrade + c.missing;
-    const row = document.createElement('div');
-    row.className = 'logo-country-row';
-
-    const code = document.createElement('div');
-    code.className = 'logo-country-row__code';
-    code.textContent = c.code;
-    code.title = countryName(c.code);
-
-    const track = document.createElement('div');
-    track.className = 'logo-country-row__bar-track';
-    const fill = document.createElement('div');
-    fill.className = 'logo-country-row__bar-fill';
-    fill.style.width = `${Math.max(3, (actionable / maxActionable) * 100)}%`;
-    track.append(fill);
-
-    const upg = document.createElement('div');
-    upg.className = 'logo-country-row__upgrade';
-    upg.textContent = c.upgrade.toLocaleString();
-    upg.title = 'upgrade candidates';
-
-    const mis = document.createElement('div');
-    mis.className = 'logo-country-row__missing';
-    mis.textContent = `+${c.missing}`;
-    mis.title = 'missing';
-
-    row.append(code, track, upg, mis);
-    list.append(row);
-  }
-  countries.append(list);
-
-  // Assemble — logo-panel uses 3-column grid: head | metrics+progress | countries
-  refs.logoPanel.replaceChildren(metrics, progress, countries);
-
-  if (report.generatedAt) {
-    const gen = document.getElementById('logo-generated');
-    if (gen) gen.textContent = `Logo status: ${new Date(report.generatedAt).toLocaleString()}`;
-  }
-}
-
-function checkName(key: string): string {
-  if (key === 'metadataApi') return 'Metadata API';
-  return key.toUpperCase();
-}
-
-function checkLabel(stateValue: StationCheckState): string {
-  if (stateValue === 'ok') return 'ok';
-  if (stateValue === 'warn') return 'warn';
-  if (stateValue === 'bad') return 'bad';
-  return '-';
-}
-
-function checkCell(row: StationDashboardRow, key: StationCheckKey): HTMLTableCellElement {
-  const td = document.createElement('td');
-  const check = row.checks[key];
-  const badge = document.createElement('span');
-  badge.className = 'check';
-  badge.dataset.state = check.state;
-  badge.textContent = checkLabel(check.state);
-  badge.title = check.detail ?? checkName(key);
-  td.append(badge);
-  return td;
-}
-
-function stationCell(row: StationDashboardRow): HTMLTableCellElement {
-  const td = document.createElement('td');
-  const wrap = document.createElement('div');
-  wrap.className = 'station-name';
+  // Name
+  const nameTd = document.createElement('td');
+  nameTd.dataset.group = 'id';
+  const nameWrap = document.createElement('div');
+  nameWrap.className = 'station-name';
   const name = document.createElement('span');
   name.className = 'station-name__main';
   name.textContent = row.name;
   name.title = row.name;
   const sub = document.createElement('span');
   sub.className = 'station-name__sub';
-  sub.textContent = [row.broadcaster, row.metadataKey, row.id].filter(Boolean).join(' / ');
-  wrap.append(name, sub);
-  td.append(wrap);
-  return td;
+  sub.textContent = [row.broadcaster, row.id].filter(Boolean).join(' / ');
+  nameWrap.append(name, sub);
+  nameTd.append(nameWrap);
+
+  // Country
+  const countryTd = document.createElement('td');
+  countryTd.dataset.group = 'id';
+  countryTd.textContent = row.country ? countryName(row.country) : '-';
+
+  // Status
+  const statusTd = document.createElement('td');
+  statusTd.dataset.group = 'id';
+  if (row.status) {
+    const pill = document.createElement('span');
+    pill.className = 'pill';
+    pill.textContent = row.status;
+    statusTd.append(pill);
+  } else {
+    statusTd.textContent = '-';
+  }
+
+  tr.append(thumbTd, nameTd, countryTd, statusTd);
 }
 
-function renderTable(): void {
+function appendImageGroupCells(tr: HTMLTableRowElement, row: MatrixRow): void {
+  // Favicon URL
+  const urlTd = document.createElement('td');
+  urlTd.dataset.group = 'image';
+  urlTd.className = 'url-cell';
+  if (row.favicon) {
+    const isLocal = /^stations\//.test(row.favicon);
+    if (isLocal) {
+      urlTd.classList.add('url-cell--local');
+      urlTd.textContent = row.favicon;
+      urlTd.title = `local bundle: ${row.favicon}`;
+    } else {
+      const link = document.createElement('a');
+      link.href = row.favicon;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.textContent = row.favicon;
+      link.title = row.favicon;
+      urlTd.append(link);
+    }
+  } else {
+    urlTd.classList.add('url-cell--missing');
+    urlTd.textContent = 'no favicon';
+  }
+
+  // Source type pill
+  const typeTd = document.createElement('td');
+  typeTd.dataset.group = 'image';
+  const typePill = document.createElement('span');
+  typePill.className = 'source-type-pill';
+  typePill.dataset.sourceType = row.sourceType;
+  typePill.textContent = row.sourceType;
+  typeTd.append(typePill);
+
+  // Provenance pill
+  const sourceTd = document.createElement('td');
+  sourceTd.dataset.group = 'image';
+  const sourcePill = document.createElement('span');
+  sourcePill.className = 'source-pill';
+  sourcePill.dataset.source = row.source;
+  sourcePill.textContent = row.source;
+  sourceTd.append(sourcePill);
+
+  // Original URL
+  const origTd = document.createElement('td');
+  origTd.dataset.group = 'image';
+  origTd.className = 'url-cell';
+  if (row.originalUrl) {
+    const link = document.createElement('a');
+    link.href = row.originalUrl;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = row.originalUrl;
+    link.title = row.originalUrl;
+    origTd.append(link);
+  } else if (row.favicon && /^stations\//.test(row.favicon)) {
+    origTd.classList.add('url-cell--missing');
+    origTd.textContent = 'unknown — bundled';
+    origTd.title = 'Local PNG with no faviconSourceUrl recorded in YAML';
+  } else {
+    origTd.classList.add('url-cell--missing');
+    origTd.textContent = '-';
+  }
+
+  // License pill
+  const licenseTd = document.createElement('td');
+  licenseTd.dataset.group = 'image';
+  const licensePill = document.createElement('span');
+  licensePill.className = 'license-pill';
+  licensePill.dataset.license = row.faviconLicense;
+  licensePill.textContent = row.faviconLicense;
+  licenseTd.append(licensePill);
+
+  // Tier
+  const tierTd = document.createElement('td');
+  tierTd.dataset.group = 'image';
+  tierTd.textContent = row.tier;
+
+  // State
+  const stateTd = document.createElement('td');
+  stateTd.dataset.group = 'image';
+  const stateCheck = document.createElement('span');
+  stateCheck.className = 'check';
+  stateCheck.dataset.state = row.state;
+  stateCheck.textContent = row.state;
+  if (row.reason) stateCheck.title = row.reason;
+  stateTd.append(stateCheck);
+
+  // Action
+  const actionTd = document.createElement('td');
+  actionTd.dataset.group = 'image';
+  actionTd.textContent = row.action;
+
+  tr.append(urlTd, typeTd, sourceTd, origTd, licenseTd, tierTd, stateTd, actionTd);
+}
+
+function renderMatrix(): void {
   refs.rows.replaceChildren();
   const start = state.page * PAGE_SIZE;
   const pageRows = state.filtered.slice(start, start + PAGE_SIZE);
@@ -556,32 +450,15 @@ function renderTable(): void {
     const tr = document.createElement('tr');
     tr.className = 'empty-row';
     const td = document.createElement('td');
-    td.colSpan = 11;
+    td.colSpan = 12;
     td.textContent = 'No stations match these filters.';
     tr.append(td);
     refs.rows.append(tr);
   }
   for (const row of pageRows) {
     const tr = document.createElement('tr');
-    const country = document.createElement('td');
-    country.textContent = row.country ? countryName(row.country) : '-';
-    const status = document.createElement('td');
-    const statusPill = document.createElement('span');
-    statusPill.className = 'pill';
-    statusPill.textContent = row.status;
-    status.append(statusPill);
-    const format = document.createElement('td');
-    format.textContent = [row.codec, row.bitrate ? `${row.bitrate}kbps` : undefined]
-      .filter(Boolean)
-      .join(' ') || '-';
-
-    tr.append(
-      stationCell(row),
-      country,
-      status,
-      format,
-      ...STATION_CHECKS.map((check) => checkCell(row, check)),
-    );
+    appendIdGroupCells(tr, row);
+    appendImageGroupCells(tr, row);
     refs.rows.append(tr);
   }
 
@@ -592,30 +469,24 @@ function renderTable(): void {
   const end = Math.min(start + PAGE_SIZE, state.filtered.length);
   refs.summary.textContent =
     `${state.filtered.length.toLocaleString()} of ${state.rows.length.toLocaleString()} stations` +
-    (state.filtered.length > 0 ? ` / showing ${start + 1}-${end}` : '');
+    (state.filtered.length > 0 ? ` · showing ${start + 1}-${end}` : '');
 }
 
-function applyFilters(resetPage = true): void {
-  if (resetPage) state.page = 0;
-  state.filtered = filterStationDashboardRows(state.rows, state.filters).sort((a, b) => {
-    if (b.badCount !== a.badCount) return b.badCount - a.badCount;
-    if (b.warningCount !== a.warningCount) return b.warningCount - a.warningCount;
-    return a.name.localeCompare(b.name);
-  });
-  renderTable();
-}
+function toggleGroup(group: string): void {
+  if (state.collapsedGroups.has(group)) state.collapsedGroups.delete(group);
+  else state.collapsedGroups.add(group);
 
-function updateGeneratedText(): void {
-  if (state.statusError) {
-    refs.generated.textContent = `Status artifact unavailable: ${state.statusError}`;
-    return;
+  refs.table.classList.toggle(`is-collapsed-${group}`, state.collapsedGroups.has(group));
+
+  const groupTh = refs.table.querySelector<HTMLTableCellElement>(`.matrix-group[data-group="${group}"]`);
+  const toggleBtn = refs.table.querySelector<HTMLButtonElement>(`[data-toggle-group="${group}"]`);
+  if (groupTh) {
+    const fullColspan = Number(groupTh.dataset.fullColspan ?? '1');
+    groupTh.colSpan = state.collapsedGroups.has(group) ? 1 : fullColspan;
   }
-  if (!state.generatedAt) {
-    refs.generated.textContent = 'Status artifact not timestamped';
-    return;
+  if (toggleBtn) {
+    toggleBtn.setAttribute('aria-expanded', state.collapsedGroups.has(group) ? 'false' : 'true');
   }
-  refs.generated.textContent =
-    `Status checks generated ${new Date(state.generatedAt).toLocaleString()}`;
 }
 
 function bindEvents(): void {
@@ -631,50 +502,47 @@ function bindEvents(): void {
     state.filters.status = refs.status.value;
     applyFilters();
   });
-  refs.health.addEventListener('change', () => {
-    state.filters.health = refs.health.value as StationHealthFilter;
+  refs.imageState.addEventListener('change', () => {
+    state.filters.imageState = refs.imageState.value as ImageState;
     applyFilters();
   });
-  refs.review.addEventListener('change', () => {
-    state.filters.review = refs.review.value as StationReviewFilter;
-    applyFilters();
-  });
-  refs.check.addEventListener('change', () => {
-    state.filters.check = refs.check.value as TrackerFilter['check'];
-    state.filters.checkState = state.filters.check === 'all' ? 'all' : 'attention';
-    renderQualityDonuts();
+  refs.license.addEventListener('change', () => {
+    state.filters.license = refs.license.value;
     applyFilters();
   });
   refs.pagePrev.addEventListener('click', () => {
     if (state.page <= 0) return;
     state.page--;
-    applyFilters(false);
+    renderMatrix();
   });
   refs.pageNext.addEventListener('click', () => {
     const pageCount = Math.max(1, Math.ceil(state.filtered.length / PAGE_SIZE));
     if (state.page >= pageCount - 1) return;
     state.page++;
-    applyFilters(false);
+    renderMatrix();
   });
+  for (const btn of refs.table.querySelectorAll<HTMLButtonElement>('[data-toggle-group]')) {
+    btn.addEventListener('click', () => {
+      const group = btn.dataset.toggleGroup;
+      if (group) toggleGroup(group);
+    });
+  }
+}
+
+function updateGeneratedText(): void {
+  refs.generated.textContent = state.generatedAt
+    ? `Logo status ${new Date(state.generatedAt).toLocaleString()}`
+    : 'Logo status unavailable';
 }
 
 async function main(): Promise<void> {
   bindEvents();
   try {
-    const [catalog, report, curationReport, logoReport] = await Promise.all([
-      loadCatalog(),
-      loadStatusReport(),
-      loadCurationReport(),
-      loadLogoStatusReport(),
-    ]);
-    state.rows = buildStationDashboardRows(catalog, report, curationReport);
-    state.generatedAt = report?.generatedAt;
-    syncFilterOptions();
-    renderKpis();
-    renderQualityDonuts();
-    renderSidePanel();
+    const [catalog, logoReport] = await Promise.all([loadCatalog(), loadLogoStatusReport()]);
+    state.rows = buildMatrix(catalog, logoReport);
+    state.generatedAt = logoReport?.generatedAt;
+    syncFilterOptions(state.rows);
     updateGeneratedText();
-    if (logoReport) renderLogoPanel(logoReport);
     applyFilters();
   } catch (err) {
     refs.generated.textContent = err instanceof Error ? err.message : String(err);

@@ -12,6 +12,44 @@ export interface Station {
   tags?: string[];
   /** Optional artwork URL */
   favicon?: string;
+  /** Provenance label: where we *discovered* the favicon URL.
+   *  Set by the logo-curation tools or backfilled via URL pattern
+   *  matching. Common values:
+   *   - `wiki`             — `tools/wiki-logos.mjs` (Wikimedia Commons)
+   *   - `broadcaster-site` — `tools/scrape-logos.mjs` (scraped from the broadcaster homepage)
+   *   - `broadcaster-api`  — image URL returned by a broadcaster metadata API
+   *   - `radio-browser`    — picked up via `tools/auto-curate.mjs` from RB's favicon field
+   *   - `broadcaster`      — bundled local PNG hand-curated from the broadcaster
+   *   - `manual`           — explicitly set in YAML by hand
+   *   - absent             → unknown / not yet backfilled
+   *  Note: this is "where we got the URL from", not "where the bytes live". */
+  faviconSource?: string;
+  /** Explicit "this station's favicon should be empty in the published catalog".
+   *  Set by `tools/flag-suspicious-favicons.mjs` when the upstream URL points at
+   *  a free-image-hosting / fan-upload host (postimg.cc, ibb.co, gstatic image
+   *  thumbnails, …). Without this flag, build-catalog.mjs would fall back to
+   *  the Radio Browser favicon — which is where the sketchy URLs live. */
+  faviconBlocked?: boolean;
+  /** Kind of asset the favicon URL points at. Independent from `faviconSource`
+   *   - `bundle` — local PNG in `public/stations/<id>.png`
+   *   - `api`    — URL is a service endpoint (image-service, ?w= size param, …)
+   *   - `cdn`    — static asset hosted on broadcaster/Wikipedia/RB upload CDN
+   *   - `none`   — no favicon at all
+   *  Derived heuristically at render time by default; YAML may override. */
+  faviconSourceType?: 'bundle' | 'api' | 'cdn' | 'none';
+  /** Upstream URL the favicon was originally retrieved from. Only meaningful
+   *  when `favicon` is a bundled local PNG (e.g. `stations/grrif.png`) —
+   *  the URL we'd re-scrape from if regenerating the asset. For remote
+   *  favicons this is usually redundant with `favicon` itself and can be
+   *  omitted. */
+  faviconSourceUrl?: string;
+  /** License/usage rights label for the favicon. Open string; common values:
+   *   - `wikipedia`       — from Wikimedia Commons (typically CC-BY-SA)
+   *   - `broadcaster`     — from the broadcaster's own site (implicit grant / fair use)
+   *   - `cc-by`, `cc-by-sa`, `cc-by-nc`, `public-domain` — explicit Creative Commons
+   *   - `unknown`         — not yet researched
+   *  Absent ≡ `unknown`. Tracked per-station so we can audit redistribution risk. */
+  faviconLicense?: string;
   /** Bitrate in kbps when known (Radio Browser bitrate field) */
   bitrate?: number;
   /** Audio codec when known, e.g. "MP3", "AAC" (Radio Browser codec field) */

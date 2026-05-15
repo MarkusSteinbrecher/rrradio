@@ -130,7 +130,12 @@ function buildYamlEntry({ id, name, station, country }) {
   if (station.codec) lines.push(`  codec: ${station.codec.toUpperCase()}`);
   const tags = normaliseTags(station.tags);
   if (tags.length > 0) lines.push(`  tags: [${tags.join(', ')}]`);
-  if (station.favicon) lines.push(`  favicon: ${station.favicon}`);
+  if (station.favicon) {
+    lines.push(`  favicon: ${station.favicon}`);
+    // RB is where auto-curate sources favicon URLs — record provenance so
+    // the tracker matrix shows "radio-browser" rather than "unknown".
+    lines.push(`  faviconSource: radio-browser`);
+  }
   if (station.homepage) lines.push(`  homepage: ${station.homepage}`);
   if (country) lines.push(`  country: ${country}`);
   lines.push(`  status: stream-only`);
