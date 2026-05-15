@@ -2615,12 +2615,21 @@ struct StationListView: View {
         @ViewBuilder content: () -> Content,
     ) -> some View {
         if canReorderFavorites {
-            // Hide the source as soon as the drag is picked up — not
-            // after the first drop target registers. Previously the
-            // original tile stayed full-opacity until lastHandledTarget
-            // was set, so the user saw both the drag preview and the
-            // source at full opacity during the initial pickup.
+            // Only hide the source AFTER the first reorder move has
+            // registered — `lastFavoriteDropMoveAt != nil` confirms
+            // some drop machinery actually fired. PR #371 tried to
+            // hide on `draggedFavoriteStationID == station.id` alone
+            // for smoother initial pickup, but SwiftUI's .onDrag has
+            // no drag-cancel callback: if the user lifts their finger
+            // outside any drop target, `draggedStationID` stays set,
+            // the tile stays at opacity 0, and its tap target keeps
+            // firing playback for a station the user can't see. The
+            // proper fix (Transferable + .draggable / .dropDestination)
+            // is tracked in #374; until then we eat the initial-pickup
+            // ghosting to avoid the worse "invisible-but-tappable"
+            // regression.
             let showsReorderPlaceholder = draggedFavoriteStationID == station.id
+                && lastFavoriteDropMoveAt != nil
             let showsDeleteButton = favoriteDeleteModeEnabled
                 && targetedFavoriteStationID == nil
             // SpringBoard-style jiggle while the user is in delete mode.
