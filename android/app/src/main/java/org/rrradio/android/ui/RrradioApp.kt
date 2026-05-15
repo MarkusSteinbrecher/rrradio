@@ -42,6 +42,7 @@ import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Public
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Star
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -93,6 +94,7 @@ fun RrradioApp(
 ) {
     var showAddStation by remember { mutableStateOf(false) }
     var showNowPlaying by remember { mutableStateOf(false) }
+    var customStationPendingDelete by remember { mutableStateOf<Station?>(null) }
 
     Scaffold(
         contentWindowInsets = WindowInsets(0),
@@ -143,7 +145,7 @@ fun RrradioApp(
                     showNowPlaying = true
                 },
                 onFavorite = actions::toggleFavorite,
-                onRemoveCustom = actions::removeCustom,
+                onRemoveCustom = { customStationPendingDelete = it },
             )
         }
     }
@@ -181,6 +183,29 @@ fun RrradioApp(
                 onDismiss = { showNowPlaying = false },
             )
         }
+    }
+
+    customStationPendingDelete?.let { station ->
+        AlertDialog(
+            onDismissRequest = { customStationPendingDelete = null },
+            title = { Text("Delete station?") },
+            text = { Text("Remove ${station.name} from your custom stations.") },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        actions.removeCustom(station)
+                        customStationPendingDelete = null
+                    },
+                ) {
+                    Text("Delete")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { customStationPendingDelete = null }) {
+                    Text("Cancel")
+                }
+            },
+        )
     }
 }
 

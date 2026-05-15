@@ -37,6 +37,21 @@ class LibraryRepository(
         return added
     }
 
+    suspend fun addFavorite(station: Station): Boolean {
+        var added = false
+        store.edit { prefs ->
+            val current = readStations(prefs[Keys.favorites])
+            val next = if (current.any { it.id == station.id }) {
+                current.map { if (it.id == station.id) station else it }
+            } else {
+                added = true
+                listOf(station) + current
+            }
+            prefs[Keys.favorites] = json.encodeToString(next)
+        }
+        return added
+    }
+
     suspend fun pushRecent(station: Station) {
         store.edit { prefs ->
             val current = readStations(prefs[Keys.recents])

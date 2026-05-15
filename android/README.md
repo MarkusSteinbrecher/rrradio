@@ -5,33 +5,31 @@ the catalog is still published by the web build at
 `https://rrradio.org/stations.json`, device-local library state stays on
 the phone, and playback is native rather than a WebView wrapper.
 
-## Status
+## Spec alignment status
 
-Implemented in this scaffold:
+The cross-platform contract lives in `docs/spec/`. Android is intentionally
+local-only for this first aligned version: there is no CloudKit, no iCloud
+compatibility layer, no account requirement, and no shared backend.
 
-- Kotlin + Jetpack Compose app shell.
-- Catalog decoding and cache-backed network loading.
-- Search parity for station name, tags, country, and whitespace-insensitive
-  matches such as `WDR5` -> `WDR 5`.
-- Favorites, recents, and custom HTTPS streams via DataStore.
-- Media3 `MediaSessionService` + ExoPlayer for MP3/AAC/HLS playback.
-- Background/lock-screen playback plumbing through Android media session.
-- Sleep timer cycle: off / 15 / 30 / 60 / 90 minutes.
-- Basic ICY `StreamTitle` parser and bounded ICY metadata fetcher for
-  `status: icy-only` stations.
+| Spec area | Android status | Notes |
+|---|---|---|
+| `docs/spec/platforms.md` | Partial | Kotlin + Jetpack Compose, Media3/ExoPlayer, MediaSessionService, DataStore, and cache-backed catalog loading are in place. Wear OS is out of scope for the first Android port. |
+| `docs/spec/data-sync.md` | Supported for local data | Favorites, recents, and custom stations are device-local DataStore data. Manual backup export/import is explicitly deferred; it should mirror the web favorites/custom-stations file flow when added. |
+| `docs/spec/playback.md` | Partial | MP3/AAC/HLS playback uses ExoPlayer. Starting playback passes the current visible list as the active queue, so Browse, Favorites, and Recents media next/previous controls stay scoped. Media3 errors trigger bounded source rebuild retries before surfacing a generic error. Real background/lock-screen behavior still needs device validation. |
+| `docs/spec/features/browse.md` | Supported except deferred views | Android loads `https://rrradio.org/stations.json`, falls back to the cache, searches station names/tags/countries with whitespace-insensitive and diacritic-tolerant matching, and exposes country/genre filters. Map browse, advanced sort controls, and station-list batch add are deferred. |
+| `docs/spec/features/favorites.md` | Partial | Add/remove favorites and capped recents are supported. Favorites reorder and tile/app display modes are deferred. |
+| `docs/spec/features/station-lists.md` | Deferred | Create/rename/delete/reorder lists, add from Browse, and play list as queue should follow the iOS product behavior once this feature is in scope. |
+| `docs/spec/features/custom-stations.md` | Partial | Custom stations require HTTPS, reject local/private stream hosts, reject duplicate stream URLs against catalog/custom stations, probe the stream before save, auto-favorite on save, confirm before delete, and persist locally. Backup/export remains deferred. |
+| `docs/spec/features/now-playing.md` | Partial | The current sheet shows station identity, artwork/logo fallback, metadata, favorite toggle, playback control, and sleep entry. A fuller destination view, previous/next buttons, secondary panels, lyrics, schedules, and music-service links are deferred. |
+| `docs/spec/features/metadata-artwork.md` | Partial | Basic ICY `StreamTitle` parsing and bounded ICY metadata fetch are present for `status: icy-only` stations. The broadcaster metadata registry from web/iOS, schedule panes, lyrics, station-logo policy, and track cover-art lookup are deferred. |
+| `docs/spec/features/sleep-timer.md` | Partial | The off / 15 / 30 / 60 / 90 minute cycle pauses playback without clearing station context. Background firing still needs real-device validation with the media notification active. |
+| `docs/spec/features/wake-to-radio.md` | Deferred decision | Android wake-to-radio needs a separate decision covering exact alarm permission, foreground service behavior, notification fallback, and battery optimization language. |
+| `docs/spec/features/preferences-diagnostics.md` | Partial | Theme toggle exists. System/light/dark preference, accent color, language, landing page, listening history, local diagnostics, broken-station reporting, and Android Auto-specific behavior are deferred. |
 
-Not yet ported:
-
-- The full broadcaster metadata registry from iOS
-  (`orf`, `azuracast`, `laut-fm`, `streamabc`, `swr`, `ffh`, `mdr`,
-  `rbb-radioeins`, `cro`, `srgssr-il`, `swiss-radio`, `srr`, `mr`,
-  `br-radioplayer`, `bbc`, `hr`, `antenne`, `rb-bremen`, `sr`).
-- Program schedule panes.
-- Lyrics lookup.
-- Map view.
-- Wake-to-radio.
-- Backup/restore.
-- Android Auto-specific browse tree.
+Deferred features should remain documented here until each area gets its own
+issue or ADR. Android Auto, wake-to-radio exact alarms, and any future
+cross-platform sync backend are separate product decisions, not hidden scope in
+this port.
 
 ## Building
 
@@ -45,5 +43,7 @@ cd android
 gradle testDebugUnitTest assembleDebug
 ```
 
-This workspace currently has Java but not Gradle or the Android SDK, so
-the Android build cannot be verified locally from this shell yet.
+If Gradle is installed through Homebrew without a global Java runtime, this
+shell can use Homebrew's embedded OpenJDK through the `gradle` launcher. A
+valid Android SDK is still required through `ANDROID_HOME` or
+`android/local.properties`.

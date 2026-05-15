@@ -1,6 +1,7 @@
 package org.rrradio.android.playback
 
 import android.content.Intent
+import androidx.media3.common.C
 import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
@@ -11,8 +12,11 @@ import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import org.rrradio.android.data.PlayerState
@@ -26,6 +30,9 @@ class RadioPlaybackService : MediaSessionService() {
     private val metadataPoller = MetadataPoller()
     private lateinit var player: ExoPlayer
     private var session: MediaSession? = null
+    private var activeQueue: List<Station> = emptyList()
+    private var retryJob: Job? = null
+    private var retryCount = 0
 
     override fun onCreate() {
         super.onCreate()
@@ -36,9 +43,14 @@ class RadioPlaybackService : MediaSessionService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
-            ACTION_PLAY_STATION -> intent.getStringExtra(EXTRA_STATION_JSON)
-                ?.let { defaultJson.decodeFromString<Station>(it) }
-                ?.let(::play)
+            ACTION_PLAY_STATION -> {
+                val station = intent.getStringExtra(EXTRA_STATION_JSON)
+                    ?.let { defaultJson.decodeFromString<Station>(it) }
+                val queue = intent.getStringExtra(EXTRA_QUEUE_JSON)
+                    ?.let { runCatching { defaultJson.decodeFromString<List<Station>>(it) }.getOrNull() }
+                    .orEmpty()
+                if (station != null) play(station, queue)
+            }
             ACTION_TOGGLE -> toggle()
             ACTION_PAUSE -> pause()
             ACTION_STOP -> stopPlayback()
@@ -49,6 +61,7 @@ class RadioPlaybackService : MediaSessionService() {
     override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? = session
 
     override fun onDestroy() {
+        retryJob?.cancel()
         metadataPoller.stop()
         serviceScope.cancel()
         session?.release()
@@ -56,24 +69,33 @@ class RadioPlaybackService : MediaSessionService() {
         super.onDestroy()
     }
 
-    private fun play(station: Station) {
-        metadataPoller.stop()
-        PlaybackStateStore.replace(PlaybackUiState(station = station, state = PlayerState.Loading))
+    private fun play(station: Station, queue: List<Station>) {
+        retryJob?.cancel()
+        retryCount = 0
+        activeQueue = activePlaybackQueue(queue, station)
+        val startIndex = playbackQueueStartIndex(activeQueue, station)
+        setCurrentStation(station, PlayerState.Loading)
 
+        player.setMediaItems(activeQueue.map(::mediaItem), startIndex, C.TIME_UNSET)
+        player.prepare()
+        player.playWhenReady = true
+        startMetadataPolling(station)
+    }
+
+    private fun mediaItem(station: Station): MediaItem {
         val metadata = MediaMetadata.Builder()
             .setTitle(station.name)
             .setArtist(station.country?.uppercase().orEmpty())
             .build()
-        val item = MediaItem.Builder()
+        return MediaItem.Builder()
             .setUri(station.streamUrl.toUri())
             .setMediaId(station.id)
             .setMediaMetadata(metadata)
             .build()
+    }
 
-        player.setMediaItem(item)
-        player.prepare()
-        player.playWhenReady = true
-
+    private fun startMetadataPolling(station: Station) {
+        metadataPoller.stop()
         metadataPoller.start(serviceScope, station) { now ->
             if (now == null) return@start
             PlaybackStateStore.update { current ->
@@ -89,6 +111,15 @@ class RadioPlaybackService : MediaSessionService() {
         }
     }
 
+    private fun setCurrentStation(station: Station, state: PlayerState) {
+        PlaybackStateStore.replace(
+            PlaybackUiState(
+                station = station,
+                state = state,
+            ),
+        )
+    }
+
     private fun toggle() {
         if (player.isPlaying) pause() else player.play()
     }
@@ -99,6 +130,9 @@ class RadioPlaybackService : MediaSessionService() {
     }
 
     private fun stopPlayback() {
+        retryJob?.cancel()
+        retryCount = 0
+        activeQueue = emptyList()
         metadataPoller.stop()
         player.stop()
         PlaybackStateStore.replace(PlaybackUiState())
@@ -107,6 +141,7 @@ class RadioPlaybackService : MediaSessionService() {
 
     private val playerListener = object : Player.Listener {
         override fun onIsPlayingChanged(isPlaying: Boolean) {
+            if (!isPlaying && player.playbackState == Player.STATE_BUFFERING) return
             PlaybackStateStore.update {
                 it.copy(state = if (isPlaying) PlayerState.Playing else PlayerState.Paused)
             }
@@ -116,7 +151,10 @@ class RadioPlaybackService : MediaSessionService() {
             PlaybackStateStore.update {
                 when (playbackState) {
                     Player.STATE_BUFFERING -> it.copy(state = PlayerState.Loading)
-                    Player.STATE_READY -> it.copy(state = if (player.isPlaying) PlayerState.Playing else PlayerState.Paused)
+                    Player.STATE_READY -> {
+                        retryCount = 0
+                        it.copy(state = if (player.isPlaying) PlayerState.Playing else PlayerState.Paused)
+                    }
                     Player.STATE_ENDED -> it.copy(state = PlayerState.Paused)
                     else -> it
                 }
@@ -124,9 +162,19 @@ class RadioPlaybackService : MediaSessionService() {
         }
 
         override fun onPlayerError(error: PlaybackException) {
+            if (scheduleRetry()) return
             PlaybackStateStore.update {
-                it.copy(state = PlayerState.Error, errorMessage = error.localizedMessage)
+                it.copy(state = PlayerState.Error, errorMessage = "Stream unavailable. Try again.")
             }
+        }
+
+        override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+            val station = activeQueue.firstOrNull { it.id == mediaItem?.mediaId } ?: return
+            setCurrentStation(
+                station = station,
+                state = if (player.isPlaying) PlayerState.Playing else PlayerState.Loading,
+            )
+            startMetadataPolling(station)
         }
 
         override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
@@ -142,17 +190,41 @@ class RadioPlaybackService : MediaSessionService() {
         }
     }
 
+    private fun scheduleRetry(): Boolean {
+        val station = PlaybackStateStore.state.value.station ?: return false
+        if (!shouldRetryStreamError(retryCount)) return false
+
+        retryCount += 1
+        retryJob?.cancel()
+        PlaybackStateStore.update {
+            it.copy(state = PlayerState.Loading, errorMessage = "Reconnecting...")
+        }
+        retryJob = serviceScope.launch {
+            delay(streamRetryDelayMillis(retryCount))
+            val queue = activeQueue.takeIf { it.isNotEmpty() } ?: listOf(station)
+            activeQueue = activePlaybackQueue(queue, station)
+            val startIndex = playbackQueueStartIndex(activeQueue, station)
+            player.setMediaItems(activeQueue.map(::mediaItem), startIndex, C.TIME_UNSET)
+            player.prepare()
+            player.playWhenReady = true
+            startMetadataPolling(station)
+        }
+        return true
+    }
+
     companion object {
         const val ACTION_PLAY_STATION = "org.rrradio.android.action.PLAY_STATION"
         const val ACTION_TOGGLE = "org.rrradio.android.action.TOGGLE"
         const val ACTION_PAUSE = "org.rrradio.android.action.PAUSE"
         const val ACTION_STOP = "org.rrradio.android.action.STOP"
         const val EXTRA_STATION_JSON = "station_json"
+        const val EXTRA_QUEUE_JSON = "queue_json"
 
-        fun playIntent(context: android.content.Context, station: Station): Intent =
+        fun playIntent(context: android.content.Context, station: Station, queue: List<Station> = listOf(station)): Intent =
             Intent(context, RadioPlaybackService::class.java)
                 .setAction(ACTION_PLAY_STATION)
                 .putExtra(EXTRA_STATION_JSON, defaultJson.encodeToString(station))
+                .putExtra(EXTRA_QUEUE_JSON, defaultJson.encodeToString(activePlaybackQueue(queue, station)))
 
         fun toggleIntent(context: android.content.Context): Intent =
             Intent(context, RadioPlaybackService::class.java).setAction(ACTION_TOGGLE)
