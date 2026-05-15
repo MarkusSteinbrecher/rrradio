@@ -4099,6 +4099,27 @@ func stationHasProgramInfo(_ station: Station) -> Bool {
     }
 }
 
+private extension View {
+    @ViewBuilder
+    func currentStationInnerHighlight(isCurrent: Bool, cornerRadius: CGFloat) -> some View {
+        if isCurrent {
+            self
+                .overlay {
+                    RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                        .stroke(RrradioTheme.accent.opacity(0.20), lineWidth: 6)
+                        .blur(radius: 4)
+                        .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+                }
+                .overlay {
+                    RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                        .strokeBorder(RrradioTheme.accent.opacity(0.34), lineWidth: 1)
+                }
+        } else {
+            self
+        }
+    }
+}
+
 struct StationRow: View {
     enum Mode {
         case standard
@@ -4186,18 +4207,7 @@ struct StationRow: View {
                                 .stroke(RrradioTheme.line, lineWidth: 1)
                         }
                     }
-                    .shadow(
-                        color: usesCurrentCardShadow ? RrradioTheme.accent.opacity(0.15) : .clear,
-                        radius: usesCurrentCardShadow ? 4 : 0,
-                        x: 0,
-                        y: 0,
-                    )
-                    .shadow(
-                        color: usesCurrentCardShadow ? RrradioTheme.accent.opacity(0.08) : .clear,
-                        radius: usesCurrentCardShadow ? 6 : 0,
-                        x: 0,
-                        y: 1,
-                    )
+                    .currentStationInnerHighlight(isCurrent: usesCurrentCardShadow, cornerRadius: 6)
             } else if isCurrent {
                 LinearGradient(
                     colors: [RrradioTheme.ink.opacity(0.035), .clear],
@@ -4587,19 +4597,8 @@ private struct FavoriteStationTile: View {
             RoundedRectangle(cornerRadius: 6, style: .continuous)
                 .stroke(RrradioTheme.line)
         }
+        .currentStationInnerHighlight(isCurrent: isCurrent, cornerRadius: 6)
         .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
-        .shadow(
-            color: isCurrent ? RrradioTheme.accent.opacity(0.26) : .clear,
-            radius: isCurrent ? 6 : 0,
-            x: 0,
-            y: 0,
-        )
-        .shadow(
-            color: isCurrent ? RrradioTheme.accent.opacity(0.12) : .clear,
-            radius: isCurrent ? 9 : 0,
-            x: 0,
-            y: 3,
-        )
         .contentShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
     }
 
