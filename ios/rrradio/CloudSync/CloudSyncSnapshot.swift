@@ -3,6 +3,7 @@ import Foundation
 struct CloudSyncSnapshot: Equatable {
     var favorites: [Station]
     var customStations: [Station]
+    var stationLists: [StationList]
     var theme: String
     var themeAccent: String
     var locale: String
@@ -28,12 +29,14 @@ struct CloudSyncSnapshot: Equatable {
             || resetAt != nil
             || !favorites.isEmpty
             || !customStations.isEmpty
+            || !stationLists.isEmpty
             || !favoritesOrder.isEmpty
     }
 
     var hasLocalUserPayload: Bool {
         !favorites.isEmpty
             || !customStations.isEmpty
+            || !stationLists.isEmpty
             || !favoritesOrder.isEmpty
             || hasNonDefaultLocalPreferences
     }
@@ -60,6 +63,7 @@ struct CloudSyncSnapshot: Equatable {
     static let empty = CloudSyncSnapshot(
         favorites: [],
         customStations: [],
+        stationLists: [],
         theme: ThemeController.Choice.system.rawValue,
         themeAccent: ThemeController.classicAccentRawValue,
         locale: LocaleController.Choice.system.rawValue,
@@ -91,6 +95,7 @@ enum CloudSyncMerge {
                 remoteOrder: remote.favoritesOrder,
             ),
             customStations: mergeStations(local: local.customStations, remote: remote.customStations),
+            stationLists: mergeStationLists(local: local.stationLists, remote: remote.stationLists),
             theme: remote.hasPreferences ? remote.theme : local.theme,
             themeAccent: remote.hasPreferences ? remote.themeAccent : local.themeAccent,
             locale: remote.hasPreferences ? remote.locale : local.locale,
@@ -148,6 +153,22 @@ enum CloudSyncMerge {
         }
         ordered.append(contentsOf: merged.filter { byID[$0.id] != nil })
         return ordered
+    }
+
+    static func mergeStationLists(local: [StationList], remote: [StationList]) -> [StationList] {
+        var seen = Set<String>()
+        var result: [StationList] = []
+
+        for list in remote {
+            if seen.insert(list.id).inserted {
+                result.append(list)
+            }
+        }
+        for list in local where seen.insert(list.id).inserted {
+            result.append(list)
+        }
+
+        return result
     }
 
     static func mergeStations(local: [Station], remote: [Station]) -> [Station] {

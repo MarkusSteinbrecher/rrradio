@@ -127,11 +127,11 @@ Avoid adding events for high-frequency success paths such as every metadata poll
 
 | Store | Data | Retention |
 |---|---|---|
-| `UserDefaults` library keys | favorites, recents capped at 12, custom stations | until deleted or app removal |
+| `UserDefaults` library keys | favorites, station lists, recents capped at 12, custom stations | until deleted or app removal |
 | Catalog cache | latest `stations.json` payload in Caches | OS-managed cache lifetime |
 | Listening history file | station sessions; optional track artist/title only when the user selects track-level history | off by default; 90 days by default when enabled; user can choose 30 days, 1 year, or forever |
 | Diagnostics | recent app operational events, when the user enables Collect Diagnostics | off by default; capped at 100 events and 14 days; turning it off clears local diagnostics; copyable by the user from Settings |
-| CloudKit private database | favorites, custom stations, and preferences only | until the user disables/removes iCloud data; listening-history records and diagnostics are not synced |
+| CloudKit private database | favorites, station lists, custom stations, and preferences only | until the user disables/removes iCloud data; recents, listening-history records, diagnostics, and one-shot playback intents are not synced |
 
 ## Admin dashboard
 

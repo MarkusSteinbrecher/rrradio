@@ -76,6 +76,8 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
         static let favoritesOrder = "FavoritesOrder"
         static let customStationsIndex = "CustomStationsIndex"
         static let customStation = "CustomStation"
+        static let stationListsIndex = "StationListsIndex"
+        static let stationList = "StationList"
         static let preferences = "Preferences"
         static let syncState = "SyncState"
     }
@@ -83,6 +85,7 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
     private enum RecordName {
         static let favoritesOrder = "favorites-order"
         static let customStationsIndex = "custom-stations-index"
+        static let stationListsIndex = "station-lists-index"
         static let preferences = "preferences"
         static let syncState = "sync-state"
     }
@@ -111,6 +114,7 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
         async let favorites = fetchFavorites()
         async let order = fetchFavoritesOrder()
         async let customStations = fetchCustomStations()
+        async let stationLists = fetchStationLists()
         async let preferences = fetchPreferences()
         async let resetAt = fetchResetAt()
 
@@ -118,6 +122,7 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
         return CloudSyncSnapshot(
             favorites: try await favorites,
             customStations: try await customStations,
+            stationLists: try await stationLists,
             theme: remotePreferences.theme,
             themeAccent: remotePreferences.themeAccent,
             locale: remotePreferences.locale,
@@ -146,14 +151,19 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
         recordsToSave.append(makeFavoritesOrderRecord(snapshot.favoritesOrder))
         recordsToSave.append(contentsOf: snapshot.customStations.map(makeCustomStationRecord))
         recordsToSave.append(makeCustomStationsIndexRecord(snapshot.customStations.map(\.id)))
+        recordsToSave.append(contentsOf: snapshot.stationLists.map(makeStationListRecord))
+        recordsToSave.append(makeStationListsIndexRecord(snapshot.stationLists.map(\.id)))
         recordsToSave.append(makePreferencesRecord(snapshot))
 
         let existingFavoriteIDs = try await favoriteRecordIDsFromOrder()
         let existingCustomIDs = try await customStationRecordIDsFromIndex()
+        let existingStationListIDs = try await stationListRecordIDsFromIndex()
         let wantedFavoriteIDs = Set(snapshot.favorites.map { recordID(prefix: "favorite", stationID: $0.id) })
         let wantedCustomIDs = Set(snapshot.customStations.map { recordID(prefix: "custom", stationID: $0.id) })
+        let wantedStationListIDs = Set(snapshot.stationLists.map { recordID(prefix: "station-list", stationID: $0.id) })
         let staleIDs = existingFavoriteIDs.filter { !wantedFavoriteIDs.contains($0) }
             + existingCustomIDs.filter { !wantedCustomIDs.contains($0) }
+            + existingStationListIDs.filter { !wantedStationListIDs.contains($0) }
 
         try await modify(recordsToSave: recordsToSave, recordIDsToDelete: staleIDs)
     }
@@ -161,12 +171,15 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
     func resetAll(resetAt: Date) async throws {
         let favoriteIDs = try await favoriteRecordIDsFromOrder()
         let customIDs = try await customStationRecordIDsFromIndex()
+        let stationListIDs = try await stationListRecordIDsFromIndex()
         let resetRecord = makeSyncStateRecord(resetAt: resetAt)
         let ids = favoriteIDs
             + customIDs
+            + stationListIDs
             + [
                 CKRecord.ID(recordName: RecordName.favoritesOrder),
                 CKRecord.ID(recordName: RecordName.customStationsIndex),
+                CKRecord.ID(recordName: RecordName.stationListsIndex),
                 CKRecord.ID(recordName: RecordName.preferences),
             ]
         try await modify(recordsToSave: [resetRecord], recordIDsToDelete: ids)
@@ -187,6 +200,14 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
 
     private func fetchCustomStations() async throws -> [Station] {
         try await fetchStations(ids: customStationRecordIDsFromIndex())
+    }
+
+    private func fetchStationLists() async throws -> [StationList] {
+        let ids = try await fetchStationListIds()
+        let records = try await fetchRecords(ids: ids.map { recordID(prefix: "station-list", stationID: $0) })
+        let lists = records.compactMap(Self.stationListData)
+        let byID = Dictionary(uniqueKeysWithValues: lists.map { ($0.id, $0) })
+        return ids.compactMap { byID[$0] }
     }
 
     private func fetchPreferences() async throws -> (
@@ -270,10 +291,24 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
         return ids.map { recordID(prefix: "custom", stationID: $0) }
     }
 
+    private func stationListRecordIDsFromIndex() async throws -> [CKRecord.ID] {
+        let ids = try await fetchStationListIds()
+        return ids.map { recordID(prefix: "station-list", stationID: $0) }
+    }
+
     private func fetchCustomStationIds() async throws -> [String] {
         do {
             let record = try await database.record(for: CKRecord.ID(recordName: RecordName.customStationsIndex))
             return record["stationIds"] as? [String] ?? []
+        } catch let error as CKError where error.code == .unknownItem {
+            return []
+        }
+    }
+
+    private func fetchStationListIds() async throws -> [String] {
+        do {
+            let record = try await database.record(for: CKRecord.ID(recordName: RecordName.stationListsIndex))
+            return record["listIds"] as? [String] ?? []
         } catch let error as CKError where error.code == .unknownItem {
             return []
         }
@@ -343,6 +378,20 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
         return record
     }
 
+    private func makeStationListsIndexRecord(_ listIds: [String]) -> CKRecord {
+        let record = CKRecord(recordType: RecordType.stationListsIndex, recordID: CKRecord.ID(recordName: RecordName.stationListsIndex))
+        record["listIds"] = listIds as NSArray
+        return record
+    }
+
+    private func makeStationListRecord(_ list: StationList) -> CKRecord {
+        let record = CKRecord(recordType: RecordType.stationList, recordID: recordID(prefix: "station-list", stationID: list.id))
+        record["listId"] = list.id
+        record["listData"] = encodedStationList(list)
+        record["updatedAt"] = Date()
+        return record
+    }
+
     private func makePreferencesRecord(_ snapshot: CloudSyncSnapshot) -> CKRecord {
         let record = CKRecord(recordType: RecordType.preferences, recordID: CKRecord.ID(recordName: RecordName.preferences))
         record["schemaVersion"] = CloudSyncPreferencesSchema.currentVersion
@@ -377,10 +426,21 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
         return data as NSData
     }
 
+    private func encodedStationList(_ stationList: StationList) -> NSData? {
+        guard let data = try? JSONEncoder().encode(stationList) else { return nil }
+        return data as NSData
+    }
+
     static func stationData(from record: CKRecord) -> Station? {
         let data = (record["stationData"] as? Data) ?? (record["stationData"] as? NSData).map { Data(referencing: $0) }
         guard let data else { return nil }
         return try? JSONDecoder().decode(Station.self, from: data)
+    }
+
+    static func stationListData(from record: CKRecord) -> StationList? {
+        let data = (record["listData"] as? Data) ?? (record["listData"] as? NSData).map { Data(referencing: $0) }
+        guard let data else { return nil }
+        return try? JSONDecoder().decode(StationList.self, from: data)
     }
 
     private func recordID(prefix: String, stationID: String) -> CKRecord.ID {

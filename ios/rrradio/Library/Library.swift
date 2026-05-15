@@ -273,11 +273,17 @@ final class Library {
         onChange?(.stationLists)
     }
 
-    func applyCloudSync(favorites nextFavorites: [Station], customStations nextCustomStations: [Station]) {
+    func applyCloudSync(
+        favorites nextFavorites: [Station],
+        customStations nextCustomStations: [Station],
+        stationLists nextStationLists: [StationList],
+    ) {
         favorites = nextFavorites
         customStations = nextCustomStations
+        stationLists = nextStationLists
         Self.writeStations(favorites, key: Keys.favorites, to: defaults)
         Self.writeStations(customStations, key: Keys.custom, to: defaults)
+        Self.writeStationLists(stationLists, to: defaults)
     }
 
     private func cleanedStationListName(_ name: String) -> String {

@@ -15,6 +15,7 @@ final class CloudSyncMergeTests: XCTestCase {
     private func snapshot(
         favorites: [Station] = [],
         customStations: [Station] = [],
+        stationLists: [StationList] = [],
         theme: String = ThemeController.Choice.system.rawValue,
         themeAccent: String = ThemeController.classicAccentRawValue,
         locale: String = LocaleController.Choice.system.rawValue,
@@ -38,6 +39,7 @@ final class CloudSyncMergeTests: XCTestCase {
         CloudSyncSnapshot(
             favorites: favorites,
             customStations: customStations,
+            stationLists: stationLists,
             theme: theme,
             themeAccent: themeAccent,
             locale: locale,
@@ -128,6 +130,34 @@ final class CloudSyncMergeTests: XCTestCase {
 
         XCTAssertEqual(merged.customStations.map(\.id), ["custom-a", "custom-b"])
         XCTAssertEqual(merged.customStations.first?.name, "New")
+    }
+
+    func testStationListsRestoreInRemoteOrder() {
+        let first = StationList(id: "list-a", name: "A", stations: [station("a")])
+        let second = StationList(id: "list-b", name: "B", stations: [station("b")])
+        let merged = CloudSyncMerge.merged(
+            local: snapshot(),
+            remote: snapshot(stationLists: [second, first]),
+        )
+
+        XCTAssertEqual(merged.stationLists.map(\.id), ["list-b", "list-a"])
+        XCTAssertEqual(merged.stationLists.first?.stations.map(\.id), ["b"])
+    }
+
+    func testStationListsMergeByIdAndKeepLocalOnlyLists() {
+        let localShared = StationList(id: "shared", name: "Old", stations: [station("old")])
+        let localOnly = StationList(id: "local", name: "Local", stations: [station("local")])
+        let remoteShared = StationList(id: "shared", name: "New", stations: [station("new")])
+        let remoteOnly = StationList(id: "remote", name: "Remote", stations: [station("remote")])
+
+        let merged = CloudSyncMerge.merged(
+            local: snapshot(stationLists: [localShared, localOnly]),
+            remote: snapshot(stationLists: [remoteShared, remoteOnly]),
+        )
+
+        XCTAssertEqual(merged.stationLists.map(\.id), ["shared", "remote", "local"])
+        XCTAssertEqual(merged.stationLists.first?.name, "New")
+        XCTAssertEqual(merged.stationLists.first?.stations.map(\.id), ["new"])
     }
 
     func testMissingRemotePreferencesKeepLocalSettings() {

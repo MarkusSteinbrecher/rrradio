@@ -95,6 +95,9 @@ types in the Development environment:
 - `FavoritesOrder`: `stationIds` List<String>.
 - `CustomStationsIndex`: `stationIds` List<String>.
 - `CustomStation`: `stationId` String, `stationData` Bytes.
+- `StationListsIndex`: `listIds` List<String>.
+- `StationList`: `listId` String, `listData` Bytes, `updatedAt`
+  Date/Time.
 - `Preferences`: `schemaVersion` Int64, `updatedAt` Date/Time,
   `theme` String, `themeAccent` String (`classic` or `#RRGGBB`), `locale` String,
   `sleepTimerDefaultMinutes` Int64, `landingPage` String,
@@ -119,8 +122,9 @@ For fresh-install restore checks, verify the private database in the
 same CloudKit environment the installed build reads. Debug/device builds
 normally use Development; TestFlight and App Store builds use
 Production. In that environment, confirm the expected `Favorite`,
-`FavoritesOrder`, `CustomStation`, `CustomStationsIndex`, `Preferences`,
-and `SyncState` records exist before deleting and reinstalling the app.
+`FavoritesOrder`, `CustomStation`, `CustomStationsIndex`, `StationList`,
+`StationListsIndex`, `Preferences`, and `SyncState` records exist before
+deleting and reinstalling the app.
 
 ### CloudKit settings compatibility
 

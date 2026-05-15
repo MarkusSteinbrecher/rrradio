@@ -10,9 +10,11 @@ final class CloudSyncControllerTests: XCTestCase {
         let favoriteA = station("remote-a")
         let favoriteB = station("remote-b")
         let custom = station("custom-a", name: "Custom A")
+        let stationList = StationList(id: "list-a", name: "Morning", stations: [favoriteA, custom])
         let remote = snapshot(
             favorites: [favoriteA, favoriteB],
             customStations: [custom],
+            stationLists: [stationList],
             theme: ThemeController.Choice.dark.rawValue,
             themeAccent: "#0A84FF",
             locale: LocaleController.Choice.german.rawValue,
@@ -38,6 +40,8 @@ final class CloudSyncControllerTests: XCTestCase {
 
         XCTAssertEqual(dependencies.library.favorites.map(\.id), [favoriteB.id, favoriteA.id])
         XCTAssertEqual(dependencies.library.customStations.map(\.id), [custom.id])
+        XCTAssertEqual(dependencies.library.stationLists.map(\.id), [stationList.id])
+        XCTAssertEqual(dependencies.library.stationLists.first?.stations.map(\.id), [favoriteA.id, custom.id])
         XCTAssertEqual(dependencies.theme.choice, .dark)
         XCTAssertEqual(dependencies.theme.accentRawValue, "#0A84FF")
         XCTAssertEqual(dependencies.locale.choice, .german)
@@ -56,17 +60,31 @@ final class CloudSyncControllerTests: XCTestCase {
         XCTAssertEqual(dependencies.listeningHistory.retention, .forever)
         XCTAssertEqual(
             dependencies.controller.diagnosticState,
-            .restored(.init(favorites: 2, customStations: 1, hasPreferences: true)),
+            .restored(.init(favorites: 2, customStations: 1, stationLists: 1, hasPreferences: true)),
         )
 
         let saved = await store.savedSnapshots()
         XCTAssertEqual(saved.count, 1)
         XCTAssertEqual(saved.first?.favorites.map(\.id), [favoriteB.id, favoriteA.id])
         XCTAssertEqual(saved.first?.customStations.map(\.id), [custom.id])
+        XCTAssertEqual(saved.first?.stationLists.map(\.id), [stationList.id])
         XCTAssertEqual(saved.first?.favoritesDisplayMode, FavoritesDisplayMode.tiles.rawValue)
         XCTAssertEqual(saved.first?.themeAccent, "#0A84FF")
         XCTAssertEqual(saved.first?.favoritesDisplayModeOrder, "app,tiles,list")
         XCTAssertEqual(saved.first?.favoritesDisplayModeVisible, "app,tiles")
+    }
+
+    func testStationListChangesArePushedToCloud() async throws {
+        let defaults = makeDefaults()
+        let store = FakeCloudSyncStore(snapshot: .empty)
+        let dependencies = makeDependencies(defaults: defaults, store: store)
+        let stationA = station("station-a")
+
+        let list = dependencies.library.createStationList(name: "Road", stations: [stationA])
+
+        let saved = await waitForSavedSnapshot(in: store)
+        XCTAssertEqual(saved?.stationLists.map(\.id), [list.id])
+        XCTAssertEqual(saved?.stationLists.first?.stations.map(\.id), [stationA.id])
     }
 
     func testEmptyFreshInstallDoesNotUploadLocalDefaults() async throws {
@@ -147,9 +165,18 @@ final class CloudSyncControllerTests: XCTestCase {
         validRecord["stationData"] = try JSONEncoder().encode(valid) as NSData
         XCTAssertEqual(CloudKitSyncStore.stationData(from: validRecord)?.id, valid.id)
 
+        let validList = StationList(id: "list-valid", name: "Valid", stations: [valid])
+        let validListRecord = CKRecord(recordType: "StationList", recordID: CKRecord.ID(recordName: "station-list-valid"))
+        validListRecord["listData"] = try JSONEncoder().encode(validList) as NSData
+        XCTAssertEqual(CloudKitSyncStore.stationListData(from: validListRecord)?.id, validList.id)
+
         let legacyRecord = CKRecord(recordType: "Favorite", recordID: CKRecord.ID(recordName: "favorite-legacy"))
         legacyRecord["stationData"] = Data(#"{"id":"legacy"}"#.utf8) as NSData
         XCTAssertNil(CloudKitSyncStore.stationData(from: legacyRecord))
+
+        let legacyListRecord = CKRecord(recordType: "StationList", recordID: CKRecord.ID(recordName: "station-list-legacy"))
+        legacyListRecord["listData"] = Data(#"{"id":"legacy"}"#.utf8) as NSData
+        XCTAssertNil(CloudKitSyncStore.stationListData(from: legacyListRecord))
     }
 
     func testCloudSyncPreferencesSchemaVersionIsExplicit() {
@@ -213,6 +240,16 @@ final class CloudSyncControllerTests: XCTestCase {
             .appendingPathComponent("CloudSyncControllerTests-\(UUID().uuidString).json")
     }
 
+    private func waitForSavedSnapshot(in store: FakeCloudSyncStore) async -> CloudSyncSnapshot? {
+        for _ in 0..<20 {
+            if let saved = await store.savedSnapshots().last {
+                return saved
+            }
+            try? await Task.sleep(nanoseconds: 100_000_000)
+        }
+        return nil
+    }
+
     private func station(_ id: String, name: String? = nil) -> Station {
         Station(
             id: id,
@@ -226,6 +263,7 @@ final class CloudSyncControllerTests: XCTestCase {
     private func snapshot(
         favorites: [Station] = [],
         customStations: [Station] = [],
+        stationLists: [StationList] = [],
         theme: String = ThemeController.Choice.system.rawValue,
         themeAccent: String = ThemeController.classicAccentRawValue,
         locale: String = LocaleController.Choice.system.rawValue,
@@ -249,6 +287,7 @@ final class CloudSyncControllerTests: XCTestCase {
         CloudSyncSnapshot(
             favorites: favorites,
             customStations: customStations,
+            stationLists: stationLists,
             theme: theme,
             themeAccent: themeAccent,
             locale: locale,

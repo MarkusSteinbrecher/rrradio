@@ -15,6 +15,7 @@ final class CloudSyncController {
     struct SnapshotSummary: Equatable {
         let favorites: Int
         let customStations: Int
+        let stationLists: Int
         let hasPreferences: Bool
     }
 
@@ -87,7 +88,7 @@ final class CloudSyncController {
         self.diagnostics = diagnostics
 
         library.onChange = { [weak self] change in
-            guard change == .favorites || change == .customStations else { return }
+            guard change == .favorites || change == .customStations || change == .stationLists else { return }
             Task { @MainActor in self?.schedulePush() }
         }
         theme.onChange = { [weak self] in
@@ -254,6 +255,7 @@ final class CloudSyncController {
         SnapshotSummary(
             favorites: snapshot.favorites.count,
             customStations: snapshot.customStations.count,
+            stationLists: snapshot.stationLists.count,
             hasPreferences: snapshot.hasPreferences,
         )
     }
@@ -295,6 +297,7 @@ final class CloudSyncController {
         CloudSyncSnapshot(
             favorites: library?.favorites ?? [],
             customStations: library?.customStations ?? [],
+            stationLists: library?.stationLists ?? [],
             theme: theme?.choice.rawValue ?? ThemeController.Choice.system.rawValue,
             themeAccent: theme?.accentRawValue ?? ThemeController.classicAccentRawValue,
             locale: locale?.choice.rawValue ?? LocaleController.Choice.system.rawValue,
@@ -327,7 +330,11 @@ final class CloudSyncController {
     }
 
     private func apply(snapshot: CloudSyncSnapshot) {
-        library?.applyCloudSync(favorites: snapshot.favorites, customStations: snapshot.customStations)
+        library?.applyCloudSync(
+            favorites: snapshot.favorites,
+            customStations: snapshot.customStations,
+            stationLists: snapshot.stationLists,
+        )
         if let choice = ThemeController.Choice(rawValue: snapshot.theme) {
             theme?.applyCloudSync(choice)
         }

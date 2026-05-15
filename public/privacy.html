@@ -111,10 +111,10 @@
     <div class="crumbs"><a href="/">rrradio.org</a> · privacy</div>
 
     <h1>Privacy</h1>
-    <div class="meta">Effective 2026-05-02 · Last updated 2026-05-10</div>
+    <div class="meta">Effective 2026-05-02 · Last updated 2026-05-15</div>
 
     <div class="tldr">
-      <p><strong>Short version.</strong> rrradio doesn't ask for your name, email, or any account. The web app uses cookieless privacy-friendly analytics to count plays per station. Both the web and iOS apps can send an anonymous broken-station report only when you tap the report button. Favorites and recents stay on your device. When you play a station, your device connects directly to that broadcaster's server — same as opening their URL in a browser — so their privacy policy governs that connection.</p>
+      <p><strong>Short version.</strong> rrradio doesn't ask for your name, email, or any account. The web app uses cookieless privacy-friendly analytics to count plays per station. Both the web and iOS apps can send an anonymous broken-station report only when you tap the report button. Web favorites and recents stay in your browser. On iOS, iCloud Sync can privately store your favorites, station lists, added stations, and app preferences in your own iCloud account; recents, listening-history records, and diagnostics stay on device. When you play a station, your device connects directly to that broadcaster's server — same as opening their URL in a browser — so their privacy policy governs that connection.</p>
     </div>
 
     <h2>Who runs this</h2>
@@ -140,14 +140,15 @@
     <h2>What stays on your device</h2>
     <p>The following are stored locally and never sent to any server we control:</p>
     <ul>
-      <li>Stations you mark as favorites.</li>
+      <li>Stations you mark as favorites. On iOS, if iCloud Sync is enabled, favorites are also stored in your private iCloud database so they can restore after reinstall.</li>
+      <li>Station lists and stations you add yourself. On iOS, if iCloud Sync is enabled, these are also stored in your private iCloud database so they can restore after reinstall.</li>
       <li>Recently played stations.</li>
-      <li>Theme preference, volume, sleep-timer settings, custom-station URLs you add yourself.</li>
+      <li>Theme preference, accent color, volume, sleep-timer settings, landing-page choice, favorites-view layout, language choice, wake-default preference, and car-mode preference. On iOS, if iCloud Sync is enabled, these app preferences are also stored in your private iCloud database.</li>
       <li>Wake alarm settings and any Shortcuts automation you create for scheduled playback.</li>
       <li>iOS listening history, if you enable it in Settings. The default retention is 90 days; you can choose 30 days, 1 year, or forever, export it, or clear it from the app.</li>
       <li>iOS diagnostics, only if you turn on Collect Diagnostics; capped to the last 100 events and 14 days.</li>
     </ul>
-    <p>On the web this lives in your browser's <code>localStorage</code>; on iOS in the app's local storage. Clearing your browser's site data (web) or deleting the app (iOS) wipes it instantly.</p>
+    <p>On the web this lives in your browser's <code>localStorage</code>; on iOS in the app's local storage, with the iCloud Sync exception described above. Clearing your browser's site data (web) wipes the web copy. Deleting the iOS app wipes on-device data; synced iCloud data remains available for restore until you remove it from the app's iCloud Sync settings.</p>
     <p>The iOS wake-to-radio guide explains why reliable autoplay uses Apple's Shortcuts automation system: <a href="https://github.com/MarkusSteinbrecher/rrradio/blob/main/docs/wake-to-radio.md">Wake-to-radio reliability guide</a>.</p>
 
     <h2>Connections to broadcaster servers</h2>
@@ -179,6 +180,7 @@
       <li><strong>GoatCounter aggregate counts</strong> — kept indefinitely. They're not personal data; they're "rrradio.org received N visits" and "&lt;station X&gt; was played M times".</li>
       <li><strong>Cloudflare Worker access logs</strong> — per Cloudflare's defaults, typically 24 hours to a few days. We don't write our own logs on top of that.</li>
       <li><strong>On-device data</strong> — stays as long as you keep the app installed or haven't cleared site data.</li>
+      <li><strong>iOS iCloud Sync data</strong> — favorites, station lists, added stations, and app preferences stay in your private iCloud database until you remove rrradio data from iCloud or disable/delete it through Apple's iCloud controls.</li>
       <li><strong>iOS diagnostics</strong> — off by default; when enabled, capped to 100 events and pruned after 14 days. Turning it off clears the local diagnostic log.</li>
       <li><strong>iOS listening history</strong> — off by default; when enabled, kept for your selected retention window (30 days, 90 days by default, 1 year, or forever) until you clear it or delete the app.</li>
     </ul>

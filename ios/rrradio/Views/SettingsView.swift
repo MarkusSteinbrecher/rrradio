@@ -236,7 +236,7 @@ private struct SettingsPageView: View {
                 Task { await cloudSync.removeAllCloudData() }
             }
         } message: {
-            Text("This clears synced rrradio favorites, custom stations, and preferences from iCloud. iCloud-enabled devices will converge to an empty synced library.")
+            Text("This clears synced rrradio favorites, station lists, custom stations, and preferences from iCloud. iCloud-enabled devices will converge to an empty synced library.")
         }
         .onAppear(perform: syncAccentHexDraft)
         .onChange(of: theme.accentRawValue) { _, _ in
@@ -256,7 +256,7 @@ private struct SettingsPageView: View {
                         .foregroundStyle(cloudSync.availability == .available ? RrradioTheme.accent : RrradioTheme.ink3)
                         .frame(width: 22)
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("Sync favorites with iCloud")
+                        Text("Sync library and settings with iCloud")
                             .font(.system(size: 15, weight: .medium))
                             .foregroundStyle(RrradioTheme.ink)
                         Text(cloudSyncDetail)
@@ -400,7 +400,7 @@ private struct SettingsPageView: View {
         case let .unavailable(message):
             return message
         case .emptyRemote:
-            return "iCloud is available, but no rrradio favorites, custom stations, or preferences are stored yet."
+            return "iCloud is available, but no rrradio favorites, station lists, custom stations, or preferences are stored yet."
         case let .restored(summary):
             return "Restored \(cloudSyncSummary(summary)) from iCloud.\(cloudSyncLastSyncSuffix)"
         case let .synced(summary):
@@ -408,9 +408,9 @@ private struct SettingsPageView: View {
         case let .pushed(summary):
             return "Uploaded \(cloudSyncSummary(summary)) to iCloud.\(cloudSyncLastSyncSuffix)"
         case .resetApplied:
-            return "Applied a cloud reset. Local synced favorites, custom stations, and preferences were cleared."
+            return "Applied a cloud reset. Local synced favorites, station lists, custom stations, and preferences were cleared."
         case .removedCloudData:
-            return "Removed rrradio favorites, custom stations, and preferences from iCloud."
+            return "Removed rrradio favorites, station lists, custom stations, and preferences from iCloud."
         case let .failed(message):
             return message
         case .idle:
@@ -421,9 +421,9 @@ private struct SettingsPageView: View {
             return "Checking iCloud availability..."
         case .available:
             if let lastSync = cloudSync.lastSync {
-                return "Favorites, custom stations, and preferences sync privately through iCloud. Last sync: \(lastSync.formatted(date: .omitted, time: .shortened))."
+                return "Favorites, station lists, custom stations, and preferences sync privately through iCloud. Last sync: \(lastSync.formatted(date: .omitted, time: .shortened))."
             }
-            return "Favorites, custom stations, and preferences sync privately through iCloud."
+            return "Favorites, station lists, custom stations, and preferences sync privately through iCloud."
         case let .unavailable(message):
             return message
         }
@@ -436,7 +436,7 @@ private struct SettingsPageView: View {
 
     private func cloudSyncSummary(_ summary: CloudSyncController.SnapshotSummary) -> String {
         let preferences = summary.hasPreferences ? "preferences" : "no preferences"
-        return "\(summary.favorites) \(summary.favorites == 1 ? "favorite" : "favorites"), \(summary.customStations) custom \(summary.customStations == 1 ? "station" : "stations"), and \(preferences)"
+        return "\(summary.favorites) \(summary.favorites == 1 ? "favorite" : "favorites"), \(summary.stationLists) \(summary.stationLists == 1 ? "list" : "lists"), \(summary.customStations) custom \(summary.customStations == 1 ? "station" : "stations"), and \(preferences)"
     }
 
     private var diagnosticsSection: some View {
