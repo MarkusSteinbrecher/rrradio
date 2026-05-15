@@ -176,6 +176,40 @@ describe('aggregateDashboard — per-country daily series', () => {
   });
 });
 
+describe('aggregateDashboard — daily-visits trend', () => {
+  it('passes through the daily-visits series when it matches the window', () => {
+    const d = aggregateDashboard(
+      [],
+      [],
+      catalog,
+      undefined,
+      ['d1', 'd2', 'd3'],
+      [10, 20, 30],
+    );
+    expect(d.dailyVisits).toEqual([10, 20, 30]);
+  });
+
+  it('drops a daily-visits series whose length disagrees with the window', () => {
+    // Defensive: the trend series comes from a separate worker call
+    // (/api/public/totals). If it somehow returns a different window
+    // size than top-stations, drop it rather than line up off-by-one.
+    const d = aggregateDashboard(
+      [],
+      [],
+      catalog,
+      undefined,
+      ['d1', 'd2', 'd3'],
+      [10, 20], // wrong length
+    );
+    expect(d.dailyVisits).toEqual([]);
+  });
+
+  it('returns an empty trend when the worker omitted the daily series', () => {
+    const d = aggregateDashboard([], [], catalog);
+    expect(d.dailyVisits).toEqual([]);
+  });
+});
+
 describe('activeCountryMap', () => {
   const d: DashboardData = {
     totalPlays: 0,
@@ -184,6 +218,7 @@ describe('activeCountryMap', () => {
     byStationCountry: new Map([['DE', 50]]),
     byStationCountrySeries: new Map(),
     days: [],
+    dailyVisits: [],
   };
 
   it('returns listener map when view is "listeners"', () => {

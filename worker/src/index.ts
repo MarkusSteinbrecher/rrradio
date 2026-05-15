@@ -461,10 +461,29 @@ export default {
         // PII to redact in the first place. GoatCounter `/stats/total`
         // returns aggregate visit + event counts only. Used by the
         // public stats sheet so it matches the admin dashboard's headline
-        // numbers (which default to 7-day windows).
+        // numbers (which default to 7-day windows). Also returns a
+        // `daily` series (pageviews per day, oldest → newest, aligned
+        // to `days`) so the dashboard can show a 7-day visit trend
+        // line. GoatCounter has no per-day total endpoint, so we sum
+        // non-event hits from /stats/hits as the trend proxy. Events
+        // (play:, favorite:, …) are excluded to stay aligned with the
+        // `total` field's "visits" semantic.
         if (url.pathname === '/api/public/totals') {
-          const t = await totals(days, env);
-          return new Response(JSON.stringify(t), {
+          const [t, hits] = await Promise.all([
+            totals(days, env),
+            tolerate(() => fetchAllHits(days, env), [] as GcHit[]),
+          ]);
+          const trendDays = rangeDays(days);
+          const dayIndex = new Map(trendDays.map((d, i) => [d, i]));
+          const daily = new Array<number>(trendDays.length).fill(0);
+          for (const h of hits) {
+            if (h.event) continue;
+            for (const s of h.stats ?? []) {
+              const idx = dayIndex.get(s.day);
+              if (idx !== undefined) daily[idx] += s.daily;
+            }
+          }
+          return new Response(JSON.stringify({ ...t, daily, days: trendDays }), {
             status: 200,
             headers: {
               'Content-Type': 'application/json; charset=utf-8',

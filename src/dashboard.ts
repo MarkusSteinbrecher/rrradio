@@ -37,6 +37,12 @@ export interface PublicTotals {
   total?: number;
   total_events?: number;
   range_days?: number;
+  /** Per-day pageview count, oldest → newest, aligned to `days`.
+   *  Used as the trend signal on the Listeners view, where
+   *  GoatCounter offers no per-country daily breakdown. */
+  daily?: number[];
+  /** Day labels (YYYY-MM-DD) matching `daily`. */
+  days?: string[];
 }
 
 /** Which country map drives the table + map view. The "Listeners"
@@ -59,6 +65,11 @@ export interface DashboardData {
   /** Day labels (YYYY-MM-DD), oldest → newest. Empty when the worker
    *  didn't supply a daily series. */
   days: string[];
+  /** Site-wide pageviews per day, oldest → newest, aligned to `days`.
+   *  Empty when /api/public/totals didn't return a daily series. Used
+   *  as the Listeners-view trend line — GoatCounter doesn't break
+   *  visits down per country, so every row shares the same trend. */
+  dailyVisits: number[];
 }
 
 /** Roll up the three Worker payloads into the dashboard's view model.
@@ -74,6 +85,7 @@ export function aggregateDashboard(
   catalog: Station[],
   playsTotal?: number,
   days: string[] = [],
+  dailyVisits: number[] = [],
 ): DashboardData {
   let summedPlays = 0;
   let totalStations = 0;
@@ -120,6 +132,10 @@ export function aggregateDashboard(
     byStationCountry,
     byStationCountrySeries,
     days,
+    // Only adopt the daily-visits series when it matches the same
+    // window the rest of the dashboard is on — keeps render code from
+    // having to detect/skip a mismatched-length array.
+    dailyVisits: dailyVisits.length === days.length ? dailyVisits : [],
   };
 }
 
