@@ -111,6 +111,12 @@ final class AudioPlayer {
     /// is in-flight or hasn't run. Drives the visibility of the
     /// Apple Music / Spotify / YT Music buttons in NowPlayingView.
     private(set) var nowPlayingTrackVerified: Bool?
+    /// Universal-link URL to the exact song on Apple Music, surfaced
+    /// from the iTunes Search response (`trackViewUrl` field) when a
+    /// match is found. `UIApplication.open(_:)` on this URL launches
+    /// the Apple Music app directly to the song; without it the
+    /// button falls back to a generic Apple Music search URL.
+    private(set) var nowPlayingAppleMusicUrl: URL?
     private(set) var nowPlayingProgramName: String?
     private(set) var nowPlayingProgramSubtitle: String?
     private(set) var nowPlayingCoverUrl: URL?
@@ -218,6 +224,7 @@ final class AudioPlayer {
         nowPlayingTitle = nil
         nowPlayingArtist = nil
         nowPlayingTrackVerified = nil
+        nowPlayingAppleMusicUrl = nil
         nowPlayingProgramName = nil
         nowPlayingProgramSubtitle = nil
         nowPlayingCoverUrl = nil
@@ -314,6 +321,7 @@ final class AudioPlayer {
         nowPlayingTitle = nil
         nowPlayingArtist = nil
         nowPlayingTrackVerified = nil
+        nowPlayingAppleMusicUrl = nil
         nowPlayingProgramName = nil
         nowPlayingProgramSubtitle = nil
         nowPlayingCoverUrl = nil
@@ -1065,6 +1073,7 @@ final class AudioPlayer {
         // NowPlayingView gate is `=== true`, so `nil` hides the
         // buttons until the iTunes result arrives.
         nowPlayingTrackVerified = nil
+        nowPlayingAppleMusicUrl = nil
 
         let wantsCoverUpgrade =
             sourceCoverUrl == nil || sourceCoverUrl.map(isLowResolutionCoverURL) == true
@@ -1075,6 +1084,7 @@ final class AudioPlayer {
             await MainActor.run { [weak self] in
                 guard let self, self.coverArtKey == key else { return }
                 self.nowPlayingTrackVerified = result.hit
+                self.nowPlayingAppleMusicUrl = result.appleMusicUrl
                 if wantsCoverUpgrade, let cover = result.cover {
                     self.nowPlayingCoverUrl = cover
                     diagnosticRecord(
@@ -1094,6 +1104,7 @@ final class AudioPlayer {
         coverArtTask = nil
         coverArtKey = ""
         nowPlayingTrackVerified = nil
+        nowPlayingAppleMusicUrl = nil
     }
 
     private func cleanLyricsComponent(_ value: String?) -> String? {

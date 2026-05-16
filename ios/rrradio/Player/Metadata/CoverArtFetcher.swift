@@ -11,23 +11,35 @@ private struct ITunesTrack: Decodable {
     let artistName: String
     let trackName: String
     let artworkUrl100: String?
+    /// Apple's universal-link URL for the song, e.g.
+    /// `https://music.apple.com/us/album/song-name/123?i=987`.
+    /// Opening it via `UIApplication.open(_:)` deep-links to the
+    /// Apple Music app when installed and falls back to the
+    /// browser-based player otherwise — no MusicKit entitlement
+    /// or auth required. Populated by every iTunes Search "song"
+    /// entity hit; we keep it Optional defensively.
+    let trackViewUrl: String?
 }
 
 /// Outcome of an iTunes Search call. `hit` mirrors `resultCount > 0`
 /// and is the signal NowPlayingView uses to decide whether to surface
 /// Apple Music / Spotify / YT Music buttons. `cover` is set only when
 /// the best match also carries 100×100 artwork (which we upgrade to
-/// 600×600 for retina rendering).
+/// 600×600 for retina rendering). `appleMusicUrl` is the deep link
+/// to the exact song on the best match — when present, callers can
+/// open Apple Music directly to the song rather than a search page.
 public struct ITunesSearchResult: Equatable {
     public let hit: Bool
     public let cover: URL?
+    public let appleMusicUrl: URL?
 
-    public init(hit: Bool, cover: URL? = nil) {
+    public init(hit: Bool, cover: URL? = nil, appleMusicUrl: URL? = nil) {
         self.hit = hit
         self.cover = cover
+        self.appleMusicUrl = appleMusicUrl
     }
 
-    public static let miss = ITunesSearchResult(hit: false, cover: nil)
+    public static let miss = ITunesSearchResult(hit: false, cover: nil, appleMusicUrl: nil)
 }
 
 private actor ITunesSearchCache {
@@ -92,7 +104,8 @@ func searchITunes(
         let hit = decoded.resultCount > 0
         let best = hit ? pickBestCoverArtMatch(decoded.results, artist: artist, title: cleanedTitle) : nil
         let cover = best?.artworkUrl100.flatMap(highResolutionITunesArtworkURL)
-        let result = ITunesSearchResult(hit: hit, cover: cover)
+        let appleMusicUrl = best?.trackViewUrl.flatMap(URL.init(string:))
+        let result = ITunesSearchResult(hit: hit, cover: cover, appleMusicUrl: appleMusicUrl)
         await ITunesSearchCache.shared.set(result, for: key)
         return result
     } catch {
