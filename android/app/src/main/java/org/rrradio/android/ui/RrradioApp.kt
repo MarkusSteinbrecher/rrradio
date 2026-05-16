@@ -93,6 +93,7 @@ import coil3.compose.AsyncImage
 import org.rrradio.android.R
 import org.rrradio.android.data.AccentPreference
 import org.rrradio.android.data.AppThemePreference
+import org.rrradio.android.data.BrowseStationSort
 import org.rrradio.android.data.CatalogLoadState
 import org.rrradio.android.data.LandingPagePreference
 import org.rrradio.android.data.LibraryRepository
@@ -101,6 +102,7 @@ import org.rrradio.android.data.PlayerState
 import org.rrradio.android.data.Station
 import org.rrradio.android.data.StationList
 import org.rrradio.android.data.countryDisplayName
+import org.rrradio.android.data.displayName
 import org.rrradio.android.ui.theme.rrradioAccentColor
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -176,6 +178,9 @@ fun RrradioApp(
                 onTag = actions::setTag,
                 onLibrarySource = actions::setLibrarySource,
                 onFavoritesDisplayMode = actions::setFavoritesDisplayMode,
+                onCycleAlphabetSort = actions::cycleAlphabetSort,
+                onCycleQualitySort = actions::cycleQualitySort,
+                onCycleFavoriteSort = actions::cycleFavoriteSort,
                 onBeginStationSelection = actions::beginStationSelection,
                 onCreateStationList = {
                     createListFromSelection = false
@@ -301,7 +306,7 @@ fun RrradioApp(
         AlertDialog(
             onDismissRequest = { customStationPendingDelete = null },
             title = { Text("Delete station?") },
-            text = { Text("Remove ${station.name} from your custom stations.") },
+            text = { Text("Remove ${station.displayName()} from your custom stations.") },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -356,6 +361,9 @@ private fun Header(
     onTag: (String?) -> Unit,
     onLibrarySource: (LibrarySource) -> Unit,
     onFavoritesDisplayMode: (FavoritesDisplayMode) -> Unit,
+    onCycleAlphabetSort: () -> Unit,
+    onCycleQualitySort: () -> Unit,
+    onCycleFavoriteSort: () -> Unit,
     onBeginStationSelection: () -> Unit,
     onCreateStationList: () -> Unit,
 ) {
@@ -423,7 +431,15 @@ private fun Header(
 
         when (state.tab) {
             AppTab.StationLists -> StationListsToolbar(state)
-            AppTab.Browse -> BrowseFilters(state, onCountry, onTag, onLibrarySource)
+            AppTab.Browse -> BrowseFilters(
+                state = state,
+                onCountry = onCountry,
+                onTag = onTag,
+                onLibrarySource = onLibrarySource,
+                onCycleAlphabetSort = onCycleAlphabetSort,
+                onCycleQualitySort = onCycleQualitySort,
+                onCycleFavoriteSort = onCycleFavoriteSort,
+            )
             AppTab.Favorites -> FavoritesDisplayModeSelector(
                 selected = state.favoritesDisplayMode,
                 onSelected = onFavoritesDisplayMode,
@@ -814,6 +830,9 @@ private fun BrowseFilters(
     onCountry: (String?) -> Unit,
     onTag: (String?) -> Unit,
     onLibrarySource: (LibrarySource) -> Unit,
+    onCycleAlphabetSort: () -> Unit,
+    onCycleQualitySort: () -> Unit,
+    onCycleFavoriteSort: () -> Unit,
 ) {
     var countryOpen by remember { mutableStateOf(false) }
     var genreOpen by remember { mutableStateOf(false) }
@@ -904,6 +923,37 @@ private fun BrowseFilters(
                         onCountry(null)
                         onTag(null)
                     },
+                )
+            }
+        }
+        if (state.librarySource == LibrarySource.Favorites) {
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState()),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                BrowseSortChip(
+                    label = alphabetSortLabel(state.browseStationSort),
+                    icon = Icons.Rounded.KeyboardArrowDown,
+                    active = state.browseStationSort == BrowseStationSort.AlphabetAscending ||
+                        state.browseStationSort == BrowseStationSort.AlphabetDescending,
+                    onClick = onCycleAlphabetSort,
+                )
+                BrowseSortChip(
+                    label = qualitySortLabel(state.browseStationSort),
+                    icon = Icons.Rounded.BarChart,
+                    active = state.browseStationSort == BrowseStationSort.QualityLow ||
+                        state.browseStationSort == BrowseStationSort.QualityHigh,
+                    onClick = onCycleQualitySort,
+                )
+                BrowseSortChip(
+                    label = favoriteSortLabel(state.browseStationSort),
+                    icon = Icons.Rounded.Favorite,
+                    active = state.browseStationSort == BrowseStationSort.FavoritesFirst ||
+                        state.browseStationSort == BrowseStationSort.FavoritesLast,
+                    onClick = onCycleFavoriteSort,
                 )
             }
         }
@@ -1110,6 +1160,61 @@ private fun SegmentButton(
 }
 
 @Composable
+private fun BrowseSortChip(
+    label: String,
+    icon: ImageVector,
+    active: Boolean,
+    onClick: () -> Unit,
+) {
+    Row(
+        Modifier
+            .clip(CircleShape)
+            .background(if (active) MaterialTheme.colorScheme.primary.copy(alpha = 0.18f) else Color.Transparent)
+            .border(
+                BorderStroke(
+                    1.dp,
+                    if (active) MaterialTheme.colorScheme.primary.copy(alpha = 0.54f) else MaterialTheme.colorScheme.outline,
+                ),
+                CircleShape,
+            )
+            .clickable(onClick = onClick)
+            .padding(horizontal = 11.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(7.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            icon,
+            contentDescription = null,
+            tint = if (active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.size(15.dp),
+        )
+        Text(
+            label,
+            color = if (active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Medium,
+        )
+    }
+}
+
+private fun alphabetSortLabel(sort: BrowseStationSort?): String = when (sort) {
+    BrowseStationSort.AlphabetDescending -> "Z-A"
+    else -> "A-Z"
+}
+
+private fun qualitySortLabel(sort: BrowseStationSort?): String = when (sort) {
+    BrowseStationSort.QualityLow -> "Quality low"
+    BrowseStationSort.QualityHigh -> "Quality high"
+    else -> "Quality"
+}
+
+private fun favoriteSortLabel(sort: BrowseStationSort?): String = when (sort) {
+    BrowseStationSort.FavoritesFirst -> "Favorites first"
+    BrowseStationSort.FavoritesLast -> "Favorites last"
+    else -> "Favorites"
+}
+
+@Composable
 private fun SectionStatus(state: RrradioUiState) {
     val selectedList = state.selectedStationList
     val label = when {
@@ -1194,8 +1299,8 @@ private fun StationContent(
 
         state.visibleStations.isEmpty() -> {
             EmptyState(
-                title = "No stations found",
-                description = "Try a station name, country code, or tag.",
+                title = emptyStateTitle(state),
+                description = emptyStateDescription(state),
             )
         }
 
@@ -1520,7 +1625,7 @@ private fun FavoriteTile(
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text(
-                    station.name,
+                    station.displayName(),
                     color = MaterialTheme.colorScheme.onBackground,
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Medium,
@@ -1598,7 +1703,7 @@ private fun FavoriteAppIcon(
             }
         }
         Text(
-            station.name,
+            station.displayName(),
             color = MaterialTheme.colorScheme.onBackground,
             fontSize = 10.5.sp,
             fontWeight = FontWeight.Medium,
@@ -1620,7 +1725,7 @@ private fun AppLogo(station: Station) {
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            initials(station.name),
+            initials(station.displayName()),
             color = MaterialTheme.colorScheme.primary,
             fontSize = 16.sp,
             fontWeight = FontWeight.SemiBold,
@@ -1628,7 +1733,7 @@ private fun AppLogo(station: Station) {
         )
         ResolvedAsyncImage(
             url = station.favicon,
-            contentDescription = station.name,
+            contentDescription = station.displayName(),
             modifier = Modifier.matchParentSize(),
             contentScale = ContentScale.Crop,
         )
@@ -1668,7 +1773,7 @@ private fun StationRow(
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(5.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text(
-                    station.name,
+                    station.displayName(),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     color = if (isCurrent) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground,
@@ -1888,7 +1993,7 @@ private fun MiniPlayer(
             )
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Text(
-                    playback.station?.name.orEmpty(),
+                    playback.station?.displayName().orEmpty(),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.colorScheme.onBackground,
@@ -1995,7 +2100,7 @@ private fun NowPlayingSheet(
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 StationAvatar(station, size = 46, imageUrl = station.favicon)
                 Text(
-                    station.name,
+                    station.displayName(),
                     color = MaterialTheme.colorScheme.onBackground,
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Medium,
@@ -2360,7 +2465,7 @@ private fun StationAvatar(
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            initials(station?.name.orEmpty()),
+            initials(station?.displayName().orEmpty()),
             color = MaterialTheme.colorScheme.primary,
             fontSize = (size * 0.26f).sp,
             fontWeight = FontWeight.SemiBold,
@@ -2368,7 +2473,7 @@ private fun StationAvatar(
         )
         ResolvedAsyncImage(
             url = imageUrl,
-            contentDescription = station?.name,
+            contentDescription = station?.displayName(),
             modifier = Modifier.matchParentSize(),
             contentScale = ContentScale.Crop,
         )
@@ -2389,7 +2494,7 @@ private fun Artwork(
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            initials(station.name),
+            initials(station.displayName()),
             color = MaterialTheme.colorScheme.primary,
             fontSize = 52.sp,
             fontWeight = FontWeight.SemiBold,
@@ -2397,7 +2502,7 @@ private fun Artwork(
         )
         ResolvedAsyncImage(
             url = imageUrl,
-            contentDescription = station.name,
+            contentDescription = station.displayName(),
             modifier = Modifier.matchParentSize(),
             contentScale = ContentScale.Crop,
         )
@@ -2481,6 +2586,23 @@ private fun searchPlaceholder(state: RrradioUiState): String {
         state.tab == AppTab.Browse && state.librarySource == LibrarySource.Recents -> "Search recently played..."
         else -> "Search stations, genres, places..."
     }
+}
+
+private fun emptyStateTitle(state: RrradioUiState): String = when {
+    state.tab == AppTab.Browse && state.librarySource == LibrarySource.Recents -> "No recent stations"
+    state.query.isNotBlank() || state.selectedCountry != null || state.selectedTag != null -> "No matching stations"
+    state.tab == AppTab.Favorites -> "No favorites yet"
+    else -> "No stations found"
+}
+
+private fun emptyStateDescription(state: RrradioUiState): String = when {
+    state.tab == AppTab.Browse && state.librarySource == LibrarySource.Recents ->
+        "Play a station and it will appear here."
+    state.query.isNotBlank() || state.selectedCountry != null || state.selectedTag != null ->
+        "Clear filters or try a different station, country, or tag."
+    state.tab == AppTab.Favorites ->
+        "Add favorites from Browse to build your station list."
+    else -> "Try a station name, country code, or tag."
 }
 
 private fun tagLine(station: Station): String {

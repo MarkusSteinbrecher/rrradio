@@ -33,6 +33,9 @@ data class Station(
     val featured: Boolean? = null,
 )
 
+fun Station.displayName(): String =
+    name.trim().ifEmpty { name }
+
 @Serializable
 data class StationList(
     val id: String,
