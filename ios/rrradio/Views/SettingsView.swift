@@ -93,22 +93,24 @@ private struct SettingsPageView: View {
     @State private var copiedDiagnostics = false
     @State private var confirmCloudDelete = false
     @State private var isRefreshingCatalog = false
-    @State private var accentHexDraft = ThemeController.classicAccentHex
-    @State private var accentHexInvalid = false
-    @FocusState private var accentHexFocused: Bool
+    @State private var showingAccentPicker = false
+    @State private var accentPickerColor = UIColor.systemYellow
+    @State private var accentPickerHexDraft = ThemeController.classicAccentHex
+    @State private var accentPickerHexInvalid = false
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 22) {
                     settingsSection(locale.text(.theme)) {
-                        VStack(spacing: 0) {
-                            themeRow(locale.text(.system), detail: locale.text(.followIOSAppearance), choice: .system)
-                            themeRow(locale.text(.light), detail: locale.text(.alwaysLight), choice: .light)
-                            themeRow(locale.text(.dark), detail: locale.text(.alwaysDark), choice: .dark)
+                        HStack(spacing: 4) {
+                            themeRadioButton(locale.text(.system), choice: .system)
+                            themeRadioButton(locale.text(.light), choice: .light)
+                            themeRadioButton(locale.text(.dark), choice: .dark)
                         }
+                        .padding(3)
                         .background(RrradioTheme.bg2)
-                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(RrradioTheme.line))
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .overlay(Capsule().stroke(RrradioTheme.line))
+                        .clipShape(Capsule())
                     }
 
                     settingsSection("Color") {
@@ -238,9 +240,16 @@ private struct SettingsPageView: View {
         } message: {
             Text("This clears synced rrradio favorites, station lists, custom stations, and preferences from iCloud. iCloud-enabled devices will converge to an empty synced library.")
         }
-        .onAppear(perform: syncAccentHexDraft)
-        .onChange(of: theme.accentRawValue) { _, _ in
-            syncAccentHexDraft()
+        .sheet(isPresented: $showingAccentPicker) {
+            AccentColorPickerSheet(
+                color: $accentPickerColor,
+                hexDraft: $accentPickerHexDraft,
+                hexInvalid: $accentPickerHexInvalid,
+                onAccept: acceptAccentPicker,
+                onCancel: { showingAccentPicker = false },
+            )
+            .presentationDetents([.large])
+            .presentationDragIndicator(.visible)
         }
     }
 
@@ -867,73 +876,46 @@ private struct SettingsPageView: View {
         }
     }
 
-    private func themeRow(_ title: String, detail: String, choice: ThemeController.Choice) -> some View {
-        Button {
+    private func themeRadioButton(_ title: String, choice: ThemeController.Choice) -> some View {
+        let selected = theme.choice == choice
+        return Button {
             theme.setChoice(choice)
         } label: {
-            if let previewScheme = themePreviewScheme(for: choice) {
-                themeRowContent(title, detail: detail, choice: choice, previewed: true)
-                    .environment(\.colorScheme, previewScheme)
-            } else {
-                themeRowContent(title, detail: detail, choice: choice, previewed: false)
+            HStack(spacing: 7) {
+                Image(systemName: themeRadioIcon(for: choice))
+                    .font(.system(size: 12, weight: selected ? .semibold : .medium))
+                Text(title)
+                    .font(.system(size: 13, weight: selected ? .semibold : .medium))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.82)
             }
+            .foregroundStyle(selected ? RrradioTheme.bg : RrradioTheme.ink3)
+            .frame(maxWidth: .infinity, minHeight: 34)
+            .background(selected ? RrradioTheme.buttonFill : .clear)
+            .clipShape(Capsule())
+            .contentShape(Capsule())
         }
         .buttonStyle(.plain)
+        .accessibilityLabel(title)
+        .accessibilityValue(selected ? "Selected" : "Not selected")
+        .accessibilityAddTraits(selected ? [.isSelected] : [])
     }
 
-    private func themeRowContent(
-        _ title: String,
-        detail: String,
-        choice: ThemeController.Choice,
-        previewed: Bool,
-    ) -> some View {
-        HStack(spacing: 12) {
-            VStack(alignment: .leading, spacing: 2) {
-                Text(title)
-                    .font(.system(size: 15, weight: .medium))
-                    .foregroundStyle(previewed ? RrradioTheme.accent : RrradioTheme.ink)
-                Text(detail)
-                    .font(.system(size: 12))
-                    .foregroundStyle(RrradioTheme.ink3)
-            }
-            Spacer()
-            if theme.choice == choice {
-                Image(systemName: "checkmark")
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundStyle(RrradioTheme.accent)
-            }
-        }
-        .padding(.horizontal, 14)
-        .frame(minHeight: 54)
-        .background(previewed ? RrradioTheme.bg : .clear)
-        .contentShape(Rectangle())
-        .overlay(alignment: .bottom) {
-            Rectangle()
-                .fill(RrradioTheme.line)
-                .frame(height: 1)
-        }
-    }
-
-    private func themePreviewScheme(for choice: ThemeController.Choice) -> ColorScheme? {
+    private func themeRadioIcon(for choice: ThemeController.Choice) -> String {
         switch choice {
-        case .system: theme.systemColorScheme
-        case .light: .light
-        case .dark: .dark
+        case .system: return "circle.lefthalf.filled"
+        case .light: return "sun.max"
+        case .dark: return "moon"
         }
     }
 
     private var accentColorSection: some View {
         VStack(spacing: 0) {
-            ColorPicker(
-                selection: Binding(
-                    get: { theme.accentColor },
-                    set: { color in
-                        theme.setAccentColor(color)
-                        syncAccentHexDraft()
-                    },
-                ),
-                supportsOpacity: false,
-            ) {
+            Button {
+                accentPickerColor = UIColor(theme.accentColor)
+                syncAccentPickerHexDraft(from: accentPickerColor)
+                showingAccentPicker = true
+            } label: {
                 HStack(spacing: 12) {
                     Image(systemName: "paintpalette")
                         .font(.system(size: 15, weight: .medium))
@@ -947,61 +929,20 @@ private struct SettingsPageView: View {
                             .font(.system(size: 12))
                             .foregroundStyle(RrradioTheme.ink3)
                     }
+                    Spacer()
+                    Circle()
+                        .fill(theme.accentColor)
+                        .frame(width: 26, height: 26)
+                        .overlay(Circle().stroke(RrradioTheme.line))
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(RrradioTheme.ink3)
                 }
+                .contentShape(Rectangle())
             }
+            .buttonStyle(.plain)
             .padding(.horizontal, 14)
             .frame(minHeight: 58)
-            .tint(RrradioTheme.accent)
-            .overlay(alignment: .bottom) {
-                Rectangle()
-                    .fill(RrradioTheme.line)
-                    .frame(height: 1)
-            }
-
-            HStack(spacing: 12) {
-                Image(systemName: "number")
-                    .font(.system(size: 15, weight: .medium))
-                    .foregroundStyle(RrradioTheme.ink3)
-                    .frame(width: 22)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Hex color")
-                        .font(.system(size: 15, weight: .medium))
-                        .foregroundStyle(RrradioTheme.ink)
-                    Text(accentHexInvalid ? "Use #RRGGBB or RGB." : "Enter a custom accent color.")
-                        .font(.system(size: 12))
-                        .foregroundStyle(accentHexInvalid ? .red : RrradioTheme.ink3)
-                        .lineLimit(2)
-                }
-                Spacer()
-                TextField("#FFFF00", text: $accentHexDraft)
-                    .font(.system(size: 14, weight: .medium, design: .monospaced))
-                    .foregroundStyle(RrradioTheme.ink)
-                    .multilineTextAlignment(.trailing)
-                    .textInputAutocapitalization(.characters)
-                    .autocorrectionDisabled()
-                    .keyboardType(.asciiCapable)
-                    .focused($accentHexFocused)
-                    .frame(width: 96)
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 7)
-                    .background(RrradioTheme.bg)
-                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(accentHexInvalid ? Color.red : RrradioTheme.line))
-                    .onSubmit(applyAccentHexDraft)
-                Button {
-                    applyAccentHexDraft()
-                } label: {
-                    Image(systemName: "checkmark")
-                        .font(.system(size: 12, weight: .semibold))
-                        .foregroundStyle(RrradioTheme.bg)
-                        .frame(width: 28, height: 28)
-                        .background(Circle().fill(RrradioTheme.accent))
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel("Apply hex color")
-            }
-            .padding(.horizontal, 14)
-            .frame(minHeight: 64)
-            .contentShape(Rectangle())
             .overlay(alignment: .bottom) {
                 Rectangle()
                     .fill(RrradioTheme.line)
@@ -1010,7 +951,6 @@ private struct SettingsPageView: View {
 
             Button {
                 theme.resetAccent()
-                syncAccentHexDraft()
             } label: {
                 HStack(spacing: 12) {
                     Image(systemName: "arrow.counterclockwise")
@@ -1018,7 +958,7 @@ private struct SettingsPageView: View {
                         .foregroundStyle(theme.hasCustomAccent ? RrradioTheme.ink3 : RrradioTheme.ink4)
                         .frame(width: 22)
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("Classic")
+                        Text("Standard")
                             .font(.system(size: 15, weight: .medium))
                             .foregroundStyle(theme.hasCustomAccent ? RrradioTheme.ink : RrradioTheme.ink3)
                         Text("Use rrradio green in light mode and yellow in dark mode.")
@@ -1045,19 +985,14 @@ private struct SettingsPageView: View {
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
-    private func applyAccentHexDraft() {
-        if theme.setAccentHex(accentHexDraft) {
-            accentHexInvalid = false
-            accentHexFocused = false
-            syncAccentHexDraft()
-        } else {
-            accentHexInvalid = true
-        }
+    private func acceptAccentPicker() {
+        theme.setAccentColor(Color(accentPickerColor))
+        showingAccentPicker = false
     }
 
-    private func syncAccentHexDraft() {
-        accentHexDraft = theme.accentHexValue
-        accentHexInvalid = false
+    private func syncAccentPickerHexDraft(from color: UIColor) {
+        accentPickerHexDraft = ThemeController.hexValue(from: Color(color)) ?? ThemeController.classicAccentHex
+        accentPickerHexInvalid = false
     }
 
     private func landingPageRow(_ landingPage: LandingPage) -> some View {
@@ -1453,6 +1388,214 @@ private struct SettingsPageView: View {
     private func timeString(from date: Date) -> String {
         let components = Calendar.current.dateComponents([.hour, .minute], from: date)
         return String(format: "%02d:%02d", components.hour ?? 7, components.minute ?? 0)
+    }
+}
+
+private struct AccentColorPickerSheet: View {
+    @Binding var color: UIColor
+    @Binding var hexDraft: String
+    @Binding var hexInvalid: Bool
+    let onAccept: () -> Void
+    let onCancel: () -> Void
+    @FocusState private var hexFocused: Bool
+
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack(spacing: 0) {
+                Button(action: acceptSelection) {
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(RrradioTheme.bg)
+                        .frame(width: 36, height: 36)
+                        .background(Circle().fill(RrradioTheme.buttonFill))
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Accept accent color")
+
+                Text("Accent")
+                    .font(.system(size: 12, weight: .medium, design: .monospaced))
+                    .textCase(.uppercase)
+                    .tracking(1.6)
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .frame(maxWidth: .infinity, alignment: .center)
+
+                Button(action: onCancel) {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(RrradioTheme.ink2)
+                        .frame(width: 36, height: 36)
+                        .overlay(Circle().stroke(RrradioTheme.line))
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Cancel accent color")
+            }
+            .padding(.horizontal, 18)
+            .padding(.vertical, 10)
+            .padding(.top, 18)
+            .background(RrradioTheme.bg)
+            .overlay(alignment: .bottom) {
+                Rectangle()
+                    .fill(RrradioTheme.line)
+                    .frame(height: 1)
+            }
+
+            accentHexRow
+
+            AccentUIColorPicker(
+                color: $color,
+                onColorChange: handlePickerColorChange,
+            )
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .background(RrradioTheme.bg.ignoresSafeArea())
+        .onAppear(perform: syncHexDraft)
+    }
+
+    private var accentHexRow: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "number")
+                .font(.system(size: 15, weight: .medium))
+                .foregroundStyle(RrradioTheme.ink3)
+                .frame(width: 22)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Hex color")
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(RrradioTheme.ink)
+                if hexInvalid {
+                    Text("Use #RRGGBB or RGB.")
+                        .font(.system(size: 12))
+                        .foregroundStyle(.red)
+                        .lineLimit(2)
+                }
+            }
+            Spacer()
+            TextField("#FFFF00", text: $hexDraft)
+                .font(.system(size: 14, weight: .medium, design: .monospaced))
+                .foregroundStyle(RrradioTheme.ink)
+                .multilineTextAlignment(.trailing)
+                .textInputAutocapitalization(.characters)
+                .autocorrectionDisabled()
+                .keyboardType(.asciiCapable)
+                .focused($hexFocused)
+                .frame(width: 96)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 7)
+                .background(RrradioTheme.bg)
+                .overlay(RoundedRectangle(cornerRadius: 6).stroke(hexInvalid ? Color.red : RrradioTheme.line))
+                .onSubmit { _ = applyHexDraft() }
+        }
+        .padding(.horizontal, 18)
+        .frame(minHeight: 64)
+        .background(RrradioTheme.bg2)
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(RrradioTheme.line)
+                .frame(height: 1)
+        }
+    }
+
+    private func acceptSelection() {
+        let currentHex = ThemeController.hexValue(from: Color(color)) ?? ThemeController.classicAccentHex
+        if hexDraft != currentHex,
+           !applyHexDraft() {
+            return
+        }
+        onAccept()
+    }
+
+    @discardableResult
+    private func applyHexDraft() -> Bool {
+        guard let color = uiColor(from: hexDraft) else {
+            hexInvalid = true
+            return false
+        }
+        self.color = color
+        syncHexDraft()
+        hexFocused = false
+        return true
+    }
+
+    private func handlePickerColorChange(_ color: UIColor) {
+        self.color = color
+        guard !hexFocused else { return }
+        syncHexDraft()
+    }
+
+    private func syncHexDraft() {
+        hexDraft = ThemeController.hexValue(from: Color(color)) ?? ThemeController.classicAccentHex
+        hexInvalid = false
+    }
+
+    private func uiColor(from value: String) -> UIColor? {
+        guard let normalized = ThemeController.normalizedHexValue(value) else { return nil }
+        let hex = String(normalized.dropFirst())
+        guard let number = Int(hex, radix: 16) else { return nil }
+        return UIColor(
+            red: CGFloat((number >> 16) & 0xFF) / 255,
+            green: CGFloat((number >> 8) & 0xFF) / 255,
+            blue: CGFloat(number & 0xFF) / 255,
+            alpha: 1,
+        )
+    }
+}
+
+private struct AccentUIColorPicker: UIViewControllerRepresentable {
+    @Binding var color: UIColor
+    let onColorChange: (UIColor) -> Void
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(
+            color: $color,
+            onColorChange: onColorChange,
+        )
+    }
+
+    func makeUIViewController(context: Context) -> UIColorPickerViewController {
+        let picker = UIColorPickerViewController()
+        picker.delegate = context.coordinator
+        picker.selectedColor = color
+        picker.supportsAlpha = false
+        if #available(iOS 26.0, *) {
+            picker.supportsEyedropper = false
+        }
+        return picker
+    }
+
+    func updateUIViewController(_ viewController: UIColorPickerViewController, context: Context) {
+        viewController.supportsAlpha = false
+        if #available(iOS 26.0, *) {
+            viewController.supportsEyedropper = false
+        }
+        if !viewController.selectedColor.isEqual(color) {
+            viewController.selectedColor = color
+        }
+    }
+
+    final class Coordinator: NSObject, UIColorPickerViewControllerDelegate {
+        private let color: Binding<UIColor>
+        private let onColorChange: (UIColor) -> Void
+
+        init(
+            color: Binding<UIColor>,
+            onColorChange: @escaping (UIColor) -> Void,
+        ) {
+            self.color = color
+            self.onColorChange = onColorChange
+        }
+
+        func colorPickerViewController(
+            _ viewController: UIColorPickerViewController,
+            didSelect color: UIColor,
+            continuously: Bool,
+        ) {
+            self.color.wrappedValue = color
+            onColorChange(color)
+        }
+
+        func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
+            color.wrappedValue = viewController.selectedColor
+            onColorChange(viewController.selectedColor)
+        }
     }
 }
 
