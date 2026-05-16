@@ -57,6 +57,24 @@ data class CatalogResponse(
     val stations: List<Station>,
 )
 
+enum class AppThemePreference(val rawValue: String) {
+    System("system"),
+    Light("light"),
+    Dark("dark"),
+    ;
+
+    fun resolvedDarkTheme(systemDarkTheme: Boolean): Boolean = when (this) {
+        System -> systemDarkTheme
+        Light -> false
+        Dark -> true
+    }
+
+    companion object {
+        fun fromRaw(rawValue: String?): AppThemePreference =
+            entries.firstOrNull { it.rawValue == rawValue } ?: System
+    }
+}
+
 internal object StringCompatibleSerializer : KSerializer<String> {
     override val descriptor = PrimitiveSerialDescriptor("StringCompatible", PrimitiveKind.STRING)
 

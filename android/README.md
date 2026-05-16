@@ -24,7 +24,7 @@ compatibility layer, no account requirement, and no shared backend.
 | `docs/spec/features/metadata-artwork.md` | Partial | Basic ICY `StreamTitle` parsing and bounded ICY metadata fetch are present for `status: icy-only` stations. Broadcaster fetcher parity, schedules, full station-logo policy, track cover art, and lyrics are tracked in #407. |
 | `docs/spec/features/sleep-timer.md` | Partial | The off / 15 / 30 / 60 / 90 minute cycle pauses playback without clearing station context. Visible remaining time and background firing validation belong with #403 and #404. |
 | `docs/spec/features/wake-to-radio.md` | Deferred decision | Exact-alarm permission, foreground service behavior, notification fallback, and battery optimization language need a design decision before implementation in #405. |
-| `docs/spec/features/preferences-diagnostics.md` | Partial | Runtime theme toggle and Favorites display-mode controls exist. Persisted system/light/dark preference, accent color, language, landing page, sleep default, history, diagnostics, broken-station reporting, and Android Auto scope are tracked in #399, #406, and #405. |
+| `docs/spec/features/preferences-diagnostics.md` | Partial | Persisted system/light/dark theme preference and Favorites display-mode controls exist. Accent color, a fuller Preferences surface, language, landing page, sleep default, history, diagnostics, broken-station reporting, and Android Auto scope are tracked in #399, #406, and #405. |
 
 ## Parity Tracking
 

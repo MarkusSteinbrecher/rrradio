@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import org.rrradio.android.ui.RrradioApp
@@ -26,8 +27,13 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             val state by viewModel.uiState.collectAsState()
-            RrradioTheme(darkTheme = state.darkTheme) {
-                RrradioApp(state = state, actions = viewModel)
+            val darkTheme = state.themePreference.resolvedDarkTheme(isSystemInDarkTheme())
+            RrradioTheme(darkTheme = darkTheme) {
+                RrradioApp(
+                    state = state,
+                    actions = viewModel,
+                    resolvedDarkTheme = darkTheme,
+                )
             }
         }
     }

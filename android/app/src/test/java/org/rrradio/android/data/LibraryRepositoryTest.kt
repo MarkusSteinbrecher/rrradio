@@ -5,6 +5,20 @@ import org.junit.Test
 
 class LibraryRepositoryTest {
     @Test
+    fun themePreferenceFallsBackToSystemForUnknownRawValue() {
+        assertEquals(AppThemePreference.System, AppThemePreference.fromRaw(null))
+        assertEquals(AppThemePreference.System, AppThemePreference.fromRaw("unknown"))
+    }
+
+    @Test
+    fun themePreferenceResolvesSystemAgainstDeviceTheme() {
+        assertEquals(false, AppThemePreference.System.resolvedDarkTheme(systemDarkTheme = false))
+        assertEquals(true, AppThemePreference.System.resolvedDarkTheme(systemDarkTheme = true))
+        assertEquals(false, AppThemePreference.Light.resolvedDarkTheme(systemDarkTheme = true))
+        assertEquals(true, AppThemePreference.Dark.resolvedDarkTheme(systemDarkTheme = false))
+    }
+
+    @Test
     fun uniqueStationsKeepsFirstOccurrence() {
         val first = station("first")
         val duplicate = station("first", name = "Duplicate")

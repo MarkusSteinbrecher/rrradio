@@ -20,7 +20,7 @@ Platform matrix:
 
 | Preference | Web | iOS | Android |
 |---|---|---|---|
-| Theme | Supported. | Reference. | Partial; runtime toggle exists, persisted system/light/dark preference remains. |
+| Theme | Supported. | Reference. | Partial; persisted system/light/dark preference exists, fuller Preferences surface remains. |
 | Accent color | Supported/partial by web theme design. | Supported. | Planned. |
 | Language | Browser/content dependent. | Supported. | Planned after localization scope. |
 | Landing page | Not a primary web contract. | Supported. | Planned if useful on Android. |
