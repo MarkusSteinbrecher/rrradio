@@ -25,7 +25,7 @@ language implementation.
 | Broadcaster fetchers | Reference proving ground. | Native parity for wired fetchers. | Planned native parity. |
 | ICY metadata | Supported via fetch where CORS/proxy allows. | Supported through AV metadata and bounded fetch fallback. | Partial; basic ICY parser/fetcher exists. |
 | Program schedule | Supported for wired broadcasters. | Supported for wired broadcasters. | Planned. |
-| Station logos | Supported. | Supported. | Planned. |
+| Station logos | Supported. | Supported. | Partial; row/header rendering exists, full policy parity remains. |
 | Track cover art | Supported. | Supported. | Planned. |
 | Lyrics lookup | Supported. | Planned/partial native parity. | Planned. |
 

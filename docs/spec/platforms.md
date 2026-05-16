@@ -78,10 +78,12 @@ Current implementation shape:
 - Jetpack Compose for UI.
 - Media3/ExoPlayer for stream playback.
 - MediaSessionService for background playback and notification controls.
-- DataStore for favorites, recents, and custom stations.
+- DataStore for favorites, recents, custom stations, and station lists.
 - Catalog decoding and cache-backed network loading.
 - Search parity for station names, tags, countries, and whitespace-insensitive
   matches.
+- Lists/Browse/Favorites tab structure with station-list batch add and
+  Favorites list/tile/app display modes.
 - Sleep timer cycle.
 - Basic ICY `StreamTitle` parsing and bounded ICY metadata fetcher.
 

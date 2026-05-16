@@ -20,11 +20,11 @@ Platform matrix:
 
 | Preference | Web | iOS | Android |
 |---|---|---|---|
-| Theme | Supported. | Reference. | Planned. |
+| Theme | Supported. | Reference. | Partial; runtime toggle exists, persisted system/light/dark preference remains. |
 | Accent color | Supported/partial by web theme design. | Supported. | Planned. |
 | Language | Browser/content dependent. | Supported. | Planned after localization scope. |
 | Landing page | Not a primary web contract. | Supported. | Planned if useful on Android. |
-| Favorites display modes | Partial. | Reference. | Planned. |
+| Favorites display modes | Partial. | Reference. | Partial; modes exist, preference persistence/order controls remain. |
 | Sleep default | Supported where exposed. | Supported. | Planned. |
 | Wake default/notifications | Supported where exposed. | Supported. | Planned with wake feature. |
 

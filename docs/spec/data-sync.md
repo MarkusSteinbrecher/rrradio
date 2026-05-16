@@ -26,13 +26,13 @@ offers private iCloud/CloudKit sync between the user's Apple devices.
 |---|---|---|---|
 | Favorites | `localStorage`, export/import supported. | Local UserDefaults plus optional CloudKit sync. | Local DataStore. |
 | Recents | `localStorage`, capped. | Local-only, capped. | Local DataStore, capped. |
-| Station lists | Not planned for current web. | Local plus optional CloudKit sync. | Planned local-only. |
+| Station lists | Not planned for current web. | Local plus optional CloudKit sync. | Local DataStore. |
 | Custom stations | `localStorage`, export/import supported. | Local plus optional CloudKit sync. | Local DataStore. |
 | Preferences | Local browser preferences. | Local plus optional CloudKit sync for selected preferences. | Local-only for first port. |
 | Wake state | Local-only, one armed wake. | Local-only for active wake; selected wake preferences may sync. | Local-only. |
 | Listening history | Not part of current web storage contract. | Local-only, opt-in, retention-controlled. | Planned local-only, opt-in. |
 | Diagnostics | Anonymous production events only. | Local opt-in diagnostic log. | Planned local opt-in diagnostic log. |
-| Catalog cache | Browser/runtime cache. | Disk cache and bundled index fallback. | Planned disk cache and optional search index. |
+| Catalog cache | Browser/runtime cache. | Disk cache and bundled index fallback. | Cache-backed catalog loading; optional search index is deferred. |
 | Backup file | Manual export/import for favorites and custom stations. | Planned/optional import path if needed. | Planned/optional import path if needed. |
 
 ## iCloud And CloudKit
@@ -92,12 +92,17 @@ The Android app is local-only:
 - No shared backend.
 - Manual backup import/export can be added as a user-controlled transfer path,
   but it is not a substitute for a shared sync backend.
+- Favorites, recents, custom stations, and station lists are persisted in
+  DataStore today.
+- Preferences are currently only partly modeled on Android; system/light/dark,
+  accent, landing page, history, and diagnostics preferences remain parity
+  work.
 - Data should be structured so a future sync backend can be added without
   rewriting feature logic.
 
 Android storage should use stable schema versions for user data. Prefer a
 simple local model first; introduce Room only when the feature set needs
-queryable history, station lists, or catalog search.
+queryable history, more complex list management, or catalog search.
 
 ## Future Cross-Platform Sync
 

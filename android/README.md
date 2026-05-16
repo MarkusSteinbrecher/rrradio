@@ -11,25 +11,41 @@ The cross-platform contract lives in `docs/spec/`. Android is intentionally
 local-only for this first aligned version: there is no CloudKit, no iCloud
 compatibility layer, no account requirement, and no shared backend.
 
-| Spec area | Android status | Notes |
+| Spec area | Android status | Remaining parity |
 |---|---|---|
-| `docs/spec/platforms.md` | Partial | Kotlin + Jetpack Compose, Media3/ExoPlayer, MediaSessionService, DataStore, and cache-backed catalog loading are in place. Wear OS is out of scope for the first Android port. |
-| `docs/spec/data-sync.md` | Supported for local data | Favorites, recents, custom stations, and station lists are device-local DataStore data. Manual backup export/import is explicitly deferred; it should mirror the web favorites/custom-stations file flow when added. |
-| `docs/spec/playback.md` | Partial | MP3/AAC/HLS playback uses ExoPlayer. Starting playback passes the current visible list as the active queue, so Browse, Favorites, Recents, and station-list detail media next/previous controls stay scoped. Media3 errors trigger bounded source rebuild retries before surfacing a generic error. Real background/lock-screen behavior still needs device validation. |
-| `docs/spec/features/browse.md` | Supported except deferred views | Android loads `https://rrradio.org/stations.json`, falls back to the cache, searches station names/tags/countries with whitespace-insensitive and diacritic-tolerant matching, exposes country/genre filters, and supports Browse batch-add into station lists. Map browse and advanced sort controls are deferred. |
-| `docs/spec/features/favorites.md` | Partial | Add/remove favorites and capped recents are supported. Favorites now follow the iOS display-mode model with List, Tiles, and App-style views, and list mode has basic up/down reorder controls. Drag reorder is deferred. |
-| `docs/spec/features/station-lists.md` | Partial | Android now uses the iOS tab structure with a Lists surface, list-summary rows for Favorites/Recents/Custom Stations, named user-created lists, Browse batch-add, list delete, and station removal from a list. Rename, drag reorder, and fuller list-as-queue management still need the iOS behavior ported. |
-| `docs/spec/features/custom-stations.md` | Partial | Custom stations require HTTPS, reject local/private stream hosts, reject duplicate stream URLs against catalog/custom stations, probe the stream before save, auto-favorite on save, confirm before delete, and persist locally. Backup/export remains deferred. |
-| `docs/spec/features/now-playing.md` | Partial | The current sheet shows station identity, artwork/logo fallback, metadata, favorite toggle, playback control, and sleep entry. A fuller destination view, previous/next buttons, secondary panels, lyrics, schedules, and music-service links are deferred. |
-| `docs/spec/features/metadata-artwork.md` | Partial | Basic ICY `StreamTitle` parsing and bounded ICY metadata fetch are present for `status: icy-only` stations. The broadcaster metadata registry from web/iOS, schedule panes, lyrics, station-logo policy, and track cover-art lookup are deferred. |
-| `docs/spec/features/sleep-timer.md` | Partial | The off / 15 / 30 / 60 / 90 minute cycle pauses playback without clearing station context. Background firing still needs real-device validation with the media notification active. |
-| `docs/spec/features/wake-to-radio.md` | Deferred decision | Android wake-to-radio needs a separate decision covering exact alarm permission, foreground service behavior, notification fallback, and battery optimization language. |
-| `docs/spec/features/preferences-diagnostics.md` | Partial | Theme toggle exists. System/light/dark preference, accent color, language, landing page, listening history, local diagnostics, broken-station reporting, and Android Auto-specific behavior are deferred. |
+| `docs/spec/platforms.md` | Partial | Kotlin + Jetpack Compose, Media3/ExoPlayer, MediaSessionService, DataStore, cache-backed catalog loading, native app-shell logo, tab structure, station lists, and Favorites modes are in place. Wear OS remains out of scope for the first Android port. |
+| `docs/spec/data-sync.md` | Supported for local library data | Favorites, recents, custom stations, and station lists are device-local DataStore data. Manual backup export/import, listening history, diagnostics, and richer preference persistence are tracked in #406. |
+| `docs/spec/playback.md` | Partial | MP3/AAC/HLS playback uses ExoPlayer, visible-list playback creates an active queue, and bounded source rebuild retries exist. Real background/lock-screen behavior, playlist resolution, and media-control validation are tracked in #404. |
+| `docs/spec/features/browse.md` | Supported except deferred views | Catalog load/cache, normalized search, country/genre filters, favorite/play from rows, recents, and Browse batch-add into station lists are in place. Map browse, advanced sort controls, and presentation refinements are tracked in #400. |
+| `docs/spec/features/favorites.md` | Partial | Add/remove favorites, capped recents, List/Tiles/App display modes, local persistence, and basic up/down reorder controls are in place. Native drag/reorder, mode preference persistence, visible/order settings, and metadata polish are tracked in #398. |
+| `docs/spec/features/station-lists.md` | Partial | Lists overview, create/delete, Browse batch-add, station removal, local persistence, and list-scoped playback queues are in place. Rename, list reorder, station reorder, and fuller management polish are tracked in #401. |
+| `docs/spec/features/custom-stations.md` | Supported except backup | HTTPS-only save, private/local host rejection, duplicate stream checks, stream probe before save, auto-favorite, delete confirmation, and local persistence are in place. Backup/export is tracked in #406. |
+| `docs/spec/features/now-playing.md` | Partial | The current Android surface shows station identity, artwork/logo fallback, basic metadata, favorite toggle, playback control, sleep entry, and mini-player handoff. A fuller destination view, previous/next buttons, secondary panels, lyrics, schedules, and music-service links are tracked in #403. |
+| `docs/spec/features/metadata-artwork.md` | Partial | Basic ICY `StreamTitle` parsing and bounded ICY metadata fetch are present for `status: icy-only` stations. Broadcaster fetcher parity, schedules, full station-logo policy, track cover art, and lyrics are tracked in #407. |
+| `docs/spec/features/sleep-timer.md` | Partial | The off / 15 / 30 / 60 / 90 minute cycle pauses playback without clearing station context. Visible remaining time and background firing validation belong with #403 and #404. |
+| `docs/spec/features/wake-to-radio.md` | Deferred decision | Exact-alarm permission, foreground service behavior, notification fallback, and battery optimization language need a design decision before implementation in #405. |
+| `docs/spec/features/preferences-diagnostics.md` | Partial | Runtime theme toggle and Favorites display-mode controls exist. Persisted system/light/dark preference, accent color, language, landing page, sleep default, history, diagnostics, broken-station reporting, and Android Auto scope are tracked in #399, #406, and #405. |
 
-Deferred features should remain documented here until each area gets its own
-issue or ADR. Android Auto, wake-to-radio exact alarms, and any future
-cross-platform sync backend are separate product decisions, not hidden scope in
-this port.
+## Parity Tracking
+
+The Android parity plan is tracked by #397. The current implementation sequence
+is:
+
+1. #402 - audit/spec matrix update.
+2. #399 - app shell, theme, logo, and preferences.
+3. #400 - Browse parity.
+4. #398 - Favorites parity.
+5. #401 - station lists parity.
+6. #403 - Now Playing destination parity.
+7. #407 - metadata and artwork parity.
+8. #404 - playback, background audio, and media controls validation.
+9. #406 - local data, backup export, and diagnostics.
+10. #405 - wake-to-radio and Android Auto decisions.
+
+Deferred features should remain documented here until each area is implemented
+or explicitly deferred in an issue or ADR. Android Auto, wake-to-radio exact
+alarms, and any future cross-platform sync backend are separate product
+decisions, not hidden scope in this port.
 
 ## Building
 
