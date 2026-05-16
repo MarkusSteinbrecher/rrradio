@@ -1,6 +1,7 @@
 package org.rrradio.android.ui
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -76,6 +77,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -84,6 +86,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import org.rrradio.android.R
 import org.rrradio.android.data.CatalogLoadState
 import org.rrradio.android.data.PlaybackUiState
 import org.rrradio.android.data.PlayerState
@@ -345,7 +348,7 @@ private fun Header(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                BrandMark()
+                BrandLogo(darkTheme = state.darkTheme)
                 Text(
                     text = when (state.tab) {
                         AppTab.StationLists -> state.selectedStationList?.name ?: "Lists"
@@ -400,33 +403,16 @@ private fun Header(
 }
 
 @Composable
-private fun BrandMark() {
-    Box(
-        Modifier
-            .size(34.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .background(MaterialTheme.colorScheme.surfaceVariant)
-            .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline), RoundedCornerShape(8.dp)),
-        contentAlignment = Alignment.Center,
-    ) {
-        val active = MaterialTheme.colorScheme.primary
-        val inactive = MaterialTheme.colorScheme.outline
-        Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
-            repeat(3) { row ->
-                Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
-                    repeat(3) { col ->
-                        val lit = row == 2 || (row == 1 && col != 0)
-                        Box(
-                            Modifier
-                                .size(5.dp)
-                                .clip(RoundedCornerShape(1.5.dp))
-                                .background(if (lit) active else inactive),
-                        )
-                    }
-                }
-            }
-        }
-    }
+private fun BrandLogo(darkTheme: Boolean) {
+    Image(
+        painter = painterResource(
+            id = if (darkTheme) R.drawable.rrradio_logo_app_dark else R.drawable.rrradio_logo_app_light,
+        ),
+        contentDescription = null,
+        modifier = Modifier
+            .size(36.dp)
+            .clip(RoundedCornerShape(8.dp)),
+    )
 }
 
 @Composable
