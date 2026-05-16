@@ -11,6 +11,8 @@
  *   node tools/curation-db.mjs ingest
  *   node tools/curation-db.mjs summary
  *   node tools/curation-db.mjs reset
+ *   node tools/curation-db.mjs dedupe         # score pairwise duplicate candidates
+ *   node tools/curation-db.mjs dedupe-report  # print pending candidates
  */
 
 import { existsSync, mkdirSync, readFileSync, unlinkSync } from 'node:fs';
@@ -25,9 +27,11 @@ const root = join(__dirname, '..');
 const dbPath = process.env.RRRADIO_CURATION_DB || join(root, '.local', 'curation.db');
 
 const command = process.argv[2] || 'summary';
-const valid = new Set(['init', 'ingest', 'summary', 'reset']);
+const valid = new Set(['init', 'ingest', 'summary', 'reset', 'dedupe', 'dedupe-report']);
 if (!valid.has(command)) {
-  console.error('usage: node tools/curation-db.mjs <init|ingest|summary|reset>');
+  console.error(
+    'usage: node tools/curation-db.mjs <init|ingest|summary|reset|dedupe|dedupe-report>',
+  );
   process.exit(2);
 }
 
@@ -138,6 +142,28 @@ CREATE TABLE IF NOT EXISTS logo_candidates (
   attempts_json TEXT,
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Pairwise duplicate candidates surfaced by \`dedupe\`. left_id < right_id
+-- always (canonical ordering) so each unordered pair has one row.
+-- Curator disposition (status, note, decided_at) is preserved across
+-- re-runs; only score/signals/generated_at update on the next pass.
+CREATE TABLE IF NOT EXISTS duplicate_candidates (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  left_id TEXT NOT NULL,
+  right_id TEXT NOT NULL,
+  score REAL NOT NULL,
+  signals_json TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'pending',
+  disposition_note TEXT,
+  generated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  decided_at TEXT,
+  UNIQUE(left_id, right_id),
+  CHECK(left_id < right_id),
+  CHECK(status IN ('pending', 'duplicate', 'not-duplicate', 'merged'))
+);
+
+CREATE INDEX IF NOT EXISTS dup_candidates_status_idx ON duplicate_candidates(status);
+CREATE INDEX IF NOT EXISTS dup_candidates_score_idx ON duplicate_candidates(score DESC);
 `;
 
 function init() {
@@ -392,7 +418,325 @@ function reset() {
   init();
 }
 
+// ───────────────────────────────────────────────────────────────────
+// Dedupe: pairwise near-duplicate detection
+//
+// Phase 1 (check-duplicates.mjs) catches collisions on exact keys
+// (stationuuid, streamUrl, name+country, homepage+favicon+country+
+// stripped-name-signature). Phase 2 lives here because the work needs
+// pair-level state — the curator's "this is a duplicate" / "these are
+// distinct" decisions must persist across runs so re-scoring never
+// re-prompts already-resolved pairs.
+//
+// Algorithm: token-blocking + within-bucket pairwise scoring.
+//   1. For each station, compute the noise-stripped name signature
+//      (same logic as check-duplicates.mjs).
+//   2. Index every (station, token) pair: token → list of station ids
+//      that contain it. Drop tokens shared by too many stations (>200);
+//      they're not discriminative.
+//   3. For each token's posting list, enumerate unique station pairs
+//      where the two stations have the same country code.
+//   4. Score each candidate pair on name + homepage + favicon + stream
+//      signals. Pairs that already exact-match on stationuuid or
+//      streamUrl are skipped (caught by check-duplicates).
+//   5. Pairs above DUP_SCORE_THRESHOLD upsert into duplicate_candidates,
+//      preserving any existing curator disposition.
+// ───────────────────────────────────────────────────────────────────
+
+const DUP_SCORE_THRESHOLD = 0.5;
+const DUP_TOKEN_POSTING_CAP = 200; // skip ultra-common tokens
+
+const DUP_NAME_NOISE_TOKENS = new Set([
+  'live', 'online', 'web', 'radio', 'fm', 'am', 'stream', 'streaming',
+  'hd', 'hq', 'sd', 'stereo', 'mono', 'official',
+  'mp3', 'aac', 'flac', 'ogg', 'opus',
+  '64k', '96k', '128k', '160k', '192k', '256k', '320k', 'kbps', 'k',
+]);
+
+function dupNameTokens(name) {
+  const normalised = String(name ?? '')
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+  if (!normalised) return [];
+  return normalised.split(' ').filter((t) => t && !DUP_NAME_NOISE_TOKENS.has(t));
+}
+
+function dupNameSignature(tokens) {
+  return [...tokens].sort().join(' ');
+}
+
+function dupJaccard(setA, setB) {
+  if (setA.size === 0 && setB.size === 0) return 0;
+  let intersect = 0;
+  for (const x of setA) if (setB.has(x)) intersect++;
+  const union = setA.size + setB.size - intersect;
+  return union === 0 ? 0 : intersect / union;
+}
+
+function dupStreamHost(url) {
+  try {
+    return new URL(String(url)).host.toLowerCase().replace(/^www\./, '');
+  } catch {
+    return '';
+  }
+}
+
+function dupStreamPathTokens(url) {
+  try {
+    return new Set(
+      new URL(String(url)).pathname
+        .split('/')
+        .filter((s) => s && !DUP_NAME_NOISE_TOKENS.has(s.toLowerCase())),
+    );
+  } catch {
+    return new Set();
+  }
+}
+
+function dupHomepageKey(url) {
+  try {
+    const u = new URL(String(url));
+    const host = u.host.toLowerCase().replace(/^www\./, '');
+    if (!host) return '';
+    const path = u.pathname.replace(/\/index\.(html?|php)$/i, '').replace(/\/$/, '');
+    return host + path;
+  } catch {
+    return '';
+  }
+}
+
+function dupHomepageHost(url) {
+  try {
+    return new URL(String(url)).host.toLowerCase().replace(/^www\./, '');
+  } catch {
+    return '';
+  }
+}
+
+function dupScorePair(a, b) {
+  const aTokens = new Set(a._tokens);
+  const bTokens = new Set(b._tokens);
+  const nameSigMatch = a._signature !== '' && a._signature === b._signature;
+  const nameJaccard = dupJaccard(aTokens, bTokens);
+
+  // Name contribution. Signature equality is the strongest signal we
+  // can extract from names alone; fuzzy jaccard contributes less.
+  let nameScore = 0;
+  if (nameSigMatch) nameScore = 0.45;
+  else if (nameJaccard >= 0.7) nameScore = 0.30;
+  else if (nameJaccard >= 0.5) nameScore = 0.15;
+  // jaccard < 0.5 contributes nothing — too noisy
+
+  const aHomepage = dupHomepageKey(a.homepage);
+  const bHomepage = dupHomepageKey(b.homepage);
+  const aHomeHost = dupHomepageHost(a.homepage);
+  const bHomeHost = dupHomepageHost(b.homepage);
+  const homepageMatch = aHomepage !== '' && aHomepage === bHomepage;
+  const homepageHostMatch = !homepageMatch && aHomeHost !== '' && aHomeHost === bHomeHost;
+
+  const aFav = String(a.favicon ?? '').toLowerCase().trim();
+  const bFav = String(b.favicon ?? '').toLowerCase().trim();
+  const faviconMatch = aFav !== '' && aFav === bFav;
+
+  const aStreamHost = dupStreamHost(a.stream_url);
+  const bStreamHost = dupStreamHost(b.stream_url);
+  const streamHostMatch = aStreamHost !== '' && aStreamHost === bStreamHost;
+
+  const aPath = dupStreamPathTokens(a.stream_url);
+  const bPath = dupStreamPathTokens(b.stream_url);
+  const streamPathJaccard = dupJaccard(aPath, bPath);
+
+  let corroboration = 0;
+  if (homepageMatch) corroboration += 0.25;
+  else if (homepageHostMatch) corroboration += 0.10;
+  if (faviconMatch) corroboration += 0.20;
+  if (streamHostMatch) corroboration += 0.15;
+  if (streamPathJaccard >= 0.5) corroboration += 0.05;
+
+  const score = Math.min(1, nameScore + corroboration);
+  return {
+    score,
+    signals: {
+      name_sig_match: nameSigMatch,
+      name_jaccard: Math.round(nameJaccard * 1000) / 1000,
+      homepage_match: homepageMatch,
+      homepage_host_match: homepageHostMatch,
+      favicon_match: faviconMatch,
+      stream_host_match: streamHostMatch,
+      stream_path_jaccard: Math.round(streamPathJaccard * 1000) / 1000,
+    },
+  };
+}
+
+function loadStationsForDedupe() {
+  // SQLite's JSON mode emits a proper JSON array — robust against
+  // station names that contain tabs, pipes, or quotes.
+  const sql = `
+.mode json
+SELECT id, name, country, stationuuid, broadcaster, stream_url, homepage, favicon
+FROM stations
+WHERE status IN ('working','icy-only','stream-only');`;
+  const raw = runSql(sql).trim();
+  if (!raw) return [];
+  return JSON.parse(raw);
+}
+
+function dedupe() {
+  if (!existsSync(dbPath)) {
+    console.error(`curation-db: ${dbPath} does not exist. Run npm run curation-db:ingest first.`);
+    process.exit(2);
+  }
+  ensureSqlite();
+  // Make sure the table exists even on old DBs.
+  runSql(schema);
+
+  const stations = loadStationsForDedupe();
+  console.log(`curation-db: dedupe scoring across ${stations.length} publishable station(s)…`);
+
+  // Precompute tokens + signature; build token-posting list.
+  const byId = new Map();
+  const tokenPostings = new Map(); // token → [id, …]
+  for (const s of stations) {
+    const tokens = dupNameTokens(s.name);
+    s._tokens = tokens;
+    s._signature = dupNameSignature(tokens);
+    byId.set(s.id, s);
+    const seen = new Set();
+    for (const t of tokens) {
+      if (seen.has(t)) continue;
+      seen.add(t);
+      const arr = tokenPostings.get(t) ?? [];
+      arr.push(s.id);
+      tokenPostings.set(t, arr);
+    }
+  }
+
+  // Enumerate candidate pairs. Same country, distinct ids, at least
+  // one shared token, and not already caught by exact-key matches.
+  const seenPair = new Set();
+  const candidates = [];
+  let skippedExact = 0;
+  for (const [token, ids] of tokenPostings) {
+    if (ids.length < 2 || ids.length > DUP_TOKEN_POSTING_CAP) continue;
+    for (let i = 0; i < ids.length; i++) {
+      const a = byId.get(ids[i]);
+      for (let j = i + 1; j < ids.length; j++) {
+        const b = byId.get(ids[j]);
+        if (a.country !== b.country) continue;
+        const [left, right] = a.id < b.id ? [a.id, b.id] : [b.id, a.id];
+        const pairKey = `${left}|${right}`;
+        if (seenPair.has(pairKey)) continue;
+        seenPair.add(pairKey);
+        // Skip pairs already definitively caught by check-duplicates'
+        // blocking kinds — phase 2 is about everything *else*.
+        if (a.stationuuid && a.stationuuid === b.stationuuid) {
+          skippedExact++;
+          continue;
+        }
+        if (a.stream_url && a.stream_url === b.stream_url) {
+          skippedExact++;
+          continue;
+        }
+        const left_obj = byId.get(left);
+        const right_obj = byId.get(right);
+        const { score, signals } = dupScorePair(left_obj, right_obj);
+        if (score >= DUP_SCORE_THRESHOLD) {
+          candidates.push({ left, right, score, signals });
+        }
+      }
+    }
+  }
+
+  console.log(
+    `curation-db: ${candidates.length.toLocaleString()} pair(s) at score ≥ ${DUP_SCORE_THRESHOLD}` +
+      ` (${seenPair.size.toLocaleString()} pairs evaluated, ${skippedExact} skipped as exact matches)`,
+  );
+
+  // Upsert. Preserve status / disposition_note / decided_at across runs.
+  const chunks = ['BEGIN;'];
+  for (const c of candidates) {
+    chunks.push(
+      `INSERT INTO duplicate_candidates (left_id, right_id, score, signals_json, status, generated_at)
+       VALUES (
+         ${sqlString(c.left)},
+         ${sqlString(c.right)},
+         ${sqlNumber(c.score)},
+         ${sqlString(JSON.stringify(c.signals))},
+         'pending',
+         CURRENT_TIMESTAMP
+       )
+       ON CONFLICT(left_id, right_id) DO UPDATE SET
+         score = excluded.score,
+         signals_json = excluded.signals_json,
+         generated_at = CURRENT_TIMESTAMP;`,
+    );
+  }
+  chunks.push(
+    `INSERT INTO meta (key, value, updated_at) VALUES
+       ('dedupe_run_at', ${sqlString(new Date().toISOString())}, CURRENT_TIMESTAMP),
+       ('dedupe_candidate_count', ${sqlString(String(candidates.length))}, CURRENT_TIMESTAMP)
+     ON CONFLICT(key) DO UPDATE SET value=excluded.value, updated_at=CURRENT_TIMESTAMP;`,
+  );
+  chunks.push('COMMIT;');
+  runSql(chunks.join('\n'));
+}
+
+function dedupeReport() {
+  if (!existsSync(dbPath)) {
+    console.error(`curation-db: ${dbPath} does not exist.`);
+    process.exit(2);
+  }
+  const summarySql = `
+.mode column
+.headers on
+SELECT status, COUNT(*) AS pairs, ROUND(AVG(score), 3) AS avg_score,
+       ROUND(MIN(score), 3) AS min_score, ROUND(MAX(score), 3) AS max_score
+FROM duplicate_candidates
+GROUP BY status
+ORDER BY pairs DESC;
+`;
+  process.stdout.write('=== duplicate_candidates summary ===\n');
+  process.stdout.write(runSql(summarySql));
+
+  // Argv: dedupe-report [limit] [min-score]
+  const limit = Number(process.argv[3] ?? 25);
+  const minScore = Number(process.argv[4] ?? 0.7);
+  const detailSql = `
+.mode json
+SELECT
+  dc.score,
+  l.country,
+  l.id AS left_id, l.name AS left_name,
+  r.id AS right_id, r.name AS right_name,
+  dc.signals_json
+FROM duplicate_candidates dc
+JOIN stations l ON l.id = dc.left_id
+JOIN stations r ON r.id = dc.right_id
+WHERE dc.status = 'pending' AND dc.score >= ${minScore}
+ORDER BY dc.score DESC, l.country, l.id
+LIMIT ${Number.isFinite(limit) ? limit : 25};
+`;
+  const raw = runSql(detailSql).trim();
+  const rows = raw ? JSON.parse(raw) : [];
+  process.stdout.write(
+    `\n=== top pending candidates (limit=${limit}, score ≥ ${minScore}) ===\n`,
+  );
+  for (const row of rows) {
+    process.stdout.write(
+      `  [${row.score.toFixed(2)}] ${row.country}  ` +
+        `${row.left_id} "${row.left_name}"  ↔  ${row.right_id} "${row.right_name}"\n`,
+    );
+    process.stdout.write(`         ${row.signals_json}\n`);
+  }
+  process.stdout.write(`\n${rows.length} of pending-with-score-≥-${minScore} shown.\n`);
+}
+
 if (command === 'init') init();
 else if (command === 'ingest') ingest();
 else if (command === 'summary') summary();
 else if (command === 'reset') reset();
+else if (command === 'dedupe') dedupe();
+else if (command === 'dedupe-report') dedupeReport();
