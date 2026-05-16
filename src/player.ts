@@ -179,6 +179,7 @@ export class AudioPlayer {
         station,
         state: 'loading',
         trackTitle: undefined,
+        trackVerified: undefined,
         coverUrl: undefined,
         errorMessage: undefined,
       });
@@ -270,6 +271,7 @@ export class AudioPlayer {
       station,
       state: 'loading',
       trackTitle: opts.sameStation ? this.current.trackTitle : undefined,
+      trackVerified: opts.sameStation ? this.current.trackVerified : undefined,
       coverUrl: opts.sameStation ? this.current.coverUrl : undefined,
       errorMessage: undefined,
     });
@@ -338,6 +340,7 @@ export class AudioPlayer {
       station: { id: '', name: '', streamUrl: '' },
       state: 'idle',
       trackTitle: undefined,
+      trackVerified: undefined,
       coverUrl: undefined,
       errorMessage: undefined,
     });
@@ -356,6 +359,7 @@ export class AudioPlayer {
       station,
       state: 'paused',
       trackTitle: undefined,
+      trackVerified: undefined,
       coverUrl: undefined,
       errorMessage: undefined,
     });
@@ -464,11 +468,17 @@ export class AudioPlayer {
       coverUrl?: string;
       programName?: string;
       programSubtitle?: string;
+      /** Set by main.ts after iTunes Search confirms the title
+       *  resolves to a real song. `undefined` while the lookup is
+       *  in-flight (or skipped); render-np uses === true so undefined
+       *  hides the music-service links until verification arrives. */
+      trackVerified?: boolean;
     },
   ): void {
     this.update({
       trackTitle,
       coverUrl: parts?.coverUrl,
+      trackVerified: parts?.trackVerified,
       programName: parts?.programName,
       programSubtitle: parts?.programSubtitle,
     });

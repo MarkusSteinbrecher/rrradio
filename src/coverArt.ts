@@ -1,7 +1,15 @@
 /**
- * iTunes Search-based cover art lookup. Used as a fallback when the
- * station's own metadata feed doesn't provide a cover URL (most stations
- * other than Grrif fall in this bucket).
+ * iTunes Search-based track lookup. Used for two things:
+ *
+ *   1. Cover-art fallback when the station's own metadata feed doesn't
+ *      provide a cover URL (most stations other than Grrif).
+ *   2. Track-existence verification — `resultCount > 0` tells us the
+ *      ICY-supplied title plausibly resolves to a real song, so the
+ *      now-playing pane only renders Spotify/Apple Music/YT Music
+ *      search links when iTunes confirms there's something to find.
+ *      News/talk channels typically emit show names ("BR24 Aktuell")
+ *      and station IDs that iTunes won't match — those should NOT
+ *      surface music-service links.
  *
  * - No auth, no API key
  * - CORS-permissive
@@ -17,16 +25,22 @@ interface ITunesTrack {
   artworkUrl100?: string;
 }
 
+/** Outcome of an iTunes search. `hit` reflects `resultCount > 0`;
+ *  `cover` is set only when the best match also carries artwork. */
+export interface ITunesResult {
+  hit: boolean;
+  cover?: string;
+}
+
 const CACHE_LIMIT = 64;
 // Map iteration order is insertion-order, so we get FIFO eviction for free.
-// Value `null` means "we tried, no result" — short-circuits future lookups.
-const cache = new Map<string, string | null>();
+const cache = new Map<string, ITunesResult>();
 
 function cacheKey(artist: string | undefined, track: string): string {
   return `${(artist ?? '').toLowerCase().trim()}|${track.toLowerCase().trim()}`;
 }
 
-function rememberCache(key: string, value: string | null): void {
+function rememberCache(key: string, value: ITunesResult): void {
   if (cache.size >= CACHE_LIMIT) {
     const oldest = cache.keys().next().value;
     if (oldest !== undefined) cache.delete(oldest);
@@ -55,20 +69,21 @@ function pickBest(
   return exact ?? results[0];
 }
 
-export async function lookupCover(
+/** Run an iTunes Search and cache the outcome. Returns `{hit: false}`
+ *  on transport errors *without* caching so the next poll can retry
+ *  (aborts and network blips don't poison the cache). */
+export async function searchITunes(
   artist: string | undefined,
   track: string,
   signal: AbortSignal,
-): Promise<string | undefined> {
+): Promise<ITunesResult> {
   const cleaned = track.trim();
-  if (cleaned.length < 3) return undefined; // not enough to search on
-  if (cleaned === '—' || cleaned === '-') return undefined;
+  if (cleaned.length < 3) return { hit: false }; // not enough to search on
+  if (cleaned === '—' || cleaned === '-') return { hit: false };
 
   const key = cacheKey(artist, cleaned);
-  if (cache.has(key)) {
-    const cached = cache.get(key);
-    return cached ?? undefined;
-  }
+  const cached = cache.get(key);
+  if (cached) return cached;
 
   const term = `${artist ?? ''} ${cleaned}`.trim().slice(0, 100);
   const url =
@@ -78,17 +93,44 @@ export async function lookupCover(
   try {
     const res = await fetch(url, { signal, cache: 'no-store' });
     if (!res.ok) {
-      rememberCache(key, null);
-      return undefined;
+      // Treat a failed response as a miss for the duration of the cache
+      // — better than the alternative of repeatedly re-hitting a flaky
+      // endpoint, and a real song will resurface on a later track.
+      const result: ITunesResult = { hit: false };
+      rememberCache(key, result);
+      return result;
     }
     const data = (await res.json()) as { resultCount: number; results: ITunesTrack[] };
-    const best = pickBest(data.results ?? [], artist, cleaned);
+    const hit = (data.resultCount ?? 0) > 0;
+    const best = hit ? pickBest(data.results ?? [], artist, cleaned) : undefined;
     const lo = best?.artworkUrl100;
-    const hi = lo ? highRes(lo) : null;
-    rememberCache(key, hi);
-    return hi ?? undefined;
+    const result: ITunesResult = { hit };
+    if (lo) result.cover = highRes(lo);
+    rememberCache(key, result);
+    return result;
   } catch {
     // Don't cache transient/aborted errors — let next poll retry
-    return undefined;
+    return { hit: false };
   }
+}
+
+/** Cover-art-only wrapper. Returns the high-res artwork URL on hit
+ *  (assuming the iTunes record carries one), `undefined` otherwise. */
+export async function lookupCover(
+  artist: string | undefined,
+  track: string,
+  signal: AbortSignal,
+): Promise<string | undefined> {
+  return (await searchITunes(artist, track, signal)).cover;
+}
+
+/** Existence-check wrapper. Returns whether iTunes has at least one
+ *  result for the given artist+track query. Drives the visibility of
+ *  Spotify/Apple Music/YT Music links in the now-playing pane. */
+export async function verifyTrack(
+  artist: string | undefined,
+  track: string,
+  signal: AbortSignal,
+): Promise<boolean> {
+  return (await searchITunes(artist, track, signal)).hit;
 }

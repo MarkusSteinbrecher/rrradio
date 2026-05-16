@@ -95,6 +95,15 @@ export interface NowPlaying {
   state: PlayerState;
   /** Best-effort current track title. Often unavailable on web. */
   trackTitle?: string;
+  /** Result of iTunes Search verification for the current track:
+   *  `true` if iTunes returned a match (so it's plausibly a real
+   *  song), `false` if iTunes returned 0 results (typical for news
+   *  IDs, program names, station jingles), and `undefined` while the
+   *  lookup is in-flight or hasn't been attempted. Drives the
+   *  music-service link visibility in the now-playing pane — we only
+   *  surface Spotify / Apple Music / YT Music links when iTunes
+   *  confirms the title resolves to something searchable. */
+  trackVerified?: boolean;
   /** Optional cover-art URL for the current track (when the metadata
    *  source provides one — e.g. Grrif's covers.json). */
   coverUrl?: string;
