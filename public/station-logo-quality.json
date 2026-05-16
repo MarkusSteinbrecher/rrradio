@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-16T21:19:56.892Z",
+  "generatedAt": "2026-05-16T22:08:09.034Z",
   "stations": [
     {
       "id": "builtin-grrif",
@@ -58,95 +58,79 @@
     },
     {
       "id": "builtin-orf-radio-wien",
-      "favicon": "https://upload.wikimedia.org/wikipedia/commons/0/07/Logo_Radio_Wien.svg",
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Logo_Radio_Wien.svg/500px-Logo_Radio_Wien.svg.png",
       "source": "remote",
-      "format": "svg",
-      "width": 450.6,
-      "height": 734.5,
-      "bytes": 2869,
+      "format": "png",
+      "width": 500,
+      "height": 816,
+      "bytes": 23725,
       "aspect": 0.613,
-      "bucket": "vector"
+      "bucket": "poor"
     },
     {
       "id": "builtin-orf-radio-vorarlberg",
-      "favicon": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Logo_Radio_Vorarlberg.svg",
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Logo_Radio_Vorarlberg.svg/500px-Logo_Radio_Vorarlberg.svg.png",
       "source": "remote",
-      "format": "svg",
-      "width": 425.3,
-      "height": 749.7,
-      "bytes": 4312,
+      "format": "png",
+      "width": 500,
+      "height": 882,
+      "bytes": 24456,
       "aspect": 0.567,
-      "bucket": "vector"
+      "bucket": "poor"
     },
     {
       "id": "builtin-orf-radio-oberoesterreich",
-      "favicon": "https://upload.wikimedia.org/wikipedia/commons/9/99/Logo_Radio_Ober%C3%B6sterreich.svg",
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Logo_Radio_Ober%C3%B6sterreich.svg/500px-Logo_Radio_Ober%C3%B6sterreich.svg.png",
       "source": "remote",
-      "format": "svg",
-      "width": 480.1,
-      "height": 791.6,
-      "bytes": 6238,
+      "format": "png",
+      "width": 500,
+      "height": 825,
+      "bytes": 31311,
       "aspect": 0.606,
-      "bucket": "vector"
+      "bucket": "poor"
     },
     {
       "id": "builtin-orf-radio-niederoesterreich",
-      "favicon": "https://upload.wikimedia.org/wikipedia/commons/e/ea/Logo_Radio_Nieder%C3%B6sterreich.svg",
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Logo_Radio_Nieder%C3%B6sterreich.svg/500px-Logo_Radio_Nieder%C3%B6sterreich.svg.png",
       "source": "remote",
-      "format": "svg",
-      "width": 465.6,
-      "height": 778.9,
-      "bytes": 6109,
-      "aspect": 0.598,
-      "bucket": "vector"
+      "bucket": "unknown",
+      "error": "HTTP 429"
     },
     {
       "id": "builtin-orf-radio-steiermark",
-      "favicon": "https://upload.wikimedia.org/wikipedia/commons/e/e8/Logo_Radio_Steiermark.svg",
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Logo_Radio_Steiermark.svg/500px-Logo_Radio_Steiermark.svg.png",
       "source": "remote",
-      "format": "svg",
-      "width": 450.6,
-      "height": 791,
-      "bytes": 4346,
-      "aspect": 0.57,
-      "bucket": "vector"
+      "bucket": "unknown",
+      "error": "HTTP 429"
     },
     {
       "id": "builtin-orf-radio-tirol",
-      "favicon": "https://upload.wikimedia.org/wikipedia/commons/b/b9/Logo_Radio_Tirol.svg",
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Logo_Radio_Tirol.svg/500px-Logo_Radio_Tirol.svg.png",
       "source": "remote",
-      "format": "svg",
-      "width": 441,
-      "height": 718.1,
-      "bytes": 3114,
-      "aspect": 0.614,
-      "bucket": "vector"
+      "bucket": "unknown",
+      "error": "HTTP 429"
     },
     {
       "id": "builtin-orf-radio-kaernten",
-      "favicon": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Logo_Radio_K%C3%A4rnten.svg",
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Logo_Radio_K%C3%A4rnten.svg/500px-Logo_Radio_K%C3%A4rnten.svg.png",
       "source": "remote",
-      "format": "svg",
-      "width": 429.2,
-      "height": 759.4,
-      "bytes": 3645,
+      "format": "png",
+      "width": 500,
+      "height": 885,
+      "bytes": 20195,
       "aspect": 0.565,
-      "bucket": "vector"
+      "bucket": "poor"
     },
     {
       "id": "builtin-orf-radio-burgenland",
-      "favicon": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Logo_Radio_Burgenland.svg",
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Logo_Radio_Burgenland.svg/500px-Logo_Radio_Burgenland.svg.png",
       "source": "remote",
-      "format": "svg",
-      "width": 426.8,
-      "height": 755.3,
-      "bytes": 4417,
-      "aspect": 0.565,
-      "bucket": "vector"
+      "bucket": "unknown",
+      "error": "HTTP 429"
     },
     {
       "id": "builtin-orf-radio-salzburg",
-      "favicon": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Logo_Radio_Salzburg.svg",
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Logo_Radio_Salzburg.svg/500px-Logo_Radio_Salzburg.svg.png",
       "source": "remote",
       "bucket": "unknown",
       "error": "HTTP 429"
@@ -4664,15 +4648,23 @@
       "id": "builtin-cbc-radio-1-vancouver",
       "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/CBC_Radio_Logo.svg/330px-CBC_Radio_Logo.svg.png",
       "source": "remote",
-      "bucket": "unknown",
-      "error": "HTTP 429"
+      "format": "png",
+      "width": 330,
+      "height": 404,
+      "bytes": 18199,
+      "aspect": 0.817,
+      "bucket": "acceptable"
     },
     {
       "id": "builtin-cbc-radio-1-montreal",
       "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/CBC_Radio_Logo.svg/330px-CBC_Radio_Logo.svg.png",
       "source": "remote",
-      "bucket": "unknown",
-      "error": "HTTP 429"
+      "format": "png",
+      "width": 330,
+      "height": 404,
+      "bytes": 18199,
+      "aspect": 0.817,
+      "bucket": "acceptable"
     },
     {
       "id": "builtin-cbc-music",
@@ -11254,7 +11246,7 @@
     },
     {
       "id": "de-rbb-24-inforadio",
-      "favicon": "https://upload.wikimedia.org/wikipedia/commons/6/62/Rbb24_Inforadio_Logo_2022.svg",
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Rbb24_Inforadio_Logo_2022.svg/500px-Rbb24_Inforadio_Logo_2022.svg.png",
       "source": "remote",
       "bucket": "unknown",
       "error": "HTTP 429"
@@ -12253,7 +12245,7 @@
     },
     {
       "id": "de-wdr3-256",
-      "favicon": "https://upload.wikimedia.org/wikipedia/commons/e/e6/WDR_3_logo.svg",
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/WDR_3_logo.svg/500px-WDR_3_logo.svg.png",
       "source": "remote",
       "bucket": "unknown",
       "error": "HTTP 429"
@@ -18172,7 +18164,7 @@
     },
     {
       "id": "de-917xfm",
-      "favicon": "https://upload.wikimedia.org/wikipedia/commons/f/f0/917xfm-Logo.svg",
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/917xfm-Logo.svg/500px-917xfm-Logo.svg.png",
       "source": "remote",
       "bucket": "unknown",
       "error": "HTTP 429"
@@ -24304,14 +24296,10 @@
     },
     {
       "id": "at-antenne-steiermark-werbefrei",
-      "favicon": "https://upload.wikimedia.org/wikipedia/commons/6/63/Antenne_Logo.svg",
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Antenne_Logo.svg/500px-Antenne_Logo.svg.png",
       "source": "remote",
-      "format": "svg",
-      "width": 1000,
-      "height": 1000,
-      "bytes": 31064,
-      "aspect": 1,
-      "bucket": "vector"
+      "bucket": "unknown",
+      "error": "HTTP 429"
     },
     {
       "id": "at-soundstorm-radio",
@@ -24322,7 +24310,7 @@
     },
     {
       "id": "at-orf-radio-salzburg",
-      "favicon": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Logo_Radio_Salzburg.svg",
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Logo_Radio_Salzburg.svg/500px-Logo_Radio_Salzburg.svg.png",
       "source": "remote",
       "bucket": "unknown",
       "error": "HTTP 429"
@@ -29102,7 +29090,7 @@
     },
     {
       "id": "us-lofi-girl",
-      "favicon": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Lofi_Girl_logo_%282024%29.svg",
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Lofi_Girl_logo_%282024%29.svg/500px-Lofi_Girl_logo_%282024%29.svg.png",
       "source": "remote",
       "bucket": "unknown",
       "error": "HTTP 429"
@@ -33713,7 +33701,7 @@
       "favicon": "https://imgres.crsky.com/crsky/123/611013-202405061645176638989d866f0.jpg",
       "source": "remote",
       "bucket": "unknown",
-      "error": "HTTP 403"
+      "error": "timeout"
     },
     {
       "id": "us-fairfax-county-police-fire-and-ems",
@@ -64077,8 +64065,12 @@
       "id": "fr-bfm-business",
       "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/BFM_Business_logo_2023.png/330px-BFM_Business_logo_2023.png",
       "source": "remote",
-      "bucket": "unknown",
-      "error": "HTTP 429"
+      "format": "png",
+      "width": 330,
+      "height": 330,
+      "bytes": 24617,
+      "aspect": 1,
+      "bucket": "good"
     },
     {
       "id": "fr-radio-classique",
@@ -75550,10 +75542,14 @@
     },
     {
       "id": "es-europa-fm-guipuzcoa",
-      "favicon": "https://upload.wikimedia.org/wikipedia/commons/6/6d/EuropaFM_logo.svg",
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/EuropaFM_logo.svg/500px-EuropaFM_logo.svg.png",
       "source": "remote",
-      "bucket": "unknown",
-      "error": "HTTP 429"
+      "format": "png",
+      "width": 500,
+      "height": 73,
+      "bytes": 6022,
+      "aspect": 6.849,
+      "bucket": "poor"
     },
     {
       "id": "es-hitz-funky-radio",
@@ -75824,10 +75820,14 @@
     },
     {
       "id": "es-cadena-ser-sevilla",
-      "favicon": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Cadena_Ser_logo-2.svg",
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Cadena_Ser_logo-2.svg/500px-Cadena_Ser_logo-2.svg.png",
       "source": "remote",
-      "bucket": "unknown",
-      "error": "HTTP 429"
+      "format": "png",
+      "width": 500,
+      "height": 264,
+      "bytes": 49683,
+      "aspect": 1.894,
+      "bucket": "poor"
     },
     {
       "id": "es-smooth-jazz-classics-by-cloud-jazz",
@@ -76698,10 +76698,14 @@
     },
     {
       "id": "es-cadena-ser-cadiz",
-      "favicon": "https://upload.wikimedia.org/wikipedia/commons/2/28/Cadena_Ser_logo.svg",
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Cadena_Ser_logo.svg/500px-Cadena_Ser_logo.svg.png",
       "source": "remote",
-      "bucket": "unknown",
-      "error": "HTTP 429"
+      "format": "png",
+      "width": 500,
+      "height": 253,
+      "bytes": 6704,
+      "aspect": 1.976,
+      "bucket": "poor"
     },
     {
       "id": "es-cadena-ser-almeria-88-2-fm",
@@ -80444,14 +80448,14 @@
     },
     {
       "id": "nl-qmusic-het-foute-uur",
-      "favicon": "https://upload.wikimedia.org/wikipedia/commons/7/70/Qmusic_logo.svg",
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Qmusic_logo.svg/500px-Qmusic_logo.svg.png",
       "source": "remote",
-      "format": "svg",
-      "width": 313,
-      "height": 374,
-      "bytes": 5670,
-      "aspect": 0.837,
-      "bucket": "vector"
+      "format": "png",
+      "width": 500,
+      "height": 598,
+      "bytes": 31484,
+      "aspect": 0.836,
+      "bucket": "acceptable"
     },
     {
       "id": "nl-jazz-de-ville-dance",
@@ -98753,7 +98757,7 @@
       "favicon": "https://deltafm.net/_ipx/q_100/img/logo.png",
       "source": "remote",
       "bucket": "unknown",
-      "error": "timeout"
+      "error": "fetch failed"
     },
     {
       "id": "id-dna-fm-jepara",
@@ -107958,7 +107962,7 @@
       "favicon": "https://ptpimg.me/ibo76q.png",
       "source": "remote",
       "bucket": "unknown",
-      "error": "HTTP 523"
+      "error": "HTTP 500"
     },
     {
       "id": "rs-radio-s-ex-yu",
@@ -119704,10 +119708,14 @@
     },
     {
       "id": "br-itatiaia-fm-105-3-mhz-juiz-de-fora-mg",
-      "favicon": "https://upload.wikimedia.org/wikipedia/commons/c/c0/R%C3%A1dio_Itatiaia_logo_2022.svg",
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/R%C3%A1dio_Itatiaia_logo_2022.svg/500px-R%C3%A1dio_Itatiaia_logo_2022.svg.png",
       "source": "remote",
-      "bucket": "unknown",
-      "error": "HTTP 429"
+      "format": "png",
+      "width": 500,
+      "height": 115,
+      "bytes": 5144,
+      "aspect": 4.348,
+      "bucket": "poor"
     },
     {
       "id": "br-jovem-pan-sao-jose-dos-campos",
