@@ -29,6 +29,7 @@
     "logo-status": "node tools/logo-status.mjs",
     "probe-logos": "node tools/probe-logo-sizes.mjs",
     "clear-dead-favicons": "node tools/clear-dead-favicons.mjs",
+    "rasterise-remote-svgs": "node tools/rasterise-remote-svgs.mjs",
     "scrape-logos": "node tools/scrape-logos.mjs",
     "apply-logos": "node tools/apply-logos.mjs",
     "wiki-logos": "node tools/wiki-logos.mjs",
@@ -54,6 +55,7 @@
     "leaflet": "^1.9.4"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@types/leaflet": "^1.9.21",
     "happy-dom": "^20.9.0",
     "playwright": "^1.59.1",
