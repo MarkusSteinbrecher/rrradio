@@ -104,6 +104,13 @@ final class AudioPlayer {
     }
     private(set) var nowPlayingTitle: String?
     private(set) var nowPlayingArtist: String?
+    /// Result of iTunes Search verification for the current track:
+    /// `true` if iTunes returned a match (plausibly a real song),
+    /// `false` if it returned 0 results (typical for news IDs,
+    /// program names, station jingles), and `nil` while the lookup
+    /// is in-flight or hasn't run. Drives the visibility of the
+    /// Apple Music / Spotify / YT Music buttons in NowPlayingView.
+    private(set) var nowPlayingTrackVerified: Bool?
     private(set) var nowPlayingProgramName: String?
     private(set) var nowPlayingProgramSubtitle: String?
     private(set) var nowPlayingCoverUrl: URL?
@@ -210,6 +217,7 @@ final class AudioPlayer {
         isStreamRetryScheduled = false
         nowPlayingTitle = nil
         nowPlayingArtist = nil
+        nowPlayingTrackVerified = nil
         nowPlayingProgramName = nil
         nowPlayingProgramSubtitle = nil
         nowPlayingCoverUrl = nil
@@ -305,6 +313,7 @@ final class AudioPlayer {
         activePlaybackQueueSourceID = nil
         nowPlayingTitle = nil
         nowPlayingArtist = nil
+        nowPlayingTrackVerified = nil
         nowPlayingProgramName = nil
         nowPlayingProgramSubtitle = nil
         nowPlayingCoverUrl = nil
@@ -1024,11 +1033,23 @@ final class AudioPlayer {
         isLyricsLoading = false
     }
 
+    /// Runs an iTunes Search whenever the current track changes. The
+    /// search serves two purposes:
+    ///
+    ///   1. Cover-art upgrade — applied only when `sourceCoverUrl` is
+    ///      missing or known low-res (we don't downgrade a good
+    ///      station-supplied cover).
+    ///   2. Track verification — `result.hit` populates
+    ///      `nowPlayingTrackVerified`, which NowPlayingView reads to
+    ///      decide whether to surface Apple Music / Spotify / YT Music
+    ///      buttons. News/talk channels emit show names and station
+    ///      IDs that iTunes returns 0 results for; those titles should
+    ///      not surface music-service buttons.
+    ///
+    /// Both signals come from one request, so we always issue the
+    /// search on every new track (not just when cover is needed) and
+    /// let the module-level cache short-circuit repeats.
     private func startCoverArtLoadingIfNeeded(sourceCoverUrl: URL?) {
-        guard sourceCoverUrl == nil || sourceCoverUrl.map(isLowResolutionCoverURL) == true else {
-            resetCoverArtLookup()
-            return
-        }
         guard let title = cleanLyricsComponent(nowPlayingTitle) else {
             resetCoverArtLookup()
             return
@@ -1040,17 +1061,29 @@ final class AudioPlayer {
 
         coverArtTask?.cancel()
         coverArtKey = key
+        // Reset verification while the new lookup is in flight — the
+        // NowPlayingView gate is `=== true`, so `nil` hides the
+        // buttons until the iTunes result arrives.
+        nowPlayingTrackVerified = nil
+
+        let wantsCoverUpgrade =
+            sourceCoverUrl == nil || sourceCoverUrl.map(isLowResolutionCoverURL) == true
+
         coverArtTask = Task { [weak self] in
-            let coverUrl = await lookupCoverArt(artist: artist, title: title)
+            let result = await searchITunes(artist: artist, title: title)
             guard !Task.isCancelled else { return }
             await MainActor.run { [weak self] in
                 guard let self, self.coverArtKey == key else { return }
-                guard let coverUrl else {
-                    diagnosticRecord("cover-art", "not found")
-                    return
+                self.nowPlayingTrackVerified = result.hit
+                if wantsCoverUpgrade, let cover = result.cover {
+                    self.nowPlayingCoverUrl = cover
+                    diagnosticRecord(
+                        "cover-art", "loaded",
+                        details: ["host": cover.host() ?? ""],
+                    )
+                } else if !result.hit {
+                    diagnosticRecord("itunes", "miss")
                 }
-                self.nowPlayingCoverUrl = coverUrl
-                diagnosticRecord("cover-art", "loaded", details: ["host": coverUrl.host() ?? ""])
                 self.updateNowPlaying()
             }
         }
@@ -1060,6 +1093,7 @@ final class AudioPlayer {
         coverArtTask?.cancel()
         coverArtTask = nil
         coverArtKey = ""
+        nowPlayingTrackVerified = nil
     }
 
     private func cleanLyricsComponent(_ value: String?) -> String? {
