@@ -1,5 +1,6 @@
 package org.rrradio.android.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -53,6 +54,8 @@ import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Public
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.rounded.SkipNext
+import androidx.compose.material.icons.rounded.SkipPrevious
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material.icons.rounded.Timer
 import androidx.compose.material3.AlertDialog
@@ -69,7 +72,6 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -129,93 +131,108 @@ fun RrradioApp(
     var stationListPendingRename by remember { mutableStateOf<StationList?>(null) }
     var stationPreview by remember { mutableStateOf<Station?>(null) }
 
-    Scaffold(
-        contentWindowInsets = WindowInsets(0),
-        bottomBar = {
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.background)
-                    .navigationBarsPadding(),
-            ) {
-                if (state.stationSelectionActive) {
-                    StationSelectionBar(
-                        count = state.selectedStationIds.size,
-                        onCancel = actions::cancelStationSelection,
-                        onSave = {
-                            if (state.selectedStationIds.isEmpty()) {
-                                actions.cancelStationSelection()
-                            } else if (state.stationLists.isEmpty()) {
-                                createListFromSelection = true
-                                showCreateStationList = true
-                            } else {
-                                showChooseStationList = true
-                            }
-                        },
-                    )
-                } else if (state.playback.station != null) {
-                    MiniPlayer(
-                        playback = state.playback,
-                        sleepMinutes = state.sleepMinutes,
-                        onOpen = { showNowPlaying = true },
-                        onToggle = actions::togglePlayback,
-                        onSleep = actions::cycleSleepTimer,
+    Box(Modifier.fillMaxSize()) {
+        Scaffold(
+            contentWindowInsets = WindowInsets(0),
+            bottomBar = {
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.background)
+                        .navigationBarsPadding(),
+                ) {
+                    if (state.stationSelectionActive) {
+                        StationSelectionBar(
+                            count = state.selectedStationIds.size,
+                            onCancel = actions::cancelStationSelection,
+                            onSave = {
+                                if (state.selectedStationIds.isEmpty()) {
+                                    actions.cancelStationSelection()
+                                } else if (state.stationLists.isEmpty()) {
+                                    createListFromSelection = true
+                                    showCreateStationList = true
+                                } else {
+                                    showChooseStationList = true
+                                }
+                            },
+                        )
+                    } else if (state.playback.station != null) {
+                        MiniPlayer(
+                            playback = state.playback,
+                            sleepMinutes = state.sleepMinutes,
+                            onOpen = { showNowPlaying = true },
+                            onToggle = actions::togglePlayback,
+                            onSleep = actions::cycleSleepTimer,
+                        )
+                    }
+                    BottomTabBar(
+                        tab = state.tab,
+                        onTab = actions::setTab,
                     )
                 }
-                BottomTabBar(
-                    tab = state.tab,
-                    onTab = actions::setTab,
+            },
+        ) { padding ->
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(padding)
+                    .statusBarsPadding(),
+            ) {
+                Header(
+                    state = state,
+                    onQuery = actions::setQuery,
+                    onOpenPreferences = { showPreferences = true },
+                    resolvedDarkTheme = resolvedDarkTheme,
+                    onAddStation = { showAddStation = true },
+                    onCountry = actions::setCountry,
+                    onTag = actions::setTag,
+                    onLibrarySource = actions::setLibrarySource,
+                    onFavoritesDisplayMode = actions::setFavoritesDisplayMode,
+                    onCycleAlphabetSort = actions::cycleAlphabetSort,
+                    onCycleQualitySort = actions::cycleQualitySort,
+                    onCycleFavoriteSort = actions::cycleFavoriteSort,
+                    onBeginStationSelection = actions::beginStationSelection,
+                    onCreateStationList = {
+                        createListFromSelection = false
+                        showCreateStationList = true
+                    },
+                )
+                StationContent(
+                    state = state,
+                    onRefresh = actions::refreshCatalog,
+                    onPlay = {
+                        actions.play(it)
+                        showNowPlaying = true
+                    },
+                    onFavorite = actions::toggleFavorite,
+                    onRemoveCustom = { customStationPendingDelete = it },
+                    onOpenFavorites = { actions.setTab(AppTab.Favorites) },
+                    onOpenRecents = { actions.setLibrarySource(LibrarySource.Recents) },
+                    onOpenStationList = actions::openStationList,
+                    onCloseStationList = actions::closeStationList,
+                    onDeleteStationList = { stationListPendingDelete = it },
+                    onRenameStationList = { stationListPendingRename = it },
+                    onRemoveFromStationList = actions::removeStationFromSelectedList,
+                    onMoveStationList = actions::moveStationList,
+                    onMoveStationInList = actions::moveStationInSelectedList,
+                    onToggleSelection = actions::toggleStationSelection,
+                    onMoveFavorite = actions::moveFavorite,
+                    onPreviewStation = { stationPreview = it },
                 )
             }
-        },
-    ) { padding ->
-        Column(
-            Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
-                .padding(padding)
-                .statusBarsPadding(),
-        ) {
-            Header(
+        }
+
+        if (showNowPlaying && state.playback.station != null) {
+            BackHandler { showNowPlaying = false }
+            NowPlayingDestination(
                 state = state,
-                onQuery = actions::setQuery,
-                onOpenPreferences = { showPreferences = true },
-                resolvedDarkTheme = resolvedDarkTheme,
-                onAddStation = { showAddStation = true },
-                onCountry = actions::setCountry,
-                onTag = actions::setTag,
-                onLibrarySource = actions::setLibrarySource,
-                onFavoritesDisplayMode = actions::setFavoritesDisplayMode,
-                onCycleAlphabetSort = actions::cycleAlphabetSort,
-                onCycleQualitySort = actions::cycleQualitySort,
-                onCycleFavoriteSort = actions::cycleFavoriteSort,
-                onBeginStationSelection = actions::beginStationSelection,
-                onCreateStationList = {
-                    createListFromSelection = false
-                    showCreateStationList = true
-                },
-            )
-            StationContent(
-                state = state,
-                onRefresh = actions::refreshCatalog,
-                onPlay = {
-                    actions.play(it)
-                    showNowPlaying = true
-                },
                 onFavorite = actions::toggleFavorite,
-                onRemoveCustom = { customStationPendingDelete = it },
-                onOpenFavorites = { actions.setTab(AppTab.Favorites) },
-                onOpenRecents = { actions.setLibrarySource(LibrarySource.Recents) },
-                onOpenStationList = actions::openStationList,
-                onCloseStationList = actions::closeStationList,
-                onDeleteStationList = { stationListPendingDelete = it },
-                onRenameStationList = { stationListPendingRename = it },
-                onRemoveFromStationList = actions::removeStationFromSelectedList,
-                onMoveStationList = actions::moveStationList,
-                onMoveStationInList = actions::moveStationInSelectedList,
-                onToggleSelection = actions::toggleStationSelection,
-                onMoveFavorite = actions::moveFavorite,
-                onPreviewStation = { stationPreview = it },
+                onPrevious = actions::playPrevious,
+                onToggle = actions::togglePlayback,
+                onNext = actions::playNext,
+                onSleep = actions::cycleSleepTimer,
+                onDismiss = { showNowPlaying = false },
             )
         }
     }
@@ -234,23 +251,6 @@ fun RrradioApp(
                     }
                 },
                 onCancel = { showAddStation = false },
-            )
-        }
-    }
-
-    if (showNowPlaying && state.playback.station != null) {
-        ModalBottomSheet(
-            sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-            containerColor = MaterialTheme.colorScheme.background,
-            dragHandle = null,
-            onDismissRequest = { showNowPlaying = false },
-        ) {
-            NowPlayingSheet(
-                state = state,
-                onFavorite = actions::toggleFavorite,
-                onToggle = actions::togglePlayback,
-                onSleep = actions::cycleSleepTimer,
-                onDismiss = { showNowPlaying = false },
             )
         }
     }
@@ -2176,18 +2176,24 @@ private fun MiniSubtitle(playback: PlaybackUiState) {
 }
 
 @Composable
-private fun NowPlayingSheet(
+private fun NowPlayingDestination(
     state: RrradioUiState,
     onFavorite: (Station) -> Unit,
+    onPrevious: () -> Unit,
     onToggle: () -> Unit,
+    onNext: () -> Unit,
     onSleep: () -> Unit,
     onDismiss: () -> Unit,
 ) {
     val station = state.playback.station ?: return
+    val canStepStations = state.playback.queueSize > 1
     Column(
         Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
+            .statusBarsPadding()
+            .navigationBarsPadding()
+            .verticalScroll(rememberScrollState())
             .padding(bottom = 24.dp),
     ) {
         Row(
@@ -2284,7 +2290,7 @@ private fun NowPlayingSheet(
             Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp, vertical = 14.dp),
-            horizontalArrangement = Arrangement.Center,
+            horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             IconButton(onClick = { onFavorite(station) }) {
@@ -2293,6 +2299,20 @@ private fun NowPlayingSheet(
                     if (favorite) Icons.Rounded.Favorite else Icons.Rounded.FavoriteBorder,
                     contentDescription = if (favorite) "Remove favorite" else "Add favorite",
                     tint = if (favorite) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+            IconButton(
+                onClick = onPrevious,
+                enabled = canStepStations,
+            ) {
+                Icon(
+                    Icons.Rounded.SkipPrevious,
+                    contentDescription = "Previous station",
+                    tint = if (canStepStations) {
+                        MaterialTheme.colorScheme.onBackground
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.45f)
+                    },
                 )
             }
             Button(
@@ -2308,6 +2328,20 @@ private fun NowPlayingSheet(
                 Icon(
                     if (state.playback.state == PlayerState.Playing) Icons.Rounded.Pause else Icons.Rounded.PlayArrow,
                     contentDescription = if (state.playback.state == PlayerState.Playing) "Pause" else "Play",
+                )
+            }
+            IconButton(
+                onClick = onNext,
+                enabled = canStepStations,
+            ) {
+                Icon(
+                    Icons.Rounded.SkipNext,
+                    contentDescription = "Next station",
+                    tint = if (canStepStations) {
+                        MaterialTheme.colorScheme.onBackground
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.45f)
+                    },
                 )
             }
             TextButton(onClick = onSleep) {

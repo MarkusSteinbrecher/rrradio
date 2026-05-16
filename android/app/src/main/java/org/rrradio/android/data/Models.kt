@@ -163,6 +163,8 @@ enum class PlayerState {
 data class PlaybackUiState(
     val station: Station? = null,
     val state: PlayerState = PlayerState.Idle,
+    val queueIndex: Int = 0,
+    val queueSize: Int = 0,
     val artist: String? = null,
     val title: String? = null,
     val programName: String? = null,

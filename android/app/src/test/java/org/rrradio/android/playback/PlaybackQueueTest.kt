@@ -2,6 +2,7 @@ package org.rrradio.android.playback
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.rrradio.android.data.Station
@@ -23,6 +24,20 @@ class PlaybackQueueTest {
 
         assertEquals(listOf(selected), activePlaybackQueue(listOf(station("other")), selected))
         assertEquals(0, playbackQueueStartIndex(emptyList(), selected))
+    }
+
+    @Test
+    fun playbackQueueStepIndexWrapsThroughActiveQueue() {
+        assertEquals(2, playbackQueueStepIndex(0, 3, PlaybackQueueStepDirection.Backward))
+        assertEquals(1, playbackQueueStepIndex(0, 3, PlaybackQueueStepDirection.Forward))
+        assertEquals(0, playbackQueueStepIndex(2, 3, PlaybackQueueStepDirection.Forward))
+    }
+
+    @Test
+    fun playbackQueueStepIndexRequiresARealQueue() {
+        assertNull(playbackQueueStepIndex(0, 1, PlaybackQueueStepDirection.Forward))
+        assertNull(playbackQueueStepIndex(-1, 3, PlaybackQueueStepDirection.Forward))
+        assertNull(playbackQueueStepIndex(3, 3, PlaybackQueueStepDirection.Backward))
     }
 
     @Test

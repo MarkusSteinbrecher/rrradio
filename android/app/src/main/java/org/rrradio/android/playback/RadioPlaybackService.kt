@@ -54,6 +54,8 @@ class RadioPlaybackService : MediaSessionService() {
             }
             ACTION_TOGGLE -> toggle()
             ACTION_PAUSE -> pause()
+            ACTION_PREVIOUS -> step(PlaybackQueueStepDirection.Backward)
+            ACTION_NEXT -> step(PlaybackQueueStepDirection.Forward)
             ACTION_STOP -> stopPlayback()
         }
         return super.onStartCommand(intent, flags, startId)
@@ -113,10 +115,13 @@ class RadioPlaybackService : MediaSessionService() {
     }
 
     private fun setCurrentStation(station: Station, state: PlayerState) {
+        val queueIndex = activeQueue.indexOfFirst { it.id == station.id }.takeIf { it >= 0 } ?: 0
         PlaybackStateStore.replace(
             PlaybackUiState(
                 station = station,
                 state = state,
+                queueIndex = queueIndex,
+                queueSize = activeQueue.size,
             ),
         )
     }
@@ -128,6 +133,23 @@ class RadioPlaybackService : MediaSessionService() {
     private fun pause() {
         player.pause()
         PlaybackStateStore.update { it.copy(state = PlayerState.Paused) }
+    }
+
+    private fun step(direction: PlaybackQueueStepDirection) {
+        val targetIndex = playbackQueueStepIndex(
+            currentIndex = player.currentMediaItemIndex,
+            queueSize = activeQueue.size,
+            direction = direction,
+        ) ?: return
+        val station = activeQueue[targetIndex]
+
+        retryJob?.cancel()
+        retryCount = 0
+        setCurrentStation(station, PlayerState.Loading)
+        player.seekTo(targetIndex, C.TIME_UNSET)
+        player.prepare()
+        player.playWhenReady = true
+        startMetadataPolling(station)
     }
 
     private fun stopPlayback() {
@@ -217,6 +239,8 @@ class RadioPlaybackService : MediaSessionService() {
         const val ACTION_PLAY_STATION = "org.rrradio.android.action.PLAY_STATION"
         const val ACTION_TOGGLE = "org.rrradio.android.action.TOGGLE"
         const val ACTION_PAUSE = "org.rrradio.android.action.PAUSE"
+        const val ACTION_PREVIOUS = "org.rrradio.android.action.PREVIOUS"
+        const val ACTION_NEXT = "org.rrradio.android.action.NEXT"
         const val ACTION_STOP = "org.rrradio.android.action.STOP"
         const val EXTRA_STATION_JSON = "station_json"
         const val EXTRA_QUEUE_JSON = "queue_json"
@@ -232,5 +256,11 @@ class RadioPlaybackService : MediaSessionService() {
 
         fun pauseIntent(context: android.content.Context): Intent =
             Intent(context, RadioPlaybackService::class.java).setAction(ACTION_PAUSE)
+
+        fun previousIntent(context: android.content.Context): Intent =
+            Intent(context, RadioPlaybackService::class.java).setAction(ACTION_PREVIOUS)
+
+        fun nextIntent(context: android.content.Context): Intent =
+            Intent(context, RadioPlaybackService::class.java).setAction(ACTION_NEXT)
     }
 }

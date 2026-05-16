@@ -423,6 +423,16 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
         context.startService(RadioPlaybackService.toggleIntent(context))
     }
 
+    fun playPrevious() {
+        val context = getApplication<Application>()
+        context.startService(RadioPlaybackService.previousIntent(context))
+    }
+
+    fun playNext() {
+        val context = getApplication<Application>()
+        context.startService(RadioPlaybackService.nextIntent(context))
+    }
+
     fun toggleFavorite(station: Station) {
         viewModelScope.launch { libraryRepository.toggleFavorite(station) }
     }

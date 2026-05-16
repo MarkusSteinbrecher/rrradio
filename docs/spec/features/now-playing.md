@@ -23,10 +23,11 @@ and secondary listening actions.
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| Destination view | Supported. | Reference. | Partial; current Android surface is still a thin sheet. |
+| Destination view | Supported. | Reference. | Supported for the core playback surface; secondary panels remain planned. |
 | Mini-player handoff | Supported. | Supported. | Supported. |
 | Track metadata | Supported. | Reference. | Partial; basic ICY metadata exists. |
 | Cover art fallback | Supported. | Reference. | Partial; station artwork fallback exists, track cover art is deferred. |
+| Previous/next station controls | Supported. | Reference. | Supported for active playback queues. |
 | Program schedule | Supported for wired broadcasters. | Supported for wired broadcasters. | Planned. |
 | Lyrics | Supported where lookup matches. | Planned/partial native parity. | Planned. |
 | Music-service search links | Supported. | Planned/partial native parity. | Planned. |
