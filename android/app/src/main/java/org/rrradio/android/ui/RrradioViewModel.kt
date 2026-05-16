@@ -8,6 +8,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.rrradio.android.data.AccentPreference
@@ -16,6 +17,7 @@ import org.rrradio.android.data.BrowseStationSort
 import org.rrradio.android.data.CatalogLoadState
 import org.rrradio.android.data.CatalogRepository
 import org.rrradio.android.data.CatalogState
+import org.rrradio.android.data.FavoritesDisplayMode
 import org.rrradio.android.data.LandingPagePreference
 import org.rrradio.android.data.LibraryRepository
 import org.rrradio.android.data.PlaybackUiState
@@ -43,12 +45,6 @@ enum class AppTab {
 enum class LibrarySource {
     Favorites,
     Recents,
-}
-
-enum class FavoritesDisplayMode {
-    List,
-    Tiles,
-    App,
 }
 
 data class RrradioUiState(
@@ -169,13 +165,21 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
             }
         }
         viewModelScope.launch {
-            libraryRepository.landingPagePreference.collect { preference ->
-                _uiState.update { state ->
-                    val startupTab = if (!appliedLandingPagePreference) landingTab(preference) else state.tab
-                    state.copy(landingPagePreference = preference, tab = startupTab)
+            combine(
+                libraryRepository.landingPagePreference,
+                libraryRepository.favoritesDisplayMode,
+            ) { landingPreference, favoritesMode -> landingPreference to favoritesMode }
+                .collect { (landingPreference, favoritesMode) ->
+                    _uiState.update { state ->
+                        val startupTab = if (!appliedLandingPagePreference) landingTab(landingPreference) else state.tab
+                        state.copy(
+                            landingPagePreference = landingPreference,
+                            favoritesDisplayMode = favoritesMode,
+                            tab = startupTab,
+                        )
+                    }
+                    appliedLandingPagePreference = true
                 }
-                appliedLandingPagePreference = true
-            }
         }
         viewModelScope.launch {
             libraryRepository.sleepDefaultMinutes.collect { minutes ->
@@ -301,6 +305,7 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
 
     fun setFavoritesDisplayMode(mode: FavoritesDisplayMode) {
         _uiState.update { it.copy(favoritesDisplayMode = mode, tab = AppTab.Favorites) }
+        viewModelScope.launch { libraryRepository.setFavoritesDisplayMode(mode) }
     }
 
     fun openStationList(listId: String) {

@@ -35,7 +35,7 @@ The selected mode and the visible/order settings are user preferences.
 | Add/remove favorites | Supported. | Supported. | Supported. |
 | Reorder favorites | Supported. | Reference native behavior. | Partial; basic controls exist, native drag/reorder remains. |
 | Favorites list view | Supported. | Supported. | Supported. |
-| Favorites tile/app views | Partial/current web behavior may differ. | Reference. | Supported; persistence and ordering preferences still need parity. |
+| Favorites tile/app views | Partial/current web behavior may differ. | Reference. | Supported; visible/order settings still need parity. |
 | Recents | Supported, capped. | Supported, capped. | Supported, capped. |
 | iCloud sync | Not planned. | Supported for favorites and order. | Not applicable. |
 | Manual file export/import | Supported. | Planned/optional. | Planned/optional. |
@@ -49,9 +49,10 @@ The selected mode and the visible/order settings are user preferences.
 - Android persists locally in DataStore.
 - Recents remain local-only on every platform unless a future sync ADR changes
   that decision.
-- Android currently keeps the selected Favorites display mode in memory only;
-  persisting the selected mode and visible/order settings is part of the
-  remaining native parity work.
+- Android persists the selected Favorites display mode in DataStore and restores
+  it together with the landing page preference before applying a Favorites
+  startup tab. Visible/order settings remain part of the remaining native parity
+  work.
 
 ## Empty And Search States
 

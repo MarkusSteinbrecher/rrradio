@@ -104,6 +104,18 @@ enum class LandingPagePreference(val rawValue: String) {
     }
 }
 
+enum class FavoritesDisplayMode(val rawValue: String) {
+    List("list"),
+    Tiles("tiles"),
+    App("app"),
+    ;
+
+    companion object {
+        fun fromRaw(rawValue: String?): FavoritesDisplayMode =
+            entries.firstOrNull { it.rawValue == rawValue } ?: List
+    }
+}
+
 internal object StringCompatibleSerializer : KSerializer<String> {
     override val descriptor = PrimitiveSerialDescriptor("StringCompatible", PrimitiveKind.STRING)
 
