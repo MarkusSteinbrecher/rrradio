@@ -3,6 +3,7 @@ import Foundation
 private let coverArtCacheLimit = 64
 
 private struct ITunesSearchResponse: Decodable {
+    let resultCount: Int
     let results: [ITunesTrack]
 }
 
@@ -12,19 +13,35 @@ private struct ITunesTrack: Decodable {
     let artworkUrl100: String?
 }
 
-private actor CoverArtCache {
-    static let shared = CoverArtCache()
+/// Outcome of an iTunes Search call. `hit` mirrors `resultCount > 0`
+/// and is the signal NowPlayingView uses to decide whether to surface
+/// Apple Music / Spotify / YT Music buttons. `cover` is set only when
+/// the best match also carries 100×100 artwork (which we upgrade to
+/// 600×600 for retina rendering).
+public struct ITunesSearchResult: Equatable {
+    public let hit: Bool
+    public let cover: URL?
 
-    private var values: [String: URL?] = [:]
-    private var order: [String] = []
-
-    func value(for key: String) -> URL?? {
-        guard values.keys.contains(key) else { return nil }
-        return values[key]
+    public init(hit: Bool, cover: URL? = nil) {
+        self.hit = hit
+        self.cover = cover
     }
 
-    func set(_ value: URL?, for key: String) {
-        if !values.keys.contains(key) {
+    public static let miss = ITunesSearchResult(hit: false, cover: nil)
+}
+
+private actor ITunesSearchCache {
+    static let shared = ITunesSearchCache()
+
+    private var values: [String: ITunesSearchResult] = [:]
+    private var order: [String] = []
+
+    func value(for key: String) -> ITunesSearchResult? {
+        values[key]
+    }
+
+    func set(_ value: ITunesSearchResult, for key: String) {
+        if values[key] == nil {
             order.append(key)
         }
         values[key] = value
@@ -36,20 +53,27 @@ private actor CoverArtCache {
     }
 }
 
-func lookupCoverArt(
+/// Run an iTunes Search and cache the outcome. Returns `.miss` on
+/// transport errors *without* caching so the next poll can retry
+/// (network blips don't poison the cache).
+func searchITunes(
     artist: String?,
     title: String,
     fetch: @escaping MetadataDataFetcher = { try await URLSession.shared.data(for: $0) },
-) async -> URL? {
+) async -> ITunesSearchResult {
     let cleanedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
-    guard cleanedTitle.count >= 3, cleanedTitle != "-", cleanedTitle != "—" else { return nil }
+    guard cleanedTitle.count >= 3, cleanedTitle != "-", cleanedTitle != "—" else {
+        return .miss
+    }
 
     let key = coverArtCacheKey(artist: artist, title: cleanedTitle)
-    if let cached = await CoverArtCache.shared.value(for: key) {
+    if let cached = await ITunesSearchCache.shared.value(for: key) {
         return cached
     }
 
-    guard let url = coverArtSearchURL(artist: artist, title: cleanedTitle) else { return nil }
+    guard let url = coverArtSearchURL(artist: artist, title: cleanedTitle) else {
+        return .miss
+    }
     var request = URLRequest(url: url)
     request.cachePolicy = .reloadIgnoringLocalCacheData
     request.timeoutInterval = 8
@@ -57,18 +81,49 @@ func lookupCoverArt(
     do {
         let (data, response) = try await fetch(request)
         guard let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) else {
-            await CoverArtCache.shared.set(nil, for: key)
-            return nil
+            // Treat as a miss for the duration of the cache — better
+            // than re-hitting a flaky endpoint, and a real song will
+            // resurface on a later track.
+            await ITunesSearchCache.shared.set(.miss, for: key)
+            return .miss
         }
 
         let decoded = try JSONDecoder().decode(ITunesSearchResponse.self, from: data)
-        let best = pickBestCoverArtMatch(decoded.results, artist: artist, title: cleanedTitle)
+        let hit = decoded.resultCount > 0
+        let best = hit ? pickBestCoverArtMatch(decoded.results, artist: artist, title: cleanedTitle) : nil
         let cover = best?.artworkUrl100.flatMap(highResolutionITunesArtworkURL)
-        await CoverArtCache.shared.set(cover, for: key)
-        return cover
+        let result = ITunesSearchResult(hit: hit, cover: cover)
+        await ITunesSearchCache.shared.set(result, for: key)
+        return result
     } catch {
-        return nil
+        // Don't cache transient/aborted errors — let the next poll retry.
+        return .miss
     }
+}
+
+/// Cover-art-only wrapper. Returns the high-res artwork URL on hit
+/// (assuming the iTunes record carries one), `nil` otherwise.
+func lookupCoverArt(
+    artist: String?,
+    title: String,
+    fetch: @escaping MetadataDataFetcher = { try await URLSession.shared.data(for: $0) },
+) async -> URL? {
+    await searchITunes(artist: artist, title: title, fetch: fetch).cover
+}
+
+/// Existence-check wrapper. Returns whether iTunes has at least one
+/// result for the given artist+title query. Drives the visibility of
+/// Apple Music / Spotify / YT Music buttons in NowPlayingView — we
+/// only surface them when iTunes confirms the title resolves to
+/// something searchable. News/talk channels emit show names and
+/// station IDs ("BR24 Aktuell", "Nachrichten 12:00 Uhr") that iTunes
+/// won't match; those should NOT surface music-service buttons.
+func verifyTrack(
+    artist: String?,
+    title: String,
+    fetch: @escaping MetadataDataFetcher = { try await URLSession.shared.data(for: $0) },
+) async -> Bool {
+    await searchITunes(artist: artist, title: title, fetch: fetch).hit
 }
 
 func isLowResolutionCoverURL(_ url: URL) -> Bool {

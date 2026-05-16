@@ -879,15 +879,24 @@ struct NowPlayingView: View {
 
     @ViewBuilder
     private var musicServiceButtons: some View {
-        let links = musicServiceLinks(artist: player.nowPlayingArtist, title: player.nowPlayingTitle)
-        ForEach(links) { link in
-            Button {
-                openURL(link.url)
-            } label: {
-                musicServiceLabel(link)
+        // Only render once iTunes Search has confirmed the title
+        // resolves to a real song (player.nowPlayingTrackVerified ==
+        // true). While the lookup is in-flight (nil) or after a
+        // confirmed miss (false), the buttons stay hidden — the
+        // alternative is sending users to empty Apple Music /
+        // Spotify / YT Music search results, which is the bug this
+        // gate fixes for news/talk stations.
+        if player.nowPlayingTrackVerified == true {
+            let links = musicServiceLinks(artist: player.nowPlayingArtist, title: player.nowPlayingTitle)
+            ForEach(links) { link in
+                Button {
+                    openURL(link.url)
+                } label: {
+                    musicServiceLabel(link)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Open in \(link.title)")
             }
-            .buttonStyle(.plain)
-            .accessibilityLabel("Open in \(link.title)")
         }
     }
 
