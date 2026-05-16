@@ -28,7 +28,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             val state by viewModel.uiState.collectAsState()
             val darkTheme = state.themePreference.resolvedDarkTheme(isSystemInDarkTheme())
-            RrradioTheme(darkTheme = darkTheme) {
+            RrradioTheme(
+                darkTheme = darkTheme,
+                accentPreference = state.accentPreference,
+            ) {
                 RrradioApp(
                     state = state,
                     actions = viewModel,

@@ -19,6 +19,28 @@ class LibraryRepositoryTest {
     }
 
     @Test
+    fun accentPreferenceFallsBackToClassicForUnknownRawValue() {
+        assertEquals(AccentPreference.Classic, AccentPreference.fromRaw(null))
+        assertEquals(AccentPreference.Classic, AccentPreference.fromRaw("unknown"))
+        assertEquals(AccentPreference.Blue, AccentPreference.fromRaw("blue"))
+    }
+
+    @Test
+    fun landingPagePreferenceFallsBackToBrowseForUnknownRawValue() {
+        assertEquals(LandingPagePreference.Browse, LandingPagePreference.fromRaw(null))
+        assertEquals(LandingPagePreference.Browse, LandingPagePreference.fromRaw("unknown"))
+        assertEquals(LandingPagePreference.Favorites, LandingPagePreference.fromRaw("favorites"))
+    }
+
+    @Test
+    fun sleepDefaultMinutesUsesSupportedValuesOnly() {
+        assertEquals(30, LibraryRepository.normalizedSleepDefaultMinutes(null))
+        assertEquals(30, LibraryRepository.normalizedSleepDefaultMinutes(0))
+        assertEquals(15, LibraryRepository.normalizedSleepDefaultMinutes(15))
+        assertEquals(90, LibraryRepository.normalizedSleepDefaultMinutes(90))
+    }
+
+    @Test
     fun uniqueStationsKeepsFirstOccurrence() {
         val first = station("first")
         val duplicate = station("first", name = "Duplicate")

@@ -20,12 +20,12 @@ Platform matrix:
 
 | Preference | Web | iOS | Android |
 |---|---|---|---|
-| Theme | Supported. | Reference. | Partial; persisted system/light/dark preference exists, fuller Preferences surface remains. |
-| Accent color | Supported/partial by web theme design. | Supported. | Planned. |
+| Theme | Supported. | Reference. | Supported for system/light/dark in a native Preferences sheet. |
+| Accent color | Supported/partial by web theme design. | Supported. | Partial; native preset accent palette exists, custom color entry remains deferred. |
 | Language | Browser/content dependent. | Supported. | Planned after localization scope. |
-| Landing page | Not a primary web contract. | Supported. | Planned if useful on Android. |
+| Landing page | Not a primary web contract. | Supported. | Supported for Lists, Browse, and Favorites startup targets. |
 | Favorites display modes | Partial. | Reference. | Partial; modes exist, preference persistence/order controls remain. |
-| Sleep default | Supported where exposed. | Supported. | Planned. |
+| Sleep default | Supported where exposed. | Supported. | Supported for the first sleep-timer tap. |
 | Wake default/notifications | Supported where exposed. | Supported. | Planned with wake feature. |
 
 ## Listening History

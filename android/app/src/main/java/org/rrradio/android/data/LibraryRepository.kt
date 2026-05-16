@@ -2,6 +2,7 @@ package org.rrradio.android.data
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
@@ -25,6 +26,12 @@ class LibraryRepository(
     val stationLists: Flow<List<StationList>> = store.data.map { prefs -> readStationLists(prefs[Keys.stationLists]) }
     val themePreference: Flow<AppThemePreference> =
         store.data.map { prefs -> AppThemePreference.fromRaw(prefs[Keys.themePreference]) }
+    val accentPreference: Flow<AccentPreference> =
+        store.data.map { prefs -> AccentPreference.fromRaw(prefs[Keys.accentPreference]) }
+    val landingPagePreference: Flow<LandingPagePreference> =
+        store.data.map { prefs -> LandingPagePreference.fromRaw(prefs[Keys.landingPagePreference]) }
+    val sleepDefaultMinutes: Flow<Int> =
+        store.data.map { prefs -> normalizedSleepDefaultMinutes(prefs[Keys.sleepDefaultMinutes]) }
 
     suspend fun toggleFavorite(station: Station): Boolean {
         var added = false
@@ -160,6 +167,24 @@ class LibraryRepository(
         }
     }
 
+    suspend fun setAccentPreference(preference: AccentPreference) {
+        store.edit { prefs ->
+            prefs[Keys.accentPreference] = preference.rawValue
+        }
+    }
+
+    suspend fun setLandingPagePreference(preference: LandingPagePreference) {
+        store.edit { prefs ->
+            prefs[Keys.landingPagePreference] = preference.rawValue
+        }
+    }
+
+    suspend fun setSleepDefaultMinutes(minutes: Int) {
+        store.edit { prefs ->
+            prefs[Keys.sleepDefaultMinutes] = normalizedSleepDefaultMinutes(minutes)
+        }
+    }
+
     private fun stationList(key: androidx.datastore.preferences.core.Preferences.Key<String>): Flow<List<Station>> =
         store.data.map { prefs -> readStations(prefs[key]) }
 
@@ -179,10 +204,15 @@ class LibraryRepository(
         val customStations = stringPreferencesKey("rrradio.custom.v1")
         val stationLists = stringPreferencesKey("rrradio.station-lists.v1")
         val themePreference = stringPreferencesKey("rrradio.theme-preference.v1")
+        val accentPreference = stringPreferencesKey("rrradio.accent-preference.v1")
+        val landingPagePreference = stringPreferencesKey("rrradio.landing-page.v1")
+        val sleepDefaultMinutes = intPreferencesKey("rrradio.sleep-default-minutes.v1")
     }
 
     companion object {
         const val RECENTS_LIMIT = 12
+        const val DEFAULT_SLEEP_MINUTES = 30
+        val SLEEP_DEFAULT_OPTIONS = listOf(15, 30, 60, 90)
         private const val FALLBACK_STATION_LIST_NAME = "Station List"
 
         fun cleanedStationListName(name: String): String =
@@ -204,5 +234,8 @@ class LibraryRepository(
             next.addAll(stations.filterNot { it.id in seen })
             return next
         }
+
+        fun normalizedSleepDefaultMinutes(minutes: Int?): Int =
+            minutes?.takeIf { it in SLEEP_DEFAULT_OPTIONS } ?: DEFAULT_SLEEP_MINUTES
     }
 }
