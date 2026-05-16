@@ -5572,3 +5572,202 @@ for the human reader. (Same `#`-suffix trick we use for `srr`.)
   R5 uses an MP3 mount at `dispatcher.rndfnk.com/crtve/rne5/main/mp3/high`
   (the Open Broadcaster / RND dispatcher network — no fetcher work
   needed here). Stream side is healthy; fetcher is the only gap.
+
+---
+
+## vrt — Vlaamse Radio- en Televisieomroeporganisatie (BE)
+
+Investigated: 2026-05-09.
+
+### Channels in catalog
+
+| Station | Status before | Page ID | Has track data? |
+|---|---|---|---|
+| VRT Radio 1 | `stream-only` | `/radio1` | yes (when a track plays) |
+| VRT Radio 2 | `stream-only` | `/radio2` | yes (when a track plays) |
+| VRT Studio Brussel | `stream-only` | `/kanalen/studio-brussel` | yes (when a track plays) |
+| VRT MNM | `stream-only` | `/kanalen/mnm` | yes (when a track plays) |
+| VRT Klara | `stream-only` | `/kanalen/klara` | yes (when a track plays; classical — often empty) |
+
+### Endpoints
+
+| What | URL template | Auth | CORS | Sample |
+|---|---|---|---|---|
+| Now-playing (track + programme + cover) | `https://www.vrt.be/vrtnu-api/graphql/public/v1` (POST) | `X-VRT-CLIENT-NAME: WEB` header required | `Access-Control-Allow-Origin` set only for `*.vrt.be` origins — **not open** | `data/metadata-discovery/vrt-graphql-channelpage-stubru.json`, `vrt-graphql-channelpage-radio1.json` |
+| Programme schedule (schedule tiles list) | same GraphQL endpoint, `StaticTileList` component query | same | same | `data/metadata-discovery/vrt-graphql-schedule-radio1.json` |
+
+**GraphQL query** (minimal now-playing, no auth required beyond the header):
+
+```graphql
+{
+  page(id: "<PAGE_ID>") {
+    __typename
+    ... on ChannelPage {
+      brand
+      heading {
+        __typename
+        ... on Banner {
+          title
+          description
+          image {
+            templateUrl
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Where `<PAGE_ID>` is the per-channel slug (see table above). The body must be a JSON POST:
+`{"query": "..."}` and the request must include `X-VRT-CLIENT-NAME: WEB` — without it the
+server returns HTTP 400.
+
+**Page IDs confirmed working:**
+
+| Channel | Page ID |
+|---|---|
+| Radio 1 | `/radio1` |
+| Radio 2 | `/radio2` |
+| Studio Brussel | `/kanalen/studio-brussel` |
+| MNM | `/kanalen/mnm` |
+| Klara | `/kanalen/klara` |
+
+### Response shape
+
+Sample (Studio Brussel, track playing):
+```json
+{
+  "data": {
+    "page": {
+      "__typename": "ChannelPage",
+      "brand": "stubru",
+      "heading": {
+        "__typename": "Banner",
+        "title": "De Afrekening",
+        "description": "James Blake - Trying Times",
+        "image": {
+          "templateUrl": "https://images.vrt.be/orig/2025/08/28/c617b334-f704-4ec5-932d-b6d0158076ad.jpg?gravity=center"
+        }
+      }
+    }
+  }
+}
+```
+
+Key field mapping:
+
+| Abstract field | GraphQL path | Notes |
+|---|---|---|
+| Programme name | `heading.title` | Always present; e.g. `"De Afrekening"` |
+| Track (artist + title) | `heading.description` | `"Artist - Title"` when a track plays; **empty string `""` between tracks / during talk segments** |
+| Artist | first part of `heading.description` before ` - ` | Use `indexOf(' - ')` to split; same guard as WDR fetcher |
+| Track title | remainder after first ` - ` | |
+| Cover art URL | `heading.image.templateUrl` | Programme art (not track album art). Append `?w=400` for a 400 px wide version. CORS `*` on `images.vrt.be`. |
+
+**`heading.description` format:**
+- Track playing: `"Artist - Title"` (e.g. `"James Blake - Trying Times"`, `"Angèle Feat. Justice - What You Want"`)
+- No track / presenter talking: `""` (empty string — fetcher should return `null` for track and fall back to programme name only)
+
+**Cover art:**
+The `heading.image.templateUrl` is the programme/show art, **not** track album art. It is
+stable across multiple polls for the same programme slot. Append `?w=400` or `?w=200` for
+resized versions (CDN serves `images.vrt.be` with CORS `*`). Cover changes between programme
+slots (~every 1–2 hours), not between tracks.
+
+**Programme schedule:**
+The same GraphQL query can include the `StaticTileList` component to fetch the day's programme
+schedule. Each `RadioEpisodeTile` item has `title`, `description` (presenter), `active`, and
+`image`. The `active: true` item is the currently playing programme (same as `heading.title`).
+See `vrt-graphql-schedule-radio1.json` for the full structure.
+
+### API behaviour
+
+- **HTTP method:** POST JSON to `https://www.vrt.be/vrtnu-api/graphql/public/v1`
+- **Required header:** `X-VRT-CLIENT-NAME: WEB` (without it: HTTP 400)
+- **Optional headers:** `X-VRT-CLIENT-VERSION: 1.0.0` (observed in bundle; not strictly needed)
+- **Cache-Control:** `public, max-age=600` (10-min CDN TTL). The VRT CDN appears to cache
+  the response — the live track data updates when a new track starts playing (sub-minute
+  granularity observed), suggesting cache invalidation on the VRT side. Recommend polling at
+  **30 s** (a typical track is 3–4 min, 30 s gives good responsiveness without being aggressive).
+- **CORS:** The GraphQL endpoint returns `Access-Control-Allow-Origin: <origin>` only for
+  `*.vrt.be` origins. External origins (including `rrradio.org`) receive **no CORS header** on
+  the response. **Requires the worker proxy** — add
+  `https://www.vrt.be/vrtnu-api/graphql/public/v1` to the allowlist in `worker/src/index.ts`.
+- **Rate limits:** No `X-RateLimit-*` or `Retry-After` headers observed. The endpoint is
+  served publicly through CloudFront + API Gateway (AWS). 30 s polling across ~5 channels is
+  well within reasonable bounds.
+- **Socket.io:** The CSP also grants `wss://api.vrt.radio/socket.io/` — this appears to be a
+  real-time push channel for the VRT MAX web player. The REST GraphQL endpoint is sufficient
+  for rrradio's polling-based fetch model; no need to implement WebSocket logic.
+
+### Wirable today?
+
+| Signal | Verdict |
+|---|---|
+| Track (artist + title) | ⚠️ **via-worker** — data is available, CORS requires proxy |
+| Programme name | ⚠️ via-worker — same endpoint |
+| Cover art | ✅ **wire-now** — `images.vrt.be` has `Access-Control-Allow-Origin: *`; use URL directly in `<img>` |
+| Track history | ❌ not available — no per-track history list endpoint found |
+| Programme schedule | ⚠️ via-worker — available in same GraphQL response |
+
+Overall: ⚠️ **via-worker** — HTTPS-only, structured JSON, no auth, but missing CORS header.
+Needs one allowlist entry in the worker proxy. Once proxied: track + programme name + cover
+available for all 5 channels.
+
+### Suggested fetcher
+
+New `fetchVrtMetadata` in `src/builtins.ts`. Closest analogue: `fetchSrMetadata` (programme-only,
+via worker proxy, single POST per channel) + the `fetchNdrMetadata` cover-art pattern.
+
+Implementation sketch:
+1. `station.metadataUrl` = the per-channel page ID slug (e.g. `"/radio1"`, `"/kanalen/studio-brussel"`)
+   — just the slug, not the full URL. Keeps YAML small; the fetcher prepends the base URL.
+2. POST to `https://www.vrt.be/vrtnu-api/graphql/public/v1` through the worker proxy.
+   Include `X-VRT-CLIENT-NAME: WEB` header (forwarded by proxy or baked into the proxied request).
+3. Parse `data.page.heading.description`:
+   ```ts
+   const raw = data?.page?.heading?.description ?? '';
+   const sep = raw.indexOf(' - ');
+   if (sep === -1 || raw === '') return { program: { name: data.page.heading.title } };
+   const artist = raw.slice(0, sep).trim();
+   const track  = raw.slice(sep + 3).trim();
+   ```
+4. Cover art: `data.page.heading.image?.templateUrl` + `?w=400` (serve directly in `<img>`; CORS open).
+5. Programme name: `data.page.heading.title` (always present).
+6. Register as `vrt` in `FETCHERS_BY_KEY`.
+
+Worker proxy: add `https://www.vrt.be/vrtnu-api/graphql/public/v1` to the allowlist in
+`worker/src/index.ts`. The proxy must forward the POST body and `X-VRT-CLIENT-NAME: WEB` header
+(or add it server-side).
+
+### Notes
+
+- **CORS restriction:** The GraphQL endpoint explicitly allows only `*.vrt.be` origins.
+  Attempting to call it from `rrradio.org` (even via browser `fetch()`) returns no
+  `Access-Control-Allow-Origin` header and the response is blocked. The worker proxy is mandatory.
+- **`X-VRT-CLIENT-NAME: WEB` header:** Required. Without it the API returns HTTP 400
+  `Bad Request`. The bundle exports the value `"WEB"` as the constant `k` in module 52f0199e.
+  The version (`X-VRT-CLIENT-VERSION`) is optional — the API accepts requests without it.
+- **GraphQL endpoint is `/vrtnu-api/graphql/public/v1`** (public, no auth) — the authenticated
+  variant is `/vrtnu-api/graphql/v1` (requires `Authorization: Bearer <token>`). Do not confuse
+  the two. Introspection queries are blocked on both (`INTROSPECTION_QUERY_NOT_ALLOWED`).
+- **Description is empty between tracks.** VRT only populates `heading.description` when a track
+  is actively playing. During presenter talk, jingles, or news segments, the field is `""`. The
+  fetcher must handle this gracefully (return `null` for track, fall back to programme name).
+- **Image is programme art, not album art.** The `heading.image.templateUrl` shows the programme
+  artwork (e.g. "De Afrekening" show art for Studio Brussel). It does not change per track.
+  Acceptable as a channel cover; the rrradio display can use it as a fallback until VRT surfaces
+  per-track artwork (not found in the GraphQL schema today).
+- **`images.vrt.be` resizing:** Append `?w=<px>` to resize (e.g. `?w=400`). The CDN resizes on
+  demand. Gravity/crop via `?gravity=center&aspect_ratio=<ratio>&h=<px>` also supported.
+  The original URL already includes `?gravity=center` — strip and re-add `?w=400` for clean sizing.
+- **Socket.io API (`api.vrt.radio`):** The CSP grants `wss://api.vrt.radio/socket.io/` —
+  this is the real-time WebSocket feed used by the VRT MAX radio player. It supports socket.io
+  v4 polling transport; initial handshake returns session IDs and ping intervals. Not pursued
+  further — the GraphQL REST endpoint is sufficient and simpler to integrate.
+- **ToS:** VRT is Belgium's Flemish public broadcaster. The GraphQL endpoint is called by every
+  VRT MAX visitor. No explicit developer API ToS; the `/graphql/public/v1` path signals public
+  intent. Reasonable polling cadence (30 s) is appropriate.
+
+---
