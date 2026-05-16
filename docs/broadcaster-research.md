@@ -5572,3 +5572,312 @@ for the human reader. (Same `#`-suffix trick we use for `srr`.)
   R5 uses an MP3 mount at `dispatcher.rndfnk.com/crtve/rne5/main/mp3/high`
   (the Open Broadcaster / RND dispatcher network — no fetcher work
   needed here). Stream side is healthy; fetcher is the only gap.
+
+---
+
+## nhk — NHK / Japan Broadcasting Corporation (JP)
+
+Investigated: 2026-05-09.
+
+### TL;DR
+
+NHK runs **two completely separate metadata stacks**:
+
+1. **Domestic radio** ("らじる★らじる" / radiru): rich, well-typed
+   schema.org-style JSON at `api.nhk.jp/r8/...` covering all three
+   national channels (R1=AM, R2=education, R3=FM) across 8 regional
+   variants. **CORS-open, no auth, 60s cache.** Track-level music
+   metadata (composer, performer, label, catalogue code, duration in
+   ISO-8601) is published per-programme on FM and on a few music R1
+   slots — but **only on the day-schedule and broadcastEvent
+   endpoints**, not on the now-on-air rollup. **However**: the
+   underlying domestic streams (`simul.drdi.st.nhk/live/N/...`)
+   return **HTTP 403** from a Swiss IP. Geo-blocked. So the metadata
+   is reachable from rrradio but the audio is not — domestic NHK
+   stations cannot ship at `working` from outside Japan.
+2. **NHK World-Japan** (international service, 17 languages): the
+   eight stations already in our catalog (`jp-nhk*`). Streams
+   reachable globally at `master.nhkworld.jp/...`. **The English /
+   non-Japanese radio services do NOT have a now-playing endpoint —
+   they're 24/7 looping pre-produced bulletins.** Only the
+   Japanese-language NHK World radio (the "Radio深夜便/Radio Japan"
+   service streamed at `masterpl.hls.nhkworld.jp/hls/wp/live/master.m3u8`)
+   has an EPG via `masterpl.hls.nhkworld.jp/epg/r1/{YYYYMMDD}.json`
+   with hour-block programme titles, no track-level music data.
+
+### Topology
+
+```
+DOMESTIC (radiru)
+  www.nhk.or.jp/radio/                  — homepage
+  www.nhk.or.jp/radio/player/           — JS player
+    └─ /radio/config/config_web.xml     — area→stream + API URL templates
+       └─ api.nhk.jp/r8/pg/now/radio/{areaId}/now.json    — NOA rollup (r1+r2+r3)
+       └─ api.nhk.jp/r8/pg/date/{r1|r2|r3}/{areaId}/{YYYY-MM-DD}.json
+                                                          — full day, includes musicList
+       └─ api.nhk.jp/r8/t/broadcastevent/be/{eventId}.json
+                                                          — single-programme detail w/ musicList
+  simul.drdi.st.nhk/live/{1..19}/joined/master.m3u8       — domestic HLS (geo-blocked)
+
+NHK WORLD (international)
+  www3.nhk.or.jp/nhkworld/{lang}/live_radio/              — UI (en/ja/es/fr/zh/ko/...)
+    └─ /nhkworld/app/radio/hlslive_radio.json             — language-id → stream URL map
+    └─ master.nhkworld.jp/nhkworld-radio/playlist/{rs1..rs5,gs2,kai,sin}/live.m3u8
+    └─ masterpl.hls.nhkworld.jp/epg/r1/{YYYYMMDD}.json    — Japanese-language radio EPG only
+    └─ www3.nhk.or.jp/nhkworld/data/{lang}/radionews/rnews.json
+                                                          — VOD bulletin catch-up (not live)
+    └─ www3.nhk.or.jp/rj/podcast/rss/{english2|...}.xml   — RSS podcast feeds
+```
+
+### Endpoints
+
+| What | URL template | Auth | CORS | Sample |
+|---|---|---|---|---|
+| **Domestic NOA rollup** | `https://api.nhk.jp/r8/pg/now/radio/{areaId}/now.json` | none | `*` | `nhk-noa-tokyo-130.json`, `nhk-noa-osaka-270.json` |
+| **Domestic day schedule** (1 service × 1 day, ~50–65 entries with `musicList` populated for music programmes) | `https://api.nhk.jp/r8/pg/date/{r1\|r2\|r3}/{areaId}/{YYYY-MM-DD}.json` | none | `*` | `nhk-day-r1-tokyo.json` (1/64 with music), `nhk-day-r3-fm-tokyo.json` (11/53 with music) |
+| **Domestic broadcastEvent detail** | `https://api.nhk.jp/r8/t/broadcastevent/be/{broadcastEventId}.json` | none | `*` | `nhk-broadcastevent-r3-recital.json` (3-track classical), `nhk-broadcastevent-r3-jazzvoyage.json` (host info but empty musicList) |
+| Domestic stream | `https://simul.drdi.st.nhk/live/{1..19}/joined/master.m3u8` | none | n/a | **HTTP 403 from CH** — geo-blocked |
+| Domestic config (areaId, apikey, areakey, all stream URLs) | `https://www.nhk.or.jp/radio/config/config_web.xml` | none | `*` | (XML, not committed — also reachable inline at the player page) |
+| **NHK World stream-id → URL map** | `https://www3.nhk.or.jp/nhkworld/app/radio/hlslive_radio.json` | none | `*` | `nhk-world-hlslive-radio.json` |
+| NHK World live (Japanese) HLS resolver | `https://livepl.nhkworld.jp/hlslive_web.json` | none | `*` | `nhk-world-hlslive.json` (single-key file pointing at WP HLS) |
+| **NHK World Japanese-language radio EPG** ("Radio深夜便", `wp` brand) | `https://masterpl.hls.nhkworld.jp/epg/r1/{YYYYMMDD}.json` | none | `*` | `nhk-world-epg-r1-20260510.json` (24 hour-block entries; no track data) |
+| NHK World non-Japanese radio EPG | — none discovered — | — | — | confirmed absent: pre-produced bulletins only |
+| NHK World live UI config (per-language strings) | `https://www3.nhk.or.jp/nhkworld/common/assets/live/live-config/{lang}.json` | none | `*` | `nhk-world-live-config-en.json` (UI strings, not playback data) |
+| NHK World audio-news catch-up (VOD bulletins, last 30) | `https://www3.nhk.or.jp/nhkworld/data/{lang}/radionews/rnews.json` | none | `*` | `nhk-world-radionews-en.json` |
+| NHK World podcast feed | `https://www3.nhk.or.jp/rj/podcast/rss/{english2\|spanish\|french\|...}.xml` | none | `*` | n/a (HEAD only) |
+
+All endpoints respond with `cache-control: max-age=60` (api.nhk.jp + nhk.or.jp) or up to 1 hour (cloudfront-fronted nhkworld.jp). No `X-RateLimit-*` headers; no `Retry-After`; no auth tokens of any kind. CSP on `api.nhk.jp` is restrictive (`default-src 'self'`) but doesn't affect cross-origin JSON consumption — `Access-Control-Allow-Origin: *` is set.
+
+### Domestic areaId / areakey table (from `config_web.xml`)
+
+The player switches the NOA URL by `areakey` (3-digit prefecture-ish
+code; not the same as `apikey`). `r1` and `r3` (= NHK FM) carry
+regional opt-out windows so their content differs by area; `r2` is
+national-only and identical across all 8 areas (it's a single feed).
+FM is present in all 8 regions.
+
+| areajp | area | apikey | areakey |
+|---|---|---:|---:|
+| 札幌 (Sapporo) | sapporo | 700 | 010 |
+| 仙台 (Sendai) | sendai | 600 | 040 |
+| 東京 (Tokyo) | tokyo | 001 | **130** |
+| 名古屋 (Nagoya) | nagoya | 300 | 230 |
+| 大阪 (Osaka) | osaka | 200 | **270** |
+| 広島 (Hiroshima) | hiroshima | 400 | 340 |
+| 松山 (Matsuyama) | matsuyama | 800 | 380 |
+| 福岡 (Fukuoka) | fukuoka | 501 | 400 |
+
+### Domestic response shape (`api.nhk.jp/r8/pg/now/radio/130/now.json`)
+
+Top-level: `{ "r1": {...}, "r2": {...}, "r3": {...} }` where each
+service contains:
+
+```
+{
+  publishedOn: [ // schema.org BroadcastService
+    { id: "bs-r1-130", name: "NHK AM放送",
+      broadcastDisplayName: "NHK AM・東京",
+      identifierGroup: { serviceId: "r1", serviceName: "NHK AM",
+                         areaId: "130", areaName: "東京", … },
+      logo: { url, main:{url,width,height}, medium:{...}, small:{...} },
+      eyecatch: {...},  // larger artwork variants
+      hero: {...}
+    }
+  ],
+  publication: [ // up to 6 BroadcastEvent — current + next ~5
+    { id: "r1-130-2026051072015",
+      type: "BroadcastEvent",
+      name: "ニュース・気象情報・交通情報（関東甲信越）",     // ← programme title
+      description, detailedDescription:{epg40,epg80,epg200,epgInformation},
+      startDate: "2026-05-10T06:25:00+09:00",                 // ISO + JST offset
+      endDate:   "2026-05-10T06:30:00+09:00",
+      duration: "PT5M",
+      isLiveBroadcast: true,
+      identifierGroup: {
+        broadcastEventId: "r1-130-2026051072015",  // ← join key for /broadcastevent
+        radioEpisodeId,   radioEpisodeName,
+        radioSeriesId,    radioSeriesName,         // ← series-level identity
+        serviceId: "r1",  areaId: "130",  stationId: "001",
+        date: "2026-05-10",  eventId: "72015",
+        genre: [ {id:"0009",name1:"ニュース/報道",name2:"ローカル・地域"}, … ]
+      },
+      misc: {
+        actList: [ {name:"挾間美帆",nameRuby:"ﾊｻﾞﾏﾐﾎ"} ],   // hosts/performers
+        musicList: [],                              // ← EMPTY ON NOA, populated on /date and /broadcastevent
+        programType: "program",
+        coverage: "block" | "nationwide",
+        playControlSimul: true, playControlVOD: false,
+        ...
+      },
+      url: "https://api.nhk.jp/r8/t/broadcastevent/be/r1-130-2026051072015.json",
+      about: { id: "WP51J1RQ4R", name, identifierGroup: {…},
+               partOfSeries: { id, name, ... } }   // schema.org RadioSeries
+    }
+  ]
+}
+```
+
+The `r2` block is sparse when r2 is off-air (school broadcasts
+don't run 24/7) — `publication: []`, `name: null` etc. — so a
+fetcher must defensively handle null `publication` arrays.
+
+### Domestic music-list shape (`musicList` items, populated on /date and /broadcastevent)
+
+```
+{
+  name: "交響曲　第４番　ヘ短調　作品３６",  // track title
+  nameruby: "コウキョウキョク　ダイヨンバン …",  // katakana reading
+  composer: "チャイコフスキー",               // present for classical
+  arranger: "",
+  lyricist: "",
+  location: "２０２５年３月２０日　ＮＨＫ５０９スタジオ",  // recording venue (or empty)
+  provider: "",
+  label: "ワーナー",                          // record label
+  duration: "PT42M46S",                       // ISO-8601 duration
+  code: "5054197793073",                      // catalogue / EAN
+  byArtist: [
+    { name: "ローマ聖チェチーリア国立アカデミー管弦楽団", role: "", part: "管弦楽" },
+    { name: "アントニオ・パッパーノ", role: "", part: "指揮" }
+  ]
+}
+```
+
+Per-programme entries have **0..N tracks**. R3/FM today: 11 of 53
+programmes had non-empty `musicList`; R1/AM today: 1 of 64. R2 was
+off-air all day. Empty list is the dominant case for talk-heavy
+slots even on FM.
+
+### NHK World response shape (`masterpl.hls.nhkworld.jp/epg/r1/20260510.json`)
+
+```
+{ data: [
+  { seriesId: "r",
+    airingId: "2026051000",
+    title: "ニュース/ラジオ深夜便▽…",
+    episodeTitle, description, link, thumbnail,
+    firstShow: 1,
+    startTime: "2026-05-10T00:00:00+09:00",
+    endTime:   "2026-05-10T01:00:00+09:00",
+    endTimeReal,
+    jstrm: 0, wstrm: 1,                     // streamability flags
+    extractProgram: 0,
+    episodeId: "r202605100020260510001",
+    playURL: "https://masterpl.hls.nhkworld.jp/hls/r1/{episodeId}/master.m3u8",
+    vodStartTime, vodEndTime,
+    episodeThu...
+  },
+  // 24 hour-block entries per day
+] }
+```
+
+No track-level data anywhere in the NHK World tree. The catch-up
+endpoint (`radionews/rnews.json`) carries pre-produced VOD bulletins
+(`onair_date`, `audio` URL, `duration`, `program_id`) — useful for
+"latest news" tile but not now-playing.
+
+### Wirable today?
+
+⚠️ **Partial — meaningful split:**
+
+- **Domestic NHK** (R1/R2/FM Tokyo–Fukuoka): metadata reachable + rich (music data, ISO durations, schema.org-style),  but the **streams 403 from non-Japan IPs**, so we can't ship them at all from rrradio. **Status: not-public** — gate behind a future "geo-aware catalog" or skip entirely. (Sponsor decision: shipping a station whose stream fails is worse than not shipping it.)
+- **NHK World Japanese-language radio** ("Radio深夜便" at `masterpl.hls.nhkworld.jp/hls/wp/live/master.m3u8` — already in catalog as `jp-nhk` → `https://masterpl.hls.nhkworld.jp/hls/r1/live/master.m3u8`): EPG endpoint exists, returns hour-block programme titles. ✅ **wirable as programme-only** (no track data) — same shape as BBC's talk-radio fetcher.
+- **NHK World non-Japanese radio** (rs1=English, rs2=Spanish/French/Portuguese rotation, rs4/rs5/gs2/kai/sin = other languages — already in catalog as `jp-nhk-world-radio*`): no programme endpoint surfaced. The HLS streams loop pre-produced 30-min bulletins; the player UI only shows static channel branding. **Status: stream-only is correct** — leave as-is.
+
+So **net wirable signal**: programme info for `jp-nhk` (Radio Japan
+Japanese-language) only. ~1 station out of the 8 NHK entries we
+already ship.
+
+### Suggested fetcher
+
+```ts
+// New shape; needs its own fetchNhkMetadata in src/builtins.ts.
+// Closest analogue: fetchBbcMetadata (programme-only fallback) for
+// the World/wp branch; fetchOrfMetadata for the domestic /r8/pg
+// shape if we ever wire domestic (still gated by geo on the audio side).
+```
+
+Two passes possible — pick one based on station scope:
+
+1. **Minimum viable (NHK World `jp-nhk` only).** One station, today,
+   already in catalog. Per-station `metadataUrl:
+   "https://masterpl.hls.nhkworld.jp/epg/r1/<today>.json"` — fetcher
+   fetches today's UTC date in `YYYYMMDD` (or, more correctly, JST
+   today via `+09:00`), filters `data[]` to the entry whose
+   `[startTime, endTime]` brackets `Date.now()`, returns
+   `{ track: undefined, program: { name: title, subtitle:
+   episodeTitle } }`. Same pattern as the BBC fallback. EPG is also
+   trivial to expose as `ScheduleFetcher` — map all 24 entries.
+2. **Full domestic (R1/R3 Tokyo, Osaka, …)** — only if we add a
+   geo-aware "JP only" gate in the catalog/UI. Then a per-station
+   `metadataUrl: ".../r8/pg/now/radio/{areaId}/now.json"` plus a
+   `serviceId` (`r1` | `r2` | `r3`) selector in `extra:`. Fetcher
+   reads `noa[serviceId].publication`, finds the entry whose
+   `[startDate, endDate]` brackets now, and: (a) returns programme
+   info from `name` + `description`; (b) **optionally** follows
+   `url` to the broadcastEvent JSON to lift a non-empty `musicList`
+   (one track at a time — pick whichever has the most-recent
+   `startDate ≤ now`, but the API doesn't expose per-track
+   timing — see "Limits" below). Cover art at
+   `publishedOn[0].logo.medium.url` (channel logo, not programme
+   art).
+
+### Notes
+
+- **Geo-block scope.** Empirical from a Swiss IP: domestic streams
+  `simul.drdi.st.nhk/live/3/joined/master.m3u8` → HTTP 403 (openresty,
+  not cloudfront — geographic guard at the edge). All
+  `api.nhk.jp/r8/...` endpoints return 200 cross-region. All
+  `*.nhkworld.jp` streams + JSON return 200. So: metadata is global,
+  domestic audio is JP-only, NHK World audio is global. (Some
+  third-party reports say domestic radiru is also reachable from
+  Korea/Taiwan; can't confirm.)
+- **No track-level "now playing".** Even where `musicList` is
+  populated, items have `duration` (ISO-8601) but no per-track
+  start offset within the programme — they're a programme-level
+  manifest, not a timed cue list. To pick the "currently playing"
+  track you'd need to sum durations from `programme.startDate` and
+  guess. Approximate at best; for FM classical/jazz where tracks
+  are 5–40 min each this would be off by a track-or-two regularly.
+  The `description.epg40/epg80/epg200` fields sometimes inline the
+  exact set list as plain text — could be parsed as a fallback for
+  music shows.
+- **NOA strips musicList.** The `now.json` endpoint returns the same
+  publication structure as the day-schedule, but with `musicList`
+  forced to `[]`. So a fetcher that wants tracks **must** make a
+  follow-up call to the broadcastEvent URL. Cost: 2 fetches per
+  poll cycle for music channels; 1 fetch for talk channels.
+- **r2 is school-radio.** R2 = "ラジオ第2" carries language-learning
+  shows on a fixed daily schedule and is **off-air at night**.
+  When off-air the NOA payload returns `r2.publication: []` and
+  `r2.publication[0].name === null` shapes — defensive null-checks
+  required.
+- **`r3` brand.** In NHK's API r3 = NHK FM. Don't confuse with
+  R3 in BBC (Radio 3) or other broadcasters.
+- **NHK World "r1" is misleading.** `masterpl.hls.nhkworld.jp/epg/r1`
+  is the *NHK World Japanese-language radio* schedule, not domestic
+  R1. The "r1" segment here is NHK's internal naming for that
+  feed's programme rail.
+- **No track-history endpoint.** Surveyed
+  `/r8/pg/recent`, `/r8/pg/history`, `/r8/pg/{service}/recent.json`,
+  `/r8/t/musiclist/...` — all 404. Track history would need a
+  client-side rolling cache (same pattern as DR Denmark).
+- **Stream codecs.** Domestic AAC `audio/aac` per `encodingFormat`.
+  NHK World feeds in catalog are AAC at 64–96 kbps.
+- **Robots / ToS.** `www.nhk.or.jp/robots.txt` allows the player and
+  config paths; `api.nhk.jp` and `masterpl.hls.nhkworld.jp` have no
+  robots files. NHK exposes these endpoints to power their own
+  public web/iOS/Android players (jp.nhk.netradio bundle ID
+  referenced in `player.js`) — same trust boundary as ARD/ZDF or
+  the BBC. Public broadcaster, public-funded, programme metadata
+  is not licensed/restricted content.
+- **Coordination with curate-stations.** Future opportunity: the
+  domestic NHK FM feed for at least Tokyo + Osaka + Sapporo (3
+  major regional FM variants — each carries 30–60 min regional
+  windows on top of the national schedule) would more than double
+  the music-metadata yield, but only after a geo-fence story
+  exists. Issue gate.
+- **Catalog hygiene.** All 8 existing `jp-nhk*` stations are
+  tagged `broadcaster: independent`. After this recon a follow-up
+  PR should add `nhk:` to `data/broadcasters.yaml` and re-tag at
+  least `jp-nhk` (the Japanese-language Radio Japan) to
+  `broadcaster: nhk` so a future fetcher can target it via slug.
