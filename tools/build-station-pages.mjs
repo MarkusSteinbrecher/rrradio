@@ -40,6 +40,20 @@ const template = readFileSync(`${DIST}/index.html`, 'utf8');
 const catalog = JSON.parse(readFileSync(`${DIST}/stations.json`, 'utf8'));
 const stations = (catalog.stations ?? []).filter((s) => s.id && s.name && s.streamUrl);
 
+// `reviewedAt` lives in station-curation.json (not stations.json — see
+// build-catalog.mjs, which deliberately keeps editorial metadata out
+// of the public catalog). Read it separately and join on station id.
+let reviewedAtById = new Map();
+try {
+  const curation = JSON.parse(readFileSync(`${DIST}/station-curation.json`, 'utf8'));
+  for (const row of curation?.stations ?? []) {
+    if (row.id && row.reviewedAt) reviewedAtById.set(row.id, row.reviewedAt);
+  }
+} catch {
+  // Non-fatal: recently-added section just renders empty when the
+  // curation file is missing (e.g. fresh checkout, dist not built yet).
+}
+
 // ─── 2. Helpers ─────────────────────────────────────────────────────
 const escapeHtml = (s) =>
   String(s)
@@ -176,6 +190,110 @@ ${lis}
       </nav>`;
 }
 
+// ─── 2b. Recently added ────────────────────────────────────────────
+// Sorted by `reviewedAt` desc (read from station-curation.json — see
+// the top of the file for the join). It's not strictly "added";
+// "Recently reviewed" would be more honest, but for Google's
+// purposes a fresh timestamp is the signal that matters and
+// "Recently added" reads better to anyone landing on it from search.
+const recentlyAdded = stations
+  .map((s) => ({ ...s, _reviewedAt: reviewedAtById.get(s.id) }))
+  .filter((s) => s._reviewedAt)
+  .sort((a, b) => String(b._reviewedAt).localeCompare(String(a._reviewedAt)));
+const RECENT_HOME_LIMIT = 12;
+const RECENT_PAGE_LIMIT = 30;
+
+function renderRecentlyAddedNav(items) {
+  if (!items.length) return '';
+  const lis = items
+    .map(
+      (o) =>
+        `        <li><a href="/station/${escapeAttr(o.id)}/">${escapeHtml(o.name)}</a></li>`,
+    )
+    .join('\n');
+  return `      <nav>
+        <h2>Recently added stations</h2>
+        <ul>
+${lis}
+          <li><a href="/recently-added/">See all recently added →</a></li>
+        </ul>
+      </nav>`;
+}
+
+function renderRecentlyAddedPage(items) {
+  const today = new Date().toISOString().slice(0, 10);
+  const liHtml = items
+    .map((s) => {
+      const tags = pickTags(s);
+      const country = countryName(s.country) || s.country || '';
+      const metaParts = [];
+      if (country) metaParts.push(country);
+      if (tags.length) metaParts.push(tags.slice(0, 3).join(', '));
+      const meta = metaParts.join(' · ');
+      return `      <li>
+        <a href="/station/${escapeAttr(s.id)}/">${escapeHtml(s.name)}</a>
+        ${meta ? `<span class="meta">${escapeHtml(meta)}</span>` : ''}
+      </li>`;
+    })
+    .join('\n');
+
+  const jsonld = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Recently added stations',
+    url: `${SITE}/recently-added/`,
+    description:
+      'The newest internet radio stations curated on rrradio.org — fresh additions to a free, ad-free, signup-free browser radio player.',
+    isPartOf: { '@type': 'WebSite', name: 'rrradio', url: `${SITE}/` },
+    dateModified: today,
+  };
+
+  return `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recently added stations · rrradio.org</title>
+    <meta name="description" content="The newest internet radio stations curated on rrradio.org — fresh additions to a free, ad-free, signup-free browser radio player." />
+    <link rel="canonical" href="${SITE}/recently-added/" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="rrradio" />
+    <meta property="og:title" content="Recently added stations · rrradio.org" />
+    <meta property="og:description" content="The newest internet radio stations curated on rrradio.org." />
+    <meta property="og:url" content="${SITE}/recently-added/" />
+    <meta property="og:image" content="${SITE}/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Recently added stations · rrradio.org" />
+    <meta name="twitter:image" content="${SITE}/og-image.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script type="application/ld+json">${JSON.stringify(jsonld)}</script>
+    <style>
+      :root { color-scheme: dark; }
+      body { font-family: system-ui, -apple-system, sans-serif; max-width: 720px; margin: 2.5rem auto; padding: 0 1.25rem; background: #1a1a1a; color: #eee; line-height: 1.5; }
+      h1 { font-size: 1.5rem; margin: 0 0 0.5rem; }
+      p { margin: 0 0 1.5rem; color: #b8b8b8; }
+      a { color: #ffcc33; text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      ul { list-style: none; padding: 0; margin: 0; }
+      li { padding: 0.65rem 0; border-bottom: 1px solid #2a2a2a; }
+      li a { font-weight: 500; }
+      .meta { display: block; color: #888; font-size: 0.85rem; margin-top: 0.15rem; }
+      nav { margin-top: 1.75rem; font-size: 0.95rem; }
+    </style>
+  </head>
+  <body>
+    <h1>Recently added stations</h1>
+    <p>The newest internet radio stations on <a href="/">rrradio.org</a> — a free, ad-free, signup-free browser radio player.</p>
+    <ul>
+${liHtml}
+    </ul>
+    <nav><a href="/">← Back to all stations</a></nav>
+  </body>
+</html>
+`;
+}
+
 // ─── 3. Per-station templates ──────────────────────────────────────
 function renderStationPage(s) {
   const url = `${SITE}/station/${s.id}/`;
@@ -277,6 +395,9 @@ ${tagNav}
     `    <script>window.__STATION_ID__=${JSON.stringify(s.id)};</script>`,
   );
   html = replaceBlock(html, 'prose', `    ${prose}`);
+  // Recently-added is homepage-only; clear it on station pages so the
+  // station page doesn't duplicate the homepage's "Recently added" nav.
+  html = replaceBlock(html, 'recently-added', '');
 
   // The home page has the favicon, GoatCounter snippet, and Vite's
   // hashed bundle references at root-relative paths (e.g. /assets/...).
@@ -344,16 +465,34 @@ for (const s of stations) {
   written += 1;
 }
 
-// Rewrite the home page too — it has the two JSON-LD blocks but no
-// bootstation script (the SPA infers from the URL on station pages
-// only). After this rewrite, neither the home nor the station pages
-// carry `'unsafe-inline'` in their script-src.
-writeFileSync(`${DIST}/index.html`, applyCspHashes(template), 'utf8');
+// Rewrite the home page too — fill the recently-added nav and run the
+// same CSP hash sweep. It has the two JSON-LD blocks but no bootstation
+// script (the SPA infers from the URL on station pages only). After
+// this rewrite, neither the home nor the station pages carry
+// `'unsafe-inline'` in their script-src.
+const homepageHtml = replaceBlock(
+  template,
+  'recently-added',
+  renderRecentlyAddedNav(recentlyAdded.slice(0, RECENT_HOME_LIMIT)),
+);
+writeFileSync(`${DIST}/index.html`, applyCspHashes(homepageHtml), 'utf8');
+
+// Dedicated recently-added landing page. Standalone HTML, no SPA shell
+// — Google can land users straight here from search and the page is
+// instantly useful + indexable on its own.
+const recentlyAddedDir = join(DIST, 'recently-added');
+mkdirSync(recentlyAddedDir, { recursive: true });
+writeFileSync(
+  join(recentlyAddedDir, 'index.html'),
+  renderRecentlyAddedPage(recentlyAdded.slice(0, RECENT_PAGE_LIMIT)),
+  'utf8',
+);
 
 // ─── 5. Sitemap ─────────────────────────────────────────────────────
 const today = new Date().toISOString().slice(0, 10);
 const sitemapEntries = [
   `  <url><loc>${SITE}/</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>`,
+  `  <url><loc>${SITE}/recently-added/</loc><lastmod>${today}</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>`,
   ...stations.map(
     (s) =>
       `  <url><loc>${SITE}/station/${s.id}/</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>`,
