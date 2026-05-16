@@ -58,10 +58,17 @@ These are the authority:
 1. `CLAUDE.md` in the repo root — catalog conventions, HTTPS-only rule.
 2. `docs/curation-checklist.md` — per-activity decision tree.
 3. `docs/operations.md` — how the catalog is built, RB binding rules.
-4. `tools/wiki-logos.mjs` — header docs the wiki sweep.
+4. `tools/wiki-logos.mjs` — header docs the wiki sweep (Phase A audit,
+   Phase B article-summary lookup, Phase B fallback via File: namespace
+   search on Commons + the country's native-language wiki).
 5. `tools/scrape-logos.mjs` — header docs the broadcaster scrape.
 6. `tools/flag-suspicious-favicons.mjs` — the quarantine deny-list.
-7. `THIRD_PARTY_NOTICES.md` — license notes for bundled assets.
+7. `tools/clear-dead-favicons.mjs` — reads station-logo-quality.json and
+   blocks favicons whose URL returns HTTP 404 (URL drift cleanup).
+8. `tools/probe-logo-sizes.mjs` (`npm run probe-logos`) — measures real
+   pixel size / format / bytes per favicon. Powers the NP-quality bucket
+   and feeds `clear-dead-favicons`.
+9. `THIRD_PARTY_NOTICES.md` — license notes for bundled assets.
 
 ## The work loop (per country)
 
@@ -125,16 +132,46 @@ require("fs").writeFileSync("/tmp/curate-logos-scope.csv",
 This gives you 30 IDs to work through, prioritised by RB votes. Anything
 not in this list is out of scope for this session.
 
+### 2.5. Clear known-dead URLs (do this before the sweeps)
+
+Stations whose listed favicon now 404s (Mastodon avatar rotation, broken
+broadcaster CDN paths, …) need their favicon cleared first — otherwise
+the dashboard reports them as "has logo" and the curation queue misses
+them. `probe-logos` records the HTTP status per favicon; the
+`clear-dead-favicons` tool reads that report and blocks the dead ones.
+
+```bash
+npm run probe-logos -- --remote                # refresh size+error data
+npm run clear-dead-favicons -- --dry-run       # confirm scope
+npm run clear-dead-favicons                    # apply
+npm run catalog                                # rebuild stations.json
+```
+
+Run this **before** the Wikipedia sweep — once the URLs are cleared,
+those stations land in the wiki-logos candidate set automatically.
+
 ### 3. Wikipedia sweep
 
 ```bash
-node tools/wiki-logos.mjs --skip-audit
+node tools/wiki-logos.mjs --country <CC> --skip-audit --concurrency 4
 ```
 
-The Wikipedia sweep doesn't yet support `--id`, so it operates on the full
-catalog of missing favicons. That's fine — anything it finds outside your
-30 IDs is a side-effect win. Note hit rate; typically 5–15% across the
-long tail, higher for major broadcasters.
+Phase B has two strategies, tried in order per candidate:
+1. **Article summary** — looks up `<station name>` on en.wiki then the
+   country's native wiki, validates that the article is about a radio
+   broadcaster (description-text gate), grabs the lead infobox image.
+   Works when the station has its own Wikipedia article.
+2. **File: namespace search** — when the article-summary path returns
+   nothing, search `commons.wikimedia.org` and the country's native
+   wiki for files matching `"Logo <name>"`, `"<name> logo"`, `"<name>"`.
+   Score by filename match + "logo" keyword + format (SVG > PNG). This
+   is what catches ORF regional radios (`Datei:Logo_Radio_Wien.svg`)
+   that don't have their own Wikipedia article. Strict filename gate
+   plus a broadcaster-prefix strip (`ORF - Radio Salzburg` →
+   `Radio Salzburg`) keep the false-positive rate near zero.
+
+Concurrency 4 keeps Wikipedia happy — bumping it higher trips rate
+limits within seconds. Hit rate typically 15–40% per country.
 
 ### 4. Broadcaster scrape
 
@@ -196,10 +233,13 @@ npm run catalog
 npm run check-catalog
 npm run check-duplicates
 npm test -- --run
+npm run probe-logos -- --remote     # confirm new URLs probe clean
 ```
 
-All four must pass. If any fail, fix forward (YAML edit) or back out the
-offending row. **Do not bypass with `--no-verify`.**
+All five must pass. If any fail, fix forward (YAML edit) or back out the
+offending row. **Do not bypass with `--no-verify`.** A row whose new
+URL probes as `error: HTTP 404` should be backed out — the URL was bad
+at write time.
 
 ### 8. Open the PR
 
