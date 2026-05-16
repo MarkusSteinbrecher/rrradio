@@ -65,10 +65,31 @@ class LibraryRepositoryTest {
         assertEquals(listOf(second, first, third), result)
     }
 
+    @Test
+    fun reorderedStationListsKeepsUnknownListsAtEnd() {
+        val first = stationList("first")
+        val second = stationList("second")
+        val third = stationList("third")
+
+        val result = LibraryRepository.reorderedStationLists(
+            stationLists = listOf(first, second, third),
+            orderedIds = listOf("second", "missing", "first"),
+        )
+
+        assertEquals(listOf(second, first, third), result)
+    }
+
     private fun station(id: String, name: String = id): Station =
         Station(
             id = id,
             name = name,
             streamUrl = "https://example.com/$id.mp3",
+        )
+
+    private fun stationList(id: String): StationList =
+        StationList(
+            id = id,
+            name = id,
+            stations = emptyList(),
         )
 }

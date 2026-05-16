@@ -333,6 +333,10 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
+    fun renameStationList(listId: String, name: String) {
+        viewModelScope.launch { libraryRepository.renameStationList(listId, name) }
+    }
+
     fun saveSelectedStationsToList(listId: String) {
         val stations = uiState.value.selectedStations
         viewModelScope.launch {
@@ -362,6 +366,28 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
         val moved = mutable.removeAt(index)
         mutable.add(target, moved)
         viewModelScope.launch { libraryRepository.reorderFavorites(mutable.map { it.id }) }
+    }
+
+    fun moveStationList(list: StationList, offset: Int) {
+        val lists = uiState.value.stationLists
+        val index = lists.indexOfFirst { it.id == list.id }
+        val target = index + offset
+        if (index < 0 || target !in lists.indices) return
+        val mutable = lists.toMutableList()
+        val moved = mutable.removeAt(index)
+        mutable.add(target, moved)
+        viewModelScope.launch { libraryRepository.reorderStationLists(mutable.map { it.id }) }
+    }
+
+    fun moveStationInSelectedList(station: Station, offset: Int) {
+        val list = uiState.value.selectedStationList ?: return
+        val index = list.stations.indexOfFirst { it.id == station.id }
+        val target = index + offset
+        if (index < 0 || target !in list.stations.indices) return
+        val mutable = list.stations.toMutableList()
+        val moved = mutable.removeAt(index)
+        mutable.add(target, moved)
+        viewModelScope.launch { libraryRepository.reorderStationsInList(list.id, mutable.map { it.id }) }
     }
 
     fun setThemePreference(preference: AppThemePreference) {
