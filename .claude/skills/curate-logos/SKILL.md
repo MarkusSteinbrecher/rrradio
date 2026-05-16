@@ -175,15 +175,45 @@ limits within seconds. Hit rate typically 15–40% per country.
 
 ### 4. Broadcaster scrape
 
-Re-derive the still-missing subset (some of the 30 may have been filled
-by stage 3) and feed `scrape-logos.mjs`:
+Feed the in-scope IDs to `scrape-logos.mjs` in **upgrade mode** —
+that's the critical detail. The default `--mode missing` only touches
+stations with no favicon at all, which misses the most common gap:
+stations that currently ship a weak placeholder (apple-touch-icon,
+`favicon.ico`, third-party-host upload, etc.) when the broadcaster's
+own site actually advertises a proper og:image / JSON-LD logo.
+`--mode upgrade` includes those rows; `--replace-good` lets a verified
+broadcaster-domain hit replace even a previously-classified-good logo
+when scoring says it's strictly better.
 
 ```bash
 IDS=$(cat /tmp/curate-logos-scope.csv)
-node tools/scrape-logos.mjs --id "$IDS" --concurrency 12
+node tools/scrape-logos.mjs --id "$IDS" --mode upgrade --replace-good --concurrency 12
 ```
 
-Hit rate ~25–40% for stations that have a homepage.
+Hit rate ~25–50% across mode=upgrade — significantly higher than
+mode=missing because most rows in the dashboard's "poor" / "warn"
+buckets already have *something*, just not the right something.
+
+If a station's site is a JavaScript SPA (1cloud.fm, modern Vue/React
+broadcaster pages, …), the static HTML scraper sees only the app
+shell. The tool will report `no verifiable upgrade`; these rows go
+into stage 6 (LLM research) for manual scraping via WebFetch +
+DOM-rendered preview.
+
+### 4b. Rasterise any new SVG hits + optimise the bundle
+
+```bash
+npm run catalog                       # so rasteriser sees the new YAML
+npm run rasterise-remote-svgs         # SVG → local 500px PNG bundle
+npm run pngquant-stations             # ~60% PNG size win
+```
+
+The scrape pass often writes SVG URLs (broadcaster sites prefer SVG
+sources). iOS' `UIImage(data:)` and Android Coil don't decode SVG at
+runtime, so the rasteriser converts each new SVG into a local
+`public/stations/<id>.png`. `pngquant-stations` then shrinks the
+bundle. Both tools are idempotent — running them on the already-baked
+set is a no-op.
 
 ### 5. Quarantine
 
@@ -207,6 +237,19 @@ For each candidate (highest-votes-first):
    the homepage itself. Look for `<meta property="og:image">`, JSON-LD
    `image`, web app manifest icons, apple-touch-icon. Prefer SVG / 500px+
    PNGs.
+
+   **SPA fallback** — if the broadcaster/aggregator page is a JavaScript
+   SPA (1cloud.fm, modern Vue/React/Next sites), `WebFetch` only gets the
+   app shell and you won't find a logo signal. Two paths from here:
+   - `WebFetch` the broadcaster's own homepage (not the aggregator) —
+     often a static-rendered marketing page with og:image.
+   - If even the broadcaster site is SPA: `WebSearch` for the station
+     on Wikipedia / Wikimedia Commons — many stations have a curated
+     SVG/PNG there even when their own site renders client-side. The
+     `tools/wiki-logos.mjs` file-namespace path may already have caught
+     it; double-check by hand.
+   Document the SPA case in the PR body so future runs know which sites
+   to skip the static scrape on.
 4. **Validate the candidate.** A logo passes if:
    - URL is `https://`
    - HEAD returns `image/*` content-type
