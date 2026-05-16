@@ -2035,7 +2035,11 @@ struct StationListView: View {
             guard draggedFavoriteStationID != nil else { return }
             try? await Task.sleep(nanoseconds: 6_000_000_000)
             guard !Task.isCancelled, draggedFavoriteStationID != nil else { return }
-            clearFavoriteGridDragState()
+            // Clear drag state but leave edit mode on — the user
+            // explicitly dismisses jiggle by tapping outside any tile.
+            draggedFavoriteStationID = nil
+            targetedFavoriteStationID = nil
+            lastFavoriteDropMoveAt = nil
         }
     }
 
@@ -2387,36 +2391,42 @@ struct StationListView: View {
     }
 
     private var sortableFavoritesList: some View {
-        ScrollView(showsIndicators: false) {
-            ScrollOffsetObserver(offset: $listScrollOffset)
-                .frame(width: 0, height: 0)
+        GeometryReader { outer in
+            ScrollView(showsIndicators: false) {
+                ScrollOffsetObserver(offset: $listScrollOffset)
+                    .frame(width: 0, height: 0)
 
-            LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: [.sectionHeaders]) {
-                inlineFavoritesControls()
+                LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: [.sectionHeaders]) {
+                    inlineFavoritesControls()
 
-                Section {
-                    ForEach(Array(visibleStations.enumerated()), id: \.element.id) { index, station in
-                        favoriteListSortableRow(station)
-                            .padding(.top, index == 0 ? stationHeaderStackSpacing : 0)
+                    Section {
+                        ForEach(Array(visibleStations.enumerated()), id: \.element.id) { index, station in
+                            favoriteListSortableRow(station)
+                                .padding(.top, index == 0 ? stationHeaderStackSpacing : 0)
+                        }
+
+                        if visibleStations.count < filteredStations.count {
+                            loadMoreRow
+                        }
+                    } header: {
+                        stickySectionHeader(includesRule: true)
                     }
-
-                    if visibleStations.count < filteredStations.count {
-                        loadMoreRow
-                    }
-                } header: {
-                    stickySectionHeader(includesRule: true)
+                }
+                .padding(.top, stationHeaderTopPadding)
+                .padding(.bottom, 12)
+                // Extend the LazyVStack to fill the ScrollView so the
+                // dismiss-background catches taps in the empty area
+                // below the last row.
+                .frame(minHeight: outer.size.height, alignment: .top)
+                .background {
+                    favoriteDeleteModeDismissBackground
                 }
             }
-            .padding(.top, stationHeaderTopPadding)
-            .padding(.bottom, 12)
-            .background {
-                favoriteDeleteModeDismissBackground
-            }
+            .scrollDismissesKeyboard(.immediately)
+            .scrollDisabled(isHorizontalSwipeLocked)
+            .background(RrradioTheme.bg)
+            .onDisappear(perform: clearFavoriteGridDragState)
         }
-        .scrollDismissesKeyboard(.immediately)
-        .scrollDisabled(isHorizontalSwipeLocked)
-        .background(RrradioTheme.bg)
-        .onDisappear(perform: clearFavoriteGridDragState)
     }
 
     @ViewBuilder
@@ -2491,125 +2501,135 @@ struct StationListView: View {
     }
 
     private var favoritesTileGrid: some View {
-        ScrollView(showsIndicators: false) {
-            ScrollOffsetObserver(offset: $listScrollOffset)
-                .frame(width: 0, height: 0)
+        GeometryReader { outer in
+            ScrollView(showsIndicators: false) {
+                ScrollOffsetObserver(offset: $listScrollOffset)
+                    .frame(width: 0, height: 0)
 
-            LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: [.sectionHeaders]) {
-                inlineFavoritesControls()
+                LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: [.sectionHeaders]) {
+                    inlineFavoritesControls()
 
-                Section {
-                    LazyVGrid(
-                        columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteTileGridColumnCount),
-                        spacing: 10,
-                    ) {
-                        ForEach(visibleStations) { station in
-                            favoriteGridItem(
-                                station: station,
-                                dropBehavior: .targetSlot,
-                            ) {
-                                FavoriteStationTile(
+                    Section {
+                        LazyVGrid(
+                            columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteTileGridColumnCount),
+                            spacing: 10,
+                        ) {
+                            ForEach(visibleStations) { station in
+                                favoriteGridItem(
                                     station: station,
-                                    nowPlaying: favoriteNowPlaying.entries[station.id]?.metadata,
-                                    isCurrent: player.current?.id == station.id,
-                                    isPlaying: player.current?.id == station.id && player.state == .playing,
-                                    isCustom: library.isCustom(station),
-                                )
+                                    dropBehavior: .targetSlot,
+                                ) {
+                                    FavoriteStationTile(
+                                        station: station,
+                                        nowPlaying: favoriteNowPlaying.entries[station.id]?.metadata,
+                                        isCurrent: player.current?.id == station.id,
+                                        isPlaying: player.current?.id == station.id && player.state == .playing,
+                                        isCustom: library.isCustom(station),
+                                    )
+                                }
                             }
                         }
-                    }
-                    .onDrop(
-                        of: [UTType.plainText],
-                        delegate: FavoriteGridDropResetDelegate(
-                            draggedStationID: $draggedFavoriteStationID,
-                            targetedStationID: $targetedFavoriteStationID,
-                            lastMoveAt: $lastFavoriteDropMoveAt,
-                        ),
-                    )
-                    .onPreferenceChange(FavoriteGridItemSizePreferenceKey.self, perform: updateFavoriteGridItemSizes)
-                    .padding(.top, stationHeaderStackSpacing)
-                    .padding(.horizontal, 14)
+                        .onDrop(
+                            of: [UTType.plainText],
+                            delegate: FavoriteGridDropResetDelegate(
+                                draggedStationID: $draggedFavoriteStationID,
+                                targetedStationID: $targetedFavoriteStationID,
+                                lastMoveAt: $lastFavoriteDropMoveAt,
+                            ),
+                        )
+                        .onPreferenceChange(FavoriteGridItemSizePreferenceKey.self, perform: updateFavoriteGridItemSizes)
+                        .padding(.top, stationHeaderStackSpacing)
+                        .padding(.horizontal, 14)
 
-                    if visibleStations.count < filteredStations.count {
-                        loadMoreRow
-                            .padding(.horizontal, 14)
+                        if visibleStations.count < filteredStations.count {
+                            loadMoreRow
+                                .padding(.horizontal, 14)
+                        }
+                    } header: {
+                        stickySectionHeader(includesRule: true)
                     }
-                } header: {
-                    stickySectionHeader(includesRule: true)
+                }
+                .padding(.top, stationHeaderTopPadding)
+                .padding(.bottom, 16)
+                // Extend the LazyVStack to fill the ScrollView so the
+                // dismiss-background catches taps in the empty area
+                // below the last row of tiles.
+                .frame(minHeight: outer.size.height, alignment: .top)
+                .background {
+                    favoriteDeleteModeDismissBackground
                 }
             }
-            .padding(.top, stationHeaderTopPadding)
-            .padding(.bottom, 16)
-            .background {
-                favoriteDeleteModeDismissBackground
-            }
+            .scrollDismissesKeyboard(.immediately)
+            .scrollDisabled(isHorizontalSwipeLocked)
+            .background(RrradioTheme.bg)
+            .onDisappear(perform: clearFavoriteGridDragState)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .scrollDismissesKeyboard(.immediately)
-        .scrollDisabled(isHorizontalSwipeLocked)
-        .background(RrradioTheme.bg)
-        .onDisappear(perform: clearFavoriteGridDragState)
     }
 
     private var favoritesAppGrid: some View {
-        ScrollView(showsIndicators: false) {
-            ScrollOffsetObserver(offset: $listScrollOffset)
-                .frame(width: 0, height: 0)
+        GeometryReader { outer in
+            ScrollView(showsIndicators: false) {
+                ScrollOffsetObserver(offset: $listScrollOffset)
+                    .frame(width: 0, height: 0)
 
-            LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: [.sectionHeaders]) {
-                inlineFavoritesControls()
+                LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: [.sectionHeaders]) {
+                    inlineFavoritesControls()
 
-                Section {
-                    LazyVGrid(
-                        columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteAppGridColumnCount),
-                        alignment: .center,
-                        spacing: 18,
-                    ) {
-                        ForEach(visibleStations) { station in
-                            favoriteGridItem(
-                                station: station,
-                                dragSource: .content,
-                            ) {
-                                FavoriteStationAppIcon(
+                    Section {
+                        LazyVGrid(
+                            columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteAppGridColumnCount),
+                            alignment: .center,
+                            spacing: 18,
+                        ) {
+                            ForEach(visibleStations) { station in
+                                favoriteGridItem(
                                     station: station,
-                                    isCurrent: player.current?.id == station.id,
-                                    isCustom: library.isCustom(station),
-                                    dragProvider: canReorderFavorites ? { favoriteGridDragProvider(for: station) } : nil,
-                                )
+                                    dragSource: .content,
+                                ) {
+                                    FavoriteStationAppIcon(
+                                        station: station,
+                                        isCurrent: player.current?.id == station.id,
+                                        isCustom: library.isCustom(station),
+                                        dragProvider: canReorderFavorites ? { favoriteGridDragProvider(for: station) } : nil,
+                                    )
+                                }
                             }
                         }
-                    }
-                    .onDrop(
-                        of: [UTType.plainText],
-                        delegate: FavoriteGridDropResetDelegate(
-                            draggedStationID: $draggedFavoriteStationID,
-                            targetedStationID: $targetedFavoriteStationID,
-                            lastMoveAt: $lastFavoriteDropMoveAt,
-                        ),
-                    )
-                    .onPreferenceChange(FavoriteGridItemSizePreferenceKey.self, perform: updateFavoriteGridItemSizes)
-                    .padding(.top, stationHeaderStackSpacing)
-                    .padding(.horizontal, 18)
+                        .onDrop(
+                            of: [UTType.plainText],
+                            delegate: FavoriteGridDropResetDelegate(
+                                draggedStationID: $draggedFavoriteStationID,
+                                targetedStationID: $targetedFavoriteStationID,
+                                lastMoveAt: $lastFavoriteDropMoveAt,
+                            ),
+                        )
+                        .onPreferenceChange(FavoriteGridItemSizePreferenceKey.self, perform: updateFavoriteGridItemSizes)
+                        .padding(.top, stationHeaderStackSpacing)
+                        .padding(.horizontal, 18)
 
-                    if visibleStations.count < filteredStations.count {
-                        loadMoreRow
-                            .padding(.horizontal, 18)
+                        if visibleStations.count < filteredStations.count {
+                            loadMoreRow
+                                .padding(.horizontal, 18)
+                        }
+                    } header: {
+                        stickySectionHeader(includesRule: true)
                     }
-                } header: {
-                    stickySectionHeader(includesRule: true)
+                }
+                .padding(.top, stationHeaderTopPadding)
+                .padding(.bottom, 18)
+                // Extend the LazyVStack to fill the ScrollView so the
+                // dismiss-background catches taps in the empty area
+                // below the last row of tiles.
+                .frame(minHeight: outer.size.height, alignment: .top)
+                .background {
+                    favoriteDeleteModeDismissBackground
                 }
             }
-            .padding(.top, stationHeaderTopPadding)
-            .padding(.bottom, 18)
-            .background {
-                favoriteDeleteModeDismissBackground
-            }
+            .scrollDismissesKeyboard(.immediately)
+            .scrollDisabled(isHorizontalSwipeLocked)
+            .background(RrradioTheme.bg)
+            .onDisappear(perform: clearFavoriteGridDragState)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .scrollDismissesKeyboard(.immediately)
-        .scrollDisabled(isHorizontalSwipeLocked)
-        .background(RrradioTheme.bg)
-        .onDisappear(perform: clearFavoriteGridDragState)
     }
 
     @ViewBuilder
@@ -2648,12 +2668,12 @@ struct StationListView: View {
             let showsDeleteButton = favoriteDeleteModeEnabled
                 && targetedFavoriteStationID == nil
             // SpringBoard-style jiggle while the user is in delete mode.
-            // Skipped for the tile currently being dragged so the drag
-            // preview snapshot isn't tilted. Per-station seed gives each
-            // tile a slightly different oscillation period so adjacent
-            // tiles don't beat in unison.
+            // Every tile jiggles, including the one currently being
+            // dragged — when the drag ends (with or without a drop), the
+            // returned tile keeps jiggling in place. Per-station seed
+            // gives each tile a slightly different oscillation period so
+            // adjacent tiles don't beat in unison.
             let isJiggling = favoriteDeleteModeEnabled
-                && draggedFavoriteStationID != station.id
             let item = ZStack(alignment: .topTrailing) {
                 content()
 
@@ -3260,7 +3280,6 @@ struct StationListView: View {
               destination != sourceIndex + 1 else { return false }
 
         filterTask?.cancel()
-        favoriteDeleteModeEnabled = false
 
         var ordered = filteredStations
         // Spring instead of easeInOut: drag-hover fires many moves per
@@ -3268,8 +3287,10 @@ struct StationListView: View {
         // duration so consecutive moves stack on top of each other and
         // the row chases the finger. A spring of this response/damping
         // is what iOS Home / Settings reorder uses — overlapping moves
-        // supersede smoothly instead of queueing.
-        withAnimation(.spring(response: 0.28, dampingFraction: 0.78)) {
+        // supersede smoothly instead of queueing. Slightly slower than
+        // the iOS default so the rearrangement reads as deliberate
+        // rather than snappy.
+        withAnimation(.spring(response: 0.42, dampingFraction: 0.82)) {
             ordered.move(fromOffsets: IndexSet(integer: sourceIndex), toOffset: destination)
             filteredStations = ordered
         }
