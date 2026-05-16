@@ -34,6 +34,8 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse as parseYaml } from 'yaml';
 
+import { commonsSvgToPngThumb } from './lib/commons-thumb.mjs';
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
 
@@ -428,11 +430,17 @@ async function findFilePageLogo(station) {
   // Commons' imageinfo endpoint appends `?utm_source=…` tracking params to
   // the canonical upload.wikimedia.org URL. Strip them so the YAML stores a
   // clean asset URL.
-  const cleanUrl = best.url.split('?')[0];
+  let cleanUrl = best.url.split('?')[0];
+  // iOS' UIImage(data:) and vanilla Android Coil don't decode SVG. When the
+  // hit is a Commons SVG, swap the URL for Wikimedia's auto-rasterised PNG
+  // thumb so every client renders the logo identically. Web SVG works fine,
+  // but a PNG works fine there too.
+  cleanUrl = commonsSvgToPngThumb(cleanUrl);
   if (!(await isImageAlive(cleanUrl))) return null;
   // Lang tag from the domain's first label (commons | de | en | …).
   return { url: cleanUrl, lang: best.domain.split('.')[0], title: best.title };
 }
+
 
 async function findWikipediaLogo(station) {
   const fromArticle = await findArticleSummaryLogo(station);
