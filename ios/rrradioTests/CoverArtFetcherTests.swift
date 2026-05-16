@@ -6,7 +6,12 @@ final class CoverArtFetcherTests: XCTestCase {
         HTTPURLResponse(url: url, statusCode: statusCode, httpVersion: "HTTP/1.1", headerFields: nil)!
     }
 
-    private func hitPayload(artist: String, title: String, artwork: String) -> Data {
+    private func hitPayload(
+        artist: String,
+        title: String,
+        artwork: String,
+        trackViewUrl: String = "https://music.apple.com/us/album/song/100?i=200",
+    ) -> Data {
         """
         {
           "resultCount": 1,
@@ -14,7 +19,8 @@ final class CoverArtFetcherTests: XCTestCase {
             {
               "artistName": "\(artist)",
               "trackName": "\(title)",
-              "artworkUrl100": "\(artwork)"
+              "artworkUrl100": "\(artwork)",
+              "trackViewUrl": "\(trackViewUrl)"
             }
           ]
         }
@@ -56,6 +62,31 @@ final class CoverArtFetcherTests: XCTestCase {
         }
         XCTAssertTrue(result.hit)
         XCTAssertEqual(result.cover?.absoluteString, "https://is1-ssl.mzstatic.com/image/thumb/Music456/v4/600x600bb.jpg")
+    }
+
+    func testSearchITunesSurfacesAppleMusicDeepLink() async {
+        // `trackViewUrl` from the response should round-trip into
+        // `appleMusicUrl` for callers to deep-link the Apple Music app.
+        let deepLink = "https://music.apple.com/us/album/pyramid-song/123?i=987"
+        let payload = hitPayload(
+            artist: "Radiohead H",
+            title: "Pyramid Song H",
+            artwork: "https://is1-ssl.mzstatic.com/image/thumb/H/100x100bb.jpg",
+            trackViewUrl: deepLink,
+        )
+        let result = await searchITunes(artist: "Radiohead H", title: "Pyramid Song H") { request in
+            (payload, self.response(for: request.url!))
+        }
+        XCTAssertTrue(result.hit)
+        XCTAssertEqual(result.appleMusicUrl?.absoluteString, deepLink)
+    }
+
+    func testSearchITunesMissHasNoAppleMusicURL() async {
+        let result = await searchITunes(artist: nil, title: "Nachrichten 10:00 I") { request in
+            (self.missPayload, self.response(for: request.url!))
+        }
+        XCTAssertFalse(result.hit)
+        XCTAssertNil(result.appleMusicUrl)
     }
 
     func testSearchITunesReturnsMissOnResultCountZero() async {

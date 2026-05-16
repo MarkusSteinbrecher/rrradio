@@ -887,7 +887,11 @@ struct NowPlayingView: View {
         // Spotify / YT Music search results, which is the bug this
         // gate fixes for news/talk stations.
         if player.nowPlayingTrackVerified == true {
-            let links = musicServiceLinks(artist: player.nowPlayingArtist, title: player.nowPlayingTitle)
+            let links = musicServiceLinks(
+                artist: player.nowPlayingArtist,
+                title: player.nowPlayingTitle,
+                appleMusicURL: player.nowPlayingAppleMusicUrl,
+            )
             ForEach(links) { link in
                 Button {
                     openURL(link.url)

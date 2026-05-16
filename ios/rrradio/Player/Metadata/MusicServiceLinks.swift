@@ -12,13 +12,25 @@ func musicSearchQuery(artist: String?, title: String?) -> String? {
     return "\(cleanArtist) - \(cleanTitle)"
 }
 
-func musicServiceLinks(artist: String?, title: String?) -> [MusicServiceLink] {
+func musicServiceLinks(
+    artist: String?,
+    title: String?,
+    /// Deep-link URL to the exact song on Apple Music — typically the
+    /// `trackViewUrl` from iTunes Search. When non-nil it replaces the
+    /// generic search URL so the Apple Music button opens the song
+    /// directly in the native app. Pass `nil` to fall back to search
+    /// (e.g. when iTunes Search wasn't run or the response omitted
+    /// `trackViewUrl`). Spotify and YouTube Music stay on search URLs
+    /// either way — neither has an unauthenticated direct-link path
+    /// from artist+title alone.
+    appleMusicURL: URL? = nil,
+) -> [MusicServiceLink] {
     guard let query = musicSearchQuery(artist: artist, title: title) else { return [] }
     return [
         MusicServiceLink(
             id: "apple-music",
             title: "Apple Music",
-            url: appleMusicSearchURL(query),
+            url: appleMusicURL ?? appleMusicSearchURL(query),
         ),
         MusicServiceLink(
             id: "spotify",
