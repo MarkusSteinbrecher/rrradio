@@ -89,7 +89,6 @@ import org.rrradio.android.data.PlaybackUiState
 import org.rrradio.android.data.PlayerState
 import org.rrradio.android.data.Station
 import org.rrradio.android.data.StationList
-import org.rrradio.android.data.StationStatus
 import org.rrradio.android.data.countryDisplayName
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -357,12 +356,6 @@ private fun Header(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
                 )
-                Text(
-                    text = "beta",
-                    color = MaterialTheme.colorScheme.primary,
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.Medium,
-                )
             }
 
             Spacer(Modifier.weight(1f))
@@ -498,43 +491,33 @@ private fun BrowseFilters(
     var genreOpen by remember { mutableStateOf(false) }
     val scroll = rememberScrollState()
 
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .horizontalScroll(scroll),
-        horizontalArrangement = Arrangement.spacedBy(14.dp),
-        verticalAlignment = Alignment.Top,
-    ) {
-        FilterCell("Curated") {
-            RoundFilterButton(
-                icon = Icons.Rounded.Star,
-                active = state.librarySource == LibrarySource.Favorites &&
-                    state.selectedCountry == null &&
-                    state.selectedTag == null,
-                onClick = {
-                    onLibrarySource(LibrarySource.Favorites)
+    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        LibrarySegments(
+            source = state.librarySource,
+            onLibrarySource = {
+                onLibrarySource(it)
+                if (it == LibrarySource.Recents) {
                     onCountry(null)
                     onTag(null)
-                },
-            )
-        }
-        FilterCell("Played") {
-            RoundFilterButton(
-                icon = Icons.Rounded.BarChart,
-                active = state.librarySource == LibrarySource.Recents,
-                onClick = { onLibrarySource(LibrarySource.Recents) },
-            )
-        }
-        FilterCell("News") {
-            RoundFilterButton(
+                }
+            },
+        )
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .horizontalScroll(scroll),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            BrowseFilterChip(
+                label = "News",
                 icon = Icons.AutoMirrored.Rounded.Article,
                 active = state.selectedTag == "news",
                 onClick = { onTag(if (state.selectedTag == "news") null else "news") },
             )
-        }
-        FilterCell("Genre") {
             Box {
-                RoundFilterButton(
+                BrowseFilterChip(
+                    label = state.selectedTag?.takeIf { it != "news" } ?: "Genre",
                     icon = Icons.Rounded.MusicNote,
                     active = state.selectedTag != null && state.selectedTag != "news",
                     onClick = { genreOpen = true },
@@ -558,10 +541,9 @@ private fun BrowseFilters(
                     }
                 }
             }
-        }
-        FilterCell("Country") {
             Box {
-                RoundFilterButton(
+                BrowseFilterChip(
+                    label = state.selectedCountry?.let { countryDisplayName(it) } ?: "Country",
                     icon = Icons.Rounded.Flag,
                     active = state.selectedCountry != null,
                     onClick = { countryOpen = true },
@@ -585,7 +567,58 @@ private fun BrowseFilters(
                     }
                 }
             }
+            if (state.selectedCountry != null || state.selectedTag != null) {
+                BrowseFilterChip(
+                    label = "Clear",
+                    icon = Icons.Rounded.Close,
+                    active = false,
+                    onClick = {
+                        onCountry(null)
+                        onTag(null)
+                    },
+                )
+            }
         }
+    }
+}
+
+@Composable
+private fun BrowseFilterChip(
+    label: String,
+    icon: ImageVector,
+    active: Boolean,
+    onClick: () -> Unit,
+) {
+    Row(
+        Modifier
+            .clip(CircleShape)
+            .background(if (active) MaterialTheme.colorScheme.primary.copy(alpha = 0.18f) else MaterialTheme.colorScheme.surfaceVariant)
+            .border(
+                BorderStroke(
+                    1.dp,
+                    if (active) MaterialTheme.colorScheme.primary.copy(alpha = 0.54f) else MaterialTheme.colorScheme.outline,
+                ),
+                CircleShape,
+            )
+            .clickable(onClick = onClick)
+            .padding(horizontal = 12.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(7.dp),
+    ) {
+        Icon(
+            icon,
+            contentDescription = null,
+            tint = if (active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.size(16.dp),
+        )
+        Text(
+            label,
+            color = if (active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+            fontSize = 13.sp,
+            fontWeight = FontWeight.Medium,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
     }
 }
 
@@ -710,13 +743,13 @@ private fun LibrarySegments(
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         SegmentButton(
-            label = "Favorites",
+            label = "All stations",
             selected = source == LibrarySource.Favorites,
             onClick = { onLibrarySource(LibrarySource.Favorites) },
             modifier = Modifier.weight(1f),
         )
         SegmentButton(
-            label = "Recents",
+            label = "Recent",
             selected = source == LibrarySource.Recents,
             onClick = { onLibrarySource(LibrarySource.Recents) },
             modifier = Modifier.weight(1f),
@@ -740,12 +773,10 @@ private fun SegmentButton(
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            label.uppercase(),
+            label,
             color = if (selected) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurfaceVariant,
-            fontSize = 11.sp,
-            fontWeight = FontWeight.Medium,
-            fontFamily = FontFamily.Monospace,
-            letterSpacing = 1.2.sp,
+            fontSize = 13.sp,
+            fontWeight = FontWeight.SemiBold,
         )
     }
 }
@@ -755,42 +786,37 @@ private fun SectionStatus(state: RrradioUiState) {
     val selectedList = state.selectedStationList
     val label = when {
         state.tab == AppTab.StationLists && selectedList != null -> selectedList.name
-        state.tab == AppTab.StationLists -> "Station lists"
+        state.tab == AppTab.StationLists -> "Your lists"
         state.tab == AppTab.Favorites -> "Favorites"
         state.tab == AppTab.Browse && state.librarySource == LibrarySource.Recents -> "Recently played"
-        state.query.trim().isNotEmpty() || state.selectedCountry != null || state.selectedTag != null -> "Filtered"
-        else -> "Curated + worldwide"
+        state.query.trim().isNotEmpty() || state.selectedCountry != null || state.selectedTag != null -> "Results"
+        else -> "All stations"
     }
     val count = when (state.tab) {
         AppTab.StationLists -> if (selectedList != null) state.visibleStations.size else state.stationLists.size + 3
         else -> state.visibleStations.size
     }
+    val countLabel = if (state.tab == AppTab.StationLists && selectedList == null) {
+        if (count == 1) "1 list" else "$count lists"
+    } else {
+        if (count == 1) "1 station" else "$count stations"
+    }
     Row(
         Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center,
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            label.uppercase(),
+            label,
+            color = MaterialTheme.colorScheme.onBackground,
+            fontSize = 13.sp,
+            fontWeight = FontWeight.Medium,
+        )
+        Text(
+            countLabel,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            fontSize = 10.sp,
+            fontSize = 12.sp,
             fontWeight = FontWeight.Medium,
-            fontFamily = FontFamily.Monospace,
-            letterSpacing = 1.5.sp,
-        )
-        Text(
-            " . ",
-            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f),
-            fontSize = 10.sp,
-            fontWeight = FontWeight.Medium,
-            fontFamily = FontFamily.Monospace,
-        )
-        Text(
-            "$count",
-            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f),
-            fontSize = 10.sp,
-            fontWeight = FontWeight.Medium,
-            fontFamily = FontFamily.Monospace,
         )
     }
 }
@@ -868,7 +894,9 @@ private fun StationListContent(
     LazyColumn(
         Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .background(MaterialTheme.colorScheme.background)
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         items(state.visibleStations, key = { it.id }) { station ->
             StationRow(
@@ -889,7 +917,6 @@ private fun StationListContent(
                 onMoveUp = { onMoveFavorite?.invoke(station, -1) },
                 onMoveDown = { onMoveFavorite?.invoke(station, 1) },
             )
-            DividerLine()
         }
     }
 }
@@ -911,7 +938,9 @@ private fun StationListsContent(
         LazyColumn(
             Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
+                .background(MaterialTheme.colorScheme.background)
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             item {
                 StationListDetailActions(
@@ -919,7 +948,6 @@ private fun StationListsContent(
                     onBack = onCloseStationList,
                     onDelete = { onDeleteStationList(selectedList.id) },
                 )
-                DividerLine()
             }
             if (selectedList.stations.isEmpty()) {
                 item {
@@ -950,7 +978,6 @@ private fun StationListsContent(
                         onMoveDown = {},
                         onRemoveFromList = { onRemoveFromStationList(station) },
                     )
-                    DividerLine()
                 }
             }
         }
@@ -1301,13 +1328,16 @@ private fun StationRow(
     Row(
         Modifier
             .fillMaxWidth()
+            .clip(RoundedCornerShape(14.dp))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline), RoundedCornerShape(14.dp))
             .clickable(onClick = onPlay)
-            .padding(horizontal = 20.dp, vertical = 12.dp),
+            .padding(horizontal = 12.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(14.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        StationAvatar(station, size = 46, imageUrl = station.favicon)
-        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
+        StationAvatar(station, size = 48, imageUrl = station.favicon)
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(5.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text(
                     station.name,
@@ -1319,29 +1349,16 @@ private fun StationRow(
                     modifier = Modifier.weight(1f, fill = false),
                 )
                 station.country?.let {
-                    Text(
-                        it.uppercase(),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        fontSize = 10.5.sp,
-                        fontWeight = FontWeight.Medium,
-                        fontFamily = FontFamily.Monospace,
-                    )
+                    CountryPill(it)
                 }
             }
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                 Text(
-                    capabilityStars(station),
-                    color = MaterialTheme.colorScheme.primary,
-                    fontSize = 10.5.sp,
-                    fontFamily = FontFamily.Monospace,
-                )
-                Text(
-                    station.tags.orEmpty().take(3).joinToString(" . ").ifEmpty { station.codec ?: "stream" },
+                    stationDetailLine(station),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontSize = 10.5.sp,
-                    fontFamily = FontFamily.Monospace,
+                    fontSize = 12.sp,
                 )
             }
         }
@@ -1432,6 +1449,21 @@ private fun StationRow(
             }
         }
     }
+}
+
+@Composable
+private fun CountryPill(country: String) {
+    Text(
+        country.uppercase(),
+        color = MaterialTheme.colorScheme.primary,
+        fontSize = 10.sp,
+        fontWeight = FontWeight.SemiBold,
+        fontFamily = FontFamily.Monospace,
+        modifier = Modifier
+            .clip(CircleShape)
+            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.14f))
+            .padding(horizontal = 7.dp, vertical = 3.dp),
+    )
 }
 
 @Composable
@@ -1952,57 +1984,10 @@ private fun BottomTabButton(
                 .size(21.dp),
         )
         Text(
-            label.uppercase(),
+            label,
             color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-            fontSize = 9.5.sp,
+            fontSize = 11.sp,
             fontWeight = FontWeight.Medium,
-            fontFamily = FontFamily.Monospace,
-            letterSpacing = 1.1.sp,
-        )
-    }
-}
-
-@Composable
-private fun FilterCell(
-    label: String,
-    content: @Composable () -> Unit,
-) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(5.dp)) {
-        content()
-        Text(
-            label.uppercase(),
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            fontSize = 9.5.sp,
-            fontWeight = FontWeight.Medium,
-            fontFamily = FontFamily.Monospace,
-            letterSpacing = 1.1.sp,
-        )
-    }
-}
-
-@Composable
-private fun RoundFilterButton(
-    icon: ImageVector,
-    active: Boolean,
-    onClick: () -> Unit,
-) {
-    Box(
-        Modifier
-            .size(36.dp)
-            .clip(CircleShape)
-            .background(if (active) MaterialTheme.colorScheme.onBackground else Color.Transparent)
-            .border(
-                BorderStroke(1.dp, if (active) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.outline),
-                CircleShape,
-            )
-            .clickable(onClick = onClick),
-        contentAlignment = Alignment.Center,
-    ) {
-        Icon(
-            icon,
-            contentDescription = null,
-            tint = if (active) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.size(17.dp),
         )
     }
 }
@@ -2170,13 +2155,6 @@ private fun searchPlaceholder(state: RrradioUiState): String {
     }
 }
 
-private fun capabilityStars(station: Station): String = when (station.status) {
-    StationStatus.Working -> "***"
-    StationStatus.IcyOnly -> "**"
-    StationStatus.StreamOnly -> "*"
-    null -> ""
-}
-
 private fun tagLine(station: Station): String {
     val parts = buildList {
         station.country?.uppercase()?.let(::add)
@@ -2185,6 +2163,16 @@ private fun tagLine(station: Station): String {
         station.tags.orEmpty().take(4).forEach(::add)
     }
     return parts.joinToString(" . ").ifEmpty { "stream" }.lowercase()
+}
+
+private fun stationDetailLine(station: Station): String {
+    val parts = buildList {
+        station.codec?.takeIf { it.isNotBlank() }?.let(::add)
+        station.bitrate?.let { add("${it} kbps") }
+        station.tags.orEmpty().take(3).forEach(::add)
+        if (isEmpty()) add("Stream")
+    }
+    return parts.joinToString(" / ")
 }
 
 private fun resolveImageUrl(url: String?): String? {
