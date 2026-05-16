@@ -2021,6 +2021,22 @@ struct StationListView: View {
                 favoritesAppGrid
             }
         }
+        // Drag-cancel watchdog. SwiftUI's `.onDrag` API has no drop-end
+        // callback when the user lifts their finger outside any drop
+        // target — `draggedFavoriteStationID` then stays set, the
+        // source tile remains hidden, and its tap target keeps firing.
+        // `.task(id:)` restarts whenever the dragged id changes;
+        // sleeping for 6s and then clearing if nothing else has reset
+        // it recovers from any drag-cancel path. 6s is comfortably
+        // longer than any realistic reorder (<1s) and short enough
+        // that the user notices the recovery within a beat.
+        // Proper fix is the Transferable migration tracked in #374.
+        .task(id: draggedFavoriteStationID) {
+            guard draggedFavoriteStationID != nil else { return }
+            try? await Task.sleep(nanoseconds: 6_000_000_000)
+            guard !Task.isCancelled, draggedFavoriteStationID != nil else { return }
+            clearFavoriteGridDragState()
+        }
     }
 
     private func adjacentFavoritesDisplayMode(for offset: CGFloat) -> FavoritesDisplayMode? {
@@ -2615,12 +2631,20 @@ struct StationListView: View {
         @ViewBuilder content: () -> Content,
     ) -> some View {
         if canReorderFavorites {
-            // Hide the source as soon as the drag is picked up — not
-            // after the first drop target registers. Previously the
-            // original tile stayed full-opacity until lastHandledTarget
-            // was set, so the user saw both the drag preview and the
-            // source at full opacity during the initial pickup.
+            // Only hide the source AFTER the first reorder move has
+            // registered — `lastFavoriteDropMoveAt != nil` confirms
+            // some drop machinery actually fired. The earlier
+            // formulation hid on `draggedFavoriteStationID == station.id`
+            // alone for smoother initial pickup, but SwiftUI's
+            // `.onDrag` has no drag-cancel callback: if the user lifts
+            // their finger outside any drop target, `draggedStationID`
+            // stays set, the tile stays at opacity 0, and its tap
+            // target keeps firing playback. The proper fix
+            // (Transferable + .draggable / .dropDestination) is
+            // tracked in #374. The watchdog on favoritesDisplayView
+            // backstops any case this gate misses.
             let showsReorderPlaceholder = draggedFavoriteStationID == station.id
+                && lastFavoriteDropMoveAt != nil
             let showsDeleteButton = favoriteDeleteModeEnabled
                 && targetedFavoriteStationID == nil
             // SpringBoard-style jiggle while the user is in delete mode.
@@ -2634,8 +2658,14 @@ struct StationListView: View {
                 content()
 
                 if showsDeleteButton {
-                    favoriteDeleteButton(station)
-                        .padding(4)
+                    favoriteGridDeleteBadge(station)
+                        // Offset so the badge straddles the icon's
+                        // top-trailing corner instead of sitting
+                        // inside the bounds. Matches iPhone Home,
+                        // which places the X badge half-overlapping
+                        // the icon. The badge has its own padding so
+                        // a positive x / negative y is enough.
+                        .offset(x: 10, y: -10)
                 }
             }
                 .modifier(FavoriteJiggleModifier(isActive: isJiggling, seed: station.id.hashValue))
@@ -2703,7 +2733,17 @@ struct StationListView: View {
         draggedFavoriteStationID = station.id
         targetedFavoriteStationID = nil
         lastFavoriteDropMoveAt = nil
-        favoriteDeleteModeEnabled = false
+        // Long-press → drag pickup → enter delete mode. Mirrors iPhone
+        // Home: holding a tile lifts it AND switches the whole grid
+        // into edit mode (jiggle starts on the other tiles, minus
+        // badges appear). Releasing without moving cancels the drag
+        // but the grid stays in delete mode so the user can either
+        // tap a minus badge or drag another tile.
+        if !favoriteDeleteModeEnabled {
+            withAnimation(.snappy(duration: 0.16)) {
+                favoriteDeleteModeEnabled = true
+            }
+        }
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
         return NSItemProvider(object: station.id as NSString)
     }
@@ -2777,6 +2817,35 @@ struct StationListView: View {
                 .foregroundStyle(RrradioTheme.ink3)
                 .frame(width: topbarControlSize, height: topbarControlSize)
                 .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Remove from favorites")
+        .transition(.scale(scale: 0.82).combined(with: .opacity))
+    }
+
+    /// iPhone-Home-style minus badge for the tile + app grids. White
+    /// circle, black minus, thin shadow for contrast against bright
+    /// favicons. Sized at ~24pt and positioned to overlap the icon's
+    /// top-trailing corner — same affordance as iOS edit mode, instead
+    /// of the tiny in-bounds button the previous grid code used.
+    private func favoriteGridDeleteBadge(_ station: Station) -> some View {
+        Button {
+            removeFavoriteFromGrid(station)
+        } label: {
+            Image(systemName: "minus.circle.fill")
+                .symbolRenderingMode(.palette)
+                // First color: the minus stroke. Second: the circle
+                // fill. Black-on-white reads against any favicon
+                // colour, including the white circles a few stations
+                // ship as their logo background.
+                .foregroundStyle(.black, .white)
+                .font(.system(size: 24, weight: .regular))
+                .shadow(color: .black.opacity(0.30), radius: 1.5, x: 0, y: 1)
+                // Hit area generous enough that it's still tappable
+                // when the icon is mid-jiggle (the badge wobbles with
+                // its parent ZStack).
+                .frame(width: 32, height: 32)
+                .contentShape(Circle())
         }
         .buttonStyle(.plain)
         .accessibilityLabel("Remove from favorites")
@@ -4033,50 +4102,55 @@ private struct FavoriteGridItemSizePreferenceKey: PreferenceKey {
 }
 
 /// SpringBoard-style jiggle modifier for the favorites grid icons.
-/// Active when the user is in delete mode; off otherwise. Each tile
-/// passes its `station.id.hashValue` as `seed` so rotation period and
-/// starting phase vary slightly across tiles — without that, all tiles
-/// would jiggle in perfect lockstep and the eye would read it as one
-/// rigid object shaking, not many small ones.
+/// Active when the user is in delete mode; off otherwise.
+///
+/// Implementation note: this used to be `@State + withAnimation(...).
+/// repeatForever`, which is the canonical SwiftUI pattern but is
+/// fragile inside a ViewModifier — the parent reconstructs the
+/// modifier on every render (because `isActive` is part of its init),
+/// and the @State / animation lifecycle around that can drop the
+/// repeat without warning. TimelineView with time-driven sin/cos is
+/// deterministic: each frame computes the rotation from absolute
+/// time, guaranteed to run regardless of modifier reconstruction.
+///
+/// Each tile passes `station.id.hashValue` as `seed`, which seeds a
+/// small per-tile period offset and a phase shift — adjacent tiles
+/// jiggle at slightly different rates so the eye reads it as many
+/// independent icons rather than one rigid grid shaking together.
 private struct FavoriteJiggleModifier: ViewModifier {
     let isActive: Bool
     let seed: Int
 
-    @State private var oscillate = false
-
-    // Per-tile period jitter: 120–149 ms. Starting phase is seeded so
-    // about half the tiles begin at the opposite extreme.
-    private var period: Double { 0.12 + Double(abs(seed) % 30) / 1000.0 }
-    private var startsFlipped: Bool { (abs(seed) % 2) == 0 }
-
-    func body(content: Content) -> some View {
-        content
-            // Rotation amplitude tuned to ~iOS Home: small enough to
-            // read as nervous, large enough to be unmistakably "edit
-            // mode". The translation is intentionally tiny — without
-            // it the rotation alone looks like a metronome.
-            .rotationEffect(.degrees(oscillate ? 1.4 : -1.4))
-            .offset(y: oscillate ? 0.6 : -0.6)
-            .onAppear { applyJiggle(active: isActive) }
-            .onChange(of: isActive) { _, active in applyJiggle(active: active) }
+    // Rotation amplitude tuned to be unmistakably "edit mode" but not
+    // cartoonish. iPhone SpringBoard runs closer to ~3°; that reads
+    // shaky on a 64-pt app tile and is too much on a 46-pt list cell.
+    private static let rotationDegrees: Double = 2.4
+    private static let translationPixels: Double = 1.0
+    // Baseline ~280 ms full cycle. Per-tile jitter spreads tiles
+    // across a 280–340 ms band so they don't beat in unison.
+    private var period: Double { 0.28 + Double(abs(seed) % 60) / 1000.0 }
+    private var phaseOffset: Double {
+        (Double(abs(seed) % 100) / 100.0) * .pi * 2
     }
 
-    private func applyJiggle(active: Bool) {
-        if active {
-            // Set the rest pose immediately, then start the repeating
-            // ease-in-out so the first transition crosses through the
-            // resting orientation (instead of snapping past it).
-            oscillate = startsFlipped
-            withAnimation(.easeInOut(duration: period).repeatForever(autoreverses: true)) {
-                oscillate = !startsFlipped
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if isActive {
+            TimelineView(.animation) { context in
+                let t = context.date.timeIntervalSinceReferenceDate
+                let phase = (t / period) * 2 * .pi + phaseOffset
+                content
+                    .rotationEffect(.degrees(sin(phase) * Self.rotationDegrees))
+                    // Translation uses `cos` so it's 90° out of phase
+                    // with the rotation — a tiny organic wobble
+                    // instead of a pure rotation-around-center.
+                    .offset(y: cos(phase) * Self.translationPixels)
             }
         } else {
-            // Settle back to neutral. Without an explicit animation
-            // here the repeatForever would just keep going against a
-            // false `isActive`.
-            withAnimation(.easeOut(duration: 0.12)) {
-                oscillate = false
-            }
+            content
+                .rotationEffect(.zero)
+                .offset(.zero)
+                .animation(.easeOut(duration: 0.18), value: isActive)
         }
     }
 }
