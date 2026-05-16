@@ -202,7 +202,10 @@ describe('public endpoints', () => {
     expect(body.items[0].series.every((v: number) => v === 0)).toBe(true);
     expect(body.total).toBe(15);
     expect(body.range_days).toBe(7);
-    expect(body.days).toHaveLength(8); // 7-day window = today + 7 prior days
+    // Snap-to-yesterday: a `days=7` window is 7 complete calendar days
+    // ending yesterday UTC. "Today" is intentionally excluded so totals
+    // don't ratchet upward across the day.
+    expect(body.days).toHaveLength(7);
   });
 
   it('GET /api/public/top-stations zero-fills the series and maps stats by day', async () => {
@@ -221,9 +224,9 @@ describe('public endpoints', () => {
           path: 'play: Alpha FM',
           count: 12,
           stats: [
-            { day: day(0), daily: 5 }, // today
+            { day: day(1), daily: 5 }, // yesterday — latest slot in the snapped window
             { day: day(3), daily: 7 }, // 3 days ago
-            // GC would normally omit zero-event days; we test that fill.
+            { day: day(0), daily: 99 }, // "today" — should be dropped (out of window)
           ],
         },
         { path: 'play: Beta FM', count: 0 }, // no stats at all
@@ -234,15 +237,17 @@ describe('public endpoints', () => {
       items: Array<{ name: string; count: number; series: number[] }>;
       days: string[];
     }>(res);
-    expect(body.days[body.days.length - 1]).toBe(day(0));
-    expect(body.days[body.days.length - 1 - 3]).toBe(day(3));
+    // Last slot is yesterday (today − 1), not today.
+    expect(body.days[body.days.length - 1]).toBe(day(1));
+    expect(body.days[body.days.length - 1 - 2]).toBe(day(3));
     expect(body.items[0].name).toBe('Alpha FM');
-    // today and (today-3) should be the only non-zero slots
+    // yesterday and (today-3) should be the only non-zero slots; the
+    // "today" stat is outside the window and gets dropped.
     const nonZero = body.items[0].series
       .map((v, i) => ({ v, i }))
       .filter((e) => e.v > 0);
     expect(nonZero).toEqual([
-      { i: body.days.length - 1 - 3, v: 7 },
+      { i: body.days.length - 1 - 2, v: 7 },
       { i: body.days.length - 1, v: 5 },
     ]);
     // Hit with no stats → fully zero-filled series matching `days`.
@@ -282,11 +287,12 @@ describe('public endpoints', () => {
       d.setUTCDate(d.getUTCDate() - offset);
       return d.toISOString().slice(0, 10);
     };
-    // Build a per-day fixture: oldest → newest, 8 days for days=7.
-    // CH grows linearly; DE has one big spike; FR appears on day 5 only.
+    // Build a per-day fixture: oldest → newest, 7 days for days=7 (the
+    // snap-to-yesterday window excludes today). CH grows linearly; DE
+    // has one big spike; FR appears on day 5 only.
     const fixture: Record<string, { stats: Array<{ id: string; name: string; count: number }>; total: number }> = {};
-    for (let i = 0; i <= 7; i++) {
-      const d = day(7 - i); // oldest first
+    for (let i = 0; i <= 6; i++) {
+      const d = day(7 - i); // oldest first — day(7) … day(1)
       fixture[d] = {
         stats: [
           { id: 'CH', name: 'Switzerland', count: i + 1 },
@@ -320,19 +326,19 @@ describe('public endpoints', () => {
       days: string[];
     }>(res);
     expect(body.range_days).toBe(7);
-    expect(body.days).toHaveLength(8);
+    expect(body.days).toHaveLength(7);
     const ch = body.items.find((i) => i.code === 'CH');
     const de = body.items.find((i) => i.code === 'DE');
     const fr = body.items.find((i) => i.code === 'FR');
     expect(ch).toBeDefined();
     expect(de).toBeDefined();
     expect(fr).toBeDefined();
-    // CH series: 1..8 across the 8 days. Sum = 36.
-    expect(ch!.series).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
-    expect(ch!.count).toBe(36);
-    // DE series: 5 every day except day index 3 = 100. Sum = 5*7 + 100 = 135.
-    expect(de!.series).toEqual([5, 5, 5, 100, 5, 5, 5, 5]);
-    expect(de!.count).toBe(135);
+    // CH series: 1..7 across the 7 days. Sum = 28.
+    expect(ch!.series).toEqual([1, 2, 3, 4, 5, 6, 7]);
+    expect(ch!.count).toBe(28);
+    // DE series: 5 every day except day index 3 = 100. Sum = 5*6 + 100 = 130.
+    expect(de!.series).toEqual([5, 5, 5, 100, 5, 5, 5]);
+    expect(de!.count).toBe(130);
     // FR series: 0 everywhere except day index 5 = 7. Sum = 7.
     expect(fr!.series[5]).toBe(7);
     expect(fr!.count).toBe(7);

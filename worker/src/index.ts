@@ -187,9 +187,22 @@ async function gcFetch<T>(path: string, env: Env): Promise<T> {
   return (await res.json()) as T;
 }
 
+// The stats window is snapped to UTC day boundaries — it always ends at
+// yesterday EOD UTC and spans `daysBack` complete calendar days back from
+// there. The previous behaviour pulled "start..now" (no end), so totals
+// ratcheted upward through the day and two devices on different edge
+// cache populations (5-minute TTL) showed different snapshots. Snapping
+// to yesterday means numbers only jump once per day at UTC midnight and
+// every reader sees the same stable window all day long.
 function rangeStart(daysBack: number): string {
   const d = new Date();
   d.setUTCDate(d.getUTCDate() - daysBack);
+  return d.toISOString().slice(0, 10);
+}
+
+function rangeEnd(): string {
+  const d = new Date();
+  d.setUTCDate(d.getUTCDate() - 1);
   return d.toISOString().slice(0, 10);
 }
 
@@ -211,6 +224,7 @@ function clampDays(raw: string | null): number {
 async function fetchAllHits(daysBack: number, env: Env): Promise<GcHit[]> {
   const params = new URLSearchParams({
     start: rangeStart(daysBack),
+    end: rangeEnd(),
     limit: '500',
     daily: 'true',
   });
@@ -218,14 +232,17 @@ async function fetchAllHits(daysBack: number, env: Env): Promise<GcHit[]> {
   return data.hits ?? [];
 }
 
-// Build the canonical [oldest..today] list of YYYY-MM-DD day strings
-// for a `daysBack`-window. Used as the index for per-item series so
-// every item's series array has the same length and lines up with the
-// same days, even when GC omits days where the item had zero events.
+// Build the canonical [oldest..yesterday] list of YYYY-MM-DD day strings
+// for a `daysBack`-window. Same end-date that fetchAllHits passes to GC,
+// so each station's stats array indexes cleanly into this list. Used as
+// the per-item series index so every item's series array has the same
+// length and lines up with the same days, even when GC omits days where
+// the item had zero events. Length == daysBack (no longer includes the
+// incomplete "today").
 function rangeDays(daysBack: number): string[] {
   const days: string[] = [];
   const today = new Date();
-  for (let i = daysBack; i >= 0; i--) {
+  for (let i = daysBack; i >= 1; i--) {
     const d = new Date(today);
     d.setUTCDate(d.getUTCDate() - i);
     days.push(d.toISOString().slice(0, 10));
@@ -267,7 +284,8 @@ function pickByPrefix(
 
 async function totals(daysBack: number, env: Env): Promise<GcTotals & { range_days: number }> {
   const start = rangeStart(daysBack);
-  const data = await gcFetch<GcTotals>(`/stats/total?start=${start}`, env);
+  const end = rangeEnd();
+  const data = await gcFetch<GcTotals>(`/stats/total?start=${start}&end=${end}`, env);
   return { ...data, range_days: daysBack };
 }
 
@@ -384,6 +402,7 @@ async function fetchStatGroup(
 ): Promise<ListResponse> {
   const params = new URLSearchParams({
     start: rangeStart(daysBack),
+    end: rangeEnd(),
     limit: String(limit),
   });
   const data = await gcFetch<GcStatGroup>(`/stats/${group}?${params}`, env);
@@ -732,7 +751,8 @@ export default {
           // Returns the raw GoatCounter /stats/total response so we can
           // see exactly which field names this account/version exposes.
           const start = rangeStart(days);
-          const raw = await gcFetch<unknown>(`/stats/total?start=${start}`, env);
+          const end = rangeEnd();
+          const raw = await gcFetch<unknown>(`/stats/total?start=${start}&end=${end}`, env);
           data = { range_days: days, raw_totals: raw };
           break;
         }
