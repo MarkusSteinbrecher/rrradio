@@ -10,10 +10,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.rrradio.android.data.AccentPreference
 import org.rrradio.android.data.AppThemePreference
 import org.rrradio.android.data.CatalogLoadState
 import org.rrradio.android.data.CatalogRepository
 import org.rrradio.android.data.CatalogState
+import org.rrradio.android.data.LandingPagePreference
 import org.rrradio.android.data.LibraryRepository
 import org.rrradio.android.data.PlaybackUiState
 import org.rrradio.android.data.PlayerState
@@ -63,7 +65,10 @@ data class RrradioUiState(
     val selectedCountry: String? = null,
     val selectedTag: String? = null,
     val sleepMinutes: Int = 0,
+    val sleepDefaultMinutes: Int = LibraryRepository.DEFAULT_SLEEP_MINUTES,
     val themePreference: AppThemePreference = AppThemePreference.System,
+    val accentPreference: AccentPreference = AccentPreference.Classic,
+    val landingPagePreference: LandingPagePreference = LandingPagePreference.Browse,
     val favoritesDisplayMode: FavoritesDisplayMode = FavoritesDisplayMode.List,
 ) {
     val allStations: List<Station>
@@ -111,6 +116,7 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
     private val libraryRepository = LibraryRepository(application)
     private val streamProbe = StreamProbe()
     private var sleepJob: Job? = null
+    private var appliedLandingPagePreference = false
 
     private val _uiState = MutableStateFlow(RrradioUiState())
     val uiState: StateFlow<RrradioUiState> = _uiState.asStateFlow()
@@ -143,6 +149,25 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch {
             libraryRepository.themePreference.collect { preference ->
                 _uiState.update { it.copy(themePreference = preference) }
+            }
+        }
+        viewModelScope.launch {
+            libraryRepository.accentPreference.collect { preference ->
+                _uiState.update { it.copy(accentPreference = preference) }
+            }
+        }
+        viewModelScope.launch {
+            libraryRepository.landingPagePreference.collect { preference ->
+                _uiState.update { state ->
+                    val startupTab = if (!appliedLandingPagePreference) landingTab(preference) else state.tab
+                    state.copy(landingPagePreference = preference, tab = startupTab)
+                }
+                appliedLandingPagePreference = true
+            }
+        }
+        viewModelScope.launch {
+            libraryRepository.sleepDefaultMinutes.collect { minutes ->
+                _uiState.update { it.copy(sleepDefaultMinutes = minutes) }
             }
         }
         viewModelScope.launch {
@@ -283,6 +308,18 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch { libraryRepository.setThemePreference(preference) }
     }
 
+    fun setAccentPreference(preference: AccentPreference) {
+        viewModelScope.launch { libraryRepository.setAccentPreference(preference) }
+    }
+
+    fun setLandingPagePreference(preference: LandingPagePreference) {
+        viewModelScope.launch { libraryRepository.setLandingPagePreference(preference) }
+    }
+
+    fun setSleepDefaultMinutes(minutes: Int) {
+        viewModelScope.launch { libraryRepository.setSleepDefaultMinutes(minutes) }
+    }
+
     fun play(station: Station) {
         val context = getApplication<Application>()
         val queue = activePlaybackQueue(uiState.value.visibleStations, station)
@@ -339,7 +376,12 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
     fun cycleSleepTimer() {
         val cycle = listOf(0, 15, 30, 60, 90)
         val current = uiState.value.sleepMinutes
-        val next = cycle[(cycle.indexOf(current).takeIf { it >= 0 } ?: 0).let { (it + 1) % cycle.size }]
+        val default = uiState.value.sleepDefaultMinutes
+        val next = if (current == 0) {
+            default
+        } else {
+            cycle[(cycle.indexOf(current).takeIf { it >= 0 } ?: 0).let { (it + 1) % cycle.size }]
+        }
         sleepJob?.cancel()
         if (next == 0) {
             _uiState.update { it.copy(sleepMinutes = 0) }
@@ -352,6 +394,12 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
             context.startService(RadioPlaybackService.pauseIntent(context))
             _uiState.update { it.copy(sleepMinutes = 0) }
         }
+    }
+
+    private fun landingTab(preference: LandingPagePreference): AppTab = when (preference) {
+        LandingPagePreference.StationLists -> AppTab.StationLists
+        LandingPagePreference.Browse -> AppTab.Browse
+        LandingPagePreference.Favorites -> AppTab.Favorites
     }
 
     override fun onCleared() {

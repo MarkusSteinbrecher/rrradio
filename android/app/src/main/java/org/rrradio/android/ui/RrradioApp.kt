@@ -6,10 +6,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -47,7 +49,9 @@ import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Public
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.Star
+import androidx.compose.material.icons.rounded.Timer
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -87,13 +91,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import org.rrradio.android.R
+import org.rrradio.android.data.AccentPreference
 import org.rrradio.android.data.AppThemePreference
 import org.rrradio.android.data.CatalogLoadState
+import org.rrradio.android.data.LandingPagePreference
+import org.rrradio.android.data.LibraryRepository
 import org.rrradio.android.data.PlaybackUiState
 import org.rrradio.android.data.PlayerState
 import org.rrradio.android.data.Station
 import org.rrradio.android.data.StationList
 import org.rrradio.android.data.countryDisplayName
+import org.rrradio.android.ui.theme.rrradioAccentColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -106,6 +114,7 @@ fun RrradioApp(
     var showNowPlaying by remember { mutableStateOf(false) }
     var showChooseStationList by remember { mutableStateOf(false) }
     var showCreateStationList by remember { mutableStateOf(false) }
+    var showPreferences by remember { mutableStateOf(false) }
     var createListFromSelection by remember { mutableStateOf(false) }
     var customStationPendingDelete by remember { mutableStateOf<Station?>(null) }
     var stationListPendingDelete by remember { mutableStateOf<String?>(null) }
@@ -160,7 +169,7 @@ fun RrradioApp(
             Header(
                 state = state,
                 onQuery = actions::setQuery,
-                onThemePreference = actions::setThemePreference,
+                onOpenPreferences = { showPreferences = true },
                 resolvedDarkTheme = resolvedDarkTheme,
                 onAddStation = { showAddStation = true },
                 onCountry = actions::setCountry,
@@ -225,6 +234,25 @@ fun RrradioApp(
                 onToggle = actions::togglePlayback,
                 onSleep = actions::cycleSleepTimer,
                 onDismiss = { showNowPlaying = false },
+            )
+        }
+    }
+
+    if (showPreferences) {
+        ModalBottomSheet(
+            sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+            containerColor = MaterialTheme.colorScheme.background,
+            dragHandle = null,
+            onDismissRequest = { showPreferences = false },
+        ) {
+            PreferencesSheet(
+                state = state,
+                resolvedDarkTheme = resolvedDarkTheme,
+                onThemePreference = actions::setThemePreference,
+                onAccentPreference = actions::setAccentPreference,
+                onLandingPagePreference = actions::setLandingPagePreference,
+                onSleepDefaultMinutes = actions::setSleepDefaultMinutes,
+                onDismiss = { showPreferences = false },
             )
         }
     }
@@ -321,7 +349,7 @@ fun RrradioApp(
 private fun Header(
     state: RrradioUiState,
     onQuery: (String) -> Unit,
-    onThemePreference: (AppThemePreference) -> Unit,
+    onOpenPreferences: () -> Unit,
     resolvedDarkTheme: Boolean,
     onAddStation: () -> Unit,
     onCountry: (String?) -> Unit,
@@ -367,10 +395,10 @@ private fun Header(
 
             Spacer(Modifier.weight(1f))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                ThemePreferenceButton(
-                    selected = state.themePreference,
-                    resolvedDarkTheme = resolvedDarkTheme,
-                    onSelected = onThemePreference,
+                CircleIconButton(
+                    icon = Icons.Rounded.Settings,
+                    label = "Preferences",
+                    onClick = onOpenPreferences,
                 )
                 if (state.tab == AppTab.Browse) {
                     CircleIconButton(
@@ -419,49 +447,6 @@ private fun BrandLogo(darkTheme: Boolean) {
     )
 }
 
-@Composable
-private fun ThemePreferenceButton(
-    selected: AppThemePreference,
-    resolvedDarkTheme: Boolean,
-    onSelected: (AppThemePreference) -> Unit,
-) {
-    var expanded by remember { mutableStateOf(false) }
-    Box {
-        CircleIconButton(
-            icon = themePreferenceIcon(selected, resolvedDarkTheme),
-            label = "Theme",
-            onClick = { expanded = true },
-        )
-        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-            AppThemePreference.entries.forEach { preference ->
-                DropdownMenuItem(
-                    text = { Text(themePreferenceLabel(preference)) },
-                    leadingIcon = {
-                        Icon(
-                            themePreferenceIcon(preference, resolvedDarkTheme),
-                            contentDescription = null,
-                            modifier = Modifier.size(18.dp),
-                        )
-                    },
-                    trailingIcon = {
-                        if (preference == selected) {
-                            Icon(
-                                Icons.Rounded.Check,
-                                contentDescription = null,
-                                modifier = Modifier.size(18.dp),
-                            )
-                        }
-                    },
-                    onClick = {
-                        expanded = false
-                        onSelected(preference)
-                    },
-                )
-            }
-        }
-    }
-}
-
 private fun themePreferenceLabel(preference: AppThemePreference): String = when (preference) {
     AppThemePreference.System -> "System"
     AppThemePreference.Light -> "Light"
@@ -475,6 +460,301 @@ private fun themePreferenceIcon(
     AppThemePreference.System -> if (resolvedDarkTheme) Icons.Rounded.DarkMode else Icons.Rounded.LightMode
     AppThemePreference.Light -> Icons.Rounded.LightMode
     AppThemePreference.Dark -> Icons.Rounded.DarkMode
+}
+
+@Composable
+private fun PreferencesSheet(
+    state: RrradioUiState,
+    resolvedDarkTheme: Boolean,
+    onThemePreference: (AppThemePreference) -> Unit,
+    onAccentPreference: (AccentPreference) -> Unit,
+    onLandingPagePreference: (LandingPagePreference) -> Unit,
+    onSleepDefaultMinutes: (Int) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .statusBarsPadding()
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 20.dp)
+            .padding(top = 18.dp, bottom = 28.dp),
+        verticalArrangement = Arrangement.spacedBy(18.dp),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f)) {
+                Text(
+                    "Preferences",
+                    color = MaterialTheme.colorScheme.onBackground,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.SemiBold,
+                )
+                Text(
+                    "Device-local settings",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontSize = 12.sp,
+                )
+            }
+            CircleIconButton(
+                icon = Icons.Rounded.Close,
+                label = "Close preferences",
+                size = 34,
+                iconSize = 16,
+                onClick = onDismiss,
+            )
+        }
+
+        PreferenceSection(title = "Appearance") {
+            AppThemePreference.entries.forEachIndexed { index, preference ->
+                PreferenceChoiceRow(
+                    icon = themePreferenceIcon(preference, resolvedDarkTheme),
+                    title = themePreferenceLabel(preference),
+                    detail = themePreferenceDetail(preference, resolvedDarkTheme),
+                    selected = state.themePreference == preference,
+                    onClick = { onThemePreference(preference) },
+                )
+                if (index != AppThemePreference.entries.lastIndex) PreferenceDivider()
+            }
+        }
+
+        PreferenceSection(title = "Accent") {
+            AccentPreference.entries.forEachIndexed { index, preference ->
+                AccentPreferenceRow(
+                    preference = preference,
+                    resolvedDarkTheme = resolvedDarkTheme,
+                    selected = state.accentPreference == preference,
+                    onClick = { onAccentPreference(preference) },
+                )
+                if (index != AccentPreference.entries.lastIndex) PreferenceDivider()
+            }
+        }
+
+        PreferenceSection(title = "Start") {
+            LandingPagePreference.entries.forEachIndexed { index, preference ->
+                PreferenceChoiceRow(
+                    icon = landingPagePreferenceIcon(preference),
+                    title = landingPagePreferenceLabel(preference),
+                    detail = landingPagePreferenceDetail(preference),
+                    selected = state.landingPagePreference == preference,
+                    onClick = { onLandingPagePreference(preference) },
+                )
+                if (index != LandingPagePreference.entries.lastIndex) PreferenceDivider()
+            }
+        }
+
+        PreferenceSection(title = "Sleep timer") {
+            LibraryRepository.SLEEP_DEFAULT_OPTIONS.forEachIndexed { index, minutes ->
+                PreferenceChoiceRow(
+                    icon = Icons.Rounded.Timer,
+                    title = "$minutes minutes",
+                    detail = if (state.sleepDefaultMinutes == minutes) {
+                        "First Sleep tap starts here."
+                    } else {
+                        "Use $minutes minutes as the default."
+                    },
+                    selected = state.sleepDefaultMinutes == minutes,
+                    onClick = { onSleepDefaultMinutes(minutes) },
+                )
+                if (index != LibraryRepository.SLEEP_DEFAULT_OPTIONS.lastIndex) PreferenceDivider()
+            }
+        }
+    }
+}
+
+@Composable
+private fun PreferenceSection(
+    title: String,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text(
+            title,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.SemiBold,
+        )
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp))
+                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline), RoundedCornerShape(8.dp)),
+            content = content,
+        )
+    }
+}
+
+@Composable
+private fun PreferenceChoiceRow(
+    icon: ImageVector,
+    title: String,
+    detail: String,
+    selected: Boolean,
+    onClick: () -> Unit,
+) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .background(if (selected) MaterialTheme.colorScheme.primary.copy(alpha = 0.10f) else Color.Transparent)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 14.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        PreferenceLeadingIcon(icon = icon, selected = selected)
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(
+                title,
+                color = MaterialTheme.colorScheme.onBackground,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Medium,
+            )
+            Text(
+                detail,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontSize = 12.sp,
+                lineHeight = 16.sp,
+            )
+        }
+        if (selected) {
+            Icon(
+                Icons.Rounded.Check,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(18.dp),
+            )
+        }
+    }
+}
+
+@Composable
+private fun AccentPreferenceRow(
+    preference: AccentPreference,
+    resolvedDarkTheme: Boolean,
+    selected: Boolean,
+    onClick: () -> Unit,
+) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .background(if (selected) MaterialTheme.colorScheme.primary.copy(alpha = 0.10f) else Color.Transparent)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 14.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        Box(
+            Modifier
+                .size(30.dp)
+                .clip(CircleShape)
+                .background(rrradioAccentColor(preference, resolvedDarkTheme))
+                .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline), CircleShape),
+        )
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(
+                accentPreferenceLabel(preference),
+                color = MaterialTheme.colorScheme.onBackground,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Medium,
+            )
+            Text(
+                accentPreferenceDetail(preference),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontSize = 12.sp,
+                lineHeight = 16.sp,
+            )
+        }
+        if (selected) {
+            Icon(
+                Icons.Rounded.Check,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(18.dp),
+            )
+        }
+    }
+}
+
+@Composable
+private fun PreferenceLeadingIcon(icon: ImageVector, selected: Boolean) {
+    Box(
+        Modifier
+            .size(30.dp)
+            .clip(CircleShape)
+            .background(
+                if (selected) {
+                    MaterialTheme.colorScheme.primary.copy(alpha = 0.20f)
+                } else {
+                    MaterialTheme.colorScheme.background
+                },
+            )
+            .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline), CircleShape),
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            icon,
+            contentDescription = null,
+            tint = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.size(16.dp),
+        )
+    }
+}
+
+@Composable
+private fun PreferenceDivider() {
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .height(1.dp)
+            .background(MaterialTheme.colorScheme.outline),
+    )
+}
+
+private fun themePreferenceDetail(
+    preference: AppThemePreference,
+    resolvedDarkTheme: Boolean,
+): String = when (preference) {
+    AppThemePreference.System -> if (resolvedDarkTheme) {
+        "Follow Android. Currently dark."
+    } else {
+        "Follow Android. Currently light."
+    }
+    AppThemePreference.Light -> "Always use the light app theme."
+    AppThemePreference.Dark -> "Always use the dark app theme."
+}
+
+private fun accentPreferenceLabel(preference: AccentPreference): String = when (preference) {
+    AccentPreference.Classic -> "Classic"
+    AccentPreference.Yellow -> "Yellow"
+    AccentPreference.Green -> "Green"
+    AccentPreference.Blue -> "Blue"
+    AccentPreference.Pink -> "Pink"
+}
+
+private fun accentPreferenceDetail(preference: AccentPreference): String = when (preference) {
+    AccentPreference.Classic -> "Green in light mode, yellow in dark mode."
+    AccentPreference.Yellow -> "Use the night-radio yellow accent everywhere."
+    AccentPreference.Green -> "Use the original green accent everywhere."
+    AccentPreference.Blue -> "Use a cooler Android accent."
+    AccentPreference.Pink -> "Use a warmer high-contrast accent."
+}
+
+private fun landingPagePreferenceLabel(preference: LandingPagePreference): String = when (preference) {
+    LandingPagePreference.StationLists -> "Lists"
+    LandingPagePreference.Browse -> "Browse"
+    LandingPagePreference.Favorites -> "Favorites"
+}
+
+private fun landingPagePreferenceDetail(preference: LandingPagePreference): String = when (preference) {
+    LandingPagePreference.StationLists -> "Open your station lists on launch."
+    LandingPagePreference.Browse -> "Open the full catalog on launch."
+    LandingPagePreference.Favorites -> "Open your favorite stations on launch."
+}
+
+private fun landingPagePreferenceIcon(preference: LandingPagePreference): ImageVector = when (preference) {
+    LandingPagePreference.StationLists -> Icons.AutoMirrored.Rounded.Article
+    LandingPagePreference.Browse -> Icons.Rounded.Public
+    LandingPagePreference.Favorites -> Icons.Rounded.Favorite
 }
 
 @Composable

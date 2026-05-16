@@ -75,6 +75,32 @@ enum class AppThemePreference(val rawValue: String) {
     }
 }
 
+enum class AccentPreference(val rawValue: String) {
+    Classic("classic"),
+    Yellow("yellow"),
+    Green("green"),
+    Blue("blue"),
+    Pink("pink"),
+    ;
+
+    companion object {
+        fun fromRaw(rawValue: String?): AccentPreference =
+            entries.firstOrNull { it.rawValue == rawValue } ?: Classic
+    }
+}
+
+enum class LandingPagePreference(val rawValue: String) {
+    StationLists("lists"),
+    Browse("browse"),
+    Favorites("favorites"),
+    ;
+
+    companion object {
+        fun fromRaw(rawValue: String?): LandingPagePreference =
+            entries.firstOrNull { it.rawValue == rawValue } ?: Browse
+    }
+}
+
 internal object StringCompatibleSerializer : KSerializer<String> {
     override val descriptor = PrimitiveSerialDescriptor("StringCompatible", PrimitiveKind.STRING)
 
