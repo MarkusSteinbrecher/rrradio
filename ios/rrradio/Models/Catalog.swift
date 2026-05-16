@@ -37,9 +37,25 @@ final class Catalog {
     private(set) var stations: [Station] = [] {
         didSet {
             browseOrdered = Self.orderForBrowse(stations)
+            // Precompute search haystacks once per catalog load instead
+            // of rebuilding them on every keystroke — turns the filter
+            // hot path into plain substring checks against cached
+            // strings.
+            searchHaystacks = Dictionary(uniqueKeysWithValues: stations.map {
+                ($0.id, buildSearchHaystack(for: $0))
+            })
+            // Cache whether the bundled FTS index matches the current
+            // catalog. The check is O(N) on the set comparison and
+            // used on every keystroke if not cached.
+            searchIndexCoversCatalog = Self.computeSearchIndexCoverage(
+                searchIndex: searchIndex,
+                stations: stations,
+            )
         }
     }
     private(set) var browseOrdered: [Station] = []
+    private(set) var searchHaystacks: [String: SearchHaystack] = [:]
+    private(set) var searchIndexCoversCatalog: Bool = false
     private(set) var state: LoadState = .idle
     private(set) var lastNetworkRefreshAt: Date?
 
@@ -137,5 +153,14 @@ final class Catalog {
         let featured = stations.filter { $0.featured == true }
         let rest = stations.filter { $0.featured != true }
         return featured + rest
+    }
+
+    private static func computeSearchIndexCoverage(
+        searchIndex: SearchIndex?,
+        stations: [Station],
+    ) -> Bool {
+        guard let searchIndex,
+              searchIndex.stationCount == stations.count else { return false }
+        return Set(stations.map(\.id)) == searchIndex.stationIDs
     }
 }

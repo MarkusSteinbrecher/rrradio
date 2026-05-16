@@ -6,6 +6,7 @@ struct MiniPlayerView: View {
     @Environment(AudioPlayer.self) private var player
     @Environment(SleepTimer.self) private var sleepTimer
     @Environment(NetworkMonitor.self) private var network
+    @Environment(ThemeController.self) private var theme
     @State private var presentNowPlaying = false
     @State private var showingClosePrompt = false
     private let offlineTint = Color(red: 1, green: 0.45, blue: 0.45)
@@ -15,7 +16,10 @@ struct MiniPlayerView: View {
     private let controlSize: CGFloat = 36
 
     var body: some View {
-        HStack(spacing: 14) {
+        // Track accent so the mini player updates when the user changes
+        // it in Settings (see StationListView for the full explanation).
+        let _ = theme.accentRawValue
+        return HStack(spacing: 14) {
             leadingIcon
 
             metadataLines

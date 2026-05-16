@@ -60,6 +60,27 @@ let genres: [Genre] = [
 
 private let genresByID = Dictionary(uniqueKeysWithValues: genres.map { ($0.id, $0) })
 
+/// Precompiled `NSRegularExpression` for every `.regex` pattern declared
+/// on a `Genre`. `stationMatchesGenre` is called on the hot search path
+/// (genre filter × 55k stations × per-keystroke), and `String.range(of:
+/// options: .regularExpression)` recompiles the pattern on every call.
+/// Compile once at module init, look up by pattern string at call time.
+private let compiledGenreRegexes: [String: NSRegularExpression] = {
+    var result: [String: NSRegularExpression] = [:]
+    for genre in genres {
+        for pattern in genre.match {
+            guard case .regex(let raw) = pattern, result[raw] == nil else { continue }
+            // `caseInsensitive` is belt-and-suspenders — every caller
+            // already lowercases the tag before matching — but keeps
+            // the regexes correct if a future caller forgets.
+            if let regex = try? NSRegularExpression(pattern: raw, options: [.caseInsensitive]) {
+                result[raw] = regex
+            }
+        }
+    }
+    return result
+}()
+
 func findGenre(_ id: String?) -> Genre? {
     guard let id, id != "all" else { return nil }
     return genresByID[id]
@@ -105,11 +126,13 @@ func stationMatchesGenre(_ station: Station, genre: Genre) -> Bool {
             case .text(let needle):
                 if normalizedTag.contains(needle) { return true }
             case .regex(let raw):
-                // Case-insensitive — both the tag and the regex are
-                // lowercased already, so we don't need NSRegularExpression
-                // case flags. Compiled per-call; the patterns are short
-                // and the genre list is fixed, so this isn't hot.
-                if normalizedTag.range(of: raw, options: .regularExpression) != nil {
+                // Look up the precompiled regex (built once at module
+                // init) — String.range(of:options:.regularExpression)
+                // recompiles per call, which is wasted work on the
+                // 55k-station × per-keystroke hot path.
+                guard let regex = compiledGenreRegexes[raw] else { continue }
+                let range = NSRange(normalizedTag.startIndex..., in: normalizedTag)
+                if regex.firstMatch(in: normalizedTag, range: range) != nil {
                     return true
                 }
             }

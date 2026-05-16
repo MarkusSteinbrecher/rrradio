@@ -559,7 +559,8 @@ struct StationListView: View {
     private var filteredStationLists: [StationList] {
         let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedQuery.isEmpty else { return library.stationLists }
-        return library.stationLists.filter { Self.stationListMatches($0, query: trimmedQuery) }
+        let haystacks = catalog.searchHaystacks
+        return library.stationLists.filter { Self.stationListMatches($0, query: trimmedQuery, haystacks: haystacks) }
     }
     private var stationListsSignature: String {
         library.stationLists.map { list in
@@ -593,6 +594,12 @@ struct StationListView: View {
     }
 
     var body: some View {
+        // Track the accent raw value so the body re-runs when the user
+        // changes accent in Settings. `RrradioTheme.accent` is a static
+        // getter, so SwiftUI's @Observable system can't see it on its
+        // own — without this read, the visible page keeps the old
+        // accent until something else triggers a re-render.
+        let _ = theme.accentRawValue
         pageShellWithLifecycle
     }
 
@@ -2155,6 +2162,7 @@ struct StationListView: View {
             onInfoHoldChanged: !selectingForList && !isStationListStationDeleteMode && source == .all ? { isHolding in
                 handleStationInfoHoldChanged(isHolding, station: station)
             } : nil,
+            searchHighlightQuery: query,
         )
     }
 
@@ -2474,6 +2482,7 @@ struct StationListView: View {
                     },
                     onToggleFavorite: {},
                     showsFavoriteButton: false,
+                    searchHighlightQuery: query,
                 )
                 .frame(maxWidth: .infinity)
 
@@ -3609,6 +3618,7 @@ struct StationListView: View {
 
     private func recomputeFilteredStations() {
         let query = query
+        let catalogHaystacks = catalog.searchHaystacks
         if isStationListsPage {
             filterTask?.cancel()
             showingFavoritesCatalogFallback = false
@@ -3617,8 +3627,11 @@ struct StationListView: View {
                 return
             }
             let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
-            filteredStations = selectedStationList.stations.filter {
-                trimmedQuery.isEmpty || stationMatches($0, query: query)
+            filteredStations = selectedStationList.stations.filter { station in
+                trimmedQuery.isEmpty || stationMatches(
+                    haystack: catalogHaystacks[station.id] ?? buildSearchHaystack(for: station),
+                    query: query,
+                )
             }
             return
         }
@@ -3631,6 +3644,7 @@ struct StationListView: View {
         let catalogStations = allStations
         let customStations = library.customStations
         let searchIndex = catalog.searchIndex
+        let searchIndexCoversCatalog = catalog.searchIndexCoversCatalog
         let browseStationSort = source == .all ? browseStationSort : nil
         let favoriteIDs = Set(library.favorites.map(\.id))
         let radioBrowserStations = radioBrowserStations
@@ -3645,7 +3659,7 @@ struct StationListView: View {
             if source == .all,
                !trimmedQuery.isEmpty,
                let searchIndex,
-               Self.searchIndexCoversCurrentCatalog(searchIndex, catalogStations: catalogStations) {
+               searchIndexCoversCatalog {
                 showFavoritesCatalogFallback = false
                 let quickMatches = Self.searchIndexedStations(
                     query: trimmedQuery,
@@ -3653,6 +3667,7 @@ struct StationListView: View {
                     selectedGenreIDs: selectedGenreIDs,
                     newsFilterSelected: newsFilterSelected,
                     catalogStations: catalogStations,
+                    catalogHaystacks: catalogHaystacks,
                     customStations: customStations,
                     radioBrowserStations: radioBrowserStations,
                     searchIndex: searchIndex,
@@ -3673,6 +3688,7 @@ struct StationListView: View {
                     selectedGenreIDs: selectedGenreIDs,
                     newsFilterSelected: newsFilterSelected,
                     catalogStations: catalogStations,
+                    catalogHaystacks: catalogHaystacks,
                     customStations: customStations,
                     radioBrowserStations: radioBrowserStations,
                     searchIndex: searchIndex,
@@ -3680,10 +3696,13 @@ struct StationListView: View {
                 )
             } else {
                 let favoriteMatches = source == .favorites && !trimmedQuery.isEmpty
-                    ? stations.filter {
-                        stationMatches($0, query: query)
+                    ? stations.filter { station in
+                        stationMatches(
+                            haystack: catalogHaystacks[station.id] ?? buildSearchHaystack(for: station),
+                            query: query,
+                        )
                             && Self.stationMatchesBrowseFilters(
-                                $0,
+                                station,
                                 countryCodes: selectedCountryCodes,
                                 genreIDs: selectedGenreIDs,
                                 newsFilterSelected: newsFilterSelected,
@@ -3701,10 +3720,13 @@ struct StationListView: View {
                 } else {
                     searchStations = stations
                 }
-                matches = searchStations.filter {
-                    stationMatches($0, query: query)
+                matches = searchStations.filter { station in
+                    stationMatches(
+                        haystack: catalogHaystacks[station.id] ?? buildSearchHaystack(for: station),
+                        query: query,
+                    )
                         && Self.stationMatchesBrowseFilters(
-                            $0,
+                            station,
                             countryCodes: selectedCountryCodes,
                             genreIDs: selectedGenreIDs,
                             newsFilterSelected: newsFilterSelected,
@@ -3724,13 +3746,22 @@ struct StationListView: View {
         }
     }
 
-    nonisolated private static func stationListMatches(_ list: StationList, query: String) -> Bool {
+    nonisolated private static func stationListMatches(
+        _ list: StationList,
+        query: String,
+        haystacks: [String: SearchHaystack],
+    ) -> Bool {
         let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedQuery.isEmpty else { return true }
         if list.name.localizedCaseInsensitiveContains(trimmedQuery) {
             return true
         }
-        return list.stations.contains { stationMatches($0, query: trimmedQuery) }
+        return list.stations.contains { station in
+            stationMatches(
+                haystack: haystacks[station.id] ?? buildSearchHaystack(for: station),
+                query: trimmedQuery,
+            )
+        }
     }
 
     nonisolated private static func sortedStations(
@@ -3794,6 +3825,7 @@ struct StationListView: View {
         selectedGenreIDs: Set<String>,
         newsFilterSelected: Bool,
         catalogStations: [Station],
+        catalogHaystacks: [String: SearchHaystack],
         customStations: [Station],
         radioBrowserStations: [Station],
         searchIndex: SearchIndex,
@@ -3815,10 +3847,13 @@ struct StationListView: View {
         } catch {
             diagnosticRecordAsync("search", "fts failed", details: ["error": String(describing: error)])
             let fallbackStations = uniqueStations(catalogStations + customStations + radioBrowserStations)
-            return fallbackStations.filter {
-                stationMatches($0, query: query)
+            return fallbackStations.filter { station in
+                stationMatches(
+                    haystack: catalogHaystacks[station.id] ?? buildSearchHaystack(for: station),
+                    query: query,
+                )
                     && stationMatchesBrowseFilters(
-                        $0,
+                        station,
                         countryCodes: selectedCountryCodes,
                         genreIDs: selectedGenreIDs,
                         newsFilterSelected: newsFilterSelected,
@@ -3826,25 +3861,24 @@ struct StationListView: View {
             }
         }
 
-        let catalogSubstringMatches = catalogStations.filter {
-            stationMatches($0, query: query)
+        // FTS already covers the catalog — skip the redundant substring
+        // rescan that earlier versions did over `catalogStations`. The
+        // only stations we still need to match by substring are the
+        // ones the FTS index doesn't know about: user-added customs and
+        // the live Radio Browser page buffer.
+        let sideMatches = (customStations + radioBrowserStations).filter { station in
+            stationMatches(
+                haystack: catalogHaystacks[station.id] ?? buildSearchHaystack(for: station),
+                query: query,
+            )
                 && stationMatchesBrowseFilters(
-                    $0,
+                    station,
                     countryCodes: selectedCountryCodes,
                     genreIDs: selectedGenreIDs,
                     newsFilterSelected: newsFilterSelected,
                 )
         }
-        let sideMatches = (customStations + radioBrowserStations).filter {
-            stationMatches($0, query: query)
-                && stationMatchesBrowseFilters(
-                    $0,
-                    countryCodes: selectedCountryCodes,
-                    genreIDs: selectedGenreIDs,
-                    newsFilterSelected: newsFilterSelected,
-                )
-        }
-        return Array(uniqueStations(catalogMatches + catalogSubstringMatches + sideMatches).prefix(limit))
+        return Array(uniqueStations(catalogMatches + sideMatches).prefix(limit))
     }
 
     nonisolated private static func stationMatchesBrowseFilters(
@@ -3867,14 +3901,6 @@ struct StationListView: View {
             guard stationMatchesFilters(station, country: nil, tag: "news") else { return false }
         }
         return true
-    }
-
-    nonisolated private static func searchIndexCoversCurrentCatalog(
-        _ searchIndex: SearchIndex,
-        catalogStations: [Station],
-    ) -> Bool {
-        guard searchIndex.stationCount == catalogStations.count else { return false }
-        return Set(catalogStations.map(\.id)) == searchIndex.stationIDs
     }
 
     nonisolated private static func uniqueStations(_ stations: [Station]) -> [Station] {
@@ -4285,9 +4311,13 @@ private extension View {
     func currentStationInnerHighlight(isCurrent: Bool, cornerRadius: CGFloat) -> some View {
         if isCurrent {
             self
+                // Drop-shadow glow: neutral grey so the colored outline
+                // does the "this is playing" signaling on its own. Uses
+                // `ink` so it auto-adapts — dark grey on light mode,
+                // light grey on dark mode.
                 .overlay {
                     RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                        .stroke(RrradioTheme.accent.opacity(0.20), lineWidth: 6)
+                        .stroke(RrradioTheme.ink.opacity(0.22), lineWidth: 6)
                         .blur(radius: 4)
                         .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
                 }
@@ -4320,6 +4350,12 @@ struct StationRow: View {
     var showsFavoriteButton = true
     var showsStreamQualityButton = true
     var onInfoHoldChanged: ((Bool) -> Void)?
+    /// When non-empty and the row's display name has a case-insensitive
+    /// prefix match against this string, the matched prefix is rendered
+    /// in a muted color with a lower layout priority so it truncates
+    /// first — leaving the differentiating suffix visible. Search-only
+    /// affordance; purely visual, doesn't touch the filter logic.
+    var searchHighlightQuery: String?
     @State private var showingStreamQuality = false
     @State private var infoPressRecognized = false
     @State private var suppressNextPlay = false
@@ -4551,10 +4587,7 @@ struct StationRow: View {
     private var stationTitleLine: some View {
         HStack(spacing: 4) {
             HStack(spacing: 4) {
-                Text(usesFavoritesMetadataLayout ? station.name : primaryLine)
-                    .font(.system(size: 15, weight: .medium))
-                    .foregroundStyle(isCurrent ? RrradioTheme.accent : RrradioTheme.ink)
-                    .lineLimit(1)
+                titleNameText
                 let flag = countryFlagEmoji(station.country)
                 if !flag.isEmpty {
                     Text(flag)
@@ -4571,6 +4604,56 @@ struct StationRow: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .layoutPriority(1)
         }
+    }
+
+    /// The row's display name. When the user is actively searching and
+    /// the name starts with the query, the matched prefix is rendered
+    /// muted + the row truncates from the head — so multiple "Gong 96.3
+    /// — …" results show their distinguishing tails ("…Charts", "…Best
+    /// of 80s", "…Tagespopkomödie") instead of all clipping to the same
+    /// "Gong 96.3 — Tag…". The split is purely visual; the filter logic
+    /// runs on the full station name.
+    @ViewBuilder
+    private var titleNameText: some View {
+        let displayName = usesFavoritesMetadataLayout ? station.name : primaryLine
+        let titleColor = isCurrent ? RrradioTheme.accent : RrradioTheme.ink
+        if let split = searchPrefixSplit(name: displayName) {
+            // Replace the matched prefix with a leading "…" so every
+            // result that shares the searched prefix renders as just
+            // its differentiating tail — "…- Charts", "…- Best of 80s",
+            // "…- Tagespopkomödie". This always fires (no dependence
+            // on layout-time truncation) so the differences are
+            // visible at any row width.
+            Text("…" + split.differentiator)
+                .font(.system(size: 15, weight: .medium))
+                .foregroundStyle(titleColor)
+                .lineLimit(1)
+                .accessibilityLabel(displayName)
+        } else {
+            Text(displayName)
+                .font(.system(size: 15, weight: .medium))
+                .foregroundStyle(titleColor)
+                .lineLimit(1)
+        }
+    }
+
+    private func searchPrefixSplit(name: String) -> (matchedPrefix: String, differentiator: String)? {
+        guard let query = searchHighlightQuery?.trimmingCharacters(in: .whitespacesAndNewlines),
+              query.count >= 3,
+              // No `.anchored`: the match can occur anywhere in the
+              // name. Real catalog rows like "Radio Gong 96.3 - …"
+              // contain the query "Gong 96.3" in the middle, not at
+              // the start. We hide everything up to (and including)
+              // the first match so the differentiating tail dominates
+              // the row.
+              let matchRange = name.range(of: query, options: [.caseInsensitive]),
+              matchRange.upperBound < name.endIndex else {
+            return nil
+        }
+        return (
+            matchedPrefix: String(name[..<matchRange.upperBound]),
+            differentiator: String(name[matchRange.upperBound...]),
+        )
     }
 
     @ViewBuilder
@@ -5023,14 +5106,16 @@ private struct FavoriteStationAppArtwork: View {
             RoundedRectangle(cornerRadius: Self.iconCornerRadius, style: .continuous)
                 .stroke(RrradioTheme.line)
         }
+        // Neutral grey drop shadow — matches the row/tile highlight.
+        // `ink` auto-adapts: dark grey on light mode, light grey on dark.
         .shadow(
-            color: isCurrent ? RrradioTheme.accent.opacity(0.26) : .clear,
+            color: isCurrent ? RrradioTheme.ink.opacity(0.28) : .clear,
             radius: isCurrent ? 6 : 0,
             x: 0,
             y: 0,
         )
         .shadow(
-            color: isCurrent ? RrradioTheme.accent.opacity(0.12) : .clear,
+            color: isCurrent ? RrradioTheme.ink.opacity(0.14) : .clear,
             radius: isCurrent ? 9 : 0,
             x: 0,
             y: 3,

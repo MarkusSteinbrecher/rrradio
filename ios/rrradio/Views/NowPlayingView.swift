@@ -19,6 +19,7 @@ struct NowPlayingView: View {
     @Environment(LocaleController.self) private var locale
     @Environment(CarModeController.self) private var carMode
     @Environment(NetworkMonitor.self) private var network
+    @Environment(ThemeController.self) private var theme
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
@@ -51,7 +52,10 @@ struct NowPlayingView: View {
     }
 
     var body: some View {
-        Group {
+        // Track accent so the player updates when the user changes it
+        // in Settings (see StationListView for the full explanation).
+        let _ = theme.accentRawValue
+        return Group {
             if carMode.isActive {
                 carModeBody
             } else if verticalSizeClass == .compact {

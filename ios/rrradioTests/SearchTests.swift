@@ -27,6 +27,37 @@ final class SearchTests: XCTestCase {
         XCTAssertEqual(normalizeForSearch("!@#$%^"), "")
     }
 
+    func testNormalizeFoldsNonGermanDiacritics() {
+        // Per-char fold: é/è/ê → e, ñ → n, ç → c. Lets "espana" find
+        // "España" and "cafe" find "Café".
+        XCTAssertEqual(normalizeForSearch("España"), "espana")
+        XCTAssertEqual(normalizeForSearch("Café"), "cafe")
+        XCTAssertEqual(normalizeForSearch("Français"), "francais")
+        XCTAssertEqual(normalizeForSearch("São Paulo"), "saopaulo")
+    }
+
+    func testNormalizeKeepsGermanUmlautsAlongsideFoldedAccents() {
+        // German umlauts survive the fold pass alongside other folded
+        // letters in the same string.
+        XCTAssertEqual(normalizeForSearch("Café Süd"), "cafesüd")
+    }
+
+    func testTokenOrderIndependentMatch() {
+        // The new token-AND match: each whitespace token must appear
+        // somewhere in the surface, in any order.
+        XCTAssertTrue(stationMatches(station(name: "WDR 5"), query: "5 wdr"))
+        XCTAssertTrue(stationMatches(
+            station(name: "Rock Antenne FM"),
+            query: "antenne rock",
+        ))
+    }
+
+    func testDiacriticInsensitiveMatch() {
+        XCTAssertTrue(stationMatches(station(name: "Radio España"), query: "espana"))
+        XCTAssertTrue(stationMatches(station(name: "Café del Mar"), query: "cafe"))
+        XCTAssertTrue(stationMatches(station(name: "São Paulo FM"), query: "sao"))
+    }
+
     private func station(
         id: String = "x",
         name: String,
