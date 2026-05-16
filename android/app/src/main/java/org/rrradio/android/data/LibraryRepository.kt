@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import java.util.UUID
 
 private val Context.rrradioDataStore by preferencesDataStore(name = "rrradio")
 
@@ -21,6 +22,7 @@ class LibraryRepository(
     val favorites: Flow<List<Station>> = stationList(Keys.favorites)
     val recents: Flow<List<Station>> = stationList(Keys.recents)
     val customStations: Flow<List<Station>> = stationList(Keys.customStations)
+    val stationLists: Flow<List<StationList>> = store.data.map { prefs -> readStationLists(prefs[Keys.stationLists]) }
 
     suspend fun toggleFavorite(station: Station): Boolean {
         var added = false
@@ -78,6 +80,75 @@ class LibraryRepository(
             prefs[Keys.customStations] = json.encodeToString(
                 readStations(prefs[Keys.customStations]).filterNot { it.id == stationId },
             )
+            prefs[Keys.favorites] = json.encodeToString(
+                readStations(prefs[Keys.favorites]).filterNot { it.id == stationId },
+            )
+            prefs[Keys.recents] = json.encodeToString(
+                readStations(prefs[Keys.recents]).filterNot { it.id == stationId },
+            )
+            prefs[Keys.stationLists] = json.encodeToString(
+                readStationLists(prefs[Keys.stationLists]).map { list ->
+                    list.copy(stations = list.stations.filterNot { it.id == stationId })
+                },
+            )
+        }
+    }
+
+    suspend fun createStationList(name: String, stations: List<Station> = emptyList()): StationList {
+        val list = StationList(
+            id = UUID.randomUUID().toString(),
+            name = cleanedStationListName(name),
+            stations = uniqueStations(stations),
+        )
+        store.edit { prefs ->
+            val current = readStationLists(prefs[Keys.stationLists])
+            prefs[Keys.stationLists] = json.encodeToString(listOf(list) + current)
+        }
+        return list
+    }
+
+    suspend fun removeStationList(listId: String) {
+        store.edit { prefs ->
+            prefs[Keys.stationLists] = json.encodeToString(
+                readStationLists(prefs[Keys.stationLists]).filterNot { it.id == listId },
+            )
+        }
+    }
+
+    suspend fun addStationsToList(listId: String, stations: List<Station>) {
+        if (stations.isEmpty()) return
+        store.edit { prefs ->
+            prefs[Keys.stationLists] = json.encodeToString(
+                readStationLists(prefs[Keys.stationLists]).map { list ->
+                    if (list.id == listId) {
+                        list.copy(stations = uniqueStations(stations + list.stations))
+                    } else {
+                        list
+                    }
+                },
+            )
+        }
+    }
+
+    suspend fun removeStationFromList(listId: String, stationId: String) {
+        store.edit { prefs ->
+            prefs[Keys.stationLists] = json.encodeToString(
+                readStationLists(prefs[Keys.stationLists]).map { list ->
+                    if (list.id == listId) {
+                        list.copy(stations = list.stations.filterNot { it.id == stationId })
+                    } else {
+                        list
+                    }
+                },
+            )
+        }
+    }
+
+    suspend fun reorderFavorites(orderedIds: List<String>) {
+        store.edit { prefs ->
+            prefs[Keys.favorites] = json.encodeToString(
+                reorderedStations(readStations(prefs[Keys.favorites]), orderedIds),
+            )
         }
     }
 
@@ -89,13 +160,40 @@ class LibraryRepository(
         return runCatching { json.decodeFromString<List<Station>>(raw) }.getOrDefault(emptyList())
     }
 
+    private fun readStationLists(raw: String?): List<StationList> {
+        if (raw.isNullOrBlank()) return emptyList()
+        return runCatching { json.decodeFromString<List<StationList>>(raw) }.getOrDefault(emptyList())
+    }
+
     private object Keys {
         val favorites = stringPreferencesKey("rrradio.favorites.v2")
         val recents = stringPreferencesKey("rrradio.recents.v2")
         val customStations = stringPreferencesKey("rrradio.custom.v1")
+        val stationLists = stringPreferencesKey("rrradio.station-lists.v1")
     }
 
     companion object {
         const val RECENTS_LIMIT = 12
+        private const val FALLBACK_STATION_LIST_NAME = "Station List"
+
+        fun cleanedStationListName(name: String): String =
+            name.trim().ifEmpty { FALLBACK_STATION_LIST_NAME }
+
+        fun uniqueStations(stations: List<Station>): List<Station> {
+            val seen = mutableSetOf<String>()
+            return stations.filter { seen.add(it.id) }
+        }
+
+        fun reorderedStations(stations: List<Station>, orderedIds: List<String>): List<Station> {
+            val byId = stations.associateBy { it.id }
+            val next = mutableListOf<Station>()
+            val seen = mutableSetOf<String>()
+            orderedIds.forEach { id ->
+                val station = byId[id]
+                if (station != null && seen.add(id)) next.add(station)
+            }
+            next.addAll(stations.filterNot { it.id in seen })
+            return next
+        }
     }
 }
