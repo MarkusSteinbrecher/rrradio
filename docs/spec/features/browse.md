@@ -28,6 +28,7 @@ the generated catalog, search, filters, and map exploration.
 | Genre/tag filter | Supported. | Supported. | Supported. |
 | Map browse | Supported with web map asset. | Supported with MapKit. | Planned with native map, provider TBD. |
 | Add several stations to a station list | Not planned for current web. | Supported from Browse. | Supported. |
+| Sort controls | Supported. | Reference native behavior. | Partial; name, quality, and favorite-state sorting exist, map/preview refinements remain. |
 
 ## Android First-Port Requirement
 
@@ -41,11 +42,12 @@ Android currently includes the first-port basics:
 - Play from rows.
 - Local recents update on play.
 - Batch selection from Browse into station lists.
+- Name, stream-quality, and favorite-state sorting.
 
 Remaining Android alignment work:
 
 - Map browse.
-- Advanced sort controls.
 - Station info preview and native Browse presentation refinements.
+- Additional sort/display refinements after real-device testing.
 - Bundled full-text index, unless in-memory search is too slow on target
   devices.

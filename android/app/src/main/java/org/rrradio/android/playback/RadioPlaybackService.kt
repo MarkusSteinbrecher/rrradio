@@ -23,6 +23,7 @@ import org.rrradio.android.data.PlayerState
 import org.rrradio.android.data.PlaybackUiState
 import org.rrradio.android.data.Station
 import org.rrradio.android.data.defaultJson
+import org.rrradio.android.data.displayName
 import org.rrradio.android.metadata.MetadataPoller
 
 class RadioPlaybackService : MediaSessionService() {
@@ -84,7 +85,7 @@ class RadioPlaybackService : MediaSessionService() {
 
     private fun mediaItem(station: Station): MediaItem {
         val metadata = MediaMetadata.Builder()
-            .setTitle(station.name)
+            .setTitle(station.displayName())
             .setArtist(station.country?.uppercase().orEmpty())
             .build()
         return MediaItem.Builder()

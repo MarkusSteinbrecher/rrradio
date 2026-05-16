@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.rrradio.android.data.AccentPreference
 import org.rrradio.android.data.AppThemePreference
+import org.rrradio.android.data.BrowseStationSort
 import org.rrradio.android.data.CatalogLoadState
 import org.rrradio.android.data.CatalogRepository
 import org.rrradio.android.data.CatalogState
@@ -29,6 +30,7 @@ import org.rrradio.android.data.makeCustomStation
 import org.rrradio.android.playback.activePlaybackQueue
 import org.rrradio.android.data.stationMatches
 import org.rrradio.android.data.stationMatchesFilters
+import org.rrradio.android.data.sortedBrowseStations
 import org.rrradio.android.playback.PlaybackStateStore
 import org.rrradio.android.playback.RadioPlaybackService
 
@@ -64,6 +66,7 @@ data class RrradioUiState(
     val query: String = "",
     val selectedCountry: String? = null,
     val selectedTag: String? = null,
+    val browseStationSort: BrowseStationSort? = null,
     val sleepMinutes: Int = 0,
     val sleepDefaultMinutes: Int = LibraryRepository.DEFAULT_SLEEP_MINUTES,
     val themePreference: AppThemePreference = AppThemePreference.System,
@@ -100,10 +103,19 @@ data class RrradioUiState(
                 stationMatches(it, query) &&
                     stationMatchesFilters(it, selectedCountry, selectedTag)
             }
+            val sorted = if (tab == AppTab.Browse && librarySource == LibrarySource.Favorites) {
+                sortedBrowseStations(
+                    stations = filtered,
+                    sort = browseStationSort,
+                    favoriteIds = favorites.mapTo(mutableSetOf()) { it.id },
+                )
+            } else {
+                filtered
+            }
             val hasQuery = query.trim().isNotEmpty()
             val hasFilters = selectedCountry != null || selectedTag != null
-            val limit = if (tab == AppTab.Browse && !hasQuery && !hasFilters) 220 else filtered.size
-            return filtered.take(limit)
+            val limit = if (tab == AppTab.Browse && !hasQuery && !hasFilters && browseStationSort == null) 220 else sorted.size
+            return sorted.take(limit)
         }
 
     val isCatalogEmptyLoading: Boolean
@@ -201,7 +213,13 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun setLibrarySource(source: LibrarySource) {
-        _uiState.update { it.copy(tab = AppTab.Browse, librarySource = source) }
+        _uiState.update {
+            it.copy(
+                tab = AppTab.Browse,
+                librarySource = source,
+                browseStationSort = if (source == LibrarySource.Recents) null else it.browseStationSort,
+            )
+        }
     }
 
     fun setQuery(query: String) {
@@ -237,6 +255,48 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
 
     fun setTag(tag: String?) {
         _uiState.update { it.copy(selectedTag = tag, tab = AppTab.Browse, librarySource = LibrarySource.Favorites) }
+    }
+
+    fun cycleAlphabetSort() {
+        _uiState.update {
+            it.copy(
+                tab = AppTab.Browse,
+                librarySource = LibrarySource.Favorites,
+                browseStationSort = when (it.browseStationSort) {
+                    BrowseStationSort.AlphabetAscending -> BrowseStationSort.AlphabetDescending
+                    BrowseStationSort.AlphabetDescending -> null
+                    else -> BrowseStationSort.AlphabetAscending
+                },
+            )
+        }
+    }
+
+    fun cycleQualitySort() {
+        _uiState.update {
+            it.copy(
+                tab = AppTab.Browse,
+                librarySource = LibrarySource.Favorites,
+                browseStationSort = when (it.browseStationSort) {
+                    BrowseStationSort.QualityLow -> BrowseStationSort.QualityHigh
+                    BrowseStationSort.QualityHigh -> null
+                    else -> BrowseStationSort.QualityLow
+                },
+            )
+        }
+    }
+
+    fun cycleFavoriteSort() {
+        _uiState.update {
+            it.copy(
+                tab = AppTab.Browse,
+                librarySource = LibrarySource.Favorites,
+                browseStationSort = when (it.browseStationSort) {
+                    BrowseStationSort.FavoritesFirst -> BrowseStationSort.FavoritesLast
+                    BrowseStationSort.FavoritesLast -> null
+                    else -> BrowseStationSort.FavoritesFirst
+                },
+            )
+        }
     }
 
     fun setFavoritesDisplayMode(mode: FavoritesDisplayMode) {
