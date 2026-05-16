@@ -1,11 +1,21 @@
 package org.rrradio.android.data
 
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.json.JsonDecoder
+import kotlinx.serialization.json.JsonNull
+import kotlinx.serialization.json.JsonPrimitive
 
 @Serializable
 data class Station(
     val id: String,
+    @Serializable(with = StringCompatibleSerializer::class)
     val name: String,
     val streamUrl: String,
     val homepage: String? = null,
@@ -24,6 +34,13 @@ data class Station(
 )
 
 @Serializable
+data class StationList(
+    val id: String,
+    val name: String,
+    val stations: List<Station> = emptyList(),
+)
+
+@Serializable
 enum class StationStatus {
     @SerialName("working")
     Working,
@@ -39,6 +56,22 @@ enum class StationStatus {
 data class CatalogResponse(
     val stations: List<Station>,
 )
+
+internal object StringCompatibleSerializer : KSerializer<String> {
+    override val descriptor = PrimitiveSerialDescriptor("StringCompatible", PrimitiveKind.STRING)
+
+    override fun deserialize(decoder: Decoder): String {
+        val jsonDecoder = decoder as? JsonDecoder ?: return decoder.decodeString()
+        val primitive = jsonDecoder.decodeJsonElement() as? JsonPrimitive
+            ?: throw SerializationException("Expected string-compatible value")
+        if (primitive is JsonNull) throw SerializationException("Expected string-compatible value")
+        return primitive.content
+    }
+
+    override fun serialize(encoder: Encoder, value: String) {
+        encoder.encodeString(value)
+    }
+}
 
 enum class CatalogLoadState {
     Idle,

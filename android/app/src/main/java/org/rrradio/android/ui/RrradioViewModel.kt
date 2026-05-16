@@ -17,6 +17,7 @@ import org.rrradio.android.data.LibraryRepository
 import org.rrradio.android.data.PlaybackUiState
 import org.rrradio.android.data.PlayerState
 import org.rrradio.android.data.Station
+import org.rrradio.android.data.StationList
 import org.rrradio.android.data.StreamProbe
 import org.rrradio.android.data.StreamProbeResult
 import org.rrradio.android.data.availableCountries
@@ -29,8 +30,9 @@ import org.rrradio.android.playback.PlaybackStateStore
 import org.rrradio.android.playback.RadioPlaybackService
 
 enum class AppTab {
+    StationLists,
     Browse,
-    Library,
+    Favorites,
 }
 
 enum class LibrarySource {
@@ -38,22 +40,39 @@ enum class LibrarySource {
     Recents,
 }
 
+enum class FavoritesDisplayMode {
+    List,
+    Tiles,
+    App,
+}
+
 data class RrradioUiState(
     val catalog: CatalogState = CatalogState(),
     val favorites: List<Station> = emptyList(),
     val recents: List<Station> = emptyList(),
     val customStations: List<Station> = emptyList(),
+    val stationLists: List<StationList> = emptyList(),
     val playback: PlaybackUiState = PlaybackUiState(),
     val tab: AppTab = AppTab.Browse,
     val librarySource: LibrarySource = LibrarySource.Favorites,
+    val selectedStationListId: String? = null,
+    val stationSelectionActive: Boolean = false,
+    val selectedStationIds: Set<String> = emptySet(),
     val query: String = "",
     val selectedCountry: String? = null,
     val selectedTag: String? = null,
     val sleepMinutes: Int = 0,
     val darkTheme: Boolean = false,
+    val favoritesDisplayMode: FavoritesDisplayMode = FavoritesDisplayMode.List,
 ) {
     val allStations: List<Station>
         get() = customStations + catalog.browseOrdered
+
+    val selectedStationList: StationList?
+        get() = stationLists.firstOrNull { it.id == selectedStationListId }
+
+    val selectedStations: List<Station>
+        get() = allStations.filter { it.id in selectedStationIds }
 
     val countries: List<String>
         get() = availableCountries(allStations)
@@ -64,11 +83,12 @@ data class RrradioUiState(
     val visibleStations: List<Station>
         get() {
             val source = when (tab) {
-                AppTab.Browse -> allStations
-                AppTab.Library -> when (librarySource) {
-                    LibrarySource.Favorites -> favorites
+                AppTab.StationLists -> selectedStationList?.stations.orEmpty()
+                AppTab.Browse -> when (librarySource) {
+                    LibrarySource.Favorites -> allStations
                     LibrarySource.Recents -> recents
                 }
+                AppTab.Favorites -> favorites
             }
             val filtered = source.filter {
                 stationMatches(it, query) &&
@@ -112,6 +132,14 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
             }
         }
         viewModelScope.launch {
+            libraryRepository.stationLists.collect { stationLists ->
+                _uiState.update { state ->
+                    val selectedId = state.selectedStationListId?.takeIf { id -> stationLists.any { it.id == id } }
+                    state.copy(stationLists = stationLists, selectedStationListId = selectedId)
+                }
+            }
+        }
+        viewModelScope.launch {
             PlaybackStateStore.state.collect { playback ->
                 _uiState.update { it.copy(playback = playback) }
             }
@@ -132,23 +160,117 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun setTab(tab: AppTab) {
-        _uiState.update { it.copy(tab = tab) }
+        _uiState.update {
+            it.copy(
+                tab = tab,
+                stationSelectionActive = false,
+                selectedStationIds = emptySet(),
+            )
+        }
     }
 
     fun setLibrarySource(source: LibrarySource) {
-        _uiState.update { it.copy(tab = AppTab.Library, librarySource = source) }
+        _uiState.update { it.copy(tab = AppTab.Browse, librarySource = source) }
     }
 
     fun setQuery(query: String) {
         _uiState.update { it.copy(query = query) }
     }
 
+    fun beginStationSelection() {
+        _uiState.update {
+            it.copy(
+                tab = AppTab.Browse,
+                librarySource = LibrarySource.Favorites,
+                stationSelectionActive = true,
+                selectedStationIds = emptySet(),
+            )
+        }
+    }
+
+    fun cancelStationSelection() {
+        _uiState.update { it.copy(stationSelectionActive = false, selectedStationIds = emptySet()) }
+    }
+
+    fun toggleStationSelection(station: Station) {
+        _uiState.update { state ->
+            val next = state.selectedStationIds.toMutableSet()
+            if (!next.add(station.id)) next.remove(station.id)
+            state.copy(selectedStationIds = next)
+        }
+    }
+
     fun setCountry(country: String?) {
-        _uiState.update { it.copy(selectedCountry = country, tab = AppTab.Browse) }
+        _uiState.update { it.copy(selectedCountry = country, tab = AppTab.Browse, librarySource = LibrarySource.Favorites) }
     }
 
     fun setTag(tag: String?) {
-        _uiState.update { it.copy(selectedTag = tag, tab = AppTab.Browse) }
+        _uiState.update { it.copy(selectedTag = tag, tab = AppTab.Browse, librarySource = LibrarySource.Favorites) }
+    }
+
+    fun setFavoritesDisplayMode(mode: FavoritesDisplayMode) {
+        _uiState.update { it.copy(favoritesDisplayMode = mode, tab = AppTab.Favorites) }
+    }
+
+    fun openStationList(listId: String) {
+        _uiState.update { it.copy(tab = AppTab.StationLists, selectedStationListId = listId) }
+    }
+
+    fun closeStationList() {
+        _uiState.update { it.copy(tab = AppTab.StationLists, selectedStationListId = null) }
+    }
+
+    fun createStationList(name: String, includeSelectedStations: Boolean = false) {
+        viewModelScope.launch {
+            val stations = if (includeSelectedStations) uiState.value.selectedStations else emptyList()
+            val list = libraryRepository.createStationList(name, stations)
+            _uiState.update {
+                it.copy(
+                    tab = AppTab.StationLists,
+                    selectedStationListId = list.id,
+                    stationSelectionActive = false,
+                    selectedStationIds = emptySet(),
+                )
+            }
+        }
+    }
+
+    fun removeStationList(listId: String) {
+        viewModelScope.launch {
+            libraryRepository.removeStationList(listId)
+            _uiState.update { it.copy(tab = AppTab.StationLists, selectedStationListId = null) }
+        }
+    }
+
+    fun saveSelectedStationsToList(listId: String) {
+        val stations = uiState.value.selectedStations
+        viewModelScope.launch {
+            libraryRepository.addStationsToList(listId, stations)
+            _uiState.update {
+                it.copy(
+                    tab = AppTab.StationLists,
+                    selectedStationListId = listId,
+                    stationSelectionActive = false,
+                    selectedStationIds = emptySet(),
+                )
+            }
+        }
+    }
+
+    fun removeStationFromSelectedList(station: Station) {
+        val listId = uiState.value.selectedStationListId ?: return
+        viewModelScope.launch { libraryRepository.removeStationFromList(listId, station.id) }
+    }
+
+    fun moveFavorite(station: Station, offset: Int) {
+        val favorites = uiState.value.favorites
+        val index = favorites.indexOfFirst { it.id == station.id }
+        val target = index + offset
+        if (index < 0 || target !in favorites.indices) return
+        val mutable = favorites.toMutableList()
+        val moved = mutable.removeAt(index)
+        mutable.add(target, moved)
+        viewModelScope.launch { libraryRepository.reorderFavorites(mutable.map { it.id }) }
     }
 
     fun toggleTheme() {
