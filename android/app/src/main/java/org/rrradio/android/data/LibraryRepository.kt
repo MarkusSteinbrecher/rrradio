@@ -30,6 +30,8 @@ class LibraryRepository(
         store.data.map { prefs -> AccentPreference.fromRaw(prefs[Keys.accentPreference]) }
     val landingPagePreference: Flow<LandingPagePreference> =
         store.data.map { prefs -> LandingPagePreference.fromRaw(prefs[Keys.landingPagePreference]) }
+    val favoritesDisplayMode: Flow<FavoritesDisplayMode> =
+        store.data.map { prefs -> FavoritesDisplayMode.fromRaw(prefs[Keys.favoritesDisplayMode]) }
     val sleepDefaultMinutes: Flow<Int> =
         store.data.map { prefs -> normalizedSleepDefaultMinutes(prefs[Keys.sleepDefaultMinutes]) }
 
@@ -212,6 +214,12 @@ class LibraryRepository(
         }
     }
 
+    suspend fun setFavoritesDisplayMode(mode: FavoritesDisplayMode) {
+        store.edit { prefs ->
+            prefs[Keys.favoritesDisplayMode] = mode.rawValue
+        }
+    }
+
     suspend fun setSleepDefaultMinutes(minutes: Int) {
         store.edit { prefs ->
             prefs[Keys.sleepDefaultMinutes] = normalizedSleepDefaultMinutes(minutes)
@@ -239,6 +247,7 @@ class LibraryRepository(
         val themePreference = stringPreferencesKey("rrradio.theme-preference.v1")
         val accentPreference = stringPreferencesKey("rrradio.accent-preference.v1")
         val landingPagePreference = stringPreferencesKey("rrradio.landing-page.v1")
+        val favoritesDisplayMode = stringPreferencesKey("rrradio.favorites-display-mode.v1")
         val sleepDefaultMinutes = intPreferencesKey("rrradio.sleep-default-minutes.v1")
     }
 

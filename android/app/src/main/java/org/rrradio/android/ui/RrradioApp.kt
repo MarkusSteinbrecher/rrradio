@@ -98,6 +98,7 @@ import org.rrradio.android.data.AccentPreference
 import org.rrradio.android.data.AppThemePreference
 import org.rrradio.android.data.BrowseStationSort
 import org.rrradio.android.data.CatalogLoadState
+import org.rrradio.android.data.FavoritesDisplayMode
 import org.rrradio.android.data.LandingPagePreference
 import org.rrradio.android.data.LibraryRepository
 import org.rrradio.android.data.PlaybackUiState

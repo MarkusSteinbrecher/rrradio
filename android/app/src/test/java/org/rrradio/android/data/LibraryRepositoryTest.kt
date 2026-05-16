@@ -33,6 +33,14 @@ class LibraryRepositoryTest {
     }
 
     @Test
+    fun favoritesDisplayModeFallsBackToListForUnknownRawValue() {
+        assertEquals(FavoritesDisplayMode.List, FavoritesDisplayMode.fromRaw(null))
+        assertEquals(FavoritesDisplayMode.List, FavoritesDisplayMode.fromRaw("unknown"))
+        assertEquals(FavoritesDisplayMode.Tiles, FavoritesDisplayMode.fromRaw("tiles"))
+        assertEquals(FavoritesDisplayMode.App, FavoritesDisplayMode.fromRaw("app"))
+    }
+
+    @Test
     fun sleepDefaultMinutesUsesSupportedValuesOnly() {
         assertEquals(30, LibraryRepository.normalizedSleepDefaultMinutes(null))
         assertEquals(30, LibraryRepository.normalizedSleepDefaultMinutes(0))
