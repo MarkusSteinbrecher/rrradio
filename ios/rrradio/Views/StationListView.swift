@@ -4607,28 +4607,34 @@ struct StationRow: View {
     }
 
     /// The row's display name. When the user is actively searching and
-    /// the name starts with the query, the matched prefix is rendered
-    /// muted + the row truncates from the head — so multiple "Gong 96.3
-    /// — …" results show their distinguishing tails ("…Charts", "…Best
-    /// of 80s", "…Tagespopkomödie") instead of all clipping to the same
-    /// "Gong 96.3 — Tag…". The split is purely visual; the filter logic
-    /// runs on the full station name.
+    /// the name contains the query, prefer the full name; only fall
+    /// back to "…differentiator" when the full name would actually be
+    /// clipped at the current row width. Keeps short results like
+    /// "BR24" intact when there's room, while long matches like
+    /// "Radio Gong 96.3 - Tagespopkomödie" still surface their
+    /// distinguishing tails instead of all clipping to the same head.
+    /// The split is purely visual; the filter runs on the full name.
     @ViewBuilder
     private var titleNameText: some View {
         let displayName = usesFavoritesMetadataLayout ? station.name : primaryLine
         let titleColor = isCurrent ? RrradioTheme.accent : RrradioTheme.ink
         if let split = searchPrefixSplit(name: displayName) {
-            // Replace the matched prefix with a leading "…" so every
-            // result that shares the searched prefix renders as just
-            // its differentiating tail — "…- Charts", "…- Best of 80s",
-            // "…- Tagespopkomödie". This always fires (no dependence
-            // on layout-time truncation) so the differences are
-            // visible at any row width.
-            Text("…" + split.differentiator)
-                .font(.system(size: 15, weight: .medium))
-                .foregroundStyle(titleColor)
-                .lineLimit(1)
-                .accessibilityLabel(displayName)
+            // ViewThatFits picks the first child whose intrinsic
+            // single-line width fits the available space. Full name
+            // first, head-truncated form as the fallback — so the
+            // prefix is only hidden when the row genuinely runs out
+            // of room.
+            ViewThatFits(in: .horizontal) {
+                Text(displayName)
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(titleColor)
+                    .lineLimit(1)
+                Text("…" + split.differentiator)
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(titleColor)
+                    .lineLimit(1)
+            }
+            .accessibilityLabel(displayName)
         } else {
             Text(displayName)
                 .font(.system(size: 15, weight: .medium))
