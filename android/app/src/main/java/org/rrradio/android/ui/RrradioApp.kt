@@ -1,10 +1,12 @@
 package org.rrradio.android.ui
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -101,8 +103,10 @@ import org.rrradio.android.data.PlaybackUiState
 import org.rrradio.android.data.PlayerState
 import org.rrradio.android.data.Station
 import org.rrradio.android.data.StationList
+import org.rrradio.android.data.StationStatus
 import org.rrradio.android.data.countryDisplayName
 import org.rrradio.android.data.displayName
+import org.rrradio.android.data.streamQualityLevel
 import org.rrradio.android.ui.theme.rrradioAccentColor
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -120,6 +124,7 @@ fun RrradioApp(
     var createListFromSelection by remember { mutableStateOf(false) }
     var customStationPendingDelete by remember { mutableStateOf<Station?>(null) }
     var stationListPendingDelete by remember { mutableStateOf<String?>(null) }
+    var stationPreview by remember { mutableStateOf<Station?>(null) }
 
     Scaffold(
         contentWindowInsets = WindowInsets(0),
@@ -204,6 +209,7 @@ fun RrradioApp(
                 onRemoveFromStationList = actions::removeStationFromSelectedList,
                 onToggleSelection = actions::toggleStationSelection,
                 onMoveFavorite = actions::moveFavorite,
+                onPreviewStation = { stationPreview = it },
             )
         }
     }
@@ -239,6 +245,22 @@ fun RrradioApp(
                 onToggle = actions::togglePlayback,
                 onSleep = actions::cycleSleepTimer,
                 onDismiss = { showNowPlaying = false },
+            )
+        }
+    }
+
+    stationPreview?.let { station ->
+        ModalBottomSheet(
+            sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+            containerColor = MaterialTheme.colorScheme.background,
+            dragHandle = null,
+            onDismissRequest = { stationPreview = null },
+        ) {
+            StationInfoSheet(
+                station = station,
+                playback = state.playback,
+                isFavorite = state.favorites.any { it.id == station.id },
+                onDismiss = { stationPreview = null },
             )
         }
     }
@@ -1269,6 +1291,7 @@ private fun StationContent(
     onRemoveFromStationList: (Station) -> Unit,
     onToggleSelection: (Station) -> Unit,
     onMoveFavorite: (Station, Int) -> Unit,
+    onPreviewStation: (Station) -> Unit,
 ) {
     when {
         state.tab == AppTab.StationLists -> {
@@ -1281,6 +1304,7 @@ private fun StationContent(
                 onDeleteStationList = onDeleteStationList,
                 onPlay = onPlay,
                 onRemoveFromStationList = onRemoveFromStationList,
+                onPreviewStation = onPreviewStation,
             )
         }
 
@@ -1304,9 +1328,9 @@ private fun StationContent(
             )
         }
 
-        state.tab == AppTab.Favorites -> FavoritesContent(state, onPlay, onFavorite, onRemoveCustom, onMoveFavorite)
+        state.tab == AppTab.Favorites -> FavoritesContent(state, onPlay, onFavorite, onRemoveCustom, onMoveFavorite, onPreviewStation)
 
-        else -> StationListContent(state, onPlay, onFavorite, onRemoveCustom, onToggleSelection)
+        else -> StationListContent(state, onPlay, onFavorite, onRemoveCustom, onToggleSelection, onPreviewStation = onPreviewStation)
     }
 }
 
@@ -1318,6 +1342,7 @@ private fun StationListContent(
     onRemoveCustom: (Station) -> Unit,
     onToggleSelection: (Station) -> Unit = {},
     onMoveFavorite: ((Station, Int) -> Unit)? = null,
+    onPreviewStation: (Station) -> Unit,
 ) {
     val favoritesCanReorder = onMoveFavorite != null &&
         state.tab == AppTab.Favorites &&
@@ -1349,6 +1374,7 @@ private fun StationListContent(
                 onRemoveCustom = { onRemoveCustom(station) },
                 onMoveUp = { onMoveFavorite?.invoke(station, -1) },
                 onMoveDown = { onMoveFavorite?.invoke(station, 1) },
+                onPreview = { if (!state.stationSelectionActive) onPreviewStation(station) },
             )
         }
     }
@@ -1364,6 +1390,7 @@ private fun StationListsContent(
     onDeleteStationList: (String) -> Unit,
     onPlay: (Station) -> Unit,
     onRemoveFromStationList: (Station) -> Unit,
+    onPreviewStation: (Station) -> Unit,
 ) {
     val selectedList = state.selectedStationList
     if (selectedList != null) {
@@ -1410,6 +1437,7 @@ private fun StationListsContent(
                         onMoveUp = {},
                         onMoveDown = {},
                         onRemoveFromList = { onRemoveFromStationList(station) },
+                        onPreview = { onPreviewStation(station) },
                     )
                 }
             }
@@ -1548,6 +1576,7 @@ private fun FavoritesContent(
     onFavorite: (Station) -> Unit,
     onRemoveCustom: (Station) -> Unit,
     onMoveFavorite: (Station, Int) -> Unit,
+    onPreviewStation: (Station) -> Unit,
 ) {
     when (state.favoritesDisplayMode) {
         FavoritesDisplayMode.List -> StationListContent(
@@ -1556,6 +1585,7 @@ private fun FavoritesContent(
             onFavorite = onFavorite,
             onRemoveCustom = onRemoveCustom,
             onMoveFavorite = onMoveFavorite,
+            onPreviewStation = onPreviewStation,
         )
         FavoritesDisplayMode.Tiles -> FavoritesTileGrid(state, onPlay, onFavorite)
         FavoritesDisplayMode.App -> FavoritesAppGrid(state, onPlay)
@@ -1741,6 +1771,7 @@ private fun AppLogo(station: Station) {
 }
 
 @Composable
+@OptIn(ExperimentalFoundationApi::class)
 private fun StationRow(
     station: Station,
     isPlaying: Boolean,
@@ -1757,6 +1788,7 @@ private fun StationRow(
     onMoveUp: () -> Unit = {},
     onMoveDown: () -> Unit = {},
     onRemoveFromList: (() -> Unit)? = null,
+    onPreview: () -> Unit = {},
 ) {
     Row(
         Modifier
@@ -1764,7 +1796,10 @@ private fun StationRow(
             .clip(RoundedCornerShape(14.dp))
             .background(MaterialTheme.colorScheme.surfaceVariant)
             .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline), RoundedCornerShape(14.dp))
-            .clickable(onClick = onPlay)
+            .combinedClickable(
+                onClick = onPlay,
+                onLongClick = onPreview,
+            )
             .padding(horizontal = 12.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -2201,6 +2236,155 @@ private fun NowPlayingSheet(
 }
 
 @Composable
+private fun StationInfoSheet(
+    station: Station,
+    playback: PlaybackUiState,
+    isFavorite: Boolean,
+    onDismiss: () -> Unit,
+) {
+    val isCurrent = playback.station?.id == station.id
+    val isPlaying = isCurrent && playback.state == PlayerState.Playing
+    val currentLine = if (isCurrent) trackLine(playback) else null
+    val programLine = if (isCurrent) stationInfoProgramLine(playback) else null
+
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.background)
+            .padding(horizontal = 22.dp)
+            .padding(top = 14.dp, bottom = 30.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        Row(
+            Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.Top,
+            horizontalArrangement = Arrangement.spacedBy(14.dp),
+        ) {
+            StationAvatar(station, size = 58, imageUrl = station.favicon)
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(
+                    station.displayName(),
+                    color = MaterialTheme.colorScheme.onBackground,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Medium,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                Row(horizontalArrangement = Arrangement.spacedBy(7.dp), verticalAlignment = Alignment.CenterVertically) {
+                    when {
+                        isPlaying -> StationInfoPill("Playing")
+                        isCurrent -> StationInfoPill("Loaded")
+                    }
+                    if (isFavorite) StationInfoPill("Favorite")
+                    station.country?.uppercase()?.let { StationInfoPill(it) }
+                }
+            }
+            IconButton(onClick = onDismiss, modifier = Modifier.size(38.dp)) {
+                Icon(Icons.Rounded.Close, contentDescription = "Dismiss station info")
+            }
+        }
+
+        if (currentLine != null || programLine != null) {
+            StationInfoSection("Current") {
+                currentLine?.let { StationInfoRow("Now playing", it) }
+                programLine?.let { StationInfoRow("Program", it) }
+            }
+        }
+
+        StationInfoSection("Stream") {
+            StationInfoRow("Quality", stationInfoQualityLine(station))
+            station.status?.let { StationInfoRow("Status", stationStatusLabel(it)) }
+            station.listeners?.let { StationInfoRow("Listeners", "%,d".format(it)) }
+        }
+
+        StationInfoSection("Catalog") {
+            station.country?.takeIf { it.isNotBlank() }?.let {
+                StationInfoRow("Country", countryDisplayName(it))
+            }
+            station.tags.orEmpty().takeIf { it.isNotEmpty() }?.let {
+                StationInfoRow("Tags", it.take(8).joinToString(", "))
+            }
+            station.metadata?.trim()?.takeIf { it.isNotEmpty() }?.let {
+                StationInfoRow("Metadata", it)
+            }
+            station.homepage?.trim()?.takeIf { it.isNotEmpty() }?.let {
+                StationInfoRow("Website", it)
+            }
+        }
+    }
+}
+
+@Composable
+private fun StationInfoSection(
+    title: String,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text(
+            title.uppercase(),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            fontSize = 10.sp,
+            fontFamily = FontFamily.Monospace,
+            fontWeight = FontWeight.Medium,
+            letterSpacing = 1.4.sp,
+        )
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp))
+                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline), RoundedCornerShape(8.dp)),
+            content = content,
+        )
+    }
+}
+
+@Composable
+private fun StationInfoRow(
+    label: String,
+    value: String,
+) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 14.dp, vertical = 12.dp),
+        horizontalArrangement = Arrangement.spacedBy(14.dp),
+        verticalAlignment = Alignment.Top,
+    ) {
+        Text(
+            label,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            fontSize = 11.sp,
+            fontFamily = FontFamily.Monospace,
+            modifier = Modifier.width(92.dp),
+        )
+        Text(
+            value,
+            color = MaterialTheme.colorScheme.onBackground,
+            fontSize = 14.sp,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f),
+        )
+    }
+}
+
+@Composable
+private fun StationInfoPill(value: String) {
+    Text(
+        value,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        fontSize = 10.5.sp,
+        fontFamily = FontFamily.Monospace,
+        modifier = Modifier
+            .clip(CircleShape)
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline), CircleShape)
+            .padding(horizontal = 8.dp, vertical = 4.dp),
+    )
+}
+
+@Composable
 private fun ChooseStationListSheet(
     stationLists: List<StationList>,
     selectedCount: Int,
@@ -2624,6 +2808,26 @@ private fun stationDetailLine(station: Station): String {
     }
     return parts.joinToString(" / ")
 }
+
+private fun stationInfoQualityLine(station: Station): String {
+    val detail = buildList {
+        station.codec?.trim()?.takeIf { it.isNotEmpty() }?.uppercase()?.let(::add)
+        station.bitrate?.let { add("$it kbps") }
+    }.joinToString(", ").ifEmpty { "Unknown codec and bitrate" }
+    return "$detail, quality ${streamQualityLevel(station.codec, station.bitrate)}/4"
+}
+
+private fun stationStatusLabel(status: StationStatus): String = when (status) {
+    StationStatus.Working -> "working"
+    StationStatus.IcyOnly -> "icy-only"
+    StationStatus.StreamOnly -> "stream-only"
+}
+
+private fun stationInfoProgramLine(playback: PlaybackUiState): String? =
+    listOf(playback.programName, playback.programSubtitle)
+        .mapNotNull { it?.trim()?.takeIf(String::isNotEmpty) }
+        .joinToString(" / ")
+        .takeIf { it.isNotEmpty() }
 
 private fun resolveImageUrl(url: String?): String? {
     val value = url?.trim()?.takeIf { it.isNotEmpty() } ?: return null
