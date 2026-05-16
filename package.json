@@ -35,6 +35,8 @@
     "curation-db:ingest": "node tools/curation-db.mjs ingest",
     "curation-db:summary": "node tools/curation-db.mjs summary",
     "curation-db:reset": "node tools/curation-db.mjs reset",
+    "curation-db:dedupe": "node tools/curation-db.mjs dedupe",
+    "curation-db:dedupe-report": "node tools/curation-db.mjs dedupe-report",
     "analyze": "node tools/analyze.mjs",
     "backlog": "node tools/backlog.mjs",
     "import-ard": "node tools/import-ard.mjs",
