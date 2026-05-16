@@ -74,14 +74,14 @@ Canonical implementation references remain in:
 | Browse/search/filter | Supported | Reference | Supported | [Browse](features/browse.md) |
 | Map browse | Supported | Supported | Planned | [Browse](features/browse.md) |
 | Favorites | Supported | Reference | Supported | [Favorites](features/favorites.md) |
-| Favorites display modes | Partial | Reference | Planned | [Favorites](features/favorites.md) |
+| Favorites display modes | Partial | Reference | Partial | [Favorites](features/favorites.md) |
 | Recents | Supported | Supported | Supported | [Favorites](features/favorites.md) |
-| Station lists | Not planned for current web | Reference | Planned | [Station lists](features/station-lists.md) |
+| Station lists | Not planned for current web | Reference | Partial | [Station lists](features/station-lists.md) |
 | Custom stations | Supported | Reference | Supported | [Custom stations](features/custom-stations.md) |
 | Metadata and cover art | Supported | Reference | Partial | [Metadata and artwork](features/metadata-artwork.md) |
 | Program schedules | Supported for wired broadcasters | Supported for wired broadcasters | Planned | [Now Playing](features/now-playing.md) |
 | Lyrics | Supported on web | Planned/partial on native | Planned | [Now Playing](features/now-playing.md) |
-| Sleep timer | Supported | Reference | Supported | [Sleep timer](features/sleep-timer.md) |
+| Sleep timer | Supported | Reference | Partial | [Sleep timer](features/sleep-timer.md) |
 | Wake to radio | Partial, browser-limited | Reference, iOS-limited | Planned, Android-limited | [Wake to radio](features/wake-to-radio.md) |
 | iCloud/CloudKit sync | Not planned | Supported | Not applicable | [Data and sync](data-sync.md) |
 | Manual file export/import | Supported for favorites and custom stations | Planned/optional | Planned/optional | [Data and sync](data-sync.md) |

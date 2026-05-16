@@ -21,16 +21,20 @@ favorite dial.
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| Station-list overview | Not planned for current web. | Reference. | Planned. |
-| Create/rename/delete list | Not planned for current web. | Supported. | Planned. |
-| Add stations from Browse | Not planned for current web. | Supported. | Planned. |
-| Play list as queue | Not planned for current web. | Supported. | Planned. |
+| Station-list overview | Not planned for current web. | Reference. | Supported. |
+| Create/delete list | Not planned for current web. | Supported. | Supported. |
+| Rename list | Not planned for current web. | Supported. | Planned. |
+| Add stations from Browse | Not planned for current web. | Supported. | Supported. |
+| Remove stations from a list | Not planned for current web. | Supported. | Supported. |
+| Reorder lists | Not planned for current web. | Supported. | Planned. |
+| Reorder stations inside a list | Not planned for current web. | Supported. | Planned. |
+| Play list as queue | Not planned for current web. | Supported. | Supported. |
 | Cloud sync | Not applicable. | Supported through CloudKit. | Not applicable. |
-| Local persistence | Not planned for current web. | Supported. | Planned. |
+| Local persistence | Not planned for current web. | Supported. | Supported. |
 
-## Android First-Port Scope
+## Android Current Status
 
-Android can ship without station lists if the first port is focused on playback,
-Browse, Favorites, Recents, and custom stations. Once station lists are in
-scope, Android should follow the iOS product behavior but use Android-native
-list management and drag/reorder affordances.
+Android now has the core station-list model in scope: list overview, create,
+delete, Browse batch-add, station removal, local persistence, and queue-scoped
+playback are implemented. Remaining parity work is rename, reorder lists,
+reorder stations inside a list, and Android-native list management polish.
