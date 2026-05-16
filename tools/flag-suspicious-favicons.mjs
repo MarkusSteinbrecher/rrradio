@@ -25,6 +25,8 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { blockFavicons } from './lib/yaml-block-favicon.mjs';
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const CATALOG_PATH = join(ROOT, 'public/stations.json');
@@ -36,6 +38,7 @@ const DRY_RUN = process.argv.includes('--dry-run');
 // to a free image service" rather than "broadcaster's own logo asset".
 // Curated explicitly; add to it carefully.
 const SUSPICIOUS_HOSTS = new Set([
+  // ── Free image-share / fan-upload services ───────────────────────────────
   'i.postimg.cc',
   'postimg.cc',
   'i.ibb.co',
@@ -48,6 +51,26 @@ const SUSPICIOUS_HOSTS = new Set([
   'firebasestorage.googleapis.com',
   'public-rf-upload.minhawebradio.net',
   'static.xx.fbcdn.net',
+  // ── Platform homepages (the broadcaster lists a Facebook / Zeno /
+  // aggregator page as its "homepage", so the scraper grabbed the
+  // *platform's* site favicon — Facebook's "f", Zeno's "Z", etc. — not
+  // the station's logo). Same generic-host list as logo-quality.mjs.
+  'www.facebook.com',
+  'facebook.com',
+  'm.facebook.com',
+  'zeno.fm',
+  'www.zeno.fm',
+  'www.streema.com',
+  'streema.com',
+  'tunein.com',
+  'www.tunein.com',
+  'www.radio.net',
+  'radio.net',
+  'mytuner.mobi',
+  'www.radio-browser.info',
+  'media-ssl.musicradio.com',
+  'external.spcast.eu',
+  'control.divio.com',
 ]);
 
 // Hosts where the path prefix matters (e.g. encrypted-tbn0.gstatic.com is
@@ -95,84 +118,14 @@ if (flagged.size === 0) {
   process.exit(0);
 }
 
-// ─── Edit YAML ────────────────────────────────────────────────────────────
-// Strategy: walk line-by-line. Track the current `- id:` block. When we
-// enter a flagged block:
-//   - strip favicon/faviconSource/faviconLicense/faviconSourceUrl lines
-//   - insert `  faviconBlocked: true` on the line immediately after `- id:`
-//     (unless one is already present in the block).
-// This keeps the change localised; we don't rewrite the file structurally.
-
 const text = readFileSync(YAML_PATH, 'utf8');
-const lines = text.split('\n');
-
-const blockStart = (line) => /^- id: (.+)$/.exec(line);
-const FAVICON_LINE_RX = /^  (favicon|faviconSource|faviconSourceType|faviconSourceUrl|faviconLicense): /;
-const FAVICON_BLOCKED_RX = /^  faviconBlocked: true$/;
-
-// First pass: collect the bounds of each flagged block + whether
-// faviconBlocked is already set.
-const blockBounds = new Map();    // id → { start, end, hasBlocked }
-let curId = null;
-let curStart = -1;
-let curHasBlocked = false;
-for (let i = 0; i < lines.length; i++) {
-  const m = blockStart(lines[i]);
-  if (m) {
-    if (curId && flagged.has(curId)) {
-      blockBounds.set(curId, { start: curStart, end: i - 1, hasBlocked: curHasBlocked });
-    }
-    curId = m[1].trim();
-    curStart = i;
-    curHasBlocked = false;
-    continue;
-  }
-  if (curId && FAVICON_BLOCKED_RX.test(lines[i])) curHasBlocked = true;
-}
-if (curId && flagged.has(curId)) {
-  blockBounds.set(curId, { start: curStart, end: lines.length - 1, hasBlocked: curHasBlocked });
-}
-
-// Second pass: rebuild the file, stripping favicon-related lines from
-// flagged blocks and inserting faviconBlocked.
-const idLineSet = new Map([...blockBounds.entries()].map(([id, b]) => [b.start, id]));
-const out = [];
-let stripping = false;
-let activeBounds = null;
-
-for (let i = 0; i < lines.length; i++) {
-  const idAtThisLine = idLineSet.get(i);
-  if (idAtThisLine !== undefined) {
-    activeBounds = blockBounds.get(idAtThisLine);
-    stripping = true;
-    out.push(lines[i]);                       // the `- id:` line itself
-    if (!activeBounds.hasBlocked) {
-      out.push(`  faviconBlocked: true`);
-    }
-    continue;
-  }
-
-  // Are we inside a flagged block? Stop when the next `- id:` starts (which
-  // we'll handle on the next iteration via idLineSet).
-  if (stripping && activeBounds && i > activeBounds.end) {
-    stripping = false;
-    activeBounds = null;
-  }
-
-  if (stripping && FAVICON_LINE_RX.test(lines[i])) {
-    // skip the favicon-related line entirely
-    continue;
-  }
-  out.push(lines[i]);
-}
-
-const inserted = blockBounds.size - [...blockBounds.values()].filter((b) => b.hasBlocked).length;
-console.log(`flag-suspicious: inserted faviconBlocked into ${inserted} blocks (other ${blockBounds.size - inserted} already had it)`);
+const result = blockFavicons(text, flagged.keys());
+console.log(`flag-suspicious: inserted faviconBlocked into ${result.inserted} blocks (other ${result.alreadyBlocked} already had it)`);
 
 if (DRY_RUN) {
   console.log('--dry-run, no file written');
   process.exit(0);
 }
 
-writeFileSync(YAML_PATH, out.join('\n'));
+writeFileSync(YAML_PATH, result.text);
 console.log(`wrote ${YAML_PATH}`);

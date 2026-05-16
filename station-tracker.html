@@ -44,8 +44,16 @@
         <p>Matrix view of catalog metadata. Click a topic header to collapse / expand.</p>
       </header>
 
-      <section class="search-bar" aria-label="Search stations">
-        <input type="search" id="filter-query-top" autocomplete="off" placeholder="Search stations, broadcasters, countries…" />
+      <section class="tracker-summary" aria-label="Search and key metrics">
+        <div class="search-bar">
+          <input type="search" id="filter-query-top" autocomplete="off" placeholder="Search stations, broadcasters, countries…" />
+        </div>
+        <div class="donut-row" role="group" aria-label="Image metrics">
+          <figure class="donut" id="donut-coverage"></figure>
+          <figure class="donut" id="donut-state"></figure>
+          <figure class="donut" id="donut-np"></figure>
+          <figure class="donut" id="donut-license"></figure>
+        </div>
       </section>
 
       <section class="matrix-filters" aria-label="Matrix filters">
@@ -68,6 +76,16 @@
             <option value="ok">OK</option>
             <option value="warn">Warn</option>
             <option value="bad">Bad / missing</option>
+          </select>
+        </label>
+        <label class="filter">
+          <span>NP quality</span>
+          <select id="filter-np-quality">
+            <option value="all">All</option>
+            <option value="good">Good</option>
+            <option value="acceptable">Acceptable</option>
+            <option value="poor">Poor</option>
+            <option value="unknown">Unknown</option>
           </select>
         </label>
         <label class="filter">
@@ -94,7 +112,7 @@
                 <th class="matrix-group matrix-group--locked" colspan="4" data-group="id">
                   <span class="matrix-group__label">Identification</span>
                 </th>
-                <th class="matrix-group" colspan="8" data-group="image" data-full-colspan="8">
+                <th class="matrix-group" colspan="9" data-group="image" data-full-colspan="9">
                   <button type="button" class="matrix-group__toggle" data-toggle-group="image" aria-expanded="true">
                     <span class="matrix-group__caret" aria-hidden="true">▾</span>
                     <span class="matrix-group__label">Image quality</span>
@@ -113,6 +131,7 @@
                 <th data-group="image">License</th>
                 <th data-group="image">Tier</th>
                 <th data-group="image">State</th>
+                <th data-group="image">Size</th>
                 <th data-group="image">Action</th>
               </tr>
             </thead>

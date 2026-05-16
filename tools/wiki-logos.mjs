@@ -48,6 +48,12 @@ const LIMIT = Number(argVal('--limit', Infinity));
 const CONCURRENCY = Math.max(1, Math.min(20, Number(argVal('--concurrency', 8))));
 const DRY_RUN = argFlag('--dry-run');
 const SKIP_AUDIT = argFlag('--skip-audit');
+// Optional scoping — keeps Phase B focused on a curation slice rather than
+// sweeping the whole catalog. Use --country CC and/or --only id1,id2.
+const COUNTRY_FILTER = (argVal('--country', '') || '').toUpperCase() || null;
+const ONLY_IDS = new Set(
+  (argVal('--only', '') || '').split(',').map((s) => s.trim()).filter(Boolean),
+);
 const FETCH_TIMEOUT_MS = 8_000;
 const UA =
   'rrradio-logo-bot/1.0 (https://github.com/MarkusSteinbrecher/rrradio; redsukramst@gmail.com)';
@@ -108,7 +114,11 @@ const dead = new Set(); // station ids whose current favicon doesn't load
 
 if (!SKIP_AUDIT) {
   const withFav = list.filter(
-    (s) => s && typeof s.id === 'string' && typeof s.favicon === 'string' && /^https?:\/\//.test(s.favicon),
+    (s) =>
+      s && typeof s.id === 'string' &&
+      typeof s.favicon === 'string' && /^https?:\/\//.test(s.favicon) &&
+      (!COUNTRY_FILTER || (s.country ?? '').toUpperCase() === COUNTRY_FILTER) &&
+      (ONLY_IDS.size === 0 || ONLY_IDS.has(s.id)),
   );
   console.log(`wiki-logos: Phase A — auditing ${withFav.length} existing favicon URL(s)`);
   const t0 = Date.now();
@@ -262,7 +272,7 @@ async function searchTopTitles(lang, query, limit = 3) {
   return (data?.query?.search ?? []).map((h) => h.title);
 }
 
-async function findWikipediaLogo(station) {
+async function findArticleSummaryLogo(station) {
   const langs = ['en'];
   const cl = COUNTRY_LANG[station.country];
   if (cl && cl !== 'en') langs.push(cl);
@@ -296,6 +306,140 @@ async function findWikipediaLogo(station) {
   return null;
 }
 
+// ── File-namespace search ───────────────────────────────────────────────
+// Article-summary lookups only work when the station has its own Wikipedia
+// article *with an infobox image*. For stations that live inside a parent
+// article (e.g. ORF regional radios — Radio Wien doesn't have its own page,
+// but Datei:Logo_Radio_Wien.svg exists on dewiki) we have to search the
+// File: namespace directly. We search Commons + the country's native-lang
+// wiki, score hits by how "logo-ish" they look, and resolve the actual
+// download URL via the imageinfo API.
+
+async function searchFileNamespace(domain, query, limit = 5) {
+  const url =
+    `https://${domain}/w/api.php` +
+    `?action=query&list=search&format=json` +
+    `&srnamespace=6&srlimit=${limit}` +
+    `&srsearch=${encodeURIComponent(query)}`;
+  const data = await fetchJson(url);
+  return (data?.query?.search ?? []).map((h) => h.title);
+}
+
+async function getFileImageInfo(domain, title) {
+  const url =
+    `https://${domain}/w/api.php` +
+    `?action=query&format=json&prop=imageinfo` +
+    `&iiprop=url%7Cmime%7Csize` +
+    `&titles=${encodeURIComponent(title)}`;
+  const data = await fetchJson(url);
+  const pages = data?.query?.pages ?? {};
+  const page = Object.values(pages)[0];
+  return page?.imageinfo?.[0] ?? null;
+}
+
+/** Score a File: hit by how plausibly it's a logo for the given station.
+ *  Negative = reject (not an image / wrong subject / no logo signal). */
+const RADIO_CONTEXT_RE = /\b(radio|fm|am|broadcast|broadcasting|sender|rundfunk|emisora|emittente)\b/i;
+
+// Public broadcaster prefixes that Radio Browser names include but
+// Wikipedia file titles usually don't. "ORF - Radio Salzburg" on RB →
+// "Radio_Salzburg.svg" on Commons. Strip the prefix when comparing so
+// the strict name gate doesn't drop these matches.
+const NETWORK_PREFIX_RE =
+  /^(?:orf|bbc|abc|br|wdr|swr|ndr|hr|rbb|mdr|rai|nrk|svt|yle|cbc|rte|tvp|drs|srf|france)\s*[-–—:|]\s*/i;
+
+function stripNetworkPrefix(name) {
+  return name.replace(NETWORK_PREFIX_RE, '').trim();
+}
+
+function scoreFileHit(title, stationName) {
+  // Strip the "File:"/"Datei:" prefix and the extension to compare the
+  // actual filename root against the station name.
+  const root = title.replace(/^[A-Za-z]+:/, '').replace(/\.[A-Za-z0-9]+$/, '');
+  const t = title.toLowerCase();
+  // Extension gate: only accept actual image formats.
+  let formatScore;
+  if (/\.svg$/i.test(t)) formatScore = 5;
+  else if (/\.png$/i.test(t)) formatScore = 3;
+  else if (/\.webp$/i.test(t)) formatScore = 2;
+  else if (/\.(jpe?g|gif)$/i.test(t)) formatScore = 1;
+  else return -1;
+  // Name gate: the filename root must contain the FULL station name —
+  // strict, one direction only. Try the raw name first; if that fails,
+  // try after stripping a public-broadcaster prefix ("ORF - Radio
+  // Salzburg" → "Radio Salzburg"). Strict containment also keeps
+  // "Einstein revisited" from matching the station "Revisited".
+  const n = normalizeTitle(stationName);
+  const r = normalizeTitle(root);
+  if (!n) return -1;
+  if (!r.includes(n)) {
+    const stripped = normalizeTitle(stripNetworkPrefix(stationName));
+    if (!stripped || stripped === n || stripped.length < 5 || !r.includes(stripped)) {
+      return -1;
+    }
+  }
+  // Subject gate: the file has to be in the radio/broadcasting domain.
+  // If the station's name doesn't itself carry a radio word, the file
+  // title has to — otherwise a tennis club's logo ("Logo TK Grün-Weiss
+  // Mannheim") could match the radio station "Grün-Weiss".
+  const stationHasRadio = RADIO_CONTEXT_RE.test(stationName);
+  if (!stationHasRadio && !RADIO_CONTEXT_RE.test(title)) return -1;
+  // Bonuses
+  let s = formatScore;
+  if (/logo/i.test(t)) s += 5;
+  if (r === n || r === `logo ${n}` || r === `${n} logo`) s += 5; // exact-shape bonus
+  return s;
+}
+
+// Anything below this is too vague to trust — typically a format-only
+// match with no "logo" hint in the filename.
+const FILE_HIT_MIN_SCORE = 8;
+
+async function findFilePageLogo(station) {
+  const domains = ['commons.wikimedia.org'];
+  const cl = COUNTRY_LANG[station.country];
+  if (cl) domains.push(`${cl}.wikipedia.org`);
+
+  const queries = [
+    `Logo ${station.name}`,
+    `${station.name} logo`,
+    station.name,
+  ];
+
+  let best = null; // { score, url, domain, title }
+  for (const domain of domains) {
+    for (const q of queries) {
+      const titles = await searchFileNamespace(domain, q, 5);
+      for (const title of titles) {
+        const score = scoreFileHit(title, station.name);
+        if (score < FILE_HIT_MIN_SCORE) continue;
+        if (best && score <= best.score) continue;
+        const info = await getFileImageInfo(domain, title);
+        if (!info?.url) continue;
+        if (!(info.mime ?? '').startsWith('image/')) continue;
+        best = { score, url: info.url, domain, title };
+      }
+    }
+    // Strong hit (logo-in-title + matching format + native wiki) — stop.
+    if (best && best.score >= 13) break;
+  }
+
+  if (!best) return null;
+  // Commons' imageinfo endpoint appends `?utm_source=…` tracking params to
+  // the canonical upload.wikimedia.org URL. Strip them so the YAML stores a
+  // clean asset URL.
+  const cleanUrl = best.url.split('?')[0];
+  if (!(await isImageAlive(cleanUrl))) return null;
+  // Lang tag from the domain's first label (commons | de | en | …).
+  return { url: cleanUrl, lang: best.domain.split('.')[0], title: best.title };
+}
+
+async function findWikipediaLogo(station) {
+  const fromArticle = await findArticleSummaryLogo(station);
+  if (fromArticle) return fromArticle;
+  return findFilePageLogo(station);
+}
+
 const candidates = list
   .filter(
     (s) =>
@@ -303,7 +447,9 @@ const candidates = list
       typeof s.id === 'string' &&
       typeof s.name === 'string' &&
       s.name.length > 0 &&
-      (!s.favicon || dead.has(s.id)),
+      (!s.favicon || dead.has(s.id)) &&
+      (!COUNTRY_FILTER || (s.country ?? '').toUpperCase() === COUNTRY_FILTER) &&
+      (ONLY_IDS.size === 0 || ONLY_IDS.has(s.id)),
   )
   .slice(0, Number.isFinite(LIMIT) ? LIMIT : list.length);
 
@@ -384,25 +530,42 @@ for (const w of writes) {
   const quoted = /[:#&*!|>'"%@`,\[\]{}]/.test(w.url) ? JSON.stringify(w.url) : w.url;
 
   if (w.action === 'replace') {
-    // Find the existing favicon line for this row. Search forward from
-    // the id line until we hit either `  favicon:` or the next `- id:`.
+    // Find the line we need to swap out. Three possibilities:
+    //   - `  favicon:` (+ optional `  faviconSource:` immediately after) —
+    //     a dead-but-still-listed URL we're refreshing.
+    //   - `  faviconBlocked: true` — the placeholder clear-dead-favicons
+    //     left behind. Replace the placeholder line with the new pair.
+    //   - Neither, before the next `- id:` — fall through to plain insert.
     let p = idIdx + idLine.length;
+    let handled = false;
     while (p < text.length) {
       const lineEnd = text.indexOf('\n', p);
       const line = text.slice(p, lineEnd === -1 ? text.length : lineEnd);
       if (line.startsWith('- id:')) break;
       if (line.startsWith('  favicon:')) {
         const next = lineEnd === -1 ? text.length : lineEnd + 1;
-        // Also consume an existing faviconSource: line immediately after.
         const srcLineEnd = text.indexOf('\n', next);
         const srcLine = text.slice(next, srcLineEnd === -1 ? text.length : srcLineEnd);
         const blockEnd = srcLine.startsWith('  faviconSource:') ? srcLineEnd + 1 : next;
         text = text.slice(0, p) + `  favicon: ${quoted}\n  faviconSource: wiki\n` + text.slice(blockEnd);
         replaced++;
+        handled = true;
+        break;
+      }
+      if (line.startsWith('  faviconBlocked:')) {
+        const next = lineEnd === -1 ? text.length : lineEnd + 1;
+        text = text.slice(0, p) + `  favicon: ${quoted}\n  faviconSource: wiki\n` + text.slice(next);
+        replaced++;
+        handled = true;
         break;
       }
       if (lineEnd === -1) break;
       p = lineEnd + 1;
+    }
+    if (!handled) {
+      const insertAt = idIdx + idLine.length;
+      text = text.slice(0, insertAt) + `  favicon: ${quoted}\n  faviconSource: wiki\n` + text.slice(insertAt);
+      inserted++;
     }
   } else {
     // Plain insert directly after the id line, same as scrape-logos.

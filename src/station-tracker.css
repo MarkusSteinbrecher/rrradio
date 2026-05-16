@@ -154,14 +154,24 @@ h1 {
   font-size: 13px;
 }
 
-/* ── Search ── */
+/* ── Summary row (search + donuts) ── */
 
-.search-bar {
+.tracker-summary {
   position: sticky;
   top: 46px;
   z-index: 5;
+  display: flex;
+  align-items: stretch;
+  gap: 24px;
   padding: 8px 0;
   background: var(--bg);
+}
+
+.search-bar {
+  flex: 1 1 auto;
+  min-width: 280px;
+  display: flex;
+  align-items: center;
 }
 
 .search-bar input {
@@ -180,11 +190,144 @@ h1 {
 .search-bar input::placeholder { color: var(--ink-4); }
 .search-bar input:focus { border-color: var(--line-2); }
 
+/* ── Donut metrics ── */
+
+.donut-row {
+  display: flex;
+  gap: 14px;
+  flex: 0 0 auto;
+}
+
+.donut {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px 6px 8px;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  min-width: 152px;
+}
+
+.donut svg {
+  width: 56px;
+  height: 56px;
+  display: block;
+}
+
+.donut__bg {
+  stroke: var(--bg-3);
+}
+
+.donut__seg {
+  transition: stroke-dasharray 0.2s, stroke-width 0.12s, opacity 0.12s;
+}
+
+.donut__seg--ok   { stroke: var(--ok); }
+.donut__seg--warn { stroke: var(--accent); }
+.donut__seg--bad  { stroke: var(--bad); }
+.donut__seg--muted { stroke: var(--ink-4); }
+
+.donut__seg.is-clickable {
+  cursor: pointer;
+}
+
+.donut__seg.is-clickable:hover,
+.donut__seg.is-clickable:focus-visible {
+  stroke-width: 12;
+  outline: none;
+}
+
+/* When the donut's filter is engaged, fade the non-selected segments so the
+ * active slice reads as the lens the user is currently viewing through. */
+.donut:has(.donut__seg.is-active) .donut__seg:not(.is-active) {
+  opacity: 0.35;
+}
+
+.donut__seg.is-active {
+  stroke-width: 12;
+}
+
+.donut__center {
+  fill: var(--ink);
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  pointer-events: none;
+}
+
+.donut__bg {
+  pointer-events: none;
+}
+
+.donut__caption {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.donut__label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.donut__value {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.donut__legend {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.donut__legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+  line-height: 1;
+}
+
+.donut__legend-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+  flex: 0 0 6px;
+}
+
+.donut__legend-item.is-ok    { color: var(--ok); }
+.donut__legend-item.is-warn  { color: var(--accent); }
+.donut__legend-item.is-bad   { color: var(--bad); }
+.donut__legend-item.is-muted { color: var(--ink-4); }
+
+.donut__legend-label {
+  color: var(--ink-3);
+}
+
 /* ── Filters ── */
 
 .matrix-filters {
   display: grid;
-  grid-template-columns: repeat(4, minmax(180px, 1fr));
+  grid-template-columns: repeat(5, minmax(160px, 1fr));
   gap: 10px;
 }
 
@@ -530,6 +673,35 @@ h1 {
 .license-pill[data-license="broadcaster-implicit"] {
   border-color: color-mix(in srgb, var(--accent) 35%, transparent);
   color: var(--accent);
+}
+
+.size-cell {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-2);
+}
+
+.size-cell__dim {
+  display: block;
+  color: var(--ink);
+  font-size: 12px;
+}
+
+.size-cell__dim--vector {
+  color: var(--ok);
+  font-style: italic;
+}
+
+.size-cell__meta {
+  display: block;
+  color: var(--ink-4);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+
+.size-cell--missing {
+  color: var(--ink-4);
+  font-style: italic;
 }
 
 .empty-row td {
