@@ -23,6 +23,8 @@ class LibraryRepository(
     val recents: Flow<List<Station>> = stationList(Keys.recents)
     val customStations: Flow<List<Station>> = stationList(Keys.customStations)
     val stationLists: Flow<List<StationList>> = store.data.map { prefs -> readStationLists(prefs[Keys.stationLists]) }
+    val themePreference: Flow<AppThemePreference> =
+        store.data.map { prefs -> AppThemePreference.fromRaw(prefs[Keys.themePreference]) }
 
     suspend fun toggleFavorite(station: Station): Boolean {
         var added = false
@@ -152,6 +154,12 @@ class LibraryRepository(
         }
     }
 
+    suspend fun setThemePreference(preference: AppThemePreference) {
+        store.edit { prefs ->
+            prefs[Keys.themePreference] = preference.rawValue
+        }
+    }
+
     private fun stationList(key: androidx.datastore.preferences.core.Preferences.Key<String>): Flow<List<Station>> =
         store.data.map { prefs -> readStations(prefs[key]) }
 
@@ -170,6 +178,7 @@ class LibraryRepository(
         val recents = stringPreferencesKey("rrradio.recents.v2")
         val customStations = stringPreferencesKey("rrradio.custom.v1")
         val stationLists = stringPreferencesKey("rrradio.station-lists.v1")
+        val themePreference = stringPreferencesKey("rrradio.theme-preference.v1")
     }
 
     companion object {

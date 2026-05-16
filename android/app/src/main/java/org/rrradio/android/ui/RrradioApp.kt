@@ -87,6 +87,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import org.rrradio.android.R
+import org.rrradio.android.data.AppThemePreference
 import org.rrradio.android.data.CatalogLoadState
 import org.rrradio.android.data.PlaybackUiState
 import org.rrradio.android.data.PlayerState
@@ -99,6 +100,7 @@ import org.rrradio.android.data.countryDisplayName
 fun RrradioApp(
     state: RrradioUiState,
     actions: RrradioViewModel,
+    resolvedDarkTheme: Boolean,
 ) {
     var showAddStation by remember { mutableStateOf(false) }
     var showNowPlaying by remember { mutableStateOf(false) }
@@ -158,7 +160,8 @@ fun RrradioApp(
             Header(
                 state = state,
                 onQuery = actions::setQuery,
-                onToggleTheme = actions::toggleTheme,
+                onThemePreference = actions::setThemePreference,
+                resolvedDarkTheme = resolvedDarkTheme,
                 onAddStation = { showAddStation = true },
                 onCountry = actions::setCountry,
                 onTag = actions::setTag,
@@ -318,7 +321,8 @@ fun RrradioApp(
 private fun Header(
     state: RrradioUiState,
     onQuery: (String) -> Unit,
-    onToggleTheme: () -> Unit,
+    onThemePreference: (AppThemePreference) -> Unit,
+    resolvedDarkTheme: Boolean,
     onAddStation: () -> Unit,
     onCountry: (String?) -> Unit,
     onTag: (String?) -> Unit,
@@ -348,7 +352,7 @@ private fun Header(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                BrandLogo(darkTheme = state.darkTheme)
+                BrandLogo(darkTheme = resolvedDarkTheme)
                 Text(
                     text = when (state.tab) {
                         AppTab.StationLists -> state.selectedStationList?.name ?: "Lists"
@@ -363,10 +367,10 @@ private fun Header(
 
             Spacer(Modifier.weight(1f))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                CircleIconButton(
-                    icon = if (state.darkTheme) Icons.Rounded.LightMode else Icons.Rounded.DarkMode,
-                    label = "Switch theme",
-                    onClick = onToggleTheme,
+                ThemePreferenceButton(
+                    selected = state.themePreference,
+                    resolvedDarkTheme = resolvedDarkTheme,
+                    onSelected = onThemePreference,
                 )
                 if (state.tab == AppTab.Browse) {
                     CircleIconButton(
@@ -413,6 +417,64 @@ private fun BrandLogo(darkTheme: Boolean) {
             .size(36.dp)
             .clip(RoundedCornerShape(8.dp)),
     )
+}
+
+@Composable
+private fun ThemePreferenceButton(
+    selected: AppThemePreference,
+    resolvedDarkTheme: Boolean,
+    onSelected: (AppThemePreference) -> Unit,
+) {
+    var expanded by remember { mutableStateOf(false) }
+    Box {
+        CircleIconButton(
+            icon = themePreferenceIcon(selected, resolvedDarkTheme),
+            label = "Theme",
+            onClick = { expanded = true },
+        )
+        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            AppThemePreference.entries.forEach { preference ->
+                DropdownMenuItem(
+                    text = { Text(themePreferenceLabel(preference)) },
+                    leadingIcon = {
+                        Icon(
+                            themePreferenceIcon(preference, resolvedDarkTheme),
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp),
+                        )
+                    },
+                    trailingIcon = {
+                        if (preference == selected) {
+                            Icon(
+                                Icons.Rounded.Check,
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp),
+                            )
+                        }
+                    },
+                    onClick = {
+                        expanded = false
+                        onSelected(preference)
+                    },
+                )
+            }
+        }
+    }
+}
+
+private fun themePreferenceLabel(preference: AppThemePreference): String = when (preference) {
+    AppThemePreference.System -> "System"
+    AppThemePreference.Light -> "Light"
+    AppThemePreference.Dark -> "Dark"
+}
+
+private fun themePreferenceIcon(
+    preference: AppThemePreference,
+    resolvedDarkTheme: Boolean,
+): ImageVector = when (preference) {
+    AppThemePreference.System -> if (resolvedDarkTheme) Icons.Rounded.DarkMode else Icons.Rounded.LightMode
+    AppThemePreference.Light -> Icons.Rounded.LightMode
+    AppThemePreference.Dark -> Icons.Rounded.DarkMode
 }
 
 @Composable

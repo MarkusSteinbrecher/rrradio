@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.rrradio.android.data.AppThemePreference
 import org.rrradio.android.data.CatalogLoadState
 import org.rrradio.android.data.CatalogRepository
 import org.rrradio.android.data.CatalogState
@@ -62,7 +63,7 @@ data class RrradioUiState(
     val selectedCountry: String? = null,
     val selectedTag: String? = null,
     val sleepMinutes: Int = 0,
-    val darkTheme: Boolean = false,
+    val themePreference: AppThemePreference = AppThemePreference.System,
     val favoritesDisplayMode: FavoritesDisplayMode = FavoritesDisplayMode.List,
 ) {
     val allStations: List<Station>
@@ -137,6 +138,11 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
                     val selectedId = state.selectedStationListId?.takeIf { id -> stationLists.any { it.id == id } }
                     state.copy(stationLists = stationLists, selectedStationListId = selectedId)
                 }
+            }
+        }
+        viewModelScope.launch {
+            libraryRepository.themePreference.collect { preference ->
+                _uiState.update { it.copy(themePreference = preference) }
             }
         }
         viewModelScope.launch {
@@ -273,8 +279,8 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch { libraryRepository.reorderFavorites(mutable.map { it.id }) }
     }
 
-    fun toggleTheme() {
-        _uiState.update { it.copy(darkTheme = !it.darkTheme) }
+    fun setThemePreference(preference: AppThemePreference) {
+        viewModelScope.launch { libraryRepository.setThemePreference(preference) }
     }
 
     fun play(station: Station) {
