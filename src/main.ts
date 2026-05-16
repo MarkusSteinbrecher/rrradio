@@ -7,7 +7,7 @@ import {
   loadBuiltinStations,
 } from './builtins';
 import type { ScheduleDay } from './metadata';
-import { lookupCover } from './coverArt';
+import { searchITunes } from './coverArt';
 import { lookupLyrics } from './lyrics';
 import type { LyricsResult } from './lyrics';
 import { MetadataPoller, icyFetcher } from './metadata';
@@ -151,25 +151,38 @@ const meta = new MetadataPoller((parsed) => {
     resetLyrics();
   }
 
-  // Cover-art enrichment via iTunes Search. Runs when:
-  //   (a) the station's metadata feed has no cover at all, OR
-  //   (b) the cover it supplied is from a known low-res source.
-  // Grrif only publishes 246×246 JPEGs at /Medias/Covers/m/ — visibly
-  // upscaled on retina inside our ~260 CSS-px frame. iTunes serves
-  // 600×600 for the same track, so we prefer it when the lookup hits.
-  // If iTunes misses, we keep the station's URL — still better than
-  // falling all the way back to the station favicon.
-  const lowRes = parsed.coverUrl ? isLowResCoverUrl(parsed.coverUrl) : false;
-  if (parsed.track && (!parsed.coverUrl || lowRes)) {
+  // iTunes Search serves two purposes:
+  //
+  //   1. Cover-art upgrade — when the station's metadata feed has no
+  //      cover or supplies a known low-res one (Grrif's 246×246 JPEGs
+  //      at /Medias/Covers/m/, visibly upscaled on retina inside our
+  //      ~260 CSS-px frame), we prefer iTunes' 600×600.
+  //   2. Track verification — `resultCount > 0` confirms the ICY title
+  //      resolves to a real song. News/talk channels emit show names
+  //      and station IDs ("BR24 Aktuell", "Nachrichten 12:00") that
+  //      iTunes won't match; render-np gates the Spotify / Apple Music
+  //      / YT Music search links on this signal so we don't ship users
+  //      off to garbage search results.
+  //
+  // Both signals come from one request, so we issue the search on every
+  // track change (not just when cover is missing/low-res) and let the
+  // module-level cache short-circuit repeats. The cover-upgrade step
+  // still gates on `!coverUrl || lowRes` so we don't downgrade good
+  // station-supplied covers when the station's cover wins anyway.
+  if (parsed.track) {
     const myToken = ++coverEnrichToken;
     coverEnrichController?.abort();
     coverEnrichController = new AbortController();
-    void lookupCover(parsed.artist, parsed.track, coverEnrichController.signal).then(
-      (cover) => {
-        if (myToken !== coverEnrichToken || !cover) return;
+    const lowRes = parsed.coverUrl ? isLowResCoverUrl(parsed.coverUrl) : false;
+    const wantsCoverUpgrade = !parsed.coverUrl || lowRes;
+    void searchITunes(parsed.artist, parsed.track, coverEnrichController.signal).then(
+      (result) => {
+        if (myToken !== coverEnrichToken) return;
+        const nextCover = wantsCoverUpgrade && result.cover ? result.cover : parsed.coverUrl;
         player.setTrackTitle(display, {
           ...parsed,
-          coverUrl: cover,
+          coverUrl: nextCover,
+          trackVerified: result.hit,
           programName: parsed.program?.name,
           programSubtitle: parsed.program?.subtitle,
         });

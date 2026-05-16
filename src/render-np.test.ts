@@ -145,11 +145,16 @@ describe('renderNowPlaying — track + open-in', () => {
     expect(refs.npTrackRow.hidden).toBe(false);
   });
 
-  it('shows track title + builds Spotify/Apple Music/YouTube Music search URLs', () => {
+  it('shows track title + builds Spotify/Apple Music/YouTube Music URLs when iTunes verified', () => {
     const refs = mountNp();
     renderNowPlaying(
       refs,
-      { station: fm4, state: 'playing', trackTitle: 'Radiohead - Pyramid Song' },
+      {
+        station: fm4,
+        state: 'playing',
+        trackTitle: 'Radiohead - Pyramid Song',
+        trackVerified: true,
+      },
       ctx(),
     );
     expect(refs.npTrackTitle.textContent).toBe('Radiohead - Pyramid Song');
@@ -159,6 +164,43 @@ describe('renderNowPlaying — track + open-in', () => {
     expect(refs.npTrackAppleMusic.href).toContain('music.apple.com/search?term=');
     expect(refs.npTrackYoutubeMusic.href).toContain('music.youtube.com/search?q=');
     expect(refs.npTrackYoutubeMusic.href).toContain(encodeURIComponent('Radiohead - Pyramid Song'));
+  });
+
+  it('hides music-service links while iTunes verification is pending (trackVerified undefined)', () => {
+    // Mirrors the in-flight state right after a new ICY title appears
+    // but before searchITunes returns. Title renders, links stay hidden.
+    const refs = mountNp();
+    const onClearOpenIn = vi.fn();
+    renderNowPlaying(
+      refs,
+      { station: fm4, state: 'playing', trackTitle: 'BR24 Aktuell' },
+      ctx({ onClearOpenIn }),
+    );
+    expect(refs.npTrackTitle.textContent).toBe('BR24 Aktuell');
+    expect(refs.npTrackOpenInWrap.hidden).toBe(true);
+    expect(refs.npTrackSpotify.hasAttribute('href')).toBe(false);
+    expect(refs.npTrackAppleMusic.hasAttribute('href')).toBe(false);
+    expect(refs.npTrackYoutubeMusic.hasAttribute('href')).toBe(false);
+    expect(onClearOpenIn).toHaveBeenCalledTimes(1);
+  });
+
+  it('hides music-service links when iTunes confirms a miss (trackVerified false)', () => {
+    // News/talk channels: ICY emits show names, iTunes returns 0
+    // results. Title still renders, music-service links suppressed.
+    const refs = mountNp();
+    renderNowPlaying(
+      refs,
+      {
+        station: fm4,
+        state: 'playing',
+        trackTitle: 'Nachrichten 12:00 Uhr',
+        trackVerified: false,
+      },
+      ctx(),
+    );
+    expect(refs.npTrackTitle.textContent).toBe('Nachrichten 12:00 Uhr');
+    expect(refs.npTrackOpenInWrap.hidden).toBe(true);
+    expect(refs.npTrackAppleMusic.hasAttribute('href')).toBe(false);
   });
 
   it('clears open-in (and calls callback) when no track', () => {

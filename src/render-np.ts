@@ -112,7 +112,13 @@ export function renderNowPlaying(
   const hasTrack = !!np.trackTitle && np.trackTitle.trim().length > 0;
   refs.npTrackTitle.textContent = hasTrack ? (np.trackTitle as string) : '—';
 
-  if (hasTrack) {
+  // Music-service search links only render once iTunes has confirmed
+  // the title resolves to a real song (np.trackVerified === true).
+  // While the lookup is in-flight (undefined) or after a confirmed
+  // miss (false), we hide the open-in wrap entirely — the alternative
+  // is sending users to empty Apple Music / Spotify / YT Music search
+  // pages, which is the bug this gate fixes for news/talk stations.
+  if (hasTrack && np.trackVerified === true) {
     const q = encodeURIComponent((np.trackTitle as string).trim());
     refs.npTrackSpotify.href = `https://open.spotify.com/search/${q}`;
     refs.npTrackAppleMusic.href = `https://music.apple.com/search?term=${q}`;
