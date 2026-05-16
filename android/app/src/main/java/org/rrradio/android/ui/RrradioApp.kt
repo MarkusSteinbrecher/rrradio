@@ -40,6 +40,7 @@ import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.DarkMode
 import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material.icons.rounded.Flag
@@ -124,6 +125,7 @@ fun RrradioApp(
     var createListFromSelection by remember { mutableStateOf(false) }
     var customStationPendingDelete by remember { mutableStateOf<Station?>(null) }
     var stationListPendingDelete by remember { mutableStateOf<String?>(null) }
+    var stationListPendingRename by remember { mutableStateOf<StationList?>(null) }
     var stationPreview by remember { mutableStateOf<Station?>(null) }
 
     Scaffold(
@@ -206,7 +208,10 @@ fun RrradioApp(
                 onOpenStationList = actions::openStationList,
                 onCloseStationList = actions::closeStationList,
                 onDeleteStationList = { stationListPendingDelete = it },
+                onRenameStationList = { stationListPendingRename = it },
                 onRemoveFromStationList = actions::removeStationFromSelectedList,
+                onMoveStationList = actions::moveStationList,
+                onMoveStationInList = actions::moveStationInSelectedList,
                 onToggleSelection = actions::toggleStationSelection,
                 onMoveFavorite = actions::moveFavorite,
                 onPreviewStation = { stationPreview = it },
@@ -320,6 +325,19 @@ fun RrradioApp(
                 actions.createStationList(name, includeSelectedStations = createListFromSelection)
                 showCreateStationList = false
                 createListFromSelection = false
+            },
+        )
+    }
+
+    stationListPendingRename?.let { list ->
+        CreateStationListDialog(
+            title = "Rename list",
+            confirmLabel = "Save",
+            initialName = list.name,
+            onDismiss = { stationListPendingRename = null },
+            onCreate = { name ->
+                actions.renameStationList(list.id, name)
+                stationListPendingRename = null
             },
         )
     }
@@ -1288,7 +1306,10 @@ private fun StationContent(
     onOpenStationList: (String) -> Unit,
     onCloseStationList: () -> Unit,
     onDeleteStationList: (String) -> Unit,
+    onRenameStationList: (StationList) -> Unit,
     onRemoveFromStationList: (Station) -> Unit,
+    onMoveStationList: (StationList, Int) -> Unit,
+    onMoveStationInList: (Station, Int) -> Unit,
     onToggleSelection: (Station) -> Unit,
     onMoveFavorite: (Station, Int) -> Unit,
     onPreviewStation: (Station) -> Unit,
@@ -1302,8 +1323,11 @@ private fun StationContent(
                 onOpenStationList = onOpenStationList,
                 onCloseStationList = onCloseStationList,
                 onDeleteStationList = onDeleteStationList,
+                onRenameStationList = onRenameStationList,
                 onPlay = onPlay,
                 onRemoveFromStationList = onRemoveFromStationList,
+                onMoveStationList = onMoveStationList,
+                onMoveStationInList = onMoveStationInList,
                 onPreviewStation = onPreviewStation,
             )
         }
@@ -1388,8 +1412,11 @@ private fun StationListsContent(
     onOpenStationList: (String) -> Unit,
     onCloseStationList: () -> Unit,
     onDeleteStationList: (String) -> Unit,
+    onRenameStationList: (StationList) -> Unit,
     onPlay: (Station) -> Unit,
     onRemoveFromStationList: (Station) -> Unit,
+    onMoveStationList: (StationList, Int) -> Unit,
+    onMoveStationInList: (Station, Int) -> Unit,
     onPreviewStation: (Station) -> Unit,
 ) {
     val selectedList = state.selectedStationList
@@ -1406,6 +1433,7 @@ private fun StationListsContent(
                 StationListDetailActions(
                     list = selectedList,
                     onBack = onCloseStationList,
+                    onRename = { onRenameStationList(selectedList) },
                     onDelete = { onDeleteStationList(selectedList.id) },
                 )
             }
@@ -1425,18 +1453,23 @@ private fun StationListsContent(
                 }
             } else {
                 items(listStations, key = { it.id }) { station ->
+                    val stationIndex = selectedList.stations.indexOfFirst { it.id == station.id }
                     StationRow(
                         station = station,
                         isPlaying = state.playback.station?.id == station.id && state.playback.state == PlayerState.Playing,
                         isCurrent = state.playback.station?.id == station.id,
                         isFavorite = state.favorites.any { it.id == station.id },
                         isCustom = false,
+                        canMoveUp = stationIndex > 0,
+                        canMoveDown = stationIndex >= 0 && stationIndex < selectedList.stations.lastIndex,
                         onPlay = { onPlay(station) },
                         onFavorite = {},
                         onRemoveCustom = {},
-                        onMoveUp = {},
-                        onMoveDown = {},
+                        onMoveUp = { onMoveStationInList(station, -1) },
+                        onMoveDown = { onMoveStationInList(station, 1) },
                         onRemoveFromList = { onRemoveFromStationList(station) },
+                        moveUpContentDescription = "Move station up",
+                        moveDownContentDescription = "Move station down",
                         onPreview = { onPreviewStation(station) },
                     )
                 }
@@ -1476,11 +1509,52 @@ private fun StationListsContent(
             )
         }
         items(state.stationLists, key = { it.id }) { list ->
+            val index = state.stationLists.indexOfFirst { it.id == list.id }
             StationListSummaryRow(
                 title = list.name,
                 subtitle = "${list.stations.size} stations",
                 icon = Icons.AutoMirrored.Rounded.Article,
                 onClick = { onOpenStationList(list.id) },
+                trailingContent = {
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+                        IconButton(onClick = { onRenameStationList(list) }, modifier = Modifier.size(34.dp)) {
+                            Icon(
+                                Icons.Rounded.Edit,
+                                contentDescription = "Rename list",
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.size(17.dp),
+                            )
+                        }
+                        Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
+                            IconButton(
+                                onClick = { onMoveStationList(list, -1) },
+                                enabled = index > 0,
+                                modifier = Modifier.size(28.dp),
+                            ) {
+                                Icon(
+                                    Icons.Rounded.KeyboardArrowUp,
+                                    contentDescription = "Move list up",
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = if (index > 0) 1f else 0.28f),
+                                    modifier = Modifier.size(18.dp),
+                                )
+                            }
+                            IconButton(
+                                onClick = { onMoveStationList(list, 1) },
+                                enabled = index >= 0 && index < state.stationLists.lastIndex,
+                                modifier = Modifier.size(28.dp),
+                            ) {
+                                Icon(
+                                    Icons.Rounded.KeyboardArrowDown,
+                                    contentDescription = "Move list down",
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                                        alpha = if (index >= 0 && index < state.stationLists.lastIndex) 1f else 0.28f,
+                                    ),
+                                    modifier = Modifier.size(18.dp),
+                                )
+                            }
+                        }
+                    }
+                },
             )
         }
         if (state.stationLists.isEmpty()) {
@@ -1500,6 +1574,7 @@ private fun StationListsContent(
 private fun StationListDetailActions(
     list: StationList,
     onBack: () -> Unit,
+    onRename: () -> Unit,
     onDelete: () -> Unit,
 ) {
     Row(
@@ -1517,6 +1592,14 @@ private fun StationListDetailActions(
             fontFamily = FontFamily.Monospace,
             modifier = Modifier.weight(1f),
         )
+        IconButton(onClick = onRename, modifier = Modifier.size(36.dp)) {
+            Icon(
+                Icons.Rounded.Edit,
+                contentDescription = "Rename list",
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(18.dp),
+            )
+        }
         IconButton(onClick = onDelete, modifier = Modifier.size(36.dp)) {
             Icon(
                 Icons.Rounded.Delete,
@@ -1534,6 +1617,7 @@ private fun StationListSummaryRow(
     subtitle: String,
     icon: ImageVector,
     onClick: (() -> Unit)? = null,
+    trailingContent: (@Composable () -> Unit)? = null,
 ) {
     val clickableModifier = if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier
     Row(
@@ -1566,6 +1650,7 @@ private fun StationListSummaryRow(
                 fontWeight = FontWeight.Medium,
             )
         }
+        trailingContent?.invoke()
     }
 }
 
@@ -1788,6 +1873,8 @@ private fun StationRow(
     onMoveUp: () -> Unit = {},
     onMoveDown: () -> Unit = {},
     onRemoveFromList: (() -> Unit)? = null,
+    moveUpContentDescription: String = "Move favorite up",
+    moveDownContentDescription: String = "Move favorite down",
     onPreview: () -> Unit = {},
 ) {
     Row(
@@ -1831,33 +1918,32 @@ private fun StationRow(
             }
         }
         if (isPlaying) LiveBars()
-        when {
-            selectionMode -> {
-                Box(
-                    Modifier
-                        .size(30.dp)
-                        .clip(CircleShape)
-                        .background(if (selected) MaterialTheme.colorScheme.primary else Color.Transparent)
-                        .border(
-                            BorderStroke(
-                                1.dp,
-                                if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline,
-                            ),
-                            CircleShape,
+        if (selectionMode) {
+            Box(
+                Modifier
+                    .size(30.dp)
+                    .clip(CircleShape)
+                    .background(if (selected) MaterialTheme.colorScheme.primary else Color.Transparent)
+                    .border(
+                        BorderStroke(
+                            1.dp,
+                            if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline,
                         ),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    if (selected) {
-                        Icon(
-                            Icons.Rounded.Check,
-                            contentDescription = "Selected",
-                            tint = MaterialTheme.colorScheme.background,
-                            modifier = Modifier.size(16.dp),
-                        )
-                    }
+                        CircleShape,
+                    ),
+                contentAlignment = Alignment.Center,
+            ) {
+                if (selected) {
+                    Icon(
+                        Icons.Rounded.Check,
+                        contentDescription = "Selected",
+                        tint = MaterialTheme.colorScheme.background,
+                        modifier = Modifier.size(16.dp),
+                    )
                 }
             }
-            onRemoveFromList != null -> {
+        } else {
+            if (onRemoveFromList != null) {
                 IconButton(onClick = onRemoveFromList, modifier = Modifier.size(34.dp)) {
                     Icon(
                         Icons.Rounded.Close,
@@ -1867,7 +1953,7 @@ private fun StationRow(
                     )
                 }
             }
-            canMoveUp || canMoveDown -> {
+            if (canMoveUp || canMoveDown) {
                 Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
                     IconButton(
                         onClick = onMoveUp,
@@ -1876,7 +1962,7 @@ private fun StationRow(
                     ) {
                         Icon(
                             Icons.Rounded.KeyboardArrowUp,
-                            contentDescription = "Move favorite up",
+                            contentDescription = moveUpContentDescription,
                             tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = if (canMoveUp) 1f else 0.28f),
                             modifier = Modifier.size(18.dp),
                         )
@@ -1888,14 +1974,14 @@ private fun StationRow(
                     ) {
                         Icon(
                             Icons.Rounded.KeyboardArrowDown,
-                            contentDescription = "Move favorite down",
+                            contentDescription = moveDownContentDescription,
                             tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = if (canMoveDown) 1f else 0.28f),
                             modifier = Modifier.size(18.dp),
                         )
                     }
                 }
             }
-            else -> {
+            if (onRemoveFromList == null && !canMoveUp && !canMoveDown) {
                 IconButton(onClick = onFavorite, modifier = Modifier.size(36.dp)) {
                     Icon(
                         if (isFavorite) Icons.Rounded.Favorite else Icons.Rounded.FavoriteBorder,
@@ -2434,10 +2520,11 @@ private fun ChooseStationListSheet(
 private fun CreateStationListDialog(
     title: String,
     confirmLabel: String,
+    initialName: String = "",
     onDismiss: () -> Unit,
     onCreate: (String) -> Unit,
 ) {
-    var name by remember { mutableStateOf("") }
+    var name by remember(initialName) { mutableStateOf(initialName) }
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(title) },

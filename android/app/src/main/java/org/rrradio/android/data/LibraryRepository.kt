@@ -124,6 +124,17 @@ class LibraryRepository(
         }
     }
 
+    suspend fun renameStationList(listId: String, name: String) {
+        val cleanedName = cleanedStationListName(name)
+        store.edit { prefs ->
+            prefs[Keys.stationLists] = json.encodeToString(
+                readStationLists(prefs[Keys.stationLists]).map { list ->
+                    if (list.id == listId) list.copy(name = cleanedName) else list
+                },
+            )
+        }
+    }
+
     suspend fun addStationsToList(listId: String, stations: List<Station>) {
         if (stations.isEmpty()) return
         store.edit { prefs ->
@@ -145,6 +156,28 @@ class LibraryRepository(
                 readStationLists(prefs[Keys.stationLists]).map { list ->
                     if (list.id == listId) {
                         list.copy(stations = list.stations.filterNot { it.id == stationId })
+                    } else {
+                        list
+                    }
+                },
+            )
+        }
+    }
+
+    suspend fun reorderStationLists(orderedIds: List<String>) {
+        store.edit { prefs ->
+            prefs[Keys.stationLists] = json.encodeToString(
+                reorderedStationLists(readStationLists(prefs[Keys.stationLists]), orderedIds),
+            )
+        }
+    }
+
+    suspend fun reorderStationsInList(listId: String, orderedIds: List<String>) {
+        store.edit { prefs ->
+            prefs[Keys.stationLists] = json.encodeToString(
+                readStationLists(prefs[Keys.stationLists]).map { list ->
+                    if (list.id == listId) {
+                        list.copy(stations = reorderedStations(list.stations, orderedIds))
                     } else {
                         list
                     }
@@ -232,6 +265,18 @@ class LibraryRepository(
                 if (station != null && seen.add(id)) next.add(station)
             }
             next.addAll(stations.filterNot { it.id in seen })
+            return next
+        }
+
+        fun reorderedStationLists(stationLists: List<StationList>, orderedIds: List<String>): List<StationList> {
+            val byId = stationLists.associateBy { it.id }
+            val next = mutableListOf<StationList>()
+            val seen = mutableSetOf<String>()
+            orderedIds.forEach { id ->
+                val list = byId[id]
+                if (list != null && seen.add(id)) next.add(list)
+            }
+            next.addAll(stationLists.filterNot { it.id in seen })
             return next
         }
 

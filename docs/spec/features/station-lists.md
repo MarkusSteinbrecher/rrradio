@@ -23,11 +23,11 @@ favorite dial.
 |---|---|---|---|
 | Station-list overview | Not planned for current web. | Reference. | Supported. |
 | Create/delete list | Not planned for current web. | Supported. | Supported. |
-| Rename list | Not planned for current web. | Supported. | Planned. |
+| Rename list | Not planned for current web. | Supported. | Supported. |
 | Add stations from Browse | Not planned for current web. | Supported. | Supported. |
 | Remove stations from a list | Not planned for current web. | Supported. | Supported. |
-| Reorder lists | Not planned for current web. | Supported. | Planned. |
-| Reorder stations inside a list | Not planned for current web. | Supported. | Planned. |
+| Reorder lists | Not planned for current web. | Supported. | Supported with up/down controls. |
+| Reorder stations inside a list | Not planned for current web. | Supported. | Supported with up/down controls. |
 | Play list as queue | Not planned for current web. | Supported. | Supported. |
 | Cloud sync | Not applicable. | Supported through CloudKit. | Not applicable. |
 | Local persistence | Not planned for current web. | Supported. | Supported. |
@@ -35,6 +35,7 @@ favorite dial.
 ## Android Current Status
 
 Android now has the core station-list model in scope: list overview, create,
-delete, Browse batch-add, station removal, local persistence, and queue-scoped
-playback are implemented. Remaining parity work is rename, reorder lists,
-reorder stations inside a list, and Android-native list management polish.
+rename, delete, Browse batch-add, station removal, list reorder, station
+reorder, local persistence, and queue-scoped playback are implemented. Remaining
+polish is Android-native drag/reorder ergonomics if the up/down controls feel
+too heavy.
