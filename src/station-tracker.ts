@@ -82,6 +82,10 @@ interface MatrixRow {
 
 type ImageState = 'all' | 'ok' | 'warn' | 'bad';
 
+type SortKey = 'name' | 'country' | 'status' | 'favicon' | 'sourceType' | 'source'
+             | 'license' | 'tier' | 'state' | 'size';
+type SortDir = 'asc' | 'desc';
+
 const state: {
   rows: MatrixRow[];
   filtered: MatrixRow[];
@@ -96,12 +100,16 @@ const state: {
     license: string;
     npQuality: NpQuality;
   };
+  /** Active sort. `null` = catalog order (the default). Clicking a header
+   *  cycles: catalog → asc → desc → catalog. */
+  sort: { key: SortKey; dir: SortDir } | null;
   collapsedGroups: Set<string>;
 } = {
   rows: [],
   filtered: [],
   page: 0,
   filters: { query: '', country: 'all', status: 'all', imageState: 'all', license: 'all', npQuality: 'all' },
+  sort: null,
   collapsedGroups: new Set(),
 };
 
@@ -373,8 +381,76 @@ function rowMatchesFilters(
 function applyFilters(resetPage = true): void {
   if (resetPage) state.page = 0;
   state.filtered = state.rows.filter((r) => rowMatchesFilters(r));
+  if (state.sort) sortRows(state.filtered, state.sort.key, state.sort.dir);
   renderMatrix();
   renderDonuts();
+}
+
+// Tie-broken comparator helpers. Strings compare via localeCompare so accents
+// and umlauts land where readers expect them; missing values sort last on asc.
+function cmpStr(a: string | undefined, b: string | undefined): number {
+  if (a === b) return 0;
+  if (!a) return 1;
+  if (!b) return -1;
+  return a.localeCompare(b, undefined, { sensitivity: 'base' });
+}
+
+function cmpNum(a: number | undefined, b: number | undefined): number {
+  const av = Number.isFinite(a as number) ? (a as number) : Number.NEGATIVE_INFINITY;
+  const bv = Number.isFinite(b as number) ? (b as number) : Number.NEGATIVE_INFINITY;
+  return av - bv;
+}
+
+function rowKey(row: MatrixRow, key: SortKey): string | number | undefined {
+  switch (key) {
+    case 'name':       return row.name;
+    case 'country':    return row.country ? countryName(row.country) : undefined;
+    case 'status':     return row.status;
+    case 'favicon':    return row.favicon;
+    case 'sourceType': return row.sourceType;
+    case 'source':     return row.source;
+    case 'license':    return row.faviconLicense;
+    case 'tier':       return row.tier;
+    case 'state':      return row.state;
+    case 'size':       return (row.probeWidth ?? 0) * (row.probeHeight ?? 0);
+  }
+}
+
+function sortRows(rows: MatrixRow[], key: SortKey, dir: SortDir): void {
+  const factor = dir === 'asc' ? 1 : -1;
+  rows.sort((a, b) => {
+    const av = rowKey(a, key);
+    const bv = rowKey(b, key);
+    const c = typeof av === 'number' || typeof bv === 'number'
+      ? cmpNum(av as number, bv as number)
+      : cmpStr(av as string, bv as string);
+    // Stable tie-break on id so equal-value rows don't churn between renders.
+    return (c !== 0 ? c : a.id.localeCompare(b.id)) * factor;
+  });
+}
+
+/** Click → asc → desc → off cycle. Updates header aria-sort + applies sort
+ *  to the existing filtered set without re-filtering. Page resets to 0. */
+function cycleSort(key: SortKey): void {
+  const cur = state.sort;
+  let next: typeof state.sort;
+  if (!cur || cur.key !== key) next = { key, dir: 'asc' };
+  else if (cur.dir === 'asc')  next = { key, dir: 'desc' };
+  else                          next = null;
+  state.sort = next;
+  // Reflect on the headers.
+  for (const th of refs.table.querySelectorAll<HTMLTableCellElement>('th[data-sort-key]')) {
+    if (next && th.dataset.sortKey === next.key) {
+      th.setAttribute('aria-sort', next.dir === 'asc' ? 'ascending' : 'descending');
+    } else {
+      th.removeAttribute('aria-sort');
+    }
+  }
+  // Re-derive from rows in catalog order so toggling 'off' restores it.
+  state.filtered = state.rows.filter((r) => rowMatchesFilters(r));
+  if (next) sortRows(state.filtered, next.key, next.dir);
+  state.page = 0;
+  renderMatrix();
 }
 
 function appendIdGroupCells(tr: HTMLTableRowElement, row: MatrixRow): void {
@@ -941,6 +1017,12 @@ function bindEvents(): void {
     btn.addEventListener('click', () => {
       const group = btn.dataset.toggleGroup;
       if (group) toggleGroup(group);
+    });
+  }
+  for (const th of refs.table.querySelectorAll<HTMLTableCellElement>('th[data-sort-key]')) {
+    th.addEventListener('click', () => {
+      const key = th.dataset.sortKey as SortKey | undefined;
+      if (key) cycleSort(key);
     });
   }
 }
