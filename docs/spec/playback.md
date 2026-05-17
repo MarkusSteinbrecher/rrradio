@@ -26,7 +26,7 @@ UI differences.
 | MP3 | `HTMLAudioElement` | AVPlayer | Media3/ExoPlayer |
 | AAC | `HTMLAudioElement` | AVPlayer | Media3/ExoPlayer |
 | HLS | Safari native, `hls.js` elsewhere | AVPlayer | Media3/ExoPlayer |
-| Playlist redirects | Parse or resolve before playback where needed. | Resolve through player/fetcher support where needed. | Planned resolver before MediaItem playback. |
+| Playlist redirects | Parse or resolve before playback where needed. | Resolve through player/fetcher support where needed. | Resolves plain `.m3u` / `.pls` before MediaItem playback; HLS `.m3u8` remains native. |
 
 Only HTTPS streams publish by default. Catalog exceptions require the
 `httpAllowed` escape hatch documented in [Operations](../operations.md).
