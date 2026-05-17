@@ -26,7 +26,7 @@ catalog.
 | Duplicate detection | Supported where implemented. | Reference. | Supported. |
 | Auto-favorite on save | Product-preferred behavior. | Supported. | Supported. |
 | Local persistence | `localStorage`. | UserDefaults. | DataStore. |
-| Manual file export/import | Supported. | Planned/optional. | Planned/optional. |
+| Manual file export/import | Supported. | Planned/optional. | Supported through Android library backup. |
 | Cloud/account sync | Not planned. | Optional CloudKit sync. | Not planned for first port. |
 
 ## Android First-Port Requirement

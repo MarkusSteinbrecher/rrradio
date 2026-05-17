@@ -1,6 +1,10 @@
 package org.rrradio.android.ui
 
+import android.content.Context
+import android.net.Uri
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -86,6 +90,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -103,6 +108,7 @@ import org.rrradio.android.data.CatalogLoadState
 import org.rrradio.android.data.FavoritesDisplayMode
 import org.rrradio.android.data.LandingPagePreference
 import org.rrradio.android.data.LibraryRepository
+import org.rrradio.android.data.ListeningHistoryPreference
 import org.rrradio.android.data.PlaybackUiState
 import org.rrradio.android.data.PlayerState
 import org.rrradio.android.data.Station
@@ -120,16 +126,37 @@ fun RrradioApp(
     actions: RrradioViewModel,
     resolvedDarkTheme: Boolean,
 ) {
+    val context = LocalContext.current
     var showAddStation by remember { mutableStateOf(false) }
     var showNowPlaying by remember { mutableStateOf(false) }
     var showChooseStationList by remember { mutableStateOf(false) }
     var showCreateStationList by remember { mutableStateOf(false) }
     var showPreferences by remember { mutableStateOf(false) }
+    var preferenceStatus by remember { mutableStateOf<String?>(null) }
+    var pendingDocumentText by remember { mutableStateOf<String?>(null) }
     var createListFromSelection by remember { mutableStateOf(false) }
     var customStationPendingDelete by remember { mutableStateOf<Station?>(null) }
     var stationListPendingDelete by remember { mutableStateOf<String?>(null) }
     var stationListPendingRename by remember { mutableStateOf<StationList?>(null) }
     var stationPreview by remember { mutableStateOf<Station?>(null) }
+    val exportDocumentLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.CreateDocument("application/json"),
+    ) { uri ->
+        val text = pendingDocumentText
+        pendingDocumentText = null
+        if (uri == null || text == null) return@rememberLauncherForActivityResult
+        runCatching { writeTextDocument(context, uri, text) }
+            .onSuccess { preferenceStatus = "Export saved." }
+            .onFailure { preferenceStatus = "Could not save export." }
+    }
+    val importDocumentLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.OpenDocument(),
+    ) { uri ->
+        if (uri == null) return@rememberLauncherForActivityResult
+        runCatching { readTextDocument(context, uri) }
+            .onSuccess { text -> actions.importLibraryBackup(text) { preferenceStatus = it } }
+            .onFailure { preferenceStatus = "Could not read that backup file." }
+    }
 
     Box(Modifier.fillMaxSize()) {
         Scaffold(
@@ -224,7 +251,10 @@ fun RrradioApp(
         }
 
         if (showNowPlaying && state.playback.station != null) {
-            BackHandler { showNowPlaying = false }
+            BackHandler {
+                actions.clearBrokenStationReportMessage()
+                showNowPlaying = false
+            }
             NowPlayingDestination(
                 state = state,
                 onFavorite = actions::toggleFavorite,
@@ -232,7 +262,11 @@ fun RrradioApp(
                 onToggle = actions::togglePlayback,
                 onNext = actions::playNext,
                 onSleep = actions::cycleSleepTimer,
-                onDismiss = { showNowPlaying = false },
+                onReportBroken = actions::reportBrokenStation,
+                onDismiss = {
+                    actions.clearBrokenStationReportMessage()
+                    showNowPlaying = false
+                },
             )
         }
     }
@@ -285,6 +319,34 @@ fun RrradioApp(
                 onAccentPreference = actions::setAccentPreference,
                 onLandingPagePreference = actions::setLandingPagePreference,
                 onSleepDefaultMinutes = actions::setSleepDefaultMinutes,
+                onListeningHistoryPreference = actions::setListeningHistoryPreference,
+                onDiagnosticsEnabled = actions::setDiagnosticsEnabled,
+                onClearListeningHistory = actions::clearListeningHistory,
+                onClearDiagnostics = actions::clearDiagnostics,
+                onExportBackup = {
+                    actions.exportLibraryBackup(
+                        onReady = { text ->
+                            pendingDocumentText = text
+                            exportDocumentLauncher.launch("rrradio-android-backup.json")
+                        },
+                        onError = { preferenceStatus = it },
+                    )
+                },
+                onImportBackup = {
+                    importDocumentLauncher.launch(
+                        arrayOf("application/json", "text/json", "text/plain", "application/octet-stream"),
+                    )
+                },
+                onExportDiagnostics = {
+                    actions.exportDiagnostics(
+                        onReady = { text ->
+                            pendingDocumentText = text
+                            exportDocumentLauncher.launch("rrradio-android-diagnostics.json")
+                        },
+                        onError = { preferenceStatus = it },
+                    )
+                },
+                preferenceStatus = preferenceStatus,
                 onDismiss = { showPreferences = false },
             )
         }
@@ -527,6 +589,14 @@ private fun PreferencesSheet(
     onAccentPreference: (AccentPreference) -> Unit,
     onLandingPagePreference: (LandingPagePreference) -> Unit,
     onSleepDefaultMinutes: (Int) -> Unit,
+    onListeningHistoryPreference: (ListeningHistoryPreference) -> Unit,
+    onDiagnosticsEnabled: (Boolean) -> Unit,
+    onClearListeningHistory: () -> Unit,
+    onClearDiagnostics: () -> Unit,
+    onExportBackup: () -> Unit,
+    onImportBackup: () -> Unit,
+    onExportDiagnostics: () -> Unit,
+    preferenceStatus: String?,
     onDismiss: () -> Unit,
 ) {
     Column(
@@ -615,6 +685,88 @@ private fun PreferencesSheet(
                 if (index != LibraryRepository.SLEEP_DEFAULT_OPTIONS.lastIndex) PreferenceDivider()
             }
         }
+
+        PreferenceSection(title = "Backup") {
+            PreferenceActionRow(
+                icon = Icons.Rounded.Public,
+                title = "Export backup",
+                detail = "Favorites, custom stations, lists, and preferences.",
+                onClick = onExportBackup,
+            )
+            PreferenceDivider()
+            PreferenceActionRow(
+                icon = Icons.Rounded.Public,
+                title = "Import backup",
+                detail = "Merge a rrradio Android backup into this device.",
+                onClick = onImportBackup,
+            )
+        }
+
+        if (preferenceStatus != null) {
+            Text(
+                preferenceStatus,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontSize = 12.sp,
+                lineHeight = 16.sp,
+            )
+        }
+
+        PreferenceSection(title = "Listening history") {
+            ListeningHistoryPreference.entries.forEachIndexed { index, preference ->
+                PreferenceChoiceRow(
+                    icon = Icons.Rounded.BarChart,
+                    title = listeningHistoryPreferenceLabel(preference),
+                    detail = listeningHistoryPreferenceDetail(preference),
+                    selected = state.listeningHistoryPreference == preference,
+                    onClick = { onListeningHistoryPreference(preference) },
+                )
+                if (index != ListeningHistoryPreference.entries.lastIndex || state.listeningHistoryCount > 0) {
+                    PreferenceDivider()
+                }
+            }
+            if (state.listeningHistoryCount > 0) {
+                PreferenceActionRow(
+                    icon = Icons.Rounded.Delete,
+                    title = "Clear history",
+                    detail = "${state.listeningHistoryCount} local records.",
+                    onClick = onClearListeningHistory,
+                )
+            }
+        }
+
+        PreferenceSection(title = "Diagnostics") {
+            PreferenceChoiceRow(
+                icon = Icons.Rounded.BarChart,
+                title = "Diagnostics off",
+                detail = "Do not store local diagnostic events.",
+                selected = !state.diagnosticsEnabled,
+                onClick = { onDiagnosticsEnabled(false) },
+            )
+            PreferenceDivider()
+            PreferenceChoiceRow(
+                icon = Icons.Rounded.BarChart,
+                title = "Diagnostics on",
+                detail = "Store a capped privacy-preserving log on this device.",
+                selected = state.diagnosticsEnabled,
+                onClick = { onDiagnosticsEnabled(true) },
+            )
+            PreferenceDivider()
+            PreferenceActionRow(
+                icon = Icons.Rounded.BarChart,
+                title = "Export diagnostics",
+                detail = "${state.diagnosticLogCount} local log entries.",
+                onClick = onExportDiagnostics,
+            )
+            if (state.diagnosticLogCount > 0) {
+                PreferenceDivider()
+                PreferenceActionRow(
+                    icon = Icons.Rounded.Delete,
+                    title = "Clear diagnostics",
+                    detail = "Delete the local diagnostic log.",
+                    onClick = onClearDiagnostics,
+                )
+            }
+        }
     }
 }
 
@@ -679,6 +831,39 @@ private fun PreferenceChoiceRow(
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(18.dp),
+            )
+        }
+    }
+}
+
+@Composable
+private fun PreferenceActionRow(
+    icon: ImageVector,
+    title: String,
+    detail: String,
+    onClick: () -> Unit,
+) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(horizontal = 14.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        PreferenceLeadingIcon(icon = icon, selected = false)
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(
+                title,
+                color = MaterialTheme.colorScheme.onBackground,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Medium,
+            )
+            Text(
+                detail,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontSize = 12.sp,
+                lineHeight = 16.sp,
             )
         }
     }
@@ -812,6 +997,31 @@ private fun landingPagePreferenceIcon(preference: LandingPagePreference): ImageV
     LandingPagePreference.StationLists -> Icons.AutoMirrored.Rounded.Article
     LandingPagePreference.Browse -> Icons.Rounded.Public
     LandingPagePreference.Favorites -> Icons.Rounded.Favorite
+}
+
+private fun listeningHistoryPreferenceLabel(preference: ListeningHistoryPreference): String = when (preference) {
+    ListeningHistoryPreference.Off -> "Off"
+    ListeningHistoryPreference.Stations -> "Stations only"
+    ListeningHistoryPreference.Tracks -> "Stations and tracks"
+}
+
+private fun listeningHistoryPreferenceDetail(preference: ListeningHistoryPreference): String = when (preference) {
+    ListeningHistoryPreference.Off -> "Do not store listening history."
+    ListeningHistoryPreference.Stations -> "Store station plays locally on this device."
+    ListeningHistoryPreference.Tracks -> "Allow track-level history when metadata is available."
+}
+
+private fun writeTextDocument(context: Context, uri: Uri, text: String) {
+    val bytes = text.toByteArray(Charsets.UTF_8)
+    val stream = context.contentResolver.openOutputStream(uri)
+        ?: error("Could not open document")
+    stream.use { it.write(bytes) }
+}
+
+private fun readTextDocument(context: Context, uri: Uri): String {
+    val stream = context.contentResolver.openInputStream(uri)
+        ?: error("Could not open document")
+    return stream.bufferedReader(Charsets.UTF_8).use { it.readText() }
 }
 
 @Composable
@@ -2183,6 +2393,7 @@ private fun NowPlayingDestination(
     onToggle: () -> Unit,
     onNext: () -> Unit,
     onSleep: () -> Unit,
+    onReportBroken: (Station) -> Unit,
     onDismiss: () -> Unit,
 ) {
     val station = state.playback.station ?: return
@@ -2350,6 +2561,39 @@ private fun NowPlayingDestination(
                     fontSize = 11.sp,
                     fontFamily = FontFamily.Monospace,
                     fontWeight = FontWeight.Medium,
+                )
+            }
+        }
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(6.dp),
+        ) {
+            TextButton(
+                onClick = { onReportBroken(station) },
+                enabled = !state.isReportingBrokenStation,
+            ) {
+                Icon(
+                    Icons.Rounded.Flag,
+                    contentDescription = null,
+                    modifier = Modifier.size(15.dp),
+                )
+                Spacer(Modifier.width(6.dp))
+                Text(
+                    if (state.isReportingBrokenStation) "Sending report..." else "Report broken station",
+                    fontSize = 11.sp,
+                    fontFamily = FontFamily.Monospace,
+                    fontWeight = FontWeight.Medium,
+                )
+            }
+            if (state.brokenStationReportMessage != null) {
+                Text(
+                    state.brokenStationReportMessage,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Center,
                 )
             }
         }

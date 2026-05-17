@@ -1,11 +1,13 @@
 package org.rrradio.android.data
 
 import android.content.Context
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -34,6 +36,16 @@ class LibraryRepository(
         store.data.map { prefs -> FavoritesDisplayMode.fromRaw(prefs[Keys.favoritesDisplayMode]) }
     val sleepDefaultMinutes: Flow<Int> =
         store.data.map { prefs -> normalizedSleepDefaultMinutes(prefs[Keys.sleepDefaultMinutes]) }
+    val schemaVersion: Flow<Int> =
+        store.data.map { prefs -> normalizedSchemaVersion(prefs[Keys.schemaVersion]) }
+    val listeningHistoryPreference: Flow<ListeningHistoryPreference> =
+        store.data.map { prefs -> ListeningHistoryPreference.fromRaw(prefs[Keys.listeningHistoryPreference]) }
+    val listeningHistory: Flow<List<ListeningHistoryEntry>> =
+        store.data.map { prefs -> readListeningHistory(prefs[Keys.listeningHistory]) }
+    val diagnosticsEnabled: Flow<Boolean> =
+        store.data.map { prefs -> prefs[Keys.diagnosticsEnabled] ?: false }
+    val diagnosticLog: Flow<List<DiagnosticLogEntry>> =
+        store.data.map { prefs -> readDiagnosticLog(prefs[Keys.diagnosticLog]) }
 
     suspend fun toggleFavorite(station: Station): Boolean {
         var added = false
@@ -226,6 +238,131 @@ class LibraryRepository(
         }
     }
 
+    suspend fun ensureCurrentSchemaVersion() {
+        store.edit { prefs ->
+            if (prefs[Keys.schemaVersion] != ANDROID_LIBRARY_SCHEMA_VERSION) {
+                prefs[Keys.schemaVersion] = ANDROID_LIBRARY_SCHEMA_VERSION
+            }
+        }
+    }
+
+    suspend fun setListeningHistoryPreference(preference: ListeningHistoryPreference) {
+        store.edit { prefs ->
+            prefs[Keys.listeningHistoryPreference] = preference.rawValue
+            prefs[Keys.schemaVersion] = ANDROID_LIBRARY_SCHEMA_VERSION
+        }
+    }
+
+    suspend fun clearListeningHistory() {
+        store.edit { prefs ->
+            prefs[Keys.listeningHistory] = json.encodeToString(emptyList<ListeningHistoryEntry>())
+            prefs[Keys.schemaVersion] = ANDROID_LIBRARY_SCHEMA_VERSION
+        }
+    }
+
+    suspend fun setDiagnosticsEnabled(enabled: Boolean) {
+        store.edit { prefs ->
+            prefs[Keys.diagnosticsEnabled] = enabled
+            prefs[Keys.schemaVersion] = ANDROID_LIBRARY_SCHEMA_VERSION
+        }
+    }
+
+    suspend fun clearDiagnostics() {
+        store.edit { prefs ->
+            prefs[Keys.diagnosticLog] = json.encodeToString(emptyList<DiagnosticLogEntry>())
+            prefs[Keys.schemaVersion] = ANDROID_LIBRARY_SCHEMA_VERSION
+        }
+    }
+
+    suspend fun recordStationHistory(station: Station) {
+        store.edit { prefs ->
+            val preference = ListeningHistoryPreference.fromRaw(prefs[Keys.listeningHistoryPreference])
+            if (preference == ListeningHistoryPreference.Off) return@edit
+            val current = readListeningHistory(prefs[Keys.listeningHistory])
+            prefs[Keys.listeningHistory] = json.encodeToString(
+                cappedListeningHistory(listOf(stationHistoryEntry(station)) + current),
+            )
+            prefs[Keys.schemaVersion] = ANDROID_LIBRARY_SCHEMA_VERSION
+        }
+    }
+
+    suspend fun recordDiagnostic(category: String, message: String) {
+        store.edit { prefs ->
+            if (prefs[Keys.diagnosticsEnabled] != true) return@edit
+            val current = readDiagnosticLog(prefs[Keys.diagnosticLog])
+            prefs[Keys.diagnosticLog] = json.encodeToString(
+                cappedDiagnosticLog(listOf(diagnosticLogEntry(category, message)) + current),
+            )
+            prefs[Keys.schemaVersion] = ANDROID_LIBRARY_SCHEMA_VERSION
+        }
+    }
+
+    suspend fun exportLibraryBackup(): String {
+        val prefs = store.data.first()
+        val backup = buildLibraryBackupFile(
+            favorites = readStations(prefs[Keys.favorites]),
+            customStations = readStations(prefs[Keys.customStations]),
+            stationLists = readStationLists(prefs[Keys.stationLists]),
+            preferences = LibraryBackupPreferences(
+                theme = AppThemePreference.fromRaw(prefs[Keys.themePreference]).rawValue,
+                accent = AccentPreference.fromRaw(prefs[Keys.accentPreference]).rawValue,
+                landingPage = LandingPagePreference.fromRaw(prefs[Keys.landingPagePreference]).rawValue,
+                favoritesDisplayMode = FavoritesDisplayMode.fromRaw(prefs[Keys.favoritesDisplayMode]).rawValue,
+                sleepDefaultMinutes = normalizedSleepDefaultMinutes(prefs[Keys.sleepDefaultMinutes]),
+                listeningHistory = ListeningHistoryPreference.fromRaw(prefs[Keys.listeningHistoryPreference]).rawValue,
+                diagnosticsEnabled = prefs[Keys.diagnosticsEnabled] ?: false,
+            ),
+        )
+        return json.encodeToString(backup)
+    }
+
+    suspend fun importLibraryBackup(raw: String): LibraryImportResult {
+        val backup = decodeLibraryBackup(raw, json)
+        val result = LibraryImportResult(
+            favoritesImported = backup.favorites.size,
+            customStationsImported = backup.customStations.size,
+            stationListsImported = backup.stationLists.size,
+            preferencesImported = backup.preferences.hasAnyValue(),
+        )
+
+        store.edit { prefs ->
+            prefs[Keys.favorites] = json.encodeToString(
+                uniqueStations(backup.favorites + readStations(prefs[Keys.favorites])),
+            )
+            prefs[Keys.customStations] = json.encodeToString(
+                uniqueStations(backup.customStations + readStations(prefs[Keys.customStations])),
+            )
+            prefs[Keys.stationLists] = json.encodeToString(
+                mergeStationLists(
+                    current = readStationLists(prefs[Keys.stationLists]),
+                    imported = backup.stationLists,
+                ),
+            )
+            backup.preferences.theme?.let { prefs[Keys.themePreference] = AppThemePreference.fromRaw(it).rawValue }
+            backup.preferences.accent?.let { prefs[Keys.accentPreference] = AccentPreference.fromRaw(it).rawValue }
+            backup.preferences.landingPage?.let {
+                prefs[Keys.landingPagePreference] = LandingPagePreference.fromRaw(it).rawValue
+            }
+            backup.preferences.favoritesDisplayMode?.let {
+                prefs[Keys.favoritesDisplayMode] = FavoritesDisplayMode.fromRaw(it).rawValue
+            }
+            backup.preferences.sleepDefaultMinutes?.let {
+                prefs[Keys.sleepDefaultMinutes] = normalizedSleepDefaultMinutes(it)
+            }
+            backup.preferences.listeningHistory?.let {
+                prefs[Keys.listeningHistoryPreference] = ListeningHistoryPreference.fromRaw(it).rawValue
+            }
+            backup.preferences.diagnosticsEnabled?.let { prefs[Keys.diagnosticsEnabled] = it }
+            prefs[Keys.schemaVersion] = ANDROID_LIBRARY_SCHEMA_VERSION
+        }
+        return result
+    }
+
+    suspend fun exportDiagnostics(): String {
+        val prefs = store.data.first()
+        return json.encodeToString(buildDiagnosticsExportFile(readDiagnosticLog(prefs[Keys.diagnosticLog])))
+    }
+
     private fun stationList(key: androidx.datastore.preferences.core.Preferences.Key<String>): Flow<List<Station>> =
         store.data.map { prefs -> readStations(prefs[key]) }
 
@@ -239,7 +376,40 @@ class LibraryRepository(
         return runCatching { json.decodeFromString<List<StationList>>(raw) }.getOrDefault(emptyList())
     }
 
+    private fun readListeningHistory(raw: String?): List<ListeningHistoryEntry> {
+        if (raw.isNullOrBlank()) return emptyList()
+        return runCatching { json.decodeFromString<List<ListeningHistoryEntry>>(raw) }.getOrDefault(emptyList())
+    }
+
+    private fun readDiagnosticLog(raw: String?): List<DiagnosticLogEntry> {
+        if (raw.isNullOrBlank()) return emptyList()
+        return runCatching { json.decodeFromString<List<DiagnosticLogEntry>>(raw) }.getOrDefault(emptyList())
+    }
+
+    private fun mergeStationLists(current: List<StationList>, imported: List<StationList>): List<StationList> {
+        val cleanedImported = imported
+            .filter { it.id.isNotBlank() }
+            .map { list ->
+                list.copy(
+                    name = cleanedStationListName(list.name),
+                    stations = uniqueStations(list.stations),
+                )
+            }
+        val importedIds = cleanedImported.mapTo(mutableSetOf()) { it.id }
+        return cleanedImported + current.filterNot { it.id in importedIds }
+    }
+
+    private fun LibraryBackupPreferences.hasAnyValue(): Boolean =
+        theme != null ||
+            accent != null ||
+            landingPage != null ||
+            favoritesDisplayMode != null ||
+            sleepDefaultMinutes != null ||
+            listeningHistory != null ||
+            diagnosticsEnabled != null
+
     private object Keys {
+        val schemaVersion = intPreferencesKey("rrradio.schema-version.v1")
         val favorites = stringPreferencesKey("rrradio.favorites.v2")
         val recents = stringPreferencesKey("rrradio.recents.v2")
         val customStations = stringPreferencesKey("rrradio.custom.v1")
@@ -249,6 +419,10 @@ class LibraryRepository(
         val landingPagePreference = stringPreferencesKey("rrradio.landing-page.v1")
         val favoritesDisplayMode = stringPreferencesKey("rrradio.favorites-display-mode.v1")
         val sleepDefaultMinutes = intPreferencesKey("rrradio.sleep-default-minutes.v1")
+        val listeningHistoryPreference = stringPreferencesKey("rrradio.listening-history-preference.v1")
+        val listeningHistory = stringPreferencesKey("rrradio.listening-history.v1")
+        val diagnosticsEnabled = booleanPreferencesKey("rrradio.diagnostics-enabled.v1")
+        val diagnosticLog = stringPreferencesKey("rrradio.diagnostic-log.v1")
     }
 
     companion object {
@@ -291,5 +465,8 @@ class LibraryRepository(
 
         fun normalizedSleepDefaultMinutes(minutes: Int?): Int =
             minutes?.takeIf { it in SLEEP_DEFAULT_OPTIONS } ?: DEFAULT_SLEEP_MINUTES
+
+        fun normalizedSchemaVersion(version: Int?): Int =
+            version?.takeIf { it in 1..ANDROID_LIBRARY_SCHEMA_VERSION } ?: ANDROID_LIBRARY_SCHEMA_VERSION
     }
 }

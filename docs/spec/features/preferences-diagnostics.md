@@ -42,8 +42,8 @@ Platform matrix:
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| Station history | Not part of current web contract beyond recents. | Supported as opt-in listening history. | Planned local opt-in. |
-| Track-level history | Not planned for current web. | Supported only when user selects it. | Planned only with explicit opt-in. |
+| Station history | Not part of current web contract beyond recents. | Supported as opt-in listening history. | Supported as local opt-in history. |
+| Track-level history | Not planned for current web. | Supported only when user selects it. | Gated behind explicit opt-in; metadata-recording expansion remains future polish. |
 | Sync | Not planned. | Not synced. | Not planned. |
 
 ## Diagnostics
@@ -73,8 +73,8 @@ Platform matrix:
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
 | Anonymous aggregate telemetry | Supported through GoatCounter. | Not the native support surface. | Not planned for first port. |
-| Local diagnostics | Not primary web contract. | Supported, opt-in, capped, exportable. | Planned, opt-in, capped, exportable. |
-| Broken-station report | Supported. | Supported where implemented. | Planned. |
+| Local diagnostics | Not primary web contract. | Supported, opt-in, capped, exportable. | Supported, opt-in, capped, exportable. |
+| Broken-station report | Supported. | Supported where implemented. | Supported through the shared anonymous report endpoint. |
 
 ## Car Mode And Vehicle Surfaces
 

@@ -84,9 +84,9 @@ Canonical implementation references remain in:
 | Sleep timer | Supported | Reference | Partial | [Sleep timer](features/sleep-timer.md) |
 | Wake to radio | Partial, browser-limited | Reference, iOS-limited | Planned, Android-limited | [Wake to radio](features/wake-to-radio.md) |
 | iCloud/CloudKit sync | Not planned | Supported | Not applicable | [Data and sync](data-sync.md) |
-| Manual file export/import | Supported for favorites and custom stations | Planned/optional | Planned/optional | [Data and sync](data-sync.md) |
+| Manual file export/import | Supported for favorites and custom stations | Planned/optional | Supported for Android library backup | [Data and sync](data-sync.md) |
 | Cross-platform account sync | Not planned | Not planned | Not planned for first Android port | [Data and sync](data-sync.md) |
-| Diagnostics | Privacy-preserving telemetry | Local opt-in diagnostics | Planned local diagnostics | [Preferences and diagnostics](features/preferences-diagnostics.md) |
+| Diagnostics | Privacy-preserving telemetry | Local opt-in diagnostics | Local opt-in diagnostics | [Preferences and diagnostics](features/preferences-diagnostics.md) |
 | Watch companion | Not applicable | Supported as iPhone remote | Not applicable | [Platforms](platforms.md) |
 | Car mode / vehicle surfaces | Browser/OS dependent | Supported in app, CarPlay controls via media session | Partial media controls; Android Auto TBD | [Preferences and diagnostics](features/preferences-diagnostics.md) |
 

@@ -30,10 +30,10 @@ offers private iCloud/CloudKit sync between the user's Apple devices.
 | Custom stations | `localStorage`, export/import supported. | Local plus optional CloudKit sync. | Local DataStore. |
 | Preferences | Local browser preferences. | Local plus optional CloudKit sync for selected preferences. | Local-only for first port. |
 | Wake state | Local-only, one armed wake. | Local-only for active wake; selected wake preferences may sync. | Local-only. |
-| Listening history | Not part of current web storage contract. | Local-only, opt-in, retention-controlled. | Planned local-only, opt-in. |
-| Diagnostics | Anonymous production events only. | Local opt-in diagnostic log. | Planned local opt-in diagnostic log. |
+| Listening history | Not part of current web storage contract. | Local-only, opt-in, retention-controlled. | Local-only, off by default, opt-in. |
+| Diagnostics | Anonymous production events only. | Local opt-in diagnostic log. | Local opt-in diagnostic log, capped and exportable. |
 | Catalog cache | Browser/runtime cache. | Disk cache and bundled index fallback. | Cache-backed catalog loading; optional search index is deferred. |
-| Backup file | Manual export/import for favorites and custom stations. | Planned/optional import path if needed. | Planned/optional import path if needed. |
+| Backup file | Manual export/import for favorites and custom stations. | Planned/optional import path if needed. | Manual export/import for library data and preferences. |
 
 ## iCloud And CloudKit
 
@@ -90,19 +90,42 @@ The Android app is local-only:
 - No iCloud compatibility layer.
 - No account requirement.
 - No shared backend.
-- Manual backup import/export can be added as a user-controlled transfer path,
-  but it is not a substitute for a shared sync backend.
+- Manual backup import/export is a user-controlled transfer path, but it is
+  not a substitute for a shared sync backend.
 - Favorites, recents, custom stations, and station lists are persisted in
   DataStore today.
-- Preferences are currently only partly modeled on Android; system/light/dark,
-  accent, landing page, history, and diagnostics preferences remain parity
-  work.
+- Preferences are currently partly modeled on Android; system/light/dark,
+  accent, landing page, Favorites display mode, sleep default, history, and
+  diagnostics preferences are local DataStore data. Language, custom accent,
+  wake, and car-surface preferences remain separate parity work.
+- Listening history remains off by default and does not sync.
+- Diagnostics remain off by default, are capped locally, and export only when
+  the user explicitly requests it.
 - Data should be structured so a future sync backend can be added without
   rewriting feature logic.
 
 Android storage should use stable schema versions for user data. Prefer a
 simple local model first; introduce Room only when the feature set needs
 queryable history, more complex list management, or catalog search.
+
+## Android Backup File
+
+Android backup files are JSON with `schemaVersion: 1`, `platform: "android"`,
+`exportedAt`, and these top-level data sets:
+
+- `favorites`
+- `customStations`
+- `stationLists`
+- `preferences`
+
+The `preferences` object currently stores theme, accent, landing page,
+Favorites display mode, sleep default, listening-history preference, and
+diagnostics preference. Import merges favorites, custom stations, and station
+lists by id, then applies included preferences.
+
+Android backup files intentionally exclude recents, listening-history records,
+diagnostic log entries, active wake state, raw playback errors, and any
+automatic account/cloud state.
 
 ## Future Cross-Platform Sync
 
