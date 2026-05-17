@@ -17,22 +17,31 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
+import org.rrradio.android.data.NowPlayingMetadata
 import org.rrradio.android.data.PlayerState
 import org.rrradio.android.data.PlaybackUiState
 import org.rrradio.android.data.Station
 import org.rrradio.android.data.defaultJson
 import org.rrradio.android.data.displayName
+import org.rrradio.android.metadata.ITunesCoverArtFetcher
 import org.rrradio.android.metadata.MetadataPoller
+import org.rrradio.android.metadata.cleanITunesTrackComponent
+import org.rrradio.android.metadata.cleanMetadataComponent
+import org.rrradio.android.metadata.isLowResolutionCoverUrl
 
 class RadioPlaybackService : MediaSessionService() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private val metadataPoller = MetadataPoller()
+    private val coverArtFetcher = ITunesCoverArtFetcher()
     private lateinit var player: ExoPlayer
     private var session: MediaSession? = null
     private var activeQueue: List<Station> = emptyList()
     private var retryJob: Job? = null
+    private var coverArtJob: Job? = null
+    private var coverArtKey = ""
     private var retryCount = 0
 
     override fun onCreate() {
@@ -65,6 +74,7 @@ class RadioPlaybackService : MediaSessionService() {
 
     override fun onDestroy() {
         retryJob?.cancel()
+        resetCoverArtLookup()
         metadataPoller.stop()
         serviceScope.cancel()
         session?.release()
@@ -101,20 +111,33 @@ class RadioPlaybackService : MediaSessionService() {
         metadataPoller.stop()
         metadataPoller.start(serviceScope, station) { now ->
             if (now == null) return@start
-            PlaybackStateStore.update { current ->
-                if (current.station?.id != station.id) current
-                else current.copy(
-                    artist = now.artist,
-                    title = now.title,
-                    programName = now.programName,
-                    programSubtitle = now.programSubtitle,
-                    coverUrl = now.coverUrl,
-                )
-            }
+            applyMetadata(station, now)
         }
     }
 
+    private fun applyMetadata(station: Station, metadata: NowPlayingMetadata) {
+        val lookupKey = coverArtKey(station, metadata.artist, metadata.title)
+        PlaybackStateStore.update { current ->
+            if (current.station?.id != station.id) {
+                current
+            } else {
+                val sameLookup = lookupKey != null && lookupKey == coverArtKey
+                current.copy(
+                    artist = metadata.artist,
+                    title = metadata.title,
+                    programName = metadata.programName,
+                    programSubtitle = metadata.programSubtitle,
+                    coverUrl = metadata.coverUrl ?: if (sameLookup) current.coverUrl else null,
+                    trackVerified = metadata.trackVerified ?: if (sameLookup) current.trackVerified else null,
+                    appleMusicUrl = metadata.appleMusicUrl ?: if (sameLookup) current.appleMusicUrl else null,
+                )
+            }
+        }
+        startCoverArtLookup(station, metadata)
+    }
+
     private fun setCurrentStation(station: Station, state: PlayerState) {
+        resetCoverArtLookup()
         val queueIndex = activeQueue.indexOfFirst { it.id == station.id }.takeIf { it >= 0 } ?: 0
         PlaybackStateStore.replace(
             PlaybackUiState(
@@ -154,6 +177,7 @@ class RadioPlaybackService : MediaSessionService() {
 
     private fun stopPlayback() {
         retryJob?.cancel()
+        resetCoverArtLookup()
         retryCount = 0
         activeQueue = emptyList()
         metadataPoller.stop()
@@ -211,6 +235,61 @@ class RadioPlaybackService : MediaSessionService() {
                 )
             }
         }
+    }
+
+    private fun startCoverArtLookup(station: Station, metadata: NowPlayingMetadata) {
+        val title = cleanITunesTrackComponent(metadata.title) ?: run {
+            resetCoverArtLookup()
+            PlaybackStateStore.update { current ->
+                if (current.station?.id != station.id) current
+                else current.copy(trackVerified = null, appleMusicUrl = null)
+            }
+            return
+        }
+        val artist = cleanMetadataComponent(metadata.artist)
+        val key = coverArtKey(station, artist, title) ?: return
+        if (key == coverArtKey) return
+
+        coverArtJob?.cancel()
+        coverArtKey = key
+        val sourceCoverUrl = metadata.coverUrl
+        val wantsCoverUpgrade = sourceCoverUrl == null || isLowResolutionCoverUrl(sourceCoverUrl)
+        PlaybackStateStore.update { current ->
+            if (current.station?.id != station.id) current
+            else current.copy(trackVerified = null, appleMusicUrl = null)
+        }
+        coverArtJob = serviceScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                coverArtFetcher.search(artist, title)
+            }
+            if (coverArtKey != key) return@launch
+            PlaybackStateStore.update { current ->
+                if (current.station?.id != station.id) {
+                    current
+                } else {
+                    current.copy(
+                        trackVerified = result.hit,
+                        appleMusicUrl = result.appleMusicUrl,
+                        coverUrl = if (wantsCoverUpgrade && result.coverUrl != null) {
+                            result.coverUrl
+                        } else {
+                            current.coverUrl
+                        },
+                    )
+                }
+            }
+        }
+    }
+
+    private fun resetCoverArtLookup() {
+        coverArtJob?.cancel()
+        coverArtJob = null
+        coverArtKey = ""
+    }
+
+    private fun coverArtKey(station: Station, artist: String?, title: String?): String? {
+        val cleanedTitle = cleanITunesTrackComponent(title) ?: return null
+        return "${station.id}|${cleanMetadataComponent(artist).orEmpty().lowercase()}|${cleanedTitle.lowercase()}"
     }
 
     private fun scheduleRetry(): Boolean {

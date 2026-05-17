@@ -22,11 +22,11 @@ language implementation.
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| Broadcaster fetchers | Reference proving ground. | Native parity for wired fetchers. | Planned native parity. |
+| Broadcaster fetchers | Reference proving ground. | Native parity for wired fetchers. | Partial; Grrif and ORF/FM4 are native. |
 | ICY metadata | Supported via fetch where CORS/proxy allows. | Supported through AV metadata and bounded fetch fallback. | Partial; basic ICY parser/fetcher exists. |
-| Program schedule | Supported for wired broadcasters. | Supported for wired broadcasters. | Planned. |
+| Program schedule | Supported for wired broadcasters. | Supported for wired broadcasters. | Partial; ORF current-program metadata exists, full schedule grids remain planned. |
 | Station logos | Supported. | Supported. | Partial; row/header rendering exists, full policy parity remains. |
-| Track cover art | Supported. | Supported. | Planned. |
+| Track cover art | Supported. | Supported. | Partial; broadcaster covers plus iTunes cover fallback are supported for fetched tracks. |
 | Lyrics lookup | Supported. | Planned/partial native parity. | Planned. |
 
 ## Privacy Rules
