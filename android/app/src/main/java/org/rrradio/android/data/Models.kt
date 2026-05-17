@@ -170,6 +170,8 @@ data class PlaybackUiState(
     val programName: String? = null,
     val programSubtitle: String? = null,
     val coverUrl: String? = null,
+    val trackVerified: Boolean? = null,
+    val appleMusicUrl: String? = null,
     val errorMessage: String? = null,
 )
 
@@ -180,4 +182,6 @@ data class NowPlayingMetadata(
     val programName: String? = null,
     val programSubtitle: String? = null,
     val coverUrl: String? = null,
+    val trackVerified: Boolean? = null,
+    val appleMusicUrl: String? = null,
 )

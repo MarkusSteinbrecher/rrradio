@@ -11,6 +11,7 @@ import org.rrradio.android.data.NowPlayingMetadata
 import org.rrradio.android.data.Station
 
 class MetadataPoller(
+    private val broadcasterFetcher: BroadcasterMetadataFetcher = BroadcasterMetadataFetcher(),
     private val icyFetcher: IcyMetadataFetcher = IcyMetadataFetcher(),
     private val intervalMillis: Long = 20_000,
 ) {
@@ -22,12 +23,18 @@ class MetadataPoller(
         onMetadata: (NowPlayingMetadata?) -> Unit,
     ) {
         stop()
-        if (!icyFetcher.supports(station)) return
+        if (!broadcasterFetcher.supports(station) && !icyFetcher.supports(station)) return
 
         job = scope.launch {
             while (isActive) {
                 val metadata = withContext(Dispatchers.IO) {
-                    runCatching { icyFetcher.fetch(station) }.getOrNull()
+                    runCatching {
+                        when {
+                            broadcasterFetcher.supports(station) -> broadcasterFetcher.fetch(station)
+                            icyFetcher.supports(station) -> icyFetcher.fetch(station)
+                            else -> null
+                        }
+                    }.getOrNull()
                 }
                 onMetadata(metadata)
                 delay(intervalMillis)
