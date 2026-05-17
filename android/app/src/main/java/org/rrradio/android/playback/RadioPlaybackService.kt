@@ -36,9 +36,12 @@ class RadioPlaybackService : MediaSessionService() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private val metadataPoller = MetadataPoller()
     private val coverArtFetcher = ITunesCoverArtFetcher()
+    private val streamUrlResolver = StreamUrlResolver()
     private lateinit var player: ExoPlayer
     private var session: MediaSession? = null
     private var activeQueue: List<Station> = emptyList()
+    private var preparePlaybackJob: Job? = null
+    private var preparePlaybackGeneration = 0L
     private var retryJob: Job? = null
     private var coverArtJob: Job? = null
     private var coverArtKey = ""
@@ -73,6 +76,7 @@ class RadioPlaybackService : MediaSessionService() {
     override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? = session
 
     override fun onDestroy() {
+        preparePlaybackJob?.cancel()
         retryJob?.cancel()
         resetCoverArtLookup()
         metadataPoller.stop()
@@ -89,22 +93,39 @@ class RadioPlaybackService : MediaSessionService() {
         val startIndex = playbackQueueStartIndex(activeQueue, station)
         setCurrentStation(station, PlayerState.Loading)
 
-        player.setMediaItems(activeQueue.map(::mediaItem), startIndex, C.TIME_UNSET)
-        player.prepare()
-        player.playWhenReady = true
-        startMetadataPolling(station)
+        preparePlayback(station, startIndex)
     }
 
-    private fun mediaItem(station: Station): MediaItem {
+    private fun mediaItem(station: Station, streamUrl: String = station.streamUrl): MediaItem {
         val metadata = MediaMetadata.Builder()
             .setTitle(station.displayName())
             .setArtist(station.country?.uppercase().orEmpty())
             .build()
         return MediaItem.Builder()
-            .setUri(station.streamUrl.toUri())
+            .setUri(streamUrl.toUri())
             .setMediaId(station.id)
             .setMediaMetadata(metadata)
             .build()
+    }
+
+    private fun preparePlayback(station: Station, startIndex: Int) {
+        preparePlaybackJob?.cancel()
+        val generation = ++preparePlaybackGeneration
+        preparePlaybackJob = serviceScope.launch {
+            val resolvedUrl = streamUrlResolver.resolve(station.streamUrl)
+            if (generation != preparePlaybackGeneration) return@launch
+
+            player.setMediaItems(
+                activeQueue.mapIndexed { index, queueStation ->
+                    mediaItem(queueStation, if (index == startIndex) resolvedUrl else queueStation.streamUrl)
+                },
+                startIndex,
+                C.TIME_UNSET,
+            )
+            player.prepare()
+            player.playWhenReady = true
+            startMetadataPolling(station)
+        }
     }
 
     private fun startMetadataPolling(station: Station) {
@@ -169,13 +190,12 @@ class RadioPlaybackService : MediaSessionService() {
         retryJob?.cancel()
         retryCount = 0
         setCurrentStation(station, PlayerState.Loading)
-        player.seekTo(targetIndex, C.TIME_UNSET)
-        player.prepare()
-        player.playWhenReady = true
-        startMetadataPolling(station)
+        preparePlayback(station, targetIndex)
     }
 
     private fun stopPlayback() {
+        preparePlaybackJob?.cancel()
+        preparePlaybackGeneration += 1
         retryJob?.cancel()
         resetCoverArtLookup()
         retryCount = 0
@@ -221,7 +241,11 @@ class RadioPlaybackService : MediaSessionService() {
                 station = station,
                 state = if (player.isPlaying) PlayerState.Playing else PlayerState.Loading,
             )
-            startMetadataPolling(station)
+            if (mediaItem?.localConfiguration?.uri?.toString()?.let(::shouldResolvePlaylistUrl) == true) {
+                preparePlayback(station, player.currentMediaItemIndex)
+            } else {
+                startMetadataPolling(station)
+            }
         }
 
         override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
@@ -306,7 +330,14 @@ class RadioPlaybackService : MediaSessionService() {
             val queue = activeQueue.takeIf { it.isNotEmpty() } ?: listOf(station)
             activeQueue = activePlaybackQueue(queue, station)
             val startIndex = playbackQueueStartIndex(activeQueue, station)
-            player.setMediaItems(activeQueue.map(::mediaItem), startIndex, C.TIME_UNSET)
+            val resolvedUrl = streamUrlResolver.resolve(station.streamUrl)
+            player.setMediaItems(
+                activeQueue.mapIndexed { index, queueStation ->
+                    mediaItem(queueStation, if (index == startIndex) resolvedUrl else queueStation.streamUrl)
+                },
+                startIndex,
+                C.TIME_UNSET,
+            )
             player.prepare()
             player.playWhenReady = true
             startMetadataPolling(station)
