@@ -38,7 +38,7 @@ The selected mode and the visible/order settings are user preferences.
 | Favorites tile/app views | Partial/current web behavior may differ. | Reference. | Supported; visible/order settings still need parity. |
 | Recents | Supported, capped. | Supported, capped. | Supported, capped. |
 | iCloud sync | Not planned. | Supported for favorites and order. | Not applicable. |
-| Manual file export/import | Supported. | Planned/optional. | Planned/optional. |
+| Manual file export/import | Supported. | Planned/optional. | Supported through Android library backup. |
 | Cross-platform sync | Not planned. | Not planned outside CloudKit. | Not planned for first port. |
 
 ## Persistence
@@ -46,7 +46,8 @@ The selected mode and the visible/order settings are user preferences.
 - Web persists favorites and recents in browser storage; favorites can be
   exported/imported through the manual backup file.
 - iOS persists locally and can sync favorites through CloudKit.
-- Android persists locally in DataStore.
+- Android persists locally in DataStore; favorites are included in the manual
+  Android backup file.
 - Recents remain local-only on every platform unless a future sync ADR changes
   that decision.
 - Android persists the selected Favorites display mode in DataStore and restores

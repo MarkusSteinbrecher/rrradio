@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.rrradio.android.data.AccentPreference
 import org.rrradio.android.data.AppThemePreference
+import org.rrradio.android.data.BrokenStationReporter
 import org.rrradio.android.data.BrowseStationSort
 import org.rrradio.android.data.CatalogLoadState
 import org.rrradio.android.data.CatalogRepository
@@ -20,6 +21,7 @@ import org.rrradio.android.data.CatalogState
 import org.rrradio.android.data.FavoritesDisplayMode
 import org.rrradio.android.data.LandingPagePreference
 import org.rrradio.android.data.LibraryRepository
+import org.rrradio.android.data.ListeningHistoryPreference
 import org.rrradio.android.data.PlaybackUiState
 import org.rrradio.android.data.PlayerState
 import org.rrradio.android.data.Station
@@ -69,6 +71,12 @@ data class RrradioUiState(
     val accentPreference: AccentPreference = AccentPreference.Classic,
     val landingPagePreference: LandingPagePreference = LandingPagePreference.Browse,
     val favoritesDisplayMode: FavoritesDisplayMode = FavoritesDisplayMode.List,
+    val listeningHistoryPreference: ListeningHistoryPreference = ListeningHistoryPreference.Off,
+    val listeningHistoryCount: Int = 0,
+    val diagnosticsEnabled: Boolean = false,
+    val diagnosticLogCount: Int = 0,
+    val isReportingBrokenStation: Boolean = false,
+    val brokenStationReportMessage: String? = null,
 ) {
     val allStations: List<Station>
         get() = customStations + catalog.browseOrdered
@@ -123,6 +131,7 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
     private val catalogRepository = CatalogRepository(application)
     private val libraryRepository = LibraryRepository(application)
     private val streamProbe = StreamProbe()
+    private val brokenStationReporter = BrokenStationReporter()
     private var sleepJob: Job? = null
     private var appliedLandingPagePreference = false
 
@@ -130,6 +139,9 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
     val uiState: StateFlow<RrradioUiState> = _uiState.asStateFlow()
 
     init {
+        viewModelScope.launch {
+            libraryRepository.ensureCurrentSchemaVersion()
+        }
         refreshCatalog()
         viewModelScope.launch {
             libraryRepository.favorites.collect { favorites ->
@@ -187,6 +199,26 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
             }
         }
         viewModelScope.launch {
+            libraryRepository.listeningHistoryPreference.collect { preference ->
+                _uiState.update { it.copy(listeningHistoryPreference = preference) }
+            }
+        }
+        viewModelScope.launch {
+            libraryRepository.listeningHistory.collect { history ->
+                _uiState.update { it.copy(listeningHistoryCount = history.size) }
+            }
+        }
+        viewModelScope.launch {
+            libraryRepository.diagnosticsEnabled.collect { enabled ->
+                _uiState.update { it.copy(diagnosticsEnabled = enabled) }
+            }
+        }
+        viewModelScope.launch {
+            libraryRepository.diagnosticLog.collect { log ->
+                _uiState.update { it.copy(diagnosticLogCount = log.size) }
+            }
+        }
+        viewModelScope.launch {
             PlaybackStateStore.state.collect { playback ->
                 _uiState.update { it.copy(playback = playback) }
             }
@@ -202,7 +234,11 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
                     it.copy(catalog = CatalogState(stations = cached, loadState = CatalogLoadState.Loaded))
                 }
             }
-            _uiState.update { it.copy(catalog = catalogRepository.load()) }
+            val loaded = catalogRepository.load()
+            _uiState.update { it.copy(catalog = loaded) }
+            if (loaded.loadState == CatalogLoadState.Failed) {
+                libraryRepository.recordDiagnostic("network", "catalog load failed")
+            }
         }
     }
 
@@ -411,11 +447,72 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch { libraryRepository.setSleepDefaultMinutes(minutes) }
     }
 
+    fun setListeningHistoryPreference(preference: ListeningHistoryPreference) {
+        viewModelScope.launch {
+            libraryRepository.setListeningHistoryPreference(preference)
+            libraryRepository.recordDiagnostic("persistence", "history preference changed")
+        }
+    }
+
+    fun clearListeningHistory() {
+        viewModelScope.launch {
+            libraryRepository.clearListeningHistory()
+            libraryRepository.recordDiagnostic("persistence", "listening history cleared")
+        }
+    }
+
+    fun setDiagnosticsEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            libraryRepository.setDiagnosticsEnabled(enabled)
+            if (enabled) {
+                libraryRepository.recordDiagnostic("diagnostics", "diagnostics enabled")
+            }
+        }
+    }
+
+    fun clearDiagnostics() {
+        viewModelScope.launch { libraryRepository.clearDiagnostics() }
+    }
+
+    fun exportLibraryBackup(onReady: (String) -> Unit, onError: (String) -> Unit) {
+        viewModelScope.launch {
+            runCatching { libraryRepository.exportLibraryBackup() }
+                .onSuccess { backup ->
+                    libraryRepository.recordDiagnostic("persistence", "backup exported")
+                    onReady(backup)
+                }
+                .onFailure { onError("Could not prepare backup.") }
+        }
+    }
+
+    fun importLibraryBackup(raw: String, onResult: (String) -> Unit) {
+        viewModelScope.launch {
+            runCatching { libraryRepository.importLibraryBackup(raw) }
+                .onSuccess { result ->
+                    libraryRepository.recordDiagnostic("persistence", "backup imported")
+                    onResult(result.summary)
+                }
+                .onFailure { onResult("Could not import that backup file.") }
+        }
+    }
+
+    fun exportDiagnostics(onReady: (String) -> Unit, onError: (String) -> Unit) {
+        viewModelScope.launch {
+            runCatching { libraryRepository.exportDiagnostics() }
+                .onSuccess { onReady(it) }
+                .onFailure { onError("Could not prepare diagnostics.") }
+        }
+    }
+
     fun play(station: Station) {
         val context = getApplication<Application>()
         val queue = activePlaybackQueue(uiState.value.visibleStations, station)
         context.startService(RadioPlaybackService.playIntent(context, station, queue))
-        viewModelScope.launch { libraryRepository.pushRecent(station) }
+        viewModelScope.launch {
+            libraryRepository.pushRecent(station)
+            libraryRepository.recordStationHistory(station)
+            libraryRepository.recordDiagnostic("playback", "play requested")
+        }
     }
 
     fun togglePlayback() {
@@ -460,9 +557,13 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
                     StreamProbeResult.Playable -> {
                         libraryRepository.addCustom(station)
                         libraryRepository.addFavorite(station)
+                        libraryRepository.recordDiagnostic("persistence", "custom station saved")
                         onSaved()
                     }
-                    is StreamProbeResult.Failed -> onError(result.message)
+                    is StreamProbeResult.Failed -> {
+                        libraryRepository.recordDiagnostic("playback", "custom station probe failed")
+                        onError(result.message)
+                    }
                 }
             } catch (error: IllegalArgumentException) {
                 onError(error.message ?: "Invalid station")
@@ -472,6 +573,42 @@ class RrradioViewModel(application: Application) : AndroidViewModel(application)
 
     fun removeCustom(station: Station) {
         viewModelScope.launch { libraryRepository.removeCustom(station.id) }
+    }
+
+    fun reportBrokenStation(station: Station) {
+        if (uiState.value.isReportingBrokenStation) return
+        val reason = uiState.value.playback.errorMessage.orEmpty()
+        _uiState.update {
+            it.copy(
+                isReportingBrokenStation = true,
+                brokenStationReportMessage = null,
+            )
+        }
+        viewModelScope.launch {
+            runCatching { brokenStationReporter.report(station, reason) }
+                .onSuccess {
+                    libraryRepository.recordDiagnostic("report", "broken station report sent")
+                    _uiState.update {
+                        it.copy(
+                            isReportingBrokenStation = false,
+                            brokenStationReportMessage = "Broken-station report sent.",
+                        )
+                    }
+                }
+                .onFailure {
+                    libraryRepository.recordDiagnostic("report", "broken station report failed")
+                    _uiState.update {
+                        it.copy(
+                            isReportingBrokenStation = false,
+                            brokenStationReportMessage = "Could not send report. Try again later.",
+                        )
+                    }
+                }
+        }
+    }
+
+    fun clearBrokenStationReportMessage() {
+        _uiState.update { it.copy(brokenStationReportMessage = null) }
     }
 
     fun cycleSleepTimer() {
