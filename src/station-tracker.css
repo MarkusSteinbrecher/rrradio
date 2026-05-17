@@ -490,6 +490,47 @@ h1 {
   padding: 0 10px;
 }
 
+.matrix-cols th[data-sort-key] {
+  cursor: pointer;
+  user-select: none;
+}
+
+.matrix-cols th[data-sort-key]:hover {
+  color: var(--ink-2);
+}
+
+/* Caret after the label. Reserves space so column width doesn't jump when
+ * sort engages; renders the active asc/desc glyph via aria-sort. */
+.matrix-cols th[data-sort-key]::after {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  margin-left: 6px;
+  opacity: 0.35;
+}
+
+.matrix-cols th[data-sort-key]:hover::after {
+  content: "▴";
+  opacity: 0.55;
+}
+
+.matrix-cols th[aria-sort="ascending"]::after {
+  content: "▴";
+  color: var(--accent);
+  opacity: 1;
+}
+
+.matrix-cols th[aria-sort="descending"]::after {
+  content: "▾";
+  color: var(--accent);
+  opacity: 1;
+}
+
+.matrix-cols th[aria-sort="ascending"],
+.matrix-cols th[aria-sort="descending"] {
+  color: var(--ink);
+}
+
 .matrix td {
   padding: 8px 10px;
   border-bottom: 1px solid var(--line);
