@@ -290,6 +290,7 @@ struct StationListView: View {
     private let libraryPageDotSize: CGFloat = 3.5
     private let libraryPageDotSpacing: CGFloat = 4
     private let libraryPageDotTitleSpacing: CGFloat = 8
+    private let libraryPageTitleMinimumWidth: CGFloat = 72
     private let sortSideColumnWidth: CGFloat = 98
     // Centers the Browse list-selection icon above the standard row artwork.
     private let sortListSelectionControlLeadingSpacerWidth: CGFloat = 19
@@ -1421,24 +1422,40 @@ struct StationListView: View {
     private func libraryPageStatus(for selection: LibraryListSelection) -> some View {
         let pageIndex = librarySelections.firstIndex(of: selection) ?? 0
         let trailingDotCount = max(librarySelections.count - pageIndex - 1, 0)
-        return Text(librarySelectionTitle(selection))
-            .font(.system(size: 10, weight: .medium, design: .monospaced))
-            .textCase(.uppercase)
-            .tracking(1.5)
-            .lineLimit(1)
-            .minimumScaleFactor(0.75)
-            .foregroundStyle(RrradioTheme.ink3)
-            .overlay(alignment: .leading) {
-                libraryPageDots(count: pageIndex)
-                    .offset(x: -libraryPageDotsWidth(count: pageIndex) - libraryPageDotTitleSpacing)
+        let title = librarySelectionTitle(selection)
+        return GeometryReader { proxy in
+            let maxDotsWidth = max(libraryPageDotsWidth(count: pageIndex), libraryPageDotsWidth(count: trailingDotCount))
+            let reservedSideChromeWidth = (topbarControlSize + topbarControlSpacing) * 2
+            let reservedDotsWidth = (maxDotsWidth + libraryPageDotTitleSpacing) * 2
+            let titleWidth = max(
+                libraryPageTitleMinimumWidth,
+                proxy.size.width - reservedSideChromeWidth - reservedDotsWidth,
+            )
+
+            ZStack {
+                Text(title)
+                    .font(.system(size: 10, weight: .medium, design: .monospaced))
+                    .textCase(.uppercase)
+                    .tracking(1.5)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+                    .minimumScaleFactor(0.75)
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .frame(maxWidth: titleWidth, alignment: .center)
+                    .overlay(alignment: .leading) {
+                        libraryPageDots(count: pageIndex)
+                            .offset(x: -libraryPageDotsWidth(count: pageIndex) - libraryPageDotTitleSpacing)
+                    }
+                    .overlay(alignment: .trailing) {
+                        libraryPageDots(count: trailingDotCount)
+                            .offset(x: libraryPageDotsWidth(count: trailingDotCount) + libraryPageDotTitleSpacing)
+                    }
             }
-            .overlay(alignment: .trailing) {
-                libraryPageDots(count: trailingDotCount)
-                    .offset(x: libraryPageDotsWidth(count: trailingDotCount) + libraryPageDotTitleSpacing)
-            }
+            .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
+        }
             .frame(maxWidth: .infinity, minHeight: 20, alignment: .center)
             .accessibilityElement(children: .ignore)
-            .accessibilityLabel("\(librarySelectionTitle(selection)), page \(pageIndex + 1) of \(librarySelections.count)")
+            .accessibilityLabel("\(title), page \(pageIndex + 1) of \(librarySelections.count)")
     }
 
     private func libraryPageDots(count: Int) -> some View {
