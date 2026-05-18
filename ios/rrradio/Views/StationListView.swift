@@ -3862,7 +3862,6 @@ struct StationListView: View {
               destination != sourceIndex + 1 else { return false }
 
         filterTask?.cancel()
-        favoriteDeleteModeEnabled = false
 
         var ordered = filteredStations
         // Spring instead of easeInOut: drag-hover fires many moves per
