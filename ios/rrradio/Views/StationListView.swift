@@ -282,7 +282,10 @@ struct StationListView: View {
     private let favoriteRemoveControlTrailingInset: CGFloat = 20
     private let stationHeaderTopPadding: CGFloat = 6
     private let stationHeaderStackSpacing: CGFloat = 6
-    private let libraryHeaderRuleTopPadding: CGFloat = 8
+    private let libraryHeaderRuleTopPadding: CGFloat = 0
+    private let libraryPageDotSize: CGFloat = 3.5
+    private let libraryPageDotSpacing: CGFloat = 4
+    private let libraryPageDotTitleSpacing: CGFloat = 8
     private let sortSideColumnWidth: CGFloat = 98
     // Centers the Browse list-selection icon above the standard row artwork.
     private let sortListSelectionControlLeadingSpacerWidth: CGFloat = 19
@@ -1391,7 +1394,7 @@ struct StationListView: View {
                 libraryPreviewStatus(for: selection)
                 HStack {
                     if libraryPreviewShowsPagesIcon(for: selection) {
-                        libraryPreviewActionIcon("house")
+                        libraryPreviewActionIcon("arrow.left")
                     }
                     Spacer()
                     if let systemImage = libraryPreviewTrailingActionIcon(for: selection) {
@@ -1416,21 +1419,47 @@ struct StationListView: View {
     }
 
     private func libraryPreviewStatus(for selection: LibraryListSelection) -> some View {
-        HStack(spacing: 8) {
-            Text(librarySelectionTitle(selection))
-                .foregroundStyle(RrradioTheme.ink3)
-            Text(".")
-                .foregroundStyle(RrradioTheme.ink4)
-            Text("\(librarySelectionCount(selection))")
-                .foregroundStyle(RrradioTheme.ink4)
+        libraryPageStatus(for: selection)
+    }
+
+    private func libraryPageStatus(for selection: LibraryListSelection) -> some View {
+        let pageIndex = librarySelections.firstIndex(of: selection) ?? 0
+        let trailingDotCount = max(librarySelections.count - pageIndex - 1, 0)
+        return Text(librarySelectionTitle(selection))
+            .font(.system(size: 10, weight: .medium, design: .monospaced))
+            .textCase(.uppercase)
+            .tracking(1.5)
+            .lineLimit(1)
+            .minimumScaleFactor(0.75)
+            .foregroundStyle(RrradioTheme.ink3)
+            .overlay(alignment: .leading) {
+                libraryPageDots(count: pageIndex)
+                    .offset(x: -libraryPageDotsWidth(count: pageIndex) - libraryPageDotTitleSpacing)
+            }
+            .overlay(alignment: .trailing) {
+                libraryPageDots(count: trailingDotCount)
+                    .offset(x: libraryPageDotsWidth(count: trailingDotCount) + libraryPageDotTitleSpacing)
+            }
+            .frame(maxWidth: .infinity, minHeight: 20, alignment: .center)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel("\(librarySelectionTitle(selection)), page \(pageIndex + 1) of \(librarySelections.count)")
+    }
+
+    private func libraryPageDots(count: Int) -> some View {
+        HStack(spacing: libraryPageDotSpacing) {
+            ForEach(0..<count, id: \.self) { _ in
+                Circle()
+                    .fill(RrradioTheme.ink4)
+                    .frame(width: libraryPageDotSize, height: libraryPageDotSize)
+                    .accessibilityHidden(true)
+            }
         }
-        .font(.system(size: 10, weight: .medium, design: .monospaced))
-        .textCase(.uppercase)
-        .tracking(1.5)
-        .lineLimit(1)
-        .minimumScaleFactor(0.75)
-        .foregroundStyle(RrradioTheme.ink3)
-        .frame(maxWidth: .infinity, minHeight: 20, alignment: .center)
+        .frame(width: libraryPageDotsWidth(count: count), height: 8)
+    }
+
+    private func libraryPageDotsWidth(count: Int) -> CGFloat {
+        guard count > 0 else { return 0 }
+        return CGFloat(count) * libraryPageDotSize + CGFloat(count - 1) * libraryPageDotSpacing
     }
 
     private func libraryPreviewActionIcon(_ systemName: String) -> some View {
@@ -1445,7 +1474,7 @@ struct StationListView: View {
         Button {
             setLibrarySelection(.home)
         } label: {
-            Image(systemName: "house")
+            Image(systemName: "arrow.left")
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundStyle(RrradioTheme.ink3)
                 .frame(width: topbarControlSize, height: topbarControlSize)
@@ -1922,23 +1951,29 @@ struct StationListView: View {
     }
 
     private var sectionStatus: some View {
-        HStack(spacing: 8) {
-            if showsStatusLabel {
-                Text(statusLabel)
-                    .foregroundStyle(statusLabelColor)
-                Text(".")
-                    .foregroundStyle(RrradioTheme.ink4)
+        Group {
+            if isLibraryPage {
+                libraryPageStatus(for: librarySelection)
+            } else {
+                HStack(spacing: 8) {
+                    if showsStatusLabel {
+                        Text(statusLabel)
+                            .foregroundStyle(statusLabelColor)
+                        Text(".")
+                            .foregroundStyle(RrradioTheme.ink4)
+                    }
+                    Text(statusCountLabel)
+                        .foregroundStyle(showsStatusLabel ? RrradioTheme.ink4 : RrradioTheme.ink3)
+                }
+                .font(.system(size: 10, weight: .medium, design: .monospaced))
+                .textCase(.uppercase)
+                .tracking(1.5)
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
+                .foregroundStyle(RrradioTheme.ink3)
+                .frame(maxWidth: .infinity, minHeight: 20, alignment: .center)
             }
-            Text(statusCountLabel)
-                .foregroundStyle(showsStatusLabel ? RrradioTheme.ink4 : RrradioTheme.ink3)
         }
-        .font(.system(size: 10, weight: .medium, design: .monospaced))
-        .textCase(.uppercase)
-        .tracking(1.5)
-        .lineLimit(1)
-        .minimumScaleFactor(0.75)
-        .foregroundStyle(RrradioTheme.ink3)
-        .frame(maxWidth: .infinity, minHeight: 20, alignment: .center)
     }
 
     private var statusToolbar: some View {
@@ -2275,7 +2310,7 @@ struct StationListView: View {
     }
 
     private func libraryDisplayMode(for selection: LibraryListSelection) -> FavoritesDisplayMode {
-        selection == .favorites ? favoritesDisplayMode : .list
+        selection == .home ? .list : favoritesDisplayMode
     }
 
     private func libraryPreviewStations(for selection: LibraryListSelection) -> [Station] {
@@ -2378,7 +2413,7 @@ struct StationListView: View {
                         ForEach(stations) { station in
                             FavoriteStationTile(
                                 station: station,
-                                nowPlaying: favoriteNowPlaying.entries[station.id]?.metadata,
+                                nowPlaying: favoriteNowPlayingMetadata(for: station),
                                 isCurrent: player.current?.id == station.id,
                                 isPlaying: player.current?.id == station.id && player.state == .playing,
                                 isCustom: library.isCustom(station),
@@ -2432,25 +2467,8 @@ struct StationListView: View {
     }
 
     @ViewBuilder
-    private func libraryPreviewStationRow(_ station: Station, selection: LibraryListSelection) -> some View {
-        if selection == .favorites {
-            favoriteListRow(station)
-        } else {
-            StationRow(
-                station: station,
-                nowPlaying: nil,
-                mode: .standard,
-                isCurrent: player.current?.id == station.id,
-                isPlaying: player.current?.id == station.id && player.state == .playing,
-                isFavorite: library.isFavorite(station),
-                isCustom: library.isCustom(station),
-                onPlay: {},
-                onToggleFavorite: {},
-                showsFavoriteButton: true,
-                showsStreamQualityButton: true,
-                onInfoHoldChanged: nil,
-            )
-        }
+    private func libraryPreviewStationRow(_ station: Station, selection _: LibraryListSelection) -> some View {
+        libraryCardRow(station, allowsPlayback: false, allowsDeleteControls: false)
     }
 
     @ViewBuilder
@@ -2458,11 +2476,7 @@ struct StationListView: View {
         Group {
             switch mode {
             case .list:
-                if isFavoritesPage {
-                    sortableFavoritesList
-                } else {
-                    stationScrollList
-                }
+                libraryCardList
             case .tiles:
                 favoritesTileGrid
             case .app:
@@ -2840,7 +2854,7 @@ struct StationListView: View {
             }
     }
 
-    private var sortableFavoritesList: some View {
+    private var libraryCardList: some View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 0) {
                 ScrollOffsetObserver(offset: $listScrollOffset)
@@ -2851,7 +2865,7 @@ struct StationListView: View {
 
                     Section {
                         ForEach(Array(visibleStations.enumerated()), id: \.element.id) { index, station in
-                            favoriteListSortableRow(station)
+                            libraryCardListRow(station)
                                 .padding(.top, index == 0 ? stationHeaderStackSpacing : 0)
                         }
 
@@ -2865,7 +2879,7 @@ struct StationListView: View {
                 .padding(.top, stationHeaderTopPadding)
                 .padding(.bottom, 12)
                 .background {
-                    favoriteDeleteModeDismissBackground
+                    libraryDeleteModeDismissBackground
                 }
             }
         }
@@ -2876,9 +2890,9 @@ struct StationListView: View {
     }
 
     @ViewBuilder
-    private func favoriteListSortableRow(_ station: Station) -> some View {
+    private func libraryCardListRow(_ station: Station) -> some View {
         if canReorderFavorites {
-            favoriteListRow(station)
+            libraryCardRow(station)
                 .onDrag {
                     favoriteGridDragProvider(for: station)
                 }
@@ -2896,12 +2910,20 @@ struct StationListView: View {
                 )
                 .accessibilityHint(favoriteDeleteModeEnabled ? "Tap outside remove buttons to exit remove mode" : "Drag to reorder favorites")
         } else {
-            favoriteListRow(station)
+            libraryCardRow(station)
         }
     }
 
-    private func favoriteListRow(_ station: Station) -> some View {
-        ZStack(alignment: .trailing) {
+    private func libraryCardRow(
+        _ station: Station,
+        allowsPlayback: Bool = true,
+        allowsDeleteControls: Bool = true,
+    ) -> some View {
+        let showsFavoriteRemove = allowsDeleteControls && isFavoritesPage && favoriteDeleteModeEnabled
+        let showsStationListRemove = allowsDeleteControls && isStationListStationDeleteMode
+        let showsRemoveControl = showsFavoriteRemove || showsStationListRemove
+
+        return ZStack(alignment: .trailing) {
             HStack(spacing: 0) {
                 StationRow(
                     station: station,
@@ -2909,11 +2931,14 @@ struct StationListView: View {
                     mode: .favoritesListCard,
                     isCurrent: player.current?.id == station.id,
                     isPlaying: player.current?.id == station.id && player.state == .playing,
-                    isFavorite: true,
+                    isFavorite: library.isFavorite(station),
                     isCustom: library.isCustom(station),
                     onPlay: {
-                        if favoriteDeleteModeEnabled {
+                        guard allowsPlayback else { return }
+                        if showsFavoriteRemove {
                             hideFavoriteDeleteMode()
+                        } else if showsStationListRemove {
+                            hideStationListDeleteMode()
                         } else {
                             play(station)
                         }
@@ -2923,27 +2948,34 @@ struct StationListView: View {
                 )
                 .frame(maxWidth: .infinity)
 
-                if favoriteDeleteModeEnabled {
+                if showsRemoveControl {
                     Color.clear
                         .frame(width: favoriteRemoveControlSlotWidth)
                         .accessibilityHidden(true)
                 }
             }
 
-            if favoriteDeleteModeEnabled {
+            if showsFavoriteRemove {
                 favoriteDeleteButton(station)
+                    .padding(.trailing, favoriteRemoveControlTrailingInset)
+                    .transition(.scale(scale: 0.82).combined(with: .opacity))
+            } else if showsStationListRemove {
+                stationListStationDeleteButton(station)
                     .padding(.trailing, favoriteRemoveControlTrailingInset)
                     .transition(.scale(scale: 0.82).combined(with: .opacity))
             }
         }
         .animation(.snappy(duration: 0.16), value: favoriteDeleteModeEnabled)
+        .animation(.snappy(duration: 0.16), value: stationListDeleteModeEnabled)
         .contentShape(Rectangle())
         .onTapGesture {
-            if favoriteDeleteModeEnabled {
+            if showsFavoriteRemove {
                 hideFavoriteDeleteMode()
+            } else if showsStationListRemove {
+                hideStationListDeleteMode()
             }
         }
-        .accessibilityHint(favoriteDeleteModeEnabled ? "Tap outside remove buttons to exit remove mode" : "")
+        .accessibilityHint(showsRemoveControl ? "Tap outside remove buttons to exit remove mode" : "")
     }
 
     private var favoritesTileGrid: some View {
@@ -2967,7 +2999,7 @@ struct StationListView: View {
                                 ) {
                                     FavoriteStationTile(
                                         station: station,
-                                        nowPlaying: favoriteNowPlaying.entries[station.id]?.metadata,
+                                        nowPlaying: favoriteNowPlayingMetadata(for: station),
                                         isCurrent: player.current?.id == station.id,
                                         isPlaying: player.current?.id == station.id && player.state == .playing,
                                         isCustom: library.isCustom(station),
@@ -2997,7 +3029,7 @@ struct StationListView: View {
                 .padding(.top, stationHeaderTopPadding)
                 .padding(.bottom, 16)
                 .background {
-                    favoriteDeleteModeDismissBackground
+                    libraryDeleteModeDismissBackground
                 }
             }
         }
@@ -3059,7 +3091,7 @@ struct StationListView: View {
                 .padding(.top, stationHeaderTopPadding)
                 .padding(.bottom, 18)
                 .background {
-                    favoriteDeleteModeDismissBackground
+                    libraryDeleteModeDismissBackground
                 }
             }
         }
@@ -3071,12 +3103,13 @@ struct StationListView: View {
     }
 
     @ViewBuilder
-    private var favoriteDeleteModeDismissBackground: some View {
-        if favoriteDeleteModeEnabled {
+    private var libraryDeleteModeDismissBackground: some View {
+        if favoriteDeleteModeEnabled || stationListDeleteModeEnabled {
             Color.clear
                 .contentShape(Rectangle())
                 .onTapGesture {
                     hideFavoriteDeleteMode()
+                    hideStationListDeleteMode()
                 }
         }
     }
@@ -3088,7 +3121,20 @@ struct StationListView: View {
         dropBehavior: FavoriteGridDropBehavior = .horizontalSplit,
         @ViewBuilder content: () -> Content,
     ) -> some View {
-        if canReorderFavorites {
+        if isStationListStationDeleteMode {
+            ZStack(alignment: .topTrailing) {
+                content()
+
+                stationListGridDeleteBadge(station)
+                    .offset(x: 10, y: -10)
+            }
+            .contentShape(Rectangle())
+            .onTapGesture {
+                hideStationListDeleteMode()
+            }
+            .accessibilityAddTraits(.isButton)
+            .accessibilityHint("Tap outside remove buttons to exit remove mode")
+        } else if canReorderFavorites {
             // Only hide the source AFTER the first reorder move has
             // registered — `lastFavoriteDropMoveAt != nil` confirms
             // some drop machinery actually fired. The earlier
@@ -3305,6 +3351,23 @@ struct StationListView: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel("Remove from favorites")
+        .transition(.scale(scale: 0.82).combined(with: .opacity))
+    }
+
+    private func stationListGridDeleteBadge(_ station: Station) -> some View {
+        Button {
+            removeStationFromSelectedList(station)
+        } label: {
+            Image(systemName: "minus.circle.fill")
+                .symbolRenderingMode(.palette)
+                .foregroundStyle(.black, .white)
+                .font(.system(size: 24, weight: .regular))
+                .shadow(color: .black.opacity(0.30), radius: 1.5, x: 0, y: 1)
+                .frame(width: 32, height: 32)
+                .contentShape(Circle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Remove \(station.name) from list")
         .transition(.scale(scale: 0.82).combined(with: .opacity))
     }
 
@@ -3802,13 +3865,23 @@ struct StationListView: View {
     }
 
     private func updateFavoriteNowPlayingPolling() {
-        guard isFavoritesPage,
+        guard isLibraryPage,
+              !isLibraryHome,
               !showingFavoritesCatalogFallback,
               favoritesDisplayMode != .app else {
             favoriteNowPlaying.stop()
             return
         }
-        favoriteNowPlaying.start(stations: library.favorites)
+        switch librarySelection {
+        case .home:
+            favoriteNowPlaying.stop()
+        case .favorites:
+            favoriteNowPlaying.start(stations: library.favorites)
+        case .recents:
+            favoriteNowPlaying.start(stations: library.recents)
+        case .stationList(let id):
+            favoriteNowPlaying.start(stations: library.stationList(id: id)?.stations ?? [])
+        }
     }
 
     private var loadMoreRow: some View {
