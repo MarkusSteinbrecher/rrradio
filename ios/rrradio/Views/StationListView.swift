@@ -1467,26 +1467,23 @@ struct StationListView: View {
                 proxy.size.width - reservedSideChromeWidth,
             )
             let titleWidth = max(
-                libraryPageTitleMinimumWidth,
+                1,
                 availableClusterWidth - reservedDotsWidth,
             )
 
-            HStack(spacing: libraryPageDotTitleSpacing) {
-                if pageIndex > 0 {
-                    libraryPageDots(count: pageIndex)
-                }
-                Text(title)
-                    .font(.system(size: 10, weight: .medium, design: .monospaced))
-                    .textCase(.uppercase)
-                    .tracking(1.5)
-                    .lineLimit(1)
-                    .truncationMode(.middle)
-                    .minimumScaleFactor(0.75)
-                    .foregroundStyle(RrradioTheme.ink3)
-                    .frame(maxWidth: titleWidth, alignment: .center)
-                if trailingDotCount > 0 {
-                    libraryPageDots(count: trailingDotCount)
-                }
+            ViewThatFits(in: .horizontal) {
+                libraryPageStatusCluster(
+                    title: title,
+                    leadingDotCount: pageIndex,
+                    trailingDotCount: trailingDotCount,
+                    titleWidth: nil,
+                )
+                libraryPageStatusCluster(
+                    title: title,
+                    leadingDotCount: pageIndex,
+                    trailingDotCount: trailingDotCount,
+                    titleWidth: titleWidth,
+                )
             }
             .frame(maxWidth: availableClusterWidth, alignment: .center)
             .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
@@ -1494,6 +1491,36 @@ struct StationListView: View {
             .frame(maxWidth: .infinity, minHeight: 20, alignment: .center)
             .accessibilityElement(children: .ignore)
             .accessibilityLabel("\(title), page \(pageIndex + 1) of \(librarySelections.count)")
+    }
+
+    private func libraryPageStatusCluster(
+        title: String,
+        leadingDotCount: Int,
+        trailingDotCount: Int,
+        titleWidth: CGFloat?,
+    ) -> some View {
+        HStack(spacing: libraryPageDotTitleSpacing) {
+            if leadingDotCount > 0 {
+                libraryPageDots(count: leadingDotCount)
+            }
+            libraryPageTitle(title)
+                .fixedSize(horizontal: titleWidth == nil, vertical: false)
+                .frame(width: titleWidth, alignment: .center)
+            if trailingDotCount > 0 {
+                libraryPageDots(count: trailingDotCount)
+            }
+        }
+    }
+
+    private func libraryPageTitle(_ title: String) -> some View {
+        Text(title)
+            .font(.system(size: 10, weight: .medium, design: .monospaced))
+            .textCase(.uppercase)
+            .tracking(1.5)
+            .lineLimit(1)
+            .truncationMode(.middle)
+            .minimumScaleFactor(0.75)
+            .foregroundStyle(RrradioTheme.ink3)
     }
 
     private func libraryPageDots(count: Int) -> some View {
