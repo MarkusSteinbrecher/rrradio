@@ -3067,6 +3067,14 @@ struct StationListView: View {
                     .padding(.bottom, 16)
                 }
                 .frame(maxWidth: .infinity, minHeight: proxy.size.height, alignment: .top)
+                .onDrop(
+                    of: [UTType.plainText],
+                    delegate: FavoriteGridDropResetDelegate(
+                        draggedStationID: $draggedFavoriteStationID,
+                        targetedStationID: $targetedFavoriteStationID,
+                        lastMoveAt: $lastFavoriteDropMoveAt,
+                    ),
+                )
                 .background {
                     libraryDeleteModeDismissBackground
                 }
@@ -3132,6 +3140,14 @@ struct StationListView: View {
                     .padding(.bottom, 18)
                 }
                 .frame(maxWidth: .infinity, minHeight: proxy.size.height, alignment: .top)
+                .onDrop(
+                    of: [UTType.plainText],
+                    delegate: FavoriteGridDropResetDelegate(
+                        draggedStationID: $draggedFavoriteStationID,
+                        targetedStationID: $targetedFavoriteStationID,
+                        lastMoveAt: $lastFavoriteDropMoveAt,
+                    ),
+                )
                 .background {
                     libraryDeleteModeDismissBackground
                 }
