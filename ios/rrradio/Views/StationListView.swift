@@ -2989,7 +2989,7 @@ struct StationListView: View {
             }
 
             if showsFavoriteRemove {
-                favoriteDeleteButton(station)
+                favoriteDeleteBadge(station)
                     .padding(.trailing, favoriteRemoveControlTrailingInset)
                     .transition(.scale(scale: 0.82).combined(with: .opacity))
             } else if showsStationListRemove {
@@ -3036,6 +3036,7 @@ struct StationListView: View {
                                     ForEach(visibleStations) { station in
                                         favoriteGridItem(
                                             station: station,
+                                            jiggleEnabled: false,
                                             dropBehavior: .targetSlot,
                                         ) {
                                             FavoriteStationTile(
@@ -3182,6 +3183,7 @@ struct StationListView: View {
     private func favoriteGridItem<Content: View>(
         station: Station,
         dragSource: FavoriteGridDragSource = .item,
+        jiggleEnabled: Bool = true,
         dropBehavior: FavoriteGridDropBehavior = .horizontalSplit,
         @ViewBuilder content: () -> Content,
     ) -> some View {
@@ -3219,12 +3221,12 @@ struct StationListView: View {
             // SpringBoard-style jiggle while the user is in delete mode.
             // Per-station seed gives each tile a slightly different
             // oscillation period so adjacent tiles don't beat in unison.
-            let isJiggling = favoriteDeleteModeEnabled
+            let isJiggling = jiggleEnabled && favoriteDeleteModeEnabled
             let item = ZStack(alignment: .topTrailing) {
                 content()
 
                 if showsDeleteButton {
-                    favoriteGridDeleteBadge(station)
+                    favoriteDeleteBadge(station)
                         .allowsHitTesting(draggedFavoriteStationID == nil)
                         // Offset so the badge straddles the icon's
                         // top-trailing corner instead of sitting
@@ -3377,27 +3379,12 @@ struct StationListView: View {
         }
     }
 
-    private func favoriteDeleteButton(_ station: Station) -> some View {
-        Button {
-            removeFavoriteFromGrid(station)
-        } label: {
-            Image(systemName: "minus.circle")
-                .font(.system(size: 14, weight: .semibold))
-                .foregroundStyle(RrradioTheme.ink3)
-                .frame(width: topbarControlSize, height: topbarControlSize)
-                .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel("Remove from favorites")
-        .transition(.scale(scale: 0.82).combined(with: .opacity))
-    }
-
-    /// iPhone-Home-style minus badge for the tile + app grids. White
-    /// circle, black minus, thin shadow for contrast against bright
-    /// favicons. Sized at ~24pt and positioned to overlap the icon's
-    /// top-trailing corner — same affordance as iOS edit mode, instead
-    /// of the tiny in-bounds button the previous grid code used.
-    private func favoriteGridDeleteBadge(_ station: Station) -> some View {
+    /// iPhone-Home-style minus badge for Favorites list, tile, and app
+    /// views. White circle, black minus, thin shadow for contrast
+    /// against bright favicons. Sized at ~24pt and positioned to
+    /// overlap grid icons, while list rows use it as the trailing
+    /// remove control.
+    private func favoriteDeleteBadge(_ station: Station) -> some View {
         Button {
             removeFavoriteFromGrid(station)
         } label: {
