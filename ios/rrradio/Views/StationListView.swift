@@ -399,7 +399,13 @@ struct StationListView: View {
         LibraryListSelection.orderedSelections(for: library.stationLists)
     }
     private var filterOptionStations: [Station] {
-        isFavoritesPage ? library.favorites : allStations
+        if isLibraryHome {
+            return libraryHomeFilterStations
+        }
+        return isFavoritesPage ? library.favorites : allStations
+    }
+    private var libraryHomeFilterStations: [Station] {
+        Self.uniqueStations(library.recents + library.favorites + library.stationLists.flatMap(\.stations))
     }
     private var countries: [String] { availableCountries(from: filterOptionStations) }
     private var filteredCountries: [String] {
@@ -552,10 +558,11 @@ struct StationListView: View {
         !selectedGenreIDs.isEmpty || !selectedCountryCodes.isEmpty || newsFilterSelected
     }
     private var hasActiveFiltersForCurrentSource: Bool {
-        ((pageTab == .browse && source == .all) || isFavoritesPage) && hasActiveFilters
+        ((pageTab == .browse && source == .all) || isFavoritesPage || isLibraryHome) && hasActiveFilters
     }
     private var hasActiveBrowseFilter: Bool {
-        pageTab == .browse && (source == .recents || hasActiveFilters)
+        (pageTab == .browse && (source == .recents || hasActiveFilters))
+            || (isLibraryHome && hasActiveFilters)
     }
     private var canUseBrowseListSelection: Bool {
         pageTab == .browse && source == .all
@@ -608,24 +615,50 @@ struct StationListView: View {
     private var filteredLibrarySelections: [LibraryListSelection] {
         let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
         let overviewSelections = librarySelections.filter { $0 != .home }
-        guard !trimmedQuery.isEmpty else { return overviewSelections }
         return overviewSelections.filter { selection in
-            if librarySelectionTitle(selection).localizedCaseInsensitiveContains(trimmedQuery) {
-                return true
+            if !trimmedQuery.isEmpty {
+                guard librarySelectionMatches(selection, query: trimmedQuery) else { return false }
             }
-            switch selection {
-            case .home:
-                return false
-            case .recents:
-                return library.recents.contains { stationMatches($0, query: trimmedQuery) }
-            case .favorites:
-                return library.favorites.contains { stationMatches($0, query: trimmedQuery) }
-            case .stationList(let id):
-                guard let list = library.stationList(id: id) else { return false }
-                return Self.stationListMatches(list, query: trimmedQuery)
+            guard hasActiveFilters else { return true }
+            return librarySelectionStations(for: selection).contains {
+                Self.stationMatchesBrowseFilters(
+                    $0,
+                    countryCodes: selectedCountryCodes,
+                    genreIDs: selectedGenreIDs,
+                    newsFilterSelected: newsFilterSelected,
+                )
             }
         }
     }
+
+    private func librarySelectionMatches(_ selection: LibraryListSelection, query: String) -> Bool {
+        if librarySelectionTitle(selection).localizedCaseInsensitiveContains(query) {
+            return true
+        }
+        switch selection {
+        case .home:
+            return false
+        case .recents, .favorites:
+            return librarySelectionStations(for: selection).contains { stationMatches($0, query: query) }
+        case .stationList(let id):
+            guard let list = library.stationList(id: id) else { return false }
+            return Self.stationListMatches(list, query: query)
+        }
+    }
+
+    private func librarySelectionStations(for selection: LibraryListSelection) -> [Station] {
+        switch selection {
+        case .home:
+            return []
+        case .recents:
+            return library.recents
+        case .favorites:
+            return library.favorites
+        case .stationList(let id):
+            return library.stationList(id: id)?.stations ?? []
+        }
+    }
+
     private var stationListsSignature: String {
         library.stationLists.map { list in
             [
@@ -1753,7 +1786,26 @@ struct StationListView: View {
         hasActiveBrowseFilter ? topbarControlSize * 2 + topbarControlSpacing : topbarControlSize
     }
 
+    @ViewBuilder
     private var libraryTopbarControlRow: some View {
+        if isLibraryHome {
+            libraryHomeTopbarControlRow
+        } else {
+            libraryDetailTopbarControlRow
+        }
+    }
+
+    private var libraryHomeTopbarControlRow: some View {
+        HStack(spacing: topbarControlSpacing) {
+            searchField()
+                .frame(maxWidth: .infinity)
+            filterPill
+        }
+        .frame(height: topbarControlSize)
+        .animation(.snappy(duration: 0.18), value: hasActiveBrowseFilter)
+    }
+
+    private var libraryDetailTopbarControlRow: some View {
         GeometryReader { proxy in
             let availableWidth = proxy.size.width
             let selectorLeading = max(
@@ -1861,7 +1913,7 @@ struct StationListView: View {
                     .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            .accessibilityLabel("Browse filters")
+            .accessibilityLabel(filterPillAccessibilityLabel)
 
             if hasActiveBrowseFilter {
                 Button {
@@ -1877,7 +1929,7 @@ struct StationListView: View {
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel("Clear browse filters")
+                .accessibilityLabel(clearFilterPillAccessibilityLabel)
             }
         }
         .frame(
@@ -1899,6 +1951,14 @@ struct StationListView: View {
             filterPickerPopover
                 .presentationCompactAdaptation(.popover)
         }
+    }
+
+    private var filterPillAccessibilityLabel: String {
+        isLibraryHome ? "Library filters" : "Browse filters"
+    }
+
+    private var clearFilterPillAccessibilityLabel: String {
+        isLibraryHome ? "Clear library filters" : "Clear browse filters"
     }
 
     @ViewBuilder
@@ -2694,6 +2754,11 @@ struct StationListView: View {
                                     .padding(.top, selection == filteredLibrarySelections.first ? stationHeaderStackSpacing : 0)
                             }
                         }
+                        if !stationListDeleteModeEnabled {
+                            createStationListFooterButton
+                                .padding(.horizontal, 14)
+                                .padding(.top, stationHeaderStackSpacing)
+                        }
                     } header: {
                         stickySectionHeader(includesRule: true, pinnedTopPadding: libraryHeaderRuleTopPadding)
                     }
@@ -2708,6 +2773,24 @@ struct StationListView: View {
         .scrollDismissesKeyboard(.immediately)
         .scrollDisabled(isHorizontalSwipeLocked)
         .background(RrradioTheme.bg)
+    }
+
+    private var createStationListFooterButton: some View {
+        Button {
+            openCreateStationListDialog()
+        } label: {
+            Image(systemName: "plus")
+                .font(.system(size: 15, weight: .medium))
+                .foregroundStyle(RrradioTheme.ink3)
+                .frame(width: topbarControlSize, height: topbarControlSize)
+                .background(RrradioTheme.bg2)
+                .clipShape(Circle())
+                .overlay(Circle().stroke(RrradioTheme.line))
+                .contentShape(Circle())
+        }
+        .buttonStyle(.plain)
+        .frame(maxWidth: .infinity, minHeight: topbarControlSize, alignment: .center)
+        .accessibilityLabel(locale.text(.createStationList))
     }
 
     @ViewBuilder
@@ -2773,18 +2856,19 @@ struct StationListView: View {
     }
 
     private var stationListEmptyTitle: String {
-        if !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+        if !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || hasActiveFiltersForCurrentSource {
             return locale.text(.noStationsFound)
         }
         return isStationListsDetail ? locale.text(.emptyStationList) : locale.text(.noStationLists)
     }
 
     private var stationListEmptyIcon: String {
-        isStationListsDetail ? "antenna.radiowaves.left.and.right.slash" : "list.bullet.rectangle"
+        if hasActiveFiltersForCurrentSource { return "line.3.horizontal.decrease.circle" }
+        return isStationListsDetail ? "antenna.radiowaves.left.and.right.slash" : "list.bullet.rectangle"
     }
 
     private var stationListEmptyDescription: String {
-        if !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+        if !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || hasActiveFiltersForCurrentSource {
             return locale.text(.trySearch)
         }
         return isStationListsDetail ? locale.text(.emptyStationListHint) : locale.text(.stationListsHint)
