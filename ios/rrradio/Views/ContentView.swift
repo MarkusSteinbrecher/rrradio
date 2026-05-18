@@ -18,9 +18,8 @@ struct ContentView: View {
     @State private var rootSwipeSettlingTarget: AppTab?
     @AppStorage(LandingPage.storageKey) private var landingPageRaw = LandingPage.browse.rawValue
     @AppStorage(LandingPage.stationIDKey) private var landingStationID = ""
-    @AppStorage(FavoritesDisplayMode.storageKey) private var favoritesDisplayModeRaw = FavoritesDisplayMode.list.rawValue
-    @AppStorage(FavoritesDisplayMode.orderStorageKey) private var favoritesDisplayModeOrderRaw = FavoritesDisplayMode.defaultRawValue
-    @AppStorage(FavoritesDisplayMode.visibleStorageKey) private var favoritesDisplayModeVisibleRaw = FavoritesDisplayMode.defaultRawValue
+    @AppStorage(LandingPage.stationListIDKey) private var landingStationListID = ""
+    @AppStorage(LibraryListSelection.storageKey) private var librarySelectionRaw = LibraryListSelection.home.rawValue
 
     private let rootSwipeThreshold: CGFloat = 58
     private let rootSwipeAxisLockThreshold: CGFloat = 12
@@ -178,10 +177,10 @@ struct ContentView: View {
 
     private var rootSwipeTargetIsAvailable: Bool {
         switch tab {
-        case .stationLists, .browse:
-            true
-        case .favorites:
-            previousFavoritesDisplayMode == nil
+        case .browse:
+            return true
+        case .library:
+            return previousLibrarySelection == nil
         }
     }
 
@@ -193,21 +192,14 @@ struct ContentView: View {
         canUseRootSwipe && rootSwipeAxis == .horizontal
     }
 
-    private var currentFavoritesDisplayMode: FavoritesDisplayMode {
-        FavoritesDisplayMode.normalizedSelection(
-            rawValue: favoritesDisplayModeRaw,
-            orderRawValue: favoritesDisplayModeOrderRaw,
-            visibleRawValue: favoritesDisplayModeVisibleRaw,
-        )
-    }
-
-    private var previousFavoritesDisplayMode: FavoritesDisplayMode? {
-        FavoritesDisplayMode.adjacentMode(
-            to: currentFavoritesDisplayMode,
-            direction: -1,
-            orderRawValue: favoritesDisplayModeOrderRaw,
-            visibleRawValue: favoritesDisplayModeVisibleRaw,
-        )
+    private var previousLibrarySelection: LibraryListSelection? {
+        let selection = LibraryListSelection(rawValue: librarySelectionRaw)
+            .normalized(for: library.stationLists)
+        let selections = LibraryListSelection.orderedSelections(for: library.stationLists)
+        guard let index = selections.firstIndex(of: selection) else { return nil }
+        let targetIndex = index - 1
+        guard selections.indices.contains(targetIndex) else { return nil }
+        return selections[targetIndex]
     }
 
     private func updateRootSwipeAxis(horizontal: CGFloat, vertical: CGFloat) {
@@ -319,8 +311,23 @@ struct ContentView: View {
         case .browse:
             tab = .browse
             didApplyLandingPreference = true
+        case .library:
+            librarySelectionRaw = LibraryListSelection.home.rawValue
+            tab = .library
+            didApplyLandingPreference = true
+        case .recents:
+            librarySelectionRaw = LibraryListSelection.recents.rawValue
+            tab = .library
+            didApplyLandingPreference = true
         case .favorites:
-            tab = .favorites
+            librarySelectionRaw = LibraryListSelection.favorites.rawValue
+            tab = .library
+            didApplyLandingPreference = true
+        case .stationList:
+            let selection = LibraryListSelection.stationList(landingStationListID)
+                .normalized(for: library.stationLists)
+            librarySelectionRaw = selection.rawValue
+            tab = .library
             didApplyLandingPreference = true
         case .station:
             guard !landingStationID.isEmpty else {
@@ -344,12 +351,20 @@ struct ContentView: View {
     }
 
     private var landingStation: Station? {
-        let stations = catalog.browseOrdered + library.favorites + library.recents + library.customStations
+        let stations = catalog.browseOrdered
+            + library.favorites
+            + library.recents
+            + library.customStations
+            + library.stationLists.flatMap(\.stations)
         return stations.first { $0.id == landingStationID }
     }
 
     private func playPendingIntentStationIfPossible() {
-        let stations = catalog.browseOrdered + library.favorites + library.recents + library.customStations
+        let stations = catalog.browseOrdered
+            + library.favorites
+            + library.recents
+            + library.customStations
+            + library.stationLists.flatMap(\.stations)
         guard let station = IntentPlaybackRequest.consumePendingStation(from: stations) else { return }
         player.play(station)
         Task { @MainActor in
@@ -368,15 +383,13 @@ struct ContentView: View {
 }
 
 enum AppTab: CaseIterable, Hashable {
-    case stationLists
     case browse
-    case favorites
+    case library
 
     var navigationIndex: Int {
         switch self {
-        case .stationLists: 0
-        case .browse: 1
-        case .favorites: 2
+        case .browse: 0
+        case .library: 1
         }
     }
 
@@ -420,17 +433,15 @@ private struct BottomTabBar: View {
 
     private func icon(for value: AppTab) -> String {
         switch value {
-        case .stationLists: "list.bullet.rectangle"
         case .browse: "globe"
-        case .favorites: "heart"
+        case .library: "list.bullet.rectangle"
         }
     }
 
     private func title(for value: AppTab) -> String {
         switch value {
-        case .stationLists: locale.text(.stationListsNav)
         case .browse: locale.text(.browse)
-        case .favorites: locale.text(.favorites)
+        case .library: locale.text(.library)
         }
     }
 

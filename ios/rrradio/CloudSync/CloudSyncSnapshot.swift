@@ -10,6 +10,7 @@ struct CloudSyncSnapshot: Equatable {
     var sleepTimerDefaultMinutes: Int
     var landingPage: String
     var landingStationID: String
+    var landingStationListID: String
     var favoritesDisplayMode: String
     var favoritesDisplayModeOrder: String
     var favoritesDisplayModeVisible: String
@@ -52,6 +53,7 @@ struct CloudSyncSnapshot: Equatable {
             || sleepTimerDefaultMinutes != SleepTimer.fallbackDefaultMinutes
             || landingPage != LandingPage.browse.rawValue
             || !landingStationID.isEmpty
+            || !landingStationListID.isEmpty
             || favoritesDisplayMode != FavoritesDisplayMode.list.rawValue
             || favoritesDisplayModeOrder != FavoritesDisplayMode.defaultRawValue
             || favoritesDisplayModeVisible != FavoritesDisplayMode.defaultRawValue
@@ -74,6 +76,7 @@ struct CloudSyncSnapshot: Equatable {
         sleepTimerDefaultMinutes: SleepTimer.fallbackDefaultMinutes,
         landingPage: LandingPage.browse.rawValue,
         landingStationID: "",
+        landingStationListID: "",
         favoritesDisplayMode: FavoritesDisplayMode.list.rawValue,
         favoritesDisplayModeOrder: FavoritesDisplayMode.defaultRawValue,
         favoritesDisplayModeVisible: FavoritesDisplayMode.defaultRawValue,
@@ -113,6 +116,9 @@ enum CloudSyncMerge {
                 : local.sleepTimerDefaultMinutes,
             landingPage: useRemotePreferences ? remote.landingPage : local.landingPage,
             landingStationID: useRemotePreferences ? remote.landingStationID : local.landingStationID,
+            landingStationListID: useRemotePreferences
+                ? remote.landingStationListID
+                : local.landingStationListID,
             favoritesDisplayMode: useRemotePreferences ? remote.favoritesDisplayMode : local.favoritesDisplayMode,
             favoritesDisplayModeOrder: useRemotePreferences
                 ? remote.favoritesDisplayModeOrder

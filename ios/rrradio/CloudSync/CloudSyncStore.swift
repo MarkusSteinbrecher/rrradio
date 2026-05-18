@@ -129,6 +129,7 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
             sleepTimerDefaultMinutes: remotePreferences.sleepTimerDefaultMinutes,
             landingPage: remotePreferences.landingPage,
             landingStationID: remotePreferences.landingStationID,
+            landingStationListID: remotePreferences.landingStationListID,
             favoritesDisplayMode: remotePreferences.favoritesDisplayMode,
             favoritesDisplayModeOrder: remotePreferences.favoritesDisplayModeOrder,
             favoritesDisplayModeVisible: remotePreferences.favoritesDisplayModeVisible,
@@ -219,6 +220,7 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
         sleepTimerDefaultMinutes: Int,
         landingPage: String,
         landingStationID: String,
+        landingStationListID: String,
         favoritesDisplayMode: String,
         favoritesDisplayModeOrder: String,
         favoritesDisplayModeVisible: String,
@@ -240,6 +242,7 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
                 record["sleepTimerDefaultMinutes"] as? Int ?? SleepTimer.fallbackDefaultMinutes,
                 record["landingPage"] as? String ?? LandingPage.browse.rawValue,
                 record["landingStationID"] as? String ?? "",
+                record["landingStationListID"] as? String ?? "",
                 record["favoritesDisplayMode"] as? String ?? FavoritesDisplayMode.list.rawValue,
                 record["favoritesDisplayModeOrder"] as? String ?? FavoritesDisplayMode.defaultRawValue,
                 record["favoritesDisplayModeVisible"] as? String ?? FavoritesDisplayMode.defaultRawValue,
@@ -258,6 +261,7 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
                 "",
                 "",
                 0,
+                "",
                 "",
                 "",
                 "",
@@ -409,6 +413,7 @@ final class CloudKitSyncStore: CloudSyncStoring, @unchecked Sendable {
         record["sleepTimerDefaultMinutes"] = snapshot.sleepTimerDefaultMinutes
         record["landingPage"] = snapshot.landingPage
         record["landingStationID"] = snapshot.landingStationID
+        record["landingStationListID"] = snapshot.landingStationListID
         record["favoritesDisplayMode"] = snapshot.favoritesDisplayMode
         record["favoritesDisplayModeOrder"] = snapshot.favoritesDisplayModeOrder
         record["favoritesDisplayModeVisible"] = snapshot.favoritesDisplayModeVisible

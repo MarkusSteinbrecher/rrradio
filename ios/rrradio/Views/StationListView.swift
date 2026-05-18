@@ -67,7 +67,7 @@ enum FavoritesDisplayMode: String, CaseIterable, Identifiable {
 
     var detail: String {
         switch self {
-        case .list: "Show favorites as the sortable list."
+        case .list: "Show stations as a list."
         case .tiles: "Show two station tiles per row."
         case .app: "Show station logos like iPhone apps."
         }
@@ -202,6 +202,7 @@ struct StationListView: View {
     @AppStorage(FavoritesDisplayMode.storageKey) private var favoritesDisplayModeRaw = FavoritesDisplayMode.list.rawValue
     @AppStorage(FavoritesDisplayMode.orderStorageKey) private var favoritesDisplayModeOrderRaw = FavoritesDisplayMode.defaultRawValue
     @AppStorage(FavoritesDisplayMode.visibleStorageKey) private var favoritesDisplayModeVisibleRaw = FavoritesDisplayMode.defaultRawValue
+    @AppStorage(LibraryListSelection.storageKey) private var librarySelectionRaw = LibraryListSelection.home.rawValue
     private let radioBrowser = RadioBrowserClient()
     private let shareURL = URL(string: "https://rrradio.org")!
     @State private var searchText = ""
@@ -235,7 +236,6 @@ struct StationListView: View {
     // the previous "same target ID" lock, so dragging back and forth
     // across the same boundary lets fine adjustments through.
     @State private var lastFavoriteDropMoveAt: Date?
-    @State private var favoriteGridItemSizes: [String: CGSize] = [:]
     @State private var favoriteDeleteModeEnabled = false
     @State private var filterTask: Task<Void, Never>?
     @State private var searchUpdateTask: Task<Void, Never>?
@@ -244,7 +244,7 @@ struct StationListView: View {
     @State private var listScrollOffset: CGFloat = 0
     @State private var pageSwipeAxis: PageSwipeAxis?
     @State private var pageSwipeDragOffset: CGFloat = 0
-    @State private var pageSwipeSettlingTarget: FavoritesDisplayMode?
+    @State private var pageSwipeSettlingTarget: LibraryListSelection?
     @State private var favoritesSearchPresented = false
     @State private var selectedStationListID: String?
     @State private var showingCreateStationList = false
@@ -282,11 +282,15 @@ struct StationListView: View {
     private let favoriteRemoveControlTrailingInset: CGFloat = 20
     private let stationHeaderTopPadding: CGFloat = 6
     private let stationHeaderStackSpacing: CGFloat = 6
+    private let libraryHeaderRuleTopPadding: CGFloat = 8
     private let sortSideColumnWidth: CGFloat = 98
     // Centers the Browse list-selection icon above the standard row artwork.
     private let sortListSelectionControlLeadingSpacerWidth: CGFloat = 19
     private let sortListSelectionControlWidth: CGFloat = 28
     private let sortAlphabetControlWidth: CGFloat = 44
+    private var stationScrollPinnedViews: PinnedScrollableViews {
+        pageTab == .browse ? [.sectionHeaders] : []
+    }
 
     private enum ActiveFilterPicker {
         case main
@@ -373,13 +377,18 @@ struct StationListView: View {
         _browseStationListSelectionActiveExternally = browseStationListSelectionActiveExternally
         self.fixedTab = fixedTab
         self.horizontalSwipeLockedExternally = horizontalSwipeLockedExternally
-        let initialTab = fixedTab ?? tab.wrappedValue
-        _source = State(initialValue: initialTab == .favorites ? .favorites : .all)
+        _source = State(initialValue: .all)
     }
 
     private var allStations: [Station] { catalog.browseOrdered }
     private var stationPool: [Station] {
         allStations + radioBrowserStations
+    }
+    private var librarySelection: LibraryListSelection {
+        LibraryListSelection(rawValue: librarySelectionRaw).normalized(for: library.stationLists)
+    }
+    private var librarySelections: [LibraryListSelection] {
+        LibraryListSelection.orderedSelections(for: library.stationLists)
     }
     private var filterOptionStations: [Station] {
         isFavoritesPage ? library.favorites : allStations
@@ -413,6 +422,18 @@ struct StationListView: View {
         if isStationListsDetail {
             return selectedStationList?.stations ?? []
         }
+        if isLibraryPage {
+            switch librarySelection {
+            case .home:
+                return []
+            case .recents:
+                return library.recents
+            case .favorites:
+                return library.favorites
+            case .stationList:
+                return selectedStationList?.stations ?? []
+            }
+        }
         switch source {
         case .all: return stationPool
         case .favorites: return library.favorites
@@ -429,6 +450,12 @@ struct StationListView: View {
         if isStationListsDetail {
             return .stationList
         }
+        if isFavoritesPage {
+            return showingFavoritesCatalogFallback ? .browse : .favorites
+        }
+        if isLibraryRecentsPage {
+            return .recents
+        }
         if showingFavoritesCatalogFallback {
             return .browse
         }
@@ -442,7 +469,7 @@ struct StationListView: View {
         }
     }
     private var playbackQueueSourceID: String? {
-        isStationListsDetail ? selectedStationListID : nil
+        isStationListsDetail ? selectedStationList?.id : nil
     }
     private var favoritesDisplayMode: FavoritesDisplayMode {
         FavoritesDisplayMode.normalizedSelection(
@@ -517,10 +544,10 @@ struct StationListView: View {
         !selectedGenreIDs.isEmpty || !selectedCountryCodes.isEmpty || newsFilterSelected
     }
     private var hasActiveFiltersForCurrentSource: Bool {
-        (source == .all || source == .favorites) && hasActiveFilters
+        ((pageTab == .browse && source == .all) || isFavoritesPage) && hasActiveFilters
     }
     private var hasActiveBrowseFilter: Bool {
-        source == .recents || hasActiveFilters
+        pageTab == .browse && (source == .recents || hasActiveFilters)
     }
     private var canUseBrowseListSelection: Bool {
         pageTab == .browse && source == .all
@@ -544,22 +571,52 @@ struct StationListView: View {
     private var browseListTargetStationList: StationList? {
         browseListTargetStationListID.flatMap { library.stationList(id: $0) }
     }
+    private var isLibraryPage: Bool {
+        pageTab == .library
+    }
+    private var isLibraryHome: Bool {
+        isLibraryPage && librarySelection == .home
+    }
     private var isFavoritesPage: Bool {
-        pageTab == .favorites && source == .favorites
+        isLibraryPage && librarySelection == .favorites
+    }
+    private var isLibraryRecentsPage: Bool {
+        isLibraryPage && librarySelection == .recents
     }
     private var isStationListsPage: Bool {
-        pageTab == .stationLists
+        isLibraryPage
     }
     private var isStationListsDetail: Bool {
         isStationListsPage && selectedStationList != nil
     }
     private var selectedStationList: StationList? {
-        selectedStationListID.flatMap { library.stationList(id: $0) }
+        librarySelection.stationListID.flatMap { library.stationList(id: $0) }
     }
     private var filteredStationLists: [StationList] {
         let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedQuery.isEmpty else { return library.stationLists }
         return library.stationLists.filter { Self.stationListMatches($0, query: trimmedQuery) }
+    }
+    private var filteredLibrarySelections: [LibraryListSelection] {
+        let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        let overviewSelections = librarySelections.filter { $0 != .home }
+        guard !trimmedQuery.isEmpty else { return overviewSelections }
+        return overviewSelections.filter { selection in
+            if librarySelectionTitle(selection).localizedCaseInsensitiveContains(trimmedQuery) {
+                return true
+            }
+            switch selection {
+            case .home:
+                return false
+            case .recents:
+                return library.recents.contains { stationMatches($0, query: trimmedQuery) }
+            case .favorites:
+                return library.favorites.contains { stationMatches($0, query: trimmedQuery) }
+            case .stationList(let id):
+                guard let list = library.stationList(id: id) else { return false }
+                return Self.stationListMatches(list, query: trimmedQuery)
+            }
+        }
     }
     private var stationListsSignature: String {
         library.stationLists.map { list in
@@ -577,8 +634,8 @@ struct StationListView: View {
         [
             "\(pageTab.navigationIndex)",
             source.rawValue,
+            librarySelection.rawValue,
             query,
-            selectedStationListID ?? "",
             stationListsSignature,
             selectedGenreIDs.sorted().joined(separator: ","),
             selectedCountryCodes.sorted().joined(separator: ","),
@@ -601,6 +658,7 @@ struct StationListView: View {
             .onAppear(perform: handleAppear)
             .onChange(of: tab, handleTabChange)
             .onChange(of: source, handleSourceChange)
+            .onChange(of: librarySelectionRaw, handleLibrarySelectionChange)
             .onChange(of: query, handleQueryChange)
             .onChange(of: browseListSelectionActive, handleBrowseListSelectionActiveChange)
             .onChange(of: browseListNameDraft, handleBrowseListNameDraftChange)
@@ -727,14 +785,14 @@ struct StationListView: View {
 
         let offset = constrainedPageSwipeOffset(horizontal, pageWidth: pageWidth)
         let predictedOffset = constrainedPageSwipeOffset(value.predictedEndTranslation.width, pageWidth: pageWidth)
-        let target: FavoritesDisplayMode?
+        let target: LibraryListSelection?
         if offset < 0 {
             target = shouldCompletePageSwipe(offset: offset, predictedOffset: predictedOffset, pageWidth: pageWidth)
-                ? nextFavoritesDisplayMode
+                ? nextLibrarySelection
                 : nil
         } else if offset > 0 {
             target = shouldCompletePageSwipe(offset: offset, predictedOffset: predictedOffset, pageWidth: pageWidth)
-                ? previousFavoritesDisplayMode
+                ? previousLibrarySelection
                 : nil
         } else {
             target = nil
@@ -743,12 +801,15 @@ struct StationListView: View {
     }
 
     private var canUsePageSwipe: Bool {
-        isFavoritesPage
+        isLibraryPage
             && !showingFavoritesCatalogFallback
             && activeFilterPicker == nil
             && stationInfoPreview == nil
             && !searchFocused
+            && query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            && searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
             && !favoriteDeleteModeEnabled
+            && !stationListDeleteModeEnabled
             && targetedFavoriteStationID == nil
             && pageSwipeSettlingTarget == nil
     }
@@ -786,12 +847,12 @@ struct StationListView: View {
     private func constrainedPageSwipeOffset(_ horizontal: CGFloat, pageWidth: CGFloat) -> CGFloat {
         let width = max(pageWidth, 1)
         if horizontal < 0 {
-            guard nextFavoritesDisplayMode != nil else {
+            guard nextLibrarySelection != nil else {
                 return 0
             }
             return max(horizontal, -width)
         } else if horizontal > 0 {
-            guard previousFavoritesDisplayMode != nil else {
+            guard previousLibrarySelection != nil else {
                 return 0
             }
             return min(horizontal, width)
@@ -806,30 +867,23 @@ struct StationListView: View {
         return abs(offset) >= distanceThreshold || abs(predictedOffset) >= predictedThreshold
     }
 
-    private var nextFavoritesDisplayMode: FavoritesDisplayMode? {
-        FavoritesDisplayMode.adjacentMode(
-            to: favoritesDisplayMode,
-            direction: 1,
-            orderRawValue: favoritesDisplayModeOrderRaw,
-            visibleRawValue: favoritesDisplayModeVisibleRaw,
-        )
+    private var nextLibrarySelection: LibraryListSelection? {
+        adjacentLibrarySelection(direction: 1)
     }
 
-    private var previousFavoritesDisplayMode: FavoritesDisplayMode? {
-        FavoritesDisplayMode.adjacentMode(
-            to: favoritesDisplayMode,
-            direction: -1,
-            orderRawValue: favoritesDisplayModeOrderRaw,
-            visibleRawValue: favoritesDisplayModeVisibleRaw,
-        )
+    private var previousLibrarySelection: LibraryListSelection? {
+        adjacentLibrarySelection(direction: -1)
     }
 
-    private func switchToFavoritesDisplayMode(_ mode: FavoritesDisplayMode) {
-        guard mode != favoritesDisplayMode else { return }
-        setFavoritesDisplayMode(mode)
+    private func adjacentLibrarySelection(direction: Int) -> LibraryListSelection? {
+        let selections = librarySelections
+        guard let index = selections.firstIndex(of: librarySelection) else { return nil }
+        let targetIndex = index + direction
+        guard selections.indices.contains(targetIndex) else { return nil }
+        return selections[targetIndex]
     }
 
-    private func settlePageSwipe(to target: FavoritesDisplayMode?, pageWidth: CGFloat) {
+    private func settlePageSwipe(to target: LibraryListSelection?, pageWidth: CGFloat) {
         pageSwipeAxis = nil
         guard let target else {
             withAnimation(.snappy(duration: pageSwipeCompletionDuration)) {
@@ -838,7 +892,7 @@ struct StationListView: View {
             return
         }
 
-        let finalOffset: CGFloat = target == nextFavoritesDisplayMode ? -max(pageWidth, 1) : max(pageWidth, 1)
+        let finalOffset: CGFloat = target == nextLibrarySelection ? -max(pageWidth, 1) : max(pageWidth, 1)
         pageSwipeSettlingTarget = target
         withAnimation(.snappy(duration: pageSwipeCompletionDuration)) {
             pageSwipeDragOffset = finalOffset
@@ -848,7 +902,7 @@ struct StationListView: View {
             var transaction = Transaction()
             transaction.animation = nil
             withTransaction(transaction) {
-                setFavoritesDisplayMode(target)
+                setLibrarySelection(target)
                 pageSwipeDragOffset = 0
                 pageSwipeSettlingTarget = nil
             }
@@ -863,19 +917,18 @@ struct StationListView: View {
 
     private func handleAppear() {
         library.refreshFavorites(from: catalog.stations)
+        syncLibrarySelectionState()
         recomputeFilteredStations()
         updateFavoriteNowPlayingPolling()
     }
 
     private func handleTabChange(_: AppTab, _ value: AppTab) {
-        if value != .stationLists {
+        if value != .library {
             hideStationListDeleteMode(animated: false)
         }
         guard fixedTab == nil else {
-            if fixedTab == value, fixedTab == .favorites, source != .favorites {
-                setSource(.favorites, animated: false)
-            } else if fixedTab == value, fixedTab == .stationLists {
-                resetStationListPage()
+            if fixedTab == value, fixedTab == .library {
+                syncLibrarySelectionState()
             } else if fixedTab == .browse, value != .browse {
                 cancelBrowseListSelection()
             }
@@ -894,6 +947,10 @@ struct StationListView: View {
         let targetTab = appTab(for: value)
         guard targetTab != tab else { return }
         tab = targetTab
+    }
+
+    private func handleLibrarySelectionChange(_: String, _: String) {
+        applyLibrarySelectionChange()
     }
 
     private func handleQueryChange(_: String, _: String) {
@@ -1019,6 +1076,43 @@ struct StationListView: View {
         source = newSource
     }
 
+    private func setLibrarySelection(_ selection: LibraryListSelection) {
+        let normalized = selection.normalized(for: library.stationLists)
+        guard librarySelectionRaw != normalized.rawValue else { return }
+        dismissSearch()
+        activeFilterPicker = nil
+        librarySelectionRaw = normalized.rawValue
+        applyLibrarySelectionChange()
+    }
+
+    private func applyLibrarySelectionChange() {
+        syncLibrarySelectionState()
+        resetStationDisplayLimit()
+        listScrollOffset = 0
+        resetPageSwipeTracking()
+        hideFavoriteDeleteMode(animated: false)
+        hideStationListDeleteMode(animated: false)
+        recomputeFilteredStations()
+        updateFavoriteNowPlayingPolling()
+    }
+
+    private func syncLibrarySelectionState() {
+        let normalized = librarySelection
+        if librarySelectionRaw != normalized.rawValue {
+            librarySelectionRaw = normalized.rawValue
+            return
+        }
+        selectedStationListID = normalized.stationListID
+        switch normalized {
+        case .recents:
+            source = .recents
+        case .favorites:
+            source = .favorites
+        case .home, .stationList:
+            source = .all
+        }
+    }
+
     private func toggleRecentsFilter(closePicker: Bool = true) {
         let wasShowingRecents = source == .recents
         dismissSearch()
@@ -1123,17 +1217,28 @@ struct StationListView: View {
 
     private func stationSource(for tab: AppTab) -> StationSource {
         switch tab {
-        case .stationLists: .all
-        case .browse: .all
-        case .favorites: .favorites
+        case .browse:
+            return .all
+        case .library:
+            switch librarySelection {
+            case .recents:
+                return .recents
+            case .favorites:
+                return .favorites
+            case .home, .stationList:
+                return .all
+            }
         }
     }
 
     private func appTab(for source: StationSource) -> AppTab {
         switch source {
-        case .all: .browse
-        case .favorites: .favorites
-        case .recents: .browse
+        case .all:
+            return .browse
+        case .favorites:
+            return .library
+        case .recents:
+            return .browse
         }
     }
 
@@ -1179,7 +1284,7 @@ struct StationListView: View {
                         .contentShape(Capsule())
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel("\(mode.title) favorites view")
+                .accessibilityLabel("\(mode.title) Library view")
             }
         }
         .padding(3)
@@ -1254,11 +1359,12 @@ struct StationListView: View {
         inlineHeaderControls(topPadding: topPadding, includesRule: false) {
             ZStack {
                 statusToolbar
-                if showsFavoriteDeleteModeButton {
-                    HStack {
-                        Spacer()
-                        favoriteDeleteModeButton
+                HStack {
+                    if isLibraryPage && !isLibraryHome {
+                        libraryPagesButton
                     }
+                    Spacer()
+                    libraryDeleteModeButton
                 }
             }
         }
@@ -1268,29 +1374,92 @@ struct StationListView: View {
         inlineHeaderControls(topPadding: topPadding, includesRule: false) {
             ZStack {
                 statusToolbar
-                if isStationListsDetail {
-                    HStack {
-                        stationListBackButton
-                        Spacer()
-                        if showsStationListDeleteModeButton {
-                            stationListDeleteModeButton
-                        }
+                HStack {
+                    if isLibraryPage && !isLibraryHome {
+                        libraryPagesButton
                     }
-                } else if showsStationListDeleteModeButton {
-                    HStack {
-                        Spacer()
-                        stationListDeleteModeButton
+                    Spacer()
+                    libraryDeleteModeButton
+                }
+            }
+        }
+    }
+
+    private func libraryPreviewInlineControls(for selection: LibraryListSelection) -> some View {
+        inlineHeaderControls(topPadding: 0, includesRule: false) {
+            ZStack {
+                libraryPreviewStatus(for: selection)
+                HStack {
+                    if libraryPreviewShowsPagesIcon(for: selection) {
+                        libraryPreviewActionIcon("house")
+                    }
+                    Spacer()
+                    if let systemImage = libraryPreviewTrailingActionIcon(for: selection) {
+                        libraryPreviewActionIcon(systemImage)
                     }
                 }
             }
         }
     }
 
+    private func libraryPreviewShowsPagesIcon(for selection: LibraryListSelection) -> Bool {
+        selection != .home
+    }
+
+    private func libraryPreviewTrailingActionIcon(for selection: LibraryListSelection) -> String? {
+        switch selection {
+        case .home, .recents, .stationList:
+            return stationListDeleteModeEnabled ? "minus.circle" : "trash"
+        case .favorites:
+            return favoriteDeleteModeEnabled ? "minus.circle" : "trash"
+        }
+    }
+
+    private func libraryPreviewStatus(for selection: LibraryListSelection) -> some View {
+        HStack(spacing: 8) {
+            Text(librarySelectionTitle(selection))
+                .foregroundStyle(RrradioTheme.ink3)
+            Text(".")
+                .foregroundStyle(RrradioTheme.ink4)
+            Text("\(librarySelectionCount(selection))")
+                .foregroundStyle(RrradioTheme.ink4)
+        }
+        .font(.system(size: 10, weight: .medium, design: .monospaced))
+        .textCase(.uppercase)
+        .tracking(1.5)
+        .lineLimit(1)
+        .minimumScaleFactor(0.75)
+        .foregroundStyle(RrradioTheme.ink3)
+        .frame(maxWidth: .infinity, minHeight: 20, alignment: .center)
+    }
+
+    private func libraryPreviewActionIcon(_ systemName: String) -> some View {
+        Image(systemName: systemName)
+            .font(.system(size: 14, weight: .semibold))
+            .foregroundStyle(RrradioTheme.ink3)
+            .frame(width: topbarControlSize, height: topbarControlSize)
+            .accessibilityHidden(true)
+    }
+
+    private var libraryPagesButton: some View {
+        Button {
+            setLibrarySelection(.home)
+        } label: {
+            Image(systemName: "house")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(RrradioTheme.ink3)
+                .frame(width: topbarControlSize, height: topbarControlSize)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Show Library pages")
+    }
+
     private var stationListBackButton: some View {
         Button {
             closeStationListDetail()
         } label: {
-            Image(systemName: "chevron.left")
+            Image(systemName: "house")
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundStyle(RrradioTheme.ink3)
                 .frame(width: topbarControlSize, height: topbarControlSize)
@@ -1313,6 +1482,39 @@ struct StationListView: View {
             return isStationListsDetail ? "Done removing stations" : "Done removing lists"
         }
         return isStationListsDetail ? "Remove stations from list" : "Remove lists"
+    }
+
+    @ViewBuilder
+    private var libraryDeleteModeButton: some View {
+        switch librarySelection {
+        case .favorites:
+            if showsFavoriteDeleteModeButton {
+                favoriteDeleteModeButton
+            } else {
+                disabledLibraryDeleteModeButton(label: "Remove favorites")
+            }
+        case .home, .stationList:
+            if showsStationListDeleteModeButton {
+                stationListDeleteModeButton
+            } else {
+                disabledLibraryDeleteModeButton(label: stationListDeleteModeAccessibilityLabel)
+            }
+        case .recents:
+            disabledLibraryDeleteModeButton(label: "Remove recents")
+        }
+    }
+
+    private func disabledLibraryDeleteModeButton(label: String) -> some View {
+        Button {} label: {
+            Image(systemName: "trash")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(RrradioTheme.ink4)
+                .frame(width: topbarControlSize, height: topbarControlSize)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .disabled(true)
+        .accessibilityLabel(label)
     }
 
     private var favoriteDeleteModeButton: some View {
@@ -1445,7 +1647,7 @@ struct StationListView: View {
         .onChange(of: searchFocused) { _, focused in
             if focused {
                 activeFilterPicker = nil
-            } else if pageTab == .favorites && searchText.isEmpty {
+            } else if isLibraryPage && searchText.isEmpty {
                 favoritesSearchPresented = false
             }
         }
@@ -1453,10 +1655,8 @@ struct StationListView: View {
 
     @ViewBuilder
     private var searchAndFilterRow: some View {
-        if pageTab == .favorites {
-            favoritesTopbarControlRow
-        } else if pageTab == .stationLists {
-            stationListsTopbarControlRow
+        if isLibraryPage {
+            libraryTopbarControlRow
         } else {
             HStack(spacing: topbarControlSpacing) {
                 searchField()
@@ -1466,21 +1666,8 @@ struct StationListView: View {
         }
     }
 
-    private var stationListsTopbarControlRow: some View {
-        HStack(spacing: topbarControlSpacing) {
-            searchField()
-                .frame(maxWidth: .infinity)
-
-            if !isStationListsDetail {
-                circularIconButton("plus", label: locale.text(.createStationList)) {
-                    openCreateStationListDialog()
-                }
-            }
-        }
-    }
-
     private var favoritesSearchExpanded: Bool {
-        pageTab == .favorites && (favoritesSearchPresented || searchFocused || !searchText.isEmpty)
+        isLibraryPage && (favoritesSearchPresented || searchFocused || !searchText.isEmpty)
     }
 
     private func expandFavoritesSearch() {
@@ -1503,7 +1690,7 @@ struct StationListView: View {
         hasActiveBrowseFilter ? topbarControlSize * 2 + topbarControlSpacing : topbarControlSize
     }
 
-    private var favoritesTopbarControlRow: some View {
+    private var libraryTopbarControlRow: some View {
         GeometryReader { proxy in
             let availableWidth = proxy.size.width
             let selectorLeading = max(
@@ -1523,8 +1710,9 @@ struct StationListView: View {
 
                     Spacer(minLength: 0)
 
-                    filterPill
-                        .frame(width: filterPillWidth)
+                    circularIconButton("plus", label: locale.text(.createStationList)) {
+                        openCreateStationListDialog()
+                    }
                 }
 
                 favoritesDisplayModeSelector
@@ -1532,7 +1720,32 @@ struct StationListView: View {
         }
         .frame(height: topbarControlSize)
         .animation(.snappy(duration: 0.18), value: favoritesSearchExpanded)
-        .animation(.snappy(duration: 0.18), value: hasActiveBrowseFilter)
+    }
+
+    private func librarySelectionTitle(_ selection: LibraryListSelection) -> String {
+        switch selection {
+        case .home:
+            return "Home"
+        case .recents:
+            return locale.text(.recents)
+        case .favorites:
+            return locale.text(.favorites)
+        case .stationList(let id):
+            return library.stationList(id: id)?.name ?? locale.text(.stationLists)
+        }
+    }
+
+    private func librarySelectionIcon(_ selection: LibraryListSelection) -> String {
+        switch selection {
+        case .home:
+            return "square.grid.2x2"
+        case .recents:
+            return "clock"
+        case .favorites:
+            return "heart"
+        case .stationList:
+            return "list.bullet.rectangle"
+        }
     }
 
     @ViewBuilder
@@ -1663,11 +1876,6 @@ struct StationListView: View {
                             }
                         }
 
-                        if pageTab == .browse {
-                            filterPickerRow(locale.text(.recents), selected: source == .recents, leadingSystemImage: "clock", showsSeparator: false) {
-                                toggleRecentsFilter(closePicker: false)
-                            }
-                        }
                     }
                     .padding(.vertical, 8)
                 }
@@ -1738,7 +1946,7 @@ struct StationListView: View {
     }
 
     private var showsStatusLabel: Bool {
-        if isStationListsPage { return true }
+        if isLibraryPage { return true }
         switch source {
         case .all:
             return !activeFilterLabels.isEmpty
@@ -1951,8 +2159,8 @@ struct StationListView: View {
     @ViewBuilder
     private var content: some View {
         Group {
-            if isStationListsPage {
-                stationListsContent
+            if isLibraryPage {
+                libraryContent
             } else if filteredStations.isEmpty {
                 ContentUnavailableView(
                     emptyTitle,
@@ -1969,38 +2177,23 @@ struct StationListView: View {
 
     @ViewBuilder
     private var list: some View {
-        if isFavoritesPage && !showingFavoritesCatalogFallback {
-            favoritesDisplayPage
-        } else {
-            stationScrollList
-        }
+        stationScrollList
     }
 
     @ViewBuilder
-    private var stationListsContent: some View {
-        if isStationListsDetail {
-            stationScrollList
-        } else {
-            stationListsOverview
-        }
-    }
-
-    private var favoritesDisplayPage: some View {
+    private var libraryContent: some View {
         GeometryReader { proxy in
             let pageWidth = max(proxy.size.width, 1)
             let activeOffset = constrainedPageSwipeOffset(pageSwipeDragOffset, pageWidth: pageWidth)
+            let currentIndex = librarySelections.firstIndex(of: librarySelection) ?? 0
             ZStack {
-                if let adjacentMode = adjacentFavoritesDisplayMode(for: activeOffset) {
-                    favoritesDisplayView(for: adjacentMode)
-                        .id(adjacentMode)
+                ForEach(Array(librarySelections.enumerated()), id: \.element) { index, selection in
+                    libraryPageContent(for: selection, isActive: selection == librarySelection)
                         .frame(width: pageWidth, height: proxy.size.height)
-                        .offset(x: adjacentPageOffset(for: activeOffset, pageWidth: pageWidth))
+                        .offset(x: CGFloat(index - currentIndex) * pageWidth + activeOffset)
+                        .allowsHitTesting(selection == librarySelection && pageSwipeSettlingTarget == nil)
+                        .zIndex(selection == librarySelection ? 1 : 0)
                 }
-
-                favoritesDisplayView(for: favoritesDisplayMode)
-                    .id(favoritesDisplayMode)
-                    .frame(width: pageWidth, height: proxy.size.height)
-                    .offset(x: activeOffset)
             }
             .frame(width: pageWidth, height: proxy.size.height)
             .clipped()
@@ -2010,11 +2203,266 @@ struct StationListView: View {
     }
 
     @ViewBuilder
-    private func favoritesDisplayView(for mode: FavoritesDisplayMode) -> some View {
+    private func libraryPageContent(for selection: LibraryListSelection, isActive: Bool) -> some View {
+        if isActive {
+            activeLibraryContent
+        } else {
+            libraryPreviewContent(for: selection)
+        }
+    }
+
+    @ViewBuilder
+    private var activeLibraryContent: some View {
+        if isLibraryHome {
+            libraryOverview
+        } else if filteredStations.isEmpty {
+            ContentUnavailableView(
+                emptyTitle,
+                systemImage: emptyIcon,
+                description: Text(emptyDescription),
+            )
+            .foregroundStyle(RrradioTheme.ink)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else {
+            libraryDisplayContent
+        }
+    }
+
+    @ViewBuilder
+    private func libraryPreviewContent(for selection: LibraryListSelection) -> some View {
+        if selection == .home {
+            libraryPreviewOverview
+        } else {
+            let stations = libraryPreviewStations(for: selection)
+            if stations.isEmpty {
+                ContentUnavailableView(
+                    libraryEmptyTitle(for: selection),
+                    systemImage: libraryEmptyIcon(for: selection),
+                    description: Text(libraryEmptyDescription(for: selection)),
+                )
+                .foregroundStyle(RrradioTheme.ink)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                libraryPreviewDisplayView(selection: selection, stations: stations)
+            }
+        }
+    }
+
+    private var libraryPreviewOverview: some View {
+        ScrollView(showsIndicators: false) {
+            LazyVStack(spacing: stationHeaderStackSpacing) {
+                libraryPreviewInlineControls(for: .home)
+
+                Section {
+                    ForEach(filteredLibrarySelections) { selection in
+                        libraryOverviewCard(selection)
+                            .padding(.horizontal, 14)
+                            .padding(.top, selection == filteredLibrarySelections.first ? stationHeaderStackSpacing : 0)
+                    }
+                } header: {
+                    stickySectionHeader(includesRule: true, pinnedTopPadding: libraryHeaderRuleTopPadding)
+                }
+            }
+            .padding(.top, stationHeaderTopPadding)
+            .padding(.bottom, 12)
+        }
+        .scrollDisabled(true)
+        .background(RrradioTheme.bg)
+    }
+
+    private var libraryDisplayContent: some View {
+        libraryDisplayView(for: libraryDisplayMode(for: librarySelection))
+    }
+
+    private func libraryDisplayMode(for selection: LibraryListSelection) -> FavoritesDisplayMode {
+        selection == .favorites ? favoritesDisplayMode : .list
+    }
+
+    private func libraryPreviewStations(for selection: LibraryListSelection) -> [Station] {
+        let stations: [Station]
+        switch selection {
+        case .home:
+            stations = []
+        case .recents:
+            stations = library.recents
+        case .favorites:
+            stations = library.favorites
+        case .stationList(let id):
+            stations = library.stationList(id: id)?.stations ?? []
+        }
+        return Array(stations.prefix(min(stationDisplayLimit, stations.count)))
+    }
+
+    private func libraryEmptyTitle(for selection: LibraryListSelection) -> String {
+        switch selection {
+        case .home:
+            return locale.text(.noStationLists)
+        case .recents:
+            return locale.text(.noRecents)
+        case .favorites:
+            return locale.text(.noFavorites)
+        case .stationList:
+            return locale.text(.emptyStationList)
+        }
+    }
+
+    private func libraryEmptyIcon(for selection: LibraryListSelection) -> String {
+        switch selection {
+        case .home:
+            return "square.grid.2x2"
+        case .recents:
+            return "clock"
+        case .favorites:
+            return "heart"
+        case .stationList:
+            return "antenna.radiowaves.left.and.right.slash"
+        }
+    }
+
+    private func libraryEmptyDescription(for selection: LibraryListSelection) -> String {
+        switch selection {
+        case .home:
+            return locale.text(.stationListsHint)
+        case .recents:
+            return locale.text(.recentsHint)
+        case .favorites:
+            return locale.text(.tapHeart)
+        case .stationList:
+            return locale.text(.emptyStationListHint)
+        }
+    }
+
+    @ViewBuilder
+    private func libraryPreviewDisplayView(selection: LibraryListSelection, stations: [Station]) -> some View {
+        switch libraryDisplayMode(for: selection) {
+        case .list:
+            libraryPreviewList(selection: selection, stations: stations)
+        case .tiles:
+            libraryPreviewTileGrid(selection: selection, stations: stations)
+        case .app:
+            libraryPreviewAppGrid(selection: selection, stations: stations)
+        }
+    }
+
+    private func libraryPreviewList(selection: LibraryListSelection, stations: [Station]) -> some View {
+        ScrollView(showsIndicators: false) {
+            LazyVStack(spacing: stationHeaderStackSpacing) {
+                libraryPreviewInlineControls(for: selection)
+
+                Section {
+                    ForEach(Array(stations.enumerated()), id: \.element.id) { index, station in
+                        libraryPreviewStationRow(station, selection: selection)
+                            .padding(.top, index == 0 ? stationHeaderStackSpacing : 0)
+                    }
+                } header: {
+                    stickySectionHeader(includesRule: true, pinnedTopPadding: libraryHeaderRuleTopPadding)
+                }
+            }
+            .padding(.top, stationHeaderTopPadding)
+            .padding(.bottom, 12)
+        }
+        .scrollDisabled(true)
+        .background(RrradioTheme.bg)
+    }
+
+    private func libraryPreviewTileGrid(selection: LibraryListSelection, stations: [Station]) -> some View {
+        ScrollView(showsIndicators: false) {
+            LazyVStack(spacing: stationHeaderStackSpacing) {
+                libraryPreviewInlineControls(for: selection)
+
+                Section {
+                    LazyVGrid(
+                        columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteTileGridColumnCount),
+                        spacing: 10,
+                    ) {
+                        ForEach(stations) { station in
+                            FavoriteStationTile(
+                                station: station,
+                                nowPlaying: favoriteNowPlaying.entries[station.id]?.metadata,
+                                isCurrent: player.current?.id == station.id,
+                                isPlaying: player.current?.id == station.id && player.state == .playing,
+                                isCustom: library.isCustom(station),
+                            )
+                        }
+                    }
+                    .padding(.top, stationHeaderStackSpacing)
+                    .padding(.horizontal, 14)
+                } header: {
+                    stickySectionHeader(includesRule: true, pinnedTopPadding: libraryHeaderRuleTopPadding)
+                }
+            }
+            .padding(.top, stationHeaderTopPadding)
+            .padding(.bottom, 16)
+        }
+        .scrollDisabled(true)
+        .background(RrradioTheme.bg)
+    }
+
+    private func libraryPreviewAppGrid(selection: LibraryListSelection, stations: [Station]) -> some View {
+        ScrollView(showsIndicators: false) {
+            LazyVStack(spacing: stationHeaderStackSpacing) {
+                libraryPreviewInlineControls(for: selection)
+
+                Section {
+                    LazyVGrid(
+                        columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteAppGridColumnCount),
+                        alignment: .center,
+                        spacing: 18,
+                    ) {
+                        ForEach(stations) { station in
+                            FavoriteStationAppIcon(
+                                station: station,
+                                isCurrent: player.current?.id == station.id,
+                                isCustom: library.isCustom(station),
+                                dragProvider: nil,
+                            )
+                        }
+                    }
+                    .padding(.top, stationHeaderStackSpacing)
+                    .padding(.horizontal, 18)
+                } header: {
+                    stickySectionHeader(includesRule: true, pinnedTopPadding: libraryHeaderRuleTopPadding)
+                }
+            }
+            .padding(.top, stationHeaderTopPadding)
+            .padding(.bottom, 18)
+        }
+        .scrollDisabled(true)
+        .background(RrradioTheme.bg)
+    }
+
+    @ViewBuilder
+    private func libraryPreviewStationRow(_ station: Station, selection: LibraryListSelection) -> some View {
+        if selection == .favorites {
+            favoriteListRow(station)
+        } else {
+            StationRow(
+                station: station,
+                nowPlaying: nil,
+                mode: .standard,
+                isCurrent: player.current?.id == station.id,
+                isPlaying: player.current?.id == station.id && player.state == .playing,
+                isFavorite: library.isFavorite(station),
+                isCustom: library.isCustom(station),
+                onPlay: {},
+                onToggleFavorite: {},
+                showsFavoriteButton: true,
+                showsStreamQualityButton: true,
+                onInfoHoldChanged: nil,
+            )
+        }
+    }
+
+    @ViewBuilder
+    private func libraryDisplayView(for mode: FavoritesDisplayMode) -> some View {
         Group {
             switch mode {
             case .list:
-                sortableFavoritesList
+                if isFavoritesPage {
+                    sortableFavoritesList
+                } else {
+                    stationScrollList
+                }
             case .tiles:
                 favoritesTileGrid
             case .app:
@@ -2039,67 +2487,44 @@ struct StationListView: View {
         }
     }
 
-    private func adjacentFavoritesDisplayMode(for offset: CGFloat) -> FavoritesDisplayMode? {
-        if let pageSwipeSettlingTarget {
-            return pageSwipeSettlingTarget
-        }
-        if offset < 0 {
-            return nextFavoritesDisplayMode
-        } else if offset > 0 {
-            return previousFavoritesDisplayMode
-        }
-        return nil
-    }
-
-    private func adjacentPageOffset(for activeOffset: CGFloat, pageWidth: CGFloat) -> CGFloat {
-        if let pageSwipeSettlingTarget {
-            return pageSwipeSettlingTarget == nextFavoritesDisplayMode
-                ? max(pageWidth, 1) + activeOffset
-                : -max(pageWidth, 1) + activeOffset
-        }
-        return activeOffset < 0
-            ? max(pageWidth, 1) + activeOffset
-            : -max(pageWidth, 1) + activeOffset
-    }
-
     private var stationScrollList: some View {
         ScrollView(showsIndicators: false) {
-            ScrollOffsetObserver(offset: $listScrollOffset, maximumOffset: stickyHeaderPinnedOffset)
-                .frame(width: 0, height: 0)
+            VStack(spacing: 0) {
+                ScrollOffsetObserver(offset: $listScrollOffset, maximumOffset: stickyHeaderPinnedOffset)
+                    .frame(width: 0, height: 0)
 
-            LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: [.sectionHeaders]) {
-                if pageTab == .browse {
-                    inlineBrowseControls
-                } else if pageTab == .favorites {
-                    inlineFavoritesControls()
-                } else if pageTab == .stationLists {
-                    inlineStationListsControls()
+                LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: stationScrollPinnedViews) {
+                    if pageTab == .browse {
+                        inlineBrowseControls
+                    } else if isLibraryPage {
+                        inlineStationListsControls()
+                    }
+
+                    Section {
+                        if isStationListsDetail && filteredStations.isEmpty {
+                            stationListEmptyState
+                                .padding(.top, stationHeaderStackSpacing)
+                        } else if showingFavoritesCatalogFallback {
+                            favoritesCatalogFallbackNotice
+                                .padding(.top, stationHeaderStackSpacing)
+                        }
+
+                        ForEach(Array(visibleStations.enumerated()), id: \.element.id) { index, station in
+                            stationScrollRow(station)
+                                .padding(.top, !showingFavoritesCatalogFallback && index == 0 ? stationHeaderStackSpacing : 0)
+                        }
+                        if visibleStations.count < filteredStations.count || canLoadWorldwideStations {
+                            loadMoreRow
+                        }
+                    } header: {
+                        stationScrollSectionHeader
+                    }
                 }
-
-                Section {
-                    if isStationListsDetail && filteredStations.isEmpty {
-                        stationListEmptyState
-                            .padding(.top, stationHeaderStackSpacing)
-                    } else if showingFavoritesCatalogFallback {
-                        favoritesCatalogFallbackNotice
-                            .padding(.top, stationHeaderStackSpacing)
-                    }
-
-                    ForEach(Array(visibleStations.enumerated()), id: \.element.id) { index, station in
-                        stationScrollRow(station)
-                            .padding(.top, !showingFavoritesCatalogFallback && index == 0 ? stationHeaderStackSpacing : 0)
-                    }
-                    if visibleStations.count < filteredStations.count || canLoadWorldwideStations {
-                        loadMoreRow
-                    }
-                } header: {
-                    stationScrollSectionHeader
+                .padding(.top, stationHeaderTopPadding)
+                .padding(.bottom, 12)
+                .background {
+                    stationListDeleteModeDismissBackground
                 }
-            }
-            .padding(.top, stationHeaderTopPadding)
-            .padding(.bottom, 12)
-            .background {
-                stationListDeleteModeDismissBackground
             }
         }
         .scrollDismissesKeyboard(.immediately)
@@ -2192,58 +2617,84 @@ struct StationListView: View {
         .accessibilityLabel(locale.text(.selectStation))
     }
 
-    private var stationListsOverview: some View {
+    private var libraryOverview: some View {
         ScrollView(showsIndicators: false) {
-            ScrollOffsetObserver(offset: $listScrollOffset, maximumOffset: stickyHeaderPinnedOffset)
-                .frame(width: 0, height: 0)
+            VStack(spacing: 0) {
+                ScrollOffsetObserver(offset: $listScrollOffset, maximumOffset: stickyHeaderPinnedOffset)
+                    .frame(width: 0, height: 0)
 
-            LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: [.sectionHeaders]) {
-                inlineStationListsControls()
+                LazyVStack(spacing: stationHeaderStackSpacing) {
+                    inlineStationListsControls()
 
-                Section {
-                    if filteredStationLists.isEmpty {
-                        stationListEmptyState
-                            .padding(.top, stationHeaderStackSpacing)
-                    } else {
-                        ForEach(filteredStationLists) { list in
-                            StationListCard(
-                                stationList: list,
-                                emptyLabel: locale.text(.emptyStationList),
-                                isCurrent: stationListIsCurrentPlaybackSource(list),
-                                isFirstStationCustom: list.stations.first.map(library.isCustom) ?? false,
-                                isDeleteModeEnabled: stationListDeleteModeEnabled && canDeleteStationListsOverview,
-                            ) {
-                                if stationListDeleteModeEnabled {
-                                    hideStationListDeleteMode()
-                                } else {
-                                    openStationList(list)
-                                }
-                            } onPlay: {
-                                if stationListDeleteModeEnabled {
-                                    hideStationListDeleteMode()
-                                } else {
-                                    playStationList(list)
-                                }
-                            } onDelete: {
-                                removeStationListFromOverview(list)
+                    Section {
+                        if filteredLibrarySelections.isEmpty {
+                            stationListEmptyState
+                                .padding(.top, stationHeaderStackSpacing)
+                        } else {
+                            ForEach(filteredLibrarySelections) { selection in
+                                libraryOverviewCard(selection)
+                                    .padding(.horizontal, 14)
+                                    .padding(.top, selection == filteredLibrarySelections.first ? stationHeaderStackSpacing : 0)
                             }
-                            .padding(.horizontal, 14)
-                            .padding(.top, list.id == filteredStationLists.first?.id ? stationHeaderStackSpacing : 0)
                         }
+                    } header: {
+                        stickySectionHeader(includesRule: true, pinnedTopPadding: libraryHeaderRuleTopPadding)
                     }
-                } header: {
-                    stickySectionHeader(includesRule: true)
                 }
-            }
-            .padding(.top, stationHeaderTopPadding)
-            .padding(.bottom, 12)
-            .background {
-                stationListDeleteModeDismissBackground
+                .padding(.top, stationHeaderTopPadding)
+                .padding(.bottom, 12)
+                .background {
+                    stationListDeleteModeDismissBackground
+                }
             }
         }
         .scrollDismissesKeyboard(.immediately)
         .scrollDisabled(isHorizontalSwipeLocked)
         .background(RrradioTheme.bg)
+    }
+
+    @ViewBuilder
+    private func libraryOverviewCard(_ selection: LibraryListSelection) -> some View {
+        switch selection {
+        case .stationList(let id):
+            if let list = library.stationList(id: id) {
+                StationListCard(
+                    stationList: list,
+                    emptyLabel: locale.text(.emptyStationList),
+                    isCurrent: stationListIsCurrentPlaybackSource(list),
+                    isFirstStationCustom: list.stations.first.map(library.isCustom) ?? false,
+                    isDeleteModeEnabled: stationListDeleteModeEnabled && canDeleteStationListsOverview,
+                ) {
+                    if stationListDeleteModeEnabled {
+                        hideStationListDeleteMode()
+                    } else {
+                        openStationList(list)
+                    }
+                } onPlay: {
+                    if stationListDeleteModeEnabled {
+                        hideStationListDeleteMode()
+                    } else {
+                        playStationList(list)
+                    }
+                } onDelete: {
+                    removeStationListFromOverview(list)
+                }
+            }
+        case .home, .recents, .favorites:
+            LibrarySelectionCard(
+                title: librarySelectionTitle(selection),
+                icon: librarySelectionIcon(selection),
+                count: librarySelectionCount(selection),
+                summary: librarySelectionSummary(selection),
+                isCurrent: librarySelectionIsCurrentPlaybackSource(selection),
+            ) {
+                if stationListDeleteModeEnabled {
+                    hideStationListDeleteMode()
+                } else {
+                    setLibrarySelection(selection)
+                }
+            }
+        }
     }
 
     private var stationListEmptyState: some View {
@@ -2353,11 +2804,14 @@ struct StationListView: View {
 
     @ViewBuilder
     private var stationScrollSectionHeader: some View {
-        stickySectionHeader(includesRule: pageTab == .browse || pageTab == .favorites || pageTab == .stationLists)
+        stickySectionHeader(
+            includesRule: pageTab == .browse || isLibraryPage,
+            pinnedTopPadding: isLibraryPage ? libraryHeaderRuleTopPadding : nil,
+        )
     }
 
     @ViewBuilder
-    private func stickySectionHeader(includesRule: Bool) -> some View {
+    private func stickySectionHeader(includesRule: Bool, pinnedTopPadding: CGFloat? = nil) -> some View {
         if includesRule || hasTimerStatus {
             VStack(spacing: 0) {
                 if includesRule {
@@ -2366,7 +2820,7 @@ struct StationListView: View {
                 timerStatusStrip
             }
             .frame(maxWidth: .infinity)
-            .padding(.top, stickyHeaderPinnedTopPadding)
+            .padding(.top, pinnedTopPadding ?? stickyHeaderPinnedTopPadding)
             .background(RrradioTheme.bg)
         }
     }
@@ -2388,29 +2842,31 @@ struct StationListView: View {
 
     private var sortableFavoritesList: some View {
         ScrollView(showsIndicators: false) {
-            ScrollOffsetObserver(offset: $listScrollOffset)
-                .frame(width: 0, height: 0)
+            VStack(spacing: 0) {
+                ScrollOffsetObserver(offset: $listScrollOffset)
+                    .frame(width: 0, height: 0)
 
-            LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: [.sectionHeaders]) {
-                inlineFavoritesControls()
+                LazyVStack(spacing: stationHeaderStackSpacing) {
+                    inlineFavoritesControls()
 
-                Section {
-                    ForEach(Array(visibleStations.enumerated()), id: \.element.id) { index, station in
-                        favoriteListSortableRow(station)
-                            .padding(.top, index == 0 ? stationHeaderStackSpacing : 0)
+                    Section {
+                        ForEach(Array(visibleStations.enumerated()), id: \.element.id) { index, station in
+                            favoriteListSortableRow(station)
+                                .padding(.top, index == 0 ? stationHeaderStackSpacing : 0)
+                        }
+
+                        if visibleStations.count < filteredStations.count {
+                            loadMoreRow
+                        }
+                    } header: {
+                        stickySectionHeader(includesRule: true, pinnedTopPadding: libraryHeaderRuleTopPadding)
                     }
-
-                    if visibleStations.count < filteredStations.count {
-                        loadMoreRow
-                    }
-                } header: {
-                    stickySectionHeader(includesRule: true)
                 }
-            }
-            .padding(.top, stationHeaderTopPadding)
-            .padding(.bottom, 12)
-            .background {
-                favoriteDeleteModeDismissBackground
+                .padding(.top, stationHeaderTopPadding)
+                .padding(.bottom, 12)
+                .background {
+                    favoriteDeleteModeDismissBackground
+                }
             }
         }
         .scrollDismissesKeyboard(.immediately)
@@ -2492,56 +2948,57 @@ struct StationListView: View {
 
     private var favoritesTileGrid: some View {
         ScrollView(showsIndicators: false) {
-            ScrollOffsetObserver(offset: $listScrollOffset)
-                .frame(width: 0, height: 0)
+            VStack(spacing: 0) {
+                ScrollOffsetObserver(offset: $listScrollOffset)
+                    .frame(width: 0, height: 0)
 
-            LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: [.sectionHeaders]) {
-                inlineFavoritesControls()
+                LazyVStack(spacing: stationHeaderStackSpacing) {
+                    inlineFavoritesControls()
 
-                Section {
-                    LazyVGrid(
-                        columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteTileGridColumnCount),
-                        spacing: 10,
-                    ) {
-                        ForEach(visibleStations) { station in
-                            favoriteGridItem(
-                                station: station,
-                                dropBehavior: .targetSlot,
-                            ) {
-                                FavoriteStationTile(
+                    Section {
+                        LazyVGrid(
+                            columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteTileGridColumnCount),
+                            spacing: 10,
+                        ) {
+                            ForEach(visibleStations) { station in
+                                favoriteGridItem(
                                     station: station,
-                                    nowPlaying: favoriteNowPlaying.entries[station.id]?.metadata,
-                                    isCurrent: player.current?.id == station.id,
-                                    isPlaying: player.current?.id == station.id && player.state == .playing,
-                                    isCustom: library.isCustom(station),
-                                )
+                                    dropBehavior: .targetSlot,
+                                ) {
+                                    FavoriteStationTile(
+                                        station: station,
+                                        nowPlaying: favoriteNowPlaying.entries[station.id]?.metadata,
+                                        isCurrent: player.current?.id == station.id,
+                                        isPlaying: player.current?.id == station.id && player.state == .playing,
+                                        isCustom: library.isCustom(station),
+                                    )
+                                }
                             }
                         }
-                    }
-                    .onDrop(
-                        of: [UTType.plainText],
-                        delegate: FavoriteGridDropResetDelegate(
-                            draggedStationID: $draggedFavoriteStationID,
-                            targetedStationID: $targetedFavoriteStationID,
-                            lastMoveAt: $lastFavoriteDropMoveAt,
-                        ),
-                    )
-                    .onPreferenceChange(FavoriteGridItemSizePreferenceKey.self, perform: updateFavoriteGridItemSizes)
-                    .padding(.top, stationHeaderStackSpacing)
-                    .padding(.horizontal, 14)
+                        .onDrop(
+                            of: [UTType.plainText],
+                            delegate: FavoriteGridDropResetDelegate(
+                                draggedStationID: $draggedFavoriteStationID,
+                                targetedStationID: $targetedFavoriteStationID,
+                                lastMoveAt: $lastFavoriteDropMoveAt,
+                            ),
+                        )
+                        .padding(.top, stationHeaderStackSpacing)
+                        .padding(.horizontal, 14)
 
-                    if visibleStations.count < filteredStations.count {
-                        loadMoreRow
-                            .padding(.horizontal, 14)
+                        if visibleStations.count < filteredStations.count {
+                            loadMoreRow
+                                .padding(.horizontal, 14)
+                        }
+                    } header: {
+                        stickySectionHeader(includesRule: true, pinnedTopPadding: libraryHeaderRuleTopPadding)
                     }
-                } header: {
-                    stickySectionHeader(includesRule: true)
                 }
-            }
-            .padding(.top, stationHeaderTopPadding)
-            .padding(.bottom, 16)
-            .background {
-                favoriteDeleteModeDismissBackground
+                .padding(.top, stationHeaderTopPadding)
+                .padding(.bottom, 16)
+                .background {
+                    favoriteDeleteModeDismissBackground
+                }
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -2553,56 +3010,57 @@ struct StationListView: View {
 
     private var favoritesAppGrid: some View {
         ScrollView(showsIndicators: false) {
-            ScrollOffsetObserver(offset: $listScrollOffset)
-                .frame(width: 0, height: 0)
+            VStack(spacing: 0) {
+                ScrollOffsetObserver(offset: $listScrollOffset)
+                    .frame(width: 0, height: 0)
 
-            LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: [.sectionHeaders]) {
-                inlineFavoritesControls()
+                LazyVStack(spacing: stationHeaderStackSpacing) {
+                    inlineFavoritesControls()
 
-                Section {
-                    LazyVGrid(
-                        columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteAppGridColumnCount),
-                        alignment: .center,
-                        spacing: 18,
-                    ) {
-                        ForEach(visibleStations) { station in
-                            favoriteGridItem(
-                                station: station,
-                                dragSource: .content,
-                            ) {
-                                FavoriteStationAppIcon(
+                    Section {
+                        LazyVGrid(
+                            columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteAppGridColumnCount),
+                            alignment: .center,
+                            spacing: 18,
+                        ) {
+                            ForEach(visibleStations) { station in
+                                favoriteGridItem(
                                     station: station,
-                                    isCurrent: player.current?.id == station.id,
-                                    isCustom: library.isCustom(station),
-                                    dragProvider: canReorderFavorites ? { favoriteGridDragProvider(for: station) } : nil,
-                                )
+                                    dragSource: .content,
+                                ) {
+                                    FavoriteStationAppIcon(
+                                        station: station,
+                                        isCurrent: player.current?.id == station.id,
+                                        isCustom: library.isCustom(station),
+                                        dragProvider: canReorderFavorites ? { favoriteGridDragProvider(for: station) } : nil,
+                                    )
+                                }
                             }
                         }
-                    }
-                    .onDrop(
-                        of: [UTType.plainText],
-                        delegate: FavoriteGridDropResetDelegate(
-                            draggedStationID: $draggedFavoriteStationID,
-                            targetedStationID: $targetedFavoriteStationID,
-                            lastMoveAt: $lastFavoriteDropMoveAt,
-                        ),
-                    )
-                    .onPreferenceChange(FavoriteGridItemSizePreferenceKey.self, perform: updateFavoriteGridItemSizes)
-                    .padding(.top, stationHeaderStackSpacing)
-                    .padding(.horizontal, 18)
+                        .onDrop(
+                            of: [UTType.plainText],
+                            delegate: FavoriteGridDropResetDelegate(
+                                draggedStationID: $draggedFavoriteStationID,
+                                targetedStationID: $targetedFavoriteStationID,
+                                lastMoveAt: $lastFavoriteDropMoveAt,
+                            ),
+                        )
+                        .padding(.top, stationHeaderStackSpacing)
+                        .padding(.horizontal, 18)
 
-                    if visibleStations.count < filteredStations.count {
-                        loadMoreRow
-                            .padding(.horizontal, 18)
+                        if visibleStations.count < filteredStations.count {
+                            loadMoreRow
+                                .padding(.horizontal, 18)
+                        }
+                    } header: {
+                        stickySectionHeader(includesRule: true, pinnedTopPadding: libraryHeaderRuleTopPadding)
                     }
-                } header: {
-                    stickySectionHeader(includesRule: true)
                 }
-            }
-            .padding(.top, stationHeaderTopPadding)
-            .padding(.bottom, 18)
-            .background {
-                favoriteDeleteModeDismissBackground
+                .padding(.top, stationHeaderTopPadding)
+                .padding(.bottom, 18)
+                .background {
+                    favoriteDeleteModeDismissBackground
+                }
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -2690,7 +3148,7 @@ struct StationListView: View {
                         of: [UTType.plainText],
                         delegate: FavoriteStationDropDelegate(
                             targetStationID: station.id,
-                            targetSize: favoriteGridItemSizes[station.id],
+                            targetSize: nil,
                             dropBehavior: dropBehavior,
                             draggedStationID: $draggedFavoriteStationID,
                             targetedStationID: $targetedFavoriteStationID,
@@ -2698,7 +3156,6 @@ struct StationListView: View {
                             moveStation: moveFavoriteGridStation,
                         ),
                     )
-                    .background(favoriteGridItemSizeReader(stationID: station.id))
                     .accessibilityHidden(showsReorderPlaceholder)
                     .accessibilityHint(favoriteDeleteModeEnabled ? "Tap outside remove buttons to exit remove mode" : "Drag to reorder favorites")
             case .content:
@@ -2707,7 +3164,7 @@ struct StationListView: View {
                         of: [UTType.plainText],
                         delegate: FavoriteStationDropDelegate(
                             targetStationID: station.id,
-                            targetSize: favoriteGridItemSizes[station.id],
+                            targetSize: nil,
                             dropBehavior: dropBehavior,
                             draggedStationID: $draggedFavoriteStationID,
                             targetedStationID: $targetedFavoriteStationID,
@@ -2715,7 +3172,6 @@ struct StationListView: View {
                             moveStation: moveFavoriteGridStation,
                         ),
                     )
-                    .background(favoriteGridItemSizeReader(stationID: station.id))
                     .accessibilityHidden(showsReorderPlaceholder)
                     .accessibilityHint(favoriteDeleteModeEnabled ? "Tap outside remove buttons to exit remove mode" : "Drag to reorder favorites")
             }
@@ -2998,6 +3454,7 @@ struct StationListView: View {
         hideStationListDeleteMode(animated: false)
         clearSearchState()
         selectedStationListID = list.id
+        librarySelectionRaw = LibraryListSelection.stationList(list.id).rawValue
         resetStationDisplayLimit()
         listScrollOffset = 0
         recomputeFilteredStations()
@@ -3007,13 +3464,14 @@ struct StationListView: View {
         hideStationListDeleteMode(animated: false)
         clearSearchState()
         selectedStationListID = nil
+        librarySelectionRaw = LibraryListSelection.home.rawValue
         resetStationDisplayLimit()
         listScrollOffset = 0
         recomputeFilteredStations()
     }
 
     private func resetStationListPage() {
-        guard isStationListsPage else { return }
+        guard isLibraryPage else { return }
         listScrollOffset = 0
         recomputeFilteredStations()
     }
@@ -3021,6 +3479,47 @@ struct StationListView: View {
     private func stationListIsCurrentPlaybackSource(_ list: StationList) -> Bool {
         player.activePlaybackQueueSource == .stationList
             && player.activePlaybackQueueSourceID == list.id
+    }
+
+    private func librarySelectionCount(_ selection: LibraryListSelection) -> Int {
+        switch selection {
+        case .home:
+            return librarySelections.count - 1
+        case .recents:
+            return library.recents.count
+        case .favorites:
+            return library.favorites.count
+        case .stationList(let id):
+            return library.stationList(id: id)?.stations.count ?? 0
+        }
+    }
+
+    private func librarySelectionSummary(_ selection: LibraryListSelection) -> String {
+        switch selection {
+        case .home:
+            return "Recents, favorites, and station lists"
+        case .recents:
+            return library.recents.prefix(3).map(\.name).joined(separator: " . ").nilIfEmpty ?? locale.text(.recentsHint)
+        case .favorites:
+            return library.favorites.prefix(3).map(\.name).joined(separator: " . ").nilIfEmpty ?? locale.text(.tapHeart)
+        case .stationList(let id):
+            return library.stationList(id: id)?.stations.prefix(3).map(\.name).joined(separator: " . ").nilIfEmpty
+                ?? locale.text(.emptyStationList)
+        }
+    }
+
+    private func librarySelectionIsCurrentPlaybackSource(_ selection: LibraryListSelection) -> Bool {
+        switch selection {
+        case .home:
+            return false
+        case .recents:
+            return player.activePlaybackQueueSource == .recents
+        case .favorites:
+            return player.activePlaybackQueueSource == .favorites
+        case .stationList(let id):
+            return player.activePlaybackQueueSource == .stationList
+                && player.activePlaybackQueueSourceID == id
+        }
     }
 
     private func play(_ station: Station) {
@@ -3206,16 +3705,14 @@ struct StationListView: View {
     }
 
     private var canDeleteStationListsOverview: Bool {
-        isStationListsPage
-            && !isStationListsDetail
+        isLibraryHome
             && !library.stationLists.isEmpty
             && query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
             && searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
     private var canDeleteStationsFromSelectedList: Bool {
-        isStationListsPage
-            && isStationListsDetail
+        isStationListsDetail
             && selectedStationList?.stations.isEmpty == false
             && query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
             && searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -3301,20 +3798,6 @@ struct StationListView: View {
 
             let horizontalProgress = min(max(location.x / targetSize.width, 0), 1)
             return horizontalProgress < 0.5 ? .before : .after
-        }
-    }
-
-    private func updateFavoriteGridItemSizes(_ sizes: [String: CGSize]) {
-        guard favoriteGridItemSizes != sizes else { return }
-        favoriteGridItemSizes = sizes
-    }
-
-    private func favoriteGridItemSizeReader(stationID: String) -> some View {
-        GeometryReader { proxy in
-            Color.clear.preference(
-                key: FavoriteGridItemSizePreferenceKey.self,
-                value: [stationID: proxy.size],
-            )
         }
     }
 
@@ -3489,8 +3972,17 @@ struct StationListView: View {
         if !query.trimmingCharacters(in: .whitespaces).isEmpty || hasActiveFiltersForCurrentSource {
             return locale.text(.noStationsFound)
         }
+        if isLibraryHome {
+            return locale.text(.noStationLists)
+        }
         if isStationListsDetail {
             return locale.text(.emptyStationList)
+        }
+        if isFavoritesPage {
+            return locale.text(.noFavorites)
+        }
+        if isLibraryRecentsPage {
+            return locale.text(.noRecents)
         }
         switch source {
         case .all: return locale.text(.catalogEmpty)
@@ -3501,7 +3993,10 @@ struct StationListView: View {
 
     private var emptyIcon: String {
         if hasActiveFiltersForCurrentSource { return "line.3.horizontal.decrease.circle" }
+        if isLibraryHome { return "square.grid.2x2" }
         if isStationListsDetail { return "antenna.radiowaves.left.and.right.slash" }
+        if isFavoritesPage { return "heart" }
+        if isLibraryRecentsPage { return "clock" }
         switch source {
         case .all: return "antenna.radiowaves.left.and.right.slash"
         case .favorites: return "heart"
@@ -3513,8 +4008,17 @@ struct StationListView: View {
         if !query.trimmingCharacters(in: .whitespaces).isEmpty || hasActiveFiltersForCurrentSource {
             return locale.text(.trySearch)
         }
+        if isLibraryHome {
+            return locale.text(.stationListsHint)
+        }
         if isStationListsDetail {
             return locale.text(.emptyStationListHint)
+        }
+        if isFavoritesPage {
+            return locale.text(.tapHeart)
+        }
+        if isLibraryRecentsPage {
+            return locale.text(.recentsHint)
         }
         switch source {
         case .all: return locale.text(.catalogNoRows)
@@ -3524,8 +4028,8 @@ struct StationListView: View {
     }
 
     private var statusLabel: String {
-        if isStationListsPage {
-            return selectedStationList?.name ?? locale.text(.stationLists)
+        if isLibraryPage {
+            return librarySelectionTitle(librarySelection)
         }
         switch source {
         case .all:
@@ -3539,8 +4043,11 @@ struct StationListView: View {
     }
 
     private var statusCountLabel: String {
-        if isStationListsPage {
-            return "\(isStationListsDetail ? filteredStations.count : filteredStationLists.count)"
+        if isLibraryPage {
+            if isLibraryHome {
+                return "\(filteredLibrarySelections.count)"
+            }
+            return "\(filteredStations.count)"
         }
         guard source == .all else { return "\(filteredStations.count)" }
         if hasActiveFilters || !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -3588,16 +4095,55 @@ struct StationListView: View {
 
     private func recomputeFilteredStations() {
         let query = query
-        if isStationListsPage {
+        if isLibraryHome {
             filterTask?.cancel()
             showingFavoritesCatalogFallback = false
-            guard let selectedStationList else {
-                filteredStations = []
-                return
-            }
+            filteredStations = []
+            return
+        }
+        if isStationListsDetail {
+            filterTask?.cancel()
+            showingFavoritesCatalogFallback = false
+            guard let selectedStationList else { return }
             let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
             filteredStations = selectedStationList.stations.filter {
                 trimmedQuery.isEmpty || stationMatches($0, query: query)
+            }
+            return
+        }
+        if isLibraryPage {
+            filterTask?.cancel()
+            let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
+            let stationFiltersApply = isFavoritesPage
+            let selectedCountryCodes = stationFiltersApply ? selectedCountryCodes : []
+            let selectedGenreIDs = stationFiltersApply ? selectedGenreIDs : []
+            let newsFilterSelected = stationFiltersApply ? newsFilterSelected : false
+            let matches = stations.filter {
+                stationMatches($0, query: query)
+                    && Self.stationMatchesBrowseFilters(
+                        $0,
+                        countryCodes: selectedCountryCodes,
+                        genreIDs: selectedGenreIDs,
+                        newsFilterSelected: newsFilterSelected,
+                    )
+            }
+            if isFavoritesPage,
+               !trimmedQuery.isEmpty,
+               matches.isEmpty {
+                let catalogMatches = catalog.browseOrdered.filter {
+                    stationMatches($0, query: query)
+                        && Self.stationMatchesBrowseFilters(
+                            $0,
+                            countryCodes: selectedCountryCodes,
+                            genreIDs: selectedGenreIDs,
+                            newsFilterSelected: newsFilterSelected,
+                        )
+                }
+                filteredStations = catalogMatches
+                showingFavoritesCatalogFallback = !catalogMatches.isEmpty
+            } else {
+                filteredStations = matches
+                showingFavoritesCatalogFallback = false
             }
             return
         }
@@ -3927,8 +4473,17 @@ struct StationListView: View {
     }
 
     private var searchPlaceholder: String {
-        if isStationListsPage {
+        if isLibraryHome {
+            return locale.text(.searchStationLists)
+        }
+        if isStationListsDetail {
             return isStationListsDetail ? locale.text(.searchStationList) : locale.text(.searchStationLists)
+        }
+        if isFavoritesPage {
+            return locale.text(.searchFavorites)
+        }
+        if isLibraryRecentsPage {
+            return locale.text(.searchRecents)
         }
         switch source {
         case .all: return locale.text(.searchAll)
@@ -4091,14 +4646,6 @@ private enum FavoriteGridDropPlacement {
 private enum FavoriteGridDropBehavior {
     case horizontalSplit
     case targetSlot
-}
-
-private struct FavoriteGridItemSizePreferenceKey: PreferenceKey {
-    static var defaultValue: [String: CGSize] = [:]
-
-    static func reduce(value: inout [String: CGSize], nextValue: () -> [String: CGSize]) {
-        value.merge(nextValue(), uniquingKeysWith: { _, new in new })
-    }
 }
 
 /// SpringBoard-style jiggle modifier for the favorites grid icons.
@@ -5279,6 +5826,77 @@ private struct StationListCard: View {
     private var summaryLine: String {
         guard !stationList.stations.isEmpty else { return emptyLabel }
         return stationList.stations.prefix(3).map(\.name).joined(separator: " . ")
+    }
+}
+
+private struct LibrarySelectionCard: View {
+    let title: String
+    let icon: String
+    let count: Int
+    let summary: String
+    let isCurrent: Bool
+    let onOpen: () -> Void
+
+    var body: some View {
+        Button(action: onOpen) {
+            HStack(spacing: 14) {
+                Image(systemName: icon)
+                    .font(.system(size: 17, weight: .semibold))
+                    .foregroundStyle(isCurrent ? RrradioTheme.accent : RrradioTheme.ink3)
+                    .frame(width: 38, height: 38)
+                    .background(RrradioTheme.bg)
+                    .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 6, style: .continuous)
+                            .stroke(RrradioTheme.line)
+                    }
+
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack(spacing: 7) {
+                        Text(title)
+                            .font(.system(size: 15, weight: .medium))
+                            .foregroundStyle(isCurrent ? RrradioTheme.accent : RrradioTheme.ink)
+                            .lineLimit(1)
+                            .layoutPriority(1)
+
+                        Text("\(count)")
+                            .font(.system(size: 10.5, weight: .semibold, design: .monospaced))
+                            .foregroundStyle(RrradioTheme.ink3)
+                            .frame(minWidth: 22, minHeight: 22)
+                            .background(RrradioTheme.bg)
+                            .clipShape(Capsule())
+                            .overlay(Capsule().stroke(RrradioTheme.line))
+                    }
+
+                    Text(summary)
+                        .font(.system(size: 10.5, weight: .regular, design: .monospaced))
+                        .foregroundStyle(RrradioTheme.ink3)
+                        .lineLimit(1)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundStyle(RrradioTheme.ink4)
+                    .frame(width: 36, height: 36)
+            }
+            .padding(.leading, 20)
+            .padding(.trailing, 6)
+            .padding(.vertical, 14)
+            .background {
+                RoundedRectangle(cornerRadius: 6, style: .continuous)
+                    .fill(isCurrent ? RrradioTheme.bg3 : RrradioTheme.bg2)
+                    .overlay {
+                        if isCurrent {
+                            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                .stroke(RrradioTheme.line, lineWidth: 1)
+                        }
+                    }
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(title)
     }
 }
 

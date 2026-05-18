@@ -367,6 +367,7 @@ final class CloudSyncController {
             sleepTimerDefaultMinutes: sleepTimer?.defaultMinutes ?? SleepTimer.fallbackDefaultMinutes,
             landingPage: defaults.string(forKey: LandingPage.storageKey) ?? LandingPage.browse.rawValue,
             landingStationID: defaults.string(forKey: LandingPage.stationIDKey) ?? "",
+            landingStationListID: defaults.string(forKey: LandingPage.stationListIDKey) ?? "",
             favoritesDisplayMode: FavoritesDisplayMode.normalizedSelection(
                 rawValue: defaults.string(forKey: FavoritesDisplayMode.storageKey),
                 orderRawValue: defaults.string(forKey: FavoritesDisplayMode.orderStorageKey),
@@ -412,6 +413,7 @@ final class CloudSyncController {
             defaults.set(snapshot.landingPage, forKey: LandingPage.storageKey)
         }
         defaults.set(snapshot.landingStationID, forKey: LandingPage.stationIDKey)
+        defaults.set(snapshot.landingStationListID, forKey: LandingPage.stationListIDKey)
         if FavoritesDisplayMode(rawValue: snapshot.favoritesDisplayMode) != nil {
             applyFavoritesDisplayPreferences(snapshot)
         }

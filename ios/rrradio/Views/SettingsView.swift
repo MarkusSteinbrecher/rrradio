@@ -83,6 +83,7 @@ private struct SettingsPageView: View {
     @Environment(CloudSyncController.self) private var cloudSync
     @AppStorage(LandingPage.storageKey) private var landingPageRaw = LandingPage.browse.rawValue
     @AppStorage(LandingPage.stationIDKey) private var landingStationID = ""
+    @AppStorage(LandingPage.stationListIDKey) private var landingStationListID = ""
     @AppStorage(WakeAlarm.defaultTimeKey) private var defaultWakeTime = WakeAlarm.fallbackDefaultTime
     @AppStorage(SleepTimer.defaultMinutesKey) private var defaultSleepMinutes = SleepTimer.fallbackDefaultMinutes
     @AppStorage(FavoritesDisplayMode.storageKey) private var favoritesDisplayModeRaw = FavoritesDisplayMode.list.rawValue
@@ -128,7 +129,12 @@ private struct SettingsPageView: View {
                     settingsSection(locale.text(.landingPage)) {
                         VStack(spacing: 0) {
                             landingPageRow(.browse)
+                            landingPageRow(.library)
+                            landingPageRow(.recents)
                             landingPageRow(.favorites)
+                            ForEach(library.stationLists) { list in
+                                landingStationListRow(list)
+                            }
                             landingPageRow(.station)
                             if currentLandingPage == .station {
                                 landingStationPicker
@@ -139,7 +145,7 @@ private struct SettingsPageView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
 
-                    settingsSection("Favorites views") {
+                    settingsSection("Library views") {
                         VStack(spacing: 0) {
                             ForEach(Array(favoritesDisplayOrder.enumerated()), id: \.element) { index, mode in
                                 favoritesDisplayModeConfigurationRow(mode, index: index)
@@ -150,7 +156,7 @@ private struct SettingsPageView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
 
-                    settingsSection("Default favorites view") {
+                    settingsSection("Default Library view") {
                         VStack(spacing: 0) {
                             ForEach(visibleFavoritesDisplayModes) { mode in
                                 favoritesDisplayModeRow(mode)
@@ -998,6 +1004,9 @@ private struct SettingsPageView: View {
     private func landingPageRow(_ landingPage: LandingPage) -> some View {
         Button {
             landingPageRaw = landingPage.rawValue
+            if landingPage != .stationList {
+                landingStationListID = ""
+            }
             if landingPage == .station, landingStationID.isEmpty, let station = player.current ?? landingStationOptions.first {
                 landingStationID = station.id
             }
@@ -1019,6 +1028,46 @@ private struct SettingsPageView: View {
                 }
                 Spacer()
                 if currentLandingPage == landingPage {
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(RrradioTheme.accent)
+                }
+            }
+            .padding(.horizontal, 14)
+            .frame(minHeight: 54)
+            .contentShape(Rectangle())
+            .overlay(alignment: .bottom) {
+                Rectangle()
+                    .fill(RrradioTheme.line)
+                    .frame(height: 1)
+            }
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func landingStationListRow(_ list: StationList) -> some View {
+        Button {
+            landingPageRaw = LandingPage.stationList.rawValue
+            landingStationListID = list.id
+            landingStationID = ""
+            cloudSync.noteSettingsChanged()
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: LandingPage.stationList.icon)
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .frame(width: 22)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(list.name)
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundStyle(RrradioTheme.ink)
+                    Text("\(list.stations.count) \(list.stations.count == 1 ? "station" : "stations")")
+                        .font(.system(size: 12))
+                        .foregroundStyle(RrradioTheme.ink3)
+                        .lineLimit(2)
+                }
+                Spacer()
+                if currentLandingPage == .stationList && landingStationListID == list.id {
                     Image(systemName: "checkmark")
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundStyle(RrradioTheme.accent)
@@ -1173,7 +1222,7 @@ private struct SettingsPageView: View {
                 Text(mode.title)
                     .font(.system(size: 15, weight: .medium))
                     .foregroundStyle(visible ? RrradioTheme.ink : RrradioTheme.ink3)
-                Text(visible ? "Shown on Favorites" : "Hidden from Favorites")
+                Text(visible ? "Shown in Library" : "Hidden from Library")
                     .font(.system(size: 12))
                     .foregroundStyle(RrradioTheme.ink3)
             }
@@ -1312,11 +1361,24 @@ private struct SettingsPageView: View {
     }
 
     private var preferredLandingStations: [Station] {
-        uniqueStations([player.current].compactMap { $0 } + library.favorites + library.recents + library.customStations + catalog.browseOrdered)
+        uniqueStations(
+            [player.current].compactMap { $0 }
+                + library.favorites
+                + library.recents
+                + library.customStations
+                + library.stationLists.flatMap(\.stations)
+                + catalog.browseOrdered
+        )
     }
 
     private var allLandingStations: [Station] {
-        uniqueStations(library.customStations + library.favorites + library.recents + catalog.browseOrdered)
+        uniqueStations(
+            library.customStations
+                + library.favorites
+                + library.recents
+                + library.stationLists.flatMap(\.stations)
+                + catalog.browseOrdered
+        )
     }
 
     private func uniqueStations(_ stations: [Station]) -> [Station] {
@@ -1329,7 +1391,10 @@ private struct SettingsPageView: View {
     private func landingPageTitle(_ landingPage: LandingPage) -> String {
         switch landingPage {
         case .browse: locale.text(.browse)
+        case .library: "Library Home"
+        case .recents: locale.text(.recents)
         case .favorites: locale.text(.favorites)
+        case .stationList: selectedLandingStationListName
         case .station: locale.text(.playStation)
         }
     }
@@ -1337,9 +1402,16 @@ private struct SettingsPageView: View {
     private func landingPageDetail(_ landingPage: LandingPage) -> String {
         switch landingPage {
         case .browse: locale.text(.landingBrowseDetail)
-        case .favorites: locale.text(.landingFavoritesDetail)
+        case .library: "Open the Library lists view on launch"
+        case .recents: "Open recently played stations on launch"
+        case .favorites: "Open favorites in Library on launch"
+        case .stationList: "Open a custom station list on launch"
         case .station: locale.text(.landingStationDetail)
         }
+    }
+
+    private var selectedLandingStationListName: String {
+        library.stationList(id: landingStationListID)?.name ?? locale.text(.stationLists)
     }
 
     private func languageRow(_ choice: LocaleController.Choice) -> some View {
