@@ -282,6 +282,8 @@ struct StationListView: View {
     private let topbarControlSize: CGFloat = 36
     private let topbarControlSpacing: CGFloat = 8
     private let favoriteRemoveControlTrailingInset: CGFloat = 20
+    private let favoriteListDeleteBadgeTopInset: CGFloat = 8
+    private let favoriteListDeleteBadgeTrailingInset: CGFloat = 26
     private let stationHeaderTopPadding: CGFloat = 6
     private let stationHeaderStackSpacing: CGFloat = 6
     private let libraryHeaderRuleTopPadding: CGFloat = 0
@@ -2981,21 +2983,24 @@ struct StationListView: View {
                 )
                 .frame(maxWidth: .infinity)
 
-                if showsRemoveControl {
+                if showsStationListRemove {
                     Color.clear
                         .frame(width: favoriteRemoveControlSlotWidth)
                         .accessibilityHidden(true)
                 }
             }
 
-            if showsFavoriteRemove {
-                favoriteDeleteBadge(station)
-                    .padding(.trailing, favoriteRemoveControlTrailingInset)
-                    .transition(.scale(scale: 0.82).combined(with: .opacity))
-            } else if showsStationListRemove {
+            if showsStationListRemove {
                 stationListStationDeleteButton(station)
                     .padding(.trailing, favoriteRemoveControlTrailingInset)
                     .transition(.scale(scale: 0.82).combined(with: .opacity))
+            }
+        }
+        .overlay(alignment: .topTrailing) {
+            if showsFavoriteRemove {
+                favoriteDeleteBadge(station)
+                    .padding(.top, favoriteListDeleteBadgeTopInset)
+                    .padding(.trailing, favoriteListDeleteBadgeTrailingInset)
             }
         }
         .animation(.snappy(duration: 0.16), value: favoriteDeleteModeEnabled)
@@ -3037,6 +3042,7 @@ struct StationListView: View {
                                         favoriteGridItem(
                                             station: station,
                                             jiggleEnabled: false,
+                                            deleteBadgePlacement: .insideCorner,
                                             dropBehavior: .targetSlot,
                                         ) {
                                             FavoriteStationTile(
@@ -3184,6 +3190,7 @@ struct StationListView: View {
         station: Station,
         dragSource: FavoriteGridDragSource = .item,
         jiggleEnabled: Bool = true,
+        deleteBadgePlacement: FavoriteDeleteBadgePlacement = .overlappingCorner,
         dropBehavior: FavoriteGridDropBehavior = .horizontalSplit,
         @ViewBuilder content: () -> Content,
     ) -> some View {
@@ -3228,13 +3235,12 @@ struct StationListView: View {
                 if showsDeleteButton {
                     favoriteDeleteBadge(station)
                         .allowsHitTesting(draggedFavoriteStationID == nil)
-                        // Offset so the badge straddles the icon's
-                        // top-trailing corner instead of sitting
-                        // inside the bounds. Matches iPhone Home,
-                        // which places the X badge half-overlapping
-                        // the icon. The badge has its own padding so
-                        // a positive x / negative y is enough.
-                        .offset(x: 10, y: -10)
+                        .padding(.top, deleteBadgePlacement.topPadding)
+                        .padding(.trailing, deleteBadgePlacement.trailingPadding)
+                        .offset(
+                            x: deleteBadgePlacement.xOffset,
+                            y: deleteBadgePlacement.yOffset,
+                        )
                 }
             }
                 .modifier(FavoriteJiggleModifier(isActive: isJiggling, seed: station.id.hashValue))
@@ -3324,6 +3330,47 @@ struct StationListView: View {
         case content
     }
 
+    private enum FavoriteDeleteBadgePlacement {
+        case overlappingCorner
+        case insideCorner
+
+        var topPadding: CGFloat {
+            switch self {
+            case .overlappingCorner:
+                return 0
+            case .insideCorner:
+                return 6
+            }
+        }
+
+        var trailingPadding: CGFloat {
+            switch self {
+            case .overlappingCorner:
+                return 0
+            case .insideCorner:
+                return 6
+            }
+        }
+
+        var xOffset: CGFloat {
+            switch self {
+            case .overlappingCorner:
+                return 10
+            case .insideCorner:
+                return 0
+            }
+        }
+
+        var yOffset: CGFloat {
+            switch self {
+            case .overlappingCorner:
+                return -10
+            case .insideCorner:
+                return 0
+            }
+        }
+    }
+
     private func clearFavoriteGridDragState() {
         guard draggedFavoriteStationID != nil
             || targetedFavoriteStationID != nil
@@ -3381,9 +3428,8 @@ struct StationListView: View {
 
     /// iPhone-Home-style minus badge for Favorites list, tile, and app
     /// views. White circle, black minus, thin shadow for contrast
-    /// against bright favicons. Sized at ~24pt and positioned to
-    /// overlap grid icons, while list rows use it as the trailing
-    /// remove control.
+    /// against bright favicons. Sized at ~24pt; each display mode
+    /// decides whether it overlaps an icon or sits inside a card.
     private func favoriteDeleteBadge(_ station: Station) -> some View {
         Button {
             removeFavoriteFromGrid(station)
