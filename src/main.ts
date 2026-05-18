@@ -51,10 +51,8 @@ import {
   isAvailableInUserRegion,
 } from './region';
 import {
-  activeCountryMap,
   aggregateDashboard,
   type DashboardData,
-  type DashCountryView,
   type PublicLocationItem,
   type PublicTotals,
   type TopStationItem,
@@ -291,16 +289,11 @@ const $dashboardSheet = document.getElementById('dashboard-sheet') as HTMLElemen
 const $dashboardClose = document.getElementById('dashboard-close') as HTMLButtonElement;
 const $dashPlays = document.getElementById('dash-plays') as HTMLElement;
 const $dashVisits = document.getElementById('dash-visits') as HTMLElement;
-const $dashCountries = document.getElementById('dash-countries') as HTMLElement;
-const $dashStations = document.getElementById('dash-stations') as HTMLElement;
 const $dashMap = document.getElementById('dash-map') as HTMLElement;
 const $dashCountryTable = document.querySelector('#dash-country-table tbody') as HTMLTableSectionElement;
 const $dashStationTable = document.querySelector('#dash-station-table tbody') as HTMLTableSectionElement;
 const $dashPollTable = document.querySelector('#dash-poll-table tbody') as HTMLTableSectionElement;
 const $dashPollEmpty = document.getElementById('dash-poll-empty') as HTMLElement;
-const $dashCountryHeading = document.getElementById('dash-country-heading') as HTMLElement;
-const $dashCountryToggle = document.getElementById('dash-country-toggle') as HTMLElement;
-const $dashCountryCountHeader = document.getElementById('dash-country-count-header') as HTMLElement;
 
 // ─────────────────────────────────────────────────────────────
 // State
@@ -2103,9 +2096,6 @@ const COUNTRY_CENTROIDS: Record<string, [number, number]> = {
 
 // Dashboard types + aggregation helpers live in ./dashboard.
 
-let dashView: DashCountryView = 'listeners';
-let lastDashboardData: DashboardData | null = null;
-
 interface PollCounts {
   ios: number;
   android: number;
@@ -2132,9 +2122,8 @@ interface DashboardPayload {
 
 // `cache: 'no-store'` so the browser's HTTP cache never serves a stale
 // snapshot from an earlier visit. Cloudflare's edge cache still answers
-// (the response carries `Cache-Control: public, max-age=3600`), so we
-// re-read the same 1h-cached snapshot on every open — no extra GC load,
-// no stale four-hour-old plays sitting in some device's browser cache.
+// (the response carries `Cache-Control: public, max-age=300`), so the
+// upstream GC load is one fetch per 5 min regardless of traffic.
 async function fetchDashboardPayload(): Promise<DashboardPayload | null> {
   try {
     const res = await fetch(DASHBOARD_URL, { cache: 'no-store' });
@@ -2149,47 +2138,22 @@ async function fetchDashboardPayload(): Promise<DashboardPayload | null> {
   }
 }
 
-// aggregateDashboard + activeCountryMap live in ./dashboard.
-function activeMap(d: DashboardData): Map<string, number> {
-  return activeCountryMap(d, dashView);
-}
-
 function renderDashKpis(d: DashboardData, totals: PublicTotals | null): void {
-  // Plays = the meaningful product metric (sum of `play:` events).
-  // Visits is demoted (greyed in CSS) — it's a vanity counter, plays
-  // is what tells us the radio is actually being used.
-  $dashPlays.textContent = d.totalPlays > 0 ? d.totalPlays.toLocaleString() : '—';
+  // Visits is GoatCounter's `/stats/total` `total` field — the
+  // headline number on GC's own dashboard. Prominent so the rrradio
+  // sheet matches what shows up there.
   $dashVisits.textContent = totals?.total != null ? totals.total.toLocaleString() : '—';
-  // Countries follows the active toggle so the headline matches the
-  // table + map below (listener-countries vs station-countries).
-  $dashCountries.textContent = String(activeMap(d).size);
-  $dashStations.textContent = String(d.totalStations);
+  // Plays is the rrradio-specific derived metric (sum of `play:`
+  // events). Verifiable in GC by summing the same path prefix; muted
+  // because it's a filtered view, not a native GC number.
+  $dashPlays.textContent = d.totalPlays > 0 ? d.totalPlays.toLocaleString() : '—';
 }
 
 function renderDashCountryTable(d: DashboardData): void {
   $dashCountryTable.replaceChildren();
-  // Single-column table whose semantic switches with the toggle:
-  //   Listeners → byListenerCountry (visitors per country)
-  //   Stations  → byStationCountry  (station-origin plays per country)
-  // The two cuts aren't row-comparable (different "country" meaning),
-  // so we never show them side-by-side — the toggle picks one.
-  const sorted = [...activeMap(d).entries()].sort((a, b) => b[1] - a[1]);
+  const sorted = [...d.byListenerCountry.entries()].sort((a, b) => b[1] - a[1]);
   const max = sorted[0]?.[1] ?? 1;
   const total = sorted.reduce((s, [, c]) => s + c, 0);
-  // Both Listeners and Stations views now render the same daily bar
-  // sparkline when per-country daily series are available. Sparkline
-  // bars are normalised to the highest single-day value across the
-  // active map so heights are cross-comparable between rows.
-  const activeSeries =
-    dashView === 'listeners' ? d.byListenerCountrySeries : d.byStationCountrySeries;
-  const showSpark = activeSeries.size > 0;
-  let sparkMax = 0;
-  if (showSpark) {
-    for (const series of activeSeries.values()) {
-      for (const v of series) if (v > sparkMax) sparkMax = v;
-    }
-    if (sparkMax === 0) sparkMax = 1;
-  }
   sorted.forEach(([cc, count], i) => {
     const tr = document.createElement('tr');
     const rank = document.createElement('td');
@@ -2200,12 +2164,7 @@ function renderDashCountryTable(d: DashboardData): void {
     country.textContent = countryName(cc);
     const bar = document.createElement('td');
     bar.className = 'bar';
-    const series = showSpark ? activeSeries.get(cc) : undefined;
-    if (series && series.length > 0) {
-      bar.append(renderSparkline(series, sparkMax, d.days));
-    } else {
-      bar.innerHTML = `<div class="bar__track"><div class="bar__fill" style="width:${(count / max) * 100}%"></div></div>`;
-    }
+    bar.innerHTML = `<div class="bar__track"><div class="bar__fill" style="width:${(count / max) * 100}%"></div></div>`;
     const num = document.createElement('td');
     num.className = 'count';
     num.textContent = String(count);
@@ -2219,17 +2178,17 @@ function renderDashCountryTable(d: DashboardData): void {
 
 /** Build a fixed-height bar sparkline. Each `series` entry is one
  *  calendar day; bars share a single max across the whole table (passed
- *  in `maxAcrossTable`) so a country with one big day reads as taller
- *  than a country with a flat baseline. */
+ *  in `maxAcrossTable`) so a row with one big day reads as taller than
+ *  a row with a flat baseline. Days run oldest → newest, so the
+ *  rightmost bar is today. */
 function renderSparkline(series: number[], maxAcrossTable: number, days: string[]): HTMLElement {
   const wrap = document.createElement('div');
   wrap.className = 'bar__spark';
   wrap.setAttribute('role', 'img');
   const totalRow = series.reduce((s, v) => s + v, 0);
-  const unit = dashView === 'listeners' ? 'visits' : 'plays';
   wrap.setAttribute(
     'aria-label',
-    `${totalRow} ${unit} over the last ${series.length} days`,
+    `${totalRow} plays over the last ${series.length} days`,
   );
   series.forEach((v, idx) => {
     const cell = document.createElement('div');
@@ -2354,13 +2313,12 @@ function teardownDashMap(): void {
 
 function renderDashMap(d: DashboardData): void {
   teardownDashMap();
-  const data = activeMap(d);
+  const data = d.byListenerCountry;
 
   if (data.size === 0) {
     const empty = document.createElement('div');
     empty.className = 'dash-map-empty';
-    empty.textContent =
-      dashView === 'listeners' ? 'No listener-location data yet' : 'No station-country data yet';
+    empty.textContent = 'No listener-location data yet';
     $dashMap.append(empty);
     return;
   }
@@ -2405,7 +2363,6 @@ function renderDashMap(d: DashboardData): void {
       getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#ffff00';
 
     const max = Math.max(...data.values());
-    const unit = dashView === 'listeners' ? 'visitors' : 'plays';
     for (const [cc, count] of data) {
       const centroid = getCountryCentroid(cc);
       if (!centroid) continue;
@@ -2423,7 +2380,7 @@ function renderDashMap(d: DashboardData): void {
         fillColor: accent,
         fillOpacity: 0.45,
       }).addTo(lmap);
-      marker.bindTooltip(`${countryName(cc)} · ${count} ${unit}`, {
+      marker.bindTooltip(`${countryName(cc)} · ${count} visitors`, {
         direction: 'top',
         offset: [0, -r],
         opacity: 0.95,
@@ -2432,36 +2389,6 @@ function renderDashMap(d: DashboardData): void {
   });
 }
 
-function syncDashToggle(): void {
-  $dashCountryHeading.textContent =
-    dashView === 'listeners' ? 'Where listeners are' : 'Where stations are from';
-  // Country table count column header tracks the same view so the
-  // number column always reads "Plays" or "Visits" — no guessing.
-  $dashCountryCountHeader.textContent = dashView === 'listeners' ? 'Visits' : 'Plays';
-  for (const btn of $dashCountryToggle.querySelectorAll<HTMLButtonElement>('.lib-seg__btn')) {
-    const isActive = btn.dataset.view === dashView;
-    btn.classList.toggle('is-active', isActive);
-    btn.setAttribute('aria-pressed', String(isActive));
-  }
-}
-
-function applyDashView(): void {
-  if (!lastDashboardData) return;
-  syncDashToggle();
-  $dashCountries.textContent = String(activeMap(lastDashboardData).size);
-  renderDashCountryTable(lastDashboardData);
-  void renderDashMap(lastDashboardData);
-}
-
-$dashCountryToggle.addEventListener('click', (e) => {
-  const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.lib-seg__btn');
-  if (!btn) return;
-  const view = btn.dataset.view as DashCountryView | undefined;
-  if (!view || view === dashView) return;
-  dashView = view;
-  applyDashView();
-});
-
 async function openDashboardSheet(open: boolean): Promise<void> {
   $dashboardSheet.classList.toggle('open', open);
   $dashboardSheet.setAttribute('aria-hidden', String(!open));
@@ -2469,31 +2396,18 @@ async function openDashboardSheet(open: boolean): Promise<void> {
     teardownDashMap();
     return;
   }
-  // Initial render — show "…" placeholders, fetch fresh data.
-  $dashPlays.textContent = '…';
   $dashVisits.textContent = '…';
-  $dashCountries.textContent = '…';
-  $dashStations.textContent = '…';
+  $dashPlays.textContent = '…';
   const payload = await fetchDashboardPayload();
-  // Filter station items defensively — the worker's contract says items
-  // always have a name, but a typo upstream shouldn't crash the sheet.
   const items = (payload?.top_stations.items ?? []).filter(
     (i) => typeof i.name === 'string' && i.name.length > 0,
   );
   const data = aggregateDashboard(
-    items,
     payload?.locations.items ?? [],
-    BUILTIN_STATIONS,
-    payload?.top_stations.total,
+    payload?.top_stations.total ?? 0,
+    payload?.top_stations.distinct_stations ?? 0,
     payload?.days ?? [],
   );
-  // Use the worker's honest "distinct stations played" count instead of
-  // the items-length aggregate (which is capped at the worker's top-N
-  // display limit). aggregateDashboard set totalStations from items —
-  // override here with the true cardinality from the same snapshot.
-  if (payload) data.totalStations = payload.top_stations.distinct_stations;
-  lastDashboardData = data;
-  syncDashToggle();
   renderDashKpis(data, payload?.totals ?? null);
   renderDashCountryTable(data);
   renderDashStationTable(items, payload?.days ?? []);

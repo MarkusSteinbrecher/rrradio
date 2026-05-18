@@ -36,10 +36,11 @@ export interface Env {
 }
 
 const CACHE_TTL_S = 300;
-/** Public top-stations endpoint refreshes hourly — stations don't change
- *  rank fast and we want one upstream GC fetch per hour at most, no
- *  matter how many visitors hit the site. */
-const PUBLIC_CACHE_TTL_S = 3600;
+/** Public endpoints cache 5 min at the edge. Short enough that the
+ *  numbers visibly track what GoatCounter's own dashboard shows; long
+ *  enough that we stay polite to GC's 4 req/s rate limit even under
+ *  bursty traffic. */
+const PUBLIC_CACHE_TTL_S = 300;
 
 interface GcHit {
   path: string;
@@ -192,23 +193,20 @@ async function gcFetch<T>(path: string, env: Env): Promise<T> {
   return (await res.json()) as T;
 }
 
-// The stats window is snapped to UTC day boundaries — it always ends at
-// yesterday EOD UTC and spans `daysBack` complete calendar days back from
-// there. The previous behaviour pulled "start..now" (no end), so totals
-// ratcheted upward through the day and two devices on different edge
-// cache populations (5-minute TTL) showed different snapshots. Snapping
-// to yesterday means numbers only jump once per day at UTC midnight and
-// every reader sees the same stable window all day long.
+// The stats window is the trailing `daysBack` days INCLUDING today, the
+// same way GoatCounter's own dashboard defaults. We used to snap end
+// to yesterday-EOD-UTC for cache stability, but that produced a window
+// that never matched what GC's UI showed, which made every check
+// against GC look "off". The 5-minute edge cache is short enough that
+// intra-day movement isn't a problem.
 function rangeStart(daysBack: number): string {
   const d = new Date();
-  d.setUTCDate(d.getUTCDate() - daysBack);
+  d.setUTCDate(d.getUTCDate() - (daysBack - 1));
   return d.toISOString().slice(0, 10);
 }
 
 function rangeEnd(): string {
-  const d = new Date();
-  d.setUTCDate(d.getUTCDate() - 1);
-  return d.toISOString().slice(0, 10);
+  return new Date().toISOString().slice(0, 10);
 }
 
 function clampDays(raw: string | null): number {
@@ -253,17 +251,16 @@ async function fetchAllHits(daysBack: number, env: Env): Promise<GcHit[]> {
 // this date; otherwise the literal is fine.
 const POLL_RANGE_START = '2024-01-01';
 
-// Build the canonical [oldest..yesterday] list of YYYY-MM-DD day strings
-// for a `daysBack`-window. Same end-date that fetchAllHits passes to GC,
-// so each station's stats array indexes cleanly into this list. Used as
-// the per-item series index so every item's series array has the same
-// length and lines up with the same days, even when GC omits days where
-// the item had zero events. Length == daysBack (no longer includes the
-// incomplete "today").
+// Canonical [oldest..today] list of YYYY-MM-DD day strings for a
+// `daysBack`-window, matching the window fetchAllHits passes to GC. The
+// last entry is today (UTC); the first is `daysBack - 1` days earlier.
+// Used as the per-item series index so every item's series array has
+// the same length and lines up with the same days, even when GC omits
+// days where the item had zero events.
 function rangeDays(daysBack: number): string[] {
   const days: string[] = [];
   const today = new Date();
-  for (let i = daysBack; i >= 1; i--) {
+  for (let i = daysBack - 1; i >= 0; i--) {
     const d = new Date(today);
     d.setUTCDate(d.getUTCDate() - i);
     days.push(d.toISOString().slice(0, 10));
@@ -539,62 +536,29 @@ export default {
         }
 
         // Public visitor locations — visitor-country counts from
-        // GoatCounter /stats/locations, one day at a time. GC has no
-        // built-in per-day breakdown for /stats/locations, but it does
-        // accept start+end, so N parallel single-day queries get us
-        // the per-country daily series the dashboard needs for the
-        // Listeners-view sparkline. Aggregate counts are summed across
-        // days. Country granularity only; no city/region. No PII.
-        //   items: { code, name, count, series }
-        //   days:  [YYYY-MM-DD, …] oldest → newest, aligned to series
+        // GoatCounter /stats/locations for the window. One GC call, raw
+        // pass-through. Country granularity only; no city/region. No
+        // PII. Mirrors what GC's own location view shows.
+        //   items: { code, name, count }
         if (url.pathname === '/api/public/locations') {
           const limit = Math.min(50, Math.max(1, Number(url.searchParams.get('limit')) || 30));
-          const trendDays = rangeDays(days);
-          // One GC call per day in the window, in parallel. Each one
-          // tolerates failure so a single bad day shows as zeros rather
-          // than blanking the whole response.
-          const perDay = await Promise.all(
-            trendDays.map((day) =>
-              tolerate(
-                () =>
-                  gcFetch<GcStatGroup>(
-                    `/stats/locations?${new URLSearchParams({
-                      start: day,
-                      end: day,
-                      limit: String(limit),
-                    })}`,
-                    env,
-                  ),
-                { stats: [], total: 0 } as GcStatGroup,
-              ),
-            ),
+          const start = rangeStart(days);
+          const end = rangeEnd();
+          const data = await gcFetch<GcStatGroup>(
+            `/stats/locations?${new URLSearchParams({ start, end, limit: String(limit) })}`,
+            env,
           );
-          // Stitch per-country series across the day responses. Day
-          // index = position in trendDays. A country may be absent from
-          // some days entirely; those slots stay 0.
-          const seriesByCC = new Map<string, number[]>();
-          const nameByCC = new Map<string, string>();
-          for (let i = 0; i < perDay.length; i++) {
-            for (const s of perDay[i].stats ?? []) {
-              const cc = (s.id || '').toUpperCase();
-              if (!cc) continue;
-              if (!seriesByCC.has(cc)) {
-                seriesByCC.set(cc, new Array<number>(trendDays.length).fill(0));
-              }
-              seriesByCC.get(cc)![i] = s.count;
-              if (!nameByCC.has(cc)) nameByCC.set(cc, s.name || cc);
-            }
-          }
-          const items = [...seriesByCC.entries()].map(([cc, series]) => ({
-            code: cc,
-            name: nameByCC.get(cc) ?? cc,
-            count: series.reduce((s, v) => s + v, 0),
-            series,
-          }));
+          const items = (data.stats ?? [])
+            .map((s) => ({
+              code: (s.id ?? '').toUpperCase(),
+              name: s.name ?? (s.id ?? '').toUpperCase(),
+              count: s.count,
+            }))
+            .filter((i) => i.code);
           items.sort((a, b) => b.count - a.count);
           const total = items.reduce((s, i) => s + i.count, 0);
           return new Response(
-            JSON.stringify({ items, total, range_days: days, days: trendDays }),
+            JSON.stringify({ items, total, range_days: days }),
             {
               status: 200,
               headers: {
@@ -648,14 +612,11 @@ export default {
           );
         }
 
-        // Unified dashboard endpoint. Returns totals + top stations +
-        // listener locations + poll in a single response, all derived
-        // from the same in-Worker snapshot. The four cards on the
-        // public stats sheet used to fan out to four endpoints with
-        // independent edge-cache windows (and independent browser HTTP
-        // caches), so two devices opening the sheet could see metrics
-        // from four different points in time. One endpoint, one cache
-        // key, one timestamp.
+        // Unified dashboard endpoint. Mirrors what GoatCounter's own
+        // dashboard shows for the same window, plus rrradio-specific
+        // extras (top `play:` events, all-time poll). One Worker call,
+        // one cache key, so every device opening the sheet sees the
+        // same snapshot.
         //
         // - listening window (top stations, totals, locations) uses
         //   the request's `?days=N` like the standalone endpoints.
@@ -665,11 +626,10 @@ export default {
           const end = rangeEnd();
           const trendDays = rangeDays(days);
 
-          // Three independent GC calls + one fan-out for per-day
-          // locations. Run them concurrently — they're independent and
-          // each has its own tolerate() so a single GC hiccup degrades
-          // one card instead of blanking the whole sheet.
-          const [hits, voteHits, tot, perDay] = await Promise.all([
+          // Four concurrent GC calls. Each tolerate() makes one slow or
+          // flaky upstream degrade just its card instead of blanking the
+          // whole sheet.
+          const [hits, voteHits, tot, locationsData] = await Promise.all([
             tolerate(() => fetchHitsRange(start, end, env), [] as GcHit[]),
             tolerate(
               () => fetchHitsRange(POLL_RANGE_START, end, env, { daily: false }),
@@ -679,21 +639,13 @@ export default {
               () => gcFetch<GcTotals>(`/stats/total?start=${start}&end=${end}`, env),
               {} as GcTotals,
             ),
-            Promise.all(
-              trendDays.map((day) =>
-                tolerate(
-                  () =>
-                    gcFetch<GcStatGroup>(
-                      `/stats/locations?${new URLSearchParams({
-                        start: day,
-                        end: day,
-                        limit: '50',
-                      })}`,
-                      env,
-                    ),
-                  { stats: [], total: 0 } as GcStatGroup,
+            tolerate(
+              () =>
+                gcFetch<GcStatGroup>(
+                  `/stats/locations?${new URLSearchParams({ start, end, limit: '50' })}`,
+                  env,
                 ),
-              ),
+              { stats: [], total: 0 } as GcStatGroup,
             ),
           ]);
 
@@ -710,27 +662,17 @@ export default {
           // display cap.
           const distinctStations = hits.filter((h) => h.path.startsWith('play: ')).length;
 
-          // Listener locations stitched per-day, same way the standalone
-          // /api/public/locations endpoint does it.
-          const seriesByCC = new Map<string, number[]>();
-          const nameByCC = new Map<string, string>();
-          for (let i = 0; i < perDay.length; i++) {
-            for (const s of perDay[i].stats ?? []) {
-              const cc = (s.id || '').toUpperCase();
-              if (!cc) continue;
-              if (!seriesByCC.has(cc)) {
-                seriesByCC.set(cc, new Array<number>(trendDays.length).fill(0));
-              }
-              seriesByCC.get(cc)![i] = s.count;
-              if (!nameByCC.has(cc)) nameByCC.set(cc, s.name || cc);
-            }
-          }
-          const locationItems = [...seriesByCC.entries()].map(([cc, series]) => ({
-            code: cc,
-            name: nameByCC.get(cc) ?? cc,
-            count: series.reduce((s, v) => s + v, 0),
-            series,
-          }));
+          // Listener locations: pass through what GC returned for the
+          // window. One country per stat, count = visits, no daily
+          // series (GC's /stats/locations doesn't break out per-day and
+          // the dashboard no longer asks for it).
+          const locationItems = (locationsData.stats ?? [])
+            .map((s) => ({
+              code: (s.id ?? '').toUpperCase(),
+              name: s.name ?? (s.id ?? '').toUpperCase(),
+              count: s.count,
+            }))
+            .filter((i) => i.code);
           locationItems.sort((a, b) => b.count - a.count);
           const locationsTotal = locationItems.reduce((s, i) => s + i.count, 0);
 

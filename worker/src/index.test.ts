@@ -202,9 +202,8 @@ describe('public endpoints', () => {
     expect(body.items[0].series.every((v: number) => v === 0)).toBe(true);
     expect(body.total).toBe(15);
     expect(body.range_days).toBe(7);
-    // Snap-to-yesterday: a `days=7` window is 7 complete calendar days
-    // ending yesterday UTC. "Today" is intentionally excluded so totals
-    // don't ratchet upward across the day.
+    // The window includes today (matches GoatCounter's own dashboard).
+    // A `days=7` request gives 7 day strings ending today UTC.
     expect(body.days).toHaveLength(7);
   });
 
@@ -224,9 +223,9 @@ describe('public endpoints', () => {
           path: 'play: Alpha FM',
           count: 12,
           stats: [
-            { day: day(1), daily: 5 }, // yesterday — latest slot in the snapped window
+            { day: day(0), daily: 5 }, // today — last slot in the window
             { day: day(3), daily: 7 }, // 3 days ago
-            { day: day(0), daily: 99 }, // "today" — should be dropped (out of window)
+            { day: day(99), daily: 99 }, // way out of window — dropped
           ],
         },
         { path: 'play: Beta FM', count: 0 }, // no stats at all
@@ -237,17 +236,17 @@ describe('public endpoints', () => {
       items: Array<{ name: string; count: number; series: number[] }>;
       days: string[];
     }>(res);
-    // Last slot is yesterday (today − 1), not today.
-    expect(body.days[body.days.length - 1]).toBe(day(1));
-    expect(body.days[body.days.length - 1 - 2]).toBe(day(3));
+    // Last slot is today.
+    expect(body.days[body.days.length - 1]).toBe(day(0));
+    expect(body.days[body.days.length - 1 - 3]).toBe(day(3));
     expect(body.items[0].name).toBe('Alpha FM');
-    // yesterday and (today-3) should be the only non-zero slots; the
-    // "today" stat is outside the window and gets dropped.
+    // today and (today-3) should be the only non-zero slots; the
+    // far-out-of-window stat is dropped.
     const nonZero = body.items[0].series
       .map((v, i) => ({ v, i }))
       .filter((e) => e.v > 0);
     expect(nonZero).toEqual([
-      { i: body.days.length - 1 - 2, v: 7 },
+      { i: body.days.length - 1 - 3, v: 7 },
       { i: body.days.length - 1, v: 5 },
     ]);
     // Hit with no stats → fully zero-filled series matching `days`.
@@ -276,77 +275,46 @@ describe('public endpoints', () => {
     expect(body.range_days).toBe(30);
   });
 
-  it('GET /api/public/locations stitches per-day GC calls into a series', async () => {
-    // The worker now hits /stats/locations once per day in the window
-    // (GC has no daily=true on /stats/locations but accepts start+end).
-    // Stub returns different per-country counts per day so the series
-    // assertions are meaningful.
-    const today = new Date();
-    const day = (offset: number): string => {
-      const d = new Date(today);
-      d.setUTCDate(d.getUTCDate() - offset);
-      return d.toISOString().slice(0, 10);
-    };
-    // Build a per-day fixture: oldest → newest, 7 days for days=7 (the
-    // snap-to-yesterday window excludes today). CH grows linearly; DE
-    // has one big spike; FR appears on day 5 only.
-    const fixture: Record<string, { stats: Array<{ id: string; name: string; count: number }>; total: number }> = {};
-    for (let i = 0; i <= 6; i++) {
-      const d = day(7 - i); // oldest first — day(7) … day(1)
-      fixture[d] = {
-        stats: [
-          { id: 'CH', name: 'Switzerland', count: i + 1 },
-          { id: 'DE', name: 'Germany', count: i === 3 ? 100 : 5 },
-          ...(i === 5 ? [{ id: 'FR', name: 'France', count: 7 }] : []),
-        ],
-        total: 0,
-      };
-      fixture[d].total = fixture[d].stats.reduce((s, x) => s + x.count, 0);
-    }
+  it('GET /api/public/locations passes through GC locations for the window', async () => {
+    // One GC call over the whole window, raw pass-through. Mirrors what
+    // GoatCounter's own location view shows.
+    let observedStart: string | undefined;
+    let observedEnd: string | undefined;
     stubFetch(async ({ url }) => {
       const u = new URL(url);
       if (!u.pathname.endsWith('/stats/locations')) {
         throw new Error(`unexpected upstream: ${u.pathname}`);
       }
-      const start = u.searchParams.get('start');
-      const end = u.searchParams.get('end');
-      expect(start).toBe(end); // single-day query
-      const data = fixture[start ?? ''] ?? { stats: [], total: 0 };
-      return new Response(JSON.stringify(data), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      observedStart = u.searchParams.get('start') ?? undefined;
+      observedEnd = u.searchParams.get('end') ?? undefined;
+      return new Response(
+        JSON.stringify({
+          stats: [
+            { id: 'DE', name: 'Germany', count: 130 },
+            { id: 'CH', name: 'Switzerland', count: 28 },
+            { id: 'FR', name: 'France', count: 7 },
+          ],
+          total: 165,
+        }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } },
+      );
     });
     const res = await call('/api/public/locations?days=7');
     expect(res.status).toBe(200);
     const body = await json<{
-      items: Array<{ code: string; name: string; count: number; series: number[] }>;
+      items: Array<{ code: string; name: string; count: number }>;
       total: number;
       range_days: number;
-      days: string[];
     }>(res);
     expect(body.range_days).toBe(7);
-    expect(body.days).toHaveLength(7);
-    const ch = body.items.find((i) => i.code === 'CH');
-    const de = body.items.find((i) => i.code === 'DE');
-    const fr = body.items.find((i) => i.code === 'FR');
-    expect(ch).toBeDefined();
-    expect(de).toBeDefined();
-    expect(fr).toBeDefined();
-    // CH series: 1..7 across the 7 days. Sum = 28.
-    expect(ch!.series).toEqual([1, 2, 3, 4, 5, 6, 7]);
-    expect(ch!.count).toBe(28);
-    // DE series: 5 every day except day index 3 = 100. Sum = 5*6 + 100 = 130.
-    expect(de!.series).toEqual([5, 5, 5, 100, 5, 5, 5]);
-    expect(de!.count).toBe(130);
-    // FR series: 0 everywhere except day index 5 = 7. Sum = 7.
-    expect(fr!.series[5]).toBe(7);
-    expect(fr!.count).toBe(7);
-    expect(fr!.series.filter((v) => v > 0)).toHaveLength(1);
-    // Items ordered by total count desc.
-    expect(body.items[0].code).toBe('DE');
-    expect(body.items[1].code).toBe('CH');
-    expect(body.items[2].code).toBe('FR');
+    // Items ordered by count desc, raw GC pass-through.
+    expect(body.items.map((i) => i.code)).toEqual(['DE', 'CH', 'FR']);
+    expect(body.items[0].count).toBe(130);
+    expect(body.total).toBe(165);
+    // Single window query (not per-day).
+    expect(observedStart).not.toBe(observedEnd);
+    expect(observedStart).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(observedEnd).toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });
 
   it('POST /api/public/report-broken records a structured GoatCounter event', async () => {
@@ -629,10 +597,10 @@ describe('cache headers', () => {
     expect(res.headers.get('Cache-Control')).toContain('max-age=300');
   });
 
-  it('public top-stations gets the long (1h) cache', async () => {
+  it('public top-stations uses the 5-min edge cache', async () => {
     stubFetch(async () => gcHits([{ path: 'play: x', count: 1 }]));
     const res = await call('/api/public/top-stations');
-    expect(res.headers.get('Cache-Control')).toContain('max-age=3600');
+    expect(res.headers.get('Cache-Control')).toContain('max-age=300');
   });
 });
 
@@ -668,7 +636,7 @@ describe('poll (all-time)', () => {
     expect(body.all_time).toBe(true);
     // Upstream start is the all-time poll epoch, not the windowed start.
     expect(observedStart).toBe('2024-01-01');
-    // End is yesterday UTC (rangeEnd), shape-check only.
+    // End is today UTC (rangeEnd), shape-check only.
     expect(observedEnd).toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });
 
@@ -690,10 +658,9 @@ describe('poll (all-time)', () => {
 });
 
 describe('unified public dashboard', () => {
-  // The new /api/public/dashboard endpoint batches totals + top stations
-  // + locations + poll into one response from a single in-Worker
-  // snapshot, so all four public-stats-sheet cards always read the same
-  // point in time. These tests pin the joins between the four GC calls.
+  // /api/public/dashboard mirrors what GoatCounter's dashboard shows
+  // for the same window, plus rrradio-specific extras (top `play:`
+  // events, all-time poll). One Worker call, one cache key.
 
   function setupDashboardStub(): void {
     const today = new Date();
@@ -705,7 +672,6 @@ describe('unified public dashboard', () => {
     stubFetch(async ({ url }) => {
       const u = new URL(url);
       const start = u.searchParams.get('start') ?? '';
-      const end = u.searchParams.get('end') ?? '';
 
       if (u.pathname.endsWith('/stats/hits')) {
         // Two flavours: the all-time poll fetch (start === POLL_RANGE_START)
@@ -719,7 +685,7 @@ describe('unified public dashboard', () => {
           ]);
         }
         return gcHits([
-          { path: 'play: Alpha FM', count: 25, stats: [{ day: day(1), daily: 25 }] },
+          { path: 'play: Alpha FM', count: 25, stats: [{ day: day(0), daily: 25 }] },
           { path: 'play: Beta FM', count: 10 },
           { path: 'play: Gamma FM', count: 3 },
           { path: 'tab/browse', count: 99 }, // ignored — wrong prefix
@@ -732,13 +698,14 @@ describe('unified public dashboard', () => {
         );
       }
       if (u.pathname.endsWith('/stats/locations')) {
-        // Single-day query — return a single country with the day's index
-        // as the count so series alignment is checkable.
-        expect(start).toBe(end);
+        // One call over the whole window — no per-day fan-out.
         return new Response(
           JSON.stringify({
-            stats: [{ id: 'CH', name: 'Switzerland', count: 1 }],
-            total: 1,
+            stats: [
+              { id: 'CH', name: 'Switzerland', count: 7 },
+              { id: 'DE', name: 'Germany', count: 12 },
+            ],
+            total: 19,
           }),
           { status: 200, headers: { 'Content-Type': 'application/json' } },
         );
@@ -751,7 +718,7 @@ describe('unified public dashboard', () => {
     setupDashboardStub();
     const res = await call('/api/public/dashboard?days=7');
     expect(res.status).toBe(200);
-    expect(res.headers.get('Cache-Control')).toContain('max-age=3600');
+    expect(res.headers.get('Cache-Control')).toContain('max-age=300');
     const body = await json<{
       range_days: number;
       days: string[];
@@ -762,7 +729,7 @@ describe('unified public dashboard', () => {
         distinct_stations: number;
       };
       locations: {
-        items: Array<{ code: string; name: string; count: number; series: number[] }>;
+        items: Array<{ code: string; name: string; count: number }>;
         total: number;
       };
       poll: {
@@ -786,17 +753,17 @@ describe('unified public dashboard', () => {
     expect(body.top_stations.total).toBe(38);
     expect(body.top_stations.distinct_stations).toBe(3);
     // Series aligned to `days`: Alpha FM has a single non-zero entry at
-    // the last slot (yesterday).
+    // the last slot (today).
     const series = body.top_stations.items[0].series;
     expect(series).toHaveLength(7);
     expect(series[series.length - 1]).toBe(25);
 
-    // Locations stitched per-day. CH appears in every day.
-    const ch = body.locations.items.find((i) => i.code === 'CH');
-    expect(ch).toBeDefined();
-    expect(ch!.series).toHaveLength(7);
-    expect(ch!.series.every((v) => v === 1)).toBe(true);
-    expect(ch!.count).toBe(7);
+    // Locations are a raw pass-through of the single GC call — counts,
+    // no per-day series.
+    expect(body.locations.items.map((i) => i.code)).toEqual(['DE', 'CH']);
+    expect(body.locations.items[0]).toEqual({ code: 'DE', name: 'Germany', count: 12 });
+    expect(body.locations.items[1]).toEqual({ code: 'CH', name: 'Switzerland', count: 7 });
+    expect(body.locations.total).toBe(19);
 
     // Poll comes from the all-time fetch.
     expect(body.poll.counts).toEqual({ ios: 11, android: 4, 'dont-care': 1 });
@@ -808,8 +775,8 @@ describe('unified public dashboard', () => {
   });
 
   it('GET /api/public/dashboard tolerates a single failing upstream', async () => {
-    // Locations fan-out throws on every day; the rest succeeds. Result
-    // should still render with empty locations rather than a 502.
+    // /stats/locations throws; the rest succeeds. Result should still
+    // render with empty locations rather than a 502.
     stubFetch(async ({ url }) => {
       const u = new URL(url);
       if (u.pathname.endsWith('/stats/hits')) {

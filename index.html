@@ -583,31 +583,17 @@
 
           <div class="dash-kpis">
             <div class="dash-kpi">
-              <div class="dash-kpi__num" id="dash-plays">—</div>
-              <div class="dash-kpi__label">Plays</div>
-            </div>
-            <div class="dash-kpi dash-kpi--muted">
               <div class="dash-kpi__num" id="dash-visits">—</div>
               <div class="dash-kpi__label">Visits</div>
             </div>
-            <div class="dash-kpi">
-              <div class="dash-kpi__num" id="dash-countries">—</div>
-              <div class="dash-kpi__label">Countries</div>
-            </div>
-            <div class="dash-kpi">
-              <div class="dash-kpi__num" id="dash-stations">—</div>
-              <div class="dash-kpi__label">Stations</div>
+            <div class="dash-kpi dash-kpi--muted">
+              <div class="dash-kpi__num" id="dash-plays">—</div>
+              <div class="dash-kpi__label">Plays</div>
             </div>
           </div>
 
           <div class="dash-section">
-            <div class="dash-section__head">
-              <h3 id="dash-country-heading">Where listeners are</h3>
-              <div class="lib-seg dash-toggle" id="dash-country-toggle" role="tablist" aria-label="Country view">
-                <button type="button" class="lib-seg__btn is-active" data-view="listeners" aria-pressed="true">Listeners</button>
-                <button type="button" class="lib-seg__btn" data-view="stations" aria-pressed="false">Stations</button>
-              </div>
-            </div>
+            <h3>Where listeners are</h3>
             <div class="dash-map" id="dash-map"></div>
             <table class="dash-table" id="dash-country-table">
               <thead>
@@ -615,7 +601,7 @@
                   <th class="rank">#</th>
                   <th class="country">Country</th>
                   <th class="bar"></th>
-                  <th class="count" id="dash-country-count-header">Visits</th>
+                  <th class="count">Visits</th>
                   <th class="pct">%</th>
                 </tr>
               </thead>
@@ -639,7 +625,7 @@
           </div>
 
           <p class="dash-note">
-            Last 7 days · visits via <a href="https://www.goatcounter.com/" target="_blank" rel="noopener noreferrer">GoatCounter</a> · plays from anonymous play events · cached up to 1 hour.
+            Last 7 days · via <a href="https://www.goatcounter.com/" target="_blank" rel="noopener noreferrer">GoatCounter</a> · cached up to 5 min.
           </p>
         </div>
       </section>
