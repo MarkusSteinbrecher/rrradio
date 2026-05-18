@@ -635,3 +635,211 @@ describe('cache headers', () => {
     expect(res.headers.get('Cache-Control')).toContain('max-age=3600');
   });
 });
+
+describe('poll (all-time)', () => {
+  it('GET /api/public/poll counts every vote regardless of ?days', async () => {
+    // The poll endpoint must ignore the request's `?days` and fetch
+    // back to POLL_RANGE_START so a vote cast last year still counts.
+    // We assert by capturing the upstream URL the worker built — its
+    // `start` should match the all-time epoch, not the windowed start.
+    let observedStart: string | undefined;
+    let observedEnd: string | undefined;
+    stubFetch(async ({ url }) => {
+      const u = new URL(url);
+      observedStart = u.searchParams.get('start') ?? undefined;
+      observedEnd = u.searchParams.get('end') ?? undefined;
+      return gcHits([
+        { path: 'vote: ios', count: 12 },
+        { path: 'vote: android', count: 8 },
+        { path: 'vote: dont-care', count: 3 },
+        { path: 'play: noise', count: 99 },
+      ]);
+    });
+
+    const res = await call('/api/public/poll?days=7');
+    expect(res.status).toBe(200);
+    const body = await json<{
+      counts: { ios: number; android: number; 'dont-care': number };
+      total: number;
+      all_time: boolean;
+    }>(res);
+    expect(body.counts).toEqual({ ios: 12, android: 8, 'dont-care': 3 });
+    expect(body.total).toBe(23);
+    expect(body.all_time).toBe(true);
+    // Upstream start is the all-time poll epoch, not the windowed start.
+    expect(observedStart).toBe('2024-01-01');
+    // End is yesterday UTC (rangeEnd), shape-check only.
+    expect(observedEnd).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  });
+
+  it('GET /api/public/poll ignores votes outside the published choices', async () => {
+    stubFetch(async () =>
+      gcHits([
+        { path: 'vote: ios', count: 5 },
+        { path: 'vote: maybe-someday', count: 99 }, // not a published choice — dropped
+      ]),
+    );
+    const res = await call('/api/public/poll');
+    const body = await json<{
+      counts: { ios: number; android: number; 'dont-care': number };
+      total: number;
+    }>(res);
+    expect(body.counts).toEqual({ ios: 5, android: 0, 'dont-care': 0 });
+    expect(body.total).toBe(5);
+  });
+});
+
+describe('unified public dashboard', () => {
+  // The new /api/public/dashboard endpoint batches totals + top stations
+  // + locations + poll into one response from a single in-Worker
+  // snapshot, so all four public-stats-sheet cards always read the same
+  // point in time. These tests pin the joins between the four GC calls.
+
+  function setupDashboardStub(): void {
+    const today = new Date();
+    const day = (offset: number): string => {
+      const d = new Date(today);
+      d.setUTCDate(d.getUTCDate() - offset);
+      return d.toISOString().slice(0, 10);
+    };
+    stubFetch(async ({ url }) => {
+      const u = new URL(url);
+      const start = u.searchParams.get('start') ?? '';
+      const end = u.searchParams.get('end') ?? '';
+
+      if (u.pathname.endsWith('/stats/hits')) {
+        // Two flavours: the all-time poll fetch (start === POLL_RANGE_START)
+        // and the windowed listening fetch (start is recent). Return
+        // different payloads so we can tell which one was used for what.
+        if (start === '2024-01-01') {
+          return gcHits([
+            { path: 'vote: ios', count: 11 },
+            { path: 'vote: android', count: 4 },
+            { path: 'vote: dont-care', count: 1 },
+          ]);
+        }
+        return gcHits([
+          { path: 'play: Alpha FM', count: 25, stats: [{ day: day(1), daily: 25 }] },
+          { path: 'play: Beta FM', count: 10 },
+          { path: 'play: Gamma FM', count: 3 },
+          { path: 'tab/browse', count: 99 }, // ignored — wrong prefix
+        ]);
+      }
+      if (u.pathname.endsWith('/stats/total')) {
+        return new Response(
+          JSON.stringify({ total: 500, total_events: 200 }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+      }
+      if (u.pathname.endsWith('/stats/locations')) {
+        // Single-day query — return a single country with the day's index
+        // as the count so series alignment is checkable.
+        expect(start).toBe(end);
+        return new Response(
+          JSON.stringify({
+            stats: [{ id: 'CH', name: 'Switzerland', count: 1 }],
+            total: 1,
+          }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+      }
+      throw new Error(`unexpected upstream: ${u.pathname}`);
+    });
+  }
+
+  it('GET /api/public/dashboard returns the four sections from one snapshot', async () => {
+    setupDashboardStub();
+    const res = await call('/api/public/dashboard?days=7');
+    expect(res.status).toBe(200);
+    expect(res.headers.get('Cache-Control')).toContain('max-age=3600');
+    const body = await json<{
+      range_days: number;
+      days: string[];
+      totals: { total: number; total_events: number };
+      top_stations: {
+        items: Array<{ name: string; count: number; series: number[] }>;
+        total: number;
+        distinct_stations: number;
+      };
+      locations: {
+        items: Array<{ code: string; name: string; count: number; series: number[] }>;
+        total: number;
+      };
+      poll: {
+        counts: { ios: number; android: number; 'dont-care': number };
+        total: number;
+        all_time: boolean;
+      };
+      generated_at: string;
+    }>(res);
+
+    expect(body.range_days).toBe(7);
+    expect(body.days).toHaveLength(7);
+    expect(body.totals).toEqual({ total: 500, total_events: 200 });
+
+    // Top stations come from windowed hits, filtered by `play: `.
+    expect(body.top_stations.items.map((i) => i.name)).toEqual([
+      'Alpha FM',
+      'Beta FM',
+      'Gamma FM',
+    ]);
+    expect(body.top_stations.total).toBe(38);
+    expect(body.top_stations.distinct_stations).toBe(3);
+    // Series aligned to `days`: Alpha FM has a single non-zero entry at
+    // the last slot (yesterday).
+    const series = body.top_stations.items[0].series;
+    expect(series).toHaveLength(7);
+    expect(series[series.length - 1]).toBe(25);
+
+    // Locations stitched per-day. CH appears in every day.
+    const ch = body.locations.items.find((i) => i.code === 'CH');
+    expect(ch).toBeDefined();
+    expect(ch!.series).toHaveLength(7);
+    expect(ch!.series.every((v) => v === 1)).toBe(true);
+    expect(ch!.count).toBe(7);
+
+    // Poll comes from the all-time fetch.
+    expect(body.poll.counts).toEqual({ ios: 11, android: 4, 'dont-care': 1 });
+    expect(body.poll.total).toBe(16);
+    expect(body.poll.all_time).toBe(true);
+
+    // generated_at is an ISO timestamp.
+    expect(body.generated_at).toMatch(/^\d{4}-\d{2}-\d{2}T/);
+  });
+
+  it('GET /api/public/dashboard tolerates a single failing upstream', async () => {
+    // Locations fan-out throws on every day; the rest succeeds. Result
+    // should still render with empty locations rather than a 502.
+    stubFetch(async ({ url }) => {
+      const u = new URL(url);
+      if (u.pathname.endsWith('/stats/hits')) {
+        return gcHits([{ path: 'play: Alpha FM', count: 1 }]);
+      }
+      if (u.pathname.endsWith('/stats/total')) {
+        return new Response(JSON.stringify({ total: 1, total_events: 1 }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+      if (u.pathname.endsWith('/stats/locations')) {
+        throw new Error('GC down');
+      }
+      throw new Error(`unexpected upstream: ${u.pathname}`);
+    });
+    const res = await call('/api/public/dashboard?days=7');
+    expect(res.status).toBe(200);
+    const body = await json<{
+      locations: { items: unknown[]; total: number };
+      top_stations: { items: unknown[] };
+    }>(res);
+    expect(body.locations.items).toEqual([]);
+    expect(body.locations.total).toBe(0);
+    expect(body.top_stations.items.length).toBeGreaterThan(0);
+  });
+
+  it('GET /api/public/dashboard uses Access-Control-Allow-Origin: *', async () => {
+    setupDashboardStub();
+    const res = await call('/api/public/dashboard');
+    expect(res.headers.get('Access-Control-Allow-Origin')).toBe('*');
+  });
+});

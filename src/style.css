@@ -2524,6 +2524,14 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   margin-bottom: 12px;
 }
 .dash-section__head h3 { margin: 0; }
+.dash-section__meta {
+  margin-left: 8px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: var(--ink-4);
+  text-transform: uppercase;
+}
 .dash-toggle {
   margin: 0;
   padding: 3px;

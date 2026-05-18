@@ -16,8 +16,13 @@
  *
  * Public endpoints:
  *   POST /api/public/report-broken — anonymous structured station report
- *   GET  /api/public/poll          — native-app interest poll tallies
- *                                    (filter: "vote: ")
+ *   GET  /api/public/poll          — native-app interest poll tallies,
+ *                                    all-time (filter: "vote: ")
+ *   GET  /api/public/dashboard     — totals + top stations + locations
+ *                                    + poll in one cache window, so the
+ *                                    public stats sheet always shows a
+ *                                    consistent snapshot. Plays/locations
+ *                                    follow ?days=N; poll is all-time.
  *
  * Range: ?days=N (1–90, default 7). Response cached 5 min in the
  * Cloudflare edge cache to be a polite GC API consumer.
@@ -221,16 +226,32 @@ function clampDays(raw: string | null): number {
 // GC's `daily` param is documented as deprecated in favor of
 // `group=day`, but the two are equivalent and the deprecated form is
 // what's wired up here.
-async function fetchAllHits(daysBack: number, env: Env): Promise<GcHit[]> {
+async function fetchHitsRange(
+  start: string,
+  end: string,
+  env: Env,
+  opts: { daily?: boolean; limit?: number } = {},
+): Promise<GcHit[]> {
   const params = new URLSearchParams({
-    start: rangeStart(daysBack),
-    end: rangeEnd(),
-    limit: '500',
-    daily: 'true',
+    start,
+    end,
+    limit: String(opts.limit ?? 500),
+    daily: opts.daily === false ? 'false' : 'true',
   });
   const data = await gcFetch<GcStatsHits>(`/stats/hits?${params}`, env);
   return data.hits ?? [];
 }
+
+async function fetchAllHits(daysBack: number, env: Env): Promise<GcHit[]> {
+  return fetchHitsRange(rangeStart(daysBack), rangeEnd(), env);
+}
+
+// Poll counts span the lifetime of the project — votes don't expire
+// like listening behaviour does. This is the earliest plausible start
+// (well before the poll banner shipped) so a single GC call covers
+// every recorded vote. Bump if the project's GC history ever predates
+// this date; otherwise the literal is fine.
+const POLL_RANGE_START = '2024-01-01';
 
 // Build the canonical [oldest..yesterday] list of YYYY-MM-DD day strings
 // for a `daysBack`-window. Same end-date that fetchAllHits passes to GC,
@@ -588,25 +609,171 @@ export default {
         // Public native-app interest poll counts. Picks `vote: <choice>`
         // events from the GC hits buffer and returns per-choice tallies
         // for the three published options. Edge-cached for an hour like
-        // the other public endpoints. Default window is the request's
-        // `?days=N` (max 90), since vote sentiment doesn't decay on a
-        // 7-day cadence the way listening stats do.
+        // the other public endpoints.
+        //
+        // ALL-TIME window — vote sentiment doesn't decay, so capping
+        // the poll to a `?days=N` window dropped legitimate votes off
+        // the back of the buffer. We fetch from POLL_RANGE_START to
+        // yesterday EOD and ignore the request's `days` parameter for
+        // counting purposes. (We still echo it in the response so
+        // existing clients that read it don't choke.)
         if (url.pathname === '/api/public/poll') {
-          const list = pickByPrefix(await fetchAllHits(days, env), 'vote: ', 10, days);
+          const hits = await fetchHitsRange(POLL_RANGE_START, rangeEnd(), env, {
+            daily: false,
+          });
           const counts: Record<'ios' | 'android' | 'dont-care', number> = {
             ios: 0,
             android: 0,
             'dont-care': 0,
           };
           let total = 0;
-          for (const item of list.items) {
-            if (item.label === 'ios' || item.label === 'android' || item.label === 'dont-care') {
-              counts[item.label] = item.count;
-              total += item.count;
+          for (const h of hits) {
+            if (!h.path.startsWith('vote: ')) continue;
+            const label = h.path.slice('vote: '.length).trim();
+            if (label === 'ios' || label === 'android' || label === 'dont-care') {
+              counts[label] = h.count;
+              total += h.count;
             }
           }
           return new Response(
-            JSON.stringify({ counts, total, range_days: days }),
+            JSON.stringify({ counts, total, range_days: days, all_time: true }),
+            {
+              status: 200,
+              headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                'Cache-Control': `public, max-age=${PUBLIC_CACHE_TTL_S}`,
+                ...publicCors,
+              },
+            },
+          );
+        }
+
+        // Unified dashboard endpoint. Returns totals + top stations +
+        // listener locations + poll in a single response, all derived
+        // from the same in-Worker snapshot. The four cards on the
+        // public stats sheet used to fan out to four endpoints with
+        // independent edge-cache windows (and independent browser HTTP
+        // caches), so two devices opening the sheet could see metrics
+        // from four different points in time. One endpoint, one cache
+        // key, one timestamp.
+        //
+        // - listening window (top stations, totals, locations) uses
+        //   the request's `?days=N` like the standalone endpoints.
+        // - poll counts are ALL-TIME (see /api/public/poll comment).
+        if (url.pathname === '/api/public/dashboard') {
+          const start = rangeStart(days);
+          const end = rangeEnd();
+          const trendDays = rangeDays(days);
+
+          // Three independent GC calls + one fan-out for per-day
+          // locations. Run them concurrently — they're independent and
+          // each has its own tolerate() so a single GC hiccup degrades
+          // one card instead of blanking the whole sheet.
+          const [hits, voteHits, tot, perDay] = await Promise.all([
+            tolerate(() => fetchHitsRange(start, end, env), [] as GcHit[]),
+            tolerate(
+              () => fetchHitsRange(POLL_RANGE_START, end, env, { daily: false }),
+              [] as GcHit[],
+            ),
+            tolerate(
+              () => gcFetch<GcTotals>(`/stats/total?start=${start}&end=${end}`, env),
+              {} as GcTotals,
+            ),
+            Promise.all(
+              trendDays.map((day) =>
+                tolerate(
+                  () =>
+                    gcFetch<GcStatGroup>(
+                      `/stats/locations?${new URLSearchParams({
+                        start: day,
+                        end: day,
+                        limit: '50',
+                      })}`,
+                      env,
+                    ),
+                  { stats: [], total: 0 } as GcStatGroup,
+                ),
+              ),
+            ),
+          ]);
+
+          // Top stations from windowed hits.
+          const stationsList = pickByPrefix(hits, 'play: ', 25, days);
+          const stationItems = stationsList.items.map((i) => ({
+            name: i.label,
+            count: i.count,
+            series: i.series,
+          }));
+          // Honest "distinct stations played" — the worker has the full
+          // matched-prefix list (capped at 500) before slicing to the
+          // top 25, so we surface the true cardinality rather than the
+          // display cap.
+          const distinctStations = hits.filter((h) => h.path.startsWith('play: ')).length;
+
+          // Listener locations stitched per-day, same way the standalone
+          // /api/public/locations endpoint does it.
+          const seriesByCC = new Map<string, number[]>();
+          const nameByCC = new Map<string, string>();
+          for (let i = 0; i < perDay.length; i++) {
+            for (const s of perDay[i].stats ?? []) {
+              const cc = (s.id || '').toUpperCase();
+              if (!cc) continue;
+              if (!seriesByCC.has(cc)) {
+                seriesByCC.set(cc, new Array<number>(trendDays.length).fill(0));
+              }
+              seriesByCC.get(cc)![i] = s.count;
+              if (!nameByCC.has(cc)) nameByCC.set(cc, s.name || cc);
+            }
+          }
+          const locationItems = [...seriesByCC.entries()].map(([cc, series]) => ({
+            code: cc,
+            name: nameByCC.get(cc) ?? cc,
+            count: series.reduce((s, v) => s + v, 0),
+            series,
+          }));
+          locationItems.sort((a, b) => b.count - a.count);
+          const locationsTotal = locationItems.reduce((s, i) => s + i.count, 0);
+
+          // Poll counts from the all-time vote hits.
+          const voteCounts: Record<'ios' | 'android' | 'dont-care', number> = {
+            ios: 0,
+            android: 0,
+            'dont-care': 0,
+          };
+          let voteTotal = 0;
+          for (const h of voteHits) {
+            if (!h.path.startsWith('vote: ')) continue;
+            const label = h.path.slice('vote: '.length).trim();
+            if (label === 'ios' || label === 'android' || label === 'dont-care') {
+              voteCounts[label] = h.count;
+              voteTotal += h.count;
+            }
+          }
+
+          return new Response(
+            JSON.stringify({
+              generated_at: new Date().toISOString(),
+              range_days: days,
+              days: trendDays,
+              totals: {
+                total: tot.total ?? 0,
+                total_events: tot.total_events ?? 0,
+              },
+              top_stations: {
+                items: stationItems,
+                total: stationsList.total,
+                distinct_stations: distinctStations,
+              },
+              locations: {
+                items: locationItems,
+                total: locationsTotal,
+              },
+              poll: {
+                counts: voteCounts,
+                total: voteTotal,
+                all_time: true,
+              },
+            }),
             {
               status: 200,
               headers: {

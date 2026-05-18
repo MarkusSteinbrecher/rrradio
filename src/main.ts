@@ -797,12 +797,13 @@ function syncLibrarySegmented(): void {
 // dashboard wants the same window across all metrics.
 const STATS_DAYS = 7;
 const TOP_STATIONS_URL = `${STATS_WORKER_BASE}/api/public/top-stations?days=${STATS_DAYS}&limit=25`;
-const PUBLIC_TOTALS_URL = `${STATS_WORKER_BASE}/api/public/totals?days=${STATS_DAYS}`;
-const PUBLIC_LOCATIONS_URL = `${STATS_WORKER_BASE}/api/public/locations?days=${STATS_DAYS}&limit=50`;
-// Poll uses a 90-day window — sentiment doesn't expire on the same
-// cadence as listening stats; the long window matters more than the
-// 7-day default the rest of the dashboard uses.
-const POLL_URL = `${STATS_WORKER_BASE}/api/public/poll?days=90`;
+// Public stats sheet uses a single batched endpoint so totals + top
+// stations + locations + poll all come from the same in-Worker snapshot.
+// Splitting them across four endpoints with independent edge-cache
+// windows (and four browser HTTP cache entries) was the cause of
+// "huge differences between devices" — each device could be reading
+// any combination of four different points in time.
+const DASHBOARD_URL = `${STATS_WORKER_BASE}/api/public/dashboard?days=${STATS_DAYS}`;
 
 interface BacklogEntry {
   name: string;
@@ -2105,63 +2106,6 @@ const COUNTRY_CENTROIDS: Record<string, [number, number]> = {
 let dashView: DashCountryView = 'listeners';
 let lastDashboardData: DashboardData | null = null;
 
-async function fetchTopStationsWithCounts(): Promise<{
-  items: TopStationItem[];
-  total: number | undefined;
-  days: string[];
-}> {
-  try {
-    const res = await fetch(TOP_STATIONS_URL);
-    if (!res.ok) {
-      reportWorkerError(new Error(`HTTP ${res.status}`), '/api/public/top-stations', res.status);
-      return { items: [], total: undefined, days: [] };
-    }
-    const data = (await res.json()) as {
-      items?: TopStationItem[];
-      total?: number;
-      days?: string[];
-    };
-    const items = (data.items ?? []).filter((i) => typeof i.name === 'string' && i.name.length > 0);
-    return {
-      items,
-      total: typeof data.total === 'number' ? data.total : undefined,
-      days: Array.isArray(data.days) ? data.days : [],
-    };
-  } catch (err) {
-    reportWorkerError(err, '/api/public/top-stations');
-    return { items: [], total: undefined, days: [] };
-  }
-}
-
-async function fetchPublicTotals(): Promise<PublicTotals | null> {
-  try {
-    const res = await fetch(PUBLIC_TOTALS_URL);
-    if (!res.ok) {
-      reportWorkerError(new Error(`HTTP ${res.status}`), '/api/public/totals', res.status);
-      return null;
-    }
-    return (await res.json()) as PublicTotals;
-  } catch (err) {
-    reportWorkerError(err, '/api/public/totals');
-    return null;
-  }
-}
-
-async function fetchPublicLocations(): Promise<PublicLocationItem[]> {
-  try {
-    const res = await fetch(PUBLIC_LOCATIONS_URL);
-    if (!res.ok) {
-      reportWorkerError(new Error(`HTTP ${res.status}`), '/api/public/locations', res.status);
-      return [];
-    }
-    const data = (await res.json()) as { items?: PublicLocationItem[] };
-    return data.items ?? [];
-  } catch (err) {
-    reportWorkerError(err, '/api/public/locations');
-    return [];
-  }
-}
-
 interface PollCounts {
   ios: number;
   android: number;
@@ -2173,16 +2117,34 @@ interface PollResults {
   range_days?: number;
 }
 
-async function fetchPollResults(): Promise<PollResults | null> {
+interface DashboardPayload {
+  range_days: number;
+  days: string[];
+  totals: PublicTotals;
+  top_stations: {
+    items: TopStationItem[];
+    total: number;
+    distinct_stations: number;
+  };
+  locations: { items: PublicLocationItem[]; total: number };
+  poll: { counts: PollCounts; total: number; all_time?: boolean };
+}
+
+// `cache: 'no-store'` so the browser's HTTP cache never serves a stale
+// snapshot from an earlier visit. Cloudflare's edge cache still answers
+// (the response carries `Cache-Control: public, max-age=3600`), so we
+// re-read the same 1h-cached snapshot on every open — no extra GC load,
+// no stale four-hour-old plays sitting in some device's browser cache.
+async function fetchDashboardPayload(): Promise<DashboardPayload | null> {
   try {
-    const res = await fetch(POLL_URL);
+    const res = await fetch(DASHBOARD_URL, { cache: 'no-store' });
     if (!res.ok) {
-      reportWorkerError(new Error(`HTTP ${res.status}`), '/api/public/poll', res.status);
+      reportWorkerError(new Error(`HTTP ${res.status}`), '/api/public/dashboard', res.status);
       return null;
     }
-    return (await res.json()) as PollResults;
+    return (await res.json()) as DashboardPayload;
   } catch (err) {
-    reportWorkerError(err, '/api/public/poll');
+    reportWorkerError(err, '/api/public/dashboard');
     return null;
   }
 }
@@ -2512,25 +2474,30 @@ async function openDashboardSheet(open: boolean): Promise<void> {
   $dashVisits.textContent = '…';
   $dashCountries.textContent = '…';
   $dashStations.textContent = '…';
-  const [topStations, totals, locations, poll] = await Promise.all([
-    fetchTopStationsWithCounts(),
-    fetchPublicTotals(),
-    fetchPublicLocations(),
-    fetchPollResults(),
-  ]);
-  const data = aggregateDashboard(
-    topStations.items,
-    locations,
-    BUILTIN_STATIONS,
-    topStations.total,
-    topStations.days,
+  const payload = await fetchDashboardPayload();
+  // Filter station items defensively — the worker's contract says items
+  // always have a name, but a typo upstream shouldn't crash the sheet.
+  const items = (payload?.top_stations.items ?? []).filter(
+    (i) => typeof i.name === 'string' && i.name.length > 0,
   );
+  const data = aggregateDashboard(
+    items,
+    payload?.locations.items ?? [],
+    BUILTIN_STATIONS,
+    payload?.top_stations.total,
+    payload?.days ?? [],
+  );
+  // Use the worker's honest "distinct stations played" count instead of
+  // the items-length aggregate (which is capped at the worker's top-N
+  // display limit). aggregateDashboard set totalStations from items —
+  // override here with the true cardinality from the same snapshot.
+  if (payload) data.totalStations = payload.top_stations.distinct_stations;
   lastDashboardData = data;
   syncDashToggle();
-  renderDashKpis(data, totals);
+  renderDashKpis(data, payload?.totals ?? null);
   renderDashCountryTable(data);
-  renderDashStationTable(topStations.items, topStations.days);
-  renderDashPollTable(poll);
+  renderDashStationTable(items, payload?.days ?? []);
+  renderDashPollTable(payload ? { counts: payload.poll.counts, total: payload.poll.total } : null);
   void renderDashMap(data);
 }
 
