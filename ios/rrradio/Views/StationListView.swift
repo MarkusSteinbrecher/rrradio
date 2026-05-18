@@ -183,10 +183,21 @@ enum FavoritesDisplayMode: String, CaseIterable, Identifiable {
     }
 }
 
+struct BrowseStationListSelectionRequest: Equatable {
+    let id: UUID
+    let stationListID: String
+
+    init(stationListID: String) {
+        id = UUID()
+        self.stationListID = stationListID
+    }
+}
+
 struct StationListView: View {
     @Binding private var tab: AppTab
     @Binding private var searchFocusedExternally: Bool
     @Binding private var browseStationListSelectionActiveExternally: Bool
+    @Binding private var browseStationListSelectionRequest: BrowseStationListSelectionRequest?
     private let fixedTab: AppTab?
     private let horizontalSwipeLockedExternally: Bool
     @Environment(Catalog.self) private var catalog
@@ -256,6 +267,7 @@ struct StationListView: View {
     @State private var browseListSelectedStationOrder: [String] = []
     @State private var browseListNameDraft = ""
     @State private var browseListTargetStationListID: String?
+    @State private var handledBrowseListSelectionRequestID: UUID?
     @State private var showingBrowseListPicker = false
     @State private var stationInfoPreview: Station?
     @State private var stationInfoPreviewMetadata: [String: NowPlayingMetadata] = [:]
@@ -281,7 +293,6 @@ struct StationListView: View {
     private let swipeActivationSuppressionDuration: TimeInterval = 0.55
     private let topbarControlSize: CGFloat = 36
     private let topbarControlSpacing: CGFloat = 8
-    private let favoriteRemoveControlTrailingInset: CGFloat = 20
     private let favoriteListDeleteBadgeTopInset: CGFloat = 8
     private let favoriteListDeleteBadgeTrailingInset: CGFloat = 26
     private let stationHeaderTopPadding: CGFloat = 6
@@ -377,12 +388,14 @@ struct StationListView: View {
         tab: Binding<AppTab> = .constant(.browse),
         searchFocusedExternally: Binding<Bool> = .constant(false),
         browseStationListSelectionActiveExternally: Binding<Bool> = .constant(false),
+        browseStationListSelectionRequest: Binding<BrowseStationListSelectionRequest?> = .constant(nil),
         fixedTab: AppTab? = nil,
         horizontalSwipeLockedExternally: Bool = false,
     ) {
         _tab = tab
         _searchFocusedExternally = searchFocusedExternally
         _browseStationListSelectionActiveExternally = browseStationListSelectionActiveExternally
+        _browseStationListSelectionRequest = browseStationListSelectionRequest
         self.fixedTab = fixedTab
         self.horizontalSwipeLockedExternally = horizontalSwipeLockedExternally
         _source = State(initialValue: .all)
@@ -401,6 +414,9 @@ struct StationListView: View {
     private var filterOptionStations: [Station] {
         if isLibraryHome {
             return libraryHomeFilterStations
+        }
+        if isStationListsDetail {
+            return selectedStationList?.stations ?? []
         }
         return isFavoritesPage ? library.favorites : allStations
     }
@@ -558,17 +574,20 @@ struct StationListView: View {
         !selectedGenreIDs.isEmpty || !selectedCountryCodes.isEmpty || newsFilterSelected
     }
     private var hasActiveFiltersForCurrentSource: Bool {
-        ((pageTab == .browse && source == .all) || isFavoritesPage || isLibraryHome) && hasActiveFilters
+        ((pageTab == .browse && source == .all) || isFavoritesPage || isStationListsDetail || isLibraryHome) && hasActiveFilters
     }
     private var hasActiveBrowseFilter: Bool {
         (pageTab == .browse && (source == .recents || hasActiveFilters))
-            || (isLibraryHome && hasActiveFilters)
+            || ((isLibraryHome || isFavoritesPage || isStationListsDetail) && hasActiveFilters)
     }
     private var canUseBrowseListSelection: Bool {
         pageTab == .browse && source == .all
     }
     private var isBrowseListSelectionMode: Bool {
         canUseBrowseListSelection && browseListSelectionActive
+    }
+    private var showsStationListAddStationsBar: Bool {
+        isStationListsDetail && selectedStationList != nil && !stationListDeleteModeEnabled
     }
     private var canSaveBrowseListSelection: Bool {
         !browseListSelectedStationIDs.isEmpty
@@ -702,6 +721,7 @@ struct StationListView: View {
             .onChange(of: librarySelectionRaw, handleLibrarySelectionChange)
             .onChange(of: query, handleQueryChange)
             .onChange(of: browseListSelectionActive, handleBrowseListSelectionActiveChange)
+            .onChange(of: browseStationListSelectionRequest, handleBrowseListSelectionRequestChange)
             .onChange(of: browseListNameDraft, handleBrowseListNameDraftChange)
             .onChange(of: searchText, handleSearchTextChange)
             .onChange(of: selectedCountryCodes, handleSelectedCountryCodesChange)
@@ -745,6 +765,8 @@ struct StationListView: View {
             .safeAreaInset(edge: .bottom, spacing: 0) {
                 if isBrowseListSelectionMode {
                     browseListSelectionBar
+                } else if showsStationListAddStationsBar {
+                    stationListAddStationsBar
                 }
             }
             .animation(.spring(response: 0.24, dampingFraction: 0.86), value: stationInfoPreview?.id)
@@ -984,6 +1006,7 @@ struct StationListView: View {
         syncLibrarySelectionState()
         recomputeFilteredStations()
         updateFavoriteNowPlayingPolling()
+        applyBrowseListSelectionRequestIfNeeded(browseStationListSelectionRequest)
     }
 
     private func handleTabChange(_: AppTab, _ value: AppTab) {
@@ -1026,6 +1049,13 @@ struct StationListView: View {
 
     private func handleBrowseListSelectionActiveChange(_: Bool, _ active: Bool) {
         browseStationListSelectionActiveExternally = active
+    }
+
+    private func handleBrowseListSelectionRequestChange(
+        _: BrowseStationListSelectionRequest?,
+        _ request: BrowseStationListSelectionRequest?,
+    ) {
+        applyBrowseListSelectionRequestIfNeeded(request)
     }
 
     private func handleBrowseListNameDraftChange(_: String, _ value: String) {
@@ -1375,10 +1405,6 @@ struct StationListView: View {
         let itemCount = CGFloat(visibleFavoritesDisplayModes.count)
         let itemSpacing = CGFloat(max(visibleFavoritesDisplayModes.count - 1, 0)) * 4
         return itemCount * topbarControlSize + itemSpacing + 6
-    }
-
-    private var favoriteRemoveControlSlotWidth: CGFloat {
-        topbarControlSize + favoriteRemoveControlTrailingInset
     }
 
     private var secondaryBrowseControls: some View {
@@ -1857,8 +1883,12 @@ struct StationListView: View {
 
                     Spacer(minLength: 0)
 
-                    circularIconButton("plus", label: locale.text(.createStationList)) {
-                        openCreateStationListDialog()
+                    if showsLibraryDetailFilterPill {
+                        filterPill
+                    } else {
+                        circularIconButton("plus", label: locale.text(.createStationList)) {
+                            openCreateStationListDialog()
+                        }
                     }
                 }
 
@@ -1867,6 +1897,10 @@ struct StationListView: View {
         }
         .frame(height: topbarControlSize)
         .animation(.snappy(duration: 0.18), value: favoritesSearchExpanded)
+    }
+
+    private var showsLibraryDetailFilterPill: Bool {
+        isFavoritesPage || isStationListsDetail
     }
 
     private func librarySelectionTitle(_ selection: LibraryListSelection) -> String {
@@ -1986,11 +2020,11 @@ struct StationListView: View {
     }
 
     private var filterPillAccessibilityLabel: String {
-        isLibraryHome ? "Library filters" : "Browse filters"
+        isLibraryPage ? "Library filters" : "Browse filters"
     }
 
     private var clearFilterPillAccessibilityLabel: String {
-        isLibraryHome ? "Clear library filters" : "Clear browse filters"
+        isLibraryPage ? "Clear library filters" : "Clear browse filters"
     }
 
     @ViewBuilder
@@ -2725,20 +2759,12 @@ struct StationListView: View {
     }
 
     private func stationListStationDeleteRow(_ station: Station) -> some View {
-        ZStack(alignment: .trailing) {
-            HStack(spacing: 0) {
-                standardStationRow(station, selectingForList: false)
-                    .frame(maxWidth: .infinity)
-
-                Color.clear
-                    .frame(width: favoriteRemoveControlSlotWidth)
-                    .accessibilityHidden(true)
+        standardStationRow(station, selectingForList: false)
+            .overlay(alignment: .topTrailing) {
+                stationListDeleteBadge(station)
+                    .padding(.top, favoriteListDeleteBadgeTopInset)
+                    .padding(.trailing, favoriteListDeleteBadgeTrailingInset)
             }
-
-            stationListStationDeleteButton(station)
-                .padding(.trailing, favoriteRemoveControlTrailingInset)
-                .transition(.scale(scale: 0.82).combined(with: .opacity))
-        }
         .animation(.snappy(duration: 0.16), value: stationListDeleteModeEnabled)
         .contentShape(Rectangle())
         .onTapGesture {
@@ -2904,6 +2930,34 @@ struct StationListView: View {
             return locale.text(.trySearch)
         }
         return isStationListsDetail ? locale.text(.emptyStationListHint) : locale.text(.stationListsHint)
+    }
+
+    private var stationListAddStationsBar: some View {
+        HStack {
+            Button {
+                openBrowseListSelectionForSelectedList()
+            } label: {
+                Image(systemName: "plus")
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(RrradioTheme.ink3)
+                    .frame(width: topbarControlSize, height: topbarControlSize)
+                    .background(RrradioTheme.bg2)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(RrradioTheme.line))
+                    .contentShape(Circle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(locale.text(.addStationsToList))
+        }
+        .frame(maxWidth: .infinity, minHeight: topbarControlSize, alignment: .center)
+        .padding(.horizontal, 14)
+        .padding(.vertical, 8)
+        .background(RrradioTheme.bg)
+        .overlay(alignment: .top) {
+            Rectangle()
+                .fill(RrradioTheme.line)
+                .frame(height: 1)
+        }
     }
 
     private var browseListSelectionBar: some View {
@@ -3088,50 +3142,38 @@ struct StationListView: View {
         let showsStationListRemove = allowsDeleteControls && isStationListStationDeleteMode
         let showsRemoveControl = showsFavoriteRemove || showsStationListRemove
 
-        return ZStack(alignment: .trailing) {
-            HStack(spacing: 0) {
-                StationRow(
-                    station: station,
-                    nowPlaying: favoriteNowPlayingMetadata(for: station),
-                    mode: .favoritesListCard,
-                    isCurrent: player.current?.id == station.id,
-                    isPlaying: player.current?.id == station.id && player.state == .playing,
-                    isFavorite: library.isFavorite(station),
-                    isCustom: library.isCustom(station),
-                    onPlay: {
-                        guard allowsPlayback else { return }
-                        performSwipeSafeActivation {
-                            if showsFavoriteRemove {
-                                hideFavoriteDeleteMode()
-                            } else if showsStationListRemove {
-                                hideStationListDeleteMode()
-                            } else {
-                                play(station)
-                            }
-                        }
-                    },
-                    onToggleFavorite: {},
-                    showsFavoriteButton: false,
-                    shouldSuppressActivation: consumeSwipeSuppressedActivation,
-                )
-                .frame(maxWidth: .infinity)
-
-                if showsStationListRemove {
-                    Color.clear
-                        .frame(width: favoriteRemoveControlSlotWidth)
-                        .accessibilityHidden(true)
+        return StationRow(
+            station: station,
+            nowPlaying: favoriteNowPlayingMetadata(for: station),
+            mode: .favoritesListCard,
+            isCurrent: player.current?.id == station.id,
+            isPlaying: player.current?.id == station.id && player.state == .playing,
+            isFavorite: library.isFavorite(station),
+            isCustom: library.isCustom(station),
+            onPlay: {
+                guard allowsPlayback else { return }
+                performSwipeSafeActivation {
+                    if showsFavoriteRemove {
+                        hideFavoriteDeleteMode()
+                    } else if showsStationListRemove {
+                        hideStationListDeleteMode()
+                    } else {
+                        play(station)
+                    }
                 }
-            }
-
-            if showsStationListRemove {
-                stationListStationDeleteButton(station)
-                    .padding(.trailing, favoriteRemoveControlTrailingInset)
-                    .transition(.scale(scale: 0.82).combined(with: .opacity))
-            }
-        }
+            },
+            onToggleFavorite: {},
+            showsFavoriteButton: false,
+            shouldSuppressActivation: consumeSwipeSuppressedActivation,
+        )
+        .frame(maxWidth: .infinity)
         .overlay(alignment: .topTrailing) {
             if showsFavoriteRemove {
                 favoriteDeleteBadge(station)
+                    .padding(.top, favoriteListDeleteBadgeTopInset)
+                    .padding(.trailing, favoriteListDeleteBadgeTrailingInset)
+            } else if showsStationListRemove {
+                stationListDeleteBadge(station)
                     .padding(.top, favoriteListDeleteBadgeTopInset)
                     .padding(.trailing, favoriteListDeleteBadgeTrailingInset)
             }
@@ -3175,7 +3217,6 @@ struct StationListView: View {
                                         favoriteGridItem(
                                             station: station,
                                             jiggleEnabled: false,
-                                            deleteBadgePlacement: .insideCorner,
                                             dropBehavior: .targetSlot,
                                         ) {
                                             FavoriteStationTile(
@@ -3323,7 +3364,7 @@ struct StationListView: View {
         station: Station,
         dragSource: FavoriteGridDragSource = .item,
         jiggleEnabled: Bool = true,
-        deleteBadgePlacement: FavoriteDeleteBadgePlacement = .overlappingCorner,
+        deleteBadgePlacement: FavoriteDeleteBadgePlacement = .insideCorner,
         dropBehavior: FavoriteGridDropBehavior = .horizontalSplit,
         @ViewBuilder content: () -> Content,
     ) -> some View {
@@ -3331,8 +3372,13 @@ struct StationListView: View {
             ZStack(alignment: .topTrailing) {
                 content()
 
-                stationListGridDeleteBadge(station)
-                    .offset(x: 10, y: -10)
+                stationListDeleteBadge(station)
+                    .padding(.top, deleteBadgePlacement.topPadding)
+                    .padding(.trailing, deleteBadgePlacement.trailingPadding)
+                    .offset(
+                        x: deleteBadgePlacement.xOffset,
+                        y: deleteBadgePlacement.yOffset,
+                    )
             }
             .contentShape(Rectangle())
             .onTapGesture {
@@ -3464,43 +3510,22 @@ struct StationListView: View {
     }
 
     private enum FavoriteDeleteBadgePlacement {
-        case overlappingCorner
         case insideCorner
 
         var topPadding: CGFloat {
-            switch self {
-            case .overlappingCorner:
-                return 0
-            case .insideCorner:
-                return 6
-            }
+            6
         }
 
         var trailingPadding: CGFloat {
-            switch self {
-            case .overlappingCorner:
-                return 0
-            case .insideCorner:
-                return 6
-            }
+            6
         }
 
         var xOffset: CGFloat {
-            switch self {
-            case .overlappingCorner:
-                return 10
-            case .insideCorner:
-                return 0
-            }
+            0
         }
 
         var yOffset: CGFloat {
-            switch self {
-            case .overlappingCorner:
-                return -10
-            case .insideCorner:
-                return 0
-            }
+            0
         }
     }
 
@@ -3564,59 +3589,26 @@ struct StationListView: View {
     /// against bright favicons. Sized at ~24pt; each display mode
     /// decides whether it overlaps an icon or sits inside a card.
     private func favoriteDeleteBadge(_ station: Station) -> some View {
-        Button {
+        stationDeleteBadge(
+            accessibilityLabel: "Remove from favorites",
+        ) {
             removeFavoriteFromGrid(station)
-        } label: {
-            Image(systemName: "minus.circle.fill")
-                .symbolRenderingMode(.palette)
-                // First color: the minus stroke. Second: the circle
-                // fill. Black-on-white reads against any favicon
-                // colour, including the white circles a few stations
-                // ship as their logo background.
-                .foregroundStyle(.black, .white)
-                .font(.system(size: 24, weight: .regular))
-                .shadow(color: .black.opacity(0.30), radius: 1.5, x: 0, y: 1)
-                // Hit area generous enough that it's still tappable
-                // when the icon is mid-jiggle (the badge wobbles with
-                // its parent ZStack).
-                .frame(width: 32, height: 32)
-                .contentShape(Circle())
         }
-        .buttonStyle(.plain)
-        .accessibilityLabel("Remove from favorites")
-        .transition(.scale(scale: 0.82).combined(with: .opacity))
     }
 
-    private func stationListGridDeleteBadge(_ station: Station) -> some View {
-        Button {
+    private func stationListDeleteBadge(_ station: Station) -> some View {
+        stationDeleteBadge(
+            accessibilityLabel: "Remove \(station.name) from list",
+        ) {
             removeStationFromSelectedList(station)
-        } label: {
-            Image(systemName: "minus.circle.fill")
-                .symbolRenderingMode(.palette)
-                .foregroundStyle(.black, .white)
-                .font(.system(size: 24, weight: .regular))
-                .shadow(color: .black.opacity(0.30), radius: 1.5, x: 0, y: 1)
-                .frame(width: 32, height: 32)
-                .contentShape(Circle())
         }
-        .buttonStyle(.plain)
-        .accessibilityLabel("Remove \(station.name) from list")
-        .transition(.scale(scale: 0.82).combined(with: .opacity))
     }
 
-    private func stationListStationDeleteButton(_ station: Station) -> some View {
-        Button {
-            removeStationFromSelectedList(station)
-        } label: {
-            Image(systemName: "minus.circle")
-                .font(.system(size: 14, weight: .semibold))
-                .foregroundStyle(RrradioTheme.ink3)
-                .frame(width: topbarControlSize, height: topbarControlSize)
-                .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel("Remove \(station.name) from list")
-        .transition(.scale(scale: 0.82).combined(with: .opacity))
+    private func stationDeleteBadge(
+        accessibilityLabel: String,
+        action: @escaping () -> Void,
+    ) -> some View {
+        StationDeleteBadgeButton(accessibilityLabel: accessibilityLabel, action: action)
     }
 
     private func removeFavoriteFromGrid(_ station: Station) {
@@ -3671,6 +3663,31 @@ struct StationListView: View {
         }
     }
 
+    private func applyBrowseListSelectionRequestIfNeeded(_ request: BrowseStationListSelectionRequest?) {
+        guard pageTab == .browse,
+              let request,
+              handledBrowseListSelectionRequestID != request.id,
+              let list = library.stationList(id: request.stationListID) else { return }
+
+        handledBrowseListSelectionRequestID = request.id
+        clearSearchState()
+        activeFilterPicker = nil
+        pendingBrowseFilterState = nil
+        closeStationInfoPreview()
+        clearBrowseFilters()
+        browseStationSort = nil
+        setSource(.all, animated: false)
+        resetStationDisplayLimit()
+        resetRadioBrowserStations()
+        listScrollOffset = 0
+        browseListSelectedStationIDs = []
+        browseListSelectedStationOrder = []
+        browseListTargetStationListID = list.id
+        browseListNameDraft = list.name
+        browseListSelectionActive = true
+        browseStationListSelectionActiveExternally = true
+    }
+
     private func toggleBrowseStationSelection(_ station: Station) {
         guard isBrowseListSelectionMode else { return }
         if browseListSelectedStationIDs.contains(station.id) {
@@ -3701,20 +3718,44 @@ struct StationListView: View {
         let selectedStations = selectedBrowseStationsForSave
         guard !selectedStations.isEmpty else { return }
 
+        let destinationListID: String
         if let targetID = browseListTargetStationListID,
            library.stationList(id: targetID) != nil {
             for station in selectedStations {
                 library.addStation(station, toStationList: targetID)
             }
+            destinationListID = targetID
         } else if let existing = library.stationLists.first(where: { $0.name.localizedCaseInsensitiveCompare(name) == .orderedSame }) {
             for station in selectedStations {
                 library.addStation(station, toStationList: existing.id)
             }
+            destinationListID = existing.id
         } else {
-            library.createStationList(name: name, stations: selectedStations)
+            let list = library.createStationList(name: name, stations: selectedStations)
+            destinationListID = list.id
         }
 
         cancelBrowseListSelection()
+        resetBrowsePageAfterListSave()
+        openSavedStationList(destinationListID)
+    }
+
+    private func resetBrowsePageAfterListSave() {
+        clearSearchState()
+        activeFilterPicker = nil
+        pendingBrowseFilterState = nil
+        clearBrowseFilters()
+        browseStationSort = nil
+        setSource(.all, animated: false)
+        resetStationDisplayLimit()
+        resetRadioBrowserStations()
+        listScrollOffset = 0
+        recomputeFilteredStations()
+    }
+
+    private func openSavedStationList(_ listID: String) {
+        librarySelectionRaw = LibraryListSelection.stationList(listID).rawValue
+        tab = .library
     }
 
     private func cancelBrowseListSelection() {
@@ -3743,7 +3784,21 @@ struct StationListView: View {
     private func createStationListFromDraft() {
         let list = library.createStationList(name: stationListNameDraft)
         stationListNameDraft = ""
-        openStationList(list)
+        openBrowseListSelection(for: list)
+    }
+
+    private func openBrowseListSelectionForSelectedList() {
+        guard let selectedStationList else { return }
+        openBrowseListSelection(for: selectedStationList)
+    }
+
+    private func openBrowseListSelection(for list: StationList) {
+        hideStationListDeleteMode(animated: false)
+        clearSearchState()
+        browseStationListSelectionRequest = BrowseStationListSelectionRequest(
+            stationListID: list.id
+        )
+        tab = .browse
     }
 
     private func openStationList(_ list: StationList) {
@@ -4412,7 +4467,13 @@ struct StationListView: View {
             guard let selectedStationList else { return }
             let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
             filteredStations = selectedStationList.stations.filter {
-                trimmedQuery.isEmpty || stationMatches($0, query: query)
+                (trimmedQuery.isEmpty || stationMatches($0, query: query))
+                    && Self.stationMatchesBrowseFilters(
+                        $0,
+                        countryCodes: selectedCountryCodes,
+                        genreIDs: selectedGenreIDs,
+                        newsFilterSelected: newsFilterSelected,
+                    )
             }
             return
         }
@@ -4420,16 +4481,16 @@ struct StationListView: View {
             filterTask?.cancel()
             let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
             let stationFiltersApply = isFavoritesPage
-            let selectedCountryCodes = stationFiltersApply ? selectedCountryCodes : []
-            let selectedGenreIDs = stationFiltersApply ? selectedGenreIDs : []
-            let newsFilterSelected = stationFiltersApply ? newsFilterSelected : false
+            let activeCountryCodes = stationFiltersApply ? selectedCountryCodes : []
+            let activeGenreIDs = stationFiltersApply ? selectedGenreIDs : []
+            let activeNewsFilterSelected = stationFiltersApply ? newsFilterSelected : false
             let matches = stations.filter {
                 stationMatches($0, query: query)
                     && Self.stationMatchesBrowseFilters(
                         $0,
-                        countryCodes: selectedCountryCodes,
-                        genreIDs: selectedGenreIDs,
-                        newsFilterSelected: newsFilterSelected,
+                        countryCodes: activeCountryCodes,
+                        genreIDs: activeGenreIDs,
+                        newsFilterSelected: activeNewsFilterSelected,
                     )
             }
             if isFavoritesPage,
@@ -4439,9 +4500,9 @@ struct StationListView: View {
                     stationMatches($0, query: query)
                         && Self.stationMatchesBrowseFilters(
                             $0,
-                            countryCodes: selectedCountryCodes,
-                            genreIDs: selectedGenreIDs,
-                            newsFilterSelected: newsFilterSelected,
+                            countryCodes: activeCountryCodes,
+                            genreIDs: activeGenreIDs,
+                            newsFilterSelected: activeNewsFilterSelected,
                         )
                 }
                 filteredStations = catalogMatches
@@ -4454,9 +4515,9 @@ struct StationListView: View {
         }
         let source = source
         let stationFiltersApply = source == .all || source == .favorites
-        let selectedCountryCodes = stationFiltersApply ? selectedCountryCodes : []
-        let selectedGenreIDs = stationFiltersApply ? selectedGenreIDs : []
-        let newsFilterSelected = stationFiltersApply ? newsFilterSelected : false
+        let activeCountryCodes = stationFiltersApply ? selectedCountryCodes : []
+        let activeGenreIDs = stationFiltersApply ? selectedGenreIDs : []
+        let activeNewsFilterSelected = stationFiltersApply ? newsFilterSelected : false
         let stations = stations
         let catalogStations = allStations
         let customStations = library.customStations
@@ -4479,9 +4540,9 @@ struct StationListView: View {
                 showFavoritesCatalogFallback = false
                 let quickMatches = Self.searchIndexedStations(
                     query: trimmedQuery,
-                    selectedCountryCodes: selectedCountryCodes,
-                    selectedGenreIDs: selectedGenreIDs,
-                    newsFilterSelected: newsFilterSelected,
+                    selectedCountryCodes: activeCountryCodes,
+                    selectedGenreIDs: activeGenreIDs,
+                    newsFilterSelected: activeNewsFilterSelected,
                     catalogStations: catalogStations,
                     customStations: customStations,
                     radioBrowserStations: radioBrowserStations,
@@ -4499,9 +4560,9 @@ struct StationListView: View {
                 }
                 matches = Self.searchIndexedStations(
                     query: trimmedQuery,
-                    selectedCountryCodes: selectedCountryCodes,
-                    selectedGenreIDs: selectedGenreIDs,
-                    newsFilterSelected: newsFilterSelected,
+                    selectedCountryCodes: activeCountryCodes,
+                    selectedGenreIDs: activeGenreIDs,
+                    newsFilterSelected: activeNewsFilterSelected,
                     catalogStations: catalogStations,
                     customStations: customStations,
                     radioBrowserStations: radioBrowserStations,
@@ -4514,9 +4575,9 @@ struct StationListView: View {
                         stationMatches($0, query: query)
                             && Self.stationMatchesBrowseFilters(
                                 $0,
-                                countryCodes: selectedCountryCodes,
-                                genreIDs: selectedGenreIDs,
-                                newsFilterSelected: newsFilterSelected,
+                                countryCodes: activeCountryCodes,
+                                genreIDs: activeGenreIDs,
+                                newsFilterSelected: activeNewsFilterSelected,
                             )
                     }
                     : []
@@ -4535,9 +4596,9 @@ struct StationListView: View {
                     stationMatches($0, query: query)
                         && Self.stationMatchesBrowseFilters(
                             $0,
-                            countryCodes: selectedCountryCodes,
-                            genreIDs: selectedGenreIDs,
-                            newsFilterSelected: newsFilterSelected,
+                            countryCodes: activeCountryCodes,
+                            genreIDs: activeGenreIDs,
+                            newsFilterSelected: activeNewsFilterSelected,
                         )
                 }
             }
@@ -4778,6 +4839,9 @@ struct StationListView: View {
     }
 
     private var searchPlaceholder: String {
+        if isBrowseListSelectionMode {
+            return locale.text(.searchStationsToAddToList)
+        }
         if isLibraryHome {
             return locale.text(.searchStationLists)
         }
@@ -5096,6 +5160,32 @@ private struct FavoriteGridDropResetDelegate: DropDelegate {
         draggedStationID = nil
         targetedStationID = nil
         lastMoveAt = nil
+    }
+}
+
+private struct StationDeleteBadgeButton: View {
+    let accessibilityLabel: String
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: "minus.circle.fill")
+                .symbolRenderingMode(.palette)
+                // First color: the minus stroke. Second: the circle
+                // fill. Black-on-white reads against any favicon
+                // colour, including the white circles a few stations
+                // ship as their logo background.
+                .foregroundStyle(.black, .white)
+                .font(.system(size: 24, weight: .regular))
+                .shadow(color: .black.opacity(0.30), radius: 1.5, x: 0, y: 1)
+                // Hit area generous enough that it's still tappable
+                // when the icon is mid-jiggle or near a row corner.
+                .frame(width: 32, height: 32)
+                .contentShape(Circle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(accessibilityLabel)
+        .transition(.scale(scale: 0.82).combined(with: .opacity))
     }
 }
 
@@ -5790,10 +5880,9 @@ private struct FavoriteStationAppIcon: View {
                 .multilineTextAlignment(.center)
                 .truncationMode(.tail)
                 .frame(width: labelWidth, height: labelHeight, alignment: .top)
-                .frame(maxWidth: .infinity)
         }
         .frame(height: cellHeight, alignment: .top)
-        .frame(maxWidth: .infinity)
+        .frame(width: FavoriteStationAppArtwork.iconSize, height: cellHeight, alignment: .top)
         .overlay(alignment: .bottom) {
             if isCurrent {
                 Rectangle()
@@ -6095,15 +6184,10 @@ private struct StationListCard: View {
     }
 
     private var deleteButton: some View {
-        Button(action: onDelete) {
-            Image(systemName: "minus.circle")
-                .font(.system(size: 14, weight: .semibold))
-                .foregroundStyle(RrradioTheme.ink3)
-                .frame(width: 36, height: 36)
-                .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel("Remove \(stationList.name)")
+        StationDeleteBadgeButton(
+            accessibilityLabel: "Remove \(stationList.name)",
+            action: onDelete,
+        )
     }
 
     private var cardBackground: some View {

@@ -218,6 +218,7 @@ enum L10nKey: String {
     case selectStation
     case searchStationLists
     case searchStationList
+    case searchStationsToAddToList
     case saveAnyway
 }
 
@@ -363,6 +364,7 @@ enum L10n {
             .selectStation: "Select station",
             .searchStationLists: "Search lists...",
             .searchStationList: "Search this list...",
+            .searchStationsToAddToList: "search for stations to add to list",
             .saveAnyway: "Save anyway",
         ],
         "de": [
@@ -505,6 +507,7 @@ enum L10n {
             .selectStation: "Station auswählen",
             .searchStationLists: "Listen suchen...",
             .searchStationList: "Diese Liste suchen...",
+            .searchStationsToAddToList: "search for stations to add to list",
             .saveAnyway: "Trotzdem speichern",
         ],
         "fr": [
@@ -647,6 +650,7 @@ enum L10n {
             .selectStation: "Sélectionner la station",
             .searchStationLists: "Rechercher des listes...",
             .searchStationList: "Rechercher dans cette liste...",
+            .searchStationsToAddToList: "search for stations to add to list",
             .saveAnyway: "Enregistrer quand meme",
         ],
         "es": [
@@ -789,6 +793,7 @@ enum L10n {
             .selectStation: "Seleccionar emisora",
             .searchStationLists: "Buscar listas...",
             .searchStationList: "Buscar en esta lista...",
+            .searchStationsToAddToList: "search for stations to add to list",
             .saveAnyway: "Guardar de todos modos",
         ],
     ]

@@ -13,6 +13,7 @@ struct ContentView: View {
     @State private var showingLandingNowPlaying = false
     @State private var showingWakePauseWarning = false
     @State private var browseStationListSelectionActive = false
+    @State private var browseStationListSelectionRequest: BrowseStationListSelectionRequest?
     @State private var rootSwipeAxis: RootSwipeAxis?
     @State private var rootSwipeDragOffset: CGFloat = 0
     @State private var rootSwipeSettlingTarget: AppTab?
@@ -114,6 +115,7 @@ struct ContentView: View {
             tab: $tab,
             searchFocusedExternally: isActive ? $searchFocused : .constant(false),
             browseStationListSelectionActiveExternally: pageTab == .browse ? $browseStationListSelectionActive : .constant(false),
+            browseStationListSelectionRequest: $browseStationListSelectionRequest,
             fixedTab: pageTab,
             horizontalSwipeLockedExternally: horizontalSwipeLocked,
         )
