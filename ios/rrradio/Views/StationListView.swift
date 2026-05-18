@@ -2949,7 +2949,10 @@ struct StationListView: View {
         allowsPlayback: Bool = true,
         allowsDeleteControls: Bool = true,
     ) -> some View {
-        let showsFavoriteRemove = allowsDeleteControls && isFavoritesPage && favoriteDeleteModeEnabled
+        let showsFavoriteRemove = allowsDeleteControls
+            && isFavoritesPage
+            && favoriteDeleteModeEnabled
+            && draggedFavoriteStationID == nil
         let showsStationListRemove = allowsDeleteControls && isStationListStationDeleteMode
         let showsRemoveControl = showsFavoriteRemove || showsStationListRemove
 
@@ -3188,14 +3191,11 @@ struct StationListView: View {
             let showsReorderPlaceholder = draggedFavoriteStationID == station.id
                 && lastFavoriteDropMoveAt != nil
             let showsDeleteButton = favoriteDeleteModeEnabled
-                && targetedFavoriteStationID == nil
+                && draggedFavoriteStationID == nil
             // SpringBoard-style jiggle while the user is in delete mode.
-            // Skipped for the tile currently being dragged so the drag
-            // preview snapshot isn't tilted. Per-station seed gives each
-            // tile a slightly different oscillation period so adjacent
-            // tiles don't beat in unison.
+            // Per-station seed gives each tile a slightly different
+            // oscillation period so adjacent tiles don't beat in unison.
             let isJiggling = favoriteDeleteModeEnabled
-                && draggedFavoriteStationID != station.id
             let item = ZStack(alignment: .topTrailing) {
                 content()
 
@@ -3279,10 +3279,11 @@ struct StationListView: View {
         lastFavoriteDropMoveAt = nil
         // Long-press → drag pickup → enter delete mode. Mirrors iPhone
         // Home: holding a tile lifts it AND switches the whole grid
-        // into edit mode (jiggle starts on the other tiles, minus
-        // badges appear). Releasing without moving cancels the drag
+        // into edit mode. Releasing without moving cancels the drag
         // but the grid stays in delete mode so the user can either
-        // tap a minus badge or drag another tile.
+        // tap a minus badge or drag another tile. The minus badges are
+        // hidden while an active drag is in flight so they do not leak
+        // into the reorder preview.
         if !favoriteDeleteModeEnabled {
             withAnimation(.snappy(duration: 0.16)) {
                 favoriteDeleteModeEnabled = true
@@ -5630,6 +5631,7 @@ private struct FavoriteStationAppIcon: View {
                     isCurrent: isCurrent,
                     isCustom: isCustom,
                 )
+                .modifier(FavoriteJiggleModifier(isActive: true, seed: station.id.hashValue))
             }
         } else {
             FavoriteStationAppArtwork(
