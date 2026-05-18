@@ -30,6 +30,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Select Xcode 26 so the iOS 26 SDK is available — the codebase
+      # uses iOS 26 APIs (e.g. UIColorPickerViewController.supportsEyedropper)
+      # gated with #available, but #available is a runtime check, the
+      # compile-time symbol still needs to exist in the SDK.
+      - name: Select Xcode 26
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
       - name: Show toolchain
         run: |
           xcodebuild -version
@@ -46,8 +55,9 @@ jobs:
       - name: Pick a simulator
         id: simctl
         run: |
-          # Use whatever iPhone simulator the runner has. macos-15 ships
-          # iOS 18 simulators by default. Pick the first available.
+          # Use whatever iPhone simulator the runner has — the iOS
+          # version doesn't matter, we just need *an* iPhone simulator
+          # to run the tests on.
           DEVICE=$(xcrun simctl list devices available -j \
             | python3 -c '
           import json, sys
