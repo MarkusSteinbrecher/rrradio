@@ -279,6 +279,37 @@ struct StationListView: View {
     private let favoriteTileGridColumnCount = 2
     private let favoriteAppGridColumnCount = 4
     private let browseControlsExpandedHeight: CGFloat = 20
+    private var topbarRowsSpacing: CGFloat {
+        verticalSizeClass == .compact ? 8 : 14
+    }
+    private var topbarTopPadding: CGFloat {
+        verticalSizeClass == .compact ? 8 : 14
+    }
+    private var topbarExpandedHeight: CGFloat {
+        topbarTopPadding + topbarControlSize * 2 + topbarRowsSpacing
+    }
+    private var topbarMiddleRowTravel: CGFloat {
+        topbarControlSize + topbarRowsSpacing
+    }
+    private var topbarCollapseDistance: CGFloat {
+        topbarExpandedHeight
+    }
+    private var topbarCollapseOffset: CGFloat {
+        guard usesPinnedControlHeader else { return 0 }
+        return min(max(0, listScrollOffset), topbarCollapseDistance)
+    }
+    private var topbarVisibleHeight: CGFloat {
+        max(0, topbarExpandedHeight - topbarCollapseOffset)
+    }
+    private var topbarSearchRowOpacity: Double {
+        topbarCollapseOffset < topbarMiddleRowTravel ? 1 : 0
+    }
+    private var pinnedHeaderScrollTailPadding: CGFloat {
+        usesPinnedControlHeader ? topbarCollapseDistance : 0
+    }
+    private func scrollContentMinimumHeight(for viewportHeight: CGFloat) -> CGFloat {
+        viewportHeight + pinnedHeaderScrollTailPadding
+    }
     private var stickyHeaderPinnedOffset: CGFloat {
         stationHeaderTopPadding + browseControlsExpandedHeight + stationHeaderStackSpacing
     }
@@ -308,7 +339,10 @@ struct StationListView: View {
     private let sortListSelectionControlWidth: CGFloat = 28
     private let sortAlphabetControlWidth: CGFloat = 44
     private var stationScrollPinnedViews: PinnedScrollableViews {
-        pageTab == .browse ? [.sectionHeaders] : []
+        usesPinnedControlHeader ? [.sectionHeaders] : []
+    }
+    private var usesPinnedControlHeader: Bool {
+        pageTab == .browse || isLibraryPage
     }
 
     private enum ActiveFilterPicker {
@@ -1352,20 +1386,41 @@ struct StationListView: View {
     }
 
     private var regularTopbar: some View {
-        VStack(spacing: 14) {
-            brandActionsRow
-            searchAndFilterRow
-        }
-        .topbarChrome(top: 14, bottom: 0)
+        collapsibleTopbar(compactsSearchRow: false)
     }
 
     private var compactTopbar: some View {
-        VStack(spacing: 8) {
-            brandActionsRow
+        collapsibleTopbar(compactsSearchRow: true)
+    }
+
+    private func collapsibleTopbar(compactsSearchRow: Bool) -> some View {
+        let offset = topbarCollapseOffset
+        let middleOffset = min(offset, topbarMiddleRowTravel)
+        let topOffset = max(0, offset - topbarMiddleRowTravel)
+
+        return ZStack(alignment: .top) {
             searchAndFilterRow
-                .frame(minWidth: 220, maxWidth: .infinity)
+                .frame(minWidth: compactsSearchRow ? 220 : nil, maxWidth: .infinity)
+                .frame(height: topbarControlSize)
+                .padding(.horizontal, 20)
+                .frame(maxWidth: .infinity)
+                .background(RrradioTheme.bg)
+                .offset(y: topbarTopPadding + topbarControlSize + topbarRowsSpacing - middleOffset)
+                .opacity(topbarSearchRowOpacity)
+                .zIndex(0)
+
+            brandActionsRow
+                .frame(height: topbarControlSize)
+                .padding(.horizontal, 20)
+                .frame(maxWidth: .infinity)
+                .background(RrradioTheme.bg)
+                .offset(y: topbarTopPadding - topOffset)
+                .zIndex(1)
         }
-        .topbarChrome(top: 8, bottom: 0)
+        .frame(maxWidth: .infinity)
+        .frame(height: topbarVisibleHeight, alignment: .top)
+        .clipped()
+        .background(RrradioTheme.bg)
     }
 
     private var favoritesDisplayModeSelector: some View {
@@ -2410,14 +2465,6 @@ struct StationListView: View {
     private var activeLibraryContent: some View {
         if isLibraryHome {
             libraryOverview
-        } else if filteredStations.isEmpty {
-            ContentUnavailableView(
-                emptyTitle,
-                systemImage: emptyIcon,
-                description: Text(emptyDescription),
-            )
-            .foregroundStyle(RrradioTheme.ink)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             libraryDisplayContent
         }
@@ -2662,47 +2709,50 @@ struct StationListView: View {
     }
 
     private var stationScrollList: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(spacing: 0) {
-                ScrollOffsetObserver(offset: $listScrollOffset, maximumOffset: stickyHeaderPinnedOffset)
-                    .frame(width: 0, height: 0)
+        GeometryReader { proxy in
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 0) {
+                    ScrollOffsetObserver(offset: $listScrollOffset, maximumOffset: topbarCollapseDistance)
+                        .frame(width: 0, height: 0)
 
-                LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: stationScrollPinnedViews) {
-                    if pageTab == .browse {
-                        inlineBrowseControls
-                    } else if isLibraryPage {
-                        inlineStationListsControls()
+                    LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: stationScrollPinnedViews) {
+                        if pageTab == .browse && !usesPinnedControlHeader {
+                            inlineBrowseControls
+                        } else if isLibraryPage {
+                            inlineStationListsControls()
+                        }
+
+                        Section {
+                            if isStationListsDetail && filteredStations.isEmpty {
+                                stationListEmptyState
+                                    .padding(.top, stationHeaderStackSpacing)
+                            } else if showingFavoritesCatalogFallback {
+                                favoritesCatalogFallbackNotice
+                                    .padding(.top, stationHeaderStackSpacing)
+                            }
+
+                            ForEach(Array(visibleStations.enumerated()), id: \.element.id) { index, station in
+                                stationScrollRow(station)
+                                    .padding(.top, !showingFavoritesCatalogFallback && index == 0 ? stationHeaderStackSpacing : 0)
+                            }
+                            if visibleStations.count < filteredStations.count || canLoadWorldwideStations {
+                                loadMoreRow
+                            }
+                        } header: {
+                            stationScrollSectionHeader
+                        }
                     }
-
-                    Section {
-                        if isStationListsDetail && filteredStations.isEmpty {
-                            stationListEmptyState
-                                .padding(.top, stationHeaderStackSpacing)
-                        } else if showingFavoritesCatalogFallback {
-                            favoritesCatalogFallbackNotice
-                                .padding(.top, stationHeaderStackSpacing)
-                        }
-
-                        ForEach(Array(visibleStations.enumerated()), id: \.element.id) { index, station in
-                            stationScrollRow(station)
-                                .padding(.top, !showingFavoritesCatalogFallback && index == 0 ? stationHeaderStackSpacing : 0)
-                        }
-                        if visibleStations.count < filteredStations.count || canLoadWorldwideStations {
-                            loadMoreRow
-                        }
-                    } header: {
-                        stationScrollSectionHeader
+                    .frame(minHeight: scrollContentMinimumHeight(for: proxy.size.height), alignment: .top)
+                    .padding(.top, usesPinnedControlHeader ? 0 : stationHeaderTopPadding)
+                    .padding(.bottom, 12)
+                    .background {
+                        stationListDeleteModeDismissBackground
                     }
-                }
-                .padding(.top, stationHeaderTopPadding)
-                .padding(.bottom, 12)
-                .background {
-                    stationListDeleteModeDismissBackground
                 }
             }
+            .scrollDismissesKeyboard(.immediately)
+            .scrollDisabled(isHorizontalSwipeLocked)
         }
-        .scrollDismissesKeyboard(.immediately)
-        .scrollDisabled(isHorizontalSwipeLocked)
         .background(RrradioTheme.bg)
     }
 
@@ -2793,43 +2843,48 @@ struct StationListView: View {
     }
 
     private var libraryOverview: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(spacing: 0) {
-                ScrollOffsetObserver(offset: $listScrollOffset, maximumOffset: stickyHeaderPinnedOffset)
-                    .frame(width: 0, height: 0)
+        GeometryReader { proxy in
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 0) {
+                    ScrollOffsetObserver(offset: $listScrollOffset, maximumOffset: topbarCollapseDistance)
+                        .frame(width: 0, height: 0)
 
-                LazyVStack(spacing: stationHeaderStackSpacing) {
-                    inlineStationListsControls()
+                    LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: usesPinnedControlHeader ? [.sectionHeaders] : []) {
+                        if !usesPinnedControlHeader {
+                            inlineStationListsControls()
+                        }
 
-                    Section {
-                        if filteredLibrarySelections.isEmpty {
-                            stationListEmptyState
-                                .padding(.top, stationHeaderStackSpacing)
-                        } else {
-                            ForEach(filteredLibrarySelections) { selection in
-                                libraryOverviewCard(selection)
-                                    .padding(.horizontal, 14)
-                                    .padding(.top, selection == filteredLibrarySelections.first ? stationHeaderStackSpacing : 0)
+                        Section {
+                            if filteredLibrarySelections.isEmpty {
+                                stationListEmptyState
+                                    .padding(.top, stationHeaderStackSpacing)
+                            } else {
+                                ForEach(filteredLibrarySelections) { selection in
+                                    libraryOverviewCard(selection)
+                                        .padding(.horizontal, 14)
+                                        .padding(.top, selection == filteredLibrarySelections.first ? stationHeaderStackSpacing : 0)
+                                }
                             }
+                            if !stationListDeleteModeEnabled {
+                                createStationListFooterButton
+                                    .padding(.horizontal, 14)
+                                    .padding(.top, stationHeaderStackSpacing)
+                            }
+                        } header: {
+                            libraryDisplaySectionHeader
                         }
-                        if !stationListDeleteModeEnabled {
-                            createStationListFooterButton
-                                .padding(.horizontal, 14)
-                                .padding(.top, stationHeaderStackSpacing)
-                        }
-                    } header: {
-                        stickySectionHeader(includesRule: true, pinnedTopPadding: libraryHeaderRuleTopPadding)
+                    }
+                    .frame(minHeight: scrollContentMinimumHeight(for: proxy.size.height), alignment: .top)
+                    .padding(.top, usesPinnedControlHeader ? 0 : stationHeaderTopPadding)
+                    .padding(.bottom, 12)
+                    .background {
+                        stationListDeleteModeDismissBackground
                     }
                 }
-                .padding(.top, stationHeaderTopPadding)
-                .padding(.bottom, 12)
-                .background {
-                    stationListDeleteModeDismissBackground
-                }
             }
+            .scrollDismissesKeyboard(.immediately)
+            .scrollDisabled(isHorizontalSwipeLocked)
         }
-        .scrollDismissesKeyboard(.immediately)
-        .scrollDisabled(isHorizontalSwipeLocked)
         .background(RrradioTheme.bg)
     }
 
@@ -2906,6 +2961,18 @@ struct StationListView: View {
             stationListEmptyTitle,
             systemImage: stationListEmptyIcon,
             description: Text(stationListEmptyDescription),
+        )
+        .foregroundStyle(RrradioTheme.ink)
+        .padding(.horizontal, 24)
+        .padding(.vertical, 42)
+        .frame(maxWidth: .infinity)
+    }
+
+    private var libraryStationEmptyState: some View {
+        ContentUnavailableView(
+            emptyTitle,
+            systemImage: emptyIcon,
+            description: Text(emptyDescription),
         )
         .foregroundStyle(RrradioTheme.ink)
         .padding(.horizontal, 24)
@@ -3037,10 +3104,57 @@ struct StationListView: View {
 
     @ViewBuilder
     private var stationScrollSectionHeader: some View {
-        stickySectionHeader(
-            includesRule: pageTab == .browse || isLibraryPage,
-            pinnedTopPadding: isLibraryPage ? libraryHeaderRuleTopPadding : nil,
-        )
+        if usesPinnedControlHeader {
+            pinnedControlSectionHeader
+        } else {
+            stickySectionHeader(
+                includesRule: pageTab == .browse || isLibraryPage,
+                pinnedTopPadding: isLibraryPage ? libraryHeaderRuleTopPadding : nil,
+            )
+        }
+    }
+
+    @ViewBuilder
+    private var libraryDisplaySectionHeader: some View {
+        if usesPinnedControlHeader {
+            pinnedControlSectionHeader
+        } else {
+            stickySectionHeader(includesRule: true, pinnedTopPadding: libraryHeaderRuleTopPadding)
+        }
+    }
+
+    @ViewBuilder
+    private var pinnedControlSectionHeader: some View {
+        VStack(spacing: stationHeaderStackSpacing) {
+            pinnedControlRow
+                .frame(height: browseControlsExpandedHeight, alignment: .center)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.horizontal, 20)
+
+            headerRule
+            timerStatusStrip
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.top, stationHeaderStackSpacing)
+        .background(RrradioTheme.bg)
+    }
+
+    @ViewBuilder
+    private var pinnedControlRow: some View {
+        if pageTab == .browse {
+            secondaryBrowseControls
+        } else if isLibraryPage {
+            ZStack {
+                libraryPageStatus(for: librarySelection)
+                HStack {
+                    if librarySelection != .home {
+                        libraryPagesButton
+                    }
+                    Spacer()
+                    libraryDeleteModeButton(for: librarySelection)
+                }
+            }
+        }
     }
 
     @ViewBuilder
@@ -3074,36 +3188,46 @@ struct StationListView: View {
     }
 
     private var libraryCardList: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(spacing: 0) {
-                ScrollOffsetObserver(offset: $listScrollOffset)
-                    .frame(width: 0, height: 0)
+        GeometryReader { proxy in
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 0) {
+                    ScrollOffsetObserver(offset: $listScrollOffset, maximumOffset: topbarCollapseDistance)
+                        .frame(width: 0, height: 0)
 
-                LazyVStack(spacing: stationHeaderStackSpacing) {
-                    inlineFavoritesControls()
-
-                    Section {
-                        ForEach(Array(visibleStations.enumerated()), id: \.element.id) { index, station in
-                            libraryCardListRow(station)
-                                .padding(.top, index == 0 ? stationHeaderStackSpacing : 0)
+                    LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: usesPinnedControlHeader ? [.sectionHeaders] : []) {
+                        if !usesPinnedControlHeader {
+                            inlineFavoritesControls()
                         }
 
-                        if visibleStations.count < filteredStations.count {
-                            loadMoreRow
+                        Section {
+                            if visibleStations.isEmpty {
+                                libraryStationEmptyState
+                                    .padding(.top, stationHeaderStackSpacing)
+                            } else {
+                                ForEach(Array(visibleStations.enumerated()), id: \.element.id) { index, station in
+                                    libraryCardListRow(station)
+                                        .padding(.top, index == 0 ? stationHeaderStackSpacing : 0)
+                                }
+
+                                if visibleStations.count < filteredStations.count {
+                                    loadMoreRow
+                                }
+                            }
+                        } header: {
+                            libraryDisplaySectionHeader
                         }
-                    } header: {
-                        stickySectionHeader(includesRule: true, pinnedTopPadding: libraryHeaderRuleTopPadding)
+                    }
+                    .frame(minHeight: scrollContentMinimumHeight(for: proxy.size.height), alignment: .top)
+                    .padding(.top, usesPinnedControlHeader ? 0 : stationHeaderTopPadding)
+                    .padding(.bottom, 12)
+                    .background {
+                        libraryDeleteModeDismissBackground
                     }
                 }
-                .padding(.top, stationHeaderTopPadding)
-                .padding(.bottom, 12)
-                .background {
-                    libraryDeleteModeDismissBackground
-                }
             }
+            .scrollDismissesKeyboard(.immediately)
+            .scrollDisabled(isHorizontalSwipeLocked)
         }
-        .scrollDismissesKeyboard(.immediately)
-        .scrollDisabled(isHorizontalSwipeLocked)
         .background(RrradioTheme.bg)
         .onDisappear(perform: clearFavoriteGridDragState)
     }
@@ -3202,57 +3326,64 @@ struct StationListView: View {
                         .frame(maxWidth: .infinity, minHeight: proxy.size.height, alignment: .top)
 
                     VStack(spacing: 0) {
-                        ScrollOffsetObserver(offset: $listScrollOffset)
+                        ScrollOffsetObserver(offset: $listScrollOffset, maximumOffset: topbarCollapseDistance)
                             .frame(width: 0, height: 0)
 
-                        LazyVStack(spacing: stationHeaderStackSpacing) {
-                            inlineFavoritesControls()
+                        LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: usesPinnedControlHeader ? [.sectionHeaders] : []) {
+                            if !usesPinnedControlHeader {
+                                inlineFavoritesControls()
+                            }
 
                             Section {
-                                LazyVGrid(
-                                    columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteTileGridColumnCount),
-                                    spacing: 10,
-                                ) {
-                                    ForEach(visibleStations) { station in
-                                        favoriteGridItem(
-                                            station: station,
-                                            jiggleEnabled: false,
-                                            dropBehavior: .targetSlot,
-                                        ) {
-                                            FavoriteStationTile(
+                                if visibleStations.isEmpty {
+                                    libraryStationEmptyState
+                                        .padding(.top, stationHeaderStackSpacing)
+                                } else {
+                                    LazyVGrid(
+                                        columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteTileGridColumnCount),
+                                        spacing: 10,
+                                    ) {
+                                        ForEach(visibleStations) { station in
+                                            favoriteGridItem(
                                                 station: station,
-                                                nowPlaying: favoriteNowPlayingMetadata(for: station),
-                                                isCurrent: player.current?.id == station.id,
-                                                isPlaying: player.current?.id == station.id && player.state == .playing,
-                                                isCustom: library.isCustom(station),
-                                            )
+                                                jiggleEnabled: false,
+                                                dropBehavior: .targetSlot,
+                                            ) {
+                                                FavoriteStationTile(
+                                                    station: station,
+                                                    nowPlaying: favoriteNowPlayingMetadata(for: station),
+                                                    isCurrent: player.current?.id == station.id,
+                                                    isPlaying: player.current?.id == station.id && player.state == .playing,
+                                                    isCustom: library.isCustom(station),
+                                                )
+                                            }
                                         }
                                     }
-                                }
-                                .onDrop(
-                                    of: [UTType.plainText],
-                                    delegate: FavoriteGridDropResetDelegate(
-                                        draggedStationID: $draggedFavoriteStationID,
-                                        targetedStationID: $targetedFavoriteStationID,
-                                        lastMoveAt: $lastFavoriteDropMoveAt,
-                                    ),
-                                )
-                                .padding(.top, stationHeaderStackSpacing)
-                                .padding(.horizontal, 14)
+                                    .onDrop(
+                                        of: [UTType.plainText],
+                                        delegate: FavoriteGridDropResetDelegate(
+                                            draggedStationID: $draggedFavoriteStationID,
+                                            targetedStationID: $targetedFavoriteStationID,
+                                            lastMoveAt: $lastFavoriteDropMoveAt,
+                                        ),
+                                    )
+                                    .padding(.top, stationHeaderStackSpacing)
+                                    .padding(.horizontal, 14)
 
-                                if visibleStations.count < filteredStations.count {
-                                    loadMoreRow
-                                        .padding(.horizontal, 14)
+                                    if visibleStations.count < filteredStations.count {
+                                        loadMoreRow
+                                            .padding(.horizontal, 14)
+                                    }
                                 }
                             } header: {
-                                stickySectionHeader(includesRule: true, pinnedTopPadding: libraryHeaderRuleTopPadding)
+                                libraryDisplaySectionHeader
                             }
                         }
-                        .padding(.top, stationHeaderTopPadding)
+                        .padding(.top, usesPinnedControlHeader ? 0 : stationHeaderTopPadding)
                         .padding(.bottom, 16)
                     }
                 }
-                .frame(maxWidth: .infinity, minHeight: proxy.size.height, alignment: .top)
+                .frame(maxWidth: .infinity, minHeight: scrollContentMinimumHeight(for: proxy.size.height), alignment: .top)
                 .contentShape(Rectangle())
                 .onDrop(
                     of: [UTType.plainText],
@@ -3279,56 +3410,63 @@ struct StationListView: View {
                         .frame(maxWidth: .infinity, minHeight: proxy.size.height, alignment: .top)
 
                     VStack(spacing: 0) {
-                        ScrollOffsetObserver(offset: $listScrollOffset)
+                        ScrollOffsetObserver(offset: $listScrollOffset, maximumOffset: topbarCollapseDistance)
                             .frame(width: 0, height: 0)
 
-                        LazyVStack(spacing: stationHeaderStackSpacing) {
-                            inlineFavoritesControls()
+                        LazyVStack(spacing: stationHeaderStackSpacing, pinnedViews: usesPinnedControlHeader ? [.sectionHeaders] : []) {
+                            if !usesPinnedControlHeader {
+                                inlineFavoritesControls()
+                            }
 
                             Section {
-                                LazyVGrid(
-                                    columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteAppGridColumnCount),
-                                    alignment: .center,
-                                    spacing: 18,
-                                ) {
-                                    ForEach(visibleStations) { station in
-                                        favoriteGridItem(
-                                            station: station,
-                                            dragSource: .content,
-                                        ) {
-                                            FavoriteStationAppIcon(
+                                if visibleStations.isEmpty {
+                                    libraryStationEmptyState
+                                        .padding(.top, stationHeaderStackSpacing)
+                                } else {
+                                    LazyVGrid(
+                                        columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteAppGridColumnCount),
+                                        alignment: .center,
+                                        spacing: 18,
+                                    ) {
+                                        ForEach(visibleStations) { station in
+                                            favoriteGridItem(
                                                 station: station,
-                                                isCurrent: player.current?.id == station.id,
-                                                isCustom: library.isCustom(station),
-                                                dragProvider: canReorderFavorites ? { favoriteGridDragProvider(for: station) } : nil,
-                                            )
+                                                dragSource: .content,
+                                            ) {
+                                                FavoriteStationAppIcon(
+                                                    station: station,
+                                                    isCurrent: player.current?.id == station.id,
+                                                    isCustom: library.isCustom(station),
+                                                    dragProvider: canReorderFavorites ? { favoriteGridDragProvider(for: station) } : nil,
+                                                )
+                                            }
                                         }
                                     }
-                                }
-                                .onDrop(
-                                    of: [UTType.plainText],
-                                    delegate: FavoriteGridDropResetDelegate(
-                                        draggedStationID: $draggedFavoriteStationID,
-                                        targetedStationID: $targetedFavoriteStationID,
-                                        lastMoveAt: $lastFavoriteDropMoveAt,
-                                    ),
-                                )
-                                .padding(.top, stationHeaderStackSpacing)
-                                .padding(.horizontal, 18)
+                                    .onDrop(
+                                        of: [UTType.plainText],
+                                        delegate: FavoriteGridDropResetDelegate(
+                                            draggedStationID: $draggedFavoriteStationID,
+                                            targetedStationID: $targetedFavoriteStationID,
+                                            lastMoveAt: $lastFavoriteDropMoveAt,
+                                        ),
+                                    )
+                                    .padding(.top, stationHeaderStackSpacing)
+                                    .padding(.horizontal, 18)
 
-                                if visibleStations.count < filteredStations.count {
-                                    loadMoreRow
-                                        .padding(.horizontal, 18)
+                                    if visibleStations.count < filteredStations.count {
+                                        loadMoreRow
+                                            .padding(.horizontal, 18)
+                                    }
                                 }
                             } header: {
-                                stickySectionHeader(includesRule: true, pinnedTopPadding: libraryHeaderRuleTopPadding)
+                                libraryDisplaySectionHeader
                             }
                         }
-                        .padding(.top, stationHeaderTopPadding)
+                        .padding(.top, usesPinnedControlHeader ? 0 : stationHeaderTopPadding)
                         .padding(.bottom, 18)
                     }
                 }
-                .frame(maxWidth: .infinity, minHeight: proxy.size.height, alignment: .top)
+                .frame(maxWidth: .infinity, minHeight: scrollContentMinimumHeight(for: proxy.size.height), alignment: .top)
                 .contentShape(Rectangle())
                 .onDrop(
                     of: [UTType.plainText],
@@ -6388,13 +6526,4 @@ func stationInitials(_ name: String) -> String {
         .joined()
         .prefix(2)
     return letters.isEmpty ? ".." : String(letters)
-}
-
-private extension View {
-    func topbarChrome(top: CGFloat, bottom: CGFloat) -> some View {
-        padding(.horizontal, 20)
-            .padding(.top, top)
-            .padding(.bottom, bottom)
-            .background(RrradioTheme.bg)
-    }
 }
