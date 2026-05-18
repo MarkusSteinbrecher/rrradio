@@ -23,6 +23,21 @@ function audioErrorMessage(err: MediaError | null): string {
 }
 
 /**
+ * `audio.play()` returns a promise the browser may reject for two
+ * benign reasons we treat as "paused, not broken":
+ *   - NotAllowedError: autoplay blocked because there was no user
+ *     gesture yet (SPA auto-load after a /station/<id>/ refresh).
+ *   - AbortError: the user (or app) called pause() / load() / a new
+ *     src assignment before the play() promise resolved. The pause
+ *     button hit before the stream is actually playing trips this.
+ *
+ * Anything else is a real load failure and surfaces as state: 'error'.
+ */
+function isPlayCancellation(err: DOMException): boolean {
+  return err.name === 'NotAllowedError' || err.name === 'AbortError';
+}
+
+/**
  * Wraps a single HTMLAudioElement with:
  *  - HLS support via hls.js (where native HLS is unavailable)
  *  - Media Session API (lock-screen + Bluetooth controls on mobile)
@@ -188,7 +203,10 @@ export class AudioPlayer {
         this.updateMediaSessionMetadata(station);
         this.startWatchdog();
       } catch (err) {
-        if (err instanceof DOMException && err.name === 'NotAllowedError') {
+        if (err instanceof DOMException && isPlayCancellation(err)) {
+          // NotAllowedError: autoplay blocked, no gesture yet. AbortError:
+          // the user (or app) called pause() before play() resolved —
+          // both are paused-not-broken outcomes.
           this.update({ state: 'paused', errorMessage: undefined });
           return;
         }
@@ -304,12 +322,15 @@ export class AudioPlayer {
       // desktop. Skip the watchdog for looped audio.
       if (!opts.loop) this.startWatchdog();
     } catch (err) {
-      // Browsers reject audio.play() with NotAllowedError when no user
-      // gesture preceded the call — typical when the SPA auto-loads a
-      // station from the URL on a /station/<id>/ page reload. Surface
-      // it as paused (not error) so the user just hits the play button
-      // to resume; the stream URL is already set up on the audio element.
-      if (err instanceof DOMException && err.name === 'NotAllowedError') {
+      // NotAllowedError: SPA auto-loads a station from the URL on a
+      // /station/<id>/ page reload before any user gesture; browser
+      // refuses autoplay. AbortError: the user (or app) called pause()
+      // before play() resolved — common when tapping the pause button
+      // immediately after opening a station, before the stream is
+      // actually playing. Both are paused-not-broken outcomes; the
+      // stream URL is already set up on the audio element so the
+      // user just hits play to resume.
+      if (err instanceof DOMException && isPlayCancellation(err)) {
         this.update({ state: 'paused', errorMessage: undefined });
         return;
       }

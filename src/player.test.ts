@@ -204,6 +204,26 @@ describe('AudioPlayer error path', () => {
 
     expect(states.at(-1)).toMatchObject({ station: A, state: 'paused' });
   });
+
+  it("treats AbortError as paused, not error (user paused before play() resolved)", async () => {
+    // Per HTML spec, audio.play() rejects with AbortError when pause()
+    // / load() / a new src is set before the play() promise resolves.
+    // That's a legitimate user action (the pause button tapped while
+    // the stream is still buffering), not a load failure — it must
+    // not surface as state: 'error' or emit an analytics error event.
+    const audio = makeAudio();
+    vi.spyOn(audio, 'play').mockRejectedValue(
+      new DOMException('The play() request was interrupted by a call to pause()', 'AbortError'),
+    );
+    const player = new AudioPlayer(audio);
+    const states = recordStates(player);
+
+    await player.play(A);
+    vi.advanceTimersByTime(700);
+
+    expect(states.at(-1)).toMatchObject({ station: A, state: 'paused' });
+    expect(states.some((s) => s.state === 'error')).toBe(false);
+  });
 });
 
 describe('AudioPlayer.swap', () => {
@@ -268,6 +288,20 @@ describe('AudioPlayer.swap', () => {
     await player.swap(B);
     vi.advanceTimersByTime(700);
     expect(states.at(-1)).toMatchObject({ station: B, state: 'paused' });
+  });
+
+  it('treats AbortError as paused (same shape as play())', async () => {
+    const audio = makeAudio();
+    vi.spyOn(audio, 'play').mockRejectedValue(
+      new DOMException('interrupted by pause()', 'AbortError'),
+    );
+    const player = new AudioPlayer(audio);
+    const states = recordStates(player);
+
+    await player.swap(B);
+    vi.advanceTimersByTime(700);
+    expect(states.at(-1)).toMatchObject({ station: B, state: 'paused' });
+    expect(states.some((s) => s.state === 'error')).toBe(false);
   });
 });
 
