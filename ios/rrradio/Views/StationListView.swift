@@ -3017,54 +3017,59 @@ struct StationListView: View {
     private var favoritesTileGrid: some View {
         GeometryReader { proxy in
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 0) {
-                    ScrollOffsetObserver(offset: $listScrollOffset)
-                        .frame(width: 0, height: 0)
+                ZStack(alignment: .top) {
+                    libraryDeleteModeDismissBackground
+                        .frame(maxWidth: .infinity, minHeight: proxy.size.height, alignment: .top)
 
-                    LazyVStack(spacing: stationHeaderStackSpacing) {
-                        inlineFavoritesControls()
+                    VStack(spacing: 0) {
+                        ScrollOffsetObserver(offset: $listScrollOffset)
+                            .frame(width: 0, height: 0)
 
-                        Section {
-                            LazyVGrid(
-                                columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteTileGridColumnCount),
-                                spacing: 10,
-                            ) {
-                                ForEach(visibleStations) { station in
-                                    favoriteGridItem(
-                                        station: station,
-                                        dropBehavior: .targetSlot,
-                                    ) {
-                                        FavoriteStationTile(
+                        LazyVStack(spacing: stationHeaderStackSpacing) {
+                            inlineFavoritesControls()
+
+                            Section {
+                                LazyVGrid(
+                                    columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteTileGridColumnCount),
+                                    spacing: 10,
+                                ) {
+                                    ForEach(visibleStations) { station in
+                                        favoriteGridItem(
                                             station: station,
-                                            nowPlaying: favoriteNowPlayingMetadata(for: station),
-                                            isCurrent: player.current?.id == station.id,
-                                            isPlaying: player.current?.id == station.id && player.state == .playing,
-                                            isCustom: library.isCustom(station),
-                                        )
+                                            dropBehavior: .targetSlot,
+                                        ) {
+                                            FavoriteStationTile(
+                                                station: station,
+                                                nowPlaying: favoriteNowPlayingMetadata(for: station),
+                                                isCurrent: player.current?.id == station.id,
+                                                isPlaying: player.current?.id == station.id && player.state == .playing,
+                                                isCustom: library.isCustom(station),
+                                            )
+                                        }
                                     }
                                 }
-                            }
-                            .onDrop(
-                                of: [UTType.plainText],
-                                delegate: FavoriteGridDropResetDelegate(
-                                    draggedStationID: $draggedFavoriteStationID,
-                                    targetedStationID: $targetedFavoriteStationID,
-                                    lastMoveAt: $lastFavoriteDropMoveAt,
-                                ),
-                            )
-                            .padding(.top, stationHeaderStackSpacing)
-                            .padding(.horizontal, 14)
+                                .onDrop(
+                                    of: [UTType.plainText],
+                                    delegate: FavoriteGridDropResetDelegate(
+                                        draggedStationID: $draggedFavoriteStationID,
+                                        targetedStationID: $targetedFavoriteStationID,
+                                        lastMoveAt: $lastFavoriteDropMoveAt,
+                                    ),
+                                )
+                                .padding(.top, stationHeaderStackSpacing)
+                                .padding(.horizontal, 14)
 
-                            if visibleStations.count < filteredStations.count {
-                                loadMoreRow
-                                    .padding(.horizontal, 14)
+                                if visibleStations.count < filteredStations.count {
+                                    loadMoreRow
+                                        .padding(.horizontal, 14)
+                                }
+                            } header: {
+                                stickySectionHeader(includesRule: true, pinnedTopPadding: libraryHeaderRuleTopPadding)
                             }
-                        } header: {
-                            stickySectionHeader(includesRule: true, pinnedTopPadding: libraryHeaderRuleTopPadding)
                         }
+                        .padding(.top, stationHeaderTopPadding)
+                        .padding(.bottom, 16)
                     }
-                    .padding(.top, stationHeaderTopPadding)
-                    .padding(.bottom, 16)
                 }
                 .frame(maxWidth: .infinity, minHeight: proxy.size.height, alignment: .top)
                 .contentShape(Rectangle())
@@ -3076,9 +3081,6 @@ struct StationListView: View {
                         lastMoveAt: $lastFavoriteDropMoveAt,
                     ),
                 )
-                .background {
-                    libraryDeleteModeDismissBackground
-                }
             }
             .scrollDismissesKeyboard(.immediately)
             .scrollDisabled(isHorizontalSwipeLocked)
@@ -3091,54 +3093,59 @@ struct StationListView: View {
     private var favoritesAppGrid: some View {
         GeometryReader { proxy in
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 0) {
-                    ScrollOffsetObserver(offset: $listScrollOffset)
-                        .frame(width: 0, height: 0)
+                ZStack(alignment: .top) {
+                    libraryDeleteModeDismissBackground
+                        .frame(maxWidth: .infinity, minHeight: proxy.size.height, alignment: .top)
 
-                    LazyVStack(spacing: stationHeaderStackSpacing) {
-                        inlineFavoritesControls()
+                    VStack(spacing: 0) {
+                        ScrollOffsetObserver(offset: $listScrollOffset)
+                            .frame(width: 0, height: 0)
 
-                        Section {
-                            LazyVGrid(
-                                columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteAppGridColumnCount),
-                                alignment: .center,
-                                spacing: 18,
-                            ) {
-                                ForEach(visibleStations) { station in
-                                    favoriteGridItem(
-                                        station: station,
-                                        dragSource: .content,
-                                    ) {
-                                        FavoriteStationAppIcon(
+                        LazyVStack(spacing: stationHeaderStackSpacing) {
+                            inlineFavoritesControls()
+
+                            Section {
+                                LazyVGrid(
+                                    columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: favoriteAppGridColumnCount),
+                                    alignment: .center,
+                                    spacing: 18,
+                                ) {
+                                    ForEach(visibleStations) { station in
+                                        favoriteGridItem(
                                             station: station,
-                                            isCurrent: player.current?.id == station.id,
-                                            isCustom: library.isCustom(station),
-                                            dragProvider: canReorderFavorites ? { favoriteGridDragProvider(for: station) } : nil,
-                                        )
+                                            dragSource: .content,
+                                        ) {
+                                            FavoriteStationAppIcon(
+                                                station: station,
+                                                isCurrent: player.current?.id == station.id,
+                                                isCustom: library.isCustom(station),
+                                                dragProvider: canReorderFavorites ? { favoriteGridDragProvider(for: station) } : nil,
+                                            )
+                                        }
                                     }
                                 }
-                            }
-                            .onDrop(
-                                of: [UTType.plainText],
-                                delegate: FavoriteGridDropResetDelegate(
-                                    draggedStationID: $draggedFavoriteStationID,
-                                    targetedStationID: $targetedFavoriteStationID,
-                                    lastMoveAt: $lastFavoriteDropMoveAt,
-                                ),
-                            )
-                            .padding(.top, stationHeaderStackSpacing)
-                            .padding(.horizontal, 18)
+                                .onDrop(
+                                    of: [UTType.plainText],
+                                    delegate: FavoriteGridDropResetDelegate(
+                                        draggedStationID: $draggedFavoriteStationID,
+                                        targetedStationID: $targetedFavoriteStationID,
+                                        lastMoveAt: $lastFavoriteDropMoveAt,
+                                    ),
+                                )
+                                .padding(.top, stationHeaderStackSpacing)
+                                .padding(.horizontal, 18)
 
-                            if visibleStations.count < filteredStations.count {
-                                loadMoreRow
-                                    .padding(.horizontal, 18)
+                                if visibleStations.count < filteredStations.count {
+                                    loadMoreRow
+                                        .padding(.horizontal, 18)
+                                }
+                            } header: {
+                                stickySectionHeader(includesRule: true, pinnedTopPadding: libraryHeaderRuleTopPadding)
                             }
-                        } header: {
-                            stickySectionHeader(includesRule: true, pinnedTopPadding: libraryHeaderRuleTopPadding)
                         }
+                        .padding(.top, stationHeaderTopPadding)
+                        .padding(.bottom, 18)
                     }
-                    .padding(.top, stationHeaderTopPadding)
-                    .padding(.bottom, 18)
                 }
                 .frame(maxWidth: .infinity, minHeight: proxy.size.height, alignment: .top)
                 .contentShape(Rectangle())
@@ -3150,9 +3157,6 @@ struct StationListView: View {
                         lastMoveAt: $lastFavoriteDropMoveAt,
                     ),
                 )
-                .background {
-                    libraryDeleteModeDismissBackground
-                }
             }
             .scrollDismissesKeyboard(.immediately)
             .scrollDisabled(isHorizontalSwipeLocked)
