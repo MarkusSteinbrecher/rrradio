@@ -1457,15 +1457,24 @@ struct StationListView: View {
         let trailingDotCount = max(librarySelections.count - pageIndex - 1, 0)
         let title = librarySelectionTitle(selection)
         return GeometryReader { proxy in
-            let maxDotsWidth = max(libraryPageDotsWidth(count: pageIndex), libraryPageDotsWidth(count: trailingDotCount))
+            let leadingDotsWidth = libraryPageDotsWidth(count: pageIndex)
+            let trailingDotsWidth = libraryPageDotsWidth(count: trailingDotCount)
+            let visibleDotSideCount = CGFloat((pageIndex > 0 ? 1 : 0) + (trailingDotCount > 0 ? 1 : 0))
             let reservedSideChromeWidth = (topbarControlSize + topbarControlSpacing) * 2
-            let reservedDotsWidth = (maxDotsWidth + libraryPageDotTitleSpacing) * 2
+            let reservedDotsWidth = leadingDotsWidth + trailingDotsWidth + visibleDotSideCount * libraryPageDotTitleSpacing
+            let availableClusterWidth = max(
+                libraryPageTitleMinimumWidth,
+                proxy.size.width - reservedSideChromeWidth,
+            )
             let titleWidth = max(
                 libraryPageTitleMinimumWidth,
-                proxy.size.width - reservedSideChromeWidth - reservedDotsWidth,
+                availableClusterWidth - reservedDotsWidth,
             )
 
-            ZStack {
+            HStack(spacing: libraryPageDotTitleSpacing) {
+                if pageIndex > 0 {
+                    libraryPageDots(count: pageIndex)
+                }
                 Text(title)
                     .font(.system(size: 10, weight: .medium, design: .monospaced))
                     .textCase(.uppercase)
@@ -1475,15 +1484,11 @@ struct StationListView: View {
                     .minimumScaleFactor(0.75)
                     .foregroundStyle(RrradioTheme.ink3)
                     .frame(maxWidth: titleWidth, alignment: .center)
-                    .overlay(alignment: .leading) {
-                        libraryPageDots(count: pageIndex)
-                            .offset(x: -libraryPageDotsWidth(count: pageIndex) - libraryPageDotTitleSpacing)
-                    }
-                    .overlay(alignment: .trailing) {
-                        libraryPageDots(count: trailingDotCount)
-                            .offset(x: libraryPageDotsWidth(count: trailingDotCount) + libraryPageDotTitleSpacing)
-                    }
+                if trailingDotCount > 0 {
+                    libraryPageDots(count: trailingDotCount)
+                }
             }
+            .frame(maxWidth: availableClusterWidth, alignment: .center)
             .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
         }
             .frame(maxWidth: .infinity, minHeight: 20, alignment: .center)
