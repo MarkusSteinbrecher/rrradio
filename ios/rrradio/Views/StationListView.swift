@@ -3067,6 +3067,7 @@ struct StationListView: View {
                     .padding(.bottom, 16)
                 }
                 .frame(maxWidth: .infinity, minHeight: proxy.size.height, alignment: .top)
+                .contentShape(Rectangle())
                 .onDrop(
                     of: [UTType.plainText],
                     delegate: FavoriteGridDropResetDelegate(
@@ -3140,6 +3141,7 @@ struct StationListView: View {
                     .padding(.bottom, 18)
                 }
                 .frame(maxWidth: .infinity, minHeight: proxy.size.height, alignment: .top)
+                .contentShape(Rectangle())
                 .onDrop(
                     of: [UTType.plainText],
                     delegate: FavoriteGridDropResetDelegate(
@@ -3219,6 +3221,7 @@ struct StationListView: View {
 
                 if showsDeleteButton {
                     favoriteGridDeleteBadge(station)
+                        .allowsHitTesting(draggedFavoriteStationID == nil)
                         // Offset so the badge straddles the icon's
                         // top-trailing corner instead of sitting
                         // inside the bounds. Matches iPhone Home,
