@@ -4264,16 +4264,19 @@ private extension View {
     func currentStationInnerHighlight(isCurrent: Bool, cornerRadius: CGFloat) -> some View {
         if isCurrent {
             self
-                .overlay {
-                    RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                        .stroke(RrradioTheme.accent.opacity(0.20), lineWidth: 6)
-                        .blur(radius: 4)
-                        .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+                .overlay(alignment: .top) {
+                    Rectangle()
+                        .fill(RrradioTheme.accent)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 2)
                 }
-                .overlay {
-                    RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                        .strokeBorder(RrradioTheme.accent.opacity(0.34), lineWidth: 1)
+                .overlay(alignment: .bottom) {
+                    Rectangle()
+                        .fill(RrradioTheme.accent)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 2)
                 }
+                .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
         } else {
             self
         }
@@ -4316,7 +4319,7 @@ struct StationRow: View {
     private var usesTopSeparator: Bool {
         mode == .favoritesExpanded
     }
-    private var usesCurrentCardShadow: Bool {
+    private var usesCurrentCardHighlight: Bool {
         usesCardBackground && isCurrent
     }
 
@@ -4367,14 +4370,14 @@ struct StationRow: View {
         .background {
             if usesCardBackground {
                 RoundedRectangle(cornerRadius: 6, style: .continuous)
-                    .fill(usesCurrentCardShadow ? RrradioTheme.bg3 : RrradioTheme.bg2)
+                    .fill(usesCurrentCardHighlight ? RrradioTheme.bg3 : RrradioTheme.bg2)
                     .overlay {
-                        if usesCurrentCardShadow {
+                        if usesCurrentCardHighlight {
                             RoundedRectangle(cornerRadius: 6, style: .continuous)
                                 .stroke(RrradioTheme.line, lineWidth: 1)
                         }
                     }
-                    .currentStationInnerHighlight(isCurrent: usesCurrentCardShadow, cornerRadius: 6)
+                    .currentStationInnerHighlight(isCurrent: usesCurrentCardHighlight, cornerRadius: 6)
             } else if isCurrent {
                 LinearGradient(
                     colors: [RrradioTheme.ink.opacity(0.035), .clear],
@@ -4935,6 +4938,14 @@ private struct FavoriteStationAppIcon: View {
         }
         .frame(height: cellHeight, alignment: .top)
         .frame(maxWidth: .infinity)
+        .overlay(alignment: .bottom) {
+            if isCurrent {
+                Rectangle()
+                    .fill(RrradioTheme.accent)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 2)
+            }
+        }
         .contentShape(Rectangle())
     }
 
@@ -5002,18 +5013,6 @@ private struct FavoriteStationAppArtwork: View {
             RoundedRectangle(cornerRadius: Self.iconCornerRadius, style: .continuous)
                 .stroke(RrradioTheme.line)
         }
-        .shadow(
-            color: isCurrent ? RrradioTheme.accent.opacity(0.26) : .clear,
-            radius: isCurrent ? 6 : 0,
-            x: 0,
-            y: 0,
-        )
-        .shadow(
-            color: isCurrent ? RrradioTheme.accent.opacity(0.12) : .clear,
-            radius: isCurrent ? 9 : 0,
-            x: 0,
-            y: 3,
-        )
         .contentShape(.dragPreview, RoundedRectangle(cornerRadius: Self.iconCornerRadius, style: .continuous))
         .accessibilityHidden(true)
     }
