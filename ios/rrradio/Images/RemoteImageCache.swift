@@ -166,6 +166,9 @@ struct CachedRemoteImage<Content: View, Placeholder: View>: View {
                 placeholder()
             }
         }
+        .transaction { transaction in
+            transaction.animation = nil
+        }
         .task(id: url) {
             await loadImage()
         }

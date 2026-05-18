@@ -245,6 +245,7 @@ struct StationListView: View {
     @State private var pageSwipeAxis: PageSwipeAxis?
     @State private var pageSwipeDragOffset: CGFloat = 0
     @State private var pageSwipeSettlingTarget: LibraryListSelection?
+    @State private var suppressSwipeActivationUntil: Date?
     @State private var favoritesSearchPresented = false
     @State private var selectedStationListID: String?
     @State private var showingCreateStationList = false
@@ -277,6 +278,7 @@ struct StationListView: View {
     private let pageSwipeAxisLockRatio: CGFloat = 1.15
     private let pageSwipeDirectionTolerance: CGFloat = 0.55
     private let pageSwipeCompletionDuration: TimeInterval = 0.24
+    private let swipeActivationSuppressionDuration: TimeInterval = 0.55
     private let topbarControlSize: CGFloat = 36
     private let topbarControlSpacing: CGFloat = 8
     private let favoriteRemoveControlTrailingInset: CGFloat = 20
@@ -675,6 +677,7 @@ struct StationListView: View {
             .onChange(of: favoritesDisplayModeVisibleRaw, handleFavoritesDisplayConfigurationChange)
             .onChange(of: catalog.stations, handleCatalogStationsChange)
             .onChange(of: searchFocused, handleSearchFocusedChange)
+            .onChange(of: horizontalSwipeLockedExternally, handleExternalSwipeLockChange)
             .onDisappear(perform: handleDisappear)
             .onChange(of: activeFilterPicker, handleActiveFilterPickerChange)
     }
@@ -838,6 +841,7 @@ struct StationListView: View {
 
         if absHorizontal > absVertical * pageSwipeAxisLockRatio {
             pageSwipeAxis = .horizontal
+            suppressActivationsAfterSwipe()
         } else if absVertical > absHorizontal * pageSwipeAxisLockRatio {
             pageSwipeAxis = .vertical
         }
@@ -895,17 +899,23 @@ struct StationListView: View {
             return
         }
 
-        let finalOffset: CGFloat = target == nextLibrarySelection ? -max(pageWidth, 1) : max(pageWidth, 1)
+        let width = max(pageWidth, 1)
+        let direction: CGFloat = target == nextLibrarySelection ? 1 : -1
+        let rebasedOffset = constrainedPageSwipeOffset(pageSwipeDragOffset, pageWidth: width) + direction * width
         pageSwipeSettlingTarget = target
-        withAnimation(.snappy(duration: pageSwipeCompletionDuration)) {
-            pageSwipeDragOffset = finalOffset
+        var transaction = Transaction()
+        transaction.animation = nil
+        withTransaction(transaction) {
+            setLibrarySelection(target)
+            pageSwipeDragOffset = rebasedOffset
         }
+        withAnimation(.snappy(duration: pageSwipeCompletionDuration)) {
+            pageSwipeDragOffset = 0
+        }
+
         DispatchQueue.main.asyncAfter(deadline: .now() + pageSwipeCompletionDuration) {
             guard pageSwipeSettlingTarget == target else { return }
-            var transaction = Transaction()
-            transaction.animation = nil
             withTransaction(transaction) {
-                setLibrarySelection(target)
                 pageSwipeDragOffset = 0
                 pageSwipeSettlingTarget = nil
             }
@@ -916,6 +926,21 @@ struct StationListView: View {
         pageSwipeAxis = nil
         pageSwipeDragOffset = 0
         pageSwipeSettlingTarget = nil
+    }
+
+    private func suppressActivationsAfterSwipe() {
+        suppressSwipeActivationUntil = Date.now.addingTimeInterval(swipeActivationSuppressionDuration)
+    }
+
+    private func consumeSwipeSuppressedActivation() -> Bool {
+        guard let until = suppressSwipeActivationUntil else { return false }
+        suppressSwipeActivationUntil = nil
+        return Date.now <= until
+    }
+
+    private func performSwipeSafeActivation(_ action: () -> Void) {
+        guard !consumeSwipeSuppressedActivation() else { return }
+        action()
     }
 
     private func handleAppear() {
@@ -1024,6 +1049,12 @@ struct StationListView: View {
 
     private func handleSearchFocusedChange(_: Bool, _ focused: Bool) {
         searchFocusedExternally = focused
+    }
+
+    private func handleExternalSwipeLockChange(_: Bool, _ locked: Bool) {
+        if locked {
+            suppressActivationsAfterSwipe()
+        }
     }
 
     private func handleActiveFilterPickerChange(_: ActiveFilterPicker?, _ picker: ActiveFilterPicker?) {
@@ -1359,67 +1390,30 @@ struct StationListView: View {
     }
 
     private func inlineFavoritesControls(topPadding: CGFloat = 0) -> some View {
-        inlineHeaderControls(topPadding: topPadding, includesRule: false) {
-            ZStack {
-                statusToolbar
-                HStack {
-                    if isLibraryPage && !isLibraryHome {
-                        libraryPagesButton
-                    }
-                    Spacer()
-                    libraryDeleteModeButton
-                }
-            }
-        }
+        inlineLibraryControls(for: librarySelection, topPadding: topPadding)
     }
 
     private func inlineStationListsControls(topPadding: CGFloat = 0) -> some View {
-        inlineHeaderControls(topPadding: topPadding, includesRule: false) {
-            ZStack {
-                statusToolbar
-                HStack {
-                    if isLibraryPage && !isLibraryHome {
-                        libraryPagesButton
-                    }
-                    Spacer()
-                    libraryDeleteModeButton
-                }
-            }
-        }
+        inlineLibraryControls(for: librarySelection, topPadding: topPadding)
     }
 
     private func libraryPreviewInlineControls(for selection: LibraryListSelection) -> some View {
-        inlineHeaderControls(topPadding: 0, includesRule: false) {
+        inlineLibraryControls(for: selection)
+    }
+
+    private func inlineLibraryControls(for selection: LibraryListSelection, topPadding: CGFloat = 0) -> some View {
+        inlineHeaderControls(topPadding: topPadding, includesRule: false) {
             ZStack {
-                libraryPreviewStatus(for: selection)
+                libraryPageStatus(for: selection)
                 HStack {
-                    if libraryPreviewShowsPagesIcon(for: selection) {
-                        libraryPreviewActionIcon("arrow.left")
+                    if selection != .home {
+                        libraryPagesButton
                     }
                     Spacer()
-                    if let systemImage = libraryPreviewTrailingActionIcon(for: selection) {
-                        libraryPreviewActionIcon(systemImage)
-                    }
+                    libraryDeleteModeButton(for: selection)
                 }
             }
         }
-    }
-
-    private func libraryPreviewShowsPagesIcon(for selection: LibraryListSelection) -> Bool {
-        selection != .home
-    }
-
-    private func libraryPreviewTrailingActionIcon(for selection: LibraryListSelection) -> String? {
-        switch selection {
-        case .home, .recents, .stationList:
-            return stationListDeleteModeEnabled ? "minus.circle" : "trash"
-        case .favorites:
-            return favoriteDeleteModeEnabled ? "minus.circle" : "trash"
-        }
-    }
-
-    private func libraryPreviewStatus(for selection: LibraryListSelection) -> some View {
-        libraryPageStatus(for: selection)
     }
 
     private func libraryPageStatus(for selection: LibraryListSelection) -> some View {
@@ -1462,14 +1456,6 @@ struct StationListView: View {
         return CGFloat(count) * libraryPageDotSize + CGFloat(count - 1) * libraryPageDotSpacing
     }
 
-    private func libraryPreviewActionIcon(_ systemName: String) -> some View {
-        Image(systemName: systemName)
-            .font(.system(size: 14, weight: .semibold))
-            .foregroundStyle(RrradioTheme.ink3)
-            .frame(width: topbarControlSize, height: topbarControlSize)
-            .accessibilityHidden(true)
-    }
-
     private var libraryPagesButton: some View {
         Button {
             setLibrarySelection(.home)
@@ -1499,34 +1485,63 @@ struct StationListView: View {
     }
 
     private var showsFavoriteDeleteModeButton: Bool {
-        canReorderFavorites
+        showsFavoriteDeleteModeButton(for: librarySelection)
+    }
+
+    private func showsFavoriteDeleteModeButton(for selection: LibraryListSelection) -> Bool {
+        selection == .favorites
+            && !showingFavoritesCatalogFallback
+            && query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            && searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            && !hasActiveFilters
+            && !library.favorites.isEmpty
     }
 
     private var showsStationListDeleteModeButton: Bool {
-        canUseStationListDeleteMode
+        showsStationListDeleteModeButton(for: librarySelection)
+    }
+
+    private func showsStationListDeleteModeButton(for selection: LibraryListSelection) -> Bool {
+        switch selection {
+        case .home:
+            return !library.stationLists.isEmpty
+                && query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                && searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        case .stationList(let id):
+            return library.stationList(id: id)?.stations.isEmpty == false
+                && query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                && searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        case .favorites, .recents:
+            return false
+        }
     }
 
     private var stationListDeleteModeAccessibilityLabel: String {
+        stationListDeleteModeAccessibilityLabel(for: librarySelection)
+    }
+
+    private func stationListDeleteModeAccessibilityLabel(for selection: LibraryListSelection) -> String {
+        let isStationList = selection.stationListID != nil
         if stationListDeleteModeEnabled {
-            return isStationListsDetail ? "Done removing stations" : "Done removing lists"
+            return isStationList ? "Done removing stations" : "Done removing lists"
         }
-        return isStationListsDetail ? "Remove stations from list" : "Remove lists"
+        return isStationList ? "Remove stations from list" : "Remove lists"
     }
 
     @ViewBuilder
-    private var libraryDeleteModeButton: some View {
-        switch librarySelection {
+    private func libraryDeleteModeButton(for selection: LibraryListSelection) -> some View {
+        switch selection {
         case .favorites:
-            if showsFavoriteDeleteModeButton {
+            if showsFavoriteDeleteModeButton(for: selection) {
                 favoriteDeleteModeButton
             } else {
                 disabledLibraryDeleteModeButton(label: "Remove favorites")
             }
         case .home, .stationList:
-            if showsStationListDeleteModeButton {
+            if showsStationListDeleteModeButton(for: selection) {
                 stationListDeleteModeButton
             } else {
-                disabledLibraryDeleteModeButton(label: stationListDeleteModeAccessibilityLabel)
+                disabledLibraryDeleteModeButton(label: stationListDeleteModeAccessibilityLabel(for: selection))
             }
         case .recents:
             disabledLibraryDeleteModeButton(label: "Remove recents")
@@ -2574,22 +2589,27 @@ struct StationListView: View {
             isFavorite: library.isFavorite(station),
             isCustom: library.isCustom(station),
             onPlay: {
-                if selectingForList {
-                    toggleBrowseStationSelection(station)
-                } else if isStationListStationDeleteMode {
-                    hideStationListDeleteMode()
-                } else {
-                    play(station)
+                performSwipeSafeActivation {
+                    if selectingForList {
+                        toggleBrowseStationSelection(station)
+                    } else if isStationListStationDeleteMode {
+                        hideStationListDeleteMode()
+                    } else {
+                        play(station)
+                    }
                 }
             },
             onToggleFavorite: {
-                library.toggleFavorite(station)
+                performSwipeSafeActivation {
+                    library.toggleFavorite(station)
+                }
             },
             showsFavoriteButton: !usesFavoritesRows && !isStationListStationDeleteMode,
             showsStreamQualityButton: !isStationListStationDeleteMode,
             onInfoHoldChanged: !selectingForList && !isStationListStationDeleteMode && source == .all ? { isHolding in
                 handleStationInfoHoldChanged(isHolding, station: station)
             } : nil,
+            shouldSuppressActivation: consumeSwipeSuppressedActivation,
         )
     }
 
@@ -2611,7 +2631,9 @@ struct StationListView: View {
         .animation(.snappy(duration: 0.16), value: stationListDeleteModeEnabled)
         .contentShape(Rectangle())
         .onTapGesture {
-            hideStationListDeleteMode()
+            performSwipeSafeActivation {
+                hideStationListDeleteMode()
+            }
         }
         .accessibilityHint("Tap outside remove buttons to exit remove mode")
     }
@@ -2619,7 +2641,9 @@ struct StationListView: View {
     private func browseStationSelectionButton(_ station: Station) -> some View {
         let selected = browseListSelectedStationIDs.contains(station.id)
         return Button {
-            toggleBrowseStationSelection(station)
+            performSwipeSafeActivation {
+                toggleBrowseStationSelection(station)
+            }
         } label: {
             Image(systemName: selected ? "checkmark.circle.fill" : "circle")
                 .font(.system(size: 20, weight: selected ? .semibold : .regular))
@@ -2679,16 +2703,20 @@ struct StationListView: View {
                     isFirstStationCustom: list.stations.first.map(library.isCustom) ?? false,
                     isDeleteModeEnabled: stationListDeleteModeEnabled && canDeleteStationListsOverview,
                 ) {
-                    if stationListDeleteModeEnabled {
-                        hideStationListDeleteMode()
-                    } else {
-                        openStationList(list)
+                    performSwipeSafeActivation {
+                        if stationListDeleteModeEnabled {
+                            hideStationListDeleteMode()
+                        } else {
+                            openStationList(list)
+                        }
                     }
                 } onPlay: {
-                    if stationListDeleteModeEnabled {
-                        hideStationListDeleteMode()
-                    } else {
-                        playStationList(list)
+                    performSwipeSafeActivation {
+                        if stationListDeleteModeEnabled {
+                            hideStationListDeleteMode()
+                        } else {
+                            playStationList(list)
+                        }
                     }
                 } onDelete: {
                     removeStationListFromOverview(list)
@@ -2702,10 +2730,12 @@ struct StationListView: View {
                 summary: librarySelectionSummary(selection),
                 isCurrent: librarySelectionIsCurrentPlaybackSource(selection),
             ) {
-                if stationListDeleteModeEnabled {
-                    hideStationListDeleteMode()
-                } else {
-                    setLibrarySelection(selection)
+                performSwipeSafeActivation {
+                    if stationListDeleteModeEnabled {
+                        hideStationListDeleteMode()
+                    } else {
+                        setLibrarySelection(selection)
+                    }
                 }
             }
         }
@@ -2935,16 +2965,19 @@ struct StationListView: View {
                     isCustom: library.isCustom(station),
                     onPlay: {
                         guard allowsPlayback else { return }
-                        if showsFavoriteRemove {
-                            hideFavoriteDeleteMode()
-                        } else if showsStationListRemove {
-                            hideStationListDeleteMode()
-                        } else {
-                            play(station)
+                        performSwipeSafeActivation {
+                            if showsFavoriteRemove {
+                                hideFavoriteDeleteMode()
+                            } else if showsStationListRemove {
+                                hideStationListDeleteMode()
+                            } else {
+                                play(station)
+                            }
                         }
                     },
                     onToggleFavorite: {},
                     showsFavoriteButton: false,
+                    shouldSuppressActivation: consumeSwipeSuppressedActivation,
                 )
                 .frame(maxWidth: .infinity)
 
@@ -2969,10 +3002,13 @@ struct StationListView: View {
         .animation(.snappy(duration: 0.16), value: stationListDeleteModeEnabled)
         .contentShape(Rectangle())
         .onTapGesture {
-            if showsFavoriteRemove {
-                hideFavoriteDeleteMode()
-            } else if showsStationListRemove {
-                hideStationListDeleteMode()
+            guard showsRemoveControl else { return }
+            performSwipeSafeActivation {
+                if showsFavoriteRemove {
+                    hideFavoriteDeleteMode()
+                } else if showsStationListRemove {
+                    hideStationListDeleteMode()
+                }
             }
         }
         .accessibilityHint(showsRemoveControl ? "Tap outside remove buttons to exit remove mode" : "")
@@ -3130,7 +3166,9 @@ struct StationListView: View {
             }
             .contentShape(Rectangle())
             .onTapGesture {
-                hideStationListDeleteMode()
+                performSwipeSafeActivation {
+                    hideStationListDeleteMode()
+                }
             }
             .accessibilityAddTraits(.isButton)
             .accessibilityHint("Tap outside remove buttons to exit remove mode")
@@ -3176,10 +3214,12 @@ struct StationListView: View {
                 .opacity(showsReorderPlaceholder ? 0 : 1)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    if favoriteDeleteModeEnabled {
-                        hideFavoriteDeleteMode()
-                    } else {
-                        handleFavoriteGridTap(station)
+                    performSwipeSafeActivation {
+                        if favoriteDeleteModeEnabled {
+                            hideFavoriteDeleteMode()
+                        } else {
+                            handleFavoriteGridTap(station)
+                        }
                     }
                 }
                 .accessibilityAddTraits(.isButton)
@@ -3225,7 +3265,9 @@ struct StationListView: View {
             content()
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    handleFavoriteGridTap(station)
+                    performSwipeSafeActivation {
+                        handleFavoriteGridTap(station)
+                    }
                 }
                 .accessibilityAddTraits(.isButton)
         }
@@ -4922,6 +4964,7 @@ struct StationRow: View {
     var showsFavoriteButton = true
     var showsStreamQualityButton = true
     var onInfoHoldChanged: ((Bool) -> Void)?
+    var shouldSuppressActivation: () -> Bool = { false }
     @State private var showingStreamQuality = false
     @State private var infoPressRecognized = false
     @State private var suppressNextPlay = false
@@ -4973,6 +5016,7 @@ struct StationRow: View {
                     suppressNextPlay = false
                     return
                 }
+                guard !shouldSuppressActivation() else { return }
                 onPlay()
             }
             .accessibilityAddTraits(.isButton)
@@ -5058,6 +5102,7 @@ struct StationRow: View {
     private var streamQualityButton: some View {
         if hasStreamDetail {
             Button {
+                guard !shouldSuppressActivation() else { return }
                 showingStreamQuality = true
             } label: {
                 qualityMeter
@@ -5542,6 +5587,7 @@ private struct FavoriteStationAppIcon: View {
     let isCustom: Bool
     let dragProvider: (() -> NSItemProvider)?
     private let labelHeight: CGFloat = 32
+    private var labelWidth: CGFloat { FavoriteStationAppArtwork.iconSize }
     private var cellHeight: CGFloat { FavoriteStationAppArtwork.iconSize + 8 + labelHeight }
 
     var body: some View {
@@ -5553,7 +5599,7 @@ private struct FavoriteStationAppIcon: View {
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
                 .truncationMode(.tail)
-                .frame(height: labelHeight, alignment: .top)
+                .frame(width: labelWidth, height: labelHeight, alignment: .top)
                 .frame(maxWidth: .infinity)
         }
         .frame(height: cellHeight, alignment: .top)
@@ -5872,24 +5918,7 @@ private struct StationListCard: View {
     private var cardBackground: some View {
         RoundedRectangle(cornerRadius: 6, style: .continuous)
             .fill(isCurrent ? RrradioTheme.bg3 : RrradioTheme.bg2)
-            .overlay {
-                if isCurrent {
-                    RoundedRectangle(cornerRadius: 6, style: .continuous)
-                        .stroke(RrradioTheme.line, lineWidth: 1)
-                }
-            }
-            .shadow(
-                color: isCurrent ? RrradioTheme.accent.opacity(0.15) : .clear,
-                radius: isCurrent ? 6 : 0,
-                x: 0,
-                y: 0,
-            )
-            .shadow(
-                color: isCurrent ? RrradioTheme.accent.opacity(0.08) : .clear,
-                radius: isCurrent ? 9 : 0,
-                x: 0,
-                y: 1,
-            )
+            .currentStationInnerHighlight(isCurrent: isCurrent, cornerRadius: 6)
     }
 
     private var firstStation: Station? {
@@ -5959,12 +5988,7 @@ private struct LibrarySelectionCard: View {
             .background {
                 RoundedRectangle(cornerRadius: 6, style: .continuous)
                     .fill(isCurrent ? RrradioTheme.bg3 : RrradioTheme.bg2)
-                    .overlay {
-                        if isCurrent {
-                            RoundedRectangle(cornerRadius: 6, style: .continuous)
-                                .stroke(RrradioTheme.line, lineWidth: 1)
-                        }
-                    }
+                    .currentStationInnerHighlight(isCurrent: isCurrent, cornerRadius: 6)
             }
             .contentShape(Rectangle())
         }
