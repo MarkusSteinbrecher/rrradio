@@ -35,7 +35,7 @@ Canonical implementation references remain in:
 - [Architecture](../architecture.md)
 - [Operations](../operations.md)
 - [Testing](../testing.md)
-- [iOS README](../../ios/README.md)
+- [iOS README](https://github.com/MarkusSteinbrecher/rrradio-ios/blob/main/README.md)
 - [Decision log](../../design/decisions/decisions-log.md)
 
 ## Status Legend

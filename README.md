@@ -106,6 +106,9 @@ The cross-platform product specification lives in
 [docs/spec/](./docs/spec/) and tracks web, iOS, and future Android
 parity.
 
+The native iOS app now lives in
+[MarkusSteinbrecher/rrradio-ios](https://github.com/MarkusSteinbrecher/rrradio-ios).
+
 ## Imprint
 
 rrradio.org is a non-commercial side project.

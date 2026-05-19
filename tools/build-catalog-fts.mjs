@@ -5,9 +5,9 @@
  * it can also be run directly when only the iOS search index needs refresh.
  */
 
-import { readFileSync, mkdirSync, renameSync, unlinkSync } from 'node:fs';
+import { existsSync, readFileSync, mkdirSync, renameSync, unlinkSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
-import { dirname, join } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -23,7 +23,18 @@ function sqlString(value) {
 }
 
 export function buildFtsDatabase(stations, { log = true } = {}) {
-  const dbPath = join(root, 'ios/rrradio/Resources/stations.fts5.db');
+  const defaultDbPath = join(root, 'ios/rrradio/Resources/stations.fts5.db');
+  const dbPath = process.env.RRRADIO_IOS_FTS_DB
+    ? resolve(root, process.env.RRRADIO_IOS_FTS_DB)
+    : defaultDbPath;
+  if (!process.env.RRRADIO_IOS_FTS_DB && !existsSync(dirname(defaultDbPath))) {
+    if (log) {
+      console.warn(
+        'catalog: skipped iOS SQLite FTS5 index; set RRRADIO_IOS_FTS_DB to refresh the separate iOS repo',
+      );
+    }
+    return null;
+  }
   const tmpPath = `${dbPath}.tmp`;
   mkdirSync(dirname(dbPath), { recursive: true });
   try {

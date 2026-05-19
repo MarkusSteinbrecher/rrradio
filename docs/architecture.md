@@ -62,13 +62,7 @@ worker/
                         anonymous broken-station reports).
   src/index.test.ts   — 32 vitest cases (CORS / auth / allowlist / etc).
 
-ios/                  — SwiftUI + AVFoundation app (Phase 2).
-  rrradio/{App,Models,Player,Search,Views}/
-  rrradioTests/       — XCTest target (catalog decoding, cache fallback,
-                        library storage, search normalization,
-                        direct + ICY metadata parsers,
-                        AudioPlayer state contract).
-  project.yml         — xcodegen project definition.
+Native iOS lives in https://github.com/MarkusSteinbrecher/rrradio-ios.
 
 e2e/
   smoke.spec.ts       — Playwright cold-boot UI tests against `vite preview`.

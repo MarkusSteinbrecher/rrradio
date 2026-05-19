@@ -6,7 +6,7 @@ Curating the station catalog, wiring metadata, telemetry, and the admin dashboar
 
 The curated tier of stations is **data, not code**. Two YAML source files under `data/` are the source of truth; `public/stations.json` is a build artifact regenerated on every `npm run dev` and `npm run build`. The public README for adding stations lives at `docs/adding-stations.md`.
 
-The catalog build also emits the iOS SQLite FTS5 index at `ios/rrradio/Resources/stations.fts5.db` from the generated `public/stations.json`. The app opens this file read-only for non-empty Browse search queries and falls back to the in-memory matcher when the bundled DB does not match the loaded catalog size. The current index is about 2.7 MB for 15,608 stations, so the bundle delta is well below App Store cellular-download thresholds.
+The native iOS app lives in <https://github.com/MarkusSteinbrecher/rrradio-ios>. This repo still owns the published catalog JSON. If an iOS release needs a refreshed bundled SQLite FTS5 index, run the catalog build with `RRRADIO_IOS_FTS_DB=/path/to/rrradio-ios/rrradio/Resources/stations.fts5.db`; otherwise the web catalog build skips the iOS DB so it does not recreate a local `ios/` tree.
 
 See `docs/architecture.md` for the full file map of `data/`, `tools/`, and the rest.
 

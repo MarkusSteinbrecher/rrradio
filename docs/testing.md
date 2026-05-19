@@ -1,15 +1,14 @@
 # rrradio — Testing
 
-Four stacks, each owns its slice of the pipeline. CI runs the first three on every push; the e2e job gates the GitHub Pages deploy.
+Three stacks live in this web repo, each owning its slice of the pipeline. Native app tests live in their app repos. CI runs the unit stacks on every push; the e2e job gates the GitHub Pages deploy.
 
 | Stack | Where | Runs | What |
 |---|---|---|---|
 | **Vitest (web)** | `src/*.test.ts` | `npm test` | Pure logic + DOM-render harness tests with happy-dom. Co-located with subjects (`src/foo.ts` ↔ `src/foo.test.ts`). |
 | **Vitest (worker)** | `worker/src/*.test.ts` | `cd worker && npm test` | Calls the worker's default export's `fetch()` directly with stub Request + Env; intercepts upstream fetches via `globalThis.fetch` stub. |
-| **XCTest (iOS)** | `ios/rrradioTests/*.swift` | `xcodebuild test` | App-hosted unit bundle. Covers Catalog DI, library storage, sleep timer, ORF/direct/ICY broadcaster metadata parsing, search/filter normalization, AudioPlayer idle-state contract. |
 | **Playwright (e2e)** | `e2e/smoke.spec.ts` | `npm run test:e2e` | Cold-boot Chromium against `vite preview` of the built `dist/`. CSP regression + add-custom HTTPS-only + catalog renders + search filters. |
 
-Cumulative count today: ~280 web, 32 worker, 101 iOS, 8 e2e ≈ ~421 cases.
+Cumulative count today in this repo: ~280 web, 32 worker, 8 e2e ≈ ~320 cases.
 
 ## DOM render-test harness (audit #77 pattern)
 
@@ -55,7 +54,7 @@ Renders that touch 20+ elements (`renderNowPlaying`, dashboard map) get their fr
 - Click row → no thrown error (audio fetch mocked away)
 
 **Deliberately NOT tested** (out of scope or harness-cost too high):
-- Real AVPlayer playback on iOS (needs device or simulator audio harness)
-- Real network catalog fetch from iOS Catalog (DI seam exists for the canned-response path; full URLSession mocking would need URLProtocol)
-- Wake-fire actual audio swap on iOS — telemetry catches the paused/error fallout (`wake/play-failed` event)
 - Live broadcaster fetcher impls — most need real upstream hits
+
+The iOS XCTest suite and its remaining native test gaps live in
+<https://github.com/MarkusSteinbrecher/rrradio-ios>.

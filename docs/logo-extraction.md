@@ -240,8 +240,8 @@ remote URL batches touch:
 - `data/stations.yaml`
 - `public/stations.json`
 - `public/station-logo-status.json`
-- sometimes `ios/rrradio/Resources/stations.fts5.db`, depending on whether
-  catalog fields affecting the iOS search index changed
+- sometimes the separate iOS repo's `rrradio/Resources/stations.fts5.db`,
+  when catalog fields affecting the iOS search index changed
 
 ## Batch Summary Template
 

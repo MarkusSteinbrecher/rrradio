@@ -11,7 +11,7 @@
 
 ## Surfaces
 
-- **`ios/`** — iOS native app (SwiftUI + AVFoundation). See [`ios/README.md`](ios/README.md).
+- **iOS native app** — moved to <https://github.com/MarkusSteinbrecher/rrradio-ios>.
 - **`web/`** — Web PWA. *(Not yet populated; web has automated coverage in `tests/e2e/` for now.)*
 
 ## Discipline

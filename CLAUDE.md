@@ -1,6 +1,6 @@
 # rrradio — Internet Radio
 
-A clean, fast internet radio web app deployed as a static site to GitHub Pages. Designed to feel native on mobile (PWA, Media Session API, Add to Home Screen). The web app is **phase one** of a two-phase plan — a future native iOS app (SwiftUI + AVFoundation) mirrors the same UX and station catalog logic. The web version is treated as a working spec: validate catalog integration, metadata strategy, and UX patterns here before writing any Swift.
+A clean, fast internet radio web app deployed as a static site to GitHub Pages. Designed to feel native on mobile (PWA, Media Session API, Add to Home Screen). Native app work lives in sibling repositories, with the iOS app in <https://github.com/MarkusSteinbrecher/rrradio-ios>. The web version remains the catalog and product-spec source for shared behavior.
 
 ## Stack
 
@@ -10,8 +10,8 @@ A clean, fast internet radio web app deployed as a static site to GitHub Pages. 
 - **localStorage** for favorites, recents, custom stations
 - **Radio Browser API** (<https://api.radio-browser.info>) for the station catalog — free, community-maintained, multi-mirror
 - **Cloudflare Worker** (`worker/`) — GoatCounter proxy, BBC proxy, allowlisted broadcaster CORS proxy
-- **iOS** (`ios/`, Phase 2): SwiftUI + AVFoundation, xcodegen project
-- **Tests:** Vitest (web + worker), XCTest (iOS), Playwright (e2e). See `docs/testing.md`.
+- **iOS**: SwiftUI + AVFoundation app moved to <https://github.com/MarkusSteinbrecher/rrradio-ios>
+- **Tests:** Vitest (web + worker), Playwright (e2e). Native app tests live in their app repos. See `docs/testing.md`.
 
 ## Deployment
 
