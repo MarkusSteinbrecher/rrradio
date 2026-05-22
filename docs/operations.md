@@ -339,6 +339,40 @@ The tab is sticky via `#sources` in the URL hash so reloads and shared links lan
 
 When a new source comes online (e.g. a broadcaster API import), add an entry to `data/sources.yaml` with a fresh `kind:`, implement the matching `collect<Kind>` function in `tools/build-sources.mjs`, and the tracker tile + drilldown will appear automatically once the artifact is rebuilt.
 
+## Design tokens
+
+The local style-token editor lives at `/style/` in dev and builds to `dist/style/index.html`.
+
+Source files:
+
+```
+style/index.html       — standalone Vite HTML entry
+src/style-page.ts      — DOM wiring, local persistence, previews, copy buttons
+src/style-page.css     — editor and preview styling
+src/style-tokens.ts    — OKLCH defaults, contrast checks, CSS / JSON / Swift exports
+```
+
+Tokens are semantic rather than platform-specific: `surface`, `surfaceRaised`, `surfaceMuted`, `textPrimary`, `textSecondary`, `textTertiary`, `separator`, `controlFill`, `controlFillSelected`, `accent`, `accentOnFill`, `warning`, and `destructive`. Authoring values are OKLCH strings. The page converts them locally for contrast checks and emits:
+
+- CSS custom properties for the web app surface.
+- A JSON payload that can become a checked-in token source once the palette settles.
+- SwiftUI `Color` and UIKit `UIColor` snippets with sRGB channel values for native migration work.
+
+Edits are stored only in browser `localStorage` under `rrradio.style-tokens.v1`. They do not alter `src/style.css`, the bundled catalog, or any native app repository. Use **Reset defaults** to clear local edits.
+
+## iOS app landing page
+
+The iOS app webpage is a standalone static Vite entry at `/rrradio-ios/`, with `/ios` as a local-dev alias. It is built from the design handoff in `internal/rrradio-ios app webpage design/design_handoff_landing_page/`, but the production-facing files live outside `internal/` so Vite can build them:
+
+```
+rrradio-ios/index.html       — route HTML and page copy
+rrradio-ios/landing.css      — extracted handoff styling
+rrradio-ios/landing.js       — vintage tuner scroll/navigation wiring
+rrradio-ios/*.svg            — local logo assets
+```
+
+The page is route-isolated from the web player and catalog. It does not import `src/main.ts`, `src/style.css`, station data, or any native app repository. The phone mockups currently use static placeholders; replace those with real app screenshots once the App Store page assets are ready.
+
 ## Admin dashboard
 
 Private page that surfaces GoatCounter stats in our visual style. Lives at `https://<host>/rrradio/dashboard.html`. Source files:

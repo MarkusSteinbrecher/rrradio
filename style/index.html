@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#3e3e39" />
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self';
+      style-src 'self' 'unsafe-inline';
+      img-src 'self' data:;
+      connect-src 'self';
+      font-src 'self';
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+    " />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta http-equiv="Permissions-Policy"
+          content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), midi=()" />
+    <title>rrradio style tokens</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/src/style-page.css" />
+  </head>
+  <body>
+    <main class="style-shell">
+      <header class="style-header">
+        <div>
+          <div class="style-kicker">rrradio design system</div>
+          <h1>Style tokens</h1>
+          <p>Semantic OKLCH tokens for the web catalog and future native clients.</p>
+        </div>
+        <div class="header-actions">
+          <span class="saved-status" id="saved-status">Local only</span>
+          <button class="action-button" id="reset-tokens" type="button">Reset defaults</button>
+        </div>
+      </header>
+
+      <div class="style-layout">
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Tokens</h2>
+            <p>OKLCH authoring</p>
+          </div>
+          <div class="token-grid" id="token-editors"></div>
+        </section>
+
+        <div class="right-column">
+          <section class="panel">
+            <div class="panel-header">
+              <h2>Preview</h2>
+              <p>Light and dark</p>
+            </div>
+            <div class="preview-grid" id="preview-grid"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <h2>Contrast</h2>
+              <p>AA target</p>
+            </div>
+            <div class="contrast-grid" id="contrast-grid"></div>
+          </section>
+        </div>
+      </div>
+
+      <section class="panel export-panel">
+        <div class="panel-header">
+          <h2>Exports</h2>
+          <p>CSS, JSON, Swift</p>
+        </div>
+        <div class="export-grid">
+          <label class="export-card">
+            <span class="export-label">
+              <span>CSS variables</span>
+              <button class="copy-button" type="button" data-copy-target="css-export" data-copy-label="CSS">Copy</button>
+            </span>
+            <textarea id="css-export" spellcheck="false" readonly></textarea>
+          </label>
+
+          <label class="export-card">
+            <span class="export-label">
+              <span>JSON tokens</span>
+              <button class="copy-button" type="button" data-copy-target="json-export" data-copy-label="JSON">Copy</button>
+            </span>
+            <textarea id="json-export" spellcheck="false" readonly></textarea>
+          </label>
+
+          <label class="export-card">
+            <span class="export-label">
+              <span>Swift colors</span>
+              <button class="copy-button" type="button" data-copy-target="swift-export" data-copy-label="Swift">Copy</button>
+            </span>
+            <textarea id="swift-export" spellcheck="false" readonly></textarea>
+          </label>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/src/style-page.ts"></script>
+  </body>
+</html>

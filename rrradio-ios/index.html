@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>rrradio — an internet radio app for iPhone</title>
+<meta name="description" content="rrradio is a minimal, free, ad-free internet radio app for iPhone and Apple Watch. This page describes what it is, how it works, and what it costs (nothing)." />
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self';
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+  img-src 'self' data:;
+  connect-src 'self';
+  font-src 'self' https://fonts.gstatic.com;
+  object-src 'none';
+  base-uri 'self';
+  form-action 'self';
+" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), midi=()" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/svg+xml" href="rrradio-logo-app-dark.svg" />
+<link rel="stylesheet" href="./landing.css" />
+</head>
+<body>
+
+  <!-- ═══════════ NAV ═══════════ -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a class="nav__brand" href="#top">
+        <img class="nav__logo" src="rrradio-logo-app-dark.svg" alt="" />
+        <span class="nav__name">rrradio</span>
+      </a>
+      <a class="nav__store" href="#">App Store →</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════ VINTAGE RADIO PANEL (sticky) ═══════════ -->
+  <div class="tuner" role="navigation" aria-label="Section dial">
+    <span class="tuner__screw tuner__screw--tl" aria-hidden="true"></span>
+    <span class="tuner__screw tuner__screw--tr" aria-hidden="true"></span>
+    <span class="tuner__screw tuner__screw--bl" aria-hidden="true"></span>
+    <span class="tuner__screw tuner__screw--br" aria-hidden="true"></span>
+    <div class="tuner__panel tuner__panel--left">
+      <div class="tuner__mark" aria-hidden="true">
+        <img class="tuner__logo" src="rrradio-logo-app-dark.svg" alt="" />
+      </div>
+      <div class="tuner__lead">
+        <div class="tuner__scope" aria-hidden="true">
+          <canvas></canvas>
+          <div class="tuner__scope-grid" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+    <div class="tuner__strip">
+      <div class="tuner__track" aria-hidden="true"></div>
+      <div class="tuner__edges"></div>
+      <div class="tuner__needle" aria-hidden="true"></div>
+    </div>
+    <div class="tuner__panel tuner__panel--right">
+      <div class="tuner__knob tuner__knob--control" role="slider" aria-label="Tune through the page" tabindex="0">
+        <span class="tuner__knob-indicator" aria-hidden="true"></span>
+      </div>
+    </div>
+  </div>
+
+  <main class="doc" id="top">
+
+    <!-- ═══════════ TOP ═══════════ -->
+    <div class="meta">
+      <span>iOS app</span>
+      <span class="meta__dot">·</span>
+      <span>v0.1 · beta</span>
+      <span class="meta__dot">·</span>
+      <span>last updated May 2026</span>
+    </div>
+
+    <h1 class="title">rrradio is an internet radio app for iPhone.</h1>
+
+    <p class="lede">
+      It plays live radio streams from around the world. It is <strong>free</strong>,
+      has <strong>no ads</strong>, requires <strong>no account</strong>, and
+      does <strong>not collect personal data</strong>. This page describes
+      what it does, how it works, and why it exists in the form it does.
+    </p>
+
+    <div class="hero-actions">
+      <a class="btn-app" href="#">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 12.5c0-2.6 2.1-3.9 2.2-4-1.2-1.7-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.4 1-4.3 2.6-1.9 3.2-.5 8 1.3 10.7.9 1.3 1.9 2.7 3.3 2.7 1.3-.1 1.8-.9 3.4-.9 1.6 0 2 .9 3.4.9 1.4 0 2.3-1.3 3.2-2.6 1-1.5 1.4-3 1.4-3.1-.1 0-2.7-1-2.7-4.1zM14.9 4.6c.7-.9 1.2-2.1 1.1-3.4-1 .1-2.3.7-3 1.6-.7.8-1.3 2.1-1.1 3.3 1.2.1 2.3-.6 3-1.5z"/></svg>
+        <span class="btn-app__text">
+          <span class="btn-app__pre">Download on the</span>
+          <span class="btn-app__main">App Store</span>
+        </span>
+      </a>
+    </div>
+
+    <!-- ═══════════ 01 — What it is ═══════════ -->
+    <section class="s" id="what">
+      <div class="s__head">
+        <span class="s__num">01</span>
+        <h2 class="s__name">What it is</h2>
+      </div>
+      <div class="s__body">
+        <p>
+          rrradio is a native iOS application that plays internet radio.
+          You open it, you pick a station, you listen. There is a search
+          field, a list of stations, and a now-playing screen. There is a
+          favorites list. There is no signup, no onboarding flow, no
+          tutorial, and no personalised feed.
+        </p>
+        <p>
+          The same app exists as a web version at
+          <a class="link" href="https://rrradio.org" target="_blank" rel="noopener">rrradio.org</a>,
+          which works in any modern browser including Android. The iOS app
+          shares the same catalog and the same look, but adds lock-screen
+          controls, CarPlay support, an Apple Watch companion, iCloud sync,
+          and the kind of background-audio behaviour you'd expect from a
+          first-party Apple app.
+        </p>
+      </div>
+    </section>
+
+    <!-- ═══════════ 02 — What it does ═══════════ -->
+    <section class="s" id="does">
+      <div class="s__head">
+        <span class="s__num">02</span>
+        <h2 class="s__name">What it does</h2>
+      </div>
+      <div class="s__body">
+        <dl class="facts">
+          <dt>Catalog</dt>
+          <dd><strong>~800 curated stations</strong> hand-verified by the maintainer, plus <strong>~50,000 community streams</strong> from <a class="link" href="https://www.radio-browser.info/" target="_blank" rel="noopener">Radio Browser</a>. Filterable by genre, country, or search.</dd>
+
+          <dt>Playback</dt>
+          <dd>Streams via <code>AVPlayer</code>. Supports MP3, AAC and HLS. Background-audio and lock-screen controls via Media Session. Works with AirPods, Bluetooth headphones, CarPlay.</dd>
+
+          <dt>Metadata</dt>
+          <dd>Shows the current artist and track when the broadcaster provides it. Twenty-plus broadcaster integrations (BBC, ORF, BR, SRG, RAI, RTBF, ARD…) plus generic ICY metadata over Icecast/Shoutcast.</dd>
+
+          <dt>Schedules</dt>
+          <dd>For broadcasters with a public schedule API (BBC, BR, ORF, HR), shows the current on-air programme and the day's grid.</dd>
+
+          <dt>Lyrics</dt>
+          <dd>Fetched from <a class="link" href="https://lrclib.net/" target="_blank" rel="noopener">LRCLIB</a> and <a class="link" href="https://lyrics.ovh/" target="_blank" rel="noopener">Lyrics.ovh</a> when a song match exists. Coverage is incomplete; the lyrics tab hides itself when there's nothing to show.</dd>
+
+          <dt>Library</dt>
+          <dd>Favorites (heart any station, drag to reorder). Recently played (auto, last twelve). Custom stations (paste an HTTPS stream URL).</dd>
+
+          <dt>Sleep timer</dt>
+          <dd>15, 30, 60, or 90 minutes. Stops playback when it fires.</dd>
+
+          <dt>iCloud sync</dt>
+          <dd>Favorites, custom stations, theme and listening preferences sync across your devices via your <em>private</em> iCloud database (CloudKit private). Apple sees encrypted blobs; nobody else sees them at all.</dd>
+
+          <dt>Apple Watch</dt>
+          <dd>A watchOS companion controls the iPhone's playback over Watch Connectivity: now-playing, play/pause/stop, skip favorite, launch a favorite station. The Watch app is remote-first; independent playback on the Watch is planned but not yet shipping.</dd>
+
+          <dt>Themes</dt>
+          <dd>Three color schemes, each in light or dark. Follows the system setting by default.</dd>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ═══════════ The app, three screens ═══════════ -->
+    <section class="s">
+      <div class="s__head">
+        <span class="s__num">03</span>
+        <h2 class="s__name">The app, in three screens</h2>
+      </div>
+      <div class="s__body">
+        <p>Browse, Now Playing, and Library. There is no fourth screen.</p>
+        <div class="screens">
+          <div class="screen">
+            <div class="device"><div class="device__screen">
+              <div class="screen-placeholder">Browse</div>
+            </div></div>
+            <div class="screen__cap">Browse</div>
+          </div>
+          <div class="screen">
+            <div class="device"><div class="device__screen">
+              <div class="screen-placeholder">Now Playing</div>
+            </div></div>
+            <div class="screen__cap">Now Playing</div>
+          </div>
+          <div class="screen">
+            <div class="device"><div class="device__screen">
+              <div class="screen-placeholder">Library</div>
+            </div></div>
+            <div class="screen__cap">Library</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ 04 — How it works ═══════════ -->
+    <section class="s" id="how">
+      <div class="s__head">
+        <span class="s__num">04</span>
+        <h2 class="s__name">How it works, technically</h2>
+      </div>
+      <div class="s__body">
+        <p>
+          The app launches and fetches the station catalog from
+          <code>rrradio.org/stations.json</code> — a small JSON file
+          (a few hundred kilobytes) built from open YAML data and
+          published with each web release. The catalog is cached on
+          disk for offline boot. Catalog updates land without an App
+          Store release; new stations appear the moment they're added.
+        </p>
+        <p>
+          When you tap a station, an <code>AVPlayer</code> instance
+          opens the stream URL directly. For HLS streams, ICY-style
+          timed metadata flows through
+          <code>AVPlayerItem.timedMetadata</code>. For broadcasters
+          with a separate metadata endpoint (ORF audioapi, BBC Sounds,
+          BR radioplayer.json, …), a per-station fetcher polls the
+          endpoint at a sensible interval and surfaces the result.
+        </p>
+        <p>
+          Some broadcaster APIs lack CORS headers. In those cases the
+          app routes through a small Cloudflare Worker proxy with a
+          fixed allowlist of upstream hosts. The proxy adds nothing,
+          stores nothing, and is the same proxy the web app uses.
+        </p>
+        <p>
+          The full source is on GitHub:
+          <a class="link" href="https://github.com/MarkusSteinbrecher/rrradio-ios" target="_blank" rel="noopener">rrradio-ios</a>
+          (the SwiftUI app) and
+          <a class="link" href="https://github.com/MarkusSteinbrecher/rrradio" target="_blank" rel="noopener">rrradio</a>
+          (the web app, shared catalog, and proxy worker).
+        </p>
+      </div>
+    </section>
+
+    <!-- ═══════════ 05 — What it costs ═══════════ -->
+    <section class="s" id="cost">
+      <div class="s__head">
+        <span class="s__num">05</span>
+        <h2 class="s__name">What it costs</h2>
+      </div>
+      <div class="s__body">
+        <p>
+          Nothing. There is no paid tier, no in-app purchase, no
+          subscription, no upgrade prompt, no advertising, no
+          affiliate link, and no plan to introduce any of those later.
+        </p>
+        <p>
+          rrradio is a personal project. The infrastructure cost is on
+          the order of <strong>a few dollars per month</strong> —
+          GitHub Pages for the web app, Cloudflare Workers for the
+          proxy, an Apple Developer membership at $99/year for App
+          Store distribution. If usage ever grows past what one person
+          can fund, the options on the table are donations or
+          shutting it down, not advertising.
+        </p>
+        <p>
+          If you want to support it, the most useful things are: ⭐
+          the GitHub repos, tell someone who would like it, or
+          <a class="link" href="https://github.com/MarkusSteinbrecher/rrradio-ios/issues" target="_blank" rel="noopener">file a bug</a>
+          when you find one.
+        </p>
+      </div>
+    </section>
+
+    <!-- ═══════════ 06 — What it collects ═══════════ -->
+    <section class="s">
+      <div class="s__head">
+        <span class="s__num">06</span>
+        <h2 class="s__name">What it collects about you</h2>
+      </div>
+      <div class="s__body">
+        <p>
+          Nothing personally identifying. The iOS app does not contain
+          a third-party analytics SDK. There is no account, so there
+          is nothing to associate behaviour with. The App Store
+          privacy nutrition label reads <strong>"Data Not
+          Collected"</strong> across the board.
+        </p>
+        <p>What does leave the device, and where:</p>
+        <ul class="body-list">
+          <li><strong>Audio streams</strong> — fetched directly from the broadcaster (or via the allow-listed proxy when required). They see standard request metadata: IP address, user agent, the stream URL.</li>
+          <li><strong>Station catalog</strong> — one fetch of <code>stations.json</code> from rrradio.org per launch, cached on disk.</li>
+          <li><strong>Metadata APIs</strong> — when you play a station with a broadcaster metadata endpoint, that broadcaster sees polling requests.</li>
+          <li><strong>iCloud sync</strong> — favorites and preferences sync via your <em>own</em> Apple ID's private database. Apple sees encrypted blobs. The rrradio maintainer does not.</li>
+          <li><strong>Lyrics &amp; cover art</strong> — looked up at LRCLIB / Lyrics.ovh / iTunes Search when a song is identified.</li>
+        </ul>
+        <p>
+          That's the full list. The full text of the privacy approach
+          is in the <a class="link" href="https://rrradio.org/privacy.html" target="_blank" rel="noopener">web app's privacy page</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- ═══════════ 07 — Requirements ═══════════ -->
+    <section class="s">
+      <div class="s__head">
+        <span class="s__num">07</span>
+        <h2 class="s__name">Requirements</h2>
+      </div>
+      <div class="s__body">
+        <dl class="facts">
+          <dt>iPhone</dt>
+          <dd>iOS 17 or later. Any iPhone Apple still ships an OS update to.</dd>
+          <dt>Apple Watch</dt>
+          <dd>watchOS 10 or later. Companion app only; pairs with the iPhone app.</dd>
+          <dt>CarPlay</dt>
+          <dd>Works as a regular audio source. No additional setup.</dd>
+          <dt>Storage</dt>
+          <dd>The app itself is small; the on-disk catalog cache is around 500 KB.</dd>
+          <dt>Network</dt>
+          <dd>Required for playback. Catalog and recent station metadata are cached for offline browsing.</dd>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ═══════════ 08 — Open source ═══════════ -->
+    <section class="s">
+      <div class="s__head">
+        <span class="s__num">08</span>
+        <h2 class="s__name">Open source</h2>
+      </div>
+      <div class="s__body">
+        <p>
+          The web app is fully open source. The iOS app source is on
+          GitHub and you can build it yourself with Xcode 15 and a
+          free Apple Developer account. Both are MIT-licensed.
+        </p>
+        <ul class="body-list">
+          <li><a class="link" href="https://github.com/MarkusSteinbrecher/rrradio-ios" target="_blank" rel="noopener">rrradio-ios</a> — SwiftUI app + watchOS companion</li>
+          <li><a class="link" href="https://github.com/MarkusSteinbrecher/rrradio" target="_blank" rel="noopener">rrradio</a> — web app, station catalog YAML, build tooling, Worker proxy</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ═══════════ 09 — FAQ ═══════════ -->
+    <section class="s" id="faq">
+      <div class="s__head">
+        <span class="s__num">09</span>
+        <h2 class="s__name">FAQ</h2>
+      </div>
+      <div class="s__body">
+        <div class="faq">
+          <details class="faq__item">
+            <summary class="faq__q">Why is it called rrradio?</summary>
+            <div class="faq__a">Because the domain was available. Three r's are easier to type one-handed on a phone than two, and "radio" alone was taken everywhere.</div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Why "free, forever" — what's the catch?</summary>
+            <div class="faq__a">There isn't one. It's a side project, not a business. The maintainer pays infrastructure costs out of pocket. If that ever stops being sustainable, the alternatives on the table are donations or shutting the project down — advertising and data collection are not.</div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Who maintains it?</summary>
+            <div class="faq__a">One person, in their spare time, with help from contributors via pull requests. Issues and contributions are welcome on GitHub.</div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">A station I want isn't in the catalog. What do I do?</summary>
+            <div class="faq__a">Two options. Add it directly from the app (tap +, paste an HTTPS stream URL) — it'll be saved locally and synced to your other devices via iCloud. Or open a pull request on the catalog YAML in the public repo to add it for everyone.</div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">A station plays but the artist/track info is wrong or missing.</summary>
+            <div class="faq__a">Metadata depends on the broadcaster. Some publish a clean JSON feed; some embed it in the stream itself (ICY); some don't publish it at all. The Now Playing screen will show whatever's available, or nothing if there is nothing. <a class="link" href="https://github.com/MarkusSteinbrecher/rrradio/issues" target="_blank" rel="noopener">File an issue</a> if it's a curated station and we'll look at it.</div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Is there an Android version?</summary>
+            <div class="faq__a">No native one. The web app at <a class="link" href="https://rrradio.org" target="_blank" rel="noopener">rrradio.org</a> is a full progressive web app — Add to Home Screen on Android and it behaves like a native app, including lock-screen controls.</div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Does it work in the car / on AirPods / with Bluetooth?</summary>
+            <div class="faq__a">Yes to all. Audio output and remote-control input go through the standard iOS Media Session, so anything that talks to that — CarPlay, AirPods squeeze, Bluetooth headset buttons, lock-screen widgets — works.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <a class="nav__brand" href="#top">
+          <img class="nav__logo" src="rrradio-logo-app-dark.svg" alt="" />
+          <span class="nav__name">rrradio</span>
+        </a>
+        <p>A small internet radio app for iOS, watchOS, and the web. Non-commercial. Ad-free. Source on GitHub.</p>
+      </div>
+      <div class="footer__cols">
+        <div class="footer__col">
+          <h4>App</h4>
+          <a href="#">App Store</a>
+          <a href="https://rrradio.org" target="_blank" rel="noopener">Web app</a>
+        </div>
+        <div class="footer__col">
+          <h4>Source</h4>
+          <a href="https://github.com/MarkusSteinbrecher/rrradio-ios" target="_blank" rel="noopener">iOS</a>
+          <a href="https://github.com/MarkusSteinbrecher/rrradio" target="_blank" rel="noopener">Web &amp; catalog</a>
+        </div>
+        <div class="footer__col">
+          <h4>Contact</h4>
+          <a href="https://github.com/MarkusSteinbrecher/rrradio-ios/issues" target="_blank" rel="noopener">Issues</a>
+          <a href="mailto:hello@rrradio.org">Email</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 rrradio · non-commercial project</span>
+      <span>Apple, App Store, iPhone, Apple Watch are trademarks of Apple Inc.</span>
+    </div>
+  </footer>
+
+  <script type="module" src="./landing.js"></script>
+</body>
+</html>

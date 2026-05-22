@@ -126,11 +126,30 @@ function localLogoPatchPlugin(): Plugin {
   };
 }
 
+function localRouteAliasPlugin(): Plugin {
+  return {
+    name: 'rrradio-local-route-alias',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        if (req.url === '/style') req.url = '/style/';
+        if (req.url === '/ios') {
+          res.statusCode = 302;
+          res.setHeader('location', '/rrradio-ios/');
+          res.end();
+          return;
+        }
+        next();
+      });
+    },
+  };
+}
+
 // rrradio is served from a custom domain root (https://rrradio.org), so
 // the base path is '/' in both production and development.
 export default defineConfig({
   base: '/',
-  plugins: [localLogoPatchPlugin()],
+  plugins: [localRouteAliasPlugin(), localLogoPatchPlugin()],
   define: {
     __BUILD_VERSION__: JSON.stringify(buildVersion()),
   },
@@ -141,6 +160,8 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         stationTracker: resolve(__dirname, 'station-tracker.html'),
+        style: resolve(__dirname, 'style/index.html'),
+        rrradioIos: resolve(__dirname, 'rrradio-ios/index.html'),
       },
     },
   },
