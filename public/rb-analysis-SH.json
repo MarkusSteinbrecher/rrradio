@@ -1,0 +1,52 @@
+{
+  "generatedAt": "2026-05-19T17:47:10.100Z",
+  "country": "SH",
+  "rawSnapshotAt": "2026-05-19T07:51:15.471Z",
+  "total": 2,
+  "playable": 1,
+  "broken": 1,
+  "curated": 0,
+  "byVerdict": {
+    "broken-format": 1,
+    "ok": 1
+  },
+  "stations": [
+    {
+      "stationuuid": "66996f7c-623f-484d-810c-db1ef62241b9",
+      "changeuuid": "38aa34b3-b784-4b41-bf7a-066d70c91f79",
+      "name": "Saint.FM",
+      "country": "SH",
+      "streamUrl": "https://orbit.citrus3.com:8306/stream",
+      "homepage": "http://www.saint.fm/",
+      "codec": "MP3",
+      "bitrate": 100,
+      "votes": 12,
+      "clickcount": 2,
+      "lastcheckok": 1,
+      "verdict": "ok",
+      "verdictReason": "audio/aac",
+      "finalUrl": "https://orbit.citrus3.com:8306/stream",
+      "isCurated": false,
+      "probedAt": "2026-05-19T17:47:10.096Z"
+    },
+    {
+      "stationuuid": "cb9feb04-80f2-4a63-a03a-2547c183966f",
+      "changeuuid": "4ff03b96-f057-43bc-85fb-ed6b62a33de8",
+      "name": "EDM Radio",
+      "country": "SH",
+      "streamUrl": "https://laut.fm/edmradio",
+      "homepage": "https://laut.fm/",
+      "favicon": "null",
+      "codec": "MP3",
+      "bitrate": 128,
+      "votes": 60,
+      "clickcount": 0,
+      "lastcheckok": 1,
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html; charset=utf-8 not audio-like",
+      "finalUrl": "https://laut.fm/edmradio",
+      "isCurated": false,
+      "probedAt": "2026-05-19T17:47:10.095Z"
+    }
+  ]
+}

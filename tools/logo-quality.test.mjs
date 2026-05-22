@@ -40,6 +40,27 @@ describe('classifyLogoUrl', () => {
     expect(out.tier).toBe('good-remote');
     expect(out.upgradeRecommended).toBe(false);
   });
+
+  it('marks known platform runtime icons as generic', () => {
+    const out = classifyLogoUrl('https://static.xx.fbcdn.net/rsrc.php/yH/r/a0cO3e6g_yJ.webp');
+    expect(out.state).toBe('bad');
+    expect(out.tier).toBe('generic');
+    expect(out.upgradeRecommended).toBe(true);
+  });
+
+  it('marks parked-domain social artwork as generic', () => {
+    const out = classifyLogoUrl('https://static.hugedomains.com/images/hdv3-img/og_hugedomains.png');
+    expect(out.state).toBe('bad');
+    expect(out.tier).toBe('generic');
+    expect(out.upgradeRecommended).toBe(true);
+  });
+
+  it('marks platform pinned tab assets as weak instead of good SVGs', () => {
+    const out = classifyLogoUrl('https://www.listnr.com/favicon/safari-pinned-tab.svg');
+    expect(out.state).toBe('warn');
+    expect(out.tier).toBe('weak');
+    expect(out.upgradeRecommended).toBe(true);
+  });
 });
 
 describe('scoreLogoCandidate', () => {
@@ -55,6 +76,20 @@ describe('scoreLogoCandidate', () => {
       size: 32,
     });
     expect(logo).toBeGreaterThan(favicon);
+  });
+
+  it('treats header logo images as stronger than touch icons', () => {
+    const headerLogo = scoreLogoCandidate({
+      rel: 'header-logo',
+      url: 'https://example.com/wp-content/uploads/station-mark.png',
+      size: 250,
+    });
+    const touchIcon = scoreLogoCandidate({
+      rel: 'apple-touch-icon',
+      url: 'https://example.com/wp-content/uploads/cropped-station-180x180.png',
+      size: 180,
+    });
+    expect(headerLogo).toBeGreaterThan(touchIcon);
   });
 });
 

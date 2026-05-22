@@ -1,0 +1,59 @@
+# rrradio station sources — registry of where catalog entries come from.
+#
+# A "source" is an upstream catalog (Radio Browser), a sponsor-curated
+# bucket (Manual), or — in the future — a broadcaster API import.
+#
+# Read by tools/build-sources.mjs to produce public/sources.json, which
+# the admin dashboard renders. Adding a new source = add an entry here
+# and wire up the matching collection logic in build-sources.mjs.
+#
+# Fields:
+#   id           — kebab-case, stable. Used as the `source:` value on
+#                  station entries in data/stations.yaml going forward.
+#   name         — display label.
+#   kind         — radio-browser | manual | broadcaster-api
+#                  Controls how build-sources.mjs collects candidates.
+#   homepage     — upstream URL, surfaced in the dashboard.
+#   description  — one-line context.
+#   matchHints   — optional hints for retroactively classifying YAML
+#                  entries that predate the explicit `source:` field.
+
+- id: radio-browser
+  name: Radio Browser
+  abbr: RB
+  kind: radio-browser
+  homepage: https://www.radio-browser.info/
+  description: >-
+    Community-maintained catalog of internet radio stations. Our primary
+    upstream — every entry with a stationuuid is bound to an RB record
+    and inherits stream/codec/bitrate/tags from it.
+  # Raw source DB: committed per-country JSON snapshots refreshed via
+  # `npm run fetch-rb-raw`. Git history of these files is the audit
+  # trail for upstream changes.
+  rawRoot: data/sources/radio-browser/
+  rawByCountry: data/sources/radio-browser/by-country/<CC>.json
+  rawIndex: data/sources/radio-browser/index.json
+  refreshCommand: npm run fetch-rb-raw
+  matchHints:
+    # Heuristics used for entries imported before `source:` was a thing.
+    # Most are uuid-bound; the rest are RB-derived but lost their binding
+    # (visible via id prefix or faviconSource).
+    hasStationUuid: true
+    idPrefixAny: [rb-]
+    faviconSourceAny: [radio-browser]
+
+- id: manual
+  name: Manual / sponsor curated
+  abbr: Manual
+  kind: manual
+  description: >-
+    Hand-added stations that don't (yet) come from any upstream catalog.
+    Distinguished by the absence of a stationuuid AND no other RB
+    signals. Sponsor-curated additions like M94.5 and Grrif live here.
+  # The catalog (data/stations.yaml) remains the source of truth for
+  # these entries. data/sources/manual/stations.yaml is a committed
+  # extract refreshed via `npm run extract-manual-source` so we get
+  # git history of just the manual source view.
+  rawRoot: data/sources/manual/
+  rawStations: data/sources/manual/stations.yaml
+  refreshCommand: npm run extract-manual-source

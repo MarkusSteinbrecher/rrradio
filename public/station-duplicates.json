@@ -1,15 +1,621 @@
 {
-  "generatedAt": "2026-05-17T01:07:56.274Z",
-  "totalScanned": 17103,
-  "collisionCount": 103,
+  "generatedAt": "2026-05-21T09:50:53.220Z",
+  "totalScanned": 24314,
+  "collisionCount": 434,
   "byKind": {
     "stationuuid": 0,
     "streamUrl": 0,
-    "name": 7,
-    "homepage+favicon": 96
+    "name": 331,
+    "homepage+favicon": 103
   },
   "blockingCollisionCount": 0,
   "collisions": [
+    {
+      "kind": "name",
+      "key": "grrif",
+      "entries": [
+        {
+          "id": "builtin-grrif",
+          "name": "Grrif",
+          "streamUrl": "https://grrif.ice.infomaniak.ch/grrif-128.aac"
+        },
+        {
+          "id": "ch-grrif",
+          "name": "GRRIF",
+          "streamUrl": "https://rjb.ice.infomaniak.ch/rjb-high.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio vorarlberg",
+      "entries": [
+        {
+          "id": "builtin-orf-radio-vorarlberg",
+          "name": "Radio Vorarlberg",
+          "streamUrl": "https://orf-live.ors-shoutcast.at/vbg-q2a"
+        },
+        {
+          "id": "at-radio-vorarlberg",
+          "name": "Radio Vorarlberg",
+          "streamUrl": "https://orf-live.ors-shoutcast.at/vbg-q1a"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio tirol",
+      "entries": [
+        {
+          "id": "builtin-orf-radio-tirol",
+          "name": "Radio Tirol",
+          "streamUrl": "https://orf-live.ors-shoutcast.at/tir-q2a"
+        },
+        {
+          "id": "it-radio-tirol",
+          "name": "Radio Tirol",
+          "streamUrl": "https://stream.radiotirol.it/live/aac-64/app/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "kontrafunk",
+      "entries": [
+        {
+          "id": "ch-kontrafunk",
+          "name": "Kontrafunk",
+          "streamUrl": "https://stream.kontrafunk.radio/listen/kontrafunk/radio.mp3"
+        },
+        {
+          "id": "ch-kontrafunk-35e8de69",
+          "name": "Kontrafunk",
+          "streamUrl": "https://s5.radio.co/sca4082ebb/listen"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio grischa",
+      "entries": [
+        {
+          "id": "ch-radio-grischa",
+          "name": "Radio Grischa",
+          "streamUrl": "https://somedia-4.streaming.deliver.media/radiogrischa_mp3_128"
+        },
+        {
+          "id": "ch-radio-grischa-593d1646",
+          "name": "Radio Grischa",
+          "streamUrl": "https://somedia-1.streaming.deliver.media/radiogrischa_mp3_128?suffix0=RSO"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio s",
+      "entries": [
+        {
+          "id": "ch-radio-s",
+          "name": "Radio S",
+          "streamUrl": "https://stream.radio-s.ch/stream"
+        },
+        {
+          "id": "rs-radio-s",
+          "name": "Radio S",
+          "streamUrl": "https://53be5ef2d13aa.streamlock.net/asmedia/radios/playlist.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "lfm",
+      "entries": [
+        {
+          "id": "ch-lfm",
+          "name": "LFM",
+          "streamUrl": "https://lausannefm.ice.infomaniak.ch/lausannefm-high.mp3"
+        },
+        {
+          "id": "ru-lfm",
+          "name": "LFM",
+          "streamUrl": "https://s05.volnorez.com/live-app/900927"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "rockstar radio",
+      "entries": [
+        {
+          "id": "ch-rockstar-radio",
+          "name": "Rockstar Radio",
+          "streamUrl": "https://dr2101.ice.infomaniak.ch/dr2102.mp3"
+        },
+        {
+          "id": "ro-rockstar-radio",
+          "name": "Rockstar Radio",
+          "streamUrl": "https://a5.asurahosting.com:7120/radio.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "lux radio",
+      "entries": [
+        {
+          "id": "ch-lux-radio",
+          "name": "LUX RADIO",
+          "streamUrl": "https://live7.avf.ch/lux_main"
+        },
+        {
+          "id": "rs-lux-radio",
+          "name": "Lux Radio",
+          "streamUrl": "https://lux-naxinacional.streaming.rs:8607/;"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "jukebox - nonstop music",
+      "entries": [
+        {
+          "id": "ch-jukebox-nonstop-music",
+          "name": "Jukebox - Nonstop Music",
+          "streamUrl": "https://kreuzbergswiss.sp.radio.fm/stream.hls"
+        },
+        {
+          "id": "ch-jukebox-nonstop-music-5c01c640",
+          "name": "Jukebox - Nonstop Music",
+          "streamUrl": "https://kreuzbergswiss.spcast.eu/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "france inter",
+      "entries": [
+        {
+          "id": "builtin-france-inter",
+          "name": "France Inter",
+          "streamUrl": "https://icecast.radiofrance.fr/franceinter-hifi.aac"
+        },
+        {
+          "id": "fr-france-inter",
+          "name": "France Inter",
+          "streamUrl": "https://stream.radiofrance.fr/franceinter/franceinter.m3u8?id=radiofrance"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "rmc",
+      "entries": [
+        {
+          "id": "fr-rmc",
+          "name": "RMC",
+          "streamUrl": "https://audio.bfmtv.com/rmcradio_128.mp3"
+        },
+        {
+          "id": "fr-rmc-da5f481e",
+          "name": "RMC",
+          "streamUrl": "https://hls-rmc.nextradiotv.com/no_ssai/128k/media.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio nova",
+      "entries": [
+        {
+          "id": "fr-radio-nova",
+          "name": "Radio Nova",
+          "streamUrl": "https://novazz.ice.infomaniak.ch/novazz-128.mp3"
+        },
+        {
+          "id": "fi-radio-nova",
+          "name": "Radio Nova",
+          "streamUrl": "https://stream-redirect.bauermedia.fi/radionova/radionova_64.aac?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein"
+        },
+        {
+          "id": "pe-radio-nova",
+          "name": "Radio Nova",
+          "streamUrl": "https://panel.innovatestream.pe:10989/stream"
+        },
+        {
+          "id": "be-radio-nova",
+          "name": "Radio Nova",
+          "streamUrl": "https://nova.dzradio.nl/nova"
+        },
+        {
+          "id": "de-radio-nova",
+          "name": "Radio Nova",
+          "streamUrl": "https://stream.laut.fm/radio-nova-fm"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "classic fm",
+      "entries": [
+        {
+          "id": "gb-classic-fm",
+          "name": "Classic FM",
+          "streamUrl": "https://media-ssl.musicradio.com/ClassicFMMP3"
+        },
+        {
+          "id": "bg-classic-fm",
+          "name": "Classic FM",
+          "streamUrl": "https://cdn.bweb.bg/radio/classic-fm.mp3"
+        },
+        {
+          "id": "ru-classic-fm",
+          "name": "Classic FM",
+          "streamUrl": "https://classic.amgradio.ru/ClassicFM"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "gold",
+      "entries": [
+        {
+          "id": "gb-gold",
+          "name": "Gold",
+          "streamUrl": "https://media-ssl.musicradio.com/GoldMP3"
+        },
+        {
+          "id": "my-gold",
+          "name": "Gold",
+          "streamUrl": "https://ss1.audiorama.com.mx:6584/https://radiomalaysia.net/gold-fm.html"
+        },
+        {
+          "id": "gr-gold",
+          "name": "Gold",
+          "streamUrl": "https://radiogold.live24.gr/radiogold"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "magic radio",
+      "entries": [
+        {
+          "id": "gb-magic-radio",
+          "name": "Magic Radio",
+          "streamUrl": "https://stream-mz.hellorayo.co.uk/magicnational.mp3?direct=true&aw_0_1st.skey=1602676850"
+        },
+        {
+          "id": "ua-magic-radio",
+          "name": "MAGIC Radio",
+          "streamUrl": "https://cast.brg.ua/business_main_public_mp3_hq"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "mdr aktuell",
+      "entries": [
+        {
+          "id": "mdr-mdr-aktuell",
+          "name": "MDR Aktuell",
+          "streamUrl": "https://mdr-284340-0.sslcast.mdr.de/mdr/284340/0/mp3/high/stream.mp3"
+        },
+        {
+          "id": "de-mdr-aktuell",
+          "name": "MDR AKTUELL",
+          "streamUrl": "https://radio-hls.mdr.de/hls/live/2112901/mdr-284340-0-hls/index.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "mdr sputnik",
+      "entries": [
+        {
+          "id": "mdr-mdr-sputnik",
+          "name": "MDR Sputnik",
+          "streamUrl": "https://mdr-284330-0.sslcast.mdr.de/mdr/284330/0/mp3/high/stream.mp3"
+        },
+        {
+          "id": "de-mdr-sputnik",
+          "name": "MDR SPUTNIK",
+          "streamUrl": "https://radio-hls.mdr.de/hls/live/2112905/mdr-284330-0-hls/index.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "dasding",
+      "entries": [
+        {
+          "id": "swr-dasding",
+          "name": "DASDING",
+          "streamUrl": "https://liveradio.swr.de/d9zadj3/dasding/"
+        },
+        {
+          "id": "de-dasding",
+          "name": "DASDING",
+          "streamUrl": "https://liveradio.swr.de/d245tgd/dasding/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "hr1",
+      "entries": [
+        {
+          "id": "hr-hr1",
+          "name": "hr1",
+          "streamUrl": "https://dispatcher.rndfnk.com/hr/hr1/live/mp3/high"
+        },
+        {
+          "id": "de-hr1",
+          "name": "hr1",
+          "streamUrl": "https://hlshr1.akamaized.net/hls/live/2016533/hr1suedhessen/master.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "antenne bayern",
+      "entries": [
+        {
+          "id": "antenne-bayern-main",
+          "name": "Antenne Bayern",
+          "streamUrl": "https://stream.antenne.de/antenne/stream/mp3"
+        },
+        {
+          "id": "de-antenne-bayern",
+          "name": "Antenne Bayern",
+          "streamUrl": "https://stream.antenne.de/antenne/stream/aacp"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio 105",
+      "entries": [
+        {
+          "id": "it-radio-105",
+          "name": "Radio 105",
+          "streamUrl": "https://icy.unitedradio.it/Radio105.mp3"
+        },
+        {
+          "id": "it-radio-105-77601de4",
+          "name": "Radio 105",
+          "streamUrl": "https://icecast.unitedradio.it/Radio105.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "los 40 classic",
+      "entries": [
+        {
+          "id": "es-los40-classic",
+          "name": "LOS 40 Classic",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/LOS40_CLASSIC.mp3"
+        },
+        {
+          "id": "es-los-40-classic",
+          "name": "Los 40 classic",
+          "streamUrl": "https://22543.live.streamtheworld.com/LOS40_CLASSIC.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radiolé",
+      "entries": [
+        {
+          "id": "es-radiole",
+          "name": "Radiolé",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIOLEAAC.aac"
+        },
+        {
+          "id": "es-radiole-ed4b6b4c",
+          "name": "RADIOLÉ",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIOLE.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "rock fm",
+      "entries": [
+        {
+          "id": "es-rock-fm",
+          "name": "Rock FM",
+          "streamUrl": "https://rockfm-cope.flumotion.com/chunks.m3u8"
+        },
+        {
+          "id": "tr-rock-fm",
+          "name": "ROCK FM",
+          "streamUrl": "https://rockfm.rockfm.com.tr:9450/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "kiss fm",
+      "entries": [
+        {
+          "id": "es-kiss-fm",
+          "name": "Kiss FM",
+          "streamUrl": "https://bbkissfm.kissfmradio.cires21.com/bbkissfm.mp3"
+        },
+        {
+          "id": "rs-kiss-fm",
+          "name": "Kiss FM",
+          "streamUrl": "https://cast2.my-control-panel.com/proxy/kissdoog/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "hit fm",
+      "entries": [
+        {
+          "id": "es-hit-fm",
+          "name": "Hit FM",
+          "streamUrl": "https://bbhitfm.kissfmradio.cires21.com/bbhitfm.mp3"
+        },
+        {
+          "id": "ru-hit-fm",
+          "name": "HIT FM",
+          "streamUrl": "https://hitfm.hostingradio.ru/hitfm96.aacp"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio marca",
+      "entries": [
+        {
+          "id": "es-radio-marca",
+          "name": "Radio Marca",
+          "streamUrl": "https://sonic.mediatelekom.net/9316/stream"
+        },
+        {
+          "id": "es-radio-marca-03c2c0cb",
+          "name": "Radio Marca",
+          "streamUrl": "https://www.marca.com/radio/geoblock/getSrcApp.php?dial=Nacional&dist=radiomarcaweb"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "qmusic",
+      "entries": [
+        {
+          "id": "nl-qmusic",
+          "name": "Qmusic",
+          "streamUrl": "https://icecast-qmusicnl-cdp.triple-it.nl/Qmusic_nl_live_96.mp3"
+        },
+        {
+          "id": "be-qmusic-130f37a8",
+          "name": "Qmusic",
+          "streamUrl": "https://streams.radio.dpgmedia.cloud/redirect/qmusic_be/mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "sky radio",
+      "entries": [
+        {
+          "id": "nl-sky-radio",
+          "name": "Sky Radio",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/SRGSTR01.mp3"
+        },
+        {
+          "id": "nl-sky-radio-b20de429",
+          "name": "Sky Radio",
+          "streamUrl": "https://www.mp3streams.nl/zender/skyradio/stream/8-mp3-128"
+        },
+        {
+          "id": "gr-sky-radio",
+          "name": "Sky Radio",
+          "streamUrl": "https://media.skyradio.gr:9920/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "joe",
+      "entries": [
+        {
+          "id": "nl-joe",
+          "name": "Joe",
+          "streamUrl": "https://stream.joe.nl/joe/aachigh"
+        },
+        {
+          "id": "be-joe-e205d3a1",
+          "name": "Joe",
+          "streamUrl": "https://streams.radio.dpgmedia.cloud/redirect/joe_fm/aac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "rock antenne classic perlen",
+      "entries": [
+        {
+          "id": "de-rock-antenne-classic-perlen",
+          "name": "Rock Antenne Classic Perlen",
+          "streamUrl": "https://mp3channels.webradio.rockantenne.de/classic-perlen"
+        },
+        {
+          "id": "de-rock-antenne-classic-perlen-ff4e7a72",
+          "name": "Rock Antenne Classic Perlen",
+          "streamUrl": "https://stream.rockantenne.de/classic-perlen/stream/aacp"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio paloma",
+      "entries": [
+        {
+          "id": "de-radio-paloma",
+          "name": "Radio Paloma",
+          "streamUrl": "https://icepool.silvacast.com/RADIOPALOMA.mp3"
+        },
+        {
+          "id": "cl-radio-paloma",
+          "name": "Radio Paloma",
+          "streamUrl": "https://audio3.tustreaming.cl/7320/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "rock antenne hair metal",
+      "entries": [
+        {
+          "id": "de-rock-antenne-hair-metal",
+          "name": "ROCK ANTENNE Hair Metal",
+          "streamUrl": "https://stream.rockantenne.de/hair-metal/stream/aacp"
+        },
+        {
+          "id": "de-rock-antenne-hair-metal-05da52cf",
+          "name": "Rock Antenne Hair Metal",
+          "streamUrl": "https://s9-webradio.rockantenne.de/hair-metal/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "abc radio sydney",
+      "entries": [
+        {
+          "id": "builtin-abc-sydney",
+          "name": "ABC Radio Sydney",
+          "streamUrl": "https://live-radio01.mediahubaustralia.com/2LRW/aac/"
+        },
+        {
+          "id": "au-abc-radio-sydney",
+          "name": "ABC Radio Sydney",
+          "streamUrl": "https://mediaserviceslive.akamaized.net/hls/live/2038302/localsydney/masterhq.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "abc radio melbourne",
+      "entries": [
+        {
+          "id": "builtin-abc-melbourne",
+          "name": "ABC Radio Melbourne",
+          "streamUrl": "https://live-radio01.mediahubaustralia.com/3LRW/aac/"
+        },
+        {
+          "id": "au-abc-radio-melbourne",
+          "name": "ABC Radio Melbourne",
+          "streamUrl": "https://mediaserviceslive.akamaized.net/hls/live/2038300/localmelbourne/masterhq.m3u8"
+        }
+      ]
+    },
     {
       "kind": "name",
       "key": "retro radio",
@@ -28,6 +634,123 @@
     },
     {
       "kind": "name",
+      "key": "sveriges radio p1",
+      "entries": [
+        {
+          "id": "builtin-sr-p1",
+          "name": "Sveriges Radio P1",
+          "streamUrl": "https://live1.sr.se/p1-aac-320"
+        },
+        {
+          "id": "se-sveriges-radio-p1",
+          "name": "Sveriges Radio P1",
+          "streamUrl": "https://edge1.sr.se/p1-aac-320"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "yle radio 1",
+      "entries": [
+        {
+          "id": "builtin-yle-radio-1",
+          "name": "YLE Radio 1",
+          "streamUrl": "https://icecast.live.yle.fi/radio/YleRadio1Hifi/icecast.audio"
+        },
+        {
+          "id": "fi-yle-radio-1",
+          "name": "Yle Radio 1",
+          "streamUrl": "https://yleradiolive.akamaized.net/hls/live/2027672/in-YleRadio1/master.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "ylex",
+      "entries": [
+        {
+          "id": "builtin-yle-x",
+          "name": "YleX",
+          "streamUrl": "https://icecast.live.yle.fi/radio/YleX/icecast.audio"
+        },
+        {
+          "id": "fi-ylex",
+          "name": "Ylex",
+          "streamUrl": "https://yleradiolive.akamaized.net/hls/live/2027674/in-YleX/master.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio helsinki",
+      "entries": [
+        {
+          "id": "fi-radio-helsinki",
+          "name": "Radio Helsinki",
+          "streamUrl": "https://stream.radiohelsinki.fi/stream"
+        },
+        {
+          "id": "at-radio-helsinki",
+          "name": "Radio Helsinki",
+          "streamUrl": "https://live.helsinki.at:8088/live160.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "čro plus",
+      "entries": [
+        {
+          "id": "cz-cro-plus",
+          "name": "ČRo Plus",
+          "streamUrl": "https://rozhlas.stream/plus_mp3_128.mp3"
+        },
+        {
+          "id": "cz-cro-plus-917790a4",
+          "name": "ČRo Plus",
+          "streamUrl": "https://rozhlas.stream/plus_low.aac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "kiss 98",
+      "entries": [
+        {
+          "id": "cz-kiss-98",
+          "name": "Kiss 98",
+          "streamUrl": "https://icecast2.play.cz/kiss128aac"
+        },
+        {
+          "id": "gr-kiss-98",
+          "name": "Kiss 98",
+          "streamUrl": "https://s6.onweb.gr:7029/stream"
+        },
+        {
+          "id": "gr-kiss-98-d6ccc66a",
+          "name": "Kiss 98",
+          "streamUrl": "https://s6.onweb.gr:7029/stream.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "rádio blaník",
+      "entries": [
+        {
+          "id": "cz-radio-blanik",
+          "name": "Rádio Blaník",
+          "streamUrl": "https://ice.abradio.cz/blanikfm128.mp3"
+        },
+        {
+          "id": "cz-radio-blanik-5f7c90af",
+          "name": "Rádio Blaník",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_BLANIK_128.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
       "key": "rock radio",
       "entries": [
         {
@@ -38,6 +761,2154 @@
           "id": "si-rock-radio",
           "name": "Rock Radio",
           "streamUrl": "https://stream.nextmedia.si/proxy/rockr1_1?mp=/rock;"
+        },
+        {
+          "id": "pl-rock-radio",
+          "name": "Rock Radio",
+          "streamUrl": "https://radiostream.pl/tuba8-1.mp3?cache=1650763965"
+        },
+        {
+          "id": "pl-rock-radio-6e38d67e",
+          "name": "Rock Radio",
+          "streamUrl": "https://radiostream.pl/tuba8-1.aac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "hrt hr 2",
+      "entries": [
+        {
+          "id": "hr-hrt-hr2",
+          "name": "HRT HR 2",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/PROGRAM2AAC.aac"
+        },
+        {
+          "id": "hr-hrt-hr-2",
+          "name": "HRT HR 2",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/PROGRAM2.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "magic fm",
+      "entries": [
+        {
+          "id": "ro-magic-fm",
+          "name": "Magic FM"
+        },
+        {
+          "id": "bg-magic-fm",
+          "name": "MAGIC FM",
+          "streamUrl": "https://bss1.neterra.tv/magicfm/magicfm.m3u8"
+        },
+        {
+          "id": "nl-magic-fm",
+          "name": "Magic FM",
+          "streamUrl": "https://stream.magicfm.nl/magicfm"
+        },
+        {
+          "id": "nz-magic-fm",
+          "name": "Magic FM",
+          "streamUrl": "https://mediaworks.streamguys1.com/magic_net_icy"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "fun radio",
+      "entries": [
+        {
+          "id": "sk-fun-radio",
+          "name": "Fun Radio",
+          "streamUrl": "https://stream.funradio.sk:8000/fun128.mp3"
+        },
+        {
+          "id": "be-fun-radio",
+          "name": "Fun Radio",
+          "streamUrl": "https://funradiobe.ice.infomaniak.ch/funradiobe-high.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "play radio",
+      "entries": [
+        {
+          "id": "rs-play-radio",
+          "name": "Play Radio"
+        },
+        {
+          "id": "ro-play-radio",
+          "name": "Play Radio",
+          "streamUrl": "https://live.playradio.org:8443/90HD"
+        },
+        {
+          "id": "lt-play-radio",
+          "name": "Play Radio",
+          "streamUrl": "https://n08.radiojar.com/d9cm273ystzuv"
+        },
+        {
+          "id": "gr-play-radio",
+          "name": "Play Radio",
+          "streamUrl": "https://n12.radiojar.com/0zs50dbr274tv?rj-ttl=5&rj-tok=AAABhP2aZowAREeJDqq73dSjNA"
+        },
+        {
+          "id": "gb-play-radio",
+          "name": "Play Radio",
+          "streamUrl": "https://stream.radiojar.com/0zs50dbr274tv"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio slobodna evropa",
+      "entries": [
+        {
+          "id": "ba-rferl-bs",
+          "name": "Radio Slobodna Evropa"
+        },
+        {
+          "id": "cz-radio-slobodna-evropa",
+          "name": "Radio Slobodna Evropa",
+          "streamUrl": "https://n08.radiojar.com/bugesa4nn3quv?rj-ttl=5&rj-tok=AAABikFH4NsAib8tua7OjeefLg"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "jazz sakura",
+      "entries": [
+        {
+          "id": "jp-jazz-sakura",
+          "name": "Jazz Sakura",
+          "streamUrl": "https://kathy.torontocast.com:3330/stream/1/?esPlayer&cb=82181.mp3"
+        },
+        {
+          "id": "jp-jazz-sakura-e4f7dac4",
+          "name": "Jazz Sakura",
+          "streamUrl": "https://kathy.torontocast.com:3330/;"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "j1 gold",
+      "entries": [
+        {
+          "id": "jp-j1-gold",
+          "name": "J1 Gold",
+          "streamUrl": "https://jenny.torontocast.com:8062/"
+        },
+        {
+          "id": "ca-j1-gold",
+          "name": "J1 GOLD",
+          "streamUrl": "https://jenny.torontocast.com:2000/stream/J1GOLD"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "j1 hits",
+      "entries": [
+        {
+          "id": "jp-j1-hits",
+          "name": "J1 Hits",
+          "streamUrl": "https://jenny.torontocast.com:8056/"
+        },
+        {
+          "id": "jp-j1-hits-5a4eb5bc",
+          "name": "J1 HITS",
+          "streamUrl": "https://jenny.torontocast.com:2000/stream/J1HITS?_=184325"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "nightwave plaza",
+      "entries": [
+        {
+          "id": "jp-nightwave-plaza",
+          "name": "Nightwave Plaza",
+          "streamUrl": "https://radio.plaza.one/opus"
+        },
+        {
+          "id": "ru-nightwave-plaza",
+          "name": "Nightwave Plaza",
+          "streamUrl": "https://radio.plaza.one/ogg"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "newstalk zb",
+      "entries": [
+        {
+          "id": "nz-newstalk-zb",
+          "name": "Newstalk ZB",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/NZME_31AAC.m3u8"
+        },
+        {
+          "id": "nz-newstalk-zb-dbc8afb2",
+          "name": "Newstalk ZB",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/NZME_01AAC.m3u8?aw_0_1st.playerid=iHeartRadioWebPlayer&aw_0_1st.skey=9631949606&clientType=web&companionAds=false&deviceName=web-desktop&dist=iheart&host=webapp.NZ&listenerId=&playedFrom=157&pname=live_profile&profileId=9631949606&stationid=6187&terminalId=162&territory=NZ"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "galgalatz",
+      "entries": [
+        {
+          "id": "il-glglz",
+          "name": "Galgalatz"
+        },
+        {
+          "id": "il-galgalatz",
+          "name": "Galgalatz",
+          "streamUrl": "https://glzwizzlv.bynetcdn.com/glglz_mp3?awCollectionId=misc&awEpisodeId=glglz"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio la mega",
+      "entries": [
+        {
+          "id": "pe-la-mega",
+          "name": "Radio La Mega"
+        },
+        {
+          "id": "pe-radio-la-mega",
+          "name": "Radio La Mega",
+          "streamUrl": "https://mdstrm.com/audio/5fada56fe4e09508207a7951/icecast.audio"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio rivadavia",
+      "entries": [
+        {
+          "id": "ar-rivadavia",
+          "name": "Radio Rivadavia"
+        },
+        {
+          "id": "ar-radio-rivadavia",
+          "name": "Radio Rivadavia",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/RIVADAVIAAAC_SC?dist=triton-widget&pname=tdwidgets"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "bons tempos fm",
+      "entries": [
+        {
+          "id": "br-bons-tempos",
+          "name": "Bons Tempos FM"
+        },
+        {
+          "id": "br-bons-tempos-fm",
+          "name": "BONS TEMPOS FM",
+          "streamUrl": "https://stm7.xradios.com.br:6888/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "east coast radio",
+      "entries": [
+        {
+          "id": "za-ecr",
+          "name": "East Coast Radio"
+        },
+        {
+          "id": "za-east-coast-radio",
+          "name": "East Coast Radio",
+          "streamUrl": "https://live.ecr.co.za/ecrhigh.mp3?aw_0_pinpoll=1,2,9&listenerid=94d1ac3bf877b65e4e17cd7e9bfec132&awparams=companionAds%3Atrue&aw_0_1st.ri=iono"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "star fm manila",
+      "entries": [
+        {
+          "id": "ph-star-fm-manila",
+          "name": "Star FM Manila"
+        },
+        {
+          "id": "ph-star-fm-manila-39da4b9f",
+          "name": "Star FM Manila",
+          "streamUrl": "https://stream.zeno.fm/536cwdq78heuv"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "trt nağme",
+      "entries": [
+        {
+          "id": "tr-trt-nagme",
+          "name": "TRT Nağme"
+        },
+        {
+          "id": "tr-trt-nagme-a2a5e434",
+          "name": "TRT Nağme",
+          "streamUrl": "https://rd-trtnagme.medya.trt.com.tr/master.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "trt radyo haber",
+      "entries": [
+        {
+          "id": "tr-trt-radyo-haber",
+          "name": "TRT Radyo Haber"
+        },
+        {
+          "id": "tr-trt-radyo-haber-9ed85a92",
+          "name": "TRT Radyo Haber",
+          "streamUrl": "https://trt.radyotvonline.net/trthaber"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "metro fm turkey",
+      "entries": [
+        {
+          "id": "tr-metro-fm",
+          "name": "Metro FM Turkey",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/METRO_FMAAC_SC.aac"
+        },
+        {
+          "id": "tr-metro-fm-turkey",
+          "name": "Metro fm turkey",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/METRO_FM_SC?"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "mirchi top 20",
+      "entries": [
+        {
+          "id": "in-mirchi-top-20",
+          "name": "Mirchi Top 20"
+        },
+        {
+          "id": "in-mirchi-top-20-099c32b6",
+          "name": "Mirchi Top 20",
+          "streamUrl": "https://nl4.mystreaming.net/uber/bollywoodnow/icecast.audio"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "red fm",
+      "entries": [
+        {
+          "id": "in-red-fm",
+          "name": "Red FM"
+        },
+        {
+          "id": "in-red-fm-15812c43",
+          "name": "Red Fm",
+          "streamUrl": "https://funasia.streamguys1.com/live9"
+        },
+        {
+          "id": "my-red-fm",
+          "name": "Red FM",
+          "streamUrl": "https://22253.live.streamtheworld.com/RED_FMAAC.aac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "europa plus",
+      "entries": [
+        {
+          "id": "ru-europa-plus",
+          "name": "Europa Plus",
+          "streamUrl": "https://ep128.hostingradio.ru:8030/ep128"
+        },
+        {
+          "id": "ua-europa-plus",
+          "name": "Europa Plus",
+          "streamUrl": "https://s5.radioforge.com:7908/live?n=77357"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "радио русские песни",
+      "entries": [
+        {
+          "id": "ru-russian-pesni",
+          "name": "Радио Русские Песни",
+          "streamUrl": "https://listen.rusongs.ru/ru-mp3-128"
+        },
+        {
+          "id": "ru-station-67868e42",
+          "name": "Радио Русские Песни",
+          "streamUrl": "https://listen.rusongs.ru/ru-aac-64"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "lounge radio ibiza",
+      "entries": [
+        {
+          "id": "de-lounge-radio-ibiza",
+          "name": "Lounge Radio Ibiza",
+          "streamUrl": "https://stream.laut.fm/lounge-radio-ibiza"
+        },
+        {
+          "id": "es-lounge-radio-ibiza",
+          "name": "Lounge Radio Ibiza",
+          "streamUrl": "https://lounge-radio-ibiza.stream.laut.fm/lounge-radio-ibiza?pl=m3u&t302=2026-01-15_07-49-47&uuid=76e9513e-5c01-407a-9538-f7c4a8d29d26"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "swr 2",
+      "entries": [
+        {
+          "id": "de-swr-2",
+          "name": "SWR 2",
+          "streamUrl": "https://liveradio.swr.de/sw331ch/swr2/play.aac"
+        },
+        {
+          "id": "de-swr-2-9c0b3f8a",
+          "name": "SWR 2",
+          "streamUrl": "https://liveradio.swr.de/sw282p3/swr2/play.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "- 0 n - movies on radio",
+      "entries": [
+        {
+          "id": "de-0-n-movies-on-radio",
+          "name": "- 0 N - Movies on Radio",
+          "streamUrl": "https://0n-movies.radionetz.de/0n-movies.aac"
+        },
+        {
+          "id": "de-0-n-movies-on-radio-fa9cdf67",
+          "name": "- 0 N - Movies on Radio",
+          "streamUrl": "https://0n-movies.radionetz.de/0n-movies.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "swr4 koblenz",
+      "entries": [
+        {
+          "id": "de-swr4-koblenz",
+          "name": "swr4 koblenz",
+          "streamUrl": "https://liveradio.swr.de/sw282p3/swr4ko/"
+        },
+        {
+          "id": "de-swr4-koblenz-5d9fc3b3",
+          "name": "swr4 Koblenz",
+          "streamUrl": "https://liveradio.swr.de/sw282p3/swr4rp/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "trigger.fm",
+      "entries": [
+        {
+          "id": "de-trigger-fm",
+          "name": "Trigger.FM",
+          "streamUrl": "https://takeoff.jetstre.am/?account=bbm&file=trigger128SD&type=live&service=icecast&protocol=https&port=8000&output=pls"
+        },
+        {
+          "id": "de-trigger-fm-69054dc2",
+          "name": "Trigger.FM",
+          "streamUrl": "https://hd-radio.triggerfm.de/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio sunrise",
+      "entries": [
+        {
+          "id": "de-radio-sunrise",
+          "name": "Radio Sunrise",
+          "streamUrl": "https://radio-sunrise.stream.laut.fm/radio-sunrise"
+        },
+        {
+          "id": "hu-radio-sunrise",
+          "name": "Radio Sunrise",
+          "streamUrl": "https://s03.diazol.hu:7172/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "- 0 n - volksmusik on radio",
+      "entries": [
+        {
+          "id": "de-0-n-volksmusik-on-radio",
+          "name": "- 0 N - Volksmusik on Radio",
+          "streamUrl": "https://0n-volksmusik.radionetz.de/0n-volksmusik.aac"
+        },
+        {
+          "id": "de-0-n-volksmusik-on-radio-8deaaab0",
+          "name": "- 0 N - Volksmusik on Radio",
+          "streamUrl": "https://0n-volksmusik.radionetz.de/0n-volksmusik.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "- 0 n - blues on radio",
+      "entries": [
+        {
+          "id": "de-0-n-blues-on-radio",
+          "name": "- 0 N - Blues on Radio",
+          "streamUrl": "https://0n-blues.radionetz.de/0n-blues.aac"
+        },
+        {
+          "id": "de-0-n-blues-on-radio-7e96f2c6",
+          "name": "- 0 N - Blues on Radio",
+          "streamUrl": "https://0n-blues.radionetz.de/0n-blues.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio endstation",
+      "entries": [
+        {
+          "id": "de-radio-endstation",
+          "name": "Radio Endstation",
+          "streamUrl": "https://funkturm.radio-endstation.de/hls/radio-endstation/live.m3u8"
+        },
+        {
+          "id": "de-radio-endstation-6e933dcf",
+          "name": "RADIO ENDSTATION",
+          "streamUrl": "https://funkturm.radio-endstation.de/listen/radio-endstation/radio.mp3?606343196"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "landeswelle deutsch",
+      "entries": [
+        {
+          "id": "de-landeswelle-deutsch",
+          "name": "LandesWelle Deutsch",
+          "streamUrl": "https://edge19.streamonkey.net/landeswelle-deutsch?aggregator=rewrite/mp3-192/rin/"
+        },
+        {
+          "id": "de-landeswelle-deutsch-900ea13d",
+          "name": "LandesWelle Deutsch",
+          "streamUrl": "https://edge83.streamonkey.net/landeswelle-deutsch?aggregator=rewrite/mp3-192"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "rock",
+      "entries": [
+        {
+          "id": "de-rock",
+          "name": "rock",
+          "streamUrl": "https://stream.rockantenne.de/rockantenne/stream/mp3"
+        },
+        {
+          "id": "ua-rock-38df9888",
+          "name": "Rock",
+          "streamUrl": "https://stream.zeno.fm/r6o4xljca6cvv"
+        },
+        {
+          "id": "se-rock",
+          "name": "Rock",
+          "streamUrl": "https://mml1.prostream.se/listen/rock/radio.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "schlagerheilo",
+      "entries": [
+        {
+          "id": "de-schlagerheilo",
+          "name": "Schlagerheilo",
+          "streamUrl": "https://www.tunefm.de:2000/stream/schlagerheilo"
+        },
+        {
+          "id": "de-schlagerheilo-0e515358",
+          "name": "Schlagerheilo",
+          "streamUrl": "https://schlagerheilo.sp.radio.fm/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio legende",
+      "entries": [
+        {
+          "id": "de-radio-legende",
+          "name": "Radio Legende",
+          "streamUrl": "https://einfach-webradio.de:10443/radio/8050/radio.mp3"
+        },
+        {
+          "id": "bf-radio-legende",
+          "name": "Radio Legende",
+          "streamUrl": "https://stream.zeno.fm/p1e2466d6ehvv"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "club radio",
+      "entries": [
+        {
+          "id": "de-club-radio",
+          "name": "club radio",
+          "streamUrl": "https://icecast.multhielemedia.de/radio/8010/clubradio.mp3"
+        },
+        {
+          "id": "ro-club-radio",
+          "name": "Club Radio",
+          "streamUrl": "https://live.clubradio.ro/listen/clubradio/live"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "club fm",
+      "entries": [
+        {
+          "id": "de-club-fm",
+          "name": "Club FM",
+          "streamUrl": "https://rs7.stream24.net/clubfm.aac"
+        },
+        {
+          "id": "in-club-fm",
+          "name": "club fm",
+          "streamUrl": "https://strw3.openstream.co/1459?aw_0_1st.collectionid%3D4635%26stationId%3D4635%26publisherId%3D1483%26k%3D1769584850"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "swr 1",
+      "entries": [
+        {
+          "id": "de-swr-1",
+          "name": "SWR 1",
+          "streamUrl": "https://liveradio.swr.de/sw282p3/swr1bw/"
+        },
+        {
+          "id": "de-swr-1-cdfab37a",
+          "name": "SWR 1",
+          "streamUrl": "https://f131.rndfnk.com/ard/swr/swr1/bw/mp3/128/stream.mp3?aggregator=web&cid=01FC1X3K2Z71SMDKMEC68DM7MW&sid=2U6n2zUferrivfsFoOE5e3IKS46&token=_yIMgRghCTu7QYCjbDZlRvRGa5YfV6hS0jcqDueCwqQ&tvf=3hxzcg45fBdmMTMxLnJuZGZuay5jb20"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "alternative radio",
+      "entries": [
+        {
+          "id": "de-alternative-radio",
+          "name": "Alternative Radio",
+          "streamUrl": "https://alternative-radio.stream.laut.fm/alternative-radio?"
+        },
+        {
+          "id": "fr-alternative-radio",
+          "name": "Alternative Radio",
+          "streamUrl": "https://www.radioking.com/play/alternative-radio-1"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "autodj",
+      "entries": [
+        {
+          "id": "de-autodj",
+          "name": "AutoDJ",
+          "streamUrl": "https://radiophoenixx.sp.radio.fm/stream"
+        },
+        {
+          "id": "de-autodj-e067b690",
+          "name": "AutoDJ",
+          "streamUrl": "https://yourbase.spcast.eu/stream?time=1730875167&latency=high"
+        },
+        {
+          "id": "de-autodj-fbc9f37e",
+          "name": "AutoDJ",
+          "streamUrl": "https://ird.sp.radio.fm/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio wmw",
+      "entries": [
+        {
+          "id": "de-radio-wmw",
+          "name": "Radio WMW",
+          "streamUrl": "https://rnrw.cast.addradio.de/rnrw-01a8/deinevent/high/stream.mp3?1707016884"
+        },
+        {
+          "id": "de-radio-wmw-960e16d8",
+          "name": "Radio WMW",
+          "streamUrl": "https://stream.lokalradio.nrw/4459h6k"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "nice radio",
+      "entries": [
+        {
+          "id": "de-nice-radio",
+          "name": "nice Radio",
+          "streamUrl": "https://hd-radio.nice-radiotv.de/"
+        },
+        {
+          "id": "gr-nice-radio",
+          "name": "Nice Radio",
+          "streamUrl": "https://solid48.streamupsolutions.com/proxy/memftkwf/stream?1722321975161"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio santec",
+      "entries": [
+        {
+          "id": "de-radio-santec",
+          "name": "Radio Santec",
+          "streamUrl": "https://onairport.live/radioul-de"
+        },
+        {
+          "id": "de-radio-santec-32606925",
+          "name": "Radio Santec",
+          "streamUrl": "https://audio.bild-und-ton.stream:16162/radiosantec-en"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio paradise",
+      "entries": [
+        {
+          "id": "de-radio-paradise",
+          "name": "Radio paradise",
+          "streamUrl": "https://stream.radioparadise.com/mellow-flac"
+        },
+        {
+          "id": "be-radio-paradise",
+          "name": "Radio Paradise",
+          "streamUrl": "https://phoebe.streamerr.co:3445/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "dial radio",
+      "entries": [
+        {
+          "id": "de-dial-radio",
+          "name": "Dial Radio",
+          "streamUrl": "https://cast.dialradio.live/stream.opus"
+        },
+        {
+          "id": "sd-dial-radio",
+          "name": "Dial Radio",
+          "streamUrl": "https://cast.dialradio.live/stream.aac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "metal radio",
+      "entries": [
+        {
+          "id": "at-metal-radio",
+          "name": "Metal Radio",
+          "streamUrl": "https://stream.radiotechnikum.at:80/METALRadio"
+        },
+        {
+          "id": "at-metal-radio-820b81db",
+          "name": "Metal Radio",
+          "streamUrl": "https://stream.radiotechnikum.at/METALRadio"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "美国之音",
+      "entries": [
+        {
+          "id": "us-station",
+          "name": "美国之音",
+          "streamUrl": "https://voa-ingest.akamaized.net/hls/live/2035206/151_124L/playlist.m3u8"
+        },
+        {
+          "id": "us-station-70012ddb",
+          "name": "美国之音",
+          "streamUrl": "https://stream.zeno.fm/u87dfeeyk2zuv"
+        },
+        {
+          "id": "us-station-ac045165",
+          "name": "美国之音",
+          "streamUrl": "https://stream.zeno.fm/hy8okpwdybntv"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "fox news",
+      "entries": [
+        {
+          "id": "us-fox-news",
+          "name": "Fox News",
+          "streamUrl": "https://247preview.foxnews.com/hls/live/2020027/fncv3preview/primary.m3u8"
+        },
+        {
+          "id": "us-fox-news-f0c777d1",
+          "name": "fox news",
+          "streamUrl": "https://ad-hls.tunein.com/v1/master/30ead7055f8b8e1f2f04add745f139b184df6925/production/v3/newsfree/foxfree/master.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "frisky radio",
+      "entries": [
+        {
+          "id": "us-frisky-radio",
+          "name": "Frisky Radio",
+          "streamUrl": "https://stream.frisky.friskyradio.com/mp3_low"
+        },
+        {
+          "id": "gb-frisky-radio",
+          "name": "Frisky Radio",
+          "streamUrl": "https://stream.frisky.friskyradio.com/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "soul radio classics",
+      "entries": [
+        {
+          "id": "us-soul-radio-classics",
+          "name": "SOUL RADIO Classics",
+          "streamUrl": "https://listen.soulradio.us/us"
+        },
+        {
+          "id": "fr-soul-radio-classics",
+          "name": "SOUL RADIO Classics",
+          "streamUrl": "https://listen.soulradio.eu/eu"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "country gospel radio",
+      "entries": [
+        {
+          "id": "us-country-gospel-radio",
+          "name": "Country Gospel Radio",
+          "streamUrl": "https://usa18.fastcast4u.com/proxy/loudcrymedia1?mp=/1"
+        },
+        {
+          "id": "gb-country-gospel-radio",
+          "name": "Country Gospel Radio",
+          "streamUrl": "https://solid24.streamupsolutions.com/proxy/agtzpadc/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "joy fm",
+      "entries": [
+        {
+          "id": "us-joy-fm",
+          "name": "Joy FM",
+          "streamUrl": "https://positivealtradio.streamguys1.com/wxrimp3"
+        },
+        {
+          "id": "gh-joy-fm",
+          "name": "Joy Fm",
+          "streamUrl": "https://mmg.streamguys1.com/JoyFM-mp3?key=8689cc761932e3151f94ddbdbfdf4aa0f4000234b5caeaaa179a2fc0d59a4be9b8b774c3653cb14d1fd76f5cbf80e482&awparams=playerid%3ASGplayer%3B&amsparams=playerid%3ASGplayer%3Bskey%3A1609840716923%3B&aw_0_req.gdpr=true&us_privacy=1YNN"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "96.1 kiss fm",
+      "entries": [
+        {
+          "id": "us-96-1-kiss-fm",
+          "name": "96.1 KISS FM",
+          "streamUrl": "https://stream.revma.ihrhls.com/zc1333"
+        },
+        {
+          "id": "us-96-1-kiss-fm-2b9f5a18",
+          "name": "96.1 KISS FM",
+          "streamUrl": "https://stream.revma.ihrhls.com/zc2021"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "kfm radio",
+      "entries": [
+        {
+          "id": "us-kfm-radio",
+          "name": "KFM Radio",
+          "streamUrl": "https://stream.zeno.fm/1adz268xt98uv"
+        },
+        {
+          "id": "gb-kfm-radio",
+          "name": "KFM Radio",
+          "streamUrl": "https://s2.radio.co/s367e90f45/listen"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "spirit fm",
+      "entries": [
+        {
+          "id": "us-spirit-fm",
+          "name": "Spirit FM",
+          "streamUrl": "https://positivealtradio.streamguys1.com/wrxtmp3"
+        },
+        {
+          "id": "ca-spirit-fm",
+          "name": "Spirit FM",
+          "streamUrl": "https://ais-sa1.streamon.fm/7155_48k.aac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "rock 101",
+      "entries": [
+        {
+          "id": "us-rock-101",
+          "name": "Rock 101",
+          "streamUrl": "https://stream.revma.ihrhls.com/zc1349"
+        },
+        {
+          "id": "mx-rock-101",
+          "name": "Rock 101",
+          "streamUrl": "https://s3.radio.co/s2c1cebae5/listen"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "jazz fm",
+      "entries": [
+        {
+          "id": "us-jazz-fm",
+          "name": "Jazz FM",
+          "streamUrl": "https://jazzfm91.streamb.live/SB00009"
+        },
+        {
+          "id": "bg-jazz-fm",
+          "name": "Jazz FM",
+          "streamUrl": "https://cdn.bweb.bg/radio/jazz-fm.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "tilderadio",
+      "entries": [
+        {
+          "id": "us-tilderadio",
+          "name": "Tilderadio",
+          "streamUrl": "https://azuracast.tilderadio.org/radio/8000/radio.mp3"
+        },
+        {
+          "id": "jp-tilderadio",
+          "name": "tilderadio",
+          "streamUrl": "https://tilderadio.org/listen"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "98 rock",
+      "entries": [
+        {
+          "id": "us-98-rock",
+          "name": "98 ROCK",
+          "streamUrl": "https://stream.revma.ihrhls.com/zc697"
+        },
+        {
+          "id": "br-98-rock",
+          "name": "98 Rock",
+          "streamUrl": "https://8185.brasilstream.com.br/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "q102",
+      "entries": [
+        {
+          "id": "us-q102",
+          "name": "Q102",
+          "streamUrl": "https://stream.revma.ihrhls.com/zc1997"
+        },
+        {
+          "id": "ie-q102",
+          "name": "Q102",
+          "streamUrl": "https://wg.cdn.tibus.net/q102MP3128"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "jimi hendrix",
+      "entries": [
+        {
+          "id": "us-jimi-hendrix",
+          "name": "Jimi Hendrix",
+          "streamUrl": "https://stream.pcradio.ru/jimi_hendrix-hi"
+        },
+        {
+          "id": "ae-jimi-hendrix",
+          "name": "Jimi Hendrix",
+          "streamUrl": "https://nl4.mystreaming.net/er/hendrix/icecast.audio"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "exa fm",
+      "entries": [
+        {
+          "id": "us-exa-fm",
+          "name": "Exa FM",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/XHGLX.mp3"
+        },
+        {
+          "id": "mx-exa-fm-66c65fce",
+          "name": "Exa FM",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/XHEXA_SC"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "kiss 96.1",
+      "entries": [
+        {
+          "id": "us-kiss-96-1",
+          "name": "KISS 96.1",
+          "streamUrl": "https://stream.revma.ihrhls.com/zc1485"
+        },
+        {
+          "id": "gr-kiss-96-1",
+          "name": "Kiss 96.1",
+          "streamUrl": "https://antares.dribbcast.com/proxy/kiss961?mp=/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "kdlm radio",
+      "entries": [
+        {
+          "id": "us-kdlm-radio",
+          "name": "KDLM Radio",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/KDLMAMAAC.aac"
+        },
+        {
+          "id": "us-kdlm-radio-f76b49de",
+          "name": "KDLM Radio",
+          "streamUrl": "https://18073.live.streamtheworld.com/KDLMAMAAC.aac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "dilemaradio",
+      "entries": [
+        {
+          "id": "us-dilemaradio",
+          "name": "Dilemaradio",
+          "streamUrl": "https://dilemaradiolive.radioca.st/stream"
+        },
+        {
+          "id": "nl-dilemaradio",
+          "name": "Dilemaradio",
+          "streamUrl": "https://dilemaradiolive.radioca.st/mobile"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "gen x radio",
+      "entries": [
+        {
+          "id": "us-gen-x-radio",
+          "name": "Gen X Radio",
+          "streamUrl": "https://stream.revma.ihrhls.com/zc5322/hls.m3u8"
+        },
+        {
+          "id": "gb-gen-x-radio",
+          "name": "Gen X Radio",
+          "streamUrl": "https://s2.radio.co/sf25229e16/listen"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "stevie wonder",
+      "entries": [
+        {
+          "id": "us-stevie-wonder",
+          "name": "Stevie Wonder",
+          "streamUrl": "https://stream.pcradio.ru/stevie_wonder-hi"
+        },
+        {
+          "id": "ae-stevie-wonder",
+          "name": "Stevie Wonder",
+          "streamUrl": "https://streaming.exclusive.radio/er/steviewonder/icecast.audio"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "punk rock demonstration",
+      "entries": [
+        {
+          "id": "us-punk-rock-demonstration",
+          "name": "Punk Rock Demonstration",
+          "streamUrl": "https://radio.punkrockdemo.com/;&type=mp3"
+        },
+        {
+          "id": "us-punk-rock-demonstration-05412426",
+          "name": "Punk Rock Demonstration",
+          "streamUrl": "https://radio.punkrockdemo.com/listen.pls"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "lumiradio - 24/7 unofficial homestuck radio",
+      "entries": [
+        {
+          "id": "us-lumiradio-24-7-unofficial-homestuck-radio",
+          "name": "lumiRadio - 24/7 Unofficial Homestuck Radio",
+          "streamUrl": "https://audio-edge-vqwx4.yyz.g.radiomast.io/abe5f558-c883-47de-91ea-e04a06ed1fd4"
+        },
+        {
+          "id": "ca-lumiradio-24-7-unofficial-homestuck-radio",
+          "name": "lumiRadio - 24/7 Unofficial Homestuck Radio",
+          "streamUrl": "https://audio-edge-hy4wy.blr.d.radiomast.io/abe5f558-c883-47de-91ea-e04a06ed1fd4"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio santa claus",
+      "entries": [
+        {
+          "id": "us-radio-santa-claus",
+          "name": "Radio Santa Claus",
+          "streamUrl": "https://streaming.radiostreamlive.com/radiosantaclaus_devices-low?token=%3C?%20echo%20rand%20(1,200000);%20?%3E"
+        },
+        {
+          "id": "fi-radio-santa-claus",
+          "name": "Radio Santa Claus",
+          "streamUrl": "https://streaming.radiostreamlive.com/radiosantaclaus_devices"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radiomv spanish",
+      "entries": [
+        {
+          "id": "us-radiomv-spanish",
+          "name": "RadioMv spanish",
+          "streamUrl": "https://stream.radiomv.com/spanish/stream.mp3"
+        },
+        {
+          "id": "es-radiomv-spanish",
+          "name": "RadioMV Spanish",
+          "streamUrl": "https://ice.radiomv.co:8440/spanish.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "lf radio",
+      "entries": [
+        {
+          "id": "us-lf-radio",
+          "name": "LF Radio",
+          "streamUrl": "https://www.rtndev.com/streams/lfradio.aac?lat=&lon=&rand=77341"
+        },
+        {
+          "id": "ge-lf-radio",
+          "name": "LF Radio",
+          "streamUrl": "https://rtn.cdnstream1.com/2582_96.aac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "jb radio",
+      "entries": [
+        {
+          "id": "us-jb-radio",
+          "name": "JB Radio",
+          "streamUrl": "https://mediacp.jb-radio.net:8001/aac"
+        },
+        {
+          "id": "ca-jb-radio",
+          "name": "JB Radio",
+          "streamUrl": "https://mediacp.jb-radio.net:8001/live"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "pirate radio",
+      "entries": [
+        {
+          "id": "us-pirate-radio",
+          "name": "Pirate Radio",
+          "streamUrl": "https://stream.zeno.fm/dhy28x6y6bhvv"
+        },
+        {
+          "id": "de-pirate-radio",
+          "name": "Pirate Radio",
+          "streamUrl": "https://frontend.streamonkey.net/fhn-pirateradio/stream/mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "exclusively dire straits",
+      "entries": [
+        {
+          "id": "gb-exclusively-dire-straits",
+          "name": "Exclusively Dire Straits",
+          "streamUrl": "https://streaming.exclusive.radio/er/direstraits/icecast.audio"
+        },
+        {
+          "id": "ae-exclusively-dire-straits",
+          "name": "Exclusively Dire Straits",
+          "streamUrl": "https://2.mystreaming.net/er/direstraits/icecast.audio"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "exclusively supertramp",
+      "entries": [
+        {
+          "id": "gb-exclusively-supertramp",
+          "name": "Exclusively Supertramp",
+          "streamUrl": "https://streaming.exclusive.radio/er/supertramp/icecast.audio"
+        },
+        {
+          "id": "ae-exclusively-supertramp",
+          "name": "Exclusively Supertramp",
+          "streamUrl": "https://nl4.mystreaming.net/er/supertramp/icecast.audio"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "teenage kicks radio",
+      "entries": [
+        {
+          "id": "gb-teenage-kicks-radio",
+          "name": "Teenage Kicks Radio",
+          "streamUrl": "https://onlineradiobox.com/json/fr/teenagekicks/play"
+        },
+        {
+          "id": "fr-teenage-kicks-radio",
+          "name": "Teenage Kicks Radio",
+          "streamUrl": "https://evcast.mediacp.eu:1165/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "house music radio",
+      "entries": [
+        {
+          "id": "gb-house-music-radio",
+          "name": "House Music Radio",
+          "streamUrl": "https://uk4-vn.mixstream.net/8128/listen.mp3"
+        },
+        {
+          "id": "bg-house-music-radio",
+          "name": "House Music Radio",
+          "streamUrl": "https://home.radionrg.com/hls/housemusic/live.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio x",
+      "entries": [
+        {
+          "id": "gb-radio-x",
+          "name": "Radio X",
+          "streamUrl": "https://media-ssl.musicradio.com/RadioXLondonMP3"
+        },
+        {
+          "id": "gr-radio-x",
+          "name": "Radio X",
+          "streamUrl": "https://n07.radiojar.com/yv5xu5h7zwwtv?rj-ttl=5&rj-tok=AAABeMgD8O4ADk3iEmxYJju41w"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio central 24",
+      "entries": [
+        {
+          "id": "gb-radio-central-24",
+          "name": "Radio Central 24",
+          "streamUrl": "https://casper.radioca.st/;"
+        },
+        {
+          "id": "in-radio-central-24",
+          "name": "Radio Central 24",
+          "streamUrl": "https://casper.radioca.st/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "easy radio",
+      "entries": [
+        {
+          "id": "gb-easy-radio",
+          "name": "Easy Radio",
+          "streamUrl": "https://listen-nation.sharp-stream.com/breezyradiouk.mp3"
+        },
+        {
+          "id": "bg-easy-radio",
+          "name": "Easy Radio",
+          "streamUrl": "https://live.easyradio.bg/flac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "boom light",
+      "entries": [
+        {
+          "id": "gb-boom-light",
+          "name": "Boom Light",
+          "streamUrl": "https://listen-boomradio.sharp-stream.com/65_boom_light_128_mp3"
+        },
+        {
+          "id": "gb-boom-light-b803c912",
+          "name": "Boom Light",
+          "streamUrl": "https://listen-boomradio.sharp-stream.com/65_boom_light_128_aac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "chocolate radio",
+      "entries": [
+        {
+          "id": "gb-chocolate-radio",
+          "name": "Chocolate Radio",
+          "streamUrl": "https://stream.radio.co/sa7336b687/listen?ver=712690"
+        },
+        {
+          "id": "gb-chocolate-radio-9d03007b",
+          "name": "Chocolate Radio",
+          "streamUrl": "https://stream.radio.co/sa7336b687/low"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "sunrise radio",
+      "entries": [
+        {
+          "id": "gb-sunrise-radio",
+          "name": "Sunrise Radio",
+          "streamUrl": "https://direct.sharp-stream.com/sunriseradio.mp3"
+        },
+        {
+          "id": "in-sunrise-radio",
+          "name": "Sunrise Radio",
+          "streamUrl": "https://stream1.themediasite.co.uk/8070/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "riverside radio",
+      "entries": [
+        {
+          "id": "gb-riverside-radio",
+          "name": "Riverside Radio",
+          "streamUrl": "https://streaming04.liveboxstream.uk/proxy/mtunstil?mp=/stream"
+        },
+        {
+          "id": "nl-riverside-radio",
+          "name": "Riverside Radio",
+          "streamUrl": "https://stream.and-stuff.nl:8443/riverside"
+        },
+        {
+          "id": "nl-riverside-radio-3118034f",
+          "name": "Riverside Radio",
+          "streamUrl": "https://stream.and-stuff.nl:8443/riversideMp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "one world radio",
+      "entries": [
+        {
+          "id": "gb-one-world-radio",
+          "name": "One World Radio",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/OWR_INTERNATIONAL.mp3"
+        },
+        {
+          "id": "ro-one-world-radio",
+          "name": "One World Radio",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/OWR_INTERNATIONAL_ADP"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "ace cafe radio",
+      "entries": [
+        {
+          "id": "gb-ace-cafe-radio",
+          "name": "Ace Cafe Radio",
+          "streamUrl": "https://listen.radioking.com/radio/69079/stream/106852"
+        },
+        {
+          "id": "gb-ace-cafe-radio-1c23517c",
+          "name": "Ace Cafe Radio",
+          "streamUrl": "https://www.radioking.com/play/ace-cafe"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "global pride",
+      "entries": [
+        {
+          "id": "gb-global-pride",
+          "name": "Global Pride",
+          "streamUrl": "https://media-sov.musicradio.com/Global-M-Pride"
+        },
+        {
+          "id": "gb-global-pride-1f64d93d",
+          "name": "Global Pride",
+          "streamUrl": "https://media-the.musicradio.com/Global-M-Pride"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "arena radio",
+      "entries": [
+        {
+          "id": "gb-arena-radio",
+          "name": "Arena Radio",
+          "streamUrl": "https://stream3.themediasite.co.uk:8318/stream"
+        },
+        {
+          "id": "ru-arena-radio",
+          "name": "Arena Radio",
+          "streamUrl": "https://live.arenaradio.ru/stream"
+        },
+        {
+          "id": "me-arena-radio",
+          "name": "Arena Radio",
+          "streamUrl": "https://radio.elmag.me/arena.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "shine radio",
+      "entries": [
+        {
+          "id": "gb-shine-radio",
+          "name": "Shine Radio",
+          "streamUrl": "https://listen-petersfield.sharp-stream.com/petersfield.aac"
+        },
+        {
+          "id": "nl-shine-radio",
+          "name": "Shine Radio",
+          "streamUrl": "https://caster05.streampakket.com/proxy/9320/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "rfi kiswahili",
+      "entries": [
+        {
+          "id": "fr-rfi-kiswahili",
+          "name": "RFI Kiswahili",
+          "streamUrl": "https://rfiswahili96k.ice.infomaniak.ch/rfiswahili-96k.mp3"
+        },
+        {
+          "id": "ug-rfi-kiswahili",
+          "name": "RFI Kiswahili",
+          "streamUrl": "https://rfienswahili64k.ice.infomaniak.ch/rfienswahili-64.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio classique",
+      "entries": [
+        {
+          "id": "fr-radio-classique",
+          "name": "Radio Classique",
+          "streamUrl": "https://str0.creacast.com/classique1"
+        },
+        {
+          "id": "fr-radio-classique-8890f793",
+          "name": "Radio Classique",
+          "streamUrl": "https://radioclassique.ice.infomaniak.ch/radioclassique-high.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio star",
+      "entries": [
+        {
+          "id": "fr-radio-star",
+          "name": "Radio STAR",
+          "streamUrl": "https://listen.radioking.com/radio/9728/stream/20210"
+        },
+        {
+          "id": "be-radio-star",
+          "name": "Radio STAR",
+          "streamUrl": "https://stream.radiostar.be/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "hits 1",
+      "entries": [
+        {
+          "id": "fr-hits-1",
+          "name": "Hits 1",
+          "streamUrl": "https://radio12.pro-fhi.net/live/Hits%201%20radio"
+        },
+        {
+          "id": "fr-hits-1-0b09090d",
+          "name": "Hits 1",
+          "streamUrl": "https://radio7.pro-fhi.net/radio/9006/hits1hd"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "jazz",
+      "entries": [
+        {
+          "id": "fr-jazz",
+          "name": "Jazz",
+          "streamUrl": "https://jazz-wr18.ice.infomaniak.ch/jazz-wr18-128.mp3"
+        },
+        {
+          "id": "se-jazz",
+          "name": "Jazz",
+          "streamUrl": "https://mml1.prostream.se/listen/jazz/radio.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio orient",
+      "entries": [
+        {
+          "id": "fr-radio-orient",
+          "name": "Radio Orient",
+          "streamUrl": "https://stream.rcs.revma.com/7hnrkawf4p8uv.mp3"
+        },
+        {
+          "id": "de-radio-orient",
+          "name": "Radio Orient",
+          "streamUrl": "https://arabica.streamabc.net/76-radioorient-mp3-256-1050481"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "slow radio",
+      "entries": [
+        {
+          "id": "fr-slow-radio",
+          "name": "Slow Radio",
+          "streamUrl": "https://play.radioking.io/slow-radio/601307"
+        },
+        {
+          "id": "nl-slow-radio",
+          "name": "Slow Radio",
+          "streamUrl": "https://stream1.slowradio.com/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "big bang radio",
+      "entries": [
+        {
+          "id": "fr-big-bang-radio",
+          "name": "BIG BANG RADIO",
+          "streamUrl": "https://streams.radiomast.io/2b410ada-8653-40aa-a654-3e8954cf4a4d"
+        },
+        {
+          "id": "ar-big-bang-radio",
+          "name": "Big Bang Radio",
+          "streamUrl": "https://radios2.tecnosoul.com.ar:8001/bigbang"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "wave radio",
+      "entries": [
+        {
+          "id": "fr-wave-radio",
+          "name": "Wave Radio",
+          "streamUrl": "https://s34.myradiostream.com/:12340/listen.mp3"
+        },
+        {
+          "id": "ro-wave-radio",
+          "name": "Wave Radio",
+          "streamUrl": "https://s2.ssl-stream.com/listen/wave_radio/radio.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "nostalgie",
+      "entries": [
+        {
+          "id": "fr-nostalgie",
+          "name": "Nostalgie",
+          "streamUrl": "https://streaming.nrjaudio.fm/ouwgwqsk6j4d"
+        },
+        {
+          "id": "de-nostalgie",
+          "name": "Nostalgie",
+          "streamUrl": "https://frontend.streamonkey.net/nostalgie-live/stream/mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio de noël",
+      "entries": [
+        {
+          "id": "fr-radio-de-noel",
+          "name": "Radio de Noël ",
+          "streamUrl": "https://live1.jupinfo.fr:8443/radiodenoel"
+        },
+        {
+          "id": "fr-radio-de-noel-4008668f",
+          "name": "Radio de Noël",
+          "streamUrl": "https://stream1.jupinfo.fr:8443/radiodenoel"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio contact",
+      "entries": [
+        {
+          "id": "fr-radio-contact",
+          "name": "Radio Contact",
+          "streamUrl": "https://n22a-eu.rcs.revma.com/6gygqc1gy7uvv"
+        },
+        {
+          "id": "bg-radio-contact",
+          "name": "Radio Contact",
+          "streamUrl": "https://listen.radioking.com/radio/490082/stream/546899"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "sensuelle radio",
+      "entries": [
+        {
+          "id": "fr-sensuelle-radio",
+          "name": "sensuelle radio",
+          "streamUrl": "https://radio10.pro-fhi.net/live/SENSUELLERADIO"
+        },
+        {
+          "id": "mu-sensuelle-radio",
+          "name": "SENSUELLE RADIO",
+          "streamUrl": "https://forwardmystream.com/sensuelleradio"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "camp radio",
+      "entries": [
+        {
+          "id": "fr-camp-radio",
+          "name": "CAMP Radio",
+          "streamUrl": "https://listen.camp/campradio.ogg"
+        },
+        {
+          "id": "ps-camp-radio",
+          "name": "CAMP Radio",
+          "streamUrl": "https://listen.camp:9000/campradio.ogg"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio rock",
+      "entries": [
+        {
+          "id": "it-radio-rock",
+          "name": "Radio Rock",
+          "streamUrl": "https://onlineradiobox.com/json/it/radiorock/play?platform=web"
+        },
+        {
+          "id": "fi-radio-rock",
+          "name": "Radio Rock",
+          "streamUrl": "https://aud-stream-radiorock.nm-elemental.nelonenmedia.fi/playlist-256000.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "musica jazz radio",
+      "entries": [
+        {
+          "id": "it-musica-jazz-radio",
+          "name": "Musica Jazz Radio",
+          "streamUrl": "https://ice16.fluidstream.net/mjr.mp3"
+        },
+        {
+          "id": "it-musica-jazz-radio-02ffc34b",
+          "name": "Musica Jazz Radio",
+          "streamUrl": "https://ice03.fluidstream.net/mjr.aac?FLID=1"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio hit fm",
+      "entries": [
+        {
+          "id": "it-radio-hit-fm",
+          "name": "Radio Hit FM",
+          "streamUrl": "https://stream1.xdevel.com/audio0s975632-244/stream/icecast.audio"
+        },
+        {
+          "id": "ba-radio-hit-fm",
+          "name": "Radio HIT FM",
+          "streamUrl": "https://webtvstream.bhtelecom.ba/radio_hit_fm.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "aci radio",
+      "entries": [
+        {
+          "id": "it-aci-radio",
+          "name": "Aci Radio",
+          "streamUrl": "https://sphera.fluidstream.eu/company.mp3?FLID=1"
+        },
+        {
+          "id": "it-aci-radio-9c285c07",
+          "name": "ACI RADIO",
+          "streamUrl": "https://nr7.newradio.it:18003/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio lady",
+      "entries": [
+        {
+          "id": "it-radio-lady",
+          "name": "Radio Lady",
+          "streamUrl": "https://ice05.fluidstream.net/fluid0507.mp3?FLID=1&type=.mp3"
+        },
+        {
+          "id": "gr-radio-lady",
+          "name": "Radio Lady",
+          "streamUrl": "https://webinternetradios.eu:48830/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "happy station",
+      "entries": [
+        {
+          "id": "it-happy-station",
+          "name": "Happy Station ",
+          "streamUrl": "https://rtr99.fluidstream.eu/rtr99_happy_hq.aac"
+        },
+        {
+          "id": "pl-happy-station",
+          "name": "Happy Station",
+          "streamUrl": "https://s3.slotex.pl/shoutcast/7496/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio 2000",
+      "entries": [
+        {
+          "id": "it-radio-2000",
+          "name": "Radio 2000",
+          "streamUrl": "https://stream.radio2000.it/"
+        },
+        {
+          "id": "ve-radio-2000",
+          "name": "Radio 2000",
+          "streamUrl": "https://streaming.adclichosting.com:8030/radio2000.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "party radio",
+      "entries": [
+        {
+          "id": "it-party-radio",
+          "name": "Party Radio",
+          "streamUrl": "https://stream12.top-ix.org/partygroove2"
+        },
+        {
+          "id": "sk-party-radio",
+          "name": "Party Radio",
+          "streamUrl": "https://mpc1.mediacp.eu/stream/partyradio"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio libertad",
+      "entries": [
+        {
+          "id": "es-radio-libertad",
+          "name": "Radio Libertad",
+          "streamUrl": "https://server9.emitironline.com:19482/stream?cb=1708722000350"
+        },
+        {
+          "id": "es-radio-libertad-77f4cd17",
+          "name": "Radio Libertad",
+          "streamUrl": "https://ice42.securenetsystems.net/KDAE"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "jazz radio spain",
+      "entries": [
+        {
+          "id": "es-jazz-radio-spain",
+          "name": "Jazz Radio Spain",
+          "streamUrl": "https://stream.tunerplay.com/radio/8020/jazzradiospain.mp3"
+        },
+        {
+          "id": "es-jazz-radio-spain-bacc4b76",
+          "name": "Jazz Radio Spain",
+          "streamUrl": "https://server5.mediasector.es:8020/jazzradiospain.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "inolvidable fm",
+      "entries": [
+        {
+          "id": "es-inolvidable-fm",
+          "name": "Inolvidable FM",
+          "streamUrl": "https://uk1.streamingpulse.com/ssl/inolvidablefm"
+        },
+        {
+          "id": "uy-inolvidable-fm",
+          "name": "INOLVIDABLE FM",
+          "streamUrl": "https://inolvidable-1.nty.uy/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "smooth jazz classics by cloud jazz",
+      "entries": [
+        {
+          "id": "es-smooth-jazz-classics-by-cloud-jazz",
+          "name": "Smooth Jazz Classics by Cloud Jazz",
+          "streamUrl": "https://stream-57.zeno.fm/w3phtkukfg8uv?zs=90IfdbcARnS99_b8RaX9sQ&acu-uid=736851429618&dyn-uid=&an-uid=0&mm-uid=a42b63d5-b9eb-4f00-9692-60c79195c3a4&triton-uid=cookie%3A7e5c2d9b-9c30-46f6-b8b4-0354fd4dd340&amb-uid=3916839388731891724"
+        },
+        {
+          "id": "es-smooth-jazz-classics-by-cloud-jazz-156faf2c",
+          "name": "Smooth Jazz Classics by Cloud Jazz",
+          "streamUrl": "https://stream.zeno.fm/w3phtkukfg8uv"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "nostalgia",
+      "entries": [
+        {
+          "id": "es-nostalgia",
+          "name": "Nostalgia",
+          "streamUrl": "https://azura.abcorp.es/listen/nostalgia/live"
+        },
+        {
+          "id": "fi-nostalgia",
+          "name": "Nostalgia",
+          "streamUrl": "https://stream-redirect.bauermedia.fi/nostalgia/nostalgia_64.aac?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "los40",
+      "entries": [
+        {
+          "id": "es-los40-2",
+          "name": "LOS40",
+          "streamUrl": "https://20103.live.streamtheworld.com/LOS40_SC"
+        },
+        {
+          "id": "mx-los40",
+          "name": "LOS40",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/LOS40_MEXICO_SC"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "rocksateliteone",
+      "entries": [
+        {
+          "id": "es-rocksateliteone",
+          "name": "rockSateliteONE",
+          "streamUrl": "https://stream.tunerplay.com/radio/8050/rocksateliteradio.mp3"
+        },
+        {
+          "id": "es-rocksateliteone-533dc341",
+          "name": "rockSateliteONE",
+          "streamUrl": "https://server5.mediasector.es:8050/rocksatelite.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "cadena ser radio san sebastián",
+      "entries": [
+        {
+          "id": "es-cadena-ser-radio-san-sebastian",
+          "name": "Cadena SER Radio San Sebastián",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/SER_SAN_SEBASTIAN.mp3"
+        },
+        {
+          "id": "es-cadena-ser-radio-san-sebastian-19e06476",
+          "name": "Cadena SER Radio San Sebastián",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/SER_ASO_PONTEVEDRAAAC.aac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "golden oldies radio",
+      "entries": [
+        {
+          "id": "nl-golden-oldies-radio",
+          "name": "Golden Oldies Radio",
+          "streamUrl": "https://sonic.magicdragon.nl/8034/stream"
+        },
+        {
+          "id": "nl-golden-oldies-radio-0b151d75",
+          "name": "Golden Oldies Radio",
+          "streamUrl": "https://sonic.magicdragon.nl/8022/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "kink distortion",
+      "entries": [
+        {
+          "id": "nl-kink-distortion",
+          "name": "KINK DISTORTION",
+          "streamUrl": "https://22723.live.streamtheworld.com/KINK_DISTORTIONAAC_SC"
+        },
+        {
+          "id": "nl-kink-distortion-7b64de03",
+          "name": "KINK Distortion",
+          "streamUrl": "https://22723.live.streamtheworld.com/KINK_DISTORTION_SC"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "ice radio",
+      "entries": [
+        {
+          "id": "nl-ice-radio",
+          "name": "  ICE RADIO",
+          "streamUrl": "https://stream.iceradio.nl/iceradiohq?ver=30283"
+        },
+        {
+          "id": "ca-ice-radio",
+          "name": "Ice Radio",
+          "streamUrl": "https://streamer.radio.co/s8d485e12a/listen"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "c-dance retro",
+      "entries": [
+        {
+          "id": "nl-c-dance-retro",
+          "name": "C-Dance RETRO",
+          "streamUrl": "https://s45.myradiostream.com/18304/;?type=http&nocache=1728303081?0.29796721986116603"
+        },
+        {
+          "id": "be-c-dance-retro",
+          "name": "c-dance retro",
+          "streamUrl": "https://s45.myradiostream.com/:18304/;"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio hulchul",
+      "entries": [
+        {
+          "id": "nl-radio-hulchul",
+          "name": "Radio Hulchul",
+          "streamUrl": "https://everestcast.live-streams.nl:18010/stream"
+        },
+        {
+          "id": "nl-radio-hulchul-cc559c9c",
+          "name": "Radio Hulchul",
+          "streamUrl": "https://everestcast.live-streams.nl:18015/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "vibe radio",
+      "entries": [
+        {
+          "id": "nl-vibe-radio",
+          "name": "Vibe Radio",
+          "streamUrl": "https://stream.viberadio.nl/viberadio"
+        },
+        {
+          "id": "ph-vibe-radio",
+          "name": "Vibe Radio",
+          "streamUrl": "https://stream.zeno.fm/zf0ac4raqy8uv"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio sangam",
+      "entries": [
+        {
+          "id": "nl-radio-sangam",
+          "name": "Radio Sangam",
+          "streamUrl": "https://mediaserv68.live-streams.nl:8067/stream"
+        },
+        {
+          "id": "in-radio-sangam",
+          "name": "Radio Sangam",
+          "streamUrl": "https://streaming.radio.co/s58948a3f0/listen"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "classics radio",
+      "entries": [
+        {
+          "id": "nl-classics-radio",
+          "name": "Classics Radio",
+          "streamUrl": "https://vriezenet.nl:11050/mp3"
+        },
+        {
+          "id": "nl-classics-radio-fdea0da8",
+          "name": "Classics Radio",
+          "streamUrl": "https://a4.asurahosting.com:7080/radio.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio eska opole",
+      "entries": [
+        {
+          "id": "pl-radio-eska-opole",
+          "name": "Radio Eska Opole",
+          "streamUrl": "https://waw.ic.smcdn.pl/2120-1.mp3"
+        },
+        {
+          "id": "pl-radio-eska-opole-b0dfbf87",
+          "name": "Radio Eska Opole",
+          "streamUrl": "https://ic2.smcdn.pl/2120-1.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "park fm",
+      "entries": [
+        {
+          "id": "pl-park-fm",
+          "name": "Park FM",
+          "streamUrl": "https://sluchaj2.radiopark.biz.pl:8443/stream"
+        },
+        {
+          "id": "hu-park-fm",
+          "name": "Park FM",
+          "streamUrl": "https://s03.diazol.hu:7142/stream.mp3"
         }
       ]
     },
@@ -59,6 +2930,438 @@
     },
     {
       "kind": "name",
+      "key": "radio 100",
+      "entries": [
+        {
+          "id": "pl-radio-100",
+          "name": "RADIO 100",
+          "streamUrl": "https://s3.slotex.pl:7278/stream/"
+        },
+        {
+          "id": "pe-radio-100",
+          "name": "Radio 100",
+          "streamUrl": "https://cast6.asurahosting.com/proxy/xezar/;"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio manantial de vida",
+      "entries": [
+        {
+          "id": "ar-radio-manantial-de-vida",
+          "name": "Radio Manantial De Vida",
+          "streamUrl": "https://genexservicios.com:8300/;?1733409881282"
+        },
+        {
+          "id": "cl-radio-manantial-de-vida",
+          "name": "RADIO MANANTIAL DE VIDA",
+          "streamUrl": "https://audio3.tustreaming.cl/7080/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "gospel fm",
+      "entries": [
+        {
+          "id": "ar-gospel-fm",
+          "name": "Gospel FM",
+          "streamUrl": "https://ohradio.cc/8092/stream%22%20type=%22audio/mpeg"
+        },
+        {
+          "id": "br-gospel-fm",
+          "name": "Gospel FM",
+          "streamUrl": "https://stream3.svrdedicado.org/8070/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "fm del sol 91.1",
+      "entries": [
+        {
+          "id": "ar-fm-del-sol-91-1",
+          "name": "FM del Sol 91.1",
+          "streamUrl": "https://streaming.gostreaming.com.ar:10877/stream"
+        },
+        {
+          "id": "ar-fm-del-sol-91-1-14e4e627",
+          "name": "FM del Sol 91.1",
+          "streamUrl": "https://streaming.radiosenlinea.com.ar/9026/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "fm digital 100.1",
+      "entries": [
+        {
+          "id": "ar-fm-digital-100-1",
+          "name": "FM Digital 100.1",
+          "streamUrl": "https://streaming01.radiosenlinea.com.ar:10346/stream"
+        },
+        {
+          "id": "uy-fm-digital-100-1",
+          "name": "FM Digital 100.1",
+          "streamUrl": "https://sh1.radioonlinehd.com:8001/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio m",
+      "entries": [
+        {
+          "id": "ar-radio-m",
+          "name": "Radio M",
+          "streamUrl": "https://streaming1.locucionar.com/proxy/radioeme?mp=/stream"
+        },
+        {
+          "id": "dk-radio-m",
+          "name": "Radio M",
+          "streamUrl": "https://radioserver.dk/radiom"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "good vibes",
+      "entries": [
+        {
+          "id": "au-good-vibes",
+          "name": "Good Vibes",
+          "streamUrl": "https://wz7liw.scahw.com.au/live/7goodvibes_128.stream/playlist.m3u8?"
+        },
+        {
+          "id": "au-good-vibes-4635abdb",
+          "name": "Good Vibes",
+          "streamUrl": "https://sa46.scastream.com.au/live/7goodvibes_128.stream/playlist.m3u8?"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "hit southwest",
+      "entries": [
+        {
+          "id": "au-hit-southwest",
+          "name": "hit Southwest",
+          "streamUrl": "https://wz6liw.scahw.com.au/live/6bun_128.stream/playlist.m3u8"
+        },
+        {
+          "id": "au-hit-southwest-770ff078",
+          "name": "hit Southwest",
+          "streamUrl": "https://legacy.scahw.com.au/6bun_32"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "kids hits",
+      "entries": [
+        {
+          "id": "au-kids-hits",
+          "name": "Kids Hits",
+          "streamUrl": "https://wz0liw.scahw.com.au/live/kids-hits.stream/playlist.m3u8?"
+        },
+        {
+          "id": "ru-kids-hits",
+          "name": "KIDS HITS",
+          "streamUrl": "https://listen4.myradio24.com/kidshits"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "super fm",
+      "entries": [
+        {
+          "id": "tr-super-fm",
+          "name": "Super Fm",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/SUPER_FM_SC"
+        },
+        {
+          "id": "ro-super-fm",
+          "name": "Super FM",
+          "streamUrl": "https://live.superfm.ro/stream.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "habertürk radyo",
+      "entries": [
+        {
+          "id": "tr-haberturk-radyo",
+          "name": "Habertürk Radyo",
+          "streamUrl": "https://haberturkradyo.radyotvonline.net/haberturkradyo"
+        },
+        {
+          "id": "tr-haberturk-radyo-e86785a0",
+          "name": "Habertürk Radyo",
+          "streamUrl": "https://ciner.daioncdn.net/haberturktv/haberturktv_1080p.m3u8?sid=67dy0kx38l3a&app=c98ab0b0-50cc-495b-bb37-778e91f5ff5b&ce=3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "kafa radyo",
+      "entries": [
+        {
+          "id": "tr-kafa-radyo",
+          "name": "Kafa Radyo",
+          "streamUrl": "https://moondigitalmaster.radyotvonline.net/kafaradyo/playlist.m3u8"
+        },
+        {
+          "id": "tr-kafa-radyo-50c77d00",
+          "name": "Kafa Radyo",
+          "streamUrl": "https://radyofitrat.radyotvonline.net/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radyo viva",
+      "entries": [
+        {
+          "id": "tr-radyo-viva",
+          "name": "Radyo Viva",
+          "streamUrl": "https://moondigitaledge.radyotvonline.net/radyoviva/playlist.m3u8"
+        },
+        {
+          "id": "tr-radyo-viva-5c2e0bf5",
+          "name": "radyo viva",
+          "streamUrl": "https://radyoviva.radyotvonline.net/radyovivaaac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "power dance",
+      "entries": [
+        {
+          "id": "tr-power-dance",
+          "name": "Power dance",
+          "streamUrl": "https://listen.powerapp.com.tr/powerdance/abr/powerdance/128/playlist.m3u8"
+        },
+        {
+          "id": "tr-power-dance-bf106bfa",
+          "name": "Power Dance",
+          "streamUrl": "https://listen.powerapp.com.tr/powerdance/mpeg/icecast.audio"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radyo gol",
+      "entries": [
+        {
+          "id": "tr-radyo-gol",
+          "name": "Radyo Gol",
+          "streamUrl": "https://moondigitaledge.radyotvonline.net/radyogol/playlist.m3u8"
+        },
+        {
+          "id": "tr-radyo-gol-87c44288",
+          "name": "Radyo Gol",
+          "streamUrl": "https://edge1.radyotvonline.net/shoutcast/play/radyogol"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radyo d",
+      "entries": [
+        {
+          "id": "tr-radyo-d",
+          "name": "Radyo D",
+          "streamUrl": "https://moondigitaledge2.radyotvonline.net/radyod/playlist.m3u8"
+        },
+        {
+          "id": "tr-radyo-d-e5e4f77a",
+          "name": "RADYO D",
+          "streamUrl": "https://radyo.duhnet.tv/radyod"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "x radio",
+      "entries": [
+        {
+          "id": "tr-x-radio",
+          "name": "X Radio",
+          "streamUrl": "https://stream.xradio.com.tr:8770/stream"
+        },
+        {
+          "id": "ro-x-radio",
+          "name": "X Radio",
+          "streamUrl": "https://stream.zeno.fm/rd0bc4zkbm0uv"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "bayram fm",
+      "entries": [
+        {
+          "id": "tr-bayram-fm",
+          "name": "Bayram FM",
+          "streamUrl": "https://sslyayin.netyayin.net:10962/320.mp3"
+        },
+        {
+          "id": "tr-bayram-fm-cc9c0c3a",
+          "name": "Bayram FM",
+          "streamUrl": "https://sslyayin.netyayin.net/3442/stream/;stream.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio kasih",
+      "entries": [
+        {
+          "id": "id-radio-kasih",
+          "name": "Radio Kasih",
+          "streamUrl": "https://onlineradiobox.com/json/id/kasih/play"
+        },
+        {
+          "id": "id-radio-kasih-045213c5",
+          "name": "Radio Kasih",
+          "streamUrl": "https://hello.citrus3.com:2020/stream/radiokasih"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "la voz de jesús",
+      "entries": [
+        {
+          "id": "co-la-voz-de-jesus",
+          "name": "La voz de Jesús",
+          "streamUrl": "https://stream-157.zeno.fm/phybdd3ph98uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJwaHliZGQzcGg5OHV2IiwiaG9zdCI6InN0cmVhbS0xNTcuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiYXE4b3lRR2JUM2lwQ0lXRFRyYVJ2dyIsImlhdCI6MTc2ODQ0MzI5NiwiZXhwIjoxNzY4NDQzMzU2fQ.1IfeO9gxpKmOevHGtj8eKITAzLJOjTETwxh2itMHBAM"
+        },
+        {
+          "id": "co-la-voz-de-jesus-f055c571",
+          "name": "La Voz de Jesús",
+          "streamUrl": "https://stream-156.zeno.fm/phybdd3ph98uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJwaHliZGQzcGg5OHV2IiwiaG9zdCI6InN0cmVhbS0xNTYuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoibl9MaFNpOG9TZ3lQU1lwT01sRDJmQSIsImlhdCI6MTc2ODQ1MTQzOCwiZXhwIjoxNzY4NDUxNDk4fQ.0RO-v4KASByx3lmiCsdCxP6vVzRNCR9_w1U8gapnZsA"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "salsa y mas cali",
+      "entries": [
+        {
+          "id": "co-salsa-y-mas-cali",
+          "name": "Salsa y mas Cali",
+          "streamUrl": "https://stream.zeno.fm/42w3pfn7pzzuv"
+        },
+        {
+          "id": "co-salsa-y-mas-cali-4e101e7d",
+          "name": "salsa y mas Cali",
+          "streamUrl": "https://stream-161.zeno.fm/4ps00gn7pzzuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiI0cHMwMGduN3B6enV2IiwiaG9zdCI6InN0cmVhbS0xNjEuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6Ik5WTWVndlNJVFg2eTdYakdib3pqdXciLCJpYXQiOjE3MzIyMjE2MTUsImV4cCI6MTczMjIyMTY3NX0.qBrmRbXfSRxqcx-xpK0Zk1uRbJWKSXDLxlUhd-Pw37Y"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "viejitas pero bonitas radio",
+      "entries": [
+        {
+          "id": "co-viejitas-pero-bonitas-radio",
+          "name": "Viejitas Pero Bonitas Radio",
+          "streamUrl": "https://stream.zeno.fm/t4pj1qaktrwtv"
+        },
+        {
+          "id": "co-viejitas-pero-bonitas-radio-aed33022",
+          "name": "Viejitas pero Bonitas Radio",
+          "streamUrl": "https://stream.zeno.fm/fpzw6c6ootzvv"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "amor stereo",
+      "entries": [
+        {
+          "id": "co-amor-stereo",
+          "name": "Amor Stereo",
+          "streamUrl": "https://stream.zeno.fm/aycnet07h0hvv"
+        },
+        {
+          "id": "co-amor-stereo-ade3ee89",
+          "name": "Amor Stereo",
+          "streamUrl": "https://stream.zeno.fm/0va78s07h0hvv"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "betuliana stereo 107.2 fm",
+      "entries": [
+        {
+          "id": "co-betuliana-stereo-107-2-fm",
+          "name": "Betuliana Stereo 107.2 FM",
+          "streamUrl": "https://stream.zeno.fm/gh9xcb73mfhvv"
+        },
+        {
+          "id": "co-betuliana-stereo-107-2-fm-89247a65",
+          "name": "Betuliana Stereo 107.2 FM",
+          "streamUrl": "https://stream.zeno.fm/u1rp10yuis1vv"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "ewtn philippines",
+      "entries": [
+        {
+          "id": "ph-ewtn-philippines",
+          "name": "EWTN Philippines",
+          "streamUrl": "https://ewtn-sgrewind.streamguys1.com/sgrewind/philippines/playlist.m3u8"
+        },
+        {
+          "id": "ph-ewtn-philippines-fd1645c1",
+          "name": "EWTN Philippines",
+          "streamUrl": "https://ewtn-ice.streamguys1.com/philippines-aac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "fresh fm",
+      "entries": [
+        {
+          "id": "ph-fresh-fm",
+          "name": "FReSH FM",
+          "streamUrl": "https://s36.radiolize.com/radio/8170/radio.mp3"
+        },
+        {
+          "id": "ro-fresh-fm",
+          "name": "Fresh FM",
+          "streamUrl": "https://radio.onlinehost.ro/listen/freshfm/radio.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "love radio manila",
+      "entries": [
+        {
+          "id": "ph-love-radio-manila",
+          "name": "Love Radio Manila",
+          "streamUrl": "https://azura.loveradio.com.ph/listen/love_radio_manila/radio.mp3"
+        },
+        {
+          "id": "ph-love-radio-manila-e29e370f",
+          "name": "Love Radio Manila",
+          "streamUrl": "https://a8.asurahosting.com:6820/radio.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
       "key": "jurnal fm",
       "entries": [
         {
@@ -70,6 +3373,651 @@
           "id": "md-jurnal-fm",
           "name": "Jurnal Fm",
           "streamUrl": "https://audio.jurnalfm.md/hq"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "moj radio",
+      "entries": [
+        {
+          "id": "rs-moj-radio",
+          "name": "Moj Radio",
+          "streamUrl": "https://eu4.fastcast4u.com/proxy/svidakov?mp=/1"
+        },
+        {
+          "id": "ba-moj-radio",
+          "name": "Moj Radio",
+          "streamUrl": "https://webtvstream.bhtelecom.ba/moj_radio.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio s ex yu",
+      "entries": [
+        {
+          "id": "rs-radio-s-ex-yu",
+          "name": "Radio S EX YU",
+          "streamUrl": "https://stream.radios.rs:9042/stream"
+        },
+        {
+          "id": "rs-radio-s-ex-yu-bb1d8d18",
+          "name": "Radio S EX YU",
+          "streamUrl": "https://53a7ed211fc32.streamlock.net/asmedia/radio_s_ex_yu/playlist.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "original fast radio",
+      "entries": [
+        {
+          "id": "rs-original-fast-radio",
+          "name": "Original Fast Radio",
+          "streamUrl": "https://az-de-01.worldradiobeat.com/listen/originalfastradio/live"
+        },
+        {
+          "id": "rs-original-fast-radio-7685903c",
+          "name": "Original Fast Radio",
+          "streamUrl": "https://az-de-01.worldradiobeat.com:8000/live"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio s4",
+      "entries": [
+        {
+          "id": "rs-radio-s4",
+          "name": "Radio S4",
+          "streamUrl": "https://stream.radios.rs:9006/;"
+        },
+        {
+          "id": "rs-radio-s4-871a586b",
+          "name": "Radio S4",
+          "streamUrl": "https://53a7ed211fc32.streamlock.net/asmedia/gradski/playlist.m3u8"
+        },
+        {
+          "id": "rs-radio-s4-16844f50",
+          "name": "Radio S4",
+          "streamUrl": "https://53be5ef2d13aa.streamlock.net/asmedia/gradski/playlist.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio s folk stars",
+      "entries": [
+        {
+          "id": "rs-radio-s-folk-stars",
+          "name": "Radio S Folk Stars",
+          "streamUrl": "https://stream.radios.rs:9024/stream"
+        },
+        {
+          "id": "rs-radio-s-folk-stars-d19af10d",
+          "name": "Radio S Folk Stars",
+          "streamUrl": "https://53a7ed211fc32.streamlock.net/asmedia/radio_s_lounge/playlist.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio s jazz",
+      "entries": [
+        {
+          "id": "rs-radio-s-jazz",
+          "name": "Radio S Jazz",
+          "streamUrl": "https://stream.radios.rs:9076/stream"
+        },
+        {
+          "id": "rs-radio-s-jazz-ce295dce",
+          "name": "Radio S Jazz",
+          "streamUrl": "https://53be5ef2d13aa.streamlock.net/asmedia/s_jazz/playlist.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio s kids",
+      "entries": [
+        {
+          "id": "rs-radio-s-kids",
+          "name": "Radio S Kids",
+          "streamUrl": "https://stream.radios.rs:9022/stream"
+        },
+        {
+          "id": "rs-radio-s-kids-7fe1ef78",
+          "name": "Radio S Kids",
+          "streamUrl": "https://53be5ef2d13aa.streamlock.net/asmedia/radio_s_kids/playlist.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio s cafe",
+      "entries": [
+        {
+          "id": "rs-radio-s-cafe",
+          "name": "Radio S Cafe",
+          "streamUrl": "https://stream.radios.rs:9012/stream"
+        },
+        {
+          "id": "rs-radio-s-cafe-fd490f13",
+          "name": "Radio S Cafe",
+          "streamUrl": "https://53be5ef2d13aa.streamlock.net/asmedia/radio_s_cafe/playlist.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio s classic",
+      "entries": [
+        {
+          "id": "rs-radio-s-classic",
+          "name": "Radio S Classic",
+          "streamUrl": "https://stream.radios.rs:9074/stream"
+        },
+        {
+          "id": "rs-radio-s-classic-38b35eae",
+          "name": "Radio S Classic",
+          "streamUrl": "https://6069699a9e3f3.streamlock.net/asmedia/s_classic/playlist.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio s dance",
+      "entries": [
+        {
+          "id": "rs-radio-s-dance",
+          "name": "Radio S Dance",
+          "streamUrl": "https://stream.radios.rs:9014/stream"
+        },
+        {
+          "id": "rs-radio-s-dance-8e549881",
+          "name": "Radio S Dance",
+          "streamUrl": "https://53a7ed211fc32.streamlock.net/asmedia/radio_s_energy/playlist.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio s južni",
+      "entries": [
+        {
+          "id": "rs-radio-s-juzni-2",
+          "name": "Radio S Južni",
+          "streamUrl": "https://stream.radios.rs:9038/stream"
+        },
+        {
+          "id": "rs-radio-s-juzni-54858e6a",
+          "name": "Radio S Južni",
+          "streamUrl": "https://53a7ed211fc32.streamlock.net/asmedia/radio_s_juzni/playlist.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "jovembsk",
+      "entries": [
+        {
+          "id": "pt-jovembsk",
+          "name": "jovembsk",
+          "streamUrl": "https://stream-42.zeno.fm/ppgb4k7vhqztv?zs=c_kj97VBTyuKVVdB2EEdEg"
+        },
+        {
+          "id": "pt-jovembsk-d5f71a8d",
+          "name": "jovembsk",
+          "streamUrl": "https://stream-54.zeno.fm/ppgb4k7vhqztv?zs=16hfH25BROGMPgJQytuZKg"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "mfm",
+      "entries": [
+        {
+          "id": "pt-mfm",
+          "name": "MFM",
+          "streamUrl": "https://radios.justweb.pt/8074/stream"
+        },
+        {
+          "id": "za-mfm",
+          "name": "MFM",
+          "streamUrl": "https://edge.iono.fm/xice/46_medium.aac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "george fm",
+      "entries": [
+        {
+          "id": "nz-george-fm",
+          "name": "George FM",
+          "streamUrl": "https://digitalstreams.mediaworks.nz/george_net/playlist.m3u8"
+        },
+        {
+          "id": "nz-george-fm-0f9588db",
+          "name": "George FM",
+          "streamUrl": "https://mediaworks.streamguys1.com/george_net_icy"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "jazz cafe",
+      "entries": [
+        {
+          "id": "nz-jazz-cafe",
+          "name": "JAZZ CAFE",
+          "streamUrl": "https://radio.wanderingsheep.net:8000/jazzcafe"
+        },
+        {
+          "id": "gr-jazz-cafe",
+          "name": "Jazz Cafe",
+          "streamUrl": "https://stream-59.zeno.fm/hx6t4t15e8zuv?zs=NBUVDmgqQSWS38xPcU2OmA&acu-uid=727435602967&triton-uid=cookie%3A83ca5b14-582e-4c12-a5ab-255cdb39e2cb"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "mai fm",
+      "entries": [
+        {
+          "id": "nz-mai-fm",
+          "name": "Mai FM",
+          "streamUrl": "https://ais-sa1.streamon.fm/7102_128k.aac"
+        },
+        {
+          "id": "nz-mai-fm-89440784",
+          "name": "Mai FM",
+          "streamUrl": "https://mediaworks.streamguys1.com/mai_net_icy"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "christmas fm classical & carols",
+      "entries": [
+        {
+          "id": "ie-christmas-fm-classical-carols",
+          "name": "Christmas FM Classical & Carols",
+          "streamUrl": "https://christmasfm.cdnstream1.com/2549_64.aac"
+        },
+        {
+          "id": "ie-christmas-fm-classical-carols-17b6bf00",
+          "name": "Christmas FM Classical & Carols",
+          "streamUrl": "https://christmasfm.cdnstream1.com/2549_128.mp3?"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "deep house radio",
+      "entries": [
+        {
+          "id": "ie-deep-house-radio",
+          "name": "DEEP HOUSE RADIO",
+          "streamUrl": "https://streaming.shoutcast.com/dhr?1728967549574"
+        },
+        {
+          "id": "bg-deep-house-radio",
+          "name": "Deep House Radio",
+          "streamUrl": "https://home.radionrg.com/hls/deephouse/live.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "spin1038",
+      "entries": [
+        {
+          "id": "ie-spin1038",
+          "name": "spin1038",
+          "streamUrl": "https://edge.audioxi.com/SP"
+        },
+        {
+          "id": "ie-spin1038-32e96359",
+          "name": "Spin1038",
+          "streamUrl": "https://live-bauerie.sharp-stream.com/SP"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "j-pop powerplay",
+      "entries": [
+        {
+          "id": "jp-j-pop-powerplay",
+          "name": "J-POP Powerplay",
+          "streamUrl": "https://kathy.torontocast.com:3560/"
+        },
+        {
+          "id": "jp-j-pop-powerplay-3eacb8df",
+          "name": "J-Pop Powerplay",
+          "streamUrl": "https://kathy.torontocast.com:3560/;"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "j-rock powerplay",
+      "entries": [
+        {
+          "id": "jp-j-rock-powerplay",
+          "name": "J-Rock PowerPlay",
+          "streamUrl": "https://kathy.torontocast.com:3340/stream"
+        },
+        {
+          "id": "ca-j-rock-powerplay",
+          "name": "J-Rock Powerplay",
+          "streamUrl": "https://kathy.torontocast.com:3340/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "al-ansaar radio",
+      "entries": [
+        {
+          "id": "za-al-ansaar-radio",
+          "name": "Al-Ansaar Radio",
+          "streamUrl": "https://al-ansaar.simplestreaming.co.za/listen/al-ansaar_radio/radio.mp3"
+        },
+        {
+          "id": "za-al-ansaar-radio-e7b9541b",
+          "name": "AL-Ansaar Radio",
+          "streamUrl": "https://al-ansaar.simplestreaming.co.za/radio/8000/radio.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "la noventera",
+      "entries": [
+        {
+          "id": "pe-la-noventera",
+          "name": "La Noventera",
+          "streamUrl": "https://host.gometri.com/proxy/lanoventera/stream/"
+        },
+        {
+          "id": "pe-la-noventera-dce2b2aa",
+          "name": "la Noventera",
+          "streamUrl": "https://streaming.gometri.com/stream/8043/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio retro",
+      "entries": [
+        {
+          "id": "pe-radio-retro",
+          "name": "Radio Retro",
+          "streamUrl": "https://stream2.eistreaming.com/7068/stream"
+        },
+        {
+          "id": "ve-radio-retro",
+          "name": "Radio Retro",
+          "streamUrl": "https://stream.zeno.fm/07brb24epkhvv"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "max radio station",
+      "entries": [
+        {
+          "id": "pe-max-radio-station",
+          "name": "MAX RADIO STATION",
+          "streamUrl": "https://stream.zeno.fm/m2wa8jwb9yivv"
+        },
+        {
+          "id": "pe-max-radio-station-801fc520",
+          "name": "MAX RADIO STATION",
+          "streamUrl": "https://stream-153.zeno.fm/m2wa8jwb9yivv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJtMndhOGp3Yjl5aXZ2IiwiaG9zdCI6InN0cmVhbS0xNTMuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6InhTZU5ja1VsUkFxUTgzQ3RfU1FkekEiLCJpYXQiOjE3NDY2MjYxNTEsImV4cCI6MTc0NjYyNjIxMX0._kUdTuFrqMyQknDsG3WXmo1Ez88MucEuc2XHMfIyPwk"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "rádio lance oficial",
+      "entries": [
+        {
+          "id": "br-radio-lance-oficial",
+          "name": "Rádio Lance Oficial",
+          "streamUrl": "https://stm16.xcast.com.br:9928/stream"
+        },
+        {
+          "id": "br-radio-lance-oficial-722f6b0d",
+          "name": "Rádio Lance Oficial",
+          "streamUrl": "https://stm23.xcast.com.br:9952/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "rádio local sivb",
+      "entries": [
+        {
+          "id": "br-radio-local-sivb",
+          "name": "Rádio Local SIVB",
+          "streamUrl": "https://fpsnew1.listen2myradio.com:2199/listen.php?ip=82.145.63.6&port=4825&type=s1"
+        },
+        {
+          "id": "br-radio-local-sivb-670827c3",
+          "name": "Rádio Local SIVB",
+          "streamUrl": "https://s19.maxcast.com.br:8966/live"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "llegó el mariachi (iheart radio) - online - acir online / iheart radio - ciudad de méxico",
+      "entries": [
+        {
+          "id": "mx-llego-el-mariachi-iheart-radio-online-acir-onlin",
+          "name": "Llegó El Mariachi (iHeart Radio) - Online - ACIR Online / iHeart Radio - Ciudad de México",
+          "streamUrl": "https://22963.live.streamtheworld.com:443/ACIR34_S01AAC.aac"
+        },
+        {
+          "id": "mx-llego-el-mariachi-iheart-radio-online-acir-onlin-aff0c386",
+          "name": "Llegó el Mariachi (iHeart Radio) - Online - ACIR Online / iHeart Radio - Ciudad de México",
+          "streamUrl": "https://18433.live.streamtheworld.com:443/ACIR34_S01AAC.aac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "el fonógrafo - 690 am - xen-am - grupo radio centro - ciudad de méxico",
+      "entries": [
+        {
+          "id": "mx-el-fonografo-690-am-xen-am-grupo-radio-centro-ci",
+          "name": "El Fonógrafo - 690 AM - XEN-AM - Grupo Radio Centro - Ciudad de México",
+          "streamUrl": "https://18853.live.streamtheworld.com:443/XEN_AM_SC"
+        },
+        {
+          "id": "mx-el-fonografo-690-am-xen-am-grupo-radio-centro-ci-62633b87",
+          "name": "EL FONÓGRAFO - 690 AM - XEN-AM - Grupo Radio Centro - Ciudad de México",
+          "streamUrl": "https://26423.live.streamtheworld.com:443/XEN_AMAAC.aac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio ranchito (morelia) - 102.5 fm - xhrpa-fm - grupo ultra - morelia, mi",
+      "entries": [
+        {
+          "id": "mx-radio-ranchito-morelia-102-5-fm-xhrpa-fm-grupo-u",
+          "name": "Radio Ranchito (Morelia) - 102.5 FM - XHRPA-FM - Grupo ULTRA - Morelia, MI",
+          "streamUrl": "https://ranchito.b-cdn.net/stream"
+        },
+        {
+          "id": "mx-radio-ranchito-morelia-102-5-fm-xhrpa-fm-grupo-u-afc9d0db",
+          "name": "Radio Ranchito (Morelia) - 102.5 FM - XHRPA-FM - Grupo ULTRA - Morelia, MI",
+          "streamUrl": "https://streamingcwsradio30.com:7005/stream.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "la ke buena guadalajara - 97.1 fm - xeba-fm - radiópolis - guadalajara, jc",
+      "entries": [
+        {
+          "id": "mx-la-ke-buena-guadalajara-97-1-fm-xeba-fm-radiopol",
+          "name": "La Ke Buena Guadalajara - 97.1 FM - XEBA-FM - Radiópolis - Guadalajara, JC",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/KEBUENA_GDL_SC"
+        },
+        {
+          "id": "mx-la-ke-buena-guadalajara-97-1-fm-xeba-fm-radiopol-c503687e",
+          "name": "La Ke Buena Guadalajara - 97.1 FM - XEBA-FM - Radiópolis - Guadalajara, JC",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/KEBUENA_GDLAAC.aac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "amor 95.3 (san luis potosí) - 95.3 fm - xhnb-fm - grupo acir - san luis potosí, san luis potosí",
+      "entries": [
+        {
+          "id": "mx-amor-95-3-san-luis-potosi-95-3-fm-xhnb-fm-grupo-",
+          "name": "AMOR 95.3 (San Luis Potosí) - 95.3 FM - XHNB-FM - Grupo ACIR - San Luis Potosí, San Luis Potosí",
+          "streamUrl": "https://16603.live.streamtheworld.com:443/XHNBFMAAC.aac"
+        },
+        {
+          "id": "mx-amor-95-3-san-luis-potosi-95-3-fm-xhnb-fm-grupo--50289988",
+          "name": "AMOR 95.3 (San Luis Potosí) - 95.3 FM - XHNB-FM - Grupo ACIR - San Luis Potosí, San Luis Potosí",
+          "streamUrl": "https://27283.live.streamtheworld.com:443/XHNBFMAAC.aac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radar 88.9 (león) - 88.9 fm - xhxv-fm - grupo radar - león, guanajuato",
+      "entries": [
+        {
+          "id": "mx-radar-88-9-leon-88-9-fm-xhxv-fm-grupo-radar-leon",
+          "name": "RADAR 88.9 (León) - 88.9 FM - XHXV-FM - Grupo Radar - León, Guanajuato",
+          "streamUrl": "https://radios.radiohd.com.mx/8382/;"
+        },
+        {
+          "id": "mx-radar-88-9-leon-88-9-fm-xhxv-fm-grupo-radar-leon-1948a5bd",
+          "name": "RADAR 88.9 (León) - 88.9 FM - XHXV-FM - Grupo Radar - León, Guanajuato",
+          "streamUrl": "https://radios.radiohd.com.mx/8382/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "buenisiima (mexicali) - 850 am - xezf-am - grupo audiorama comunicaciones - mexicali, bc",
+      "entries": [
+        {
+          "id": "mx-buenisiima-mexicali-850-am-xezf-am-grupo-audiora",
+          "name": "Buenisiima (Mexicali) - 850 AM - XEZF-AM - Grupo Audiorama Comunicaciones - Mexicali, BC",
+          "streamUrl": "https://ss1.audiorama.com.mx:6594/"
+        },
+        {
+          "id": "mx-buenisiima-mexicali-850-am-xezf-am-grupo-audiora-f5a5b5f8",
+          "name": "Buenisiima (Mexicali) - 850 AM - XEZF-AM - Grupo Audiorama Comunicaciones - Mexicali, BC",
+          "streamUrl": "https://ss1.audiorama.com.mx:6594/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "love fm (guanajuato) - 101.5 fm - xhvlo-fm - grupo audiorama comunicaciones - guanajuato, gt",
+      "entries": [
+        {
+          "id": "mx-love-fm-guanajuato-101-5-fm-xhvlo-fm-grupo-audio",
+          "name": "Love FM (Guanajuato) - 101.5 FM - XHVLO-FM - Grupo Audiorama Comunicaciones - Guanajuato, GT",
+          "streamUrl": "https://ss1.audiorama.com.mx:6632/"
+        },
+        {
+          "id": "mx-love-fm-guanajuato-101-5-fm-xhvlo-fm-grupo-audio-764c1577",
+          "name": "Love FM (Guanajuato) - 101.5 FM - XHVLO-FM - Grupo Audiorama Comunicaciones - Guanajuato, GT",
+          "streamUrl": "https://ss1.audiorama.com.mx:6632/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "match 97.5 (león) - 97.5 fm - xhpq-fm - grupo acir - león, guanajuato",
+      "entries": [
+        {
+          "id": "mx-match-97-5-leon-97-5-fm-xhpq-fm-grupo-acir-leon-",
+          "name": "MATCH 97.5 (León) - 97.5 FM - XHPQ-FM - Grupo ACIR - León, Guanajuato",
+          "streamUrl": "https://27153.live.streamtheworld.com:443/XHPQFMAAC.aac"
+        },
+        {
+          "id": "mx-match-97-5-leon-97-5-fm-xhpq-fm-grupo-acir-leon--8a344d5e",
+          "name": "MATCH 97.5 (León) - 97.5 FM - XHPQ-FM - Grupo ACIR - León, Guanajuato",
+          "streamUrl": "https://17813.live.streamtheworld.com:443/XHPQFMAAC.aac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "ky (nogales) - 90.3 fm - xhxw-fm - grupo audiorama comunicaciones - nogales, sonora",
+      "entries": [
+        {
+          "id": "mx-ky-nogales-90-3-fm-xhxw-fm-grupo-audiorama-comun",
+          "name": "KY (Nogales) - 90.3 FM - XHXW-FM - Grupo Audiorama Comunicaciones - Nogales, Sonora",
+          "streamUrl": "https://ss1.audiorama.com.mx:6586/"
+        },
+        {
+          "id": "mx-ky-nogales-90-3-fm-xhxw-fm-grupo-audiorama-comun-49d34c59",
+          "name": "KY (Nogales) - 90.3 FM - XHXW-FM - Grupo Audiorama Comunicaciones - Nogales, Sonora",
+          "streamUrl": "https://ss1.audiorama.com.mx:6586/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "love fm 103.7 (veracruz) - 103.7 fm - xhcs-fm - grupo radio sa - veracruz, veracruz",
+      "entries": [
+        {
+          "id": "mx-love-fm-103-7-veracruz-103-7-fm-xhcs-fm-grupo-ra",
+          "name": "Love FM 103.7 (Veracruz) - 103.7 FM - XHCS-FM - Grupo RADIO SA - Veracruz, Veracruz",
+          "streamUrl": "https://us-b4-p-e-cg11-audio.cdn.mdstrm.com/live-audio-aw/66a01759c5aa2b85d66b5933/playlist.m3u8"
+        },
+        {
+          "id": "mx-love-fm-103-7-veracruz-103-7-fm-xhcs-fm-grupo-ra-3c360903",
+          "name": "LOVE FM 103.7 (Veracruz) - 103.7 FM - XHCS-FM - Grupo RADIO SA - Veracruz, Veracruz",
+          "streamUrl": "https://mdstrm.com/audio/66a01759c5aa2b85d66b5933/live.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "memories radio",
+      "entries": [
+        {
+          "id": "mx-memories-radio",
+          "name": "Memories Radio",
+          "streamUrl": "https://cento02.mipanelradio.com/proxy/miguela1?mp=/stream/"
+        },
+        {
+          "id": "gr-memories-radio",
+          "name": "Memories Radio",
+          "streamUrl": "https://stream1.468.gr/8108/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "радіо байрактар",
+      "entries": [
+        {
+          "id": "ua-",
+          "name": "Радіо Байрактар",
+          "streamUrl": "https://online.radiobayraktar.ua/RadioBayraktar"
+        },
+        {
+          "id": "ua-station",
+          "name": "Радіо Байрактар",
+          "streamUrl": "https://online.radiobayraktar.ua/RadioBayraktar_HD"
         }
       ]
     },
@@ -91,6 +4039,150 @@
     },
     {
       "kind": "name",
+      "key": "campus rádió fm90",
+      "entries": [
+        {
+          "id": "hu-campus-radio-fm90",
+          "name": "Campus Rádió FM90",
+          "streamUrl": "https://stream.fm90.hu:8000/;"
+        },
+        {
+          "id": "hu-campus-radio-fm90-844a66ab",
+          "name": "Campus Rádió FM90",
+          "streamUrl": "https://stream.fm90.hu:8000/stream/1/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "metal shop",
+      "entries": [
+        {
+          "id": "ca-metal-shop",
+          "name": "Metal Shop",
+          "streamUrl": "https://quincy.torontocast.com:1505/stream?x=1733539450407"
+        },
+        {
+          "id": "ca-metal-shop-e6abc3fe",
+          "name": "metal shop",
+          "streamUrl": "https://quincy.torontocast.com:1500/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "retrohits",
+      "entries": [
+        {
+          "id": "ca-retrohits",
+          "name": "RetroHits",
+          "streamUrl": "https://s1.nexuscast.com:8038/;stream.mp3"
+        },
+        {
+          "id": "se-retrohits",
+          "name": "RetroHits",
+          "streamUrl": "https://sc.retrohits.se/retrohits64.aac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "birch street radio",
+      "entries": [
+        {
+          "id": "ca-birch-street-radio",
+          "name": "Birch street radio",
+          "streamUrl": "https://jenny.torontocast.com:8172/stream"
+        },
+        {
+          "id": "ca-birch-street-radio-ee460a88",
+          "name": "Birch Street Radio",
+          "streamUrl": "https://streaming.live365.com/a97155"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "house of mack radio – deep house & dj mixes",
+      "entries": [
+        {
+          "id": "ca-house-of-mack-radio-deep-house-dj-mixes",
+          "name": "House of Mack Radio – Deep House & DJ Mixes",
+          "streamUrl": "https://das-edge12-live365-dal02.cdnstream.com/a84523"
+        },
+        {
+          "id": "ca-house-of-mack-radio-deep-house-dj-mixes-fbff9826",
+          "name": "House of Mack Radio – Deep House & DJ Mixes",
+          "streamUrl": "https://das-edge62-live365-dal03.cdnstream.com/a84523"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "revolution radio",
+      "entries": [
+        {
+          "id": "ca-revolution-radio",
+          "name": "Revolution Radio",
+          "streamUrl": "https://revolution.radioca.st/stream.mp3?rp_source=1&=&&___cb=193902462013237"
+        },
+        {
+          "id": "ru-revolution-radio",
+          "name": "REVOLUTION Radio",
+          "streamUrl": "https://revolutionradio.ru:8443/live.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "star fm",
+      "entries": [
+        {
+          "id": "star-fm",
+          "name": "Star Fm",
+          "streamUrl": "https://ice.leviracloud.eu/star96-aac"
+        },
+        {
+          "id": "ee-star-fm",
+          "name": "Star FM",
+          "streamUrl": "https://ice.leviracloud.eu/star320-mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "nrj",
+      "entries": [
+        {
+          "id": "nrj",
+          "name": "NRJ",
+          "streamUrl": "https://edge01.cdn.bitflip.ee:8888/NRJ?_i=5b8169cb"
+        },
+        {
+          "id": "fi-nrj",
+          "name": "NRJ",
+          "streamUrl": "https://stream-redirect.bauermedia.fi/nrj/nrj_64.aac?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "power hit radio",
+      "entries": [
+        {
+          "id": "power-hit-radio",
+          "name": "Power Hit Radio",
+          "streamUrl": "https://ice.leviracloud.eu/phr96-aac?"
+        },
+        {
+          "id": "se-power-hit-radio",
+          "name": "Power Hit Radio",
+          "streamUrl": "https://fm04-ice.stream.khz.se/fm04_mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
       "key": "radio fiesta",
       "entries": [
         {
@@ -107,6 +4199,128 @@
     },
     {
       "kind": "name",
+      "key": "radio 7",
+      "entries": [
+        {
+          "id": "lv-radio-7",
+          "name": "Radio 7",
+          "streamUrl": "https://listen.radio7.lv:2053/Radio7"
+        },
+        {
+          "id": "sk-radio-7",
+          "name": "Radio 7",
+          "streamUrl": "https://play.radio7.sk/128"
+        },
+        {
+          "id": "de-radio-7",
+          "name": "Radio 7",
+          "streamUrl": "https://radio7.streamabc.net/87-radio7ulm-mp3-192-2930798?sABC=69686p23%230%23q280o0r09ns9qpq3889p9qqn13p5753s%23jro&aw_0_1st.playerid=web&amsparams=playerid:web;skey:1768451107"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "emisoras unidas 91.1 fm",
+      "entries": [
+        {
+          "id": "gt-emisoras-unidas-91-1-fm",
+          "name": "Emisoras Unidas 91.1 FM",
+          "streamUrl": "https://stream.zeno.fm/3tfg0vng9ueuv"
+        },
+        {
+          "id": "gt-emisoras-unidas-91-1-fm-d489f3ef",
+          "name": "Emisoras Unidas 91.1 FM",
+          "streamUrl": "https://stream.zeno.fm/0zashcvc9zquv"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "ai fm",
+      "entries": [
+        {
+          "id": "my-ai-fm",
+          "name": "ai fm",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/AI_FMAAC_SC"
+        },
+        {
+          "id": "my-ai-fm-34089334",
+          "name": "Ai FM",
+          "streamUrl": "https://28153.live.streamtheworld.com/AI_FMAAC.aac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "rthk radio 5",
+      "entries": [
+        {
+          "id": "hk-rthk-radio-5",
+          "name": "RTHK Radio 5",
+          "streamUrl": "https://rthkaudio5-lh.akamaihd.net/i/radio5_1@355868/index_56_a-p.m3u8"
+        },
+        {
+          "id": "hk-rthk-radio-5-140cbc06",
+          "name": "RTHK Radio 5",
+          "streamUrl": "https://rthkradio5-live.akamaized.net/hls/live/2040081/radio5/master.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "香港普通话台",
+      "entries": [
+        {
+          "id": "hk-rthk-pth",
+          "name": "香港普通话台",
+          "streamUrl": "https://rthkaudio6-lh.akamaihd.net/i/radiopth_1@355869/master.m3u8"
+        },
+        {
+          "id": "hk-station",
+          "name": "香港普通话台",
+          "streamUrl": "https://rthkradiopth-live.akamaized.net/hls/live/2040082/radiopth/master.m3u8"
+        },
+        {
+          "id": "hk-station-2930da9c",
+          "name": "香港普通话台",
+          "streamUrl": "https://rthkaudio6-lh.akamaihd.net/i/radiopth_1@355869/index_56_a-p.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "rthk radio 4",
+      "entries": [
+        {
+          "id": "hk-rthk-radio-4",
+          "name": "RTHK Radio 4",
+          "streamUrl": "https://rthkaudio4-lh.akamaihd.net/i/radio4_1@355867/master.m3u8"
+        },
+        {
+          "id": "hk-rthk-radio-4-ff98b8d3",
+          "name": "RTHK Radio 4",
+          "streamUrl": "https://rthkradio4-live.akamaized.net/hls/live/2040080/radio4/master.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "yes 933",
+      "entries": [
+        {
+          "id": "sg-yes-933",
+          "name": "Yes 933",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/YES933AAC_SC"
+        },
+        {
+          "id": "sg-yes-933-a0d91c55",
+          "name": "YES 933",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/YES933_PREM.aac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
       "key": "sha3by fm",
       "entries": [
         {
@@ -118,6 +4332,1118 @@
           "id": "af-sha3by-fm",
           "name": "Sha3by FM",
           "streamUrl": "https://radio95.radioca.st/stream/1/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "sba riyadh radio 91.5 fm",
+      "entries": [
+        {
+          "id": "sa-sba-riyadh-radio-91-5-fm",
+          "name": "SBA Riyadh Radio 91.5 FM",
+          "streamUrl": "https://stream-154.zeno.fm/pdeizhgrtrstv"
+        },
+        {
+          "id": "sa-sba-riyadh-radio-91-5-fm-255e6ef4",
+          "name": "SBA Riyadh Radio 91.5 FM",
+          "streamUrl": "https://live.kwikmotion.com/sbrksariyadhradiolive/ksariyadhradio/chunks.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "joy",
+      "entries": [
+        {
+          "id": "af-joy",
+          "name": "Joy",
+          "streamUrl": "https://stream.joyhits.online:8072/joyhits.mp3"
+        },
+        {
+          "id": "ru-joy",
+          "name": "Joy",
+          "streamUrl": "https://uk5.internet-radio.com/proxy/joyradio?mp=/stream;"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radiobar",
+      "entries": [
+        {
+          "id": "mk-radiobar",
+          "name": "RadioBar",
+          "streamUrl": "https://visual.shoutca.st:8122/stream"
+        },
+        {
+          "id": "mk-radiobar-38cf18ba",
+          "name": "RADIOBAR",
+          "streamUrl": "https://cp1.sednastream.com/proxy/radiobar?mp=/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "zip fm 103 fm",
+      "entries": [
+        {
+          "id": "jm-zip-fm-103-fm",
+          "name": "Zip FM 103 FM",
+          "streamUrl": "https://stream.zeno.fm/4fazmm93yceuv"
+        },
+        {
+          "id": "jm-zip-fm-103-fm-394409b6",
+          "name": "Zip FM 103 FM",
+          "streamUrl": "https://stream.zeno.fm/c0ytcn43vxquv"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio thiossane",
+      "entries": [
+        {
+          "id": "sn-radio-thiossane",
+          "name": "Radio Thiossane",
+          "streamUrl": "https://listen.senemultimedia.net:8112/stream"
+        },
+        {
+          "id": "sn-radio-thiossane-f84197c1",
+          "name": "Radio Thiossane",
+          "streamUrl": "https://stream.radiothiossane.com/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "rtl gold",
+      "entries": [
+        {
+          "id": "lu-rtl-gold",
+          "name": "RTL Gold",
+          "streamUrl": "https://shoutcast.rtl.lu/rtlgold"
+        },
+        {
+          "id": "lu-rtl-gold-82504e4e",
+          "name": "RTL Gold",
+          "streamUrl": "https://live-edge.rtl.lu/radio/rtlgold/playlist.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "parousia radio",
+      "entries": [
+        {
+          "id": "gh-parousia-radio",
+          "name": "Parousia Radio",
+          "streamUrl": "https://radio.parousiaempire.org:8000/radio.mp3"
+        },
+        {
+          "id": "gh-parousia-radio-4c5c4de7",
+          "name": "Parousia Radio",
+          "streamUrl": "https://node-28.zeno.fm/vg1ax9tvz1zuv.aac?rj-ttl=5&rj-tok=AAABdx0OKOIATeRO4Na-9X5L0g"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio bhumi",
+      "entries": [
+        {
+          "id": "bd-radio-bhumi",
+          "name": "Radio Bhumi",
+          "streamUrl": "https://stream-156.zeno.fm/be5bqmk1k18uv"
+        },
+        {
+          "id": "in-radio-bhumi",
+          "name": "Radio Bhumi",
+          "streamUrl": "https://stream.zeno.fm/ybf1umk1k18uv"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "940 gospel radio",
+      "entries": [
+        {
+          "id": "um-940-gospel-radio",
+          "name": "940 Gospel Radio",
+          "streamUrl": "https://servidor26.brlogic.com:7088/live"
+        },
+        {
+          "id": "us-940-gospel-radio",
+          "name": "940 Gospel Radio",
+          "streamUrl": "https://servidor26-5.brlogic.com:7088/live"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "dance wave retro!",
+      "entries": [
+        {
+          "id": "hu-dance-wave-retro",
+          "name": "Dance Wave Retro!",
+          "streamUrl": "https://retro.dancewave.online/retrodance.mp3"
+        },
+        {
+          "id": "hu-dance-wave-retro-212f40c2",
+          "name": "Dance Wave Retro!",
+          "streamUrl": "https://dancewave.online/station/dance-wave-retro-flac/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "русское радио",
+      "entries": [
+        {
+          "id": "ru-station",
+          "name": "Русское Радио",
+          "streamUrl": "https://rusradio.hostingradio.ru/rusradio96.aacp"
+        },
+        {
+          "id": "ru-station-af23facc",
+          "name": "Русское Радио",
+          "streamUrl": "https://rusradio.hostingradio.ru/rusradio128.mp3"
+        },
+        {
+          "id": "ru-station-7dcb30f4",
+          "name": "Русское радио",
+          "streamUrl": "https://radio.promedia.ru/rr-simf"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "вести fm (aac)",
+      "entries": [
+        {
+          "id": "ru-fm-aac",
+          "name": "Вести FM (AAC)",
+          "streamUrl": "https://icecast-vgtrk.cdnvideo.ru/vestifm_aac_32kbps"
+        },
+        {
+          "id": "ru-fm-aac-711f2e4e",
+          "name": "Вести FM (AAC)",
+          "streamUrl": "https://icecast-vgtrk.cdnvideo.ru/vestifm_aac_64kbps"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "exclusively abba",
+      "entries": [
+        {
+          "id": "ae-exclusively-abba",
+          "name": "Exclusively ABBA",
+          "streamUrl": "https://nl4.mystreaming.net/er/abba/icecast.audio"
+        },
+        {
+          "id": "ae-exclusively-abba-13a10fcb",
+          "name": "Exclusively ABBA",
+          "streamUrl": "https://2.mystreaming.net/er/abba/icecast.audio"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "эхо",
+      "entries": [
+        {
+          "id": "ru-station-e813569f",
+          "name": "Эхо",
+          "streamUrl": "https://noasrv.caster.fm:10034/stream"
+        },
+        {
+          "id": "ru-station-af09ff77",
+          "name": "ЭХО",
+          "streamUrl": "https://i1.echofm.online:8443/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "exclusively genesis",
+      "entries": [
+        {
+          "id": "ae-exclusively-genesis",
+          "name": "Exclusively Genesis",
+          "streamUrl": "https://nl4.mystreaming.net/er/genesis/icecast.audio"
+        },
+        {
+          "id": "ae-exclusively-genesis-e91f0c88",
+          "name": "Exclusively Genesis",
+          "streamUrl": "https://2.mystreaming.net/er/genesis/icecast.audio"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "маруся фм",
+      "entries": [
+        {
+          "id": "ru-station-8ec43579",
+          "name": "Маруся ФМ",
+          "streamUrl": "https://listen.vdfm.ru:8000/marusya"
+        },
+        {
+          "id": "ru-station-84bb80d4",
+          "name": "Маруся ФМ",
+          "streamUrl": "https://radio-holding.ru:9433/marusya_default"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "exclusively dean martin",
+      "entries": [
+        {
+          "id": "ae-exclusively-dean-martin",
+          "name": "Exclusively Dean Martin",
+          "streamUrl": "https://streaming.exclusive.radio/er/deanmartin/icecast.audio?_=1407020069"
+        },
+        {
+          "id": "ae-exclusively-dean-martin-cc8848f4",
+          "name": "Exclusively Dean Martin",
+          "streamUrl": "https://nl4.mystreaming.net/er/deanmartin/icecast.audio"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio namkin",
+      "entries": [
+        {
+          "id": "in-radio-namkin",
+          "name": "Radio Namkin",
+          "streamUrl": "https://stream.zeno.fm/yg1qhsbaqv5tv"
+        },
+        {
+          "id": "in-radio-namkin-759a84dd",
+          "name": "Radio Namkin",
+          "streamUrl": "https://node-12.zeno.fm/yg1qhsbaqv5tv"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "athens rock 96.9",
+      "entries": [
+        {
+          "id": "gr-athens-rock-96-9",
+          "name": "Athens Rock 96.9",
+          "streamUrl": "https://az10.yesstreaming.net/radio/8060/radio.mp3"
+        },
+        {
+          "id": "gr-athens-rock-96-9-493f1912",
+          "name": "Athens Rock 96.9",
+          "streamUrl": "https://n03a-eu.rcs.revma.com/sm9b1svehkcwv?rj-ttl=5&rj-tok=AAABnRxstscALCtwiZerZ3718g"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "hitsbollywood",
+      "entries": [
+        {
+          "id": "in-hitsbollywood",
+          "name": "hitsbollywood",
+          "streamUrl": "https://node-14.zeno.fm/rqqps6cbe3quv?rj-ttl=5&rj-tok=AAABccQyYG8AGJ3KW_903AafBw"
+        },
+        {
+          "id": "in-hitsbollywood-6326e39a",
+          "name": "Hitsbollywood",
+          "streamUrl": "https://stream-164.zeno.fm/rqqps6cbe3quv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJycXFwczZjYmUzcXV2IiwiaG9zdCI6InN0cmVhbS0xNjQuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6Ik92MjllQWlLUjd1ZU9YU1hmYXZhX3ciLCJpYXQiOjE"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "радио для двоих",
+      "entries": [
+        {
+          "id": "ru-station-75a95f91",
+          "name": "Радио для двоих",
+          "streamUrl": "https://icecast-radiofortwo.cdnvideo.ru/radiofortwo"
+        },
+        {
+          "id": "ru-station-319a9100",
+          "name": "Радио для Двоих",
+          "streamUrl": "https://stream02.pcradio.biz/rddfm_ru-med"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "sangeet samvaad",
+      "entries": [
+        {
+          "id": "in-sangeet-samvaad",
+          "name": "Sangeet Samvaad",
+          "streamUrl": "https://n08.radiojar.com/7mh06pa8uwzuv.mp3"
+        },
+        {
+          "id": "in-sangeet-samvaad-321c086a",
+          "name": "Sangeet Samvaad",
+          "streamUrl": "https://ample.radiojar.com/7mh06pa8uwzuv"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "air telugu",
+      "entries": [
+        {
+          "id": "in-air-telugu",
+          "name": "Air Telugu",
+          "streamUrl": "https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio141/hlspbaudio14164kbps.m3u8"
+        },
+        {
+          "id": "in-air-telugu-718119eb",
+          "name": "Air Telugu",
+          "streamUrl": "https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio141/hlspbaudio141_Auto.m3u8"
+        },
+        {
+          "id": "in-air-telugu-003e39e9",
+          "name": "Air telugu",
+          "streamUrl": "https://stream-151.zeno.fm/7kbt507d3qzuv"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio san marino",
+      "entries": [
+        {
+          "id": "sm-radio-san-marino",
+          "name": "Radio San Marino",
+          "streamUrl": "https://d18ufyp3q60j7u.cloudfront.net/radio-ch01/radio-ch01/playlist.m3u8"
+        },
+        {
+          "id": "sm-radio-san-marino-d60a853f",
+          "name": "Radio San Marino",
+          "streamUrl": "https://d18ufyp3q60j7u.cloudfront.net/radio-ch01/radio-ch01/chunklist_w213256444.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "cassiopeia station (наука)",
+      "entries": [
+        {
+          "id": "ru-cassiopeia-station",
+          "name": "Cassiopeia Station (Наука)",
+          "streamUrl": "https://stream.cassiopeia-station.ru:1095/stream"
+        },
+        {
+          "id": "ru-cassiopeia-station-4cd636d5",
+          "name": "Cassiopeia Station (Наука)",
+          "streamUrl": "https://stream.cassiopeia-station.ru:5125/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "eagle fm 95.5",
+      "entries": [
+        {
+          "id": "ph-eagle-fm-95-5",
+          "name": "Eagle FM 95.5",
+          "streamUrl": "https://n06.radiojar.com/yus0r2bghd3vv?rj-ttl=5&rj-tok=AAABkvtiUekApAzmoP0lG-3HVQ"
+        },
+        {
+          "id": "ph-eagle-fm-95-5-1cb11fd1",
+          "name": "Eagle FM 95.5",
+          "streamUrl": "https://n0d.radiojar.com/yus0r2bghd3vv?rj-ttl=5&rj-tok=AAABlJu7jsUAmyVUk6qFVdTweA"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "русский хит",
+      "entries": [
+        {
+          "id": "ru-station-7507303b",
+          "name": "Русский Хит",
+          "streamUrl": "https://air2.volna.top/RusHit-MSK"
+        },
+        {
+          "id": "ru-station-d67d7d59",
+          "name": "Русский Хит",
+          "streamUrl": "https://stream2.n340.com/19_ruhit_24_reg_1?type=.aac&UID=CF32CF867382134A8C278C56C3CC282E"
+        },
+        {
+          "id": "ru-station-96b913af",
+          "name": "Русский Хит",
+          "streamUrl": "https://microit.n340.ru:8443/VgMv0WV17ZVx1uuo_19_ruhit_64_reg_1"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "air raagam",
+      "entries": [
+        {
+          "id": "in-air-raagam",
+          "name": "AIR Raagam",
+          "streamUrl": "https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio139/hlspbaudio139_Auto.m3u8"
+        },
+        {
+          "id": "in-air-raagam-3bd6f9ec",
+          "name": "AIR Raagam",
+          "streamUrl": "https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudioragam/hlspbaudioragam64kbps.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "air agra",
+      "entries": [
+        {
+          "id": "in-air-agra",
+          "name": "AIR Agra",
+          "streamUrl": "https://air.pc.cdn.bitgravity.com/air/live/pbaudio059/playlist.m3u8"
+        },
+        {
+          "id": "in-air-agra-600a7112",
+          "name": "AIR Agra",
+          "streamUrl": "https://air.pc.cdn.bitgravity.com/air/live/pbaudio059/chunklist.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "südtirol 1",
+      "entries": [
+        {
+          "id": "it-sudtirol-1",
+          "name": "Südtirol 1",
+          "streamUrl": "https://stream.suedtirol1.it/live/aac-64/app/"
+        },
+        {
+          "id": "it-sudtirol-1-aaf78cc6",
+          "name": "Südtirol 1",
+          "streamUrl": "https://funkhaus-st.streamabc.net/106-suedtirol1-mp3-192-7572619"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "新疆交通广播",
+      "entries": [
+        {
+          "id": "cn-station-2a4cd0b1",
+          "name": "新疆交通广播",
+          "streamUrl": "https://lhttp.qtfm.cn/live/1910/64k.mp3"
+        },
+        {
+          "id": "cn-station-680542fa",
+          "name": "新疆交通广播",
+          "streamUrl": "https://live.ximalaya.com/radio-first-page-app/live/987/64.m3u8?transcode=ts"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "广西交通广播",
+      "entries": [
+        {
+          "id": "cn-station-5034b349",
+          "name": "广西交通广播",
+          "streamUrl": "https://stream.bbrtv.com:10443/hls/scGbVLJGR/scGbVLJGR_live.m3u8"
+        },
+        {
+          "id": "cn-station-f77cc04a",
+          "name": "广西交通广播",
+          "streamUrl": "https://lhttp-hw.qtfm.cn/live/1758/64k.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio 24",
+      "entries": [
+        {
+          "id": "in-radio-24",
+          "name": "Radio 24",
+          "streamUrl": "https://s7.everestcast.com:1155/stream"
+        },
+        {
+          "id": "ch-radio-24",
+          "name": "Radio 24",
+          "streamUrl": "https://stream.streambase.ch/radio24/mp3-192/direct/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "兵团之声",
+      "entries": [
+        {
+          "id": "cn-station-a689044c",
+          "name": "兵团之声",
+          "streamUrl": "https://lhttp.qtfm.cn/live/5022410/64k.mp3"
+        },
+        {
+          "id": "cn-station-5f85d361",
+          "name": "兵团之声",
+          "streamUrl": "https://live.ximalaya.com/radio-first-page-app/live/1838/64.m3u8?transcode=ts"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "easy 90s",
+      "entries": [
+        {
+          "id": "ae-easy-90s",
+          "name": "Easy 90s",
+          "streamUrl": "https://streaming.exclusive.radio/uber/easy90/icecast.audio"
+        },
+        {
+          "id": "gr-easy-90s",
+          "name": "Easy 90s",
+          "streamUrl": "https://n02a-eu.rcs.revma.com/qhx9z05r4a0uv?rj-ttl=5&rj-tok=AAABnSFRnI0Af8LBaTRQQYvwhw"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "云南音乐广播",
+      "entries": [
+        {
+          "id": "cn-station-e6738a6d",
+          "name": "云南音乐广播",
+          "streamUrl": "https://lhttp.qtfm.cn/live/1929/64k.mp3"
+        },
+        {
+          "id": "cn-station-f117e4cc",
+          "name": "云南音乐广播",
+          "streamUrl": "https://gbw.ynradio.cn/radio/yygb.stream/playlist.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio nostalgia",
+      "entries": [
+        {
+          "id": "bg-radio-nostalgia",
+          "name": "Radio Nostalgia",
+          "streamUrl": "https://sc.mpbnl.nl/radionostalgia.mp3"
+        },
+        {
+          "id": "ee-radio-nostalgia",
+          "name": "Radio Nostalgia",
+          "streamUrl": "https://c16.radioboss.fm:8327/stream"
+        },
+        {
+          "id": "fi-radio-nostalgia",
+          "name": "Radio Nostalgia",
+          "streamUrl": "https://streaming.radioplay.fi/nostalgia/nostalgia_64.aac?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_ukrp&aw_0_req.userConsentV2=~TCSTRING~&rp_source=1&aw_0_1st.skey=1770708690"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "beats radio",
+      "entries": [
+        {
+          "id": "ca-beats-radio",
+          "name": "Beats Radio",
+          "streamUrl": "https://satcom.rfchosting.ca:8100/stream"
+        },
+        {
+          "id": "de-beats-radio",
+          "name": "Beats Radio",
+          "streamUrl": "https://klassikr.streamabc.net/klr-beatsat-mp3-192-5464798?sABC=69n849o3%230%23759014699s404754o2p8p1q4q62r578p%23&aggregator=Radiomapeu&aw_0_1st.playerid=&amsparams=playerid:;skey:1772636595"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "云南新闻广播",
+      "entries": [
+        {
+          "id": "cn-station-136b1049",
+          "name": "云南新闻广播",
+          "streamUrl": "https://lhttp.qtfm.cn/live/1926/64k.mp3"
+        },
+        {
+          "id": "cn-station-ad59fdcc",
+          "name": "云南新闻广播",
+          "streamUrl": "https://gbw.ynradio.cn/radio/xwgb.stream/playlist.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "邯郸新闻综合广播",
+      "entries": [
+        {
+          "id": "cn-station-2bb71643",
+          "name": "邯郸新闻综合广播",
+          "streamUrl": "https://lhttp.qingting.fm/live/5072/64k.mp3"
+        },
+        {
+          "id": "cn-station-df792975",
+          "name": "邯郸新闻综合广播",
+          "streamUrl": "https://lhttp.qtfm.cn/live/5072/64k.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "新疆文化旅游广播",
+      "entries": [
+        {
+          "id": "cn-station-0de0cc38",
+          "name": "新疆文化旅游广播",
+          "streamUrl": "https://lhttp.qtfm.cn/live/1909/64k.mp3"
+        },
+        {
+          "id": "cn-station-ae5ad4ef",
+          "name": "新疆文化旅游广播",
+          "streamUrl": "https://live.ximalaya.com/radio-first-page-app/live/988/64.m3u8?transcode=ts"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "呼和浩特综合广播",
+      "entries": [
+        {
+          "id": "cn-station-2a9d707e",
+          "name": "呼和浩特综合广播",
+          "streamUrl": "https://lhttp.qingting.fm/live/5021543/64k.mp3"
+        },
+        {
+          "id": "cn-station-08d1e1b5",
+          "name": "呼和浩特综合广播",
+          "streamUrl": "https://lhttp-hw.qtfm.cn/live/5021543/64k.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "superfm",
+      "entries": [
+        {
+          "id": "pt-superfm",
+          "name": "SuperFM",
+          "streamUrl": "https://play.radioregional.pt:8210/stream/2/;/stream.mp3"
+        },
+        {
+          "id": "ca-superfm",
+          "name": "SuperFM",
+          "streamUrl": "https://eagle.streemlion.com/proxy/ed123/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "hitradio rtl chemnitz",
+      "entries": [
+        {
+          "id": "dz-hitradio-rtl-chemnitz",
+          "name": "Hitradio RTL Chemnitz",
+          "streamUrl": "https://web.radio.hitradio-rtl.de/hrrtl-chemnitz/stream/mp3?aggregator=direktlink"
+        },
+        {
+          "id": "de-hitradio-rtl-chemnitz",
+          "name": "Hitradio RTL Chemnitz",
+          "streamUrl": "https://web.radio.hitradio-rtl.de/hrrtl-dresden/stream/aacp?aggregator=direktlink"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "宜昌交通广播",
+      "entries": [
+        {
+          "id": "cn-station-bac1e50b",
+          "name": "宜昌交通广播",
+          "streamUrl": "https://lhttp.qingting.fm/live/20563/64k.mp3"
+        },
+        {
+          "id": "cn-station-54f8ff9a",
+          "name": "宜昌交通广播",
+          "streamUrl": "https://liveplay.ycrmt.cn/fm/jtt.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "благо",
+      "entries": [
+        {
+          "id": "ru-station-cdf06b22",
+          "name": "Благо",
+          "streamUrl": "https://live.radioblago.ru/live-2.ogg"
+        },
+        {
+          "id": "ru-station-2dae6f6b",
+          "name": "Благо",
+          "streamUrl": "https://live.radioblago.ru/live-1.ogg"
+        },
+        {
+          "id": "ru-station-ca824443",
+          "name": "Благо",
+          "streamUrl": "https://live.radioblago.ru/live-2.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "宜昌新闻综合广播",
+      "entries": [
+        {
+          "id": "cn-station-cd94e544",
+          "name": "宜昌新闻综合广播",
+          "streamUrl": "https://lhttp.qingting.fm/live/20565/64k.mp3"
+        },
+        {
+          "id": "cn-station-e5c968e5",
+          "name": "宜昌新闻综合广播",
+          "streamUrl": "https://liveplay.ycrmt.cn/fm/xwt.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "云南民族广播",
+      "entries": [
+        {
+          "id": "cn-station-c0584818",
+          "name": "云南民族广播",
+          "streamUrl": "https://lhttp.qtfm.cn/live/1933/64k.mp3"
+        },
+        {
+          "id": "cn-station-3cca8ec6",
+          "name": "云南民族广播",
+          "streamUrl": "https://gbw.ynradio.cn/radio/mzgb.stream/playlist.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "云南经济广播",
+      "entries": [
+        {
+          "id": "cn-station-bfdeba3c",
+          "name": "云南经济广播",
+          "streamUrl": "https://lhttp.qtfm.cn/live/1927/64k.mp3"
+        },
+        {
+          "id": "cn-station-89dedb1c",
+          "name": "云南经济广播",
+          "streamUrl": "https://gbw.ynradio.cn/radio/jjgb.stream/playlist.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "landeswelle grillwelle",
+      "entries": [
+        {
+          "id": "de-landeswelle-grillwelle",
+          "name": "LandesWelle GrillWelle",
+          "streamUrl": "https://edge18.streamonkey.net/landeswelle-grillwelle?aggregator=rewrite/mp3-192/rin/"
+        },
+        {
+          "id": "de-landeswelle-grillwelle-2b5b059f",
+          "name": "Landeswelle Grillwelle",
+          "streamUrl": "https://edge63.streamonkey.net/landeswelle-grillwelle?aggregator=rewrite/mp3-192"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "charivari regensburg",
+      "entries": [
+        {
+          "id": "de-charivari-regensburg",
+          "name": "Charivari Regensburg",
+          "streamUrl": "https://play.charivari.com/regensburg/webmp3/"
+        },
+        {
+          "id": "de-charivari-regensburg-cb4688f1",
+          "name": "Charivari Regensburg",
+          "streamUrl": "https://play.charivari.com/regensburg/web/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "新疆哈语广播",
+      "entries": [
+        {
+          "id": "cn-station-9dcba396",
+          "name": "新疆哈语广播",
+          "streamUrl": "https://lhttp.qtfm.cn/live/1908/64k.mp3"
+        },
+        {
+          "id": "cn-station-922a8b2d",
+          "name": "新疆哈语广播",
+          "streamUrl": "https://live.ximalaya.com/radio-first-page-app/live/1836/64.m3u8?transcode=ts"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "star radio",
+      "entries": [
+        {
+          "id": "gr-star-radio",
+          "name": "Star Radio",
+          "streamUrl": "https://sp.streams.ovh/8026/;stream/1"
+        },
+        {
+          "id": "cl-star-radio",
+          "name": "Star Radio",
+          "streamUrl": "https://stream.zeno.fm/sowa6evoo9kvv"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "新疆蒙语广播",
+      "entries": [
+        {
+          "id": "cn-station-c3972aae",
+          "name": "新疆蒙语广播",
+          "streamUrl": "https://lhttp.qtfm.cn/live/1903/64k.mp3"
+        },
+        {
+          "id": "cn-station-df894c85",
+          "name": "新疆蒙语广播",
+          "streamUrl": "https://live.ximalaya.com/radio-first-page-app/live/1835/64.m3u8?transcode=ts"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "镇江文艺广播",
+      "entries": [
+        {
+          "id": "cn-station-b4d0e934",
+          "name": "镇江文艺广播",
+          "streamUrl": "https://lhttp-hw.qtfm.cn/live/4605/64k.mp3"
+        },
+        {
+          "id": "cn-station-794ad6ab",
+          "name": "镇江文艺广播",
+          "streamUrl": "https://zjtv-wshls.homecdn.com/live/64524.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "镇江综合广播",
+      "entries": [
+        {
+          "id": "cn-station-9584e24b",
+          "name": "镇江综合广播",
+          "streamUrl": "https://lhttp-hw.qtfm.cn/live/3984/64k.mp3"
+        },
+        {
+          "id": "cn-station-c925e1b0",
+          "name": "镇江综合广播",
+          "streamUrl": "https://zjtv-wshls.homecdn.com/live/64522.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "肇庆旅游之声",
+      "entries": [
+        {
+          "id": "cn-station-17ad568d",
+          "name": "肇庆旅游之声",
+          "streamUrl": "https://live.ximalaya.com/radio-first-page-app/live/2654/64.m3u8?transcode=ts"
+        },
+        {
+          "id": "cn-station-a120e591",
+          "name": "肇庆旅游之声",
+          "streamUrl": "https://live.ximalaya.com/radio-first-page-app/live/2893/64.m3u8?transcode=ts"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "镇江交通广播",
+      "entries": [
+        {
+          "id": "cn-station-eed0783c",
+          "name": "镇江交通广播",
+          "streamUrl": "https://lhttp-hw.qtfm.cn/live/3985/64k.mp3"
+        },
+        {
+          "id": "cn-station-03df6961",
+          "name": "镇江交通广播",
+          "streamUrl": "https://zjtv-wshls.homecdn.com/live/6451e.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "延边汉语新闻综合广播",
+      "entries": [
+        {
+          "id": "cn-station-9170032b",
+          "name": "延边汉语新闻综合广播",
+          "streamUrl": "https://lhttp-hw.qtfm.cn/live/5022488/64k.mp3"
+        },
+        {
+          "id": "cn-station-db039984",
+          "name": "延边汉语新闻综合广播",
+          "streamUrl": "https://srs.iyb983.cn/audio/FM983/index.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "bigfm niedersachsen",
+      "entries": [
+        {
+          "id": "de-bigfm-niedersachsen",
+          "name": "bigFM Niedersachsen",
+          "streamUrl": "https://stream.bigfm.de/niedersachsen/mp3-128/radiobrowser"
+        },
+        {
+          "id": "de-bigfm-niedersachsen-7fb114b0",
+          "name": "bigFM Niedersachsen",
+          "streamUrl": "https://stream.bigfm.de/niedersachsen/mp3-128/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "云南交通之声",
+      "entries": [
+        {
+          "id": "cn-station-1f924334",
+          "name": "云南交通之声",
+          "streamUrl": "https://gbw.ynradio.cn/radio/jtgb.stream/playlist.m3u8"
+        },
+        {
+          "id": "cn-station-bb39009d",
+          "name": "云南交通之声",
+          "streamUrl": "https://lhttp-hw.qtfm.cn/live/1928/64k.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "历城广播电视台",
+      "entries": [
+        {
+          "id": "cn-station-878bd1de",
+          "name": "历城广播电视台",
+          "streamUrl": "https://lhttp-hw.qtfm.cn/live/20500194/64k.mp3"
+        },
+        {
+          "id": "cn-station-9b795181",
+          "name": "历城广播电视台",
+          "streamUrl": "https://live.ximalaya.com/radio-first-page-app/live/2903/64.m3u8?transcode=ts"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "日喀则综合广播",
+      "entries": [
+        {
+          "id": "cn-station-284b18cd",
+          "name": "日喀则综合广播",
+          "streamUrl": "https://consolestream.rkzrm.cn:20323/0.m3u8"
+        },
+        {
+          "id": "cn-station-712beb67",
+          "name": "日喀则综合广播",
+          "streamUrl": "https://console.rkzrm.cn:20323/3.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "ορθοδοξία ύμνοι",
+      "entries": [
+        {
+          "id": "gr-station-c00c62fc",
+          "name": "Ορθοδοξία Ύμνοι",
+          "streamUrl": "https://rasp35.ddnsfree.com:3535/ymnoi"
+        },
+        {
+          "id": "gr-station-26760653",
+          "name": "Ορθοδοξία Ύμνοι",
+          "streamUrl": "https://radio.rasp35.ddnsfree.com/ymnoi"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "ορθοδοξία άγιος παϊσιος",
+      "entries": [
+        {
+          "id": "gr-station-60ec7a19",
+          "name": "Ορθοδοξία Άγιος Παϊσιος",
+          "streamUrl": "https://radio.katehon.gr/pss"
+        },
+        {
+          "id": "gr-station-b5eed20e",
+          "name": "Ορθοδοξία Άγιος Παϊσιος",
+          "streamUrl": "https://rasp35.ddnsfree.com:3535/pss"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "минор",
+      "entries": [
+        {
+          "id": "ru-station-c3667e30",
+          "name": "Минор",
+          "streamUrl": "https://radiominor.ru:8443/192khz.mp3"
+        },
+        {
+          "id": "ru-station-dfb4eac5",
+          "name": "Минор",
+          "streamUrl": "https://radiominor.ru:8443/radiominor_ru_rurock.mp3"
+        },
+        {
+          "id": "ru-station-a034f273",
+          "name": "Минор",
+          "streamUrl": "https://radiominor.ru:8443/radiominor_ru_jazz.mp3"
+        },
+        {
+          "id": "ru-station-2760bf97",
+          "name": "Минор",
+          "streamUrl": "https://radiominor.ru:8443/radiominor_ru_indie.mp3"
+        },
+        {
+          "id": "ru-station-b99bab85",
+          "name": "Минор",
+          "streamUrl": "https://radiominor.ru:8443/radiominor_ru.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "延边旅游广播",
+      "entries": [
+        {
+          "id": "cn-station-7380201c",
+          "name": "延边旅游广播",
+          "streamUrl": "https://srs.iyb983.cn/audio/FM1046/index.m3u8"
+        },
+        {
+          "id": "cn-station-e0475ba0",
+          "name": "延边旅游广播",
+          "streamUrl": "https://lhttp-hw.qtfm.cn/live/5022438/64k.mp3"
         }
       ]
     },
@@ -319,6 +5645,22 @@
     },
     {
       "kind": "homepage+favicon",
+      "key": "IL|100fm.co.il|https://d20x387xvo6jlt.cloudfront.net/wp-content/uploads/2020/12/smalllogo.png|100fm radios",
+      "entries": [
+        {
+          "id": "il-radio-100fm",
+          "name": "Radios 100FM",
+          "streamUrl": "https://gb25.streamgates.net/radios-audio/100Workout/icecast.audio"
+        },
+        {
+          "id": "il-radios-100fm",
+          "name": "Radios 100FM רדיוס",
+          "streamUrl": "https://cdn.cybercdn.live/Radios_100FM/Audio/icecast.audio"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
       "key": "DE|deutschlandfunk.de|https://www.deutschlandfunk.de/static/img/deutschlandfunk/icons/apple-touch-icon-128x128.png|deutschlandfunk dlf",
       "entries": [
         {
@@ -372,6 +5714,70 @@
           "id": "de-rock-antenne-gothic-2",
           "name": "Rock Antenne - Gothic",
           "streamUrl": "https://s3-webradio.rockantenne.de/gothic"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "DE|0nradio.com|https://www.0nradio.com/logos/0n-movies_600x600.jpg|0 movies n on",
+      "entries": [
+        {
+          "id": "de-0-n-movies-on-radio",
+          "name": "- 0 N - Movies on Radio",
+          "streamUrl": "https://0n-movies.radionetz.de/0n-movies.aac"
+        },
+        {
+          "id": "de-0-n-movies-on-radio-fa9cdf67",
+          "name": "- 0 N - Movies on Radio",
+          "streamUrl": "https://0n-movies.radionetz.de/0n-movies.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "DE|0nradio.com|https://www.0nradio.com/logos/0n-volksmusik_600x600.jpg|0 n on volksmusik",
+      "entries": [
+        {
+          "id": "de-0-n-volksmusik-on-radio",
+          "name": "- 0 N - Volksmusik on Radio",
+          "streamUrl": "https://0n-volksmusik.radionetz.de/0n-volksmusik.aac"
+        },
+        {
+          "id": "de-0-n-volksmusik-on-radio-8deaaab0",
+          "name": "- 0 N - Volksmusik on Radio",
+          "streamUrl": "https://0n-volksmusik.radionetz.de/0n-volksmusik.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "DE|0nradio.com|https://www.0nradio.com/logos/0n-blues_600x600.jpg|0 blues n on",
+      "entries": [
+        {
+          "id": "de-0-n-blues-on-radio",
+          "name": "- 0 N - Blues on Radio",
+          "streamUrl": "https://0n-blues.radionetz.de/0n-blues.aac"
+        },
+        {
+          "id": "de-0-n-blues-on-radio-7e96f2c6",
+          "name": "- 0 N - Blues on Radio",
+          "streamUrl": "https://0n-blues.radionetz.de/0n-blues.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "DE|swr.de/swr2|https://www.swr.de/assets/swr/swr2/apple-touch-icon-120x120.png|2 swr",
+      "entries": [
+        {
+          "id": "de-swr-2-aac-96k",
+          "name": "SWR 2  [AAC 96k]",
+          "streamUrl": "https://liveradio.swr.de/sw331ch/swr2/"
+        },
+        {
+          "id": "de-swr-2-9c0b3f8a",
+          "name": "SWR 2",
+          "streamUrl": "https://liveradio.swr.de/sw282p3/swr2/play.mp3"
         }
       ]
     },
@@ -1200,6 +6606,22 @@
     },
     {
       "kind": "homepage+favicon",
+      "key": "GB|global.com/global-player|https://external-content.duckduckgo.com/iu/?u=https%3a%2f%2ftse2.mm.bing.net%2fth%3fid%3doip.cmof-nf5byb4gkwovovefaaaaa%26pid%3dapi&f=1&ipt=fb8665bb588c291de9ed9bd2765e62613792e1203899f9a45f639d973e894cf7&ipo=images|global pride",
+      "entries": [
+        {
+          "id": "gb-global-pride",
+          "name": "Global Pride",
+          "streamUrl": "https://media-sov.musicradio.com/Global-M-Pride"
+        },
+        {
+          "id": "gb-global-pride-1f64d93d",
+          "name": "Global Pride",
+          "streamUrl": "https://media-the.musicradio.com/Global-M-Pride"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
       "key": "FR|rjrradio.fr|https://www.rjrradio.fr/wp-content/uploads/2026/03/challenge-plasma-team-une-nouvelle-edition-dediee-aux-etudiants.png|jeunes reims rjr",
       "entries": [
         {
@@ -1418,6 +6840,22 @@
           "id": "ro-radio-xtream-romania",
           "name": "Radio Xtream Romania",
           "streamUrl": "https://asculta.radioxtream.com:8022/stream"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "RS|radios.rs/radio/21/radio-s4|https://www.radios.rs/media/footerlogo/s4.png|s4",
+      "entries": [
+        {
+          "id": "rs-radio-s4",
+          "name": "Radio S4",
+          "streamUrl": "https://stream.radios.rs:9006/;"
+        },
+        {
+          "id": "rs-radio-s4-871a586b",
+          "name": "Radio S4",
+          "streamUrl": "https://53a7ed211fc32.streamlock.net/asmedia/gradski/playlist.m3u8"
         }
       ]
     },

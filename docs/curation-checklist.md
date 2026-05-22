@@ -106,11 +106,18 @@ both publish program info via their respective APIs. Grrif's
 
 ### 7. Logo
 
-**Question:** Do we have a curated, square PNG logo for this station with
-provenance recorded?
+**Question:** Do we have a usable station logo with provenance and acceptable
+Now Playing quality?
 
-**Pass criteria:** `favicon:` field is a relative path under
-`stations/` (e.g. `stations/fm4.png`), and the file is checked in.
+**Publishable pass criteria:** `favicon:` is either a remote HTTPS broadcaster
+or wiki URL with `faviconSource:` recorded, or a local `stations/<id>.png`
+asset with `faviconSourceUrl:` / `faviconLicense:` recorded where needed.
+`npm run probe-logos -- --remote` should classify it as `good`,
+`acceptable`, or `vector`.
+
+**Curated bundled pass criteria:** `favicon:` is a relative path under
+`stations/` (e.g. `stations/fm4.png`), the file is checked in, and the
+source URL / license are recorded.
 
 **Failure path:** Auto-imported stations get the broadcaster's favicon
 URL from Radio Browser, which is often low-res or off-brand. To
@@ -125,6 +132,10 @@ curated bundled assets:
    in the PR body or `THIRD_PARTY_NOTICES.md`
 5. If terms are unclear, keep the remote `favicon` URL or leave the logo
    unset instead of bundling a copy
+
+Run `npm run logo-status` after `npm run probe-logos -- --remote`; the
+logo action queue combines provenance, URL heuristics, and real image
+probe results.
 
 Do not redraw station marks, and do not add third-party platform marks
 (Apple Music, Spotify, YouTube, app-store badges, etc.) as station logos.

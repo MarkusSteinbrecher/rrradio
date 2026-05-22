@@ -579,6 +579,9 @@
         );
       }
 
+      // Per-source inventory (catalog + duplicates) lives on
+      // station-tracker.html under the "Sources" tab.
+
       async function renderDashboard() {
         $root.replaceChildren(
           el('div', { class: 'head' },
@@ -598,47 +601,63 @@
         );
         const cards = document.getElementById('cards');
 
+        // Operational cards (catalog / backlog) come from same-origin
+        // static JSON. They render even if the GoatCounter Worker is
+        // unreachable or the admin token is missing — those failure
+        // modes shouldn't black out the catalog view.
+        const [catalog, backlog] = await Promise.all([
+          catalogCard(),
+          backlogCard(),
+        ]);
+
+        let telemetryError = null;
+        let all = null;
         try {
-          // One Worker call → one batched upstream fetch (sequential to
-          // respect GoatCounter's 4 req/s rate limit).
-          const [all, catalog, backlog] = await Promise.all([
-            api('/api/everything'),
-            catalogCard(),
-            backlogCard(),
-          ]);
-          cards.replaceChildren(
-            metricsCard(all.totals, (all.stations.items || []).length),
-            catalog,
-            backlog,
-            listCard('top stations', all.stations.items),
-            listCard('favorites added', all.favorites.items),
-            listCard('broken reports', all.reports?.items ?? [], { showSub: true }),
-            listCard('errors', all.errors.items, { showSub: true }),
-            listCard('top countries', all.locations.items, { showSub: true }),
-            listCard('tabs', all.tabs.items),
-            listCard('genre filter', all.genres.items),
-            listCard('browsers', all.browsers.items),
-            listCard('systems', all.systems.items),
-          );
-          $root.appendChild(
-            el('div', { class: 'footer' },
-              `data via `,
-              el('a', { href: 'https://markussteinbrecher.goatcounter.com/', target: '_blank', rel: 'noopener' }, 'goatcounter'),
-              ` · cached 5 min · `,
-              el('a', { href: '#', onclick: (e) => { e.preventDefault(); renderDashboard(); } }, 'refresh'),
-            ),
-          );
+          all = await api('/api/everything');
         } catch (err) {
           if (String(err).includes('unauthorized')) {
             viewGate('Invalid token.');
             return;
           }
-          cards.replaceChildren(
-            el('div', { class: 'card span-2' },
-              el('span', { class: 'empty' }, 'Failed to load: ' + String(err)),
-            ),
-          );
+          telemetryError = err;
         }
+
+        const telemetryCards = all
+          ? [
+              metricsCard(all.totals, (all.stations.items || []).length),
+              listCard('top stations', all.stations.items),
+              listCard('favorites added', all.favorites.items),
+              listCard('broken reports', all.reports?.items ?? [], { showSub: true }),
+              listCard('errors', all.errors.items, { showSub: true }),
+              listCard('top countries', all.locations.items, { showSub: true }),
+              listCard('tabs', all.tabs.items),
+              listCard('genre filter', all.genres.items),
+              listCard('browsers', all.browsers.items),
+              listCard('systems', all.systems.items),
+            ]
+          : [
+              el('div', { class: 'card span-2' },
+                el('h2', {}, 'telemetry'),
+                el('span', { class: 'empty' },
+                  'GoatCounter data unavailable: ' + String(telemetryError || 'unknown error'),
+                ),
+              ),
+            ];
+
+        cards.replaceChildren(
+          ...telemetryCards.slice(0, 1),
+          catalog,
+          backlog,
+          ...telemetryCards.slice(1),
+        );
+        $root.appendChild(
+          el('div', { class: 'footer' },
+            `data via `,
+            el('a', { href: 'https://markussteinbrecher.goatcounter.com/', target: '_blank', rel: 'noopener' }, 'goatcounter'),
+            ` · cached 5 min · `,
+            el('a', { href: '#', onclick: (e) => { e.preventDefault(); renderDashboard(); } }, 'refresh'),
+          ),
+        );
       }
 
       function render() {

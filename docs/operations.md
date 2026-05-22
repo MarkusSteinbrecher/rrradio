@@ -10,6 +10,29 @@ The native iOS app lives in <https://github.com/MarkusSteinbrecher/rrradio-ios>.
 
 See `docs/architecture.md` for the full file map of `data/`, `tools/`, and the rest.
 
+## Native metadata capabilities
+
+`npm run catalog` also writes `public/station-capabilities.json`, a network-free companion to `public/stations.json`. Native clients use it to decide whether a station is worth background metadata work before opening a stream:
+
+| Field | Meaning |
+|---|---|
+| `metadataStrategy` | `api` for known fetchers, `icy` for useful ICY fallback, `hls` for useful HLS fallback, `none` for stations that should not be background-probed. |
+| `backgroundPollPriority` | `normal` for structured APIs, `low` for ICY/HLS fallback, `never` for stream-only stations. |
+| `hasProgram` | The fetcher can expose current show/program information. |
+| `hasSchedule` | The fetcher has a schedule companion endpoint. |
+| `hasProviderCover` | The provider metadata can supply artwork beyond the station favicon. |
+
+The rules are intentionally conservative: `stream-only` becomes `metadataStrategy: none` and `backgroundPollPriority: never`; `icy-only` becomes `icy` or `hls`; stations with a known `metadata` key become `api`. This lets iOS/Android avoid bulk stream probing in Favorites and other station-heavy views while still using curated broadcaster APIs.
+
+For local iOS scale testing, `npm run catalog:ios-local` writes the matching local-only pair:
+
+```bash
+public/stations-ios-local.json
+public/station-capabilities-ios-local.json
+```
+
+Those local files may include HTTP streams and are not the website publish contract.
+
 ## Linking a station to its Radio Browser record
 
 Every YAML entry can optionally carry three fields that bind it to a Radio Browser record so the build re-uses upstream data instead of duplicating it:
@@ -163,6 +186,159 @@ Avoid adding events for high-frequency success paths such as every metadata poll
 | Diagnostics | recent app operational events, when the user enables Collect Diagnostics | off by default; capped at 100 events and 14 days; turning it off clears local diagnostics; copyable by the user from Settings |
 | CloudKit private database | favorites, station lists, custom stations, and preferences only | until the user disables/removes iCloud data; recents, listening-history records, diagnostics, and one-shot playback intents are not synced |
 
+## Sources inventory
+
+Stations enter the catalog from a small number of upstream sources. The registry at `data/sources.yaml` lists them; new sources get added there and slotted into the collector switch in `tools/build-sources.mjs`.
+
+Today there are two:
+
+| Source id | Kind | Notes |
+|---|---|---|
+| `radio-browser` | upstream catalog | Our primary upstream. Entries with `stationuuid` are bound to an RB record and inherit fields from it. |
+| `manual` | sponsor-curated | Hand-added stations that don't (yet) come from any upstream catalog (M94.5, Grrif, Frisky channels, etc.). Distinguished by the absence of any RB signal. |
+
+Catalog rows can carry an explicit `source: <id>` field. When that's absent, `tools/build-sources.mjs` classifies the row using the `matchHints` on each source (uuid present, id prefix, faviconSource value). Add the explicit field on new entries; backfilling existing rows is opportunistic.
+
+### Raw source DB (`data/sources/`)
+
+Every source has a **committed snapshot of its upstream data** under `data/sources/<source-id>/`. Git is the audit trail — `git log -p data/sources/radio-browser/by-country/DE.json` shows every change RB has made to the German catalog since we started tracking.
+
+```
+data/sources/
+├── radio-browser/
+│   ├── index.json                 # per-country fetch metadata
+│   └── by-country/
+│       ├── AD.json                # raw RB station list for Andorra
+│       ├── AE.json                # raw RB station list for UAE
+│       └── …                      # one file per ISO 3166-1 alpha-2 code
+└── manual/
+    ├── index.json                 # metadata + sourceOfTruth pointer
+    └── stations.yaml              # extract of manual catalog entries
+```
+
+| File | Authoritative? | Refreshed by |
+|---|---|---|
+| `data/sources/radio-browser/by-country/<CC>.json` | **Yes** — raw RB snapshot, one per country | `npm run fetch-rb-raw` |
+| `data/sources/radio-browser/index.json` | Yes — per-country fetch metadata (timestamp, server, count) | `npm run fetch-rb-raw` |
+| `data/sources/manual/stations.yaml` | No — generated from `data/stations.yaml` | `npm run extract-manual-source` |
+| `data/sources/manual/index.json` | No — metadata | `npm run extract-manual-source` |
+
+The RB snapshots are pretty-printed with stable key ordering (stations sorted by `stationuuid`, fields projected through a fixed list) so git diffs stay tight even when RB silently reorders its responses. Total raw RB DB is ~40 MB committed for 237 countries / ~55k stations.
+
+### First checks on raw stations
+
+After the raw snapshot is in place, the pipeline runs cheap deterministic checks **before** the slower playability probe (`analyze-rb`):
+
+1. **Cross-country dedupe** — `npm run dedupe-raw` walks every per-country file and links stations that share signals across countries. Two signals today:
+   - `stream-url` — normalized streamUrl collision (high confidence — same physical stream)
+   - `name+homepage` — same country + name signature + homepage host (medium confidence — same brand on same broadcaster home)
+
+   Union-find merges chains across signals. The canonical for each group is the row with the most votes (then clickcount, then earliest changeuuid). Output goes to `data/sources/radio-browser/dedupe.json` with a `byStationUuid` lookup table consumed by `build-sources`.
+
+2. **Curator overrides** at `data/sources/radio-browser/overrides.yaml` take precedence over the automatic signals:
+   ```yaml
+   not-duplicate:
+     - uuids: [<uuid-a>, <uuid-b>]
+       reason: "Different programs on a shared CDN URL"
+       decidedAt: 2026-05-19
+
+   force-merge:
+     - canonical: <uuid-x>
+       duplicates: [<uuid-y>, <uuid-z>]
+       reason: "Same broadcaster, multi-submitter RB entries"
+       decidedAt: 2026-05-19
+   ```
+   `not-duplicate` splits otherwise-linked UUIDs into singletons. `force-merge` links UUIDs even when no automatic signal fired; the resulting group is flagged `lockedBy: override`.
+
+3. **Playability probe** — the slow step. Owned by `tools/analyze-rb.mjs` (per country) and `tools/analyze-rb-all.mjs` (sweep). Reads stations from the raw snapshot (no network fetch for inventory), probes each stream URL with `tools/playable-check.mjs`, writes verdicts to `public/rb-analysis-<CC>.json`. Verdicts get layered on top of the dedupe DB by `build-sources` — duplicate decisions stay in `dedupe.json`, playability in `rb-analysis-*.json`.
+
+   ```bash
+   # one country
+   npm run analyze-rb -- DE
+   npm run analyze-rb -- DE --concurrency 8 --resume
+
+   # sweep across every country in the raw snapshot
+   npm run analyze-rb-all                       # skips reports newer than 14 days
+   npm run analyze-rb-all -- --only-missing     # only probe countries with no report
+   npm run analyze-rb-all -- --max-age 30d
+   npm run analyze-rb-all -- --countries CH,AT  # subset
+   ```
+
+   The default concurrency (5 streams in flight per country) is conservative — many broadcasters host dozens of channels behind one origin and rate-limit aggressively. A full sweep of ~55k stations takes 1-2 hours.
+
+   Fetch-based verdicts are not the final word when a station appears broken but opens fine in a browser. For suspect rows, run the browser-backed probe:
+
+   ```bash
+   npm run probe:bytes -- '<stream-url>'          # fast: checks returned bytes / playlists
+   npm run probe:bytes -- --from-candidates public/sources/radio-browser-candidates.json --only-unplayable --resume --concurrency 12 --timeout 8 --output public/sources/radio-browser-byte-probes.json
+   npm run probe:browser -- '<stream-url>'
+   npm run probe:browser -- --json '<stream-url>'
+   ```
+
+   `probe:bytes` uses Python's standard library and checks the response prefix for MP3/AAC/Ogg/FLAC/WAV/MP4/FLV signatures or HLS/plain playlist bodies. In batch mode it writes `public/sources/radio-browser-byte-probes.json`, which the station tracker reads as the Sources table's `Bytes` column. `probe:browser` uses Playwright Chromium, an actual `HTMLAudioElement`, and the same `hls.js` path as the web player. A browser `OK` result should be treated as stronger evidence than a Node `fetch` failure. `probe-inconclusive` and `probe-skipped` mean the tooling did not prove the station is broken.
+
+A group exceeding 50 members is flagged `oversized: true` — almost always a CDN endpoint sweeping in unrelated stations. Investigate manually.
+
+### Refresh workflow
+
+```bash
+# Pull every RB country (skipped if fetched within 7 days)
+npm run fetch-rb-raw
+
+# Force re-fetch (ignore freshness)
+npm run fetch-rb-raw -- --all --force
+
+# One country
+npm run fetch-rb-raw -- DE
+
+# Custom freshness window
+npm run fetch-rb-raw -- --max-age 30d
+```
+
+The polite default is 250 ms between requests, single-country at a time, 4× exponential back-off on 5xx. A full refresh of all ~237 countries takes ~2 minutes.
+
+After fetching:
+
+```bash
+# (also re-run when data/stations.yaml has manual changes)
+npm run extract-manual-source
+
+# Refresh the dedupe DB
+npm run dedupe-raw
+
+# Rebuild the dashboard artifacts
+npm run build-sources
+
+# Commit the snapshot diff + regenerated artifacts
+git add data/sources/ public/sources.json public/sources/
+git commit -m "Refresh RB raw snapshots + dedupe"
+```
+
+`npm run dev` already chains `extract-manual-source`, `dedupe-raw`, and `build-sources` so local work always sees fresh artifacts. `fetch-rb-raw` is manual on purpose — refreshing every country is a network operation we don't want firing on every `dev` command.
+
+### Build artifacts (`public/sources/`)
+
+`npm run build-sources` reads the raw DB + the per-country `public/rb-analysis-<CC>.json` verdict files and writes:
+
+```
+public/sources.json                          — summary (eagerly loaded by tracker)
+public/sources/<source-id>.json              — per-source detail (per-country roll-up)
+public/sources/<source-id>-candidates.json   — full per-station list with disposition
+```
+
+CI doesn't regenerate these — the committed artifact is what GitHub Pages serves, mirroring `public/stations.json`.
+
+The **Sources tab** on `station-tracker.html` (sibling to the Matrix tab) reads these files directly (same-origin, no auth) and surfaces:
+
+- per-source candidate / imported / not-imported counts
+- per-country drilldown for Radio Browser, linking out to the existing `rb-analysis-<CC>.json` reports
+- the top unimported RB stations by upstream vote count — fuel for the curation backlog
+- cross-source duplicates: a single stream URL imported under more than one source label
+
+The tab is sticky via `#sources` in the URL hash so reloads and shared links land on the same view.
+
+When a new source comes online (e.g. a broadcaster API import), add an entry to `data/sources.yaml` with a fresh `kind:`, implement the matching `collect<Kind>` function in `tools/build-sources.mjs`, and the tracker tile + drilldown will appear automatically once the artifact is rebuilt.
+
 ## Admin dashboard
 
 Private page that surfaces GoatCounter stats in our visual style. Lives at `https://<host>/rrradio/dashboard.html`. Source files:
@@ -178,6 +354,8 @@ worker/                   — Cloudflare Worker that proxies the GC API
 The browser never sees the GoatCounter API token. The Worker holds it as a Cloudflare secret along with `ADMIN_TOKEN`, the bearer that the dashboard sends. Dashboard prompts for the admin token on first load and stores it in localStorage; the page is open to anyone but reveals nothing without the token.
 
 Endpoints: `/api/totals`, `/api/top-stations`, `/api/errors`, `/api/reports`, `/api/tabs`, `/api/genres`, `/api/favorites`. All accept `?days=N` (1–90, default 7). Responses cached 5 min at the Cloudflare edge.
+
+The operational cards on the dashboard (Station catalog, Station backlog) render from static same-origin JSON and don't depend on the Worker. When GoatCounter is unreachable or the admin token is invalid, those cards still render — only the telemetry tiles show a fallback message. The per-source inventory lives on `station-tracker.html` (Sources tab), not here.
 
 To re-deploy the Worker after editing `src/index.ts`:
 

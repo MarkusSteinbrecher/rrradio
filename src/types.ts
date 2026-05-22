@@ -44,10 +44,11 @@ export interface Station {
    *  omitted. */
   faviconSourceUrl?: string;
   /** License/usage rights label for the favicon. Open string; common values:
-   *   - `wikipedia`       — from Wikimedia Commons (typically CC-BY-SA)
-   *   - `broadcaster`     — from the broadcaster's own site (implicit grant / fair use)
-   *   - `cc-by`, `cc-by-sa`, `cc-by-nc`, `public-domain` — explicit Creative Commons
-   *   - `unknown`         — not yet researched
+   *   - `wikipedia`              — from Wikimedia Commons (typically CC-BY-SA)
+   *   - `broadcaster`            — explicit broadcaster-owned asset for bundled use
+   *   - `broadcaster-implicit`   — remote broadcaster-hosted asset, not redistributed
+   *   - `cc-by`, `cc-by-sa`, `cc-by-nc`, `cc0`, `public-domain` — explicit licenses
+   *   - `unknown`                — not yet researched
    *  Absent ≡ `unknown`. Tracked per-station so we can audit redistribution risk. */
   faviconLicense?: string;
   /** Bitrate in kbps when known (Radio Browser bitrate field) */

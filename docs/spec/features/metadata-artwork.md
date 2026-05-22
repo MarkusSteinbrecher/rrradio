@@ -12,6 +12,12 @@ language implementation.
 - Fetcher behavior should match across web, iOS, and Android: same JSON paths,
   same HTML/XML parsing intent, same null-vs-error semantics.
 - ICY-over-fetch is a fallback for stations marked `icy-only`.
+- `public/station-capabilities.json` is the native-client hint layer. It maps
+  each station id to `metadataStrategy` (`api`, `icy`, `hls`, `none`),
+  `backgroundPollPriority` (`normal`, `low`, `never`), and the provider
+  capability booleans `hasProgram`, `hasSchedule`, and `hasProviderCover`.
+- Native station-heavy views should not open streams for entries with
+  `metadataStrategy: none` or `backgroundPollPriority: never`.
 - Track metadata should be normalized into artist, title, raw label, and any
   program/schedule fields the platform supports.
 - Station favicon is the first station-art source.

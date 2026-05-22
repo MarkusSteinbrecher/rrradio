@@ -1,0 +1,51 @@
+{
+  "generatedAt": "2026-05-19T17:21:00.397Z",
+  "country": "AX",
+  "rawSnapshotAt": "2026-05-19T07:49:45.371Z",
+  "total": 2,
+  "playable": 2,
+  "broken": 0,
+  "curated": 0,
+  "byVerdict": {
+    "ok": 2
+  },
+  "stations": [
+    {
+      "stationuuid": "a940d9eb-b262-4d06-917b-457a03e0e140",
+      "changeuuid": "234f1691-42f3-4d94-9835-af9c87765f9c",
+      "name": "Ålands Radio",
+      "country": "AX",
+      "streamUrl": "https://stream.alandsradio.ax/stream.ogg",
+      "homepage": "https://alandsradio.ax/",
+      "favicon": "https://alandsradio.ax/sites/default/files/favicon_artv.ico",
+      "codec": "OGG",
+      "votes": 92,
+      "clickcount": 2,
+      "lastcheckok": 1,
+      "verdict": "ok",
+      "verdictReason": "application/ogg",
+      "finalUrl": "https://stream.alandsradio.ax/stream.ogg",
+      "isCurated": false,
+      "probedAt": "2026-05-19T17:21:00.392Z"
+    },
+    {
+      "stationuuid": "d7a3eb69-9212-4b9d-98d7-ac5bdfe105da",
+      "changeuuid": "1cd1c61a-b99d-4b7f-a9be-fe69e70e7631",
+      "name": " EXA FM: Popmusik på engelska och spanska",
+      "country": "AX",
+      "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/XHPSFMAAC.aac",
+      "homepage": "https://exafm.com/",
+      "favicon": "https://cdn-profiles.tunein.com/s90984/images/logog.png",
+      "codec": "AAC+",
+      "bitrate": 48,
+      "votes": 95,
+      "clickcount": 1,
+      "lastcheckok": 1,
+      "verdict": "ok",
+      "verdictReason": "audio/aacp",
+      "finalUrl": "https://14553.live.streamtheworld.com/XHPSFMAAC.aac",
+      "isCurated": false,
+      "probedAt": "2026-05-19T17:21:00.392Z"
+    }
+  ]
+}

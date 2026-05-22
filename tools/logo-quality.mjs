@@ -1,10 +1,14 @@
 const GENERIC_HOST_PATTERNS = [
   /(^|\.)facebook\.com$/i,
+  /^static\.xx\.fbcdn\.net$/i,
   /(^|\.)control\.divio\.com$/i,
+  /(^|\.)hugedomains\.com$/i,
   /(^|\.)media-ssl\.musicradio\.com$/i,
   /^zeno\.fm$/i,
   /^www\.zeno\.fm$/i,
+  /^www\.zenolive\.com$/i,
   /^www\.radio\.co$/i,
+  /^www\.radioking\.com$/i,
   /^external\.spcast\.eu$/i,
 ];
 
@@ -22,6 +26,7 @@ const GENERIC_PATH_PATTERNS = [
   /\/apple-touch-icon(?:[-_.]?\d+x\d+)?\.(?:png|jpg|jpeg|webp)$/i,
   /\/apple-icon-\d+x\d+\.(?:png|jpg|jpeg|webp)$/i,
   /\/android-chrome-\d+x\d+\.(?:png|jpg|jpeg|webp)$/i,
+  /\/safari-pinned-tab\.svg$/i,
   /\/assets\/images\/touch-icons\//i,
   /\/lautfm-logo-share-image\.(?:png|jpg|jpeg|webp)$/i,
   /\/og-image\.(?:png|jpg|jpeg|webp)$/i,
@@ -29,6 +34,15 @@ const GENERIC_PATH_PATTERNS = [
   /\/static\/icons\/production\/\d+\.(?:png|jpg|jpeg|webp)$/i,
   /\/icon(?:[-_.]?\d+x\d+)?\.(?:ico|png|jpg|jpeg|webp|svg)$/i,
   /\/static\/favicon\.(?:ico|png|jpg|jpeg|webp|svg)$/i,
+];
+
+const GENERIC_FULL_URL_PATTERNS = [
+  /\/\/static\.xx\.fbcdn\.net\/rsrc\.php\//i,
+  /\/\/[^/]*hugedomains\.com\/images\/hdv\d?-img\/og_hugedomains\.(?:png|jpg|jpeg|webp)$/i,
+  /\/\/www\.radioking\.com\/wp-content\/uploads\/\d{4}\/\d{2}\/(?:logo-\d|cropped-faviconrk)[^/]*\.(?:png|jpg|jpeg|webp)$/i,
+  /\/\/www\.zenolive\.com\/apple-icon-precomposed\.png$/i,
+  /\/\/panelradiowy\.pl\/images\/playfacebook\.png$/i,
+  /\/\/slotex\.pl\/static\/img\/og\/homepage\.png/i,
 ];
 
 const GOOD_PATH_HINTS = [
@@ -130,6 +144,17 @@ export function classifyLogoUrl(favicon) {
     };
   }
 
+  if (matchAny(GENERIC_FULL_URL_PATTERNS, full)) {
+    return {
+      state: 'bad',
+      tier: 'generic',
+      source: 'remote',
+      reason: 'generic platform image',
+      upgradeRecommended: true,
+      score: 100,
+    };
+  }
+
   if (path === '/favicon.ico' || matchAny(GENERIC_PATH_PATTERNS, path)) {
     return {
       state: 'warn',
@@ -201,6 +226,10 @@ export function scoreLogoCandidate(candidate) {
   switch (candidate.rel) {
     case 'jsonld-logo':
       base = 1250;
+      break;
+    case 'html-logo':
+    case 'header-logo':
+      base = 1150;
       break;
     case 'manifest-icon':
       base = 1100;

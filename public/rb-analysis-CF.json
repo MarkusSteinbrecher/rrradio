@@ -1,0 +1,71 @@
+{
+  "generatedAt": "2026-05-19T17:24:24.964Z",
+  "country": "CF",
+  "rawSnapshotAt": "2026-05-19T07:49:57.898Z",
+  "total": 3,
+  "playable": 2,
+  "broken": 1,
+  "curated": 0,
+  "byVerdict": {
+    "broken-mixed": 1,
+    "ok": 2
+  },
+  "stations": [
+    {
+      "stationuuid": "4f36078b-bdc9-4e65-827c-599c49d377e2",
+      "changeuuid": "832d9c32-dc15-4aad-be50-587864e38a05",
+      "name": "Radio Ndeke Luka FM",
+      "country": "CF",
+      "streamUrl": "http://stream.radiondekeluka.org:8001/ndekeluka",
+      "homepage": "https://www.radiondekeluka.org/",
+      "codec": "MP3",
+      "bitrate": 28,
+      "votes": 2068,
+      "clickcount": 0,
+      "lastcheckok": 1,
+      "verdict": "broken-mixed",
+      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "finalUrl": "http://stream.radiondekeluka.org:8001/ndekeluka",
+      "isCurated": false,
+      "probedAt": "2026-05-19T17:24:24.958Z"
+    },
+    {
+      "stationuuid": "7e22291d-8062-49e2-932a-cfc13c35b9f0",
+      "changeuuid": "89288ddd-a323-46ad-82c3-06dbe2912c85",
+      "name": "Abdulbasit Abdulsamad",
+      "country": "CF",
+      "streamUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
+      "homepage": "https://mp3islam.com/",
+      "favicon": "null",
+      "codec": "MP3",
+      "bitrate": 192,
+      "votes": 65,
+      "clickcount": 0,
+      "lastcheckok": 1,
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg",
+      "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
+      "isCurated": false,
+      "probedAt": "2026-05-19T17:24:24.959Z"
+    },
+    {
+      "stationuuid": "85d63c4c-4b6e-4336-91af-f877209ccfd2",
+      "changeuuid": "69f129d8-6208-419f-9d62-8c0f6eede8e2",
+      "name": "Mambokadzi DreamRadio",
+      "country": "CF",
+      "streamUrl": "https://cast3.asurahosting.com/proxy/dreamradio/stream.mp3",
+      "homepage": "https://www.mambokadzidreamradio.com/",
+      "favicon": "https://www.mambokadzidreamradio.com/sitepad-data/uploads/2023/11/Mambokadzi-DreamRadio-Logo.jpg",
+      "codec": "MP3",
+      "bitrate": 128,
+      "votes": 165,
+      "clickcount": 0,
+      "lastcheckok": 1,
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg",
+      "finalUrl": "https://cast3.asurahosting.com/proxy/dreamradio/stream.mp3",
+      "isCurated": false,
+      "probedAt": "2026-05-19T17:24:24.959Z"
+    }
+  ]
+}

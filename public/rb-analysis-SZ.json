@@ -1,0 +1,51 @@
+{
+  "generatedAt": "2026-05-19T17:48:18.025Z",
+  "country": "SZ",
+  "rawSnapshotAt": "2026-05-19T07:51:21.432Z",
+  "total": 2,
+  "playable": 1,
+  "broken": 1,
+  "curated": 0,
+  "byVerdict": {
+    "broken-mixed": 1,
+    "ok": 1
+  },
+  "stations": [
+    {
+      "stationuuid": "3011bbac-8206-44f0-915f-bfc96fdb992d",
+      "changeuuid": "837a976c-5d27-4be8-bb9b-a25a0740eb29",
+      "name": "Abdulbasit Abdulsamad",
+      "country": "SZ",
+      "streamUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
+      "homepage": "https://mp3islam.com/",
+      "favicon": "null",
+      "codec": "MP3",
+      "bitrate": 192,
+      "votes": 44,
+      "clickcount": 0,
+      "lastcheckok": 1,
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg",
+      "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
+      "isCurated": false,
+      "probedAt": "2026-05-19T17:48:18.021Z"
+    },
+    {
+      "stationuuid": "f655e4e8-2330-467a-ad29-4ee9a1e8e14c",
+      "changeuuid": "2c499ead-2c46-4a70-abed-017e51b6df99",
+      "name": "1.FM - Top Hits 2000",
+      "country": "SZ",
+      "streamUrl": "http://185.33.21.112/hits2000_128",
+      "codec": "MP3",
+      "bitrate": 192,
+      "votes": 2665,
+      "clickcount": 5,
+      "lastcheckok": 1,
+      "verdict": "broken-mixed",
+      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "finalUrl": "http://185.33.21.112/hits2000_128",
+      "isCurated": false,
+      "probedAt": "2026-05-19T17:48:18.020Z"
+    }
+  ]
+}

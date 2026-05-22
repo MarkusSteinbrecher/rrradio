@@ -1,0 +1,320 @@
+# rrradio — manual source extract
+#
+# Auto-generated from data/stations.yaml by tools/extract-manual-source.mjs.
+# Do NOT hand-edit; update data/stations.yaml and re-run
+# `npm run extract-manual-source` (also invoked from `npm run dev`).
+#
+# These are the catalog entries classified as the "manual" source
+# (no stationuuid binding, no RB id prefix, no RB faviconSource).
+# They live here as the source-of-record for the manual source so
+# git tracks changes to that view independently of the full catalog.
+- id: builtin-grrif
+  geo:
+    - 47.3656
+    - 7.3434
+  broadcaster: grrif
+  name: Grrif
+  streamUrl: https://grrif.ice.infomaniak.ch/grrif-128.aac
+  bitrate: 128
+  codec: AAC
+  tags:
+    - rock
+    - indie
+    - alternative
+    - swiss
+  favicon: stations/grrif.png
+  faviconSource: broadcaster
+  faviconLicense: broadcaster
+  homepage: https://www.grrif.ch/
+  country: CH
+  status: working
+  featured: true
+- id: de-ffh-2000er
+  favicon: https://static.ffh.de/fileadmin/_processed_/d/6/csm_ffh2000er_600x600_7986e7cff4.jpg
+  faviconSource: broadcaster-site
+  geo:
+    - 50.11
+    - 8.682
+  broadcaster: ffh
+  name: Hit Radio FFH - 2000er
+  streamUrl: https://mp3.ffh.de/ffhchannels/hq2000er.mp3
+  metadataUrl: ffh2000er
+  bitrate: 128
+  codec: MP3
+  tags:
+    - 2000s
+    - hits
+    - germany
+  homepage: https://www.ffh.de/musik/ffh-plus/2000er
+  country: DE
+  status: working
+- id: de-klassik-radio-lounge
+  favicon: https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Logo_klassikradio.svg/330px-Logo_klassikradio.svg.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail
+  faviconSource: wiki
+  geo:
+    - 48.367
+    - 10.898
+  broadcaster: klassik-radio
+  name: Klassik Radio - Lounge
+  streamUrl: https://stream.klassikradio.de/lounge/mp3-192/stream
+  metadataUrl: https://api.streamabc.net/metadata/channel/klassikr-lounge.json
+  bitrate: 192
+  codec: MP3
+  tags:
+    - lounge
+    - classical crossover
+    - chillout
+    - germany
+  homepage: https://www.klassikradio.de/programm/sendungen/lounge
+  country: DE
+  status: working
+- id: de-klassik-radio-movie
+  favicon: https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Klassik_Radio_Logo_2020.svg/langde-330px-Klassik_Radio_Logo_2020.svg.png
+  faviconSource: wiki
+  geo:
+    - 48.367
+    - 10.898
+  broadcaster: klassik-radio
+  name: Klassik Radio - Movie
+  streamUrl: https://stream.klassikradio.de/movie/mp3-192/stream
+  metadataUrl: https://api.streamabc.net/metadata/channel/klassikr-movie.json
+  bitrate: 192
+  codec: MP3
+  tags:
+    - classical
+    - soundtrack
+    - film music
+    - germany
+  homepage: https://www.klassikradio.de/programm/sendungen/movie
+  country: DE
+  status: working
+- id: de-m945
+  broadcaster: independent
+  name: M94.5
+  streamUrl: https://streams.mediaschool.bayern/m945-hq.mp3
+  bitrate: 128
+  codec: MP3
+  tags:
+    - münchen
+    - munich
+    - youth
+    - student
+    - public
+    - alternative
+  favicon: https://www.m945.de/wp-content/uploads/sites/2/2018/11/cropped-Icon_Browser_M945_neu_2-192x192.png
+  faviconSource: broadcaster-site
+  homepage: https://www.m945.de/
+  country: DE
+  geo:
+    - 48.137
+    - 11.575
+  status: icy-only
+  reviewedAt: 2026-05-16
+- id: de-rock-antenne-70er-rock
+  favicon: https://www.rockantenne.de/media/cache/3/version/577/streamlogo_70er-rock_ra-v1.jpg/ce8d5176867df6fd.jpg
+  faviconSource: broadcaster-site
+  geo:
+    - 48.137
+    - 11.575
+  broadcaster: rock-antenne
+  name: Rock Antenne 70er-Rock
+  streamUrl: https://stream.rockantenne.de/70er-rock
+  metadataUrl: https://www.rockantenne.de/api/metadata/now#70er-rock
+  bitrate: 128
+  codec: MP3
+  tags:
+    - 70s
+    - classic rock
+    - germany
+  homepage: https://www.rockantenne.de/webradio/70er-rock/
+  country: DE
+  status: working
+- id: de-rock-antenne-80er-rock
+  favicon: https://www.rockantenne.de/media/cache/3/version/8271/streamlogo_80er-rock_ra-v1.jpg/3195f6d8133ce725.jpg
+  faviconSource: broadcaster-site
+  geo:
+    - 48.137
+    - 11.575
+  broadcaster: rock-antenne
+  name: Rock Antenne 80er-Rock
+  streamUrl: https://stream.rockantenne.de/80er-rock
+  metadataUrl: https://www.rockantenne.de/api/metadata/now#80er-rock
+  bitrate: 128
+  codec: MP3
+  tags:
+    - 80s
+    - classic rock
+    - germany
+  homepage: https://www.rockantenne.de/webradio/80er-rock/
+  country: DE
+  status: working
+- id: de-rock-antenne-90er-rock
+  favicon: https://www.rockantenne.de/media/cache/3/version/578/streamlogo_90er-rock_ra-v1.jpg/6a48bc88eaa5bbf1.jpg
+  faviconSource: broadcaster-site
+  geo:
+    - 48.137
+    - 11.575
+  broadcaster: rock-antenne
+  name: Rock Antenne 90er-Rock
+  streamUrl: https://stream.rockantenne.de/90er-rock
+  metadataUrl: https://www.rockantenne.de/api/metadata/now#90er-rock
+  bitrate: 128
+  codec: MP3
+  tags:
+    - 90s
+    - classic rock
+    - germany
+  homepage: https://www.rockantenne.de/webradio/90er-rock/
+  country: DE
+  status: working
+- id: frisky-chill
+  geo:
+    - 43.6532
+    - -79.3832
+  broadcaster: frisky
+  name: Frisky Chill
+  streamUrl: https://stream.chill.friskyradio.com/chill_mp3_high
+  bitrate: 96
+  codec: MP3
+  tags:
+    - electronic
+    - chill
+    - ambient
+    - downtempo
+  favicon: stations/frisky.png
+  faviconSource: broadcaster
+  homepage: https://frisky.fm/radio/chill
+  status: icy-only
+- id: frisky-classics
+  geo:
+    - 40.7307
+    - -74.0776
+  broadcaster: frisky
+  name: Frisky Classics
+  streamUrl: https://stream.classics.friskyradio.com/classics_mp3_high
+  bitrate: 96
+  codec: MP3
+  tags:
+    - electronic
+    - techno
+    - classics
+  favicon: stations/frisky.png
+  faviconSource: broadcaster
+  homepage: https://frisky.fm/radio/classics
+  status: icy-only
+- id: frisky-deep
+  geo:
+    - 40.7162
+    - -74.0339
+  broadcaster: frisky
+  name: Frisky Deep
+  streamUrl: https://stream.deep.friskyradio.com/deep_mp3_high
+  bitrate: 96
+  codec: MP3
+  tags:
+    - electronic
+    - deep house
+    - dance
+  favicon: stations/frisky.png
+  faviconSource: broadcaster
+  homepage: https://frisky.fm/radio/deep
+  status: icy-only
+- id: frisky-main
+  geo:
+    - 40.7307
+    - -74.0776
+  broadcaster: frisky
+  name: Frisky
+  streamUrl: https://stream.frisky.friskyradio.com/frisky_mp3_high
+  bitrate: 96
+  codec: MP3
+  tags:
+    - electronic
+    - house
+    - progressive
+    - dance
+  favicon: stations/frisky.png
+  faviconSource: broadcaster
+  homepage: https://frisky.fm/radio/frisky
+  status: icy-only
+- id: gr-era-sport
+  stationuuid: ""
+  changeuuid: ""
+  reviewedAt: 2026-04-30
+  geo:
+    - 37.9838
+    - 23.7275
+  broadcaster: ert
+  name: ERA Sport
+  streamUrl: https://radiostreaming.ert.gr/ert-erasport
+  codec: MP3
+  tags:
+    - sports
+    - public
+    - greek
+  favicon: https://www.ertecho.gr/wp-content/uploads/2022/06/cropped-ertecho-favicon-180x180.png
+  faviconSource: broadcaster-site
+  homepage: https://www.ertecho.gr/radio/era-sport/
+  country: GR
+  status: stream-only
+- id: gr-ert-kosmos
+  stationuuid: ""
+  changeuuid: ""
+  reviewedAt: 2026-04-30
+  geo:
+    - 37.9838
+    - 23.7275
+  broadcaster: ert
+  name: ERT Kosmos
+  streamUrl: https://radiostreaming.ert.gr/ert-kosmos
+  codec: MP3
+  tags:
+    - world music
+    - public
+    - greek
+  favicon: https://www.ertecho.gr/wp-content/uploads/2022/06/cropped-ertecho-favicon-180x180.png
+  faviconSource: broadcaster-site
+  homepage: https://www.ertecho.gr/radio/kosmos/
+  country: GR
+  status: stream-only
+- id: gr-ert-proto
+  stationuuid: ""
+  changeuuid: ""
+  reviewedAt: 2026-04-30
+  geo:
+    - 37.9838
+    - 23.7275
+  broadcaster: ert
+  name: ERT Πρώτο
+  streamUrl: https://radiostreaming.ert.gr/ert-proto
+  codec: MP3
+  tags:
+    - news
+    - talk
+    - public
+    - greek
+  favicon: https://www.ertecho.gr/wp-content/uploads/2022/06/cropped-ertecho-favicon-180x180.png
+  faviconSource: broadcaster-site
+  homepage: https://www.ertecho.gr/radio/proto-programma/
+  country: GR
+  status: stream-only
+- id: gr-ert-trito
+  stationuuid: ""
+  changeuuid: ""
+  reviewedAt: 2026-04-30
+  geo:
+    - 37.9838
+    - 23.7275
+  broadcaster: ert
+  name: ERT Τρίτο
+  streamUrl: https://radiostreaming.ert.gr/ert-trito
+  codec: MP3
+  tags:
+    - classical
+    - public
+    - greek
+  favicon: https://www.ertecho.gr/wp-content/uploads/2022/06/cropped-ertecho-favicon-180x180.png
+  faviconSource: broadcaster-site
+  homepage: https://www.ertecho.gr/radio/trito/
+  country: GR
+  status: stream-only

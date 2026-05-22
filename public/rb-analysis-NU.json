@@ -1,0 +1,52 @@
+{
+  "generatedAt": "2026-05-19T17:40:34.563Z",
+  "country": "NU",
+  "rawSnapshotAt": "2026-05-19T07:51:01.523Z",
+  "total": 2,
+  "playable": 1,
+  "broken": 1,
+  "curated": 0,
+  "byVerdict": {
+    "broken-mixed": 1,
+    "ok": 1
+  },
+  "stations": [
+    {
+      "stationuuid": "0a1e2c11-4bac-4042-9a65-40c9bfde50b9",
+      "changeuuid": "896cf347-7f0a-4226-bad2-2d7581faa580",
+      "name": "MaXXima",
+      "country": "NU",
+      "streamUrl": "http://maxxima.mine.nu:8000/maxx.ogg",
+      "homepage": "https://www.maxxima.org/",
+      "codec": "OGG",
+      "bitrate": 700,
+      "votes": 64,
+      "clickcount": 0,
+      "lastcheckok": 1,
+      "verdict": "broken-mixed",
+      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "finalUrl": "http://maxxima.mine.nu:8000/maxx.ogg",
+      "isCurated": false,
+      "probedAt": "2026-05-19T17:40:34.558Z"
+    },
+    {
+      "stationuuid": "b626bc7f-7ab0-493e-b806-8742e7d0bd3a",
+      "changeuuid": "94540bdc-1931-4a0b-8744-ea2ff597c7af",
+      "name": "Abdulbasit Abdulsamad",
+      "country": "NU",
+      "streamUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
+      "homepage": "https://mp3islam.com/",
+      "favicon": "null",
+      "codec": "MP3",
+      "bitrate": 192,
+      "votes": 17,
+      "clickcount": 0,
+      "lastcheckok": 1,
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg",
+      "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
+      "isCurated": false,
+      "probedAt": "2026-05-19T17:40:34.558Z"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "generatedAt": "2026-05-19T17:33:25.906Z",
+  "country": "KH",
+  "rawSnapshotAt": "2026-05-19T07:50:38.095Z",
+  "total": 2,
+  "playable": 1,
+  "broken": 1,
+  "curated": 0,
+  "byVerdict": {
+    "broken-mixed": 1,
+    "ok": 1
+  },
+  "stations": [
+    {
+      "stationuuid": "10c7239a-3404-4a54-82b8-7b4cc9603779",
+      "changeuuid": "b7f8b98a-02eb-410c-bc61-35f3f2d85315",
+      "name": "Abdulbasit Abdulsamad",
+      "country": "KH",
+      "streamUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
+      "homepage": "https://mp3islam.com/",
+      "favicon": "https://mp3islam.com/favicon.ico",
+      "codec": "MP3",
+      "bitrate": 192,
+      "votes": 220,
+      "clickcount": 3,
+      "lastcheckok": 1,
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg",
+      "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
+      "isCurated": false,
+      "probedAt": "2026-05-19T17:33:25.901Z"
+    },
+    {
+      "stationuuid": "eedb7498-f59d-4f07-9efc-b77853d6abf5",
+      "changeuuid": "342ca764-c405-40cd-a1ae-35cac3dd6a38",
+      "name": "National Radio of Kampuchea",
+      "country": "KH",
+      "streamUrl": "http://119.82.252.6:8080/broadwave.mp3",
+      "homepage": "http://rnk.gov.kh/",
+      "favicon": "https://storage.googleapis.com/rnk/notification-icon-150x150.png",
+      "codec": "MP3",
+      "votes": 4526,
+      "clickcount": 3,
+      "lastcheckok": 1,
+      "verdict": "broken-mixed",
+      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "finalUrl": "http://119.82.252.6:8080/broadwave.mp3",
+      "isCurated": false,
+      "probedAt": "2026-05-19T17:33:25.901Z"
+    }
+  ]
+}

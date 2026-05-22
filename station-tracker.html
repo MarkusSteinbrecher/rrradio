@@ -39,106 +39,233 @@
     </nav>
 
     <main class="tracker-shell" aria-label="Station tracker">
-      <header class="tracker-head">
-        <h1>Station tracker</h1>
-        <p>Matrix view of catalog metadata. Click a topic header to collapse / expand.</p>
-      </header>
+      <nav class="tracker-tabs" role="tablist" aria-label="Tracker views">
+        <button type="button" class="tracker-tab-btn is-active" role="tab" aria-selected="true" data-tab-btn="matrix">Matrix</button>
+        <button type="button" class="tracker-tab-btn" role="tab" aria-selected="false" data-tab-btn="sources">Sources</button>
+      </nav>
 
-      <section class="tracker-summary" aria-label="Search and key metrics">
-        <div class="search-bar">
-          <input type="search" id="filter-query-top" autocomplete="off" placeholder="Search stations, broadcasters, countries…" />
-        </div>
-        <div class="donut-row" role="group" aria-label="Image metrics">
-          <figure class="donut" id="donut-coverage"></figure>
-          <figure class="donut" id="donut-state"></figure>
-          <figure class="donut" id="donut-np"></figure>
-          <figure class="donut" id="donut-license"></figure>
-        </div>
-      </section>
-
-      <section class="matrix-filters" aria-label="Matrix filters">
-        <label class="filter">
-          <span>Country</span>
-          <select id="filter-country">
-            <option value="all">All countries</option>
-          </select>
-        </label>
-        <label class="filter">
-          <span>Status</span>
-          <select id="filter-status">
-            <option value="all">All statuses</option>
-          </select>
-        </label>
-        <label class="filter">
-          <span>Image state</span>
-          <select id="filter-image-state">
-            <option value="all">All</option>
-            <option value="ok">OK</option>
-            <option value="warn">Warn</option>
-            <option value="bad">Bad / missing</option>
-          </select>
-        </label>
-        <label class="filter">
-          <span>NP quality</span>
-          <select id="filter-np-quality">
-            <option value="all">All</option>
-            <option value="good">Good</option>
-            <option value="acceptable">Acceptable</option>
-            <option value="poor">Poor</option>
-            <option value="unknown">Unknown</option>
-          </select>
-        </label>
-        <label class="filter">
-          <span>License</span>
-          <select id="filter-license">
-            <option value="all">All licenses</option>
-          </select>
-        </label>
-      </section>
-
-      <section class="matrix-panel" aria-label="Station matrix">
-        <div class="matrix-toolbar">
-          <p id="matrix-summary">Loading…</p>
-          <div class="matrix-pager">
-            <button type="button" id="matrix-page-prev">Previous</button>
-            <span id="matrix-page-label">Page 1</span>
-            <button type="button" id="matrix-page-next">Next</button>
+      <div class="tracker-tab is-active" data-tab="matrix" role="tabpanel">
+        <section class="tracker-summary" aria-label="Search and key metrics">
+          <div class="search-bar">
+            <input type="search" id="filter-query-top" autocomplete="off" placeholder="Search stations, broadcasters, countries…" />
           </div>
-        </div>
-        <div class="matrix-wrap">
-          <table class="matrix" id="matrix-table">
-            <thead>
-              <tr class="matrix-groups">
-                <th class="matrix-group matrix-group--locked" colspan="4" data-group="id">
-                  <span class="matrix-group__label">Identification</span>
-                </th>
-                <th class="matrix-group" colspan="9" data-group="image" data-full-colspan="9">
-                  <button type="button" class="matrix-group__toggle" data-toggle-group="image" aria-expanded="true">
-                    <span class="matrix-group__caret" aria-hidden="true">▾</span>
-                    <span class="matrix-group__label">Image quality</span>
-                  </button>
-                </th>
-              </tr>
-              <tr class="matrix-cols">
-                <th class="matrix-col-thumb" data-group="id">Logo</th>
-                <th data-group="id" data-sort-key="name">Station</th>
-                <th data-group="id" data-sort-key="country">Country</th>
-                <th data-group="id" data-sort-key="status">Status</th>
-                <th data-group="image" data-sort-key="favicon">Favicon URL</th>
-                <th data-group="image" data-sort-key="sourceType">Source type</th>
-                <th data-group="image" data-sort-key="source">Provenance</th>
-                <th data-group="image">Original URL</th>
-                <th data-group="image" data-sort-key="license">License</th>
-                <th data-group="image" data-sort-key="tier">Tier</th>
-                <th data-group="image" data-sort-key="state">State</th>
-                <th data-group="image" data-sort-key="size">Size</th>
-                <th data-group="image">Action</th>
-              </tr>
-            </thead>
-            <tbody id="matrix-rows"></tbody>
-          </table>
-        </div>
-      </section>
+          <div class="donut-row" role="group" aria-label="Image metrics">
+            <figure class="donut" id="donut-coverage"></figure>
+            <figure class="donut" id="donut-state"></figure>
+            <figure class="donut" id="donut-np"></figure>
+            <figure class="donut" id="donut-license"></figure>
+          </div>
+        </section>
+
+        <section class="matrix-filters" aria-label="Matrix filters">
+          <label class="filter">
+            <span>Country</span>
+            <select id="filter-country">
+              <option value="all">All countries</option>
+            </select>
+          </label>
+          <label class="filter">
+            <span>Status</span>
+            <select id="filter-status">
+              <option value="all">All statuses</option>
+            </select>
+          </label>
+          <label class="filter">
+            <span>Image state</span>
+            <select id="filter-image-state">
+              <option value="all">All</option>
+              <option value="ok">OK</option>
+              <option value="warn">Warn</option>
+              <option value="bad">Bad / missing</option>
+            </select>
+          </label>
+          <label class="filter">
+            <span>NP quality</span>
+            <select id="filter-np-quality">
+              <option value="all">All</option>
+              <option value="good">Good</option>
+              <option value="acceptable">Acceptable</option>
+              <option value="poor">Poor</option>
+              <option value="unknown">Unknown</option>
+            </select>
+          </label>
+          <label class="filter">
+            <span>License</span>
+            <select id="filter-license">
+              <option value="all">All licenses</option>
+            </select>
+          </label>
+        </section>
+
+        <section class="matrix-panel" aria-label="Station matrix">
+          <div class="matrix-toolbar">
+            <p id="matrix-summary">Loading…</p>
+            <div class="matrix-pager">
+              <button type="button" id="matrix-page-prev">Previous</button>
+              <span id="matrix-page-label">Page 1</span>
+              <button type="button" id="matrix-page-next">Next</button>
+            </div>
+          </div>
+          <div class="matrix-wrap">
+            <table class="matrix" id="matrix-table">
+              <thead>
+                <tr class="matrix-groups">
+                  <th class="matrix-group matrix-group--locked" colspan="4" data-group="id">
+                    <span class="matrix-group__label">Identification</span>
+                  </th>
+                  <th class="matrix-group" colspan="9" data-group="image" data-full-colspan="9">
+                    <button type="button" class="matrix-group__toggle" data-toggle-group="image" aria-expanded="true">
+                      <span class="matrix-group__caret" aria-hidden="true">▾</span>
+                      <span class="matrix-group__label">Image quality</span>
+                    </button>
+                  </th>
+                </tr>
+                <tr class="matrix-cols">
+                  <th class="matrix-col-thumb" data-group="id">Logo</th>
+                  <th data-group="id" data-sort-key="name">Station</th>
+                  <th data-group="id" data-sort-key="country">Country</th>
+                  <th data-group="id" data-sort-key="status">Status</th>
+                  <th data-group="image" data-sort-key="favicon">Favicon URL</th>
+                  <th data-group="image" data-sort-key="sourceType">Source type</th>
+                  <th data-group="image" data-sort-key="source">Provenance</th>
+                  <th data-group="image">Original URL</th>
+                  <th data-group="image" data-sort-key="license">License</th>
+                  <th data-group="image" data-sort-key="tier">Tier</th>
+                  <th data-group="image" data-sort-key="state">State</th>
+                  <th data-group="image" data-sort-key="size">Size</th>
+                  <th data-group="image">Action</th>
+                </tr>
+              </thead>
+              <tbody id="matrix-rows"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <div class="tracker-tab" data-tab="sources" role="tabpanel" hidden>
+        <section class="sources-panel" aria-label="Catalog sources">
+          <div class="sources-filters" role="group" aria-label="Sources filters">
+            <label class="filter">
+              <span>Search</span>
+              <input type="search" id="sources-filter-query" autocomplete="off" placeholder="Name, uuid, host, catalog id…" />
+            </label>
+            <label class="filter">
+              <span>Source</span>
+              <select id="sources-filter-source">
+                <option value="all">All sources</option>
+              </select>
+            </label>
+            <label class="filter">
+              <span>Country</span>
+              <select id="sources-filter-country">
+                <option value="all">All countries</option>
+              </select>
+            </label>
+            <label class="filter">
+              <span>Disposition</span>
+              <select id="sources-filter-disposition">
+                <option value="all">All</option>
+                <option value="playable">Playable</option>
+                <option value="imported">Imported</option>
+                <option value="available">Available (playable, not imported)</option>
+                <option value="byte-ok">Audio bytes found (needs browser check)</option>
+                <option value="actionable">Actionable broken (4xx + tls + 5xx + dns + refused, no byte OK)</option>
+                <option value="duplicate">Duplicate</option>
+                <option value="unplayable">Broken / no audio bytes</option>
+                <option value="broken">— fetch broken, no byte OK</option>
+                <option value="http-only">HTTP-only</option>
+                <option value="needs-playlist">— needs playlist, no byte OK</option>
+                <option value="other">Inconclusive / unknown</option>
+              </select>
+            </label>
+            <label class="filter">
+              <span>Sort</span>
+              <select id="sources-filter-sort">
+                <option value="votes-desc">Votes ↓</option>
+                <option value="votes-asc">Votes ↑</option>
+                <option value="clicks-desc">Clicks ↓</option>
+                <option value="name-asc">Name A→Z</option>
+                <option value="name-desc">Name Z→A</option>
+                <option value="country-asc">Country A→Z</option>
+              </select>
+            </label>
+          </div>
+
+          <header class="sources-head">
+            <h2 id="sources-heading">Sources</h2>
+            <p id="sources-summary">Loading…</p>
+          </header>
+
+          <div class="sources-overview-tile" id="sources-overview-tile"></div>
+
+          <section class="sources-table-panel" id="sources-table-panel">
+            <header class="sources-table-head">
+              <h3 id="sources-table-title">Stations</h3>
+              <p id="sources-table-summary"></p>
+            </header>
+            <div class="sources-table-toolbar">
+              <p id="sources-page-summary"></p>
+              <div class="sources-pager">
+                <button type="button" id="sources-page-prev">Previous</button>
+                <span id="sources-page-label">Page 1</span>
+                <button type="button" id="sources-page-next">Next</button>
+              </div>
+            </div>
+            <div class="sources-table-wrap">
+              <table class="sources-table" id="sources-table">
+                <thead>
+                  <tr class="sources-table__group-row">
+                    <th class="sources-table__group sources-table__group--locked" data-source-group="name">
+                      <span>Station</span>
+                    </th>
+                    <th colspan="4" class="sources-table__group" data-source-group="metadata" data-full-colspan="4">
+                      <button type="button" class="sources-table__group-toggle" data-toggle-source-group="metadata" aria-expanded="true">
+                        <span class="sources-table__group-caret" aria-hidden="true">▾</span>
+                        <span>Station metadata</span>
+                      </button>
+                    </th>
+                    <th colspan="3" class="sources-table__group" data-source-group="pipeline" data-full-colspan="3">
+                      <button type="button" class="sources-table__group-toggle" data-toggle-source-group="pipeline" aria-expanded="true">
+                        <span class="sources-table__group-caret" aria-hidden="true">▾</span>
+                        <span>Steps 1-3</span>
+                      </button>
+                    </th>
+                    <th colspan="6" class="sources-table__group" data-source-group="catalog" data-full-colspan="6">
+                      <button type="button" class="sources-table__group-toggle" data-toggle-source-group="catalog" aria-expanded="true">
+                        <span class="sources-table__group-caret" aria-hidden="true">▾</span>
+                        <span>Catalog / checks</span>
+                      </button>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th data-group="name">Name</th>
+                    <th data-group="metadata" data-group-anchor="metadata">Country</th>
+                    <th data-group="metadata">Source</th>
+                    <th data-group="metadata" class="num">Votes</th>
+                    <th data-group="metadata" class="num">Clicks</th>
+                    <th data-group="pipeline" data-group-anchor="pipeline" title="Step 1: cross-country dedupe (tools/dedupe-raw.mjs)">1 · Dedupe</th>
+                    <th data-group="pipeline" title="Step 2: fetch-based stream probe (tools/analyze-rb.mjs)">2 · Fetch</th>
+                    <th data-group="pipeline" title="Step 3: byte-signature stream probe (tools/audio-byte-probe.py)">3 · Bytes</th>
+                    <th data-group="catalog" data-group-anchor="catalog" title="Step 4: presence in the curated catalog (data/stations.yaml)">4 · Catalog</th>
+                    <th data-group="catalog" title="Step 5: logo availability and quality after catalog import">5 · Logo</th>
+                    <th data-group="catalog" title="Paste a reviewed logo URL and queue a local apply-logos patch">Manual logo</th>
+                    <th data-group="catalog" class="sources-table__icon-col" title="Broadcaster homepage">Home</th>
+                    <th data-group="catalog" class="sources-table__icon-col" title="Click to open the stream URL in a new tab">Stream</th>
+                    <th data-group="catalog">RB UUID / Catalog id</th>
+                  </tr>
+                </thead>
+                <tbody id="sources-table-rows"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <details class="sources-overview" id="sources-overview">
+            <summary>Overview · per-country, verdicts, orphans, cross-source dupes</summary>
+            <div class="sources-detail" id="sources-detail"></div>
+            <div class="sources-xdup" id="sources-xdup" hidden></div>
+          </details>
+        </section>
+      </div>
     </main>
 
     <script type="module" src="/src/station-tracker.ts"></script>

@@ -19,6 +19,9 @@
  *   npm run catalog               — fetch fresh RB data when cache is stale
  *   RRRADIO_OFFLINE=1 npm run catalog
  *                                 — cache-only, fail if any uuid is missing
+ *   RRRADIO_OFFLINE=1 RRRADIO_ALLOW_MISSING_RB=1 npm run catalog
+ *                                 — local bulk-import mode; use local YAML
+ *                                    fields when a uuid is not cached
  */
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
@@ -26,6 +29,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse as parseYaml } from 'yaml';
 import { buildFtsDatabase } from './build-catalog-fts.mjs';
+import { writeStationCapabilities } from './build-station-capabilities.mjs';
 import { fetchByUuid } from './rb-client.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -33,6 +37,9 @@ const root = join(__dirname, '..');
 
 const PUBLISHABLE = new Set(['working', 'stream-only', 'icy-only']);
 const OFFLINE = process.env.RRRADIO_OFFLINE === '1' || process.argv.includes('--offline');
+const ALLOW_MISSING_RB =
+  process.env.RRRADIO_ALLOW_MISSING_RB === '1' ||
+  process.argv.includes('--allow-missing-rb');
 
 function loadYaml(path) {
   const text = readFileSync(join(root, path), 'utf8');
@@ -92,7 +99,10 @@ if (uuidsNeeded.length > 0) {
   console.log(
     `catalog: resolving ${uuidsNeeded.length} stationuuid(s) ${OFFLINE ? '(offline)' : 'from Radio Browser'}…`,
   );
-  const records = await fetchByUuid(uuidsNeeded, { offline: OFFLINE });
+  const records = await fetchByUuid(uuidsNeeded, {
+    offline: OFFLINE,
+    allowMissing: OFFLINE && ALLOW_MISSING_RB,
+  });
   for (const r of records) rbByUuid.set(r.stationuuid, r);
   const missing = uuidsNeeded.filter((u) => !rbByUuid.has(u));
   if (missing.length > 0) {
@@ -255,6 +265,7 @@ writeFileSync(
   }, null, 2) + '\n',
 );
 
+const capabilities = writeStationCapabilities();
 const ftsPath = buildFtsDatabase(built, { log: false });
 
 const summary = Object.entries(counts.byStatus)
@@ -263,7 +274,14 @@ const summary = Object.entries(counts.byStatus)
 console.log(
   `catalog: ${counts.published}/${counts.total} stations published → public/stations.json (${summary})`,
 );
-console.log(`catalog: SQLite FTS5 index → ${ftsPath.replace(`${root}/`, '')}`);
+console.log(
+  `catalog: metadata capabilities → public/station-capabilities.json (api=${capabilities.counts.byMetadataStrategy.api}, icy=${capabilities.counts.byMetadataStrategy.icy}, hls=${capabilities.counts.byMetadataStrategy.hls}, none=${capabilities.counts.byMetadataStrategy.none})`,
+);
+if (ftsPath) {
+  console.log(`catalog: SQLite FTS5 index → ${ftsPath.replace(`${root}/`, '')}`);
+} else {
+  console.log('catalog: SQLite FTS5 index skipped');
+}
 if (driftWarnings.length > 0) {
   console.log(`catalog: ${driftWarnings.length} drift warning(s) — run \`npm run check-drift\` for details`);
   for (const w of driftWarnings.slice(0, 5)) console.log(`  · ${w}`);

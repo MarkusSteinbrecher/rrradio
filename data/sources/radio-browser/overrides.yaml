@@ -1,0 +1,34 @@
+# Curator overrides for tools/dedupe-raw.mjs.
+#
+# Two top-level keys, both optional. Hand-edited — version-controlled
+# alongside the dedupe DB so the rationale for each override is in git.
+#
+# Re-run `npm run dedupe-raw` after editing; the override is applied
+# on top of the automatic signal-based union-find.
+
+# Pairs the curator has confirmed are NOT duplicates — they will be
+# split out into singletons even if `stream-url` or `name+homepage`
+# would otherwise link them. Note: adding both UUIDs here lets us
+# keep them apart, but if either is also auto-linked to a third
+# station the third station may still end up grouped with one of
+# them — split that case explicitly too.
+#
+# not-duplicate:
+#   - uuids: [<uuid-a>, <uuid-b>]
+#     reason: "Different programs on a shared CDN URL"
+#     decidedAt: 2026-05-19
+
+not-duplicate: []
+
+# Force-merge — the curator asserts these are the same station even
+# when the automatic signals don't see it. The canonical wins; the
+# rest get linked to it via signal `override`. Groups created here
+# are marked `lockedBy: override` in dedupe.json.
+#
+# force-merge:
+#   - canonical: <uuid-x>
+#     duplicates: [<uuid-y>, <uuid-z>]
+#     reason: "Same broadcaster, multi-submitter RB entries"
+#     decidedAt: 2026-05-19
+
+force-merge: []

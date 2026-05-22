@@ -1,0 +1,52 @@
+{
+  "generatedAt": "2026-05-19T17:29:14.452Z",
+  "country": "GN",
+  "rawSnapshotAt": "2026-05-19T07:50:22.470Z",
+  "total": 2,
+  "playable": 1,
+  "broken": 1,
+  "curated": 0,
+  "byVerdict": {
+    "ok": 1,
+    "broken-mixed": 1
+  },
+  "stations": [
+    {
+      "stationuuid": "412b7c08-4004-4655-815c-805788e02232",
+      "changeuuid": "c2596da0-8a2c-447c-835f-e5b2b8765c2e",
+      "name": "Abdulbasit Abdulsamad",
+      "country": "GN",
+      "streamUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
+      "homepage": "https://mp3islam.com/",
+      "favicon": "null",
+      "codec": "MP3",
+      "bitrate": 192,
+      "votes": 249,
+      "clickcount": 1,
+      "lastcheckok": 1,
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg",
+      "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
+      "isCurated": false,
+      "probedAt": "2026-05-19T17:29:14.446Z"
+    },
+    {
+      "stationuuid": "df786327-ac94-4782-945b-aff3df3f4027",
+      "changeuuid": "6ea18638-7491-4b46-818b-9c8f58585180",
+      "name": "modrak",
+      "country": "GN",
+      "streamUrl": "http://37.157.242.101:16196/;stream",
+      "homepage": "http://signalx.radio12345.com/",
+      "codec": "MP3",
+      "bitrate": 128,
+      "votes": 9,
+      "clickcount": 1,
+      "lastcheckok": 1,
+      "verdict": "broken-mixed",
+      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "finalUrl": "http://37.157.242.101:16196/;stream",
+      "isCurated": false,
+      "probedAt": "2026-05-19T17:29:14.447Z"
+    }
+  ]
+}

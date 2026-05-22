@@ -62,7 +62,7 @@ Only the first three publish into the bundled catalog.
 
 - **Architecture / file map:** `docs/architecture.md`
 - **Product specification** (web / iOS / Android parity): `docs/spec/README.md`
-- **Operations** (catalog, RB linking, curation, telemetry, admin dashboard): `docs/operations.md`
+- **Operations** (catalog, RB linking, curation, telemetry, sources inventory, admin dashboard): `docs/operations.md`
 - **Testing** (4 stacks, render harness, what's tested vs not): `docs/testing.md`
 - **Logo extraction:** `docs/logo-extraction.md` - scraper batches, review rules, generated artifacts
 - **Decisions:** `design/decisions/decisions-log.md` — catalog format, no backend, HTTPS-only, CSP, privacy errors, wake-to-radio, render harness

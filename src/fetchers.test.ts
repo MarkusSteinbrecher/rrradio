@@ -71,6 +71,8 @@ describe('fetcher registry stays in sync', () => {
       expect(typeof e.broadcaster === 'string' || e.broadcaster === null,
         `${key}.broadcaster must be string or null`).toBe(true);
       expect(typeof e.schedule, `${key}.schedule must be boolean`).toBe('boolean');
+      expect(typeof e.program, `${key}.program must be boolean`).toBe('boolean');
+      expect(typeof e.providerCover, `${key}.providerCover must be boolean`).toBe('boolean');
       expect(typeof e.selfContained, `${key}.selfContained must be boolean`).toBe('boolean');
       expect(typeof e.notes, `${key}.notes must be string`).toBe('string');
     }

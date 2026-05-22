@@ -15,6 +15,7 @@
  *   opts = {
  *     cacheFile?: string,    // path; default .cache/rb-byuuid.json
  *     offline?: boolean,     // never hit the network; cache-only
+ *     allowMissing?: boolean,// offline cache misses return partial records
  *     maxAgeMs?: number,     // cache freshness; default 7d
  *   }
  */
@@ -112,6 +113,7 @@ async function fetchChunk(server, uuids) {
 export async function fetchByUuid(uuids, opts = {}) {
   const cacheFile = opts.cacheFile ?? DEFAULT_CACHE;
   const offline = opts.offline === true;
+  const allowMissing = opts.allowMissing === true;
   const maxAgeMs = opts.maxAgeMs ?? SEVEN_DAYS;
 
   if (uuids.length === 0) return [];
@@ -129,13 +131,14 @@ export async function fetchByUuid(uuids, opts = {}) {
       else missing.push(uuid);
     }
     if (missing.length === 0) return reorder(unique, out);
-    if (offline) {
+    if (offline && !allowMissing) {
       throw new Error(
         `rb-client: offline and ${missing.length} uuid(s) missing from cache: ${missing
           .slice(0, 3)
           .join(', ')}${missing.length > 3 ? ', …' : ''}`,
       );
     }
+    if (offline && allowMissing) return reorder(unique, out);
     // Online + cache fresh but missing some uuids → fall through to refetch.
   }
 

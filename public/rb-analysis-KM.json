@@ -1,0 +1,53 @@
+{
+  "generatedAt": "2026-05-19T17:33:29.490Z",
+  "country": "KM",
+  "rawSnapshotAt": "2026-05-19T07:50:38.994Z",
+  "total": 2,
+  "playable": 1,
+  "broken": 1,
+  "curated": 0,
+  "byVerdict": {
+    "broken-mixed": 1,
+    "ok": 1
+  },
+  "stations": [
+    {
+      "stationuuid": "2a72e5f6-f1c4-4da6-9721-9ea401a4f931",
+      "changeuuid": "77e3c939-36df-4374-b249-a4743097fbe2",
+      "name": "Abdulbasit Abdulsamad",
+      "country": "KM",
+      "streamUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
+      "homepage": "https://mp3islam.com/",
+      "favicon": "null",
+      "codec": "MP3",
+      "bitrate": 192,
+      "votes": 31,
+      "clickcount": 0,
+      "lastcheckok": 1,
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg",
+      "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
+      "isCurated": false,
+      "probedAt": "2026-05-19T17:33:29.486Z"
+    },
+    {
+      "stationuuid": "d7da8f81-c68d-11e8-a498-52543be04c81",
+      "changeuuid": "d7da8f93-c68d-11e8-a498-52543be04c81",
+      "name": "Radio Domoni Inter",
+      "country": "KM",
+      "streamUrl": "http://www.domoni-inter.org:8000/live",
+      "homepage": "http://www.domoni-inter.org/",
+      "favicon": "http://www.domoni-inter.org//images/favicon.png",
+      "codec": "MP3",
+      "bitrate": 96,
+      "votes": 343,
+      "clickcount": 1,
+      "lastcheckok": 1,
+      "verdict": "broken-mixed",
+      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "finalUrl": "http://www.domoni-inter.org:8000/live",
+      "isCurated": false,
+      "probedAt": "2026-05-19T17:33:29.485Z"
+    }
+  ]
+}

@@ -37,11 +37,10 @@ const TIMEOUT_MS = 8_000;
 // FETCHERS_BY_KEY in src/builtins.ts (verified by src/builtins.test.ts).
 const fetcherManifest = JSON.parse(readFileSync(join(root, 'src/fetchers.json'), 'utf8'));
 const KNOWN_FETCHERS = new Set(Object.keys(fetcherManifest.fetchers));
-// Fetchers that expose program (show) info beyond per-track titles —
-// derived from the manifest's `schedule` flag.
+// Fetchers that expose program (show) info beyond per-track titles.
 const PROGRAM_CAPABLE = new Set(
   Object.entries(fetcherManifest.fetchers)
-    .filter(([, v]) => v.schedule)
+    .filter(([, v]) => v.program)
     .map(([k]) => k),
 );
 // Fetchers that hardcode their own metadata endpoint (don't depend on

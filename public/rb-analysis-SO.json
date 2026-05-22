@@ -1,0 +1,66 @@
+{
+  "generatedAt": "2026-05-19T17:47:24.688Z",
+  "country": "SO",
+  "rawSnapshotAt": "2026-05-19T07:51:18.669Z",
+  "total": 3,
+  "playable": 2,
+  "broken": 1,
+  "curated": 0,
+  "byVerdict": {
+    "ok": 2,
+    "broken-mixed": 1
+  },
+  "stations": [
+    {
+      "stationuuid": "315a122b-ea8e-4e5c-894a-20ef9d32221a",
+      "changeuuid": "327d1afd-b74b-4fea-bbc4-303838311988",
+      "name": "اذاعة القرآن الكريم",
+      "country": "SO",
+      "streamUrl": "http://stream.radiojar.com/0tpy1h0kxtzuv",
+      "codec": "MP3",
+      "votes": 958,
+      "clickcount": 3,
+      "lastcheckok": 1,
+      "verdict": "broken-mixed",
+      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "finalUrl": "http://stream.radiojar.com/0tpy1h0kxtzuv",
+      "isCurated": false,
+      "probedAt": "2026-05-19T17:47:24.683Z"
+    },
+    {
+      "stationuuid": "56e9c7e6-b4b6-4204-8547-ab41e0ef7495",
+      "changeuuid": "b82a50c4-c268-47b0-b365-7416f2dfd76d",
+      "name": "Idaacadda Subaxnimo VOA",
+      "country": "SO",
+      "streamUrl": "https://av.voanews.com/clips/VSO/2021/04/29/20210429-033000-VSO065-program_48k.mp3",
+      "codec": "MP3",
+      "votes": 1568,
+      "clickcount": 6,
+      "lastcheckok": 1,
+      "verdict": "ok",
+      "verdictReason": "audio/mp3",
+      "finalUrl": "https://voa-audio.voanews.eu/VSO/2021/04/29/20210429-033000-VSO065-program_48k.mp3",
+      "isCurated": false,
+      "probedAt": "2026-05-19T17:47:24.682Z"
+    },
+    {
+      "stationuuid": "6e4af45e-f3eb-4075-8afb-8f36edd6a332",
+      "changeuuid": "e72eba4f-87c2-4f8c-b945-db5b93e8c5c1",
+      "name": "Abdulbasit Abdulsamad",
+      "country": "SO",
+      "streamUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
+      "homepage": "https://mp3islam.com/",
+      "favicon": "null",
+      "codec": "MP3",
+      "bitrate": 192,
+      "votes": 301,
+      "clickcount": 6,
+      "lastcheckok": 1,
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg",
+      "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
+      "isCurated": false,
+      "probedAt": "2026-05-19T17:47:24.683Z"
+    }
+  ]
+}
