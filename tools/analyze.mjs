@@ -179,10 +179,16 @@ function classifyIcy(probe, codec) {
   return { state: 'bad', detail: 'no ICY metadata' };
 }
 
-// BBC's metadataUrl is a bare slug (e.g. "bbc_world_service"), not a
-// fetchable URL — fetchers route it through our worker proxy. Skip
-// the URL probe and trust the wire-metadata verification step.
-const SLUG_NOT_URL = new Set(['bbc']);
+// Some fetchers store a broadcaster slug in metadataUrl instead of a
+// fetchable URL. Skip the URL probe for those and let the fetcher expand it.
+const SLUG_NOT_URL = new Set(['bbc', 'ffh', 'laut-fm', 'npo', 'soma-fm']);
+
+// A few valid metadata feeds are plain text, XML, or HTML fragments.
+const NON_JSON_METADATA = new Set(['wdr', 'mr', 'rb-bremen', 'sr']);
+
+function isMetadataSlug(metadataUrl, metadataKey) {
+  return !!metadataKey && SLUG_NOT_URL.has(metadataKey) && !/^https?:\/\//i.test(metadataUrl);
+}
 
 function classifyMetadataApi(metadataUrl, probe, metadataKey, broadcaster) {
   if (!metadataUrl) {
@@ -194,12 +200,15 @@ function classifyMetadataApi(metadataUrl, probe, metadataKey, broadcaster) {
     }
     return { state: 'na', detail: 'not declared' };
   }
-  if (metadataKey && SLUG_NOT_URL.has(metadataKey)) {
+  if (isMetadataSlug(metadataUrl, metadataKey)) {
     return { state: 'ok', detail: `slug=${metadataUrl} (proxied)` };
   }
   if (!probe || probe.status === 'failed') return { state: 'bad', detail: probe?.error || 'unreachable' };
   if (typeof probe.status === 'number' && probe.status >= 400) return { state: 'bad', detail: `HTTP ${probe.status}` };
   if (!probe.contentType?.includes('json')) {
+    if (metadataKey && NON_JSON_METADATA.has(metadataKey)) {
+      return { state: 'ok', detail: probe.contentType || 'non-json metadata' };
+    }
     return { state: 'warn', detail: `content-type "${probe.contentType || '?'}"` };
   }
   return { state: 'ok' };
@@ -256,7 +265,7 @@ for (const s of targets) {
   const streamProbe = await probeStream(s.streamUrl);
   // Skip URL probe for fetchers whose metadataUrl is a slug, not a URL.
   const metaProbe =
-    s.metadataUrl && !SLUG_NOT_URL.has(metadataKey) ? await probeMetadataUrl(s.metadataUrl) : null;
+    s.metadataUrl && !isMetadataSlug(s.metadataUrl, metadataKey) ? await probeMetadataUrl(s.metadataUrl) : null;
 
   const checks = {
     stream: classifyStream(streamProbe),

@@ -160,7 +160,55 @@
       "providerCover": false,
       "selfContained": false,
       "notes": "Saarländischer Rundfunk programme-only, worker-proxied"
+    },
+    "ndr": {
+      "broadcaster": "ndr",
+      "schedule": false,
+      "program": false,
+      "providerCover": true,
+      "selfContained": false,
+      "notes": "NDR public radioplaylists JSON per channel; track + cover"
+    },
+    "wdr": {
+      "broadcaster": "wdr",
+      "schedule": false,
+      "program": false,
+      "providerCover": false,
+      "selfContained": false,
+      "notes": "WDR plain-text radiotext endpoints; track-only when music is playing"
+    },
+    "npo": {
+      "broadcaster": "npo",
+      "schedule": false,
+      "program": true,
+      "providerCover": true,
+      "selfContained": false,
+      "notes": "NPO miniplayer API; metadataUrl carries channel slug"
+    },
+    "radio-france": {
+      "broadcaster": "radio-france",
+      "schedule": false,
+      "program": true,
+      "providerCover": true,
+      "selfContained": false,
+      "notes": "Radio France livemeta API; FIP has track data, talk stations expose program info"
+    },
+    "soma-fm": {
+      "broadcaster": "soma-fm",
+      "schedule": false,
+      "program": false,
+      "providerCover": true,
+      "selfContained": false,
+      "notes": "SomaFM songs/<slug>.json recent-song feed; metadataUrl carries channel slug"
+    },
+    "kexp": {
+      "broadcaster": "kexp",
+      "schedule": false,
+      "program": true,
+      "providerCover": true,
+      "selfContained": false,
+      "notes": "KEXP public v2 plays API with cover art and current show lookup"
     }
   },
-  "wireableBroadcasters": ["br", "orf", "bbc", "hr"]
+  "wireableBroadcasters": ["br", "orf", "bbc", "hr", "ndr", "wdr", "npo", "radio-france", "soma-fm", "kexp"]
 }

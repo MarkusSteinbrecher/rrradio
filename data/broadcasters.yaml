@@ -40,14 +40,18 @@ br:
     radioplayer.json endpoint per channel under www.br.de/mediathek/audio/.
     Body starts with `//@formatter:off` — fetcher strips leading non-JSON.
 
-# ARD members — fetchers TBD (each has its own now-playing API shape)
+# ARD members — each broadcaster has its own now-playing API shape
 wdr:
   name: WDR
   fullName: Westdeutscher Rundfunk
   country: DE
   family: ARD
   homepage: https://www1.wdr.de/radio/
-  notes: TBD — has own onair API, different from BR
+  notes: |
+    Track-capable channels use CORS-open plain-text radiotext endpoints at
+    www.wdr.de/radio/radiotext/streamtitle_<slug>.txt. Set `metadata: wdr`
+    per-station only for channels where the endpoint carries track text;
+    WDR 5 / Die Maus / Event stay ICY-only or stream-only.
 
 ndr:
   name: NDR
@@ -55,6 +59,10 @@ ndr:
   country: DE
   family: ARD
   homepage: https://www.ndr.de/
+  notes: |
+    Music channels use CORS-open JSON at
+    www.ndr.de/public/radioplaylists/<slug>.json. Set `metadata: ndr`
+    per-station because NDR Info has no playlist endpoint.
 
 mdr:
   name: MDR
@@ -340,7 +348,11 @@ radio-france:
   name: Radio France
   country: FR
   homepage: https://www.radiofrance.fr/
-  notes: France Inter, France Culture, France Musique, FIP, Mouv'
+  notes: |
+    CORS-open livemeta endpoints at api.radiofrance.fr/livemeta/live/<id>/<format>.
+    Set `metadata: radio-france` per-station because FIP/music, programme-only
+    talk channels, France Bleu, and France Musique sub-channels have different
+    known coverage.
 
 # ─────────────── Netherlands ───────────────
 
@@ -349,6 +361,11 @@ npo:
   fullName: Nederlandse Publieke Omroep
   country: NL
   homepage: https://nporadio.nl/
+  metadata: npo
+  notes: |
+    Single miniplayer API serves the curated channel set via
+    www.nporadio2.nl/api/miniplayer/info?channel=<slug>. metadataUrl carries
+    the channel slug.
 
 # ─────────────── Italy ───────────────
 
@@ -586,9 +603,10 @@ soma-fm:
   name: SomaFM
   country: US
   homepage: https://somafm.com/
+  metadata: soma-fm
   notes: |
-    ~30 channels, each with api.somafm.com/songs/<channel>.json
-    that's CORS-permissive. Uniform fetcher should serve all.
+    Channels expose CORS-open recent-song JSON at
+    somafm.com/songs/<channel>.json. metadataUrl carries the channel slug.
 
 nts:
   name: NTS Radio
@@ -600,6 +618,7 @@ kexp:
   name: KEXP 90.3 FM
   country: US
   homepage: https://www.kexp.org/
+  metadata: kexp
   notes: |
     api.kexp.org/v2/plays/ — public read API, no auth.
 

@@ -24,6 +24,7 @@ const root = join(__dirname, '..');
 const PUBLISHABLE = new Set(['working', 'stream-only', 'icy-only']);
 const ORIGIN = 'https://rrradio.org';
 const TIMEOUT_MS = 8_000;
+const SLUG_NOT_URL = new Set(['bbc', 'ffh', 'laut-fm', 'npo', 'soma-fm']);
 
 const stations = parseYaml(readFileSync(join(root, 'data/stations.yaml'), 'utf8'));
 if (!Array.isArray(stations)) {
@@ -52,6 +53,7 @@ const targets = stations
   .map((s) => ({
     ...s,
     streamUrl: s.streamUrl ?? resolvedById[s.id]?.streamUrl,
+    metadata: s.metadata ?? resolvedById[s.id]?.metadata,
     metadataUrl: s.metadataUrl ?? resolvedById[s.id]?.metadataUrl,
   }));
 
@@ -108,6 +110,10 @@ function classify(streamRes, metaRes) {
   return 'OK';
 }
 
+function isMetadataSlug(metadataUrl, metadataKey) {
+  return !!metadataKey && SLUG_NOT_URL.has(metadataKey) && !/^https?:\/\//i.test(metadataUrl);
+}
+
 // Skip ANSI escapes when piped (CI / file redirect). The workflow
 // posts the captured output into a GitHub issue body, where escapes
 // would leak through as garbage.
@@ -124,7 +130,8 @@ console.log(`\nvalidating ${targets.length} publishable stations…\n`);
 for (const s of targets) {
   process.stdout.write(`  ${s.id.padEnd(28)} `);
   const stream = await probeStream(s.streamUrl);
-  const meta = s.metadataUrl ? await probeMeta(s.metadataUrl) : undefined;
+  const meta =
+    s.metadataUrl && !isMetadataSlug(s.metadataUrl, s.metadata) ? await probeMeta(s.metadataUrl) : undefined;
   const v = classify(stream, meta);
   tally[v] += 1;
   const detail =

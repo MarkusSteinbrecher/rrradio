@@ -1,20 +1,24 @@
 #!/usr/bin/env node
 /**
  * Discovers and wires per-station metadata-API URLs for broadcasters
- * whose URL pattern can be derived (BR, ORF). For each station that's
- * missing a metadataUrl but has a known broadcaster, tries to find
- * the per-channel API URL and inserts it into data/stations.yaml.
+ * whose URL pattern can be derived. For each station that's missing a
+ * metadataUrl but has a known broadcaster, tries to find the per-channel
+ * API URL and inserts it into data/stations.yaml.
  *
  *   npm run wire-metadata
  *
  * Discovery strategies:
- *   - BR  → scrape <homepage> for the radioplayer.json link
- *   - ORF → derive audioapi.orf.at/<slug>/api/json/4.0/live from
- *           the channel subdomain in homepage
+ *   - BR / HR      → scrape <homepage> for radioplayer.json
+ *   - ORF          → derive audioapi.orf.at/<slug>/api/json/4.0/live
+ *   - BBC          → derive service slug from the stream URL
+ *   - NDR / WDR    → derive known public playlist/radiotext endpoints
+ *   - NPO / SomaFM → derive broadcaster slugs
+ *   - Radio France → derive known livemeta endpoints
+ *   - KEXP         → shared public plays endpoint
  *
  * Read-only on the network side; mutates data/stations.yaml only when
- * a candidate URL probes 2xx + JSON. Surgical line insert keeps the
- * existing hand-formatted YAML structure intact.
+ * a candidate URL probes 2xx. Surgical line insert keeps the existing
+ * hand-formatted YAML structure intact.
  */
 
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -27,6 +31,12 @@ const root = join(__dirname, '..');
 
 const ORIGIN = 'https://rrradio.org';
 const TIMEOUT_MS = 8_000;
+
+const PER_STATION_METADATA_KEYS = new Map([
+  ['ndr', 'ndr'],
+  ['wdr', 'wdr'],
+  ['radio-france', 'radio-france'],
+]);
 
 function timed(promise) {
   const ctrl = new AbortController();
@@ -160,11 +170,95 @@ async function discoverHr(station) {
   return found ? found[0] : null;
 }
 
+const NDR_PLAYLISTS = new Map([
+  ['ndr-ndr-90-3', 'ndr903'],
+  ['ndr-ndr-2', 'ndr2'],
+  ['ndr-ndr-kultur', 'ndrkultur'],
+  ['ndr-ndr-1-niedersachsen', 'ndr1niedersachsen'],
+  ['ndr-ndr-1-welle-nord', 'ndr1wellenord'],
+  ['ndr-n-joy', 'njoy'],
+  ['ndr-ndr-schlager', 'ndrschlager'],
+  ['ndr-ndr-blue', 'ndrblue'],
+  ['ndr-ndr-1-radio-mv', 'ndr1radiomv'],
+]);
+
+async function discoverNdr(station) {
+  const slug = NDR_PLAYLISTS.get(station.id);
+  return slug ? `https://www.ndr.de/public/radioplaylists/${slug}.json` : null;
+}
+
+const WDR_RADIOTEXT = new Map([
+  ['wdr-1live', 'streamtitle_1live.txt'],
+  ['wdr-wdr-2', 'streamtitle_wdr2.txt'],
+  ['wdr-wdr-4', 'streamtitle_wdr4.txt'],
+  ['wdr-cosmo', 'streamtitle_fhe.txt'],
+]);
+
+async function discoverWdr(station) {
+  const file = WDR_RADIOTEXT.get(station.id);
+  return file ? `https://www.wdr.de/radio/radiotext/${file}` : null;
+}
+
+const NPO_CHANNELS = new Map([
+  ['builtin-npo-radio-1', 'npo-radio-1'],
+  ['builtin-npo-radio-2', 'npo-radio-2'],
+  ['builtin-npo-3fm', 'npo-3fm'],
+  ['builtin-npo-radio-4', 'npo-radio-4'],
+  ['builtin-npo-radio-5', 'npo-radio-5'],
+  ['builtin-npo-soul-jazz', 'npo-radio-2-soul-jazz'],
+  ['builtin-npo-funx', 'npo-funx'],
+]);
+
+async function discoverNpo(station) {
+  return NPO_CHANNELS.get(station.id) ?? null;
+}
+
+const RADIO_FRANCE_LIVEMETA = new Map([
+  ['builtin-france-inter', 'https://api.radiofrance.fr/livemeta/live/1/inter_player'],
+  ['builtin-france-culture', 'https://api.radiofrance.fr/livemeta/live/5/culture_player'],
+  ['builtin-france-musique', 'https://api.radiofrance.fr/livemeta/live/4/musique_player'],
+  ['builtin-france-info', 'https://api.radiofrance.fr/livemeta/live/2/info_player'],
+  ['builtin-fip', 'https://api.radiofrance.fr/livemeta/live/7/fip_extended'],
+  ['builtin-mouv', 'https://api.radiofrance.fr/livemeta/live/6/mouv_player'],
+  ['builtin-fip-jazz', 'https://api.radiofrance.fr/livemeta/live/65/fip_extended'],
+  ['builtin-fip-reggae', 'https://api.radiofrance.fr/livemeta/live/71/fip_extended'],
+  ['builtin-fip-rock', 'https://api.radiofrance.fr/livemeta/live/64/fip_extended'],
+  ['builtin-fip-groove', 'https://api.radiofrance.fr/livemeta/live/66/fip_extended'],
+  ['builtin-fip-electro', 'https://api.radiofrance.fr/livemeta/live/74/fip_extended'],
+  ['builtin-fip-monde', 'https://api.radiofrance.fr/livemeta/live/69/fip_extended'],
+]);
+
+async function discoverRadioFrance(station) {
+  return RADIO_FRANCE_LIVEMETA.get(station.id) ?? null;
+}
+
+async function discoverSomaFm(station) {
+  const home = station.homepage ?? '';
+  const homeMatch = home.match(/^https?:\/\/somafm\.com\/([^/]+)\/?$/i);
+  if (homeMatch) return homeMatch[1];
+  try {
+    const mount = new URL(station.streamUrl).pathname.split('/').filter(Boolean).pop();
+    return mount?.replace(/-\d+-.+$/i, '') ?? null;
+  } catch {
+    return null;
+  }
+}
+
+async function discoverKexp(station) {
+  return station.broadcaster === 'kexp' ? 'https://api.kexp.org/v2/plays/?limit=5' : null;
+}
+
 const DISCOVERERS = {
   br: discoverBr,
   orf: discoverOrf,
   bbc: discoverBbc,
   hr: discoverHr,
+  ndr: discoverNdr,
+  wdr: discoverWdr,
+  npo: discoverNpo,
+  'radio-france': discoverRadioFrance,
+  'soma-fm': discoverSomaFm,
+  kexp: discoverKexp,
 };
 
 // ─────────────────────────────────────────────────────────────
@@ -195,7 +289,7 @@ for (const s of parsed) {
     failed++;
     continue;
   }
-  // Some discoverers (BBC) return a slug that isn't directly fetchable —
+  // Some discoverers return a slug that isn't directly fetchable —
   // they've already verified it via the worker proxy. Only post-probe
   // when the result looks like a real URL.
   if (/^https?:\/\//.test(url)) {
@@ -208,7 +302,7 @@ for (const s of parsed) {
   }
   console.log(`OK  ${url}`);
 
-  // Insert `  metadataUrl: <url>` after the `id:` line for this station.
+  // Insert metadata fields after the `id:` line for this station.
   const idLine = `- id: ${s.id}`;
   const idx = text.indexOf(idLine);
   if (idx === -1) {
@@ -219,7 +313,9 @@ for (const s of parsed) {
   const endOfIdLine = text.indexOf('\n', idx);
   const before = text.slice(0, endOfIdLine + 1);
   const after = text.slice(endOfIdLine + 1);
-  text = before + `  metadataUrl: ${url}\n` + after;
+  const metadataKey = PER_STATION_METADATA_KEYS.get(s.broadcaster);
+  const metadataLine = metadataKey && !s.metadata ? `  metadata: ${metadataKey}\n` : '';
+  text = before + metadataLine + `  metadataUrl: ${url}\n` + after;
   wired++;
 }
 

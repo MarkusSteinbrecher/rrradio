@@ -45,15 +45,36 @@ automatically before `npm run dev` and `npm run build`. Prints a
 status-by-count summary so you can see what was published vs. held
 back.
 
+```sh
+npm run wire-metadata
+```
+
+For broadcasters with derivable metadata endpoints, fills missing
+`metadataUrl` values in `data/stations.yaml`. For broadcasters whose
+fetcher is per-station rather than inherited, it also inserts the
+station-level `metadata` key.
+
 ## Path A — station fits an existing fetcher
 
-The fetchers already wired in `src/builtins.ts`:
+Fetcher keys are registered in both `src/builtins.ts` and
+`src/fetchers.json`; the manifest is the quick lookup for whether a
+fetcher needs a URL, slug, or no station field. Common wired keys:
 
 | Key              | Use for                                              |
 | ---------------- | ---------------------------------------------------- |
 | `grrif`          | Grrif (single station, hardcoded URL)                |
 | `orf`            | Any ORF channel (FM4, Ö1, Ö3, …) via `metadataUrl`   |
 | `br-radioplayer` | Any BR channel via `metadataUrl`                     |
+| `bbc`            | BBC service slug in `metadataUrl`                    |
+| `hr`             | HR radioplayer JSON via `metadataUrl`                |
+| `ndr`            | NDR public radioplaylist JSON via `metadataUrl`      |
+| `wdr`            | WDR radiotext endpoint via `metadataUrl`             |
+| `npo`            | NPO channel slug in `metadataUrl`                    |
+| `radio-france`   | Radio France livemeta URL in `metadataUrl`           |
+| `soma-fm`        | SomaFM channel slug in `metadataUrl`                 |
+| `kexp`           | KEXP plays API via `metadataUrl`                     |
+| `ffh`            | FFH mountpoint slug in `metadataUrl`                 |
+| `laut-fm`        | laut.fm station slug in `metadataUrl`                |
 | *(none)*         | ICY-over-fetch fallback for any other CORS-permissive Icecast stream |
 
 If the broadcaster you're adding already has a fetcher, you only need
@@ -167,7 +188,7 @@ const fetchWdrMetadata: MetadataFetcher = async (station, signal) => {
 };
 ```
 
-Then register it:
+Then register it in code and in `src/fetchers.json`:
 
 ```ts
 const FETCHERS_BY_KEY: Record<string, MetadataFetcher> = {

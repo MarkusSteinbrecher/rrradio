@@ -1338,6 +1338,303 @@ const fetchSrMetadata: MetadataFetcher = async (station, signal) => {
   }
 };
 
+function cleanString(value: string | null | undefined): string | undefined {
+  const text = value?.trim();
+  return text || undefined;
+}
+
+function rawTrack(artist: string | undefined, track: string): string {
+  return `${artist ?? ''} - ${track}`.trim();
+}
+
+function splitArtistTrack(text: string): { artist: string; track: string } | null {
+  const marker = ' - ';
+  const idx = text.indexOf(marker);
+  if (idx <= 0) return null;
+  const artist = text.slice(0, idx).trim();
+  const track = text.slice(idx + marker.length).trim();
+  return artist && track ? { artist, track } : null;
+}
+
+function isWdrStationSlogan(artist: string): boolean {
+  const normalized = artist.toLowerCase().replace(/[\s-]/g, '');
+  return normalized.startsWith('wdr') || normalized.startsWith('1live');
+}
+
+interface NdrPlaylist {
+  song_now_interpret?: string;
+  song_now_title?: string;
+  song_now_cover?: string;
+}
+
+function ndrCoverUrl(id: string | undefined): string | undefined {
+  const cover = cleanString(id);
+  return cover ? `https://www.ndr.de/public/radioplaylists/coverimages/${cover}_300x300.jpg` : undefined;
+}
+
+const fetchNdrMetadata: MetadataFetcher = async (station, signal) => {
+  const url = station.metadataUrl;
+  if (!url) return null;
+  try {
+    const res = await fetch(`${url}?_=${Date.now()}`, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as NdrPlaylist;
+    const track = cleanString(data.song_now_title);
+    if (!track) return null;
+    const artist = cleanString(data.song_now_interpret);
+    return {
+      artist,
+      track,
+      raw: rawTrack(artist, track),
+      coverUrl: ndrCoverUrl(data.song_now_cover),
+    };
+  } catch {
+    return null;
+  }
+};
+
+const fetchWdrMetadata: MetadataFetcher = async (station, signal) => {
+  const url = station.metadataUrl;
+  if (!url) return null;
+  try {
+    const res = await fetch(`${url}?_=${Date.now()}`, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const text = new TextDecoder('iso-8859-1').decode(await res.arrayBuffer()).trim();
+    const parsed = splitArtistTrack(text);
+    if (!parsed) return null;
+    if (isWdrStationSlogan(parsed.artist)) return null;
+    return {
+      artist: parsed.artist,
+      track: parsed.track,
+      raw: rawTrack(parsed.artist, parsed.track),
+    };
+  } catch {
+    return null;
+  }
+};
+
+interface NpoTrack {
+  artist?: string;
+  song?: string;
+  radioTracks?: { coverUrl?: string };
+}
+interface NpoBroadcast {
+  name?: string;
+  radioPresenters?: Array<{ name?: string }>;
+  radioPhotoAssets?: {
+    url600?: string;
+    url360?: string;
+    url1200?: string;
+  };
+}
+interface NpoResponse {
+  data?: {
+    radioTrackPlays?: { data?: NpoTrack[] };
+    radioBroadcasts?: { data?: NpoBroadcast[] };
+  };
+}
+
+function npoMetadataUrl(value: string): string {
+  if (/^https?:\/\//i.test(value)) return value;
+  return `https://www.nporadio2.nl/api/miniplayer/info?channel=${encodeURIComponent(value)}`;
+}
+
+const fetchNpoMetadata: MetadataFetcher = async (station, signal) => {
+  const value = station.metadataUrl;
+  if (!value) return null;
+  try {
+    const res = await fetch(npoMetadataUrl(value), { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as NpoResponse;
+    const track = data.data?.radioTrackPlays?.data?.[0];
+    const broadcast = data.data?.radioBroadcasts?.data?.[0];
+    const programName = cleanString(broadcast?.name);
+    const presenter = cleanString(broadcast?.radioPresenters?.[0]?.name);
+    const program = programName ? { name: programName, subtitle: presenter } : undefined;
+    const programCover =
+      cleanString(broadcast?.radioPhotoAssets?.url600) ??
+      cleanString(broadcast?.radioPhotoAssets?.url1200) ??
+      cleanString(broadcast?.radioPhotoAssets?.url360);
+    const title = cleanString(track?.song);
+    if (!title) {
+      return program ? { track: undefined, raw: '', program, coverUrl: programCover } : null;
+    }
+    const artist = cleanString(track?.artist);
+    return {
+      artist,
+      track: title,
+      raw: rawTrack(artist, title),
+      coverUrl: cleanString(track?.radioTracks?.coverUrl) ?? programCover,
+      program,
+    };
+  } catch {
+    return null;
+  }
+};
+
+interface RadioFranceNow {
+  title?: string | null;
+  interpreters?: string | null;
+  cover?: string | null;
+  firstLine?: string | null;
+  secondLine?: string | null;
+}
+interface RadioFranceResponse {
+  now?: RadioFranceNow;
+}
+
+function radioFranceMetadataUrl(value: string): string {
+  if (/^https?:\/\//i.test(value)) return value;
+  return `https://api.radiofrance.fr/livemeta/live/${value}`;
+}
+
+function radioFranceCoverUrl(id: string | null | undefined): string | undefined {
+  const cover = cleanString(id);
+  return cover ? `https://www.radiofrance.fr/pikapi/images/${cover}/400x400` : undefined;
+}
+
+const fetchRadioFranceMetadata: MetadataFetcher = async (station, signal) => {
+  const value = station.metadataUrl;
+  if (!value) return null;
+  try {
+    const res = await fetch(radioFranceMetadataUrl(value), { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const now = ((await res.json()) as RadioFranceResponse).now;
+    if (!now) return null;
+
+    const coverUrl = radioFranceCoverUrl(now.cover);
+    const track = cleanString(now.title);
+    const artist = cleanString(now.interpreters);
+    if (track && artist) {
+      return {
+        artist,
+        track,
+        raw: rawTrack(artist, track),
+        coverUrl,
+      };
+    }
+
+    const programName = cleanString(now.firstLine) ?? track;
+    if (!programName) return null;
+    return {
+      track: undefined,
+      raw: '',
+      coverUrl,
+      program: {
+        name: programName,
+        subtitle: cleanString(now.secondLine),
+      },
+    };
+  } catch {
+    return null;
+  }
+};
+
+interface SomaSong {
+  title?: string;
+  artist?: string;
+  albumArt?: string;
+}
+interface SomaSongsResponse {
+  songs?: SomaSong[];
+}
+
+function somaSlug(station: Station): string | undefined {
+  const explicit = cleanString(station.metadataUrl);
+  if (explicit) return explicit;
+  try {
+    const mount = new URL(station.streamUrl).pathname.split('/').filter(Boolean).pop();
+    return mount?.replace(/-\d+-.+$/i, '');
+  } catch {
+    return undefined;
+  }
+}
+
+const fetchSomaFmMetadata: MetadataFetcher = async (station, signal) => {
+  const slug = somaSlug(station);
+  if (!slug) return null;
+  try {
+    const res = await fetch(`https://somafm.com/songs/${encodeURIComponent(slug)}.json`, {
+      signal,
+      cache: 'no-store',
+    });
+    if (!res.ok) return null;
+    const song = ((await res.json()) as SomaSongsResponse).songs?.[0];
+    const track = cleanString(song?.title);
+    if (!track) return null;
+    const artist = cleanString(song?.artist);
+    return {
+      artist,
+      track,
+      raw: rawTrack(artist, track),
+      coverUrl: cleanString(song?.albumArt),
+    };
+  } catch {
+    return null;
+  }
+};
+
+interface KexpPlay {
+  play_type?: string;
+  song?: string;
+  artist?: string;
+  image_uri?: string;
+  thumbnail_uri?: string;
+  show_uri?: string;
+}
+interface KexpPlaysResponse {
+  results?: KexpPlay[];
+}
+interface KexpShow {
+  program_name?: string;
+  host_names?: string;
+  tagline?: string;
+  program?: { name?: string };
+}
+
+async function fetchKexpProgram(
+  url: string | undefined,
+  signal: AbortSignal,
+): Promise<{ name: string; subtitle?: string } | undefined> {
+  if (!url) return undefined;
+  try {
+    const res = await fetch(url, { signal, cache: 'no-store' });
+    if (!res.ok) return undefined;
+    const show = (await res.json()) as KexpShow;
+    const name = cleanString(show.program_name) ?? cleanString(show.program?.name);
+    if (!name) return undefined;
+    return {
+      name,
+      subtitle: cleanString(show.host_names) ?? cleanString(show.tagline),
+    };
+  } catch {
+    return undefined;
+  }
+}
+
+const fetchKexpMetadata: MetadataFetcher = async (station, signal) => {
+  const url = station.metadataUrl ?? 'https://api.kexp.org/v2/plays/?limit=5';
+  try {
+    const res = await fetch(url, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const plays = ((await res.json()) as KexpPlaysResponse).results ?? [];
+    const play = plays.find((p) => p.play_type === 'trackplay' && cleanString(p.song));
+    const track = cleanString(play?.song);
+    if (!play || !track) return null;
+    const artist = cleanString(play.artist);
+    const program = await fetchKexpProgram(play.show_uri, signal);
+    return {
+      artist,
+      track,
+      raw: rawTrack(artist, track),
+      coverUrl: cleanString(play.image_uri) ?? cleanString(play.thumbnail_uri),
+      program,
+    };
+  } catch {
+    return null;
+  }
+};
+
 // ============================================================
 // Fetcher registry
 // ============================================================
@@ -1364,6 +1661,12 @@ const FETCHERS_BY_KEY: Record<string, MetadataFetcher> = {
   antenne: fetchAntenneMetadata,
   'rb-bremen': fetchRadioBremenMetadata,
   sr: fetchSrMetadata,
+  ndr: fetchNdrMetadata,
+  wdr: fetchWdrMetadata,
+  npo: fetchNpoMetadata,
+  'radio-france': fetchRadioFranceMetadata,
+  'soma-fm': fetchSomaFmMetadata,
+  kexp: fetchKexpMetadata,
 };
 
 /** Schedule fetchers — keyed the same as MetadataFetchers. Optional —
