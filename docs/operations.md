@@ -108,6 +108,35 @@ A control test on a sibling station from the same broadcaster's infrastructure (
 
 Do not set `availableIn` speculatively — it dims and labels the row for everyone outside the allow-list. Only set it after a confirmed reproduction from at least one out-of-region IP.
 
+## Pre-sized favicon variants
+
+The iOS app's list cells display station favicons at 38pt, 64pt, or 76pt. The bundled originals are often 256–1024 px PNGs (broadcaster-hosted), and shipping them at full size costs bandwidth, CPU (on-device downsampling on every cell layout), and first-paint latency. `tools/build-favicon-variants.mjs` pre-sizes each catalog favicon at build time into three WebP variants sized for iOS @2x display (76 / 128 / 152 px), writes them under `public/favicons/<id>-<size>-<hash>.webp`, and adds a `favicons: { 76, 128, 152 }` object to each station in `public/stations.json`. The original `favicon` field is preserved as a fallback (web app, custom user-added stations, future Android wiring).
+
+`npm run catalog` chains `build-catalog.mjs` + `build-favicon-variants.mjs` automatically. The variant builder is incremental:
+
+- A manifest at `public/favicons/manifest.json` records the source URL, content hash, ETag, and last-modified per station.
+- On rerun, if the source URL is unchanged and all variant files exist on disk, the station is skipped without touching the network.
+- If a manifest entry has validators (ETag / Last-Modified), we issue a conditional GET; a `304` response keeps the existing variants.
+- If bytes are re-fetched but their SHA-256 matches the prior hash, we reuse the on-disk variants and only update the manifest.
+- Variant filenames embed the source content hash so CDN / device caches stay warm forever once a logo settles.
+
+Flags:
+
+```bash
+npm run favicon-variants                          # default — process everything in stations.json
+npm run favicon-variants -- --local-only          # only stations with `favicon: stations/...` (no network)
+npm run favicon-variants -- --only id1,id2,id3    # restrict to specific stations
+npm run favicon-variants -- --limit 500           # cap total candidate count
+npm run favicon-variants -- --concurrency 32      # increase parallel HTTP lanes (default 8, max 64)
+npm run favicon-variants -- --force               # ignore cache, refetch + regenerate every variant
+npm run favicon-variants -- --offline             # never reach the network; rely on cached bytes only
+npm run favicon-variants -- --dry-run --verbose   # see what would change
+```
+
+Bulk runs (the long-tail Radio Browser remotes are tens of thousands of HTTP fetches) are intended as a curator-paced operation. The local-bundled subset under `public/stations/` is the safe default to keep current. `check-catalog` enforces that every `favicons.{76,128,152}` path in `stations.json` references an on-disk file under `public/favicons/`.
+
+Stations whose source can't be fetched (404, timeout, unsupported ICO format) ship without a `favicons` field — clients fall back to the original `favicon` URL and on-device downsampling.
+
 ## Adding a NEW broadcaster (different metadata API shape)
 
 1. **Research** the broadcaster's now-playing endpoint (DevTools network tab on their player page). Verify CORS allow-origin.
