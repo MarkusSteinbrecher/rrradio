@@ -30,6 +30,7 @@ const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const STATIONS_YAML = join(ROOT, 'data', 'stations.yaml');
 const CANDIDATES_JSON = join(ROOT, 'public', 'sources', 'radio-browser-candidates.json');
 const BYTE_PROBES_JSON = join(ROOT, 'public', 'sources', 'radio-browser-byte-probes.json');
+const DEDUPE_JSON = join(ROOT, 'data', 'sources', 'radio-browser', 'dedupe.json');
 const RAW_DIR = join(ROOT, 'data', 'sources', 'radio-browser', 'by-country');
 
 const args = process.argv.slice(2);
@@ -214,6 +215,28 @@ function loadByteProbes() {
   };
 }
 
+function loadDedupe() {
+  const data = readJson(DEDUPE_JSON, { byStationUuid: {}, groups: [], generatedAt: null });
+  const byStationUuid = data.byStationUuid && typeof data.byStationUuid === 'object'
+    ? data.byStationUuid
+    : {};
+  const groupUuids = new Set(Object.keys(byStationUuid));
+  for (const row of Object.values(byStationUuid)) {
+    if (row?.canonical) groupUuids.add(row.canonical);
+  }
+  return {
+    generatedAt: data.generatedAt ?? null,
+    groupUuids,
+    canonicalOf(uuid) {
+      if (!uuid) return '';
+      return byStationUuid[uuid]?.canonical ?? uuid;
+    },
+    hasGroup(uuid) {
+      return groupUuids.has(uuid);
+    },
+  };
+}
+
 const stationsText = readFileSync(STATIONS_YAML, 'utf8');
 const existingStations = YAML.parse(stationsText);
 if (!Array.isArray(existingStations)) fail('data/stations.yaml is not a list');
@@ -238,11 +261,18 @@ const candidatesPayload = readJson(CANDIDATES_JSON);
 const candidates = candidatesPayload.candidates || [];
 const rawByUuid = loadRawByUuid();
 const byteProbes = loadByteProbes();
+const dedupe = loadDedupe();
+
+const existingCanonicalGroups = new Set();
+for (const uuid of existingUuids) {
+  if (dedupe.hasGroup(uuid)) existingCanonicalGroups.add(dedupe.canonicalOf(uuid));
+}
 
 const skipped = {
   alreadyMatched: 0,
   existingUuid: 0,
   existingStreamUrl: 0,
+  existingCanonicalGroup: 0,
   duplicate: 0,
   country: 0,
   minVotes: 0,
@@ -251,10 +281,12 @@ const skipped = {
   notPlayable: 0,
   httpStream: 0,
   intraStreamUrl: 0,
+  intraCanonicalGroup: 0,
 };
 const nameConflicts = [];
 const accepted = [];
 const seenImportStreamUrls = new Set();
+const seenImportCanonicalGroups = new Set();
 
 function candidatePlayableSource(candidate) {
   if (candidate.verdict === 'ok' || candidate.verdict === 'ok-hls') return 'analyzer-ok';
@@ -276,6 +308,17 @@ for (const candidate of sortedCandidates) {
   if (existingUuids.has(candidate.stationuuid)) { skipped.existingUuid++; continue; }
   const raw = rawByUuid.get(candidate.stationuuid);
   if (!raw) { skipped.noRawRecord++; continue; }
+  const canonicalGroup = dedupe.hasGroup(candidate.stationuuid)
+    ? dedupe.canonicalOf(candidate.stationuuid)
+    : '';
+  if (canonicalGroup && existingCanonicalGroups.has(canonicalGroup)) {
+    skipped.existingCanonicalGroup++;
+    continue;
+  }
+  if (canonicalGroup && seenImportCanonicalGroups.has(canonicalGroup)) {
+    skipped.intraCanonicalGroup++;
+    continue;
+  }
 
   const country = String(candidate.country || raw.countrycode || '').toUpperCase();
   if (countryFilter && !countryFilter.has(country)) { skipped.country++; continue; }
@@ -306,6 +349,7 @@ for (const candidate of sortedCandidates) {
   }
 
   seenImportStreamUrls.add(streamKey);
+  if (canonicalGroup) seenImportCanonicalGroups.add(canonicalGroup);
   accepted.push({
     candidate,
     raw,
@@ -384,6 +428,8 @@ const report = {
     candidates: CANDIDATES_JSON.replace(`${ROOT}/`, ''),
     byteProbes: existsSync(BYTE_PROBES_JSON) ? BYTE_PROBES_JSON.replace(`${ROOT}/`, '') : null,
     byteProbeGeneratedAt: byteProbes.generatedAt,
+    dedupe: DEDUPE_JSON.replace(`${ROOT}/`, ''),
+    dedupeGeneratedAt: dedupe.generatedAt,
   },
   options: {
     includeHttp,
@@ -426,6 +472,7 @@ console.log(`  analyzer-ok: ${byPlayableSource['analyzer-ok'] || 0}`);
 console.log(`  byte-ok: ${byPlayableSource['byte-ok'] || 0}`);
 console.log(`  skipped http stream: ${skipped.httpStream}`);
 console.log(`  skipped existing/matched: ${skipped.alreadyMatched + skipped.existingUuid + skipped.existingStreamUrl}`);
+console.log(`  skipped existing canonical group: ${skipped.existingCanonicalGroup}`);
 console.log(`  name conflict warnings: ${nameConflicts.length}`);
 console.log('  top countries:');
 for (const [country, count] of Object.entries(report.counts.byCountry).slice(0, 10)) {

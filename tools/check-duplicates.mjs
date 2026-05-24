@@ -2,7 +2,7 @@
 /**
  * Scans data/stations.yaml for likely-duplicate station entries.
  *
- * Four kinds of collision are reported:
+ * Duplicate signals are reported in three confidence tiers:
  *
  *   1. `stationuuid` collision — two entries pointing at the same RB
  *      record. Always a bug; build-catalog would fetch the same RB
@@ -12,17 +12,16 @@
  *      Almost always a duplicate; the only legitimate case is a
  *      regional sub-feed that happens to share a URL with its parent
  *      (rare).
- *   3. `name` collision (case-insensitive, whitespace-collapsed) —
- *      two entries with the same display name. Usually a duplicate
- *      ("BBC World Service" appearing twice). Occasionally a real
- *      pair across countries (e.g. a "Radio 1" in two networks),
- *      which the curator confirms manually.
- *   4. `homepage+favicon` collision — two entries within the same
- *      country pointing at the same homepage URL *and* the same
- *      favicon URL. Catches near-duplicates that slip past exact
- *      stream/name matching (e.g. "BR24" + "BR24live" where the same
- *      broadcaster ships two slightly-different stream paths). Same
- *      broadcaster + same brand mark = same station.
+ *   3. Review collisions — same-country Radio Browser canonical
+ *      group, same homepage + name signature, same favicon + name
+ *      signature, or same homepage + favicon + name signature inside
+ *      one country. These catch near-duplicates that slip past exact
+ *      stream/name matching (e.g. "BR24" + "BR24live").
+ *   4. Low-confidence collisions — exact country/name, exact global
+ *      name, shared oversized RB canonical clusters, or cross-country
+ *      RB canonical clusters. These are counted for triage but excluded
+ *      from the unique likely-duplicate group total because they can
+ *      bridge unrelated network stations.
  *
  * Read-only on the YAML — surfaces findings, doesn't auto-fix.
  *
@@ -44,6 +43,8 @@ import { nameSignature } from './lib/station-name-signature.mjs';
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const STATIONS_YAML = join(ROOT, 'data', 'stations.yaml');
 const OUTPUT_JSON = join(ROOT, 'public', 'station-duplicates.json');
+const DEDUPE_JSON = join(ROOT, 'data', 'sources', 'radio-browser', 'dedupe.json');
+const MAX_RB_CANONICAL_AUDIT_SIZE = 20;
 
 // ─── 1. Load + normalise ─────────────────────────────────────────────
 const stations = YAML.parse(readFileSync(STATIONS_YAML, 'utf8'));
@@ -103,6 +104,83 @@ function homepageFaviconKey(s) {
   return `${cc}|${home}|${fav}|${sig}`;
 }
 
+function homepageSignatureKey(s) {
+  const home = homepageKey(s.homepage);
+  const cc = String(s.country ?? '').toUpperCase().trim();
+  const sig = nameSignature(s.name);
+  if (!home || !cc || !sig) return '';
+  return `${cc}|${home}|${sig}`;
+}
+
+function faviconKey(s) {
+  const fav = String(s.favicon ?? '').toLowerCase().trim();
+  if (!fav || fav.startsWith('data:')) return '';
+  return fav;
+}
+
+function faviconSignatureKey(s) {
+  const fav = faviconKey(s);
+  const cc = String(s.country ?? '').toUpperCase().trim();
+  const sig = nameSignature(s.name);
+  if (!fav || !cc || !sig) return '';
+  return `${cc}|${fav}|${sig}`;
+}
+
+function countryNameKey(s) {
+  const cc = countryCode(s);
+  const name = nameKey(s.name);
+  if (!cc || !name) return '';
+  return `${cc}|${name}`;
+}
+
+function countryCode(s) {
+  return String(s.country ?? '').toUpperCase().trim();
+}
+
+function loadDedupe() {
+  try {
+    const data = JSON.parse(readFileSync(DEDUPE_JSON, 'utf8'));
+    const byStationUuid = data.byStationUuid && typeof data.byStationUuid === 'object'
+      ? data.byStationUuid
+      : {};
+    const groupUuids = new Set(Object.keys(byStationUuid));
+    const groupSizeByCanonical = new Map();
+    const groupSize = (canonical) => groupSizeByCanonical.get(canonical) ?? 0;
+    for (const group of Array.isArray(data.groups) ? data.groups : []) {
+      if (!group?.canonical) continue;
+      groupSizeByCanonical.set(group.canonical, Number(group.size) || 0);
+    }
+    for (const row of Object.values(byStationUuid)) {
+      if (row?.canonical) groupUuids.add(row.canonical);
+    }
+    return {
+      generatedAt: data.generatedAt ?? null,
+      groupUuids,
+      canonicalOf(uuid) {
+        if (!uuid) return '';
+        return byStationUuid[uuid]?.canonical ?? uuid;
+      },
+      hasGroup(uuid) {
+        return groupUuids.has(uuid);
+      },
+      groupSize,
+      isLargeGroup(canonical) {
+        return groupSize(canonical) > MAX_RB_CANONICAL_AUDIT_SIZE;
+      },
+    };
+  } catch (err) {
+    console.warn(`check-duplicates: could not read dedupe DB, skipping rb-canonical signal: ${err.message}`);
+    return {
+      generatedAt: null,
+      groupUuids: new Set(),
+      canonicalOf(uuid) { return uuid || ''; },
+      hasGroup() { return false; },
+      groupSize() { return 0; },
+      isLargeGroup() { return false; },
+    };
+  }
+}
+
 // ─── 2. Group by each key ────────────────────────────────────────────
 function groupBy(list, keyFn) {
   const map = new Map();
@@ -130,29 +208,226 @@ const byStream = groupBy(candidates, (s) => urlKey(s.streamUrl)).map(([url, grou
 const byName = groupBy(candidates, (s) => nameKey(s.name)).map(([name, group]) => ({
   kind: 'name',
   key: name,
-  entries: group.map((s) => ({ id: s.id, name: s.name, streamUrl: s.streamUrl })),
+  confidence: 'low',
+  entries: group.map((s) => stationEntry(s)),
+}));
+const byCountryName = groupBy(candidates, countryNameKey).map(([key, group]) => ({
+  kind: 'country+name',
+  key,
+  confidence: 'low',
+  entries: group.map((s) => stationEntry(s)),
 }));
 const byHomepageFavicon = groupBy(candidates, homepageFaviconKey).map(([key, group]) => ({
   kind: 'homepage+favicon',
   key,
-  entries: group.map((s) => ({ id: s.id, name: s.name, streamUrl: s.streamUrl })),
+  confidence: 'review',
+  entries: group.map((s) => stationEntry(s)),
+}));
+const byHomepageSignature = groupBy(candidates, homepageSignatureKey).map(([key, group]) => ({
+  kind: 'homepage+signature',
+  key,
+  confidence: 'review',
+  entries: group.map((s) => stationEntry(s)),
+}));
+const byFaviconSignature = groupBy(candidates, faviconSignatureKey).map(([key, group]) => ({
+  kind: 'favicon+signature',
+  key,
+  confidence: 'review',
+  entries: group.map((s) => stationEntry(s)),
 }));
 
+const dedupe = loadDedupe();
+const rbCanonicalGroups = groupBy(candidates, (s) => {
+  if (!s.stationuuid || !dedupe.hasGroup(s.stationuuid)) return '';
+  const canonical = dedupe.canonicalOf(s.stationuuid);
+  if (dedupe.isLargeGroup(canonical)) return '';
+  return canonical;
+});
+const byRbCanonical = [];
+const byCrossCountryRbCanonical = [];
+for (const [canonical, group] of rbCanonicalGroups) {
+  const knownCountries = [...new Set(group.map(countryCode).filter(Boolean))].sort();
+  if (knownCountries.length <= 1) {
+    byRbCanonical.push({
+      kind: 'rb-canonical',
+      key: `${knownCountries[0] ?? 'UNKNOWN'}|${canonical}`,
+      confidence: 'review',
+      groupSize: dedupe.groupSize(canonical),
+      entries: group.map((s) => stationEntry(s)),
+    });
+    continue;
+  }
+
+  byCrossCountryRbCanonical.push({
+    kind: 'rb-canonical-cross-country',
+    key: canonical,
+    confidence: 'low',
+    groupSize: dedupe.groupSize(canonical),
+    entries: group.map((s) => stationEntry(s)),
+  });
+
+  for (const cc of knownCountries) {
+    const countryGroup = group.filter((s) => countryCode(s) === cc);
+    if (countryGroup.length < 2) continue;
+    byRbCanonical.push({
+      kind: 'rb-canonical',
+      key: `${cc}|${canonical}`,
+      confidence: 'review',
+      groupSize: dedupe.groupSize(canonical),
+      entries: countryGroup.map((s) => stationEntry(s)),
+    });
+  }
+}
+const byLargeRbCanonical = groupBy(candidates, (s) => {
+  if (!s.stationuuid || !dedupe.hasGroup(s.stationuuid)) return '';
+  const canonical = dedupe.canonicalOf(s.stationuuid);
+  return dedupe.isLargeGroup(canonical) ? canonical : '';
+}).map(([key, group]) => ({
+  kind: 'rb-canonical-large',
+  key,
+  confidence: 'low',
+  groupSize: dedupe.groupSize(key),
+  entries: group.map((s) => stationEntry(s)),
+}));
+
+function stationEntry(s) {
+  return {
+    id: s.id,
+    name: s.name,
+    country: s.country,
+    stationuuid: s.stationuuid,
+    streamUrl: s.streamUrl,
+  };
+}
+
+class UnionFind {
+  constructor(items) {
+    this.parent = new Map(items.map((item) => [item, item]));
+  }
+
+  find(item) {
+    let root = item;
+    while (this.parent.get(root) !== root) root = this.parent.get(root);
+    let cur = item;
+    while (this.parent.get(cur) !== root) {
+      const next = this.parent.get(cur);
+      this.parent.set(cur, root);
+      cur = next;
+    }
+    return root;
+  }
+
+  union(a, b) {
+    const ra = this.find(a);
+    const rb = this.find(b);
+    if (ra !== rb) this.parent.set(ra, rb);
+  }
+}
+
+function buildDuplicateGroups(signals) {
+  const uf = new UnionFind(candidates.map((s) => s.id));
+  for (const signal of signals) {
+    for (const c of signal.collisions) {
+      const ids = c.entries.map((e) => e.id).filter(Boolean);
+      for (let i = 1; i < ids.length; i++) uf.union(ids[0], ids[i]);
+    }
+  }
+
+  const signalByRoot = new Map();
+  for (const signal of signals) {
+    for (const c of signal.collisions) {
+      const ids = c.entries.map((e) => e.id).filter(Boolean);
+      if (ids.length < 2) continue;
+      const root = uf.find(ids[0]);
+      const list = signalByRoot.get(root) ?? [];
+      list.push({ kind: c.kind, key: c.key });
+      signalByRoot.set(root, list);
+    }
+  }
+
+  const byId = new Map(candidates.map((s) => [s.id, s]));
+  const membersByRoot = new Map();
+  for (const id of byId.keys()) {
+    const root = uf.find(id);
+    if (!signalByRoot.has(root)) continue;
+    const list = membersByRoot.get(root) ?? [];
+    list.push(byId.get(id));
+    membersByRoot.set(root, list);
+  }
+
+  return [...membersByRoot.entries()]
+    .map(([root, members]) => {
+      const signalsForGroup = signalByRoot.get(root) ?? [];
+      const signalKinds = [...new Set(signalsForGroup.map((s) => s.kind))].sort();
+      const severity = signalKinds.some((kind) => kind === 'stationuuid' || kind === 'streamUrl')
+        ? 'blocking'
+        : 'review';
+      return {
+        severity,
+        signalKinds,
+        signals: signalsForGroup,
+        entries: members
+          .map((s) => stationEntry(s))
+          .sort((a, b) => String(a.id).localeCompare(String(b.id))),
+      };
+    })
+    .sort((a, b) => {
+      if (a.severity !== b.severity) return a.severity === 'blocking' ? -1 : 1;
+      return b.entries.length - a.entries.length || a.entries[0].id.localeCompare(b.entries[0].id);
+    });
+}
+
 const blockingCollisions = [...byUuid, ...byStream];
-const collisions = [...byUuid, ...byStream, ...byName, ...byHomepageFavicon];
+const reviewCollisions = [
+  ...byRbCanonical,
+  ...byHomepageSignature,
+  ...byFaviconSignature,
+  ...byHomepageFavicon,
+];
+const lowConfidenceCollisions = [
+  ...byCountryName,
+  ...byName,
+  ...byLargeRbCanonical,
+  ...byCrossCountryRbCanonical,
+];
+const collisions = [...blockingCollisions, ...reviewCollisions, ...lowConfidenceCollisions];
+const duplicateGroups = buildDuplicateGroups([
+  { collisions: blockingCollisions },
+  { collisions: reviewCollisions },
+]);
+const blockingDuplicateGroups = duplicateGroups.filter((g) => g.severity === 'blocking');
+const reviewDuplicateGroups = duplicateGroups.filter((g) => g.severity === 'review');
+const duplicateRows = duplicateGroups.reduce((sum, g) => sum + Math.max(0, g.entries.length - 1), 0);
 
 // ─── 3. Report + write ──────────────────────────────────────────────
 const summary = {
   generatedAt: new Date().toISOString(),
   totalScanned: candidates.length,
+  dedupeGeneratedAt: dedupe.generatedAt,
   collisionCount: collisions.length,
   byKind: {
     stationuuid: byUuid.length,
     streamUrl: byStream.length,
+    'rb-canonical': byRbCanonical.length,
+    'rb-canonical-large': byLargeRbCanonical.length,
+    'rb-canonical-cross-country': byCrossCountryRbCanonical.length,
+    'country+name': byCountryName.length,
+    'homepage+signature': byHomepageSignature.length,
+    'favicon+signature': byFaviconSignature.length,
     name: byName.length,
     'homepage+favicon': byHomepageFavicon.length,
   },
   blockingCollisionCount: blockingCollisions.length,
+  reviewCollisionCount: reviewCollisions.length,
+  lowConfidenceCollisionCount: lowConfidenceCollisions.length,
+  largeRbCanonicalCollisionCount: byLargeRbCanonical.length,
+  crossCountryRbCanonicalCollisionCount: byCrossCountryRbCanonical.length,
+  maxRbCanonicalAuditSize: MAX_RB_CANONICAL_AUDIT_SIZE,
+  duplicateGroupCount: duplicateGroups.length,
+  blockingDuplicateGroupCount: blockingDuplicateGroups.length,
+  reviewDuplicateGroupCount: reviewDuplicateGroups.length,
+  duplicateRows,
+  duplicateGroups,
   collisions,
 };
 
@@ -168,9 +443,18 @@ console.log();
 console.log(
   `check-duplicates: ${collisions.length} collision group(s) ` +
     `(${byUuid.length} uuid, ${byStream.length} streamUrl, ` +
-    `${byName.length} name, ${byHomepageFavicon.length} homepage+favicon)`,
+    `${byRbCanonical.length} rb-canonical, ${byLargeRbCanonical.length} large rb-canonical, ` +
+    `${byCrossCountryRbCanonical.length} cross-country rb-canonical, ` +
+    `${byCountryName.length} low-confidence country+name, ` +
+    `${byHomepageSignature.length} homepage+signature, ${byFaviconSignature.length} favicon+signature, ` +
+    `${byName.length} low-confidence name, ${byHomepageFavicon.length} homepage+favicon)`,
 );
-for (const c of collisions) {
+console.log(
+  `check-duplicates: ${duplicateGroups.length} unique likely duplicate group(s), ` +
+    `${duplicateRows} duplicate row(s) ` +
+    `(${blockingDuplicateGroups.length} blocking, ${reviewDuplicateGroups.length} review)`,
+);
+for (const c of [...blockingCollisions, ...reviewCollisions].slice(0, 200)) {
   console.log();
   console.log(`  [${c.kind}] ${c.key}`);
   for (const e of c.entries) {
@@ -184,6 +468,6 @@ if (blockingCollisions.length > 0) {
   process.exit(2);
 }
 console.log(
-  'check-duplicates: name + homepage+favicon collisions reported as curation warnings ✓',
+  'check-duplicates: review duplicate groups reported as curation warnings ✓',
 );
 process.exit(0);
