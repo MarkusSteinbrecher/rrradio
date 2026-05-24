@@ -39,6 +39,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import YAML from 'yaml';
+import { nameSignature } from './lib/station-name-signature.mjs';
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const STATIONS_YAML = join(ROOT, 'data', 'stations.yaml');
@@ -86,28 +87,6 @@ function homepageKey(url) {
   } catch {
     return '';
   }
-}
-// Tokens that don't differentiate one station from another within the
-// same broadcaster — strip them when comparing names. "BR24" and
-// "BR24live" reduce to the same signature ("br24"); "Antenne Thüringen
-// 80er" and "Antenne Thüringen 90er" keep their differentiating
-// decade token and stay distinct.
-const NAME_NOISE_TOKENS = new Set([
-  'live', 'online', 'web', 'radio', 'fm', 'am', 'stream', 'streaming',
-  'hd', 'hq', 'sd', 'stereo', 'mono', 'official',
-  'mp3', 'aac', 'flac', 'ogg', 'opus',
-  '64k', '96k', '128k', '160k', '192k', '256k', '320k', 'kbps',
-]);
-function nameSignature(name) {
-  const normalised = String(name ?? '')
-    .toLowerCase()
-    .normalize('NFKD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/[^a-z0-9]+/g, ' ')
-    .trim();
-  if (!normalised) return '';
-  const tokens = normalised.split(' ').filter((t) => t && !NAME_NOISE_TOKENS.has(t));
-  return tokens.sort().join(' ');
 }
 function homepageFaviconKey(s) {
   // Group within the same country + broadcaster identity (homepage URL

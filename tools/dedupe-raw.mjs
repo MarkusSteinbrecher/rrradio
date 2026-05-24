@@ -48,6 +48,7 @@ import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import YAML from 'yaml';
+import { nameSignature } from './lib/station-name-signature.mjs';
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const RAW_DIR = join(ROOT, 'data', 'sources', 'radio-browser', 'by-country');
@@ -74,23 +75,6 @@ function normHomepageHost(u) {
     const x = new URL(String(u));
     return x.host.toLowerCase().replace(/^www\./, '');
   } catch { return ''; }
-}
-
-const NAME_NOISE = new Set([
-  'live', 'online', 'web', 'radio', 'fm', 'am', 'stream', 'streaming',
-  'hd', 'hq', 'sd', 'stereo', 'mono', 'official',
-  'mp3', 'aac', 'flac', 'ogg', 'opus',
-  '64k', '96k', '128k', '160k', '192k', '256k', '320k', 'kbps',
-]);
-function nameSignature(name) {
-  const n = String(name ?? '')
-    .toLowerCase()
-    .normalize('NFKD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/[^a-z0-9]+/g, ' ')
-    .trim();
-  if (!n) return '';
-  return n.split(' ').filter((t) => t && !NAME_NOISE.has(t)).sort().join(' ');
 }
 
 // ─── Load all stations ─────────────────────────────────────────────

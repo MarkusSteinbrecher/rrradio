@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-05-21T09:50:53.220Z",
-  "totalScanned": 24314,
-  "collisionCount": 434,
+  "generatedAt": "2026-05-24T10:51:21.066Z",
+  "totalScanned": 24311,
+  "collisionCount": 469,
   "byKind": {
     "stationuuid": 0,
     "streamUrl": 0,
     "name": 331,
-    "homepage+favicon": 103
+    "homepage+favicon": 138
   },
   "blockingCollisionCount": 0,
   "collisions": [
@@ -5513,6 +5513,22 @@
     },
     {
       "kind": "homepage+favicon",
+      "key": "DE|ffh.de|https://static.ffh.de/fileadmin/templates/ffh.de/images/logo-snippets.png|ffh hit",
+      "entries": [
+        {
+          "id": "de-hit-radio-ffh",
+          "name": "Hit Radio FFH",
+          "streamUrl": "https://mp3.ffh.de/radioffh/hqlivestream.mp3"
+        },
+        {
+          "id": "de-ffh-hit-radio-aac-128-kbps",
+          "name": "FFH Hit Radio. AAC 128 kbps",
+          "streamUrl": "https://mp3.ffh.de/radioffh/hqlivestream.aac"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
       "key": "DE|deutschlandfunknova.de|https://www.deutschlandfunknova.de/apple-touch-icon-precomposed.png|deutschlandfunk dlf nova",
       "entries": [
         {
@@ -5524,6 +5540,11 @@
           "id": "de-deutschlandfunk-nova-dlf-opus-64k",
           "name": "Deutschlandfunk Nova | DLF | OPUS 64k",
           "streamUrl": "https://st03.sslstream.dlf.de/dlf/03/high/opus/stream.opus?aggregator=web"
+        },
+        {
+          "id": "de-deutschlandfunk-nova-dlf-aac-48k",
+          "name": "Deutschlandfunk Nova | DLF | AAC 48k",
+          "streamUrl": "https://st03.sslstream.dlf.de/dlf/03/low/aac/stream.aac?aggregator=web"
         },
         {
           "id": "de-deutschlandfunk-nova-dlf-aac-96k",
@@ -5547,9 +5568,120 @@
           "streamUrl": "https://st04.sslstream.dlf.de/dlf/04/128/mp3/stream.mp3?aggregator=web"
         },
         {
+          "id": "de-deutschlandfunk-dokumente-und-debatten-dlf-aac-4",
+          "name": "Deutschlandfunk Dokumente und Debatten | DLF | AAC 48k",
+          "streamUrl": "https://st04.sslstream.dlf.de/dlf/04/low/aac/stream.aac?aggregator=web"
+        },
+        {
           "id": "de-deutschlandfunk-dokumente-und-debatten-dlf-aac-1",
           "name": "Deutschlandfunk Dokumente und Debatten | DLF | AAC 192k",
           "streamUrl": "https://st04.sslstream.dlf.de/dlf/04/high/aac/stream.aac?aggregator=web"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "AU|abc.net.au/classic|https://www.abc.net.au/core-assets/classic/abc-classic.png|abc classic",
+      "entries": [
+        {
+          "id": "builtin-abc-classic-fm",
+          "name": "ABC Classic FM",
+          "streamUrl": "https://live-radio01.mediahubaustralia.com/2FMW/aac/"
+        },
+        {
+          "id": "au-abc-classic-hls",
+          "name": "ABC Classic HLS",
+          "streamUrl": "https://mediaserviceslive.akamaized.net/hls/live/2038316/classicfmnsw/index.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "AU|abc.net.au/country|https://www.abc.net.au/core-assets/country/abc-country.png|abc country",
+      "entries": [
+        {
+          "id": "builtin-abc-country",
+          "name": "ABC Country",
+          "streamUrl": "https://live-radio01.mediahubaustralia.com/CTRW/aac/"
+        },
+        {
+          "id": "au-abc-country-hls",
+          "name": "ABC Country HLS",
+          "streamUrl": "https://mediaserviceslive.akamaized.net/hls/live/2038322/abccountry/index.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "AU|abc.net.au/jazz|https://www.abc.net.au/core-assets/jazz/abc-jazz.png|abc jazz",
+      "entries": [
+        {
+          "id": "builtin-abc-jazz",
+          "name": "ABC Jazz",
+          "streamUrl": "https://live-radio01.mediahubaustralia.com/JAZW/aac/"
+        },
+        {
+          "id": "au-abc-jazz-hls",
+          "name": "ABC Jazz HLS",
+          "streamUrl": "https://mediaserviceslive.akamaized.net/hls/live/2038319/abcjazz/index.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "PL|rmf.fm|https://www.rmf.fm/assets/images/rmf-fm-logo.jpg|rmf",
+      "entries": [
+        {
+          "id": "pl-rmf-fm",
+          "name": "RMF FM",
+          "streamUrl": "https://rs202-krk.rmfstream.pl/rmf_fm"
+        },
+        {
+          "id": "pl-rmf-fm-128-kbps",
+          "name": "RMF FM 128 Kbps",
+          "streamUrl": "https://rs101-krk.rmfstream.pl/rmf_fm"
+        },
+        {
+          "id": "pl-rmf-fm-48-kbps",
+          "name": "RMF FM 48 Kbps",
+          "streamUrl": "https://rs101-krk.rmfstream.pl/RMFFM48"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "PL|radiozet.pl|https://gfx.radiozet.pl/extension/radiozet/design/standard/images/logo.jpg|zet",
+      "entries": [
+        {
+          "id": "pl-radio-zet",
+          "name": "Radio Zet",
+          "streamUrl": "https://r.dcs.redcdn.pl/sc/o2/Eurozet/live/audio.livx?audio=5"
+        },
+        {
+          "id": "pl-radio-zet-128-kbps",
+          "name": "Radio ZET 128 Kbps",
+          "streamUrl": "https://zt02.cdn.eurozet.pl/zet-old.mp3"
+        },
+        {
+          "id": "pl-radio-zet-128",
+          "name": "Radio ZET 128",
+          "streamUrl": "https://n-11-21.dcs.redcdn.pl/sc/o2/Eurozet/live/audio.livx?audio=5"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "US|somafm.com/secretagent|https://somafm.com/img3/secretagent-400.png|agent secret somafm",
+      "entries": [
+        {
+          "id": "soma-secret-agent",
+          "name": "SomaFM Secret Agent",
+          "streamUrl": "https://ice6.somafm.com/secretagent-128-mp3"
+        },
+        {
+          "id": "us-somafm-secret-agent-128-aac",
+          "name": "SomaFM Secret Agent (128 AAC)",
+          "streamUrl": "https://ice5.somafm.com/secretagent-128-aac"
         }
       ]
     },
@@ -5566,6 +5698,11 @@
           "id": "us-somafm-underground-80s-256k-mp3",
           "name": "SomaFM Underground 80s (256k MP3)",
           "streamUrl": "https://ice6.somafm.com/u80s-256-mp3"
+        },
+        {
+          "id": "us-somafm-underground-80s-32k-aac",
+          "name": "SomaFM Underground 80s (32k AAC)",
+          "streamUrl": "https://ice2.somafm.com/u80s-32-aac"
         },
         {
           "id": "us-somafm-underground-80s-128k-aac",
@@ -5664,6 +5801,11 @@
       "key": "DE|deutschlandfunk.de|https://www.deutschlandfunk.de/static/img/deutschlandfunk/icons/apple-touch-icon-128x128.png|deutschlandfunk dlf",
       "entries": [
         {
+          "id": "de-deutschlandfunk-dlf-aac-48k",
+          "name": "Deutschlandfunk | DLF | AAC 48k",
+          "streamUrl": "https://st01.sslstream.dlf.de/dlf/01/low/aac/stream.aac?aggregator=web"
+        },
+        {
           "id": "de-deutschlandfunk-dlf-aac-96k",
           "name": "Deutschlandfunk | DLF | AAC 96k",
           "streamUrl": "https://st01.sslstream.dlf.de/dlf/01/mid/aac/stream.aac?aggregator=web"
@@ -5693,6 +5835,11 @@
           "id": "de-deutschlandfunk-kultur-dlf-aac-192k",
           "name": "Deutschlandfunk Kultur | DLF | AAC 192k",
           "streamUrl": "https://st02.sslstream.dlf.de/dlf/02/high/aac/stream.aac?aggregator=web"
+        },
+        {
+          "id": "de-deutschlandfunk-kultur-dlf-aac-48k",
+          "name": "Deutschlandfunk Kultur | DLF | AAC 48k",
+          "streamUrl": "https://st02.sslstream.dlf.de/dlf/02/low/aac/stream.aac?aggregator=web"
         },
         {
           "id": "de-deutschlandfunk-kultur-dlf-opus-64k",
@@ -5959,6 +6106,22 @@
     },
     {
       "kind": "homepage+favicon",
+      "key": "AT|oe3.orf.at|https://tubestatic.orf.at/mojo/1_3/storyserver//tube/common/images/apple-icons/oe3.png|hitradio o3 orf",
+      "entries": [
+        {
+          "id": "at-orf-hitradio-o3",
+          "name": "ORF Hitradio Ö3",
+          "streamUrl": "https://ors-sn03.ors-shoutcast.at/oe3-q1a"
+        },
+        {
+          "id": "at-orf-hitradio-o3-128k-hls",
+          "name": "ORF Hitradio Ö3 (128k HLS)",
+          "streamUrl": "https://orf-live-oe3.mdn.ors.at/out/u/oe3/q3a/manifest.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
       "key": "AT|oe1.orf.at/campus|https://oe1.orf.at/static/img/logo_oe1.png|campus o1 orf",
       "entries": [
         {
@@ -5986,6 +6149,11 @@
           "id": "us-somafm-poptron-128k-aac",
           "name": "SomaFM PopTron (128k AAC)",
           "streamUrl": "https://ice5.somafm.com/poptron-128-aac"
+        },
+        {
+          "id": "us-somafm-poptron-32k-aac",
+          "name": "SomaFM PopTron (32k AAC)",
+          "streamUrl": "https://ice2.somafm.com/poptron-32-aac"
         }
       ]
     },
@@ -6052,6 +6220,11 @@
           "streamUrl": "https://ice4.somafm.com/metal-128-aac"
         },
         {
+          "id": "us-somafm-metal-detector-32k-aac",
+          "name": "SomaFM Metal Detector (32k AAC)",
+          "streamUrl": "https://ice4.somafm.com/metal-32-aac"
+        },
+        {
           "id": "us-somafm-metal-detector-128k-mp3",
           "name": "SomaFM Metal Detector (128k MP3)",
           "streamUrl": "https://ice5.somafm.com/metal-128-mp3"
@@ -6076,6 +6249,11 @@
           "id": "us-smoothjazz-com-64k-aac",
           "name": " SmoothJazz.com 64k aac+",
           "streamUrl": "https://smoothjazz.cdnstream1.com/2585_64.aac"
+        },
+        {
+          "id": "us-smoothjazz-com-32k-mp3",
+          "name": "SmoothJazz.com (32k MP3)",
+          "streamUrl": "https://smoothjazz.cdnstream1.com/2585_32.mp3"
         }
       ]
     },
@@ -6089,9 +6267,51 @@
           "streamUrl": "https://ice6.somafm.com/reggae-256-mp3"
         },
         {
+          "id": "us-somafm-heavyweight-reggae-32k-aac",
+          "name": "SomaFM Heavyweight Reggae (32k AAC)",
+          "streamUrl": "https://ice6.somafm.com/reggae-32-aac"
+        },
+        {
           "id": "us-somafm-heavyweight-reggae-128k-mp3",
           "name": "SomaFM Heavyweight Reggae (128k MP3)",
           "streamUrl": "https://ice1.somafm.com/reggae-128-mp3"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "US|somafm.com/secretagent|https://somafm.com/img3/secretagent-400.jpg|agent secret somafm",
+      "entries": [
+        {
+          "id": "us-somafm-secret-agent-32k-aac",
+          "name": "SomaFM Secret Agent (32k AAC)",
+          "streamUrl": "https://ice6.somafm.com/secretagent-32-aac"
+        },
+        {
+          "id": "us-somafm-secret-agent-64k-aac",
+          "name": "SomaFM Secret Agent (64k AAC)",
+          "streamUrl": "https://ice2.somafm.com/secretagent-64-aac"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "US|somafm.com/deepspaceone|https://somafm.com/img3/deepspaceone-400.jpg|deep one somafm space",
+      "entries": [
+        {
+          "id": "us-somafm-deep-space-one-32k-aac",
+          "name": "SomaFM Deep Space One (32k AAC)",
+          "streamUrl": "https://ice2.somafm.com/deepspaceone-32-aac"
+        },
+        {
+          "id": "us-somafm-deep-space-one-64k-aac",
+          "name": "SomaFM Deep Space One (64k AAC)",
+          "streamUrl": "https://ice2.somafm.com/deepspaceone-64-aac"
+        },
+        {
+          "id": "us-somafm-deep-space-one-128k-mp3",
+          "name": "SomaFM Deep Space One (128k MP3)",
+          "streamUrl": "https://ice6.somafm.com/deepspaceone-128-mp3"
         }
       ]
     },
@@ -6124,6 +6344,11 @@
           "id": "us-somafm-sonic-universe-128k-aac",
           "name": "SomaFM Sonic Universe (128k AAC)",
           "streamUrl": "https://ice2.somafm.com/sonicuniverse-128-aac"
+        },
+        {
+          "id": "us-somafm-sonic-universe-32k-aac",
+          "name": "SomaFM Sonic Universe (32k AAC)",
+          "streamUrl": "https://ice2.somafm.com/sonicuniverse-32-aac"
         },
         {
           "id": "us-somafm-sonic-universe-64k-aac",
@@ -6177,6 +6402,11 @@
           "id": "us-somafm-suburbs-of-goa-64k-aac",
           "name": "SomaFM Suburbs of Goa (64k AAC)",
           "streamUrl": "https://ice5.somafm.com/suburbsofgoa-64-aac"
+        },
+        {
+          "id": "us-somafm-suburbs-of-goa-32k-aac",
+          "name": "SomaFM Suburbs of Goa (32k AAC)",
+          "streamUrl": "https://ice4.somafm.com/suburbsofgoa-32-aac"
         }
       ]
     },
@@ -6188,6 +6418,11 @@
           "id": "us-somafm-groove-salad-128k-aac",
           "name": "SomaFM Groove Salad (128k AAC)",
           "streamUrl": "https://ice5.somafm.com/groovesalad-128-aac"
+        },
+        {
+          "id": "us-somafm-groove-salad-hls-flac",
+          "name": "SomaFM Groove Salad (HLS FLAC)",
+          "streamUrl": "https://hls.somafm.com/hls/groovesalad/FLAC/program.m3u8"
         },
         {
           "id": "us-somafm-groove-salad-64k-aac",
@@ -6362,6 +6597,22 @@
     },
     {
       "kind": "homepage+favicon",
+      "key": "US|somafm.com/missioncontrol|https://somafm.com/img3/missioncontrol-400.jpg|control mission somafm",
+      "entries": [
+        {
+          "id": "us-somafm-mission-control-128k-mp3",
+          "name": "SomaFM Mission Control (128k MP3)",
+          "streamUrl": "https://ice4.somafm.com/missioncontrol-128-mp3"
+        },
+        {
+          "id": "us-somafm-mission-control-32k-aac",
+          "name": "SomaFM Mission Control (32k AAC)",
+          "streamUrl": "https://ice5.somafm.com/missioncontrol-32-aac"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
       "key": "US|somafm.com/christmas|https://somafm.com/img3/christmas-400.jpg|christmas lounge somafm",
       "entries": [
         {
@@ -6378,12 +6629,33 @@
     },
     {
       "kind": "homepage+favicon",
+      "key": "US|solopianoradio.com|https://solopianoradio.com/assets/img/main/home.jpg|piano solo whisperings",
+      "entries": [
+        {
+          "id": "us-whisperings-solo-piano-radio",
+          "name": "Whisperings Solo Piano Radio",
+          "streamUrl": "https://pianosolo.streamguys1.com/live"
+        },
+        {
+          "id": "us-whisperings-solo-piano-radio-aac-48",
+          "name": "Whisperings: Solo Piano Radio (AAC 48)",
+          "streamUrl": "https://pianosolo.streamguys1.com/pianosolo48.aac"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
       "key": "US|somafm.com/thistle|https://somafm.com/img3/thistle-400.jpg|somafm thistleradio",
       "entries": [
         {
           "id": "us-somafm-thistleradio-128k-aac",
           "name": "SomaFM ThistleRadio (128k AAC)",
           "streamUrl": "https://ice6.somafm.com/thistle-128-aac"
+        },
+        {
+          "id": "us-somafm-thistleradio-32k-aac",
+          "name": "SomaFM ThistleRadio (32k AAC)",
+          "streamUrl": "https://ice6.somafm.com/thistle-32-aac"
         },
         {
           "id": "us-somafm-thistleradio-128k-mp3",
@@ -6399,17 +6671,17 @@
     },
     {
       "kind": "homepage+favicon",
-      "key": "US|somafm.com/deepspaceone|https://somafm.com/img3/deepspaceone-400.jpg|deep one somafm space",
+      "key": "US|kusc.org|https://www.kusc.org/icons/kusc/apple-touch-icon-120x120.png|classical kusc",
       "entries": [
         {
-          "id": "us-somafm-deep-space-one-64k-aac",
-          "name": "SomaFM Deep Space One (64k AAC)",
-          "streamUrl": "https://ice2.somafm.com/deepspaceone-64-aac"
+          "id": "us-classical-kusc-mp3-256",
+          "name": "Classical KUSC MP3 256",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/KUSCMP256.mp3"
         },
         {
-          "id": "us-somafm-deep-space-one-128k-mp3",
-          "name": "SomaFM Deep Space One (128k MP3)",
-          "streamUrl": "https://ice6.somafm.com/deepspaceone-128-mp3"
+          "id": "us-classical-kusc",
+          "name": "Classical KUSC",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/KUSCAAC64.aac"
         }
       ]
     },
@@ -6452,6 +6724,54 @@
     },
     {
       "kind": "homepage+favicon",
+      "key": "US|christianhardrock.net|https://www.christianhardrock.net/apple-touch-icon.png|crnet hard rock",
+      "entries": [
+        {
+          "id": "us-crnet-hard-rock-128",
+          "name": "CRnet Hard Rock (128)",
+          "streamUrl": "https://shoutcast.christianrock.net/stream/3/"
+        },
+        {
+          "id": "us-crnet-hard-rock-32",
+          "name": "CRnet Hard Rock (32)",
+          "streamUrl": "https://shoutcast.christianrock.net/stream/4/"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "US|somafm.com/dronezone|https://somafm.com/img3/dronezone-400.jpg|drone somafm zone",
+      "entries": [
+        {
+          "id": "us-somafm-drone-zone-64k-aac",
+          "name": "SomaFM Drone Zone (64k AAC)",
+          "streamUrl": "https://ice6.somafm.com/dronezone-64-aac"
+        },
+        {
+          "id": "us-somafm-drone-zone-32k-aac",
+          "name": "SomaFM Drone Zone (32k AAC)",
+          "streamUrl": "https://ice6.somafm.com/dronezone-32-aac"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "US|somafm.com/indiepop|https://somafm.com/img3/indiepop-400.jpg|indie pop rocks somafm",
+      "entries": [
+        {
+          "id": "us-somafm-indie-pop-rocks-64k-aac",
+          "name": "SomaFM Indie Pop Rocks! (64k AAC)",
+          "streamUrl": "https://ice6.somafm.com/indiepop-64-aac"
+        },
+        {
+          "id": "us-somafm-indie-pop-rocks-32k-aac",
+          "name": "SomaFM Indie Pop Rocks! (32k AAC)",
+          "streamUrl": "https://ice5.somafm.com/indiepop-32-aac"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
       "key": "US|iheart.com|https://i.iheart.com/v3/re/new_assets/fd6065ae-5f96-46fe-b70d-c3b2d791cb36|90s country",
       "entries": [
         {
@@ -6463,6 +6783,22 @@
           "id": "us-country-90s-radio",
           "name": "Country 90s Radio",
           "streamUrl": "https://stream.revma.ihrhls.com/zc6870/hls.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "US|somafm.com/n5md|https://somafm.com/img3/n5md-400.png|n5md somafm",
+      "entries": [
+        {
+          "id": "us-somafm-n5md-128k-aac",
+          "name": "SomaFM n5MD (128k AAC)",
+          "streamUrl": "https://ice6.somafm.com/n5md-128-aac"
+        },
+        {
+          "id": "us-somafm-n5md-32k-aac",
+          "name": "SomaFM n5MD (32k AAC)",
+          "streamUrl": "https://ice2.somafm.com/n5md-32-aac"
         }
       ]
     },
@@ -6484,6 +6820,70 @@
     },
     {
       "kind": "homepage+favicon",
+      "key": "US|christianclassicrock.net|https://www.christianclassicrock.net/apple-touch-icon.png|classic crnet rock",
+      "entries": [
+        {
+          "id": "us-crnet-classic-rock-128",
+          "name": "CRnet Classic Rock (128)",
+          "streamUrl": "https://shoutcast.christianrock.net/stream/9/"
+        },
+        {
+          "id": "us-crnet-classic-rock-32",
+          "name": "CRnet Classic Rock (32)",
+          "streamUrl": "https://shoutcast.christianrock.net/stream/10/"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "US|classicalwcrb.org|https://www.classicalwcrb.org/apple-touch-icon.png|5 99 classical crb",
+      "entries": [
+        {
+          "id": "us-crb-classical-99-5-aac-256",
+          "name": "CRB Classical 99.5 AAC 256",
+          "streamUrl": "https://wgbh-live.streamguys1.com/wcrb-itunes-256k"
+        },
+        {
+          "id": "us-crb-classical-99-5-hls",
+          "name": "CRB Classical 99.5 HLS",
+          "streamUrl": "https://wgbh-hls.streamguys1.com/wcrb_hls/playlist.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "US|somafm.com/xmasinfrisko|https://somafm.com/img3/xmasinfrisko-400.jpg|frisco in somafm xmas",
+      "entries": [
+        {
+          "id": "us-somafm-xmas-in-frisco-64k-aac",
+          "name": "SomaFM Xmas in Frisco (64k AAC)",
+          "streamUrl": "https://ice5.somafm.com/xmasinfrisko-64-aac"
+        },
+        {
+          "id": "us-somafm-xmas-in-frisco-32k-aac",
+          "name": "SomaFM Xmas in Frisco (32k AAC)",
+          "streamUrl": "https://ice6.somafm.com/xmasinfrisko-32-aac"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "US|somafm.com/brfm|https://somafm.com/img3/brfm-400.jpg|black rock somafm",
+      "entries": [
+        {
+          "id": "us-somafm-black-rock-fm-32k",
+          "name": "SomaFM Black Rock FM (32k)",
+          "streamUrl": "https://ice5.somafm.com/brfm-32-aac"
+        },
+        {
+          "id": "us-somafm-black-rock-fm-64k",
+          "name": "SomaFM Black Rock FM (64k)",
+          "streamUrl": "https://ice5.somafm.com/brfm-64-aac"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
       "key": "US|nuevavida.com|https://nuevavida.com/wp-content/uploads/2021/03/cropped-cropped-2019-rnv-logo-png-1-180x180.png|kmro nueva vida",
       "entries": [
         {
@@ -6495,6 +6895,91 @@
           "id": "us-kmro-radio-nueva-vida",
           "name": "KMRO Radio Nueva Vida ",
           "streamUrl": "https://ice10.securenetsystems.net/KMRO"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "US|christianpowerpraise.net|https://www.christianpowerpraise.net/apple-touch-icon.png|crnet power praise",
+      "entries": [
+        {
+          "id": "us-crnet-power-praise-128",
+          "name": "CRnet Power Praise (128)",
+          "streamUrl": "https://shoutcast.christianrock.net/stream/7/"
+        },
+        {
+          "id": "us-crnet-power-praise-32",
+          "name": "CRnet Power Praise (32)",
+          "streamUrl": "https://shoutcast.christianrock.net/stream/8/"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "US|wgbh.org|https://www.wgbh.org/apple-touch-icon.png|7 89 gbh",
+      "entries": [
+        {
+          "id": "us-gbh-89-7-aac-256",
+          "name": "GBH 89.7 AAC 256",
+          "streamUrl": "https://wgbh-live.streamguys1.com/wgbh-256aac"
+        },
+        {
+          "id": "us-gbh-89-7-hls",
+          "name": "GBH 89.7 HLS",
+          "streamUrl": "https://wgbh-hls.streamguys1.com/wgbh_hls/playlist.m3u8"
+        },
+        {
+          "id": "us-gbh-89-7-aac",
+          "name": "GBH 89.7 AAC",
+          "streamUrl": "https://wgbh-live.streamguys1.com/wgbh-aac"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "US|cpr.org/classical|https://www.cpr.org/icons/apple-touch-icon.png|classical cpr",
+      "entries": [
+        {
+          "id": "us-cpr-classical-aac-256",
+          "name": "CPR Classical AAC 256",
+          "streamUrl": "https://stream1.cprnetwork.org/2110_256.aac"
+        },
+        {
+          "id": "us-cpr-classical-aac-128",
+          "name": "CPR Classical AAC 128",
+          "streamUrl": "https://stream1.cprnetwork.org/2110_128.aac"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "US|radio.tandj-homelab.dev/public/t_and_js_radio|https://radio.tandj-homelab.dev/static/icons/production/120.png|and j s t",
+      "entries": [
+        {
+          "id": "us-t-and-j-s-radio-hq-mp3",
+          "name": "T and J's Radio (HQ MP3)",
+          "streamUrl": "https://radio.tandj-homelab.dev/listen/t_and_js_radio/HQradio.mp3"
+        },
+        {
+          "id": "us-t-and-j-s-radio-hls-stream",
+          "name": "T and J's Radio (HLS Stream)",
+          "streamUrl": "https://radio.tandj-homelab.dev/hls/t_and_js_radio/live.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "US|christianrock.net|https://www.christianrock.net/apple-touch-icon.png|crnet rock",
+      "entries": [
+        {
+          "id": "us-crnet-rock-32",
+          "name": "CRnet Rock (32)",
+          "streamUrl": "https://shoutcast.christianrock.net/stream/2/"
+        },
+        {
+          "id": "us-crnet-rock-128",
+          "name": "CRnet Rock (128)",
+          "streamUrl": "https://shoutcast.christianrock.net/stream/1/"
         }
       ]
     },
@@ -6537,6 +7022,11 @@
           "id": "us-smoothlounge-com-64k-aac",
           "name": "SmoothLounge.com 64k aac+",
           "streamUrl": "https://smoothjazz.cdnstream1.com/2586_64.aac"
+        },
+        {
+          "id": "us-smoothlounge-com-32k-mp3",
+          "name": "SmoothLounge.com 32k mp3",
+          "streamUrl": "https://smoothjazz.cdnstream1.com/2586_32.mp3"
         }
       ]
     },
@@ -6659,6 +7149,22 @@
     },
     {
       "kind": "homepage+favicon",
+      "key": "FR|croonerradio.fr|https://www.croonerradio.fr/wp-content/uploads/2023/02/logo_crooner_radio_dab_footer.webp|crooner",
+      "entries": [
+        {
+          "id": "fr-crooner-radio",
+          "name": "Crooner Radio",
+          "streamUrl": "https://direct.croonerradio.fr/croonerradio-midfi.mp3"
+        },
+        {
+          "id": "fr-crooner-radio-192-48",
+          "name": "Crooner Radio 192/48",
+          "streamUrl": "https://croonerradio.ice.infomaniak.ch/croonerradio-hifi.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
       "key": "FR|radiobrony.fr|https://radiobrony.fr/img/icons/bwavatar-details.png|brony",
       "entries": [
         {
@@ -6675,6 +7181,38 @@
           "id": "fr-radio-brony-aac",
           "name": "Radio Brony (AAC+)",
           "streamUrl": "https://radiobrony.live/aac"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "FR|radioslibresenperigord.com|https://www.radioslibresenperigord.com/wp-content/uploads/2023/09/logo-transparent-rlp-2021.png|3 en libres perigord radios rlp102",
+      "entries": [
+        {
+          "id": "fr-radios-libres-en-perigord-rlp102-3-mp3-192",
+          "name": "Radios Libres en Perigord - RLP102.3 - MP3 192",
+          "streamUrl": "https://direct.radioslibresenperigord.com/rlp.192.mp3"
+        },
+        {
+          "id": "fr-radios-libres-en-perigord-rlp102-3-aac-64",
+          "name": "Radios Libres en Perigord - RLP102.3 - AAC+ 64",
+          "streamUrl": "https://direct.radioslibresenperigord.com/rlp.64.aac"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "NL|radiocaroline.nl|https://happy.radiocaroline.nl/static/uploads/browser_icon/180.1682975145.png|259 caroline",
+      "entries": [
+        {
+          "id": "nl-radio-caroline-259-mp3-320",
+          "name": "Radio Caroline 259 MP3 320",
+          "streamUrl": "https://happy.radiocaroline.nl/listen/classic_rock/radio320.mp3"
+        },
+        {
+          "id": "nl-radio-caroline-259-aac-96",
+          "name": "Radio Caroline 259 AAC 96",
+          "streamUrl": "https://happy.radiocaroline.nl/listen/classic_rock/radio96.acc"
         }
       ]
     },
@@ -6776,22 +7314,6 @@
           "id": "pl-smoothjazz-com-pl-64k-aac",
           "name": "SmoothJazz.com.pl 64k aac+",
           "streamUrl": "https://bcast.vigormultimedia.com:48888/sjcompl64aac"
-        }
-      ]
-    },
-    {
-      "kind": "homepage+favicon",
-      "key": "PL|radiozet.pl|https://gfx.radiozet.pl/extension/radiozet/design/standard/images/logo.jpg|128 zet",
-      "entries": [
-        {
-          "id": "pl-radio-zet-128-kbps",
-          "name": "Radio ZET 128 Kbps",
-          "streamUrl": "https://zt02.cdn.eurozet.pl/zet-old.mp3"
-        },
-        {
-          "id": "pl-radio-zet-128",
-          "name": "Radio ZET 128",
-          "streamUrl": "https://n-11-21.dcs.redcdn.pl/sc/o2/Eurozet/live/audio.livx?audio=5"
         }
       ]
     },
@@ -7058,6 +7580,22 @@
     },
     {
       "kind": "homepage+favicon",
+      "key": "UA|z-polus.info|https://i0.wp.com/z-polus.info/wp-content/uploads/2020/06/zah_polus_newlogo_black-1.png?fit=3249%2c1251&ssl=1|pole west",
+      "entries": [
+        {
+          "id": "ua-west-pole-64k-aac",
+          "name": "Західний полюс West Pole 64k AAC+",
+          "streamUrl": "https://online.z-polus.info/mobilehq"
+        },
+        {
+          "id": "ua-west-pole-32k-aac",
+          "name": "Західний полюс West Pole 32k AAC",
+          "streamUrl": "https://online.z-polus.info/mobile"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
       "key": "CZ|evropa2.cz|https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/evropa_2_logo.png/200px-evropa_2_logo.png|2 evropa",
       "entries": [
         {
@@ -7191,6 +7729,22 @@
     },
     {
       "kind": "homepage+favicon",
+      "key": "EG|onair.voog.com|https://promix.neocities.org/fm.png|arab mix",
+      "entries": [
+        {
+          "id": "eg-arab-mix-fm",
+          "name": "Arab Mix FM",
+          "streamUrl": "https://stream.zeno.fm/na3vpvn10qruv"
+        },
+        {
+          "id": "eg-arab-mix-256",
+          "name": "Arab Mix 256",
+          "streamUrl": "https://stream.zeno.fm/wvqgc9kb1d0uv"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
       "key": "QA|qabayanfm.com|https://static.wixstatic.com/media/418af1_49879588b7204884b90d4994f7f25d3e%7emv2.png/v1/fill/w_180%2ch_180%2clg_1%2cusm_0.66_1.00_0.01/418af1_49879588b7204884b90d4994f7f25d3e%7emv2.png|3 94 qabayan",
       "entries": [
         {
@@ -7202,6 +7756,102 @@
           "id": "qa-qabayan-radio-94-3-fm-flac",
           "name": "Qabayan Radio 94.3 FM (FLAC)",
           "streamUrl": "https://c2.radioboss.fm:8478/live"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "DE|regenbogen.de/zwei|https://cdn.regenbogen.de/sites/all/themes/regenbogen/assets/images/logos/regenbogen-zwei-logo.png|2 neckar regenbogen rhein",
+      "entries": [
+        {
+          "id": "de-regenbogen-2-rhein-neckar-aac-128",
+          "name": "Regenbogen 2 Rhein-Neckar aac-128",
+          "streamUrl": "https://stream.regenbogen2.de/rheinneckar/aac-128"
+        },
+        {
+          "id": "de-regenbogen-2-rhein-neckar-aac-64",
+          "name": "Regenbogen 2 Rhein-Neckar aac-64",
+          "streamUrl": "https://stream.regenbogen2.de/rheinneckar/aac-64"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "DE|br.de/radio/bayern2|https://api.ardmediathek.de/image-service/images/urn:ard:image:5d72d15e88d309ec?w=512|2 bayern",
+      "entries": [
+        {
+          "id": "de-bayern-2-hls-96",
+          "name": "Bayern 2 (HLS 96)",
+          "streamUrl": "https://br-radio.ard-mcdn.de/br/radio/b2/hls/96/seglist.m3u8"
+        },
+        {
+          "id": "de-bayern-2-hls-192",
+          "name": "Bayern 2 (HLS 192)",
+          "streamUrl": "https://br-radio.ard-mcdn.de/br/radio/b2/hls/192/seglist.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "DE|br-klassik.de|https://api.ardmediathek.de/image-service/images/urn:ard:image:476e47d76c4bbf78?w=512|br klassik",
+      "entries": [
+        {
+          "id": "de-br-klassik-hls-192",
+          "name": "BR-Klassik (HLS 192)",
+          "streamUrl": "https://br-radio.ard-mcdn.de/br/radio/brklassik/hls/192/seglist.m3u8"
+        },
+        {
+          "id": "de-br-klassik-hls-96",
+          "name": "BR-Klassik (HLS 96)",
+          "streamUrl": "https://br-radio.ard-mcdn.de/br/radio/brklassik/hls/96/seglist.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "DE|br.de/radio/bayern1|https://api.ardmediathek.de/image-service/images/urn:ard:image:b366004f6196d70c?w=512|1 bayern oberbayern",
+      "entries": [
+        {
+          "id": "de-bayern-1-oberbayern-hls-192",
+          "name": "Bayern 1 Oberbayern (HLS 192)",
+          "streamUrl": "https://br-radio.ard-mcdn.de/br/radio/b1obb/hls/192/seglist.m3u8"
+        },
+        {
+          "id": "de-bayern-1-oberbayern-hls-96",
+          "name": "Bayern 1 Oberbayern (HLS 96)",
+          "streamUrl": "https://br-radio.ard-mcdn.de/br/radio/b1obb/hls/96/seglist.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "DE|bayern3.de|https://api.ardmediathek.de/image-service/images/urn:ard:image:52fd25fc45de7c6a?w=512|3 bayern",
+      "entries": [
+        {
+          "id": "de-bayern-3-hls-96",
+          "name": "Bayern 3 (HLS 96)",
+          "streamUrl": "https://br-radio.ard-mcdn.de/br/radio/b3/hls/96/seglist.m3u8"
+        },
+        {
+          "id": "de-bayern-3-hls-192",
+          "name": "Bayern 3 (HLS 192)",
+          "streamUrl": "https://br-radio.ard-mcdn.de/br/radio/b3/hls/192/seglist.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "CH|srf.ch/audio/regionaljournal-graubuenden|https://download-media.srf.ch/world/image/audio/2015/07/f10f17ef7b4c4befbebe7f8f6b5dd943.png|1 graubunden srf",
+      "entries": [
+        {
+          "id": "ch-radio-srf-1-graubunden-32k-aac",
+          "name": "Radio SRF 1 Graubünden | 32k AAC+",
+          "streamUrl": "https://stream.srg-ssr.ch/m/regi_gr/aacp_32"
+        },
+        {
+          "id": "ch-radio-srf-1-graubunden-96k-aac",
+          "name": "Radio SRF 1 Graubünden | 96k AAC+",
+          "streamUrl": "https://stream.srg-ssr.ch/m/regi_gr/aacp_96"
         }
       ]
     }
