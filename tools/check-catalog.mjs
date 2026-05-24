@@ -19,7 +19,7 @@
  *   npm run check-catalog
  */
 
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse as parseYaml } from 'yaml';
@@ -129,6 +129,40 @@ if (httpsIssues.length > 0) {
   );
   console.error(`  ${C.ok}httpAllowed: true${C.reset}${C.bad} to the YAML row with a comment explaining why HTTPS`);
   console.error(`  isn't available (audit #71).${C.reset}`);
+  process.exit(2);
+}
+
+// Favicon variants: every `favicons.{76,128,152}` path in the catalog
+// must point at a file that actually exists under public/. Build pipeline
+// in tools/build-favicon-variants.mjs writes these; catches the case
+// where a curator edits stations.json by hand or the variants were
+// pruned without re-running the pipeline.
+const VARIANT_SIZES = ['76', '128', '152'];
+const variantIssues = [];
+for (const s of jsonStations) {
+  const fv = s.favicons;
+  if (!fv || typeof fv !== 'object') continue;
+  for (const size of VARIANT_SIZES) {
+    const path = fv[size];
+    if (path === undefined) continue;
+    if (typeof path !== 'string' || !path.startsWith('favicons/')) {
+      variantIssues.push(`${s.id}: favicons[${size}] is not a favicons/ path → ${path}`);
+      continue;
+    }
+    if (!existsSync(join(root, 'public', path))) {
+      variantIssues.push(`${s.id}: favicons[${size}] missing on disk → public/${path}`);
+    }
+  }
+}
+if (variantIssues.length > 0) {
+  console.error(
+    `${C.bad}check-catalog: ${variantIssues.length} favicon-variant issue(s):${C.reset}`,
+  );
+  for (const m of variantIssues.slice(0, 20)) console.error(`  ${m}`);
+  if (variantIssues.length > 20) console.error(`  …and ${variantIssues.length - 20} more`);
+  console.error(
+    `\n  Fix: run ${C.ok}npm run favicon-variants${C.reset}${C.bad} (or remove the stale variants from stations.json).${C.reset}`,
+  );
   process.exit(2);
 }
 
