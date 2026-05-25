@@ -5,29 +5,44 @@
   const el = document.querySelector('.tuner');
   if (!el) return;
   const track = el.querySelector('.tuner__track');
+  const presets = el.querySelector('.tuner__presets');
   const freqEl = el.querySelector('.tuner__freq');
   const knob = el.querySelector('.tuner__knob--control');
+  const needle = el.querySelector('.tuner__needle');
   const scope = el.querySelector('.tuner__scope');
-  const scopeCanvas = scope ? scope.querySelector('canvas') : null;
+  const scopeEnabled = scope ? getComputedStyle(scope).display !== 'none' : false;
+  const scopeCanvas = scopeEnabled ? scope.querySelector('canvas') : null;
   const scopeText = scope ? scope.querySelector('.tuner__scope-text') : null;
   const scopeFreq = scope ? scope.querySelector('.tuner__scope-freq') : null;
   let scopeLockDist = 1;
   const navEl = document.querySelector('.nav');
+  const photoMode = el.classList.contains('tuner--photo');
+  const photoNeedleMode = photoMode && !el.classList.contains('tuner--photo-frame');
+  const tunerStyle = getComputedStyle(el);
+  const needleStart = parseFloat(tunerStyle.getPropertyValue('--needle-start')) || 10;
+  const needleTravel = parseFloat(tunerStyle.getPropertyValue('--needle-travel')) || 78;
 
-  const MIN = 87.5, MAX = 108.0;
+  const FM_MIN = 87, FM_MAX = 108;
+  const MIN = FM_MIN, MAX = FM_MAX;
   const RANGE = MAX - MIN;
+  const FM_LABELS = [87, 89, 93, 97, 101, 105, 108];
+  const AM_MIN = 522, AM_MAX = 1620;
+  const AM_LABELS = [522, 655, 680, 1070, 1280, 1480, 1620];
   const PX = 60; // pixels per MHz on the track
 
-  // — 1. tick marks: 0.1 MHz minor, 0.5 half, integer major (with label)
+  if (!track || !presets) return;
+  track.style.width = (RANGE * PX) + 'px';
+
+  // — 1. tick marks: FM on the upper MHz row, AM on the lower kHz row.
   const frag = document.createDocumentFragment();
   for (let i = 0; i <= RANGE * 10 + 0.5; i++) {
     const f = MIN + i / 10;
     const tick = document.createElement('div');
     const isInt = Math.abs(f - Math.round(f)) < 0.05;
     const isHalf = !isInt && Math.abs((f * 10) % 5) < 0.5;
-    tick.className = 'tuner__tick' + (isInt ? ' tuner__tick--major' : (isHalf ? ' tuner__tick--half' : ''));
+    tick.className = 'tuner__tick tuner__tick--fm' + (isInt ? ' tuner__tick--major' : (isHalf ? ' tuner__tick--half' : ''));
     tick.style.left = ((f - MIN) * PX) + 'px';
-    if (isInt) {
+    if (isInt && FM_LABELS.includes(Math.round(f))) {
       const lab = document.createElement('span');
       lab.className = 'tuner__tick-label';
       lab.textContent = Math.round(f);
@@ -35,37 +50,66 @@
     }
     frag.appendChild(tick);
   }
+  AM_LABELS.forEach((value) => {
+    const tick = document.createElement('div');
+    tick.className = 'tuner__tick tuner__tick--am tuner__tick--major';
+    tick.style.left = (((value - AM_MIN) / (AM_MAX - AM_MIN)) * RANGE * PX) + 'px';
+    const lab = document.createElement('span');
+    lab.className = 'tuner__tick-label';
+    lab.textContent = String(value);
+    tick.appendChild(lab);
+    frag.appendChild(tick);
+  });
   track.appendChild(frag);
 
-  // — 2. station labels: every <section class="s"> in the doc gets a chip
+  // — 2. station presets: every <section class="s"> gets a physical button.
   let stations = [];
+  let lockedPreset = null;
+  let lockedPresetTarget = null;
+  let lockedPresetUntil = 0;
   function placeStations() {
     stations.forEach(s => s.btn.remove());
     stations = [];
+    lockedPreset = null;
+    lockedPresetTarget = null;
     const secs = [...document.querySelectorAll('main.doc .s')];
+    const presetSections = [0, 1, 3, 5, 8].map((index) => secs[index]).filter(Boolean);
+    const sections = presetSections.length === 5 ? presetSections : secs.slice(0, 5);
     const docMax = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-    secs.forEach((sec) => {
+    sections.forEach((sec, index) => {
       const absTop = sec.getBoundingClientRect().top + window.scrollY;
       const p = Math.max(0, Math.min(1, absTop / docMax));
       const f = MIN + p * RANGE;
-      const numSpan = sec.querySelector('.s__num');
-      const num = numSpan ? numSpan.textContent.trim() : '—';
+      const num = String(index + 1).padStart(2, '0');
 
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'tuner__station';
-      btn.textContent = num;
-      btn.style.left = ((f - MIN) * PX) + 'px';
+      btn.className = 'tuner__preset';
+      btn.setAttribute('aria-pressed', 'false');
       btn.dataset.freq = f.toFixed(2);
       const titleEl = sec.querySelector('.s__name');
       const title = titleEl ? titleEl.textContent.trim() : num;
+      btn.setAttribute('aria-label', 'Preset ' + num + ': ' + title);
+
+      const cap = document.createElement('span');
+      cap.className = 'tuner__preset-cap';
+      cap.textContent = num;
+      const label = document.createElement('span');
+      label.className = 'tuner__preset-label';
+      label.textContent = title;
+      btn.append(cap, label);
+
+      const station = { btn, f, title, sec };
       btn.addEventListener('click', () => {
         const offset = (navEl ? navEl.offsetHeight : 60) + el.offsetHeight + 18;
         const target = sec.getBoundingClientRect().top + window.scrollY - offset;
+        lockedPreset = station;
+        lockedPresetTarget = target;
+        lockedPresetUntil = performance.now() + 2200;
         window.scrollTo({ top: target, behavior: 'smooth' });
       });
-      track.appendChild(btn);
-      stations.push({ btn, f, title });
+      presets.appendChild(btn);
+      stations.push(station);
     });
   }
 
@@ -78,16 +122,36 @@
     const centerX = (stripEl ? stripEl.clientWidth : el.clientWidth) / 2;
     const tx = centerX - (f - MIN) * PX;
     track.style.transform = 'translateX(' + tx + 'px)';
+    if (photoNeedleMode && needle) {
+      needle.style.left = (needleStart + p * needleTravel).toFixed(2) + '%';
+    }
     if (freqEl) freqEl.textContent = f.toFixed(1);
 
-    // highlight the station the needle is currently over (within 0.4 MHz)
+    // Scope lock follows the dial needle; preset state follows section targets.
     let nearest = null, dist = Infinity;
+    let nearestPreset = null, presetDist = Infinity;
+    const sectionOffset = (navEl ? navEl.offsetHeight : 60) + el.offsetHeight + 18;
     stations.forEach(s => {
       s.btn.classList.remove('is-current');
+      s.btn.setAttribute('aria-pressed', 'false');
       const d = Math.abs(s.f - f);
       if (d < dist) { dist = d; nearest = s; }
+      const target = s.sec.getBoundingClientRect().top + window.scrollY - sectionOffset;
+      const pd = Math.abs(window.scrollY - target);
+      if (pd < presetDist) { presetDist = pd; nearestPreset = s; }
     });
-    if (nearest && dist < 0.45) nearest.btn.classList.add('is-current');
+    if (lockedPreset && (
+      performance.now() > lockedPresetUntil ||
+      Math.abs(window.scrollY - lockedPresetTarget) < 6
+    )) {
+      lockedPreset = null;
+      lockedPresetTarget = null;
+    }
+    const activePreset = lockedPreset || nearestPreset;
+    if (activePreset) {
+      activePreset.btn.classList.add('is-current');
+      activePreset.btn.setAttribute('aria-pressed', 'true');
+    }
 
     // sync knob rotation: 2 full rotations (720°) across the whole doc
     if (knob) knob.style.transform = 'rotate(' + (p * 720) + 'deg)';

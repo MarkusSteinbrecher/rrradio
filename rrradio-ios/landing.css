@@ -49,7 +49,7 @@
     position: sticky; top: 0; z-index: 50;
     backdrop-filter: blur(16px) saturate(140%);
     -webkit-backdrop-filter: blur(16px) saturate(140%);
-    background: color-mix(in srgb, var(--bg) 80%, transparent);
+    background: var(--bg);
     border-bottom: 1px solid var(--line);
   }
   .nav__inner {
@@ -139,7 +139,7 @@
   /* ── Tuner ─────────────────────────────────────────────
      A horizontal receiver dial that translates as you scroll the page.
      Sections of the document are placed as "stations" at their natural
-     scroll-progress, mapped onto the 87.5–108.0 MHz band. The dial is
+     scroll-progress, mapped onto the 87–108 MHz band. The dial is
      the navigator: click a station to tune (smooth-scroll) to it; the
      needle is fixed at center, the track slides underneath. */
   /* ---- Dark graphite radio panel ---- */
@@ -149,11 +149,12 @@
     z-index: 49;
     max-width: 1080px;
     margin: 18px auto 0;
-    padding: 16px 22px;
+    padding: 16px 22px 18px;
     display: grid;
     grid-template-columns: 224px minmax(0, 1fr) 126px;
-    align-items: center;
-    gap: 12px;
+    grid-template-rows: 90px 72px;
+    align-items: stretch;
+    gap: 10px 12px;
     background: #20211e;
     border: 1px solid #11120f;
     border-radius: 30px;
@@ -166,11 +167,24 @@
       0 4px 10px rgba(0,0,0,0.45);
     overflow: visible;
   }
+  .tuner::before {
+    content: '';
+    position: absolute;
+    inset: 11px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(238,239,234,0.74);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.42),
+      inset 0 -2px 3px rgba(0,0,0,0.44),
+      0 0 0 1px rgba(82,86,79,0.78),
+      0 1px 0 rgba(255,255,255,0.12);
+    pointer-events: none;
+  }
   .tuner__panel {
     position: relative;
     min-width: 0;
-    height: 88px;
-    border: 1px solid #11120f;
+    height: 100%;
+    border: 1px solid #979b93;
     border-radius: 8px;
     background:
       repeating-linear-gradient(0deg,
@@ -178,17 +192,22 @@
         transparent 1px 11px),
       linear-gradient(180deg, #171914 0%, #0d0e0b 100%);
     box-shadow:
-      inset 0 1px 0 rgba(255,255,255,0.08),
+      0 0 0 1px rgba(16,17,15,0.88),
+      0 0 0 3px rgba(214,216,209,0.18),
+      inset 0 1px 0 rgba(255,255,255,0.18),
       inset 0 -2px 4px rgba(0,0,0,0.70),
       0 1px 0 rgba(244,244,242,0.08);
     overflow: hidden;
   }
   .tuner__panel--left {
+    grid-row: 1 / span 2;
     display: flex;
     align-items: center;
     padding: 12px 12px 10px 58px;
   }
   .tuner__panel--right {
+    grid-column: 3;
+    grid-row: 1 / span 2;
     display: grid;
     place-items: center;
   }
@@ -212,6 +231,23 @@
     box-shadow:
       0 0 0 1px rgba(244,244,242,0.10),
       0 2px 5px rgba(0,0,0,0.35);
+    pointer-events: none;
+  }
+  .tuner__power {
+    position: absolute;
+    top: 16px;
+    left: 64px;
+    width: 11px;
+    height: 11px;
+    z-index: 5;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 34% 28%, #fff6b0 0 9%, #ff3f25 28%, #b2080a 58%, #3b0203 100%);
+    box-shadow:
+      0 0 0 1px rgba(35,2,2,0.92),
+      0 0 5px rgba(255,30,20,0.94),
+      0 0 16px rgba(255,22,12,0.62),
+      0 0 24px rgba(255,22,12,0.26);
     pointer-events: none;
   }
   /* Slot-head graphite screws inset inside the shell. */
@@ -241,11 +277,26 @@
   @media (max-width: 720px) {
     .tuner {
       grid-template-columns: 128px minmax(0, 1fr) 58px;
+      grid-template-rows: 80px 72px;
       margin: 12px 12px 0;
       padding: 12px 14px;
       gap: 8px;
       top: 64px;
       border-radius: 18px;
+    }
+    .tuner::before {
+      inset: 8px 9px;
+      border-radius: 12px;
+    }
+    .tuner__power {
+      top: 10px;
+      left: 48px;
+      width: 8px;
+      height: 8px;
+      box-shadow:
+        0 0 0 1px rgba(35,2,2,0.92),
+        0 0 5px rgba(255,30,20,0.86),
+        0 0 12px rgba(255,22,12,0.44);
     }
   }
   .tuner__lead {
@@ -261,36 +312,19 @@
     width: 100%;
     flex-shrink: 0;
   }
-  /* Polished chrome tuning knob with knurled edge + center cap */
+  /* Brushed metal tuning knob with angled top face. */
   .tuner__knob {
     position: relative;
     width: 60px; height: 60px;
     border-radius: 50%;
     background:
-      radial-gradient(ellipse 24px 15px at 30% 22%, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.46) 36%, transparent 68%),
-      repeating-conic-gradient(from -12deg,
-        rgba(255,255,255,0.44) 0deg 5deg,
-        rgba(50,54,48,0.38) 5deg 9deg,
-        rgba(255,255,255,0.12) 9deg 14deg),
-      conic-gradient(from 218deg,
-        #2e322c 0deg,
-        #f9faf4 42deg,
-        #8e938a 83deg,
-        #fbfcf6 126deg,
-        #565b52 174deg,
-        #f0f1eb 221deg,
-        #7a7f76 282deg,
-        #2e322c 360deg),
-      radial-gradient(circle at 50% 52%, rgba(255,255,255,0.30) 0%, transparent 38%, rgba(0,0,0,0.34) 100%);
-    border: 1px solid #232622;
+      radial-gradient(circle at 50% 46%, #4b5049 0 54%, #1b1d19 68%, #070806 100%);
+    border: 1px solid #090a08;
     box-shadow:
-      inset 0 1px 0 rgba(255,255,255,0.75),
-      inset 0 -4px 7px rgba(0,0,0,0.50),
-      inset 0 0 0 4px rgba(255,255,255,0.16),
-      inset 0 0 0 8px rgba(0,0,0,0.16),
-      0 1px 0 rgba(244,244,242,0.25),
-      0 5px 11px rgba(0,0,0,0.72),
-      0 2px 4px rgba(0,0,0,0.55);
+      inset 0 1px 0 rgba(255,255,255,0.18),
+      inset 0 -6px 8px rgba(0,0,0,0.48),
+      0 7px 0 #070806,
+      0 12px 14px rgba(0,0,0,0.48);
     cursor: grab;
     touch-action: none;
     user-select: none;
@@ -298,49 +332,43 @@
     will-change: transform;
   }
   .tuner__knob:active { cursor: grabbing; }
-  /* Tighter knurled grip + outer brushed-metal ring */
   .tuner__knob::before {
     content: '';
     position: absolute;
-    inset: 4px;
+    inset: 1px;
     border-radius: 50%;
     background:
-      radial-gradient(circle at 50% 50%, transparent 62%, rgba(255,255,255,0.32) 64%, transparent 67%, rgba(0,0,0,0.44) 84%, transparent 100%),
-      repeating-conic-gradient(from 0deg,
-        rgba(255,255,255,0.48) 0deg 4deg,
-        rgba(0,0,0,0.36) 4deg 7deg,
-        transparent 7deg 12deg);
-    pointer-events: none;
-  }
-  /* Center metal cap with its own highlight */
-  .tuner__knob::after {
-    content: '';
-    position: absolute;
-    inset: 27%;
-    border-radius: 50%;
-    background:
-      radial-gradient(ellipse 18px 12px at 30% 23%, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.30) 45%, transparent 70%),
-      radial-gradient(circle at 50% 52%, #f7f8f2 0%, #c8cbc4 32%, #7c8178 58%, #383c36 100%);
+      radial-gradient(ellipse 25px 15px at 32% 24%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.34) 46%, transparent 70%),
+      repeating-conic-gradient(from -10deg,
+        rgba(255,255,255,0.56) 0deg 3deg,
+        rgba(118,123,116,0.36) 3deg 7deg,
+        rgba(236,238,232,0.42) 7deg 10deg),
+      radial-gradient(circle at 50% 52%, #f7f8f2 0%, #d0d3cb 26%, #8c9188 54%, #eceee8 68%, #62675f 100%);
     box-shadow:
       inset 0 1px 0 rgba(255,255,255,0.72),
-      inset 0 -2px 3px rgba(0,0,0,0.45),
-      0 0 0 1px rgba(0,0,0,0.38),
-      0 1px 2px rgba(0,0,0,0.5);
+      inset 0 -4px 7px rgba(0,0,0,0.30),
+      inset 0 0 0 7px rgba(0,0,0,0.09),
+      0 2px 2px rgba(0,0,0,0.22);
+    transform: perspective(110px) rotateX(13deg);
+    transform-origin: 50% 72%;
     pointer-events: none;
+    z-index: 1;
   }
-  /* Indicator notch - a darker etched line in the metal */
+  .tuner__knob::after { content: none; }
+  /* Thin dark indicator line. */
   .tuner__knob-indicator {
     position: absolute;
-    top: 4px;
+    top: 8px;
     left: 50%;
-    width: 3px;
-    height: 13px;
-    background: linear-gradient(180deg, #1f211e, #070807);
-    transform: translateX(-50%);
-    border-radius: 1px;
+    width: 2px;
+    height: 23px;
+    background: #10120f;
+    transform: translateX(-50%) perspective(110px) rotateX(13deg);
+    transform-origin: 50% 100%;
+    border-radius: 999px;
     box-shadow:
-      inset 0 1px 0 rgba(255,255,255,0.18),
-      0 1px 1px rgba(0,0,0,0.4);
+      0 0 0 1px rgba(255,255,255,0.12),
+      0 1px 1px rgba(0,0,0,0.42);
     pointer-events: none;
     z-index: 2;
   }
@@ -454,21 +482,67 @@
     color: var(--ink-3);
     text-transform: uppercase;
   }
+  .tuner__dial {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) 52px;
+    align-items: center;
+    gap: 8px;
+  }
+  .tuner__bands,
+  .tuner__units {
+    display: grid;
+    gap: 7px;
+    justify-items: center;
+  }
+  .tuner__bands span,
+  .tuner__units span {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    min-height: 24px;
+    padding: 0 4px;
+    border: 1px solid #3a1c0d;
+    border-radius: 999px;
+    background:
+      linear-gradient(180deg, #ff9a2c 0%, #f36f16 56%, #9a310b 100%);
+    color: #15130f;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.30),
+      inset 0 -2px 3px rgba(0,0,0,0.30),
+      0 1px 0 rgba(244,244,242,0.08),
+      0 2px 4px rgba(0,0,0,0.45);
+  }
+  .tuner__units span {
+    width: 42px;
+  }
   /* Illuminated smoked-glass dial face */
   .tuner__strip {
     position: relative;
+    grid-column: 2;
     flex: 1;
     min-width: 0;
-    height: 88px;
+    height: 100%;
     background:
       /* bulb of warm light from below */
       radial-gradient(ellipse at 50% 90%, rgba(255,255,0,0.20) 0%, transparent 55%),
       /* base smoked glass */
       radial-gradient(ellipse at 50% 35%, #e6e8df 0%, #aeb2a8 65%, #73766f 100%);
-    border: 3px solid #1b1c18;
+    border: 2px solid #d8dbd3;
     border-radius: 12px;
     overflow: hidden;
     box-shadow:
+      0 0 0 1px #090a08,
+      0 0 0 4px rgba(88,92,84,0.95),
+      0 0 0 6px rgba(228,230,224,0.20),
       /* glass bezel */
       inset 0 2px 1px rgba(244,244,242,0.45),
       inset 0 -2px 2px rgba(0,0,0,0.30),
@@ -476,7 +550,7 @@
       inset 0 0 0 1px rgba(0,0,0,0.30),
       inset 0 0 16px rgba(32,33,30,0.44),
       0 1px 0 rgba(244,244,242,0.16),
-      0 1px 3px rgba(0,0,0,0.6);
+      0 4px 8px rgba(0,0,0,0.62);
   }
   /* Glass reflection sheen across the top */
   .tuner__strip::before {
@@ -513,30 +587,41 @@
   }
   .tuner__tick {
     position: absolute;
-    bottom: 22px;
     width: 1px;
-    height: 8px;
-    background: rgba(32,33,30,0.58);
+    height: 7px;
+    background: rgba(32,33,30,0.54);
   }
-  .tuner__tick--half { height: 12px; background: rgba(32,33,30,0.76); }
+  .tuner__tick--fm { bottom: 48px; }
+  .tuner__tick--am {
+    bottom: 19px;
+    background: rgba(32,33,30,0.62);
+  }
+  .tuner__tick--half { height: 11px; background: rgba(32,33,30,0.72); }
   .tuner__tick--major {
-    height: 22px;
+    height: 18px;
     background: rgba(20,21,19,0.95);
     width: 2px;
-    box-shadow: 1px 0 0 rgba(244,244,242,0.36);
+    box-shadow: 1px 0 0 rgba(244,244,242,0.30);
+  }
+  .tuner__tick--am.tuner__tick--major {
+    height: 13px;
   }
   .tuner__tick-label {
     position: absolute;
-    bottom: -20px;
+    top: 16px;
     left: 50%;
     transform: translateX(-50%);
     font-family: Georgia, 'IBM Plex Serif', serif;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     color: rgba(20,21,19,0.92);
     font-variant-numeric: tabular-nums;
     letter-spacing: 0.02em;
     text-shadow: 0 1px 0 rgba(244,244,242,0.42);
+  }
+  .tuner__tick--am .tuner__tick-label {
+    top: 12px;
+    font-size: 10px;
   }
   .tuner__station {
     position: absolute;
@@ -565,6 +650,100 @@
     border-color: #8a6800;
     box-shadow: 0 0 8px rgba(255,200,0,0.6);
     text-shadow: none;
+  }
+  .tuner__presets {
+    grid-column: 2;
+    grid-row: 2;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+    gap: 7px;
+    align-items: start;
+    padding: 2px 8px 0;
+  }
+  .tuner__preset {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: rgba(244,244,242,0.72);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    padding: 0;
+    cursor: pointer;
+    user-select: none;
+  }
+  .tuner__preset-cap {
+    position: relative;
+    width: min(52px, 100%);
+    height: 31px;
+    display: grid;
+    place-items: center;
+    border: 1px solid #090a08;
+    border-radius: 5px 5px 7px 7px;
+    background:
+      linear-gradient(180deg, #f4f5ef 0%, #c9ccc4 34%, #8e938a 72%, #5b6058 100%);
+    color: rgba(20,21,19,0.88);
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.62),
+      inset 0 -4px 6px rgba(0,0,0,0.42),
+      0 10px 0 #070806,
+      0 14px 12px rgba(0,0,0,0.62);
+    transform: perspective(90px) rotateX(10deg);
+    transform-origin: 50% 82%;
+    transition: transform 0.10s ease, box-shadow 0.10s ease, background 0.10s ease, color 0.10s ease;
+  }
+  .tuner__preset-label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: rgba(244,244,242,0.58);
+    font-family: var(--mono);
+    font-size: 8px;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .tuner__preset:hover .tuner__preset-cap,
+  .tuner__preset:focus-visible .tuner__preset-cap {
+    background:
+      linear-gradient(180deg, #fbfcf7 0%, #bfc3ba 48%, #747970 100%);
+  }
+  .tuner__preset:active .tuner__preset-cap {
+    transform: translateY(9px) perspective(90px) rotateX(5deg);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.48),
+      inset 0 -1px 2px rgba(0,0,0,0.45),
+      0 1px 0 #090a08,
+      0 2px 4px rgba(0,0,0,0.46);
+  }
+  .tuner__preset.is-current .tuner__preset-cap {
+    transform: translateY(9px) perspective(90px) rotateX(5deg);
+    background:
+      radial-gradient(circle at 50% 24%, rgba(255,255,210,0.95) 0%, rgba(255,255,0,0.62) 42%, rgba(166,150,36,0.88) 100%),
+      linear-gradient(180deg, #fffbd7 0%, #e4d84b 56%, #7a6b18 100%);
+    color: rgba(20,21,19,0.96);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.68),
+      inset 0 -2px 4px rgba(0,0,0,0.40),
+      0 1px 0 #090a08,
+      0 0 18px rgba(255,255,0,0.45),
+      0 3px 8px rgba(0,0,0,0.50);
+  }
+  .tuner__preset.is-current .tuner__preset-label {
+    color: rgba(244,244,242,0.86);
+  }
+  .tuner__preset:focus-visible {
+    outline: 1px solid rgba(244,244,242,0.65);
+    outline-offset: 4px;
+    border-radius: 6px;
   }
   .tuner__needle {
     position: absolute;
@@ -606,16 +785,921 @@
   }
   @media (max-width: 720px) {
     .tuner { top: 58px; }
-    .tuner__panel { height: 80px; }
+    .tuner__panel { height: 100%; }
+    .tuner__panel--left { grid-row: 1; }
+    .tuner__panel--right { grid-row: 1; }
     .tuner__panel--left { padding: 12px 8px 8px 46px; }
     .tuner__mark { left: 9px; right: auto; gap: 0; }
     .tuner__logo { width: 32px; height: 32px; }
     .tuner__lead { left: 8px; padding: 3px 10px 3px 3px; gap: 8px; }
     .tuner__knob { width: 42px; height: 42px; }
+    .tuner__knob::before { inset: 5px; }
+    .tuner__knob-indicator { top: 7px; height: 14px; }
     .tuner__scope { width: 62px; height: 34px; }
-    .tuner__strip { height: 80px; border-radius: 9px; }
+    .tuner__dial {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+    }
+    .tuner__bands,
+    .tuner__units {
+      display: none;
+    }
+    .tuner__strip { grid-column: 1; height: 100%; border-radius: 9px; }
+    .tuner__presets { grid-column: 1 / -1; gap: 5px; padding: 0 18px; }
+    .tuner__preset { gap: 9px; }
+    .tuner__preset-cap {
+      height: 30px;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.62),
+        inset 0 -4px 6px rgba(0,0,0,0.42),
+        0 9px 0 #070806,
+        0 12px 10px rgba(0,0,0,0.62);
+    }
+    .tuner__preset.is-current .tuner__preset-cap {
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.68),
+        inset 0 -2px 4px rgba(0,0,0,0.40),
+        0 1px 0 #090a08,
+        0 0 14px rgba(255,255,0,0.44),
+        0 3px 7px rgba(0,0,0,0.50);
+    }
+    .tuner__preset-label { font-size: 7px; }
     .tuner__freq { font-size: 15px; }
     .tuner__unit { font-size: 8.5px; }
+  }
+
+  /* Photo-backed receiver experiment: the bitmap is the radio, CSS only
+     supplies hit targets and live state. Coordinates are percentages of the
+     1254x1254 source image cropped to y=190..1070. */
+  .tuner--photo {
+    --needle-start: 10;
+    --needle-travel: 78;
+    position: sticky;
+    top: 70px;
+    display: block;
+    width: min(100% - 28px, 1000px);
+    max-width: none;
+    aspect-ratio: 1254 / 880;
+    margin: 16px auto 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: hidden;
+  }
+  .tuner--photo .tuner__photo {
+    position: absolute;
+    z-index: 0;
+    top: -21.6%;
+    left: 0;
+    width: 100%;
+    height: auto;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+  }
+  .tuner--photo .tuner__screw,
+  .tuner--photo .tuner__panel--left,
+  .tuner--photo .tuner__bands,
+  .tuner--photo .tuner__units,
+  .tuner--photo .tuner__edges {
+    display: none;
+  }
+  .tuner--photo .tuner__panel {
+    position: absolute;
+    min-width: 0;
+    height: auto;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+  }
+  .tuner--photo .tuner__panel--right {
+    z-index: 3;
+    left: 73.4%;
+    top: 57.2%;
+    width: 13.6%;
+    height: 18.5%;
+    display: grid;
+    place-items: center;
+  }
+  .tuner--photo .tuner__knob {
+    width: 86%;
+    height: auto;
+    aspect-ratio: 1;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+  }
+  .tuner--photo .tuner__knob::before,
+  .tuner--photo .tuner__knob::after {
+    content: none;
+  }
+  .tuner--photo .tuner__knob-indicator {
+    top: 14%;
+    left: 50%;
+    width: 2px;
+    height: 34%;
+    background: rgba(255, 234, 177, 0.72);
+    border-radius: 999px;
+    box-shadow:
+      0 0 0 1px rgba(43, 27, 12, 0.70),
+      0 0 8px rgba(255, 218, 116, 0.42);
+    transform: translateX(-50%);
+  }
+  .tuner--photo .tuner__dial {
+    position: absolute;
+    z-index: 2;
+    left: 29.6%;
+    top: 55.6%;
+    width: 42.0%;
+    height: 15.7%;
+    display: block;
+  }
+  .tuner--photo .tuner__strip {
+    position: absolute;
+    inset: 0;
+    grid-column: auto;
+    height: auto;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: hidden;
+  }
+  .tuner--photo .tuner__strip::before,
+  .tuner--photo .tuner__strip::after {
+    content: none;
+  }
+  .tuner--photo .tuner__track {
+    top: 0;
+    bottom: 0;
+  }
+  .tuner--photo .tuner__tick {
+    opacity: 0;
+  }
+  .tuner--photo .tuner__needle {
+    top: 6%;
+    bottom: 10%;
+    width: 2px;
+    background: linear-gradient(180deg, rgba(255, 234, 170, 0.96), rgba(210, 130, 40, 0.96));
+    box-shadow:
+      0 0 0 1px rgba(47, 25, 9, 0.55),
+      0 0 10px rgba(255, 204, 88, 0.72);
+    transition: left 0.06s linear;
+  }
+  .tuner--photo .tuner__needle::after {
+    top: -3px;
+    width: 8px;
+    height: 8px;
+    background:
+      radial-gradient(circle at 34% 30%, #fff3c4 0%, #f0b34a 42%, #6c3310 100%);
+    box-shadow: 0 0 8px rgba(255, 193, 72, 0.56);
+  }
+  .tuner--photo .tuner__presets {
+    position: absolute;
+    z-index: 4;
+    left: 35.9%;
+    top: 76.0%;
+    width: 27.0%;
+    height: 4.5%;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+    gap: 0.4%;
+    padding: 0;
+    align-items: stretch;
+  }
+  .tuner--photo .tuner__preset {
+    position: relative;
+    display: block;
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    border-radius: 3px;
+  }
+  .tuner--photo .tuner__preset-cap {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    border: 0;
+    border-radius: 3px 3px 5px 5px;
+    background: transparent;
+    color: transparent;
+    box-shadow: none;
+    transform: none;
+  }
+  .tuner--photo .tuner__preset-label {
+    display: none;
+  }
+  .tuner--photo .tuner__preset:hover .tuner__preset-cap,
+  .tuner--photo .tuner__preset:focus-visible .tuner__preset-cap {
+    background: rgba(255, 248, 220, 0.24);
+    box-shadow: inset 0 0 0 1px rgba(255, 236, 172, 0.45);
+  }
+  .tuner--photo .tuner__preset:active .tuner__preset-cap {
+    transform: translateY(3px);
+  }
+  .tuner--photo .tuner__preset.is-current .tuner__preset-cap {
+    background: rgba(255, 224, 82, 0.56);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 247, 183, 0.84),
+      inset 0 -7px 11px rgba(87, 50, 5, 0.28),
+      0 0 16px rgba(255, 216, 54, 0.62);
+    transform: translateY(3px);
+  }
+  .tuner--photo .tuner__preset:focus-visible {
+    outline: 1px solid rgba(255, 240, 174, 0.85);
+    outline-offset: 4px;
+  }
+  @media (max-width: 720px) {
+    .tuner--photo {
+      top: 58px;
+      width: calc(100% - 16px);
+      margin-top: 10px;
+    }
+    .tuner--photo .tuner__panel--right {
+      left: 72.7%;
+      top: 56.8%;
+      width: 14.6%;
+      height: 19.2%;
+    }
+    .tuner--photo .tuner__presets {
+      top: 75.6%;
+      height: 5.2%;
+    }
+  }
+  .tuner--photo-v2 {
+    --needle-start: 4;
+    --needle-travel: 92;
+    width: min(100% - 28px, 700px);
+    aspect-ratio: 1;
+  }
+  .tuner--photo-v2 .tuner__photo {
+    top: 0;
+    height: 100%;
+    object-fit: contain;
+  }
+  .tuner--photo-v2 .tuner__panel--right {
+    left: 68.2%;
+    top: 66.8%;
+    width: 17.0%;
+    height: 16.8%;
+  }
+  .tuner--photo-v2 .tuner__knob {
+    width: 98%;
+  }
+  .tuner--photo-v2 .tuner__knob-indicator {
+    top: 11%;
+    height: 39%;
+    background: rgba(255, 247, 221, 0.82);
+    box-shadow:
+      0 0 0 1px rgba(26, 21, 17, 0.76),
+      0 0 10px rgba(255, 232, 170, 0.44);
+  }
+  .tuner--photo-v2 .tuner__dial {
+    left: 24.8%;
+    top: 32.3%;
+    width: 60.8%;
+    height: 11.2%;
+  }
+  .tuner--photo-v2 .tuner__needle {
+    top: 60%;
+    bottom: auto;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 28%, rgba(255, 255, 225, 0.98) 0%, rgba(255, 239, 91, 0.92) 43%, rgba(125, 91, 14, 0.88) 100%);
+    box-shadow:
+      0 0 0 1px rgba(25, 21, 8, 0.70),
+      0 0 9px rgba(255, 240, 120, 0.70);
+  }
+  .tuner--photo-v2 .tuner__needle::after {
+    content: none;
+  }
+  .tuner--photo-v2 .tuner__presets {
+    left: 24.8%;
+    top: 33.3%;
+    width: 60.8%;
+    height: 8.0%;
+  }
+  .tuner--photo-v2 .tuner__preset-cap {
+    border-radius: 2px;
+  }
+  .tuner--photo-v2 .tuner__preset:hover .tuner__preset-cap,
+  .tuner--photo-v2 .tuner__preset:focus-visible .tuner__preset-cap {
+    background: rgba(255, 244, 154, 0.13);
+    box-shadow: inset 0 0 0 1px rgba(255, 242, 160, 0.38);
+  }
+  .tuner--photo-v2 .tuner__preset:active .tuner__preset-cap {
+    transform: none;
+  }
+  .tuner--photo-v2 .tuner__preset.is-current .tuner__preset-cap {
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 245, 116, 0.10) 38%,
+      rgba(255, 245, 116, 0.32) 50%,
+      rgba(255, 245, 116, 0.10) 62%,
+      transparent 100%);
+    box-shadow: none;
+    transform: none;
+  }
+  @media (max-width: 720px) {
+    .tuner--photo-v2 {
+      top: 58px;
+      width: calc(100% - 16px);
+    }
+    .tuner--photo-v2 .tuner__panel--right {
+      left: 67.8%;
+      top: 66.6%;
+      width: 17.8%;
+      height: 17.2%;
+    }
+    .tuner--photo-v2 .tuner__presets {
+      top: 33.0%;
+      height: 8.8%;
+    }
+  }
+  .tuner--photo-v3 {
+    --needle-start: 3;
+    --needle-travel: 93;
+    width: min(100% - 28px, 860px);
+    aspect-ratio: 1008 / 180;
+    margin-top: 26px;
+  }
+  .tuner--photo-v3 .tuner__photo {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .tuner--photo-v3 .tuner__dial {
+    left: 17.2%;
+    top: 14.5%;
+    width: 77.3%;
+    height: 70.0%;
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr) 48px;
+    align-items: center;
+    gap: 7px;
+  }
+  .tuner--photo-v3 .tuner__bands,
+  .tuner--photo-v3 .tuner__units {
+    display: grid;
+    gap: 5px;
+  }
+  .tuner--photo-v3 .tuner__bands span,
+  .tuner--photo-v3 .tuner__units span {
+    width: 32px;
+    min-height: 20px;
+    font-size: 8px;
+  }
+  .tuner--photo-v3 .tuner__units span {
+    width: 40px;
+  }
+  .tuner--photo-v3 .tuner__strip {
+    position: relative;
+    grid-column: 2;
+    height: 100%;
+    background:
+      radial-gradient(ellipse at 50% 90%, rgba(255,255,0,0.18) 0%, transparent 58%),
+      radial-gradient(ellipse at 50% 35%, #e9ebe2 0%, #aeb2a8 64%, #74786f 100%);
+    border: 2px solid #141512;
+    border-radius: 9px;
+    box-shadow:
+      inset 0 2px 1px rgba(244,244,242,0.42),
+      inset 0 -2px 2px rgba(0,0,0,0.32),
+      inset 0 0 0 1px rgba(0,0,0,0.34),
+      inset 0 0 14px rgba(32,33,30,0.42),
+      0 1px 2px rgba(0,0,0,0.72),
+      0 0 13px rgba(255,255,0,0.12);
+    overflow: hidden;
+  }
+  .tuner--photo-v3 .tuner__strip::before,
+  .tuner--photo-v3 .tuner__strip::after {
+    content: '';
+  }
+  .tuner--photo-v3 .tuner__track {
+    top: 0;
+    bottom: 0;
+  }
+  .tuner--photo-v3 .tuner__tick {
+    opacity: 1;
+    height: 10%;
+    background: rgba(32,33,30,0.54);
+  }
+  .tuner--photo-v3 .tuner__tick--fm {
+    top: 18%;
+    bottom: auto;
+  }
+  .tuner--photo-v3 .tuner__tick--am {
+    top: 58%;
+    bottom: auto;
+    background: rgba(32,33,30,0.62);
+  }
+  .tuner--photo-v3 .tuner__tick--half {
+    height: 15%;
+    background: rgba(32,33,30,0.72);
+  }
+  .tuner--photo-v3 .tuner__tick--major {
+    height: 22%;
+    background: rgba(20,21,19,0.95);
+  }
+  .tuner--photo-v3 .tuner__tick--am.tuner__tick--major {
+    height: 17%;
+  }
+  .tuner--photo-v3 .tuner__tick-label {
+    top: calc(100% + 2px);
+    font-size: clamp(6px, 1.0vw, 10px);
+  }
+  .tuner--photo-v3 .tuner__tick--am .tuner__tick-label {
+    top: calc(100% + 2px);
+    font-size: clamp(5px, 0.92vw, 9px);
+  }
+  .tuner--photo-v3 .tuner__needle {
+    left: 50%;
+    top: 5px;
+    bottom: 5px;
+    width: 2px;
+    background: linear-gradient(180deg, #ffd500 0%, #d4a000 50%, #8a6800 100%);
+    box-shadow:
+      0 0 12px rgba(255,200,0,0.75),
+      0 0 4px rgba(255,200,0,1);
+  }
+  .tuner--photo-v3 .tuner__panel--right {
+    left: 17.2%;
+    top: 14.5%;
+    width: 77.3%;
+    height: 70.0%;
+  }
+  .tuner--photo-v3 .tuner__presets {
+    left: 17.2%;
+    top: 14.5%;
+    width: 77.3%;
+    height: 70.0%;
+  }
+  .tuner--photo-v3 .tuner__knob {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    cursor: grab;
+    opacity: 0;
+  }
+  .tuner--photo-v3 .tuner__knob-indicator {
+    display: none;
+  }
+  @media (max-width: 720px) {
+    .tuner--photo-v3 {
+      width: min(calc(100% - 16px), 390px);
+    }
+    .tuner--photo-v3 .tuner__dial {
+      left: 16.7%;
+      top: 14%;
+      width: 78.2%;
+      height: 71%;
+      grid-template-columns: 24px minmax(0, 1fr) 28px;
+      gap: 3px;
+    }
+    .tuner--photo-v3 .tuner__bands,
+    .tuner--photo-v3 .tuner__units {
+      gap: 3px;
+    }
+    .tuner--photo-v3 .tuner__bands span,
+    .tuner--photo-v3 .tuner__units span {
+      width: 22px;
+      min-height: 14px;
+      padding: 0 2px;
+      font-size: 5px;
+    }
+    .tuner--photo-v3 .tuner__units span {
+      width: 26px;
+    }
+    .tuner--photo-v3 .tuner__strip {
+      border-width: 1px;
+      border-radius: 6px;
+    }
+    .tuner--photo-v3 .tuner__needle {
+      top: 3px;
+      bottom: 3px;
+      width: 1px;
+    }
+    .tuner--photo-v3 .tuner__panel--right {
+      left: 16.7%;
+      top: 14%;
+      width: 78.2%;
+      height: 71%;
+    }
+    .tuner--photo-v3 .tuner__presets {
+      left: 16.7%;
+      top: 14%;
+      width: 78.2%;
+      height: 71%;
+    }
+  }
+
+  /* Clean photo-backed receiver: bitmap shell with a live CSS station window. */
+  .tuner--photo-clean {
+    position: sticky;
+    top: 61px;
+    z-index: 40;
+    display: block;
+    width: min(calc(100% - 28px), 1040px);
+    aspect-ratio: 1254 / 230;
+    margin: 24px auto 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+    isolation: isolate;
+  }
+  .tuner--photo-clean::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: -28px;
+    right: -28px;
+    top: -26px;
+    bottom: -56px;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse at 50% 36%,
+        rgba(0,0,0,0.38) 0%,
+        rgba(0,0,0,0.24) 34%,
+        rgba(0,0,0,0) 70%),
+      linear-gradient(180deg,
+        rgba(62,62,57,0.98) 0%,
+        rgba(62,62,57,0.92) 42%,
+        rgba(62,62,57,0.56) 74%,
+        rgba(62,62,57,0) 100%);
+    filter: blur(10px);
+    -webkit-mask-image:
+      linear-gradient(180deg, transparent 0%, #000 14%, #000 58%, rgba(0,0,0,0.56) 80%, transparent 100%);
+    mask-image:
+      linear-gradient(180deg, transparent 0%, #000 14%, #000 58%, rgba(0,0,0,0.56) 80%, transparent 100%);
+  }
+  .tuner--photo-clean .tuner__photo {
+    position: absolute;
+    z-index: 0;
+    top: -150%;
+    left: 0;
+    width: 100%;
+    height: auto;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+    clip-path: inset(27.5% 0 54.1% 0);
+    filter: brightness(0.78) contrast(1.06) saturate(0.92);
+  }
+  .tuner--photo-clean .tuner__screw,
+  .tuner--photo-clean .tuner__power,
+  .tuner--photo-clean .tuner__lead {
+    display: none;
+  }
+  .tuner--photo-clean .tuner__panel {
+    position: absolute;
+    min-width: 0;
+    height: auto;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+  }
+  .tuner--photo-clean .tuner__panel--left {
+    z-index: 5;
+    inset: 0;
+    display: block;
+    pointer-events: none;
+  }
+  .tuner--photo-clean .tuner__mark {
+    top: 30.2%;
+    left: 17.7%;
+    right: auto;
+    transform: translate(-50%, -50%);
+    z-index: 6;
+    width: 3.3%;
+    min-width: 14px;
+    max-width: 34px;
+    display: block;
+    pointer-events: none;
+  }
+  .tuner--photo-clean .tuner__logo {
+    width: 100%;
+    height: auto;
+    border-radius: 20%;
+    display: block;
+    opacity: 0.92;
+    filter:
+      drop-shadow(0 1px 1px rgba(0,0,0,0.82))
+      drop-shadow(0 0 4px rgba(255,255,0,0.14));
+    box-shadow: none;
+  }
+  .tuner--photo-clean .tuner__dial {
+    position: absolute;
+    z-index: 2;
+    left: 23.4%;
+    top: 17.5%;
+    width: 63.2%;
+    height: 51.5%;
+    display: grid;
+    grid-template-columns: 38px minmax(0, 1fr) 46px;
+    align-items: center;
+    gap: 6px;
+  }
+  .tuner--photo-clean .tuner__bands,
+  .tuner--photo-clean .tuner__units {
+    display: grid;
+    gap: 5px;
+    justify-items: center;
+  }
+  .tuner--photo-clean .tuner__bands span,
+  .tuner--photo-clean .tuner__units span {
+    width: auto;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: rgba(255, 248, 197, 0.92);
+    font-size: 8px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: 0;
+    text-shadow:
+      0 1px 1px rgba(0,0,0,0.86),
+      0 0 5px rgba(255,240,160,0.20);
+    box-shadow: none;
+  }
+  .tuner--photo-clean .tuner__units span {
+    width: auto;
+  }
+  .tuner--photo-clean .tuner__strip {
+    position: relative;
+    grid-column: 2;
+    height: 76%;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.18), transparent 30%),
+      radial-gradient(ellipse at 50% 88%, rgba(255,255,0,0.17), transparent 62%),
+      radial-gradient(ellipse at 50% 42%, rgba(234,236,226,0.84), rgba(155,159,148,0.72) 61%, rgba(64,68,61,0.70));
+    border: 1px solid rgba(218,222,211,0.68);
+    border-radius: 8px;
+    box-shadow:
+      0 0 0 1px rgba(0,0,0,0.80),
+      inset 0 1px 1px rgba(255,255,255,0.36),
+      inset 0 -2px 3px rgba(0,0,0,0.45),
+      inset 0 0 18px rgba(0,0,0,0.38),
+      0 0 16px rgba(255,255,0,0.11);
+    overflow: hidden;
+  }
+  .tuner--photo-clean .tuner__strip::before,
+  .tuner--photo-clean .tuner__strip::after {
+    content: '';
+  }
+  .tuner--photo-clean .tuner__track {
+    top: 0;
+    bottom: 0;
+  }
+  .tuner--photo-clean .tuner__tick {
+    opacity: 1;
+    height: 10%;
+    background: rgba(21,22,20,0.58);
+  }
+  .tuner--photo-clean .tuner__tick--fm {
+    top: 18%;
+    bottom: auto;
+  }
+  .tuner--photo-clean .tuner__tick--am {
+    top: 58%;
+    bottom: auto;
+    background: rgba(21,22,20,0.66);
+  }
+  .tuner--photo-clean .tuner__tick--half {
+    height: 15%;
+    background: rgba(21,22,20,0.72);
+  }
+  .tuner--photo-clean .tuner__tick--major {
+    height: 22%;
+    background: rgba(12,13,12,0.92);
+    box-shadow: 1px 0 0 rgba(244,244,242,0.26);
+  }
+  .tuner--photo-clean .tuner__tick--am.tuner__tick--major {
+    height: 17%;
+  }
+  .tuner--photo-clean .tuner__tick-label {
+    display: block;
+    top: 13px;
+    font-size: 9px;
+    color: rgba(21,22,20,0.86);
+    text-shadow: 0 1px 0 rgba(244,244,242,0.34);
+  }
+  .tuner--photo-clean .tuner__tick--am .tuner__tick-label {
+    display: block;
+    top: 10px;
+    font-size: 8px;
+  }
+  .tuner--photo-clean .tuner__needle {
+    display: block;
+    left: 50%;
+    top: 4px;
+    bottom: 4px;
+    width: 2px;
+    background: linear-gradient(180deg, #fff176 0%, #ffd500 44%, #8a6800 100%);
+    box-shadow:
+      0 0 10px rgba(255,211,46,0.84),
+      0 0 3px rgba(255,235,90,0.95);
+  }
+  .tuner--photo-clean .tuner__needle::after {
+    width: 8px;
+    height: 8px;
+    top: -2px;
+  }
+  .tuner--photo-clean .tuner__panel--right {
+    z-index: 3;
+    left: 23.4%;
+    top: 17.5%;
+    width: 63.2%;
+    height: 51.5%;
+    display: block;
+    pointer-events: none;
+  }
+  .tuner--photo-clean .tuner__knob {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    cursor: grab;
+    opacity: 0;
+    pointer-events: auto;
+  }
+  .tuner--photo-clean .tuner__knob::before,
+  .tuner--photo-clean .tuner__knob::after,
+  .tuner--photo-clean .tuner__knob-indicator {
+    content: none;
+    display: none;
+  }
+  .tuner--photo-clean .tuner__presets {
+    position: absolute;
+    z-index: 6;
+    left: 31.0%;
+    top: 63.5%;
+    width: 48.0%;
+    height: 14.0%;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+    padding: 0;
+    align-items: center;
+    pointer-events: auto;
+  }
+  .tuner--photo-clean .tuner__preset {
+    position: relative;
+    display: grid;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    appearance: none;
+    cursor: pointer;
+    justify-items: center;
+    align-items: center;
+  }
+  .tuner--photo-clean .tuner__preset-cap {
+    width: min(86%, 50px);
+    height: auto;
+    aspect-ratio: 54 / 20;
+    min-height: 0;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 2px;
+    background: url('radio-button-cap.png') center / 100% 100% no-repeat;
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 8px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 0;
+    text-shadow:
+      0 -1px 0 rgba(0,0,0,0.96),
+      0 0 2px rgba(255,255,0,0.92),
+      0 0 7px rgba(255,255,0,0.55);
+    box-shadow:
+      0 2px 3px rgba(0,0,0,0.56),
+      0 0 0 1px rgba(255,255,255,0.06);
+    filter: none;
+    transform: none;
+  }
+  .tuner--photo-clean .tuner__preset-label {
+    display: none;
+  }
+  .tuner--photo-clean .tuner__preset:hover .tuner__preset-cap,
+  .tuner--photo-clean .tuner__preset:focus-visible .tuner__preset-cap {
+    background: url('radio-button-cap.png') center / 100% 100% no-repeat;
+    color: var(--accent);
+    filter: brightness(1.12);
+    box-shadow:
+      0 2px 4px rgba(0,0,0,0.64);
+  }
+  .tuner--photo-clean .tuner__preset:active .tuner__preset-cap {
+    background: url('radio-button-cap.png') center / 100% 100% no-repeat;
+    transform: translateY(1px);
+    box-shadow:
+      0 1px 2px rgba(0,0,0,0.66),
+      0 0 0 1px rgba(255,255,255,0.04);
+  }
+  .tuner--photo-clean .tuner__preset.is-current .tuner__preset-cap {
+    background: url('radio-button-cap.png') center / 100% 100% no-repeat;
+    color: var(--accent);
+    transform: none;
+    filter: brightness(1.15);
+    box-shadow:
+      0 2px 4px rgba(0,0,0,0.66);
+  }
+  @media (max-width: 720px) {
+    .tuner--photo-clean {
+      top: 49px;
+      width: min(calc(100% - 16px), 430px);
+      aspect-ratio: 1254 / 246;
+      margin-top: 12px;
+    }
+    .tuner--photo-clean .tuner__photo {
+      top: -139%;
+      clip-path: inset(27.3% 0 53.1% 0);
+    }
+    .tuner--photo-clean .tuner__mark {
+      top: 28.6%;
+      left: 17.7%;
+      width: 3.5%;
+      min-width: 12px;
+    }
+    .tuner--photo-clean .tuner__dial {
+      left: 22.8%;
+      top: 17.0%;
+      width: 64.0%;
+      height: 53.0%;
+      grid-template-columns: 24px minmax(0, 1fr) 28px;
+      gap: 3px;
+    }
+    .tuner--photo-clean .tuner__bands,
+    .tuner--photo-clean .tuner__units {
+      gap: 3px;
+    }
+    .tuner--photo-clean .tuner__bands span,
+    .tuner--photo-clean .tuner__units span {
+      min-height: 13px;
+      font-size: 6px;
+    }
+    .tuner--photo-clean .tuner__units span {
+      width: auto;
+    }
+    .tuner--photo-clean .tuner__strip {
+      height: 78%;
+      border-radius: 5px;
+    }
+    .tuner--photo-clean .tuner__needle {
+      top: 3px;
+      bottom: 3px;
+      width: 1px;
+    }
+    .tuner--photo-clean .tuner__tick-label {
+      top: 11px;
+      font-size: 7px;
+    }
+    .tuner--photo-clean .tuner__tick--am .tuner__tick-label {
+      top: 9px;
+      font-size: 6px;
+    }
+    .tuner--photo-clean .tuner__panel--right,
+    .tuner--photo-clean .tuner__presets {
+      left: 22.8%;
+      top: 17.0%;
+      width: 64.0%;
+      height: 53.0%;
+    }
+    .tuner--photo-clean .tuner__presets {
+      left: 28.5%;
+      top: 64.0%;
+      width: 51.0%;
+      height: 14.0%;
+      gap: 8px;
+      padding: 0;
+    }
+    .tuner--photo-clean .tuner__preset-cap {
+      width: min(90%, 24px);
+      font-size: 5px;
+    }
   }
 
   html { scroll-behavior: smooth; }

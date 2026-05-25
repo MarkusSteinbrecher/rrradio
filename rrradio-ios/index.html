@@ -38,14 +38,16 @@
   </nav>
 
   <!-- ═══════════ VINTAGE RADIO PANEL (sticky) ═══════════ -->
-  <div class="tuner" role="navigation" aria-label="Section dial">
+  <div class="tuner tuner--photo-clean" role="navigation" aria-label="Section dial">
+    <img class="tuner__photo" src="radio-photo-reference-clean.png" alt="" />
     <span class="tuner__screw tuner__screw--tl" aria-hidden="true"></span>
     <span class="tuner__screw tuner__screw--tr" aria-hidden="true"></span>
     <span class="tuner__screw tuner__screw--bl" aria-hidden="true"></span>
     <span class="tuner__screw tuner__screw--br" aria-hidden="true"></span>
     <div class="tuner__panel tuner__panel--left">
+      <span class="tuner__power" aria-hidden="true"></span>
       <div class="tuner__mark" aria-hidden="true">
-        <img class="tuner__logo" src="rrradio-logo-app-dark.svg" alt="" />
+        <img class="tuner__logo" src="rrradio-logo-radio-dark.svg" alt="" />
       </div>
       <div class="tuner__lead">
         <div class="tuner__scope" aria-hidden="true">
@@ -54,11 +56,22 @@
         </div>
       </div>
     </div>
-    <div class="tuner__strip">
-      <div class="tuner__track" aria-hidden="true"></div>
-      <div class="tuner__edges"></div>
-      <div class="tuner__needle" aria-hidden="true"></div>
+    <div class="tuner__dial">
+      <div class="tuner__bands" aria-hidden="true">
+        <span>FM</span>
+        <span>AM</span>
+      </div>
+      <div class="tuner__strip">
+        <div class="tuner__track" aria-hidden="true"></div>
+        <div class="tuner__edges"></div>
+        <div class="tuner__needle" aria-hidden="true"></div>
+      </div>
+      <div class="tuner__units" aria-hidden="true">
+        <span>MHz</span>
+        <span>KHz</span>
+      </div>
     </div>
+    <div class="tuner__presets" aria-label="Section presets"></div>
     <div class="tuner__panel tuner__panel--right">
       <div class="tuner__knob tuner__knob--control" role="slider" aria-label="Tune through the page" tabindex="0">
         <span class="tuner__knob-indicator" aria-hidden="true"></span>
