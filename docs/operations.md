@@ -128,12 +128,15 @@ npm run favicon-variants -- --local-only          # only stations with `favicon:
 npm run favicon-variants -- --only id1,id2,id3    # restrict to specific stations
 npm run favicon-variants -- --limit 500           # cap total candidate count
 npm run favicon-variants -- --concurrency 32      # increase parallel HTTP lanes (default 8, max 64)
+npm run favicon-variants -- --timeout 8           # per-fetch timeout in seconds (default 15) — bounds dead-host tail on bulk runs
 npm run favicon-variants -- --force               # ignore cache, refetch + regenerate every variant
 npm run favicon-variants -- --offline             # never reach the network; rely on cached bytes only
 npm run favicon-variants -- --dry-run --verbose   # see what would change
 ```
 
-Bulk runs (the long-tail Radio Browser remotes are tens of thousands of HTTP fetches) are intended as a curator-paced operation. The local-bundled subset under `public/stations/` is the safe default to keep current. `check-catalog` enforces that every `favicons.{76,128,152}` path in `stations.json` references an on-disk file under `public/favicons/`.
+ICO favicons (broadcasters still serving `/favicon.ico`) are decoded by `tools/lib/ico-decode.mjs` — sharp/libvips can't read ICO. It picks the best frame (largest area, then colour depth) and hands sharp either the embedded PNG (modern 256px icons) or decoded RGBA (32/24/8/4/1-bpp BI_RGB DIBs with the 1-bit AND mask). Exotic frames (BITFIELDS/RLE/JPEG-in-ICO) still fall through to "no variant → client fallback". Transient fetch failures (timeout, network error, 5xx, 429) are retried with exponential back-off; permanent failures (4xx) fail fast so a dead URL doesn't burn three attempts across the long tail.
+
+The full long-tail has been generated: **~17,000 of the ~19,800 stations with a favicon now carry variants** (~195 MB / ~51k WebP files committed under `public/favicons/`). The remaining ~2,800 are dead/unreachable favicon URLs that fall back gracefully. Refreshes are still a curator-paced operation — re-running `npm run favicon-variants` is incremental (manifest + conditional GETs), so only changed sources re-fetch. `check-catalog` enforces that every `favicons.{76,128,152}` path in `stations.json` references an on-disk file under `public/favicons/`.
 
 Stations whose source can't be fetched (404, timeout, unsupported ICO format) ship without a `favicons` field — clients fall back to the original `favicon` URL and on-device downsampling.
 

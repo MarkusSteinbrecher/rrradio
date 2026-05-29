@@ -44,6 +44,8 @@ import { createHash } from 'node:crypto';
 
 import sharp from 'sharp';
 
+import { decodeIco, looksLikeIco } from './lib/ico-decode.mjs';
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const PUBLIC_DIR = join(ROOT, 'public');
@@ -54,9 +56,11 @@ const MANIFEST_PATH = join(VARIANTS_DIR, 'manifest.json');
 // iOS display sizes: 38pt @2x = 76, 64pt @2x = 128, 76pt @2x = 152.
 // @3x devices downsample from 152 marginally per the issue's spec.
 const VARIANT_SIZES = [76, 128, 152];
-const FETCH_TIMEOUT_MS = 15_000;
+const DEFAULT_FETCH_TIMEOUT_MS = 15_000;
 const MAX_BYTES = 4 * 1024 * 1024; // 4 MB cap on a single source favicon
 const DEFAULT_CONCURRENCY = 8;
+const MAX_RETRIES = 2; // 3 attempts total — long-tail RB hosts blip a lot
+const RETRY_BASE_MS = 400;
 const UA =
   'rrradio-favicon-pipeline/1.0 (+https://github.com/MarkusSteinbrecher/rrradio)';
 
@@ -83,6 +87,10 @@ const LIMIT = Number(argVal('--limit', 0)) || Infinity;
 const CONCURRENCY = Math.max(
   1,
   Math.min(64, Number(argVal('--concurrency', DEFAULT_CONCURRENCY))),
+);
+const FETCH_TIMEOUT_MS = Math.max(
+  1000,
+  Number(argVal('--timeout', 0)) * 1000 || DEFAULT_FETCH_TIMEOUT_MS,
 );
 
 // ─── manifest IO ─────────────────────────────────────────────────────────
@@ -145,18 +153,48 @@ function resolveSource(station) {
   return { kind: 'local', path: join(PUBLIC_DIR, rel), url: fav };
 }
 
-// ─── fetcher with timeout + conditional GET ──────────────────────────────
+// ─── fetcher with timeout + conditional GET + retry ──────────────────────
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// Retry transient failures (timeout, network error, 5xx, 429) with
+// exponential back-off. Permanent failures (4xx, too-large) throw straight
+// through so we don't waste attempts on a dead URL across 19k stations.
 async function fetchSource(url, prevEntry) {
   if (OFFLINE) throw new Error('offline');
+  let lastErr;
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    if (attempt > 0) await sleep(RETRY_BASE_MS * 2 ** (attempt - 1));
+    try {
+      return await fetchOnce(url, prevEntry);
+    } catch (e) {
+      lastErr = e;
+      if (!e.retryable) throw e;
+    }
+  }
+  throw lastErr;
+}
+
+async function fetchOnce(url, prevEntry) {
   const ctl = new AbortController();
   const timer = setTimeout(() => ctl.abort(), FETCH_TIMEOUT_MS);
   const headers = { 'User-Agent': UA, Accept: 'image/*,*/*' };
   if (prevEntry?.etag) headers['If-None-Match'] = prevEntry.etag;
   if (prevEntry?.lastModified) headers['If-Modified-Since'] = prevEntry.lastModified;
   try {
-    const res = await fetch(url, { signal: ctl.signal, redirect: 'follow', headers });
+    let res;
+    try {
+      res = await fetch(url, { signal: ctl.signal, redirect: 'follow', headers });
+    } catch (e) {
+      // Network-level failure (DNS, reset, timeout abort) — worth a retry.
+      e.retryable = true;
+      throw e;
+    }
     if (res.status === 304) return { status: 304 };
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    if (!res.ok) {
+      const err = new Error(`HTTP ${res.status}`);
+      err.retryable = res.status >= 500 || res.status === 429;
+      throw err;
+    }
     const len = Number(res.headers.get('content-length'));
     if (Number.isFinite(len) && len > MAX_BYTES) {
       throw new Error(`source too large: ${len} bytes > ${MAX_BYTES}`);
@@ -199,15 +237,28 @@ async function fetchSource(url, prevEntry) {
 // ─── decode + downsample + encode ────────────────────────────────────────
 async function generateVariants(bytes) {
   // Sharp decodes PNG/JPEG/WebP/GIF/SVG/TIFF/AVIF natively. ICO is the
-  // notable miss — bail with a clear marker so the caller can record it.
+  // notable miss — decode it ourselves into a PNG frame or raw RGBA first.
+  let input = bytes;
+  let inputOpts = { density: 384 /* for SVG inputs */ };
   if (looksLikeIco(bytes)) {
-    throw new Error('ICO format not supported by sharp — needs separate decoder');
+    const decoded = decodeIco(bytes);
+    if (!decoded) {
+      throw new Error('ICO frame not decodable (exotic compression/format)');
+    }
+    if (decoded.kind === 'png') {
+      input = decoded.bytes;
+    } else {
+      input = decoded.data;
+      inputOpts = {
+        raw: { width: decoded.width, height: decoded.height, channels: decoded.channels },
+      };
+    }
   }
   const out = {};
   for (const size of VARIANT_SIZES) {
     // `fit: 'contain'` keeps the logo whole rather than cropping non-square
     // ones, with a transparent background so the cell shape comes through.
-    const buf = await sharp(bytes, { density: 384 /* for SVG inputs */ })
+    const buf = await sharp(input, inputOpts)
       .resize(size, size, {
         fit: 'contain',
         background: { r: 0, g: 0, b: 0, alpha: 0 },
@@ -218,10 +269,6 @@ async function generateVariants(bytes) {
     out[size] = buf;
   }
   return out;
-}
-
-function looksLikeIco(b) {
-  return b.length >= 4 && b[0] === 0 && b[1] === 0 && b[2] === 1 && b[3] === 0;
 }
 
 // ─── variant naming + write ──────────────────────────────────────────────
@@ -390,7 +437,7 @@ await runPool(candidates, CONCURRENCY, async ({ station, source }, idx) => {
   try {
     generated = await generateVariants(bytes);
   } catch (e) {
-    if (e.message.startsWith('ICO format')) counters.unsupported++;
+    if (e.message.startsWith('ICO frame')) counters.unsupported++;
     else counters.failed++;
     failures.push({ id: station.id, url: source.url, error: e.message });
     if (VERBOSE) console.log(`${tag} · decode failed: ${e.message}`);
