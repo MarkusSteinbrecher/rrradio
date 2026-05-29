@@ -21,6 +21,8 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { parse as parseYaml } from 'yaml';
 import { classifyLogoUrl } from './logo-quality.mjs';
+import { nameTokens, NAME_NOISE_TOKENS } from './lib/station-name-signature.mjs';
+import { streamHost, normalizeHomepage } from './lib/dedupe-normalize.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
@@ -446,23 +448,9 @@ function reset() {
 const DUP_SCORE_THRESHOLD = 0.5;
 const DUP_TOKEN_POSTING_CAP = 200; // skip ultra-common tokens
 
-const DUP_NAME_NOISE_TOKENS = new Set([
-  'live', 'online', 'web', 'radio', 'fm', 'am', 'stream', 'streaming',
-  'hd', 'hq', 'sd', 'stereo', 'mono', 'official',
-  'mp3', 'aac', 'flac', 'ogg', 'opus',
-  '64k', '96k', '128k', '160k', '192k', '256k', '320k', 'kbps', 'k',
-]);
-
-function dupNameTokens(name) {
-  const normalised = String(name ?? '')
-    .toLowerCase()
-    .normalize('NFKD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/[^a-z0-9]+/g, ' ')
-    .trim();
-  if (!normalised) return [];
-  return normalised.split(' ').filter((t) => t && !DUP_NAME_NOISE_TOKENS.has(t));
-}
+// Name tokenisation is shared with the rest of the dedupe tooling (incl. the
+// Unicode fix that keeps non-Latin channels distinct).
+const dupNameTokens = nameTokens;
 
 function dupNameSignature(tokens) {
   return [...tokens].sort().join(' ');
@@ -476,45 +464,22 @@ function dupJaccard(setA, setB) {
   return union === 0 ? 0 : intersect / union;
 }
 
-function dupStreamHost(url) {
-  try {
-    return new URL(String(url)).host.toLowerCase().replace(/^www\./, '');
-  } catch {
-    return '';
-  }
-}
+const dupStreamHost = streamHost;
 
 function dupStreamPathTokens(url) {
   try {
     return new Set(
       new URL(String(url)).pathname
         .split('/')
-        .filter((s) => s && !DUP_NAME_NOISE_TOKENS.has(s.toLowerCase())),
+        .filter((s) => s && !NAME_NOISE_TOKENS.has(s.toLowerCase())),
     );
   } catch {
     return new Set();
   }
 }
 
-function dupHomepageKey(url) {
-  try {
-    const u = new URL(String(url));
-    const host = u.host.toLowerCase().replace(/^www\./, '');
-    if (!host) return '';
-    const path = u.pathname.replace(/\/index\.(html?|php)$/i, '').replace(/\/$/, '');
-    return host + path;
-  } catch {
-    return '';
-  }
-}
-
-function dupHomepageHost(url) {
-  try {
-    return new URL(String(url)).host.toLowerCase().replace(/^www\./, '');
-  } catch {
-    return '';
-  }
-}
+const dupHomepageKey = (url) => normalizeHomepage(url, { includePath: true });
+const dupHomepageHost = (url) => normalizeHomepage(url);
 
 function dupScorePair(a, b) {
   const aTokens = new Set(a._tokens);

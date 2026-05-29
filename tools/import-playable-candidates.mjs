@@ -25,6 +25,7 @@ import {
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import YAML from 'yaml';
+import { normalizeStreamUrl as sharedStreamKey } from './lib/dedupe-normalize.mjs';
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const STATIONS_YAML = join(ROOT, 'data', 'stations.yaml');
@@ -94,9 +95,9 @@ function sanitizeText(value) {
 }
 
 function normalizeStreamUrl(value) {
-  // Mirror tools/check-duplicates.mjs so an import cannot introduce a
-  // streamUrl collision that the catalog gate then blocks.
-  return String(value ?? '').toLowerCase().replace(/\/+(\?|$)/, '$1');
+  // Mirror tools/check-duplicates.mjs (keep query) so an import cannot
+  // introduce a streamUrl collision that the catalog gate then blocks.
+  return sharedStreamKey(value, { dropQuery: false });
 }
 
 function streamProtocol(value) {

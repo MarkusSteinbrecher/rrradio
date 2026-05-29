@@ -39,6 +39,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import YAML from 'yaml';
 import { nameSignature } from './lib/station-name-signature.mjs';
+import { normalizeStreamUrl, normalizeHomepage } from './lib/dedupe-normalize.mjs';
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const STATIONS_YAML = join(ROOT, 'data', 'stations.yaml');
@@ -64,30 +65,19 @@ function nameKey(name) {
   return String(name ?? '').toLowerCase().trim().replace(/\s+/g, ' ');
 }
 function urlKey(url) {
-  // Lowercase + strip trailing slash. We DO keep the query string —
-  // some shared-CDN broadcasters (Sweden's tx-bauerse.sharp-stream.com,
-  // ARN's stream-redirect.bauermedia.fi, …) use `?i=<channel>` or
-  // similar params as the channel selector, so two genuinely distinct
-  // stations would collide if we dropped queries. The cost is that
-  // auth-token-bearing variants (?token=…) won't match across rotations,
-  // but those are edge cases the curator can spot.
-  return String(url ?? '').toLowerCase().replace(/\/+(\?|$)/, '$1');
+  // Shared normalizer, but we KEEP the query string — some shared-CDN
+  // broadcasters (Sweden's tx-bauerse.sharp-stream.com, ARN's
+  // stream-redirect.bauermedia.fi, …) use `?i=<channel>` or similar params
+  // as the channel selector, so two genuinely distinct stations would
+  // collide if we dropped queries. (The cross-country raw dedupe drops
+  // them — its scope is noisier and dominated by tracking params.)
+  return normalizeStreamUrl(url, { dropQuery: false });
 }
 function homepageKey(url) {
-  // Normalise homepage URLs aggressively so trivial variants collide:
-  // lowercase, drop protocol, drop `www.`, drop trailing slash, drop
-  // `/index.{html,htm,php}` suffix. Returns '' when there's no host —
-  // groupBy ignores empty keys, so missing-homepage entries don't
-  // pile up into a giant false-positive group.
-  try {
-    const u = new URL(String(url));
-    const host = u.host.toLowerCase().replace(/^www\./, '');
-    if (!host) return '';
-    let path = u.pathname.replace(/\/index\.(html?|php)$/i, '').replace(/\/$/, '');
-    return `${host}${path}`;
-  } catch {
-    return '';
-  }
+  // Host + path (drop protocol, `www.`, trailing slash, `/index.*`). Returns
+  // '' when there's no host — groupBy ignores empty keys, so missing-homepage
+  // entries don't pile into a false-positive group.
+  return normalizeHomepage(url, { includePath: true });
 }
 function homepageFaviconKey(s) {
   // Group within the same country + broadcaster identity (homepage URL

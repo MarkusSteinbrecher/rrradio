@@ -49,6 +49,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import YAML from 'yaml';
 import { nameSignature } from './lib/station-name-signature.mjs';
+import { normalizeStreamUrl, normalizeHomepage } from './lib/dedupe-normalize.mjs';
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const RAW_DIR = join(ROOT, 'data', 'sources', 'radio-browser', 'by-country');
@@ -57,25 +58,8 @@ const OUT = join(ROOT, 'data', 'sources', 'radio-browser', 'dedupe.json');
 
 const MAX_GROUP_SIZE = 50;
 
-// ─── Normalisers ───────────────────────────────────────────────────
-function normStreamUrl(u) {
-  if (!u) return '';
-  try {
-    const x = new URL(String(u));
-    let path = x.pathname.replace(/\/$/, '') || '/';
-    return `${x.protocol}//${x.host.toLowerCase()}${path}`;
-  } catch {
-    return String(u).trim().toLowerCase();
-  }
-}
-
-function normHomepageHost(u) {
-  if (!u) return '';
-  try {
-    const x = new URL(String(u));
-    return x.host.toLowerCase().replace(/^www\./, '');
-  } catch { return ''; }
-}
+// Stronger signals win when stamping a duplicate's `via` provenance.
+const SIGNAL_RANK = { override: 0, 'stream-url': 1, 'name+homepage': 2 };
 
 // ─── Load all stations ─────────────────────────────────────────────
 const stations = [];
@@ -122,15 +106,24 @@ function find(x) {
   }
   return r;
 }
+function recordSignal(uuid, signal) {
+  // Keep the STRONGEST signal that ever linked this node (override >
+  // stream-url > name+homepage), not the last one to fire — so a high-
+  // confidence stream match isn't masked by a later name-based link.
+  const cur = linkSignal.get(uuid);
+  if (cur === undefined || SIGNAL_RANK[signal] < SIGNAL_RANK[cur]) {
+    linkSignal.set(uuid, signal);
+  }
+}
 function union(a, b, signal) {
+  // Record provenance even when a and b are already connected — a later
+  // stronger signal should still upgrade their `via`.
+  recordSignal(a, signal);
+  recordSignal(b, signal);
   const ra = find(a);
   const rb = find(b);
   if (ra === rb) return;
   parent.set(ra, rb);
-  // Stamp the signal on the NON-leader so the eventual canonical
-  // doesn't carry a `via` (its `via` is null — it IS the canonical).
-  linkSignal.set(a, signal);
-  linkSignal.set(b, signal);
 }
 
 function groupBy(items, keyFn) {
@@ -144,10 +137,10 @@ function groupBy(items, keyFn) {
   return m;
 }
 
-// Signal A: normalized streamUrl.
+// Signal A: normalized streamUrl (protocol-insensitive, query dropped).
 let unionedByStream = 0;
 {
-  const groups = groupBy(stations, (s) => normStreamUrl(s.streamUrl));
+  const groups = groupBy(stations, (s) => normalizeStreamUrl(s.streamUrl));
   for (const list of groups.values()) {
     if (list.length < 2) continue;
     for (let i = 1; i < list.length; i++) {
@@ -161,7 +154,7 @@ let unionedByName = 0;
 {
   const groups = groupBy(stations, (s) => {
     const sig = nameSignature(s.name);
-    const host = normHomepageHost(s.homepage);
+    const host = normalizeHomepage(s.homepage);
     if (!sig || !host || !s.country) return '';
     return `${s.country.toUpperCase()}|${sig}|${host}`;
   });
@@ -208,10 +201,11 @@ for (const g of overrides['force-merge']) {
   for (const d of g.duplicates) lockedByOverride.add(d);
 }
 
-// not-duplicate: split. Implementation — re-parent each listed uuid
-// to itself, breaking it out of any auto-derived group. Re-running
-// the auto signals would re-link them, so the user is expected to
-// add an override for every pair they want kept apart.
+// not-duplicate: each listed uuid is extracted from its auto-derived group
+// at materialize time (below) and emitted as a standalone — reliable
+// whether the uuid was a group leaf or its root. (Re-parenting in the
+// union-find was unreliable: resetting a node that was the group root left
+// every other member still resolving to it, so nothing actually split.)
 let notDupeCount = 0;
 const protectedFromAuto = new Set();
 for (const entry of overrides['not-duplicate']) {
@@ -222,8 +216,6 @@ for (const entry of overrides['not-duplicate']) {
       console.warn(`dedupe-raw: not-duplicate uuid not in raw DB: ${u}`);
       continue;
     }
-    parent.set(u, u);
-    linkSignal.delete(u);
     protectedFromAuto.add(u);
     notDupeCount++;
   }
@@ -253,7 +245,10 @@ function compareCandidates(a, b) {
 const groups = [];
 let oversizedGroups = 0;
 
-for (const members of rootToMembers.values()) {
+for (const allMembers of rootToMembers.values()) {
+  // Pull curator-asserted not-duplicate uuids out of the group entirely —
+  // they become standalone, never a duplicate of anyone.
+  const members = allMembers.filter((m) => !protectedFromAuto.has(m.uuid));
   if (members.length < 2) continue;
   members.sort(compareCandidates);
   const canonical = members[0];
