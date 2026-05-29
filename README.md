@@ -63,6 +63,10 @@ the world. Thank you to the contributors there 🙏. You can add your
 own stream via the + button — your private list lives in this browser
 only.
 
+How the whole catalog is built — sourcing, deduplication, stream
+verification, enrichment, and logos — is documented in
+[data/README.md](./data/README.md).
+
 ## Program
 
 For some broadcasters (BBC, BR, ORF, HR) we fetch the on-air schedule
