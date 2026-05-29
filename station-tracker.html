@@ -52,6 +52,7 @@
           <div class="donut-row" role="group" aria-label="Image metrics">
             <figure class="donut" id="donut-coverage"></figure>
             <figure class="donut" id="donut-state"></figure>
+            <figure class="donut" id="donut-variants"></figure>
             <figure class="donut" id="donut-np"></figure>
             <figure class="donut" id="donut-license"></figure>
           </div>
@@ -95,6 +96,15 @@
               <option value="all">All licenses</option>
             </select>
           </label>
+          <label class="filter">
+            <span>Variants</span>
+            <select id="filter-variants">
+              <option value="all">All</option>
+              <option value="full">Full (3/3)</option>
+              <option value="partial">Partial (1–2)</option>
+              <option value="none">None</option>
+            </select>
+          </label>
         </section>
 
         <section class="matrix-panel" aria-label="Station matrix">
@@ -113,7 +123,7 @@
                   <th class="matrix-group matrix-group--locked" colspan="4" data-group="id">
                     <span class="matrix-group__label">Identification</span>
                   </th>
-                  <th class="matrix-group" colspan="9" data-group="image" data-full-colspan="9">
+                  <th class="matrix-group" colspan="10" data-group="image" data-full-colspan="10">
                     <button type="button" class="matrix-group__toggle" data-toggle-group="image" aria-expanded="true">
                       <span class="matrix-group__caret" aria-hidden="true">▾</span>
                       <span class="matrix-group__label">Image quality</span>
@@ -133,6 +143,7 @@
                   <th data-group="image" data-sort-key="tier">Tier</th>
                   <th data-group="image" data-sort-key="state">State</th>
                   <th data-group="image" data-sort-key="size">Size</th>
+                  <th data-group="image" data-sort-key="variants">Variants</th>
                   <th data-group="image">Action</th>
                 </tr>
               </thead>

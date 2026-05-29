@@ -107,12 +107,17 @@ interface MatrixRow {
   probeBytes?: number;
   /** Filter-facing bucket (vector folds into 'good'). 'unknown' when no probe. */
   npQuality: NpQuality;
+  /** Pre-sized WebP variants present: 0–3 of the 76/128/152 sizes. */
+  variants: number;
 }
 
 type ImageState = 'all' | 'ok' | 'warn' | 'bad';
 
+/** Pre-sized WebP variant coverage: full = all 3 sizes, partial = 1–2, none = 0. */
+type VariantState = 'all' | 'full' | 'partial' | 'none';
+
 type SortKey = 'name' | 'country' | 'status' | 'favicon' | 'sourceType' | 'source'
-             | 'license' | 'tier' | 'state' | 'size';
+             | 'license' | 'tier' | 'state' | 'size' | 'variants';
 type SortDir = 'asc' | 'desc';
 
 const state: {
@@ -129,6 +134,7 @@ const state: {
     imageState: ImageState;
     license: string;
     npQuality: NpQuality;
+    variants: VariantState;
   };
   /** Active sort. `null` = catalog order (the default). Clicking a header
    *  cycles: catalog → asc → desc → catalog. */
@@ -139,7 +145,7 @@ const state: {
   rowById: new Map(),
   filtered: [],
   page: 0,
-  filters: { query: '', country: 'all', status: 'all', imageState: 'all', license: 'all', npQuality: 'all' },
+  filters: { query: '', country: 'all', status: 'all', imageState: 'all', license: 'all', npQuality: 'all', variants: 'all' },
   sort: null,
   collapsedGroups: new Set(),
 };
@@ -162,7 +168,9 @@ const refs = {
   donutState: byId('donut-state'),
   donutNp: byId('donut-np'),
   donutLicense: byId('donut-license'),
+  donutVariants: byId('donut-variants'),
   npQuality: byId<HTMLSelectElement>('filter-np-quality'),
+  variants: byId<HTMLSelectElement>('filter-variants'),
   sourcesSummary: byId('sources-summary'),
   sourcesOverviewTile: byId('sources-overview-tile'),
   sourcesDetail: byId('sources-detail'),
@@ -485,6 +493,36 @@ function optionalNumber(value: unknown): number | undefined {
   return typeof value === 'number' && Number.isFinite(value) ? value : undefined;
 }
 
+// ── Freshness ──────────────────────────────────────────────────────────────
+// The tracker's value is showing the current state of the pipeline, so stale
+// inputs (probes / reports older than this) get flagged amber rather than
+// reading as authoritative. A week is the "give it a glance" nudge.
+const STALE_AFTER_DAYS = 7;
+
+function ageInDays(iso: string | null | undefined): number | null {
+  if (!iso) return null;
+  const t = Date.parse(iso);
+  if (!Number.isFinite(t)) return null;
+  return (Date.now() - t) / 86_400_000;
+}
+
+/** A timestamp span that goes amber (`.is-stale`) once older than the cap. */
+function timestampEl(iso: string | null | undefined, prefix = ''): HTMLSpanElement {
+  const span = document.createElement('span');
+  span.className = 'ts';
+  const age = ageInDays(iso);
+  if (!iso || age === null) {
+    span.textContent = `${prefix}unknown`;
+    return span;
+  }
+  const days = Math.floor(age);
+  const stale = age > STALE_AFTER_DAYS;
+  span.classList.toggle('is-stale', stale);
+  span.textContent = `${prefix}${new Date(iso).toLocaleString()}`;
+  span.title = stale ? `${days}d old — past the ${STALE_AFTER_DAYS}d freshness window, consider refreshing` : `${days}d old`;
+  return span;
+}
+
 function normalizeStation(raw: unknown): Station | null {
   if (!isRecord(raw)) return null;
   const id = optionalString(raw.id);
@@ -501,6 +539,13 @@ function normalizeStation(raw: unknown): Station | null {
     homepage: optionalString(raw.homepage),
     country: optionalString(raw.country),
     favicon: optionalString(raw.favicon),
+    favicons: isRecord(raw.favicons)
+      ? {
+          76: optionalString(raw.favicons[76]),
+          128: optionalString(raw.favicons[128]),
+          152: optionalString(raw.favicons[152]),
+        }
+      : undefined,
     faviconSource: optionalString(raw.faviconSource),
     faviconSourceUrl: optionalString(raw.faviconSourceUrl),
     faviconLicense: optionalString(raw.faviconLicense),
@@ -561,6 +606,16 @@ async function loadLogoQualityReport(): Promise<LogoQualityReport | null> {
   } catch {
     return null;
   }
+}
+
+/** Count present pre-sized variants (0–3) from a station's `favicons` object. */
+function countVariants(f?: { 76?: string; 128?: string; 152?: string }): number {
+  if (!f) return 0;
+  return (f[76] ? 1 : 0) + (f[128] ? 1 : 0) + (f[152] ? 1 : 0);
+}
+
+function variantStateOf(r: MatrixRow): 'full' | 'partial' | 'none' {
+  return r.variants >= 3 ? 'full' : r.variants > 0 ? 'partial' : 'none';
 }
 
 function probeToNpQuality(probe?: LogoQualityStation): NpQuality {
@@ -630,6 +685,7 @@ function deriveMatrixRow(
     probeHeight: quality?.height,
     probeBytes: quality?.bytes,
     npQuality: probeToNpQuality(quality),
+    variants: countVariants(station.favicons),
   };
 }
 
@@ -685,7 +741,7 @@ function syncFilterOptions(rows: MatrixRow[]): void {
  *  collapse the donut to that segment (it'd become the only thing left). */
 function rowMatchesFilters(
   r: MatrixRow,
-  excludeKey?: 'imageState' | 'license' | 'npQuality',
+  excludeKey?: 'imageState' | 'license' | 'npQuality' | 'variants',
 ): boolean {
   const f = state.filters;
   if (f.country !== 'all' && r.country !== f.country) return false;
@@ -693,6 +749,7 @@ function rowMatchesFilters(
   if (excludeKey !== 'imageState' && f.imageState !== 'all' && r.state !== f.imageState) return false;
   if (excludeKey !== 'license' && f.license !== 'all' && licenseBucket(r.faviconLicense) !== f.license) return false;
   if (excludeKey !== 'npQuality' && f.npQuality !== 'all' && r.npQuality !== f.npQuality) return false;
+  if (excludeKey !== 'variants' && f.variants !== 'all' && variantStateOf(r) !== f.variants) return false;
   if (f.query) {
     const q = f.query.trim().toLowerCase();
     if (q) {
@@ -741,6 +798,7 @@ function rowKey(row: MatrixRow, key: SortKey): string | number | undefined {
     case 'tier':       return row.tier;
     case 'state':      return row.state;
     case 'size':       return (row.probeWidth ?? 0) * (row.probeHeight ?? 0);
+    case 'variants':   return row.variants;
   }
 }
 
@@ -960,12 +1018,27 @@ function appendImageGroupCells(tr: HTMLTableRowElement, row: MatrixRow): void {
     sizeTd.textContent = '–';
   }
 
+  // Pre-sized WebP variants (76/128/152) — coverage pill.
+  const variantsTd = document.createElement('td');
+  variantsTd.dataset.group = 'image';
+  variantsTd.className = 'variants-cell';
+  const variantPill = document.createElement('span');
+  const vstate = variantStateOf(row);
+  variantPill.className = 'variant-pill';
+  variantPill.dataset.variants = vstate;
+  variantPill.textContent = vstate === 'none' ? '–' : `${row.variants}/3`;
+  variantPill.title =
+    vstate === 'full' ? 'All three pre-sized WebP variants present'
+    : vstate === 'partial' ? `${row.variants}/3 pre-sized variants — partial coverage`
+    : 'No pre-sized variants — client downsamples full-size art on device';
+  variantsTd.append(variantPill);
+
   // Action
   const actionTd = document.createElement('td');
   actionTd.dataset.group = 'image';
   actionTd.textContent = row.action;
 
-  tr.append(urlTd, typeTd, sourceTd, origTd, licenseTd, tierTd, stateTd, sizeTd, actionTd);
+  tr.append(urlTd, typeTd, sourceTd, origTd, licenseTd, tierTd, stateTd, sizeTd, variantsTd, actionTd);
 }
 
 function formatBytes(bytes: number): string {
@@ -982,7 +1055,8 @@ function formatBytes(bytes: number): string {
 type DonutFilter =
   | { key: 'imageState'; value: ImageState }
   | { key: 'license'; value: 'all' | 'known' | 'implicit' | 'unknown' }
-  | { key: 'npQuality'; value: NpQuality };
+  | { key: 'npQuality'; value: NpQuality }
+  | { key: 'variants'; value: VariantState };
 
 interface DonutSegment {
   label: string;
@@ -1113,6 +1187,7 @@ function licenseBucket(license: string): 'known' | 'implicit' | 'unknown' {
 function filterMatches(f: DonutFilter): boolean {
   if (f.key === 'imageState') return state.filters.imageState === f.value;
   if (f.key === 'npQuality')  return state.filters.npQuality === f.value;
+  if (f.key === 'variants')   return state.filters.variants === f.value;
   return state.filters.license === f.value;
 }
 
@@ -1125,6 +1200,10 @@ function toggleDonutFilter(f: DonutFilter, isActive: boolean): void {
     const next: NpQuality = isActive ? 'all' : f.value;
     state.filters.npQuality = next;
     refs.npQuality.value = next;
+  } else if (f.key === 'variants') {
+    const next: VariantState = isActive ? 'all' : f.value;
+    state.filters.variants = next;
+    refs.variants.value = next;
   } else {
     const next = isActive ? 'all' : f.value;
     state.filters.license = next;
@@ -1146,6 +1225,9 @@ interface DonutCounts {
   npAcceptable: number;
   npPoor: number;
   npUnknown: number;
+  varFull: number;
+  varPartial: number;
+  varNone: number;
 }
 
 function countRows(rows: MatrixRow[]): DonutCounts {
@@ -1153,6 +1235,7 @@ function countRows(rows: MatrixRow[]): DonutCounts {
   let ok = 0, warn = 0, bad = 0;
   let licKnown = 0, licImplicit = 0, licUnknown = 0;
   let npGood = 0, npAcceptable = 0, npPoor = 0, npUnknown = 0;
+  let varFull = 0, varPartial = 0, varNone = 0;
   for (const r of rows) {
     if (r.favicon) withLogo++;
     if (r.state === 'ok') ok++;
@@ -1166,25 +1249,33 @@ function countRows(rows: MatrixRow[]): DonutCounts {
     else if (r.npQuality === 'acceptable') npAcceptable++;
     else if (r.npQuality === 'poor') npPoor++;
     else npUnknown++;
+    if (r.variants >= 3) varFull++;
+    else if (r.variants > 0) varPartial++;
+    else varNone++;
   }
   return {
     withLogo, missing: rows.length - withLogo, ok, warn, bad,
     licKnown, licImplicit, licUnknown,
     npGood, npAcceptable, npPoor, npUnknown,
+    varFull, varPartial, varNone,
   };
 }
 
-function buildDonutSpecs(imageRows: MatrixRow[], licenseRows: MatrixRow[], npRows: MatrixRow[]): {
-  coverage: DonutSpec; state: DonutSpec; license: DonutSpec; np: DonutSpec;
+function buildDonutSpecs(
+  imageRows: MatrixRow[], licenseRows: MatrixRow[], npRows: MatrixRow[], variantRows: MatrixRow[],
+): {
+  coverage: DonutSpec; state: DonutSpec; license: DonutSpec; np: DonutSpec; variants: DonutSpec;
 } {
   // Each donut sees the catalog filtered by everything EXCEPT its own
   // dimension — otherwise self-clicking a slice would collapse the donut.
   const img = countRows(imageRows);
   const lic = countRows(licenseRows);
   const np  = countRows(npRows);
+  const vars = countRows(variantRows);
   const { withLogo, missing, ok, warn, bad } = img;
   const { licKnown, licImplicit, licUnknown } = lic;
   const { npGood, npAcceptable, npPoor, npUnknown } = np;
+  const { varFull, varPartial, varNone } = vars;
 
   return {
     coverage: {
@@ -1242,6 +1333,21 @@ function buildDonutSpecs(imageRows: MatrixRow[], licenseRows: MatrixRow[], npRow
           filter: { key: 'npQuality', value: 'unknown' } },
       ],
     },
+    variants: {
+      // Pre-sized WebP coverage from tools/build-favicon-variants.mjs. "full"
+      // = all three 76/128/152 sizes present; "partial" = 1–2; "none" = the
+      // station still ships full-size art for clients to downsample on device.
+      label: 'Pre-sized variants',
+      primary: 0,
+      segments: [
+        { label: 'full',    count: varFull,    className: 'ok',
+          filter: { key: 'variants', value: 'full' } },
+        { label: 'partial', count: varPartial, className: 'warn',
+          filter: { key: 'variants', value: 'partial' } },
+        { label: 'none',    count: varNone,    className: 'muted',
+          filter: { key: 'variants', value: 'none' } },
+      ],
+    },
   };
 }
 
@@ -1251,9 +1357,11 @@ function renderDonuts(): void {
   const imageRows = state.rows.filter((r) => rowMatchesFilters(r, 'imageState'));
   const licenseRows = state.rows.filter((r) => rowMatchesFilters(r, 'license'));
   const npRows = state.rows.filter((r) => rowMatchesFilters(r, 'npQuality'));
-  const specs = buildDonutSpecs(imageRows, licenseRows, npRows);
+  const variantRows = state.rows.filter((r) => rowMatchesFilters(r, 'variants'));
+  const specs = buildDonutSpecs(imageRows, licenseRows, npRows, variantRows);
   renderDonut(refs.donutCoverage, specs.coverage);
   renderDonut(refs.donutState, specs.state);
+  renderDonut(refs.donutVariants, specs.variants);
   renderDonut(refs.donutNp, specs.np);
   renderDonut(refs.donutLicense, specs.license);
 }
@@ -1346,6 +1454,10 @@ function bindEvents(): void {
   });
   refs.license.addEventListener('change', () => {
     state.filters.license = refs.license.value;
+    applyFilters();
+  });
+  refs.variants.addEventListener('change', () => {
+    state.filters.variants = refs.variants.value as VariantState;
     applyFilters();
   });
   refs.pagePrev.addEventListener('click', () => {
@@ -1478,8 +1590,10 @@ function renderSourcesTab(): void {
     return;
   }
 
-  refs.sourcesSummary.textContent =
-    `${fmtN(summary.catalogTotal)} catalog rows · generated ${new Date(summary.generatedAt).toLocaleString()}`;
+  refs.sourcesSummary.replaceChildren(
+    document.createTextNode(`${fmtN(summary.catalogTotal)} catalog rows · generated `),
+    timestampEl(summary.generatedAt),
+  );
 
   // Source filter dropdown — kept in sync with the registered sources.
   syncSourceFilterOptions(summary.sources);
@@ -1649,22 +1763,24 @@ function buildOverviewDonutTile(opts: {
   kicker: string;
   total: number;
   totalLabel: string;
+  /** Headline shown in the donut centre. Defaults to total/totalLabel.
+   *  Pass a per-metric value (e.g. logos OK) so sibling donuts don't all
+   *  read the same "N catalog matches". */
+  centerValue?: number;
+  centerLabel?: string;
   segments: DonutSegmentSpec[];
 }): HTMLElement {
   const tile = buildEl('article', { class: 'source-tile' });
   const donutHost = buildEl('div', { class: 'source-tile__donut' });
+  const centerValue = opts.centerValue ?? opts.total;
+  const centerLabel = opts.centerLabel ?? opts.totalLabel;
   if (opts.total > 0) {
     donutHost.append(buildDonutSvg(opts.total, opts.segments));
-    donutHost.append(buildEl('div', { class: 'source-tile__center' },
-      buildEl('div', { class: 'source-tile__total' }, fmtN(opts.total)),
-      buildEl('div', { class: 'source-tile__total-label' }, opts.totalLabel),
-    ));
-  } else {
-    donutHost.append(buildEl('div', { class: 'source-tile__center' },
-      buildEl('div', { class: 'source-tile__total' }, fmtN(opts.total)),
-      buildEl('div', { class: 'source-tile__total-label' }, opts.totalLabel),
-    ));
   }
+  donutHost.append(buildEl('div', { class: 'source-tile__center' },
+    buildEl('div', { class: 'source-tile__total' }, fmtN(centerValue)),
+    buildEl('div', { class: 'source-tile__total-label' }, centerLabel),
+  ));
 
   const body = buildEl('div', { class: 'source-tile__body' },
     buildEl('div', { class: 'source-tile__head' },
@@ -1716,6 +1832,8 @@ function buildCatalogImageStatusDonutTile(entries: CatalogImageEntry[]): HTMLEle
     kicker: 'image status',
     total: totals.total,
     totalLabel: 'catalog matches',
+    centerValue: totals.ok,
+    centerLabel: 'logos OK',
     segments: catalogImageSegments(totals),
   });
 }
@@ -1811,16 +1929,18 @@ interface CatalogApiCheckBuckets {
 
 function buildCatalogApiCheckDonutTile(check: CatalogApiCheck, rows: MatrixRow[]): HTMLElement {
   const buckets = bucketCatalogApiCheckRows(rows, check);
-  const labels: Record<CatalogApiCheck, { title: string; kicker: string }> = {
-    metadataApi: { title: 'Metadata API', kicker: 'endpoint status' },
-    fetcher: { title: 'Fetcher', kicker: 'runtime support' },
-    program: { title: 'Program API', kicker: 'schedule support' },
+  const labels: Record<CatalogApiCheck, { title: string; kicker: string; centerLabel: string }> = {
+    metadataApi: { title: 'Metadata API', kicker: 'endpoint status', centerLabel: 'wired' },
+    fetcher: { title: 'Fetcher', kicker: 'runtime support', centerLabel: 'wired' },
+    program: { title: 'Program API', kicker: 'schedule support', centerLabel: 'with schedule' },
   };
   return buildOverviewDonutTile({
     title: labels[check].title,
     kicker: labels[check].kicker,
     total: buckets.total,
     totalLabel: 'catalog matches',
+    centerValue: buckets.ok,
+    centerLabel: labels[check].centerLabel,
     segments: catalogApiCheckSegments(buckets, check),
   });
 }
@@ -2161,11 +2281,15 @@ function renderSourcesTable(): void {
         s + (sourcesState.candidatesCache.get(src.id)?.length ?? 0), 0)
     : 0;
   refs.sourcesTableTitle.textContent = candidatesTableTitle();
-  const byteMeta = sourcesState.byteProbeGeneratedAt
-    ? ` · byte probe ${new Date(sourcesState.byteProbeGeneratedAt).toLocaleString()}`
-    : '';
-  refs.sourcesTableSummary.textContent =
-    `${fmtN(total)} of ${fmtN(loadedTotal)} candidates match${byteMeta}`;
+  refs.sourcesTableSummary.replaceChildren(
+    document.createTextNode(`${fmtN(total)} of ${fmtN(loadedTotal)} candidates match`),
+  );
+  if (sourcesState.byteProbeGeneratedAt) {
+    refs.sourcesTableSummary.append(
+      document.createTextNode(' · byte probe '),
+      timestampEl(sourcesState.byteProbeGeneratedAt),
+    );
+  }
   refs.sourcesPageSummary.textContent = total === 0
     ? ''
     : `Showing ${fmtN(start + 1)}–${fmtN(Math.min(start + pageSize, total))} of ${fmtN(total)}`;
@@ -2940,9 +3064,11 @@ function initialTabFromHash(): ActiveTab {
 }
 
 function updateGeneratedText(): void {
-  refs.generated.textContent = state.generatedAt
-    ? `Logo status ${new Date(state.generatedAt).toLocaleString()}`
-    : 'Logo status unavailable';
+  if (state.generatedAt) {
+    refs.generated.replaceChildren(document.createTextNode('Logo status '), timestampEl(state.generatedAt));
+  } else {
+    refs.generated.textContent = 'Logo status unavailable';
+  }
 }
 
 async function main(): Promise<void> {

@@ -412,7 +412,7 @@ h1 {
 
 .matrix {
   width: 100%;
-  min-width: 1180px;
+  min-width: 1280px;
   border-collapse: separate;
   border-spacing: 0;
   font-size: 13px;
@@ -542,9 +542,12 @@ h1 {
   vertical-align: middle;
 }
 
-.matrix tbody tr:hover { background: rgba(255, 255, 255, 0.025); }
+/* Zebra striping + a stronger hover so a single row is easy to track across
+ * the wide grid. */
+.matrix tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.014); }
+.matrix tbody tr:hover { background: rgba(255, 255, 255, 0.05); }
 
-.matrix-col-thumb { width: 48px; }
+.matrix-col-thumb { width: 52px; }
 
 /* When a group is collapsed via .is-collapsed-<group> on the table, hide
  * its column cells (but keep the group header visible). The group header's
@@ -557,12 +560,13 @@ h1 {
 /* ── Cell content styles ── */
 
 .image-thumb {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   display: grid;
   place-items: center;
   background: var(--bg);
   border: 1px solid var(--line);
+  border-radius: 6px;
   overflow: hidden;
   font-family: var(--mono);
   font-size: 9px;
@@ -624,6 +628,7 @@ h1 {
 .check,
 .source-pill,
 .source-type-pill,
+.variant-pill,
 .license-pill {
   display: inline-flex;
   align-items: center;
@@ -718,6 +723,30 @@ h1 {
 .license-pill[data-license="broadcaster-implicit"] {
   border-color: color-mix(in srgb, var(--accent) 35%, transparent);
   color: var(--accent);
+}
+
+/* Pre-sized WebP variant coverage. full=green, partial=amber, none=muted. */
+.variant-pill { min-width: 38px; color: var(--ink-3); }
+.variant-pill[data-variants="full"] {
+  border-color: color-mix(in srgb, var(--ok) 50%, transparent);
+  color: var(--ok);
+}
+.variant-pill[data-variants="partial"] {
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+  color: var(--accent);
+}
+.variant-pill[data-variants="none"] {
+  border-color: var(--line);
+  color: var(--ink-4);
+}
+
+/* Freshness — a timestamp goes amber once past the staleness window. */
+.ts.is-stale {
+  color: var(--accent);
+  font-weight: 600;
+}
+.ts.is-stale::before {
+  content: "⚠ ";
 }
 
 .size-cell {
