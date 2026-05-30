@@ -10,12 +10,22 @@
   const knob = el.querySelector('.tuner__knob--control');
   const needle = el.querySelector('.tuner__needle');
   const scope = el.querySelector('.tuner__scope');
-  const scopeEnabled = scope ? getComputedStyle(scope).display !== 'none' : false;
+  // offsetParent is null when the element OR any ancestor is display:none —
+  // getComputedStyle(scope).display only reflects the element's own rule, so it
+  // misses the hidden .tuner__lead wrapper and would leave the rAF loop running
+  // on an invisible canvas (e.g. the photo-clean variant).
+  const scopeEnabled = scope ? scope.offsetParent !== null : false;
   const scopeCanvas = scopeEnabled ? scope.querySelector('canvas') : null;
   const scopeText = scope ? scope.querySelector('.tuner__scope-text') : null;
   const scopeFreq = scope ? scope.querySelector('.tuner__scope-freq') : null;
   let scopeLockDist = 1;
   const navEl = document.querySelector('.nav');
+  // Respect the OS "reduce motion" setting for programmatic scrolls — CSS
+  // scroll-behavior is overridden by an explicit behavior in scrollTo/scrollBy.
+  const reducedMotion = window.matchMedia
+    ? window.matchMedia('(prefers-reduced-motion: reduce)')
+    : { matches: false };
+  const scrollBehavior = () => (reducedMotion.matches ? 'auto' : 'smooth');
   const photoMode = el.classList.contains('tuner--photo');
   const photoNeedleMode = photoMode && !el.classList.contains('tuner--photo-frame');
   const tunerStyle = getComputedStyle(el);
@@ -106,7 +116,7 @@
         lockedPreset = station;
         lockedPresetTarget = target;
         lockedPresetUntil = performance.now() + 2200;
-        window.scrollTo({ top: target, behavior: 'smooth' });
+        window.scrollTo({ top: target, behavior: scrollBehavior() });
       });
       presets.appendChild(btn);
       stations.push(station);
@@ -154,7 +164,13 @@
     }
 
     // sync knob rotation: 2 full rotations (720°) across the whole doc
-    if (knob) knob.style.transform = 'rotate(' + (p * 720) + 'deg)';
+    if (knob) {
+      knob.style.transform = 'rotate(' + (p * 720) + 'deg)';
+      // Keep the slider's value/announcement in step with scroll position.
+      const pct = Math.round(p * 100);
+      knob.setAttribute('aria-valuenow', String(pct));
+      knob.setAttribute('aria-valuetext', pct + '% — ' + (activePreset ? activePreset.title : 'top of page'));
+    }
 
     // oscilloscope: lockDist 0 = on station, 1 = scrambled. Sharp
     // threshold near a station so the wave clearly "locks in".
@@ -255,10 +271,11 @@
     knob.addEventListener('keydown', (e) => {
       const docMax = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
       const step = window.innerHeight * 0.2;
-      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { window.scrollBy({ top: step, behavior: 'smooth' }); e.preventDefault(); }
-      else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { window.scrollBy({ top: -step, behavior: 'smooth' }); e.preventDefault(); }
-      else if (e.key === 'Home') { window.scrollTo({ top: 0, behavior: 'smooth' }); e.preventDefault(); }
-      else if (e.key === 'End') { window.scrollTo({ top: docMax, behavior: 'smooth' }); e.preventDefault(); }
+      const behavior = scrollBehavior();
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { window.scrollBy({ top: step, behavior }); e.preventDefault(); }
+      else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { window.scrollBy({ top: -step, behavior }); e.preventDefault(); }
+      else if (e.key === 'Home') { window.scrollTo({ top: 0, behavior }); e.preventDefault(); }
+      else if (e.key === 'End') { window.scrollTo({ top: docMax, behavior }); e.preventDefault(); }
     });
   }
 

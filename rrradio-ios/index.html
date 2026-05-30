@@ -33,7 +33,7 @@
         <img class="nav__logo" src="rrradio-logo-app-dark.svg" alt="" />
         <span class="nav__name">rrradio</span>
       </a>
-      <a class="nav__store" href="#">App Store →</a>
+      <span class="nav__store is-soon">App Store · soon</span>
     </div>
   </nav>
 
@@ -73,7 +73,7 @@
     </div>
     <div class="tuner__presets" aria-label="Section presets"></div>
     <div class="tuner__panel tuner__panel--right">
-      <div class="tuner__knob tuner__knob--control" role="slider" aria-label="Tune through the page" tabindex="0">
+      <div class="tuner__knob tuner__knob--control" role="slider" aria-label="Tune through the page" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
         <span class="tuner__knob-indicator" aria-hidden="true"></span>
       </div>
     </div>
@@ -100,13 +100,13 @@
     </p>
 
     <div class="hero-actions">
-      <a class="btn-app" href="#">
+      <span class="btn-app is-soon" role="img" aria-label="Coming soon to the App Store">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 12.5c0-2.6 2.1-3.9 2.2-4-1.2-1.7-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.4 1-4.3 2.6-1.9 3.2-.5 8 1.3 10.7.9 1.3 1.9 2.7 3.3 2.7 1.3-.1 1.8-.9 3.4-.9 1.6 0 2 .9 3.4.9 1.4 0 2.3-1.3 3.2-2.6 1-1.5 1.4-3 1.4-3.1-.1 0-2.7-1-2.7-4.1zM14.9 4.6c.7-.9 1.2-2.1 1.1-3.4-1 .1-2.3.7-3 1.6-.7.8-1.3 2.1-1.1 3.3 1.2.1 2.3-.6 3-1.5z"/></svg>
-        <span class="btn-app__text">
-          <span class="btn-app__pre">Download on the</span>
+        <span class="btn-app__text" aria-hidden="true">
+          <span class="btn-app__pre">Coming soon to the</span>
           <span class="btn-app__main">App Store</span>
         </span>
-      </a>
+      </span>
     </div>
 
     <!-- ═══════════ 01 — What it is ═══════════ -->
@@ -187,19 +187,19 @@
         <div class="screens">
           <div class="screen">
             <div class="device"><div class="device__screen">
-              <div class="screen-placeholder">Browse</div>
+              <img class="device__shot" src="screen-browse.webp" width="660" height="1435" loading="lazy" decoding="async" alt="rrradio Browse screen: a scrollable list of radio stations with their logos, country flags, and genres, plus a search field." />
             </div></div>
             <div class="screen__cap">Browse</div>
           </div>
           <div class="screen">
             <div class="device"><div class="device__screen">
-              <div class="screen-placeholder">Now Playing</div>
+              <img class="device__shot" src="screen-now-playing.webp" width="660" height="1435" loading="lazy" decoding="async" alt="rrradio Now Playing screen: large cover art, station and track name, and playback controls with a sleep timer." />
             </div></div>
             <div class="screen__cap">Now Playing</div>
           </div>
           <div class="screen">
             <div class="device"><div class="device__screen">
-              <div class="screen-placeholder">Library</div>
+              <img class="device__shot" src="screen-library.webp" width="660" height="1435" loading="lazy" decoding="async" alt="rrradio Library screen: stations organised into Jazz, News, Talk, and Recents groups." />
             </div></div>
             <div class="screen__cap">Library</div>
           </div>
@@ -401,17 +401,17 @@
       </div>
       <div class="footer__cols">
         <div class="footer__col">
-          <h4>App</h4>
-          <a href="#">App Store</a>
+          <h3>App</h3>
+          <span class="is-soon">App Store · soon</span>
           <a href="https://rrradio.org" target="_blank" rel="noopener">Web app</a>
         </div>
         <div class="footer__col">
-          <h4>Source</h4>
+          <h3>Source</h3>
           <a href="https://github.com/MarkusSteinbrecher/rrradio-ios" target="_blank" rel="noopener">iOS</a>
           <a href="https://github.com/MarkusSteinbrecher/rrradio" target="_blank" rel="noopener">Web &amp; catalog</a>
         </div>
         <div class="footer__col">
-          <h4>Contact</h4>
+          <h3>Contact</h3>
           <a href="https://github.com/MarkusSteinbrecher/rrradio-ios/issues" target="_blank" rel="noopener">Issues</a>
           <a href="mailto:hello@rrradio.org">Email</a>
         </div>

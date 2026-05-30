@@ -62,68 +62,9 @@
   .nav__name { font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: 0.06em; }
   /* Old nav__links removed — page is short, scroll is the primary nav. */
 
-  /* ---- Compact, in-nav tuner overrides ---- */
-  .nav .tuner {
-    position: static;
-    z-index: auto;
-    background: transparent;
-    border-bottom: 0;
-    overflow: visible;
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .nav .tuner__lead {
-    position: static;
-    transform: none;
-    background: transparent;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-shrink: 0;
-  }
-  .nav .tuner__knob {
-    width: 26px; height: 26px;
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,0.18),
-      inset 0 -1px 2px rgba(0,0,0,0.45),
-      0 1px 3px rgba(0,0,0,0.4);
-  }
-  .nav .tuner__knob::before { inset: 3px; }
-  .nav .tuner__knob-indicator { top: 2px; height: 7px; }
-  .nav .tuner__display { display: none; }
-  .nav .tuner__scope {
-    width: 56px; height: 22px;
-  }
-  .nav .tuner__scope-grid { background-size: 10px 10px; }
-  .nav .tuner__strip {
-    flex: 1;
-    min-width: 80px;
-    height: 28px;
-    overflow: hidden;
-    position: relative;
-  }
-  .nav .tuner__tick { bottom: 4px; height: 4px; }
-  .nav .tuner__tick--half { height: 7px; }
-  .nav .tuner__tick--major { height: 12px; }
-  .nav .tuner__tick-label { display: none; }
-  .nav .tuner__station {
-    top: 1px;
-    font-size: 8px;
-    letter-spacing: 0.10em;
-    padding: 1px 4px;
-  }
-  .nav .tuner__edges {
-    background: linear-gradient(90deg, var(--bg) 0%, transparent 12%, transparent 88%, var(--bg) 100%);
-  }
   @media (max-width: 720px) {
     .nav__inner { padding: 8px 14px; gap: 10px; }
     .nav__name { display: none; }
-    .nav .tuner__scope { width: 40px; }
-    .nav .tuner__knob { width: 24px; height: 24px; }
   }
   .nav__store {
     font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
@@ -828,478 +769,6 @@
     .tuner__unit { font-size: 8.5px; }
   }
 
-  /* Photo-backed receiver experiment: the bitmap is the radio, CSS only
-     supplies hit targets and live state. Coordinates are percentages of the
-     1254x1254 source image cropped to y=190..1070. */
-  .tuner--photo {
-    --needle-start: 10;
-    --needle-travel: 78;
-    position: sticky;
-    top: 70px;
-    display: block;
-    width: min(100% - 28px, 1000px);
-    max-width: none;
-    aspect-ratio: 1254 / 880;
-    margin: 16px auto 0;
-    padding: 0;
-    background: transparent;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-    overflow: hidden;
-  }
-  .tuner--photo .tuner__photo {
-    position: absolute;
-    z-index: 0;
-    top: -21.6%;
-    left: 0;
-    width: 100%;
-    height: auto;
-    display: block;
-    pointer-events: none;
-    user-select: none;
-  }
-  .tuner--photo .tuner__screw,
-  .tuner--photo .tuner__panel--left,
-  .tuner--photo .tuner__bands,
-  .tuner--photo .tuner__units,
-  .tuner--photo .tuner__edges {
-    display: none;
-  }
-  .tuner--photo .tuner__panel {
-    position: absolute;
-    min-width: 0;
-    height: auto;
-    padding: 0;
-    background: transparent;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-    overflow: visible;
-  }
-  .tuner--photo .tuner__panel--right {
-    z-index: 3;
-    left: 73.4%;
-    top: 57.2%;
-    width: 13.6%;
-    height: 18.5%;
-    display: grid;
-    place-items: center;
-  }
-  .tuner--photo .tuner__knob {
-    width: 86%;
-    height: auto;
-    aspect-ratio: 1;
-    background: transparent;
-    border: 0;
-    box-shadow: none;
-  }
-  .tuner--photo .tuner__knob::before,
-  .tuner--photo .tuner__knob::after {
-    content: none;
-  }
-  .tuner--photo .tuner__knob-indicator {
-    top: 14%;
-    left: 50%;
-    width: 2px;
-    height: 34%;
-    background: rgba(255, 234, 177, 0.72);
-    border-radius: 999px;
-    box-shadow:
-      0 0 0 1px rgba(43, 27, 12, 0.70),
-      0 0 8px rgba(255, 218, 116, 0.42);
-    transform: translateX(-50%);
-  }
-  .tuner--photo .tuner__dial {
-    position: absolute;
-    z-index: 2;
-    left: 29.6%;
-    top: 55.6%;
-    width: 42.0%;
-    height: 15.7%;
-    display: block;
-  }
-  .tuner--photo .tuner__strip {
-    position: absolute;
-    inset: 0;
-    grid-column: auto;
-    height: auto;
-    background: transparent;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-    overflow: hidden;
-  }
-  .tuner--photo .tuner__strip::before,
-  .tuner--photo .tuner__strip::after {
-    content: none;
-  }
-  .tuner--photo .tuner__track {
-    top: 0;
-    bottom: 0;
-  }
-  .tuner--photo .tuner__tick {
-    opacity: 0;
-  }
-  .tuner--photo .tuner__needle {
-    top: 6%;
-    bottom: 10%;
-    width: 2px;
-    background: linear-gradient(180deg, rgba(255, 234, 170, 0.96), rgba(210, 130, 40, 0.96));
-    box-shadow:
-      0 0 0 1px rgba(47, 25, 9, 0.55),
-      0 0 10px rgba(255, 204, 88, 0.72);
-    transition: left 0.06s linear;
-  }
-  .tuner--photo .tuner__needle::after {
-    top: -3px;
-    width: 8px;
-    height: 8px;
-    background:
-      radial-gradient(circle at 34% 30%, #fff3c4 0%, #f0b34a 42%, #6c3310 100%);
-    box-shadow: 0 0 8px rgba(255, 193, 72, 0.56);
-  }
-  .tuner--photo .tuner__presets {
-    position: absolute;
-    z-index: 4;
-    left: 35.9%;
-    top: 76.0%;
-    width: 27.0%;
-    height: 4.5%;
-    min-width: 0;
-    display: grid;
-    grid-template-columns: repeat(9, minmax(0, 1fr));
-    gap: 0.4%;
-    padding: 0;
-    align-items: stretch;
-  }
-  .tuner--photo .tuner__preset {
-    position: relative;
-    display: block;
-    min-width: 0;
-    min-height: 0;
-    padding: 0;
-    border-radius: 3px;
-  }
-  .tuner--photo .tuner__preset-cap {
-    width: 100%;
-    height: 100%;
-    min-height: 0;
-    border: 0;
-    border-radius: 3px 3px 5px 5px;
-    background: transparent;
-    color: transparent;
-    box-shadow: none;
-    transform: none;
-  }
-  .tuner--photo .tuner__preset-label {
-    display: none;
-  }
-  .tuner--photo .tuner__preset:hover .tuner__preset-cap,
-  .tuner--photo .tuner__preset:focus-visible .tuner__preset-cap {
-    background: rgba(255, 248, 220, 0.24);
-    box-shadow: inset 0 0 0 1px rgba(255, 236, 172, 0.45);
-  }
-  .tuner--photo .tuner__preset:active .tuner__preset-cap {
-    transform: translateY(3px);
-  }
-  .tuner--photo .tuner__preset.is-current .tuner__preset-cap {
-    background: rgba(255, 224, 82, 0.56);
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 247, 183, 0.84),
-      inset 0 -7px 11px rgba(87, 50, 5, 0.28),
-      0 0 16px rgba(255, 216, 54, 0.62);
-    transform: translateY(3px);
-  }
-  .tuner--photo .tuner__preset:focus-visible {
-    outline: 1px solid rgba(255, 240, 174, 0.85);
-    outline-offset: 4px;
-  }
-  @media (max-width: 720px) {
-    .tuner--photo {
-      top: 58px;
-      width: calc(100% - 16px);
-      margin-top: 10px;
-    }
-    .tuner--photo .tuner__panel--right {
-      left: 72.7%;
-      top: 56.8%;
-      width: 14.6%;
-      height: 19.2%;
-    }
-    .tuner--photo .tuner__presets {
-      top: 75.6%;
-      height: 5.2%;
-    }
-  }
-  .tuner--photo-v2 {
-    --needle-start: 4;
-    --needle-travel: 92;
-    width: min(100% - 28px, 700px);
-    aspect-ratio: 1;
-  }
-  .tuner--photo-v2 .tuner__photo {
-    top: 0;
-    height: 100%;
-    object-fit: contain;
-  }
-  .tuner--photo-v2 .tuner__panel--right {
-    left: 68.2%;
-    top: 66.8%;
-    width: 17.0%;
-    height: 16.8%;
-  }
-  .tuner--photo-v2 .tuner__knob {
-    width: 98%;
-  }
-  .tuner--photo-v2 .tuner__knob-indicator {
-    top: 11%;
-    height: 39%;
-    background: rgba(255, 247, 221, 0.82);
-    box-shadow:
-      0 0 0 1px rgba(26, 21, 17, 0.76),
-      0 0 10px rgba(255, 232, 170, 0.44);
-  }
-  .tuner--photo-v2 .tuner__dial {
-    left: 24.8%;
-    top: 32.3%;
-    width: 60.8%;
-    height: 11.2%;
-  }
-  .tuner--photo-v2 .tuner__needle {
-    top: 60%;
-    bottom: auto;
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 28%, rgba(255, 255, 225, 0.98) 0%, rgba(255, 239, 91, 0.92) 43%, rgba(125, 91, 14, 0.88) 100%);
-    box-shadow:
-      0 0 0 1px rgba(25, 21, 8, 0.70),
-      0 0 9px rgba(255, 240, 120, 0.70);
-  }
-  .tuner--photo-v2 .tuner__needle::after {
-    content: none;
-  }
-  .tuner--photo-v2 .tuner__presets {
-    left: 24.8%;
-    top: 33.3%;
-    width: 60.8%;
-    height: 8.0%;
-  }
-  .tuner--photo-v2 .tuner__preset-cap {
-    border-radius: 2px;
-  }
-  .tuner--photo-v2 .tuner__preset:hover .tuner__preset-cap,
-  .tuner--photo-v2 .tuner__preset:focus-visible .tuner__preset-cap {
-    background: rgba(255, 244, 154, 0.13);
-    box-shadow: inset 0 0 0 1px rgba(255, 242, 160, 0.38);
-  }
-  .tuner--photo-v2 .tuner__preset:active .tuner__preset-cap {
-    transform: none;
-  }
-  .tuner--photo-v2 .tuner__preset.is-current .tuner__preset-cap {
-    background: linear-gradient(90deg,
-      transparent 0%,
-      rgba(255, 245, 116, 0.10) 38%,
-      rgba(255, 245, 116, 0.32) 50%,
-      rgba(255, 245, 116, 0.10) 62%,
-      transparent 100%);
-    box-shadow: none;
-    transform: none;
-  }
-  @media (max-width: 720px) {
-    .tuner--photo-v2 {
-      top: 58px;
-      width: calc(100% - 16px);
-    }
-    .tuner--photo-v2 .tuner__panel--right {
-      left: 67.8%;
-      top: 66.6%;
-      width: 17.8%;
-      height: 17.2%;
-    }
-    .tuner--photo-v2 .tuner__presets {
-      top: 33.0%;
-      height: 8.8%;
-    }
-  }
-  .tuner--photo-v3 {
-    --needle-start: 3;
-    --needle-travel: 93;
-    width: min(100% - 28px, 860px);
-    aspect-ratio: 1008 / 180;
-    margin-top: 26px;
-  }
-  .tuner--photo-v3 .tuner__photo {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-  .tuner--photo-v3 .tuner__dial {
-    left: 17.2%;
-    top: 14.5%;
-    width: 77.3%;
-    height: 70.0%;
-    display: grid;
-    grid-template-columns: 40px minmax(0, 1fr) 48px;
-    align-items: center;
-    gap: 7px;
-  }
-  .tuner--photo-v3 .tuner__bands,
-  .tuner--photo-v3 .tuner__units {
-    display: grid;
-    gap: 5px;
-  }
-  .tuner--photo-v3 .tuner__bands span,
-  .tuner--photo-v3 .tuner__units span {
-    width: 32px;
-    min-height: 20px;
-    font-size: 8px;
-  }
-  .tuner--photo-v3 .tuner__units span {
-    width: 40px;
-  }
-  .tuner--photo-v3 .tuner__strip {
-    position: relative;
-    grid-column: 2;
-    height: 100%;
-    background:
-      radial-gradient(ellipse at 50% 90%, rgba(255,255,0,0.18) 0%, transparent 58%),
-      radial-gradient(ellipse at 50% 35%, #e9ebe2 0%, #aeb2a8 64%, #74786f 100%);
-    border: 2px solid #141512;
-    border-radius: 9px;
-    box-shadow:
-      inset 0 2px 1px rgba(244,244,242,0.42),
-      inset 0 -2px 2px rgba(0,0,0,0.32),
-      inset 0 0 0 1px rgba(0,0,0,0.34),
-      inset 0 0 14px rgba(32,33,30,0.42),
-      0 1px 2px rgba(0,0,0,0.72),
-      0 0 13px rgba(255,255,0,0.12);
-    overflow: hidden;
-  }
-  .tuner--photo-v3 .tuner__strip::before,
-  .tuner--photo-v3 .tuner__strip::after {
-    content: '';
-  }
-  .tuner--photo-v3 .tuner__track {
-    top: 0;
-    bottom: 0;
-  }
-  .tuner--photo-v3 .tuner__tick {
-    opacity: 1;
-    height: 10%;
-    background: rgba(32,33,30,0.54);
-  }
-  .tuner--photo-v3 .tuner__tick--fm {
-    top: 18%;
-    bottom: auto;
-  }
-  .tuner--photo-v3 .tuner__tick--am {
-    top: 58%;
-    bottom: auto;
-    background: rgba(32,33,30,0.62);
-  }
-  .tuner--photo-v3 .tuner__tick--half {
-    height: 15%;
-    background: rgba(32,33,30,0.72);
-  }
-  .tuner--photo-v3 .tuner__tick--major {
-    height: 22%;
-    background: rgba(20,21,19,0.95);
-  }
-  .tuner--photo-v3 .tuner__tick--am.tuner__tick--major {
-    height: 17%;
-  }
-  .tuner--photo-v3 .tuner__tick-label {
-    top: calc(100% + 2px);
-    font-size: clamp(6px, 1.0vw, 10px);
-  }
-  .tuner--photo-v3 .tuner__tick--am .tuner__tick-label {
-    top: calc(100% + 2px);
-    font-size: clamp(5px, 0.92vw, 9px);
-  }
-  .tuner--photo-v3 .tuner__needle {
-    left: 50%;
-    top: 5px;
-    bottom: 5px;
-    width: 2px;
-    background: linear-gradient(180deg, #ffd500 0%, #d4a000 50%, #8a6800 100%);
-    box-shadow:
-      0 0 12px rgba(255,200,0,0.75),
-      0 0 4px rgba(255,200,0,1);
-  }
-  .tuner--photo-v3 .tuner__panel--right {
-    left: 17.2%;
-    top: 14.5%;
-    width: 77.3%;
-    height: 70.0%;
-  }
-  .tuner--photo-v3 .tuner__presets {
-    left: 17.2%;
-    top: 14.5%;
-    width: 77.3%;
-    height: 70.0%;
-  }
-  .tuner--photo-v3 .tuner__knob {
-    width: 100%;
-    height: 100%;
-    aspect-ratio: auto;
-    cursor: grab;
-    opacity: 0;
-  }
-  .tuner--photo-v3 .tuner__knob-indicator {
-    display: none;
-  }
-  @media (max-width: 720px) {
-    .tuner--photo-v3 {
-      width: min(calc(100% - 16px), 390px);
-    }
-    .tuner--photo-v3 .tuner__dial {
-      left: 16.7%;
-      top: 14%;
-      width: 78.2%;
-      height: 71%;
-      grid-template-columns: 24px minmax(0, 1fr) 28px;
-      gap: 3px;
-    }
-    .tuner--photo-v3 .tuner__bands,
-    .tuner--photo-v3 .tuner__units {
-      gap: 3px;
-    }
-    .tuner--photo-v3 .tuner__bands span,
-    .tuner--photo-v3 .tuner__units span {
-      width: 22px;
-      min-height: 14px;
-      padding: 0 2px;
-      font-size: 5px;
-    }
-    .tuner--photo-v3 .tuner__units span {
-      width: 26px;
-    }
-    .tuner--photo-v3 .tuner__strip {
-      border-width: 1px;
-      border-radius: 6px;
-    }
-    .tuner--photo-v3 .tuner__needle {
-      top: 3px;
-      bottom: 3px;
-      width: 1px;
-    }
-    .tuner--photo-v3 .tuner__panel--right {
-      left: 16.7%;
-      top: 14%;
-      width: 78.2%;
-      height: 71%;
-    }
-    .tuner--photo-v3 .tuner__presets {
-      left: 16.7%;
-      top: 14%;
-      width: 78.2%;
-      height: 71%;
-    }
-  }
 
   /* Clean photo-backed receiver: bitmap shell with a live CSS station window. */
   .tuner--photo-clean {
@@ -1762,6 +1231,29 @@
   .btn-app__pre { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.7; }
   .btn-app__main { font-family: var(--sans); font-weight: 600; font-size: 16px; letter-spacing: -0.01em; }
 
+  /* ── Pre-launch "coming soon" CTA state ──────────────
+     The app isn't on the App Store yet (v0.1 beta), so the store CTAs are
+     inert, muted, and out of the tab order rather than dead links to "#".
+     At launch: restore the <a href> + remove .is-soon. */
+  .btn-app.is-soon {
+    background: var(--bg-2);
+    color: var(--ink-2);
+    border: 1px solid var(--line-2);
+    cursor: default;
+  }
+  .btn-app.is-soon:hover,
+  .btn-app.is-soon:active { background: var(--bg-2); transform: none; }
+  .nav__store.is-soon,
+  .nav__store.is-soon:hover {
+    color: var(--ink-3);
+    border-color: var(--line-2);
+    cursor: default;
+  }
+  .footer__col .is-soon {
+    color: var(--ink-3);
+    cursor: default;
+  }
+
   /* ── Section blocks ────────────────────────────────── */
   section.s {
     margin-top: 88px;
@@ -1888,21 +1380,31 @@
     border: 7px solid #1a1a17;
     border-radius: 36px;
     padding: 3px;
-    box-shadow: 0 16px 40px rgba(0,0,0,0.35),
-                inset 0 0 0 1px rgba(255,255,255,0.04);
+    /* Layered float: tight contact shadow + soft ambient drop + a hairline
+       edge so the near-black frame still reads against the dark page. */
+    box-shadow:
+      0 2px 6px rgba(0,0,0,0.45),
+      0 22px 50px rgba(0,0,0,0.48),
+      0 0 0 1px rgba(0,0,0,0.55),
+      inset 0 0 0 1px rgba(255,255,255,0.05);
     position: relative;
     overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
-  .device::before {
-    content: '';
-    position: absolute;
-    top: 8px; left: 50%;
-    transform: translateX(-50%);
-    width: 70px; height: 20px;
-    background: #0a0a08;
-    border-radius: 999px;
-    z-index: 5;
+  .screen:hover .device {
+    transform: translateY(-6px);
+    box-shadow:
+      0 4px 10px rgba(0,0,0,0.45),
+      0 30px 60px rgba(0,0,0,0.52),
+      0 0 0 1px rgba(0,0,0,0.55),
+      inset 0 0 0 1px rgba(255,255,255,0.06);
   }
+  @media (prefers-reduced-motion: reduce) {
+    .device { transition: none; }
+    .screen:hover .device { transform: none; }
+  }
+  /* No CSS notch — the real screenshots carry their own status bar and
+     Dynamic Island, so a fake pill here would just double up. */
   .device__screen {
     width: 100%; height: 100%;
     background: var(--bg);
@@ -1910,7 +1412,12 @@
     overflow: hidden;
     position: relative;
   }
-  .device__screen .screen-placeholder { width: 100%; height: 100%; display: block; }
+  .device__shot {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
 
   /* ── FAQ ──────────────────────────────────────────── */
   .faq {
@@ -1980,7 +1487,7 @@
   }
   .footer__cols { display: flex; gap: 36px; flex-wrap: wrap; }
   .footer__col { display: flex; flex-direction: column; gap: 8px; }
-  .footer__col h4 { margin: 0 0 4px; font-size: 9.5px; color: var(--ink-4); font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; }
+  .footer__col h3 { margin: 0 0 4px; font-size: 9.5px; color: var(--ink-4); font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; }
   .footer__col a { color: var(--ink-2); text-decoration: none; transition: color 0.15s; }
   .footer__col a:hover { color: var(--accent); }
   .footer__brand { display: flex; flex-direction: column; gap: 10px; max-width: 280px; }
@@ -1991,20 +1498,4 @@
     font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em;
     color: var(--ink-4);
     display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
-  }
-
-  .device__screen .screen-placeholder {
-    width: 100%;
-    height: 100%;
-    display: grid;
-    place-items: center;
-    border: 1px solid var(--line);
-    background:
-      radial-gradient(circle at 50% 18%, rgba(255,255,0,0.10), transparent 34%),
-      linear-gradient(180deg, #4e4e47 0%, #3e3e39 50%, #2d2d29 100%);
-    color: var(--ink-3);
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
   }
