@@ -4,6 +4,11 @@ Playback is the core product surface. Every platform should prioritize reliable
 start, pause, resume, stop, retry, and media-control behavior over decorative
 UI differences.
 
+The formal state machine — states, transitions, retry policy, stream-quality
+selection, queue stepping, and the media-control / now-playing-info contract — is
+[playback-state-machine](contracts/playback-state-machine.md). This doc is the
+behavioral summary; the contract is authoritative for exact states and limits.
+
 ## Shared Behavior
 
 - A station row starts playback for that station.

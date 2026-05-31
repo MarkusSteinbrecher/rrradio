@@ -10,25 +10,57 @@ mechanics into web or Android without an explicit platform note.
 
 ## Spec Map
 
+**Shared behavior**
+
 - [Platforms](platforms.md) - shared contracts and platform differences.
 - [Data and sync](data-sync.md) - local storage, iCloud/CloudKit, and future
   cross-platform sync decisions.
 - [Playback](playback.md) - streaming, recovery, background audio, and media
   controls.
-- [Browse](features/browse.md) - catalog browsing, search, filters, and maps.
+
+**Features** - observable behavior, one surface per doc:
+
+- [Browse](features/browse.md) - catalog browsing, filters, sort, and maps.
+- [Search](features/search.md) - the search field: typing, debounce, results,
+  fallback, and empty states.
 - [Favorites](features/favorites.md) - favorite stations, display modes, and
   recents.
 - [Station lists](features/station-lists.md) - named station collections.
 - [Custom stations](features/custom-stations.md) - user-entered streams.
 - [Now Playing](features/now-playing.md) - destination view, metadata, lyrics,
   schedules, and artwork.
-- [Metadata and artwork](features/metadata-artwork.md) - fetcher contracts and
-  fallback order.
+- [Metadata and artwork](features/metadata-artwork.md) - what the user sees;
+  fetcher contracts and fallback order.
 - [Sleep timer](features/sleep-timer.md) - timed stop behavior.
 - [Wake to radio](features/wake-to-radio.md) - alarm-style playback and OS
   limitations.
+- [Listening history](features/listening-history.md) - private opt-in on-device
+  listening stats and export.
+- [Watch remote](features/watch-remote.md) - the watchOS companion remote
+  (iOS-only).
+- [Siri & Shortcuts](features/siri-shortcuts.md) - App Intents, station
+  entities, and Spotlight (iOS-only).
+- [First run & offline](features/first-run-offline.md) - launch fallback ladder,
+  splash, and offline surface.
 - [Preferences and diagnostics](features/preferences-diagnostics.md) - theme,
   language, landing page, history, diagnostics, and car mode.
+
+**Contracts** - the cross-platform invariants every platform must match exactly
+(schemas, state machines, merge rules, payload formats):
+
+- [Catalog & station schema](contracts/catalog-schema.md)
+- [Playback state machine](contracts/playback-state-machine.md)
+- [Metadata fetchers](contracts/metadata-fetchers.md)
+- [Search](contracts/search.md)
+- [Library sync & merge](contracts/sync-merge.md)
+- [Privacy & data boundaries](contracts/privacy-data-boundaries.md)
+- [Watch remote protocol](contracts/watch-protocol.md)
+- [Localization](contracts/localization.md)
+
+**Authoring** - see [STYLE.md](STYLE.md) (voice, the feature/contract templates,
+and the reconciliation ritual) and [COVERAGE.md](COVERAGE.md) (the master
+tracking matrix: every doc, its status, and the iOS commit it was reconciled
+against).
 
 Canonical implementation references remain in:
 
@@ -65,6 +97,10 @@ Canonical implementation references remain in:
 
 ## Platform Parity Matrix
 
+The iOS column is verified against commit `9336321` (2026-05-31). The web and
+Android columns are carried from the prior spec and the Android parity tracker
+and are re-verified by their own teams.
+
 | Area | Web | iOS | Android | Spec |
 |---|---|---|---|---|
 | Shared catalog | Supported | Supported | Supported | [Platforms](platforms.md), [Browse](features/browse.md) |
@@ -72,6 +108,7 @@ Canonical implementation references remain in:
 | Background audio | Partial | Reference | Partial | [Playback](playback.md) |
 | Lock-screen/media controls | Supported where browser allows | Reference | Partial | [Playback](playback.md) |
 | Browse/search/filter | Supported | Reference | Supported | [Browse](features/browse.md) |
+| Search field | Supported | Reference | Supported | [Search](features/search.md) |
 | Map browse | Supported | Supported | Planned | [Browse](features/browse.md) |
 | Favorites | Supported | Reference | Supported | [Favorites](features/favorites.md) |
 | Favorites display modes | Partial | Reference | Partial | [Favorites](features/favorites.md) |
@@ -86,8 +123,11 @@ Canonical implementation references remain in:
 | iCloud/CloudKit sync | Not planned | Supported | Not applicable | [Data and sync](data-sync.md) |
 | Manual file export/import | Supported for favorites and custom stations | Planned/optional | Supported for Android library backup | [Data and sync](data-sync.md) |
 | Cross-platform account sync | Not planned | Not planned | Not planned for first Android port | [Data and sync](data-sync.md) |
+| Listening history (personal, opt-in, local) | Planned | Reference | Planned | [Listening history](features/listening-history.md) |
 | Diagnostics | Privacy-preserving telemetry | Local opt-in diagnostics | Local opt-in diagnostics | [Preferences and diagnostics](features/preferences-diagnostics.md) |
-| Watch companion | Not applicable | Supported as iPhone remote | Not applicable | [Platforms](platforms.md) |
+| Siri / Shortcuts / Spotlight | Planned | Supported | Planned | [Siri & Shortcuts](features/siri-shortcuts.md) |
+| First-run / offline launch | Runtime/cache dependent | Reference | Partial | [First run & offline](features/first-run-offline.md) |
+| Watch companion | Not applicable | Supported as iPhone remote | Not applicable | [Watch remote](features/watch-remote.md) |
 | Car mode / vehicle surfaces | Browser/OS dependent | Supported in app, CarPlay controls via media session | Partial media controls; Android Auto TBD | [Preferences and diagnostics](features/preferences-diagnostics.md) |
 
 ## How To Maintain This Spec
@@ -100,3 +140,10 @@ Canonical implementation references remain in:
 - Record larger tradeoffs as ADRs in `design/decisions/`.
 - Avoid duplicating catalog, privacy, or curation rules that already live in
   [Operations](../operations.md); link to them instead.
+- Follow the authoring standard and templates in [STYLE.md](STYLE.md); track
+  coverage and reconciliation status in [COVERAGE.md](COVERAGE.md).
+- Deep cross-platform invariants (schemas, state machines, merge rules) live in
+  [contracts/](contracts/); feature specs link to them rather than restating.
+- Before each iOS release, reconcile the specs that changed and bump their
+  `reconciled-against` commit, then refresh the iOS mirror via
+  `rrradio-ios/scripts/sync-spec.sh`.

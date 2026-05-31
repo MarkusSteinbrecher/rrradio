@@ -37,7 +37,11 @@ offers private iCloud/CloudKit sync between the user's Apple devices.
 
 ## iCloud And CloudKit
 
-iCloud/CloudKit is an iOS-only feature.
+iCloud/CloudKit is an iOS-only feature. The record types, merge algebra,
+conflict rules, and decode-isolation are pinned in
+[sync-merge](contracts/sync-merge.md); the privacy classification of what may and
+may not leave the device is
+[privacy & data boundaries](contracts/privacy-data-boundaries.md).
 
 The iOS app may sync:
 
