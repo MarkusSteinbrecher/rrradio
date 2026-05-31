@@ -6,17 +6,31 @@ platform uses native playback, storage, and OS integration.
 
 ## Shared Contracts
 
-- Catalog entries come from `public/stations.json`, generated from YAML.
+The formal, field-level cross-platform invariants live in
+[contracts/](contracts/); the bullets below are the high-level summary.
+
+- Catalog entries come from `public/stations.json`, generated from YAML; the
+  decoded field + versioning contract is
+  [catalog-schema](contracts/catalog-schema.md).
 - Publishable station statuses are `working`, `icy-only`, and `stream-only`.
 - Station identity is stable by station `id`.
 - Radio Browser binding, drift review, broadcaster metadata fields, and
-  curation rules are defined in [Operations](../operations.md).
-- Search must be whitespace-insensitive and tolerant of common diacritic input.
+  curation rules are defined in [Operations](../operations.md); the
+  per-broadcaster now-playing fetcher contracts are
+  [metadata-fetchers](contracts/metadata-fetchers.md).
+- Search must be whitespace-insensitive and tolerant of common diacritic input;
+  the normalizer and tier precedence are [search](contracts/search.md).
 - A platform may cache the catalog, but cache refresh must never require an app
   release when the published JSON changes.
 - User-entered stream URLs must be treated as private user data.
 - Telemetry and diagnostics must avoid stack traces, search queries, stream
-  URLs, track titles, artist names, and arbitrary user-entered strings.
+  URLs, track titles, artist names, and arbitrary user-entered strings; the full
+  data-boundary matrix is
+  [privacy & data boundaries](contracts/privacy-data-boundaries.md).
+- Playback states, retry, and queue stepping are
+  [playback-state-machine](contracts/playback-state-machine.md); the watch remote
+  wire format is [watch-protocol](contracts/watch-protocol.md); the localization
+  model is [localization](contracts/localization.md).
 
 ## Web
 

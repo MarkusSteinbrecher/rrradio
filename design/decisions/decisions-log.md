@@ -49,3 +49,7 @@ Browser code imports from `src/config.ts` (`STATS_WORKER_BASE`, `STATS_PROXY`, `
 ## Render extractions go through the harness (audit #77)
 
 When a DOM-touching function in `main.ts` reaches "second time I'm copying refs" or "want to add a unit test", extract it into a refs-based module under `src/render-*.ts` with a typed `*Refs` interface and a fragment in `src/render-test-harness.ts`. See `docs/testing.md` for the pattern.
+
+## No code-graph database for documentation (2026-05-31)
+
+Evaluated codebase→graph-DB tools — Blarify, Potpie, FalkorDB code-graph, code-graph-rag, Sourcegraph precise-nav, GitHub stack-graphs, Glean — plus the two Swift-capable ones, CodeQL and Joern. **Decision: skip.** The generic "repo → knowledge graph" tools don't support Swift at all; CodeQL/Joern do but are security/static-analysis platforms (macOS/JVM, GHAS-licensed for private repos), not documentation generators; and the accurate Swift symbol/reference graph already exists for free from the compiler IndexStore (+ Periphery / SourceKit-LSP). Cross-platform parity is a *contract* problem — solved by the markdown spec under `docs/spec/` (including the `contracts/` tier), not a call graph. A code graph would pay off only for a large polyglot monorepo, cross-service impact analysis, or RAG over code too big for a context window — none of which is one mid-size SwiftUI app. Escape hatch if code-level questions bite: run `periphery` against the iOS IndexStore, not a graph DB. Full rationale: rrradio-ios `internal/design/2026-05-31-cross-platform-spec-plan.md` §9.
