@@ -1,0 +1,513 @@
+/* =========================================================
+   TUNE IN — a fixed radio receiver. The page does not scroll
+   its content; tuning the dial dissolves one "station" into
+   static and locks the next into focus.
+   Layered on top of landing.css (tokens, tuner, buttons, device).
+   ========================================================= */
+
+html { scroll-behavior: auto; }
+body.tunein {
+  height: 100%;
+  /* Slightly warmer, deeper graphite than the doc page — this is a device. */
+  background:
+    radial-gradient(120% 90% at 50% 0%, #45453f 0%, #36362f 55%, #2a2a25 100%);
+  overflow-x: hidden;
+}
+
+/* The invisible scroll track. Height is set by JS (one "throw" per gap). */
+.tune-track { width: 1px; opacity: 0; pointer-events: none; }
+
+/* Everything you see is pinned to the viewport. */
+.receiver {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+}
+
+/* ── Nav (transparent, no blur panel needed over a fixed bg) ── */
+.nav--tunein {
+  position: static;
+  background: transparent;
+  border-bottom: 0;
+  flex: 0 0 auto;
+}
+
+/* ── Tuner: pulled out of sticky flow, sits just under the nav.
+   Must stay a *positioned* element so its absolutely-placed dial
+   internals keep using it as their containing block. ── */
+.tuner--fixed {
+  position: relative !important;
+  top: auto !important;
+  /* No nav above any more — give the dial breathing room from the top edge. */
+  margin: clamp(18px, 4vh, 44px) auto 0 !important;
+  flex: 0 0 auto;
+}
+
+/* Drop the little knob/dot that sits on top of the needle line. */
+.tunein .tuner--photo-clean .tuner__needle::after { display: none !important; }
+
+/* Preset caps (01, 02 …): white by default, yellow only when tuned-in. */
+.tunein .tuner--photo-clean .tuner__preset-cap {
+  color: #ffffff;
+  text-shadow:
+    0 -1px 0 rgba(0,0,0,0.96),
+    0 0 2px rgba(255,255,255,0.45),
+    0 0 6px rgba(255,255,255,0.25);
+}
+.tunein .tuner--photo-clean .tuner__preset:hover .tuner__preset-cap,
+.tunein .tuner--photo-clean .tuner__preset:focus-visible .tuner__preset-cap {
+  color: #ffffff;
+}
+.tunein .tuner--photo-clean .tuner__preset.is-current .tuner__preset-cap {
+  color: var(--accent);
+  text-shadow:
+    0 -1px 0 rgba(0,0,0,0.96),
+    0 0 2px rgba(255,255,0,0.92),
+    0 0 7px rgba(255,255,0,0.55);
+}
+
+/* ════════════════════════════════════════════════════════
+   RECEIVER MAIN — one CRT surface from the nav to the readout.
+   The static + scanlines fill this whole area; the dial floats
+   on top of it, so only the radio stays clear while tuning.
+   ════════════════════════════════════════════════════════ */
+.receiver__main {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.receiver__overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.receiver__scan {
+  z-index: 2;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.16) 0px,
+    rgba(0, 0, 0, 0.16) 1px,
+    rgba(255, 255, 255, 0.012) 2px,
+    rgba(255, 255, 255, 0.012) 3px
+  );
+  opacity: 0.45;
+  mix-blend-mode: overlay;
+}
+.receiver__static {
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  opacity: 0;            /* JS drives this to 1 - clarity */
+  mix-blend-mode: screen;
+  image-rendering: pixelated;
+}
+/* Keep the dial above the static, and the stage content below it. */
+.tunein .tuner--fixed { z-index: 4; }
+
+/* Drop the dial's soft halo/vignette — against the static it reads as a
+   blurred graphite smear to the left and right of the radio. */
+.tunein .tuner--photo-clean::before { display: none !important; }
+
+/* ════════════════════════════════════════════════════════
+   THE STAGE — the broadcast window
+   ════════════════════════════════════════════════════════ */
+.stage {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 4vh, 48px) 28px;
+  overflow: hidden;
+}
+
+/* Clarity is the master signal: 1 = locked & sharp, 0 = pure static.
+   JS writes it to --clarity; everything else derives from it. */
+.stage__content {
+  --clarity: 1;
+  --noise: 0;
+  position: relative;
+  z-index: 2;
+  width: min(960px, 100%);
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: clamp(20px, 3.5vh, 40px);
+  /* De-focus the whole stage (text + media) as you tune away. */
+  filter: blur(calc(var(--noise) * 6px)) brightness(calc(1 - var(--noise) * 0.28));
+  opacity: calc(0.16 + 0.84 * var(--clarity));
+  will-change: filter, opacity;
+}
+.stage__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(12px, 2vh, 22px);
+  min-width: 0;
+}
+
+/* Single-product stations: text and phone share a row on wide screens. */
+@media (min-width: 880px) {
+  .stage__content.has-media:not(.is-trio) {
+    flex-direction: row;
+    width: min(1000px, 100%);
+    gap: clamp(36px, 5vw, 72px);
+    text-align: left;
+  }
+  .stage__content.has-media:not(.is-trio) .stage__text { align-items: flex-start; text-align: left; }
+  .stage__content.has-media:not(.is-trio) .stage__title { text-wrap: balance; }
+}
+
+/* Signal / station line. Lives between the dial and the stage and floats
+   clear above the static (z-index 4, like the dial) so the live frequency
+   stays legible while tuning — only the broadcast below it dissolves. */
+.stage__signal {
+  position: relative;
+  z-index: 4;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  /* Same box as the dial, so the two share a left edge. */
+  width: min(calc(100% - 28px), 1040px);
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+  flex-wrap: nowrap;
+  gap: 9px;
+  margin: clamp(12px, 2.4vh, 22px) auto clamp(4px, 1vh, 10px);
+  font-family: var(--mono);
+  font-size: clamp(11px, 1.5vw, 13px);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+/* Start the "FM" at the rrradio logo on the dial face: the logo mark sits
+   at left:17.7% with a 3.3% width, so its left edge ≈ 16% of the dial. */
+.stage__signal .stage__band { margin-left: 16%; }
+.stage__band { color: var(--accent); letter-spacing: 0.18em; }
+.stage__freq { color: var(--ink); font-weight: 500; letter-spacing: 0.12em; font-variant-numeric: tabular-nums; }
+.stage__mhz { font-size: 0.78em; color: var(--ink-4); }
+.stage__sep { color: var(--ink-4); }
+.stage__tag { color: var(--ink-2); }
+
+/* Title — the headline that resolves out of the noise. */
+.stage__title {
+  margin: 0;
+  font-weight: 300;
+  font-size: clamp(34px, 6vw, 72px);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  text-wrap: balance;
+  /* Chromatic ghosting that widens with noise. */
+  text-shadow:
+    calc(var(--noise) * -2.4px) 0 rgba(255, 40, 90, calc(0.55 * var(--noise))),
+    calc(var(--noise) *  2.4px) 0 rgba(40, 210, 255, calc(0.55 * var(--noise)));
+}
+
+/* Body — the supporting broadcast copy. */
+.stage__body {
+  margin: 0;
+  max-width: 600px;
+  font-size: clamp(17px, 2.3vw, 21px);
+  line-height: 1.6;
+  color: var(--ink-2);
+  text-wrap: pretty;
+  text-shadow:
+    calc(var(--noise) * -1.4px) 0 rgba(255, 40, 90, calc(0.4 * var(--noise))),
+    calc(var(--noise) *  1.4px) 0 rgba(40, 210, 255, calc(0.4 * var(--noise)));
+}
+.stage__body a.link { color: var(--ink); text-decoration-color: var(--ink-3); }
+
+/* Media (phone screens) for stations that show the product. */
+.stage__media {
+  display: flex;
+  gap: clamp(12px, 2vw, 26px);
+  align-items: flex-end;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+.stage__media:empty { display: none; }
+.stage__media .device {
+  width: auto;
+  max-width: none;
+  height: clamp(190px, 36vh, 340px);
+  margin: 0;
+}
+.stage__media .device__screen { height: 100%; }
+.stage__media .device__shot { height: 100%; width: 100%; object-fit: cover; }
+/* Trio: three smaller phones, the centre one a touch taller. */
+.stage__content.is-trio { gap: clamp(12px, 2vh, 24px); }
+.stage__media--trio .device { height: clamp(132px, 23vh, 230px); }
+.stage__media--trio .device:nth-child(2),
+.stage__media--trio .stage__phone:nth-child(2) .device { height: clamp(148px, 26vh, 258px); }
+.stage__media__cap {
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  text-align: center;
+}
+.stage__phone { display: flex; flex-direction: column; align-items: center; }
+
+/* ── "Pick two" trilemma diagram (idea station) ─────────── */
+.trilemma {
+  position: relative;
+  width: clamp(248px, 31vw, 344px);
+  aspect-ratio: 1 / 1;
+  flex: 0 0 auto;
+}
+.trilemma__svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.trilemma__tri {
+  fill: rgba(244, 244, 242, 0.022);
+  stroke: rgba(244, 244, 242, 0.42);
+  stroke-width: 1.3;
+  stroke-linejoin: round;
+}
+.trilemma__spoke { stroke: rgba(255, 255, 0, 0.5); stroke-width: 1; stroke-dasharray: 1.5 4.5; }
+.trilemma__node { fill: var(--ink); }
+.trilemma__halo { fill: rgba(255, 255, 0, 0.14); }
+.trilemma__core { fill: var(--accent); filter: drop-shadow(0 0 5px rgba(255, 255, 0, 0.85)); }
+.trilemma__label {
+  position: absolute;
+  font-family: var(--mono);
+  font-size: clamp(11px, 1.25vw, 13px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.trilemma__label--top { top: 1%; left: 50%; transform: translateX(-50%); }
+.trilemma__label--left { bottom: 3%; left: -2%; }
+.trilemma__label--right { bottom: 3%; right: -2%; }
+.trilemma__center {
+  position: absolute;
+  top: 64.5%; left: 50%; transform: translateX(-50%);
+  font-family: var(--sans); font-weight: 600;
+  font-size: clamp(13px, 1.4vw, 15px);
+  color: var(--accent);
+  text-shadow: 0 0 9px rgba(255, 255, 0, 0.45);
+  white-space: nowrap;
+}
+
+/* ── Wireframe globe (catalog station) ──────────────────── */
+.globe {
+  position: relative;
+  width: clamp(264px, 34vw, 384px);
+  aspect-ratio: 1 / 1;
+  flex: 0 0 auto;
+}
+.globe__cv { display: block; width: 100%; height: 100%; }
+
+/* ── Feature list (left column on the features station) ── */
+.featurelist {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.featurelist:empty { display: none; }
+.featurelist__item { display: flex; align-items: baseline; gap: 14px; }
+.featurelist__n {
+  font-family: var(--mono);
+  font-size: 12px; letter-spacing: 0.1em;
+  color: var(--accent); opacity: 0.85;
+  min-width: 1.6em; flex: 0 0 auto;
+}
+.featurelist__t {
+  font-size: clamp(17px, 2.05vw, 20px);
+  line-height: 1.34; color: var(--ink);
+}
+.has-features .stage__title { font-size: clamp(28px, 4.4vw, 46px); }
+
+/* ── Device-screenshot carousel ── */
+.carousel {
+  position: relative;
+  width: clamp(280px, 36vw, 404px);
+  height: clamp(322px, 55vh, 464px);
+  display: flex; flex-direction: column; gap: 16px;
+  flex: 0 0 auto;
+}
+.carousel__stage { position: relative; flex: 1 1 auto; width: 100%; min-height: 0; }
+.cslide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 15px; opacity: 0; pointer-events: none;
+  transition: opacity 0.55s ease;
+}
+.cslide.is-active { opacity: 1; pointer-events: auto; }
+.cslide__label {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-3);
+}
+.cdev {
+  background: #15140f; border: 7px solid #15140f;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5), 0 22px 44px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(255,255,255,0.05);
+  flex: 0 0 auto;
+}
+.cdev__screen { width: 100%; height: 100%; overflow: hidden; border-radius: inherit; background: #000; }
+.cdev__shot { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cdev__soon {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(244,244,242,0.03);
+}
+.cdev__soon-text {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(244,244,242,0.42); text-align: center; padding: 0 10px;
+}
+.cdev--phone { height: clamp(248px, 44vh, 376px); aspect-ratio: 9 / 19.5; border-width: 7px; border-radius: 30px; }
+.cdev--pad   { height: clamp(228px, 40vh, 332px); aspect-ratio: 3 / 4; border-width: 9px; border-radius: 20px; }
+.cdev--watch { height: clamp(158px, 28vh, 228px); aspect-ratio: 1 / 1.18; border-width: 8px; border-radius: 38px; }
+
+.cnav {
+  position: absolute; top: 44%; transform: translateY(-50%);
+  width: 34px; height: 34px; border-radius: 999px;
+  border: 1px solid var(--line-2); background: rgba(20,19,16,0.55);
+  color: var(--ink-2); font-size: 18px; line-height: 1;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  transition: color 0.15s, border-color 0.15s, background 0.15s; z-index: 4;
+}
+.cnav:hover { color: var(--ink); border-color: var(--ink-3); background: rgba(20,19,16,0.78); }
+.cnav--prev { left: -8px; }
+.cnav--next { right: -8px; }
+.cdots { display: flex; gap: 7px; justify-content: center; flex: 0 0 auto; }
+.cdot {
+  width: 7px; height: 7px; border-radius: 999px; border: 0; padding: 0;
+  background: var(--ink-4); cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+.cdot.is-active { background: var(--accent); transform: scale(1.25); }
+
+/* Sign-off CTAs. */
+.stage__cta {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 4px;
+}
+.has-media:not(.is-trio) .stage__cta { justify-content: flex-start; }
+.stage__cta[hidden] { display: none; }
+
+/* ════════════════════════════════════════════════════════
+   READOUT BAR
+   ════════════════════════════════════════════════════════ */
+.readout {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1040px;
+  width: calc(100% - 56px);
+  margin: 0 auto;
+  padding: 16px 0 24px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  border-top: 1px solid var(--line);
+}
+.readout__freq { color: var(--ink-2); letter-spacing: 0.12em; font-variant-numeric: tabular-nums; }
+.readout__hint { color: var(--ink-4); letter-spacing: 0.14em; }
+.readout__idx { color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+/* Station rail — desktop hides it (the dial presets do the job). */
+.rail { display: none; }
+.rail__dot {
+  appearance: none; border: 0; background: transparent; cursor: pointer;
+  padding: 16px 11px; margin: 0;            /* generous tap target */
+  display: flex; align-items: center; justify-content: center;
+}
+.rail__dot::before {
+  content: '';
+  width: 8px; height: 8px; border-radius: 999px;
+  background: var(--ink-4);
+  transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
+}
+.rail__dot.is-current::before {
+  background: var(--accent);
+  transform: scale(1.25);
+  box-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+}
+
+@media (max-width: 680px) {
+  .readout { width: calc(100% - 32px); padding-bottom: 14px; gap: 10px; }
+  .readout__hint { display: none; }
+  .rail { display: flex; align-items: center; justify-content: center; gap: 2px; flex: 1 1 auto; }
+}
+@media (max-width: 380px) {
+  .readout__freq, .readout__idx { font-size: 10px; }
+}
+
+/* ── Embedded in the iPhone frame: drop our own nav, inset for safe areas ── */
+.tunein.is-embed .nav { display: none; }
+.tunein.is-embed .receiver { padding-top: 52px; }
+.tunein.is-embed .readout { padding-bottom: 30px; }
+
+/* ── A few tunein tweaks to the ghost CTA from landing.css ── */
+.tunein .btn-ghost { border-color: var(--line-2); }
+
+/* ── Screen-reader-only transcript ── */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0);
+  white-space: nowrap; border: 0;
+}
+
+/* ── Reduced motion: no scramble shimmer, just a clean cross-fade ── */
+@media (prefers-reduced-motion: reduce) {
+  .stage__title, .stage__body { text-shadow: none; }
+  .receiver__static { display: none; }
+}
+
+/* ── Short viewports: trim the dial + spacing so the stage breathes ── */
+@media (max-height: 720px) {
+  .stage { padding-top: 8px; padding-bottom: 8px; }
+  .stage__media .device { height: clamp(180px, 30vh, 300px); }
+}
+
+/* ════════════════════════════════════════════════════════
+   PHONE — portrait, thumb-driven
+   ════════════════════════════════════════════════════════ */
+@media (max-width: 680px) {
+  .nav__inner { padding-top: 14px; }
+  .stage { padding: 12px 20px; }
+  .stage__content { width: 100%; gap: clamp(14px, 2.6vh, 24px); }
+  .stage__signal { font-size: 11px; letter-spacing: 0.2em; gap: 7px; }
+  .stage__title { font-size: clamp(30px, 8.4vw, 46px); }
+  .stage__body { font-size: 16px; max-width: 36ch; }
+  .stage__media { gap: 10px; }
+  .stage__media .device { height: clamp(210px, 36vh, 330px); }
+  .stage__media--trio .device { height: clamp(116px, 19vh, 190px); }
+  .stage__media--trio .device:nth-child(2),
+  .stage__media--trio .stage__phone:nth-child(2) .device { height: clamp(130px, 21vh, 210px); }
+  .stage__media--trio .stage__media__cap { font-size: 9px; letter-spacing: 0.1em; }
+  .trilemma { width: clamp(208px, 58vw, 264px); }
+  .globe { width: clamp(228px, 64vw, 300px); }
+  .carousel { width: min(86vw, 360px); height: clamp(300px, 50vh, 430px); }
+  .featurelist { gap: 12px; }
+  .featurelist__t { font-size: 16px; }
+  .stage__cta { flex-direction: column; align-items: stretch; width: 100%; max-width: 320px; }
+}
+
