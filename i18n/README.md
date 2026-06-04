@@ -15,8 +15,9 @@ now but will draw from the same files as it gets localized.
 | [`de.yaml`](de.yaml) | Deutsch (German) | translation |
 | [`fr.yaml`](fr.yaml) | Français (French) | translation |
 | [`es.yaml`](es.yaml) | Español (Spanish) | translation |
+| [`it.yaml`](it.yaml) | Italiano (Italian) | translation |
 
-Each file holds the same ~360 keys: **352 UI strings** plus **10 plurals**.
+Each file holds the same ~366 keys: **356 UI strings** plus **10 plurals**.
 
 ## How to propose a change
 
