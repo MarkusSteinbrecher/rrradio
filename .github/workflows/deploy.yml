@@ -150,18 +150,10 @@ jobs:
       - run: npm run check-duplicates
 
   # ────────────────────────────────────────────────────────────
-  # Deploy: only on push-to-main, after the build + integrity checks pass.
-  #
-  # NOTE: `e2e` is intentionally NOT in `needs`. The Playwright browser
-  # install deadlocks on Node 24 (download hits 100%, then the extract
-  # step hangs — see #448), so gating the deploy on it would block every
-  # publish. The e2e job still runs on every push as a non-blocking
-  # signal; restore it here once #448 lands. The deploy is still gated on
-  # web (typecheck + unit tests + vite build + CSP audit), worker, and
-  # catalog (catalog/highlights/duplicate integrity).
+  # Deploy: only on push-to-main, only after all checks pass.
   # ────────────────────────────────────────────────────────────
   deploy:
-    needs: [web, worker, catalog]
+    needs: [web, worker, catalog, e2e]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     environment:
