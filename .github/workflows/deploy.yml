@@ -22,8 +22,13 @@ permissions:
   pages: write
   id-token: write
 
+# Scope concurrency per workflow + ref. A static `pages` group meant ANY
+# run on ANY branch (e.g. a Dependabot PR) cancelled the in-progress main
+# deploy — which silently dropped publishes. Per-ref keeps each branch in
+# its own lane: a new push to main supersedes an older one, but unrelated
+# PR runs can't cancel the main deploy.
 concurrency:
-  group: pages
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
