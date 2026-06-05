@@ -71,12 +71,18 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     needs: web
-    # Backstop: the Playwright CDN download has stalled indefinitely after
-    # hitting 100% (a known transient post-download hang). Without this the
-    # job — and the deploy gating on it — could hang for hours.
-    timeout-minutes: 20
+    # Run inside the official Playwright image: Chromium and its system
+    # libraries are baked in, so there's no `playwright install` download
+    # step — which is what deadlocked on Node 24 (#448). The image tag
+    # MUST match the playwright version in package-lock.json (1.59.1) so
+    # the pre-baked browser revision matches and nothing re-downloads.
+    container:
+      image: mcr.microsoft.com/playwright:v1.59.1-noble
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+      # setup-node still pins Node 24 (overriding the image's bundled
+      # Node) so `npm ci` keeps working against the npm-11 lockfile.
       - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
@@ -86,24 +92,8 @@ jobs:
         with:
           name: dist
           path: dist
-      - name: Install Chromium
-        # The browser download from cdn.playwright.dev occasionally stalls
-        # right after 100% (extract / next-asset step hangs). Bound each
-        # attempt with `timeout` and retry so a transient stall can't wedge
-        # the job; the job-level timeout-minutes is the final backstop.
-        run: |
-          for attempt in 1 2 3; do
-            echo "::group::playwright install (attempt $attempt)"
-            if timeout 300 npx playwright install --with-deps chromium; then
-              echo "::endgroup::"
-              exit 0
-            fi
-            echo "::endgroup::"
-            echo "playwright install attempt $attempt failed or timed out; retrying…"
-            sleep 5
-          done
-          echo "playwright install failed after 3 attempts" >&2
-          exit 1
+      # No browser install: the image provides Chromium at
+      # $PLAYWRIGHT_BROWSERS_PATH (/ms-playwright) for playwright 1.59.1.
       - name: Smoke tests
         run: npm run test:e2e
       - uses: actions/upload-artifact@v4
@@ -160,18 +150,10 @@ jobs:
       - run: npm run check-duplicates
 
   # ────────────────────────────────────────────────────────────
-  # Deploy: only on push-to-main, after the build + integrity checks pass.
-  #
-  # NOTE: `e2e` is intentionally NOT in `needs`. The Playwright browser
-  # install deadlocks on Node 24 (download hits 100%, then the extract
-  # step hangs — see #448), so gating the deploy on it would block every
-  # publish. The e2e job still runs on every push as a non-blocking
-  # signal; restore it here once #448 lands. The deploy is still gated on
-  # web (typecheck + unit tests + vite build + CSP audit), worker, and
-  # catalog (catalog/highlights/duplicate integrity).
+  # Deploy: only on push-to-main, only after all checks pass.
   # ────────────────────────────────────────────────────────────
   deploy:
-    needs: [web, worker, catalog]
+    needs: [web, worker, catalog, e2e]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     environment:
