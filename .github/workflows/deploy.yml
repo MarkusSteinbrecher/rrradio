@@ -66,6 +66,10 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     needs: web
+    # Backstop: the Playwright CDN download has stalled indefinitely after
+    # hitting 100% (a known transient post-download hang). Without this the
+    # job — and the deploy gating on it — could hang for hours.
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v6
@@ -78,7 +82,23 @@ jobs:
           name: dist
           path: dist
       - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+        # The browser download from cdn.playwright.dev occasionally stalls
+        # right after 100% (extract / next-asset step hangs). Bound each
+        # attempt with `timeout` and retry so a transient stall can't wedge
+        # the job; the job-level timeout-minutes is the final backstop.
+        run: |
+          for attempt in 1 2 3; do
+            echo "::group::playwright install (attempt $attempt)"
+            if timeout 300 npx playwright install --with-deps chromium; then
+              echo "::endgroup::"
+              exit 0
+            fi
+            echo "::endgroup::"
+            echo "playwright install attempt $attempt failed or timed out; retrying…"
+            sleep 5
+          done
+          echo "playwright install failed after 3 attempts" >&2
+          exit 1
       - name: Smoke tests
         run: npm run test:e2e
       - uses: actions/upload-artifact@v4
@@ -135,10 +155,18 @@ jobs:
       - run: npm run check-duplicates
 
   # ────────────────────────────────────────────────────────────
-  # Deploy: only on push-to-main, only after all checks pass
+  # Deploy: only on push-to-main, after the build + integrity checks pass.
+  #
+  # NOTE: `e2e` is intentionally NOT in `needs`. The Playwright browser
+  # install deadlocks on Node 24 (download hits 100%, then the extract
+  # step hangs — see #448), so gating the deploy on it would block every
+  # publish. The e2e job still runs on every push as a non-blocking
+  # signal; restore it here once #448 lands. The deploy is still gated on
+  # web (typecheck + unit tests + vite build + CSP audit), worker, and
+  # catalog (catalog/highlights/duplicate integrity).
   # ────────────────────────────────────────────────────────────
   deploy:
-    needs: [web, worker, catalog, e2e]
+    needs: [web, worker, catalog]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     environment:
