@@ -7,7 +7,7 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "dev": "node tools/build-catalog.mjs && node tools/extract-manual-source.mjs && node tools/dedupe-raw.mjs && node tools/build-sources.mjs && vite",
+    "dev": "node tools/build-catalog.mjs && node tools/build-highlights.mjs && node tools/extract-manual-source.mjs && node tools/dedupe-raw.mjs && node tools/build-sources.mjs && vite",
     "fetch-rb-raw": "node tools/fetch-rb-raw.mjs",
     "dedupe-raw": "node tools/dedupe-raw.mjs",
     "extract-manual-source": "node tools/extract-manual-source.mjs",
@@ -20,7 +20,9 @@
     "test:e2e": "playwright test",
     "test:e2e:install": "playwright install --with-deps chromium",
     "typecheck": "tsc --noEmit",
-    "catalog": "node tools/build-catalog.mjs && node tools/build-favicon-variants.mjs",
+    "catalog": "node tools/build-catalog.mjs && node tools/build-highlights.mjs && node tools/build-favicon-variants.mjs",
+    "highlights": "node tools/build-highlights.mjs",
+    "check-highlights": "node tools/check-highlights.mjs",
     "favicon-variants": "node tools/build-favicon-variants.mjs",
     "catalog:ios-local": "node tools/build-ios-local-catalog.mjs",
     "station-capabilities": "node tools/build-station-capabilities.mjs",

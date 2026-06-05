@@ -33,6 +33,32 @@ public/station-capabilities-ios-local.json
 
 Those local files may include HTTP streams and are not the website publish contract.
 
+## Featured highlights (`highlights.json`)
+
+The "Featured by rrradio" rail on the Browse discovery surface (web + iOS + Android) is driven by an **editorial feed**, separate from the catalog. Like the catalog it's **data, not code**:
+
+- **Source of truth:** `data/highlights.yaml` — a short, ordered list of curated entries.
+- **Build artifact:** `public/highlights.json`, written by `tools/build-highlights.mjs` and served at `https://rrradio.org/highlights.json`.
+
+Each entry **references a published catalog station by id** (the `id:` from `data/stations.yaml`). The station's name, logo, genre, and flag are resolved from the catalog at render time, so only the curated fields live in the feed:
+
+| Field | Required | Meaning |
+|---|---|---|
+| `station` | yes | catalog station id (alias: `stationId`). Must be a *published* station (`working` / `stream-only` / `icy-only`) or the build fails. |
+| `badge.label` | yes | short editorial tag, e.g. `Station of the week` (the UI uppercases it). |
+| `badge.accent` | no | `#rrggbb` card accent. Omit to use the app accent token (green in light, yellow in dark). |
+| `blurb` | no | one-line editorial note (clamped to ~3 lines on a card). |
+| `startsOn` / `endsOn` | no | `YYYY-MM-DD` scheduling window — the entry is hidden outside `startsOn … endsOn` (either bound is open if absent). |
+
+```bash
+npm run highlights         # regenerate public/highlights.json from the YAML
+npm run check-highlights   # CI gate: JSON ↔ YAML in sync + every id published
+```
+
+`npm run highlights` also runs as part of `npm run catalog` and `npm run dev`. The committed `public/highlights.json` is what deploys (CI serves the artifact, not a fresh build), so **edit the YAML, run `npm run highlights`, and commit both**. `check-highlights` (wired into the CI `catalog` job) fails the build if you forget. The `version` field is a deterministic content hash — a cache-busting signal, not a timestamp — so the artifact is reproducible.
+
+**Delivery model:** clients fetch the file over HTTPS, cache the last good copy, and re-fetch on a throttle. An unknown `station` id is silently dropped client-side, and an empty feed hides the rail entirely — so the featured set changes with a web deploy, **no native release needed**. When the file is absent the rail simply stays hidden (the genre/country chips still render).
+
 ## Linking a station to its Radio Browser record
 
 Every YAML entry can optionally carry three fields that bind it to a Radio Browser record so the build re-uses upstream data instead of duplicating it:

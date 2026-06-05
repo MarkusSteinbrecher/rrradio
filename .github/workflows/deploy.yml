@@ -116,6 +116,8 @@ jobs:
   #   - check-catalog: stations.yaml ↔ stations.json must be in sync.
   #     Catches "edited YAML, forgot to run npm run catalog before
   #     committing".
+  #   - check-highlights: highlights.yaml ↔ highlights.json in sync, and
+  #     every featured station id is published.
   #   - check-duplicates: no two stations share a uuid / streamUrl /
   #     normalised name.
   # ────────────────────────────────────────────────────────────
@@ -129,6 +131,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run check-catalog
+      - run: npm run check-highlights
       - run: npm run check-duplicates
 
   # ────────────────────────────────────────────────────────────

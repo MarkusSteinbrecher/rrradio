@@ -1,0 +1,78 @@
+# rrradio editorial highlights — the "Featured by rrradio" rail in the
+# Browse discovery surface (web + iOS + Android).
+#
+# This file is the SOURCE OF TRUTH. `tools/build-highlights.mjs` validates
+# it against the published catalog and writes public/highlights.json, which
+# is served at https://rrradio.org/highlights.json. Clients fetch that file,
+# cache the last good copy, and resolve each `station` id against the catalog
+# at render time — so the featured set changes with a web deploy, no native
+# release needed.
+#
+#   npm run highlights        — regenerate public/highlights.json
+#   npm run check-highlights  — verify the committed JSON matches this file
+#
+# Each entry references a PUBLISHED catalog station by id (the `id:` field in
+# data/stations.yaml; only working / stream-only / icy-only stations ship).
+# Only the curated fields live here — name, logo, genre, and flag come from
+# the catalog.
+#
+# Fields
+#   station   (required) — catalog station id, e.g. builtin-grrif
+#   badge     (required) — { label, accent? }
+#                          label:  short editorial tag (UPPERCASED in the UI)
+#                          accent: optional #rrggbb card accent; omit to use
+#                                  the app's accent token (green light / yellow dark)
+#   blurb     (optional) — one-line editorial note (≤ ~3 lines on a card)
+#   startsOn  (optional) — YYYY-MM-DD; the entry is hidden before this day
+#   endsOn    (optional) — YYYY-MM-DD; the entry is hidden after this day
+#
+# Order matters: entries render left-to-right in the rail. Clients show the
+# first 8. A row whose `station` isn't published is a build error, so this
+# file can't reference a station that won't render.
+
+- station: builtin-grrif
+  badge:
+    label: Station of the week
+    accent: "#0f8a40"
+  blurb: Lausanne's indie outpost — guitars, deep cuts, and zero repeats.
+
+- station: builtin-bbc-radio-6-music
+  badge:
+    label: Editor's pick
+    accent: "#e6007e"
+  blurb: "The BBC's alternative-music home: new releases meets the canon."
+
+- station: builtin-fip
+  badge:
+    label: Genre-less gem
+    accent: "#d33b2c"
+  blurb: French public radio with no playlist and no borders — jazz into electronica into film scores.
+
+- station: byte-fm
+  badge:
+    label: New on rrradio
+    accent: "#2a6fdb"
+  blurb: Hamburg's music-first independent — curated shows, no algorithm.
+
+- station: builtin-kexp
+  badge:
+    label: Local favourite
+    accent: "#f25c05"
+  blurb: Seattle's legendary listener-supported station, championing new artists.
+
+- station: soma-groove-salad
+  badge:
+    label: Late-night pick
+  blurb: A nicely chilled plate of ambient and downtempo from SomaFM.
+
+# Scheduling example (commented out) — uncomment and adjust the dates to
+# run a time-boxed feature. ISO dates compare chronologically, so an entry
+# shows only while startsOn ≤ today ≤ endsOn:
+#
+# - station: builtin-oe1
+#   badge:
+#     label: Festival season
+#     accent: "#6c4ec2"
+#   blurb: Live classical and culture from Vienna all summer.
+#   startsOn: "2026-07-01"
+#   endsOn: "2026-08-31"
