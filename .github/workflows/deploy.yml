@@ -66,6 +66,10 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     needs: web
+    # Backstop: the Playwright CDN download has stalled indefinitely after
+    # hitting 100% (a known transient post-download hang). Without this the
+    # job — and the deploy gating on it — could hang for hours.
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v6
@@ -78,7 +82,23 @@ jobs:
           name: dist
           path: dist
       - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+        # The browser download from cdn.playwright.dev occasionally stalls
+        # right after 100% (extract / next-asset step hangs). Bound each
+        # attempt with `timeout` and retry so a transient stall can't wedge
+        # the job; the job-level timeout-minutes is the final backstop.
+        run: |
+          for attempt in 1 2 3; do
+            echo "::group::playwright install (attempt $attempt)"
+            if timeout 300 npx playwright install --with-deps chromium; then
+              echo "::endgroup::"
+              exit 0
+            fi
+            echo "::endgroup::"
+            echo "playwright install attempt $attempt failed or timed out; retrying…"
+            sleep 5
+          done
+          echo "playwright install failed after 3 attempts" >&2
+          exit 1
       - name: Smoke tests
         run: npm run test:e2e
       - uses: actions/upload-artifact@v4
