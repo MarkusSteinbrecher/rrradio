@@ -38,7 +38,7 @@ jobs:
   web:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
@@ -80,7 +80,7 @@ jobs:
       image: mcr.microsoft.com/playwright:v1.59.1-noble
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       # setup-node still pins Node 24 (overriding the image's bundled
       # Node) so `npm ci` keeps working against the npm-11 lockfile.
       - uses: actions/setup-node@v6
@@ -110,7 +110,7 @@ jobs:
   worker:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
@@ -139,7 +139,7 @@ jobs:
   catalog:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
