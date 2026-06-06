@@ -2,6 +2,17 @@ name = "rrradio-stats"
 main = "src/index.ts"
 compatibility_date = "2025-04-01"
 
+# Bind the first-party custom domain the apps actually call. The iOS app uses
+# WorkerAPI.base = "https://stats.rrradio.org" (RegionResolver.swift) per the
+# privacy contract (must be first-party, no *.workers.dev). Without this route
+# that host is NXDOMAIN, so every Worker-backed feature silently fails: now-
+# playing metadata proxy + BBC fetchers, region resolution, "report broken
+# station", and the stats dashboard. Requires the rrradio.org zone in this
+# Cloudflare account; `wrangler deploy` provisions the proxied DNS record.
+routes = [
+  { pattern = "stats.rrradio.org", custom_domain = true },
+]
+
 # Public, non-secret config. Secrets (GOATCOUNTER_TOKEN, ADMIN_TOKEN)
 # are set via `wrangler secret put` and stored on Cloudflare's side.
 [vars]
