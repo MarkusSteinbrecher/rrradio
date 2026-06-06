@@ -291,7 +291,7 @@ iOS source the contract was reconciled against:
 - **Developer-personal infrastructure exposure — RESOLVED at `9336321`.** Five
   production paths previously routed user data (IP, station IDs, stream hosts,
   user email return address) to a developer-personal Cloudflare Workers
-  subdomain (`rrradio-stats.markussteinbrecher.workers.dev`) and personal Gmail
+  subdomain (`stats.rrradio.org`) and personal Gmail
   (`redsukramst@gmail.com`). Migrated to `stats.rrradio.org` and
   `feedback@rrradio.org` by commit `2cd5cff` ("PR2: privacy boundary"). The
   contract above states the corrected intent; the original findings:

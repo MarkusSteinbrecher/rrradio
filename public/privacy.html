@@ -156,7 +156,7 @@
     <p>The same is true for now-playing metadata fetched directly from broadcasters whose APIs allow cross-origin requests (SRG SSR, MDR, SWR, FFH, Klassik Radio, laut.fm).</p>
 
     <h2>Cloudflare Worker proxy</h2>
-    <p>For broadcasters whose now-playing APIs don't allow cross-origin requests, the app routes those metadata fetches through a small Cloudflare Worker we operate (<code>rrradio-stats.markussteinbrecher.workers.dev</code>). Cloudflare's standard infrastructure logging applies to those requests (typically: IP address held briefly for abuse prevention, then discarded). The Worker itself stores nothing; it just forwards the broadcaster's JSON back to your browser.</p>
+    <p>For broadcasters whose now-playing APIs don't allow cross-origin requests, the app routes those metadata fetches through a small Cloudflare Worker we operate (<code>stats.rrradio.org</code>). Cloudflare's standard infrastructure logging applies to those requests (typically: IP address held briefly for abuse prevention, then discarded). The Worker itself stores nothing; it just forwards the broadcaster's JSON back to your browser.</p>
     <p>The same Worker also fronts the GoatCounter stats endpoint that backs the app's "Stats" sheet — the API token stays on the server side so the public page never sees it.</p>
 
     <h2>What we don't do</h2>

@@ -21,7 +21,7 @@ const root = join(__dirname, '..');
 const days = Math.max(1, Math.min(365, Number(process.argv[2]) || 30));
 const limit = Math.max(1, Math.min(50, Number(process.argv[3]) || 20));
 
-const WORKER = 'https://rrradio-stats.markussteinbrecher.workers.dev';
+const WORKER = 'https://stats.rrradio.org';
 const url = `${WORKER}/api/public/top-stations?days=${days}&limit=${limit}`;
 
 const res = await fetch(url);

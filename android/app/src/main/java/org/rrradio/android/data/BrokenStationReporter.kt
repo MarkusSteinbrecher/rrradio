@@ -13,7 +13,7 @@ import java.io.IOException
 import java.net.URI
 
 private const val BROKEN_STATION_ENDPOINT =
-    "https://rrradio-stats.markussteinbrecher.workers.dev/api/public/report-broken"
+    "https://stats.rrradio.org/api/public/report-broken"
 
 class BrokenStationReporter(
     private val client: OkHttpClient = OkHttpClient(),

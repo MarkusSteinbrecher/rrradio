@@ -14,7 +14,7 @@
  * no env file ships the same URL the dashboard expects.
  */
 
-const DEFAULT_STATS_WORKER_BASE = 'https://rrradio-stats.markussteinbrecher.workers.dev';
+const DEFAULT_STATS_WORKER_BASE = 'https://stats.rrradio.org';
 
 /** Base URL of the rrradio-stats Cloudflare Worker (no trailing slash). */
 export const STATS_WORKER_BASE: string =
