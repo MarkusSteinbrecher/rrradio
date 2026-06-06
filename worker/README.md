@@ -121,7 +121,7 @@ Confirm:
 
 ```sh
 # pick any allowlisted URL and check the proxy returns the upstream JSON
-curl -s 'https://rrradio-stats.markussteinbrecher.workers.dev/api/public/proxy?url=https%3A%2F%2Fwww.antenne.de%2Fapi%2Fmetadata%2Fnow' \
+curl -s 'https://stats.rrradio.org/api/public/proxy?url=https%3A%2F%2Fwww.antenne.de%2Fapi%2Fmetadata%2Fnow' \
   | python3 -c 'import json,sys; d=json.load(sys.stdin); print(len(d["data"]), "mountpoints")'
 ```
 

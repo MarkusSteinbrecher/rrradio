@@ -29,7 +29,7 @@ permissions:
   issues: write
 
 env:
-  WORKER_BASE: https://rrradio-stats.markussteinbrecher.workers.dev
+  WORKER_BASE: https://stats.rrradio.org
   # Threshold for "notable": surface any single error with count >= this.
   MIN_COUNT: 5
 

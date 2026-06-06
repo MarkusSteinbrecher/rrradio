@@ -148,7 +148,7 @@ async function discoverBbc(station) {
   // Pick the longest known service that appears in the URL.
   const candidates = BBC_SERVICES.filter((s) => url.includes(s)).sort((a, b) => b.length - a.length);
   for (const slug of candidates) {
-    const probe = await probeJson(`https://rrradio-stats.markussteinbrecher.workers.dev/api/public/bbc/play/${slug}`);
+    const probe = await probeJson(`https://stats.rrradio.org/api/public/bbc/play/${slug}`);
     if (probe.ok) return slug;
   }
   return null;

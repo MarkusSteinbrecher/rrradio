@@ -35,7 +35,7 @@ const root = join(__dirname, '..');
 const days = Math.max(1, Math.min(365, Number(process.argv[2]) || 30));
 const limit = Math.max(1, Math.min(50, Number(process.argv[3]) || 30));
 
-const WORKER = 'https://rrradio-stats.markussteinbrecher.workers.dev';
+const WORKER = 'https://stats.rrradio.org';
 const RB_BASE = 'https://de1.api.radio-browser.info';
 const ORIGIN = 'https://rrradio.org';
 const PROBE_TIMEOUT_MS = 8_000;
