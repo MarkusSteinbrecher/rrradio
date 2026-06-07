@@ -256,6 +256,17 @@ interface RBSourceDetail {
   topByVotes: RBTopCandidate[];
   topUnimportedByVotes: RBTopCandidate[];
   importedWithoutCountryAnalysis: RBOrphan[];
+  // FAMILY layer — regional / sub-brand siblings of one brand, grouped by
+  // tools/lib/station-family.mjs. Members stay distinct; this just flags them.
+  families?: { total: number; totalMembers: number; list: RBFamily[] };
+}
+
+interface RBFamily {
+  id: string;       // bucket|core, e.g. "DE|br.de|1 bayern"
+  country: string;
+  host: string;
+  core: string;     // shared brand stem, e.g. "1 bayern"
+  size: number;     // sibling rows in the family
 }
 
 interface ManualSourceItem {
@@ -310,6 +321,12 @@ interface SourceCandidate {
   // When our verdict says broken but rbCheckOk === 1, the row is worth
   // a curator look — often means there's a working URL we missed.
   rbCheckOk?: number | null;
+  // Brand-family tag (tools/lib/station-family.mjs): regional / sub-brand
+  // siblings of one broadcaster. Present only for stations in a family;
+  // they stay DISTINCT rows, just flagged so siblings read as one group.
+  familyId?: string | null;
+  familyCore?: string | null;
+  familySize?: number | null;
   // Manual-only enrichments
   broadcaster?: string | null;
   status?: string | null;
@@ -2192,6 +2209,16 @@ function buildCandidateRow(c: SourceCandidate): HTMLTableRowElement {
     sub.textContent = [c.broadcaster, c.status].filter(Boolean).join(' · ');
     nameWrap.append(sub);
   }
+  // Brand-family chip: flags siblings of one brand ("Bayern 1 Oberbayern /
+  // Franken / …") as a group without merging them — they stay distinct rows.
+  if (c.familyCore) {
+    const fam = document.createElement('span');
+    fam.className = 'sources-station__family';
+    const size = c.familySize ?? 0;
+    fam.textContent = `⌖ ${c.familyCore}${size ? ` ·${size}` : ''}`;
+    fam.title = `Brand family «${c.familyCore}»${size ? ` · ${size} siblings` : ''} — kept distinct, flagged as one group`;
+    nameWrap.append(fam);
+  }
   stationWrap.append(nameWrap);
   nameTd.append(stationWrap);
 
@@ -2777,11 +2804,32 @@ function renderRBDetail(src: SourceSummary, detail: RBSourceDetail): void {
         ),
       );
 
+  const families = detail.families;
+  const sectionFamilies = !families || families.total === 0
+    ? null
+    : buildEl('div', { class: 'sources-detail__section' },
+        buildEl('h3', {}, `Brand families · ${families.total} (${families.totalMembers} siblings)`),
+        buildEl('p', { class: 'sources-detail__note' },
+          'Regional / sub-brand siblings of one broadcaster — kept distinct, flagged as a group. Not duplicates.'),
+        buildEl('div', { class: 'sources-detail__scroll' },
+          buildTable(
+            ['Family', 'CC', 'Host', 'Siblings'],
+            families.list.map((f) => [
+              `«${f.core}»`,
+              f.country || '?',
+              f.host || '—',
+              { num: true, value: f.size },
+            ]),
+          ),
+        ),
+      );
+
   const children: (HTMLElement | null)[] = [
     buildEl('h3', {}, src.name),
     sectionCountries,
     sectionTop,
     sectionVerdict,
+    sectionFamilies,
     sectionOrphans,
   ];
   refs.sourcesDetail.replaceChildren(...children.filter((c): c is HTMLElement => c !== null));

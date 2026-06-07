@@ -264,6 +264,74 @@
             <div class="sources-detail" id="sources-detail"></div>
             <div class="sources-xdup" id="sources-xdup" hidden></div>
           </details>
+
+          <details class="sources-explainer" id="sources-explainer">
+            <summary>How dedupe works · the identity model &amp; signal ladder</summary>
+            <div class="sources-explainer__body">
+              <p>
+                Two stations can look like duplicates for very different reasons.
+                We sort every pair into one of three buckets — the rule that
+                decides whether a row gets merged away, flagged, or left alone.
+              </p>
+              <dl class="sources-explainer__model">
+                <dt>FEED</dt>
+                <dd>
+                  Delivery / bitrate / codec / protocol variants of <em>one</em>
+                  audio stream (e.g. <code>Bayern 1 Oberbayern (HLS 96)</code> vs
+                  <code>(HLS 192)</code>). These are true duplicates →
+                  <strong>collapsed</strong> to one canonical row.
+                </dd>
+                <dt>FAMILY</dt>
+                <dd>
+                  Regional or sub-brand siblings of <em>one</em> brand
+                  (<code>Bayern 1 Oberbayern / Franken / Schwaben</code>; bigFM's
+                  genre channels). Genuinely different programmes →
+                  <strong>kept distinct</strong>, just <strong>tagged</strong> with
+                  a family chip so a curator reads them as one group, not noise.
+                </dd>
+                <dt>DISTINCT</dt>
+                <dd>Everything else — unrelated stations, left untouched.</dd>
+              </dl>
+
+              <p>
+                To collapse FEEDs we compare each pair through a ladder of
+                signals, strongest first — the first one that matches (and isn't
+                blocked by a guard) wins:
+              </p>
+              <ol class="sources-explainer__ladder">
+                <li><strong>stationuuid</strong> — same curated catalog record.</li>
+                <li><strong>exact stream URL</strong> — byte-identical endpoint
+                  (proxy wrappers like <code>worldradio.online/proxy/?q=…</code> are
+                  unwrapped to the real inner URL first).</li>
+                <li><strong>stream fingerprint</strong> — host + path with
+                  bitrate / codec / packaging tokens stripped, so the same feed at
+                  different qualities on one CDN path collapses. Guarded by a
+                  <em>channel-number</em> check so <code>SRF 3</code> never fuses
+                  into <code>SRF 4 News</code> via a shared CDN path.</li>
+                <li><strong>name + broadcaster</strong> — order-independent,
+                  noise-stripped name signature within one homepage host.</li>
+                <li><strong>family tag</strong> — the FAMILY layer above; flags
+                  siblings, never merges them.</li>
+              </ol>
+
+              <p>
+                When a FEED group collapses, the canonical row is picked
+                <strong>quality-first</strong>: best bitrate, then codec
+                (AAC&nbsp;&gt;&nbsp;MP3&nbsp;&gt;&nbsp;HLS), then RB votes / clicks.
+                A curator can force a merge the signals miss (or block a wrong one)
+                via <code>data/sources/radio-browser/overrides.yaml</code>.
+              </p>
+
+              <p class="sources-explainer__tools">
+                Implemented in
+                <code>tools/dedupe-raw.mjs</code> (this RB candidate pool),
+                <code>tools/check-duplicates.mjs</code> (the curated-catalog gate),
+                and <code>tools/lib/station-family.mjs</code> (family detection) —
+                all sharing <code>tools/lib/dedupe-normalize.mjs</code> +
+                <code>station-name-signature.mjs</code>.
+              </p>
+            </div>
+          </details>
         </section>
       </div>
     </main>
