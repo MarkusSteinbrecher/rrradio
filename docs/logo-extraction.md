@@ -177,6 +177,46 @@ the review gate before applying anything:
 - `topHosts`: where selected images came from, useful for catching platform
   or parked-domain clusters.
 
+## Per-Channel Art (multi-channel broadcasters)
+
+`scrape-logos` finds **one** logo per homepage, so every sibling channel of a
+broadcaster gets the same brand mark. Multi-channel broadcasters (Radio Gong
+96.3, bigFM, Gong FM, …) instead publish a grid/slider of **per-channel** cover
+images, each labelled with the channel name in `alt` text or the filename
+(`Gong 96.3_Top 50_600x600.<hash>.png`). `scrape-channel-art` maps those images
+to the right station.
+
+```bash
+npm run scrape-channel-art -- --host radiogong.de --dry-run        # one broadcaster
+npm run scrape-channel-art -- --id de-radio-gong-96-3-chill-om --dry-run
+npm run scrape-channel-art -- --cc DE --min-family 3 --dry-run     # all DE families >=3
+npm run scrape-channel-art -- --host radiogong.de --replace        # also upgrade existing
+```
+
+How it works:
+
+1. Groups stations into brand families by `familyBucketKey` (`COUNTRY|homepage-host`,
+   the same key the dedupe family model uses), skipping aggregator hosts.
+2. Fetches each family's homepage plus a couple of same-host `streams/webradio`
+   subpages it links to (`--streams-pages`, default 2).
+3. Extracts every labelled `<img>`, derives a label from `alt` or the filename,
+   strips the shared brand prefix, and **matches each image to a station** by
+   collapsed-string containment + token overlap against the station's `shortName`
+   (matcher lives in `tools/lib/channel-art-match.mjs`, unit-tested).
+4. Assigns art only on a **confident, unambiguous, byte-verified** match —
+   1:1, never the same image to two channels. Unmatched/ambiguous channels are
+   reported and left for the homepage/brand logo fallback; the tool never guesses.
+
+Flags: `--id` / `--host` / `--cc` narrow the run (and lift the `--min-family`
+floor); default is **fill-missing** (only stations with no favicon), `--replace`
+also upgrades an existing logo to the matched per-channel art. Writes
+`broadcaster-site` / `cdn` / `broadcaster-implicit` provenance, same surgical
+YAML insert/replace as `scrape-logos`. Report: `.cache/channel-art-report.json`
+(includes `unmatched` and `ambiguous` rows — review these before a `--replace`).
+
+After a real run, regenerate and verify exactly as for `scrape-logos` (catalog,
+favicon-variants, check-catalog, check-duplicates, build).
+
 ## Review Rules
 
 Do not apply a scrape run blindly. Review the report and spot-check images.
