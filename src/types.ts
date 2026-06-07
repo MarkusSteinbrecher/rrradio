@@ -1,6 +1,20 @@
 export interface Station {
   id: string;
   name: string;
+  /** Distinguishing short label within this station's brand family — the
+   *  tail left after stripping the leading words it shares with siblings
+   *  (`Radio Gong 96.3 - Top 50 Gong` → `Top 50`). Derived at build time by
+   *  `tools/lib/station-short-name.mjs`, grouped by the family model's
+   *  `COUNTRY|homepage-host` bucket (`tools/lib/station-family.mjs`), or set
+   *  explicitly in `data/stations.yaml` (override wins; an empty string opts
+   *  out). Absent when the station stands alone, is its family's shared
+   *  prefix, or yields only codec/bitrate noise or a tail too long to caption.
+   *
+   *  Advisory: clients show it only in space-constrained UI (e.g. the iOS
+   *  icon-grid caption) where the full `name` would truncate; otherwise they
+   *  render `name`. Forward-compatible — clients that don't know the field
+   *  ignore it. */
+  shortName?: string;
   /** Source broadcaster key from data/broadcasters.yaml when known. */
   broadcaster?: string;
   streamUrl: string;
