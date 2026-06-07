@@ -31,6 +31,9 @@ import { parse as parseYaml } from 'yaml';
 import { buildFtsDatabase } from './build-catalog-fts.mjs';
 import { writeStationCapabilities } from './build-station-capabilities.mjs';
 import { fetchByUuid } from './rb-client.mjs';
+import { deriveShortNames } from './lib/station-short-name.mjs';
+import { familyBucketKey } from './lib/station-family.mjs';
+import { nameTokens } from './lib/station-name-signature.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
@@ -177,6 +180,14 @@ function merged(s) {
   return {
     id: s.id,
     name: s.name ?? fromRb.name,
+    // Curated short name wins; a non-empty string is carried through verbatim.
+    // An explicit empty YAML string opts the station out (carried as `null`
+    // until the derivation pass drops it). `undefined` means "auto-derive
+    // below from the brand family". See the short-name pass after §4.
+    shortName:
+      typeof s.shortName === 'string'
+        ? (s.shortName.trim().length > 0 ? s.shortName.trim() : null)
+        : undefined,
     broadcaster: s.broadcaster,
     streamUrl: s.streamUrl ?? fromRb.streamUrl,
     homepage: s.homepage ?? b.homepage ?? fromRb.homepage,
@@ -246,6 +257,62 @@ if (fatal.length > 0) {
   process.exit(1);
 }
 counts.published = built.length;
+
+// ─── 4b. Derive per-station short names off the brand-family model ───────
+// A station's short name is the distinguishing tail left after stripping the
+// leading brand words it shares with its siblings (`Antenne Bayern - Chillout`
+// → `Chillout`). We group by the *same* family model the dedupe redesign uses
+// — `familyBucketKey`'s COUNTRY|homepage-host bucket — so a tail is resolved
+// only against genuine siblings of one broadcaster, never a coincidental
+// cross-broadcaster prefix (`Christmas Radio FM` must not become `FM`).
+//
+// We deliberately do NOT reuse `detectFamilies`' digit-guarded *core*: that
+// guard treats a channel number as brand identity (keeping `Bayern 1`/`Bayern
+// 2` in separate families for curation), which would orphan exactly the
+// digit-discriminated channels a short name exists to surface (`BBC Radio 4` →
+// `4`). The bucket is the shared half; the tail is the leading-word strip.
+//
+// The strip itself is the verbatim iOS `StationGridLabel` port — left untouched
+// so catalog and app never disagree. Catalog-side we additionally drop two
+// kinds of unusable tail: one with no identity-bearing token (`(AAC 64)` →
+// `64)`, `||`) is codec/bitrate cruft, not a label; one longer than a caption
+// could ever show (`SHORT_NAME_MAX`) comes from keyword-stuffed names and adds
+// nothing over the full name. Both are covered by the app's own runtime strip,
+// which reproduces the identical tail on demand. Curated YAML values are kept
+// as-is; an empty string opts out.
+const SHORT_NAME_MAX = 48; // caption ceiling — longer tails never fit a tight cell
+const curatedCount = built.filter((m) => typeof m.shortName === 'string').length;
+const optOutCount = built.filter((m) => m.shortName === null).length;
+
+const familyBuckets = new Map();
+for (const m of built) {
+  const k = familyBucketKey(m);
+  if (!k) continue; // no homepage/country, or an aggregator host → never a family
+  if (!familyBuckets.has(k)) familyBuckets.set(k, []);
+  familyBuckets.get(k).push(m);
+}
+
+let derivedCount = 0;
+for (const group of familyBuckets.values()) {
+  const derived = deriveShortNames(group);
+  for (const m of group) {
+    if (m.shortName !== undefined) continue; // curated or opted out
+    const sn = derived.get(m.id);
+    if (sn && sn.length <= SHORT_NAME_MAX && nameTokens(sn).length > 0) {
+      m.shortName = sn;
+      derivedCount += 1;
+    }
+  }
+}
+
+// Resolve the opt-out sentinel and drop every absent value before write.
+for (const m of built) {
+  if (typeof m.shortName !== 'string') delete m.shortName;
+}
+console.error(
+  `build-catalog: ${curatedCount + derivedCount} short names ` +
+    `(${derivedCount} derived, ${curatedCount} curated, ${optOutCount} opted out)`,
+);
 
 const outPath = join(root, 'public/stations.json');
 mkdirSync(dirname(outPath), { recursive: true });

@@ -97,6 +97,7 @@ are owned by [search](search.md).
 |---|---|---|---|---|
 | `id` | string | **no** | Stable unique key. Catalog ids are domain-derived slugs. Reserved prefixes: `custom-` (user-created), `rb-` (Radio Browser import). | — (throws if absent) |
 | `name` | string | **no** | Display name. Lossy-decoded: a numeric value coerces to its string form. Trimmed of surrounding whitespace. | — (throws if absent) |
+| `shortName` | string | yes | Distinguishing short label within the station's brand family — the tail left after stripping the leading words it shares with same-broadcaster siblings (`Antenne Bayern - Chillout` → `Chillout`, `BBC Radio 4` → `4`). **Advisory**: a space-constrained UI (e.g. the iOS icon-grid caption) MAY substitute it when the full `name` would truncate; otherwise clients render `name`. Trimmed; empty ⇒ treated as absent. Derived at build time grouped by the family model's `country` + homepage host, or set explicitly in `data/stations.yaml` (override wins; `shortName: ""` opts out). Absent when the station stands alone, is its family's shared prefix, or the tail is only codec/bitrate noise or longer than a caption could show. | none |
 | `streamUrl` | string (URL) | **no** | Audio stream endpoint. Must be a non-empty parseable URL. | — (throws if absent/empty/unparseable) |
 | `schemaVersion` | int | yes | Schema generation of this record. Absent ⇒ treated as version `1` (the catalog and all pre-versioning records). Opt-in additive; not yet emitted by the catalog. | `1` |
 | `broadcaster` | string | yes | Broadcaster/fetcher family key (e.g. `orf`, `grrif`). Stable cross-platform contract; consumed by the fetcher router in [metadata-fetchers](metadata-fetchers.md). | none |
@@ -204,6 +205,25 @@ decode contract. Quality meter = 4 (AAC ≥128).
 Out-of-region users see a dimmed, "Switzerland only"-badged row; an upstream
 401/403 on play maps to a geo-restricted message. See `operations.md`
 ("Geo-restricted stations") for the curation rule.
+
+### Brand-family short name
+
+```json
+{
+  "id": "antenne-bayern-chillout",
+  "name": "Antenne Bayern - Chillout",
+  "shortName": "Chillout",
+  "streamUrl": "https://s1-webradio.antenne.de/chillout/stream/mp3",
+  "homepage": "https://www.antenne.de/",
+  "country": "DE"
+}
+```
+
+`shortName` is the tail left after stripping the leading words this station
+shares with its `antenne.de` siblings ("Antenne Bayern - 90er Hits", …). A
+tight UI MAY render `Chillout` when the full `name` would truncate; everywhere
+else `name` is shown. A standalone station, or a family's bare prefix (plain
+"Antenne Bayern"), carries no `shortName`.
 
 ### Envelope
 
@@ -327,7 +347,10 @@ iOS source read for this contract:
 
 - `Shared/Station.swift` — `Station` struct, `CodingKeys`, `init(from:)`,
   `CatalogResponse`, `currentSchemaVersion`, id-prefix reservation,
-  country-code normalization, lossy string / optional-URL decoders.
+  country-code normalization, lossy string / optional-URL decoders,
+  `shortName` decode (trim-empty-to-absent) + `StationGridLabel` runtime strip
+  (the fallback when `shortName` is absent; the catalog-side derivation in
+  `tools/lib/station-short-name.mjs` is a verbatim port of it).
 - `rrradio/Models/Catalog.swift` — `Catalog` loader, `CatalogResponse` decode,
   load-order ladder (cache → bundled `stations.json.lzfse` → network),
   `decompressLZFSE`, `orderForBrowse` (featured-first), search-index
