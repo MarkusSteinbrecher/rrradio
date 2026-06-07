@@ -1080,6 +1080,12 @@ h1 {
   gap: 8px;
 }
 
+.sources-detail__note {
+  margin: 0;
+  color: var(--ink-4);
+  font-size: 11px;
+}
+
 .sources-detail__scroll {
   max-height: 360px;
   overflow: auto;
@@ -1357,6 +1363,24 @@ h1 {
   gap: 2px;
 }
 
+/* Brand-family chip — siblings of one brand, kept distinct but flagged as a
+   group. Purple matches the dedupe pipeline--flag accent. */
+.sources-station__family {
+  align-self: flex-start;
+  max-width: 100%;
+  margin-top: 1px;
+  padding: 1px 6px;
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 1.5;
+  color: #c084fc;
+  border: 1px solid rgba(192, 132, 252, 0.4);
+  border-radius: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* Two-row table head: the top row labels column groups like "Pipeline"
    so the user can see the per-station process at a glance. */
 .sources-table__group-row th {
@@ -1586,6 +1610,80 @@ h1 {
 .sources-overview[open] > summary { border-bottom: 1px solid var(--line); }
 .sources-overview .sources-detail { border: 0; padding: 18px 20px; }
 .sources-overview .sources-xdup { border: 0; border-top: 1px solid var(--line); }
+
+/* "How dedupe works" explainer — same chrome as the overview panel. */
+.sources-explainer {
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  padding: 0;
+}
+
+.sources-explainer > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 12px 18px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink-3);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.sources-explainer > summary::-webkit-details-marker { display: none; }
+.sources-explainer > summary::before { content: '▸  '; color: var(--ink-4); }
+.sources-explainer[open] > summary::before { content: '▾  '; }
+.sources-explainer[open] > summary { border-bottom: 1px solid var(--line); }
+
+.sources-explainer__body {
+  padding: 18px 20px;
+  max-width: 72ch;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+
+.sources-explainer__body p { margin: 0 0 12px; }
+
+.sources-explainer__body code {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-2);
+  background: var(--bg);
+  padding: 0 3px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+}
+
+.sources-explainer__model {
+  margin: 0 0 14px;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 6px 14px;
+}
+
+.sources-explainer__model dt {
+  padding-top: 1px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  color: #c084fc;
+}
+
+.sources-explainer__model dd { margin: 0; }
+
+.sources-explainer__ladder {
+  margin: 0 0 14px;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sources-explainer__tools {
+  color: var(--ink-4);
+  font-size: 11.5px;
+}
 
 @media (max-width: 767px) {
   body { min-width: 0; overflow: auto; }

@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { normalizeStreamUrl, streamHost, normalizeHomepage } from './dedupe-normalize.mjs';
+import {
+  normalizeStreamUrl,
+  streamHost,
+  streamFingerprint,
+  normalizeHomepage,
+  unwrapProxyUrl,
+} from './dedupe-normalize.mjs';
 
 describe('normalizeStreamUrl', () => {
   it('treats http and https of the same host+path as one stream', () => {
@@ -27,12 +33,126 @@ describe('normalizeStreamUrl', () => {
     expect(normalizeStreamUrl('  NOT A URL ')).toBe('not a url');
     expect(normalizeStreamUrl('')).toBe('');
   });
+
+  it('unwraps proxy-wrapped streams so distinct channels stay distinct', () => {
+    // The "LiSTNR 177" over-merge: 66 SCA channels behind one worldradio proxy.
+    const a = 'http://worldradio.online/proxy/?q=http://wz0liw.scahw.com.au/live/rnb-chill.stream/playlist.m3u8';
+    const b = 'http://worldradio.online/proxy/?q=http://wz0liw.scahw.com.au/live/fresh-folk.stream/playlist.m3u8';
+    expect(normalizeStreamUrl(a)).not.toBe(normalizeStreamUrl(b));
+    expect(normalizeStreamUrl(a)).toBe('//wz0liw.scahw.com.au/live/rnb-chill.stream/playlist.m3u8');
+  });
+
+  it('dedupes a proxied stream against its direct copy', () => {
+    expect(normalizeStreamUrl('http://worldradio.online/proxy/?q=https://h.com/live/jazz.stream/playlist.m3u8'))
+      .toBe(normalizeStreamUrl('https://h.com/live/jazz.stream/playlist.m3u8'));
+  });
+});
+
+describe('unwrapProxyUrl', () => {
+  it('returns the inner http(s) URL from a proxy query param', () => {
+    expect(unwrapProxyUrl('http://worldradio.online/proxy/?q=https://h.com/live/x'))
+      .toBe('https://h.com/live/x');
+  });
+  it('leaves a normal channel selector untouched', () => {
+    expect(unwrapProxyUrl('https://eilo.org/streamer.php?ch=techno'))
+      .toBe('https://eilo.org/streamer.php?ch=techno');
+  });
+  it('leaves a plain stream URL untouched', () => {
+    expect(unwrapProxyUrl('https://h.com/stream.mp3')).toBe('https://h.com/stream.mp3');
+  });
+  it('is bounded against proxy-of-proxy loops', () => {
+    const nested = 'http://p.x/?q=' + encodeURIComponent('http://p.y/?q=' + encodeURIComponent('https://real.fm/live'));
+    expect(unwrapProxyUrl(nested)).toBe('https://real.fm/live');
+  });
 });
 
 describe('streamHost', () => {
   it('returns the bare host', () => {
     expect(streamHost('https://www.Example.com:8000/x')).toBe('example.com:8000');
     expect(streamHost('garbage')).toBe('');
+  });
+});
+
+describe('streamFingerprint', () => {
+  it('collapses SRF 4 News bitrate/codec variants on one CDN path', () => {
+    // Real raw-RB URLs for "Radio SRF 4 News".
+    const fp = streamFingerprint('https://stream.srg-ssr.ch/m/drs4news/mp3_128');
+    expect(fp).toBe('//stream.srg-ssr.ch/m/drs4news');
+    expect(streamFingerprint('https://stream.srg-ssr.ch/m/drs4news/aacp_96')).toBe(fp);
+    expect(streamFingerprint('https://stream.srg-ssr.ch/m/drs4news/aacp_32')).toBe(fp);
+  });
+
+  it('collapses Bayern 1 Oberbayern HLS bitrate variants', () => {
+    const fp = streamFingerprint('https://br-radio.ard-mcdn.de/br/radio/b1obb/hls/96/seglist.m3u8');
+    expect(fp).toBe('//br-radio.ard-mcdn.de/br/radio/b1obb');
+    expect(streamFingerprint('https://br-radio.ard-mcdn.de/br/radio/b1obb/hls/192/seglist.m3u8'))
+      .toBe(fp);
+  });
+
+  it('keeps genuinely different regional feeds apart', () => {
+    // Bayern 1 Franken vs Schwaben — distinct local programmes, distinct path.
+    expect(streamFingerprint('https://dispatcher.rndfnk.com/br/br1/franken/mp3/mid'))
+      .not.toBe(streamFingerprint('https://dispatcher.rndfnk.com/br/br1/schwaben/mp3/mid'));
+  });
+
+  it('does NOT bridge the same feed across different CDNs (left for family/override)', () => {
+    // Bayern 1 Oberbayern is on two CDNs with different path encodings; the
+    // fingerprint is intentionally URL-bound and must not merge them.
+    expect(streamFingerprint('https://dispatcher.rndfnk.com/br/br1/obb/mp3/mid'))
+      .not.toBe(streamFingerprint('https://br-radio.ard-mcdn.de/br/radio/b1obb/hls/96/seglist.m3u8'));
+  });
+
+  it('is protocol- and www-insensitive like normalizeStreamUrl', () => {
+    expect(streamFingerprint('http://www.h.com/jazz/stream/128'))
+      .toBe(streamFingerprint('https://h.com/jazz/stream/64'));
+  });
+
+  it('preserves numeric station IDs (only known bitrates are stripped)', () => {
+    // qingting: id 1278 must survive; 64k is the bitrate.
+    expect(streamFingerprint('https://lhttp.qingting.fm/live/1278/64k.mp3'))
+      .toBe('//lhttp.qingting.fm/live/1278');
+    // Two different qingting stations stay distinct (the over-merge bug).
+    expect(streamFingerprint('https://lhttp.qingting.fm/live/1278/64k.mp3'))
+      .not.toBe(streamFingerprint('https://lhttp.qingting.fm/live/273/64k.mp3'));
+    // radioking + servicioswebmx numeric ids survive too.
+    expect(streamFingerprint('https://listen.radioking.com/radio/623812/stream/685903'))
+      .not.toBe(streamFingerprint('https://listen.radioking.com/radio/453221/stream/508076'));
+    expect(streamFingerprint('https://streaming.servicioswebmx.com/8266/stream'))
+      .not.toBe(streamFingerprint('https://streaming.servicioswebmx.com/8142/stream'));
+  });
+
+  it('refuses to fingerprint generic-only paths (proxy wrappers, id-in-query)', () => {
+    // worldradio proxy: identity is in ?q=, path is just /proxy.
+    expect(streamFingerprint('http://worldradio.online/proxy/?q=http://x.au/live/a.stream/playlist.m3u8'))
+      .toBe('');
+    expect(streamFingerprint('https://h.com/radio/stream')).toBe('');
+    expect(streamFingerprint('https://h.com/live')).toBe('');
+  });
+
+  it('collapses query-selector channels onto one fingerprint (callers must add a name guard)', () => {
+    // Sweden's Bauer feeds put the real channel in `?i=…` over a shared
+    // `/http_live.php` entrypoint. The fingerprint drops the query, so three
+    // distinct stations share ONE fingerprint. This is intentional (the path
+    // genuinely is the same), but it means a fingerprint match alone is NOT a
+    // duplicate signal for these hosts — check-duplicates scopes its
+    // stream-fingerprint key by name signature so Mix Megapol / NRJ /
+    // Rockklassiker stay apart. Documented here so the gotcha is regression-safe.
+    const fp = streamFingerprint('https://tx-bauerse.sharp-stream.com/http_live.php?i=mixmegapol_instream_se_mp3');
+    expect(fp).not.toBe('');
+    expect(streamFingerprint('https://tx-bauerse.sharp-stream.com/http_live.php?i=nrj_instreamtest_se_mp3')).toBe(fp);
+    expect(streamFingerprint('https://tx-bauerse.sharp-stream.com/http_live.php?i=rockklassiker_instream_se_mp3')).toBe(fp);
+  });
+
+  it('returns empty when only the host would survive (too weak to group on)', () => {
+    expect(streamFingerprint('http://1.2.3.4:8000/')).toBe('');
+    expect(streamFingerprint('https://h.com/128/mp3')).toBe('');
+    expect(streamFingerprint('not a url')).toBe('');
+    expect(streamFingerprint('')).toBe('');
+  });
+
+  it('keeps the port — distinct Shoutcast mounts stay distinct', () => {
+    expect(streamFingerprint('http://h.com:8000/jazz'))
+      .not.toBe(streamFingerprint('http://h.com:8001/jazz'));
   });
 });
 

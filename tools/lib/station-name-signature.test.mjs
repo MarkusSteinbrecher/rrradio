@@ -1,5 +1,34 @@
 import { describe, expect, it } from 'vitest';
-import { nameSignature, nameTokens } from './station-name-signature.mjs';
+import { nameSignature, nameTokens, numberSignature } from './station-name-signature.mjs';
+
+describe('numberSignature', () => {
+  it('extracts standalone channel numbers', () => {
+    expect(numberSignature('Radio SRF 4 News')).toBe('4');
+    expect(numberSignature('SRF 3')).toBe('3');
+    expect(numberSignature('Bayern 1 Oberbayern')).toBe('1');
+  });
+
+  it('distinguishes different numbered channels of one broadcaster', () => {
+    expect(numberSignature('SRF 3')).not.toBe(numberSignature('SRF 4 News'));
+    expect(numberSignature('Bayern 1')).not.toBe(numberSignature('Bayern 2'));
+  });
+
+  it('treats delivery variants of one channel as the same (bitrate is noise)', () => {
+    expect(numberSignature('Bayern 1 Oberbayern (HLS 96)')).toBe('1');
+    expect(numberSignature('Bayern 1 Oberbayern (HLS 192)')).toBe('1');
+  });
+
+  it('does not treat digits embedded in a brand token as a discriminator', () => {
+    expect(numberSignature('BR24')).toBe('');
+    expect(numberSignature('BR24live')).toBe('');
+    expect(numberSignature('1LIVE')).toBe('');
+  });
+
+  it('is empty for numberless names', () => {
+    expect(numberSignature('Bach Classical')).toBe('');
+    expect(numberSignature('Abdulbasit Abdulsamad')).toBe('');
+  });
+});
 
 describe('nameSignature', () => {
   it('collapses BR24 delivery variants to one station signature', () => {

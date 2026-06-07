@@ -32,6 +32,7 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from 
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import YAML from 'yaml';
+import { detectFamilies } from './lib/station-family.mjs';
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const SOURCES_YAML = join(ROOT, 'data', 'sources.yaml');
@@ -346,6 +347,26 @@ function collectRadioBrowser(src) {
     });
   }
 
+  // FAMILY layer (Phase 3c): group regional / sub-brand siblings of ONE brand
+  // ("Bayern 1 Oberbayern / Franken / Schwaben", bigFM's genre channels) using
+  // the SAME model the dedupe gate uses — `detectFamilies`, bucketed by
+  // COUNTRY|homepage-host (tools/lib/station-family.mjs). Candidates already
+  // carry name/country/homepage, so it runs with no field adapter. A family is
+  // NOT a duplicate set: members stay DISTINCT, just tagged, so the tracker can
+  // flag "many slightly-renamed siblings" as one coherent group, not noise.
+  const families = detectFamilies(allCandidates);
+  for (const fam of families) {
+    for (const m of fam.members) {
+      m.familyId = fam.id;
+      m.familyCore = fam.core;
+      m.familySize = fam.members.length;
+    }
+  }
+  const familyMemberRows = families.reduce((n, f) => n + f.members.length, 0);
+  console.log(
+    `build-sources: ${src.id} — ${families.length} brand families (${familyMemberRows} member rows)`,
+  );
+
   for (const c of allCandidates) {
     if (c.duplicateOf) c.duplicateOfName = uuidToName.get(c.duplicateOf) || null;
   }
@@ -377,6 +398,17 @@ function collectRadioBrowser(src) {
       candidatesUrl: `/sources/${src.id}-candidates.json`,
       rawSnapshotRoot: 'data/sources/radio-browser/',
       dedupe: dedupeMeta,
+      families: {
+        total: families.length,
+        totalMembers: familyMemberRows,
+        list: [...families]
+          .sort((a, b) => b.members.length - a.members.length)
+          .slice(0, MAX_DUP_GROUPS_IN_DETAIL)
+          .map((f) => {
+            const [country, host] = f.bucket.split('|');
+            return { id: f.id, country, host, core: f.core, size: f.members.length };
+          }),
+      },
     },
     extraArtifacts: [
       {

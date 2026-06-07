@@ -13,10 +13,12 @@
  *
  * Method:
  *
- * 1. Union-find across two automatic signals
+ * 1. Union-find across three automatic signals
  *    a) Normalized streamUrl              (high confidence — same physical stream)
+ *    a2) Stream fingerprint               (high confidence — delivery variants of one feed:
+ *                                          host+path with bitrate/codec/packaging stripped)
  *    b) Country | name-signature | host   (medium confidence — same brand on same broadcaster home)
- *    Each link records the signal that triggered it for provenance.
+ *    Each link records the strongest signal that triggered it for provenance.
  *
  * 2. Apply curator overrides
  *    - `not-duplicate` pairs: split the group so the listed UUIDs become singletons
@@ -48,8 +50,8 @@ import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import YAML from 'yaml';
-import { nameSignature } from './lib/station-name-signature.mjs';
-import { normalizeStreamUrl, normalizeHomepage } from './lib/dedupe-normalize.mjs';
+import { nameSignature, numberSignature } from './lib/station-name-signature.mjs';
+import { normalizeStreamUrl, streamFingerprint, normalizeHomepage } from './lib/dedupe-normalize.mjs';
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const RAW_DIR = join(ROOT, 'data', 'sources', 'radio-browser', 'by-country');
@@ -59,7 +61,7 @@ const OUT = join(ROOT, 'data', 'sources', 'radio-browser', 'dedupe.json');
 const MAX_GROUP_SIZE = 50;
 
 // Stronger signals win when stamping a duplicate's `via` provenance.
-const SIGNAL_RANK = { override: 0, 'stream-url': 1, 'name+homepage': 2 };
+const SIGNAL_RANK = { override: 0, 'stream-url': 1, 'stream-fingerprint': 2, 'name+homepage': 3 };
 
 // ─── Load all stations ─────────────────────────────────────────────
 const stations = [];
@@ -149,6 +151,30 @@ let unionedByStream = 0;
     }
   }
 }
+// Signal A2: stream fingerprint — host + path with bitrate/codec/packaging
+// tokens stripped. Catches delivery variants of one feed on a shared CDN
+// path (e.g. .../drs4news/mp3_128 ≈ .../drs4news/aacp_96) that Signal A's
+// exact match misses. High confidence; returns '' for generic/aggregator
+// paths so it can't sweep unrelated tenants together (see streamFingerprint).
+let unionedByFingerprint = 0;
+{
+  // The fingerprint is fuzzier than an exact URL, so a single mislabelled RB
+  // entry (e.g. one named "SRF 4 News" pointing at the SRF 3 stream) can
+  // otherwise bridge two distinct channels. Append the channel-number
+  // discriminator to the key: same path + different number ⇒ different feed.
+  // Exact stream-url (Signal A) stays pure — identical bytes are the same audio.
+  const groups = groupBy(stations, (s) => {
+    const fp = streamFingerprint(s.streamUrl);
+    return fp ? `${fp}|#${numberSignature(s.name)}` : '';
+  });
+  for (const list of groups.values()) {
+    if (list.length < 2) continue;
+    for (let i = 1; i < list.length; i++) {
+      union(list[0].uuid, list[i].uuid, 'stream-fingerprint');
+      unionedByFingerprint++;
+    }
+  }
+}
 // Signal B: country | name signature | homepage host.
 let unionedByName = 0;
 {
@@ -166,7 +192,7 @@ let unionedByName = 0;
     }
   }
 }
-console.log(`dedupe-raw: linked ${unionedByStream} pair(s) by streamUrl, ${unionedByName} by name+homepage`);
+console.log(`dedupe-raw: linked ${unionedByStream} pair(s) by streamUrl, ${unionedByFingerprint} by fingerprint, ${unionedByName} by name+homepage`);
 
 // ─── Overrides ─────────────────────────────────────────────────────
 let overrides = { 'not-duplicate': [], 'force-merge': [] };
@@ -293,9 +319,10 @@ const output = {
   schemaVersion: 1,
   generatedAt: new Date().toISOString(),
   signals: [
-    { id: 'stream-url',     description: 'Normalized streamUrl collision (cross-country).' },
-    { id: 'name+homepage',  description: 'Same country + name signature + homepage host.' },
-    { id: 'override',       description: 'Curator force-merge in overrides.yaml.' },
+    { id: 'stream-url',         description: 'Normalized streamUrl collision (cross-country).' },
+    { id: 'stream-fingerprint', description: 'Same stream host+path with bitrate/codec/packaging stripped (delivery variants of one feed).' },
+    { id: 'name+homepage',      description: 'Same country + name signature + homepage host.' },
+    { id: 'override',           description: 'Curator force-merge in overrides.yaml.' },
   ],
   totals: {
     stationsConsidered: stations.length,
