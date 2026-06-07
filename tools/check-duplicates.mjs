@@ -12,11 +12,13 @@
  *      Almost always a duplicate; the only legitimate case is a
  *      regional sub-feed that happens to share a URL with its parent
  *      (rare).
- *   3. Review collisions — same-country Radio Browser canonical
- *      group, same homepage + name signature, same favicon + name
- *      signature, or same homepage + favicon + name signature inside
- *      one country. These catch near-duplicates that slip past exact
- *      stream/name matching (e.g. "BR24" + "BR24live").
+ *   3. Review collisions — same-country stream fingerprint + name
+ *      signature (delivery variants of one feed, e.g. "Bayern 1
+ *      Oberbayern (HLS 96)" + "(HLS 192)"), same-country Radio Browser
+ *      canonical group, same homepage + name signature, same favicon +
+ *      name signature, or same homepage + favicon + name signature
+ *      inside one country. These catch near-duplicates that slip past
+ *      exact stream/name matching (e.g. "BR24" + "BR24live").
  *   4. Low-confidence collisions — exact country/name, exact global
  *      name, shared oversized RB canonical clusters, or cross-country
  *      RB canonical clusters. These are counted for triage but excluded
@@ -39,7 +41,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import YAML from 'yaml';
 import { nameSignature } from './lib/station-name-signature.mjs';
-import { normalizeStreamUrl, normalizeHomepage } from './lib/dedupe-normalize.mjs';
+import { normalizeStreamUrl, normalizeHomepage, streamFingerprint } from './lib/dedupe-normalize.mjs';
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const STATIONS_YAML = join(ROOT, 'data', 'stations.yaml');
@@ -100,6 +102,30 @@ function homepageSignatureKey(s) {
   const sig = nameSignature(s.name);
   if (!home || !cc || !sig) return '';
   return `${cc}|${home}|${sig}`;
+}
+
+function streamFingerprintKey(s) {
+  // Delivery variants of one physical feed: same stream host+path with
+  // bitrate/codec/packaging tokens stripped (e.g. "Bayern 1 Oberbayern
+  // (HLS 96)" + "(HLS 192)" → //br-radio.ard-mcdn.de/br/radio/b1obb). This is
+  // the catalog-side mirror of dedupe-raw's stream-fingerprint signal. It adds
+  // coverage the homepage/favicon signals miss: same feed, different bitrate,
+  // when the entries carry different or missing homepages/favicons.
+  //
+  // Scoped to country + name signature (not the raw deduper's number guard):
+  // streamFingerprint drops the query, so shared-CDN entrypoints whose real
+  // channel selector lives in `?i=…` collapse to one fingerprint — Sweden's
+  // tx-bauerse.sharp-stream.com/http_live.php?i=<channel> fuses Mix Megapol /
+  // NRJ / Rockklassiker. Requiring an identical name signature keeps those
+  // distinct (their bitrate-noise-stripped signatures differ) while still
+  // merging true delivery variants, whose signatures match once "(HLS 96)" /
+  // "(HLS 192)" noise is stripped. streamFingerprint already returns '' for
+  // host-only / all-generic paths, so aggregator entrypoints never group here.
+  const fp = streamFingerprint(s.streamUrl);
+  const cc = countryCode(s);
+  const sig = nameSignature(s.name);
+  if (!fp || !cc || !sig) return '';
+  return `${cc}|${fp}|${sig}`;
 }
 
 function faviconKey(s) {
@@ -194,6 +220,12 @@ const byStream = groupBy(candidates, (s) => urlKey(s.streamUrl)).map(([url, grou
   kind: 'streamUrl',
   key: url,
   entries: group.map((s) => ({ id: s.id, name: s.name, streamUrl: s.streamUrl })),
+}));
+const byStreamFingerprint = groupBy(candidates, streamFingerprintKey).map(([key, group]) => ({
+  kind: 'stream-fingerprint',
+  key,
+  confidence: 'review',
+  entries: group.map((s) => stationEntry(s)),
 }));
 const byName = groupBy(candidates, (s) => nameKey(s.name)).map(([name, group]) => ({
   kind: 'name',
@@ -369,6 +401,7 @@ function buildDuplicateGroups(signals) {
 
 const blockingCollisions = [...byUuid, ...byStream];
 const reviewCollisions = [
+  ...byStreamFingerprint,
   ...byRbCanonical,
   ...byHomepageSignature,
   ...byFaviconSignature,
@@ -398,6 +431,7 @@ const summary = {
   byKind: {
     stationuuid: byUuid.length,
     streamUrl: byStream.length,
+    'stream-fingerprint': byStreamFingerprint.length,
     'rb-canonical': byRbCanonical.length,
     'rb-canonical-large': byLargeRbCanonical.length,
     'rb-canonical-cross-country': byCrossCountryRbCanonical.length,
@@ -433,6 +467,7 @@ console.log();
 console.log(
   `check-duplicates: ${collisions.length} collision group(s) ` +
     `(${byUuid.length} uuid, ${byStream.length} streamUrl, ` +
+    `${byStreamFingerprint.length} stream-fingerprint, ` +
     `${byRbCanonical.length} rb-canonical, ${byLargeRbCanonical.length} large rb-canonical, ` +
     `${byCrossCountryRbCanonical.length} cross-country rb-canonical, ` +
     `${byCountryName.length} low-confidence country+name, ` +

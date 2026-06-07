@@ -97,6 +97,20 @@ describe('streamFingerprint', () => {
     expect(streamFingerprint('https://h.com/live')).toBe('');
   });
 
+  it('collapses query-selector channels onto one fingerprint (callers must add a name guard)', () => {
+    // Sweden's Bauer feeds put the real channel in `?i=…` over a shared
+    // `/http_live.php` entrypoint. The fingerprint drops the query, so three
+    // distinct stations share ONE fingerprint. This is intentional (the path
+    // genuinely is the same), but it means a fingerprint match alone is NOT a
+    // duplicate signal for these hosts — check-duplicates scopes its
+    // stream-fingerprint key by name signature so Mix Megapol / NRJ /
+    // Rockklassiker stay apart. Documented here so the gotcha is regression-safe.
+    const fp = streamFingerprint('https://tx-bauerse.sharp-stream.com/http_live.php?i=mixmegapol_instream_se_mp3');
+    expect(fp).not.toBe('');
+    expect(streamFingerprint('https://tx-bauerse.sharp-stream.com/http_live.php?i=nrj_instreamtest_se_mp3')).toBe(fp);
+    expect(streamFingerprint('https://tx-bauerse.sharp-stream.com/http_live.php?i=rockklassiker_instream_se_mp3')).toBe(fp);
+  });
+
   it('returns empty when only the host would survive (too weak to group on)', () => {
     expect(streamFingerprint('http://1.2.3.4:8000/')).toBe('');
     expect(streamFingerprint('https://h.com/128/mp3')).toBe('');
