@@ -4,6 +4,7 @@ import {
   streamHost,
   streamFingerprint,
   normalizeHomepage,
+  unwrapProxyUrl,
 } from './dedupe-normalize.mjs';
 
 describe('normalizeStreamUrl', () => {
@@ -31,6 +32,37 @@ describe('normalizeStreamUrl', () => {
   it('falls back to a trimmed lowercase string for unparseable input', () => {
     expect(normalizeStreamUrl('  NOT A URL ')).toBe('not a url');
     expect(normalizeStreamUrl('')).toBe('');
+  });
+
+  it('unwraps proxy-wrapped streams so distinct channels stay distinct', () => {
+    // The "LiSTNR 177" over-merge: 66 SCA channels behind one worldradio proxy.
+    const a = 'http://worldradio.online/proxy/?q=http://wz0liw.scahw.com.au/live/rnb-chill.stream/playlist.m3u8';
+    const b = 'http://worldradio.online/proxy/?q=http://wz0liw.scahw.com.au/live/fresh-folk.stream/playlist.m3u8';
+    expect(normalizeStreamUrl(a)).not.toBe(normalizeStreamUrl(b));
+    expect(normalizeStreamUrl(a)).toBe('//wz0liw.scahw.com.au/live/rnb-chill.stream/playlist.m3u8');
+  });
+
+  it('dedupes a proxied stream against its direct copy', () => {
+    expect(normalizeStreamUrl('http://worldradio.online/proxy/?q=https://h.com/live/jazz.stream/playlist.m3u8'))
+      .toBe(normalizeStreamUrl('https://h.com/live/jazz.stream/playlist.m3u8'));
+  });
+});
+
+describe('unwrapProxyUrl', () => {
+  it('returns the inner http(s) URL from a proxy query param', () => {
+    expect(unwrapProxyUrl('http://worldradio.online/proxy/?q=https://h.com/live/x'))
+      .toBe('https://h.com/live/x');
+  });
+  it('leaves a normal channel selector untouched', () => {
+    expect(unwrapProxyUrl('https://eilo.org/streamer.php?ch=techno'))
+      .toBe('https://eilo.org/streamer.php?ch=techno');
+  });
+  it('leaves a plain stream URL untouched', () => {
+    expect(unwrapProxyUrl('https://h.com/stream.mp3')).toBe('https://h.com/stream.mp3');
+  });
+  it('is bounded against proxy-of-proxy loops', () => {
+    const nested = 'http://p.x/?q=' + encodeURIComponent('http://p.y/?q=' + encodeURIComponent('https://real.fm/live'));
+    expect(unwrapProxyUrl(nested)).toBe('https://real.fm/live');
   });
 });
 

@@ -6,9 +6,51 @@
  * The name signature lives in ./station-name-signature.mjs (also shared).
  */
 
+const MAX_UNWRAP_DEPTH = 3;
+
+/**
+ * Unwrap a proxy/redirect wrapper to the real stream URL it carries. Some RB
+ * entries route a stream through an open proxy that puts the *actual* URL in a
+ * query param, e.g.
+ *
+ *   http://worldradio.online/proxy/?q=http://wz0liw.scahw.com.au/live/rnb-chill.stream/...
+ *
+ * Left wrapped, every channel on the proxy normalises to `//worldradio.online/proxy`
+ * (the query is dropped) and the exact-stream-url signal fuses them into one giant
+ * false group — this is the root of the 177-station "LiSTNR" over-merge, where 66
+ * distinct SCA channels collapsed onto the proxy path and union-find then glued in
+ * unrelated stations. Unwrapping to the inner URL makes each channel distinct again
+ * AND lets a proxied entry dedupe against a direct copy of the same stream.
+ *
+ * Conservative: only unwraps when a query value is itself an absolute http(s) URL
+ * (a strong proxy signal); a normal `?ch=2` selector is untouched. Bounded depth
+ * guards against proxy-of-proxy loops.
+ *
+ * @param {string} u
+ * @returns {string}
+ */
+export function unwrapProxyUrl(u) {
+  let cur = String(u ?? '');
+  for (let i = 0; i < MAX_UNWRAP_DEPTH; i++) {
+    let inner = null;
+    try {
+      for (const v of new URL(cur).searchParams.values()) {
+        if (/^https?:\/\/.+/i.test(v)) { inner = v; break; }
+      }
+    } catch {
+      break;
+    }
+    if (!inner || inner === cur) break;
+    cur = inner;
+  }
+  return cur;
+}
+
 /**
  * Canonical key for a stream URL.
  *
+ * - **Proxy-unwrapped.** A stream routed through a `?q=<real-url>` proxy keys on
+ *   the real URL, not the proxy (see {@link unwrapProxyUrl}).
  * - **Protocol-insensitive.** `http://h/p` and `https://h/p` are the same
  *   physical stream; the catalog is HTTPS-only so the scheme carries no
  *   identity. (Recovered ~794 unmerged http/https sibling clusters in the
@@ -29,7 +71,7 @@
 export function normalizeStreamUrl(u, { dropQuery = true } = {}) {
   if (!u) return '';
   try {
-    const x = new URL(String(u));
+    const x = new URL(unwrapProxyUrl(u));
     const host = x.host.toLowerCase().replace(/^www\./, '');
     const path = x.pathname.replace(/\/+$/, '') || '/';
     const query = dropQuery ? '' : x.search;

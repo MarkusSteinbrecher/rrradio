@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-06-07T08:00:03.693Z",
-  "totalScanned": 24307,
-  "dedupeGeneratedAt": "2026-06-07T07:45:43.666Z",
-  "collisionCount": 1788,
+  "generatedAt": "2026-06-07T08:30:05.339Z",
+  "totalScanned": 24306,
+  "dedupeGeneratedAt": "2026-06-07T08:26:34.302Z",
+  "collisionCount": 1789,
   "byKind": {
     "stationuuid": 0,
     "streamUrl": 0,
     "stream-fingerprint": 94,
-    "rb-canonical": 545,
-    "rb-canonical-large": 6,
+    "rb-canonical": 547,
+    "rb-canonical-large": 5,
     "rb-canonical-cross-country": 54,
     "country+name": 196,
     "homepage+signature": 259,
@@ -17,15 +17,15 @@
     "homepage+favicon": 139
   },
   "blockingCollisionCount": 0,
-  "reviewCollisionCount": 1201,
-  "lowConfidenceCollisionCount": 587,
-  "largeRbCanonicalCollisionCount": 6,
+  "reviewCollisionCount": 1203,
+  "lowConfidenceCollisionCount": 586,
+  "largeRbCanonicalCollisionCount": 5,
   "crossCountryRbCanonicalCollisionCount": 54,
   "maxRbCanonicalAuditSize": 20,
-  "duplicateGroupCount": 575,
+  "duplicateGroupCount": 577,
   "blockingDuplicateGroupCount": 0,
-  "reviewDuplicateGroupCount": 575,
-  "duplicateRows": 681,
+  "reviewDuplicateGroupCount": 577,
+  "duplicateRows": 683,
   "duplicateGroups": [
     {
       "severity": "review",
@@ -4692,6 +4692,62 @@
           "country": "AU",
           "stationuuid": "c5963658-bef9-4df0-b36f-ff68d90164e8",
           "streamUrl": "https://stream.hopemedia.com.au/christmashope-mp3"
+        }
+      ]
+    },
+    {
+      "severity": "review",
+      "signalKinds": [
+        "rb-canonical"
+      ],
+      "signals": [
+        {
+          "kind": "rb-canonical",
+          "key": "AU|9a678eb6-65ee-40c3-8158-23b03d1eedf1"
+        }
+      ],
+      "entries": [
+        {
+          "id": "au-good-vibes",
+          "name": "Good Vibes",
+          "country": "AU",
+          "stationuuid": "9a678eb6-65ee-40c3-8158-23b03d1eedf1",
+          "streamUrl": "https://wz7liw.scahw.com.au/live/7goodvibes_128.stream/playlist.m3u8?"
+        },
+        {
+          "id": "au-good-vibes-4635abdb",
+          "name": "Good Vibes",
+          "country": "AU",
+          "stationuuid": "4635abdb-f830-46a2-9644-c478076af98e",
+          "streamUrl": "https://sa46.scastream.com.au/live/7goodvibes_128.stream/playlist.m3u8?"
+        }
+      ]
+    },
+    {
+      "severity": "review",
+      "signalKinds": [
+        "rb-canonical"
+      ],
+      "signals": [
+        {
+          "kind": "rb-canonical",
+          "key": "AU|d9c98c8f-7f7d-40f4-8baa-2692f4691977"
+        }
+      ],
+      "entries": [
+        {
+          "id": "au-indie-alt",
+          "name": "Indie & Alt",
+          "country": "AU",
+          "stationuuid": "8a1e22bb-f529-45d6-900b-d56031f68bc4",
+          "streamUrl": "https://sa46.scastream.com.au/live/7indieandalternative_128.stream/playlist.m3u8?"
+        },
+        {
+          "id": "au-listnr-indie-alt",
+          "name": "LiSTNR - Indie & Alt",
+          "country": "AU",
+          "stationuuid": "d9c98c8f-7f7d-40f4-8baa-2692f4691977",
+          "streamUrl": "https://wz7liw.scahw.com.au/live/7indieandalternative_128.stream/playlist.m3u8"
         }
       ]
     },
@@ -30757,6 +30813,28 @@
     },
     {
       "kind": "rb-canonical",
+      "key": "AU|d9c98c8f-7f7d-40f4-8baa-2692f4691977",
+      "confidence": "review",
+      "groupSize": 5,
+      "entries": [
+        {
+          "id": "au-listnr-indie-alt",
+          "name": "LiSTNR - Indie & Alt",
+          "country": "AU",
+          "stationuuid": "d9c98c8f-7f7d-40f4-8baa-2692f4691977",
+          "streamUrl": "https://wz7liw.scahw.com.au/live/7indieandalternative_128.stream/playlist.m3u8"
+        },
+        {
+          "id": "au-indie-alt",
+          "name": "Indie & Alt",
+          "country": "AU",
+          "stationuuid": "8a1e22bb-f529-45d6-900b-d56031f68bc4",
+          "streamUrl": "https://sa46.scastream.com.au/live/7indieandalternative_128.stream/playlist.m3u8?"
+        }
+      ]
+    },
+    {
+      "kind": "rb-canonical",
       "key": "AU|8ea0e466-1ec4-47d6-a236-5f9a9eaa3a9b",
       "confidence": "review",
       "groupSize": 2,
@@ -30774,6 +30852,28 @@
           "country": "AU",
           "stationuuid": "b03ffb8a-28f0-4636-8525-be68f086fd4c",
           "streamUrl": "https://live-radio01.mediahubaustralia.com/4FMW/aac/"
+        }
+      ]
+    },
+    {
+      "kind": "rb-canonical",
+      "key": "AU|9a678eb6-65ee-40c3-8158-23b03d1eedf1",
+      "confidence": "review",
+      "groupSize": 5,
+      "entries": [
+        {
+          "id": "au-good-vibes",
+          "name": "Good Vibes",
+          "country": "AU",
+          "stationuuid": "9a678eb6-65ee-40c3-8158-23b03d1eedf1",
+          "streamUrl": "https://wz7liw.scahw.com.au/live/7goodvibes_128.stream/playlist.m3u8?"
+        },
+        {
+          "id": "au-good-vibes-4635abdb",
+          "name": "Good Vibes",
+          "country": "AU",
+          "stationuuid": "4635abdb-f830-46a2-9644-c478076af98e",
+          "streamUrl": "https://sa46.scastream.com.au/live/7goodvibes_128.stream/playlist.m3u8?"
         }
       ]
     },
@@ -58875,266 +58975,6 @@
           "country": "DE",
           "stationuuid": "63833488-c6dc-4605-88ba-e27a61fc1c0a",
           "streamUrl": "https://fluxfm.streamabc.net/flx-fluxfmberlin-mp3-128-5859035?sABC=69n71170%230%23759014699s404754o2p8p1q4q62r578p%23nhqvb&aw_0_1st.playerid=audio&amsparams=playerid:audio;skey:1772556656"
-        }
-      ]
-    },
-    {
-      "kind": "rb-canonical-large",
-      "key": "e96086c0-ae22-4e98-8f54-38c8680cdd40",
-      "confidence": "low",
-      "groupSize": 177,
-      "entries": [
-        {
-          "id": "us-jethro-fm",
-          "name": "Jethro FM",
-          "country": "US",
-          "stationuuid": "9116da60-b00c-4c77-931a-ce10ec0bce1e",
-          "streamUrl": "https://worldradio.online/proxy/?q=http://96.30.7.234:8300/;"
-        },
-        {
-          "id": "au-listnr-80s-new-wave",
-          "name": "LiSTNR - 80s New Wave",
-          "country": "AU",
-          "stationuuid": "e96086c0-ae22-4e98-8f54-38c8680cdd40",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/780snewwave_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-drum-bass",
-          "name": "LiSTNR - Drum & Bass",
-          "country": "AU",
-          "stationuuid": "c515129c-3c44-4ffa-b407-ff3158468368",
-          "streamUrl": "https://wz0liw.scahw.com.au/live/drumnbass_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-60s-hits",
-          "name": "LiSTNR - 60s Hits",
-          "country": "AU",
-          "stationuuid": "514247bf-182b-4fe4-b37e-013e58024eb8",
-          "streamUrl": "https://wz2liw.scahw.com.au/live/760shits_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-aussie-pub-rock",
-          "name": "LiSTNR - Aussie Pub Rock",
-          "country": "AU",
-          "stationuuid": "b17c5a84-8a9a-462b-a8db-ad1d96c9e9d5",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/7mushroom50_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-girl-power",
-          "name": "LiSTNR - Girl Power",
-          "country": "AU",
-          "stationuuid": "2e14a16d-6743-4931-90a0-389376977997",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/7girlpower_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-70s-hits",
-          "name": "LiSTNR - 70s Hits",
-          "country": "AU",
-          "stationuuid": "d774a152-b267-44a8-a48c-5e2f63414e38",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/770shits_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-90s-soft-pop",
-          "name": "LiSTNR - 90s Soft Pop",
-          "country": "AU",
-          "stationuuid": "9484a8e5-552b-4ee1-b11c-2db16b879928",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/790ssoftpop_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-chill-pop-hits",
-          "name": "LiSTNR - Chill Pop Hits",
-          "country": "AU",
-          "stationuuid": "75194db5-6483-402e-8252-6fdb6b4f5ed1",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/7chillpophits_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-rock-n-road-trip",
-          "name": "LiSTNR - Rock 'n' Road Trip",
-          "country": "AU",
-          "stationuuid": "4f6d0637-fec3-445d-9a43-f350e81dd705",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/7rocknroadtrip_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-2010s",
-          "name": "LiSTNR - 2010s",
-          "country": "AU",
-          "stationuuid": "d866d004-c0e7-40d8-b26d-1012f943180b",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/72010s_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-hard-n-heavy",
-          "name": "LiSTNR - Hard N Heavy",
-          "country": "AU",
-          "stationuuid": "32e0049c-679a-46da-9c6e-b64b6410f29c",
-          "streamUrl": "https://wz2liw.scahw.com.au/live/2hardnheavy_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-easy-hits",
-          "name": "LiSTNR - Easy Hits",
-          "country": "AU",
-          "stationuuid": "13db7ce4-174e-4571-a31a-66772f679653",
-          "streamUrl": "https://wz2liw.scahw.com.au/live/2easyhits_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-crooners-swooners",
-          "name": "LiSTNR - Crooners & Swooners",
-          "country": "AU",
-          "stationuuid": "d5366c19-e89e-4af2-8b3c-0aebec8e9267",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/7croonersandswooners_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-indie-alt",
-          "name": "LiSTNR - Indie & Alt",
-          "country": "AU",
-          "stationuuid": "d9c98c8f-7f7d-40f4-8baa-2692f4691977",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/7indieandalternative_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-buddha",
-          "name": "LiSTNR - Buddha",
-          "country": "AU",
-          "stationuuid": "b1f0cacd-b7ef-47a4-be00-32c23f1bc0d8",
-          "streamUrl": "https://wz2liw.scahw.com.au/live/2buddha_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-noughties",
-          "name": "LiSTNR - Noughties",
-          "country": "AU",
-          "stationuuid": "a8b6d1e0-18c9-4e39-9fd5-10af4287d524",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/7noughties_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-good-vibes",
-          "name": "Good Vibes",
-          "country": "AU",
-          "stationuuid": "9a678eb6-65ee-40c3-8158-23b03d1eedf1",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/7goodvibes_128.stream/playlist.m3u8?"
-        },
-        {
-          "id": "au-listnr-party",
-          "name": "LiSTNR - Party",
-          "country": "AU",
-          "stationuuid": "f922c783-7509-4461-83ec-4f197b588b47",
-          "streamUrl": "https://wz0liw.scahw.com.au/live/party_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-fit-hits",
-          "name": "LiSTNR - Fit Hits",
-          "country": "AU",
-          "stationuuid": "1a9bf9a6-b848-4c99-8762-5725054c6a65",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/7fithits_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-indigenous",
-          "name": "LiSTNR - Indigenous",
-          "country": "AU",
-          "stationuuid": "7fe32f0c-4d6a-476c-9b51-7c2e2aba3b25",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/7firstnations_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-trending-now",
-          "name": "LiSTNR - Trending Now",
-          "country": "AU",
-          "stationuuid": "889ecf8f-e017-4be0-ae7b-48342cb75745",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/7trendingnow_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-festival-bangers",
-          "name": "LiSTNR - Festival Bangers",
-          "country": "AU",
-          "stationuuid": "2df8dea9-e741-4015-b9fb-9db75f6c131a",
-          "streamUrl": "https://wz0liw.scahw.com.au/live/festivalbangers_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-homegrown",
-          "name": "LiSTNR - Homegrown",
-          "country": "AU",
-          "stationuuid": "76f8ff38-a456-4375-8e30-83c6d2f4694a",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/7homegrown_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-top-30",
-          "name": "LiSTNR - Top 30",
-          "country": "AU",
-          "stationuuid": "f1f59ecd-855d-4213-93c1-3fea3479d957",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/7top30_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-aussie-dance",
-          "name": "LiSTNR - Aussie Dance",
-          "country": "AU",
-          "stationuuid": "320e5dfa-c064-4f3e-a99c-730f669210a0",
-          "streamUrl": "https://wz0liw.scahw.com.au/live/aussiedance_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-heart-breakers",
-          "name": "LiSTNR - Heart Breakers",
-          "country": "AU",
-          "stationuuid": "e2504a4e-5dbf-4523-afc7-a4a49c2bfe31",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/7heartbreaker_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-cover-up",
-          "name": "LiSTNR - Cover Up",
-          "country": "AU",
-          "stationuuid": "f8527cf1-337f-4218-a0d4-75047187c200",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/7coverme_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-stress-free",
-          "name": "LiSTNR - Stress Free",
-          "country": "AU",
-          "stationuuid": "52c3078f-027b-42ef-93ab-f7b307b61fa3",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/7stressfree_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-karaoke-stage",
-          "name": "LiSTNR - Karaoke Stage",
-          "country": "AU",
-          "stationuuid": "4ebccd81-310a-4b3c-a1d3-be8702db50fb",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/7karaokestage_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-listnr-santa-radio",
-          "name": "LiSTNR - Santa Radio",
-          "country": "AU",
-          "stationuuid": "21dba6e8-a3bb-471b-8d87-a13124018bf2",
-          "streamUrl": "https://wz7liw.scahw.com.au/live/7santa_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-3ne-wangaratta-1566-am",
-          "name": "3NE - Wangaratta - 1566 AM",
-          "country": "AU",
-          "stationuuid": "db8e5ea3-93a6-43f8-8384-a7bdf6201d8e",
-          "streamUrl": "https://wz3liw.scahw.com.au/live/3ne_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-coast-fm-warrnambool-95-3-fm-https",
-          "name": "Coast FM - Warrnambool - 95.3 FM (HTTPS)",
-          "country": "AU",
-          "stationuuid": "cb006e1a-4e8d-470b-bac8-cdca6f170fbb",
-          "streamUrl": "https://wz3liw.scahw.com.au/live/3yfm_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-2ay-albury-1494-am",
-          "name": "2AY - Albury - 1494 AM",
-          "country": "AU",
-          "stationuuid": "cd4bd7c7-c943-4a54-86e6-a082036fcc4d",
-          "streamUrl": "https://wz2liw.scahw.com.au/live/2ay_128.stream/playlist.m3u8"
-        },
-        {
-          "id": "au-indie-alt",
-          "name": "Indie & Alt",
-          "country": "AU",
-          "stationuuid": "8a1e22bb-f529-45d6-900b-d56031f68bc4",
-          "streamUrl": "https://sa46.scastream.com.au/live/7indieandalternative_128.stream/playlist.m3u8?"
-        },
-        {
-          "id": "au-good-vibes-4635abdb",
-          "name": "Good Vibes",
-          "country": "AU",
-          "stationuuid": "4635abdb-f830-46a2-9644-c478076af98e",
-          "streamUrl": "https://sa46.scastream.com.au/live/7goodvibes_128.stream/playlist.m3u8?"
         }
       ]
     },

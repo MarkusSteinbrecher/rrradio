@@ -87025,6 +87025,10 @@
   stationuuid: d0959820-1e21-4463-9ddf-4ca4cbdda91a
   changeuuid: 74c3e1e1-3535-4966-8aca-f5c4c858985a
   reviewedAt: 2026-05-04
+# Broken duplicate of us-ipr-studio-one: streamUrl is an Outlook SafeLinks
+# email-protection wrapper around the same StudioOne.mp3 stream (not a playable
+# URL). Surfaced when the dedupe proxy-unwrap (Phase 3) decoded the ?url= target
+# and it collided exactly with us-ipr-studio-one. Demoted from stream-only.
 - id: us-iowa-pbr
   broadcaster: independent
   name: IOWA PBR
@@ -87035,7 +87039,7 @@
   faviconSource: broadcaster-site
   homepage: http://studioone-stream.iowapublicradio.org/
   country: US
-  status: stream-only
+  status: broken
   stationuuid: 9ebd23de-40c5-4328-a67b-d47e3ee316a7
   changeuuid: b78c0429-7ddb-4818-94a7-908ab8f7870e
   reviewedAt: 2026-05-04
