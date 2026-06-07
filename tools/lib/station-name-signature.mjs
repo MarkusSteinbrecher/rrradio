@@ -46,3 +46,16 @@ export function nameTokens(name) {
 export function nameSignature(name) {
   return [...nameTokens(name)].sort().join(' ');
 }
+
+/**
+ * Channel-discriminator signature: the pure-digit identity tokens of a name,
+ * sorted and joined. Stops fuzzy stream signals (e.g. streamFingerprint) from
+ * bridging different numbered channels of one broadcaster — "SRF 3" (`3`) must
+ * not merge with "SRF 4 News" (`4`) just because a mislabelled RB entry shares
+ * their stream path. Built on `nameTokens`, so a digit embedded in a brand
+ * token is NOT a discriminator ("BR24" → '', "1LIVE" → '') and bitrate-like
+ * numbers (already noise-stripped) never leak in.
+ */
+export function numberSignature(name) {
+  return nameTokens(name).filter((t) => /^\d+$/.test(t)).sort().join(' ');
+}

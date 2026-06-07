@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { normalizeStreamUrl, streamHost, normalizeHomepage } from './dedupe-normalize.mjs';
+import {
+  normalizeStreamUrl,
+  streamHost,
+  streamFingerprint,
+  normalizeHomepage,
+} from './dedupe-normalize.mjs';
 
 describe('normalizeStreamUrl', () => {
   it('treats http and https of the same host+path as one stream', () => {
@@ -33,6 +38,75 @@ describe('streamHost', () => {
   it('returns the bare host', () => {
     expect(streamHost('https://www.Example.com:8000/x')).toBe('example.com:8000');
     expect(streamHost('garbage')).toBe('');
+  });
+});
+
+describe('streamFingerprint', () => {
+  it('collapses SRF 4 News bitrate/codec variants on one CDN path', () => {
+    // Real raw-RB URLs for "Radio SRF 4 News".
+    const fp = streamFingerprint('https://stream.srg-ssr.ch/m/drs4news/mp3_128');
+    expect(fp).toBe('//stream.srg-ssr.ch/m/drs4news');
+    expect(streamFingerprint('https://stream.srg-ssr.ch/m/drs4news/aacp_96')).toBe(fp);
+    expect(streamFingerprint('https://stream.srg-ssr.ch/m/drs4news/aacp_32')).toBe(fp);
+  });
+
+  it('collapses Bayern 1 Oberbayern HLS bitrate variants', () => {
+    const fp = streamFingerprint('https://br-radio.ard-mcdn.de/br/radio/b1obb/hls/96/seglist.m3u8');
+    expect(fp).toBe('//br-radio.ard-mcdn.de/br/radio/b1obb');
+    expect(streamFingerprint('https://br-radio.ard-mcdn.de/br/radio/b1obb/hls/192/seglist.m3u8'))
+      .toBe(fp);
+  });
+
+  it('keeps genuinely different regional feeds apart', () => {
+    // Bayern 1 Franken vs Schwaben — distinct local programmes, distinct path.
+    expect(streamFingerprint('https://dispatcher.rndfnk.com/br/br1/franken/mp3/mid'))
+      .not.toBe(streamFingerprint('https://dispatcher.rndfnk.com/br/br1/schwaben/mp3/mid'));
+  });
+
+  it('does NOT bridge the same feed across different CDNs (left for family/override)', () => {
+    // Bayern 1 Oberbayern is on two CDNs with different path encodings; the
+    // fingerprint is intentionally URL-bound and must not merge them.
+    expect(streamFingerprint('https://dispatcher.rndfnk.com/br/br1/obb/mp3/mid'))
+      .not.toBe(streamFingerprint('https://br-radio.ard-mcdn.de/br/radio/b1obb/hls/96/seglist.m3u8'));
+  });
+
+  it('is protocol- and www-insensitive like normalizeStreamUrl', () => {
+    expect(streamFingerprint('http://www.h.com/jazz/stream/128'))
+      .toBe(streamFingerprint('https://h.com/jazz/stream/64'));
+  });
+
+  it('preserves numeric station IDs (only known bitrates are stripped)', () => {
+    // qingting: id 1278 must survive; 64k is the bitrate.
+    expect(streamFingerprint('https://lhttp.qingting.fm/live/1278/64k.mp3'))
+      .toBe('//lhttp.qingting.fm/live/1278');
+    // Two different qingting stations stay distinct (the over-merge bug).
+    expect(streamFingerprint('https://lhttp.qingting.fm/live/1278/64k.mp3'))
+      .not.toBe(streamFingerprint('https://lhttp.qingting.fm/live/273/64k.mp3'));
+    // radioking + servicioswebmx numeric ids survive too.
+    expect(streamFingerprint('https://listen.radioking.com/radio/623812/stream/685903'))
+      .not.toBe(streamFingerprint('https://listen.radioking.com/radio/453221/stream/508076'));
+    expect(streamFingerprint('https://streaming.servicioswebmx.com/8266/stream'))
+      .not.toBe(streamFingerprint('https://streaming.servicioswebmx.com/8142/stream'));
+  });
+
+  it('refuses to fingerprint generic-only paths (proxy wrappers, id-in-query)', () => {
+    // worldradio proxy: identity is in ?q=, path is just /proxy.
+    expect(streamFingerprint('http://worldradio.online/proxy/?q=http://x.au/live/a.stream/playlist.m3u8'))
+      .toBe('');
+    expect(streamFingerprint('https://h.com/radio/stream')).toBe('');
+    expect(streamFingerprint('https://h.com/live')).toBe('');
+  });
+
+  it('returns empty when only the host would survive (too weak to group on)', () => {
+    expect(streamFingerprint('http://1.2.3.4:8000/')).toBe('');
+    expect(streamFingerprint('https://h.com/128/mp3')).toBe('');
+    expect(streamFingerprint('not a url')).toBe('');
+    expect(streamFingerprint('')).toBe('');
+  });
+
+  it('keeps the port — distinct Shoutcast mounts stay distinct', () => {
+    expect(streamFingerprint('http://h.com:8000/jazz'))
+      .not.toBe(streamFingerprint('http://h.com:8001/jazz'));
   });
 });
 
