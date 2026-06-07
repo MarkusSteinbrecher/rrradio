@@ -4441,8 +4441,10 @@
   streamUrl: https://wdr-1live-diggi.icecastssl.wdr.de/wdr/1live/diggi/mp3/128/stream.mp3
   bitrate: 128
   codec: MP3
-  favicon: https://www1.wdr.de/radio/1live-diggi/resources-v5.122.3/img/favicon/apple-touch-icon.png
+  favicon: "https://www1.wdr.de/radio/player/tva-export/1live-diggi-106~_v-ARDAustauschformat.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www1.wdr.de/radio/1live-diggi/index.html
   status: icy-only
   tags:
@@ -5581,6 +5583,10 @@
   homepage: https://frisky.fm/radio/deep
   status: icy-only
 - id: rock-antenne-heavy-metal
+  favicon: "https://www.rockantenne.de/media/cache/3/version/597/streamlogo_heavymetal_ra-v1.jpg/f1b996498456cb64.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: dad0436b-f31e-436a-b819-dd28670d4d3a
   changeuuid: e5475051-5df8-499d-a6b7-ef6532f06f60
   reviewedAt: 2026-05-02
@@ -5609,8 +5615,9 @@
     - pop
     - hits
     - commercial
-  favicon: https://www.antenne.de/logos/station-antenne-bayern/apple-touch-icon.png
+  favicon: "https://www.antenne.de/media/cache/3/version/18696/streamlogo_simulcast_live_aby_neu_2000x2000-v1.jpg/1d821b1b135fa523.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
   faviconLicense: broadcaster-implicit
   status: working
 - id: oldie-antenne-main
@@ -7151,8 +7158,10 @@
   country: DE
   status: icy-only
 - id: de-rock-antenne
-  favicon: "https://www.rockantenne.de/logos/station-rock-antenne/apple-touch-icon.png"
+  favicon: "https://www.rockantenne.de/media/cache/3/version/14/ra-v1.jpg/01fb2c09351289d9.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 960594a6-0601-11e8-ae97-52543be04c81
   changeuuid: 912bcce9-8299-4db8-b979-3911f7f5a5d0
   reviewedAt: 2026-05-02
@@ -7174,8 +7183,10 @@
   status: working
   featured: true
 - id: de-rock-antenne-classic-perlen
-  favicon: "https://www.rockantenne.de/media/cache/3/version/8272/streamlogo_classic_perlen_ra-v1.jpg/6c4891e2d0f06b1a.jpg"
+  favicon: "https://www.rockantenne.de/media/cache/3/version/8272/streamlogo_classic_perlen_ra-v1.jpg/120927348d7a6748.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 960c3f9b-0601-11e8-ae97-52543be04c81
   changeuuid: ce147e61-cb96-4ce2-a001-d00c69f47c98
   reviewedAt: 2026-05-02
@@ -7218,8 +7229,10 @@
   country: DE
   status: working
 - id: de-antenne-bayern-classic-rock-live
-  favicon: "https://cdn.onlineradiobox.com/img/fblogo/6/34476.v7.png"
-  faviconSource: radio-browser
+  favicon: "https://www.antenne.de/media/cache/3/version/7270/streamlogo_classic_rock_aby-v1.jpg/3731b9398d656818.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 9615dc04-0601-11e8-ae97-52543be04c81
   changeuuid: d4fed5ef-f03b-4c80-a5bf-bee39771851e
   reviewedAt: 2026-05-02
@@ -7262,8 +7275,10 @@
   country: DE
   status: working
 - id: de-antenne-bayern-90er-hits
-  favicon: "https://cdn.onlineradiobox.com/img/fblogo/0/34470.v7.png"
-  faviconSource: radio-browser
+  favicon: "https://www.antenne.de/media/cache/3/version/7311/streamlogo_90er_aby-v1.jpg/602f6579992139be.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   geo:
     - 48.137
     - 11.575
@@ -7281,8 +7296,10 @@
   country: DE
   status: working
 - id: de-antenne-bayern-70er-hits
-  favicon: "https://cdn.onlineradiobox.com/img/fblogo/1/102891.v3.png"
-  faviconSource: radio-browser
+  favicon: "https://www.antenne.de/media/cache/3/version/7306/streamlogo_70er_aby-v1.jpg/76697d52c4a6e358.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 6755fcec-4752-4f69-962e-46c43e227542
   changeuuid: e8d4b393-b1ce-44e2-bbb9-6c2ecdc2eb92
   reviewedAt: 2026-05-02
@@ -7303,8 +7320,10 @@
   country: DE
   status: working
 - id: de-antenne-bayern-lovesongs
-  favicon: "https://cdn.onlineradiobox.com/img/fblogo/9/34479.v8.png"
-  faviconSource: radio-browser
+  favicon: "https://www.antenne.de/media/cache/3/version/5275/streamlogo_love_songs_aby-v1.jpg/0c8128f6ecd9b7f3.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 960df2cd-0601-11e8-ae97-52543be04c81
   changeuuid: 133dffcb-004a-4b04-9012-ce8c5895352a
   reviewedAt: 2026-05-02
@@ -7325,8 +7344,10 @@
   country: DE
   status: working
 - id: de-antenne-bayern-top-40
-  favicon: "https://cdn.onlineradiobox.com/img/fblogo/3/34463.v9.png"
-  faviconSource: radio-browser
+  favicon: "https://www.antenne.de/media/cache/3/version/7264/streamlogo_top_40_aby-v1.jpg/38c3662907b82a11.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 9615de2d-0601-11e8-ae97-52543be04c81
   changeuuid: 89ed6c54-be72-4356-a44d-c72bbf5c7c01
   reviewedAt: 2026-05-02
@@ -7348,8 +7369,10 @@
   country: DE
   status: working
 - id: de-rock-antenne-alternative
-  favicon: "https://www.rockantenne.de/media/cache/3/version/8269/streamlogo_alternative_ra-v1.jpg/72ec6e3cdb8ccecd.jpg"
+  favicon: "https://www.rockantenne.de/media/cache/3/version/8269/streamlogo_alternative_ra-v1.jpg/c61726bdd78e0004.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 960d5540-0601-11e8-ae97-52543be04c81
   changeuuid: 7bf72604-206d-47e9-a3c9-1a8abc54e716
   reviewedAt: 2026-05-02
@@ -7392,8 +7415,10 @@
   country: DE
   status: working
 - id: de-rock-antenne-70er-rock
-  favicon: "https://www.rockantenne.de/media/cache/3/version/577/streamlogo_70er-rock_ra-v1.jpg/ce8d5176867df6fd.jpg"
+  favicon: "https://www.rockantenne.de/media/cache/3/version/577/streamlogo_70er-rock_ra-v1.jpg/838628ad141bae66.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   geo:
     - 48.137
     - 11.575
@@ -7411,8 +7436,10 @@
   country: DE
   status: working
 - id: de-rock-antenne-80er-rock
-  favicon: "https://www.rockantenne.de/media/cache/3/version/8271/streamlogo_80er-rock_ra-v1.jpg/3195f6d8133ce725.jpg"
+  favicon: "https://www.rockantenne.de/media/cache/3/version/8271/streamlogo_80er-rock_ra-v1.jpg/39ab1a90c74eac12.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   geo:
     - 48.137
     - 11.575
@@ -7430,8 +7457,10 @@
   country: DE
   status: working
 - id: de-rock-antenne-90er-rock
-  favicon: "https://www.rockantenne.de/media/cache/3/version/578/streamlogo_90er-rock_ra-v1.jpg/6a48bc88eaa5bbf1.jpg"
+  favicon: "https://www.rockantenne.de/media/cache/3/version/578/streamlogo_90er-rock_ra-v1.jpg/19bea06f251dbeb2.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   geo:
     - 48.137
     - 11.575
@@ -7449,8 +7478,10 @@
   country: DE
   status: working
 - id: de-rock-antenne-grunge
-  favicon: "https://www.rockantenne.de/media/cache/3/version/14268/streamlogo_grunge_ra_hp-v1.jpg/a5fb74d86943e261.jpg"
+  favicon: "https://www.rockantenne.de/media/cache/3/version/14268/streamlogo_grunge_ra_hp-v1.jpg/a30c456f95fb5696.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: a6bd5286-2ef4-45f5-bb08-1f2d68c954cf
   changeuuid: 8329c209-196d-4efb-8f92-322ee76a2976
   reviewedAt: 2026-05-02
@@ -7472,8 +7503,10 @@
   country: DE
   status: working
 - id: de-sunshine-live
-  favicon: "https://upload.sunshine-live.de/production/static/1776772988838/icons/icon_512.fmRwc30M41g.png"
+  favicon: "https://images.sunshine-live.de/files/streams/hg/sunshine-sunshine-logo_bg.png?width=360&amp;height=360"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 960d063e-0601-11e8-ae97-52543be04c81
   changeuuid: cb448fef-2576-4d0c-b36b-f70611ba7080
   reviewedAt: 2026-04-29
@@ -7494,8 +7527,10 @@
   status: stream-only
   featured: true
 - id: de-80s80s
-  favicon: "https://upload.80s80s.de/production/static/1776772173809/icons/icon_512.ewwAEi8A30w.png"
+  favicon: "https://images.80s80s.de/files/2022-01/80s80s_live_header.png?crop=3840%2C2160%2C0%2C0&amp;rect=0%2C0%2C3840%2C2160&amp;fit=crop&amp;crop=faces&amp;w=80&amp;h=45&amp;dpr=1&amp;blur=10&amp;width=80&amp;height=45"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 962dc110-0601-11e8-ae97-52543be04c81
   changeuuid: 6ff0ad04-086b-4a24-b78c-96257ff45936
   reviewedAt: 2026-04-29
@@ -7941,8 +7976,10 @@
   country: DE
   status: icy-only
 - id: de-hit-radio-ffh
-  favicon: "https://static.ffh.de/fileadmin/templates/ffh.de/images/logo-snippets.png"
+  favicon: "https://static.ffh.de/fileadmin/templates/ffh.de/images/logo.svg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 96056147-0601-11e8-ae97-52543be04c81
   changeuuid: cf0827ec-e6f0-4766-bf5d-9261a7123eac
   reviewedAt: 2026-05-02
@@ -8858,8 +8895,10 @@
   country: DE
   status: stream-only
 - id: de-rock-antenne-hair-metal
-  favicon: "https://www.rockantenne.de/logos/station-rock-antenne/apple-touch-icon.png"
+  favicon: "https://www.rockantenne.de/media/cache/3/version/11678/streamlogo_hair_metall_ra-v1.jpg/079d8271a0d504f1.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 2ed4195c-73a1-46ab-b6cb-e1afe68ea82a
   changeuuid: 8aace9a0-b9b4-403c-82f5-884a49ba5b4e
   reviewedAt: 2026-05-04
@@ -20375,8 +20414,10 @@
   streamUrl: https://s6-webradio.rockantenne.de/gothic/stream/mp3
   bitrate: 128
   codec: MP3
-  favicon: "https://www.rockantenne.de/media/cache/3/version/13569/streamlogo_gothic_ra_hp-v1.jpg/45fab311f0ada967.jpg"
+  favicon: "https://www.rockantenne.de/media/cache/3/version/13569/streamlogo_gothic_ra_hp-v1.jpg/280524fec4b1f1e6.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.rockantenne.de/webradio/gothic
   country: DE
   status: stream-only
@@ -21248,8 +21289,10 @@
   changeuuid: 8869f9de-3f8b-413e-bfc5-003c96e56166
   reviewedAt: 2026-05-04
 - id: de-90s90s-rock-hls
-  favicon: "https://upload.90s90s.de/production/static/1776772217544/icons/icon_512.cno7CdHz6$i.png"
+  favicon: "https://images.90s90s.de/files/2024-01/90s90s_streamtile_rock.jpg?width=360&amp;height=360"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   tags: [90s, alternative rock, hard rock, rock]
   broadcaster: independent
@@ -22075,8 +22118,10 @@
   streamUrl: https://stream.antenne.de/happy-hits/stream/mp3
   bitrate: 128
   codec: MP3
-  favicon: https://antenne.de/logos/station-antenne-bayern/apple-touch-icon.png
+  favicon: "https://www.antenne.de/media/cache/3/version/7290/streamlogo_happy_hits_aby-v1.jpg/184e54050375d16f.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://antenne.de/
   country: DE
   status: stream-only
@@ -22893,8 +22938,10 @@
   streamUrl: https://s8-webradio.antenne.de/2010er-hits/stream/mp3
   bitrate: 128
   codec: MP3
-  favicon: https://www.antenne.de/logos/station-antenne-bayern/apple-touch-icon.png
+  favicon: "https://www.antenne.de/media/cache/3/version/7326/streamlogo_2010er_aby-v1.jpg/d3e47ece9e7201f4.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.antenne.de/
   country: DE
   status: stream-only
@@ -23066,8 +23113,10 @@
   reviewedAt: 2026-05-04
 - id: de-rockantenne-hamburg-64-kbps-aac
   tags: [rock]
-  favicon: "https://www.rockantenne.de/logos/station-rock-antenne/apple-touch-icon.png"
+  favicon: "https://www.rockantenne.de/media/cache/3/version/13/rahh-v1.jpg/4552eeca5219f954.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: ROCKANTENNE Hamburg (64 kbps AAC)
   streamUrl: https://mp3channels.rockantenne.hamburg/rockantenne-hamburg.aac
@@ -23616,8 +23665,10 @@
   streamUrl: https://stream-90s.bdjradio.com/
   bitrate: 128
   codec: MP3
-  favicon: https://bdjradio.com/media/images/bdj-eurodance-90s-456214.png
+  favicon: "https://cdn.onlineradiobox.com/img/l/3/74723.v9.png"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://bdjradio.com/90s/index.html
   country: DE
   status: stream-only
@@ -23796,8 +23847,10 @@
   streamUrl: https://stream.antenne.de/bayerische-weihnacht/stream/mp3
   bitrate: 128
   codec: MP3
-  favicon: "https://www.antenne.de/media/cache/3/version/16643/streamlogo_bayerische_weihnacht_aby_neu_2000x2000-v1.jpg/adc33efa2b69180c.jpg"
+  favicon: "https://www.antenne.de/media/cache/3/version/16643/streamlogo_bayerische_weihnacht_aby_neu_2000x2000-v1.jpg/e76eae1d0e39aa78.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.antenne.de/webradio/bayerische-weihnacht
   country: DE
   status: stream-only
@@ -23838,8 +23891,10 @@
   streamUrl: https://s2-webradio.antenne.de/2000er-hits
   bitrate: 128
   codec: MP3
-  favicon: https://www.antenne.de/logos/station-antenne-bayern/apple-touch-icon.png
+  favicon: "https://www.antenne.de/media/cache/3/version/7320/streamlogo_2000er_aby-v1.jpg/2822de3a14b9c987.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.antenne.de/
   country: DE
   status: stream-only
@@ -24219,8 +24274,10 @@
   streamUrl: https://stream.berliner-rundfunk.de/brf-100prozent-deutsch/mp3-128/?ref=radiode
   bitrate: 128
   codec: MP3
-  favicon: "https://upload.berliner-rundfunk.de/production/static/1776772571007/icons/icon_512.a80y02808w0.png"
+  favicon: "https://images.berliner-rundfunk.de/files/2025-01/stream-icons-100_deutsch.png?width=360&amp;height=360"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.berliner-rundfunk.de/
   country: DE
   status: stream-only
@@ -24457,8 +24514,10 @@
   streamUrl: https://stream.rockantenne.de/modern-metal/stream/mp3
   bitrate: 128
   codec: MP3
-  favicon: https://www.rockantenne.de/logos/station-rock-antenne/apple-touch-icon.png
+  favicon: "https://www.rockantenne.de/media/cache/3/version/34109/streamlogo_modern_metal_ra_hp-v1.jpg/e853ac6b8b52efab.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.rockantenne.de/
   country: DE
   status: stream-only
@@ -25691,8 +25750,10 @@
   name: ROCK ANTENNE Coversongs
   streamUrl: https://stream.rockantenne.de/coversongs/stream/aacp
   codec: AAC
-  favicon: https://www.rockantenne.de/logos/station-rock-antenne/apple-touch-icon.png
+  favicon: "https://www.rockantenne.de/media/cache/3/version/587/streamlogo_coversongs_ra-v1.jpg/ca9ae9f99e6a1d89.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.rockantenne.de/
   country: DE
   status: stream-only
@@ -26875,8 +26936,10 @@
   streamUrl: https://s5-webradio.antenne.de/antenne-bayern-ndw/stream/mp3
   bitrate: 128
   codec: MP3
-  favicon: "https://www.antenne.de/media/cache/3/version/13910/streamlogo_ndw_aby_neu_2000x2000-v1.jpg/bd870f8941d63cde.jpg"
+  favicon: "https://www.antenne.de/media/cache/3/version/13910/streamlogo_ndw_aby_neu_2000x2000-v1.jpg/45ded830676b05e2.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.antenne.de/webradio/ndw
   country: DE
   status: stream-only
@@ -27000,8 +27063,10 @@
   changeuuid: bfc2691a-1397-4278-9759-f982ecf5c416
   reviewedAt: 2026-05-04
 - id: de-rock-antenne-rockabilly
-  favicon: "https://www.rockantenne.de/media/cache/3/version/15209/homepage-screenshot1992x1220-v1.jpg/59e3e064f7292252.jpg"
+  favicon: "https://www.rockantenne.de/media/cache/3/version/34110/streamlogo_rockabilly_ra_hp-v1.jpg/d7674069c674d0f9.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: "Rock Antenne - Rockabilly "
   streamUrl: https://stream.rockantenne.de/rockabilly/stream/aacp
@@ -27240,8 +27305,10 @@
   streamUrl: https://stream.antenne.de/bayern-sound/stream/mp3
   bitrate: 128
   codec: MP3
-  favicon: "https://www.antenne.de/media/cache/3/version/7380/streamlogo_bayern_sound_aby-v1.jpg/285e9657a980c8c5.jpg"
+  favicon: "https://www.antenne.de/media/cache/3/version/7380/streamlogo_bayern_sound_aby-v1.jpg/4afbc60d205f9071.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.antenne.de/webradio/bayern-sound
   country: DE
   status: stream-only
@@ -27612,8 +27679,10 @@
   changeuuid: 60a296bd-7763-45f1-9fa6-c43c9e1bba0e
   reviewedAt: 2026-05-04
 - id: de-rock
-  favicon: "https://www.rockantenne.de/logos/station-rock-antenne/apple-touch-icon.png"
+  favicon: "https://www.rockantenne.de/media/cache/3/version/11676/streamlogo_live_rock_ra-v1.jpg/8dbc1ac671af8507.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: rock
   streamUrl: https://stream.rockantenne.de/rockantenne/stream/mp3
@@ -28110,8 +28179,10 @@
   streamUrl: https://streams.radiopsr.de/psr-80er/mp3-192/www.radio-browser.info/play.m3u8
   bitrate: 192
   codec: MP3
-  favicon: "https://upload.radiopsr.de/production/static/1776772830016/icons/icon_512.a00y0280800.png"
+  favicon: "https://images.radiopsr.de/files/streams/stream-tile-80er.jpg?width=360&amp;height=360"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.radiopsr.de/
   country: DE
   status: stream-only
@@ -29900,8 +29971,10 @@
   streamUrl: https://streams.radiopsr.de/psr-90er/mp3-192/www.radio-browser.info/play.m3u8
   bitrate: 192
   codec: MP3
-  favicon: "https://upload.radiopsr.de/production/static/1776772830016/icons/icon_512.a00y0280800.png"
+  favicon: "https://images.radiopsr.de/files/streams/stream-tile-90er.jpg?width=360&amp;height=360"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.radiopsr.de/
   country: DE
   status: stream-only
@@ -31638,8 +31711,10 @@
   reviewedAt: 2026-05-04
 - id: de-rock-antenne-punkrock
   tags: [hardcore, punkrock]
-  favicon: "https://www.rockantenne.de/media/cache/3/version/581/streamlogo_punkrock_ra-v1.jpg/17d45e9713f54457.jpg"
+  favicon: "https://www.rockantenne.de/media/cache/3/version/581/streamlogo_punkrock_ra-v1.jpg/cf9277c7682e76c8.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Rock Antenne Punkrock
   streamUrl: https://s3-webradio.rockantenne.de/punkrock/stream/mp3
@@ -32224,8 +32299,10 @@
   changeuuid: 92b30d3f-a7aa-49da-9008-56382dc01268
   reviewedAt: 2026-05-04
 - id: de-antenne-bayern-coffee-music
-  favicon: "https://www.antenne.de/media/cache/3/version/7265/streamlogo_coffee_music_aby-v1.jpg/01f2ab003710c15a.jpg"
+  favicon: "https://www.antenne.de/media/cache/3/version/7265/streamlogo_coffee_music_aby-v1.jpg/69cd3fe35a7d4b13.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Antenne Bayern Coffee Music
   streamUrl: https://stream.antenne.de/coffee/stream/mp3
@@ -33553,6 +33630,10 @@
   changeuuid: 846bbd50-dd0b-4992-ac7a-9da377be63b8
   reviewedAt: 2026-05-04
 - id: de-radio-gong-96-3-top-50-gong-top-50
+  favicon: "https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU%20ab%20September%202025/NEU%20ab%20September%202025%20quadrat/27247561/image-thumb__27247561__streams-slider/Gong%2096.3_Top%2050_600x600.68a866af.png"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [pop]
   broadcaster: independent
   name: Radio Gong 96.3 - Top 50 Gong Top 50
@@ -33951,8 +34032,10 @@
   streamUrl: https://stream.antenne.de/herbst-hits/stream/mp3
   bitrate: 128
   codec: MP3
-  favicon: "https://www.antenne.de/media/cache/3/version/7273/streamlogo_herbsthits_aby-v1.jpg/232b514a8e39aa2b.jpg"
+  favicon: "https://www.antenne.de/media/cache/3/version/7273/streamlogo_herbsthits_aby-v1.jpg/b40b5b0c9a993cc7.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.antenne.de/webradio/herbst-hits
   country: DE
   status: stream-only
@@ -34519,8 +34602,10 @@
   reviewedAt: 2026-05-04
 - id: de-antenne-bayern-90er-party
   tags: [pop music]
-  favicon: "https://www.antenne.de/media/cache/3/version/13907/streamlogo_90er_party_aby_neu_2000x2000-v1.jpg/a428a5b24ca5144a.jpg"
+  favicon: "https://www.antenne.de/media/cache/3/version/13907/streamlogo_90er_party_aby_neu_2000x2000-v1.jpg/4f42c8f02075c4be.jpg"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Antenne Bayern 90er Party
   streamUrl: https://stream.antenne.de/antenne-bayern-90er-party/stream/mp3
@@ -36035,6 +36120,10 @@
   changeuuid: 2edb2a5a-6a7d-437e-ae98-c7259a253e63
   reviewedAt: 2026-05-04
 - id: de-radio-gong-96-3-2000er-hits-gong-2000er-hits
+  favicon: "https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU%20ab%20September%202025/NEU%20ab%20September%202025%20quadrat/27247549/image-thumb__27247549__streams-slider/Gong%2096.3_2000er%20Hits_600x600.6281896e.png"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [pop]
   broadcaster: independent
   name: Radio Gong 96.3 - 2000er Hits Gong 2000er Hits
@@ -36048,6 +36137,10 @@
   changeuuid: 2a8a1f7a-8a9e-4e68-9aef-20b10f150778
   reviewedAt: 2026-05-04
 - id: de-radio-gong-96-3-80er-hits-gong-80er-hits
+  favicon: "https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU%20ab%20September%202025/NEU%20ab%20September%202025%20quadrat/27247547/image-thumb__27247547__streams-slider/Gong%2096.3_80er%20Hits_600x600.cacd326d.png"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [pop]
   broadcaster: independent
   name: Radio Gong 96.3 - 80er Hits Gong 80er Hits
@@ -36067,8 +36160,10 @@
   streamUrl: https://radiogong--di--nacs-ais-lgc--09--cdn.cast.addradio.de/radiogong/channel06/mp3/high?ar-distributor=f0b7&_art=dj0yJmlwPTc3LjAuNDkuMjU1JmlkPWljc2N4bC1sNXhkZ3p4bWImdD0xNzMzNTEyMDkzJnM9Nzg2NmYyOWMjMmNjYTkzNjQwNWZkNDAyNTdjMzFmMGFmY2UwYzY1Yjk
   bitrate: 128
   codec: MP3
-  favicon: https://www.radiogong.de/08_PROGRAMM/musik/Streams/Gong%20Live%20NEU%20240524/27184912/image-thumb__27184912__streams-slider/gong_kachel_gong_live_600x600.09f0a5a5.webp
+  favicon: "https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU%20ab%20September%202025/NEU%20ab%20September%202025%20quadrat/27247546/image-thumb__27247546__streams-slider/Gong%2096.3_Weihnachts%20Hits_600x600.2d69b783.png"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.radiogong.de/
   country: DE
   status: stream-only
@@ -37537,8 +37632,10 @@
   streamUrl: https://addrad.io/445fyxf
   bitrate: 128
   codec: MP3
-  favicon: https://www.radiogong.de/x-beliebige/favicons/apple-touch-icon-144x144.png
+  favicon: "https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU%20ab%20September%202025/NEU%20ab%20September%202025%20quadrat/27247548/image-thumb__27247548__streams-slider/Gong%2096.3_90er%20Hits_600x600.5cedabca.png"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.radiogong.de/
   country: DE
   status: stream-only
@@ -37995,8 +38092,10 @@
   streamUrl: https://radiogong--di--nacs-ais-lgc--03--cdn.cast.addradio.de/radiogong/channel02/mp3/high?_art=dj0yJmlwPTc3LjAuNDkuMjU1JmlkPWljc2N4bC1vNHhkZ3p4bWImdD0xNzMzNTEyMzg4JnM9Nzg2NmYyOWMjNzEzYWFiYTgwMjk5MzMyMmEwNDAwYjc0NmU4YzQ4ZWI
   bitrate: 128
   codec: MP3
-  favicon: https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU_Oktober_2022/2676629/image-thumb__2676629__streams-slider/CHILL.d52e3685.webp
+  favicon: "https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU%20ab%20September%202025/NEU%20ab%20September%202025%20quadrat/27247552/image-thumb__27247552__streams-slider/Gong%2096.3_Chill_600x600.aeb41cc7.png"
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.radiogong.de/
   country: DE
   status: stream-only
@@ -39383,8 +39482,10 @@
   reviewedAt: 2026-05-04
 - id: de-radio-luca
   tags: [deutschland]
-  favicon: "https://image.jimcdn.com/app/cms/image/transf/none/path/s79cec96568b26f45/backgroundarea/ifd391743ecc49b53/version/1667936762/image.jpg"
-  faviconSource: radio-browser
+  favicon: "https://image.jimcdn.com/app/cms/image/transf/none/path/s79cec96568b26f45/image/i5caa35bbb9c8e63a/version/1654619498/image.png"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Radio Luca
   streamUrl: https://stream.laut.fm/luca
@@ -39403,8 +39504,10 @@
   streamUrl: https://addrad.io/4459jsj
   bitrate: 192
   codec: MP3
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Radio_Mixtape_Logo_2025.svg/langde-330px-Radio_Mixtape_Logo_2025.svg.png?utm_source=de.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
-  faviconSource: wiki
+  favicon: "https://logos-der-nrwlokalradios.s3.eu-central-1.amazonaws.com/rami-36-13.png"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.radiomixtape.de/
   country: DE
   status: stream-only
@@ -268850,8 +268953,10 @@
   streamUrl: "https://bestofrockfm.stream.vip/altrock/mp3-256/bestofrock.fm/"
   codec: MP3
   tags: [alternative metal, alternative rock, grunge, indie rock, punkrock, rock]
-  favicon: "https://www.best-of-rock.fm/favicons/apple-touch-icon.png"
-  faviconSource: radio-browser
+  favicon: "https://www.best-of-rock.fm/images/channels/alternative.png"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.best-of-rock.fm/"
   country: DE
   geo: [0, 0]
@@ -271188,8 +271293,10 @@
   streamUrl: "https://bestofrockfm.stream.vip/rammstein/mp3-256"
   codec: MP3
   tags: [rammstein]
-  favicon: "https://www.best-of-rock.fm/favicons/apple-touch-icon.png"
-  faviconSource: radio-browser
+  favicon: "https://www.best-of-rock.fm/images/channels/rammstein.png"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.best-of-rock.fm/"
   country: DE
   geo: [0, 0]
@@ -271417,6 +271524,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-90s90s-house-hq
+  favicon: "https://images.90s90s.de/files/2024-01/90s90s_streamtile_house.jpg?width=360&amp;height=360"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: 90s90s House HQ
@@ -277098,6 +277209,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-90s90s-sommerhits-aac-64k
+  favicon: "https://images.90s90s.de/files/2024-01/90s90s_streamtile_sommerhits.jpg?width=360&amp;height=360"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: "90s90s Sommerhits | aac 64k"
@@ -277277,8 +277392,10 @@
   name: 90s90s Dance Radio HQ
   streamUrl: "https://regiocast.streamabc.net/regc-90s90sdanceradio-mp3-192-7820726"
   codec: MP3
-  favicon: "https://images.90s90s.de/files/2023-09/90s90s_90s90s-dance-radio_1920x1080.jpg"
-  faviconSource: radio-browser
+  favicon: "https://images.90s90s.de/files/2024-01/90s90s_streamtile_90s90s-dance-radio_1.jpg?width=360&amp;height=360"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.90s90s.de/dance-radio"
   country: DE
   geo: [0, 0]
@@ -277342,6 +277459,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-90s90s-trance
+  favicon: "https://images.90s90s.de/files/2024-01/90s90s_streamtile_trance_1.jpg?width=360&amp;height=360"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: 90s90s Trance
@@ -278746,8 +278867,10 @@
   name: Radio PSR
   streamUrl: "https://streams.radiopsr.de/psr-live/mp3-192/mediaplayer"
   codec: MP3
-  favicon: "https://upload.radiopsr.de/production/static/1675427943375/icons/icon_64.cawac0w0200.png"
-  faviconSource: radio-browser
+  favicon: "https://images.radiopsr.de/files/2025-08/stream-tile-live.jpg?width=360&amp;height=360"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.radiopsr.de/"
   country: DE
   geo: [0, 0]
@@ -297340,8 +297463,10 @@
   name: radio SAW Region Magdeburg/Altmark
   streamUrl: "https://stream.radiosaw.de/saw-magdeburg-altmark/mp3-192"
   codec: MP3
-  favicon: "https://www.radiosaw.de/apple-icon-120x120.png"
-  faviconSource: radio-browser
+  favicon: "https://backend.radiosaw.de/sites/default/files/styles/square_tiny_200_x_200/public/2023-11/radio-SAW-Simulcast-Magdeburg-Altmark.png.webp?itok=YS38kIV8"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.radiosaw.de/"
   country: DE
   geo: [0, 0]
@@ -301589,6 +301714,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-radio-saw-2010er
+  favicon: "https://backend.radiosaw.de/sites/default/files/styles/square_tiny_200_x_200/public/2025-07/musikwelt_button_2010er_2025.png.webp?h=9e16a70f&amp;itok=Ms2hDlmK"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Radio SAW 2010er
@@ -302484,6 +302613,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-radio-7
+  favicon: "https://images.radio7.de/files/2023-10/radio_7.jpg?width=360&amp;height=360"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Radio 7
@@ -308265,6 +308398,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-sunshine-live-trance
+  favicon: "https://images.sunshine-live.de/files/2023-05/trance.jpg?width=360&amp;height=360"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: "sunshine live - Trance"
@@ -310143,8 +310280,10 @@
   streamUrl: "https://stream.bigfm.de/gpt/aac-128/stream.bigfm.de/"
   codec: AAC
   tags: [ai, ai audio experience, ai generated, bigben, bigfm, biggpt]
-  favicon: "https://file.atsw.de/production/static/1688453718728/icons/icon_512.a01A039c800.png"
-  faviconSource: radio-browser
+  favicon: "https://image.atsw.de/atsw/production/2025-01/biggpt_web_cover_moderiert.jpg?width=360&amp;height=360"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.bigfm.de/webradio/bigGPT"
   country: DE
   geo: [48.7829, 9.1782]
@@ -314377,6 +314516,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-radio-saw-in-the-mix-80er
+  favicon: "https://backend.radiosaw.de/sites/default/files/styles/square_tiny_200_x_200/public/2023-11/80er.png.webp?itok=Mt6hoLNC"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: radio SAW-In The Mix 80er
@@ -316072,6 +316215,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-radio-saw
+  favicon: "https://backend.radiosaw.de/sites/default/files/styles/square_tiny_200_x_200/public/2023-11/radio-saw-simulcast_0.png.webp?itok=KJstbbvk"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: radio SAW
@@ -316088,6 +316235,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-radio-saw-90er
+  favicon: "https://backend.radiosaw.de/sites/default/files/styles/square_tiny_200_x_200/public/2023-11/90er.png.webp?itok=m4KKyb-_"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: radio SAW-90er
@@ -317110,6 +317261,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-radio-saw-70er
+  favicon: "https://backend.radiosaw.de/sites/default/files/styles/square_tiny_200_x_200/public/2023-11/70er.png.webp?itok=qfNZNDGs"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: radio SAW-70er
@@ -330593,8 +330748,10 @@
   streamUrl: "https://stream.regenbogen2.de/modernrock/mp3-128/radio-browser"
   codec: MP3
   tags: [alternative rock, rock]
-  favicon: "https://image.atsw.de/atsw/production/2024-12/rockfm_alternative_600x600_1.jpg"
-  faviconSource: radio-browser
+  favicon: "https://image.atsw.de/atsw/production/2025-08/rockfm_cover_alternative.jpg?width=360&amp;height=360"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.rockfm.de/"
   country: DE
   geo: [49.4985, 8.5021]
@@ -333374,6 +333531,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-regenbogen-2-90er-rock
+  favicon: "https://image.atsw.de/atsw/production/2025-08/rockfm_cover_90errock.jpg?width=360&amp;height=360"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: REGENBOGEN 2 – 90ER ROCK
@@ -341093,6 +341254,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-radio-saw-rock-classic
+  favicon: "https://backend.radiosaw.de/sites/default/files/styles/square_tiny_200_x_200/public/2023-11/rock-classic.png.webp?itok=1WcerART"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: radio SAW-Rock Classic
@@ -347763,8 +347928,10 @@
   name: "radio SAW - Schlagerparty"
   streamUrl: "https://stream.saw-musikwelt.de/saw-schlagerparty/aac-48"
   codec: AAC
-  favicon: "https://www.radiosaw.de/android-icon-192x192.png"
-  faviconSource: radio-browser
+  favicon: "https://backend.radiosaw.de/sites/default/files/styles/16_9_small_400_x_230/public/2023-12/schlagerparty.png.webp?h=2240b8e9&amp;itok=WojWnmOA"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.radiosaw.de/radioplayer/schlagerparty/"
   country: DE
   geo: [0, 0]
@@ -349694,6 +349861,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-radio-saw-weihnachten
+  favicon: "https://backend.radiosaw.de/sites/default/files/styles/square_tiny_200_x_200/public/2023-11/weihnachten.png.webp?itok=bjL-6POY"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: radio SAW-Weihnachten
@@ -357019,6 +357190,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-radio-saw-party
+  favicon: "https://backend.radiosaw.de/sites/default/files/styles/square_tiny_200_x_200/public/2023-11/party.png.webp?itok=hffTphlK"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: radio SAW-Party
@@ -359445,8 +359620,10 @@
   name: radio SAW Region Anhalt/Wittenberg
   streamUrl: "https://stream.radiosaw.de/saw-anhalt-wittenberg/mp3-192"
   codec: MP3
-  favicon: "https://backend.radiosaw.de/sites/default/files/styles/square_tiny_200_x_200/public/2023-11/radio-saw-simulcast-anhalt-wittenberg.png.webp"
-  faviconSource: radio-browser
+  favicon: "https://backend.radiosaw.de/sites/default/files/styles/square_tiny_200_x_200/public/2023-11/radio-saw-simulcast-anhalt-wittenberg.png.webp?itok=mztH1dmd"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.radiosaw.de/"
   country: DE
   geo: [0, 0]
@@ -359457,6 +359634,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-radio-saw-fitness
+  favicon: "https://backend.radiosaw.de/sites/default/files/styles/square_tiny_200_x_200/public/2023-11/fitness_0.png.webp?itok=E7gn3jqs"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: radio SAW-Fitness
@@ -364359,6 +364540,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-radio-saw-2000er
+  favicon: "https://backend.radiosaw.de/sites/default/files/styles/square_tiny_200_x_200/public/2023-11/2000er.png.webp?itok=N5O1xgDY"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: radio SAW-2000er
@@ -367196,6 +367381,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-radio-saw-neuheiten
+  favicon: "https://backend.radiosaw.de/sites/default/files/styles/square_tiny_200_x_200/public/2023-11/Neuheiten.png.webp?itok=6S4kr4K5"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: radio SAW-Neuheiten
@@ -375235,6 +375424,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-radio-saw-urban-music
+  favicon: "https://backend.radiosaw.de/sites/default/files/styles/square_tiny_200_x_200/public/2023-11/urban-music.png.webp?itok=Hmaj_3cb"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: radio SAW-Urban Music
@@ -384563,8 +384756,10 @@
   name: 90s90s Chill Out
   streamUrl: "https://streams.90s90s.de/chillout/mp3-128/streams.90s90s.de/"
   codec: MP3
-  favicon: "https://www.radio.net/300/90s90schillout.png"
-  faviconSource: radio-browser
+  favicon: "https://images.90s90s.de/files/2025-07/90s90s_streamtile_chill-out.jpg?width=360&amp;height=360"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.90s90s.de/radios/chill-out"
   country: DE
   geo: [0, 0]

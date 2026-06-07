@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-06-07T15:52:11.402Z",
+  "generatedAt": "2026-06-07T17:25:54.315Z",
   "totalScanned": 24306,
   "dedupeGeneratedAt": "2026-06-07T08:26:34.302Z",
-  "collisionCount": 1789,
+  "collisionCount": 1782,
   "byKind": {
     "stationuuid": 0,
     "streamUrl": 0,
@@ -12,20 +12,20 @@
     "rb-canonical-cross-country": 54,
     "country+name": 196,
     "homepage+signature": 259,
-    "favicon+signature": 164,
+    "favicon+signature": 160,
     "name": 331,
-    "homepage+favicon": 139
+    "homepage+favicon": 136
   },
   "blockingCollisionCount": 0,
-  "reviewCollisionCount": 1203,
+  "reviewCollisionCount": 1196,
   "lowConfidenceCollisionCount": 586,
   "largeRbCanonicalCollisionCount": 5,
   "crossCountryRbCanonicalCollisionCount": 54,
   "maxRbCanonicalAuditSize": 20,
-  "duplicateGroupCount": 577,
+  "duplicateGroupCount": 576,
   "blockingDuplicateGroupCount": 0,
-  "reviewDuplicateGroupCount": 577,
-  "duplicateRows": 683,
+  "reviewDuplicateGroupCount": 576,
+  "duplicateRows": 682,
   "duplicateGroups": [
     {
       "severity": "review",
@@ -8620,8 +8620,6 @@
     {
       "severity": "review",
       "signalKinds": [
-        "favicon+signature",
-        "homepage+favicon",
         "homepage+signature",
         "rb-canonical",
         "stream-fingerprint"
@@ -8638,14 +8636,6 @@
         {
           "kind": "homepage+signature",
           "key": "DE|ffh.de|ffh hit"
-        },
-        {
-          "kind": "favicon+signature",
-          "key": "DE|https://static.ffh.de/fileadmin/templates/ffh.de/images/logo-snippets.png|ffh hit"
-        },
-        {
-          "kind": "homepage+favicon",
-          "key": "DE|ffh.de|https://static.ffh.de/fileadmin/templates/ffh.de/images/logo-snippets.png|ffh hit"
         }
       ],
       "entries": [
@@ -9503,8 +9493,6 @@
     {
       "severity": "review",
       "signalKinds": [
-        "favicon+signature",
-        "homepage+favicon",
         "homepage+signature",
         "rb-canonical"
       ],
@@ -9516,14 +9504,6 @@
         {
           "kind": "homepage+signature",
           "key": "DE|radio-luca.jimdofree.com|luca"
-        },
-        {
-          "kind": "favicon+signature",
-          "key": "DE|https://image.jimcdn.com/app/cms/image/transf/none/path/s79cec96568b26f45/backgroundarea/ifd391743ecc49b53/version/1667936762/image.jpg|luca"
-        },
-        {
-          "kind": "homepage+favicon",
-          "key": "DE|radio-luca.jimdofree.com|https://image.jimcdn.com/app/cms/image/transf/none/path/s79cec96568b26f45/backgroundarea/ifd391743ecc49b53/version/1667936762/image.jpg|luca"
         }
       ],
       "entries": [
@@ -9975,33 +9955,6 @@
     {
       "severity": "review",
       "signalKinds": [
-        "favicon+signature"
-      ],
-      "signals": [
-        {
-          "kind": "favicon+signature",
-          "key": "DE|https://www.rockantenne.de/media/cache/3/version/578/streamlogo_90er-rock_ra-v1.jpg/6a48bc88eaa5bbf1.jpg|90er antenne rock rock"
-        }
-      ],
-      "entries": [
-        {
-          "id": "de-rock-antenne-90er-rock",
-          "name": "Rock Antenne 90er-Rock",
-          "country": "DE",
-          "streamUrl": "https://stream.rockantenne.de/90er-rock"
-        },
-        {
-          "id": "de-rock-antenne-90er-rock-2",
-          "name": "Rock Antenne - 90er Rock",
-          "country": "DE",
-          "stationuuid": "798d8fff-1391-48f6-adc5-f34f37ffa7d0",
-          "streamUrl": "https://stream.rockantenne.de/90er-rock/stream/mp3"
-        }
-      ]
-    },
-    {
-      "severity": "review",
-      "signalKinds": [
         "rb-canonical"
       ],
       "signals": [
@@ -10030,8 +9983,6 @@
     {
       "severity": "review",
       "signalKinds": [
-        "favicon+signature",
-        "homepage+favicon",
         "homepage+signature",
         "rb-canonical"
       ],
@@ -10043,14 +9994,6 @@
         {
           "kind": "homepage+signature",
           "key": "DE|rockantenne.de/webradio/gothic|antenne gothic rock"
-        },
-        {
-          "kind": "favicon+signature",
-          "key": "DE|https://www.rockantenne.de/media/cache/3/version/13569/streamlogo_gothic_ra_hp-v1.jpg/45fab311f0ada967.jpg|antenne gothic rock"
-        },
-        {
-          "kind": "homepage+favicon",
-          "key": "DE|rockantenne.de/webradio/gothic|https://www.rockantenne.de/media/cache/3/version/13569/streamlogo_gothic_ra_hp-v1.jpg/45fab311f0ada967.jpg|antenne gothic rock"
         }
       ],
       "entries": [
@@ -40691,47 +40634,6 @@
     },
     {
       "kind": "favicon+signature",
-      "key": "DE|https://www.rockantenne.de/media/cache/3/version/578/streamlogo_90er-rock_ra-v1.jpg/6a48bc88eaa5bbf1.jpg|90er antenne rock rock",
-      "confidence": "review",
-      "entries": [
-        {
-          "id": "de-rock-antenne-90er-rock",
-          "name": "Rock Antenne 90er-Rock",
-          "country": "DE",
-          "streamUrl": "https://stream.rockantenne.de/90er-rock"
-        },
-        {
-          "id": "de-rock-antenne-90er-rock-2",
-          "name": "Rock Antenne - 90er Rock",
-          "country": "DE",
-          "stationuuid": "798d8fff-1391-48f6-adc5-f34f37ffa7d0",
-          "streamUrl": "https://stream.rockantenne.de/90er-rock/stream/mp3"
-        }
-      ]
-    },
-    {
-      "kind": "favicon+signature",
-      "key": "DE|https://static.ffh.de/fileadmin/templates/ffh.de/images/logo-snippets.png|ffh hit",
-      "confidence": "review",
-      "entries": [
-        {
-          "id": "de-hit-radio-ffh",
-          "name": "Hit Radio FFH",
-          "country": "DE",
-          "stationuuid": "96056147-0601-11e8-ae97-52543be04c81",
-          "streamUrl": "https://mp3.ffh.de/radioffh/hqlivestream.mp3"
-        },
-        {
-          "id": "de-ffh-hit-radio-aac-128-kbps",
-          "name": "FFH Hit Radio. AAC 128 kbps",
-          "country": "DE",
-          "stationuuid": "93f7c878-c404-469d-ae87-378d64fb909c",
-          "streamUrl": "https://mp3.ffh.de/radioffh/hqlivestream.aac"
-        }
-      ]
-    },
-    {
-      "kind": "favicon+signature",
       "key": "DE|https://www.deutschlandfunknova.de/apple-touch-icon-precomposed.png|deutschlandfunk dlf nova",
       "confidence": "review",
       "entries": [
@@ -41222,27 +41124,6 @@
     },
     {
       "kind": "favicon+signature",
-      "key": "DE|https://www.rockantenne.de/media/cache/3/version/13569/streamlogo_gothic_ra_hp-v1.jpg/45fab311f0ada967.jpg|antenne gothic rock",
-      "confidence": "review",
-      "entries": [
-        {
-          "id": "de-rock-antenne-gothic",
-          "name": "Rock Antenne Gothic",
-          "country": "DE",
-          "stationuuid": "72e2c8e3-3d74-41e3-855c-d44812d5023e",
-          "streamUrl": "https://s6-webradio.rockantenne.de/gothic/stream/mp3"
-        },
-        {
-          "id": "de-rock-antenne-gothic-2",
-          "name": "Rock Antenne - Gothic",
-          "country": "DE",
-          "stationuuid": "f5f6ae79-b919-497b-a10f-720ea7cdc7bc",
-          "streamUrl": "https://s3-webradio.rockantenne.de/gothic"
-        }
-      ]
-    },
-    {
-      "kind": "favicon+signature",
       "key": "DE|https://www.0nradio.com/logos/0n-movies_600x600.jpg|0 movies n on",
       "confidence": "review",
       "entries": [
@@ -41406,27 +41287,6 @@
           "country": "DE",
           "stationuuid": "0ad0cda6-0b7e-4b4a-b943-05315d1d255f",
           "streamUrl": "https://fluxmusic.api.radiosphere.io/channels/traumerei/stream.aac?quality=10"
-        }
-      ]
-    },
-    {
-      "kind": "favicon+signature",
-      "key": "DE|https://image.jimcdn.com/app/cms/image/transf/none/path/s79cec96568b26f45/backgroundarea/ifd391743ecc49b53/version/1667936762/image.jpg|luca",
-      "confidence": "review",
-      "entries": [
-        {
-          "id": "de-radio-luca",
-          "name": "Radio Luca",
-          "country": "DE",
-          "stationuuid": "1a0a1864-6ccd-4341-9239-583a6e2e95a2",
-          "streamUrl": "https://stream.laut.fm/luca"
-        },
-        {
-          "id": "de-radio-luca-2",
-          "name": "Radio.luca",
-          "country": "DE",
-          "stationuuid": "e79ef6a4-aca4-447b-9ef6-57804dcefd8b",
-          "streamUrl": "https://luca.stream.laut.fm/luca?t302=2024-06-07_07-49-23&uuid=5c7dcb97-8e6a-4630-a8c4-4e3185f06b1f"
         }
       ]
     },
@@ -44428,27 +44288,6 @@
     },
     {
       "kind": "homepage+favicon",
-      "key": "DE|ffh.de|https://static.ffh.de/fileadmin/templates/ffh.de/images/logo-snippets.png|ffh hit",
-      "confidence": "review",
-      "entries": [
-        {
-          "id": "de-hit-radio-ffh",
-          "name": "Hit Radio FFH",
-          "country": "DE",
-          "stationuuid": "96056147-0601-11e8-ae97-52543be04c81",
-          "streamUrl": "https://mp3.ffh.de/radioffh/hqlivestream.mp3"
-        },
-        {
-          "id": "de-ffh-hit-radio-aac-128-kbps",
-          "name": "FFH Hit Radio. AAC 128 kbps",
-          "country": "DE",
-          "stationuuid": "93f7c878-c404-469d-ae87-378d64fb909c",
-          "streamUrl": "https://mp3.ffh.de/radioffh/hqlivestream.aac"
-        }
-      ]
-    },
-    {
-      "kind": "homepage+favicon",
       "key": "DE|deutschlandfunknova.de|https://www.deutschlandfunknova.de/apple-touch-icon-precomposed.png|deutschlandfunk dlf nova",
       "confidence": "review",
       "entries": [
@@ -44876,27 +44715,6 @@
     },
     {
       "kind": "homepage+favicon",
-      "key": "DE|rockantenne.de/webradio/gothic|https://www.rockantenne.de/media/cache/3/version/13569/streamlogo_gothic_ra_hp-v1.jpg/45fab311f0ada967.jpg|antenne gothic rock",
-      "confidence": "review",
-      "entries": [
-        {
-          "id": "de-rock-antenne-gothic",
-          "name": "Rock Antenne Gothic",
-          "country": "DE",
-          "stationuuid": "72e2c8e3-3d74-41e3-855c-d44812d5023e",
-          "streamUrl": "https://s6-webradio.rockantenne.de/gothic/stream/mp3"
-        },
-        {
-          "id": "de-rock-antenne-gothic-2",
-          "name": "Rock Antenne - Gothic",
-          "country": "DE",
-          "stationuuid": "f5f6ae79-b919-497b-a10f-720ea7cdc7bc",
-          "streamUrl": "https://s3-webradio.rockantenne.de/gothic"
-        }
-      ]
-    },
-    {
-      "kind": "homepage+favicon",
       "key": "DE|0nradio.com|https://www.0nradio.com/logos/0n-movies_600x600.jpg|0 movies n on",
       "confidence": "review",
       "entries": [
@@ -45060,27 +44878,6 @@
           "country": "DE",
           "stationuuid": "0ad0cda6-0b7e-4b4a-b943-05315d1d255f",
           "streamUrl": "https://fluxmusic.api.radiosphere.io/channels/traumerei/stream.aac?quality=10"
-        }
-      ]
-    },
-    {
-      "kind": "homepage+favicon",
-      "key": "DE|radio-luca.jimdofree.com|https://image.jimcdn.com/app/cms/image/transf/none/path/s79cec96568b26f45/backgroundarea/ifd391743ecc49b53/version/1667936762/image.jpg|luca",
-      "confidence": "review",
-      "entries": [
-        {
-          "id": "de-radio-luca",
-          "name": "Radio Luca",
-          "country": "DE",
-          "stationuuid": "1a0a1864-6ccd-4341-9239-583a6e2e95a2",
-          "streamUrl": "https://stream.laut.fm/luca"
-        },
-        {
-          "id": "de-radio-luca-2",
-          "name": "Radio.luca",
-          "country": "DE",
-          "stationuuid": "e79ef6a4-aca4-447b-9ef6-57804dcefd8b",
-          "streamUrl": "https://luca.stream.laut.fm/luca?t302=2024-06-07_07-49-23&uuid=5c7dcb97-8e6a-4630-a8c4-4e3185f06b1f"
         }
       ]
     },
