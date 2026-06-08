@@ -393660,6 +393660,10 @@
   homepage: https://www.radiogong.de/
   country: DE
   status: stream-only
+  # Legacy pre-HTTPS-migration Radio Browser record for this channel (old nmdn
+  # channel5 stream, RB never refreshed). Bound so the iOS-local test catalog
+  # inherits this station's per-channel art instead of rendering blank.
+  akaStationUuids: [961f120a-0601-11e8-ae97-52543be04c81] # "Radio Gong 96.3 München - Party Gong"
 - id: de-radio-gong-96-3-acoustic-covers
   favicon: "https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU%20ab%20September%202025/NEU%20ab%20September%202025%20quadrat/27247550/image-thumb__27247550__streams-slider/Gong%2096.3_Acoustic%20Covers_600x600.6436dad6.png"
   faviconSource: broadcaster-site
@@ -393800,6 +393804,10 @@
   homepage: https://www.radiogong.de/
   country: DE
   status: stream-only
+  # Legacy Radio Browser record for the flagship live stream (old
+  # radiogong.de/app/live.m3u, no RB favicon). Bound so the iOS-local test
+  # catalog inherits this station's per-channel art instead of rendering blank.
+  akaStationUuids: [7eb433a9-fba5-4c86-9e08-2727ec9835de] # "Radio Gong 96.3 München - Live"
 - id: de-radio-gong-96-3-oktoberfest-radio
   favicon: "https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU%20ab%20September%202025/NEU%20ab%20September%202025%20quadrat/27247557/image-thumb__27247557__streams-slider/Gong%2096.3_Oktoberfest%20Radio_600x600.62812555.png"
   faviconSource: broadcaster-site
@@ -393841,3 +393849,7 @@
   homepage: https://www.089kult.de/
   country: DE
   status: stream-only
+  # Legacy Radio Browser record from before the 089 Kult rebrand (old nmdn
+  # channel4 stream, listed under radiogong.de as "Kulthits"). Bound so the
+  # iOS-local test catalog inherits this station's logo instead of rendering blank.
+  akaStationUuids: [960d39bd-0601-11e8-ae97-52543be04c81] # "Radio Gong 96.3 München - Kulthits"

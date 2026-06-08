@@ -189,6 +189,49 @@ if (drift) {
   process.exit(2);
 }
 
+// iOS-local catalog freshness. public/stations-ios-local.json is a separate,
+// manually-rebuilt artifact (npm run catalog:ios-local) that mirrors curated
+// favicons into the full Radio-Browser candidate pool. It silently drifts
+// behind the curated catalog — a station gains per-channel art but the matched
+// iOS row keeps no icon — which is exactly how a batch of Radio Gong 96.3 rows
+// shipped iconless. Invariant: every iOS row linked to a curated station
+// (localMatchedCatalogId) must carry a favicon when that curated station has a
+// usable one. Skip silently when the artifact isn't present in the checkout.
+const iosLocalPath = join(root, 'public/stations-ios-local.json');
+if (existsSync(iosLocalPath)) {
+  const curatedFaviconById = new Map();
+  for (const s of jsonStations) {
+    const f = s.favicon;
+    if (typeof f === 'string' && (/^stations\//.test(f) || f.startsWith('https://'))) {
+      curatedFaviconById.set(s.id, f);
+    }
+  }
+  let iosLocal;
+  try {
+    iosLocal = JSON.parse(readFileSync(iosLocalPath, 'utf8'));
+  } catch {
+    fail('public/stations-ios-local.json is not valid JSON — run npm run catalog:ios-local');
+  }
+  const iosStations = Array.isArray(iosLocal) ? iosLocal : iosLocal.stations;
+  const staleIosRows = [];
+  for (const s of iosStations || []) {
+    const curatedId = s.localMatchedCatalogId;
+    if (!curatedId || !curatedFaviconById.has(curatedId)) continue;
+    if (!s.favicon) staleIosRows.push(`${s.id} → ${curatedId}`);
+  }
+  if (staleIosRows.length > 0) {
+    console.error(
+      `${C.bad}check-catalog: ${staleIosRows.length} iOS-local row(s) missing a favicon their curated station has:${C.reset}`,
+    );
+    for (const m of staleIosRows.slice(0, 20)) console.error(`  ${m}`);
+    if (staleIosRows.length > 20) console.error(`  …and ${staleIosRows.length - 20} more`);
+    console.error(
+      `\n  public/stations-ios-local.json is stale. Fix: run ${C.ok}npm run catalog:ios-local${C.reset}${C.bad} and commit it.${C.reset}`,
+    );
+    process.exit(2);
+  }
+}
+
 // Stale-allowlist check: an `httpAllowed: true` row whose stream is
 // now actually HTTPS (e.g. RB upstream upgraded) means the flag should
 // be removed. Warn (don't fail) so curator can clean up.
