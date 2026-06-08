@@ -40,7 +40,7 @@ and whether we can redistribute a bundled copy. They flow through to
 | Value | Set by |
 |---|---|
 | `broadcaster-site` | `scrape-logos` (HTML/manifest image from broadcaster homepage) |
-| `broadcaster-api` | image URL returned by a broadcaster metadata API |
+| `broadcaster-api` | `harvest-logos` (per-channel image URL from a broadcaster metadata API) |
 | `radio-browser` | imported from Radio Browser's favicon field |
 | `wiki` | `wiki-logos` (Wikipedia CC-licensed article image) |
 | `broadcaster` | bundled local PNG hand-curated from the broadcaster |
@@ -216,6 +216,30 @@ YAML insert/replace as `scrape-logos`. Report: `.cache/channel-art-report.json`
 
 After a real run, regenerate and verify exactly as for `scrape-logos` (catalog,
 favicon-variants, check-catalog, check-duplicates, build).
+
+## Broadcaster-API Logos (metadata-API channel art)
+
+When a broadcaster exposes per-channel art through the **same metadata API we
+already call for now-playing** (the SRG SSR integration layer is the proven
+case), `harvest-logos` beats scraping: the URLs are authoritative,
+broadcaster-hosted, and licence-clean, and the station → channel join is exact
+(by the id already in `metadataUrl`). See *Broadcaster-API logos* in
+`docs/operations.md` for the full workflow. In short:
+
+```bash
+npm run harvest-logos                          # missing-only (safe inserts)
+npm run harvest-logos -- --upgrade-generic     # + weak/site-default icons
+npm run harvest-logos -- --include-existing     # forced idempotent re-harvest
+npm run apply-logos -- --in internal/logos/broadcaster-api.json [--replace]
+```
+
+The join + write policy are pure and unit-tested in
+`tools/lib/broadcaster-logos.mjs`; add a broadcaster by adding an adapter there.
+`faviconSource: broadcaster-api`. Prefer this over `scrape-logos` /
+`scrape-channel-art` whenever a metadata API already serves the art. Caveat: the
+SRG `imageUrl` is a 16:9 branded card — busier than a wordmark for the list
+icon, so default policy leaves an existing good logo (e.g. SRF's Commons
+wordmarks) untouched.
 
 ## iOS-local Catalog: Favicon Inheritance
 
