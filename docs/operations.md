@@ -95,6 +95,35 @@ See `docs/curation-checklist.md` for the full per-activity playbook. The standar
 4. If broadcaster has a metadata API but no fetcher yet — add one in `src/builtins.ts` AND a discoverer in `tools/wire-metadata.mjs` (so future channels of the same family auto-wire).
 5. Bump status from `stream-only` → `icy-only` (ICY-only metadata) or `working` (full per-broadcaster fetcher with logo).
 
+## Homepage liveness (`check-homepages`)
+
+A dead `homepage:` breaks twice: the link is broken for users, and it silently
+disables `scrape-logos`, which derives a broadcaster logo *from* the homepage.
+`check-catalog` only validates URL *syntax*, so dead homepages sail through (the
+SRF family had all six `/audio/<slug>` homepages 404-ing — #469/#470).
+
+`npm run check-homepages` fetches each publishable station's homepage (deduped
+by URL, ~18.5k unique), follows redirects with a real browser User-Agent, and
+classifies the result: `ok` · `dead` (4xx — actionable, breaks scraping) ·
+`blocked` (401/403/429 — auth/geo/rate, page may be fine) · `server-error` (5xx)
+· `error` (DNS/TLS/timeout). It is a **periodic/curation gate, not a per-build
+CI check** — a full run is a real network job. Non-blocking by default;
+`--strict` exits non-zero when any homepage is `dead`.
+
+```bash
+npm run check-homepages -- --cc CH            # one country (171 stations)
+npm run check-homepages -- --cc DE --strict   # gate a country in CI/curation
+npm run check-homepages -- --only id1,id2     # specific stations
+npm run check-homepages -- --limit 500        # quick sample
+npm run check-homepages -- --force            # ignore cache, recheck all
+```
+
+Results cache to `.cache/homepage-status.json` (gitignored); rows younger than
+`--stale-days` (default 7) are reused, so country batches are resumable. A `dead`
+homepage is a curation lead: find the live URL (often the broadcaster's own
+programme page — for SRG the integration layer's `timeTableUrl`) and update the
+YAML, then regenerate the catalog.
+
 ## Adding a station that fits an existing fetcher
 
 Existing fetchers cover Grrif, ORF (any channel via metadataUrl), BR (any channel via metadataUrl), plus generic ICY-over-fetch as fallback.
