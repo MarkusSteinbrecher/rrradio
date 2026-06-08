@@ -30,6 +30,13 @@ const OUT = path.join(PUBLIC, 'station-logo-quality.json');
 
 const PROBE_BYTES = 64 * 1024; // 64 KB header window — covers every format
 
+// A real browser UA. Without it, Wikimedia (upload.wikimedia.org) and other
+// UA-gating CDNs return 403 to the prober, which made every Wikimedia-hosted
+// logo look broken and hid genuinely dead logos in the noise. Matches the UA
+// scrape-logos.mjs / wiki-logos.mjs already send.
+const UA =
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15';
+
 const args = parseArgs(process.argv.slice(2));
 
 function parseArgs(argv) {
@@ -101,11 +108,11 @@ async function probeRemote(url) {
     let res = await fetch(url, {
       signal: ctl.signal,
       redirect: 'follow',
-      headers: { Range: `bytes=0-${PROBE_BYTES - 1}`, Accept: 'image/*,*/*' },
+      headers: { 'User-Agent': UA, Range: `bytes=0-${PROBE_BYTES - 1}`, Accept: 'image/*,*/*' },
     });
     // 416 — server refused the range; retry with a plain GET capped by AbortController.
     if (res.status === 416) {
-      res = await fetch(url, { signal: ctl.signal, redirect: 'follow', headers: { Accept: 'image/*,*/*' } });
+      res = await fetch(url, { signal: ctl.signal, redirect: 'follow', headers: { 'User-Agent': UA, Accept: 'image/*,*/*' } });
     }
     if (!res.ok && res.status !== 206) {
       return { error: `HTTP ${res.status}`, source: 'remote' };
