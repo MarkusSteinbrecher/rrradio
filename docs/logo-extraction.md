@@ -217,6 +217,42 @@ YAML insert/replace as `scrape-logos`. Report: `.cache/channel-art-report.json`
 After a real run, regenerate and verify exactly as for `scrape-logos` (catalog,
 favicon-variants, check-catalog, check-duplicates, build).
 
+## iOS-local Catalog: Favicon Inheritance
+
+`public/stations-ios-local.json` (built by `npm run catalog:ios-local`) is the
+local-only iOS *test* catalog: the curated set **plus** the full Radio Browser
+candidate pool, one row per playable source, HTTP streams included. It is **not**
+the shipped web catalog. Each row resolves its favicon through four tiers, in
+order:
+
+1. **curated catalog art** — the candidate's `matchedCatalogId` station's favicon
+   (per-channel art flows here automatically once it lands in `stations.json`);
+2. **`akaStationUuids` alias** — when the uuid/streamUrl matcher in
+   `build-sources` *can't* link a stale RB record (different uuid, dead old
+   stream, drifted name) to the curated station it really is, list that record's
+   `stationuuid` under `akaStationUuids:` on the curated YAML row so this catalog
+   inherits the correct per-channel art;
+3. **raw Radio Browser favicon** (HTTPS only);
+4. **family brand mark** — an RB orphan from a broadcaster we curate, carrying its
+   family's name-token core (gated by `detectFamilies`, *not* a bare host bucket),
+   gets the family's representative logo (`faviconSource: catalog-family-brand`)
+   rather than rendering blank.
+
+This is why a Radio Gong 96.3 channel can have perfect per-channel art in the
+shipped catalog yet still show blank rows in the iOS-local catalog: those rows are
+RB's own (often pre-HTTPS-migration) duplicate records, not our curated stations.
+
+**Freshness is gated.** `check-catalog` fails when any iOS-local row linked to a
+curated station (`localMatchedCatalogId`) lacks a favicon that station actually
+has — i.e. the artifact drifted behind a logo change. Fix by rebuilding:
+
+```bash
+npm run catalog:ios-local   # then commit public/stations-ios-local.json
+```
+
+Run this after any curated-favicon change (per-channel art sweeps especially), the
+same way you regenerate `stations.json`.
+
 ## Review Rules
 
 Do not apply a scrape run blindly. Review the report and spot-check images.
