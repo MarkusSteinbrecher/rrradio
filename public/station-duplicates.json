@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-06-07T18:22:59.204Z",
+  "generatedAt": "2026-06-09T09:25:33.955Z",
   "totalScanned": 24320,
   "dedupeGeneratedAt": "2026-06-07T08:26:34.302Z",
-  "collisionCount": 1782,
+  "collisionCount": 1783,
   "byKind": {
     "stationuuid": 0,
     "streamUrl": 0,
@@ -12,20 +12,20 @@
     "rb-canonical-cross-country": 54,
     "country+name": 196,
     "homepage+signature": 259,
-    "favicon+signature": 160,
+    "favicon+signature": 161,
     "name": 331,
     "homepage+favicon": 136
   },
   "blockingCollisionCount": 0,
-  "reviewCollisionCount": 1196,
+  "reviewCollisionCount": 1197,
   "lowConfidenceCollisionCount": 586,
   "largeRbCanonicalCollisionCount": 5,
   "crossCountryRbCanonicalCollisionCount": 54,
   "maxRbCanonicalAuditSize": 20,
-  "duplicateGroupCount": 576,
+  "duplicateGroupCount": 577,
   "blockingDuplicateGroupCount": 0,
-  "reviewDuplicateGroupCount": 576,
-  "duplicateRows": 682,
+  "reviewDuplicateGroupCount": 577,
+  "duplicateRows": 683,
   "duplicateGroups": [
     {
       "severity": "review",
@@ -15281,6 +15281,34 @@
           "country": "NZ",
           "stationuuid": "70e66e79-c288-4690-a4f3-a1359cd72d63",
           "streamUrl": "https://rhema-radio.streamguys1.com/rhema-lifefm.mp3"
+        }
+      ]
+    },
+    {
+      "severity": "review",
+      "signalKinds": [
+        "favicon+signature"
+      ],
+      "signals": [
+        {
+          "kind": "favicon+signature",
+          "key": "NZ|https://images.ctfassets.net/r65x6q43xsmv/33cbgqb9wtt5zdx3sved7e/d6ea2792fefee1a63b1df113dda9c9c9/mai-logo-1920x1080.jpg|mai"
+        }
+      ],
+      "entries": [
+        {
+          "id": "nz-mai-fm",
+          "name": "Mai FM",
+          "country": "NZ",
+          "stationuuid": "6f5ab635-8e49-43e7-b3f8-43cd44e4516e",
+          "streamUrl": "https://ais-sa1.streamon.fm/7102_128k.aac"
+        },
+        {
+          "id": "nz-mai-fm-89440784",
+          "name": "Mai FM",
+          "country": "NZ",
+          "stationuuid": "89440784-a9c3-46b2-9474-1ed2c8baac72",
+          "streamUrl": "https://mediaworks.streamguys1.com/mai_net_icy"
         }
       ]
     },
@@ -43429,6 +43457,27 @@
           "country": "NZ",
           "stationuuid": "c6723382-d7b8-45e2-99ad-40a4b2b3a009",
           "streamUrl": "https://rhema-radio.streamguys1.com/rhema-sanctuary.aac"
+        }
+      ]
+    },
+    {
+      "kind": "favicon+signature",
+      "key": "NZ|https://images.ctfassets.net/r65x6q43xsmv/33cbgqb9wtt5zdx3sved7e/d6ea2792fefee1a63b1df113dda9c9c9/mai-logo-1920x1080.jpg|mai",
+      "confidence": "review",
+      "entries": [
+        {
+          "id": "nz-mai-fm",
+          "name": "Mai FM",
+          "country": "NZ",
+          "stationuuid": "6f5ab635-8e49-43e7-b3f8-43cd44e4516e",
+          "streamUrl": "https://ais-sa1.streamon.fm/7102_128k.aac"
+        },
+        {
+          "id": "nz-mai-fm-89440784",
+          "name": "Mai FM",
+          "country": "NZ",
+          "stationuuid": "89440784-a9c3-46b2-9474-1ed2c8baac72",
+          "streamUrl": "https://mediaworks.streamguys1.com/mai_net_icy"
         }
       ]
     },
