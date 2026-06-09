@@ -23,6 +23,14 @@
  *   node tools/migrate-nonfree-logos.mjs --limit 30       # validation slice
  *   node tools/migrate-nonfree-logos.mjs --concurrency 6  # default 6
  *   node tools/migrate-nonfree-logos.mjs --out <path>     # default internal/logos/nonfree-migration.json
+ *
+ * Family propagation (#478) — reuse one sibling's resolved Commons logo for the
+ * others sharing its non-free en file (they share the same artwork):
+ *   node tools/migrate-nonfree-logos.mjs --propagate               # same-country only (safe)
+ *   node tools/migrate-nonfree-logos.mjs --propagate --cross-country  # + cross-country (review-first: NRJ yes, Kiss no)
+ * Propagated entries are tagged `_via: family` + `_seed`/`_tier`; cross-country
+ * ones are listed for mandatory review (a generic name like "Kiss"/"Gold" is
+ * shared by UNRELATED stations across countries).
  */
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
@@ -41,6 +49,9 @@ import {
   FILE_HIT_MIN_SCORE,
   commonsFileName,
   normalizeLicense,
+  enWikiFileName,
+  propagationTier,
+  sharesBrandToken,
 } from './lib/nonfree-migration.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -59,6 +70,13 @@ const LIMIT = Number(argVal('--limit', Infinity));
 const CONCURRENCY = Math.max(1, Math.min(12, Number(argVal('--concurrency', 6))));
 const OUT_ARG = argVal('--out', 'internal/logos/nonfree-migration.json');
 const OUT_PATH = isAbsolute(OUT_ARG) ? OUT_ARG : join(root, OUT_ARG);
+// Family propagation (#478): reuse one sibling's resolved Commons logo for the
+// other stations sharing its non-free en file. `--propagate` does the safe
+// same-country subset (within-country sub-channels/regionals); add
+// `--cross-country` to also surface cross-country members (real networks like
+// NRJ — but also unrelated same-name stations, so they're flagged review-first).
+const PROPAGATE = argFlag('--propagate');
+const CROSS_COUNTRY = argFlag('--cross-country');
 
 const FETCH_TIMEOUT_MS = 12000;
 const UA =
@@ -283,16 +301,76 @@ await runPool(
   CONCURRENCY,
 );
 
+// ─── family propagation (#478) ─────────────────────────────────────
+// Stations sharing one non-free en file share the same artwork. When a sibling
+// resolved a free Commons logo, reuse it for the others in the group — guarded
+// by a shared brand token and the country tier (same-country auto;
+// cross-country only with --cross-country, and flagged for review because a
+// generic name like "Kiss"/"Gold" is shared by UNRELATED stations).
+const propagationReview = [];
+if (PROPAGATE) {
+  const seedEntryById = new Map(patch.map((e) => [e.id, e])); // original per-station resolutions only
+  const groups = new Map();
+  for (const s of targets) {
+    const f = enWikiFileName(s.favicon);
+    if (!f) continue;
+    if (!groups.has(f)) groups.set(f, []);
+    groups.get(f).push(s);
+  }
+  for (const members of groups.values()) {
+    if (members.length < 2) continue;
+    const seeds = members.filter((m) => seedEntryById.has(m.id));
+    const unresolved = members.filter((m) => !seedEntryById.has(m.id));
+    if (!seeds.length || !unresolved.length) continue;
+    for (const sib of unresolved) {
+      let chosen = null;
+      for (const seed of seeds) {
+        if (!sharesBrandToken(seed.name, sib.name)) continue;
+        const tier = propagationTier(seed.country, sib.country);
+        if (tier === 'cross-country' && !CROSS_COUNTRY) continue;
+        chosen = { seed, tier };
+        break;
+      }
+      if (!chosen) continue;
+      const seedEntry = seedEntryById.get(chosen.seed.id);
+      const entry = {
+        id: sib.id,
+        url: seedEntry.url,
+        source: 'wiki',
+        sourceUrl: seedEntry.sourceUrl,
+        _via: 'family',
+        _seed: chosen.seed.id,
+        _seedVia: seedEntry._via,
+        _tier: chosen.tier,
+        _name: sib.name,
+      };
+      if (seedEntry.license) entry.license = seedEntry.license;
+      patch.push(entry);
+      const mi = misses.findIndex((m) => m.id === sib.id);
+      if (mi >= 0) misses.splice(mi, 1);
+      if (chosen.tier === 'cross-country') {
+        propagationReview.push(`${sib.id} ← ${chosen.seed.id} [${chosen.seed.country}→${sib.country}]`);
+      }
+      console.log(`[prop ${chosen.tier}] ${sib.id}  ← ${chosen.seed.id}  ${seedEntry.url}`);
+    }
+  }
+}
+
 patch.sort((a, b) => a.id.localeCompare(b.id));
 mkdirSync(dirname(OUT_PATH), { recursive: true });
 writeFileSync(OUT_PATH, JSON.stringify(patch, null, 2) + '\n');
 
 const viaArticle = patch.filter((e) => e._via === 'article').length;
-const viaFile = patch.length - viaArticle;
+const viaFile = patch.filter((e) => e._via === 'file').length;
+const viaFamily = patch.filter((e) => e._via === 'family').length;
 console.log('');
-console.log(`resolved: ${patch.length}/${targets.length}  (article: ${viaArticle}, file: ${viaFile}, miss: ${misses.length}, no-licence: ${noLicense.length})`);
+console.log(`resolved: ${patch.length}/${targets.length}  (article: ${viaArticle}, file: ${viaFile}, family: ${viaFamily}, miss: ${misses.length}, no-licence: ${noLicense.length})`);
 console.log(`patch → ${OUT_PATH}`);
-console.log(`  ⚠ review the ${viaFile} _via:file entr${viaFile === 1 ? 'y' : 'ies'} by hand — they can match a same-named sibling station.`);
+if (viaFile) console.log(`  ⚠ review the ${viaFile} _via:file entr${viaFile === 1 ? 'y' : 'ies'} by hand — they can match a same-named sibling station.`);
+if (propagationReview.length) {
+  console.log(`  ⚠ ${propagationReview.length} CROSS-COUNTRY propagation(s) — REVIEW EACH (real network vs same-name collision):`);
+  for (const r of propagationReview) console.log(`    ${r}`);
+}
 if (noLicense.length) {
   console.log(`  ⚠ ${noLicense.length} resolved without a Commons licence (written without faviconLicense):`);
   for (const n of noLicense.slice(0, 20)) console.log(`    ${n.id} (raw: ${n.raw || 'none'})`);

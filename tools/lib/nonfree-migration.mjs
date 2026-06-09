@@ -95,10 +95,39 @@ export function scoreFileHit(title, stationName) {
   let s = formatScore;
   if (/logo/i.test(t)) s += 5;
   if (r === n || r === `logo ${n}` || r === `${n} logo`) s += 5;
+  // Token-level exactness: strongly reward the station name appearing as WHOLE
+  // tokens (lets a logo-less exact match like "NRJ Radio.png" clear the bar),
+  // and penalize a sub-brand token that merely *contains* a station token, so
+  // "NRJ Radio" beats "NRJJunior" for the station "NRJ" (#478). The radio-
+  // subject gate above still guards against off-topic exact-name files.
+  const rootToks = new Set(r.split(' ').filter(Boolean));
+  const nameToks = n.split(' ').filter(Boolean);
+  if (nameToks.length && nameToks.every((tok) => rootToks.has(tok))) s += 5;
+  if (nameToks.some((tok) => [...rootToks].some((rt) => rt !== tok && rt.includes(tok)))) s -= 4;
   return s;
 }
 
 export const FILE_HIT_MIN_SCORE = 8;
+
+// Generic tokens that carry no brand identity — ignored when comparing two
+// station names for a shared brand (#478 family propagation).
+const BRAND_STOPWORDS = new Set([
+  'radio', 'fm', 'am', 'the', 'station', 'hd', 'dab', 'hits', 'music',
+]);
+
+/** True if two station names share a significant (non-generic, non-numeric)
+ *  token — the brand guard for propagating one sibling's logo to another. */
+export function sharesBrandToken(nameA, nameB) {
+  const toks = (name) =>
+    new Set(
+      normalizeTitle(name)
+        .split(' ')
+        .filter((tok) => tok && !BRAND_STOPWORDS.has(tok) && !/^\d+$/.test(tok)),
+    );
+  const a = toks(nameA);
+  for (const tok of toks(nameB)) if (a.has(tok)) return true;
+  return false;
+}
 
 /** Extract the underlying File: name from a Commons upload URL (handles the
  *  /thumb/x/xx/<File>/NNNpx-<File> form). Returns null if not a Commons URL. */
@@ -107,6 +136,29 @@ export function commonsFileName(commonsUrl) {
     /\/wikipedia\/commons\/(?:thumb\/)?[0-9a-f]\/[0-9a-f]{2}\/([^/?]+)/i,
   );
   return m ? decodeURIComponent(m[1]) : null;
+}
+
+/** Extract the underlying File: name from a non-free /wikipedia/en/ upload URL.
+ *  Stations sharing one en file share the same (non-free) artwork — this is the
+ *  family-grouping key for propagation (#478). Returns null for non-en URLs. */
+export function enWikiFileName(url) {
+  const m = String(url).match(
+    /\/wikipedia\/en\/(?:thumb\/)?[0-9a-f]\/[0-9a-f]{2}\/([^/?]+)/i,
+  );
+  return m ? decodeURIComponent(m[1]) : null;
+}
+
+/** Country relationship between a resolved seed and a sibling sharing its
+ *  non-free file. `same-country` is safe to auto-propagate (within-country
+ *  sub-channels / regionals); `cross-country` needs review — a generic name
+ *  ("Kiss", "Gold") is shared by UNRELATED stations across countries, while a
+ *  real network (NRJ) is legitimately cross-country. Missing country → treat as
+ *  cross-country (the conservative side). */
+export function propagationTier(seedCountry, siblingCountry) {
+  const a = String(seedCountry || '').toUpperCase().trim();
+  const b = String(siblingCountry || '').toUpperCase().trim();
+  if (!a || !b) return 'cross-country';
+  return a === b ? 'same-country' : 'cross-country';
 }
 
 /** Normalize a Commons imageinfo `extmetadata` block to a short faviconLicense
