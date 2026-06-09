@@ -9,6 +9,9 @@ import {
   FILE_HIT_MIN_SCORE,
   commonsFileName,
   normalizeLicense,
+  enWikiFileName,
+  propagationTier,
+  sharesBrandToken,
 } from './nonfree-migration.mjs';
 
 describe('langsForCountry', () => {
@@ -83,6 +86,49 @@ describe('scoreFileHit', () => {
     expect(scoreFileHit('File:Some report.pdf', 'Jazz Radio')).toBe(-1); // not an image
     expect(scoreFileHit('File:Jazz Radio photo.png', 'Beat')).toBe(-1); // name not contained
     expect(scoreFileHit('File:DR P6 Beat 2017 logo.png', 'DR P6 BEAT')).toBe(-1); // no radio word anywhere
+  });
+  it('prefers the exact brand over a sub-brand (#478: NRJ over NRJ Junior)', () => {
+    const main = scoreFileHit('File:Logo NRJ 2016 radio.png', 'NRJ');
+    const junior = scoreFileHit('File:Logo NRJJunior radio 2014.png', 'NRJ');
+    expect(main).toBeGreaterThan(junior);
+  });
+  it('lets a logo-less exact-brand + radio file clear the threshold (NRJ Radio.png)', () => {
+    expect(scoreFileHit('File:NRJ Radio.png', 'NRJ')).toBeGreaterThanOrEqual(FILE_HIT_MIN_SCORE);
+  });
+});
+
+describe('enWikiFileName', () => {
+  it('extracts the shared file from non-free en uploads (thumb + direct)', () => {
+    expect(enWikiFileName('https://upload.wikimedia.org/wikipedia/en/thumb/d/d7/DR_P1_logo_2020.svg/330px-DR_P1_logo_2020.svg.png')).toBe('DR_P1_logo_2020.svg');
+    expect(enWikiFileName('https://upload.wikimedia.org/wikipedia/en/8/8a/Nash_FM_Orange_Logo.jpeg')).toBe('Nash_FM_Orange_Logo.jpeg');
+  });
+  it('returns null for Commons (free) URLs', () => {
+    expect(enWikiFileName('https://upload.wikimedia.org/wikipedia/commons/3/3d/DR_P1_2017_logo.png')).toBe(null);
+  });
+});
+
+describe('propagationTier', () => {
+  it('is same-country only when both countries match', () => {
+    expect(propagationTier('US', 'US')).toBe('same-country');
+    expect(propagationTier('us', 'US')).toBe('same-country');
+    expect(propagationTier('SE', 'BG')).toBe('cross-country'); // NRJ across countries
+    expect(propagationTier('CA', 'ES')).toBe('cross-country'); // unrelated Kiss stations
+  });
+  it('treats a missing country as cross-country (conservative)', () => {
+    expect(propagationTier('US', '')).toBe('cross-country');
+    expect(propagationTier(undefined, 'US')).toBe('cross-country');
+  });
+});
+
+describe('sharesBrandToken', () => {
+  it('matches real brand siblings, ignoring generic tokens', () => {
+    expect(sharesBrandToken('NRJ Sweden', 'Energy NRJ')).toBe(true);
+    expect(sharesBrandToken('KCRW 88.9 FM', 'KCRW Eclectic 24')).toBe(true);
+    expect(sharesBrandToken('Mirchi Top 20', 'Mirchi Love')).toBe(true);
+  });
+  it('does not match on generic words alone', () => {
+    expect(sharesBrandToken('Jazz Radio', 'Smooth Radio')).toBe(false); // only "radio" shared
+    expect(sharesBrandToken('Magic 99.5', 'Gold FM')).toBe(false);
   });
 });
 

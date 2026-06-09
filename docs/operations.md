@@ -192,6 +192,27 @@ free equivalent (that's *why* the en upload is non-free) and need `scrape-logos`
 against the broadcaster site instead. Pure matching/scoring logic lives in
 `tools/lib/nonfree-migration.mjs` (unit-tested).
 
+**Family propagation (`--propagate`, #478).** Stations sharing one non-free en
+file share the same artwork, so when a sibling resolves a Commons logo the tool
+can reuse it for the rest (entries tagged `_via: family` + `_seed`/`_tier`):
+
+```bash
+npm run migrate-nonfree-logos -- --propagate                  # same-country only (safe)
+npm run migrate-nonfree-logos -- --propagate --cross-country  # + cross-country (review-first)
+```
+
+Two guards: a shared brand token (`sharesBrandToken`) and the country `_tier`.
+`same-country` (within-country sub-channels/regionals) is the safe default;
+`cross-country` is **flagged for mandatory review** because a generic name
+("Kiss", "Gold", "Magic") is shared by *unrelated* stations across countries —
+only a true network (NRJ) is legitimately cross-country, and even then a wrong
+seed propagates to every sibling (the NRJ seed has mis-resolved to a neighbour
+brand before). In practice the yield is small: the genuinely-safe same-country
+sub-channel groups (KCRW, Mirchi, KSFR…) have **no** free Commons logo to seed
+from — those belong to the `scrape-logos` track. The companion `scoreFileHit`
+fix (prefer an exact brand token over a sub-brand) is the broadly useful part:
+it stops the File: search from picking e.g. *NRJ Junior* for *NRJ*.
+
 ## Adding a station that fits an existing fetcher
 
 Existing fetchers cover Grrif, ORF (any channel via metadataUrl), BR (any channel via metadataUrl), plus generic ICY-over-fetch as fallback.
