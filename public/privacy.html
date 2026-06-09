@@ -155,6 +155,11 @@
     <p>When you play a station, your device opens an audio stream directly to that broadcaster's server (BR, WDR, BBC, SRG SSR, and so on — see the catalog for the full list). That server receives your IP address — the same as if you typed their stream URL into a browser yourself. We have no access to and no insight into what those broadcasters log. Their privacy policies apply to that connection, not ours.</p>
     <p>The same is true for now-playing metadata fetched directly from broadcasters whose APIs allow cross-origin requests (SRG SSR, MDR, SWR, FFH, Klassik Radio, laut.fm).</p>
 
+    <h2 id="logos">Logos and trademarks</h2>
+    <p>rrradio is an independent directory. It is not affiliated with, endorsed by, or sponsored by any of the broadcasters, stations, or networks it lists. Station names and logos are the trademarks of their respective owners, and appear here only to help you identify a station and its stream — the same way a printed radio guide or an on-screen programme guide shows them.</p>
+    <p>Wherever possible the logo shown is the broadcaster's own published artwork or a freely-licensed image, and we are actively migrating the catalog off any remaining non-free images. We don't alter logos beyond resizing for display, and we never present a broadcaster's mark as our own — rrradio has its own logo.</p>
+    <p>If you own a station's brand and would prefer its logo not appear here — or want it corrected or replaced — open an issue on GitHub or email <a href="mailto:redsukramst@gmail.com">redsukramst@gmail.com</a> and we'll remove or update it promptly.</p>
+
     <h2>Cloudflare Worker proxy</h2>
     <p>For broadcasters whose now-playing APIs don't allow cross-origin requests, the app routes those metadata fetches through a small Cloudflare Worker we operate (<code>stats.rrradio.org</code>). Cloudflare's standard infrastructure logging applies to those requests (typically: IP address held briefly for abuse prevention, then discarded). The Worker itself stores nothing; it just forwards the broadcaster's JSON back to your browser.</p>
     <p>The same Worker also fronts the GoatCounter stats endpoint that backs the app's "Stats" sheet — the API token stays on the server side so the public page never sees it.</p>
