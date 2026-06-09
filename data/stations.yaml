@@ -3989,8 +3989,10 @@
   country: GB
   status: stream-only
 - id: gb-lbc-news
-  favicon: "https://upload.wikimedia.org/wikipedia/en/2/2b/LBC_News_station_logo.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
-  faviconSource: wiki
+  favicon: "https://www.globalplayer.com/assets/track-placeholders/lbcnews.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.globalplayer.com/live/lbcnews/uk/"
+  faviconLicense: broadcaster-implicit
   stationuuid: 8e32c763-b926-4e57-9b8f-d60f1c5b48e3
   changeuuid: 32853b11-9272-46d3-9585-623b57ffb672
   reviewedAt: 2026-04-29
@@ -91069,8 +91071,10 @@
   name: BBC News HD (720P)
   streamUrl: https://vs-hls-push-ww-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_news_channel_hd/t=3840/v=pv14/b=5070016/main.m3u8
   codec: UNKNOWN
-  favicon: https://upload.wikimedia.org/wikipedia/en/thumb/2/24/BBC_News_HD_Logo.svg/2560px-BBC_News_HD_Logo.svg.png
-  faviconSource: wiki
+  favicon: "https://static.files.bbci.co.uk/core/icon.72863e17d8fed5597a6e38ac7d194bc14675ad86.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.bbc.co.uk/news"
+  faviconLicense: broadcaster-implicit
   homepage: https://bbc.co.uk/news
   country: GB
   status: stream-only
@@ -91956,9 +91960,10 @@
   changeuuid: 17d6c6ab-ed11-4d0c-aa41-232e08751141
   reviewedAt: 2026-05-04
 - id: gb-gold-london
-  favicon: "https://upload.wikimedia.org/wikipedia/en/2/2d/Gold_%28Radio%29_logo.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
-  faviconSource: wiki
-  faviconBlocked: true
+  favicon: "https://www.globalplayer.com/assets/track-placeholders/gold.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.globalplayer.com/live/gold/uk/"
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Gold London
   streamUrl: https://media-ssl.musicradio.com/Gold?isLoggedIn=false&dax_version=release_2019&dax_player=GlobalPlayer&dax_platform=Web&aisDelivery=streaming&listenerid=1612127423858_0.6253666805372976&aw_0_1st.playerid=GlobalPlayer&aw_0_1st.skey=1612127423&aw_0_req.userConsentV2=CPA5x3uPA5x3uAGABCENBLCgAAAAAAAAAATIAAAAAAAA.YAAAAAAAAAAA
@@ -92585,8 +92590,10 @@
   streamUrl: https://listen-misoul.sharp-stream.com/462_mi_soul_128_mp3
   bitrate: 128
   codec: MP3
-  favicon: https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Mi-Soul_logo.png/220px-Mi-Soul_logo.png
-  faviconSource: wiki
+  favicon: "https://mi-soul.com/wp-content/uploads/fbrfg/apple-touch-icon.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://mi-soul.com/"
+  faviconLicense: broadcaster-implicit
   homepage: https://mi-soul.com/
   country: GB
   status: stream-only
@@ -92813,8 +92820,10 @@
   reviewedAt: 2026-05-04
 - id: gb-heart-xmas
   tags: [international]
-  favicon: "https://upload.wikimedia.org/wikipedia/en/thumb/0/05/The_Heart_Network_logo.svg/330px-The_Heart_Network_logo.svg.png"
-  faviconSource: wiki
+  favicon: "https://www.globalplayer.com/assets/track-placeholders/heart.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.globalplayer.com/live/heart/uk/"
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Heart Xmas
   streamUrl: https://media-ssl.musicradio.com/HeartXmas
@@ -93510,8 +93519,10 @@
   reviewedAt: 2026-05-04
 - id: gb-heart-00s
   tags: [pop]
-  favicon: "https://upload.wikimedia.org/wikipedia/en/thumb/8/8e/Logo_of_Heart_00s.png/330px-Logo_of_Heart_00s.png"
-  faviconSource: wiki
+  favicon: "https://www.globalplayer.com/assets/track-placeholders/heart00s.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.globalplayer.com/live/heart-00s/uk/"
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Heart 00s
   streamUrl: https://media-ssl.musicradio.com/Heart00sMP3
@@ -93615,8 +93626,10 @@
   streamUrl: https://s3.citrus3.com:8056/stream
   bitrate: 128
   codec: MP3
-  favicon: "https://upload.wikimedia.org/wikipedia/en/7/7c/New_TotalRock_logo.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
-  faviconSource: wiki
+  favicon: "https://totalrock.com/wp-content/uploads/2018/04/cropped-New-TR-Icon-180x180.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://totalrock.com/"
+  faviconLicense: broadcaster-implicit
   homepage: https://totalrock.com/
   country: GB
   status: stream-only
@@ -93655,8 +93668,10 @@
   reviewedAt: 2026-05-04
 - id: gb-gb-news
   tags: [gbn, news, tv]
-  favicon: "https://upload.wikimedia.org/wikipedia/en/thumb/3/35/GB_News_Logo.svg/330px-GB_News_Logo.svg.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
-  faviconSource: wiki
+  favicon: "https://assets.rbl.ms/33100881/origin.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://gbnews.com/"
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: GB News
   streamUrl: https://amg01076-lightningintern-gbnews-samsunguk-0lu52.amagi.tv/playlist/amg01076-lightningintern-gbnews-samsunguk/playlist.m3u8
@@ -98574,8 +98589,10 @@
   streamUrl: https://hospitalradioplymouth.radioca.st/stream
   bitrate: 128
   codec: AAC
-  favicon: "https://upload.wikimedia.org/wikipedia/en/7/79/Hospital_Radio_Logo.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
-  faviconSource: wiki
+  favicon: "https://hospitalradioplymouth.org.uk/wp-content/uploads/2020/06/cropped-JPG-large-600circle-1-180x180.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.hospitalradioplymouth.org.uk/"
+  faviconLicense: broadcaster-implicit
   homepage: https://www.hospitalradioplymouth.org.uk/
   country: GB
   status: stream-only
@@ -388700,8 +388717,10 @@
   streamUrl: "https://pointblankradio.co.uk/stream?latency=high"
   bitrate: 320
   codec: MP3
-  favicon: "https://upload.wikimedia.org/wikipedia/en/thumb/b/b4/Point_Blank_FM_logo.png/250px-Point_Blank_FM_logo.png"
-  faviconSource: radio-browser
+  favicon: "https://www.pointblankradio.com/wp-content/uploads/2023/01/cropped-Social-BLUE-site-180x180.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.pointblankradio.com/"
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.pointblankradio.com/"
   country: GB
   geo: [0, 0]
