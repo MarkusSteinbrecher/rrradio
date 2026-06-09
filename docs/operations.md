@@ -124,6 +124,45 @@ homepage is a curation lead: find the live URL (often the broadcaster's own
 programme page — for SRG the integration layer's `timeTableUrl`) and update the
 YAML, then regenerate the catalog.
 
+## Broadcaster-API logos (`harvest-logos`)
+
+Some broadcasters expose an authoritative, broadcaster-hosted, licence-clean
+per-channel logo through the **same metadata API we already call for now-playing
+data** — no scraping, no fragile Wikimedia dependence. `npm run harvest-logos`
+(`tools/harvest-broadcaster-logos.mjs`) codifies that join (#471): for each
+station matching an adapter it fetches the broadcaster's channel list, joins
+station → channel by the id already in `metadataUrl`, and emits an `apply-logos`
+patch (`faviconSource: broadcaster-api`, `faviconLicense: broadcaster`).
+
+First adapter: the **SRG SSR integration layer** (SRF / RTS / RSI / RTR), all
+sharing `il.srf.ch/integrationlayer/2.0/<net>/channelList/radio.json` and keying
+art by the same channel id as our `.../songList/radio/byChannel/<id>.json`. The
+pure join + policy classifier live in `tools/lib/broadcaster-logos.mjs`
+(unit-tested); the CLI only fetches and applies policy.
+
+The tool **never mutates `stations.yaml`** — it writes a patch you review, then
+apply. Write policy chooses which stations enter the patch:
+
+```bash
+npm run harvest-logos                          # default: stations with NO favicon (safe to insert)
+npm run harvest-logos -- --upgrade-generic     # + weak / site-default icons (the generic-shared-icon win)
+npm run harvest-logos -- --include-existing     # every matched station (forced idempotent re-harvest)
+npm run harvest-logos -- --adapter srg --cc CH  # scope to one adapter / country
+npm run harvest-logos -- --only id1,id2         # specific stations
+# review internal/logos/broadcaster-api.json (gitignored), then:
+npm run apply-logos -- --in internal/logos/broadcaster-api.json            # insert (fill missing)
+npm run apply-logos -- --in internal/logos/broadcaster-api.json --replace  # also overwrite existing
+```
+
+It is **idempotent**: `--include-existing` re-derives URLs identical to what's
+already in the catalog for stations already on broadcaster-API art (RTS/RSI),
+and flags them `patch(idempotent)`. Note the SRG `imageUrl` is a 16:9 branded
+card — great for the now-playing destination but busier than a wordmark for the
+list icon, which is why SRF deliberately keeps its clean Commons wordmarks
+(default policy leaves any existing good logo alone). To add a broadcaster, add
+an adapter to `tools/lib/broadcaster-logos.mjs` (`match` / `sources` / `index` /
+`resolve`); the SRG adapter is the template.
+
 ## Adding a station that fits an existing fetcher
 
 Existing fetchers cover Grrif, ORF (any channel via metadataUrl), BR (any channel via metadataUrl), plus generic ICY-over-fetch as fallback.
