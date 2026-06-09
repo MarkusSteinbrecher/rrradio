@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   classifyLogoUrl,
+  isNonFreeWikiLogo,
   scoreLogoCandidate,
   shouldReplaceLogo,
 } from './logo-quality.mjs';
@@ -60,6 +61,31 @@ describe('classifyLogoUrl', () => {
     expect(out.state).toBe('warn');
     expect(out.tier).toBe('weak');
     expect(out.upgradeRecommended).toBe(true);
+  });
+
+  it('flags non-free wikipedia/en uploads as upgrade candidates (#472)', () => {
+    const out = classifyLogoUrl(
+      'https://upload.wikimedia.org/wikipedia/en/2/2b/LBC_News_station_logo.png?utm_source=en.wikipedia.org',
+    );
+    expect(out.tier).toBe('non-free-wiki');
+    expect(out.upgradeRecommended).toBe(true);
+  });
+
+  it('does NOT flag free wikimedia/commons uploads', () => {
+    const out = classifyLogoUrl('https://upload.wikimedia.org/wikipedia/commons/2/29/Logo_SRF_1.svg.png');
+    expect(out.tier).not.toBe('non-free-wiki');
+    expect(out.upgradeRecommended).toBe(false); // logo-like → good-remote
+  });
+});
+
+describe('isNonFreeWikiLogo', () => {
+  it('matches only the non-free wikipedia/en namespace', () => {
+    expect(isNonFreeWikiLogo('https://upload.wikimedia.org/wikipedia/en/2/2b/LBC_News_station_logo.png')).toBe(true);
+    expect(isNonFreeWikiLogo('https://upload.wikimedia.org/wikipedia/commons/2/29/Logo_SRF_1.svg.png')).toBe(false);
+    expect(isNonFreeWikiLogo('https://example.com/wikipedia/en/x.png')).toBe(false); // wrong host
+    expect(isNonFreeWikiLogo('https://www.lbc.co.uk/logo.svg')).toBe(false);
+    expect(isNonFreeWikiLogo(undefined)).toBe(false);
+    expect(isNonFreeWikiLogo('not a url')).toBe(false);
   });
 });
 

@@ -42,7 +42,7 @@ and whether we can redistribute a bundled copy. They flow through to
 | `broadcaster-site` | `scrape-logos` (HTML/manifest image from broadcaster homepage) |
 | `broadcaster-api` | `harvest-logos` (per-channel image URL from a broadcaster metadata API) |
 | `radio-browser` | imported from Radio Browser's favicon field |
-| `wiki` | `wiki-logos` (Wikipedia CC-licensed article image) |
+| `wiki` | `wiki-logos` (Wikipedia CC-licensed article image) or `migrate-nonfree-logos` (free Commons replacement for a non-free `wikipedia/en` upload — #472) |
 | `broadcaster` | bundled local PNG hand-curated from the broadcaster |
 | `manual` | explicitly set in YAML by hand |
 | `http-upgraded` | mechanical HTTP→HTTPS swap with no content change |

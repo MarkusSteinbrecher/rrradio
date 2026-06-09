@@ -127,8 +127,10 @@ function rowAction(station, logo, quality, hasQualityReport) {
   const probeAction = qualityAction(station, quality);
   if (probeAction) return probeAction;
   // Known-provenance sources suppress URL-heuristic churn only after the
-  // optional real image probe has had a chance to flag broken/poor assets.
-  if (station.faviconSource) return 'keep';
+  // optional real image probe has had a chance to flag broken/poor assets —
+  // EXCEPT non-free wikipedia/en logos, which carry `faviconSource: wiki` yet
+  // must still be migrated off the non-free namespace (#472).
+  if (station.faviconSource && logo.tier !== 'non-free-wiki') return 'keep';
   if (!station.homepage) {
     return logo.upgradeRecommended ? 'needs-manual-homepage' : 'keep';
   }

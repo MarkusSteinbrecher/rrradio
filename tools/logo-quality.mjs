@@ -72,6 +72,26 @@ export function isLocalLogo(favicon) {
   return typeof favicon === 'string' && /^stations\//.test(favicon);
 }
 
+const WIKIMEDIA_HOST_RE = /(^|\.)wikimedia\.org$/i;
+const NONFREE_WIKI_PATH_RE = /\/wikipedia\/en\//i;
+
+/**
+ * English-Wikipedia *local* uploads (`upload.wikimedia.org/wikipedia/en/…`) are
+ * non-free / fair-use: deletion-prone, not redistributable, and mislabelled
+ * `faviconSource: wiki` (which implies a free Commons licence). Treat them as
+ * upgrade candidates regardless of provenance (#472). Commons URLs
+ * (`/wikipedia/commons/…`) are free and unaffected.
+ */
+export function isNonFreeWikiLogo(favicon) {
+  if (typeof favicon !== 'string') return false;
+  try {
+    const u = new URL(favicon);
+    return WIKIMEDIA_HOST_RE.test(u.hostname) && NONFREE_WIKI_PATH_RE.test(decodeURIComponent(u.pathname));
+  } catch {
+    return false;
+  }
+}
+
 export function classifyLogoUrl(favicon) {
   if (!favicon) {
     return {
@@ -132,6 +152,19 @@ export function classifyLogoUrl(favicon) {
   const host = url.hostname.toLowerCase();
   const path = decodeURIComponent(url.pathname || '').toLowerCase();
   const full = decodeURIComponent(url.href).toLowerCase();
+
+  // Non-free English-Wikipedia uploads: flag before GOOD_PATH_HINTS would
+  // otherwise mark `..._logo.png` as good-remote and trust it forever (#472).
+  if (WIKIMEDIA_HOST_RE.test(host) && NONFREE_WIKI_PATH_RE.test(path)) {
+    return {
+      state: 'warn',
+      tier: 'non-free-wiki',
+      source: 'remote',
+      reason: 'non-free English-Wikipedia logo (fair-use, deletion-prone)',
+      upgradeRecommended: true,
+      score: 450,
+    };
+  }
 
   if (matchAny(GENERIC_HOST_PATTERNS, host)) {
     return {

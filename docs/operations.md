@@ -163,6 +163,35 @@ list icon, which is why SRF deliberately keeps its clean Commons wordmarks
 an adapter to `tools/lib/broadcaster-logos.mjs` (`match` / `sources` / `index` /
 `resolve`); the SRG adapter is the template.
 
+## Non-free wiki-logo migration (`migrate-nonfree-logos`)
+
+Favicons on `upload.wikimedia.org/wikipedia/en/` are non-free (fair-use):
+deletion-prone, not redistributable, and mislabeled `faviconSource: wiki` (which
+implies a free Commons licence). `logo-quality` flags them as the
+`non-free-wiki` tier; `npm run migrate-nonfree-logos` resolves a free **Commons**
+replacement for each (#472). The English article's infobox image *is* the
+non-free upload, but the station's **native-language** Wikipedia article usually
+points at the same artwork on Commons (DR → da, RFM → pt, …), so the tool tries
+native-lang first, hard-rejects any candidate still on `/wikipedia/en/`, fetches
+the Commons licence, and writes an `apply-logos` patch. It is network-only and
+**never** mutates `stations.yaml`.
+
+```bash
+npm run migrate-nonfree-logos -- --cc DK          # one country (DR family)
+npm run migrate-nonfree-logos -- --only id1,id2    # specific stations
+npm run migrate-nonfree-logos                      # all 220, patch → internal/logos/nonfree-migration.json
+```
+
+Each patch entry carries review metadata (`apply-logos` ignores it): `_via:
+article` (native-lang infobox — high confidence) vs `_via: file` (Commons File:
+search — can match a same-named *sibling* station, e.g. Spanish "Kiss FM" →
+*Kiss FM Kobe*; **always spot-check `_via:file` by hand**). Then apply the vetted
+subset: `npm run apply-logos -- --in <patch> --replace` → `npm run catalog`. Only
+a minority resolve via Commons — the long tail of obscure local stations have no
+free equivalent (that's *why* the en upload is non-free) and need `scrape-logos`
+against the broadcaster site instead. Pure matching/scoring logic lives in
+`tools/lib/nonfree-migration.mjs` (unit-tested).
+
 ## Adding a station that fits an existing fetcher
 
 Existing fetchers cover Grrif, ORF (any channel via metadataUrl), BR (any channel via metadataUrl), plus generic ICY-over-fetch as fallback.
