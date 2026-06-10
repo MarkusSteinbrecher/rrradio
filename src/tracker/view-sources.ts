@@ -11,6 +11,7 @@
 
 import { countryName } from '../country';
 import { stationHref } from './router';
+import { searchMatcher } from './search';
 import { badge, el, emptyState, fmtInt, loading, sectionHeader, statCard } from './ui';
 
 const BASE = import.meta.env.BASE_URL;
@@ -277,13 +278,8 @@ async function renderSourceSection(host: HTMLElement, sources: SourceSummary[]):
     if (state.cc) rows = rows.filter((c) => (c.country ?? '').toUpperCase() === state.cc);
     if (state.disposition) rows = rows.filter((c) => dispositionOf(c) === state.disposition);
     if (state.q) {
-      rows = rows.filter(
-        (c) =>
-          (c.name ?? '').toLowerCase().includes(state.q) ||
-          (c.stationuuid ?? '').toLowerCase().includes(state.q) ||
-          (c.streamHost ?? '').toLowerCase().includes(state.q) ||
-          (c.matchedCatalogId ?? '').toLowerCase().includes(state.q),
-      );
+      const matches = searchMatcher(state.q);
+      rows = rows.filter((c) => matches(c.name, c.stationuuid, c.streamHost, c.matchedCatalogId));
     }
     rows = [...rows];
     if (state.sort === 'clicks') rows.sort((a, b) => (b.clickcount ?? 0) - (a.clickcount ?? 0));

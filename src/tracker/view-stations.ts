@@ -20,6 +20,7 @@ import {
 } from './data';
 import type { Facet, FacetEntry, StationRow } from './data';
 import { navigate, stationHref, stationsHref } from './router';
+import { searchMatcher } from './search';
 import { badge, donut, el, emptyState, fmtInt, loading, logoThumb, verdictPill } from './ui';
 
 const PAGE_SIZE = 100;
@@ -121,13 +122,8 @@ function applyFilters(rows: StationRow[], f: Filters): StationRow[] {
   if (f.status) out = out.filter((r) => r.station.status === f.status);
   if (f.source) out = out.filter((r) => r.source === f.source);
   if (f.q) {
-    const q = f.q.toLowerCase();
-    out = out.filter(
-      (r) =>
-        r.station.id.toLowerCase().includes(q) ||
-        r.station.name.toLowerCase().includes(q) ||
-        (r.station.broadcaster ?? '').toLowerCase().includes(q),
-    );
+    const matches = searchMatcher(f.q);
+    out = out.filter((r) => matches(r.station.id, r.station.name, r.station.broadcaster));
   }
   if (f.v) {
     out = f.facet
@@ -529,13 +525,8 @@ async function renderCandidatePool(root: HTMLElement, f: Filters, dash: HTMLElem
   let filtered = pool;
   if (f.cc) filtered = filtered.filter((c) => (c.country ?? '').toUpperCase() === f.cc);
   if (f.q) {
-    const q = f.q.toLowerCase();
-    filtered = filtered.filter(
-      (c) =>
-        (c.name ?? '').toLowerCase().includes(q) ||
-        (c.streamHost ?? '').toLowerCase().includes(q) ||
-        (c.stationuuid ?? '').toLowerCase().includes(q),
-    );
+    const matches = searchMatcher(f.q);
+    filtered = filtered.filter((c) => matches(c.name, c.streamHost, c.stationuuid));
   }
   filtered = [...filtered];
   if (f.sort === 'clicks') filtered.sort((a, b) => (b.clickcount ?? 0) - (a.clickcount ?? 0));
