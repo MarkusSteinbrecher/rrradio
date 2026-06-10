@@ -102,11 +102,14 @@ if (unclassified > 0) {
 
 // ─── 3. Helpers ──────────────────────────────────────────────────────
 function normStreamUrl(u) {
+  // Protocol-agnostic: http and https of the same host+path are the
+  // same stream for matching purposes (RB records are often the http
+  // variant of a catalog https URL — Radio Gong München case).
   if (!u) return '';
   try {
     const url = new URL(String(u));
     let path = url.pathname.replace(/\/$/, '') || '/';
-    return `${url.protocol}//${url.host.toLowerCase()}${path}`;
+    return `${url.host.toLowerCase()}${path}`;
   } catch {
     return String(u).trim().toLowerCase();
   }

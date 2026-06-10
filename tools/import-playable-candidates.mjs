@@ -326,7 +326,15 @@ for (const candidate of sortedCandidates) {
   const votes = Number(candidate.votes ?? raw.votes ?? 0);
   if (votes < minVotes) { skipped.minVotes++; continue; }
 
-  const streamUrl = candidate.streamUrl || raw.url_resolved || raw.url || '';
+  const recordUrl = candidate.streamUrl || raw.url_resolved || raw.url || '';
+  // http records whose https upgrade the playability probe verified
+  // (candidate.playableUrl is set by build-sources from rb-analysis
+  // finalUrl) import with the scheme-swapped entry point. finalUrl may
+  // sit further down a redirect chain (sometimes tokenized) — the
+  // stable, verified URL is the https swap of the record itself.
+  const streamUrl = recordUrl.startsWith('http://') && candidate.playableUrl
+    ? `https://${recordUrl.slice('http://'.length)}`
+    : recordUrl;
   if (!streamUrl) { skipped.noStreamUrl++; continue; }
   const streamKey = normalizeStreamUrl(streamUrl);
   if (existingStreamUrls.has(streamKey)) { skipped.existingStreamUrl++; continue; }
