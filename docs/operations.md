@@ -511,6 +511,8 @@ public/sources/<source-id>-candidates.json   — full per-station list with disp
 public/sources/catalog-source-map.json       — per-station provenance (default + overrides)
 ```
 
+Candidate rows carry a stamped `disposition` (imported / available / duplicate / broken / unprobed — dedupe-group aware, so any group with an imported member marks its other members duplicate) and, when the playability probe ended somewhere other than the record URL, a `playableUrl` (e.g. the verified https upgrade of an http record — `playable-check` tries https first and only reports `ok` when it works; genuinely http-only streams get `broken-mixed`). `tools/import-playable-candidates.mjs` imports http records via that verified https entry point.
+
 CI doesn't regenerate these — the committed artifact is what GitHub Pages serves, mirroring `public/stations.json`.
 
 The **Sources tab** on `station-tracker.html` (sibling to the Matrix tab) reads these files directly (same-origin, no auth) and surfaces:
