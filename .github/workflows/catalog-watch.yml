@@ -1,10 +1,13 @@
 name: Catalog watch
 
-# Weekly health check of the station catalog. Probes every published
-# station's stream + metadataUrl, and surfaces curation candidates
-# from GoatCounter top-plays. When something needs attention, opens
-# (or updates) a single tracking issue labelled `catalog-watch`. When
-# everything's clean, auto-closes that issue.
+# Weekly health sweep of the station catalog (docs/station-health.md).
+# Refreshes the catalog from Radio Browser, probes every published
+# station's stream + metadataUrl into the unified health record, checks
+# RB drift, duplicates, and logo state, surfaces curation candidates
+# from GoatCounter top-plays, and commits all refreshed report
+# artifacts in a single push (one downstream Pages deploy, not four).
+# When something needs attention, opens (or updates) a single tracking
+# issue labelled `catalog-watch`; when everything's clean, closes it.
 
 on:
   schedule:
@@ -19,38 +22,47 @@ permissions:
 jobs:
   watch:
     runs-on: ubuntu-latest
+    # The probe sweep is bounded (concurrency 24, 8 s timeouts → worst
+    # case ~2.2 h for 24k stations), but leave generous headroom — the
+    # job used to die at the 6 h ceiling when the probes were sequential.
+    timeout-minutes: 330
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v6
         with:
-          node-version: 22
+          # Same pin as deploy.yml. A hardcoded node 22 here kept failing
+          # `npm ci` for five weeks after the lockfile moved to npm 11.
+          node-version-file: .nvmrc
           cache: npm
       - run: npm ci
 
       - name: Refresh catalog from Radio Browser
         run: |
           # Production deploys consume the committed public/stations.json
-          # (audit #65 — no live RB call on every deploy). This step is the
-          # explicit refresh path: regenerate from YAML + RB, commit any
-          # drift back to main so the next deploy ships fresh data.
+          # (audit #65 — no live RB call on every deploy). This is the
+          # explicit refresh path; the commit happens in the consolidated
+          # "Commit refreshed reports" step below.
           npm run catalog
-          if git diff --quiet public/stations.json; then
-            echo "Catalog unchanged."
-          else
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add public/stations.json
-            git commit -m "Catalog-watch: refresh public/stations.json from Radio Browser"
-            git push origin main
-          fi
 
-      - name: Validate catalog
+      - name: Probe station health
         id: validate
         run: |
           set +e
-          npm run validate-catalog > validate.txt 2>&1
+          npm run health -- --strict --concurrency 24 --quiet > validate.txt 2>&1
           EXIT=$?
-          cat validate.txt
+          tail -c 64000 validate.txt
+          echo "exit_code=$EXIT" >> "$GITHUB_OUTPUT"
+          if [ "$EXIT" -ne 0 ]; then
+            echo "has_issues=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check Radio Browser drift
+        id: drift
+        run: |
+          set +e
+          npm run check-drift > drift.txt 2>&1
+          EXIT=$?
+          tail -c 16000 drift.txt
           echo "exit_code=$EXIT" >> "$GITHUB_OUTPUT"
           if [ "$EXIT" -ne 0 ]; then
             echo "has_issues=true" >> "$GITHUB_OUTPUT"
@@ -58,77 +70,54 @@ jobs:
 
       - name: Check for duplicate stations
         id: duplicates
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
           set +e
           npm run check-duplicates > duplicates.txt 2>&1
           EXIT=$?
-          cat duplicates.txt
+          tail -c 16000 duplicates.txt
           echo "exit_code=$EXIT" >> "$GITHUB_OUTPUT"
           if [ "$EXIT" -ne 0 ]; then
             echo "has_issues=true" >> "$GITHUB_OUTPUT"
           fi
-          # Commit the regenerated report straight to main if it changed.
-          # The dashboard reads public/station-duplicates.json.
-          if git diff --quiet public/station-duplicates.json; then
-            echo "Duplicates report unchanged."
-          else
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add public/station-duplicates.json
-            git commit -m "Catalog-watch: refresh station-duplicates.json"
-            git push origin main
-          fi
 
-      - name: Combine validation + duplicates outcome
-        id: combined
-        run: |
-          if [ "${{ steps.validate.outputs.has_issues }}" = "true" ] \
-             || [ "${{ steps.duplicates.outputs.has_issues }}" = "true" ]; then
-            echo "has_issues=true" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Refresh station-status report
-        run: |
-          # `npm run analyze` probes every published station's stream +
-          # metadataUrl and writes public/station-status.json (consumed
-          # by the admin dashboard). Slow — sequential probes — but
-          # it's a weekly job. Commit the regenerated report if any
-          # row changed verdict.
-          npm run analyze
-          if git diff --quiet public/station-status.json; then
-            echo "Station-status report unchanged."
-          else
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add public/station-status.json
-            git commit -m "Catalog-watch: refresh station-status.json"
-            git push origin main
-          fi
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Refresh logo status
+        run: npm run logo-status -- --json-only
 
       - name: Show curation candidates
         run: npm run candidates 2>&1 | tee candidates.txt
 
       - name: Refresh station backlog (analyzed candidates)
-        run: |
-          npm run backlog
-          # Commit the regenerated JSON straight to main if it changed —
-          # the dashboard reads it on next page load. Single weekly
-          # commit, no PR overhead.
-          if git diff --quiet public/station-backlog.json; then
-            echo "Backlog unchanged."
-          else
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add public/station-backlog.json
-            git commit -m "Catalog-watch: refresh station backlog"
-            git push origin main
-          fi
+        run: npm run backlog
         env:
           GH_TOKEN: ${{ github.token }}
+
+      - name: Combine outcomes
+        id: combined
+        run: |
+          if [ "${{ steps.validate.outputs.has_issues }}" = "true" ] \
+             || [ "${{ steps.drift.outputs.has_issues }}" = "true" ] \
+             || [ "${{ steps.duplicates.outputs.has_issues }}" = "true" ]; then
+            echo "has_issues=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit refreshed reports
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/stations.json \
+                  public/station-health.json public/station-status.json \
+                  public/station-drift.json public/station-duplicates.json \
+                  public/station-logo-status.json public/station-backlog.json
+          if git diff --cached --quiet; then
+            echo "All reports unchanged."
+          else
+            git commit -m "Catalog-watch: weekly health sweep + report refresh"
+            # --autostash: the tree may hold regenerated-but-uncommitted
+            # build outputs (favicon variants, highlights) — same parity
+            # as the old per-step commits, which also left them behind.
+            git pull --rebase --autostash origin main
+            git push origin main
+          fi
 
       - name: Auto-curate (Radio Browser → YAML stubs)
         id: curate
@@ -207,16 +196,24 @@ jobs:
           {
             echo "Last run: $(date -u +'%Y-%m-%d %H:%M UTC')  ·  [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
             echo
-            echo "### validate-catalog"
+            echo "Full per-station verdicts: \`public/station-health.json\` · tracker Health tab"
+            echo
+            echo "### health probe"
             echo
             echo '```'
-            cat validate.txt
+            tail -c 32000 validate.txt
+            echo '```'
+            echo
+            echo "### check-drift"
+            echo
+            echo '```'
+            tail -c 16000 drift.txt
             echo '```'
             echo
             echo "### check-duplicates"
             echo
             echo '```'
-            cat duplicates.txt
+            tail -c 16000 duplicates.txt
             echo '```'
             echo
             echo "### candidates (top played, not curated)"

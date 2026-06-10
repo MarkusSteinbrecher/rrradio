@@ -40,11 +40,90 @@
 
     <main class="tracker-shell" aria-label="Station tracker">
       <nav class="tracker-tabs" role="tablist" aria-label="Tracker views">
-        <button type="button" class="tracker-tab-btn is-active" role="tab" aria-selected="true" data-tab-btn="matrix">Matrix</button>
+        <button type="button" class="tracker-tab-btn is-active" role="tab" aria-selected="true" data-tab-btn="health">Health</button>
+        <button type="button" class="tracker-tab-btn" role="tab" aria-selected="false" data-tab-btn="matrix">Logos</button>
         <button type="button" class="tracker-tab-btn" role="tab" aria-selected="false" data-tab-btn="sources">Sources</button>
       </nav>
 
-      <div class="tracker-tab is-active" data-tab="matrix" role="tabpanel">
+      <div class="tracker-tab is-active" data-tab="health" role="tabpanel">
+        <section class="health-freshness" id="health-freshness" aria-label="Check freshness">
+          <p class="health-freshness__empty">Loading health record…</p>
+        </section>
+
+        <section class="matrix-filters health-filters" aria-label="Health filters">
+          <div class="search-bar search-bar--inline">
+            <input type="search" id="health-filter-query" autocomplete="off" placeholder="Search station id, name, broadcaster…" />
+          </div>
+          <label class="filter">
+            <span>Country</span>
+            <select id="health-filter-country">
+              <option value="">All</option>
+            </select>
+          </label>
+          <label class="filter">
+            <span>Facet</span>
+            <select id="health-filter-facet">
+              <option value="">Any facet</option>
+            </select>
+          </label>
+          <label class="filter">
+            <span>Verdict</span>
+            <select id="health-filter-verdict">
+              <option value="">All stations</option>
+              <option value="problem" selected>Problems (bad or warn)</option>
+              <option value="bad">bad</option>
+              <option value="warn">warn</option>
+              <option value="ok">ok</option>
+              <option value="na">n/a</option>
+            </select>
+          </label>
+          <label class="filter">
+            <span>Sort</span>
+            <select id="health-sort">
+              <option value="worst" selected>Worst first</option>
+              <option value="recent">Recent change</option>
+              <option value="id">Catalog id</option>
+            </select>
+          </label>
+        </section>
+
+        <section class="health-cards" id="health-cards" aria-label="Verdict summary"></section>
+
+        <section class="matrix-panel" aria-label="Station health table">
+          <div class="matrix-toolbar">
+            <p id="health-summary">Loading…</p>
+            <div class="matrix-pager">
+              <button type="button" id="health-page-prev">Previous</button>
+              <span id="health-page-label">Page 1</span>
+              <button type="button" id="health-page-next">Next</button>
+            </div>
+          </div>
+          <div class="matrix-wrap">
+            <table class="matrix health-table" id="health-table">
+              <thead>
+                <tr class="matrix-cols">
+                  <th>Station</th>
+                  <th>Country</th>
+                  <th>Status</th>
+                  <th title="Stream reachable, audio-like content-type">Stream</th>
+                  <th title="https stream URL">HTTPS</th>
+                  <th title="ICY StreamTitle seen in the first 64 KB">ICY</th>
+                  <th title="metadataUrl / built-in fetcher reachability">Meta</th>
+                  <th title="Broadcaster fetcher key known">Fetch</th>
+                  <th title="Fetcher exposes programme info">Prog</th>
+                  <th title="Logo state (logo-status)">Logo</th>
+                  <th title="Homepage liveness (check-homepages)">Home</th>
+                  <th title="Radio Browser drift (check-drift)">Drift</th>
+                  <th title="Duplicate groups (check-duplicates)">Dup</th>
+                </tr>
+              </thead>
+              <tbody id="health-rows"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <div class="tracker-tab" data-tab="matrix" role="tabpanel" hidden>
         <section class="tracker-summary" aria-label="Search and key metrics">
           <div class="search-bar">
             <input type="search" id="filter-query-top" autocomplete="off" placeholder="Search stations, broadcasters, countries…" />

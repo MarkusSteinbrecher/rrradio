@@ -1,5 +1,6 @@
 import { countryName } from './country';
 import fetcherManifest from './fetchers.json';
+import { initHealthTab, activateHealthTab, setHealthCatalog } from './station-tracker-health';
 import type { Station } from './types';
 
 const BASE = import.meta.env.BASE_URL;
@@ -298,7 +299,7 @@ interface ManualSourceDetail {
   duplicateGroupsTotal?: number;
 }
 
-type ActiveTab = 'matrix' | 'sources';
+type ActiveTab = 'health' | 'matrix' | 'sources';
 
 // One row per upstream station — RB or manual. Shipped by
 // tools/build-sources.mjs as /sources/<source-id>-candidates.json.
@@ -473,7 +474,7 @@ const sourcesState: {
   filtered: [],
   collapsedGroups: new Set(),
 };
-let activeTab: ActiveTab = 'matrix';
+let activeTab: ActiveTab = 'health';
 
 const KNOWN_LICENSES = new Set([
   'broadcaster',
@@ -2981,10 +2982,15 @@ function setActiveTab(tab: ActiveTab): void {
       renderSourcesTab();
     })();
   }
+  if (tab === 'health') {
+    void activateHealthTab();
+  }
 }
 
 function initialTabFromHash(): ActiveTab {
-  return window.location.hash === '#sources' ? 'sources' : 'matrix';
+  if (window.location.hash === '#sources') return 'sources';
+  if (window.location.hash === '#matrix') return 'matrix';
+  return 'health';
 }
 
 function updateGeneratedText(): void {
@@ -2995,6 +3001,7 @@ function updateGeneratedText(): void {
 
 async function main(): Promise<void> {
   bindEvents();
+  initHealthTab();
   setActiveTab(initialTabFromHash());
   try {
     const [catalog, logoReport, qualityReport] = await Promise.all([
@@ -3002,6 +3009,7 @@ async function main(): Promise<void> {
       loadLogoStatusReport(),
       loadLogoQualityReport(),
     ]);
+    setHealthCatalog(catalog);
     state.rows = buildMatrix(catalog, logoReport, qualityReport);
     state.rowById = new Map(state.rows.map((row) => [row.id, row]));
     state.generatedAt = logoReport?.generatedAt;
