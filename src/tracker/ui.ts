@@ -130,6 +130,86 @@ export function externalLink(label: string, href: string): HTMLElement {
   return el('a', { class: 'btn', href, target: '_blank', rel: 'noopener noreferrer' }, label, ' ↗');
 }
 
+const SVG_NS = 'http://www.w3.org/2000/svg';
+
+function svgEl(tag: string, attrs: Record<string, string> = {}): SVGElement {
+  const node = document.createElementNS(SVG_NS, tag);
+  for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+  return node;
+}
+
+export interface DonutSegment {
+  label: string;
+  count: number;
+  /** Suffix for the CSS classes donut-seg-<key> / swatch-<key>. */
+  key: string;
+  href?: string;
+}
+
+/** Donut chart + legend. Segments are SVG strokes (crisp at any size,
+ *  CSP-safe — presentation attributes, no inline style). The center shows
+ *  the first segment's share of the total. */
+export function donut(label: string, segments: DonutSegment[]): HTMLElement {
+  const total = segments.reduce((sum, s) => sum + s.count, 0);
+
+  const svg = svgEl('svg', { viewBox: '0 0 64 64', role: 'img', class: 'donut' });
+  const title = svgEl('title');
+  title.textContent = `${label} (${fmtInt(total)})`;
+  svg.append(title);
+
+  // Background ring + segments share the same geometry. pathLength=100
+  // lets the percentage drive stroke-dasharray directly.
+  const ring = { cx: '32', cy: '32', r: '26', fill: 'none', 'stroke-width': '10', pathLength: '100' };
+  svg.append(svgEl('circle', { ...ring, class: 'donut-bg' }));
+  let offset = 0;
+  for (const seg of segments) {
+    const pct = total > 0 ? (seg.count / total) * 100 : 0;
+    if (pct <= 0) continue;
+    const arc = svgEl('circle', {
+      ...ring,
+      class: `donut-seg donut-seg-${seg.key}`,
+      'stroke-dasharray': `${pct} ${100 - pct}`,
+      'stroke-dashoffset': String(-offset),
+      transform: 'rotate(-90 32 32)',
+    });
+    const segTitle = svgEl('title');
+    segTitle.textContent = `${seg.label}: ${fmtInt(seg.count)} (${pct.toFixed(1)}%)`;
+    arc.append(segTitle);
+    svg.append(arc);
+    offset += pct;
+  }
+  const primaryPct = total > 0 && segments[0] ? Math.round((segments[0].count / total) * 100) : 0;
+  const center = svgEl('text', {
+    x: '32',
+    y: '32',
+    'text-anchor': 'middle',
+    'dominant-baseline': 'central',
+    class: 'donut-center',
+  });
+  center.textContent = total > 0 ? `${primaryPct}%` : '–';
+  svg.append(center);
+
+  const legend = el('ul', { class: 'donut-legend' });
+  for (const seg of segments) {
+    const pct = total > 0 ? ((seg.count / total) * 100).toFixed(1) : '0.0';
+    const name = seg.href ? el('a', { href: seg.href }, seg.label) : el('span', {}, seg.label);
+    legend.append(
+      el(
+        'li',
+        {},
+        el('span', { class: `swatch swatch-${seg.key}` }),
+        name,
+        el('span', { class: 'count' }, `${fmtInt(seg.count)} · ${pct}%`),
+      ),
+    );
+  }
+  legend.append(
+    el('li', { class: 'total' }, el('span', { class: 'swatch' }), el('span', {}, 'total'), el('span', { class: 'count' }, fmtInt(total))),
+  );
+
+  return el('div', { class: 'donut-panel' }, svg, legend);
+}
+
 export function emptyState(text: string): HTMLElement {
   return el('div', { class: 'empty-state' }, text);
 }

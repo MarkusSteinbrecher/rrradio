@@ -153,6 +153,18 @@ function tally(values) {
   return m;
 }
 
+// Disposition of one candidate row — same vocabulary as the tracker's
+// Sources view (src/tracker/view-sources.ts dispositionOf), precomputed
+// here so the Overview donut can render from the summary without
+// downloading the multi-MB candidates files.
+function dispositionOf(c) {
+  if (c.matchedCatalogId) return 'imported';
+  if (c.duplicateOf) return 'duplicate';
+  if (!c.verdict) return 'unprobed';
+  if (c.verdict === 'ok' || c.verdict === 'ok-hls' || c.verdict === 'needs-playlist') return 'available';
+  return 'broken';
+}
+
 // ─── 4. Per-source collectors ────────────────────────────────────────
 function collectRadioBrowser(src) {
   // Raw inventory: data/sources/radio-browser/by-country/<CC>.json
@@ -682,6 +694,23 @@ for (const src of sources) {
       JSON.stringify(extra.body) + '\n');
   }
 
+  // Disposition tally over the full candidate list — feeds the Overview
+  // donut from the lightweight summary.
+  const candidatesArtifact = (collected.extraArtifacts || [])
+    .find((a) => a.path.endsWith('-candidates.json'));
+  const dispositionTotals = tally(
+    (candidatesArtifact?.body.candidates || []).map(dispositionOf),
+  );
+  // Several candidate rows can match the same catalog station (same
+  // stream under different RB records). Those surplus rows are
+  // duplicates of an imported station — keep "imported" equal to the
+  // unique station count so the donut doesn't overstate the catalog.
+  const surplusImported = (dispositionTotals.imported || 0) - collected.countersImported;
+  if (surplusImported > 0) {
+    dispositionTotals.imported -= surplusImported;
+    dispositionTotals.duplicate = (dispositionTotals.duplicate || 0) + surplusImported;
+  }
+
   summary.sources.push({
     id: src.id,
     name: src.name,
@@ -692,6 +721,7 @@ for (const src of sources) {
     candidateCount: collected.countersTotal,
     importedCount: collected.countersImported,
     availableCount: collected.countersAvailable,
+    dispositionTotals,
     extra: src.kind === 'radio-browser' ? {
       countriesAnalyzed: collected.detail.countriesAnalyzed,
       countriesInRawSnapshot: collected.detail.countriesInRawSnapshot,

@@ -3,7 +3,7 @@
 import { FACETS, FACET_LABEL, loadHealth, loadRows, loadSourcesIndex } from './data';
 import type { SourceSummary, StationRow } from './data';
 import { stationHref, stationsHref } from './router';
-import { ageDays, ageLabel, el, emptyState, fmtInt, freshnessClass, loading, sectionHeader, statCard } from './ui';
+import { ageDays, ageLabel, donut, el, emptyState, fmtInt, freshnessClass, loading, sectionHeader, statCard } from './ui';
 
 export async function renderOverview(root: HTMLElement): Promise<void> {
   root.replaceChildren(loading());
@@ -43,6 +43,29 @@ export async function renderOverview(root: HTMLElement): Promise<void> {
     statCard({ value: fmtInt(countries.size), label: 'countries' }),
   );
   frag.append(catalogGrid);
+
+  // ── All known stations ─────────────────────────────────────────
+  // One donut over every candidate row across all sources — the full
+  // universe we track, including what we deliberately excluded
+  // (duplicates of other stations, broken streams, unprobed backlog).
+  const dispositions = new Map<string, number>();
+  for (const s of sourcesIndex?.sources ?? []) {
+    for (const [d, n] of Object.entries(s.dispositionTotals ?? {})) {
+      dispositions.set(d, (dispositions.get(d) ?? 0) + n);
+    }
+  }
+  if (dispositions.size) {
+    frag.append(
+      sectionHeader('All known stations', 'every candidate across all sources — including what we excluded and why'),
+      donut('All known stations', [
+        { key: 'imported', label: 'in catalog', count: dispositions.get('imported') ?? 0, href: stationsHref({}) },
+        { key: 'available', label: 'available — playable, not imported', count: dispositions.get('available') ?? 0, href: '#/sources' },
+        { key: 'duplicate', label: 'duplicate — excluded, same stream/brand', count: dispositions.get('duplicate') ?? 0, href: '#/sources' },
+        { key: 'broken', label: 'broken — stream failed probe', count: dispositions.get('broken') ?? 0, href: '#/sources' },
+        { key: 'unprobed', label: 'unprobed — not analyzed yet', count: dispositions.get('unprobed') ?? 0, href: '#/sources' },
+      ]),
+    );
+  }
 
   // ── Provenance ─────────────────────────────────────────────────
   // Published stations per source (data/sources.yaml registry). Registry

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-10T12:02:30.039Z",
+  "generatedAt": "2026-06-10T12:22:45.027Z",
   "catalogTotal": 24358,
   "unclassifiedCatalogEntries": 0,
   "sources": [
@@ -13,6 +13,12 @@
       "candidateCount": 55242,
       "importedCount": 24333,
       "availableCount": 24990,
+      "dispositionTotals": {
+        "imported": 24333,
+        "available": 6622,
+        "broken": 10882,
+        "duplicate": 13405
+      },
       "extra": {
         "countriesAnalyzed": 237,
         "countriesInRawSnapshot": 237,
@@ -45,6 +51,9 @@
       "candidateCount": 31,
       "importedCount": 31,
       "availableCount": 0,
+      "dispositionTotals": {
+        "imported": 31
+      },
       "extra": {},
       "detailUrl": "/sources/manual.json"
     },
@@ -58,6 +67,7 @@
       "candidateCount": 0,
       "importedCount": 0,
       "availableCount": 0,
+      "dispositionTotals": {},
       "extra": {},
       "detailUrl": "/sources/user-suggestions.json"
     }

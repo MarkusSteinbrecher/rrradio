@@ -131,6 +131,9 @@ export interface SourceSummary {
   candidateCount?: number;
   importedCount?: number;
   availableCount?: number;
+  /** Candidate rows tallied by disposition (imported | available |
+   *  duplicate | broken | unprobed) — precomputed by build-sources. */
+  dispositionTotals?: Record<string, number>;
 }
 
 interface SourcesIndex {
