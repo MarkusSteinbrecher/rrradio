@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-05-19T17:28:18.386Z",
+  "generatedAt": "2026-06-10T18:41:12.563Z",
   "country": "FI",
   "rawSnapshotAt": "2026-05-19T07:50:13.887Z",
   "total": 147,
-  "playable": 111,
-  "broken": 36,
-  "curated": 5,
+  "playable": 117,
+  "broken": 30,
+  "curated": 84,
   "byVerdict": {
-    "ok": 87,
-    "broken-mixed": 27,
+    "ok": 93,
+    "broken-mixed": 21,
     "broken-4xx": 9,
     "ok-hls": 24
   },
@@ -29,8 +29,8 @@
       "verdict": "ok",
       "verdictReason": "application/ogg",
       "finalUrl": "https://iradio.fi/klasupro.flac",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "00a29e11-5d60-4033-98fc-cfdbbd99c421",
@@ -44,11 +44,11 @@
       "votes": 235,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://stream.kaaosradio.fi:8000/chip",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://stream.kaaosradio.fi/chip",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:41:12.175Z"
     },
     {
       "stationuuid": "0269dbb3-a6a5-4919-a92e-94be46bb8fd8",
@@ -66,7 +66,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rollfm.online/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "06bf8b75-fc48-44e8-a9b4-24c0ab8dbc80",
@@ -84,8 +84,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://streaming.radioplay.fi/kiss/kiss_64.aac?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein&aw_0_1st.skey=1777532692",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "06e81ebd-b7fc-4bd6-8bb1-88d77f0d31a8",
@@ -103,8 +103,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.dei.fi:8443/lahti",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "07a8b5e3-3cb9-47dc-8bcf-4c96b7b199f6",
@@ -118,11 +118,11 @@
       "votes": 51,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://stream.kaaosradio.fi:8000/chill",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://stream.kaaosradio.fi/chill",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:41:12.541Z"
     },
     {
       "stationuuid": "08becb2b-f5fc-4f22-8a69-ff0ec3cfe264",
@@ -140,8 +140,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://stream.madmenmedia.se/popfm",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.761Z"
     },
     {
       "stationuuid": "09e92885-f0f0-4e8d-89d5-c66f5606bb6b",
@@ -160,7 +160,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.rollfm.fi/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:50.318Z"
     },
     {
       "stationuuid": "0ac6572e-848c-4099-8bc9-3e768c0e7a87",
@@ -178,8 +178,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://yleradiolive.akamaized.net/hls/live/2027678/in-YleX3M/master.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.759Z"
     },
     {
       "stationuuid": "0b9675c0-6107-4729-98dc-951581f53f3e",
@@ -197,8 +197,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://yleradiolive.akamaized.net/hls/live/2027679/in-YleVega/master.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.759Z"
     },
     {
       "stationuuid": "0b9f0bf8-9bd0-4a89-988b-9dd2168ceef8",
@@ -216,7 +216,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://aud-stream-suomipop.nm-elemental.nelonenmedia.fi/playlist.m3u8?rp_source=1",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "0d188bee-e18e-46be-8840-8f5a79ec2313",
@@ -231,8 +231,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleOulu/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "0f87e9af-461c-4399-93b6-3f626ffd8ecd",
@@ -250,7 +250,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://streaming.radiostreamlive.com/radionatale_devices-low?token=%3C?%20echo%20rand%20(1,200000);%20?%3E",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "0fbf6ebe-052e-4799-a244-525b7cfffcac",
@@ -268,7 +268,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleRS/icecast.audio",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "12f3ea7f-4041-4d54-9a57-fdb0f0c32714",
@@ -286,8 +286,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://wr2.downtime.fi/kaakko.aac",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "17d8fdef-c658-4d5a-bbbe-d19ec6e82982",
@@ -305,8 +305,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://st.downtime.fi/kiakko-tappara.aac",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "184face6-0916-11e9-a80b-52543be04c81",
@@ -324,7 +324,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.bauermedia.fi/radiopooki/radiopooki_64.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:51.619Z"
     },
     {
       "stationuuid": "1917621f-352f-4589-8e4d-74c0402cd11b",
@@ -342,8 +342,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://streaming.radioplay.fi/nrj/nrj_64.aac?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein&aw_0_1st.skey=1777532690",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "19c02f0d-5c38-46df-bd0b-088fd057e16e",
@@ -360,8 +360,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleKuopio/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "1ccd15b1-89f7-4dcc-8fd6-533896cd6251",
@@ -380,7 +380,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://s3.yesstreaming.net:7011/radio",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "1e3867bb-ca81-4d7e-92ba-bd207bccfac6",
@@ -399,7 +399,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.nsp.se:8000/popfm",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:41:10.909Z"
     },
     {
       "stationuuid": "1f9f88c2-f9a3-4554-bee2-0afcf2483aa3",
@@ -417,8 +417,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://yleradiolive.akamaized.net/hls/live/2027674/in-YleX/master.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.759Z"
     },
     {
       "stationuuid": "218b95bb-e82c-49d6-ad7c-c8fdac9f44a4",
@@ -435,8 +435,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://aud-stream-aitoiskelma.nm-elemental.nelonenmedia.fi/playlist-256000.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.762Z"
     },
     {
       "stationuuid": "22c402d1-2a7f-4713-8e2b-646070026dba",
@@ -454,7 +454,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleKlassinen/icecast.audio",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "25ef1f3b-6399-4ad4-ab68-8a61a8cc1fb2",
@@ -472,7 +472,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://s3.myradiostream.com:4976/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "29f3ef11-65c8-41f8-9d6e-a4083a9fa65e",
@@ -491,7 +491,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:49.762Z"
     },
     {
       "stationuuid": "2c794d05-0cc1-4dfa-be31-52c0ab2cc19d",
@@ -509,8 +509,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://streaming.radioplay.fi/basso/bassoradio_64.aac?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein&aw_0_1st.skey=1777532692",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "2ceb9095-c509-4c30-a530-1df60e2600f1",
@@ -526,8 +526,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleVegaOstnyland/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "2eb39e30-910b-4627-bd7c-ccd092cd37d7",
@@ -545,7 +545,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://n11.radiojar.com/n6yg5q0z8vzuv.m4a?rj-ttl=5&rj-tok=AAABnkABipYAmz3T6K2-MA2pJg",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "3082ec5e-fa44-47a8-94a8-e89da4cab453",
@@ -562,8 +562,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://aud-stream-classichits.nm-elemental.nelonenmedia.fi/playlist-256000.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.762Z"
     },
     {
       "stationuuid": "31694e29-ec53-41c7-84eb-165d40739574",
@@ -581,7 +581,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.bauermedia.fi/nrj/nrj_128.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:52.024Z"
     },
     {
       "stationuuid": "319730c6-d703-46e4-abf8-624449b55092",
@@ -599,7 +599,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://kohina.duckdns.org:8000/stream.ogg",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:41:10.525Z"
     },
     {
       "stationuuid": "32191e96-d5ef-413d-a602-4a359125dd8f",
@@ -617,8 +617,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://streaming.radioplay.fi/ysari/ysari_64.aac?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein&aw_0_1st.skey=1777532692",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "348c186a-e554-4376-950c-12c78027050d",
@@ -637,7 +637,7 @@
       "verdictReason": "HTTP 404",
       "finalUrl": "https://stream.radioplay.fi/radionova/radionova_64.aac?aw_0_1st.skey=1692715205&aw_0_1st.bauer_loggedin=false",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:51.274Z"
     },
     {
       "stationuuid": "35351baf-4094-429f-860c-875f2c567384",
@@ -655,8 +655,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://jarviradio.radiotaajuus.fi:9000/jr",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "367c1fbe-1fe8-49cb-9655-8908aa308510",
@@ -674,8 +674,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://ice-sov.musicradio.com/LBCLondon",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.761Z"
     },
     {
       "stationuuid": "3a1f4391-13bb-408a-9762-ee8b756e1d96",
@@ -694,7 +694,7 @@
       "verdictReason": "HTTP 404",
       "finalUrl": "https://stream.bauermedia.fi/radiopooki/radiopooki_128.mp3?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein&aw_0_1st.skey=1697625781",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:54.015Z"
     },
     {
       "stationuuid": "3da40f8d-95a8-4ae6-80a3-6a1ebfbe3bfe",
@@ -711,8 +711,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://yleradiolive.akamaized.net/hls/live/2027716/in-YleVegaAboland/256/variant.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.759Z"
     },
     {
       "stationuuid": "3f123871-dbca-4e37-b97c-6caf70315a1d",
@@ -731,7 +731,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://streaming.radioplay.fi/radionova/radionova_64.aac?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein&aw_0_1st.skey=1777532692",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "43697d5f-6d6a-4390-b9eb-5974f963ffc1",
@@ -749,8 +749,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.dei.fi:8443/kajaani",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "449a2d6e-9c81-447f-a4e0-8de82963f117",
@@ -767,8 +767,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.rattoradio.fi/ratto.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.762Z"
     },
     {
       "stationuuid": "451e4f89-5318-4995-b3ab-b10610874f6b",
@@ -786,7 +786,7 @@
       "verdictReason": "HTTP 404",
       "finalUrl": "https://stream.bauermedia.fi/iskelma/iskelma_128.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:52.818Z"
     },
     {
       "stationuuid": "45be7e54-944f-4a57-9d51-8f74c88097cb",
@@ -805,7 +805,7 @@
       "verdictReason": "application/ogg",
       "finalUrl": "https://iradio.fi/klasu.flac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "45c3659d-27a8-4209-910b-7e0e746301a8",
@@ -822,8 +822,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s3.yesstreaming.net:7011/radio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "46c36cc2-e313-4a24-935a-fc667ad96730",
@@ -840,8 +840,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleKotka/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "4783bd93-7bb3-4671-8adb-2801e66ead5f",
@@ -858,8 +858,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.muhennos.xyz/listen/radiowo/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.762Z"
     },
     {
       "stationuuid": "495de093-2d90-4a51-ae8c-743086872fcd",
@@ -878,7 +878,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://s3.radio.co/scfd7273b2/low",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "49c5ae2c-6db1-473b-8d03-bc4098ebca78",
@@ -892,11 +892,11 @@
       "votes": 415,
       "clickcount": 4,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://stream.kaaosradio.fi:8000/stream2",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://stream.kaaosradio.fi/stream2",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:41:11.280Z"
     },
     {
       "stationuuid": "4d1a27b8-9c81-4bd1-b79d-ca43b75c1b0a",
@@ -912,8 +912,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://icecast.live.yle.fi/radio/YlePohjanmaa/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "5274bf2b-c02b-4649-860b-cbc891c5d8b4",
@@ -930,8 +930,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://aud-stream-kantriradio.nm-elemental.nelonenmedia.fi/playlist-256000.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.762Z"
     },
     {
       "stationuuid": "54909526-ae7c-11e8-aa67-52543be04c81",
@@ -950,7 +950,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.bauermedia.fi/radionova/radionova_64.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:53.219Z"
     },
     {
       "stationuuid": "549e9584-1d27-4a8b-8755-dca57bbe82a8",
@@ -967,8 +967,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://kaupunkiradio.radiotaajuus.fi:9013/radio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.762Z"
     },
     {
       "stationuuid": "5b477c0e-5a75-42b9-af39-d7b9d73d065a",
@@ -987,7 +987,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streaming.radioplay.fi/ysari/ysari_128.mp3?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein&aw_0_1st.skey=1777532695",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "5ccaf433-c2df-46e7-8e38-61e4445fe43c",
@@ -1004,8 +1004,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleLahti/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "5ebce343-df89-4add-91e4-35ae5fb43f47",
@@ -1023,8 +1023,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiosandels.radiotaajuus.fi:9050/radio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "5f2b61c0-1663-4b82-8523-f747b91b89a1",
@@ -1041,8 +1041,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.unexplained.agency/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.762Z"
     },
     {
       "stationuuid": "60b55178-8844-4a25-b1b9-2cbf3f10bb65",
@@ -1059,8 +1059,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleVegaOsterbotten/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "6152c69d-0fa1-493e-ae8b-fafb0f58988d",
@@ -1078,7 +1078,7 @@
       "verdictReason": "HTTP 404",
       "finalUrl": "https://stream.bauermedia.fi/radionova/radionova_64.aac?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein&aw_0_1st.skey=1744811390",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:54.814Z"
     },
     {
       "stationuuid": "6178fc05-36af-4649-8fc2-66923a27cb7f",
@@ -1095,8 +1095,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleSeinajoki/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "617baea8-d8cc-412d-ab01-09f8b7b7ef21",
@@ -1114,8 +1114,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://c40.radioboss.fm:8056/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.762Z"
     },
     {
       "stationuuid": "63d55efd-1ccd-4831-a89f-4dfd98fff487",
@@ -1132,8 +1132,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://aud-stream-loop.nm-elemental.nelonenmedia.fi/playlist-256000.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.762Z"
     },
     {
       "stationuuid": "6489b751-acf5-413a-8b53-e345eee56fbb",
@@ -1151,7 +1151,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleRS/icecast.audio",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "6ddfea21-ae7c-11e8-aa67-52543be04c81",
@@ -1169,7 +1169,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.bauermedia.fi/radionova/radionova_128.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:52.415Z"
     },
     {
       "stationuuid": "727c4b71-c6ae-475a-beb1-e811f236a155",
@@ -1187,7 +1187,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://yleradiolive.akamaized.net/hls/live/2027675/in-YleRS/256/variant.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:49.759Z"
     },
     {
       "stationuuid": "75c67c01-bc98-4cc0-8b11-3a324bb4c565",
@@ -1205,8 +1205,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streaming.radioplay.fi/radiopori/radiopori_128.mp3?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein&aw_0_1st.skey=1777532694",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "77aa2038-a575-4517-955a-15ae8c35014b",
@@ -1224,7 +1224,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://aud-stream-groove.nm-elemental.nelonenmedia.fi/playlist-256000.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "78b84693-1439-45a1-99ca-2d505ebaf7a6",
@@ -1241,8 +1241,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://aud-stream-radiorock.nm-elemental.nelonenmedia.fi/playlist-256000.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "7b647375-d629-11e8-a54a-52543be04c81",
@@ -1260,8 +1260,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streaming.radiostreamlive.com/radionatale_devices",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "7ee5f5ca-0bd0-4e53-b09a-aa5fe630ed73",
@@ -1278,8 +1278,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://aud-stream-hitmix.nm-elemental.nelonenmedia.fi/playlist-256000.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.761Z"
     },
     {
       "stationuuid": "85166474-fa4a-4063-acd2-4990c1644810",
@@ -1297,8 +1297,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://streaming.radioplay.fi/radionova/radionova_64.aac?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein&aw_0_1st.skey=1777532690",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "88fddbac-a489-4c30-9d71-f639d05ba843",
@@ -1315,7 +1315,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream1.wappuradio.fi/wappuradio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:50.242Z"
     },
     {
       "stationuuid": "892e5cbd-bd92-494f-a96b-ecb367221666",
@@ -1332,8 +1332,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleVegaVastnyland/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "894979fa-cd9e-4d5e-bd01-548eb71f5c20",
@@ -1349,8 +1349,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleJKL/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "8b24c4d7-2d16-47c1-8411-7103f1f75c97",
@@ -1369,7 +1369,7 @@
       "verdictReason": "HTTP 404",
       "finalUrl": "https://a12.asurahosting.com/listen/tranceport_fm/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:50.807Z"
     },
     {
       "stationuuid": "8d2b0d19-687e-420b-a29a-31d62e939c97",
@@ -1388,7 +1388,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://st.downtime.fi/sun.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "8f7ecd3e-7be3-4525-aa79-6408cef9fda8",
@@ -1407,7 +1407,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleX/icecast.audio",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "903f8f5e-541f-4296-bed8-7f3be8d43d8a",
@@ -1424,8 +1424,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleMikkeli/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "942a812b-1fa2-4112-8a78-65e74bf67006",
@@ -1443,7 +1443,7 @@
       "verdictReason": "application/ogg",
       "finalUrl": "https://stream.alandsradio.ax/stream.ogg",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:49.762Z"
     },
     {
       "stationuuid": "960c6812-0601-11e8-ae97-52543be04c81",
@@ -1461,8 +1461,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge2.sr.se/finska-aac-320",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.761Z"
     },
     {
       "stationuuid": "961ba88b-0601-11e8-ae97-52543be04c81",
@@ -1480,7 +1480,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://isojako.radiodei.fi:8000/yleisohjelma",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:41:10.720Z"
     },
     {
       "stationuuid": "961ba952-0601-11e8-ae97-52543be04c81",
@@ -1499,7 +1499,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://isojako.radiodei.fi:8000/helsinki",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:41:10.872Z"
     },
     {
       "stationuuid": "961baa19-0601-11e8-ae97-52543be04c81",
@@ -1518,7 +1518,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://isojako.radiodei.fi:8000/kristiinankaupunki",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:41:11.023Z"
     },
     {
       "stationuuid": "961baae8-0601-11e8-ae97-52543be04c81",
@@ -1537,7 +1537,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://isojako.radiodei.fi:8000/kruunupyy",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:41:11.629Z"
     },
     {
       "stationuuid": "961babbe-0601-11e8-ae97-52543be04c81",
@@ -1555,7 +1555,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://isojako.radiodei.fi:8000/lapua",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:41:11.176Z"
     },
     {
       "stationuuid": "961bac8b-0601-11e8-ae97-52543be04c81",
@@ -1574,7 +1574,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://isojako.radiodei.fi:8000/oulu",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:41:11.326Z"
     },
     {
       "stationuuid": "961bad58-0601-11e8-ae97-52543be04c81",
@@ -1592,7 +1592,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://isojako.radiodei.fi:8000/rovaniemi",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:41:11.477Z"
     },
     {
       "stationuuid": "961bae28-0601-11e8-ae97-52543be04c81",
@@ -1610,7 +1610,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://isojako.radiodei.fi:8000/tornio",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:41:11.781Z"
     },
     {
       "stationuuid": "961baef8-0601-11e8-ae97-52543be04c81",
@@ -1628,7 +1628,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://isojako.radiodei.fi:8000/turkueurajoki",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:41:10.566Z"
     },
     {
       "stationuuid": "961bb5c3-0601-11e8-ae97-52543be04c81",
@@ -1645,8 +1645,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://st.downtime.fi/sun.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "96270e6c-0601-11e8-ae97-52543be04c81",
@@ -1663,7 +1663,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://kuuntele.radioverkko.fi:8000/live",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:41:10.516Z"
     },
     {
       "stationuuid": "96275f12-0601-11e8-ae97-52543be04c81",
@@ -1677,11 +1677,11 @@
       "votes": 255,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://stream.kaaosradio.fi:8000/stream",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://stream.kaaosradio.fi/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:41:11.709Z"
     },
     {
       "stationuuid": "962b509f-0601-11e8-ae97-52543be04c81",
@@ -1699,8 +1699,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streaming.radiostreamlive.com/radiosantaclaus_devices",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "962c3bf0-0601-11e8-ae97-52543be04c81",
@@ -1719,7 +1719,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://212.47.220.188:8000/listen.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:50.125Z"
     },
     {
       "stationuuid": "962c3d1d-0601-11e8-ae97-52543be04c81",
@@ -1733,11 +1733,11 @@
       "votes": 603,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://stream.kaaosradio.fi:8000/chill",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://stream.kaaosradio.fi/chill",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:41:10.845Z"
     },
     {
       "stationuuid": "962c6927-0601-11e8-ae97-52543be04c81",
@@ -1755,8 +1755,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://s3.myradiostream.com:4976/;",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "9848f5bd-0f75-4e6d-a2bd-fcdb551adbdd",
@@ -1775,7 +1775,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://yleradiolive.akamaized.net/hls/live/2027676/in-YleKlassinen/master.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:49.759Z"
     },
     {
       "stationuuid": "98f551af-b40b-4035-a9cb-a531320a45d9",
@@ -1793,8 +1793,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://aud-stream-groove.nm-elemental.nelonenmedia.fi/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "9d79fe27-142d-43b1-a723-0718482f6e09",
@@ -1811,8 +1811,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleHameenlinna/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "9f1bd339-5e61-11e8-b715-52543be04c81",
@@ -1830,7 +1830,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://wr2.downtime.fi/kaakko.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "a00152c4-a3e3-416f-acf5-4e8d29709934",
@@ -1848,8 +1848,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cast.savonaallot.fi/savonaallot",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.761Z"
     },
     {
       "stationuuid": "a19530b7-3549-4a93-bc7b-022a1e1cb2ff",
@@ -1866,8 +1866,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://djuplink.com/ninjabox.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.762Z"
     },
     {
       "stationuuid": "a32f25c3-c9cf-405e-be18-9707212f9b98",
@@ -1885,7 +1885,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rollfm.online/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "a580840c-0e32-46f7-ba93-18343baef202",
@@ -1903,8 +1903,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://streaming.radioplay.fi/top51/top51_64.aac?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein&aw_0_1st.skey=1777532693",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "a5b17fee-4e81-4d90-a1a9-284181ac3c6c",
@@ -1922,8 +1922,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streaming.radioplay.fi/radio957/radio957_128.mp3?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein&aw_0_1st.skey=1777532694",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "aab6a396-57b6-46e4-9c9d-3e1b1e81b2c1",
@@ -1942,7 +1942,7 @@
       "verdictReason": "HTTP 404",
       "finalUrl": "https://stream.bauermedia.fi/radionova/radionova_64.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:54.414Z"
     },
     {
       "stationuuid": "ab909bf6-16f9-4066-b000-9b0b1bb5cd9c",
@@ -1959,8 +1959,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streaming.ticktock.radio/tt/1950/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.761Z"
     },
     {
       "stationuuid": "ac04007e-11f6-4f08-90a1-d5045a69410d",
@@ -1978,8 +1978,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://yleradiolive.akamaized.net/hls/live/2027672/in-YleRadio1/master.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.759Z"
     },
     {
       "stationuuid": "ac6dc287-20f4-4e8d-8748-ec0691acadd3",
@@ -1998,7 +1998,7 @@
       "verdictReason": "HTTP 404",
       "finalUrl": "https://stream.bauermedia.fi/nrj/nrj_128.mp3?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein&aw_0_1st.skey=1667679042www",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:53.621Z"
     },
     {
       "stationuuid": "af0a88c3-8936-11e8-aa66-52543be04c81",
@@ -2016,7 +2016,7 @@
       "verdictReason": "HTTP 404",
       "finalUrl": "https://stream.bauermedia.fi/suomirock/suomirock_128.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:51.221Z"
     },
     {
       "stationuuid": "b0cef042-fee9-48a3-b84e-6305fe446e11",
@@ -2034,8 +2034,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://yleradiolive.akamaized.net/hls/live/2027706/in-YleKemi/master.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.759Z"
     },
     {
       "stationuuid": "b302c01c-2a1b-4c8c-9440-ac3d6226c668",
@@ -2053,8 +2053,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://streaming.radioplay.fi/kasari/kasari_64.aac?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein&aw_0_1st.skey=1777532691",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "b6280ede-e2df-4b68-b82c-63c8648aa51b",
@@ -2071,8 +2071,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream03.pcradio.biz/Nightwish-hi",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.762Z"
     },
     {
       "stationuuid": "b6285b7d-f024-402d-8432-1a16596835d0",
@@ -2087,11 +2087,11 @@
       "votes": 66,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://iradio.fi:8000/klasu-hi.mp3",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://iradio.fi/klasu-hi.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:41:10.623Z"
     },
     {
       "stationuuid": "b6b4301e-7c69-4c01-b798-5083b5b11f5c",
@@ -2109,8 +2109,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cast.radiotempo.fi/radiotempo",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.762Z"
     },
     {
       "stationuuid": "b98188e0-3392-485d-8265-c3995c9b1858",
@@ -2128,8 +2128,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://replaynewsfi.ice.infomaniak.ch/replaynewsfi-128.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.762Z"
     },
     {
       "stationuuid": "bc644e9f-7e53-4918-9b9f-f035b5fa4c16",
@@ -2148,7 +2148,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.nsp.se:8000/popfm_high",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:41:10.619Z"
     },
     {
       "stationuuid": "bfe4ba5c-8049-4095-9242-c55715f454a3",
@@ -2166,8 +2166,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cast.radiokeskisuomalainen.fi/radiokeskisuomalainen",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.761Z"
     },
     {
       "stationuuid": "c3a2ea0a-85ee-4b98-81fd-b75169da9ebd",
@@ -2183,7 +2183,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleRadio1Hifi/icecast.audio",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "c8b240ad-1e4c-470e-a5dc-7e48915c4564",
@@ -2202,7 +2202,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://aud-stream-radiorock.nm-elemental.nelonenmedia.fi/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "ca51857b-e77e-4113-9c5a-325099e63574",
@@ -2218,8 +2218,8 @@
       "verdict": "ok",
       "verdictReason": "application/ogg",
       "finalUrl": "https://stream1.wappuradio.fi/wappuradio.opus",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "cae0fb22-8935-11e8-aa66-52543be04c81",
@@ -2238,7 +2238,7 @@
       "verdictReason": "HTTP 404",
       "finalUrl": "https://stream.bauermedia.fi/radionova/radionova_128.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:50.874Z"
     },
     {
       "stationuuid": "cc11cce3-f00f-4543-b1c4-d867e0d0cea4",
@@ -2257,7 +2257,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://jarviradio.radiotaajuus.fi:9000/jr",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "cfb85c6c-76b4-11ea-b1cf-52543be04c81",
@@ -2275,7 +2275,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.radiohelsinki.fi/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:49.761Z"
     },
     {
       "stationuuid": "cff46df0-7b0a-4393-b69f-3dd9b50945c4",
@@ -2292,8 +2292,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://keygen-fm.kodatek.app/listen/keygen-fm/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.762Z"
     },
     {
       "stationuuid": "d1958aa7-fa24-4367-90a7-0fd1c89e7a0c",
@@ -2312,7 +2312,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://hear.fi:8000/hear.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:41:10.599Z"
     },
     {
       "stationuuid": "d1ac1341-04fd-4e18-ba2c-c6bd6d28a1af",
@@ -2328,8 +2328,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://n07.radiojar.com/n6yg5q0z8vzuv.m4a?rj-ttl=5&rj-tok=AAABnj_x_hIAt9l8vcQ6hxQlkg",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "d1ca287d-bca5-43fd-bd88-e6b1c407cd22",
@@ -2346,8 +2346,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://icecast.live.yle.fi/radio/YlePori/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "d22c6215-80d5-4b54-9ccc-f712b9ba50d6",
@@ -2364,8 +2364,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://streaming.radioplay.fi/nostalgia/nostalgia_64.aac?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_ukrp&aw_0_req.userConsentV2=~TCSTRING~&rp_source=1&aw_0_1st.skey=1770708690",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.762Z"
     },
     {
       "stationuuid": "d52c33e2-fb2d-46e6-ad38-8eee3c7b6bd0",
@@ -2383,7 +2383,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s3.myradiostream.com:4976/listen.mp3?nocache=1777532693",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:49.762Z"
     },
     {
       "stationuuid": "da1f2775-76f2-4b71-bb07-6795c5f0455d",
@@ -2401,8 +2401,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://radiokaleva.digitacdn.net/radio/kaleva/master.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.762Z"
     },
     {
       "stationuuid": "da91e191-4e17-4373-a900-fb3a0121d4ab",
@@ -2420,8 +2420,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://yleradiolive.akamaized.net/hls/live/2027711/in-YleLPR/master.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.759Z"
     },
     {
       "stationuuid": "dc975029-d89e-4536-8a7d-e0033c3a6b14",
@@ -2440,7 +2440,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://yleradiolive.akamaized.net/hls/live/2027674/in-YleX/master.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:49.759Z"
     },
     {
       "stationuuid": "dd020de4-e098-40be-8c83-a853396dda9a",
@@ -2457,8 +2457,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://yleradiolive.akamaized.net/hls/live/2027680/in-YleSami/master.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.759Z"
     },
     {
       "stationuuid": "df8a5795-f3bb-4e72-ae0a-87c8455625bf",
@@ -2476,7 +2476,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiosandels.radiotaajuus.fi:9050/radio",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "dfecd929-2688-4107-90b4-766a0e0cb663",
@@ -2494,8 +2494,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://streaming.radioplay.fi/nostalgia/nostalgia_64.aac?aw_0_1st.bauer_loggedin=false&aw_0_1st.playerid=BMUK_tunein&aw_0_1st.skey=1777532690",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "e4302975-fc5a-4cf6-9535-2b9a8d966f3b",
@@ -2512,8 +2512,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://aud-stream-easyhits.nm-elemental.nelonenmedia.fi/playlist-256000.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.762Z"
     },
     {
       "stationuuid": "e5d11894-7c55-4fbc-94c4-fa78596013c0",
@@ -2530,8 +2530,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleTampere/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "ea090fe5-8c86-446c-b678-ca9be46b218e",
@@ -2548,8 +2548,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleVegaAboland/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "ec8d5679-6b61-49b5-9bfc-3e71a8777c44",
@@ -2567,7 +2567,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleTampere/icecast.audio",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "f0c78ab4-e14d-40e8-8434-fcda0f3d905d",
@@ -2584,8 +2584,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://aud-stream-suomipop.nm-elemental.nelonenmedia.fi/playlist-256000.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "f46a7f78-6fbd-4251-a44f-33024264fab6",
@@ -2604,7 +2604,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://st.downtime.fi/sun.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:49.760Z"
     },
     {
       "stationuuid": "f6d91cef-82e6-4bd7-92ea-1c98e99cf3d0",
@@ -2622,7 +2622,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleRadio1Hifi/icecast.audio",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "f7001430-7f36-4562-93b8-31b7f070a327",
@@ -2639,8 +2639,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://uksoutha.streaming.broadcast.radio/fugefm",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.762Z"
     },
     {
       "stationuuid": "f8682eca-5a74-4385-ba72-5cde13e8ce98",
@@ -2657,8 +2657,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleX3M/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "fc77ef15-f147-4652-9596-307866fbc012",
@@ -2675,8 +2675,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast.live.yle.fi/radio/YleTurku/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.734Z"
     },
     {
       "stationuuid": "fecf5025-96de-11e8-a767-52543be04c81",
@@ -2694,8 +2694,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cast2.radiovoima.fi/voima.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.382Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.761Z"
     },
     {
       "stationuuid": "fed9a975-d67c-44d1-8591-f44208c196e3",
@@ -2713,8 +2713,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://s3.radio.co/scfd7273b2/listen",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:28:18.381Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:40:49.760Z"
     }
   ]
 }

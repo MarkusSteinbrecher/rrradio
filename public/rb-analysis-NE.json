@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-19T17:39:19.965Z",
+  "generatedAt": "2026-06-10T19:18:33.366Z",
   "country": "NE",
   "rawSnapshotAt": "2026-05-19T07:50:58.221Z",
   "total": 4,
   "playable": 2,
   "broken": 2,
-  "curated": 0,
+  "curated": 1,
   "byVerdict": {
     "broken-4xx": 1,
     "ok": 2,
@@ -28,7 +28,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://icecast.radioblau.de:8000/blau_320_dry",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:39:19.960Z"
+      "probedAt": "2026-06-10T19:18:33.343Z"
     },
     {
       "stationuuid": "7f0138d8-7ea6-4c8b-b0bd-63a2ae3ae9c5",
@@ -46,7 +46,7 @@
       "verdictReason": "HTTP 401",
       "finalUrl": "https://stream.zeno.fm/x0a1r1qu1nhvv",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:39:19.959Z"
+      "probedAt": "2026-06-10T19:18:12.652Z"
     },
     {
       "stationuuid": "a365ffa2-138a-41ac-8e4f-c80b46e03584",
@@ -62,8 +62,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream-176.zeno.fm/1y2c3qbgbchvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiIxeTJjM3FiZ2JjaHZ2IiwiaG9zdCI6InN0cmVhbS0xNzYuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiWkI5VVZOUnFUWmk5SzdtNU4wMXZsZyIsImlhdCI6MTc3OTE5MjgwNCwiZXhwIjoxNzc5MTkyODY0fQ.gBnl-ozqkG_YtfA8pBJS3ja4as75o_nuYUnA52NPEyE",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:39:19.960Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:18:12.652Z"
     },
     {
       "stationuuid": "de16d421-d18e-4fd9-b3c7-288f5e4aff8f",
@@ -82,7 +82,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:39:19.960Z"
+      "probedAt": "2026-06-10T19:18:12.296Z"
     }
   ]
 }

@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-05-19T17:29:38.144Z",
+  "generatedAt": "2026-06-10T18:52:35.772Z",
   "country": "HK",
   "rawSnapshotAt": "2026-05-19T07:50:26.603Z",
   "total": 89,
-  "playable": 76,
-  "broken": 13,
-  "curated": 20,
+  "playable": 77,
+  "broken": 12,
+  "curated": 51,
   "byVerdict": {
-    "ok": 25,
+    "ok": 26,
     "ok-hls": 51,
-    "broken-mixed": 9,
+    "broken-mixed": 8,
     "broken-dns": 1,
     "broken-4xx": 3
   },
@@ -29,8 +29,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stm1.rthk.hk/radio1",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "0e5b6b8c-8e85-4a3b-8664-64cd6d6ae4ca",
@@ -47,8 +47,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradiopth-live.akamaized.net/hls/live/2040082/radiopth/index_64_a.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "140cbc06-7365-40c8-b81e-564f55e7f290",
@@ -65,8 +65,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio5-live.akamaized.net/hls/live/2040081/radio5/master.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "148bfb6d-e45e-4877-88eb-d8f3e3a7ad7d",
@@ -84,7 +84,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://playtv-live.ifeng.com/live/06OLEEWQKN4_audio.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "14e12a23-52d7-42fb-901b-da15d0526711",
@@ -101,8 +101,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://v.hwadzan.info/liveedge/_definst_/education/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "1658a818-4ad2-46e0-b090-cdb01015d76e",
@@ -119,8 +119,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://v.hwadzan.info/liveedge/_definst_/smil:wdmaster.smil/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "186b2887-e1bb-4e1f-8ffe-c17b7b501c96",
@@ -139,7 +139,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio1-live.akamaized.net/hls/live/2035313/radio1/master.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "1875ea38-6f79-4277-b4d5-8db900077100",
@@ -157,7 +157,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio3-live.akamaized.net/hls/live/2040079/radio3/master.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "1c999a35-cbc8-45e8-98d0-20b664b44c34",
@@ -176,7 +176,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio1-live.akamaized.net/hls/live/2035313/radio1/master.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "21216932-11ca-47c6-8cef-a3f7192de15e",
@@ -194,7 +194,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://playtv-live.ifeng.com/live/06OLEEWQKN4_audio.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "21682878-a527-4deb-8b64-c94c744a473c",
@@ -212,7 +212,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://lhttp.qingting.fm/live/1277/64k.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "2930da9c-7279-4c16-8574-080074ddf763",
@@ -229,8 +229,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradiopth-live.akamaized.net/hls/live/2040082/radiopth/master.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "2be788be-a558-428b-93b1-6cc6e4a768ff",
@@ -246,8 +246,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stm2.rthk.hk/radio2",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "2da259ce-c76a-4996-8a89-23f200f6ac1c",
@@ -265,7 +265,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio2-live.akamaized.net/hls/live/2040078/radio2/master.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.526Z"
     },
     {
       "stationuuid": "341fd2bc-f6b5-49e1-b85c-e70f212d9c71",
@@ -284,7 +284,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen.radioking.com/radio/453221/stream/508076",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "357fbb15-05ba-4219-968a-0c0408ec8dbf",
@@ -303,7 +303,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://procyon.shoutca.st:8492/listen.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:56.061Z"
     },
     {
       "stationuuid": "35fc7e68-2b4a-4d2e-a2b5-1dc73a711170",
@@ -320,8 +320,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://ls.qingting.fm/live/1273.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "37530049-1ce7-4096-8728-470f1becaa0b",
@@ -339,7 +339,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio2-live.akamaized.net/hls/live/2040078/radio2/index_64_a.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "38ee7cba-f235-4e89-ba9a-60e588af2b82",
@@ -357,7 +357,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://playtv-live.ifeng.com/live/06OLEGEGM4G_audio.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "392ab5e8-c91a-4b27-9792-cae5fb712ebe",
@@ -375,7 +375,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://fm995.ddns.net/hls1/fm995.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "3a5b3c97-1204-4a47-bf97-6bc08eba38b9",
@@ -394,7 +394,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradiocmgrgb-live.akamaized.net/hls/live/2046112/radiocmgrgb/master.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "3e7ad9d1-17e6-4b74-a5b7-9d5654c20d3c",
@@ -412,7 +412,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradiocnrhk-live.akamaized.net/hls/live/2046111/radiocnrhk/master.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "3f82d490-0bf2-41bd-8c69-00f4fe8580e7",
@@ -431,7 +431,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://162.220.162.10:8011/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:55.379Z"
     },
     {
       "stationuuid": "3fb37778-628e-4799-bb76-cd2813a85464",
@@ -449,7 +449,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio3-live.akamaized.net/hls/live/2040079/radio3/master.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "40424e67-42c4-4fa7-a8e9-4127153eae69",
@@ -466,8 +466,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://v.hwadzan.info/liveedge/_definst_/smil:sanshi_720p.smil/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "4dcf7151-3427-43bc-9ef1-24e3704ac0f2",
@@ -485,7 +485,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://fm995.ddns.net/hls1/fm995.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "4e7155e6-3639-4ce4-a2f6-547dce3cc826",
@@ -503,8 +503,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://1946218710.rsc.cdn77.org/1946218710/index.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.527Z"
     },
     {
       "stationuuid": "4e9a60c7-3c7d-437d-81b0-c1bd148097ce",
@@ -521,8 +521,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio4-live.akamaized.net/hls/live/2040080/radio4/index_64_a.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "53e9eab3-eee4-472f-af2a-c5fa5282b4ac",
@@ -539,8 +539,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradiocnrhk-live.akamaized.net/hls/live/2046111/radiocnrhk/index_64_a.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "5682c16a-581c-442b-a13e-849c9f926263",
@@ -558,8 +558,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen.belowground.fm/radio/8000/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.527Z"
     },
     {
       "stationuuid": "5b253a02-28ed-48a7-a972-2aef5b114036",
@@ -576,7 +576,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://sc.apple-fm.net:9020/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:55.613Z"
     },
     {
       "stationuuid": "5c270835-4ed3-43cb-9e93-05f574f12b19",
@@ -593,8 +593,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio5-live.akamaized.net/hls/live/2040081/radio5/index_64_a.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "5d6f4010-91b7-11e9-a6c6-52543be04c81",
@@ -612,7 +612,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradiopth-live.akamaized.net/hls/live/2040082/radiopth/master.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "5f9d4def-f46f-4f69-86f4-93e8168e6ab2",
@@ -631,7 +631,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio4-live.akamaized.net/hls/live/2040080/radio4/master.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "5faadfe8-a738-4155-82a7-9663ce1c9c33",
@@ -650,7 +650,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://59.152.232.107:8000/Channel1-128MP3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:52:35.749Z"
     },
     {
       "stationuuid": "5fea3ae3-eb18-4760-b622-1ca36e646887",
@@ -668,7 +668,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://lhttp.qtfm.cn/live/1084/64k.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.526Z"
     },
     {
       "stationuuid": "67238017-50b9-444b-8f6c-ae17d008f5e4",
@@ -687,7 +687,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://bluesfan.stream.laut.fm/bluesfan?t302=2020-11-06_13-46-59&uuid=28a2f040-51e1-44fe-899f-3519cbd5d4e9",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.525Z"
     },
     {
       "stationuuid": "6e54fe80-269e-4238-8ee2-c226c031d4bd",
@@ -705,7 +705,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio1-live.akamaized.net/hls/live/2035313/radio1/master.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "6f1d1d19-40a5-4cd4-ad30-b3fd930c52de",
@@ -724,7 +724,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio3-live.akamaized.net/hls/live/2040079/radio3/master.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "70f7500f-e484-4783-8948-069dfc86f969",
@@ -742,7 +742,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://22273.live.streamtheworld.com/AXR_HONGKONGAAC.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "75958664-ebc5-42fc-b4b4-487bfdc39ea0",
@@ -760,7 +760,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stm2.rthk.hk/radio2",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "7b939313-e0fd-4570-bba6-bd0f832edb96",
@@ -778,7 +778,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://lhttp-hw.qtfm.cn/live/1272/64k.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:56.172Z"
     },
     {
       "stationuuid": "7c426f02-1c08-409c-8068-3a0d82bb1ea3",
@@ -796,7 +796,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-286.zeno.fm/2uvcyzjw38ivv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiIydXZjeXpqdzM4aXZ2IiwiaG9zdCI6InN0cmVhbS0yODYuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IjZGMHpYMGUwVER1dXRVa3c3UjlBY2ciLCJpYXQiOjE3Nzg0ODM3MDEsImV4cCI6MTc3ODQ4Mzc2MX0.NUTOyxW3NhpTUik5TDwtUhJHJbQtEZJbOQgOEaqUuvw",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "7c6d8cee-8c48-4895-b960-8103f6373508",
@@ -814,8 +814,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradiopth-live.akamaized.net/hls/live/2040082/radiopth/master.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "7e98e1e9-f29c-4444-b3cc-f981b2778a13",
@@ -832,8 +832,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://lhttp-hw.qtfm.cn/live/1275/64k.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:57.532Z"
     },
     {
       "stationuuid": "897d3142-8c40-40f1-8b65-eff7d66ec7bd",
@@ -851,7 +851,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio4-live.akamaized.net/hls/live/2040080/radio4/master.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "8b41cd58-4393-4761-a6c5-25758f630144",
@@ -869,7 +869,7 @@
       "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND stream.chinasuntv.com",
       "finalUrl": "https://stream.chinasuntv.com/680k/mid_video_index.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:55.342Z"
     },
     {
       "stationuuid": "8c0614be-7b3d-4bc8-93e1-6824ecfbfaa5",
@@ -887,8 +887,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://c25.radioboss.fm:8334/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.526Z"
     },
     {
       "stationuuid": "8c56edc7-6e44-4143-aeb5-51fe9a00dfe4",
@@ -906,7 +906,7 @@
       "verdictReason": "HTTP 404",
       "finalUrl": "https://lhttp-hw.qtfm.cn/live/20500021/64k.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:56.172Z"
     },
     {
       "stationuuid": "9036a21b-8c15-42fb-93d2-f177c9e2ac7e",
@@ -924,7 +924,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://live.ximalaya.com/radio-first-page-app/live/2817/64.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:56.133Z"
     },
     {
       "stationuuid": "9073a5eb-5a43-45a3-9c18-33bb5b4dab9c",
@@ -942,7 +942,7 @@
       "verdictReason": "HTTP 404",
       "finalUrl": "https://lhttp-hw.qtfm.cn/live/5021725/64k.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:57.532Z"
     },
     {
       "stationuuid": "9196ed7d-f3c0-4b9f-8103-462edf819c9f",
@@ -959,8 +959,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://js1.hwadzan.info/liveedge/_definst_/smil:amtb.smil/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.527Z"
     },
     {
       "stationuuid": "93b7ad6f-abdc-4a24-a947-f87dec018269",
@@ -978,8 +978,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.dripfeed.net/listen/radiolantau/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.527Z"
     },
     {
       "stationuuid": "98f1beba-b3eb-43d9-81f9-8bb09098f184",
@@ -997,7 +997,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio1-live.akamaized.net/hls/live/2035313/radio1/index_64_a.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "9b15c524-f261-497d-8ea8-3a35bc2f8709",
@@ -1014,8 +1014,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://lhttp-hw.qtfm.cn/live/1086/64k.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:57.532Z"
     },
     {
       "stationuuid": "9b2430c5-afb8-4d83-8d95-ce695267c565",
@@ -1033,7 +1033,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://playtv-live.ifeng.com/live/06OLEEWQKN4_audio.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "9b982004-2ea5-49cc-a82d-bd65ae8ebd5e",
@@ -1047,11 +1047,11 @@
       "votes": 1306,
       "clickcount": 4,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://ice.digitalradiohk.net:8000/drhk",
+      "verdict": "ok",
+      "verdictReason": "audio/aacp (https variant on default port from http://)",
+      "finalUrl": "https://ice.digitalradiohk.net/drhk",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:52:16.051Z"
     },
     {
       "stationuuid": "9de7cf57-00f2-4995-b3b2-c380245ac710",
@@ -1069,7 +1069,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://ptmirror3.passiontimes.hk/hls3/stream.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.526Z"
     },
     {
       "stationuuid": "9e9c4d7f-bb68-4d13-8bce-711d0cb219be",
@@ -1087,7 +1087,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio2-live.akamaized.net/hls/live/2040078/radio2/index_64_a.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "a34645cb-3c73-449b-9d3d-44db5570e8a2",
@@ -1105,8 +1105,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://c23.radioboss.fm/stream/194",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.527Z"
     },
     {
       "stationuuid": "a34df3ef-f1ed-4250-bddb-d306627fa1da",
@@ -1123,8 +1123,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://lhttp-hw.qtfm.cn/live/1274/64k.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:57.532Z"
     },
     {
       "stationuuid": "a41c628e-3961-43d2-9aec-91521d00788b",
@@ -1142,7 +1142,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://zbbf2.ahbztv.com/live/4f3.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.526Z"
     },
     {
       "stationuuid": "aa91470c-89dc-48ba-b155-f6455fc2fa74",
@@ -1160,7 +1160,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://lhttp.qingting.fm/live/1278/64k.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "adb40af2-1bfe-4d43-8122-08b7e0b799a1",
@@ -1177,7 +1177,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio2-live.akamaized.net/hls/live/2040078/radio2/index_64_a.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "adcae25f-4823-4668-87ac-18aadbf02f38",
@@ -1194,7 +1194,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-179.zeno.fm/rzwzgu0dd8zuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJyend6Z3UwZGQ4enV2IiwiaG9zdCI6InN0cmVhbS0xNzkuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IjlyRFJIcjI5VGVTTVhVZ0Fyb1p4S0EiLCJpYXQiOjE3Nzg0ODM3MDAsImV4cCI6MTc3ODQ4Mzc2MH0.u-waulZqMamemCn-yrCxyiRYTts6bKvnk0eDs0ASi4I",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "b52583a4-0da1-4c32-b917-a229f9d3a122",
@@ -1212,7 +1212,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio1-live.akamaized.net/hls/live/2035313/radio1/master.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "b5eea176-4a21-4287-990f-46c30ee306dc",
@@ -1231,7 +1231,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio1-live.akamaized.net/hls/live/2035313/radio1/master.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "ba2c1f66-629c-49e0-b73c-c7bc67c4c6d8",
@@ -1249,7 +1249,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio1-live.akamaized.net/hls/live/2035313/radio1/master.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "bc6d7454-bc64-42e4-83e7-9ad79de1bd22",
@@ -1267,7 +1267,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://ngcdn002.cnr.cn/live/jjzs/index.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:55.377Z"
     },
     {
       "stationuuid": "bcab3194-d497-453f-b3ac-644724a18345",
@@ -1285,7 +1285,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://lhttp-hw.qtfm.cn/live/5022062/64k.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:38.132Z"
+      "probedAt": "2026-06-10T18:51:54.498Z"
     },
     {
       "stationuuid": "bda613a3-1bbe-47bc-ab24-d0e4d4ab9f20",
@@ -1302,8 +1302,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://satellitepull.cnr.cn/live/wxxgzs/playlist.m3u8?wsSession=5849bb6c90cf7fc1a7e3eae9-174908181231216&wsIPSercert=f7b6cfa8467acd0836b62cf14aa786d3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.526Z"
     },
     {
       "stationuuid": "bea0fae3-8ed2-4e56-bbc4-6ad68d2c6aea",
@@ -1321,7 +1321,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://ls.qingting.fm/live/1085.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "c11e8296-758d-4ece-a891-cad8236f8c09",
@@ -1340,7 +1340,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://1603884249.rsc.cdn77.org/1603884249/index.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.526Z"
     },
     {
       "stationuuid": "c174f4fc-6bca-4389-a8f0-a97badd2374a",
@@ -1357,8 +1357,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://1716664847.rsc.cdn77.org/1716664847/tracks-a1/mono.ts.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.526Z"
     },
     {
       "stationuuid": "c5a87eaf-c961-11e9-8502-52543be04c81",
@@ -1376,7 +1376,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://sc7b.apple-fm.net:8188/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:55.613Z"
     },
     {
       "stationuuid": "cb5b8578-166b-4b78-98a3-804adf69b99b",
@@ -1395,7 +1395,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio4-live.akamaized.net/hls/live/2040080/radio4/master.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "cdfcd71c-f3d7-4ae6-baae-a4831e8e06db",
@@ -1412,8 +1412,8 @@
       "verdict": "broken-4xx",
       "verdictReason": "HTTP 403",
       "finalUrl": "https://live.xmcdn.com/live/2732/64.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:56.174Z"
     },
     {
       "stationuuid": "ce998ec3-59e1-49d7-8476-f32d4d3b5d41",
@@ -1431,7 +1431,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://ngcdn002.cnr.cn/live/xgzs/index.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:55.201Z"
     },
     {
       "stationuuid": "d1ef34d7-4d8c-471a-868a-2a563393a3b0",
@@ -1448,8 +1448,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradiocmgrgb-live.akamaized.net/hls/live/2046112/radiocmgrgb/index_64_a.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "d4a4ca27-d864-4f0c-ac3a-4dd9d273cbb9",
@@ -1467,7 +1467,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://22283.live.streamtheworld.com/AXR_HONGKONGAAC.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "d68d59d8-3768-476b-b068-0e64c9ae7bd3",
@@ -1486,7 +1486,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.527Z"
     },
     {
       "stationuuid": "da5d55db-a24f-4914-90dc-89ab26120df7",
@@ -1503,8 +1503,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://ls.qingting.fm/live/1271.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "df485b29-376b-446e-9427-e88c4aefe364",
@@ -1522,8 +1522,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio3-live.akamaized.net/hls/live/2040079/radio3/master.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "ed6db46d-104e-4f43-b3ca-16e715091c94",
@@ -1540,8 +1540,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-177.zeno.fm/vzgtzzs0x68uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ2emd0enpzMHg2OHV2IiwiaG9zdCI6InN0cmVhbS0xNzcuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IkZXR2hOUWxyUTJXUjdYMlk1UGFKdmciLCJpYXQiOjE3Nzg0ODM3MDYsImV4cCI6MTc3ODQ4Mzc2Nn0._x3rEouK1lUNaer4DXuyBDwkndh0qb8QPimRoKy86G8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "f27f962c-b42a-4674-9b50-30216165b108",
@@ -1560,7 +1560,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio5-live.akamaized.net/hls/live/2040081/radio5/master.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "f34d33ab-a932-4e24-b6c5-938c2599cb25",
@@ -1578,7 +1578,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://lhttp.qingting.fm/live/1270/64k.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "f9f38dfb-7ed2-4f41-a440-d22baa2d5ebf",
@@ -1595,8 +1595,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://v.hwadzan.info/liveedge/_definst_/smil:sx.smil/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "fd88f043-118a-4b6f-8b1d-2a4cce984f06",
@@ -1615,7 +1615,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen.radioking.com/radio/333865/stream/382282",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "probedAt": "2026-06-10T18:51:54.524Z"
     },
     {
       "stationuuid": "ff98b8d3-f26a-4801-8c02-6759c15f0003",
@@ -1632,8 +1632,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rthkradio4-live.akamaized.net/hls/live/2040080/radio4/master.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:38.134Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:51:54.524Z"
     }
   ]
 }

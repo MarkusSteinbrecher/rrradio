@@ -1,16 +1,16 @@
 {
-  "generatedAt": "2026-05-19T17:33:34.874Z",
+  "generatedAt": "2026-06-10T19:06:01.213Z",
   "country": "KR",
   "rawSnapshotAt": "2026-05-19T07:50:40.353Z",
   "total": 107,
-  "playable": 49,
-  "broken": 58,
-  "curated": 17,
+  "playable": 50,
+  "broken": 57,
+  "curated": 32,
   "byVerdict": {
     "ok": 12,
-    "broken-mixed": 23,
+    "broken-mixed": 22,
     "broken-4xx": 33,
-    "ok-hls": 37,
+    "ok-hls": 38,
     "broken-tls": 2
   },
   "stations": [
@@ -30,7 +30,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://amdlive.ctnd.com.edgesuite.net/arirang_3ch/smil:arirang_3ch.smil/chunklist_b3256000_sleng.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:36.516Z"
     },
     {
       "stationuuid": "01335461-d022-4ad8-9fbc-1bd3ef534def",
@@ -48,7 +48,7 @@
       "verdictReason": "HTTP 400",
       "finalUrl": "https://minicw.imbc.com/dchm/_definst_/chm.stream/playlist.m3u8?_lsu_sa_=69B17B15F3A53554F64B35093201804E751F3B45DE0812D238C0F8a8D6FF3A16E6a8335935C2F545D06038C158b5D166FA999A458771BEE352B2C9E5EFBD8289671E97D3407D13346FEB90417858F70FC294AF19D89899209C8D68D8176C1CB153E49F6DB2E700E767764D204E8700EB",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:43.262Z"
     },
     {
       "stationuuid": "015f47d3-16d1-40de-bd07-e9686d329108",
@@ -65,8 +65,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://m-aac.cbs.co.kr/mweb_cbs939/_definst_/cbs939.stream/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:05:34.855Z"
     },
     {
       "stationuuid": "018935b5-88de-46da-a323-f35b4178503b",
@@ -84,7 +84,7 @@
       "verdictReason": "HTTP 404",
       "finalUrl": "https://m-aac.cbs.co.kr/mweb_cbs939/_definst_/cbs939.stream/chunklist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:40.400Z"
     },
     {
       "stationuuid": "026c6b18-8726-4d14-a8e2-05bb9288be49",
@@ -101,7 +101,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://2fm-ad.gscdn.kbs.co.kr/2fm_ad_192_1.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8yZm0tYWQuZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Njk0ODk5ODJ9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=MIVHClD80EpJxoeYuvZa4jEOdpNd9UiLYZKfDX9OAJiI1wPpkilHxr6KbMT6Grz8cktI3dy9nu6KuBGxJ5sy7rrk6WPJsMUmMG~dzBgxkuM0RCaLjczTqmvP79G39zT5azocS8w8PU7dnMLl6piCiNFIYgiXu3GoiCE7Hz4oXq9zl60AwgX-P0cS~2GW5vl6NGs0YbsHjdDrDmRv5c2R7IV8cdnAUyQAlx~KgC2lkEEslQjAe~Ujg7VN2TZRA7j0kWEMuoneEr23GqDPqd80vhpg3tw9NKrmtE4YM1NQwbbwg8bWwTCaeD1oky2e1Dqn864JDITHcE8EiPN502K~6A__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:37.005Z"
     },
     {
       "stationuuid": "066839bb-e428-11e8-a9cc-52543be04c81",
@@ -118,8 +118,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://ebsonair.ebs.co.kr/ebs2familypc/familypc1m/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:05:34.854Z"
     },
     {
       "stationuuid": "06c07813-9589-42ba-8e21-e83e997fc806",
@@ -137,7 +137,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://live07.inlive.co.kr:21110/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:45.788Z"
     },
     {
       "stationuuid": "0cbefa4e-77f0-4b98-bfdf-37a32aeb0c8b",
@@ -154,7 +154,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://befm905.live.smilecdn.com:1935/befm905_live/live/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:44.871Z"
     },
     {
       "stationuuid": "0fc7173f-5106-4c47-9156-621124fb0803",
@@ -172,7 +172,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://radiolive.sbs.co.kr/lovepc/lovefm.stream/playlist.m3u8?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3Njg0ODgwMDUsInBhdGgiOiIvbG92ZWZtLnN0cmVhbSIsImR1cmF0aW9uIjotMSwidW5vIjoiMDZkZjczYmItZTM4Yi00NzI5LWEyZTUtZjRlNDAwNmZkZmI1IiwiaWF0IjoxNzY4NDQ0ODA1fQ.9C2odBRYFEmZuFWp624Xot5IhU8JrwwKOxg0wygVrUY",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:44.777Z"
     },
     {
       "stationuuid": "10fbdfdd-2a6f-49fb-a035-8963c57f52e8",
@@ -190,7 +190,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://radiolive.ytn.co.kr/radio/_definst_/20211118_fmlive/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.857Z"
     },
     {
       "stationuuid": "11c0bd17-9a8c-41a7-a050-3cf612c205f6",
@@ -207,7 +207,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://1radio.gscdn.kbs.co.kr/1radio_192_4.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xcmFkaW8uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Nzg2NTY0ODJ9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=HFFm5U-q9CrnJdVm97W1ykhahORXHCCQZjSR6d6QAZRXO-MtxaLg6DuckQxeF6ZFVcDhXPVluE2DEW7XN-k2xMX-bJXbyKPDlvQwufOsQ57uhofskRtwE5AWOwwIPxjQ0rAFzKei1Ko1wQyEUaIhet2Yr6uXOx-KH3C6jcy1vU2Tr9qiLrFeMpQIKmR7lP2mK-DjGMFff2s7753Y-6aIEzBj93pU51528i0MXkWrgTEcIyUE0mr5Gu9aLK-gxcppL7vipBvfgA68Ho6ATIUW-k5Dv1JQjUGErUBvEjhx9wum3OK46klv9HuTlidBe37mGXCt7xmHl8wQNKFdO1jrdQ__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.853Z"
     },
     {
       "stationuuid": "12d601b9-0c10-4f6d-8d85-e460b993c1a4",
@@ -225,7 +225,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://2radio-bora.gscdn.kbs.co.kr/2radio-bora-02/2radio-bora-02_hd.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8ycmFkaW8tYm9yYS5nc2Nkbi5rYnMuY28ua3IvMnJhZGlvLWJvcmEtMDIvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc3ODY1NjQ0M319fV19&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=KtigIw4eFAgxAe0NX2jpXSxRcz8F~-2fX~pEylcx~07q5Wzb8B-NGWJLxeDw9ejtaVt3w6C4h18Y57BRjt19-5WCKBAklMVzS0FxcUWI4Q5d~BdB5GhZnBIMGM23yTxPGTfoVLerdAWzj~OZPMV2GJ5MCcTxhl5kOdgES44LfjfJxF-3NEiARwjN9EoI55sTWFgWVLtDD9MGefS1uWjLeqJ4YAdyui19RglpO-R4WfYjWh7rhWaPqhHgwlf1H8l20hrXGc7btpFOt8euFm4JkirA7174n1OHJoqSTHp06urKFQLnbMF3G8Sa4fRLCD01Ixa2-b1tmFG--qfxHOL4eQ__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.853Z"
     },
     {
       "stationuuid": "157bcaf5-d718-4ddf-bd97-adf23c78edc7",
@@ -243,7 +243,7 @@
       "verdictReason": "audio/ogg",
       "finalUrl": "https://listen.moe/kpop/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.854Z"
     },
     {
       "stationuuid": "16c1e8aa-1e9e-422b-9611-842b61a70983",
@@ -261,7 +261,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://1radio-bora.gscdn.kbs.co.kr/1radio-bora-01/1radio-bora-01_hd.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xcmFkaW8tYm9yYS5nc2Nkbi5rYnMuY28ua3IvMXJhZGlvLWJvcmEtMDEvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc2ODYyMTIwMX19fV19&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=NPl5EoiKw12XCLDdgYrB4KaEGUNcwTBQEXPAJJqdwPtj5eQDSTFrTiAHtrBh3ttTVtS7~MwkoJ2apMgyPhTWA0C~36i3uxhm1mORWtRNyr3UT6zRFg8c2zS6PulahOyybsQbRDQOds1CtTcfiWPdrFHysTCvodjKSX-jJXBAUN82~gOjj3QE-02pu12b2U-sxzWtpyeg4s9m5aCutjRvNxr7BjrcKY8GxCqzEQI8SdjK3JVgBp95nbLYV6w9D26FLqPpmkjSgoxjuv3kZ6kVjinGTyHImy1I2bPp~aqt2rd5aE15v81bKF4L2Reok-gpK7CRJWv4igypmsitX9YJHQ__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:38.817Z"
     },
     {
       "stationuuid": "1814c6bf-528b-446d-8f40-f5261a2b3b7b",
@@ -279,7 +279,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://andong.webcasting.co.kr:1935/live/amlive/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:44.857Z"
     },
     {
       "stationuuid": "18849c31-3a21-481f-8c0d-e6ca46cb240c",
@@ -297,7 +297,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://1fm.gscdn.kbs.co.kr/1fm_192_2.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xZm0uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Njg2MTc1NTZ9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=YO1NNsjfVeI8I3mY2GmzD5LF1GvnSiE~Qdso5lsg9~ba9uuBfD33FKIZJS~hCjLyU7G2SnQkZNHAH8Zkft-qY8MMYKWmSiccYgE3t~wxFbju0eaP8Sm2a~8b4QQNIS-70pxpq4l1GzQluJCa8xE1sjgYMxO~UPnU8Py5N3XB0P3vvD2zYGncjNAMYAghBI2eg~diLHn2ACLJe67NcAS4NoghGvKlnantG9nfFA0l~2PzdKVPTJ4bgOPe8keHZtaH2fTXAJrpbHlw6r4xFoVcPFzeO6-VQCAAm~h~PdC1aaK~HLLJWudgxjDVTFyxg6qNa7B52vtVXvST0LY6mi989A__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:36.486Z"
     },
     {
       "stationuuid": "19f6670a-7d9f-4c71-af22-c112f7fee450",
@@ -314,8 +314,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://lhttp-hw.qtfm.cn/live/15318233/64k.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:05:34.857Z"
     },
     {
       "stationuuid": "1a512cf7-f77c-49c0-b42d-4e3db0656b6a",
@@ -334,7 +334,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://radiostream.communityradio.kr/jcfm1",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:45.233Z"
     },
     {
       "stationuuid": "1ade2300-f75f-4dcd-aa77-06d276537c0e",
@@ -352,8 +352,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://14993.live.streamtheworld.com/AFNP_OSNAAC_SC",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:05:39.687Z"
     },
     {
       "stationuuid": "1c5e70a7-491a-455a-b1b3-48f4b8241155",
@@ -371,7 +371,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://onair.mapofm.net/mapofm",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:06:00.041Z"
     },
     {
       "stationuuid": "1cc29b79-7be3-11e9-aa30-52543be04c81",
@@ -389,7 +389,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://radiolive.sbs.co.kr/powerpc/powerfm.stream/playlist.m3u8?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3Njg1MDg0MDcsInBhdGgiOiIvcG93ZXJmbS5zdHJlYW0iLCJkdXJhdGlvbiI6LTEsInVubyI6IjJiZmM1Mzc1LTViZWYtNDY4Ny05NjU2LTc1ZmI4OTk3NjA0YSIsImlhdCI6MTc2ODQ2NTIwN30.xkRaVDF9QFP4Tx2jEU7nwLRfLCVxa9KTnyUFHS1ZtUE",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:37.308Z"
     },
     {
       "stationuuid": "1cedd673-4904-412b-aed2-6eca20cb2240",
@@ -408,7 +408,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://wowccm.iptime.org:8000/stream/1/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:06:01.193Z"
     },
     {
       "stationuuid": "223f554a-0647-4bf0-86d2-11d46ed79dce",
@@ -425,7 +425,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://1fm.gscdn.kbs.co.kr/1fm_192_2.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xZm0uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Nzg2NTY0NTV9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=RJB4BNfjiTnqiZjrDxOg0VWt9C4Q7XLgB1Vsox2ech2gJF2r1LdyQkv3QAHPhy0cI69-EXEWuW4Q3LzbaeboH6miP4aeRTLAWToDMmpEhIBKkYP5UzPEWraDUDDVUA5O3OE6x1p9~qP0-uQN-eS-8EogOwoZpXC6IogaNxP1r7KYDqe7Y1HrVUH~iUkuHsGuol4IYpoPfubo2L9J-aUiFM2quWRDJWhm6u6aEvRT8WnVdyiDY2ag8fd4TLKTrmuCtawSY5QMuyjTCtjmuN9FIoiEfWd~k3dAgcPYPvlvHbQS7HYMG2lrMIF6t6dMszsr9y4oU4qHFpC1lJxgfeQzeA__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.853Z"
     },
     {
       "stationuuid": "2672e98d-b642-456e-8d77-e331ab4e007c",
@@ -443,7 +443,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://2fm-ad.gscdn.kbs.co.kr/2fm_ad_192_1.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8yZm0tYWQuZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Njg2MDc5NDh9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=W1QIrXTRLpy54k2JceWdWUHonf4UNAqtA9h3pQatut2yhz~dffHqNxl4dqHuYbAEq0V6am9SAu6~ixsWXpzE4xm1d~ZoJqguTYYHOL5-qUI6Ark1PUYpZfm9W4ETV9ZeyTPjpaI1eDjL3Hx6Qp6koLylRl3p6wvOopyhC6nkaYshvPbsKSr-lTUvKw58emtSFT7zzqLW8-Hy97LypI6sfrvlFGpcydKJH8fEOmy~qOMkmpMnyQZoxtkXWkjSIZKQINY4r2qdgFPPfkRaUuj-1v5VunutD6SFYY4USnSo1M77IFtzRvbXfYRV3ELIXU87X0KKvm0WMc3xclLoYnofdQ__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:36.512Z"
     },
     {
       "stationuuid": "2b1b77a5-16d9-49eb-9359-38341f5674e4",
@@ -461,7 +461,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s10.webradio-hosting.com/proxy/fredradiokr/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.858Z"
     },
     {
       "stationuuid": "2f47d2d9-ac17-49cd-9e1c-b5b295800e37",
@@ -479,7 +479,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mgugaklive.nowcdn.co.kr/gugakradio/gugakradio.stream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.854Z"
     },
     {
       "stationuuid": "3043d560-4358-4583-9e29-9fce6777a09c",
@@ -496,7 +496,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://m-aac.cbs.co.kr/cbs939/_definst_/cbs939.stream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.855Z"
     },
     {
       "stationuuid": "31675cc2-9b83-48bf-89f0-f3f9ecf3c201",
@@ -514,7 +514,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://cast.oldpopcafe.net:7080/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:42.823Z"
     },
     {
       "stationuuid": "323d45ac-e429-11e8-a9cc-52543be04c81",
@@ -531,8 +531,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://ebsonairios.ebs.co.kr/plus2familypc/familypc1m/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:05:34.855Z"
     },
     {
       "stationuuid": "38b5da3e-1859-47f3-9fb3-38e34741a84a",
@@ -550,7 +550,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://cdn-radio-seoul.cpbc.co.kr/cpbcseoul/playlist.m3u8?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3Njg1MDcyMjEsInBhdGgiOiIvY3BiY3Nlb3VsIiwiZHVyYXRpb24iOi0xLCJ1bm8iOiI4ODQzYTNlNi00NTQ3LTQ3YzgtYmYxYy05MThhODU0ZDdmODYiLCJpYXQiOjE3Njg0NjQwMjF9.1jtH2oRGNFgUvicR3AChArjPkQL6RTnHCN-htmtGY2U",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:44.549Z"
     },
     {
       "stationuuid": "3a6cf532-d730-4b92-91bf-f3d5434a2159",
@@ -567,7 +567,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://211.33.246.4:32954/radio_stfm/myStream.sdp/chunklist_w392819215.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:37.265Z"
     },
     {
       "stationuuid": "3df9fa02-ae92-4423-8f01-e007129c00ee",
@@ -585,7 +585,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mediaworks.dema.mil.kr/live_edge/audio.sdp/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:38.817Z"
     },
     {
       "stationuuid": "43be83dc-340b-11e8-bb9b-52543be04c81",
@@ -604,7 +604,7 @@
       "verdictReason": "audio/ogg",
       "finalUrl": "https://listen.moe/kpop/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.854Z"
     },
     {
       "stationuuid": "44dc6d1c-abe5-402a-be20-3545a0a13101",
@@ -622,7 +622,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://1.uicl.co.kr:8000/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:44.357Z"
     },
     {
       "stationuuid": "4540380c-8d7c-49da-b0dc-699c1fb30ebc",
@@ -640,7 +640,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://ebsonair.ebs.co.kr/fmradiofamilypc/familypc1m/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.854Z"
     },
     {
       "stationuuid": "45ed53c7-c1f5-4aae-9f8b-88703f00939f",
@@ -658,7 +658,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://1radio.gscdn.kbs.co.kr/1radio_192_4.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xcmFkaW8uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Nzg2NTY0ODJ9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=HFFm5U-q9CrnJdVm97W1ykhahORXHCCQZjSR6d6QAZRXO-MtxaLg6DuckQxeF6ZFVcDhXPVluE2DEW7XN-k2xMX-bJXbyKPDlvQwufOsQ57uhofskRtwE5AWOwwIPxjQ0rAFzKei1Ko1wQyEUaIhet2Yr6uXOx-KH3C6jcy1vU2Tr9qiLrFeMpQIKmR7lP2mK-DjGMFff2s7753Y-6aIEzBj93pU51528i0MXkWrgTEcIyUE0mr5Gu9aLK-gxcppL7vipBvfgA68Ho6ATIUW-k5Dv1JQjUGErUBvEjhx9wum3OK46klv9HuTlidBe37mGXCt7xmHl8wQNKFdO1jrdQ__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.853Z"
     },
     {
       "stationuuid": "499d1484-b8ce-4ec4-827d-e18ea9ef997a",
@@ -676,7 +676,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://m-aac.cbs.co.kr/mweb_cbs981/_definst_/cbs981.stream/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.853Z"
     },
     {
       "stationuuid": "4be766ba-038c-4795-87b0-04be87b1e712",
@@ -692,7 +692,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://1fm.gscdn.kbs.co.kr/1fm_192_2.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xZm0uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Njg2MzkxNTF9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=NR~53BlUlI9QCtULTlCFvtegIg9mGCKpWVFbEvwuTEHiAPccXUuN9HhyFT3PP4HeQYvJfEsAoQfikcAxbhM8vyffEqself1VGch2wXVdbbOPnOiwEvG9iyK~z~rAnKvmZS4IAsEECGEQVj0ewYfWjXvUz~~x7zLNgWAa22e4etK4WzZT28koh6FTverP74oRAaavsAJU~ZIin9HWbkvxiGzMrNNH5Nkib1ZiNyr4qfY~Z4vMd1H5Dg2C2~NFl2lyt6yaPGWvDkNzAVnf-T4lzhrVn-1BbwBKrqpzxzxukqdYLsnUOq9BBZtc9-7C3kSR4SL3dA5nO~NCjCbP0T6lnw__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:36.970Z"
     },
     {
       "stationuuid": "4e050a3d-b7c9-11e9-acb2-52543be04c81",
@@ -709,8 +709,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://mgugaklive.nowcdn.co.kr/gugakvideo/gugakvideo.stream/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:05:34.854Z"
     },
     {
       "stationuuid": "4edaf384-7c48-4852-a390-c879e2fc41aa",
@@ -729,7 +729,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://115.85.182.39/scnfm",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:55.686Z"
     },
     {
       "stationuuid": "54ac5316-5788-452f-a15b-5a53c79d0375",
@@ -747,7 +747,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s5.radio.co/s0a9796fe3/listen",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:38.817Z"
     },
     {
       "stationuuid": "59373d6b-79e2-41d1-a808-ea6a7cbe4ba3",
@@ -764,7 +764,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://2fm-ad.gscdn.kbs.co.kr/2fm_ad_192_1.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8yZm0tYWQuZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Nzg2NTY0Njh9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=Q4dQWUDEIY4xLggHc7PbGcnjkQh2WSgxJD575zStjeddKvyEftVSh-2FIntjW9KI9u8ReNGuFtbqTH6TqEnfTJv2cZQiTx1JKNYdJG~BGObxBtIWIHOeP1MOjgcDeBOyl5yVq7zzHK1AP48czXAo7kNVaqUu3XlXmajSLrCxitZ~67X1q1p37blcjcoOyF4CReFlXiztnE5Pct~w7iGqdox1tP4esujHow6YnjLBjxysyQCCUhjzISNlm9h1--CVUBsF9TbLfBxFAY2tiNhhNNMNbHzGQO9GM39aa0JgMMtMxdD4EPR6v-4afn6HHXWoigx1IXVCI69TloDmDk5CrA__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.853Z"
     },
     {
       "stationuuid": "5cfee8db-7be2-11e9-aa30-52543be04c81",
@@ -782,7 +782,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://2fm-ad.gscdn.kbs.co.kr/2fm_ad_192_1.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8yZm0tYWQuZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Njg2MTI3Njh9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=WADtnLwHKOvoogZxLnvdnI9zCGgpR~u~94fOaGmvW9rWlNvploIZIUP-xsvzicyXV724IvpPMb-tSVKx1vASLiRxxr8j0rN-VfRMiko1oyszlwVaEARdTnJm1RHEcNVCXFAo-uo9GTiU-jW5ZpQ4Nr4AC3nIc7r3Vb1sIh8dg2UQ8PI6hDv2c-BvT7VDfkRz-gKEGIGPK3ccEhVyPfczmIECg7IhUc1OZ215jlbb~NaiK-gw4V7ioSTqmOBMHGD495yl6oRY-p0TeP2iQNHGHswos0QAJMjIpMqXL1We6kYLNQT-8c7ZwySVPvFbmQT3Q-Isy90mBzBNPB188MPikg__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:36.197Z"
     },
     {
       "stationuuid": "6240924d-bc3a-4cd6-8e09-399dbdeb0a36",
@@ -800,7 +800,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://radio2.tbn.or.kr:1935/ulsan/myStream/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:45.233Z"
     },
     {
       "stationuuid": "63a8b961-1cd7-406f-8665-3cd005befd88",
@@ -816,7 +816,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://1fm.gscdn.kbs.co.kr/1fm_192_2.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xZm0uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Njg2MjgzNTZ9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=XrUosrTN463F7GWXTz6uPkKb-ka4ih-cT65XjA2nq6xo0CH7zq6CjkPdGUeqRd7RHSFETvGMWgCiTdWgaMCpE~vUq8fDLxg4gfQGlpwJ0wRvsm9LdJacLHOuP83YaBYTPoZRgQ1XE7NqWq-Fpz-n-gjlRCs9AQ9nr8xnhxNmmbQW7YneaxThdJkFQRZ8~rc5u28z~6JDhFi5yD77roH4~UZpkNWCz9YO4tJGqIgaeupgO6kei4St6Iur-3kHePEeyvilIcYLOjQ~8OvTMio1tA1EfSn0-FdFGy~mEAlNA8xwQDZtR4~kGqgaz9xOHjep49xAU2j5X-j98wn8LjDqHg__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:37.631Z"
     },
     {
       "stationuuid": "656c6a0b-f0a8-4c8f-a0ef-97c72d130eef",
@@ -835,7 +835,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://cast2.sayclub.com/saycast2/24sky/llhls.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:39.122Z"
     },
     {
       "stationuuid": "6ad5927a-7ef7-456c-ad54-059873ff9f28",
@@ -854,7 +854,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://cdnfm.tbs.seoul.kr/tbs/_definst_/tbs_fm_web_360.smil/chunklist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:39.687Z"
     },
     {
       "stationuuid": "6d4a1b58-b7c6-11e9-acb2-52543be04c81",
@@ -872,7 +872,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://1radio-bora.gscdn.kbs.co.kr/1radio-bora-01/1radio-bora-01_hd.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xcmFkaW8tYm9yYS5nc2Nkbi5rYnMuY28ua3IvMXJhZGlvLWJvcmEtMDEvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc2ODYyMTIwMX19fV19&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=NPl5EoiKw12XCLDdgYrB4KaEGUNcwTBQEXPAJJqdwPtj5eQDSTFrTiAHtrBh3ttTVtS7~MwkoJ2apMgyPhTWA0C~36i3uxhm1mORWtRNyr3UT6zRFg8c2zS6PulahOyybsQbRDQOds1CtTcfiWPdrFHysTCvodjKSX-jJXBAUN82~gOjj3QE-02pu12b2U-sxzWtpyeg4s9m5aCutjRvNxr7BjrcKY8GxCqzEQI8SdjK3JVgBp95nbLYV6w9D26FLqPpmkjSgoxjuv3kZ6kVjinGTyHImy1I2bPp~aqt2rd5aE15v81bKF4L2Reok-gpK7CRJWv4igypmsitX9YJHQ__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:38.656Z"
     },
     {
       "stationuuid": "6f6ea925-4bc3-4dbc-8990-7f48c6f24cb9",
@@ -891,7 +891,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://replaynewskr.ice.infomaniak.ch/replaynewskr-128.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:39.687Z"
     },
     {
       "stationuuid": "730d9f95-57a3-4eec-94a2-ed270baa64c8",
@@ -909,7 +909,7 @@
       "verdictReason": "HTTP 400",
       "finalUrl": "https://minimw.imbc.com/dmfm/_definst_/mfm.stream/playlist.m3u8?_lsu_sa_=6771FE1F33573B64EF4495543311CD41455335B5530902E23830ADa3866237C692a2D3D230423C4320FB3F412Eb6F1CAB5CA3F60A6D346F940E5F7E472BD4AF7BADEF7C671688ECADF926481D28281FC394AA0177FC82381492F2C12716A2B1859437D450745731303D6E3D37F616847",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:39.687Z"
     },
     {
       "stationuuid": "733766f0-1260-4384-8ede-f93f1e3a0635",
@@ -928,7 +928,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:39.687Z"
     },
     {
       "stationuuid": "75092107-2a1f-11e9-96d1-52543be04c81",
@@ -945,8 +945,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://btn.nowcdn.co.kr/btn/btnlive01/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:05:34.857Z"
     },
     {
       "stationuuid": "7702bb1f-26bf-4df6-9209-5f10fb847058",
@@ -965,7 +965,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://115.85.182.39/sonefm",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:55.838Z"
     },
     {
       "stationuuid": "772b95cf-31e8-41f9-bad3-a2da08495e39",
@@ -983,7 +983,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://cast.oldpopcafe.net:7080/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:42.671Z"
     },
     {
       "stationuuid": "7a32f2f3-e429-11e8-a9cc-52543be04c81",
@@ -1000,8 +1000,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://ebsonairios.ebs.co.kr/ebsufamilypc/familypc1m/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:05:34.855Z"
     },
     {
       "stationuuid": "7a72aa80-3902-4d73-a548-db81ac780240",
@@ -1019,7 +1019,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://antares.dribbcast.com/proxy/kpop?mp=/s",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.857Z"
     },
     {
       "stationuuid": "7ad9cd85-3f76-4217-9616-fa6dd81cd409",
@@ -1036,7 +1036,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://1fm.gscdn.kbs.co.kr/1fm_192_2.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xZm0uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Nzg2NTY0NTV9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=RJB4BNfjiTnqiZjrDxOg0VWt9C4Q7XLgB1Vsox2ech2gJF2r1LdyQkv3QAHPhy0cI69-EXEWuW4Q3LzbaeboH6miP4aeRTLAWToDMmpEhIBKkYP5UzPEWraDUDDVUA5O3OE6x1p9~qP0-uQN-eS-8EogOwoZpXC6IogaNxP1r7KYDqe7Y1HrVUH~iUkuHsGuol4IYpoPfubo2L9J-aUiFM2quWRDJWhm6u6aEvRT8WnVdyiDY2ag8fd4TLKTrmuCtawSY5QMuyjTCtjmuN9FIoiEfWd~k3dAgcPYPvlvHbQS7HYMG2lrMIF6t6dMszsr9y4oU4qHFpC1lJxgfeQzeA__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.853Z"
     },
     {
       "stationuuid": "7d011452-9249-4d30-936b-36ebec3dce50",
@@ -1053,7 +1053,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://1fm.gscdn.kbs.co.kr/1fm_192_2.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xZm0uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Nzg2NTY0NTV9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=RJB4BNfjiTnqiZjrDxOg0VWt9C4Q7XLgB1Vsox2ech2gJF2r1LdyQkv3QAHPhy0cI69-EXEWuW4Q3LzbaeboH6miP4aeRTLAWToDMmpEhIBKkYP5UzPEWraDUDDVUA5O3OE6x1p9~qP0-uQN-eS-8EogOwoZpXC6IogaNxP1r7KYDqe7Y1HrVUH~iUkuHsGuol4IYpoPfubo2L9J-aUiFM2quWRDJWhm6u6aEvRT8WnVdyiDY2ag8fd4TLKTrmuCtawSY5QMuyjTCtjmuN9FIoiEfWd~k3dAgcPYPvlvHbQS7HYMG2lrMIF6t6dMszsr9y4oU4qHFpC1lJxgfeQzeA__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.853Z"
     },
     {
       "stationuuid": "7e0188a0-b332-405d-af8f-57da3223369b",
@@ -1071,7 +1071,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen.moe/kpop/fallback",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.854Z"
     },
     {
       "stationuuid": "7ecf4a00-7be0-11e9-aa30-52543be04c81",
@@ -1089,7 +1089,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://mgugaklive.nowcdn.co.kr/gugakradio/gugakradio.stream/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.854Z"
     },
     {
       "stationuuid": "7fb474ed-e427-11e8-a9cc-52543be04c81",
@@ -1106,8 +1106,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://ebsonair.ebs.co.kr/groundwavefamilypc/familypc1m/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:05:34.854Z"
     },
     {
       "stationuuid": "817d592b-206d-44d1-b58e-3f03c09af18a",
@@ -1124,7 +1124,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://3radio.gscdn.kbs.co.kr/3radio_192_3.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8zcmFkaW8uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Nzg2NTY0NjZ9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=AVwdKub5DMlX6f19ZXKXdL5hF0GTe2cQrWupRtUfNAiJSYRtOJvLl~UNAN4LP9kRupCUdR2slkt8yBJDGrfZ2gmtjRUj276swCUATJVSLzbeNm-eAQRT9ep5QyIzqSa66oR3lAgx-iCDArelx-kNIWNbN-dbbHGsQttCOk6-dTs25sWbopyDiXxqA7RxI2jCfZNMzuaKs2tfcSiwIOLE18z6bcFmmyg-5sbYruj-13iFlpeEq94otuXpOKgWmyMmvfweB04lsjRgpzrv1Gb0HaYvhxvvqYsIFk3AsPDAb25XSIHrSunDYKjUvZvGdCvQ~ERM~e5d39Nw1WSwzedfXQ__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.853Z"
     },
     {
       "stationuuid": "875ed109-2dd2-47e4-b9b3-3fd10ca3d8ba",
@@ -1142,7 +1142,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://115.85.182.39/mapofm?type=.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:55.535Z"
     },
     {
       "stationuuid": "8bf0d36b-ed07-4ccd-8142-4a2c59400fbe",
@@ -1160,7 +1160,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://wowccm.iptime.org:8000/stream/1/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:06:01.042Z"
     },
     {
       "stationuuid": "8dc941a6-c866-4552-9fea-541c137cfb5d",
@@ -1176,7 +1176,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://2radio-bora.gscdn.kbs.co.kr/2radio-bora-02/2radio-bora-02_hd.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8ycmFkaW8tYm9yYS5nc2Nkbi5rYnMuY28ua3IvMnJhZGlvLWJvcmEtMDIvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc2ODYxNTIwMX19fV19&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=UXPF6ivAq8n9T0ZNvL5DVmWZoVi0IEtz~nrV1cPkJ1mnvVPhXx8f4AJvGPbna-EOUQMge~CSTerawKe98mSYnzww0m9ag8X~SfcgR2BAOy1SKJ8X8Pm2x8yhOMgXos7qXPWAAMt1VOjDNZP28JxKBJ0Zl792yltYzi1m0JtS2TU4-pgXARhcHLWJfKn7KlwqeQUNhzuXma344JeuO5Lm3uA1wS6VqKdk9Zuay~7sWkmtgOCtWP5Fm-IDTvWzjsUd4cpE8RroBH2wbVyp~r6njFnpOH~rKj6r7rJn4jSQJ2RZnOJd3KHSG4dhUDMAow4d5fwW7dEitdpeh7Pml8-W2g__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:39.122Z"
     },
     {
       "stationuuid": "8e068903-fbf8-4fac-aa9d-08b2b8d5eb47",
@@ -1194,7 +1194,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://live07.inlive.co.kr:21110/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:45.258Z"
     },
     {
       "stationuuid": "8f6a0b47-7be2-11e9-aa30-52543be04c81",
@@ -1213,7 +1213,7 @@
       "verdictReason": "HTTP 400",
       "finalUrl": "https://minimw.imbc.com/dmfm/_definst_/mfm.stream/playlist.m3u8?_lsu_sa_=6B711918733F3C646B42E5203D01A74935803FA53E0702B631C07Ea6E6583766A9a0B3773B329B4B80A73B0187b3918649E1F74973A02F7DE6058842C3C6BAAFDAE9B010932285575C9A45CFE1E89074DC035ADCF170D7CC9AF5D632E071D14AE7538A787F7F6CC0A7885E4A8D350644",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:39.305Z"
     },
     {
       "stationuuid": "90a264a2-d2e9-4f80-b88b-f6e2761a9171",
@@ -1229,7 +1229,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://1fm.gscdn.kbs.co.kr/1fm_192_2.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xZm0uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Njg2Mzc5NDl9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=lL05mrppBwYZuHYx9FWip4~JRytlRrw8VwzYOPwIQZC7PojEoNdumnAQxMePYr0lz-JuiTd1YcmS6~OK0nQU6RhCYabkvEkVErBQwxvJ8oR2FSLOOstmNpO0NvqNMHMnItOP92DLtAeKMPin1AtfMcvCGx7NwfDdbwS~KII2A07pWniwlZw7Pl4H~wZcEZ7a4FNWwVrqBF5SRNPzqxth8srciN3HGkJTU-cNb1T-0yCQy7Soves1MXxBTrvgYvIpGSAYBDdoreUWernCXKkNKtDu2dzP~MmgCmqhROcl0a8d~w~QA37XwZlQl~HHxR0YGVYuuovCKmCxuImmnzHn1Q__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:36.648Z"
     },
     {
       "stationuuid": "9686c674-268e-46b6-b8e3-c80df26733fd",
@@ -1247,7 +1247,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://m-aac.cbs.co.kr/mweb_cbs981/_definst_/cbs981.stream/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.853Z"
     },
     {
       "stationuuid": "9b3576ec-7f67-11e9-aa30-52543be04c81",
@@ -1265,7 +1265,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://2radio-bora.gscdn.kbs.co.kr/2radio-bora-02/2radio-bora-02_hd.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8ycmFkaW8tYm9yYS5nc2Nkbi5rYnMuY28ua3IvMnJhZGlvLWJvcmEtMDIvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc2ODYzMTk1OH19fV19&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=e1PnMZshWyINvn6~n009oLqxpnduAAHCVPnatr8QpoS7wD2eItKfBvljddWD8H1TYz-Z9z5pplZ5X4FKSvJkb2~EaK-lCryx-tEfdBIITuclJMEkXMf354JxjVA-iaIffhl4ISCV7QbZv2gAOAKahBGVMLNY25EIyUzX3wxqZuWLg5jgxE8MEqZSZoFJokLQc0~pT1jer4hkAKMg-be9aKv-MT-R~XignQovcGeL3X3xSS7eUO-CIOj~kIyC8~mV4cyo2ESRJrJ6cy~PP6JWLi-WWIIJKBIyUkOgKDTOAYu6-0m7OPck1d4K2OwArgp0nAewlAQ7AtLEgZj-XrBkgA__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:38.942Z"
     },
     {
       "stationuuid": "9d4d4eef-d7e3-4a96-bc8f-550d9b6962e4",
@@ -1283,7 +1283,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://minicw.imbc.com/dchm/_definst_/chm.stream/playlist.m3u8?_lsu_sa_=6CA1141303823D841F49A5533321F14905013D157409120B3830FBaB568038A6E6a573553512864870C23FD13DbAF1F34A34704CD7748175E69375A11425FAD40255D4953E959E84ADEE38F1A96E100ACB014386DAA2697F0A434FD1EB346F864A538572BD1AB725CA79EDFF17E2C0F7",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.853Z"
     },
     {
       "stationuuid": "9f13623e-258d-4081-bb09-e166373896c2",
@@ -1301,8 +1301,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://22963.live.streamtheworld.com/AFNP_DGUAAC.aac?country=KR&tdsdk=js-2.9&swm=false&pname=TDSdk&pversion=2.9&banners=none&burst-time=15&sbmid=11fdf19a-4184-4c11-f1ce-9c93ca088fa1",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:05:39.687Z"
     },
     {
       "stationuuid": "a70d424e-e428-11e8-a9cc-52543be04c81",
@@ -1319,8 +1319,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://ebsonairios.ebs.co.kr/plus1familypc/familypc1m/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:05:34.855Z"
     },
     {
       "stationuuid": "b1339480-2b71-11e9-a35e-52543be04c81",
@@ -1334,11 +1334,11 @@
       "votes": 132,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://bbstv.clouducs.com:1935/bbstv-live/livestream/playlist.m3u8",
+      "verdict": "ok-hls",
+      "verdictReason": "HLS stream — plays via hls.js / native Safari (https variant on default port from http://)",
+      "finalUrl": "https://bbstv.clouducs.com/bbstv-live/livestream/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:45.703Z"
     },
     {
       "stationuuid": "b2b7599e-16b9-4225-9ffa-263b0cb541a6",
@@ -1355,8 +1355,8 @@
       "verdict": "broken-tls",
       "verdictReason": "TypeError: fetch failed — Error: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca",
       "finalUrl": "https://live.andongmbc.co.kr/live/fmlive/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:05:44.016Z"
     },
     {
       "stationuuid": "b5885ea7-009a-4e46-8b44-3da1d7860ab8",
@@ -1373,7 +1373,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://1fm.gscdn.kbs.co.kr/1fm_192_2.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xZm0uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Nzg2NTY0NTV9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=RJB4BNfjiTnqiZjrDxOg0VWt9C4Q7XLgB1Vsox2ech2gJF2r1LdyQkv3QAHPhy0cI69-EXEWuW4Q3LzbaeboH6miP4aeRTLAWToDMmpEhIBKkYP5UzPEWraDUDDVUA5O3OE6x1p9~qP0-uQN-eS-8EogOwoZpXC6IogaNxP1r7KYDqe7Y1HrVUH~iUkuHsGuol4IYpoPfubo2L9J-aUiFM2quWRDJWhm6u6aEvRT8WnVdyiDY2ag8fd4TLKTrmuCtawSY5QMuyjTCtjmuN9FIoiEfWd~k3dAgcPYPvlvHbQS7HYMG2lrMIF6t6dMszsr9y4oU4qHFpC1lJxgfeQzeA__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.853Z"
     },
     {
       "stationuuid": "b666f9d5-126e-48ce-8826-81fcfb065485",
@@ -1390,8 +1390,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://ebsonairiosaod.ebs.co.kr/fmradiobandiaod/bandiappaac/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:05:39.687Z"
     },
     {
       "stationuuid": "ba90ebe7-18a1-4014-b6a8-e7a8212e4e36",
@@ -1410,7 +1410,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen7.myradio24.com/69366",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.857Z"
     },
     {
       "stationuuid": "bd8fb526-2493-4849-a686-88fbcaa2f144",
@@ -1428,7 +1428,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://1fm.gscdn.kbs.co.kr/1fm_192_2.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xZm0uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Nzg2NTY0NTV9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=RJB4BNfjiTnqiZjrDxOg0VWt9C4Q7XLgB1Vsox2ech2gJF2r1LdyQkv3QAHPhy0cI69-EXEWuW4Q3LzbaeboH6miP4aeRTLAWToDMmpEhIBKkYP5UzPEWraDUDDVUA5O3OE6x1p9~qP0-uQN-eS-8EogOwoZpXC6IogaNxP1r7KYDqe7Y1HrVUH~iUkuHsGuol4IYpoPfubo2L9J-aUiFM2quWRDJWhm6u6aEvRT8WnVdyiDY2ag8fd4TLKTrmuCtawSY5QMuyjTCtjmuN9FIoiEfWd~k3dAgcPYPvlvHbQS7HYMG2lrMIF6t6dMszsr9y4oU4qHFpC1lJxgfeQzeA__",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.853Z"
     },
     {
       "stationuuid": "c038a859-7be1-11e9-aa30-52543be04c81",
@@ -1446,7 +1446,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://1fm.gscdn.kbs.co.kr/1fm_192_2.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xZm0uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Njg2MTE1NDN9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=Ntb3hVHjnmO3QgLv2vBpb-8NRKyL1LcFP2dweSre5Kh1U9A0EAvX6Pl3DOLSxO8hCDD~Zrrgn7bJCb0N2i7r~7VKlpcOntUoJzEzAoQVY-OgbCL9wJfebHVdrQ4PXXfjjEymMx4FhTCtskPbAUV~DN3CBpUX-OH3kteHstFn3QJ23lqm3uw4BkY72UKA6yTYG5JCF9bAqMDcZGbVBBmLYKKmrsj9PspFsDepxh82rlixkWN-ZWsQPYwv6zHwYcYgbG56A-KnzL0K4uRGTlpipjQohiolSD2C4hrpLzTKdPfL~pYYpEziYCHjnR0ZpKJBknDsER3xGeaAtdHzuxvKWA__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.868Z"
+      "probedAt": "2026-06-10T19:05:36.151Z"
     },
     {
       "stationuuid": "c60ab0ce-723c-43a9-85a4-ff544710f27f",
@@ -1465,7 +1465,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://vod3.obs.co.kr:444/live/obsstream1/radio.stream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.858Z"
     },
     {
       "stationuuid": "c649b05d-2a19-11e9-96d1-52543be04c81",
@@ -1484,7 +1484,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://onair1.cpbc.co.kr:1935/tv/mp4:live720/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:44.164Z"
     },
     {
       "stationuuid": "c72c8602-5359-4b23-95a8-a7c2b4d067de",
@@ -1501,7 +1501,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mgugaklive.nowcdn.co.kr/gugakradio/gugakradio.stream/chunklist_w1653570079.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.854Z"
     },
     {
       "stationuuid": "cb45bd69-ec15-4fe2-8a6f-0af262fb2aad",
@@ -1519,7 +1519,7 @@
       "verdictReason": "TypeError: fetch failed — Error [ERR_TLS_CERT_ALTNAME_INVALID]: Hostname/IP does not match certificate's altnames: Host: 61ff3340258d2.streamlock.net. is not in the cert's altnames: DNS:jtvonair.sbsof",
       "finalUrl": "https://61ff3340258d2.streamlock.net/jtv_radio/myStream/chunklist_w111659793.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:43.988Z"
     },
     {
       "stationuuid": "ccc17129-0131-4554-b780-2d3ccd45f68c",
@@ -1537,7 +1537,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://1fm.gscdn.kbs.co.kr/1fm_192_2.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xZm0uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Njk2MzQ1NTd9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=aM9b04C66aZHeFgWHiwXUjKyIV~U6EnhLQhdJV3yxrnCz7vjzKPbNG-FckLKq5FZ0IHPG~FmT~X0pcEKfjVWVBVlWAL~uiZ5E1rszG~1G8C1Carbnwk0SuwdCxCtueAoQCzXIr~7JquzLzGx6I~6yShRVKeIxQIVc~tTSFWbQNp1WFH53lMu9akXN7u6coElCY5~jlWDiT4YH8MYQrrb8c4zXV6qBsf48S3bdMxeSkfOUdV1iMAYYy6Q8BL4mKEYBKnw5L-Jrzmlll0jrfVGZnoevFKt0q9u4RPW3fObNheQTFyBvvIdE7ZL1cr8KXBVxnTKcKjSIMKaJ9iBJ81kzg__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:38.119Z"
     },
     {
       "stationuuid": "ce8fa72b-4df6-11e8-a4d1-52543be04c81",
@@ -1555,7 +1555,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://amdlive.ctnd.com.edgesuite.net/arirang_1ch/smil:arirang_1ch.smil/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:36.215Z"
     },
     {
       "stationuuid": "d06a6392-127d-40f8-b52d-fc610bc97178",
@@ -1573,7 +1573,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://2fm-ad.gscdn.kbs.co.kr/2fm_ad_192_1.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8yZm0tYWQuZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Njg2MjcxNjJ9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=N213CBc3krIEzEWgOZuQ4p0RYQ9LKdEO1hf7sQvbWKOlbBOAiDKpYiXvwNsSfeD~rJ5x5XNefvKhJ534tMBl0DB~nF7MmCNj7dWe-u8nomlCcLuYxRndUf-R1E8GIuUUtRCVruvVA5Lo66PgQM6VoPPbZ~0o~eHnu6Ku4~kITGQn7oz48L2D3y380kAROrNgcsZ7FAgFnOw-LLsq~w6dcfbGwqR7tE7xV8ybUu~82Gf90yVYLjhXYnWGFdMF7q8Azt-qRwetyjdxGR2rwnUG9RsHCWh9UZhNqn8VL29Mfw2h-otsqTQ03ngjO7rfU-kjbXzvE-21~9SS-1fNeZID8w__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:36.833Z"
     },
     {
       "stationuuid": "d197d3eb-87b2-48f9-8624-d96d17c3b023",
@@ -1589,7 +1589,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://1fm.gscdn.kbs.co.kr/1fm_192_2.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xZm0uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Njg2MzkxNTF9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=NR~53BlUlI9QCtULTlCFvtegIg9mGCKpWVFbEvwuTEHiAPccXUuN9HhyFT3PP4HeQYvJfEsAoQfikcAxbhM8vyffEqself1VGch2wXVdbbOPnOiwEvG9iyK~z~rAnKvmZS4IAsEECGEQVj0ewYfWjXvUz~~x7zLNgWAa22e4etK4WzZT28koh6FTverP74oRAaavsAJU~ZIin9HWbkvxiGzMrNNH5Nkib1ZiNyr4qfY~Z4vMd1H5Dg2C2~NFl2lyt6yaPGWvDkNzAVnf-T4lzhrVn-1BbwBKrqpzxzxukqdYLsnUOq9BBZtc9-7C3kSR4SL3dA5nO~NCjCbP0T6lnw__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:37.130Z"
     },
     {
       "stationuuid": "d35905f6-d373-4bec-8ff1-153d0e991c1c",
@@ -1607,7 +1607,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://1fm.gscdn.kbs.co.kr/1fm_192_2.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xZm0uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Njk2NTYyNDd9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=GC3o6d0UC6nNpCSTCFX1ikpp0ZNXiDDFtt~tBhOOaOtjRd-m-vxUa-hZzRra87pFmouze24OaWTFD0xXiK2O-apY~wtrqjEPZdd5re0ZA540Zi0mquHHUikyplvCtPyd2rNZrlAqwtzJFkEH3bmcUr6gb9uYrb7RGa2tJBpdF42ZmYvzbs0AQbrbuAGQg~fAU1UHqYvCI9y6u1-CwjRvNta5pCf-We7tFf94rt-LLIPk9Jp~JWuzRcb9nFoW03Mp2HMqON--zzJXQvtq5n9boSOG7usjGi8ddRuFENS3fBGB9TdoGXOWIzFx0ZwHQH5Q3iFjONgPaZNrdnSa7amliw__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:37.793Z"
     },
     {
       "stationuuid": "d52bcf11-db1b-44d7-be0d-c37dad6bb568",
@@ -1623,7 +1623,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://1fm.gscdn.kbs.co.kr/1fm_192_2.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xZm0uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Njg3MzM5NDh9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=ltScHgyGl7RHJ~Lrk1wjvg2d5TRplk958axriJQEq8trLm9rq8pAPy377g1~dE7l5RgOsTH2n0kcpi56B9PvZGblrKWLnEw2qdxFlPJzboT7DxrNMhScD4lNq-oHYaL5yS7jryDofymvk~rrmWcmlj3HS06EKO-w5CAySYOn~h0Kc~sr1hh5zDExQVgdwM5Wkr7NfJuG6RGeVIkBoRwPoIFHWOdxKGPaZUNRYvrztaIvk8WACNWMlV4BI9K3s83K6n2AHBf06J8DOUDL2XonqTsLRyV8blH3NGj2AcpsiZjwKNadBrIAp-vTCKMLSsytq03qOpKQMU0lV19Su6BfKQ__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:38.288Z"
     },
     {
       "stationuuid": "d5642b73-a600-4fdd-9a07-a63116b04e38",
@@ -1641,7 +1641,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://2fm-ad.gscdn.kbs.co.kr/2fm_ad_192_1.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8yZm0tYWQuZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Njg2MjU5MzV9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=ZY0kUbxjk2O3e96uWTvuqHDM2A6Bto9fqa7ltl2v4mOSDIro2MPeNYm7aoVn00MKkM8D5Fl5Icmi7LUJKNfQU-Cv6GKuEGVqGQVF8YzsayRk9bvlWrKvXV81oS9TaGOapuO48PalKvOefaIiLhc96WkUARlFz0E36MqyVbqVxfkVjd9~~ZrYvvPMcfMLqwn~0kUnvx-3JgZT6Zq8xPOb5qGWzi4QwLntFd67kxARP8Dw-6WMaBgLnwopR8phXx-XSeuWf0T696ojDvb9Q2tfp5rlRI~aPorXLcv~kMOfXTiXhstHYPiWYh2eTldJIZQFWwOTWC9C6eBb~toVRLCVAA__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:36.674Z"
     },
     {
       "stationuuid": "d9db0a16-9100-4917-b5f5-bd48a42a1e70",
@@ -1659,7 +1659,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.ifm.kr/live/aod1/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:37.005Z"
     },
     {
       "stationuuid": "dad75d66-3246-434f-b16c-83854fe573a0",
@@ -1678,7 +1678,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://amdlive.ctnd.com.edgesuite.net/arirang_3ch/smil:arirang_3ch.smil/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:36.365Z"
     },
     {
       "stationuuid": "db7b598f-2428-4b7f-bae3-677091ab4648",
@@ -1695,7 +1695,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://211.33.246.4:32954/radio_fm/myStream.sdp/chunklist_w348337231.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:37.417Z"
     },
     {
       "stationuuid": "e0df5138-3057-4f08-b1e9-1a6b72e0f4ad",
@@ -1711,7 +1711,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://1fm.gscdn.kbs.co.kr/1fm_192_2.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xZm0uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Njg1OTc4NTh9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=AF6D7Zg5TjddAYOC-r~Wc1GlnhsB1y9OCXh7djyvbgu2AcmeuZklR8Y1qPGV5sGzScKAKJUumIPHoCx7gpoYeVF25~gqLW4Y-z1lB-NNw7l2izCPEvlkxu1eRSRnpnFkY~-mVutoz-HNKW8Ma-Dr4vV0LONLan~cuCbsWUyxVGRaJKopwHdO81TzTTZUwgeNkIDKJIcu3COfhJxBRNcmCu5S5O6md10UiZUFBd8zWcp6ZDEc~4lwI5ahHlUcvYm3iIyJJtmE0qPQBHSs8sahopnG1ztlJmt91CtMIYdaqLK6RJcUzWo2UBU6K-3rsATYr8oFNA6lLW0dFfZS7eT0Ow__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:36.809Z"
     },
     {
       "stationuuid": "e3d4515f-eb35-40e2-aeb9-dc48e9ba910c",
@@ -1729,7 +1729,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://1fm.gscdn.kbs.co.kr/1fm_192_2.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xZm0uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Njg2MjQ3NDR9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=krM8oWvSggo3sLhJl6-svmsv4EXDXPaHDav4~lMJqkdCwEllfjb~XAYmu15oAzUctd8RkamM143pPUMHG6XOTwN9I2ZS1ryFGkEyAEJzQobvJK7mjvoS1nOmrCmTs05pTuelkrlQKtWKZhnYVYjM9ezo5QyVxkhW5wzarCGseOI-pv37HOqyAWuhcRTAzwSHPS8ddV5trO0Q7cPt0IkcfHTWn8Bc7vOn0zyx85MmSk3pw5LJySIWQVNf6yUVeIC-p1bwV~Vq4p-Ad5rHU0KIluwGnHFhMmF~iGdqSiMjDoQxR-KzURPNBJxeXfzUrO1vElm~c2tU9wL7d7ujWe8gbg__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:36.311Z"
     },
     {
       "stationuuid": "e58a9a59-e428-11e8-a9cc-52543be04c81",
@@ -1746,8 +1746,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://ebsonair.ebs.co.kr/plus3familypc/familypc1m/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:05:34.854Z"
     },
     {
       "stationuuid": "e6bc48f7-7be2-11e9-aa30-52543be04c81",
@@ -1765,7 +1765,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://radiolive.sbs.co.kr/lovepc/lovefm.stream/playlist.m3u8?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3Njg0OTQwMTMsInBhdGgiOiIvbG92ZWZtLnN0cmVhbSIsImR1cmF0aW9uIjotMSwidW5vIjoiNWUwZjc1ZjktM2U3Ny00NWM3LThmYjUtMTQwNjIwNDZlYzVlIiwiaWF0IjoxNzY4NDUwODEzfQ.cJygtl9Trhq0bBqF37Rn5X-1RwaWlIe_LcFP99d1FKk",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:43.764Z"
     },
     {
       "stationuuid": "e849a616-e2ff-4427-a2f6-a1071d2a073a",
@@ -1781,8 +1781,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mgugaklive.nowcdn.co.kr/gugakradio/gugakradio.stream/chunklist_w253831608.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:05:34.854Z"
     },
     {
       "stationuuid": "e89958f1-bc76-44fe-b681-841b5ec4ceae",
@@ -1801,7 +1801,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://cdnefm.tbs.seoul.kr/tbs/_definst_/tbs_efm_web_360.smil/chunklist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:39.687Z"
     },
     {
       "stationuuid": "e9560580-d693-4e1b-9bad-02000631d818",
@@ -1819,7 +1819,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://2fm-ad.gscdn.kbs.co.kr/2fm_ad_192_1.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8yZm0tYWQuZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Njg2MjExNjR9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=YwjmLvu4~Y~7kIDTYy5u~i~8pLO~qTQoiTke7qHAaIdfPf-qqZrUFYp7xZZm9FL-AvCDqHbzu5IB-u-h-Chsn7VxJboFK6-xQLiUlwVz6ZfNW~6-vAiHmwaMRlCYTjELY4iunkuoI-LXb9JiqtpO1SXP2Gqw64nAlLgG6UsYliJHUgySt9RDN7h2FUIX4G9q6t5JZzTE3J7ZvuLoLmrjBBSVCB3yJFFdXwOPKpb4lneEvGA9KL1PhlGfXHilCPKZvHKf8GILCa0so8z2lXPxxyJNN906ND4RjzvjG8odk498n~goYfy52fBgvOuVbvTjO-jPKOFn63jFhy5poCzzqg__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:36.355Z"
     },
     {
       "stationuuid": "f68aa3f4-d847-4dab-818a-81f46d336812",
@@ -1835,7 +1835,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://1fm.gscdn.kbs.co.kr/1fm_192_2.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xZm0uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Njg2MjgzNTZ9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=XrUosrTN463F7GWXTz6uPkKb-ka4ih-cT65XjA2nq6xo0CH7zq6CjkPdGUeqRd7RHSFETvGMWgCiTdWgaMCpE~vUq8fDLxg4gfQGlpwJ0wRvsm9LdJacLHOuP83YaBYTPoZRgQ1XE7NqWq-Fpz-n-gjlRCs9AQ9nr8xnhxNmmbQW7YneaxThdJkFQRZ8~rc5u28z~6JDhFi5yD77roH4~UZpkNWCz9YO4tJGqIgaeupgO6kei4St6Iur-3kHePEeyvilIcYLOjQ~8OvTMio1tA1EfSn0-FdFGy~mEAlNA8xwQDZtR4~kGqgaz9xOHjep49xAU2j5X-j98wn8LjDqHg__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:37.300Z"
     },
     {
       "stationuuid": "f9ab75ae-a4ce-440a-8b29-1dab8ba76f5c",
@@ -1852,7 +1852,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://radio2.tbn.or.kr:1935/gyeongin/myStream/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:45.082Z"
     },
     {
       "stationuuid": "f9f853c9-51d7-4127-9796-5c838a786107",
@@ -1870,7 +1870,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://1fm.gscdn.kbs.co.kr/1fm_192_2.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xZm0uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Njg2MjM1OTh9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=BkEByD8XtNW1rLeTrjPFBzwbVZr~FiT9YKn3Qs336AZFpBDxLc91QeYTYevmuG7HTpNP6TMVgwJHWi68hhdso2fE7U9RL6CqJFZz7uqoy4ntfo58ZnwztHztoEwhlWvbw9i58aLm4hKLSBbeqUFg7jmJjG02ceF57PulsPWgRID93FQuQTqnZ~U9PpHxHxqye3vSZTJbD5W-00acyetBfJqjYJOZd6eCJZyYV7LK18d33N83u~OnLdRJZUExDY8MxTDGK~AgCmJvryK7eSv92bAzI4KQfV8v0k91qkoq1iWhm7SzuQjVzJAFk2xTnkNFCn7ixCfvpxAtCejQPZDL2g__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:37.463Z"
     },
     {
       "stationuuid": "fb8a911e-e106-43fa-af7e-9a2da7779164",
@@ -1888,7 +1888,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://m-aac.cbs.co.kr/mweb_cbscmc/_definst_/cbscmc.stream/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:34.853Z"
     },
     {
       "stationuuid": "fc4c247a-7f66-11e9-aa30-52543be04c81",
@@ -1906,7 +1906,7 @@
       "verdictReason": "HTTP 400",
       "finalUrl": "https://minisw.imbc.com/dsfm/_definst_/sfm.stream/playlist.m3u8?_lsu_sa_=6A115617F38D3554574DA5113B51CB4B856F3DB5250942A4363024a6B6DD3D96E5aB937C3C42E74E900637B102b4F139DC1360E1E70CBAE0DABEB23C0B01C78042CA551BDD30D8559BA4418B5C469A1DD0609723936DED72870177C9662827DFCD0D560AECF58C3E1DE9022BE53737C0",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:42.346Z"
     },
     {
       "stationuuid": "fe39221a-c1de-4c2f-a9ca-28a916f96010",
@@ -1922,7 +1922,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://1fm.gscdn.kbs.co.kr/1fm_192_2.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8xZm0uZ3NjZG4ua2JzLmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3Njg3NjYzNDl9fX1dfQ__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=oAJu29q1OErAA2GnfKsTPwYfdXqduz5uLB5dfi~2dMh9JswVjKdQufyuBvCF3rTQiVFt7q4ogU93FYwFAmIRiWV0mRdNeTD25RUwOIU8yiMHb~v4dXPR0VJMz4TG29jBX~SRTN5mP6qg3EAGYnKMbenQ23xYZMkOgdCsxtWncWLlM8udHRh7V7innszv5iOdLzJY4OkOMxVhsRdAopMfDTv5oMG02gNC9m5EADL0gm5ICJvWhrDqOnnhkWsb2OA6wgc-YJa0fAtX~yEQfO-G6B4wrx8W3py6wOPK9c5ijOOUWENq~BG4hCQgLs1L59WMjb2Ctriutl5IiwsBJxGukA__",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:34.869Z"
+      "probedAt": "2026-06-10T19:05:37.953Z"
     }
   ]
 }

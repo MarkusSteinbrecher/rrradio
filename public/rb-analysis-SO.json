@@ -1,14 +1,13 @@
 {
-  "generatedAt": "2026-05-19T17:47:24.688Z",
+  "generatedAt": "2026-06-10T19:41:33.548Z",
   "country": "SO",
   "rawSnapshotAt": "2026-05-19T07:51:18.669Z",
   "total": 3,
-  "playable": 2,
-  "broken": 1,
-  "curated": 0,
+  "playable": 3,
+  "broken": 0,
+  "curated": 1,
   "byVerdict": {
-    "ok": 2,
-    "broken-mixed": 1
+    "ok": 3
   },
   "stations": [
     {
@@ -21,11 +20,11 @@
       "votes": 958,
       "clickcount": 3,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://stream.radiojar.com/0tpy1h0kxtzuv",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (browser auto-upgrade after redirect to http://) (browser auto-upgrade from http://)",
+      "finalUrl": "https://stream.radiojar.com/0tpy1h0kxtzuv",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:24.683Z"
+      "probedAt": "2026-06-10T19:41:33.529Z"
     },
     {
       "stationuuid": "56e9c7e6-b4b6-4204-8547-ab41e0ef7495",
@@ -40,8 +39,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mp3",
       "finalUrl": "https://voa-audio.voanews.eu/VSO/2021/04/29/20210429-033000-VSO065-program_48k.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:24.682Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:41:32.929Z"
     },
     {
       "stationuuid": "6e4af45e-f3eb-4075-8afb-8f36edd6a332",
@@ -60,7 +59,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:24.683Z"
+      "probedAt": "2026-06-10T19:41:32.955Z"
     }
   ]
 }

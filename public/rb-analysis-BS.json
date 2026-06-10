@@ -1,15 +1,14 @@
 {
-  "generatedAt": "2026-05-19T17:22:25.411Z",
+  "generatedAt": "2026-06-10T18:18:12.674Z",
   "country": "BS",
   "rawSnapshotAt": "2026-05-19T07:49:53.883Z",
   "total": 10,
-  "playable": 6,
-  "broken": 4,
-  "curated": 3,
+  "playable": 7,
+  "broken": 3,
+  "curated": 4,
   "byVerdict": {
-    "ok": 6,
-    "broken-mixed": 3,
-    "broken-4xx": 1
+    "ok": 7,
+    "broken-mixed": 3
   },
   "stations": [
     {
@@ -29,7 +28,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiostreams.streamcomedia.com:8000/969guardianradio",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:22:25.407Z"
+      "probedAt": "2026-06-10T18:17:51.614Z"
     },
     {
       "stationuuid": "4240ed04-41af-4a4c-bca4-419976cb0a67",
@@ -43,11 +42,11 @@
       "votes": 30,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-4xx",
-      "verdictReason": "HTTP 404",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (browser auto-upgrade after redirect to http://)",
       "finalUrl": "https://stream.radiojar.com/01d8c449cyduv",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:22:25.407Z"
+      "probedAt": "2026-06-10T18:17:52.212Z"
     },
     {
       "stationuuid": "50d40505-0930-4068-b96a-4cf5cf0444bc",
@@ -66,7 +65,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s2.reliastream.com/proxy/rumcayme?mp=/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:22:25.407Z"
+      "probedAt": "2026-06-10T18:17:51.614Z"
     },
     {
       "stationuuid": "5abe461a-3854-44b4-9067-8b116c9d80b7",
@@ -85,7 +84,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:22:25.407Z"
+      "probedAt": "2026-06-10T18:17:51.614Z"
     },
     {
       "stationuuid": "65d7732e-7d7f-4617-beb6-a22f67d5d102",
@@ -104,7 +103,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s2.reliastream.com/proxy/rumcayme?mp=/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:22:25.407Z"
+      "probedAt": "2026-06-10T18:17:51.613Z"
     },
     {
       "stationuuid": "673ccbd5-deb6-4b8b-9120-2a354b71109c",
@@ -122,7 +121,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://s1.radio.lclhst.net:1437/r2",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:22:25.407Z"
+      "probedAt": "2026-06-10T18:18:12.652Z"
     },
     {
       "stationuuid": "963f2357-0601-11e8-ae97-52543be04c81",
@@ -140,7 +139,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://s1.radio.lclhst.net:1437/r2",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:22:25.407Z"
+      "probedAt": "2026-06-10T18:18:12.500Z"
     },
     {
       "stationuuid": "963fbb20-0601-11e8-ae97-52543be04c81",
@@ -158,7 +157,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://s1.radio.lclhst.net:1437/r1",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:22:25.405Z"
+      "probedAt": "2026-06-10T18:18:12.347Z"
     },
     {
       "stationuuid": "a90e52ff-840e-11e8-aa66-52543be04c81",
@@ -176,8 +175,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://ice64.securenetsystems.net/GLOBALBS",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:22:25.407Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:17:51.614Z"
     },
     {
       "stationuuid": "f7dfc0b9-ffd6-4da6-903c-7284a0fd5486",
@@ -196,7 +195,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiostreams.streamcomedia.com:8000/969guardianradio",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:22:25.407Z"
+      "probedAt": "2026-06-10T18:17:51.614Z"
     }
   ]
 }

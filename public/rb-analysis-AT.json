@@ -1,20 +1,19 @@
 {
-  "generatedAt": "2026-05-19T17:20:34.300Z",
+  "generatedAt": "2026-06-10T18:07:47.263Z",
   "country": "AT",
   "rawSnapshotAt": "2026-05-19T07:49:43.272Z",
   "total": 338,
-  "playable": 257,
-  "broken": 81,
-  "curated": 157,
+  "playable": 277,
+  "broken": 61,
+  "curated": 214,
   "byVerdict": {
-    "ok": 245,
-    "broken-mixed": 58,
-    "broken-network": 12,
+    "ok": 265,
+    "broken-mixed": 50,
     "ok-hls": 12,
     "broken-dns": 3,
-    "broken-format": 1,
+    "broken-format": 2,
     "broken-tls": 1,
-    "broken-4xx": 3,
+    "broken-4xx": 2,
     "broken-timeout": 3
   },
   "stations": [
@@ -35,7 +34,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rs8.stream24.net/radio-soundportal.mp3?ref=soundportal.at",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.315Z"
     },
     {
       "stationuuid": "06b018ff-eb3d-462e-8d87-d6c93ab774c6",
@@ -53,7 +52,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.erf.at:8000/erfplus_192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:07:06.158Z"
     },
     {
       "stationuuid": "08ff5099-5c3b-4088-b655-8d9b8c637866",
@@ -71,7 +70,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiovm1.fluidstream.eu/radiovm1.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "0c761a3d-991b-4025-aa17-ba0336038f20",
@@ -90,7 +89,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://orf-live.ors-shoutcast.at/ktn-q2a",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "0cee0f71-175b-4c1d-9b32-8939e2797151",
@@ -108,7 +107,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: edge14.streamonkey.net:443, timeout: 10000ms)",
       "finalUrl": "https://edge14.streamonkey.net/radio886-onair/stream/mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:20:34.287Z"
+      "probedAt": "2026-06-10T18:07:47.240Z"
     },
     {
       "stationuuid": "0d37b24b-204c-47f9-84df-4dcbfa97ba33",
@@ -126,8 +125,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://orf-live.ors-shoutcast.at/vbg-q1a",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "0d61eb06-745b-464d-9745-6230a09d418d",
@@ -144,7 +143,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://live.gruen-weiss.at/rgw.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "0d92d055-1875-450e-bf06-2d06fbad7278",
@@ -163,7 +162,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://mp3.radioypsilon.at:8000/mp3-160",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:07:14.058Z"
     },
     {
       "stationuuid": "0e668f97-0f9e-4b92-9f96-0351f28dca17",
@@ -182,7 +181,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ors-sn03.ors-shoutcast.at/slo-q2a",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.315Z"
     },
     {
       "stationuuid": "10254033-b10c-46e4-8421-4b9a022357da",
@@ -201,7 +200,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://orf-live-wie.mdn.ors.at/out/u/wie/q3a/manifest.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "12875c2c-9660-418a-b2fb-7b6427739c77",
@@ -218,7 +217,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://live.gruen-weiss.at/rgw.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "154fc4d3-4584-4b59-b2ed-e8656e0420e8",
@@ -237,7 +236,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://orf-live.ors-shoutcast.at/wie-q2a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "1659d626-b7db-48e0-82d7-d0d645bf43ae",
@@ -255,7 +254,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s6-webradio.webradio.de/rockantenne-oesterreich",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.727Z"
     },
     {
       "stationuuid": "16abcc9d-5d8f-46eb-89c7-438b05b96cb1",
@@ -273,7 +272,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://popwellezwei.spcast.eu/stream?time=1778776528",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "171259e7-3712-4ce4-9af8-602eab100870",
@@ -291,8 +290,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://audio.gendercriminals.gay/listen/lo-fi_halloween_and_chill/radio-browser",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "1712cdbf-e728-4f8b-a37e-753df1e16054",
@@ -311,7 +310,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://live.gruen-weiss.at/rgw.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "17142ca0-4faf-11e9-a4d7-52543be04c81",
@@ -329,8 +328,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live.radiomax.technology/city23",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "17911476-e5ec-45ed-a96a-7c2e9802e2c5",
@@ -349,7 +348,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://60efd7a2b4d02.streamlock.net/a_steiermark/ngrp:livestream_all/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.054Z"
     },
     {
       "stationuuid": "17b7e864-638d-11ea-be63-52543be04c81",
@@ -367,7 +366,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://server7524.streamplus.de/stream.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.855Z"
+      "probedAt": "2026-06-10T18:06:45.971Z"
     },
     {
       "stationuuid": "17c43529-5a23-4e4d-a127-fbd95fc6e741",
@@ -385,7 +384,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge07.streams.arabella.at/arabella-hot/stream/mp3?aggregator=arabella-playlistfile",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "1abda628-4353-4725-8eca-5fce5287f27f",
@@ -398,11 +397,11 @@
       "votes": 296,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "TypeError: fetch failed — HTTPParserError: Response does not match the HTTP/1.1 protocol (Missing expected CR after response line)",
-      "finalUrl": "https://stream8.liferadio.at/",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (lenient HTTP parse — server violates HTTP/1.1, browsers play it)",
+      "finalUrl": "https://liferadio.streamabc.net/lfr-chillout-mp3-192-3102923?sABC=6n298ns6%230%23qpp8p86o98o11s54147qo8579o46q118%23fgernz.yvsrenqvb.ng&aw_0_1st.playerid=stream.liferadio.at&amsparams=playerid:stream.liferadio.at;skey:1781107446",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.916Z"
+      "probedAt": "2026-06-10T18:06:45.317Z"
     },
     {
       "stationuuid": "1ad9185c-8a51-4e04-9643-b6b1c9d49ace",
@@ -421,7 +420,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.radiotechnikum.at/TECHROCK",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "1d60fa7b-fb94-4a5f-ac41-1215e9c33391",
@@ -440,7 +439,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://icecast.callshopradio.com/callshopradio-wien",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.476Z"
     },
     {
       "stationuuid": "1e001fc9-5e74-492c-9154-e8eae252a14a",
@@ -458,7 +457,7 @@
       "verdictReason": "HTTP 404",
       "finalUrl": "https://hearthis.at/subfm/live/stream.mp3?referer=https%3A%2F%2Fwww.sub.fm%2F&s=p6C&t=1768631963",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:47.051Z"
     },
     {
       "stationuuid": "1e13ed4e-daa9-4728-8550-e08d89c1c8e7",
@@ -477,7 +476,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://orf-live.ors-shoutcast.at/fm4-q2a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "1e1513bb-f951-43ca-960d-bcbc26ff0bfe",
@@ -496,7 +495,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://orf-live.ors-shoutcast.at/ooe-q1a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "1e79dab4-3e2b-489d-b44e-8acd4bbc15e3",
@@ -514,8 +513,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://edge59.streamonkey.net/radio886-rotweissrock/stream/mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "1f62c7ee-e712-48c3-b493-f69a951ac84f",
@@ -532,8 +531,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://bluffphonica.stream.laut.fm/bluffphonica?pl=m3u&t302=2026-01-15_04-07-01&uuid=f4cd16a7-6754-46a4-a414-f815d67d4f76",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.855Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.916Z"
     },
     {
       "stationuuid": "1f99a2d2-0f5f-4d79-a34e-1abc8c25fce1",
@@ -550,7 +549,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge81.stream.superfly.fm/superfly-pure",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "1fc97400-9a29-4567-a747-3619bcdec492",
@@ -568,7 +567,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.erf.at:8000/erfplus_128",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:07:06.763Z"
     },
     {
       "stationuuid": "1ff60ce0-a974-44be-9476-3069effa8b77",
@@ -586,7 +585,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://edge83.streamonkey.net/radio886-onair/stream/mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "206f93c5-5f3c-4ba1-82c2-19a42582fcc2",
@@ -605,7 +604,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://orf-live.ors-shoutcast.at/fm4-q1a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "216d8ef9-e1fe-49fc-a44b-1f6896f6a680",
@@ -624,7 +623,7 @@
       "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND streamsrv-austrianpub.kechit.eu",
       "finalUrl": "https://streamsrv-austrianpub.kechit.eu/main_lo",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.676Z"
     },
     {
       "stationuuid": "254034cb-4ec9-47c7-b01f-6f9565927763",
@@ -642,7 +641,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streamsrv-airradio.kechit.eu/128",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.583Z"
     },
     {
       "stationuuid": "256e2302-c65a-491d-a65d-dcac07bf40ca",
@@ -659,8 +658,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://audio.gendercriminals.gay/listen/garage_sounds/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "2669339a-2e10-45ff-bcbc-6bbd09185216",
@@ -677,8 +676,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://hardstyle-and-hardcore.stream.laut.fm/hardstyle-and-hardcore?t302=2026-05-19_10-11-27&uuid=f11c4836-a5cf-41a6-8f1e-bc2f7f19590a",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "26f60f78-7e52-4088-9d7e-9bc1b7e3ccfe",
@@ -696,7 +695,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.erf.at:8000/nowradio_192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:07:07.066Z"
     },
     {
       "stationuuid": "27d8066d-3745-4fea-8d9b-90bbe50a3be8",
@@ -714,8 +713,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://edge59.streamonkey.net/radio886-metal/stream/mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "282facce-8ae7-46a5-9e24-a946abe9fc7d",
@@ -734,7 +733,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s35.derstream.net/100austria.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.314Z"
     },
     {
       "stationuuid": "28ab7f9d-2cb7-4f56-9f10-69c59cc15916",
@@ -753,7 +752,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://stream01.superfly.fm/live",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.727Z"
     },
     {
       "stationuuid": "2953dfbe-64f1-40c3-9ff8-90ba0f2449b2",
@@ -771,7 +770,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live.antenne.at/auh",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "298c4c1e-49e3-4c9a-8133-fabeb4e9972b",
@@ -789,7 +788,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.erf.at:8000/nowradio_96",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:07:07.217Z"
     },
     {
       "stationuuid": "2b399e05-7248-435c-a9cf-6f22a801d97b",
@@ -808,7 +807,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rrth.stream.laut.fm/rrth?pl=pls&t302=2026-01-15_03-08-56&uuid=1a4d041d-a3ec-4872-908c-a7a55a58ee15",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.391Z"
     },
     {
       "stationuuid": "2ce5de5b-01c0-4359-91d7-891f7c0d6bcc",
@@ -827,7 +826,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge07.streams.arabella.at/arabella-goldenoldies/stream/mp3?aggregator=arabella-playlistfile",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "2cfa421b-b335-4c19-8a2f-920ac7bbb94b",
@@ -844,8 +843,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://wel105point5.stream.laut.fm/wel105point5",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:46.583Z"
     },
     {
       "stationuuid": "2e70591f-d42b-4b7b-84f1-62be2871d4a4",
@@ -863,7 +862,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge07.radio.antennevorarlberg.at/av-live?aggregator=Radioplayer",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "2ed33eb3-3f64-45fe-814b-d695fd9a5ab2",
@@ -882,7 +881,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://onair.krone.at/kronehit.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:46.054Z"
     },
     {
       "stationuuid": "3016af1c-a844-4ad1-9eb0-1a9ec4dcc1bd",
@@ -901,7 +900,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge07.streams.arabella.at/arabella-tiamo/stream/mp3?aggregator=arabella-playlistfile",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "30c775f9-e627-4e5e-b77b-24352544dcfd",
@@ -919,7 +918,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge12.streams.arabella.at/arabella-wien?aggregator=arabella-playlistfile",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "3131770d-9a32-4c8e-ae6b-8b7945b34b08",
@@ -937,7 +936,7 @@
       "verdictReason": "content-type text/html; charset=utf-8 not audio-like",
       "finalUrl": "https://laut.fm/schwendermarkt",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.855Z"
+      "probedAt": "2026-06-10T18:06:46.391Z"
     },
     {
       "stationuuid": "31762732-8711-4279-98ad-95dd2184cf88",
@@ -956,7 +955,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://oe1dd.mdn.ors.at/out/u/oe1dd/manifest.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.314Z"
     },
     {
       "stationuuid": "31858a05-51df-4ff4-9d62-4f0a22fad870",
@@ -972,8 +971,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://drumandbassfm.stream.laut.fm/drumandbass_fm?t302=2026-05-19_10-11-27&uuid=61911776-876e-4ea5-b874-59e092b54c97",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "320f41dd-2398-4e84-8601-094637542975",
@@ -991,7 +990,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live.radioflamingo.at/rfpartyschlager",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "32558a94-51f9-42cd-a6f7-eead94bda8d8",
@@ -1010,7 +1009,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://u1-tirol.stream27.radiohost.de/u1-tirol-live_mp3-192?ref=u1-website&upd-meta=1&upd-scheme=https&_art=dD0xNzc4Nzc2ODMyJmQ9MDcyZDcwN2Q4OWE1N2RhZTQyZGI",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.315Z"
     },
     {
       "stationuuid": "32f62475-8900-4364-9fee-d1909f06ae2d",
@@ -1029,7 +1028,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.gamesboro.org/listen/gamesboro_radio/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.317Z"
     },
     {
       "stationuuid": "3356312f-f88a-4fe1-b752-cc28c07ad927",
@@ -1048,7 +1047,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streaming.28radio.cc:8000/rock.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.315Z"
     },
     {
       "stationuuid": "3493572b-9798-40b2-98fb-aef2295b6133",
@@ -1067,7 +1066,7 @@
       "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND trock.fluidstream.eu",
       "finalUrl": "https://trock.fluidstream.eu/trock.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.334Z"
+      "probedAt": "2026-06-10T18:06:45.780Z"
     },
     {
       "stationuuid": "34e5820b-dc65-4f9f-9cd3-0a9056b31202",
@@ -1084,8 +1083,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://austria-kultradio.stream.laut.fm/austria-kultradio?pl=m3u&t302=2026-01-15_08-15-17&uuid=41be93fd-05d3-41f4-9ec9-d0e02fbcf9c6",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:46.054Z"
     },
     {
       "stationuuid": "36db63ed-fbc0-43f6-9f45-a9b3b6a6798a",
@@ -1103,7 +1102,7 @@
       "verdictReason": "application/ogg (browser auto-upgrade from http://)",
       "finalUrl": "https://live.helsinki.at:8088/live160.ogg",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "378f155b-6766-4eba-b7ad-9781a53ec927",
@@ -1121,7 +1120,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://live.antenne.at/rf",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "37f9aec0-333a-46e1-818e-6458a7115a13",
@@ -1138,8 +1137,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge24.streamonkey.net/antoesterreich-live",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:46.391Z"
     },
     {
       "stationuuid": "389dd925-6b9b-4780-a55b-460319d5557d",
@@ -1156,8 +1155,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://edge59.radio.antennevorarlberg.at/av-coffee/stream/mp3?aggregator=icecastdirectory",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "394c0c15-b64b-4d82-8be3-4e54afa0d475",
@@ -1174,8 +1173,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://1000-electronic-dance-music.stream.laut.fm/1000-electronic-dance-music?t302=2026-05-19_10-11-26&uuid=76f4ac80-0ff0-49f4-a45b-2e6bd28dbdd9",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "3a47c308-33ed-4782-8c3f-dcb8193297e9",
@@ -1193,7 +1192,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live.radioflamingo.at/rfhoamat",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "3b320e2d-c043-4cc5-85c4-5b9772fe7dc0",
@@ -1211,7 +1210,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge85.stream.maxfive.com/max5-joelive",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.208Z"
     },
     {
       "stationuuid": "3b5a0bb4-dd07-4b56-a176-0d9bae9f3dfa",
@@ -1229,7 +1228,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge18.radio.antennevorarlberg.at/av-christkindl",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "3d1b2ed6-f073-448e-a319-9195de90bb64",
@@ -1248,7 +1247,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://azuracast.datea.services:8000/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "3fee72ef-e869-4cc9-a3e0-18ef16b6acad",
@@ -1265,7 +1264,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge81.stream.superfly.fm/superfly-easy",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "42073ce7-51c8-4148-a60b-3487c30f53b8",
@@ -1284,7 +1283,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://orf-live-wie.mdn.ors.at/out/u/wie/q4a/manifest.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "43ed1a29-6cce-4a82-95cd-e644a0579f1b",
@@ -1303,7 +1302,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://secureonair.krone.at/pirate.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "449774c7-e051-44ff-ab86-4901c61a365c",
@@ -1317,11 +1316,11 @@
       "votes": 65,
       "clickcount": 3,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "TypeError: fetch failed — HTTPParserError: Response does not match the HTTP/1.1 protocol (Missing expected CR after response line)",
-      "finalUrl": "https://stream.flash90s.at/flash90s/mp3-192/",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.855Z"
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (lenient HTTP parse — server violates HTTP/1.1, browsers play it)",
+      "finalUrl": "https://liferadio.streamabc.net/lfr-flash90s-mp3-192-3814105?sABC=6n298ns7%230%23qpp8p86o98o11s54147qo8579o46q118%23&aw_0_1st.playerid=&amsparams=playerid:;skey:1781107447",
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.871Z"
     },
     {
       "stationuuid": "477d5e54-24b0-48dd-97f0-5cf4f047eb55",
@@ -1340,7 +1339,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://orf-live.ors-shoutcast.at/tir-q2a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "47eb5654-12b6-4e4a-9026-e026382202cb",
@@ -1359,7 +1358,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://secureonair.krone.at/rwr.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "48cad816-47a4-4ec9-a1a9-8ccab1abdf71",
@@ -1377,7 +1376,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://radyo.viyanafm.at/1453/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "48d9b2d6-5012-4525-9581-e19fa476a7a8",
@@ -1395,7 +1394,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://server4.streamserver24.com:61414/",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.054Z"
     },
     {
       "stationuuid": "4afd638b-9f4d-4a55-b4f1-b53214ae717e",
@@ -1414,7 +1413,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live.welle1.at:18128/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.054Z"
     },
     {
       "stationuuid": "4f1fb5fa-8a10-4d72-b247-21d831272373",
@@ -1433,7 +1432,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiogoed.securestream.kapper.net/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.334Z"
+      "probedAt": "2026-06-10T18:06:45.871Z"
     },
     {
       "stationuuid": "50890eab-41ac-4f6b-8839-022f0c20444b",
@@ -1452,7 +1451,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://orf-live.ors-shoutcast.at/sbg-q1a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "50d614d7-8477-4bb9-841f-a3891f3ce4fe",
@@ -1471,7 +1470,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live.antenne.at/arr",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "511bb1f6-520f-11e9-a4d7-52543be04c81",
@@ -1488,8 +1487,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://radio-himmelberg.stream.laut.fm/radio-himmelberg?t302=2026-05-19_10-11-41&uuid=dff18087-69a8-4f4e-8973-7e568b99af2e",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "51d1d5b5-dc3a-4cb0-afad-b31c37335b99",
@@ -1506,7 +1505,7 @@
       "verdictReason": "application/ogg",
       "finalUrl": "https://yeshua.at:8443/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.855Z"
+      "probedAt": "2026-06-10T18:06:45.916Z"
     },
     {
       "stationuuid": "51fc72b8-463f-4987-b3f7-940ea8b49170",
@@ -1523,7 +1522,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://cr944.at:8000/cr944-high",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:07:06.888Z"
     },
     {
       "stationuuid": "54b85bd0-8b71-11e9-ad01-52543be04c81",
@@ -1540,8 +1539,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://darksynthradio.stream.laut.fm/darksynthradio?t302=2026-05-19_10-11-26&uuid=b9d54d13-52c1-4634-9f42-6c1402166b0f",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "566a0eab-7cef-4d41-bfbe-f6c83b52eef8",
@@ -1555,11 +1554,11 @@
       "votes": 203,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://stream.liferadio.tirol/live/aac-256/SHQ",
+      "verdict": "ok",
+      "verdictReason": "audio/aac (lenient HTTP parse — server violates HTTP/1.1, browsers play it) (browser auto-upgrade from http://)",
+      "finalUrl": "https://stream.liferadio.tirol/live/aac-256/SHQ",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "56a488fa-4542-4611-bac9-ab06b9b1ce2f",
@@ -1578,7 +1577,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live.welle1.at:17128/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.334Z"
+      "probedAt": "2026-06-10T18:06:45.850Z"
     },
     {
       "stationuuid": "56dc6c22-6060-11ea-be63-52543be04c81",
@@ -1596,7 +1595,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://212.89.182.114:8008/frf",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:07:06.027Z"
     },
     {
       "stationuuid": "5734cc64-61d7-4525-82f1-7c104ae10c19",
@@ -1614,7 +1613,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge16.stream.superfly.fm/superfly-live?aggregator=Website",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.208Z"
     },
     {
       "stationuuid": "58a6d4ab-3a77-4969-b361-0bb2f537fba5",
@@ -1632,7 +1631,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge18.radio.antennevorarlberg.at/av-lovesongs/stream/mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "5971be6a-df87-4e50-9972-df9c93a47dc6",
@@ -1651,7 +1650,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://orf-live.ors-shoutcast.at/vbg-q2a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "5bb5a826-0579-44f2-9987-149d5bb018a9",
@@ -1669,7 +1668,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://uptheirons.stream.laut.fm/up_the_irons?pl=m3u&t302=2026-01-15_07-23-30&uuid=eeb3ddd4-0adf-4a11-bf6f-eac3fb8206ff",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.334Z"
+      "probedAt": "2026-06-10T18:06:45.317Z"
     },
     {
       "stationuuid": "5cb4b85d-2719-418d-91d8-6dfa2be02329",
@@ -1687,7 +1686,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge07.streamonkey.net/radio886-onair/stream/mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.334Z"
+      "probedAt": "2026-06-10T18:06:45.317Z"
     },
     {
       "stationuuid": "5cffbadd-a6b3-45b3-a87d-f84c00aa6c81",
@@ -1706,7 +1705,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streamt.at:8010/website_popandrock.mp3?ver=141186",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.092Z"
     },
     {
       "stationuuid": "5daaf267-22c2-4078-bf9d-068e99cd76d6",
@@ -1725,7 +1724,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://livestream.agora.at/agora",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "5e00ac3e-19fe-4f7d-ad47-237a917094eb",
@@ -1744,7 +1743,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live.antenne.at/arr",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "5e5cebe4-3558-4f05-b460-00866ae7bcf7",
@@ -1762,7 +1761,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live.welle1.at:18256/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.334Z"
+      "probedAt": "2026-06-10T18:06:45.830Z"
     },
     {
       "stationuuid": "5f08476a-e6f9-40ba-94b3-f15269555c13",
@@ -1781,7 +1780,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://listen.radiomax.technology/penny",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "5fa9bbe3-c36a-4c72-8f6b-2a152d93b605",
@@ -1799,7 +1798,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://server4.streamserver24.com:26253/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.396Z"
     },
     {
       "stationuuid": "5fd361c7-c8be-4efb-9581-b4f514683078",
@@ -1816,7 +1815,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cr944.at:50443/cr944",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.092Z"
     },
     {
       "stationuuid": "60ca2058-1785-4ee8-8b6a-bfed1a0bebf7",
@@ -1834,7 +1833,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge07.radio.antennevorarlberg.at/av-dance",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "612bd03c-778e-4e8e-9bfd-fcde6cba598b",
@@ -1852,7 +1851,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.erf.at:8000/erfplus_a1",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:07:06.914Z"
     },
     {
       "stationuuid": "61866d6c-3fea-41d5-9117-db98c86050b1",
@@ -1870,7 +1869,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge85.streams.arabella.at/arabella-wien?aggregator=arabella-playlistfile",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "61fd5d72-10f3-4cf0-ac72-91257bb4306c",
@@ -1889,7 +1888,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://revisited.stream.laut.fm/revisited",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.476Z"
     },
     {
       "stationuuid": "629fde89-f1d3-4935-a81b-20f927b4f198",
@@ -1907,7 +1906,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://museum.streamserver24.com:8080/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "62e78417-563d-11ea-be63-52543be04c81",
@@ -1925,7 +1924,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://securestream.o94.at/live.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.314Z"
     },
     {
       "stationuuid": "63bb901a-e09a-478b-9c5e-b7f6a1f9efc4",
@@ -1944,7 +1943,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ors-sn03.ors-shoutcast.at/oe3-q1a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.315Z"
     },
     {
       "stationuuid": "63c4bb83-8567-42e3-ad1c-c1968b367ecf",
@@ -1962,7 +1961,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://styrialounge.out.airtime.pro/styrialounge_a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.855Z"
+      "probedAt": "2026-06-10T18:06:45.916Z"
     },
     {
       "stationuuid": "649018d6-9239-4f28-9f9a-ae3f1732379f",
@@ -1980,7 +1979,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge85.streams.arabella.at/arabella-relax?aggregator=arabella-playlistfile",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "65122183-db0a-49fa-b36d-8c778b947f4f",
@@ -1999,7 +1998,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://onair.krone.at/kronehit.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.903Z"
     },
     {
       "stationuuid": "657b7b0f-2ef9-45df-9915-4ca4f948c54f",
@@ -2018,7 +2017,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://orf-live.ors-shoutcast.at/oe1-q2a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "65d4ae6a-eda2-4d2c-bc68-7b8ee6310bde",
@@ -2037,7 +2036,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live.welle1.at:17256/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.317Z"
     },
     {
       "stationuuid": "66a7ef58-18e4-4291-a5b1-d0403761941e",
@@ -2056,7 +2055,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://onair.krone.at/kronehit.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:46.206Z"
     },
     {
       "stationuuid": "6707e3d5-8416-11e8-aa66-52543be04c81",
@@ -2074,7 +2073,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://s1-webradio.webradio.de/rockantenne-oesterreich",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "6713f4b0-3056-4679-a112-4455d7fd2c6f",
@@ -2093,7 +2092,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge07.streams.arabella.at/arabella-schlager/stream/mp3?aggregator=arabella-playlistfile",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "67e0ad0a-b3b4-4385-b5df-f0c61fe72b11",
@@ -2112,7 +2111,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://radio.replayscape.com:8096/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.476Z"
     },
     {
       "stationuuid": "6ae0e620-0c9e-4de7-b309-ecdbe6c95f87",
@@ -2126,11 +2125,11 @@
       "votes": 28,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "TypeError: fetch failed — HTTPParserError: Response does not match the HTTP/1.1 protocol (Missing expected CR after response line)",
-      "finalUrl": "https://stream.liferadio.tirol/schlager/mp3-192/link",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:33.458Z"
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (lenient HTTP parse — server violates HTTP/1.1, browsers play it)",
+      "finalUrl": "https://liferadio-tirol.streamabc.net/43-schlagerpuls-mp3-192-4735719?sABC=6n298ns7%230%23qpp8p86o98o11s54147qo8579o46q118%23yvax&aw_0_1st.playerid=link&amsparams=playerid:link;skey:1781107447",
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "6b412050-90a4-4c40-9c21-be7395b3e300",
@@ -2147,8 +2146,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://radioklassikstephansdom.ice.infomaniak.ch/radioklassikstephansdom.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.334Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.781Z"
     },
     {
       "stationuuid": "6bda9294-bba6-4943-a923-ea20f9b15a20",
@@ -2162,11 +2161,11 @@
       "votes": 12,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "TypeError: fetch failed — HTTPParserError: Response does not match the HTTP/1.1 protocol (Missing expected CR after response line)",
-      "finalUrl": "https://stream.liferadio.at/sommer/mp3-192/stream.liferadio.at/",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:33.857Z"
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (lenient HTTP parse — server violates HTTP/1.1, browsers play it)",
+      "finalUrl": "https://liferadio.streamabc.net/lfr-sommersongs-mp3-192-3569025?sABC=6n298ns7%230%23qpp8p86o98o11s54147qo8579o46q118%23fgernz.yvsrenqvb.ng&aw_0_1st.playerid=stream.liferadio.at&amsparams=playerid:stream.liferadio.at;skey:1781107447",
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "6cf16bdf-528e-4ce5-a9d0-37db1cba7a5d",
@@ -2185,7 +2184,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.her.st/listen/listen/128.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.855Z"
+      "probedAt": "2026-06-10T18:06:46.054Z"
     },
     {
       "stationuuid": "6d6f6bb6-9f71-4f1d-846f-8371678f7a4b",
@@ -2203,7 +2202,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.erf.at:8000/erfplus_320",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:07:06.310Z"
     },
     {
       "stationuuid": "6e577441-bc3f-4662-9256-6ec1c44cc049",
@@ -2221,7 +2220,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiovm1.fluidstream.eu/weanarisch",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "6fc0397a-efc5-4ad7-921f-5df20374d0c1",
@@ -2240,7 +2239,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://oe1dd.mdn.ors.at/out/u/oe1dd/manifest.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.314Z"
     },
     {
       "stationuuid": "70296bb5-3155-4d09-b40b-4478890a5104",
@@ -2259,7 +2258,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://server4.streamserver24.com:26250/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "70c4ccac-7957-4554-85cc-9a6b7264703b",
@@ -2277,7 +2276,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.radiotechnikum.at:80/YURADIO",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "70cc6884-7781-4d7a-8dcc-79a18b3fd0d3",
@@ -2295,7 +2294,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live.radioflamingo.at/rfplusvolksmusik",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "7173523c-6c3d-4630-ad85-fd5f168d061d",
@@ -2313,7 +2312,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live.antenne.at/arr",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "7308ec18-42c0-4bbf-ab0e-72b1800d3cba",
@@ -2330,7 +2329,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge07.radio.antennevorarlberg.at/av-chillout",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "7387b7ff-2778-4b0b-b001-e4f134586961",
@@ -2349,7 +2348,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://livestream.agora.at/agora",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "73d444ea-c4e4-43cc-a8b1-4ea9ed7b5eea",
@@ -2367,7 +2366,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://museum.streamserver24.com:8080/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "73d526af-d0c2-4e97-a2f7-a0f884d92d6c",
@@ -2386,7 +2385,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://server4.streamserver24.com:26250/stream?1655820557881",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "7519aeb9-dcc4-47e0-85a1-f3d95146c6b2",
@@ -2399,11 +2398,11 @@
       "votes": 10,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "TypeError: fetch failed — HTTPParserError: Response does not match the HTTP/1.1 protocol (Missing expected CR after response line)",
-      "finalUrl": "https://stream.liferadio.tirol/malle/mp3-192/link",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:33.730Z"
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (lenient HTTP parse — server violates HTTP/1.1, browsers play it)",
+      "finalUrl": "https://liferadio-tirol.streamabc.net/43-allesmalle-mp3-192-3656503?sABC=6n298ns7%230%23qpp8p86o98o11s54147qo8579o46q118%23yvax&aw_0_1st.playerid=link&amsparams=playerid:link;skey:1781107447",
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "75a2959e-7821-4b8f-8c6f-70a745ab5485",
@@ -2421,7 +2420,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge07.radio.antennevorarlberg.at/av-top40",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "76507d48-9853-412c-a496-bd1e1ffee4af",
@@ -2439,8 +2438,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://broadcast.modular-station.com/listen/modular_station/radio.aac",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:46.731Z"
     },
     {
       "stationuuid": "7663b87c-241b-491c-8181-8f0678c583e6",
@@ -2458,7 +2457,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://oesterreichradio.stream.laut.fm/oesterreichradio?t302=2026-01-15_02-12-00&uuid=e1297043-bed7-49a0-9812-1be8a36b941e",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.054Z"
     },
     {
       "stationuuid": "76e5a75c-4dad-4905-8ea5-d9c6a748faf4",
@@ -2476,7 +2475,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live.radioflamingo.at/rfplusgoldenhits",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "777df551-2ce6-4797-a460-de591bcc91c9",
@@ -2494,8 +2493,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://audio.gendercriminals.gay/listen/splatoon_station_seven/radio-browser",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "77966714-4054-43f0-b175-6c5207c17d9d",
@@ -2513,7 +2512,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiovm1.fluidstream.eu/radiovm1_a1.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "779af9c6-7679-4b3a-ad6a-687c660024be",
@@ -2532,7 +2531,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://orf-live-oe3.mdn.ors.at/out/u/oe3/q3a/manifest.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "77bb2bea-2de1-4909-bf9f-25021e173092",
@@ -2551,7 +2550,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://orf-live.ors-shoutcast.at/bgl-q2a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "77bd99ff-3de0-4c8b-9b1a-cf342614f520",
@@ -2569,7 +2568,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiovm1.fluidstream.eu/radiovm1_a2.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "78d03c1c-9e37-4dd2-8b32-e213fb7ce203",
@@ -2588,7 +2587,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streaming.radio.co/sba5c95896/listen",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.092Z"
     },
     {
       "stationuuid": "79a03ff6-e304-4426-8496-cf8253084f75",
@@ -2606,7 +2605,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge07.streams.arabella.at/arabella-oberoesterreich?aggregator=tunein",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "7a4ed974-1a0a-4fea-8f8a-45ba3ba6daef",
@@ -2624,7 +2623,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://n16a-eu.rcs.revma.com/3zudpqfxh0cwv?rj-ttl=5&rj-tok=AAABnidg8IMAxdICqZkN3rBTPw",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.334Z"
+      "probedAt": "2026-06-10T18:06:45.871Z"
     },
     {
       "stationuuid": "7bc269ae-4509-11ea-a860-52543be04c81",
@@ -2637,11 +2636,11 @@
       "votes": 124,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://stream3.liferadio.at/;",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (lenient HTTP parse — server violates HTTP/1.1, browsers play it) (browser auto-upgrade from http://)",
+      "finalUrl": "https://stream3.liferadio.at/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.317Z"
     },
     {
       "stationuuid": "7bf200d7-c1fd-4f0d-a33c-be799cd4dfb4",
@@ -2660,7 +2659,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://onair.krone.at/kronehit.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.752Z"
     },
     {
       "stationuuid": "7c630780-bfce-43d8-ae6a-fabfe4ca3a05",
@@ -2678,7 +2677,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: edge14.streamonkey.net:443, timeout: 10000ms)",
       "finalUrl": "https://edge14.streamonkey.net/radio886-onair/stream/mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:52.980Z"
+      "probedAt": "2026-06-10T18:07:06.005Z"
     },
     {
       "stationuuid": "7fa6b16b-65b5-447f-ae48-ecb92a91e0bf",
@@ -2696,7 +2695,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge70.streamonkey.net/antoesterreich-live",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.317Z"
     },
     {
       "stationuuid": "7fe861a9-5b46-49d0-9b37-2ccac195f2ef",
@@ -2714,7 +2713,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://streamplus62.leonex.de:22674/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.334Z"
+      "probedAt": "2026-06-10T18:06:46.092Z"
     },
     {
       "stationuuid": "812223d2-81b1-49c2-9bc4-b0b7b3f026c2",
@@ -2727,11 +2726,11 @@
       "votes": 1,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-4xx",
-      "verdictReason": "HTTP 404",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
       "finalUrl": "https://vanessa-unreceptive-dia.ngrok-free.dev/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.805Z"
     },
     {
       "stationuuid": "820b81db-6ca9-4af9-8938-e9ad8055bd41",
@@ -2749,8 +2748,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.radiotechnikum.at/METALRadio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "84c68a22-584c-453e-8ce5-58589be48f43",
@@ -2767,7 +2766,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge07.radio.antennevorarlberg.at/av-coffee",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "850d15db-5b20-4031-982a-2fd774977ef4",
@@ -2785,7 +2784,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge18.streams.arabella.at/arabella-rock/stream/mp3?aggregator=arabella-playlistfile",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "8560d6e4-1431-442e-8dcd-dd07c643edd6",
@@ -2804,7 +2803,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://orf-live-oe1.mdn.ors.at/out/u/oe1/q4a/manifest.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "859db466-2a81-4786-994f-c7136b685aad",
@@ -2822,7 +2821,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.erf.at:8000/nowradio_128",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:07:06.613Z"
     },
     {
       "stationuuid": "87b24f29-39f3-44f1-b22e-b722bfc747c1",
@@ -2841,7 +2840,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.radiotechnikum.at/CITYJAZZ",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "8837db1f-de40-4205-80c1-cc78ca807e84",
@@ -2859,8 +2858,8 @@
       "verdict": "broken-tls",
       "verdictReason": "TypeError: fetch failed — Error: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca",
       "finalUrl": "https://s2.stationplaylist.com:9470/listen.aac",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:46.731Z"
     },
     {
       "stationuuid": "883f2499-200a-4ef9-bb2e-3084ed8321eb",
@@ -2877,8 +2876,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.tramp-cast.ch/8012/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:46.731Z"
     },
     {
       "stationuuid": "8a3685e2-711e-4764-9080-6fa143c33014",
@@ -2897,7 +2896,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://orf-live.ors-shoutcast.at/wie-q1a",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.302Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "8ac3b1ad-20d4-4f17-9a57-171f36a6aacb",
@@ -2916,7 +2915,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://stream.soundstorm-radio.com/listen/soundstorm/aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.054Z"
     },
     {
       "stationuuid": "8b4e495b-85ca-46e4-a598-c9e61d3c68a1",
@@ -2935,7 +2934,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.eduneu.eu:8020/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.358Z"
     },
     {
       "stationuuid": "8bd99b46-d275-4f75-88bc-8ebfbdf92f73",
@@ -2953,7 +2952,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.radiotechnikum.at/TECHCITY",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "8c58327c-b6cc-458a-a857-3bd93a56e4df",
@@ -2971,7 +2970,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://www.powerfm.org:8443/powerfm.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.358Z"
     },
     {
       "stationuuid": "8cbc17a1-840f-4b80-adc3-2e4923a9253d",
@@ -2990,7 +2989,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live.antenne.at/80s",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "8e3a37af-3c04-444e-a2b9-2577b9c6dfab",
@@ -3009,7 +3008,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://erfradio.com/ERF_Sued",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.092Z"
     },
     {
       "stationuuid": "8e5057e7-06f4-451d-862a-4b97be4c38fb",
@@ -3027,8 +3026,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://edge83.streamonkey.net/radio886-newrock/stream/mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "9011eaf6-2316-47ca-90a9-811f3a943d2e",
@@ -3046,7 +3045,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://orf-live.ors-shoutcast.at/vbg-q2a",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "9169bc9b-cfca-45c1-bc06-c1ad826a3245",
@@ -3063,7 +3062,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://s5-webradio.rockantenne.at/rockantenne-oesterreich/stream/aacp",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.391Z"
     },
     {
       "stationuuid": "91cebe7e-aaa0-4f91-99da-902bead6bffe",
@@ -3082,7 +3081,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s35.derstream.net/ukwwien.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.314Z"
     },
     {
       "stationuuid": "927e67bd-d0b4-4407-aebf-8bb175505ee0",
@@ -3100,8 +3099,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://edge59.streams.arabella.at/arabella-niederoesterreich/stream/mp3?aggregator=arabella-playlistfile",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "93452add-93d6-419f-81cf-9060b0aa0a4f",
@@ -3120,7 +3119,7 @@
       "verdictReason": "application/ogg",
       "finalUrl": "https://air.jazz.w3.at/jazzw3.ogg",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.334Z"
+      "probedAt": "2026-06-10T18:06:45.317Z"
     },
     {
       "stationuuid": "936c9ed3-2932-41e4-877c-39f9e6a4a65c",
@@ -3138,7 +3137,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://1000-electronic-dance-music.stream.laut.fm/1000-electronic-dance-music?pl=m3u&t302=2026-01-15_07-00-37&uuid=723aa614-de54-4e48-af9b-a44bd7f9884b",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.317Z"
     },
     {
       "stationuuid": "93fbc908-ad0f-4fec-977b-b6296f89a9f1",
@@ -3157,7 +3156,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://audio.gendercriminals.gay/listen/lo-fi_halloween_and_chill/radio-browser",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "95e84b33-c9a2-4b01-b54c-fdbc36fefacc",
@@ -3174,7 +3173,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge07.radio.antennevorarlberg.at/av-partymix",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "96057c18-0601-11e8-ae97-52543be04c81",
@@ -3192,8 +3191,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live.antenne.at/arr",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "9605bab6-0601-11e8-ae97-52543be04c81",
@@ -3211,7 +3210,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream01.superfly.fm:8080/live128",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:07:06.093Z"
     },
     {
       "stationuuid": "9605fc47-0601-11e8-ae97-52543be04c81",
@@ -3229,7 +3228,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://www.fro.at:8008/fro64.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:46.701Z"
     },
     {
       "stationuuid": "96060101-0601-11e8-ae97-52543be04c81",
@@ -3242,11 +3241,11 @@
       "votes": 380,
       "clickcount": 3,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://stream1.liferadio.at/",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (lenient HTTP parse — server violates HTTP/1.1, browsers play it) (browser auto-upgrade from http://)",
+      "finalUrl": "https://stream1.liferadio.at/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.317Z"
     },
     {
       "stationuuid": "96061367-0601-11e8-ae97-52543be04c81",
@@ -3265,7 +3264,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://onair-ha1.krone.at/kronehit1058.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.752Z"
     },
     {
       "stationuuid": "96062be2-0601-11e8-ae97-52543be04c81",
@@ -3283,8 +3282,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://listen.radiomax.technology/billa",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "96063296-0601-11e8-ae97-52543be04c81",
@@ -3298,11 +3297,11 @@
       "votes": 31,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://listen.radiomax.technology/bipa",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
+      "finalUrl": "https://listen.radiomax.technology/bipa",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "960633eb-0601-11e8-ae97-52543be04c81",
@@ -3319,8 +3318,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://listen.radiomax.technology/merkur",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "9606d88a-0601-11e8-ae97-52543be04c81",
@@ -3338,8 +3337,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://listen.radiomax.technology/penny",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "96072598-0601-11e8-ae97-52543be04c81",
@@ -3355,8 +3354,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live.helsinki.at:8088/live128.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "96087c49-0601-11e8-ae97-52543be04c81",
@@ -3375,7 +3374,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream1.energy.at:8000/ibk",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:07:06.042Z"
     },
     {
       "stationuuid": "9608a2aa-0601-11e8-ae97-52543be04c81",
@@ -3393,8 +3392,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live.antenne.at/as",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "9608b51d-0601-11e8-ae97-52543be04c81",
@@ -3412,8 +3411,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live.antenne.at/ak",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "9608d9a7-0601-11e8-ae97-52543be04c81",
@@ -3430,8 +3429,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live.njoyradio.at/njoy",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.317Z"
     },
     {
       "stationuuid": "960964cf-0601-11e8-ae97-52543be04c81",
@@ -3449,8 +3448,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://livestream.freequenns.at/live",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.334Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.830Z"
     },
     {
       "stationuuid": "96096b11-0601-11e8-ae97-52543be04c81",
@@ -3464,11 +3463,11 @@
       "votes": 224,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://live.radiomaria.at:8000/rma",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://live.radiomaria.at/rma",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.314Z"
     },
     {
       "stationuuid": "96096e93-0601-11e8-ae97-52543be04c81",
@@ -3486,7 +3485,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://host6.cartwall.at:9630/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.971Z"
     },
     {
       "stationuuid": "960c5763-0601-11e8-ae97-52543be04c81",
@@ -3505,7 +3504,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live.gruen-weiss.at/rgw.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "960e9457-0601-11e8-ae97-52543be04c81",
@@ -3523,7 +3522,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://rs8.stream24.net/radio-soundportal.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.315Z"
     },
     {
       "stationuuid": "9614b499-0601-11e8-ae97-52543be04c81",
@@ -3540,7 +3539,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live.helsinki.at:8088/live160.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "961a6bf2-0601-11e8-ae97-52543be04c81",
@@ -3559,7 +3558,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.xaok.org:8000/frs.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:07:06.062Z"
     },
     {
       "stationuuid": "961ab68c-0601-11e8-ae97-52543be04c81",
@@ -3578,7 +3577,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.erf.at/nowradio_192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.721Z"
     },
     {
       "stationuuid": "961d67e0-0601-11e8-ae97-52543be04c81",
@@ -3597,7 +3596,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://www.fro.at:8008/fro-128.ogg",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:47.812Z"
     },
     {
       "stationuuid": "9620cfc5-0601-11e8-ae97-52543be04c81",
@@ -3616,7 +3615,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream01.zogl.net:8906/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:07:06.102Z"
     },
     {
       "stationuuid": "962492bf-0601-11e8-ae97-52543be04c81",
@@ -3635,7 +3634,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://sol.anw.at:8023/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:07:26.545Z"
     },
     {
       "stationuuid": "9624f6fa-0601-11e8-ae97-52543be04c81",
@@ -3652,8 +3651,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://server7606.streamplus.de/;",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.334Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.871Z"
     },
     {
       "stationuuid": "962dd999-0601-11e8-ae97-52543be04c81",
@@ -3671,7 +3670,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://streamplus20.leonex.de:28768/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.850Z"
     },
     {
       "stationuuid": "962ee480-0601-11e8-ae97-52543be04c81",
@@ -3690,7 +3689,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://www.radio-xmas.at:443/xmas?1512905036085",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.612Z"
     },
     {
       "stationuuid": "96377aca-0601-11e8-ae97-52543be04c81",
@@ -3708,7 +3707,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://radiotechnikum.macjingle.at:8200/;stream/1",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.334Z"
+      "probedAt": "2026-06-10T18:07:06.504Z"
     },
     {
       "stationuuid": "963794b6-0601-11e8-ae97-52543be04c81",
@@ -3726,7 +3725,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://technikumsmoothjazz.macjingle.at:8206/;stream/1",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.334Z"
+      "probedAt": "2026-06-10T18:07:06.504Z"
     },
     {
       "stationuuid": "963b1a6a-0601-11e8-ae97-52543be04c81",
@@ -3745,7 +3744,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.erf.at/nowradio_96",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.871Z"
     },
     {
       "stationuuid": "96420a70-0601-11e8-ae97-52543be04c81",
@@ -3764,7 +3763,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.erf.at/erfplus_192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.570Z"
     },
     {
       "stationuuid": "9644403a-0601-11e8-ae97-52543be04c81",
@@ -3782,7 +3781,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://live.datamatix.at:8022/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:07:06.504Z"
     },
     {
       "stationuuid": "9645d9ca-0601-11e8-ae97-52543be04c81",
@@ -3800,8 +3799,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://edge18.streamonkey.net/radio886-classicrock/stream/mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "9647af16-a09f-4b57-aa7c-4669a75be554",
@@ -3818,7 +3817,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://cr944.at:8000/cr944-high",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:07:08.021Z"
     },
     {
       "stationuuid": "9647d94c-0601-11e8-ae97-52543be04c81",
@@ -3837,7 +3836,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://onair-ha1.krone.at/kronehit64.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.903Z"
     },
     {
       "stationuuid": "9647da10-0601-11e8-ae97-52543be04c81",
@@ -3855,7 +3854,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://onair-ha1.krone.at/kronehit.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:46.054Z"
     },
     {
       "stationuuid": "964de587-0601-11e8-ae97-52543be04c81",
@@ -3873,8 +3872,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live.antenne.at/ost",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "964de70e-0601-11e8-ae97-52543be04c81",
@@ -3892,8 +3891,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live.antenne.at/sun",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "964ef42e-93cd-4533-88e7-a30e9e75217d",
@@ -3912,7 +3911,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream1.energy.at:8000/aut",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:07:06.193Z"
     },
     {
       "stationuuid": "96ad4f9c-8f3f-42f1-aceb-7f784b6c42c5",
@@ -3931,7 +3930,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://www.radio-xmas.at:443/xmas?type=http",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.764Z"
     },
     {
       "stationuuid": "96bf6a72-a682-449e-8522-4411b9764071",
@@ -3944,11 +3943,11 @@
       "votes": 211,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "TypeError: fetch failed — HTTPParserError: Response does not match the HTTP/1.1 protocol (Missing expected CR after response line)",
-      "finalUrl": "https://stream.liferadio.at/clrock/mp3-192/stream.liferadio.at/",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (lenient HTTP parse — server violates HTTP/1.1, browsers play it)",
+      "finalUrl": "https://liferadio.streamabc.net/lfr-crock-mp3-192-6797911?sABC=6n298ns5%230%23qpp8p86o98o11s54147qo8579o46q118%23fgernz.yvsrenqvb.ng&aw_0_1st.playerid=stream.liferadio.at&amsparams=playerid:stream.liferadio.at;skey:1781107445",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.799Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "98449405-4f52-4acc-b501-912ed5595a2d",
@@ -3967,7 +3966,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://www.radio-xmas.at:443/xmas?type=http",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.916Z"
     },
     {
       "stationuuid": "98e310fb-eb8c-42a7-89dc-6b147aeffae6",
@@ -3986,7 +3985,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://strm112.1.fm/acpl_mobile_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:47.805Z"
     },
     {
       "stationuuid": "99d39cb5-0106-42d9-a656-3071ec3b4738",
@@ -4004,7 +4003,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge07.radio.antennevorarlberg.at/av-chillout",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "99effa2d-f243-4ac7-a06f-14f62d315018",
@@ -4022,7 +4021,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s35.derstream.net/inforadio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.314Z"
     },
     {
       "stationuuid": "9ba9014f-6fe5-11e9-af37-52543be04c81",
@@ -4037,11 +4036,11 @@
       "votes": 30,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://live.radiomaria.at:8000/rma101",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://live.radiomaria.at/rma101",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.314Z"
     },
     {
       "stationuuid": "9c0d907e-ca3a-41fa-ad4a-98cb9682d160",
@@ -4059,8 +4058,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://rockhuhn.stream.laut.fm/rockhuhn?t302=2026-05-19_10-11-49&uuid=7898bd24-a960-4da0-887a-8c42ede46319",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "9cb7f80f-aa74-4907-9351-8e65ce3b4c27",
@@ -4078,7 +4077,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge18.radio.antennevorarlberg.at/av-nonstop",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "9d15647c-0c2b-4078-8f93-1936a17a7569",
@@ -4095,8 +4094,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://austria-kultradio.stream.laut.fm/austria-kultradio?t302=2026-05-19_10-11-48&uuid=a7445c8e-4b8a-47ac-8069-05cba591d972",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "9e23a9de-6173-4392-9d0b-8db1ed01f8e1",
@@ -4114,7 +4113,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://cast2.name.ba:8185/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.855Z"
+      "probedAt": "2026-06-10T18:06:47.105Z"
     },
     {
       "stationuuid": "9e3034a1-a33a-4663-9802-979c9535b16b",
@@ -4132,7 +4131,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge07.radio.antennevorarlberg.at/av-oldies",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "9e7be5b3-b95e-40df-ac68-cdfa192afc21",
@@ -4151,7 +4150,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://us1.streamingpulse.com/stream/trinity3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.583Z"
     },
     {
       "stationuuid": "9f09ca2a-4af4-417d-8545-f74d5dd16eea",
@@ -4169,7 +4168,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge07.streams.arabella.at/arabella-lovesongs/stream/mp3?aggregator=arabella-playlistfile",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "a01d985a-db11-4fec-addd-24c41d4fc377",
@@ -4188,7 +4187,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://u1-tirol.stream48.radiohost.de/u1-tirol-live_mp3-192?upd-meta=1&upd-scheme=https&_art=dD0xNzc4Nzc2ODI5JmQ9MThlMTI5MDQ4ZGU4MWE3MDJhNjQ",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.092Z"
     },
     {
       "stationuuid": "a020a70d-8e4f-41f8-8441-530d6f587c0e",
@@ -4202,11 +4201,11 @@
       "votes": 52,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "TypeError: fetch failed — HTTPParserError: Response does not match the HTTP/1.1 protocol (Missing expected CR after response line)",
-      "finalUrl": "https://stream.liferadio.at/chillout/mp3-192/stream.liferadio.at/",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:33.331Z"
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (lenient HTTP parse — server violates HTTP/1.1, browsers play it)",
+      "finalUrl": "https://liferadio.streamabc.net/lfr-chillout-mp3-192-3102923?sABC=6n298ns6%230%23qpp8p86o98o11s54147qo8579o46q118%23fgernz.yvsrenqvb.ng&aw_0_1st.playerid=stream.liferadio.at&amsparams=playerid:stream.liferadio.at;skey:1781107446",
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "a062f274-1424-4359-a206-7fdfc61e32fb",
@@ -4224,7 +4223,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge07.radio.antennevorarlberg.at/av-chillout/stream/mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "a1224945-1856-465d-9d8e-baf81889df94",
@@ -4237,11 +4236,11 @@
       "votes": 39,
       "clickcount": 6,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "TypeError: fetch failed — HTTPParserError: Response does not match the HTTP/1.1 protocol (Missing expected CR after response line)",
-      "finalUrl": "https://stream.liferadio.tirol/MUONLY/mp3-192/link",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.842Z"
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (lenient HTTP parse — server violates HTTP/1.1, browsers play it)",
+      "finalUrl": "https://liferadio-tirol.streamabc.net/43-nurdiemusik-mp3-192-1897868?sABC=6n298ns6%230%23qpp8p86o98o11s54147qo8579o46q118%23yvax&aw_0_1st.playerid=link&amsparams=playerid:link;skey:1781107446",
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "a1e1ad0a-82c6-4848-995c-c6d4e5e8c78d",
@@ -4260,7 +4259,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s1-webradio.rockantenne.at/rockantenne-oesterreich/stream/mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.208Z"
     },
     {
       "stationuuid": "a233f7a4-3a5b-41db-a659-dcbe5b0d6de2",
@@ -4278,7 +4277,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge07.radio.antennevorarlberg.at/av-2010er",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "a2d33e69-b9c6-11e9-acb2-52543be04c81",
@@ -4296,8 +4295,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.radiofabrik.at/rf_low.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.334Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.317Z"
     },
     {
       "stationuuid": "a67edd92-177b-4ec1-9f74-58980fe89a80",
@@ -4310,11 +4309,11 @@
       "votes": 122,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "TypeError: fetch failed — HTTPParserError: Response does not match the HTTP/1.1 protocol (Missing expected CR after response line)",
-      "finalUrl": "https://stream11.liferadio.at/",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.880Z"
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (lenient HTTP parse — server violates HTTP/1.1, browsers play it)",
+      "finalUrl": "https://liferadio.streamabc.net/lfr-crock-mp3-192-6797911?sABC=6n298ns6%230%23qpp8p86o98o11s54147qo8579o46q118%23fgernz.yvsrenqvb.ng&aw_0_1st.playerid=stream.liferadio.at&amsparams=playerid:stream.liferadio.at;skey:1781107446",
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.317Z"
     },
     {
       "stationuuid": "a71d5af8-1ca1-4e5d-9372-4c839bd2443d",
@@ -4333,7 +4332,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiofri.out.airtime.pro/radiofri_a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.358Z"
     },
     {
       "stationuuid": "a7ba271d-5f61-48b5-9a97-ea8091666fc1",
@@ -4350,7 +4349,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge07.streams.arabella.at/arabella-90er?aggregator=arabella-playlistfile",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "a802f568-6b9f-4905-b44a-74db5546c1eb",
@@ -4367,8 +4366,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://darksynthradio.stream.laut.fm/darksynthradio?t302=2023-11-20_08-30-31&uuid=c4e07d87-378c-4318-bb0a-00c0fd1be5aa",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.317Z"
     },
     {
       "stationuuid": "a84612cc-afec-4ea3-b0a4-e0c3aaa2ac21",
@@ -4385,7 +4384,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ilm.stream18.radiohost.de/ilm_ilovedeutschrapfirst_mp3-192?upd-meta&upd-scheme=https&_art=dD0xNzY4NDMzMDMzJmQ9ZTFjMThiMmUzZGRlY2YxMzc4ZTE",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.054Z"
     },
     {
       "stationuuid": "a9c48772-e12c-4eb6-9fd2-39d13240fce2",
@@ -4404,7 +4403,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.replayscape.com:8443/128k.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.583Z"
     },
     {
       "stationuuid": "aa2c5630-a5b6-41f8-8a13-a0193fcfbd8f",
@@ -4418,11 +4417,11 @@
       "votes": 57,
       "clickcount": 4,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "TypeError: fetch failed — HTTPParserError: Response does not match the HTTP/1.1 protocol (Missing expected CR after response line)",
-      "finalUrl": "https://stream.liferadio.at/greatest-hits/mp3-192/stream.liferadio.at/",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:33.060Z"
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (lenient HTTP parse — server violates HTTP/1.1, browsers play it)",
+      "finalUrl": "https://liferadio.streamabc.net/lfr-greatesthits-mp3-192-9543160?sABC=6n298ns6%230%23qpp8p86o98o11s54147qo8579o46q118%23fgernz.yvsrenqvb.ng&aw_0_1st.playerid=stream.liferadio.at&amsparams=playerid:stream.liferadio.at;skey:1781107446",
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "aac6a88d-ddf1-45f4-8377-3426337c6a6e",
@@ -4441,7 +4440,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://orf-live.ors-shoutcast.at/oe3-q2a",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "aadd3452-6231-4f9e-8e98-c86556d42d5b",
@@ -4460,7 +4459,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://strm112.1.fm/acpl_mobile_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:46.990Z"
     },
     {
       "stationuuid": "ab0dd7b5-1e73-4675-b2fd-af610c2ea37b",
@@ -4476,7 +4475,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://radiorecord.hostingradio.ru/trancehits96.aacp",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.317Z"
     },
     {
       "stationuuid": "af1d60c9-5e0d-11ea-be63-52543be04c81",
@@ -4494,8 +4493,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://edge18.streamonkey.net/radio886-onair/stream/mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "af3f4f8f-1c94-4c35-9dc9-3bc0873f849c",
@@ -4513,7 +4512,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live.antenne.at/80s",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "afddab5c-01e7-4325-a1cc-57cbad3d92de",
@@ -4530,8 +4529,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge80.stream.maxfive.com/max5-joelive?aggregator=maxfive-homepage",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:46.583Z"
     },
     {
       "stationuuid": "b05a7451-0239-4797-a24b-eb268a6839f9",
@@ -4549,7 +4548,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.radiotechnikum.at/TECHGOLD",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "b14fc2bb-f608-41f7-b343-4445b95d17d7",
@@ -4568,7 +4567,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s1.bcmsol.ro/8002/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.583Z"
     },
     {
       "stationuuid": "b2507729-0609-41bc-aaad-3ba827fb4564",
@@ -4586,7 +4585,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radioproton.at:8443/proton",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.334Z"
+      "probedAt": "2026-06-10T18:06:45.850Z"
     },
     {
       "stationuuid": "b44a772b-b283-4598-a18b-318f743b342d",
@@ -4604,7 +4603,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live.radioflamingo.at/rfpluskultschlager",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "b45a5241-119c-11e9-a80b-52543be04c81",
@@ -4622,7 +4621,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://styrialounge.out.airtime.pro:8000/styrialounge_a",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.855Z"
+      "probedAt": "2026-06-10T18:06:45.971Z"
     },
     {
       "stationuuid": "b65b6a15-fede-473f-bb85-a91b31109b42",
@@ -4640,7 +4639,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://securestream.o94.at/live.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.314Z"
     },
     {
       "stationuuid": "b8d80240-6c88-477a-9e28-49b891489265",
@@ -4658,7 +4657,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://museum.streamserver24.com:8080/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "b9230e0b-1bb1-46c0-aa76-d2f55677619e",
@@ -4676,7 +4675,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge07.radio.antennevorarlberg.at/mm-60er70ermegamix",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "ba98cdae-5402-4234-bbdd-ad043324dd69",
@@ -4694,7 +4693,7 @@
       "verdictReason": "audio/mp3",
       "finalUrl": "https://edge.mixlr.com/channel/zwtuo",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.334Z"
+      "probedAt": "2026-06-10T18:06:45.871Z"
     },
     {
       "stationuuid": "baaf6fc4-c6ef-4d19-929b-193dc21e360e",
@@ -4712,7 +4711,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://popwelle.spcast.eu/stream?time=1778776526",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.314Z"
     },
     {
       "stationuuid": "bbd3a015-9cff-4afb-8aed-b011555a4538",
@@ -4731,7 +4730,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge07.streams.arabella.at/arabella-austropop/stream/mp3?aggregator=arabella-playlistfile",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "bc2dca3c-d86f-4d42-b81a-7437945eb0eb",
@@ -4749,7 +4748,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live.radioflamingo.at/rfchristkindl",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "bd78b9ee-a104-4501-99f7-a3f95ef43b11",
@@ -4768,7 +4767,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://orf-live.ors-shoutcast.at/tir-q1a",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "be47349b-0b60-4f84-bea5-8ff225942ca6",
@@ -4786,7 +4785,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge07.streams.arabella.at/arabella-80er?aggregator=arabella-playlistfile",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "be4f6f63-96b0-47cc-9f52-9ace9a7657c5",
@@ -4805,7 +4804,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.radiotechnikum.at/TECHONE",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "bf28dbee-2d33-4f9b-a664-6abdb69777bc",
@@ -4824,7 +4823,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://orf-live.ors-shoutcast.at/stm-q1a",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "bf359dd0-b38e-40e1-87da-2b20e29d12a8",
@@ -4843,7 +4842,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge18.streams.arabella.at/arabella-holiday/stream/mp3?aggregator=arabella-playlistfile",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "c15e7f15-b5b3-4bca-9a42-c97f345ed2f4",
@@ -4862,7 +4861,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streaming.28radio.cc:8000/rock.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.315Z"
     },
     {
       "stationuuid": "c1ca7ee1-2534-4188-ae4d-be40836b59b0",
@@ -4880,7 +4879,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mountainreggaeradio.stream.laut.fm/mountainreggaeradio",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "c21c6fe6-4ac0-11e8-9b06-52543be04c81",
@@ -4898,7 +4897,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://bitcdn-kronehit.bitmovin.com/v2/hls/chunklist_b3128000.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.334Z"
+      "probedAt": "2026-06-10T18:06:45.780Z"
     },
     {
       "stationuuid": "c24d963c-f4b5-4346-8001-ed30af0add6a",
@@ -4917,7 +4916,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://azuracast.datea.services:8000/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "c387efff-e7bc-4e83-b037-5ec04cdc556d",
@@ -4936,7 +4935,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.583Z"
     },
     {
       "stationuuid": "c4a15de4-ce45-401f-bfb1-f98f818a74f0",
@@ -4955,7 +4954,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://orf-live.ors-shoutcast.at/noe-q2a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "c5132bd5-0127-49a9-91a3-f16589381da2",
@@ -4969,11 +4968,11 @@
       "votes": 40,
       "clickcount": 4,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "TypeError: fetch failed — HTTPParserError: Response does not match the HTTP/1.1 protocol (Missing expected CR after response line)",
-      "finalUrl": "https://stream.liferadio.at/80er/mp3-192/stream.liferadio.at/",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:33.596Z"
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (lenient HTTP parse — server violates HTTP/1.1, browsers play it)",
+      "finalUrl": "https://liferadio.streamabc.net/lfr-80er-mp3-192-7435883?sABC=6n298ns7%230%23qpp8p86o98o11s54147qo8579o46q118%23fgernz.yvsrenqvb.ng&aw_0_1st.playerid=stream.liferadio.at&amsparams=playerid:stream.liferadio.at;skey:1781107447",
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "c514f7f1-bc7c-4dd9-a751-49ecc92a487b",
@@ -4991,7 +4990,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://server4.streamserver24.com:43615/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.755Z"
     },
     {
       "stationuuid": "c570eead-2f0d-4cca-bfbf-1e4f607497a4",
@@ -5009,7 +5008,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge11.radio.antennevorarlberg.at/av-rock",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "c64828ba-99b9-407b-bb7f-3f1c184447d2",
@@ -5028,7 +5027,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://u1-tirol.stream43.radiohost.de/u1-tirol-live_mp3-192?upd-meta=1&upd-scheme=https&_art=dD0xNzc4Nzc2ODIwJmQ9Nzc1YTY1MDllYmUyNjYzNzZlODU",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.315Z"
     },
     {
       "stationuuid": "c6660054-be82-4093-8f5d-6be113f63361",
@@ -5047,7 +5046,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://oe1dd.mdn.ors.at/out/u/oe1dd/manifest.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.314Z"
     },
     {
       "stationuuid": "c6f95c04-e9f6-4ed6-b040-3e1a2760b210",
@@ -5065,7 +5064,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge18.streams.arabella.at/arabella-70er?aggregator=arabella-playlistfile",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "c9580558-75fa-4bed-aecd-de069f64af52",
@@ -5082,7 +5081,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://live.gruen-weiss.at/rgw.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "ca707c03-bff9-4c9b-98de-6c8c30318fad",
@@ -5100,7 +5099,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.erf.at:8000/nowradio_320",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:07:06.005Z"
     },
     {
       "stationuuid": "cb37fde6-44dd-4bc3-a57a-3543ff6cc04b",
@@ -5119,7 +5118,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://jazz.w3.at:8000/w3jazz.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "cbd9a2cb-7e37-4362-9eb3-269ed743fc62",
@@ -5138,7 +5137,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://orf-live.ors-shoutcast.at/oe1-q1a",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "cc338f08-2284-412e-b8e1-c055e1145266",
@@ -5156,7 +5155,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://museum.streamserver24.com:8080/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "cd7abbc1-2d25-4313-904e-392f6fee9f77",
@@ -5175,7 +5174,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://27743.live.streamtheworld.com/JOYTURK_ROCK_SC?/",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.583Z"
     },
     {
       "stationuuid": "ce5e3664-f894-11e8-a237-52543be04c81",
@@ -5192,8 +5191,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master_6660.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.334Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.871Z"
     },
     {
       "stationuuid": "ce81296c-e7ac-4290-a2d8-aa961ca4be5c",
@@ -5211,7 +5210,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge07.radio.antennevorarlberg.at/av-italiana",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "ce8cf95d-b9d5-4edd-8d4b-5276b6d1d3b2",
@@ -5229,7 +5228,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge07.radio.antennevorarlberg.at/av-schlagerkult",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "cee9c38a-a2f2-40ef-8926-4c08e9f60279",
@@ -5248,7 +5247,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://orf-live.ors-shoutcast.at/sbg-q2a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "cf49fc02-51c5-4bb2-8bb3-c1f292f60603",
@@ -5266,7 +5265,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge07.radio.antennevorarlberg.at/av-2000er",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "cfe922ac-2063-42b3-9bda-2c115488106d",
@@ -5284,7 +5283,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://museum.streamserver24.com:8080/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "d0d9c01c-5e0d-11ea-be63-52543be04c81",
@@ -5302,8 +5301,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://edge18.streamonkey.net/radio886-hardrock/stream/mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "d18e4111-eb0f-11e9-a96c-52543be04c81",
@@ -5320,8 +5319,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://chromatique-sky.stream.laut.fm/chromatique-sky?t302=2026-05-19_10-11-38&uuid=54edfc73-400c-44f4-a3a6-739e6b7d2f8c",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "d201a851-7526-49ed-8a15-e799a7a03b77",
@@ -5334,11 +5333,11 @@
       "votes": 265,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://streams.norawebstreams.de/oldieparty/mp3-192/vtuner/",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (lenient HTTP parse — server violates HTTP/1.1, browsers play it) (browser auto-upgrade from http://)",
+      "finalUrl": "https://streams.norawebstreams.de/oldieparty/mp3-192/vtuner/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.317Z"
     },
     {
       "stationuuid": "d5a84fa3-0237-4c3b-a1ed-04d8206599ac",
@@ -5357,7 +5356,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://onair.krone.at/kronehit.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:46.358Z"
     },
     {
       "stationuuid": "d6316691-8619-42ae-8dbb-75dfdd7a7eb5",
@@ -5375,7 +5374,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.radiotechnikum.at:80/METALRadio",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "d6baa0a3-feb1-422f-86af-42375f5e7c0a",
@@ -5394,7 +5393,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://orf-live.ors-shoutcast.at/noe-q1a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "d7c16c24-13b6-4baf-bf63-1f8b031b18d9",
@@ -5411,7 +5410,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge69.streamonkey.net/antsalzburg-live",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.855Z"
+      "probedAt": "2026-06-10T18:06:45.971Z"
     },
     {
       "stationuuid": "d86ea7b0-d1bc-4168-8157-4fa8a02b859e",
@@ -5429,7 +5428,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://securestream.o94.at/live.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.314Z"
     },
     {
       "stationuuid": "d8f5a292-7edb-4457-ac55-5c2e92f5df86",
@@ -5448,7 +5447,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s5.radio.co/sa760ba7af/listen",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.476Z"
     },
     {
       "stationuuid": "d96aa077-7c46-408a-bdd4-563a8a7a175d",
@@ -5466,7 +5465,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://s7-webradio.rockantenne.at/rockantenne-oesterreich/stream/aacp",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.334Z"
+      "probedAt": "2026-06-10T18:06:45.781Z"
     },
     {
       "stationuuid": "daa5690c-62e7-4a69-9829-005c501851dd",
@@ -5484,7 +5483,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge18.streams.arabella.at/arabella-gold/stream/mp3?aggregator=arabella-playlistfile",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "dae650e3-101d-42de-917f-28515eac543e",
@@ -5503,7 +5502,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streamt.at:8020/website_tanzlmusi.mp3?ver=800211",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.208Z"
     },
     {
       "stationuuid": "db589e34-16a4-491d-a914-c12d10271c28",
@@ -5522,7 +5521,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://strm112.1.fm/acpl_mobile_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:48.634Z"
     },
     {
       "stationuuid": "dbd87fa6-def3-4d64-81dc-77a30609b49f",
@@ -5541,7 +5540,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://radio.replayscape.com:8064/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.583Z"
     },
     {
       "stationuuid": "dc283171-259f-49d6-91b4-6c10b7b7345a",
@@ -5560,7 +5559,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://secureonair.krone.at/super80s.aac?aggregator=konsole-hp&1755065290412",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "dc7ff21d-0c1a-4f8b-a3a4-f74c70a20916",
@@ -5578,7 +5577,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge08.streamonkey.net/antoesterreich-live",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.855Z"
+      "probedAt": "2026-06-10T18:06:45.916Z"
     },
     {
       "stationuuid": "dd88c141-af6d-46c6-b3d8-7cfc15b59d5a",
@@ -5597,7 +5596,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://stream.dbfmradio.org:8030/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.727Z"
     },
     {
       "stationuuid": "de5bc257-58fc-11e9-a622-52543be04c81",
@@ -5612,11 +5611,11 @@
       "votes": 109,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://live.radiomaria.at:8000/rma2",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://live.radiomaria.at/rma2",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.314Z"
     },
     {
       "stationuuid": "df0568b8-cc3c-4903-aa18-7a04f4b4b401",
@@ -5634,7 +5633,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://edge12.radio.antennevorarlberg.at/av-chillout/stream/mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "df080de4-7260-46e3-b83c-9363f4dbf371",
@@ -5652,7 +5651,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.erf.at:8000/erfplus_96",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:07:06.461Z"
     },
     {
       "stationuuid": "df6d4fe8-6f77-49fc-bb3a-9341e5d9f54c",
@@ -5670,7 +5669,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: edge14.streamonkey.net:443, timeout: 10000ms)",
       "finalUrl": "https://edge14.streamonkey.net/radio886-onair/stream/mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:20:13.633Z"
+      "probedAt": "2026-06-10T18:07:26.543Z"
     },
     {
       "stationuuid": "e0d81bc0-3523-495e-b7a9-797ab955260d",
@@ -5688,7 +5687,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge07.radio.antennevorarlberg.at/av-classicrock/stream/mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "e4f397a7-d8d1-4571-a2b8-4d85c905d978",
@@ -5706,7 +5705,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live.radioflamingo.at/rfplusvolksmusik",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "e56af1d8-ec96-40c7-bb6c-00dc06e3b453",
@@ -5725,7 +5724,7 @@
       "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND streamsrv-austrianpub.kechit.eu",
       "finalUrl": "https://streamsrv-austrianpub.kechit.eu/main_lo",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.830Z"
     },
     {
       "stationuuid": "e58e609b-3712-4136-86cf-5ac872192918",
@@ -5744,7 +5743,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://secureonair.krone.at/eurodance.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "e682fba7-e9ed-4797-af81-eab5658fe2e5",
@@ -5763,7 +5762,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://orf-live.ors-shoutcast.at/wie-q1a",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "e6a7e493-d819-443a-ab67-d1295cbb2f83",
@@ -5780,8 +5779,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live.helsinki.at:8088/live160.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "e723f7f8-0db1-4bc5-a64c-64d8377f9f9a",
@@ -5800,7 +5799,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://orf-live.ors-shoutcast.at/oe3-q2a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "ea06f3ab-dbc8-4791-843c-f52c5ef5510c",
@@ -5819,7 +5818,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://live.antenne.at/rf",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "ea50b1cd-b465-4935-99c5-3c7c0def4495",
@@ -5838,7 +5837,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://orf-live.ors-shoutcast.at/campus-q2a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "ea59d91a-bf84-4650-8817-46bdda4f72a5",
@@ -5857,7 +5856,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streaming.28radio.cc:8000/rock.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.315Z"
     },
     {
       "stationuuid": "eb62bb35-c701-41ec-b661-661412cffaf9",
@@ -5875,7 +5874,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://musikwelle.com:8000/stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.855Z"
+      "probedAt": "2026-06-10T18:06:46.208Z"
     },
     {
       "stationuuid": "ec0240dd-4e43-40e4-b200-b8417ddaf796",
@@ -5893,7 +5892,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://popwelle.spcast.eu/stream?time=1778776527",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.314Z"
     },
     {
       "stationuuid": "ed03bcf5-86d2-45f7-848d-90d67f89e001",
@@ -5912,7 +5911,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://orf-live.ors-shoutcast.at/ooe-q2a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "ee637e36-55c7-4049-b730-40c339d53721",
@@ -5931,7 +5930,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://orf-live-oe3.mdn.ors.at/out/u/oe3/q4a/manifest.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.315Z"
     },
     {
       "stationuuid": "efd3f809-7224-413f-aa8b-18514083209d",
@@ -5949,7 +5948,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://popwellezwei.spcast.eu/stream?time=1778776527",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "f0787305-4e27-4494-b5ae-8f9082301f1a",
@@ -5968,7 +5967,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://orf-live.ors-shoutcast.at/stm-q2a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "f0c824de-4b8e-49ff-a88d-a9590a8a69c2",
@@ -5987,7 +5986,7 @@
       "verdictReason": "application/ogg",
       "finalUrl": "https://streaming.xaok.org/frs.ogg",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.208Z"
     },
     {
       "stationuuid": "f17518d3-624e-4984-b66e-12f576b97c76",
@@ -6006,7 +6005,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streamt.at/radio/8000/blechradio1.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.317Z"
     },
     {
       "stationuuid": "f394515b-9076-4da2-9a03-7eb96a78bc4f",
@@ -6020,11 +6019,11 @@
       "votes": 37,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "TypeError: fetch failed — HTTPParserError: Response does not match the HTTP/1.1 protocol (Missing expected CR after response line)",
-      "finalUrl": "https://stream.liferadio.tirol/live/mp3-192/link",
+      "verdict": "ok",
+      "verdictReason": "audio/aac (lenient HTTP parse — server violates HTTP/1.1, browsers play it)",
+      "finalUrl": "https://liferadio-tirol.streamabc.net/43-lrtirolsimulcast-mp3-192-7141014?sABC=6n298ns6%230%23qpp8p86o98o11s54147qo8579o46q118%23yvax&aw_0_1st.playerid=link&amsparams=playerid:link;skey:1781107446",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:33.132Z"
+      "probedAt": "2026-06-10T18:06:45.313Z"
     },
     {
       "stationuuid": "f4c44f86-7270-462e-8317-fcaa3c5db457",
@@ -6043,7 +6042,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://orf-live.ors-shoutcast.at/campus-q1a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "f4e3ea24-0e68-4d56-b000-611bac9410dd",
@@ -6061,7 +6060,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://radyo.viyanafm.at/1453/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "f861bc69-6e96-4137-86a7-619b02d63690",
@@ -6078,8 +6077,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://edge19.radio.antennevorarlberg.at/av-80er?aggregator=surfmusik",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "f8ccc082-8845-4a7f-94e9-dd781047f0c6",
@@ -6097,7 +6096,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://popwelle.spcast.eu/stream?time=1778776527",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:32.332Z"
+      "probedAt": "2026-06-10T18:06:45.315Z"
     },
     {
       "stationuuid": "f9bc912f-dbd7-4a75-b3af-1a77c2231098",
@@ -6116,7 +6115,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ors-sn02.ors-shoutcast.at/ktn-q1a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "f9e99aae-d4cc-47e3-ac1a-cecc842343a1",
@@ -6135,7 +6134,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streaming.nrjaudio.fm/ouvfydoarp52",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.856Z"
+      "probedAt": "2026-06-10T18:06:46.476Z"
     },
     {
       "stationuuid": "fa4463a4-cedf-490a-b941-3dc56b83d5b6",
@@ -6154,7 +6153,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://orf-live.ors-shoutcast.at/bgl-q1a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "fb631dee-a75a-418d-9719-edbb9f4e2025",
@@ -6173,7 +6172,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://orf-live-oe1.mdn.ors.at/out/u/oe1/q3a/manifest.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.333Z"
+      "probedAt": "2026-06-10T18:06:45.316Z"
     },
     {
       "stationuuid": "fc15266a-ed42-4f1d-bacf-733f545514be",
@@ -6191,7 +6190,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge07.radio.antennevorarlberg.at/av-90er",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     },
     {
       "stationuuid": "fd7406a5-0093-4e55-9e7f-ba6caa9f02a1",
@@ -6208,7 +6207,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge63.radio.antennevorarlberg.at/av-live?listenerId=%5BIFA%5D&aw_0_req.userConsentV2=%5BPLAYER_TC_STRING%5D&aggregator=Webplayer",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.855Z"
+      "probedAt": "2026-06-10T18:06:46.054Z"
     },
     {
       "stationuuid": "feba5bdf-4bf0-4343-932d-98d1b452b979",
@@ -6227,7 +6226,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://m1.stream.laut.fm/m1?t302=2026-05-14_16-35-31&uuid=b132ef41-2ded-4c48-b895-0ba6e8e2f109",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:32.303Z"
+      "probedAt": "2026-06-10T18:06:45.287Z"
     }
   ]
 }

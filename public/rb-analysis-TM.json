@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-19T17:48:32.787Z",
+  "generatedAt": "2026-06-10T19:43:39.894Z",
   "country": "TM",
   "rawSnapshotAt": "2026-05-19T07:51:25.024Z",
   "total": 6,
   "playable": 5,
   "broken": 1,
-  "curated": 0,
+  "curated": 2,
   "byVerdict": {
     "ok": 4,
     "ok-hls": 1,
@@ -29,7 +29,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:48:32.783Z"
+      "probedAt": "2026-06-10T19:43:39.549Z"
     },
     {
       "stationuuid": "44d07a12-8e3d-4721-875b-8a435d4690d1",
@@ -48,7 +48,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://178.32.4.127:8358/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:48:32.783Z"
+      "probedAt": "2026-06-10T19:43:39.874Z"
     },
     {
       "stationuuid": "66b95d12-443d-4304-92cb-0efffd111b65",
@@ -65,8 +65,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://turkmedya-live.ercdn.net/tv24/tv24_720p.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:48:32.783Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:43:39.549Z"
     },
     {
       "stationuuid": "6e5eaddc-0afa-4e20-817d-3802475d7c07",
@@ -85,7 +85,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://eu8.fastcast4u.com/proxy/ugur4129?mp=/1",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:48:32.783Z"
+      "probedAt": "2026-06-10T19:43:39.549Z"
     },
     {
       "stationuuid": "d5b40b49-b53b-43ce-b310-457182a6cf90",
@@ -103,8 +103,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://hayatmix.net/;yayin.mp3/;",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:48:32.782Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:43:39.548Z"
     },
     {
       "stationuuid": "ffbb6a33-a356-4143-a13c-95c8c8caddc4",
@@ -122,7 +122,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://qurango.net/radio/mahmoud_khalil_alhussary_warsh",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:48:32.783Z"
+      "probedAt": "2026-06-10T19:43:39.549Z"
     }
   ]
 }

@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-05-19T17:44:16.870Z",
+  "generatedAt": "2026-06-10T19:29:39.715Z",
   "country": "PT",
   "rawSnapshotAt": "2026-05-19T07:51:07.799Z",
   "total": 321,
-  "playable": 210,
-  "broken": 111,
-  "curated": 151,
+  "playable": 213,
+  "broken": 108,
+  "curated": 170,
   "byVerdict": {
-    "broken-mixed": 104,
+    "broken-mixed": 102,
     "ok-hls": 35,
-    "ok": 175,
+    "ok": 178,
     "broken-tls": 4,
-    "broken-timeout": 2,
+    "broken-timeout": 1,
     "broken-4xx": 1
   },
   "stations": [
@@ -32,7 +32,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/antena280a/playlist.m3u8?DVR",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "033bc3a2-10c6-4946-bccf-b738878863cb",
@@ -50,7 +50,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiocast.rtp.pt/antena280a.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "05c2a7c6-02c4-4cd1-a2c7-b9ffe722fe06",
@@ -68,7 +68,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s2.radio.co/s0ddea4a53/listen",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.244Z"
     },
     {
       "stationuuid": "0602f873-4a47-4536-9039-bbbdee1ecc1d",
@@ -86,7 +86,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-icy.bauermedia.pt/m80.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "06b3a0bc-3feb-474e-931a-719d30399af8",
@@ -104,7 +104,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-icy.bauermedia.pt/m80dance.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "06efe05f-7471-49b2-85b3-fcbecd8ebc4e",
@@ -120,8 +120,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade after redirect to http://)",
       "finalUrl": "https://n0e.radiojar.com/dxkmh6hv1f8uv?1651072328=&rj-tok=AAABnkA9bKMA_f2j5fBpvR9jNw&rj-ttl=5",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:29:16.908Z"
     },
     {
       "stationuuid": "07059fbf-b328-4fe6-8808-43fc2ed2e32d",
@@ -140,7 +140,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://centova.radio.com.pt/proxy/572?mp=/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "070c21d8-f919-4c30-aac3-63de93a0d579",
@@ -159,7 +159,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/antena3madeira80a/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "0a189e2f-e3d0-4a70-8e67-750c0087e1f1",
@@ -178,7 +178,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/lusitania80a/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "0a5d4c22-8d26-405b-be94-fc5d62d90da5",
@@ -197,7 +197,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://centova.radio.com.pt/proxy/484?mp=/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "0aed61c5-962f-4999-8a68-653d37834e41",
@@ -216,7 +216,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://centova.radio.com.pt/proxy/522?mp=/stream&1715267171",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "0b5ba280-1823-4b72-bd01-10e3efb2ac20",
@@ -235,7 +235,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/antena2jazzin80a/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "0bb91b7b-fd13-487f-b645-87f6d6d7b4d2",
@@ -254,7 +254,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/antena180a/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "0d3906bb-5170-43ba-b6b6-9647f7a515a4",
@@ -272,7 +272,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-icy.bauermedia.pt/m80.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "0d4692f8-7653-4ee4-b939-f3970f9762d0",
@@ -290,7 +290,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: c30.radioboss.fm:18510, timeout: 10000ms)",
       "finalUrl": "https://c30.radioboss.fm:18510/stream?1655151777664",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:44:16.858Z"
+      "probedAt": "2026-06-10T19:29:37.439Z"
     },
     {
       "stationuuid": "0dfc4377-1bb4-4a20-ba77-d0b4df0e488b",
@@ -308,8 +308,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rs2.ptservidor.com/proxy/carlos31?mp=/stream?type=.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:29:15.245Z"
     },
     {
       "stationuuid": "0f4f1565-e7cc-4705-abc7-2593d3b38de6",
@@ -327,8 +327,8 @@
       "verdict": "broken-tls",
       "verdictReason": "TypeError: fetch failed — Error: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca",
       "finalUrl": "https://play.radioregional.pt:8210/stream/2/;/stream.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:29:17.417Z"
     },
     {
       "stationuuid": "10df8eab-7994-4f3d-a615-05eb77e105bc",
@@ -347,7 +347,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://22593.live.streamtheworld.com/RFMAAC.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.244Z"
     },
     {
       "stationuuid": "11bbe5f0-e0b3-408b-859c-97a6fb7eb313",
@@ -366,7 +366,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://a6.asurahosting.com:7930/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.245Z"
     },
     {
       "stationuuid": "13b45d2a-ef33-4b41-8eec-b206583eaccc",
@@ -383,8 +383,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://radiocast.rtp.pt/antena2opera80a.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "17022766-6ebe-469e-aa46-19f9293cc6ba",
@@ -403,7 +403,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://centova.radios.pt/proxy/495?mp=/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.243Z"
     },
     {
       "stationuuid": "1aa67c97-6108-4085-871b-28e589644de8",
@@ -421,7 +421,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://streaming-live-app.rtp.pt/liveradio/antena280a/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "1ac20829-1ca7-4abe-bd7f-b8dcd835b29b",
@@ -440,7 +440,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-icy.bauermedia.pt/m8060.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "1b7e5f98-48e2-45f6-b641-c2145719fb77",
@@ -459,7 +459,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radios.pt:9496/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:17.028Z"
     },
     {
       "stationuuid": "1dd472ee-1851-4698-ae1a-097e872df7cb",
@@ -478,7 +478,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streaming.brol.tech/rtfmlounge",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.726Z"
     },
     {
       "stationuuid": "1e253208-7861-43fd-a9df-8fbc45d4fccf",
@@ -496,7 +496,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://148.251.43.149:8181/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.206Z"
+      "probedAt": "2026-06-10T19:29:18.345Z"
     },
     {
       "stationuuid": "1e7aaace-06eb-4181-86b9-a5af7963dd14",
@@ -514,7 +514,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-179.zeno.fm/rwmao7mxxt8vv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJyd21hbzdteHh0OHZ2IiwiaG9zdCI6InN0cmVhbS0xNzkuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoibTkyYWwtOVBTM1NIbzk1ekp6R3ZRdyIsImlhdCI6MTc3NzUzMjcwNiwiZXhwIjoxNzc3NTMyNzY2fQ.fj9uw6taejSD4KteCJzWcP3A8jU_7tdpbyMphMxlkYg",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "1f86fce1-5d79-4c52-b06e-462cabb5da26",
@@ -532,7 +532,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiometalon.com/listen/radio_metal_on_toxic/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "20002015-dd09-430c-a986-d085c84840a6",
@@ -550,7 +550,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://sp0.redeaudio.com:9844/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.206Z"
+      "probedAt": "2026-06-10T19:29:18.671Z"
     },
     {
       "stationuuid": "206b4dd9-d3b4-43d5-a775-fcf3a0213289",
@@ -569,7 +569,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream2.soundflux.eu:8440/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.243Z"
     },
     {
       "stationuuid": "20d0b43e-bd9a-435e-b5b3-9e66774866ca",
@@ -583,11 +583,11 @@
       "votes": 10,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-timeout",
-      "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: radioparalelo.indymedia.pt:8443, timeout: 10000ms)",
+      "verdict": "ok",
+      "verdictReason": "application/ogg",
       "finalUrl": "https://radioparalelo.indymedia.pt:8443/main.ogg",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:44:16.858Z"
+      "probedAt": "2026-06-10T19:29:18.750Z"
     },
     {
       "stationuuid": "20f7728c-1d68-47ba-8f5a-b3627f8354b7",
@@ -605,8 +605,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://streaming-live-app.rtp.pt/liveradio/antena280a/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "23533638-2a48-44ad-abe3-d7d931fe6232",
@@ -625,7 +625,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ec2.yesstreaming.net:3025/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.243Z"
     },
     {
       "stationuuid": "2400fd7c-54f9-426e-bf3a-077b7d559d53",
@@ -644,7 +644,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://centova.radio.com.pt/proxy/522?mp=/stream&1715267171",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "25847e5e-2769-478a-9bb3-a9ae9b8a0a9e",
@@ -663,7 +663,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://audio.serv.pt/8012/stream.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "264afd2f-8aa2-40c1-a5c5-b4ef1627e7be",
@@ -682,7 +682,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/rdpafrica80a/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "26592f49-564a-402c-8123-19dc8d496271",
@@ -700,7 +700,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-icy.bauermedia.pt/smooth.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "26cf6195-4b57-4f9f-aeff-36496b0a55c0",
@@ -718,7 +718,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-icy.bauermedia.pt/m80rock.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "282ac845-f97c-401b-a5ba-2e2c2a2e0d15",
@@ -737,7 +737,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/antena380a/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "291257ce-928c-4471-96a0-f33d22950519",
@@ -756,7 +756,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://a1.asurahosting.com:9360/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.206Z"
+      "probedAt": "2026-06-10T19:29:18.048Z"
     },
     {
       "stationuuid": "2921e1d9-a581-4799-a380-d2b8268044f5",
@@ -775,7 +775,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://27793.live.streamtheworld.com/LIVESTREAMAAC.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.244Z"
     },
     {
       "stationuuid": "29253686-6979-43f2-9768-68b1bdf558b4",
@@ -794,7 +794,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://replaynewspt.ice.infomaniak.ch/replaynewspt-128.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.206Z"
+      "probedAt": "2026-06-10T19:29:18.048Z"
     },
     {
       "stationuuid": "29489790-0b8a-47d7-9b9d-630ebd9934fd",
@@ -813,7 +813,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/antena1madeira80a/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "2a0fb11e-f91a-4553-bfff-3861a1de8fb9",
@@ -831,7 +831,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://185.32.188.17:8097/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:36.132Z"
     },
     {
       "stationuuid": "2ac1284f-231a-4516-939b-939b193b6565",
@@ -849,7 +849,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-icy.bauermedia.pt/m8070.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "2b501db4-e4b6-4106-9670-9875536f70f1",
@@ -868,7 +868,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream-hls.bauermedia.pt/comercial.aac/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "2d2dcc6a-6761-40b9-9eb2-3d3df0a65c53",
@@ -887,7 +887,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://audio.serv.pt/8010/stream.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "2d4d495b-f10e-4563-b9e4-4c3b18d4a067",
@@ -904,8 +904,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://22673.live.streamtheworld.com/MEGA_HITS_SC",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "2fe99714-e9ca-4bc0-aa0e-d97169efaef5",
@@ -924,7 +924,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://27753.live.streamtheworld.com/RFM_JAZZYAAC.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.468Z"
     },
     {
       "stationuuid": "30a09972-730a-42d8-8614-c9148b05992f",
@@ -942,7 +942,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiometalon.com/listen/radio_metal_on_the_thrasher/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "30c9039c-85ca-4c00-80d0-d482ae637e34",
@@ -960,7 +960,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiocast.rtp.pt/antena380a.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "3101c0b2-bdef-4a97-9e1a-062abf175bcf",
@@ -979,7 +979,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://nl.digitalrm.pt:8238/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.726Z"
     },
     {
       "stationuuid": "311a0770-f57b-42fe-9de4-9c8fdc7b84e1",
@@ -997,7 +997,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream-hls.bauermedia.pt/cidade.aac/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "31691688-2a1a-4fea-b67c-ac94980c4c74",
@@ -1016,7 +1016,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://22593.live.streamtheworld.com/RADIO_RENASCENCAAAC.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.244Z"
     },
     {
       "stationuuid": "32261346-3238-4017-b9de-61d86b4bbb31",
@@ -1035,7 +1035,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://25343.live.streamtheworld.com/GR80SRFMAAC.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "326c6f7c-08d6-49da-9a4b-a6a634e77e3f",
@@ -1054,7 +1054,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/antena1acores80a/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "335ac3e2-b88b-45cb-b8b8-044b9f248273",
@@ -1072,7 +1072,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://185.32.188.17:8065/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:38.442Z"
     },
     {
       "stationuuid": "342f46c4-b48b-4813-b0d3-27b6e33f3a41",
@@ -1090,7 +1090,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-icy.bauermedia.pt/smooth.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "34760786-80a0-4057-99a1-85f2d8fd2338",
@@ -1109,7 +1109,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://23543.live.streamtheworld.com/OCEANPACIFICAAC.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.060Z"
     },
     {
       "stationuuid": "3554c721-9e45-4214-aa7e-ae0f00c19677",
@@ -1128,7 +1128,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://185.11.164.106:35022/stream?type=mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.751Z"
     },
     {
       "stationuuid": "37bb28eb-8a16-45cd-a052-4404d7702eae",
@@ -1147,7 +1147,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://player.radiocalheta.pt/listen/radiocalheta/live",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.206Z"
+      "probedAt": "2026-06-10T19:29:18.054Z"
     },
     {
       "stationuuid": "3bb603f7-e703-4a95-949b-f96e7f85a2a8",
@@ -1166,7 +1166,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://proic1.redeaudio.com/ein",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.835Z"
     },
     {
       "stationuuid": "3be30d15-6f8e-41a6-bc66-dfe60cc25111",
@@ -1184,7 +1184,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s2.radio.co/s0ddea4a53/listen",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.244Z"
     },
     {
       "stationuuid": "3c2088db-2e05-4ff2-a653-a4f1a3c96c49",
@@ -1203,7 +1203,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radios2.justweb.pt:8068/stream?type=http&nocache=82",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.206Z"
+      "probedAt": "2026-06-10T19:29:18.048Z"
     },
     {
       "stationuuid": "3dc62a25-5ade-447c-8ded-c340d9f5fe95",
@@ -1221,7 +1221,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stm7.xradios.com.br:6944/live",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.206Z"
+      "probedAt": "2026-06-10T19:29:18.054Z"
     },
     {
       "stationuuid": "3debf7a7-1032-4bc0-b200-929aba93a2c8",
@@ -1239,7 +1239,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://185.118.112.12:8028/live",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:38.135Z"
     },
     {
       "stationuuid": "40e31aa5-7f90-44be-b290-6ea6cb44f0e6",
@@ -1258,7 +1258,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://27793.live.streamtheworld.com/RFM_PORTUGALAAC.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.244Z"
     },
     {
       "stationuuid": "42c17a78-76d2-4c25-9350-ad8b6df014c3",
@@ -1277,7 +1277,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://proic1.evspt.com/oxigenio_aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.653Z"
     },
     {
       "stationuuid": "4433ce8a-6be4-11e9-af37-52543be04c81",
@@ -1295,7 +1295,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://109.71.41.6:8129/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:36.940Z"
     },
     {
       "stationuuid": "44cb20dc-e9ac-41ef-a4fe-153d48fcdd96",
@@ -1313,7 +1313,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-icy.bauermedia.pt/comercial.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "4694a5fd-c9e9-439d-94c6-c2aeb8f17171",
@@ -1331,7 +1331,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://nl.digitalrm.pt:8048/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.835Z"
     },
     {
       "stationuuid": "46caa663-278f-44e5-b746-36369d7c2765",
@@ -1348,7 +1348,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://s1.nexuscast.com:8135/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.745Z"
     },
     {
       "stationuuid": "46dc6e29-8390-44f3-9d83-ff59d4a41fd9",
@@ -1367,7 +1367,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radios.pt:8401/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.974Z"
     },
     {
       "stationuuid": "46f17b0b-d886-48ee-b6ae-e3e1c76a021f",
@@ -1386,7 +1386,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s9.yesstreaming.net:9066/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.206Z"
+      "probedAt": "2026-06-10T19:29:18.054Z"
     },
     {
       "stationuuid": "4793cb1d-3628-49d8-b71f-77eb59ec4158",
@@ -1405,7 +1405,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/antena2opera80a/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "49ae1b6c-c47e-434a-84f0-4a46af3c3c9f",
@@ -1423,7 +1423,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9422/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.117Z"
     },
     {
       "stationuuid": "49ba09e7-ffcf-4124-b556-e75bb5623c5a",
@@ -1442,7 +1442,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s4.radio.co/s7e7b6c165/listen",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.101Z"
     },
     {
       "stationuuid": "4a8828ff-1834-4790-8388-fc7758729ef1",
@@ -1459,8 +1459,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://29043.live.streamtheworld.com/RFM.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "4b323f8e-cb0b-4db6-8c28-21269186e25a",
@@ -1478,7 +1478,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://centova.radio.com.pt/proxy/456?mp=/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "4c3d781a-16b7-4b9f-ac61-66b54c97f23c",
@@ -1496,7 +1496,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radios.justweb.pt/8034/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "4d7f4936-d129-4c3f-bb99-1a52798668bb",
@@ -1515,7 +1515,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://audio.serv.pt/8020/stream.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "4e6095bf-bee9-4a54-a910-3e620f22c921",
@@ -1534,7 +1534,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radios.pt:9528/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.257Z"
     },
     {
       "stationuuid": "53beea5d-890e-42c3-9e87-ce515481d478",
@@ -1553,7 +1553,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://22733.live.streamtheworld.com/RFM_FRESCASAAC.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.206Z"
+      "probedAt": "2026-06-10T19:29:18.048Z"
     },
     {
       "stationuuid": "53ef1268-a1f2-4d6f-beaf-6cec98b8fac8",
@@ -1571,8 +1571,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.ruc.pt/high",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:29:17.710Z"
     },
     {
       "stationuuid": "5446bdeb-b081-413d-9552-42f1b16048b7",
@@ -1589,7 +1589,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/antena180a/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "56db1998-4d48-42b4-a424-bfcec290aeb3",
@@ -1608,7 +1608,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://audio.serv.pt/8012/stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "573f009c-11d4-48db-b006-d1e8cb9df6a1",
@@ -1626,7 +1626,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://sv15.hdradios.net:7432/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.583Z"
     },
     {
       "stationuuid": "5848aa9f-1e09-425a-9609-b76686144681",
@@ -1645,7 +1645,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-icy.bauermedia.pt/m8090.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "5d32ec38-94ca-4e94-80f4-4deff25c9155",
@@ -1664,7 +1664,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8445/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.116Z"
     },
     {
       "stationuuid": "5e1ddf7e-8bbd-11e9-ad01-52543be04c81",
@@ -1682,7 +1682,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://109.71.41.6:8020/live",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:37.942Z"
     },
     {
       "stationuuid": "5e7299f0-becd-4f5b-ba63-f923e63e60b7",
@@ -1700,8 +1700,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://stream-icy.bauermedia.pt/batidafm.aac",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "600ffae3-2f25-4e3b-bc46-b37c965f003e",
@@ -1720,7 +1720,7 @@
       "verdictReason": "audio/aac; charset=UTF-8",
       "finalUrl": "https://mpc.my-control-panel.eu/stream/radioatalaia",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.245Z"
     },
     {
       "stationuuid": "60f9ae91-af89-4a97-980d-5ead2a654c3e",
@@ -1739,7 +1739,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://streaming-live-app.rtp.pt/liveradio/antena280a/playlist.m3u8?DVR",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "644f28f1-928a-4fc8-8f69-789476f9fafa",
@@ -1758,7 +1758,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen.radioking.com/radio/540161/stream/598784",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:16.908Z"
     },
     {
       "stationuuid": "645c7030-4baa-4497-8f98-aeccc4c34160",
@@ -1777,7 +1777,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ec2.yesstreaming.net:3025/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.243Z"
     },
     {
       "stationuuid": "65b0683c-6952-4ded-b542-439abaddddaf",
@@ -1796,7 +1796,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radios.pt:8499/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.724Z"
     },
     {
       "stationuuid": "65c2e90d-0705-484c-9958-17af11871333",
@@ -1815,7 +1815,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://radiolisboa.ddns.net:8080/stream/1/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:36.940Z"
     },
     {
       "stationuuid": "65c33fc8-8710-438d-a309-308ba6db729d",
@@ -1834,7 +1834,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://25343.live.streamtheworld.com/RFM_90SAAC.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "668bc1d4-f8a3-4555-81b8-337185338ea0",
@@ -1853,7 +1853,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radios.pt:9528/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.042Z"
     },
     {
       "stationuuid": "67759513-b3f7-4e70-a8cd-bfa8d690b0a3",
@@ -1869,7 +1869,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-285.zeno.fm/1wux17cbfkcuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiIxd3V4MTdjYmZrY3V2IiwiaG9zdCI6InN0cmVhbS0yODUuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiSzh2Vlk4QmJRT2lzNjhnV0FjRG9pUSIsImlhdCI6MTc3NzUzMjcxMSwiZXhwIjoxNzc3NTMyNzcxfQ.dwNM1If92c3bFHiu7uzvuudfnLasa9nohJHJf0tOvqI",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "68c6b8fb-5bdb-44ae-b72d-43e90ccd66cd",
@@ -1888,7 +1888,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://27823.live.streamtheworld.com/OBSERVADORAAC.aac?dist=web-popup&devicename=aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "6914c3b5-8e88-47e1-b02d-4bb6b587fe49",
@@ -1906,8 +1906,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://centova.radios.pt/proxy/404?mp=/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:29:15.243Z"
     },
     {
       "stationuuid": "69157655-60d8-4a46-8088-764482b9eb73",
@@ -1926,7 +1926,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-288.zeno.fm/uierv6xfiqfuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ1aWVydjZ4ZmlxZnV2IiwiaG9zdCI6InN0cmVhbS0yODguemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoialczbnhZeW5UUXFob1ZTS0RuMTBSZyIsImlhdCI6MTc3NzUzMjY5MywiZXhwIjoxNzc3NTMyNzUzfQ.A6N4hPK7DuSV_PC1yelayePwbCLATyvQqN8gMSI5RLI",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.030Z"
     },
     {
       "stationuuid": "696e8bf6-3f39-4e8a-b31f-babc5ae3ed8a",
@@ -1944,7 +1944,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.radioamorportugal.com:8443/rap.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.243Z"
     },
     {
       "stationuuid": "6994316a-465d-40de-a567-1256216e270d",
@@ -1962,7 +1962,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://eu6.fastcast4u.com:5002/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:36.095Z"
     },
     {
       "stationuuid": "6aa4ea78-cef7-437f-9715-dee1e737c75f",
@@ -1980,7 +1980,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://cast.redewt.net:9141/live",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:37.700Z"
     },
     {
       "stationuuid": "6c1ef496-8fd1-4f93-b0f7-30ac6032bb34",
@@ -1996,7 +1996,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-285.zeno.fm/ppgb4k7vhqztv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJwcGdiNGs3dmhxenR2IiwiaG9zdCI6InN0cmVhbS0yODUuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiOXp5aFowU3ZSOXFYYzJjcjVYOEdCZyIsImlhdCI6MTc3NzUzMjY5MywiZXhwIjoxNzc3NTMyNzUzfQ.UfdHxK0NeOEjNgKRTUC-bv582nU8quHZrnsuaI2VSmg",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.927Z"
     },
     {
       "stationuuid": "6c9775e4-f815-4d3e-9e13-f1d7cd9138fb",
@@ -2011,8 +2011,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream-290.zeno.fm/4nc1mzdp81xuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiI0bmMxbXpkcDgxeHV2IiwiaG9zdCI6InN0cmVhbS0yOTAuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoidDBucDNQU1BSMG11VVJUb0dDNEg5QSIsImlhdCI6MTc3OTE5MzYxOCwiZXhwIjoxNzc5MTkzNjc4fQ.2C4x4n9rtuvoWCO1DuTGxOyhCXyTCLP05-wBenCER8Y",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "6ee0cdcf-5d4c-4c29-9372-94a853110dec",
@@ -2030,7 +2030,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://streaming-live-app.rtp.pt/liveradio/antena380a/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "6f464a35-f408-4bac-9a5c-431f6cb8e560",
@@ -2047,7 +2047,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-176.zeno.fm/fr2jctsxjw9tv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJmcjJqY3RzeGp3OXR2IiwiaG9zdCI6InN0cmVhbS0xNzYuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiaXV6dWZTaFBUTy1Db0Jhck5lRWFnQSIsImlhdCI6MTc3NzUzMjcxMCwiZXhwIjoxNzc3NTMyNzcwfQ.SzaU92dMy_bfHlCkyhStZ0cXPm9TblEZPN3GPBCI8sY",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "704298d4-fbfc-424a-85c0-25937cde9814",
@@ -2066,7 +2066,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://25693.live.streamtheworld.com/RFM_LATINASAAC.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.710Z"
     },
     {
       "stationuuid": "70f4ade6-731f-40cf-b215-aadf26deb2c2",
@@ -2084,7 +2084,7 @@
       "verdictReason": "HTTP 404",
       "finalUrl": "https://nigga.pt/ambient.ogg",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.698Z"
     },
     {
       "stationuuid": "7119e56e-a767-4b1a-b31e-6f39d2d9c030",
@@ -2103,7 +2103,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-icy.bauermedia.pt/m80indie.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "7293d8f3-941d-4a7b-ace0-01c9584410f0",
@@ -2122,7 +2122,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://streaming-live-app.rtp.pt/liveradio/antena180a/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "7365e570-cacc-4e43-a38b-533bb0b70236",
@@ -2141,7 +2141,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cast.redewt.net:9825/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.259Z"
     },
     {
       "stationuuid": "77382bc6-0201-48f1-a1c6-8613a2848e91",
@@ -2159,7 +2159,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://nl.digitalrm.pt:8216/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.245Z"
     },
     {
       "stationuuid": "7b56337d-048b-4545-ba70-704e37cdba7a",
@@ -2178,7 +2178,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://sp0.redeaudio.com/8154/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "7b6c8b15-4fa1-4a11-a737-d34a8b428151",
@@ -2196,8 +2196,8 @@
       "verdict": "broken-tls",
       "verdictReason": "TypeError: fetch failed — Error: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca",
       "finalUrl": "https://play.radioregional.pt:8220/stream/2/;;/stream.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:29:15.561Z"
     },
     {
       "stationuuid": "7bc1f66f-412d-484b-82eb-b7b1c4575faa",
@@ -2216,7 +2216,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-icy.bauermedia.pt/m8080.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "7d385089-1f17-493d-8f54-7f387ccf8d22",
@@ -2234,7 +2234,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://centova.radios.pt/proxy/499?mp=/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.243Z"
     },
     {
       "stationuuid": "7ff5d7ae-29e3-4010-a6e4-35b14bdb79db",
@@ -2253,7 +2253,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://centova.radio.com.pt/proxy/426?mp=/stream;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "814f01c9-f4df-44e0-9198-6c78a5c6d131",
@@ -2272,7 +2272,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.streemlion.com:4870/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.075Z"
     },
     {
       "stationuuid": "82205a6f-7b49-457a-b68c-b84e6a783f60",
@@ -2291,7 +2291,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rs2.ptservidor.com/proxy/mediawis?mp=/stream?type=.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.245Z"
     },
     {
       "stationuuid": "8267a9f9-e776-4b59-90e5-1179dfe1ad40",
@@ -2310,7 +2310,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/antena180a/playlist.m3u8?DVR",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "856155ee-f434-4a45-9225-391c0e618b8b",
@@ -2329,7 +2329,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://23603.live.streamtheworld.com/RFMAAC.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.245Z"
     },
     {
       "stationuuid": "898410ff-8421-44fb-81f2-0090c287881d",
@@ -2348,7 +2348,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.streemlion.com:4515/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.435Z"
     },
     {
       "stationuuid": "89938c58-5bd1-4e86-897c-f3b5e046aaf6",
@@ -2366,7 +2366,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://nl.digitalrm.pt:8028/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.726Z"
     },
     {
       "stationuuid": "89bd8b04-11c9-42bf-a374-e5eb3b7b8f22",
@@ -2385,7 +2385,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://live.top80.fm:8086/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.872Z"
     },
     {
       "stationuuid": "8a2b7baa-6da9-4c13-b74b-ec1c7367bbb9",
@@ -2404,7 +2404,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://audio.serv.pt/8018/stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "8c6284d7-e302-40d5-a5b1-445be570a492",
@@ -2423,7 +2423,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://185.11.164.106:35022/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.600Z"
     },
     {
       "stationuuid": "8c98cd6c-1066-451a-801e-3cb7ad908dfb",
@@ -2439,7 +2439,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream-290.zeno.fm/4nc1mzdp81xuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiI0bmMxbXpkcDgxeHV2IiwiaG9zdCI6InN0cmVhbS0yOTAuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiOUM1V3duWkFUVGFOWFkycGM2aGFVZyIsImlhdCI6MTc3OTE5MzYzOCwiZXhwIjoxNzc5MTkzNjk4fQ.YMgYyI2yIqePvhw8WsPen_UibtmoIqO_HvgyI265r0k",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "8d71b081-833c-4ab2-a8a2-ada5d85cf0a1",
@@ -2458,7 +2458,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-icy.bauermedia.pt/rctuga.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "8d7f68a9-d1c8-4a49-ad3e-69e56db8d280",
@@ -2476,7 +2476,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-icy.bauermedia.pt/m80soul.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "8e35a2a7-3f57-48c6-b625-8da896e5a243",
@@ -2494,7 +2494,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://centova.radio.com.pt/proxy/551?mp=/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "8e3f5870-917d-4b68-85ce-dcacc4e9c4be",
@@ -2513,7 +2513,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://audio.serv.pt/8014/stream.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "8e55decb-7729-430f-9a8e-92b057e75aab",
@@ -2532,7 +2532,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://nl.digitalrm.pt:8182/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.726Z"
     },
     {
       "stationuuid": "8e68b774-36ee-4d3b-a44c-3d3b54f1bfc5",
@@ -2549,8 +2549,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://nl.digitalrm.pt:8184/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:29:18.003Z"
     },
     {
       "stationuuid": "909735da-70e8-4527-b771-52793d9f0086",
@@ -2569,7 +2569,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/antena180a/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "91200ce0-a62d-43ec-b948-bde6789433e6",
@@ -2588,7 +2588,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/rdpint80a/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "91b76901-a68a-42d9-b70e-c57e01bf47a6",
@@ -2607,7 +2607,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://2000.streeemer.com/listen/2000s/radio.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.259Z"
     },
     {
       "stationuuid": "91c924a8-bcb7-4916-83f6-7dbb7e0c1876",
@@ -2625,7 +2625,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radios.justweb.pt/8074/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "926c32c4-b808-4c0c-98b4-b93bd59b8594",
@@ -2643,7 +2643,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ec2.yesstreaming.net:3705/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.245Z"
     },
     {
       "stationuuid": "947e85f8-f8af-42df-bd6f-1d6549bc094b",
@@ -2661,7 +2661,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiometalon.com/listen/radio_metal_on_80s_hnh/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "960bcef5-0601-11e8-ae97-52543be04c81",
@@ -2679,7 +2679,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9456/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.519Z"
     },
     {
       "stationuuid": "96105626-0601-11e8-ae97-52543be04c81",
@@ -2698,7 +2698,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8499/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.060Z"
     },
     {
       "stationuuid": "96143c96-0601-11e8-ae97-52543be04c81",
@@ -2716,7 +2716,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9544/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.836Z"
     },
     {
       "stationuuid": "9618739f-0601-11e8-ae97-52543be04c81",
@@ -2735,7 +2735,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9478/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.973Z"
     },
     {
       "stationuuid": "96189b23-0601-11e8-ae97-52543be04c81",
@@ -2753,7 +2753,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8407/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.908Z"
     },
     {
       "stationuuid": "9618a279-0601-11e8-ae97-52543be04c81",
@@ -2771,7 +2771,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8419/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.468Z"
     },
     {
       "stationuuid": "9618a6f6-0601-11e8-ae97-52543be04c81",
@@ -2789,7 +2789,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8567/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.468Z"
     },
     {
       "stationuuid": "9618a87b-0601-11e8-ae97-52543be04c81",
@@ -2807,7 +2807,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radios.pt:8401/;listen.pls",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.398Z"
     },
     {
       "stationuuid": "9618e5ff-0601-11e8-ae97-52543be04c81",
@@ -2826,7 +2826,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8445/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.912Z"
     },
     {
       "stationuuid": "9618e6cb-0601-11e8-ae97-52543be04c81",
@@ -2845,7 +2845,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://195.23.85.126:9500/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.039Z"
     },
     {
       "stationuuid": "9618e7a0-0601-11e8-ae97-52543be04c81",
@@ -2864,7 +2864,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://22653.live.streamtheworld.com/RADIO_RENASCENCA_SC",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.245Z"
     },
     {
       "stationuuid": "9618e93b-0601-11e8-ae97-52543be04c81",
@@ -2879,11 +2879,11 @@
       "votes": 6694,
       "clickcount": 17,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://22333.live.streamtheworld.com:3690/MEGA_HITS_SC",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://22333.live.streamtheworld.com/MEGA_HITS_SC",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:36.482Z"
     },
     {
       "stationuuid": "9618efdc-0601-11e8-ae97-52543be04c81",
@@ -2902,7 +2902,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8475/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.710Z"
     },
     {
       "stationuuid": "96190b45-0601-11e8-ae97-52543be04c81",
@@ -2921,7 +2921,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://109.71.41.6:8026/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.600Z"
     },
     {
       "stationuuid": "96190d7e-0601-11e8-ae97-52543be04c81",
@@ -2940,7 +2940,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8495/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.030Z"
     },
     {
       "stationuuid": "96190e3e-0601-11e8-ae97-52543be04c81",
@@ -2959,7 +2959,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9496/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.932Z"
     },
     {
       "stationuuid": "961911ef-0601-11e8-ae97-52543be04c81",
@@ -2978,7 +2978,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9506/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.765Z"
     },
     {
       "stationuuid": "96191361-0601-11e8-ae97-52543be04c81",
@@ -2996,7 +2996,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9566/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.268Z"
     },
     {
       "stationuuid": "96192646-0601-11e8-ae97-52543be04c81",
@@ -3015,7 +3015,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8485/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.101Z"
     },
     {
       "stationuuid": "96192def-0601-11e8-ae97-52543be04c81",
@@ -3034,7 +3034,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9404/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.689Z"
     },
     {
       "stationuuid": "9619317f-0601-11e8-ae97-52543be04c81",
@@ -3053,7 +3053,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8431/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:17.080Z"
     },
     {
       "stationuuid": "9619323b-0601-11e8-ae97-52543be04c81",
@@ -3072,7 +3072,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8487/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.726Z"
     },
     {
       "stationuuid": "96193306-0601-11e8-ae97-52543be04c81",
@@ -3091,7 +3091,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8545/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:18.048Z"
     },
     {
       "stationuuid": "96193484-0601-11e8-ae97-52543be04c81",
@@ -3109,7 +3109,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9464/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:26.800Z"
     },
     {
       "stationuuid": "96193548-0601-11e8-ae97-52543be04c81",
@@ -3128,7 +3128,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8563/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.194Z"
     },
     {
       "stationuuid": "9619360d-0601-11e8-ae97-52543be04c81",
@@ -3147,7 +3147,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8119/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.467Z"
     },
     {
       "stationuuid": "961936d3-0601-11e8-ae97-52543be04c81",
@@ -3165,7 +3165,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9522/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.437Z"
     },
     {
       "stationuuid": "9619379b-0601-11e8-ae97-52543be04c81",
@@ -3184,7 +3184,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9558/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.256Z"
     },
     {
       "stationuuid": "96194363-0601-11e8-ae97-52543be04c81",
@@ -3203,7 +3203,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8459/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.527Z"
     },
     {
       "stationuuid": "961945ac-0601-11e8-ae97-52543be04c81",
@@ -3221,7 +3221,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9542/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.388Z"
     },
     {
       "stationuuid": "961950e5-0601-11e8-ae97-52543be04c81",
@@ -3240,7 +3240,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9402/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.786Z"
     },
     {
       "stationuuid": "96195219-0601-11e8-ae97-52543be04c81",
@@ -3259,7 +3259,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9462/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.708Z"
     },
     {
       "stationuuid": "96195488-0601-11e8-ae97-52543be04c81",
@@ -3278,7 +3278,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8427/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:17.419Z"
     },
     {
       "stationuuid": "9619563d-0601-11e8-ae97-52543be04c81",
@@ -3296,7 +3296,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8467/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.790Z"
     },
     {
       "stationuuid": "9619687d-0601-11e8-ae97-52543be04c81",
@@ -3315,7 +3315,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9460/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.118Z"
     },
     {
       "stationuuid": "96196bd8-0601-11e8-ae97-52543be04c81",
@@ -3333,7 +3333,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8549/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.214Z"
     },
     {
       "stationuuid": "961970f5-0601-11e8-ae97-52543be04c81",
@@ -3352,7 +3352,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8469/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.390Z"
     },
     {
       "stationuuid": "9619725a-0601-11e8-ae97-52543be04c81",
@@ -3371,7 +3371,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9458/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.835Z"
     },
     {
       "stationuuid": "9619730d-0601-11e8-ae97-52543be04c81",
@@ -3389,7 +3389,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9488/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:17.075Z"
     },
     {
       "stationuuid": "961976a8-0601-11e8-ae97-52543be04c81",
@@ -3407,7 +3407,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8463/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:18.054Z"
     },
     {
       "stationuuid": "96197766-0601-11e8-ae97-52543be04c81",
@@ -3425,7 +3425,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8547/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.927Z"
     },
     {
       "stationuuid": "96197824-0601-11e8-ae97-52543be04c81",
@@ -3444,7 +3444,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8453/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.387Z"
     },
     {
       "stationuuid": "96197a7d-0601-11e8-ae97-52543be04c81",
@@ -3463,7 +3463,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8551/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.583Z"
     },
     {
       "stationuuid": "96197cd5-0601-11e8-ae97-52543be04c81",
@@ -3481,7 +3481,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9482/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.159Z"
     },
     {
       "stationuuid": "9619800a-0601-11e8-ae97-52543be04c81",
@@ -3500,7 +3500,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9492/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.436Z"
     },
     {
       "stationuuid": "9619866d-0601-11e8-ae97-52543be04c81",
@@ -3519,7 +3519,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9528/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.031Z"
     },
     {
       "stationuuid": "96198725-0601-11e8-ae97-52543be04c81",
@@ -3537,7 +3537,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9524/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.220Z"
     },
     {
       "stationuuid": "961987df-0601-11e8-ae97-52543be04c81",
@@ -3556,7 +3556,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8571/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:26.805Z"
     },
     {
       "stationuuid": "9619895a-0601-11e8-ae97-52543be04c81",
@@ -3575,7 +3575,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8531/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:17.099Z"
     },
     {
       "stationuuid": "96198adc-0601-11e8-ae97-52543be04c81",
@@ -3592,8 +3592,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://centova.radio.com.pt/proxy/474?mp=/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:29:17.468Z"
     },
     {
       "stationuuid": "96198e05-0601-11e8-ae97-52543be04c81",
@@ -3611,7 +3611,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8483/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.259Z"
     },
     {
       "stationuuid": "96198f99-0601-11e8-ae97-52543be04c81",
@@ -3630,7 +3630,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8471/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.918Z"
     },
     {
       "stationuuid": "96199065-0601-11e8-ae97-52543be04c81",
@@ -3649,7 +3649,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radios.pt:9508/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.385Z"
     },
     {
       "stationuuid": "961991fd-0601-11e8-ae97-52543be04c81",
@@ -3667,7 +3667,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8405/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.142Z"
     },
     {
       "stationuuid": "9619969b-0601-11e8-ae97-52543be04c81",
@@ -3686,7 +3686,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9430/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:17.102Z"
     },
     {
       "stationuuid": "9619974c-0601-11e8-ae97-52543be04c81",
@@ -3705,7 +3705,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9408/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.725Z"
     },
     {
       "stationuuid": "96199a22-0601-11e8-ae97-52543be04c81",
@@ -3723,7 +3723,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9426/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.313Z"
     },
     {
       "stationuuid": "96199d18-0601-11e8-ae97-52543be04c81",
@@ -3741,7 +3741,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9470/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.435Z"
     },
     {
       "stationuuid": "9619a540-0601-11e8-ae97-52543be04c81",
@@ -3760,7 +3760,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8243/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.365Z"
     },
     {
       "stationuuid": "9619be25-0601-11e8-ae97-52543be04c81",
@@ -3778,7 +3778,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://s3.viastreaming.net:8525/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.729Z"
     },
     {
       "stationuuid": "961e18f1-0601-11e8-ae97-52543be04c81",
@@ -3797,7 +3797,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radios.pt:9420/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:18.003Z"
     },
     {
       "stationuuid": "96478a9c-0601-11e8-ae97-52543be04c81",
@@ -3816,7 +3816,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radios.pt:9528/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.838Z"
     },
     {
       "stationuuid": "970433c4-e986-4d7e-954f-6d8e873bb949",
@@ -3835,7 +3835,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.206Z"
+      "probedAt": "2026-06-10T19:29:18.048Z"
     },
     {
       "stationuuid": "981f822f-198c-490f-a635-5489d9708765",
@@ -3853,7 +3853,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://29053.live.streamtheworld.com/RADIO_RENASCENCA.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "99660eba-311b-461a-b2ff-10aefef237cb",
@@ -3872,7 +3872,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://audio.ptisp.com:8110/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.816Z"
     },
     {
       "stationuuid": "9ac5ac2e-d34c-4814-b3ad-9958a0de9b6a",
@@ -3890,7 +3890,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream-hls.bauermedia.pt/cidhiphop.aac/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "9acc0481-3f99-448d-94cc-44a7bfd7ec9a",
@@ -3909,7 +3909,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radios2.justweb.pt:8064/stream?type=http&nocache=32",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.206Z"
+      "probedAt": "2026-06-10T19:29:18.048Z"
     },
     {
       "stationuuid": "9cdbc707-6729-4887-93fc-75bce2198484",
@@ -3928,7 +3928,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://25343.live.streamtheworld.com/LIVESTREAMAAC.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "9f0765ed-8700-4ea9-a340-4dc7d050466b",
@@ -3947,7 +3947,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://25453.live.streamtheworld.com/DANCEONTHEFLOORAAC.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.388Z"
     },
     {
       "stationuuid": "9f24883b-99f5-4404-8c51-b163eb31bf3a",
@@ -3965,7 +3965,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://sonic.servsonic.com:7003/;",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.388Z"
     },
     {
       "stationuuid": "a08d74ca-2172-447a-941a-b5c5c20afdd6",
@@ -3983,7 +3983,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-icy.bauermedia.pt/m80ballads.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "a1259280-4e93-47f9-b524-d491e9b622be",
@@ -4002,7 +4002,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-icy.bauermedia.pt/rcrock.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "a27c1c5d-f05b-45dd-841a-d2b3d93cebdb",
@@ -4020,7 +4020,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://proxy-audio.ptisp.com:8100/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.117Z"
     },
     {
       "stationuuid": "a58baf6a-e226-4b6b-aba8-fbe639d88097",
@@ -4038,7 +4038,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://nl.digitalrm.pt:8030/stream?1671017145140=",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.527Z"
     },
     {
       "stationuuid": "a6a7e44f-8845-49e5-91c6-2387fa25d534",
@@ -4056,7 +4056,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://centova.radio.com.pt/proxy/478?mp=/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "a6e3c595-c275-4cc7-b15a-498321bc08ba",
@@ -4073,7 +4073,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://emdireto.cmradio.pt/audio2/output-stream_1.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.243Z"
     },
     {
       "stationuuid": "a7d3cb11-67bf-4ed9-9ff1-ef4e036407ab",
@@ -4092,7 +4092,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://audio.serv.pt/8018/stream.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "aab4fa49-bf54-4c76-8ba4-79ee27f2602e",
@@ -4111,7 +4111,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://streaming-live-app.rtp.pt/liveradio/antena180a/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "abdacbd3-4a0a-452b-8247-cff72abb464e",
@@ -4129,7 +4129,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/antena280a/playlist.m3u8?DVR",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "ac843a5b-f7ef-4b89-9491-590bdaf20b4c",
@@ -4147,7 +4147,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-icy.bauermedia.pt/comercial.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "ada49a43-85a7-484c-b1c5-be9d35a4d2a8",
@@ -4165,7 +4165,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://centova.radio.com.pt/proxy/422?mp=/stream;",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "ae4b9856-2eff-4d29-882f-660f575ff69d",
@@ -4183,7 +4183,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://hts02.brascast.com:10476/live",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.206Z"
+      "probedAt": "2026-06-10T19:29:18.054Z"
     },
     {
       "stationuuid": "ae8f651c-f768-4243-83a0-7d535a5d4d8b",
@@ -4202,7 +4202,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-icy.bauermedia.pt/m80nacional.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "b05bc526-0822-4a8d-9e86-e0b19f119f30",
@@ -4221,7 +4221,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiometalon.com/radio/8000/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "b0e33f48-ea02-4843-98b0-6729338bcccb",
@@ -4239,7 +4239,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-icy.bauermedia.pt/rcdance.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "b16ffbfa-3dbc-472f-b058-5b9daa21cef7",
@@ -4258,7 +4258,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/antena180a/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "b1a88a64-8897-4647-8015-9f04881b81fc",
@@ -4277,7 +4277,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://sp0.redeaudio.com/8092/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "b3d10f85-29c1-4b4c-b0dd-364cd88e034f",
@@ -4294,7 +4294,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://proic1.evspt.com/radar_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.805Z"
     },
     {
       "stationuuid": "b3f805aa-0cdb-4003-aaa6-8f628a9b6fe5",
@@ -4313,7 +4313,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s9.yesstreaming.net:7070/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.206Z"
+      "probedAt": "2026-06-10T19:29:18.054Z"
     },
     {
       "stationuuid": "b50fea42-9c22-45c3-a7d5-afc772cab87d",
@@ -4331,7 +4331,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-icy.bauermedia.pt/m80pop.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "b570f99d-e347-48b2-817d-fef409d8eb46",
@@ -4349,7 +4349,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://a6.asurahosting.com:7930/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.245Z"
     },
     {
       "stationuuid": "b6109c8d-0910-428f-94e9-b4cab9b4ff44",
@@ -4367,7 +4367,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://176.9.43.216:8135/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:37.011Z"
     },
     {
       "stationuuid": "b77d4a10-8634-4f76-a579-8421c9131dde",
@@ -4386,7 +4386,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://uk20freenew.listen2myradio.com:5382/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.146Z"
     },
     {
       "stationuuid": "b97e1646-b7f9-42ca-838e-bc973d1c813c",
@@ -4404,7 +4404,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiocast.rtp.pt/rdpint80a.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "ba4a59be-3ba1-4461-b9de-f489d605c7ac",
@@ -4423,7 +4423,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/antena380a/playlist.m3u8?DVR",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "bb3406be-edb7-455d-a346-b322139596db",
@@ -4441,7 +4441,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://nl.digitalrm.pt:8072/stream?1671016403075=",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.388Z"
     },
     {
       "stationuuid": "bb5d74a0-f655-482b-8eda-2abf9dca3a8d",
@@ -4458,7 +4458,7 @@
       "verdictReason": "application/ogg",
       "finalUrl": "https://nigga.pt/chill.ogg",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.698Z"
     },
     {
       "stationuuid": "bba00123-d638-4c4c-891a-1f6520320fcb",
@@ -4477,7 +4477,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radios2.justweb.pt/8074/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.245Z"
     },
     {
       "stationuuid": "bbae2983-5bca-4ce8-8ef3-633878586af4",
@@ -4495,7 +4495,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://digitalfm.dynu.com:8000/digitalfm64",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.603Z"
     },
     {
       "stationuuid": "bbc96605-5fa7-4fb8-86f7-c0f4920bec64",
@@ -4513,7 +4513,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-icy.bauermedia.pt/rcxmas.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "bd2539d1-bd21-4555-a32c-43deba0eccfd",
@@ -4531,7 +4531,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://sonic.servsonic.com/8028/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:18.003Z"
     },
     {
       "stationuuid": "bd9404d3-e56b-4eea-a500-3101fcd3d594",
@@ -4550,7 +4550,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://servidor30-4.brlogic.com:7398/live?source=website",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.259Z"
     },
     {
       "stationuuid": "bf4e9e0e-6b72-46c3-aafe-b57eb8fcfe23",
@@ -4567,8 +4567,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://radiocast.rtp.pt/antena1fado80a.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "bf7a7180-2465-48d2-983c-3bc182ba0c83",
@@ -4587,7 +4587,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/antena280a/playlist.m3u8?DVR",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "c05f4f24-e7c4-4406-8124-7ce5d5db1338",
@@ -4605,7 +4605,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://audio-edge-5bkfj.fra.h.radiomast.io/ec065d59-f358-48c9-a288-4efc797e5860",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.519Z"
     },
     {
       "stationuuid": "c0682eee-a97d-4fbe-b970-dea2ffb18ef0",
@@ -4624,7 +4624,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://27873.live.streamtheworld.com/OBSERVADORAAC.aac?dist=web-popup&devicename=aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "c102e2cc-9906-4c5a-881f-3c077470d7be",
@@ -4643,7 +4643,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://stm1.voxhd.com.br:7706/",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.206Z"
+      "probedAt": "2026-06-10T19:29:18.153Z"
     },
     {
       "stationuuid": "c2602790-b67a-48ef-9954-6a3a9e18d8d0",
@@ -4661,7 +4661,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/antena180a/chunklist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "c354aea8-c722-4288-8012-4baf003cb24b",
@@ -4679,7 +4679,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s9.yesstreaming.net:9029/",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:18.003Z"
     },
     {
       "stationuuid": "c4768f86-1489-4eff-8871-59f38164a315",
@@ -4698,7 +4698,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://proic1.redeaudio.com/radar_aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.686Z"
     },
     {
       "stationuuid": "c58a8574-bc4d-49d5-9b57-c5266ffbcf39",
@@ -4716,7 +4716,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://hyades.shoutca.st:8270/stream/1/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.694Z"
     },
     {
       "stationuuid": "c5a178f9-e706-4197-a82c-81c80a4269b7",
@@ -4735,7 +4735,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://centova.radio.com.pt/proxy/426?mp=/stream.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "c67f0ff7-fe56-4204-a6ab-b61a3749b232",
@@ -4753,8 +4753,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radios2.justweb.pt/8042/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:29:15.245Z"
     },
     {
       "stationuuid": "c6ed0be5-21dd-4b03-aa18-0dbc9a0c3f87",
@@ -4772,7 +4772,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream-icy.bauermedia.pt/m80.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.174Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "c906c435-8b5d-4b35-a9aa-bfb992a9c659",
@@ -4790,7 +4790,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://centova.radio.com.pt/proxy/508?mp=/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "cc461784-3150-4a34-81c5-2116fe024740",
@@ -4809,7 +4809,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://directo.tsf.pt/tsfdirecto.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.904Z"
     },
     {
       "stationuuid": "ccc83670-4727-40f2-93f2-1fee93dbaecf",
@@ -4828,7 +4828,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://nl.digitalrm.pt:8216/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.245Z"
     },
     {
       "stationuuid": "cd08ddef-18ae-421c-85a3-971ee8caa5d5",
@@ -4847,7 +4847,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream2.soundflux.eu:8440/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.243Z"
     },
     {
       "stationuuid": "cea4c68f-aa55-4760-b65c-530ee5b89bd7",
@@ -4866,7 +4866,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://centova.radio.com.pt/proxy/401?mp=/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "cff465ef-869b-4270-9839-b37708e13561",
@@ -4885,7 +4885,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-icy.bauermedia.pt/smoothsoul.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "d0808b14-f138-4bac-9018-f9d120de3ede",
@@ -4904,7 +4904,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ec2.yesstreaming.net:3275/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.726Z"
     },
     {
       "stationuuid": "d132682d-bc0a-4608-82d4-9e293b5b1e9a",
@@ -4923,7 +4923,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://centova.radio.com.pt/proxy/430?mp=/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "d1aed693-0120-4c9c-bfd1-3829e41fc693",
@@ -4941,7 +4941,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radios.justweb.pt/8002/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "d1c00267-9915-4854-8f28-3e486f1c0591",
@@ -4960,7 +4960,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-icy.bauermedia.pt/cidade.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "d1df1026-bca3-4f8e-a094-946629292f18",
@@ -4978,7 +4978,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-179.zeno.fm/rwmao7mxxt8vv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJyd21hbzdteHh0OHZ2IiwiaG9zdCI6InN0cmVhbS0xNzkuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiSXNTMlpJaTBSOG1yMjZGbHN2ajhMUSIsImlhdCI6MTc3NzUzMjcwMywiZXhwIjoxNzc3NTMyNzYzfQ.bpybuQxdm1cukDHAz4jPFEoUY4xmVHLnqMocKnAEGUg",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "d4310c4c-714e-458a-b987-3a5bb6386463",
@@ -4996,7 +4996,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://a6.asurahosting.com/listen/wave_vibes/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.206Z"
+      "probedAt": "2026-06-10T19:29:18.048Z"
     },
     {
       "stationuuid": "d47f4a27-d7a5-435c-882f-1f0a2d062b55",
@@ -5014,7 +5014,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.radioamorportugal.com:8443/rap.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.243Z"
     },
     {
       "stationuuid": "d4841efc-ba3f-43f2-9129-51aa5372c20f",
@@ -5032,7 +5032,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiometalon.com/listen/radio_metal_on_the_brutal/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "d4e88734-7d18-48ea-8e38-8a548459ee55",
@@ -5051,7 +5051,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radios2.justweb.pt:8066/stream?type=http&nocache=297",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:18.003Z"
     },
     {
       "stationuuid": "d5f71a8d-414b-495a-b145-f78da9b6786e",
@@ -5066,8 +5066,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-285.zeno.fm/ppgb4k7vhqztv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJwcGdiNGs3dmhxenR2IiwiaG9zdCI6InN0cmVhbS0yODUuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiNmI3RnZORmRTUVdwMjVRYkhxMUdNQSIsImlhdCI6MTc3NzUzMjcwMywiZXhwIjoxNzc3NTMyNzYzfQ.s9CJVmwgmDjriG3ojQzESQ-6KA46_mgNhy0f8fvZ6Us",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:29:17.710Z"
     },
     {
       "stationuuid": "d60ce0b5-fe8f-46e0-933a-4498f01a16e4",
@@ -5083,7 +5083,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-177.zeno.fm/zb5w8yybqxhvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ6YjV3OHl5YnF4aHZ2IiwiaG9zdCI6InN0cmVhbS0xNzcuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiTkFnYXlfNEVTUnEyZ1hQSUhNM0xiUSIsImlhdCI6MTc3NzUzMjcwNSwiZXhwIjoxNzc3NTMyNzY1fQ.P4E2G5SsECimiWQaAESXLrk763FX6kPbiUWjNYTfbkQ",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.726Z"
     },
     {
       "stationuuid": "d6db3215-8210-4fb6-a968-be79bf05e202",
@@ -5101,8 +5101,8 @@
       "verdict": "broken-tls",
       "verdictReason": "TypeError: fetch failed — Error: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca",
       "finalUrl": "https://play.radioregional.pt:8220/stream/2/;/stream.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:29:15.774Z"
     },
     {
       "stationuuid": "d7864112-a8d4-4d17-8f56-bf97d5be439e",
@@ -5121,7 +5121,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://188.93.231.97:9300/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:18.153Z"
     },
     {
       "stationuuid": "db31f1f9-a469-4188-b8b3-9713557413d9",
@@ -5139,7 +5139,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://eu6.fastcast4u.com:5002/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:36.273Z"
     },
     {
       "stationuuid": "dbc018ae-1848-4f26-a677-367011a1f4b2",
@@ -5158,7 +5158,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://streaming-live-app.rtp.pt/liveradio/antena180a/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "dbd2c8ed-498a-4470-9e30-e0e1adb7dc6f",
@@ -5176,7 +5176,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:8565/stream/1/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:17.027Z"
     },
     {
       "stationuuid": "de23e719-22a0-4f40-a47f-a943ba2d3808",
@@ -5195,7 +5195,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://centova.radio.com.pt/proxy/422?mp=/stream;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "de455438-11f7-4c65-a8bf-3c5c3d327c90",
@@ -5214,7 +5214,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://185.32.188.17:8043/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.206Z"
+      "probedAt": "2026-06-10T19:29:38.944Z"
     },
     {
       "stationuuid": "deb76866-2c70-49da-9e7c-7bba10d81af2",
@@ -5233,7 +5233,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/rdpint80a/playlist.m3u8?DVR",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "df6c713f-7558-4c87-bdee-f8255c95511e",
@@ -5251,7 +5251,7 @@
       "verdictReason": "TypeError: fetch failed — Error: certificate has expired",
       "finalUrl": "https://ssl.stmxp.net:8006/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.520Z"
     },
     {
       "stationuuid": "df73b42f-d349-4bb6-9bb5-b58f41633164",
@@ -5267,7 +5267,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://radiocast.rtp.pt/antena180a.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "dfe3ebed-08cd-447a-9a58-efb8eebab9f8",
@@ -5286,7 +5286,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://21633.live.streamtheworld.com/RFMAAC_SC",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "e1630f99-1069-4555-b28a-cedcd17e6d0a",
@@ -5304,7 +5304,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.meiodomato.com/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.206Z"
+      "probedAt": "2026-06-10T19:29:18.054Z"
     },
     {
       "stationuuid": "e21f12c2-5c2b-4926-9ff4-dd4167d63161",
@@ -5323,7 +5323,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://sp0.redeaudio.com/8028/stream/",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "e451bd02-ea2a-4680-8a32-15e7adfcba78",
@@ -5342,7 +5342,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radios.pt:9034/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:18.055Z"
     },
     {
       "stationuuid": "e4b5616e-6ad3-4dcb-a486-021b0607d807",
@@ -5361,7 +5361,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://soundworks.live:8000/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.206Z"
+      "probedAt": "2026-06-10T19:29:18.048Z"
     },
     {
       "stationuuid": "e54c6780-8774-40ed-8791-055fad339f67",
@@ -5375,11 +5375,11 @@
       "votes": 5,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://nigga.pt:8000/hood.ogg",
+      "verdict": "ok",
+      "verdictReason": "application/ogg (https variant on default port from http://)",
+      "finalUrl": "https://nigga.pt/hood.ogg",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.206Z"
+      "probedAt": "2026-06-10T19:29:39.696Z"
     },
     {
       "stationuuid": "e7a574dd-29e0-4a8f-b019-90512a1dd805",
@@ -5397,7 +5397,7 @@
       "verdictReason": "application/ogg",
       "finalUrl": "https://nigga.pt/party.ogg",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.698Z"
     },
     {
       "stationuuid": "e7c49a9e-9716-49a0-b886-6a541c2919ce",
@@ -5416,7 +5416,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/antena280a/playlist.m3u8?DVR",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "e806e30f-bade-43a4-b9ab-e14230ef50de",
@@ -5435,7 +5435,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://185.11.164.106:35022/stream?type=mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.904Z"
     },
     {
       "stationuuid": "e822ed30-1b14-4a90-906f-a1267e3d761d",
@@ -5454,7 +5454,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://195.23.85.126:8455/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.711Z"
     },
     {
       "stationuuid": "e8afec33-6577-4f2e-8a99-ea61a62b7485",
@@ -5473,7 +5473,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://sp0.redeaudio.com/9304/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "ea9307a6-42d4-43b6-b22d-ecc3cb3ec4c0",
@@ -5491,7 +5491,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiometalon.com/listen/radio_metal_on_the_heavy/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "eaa99e4a-2a7c-4e16-96bc-b225bab5b0da",
@@ -5508,7 +5508,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiocast.rtp.pt/antena3madeira80a.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "ebfdfb1a-aa24-4871-b27b-7b6ed31dbe5b",
@@ -5527,7 +5527,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streaming-live.rtp.pt/liveradio/zigzag80a/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "ec7c1dd5-4515-4711-8a9c-003689fa97be",
@@ -5546,7 +5546,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream3.rcast.net/61025",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:18.003Z"
     },
     {
       "stationuuid": "ece826dd-3eba-4c89-ab1c-24e34bfc6407",
@@ -5565,7 +5565,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream-hls.bauermedia.pt/smojazz.aac/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "ed07129e-0174-4dff-afaa-3fde476904b5",
@@ -5583,7 +5583,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-icy.bauermedia.pt/rckids.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "edbd1565-d6aa-4487-8564-e56883453124",
@@ -5601,7 +5601,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://109.71.41.6:8026/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.751Z"
     },
     {
       "stationuuid": "ee741fca-c476-4323-a311-21974fcd9980",
@@ -5620,7 +5620,7 @@
       "verdictReason": "audio/aac; charset=UTF-8",
       "finalUrl": "https://mpc.my-control-panel.eu/stream/radioatalaia",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.245Z"
     },
     {
       "stationuuid": "eeabbc32-b558-4bf9-bd7e-09855ca88cd8",
@@ -5638,7 +5638,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiocast.rtp.pt/zigzag80a.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "efdd75ce-edc1-48e9-a503-98a78ce677d4",
@@ -5657,7 +5657,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://centova.radio.com.pt:9422/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.912Z"
     },
     {
       "stationuuid": "f57789e6-f302-4d4f-b0e5-eae2d4e52cf6",
@@ -5674,7 +5674,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiocast.rtp.pt/antena380a.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "f683a45f-e801-4735-916c-166debeb4ece",
@@ -5692,7 +5692,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://centova.radio.com.pt/proxy/037?mp=/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "f6df77a6-d7c5-4927-9334-0ed11d3370bc",
@@ -5710,7 +5710,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://137.74.160.250:8000/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.206Z"
+      "probedAt": "2026-06-10T19:29:18.385Z"
     },
     {
       "stationuuid": "f721aaa0-4ce3-4df1-88ea-7291ee08a1d3",
@@ -5728,7 +5728,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://servidor.noite.pt:9002/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.417Z"
     },
     {
       "stationuuid": "f7ef7fc8-fa3f-4ae5-92de-fe320bb79971",
@@ -5745,7 +5745,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://emdireto.cmradio.pt/audio2/output-stream_1.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.243Z"
     },
     {
       "stationuuid": "f85575d6-16c9-48de-85c2-c32f41847634",
@@ -5764,7 +5764,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radios.justweb.pt/8002/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "f86c489e-7e21-11e9-aa30-52543be04c81",
@@ -5782,8 +5782,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://radio.streemlion.com:1150/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:29:15.246Z"
     },
     {
       "stationuuid": "f975f74a-d9e0-4ed9-b360-3fe0b5a0ecbd",
@@ -5802,7 +5802,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ec2.yesstreaming.net:3705/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.245Z"
     },
     {
       "stationuuid": "f9cf4cce-e599-495f-851d-5a587562b71a",
@@ -5821,7 +5821,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://centova.radio.com.pt/proxy/478?mp=/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.217Z"
     },
     {
       "stationuuid": "faae6118-c0cd-454b-ab33-630f7955e1d3",
@@ -5840,7 +5840,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://uk20freenew.listen2myradio.com:5382/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.834Z"
     },
     {
       "stationuuid": "fb325f39-3ec5-449f-87ed-c139bdaf1408",
@@ -5859,7 +5859,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://185.32.188.17:8003/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:37.942Z"
     },
     {
       "stationuuid": "fb943379-925b-4428-a84c-92f2dc8e2da8",
@@ -5877,7 +5877,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://rs2.ptservidor.com:8003/stream?type=.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:38.179Z"
     },
     {
       "stationuuid": "fb952115-4a5a-4b67-858e-b1a4353bf118",
@@ -5895,7 +5895,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://dreamsiteradiocp5.com/proxy/rmportugal1?mp=/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:16.259Z"
     },
     {
       "stationuuid": "fc276c08-822a-46aa-b71a-afb9e15f9580",
@@ -5913,7 +5913,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://centova.radios.com.pt/proxy/410?mp=/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.205Z"
+      "probedAt": "2026-06-10T19:29:17.419Z"
     },
     {
       "stationuuid": "fd6b0dc7-1684-4677-8a63-0c28d988c4b0",
@@ -5931,7 +5931,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiocast.rtp.pt/antena180a.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     },
     {
       "stationuuid": "fe2a2341-9fc3-486e-8d6c-93af792fdbcb",
@@ -5950,7 +5950,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://25343.live.streamtheworld.com/RFMONTHEROCKAAC.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:56.175Z"
+      "probedAt": "2026-06-10T19:29:15.218Z"
     }
   ]
 }

@@ -1,18 +1,19 @@
 {
-  "generatedAt": "2026-05-19T17:47:06.509Z",
+  "generatedAt": "2026-06-10T19:39:39.305Z",
   "country": "SE",
   "rawSnapshotAt": "2026-05-19T07:51:14.429Z",
   "total": 272,
-  "playable": 192,
-  "broken": 80,
-  "curated": 11,
+  "playable": 198,
+  "broken": 59,
+  "curated": 141,
   "byVerdict": {
-    "ok": 192,
-    "broken-mixed": 48,
-    "broken-dns": 5,
-    "broken-network": 25,
+    "ok": 197,
+    "broken-mixed": 40,
+    "broken-dns": 17,
+    "ok-hls": 1,
+    "probe-skipped": 15,
     "broken-tls": 1,
-    "broken-4xx": 1
+    "broken-5xx": 1
   },
   "stations": [
     {
@@ -31,8 +32,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge2.sr.se/p4gbg-aac-320",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "01a0db86-1f60-4473-9601-1de61587b255",
@@ -51,7 +52,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge1.sr.se/p3-aac-320",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "02443a51-3d95-4bc1-aaf8-6cc3345fc763",
@@ -69,7 +70,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.pulsfm.se:8908/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:12.739Z"
     },
     {
       "stationuuid": "0268fc68-0dd1-4e98-8087-f5459b014716",
@@ -87,7 +88,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://fm06-ice.stream.khz.se/fm06_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.137Z"
     },
     {
       "stationuuid": "03130c0f-bf62-4fda-bb6a-c99781b28475",
@@ -104,8 +105,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml2.prostream.se/listen/alt_edge_radio/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "052b8916-ad5d-4ae4-8cb5-1c137e10e4ca",
@@ -124,7 +125,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://sslyayin.netyayin.net/radyozergan/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:12.647Z"
     },
     {
       "stationuuid": "058e8017-4257-4565-bc22-fc6a17c32a2e",
@@ -141,8 +142,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge2.sr.se/p4malm-mp3-96",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "06a92160-00e0-4546-ac0d-44c28f80da6c",
@@ -160,8 +161,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://live-bauerse-fm.sharp-stream.com/nostalgi_aacp",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "0772676d-9fe4-4945-b63f-3e88e5aeb374",
@@ -179,8 +180,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live-bauerse-fm.sharp-stream.com/mixmegapol_instream_se_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "07c6d96f-1d15-4d36-9833-dee758087659",
@@ -199,7 +200,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://edge1.sr.se/p1-aac-320",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "0826eaef-59e4-4761-b3e8-31670421a753",
@@ -217,7 +218,7 @@
       "verdictReason": "application/ogg",
       "finalUrl": "https://edge1.sr.se/p2-flac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "0a1d8945-08fe-4092-96c4-019ac9a38022",
@@ -235,7 +236,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://fm01-ice.stream.khz.se/fm01_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "0d3a2fd0-4c71-46ee-8700-2686fb699307",
@@ -254,7 +255,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://fm01-ice.stream.khz.se/fm01_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "0e575083-8721-446d-a95e-7cbee4acad84",
@@ -271,8 +272,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/hello_africa/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "101f70e8-15f9-4a1c-b48f-7cbd4a7838f7",
@@ -290,8 +291,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://wr14-ice.stream.khz.se/wr14_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.138Z"
     },
     {
       "stationuuid": "10398e96-9329-4763-aada-543d35b56832",
@@ -306,11 +307,11 @@
       "votes": 7,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-network",
+      "verdict": "probe-skipped",
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
       "finalUrl": "https://http-live.sr.se/p4vastmanland-mp3-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:15.055Z"
     },
     {
       "stationuuid": "1067bc4c-fed3-459a-b0dd-045d68cc225e",
@@ -328,7 +329,7 @@
       "verdictReason": "application/octet-stream",
       "finalUrl": "https://stream.hitcity.se/live",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.137Z"
     },
     {
       "stationuuid": "121367cf-f23c-4aef-a99e-f6608763a3c7",
@@ -343,11 +344,11 @@
       "votes": 6,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "probe-skipped",
+      "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
       "finalUrl": "http://http-live.sr.se/p4orebro-aac-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:15.055Z"
     },
     {
       "stationuuid": "12824d18-3891-402f-b7a9-b8d75bfe3b99",
@@ -365,8 +366,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://wr21-ice.stream.khz.se/wr21_aac",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.139Z"
     },
     {
       "stationuuid": "139eec8c-d0b7-4ace-9443-2a6ec74c789f",
@@ -384,8 +385,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://dc5.serverse.com/proxy/lvzgnvcj/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.846Z"
     },
     {
       "stationuuid": "1497077e-2db2-4579-a911-5f8cddff3529",
@@ -403,8 +404,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge2.sr.se/p4ostg-mp3-96",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "1576f6f2-8949-4106-a870-d6a2c11c99f4",
@@ -421,8 +422,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://static-cdn.sr.se/laddahem/podradio/2022/03/karlavagnen_hur_gick_det_till_nar_du_traff_20220326_0017174611.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "15e028aa-8914-49d8-9241-ea8aded0f6b6",
@@ -441,7 +442,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://213.115.49.175:1157/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:31.947Z"
     },
     {
       "stationuuid": "168e0796-3b97-479c-949d-b1871ef07379",
@@ -460,7 +461,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://fm02-ice.stream.khz.se/fm02_mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "1808e244-4ca2-4a4d-be3a-17babddef88a",
@@ -478,8 +479,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://deb.patrikmalmgrenrask.se:10443/",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:12.281Z"
     },
     {
       "stationuuid": "1953e58a-7374-459e-8ac2-f5a8af912ad5",
@@ -497,8 +498,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://fm04-ice.stream.khz.se/fm04_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:12.068Z"
     },
     {
       "stationuuid": "19ea3079-8757-467a-befb-0db17b50d1be",
@@ -515,8 +516,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml2.prostream.se/listen/epic_soundtracks_only/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "1ca4c790-7797-4b00-afa0-19e276302d64",
@@ -535,7 +536,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://lyssna.fnf.nu:8080/radioboras.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:32.495Z"
     },
     {
       "stationuuid": "1ce736f3-5944-46b9-8143-81b54625b367",
@@ -552,8 +553,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml2.prostream.se/listen/latin/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "1d35c168-deb1-4751-a1e6-ae19fb3e7a3e",
@@ -572,7 +573,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge1.sr.se/p3-mp3-96",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "1e6e8797-ca3e-41d2-881b-56fa455f3ee1",
@@ -591,7 +592,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge2.sr.se/p1-aac-32",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "202d6d31-699e-476d-b392-99e238704df8",
@@ -608,8 +609,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/rock/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "20aee753-cef5-11e8-a54a-52543be04c81",
@@ -628,7 +629,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://radiostreamfour.sytes.net:18000/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:39.292Z"
     },
     {
       "stationuuid": "2151bfe6-6792-4cbe-8c7c-2d9fe54fdbc0",
@@ -645,8 +646,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge1.sr.se/p4dala-aac-320",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "22567e75-4c10-4dde-9c51-5940b128f6cb",
@@ -665,7 +666,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://fm02-ice.stream.khz.se/fm02_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "229845c8-bcae-4067-8767-c34114d5b4b3",
@@ -681,8 +682,8 @@
       "verdict": "ok",
       "verdictReason": "application/octet-stream, audio/mpeg",
       "finalUrl": "https://stream.hitcity.se/live.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.137Z"
     },
     {
       "stationuuid": "2411d3f7-3a88-4e9f-b0b7-a1b512890fef",
@@ -697,11 +698,11 @@
       "votes": 22,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://radiosydvast.duckdns.org:12932/stream",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://radiosydvast.duckdns.org/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:32.218Z"
     },
     {
       "stationuuid": "25a9a10c-7de5-4f5e-8989-e128c3f4b94e",
@@ -716,11 +717,11 @@
       "votes": 6,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-network",
+      "verdict": "probe-skipped",
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
       "finalUrl": "https://http-live.sr.se/p4jonkoping-mp3-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:15.055Z"
     },
     {
       "stationuuid": "26a82946-f454-40ca-90ea-314578fea22e",
@@ -738,8 +739,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://live-bauerse-fm.sharp-stream.com/goldfm_web_se_aacp?direct=true&amp;listenerid=undefined&amp;aw_0_1st.bauer_listenerid=undefined&amp;aw_0_1st.playerid=BMUK_inpage_html5&amp;aw_0_1st.skey=1678939562&amp;aw_0_1st.bauer_loggedin=false&amp;aw_0_req.userConsentV2=CPot5gAPot5gAAGABCENC7CsAP_AAE_AABJ4IoNF5GdUTXFBOH59YJtwKYxXx1BwoKAhBgAFA4AAyJIELJAGVEEaJAyKACACAAYAIEIBAABAEAFAAAgAYIEBIACEAEEEJAAAIAAAEEABIEQAEAAMAAAAUAIAgEBWEhAggBQA4RJETMBACoABCUAwigkEAAAAAgAAAAAAQAAAAAAAAAAAAAAAAAAAgAQNvgEAAIAJ-AXUA7YB-wF2gNoAbeAoEgVgAIAAXABQAFQAMgAcAA8ACAAGQANIAiACKAEwAJ4AVQA3gBzAD8AISARABEgCOAEsAKUAZAA-AB-wD_AQAAigBGACOAEmAJSAT8AoIBigDaAIdATKAtgBeYDDQGSAMnAbeBEMIAKABIAD8ARQA5wCBgHVATYApsBdQDFg0AgAZABAACMAEmgLQAtIB1QEOgMnDABADZAHUATYApsRAHAGQAQAAjABJgDqgIdAZOIABAAkATYKgDgAUACYAI4AjkBaAFpAWwAvMUACAOqAmwZAFACYAI4AjgC2AF5jAAYB1QEnAJsHQMwAFwAUABUADIAHAAQAAuABkADQAH0ARABFACYAE8AKoAYgAzABvADmAH6ARABEgCWAFGAKUAZAAygBogD9AH-AQMAigBFgCMAEcAJMASkAn4BQYC0ALSAYoA2gB1AEOgJUAVYAtgBdoC8wGGgMkAZOAywBt44AsACQAH4AUAAyACKAEcAOcAdwBAACIgGBAOOAdIA6oCYoEyATKAmwBSACmwFqALqAYsQgNgALAAoABkAFwATAAqgBiADMAG8ARwApQBlAD_AIoARwAlIBQYC0ALSAYoA2gB1AEqAKsAWwAu0Bk4DgCIAEA_ZAAOAOcA6oB2wEnAJiATYApAlAbAAQAAsACgAGQAOABEACYAFUAMQAZoBEAESAI4AUYApQBlAEcgLQAtIBigDqAIdAWwAu0BeYDJwGWANvAcASADgBkAFyAO4AgAB1QE2AMWKQKAAFwAUABUADIAHAAQAAyABpAEQARQAmABPACkAFUAMQAZgA5gB-gEQARIAowBSgDIAGUANEAfoBFgCMAEcAJSAUEA2gCHQEnAKsAWwAu0BeYDDQGSAMnAZYA28qABAP2UAKAAkAB-AGQANoAjgBcgDnAHcAQAAkQBigDqgHbATEAmUBNgCkAFNgMWAakAAA.YAAAAAAAAAAA",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "271de73b-4fa6-4c19-8132-33397f31bf7c",
@@ -757,8 +758,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://replaynewsse.ice.infomaniak.ch/replaynewsse-128.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:12.647Z"
     },
     {
       "stationuuid": "2808c734-6166-4cda-9bbd-d4e05c0c4c32",
@@ -775,8 +776,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/relax_meditation/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "287a4851-de0c-4184-8255-b435d6b62e0b",
@@ -795,7 +796,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge1.sr.se/p2-aac-320",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "296c9a72-28ad-48f5-85ac-af6eb47acc46",
@@ -810,11 +811,11 @@
       "votes": 3,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-network",
+      "verdict": "probe-skipped",
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
       "finalUrl": "https://http-live.sr.se/p4uppland-aac-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:15.055Z"
     },
     {
       "stationuuid": "2a1fa39a-15b6-47d5-9b1f-f1680eebc0d9",
@@ -832,7 +833,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://live.narradio.se:8030/;stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.983Z"
     },
     {
       "stationuuid": "2ba48445-fb13-4167-9db8-3f2b4254461b",
@@ -849,8 +850,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/reggae/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "2d106b56-62e5-4ced-8a5f-9f57721f760a",
@@ -868,8 +869,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://wr02-ice.stream.khz.se/wr02_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.139Z"
     },
     {
       "stationuuid": "2d109f2c-222b-4c48-82be-787e5d695662",
@@ -884,11 +885,11 @@
       "votes": 8,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-network",
+      "verdict": "probe-skipped",
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
       "finalUrl": "https://http-live.sr.se/p4gotland-mp3-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:15.055Z"
     },
     {
       "stationuuid": "2d411ff6-99f8-4cf3-895f-2bbd3ee672ce",
@@ -905,8 +906,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml2.prostream.se/listen/workout/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "2d71c5a8-6fde-4624-8d1b-1d77b7a04150",
@@ -924,8 +925,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://fm10-ice.stream.khz.se/fm10_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.139Z"
     },
     {
       "stationuuid": "2f02c316-7d2b-4247-9e51-c75e248c012c",
@@ -939,11 +940,11 @@
       "votes": 6,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-network",
+      "verdict": "probe-skipped",
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
       "finalUrl": "https://http-live.sr.se/p1-mp3-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:15.055Z"
     },
     {
       "stationuuid": "2f869fa1-9f35-4ab3-a417-e8cef6880f48",
@@ -961,7 +962,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://fm03-ice.stream.khz.se/fm03_mp3?",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:11.138Z"
     },
     {
       "stationuuid": "311274b6-e55a-41dc-a0d9-f9af449aba2a",
@@ -980,7 +981,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://live.narradio.se:8010/;stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:12.126Z"
     },
     {
       "stationuuid": "33663b50-cb33-4a5d-83cc-7ffaa776def5",
@@ -995,11 +996,11 @@
       "votes": 11,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
+      "verdict": "broken-dns",
+      "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.se",
       "finalUrl": "https://http-live.sr.se/p4goteborg-mp3-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:14.745Z"
     },
     {
       "stationuuid": "33aa931b-0e2f-49b9-b8df-8d98c04a286b",
@@ -1017,8 +1018,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge1.sr.se/p4malm-mp3-96",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "34dddabf-0a1e-437d-8801-075e05201844",
@@ -1035,8 +1036,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/mad_mix_main/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "3560701c-22a9-4955-a667-fc979b066863",
@@ -1053,8 +1054,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml2.prostream.se/listen/urban_flow/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "36ec31f7-2b42-4a8f-b73b-dda7b666d8c0",
@@ -1071,8 +1072,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml2.prostream.se/listen/melancholy/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "376cb244-4116-4ba4-a525-c6cc8283fc9b",
@@ -1090,8 +1091,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://sstream.ueteknik.se/listen/wolffm/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:12.692Z"
     },
     {
       "stationuuid": "386b8b9b-3a34-4405-a274-29fe476ca198",
@@ -1105,11 +1106,11 @@
       "votes": 244,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://stream.funradio.se:81/live192",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://stream.funradio.se/live192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:32.011Z"
     },
     {
       "stationuuid": "38e8cb32-9efa-11e9-a787-52543be04c81",
@@ -1126,8 +1127,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://das-edge11-live365-dal03.cdnstream.com/a80252",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.139Z"
     },
     {
       "stationuuid": "38ecf77e-b929-458c-ad32-564dcab453c9",
@@ -1146,7 +1147,7 @@
       "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.se",
       "finalUrl": "https://http-live.sr.se/p2-mp3-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:12.739Z"
     },
     {
       "stationuuid": "39a437bb-aa17-420b-a748-41b35312d1de",
@@ -1164,8 +1165,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge1.sr.se/p4vbtn-mp3-96",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "39ff7fae-311d-4430-8a9a-51f9f2d59dcd",
@@ -1182,8 +1183,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml2.prostream.se/listen/radio_svea/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "3ac50a5a-2445-4a9c-8e35-75c3529f5242",
@@ -1200,8 +1201,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/swedish_truckers/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "3b7a51fa-88af-4d6f-9489-6f57ae737b1a",
@@ -1220,7 +1221,7 @@
       "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.se",
       "finalUrl": "https://http-live.sr.se/p2musik-aac-320",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.877Z"
+      "probedAt": "2026-06-10T19:39:11.439Z"
     },
     {
       "stationuuid": "3c9f18c4-2d3a-4cc0-ae29-bbb1de69984c",
@@ -1236,8 +1237,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream-175.zeno.fm/tf8vczzxrg0uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ0Zjh2Y3p6eHJnMHV2IiwiaG9zdCI6InN0cmVhbS0xNzUuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiNlNkbUtrcWdRLVNQX3ZiM01fWktsdyIsImlhdCI6MTc3OTE5NTE5NSwiZXhwIjoxNzc5MTk1MjU1fQ.Xt5UVgN4pi4JHFcVpmA25a_aKwjFyBA-49UlhEw2DZo",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "3d5cedea-c00f-468e-88a8-6d15394a6709",
@@ -1254,8 +1255,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://redback.mywire.org/stream.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:12.619Z"
     },
     {
       "stationuuid": "3e5a08bf-57fc-420a-a543-2f7c6f7b6a06",
@@ -1274,7 +1275,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://edge-bauerse-01-gos2.sharp-stream.com/mixmegapolgbg_instream_se_mp3?",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "3f27b07d-90b5-4d22-98ef-fef803f871ec",
@@ -1291,7 +1292,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade after redirect to http://)",
       "finalUrl": "https://n03.radiojar.com/0tpy1h0kxtzuv?rj-ttl=5&rj-tok=AAABnkBVU24AJknLw5s2hPDTyw",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:12.068Z"
     },
     {
       "stationuuid": "3f589db8-fb66-4d2a-b4d9-03a8bece9b7e",
@@ -1309,8 +1310,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://wr04-ice.stream.khz.se/wr04_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:12.068Z"
     },
     {
       "stationuuid": "3fc2ea83-9ed6-44a5-b6ed-cc0e648c7ee0",
@@ -1328,7 +1329,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://rssand.se:4027/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:12.692Z"
     },
     {
       "stationuuid": "40dfa430-7988-4b02-ae1b-ce5fe8b5aad3",
@@ -1345,8 +1346,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://wr11-ice.stream.khz.se/wr11_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.138Z"
     },
     {
       "stationuuid": "418fc299-18ff-478e-a2c8-4da07e1f3d28",
@@ -1364,8 +1365,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge1.sr.se/p1-aac-320",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "478c1254-cd56-472d-8f12-24f110d76d8d",
@@ -1383,7 +1384,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge2.sr.se/p4sth-aac-32",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "48798f54-d904-426b-b9e3-cd75aa5816b2",
@@ -1402,7 +1403,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://shout.rs8990.com/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:12.619Z"
     },
     {
       "stationuuid": "49b761c3-0564-4501-857f-f1ee6831b387",
@@ -1421,7 +1422,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://fm05-ice.stream.khz.se/fm05_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "4a5ce51f-7966-11ea-8a3b-52543be04c81",
@@ -1435,11 +1436,11 @@
       "votes": 33,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://vod.tv7.fi:1935/tv7-se/mp4:tv7-se.stream_720p/playlist.m3u8",
+      "verdict": "ok-hls",
+      "verdictReason": "HLS stream — plays via hls.js / native Safari (https variant on default port from http://)",
+      "finalUrl": "https://vod.tv7.fi/tv7-se/mp4:tv7-se.stream_720p/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:12.939Z"
     },
     {
       "stationuuid": "4b089827-c6e2-44d7-8689-00c47c9d8650",
@@ -1457,8 +1458,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://wr06-ice.stream.khz.se/wr06_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:12.068Z"
     },
     {
       "stationuuid": "4b226edb-15be-4563-b74b-372b103091f7",
@@ -1475,8 +1476,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge2.sr.se/p4vnrl-aac-320",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "4b804728-3074-4697-bd39-ffa6111542e6",
@@ -1493,8 +1494,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://wr07-ice.stream.khz.se/wr07_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:12.647Z"
     },
     {
       "stationuuid": "4f0772f4-926d-4d51-8571-ebea69c1839f",
@@ -1511,8 +1512,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://sc.dansbandsradio.se/dbr128.aac",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "5003028b-5943-4cea-820b-5b8a4a8fa9b6",
@@ -1526,11 +1527,11 @@
       "votes": 4,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-network",
+      "verdict": "probe-skipped",
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
       "finalUrl": "https://http-live.sr.se/dingata-aac-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:15.055Z"
     },
     {
       "stationuuid": "50d2c7dd-dec7-4169-84a1-a2f1614278ad",
@@ -1548,7 +1549,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://fm01-ice.stream.khz.se/fm01_mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "51b2e520-417d-4c91-8bf3-f2a664289c9b",
@@ -1567,7 +1568,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge1.sr.se/p4vnrl-mp3-96",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "52bee974-ac8a-45ef-aea1-adb87c88f83e",
@@ -1586,7 +1587,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://sc.dansbandsradio.se/dbr128.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "5352f351-b5ac-4141-b886-9c44ac446511",
@@ -1604,8 +1605,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge1.sr.se/p4kalm-mp3-96",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "53dac0bd-de56-447a-a42c-9f841af15e2e",
@@ -1622,8 +1623,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml2.prostream.se/listen/metal_mayhem/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "53ef6c63-7b27-4245-bf7c-420b16f5538a",
@@ -1640,8 +1641,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/country/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "543db188-7d24-417e-aa1f-2fe942ccf88e",
@@ -1660,7 +1661,7 @@
       "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.se",
       "finalUrl": "https://http-live.sr.se/p4stockholm-mp3-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.031Z"
+      "probedAt": "2026-06-10T19:39:11.934Z"
     },
     {
       "stationuuid": "54e3f7cd-47a0-414a-ac11-1b7850ed5973",
@@ -1679,7 +1680,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://live.narradio.se:8020/;stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.975Z"
     },
     {
       "stationuuid": "587e1851-aa43-4c62-a4b1-8b7f2517a31a",
@@ -1697,7 +1698,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://live.narradio.se:8010/;stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.975Z"
     },
     {
       "stationuuid": "5baebcb0-15c1-4562-b4f8-4219b32cea5d",
@@ -1715,8 +1716,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://wr20-ice.stream.khz.se/wr20_mp3?platform=web",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:12.281Z"
     },
     {
       "stationuuid": "5c7ef11f-a6a0-4697-9d87-6df7a3209258",
@@ -1734,7 +1735,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge1.sr.se/p1-mp3-96",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "5c85225c-75b9-4452-b3e0-998a2bf80532",
@@ -1752,8 +1753,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s2.free-shoutcast.com/stream/18092",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.139Z"
     },
     {
       "stationuuid": "5cc4f5dc-9693-46c2-91cc-e2f8eb0f215d",
@@ -1770,8 +1771,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/popburst/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "5d88511c-5369-4092-b027-22b9678d4073",
@@ -1786,11 +1787,11 @@
       "votes": 14,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
+      "verdict": "broken-dns",
+      "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.se",
       "finalUrl": "https://http-live.sr.se/p4stockholm-mp3-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:14.127Z"
     },
     {
       "stationuuid": "5dde70fa-c630-4ad5-840c-8af6bddb145a",
@@ -1807,8 +1808,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.ericade.net/sc/stream/1/",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "5df76756-534f-4af9-879c-268dce9b9b80",
@@ -1827,7 +1828,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://live-bauerse-fm.sharp-stream.com/mixmegapol_instream_se_aacp",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "5dfe2bf3-0d7b-4df3-a3e3-ce7c465cf115",
@@ -1844,8 +1845,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-bauerse-fm.sharp-stream.com/nrj_instreamtest_se_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "5edaeb8f-63d3-4a73-a684-a153b1cca9a5",
@@ -1862,8 +1863,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.radiogbg.se:8050/relay4",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:12.142Z"
     },
     {
       "stationuuid": "613dbc09-c205-4285-bb0f-7e71a67015dd",
@@ -1881,7 +1882,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge1.sr.se/p4malm-mp3-96",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "641fb7fd-6e73-4e62-b64f-2353fe96a5be",
@@ -1899,7 +1900,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://relay1.slayradio.org:8000/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:12.068Z"
     },
     {
       "stationuuid": "6778fd92-c72b-4be8-a9c6-2b753d207deb",
@@ -1916,8 +1917,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://stream.dbmedia.se/gk90tal96",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "678cb641-f43d-456b-8980-cba70cb7c414",
@@ -1935,8 +1936,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://stream.dbmedia.se/gk80tal96",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "67d48eb9-c3b0-459d-b494-ca1ebb5cb766",
@@ -1954,8 +1955,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://streaming.943.se/treby878",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.136Z"
     },
     {
       "stationuuid": "67e88c46-a6fe-4355-a6bb-821abd707d66",
@@ -1972,8 +1973,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streaming.943.se/radio88dans",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.136Z"
     },
     {
       "stationuuid": "681d2589-e135-46bd-a11a-272d8d13e8f8",
@@ -1990,8 +1991,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml2.prostream.se/listen/american_truckers/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "697e5012-5cdc-46b5-abe6-18cebd3b3dd1",
@@ -2009,7 +2010,7 @@
       "verdictReason": "application/ogg",
       "finalUrl": "https://edge1.sr.se/p2-flac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "69b90092-2a26-4ed3-acf3-2ca6b142be26",
@@ -2026,8 +2027,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.ericade.net/sc/stream/2/",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "6a26ca98-58b4-4127-8c3d-869564bc672c",
@@ -2045,8 +2046,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://wr12-ice.stream.khz.se/wr12_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.846Z"
     },
     {
       "stationuuid": "6a4f38ed-3c22-45b1-a2f3-5da0c8f47c2d",
@@ -2063,8 +2064,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream03.pcradio.biz/Pain-hi",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "6af22763-e633-41eb-96e4-7bf712c088aa",
@@ -2082,8 +2083,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://auralis-radio.com/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:12.692Z"
     },
     {
       "stationuuid": "6b3dc713-d0a0-4f02-bfb2-756f293ec0cb",
@@ -2100,8 +2101,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml2.prostream.se/listen/mad_mix_curated/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "6d52fc82-42d2-4b29-aece-d84e1f1c641d",
@@ -2119,8 +2120,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://wr05-ice.stream.khz.se/wr05_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:12.068Z"
     },
     {
       "stationuuid": "6dfb955d-609a-4c53-af79-39f9660a408d",
@@ -2139,7 +2140,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.ericade.net/sc/stream/1/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "6f295dab-138c-45a5-b06f-d81e4643d05e",
@@ -2154,11 +2155,11 @@
       "votes": 11,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
+      "verdict": "broken-dns",
+      "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.se",
       "finalUrl": "https://http-live.sr.se/p4gavleborg-mp3-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:14.900Z"
     },
     {
       "stationuuid": "70a1dbfb-486b-4f90-b385-eb5837005fec",
@@ -2175,8 +2176,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/radio_789/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "71f377fc-3c53-4881-a53d-2a3e25ff030f",
@@ -2191,11 +2192,11 @@
       "votes": 28,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://stream.nsp.se:8000/DFM_AAC_Hi",
+      "verdict": "ok",
+      "verdictReason": "audio/aacp (https variant on default port from http://)",
+      "finalUrl": "https://stream.nsp.se/DFM_AAC_Hi",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:32.489Z"
     },
     {
       "stationuuid": "726aaa92-2694-4a2b-b952-02b297ca4094",
@@ -2213,7 +2214,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge1.sr.se/p4vnrl-mp3-96",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "7317cab6-cef3-44f2-a8ae-9fdee72559cc",
@@ -2230,8 +2231,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/gen_x/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "734e8191-c34d-4b78-98fc-0a69dafd323e",
@@ -2248,8 +2249,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/mad_mix_beats/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "73b5026f-40f2-49e8-846d-4d6f77e20d18",
@@ -2266,8 +2267,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge2.sr.se/p4vstm-mp3-96",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "7517e554-81cd-411c-aa27-13844283a5ed",
@@ -2285,7 +2286,7 @@
       "verdictReason": "application/ogg",
       "finalUrl": "https://edge1.sr.se/p2-flac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "7525f5fd-393c-46f4-a0ba-e02856a1873c",
@@ -2302,7 +2303,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-179.zeno.fm/c6ufpty9w1ctv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJjNnVmcHR5OXcxY3R2IiwiaG9zdCI6InN0cmVhbS0xNzkuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiNDZYUWU5STlUSDJxV0h4YThSelhjQSIsImlhdCI6MTc3NzUzMjY5OSwiZXhwIjoxNzc3NTMyNzU5fQ.UJ78tHn5ILv6O4vZVkHHpFGeozIkFhmBofGxmMYHYu8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "754681f3-08c0-4242-9cd0-d873d2ec9da0",
@@ -2320,7 +2321,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://radiogodis.org:8004/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:33.793Z"
     },
     {
       "stationuuid": "772ac852-f6e9-4059-bcda-6246e8e6b862",
@@ -2337,8 +2338,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://icecast.radio-orinoco.com/orinoco",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:12.281Z"
     },
     {
       "stationuuid": "7800c880-6618-49ac-a6f8-5cac3498fe04",
@@ -2353,11 +2354,11 @@
       "votes": 6,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-network",
+      "verdict": "probe-skipped",
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
       "finalUrl": "https://http-live.sr.se/p4kronoberg-mp3-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:15.055Z"
     },
     {
       "stationuuid": "78563d75-79f2-4c67-a80d-291891e2fb88",
@@ -2375,8 +2376,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://wr03-ice.stream.khz.se/wr03_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "79930fba-66b9-42cc-8b40-cf766176a38d",
@@ -2392,8 +2393,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-178.zeno.fm/9q3ez3k3fchvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiI5cTNlejNrM2ZjaHZ2IiwiaG9zdCI6InN0cmVhbS0xNzguemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiWlU3ZjdSckRRY1NuY2hzZ2pnTVZSUSIsImlhdCI6MTc3NzUzMjY5MywiZXhwIjoxNzc3NTMyNzUzfQ.e56r4kHW185vH3-CKa_RexHrjNj09i5vXLeJzUkqj2Q",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "79d17f42-620e-437d-b7e6-ed1c1d26c670",
@@ -2412,7 +2413,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge1.sr.se/p4hall-aac-128",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "7a275e1c-6730-4048-a064-a7cb3c9dabb8",
@@ -2429,8 +2430,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/radio_567/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "7ace76fa-d18b-4f18-82f8-73694a86b2aa",
@@ -2447,8 +2448,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-178.zeno.fm/wazhcyi9ak5vv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ3YXpoY3lpOWFrNXZ2IiwiaG9zdCI6InN0cmVhbS0xNzguemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiQlJCYlQxdExSYzZXOG43UWRwcXplQSIsImlhdCI6MTc3NzUzMjY5OCwiZXhwIjoxNzc3NTMyNzU4fQ.7hBcz1mq-h5ewHO14XBbIbMuDSOst3pDCi-k1iaGdIg&1709234440014",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:12.281Z"
     },
     {
       "stationuuid": "7bc5f4f0-7103-4a14-bd86-eaed014a24db",
@@ -2465,8 +2466,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/90s_rewind/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "7ca8f95e-a67b-4d07-9712-e829e70ff7f3",
@@ -2481,11 +2482,11 @@
       "votes": 70,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://stream.nsp.se:8000/DFM_MP3_Hi",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://stream.nsp.se/DFM_MP3_Hi",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:32.029Z"
     },
     {
       "stationuuid": "7cd8a7f7-138e-453b-a3fc-4ced0968f86b",
@@ -2504,7 +2505,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://sc.dansbandsradio.se/dbr64.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "7edf2ac6-c6a3-4283-aad8-1b8cfa39fe81",
@@ -2519,11 +2520,11 @@
       "votes": 21,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
+      "verdict": "broken-dns",
+      "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.se",
       "finalUrl": "https://http-live.sr.se/p4norrbotten-mp3-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:13.048Z"
     },
     {
       "stationuuid": "80d51b29-02d0-48e6-a1b5-a613daa79a3c",
@@ -2540,8 +2541,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://play.radiorivendell.com/radio/8000/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "817d37ef-474f-4072-bc48-8619eedafd97",
@@ -2559,8 +2560,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://fm09-ice.stream.khz.se/fm09_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:12.142Z"
     },
     {
       "stationuuid": "850aedd1-5099-4553-81cc-7f24704cb3e7",
@@ -2575,11 +2576,11 @@
       "votes": 12,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
+      "verdict": "broken-dns",
+      "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.se",
       "finalUrl": "https://http-live.sr.se/p4jamtland-mp3-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:14.435Z"
     },
     {
       "stationuuid": "87da5b20-53e4-483f-92fe-96a28c8c8b18",
@@ -2598,7 +2599,7 @@
       "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.se",
       "finalUrl": "https://http-live.sr.se/p4goteborg-mp3-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.186Z"
+      "probedAt": "2026-06-10T19:39:12.088Z"
     },
     {
       "stationuuid": "888b3eb1-7766-48bb-b002-ea99e3a8becf",
@@ -2612,11 +2613,11 @@
       "votes": 0,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-4xx",
-      "verdictReason": "HTTP 404",
+      "verdict": "broken-5xx",
+      "verdictReason": "HTTP 503",
       "finalUrl": "https://sc.retrohits.se/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.129Z"
+      "probedAt": "2026-06-10T19:39:11.846Z"
     },
     {
       "stationuuid": "8a935b3c-f1b9-48d4-b572-cbba8889760f",
@@ -2635,7 +2636,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:12.647Z"
     },
     {
       "stationuuid": "8b00bcfc-4d94-11ea-b877-52543be04c81",
@@ -2653,7 +2654,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://live-bauerse-fm.sharp-stream.com/retrofm_aacp?ua=WEB&aw_0_1st.playerid=SBS_RP_WEB&aw_0_1st.skey=1575715192&companionAds=true&listenerId=@@GUID@@",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "8b37a02b-5a90-4e7f-b576-7934e0af34d7",
@@ -2670,8 +2671,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.dbmedia.se/dbkMP3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "8eb64d77-0fc9-43b0-9bd6-ad3209152a4c",
@@ -2688,8 +2689,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml2.prostream.se/listen/stars_on_45/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "8fbba0c6-2fe5-11ea-aa0c-52543be04c81",
@@ -2704,11 +2705,11 @@
       "votes": 30,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
+      "verdict": "broken-dns",
+      "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.se",
       "finalUrl": "https://http-live.sr.se/knattekanalen-mp3-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:12.894Z"
     },
     {
       "stationuuid": "9197541c-ca21-4500-b962-21863b0926cb",
@@ -2727,7 +2728,7 @@
       "verdictReason": "application/ogg",
       "finalUrl": "https://play.radiorivendell.com/radio/8000/radio.ogg",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "91c407ca-7561-11e9-af37-52543be04c81",
@@ -2743,8 +2744,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live.radio.bubb.la/stream.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:12.068Z"
     },
     {
       "stationuuid": "93b730ce-4e0c-4601-84de-b1af38edac24",
@@ -2763,7 +2764,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://sc.dansbandsradio.se/dbr128.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "949f9dd3-36d0-48c3-9f4f-670b43b4c46b",
@@ -2782,7 +2783,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://oscar.scenesat.com:8000/scenesatmax",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:32.142Z"
     },
     {
       "stationuuid": "95019533-f24b-4eb2-ba07-2ccdf1ea683e",
@@ -2801,7 +2802,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge1.sr.se/p1-mp3-96",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "95048711-523b-45d6-bed8-a8d4b0ab7666",
@@ -2818,8 +2819,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/back_to_the_80s/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "957584f4-cef4-11e8-a54a-52543be04c81",
@@ -2837,7 +2838,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://radiostreamthree.mine.nu:18020/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:12.070Z"
     },
     {
       "stationuuid": "960c4e01-0601-11e8-ae97-52543be04c81",
@@ -2856,7 +2857,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge1.sr.se/p3-aac-320",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "960c58b3-0601-11e8-ae97-52543be04c81",
@@ -2875,7 +2876,7 @@
       "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.se",
       "finalUrl": "https://http-live.sr.se/srextra01-aac-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.344Z"
+      "probedAt": "2026-06-10T19:39:12.584Z"
     },
     {
       "stationuuid": "960c59d6-0601-11e8-ae97-52543be04c81",
@@ -2890,11 +2891,11 @@
       "votes": 10,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-network",
+      "verdict": "probe-skipped",
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
       "finalUrl": "https://http-live.sr.se/srextra10-aac-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:15.055Z"
     },
     {
       "stationuuid": "960c62c1-0601-11e8-ae97-52543be04c81",
@@ -2913,7 +2914,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge2.sr.se/p2-aac-320",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "960c63d8-0601-11e8-ae97-52543be04c81",
@@ -2931,8 +2932,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge2.sr.se/dingata-aac-320",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "960c660b-0601-11e8-ae97-52543be04c81",
@@ -2951,7 +2952,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge1.sr.se/p1-aac-320",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "960c6720-0601-11e8-ae97-52543be04c81",
@@ -2969,8 +2970,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge1.sr.se/p2sm-aac-320",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "960c69e6-0601-11e8-ae97-52543be04c81",
@@ -2985,11 +2986,11 @@
       "votes": 11,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
+      "verdict": "broken-dns",
+      "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.se",
       "finalUrl": "https://http-live.sr.se/srextra03-aac-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:15.055Z"
     },
     {
       "stationuuid": "960c6bc6-0601-11e8-ae97-52543be04c81",
@@ -3004,11 +3005,11 @@
       "votes": 18,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
+      "verdict": "broken-dns",
+      "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.se",
       "finalUrl": "https://http-live.sr.se/srextra08-aac-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:13.509Z"
     },
     {
       "stationuuid": "960c84bf-0601-11e8-ae97-52543be04c81",
@@ -3023,11 +3024,11 @@
       "votes": 19,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
+      "verdict": "broken-dns",
+      "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.se",
       "finalUrl": "https://http-live.sr.se/srextra04-aac-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:13.354Z"
     },
     {
       "stationuuid": "960c90aa-0601-11e8-ae97-52543be04c81",
@@ -3046,7 +3047,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://http-live.sr.se/srsapmi-aac-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.186Z"
+      "probedAt": "2026-06-10T19:39:12.341Z"
     },
     {
       "stationuuid": "960c91b0-0601-11e8-ae97-52543be04c81",
@@ -3061,11 +3062,11 @@
       "votes": 12,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
+      "verdict": "broken-dns",
+      "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.se",
       "finalUrl": "https://http-live.sr.se/srextra05-aac-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:14.591Z"
     },
     {
       "stationuuid": "960cf063-0601-11e8-ae97-52543be04c81",
@@ -3084,7 +3085,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://http-live.sr.se/srextra02-aac-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:13.661Z"
     },
     {
       "stationuuid": "960cf120-0601-11e8-ae97-52543be04c81",
@@ -3099,11 +3100,11 @@
       "votes": 16,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
+      "verdict": "broken-dns",
+      "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.se",
       "finalUrl": "https://http-live.sr.se/srextra06-aac-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:13.817Z"
     },
     {
       "stationuuid": "960cf1df-0601-11e8-ae97-52543be04c81",
@@ -3118,11 +3119,11 @@
       "votes": 11,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-network",
+      "verdict": "probe-skipped",
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
       "finalUrl": "https://http-live.sr.se/srextra07-aac-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:15.055Z"
     },
     {
       "stationuuid": "960cf2a0-0601-11e8-ae97-52543be04c81",
@@ -3137,11 +3138,11 @@
       "votes": 9,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "probe-skipped",
+      "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
       "finalUrl": "http://http-live.sr.se/srextra09-aac-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:15.055Z"
     },
     {
       "stationuuid": "9611e396-0601-11e8-ae97-52543be04c81",
@@ -3158,7 +3159,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://lyssna.fnf.nu:8080/gnf103.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:32.044Z"
     },
     {
       "stationuuid": "96148cf5-0601-11e8-ae97-52543be04c81",
@@ -3176,8 +3177,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whsh4u-clients.com:18323/proxy/ndhfnbqx?mp=/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.138Z"
     },
     {
       "stationuuid": "9614fe6c-0601-11e8-ae97-52543be04c81",
@@ -3196,7 +3197,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://oscar.scenesat.com:8000/scenesatmax",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:31.840Z"
     },
     {
       "stationuuid": "961d9ecf-0601-11e8-ae97-52543be04c81",
@@ -3214,8 +3215,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.dbmedia.se/gkhbg96",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "9624489a-9323-11e8-a767-52543be04c81",
@@ -3234,7 +3235,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://edge-bauerse-06-thn.sharp-stream.com/svenskpop_se_mp3?",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:11.138Z"
     },
     {
       "stationuuid": "962afe61-0601-11e8-ae97-52543be04c81",
@@ -3253,7 +3254,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://sc3.radiosotenas.se:8500/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:12.195Z"
     },
     {
       "stationuuid": "962c1da9-0601-11e8-ae97-52543be04c81",
@@ -3272,7 +3273,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge1.sr.se/p4plus-aac-320",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "96342772-0601-11e8-ae97-52543be04c81",
@@ -3290,7 +3291,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://edge-bauerse-06-thn.sharp-stream.com/mixmegapol_instream_se_mp3?ua=WEB&",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "96412afe-0601-11e8-ae97-52543be04c81",
@@ -3308,8 +3309,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge1.sr.se/ekotdirekt-aac-320",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "96414222-0601-11e8-ae97-52543be04c81",
@@ -3327,7 +3328,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://edge-bauerse-02-thn.sharp-stream.com/nrj_instreamtest_se_mp3?",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "9642a6a5-0601-11e8-ae97-52543be04c81",
@@ -3345,8 +3346,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge1.sr.se/p6-aac-320",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "9642aad0-0601-11e8-ae97-52543be04c81",
@@ -3364,8 +3365,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.dbmedia.se/gk96",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "9642ad8b-0601-11e8-ae97-52543be04c81",
@@ -3383,7 +3384,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://edge-bauerse-01-gos2.sharp-stream.com/rockklassiker_instream_se_mp3?ua=WEB&",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "9642b0c2-0601-11e8-ae97-52543be04c81",
@@ -3401,7 +3402,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://62.101.46.15:8000/poporock",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:31.795Z"
     },
     {
       "stationuuid": "964338ec-0601-11e8-ae97-52543be04c81",
@@ -3420,7 +3421,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://lyssna.fnf.nu:8080/radioboras.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:32.194Z"
     },
     {
       "stationuuid": "964340cd-0601-11e8-ae97-52543be04c81",
@@ -3437,7 +3438,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://lyssna.fnf.nu:8080/gnf094.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:32.345Z"
     },
     {
       "stationuuid": "96434238-0601-11e8-ae97-52543be04c81",
@@ -3454,7 +3455,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://lyssna.fnf.nu:8080/gnf102.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:31.894Z"
     },
     {
       "stationuuid": "96434319-0601-11e8-ae97-52543be04c81",
@@ -3473,7 +3474,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://live.litefm.se:8000/stream_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:12.281Z"
     },
     {
       "stationuuid": "964a6fa3-0601-11e8-ae97-52543be04c81",
@@ -3492,7 +3493,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://62.209.164.60:8000/mp128.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:37.794Z"
     },
     {
       "stationuuid": "97b6d543-896d-4361-bc34-5d1c8a19a4bc",
@@ -3511,7 +3512,7 @@
       "verdictReason": "application/ogg",
       "finalUrl": "https://edge1.sr.se/p2-flac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "97c34f30-8378-4c76-824c-9e950f008db1",
@@ -3528,8 +3529,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml2.prostream.se/listen/kpop/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "9a58e0e1-7718-4d9a-8179-c9c95a255fd6",
@@ -3547,7 +3548,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s2.radio.co/sfbf5f5b85/listen",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "9ae67291-b1f6-4541-869b-6445b6d07269",
@@ -3566,7 +3567,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.thsradio.se:8000/rocket_hi.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:12.619Z"
     },
     {
       "stationuuid": "9c97c1ea-73e3-4013-8b47-13a5936c764b",
@@ -3583,8 +3584,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml2.prostream.se/listen/groove_revival_radio/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "9ccab272-2072-4baa-baad-52170ecd0c11",
@@ -3602,7 +3603,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge2.sr.se/p4sth-aac-32",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "9d1b673a-7a6b-4e0a-82b6-e0edfabfcb28",
@@ -3619,8 +3620,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml2.prostream.se/listen/punk_classics/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "9e158282-94f5-4577-a551-58bcca2d9602",
@@ -3635,11 +3636,11 @@
       "votes": 9,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-network",
+      "verdict": "probe-skipped",
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
       "finalUrl": "https://http-live.sr.se/p4uppland-mp3-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:15.055Z"
     },
     {
       "stationuuid": "9fcf5f38-9bfe-4d2a-a453-a655a1729fde",
@@ -3656,8 +3657,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.linkopingsnarradio.se:8005/radioprogram",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:12.619Z"
     },
     {
       "stationuuid": "a03d0d90-73ec-451d-bb7e-b698f9b3698e",
@@ -3674,8 +3675,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/blues/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "a20f86e9-ec1b-425a-9ebe-831720249f74",
@@ -3693,8 +3694,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge1.sr.se/p4blek-mp3-96",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "a536d6ff-fe7e-41c4-ac95-378effaee0f6",
@@ -3711,8 +3712,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml2.prostream.se/listen/faith_beats_radio/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "a615437b-ff32-4da2-904e-8390f7ed1052",
@@ -3729,8 +3730,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/decades/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "a6a09847-6e2e-4076-9b30-773023caf2e7",
@@ -3747,8 +3748,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://stream.dbmedia.se/gk60tal96",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "a6fb6ae2-b821-4902-8dce-5a77fbe27488",
@@ -3767,7 +3768,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://http-live.sr.se/p4ostergotland-aac-192?DIST=TuneIn&TGT=TuneIn&maxServers=2&gdpr=1&us_privacy=1YNY&gdpr_consent=CPSxGf7PSxGf7AcABBENB9CsAP_AAAAAACiQIfhBACZEDAFBAGBpAIsAAAAAAAAAACAwAAAAACAACDgAAAQAgAAAAAgAACAAAAgAIAAAAAAAAAAABAAAAAAAAADEAAAAAAEAAABAAAAAAAAAAAAAAICAAAAAAAAQAAAAkAwAPv____f_7-3_3__5_3---_e_V_99zLv9____39nP___9v-_9___4AAAEgkB4ACoAGQAOAAgABkADSAIgAigBMACeAKUAaoA7wEiAMNAYeAyIBkgDJwGXAM5AZ8A0gBp0DWANZAbrA5EDlQHLgOsAeOA-UIAZAC2AOcBiADFgGQgMjAZMA0IBowDSgGpgNoAbcA3QBwQDpAHYAOzAd0A8CB5IHlAPaAe6A-QB9gYAOAFsBkYDQgG6AOJAdmA90NAMARUAkQBh4DGAGTgM5AZ4Az4ByQDlAHWAPwEABgAtgNCAboA4kB2YD3REAkBIgDDwGTgM5AZ8A5IBygDrAH4CoBgATAFNgLzAYeAyIBnIDPAGfANyAckA5QB-AoAIA0IBrwDiQH2DIBYATAF5gMPAZEAzkBngDPgHJAOUAfEA_AYADAaEA4kB9g6BeABUADIAHAAQAAyABpAEQARQAmABPAC-AGIAUoA7wCLAF1ARUAkQBhoDDwGJAMYAY8AyQBk4DKgGWAMuAZyAz4BokDSANJAaWA04BqoDWAGxgN1AcXA5IDlQHLgOsAeOA9IB6oD5QH1gPwHAHwAtgDnAHcAQgBiADFgGQgMmAZeA0KBooGjANKAaaA1MBrwDaAG2ANuAcTA48DkAHSAOwAdmA8CB5IHlAPaAe6A-IB9gD8QH7EICwAGQAmABfADEAO8BIgDDwGJAMiAZOAzkBngDPgGiANJAaWA1UBwADkgHWAPHAfgQAIADnAaEA0UBpQDUwG2ANuAcSA6MB2EDyQPKAeiA90B8QD7AH7EoDAAGQAOABEACYAF8AMQApQBqgDvALqAioBIgDDwGRAMnAZYAzkBngDPgGkANYAcAA6wB-BIAUAO4BiwDSgG5AOJAdIA7AB5QD2gH2FIEoAFQAMgAcABAADIAGkARABFACYAE8AKQAXwAxAClAGqAO8AiwCRAGGgMPAYwAyIBkgDJwGXAM5AZ4Az6BpAGkwNYA1kBsYDdYHJgcoA5cB1gDxwHygPwKAFABzgDuALqAxYBkwDRAGlANNgakBqYDXgHBAOJAdgA7MB5QD2gHugPiAfYA_YA.f_gAAAAAAAAA&partnertok=eyJhbGciOiJIUzI1NiIsImtpZCI6InR1bmVpbiIsInR5cCI6IkpXVCJ9.eyJ0cnVzdGVkX3BhcnRuZXIiOnRydWUsImlhdCI6MTY0MjA5OTA4OSwiaXNzIjoidGlzcnYifQ.lHS2wM3X_1OBMWllZXm4SFuLlvIaF92RC0UI7VYlDfc",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:13.198Z"
     },
     {
       "stationuuid": "a72d9bd0-86b9-4450-8958-c53688e1e956",
@@ -3786,7 +3787,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://fm01-ice.stream.khz.se/fm01_aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "a786a585-319c-4da9-ac13-794e805f1529",
@@ -3805,7 +3806,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://live.narradio.se:8020/;stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:12.128Z"
     },
     {
       "stationuuid": "a9fc150a-579c-44b9-b8c1-6f0e972be3d2",
@@ -3823,7 +3824,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://wr03-ice.stream.khz.se/wr03_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "ac551e97-29fe-4eb2-979f-7438ad647d15",
@@ -3842,7 +3843,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge1.sr.se/p4sth-aac-320",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "ac5cf76c-20ba-11e9-a80b-52543be04c81",
@@ -3860,8 +3861,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://retreatradio.out.airtime.pro:8000/retreatradio_b",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.139Z"
     },
     {
       "stationuuid": "b30f805d-8402-4555-b182-dcf5fa0820da",
@@ -3879,8 +3880,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://fm05-ice.stream.khz.se/fm05_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "b5bd600f-9d41-4a52-8dbb-91eaccfe4ebf",
@@ -3897,8 +3898,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge2.sr.se/p4jmtl-aac-320",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "b667d92a-e0a3-4b84-aba6-1f455cc5e592",
@@ -3916,7 +3917,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://live.narradio.se:8030/;stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:12.134Z"
     },
     {
       "stationuuid": "b6886275-1d73-4e71-86ce-483175bd2a80",
@@ -3933,8 +3934,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/house/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "b8f2ef5c-eaac-499c-b006-6a2fd276efb1",
@@ -3953,7 +3954,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream4.rcast.net/73224",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.136Z"
     },
     {
       "stationuuid": "b934e685-1878-4d33-bd0b-ba42134322a8",
@@ -3970,8 +3971,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://sc.retrohits.se/retrohits64.aac",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.129Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.846Z"
     },
     {
       "stationuuid": "bb4855dc-2835-4974-958b-1a3ca10ddadc",
@@ -3989,7 +3990,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://video.webbplay.se:1935/liveradio/narradio/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:33.293Z"
     },
     {
       "stationuuid": "be9cd5b3-570c-410c-ab98-7f99af678b20",
@@ -4007,8 +4008,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live-bauerse-fm.sharp-stream.com/nostalgi_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "bf408897-716b-4e9f-88aa-7cb481a0a0b7",
@@ -4027,7 +4028,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://stream.magicradio.se/magic",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:12.506Z"
     },
     {
       "stationuuid": "c48371b8-52d2-4eff-8a72-a7ab3fa7066b",
@@ -4045,8 +4046,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://wr19-ice.stream.khz.se/wr19_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.139Z"
     },
     {
       "stationuuid": "c51dbaad-5f7a-4027-8600-7b7c620023d8",
@@ -4061,11 +4062,11 @@
       "votes": 15,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-network",
-      "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
+      "verdict": "broken-dns",
+      "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.se",
       "finalUrl": "https://http-live.sr.se/p4varmland-mp3-128",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:13.971Z"
     },
     {
       "stationuuid": "c5353b6e-0cdd-427a-b666-f265bc6d4c73",
@@ -4083,7 +4084,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://radiostreamone.mine.nu/9990MHz",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:31.948Z"
     },
     {
       "stationuuid": "c8904795-b56f-4abc-afac-476169325741",
@@ -4101,8 +4102,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s2.radio.co/sfbf5f5b85/listen",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "c8c4a599-7230-4a08-997d-36c74b08c2ce",
@@ -4120,7 +4121,7 @@
       "verdictReason": "application/ogg",
       "finalUrl": "https://edge1.sr.se/p2-flac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "cc00eccd-eda8-4901-8e1f-4c2f3e1fcb53",
@@ -4137,8 +4138,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml2.prostream.se/listen/bollywood_bangers/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "ccfd647b-93da-4275-aa8f-0c39f56feac5",
@@ -4157,7 +4158,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://master.shoutcast.com:8000/popradio-stockholm",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:13.192Z"
     },
     {
       "stationuuid": "cd9cad10-788f-44ee-9e35-00a05efe2271",
@@ -4174,8 +4175,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/ivory_echoes/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "cda260eb-ede7-4417-97f6-55dea02abd80",
@@ -4194,7 +4195,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://213.115.49.175:1157/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:31.795Z"
     },
     {
       "stationuuid": "ce877b75-fbb5-4b67-a39c-707e59ab38cc",
@@ -4213,7 +4214,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://fm05-ice.stream.khz.se/fm05_aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "d077ae1e-60ef-422b-b9ac-159e56b319d4",
@@ -4230,8 +4231,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://mediaserv38.live-streams.nl:8107/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.138Z"
     },
     {
       "stationuuid": "d1620588-c6f3-4e40-a828-a0fd3f945c07",
@@ -4250,7 +4251,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://fm01-ice.stream.khz.se/fm01_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "d1c40bbb-618a-11e8-b15b-52543be04c81",
@@ -4268,7 +4269,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://oscar.scenesat.com:8000/scenesatmed",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:31.992Z"
     },
     {
       "stationuuid": "d20a7b4a-4fe6-4f5f-ace5-16c7c9091c80",
@@ -4285,8 +4286,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream3.themediasite.co.uk:8030/",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:12.142Z"
     },
     {
       "stationuuid": "d2b34ded-eb3e-47e0-8d6e-de27122537e2",
@@ -4304,7 +4305,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://radiostreamone.mine.nu/MRS9050one",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:31.799Z"
     },
     {
       "stationuuid": "d4f59b07-4926-478e-8270-6257aa6dc93e",
@@ -4321,8 +4322,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/radio_163/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "d5644326-77e9-4c6a-9444-b1dc636ce8e8",
@@ -4340,8 +4341,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://wr10-ice.stream.khz.se/wr10_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.139Z"
     },
     {
       "stationuuid": "d66b22ac-0743-41e5-99d6-affdb54d74c0",
@@ -4359,8 +4360,8 @@
       "verdict": "broken-tls",
       "verdictReason": "TypeError: fetch failed — Error: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca",
       "finalUrl": "https://s2.stationplaylist.com:7098/listen.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.363Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:13.309Z"
     },
     {
       "stationuuid": "d906e09f-49da-469e-9937-5f5273fc9006",
@@ -4377,8 +4378,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/jazz/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "d99b56f3-fa85-4c91-86a3-3c2e8135ea3d",
@@ -4396,8 +4397,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream4.rcast.net/73224",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.136Z"
     },
     {
       "stationuuid": "daef257f-eb1a-11e8-a471-52543be04c81",
@@ -4415,8 +4416,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.dbmedia.se/crr96",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "db511060-495a-4756-95d2-5070bc529f57",
@@ -4434,8 +4435,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge2.sr.se/p4vast-mp3-96",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "dc8c2061-1ea8-434e-b523-2742ae6fb96c",
@@ -4450,11 +4451,11 @@
       "votes": 8,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-network",
+      "verdict": "probe-skipped",
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
       "finalUrl": "https://http-live.sr.se/p4sjuharad-mp3-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:15.055Z"
     },
     {
       "stationuuid": "dcffc252-0460-4e02-9063-73e7e0e5af7f",
@@ -4469,11 +4470,11 @@
       "votes": 1,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://radiosydvast.duckdns.org:12932/stream",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://radiosydvast.duckdns.org/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:32.826Z"
     },
     {
       "stationuuid": "e0e2a64e-3ec4-4da4-8aec-a4aa7b502163",
@@ -4491,8 +4492,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://wr15-ice.stream.khz.se/wr15_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.139Z"
     },
     {
       "stationuuid": "e35b1892-da16-48fa-8fb2-edf6803b6177",
@@ -4509,7 +4510,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://radio.bodensradio.se:8000/stream.ogg",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:32.947Z"
     },
     {
       "stationuuid": "e3c2d110-90f6-41e7-a6b8-8f92d646a007",
@@ -4526,8 +4527,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge2.sr.se/p4vrml-aac-320",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "e4f6d392-f704-4cf0-8d26-9c931cebeaf6",
@@ -4546,7 +4547,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge1.sr.se/p3-mp3-96",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "e79af81b-db6d-4f60-9ce1-39ff9b5874ab",
@@ -4564,8 +4565,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://wr09-ice.stream.khz.se/wr09_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.846Z"
     },
     {
       "stationuuid": "e99600f6-2f3b-4aee-af44-00c723cd0a91",
@@ -4582,8 +4583,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/midnight_silk_eros/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "eb44f44b-f3c9-4e6e-a440-91c045b0fe80",
@@ -4598,11 +4599,11 @@
       "votes": 3,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-network",
+      "verdict": "probe-skipped",
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
       "finalUrl": "https://http-live.sr.se/p4jonkoping-mp3-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:15.055Z"
     },
     {
       "stationuuid": "eb6986d8-2f1f-4034-9afe-dad3cade2e35",
@@ -4619,8 +4620,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream03.pcradio.biz/Roxette-hi",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "eb7aca36-7206-4367-823f-71c1dd7e104f",
@@ -4635,11 +4636,11 @@
       "votes": 11,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-network",
+      "verdict": "probe-skipped",
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-dns (TypeError: fetch failed — Error: getaddrinfo ENOTFOUND http-live.sr.",
       "finalUrl": "https://http-live.sr.se/p4skaraborg-mp3-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:15.055Z"
     },
     {
       "stationuuid": "ec0d3919-415f-4c63-9958-0da384b69ab4",
@@ -4656,8 +4657,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml1.prostream.se/listen/aftab/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "ec17a150-5a0c-11e8-b0ce-52543be04c81",
@@ -4676,7 +4677,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge2.sr.se/p1-mp3-96",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "ee1ef339-1383-4873-bc5f-bb99ce7cf4bd",
@@ -4694,8 +4695,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://fm06-ice.stream.khz.se/fm06_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.137Z"
     },
     {
       "stationuuid": "f075cd6b-dc5a-4268-bc81-dc873da77bee",
@@ -4712,8 +4713,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge1.sr.se/p4krist-mp3-96",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "f0f48ba7-b88c-471d-9153-f7a648f70653",
@@ -4732,7 +4733,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://http-live.sr.se/p4dalarna-aac-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:06.498Z"
+      "probedAt": "2026-06-10T19:39:14.279Z"
     },
     {
       "stationuuid": "f334270f-0a63-4c84-832e-a5291f2b4612",
@@ -4750,7 +4751,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://deb.patrikmalmgrenrask.se:8010/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:12.647Z"
     },
     {
       "stationuuid": "f4fcca1a-ba7e-11e9-acb2-52543be04c81",
@@ -4768,8 +4769,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.piraterock.se:8101/webradio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.138Z"
     },
     {
       "stationuuid": "f522cf8a-9513-4975-974e-4335aac37cf3",
@@ -4787,8 +4788,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge-bauerse-06-thn.sharp-stream.com/vinylfm_instream_se_mp3?",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.138Z"
     },
     {
       "stationuuid": "f60c842e-6d57-4586-ac29-1e0a5b621f5d",
@@ -4806,7 +4807,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://radio.dawnshadow.se:8000/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:31.934Z"
     },
     {
       "stationuuid": "f65bbc32-439d-447a-aba4-d83c144cdad3",
@@ -4825,7 +4826,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://relay1.slayradio.org:8300/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "probedAt": "2026-06-10T19:39:12.142Z"
     },
     {
       "stationuuid": "f6962d71-ceab-47e7-8cbd-0fddb7074a27",
@@ -4843,7 +4844,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream03.pcradio.biz/Pain-hi",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "f705d3e2-d76e-47eb-8f24-fb739fee8a8f",
@@ -4862,7 +4863,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://s2.radio.co/sfbf5f5b85/listen",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.135Z"
     },
     {
       "stationuuid": "f75454ef-f163-49c7-b80b-cc707b382f09",
@@ -4879,8 +4880,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml2.prostream.se/listen/party_247/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "f81a5aa3-d7b5-4c12-85fa-436d081efc73",
@@ -4897,8 +4898,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml2.prostream.se/listen/edm_/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "f897dd08-9a1a-4dd9-9430-a6665ecf835a",
@@ -4915,8 +4916,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml2.prostream.se/listen/classical/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "fa0f560a-e7f4-4918-b02d-d61a740b075e",
@@ -4934,8 +4935,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://wr08-ice.stream.khz.se/wr08_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.139Z"
     },
     {
       "stationuuid": "faa6e568-c9a4-4d7c-bea0-939cb069ec75",
@@ -4953,7 +4954,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://edge-bauerse-04-thn.sharp-stream.com/rockklassiker_instream_se_mp3?ua=WEB&",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "fc34869b-77f3-4483-87ad-813361bbbfd0",
@@ -4972,7 +4973,7 @@
       "verdictReason": "application/ogg",
       "finalUrl": "https://edge2.sr.se/p2-flac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.655Z"
+      "probedAt": "2026-06-10T19:39:11.108Z"
     },
     {
       "stationuuid": "fcc6c03e-5363-4028-9a58-5d63ec913c76",
@@ -4990,8 +4991,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s5.radio.co/s8ace52d32/listen",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.686Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:12.647Z"
     },
     {
       "stationuuid": "fe4b3646-7164-11e8-83fa-52543be04c81",
@@ -5009,7 +5010,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.dbmedia.se/crrMP3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "ffc8d7d5-7244-4738-bfee-22fcf0340edf",
@@ -5026,8 +5027,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mml2.prostream.se/listen/harmony_frequencies_radio/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:39:11.134Z"
     },
     {
       "stationuuid": "ffe421ec-4f51-4313-8bd0-e90a575fba8e",
@@ -5046,7 +5047,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.ericade.net/sc/stream/1/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:05.685Z"
+      "probedAt": "2026-06-10T19:39:11.135Z"
     }
   ]
 }

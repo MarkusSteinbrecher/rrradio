@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-05-19T17:35:19.304Z",
+  "generatedAt": "2026-06-10T19:10:03.031Z",
   "country": "LU",
   "rawSnapshotAt": "2026-05-19T07:50:45.904Z",
   "total": 34,
-  "playable": 24,
-  "broken": 10,
-  "curated": 11,
+  "playable": 28,
+  "broken": 6,
+  "curated": 17,
   "byVerdict": {
-    "ok": 21,
-    "broken-mixed": 8,
+    "ok": 25,
+    "broken-mixed": 4,
     "ok-hls": 3,
     "broken-dns": 1,
     "broken-tls": 1
@@ -30,7 +30,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://100komma7.stream38.radiohost.de/100komma7-100komma7_mp3-320?addradio&agend=true&upd-meta=1&upd-scheme=https&_art=dD0xNzc5MTkyNzQ0JmQ9OWMxY2JmZTMzZjhjNTVjZjJlZDk",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.299Z"
+      "probedAt": "2026-06-10T19:09:42.184Z"
     },
     {
       "stationuuid": "05c826f8-95e7-41f0-893e-c1c4f48fcd05",
@@ -49,7 +49,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://braintrip-radio.stream.laut.fm/braintrip-radio?t302=2026-05-11_08-10-04&uuid=2abb9e8b-2e03-4fa1-8ea1-19b4dd2b5ff8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:19.300Z"
+      "probedAt": "2026-06-10T19:09:42.185Z"
     },
     {
       "stationuuid": "0c3bfd01-5eb0-44d8-a8b8-1ef2c1909db4",
@@ -67,7 +67,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen.radioking.com/radio/551009/stream/610262",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:19.299Z"
+      "probedAt": "2026-06-10T19:09:42.184Z"
     },
     {
       "stationuuid": "0f902505-76c7-489b-8ddc-03b05b5867ae",
@@ -85,8 +85,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://radio.gen.dance/radio/8030/hd",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.298Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:09:42.158Z"
     },
     {
       "stationuuid": "133a4c16-f338-11e9-a96c-52543be04c81",
@@ -104,8 +104,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://lessentielradio.ice.infomaniak.ch/lessentielradio-128.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.300Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:09:42.185Z"
     },
     {
       "stationuuid": "14ef7efc-5537-439e-8155-c11cc2ef8154",
@@ -123,7 +123,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streams.radio.co/sa631ff66a/listen",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:19.300Z"
+      "probedAt": "2026-06-10T19:09:42.186Z"
     },
     {
       "stationuuid": "1b3b22b7-d103-4c65-b8b8-6534e5d84f5b",
@@ -141,7 +141,7 @@
       "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND 100komma7--di--nacs-ice-01--02--cdn.cast.addradio.de",
       "finalUrl": "https://100komma7--di--nacs-ice-01--02--cdn.cast.addradio.de/100komma7/opus/mp3/320/stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.300Z"
+      "probedAt": "2026-06-10T19:09:42.467Z"
     },
     {
       "stationuuid": "5a59510c-29a7-44c4-902a-9805817f9a92",
@@ -153,11 +153,11 @@
       "votes": 379,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://stream.rtlradio.de/schlagerliebe/mp3-192/",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (lenient HTTP parse — server violates HTTP/1.1, browsers play it) (browser auto-upgrade from http://)",
+      "finalUrl": "https://stream.rtlradio.de/schlagerliebe/mp3-192/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.299Z"
+      "probedAt": "2026-06-10T19:09:43.668Z"
     },
     {
       "stationuuid": "5fdc15c7-8c66-11e8-aa66-52543be04c81",
@@ -170,11 +170,11 @@
       "votes": 272,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://stream.rtlradio.de/rtl-de-beste-hits/aac-64",
+      "verdict": "ok",
+      "verdictReason": "audio/aac (lenient HTTP parse — server violates HTTP/1.1, browsers play it) (browser auto-upgrade from http://)",
+      "finalUrl": "https://stream.rtlradio.de/rtl-de-beste-hits/aac-64",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.299Z"
+      "probedAt": "2026-06-10T19:09:44.096Z"
     },
     {
       "stationuuid": "67aedccf-ed18-47d9-8ad6-aa1098a3227a",
@@ -192,7 +192,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://a12.asurahosting.com/listen/radio_radijacija/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:19.300Z"
+      "probedAt": "2026-06-10T19:09:42.186Z"
     },
     {
       "stationuuid": "6a893f37-f749-11e9-bbf2-52543be04c81",
@@ -211,7 +211,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.rtl.lu/data/live/tele/rtlradiowebtv/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:19.299Z"
+      "probedAt": "2026-06-10T19:09:42.184Z"
     },
     {
       "stationuuid": "80f07344-504e-48dd-8775-ab60c4a82068",
@@ -230,7 +230,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://100komma7.stream42.radiohost.de/100komma7-100komma7_mp3-128?agend=true&upd-meta=1&upd-scheme=https&ref=mp3&amsparams=mp3&_art=dD0xNzc4NDg3MzA0JmQ9YmM0MGU0ZTk4ZDYzZjE5YjhiMWQ",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:19.300Z"
+      "probedAt": "2026-06-10T19:09:42.185Z"
     },
     {
       "stationuuid": "82504e4e-d90f-4502-805b-defcb28ced02",
@@ -246,8 +246,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.rtl.lu/data/live/radio/rtlgold/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.299Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:09:42.184Z"
     },
     {
       "stationuuid": "8259a0dc-9c0e-4696-8f66-4bad021f0c55",
@@ -266,7 +266,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://sc.rtl.lu/rtlgold",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:19.300Z"
+      "probedAt": "2026-06-10T19:09:42.185Z"
     },
     {
       "stationuuid": "866efa72-d89f-40ea-a78c-50a2ac31c831",
@@ -284,8 +284,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://sc.bce.lu/eldochill",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.299Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:09:42.184Z"
     },
     {
       "stationuuid": "8ab1a2c2-8322-4453-bbec-d38eda48fc64",
@@ -304,7 +304,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://radio.gen.dance/radio/8030/mobile",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.299Z"
+      "probedAt": "2026-06-10T19:09:42.159Z"
     },
     {
       "stationuuid": "8e9c7156-0d0e-4af1-8d73-0c804c728d15",
@@ -316,11 +316,11 @@
       "votes": 441,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://stream.rtlradio.de/rtl-de-beste-hits/mp3-192",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (lenient HTTP parse — server violates HTTP/1.1, browsers play it) (browser auto-upgrade from http://)",
+      "finalUrl": "https://stream.rtlradio.de/rtl-de-beste-hits/mp3-192",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.299Z"
+      "probedAt": "2026-06-10T19:09:43.199Z"
     },
     {
       "stationuuid": "9300b8d7-0953-48d8-82a2-fa69c3b3030b",
@@ -339,7 +339,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://radio.gen.dance/radio/8030/mobile",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.299Z"
+      "probedAt": "2026-06-10T19:09:42.159Z"
     },
     {
       "stationuuid": "960ef824-0601-11e8-ae97-52543be04c81",
@@ -358,7 +358,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://sc-rtllive.newmedia.lu/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.300Z"
+      "probedAt": "2026-06-10T19:09:42.709Z"
     },
     {
       "stationuuid": "9611e44f-0601-11e8-ae97-52543be04c81",
@@ -376,7 +376,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://81.92.238.33/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.300Z"
+      "probedAt": "2026-06-10T19:09:42.439Z"
     },
     {
       "stationuuid": "971f6221-4fee-11e9-a4d7-52543be04c81",
@@ -394,7 +394,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen.radioking.com/radio/66160/stream/137599",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:19.299Z"
+      "probedAt": "2026-06-10T19:09:42.184Z"
     },
     {
       "stationuuid": "98cbddf8-51df-4bb4-8375-200c4eea618b",
@@ -412,7 +412,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://kotdt.com:8000/groovetime",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.300Z"
+      "probedAt": "2026-06-10T19:10:03.011Z"
     },
     {
       "stationuuid": "9bb6d671-b442-4fd5-96f5-6209619e76f1",
@@ -430,7 +430,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://streaming.aoip.international:8000/cr-gilsdorf",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.300Z"
+      "probedAt": "2026-06-10T19:10:02.917Z"
     },
     {
       "stationuuid": "a718c8b6-6f90-4a6d-bba4-dc89cb4aebb7",
@@ -447,8 +447,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://100komma7.stream38.radiohost.de/100komma7-100komma7_mp3-128?addradio&agend=true&upd-meta=1&upd-scheme=https&_art=dD0xNzc5MTkyNzQ0JmQ9YjM2YzU4MzRlYTQ1ZTNlZTdiMGI",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.299Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:09:42.184Z"
     },
     {
       "stationuuid": "a98264e7-e099-4369-b23b-62c7b016cca1",
@@ -461,11 +461,11 @@
       "votes": 1321,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://stream.rtlradio.de/rtl-de-national/mp3-192/",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (lenient HTTP parse — server violates HTTP/1.1, browsers play it) (browser auto-upgrade from http://)",
+      "finalUrl": "https://stream.rtlradio.de/rtl-de-national/mp3-192/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.299Z"
+      "probedAt": "2026-06-10T19:09:42.768Z"
     },
     {
       "stationuuid": "bcf0cad5-975a-4be6-b7f6-8fe6220dece6",
@@ -483,8 +483,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://sc.bce.lu/eldoalt",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.300Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:09:42.184Z"
     },
     {
       "stationuuid": "c7e4019b-f3ac-4167-a1e7-f7e5438ae218",
@@ -503,7 +503,7 @@
       "verdictReason": "TypeError: fetch failed — Error [ERR_TLS_CERT_ALTNAME_INVALID]: Hostname/IP does not match certificate's altnames: Host: rocket.streamradio.fr. is not in the cert's altnames: DNS:panel.streamradio.fr",
       "finalUrl": "https://rocket.streamradio.fr:8008/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.300Z"
+      "probedAt": "2026-06-10T19:09:42.581Z"
     },
     {
       "stationuuid": "ca05721e-5bdd-47cf-8d9f-2db8da94d708",
@@ -521,7 +521,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen.radioking.com/radio/66160/stream/137599",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.299Z"
+      "probedAt": "2026-06-10T19:09:42.184Z"
     },
     {
       "stationuuid": "cd3c305e-7058-482f-97f0-f3362a60972d",
@@ -539,7 +539,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://uk1.listen2myradio.com:2199/listen.php?port=8312&type=s2&mount=/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:19.300Z"
+      "probedAt": "2026-06-10T19:09:42.186Z"
     },
     {
       "stationuuid": "d8cc383d-ed0f-48d3-994a-8c8761560f8f",
@@ -557,7 +557,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://servidor14.brlogic.com:8150/live",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.299Z"
+      "probedAt": "2026-06-10T19:09:42.184Z"
     },
     {
       "stationuuid": "e25786e7-2658-4243-966f-e92572a50fc4",
@@ -575,7 +575,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://servidor14.brlogic.com:8150/live",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:19.299Z"
+      "probedAt": "2026-06-10T19:09:42.184Z"
     },
     {
       "stationuuid": "e6839413-9a70-45b1-927e-6f8f54887b44",
@@ -594,7 +594,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://radio.gen.dance/radio/8030/hd",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.299Z"
+      "probedAt": "2026-06-10T19:09:42.159Z"
     },
     {
       "stationuuid": "f5e8a89f-4016-4f5f-baca-aeb74aad668a",
@@ -612,7 +612,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.eldo.lu/data/live/radio/eldochill/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:19.300Z"
+      "probedAt": "2026-06-10T19:09:42.185Z"
     },
     {
       "stationuuid": "f73fe431-e896-4790-8ef0-0ed7309946bc",
@@ -631,7 +631,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:19.300Z"
+      "probedAt": "2026-06-10T19:09:42.186Z"
     }
   ]
 }

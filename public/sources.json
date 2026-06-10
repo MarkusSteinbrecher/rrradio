@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-10T15:15:12.253Z",
+  "generatedAt": "2026-06-10T20:07:26.886Z",
   "catalogTotal": 30314,
   "unclassifiedCatalogEntries": 0,
   "sources": [
@@ -16,26 +16,28 @@
       "dispositionTotals": {
         "imported": 30293,
         "duplicate": 14388,
-        "broken": 10555,
-        "available": 6
+        "broken": 9507,
+        "available": 1054
       },
       "extra": {
         "countriesAnalyzed": 237,
         "countriesInRawSnapshot": 237,
         "verdictBreakdown": {
-          "ok": 36644,
-          "broken-tls": 461,
-          "ok-hls": 3223,
-          "broken-mixed": 12493,
-          "broken-4xx": 956,
-          "broken-format": 175,
-          "broken-network": 730,
-          "broken-5xx": 161,
-          "broken-refused": 84,
-          "broken-dns": 100,
-          "broken-timeout": 160,
+          "ok": 38540,
+          "broken-tls": 427,
+          "ok-hls": 3251,
+          "broken-mixed": 11108,
+          "broken-4xx": 1135,
+          "broken-format": 151,
+          "broken-5xx": 139,
+          "broken-refused": 86,
+          "broken-network": 9,
+          "broken-dns": 105,
+          "broken-timeout": 145,
           "redirect-downgrade": 17,
-          "needs-playlist": 35
+          "needs-playlist": 35,
+          "probe-inconclusive": 5,
+          "probe-skipped": 86
         },
         "perCountryUrl": "/sources/radio-browser.json"
       },

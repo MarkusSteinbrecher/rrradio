@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-05-19T17:43:54.383Z",
+  "generatedAt": "2026-06-10T19:29:12.498Z",
   "country": "PS",
   "rawSnapshotAt": "2026-05-19T07:51:07.353Z",
   "total": 11,
-  "playable": 6,
-  "broken": 5,
-  "curated": 0,
+  "playable": 9,
+  "broken": 2,
+  "curated": 3,
   "byVerdict": {
-    "broken-mixed": 5,
-    "ok": 6
+    "broken-mixed": 2,
+    "ok": 9
   },
   "stations": [
     {
@@ -25,8 +25,8 @@
       "verdict": "ok",
       "verdictReason": "application/ogg",
       "finalUrl": "https://listen.camp:9000/campradio.ogg",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:54.378Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:28:51.728Z"
     },
     {
       "stationuuid": "25099007-e335-4bad-bd3a-515a34be3cc4",
@@ -40,11 +40,11 @@
       "votes": 891,
       "clickcount": 3,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://n02.radiojar.com/78cxy6wkxtzuv?1634328730=&rj-tok=AAABfIWfHK4AlWz8Q03vJJQdWw&rj-ttl=5",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (browser auto-upgrade after redirect to http://) (browser auto-upgrade from http://)",
+      "finalUrl": "https://n02.radiojar.com/78cxy6wkxtzuv?1634328730=&rj-tok=AAABfIWfHK4AlWz8Q03vJJQdWw&rj-ttl=5",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:54.378Z"
+      "probedAt": "2026-06-10T19:28:52.675Z"
     },
     {
       "stationuuid": "308a9f58-fb54-44dc-b95d-bb40fe4f3631",
@@ -58,11 +58,11 @@
       "votes": 873,
       "clickcount": 10,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://n02.radiojar.com/78cxy6wkxtzuv?1634328730=&rj-tok=AAABfIWfHK4AlWz8Q03vJJQdWw&rj-ttl=5",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (browser auto-upgrade after redirect to http://) (browser auto-upgrade from http://)",
+      "finalUrl": "https://n02.radiojar.com/78cxy6wkxtzuv?1634328730=&rj-tok=AAABfIWfHK4AlWz8Q03vJJQdWw&rj-ttl=5",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:54.378Z"
+      "probedAt": "2026-06-10T19:28:53.139Z"
     },
     {
       "stationuuid": "51ccca43-63c0-4b56-82a2-689a2d1160c7",
@@ -78,7 +78,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade after redirect to http://)",
       "finalUrl": "https://n07.radiojar.com/0tpy1h0kxtzuv?rj-ttl=5&rj-tok=AAABnkA9EzYAfWXP4SFR9GrU3Q",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:54.378Z"
+      "probedAt": "2026-06-10T19:28:51.728Z"
     },
     {
       "stationuuid": "8cd9d640-ed84-4584-82e2-36567c23249b",
@@ -96,7 +96,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streamer.mada.ps:8208/ajyal",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:54.378Z"
+      "probedAt": "2026-06-10T19:28:51.727Z"
     },
     {
       "stationuuid": "961ffb71-0601-11e8-ae97-52543be04c81",
@@ -114,7 +114,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://www.quran-radio.org:8002/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:54.378Z"
+      "probedAt": "2026-06-10T19:28:52.304Z"
     },
     {
       "stationuuid": "bcfe2aae-33fa-494a-a571-c3bbc8715c7d",
@@ -132,8 +132,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://cdna.streamgates.net/RadioNas/Live-Audio/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:54.378Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:28:51.728Z"
     },
     {
       "stationuuid": "d4e5cd2a-46da-447a-b92a-ef2abf64c329",
@@ -150,8 +150,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streamer.mada.ps:8208/ajyal",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:54.378Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:28:51.727Z"
     },
     {
       "stationuuid": "d62fa52b-7c1c-492c-9861-cd2c0ec02f00",
@@ -165,11 +165,11 @@
       "votes": 1796,
       "clickcount": 15,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://n02.radiojar.com/78cxy6wkxtzuv?1634328730=&rj-tok=AAABfIWfHK4AlWz8Q03vJJQdWw&rj-ttl=5",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (browser auto-upgrade after redirect to http://) (browser auto-upgrade from http://)",
+      "finalUrl": "https://n02.radiojar.com/78cxy6wkxtzuv?1634328730=&rj-tok=AAABfIWfHK4AlWz8Q03vJJQdWw&rj-ttl=5",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:54.377Z"
+      "probedAt": "2026-06-10T19:28:52.224Z"
     },
     {
       "stationuuid": "d6c5b16c-42a6-416f-b9df-fe61c55d1c36",
@@ -188,7 +188,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:54.378Z"
+      "probedAt": "2026-06-10T19:28:51.728Z"
     },
     {
       "stationuuid": "e7e418ef-a7c1-48d1-a1ac-64010dcb7fa4",
@@ -205,7 +205,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://213.6.93.254:8000/sebafm",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:54.378Z"
+      "probedAt": "2026-06-10T19:29:12.476Z"
     }
   ]
 }

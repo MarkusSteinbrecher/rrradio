@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-05-19T17:33:31.275Z",
+  "generatedAt": "2026-06-10T19:05:29.153Z",
   "country": "KN",
   "rawSnapshotAt": "2026-05-19T07:50:39.436Z",
   "total": 5,
-  "playable": 2,
-  "broken": 3,
-  "curated": 0,
+  "playable": 3,
+  "broken": 2,
+  "curated": 1,
   "byVerdict": {
-    "broken-mixed": 3,
-    "ok": 2
+    "ok": 3,
+    "broken-mixed": 2
   },
   "stations": [
     {
@@ -27,7 +27,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://104.131.13.48:8000/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:31.268Z"
+      "probedAt": "2026-06-10T19:05:27.832Z"
     },
     {
       "stationuuid": "1f122162-f390-4699-8135-2bdff6f3cb39",
@@ -46,7 +46,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:31.268Z"
+      "probedAt": "2026-06-10T19:05:26.758Z"
     },
     {
       "stationuuid": "5b419f91-8bb8-4b1c-8b10-9e04a7eec245",
@@ -65,7 +65,7 @@
       "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
       "finalUrl": "http://perseus.shoutca.st:8218/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:31.268Z"
+      "probedAt": "2026-06-10T19:05:27.956Z"
     },
     {
       "stationuuid": "a1f15641-5778-11ea-be63-52543be04c81",
@@ -80,11 +80,11 @@
       "votes": 901,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://vonradio.streamon.fm:8000/vonradio-24k.aac?type=.mp3/;stream.mp3",
+      "verdict": "ok",
+      "verdictReason": "audio/aac (https variant on default port from http://)",
+      "finalUrl": "https://vonradio.streamon.fm/vonradio-24k.aac?type=.mp3/;stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:31.268Z"
+      "probedAt": "2026-06-10T19:05:29.130Z"
     },
     {
       "stationuuid": "a2e1f5fa-0bbf-405f-8124-590cc1349cc7",
@@ -102,8 +102,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://media.slactech.com:8014/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:31.268Z"
+      "isCurated": true,
+      "probedAt": "2026-06-10T19:05:26.757Z"
     }
   ]
 }
