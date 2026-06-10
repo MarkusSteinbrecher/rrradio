@@ -97,7 +97,7 @@ function dashboardDonut(f: Filters, dispositions: Map<string, number>): HTMLElem
   if (!dispositions.size) return null;
   const segs: { key: string; label: string; pool: Pool }[] = [
     { key: 'imported', label: 'in catalog', pool: '' },
-    { key: 'available', label: 'available — playable, not imported', pool: 'available' },
+    { key: 'available', label: 'available — plays over https, not imported', pool: 'available' },
     { key: 'duplicate', label: 'duplicate — excluded, same stream/brand', pool: 'duplicate' },
     { key: 'broken', label: 'broken — stream failed probe', pool: 'broken' },
     { key: 'unprobed', label: 'unprobed — not analyzed yet', pool: 'unprobed' },
@@ -173,6 +173,8 @@ interface URow {
   /** Disposition (candidate rows only). */
   dispo?: string;
   streamUrl?: string;
+  /** Upstream record URL when streamUrl is the probe-verified upgrade. */
+  recordUrl?: string;
   favicon?: string;
   homepage?: string;
   /** Catalog-only extras for the logo / metadata column sets. */
@@ -205,6 +207,10 @@ function fromCandidate(c: Candidate): URow {
   if (c.disposition === 'duplicate') {
     sub.push(`dup of ${c.duplicateOfName ?? c.duplicateOf ?? c.matchedCatalogId ?? '?'}`);
   }
+  // Prefer the probe-verified playable URL (e.g. the https upgrade of an
+  // http record) — it's the URL an import would use and the one worth
+  // click-testing.
+  const upgraded = !!c.playableUrl && c.playableUrl !== c.streamUrl;
   return {
     name: c.name || '?',
     sub: sub.join(' · '),
@@ -212,7 +218,8 @@ function fromCandidate(c: Candidate): URow {
     sourceId: c.sourceId,
     cc: c.country,
     dispo: c.disposition,
-    streamUrl: c.streamUrl ?? undefined,
+    streamUrl: (c.playableUrl ?? c.streamUrl) ?? undefined,
+    recordUrl: upgraded ? (c.streamUrl ?? undefined) : undefined,
     favicon: c.favicon ?? undefined,
     homepage: c.homepage ?? undefined,
     probeVerdict: c.verdict,
@@ -232,9 +239,14 @@ function candidateFacet(u: URow, facet: Facet): FacetEntry | undefined {
     return { v: 'bad', since: '', d: `probe: ${v}` };
   }
   if (facet === 'https' && u.streamUrl) {
-    return u.streamUrl.startsWith('https:')
-      ? { v: 'ok', since: '', d: 'https stream' }
-      : { v: 'bad', since: '', d: 'http-only stream — unpublishable on the web (mixed content)' };
+    if (u.streamUrl.startsWith('https:')) {
+      return {
+        v: 'ok',
+        since: '',
+        d: u.recordUrl ? `record is http — https verified by probe (${u.recordUrl})` : 'https stream',
+      };
+    }
+    return { v: 'bad', since: '', d: 'http-only stream — unpublishable on the web (mixed content)' };
   }
   return undefined;
 }
@@ -300,7 +312,10 @@ function bodyCells(u: URow, set: ColumnSet): HTMLElement[] {
       : el('td', {}, badge(u.dispo ?? '?', DISPO_BADGE[u.dispo ?? ''] ?? 'muted')),
     el(
       'td',
-      { class: 'cell-url', title: u.streamUrl ?? '' },
+      {
+        class: 'cell-url',
+        title: u.recordUrl ? `probe-verified https URL — upstream record: ${u.recordUrl}` : (u.streamUrl ?? ''),
+      },
       u.streamUrl ? el('a', { href: u.streamUrl, target: '_blank', rel: 'noopener noreferrer' }, u.streamUrl) : '—',
     ),
   ];

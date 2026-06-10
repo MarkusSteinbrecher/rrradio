@@ -207,6 +207,10 @@ function collectRadioBrowser(src) {
       verdictIndex.set(s.stationuuid, {
         verdict: s.verdict || null,
         rbCheckOk: typeof s.lastcheckok === 'number' ? s.lastcheckok : null,
+        // The URL the probe actually played — for http records this is
+        // the verified https upgrade (playable-check tries https first
+        // and only reports ok when it works).
+        finalUrl: s.finalUrl || null,
       });
       if (s.name) uuidToName.set(s.stationuuid, s.name);
     }
@@ -311,6 +315,9 @@ function collectRadioBrowser(src) {
         matchedCatalogId: match?.id ?? null,
         streamHost,
         streamUrl: streamUrl || null,
+        // Only stored when the probe ended somewhere other than the
+        // record URL (https upgrade or redirect) — keeps the artifact lean.
+        ...(ver.finalUrl && ver.finalUrl !== streamUrl ? { playableUrl: ver.finalUrl } : {}),
         homepage: s.homepage || null,
         favicon: cleanFavicon(s.favicon),
       });

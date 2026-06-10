@@ -272,6 +272,9 @@ export interface Candidate {
   matchedCatalogId?: string | null;
   streamHost?: string;
   streamUrl?: string | null;
+  /** URL the playability probe actually played, when it differs from the
+   *  record URL — e.g. the verified https upgrade of an http record. */
+  playableUrl?: string | null;
   homepage?: string | null;
   favicon?: string | null;
   /** Source id, attached at load time. */
