@@ -48,8 +48,9 @@ const STEPS: Step[] = [
     cadence: ['manual'],
     what: [
       'npm run analyze-rb -- <CC> probes every candidate stream in a country: HTTP fetch with browser headers, byte-signature check (npm run probe:bytes), playlist parsing, mixed-content detection.',
+      'http:// records get https rescue attempts — same-port swap (browser auto-upgrade) plus the default-port-443 variant (reverse-proxy TLS), recursing through redirect hops to depth 2. Responses undici rejects (bare-LF status lines) re-probe over a lenient raw socket, since browsers play them.',
       'Suspicious verdicts escalate to a real Chromium playback probe (npm run probe:browser) — the strongest evidence we collect.',
-      'Verdicts: ok / ok-hls / needs-playlist / redirect-downgrade / broken-url / broken-mixed / broken-network / broken-format / probe-inconclusive.',
+      'Verdicts: ok / ok-hls / needs-playlist / redirect-downgrade / broken-url / broken-mixed / broken-network / broken-format / probe-inconclusive. broken-mixed means unplayable from the https app origin — the stream itself is usually alive on plain http.',
     ],
     io: [
       ['input', 'dedupe.json + country snapshots'],

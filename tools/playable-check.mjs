@@ -21,12 +21,27 @@
  *   ok                direct stream, content-type matches audio
  *
  * Each verdict carries a string `reason` for humans to read.
+ *
+ * http:// records get up to two https rescue attempts per level —
+ * same-port scheme swap (browser mixed-content auto-upgrade) and the
+ * default-port-443 variant (reverse-proxy TLS; catalog adopts the
+ * verified URL). Upgrades recurse through redirect hops to depth 2.
+ * Responses undici's strict parser rejects (bare-LF status lines)
+ * fall back to a lenient raw-socket header fetch before the probe
+ * gives up — browsers play those streams.
  */
 
 import { setTimeout as delay } from 'node:timers/promises';
+import net from 'node:net';
+import tls from 'node:tls';
 
 const ORIGIN = 'https://rrradio.org';
 const TIMEOUT_MS = 10_000;
+// How many https-upgrade levels a single probe may recurse through.
+// Depth 2 models real browser behavior: mixed-content auto-upgrade
+// applies per request, so an upgraded URL whose redirect lands back
+// on http:// gets upgraded again (radiojar's tokened 302 chain).
+const MAX_UPGRADE_DEPTH = 2;
 
 // Send browser-equivalent headers. Many CDN edges (Cloudflare in
 // particular) sniff User-Agent / Sec-Fetch-* / Referer and return
@@ -106,21 +121,51 @@ function classifyHttpError(status, finalUrl) {
   return { verdict, reason: `HTTP ${status}`, finalUrl, status };
 }
 
-function upgradeToHttps(rawUrl) {
-  // Naive scheme swap — keeps port and path. Browsers' mixed-content
-  // auto-upgrade for media is essentially this: try the https variant
-  // on the same host, see if it works. Returns null if input isn't
-  // a parseable http URL.
+function httpsVariants(rawUrl) {
+  // Candidate https equivalents of an http URL, browser-like first:
+  //   1. scheme swap keeping the port — what mixed-content auto-upgrade
+  //      does (a working variant here plays with zero catalog changes)
+  //   2. same host on default port 443 — the common reverse-proxy setup
+  //      (Icecast on :8000, TLS terminated on 443; streamtheworld's
+  //      :3690 → 443 is a whole CDN family). Not browser behavior, but
+  //      the catalog can adopt the verified https URL outright.
+  // Returns [] if input isn't a parseable http URL.
   try {
     const u = new URL(rawUrl);
-    if (u.protocol !== 'http:') return null;
+    if (u.protocol !== 'http:') return [];
     u.protocol = 'https:';
-    return u.toString();
-  } catch { return null; }
+    const variants = [{ url: u.toString(), via: 'browser auto-upgrade' }];
+    if (u.port && u.port !== '443') {
+      const v = new URL(u);
+      v.port = '';
+      variants.push({ url: v.toString(), via: 'https variant on default port' });
+    }
+    return variants;
+  } catch { return []; }
+}
+
+// Try each https variant of `httpUrl`; first playable one wins. The
+// reported finalUrl is the variant ENTRY url, not the inner probe's
+// redirect destination — entry points are durable, redirect targets
+// often carry per-session tokens (radiojar's rj-tok).
+async function tryHttpsVariants(httpUrl, depth, context) {
+  if (depth >= MAX_UPGRADE_DEPTH) return null;
+  for (const { url: variant, via } of httpsVariants(httpUrl)) {
+    const probe = await probeStream(variant, { _upgradeDepth: depth + 1 });
+    if (probe.verdict === 'ok' || probe.verdict === 'ok-hls') {
+      return {
+        ...probe,
+        reason: `${probe.reason} (${via} ${context})`,
+        finalUrl: variant,
+        upgradedFrom: httpUrl,
+      };
+    }
+  }
+  return null;
 }
 
 export async function probeStream(rawUrl, opts = {}) {
-  const noUpgrade = opts._noUpgrade === true; // recursion guard
+  const depth = opts._upgradeDepth ?? 0;
   if (!rawUrl) return { verdict: 'broken-url', reason: 'empty url' };
 
   let url;
@@ -132,21 +177,10 @@ export async function probeStream(rawUrl, opts = {}) {
 
   if (url.protocol === 'http:') {
     // Browsers auto-upgrade mixed-content audio. Try the https
-    // equivalent — if it serves audio we report ok with provenance
-    // so curators can see the auto-upgrade happened.
-    if (!noUpgrade) {
-      const upgraded = upgradeToHttps(rawUrl);
-      if (upgraded) {
-        const probe = await probeStream(upgraded, { _noUpgrade: true });
-        if (probe.verdict === 'ok' || probe.verdict === 'ok-hls') {
-          return {
-            ...probe,
-            reason: `${probe.reason} (browser auto-upgrade from http://)`,
-            upgradedFrom: rawUrl,
-          };
-        }
-      }
-    }
+    // equivalents — if one serves audio we report ok with provenance
+    // so curators can see which upgrade made it playable.
+    const upgraded = await tryHttpsVariants(rawUrl, depth, 'from http://');
+    if (upgraded) return upgraded;
     return {
       verdict: 'broken-mixed',
       reason: 'http:// stream blocks on rrradio.org (https origin); no https equivalent on same host',
@@ -200,7 +234,16 @@ export async function probeStream(rawUrl, opts = {}) {
     }
   }
   if (!res) {
-    return classifyNetworkError(lastErr, url.toString());
+    const classified = classifyNetworkError(lastErr, url.toString());
+    if (classified.verdict === 'probe-inconclusive') {
+      // undici rejected the response (e.g. a bare-LF status line —
+      // regiocast/streamabc send "HTTP/1.1 200 OK\n"). Browsers play
+      // these fine, so retry with a lenient raw-socket client before
+      // giving up on a verdict.
+      const lenient = await lenientProbe(url.toString()).catch(() => null);
+      if (lenient) return lenient;
+    }
+    return classified;
   }
 
   const finalUrl = res.url || url.toString();
@@ -210,21 +253,13 @@ export async function probeStream(rawUrl, opts = {}) {
 
   if (finalUrl.startsWith('http://')) {
     // Same mixed-content auto-upgrade flow as above, but applied to
-    // the redirect destination. Cloudflare-style header-sniffing
-    // SHOULD already have served us the https variant given the
-    // browser headers we sent, so this branch is a fallback.
-    if (!noUpgrade) {
-      const upgraded = upgradeToHttps(finalUrl);
-      if (upgraded) {
-        const probe = await probeStream(upgraded, { _noUpgrade: true });
-        if (probe.verdict === 'ok' || probe.verdict === 'ok-hls') {
-          return {
-            ...probe,
-            reason: `${probe.reason} (browser auto-upgrade after redirect to http://)`,
-            upgradedFrom: finalUrl,
-          };
-        }
-      }
+    // the redirect destination. Browsers upgrade every request in a
+    // media load, redirect hops included — so when the upgraded hop
+    // plays, THIS request's https url is the durable entry point
+    // (the hop url often carries per-session tokens).
+    const upgraded = await tryHttpsVariants(finalUrl, depth, 'after redirect to http://');
+    if (upgraded) {
+      return { ...upgraded, finalUrl: url.toString() };
     }
     return {
       verdict: 'redirect-downgrade',
@@ -269,6 +304,93 @@ export async function probeStream(rawUrl, opts = {}) {
     finalUrl,
     contentType: ct,
   };
+}
+
+// ─── Lenient raw-socket fallback ─────────────────────────────────
+// Some streaming servers send responses that violate HTTP/1.1 in ways
+// browsers forgive but undici's parser rejects — the big family is a
+// bare-LF status line ("HTTP/1.1 200 OK\n" with CRLF on every other
+// header; regiocast/streamabc do this). When fetch() dies with an
+// HTTPParserError we re-fetch over a raw TLS/TCP socket, parse the
+// header block leniently, and classify with the same rules as the
+// main path. Only the headers are read; the socket is destroyed
+// before meaningful body download.
+
+function rawHeaderFetch(targetUrl, timeoutMs) {
+  return new Promise((resolve, reject) => {
+    const u = new URL(targetUrl);
+    const secure = u.protocol === 'https:';
+    const port = Number(u.port) || (secure ? 443 : 80);
+    const connect = secure
+      ? () => tls.connect(port, u.hostname, { servername: u.hostname })
+      : () => net.connect(port, u.hostname);
+    const socket = connect();
+    const headerLines = Object.entries(BROWSER_HEADERS)
+      .map(([k, v]) => `${k}: ${v}`).join('\r\n');
+    let buf = Buffer.alloc(0);
+    let settled = false;
+    const finish = (fn, value) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      socket.destroy();
+      fn(value);
+    };
+    const timer = setTimeout(() => finish(reject, new Error('lenient probe timeout')), timeoutMs);
+    socket.on('error', (err) => finish(reject, err));
+    socket.on(secure ? 'secureConnect' : 'connect', () => {
+      socket.write(
+        `GET ${u.pathname}${u.search} HTTP/1.1\r\nHost: ${u.host}\r\n${headerLines}\r\nConnection: close\r\n\r\n`,
+      );
+    });
+    socket.on('data', (chunk) => {
+      buf = Buffer.concat([buf, chunk]);
+      const text = buf.toString('latin1');
+      const end = text.search(/\r?\n\r?\n/);
+      if (end === -1) {
+        if (buf.length > 64 * 1024) finish(reject, new Error('no header terminator in 64KB'));
+        return;
+      }
+      const head = text.slice(0, end);
+      const [statusLine, ...rest] = head.split(/\r?\n/);
+      // Lenient status line: HTTP/1.x, HTTP/2-ish, or Shoutcast's "ICY 200 OK".
+      const m = statusLine.match(/^(?:HTTP\/\d(?:\.\d)?|ICY)\s+(\d{3})/i);
+      if (!m) return finish(reject, new Error(`unparseable status line: ${statusLine.slice(0, 60)}`));
+      const headers = {};
+      for (const line of rest) {
+        const idx = line.indexOf(':');
+        if (idx > 0) headers[line.slice(0, idx).trim().toLowerCase()] = line.slice(idx + 1).trim();
+      }
+      finish(resolve, { status: Number(m[1]), headers });
+    });
+    socket.on('end', () => finish(reject, new Error('connection ended before headers')));
+  });
+}
+
+async function lenientProbe(startUrl) {
+  let current = startUrl;
+  for (let hop = 0; hop < 5; hop++) {
+    const { status, headers } = await rawHeaderFetch(current, TIMEOUT_MS);
+    if (status >= 300 && status < 400 && headers.location) {
+      current = new URL(headers.location, current).toString();
+      if (current.startsWith('http://')) return null; // let the strict path's verdict stand
+      continue;
+    }
+    if (!(status >= 200 && status < 300)) return classifyHttpError(status, current);
+    const ct = headers['content-type'] || '';
+    const note = ' (lenient HTTP parse — server violates HTTP/1.1, browsers play it)';
+    if (HLS_EXT.test(new URL(current).pathname) || /mpegurl/i.test(ct)) {
+      return { verdict: 'ok-hls', reason: 'HLS stream — plays via hls.js / native Safari' + note, finalUrl: current, contentType: ct };
+    }
+    if (PLAYLIST_EXT.test(new URL(current).pathname)) {
+      return { verdict: 'needs-playlist', reason: 'resolved to a playlist file' + note, finalUrl: current, contentType: ct };
+    }
+    if (!isAudioContentType(ct)) {
+      return { verdict: 'broken-format', reason: `content-type ${ct || '<missing>'} not audio-like` + note, finalUrl: current, contentType: ct };
+    }
+    return { verdict: 'ok', reason: ct + note, finalUrl: current, contentType: ct };
+  }
+  return null; // redirect loop — keep the strict verdict
 }
 
 export async function probeBatch(urls, { concurrency = 5, onResult } = {}) {
