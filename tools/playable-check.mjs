@@ -144,6 +144,17 @@ function httpsVariants(rawUrl) {
   } catch { return []; }
 }
 
+// Connection-level failures are a property of host:port, not path.
+// Batch sweeps hit hosts with hundreds of records (abm21.com.au:8000
+// carries 192 RB stations) — without a memo each one re-burns the
+// ~20s connect timeout per https variant, serially within a host
+// group. Path-level outcomes (4xx, wrong content-type) stay
+// per-station and are NOT cached.
+const VARIANT_CONNECTION_FAILURES = new Set([
+  'broken-tls', 'broken-dns', 'broken-refused', 'broken-timeout', 'broken-network',
+]);
+const deadVariantOrigins = new Map(); // 'https://host:port' → verdict that killed it
+
 // Try each https variant of `httpUrl`; first playable one wins. The
 // reported finalUrl is the variant ENTRY url, not the inner probe's
 // redirect destination — entry points are durable, redirect targets
@@ -151,6 +162,8 @@ function httpsVariants(rawUrl) {
 async function tryHttpsVariants(httpUrl, depth, context) {
   if (depth >= MAX_UPGRADE_DEPTH) return null;
   for (const { url: variant, via } of httpsVariants(httpUrl)) {
+    const origin = new URL(variant).origin;
+    if (deadVariantOrigins.has(origin)) continue;
     const probe = await probeStream(variant, { _upgradeDepth: depth + 1 });
     if (probe.verdict === 'ok' || probe.verdict === 'ok-hls') {
       return {
@@ -159,6 +172,9 @@ async function tryHttpsVariants(httpUrl, depth, context) {
         finalUrl: variant,
         upgradedFrom: httpUrl,
       };
+    }
+    if (VARIANT_CONNECTION_FAILURES.has(probe.verdict)) {
+      deadVariantOrigins.set(origin, probe.verdict);
     }
   }
   return null;
