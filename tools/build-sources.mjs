@@ -529,6 +529,84 @@ function collectManual(src) {
   };
 }
 
+function collectListSource(src) {
+  // Generic collector for list-backed sources (kind: webpage |
+  // user-suggestion): candidates live in a committed YAML list at
+  // src.rawStations instead of coming from an upstream API.
+  const rawPath = src.rawStations ? join(ROOT, src.rawStations) : null;
+  let rows = [];
+  if (rawPath && existsSync(rawPath)) {
+    try {
+      const parsed = YAML.parse(readFileSync(rawPath, 'utf8'));
+      if (Array.isArray(parsed)) rows = parsed;
+    } catch (err) {
+      console.warn(`build-sources: ${src.id} — ${src.rawStations} unparseable: ${err.message}`);
+    }
+  } else {
+    console.warn(`build-sources: ${src.id} — no list at ${src.rawStations ?? '(rawStations unset)'}`);
+  }
+
+  const triageTotals = {};
+  const matchedCatalogIds = new Set();
+  let importedRows = 0;
+  const allCandidates = rows.map((r, i) => {
+    const match = r?.streamUrl ? findCatalogMatch({ streamUrl: r.streamUrl }) : null;
+    if (match) {
+      matchedCatalogIds.add(match.id);
+      importedRows++;
+    }
+    const triage = match ? 'imported' : (r?.triage || 'new');
+    triageTotals[triage] = (triageTotals[triage] || 0) + 1;
+    let streamHost = '';
+    try { if (r?.streamUrl) streamHost = new URL(r.streamUrl).host; } catch { /* malformed */ }
+    return {
+      // List rows have no upstream uuid; synthesize a stable row key.
+      stationuuid: `${src.id}-${i}`,
+      name: r?.name || '',
+      country: r?.country || '',
+      votes: 0,
+      clickcount: 0,
+      verdict: null,
+      duplicateOf: null,
+      matchedCatalogId: match?.id ?? null,
+      streamHost,
+      streamUrl: r?.streamUrl || null,
+      homepage: r?.homepage || null,
+      favicon: cleanFavicon(r?.favicon),
+      triage: r?.triage || null,
+      suggestedVia: r?.suggestedVia || null,
+      suggestedAt: r?.suggestedAt || null,
+    };
+  });
+
+  // Catalog entries tagged `source: <id>` count as imported even when
+  // their intake row was pruned or never written.
+  for (const e of catalogBySource.get(src.id) || []) matchedCatalogIds.add(e.id);
+
+  return {
+    countersTotal: allCandidates.length,
+    countersImported: matchedCatalogIds.size,
+    countersImportedRows: importedRows,
+    countersAvailable: allCandidates.filter((c) => !c.matchedCatalogId && c.triage !== 'rejected').length,
+    detail: {
+      rawStations: src.rawStations ?? null,
+      triageTotals,
+      candidatesUrl: `/sources/${src.id}-candidates.json`,
+    },
+    extraArtifacts: [
+      {
+        path: `${src.id}-candidates.json`,
+        body: {
+          generatedAt: new Date().toISOString(),
+          sourceId: src.id,
+          count: allCandidates.length,
+          candidates: allCandidates,
+        },
+      },
+    ],
+  };
+}
+
 // ─── 5. Build per source ─────────────────────────────────────────────
 mkdirSync(OUT_PER_SOURCE_DIR, { recursive: true });
 
@@ -545,8 +623,10 @@ const streamSeenIn = new Map();
 for (const src of sources) {
   let collected;
   switch (src.kind) {
-    case 'radio-browser': collected = collectRadioBrowser(src); break;
-    case 'manual':        collected = collectManual(src); break;
+    case 'radio-browser':   collected = collectRadioBrowser(src); break;
+    case 'manual':          collected = collectManual(src); break;
+    case 'webpage':
+    case 'user-suggestion': collected = collectListSource(src); break;
     default:
       console.warn(`build-sources: unknown source kind '${src.kind}' for ${src.id} — skipping`);
       continue;
@@ -638,6 +718,31 @@ if (summary.crossSourceDuplicates.length > 0) {
     '(same stream imported under multiple sources)',
   );
 }
+
+// ─── 6. Per-station provenance map ───────────────────────────────────
+// Compact catalog-id → source-id map for the tracker. The dominant
+// source becomes the default so only minority-source stations need an
+// override row — the file stays a few KB instead of one row per station.
+let defaultSource = null;
+let defaultCount = -1;
+for (const [id, entries] of catalogBySource) {
+  if (entries.length > defaultCount) { defaultSource = id; defaultCount = entries.length; }
+}
+const overrides = {};
+for (const [srcId, entries] of catalogBySource) {
+  if (srcId === defaultSource) continue;
+  for (const e of entries) overrides[e.id] = srcId;
+}
+const OUT_SOURCE_MAP = join(OUT_PER_SOURCE_DIR, 'catalog-source-map.json');
+writeFileSync(OUT_SOURCE_MAP, JSON.stringify({
+  generatedAt: summary.generatedAt,
+  defaultSource,
+  overrides,
+}, null, 2) + '\n');
+console.log(
+  `build-sources: provenance map — default ${defaultSource}, ` +
+  `${Object.keys(overrides).length} override(s)`,
+);
 
 writeFileSync(OUT_SUMMARY, JSON.stringify(summary, null, 2) + '\n');
 console.log(`build-sources: → ${OUT_SUMMARY.replace(ROOT + '/', '')}`);

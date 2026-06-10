@@ -1,0 +1,19 @@
+{
+  "generatedAt": "2026-06-10T12:02:30.039Z",
+  "source": {
+    "id": "user-suggestions",
+    "name": "User suggestions",
+    "kind": "user-suggestion",
+    "homepage": "https://github.com/MarkusSteinbrecher/rrradio/issues",
+    "description": "Stations suggested by listeners — typically GitHub issues opened via docs/adding-stations.md. Each suggestion is triaged into the intake list below; accepted ones are imported into data/stations.yaml with an explicit `source: user-suggestions`."
+  },
+  "counts": {
+    "candidateTotal": 0,
+    "imported": 0,
+    "importedCandidateRows": 0,
+    "available": 0
+  },
+  "rawStations": "data/sources/user-suggestions/suggestions.yaml",
+  "triageTotals": {},
+  "candidatesUrl": "/sources/user-suggestions-candidates.json"
+}

@@ -1,13 +1,13 @@
 /** Overview — is the catalog healthy, and is our knowledge fresh? */
 
-import { FACETS, FACET_LABEL, loadHealth, loadRows } from './data';
-import type { StationRow } from './data';
+import { FACETS, FACET_LABEL, loadHealth, loadRows, loadSourcesIndex } from './data';
+import type { SourceSummary, StationRow } from './data';
 import { stationHref, stationsHref } from './router';
 import { ageDays, ageLabel, el, emptyState, fmtInt, freshnessClass, loading, sectionHeader, statCard } from './ui';
 
 export async function renderOverview(root: HTMLElement): Promise<void> {
   root.replaceChildren(loading());
-  const [rows, health] = await Promise.all([loadRows(), loadHealth()]);
+  const [rows, health, sourcesIndex] = await Promise.all([loadRows(), loadHealth(), loadSourcesIndex()]);
 
   const frag = document.createDocumentFragment();
 
@@ -43,6 +43,43 @@ export async function renderOverview(root: HTMLElement): Promise<void> {
     statCard({ value: fmtInt(countries.size), label: 'countries' }),
   );
   frag.append(catalogGrid);
+
+  // ── Provenance ─────────────────────────────────────────────────
+  // Published stations per source (data/sources.yaml registry). Registry
+  // sources with zero published stations still get a card so empty
+  // pipelines (e.g. user suggestions) stay visible.
+  const bySource = new Map<string, number>();
+  for (const r of rows) {
+    if (r.source) bySource.set(r.source, (bySource.get(r.source) ?? 0) + 1);
+  }
+  const registry: SourceSummary[] = sourcesIndex?.sources ?? [];
+  if (bySource.size || registry.length) {
+    frag.append(sectionHeader('Provenance', 'published stations by source — see the Sources view for the upstream inventory'));
+    const provGrid = el('div', { class: 'stats-grid' });
+    const knownIds = new Set(registry.map((s) => s.id));
+    const cards: { id: string; summary?: SourceSummary }[] = [
+      ...registry.map((s) => ({ id: s.id, summary: s })),
+      ...[...bySource.keys()].filter((id) => !knownIds.has(id)).map((id) => ({ id })),
+    ];
+    for (const { id, summary } of cards) {
+      const published = bySource.get(id) ?? 0;
+      const sub = summary?.candidateCount
+        ? `of ${fmtInt(summary.candidateCount)} candidates · ${fmtInt(summary.availableCount ?? 0)} available`
+        : summary?.kind === 'user-suggestion'
+          ? 'no open suggestions'
+          : '';
+      provGrid.append(
+        statCard({
+          value: fmtInt(published),
+          label: summary?.name ?? id,
+          sub,
+          href: published > 0 ? stationsHref({ source: id }) : '#/sources',
+          title: summary?.description ?? '',
+        }),
+      );
+    }
+    frag.append(provGrid);
+  }
 
   if (!health) {
     frag.append(

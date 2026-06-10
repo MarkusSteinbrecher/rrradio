@@ -366,14 +366,19 @@ Avoid adding events for high-frequency success paths such as every metadata poll
 
 Stations enter the catalog from a small number of upstream sources. The registry at `data/sources.yaml` lists them; new sources get added there and slotted into the collector switch in `tools/build-sources.mjs`.
 
-Today there are two:
+Today there are three registered sources, with two more kinds reserved:
 
 | Source id | Kind | Notes |
 |---|---|---|
-| `radio-browser` | upstream catalog | Our primary upstream. Entries with `stationuuid` are bound to an RB record and inherit fields from it. |
-| `manual` | sponsor-curated | Hand-added stations that don't (yet) come from any upstream catalog (M94.5, Grrif, Frisky channels, etc.). Distinguished by the absence of any RB signal. |
+| `radio-browser` | `radio-browser` | Our primary upstream (~55k candidates). Entries with `stationuuid` are bound to an RB record and inherit fields from it. |
+| `manual` | `manual` | Hand-added stations that don't come from any upstream catalog (M94.5, Grrif, Frisky channels, etc.). Distinguished by the absence of any RB signal. |
+| `user-suggestions` | `user-suggestion` | Listener suggestions (GitHub issues via `docs/adding-stations.md`), triaged into `data/sources/user-suggestions/suggestions.yaml` (`triage: new | accepted | rejected`). |
+| — | `webpage` | Reserved for scraped station lists from specific sites. Each site becomes its own source entry with a committed list at `rawStations:`; the generic list collector in `build-sources.mjs` picks it up with no extra code. |
+| — | `broadcaster-api` | Reserved, no collector yet. |
 
-Catalog rows can carry an explicit `source: <id>` field. When that's absent, `tools/build-sources.mjs` classifies the row using the `matchHints` on each source (uuid present, id prefix, faviconSource value). Add the explicit field on new entries; backfilling existing rows is opportunistic.
+Catalog rows can carry an explicit `source: <id>` field. When that's absent, `tools/build-sources.mjs` classifies the row using the `matchHints` on each source (uuid present, id prefix, faviconSource value), falling back to `manual`. **Every new entry must set `source:` explicitly** — an import from any non-manual source that forgets the field is silently miscounted as manual. `check-catalog` fails the build when a `source:` value doesn't exist in `data/sources.yaml`.
+
+Per-station provenance is published as `public/sources/catalog-source-map.json` (`defaultSource` = the dominant source, `overrides` = everything else, a few rows instead of 24k). The tracker reads it to power the Overview provenance cards, the `source` filter on the Stations table (`#/stations?source=manual`), and the `src:` badge on station detail.
 
 ### Raw source DB (`data/sources/`)
 
@@ -387,9 +392,11 @@ data/sources/
 │       ├── AD.json                # raw RB station list for Andorra
 │       ├── AE.json                # raw RB station list for UAE
 │       └── …                      # one file per ISO 3166-1 alpha-2 code
-└── manual/
-    ├── index.json                 # metadata + sourceOfTruth pointer
-    └── stations.yaml              # extract of manual catalog entries
+├── manual/
+│   ├── index.json                 # metadata + sourceOfTruth pointer
+│   └── stations.yaml              # extract of manual catalog entries
+└── user-suggestions/
+    └── suggestions.yaml           # hand-maintained intake list
 ```
 
 | File | Authoritative? | Refreshed by |
@@ -398,6 +405,7 @@ data/sources/
 | `data/sources/radio-browser/index.json` | Yes — per-country fetch metadata (timestamp, server, count) | `npm run fetch-rb-raw` |
 | `data/sources/manual/stations.yaml` | No — generated from `data/stations.yaml` | `npm run extract-manual-source` |
 | `data/sources/manual/index.json` | No — metadata | `npm run extract-manual-source` |
+| `data/sources/user-suggestions/suggestions.yaml` | **Yes** — triaged suggestion intake | hand-edited at triage time |
 
 The RB snapshots are pretty-printed with stable key ordering (stations sorted by `stationuuid`, fields projected through a fixed list) so git diffs stay tight even when RB silently reorders its responses. Total raw RB DB is ~40 MB committed for 237 countries / ~55k stations.
 
@@ -500,6 +508,7 @@ git commit -m "Refresh RB raw snapshots + dedupe"
 public/sources.json                          — summary (eagerly loaded by tracker)
 public/sources/<source-id>.json              — per-source detail (per-country roll-up)
 public/sources/<source-id>-candidates.json   — full per-station list with disposition
+public/sources/catalog-source-map.json       — per-station provenance (default + overrides)
 ```
 
 CI doesn't regenerate these — the committed artifact is what GitHub Pages serves, mirroring `public/stations.json`.
@@ -513,7 +522,14 @@ The **Sources tab** on `station-tracker.html` (sibling to the Matrix tab) reads 
 
 The tab is sticky via `#sources` in the URL hash so reloads and shared links land on the same view.
 
-When a new source comes online (e.g. a broadcaster API import), add an entry to `data/sources.yaml` with a fresh `kind:`, implement the matching `collect<Kind>` function in `tools/build-sources.mjs`, and the tracker tile + drilldown will appear automatically once the artifact is rebuilt.
+When a new source comes online, add an entry to `data/sources.yaml`. For list-backed sources (kind `webpage` or `user-suggestion`) that's all — point `rawStations:` at a committed YAML list and the generic collector handles it. Only genuinely new kinds (e.g. a broadcaster API import) need a matching `collect<Kind>` function in `tools/build-sources.mjs`. The tracker tile + drilldown appear automatically once the artifact is rebuilt.
+
+#### User-suggestion flow
+
+1. Listener opens an issue (or mails a station) → append a row to `data/sources/user-suggestions/suggestions.yaml` with `triage: new` and `suggestedVia:` pointing at the issue.
+2. Triage: probe the stream, set `triage: accepted` or `rejected` (+ `triageNote`).
+3. Accepted → import into `data/stations.yaml` with an explicit `source: user-suggestions`; `build-sources` matches the intake row by stream URL and reports it as imported.
+4. The suggestion row stays in the intake list — git history is the audit trail of every suggestion and its outcome.
 
 ## Design tokens
 

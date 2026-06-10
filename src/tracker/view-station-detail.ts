@@ -44,6 +44,15 @@ export async function renderStationDetail(root: HTMLElement, id: string): Promis
     el('span', { class: 'badge badge-muted' }, s.status ?? '?'),
     el('span', {}, s.country ? `${s.country.toUpperCase()} · ${countryName(s.country.toUpperCase())}` : '—'),
   );
+  if (row.source) {
+    sub.append(
+      el(
+        'a',
+        { class: 'badge badge-muted', href: stationsHref({ source: row.source }), title: 'catalog source (data/sources.yaml)' },
+        `src: ${row.source}`,
+      ),
+    );
+  }
   if (s.broadcaster) sub.append(el('span', {}, `broadcaster: ${s.broadcaster}`));
   if (s.tags?.length) sub.append(el('span', {}, s.tags.slice(0, 6).join(' · ')));
   head.append(el('div', {}, el('h2', {}, s.name), sub));

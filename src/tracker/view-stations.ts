@@ -19,6 +19,7 @@ interface Filters {
   q: string;
   cc: string;
   status: string;
+  source: string;
   facet: Facet | '';
   v: string;
   set: ColumnSet;
@@ -32,6 +33,7 @@ function readFilters(params: URLSearchParams): Filters {
     q: params.get('q') ?? '',
     cc: params.get('cc') ?? '',
     status: params.get('status') ?? '',
+    source: params.get('source') ?? '',
     facet: (params.get('facet') as Facet) ?? '',
     v: params.get('v') ?? '',
     set: COLUMN_SETS.includes(set) ? set : 'health',
@@ -45,6 +47,7 @@ function writeFilters(f: Filters): void {
   if (f.q) params.q = f.q;
   if (f.cc) params.cc = f.cc;
   if (f.status) params.status = f.status;
+  if (f.source) params.source = f.source;
   if (f.facet) params.facet = f.facet;
   if (f.v) params.v = f.v;
   if (f.set !== 'health') params.set = f.set;
@@ -63,6 +66,7 @@ function applyFilters(rows: StationRow[], f: Filters): StationRow[] {
   let out = rows;
   if (f.cc) out = out.filter((r) => (r.station.country ?? '').toUpperCase() === f.cc);
   if (f.status) out = out.filter((r) => r.station.status === f.status);
+  if (f.source) out = out.filter((r) => r.source === f.source);
   if (f.q) {
     const q = f.q.toLowerCase();
     out = out.filter(
@@ -207,6 +211,17 @@ export async function renderStations(root: HTMLElement, params: URLSearchParams)
   }
   statusSelect.value = f.status;
 
+  const sourceCounts = new Map<string, number>();
+  for (const r of rows) {
+    if (r.source) sourceCounts.set(r.source, (sourceCounts.get(r.source) ?? 0) + 1);
+  }
+  const sourceSelect = el('select', {});
+  sourceSelect.append(new Option('All', ''));
+  for (const [source, n] of [...sourceCounts.entries()].sort((a, b) => b[1] - a[1])) {
+    sourceSelect.append(new Option(`${source} (${fmtInt(n)})`, source));
+  }
+  sourceSelect.value = f.source;
+
   const facetSelect = el('select', {});
   facetSelect.append(new Option('Any facet', ''));
   for (const facet of FACETS) facetSelect.append(new Option(FACET_LABEL[facet], facet));
@@ -245,6 +260,7 @@ export async function renderStations(root: HTMLElement, params: URLSearchParams)
   };
   onSelect(ccSelect, (v) => (f.cc = v));
   onSelect(statusSelect, (v) => (f.status = v));
+  onSelect(sourceSelect, (v) => (f.source = v));
   onSelect(facetSelect, (v) => (f.facet = v as Facet | ''));
   onSelect(verdictSelect, (v) => (f.v = v));
   onSelect(sortSelect, (v) => (f.sort = v));
@@ -265,6 +281,7 @@ export async function renderStations(root: HTMLElement, params: URLSearchParams)
     el('label', { class: 'filter grow' }, 'Search', search),
     el('label', { class: 'filter' }, 'Country', ccSelect),
     el('label', { class: 'filter' }, 'Status', statusSelect),
+    el('label', { class: 'filter' }, 'Source', sourceSelect),
     el('label', { class: 'filter' }, 'Facet', facetSelect),
     el('label', { class: 'filter' }, 'Verdict', verdictSelect),
     el('label', { class: 'filter' }, 'Sort', sortSelect),

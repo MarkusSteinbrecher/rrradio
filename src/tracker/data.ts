@@ -121,11 +121,39 @@ interface DuplicatesReport {
   duplicateGroups?: DuplicateGroup[];
 }
 
+export interface SourceSummary {
+  id: string;
+  name: string;
+  abbr?: string;
+  kind?: string;
+  homepage?: string | null;
+  description?: string | null;
+  candidateCount?: number;
+  importedCount?: number;
+  availableCount?: number;
+}
+
+interface SourcesIndex {
+  generatedAt?: string;
+  catalogTotal?: number;
+  sources?: SourceSummary[];
+}
+
+/** catalog-id → source-id, compact: majority source is the default,
+ *  only minority-source stations appear in overrides. */
+interface CatalogSourceMap {
+  generatedAt?: string;
+  defaultSource?: string;
+  overrides?: Record<string, string>;
+}
+
 /** One row per catalog station with everything the console knows about it. */
 export interface StationRow {
   station: Station;
   facets: Record<string, FacetEntry | undefined>;
   logo: LogoStatusRow | undefined;
+  /** Provenance — source id from data/sources.yaml (via catalog-source-map). */
+  source: string | undefined;
   badCount: number;
   warnCount: number;
   lastChange: string;
@@ -182,19 +210,38 @@ export const loadDuplicates = memo(async (): Promise<DuplicatesReport | null> =>
   }
 });
 
+/** Source registry summary (data/sources.yaml → public/sources.json). */
+export const loadSourcesIndex = memo(async (): Promise<SourcesIndex | null> => {
+  try {
+    return await getJson<SourcesIndex>('sources.json');
+  } catch {
+    return null;
+  }
+});
+
+const loadSourceMap = memo(async (): Promise<CatalogSourceMap | null> => {
+  try {
+    return await getJson<CatalogSourceMap>('sources/catalog-source-map.json');
+  } catch {
+    return null;
+  }
+});
+
 /** Merged per-station rows — the working set for Stations + detail views.
  *  Note: the logo-status artifact only carries *actionable* rows; stations
  *  missing from it have a healthy/curated logo (see tools/logo-status.mjs). */
 export const loadRows = memo(async (): Promise<StationRow[]> => {
-  const [catalog, health, logoReport] = await Promise.all([
+  const [catalog, health, logoReport, sourceMap] = await Promise.all([
     loadCatalog(),
     loadHealth(),
     loadLogoStatus(),
+    loadSourceMap(),
   ]);
   const logoById = new Map((logoReport?.stations ?? []).map((r) => [r.id, r]));
   const rows: StationRow[] = [];
   for (const station of catalog) {
     const facets = health?.stations[station.id] ?? {};
+    const source = sourceMap ? (sourceMap.overrides?.[station.id] ?? sourceMap.defaultSource) : undefined;
     let badCount = 0;
     let warnCount = 0;
     let lastChange = '';
@@ -205,7 +252,7 @@ export const loadRows = memo(async (): Promise<StationRow[]> => {
       else if (f.v === 'warn') warnCount += 1;
       if (f.since > lastChange) lastChange = f.since;
     }
-    rows.push({ station, facets, logo: logoById.get(station.id), badCount, warnCount, lastChange });
+    rows.push({ station, facets, logo: logoById.get(station.id), source, badCount, warnCount, lastChange });
   }
   return rows;
 });
