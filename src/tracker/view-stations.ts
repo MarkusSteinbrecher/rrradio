@@ -1,13 +1,17 @@
 /**
- * Stations — dashboard donut over every station we know about, plus the
- * one table. With no pool selected the table is the published catalog
- * (health pills, segmented column sets). Clicking a donut segment swaps
- * the table to that candidate pool (available / duplicate / broken /
- * unprobed — stations that exist upstream but are NOT in the catalog).
- * Every filter lives in the route params so any view is shareable.
+ * Stations — dashboard donut over every station we know about, plus ONE
+ * table whose columns never change with the donut slice. Base columns
+ * (Station / Source / CC / Status / Stream) render identically for
+ * catalog rows and upstream candidates; the segmented control swaps the
+ * right-hand column set (health / logo / metadata) in every slice.
+ * Candidate rows fill in what is known about them (probe verdict → Strm
+ * pill, URL scheme → TLS pill) and show "—" for checks that only run
+ * against the catalog. Every filter lives in the route params so any
+ * view is shareable / bookmarkable.
  */
 
 import { countryName } from '../country';
+import type { Station } from '../types';
 import {
   FACETS,
   FACET_DESC,
@@ -18,7 +22,7 @@ import {
   loadDispositionTotals,
   loadRows,
 } from './data';
-import type { Facet, FacetEntry, StationRow } from './data';
+import type { Candidate, Facet, FacetEntry, StationRow } from './data';
 import { navigate, stationHref, stationsHref } from './router';
 import { searchMatcher } from './search';
 import { badge, donut, el, emptyState, fmtInt, loading, logoThumb, verdictPill } from './ui';
@@ -28,7 +32,7 @@ const COLUMN_SETS = ['health', 'logo', 'meta'] as const;
 type ColumnSet = (typeof COLUMN_SETS)[number];
 
 /** Candidate pools — donut segments other than "in catalog", plus 'all'
- *  (the entire universe across every source, disposition shown per row). */
+ *  (the entire universe across every source). */
 const POOLS = ['all', 'available', 'duplicate', 'broken', 'unprobed'] as const;
 type Pool = '' | (typeof POOLS)[number];
 
@@ -84,6 +88,7 @@ function poolHref(f: Filters, pool: Pool): string {
   if (pool) params.pool = pool;
   if (f.q) params.q = f.q;
   if (f.cc) params.cc = f.cc;
+  if (f.set !== 'health') params.set = f.set;
   return stationsHref(params);
 }
 
@@ -152,14 +157,113 @@ function applyFilters(rows: StationRow[], f: Filters): StationRow[] {
   return out;
 }
 
-// ── column sets ──────────────────────────────────────────────────────
+// ── unified row model ────────────────────────────────────────────────
+// Catalog stations and upstream candidates render through the same
+// columns; this is the common shape both map into.
+
+interface URow {
+  name: string;
+  sub: string;
+  /** Catalog id when the row is (or matches) a catalog station — row click target. */
+  catalogId?: string;
+  sourceId?: string;
+  cc?: string;
+  /** Curation status (catalog rows only). */
+  status?: string;
+  /** Disposition (candidate rows only). */
+  dispo?: string;
+  streamUrl?: string;
+  favicon?: string;
+  homepage?: string;
+  /** Catalog-only extras for the logo / metadata column sets. */
+  station?: Station;
+  srow?: StationRow;
+  probeVerdict?: string | null;
+}
+
+function fromStation(r: StationRow): URow {
+  const s = r.station;
+  return {
+    name: s.name,
+    sub: s.broadcaster ? `${s.id} · ${s.broadcaster}` : s.id,
+    catalogId: s.id,
+    sourceId: r.source,
+    cc: s.country,
+    status: s.status,
+    streamUrl: s.streamUrl,
+    favicon: s.favicon,
+    homepage: s.homepage,
+    station: s,
+    srow: r,
+  };
+}
+
+function fromCandidate(c: Candidate): URow {
+  const sub: string[] = [];
+  if (c.streamHost) sub.push(c.streamHost);
+  if (c.votes) sub.push(`${fmtInt(c.votes)} votes`);
+  if (c.disposition === 'duplicate') {
+    sub.push(`dup of ${c.duplicateOfName ?? c.duplicateOf ?? c.matchedCatalogId ?? '?'}`);
+  }
+  return {
+    name: c.name || '?',
+    sub: sub.join(' · '),
+    catalogId: c.matchedCatalogId ?? undefined,
+    sourceId: c.sourceId,
+    cc: c.country,
+    dispo: c.disposition,
+    streamUrl: c.streamUrl ?? undefined,
+    favicon: c.favicon ?? undefined,
+    homepage: c.homepage ?? undefined,
+    probeVerdict: c.verdict,
+  };
+}
+
+/** Synthetic facet entries for candidate rows: the playability probe
+ *  maps onto the Strm column, the URL scheme onto TLS. The other checks
+ *  only run against catalog stations and stay "—". */
+function candidateFacet(u: URow, facet: Facet): FacetEntry | undefined {
+  if (facet === 'stream' && u.probeVerdict) {
+    const v = u.probeVerdict;
+    if (v === 'ok' || v === 'ok-hls') return { v: 'ok', since: '', d: `probe: ${v}` };
+    if (v === 'needs-playlist' || v === 'redirect-downgrade' || v === 'probe-inconclusive') {
+      return { v: 'warn', since: '', d: `probe: ${v}` };
+    }
+    return { v: 'bad', since: '', d: `probe: ${v}` };
+  }
+  if (facet === 'https' && u.streamUrl) {
+    return u.streamUrl.startsWith('https:')
+      ? { v: 'ok', since: '', d: 'https stream' }
+      : { v: 'bad', since: '', d: 'http-only stream — unpublishable on the web (mixed content)' };
+  }
+  return undefined;
+}
+
+const DISPO_BADGE: Record<string, 'primary' | 'success' | 'info' | 'error' | 'muted'> = {
+  imported: 'primary',
+  available: 'success',
+  duplicate: 'info',
+  broken: 'error',
+  unprobed: 'muted',
+};
+
+// ── columns (identical in every slice) ───────────────────────────────
 
 function headerCells(set: ColumnSet): HTMLElement[] {
   const cells = [
     el('th', {}, ''),
     el('th', {}, 'Station'),
+    el('th', { title: 'Where this row comes from (data/sources.yaml)' }, 'Source'),
     el('th', { title: 'Country code' }, 'CC'),
-    el('th', { title: 'Curation status — working / icy-only / stream-only (see legend)' }, 'Status'),
+    el(
+      'th',
+      {
+        title:
+          'Catalog rows: curation status (working / icy-only / stream-only). Candidate rows: disposition (imported / available / duplicate / broken / unprobed). See legend.',
+      },
+      'Status',
+    ),
+    el('th', { title: 'Direct stream URL' }, 'Stream'),
   ];
   if (set === 'health') {
     for (const facet of FACETS) {
@@ -175,43 +279,45 @@ function headerCells(set: ColumnSet): HTMLElement[] {
       el('th', {}, 'Action'),
     );
   } else {
-    cells.push(
-      el('th', {}, 'Stream URL'),
-      el('th', {}, 'Codec'),
-      el('th', {}, 'Fetcher'),
-      el('th', {}, 'Metadata URL'),
-      el('th', {}, 'Homepage'),
-    );
+    cells.push(el('th', {}, 'Codec'), el('th', {}, 'Fetcher'), el('th', {}, 'Metadata URL'), el('th', {}, 'Homepage'));
   }
   return cells;
 }
 
-function bodyCells(row: StationRow, set: ColumnSet): HTMLElement[] {
-  const s = row.station;
+function bodyCells(u: URow, set: ColumnSet): HTMLElement[] {
   const cells = [
-    el('td', {}, logoThumb(s.favicon)),
+    el('td', {}, logoThumb(u.favicon)),
     el(
       'td',
       { class: 'cell-station' },
-      el('span', { class: 'title' }, s.name),
-      el('span', { class: 'sub' }, s.broadcaster ? `${s.id} · ${s.broadcaster}` : s.id),
+      el('span', { class: 'title' }, u.name),
+      el('span', { class: 'sub' }, u.sub),
     ),
-    el('td', { title: s.country ? countryName(s.country.toUpperCase()) : '' }, (s.country ?? '—').toUpperCase()),
-    el('td', { title: s.status ? (STATUS_DESC[s.status] ?? '') : '' }, s.status ?? '—'),
+    el('td', {}, u.sourceId ?? '—'),
+    el('td', { title: u.cc ? countryName(u.cc.toUpperCase()) : '' }, (u.cc ?? '—').toUpperCase()),
+    u.status
+      ? el('td', { title: STATUS_DESC[u.status] ?? '' }, u.status)
+      : el('td', {}, badge(u.dispo ?? '?', DISPO_BADGE[u.dispo ?? ''] ?? 'muted')),
+    el(
+      'td',
+      { class: 'cell-url', title: u.streamUrl ?? '' },
+      u.streamUrl ? el('a', { href: u.streamUrl, target: '_blank', rel: 'noopener noreferrer' }, u.streamUrl) : '—',
+    ),
   ];
   if (set === 'health') {
     for (const facet of FACETS) {
+      const entry = u.srow ? u.srow.facets[facet] : candidateFacet(u, facet);
       const td = el('td', { class: 'center' });
-      td.append(verdictPill(row.facets[facet], FACET_LABEL[facet]));
+      td.append(verdictPill(entry, FACET_LABEL[facet]));
       cells.push(td);
     }
   } else if (set === 'logo') {
-    const logo = row.logo;
-    const facet = row.facets.logo;
+    const logo = u.srow?.logo;
+    const facet = u.srow?.facets.logo;
     const size =
       logo?.probeWidth && logo?.probeHeight ? `${logo.probeWidth}×${logo.probeHeight}` : logo?.probeError ? 'probe failed' : '';
     cells.push(
-      el('td', { class: 'cell-url', title: s.favicon ?? '' }, s.favicon ?? '—'),
+      el('td', { class: 'cell-url', title: u.favicon ?? '' }, u.favicon ?? '—'),
       el('td', {}, logo?.tier ?? facet?.d ?? (facet?.v === 'ok' ? 'ok' : '—')),
       el('td', {}, logo?.faviconSource ?? '—'),
       el('td', {}, logo?.faviconLicense ?? '—'),
@@ -220,17 +326,20 @@ function bodyCells(row: StationRow, set: ColumnSet): HTMLElement[] {
     );
   } else {
     cells.push(
-      el('td', { class: 'cell-url', title: s.streamUrl }, s.streamUrl),
-      el('td', {}, s.codec ?? '—'),
-      el('td', {}, s.metadata ?? '—'),
-      el('td', { class: 'cell-url', title: s.metadataUrl ?? '' }, s.metadataUrl ?? '—'),
-      el('td', { class: 'cell-url', title: s.homepage ?? '' }, s.homepage ?? '—'),
+      el('td', {}, u.station?.codec ?? '—'),
+      el('td', {}, u.station?.metadata ?? '—'),
+      el('td', { class: 'cell-url', title: u.station?.metadataUrl ?? '' }, u.station?.metadataUrl ?? '—'),
+      el(
+        'td',
+        { class: 'cell-url', title: u.homepage ?? '' },
+        u.homepage ? el('a', { href: u.homepage, target: '_blank', rel: 'noopener noreferrer' }, u.homepage) : '—',
+      ),
     );
   }
   return cells;
 }
 
-/** Collapsible legend: cell glyphs, curation statuses, health columns. */
+/** Collapsible legend: cell glyphs, statuses/dispositions, health columns. */
 function legend(): HTMLElement {
   const details = el('details', { class: 'legend' });
   details.append(el('summary', { class: 'section-header' }, 'Legend — what the columns and icons mean'));
@@ -257,7 +366,8 @@ function legend(): HTMLElement {
       {},
       Object.entries(STATUS_DESC)
         .map(([k, v]) => `${k} = ${v}`)
-        .join(' · '),
+        .join(' · ') +
+        ' — candidate rows show their disposition instead: imported / available / duplicate / broken / unprobed',
     ),
   );
   for (const facet of FACETS) {
@@ -285,28 +395,14 @@ export async function renderStations(root: HTMLElement, params: URLSearchParams)
   const rows = await loadRows();
 
   // Filter bar — writes back into the route on change.
-  const search = el('input', { type: 'search', placeholder: 'id, name, broadcaster…', value: f.q });
-  let debounce: number | null = null;
-  search.addEventListener('input', () => {
-    if (debounce !== null) window.clearTimeout(debounce);
-    debounce = window.setTimeout(() => {
-      f.q = search.value.trim();
-      f.page = 0;
-      writeFilters(f);
-    }, 250);
-  });
+  const search = searchInput(f, 'id, name, broadcaster…');
 
   const ccCounts = new Map<string, number>();
   for (const r of rows) {
     const cc = (r.station.country ?? '').toUpperCase();
     if (cc) ccCounts.set(cc, (ccCounts.get(cc) ?? 0) + 1);
   }
-  const ccSelect = el('select', {});
-  ccSelect.append(new Option('All', ''));
-  for (const [cc, n] of [...ccCounts.entries()].sort((a, b) => b[1] - a[1])) {
-    ccSelect.append(new Option(`${cc} — ${countryName(cc)} (${fmtInt(n)})`, cc));
-  }
-  ccSelect.value = f.cc;
+  const ccSelect = countrySelect(ccCounts, f.cc);
 
   const statusSelect = el('select', {});
   for (const [label, value] of [['All', ''], ['working', 'working'], ['icy-only', 'icy-only'], ['stream-only', 'stream-only']]) {
@@ -368,16 +464,6 @@ export async function renderStations(root: HTMLElement, params: URLSearchParams)
   onSelect(verdictSelect, (v) => (f.v = v));
   onSelect(sortSelect, (v) => (f.sort = v));
 
-  const segmented = el('div', { class: 'segmented', role: 'group', 'aria-label': 'Column set' });
-  for (const [label, value] of [['Health', 'health'], ['Logo', 'logo'], ['Metadata', 'meta']] as const) {
-    const btn = el('button', { type: 'button', class: value === f.set ? 'active' : '' }, label);
-    btn.addEventListener('click', () => {
-      f.set = value;
-      writeFilters(f);
-    });
-    segmented.append(btn);
-  }
-
   const filterBar = el(
     'div',
     { class: 'filter-bar' },
@@ -388,109 +474,35 @@ export async function renderStations(root: HTMLElement, params: URLSearchParams)
     el('label', { class: 'filter' }, 'Facet', facetSelect),
     el('label', { class: 'filter' }, 'Verdict', verdictSelect),
     el('label', { class: 'filter' }, 'Sort', sortSelect),
-    el('label', { class: 'filter' }, 'Columns', segmented),
+    el('label', { class: 'filter' }, 'Columns', columnSegmented(f)),
   );
 
-  // Table
   const filtered = applyFilters(rows, f);
-  const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
-  if (f.page >= pages) f.page = pages - 1;
-  const slice = filtered.slice(f.page * PAGE_SIZE, (f.page + 1) * PAGE_SIZE);
-
-  const thead = el('thead', {}, el('tr', {}, ...headerCells(f.set)));
-  const tbody = el('tbody', {});
-  for (const row of slice) {
-    const tr = el('tr', { class: 'is-clickable' }, ...bodyCells(row, f.set));
-    tr.addEventListener('click', (ev) => {
-      if ((ev.target as HTMLElement).closest('a')) return;
-      navigate(stationHref(row.station.id));
-    });
-    tbody.append(tr);
-  }
-
-  const prev = el('button', { type: 'button' }, 'Prev');
-  const next = el('button', { type: 'button' }, 'Next');
-  prev.disabled = f.page === 0;
-  next.disabled = f.page >= pages - 1;
-  prev.addEventListener('click', () => {
-    f.page -= 1;
-    writeFilters(f);
-  });
-  next.addEventListener('click', () => {
-    f.page += 1;
-    writeFilters(f);
-  });
-
-  const toolbar = el(
-    'div',
-    { class: 'table-toolbar' },
-    el('span', {}, `${fmtInt(filtered.length)} of ${fmtInt(rows.length)} station(s)`),
-    el('span', { class: 'spacer' }),
-    el('div', { class: 'pager' }, prev, el('span', {}, `${f.page + 1} / ${pages}`), next),
-  );
-
-  const panel = el(
-    'section',
-    { class: 'table-panel' },
-    toolbar,
-    el('div', { class: 'table-wrap' }, el('table', { class: 'data' }, thead, tbody)),
+  const panel = tablePanel(
+    filtered.map(fromStation),
+    f,
+    `${fmtInt(filtered.length)} of ${fmtInt(rows.length)} station(s)`,
   );
 
   root.replaceChildren(...(dash ? [dash] : []), filterBar, legend(), panel);
-  if (document.activeElement === document.body && f.q) {
-    search.focus();
-    search.setSelectionRange(search.value.length, search.value.length);
-  }
+  refocusSearch(search, f);
 }
 
-// ── candidate pools (stations NOT in the catalog) ────────────────────
-
-function probeBadge(verdict: string | null | undefined): HTMLElement {
-  if (!verdict) return badge('unprobed', 'muted');
-  if (verdict === 'ok' || verdict === 'ok-hls') return badge(verdict, 'success');
-  if (verdict === 'needs-playlist' || verdict === 'redirect-downgrade' || verdict === 'probe-inconclusive') {
-    return badge(verdict, 'warning');
-  }
-  return badge(verdict, 'error');
-}
-
-const DISPO_BADGE: Record<string, 'primary' | 'success' | 'info' | 'error' | 'muted'> = {
-  imported: 'primary',
-  available: 'success',
-  duplicate: 'info',
-  broken: 'error',
-  unprobed: 'muted',
-};
+// ── candidate pools (upstream rows; 'all' = the whole universe) ──────
 
 async function renderCandidatePool(root: HTMLElement, f: Filters, dash: HTMLElement | null): Promise<void> {
   root.replaceChildren(...(dash ? [dash] : []), loading('Loading candidates…'));
   const all = await loadAllCandidates();
   const pool = f.pool === 'all' ? all : all.filter((c) => c.disposition === f.pool);
-  const showDispo = f.pool === 'all';
 
-  // Filter bar — same write-back-to-route pattern as the catalog table.
-  const search = el('input', { type: 'search', placeholder: 'name, host, uuid…', value: f.q });
-  let debounce: number | null = null;
-  search.addEventListener('input', () => {
-    if (debounce !== null) window.clearTimeout(debounce);
-    debounce = window.setTimeout(() => {
-      f.q = search.value.trim();
-      f.page = 0;
-      writeFilters(f);
-    }, 250);
-  });
+  const search = searchInput(f, 'name, host, uuid…');
 
   const ccCounts = new Map<string, number>();
   for (const c of pool) {
     const cc = (c.country ?? '').toUpperCase();
     if (cc) ccCounts.set(cc, (ccCounts.get(cc) ?? 0) + 1);
   }
-  const ccSelect = el('select', {});
-  ccSelect.append(new Option('All', ''));
-  for (const [cc, n] of [...ccCounts.entries()].sort((a, b) => b[1] - a[1])) {
-    ccSelect.append(new Option(`${cc} — ${countryName(cc)} (${fmtInt(n)})`, cc));
-  }
-  ccSelect.value = f.cc;
+  const ccSelect = countrySelect(ccCounts, f.cc);
 
   const sortSelect = el('select', {});
   for (const [label, value] of [
@@ -519,9 +531,9 @@ async function renderCandidatePool(root: HTMLElement, f: Filters, dash: HTMLElem
     el('label', { class: 'filter grow' }, 'Search', search),
     el('label', { class: 'filter' }, 'Country', ccSelect),
     el('label', { class: 'filter' }, 'Sort', sortSelect),
+    el('label', { class: 'filter' }, 'Columns', columnSegmented(f)),
   );
 
-  // Table
   let filtered = pool;
   if (f.cc) filtered = filtered.filter((c) => (c.country ?? '').toUpperCase() === f.cc);
   if (f.q) {
@@ -535,43 +547,79 @@ async function renderCandidatePool(root: HTMLElement, f: Filters, dash: HTMLElem
     filtered.sort((a, b) => (a.country ?? '').localeCompare(b.country ?? '') || (b.votes ?? 0) - (a.votes ?? 0));
   } else filtered.sort((a, b) => (b.votes ?? 0) - (a.votes ?? 0));
 
-  const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const label =
+    f.pool === 'all'
+      ? `${fmtInt(filtered.length)} of ${fmtInt(pool.length)} known station(s) across all sources`
+      : `${fmtInt(filtered.length)} of ${fmtInt(pool.length)} ${f.pool} candidate(s) — not in the catalog`;
+  const panel = tablePanel(filtered.map(fromCandidate), f, label);
+
+  root.replaceChildren(...(dash ? [dash] : []), filterBar, legend(), panel);
+  refocusSearch(search, f);
+}
+
+// ── shared controls + table ──────────────────────────────────────────
+
+function searchInput(f: Filters, placeholder: string): HTMLInputElement {
+  const search = el('input', { type: 'search', placeholder, value: f.q });
+  let debounce: number | null = null;
+  search.addEventListener('input', () => {
+    if (debounce !== null) window.clearTimeout(debounce);
+    debounce = window.setTimeout(() => {
+      f.q = search.value.trim();
+      f.page = 0;
+      writeFilters(f);
+    }, 250);
+  });
+  return search;
+}
+
+function refocusSearch(search: HTMLInputElement, f: Filters): void {
+  if (document.activeElement === document.body && f.q) {
+    search.focus();
+    search.setSelectionRange(search.value.length, search.value.length);
+  }
+}
+
+function countrySelect(counts: Map<string, number>, value: string): HTMLSelectElement {
+  const select = el('select', {});
+  select.append(new Option('All', ''));
+  for (const [cc, n] of [...counts.entries()].sort((a, b) => b[1] - a[1])) {
+    select.append(new Option(`${cc} — ${countryName(cc)} (${fmtInt(n)})`, cc));
+  }
+  select.value = value;
+  return select;
+}
+
+function columnSegmented(f: Filters): HTMLElement {
+  const segmented = el('div', { class: 'segmented', role: 'group', 'aria-label': 'Column set' });
+  for (const [label, value] of [['Health', 'health'], ['Logo', 'logo'], ['Metadata', 'meta']] as const) {
+    const btn = el('button', { type: 'button', class: value === f.set ? 'active' : '' }, label);
+    btn.addEventListener('click', () => {
+      f.set = value;
+      writeFilters(f);
+    });
+    segmented.append(btn);
+  }
+  return segmented;
+}
+
+/** Toolbar + pager + the one table, identical for every slice. */
+function tablePanel(urows: URow[], f: Filters, countLabel: string): HTMLElement {
+  const pages = Math.max(1, Math.ceil(urows.length / PAGE_SIZE));
   if (f.page >= pages) f.page = pages - 1;
-  const slice = filtered.slice(f.page * PAGE_SIZE, (f.page + 1) * PAGE_SIZE);
+  const slice = urows.slice(f.page * PAGE_SIZE, (f.page + 1) * PAGE_SIZE);
 
   const tbody = el('tbody', {});
-  for (const c of slice) {
-    const sub: string[] = [];
-    if (c.streamHost) sub.push(c.streamHost);
-    if (c.disposition === 'duplicate') sub.push(`dup of ${c.duplicateOfName ?? c.duplicateOf ?? c.matchedCatalogId ?? '?'}`);
-    tbody.append(
-      el(
-        'tr',
-        {},
-        el('td', {}, logoThumb(c.favicon ?? undefined)),
-        el(
-          'td',
-          { class: 'cell-station' },
-          el('span', { class: 'title' }, c.name ?? '?'),
-          el('span', { class: 'sub' }, sub.join(' · ')),
-        ),
-        el('td', {}, c.sourceId),
-        el('td', { title: c.country ? countryName(c.country.toUpperCase()) : '' }, (c.country ?? '—').toUpperCase()),
-        el('td', { class: 'num' }, fmtInt(c.votes ?? 0)),
-        el('td', { class: 'num' }, fmtInt(c.clickcount ?? 0)),
-        el('td', {}, probeBadge(c.verdict)),
-        showDispo ? el('td', {}, badge(c.disposition ?? '?', DISPO_BADGE[c.disposition ?? ''] ?? 'muted')) : null,
-        el(
-          'td',
-          {},
-          c.streamUrl ? el('a', { href: c.streamUrl, target: '_blank', rel: 'noopener noreferrer' }, 'stream') : null,
-          ' ',
-          c.homepage ? el('a', { href: c.homepage, target: '_blank', rel: 'noopener noreferrer' }, 'home') : null,
-          ' ',
-          c.matchedCatalogId ? el('a', { href: stationHref(c.matchedCatalogId) }, 'catalog') : null,
-        ),
-      ),
-    );
+  for (const u of slice) {
+    const tr = el('tr', { class: u.catalogId ? 'is-clickable' : '' }, ...bodyCells(u, f.set));
+    if (u.catalogId) {
+      const id = u.catalogId;
+      tr.addEventListener('click', (ev) => {
+        if ((ev.target as HTMLElement).closest('a')) return;
+        navigate(stationHref(id));
+      });
+    }
+    tbody.append(tr);
   }
 
   const prev = el('button', { type: 'button' }, 'Prev');
@@ -587,55 +635,22 @@ async function renderCandidatePool(root: HTMLElement, f: Filters, dash: HTMLElem
     writeFilters(f);
   });
 
-  const panel = el(
+  return el(
     'section',
     { class: 'table-panel' },
     el(
       'div',
       { class: 'table-toolbar' },
-      el(
-        'span',
-        {},
-        f.pool === 'all'
-          ? `${fmtInt(filtered.length)} of ${fmtInt(pool.length)} known station(s) across all sources`
-          : `${fmtInt(filtered.length)} of ${fmtInt(pool.length)} ${f.pool} candidate(s) — not in the catalog`,
-      ),
+      el('span', {}, countLabel),
       el('span', { class: 'spacer' }),
       el('div', { class: 'pager' }, prev, el('span', {}, `${f.page + 1} / ${pages}`), next),
     ),
-    filtered.length
+    slice.length
       ? el(
           'div',
           { class: 'table-wrap' },
-          el(
-            'table',
-            { class: 'data' },
-            el(
-              'thead',
-              {},
-              el(
-                'tr',
-                {},
-                el('th', {}, ''),
-                el('th', {}, 'Candidate'),
-                el('th', { title: 'Which upstream source this candidate comes from (data/sources.yaml)' }, 'Source'),
-                el('th', { title: 'Country code' }, 'CC'),
-                el('th', { title: 'Radio Browser community votes' }, 'Votes'),
-                el('th', { title: 'Radio Browser click count' }, 'Clicks'),
-                el('th', { title: 'Stream playability probe verdict (rb-analysis)' }, 'Probe'),
-                showDispo ? el('th', { title: 'Where this row stands: imported into the catalog, available, duplicate, broken, or unprobed' }, 'Disposition') : null,
-                el('th', {}, 'Links'),
-              ),
-            ),
-            tbody,
-          ),
+          el('table', { class: 'data' }, el('thead', {}, el('tr', {}, ...headerCells(f.set))), tbody),
         )
-      : emptyState(`No ${f.pool} candidates match.`),
+      : emptyState('Nothing matches.'),
   );
-
-  root.replaceChildren(...(dash ? [dash] : []), filterBar, panel);
-  if (document.activeElement === document.body && f.q) {
-    search.focus();
-    search.setSelectionRange(search.value.length, search.value.length);
-  }
 }

@@ -52,7 +52,7 @@ export function verdictPill(entry: FacetEntry | undefined, facetLabel?: string):
     'span',
     {
       class: `pill v-${entry.v}`,
-      title: `${prefix}${VERDICT_WORD[entry.v]}${entry.d ? ` — ${entry.d}` : ''} (since ${entry.since})`,
+      title: `${prefix}${VERDICT_WORD[entry.v]}${entry.d ? ` — ${entry.d}` : ''}${entry.since ? ` (since ${entry.since})` : ''}`,
     },
     GLYPH[entry.v],
   );
