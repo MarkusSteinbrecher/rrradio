@@ -42,7 +42,9 @@ interface Candidate {
   votes?: number;
   clickcount?: number;
   verdict?: string | null;
+  disposition?: string;
   duplicateOf?: string | null;
+  duplicateOfName?: string | null;
   duplicateVia?: string | null;
   matchedCatalogId?: string | null;
   streamHost?: string;
@@ -74,7 +76,13 @@ function isPlayable(verdict: string | null | undefined): boolean {
   return verdict === 'ok' || verdict === 'ok-hls' || verdict === 'needs-playlist';
 }
 
+const DISPOSITIONS = new Set(['imported', 'available', 'duplicate', 'broken', 'unprobed']);
+
 function dispositionOf(c: Candidate): Exclude<Disposition, ''> {
+  // build-sources stamps the authoritative disposition (it also demotes
+  // surplus same-stream rows to duplicate); fall back to the local
+  // derivation for artifacts built before the stamp existed.
+  if (c.disposition && DISPOSITIONS.has(c.disposition)) return c.disposition as Exclude<Disposition, ''>;
   if (c.matchedCatalogId) return 'imported';
   if (c.duplicateOf) return 'duplicate';
   if (!c.verdict) return 'unprobed';
@@ -308,7 +316,11 @@ async function renderSourceSection(host: HTMLElement, sources: SourceSummary[]):
           dispo === 'imported' && c.matchedCatalogId
             ? el('a', { href: stationHref(c.matchedCatalogId) }, c.matchedCatalogId)
             : dispo === 'duplicate'
-              ? el('span', { class: 'facet-detail', title: c.duplicateVia ?? '' }, `dup of ${c.duplicateOf}`)
+              ? el(
+                  'span',
+                  { class: 'facet-detail', title: c.duplicateVia ?? '' },
+                  `dup of ${c.duplicateOfName ?? c.duplicateOf ?? c.matchedCatalogId ?? '?'}`,
+                )
               : badge(dispo, dispo === 'available' ? 'primary' : 'muted'),
         ),
         el(

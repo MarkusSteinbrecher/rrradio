@@ -644,6 +644,24 @@ for (const src of sources) {
       continue;
   }
 
+  // Stamp the final disposition on every candidate row before the
+  // artifact is written, so clients filter on one authoritative field.
+  // Rows are sorted strongest-first (votes), so the best row per catalog
+  // station stays `imported`; surplus rows matching the same station
+  // (same stream under another record) demote to `duplicate`.
+  const candidatesArtifact = (collected.extraArtifacts || [])
+    .find((a) => a.path.endsWith('-candidates.json'));
+  const candidateRows = candidatesArtifact?.body.candidates || [];
+  const seenCatalogIds = new Set();
+  for (const c of candidateRows) {
+    let d = dispositionOf(c);
+    if (d === 'imported') {
+      if (seenCatalogIds.has(c.matchedCatalogId)) d = 'duplicate';
+      else seenCatalogIds.add(c.matchedCatalogId);
+    }
+    c.disposition = d;
+  }
+
   // Cross-source duplicate bookkeeping. We only care about *catalog*
   // entries that this source produced — duplicates among unimported
   // candidates aren't a cross-source concern.
@@ -694,22 +712,9 @@ for (const src of sources) {
       JSON.stringify(extra.body) + '\n');
   }
 
-  // Disposition tally over the full candidate list — feeds the Overview
-  // donut from the lightweight summary.
-  const candidatesArtifact = (collected.extraArtifacts || [])
-    .find((a) => a.path.endsWith('-candidates.json'));
-  const dispositionTotals = tally(
-    (candidatesArtifact?.body.candidates || []).map(dispositionOf),
-  );
-  // Several candidate rows can match the same catalog station (same
-  // stream under different RB records). Those surplus rows are
-  // duplicates of an imported station — keep "imported" equal to the
-  // unique station count so the donut doesn't overstate the catalog.
-  const surplusImported = (dispositionTotals.imported || 0) - collected.countersImported;
-  if (surplusImported > 0) {
-    dispositionTotals.imported -= surplusImported;
-    dispositionTotals.duplicate = (dispositionTotals.duplicate || 0) + surplusImported;
-  }
+  // Disposition tally over the stamped candidate list — feeds the
+  // tracker donut from the lightweight summary.
+  const dispositionTotals = tally(candidateRows.map((c) => c.disposition));
 
   summary.sources.push({
     id: src.id,

@@ -144,11 +144,14 @@ export interface DonutSegment {
   /** Suffix for the CSS classes donut-seg-<key> / swatch-<key>. */
   key: string;
   href?: string;
+  /** Highlight this segment as the current selection. */
+  active?: boolean;
 }
 
 /** Donut chart + legend. Segments are SVG strokes (crisp at any size,
  *  CSP-safe — presentation attributes, no inline style). The center shows
- *  the first segment's share of the total. */
+ *  the first segment's share of the total. Segments with an href are
+ *  clickable (SVG <a>), as are their legend rows. */
 export function donut(label: string, segments: DonutSegment[]): HTMLElement {
   const total = segments.reduce((sum, s) => sum + s.count, 0);
 
@@ -167,15 +170,21 @@ export function donut(label: string, segments: DonutSegment[]): HTMLElement {
     if (pct <= 0) continue;
     const arc = svgEl('circle', {
       ...ring,
-      class: `donut-seg donut-seg-${seg.key}`,
+      class: `donut-seg donut-seg-${seg.key}${seg.active ? ' is-active' : ''}`,
       'stroke-dasharray': `${pct} ${100 - pct}`,
       'stroke-dashoffset': String(-offset),
       transform: 'rotate(-90 32 32)',
     });
     const segTitle = svgEl('title');
-    segTitle.textContent = `${seg.label}: ${fmtInt(seg.count)} (${pct.toFixed(1)}%)`;
+    segTitle.textContent = `${seg.label}: ${fmtInt(seg.count)} (${pct.toFixed(1)}%)${seg.href ? ' — click to show below' : ''}`;
     arc.append(segTitle);
-    svg.append(arc);
+    if (seg.href) {
+      const link = svgEl('a', { href: seg.href, class: 'donut-arc-link' });
+      link.append(arc);
+      svg.append(link);
+    } else {
+      svg.append(arc);
+    }
     offset += pct;
   }
   const primaryPct = total > 0 && segments[0] ? Math.round((segments[0].count / total) * 100) : 0;
@@ -196,7 +205,7 @@ export function donut(label: string, segments: DonutSegment[]): HTMLElement {
     legend.append(
       el(
         'li',
-        {},
+        { class: seg.active ? 'is-active' : '' },
         el('span', { class: `swatch swatch-${seg.key}` }),
         name,
         el('span', { class: 'count' }, `${fmtInt(seg.count)} · ${pct}%`),

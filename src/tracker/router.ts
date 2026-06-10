@@ -2,9 +2,10 @@
  * Hash router for the tracker console. Routes are deep-linkable on a static
  * host (no server routing):
  *
- *   #/                     overview
+ *   #/                     stations (dashboard donut + table) — the home view
  *   #/stations?cc=DE&v=bad unified station table, filters in the params
  *   #/station/<id>         per-station detail
+ *   #/overview             catalog health overview
  *   #/sources              upstream source inventory
  *   #/process              pipeline documentation
  *
@@ -37,10 +38,11 @@ export function parseRoute(hash: string): Route {
   if (segments[0] === 'station' && segments[1]) {
     return { view: 'station', id: decodeURIComponent(segments[1]), params };
   }
-  if (segments[0] === 'stations') return { view: 'stations', params };
+  if (segments[0] === 'overview') return { view: 'overview', params };
   if (segments[0] === 'sources') return { view: 'sources', params };
   if (segments[0] === 'process') return { view: 'process', params };
-  return { view: 'overview', params };
+  // Stations is the home view — `#/`, `#/stations`, and anything unknown.
+  return { view: 'stations', params };
 }
 
 export function currentRoute(): Route {

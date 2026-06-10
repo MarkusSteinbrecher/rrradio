@@ -284,6 +284,9 @@ button, input, select { font: inherit; color: inherit; }
 }
 .donut { width: 168px; height: 168px; flex: none; }
 .donut-bg { stroke: var(--color-border-light); }
+.donut-arc-link { cursor: pointer; }
+.donut-arc-link:hover .donut-seg { stroke-width: 12; }
+.donut-seg.is-active { stroke-width: 13; }
 .donut-seg-imported { stroke: var(--color-primary); }
 .donut-seg-available { stroke: var(--color-success); }
 .donut-seg-duplicate { stroke: var(--color-info); }
@@ -294,6 +297,7 @@ button, input, select { font: inherit; color: inherit; }
   font-family: var(--font-display);
   font-size: 12px;
   font-weight: 600;
+  pointer-events: none; /* informational — never swallow arc clicks */
 }
 
 .donut-legend {
@@ -318,6 +322,11 @@ button, input, select { font: inherit; color: inherit; }
   color: var(--color-text-secondary);
   font-variant-numeric: tabular-nums;
 }
+.donut-legend a { color: var(--color-text); }
+.donut-legend a:hover { color: var(--color-primary-hover); }
+.donut-legend li.is-active,
+.donut-legend li.is-active a { color: var(--color-primary-text); }
+.donut-legend li.is-active .count { color: var(--color-primary-text); }
 .donut-legend .total {
   border-top: 1px solid var(--color-border-light);
   padding-top: var(--space-2);

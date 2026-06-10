@@ -222,6 +222,58 @@ export const loadSourcesIndex = memo(async (): Promise<SourcesIndex | null> => {
   }
 });
 
+/** Candidate dispositions tallied across every source — the donut data. */
+export async function loadDispositionTotals(): Promise<Map<string, number>> {
+  const index = await loadSourcesIndex();
+  const totals = new Map<string, number>();
+  for (const s of index?.sources ?? []) {
+    for (const [d, n] of Object.entries(s.dispositionTotals ?? {})) {
+      totals.set(d, (totals.get(d) ?? 0) + n);
+    }
+  }
+  return totals;
+}
+
+/** One row of a source's candidates artifact (sources/<id>-candidates.json). */
+export interface Candidate {
+  stationuuid?: string;
+  name?: string;
+  country?: string;
+  votes?: number;
+  clickcount?: number;
+  verdict?: string | null;
+  /** Stamped by build-sources: imported | available | duplicate | broken | unprobed. */
+  disposition?: string;
+  duplicateOf?: string | null;
+  duplicateOfName?: string | null;
+  duplicateVia?: string | null;
+  matchedCatalogId?: string | null;
+  streamHost?: string;
+  streamUrl?: string | null;
+  homepage?: string | null;
+  favicon?: string | null;
+  /** Source id, attached at load time. */
+  sourceId: string;
+}
+
+/** Every candidate across all sources. Heavy (the RB artifact is multi-MB) —
+ *  only awaited by views that actually list candidates. */
+export const loadAllCandidates = memo(async (): Promise<Candidate[]> => {
+  const index = await loadSourcesIndex();
+  const ids = (index?.sources ?? []).map((s) => s.id);
+  const lists = await Promise.all(
+    ids.map(async (id) => {
+      try {
+        const raw = await getJson<{ candidates?: Omit<Candidate, 'sourceId'>[] }>(`sources/${id}-candidates.json`);
+        return (raw.candidates ?? []).map((c) => ({ ...c, sourceId: id }));
+      } catch {
+        return [];
+      }
+    }),
+  );
+  return lists.flat();
+});
+
 const loadSourceMap = memo(async (): Promise<CatalogSourceMap | null> => {
   try {
     return await getJson<CatalogSourceMap>('sources/catalog-source-map.json');
