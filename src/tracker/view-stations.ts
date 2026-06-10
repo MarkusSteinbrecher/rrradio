@@ -26,8 +26,9 @@ const PAGE_SIZE = 100;
 const COLUMN_SETS = ['health', 'logo', 'meta'] as const;
 type ColumnSet = (typeof COLUMN_SETS)[number];
 
-/** Candidate pools — donut segments other than "in catalog". */
-const POOLS = ['available', 'duplicate', 'broken', 'unprobed'] as const;
+/** Candidate pools — donut segments other than "in catalog", plus 'all'
+ *  (the entire universe across every source, disposition shown per row). */
+const POOLS = ['all', 'available', 'duplicate', 'broken', 'unprobed'] as const;
 type Pool = '' | (typeof POOLS)[number];
 
 interface Filters {
@@ -104,6 +105,7 @@ function dashboardDonut(f: Filters, dispositions: Map<string, number>): HTMLElem
       href: poolHref(f, s.pool),
       active: f.pool === s.pool,
     })),
+    { totalHref: poolHref(f, 'all'), totalActive: f.pool === 'all' },
   );
 }
 
@@ -456,9 +458,19 @@ function probeBadge(verdict: string | null | undefined): HTMLElement {
   return badge(verdict, 'error');
 }
 
+const DISPO_BADGE: Record<string, 'primary' | 'success' | 'info' | 'error' | 'muted'> = {
+  imported: 'primary',
+  available: 'success',
+  duplicate: 'info',
+  broken: 'error',
+  unprobed: 'muted',
+};
+
 async function renderCandidatePool(root: HTMLElement, f: Filters, dash: HTMLElement | null): Promise<void> {
   root.replaceChildren(...(dash ? [dash] : []), loading('Loading candidates…'));
-  const pool = (await loadAllCandidates()).filter((c) => c.disposition === f.pool);
+  const all = await loadAllCandidates();
+  const pool = f.pool === 'all' ? all : all.filter((c) => c.disposition === f.pool);
+  const showDispo = f.pool === 'all';
 
   // Filter bar — same write-back-to-route pattern as the catalog table.
   const search = el('input', { type: 'search', placeholder: 'name, host, uuid…', value: f.q });
@@ -540,7 +552,7 @@ async function renderCandidatePool(root: HTMLElement, f: Filters, dash: HTMLElem
   for (const c of slice) {
     const sub: string[] = [];
     if (c.streamHost) sub.push(c.streamHost);
-    if (f.pool === 'duplicate') sub.push(`dup of ${c.duplicateOfName ?? c.duplicateOf ?? c.matchedCatalogId ?? '?'}`);
+    if (c.disposition === 'duplicate') sub.push(`dup of ${c.duplicateOfName ?? c.duplicateOf ?? c.matchedCatalogId ?? '?'}`);
     tbody.append(
       el(
         'tr',
@@ -557,6 +569,7 @@ async function renderCandidatePool(root: HTMLElement, f: Filters, dash: HTMLElem
         el('td', { class: 'num' }, fmtInt(c.votes ?? 0)),
         el('td', { class: 'num' }, fmtInt(c.clickcount ?? 0)),
         el('td', {}, probeBadge(c.verdict)),
+        showDispo ? el('td', {}, badge(c.disposition ?? '?', DISPO_BADGE[c.disposition ?? ''] ?? 'muted')) : null,
         el(
           'td',
           {},
@@ -589,7 +602,13 @@ async function renderCandidatePool(root: HTMLElement, f: Filters, dash: HTMLElem
     el(
       'div',
       { class: 'table-toolbar' },
-      el('span', {}, `${fmtInt(filtered.length)} of ${fmtInt(pool.length)} ${f.pool} candidate(s) — not in the catalog`),
+      el(
+        'span',
+        {},
+        f.pool === 'all'
+          ? `${fmtInt(filtered.length)} of ${fmtInt(pool.length)} known station(s) across all sources`
+          : `${fmtInt(filtered.length)} of ${fmtInt(pool.length)} ${f.pool} candidate(s) — not in the catalog`,
+      ),
       el('span', { class: 'spacer' }),
       el('div', { class: 'pager' }, prev, el('span', {}, `${f.page + 1} / ${pages}`), next),
     ),
@@ -613,6 +632,7 @@ async function renderCandidatePool(root: HTMLElement, f: Filters, dash: HTMLElem
                 el('th', { title: 'Radio Browser community votes' }, 'Votes'),
                 el('th', { title: 'Radio Browser click count' }, 'Clicks'),
                 el('th', { title: 'Stream playability probe verdict (rb-analysis)' }, 'Probe'),
+                showDispo ? el('th', { title: 'Where this row stands: imported into the catalog, available, duplicate, broken, or unprobed' }, 'Disposition') : null,
                 el('th', {}, 'Links'),
               ),
             ),

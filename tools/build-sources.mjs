@@ -231,6 +231,7 @@ function collectRadioBrowser(src) {
   } else {
     console.warn('build-sources: no data/sources/radio-browser/dedupe.json — run `npm run dedupe-raw`');
   }
+  const canonicalUuids = new Set(Object.values(dedupeByUuid).map((d) => d.canonical));
 
   // Walk the raw snapshots — these are now the authoritative
   // inventory of "what stations exist on RB".
@@ -280,6 +281,10 @@ function collectRadioBrowser(src) {
 
       const ver = verdictIndex.get(s.stationuuid) || { verdict: null, rbCheckOk: null };
       const dup = dedupeByUuid[s.stationuuid] || null;
+      // Dedupe-group key: the group's canonical uuid — set on the
+      // canonical row too, so the disposition stamp can reason about
+      // whole groups (e.g. http/https variants of one stream).
+      const dedupeGroup = dup?.canonical ?? (canonicalUuids.has(s.stationuuid) ? s.stationuuid : null);
       topCandidates.push({
         stationuuid: s.stationuuid,
         name: s.name, country: s.countrycode || cc,
@@ -302,6 +307,7 @@ function collectRadioBrowser(src) {
         rbCheckOk: ver.rbCheckOk,
         duplicateOf: dup?.canonical ?? null,
         duplicateVia: dup?.via ?? null,
+        dedupeGroup,
         matchedCatalogId: match?.id ?? null,
         streamHost,
         streamUrl: streamUrl || null,
@@ -344,12 +350,14 @@ function collectRadioBrowser(src) {
     });
     let streamHost = '';
     try { if (entry.streamUrl) streamHost = new URL(entry.streamUrl).host; } catch { /* malformed */ }
+    const dup = dedupeByUuid[entry.stationuuid] || null;
     allCandidates.push({
       stationuuid: entry.stationuuid,
       name: entry.name || '',
       country: entry.country || '',
       votes: 0, clickcount: 0,
       verdict: null, rbCheckOk: null, duplicateOf: null,
+      dedupeGroup: dup?.canonical ?? (canonicalUuids.has(entry.stationuuid) ? entry.stationuuid : null),
       matchedCatalogId: entry.id,
       streamHost,
       streamUrl: entry.streamUrl || null,
@@ -660,6 +668,37 @@ for (const src of sources) {
       else seenCatalogIds.add(c.matchedCatalogId);
     }
     c.disposition = d;
+  }
+
+  // Group-aware demotion: when a dedupe group already has an imported
+  // member, every other member is a duplicate of a catalog station —
+  // even the group's canonical row. Catches scheme variants the URL
+  // match can't see (e.g. Bandit Metal exists as http:// and https://
+  // of the same stream; we imported one, the other must not surface
+  // as "available").
+  const dedupeGroups = new Map();
+  for (const c of candidateRows) {
+    if (!c.dedupeGroup) continue;
+    if (!dedupeGroups.has(c.dedupeGroup)) dedupeGroups.set(c.dedupeGroup, []);
+    dedupeGroups.get(c.dedupeGroup).push(c);
+  }
+  let groupDemoted = 0;
+  for (const members of dedupeGroups.values()) {
+    const imported = members.find((m) => m.disposition === 'imported');
+    if (!imported) continue;
+    for (const m of members) {
+      if (m.disposition === 'imported' || m.disposition === 'duplicate') continue;
+      m.disposition = 'duplicate';
+      if (!m.duplicateOf) {
+        m.duplicateOf = imported.stationuuid;
+        m.duplicateOfName = imported.name;
+        m.duplicateVia = m.duplicateVia || 'dedupe-group';
+      }
+      groupDemoted++;
+    }
+  }
+  if (groupDemoted > 0) {
+    console.log(`build-sources: ${src.id} — ${groupDemoted} candidate(s) demoted to duplicate (dedupe group already imported)`);
   }
 
   // Cross-source duplicate bookkeeping. We only care about *catalog*

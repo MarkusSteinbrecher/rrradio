@@ -151,11 +151,17 @@ export interface DonutSegment {
   active?: boolean;
 }
 
+export interface DonutOpts {
+  /** Make the legend's total row a link (e.g. "show everything"). */
+  totalHref?: string;
+  totalActive?: boolean;
+}
+
 /** Donut chart + legend. Segments are SVG strokes (crisp at any size,
  *  CSP-safe — presentation attributes, no inline style). The center shows
  *  the first segment's share of the total. Segments with an href are
  *  clickable (SVG <a>), as are their legend rows. */
-export function donut(label: string, segments: DonutSegment[]): HTMLElement {
+export function donut(label: string, segments: DonutSegment[], opts: DonutOpts = {}): HTMLElement {
   const total = segments.reduce((sum, s) => sum + s.count, 0);
 
   const svg = svgEl('svg', { viewBox: '0 0 64 64', role: 'img', class: 'donut' });
@@ -216,7 +222,15 @@ export function donut(label: string, segments: DonutSegment[]): HTMLElement {
     );
   }
   legend.append(
-    el('li', { class: 'total' }, el('span', { class: 'swatch' }), el('span', {}, 'total'), el('span', { class: 'count' }, fmtInt(total))),
+    el(
+      'li',
+      { class: `total${opts.totalActive ? ' is-active' : ''}` },
+      el('span', { class: 'swatch' }),
+      opts.totalHref
+        ? el('a', { href: opts.totalHref, title: 'show every station across all sources' }, 'total — show all')
+        : el('span', {}, 'total'),
+      el('span', { class: 'count' }, fmtInt(total)),
+    ),
   );
 
   return el('div', { class: 'donut-panel' }, svg, legend);
