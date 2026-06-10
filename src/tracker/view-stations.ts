@@ -10,8 +10,10 @@
 import { countryName } from '../country';
 import {
   FACETS,
+  FACET_DESC,
   FACET_LABEL,
   FACET_SHORT,
+  STATUS_DESC,
   loadAllCandidates,
   loadDispositionTotals,
   loadRows,
@@ -155,9 +157,16 @@ function applyFilters(rows: StationRow[], f: Filters): StationRow[] {
 // ── column sets ──────────────────────────────────────────────────────
 
 function headerCells(set: ColumnSet): HTMLElement[] {
-  const cells = [el('th', {}, ''), el('th', {}, 'Station'), el('th', {}, 'CC'), el('th', {}, 'Status')];
+  const cells = [
+    el('th', {}, ''),
+    el('th', {}, 'Station'),
+    el('th', { title: 'Country code' }, 'CC'),
+    el('th', { title: 'Curation status — working / icy-only / stream-only (see legend)' }, 'Status'),
+  ];
   if (set === 'health') {
-    for (const facet of FACETS) cells.push(el('th', { title: FACET_LABEL[facet] }, FACET_SHORT[facet]));
+    for (const facet of FACETS) {
+      cells.push(el('th', { title: `${FACET_LABEL[facet]} — ${FACET_DESC[facet]}` }, FACET_SHORT[facet]));
+    }
   } else if (set === 'logo') {
     cells.push(
       el('th', {}, 'Logo'),
@@ -190,12 +199,12 @@ function bodyCells(row: StationRow, set: ColumnSet): HTMLElement[] {
       el('span', { class: 'sub' }, s.broadcaster ? `${s.id} · ${s.broadcaster}` : s.id),
     ),
     el('td', { title: s.country ? countryName(s.country.toUpperCase()) : '' }, (s.country ?? '—').toUpperCase()),
-    el('td', {}, s.status ?? '—'),
+    el('td', { title: s.status ? (STATUS_DESC[s.status] ?? '') : '' }, s.status ?? '—'),
   ];
   if (set === 'health') {
     for (const facet of FACETS) {
       const td = el('td', { class: 'center' });
-      td.append(verdictPill(row.facets[facet]));
+      td.append(verdictPill(row.facets[facet], FACET_LABEL[facet]));
       cells.push(td);
     }
   } else if (set === 'logo') {
@@ -221,6 +230,46 @@ function bodyCells(row: StationRow, set: ColumnSet): HTMLElement[] {
     );
   }
   return cells;
+}
+
+/** Collapsible legend: cell glyphs, curation statuses, health columns. */
+function legend(): HTMLElement {
+  const details = el('details', { class: 'legend' });
+  details.append(el('summary', { class: 'section-header' }, 'Legend — what the columns and icons mean'));
+
+  const body = el('div', { class: 'legend-body' });
+  body.append(
+    el(
+      'div',
+      { class: 'chip-row' },
+      el('span', { class: 'chip is-fresh' }, '✓ ok'),
+      el('span', { class: 'chip is-stale' }, '~ warn'),
+      el('span', { class: 'chip is-dead' }, '✗ bad'),
+      el('span', { class: 'chip' }, '· n/a — check does not apply'),
+      el('span', { class: 'chip' }, '— not checked yet'),
+      el('span', { class: 'chip' }, 'hover any cell for detail + the date the verdict last changed'),
+    ),
+  );
+
+  const dl = el('dl', { class: 'legend-grid' });
+  dl.append(
+    el('dt', {}, 'Status'),
+    el(
+      'dd',
+      {},
+      Object.entries(STATUS_DESC)
+        .map(([k, v]) => `${k} = ${v}`)
+        .join(' · '),
+    ),
+  );
+  for (const facet of FACETS) {
+    const term =
+      FACET_SHORT[facet] === FACET_LABEL[facet] ? FACET_SHORT[facet] : `${FACET_SHORT[facet]} — ${FACET_LABEL[facet]}`;
+    dl.append(el('dt', {}, term), el('dd', {}, FACET_DESC[facet]));
+  }
+  body.append(dl);
+  details.append(body);
+  return details;
 }
 
 // ── view ─────────────────────────────────────────────────────────────
@@ -389,7 +438,7 @@ export async function renderStations(root: HTMLElement, params: URLSearchParams)
     el('div', { class: 'table-wrap' }, el('table', { class: 'data' }, thead, tbody)),
   );
 
-  root.replaceChildren(...(dash ? [dash] : []), filterBar, panel);
+  root.replaceChildren(...(dash ? [dash] : []), filterBar, legend(), panel);
   if (document.activeElement === document.body && f.q) {
     search.focus();
     search.setSelectionRange(search.value.length, search.value.length);
@@ -559,11 +608,11 @@ async function renderCandidatePool(root: HTMLElement, f: Filters, dash: HTMLElem
                 {},
                 el('th', {}, ''),
                 el('th', {}, 'Candidate'),
-                el('th', {}, 'Source'),
-                el('th', {}, 'CC'),
-                el('th', {}, 'Votes'),
-                el('th', {}, 'Clicks'),
-                el('th', {}, 'Probe'),
+                el('th', { title: 'Which upstream source this candidate comes from (data/sources.yaml)' }, 'Source'),
+                el('th', { title: 'Country code' }, 'CC'),
+                el('th', { title: 'Radio Browser community votes' }, 'Votes'),
+                el('th', { title: 'Radio Browser click count' }, 'Clicks'),
+                el('th', { title: 'Stream playability probe verdict (rb-analysis)' }, 'Probe'),
                 el('th', {}, 'Links'),
               ),
             ),

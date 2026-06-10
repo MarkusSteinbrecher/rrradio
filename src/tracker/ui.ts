@@ -39,17 +39,20 @@ export function ageLabel(iso: string): string {
 }
 
 const GLYPH: Record<Verdict, string> = { ok: '✓', warn: '~', bad: '✗', na: '·' };
+const VERDICT_WORD: Record<Verdict, string> = { ok: 'ok', warn: 'warn', bad: 'bad', na: 'n/a — check does not apply' };
 
-/** Compact verdict pill for table cells; tooltip carries detail + since. */
-export function verdictPill(entry: FacetEntry | undefined): HTMLElement {
+/** Compact verdict pill for table cells; tooltip carries facet, verdict,
+ *  detail, and the date the verdict last changed. */
+export function verdictPill(entry: FacetEntry | undefined, facetLabel?: string): HTMLElement {
+  const prefix = facetLabel ? `${facetLabel}: ` : '';
   if (!entry) {
-    return el('span', { class: 'pill v-none', title: 'not checked yet' }, '—');
+    return el('span', { class: 'pill v-none', title: `${prefix}not checked yet` }, '—');
   }
   return el(
     'span',
     {
       class: `pill v-${entry.v}`,
-      title: `${entry.v}${entry.d ? ` — ${entry.d}` : ''} (since ${entry.since})`,
+      title: `${prefix}${VERDICT_WORD[entry.v]}${entry.d ? ` — ${entry.d}` : ''} (since ${entry.since})`,
     },
     GLYPH[entry.v],
   );

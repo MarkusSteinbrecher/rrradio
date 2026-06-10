@@ -333,6 +333,29 @@ button, input, select { font: inherit; color: inherit; }
   color: var(--color-text-secondary);
 }
 
+/* ── Table legend ────────────────────────────────────────────────── */
+
+.legend > summary { cursor: pointer; list-style: none; }
+.legend > summary::-webkit-details-marker { display: none; }
+.legend > summary::before { content: '▸ '; color: var(--color-text-tertiary); }
+.legend[open] > summary::before { content: '▾ '; }
+.legend-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-3) 0 0 var(--space-4);
+}
+.legend-grid {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--space-1) var(--space-4);
+  margin: 0;
+  font-size: var(--font-size-sm);
+  max-width: 70rem;
+}
+.legend-grid dt { color: var(--color-text-secondary); white-space: nowrap; }
+.legend-grid dd { margin: 0; }
+
 /* ── Badges & verdict pills ──────────────────────────────────────── */
 
 .badge {

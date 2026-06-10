@@ -6,6 +6,7 @@
 import { countryName } from '../country';
 import {
   FACETS,
+  FACET_DESC,
   FACET_LABEL,
   loadDriftById,
   loadDuplicateGroupsById,
@@ -100,7 +101,7 @@ function healthPanel(row: StationRow): HTMLElement {
   for (const facet of FACETS) {
     const entry = row.facets[facet];
     const r = el('div', { class: 'facet-row' });
-    r.append(el('span', { class: 'facet-name' }, FACET_LABEL[facet]));
+    r.append(el('span', { class: 'facet-name', title: FACET_DESC[facet] }, FACET_LABEL[facet]));
     if (!entry) {
       r.append(el('span', { class: 'badge badge-muted' }, 'unchecked'));
     } else {

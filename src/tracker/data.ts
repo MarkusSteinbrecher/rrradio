@@ -72,6 +72,28 @@ export const FACET_SHORT: Record<Facet, string> = {
   duplicate: 'Dup',
 };
 
+/** Plain-language explanation per facet — tooltips + the table legend.
+ *  Semantics mirror docs/station-health.md. */
+export const FACET_DESC: Record<Facet, string> = {
+  stream: 'Does the stream URL answer with playable audio? ok = 2xx + audio content-type · warn = unexpected content-type · bad = HTTP error / network failure',
+  https: 'Is the stream served over HTTPS? http streams are blocked as mixed content in the web player. ok = https · bad = http-only',
+  icy: 'Does the stream carry inline ICY now-playing titles? ok = StreamTitle seen · warn = advertised but none received · bad = none · n/a = HLS',
+  metadata: 'Does the now-playing metadata source respond? (the station’s metadataUrl or its built-in fetcher)',
+  fetcher: 'Is the metadata fetcher key wired to a known broadcaster fetcher? bad = unknown key · n/a = generic ICY',
+  program: 'Does the fetcher also supply program / show information? warn = fetcher without program data · n/a = no fetcher',
+  homepage: 'Does the station homepage still resolve? warn = bot-blocked (401/403/429) · bad = dead or server error · n/a = no homepage',
+  logo: 'Favicon quality: present, reachable, large enough, properly licensed (URL heuristics + real-pixel probe)',
+  drift: 'Has the bound Radio Browser record changed upstream since we reviewed it? warn = upstream changed · bad = record gone · n/a = not RB-bound',
+  duplicate: 'Does this entry collide with another catalog station? warn = review-tier similarity · bad = blocking collision (same stream)',
+};
+
+/** Curation status taxonomy (the publishable subset). */
+export const STATUS_DESC: Record<string, string> = {
+  working: 'stream + now-playing metadata + cover art all flowing',
+  'icy-only': 'stream plays, ICY title supplies now-playing — no broadcaster fetcher',
+  'stream-only': 'stream plays, no metadata source available',
+};
+
 export interface LogoStatusRow {
   id: string;
   source?: string;
