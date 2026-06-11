@@ -1,14 +1,13 @@
 {
-  "generatedAt": "2026-05-19T17:24:24.964Z",
+  "generatedAt": "2026-06-11T08:07:05.613Z",
   "country": "CF",
   "rawSnapshotAt": "2026-05-19T07:49:57.898Z",
   "total": 3,
-  "playable": 2,
-  "broken": 1,
-  "curated": 0,
+  "playable": 3,
+  "broken": 0,
+  "curated": 1,
   "byVerdict": {
-    "broken-mixed": 1,
-    "ok": 2
+    "ok": 3
   },
   "stations": [
     {
@@ -23,11 +22,11 @@
       "votes": 2068,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://stream.radiondekeluka.org:8001/ndekeluka",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://stream.radiondekeluka.org/ndekeluka",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:24:24.958Z"
+      "probedAt": "2026-06-11T08:07:05.607Z"
     },
     {
       "stationuuid": "7e22291d-8062-49e2-932a-cfc13c35b9f0",
@@ -46,7 +45,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:24:24.959Z"
+      "probedAt": "2026-06-11T08:07:05.609Z"
     },
     {
       "stationuuid": "85d63c4c-4b6e-4336-91af-f877209ccfd2",
@@ -64,8 +63,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cast3.asurahosting.com/proxy/dreamradio/stream.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:24:24.959Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:07:05.609Z"
     }
   ]
 }

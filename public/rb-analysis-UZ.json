@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T17:56:45.761Z",
+  "generatedAt": "2026-06-11T09:49:54.621Z",
   "country": "UZ",
   "rawSnapshotAt": "2026-05-19T07:51:32.206Z",
   "total": 12,
@@ -7,8 +7,9 @@
   "broken": 8,
   "curated": 1,
   "byVerdict": {
-    "broken-mixed": 7,
+    "broken-mixed": 6,
     "broken-tls": 1,
+    "broken-format": 1,
     "ok": 4
   },
   "stations": [
@@ -29,7 +30,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.islom.uz/islomuz",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:56:45.287Z"
+      "probedAt": "2026-06-11T09:49:33.094Z"
     },
     {
       "stationuuid": "11b819f9-44e5-48a5-a79b-a7eb2d5d7fdb",
@@ -48,7 +49,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://qurango.net/radio/mahmoud_khalil_alhussary_warsh",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:56:45.287Z"
+      "probedAt": "2026-06-11T09:49:33.094Z"
     },
     {
       "stationuuid": "13d416ec-2884-427d-a0dc-056f7927ce02",
@@ -64,10 +65,10 @@
       "clickcount": 5,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://ns10.jethost.uz:8000/yoshlarovoziaac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:56:45.257Z"
+      "probedAt": "2026-06-11T09:49:54.344Z"
     },
     {
       "stationuuid": "15155f4c-8021-4776-8132-8ccc791026c2",
@@ -82,11 +83,11 @@
       "votes": 1724,
       "clickcount": 4,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://s10.voscast.com:9410/",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html;charset=utf-8 not audio-like",
+      "finalUrl": "http://s10.voscast.com:9410/index.html?sid=1",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:56:45.287Z"
+      "probedAt": "2026-06-11T09:49:34.539Z"
     },
     {
       "stationuuid": "525f1270-5011-4351-9272-0901b93aa860",
@@ -105,7 +106,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:56:45.287Z"
+      "probedAt": "2026-06-11T09:49:33.094Z"
     },
     {
       "stationuuid": "8d542c3e-a374-41a0-8daf-b7eb342fba53",
@@ -123,7 +124,7 @@
       "verdictReason": "TypeError: fetch failed — Error: certificate has expired",
       "finalUrl": "https://fm101.uz:9943/fm101_low.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:56:45.749Z"
+      "probedAt": "2026-06-11T09:49:33.093Z"
     },
     {
       "stationuuid": "91b14aa0-321e-4abc-9410-a40abb606330",
@@ -139,10 +140,10 @@
       "clickcount": 4,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://213.230.109.7:9000/alo_low",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:56:45.257Z"
+      "probedAt": "2026-06-11T09:49:54.374Z"
     },
     {
       "stationuuid": "962c9786-0601-11e8-ae97-52543be04c81",
@@ -158,10 +159,10 @@
       "clickcount": 7,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://tabassum.uz:9000/alo_low",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:56:45.256Z"
+      "probedAt": "2026-06-11T09:49:54.149Z"
     },
     {
       "stationuuid": "a627187a-272f-4d81-b9e9-2ca7a52c66d7",
@@ -176,10 +177,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://tabassum.uz:9000/alo_low",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:56:45.257Z"
+      "probedAt": "2026-06-11T09:49:54.607Z"
     },
     {
       "stationuuid": "b6b8719c-3a94-402e-b56e-901f6c2f4d87",
@@ -194,10 +195,10 @@
       "clickcount": 5,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://194.5.152.248:8000/fm",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:56:45.257Z"
+      "probedAt": "2026-06-11T09:49:54.552Z"
     },
     {
       "stationuuid": "ca301e89-3d37-4768-b436-f4a58fc44111",
@@ -216,7 +217,7 @@
       "verdictReason": "audio/aacp (browser auto-upgrade from http://)",
       "finalUrl": "https://live.qalbimnavosi.uz/qalbimnavosi",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:56:45.287Z"
+      "probedAt": "2026-06-11T09:49:33.094Z"
     },
     {
       "stationuuid": "d8b36bbb-b316-4c69-be75-3187a4a983b0",
@@ -232,10 +233,10 @@
       "clickcount": 5,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aac) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://mediamarkaz.com:8000/radiomarkaz",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:56:45.287Z"
+      "probedAt": "2026-06-11T09:49:54.091Z"
     }
   ]
 }

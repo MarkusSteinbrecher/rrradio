@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T17:21:30.574Z",
+  "generatedAt": "2026-06-11T08:00:28.727Z",
   "country": "BI",
   "rawSnapshotAt": "2026-05-19T07:49:50.373Z",
   "total": 4,
@@ -28,7 +28,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:21:30.570Z"
+      "probedAt": "2026-06-11T08:00:28.205Z"
     },
     {
       "stationuuid": "433d25b8-5f8f-11e9-a622-52543be04c81",
@@ -43,10 +43,10 @@
       "clickcount": 63,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://dreamsiteradiocp.com:8058/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:21:30.569Z"
+      "probedAt": "2026-06-11T08:00:28.722Z"
     },
     {
       "stationuuid": "4547f10b-1b17-41cc-ba91-2c986b956731",
@@ -63,7 +63,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream-176.zeno.fm/eequgfw72hhvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJlZXF1Z2Z3NzJoaHZ2IiwiaG9zdCI6InN0cmVhbS0xNzYuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6ImVGMkRzbWc1U0tpVkRENDR6TmR5UlEiLCJpYXQiOjE3NzkxODY3ODksImV4cCI6MTc3OTE4Njg0OX0.BaHRkoy_QY51mxTY2NM5XF8rGNVcE76Nr4f4vzpEhvQ",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:21:30.570Z"
+      "probedAt": "2026-06-11T08:00:28.204Z"
     },
     {
       "stationuuid": "70346d63-1d45-4127-a0b8-ccb91a8ed8d3",
@@ -78,10 +78,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://57.129.49.167:8082/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:21:30.570Z"
+      "probedAt": "2026-06-11T08:00:28.479Z"
     }
   ]
 }

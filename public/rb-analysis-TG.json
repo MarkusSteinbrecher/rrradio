@@ -1,14 +1,15 @@
 {
-  "generatedAt": "2026-05-19T17:48:25.179Z",
+  "generatedAt": "2026-06-11T09:32:28.055Z",
   "country": "TG",
   "rawSnapshotAt": "2026-05-19T07:51:23.109Z",
   "total": 8,
   "playable": 5,
   "broken": 3,
-  "curated": 0,
+  "curated": 3,
   "byVerdict": {
-    "broken-mixed": 3,
-    "ok": 5
+    "broken-mixed": 2,
+    "ok": 5,
+    "broken-4xx": 1
   },
   "stations": [
     {
@@ -27,8 +28,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://srv1269271.hstgr.cloud/;?type=http&nocache=16",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:48:25.175Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T09:32:26.668Z"
     },
     {
       "stationuuid": "257d9018-727c-4253-af99-639879e4d99c",
@@ -45,8 +46,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-280.zeno.fm/vkhv6gl43g5tv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ2a2h2NmdsNDNnNXR2IiwiaG9zdCI6InN0cmVhbS0yODAuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IjExNnRzdjBnUmhtMllXSkhZczVzWlEiLCJpYXQiOjE3NzkxODI5NjAsImV4cCI6MTc3OTE4MzAyMH0.vRM5adqaukxqbkgIkRNgSqzn50MAzTvlvkzsXt0E94Q",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:48:25.174Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T09:32:26.641Z"
     },
     {
       "stationuuid": "358a87bb-8117-4aa7-8eb8-48929f737866",
@@ -62,10 +63,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://usa1.fastcast4u.com:3190/stream/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:48:25.175Z"
+      "probedAt": "2026-06-11T09:32:28.040Z"
     },
     {
       "stationuuid": "645dcd9f-131f-4cc2-baf7-0479cf2d3ded",
@@ -83,8 +84,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://a9.asurahosting.com/listen/light_radio_93.9fm/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:48:25.175Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T09:32:26.668Z"
     },
     {
       "stationuuid": "6761a296-5f91-11e9-a622-52543be04c81",
@@ -99,10 +100,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://dreamsiteradiocp.com:8050/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:48:25.175Z"
+      "probedAt": "2026-06-11T09:32:27.293Z"
     },
     {
       "stationuuid": "d5a725cd-5232-4832-8d96-9b0023a8c7b6",
@@ -121,7 +122,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:48:25.175Z"
+      "probedAt": "2026-06-11T09:32:26.668Z"
     },
     {
       "stationuuid": "d7418493-f72c-4667-ae4a-0def39cfcd01",
@@ -139,7 +140,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://streaming.brol.tech/rtfmlounge",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:48:25.175Z"
+      "probedAt": "2026-06-11T09:32:26.668Z"
     },
     {
       "stationuuid": "fe20f134-9ed0-4ff1-ad69-2660eea3a055",
@@ -151,11 +152,11 @@
       "votes": 1632,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 401",
       "finalUrl": "http://stream.zeno.fm/a0kvrgmcqm0uv",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:48:25.175Z"
+      "probedAt": "2026-06-11T09:32:27.309Z"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-07T10:24:43.491Z",
-  "catalogTotal": 24344,
+  "generatedAt": "2026-06-11T10:33:02.628Z",
+  "catalogTotal": 31600,
   "unclassifiedCatalogEntries": 0,
   "sources": [
     {
@@ -11,23 +11,32 @@
       "homepage": "https://www.radio-browser.info/",
       "description": "Community-maintained catalog of internet radio stations. Our primary upstream — every entry with a stationuuid is bound to an RB record and inherits stream/codec/bitrate/tags from it.",
       "candidateCount": 55242,
-      "importedCount": 24333,
-      "availableCount": 24990,
+      "importedCount": 31579,
+      "availableCount": 15225,
+      "dispositionTotals": {
+        "imported": 31579,
+        "duplicate": 14388,
+        "http-only": 5983,
+        "broken": 3286,
+        "available": 6
+      },
       "extra": {
         "countriesAnalyzed": 237,
         "countriesInRawSnapshot": 237,
         "verdictBreakdown": {
-          "ok": 36644,
-          "broken-tls": 461,
-          "ok-hls": 3223,
-          "broken-mixed": 12493,
-          "broken-4xx": 956,
-          "broken-format": 175,
-          "broken-network": 730,
-          "broken-5xx": 161,
-          "broken-refused": 84,
-          "broken-dns": 100,
-          "broken-timeout": 160,
+          "ok": 38881,
+          "broken-tls": 433,
+          "ok-hls": 3252,
+          "broken-format": 1221,
+          "broken-mixed": 7885,
+          "broken-4xx": 2041,
+          "broken-refused": 359,
+          "broken-5xx": 151,
+          "broken-timeout": 443,
+          "broken-network": 13,
+          "broken-dns": 273,
+          "probe-inconclusive": 6,
+          "probe-skipped": 229,
           "redirect-downgrade": 17,
           "needs-playlist": 35
         },
@@ -42,11 +51,28 @@
       "kind": "manual",
       "homepage": null,
       "description": "Hand-added stations that don't (yet) come from any upstream catalog. Distinguished by the absence of a stationuuid AND no other RB signals. Sponsor-curated additions like M94.5 and Grrif live here.",
-      "candidateCount": 16,
-      "importedCount": 16,
+      "candidateCount": 31,
+      "importedCount": 31,
       "availableCount": 0,
+      "dispositionTotals": {
+        "imported": 31
+      },
       "extra": {},
       "detailUrl": "/sources/manual.json"
+    },
+    {
+      "id": "user-suggestions",
+      "name": "User suggestions",
+      "abbr": "Suggest",
+      "kind": "user-suggestion",
+      "homepage": "https://github.com/MarkusSteinbrecher/rrradio/issues",
+      "description": "Stations suggested by listeners — typically GitHub issues opened via docs/adding-stations.md. Each suggestion is triaged into the intake list below; accepted ones are imported into data/stations.yaml with an explicit `source: user-suggestions`.",
+      "candidateCount": 0,
+      "importedCount": 0,
+      "availableCount": 0,
+      "dispositionTotals": {},
+      "extra": {},
+      "detailUrl": "/sources/user-suggestions.json"
     }
   ],
   "crossSourceDuplicates": []

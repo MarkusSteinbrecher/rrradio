@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-19T17:47:18.927Z",
+  "generatedAt": "2026-06-11T09:30:35.459Z",
   "country": "SL",
   "rawSnapshotAt": "2026-05-19T07:51:17.352Z",
   "total": 4,
   "playable": 2,
   "broken": 2,
-  "curated": 0,
+  "curated": 1,
   "byVerdict": {
     "ok": 2,
     "broken-mixed": 2
@@ -28,7 +28,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:18.922Z"
+      "probedAt": "2026-06-11T09:30:33.633Z"
     },
     {
       "stationuuid": "dbffe503-a05b-407c-bffd-c0b394c80f7d",
@@ -45,8 +45,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream-290.zeno.fm/ct0gvk9149puv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJjdDBndms5MTQ5cHV2IiwiaG9zdCI6InN0cmVhbS0yOTAuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiMDNPRTUwOHVUQ2FxdXd2cGVUNzVPZyIsImlhdCI6MTc3OTE5NTM4MiwiZXhwIjoxNzc5MTk1NDQyfQ.wLBto28JCIwPn-LaJ0pg8Upjxg78D498XgTWAq9wP2A",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:47:18.922Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T09:30:33.632Z"
     },
     {
       "stationuuid": "e5962055-cc81-4b12-87cd-3e31244195fd",
@@ -61,10 +61,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://45.79.181.148:8004/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:18.921Z"
+      "probedAt": "2026-06-11T09:30:34.871Z"
     },
     {
       "stationuuid": "f3cbe38a-5d84-4ad6-a1a5-ba263d4681b9",
@@ -80,10 +80,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://45.79.181.148:8004/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:47:18.922Z"
+      "probedAt": "2026-06-11T09:30:35.444Z"
     }
   ]
 }

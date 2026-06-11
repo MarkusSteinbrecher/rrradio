@@ -1,15 +1,16 @@
 {
-  "generatedAt": "2026-05-19T17:29:01.203Z",
+  "generatedAt": "2026-06-11T08:33:38.270Z",
   "country": "GE",
   "rawSnapshotAt": "2026-05-19T07:50:18.867Z",
   "total": 30,
   "playable": 23,
   "broken": 7,
-  "curated": 17,
+  "curated": 18,
   "byVerdict": {
     "ok": 14,
-    "broken-mixed": 7,
-    "ok-hls": 9
+    "broken-mixed": 5,
+    "ok-hls": 9,
+    "broken-refused": 2
   },
   "stations": [
     {
@@ -29,7 +30,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://tv.cdn.xsg.ge/radioimedi/stream01/shoutcast",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.757Z"
     },
     {
       "stationuuid": "0d742e8f-5ff8-11e9-a622-52543be04c81",
@@ -45,10 +46,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://iis.ge:8000/hereti.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:37.692Z"
     },
     {
       "stationuuid": "395ff89d-0ea3-4fc1-8541-506b1ee4ef5f",
@@ -66,7 +67,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://tv.cdn.xsg.ge/gpb-radio2/tracks-a1/index.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.757Z"
     },
     {
       "stationuuid": "41d55b9f-33cf-4a75-a4fd-335528b74348",
@@ -82,10 +83,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream.it-solutions.ge:8000/mp3-radiomarneulifm",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:36.646Z"
     },
     {
       "stationuuid": "4623426b-3740-47c3-8e0e-1370b08043cd",
@@ -103,7 +104,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiostream.palitra.ge/stream.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.788Z"
     },
     {
       "stationuuid": "47094325-dcd3-4402-9ff1-315e0e3274b1",
@@ -120,8 +121,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://rtn.cdnstream1.com/2582_96.aac",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:33:15.787Z"
     },
     {
       "stationuuid": "48c265ba-4102-4b16-95c1-a4f494bb48cd",
@@ -139,7 +140,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://tv.cdn.xsg.ge/cld9-0386/ardaidardo/tracks-a1/mono.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.756Z"
     },
     {
       "stationuuid": "5428daee-981a-49cc-867f-f8dc17091050",
@@ -157,7 +158,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://radio.cdn.xsg.ge/cld9-1050/chveneburi/index.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.787Z"
     },
     {
       "stationuuid": "561665cf-3adf-41b5-b94b-1e9d8d534bdf",
@@ -176,7 +177,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://proxy.streamer.mediabox.ge/ice/8000/sivrce",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.788Z"
     },
     {
       "stationuuid": "621ba5b0-8424-48e1-9abd-5ac1135ce59f",
@@ -195,7 +196,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://icecast-rian.cdnvideo.ru/voicesuh",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.788Z"
     },
     {
       "stationuuid": "6b687628-4aea-47ac-a5e6-1104e92f9791",
@@ -213,7 +214,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://tv.cdn.xsg.ge/cld9-0386/ardaidardo/tracks-a1/mono.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.757Z"
     },
     {
       "stationuuid": "71221a1d-a0ff-4c18-8f7d-97d735795005",
@@ -227,11 +228,11 @@
       "votes": 145,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-refused",
+      "verdictReason": "TypeError: fetch failed — Error: connect ECONNREFUSED 193.111.125.15:8020",
       "finalUrl": "http://193.111.125.15:8020/soothingjazz",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:16.182Z"
     },
     {
       "stationuuid": "837ffec9-86a4-4f1c-b142-6fc4354fac61",
@@ -245,11 +246,11 @@
       "votes": 124,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-refused",
+      "verdictReason": "TypeError: fetch failed — Error: connect ECONNREFUSED 193.111.125.15:8010",
       "finalUrl": "http://193.111.125.15:8010/soothingradio",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:16.182Z"
     },
     {
       "stationuuid": "8ddf8e92-517d-498b-b3be-e888444c6b8d",
@@ -265,10 +266,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://iis.ge:8000/radiotbilisi.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:38.254Z"
     },
     {
       "stationuuid": "9dc26cbc-cd2f-408b-8684-3b8c4df7f9c8",
@@ -287,7 +288,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.788Z"
     },
     {
       "stationuuid": "a482e1c5-5e7d-4731-8f6f-7db5cf2cdbf4",
@@ -305,7 +306,7 @@
       "verdictReason": "audio/mp3",
       "finalUrl": "https://edge.mixlr.com/channel/bzorq",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.788Z"
     },
     {
       "stationuuid": "a9302edc-854d-4e6a-bee1-d6799665bc56",
@@ -323,7 +324,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://nue01-edge01.itdc.ge/fm-obieqtivi-105.1/mono.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.788Z"
     },
     {
       "stationuuid": "ab716da9-657f-44db-a619-84f7c7bf0589",
@@ -339,10 +340,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://149.3.104.166:8000/stream.ogg",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:36.960Z"
     },
     {
       "stationuuid": "ae185e7b-b269-4cc7-a3a4-93fd46334145",
@@ -359,7 +360,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streamer.radio.co/s34b5469e0/listen",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.787Z"
     },
     {
       "stationuuid": "b7e5fbb9-d1eb-468f-b095-783702465ea4",
@@ -377,7 +378,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://tv.cdn.xsg.ge/cld9-0386/avtoradio/tracks-a1/mono.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.757Z"
     },
     {
       "stationuuid": "b806f342-f9c8-4101-94ab-295c254b4b7e",
@@ -395,7 +396,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://tv.cdn.xsg.ge/cld9-0386/fortuna/tracks-a1/mono.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.757Z"
     },
     {
       "stationuuid": "b92804d1-0bf1-4580-bb7a-26206adbf90e",
@@ -413,7 +414,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://radio.cdn.xsg.ge/cld9-1050/chveneburi/tracks-a1/mono.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.787Z"
     },
     {
       "stationuuid": "c526d675-3a46-4ca8-9af5-59def9ecdf4d",
@@ -431,7 +432,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://radio.cdn.xsg.ge/fm-commersant-95.5/tracks-a1/mono.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.787Z"
     },
     {
       "stationuuid": "dc334d04-d25c-4f86-94c5-051c296eb33a",
@@ -448,7 +449,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-290.zeno.fm/pcbduafehg0uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJwY2JkdWFmZWhnMHV2IiwiaG9zdCI6InN0cmVhbS0yOTAuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiUVV6aXpBR1VRQkNlU2tBb2JyRWd4USIsImlhdCI6MTc3ODQ4NzA1NiwiZXhwIjoxNzc4NDg3MTE2fQ.xrvozjhbHvFbaTBJ11Jjt7IZHOrN9l5qDe4_KKodda8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.788Z"
     },
     {
       "stationuuid": "df94cddb-b728-4cd2-a81b-34c9dc916812",
@@ -466,7 +467,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://rtn.cdnstream1.com/2576_96.aac?rand=81562",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.787Z"
     },
     {
       "stationuuid": "e6966fa8-8fa6-49fc-bc37-0de3763ba6ad",
@@ -485,7 +486,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen.radioking.com/radio/282820/stream/328621",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.787Z"
     },
     {
       "stationuuid": "e81caf1f-5049-48ad-99b7-b5ebdd03d3f3",
@@ -504,7 +505,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen.radioking.com/radio/282820/stream/328621",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.787Z"
     },
     {
       "stationuuid": "edcb2243-5ffe-11e9-a622-52543be04c81",
@@ -519,10 +520,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://iis.ge:8000/radiotbilisi.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:37.021Z"
     },
     {
       "stationuuid": "ef9f7a61-bb7d-43eb-8d66-1504895b5621",
@@ -540,7 +541,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://n0d.radiojar.com/sr4vzamzfnruv?rj-ttl=5&rj-tok=AAABnhYf_gIAX5fXc96cWF0edg",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.787Z"
     },
     {
       "stationuuid": "f040eba8-1cef-45e7-a20d-8134bb5ea7e8",
@@ -559,7 +560,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen.radioking.com/radio/282820/stream/328621",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:01.197Z"
+      "probedAt": "2026-06-11T08:33:15.787Z"
     }
   ]
 }

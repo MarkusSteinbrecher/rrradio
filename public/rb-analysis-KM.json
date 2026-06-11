@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T17:33:29.490Z",
+  "generatedAt": "2026-06-11T08:52:59.259Z",
   "country": "KM",
   "rawSnapshotAt": "2026-05-19T07:50:38.994Z",
   "total": 2,
@@ -28,7 +28,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:29.486Z"
+      "probedAt": "2026-06-11T08:52:38.072Z"
     },
     {
       "stationuuid": "d7da8f81-c68d-11e8-a498-52543be04c81",
@@ -44,10 +44,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://www.domoni-inter.org:8000/live",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:29.485Z"
+      "probedAt": "2026-06-11T08:52:59.247Z"
     }
   ]
 }

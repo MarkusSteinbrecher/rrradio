@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T17:33:25.906Z",
+  "generatedAt": "2026-06-11T08:52:32.384Z",
   "country": "KH",
   "rawSnapshotAt": "2026-05-19T07:50:38.095Z",
   "total": 2,
@@ -28,7 +28,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:25.901Z"
+      "probedAt": "2026-06-11T08:52:10.751Z"
     },
     {
       "stationuuid": "eedb7498-f59d-4f07-9efc-b77853d6abf5",
@@ -43,10 +43,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://119.82.252.6:8080/broadwave.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:25.901Z"
+      "probedAt": "2026-06-11T08:52:32.369Z"
     }
   ]
 }

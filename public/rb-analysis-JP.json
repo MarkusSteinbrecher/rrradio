@@ -1,17 +1,19 @@
 {
-  "generatedAt": "2026-05-19T17:33:20.547Z",
+  "generatedAt": "2026-06-11T08:51:40.579Z",
   "country": "JP",
   "rawSnapshotAt": "2026-05-19T07:50:36.620Z",
   "total": 193,
   "playable": 168,
   "broken": 25,
-  "curated": 119,
+  "curated": 137,
   "byVerdict": {
     "ok": 84,
-    "broken-mixed": 20,
+    "broken-format": 7,
+    "broken-mixed": 11,
     "ok-hls": 84,
-    "broken-5xx": 1,
-    "broken-4xx": 4
+    "broken-5xx": 2,
+    "broken-4xx": 4,
+    "broken-timeout": 1
   },
   "stations": [
     {
@@ -30,7 +32,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://quincy.torontocast.com:2020/stream.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.825Z"
     },
     {
       "stationuuid": "0347b46a-91c7-4fe3-943d-a9eb02cdd9b9",
@@ -47,7 +49,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://relay.rainwave.cc/all.mp3?1:MF0d8GHw2d",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.828Z"
     },
     {
       "stationuuid": "045fd26e-5be3-4ef8-9c38-651ebceef4d1",
@@ -65,7 +67,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30087/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "04d1eabe-f19d-11e8-a471-52543be04c81",
@@ -79,11 +81,11 @@
       "votes": 658,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://uk5.internet-radio.com:8306/",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html;charset=utf-8 not audio-like",
+      "finalUrl": "http://uk5.internet-radio.com:8306/index.html?sid=1",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:40.280Z"
     },
     {
       "stationuuid": "07d14a05-8de1-4cd1-b218-9448141364bf",
@@ -101,7 +103,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30020/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "07d44324-869d-4479-8da6-dfaa2aa0da92",
@@ -119,7 +121,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30054/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "090ec5aa-54d0-4410-8442-82c5236c57b8",
@@ -138,7 +140,7 @@
       "verdictReason": "audio/mpeg; charset=UTF-8",
       "finalUrl": "https://jenny.torontocast.com:2000/stream/J1HITS?_=538100",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "09983f06-279c-497a-8e96-8e1057fa094a",
@@ -157,7 +159,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://streaming.radio.co/se4a8e6a93/listen",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "0ab05ce4-de0b-4c9d-9772-a9787354c3f7",
@@ -173,10 +175,10 @@
       "clickcount": 4,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://shoutcast.wrn.org:8025/nhk41right",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:40.111Z"
     },
     {
       "stationuuid": "0bca37e5-153c-40fa-a26f-b52d46523b72",
@@ -194,7 +196,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://kathy.torontocast.com:2880/;?type=http&nocache=1606748882",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.828Z"
     },
     {
       "stationuuid": "0bf249cd-0bee-4b28-bef5-4803e1f9c050",
@@ -211,7 +213,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://backup.qurango.net/radio/ahmad_khader_altarabulsi",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.828Z"
     },
     {
       "stationuuid": "0d926201-13b3-4e14-9348-68b7666be53d",
@@ -229,7 +231,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://relay0.r-a-d.io/main.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "0eed3332-c2b2-4eda-9d0c-897322162663",
@@ -248,7 +250,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://masterpl.hls.nhkworld.jp/hls/r1/live/master.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.828Z"
     },
     {
       "stationuuid": "0f0b233d-2b81-49e9-b9fd-51cdbd645210",
@@ -266,7 +268,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30098/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "0f2de9ed-ce97-432f-8786-c6af09b81c85",
@@ -280,11 +282,11 @@
       "votes": 8,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
       "finalUrl": "http://gyusyabu.ddo.jp:8000/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:51:03.562Z"
     },
     {
       "stationuuid": "0f9cf618-ac22-42b8-8604-57a7f2b1cf17",
@@ -302,7 +304,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30096/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "121df42c-e7a1-4a57-ab0b-a5149ae3956f",
@@ -320,7 +322,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://shonanbeachfm.out.airtime.pro:8000/shonanbeachfm_a",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "12ac30d1-1900-4edc-baef-7c027232ee64",
@@ -338,7 +340,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://kathy.torontocast.com:3340/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "138a0d94-617d-45c6-9164-fe393c140a88",
@@ -356,8 +358,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.stereoanime.com/listen/stereoanime/128",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:50:38.829Z"
     },
     {
       "stationuuid": "149b595b-9490-4cf9-9e25-8bc46806d75a",
@@ -376,7 +378,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://securestreams.autopo.st:2592/stream?t=1769818665235",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.829Z"
     },
     {
       "stationuuid": "14f39985-e279-4533-9a41-69e3bf6c514b",
@@ -394,7 +396,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30040/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "1516904a-7c53-4443-82b2-e710eb814be4",
@@ -412,8 +414,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://live.vrstv.jp/vrstv/index.m3u8?cookieCheck=1",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:50:38.829Z"
     },
     {
       "stationuuid": "151f8c13-0171-449f-a074-e4ddff23f954",
@@ -431,7 +433,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30083/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "18b30bd4-a3c2-43d3-b177-d6be5ac4209f",
@@ -449,8 +451,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30027/livestream/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "18da9cc0-210c-41ab-b7ba-e74cb02450a3",
@@ -468,8 +470,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30074/livestream/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "1909f412-f4d4-4edd-9ea2-50a288183ba0",
@@ -487,8 +489,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ottava2.out.airtime.pro:8000/ottava2_a",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:50:38.827Z"
     },
     {
       "stationuuid": "1972ede1-8a0a-4cf3-87a7-4497e3260b92",
@@ -506,7 +508,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30010/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "1adf1539-e647-44c3-85d8-b437b768fb8c",
@@ -524,7 +526,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-289.zeno.fm/qpn8mkt8c4duv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJxcG44bWt0OGM0ZHV2IiwiaG9zdCI6InN0cmVhbS0yODkuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiSC1WU2ZiOE9RT0dETXQ4ZkVWS2NWdyIsImlhdCI6MTc3NzU0NzYyMywiZXhwIjoxNzc3NTQ3NjgzfQ.hzr1oTCIAzaVbXLmPDdouDAJYTJ5BsAIx246g5zlgEQ",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "1b604853-4fac-434c-9566-935e2796638f",
@@ -542,7 +544,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30014/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "1bca74bf-82e7-4631-87b6-1e96be3bae43",
@@ -561,7 +563,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream2.rcast.net/70945",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.828Z"
     },
     {
       "stationuuid": "1c7e511c-9215-443d-ae65-6bfeac259811",
@@ -579,7 +581,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30030/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "2119387e-f76a-449f-b15d-315ba83c2dfe",
@@ -598,7 +600,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://a4.asurahosting.com:6930/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.828Z"
     },
     {
       "stationuuid": "21fece77-9763-4223-8f01-358adbddeac7",
@@ -616,7 +618,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://nonstopcasiopea.radioca.st/",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.828Z"
     },
     {
       "stationuuid": "2396ce2c-9fde-4353-98a8-7e307daefddc",
@@ -634,7 +636,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-178.zeno.fm/48533y95cnruv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiI0ODUzM3k5NWNucnV2IiwiaG9zdCI6InN0cmVhbS0xNzguemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiWmVyNU53SVRTTW1jelZSSFFBQktHdyIsImlhdCI6MTc3NzU0NzYyNywiZXhwIjoxNzc3NTQ3Njg3fQ.tIPUc7fzR2kV3VhaV0H0oMPtYwPTrL8_KTPUdsNXCbQ",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "248a7684-7e28-4912-9812-efefc2bba2e1",
@@ -653,7 +655,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.gensokyoradio.net/3/",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "271d5018-2b16-49de-ab3f-df460337c0f8",
@@ -671,7 +673,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30039/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "29e18f32-a063-4002-9768-fb416f172778",
@@ -689,7 +691,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30079/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "2bd889fe-1a7b-4989-be0c-6ed795f0264f",
@@ -707,7 +709,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30061/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "2d86f125-6674-42d4-a450-b4941e784e59",
@@ -726,7 +728,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://s5.radio.co/s6140c7241/low",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.825Z"
     },
     {
       "stationuuid": "304bea72-0af3-42fb-899c-58f9d2991324",
@@ -744,7 +746,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30036/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "30b09043-9b67-43d7-b9c6-b4401e5cb636",
@@ -762,7 +764,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://boxradio-edge-00.streamafrica.net/jpopchill",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "32d5e5ac-e196-4451-9193-bd41a7961556",
@@ -776,11 +778,11 @@
       "votes": 2021,
       "clickcount": 9,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://jenny.torontocast.com:8062/",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html;charset=utf-8 not audio-like",
+      "finalUrl": "http://jenny.torontocast.com:8062/index.html?sid=1",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:42.329Z"
     },
     {
       "stationuuid": "36a949f8-b550-4b68-adef-ac5d9b1d8b27",
@@ -798,7 +800,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30092/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "37d1f4fb-0812-432d-af30-e91ca28ae05c",
@@ -816,7 +818,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://antares.dribbcast.com/proxy/jpop?mp=/s",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "3948798a-51c0-4d38-bb58-cafc2937c287",
@@ -831,10 +833,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://gyusyabu.ddo.jp:8000/;stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:51:02.693Z"
     },
     {
       "stationuuid": "39a3266d-d4a3-4fa3-9359-287ffd13f43e",
@@ -852,7 +854,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://b-nhkworld-radio.nhkworld.jp/hls/live/nhkworld-radio-rs1/index_rs1.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.829Z"
     },
     {
       "stationuuid": "3a475914-e17d-45a5-b2c2-cfad18ea4ee5",
@@ -870,7 +872,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30043/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "3a578ed9-ca5d-4e95-8519-19ee16674dbc",
@@ -888,7 +890,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30015/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "3ab8903d-117f-4f25-802e-d048dcdd0675",
@@ -906,7 +908,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://delivery.onlyhitsradio.net/japan",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.828Z"
     },
     {
       "stationuuid": "3c5dc353-b1ce-43be-a361-ae555535a2b0",
@@ -920,11 +922,11 @@
       "votes": 1227,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://jenny.torontocast.com:8056/",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html;charset=utf-8 not audio-like",
+      "finalUrl": "http://jenny.torontocast.com:8056/index.html?sid=1",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:42.491Z"
     },
     {
       "stationuuid": "3dc4d4af-a0fd-4d0d-b3a0-723668b68d24",
@@ -942,7 +944,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://kathy.torontocast.com:3060/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "3ddece15-fd94-44a1-bf9c-6f62107e3d9d",
@@ -959,8 +961,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream-176.zeno.fm/tza2ayy47qruv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ0emEyYXl5NDdxcnV2IiwiaG9zdCI6InN0cmVhbS0xNzYuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoidjNwYnF6ZTNUNEdBYVQ3NWR1QUtxdyIsImlhdCI6MTc3OTE5MjIzNiwiZXhwIjoxNzc5MTkyMjk2fQ.MEbYw-rOaSatHqn9wvc2_DF8Atslw13zeQu-cgH6DPA",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "3eacb8df-5cc0-4c6b-9a6f-084eeadb55c5",
@@ -977,8 +979,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://kathy.torontocast.com:3560/;",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "3ffcb994-70f1-4040-bc24-142e680ecc96",
@@ -994,10 +996,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://streaming.edmradio.online:8025/nhk41left",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:39.843Z"
     },
     {
       "stationuuid": "405566fa-dd30-437e-b20b-934fcdbe768f",
@@ -1015,7 +1017,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://kamakura.stream.laut.fm/kamakura?t302=2026-04-30_11-13-48&uuid=065720f4-13bb-4793-adc8-4d85f98772e2",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.828Z"
     },
     {
       "stationuuid": "4321bd6c-19e8-4f5e-ae57-bf7e62416b4b",
@@ -1030,10 +1032,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://65.21.170.149:8000/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:59.909Z"
     },
     {
       "stationuuid": "436b6f8c-25e2-4c1f-afb6-4eaa5247cf15",
@@ -1051,7 +1053,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30053/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "443a5e7e-4392-4930-bbed-10b9af54e32e",
@@ -1070,7 +1072,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streaming.radio.co/se4a8e6a93/listen",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "45ea052e-37c2-403e-be57-8bf66daa86af",
@@ -1088,7 +1090,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-178.zeno.fm/48533y95cnruv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiI0ODUzM3k5NWNucnV2IiwiaG9zdCI6InN0cmVhbS0xNzguemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoicDJKY1FBdmJTaDZhSFhlQjBDUTBEUSIsImlhdCI6MTc3NzU0NzYyNCwiZXhwIjoxNzc3NTQ3Njg0fQ.OiyVRdrCdAvzF0wfW6XUFEx7lxET_c1mgyuwf0MYW1k",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "48e7bd4a-3252-478e-af70-43f7e91d4ea5",
@@ -1103,10 +1105,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://158.69.227.214:8137/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:39.968Z"
     },
     {
       "stationuuid": "49439c31-b641-4251-b3b0-ab979ab514d2",
@@ -1125,7 +1127,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://master.nhkworld.jp/nhkworld-radio/playlist/rs2/live.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "4b0e9c63-3cec-4964-a3d7-de99decd023b",
@@ -1143,8 +1145,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://radio.plaza.one/mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "505fcd85-39b4-4336-b8d0-7afe103648b5",
@@ -1162,7 +1164,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30088/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "50a6d113-5dde-4e2f-beb2-404c6e7cabd6",
@@ -1180,8 +1182,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://vrc.gate.vrtv.jp/live?p=g&u=d",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:50:38.829Z"
     },
     {
       "stationuuid": "51f0066d-6de7-40b5-83a0-f264727f30a4",
@@ -1199,7 +1201,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://kathy.torontocast.com:3340/;?shoutcast",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "53e7d317-c9e8-4054-87a4-2e21893e80cc",
@@ -1217,7 +1219,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://kathy.torontocast.com:3350/;?shoutcast",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.825Z"
     },
     {
       "stationuuid": "54732c01-db87-4aa2-b313-22fd5fa7eee9",
@@ -1236,7 +1238,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://freefm80.radioca.st/",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.827Z"
     },
     {
       "stationuuid": "57cf528a-02be-4805-a510-6d05bb0ff996",
@@ -1255,7 +1257,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://replaynewsja.ice.infomaniak.ch/replaynewsja-128.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.828Z"
     },
     {
       "stationuuid": "5a2cbfe7-0518-44e9-aca6-0fd41e466ff0",
@@ -1273,7 +1275,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s10.webradio-hosting.com/proxy/fredradiojp/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.827Z"
     },
     {
       "stationuuid": "5a4eb5bc-7fbd-43fb-a6a4-cc4517ce6ac4",
@@ -1291,8 +1293,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg; charset=UTF-8",
       "finalUrl": "https://jenny.torontocast.com:2000/stream/J1HITS?_=184325",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "5b55c9a1-dd7f-45cb-8c30-3f08cf6048cf",
@@ -1310,7 +1312,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30057/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "5d0978bf-0eaa-402a-a8ad-e8f56e55e508",
@@ -1328,7 +1330,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30025/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "5e42f3f1-41cd-4c71-a06c-7d88b76bdc17",
@@ -1346,7 +1348,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30078/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "603d37de-50aa-47f3-b8ad-10c72cff4282",
@@ -1365,7 +1367,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://streaming.radio.co/se4a8e6a93/low",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "608b153d-8eb9-4564-a98f-76f075a6eda4",
@@ -1384,7 +1386,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://master.nhkworld.jp/nhkworld-radio/playlist/sin/live.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "61f37beb-ded9-4dfb-aef0-1715b835a155",
@@ -1400,10 +1402,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://shoutcast.wrn.org:8025/nhk41left",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:39.845Z"
     },
     {
       "stationuuid": "64630495-168b-4ea4-b3df-538b6a0937dd",
@@ -1421,7 +1423,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30017/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "651eb704-b106-4f2a-9344-59b37dcd61f2",
@@ -1440,7 +1442,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://s5.radio.co/s6140c7241/listen",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.825Z"
     },
     {
       "stationuuid": "661c6656-d27e-45dc-b60a-7f77e2c989a5",
@@ -1458,8 +1460,8 @@
       "verdict": "ok",
       "verdictReason": "application/ogg (browser auto-upgrade from http://)",
       "finalUrl": "https://radio.plaza.one/ogg_low",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "69c7cb5b-df1d-47b6-93c3-964cf64c7ea7",
@@ -1477,7 +1479,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30006/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "6d1d23d9-50d9-412d-83e2-d4c087d121d8",
@@ -1496,7 +1498,7 @@
       "verdictReason": "application/ogg (browser auto-upgrade from http://)",
       "finalUrl": "https://radio.plaza.one/ogg",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "6d7805c0-1cfd-4f55-8e52-4568c271cf2a",
@@ -1514,7 +1516,7 @@
       "verdictReason": "HTTP 404",
       "finalUrl": "https://nhkworld-radio.akamaized.net/hls/live/2115823/nhkworld-radio-rs1/index_rs1.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.826Z"
     },
     {
       "stationuuid": "6ebf58e8-8732-4f94-a909-8e0acbdfd411",
@@ -1532,7 +1534,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30012/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "72f14258-8fb1-40d3-a161-426e2832a947",
@@ -1549,8 +1551,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://c13.radioboss.fm:8200/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:50:38.828Z"
     },
     {
       "stationuuid": "76e663f9-9ffd-4649-8b80-c0fd5897946d",
@@ -1564,11 +1566,11 @@
       "votes": 36,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-timeout",
+      "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: 60.45.66.12:88, timeout: 10000ms)",
       "finalUrl": "http://60.45.66.12:88/bootyfm",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:51:40.563Z"
     },
     {
       "stationuuid": "7b464b92-0f29-42e8-ab50-87233f92d2c9",
@@ -1587,7 +1589,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.829Z"
     },
     {
       "stationuuid": "7b85cb6b-ebb8-11e8-a471-52543be04c81",
@@ -1605,7 +1607,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://relay0.r-a-d.io/main.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "7d7237f8-7fbb-4ff1-98e0-1bca42b63911",
@@ -1623,7 +1625,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30026/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "813c17ee-abc0-46ce-974f-6640a3909d3c",
@@ -1642,7 +1644,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://master.nhkworld.jp/nhkworld-radio/playlist/gs2/live.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "8200660c-59e7-44f2-bb86-e30fc313bc5f",
@@ -1660,7 +1662,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30089/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "82154c4f-9c3b-4577-9ae1-9837687a6e16",
@@ -1675,11 +1677,11 @@
       "votes": 169,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-5xx",
+      "verdictReason": "HTTP 503",
       "finalUrl": "http://www.uniqueradio.jp/agplayerf/hls/Active.m3u8?",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:41.101Z"
     },
     {
       "stationuuid": "82ba1708-15ba-424e-9697-cca597e74372",
@@ -1695,7 +1697,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade after redirect to http://)",
       "finalUrl": "https://n02.radiojar.com/0tpy1h0kxtzuv?rj-ttl=5&rj-tok=AAABnkAoOYwAFNCVvOOfW58Q_A",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.828Z"
     },
     {
       "stationuuid": "8354cf37-d0ec-4569-b844-ac7f398e1438",
@@ -1714,7 +1716,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30081/livestream/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "84551b58-cc37-4ec2-8712-b29002804be9",
@@ -1733,7 +1735,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://kathy.torontocast.com:3560/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "851e146e-242a-47ab-bd41-ceac2b064923",
@@ -1751,7 +1753,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30037/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "8b49d036-7dc5-495a-b786-5961a72295c7",
@@ -1769,7 +1771,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30008/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "8bf571a1-1926-4c31-aa81-80f0574d8d0b",
@@ -1785,10 +1787,10 @@
       "clickcount": 7,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://listen.nekonetwork.moe:8400/anime.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:51:00.149Z"
     },
     {
       "stationuuid": "8d01010d-aea1-4226-9b48-8beb376f0d61",
@@ -1806,7 +1808,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://quincy.torontocast.com:2070/stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "8f00a733-bac8-419a-8722-50a30df1c71d",
@@ -1824,7 +1826,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30009/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "90397feb-f9ab-43b8-87c0-4a8e1b7e4316",
@@ -1840,10 +1842,10 @@
       "clickcount": 7,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://195.154.79.204:8638/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:39.329Z"
     },
     {
       "stationuuid": "907271e6-0c55-4342-b344-468206e831f2",
@@ -1860,8 +1862,8 @@
       "verdict": "ok",
       "verdictReason": "application/ogg",
       "finalUrl": "https://azuracast.tilderadio.org/radio/8000/radio.ogg",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:50:38.828Z"
     },
     {
       "stationuuid": "90cbb60b-5a04-4e3a-aa30-5dc9307070e7",
@@ -1880,7 +1882,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://boxradio-edge-00.streamafrica.net/jpopchill",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "9142c884-33a5-4277-8bac-e299c0c1c18c",
@@ -1895,11 +1897,11 @@
       "votes": 169,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
       "finalUrl": "http://radio.jphip.com:8800/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:39.789Z"
     },
     {
       "stationuuid": "918ec34d-9572-49c8-a6b5-653325f99eef",
@@ -1918,7 +1920,7 @@
       "verdictReason": "HTTP 503",
       "finalUrl": "https://www.uniqueradio.jp/agapps/hls/cdn.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "925ed0bd-d0e9-4e10-a5cb-015cde92d923",
@@ -1936,7 +1938,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30002/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "94787418-4335-4192-966d-d89105db8548",
@@ -1954,7 +1956,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30007/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "95d808d3-ee4a-4b38-b7c3-70a284ef41b2",
@@ -1972,7 +1974,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30021/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "961b7ba6-0601-11e8-ae97-52543be04c81",
@@ -1987,10 +1989,10 @@
       "clickcount": 9,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://radio.kahoku.net:8000/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:42.079Z"
     },
     {
       "stationuuid": "9766d47a-68a3-4a30-8aec-c026f1ec6020",
@@ -2008,7 +2010,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://kathy.torontocast.com:3330/stream/1/?esPlayer&cb=82181.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "987dffac-52d9-4ca7-98c9-e5ac1088e1df",
@@ -2027,7 +2029,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ice5.securenetsystems.net/WVVVFM",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.828Z"
     },
     {
       "stationuuid": "98d8f89b-4e05-481a-8665-6b3a411d6fa3",
@@ -2046,7 +2048,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://radio.plaza.one/hls",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "9af1536b-1acd-11ea-a620-52543be04c81",
@@ -2064,7 +2066,7 @@
       "verdictReason": "application/ogg (browser auto-upgrade from http://)",
       "finalUrl": "https://radio.plaza.one/opus",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "9d4aa07b-f080-4d6c-87e8-15c080c72dd2",
@@ -2083,7 +2085,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://miku.fm/listen/miku/mp3-320",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.828Z"
     },
     {
       "stationuuid": "9f66a5b4-66c0-4389-88f3-f8285ad4239a",
@@ -2102,7 +2104,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://shonanbeachfm.out.airtime.pro:8000/shonanbeachfm_a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "9f9cc220-3462-11e8-bb9b-52543be04c81",
@@ -2116,11 +2118,11 @@
       "votes": 2283,
       "clickcount": 17,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
       "finalUrl": "http://gyusyabu.ddo.jp:8000/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:51:01.743Z"
     },
     {
       "stationuuid": "a0a57bb8-21fe-45db-a3a8-7f5ae8cc7e12",
@@ -2139,7 +2141,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://master.nhkworld.jp/nhkworld-radio/playlist/rs5/live.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "a13d9726-82a4-4354-ac0d-1bb291b1689a",
@@ -2157,7 +2159,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiomixjp.servepics.com/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.829Z"
     },
     {
       "stationuuid": "a36cb1a5-f9b5-4739-a86a-987d256b7d0e",
@@ -2175,7 +2177,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cast1.torontocast.com:2060/;.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.828Z"
     },
     {
       "stationuuid": "a5ac3058-2deb-411a-9f88-112fa02ca978",
@@ -2193,7 +2195,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30097/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "a729546b-0dde-4de3-8d6e-3f5f4e4cc23a",
@@ -2211,7 +2213,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30071/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "af566e6b-3d2b-4b96-92ca-a9cb183e6fd8",
@@ -2229,7 +2231,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rocafmadrid.radioca.st/",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "b3b6aaa8-b8a7-4fe6-a44f-433727ee9aec",
@@ -2247,7 +2249,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30022/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "b641d7ab-4548-426f-92ba-c0b65bff204d",
@@ -2265,7 +2267,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rocafmadrid.radioca.st/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "b6512cd8-9b4d-4b25-82a6-3fcd9a6273c6",
@@ -2284,7 +2286,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.gensokyoradio.net/3/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "b8c2e483-706b-475c-a9a8-d92bc7d51cd3",
@@ -2302,7 +2304,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30095/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "b992ec2b-63cb-40f9-909a-5427916a31a1",
@@ -2320,7 +2322,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30013/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "ba5af88c-6fa9-4f56-990f-c0eaaf7c37ba",
@@ -2338,7 +2340,7 @@
       "verdictReason": "audio/ogg",
       "finalUrl": "https://listen.moe/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "bc33ea37-3935-41a5-bf9f-788496ef6959",
@@ -2356,7 +2358,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://kathy.torontocast.com:3350/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.825Z"
     },
     {
       "stationuuid": "bcd2dfab-0797-4e3a-a478-fc61d54f4234",
@@ -2374,7 +2376,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30094/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "c17a651c-1f8c-4da1-b802-403cb81bf5b6",
@@ -2392,7 +2394,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30090/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "c4796463-de02-4344-a9d1-21f3d0508cc6",
@@ -2410,7 +2412,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30068/livestream/chunklist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "c5839f19-b2e5-4597-aa25-e32acf0db71f",
@@ -2428,7 +2430,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30023/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "c839f388-2f52-4ad3-9824-bc49bfa9c189",
@@ -2446,7 +2448,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://boxradio-edge-00.streamafrica.net/jpopchill",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "c874a140-6938-49d6-b7a5-4e649fab2245",
@@ -2464,7 +2466,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30081/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "ca3b4229-b5e3-4ab6-a3f4-8da61a91cd25",
@@ -2482,7 +2484,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30018/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "cb8b1a74-bbb9-4185-bf83-d4eb739f6a1b",
@@ -2500,7 +2502,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30073/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "ccabed56-42ab-4719-9aa3-3ca18d2d4815",
@@ -2518,8 +2520,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30004/livestream/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "cd6300b8-7446-45e8-acac-dc97a2d11d5b",
@@ -2537,7 +2539,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30093/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "ce03f456-47f6-447f-8834-19cf0b808fc8",
@@ -2555,7 +2557,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://quincy.torontocast.com:2070/stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "ce287e36-5818-4b87-88bc-452f0f383923",
@@ -2573,7 +2575,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30076/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "ce46492b-3512-48e5-bf12-e992df4b4906",
@@ -2591,7 +2593,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://antares.dribbcast.com/proxy/jpop?mp=/s",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "ce962d43-c800-4490-bfd0-09060ef05e9c",
@@ -2609,7 +2611,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30052/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "cf0ab710-020b-4e3f-99af-2bf059466d36",
@@ -2628,7 +2630,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://kathy.torontocast.com:3560/",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "d1df0119-1b6c-45c8-94c3-f5723083c742",
@@ -2646,7 +2648,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30019/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "d1f94994-76ef-4623-847d-63d07432b20c",
@@ -2664,7 +2666,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30063/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "d30c1427-e1b4-4b3e-b816-1bc618c630fd",
@@ -2681,7 +2683,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://tekitouradio.onrender.com/radio",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.829Z"
     },
     {
       "stationuuid": "d37f6140-a3c4-4b91-9d2c-801894a4c53d",
@@ -2700,7 +2702,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://uk5.internet-radio.com/proxy/mmr?mp=/stream;",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.828Z"
     },
     {
       "stationuuid": "d57ca8c1-613c-4df4-bc94-e16fbe2fad6c",
@@ -2716,10 +2718,10 @@
       "clickcount": 18,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/vnd.apple.mpegurl) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://mnet.x10.mx/nhkfm.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:40.468Z"
     },
     {
       "stationuuid": "d57fca45-a811-48f9-b672-7047ac984b91",
@@ -2737,7 +2739,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-289.zeno.fm/qpn8mkt8c4duv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJxcG44bWt0OGM0ZHV2IiwiaG9zdCI6InN0cmVhbS0yODkuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoic2RSMklHdDhRNWl3Y2lab3QxV2FmUSIsImlhdCI6MTc3NzU0NzYzMSwiZXhwIjoxNzc3NTQ3NjkxfQ.bEYh3gEYIbMvVAZDBSKBReM6MJfDntDdiPkxlUo19AM",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "d609ee78-0936-468c-b52a-c72a11bbce5b",
@@ -2756,7 +2758,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30081/livestream/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "d62d116a-e1ce-4ce3-b18a-254dfa6c2914",
@@ -2775,7 +2777,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30004/livestream/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "d870c205-e869-44aa-a9b9-f548fc2f1d4b",
@@ -2793,7 +2795,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30050/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "d99cdb15-147b-4f5e-ac47-60fff3c931ca",
@@ -2812,7 +2814,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30048/livestream/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "da391117-93a3-4f25-8dc3-c8aa604dde6a",
@@ -2831,7 +2833,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streamer.radio.co/s83eb8ff39/listen",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.827Z"
     },
     {
       "stationuuid": "db05622a-12af-4853-b83f-bdb06fb1ca95",
@@ -2849,7 +2851,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30034/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "db95c0e2-057b-4062-bc91-37debd447eff",
@@ -2865,10 +2867,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://streaming.edmradio.online:8025/nhk41right",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:40.111Z"
     },
     {
       "stationuuid": "dbc6d144-67d0-4581-a93d-6b3d69a13079",
@@ -2887,7 +2889,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://master.nhkworld.jp/nhkworld-radio/playlist/kai/live.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "dbdd7846-8420-4354-9145-43ebffbf9fc5",
@@ -2905,7 +2907,7 @@
       "verdictReason": "HTTP 404",
       "finalUrl": "https://nhkworld-radio.akamaized.net/hls/live/2115820/nhkworld-radio-rs5/index_rs5.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.826Z"
     },
     {
       "stationuuid": "dc60c42c-0f18-4ace-ae7b-ac4a4a610ff7",
@@ -2924,7 +2926,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30004/livestream/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "ddfd0cda-f782-419b-86d0-6d2a12c5fc78",
@@ -2942,7 +2944,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30072/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "deff64de-b1f4-442e-832c-1180917ac894",
@@ -2961,7 +2963,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://streaming.radio.co/se4a8e6a93/listen",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "df402746-9d27-4b53-8d07-ab4634ac8b66",
@@ -2978,7 +2980,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-178.zeno.fm/oaxp6mswcqltv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJvYXhwNm1zd2NxbHR2IiwiaG9zdCI6InN0cmVhbS0xNzguemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiU0dPcWZZWndSWFNndDFqbTlCNkNlZyIsImlhdCI6MTc3NzU0NzYyNiwiZXhwIjoxNzc3NTQ3Njg2fQ.t33OPEP3B-UeycQVT_HTQzxkCjIfRxLOFRU5g3EunCM",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "dfaa1037-4c8b-445c-a230-fb96b812db99",
@@ -2996,8 +2998,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://mp3s.nc.u-tokyo.ac.jp/OTSUCHI_CyberForest.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:50:38.825Z"
     },
     {
       "stationuuid": "e0763775-fdb9-4f6d-b88e-057165cb283c",
@@ -3015,7 +3017,7 @@
       "verdictReason": "application/ogg",
       "finalUrl": "https://stream.gensokyoradio.net/2/",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "e0f2f4cb-d4c3-48ee-8668-333329e158e0",
@@ -3034,7 +3036,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://quincy.torontocast.com:2020/stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.825Z"
     },
     {
       "stationuuid": "e219fec2-ee95-4c12-86fb-34142143f562",
@@ -3053,7 +3055,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.gensokyoradio.net/1/",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "e2abcb12-3954-4ca2-a5b4-5df5502d9045",
@@ -3071,7 +3073,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30035/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "e2ea97c5-a2ad-40eb-a7d7-e686d92f4d26",
@@ -3089,7 +3091,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30001/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "e4e4d123-0616-11ea-afd6-52543be04c81",
@@ -3108,7 +3110,7 @@
       "verdictReason": "audio/ogg",
       "finalUrl": "https://listen.moe/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "e4f7dac4-db05-446d-9282-d79a56ce7327",
@@ -3125,8 +3127,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://kathy.torontocast.com:3330/;",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "e698b1df-bd9c-4084-9c21-22a452b27664",
@@ -3145,7 +3147,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen.moe/fallback",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "e93b7f21-b06d-4c2a-a3dc-cf87dbee0408",
@@ -3164,7 +3166,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://master.nhkworld.jp/nhkworld-radio/playlist/rs4/live.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "e95449cf-fe53-4b0c-9a96-eb2396877a64",
@@ -3182,7 +3184,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30085/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "ec554185-b0f8-4a45-9572-ee90bbf34622",
@@ -3200,7 +3202,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30033/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "ecbcdd6f-ac5f-408f-9d9b-cc979e5344c4",
@@ -3218,7 +3220,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://kathy.torontocast.com:3060/;?shoutcast",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.824Z"
     },
     {
       "stationuuid": "ee614813-177f-4b83-ae6a-5e5b22d440d1",
@@ -3237,7 +3239,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://s3.radio.co/sc8d895604/listen",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.828Z"
     },
     {
       "stationuuid": "f0d0887f-961d-4615-a679-27c1551cb4b0",
@@ -3255,7 +3257,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30082/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "f10bb488-9f8d-40da-9f7d-f4fa63191c68",
@@ -3273,8 +3275,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://22963.live.streamtheworld.com/AFNP_TKO_SC",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:50:38.828Z"
     },
     {
       "stationuuid": "f224c900-8796-4063-8aca-0bb3afd8507f",
@@ -3293,7 +3295,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://hkradio.myaddr.io/listen/new_radio/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.829Z"
     },
     {
       "stationuuid": "f2e726c1-9cae-4a1f-baa8-da29be891dec",
@@ -3311,7 +3313,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://quincy.torontocast.com:2070/stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "f4f69bbd-b8cd-4098-ad46-a3d501bf354c",
@@ -3330,7 +3332,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30048/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "f6b43a0f-0211-4dd2-b552-c3fc38cb7297",
@@ -3348,7 +3350,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30056/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "f72771a3-cf3a-4cc5-af91-2493ca31c54d",
@@ -3367,7 +3369,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://quincy.torontocast.com:2070/stream.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "f7a003ad-1795-4eec-842d-b8d2396b3ce9",
@@ -3382,11 +3384,11 @@
       "votes": 61,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
       "finalUrl": "http://radio.jphip.com:8800/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:39.990Z"
     },
     {
       "stationuuid": "f8fe393c-ff15-4141-8310-d3536bcd15e7",
@@ -3405,7 +3407,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30004/livestream/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "f96b2ae2-fe8c-4248-a92d-3c86ebc8f50c",
@@ -3422,8 +3424,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://mp3s.nc.u-tokyo.ac.jp/Fuji_CyberForest.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:50:38.825Z"
     },
     {
       "stationuuid": "fa1af3ed-4a86-4d7a-bac6-3379574ea5ea",
@@ -3441,7 +3443,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30047/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "fad42bb6-2865-4854-94a7-96152e881800",
@@ -3460,7 +3462,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://fmsetagaya834.out.airtime.pro/fmsetagaya834_a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.828Z"
     },
     {
       "stationuuid": "fb462bde-d4dc-4f05-8654-69350a6b3816",
@@ -3478,7 +3480,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30039/livestream/chunklist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.784Z"
     },
     {
       "stationuuid": "fb7bfe0f-fc64-4c67-a1ce-83ffde1f96f3",
@@ -3497,7 +3499,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30004/livestream/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "fbdf08c1-ec04-49f1-834a-aec641b5e5ba",
@@ -3515,7 +3517,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://mtist.as.smartstream.ne.jp/30069/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.785Z"
     },
     {
       "stationuuid": "fc7ccfdf-6e00-4d68-bb57-c8bf881510a0",
@@ -3533,7 +3535,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.shmupradio.com/320",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.829Z"
     },
     {
       "stationuuid": "fdffc27f-a096-4be8-b3bf-2c51a943a1d1",
@@ -3551,7 +3553,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.gotanno.love/;",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:33:20.542Z"
+      "probedAt": "2026-06-11T08:50:38.828Z"
     }
   ]
 }

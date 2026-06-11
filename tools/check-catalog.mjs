@@ -58,6 +58,22 @@ const httpAllowedIds = new Set(
     .map((s) => s.id),
 );
 
+// Provenance: a `source:` field, when present, must name a source
+// registered in data/sources.yaml — otherwise build-sources silently
+// misclassifies the entry into the manual fallback bucket.
+const sourcesRegistry = parseYaml(readFileSync(join(root, 'data/sources.yaml'), 'utf8'));
+const knownSourceIds = new Set(
+  (Array.isArray(sourcesRegistry) ? sourcesRegistry : []).map((s) => s?.id).filter(Boolean),
+);
+const sourceIssues = yamlList
+  .filter((s) => s && s.source !== undefined && !knownSourceIds.has(s.source))
+  .map((s) => `${s.id ?? '?'}: source "${s.source}" not in data/sources.yaml`);
+if (sourceIssues.length > 0) {
+  console.error(`${C.bad}check-catalog: ${sourceIssues.length} unknown source id(s):${C.reset}`);
+  for (const m of sourceIssues.slice(0, 20)) console.error(`  ${m}`);
+  process.exit(2);
+}
+
 const jsonText = readFileSync(join(root, 'public/stations.json'), 'utf8');
 const json = JSON.parse(jsonText);
 const jsonStations = Array.isArray(json) ? json : json.stations;

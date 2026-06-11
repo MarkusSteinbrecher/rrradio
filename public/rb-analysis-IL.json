@@ -1,15 +1,17 @@
 {
-  "generatedAt": "2026-05-19T17:32:16.714Z",
+  "generatedAt": "2026-06-11T08:45:17.733Z",
   "country": "IL",
   "rawSnapshotAt": "2026-05-19T07:50:30.844Z",
   "total": 131,
-  "playable": 102,
-  "broken": 29,
-  "curated": 8,
+  "playable": 104,
+  "broken": 21,
+  "curated": 67,
   "byVerdict": {
-    "broken-mixed": 22,
-    "ok": 100,
-    "broken-refused": 4,
+    "broken-refused": 13,
+    "broken-4xx": 2,
+    "ok": 102,
+    "probe-skipped": 6,
+    "broken-mixed": 3,
     "broken-format": 1,
     "ok-hls": 2,
     "broken-tls": 2
@@ -31,8 +33,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://online.star33radio.com:1115/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "006ffcf8-e541-11e8-a9cc-52543be04c81",
@@ -51,7 +53,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.jewishmusicstream.com:8000/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.357Z"
     },
     {
       "stationuuid": "0285cac9-9f41-4a51-82ad-0ef6695f533a",
@@ -70,7 +72,7 @@
       "verdictReason": "TypeError: fetch failed — Error [ERR_TLS_CERT_ALTNAME_INVALID]: Hostname/IP does not match certificate's altnames: Host: live.toker.fm. is not in the cert's altnames: DNS:broadcast.adpronet.com",
       "finalUrl": "https://live.toker.fm:6060/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.357Z"
     },
     {
       "stationuuid": "0324180d-596a-4b6b-a486-67e606e23d36",
@@ -88,8 +90,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg; charset=UTF-8",
       "finalUrl": "https://betelgeuse.nucast.co.uk/stream/jrn-beat",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "044e0f59-3df8-42f2-a50b-670b2956e278",
@@ -106,8 +108,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen6.myradio24.com/25715",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "060a4ce8-7d41-42bc-9cad-2a24a5de4167",
@@ -122,11 +124,11 @@
       "votes": 351,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-refused",
+      "verdictReason": "TypeError: fetch failed — Error: connect ECONNREFUSED 127.0.0.1:80",
       "finalUrl": "http://kanliveicy01.bynetcdn.com/icy/kanreka_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.840Z"
     },
     {
       "stationuuid": "06327e45-5b95-4164-b335-a1a5b8095a1b",
@@ -145,7 +147,7 @@
       "verdictReason": "audio/mpeg; charset=UTF-8",
       "finalUrl": "https://betelgeuse.nucast.co.uk/stream/jrn-reggae",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "07c8fe2a-af70-4b7e-8aee-2eabb89d9368",
@@ -163,7 +165,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://icecast.live/ivr",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "08993f63-44f2-4fa0-8541-99194d5fd838",
@@ -181,7 +183,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://cdn88.mediacast.co.il/102fm-tlv/102fm_aac/icecast.audio",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "0b67ac8c-516d-4251-92c6-51991696f253",
@@ -200,7 +202,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://icecast.live/ivr",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "0c0da3bd-d26a-42af-9cf0-d393ffab9fe0",
@@ -214,11 +216,11 @@
       "votes": 6435,
       "clickcount": 54,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-refused",
+      "verdictReason": "TypeError: fetch failed — Error: connect ECONNREFUSED 127.0.0.1:80",
       "finalUrl": "http://kanliveicy.media.kan.org.il/icy/makan_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.708Z"
+      "probedAt": "2026-06-11T08:44:56.839Z"
     },
     {
       "stationuuid": "0dd41509-199c-458c-84d5-44ed192ba9a8",
@@ -237,7 +239,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://25583.live.streamtheworld.com/KAN_BET.mp3?dist=bynetredirect&1737047133",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "0eb7423c-bb73-4772-8d12-ea602e875d9f",
@@ -255,7 +257,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://icecast.live/ivr",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "0fcffb77-b99e-11e9-acb2-52543be04c81",
@@ -269,11 +271,11 @@
       "votes": 473,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "probe-skipped",
+      "verdictReason": "host circuit-open after 5 consecutive failures: broken-refused (host unreachable earlier in this run (memoized broken-refused))",
       "finalUrl": "http://kanliveicy.media.kan.org.il/icy/749625_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:57.443Z"
     },
     {
       "stationuuid": "10026f8b-3e16-442e-94b3-33a8bb30f5b3",
@@ -292,7 +294,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mzr.mediacast.co.il/mzradio",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.357Z"
     },
     {
       "stationuuid": "12bdb972-b398-4b3b-b7bd-c960ee884b78",
@@ -310,7 +312,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://cdna.streamgates.net/RadioNas/Live-Audio/icecast.audio",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "13d86ff8-058f-44e6-ba21-ccd065fb5dca",
@@ -328,8 +330,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg; charset=UTF-8",
       "finalUrl": "https://betelgeuse.nucast.co.uk/stream/jrn-blues",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "18a9fbb5-3662-47e0-b2a9-fae376dd0ce6",
@@ -347,8 +349,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mzr.mediacast.co.il/mzradio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.357Z"
     },
     {
       "stationuuid": "1a524655-ad7a-454b-ac8d-855188b740a3",
@@ -364,10 +366,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://176.9.7.145:8127/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.814Z"
     },
     {
       "stationuuid": "1ac65585-0443-4f95-8d67-f232ec5915a2",
@@ -386,7 +388,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://cast.breslevforyou.co.il/listen/radiobreslev/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "1b9eafe1-e6e2-4e9a-8f64-281b6ae31665",
@@ -405,7 +407,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://live.kcm.fm/livemusic",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "1e95d61c-88ad-4d59-82b4-f512c2a45aa6",
@@ -423,8 +425,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cdn.cybercdn.live/Pervoia/Audio/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "1fb7e37b-a0cb-4c70-a386-0b002de3bafe",
@@ -443,7 +445,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://glzwizzlv.bynetcdn.com/glz_mp3?awCollectionId=misc&awEpisodeId=glz",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "20818139-130d-4179-abba-a8020933ab19",
@@ -459,8 +461,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://n-121-4.il.cdn-redge.media/livehls/oil/kancdn-live/live/radio/kan_reka/live.livx/playlist.m3u8?renditions",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "22cb6f71-ca0e-4f53-9093-c4760e646d2d",
@@ -478,7 +480,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live.kcm.fm/live-new",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "23526b9e-a103-11e9-a787-52543be04c81",
@@ -492,11 +494,11 @@
       "votes": 712,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-refused",
+      "verdictReason": "host unreachable earlier in this run (memoized broken-refused)",
       "finalUrl": "http://kanliveicy.media.kan.org.il/icy/kankolhamusica_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:57.443Z"
     },
     {
       "stationuuid": "23dca315-cf08-4b87-9622-4cd205b89f26",
@@ -515,7 +517,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cdn.cybercdn.live/Lev_Hamedina/Audio/icecast.audio",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "23f2df70-a018-4aa0-a1f6-3fb497cf9d53",
@@ -533,8 +535,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen7.myradio24.com/orenu",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.357Z"
     },
     {
       "stationuuid": "241af301-da67-417b-8267-f38177100b6d",
@@ -551,8 +553,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://cdn.cybercdn.live/Lev_Hamedina/Audio/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "25d7d098-ff20-4568-ad8a-c8e23e2ac18a",
@@ -570,8 +572,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://cast.breslevforyou.co.il/listen/shorts/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "2687dea7-8484-4156-ae36-5aa5ca56bc7b",
@@ -588,8 +590,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://icecast.live/ivr",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "268e07ee-b1b5-4604-9b13-53c6e167abad",
@@ -606,8 +608,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast.kab.tv/live1-heb-574bcfd5.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "29632b43-283d-4156-8210-596b439c554c",
@@ -625,8 +627,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://cast.breslevforyou.co.il/listen/halachot/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "29b28a1a-e60d-4b1a-b57d-e7d46b95f36c",
@@ -643,7 +645,7 @@
       "verdictReason": "TypeError: fetch failed — Error: connect ECONNREFUSED 127.0.0.1:443",
       "finalUrl": "https://kan88.media.kan.org.il/hls/live/2024812/2024812/kan88_mp3/chunklist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.357Z"
     },
     {
       "stationuuid": "29cd4b62-14e2-11e9-a80b-52543be04c81",
@@ -662,7 +664,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://glzwizzlv.bynetcdn.com/glglz_mp3?awCollectionId=misc&awEpisodeId=glglz",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.357Z"
     },
     {
       "stationuuid": "2d2dd232-8a91-4fba-8b99-4f994f2598cc",
@@ -677,11 +679,11 @@
       "votes": 5,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "probe-skipped",
+      "verdictReason": "host circuit-open after 5 consecutive failures: broken-refused (host unreachable earlier in this run (memoized broken-refused))",
       "finalUrl": "http://kanliveicy.media.kan.org.il/icy/kanbet_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:57.444Z"
     },
     {
       "stationuuid": "2f605613-f5f8-4c8f-8edc-c7c3945023fb",
@@ -699,7 +701,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://glzwizzlv.bynetcdn.com/glz_mp3?awCollectionId=misc&awEpisodeId=glz",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "36a1608a-e982-4000-82f4-eb6e279cf744",
@@ -718,7 +720,7 @@
       "verdictReason": "audio/aacp; charset=UTF-8",
       "finalUrl": "https://radio.streamgates.net/stream/1045fm",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "38c81bbc-f8c3-4447-ae0e-ff8880017e04",
@@ -736,8 +738,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cast.breslevforyou.co.il/listen/music-toravezimra/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "39962d8b-e680-4c97-8193-02ec8e6b5885",
@@ -751,11 +753,11 @@
       "votes": 7,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-refused",
+      "verdictReason": "TypeError: fetch failed — Error: connect ECONNREFUSED 62.109.29.241:6045",
       "finalUrl": "http://s01.radio-tochka.com:6045/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:45:17.720Z"
     },
     {
       "stationuuid": "3a752591-4cc0-4949-bd5d-2fb2b1935cd3",
@@ -774,7 +776,7 @@
       "verdictReason": "TypeError: fetch failed — Error [ERR_TLS_CERT_ALTNAME_INVALID]: Hostname/IP does not match certificate's altnames: Host: live.toker.fm. is not in the cert's altnames: DNS:broadcast.adpronet.com",
       "finalUrl": "https://live.toker.fm:6060/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.357Z"
     },
     {
       "stationuuid": "3b20727f-de34-40b3-84ba-f7ba1ed9821b",
@@ -793,7 +795,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://cdna.streamgates.net/Ashams/Live/icecast.audio",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "40bbb648-fa7b-469b-86bc-153f6b4aec54",
@@ -811,8 +813,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cdn.cybercdn.live/Lev_Hamedina/Audio/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "45700958-16ab-422a-85bb-d402722463f0",
@@ -829,8 +831,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://glzwizzlv.bynetcdn.com/glglz_mp3?awCollectionId=misc&awEpisodeId=glglz",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "49aa910d-859e-4f2b-a1ca-04f163de07bb",
@@ -847,8 +849,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://gb25.streamgates.net/radios-audio/100Movies/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "4a3e0c55-774e-47db-929b-e8841d38a871",
@@ -865,8 +867,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://1075.livecdn.biz/radiohaifa",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "4e044620-577e-4622-8114-461d2b1d55bf",
@@ -885,7 +887,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "4e4b57a2-afb0-42e4-bcb6-797bcddc0d4c",
@@ -900,11 +902,11 @@
       "votes": 886,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 404",
       "finalUrl": "http://live.cdnwz.net/thebest",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:57.188Z"
     },
     {
       "stationuuid": "4f41fdf2-ee0e-4995-8e61-155255fd414c",
@@ -922,7 +924,7 @@
       "verdictReason": "TypeError: fetch failed — Error: connect ECONNREFUSED 127.0.0.1:443",
       "finalUrl": "https://kanbet.media.kan.org.il/hls/live/2024811/2024811/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "4f8a67e9-14ed-11e9-a80b-52543be04c81",
@@ -936,11 +938,11 @@
       "votes": 215,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-refused",
+      "verdictReason": "host unreachable earlier in this run (memoized broken-refused)",
       "finalUrl": "http://kanliveicy01.bynetcdn.com/icy/kangimmel_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.990Z"
     },
     {
       "stationuuid": "508a19e3-3d7b-4b0c-9d75-cb7c228522b0",
@@ -958,8 +960,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://cast.radionahariya.com:8443/main.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "51342243-d0eb-4265-b2b4-7d5c7c836f1a",
@@ -977,8 +979,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp; charset=UTF-8",
       "finalUrl": "https://radio.streamgates.net/stream/101fm",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "5357dc24-46cc-4671-9b55-26b811820c6c",
@@ -996,7 +998,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade after redirect to http://)",
       "finalUrl": "https://eco01.livecdn.biz/ecolive/99fm_aac/icecast.audio",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.357Z"
     },
     {
       "stationuuid": "53c130a4-b6ff-4543-aa22-fc85aeb66418",
@@ -1010,11 +1012,11 @@
       "votes": 12,
       "clickcount": 3,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "probe-skipped",
+      "verdictReason": "host circuit-open after 5 consecutive failures: broken-refused (host unreachable earlier in this run (memoized broken-refused))",
       "finalUrl": "http://kanliveicy.media.kan.org.il/icy/kangimmel_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:57.444Z"
     },
     {
       "stationuuid": "5597e254-6357-4e57-bf73-6320b5952258",
@@ -1033,7 +1035,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen7.myradio24.com/orenu",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.357Z"
     },
     {
       "stationuuid": "567c0d2b-e276-4db4-b4e1-0b0904c3d491",
@@ -1051,8 +1053,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cast.breslevforyou.co.il/listen/books/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "5ae9af57-5254-44c7-8632-8d638468ca38",
@@ -1070,8 +1072,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cdn.cybercdn.live/Radios_100FM/Audio/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "5b7a953b-98a6-4823-a9f9-3ad52aa2ed88",
@@ -1090,7 +1092,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://live.kcm.fm/livemusic",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "5f9d9e6b-20ff-4901-98bc-fd42bcbee477",
@@ -1107,8 +1109,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://28563.live.streamtheworld.com/KAN_TARBUT.mp3?dist",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "60f56ca4-3e39-45a6-ad94-cee362330fd5",
@@ -1126,8 +1128,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://rs.mizrahit.fm/",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.357Z"
     },
     {
       "stationuuid": "63d80255-3707-4c84-a4de-3da487c5f2bf",
@@ -1143,8 +1145,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://eco01.livecdn.biz/ecolive/99fm_aac/icecast.audio?hash=1559501510715.m4a",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.357Z"
     },
     {
       "stationuuid": "6698d366-17a6-4969-a28e-185c8dc1f91b",
@@ -1162,8 +1164,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://live.kcm.fm/livemusic",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "66ddc564-98ec-4901-a9e7-91fc2e64fcaa",
@@ -1181,8 +1183,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen.radioking.com/radio/345145/stream/393862",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "691c81f5-d23b-4566-ba3a-1ea4fff9d8b6",
@@ -1196,11 +1198,11 @@
       "votes": 9,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-refused",
+      "verdictReason": "TypeError: fetch failed — Error: connect ECONNREFUSED 62.109.29.241:6935",
       "finalUrl": "http://s01.radio-tochka.com:6935/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:45:17.711Z"
     },
     {
       "stationuuid": "692ae6f6-a6bd-4b69-991c-818a674b0e20",
@@ -1217,8 +1219,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://gb25.streamgates.net/radios-audio/10090s/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "6a8d9a2f-7c35-432a-a842-9993d2c70a41",
@@ -1232,11 +1234,11 @@
       "votes": 150,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "probe-skipped",
+      "verdictReason": "host circuit-open after 5 consecutive failures: broken-refused (host unreachable earlier in this run (memoized broken-refused))",
       "finalUrl": "http://kanliveicy.media.kan.org.il/icy/kan88_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:57.443Z"
     },
     {
       "stationuuid": "712c3a1d-8387-4cf1-b354-4be74b153ee0",
@@ -1254,8 +1256,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://cdn.cybercdn.live/Kol_Barama/Music/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "7390f369-9957-4ec2-bd83-cb28bac23302",
@@ -1274,7 +1276,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://live.kcm.fm/livemusic",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "77521022-781e-11ea-b1cf-52543be04c81",
@@ -1288,11 +1290,11 @@
       "votes": 617,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "probe-skipped",
+      "verdictReason": "host circuit-open after 5 consecutive failures: broken-refused (host unreachable earlier in this run (memoized broken-refused))",
       "finalUrl": "http://kanliveicy.media.kan.org.il/icy/kan88_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:57.443Z"
     },
     {
       "stationuuid": "7b7b87ce-eeab-439a-91aa-7e37597a0ed0",
@@ -1310,7 +1312,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cast.breslevforyou.co.il/listen/music-toravezimra/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "7b88796a-f6fc-4faf-b68b-e7ed0e49ead9",
@@ -1324,11 +1326,11 @@
       "votes": 312,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://995.livecdn.biz:8000/995fm",
+      "verdict": "ok",
+      "verdictReason": "audio/aacp (https variant on default port from http://)",
+      "finalUrl": "https://995.livecdn.biz/995fm",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.357Z"
     },
     {
       "stationuuid": "7be389c9-5e57-46ec-a607-c8dbb04b0f4e",
@@ -1345,8 +1347,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast.kab.tv/live1-fre-574bcfd5.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "7cee6800-7c93-497f-9c9d-7efc55756757",
@@ -1362,7 +1364,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade after redirect to http://)",
       "finalUrl": "https://n02.radiojar.com/0tpy1h0kxtzuv?rj-ttl=5&rj-tok=AAABnkAkAv0AOnEHllmxtR_rew",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "80d7414f-1ff8-4c1a-b081-6888a7bcf564",
@@ -1381,7 +1383,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://kzradio.mediacast.co.il/kzradio_live/kzradio/icecast.audio",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.357Z"
     },
     {
       "stationuuid": "8173aae8-4df9-4eb9-903c-6bdd6300003f",
@@ -1399,7 +1401,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://cdn88.mediacast.co.il/102fm-tlv/102fm_aac/icecast.audio",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "82333dc7-7622-4cf1-a8d8-2068e0b79ec9",
@@ -1417,7 +1419,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://cdn88.mediacast.co.il/102fm-tlv/102fm_aac/icecast.audio",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "8407749b-aa65-4aee-b503-bd6e196bea9d",
@@ -1434,8 +1436,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://glzicylv01.bynetcdn.com/glglz_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.357Z"
     },
     {
       "stationuuid": "8c009e29-7a57-4695-9bd7-7ed39b5dd470",
@@ -1452,8 +1454,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast.kab.tv/live1-eng-574bcfd5.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "8cca0e0b-ccd9-416e-89cc-325ecc325f69",
@@ -1471,8 +1473,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp; charset=UTF-8",
       "finalUrl": "https://radio.streamgates.net/stream/1045fm",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "9077fcb2-fbac-4d22-910f-378f5ae12dac",
@@ -1491,7 +1493,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://live.kcm.fm/livemusic",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "91929581-befa-4f52-bb5b-07cb376906d5",
@@ -1509,8 +1511,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://cdn.cybercdn.live/Darom_97FM/Live/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "91935dcb-e4fb-49fc-81d9-8b8f8e2549d5",
@@ -1528,7 +1530,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cdn.cybercdn.live/103FM/Live/icecast.audio",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.355Z"
     },
     {
       "stationuuid": "92abc8dc-8af4-495e-824d-36f89f7ebd57",
@@ -1544,10 +1546,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://kb.cdnwz.net/kol_barama",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:57.034Z"
     },
     {
       "stationuuid": "9443edb8-3a88-463d-9e61-b88de4727a4d",
@@ -1565,8 +1567,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://cdn.cybercdn.live/Emtza_Haderech/Live_Audio/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "962326cb-0601-11e8-ae97-52543be04c81",
@@ -1584,7 +1586,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://glzwizzlv.bynetcdn.com/glz_mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "962f863e-0601-11e8-ae97-52543be04c81",
@@ -1603,7 +1605,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://gb25.streamgates.net/radios-audio/100Workout/icecast.audio",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "9684cbbc-ea62-422c-bc93-20cf4ed4bac1",
@@ -1622,7 +1624,7 @@
       "verdictReason": "audio/mpeg; charset=UTF-8",
       "finalUrl": "https://betelgeuse.nucast.co.uk/stream/jrn-reggae",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "9687cb4b-6c60-429e-a7f0-28180e746075",
@@ -1639,8 +1641,8 @@
       "verdict": "broken-format",
       "verdictReason": "content-type text/html; charset=utf-8 not audio-like",
       "finalUrl": "https://1062onair.runi.ac.il/idc123.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "9af732ff-d6e9-492a-a809-9d2693bf53ea",
@@ -1657,8 +1659,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://das-edge62-live365-dal03.cdnstream.com/a64617/playlist.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "9f382ade-7823-11ea-b1cf-52543be04c81",
@@ -1672,11 +1674,11 @@
       "votes": 438,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "probe-skipped",
+      "verdictReason": "host circuit-open after 5 consecutive failures: broken-refused (host unreachable earlier in this run (memoized broken-refused))",
       "finalUrl": "http://kanliveicy.media.kan.org.il/icy/kanmoreshet_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:57.443Z"
     },
     {
       "stationuuid": "a46e3a39-40cc-441f-b9f6-9fbaecaa4de3",
@@ -1694,8 +1696,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://cast.breslevforyou.co.il/listen/radiobreslev/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "a757be45-799e-40b4-a23e-ee57ac55512b",
@@ -1712,8 +1714,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live.kcm.fm/live-new",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "abfcd777-432c-4c66-b622-d8582080e743",
@@ -1732,7 +1734,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://rs.mizrahit.fm/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.357Z"
     },
     {
       "stationuuid": "aeb93923-7821-11ea-b1cf-52543be04c81",
@@ -1746,11 +1748,11 @@
       "votes": 769,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-refused",
+      "verdictReason": "host unreachable earlier in this run (memoized broken-refused)",
       "finalUrl": "http://kanliveicy.media.kan.org.il/icy/kantarbut_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:57.292Z"
     },
     {
       "stationuuid": "b0bb7dd9-f47a-4da3-9546-ad7fb54c19ca",
@@ -1767,8 +1769,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast.kab.tv/live1-rus-574bcfd5.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "b1a2d866-eeff-427f-9d92-f53b290e16c9",
@@ -1785,8 +1787,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streaming.radio.co/sa06221901/listen",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "b42c9d1b-22c2-41a0-b13c-207a8c92f982",
@@ -1804,8 +1806,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://cdn.cybercdn.live/Hatahana_1015/Live_Audio/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "b5726cc9-2c77-4582-a775-f8f2e3163b23",
@@ -1823,7 +1825,7 @@
       "verdictReason": "TypeError: fetch failed — Error: connect ECONNREFUSED 127.0.0.1:443",
       "finalUrl": "https://kanliveicy.media.kan.org.il/icy/749629_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:57.444Z"
     },
     {
       "stationuuid": "b5b9d7ed-2c9f-4f8a-98ac-440631f2b100",
@@ -1841,8 +1843,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg; charset=UTF-8",
       "finalUrl": "https://live.ecast.co.il/stream/sahar/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.357Z"
     },
     {
       "stationuuid": "b83ca2b1-4674-4944-9110-35c41fe25d70",
@@ -1859,8 +1861,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cdn.cybercdn.live/Kol_Rega/Live_Audio/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "bb29196b-9ebb-412c-bed1-8cf5d836d57c",
@@ -1878,7 +1880,7 @@
       "verdictReason": "TypeError: fetch failed — Error: connect ECONNREFUSED 127.0.0.1:443",
       "finalUrl": "https://kanliveicy.media.kan.org.il/icy/kanmoreshet_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:57.444Z"
     },
     {
       "stationuuid": "bf1cebbf-a58d-41a4-95f2-8abd5e50f6bf",
@@ -1895,7 +1897,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://backup.qurango.net/radio/ahmad_khader_altarabulsi",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "c2b724db-9ddb-41e2-b190-324014c55467",
@@ -1913,8 +1915,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://28563.live.streamtheworld.com/KAN_BET.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "c7a3001d-f31b-4f7a-90fe-ea4b689150e9",
@@ -1932,7 +1934,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cdn.cybercdn.live/Galei_Israel/Live/icecast.audio",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "cb35118d-61f1-433c-b72f-b35b0fc7ed1f",
@@ -1945,11 +1947,11 @@
       "votes": 3423,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-refused",
+      "verdictReason": "host unreachable earlier in this run (memoized broken-refused)",
       "finalUrl": "http://kanliveicy.media.kan.org.il/icy/kanreka_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.990Z"
     },
     {
       "stationuuid": "cf46c74f-1c46-4956-a3a5-245fbe7b4d6d",
@@ -1966,8 +1968,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://29073.live.streamtheworld.com/KAN_88.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "d55bf952-b767-426e-9376-e932f169f36e",
@@ -1986,7 +1988,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://rs.mizrahit.fm/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.357Z"
     },
     {
       "stationuuid": "d60e8a70-af9a-11e9-acb2-52543be04c81",
@@ -2001,11 +2003,11 @@
       "votes": 799,
       "clickcount": 3,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-refused",
+      "verdictReason": "host unreachable earlier in this run (memoized broken-refused)",
       "finalUrl": "http://kanliveicy.media.kan.org.il/icy/749623_mp3?providername=tunein",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:57.142Z"
     },
     {
       "stationuuid": "d793e2f9-5532-4033-96a0-33d021ec0c86",
@@ -2024,7 +2026,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cdn.cybercdn.live/Galei_Israel/Live/icecast.audio",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "d81cba95-90cb-493c-b921-133ab74daa0f",
@@ -2042,8 +2044,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://listen.radioking.com/radio/605821/stream/670240",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "d902048f-5fcf-445a-9494-77d74dee9e43",
@@ -2061,7 +2063,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://drive.uber.radio/uber/crjohnwilliamsguitarist/icecast.audio",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "dd08fbb3-277e-4a49-9866-7fd6c21bb124",
@@ -2078,8 +2080,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://eco01.livecdn.biz/ecolive/99fm_aac/icecast.audio?hash=1559501510715.m4a",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "e13d3c86-a635-436d-96a8-cde0fe08a4d0",
@@ -2095,10 +2097,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://1036kh.cdnwz.net/1036kh",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:57.246Z"
     },
     {
       "stationuuid": "e1be6105-91ef-4190-80ec-f93928837323",
@@ -2117,7 +2119,7 @@
       "verdictReason": "audio/mpeg; charset=UTF-8",
       "finalUrl": "https://live.ecast.co.il/stream/sahar/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.357Z"
     },
     {
       "stationuuid": "e24a4c7d-c489-413b-a337-60a6c252444f",
@@ -2135,8 +2137,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://gb25.streamgates.net/radios-audio/10080s/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "e2d0c227-b2d9-4ec3-8a01-bfd6e731d0ed",
@@ -2151,11 +2153,11 @@
       "votes": 6011,
       "clickcount": 6,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 404",
       "finalUrl": "http://live.cdnwz.net/thebest",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.926Z"
     },
     {
       "stationuuid": "e35759c0-9e8f-422d-8da4-46d032c64e4e",
@@ -2172,8 +2174,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://s3.yesstreaming.net:7049/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "e673a4df-e224-4787-a8ec-52c391992bb6",
@@ -2191,8 +2193,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://cdn.cybercdn.live/Darom_1015FM/Live/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "e7230036-0803-4aea-aa87-938db8b2d4eb",
@@ -2206,11 +2208,11 @@
       "votes": 2,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://listen6.myradio24.com:9000/25715",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://listen6.myradio24.com/25715",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "e77ab056-eda4-4438-8e0f-6e8522e75343",
@@ -2228,8 +2230,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://icecast.live/proxy/zerock/zerock",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "e8c19fc3-7409-4999-a9dd-b3d81cf934ed",
@@ -2246,8 +2248,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://27873.live.streamtheworld.com/KAN_GIMMEL.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "eb0f1395-e636-4cb2-9267-198df77464a7",
@@ -2265,8 +2267,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://securestreams6.autopo.st:2294/mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "ed1d2969-5c0e-4575-a0ac-dd76b29c9ddd",
@@ -2283,8 +2285,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://live.kcm.fm/livemusic",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.358Z"
     },
     {
       "stationuuid": "ef4cfa77-f36d-4b08-a24a-4288cae3b7fe",
@@ -2302,7 +2304,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://glzwizzlv.bynetcdn.com/glz_mp3?awCollectionId=misc&awEpisodeId=glz",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "f4318e61-7d93-4d94-9de3-c7f93f73e585",
@@ -2320,8 +2322,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://gb25.streamgates.net/radios-audio/100Oldies/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "f520dfc7-dd5d-4c0e-a62f-9ab411e28b8b",
@@ -2338,8 +2340,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://kzradio.mediacast.co.il/kzradio_live/kzradio/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.357Z"
     },
     {
       "stationuuid": "f522ee54-34f3-49fd-91c3-5498273f205b",
@@ -2356,8 +2358,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://gb25.streamgates.net/radios-audio/100Latin/icecast.audio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "fbf80cc4-281b-4f39-9973-75486a6d54e6",
@@ -2376,7 +2378,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://glzwizzlv.bynetcdn.com/glz_mp3?awCollectionId=misc&awEpisodeId=glz",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "fc22f9c5-efa0-4099-9e37-c1d3448c25ce",
@@ -2395,7 +2397,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://glzwizzlv.bynetcdn.com/glglz_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "fe0b12d8-2953-11e9-a80b-52543be04c81",
@@ -2411,8 +2413,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast.kab.tv/live1-spa-574bcfd5.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:44:56.356Z"
     },
     {
       "stationuuid": "fe82bb92-ccd6-4180-9c0e-44e847ac912f",
@@ -2429,7 +2431,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://glzwizzlv.bynetcdn.com/glz_mp3?awCollectionId=misc&awEpisodeId=glz",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:16.709Z"
+      "probedAt": "2026-06-11T08:44:56.356Z"
     }
   ]
 }

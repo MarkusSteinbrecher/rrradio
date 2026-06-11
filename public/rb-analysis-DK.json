@@ -1,18 +1,20 @@
 {
-  "generatedAt": "2026-05-19T17:27:39.193Z",
+  "generatedAt": "2026-06-11T08:21:34.098Z",
   "country": "DK",
   "rawSnapshotAt": "2026-05-19T07:50:08.459Z",
   "total": 241,
-  "playable": 184,
-  "broken": 57,
-  "curated": 13,
+  "playable": 197,
+  "broken": 44,
+  "curated": 112,
   "byVerdict": {
-    "ok": 148,
-    "broken-mixed": 54,
+    "ok": 161,
+    "broken-mixed": 38,
     "ok-hls": 36,
+    "broken-format": 1,
     "broken-5xx": 1,
     "broken-tls": 1,
-    "broken-timeout": 1
+    "broken-timeout": 2,
+    "broken-4xx": 1
   },
   "stations": [
     {
@@ -28,10 +30,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://6434.cloudrad.io:8066/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "probedAt": "2026-06-11T08:20:53.077Z"
     },
     {
       "stationuuid": "0143de39-f5a8-4cdd-9f10-e2af5c3682da",
@@ -50,7 +52,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gslb01.dr.dk/A/A23H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "0291a528-2544-46a6-9253-c0bed6db8582",
@@ -69,7 +71,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p5bornholm/masterab.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "040a1d8a-2c52-4473-a78f-7bb6d6fce189",
@@ -85,10 +87,10 @@
       "clickcount": 5,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream.wlmm.dk:8010/wmr",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:13.109Z"
     },
     {
       "stationuuid": "064e5ce0-bf9f-44d6-af36-e00b75e95217",
@@ -103,10 +105,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (needs-playlist) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://media.wlmm.dk/humleborg.m3u",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:13.411Z"
     },
     {
       "stationuuid": "067fd720-6c67-11ea-b1cf-52543be04c81",
@@ -123,8 +125,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.vinylhits.dk/vinylmp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.146Z"
     },
     {
       "stationuuid": "0a84a978-03e1-4ae8-8b5c-f14631de0012",
@@ -141,7 +143,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://listener1.aach.tb-group.fm/tb-high.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.146Z"
     },
     {
       "stationuuid": "0c26b12e-5a5a-4fbe-990f-a4f7bc20aa10",
@@ -159,8 +161,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p5midtvest/masterab.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "0c468b6f-f529-41e9-9dc6-83f687d67d81",
@@ -179,7 +181,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p4fyn/masterab.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "0ce53a14-56cd-4d45-b03b-62bfbeabf04d",
@@ -198,7 +200,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://netradio.classicfm.dk/cla8d",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.145Z"
     },
     {
       "stationuuid": "0d31baf5-4dc8-413f-baf5-56af69a5fefa",
@@ -217,7 +219,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gss.dr.dk/A/A06H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "0d939aa0-cce8-4841-92fe-1a03d36da0d3",
@@ -234,8 +236,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://netradio.classicfm.dk/classicrock",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.145Z"
     },
     {
       "stationuuid": "0f28b3bb-8302-4433-94f8-a5c286c22cad",
@@ -250,10 +252,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://fluo.muzaiko.saluton.dk:8000/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "probedAt": "2026-06-11T08:20:53.296Z"
     },
     {
       "stationuuid": "104098d5-7b92-457d-8851-6ef6000aeb7b",
@@ -272,7 +274,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://netradio.skala.fm/ska8d",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.147Z"
     },
     {
       "stationuuid": "108f7cd4-106b-4ab0-ae8d-e23b03b0ba48",
@@ -287,10 +289,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream.wlmm.dk/stream/53/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:14.742Z"
     },
     {
       "stationuuid": "11c1b080-88c0-4dc1-a6aa-d77b1b30ff6d",
@@ -307,7 +309,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://stream128.retro-radio.dk/retro",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.145Z"
     },
     {
       "stationuuid": "143f751d-32b2-456d-9219-d2e24a3d48fb",
@@ -325,8 +327,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://netradio.vlr.dk/popup2",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.147Z"
     },
     {
       "stationuuid": "14c0f0ff-3aa6-4e6d-a764-0fad7c365f3c",
@@ -344,7 +346,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live-icy.dr.dk/A/A27L.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "1507676e-a63a-4b0b-817e-e63cad25a8af",
@@ -361,8 +363,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.radiosolutions.dk/rollo",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.146Z"
     },
     {
       "stationuuid": "15d1a95a-abcc-478a-a87f-7cf5d2b242ae",
@@ -380,7 +382,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.probroadcast.dk/radioglobus",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "16e4f32b-81d3-42e5-b6ac-38a15ef148f1",
@@ -399,7 +401,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radioserver.dk/abc",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "176bd1f9-0033-46fe-b39a-348ba4e2e7b9",
@@ -418,7 +420,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p5syd/masterab.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "1795fe73-8624-401f-873b-3779e9c2de22",
@@ -437,7 +439,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gss.dr.dk/A/A29H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "1a0b0f6c-23d2-42ab-9525-32f878a36b7f",
@@ -455,8 +457,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-bauerdk.sharp-stream.com/popfm128.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "1acd0e04-ea0c-46e8-9d5c-bd7d0233532c",
@@ -474,8 +476,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p4trekanten/masterab.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "1bcec07c-48df-11e8-b1b0-52543be04c81",
@@ -492,8 +494,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://streammp3.retro-radio.dk/retro-mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.149Z"
     },
     {
       "stationuuid": "1d66c174-7995-4f7d-a126-a7d5b1fd56de",
@@ -506,11 +508,11 @@
       "votes": 152,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://stream.radiojar.com/fqt2y0ds97zuv",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (browser auto-upgrade after redirect to http://) (browser auto-upgrade from http://)",
+      "finalUrl": "https://stream.radiojar.com/fqt2y0ds97zuv",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "probedAt": "2026-06-11T08:20:52.149Z"
     },
     {
       "stationuuid": "1d8e56d5-b3d7-478a-a439-d1678b3d7edf",
@@ -528,8 +530,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.probroadcast.dk/guldcountrymp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "1def7d71-46ce-45e8-b4f5-e3e3ccc38ee7",
@@ -548,7 +550,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p4sjaelland/masterab.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "1e412c99-d6ac-4d25-9f14-417a7a219c60",
@@ -563,11 +565,11 @@
       "votes": 111,
       "clickcount": 8,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://live-icy.gss.dr.dk:8000/A/A05H.mp3",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://live-icy.gss.dr.dk/A/A05H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "1eb0a70c-2cc1-11e9-a35e-52543be04c81",
@@ -585,8 +587,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://live-bauerdk.sharp-stream.com/DK_HQ_RP11.aac",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "21b4d1bd-3119-4215-b8f7-87dc38fbf783",
@@ -604,8 +606,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radioserver.dk/alfamidt",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "220f0cf1-029f-459f-bdee-890995f037b2",
@@ -622,8 +624,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://stream.probroadcast.dk/wmr",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "24d8b54f-36ce-4286-be46-37e2509cd959",
@@ -641,8 +643,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-bauerdk.sharp-stream.com/voice128.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "28b58640-e317-4778-9bba-a1992f8f0bf7",
@@ -661,7 +663,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p1/masterab.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "292b9615-6f5a-431a-a1b7-a077a01b593a",
@@ -676,11 +678,11 @@
       "votes": 19,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://live-icy.gss.dr.dk:8000/A/A29H.mp3",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://live-icy.gss.dr.dk/A/A29H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "2b50701c-3337-4264-bd4a-92b3973c8786",
@@ -698,8 +700,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p5fyn/masterab.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "2c47bda3-a75b-40f9-a96a-b132835128e0",
@@ -717,7 +719,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.probroadcast.dk/radioglobus",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "2cdb7309-4428-4068-a2e2-af5b034cec0f",
@@ -736,7 +738,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gss.dr.dk/A/A22H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "2d422514-5893-4845-808b-1292447d3144",
@@ -755,7 +757,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p6beat/masterab.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "2e6f472a-d7d3-42ff-b3e5-48bdab743ac8",
@@ -774,7 +776,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gslb01.dr.dk/A/A22H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "2eab15b6-0294-48f2-8b4f-4d989fbda669",
@@ -792,8 +794,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.radiosolutions.dk/radio40plus",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.146Z"
     },
     {
       "stationuuid": "2ee81587-dba9-4d68-82b3-a7b32aafc525",
@@ -810,8 +812,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://radio.streemlion.com:1160/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.149Z"
     },
     {
       "stationuuid": "2f187081-8b18-4cbe-94b7-b88061ede3e2",
@@ -829,7 +831,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://tx-2.retro-radio.dk/TX-2",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.145Z"
     },
     {
       "stationuuid": "2fec1d56-0045-44ae-9ead-c975cbcb3af1",
@@ -848,7 +850,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live-bauerdk.sharp-stream.com/radio100_dk_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "308ec8a5-4473-4cf5-8318-1c827acc9b95",
@@ -865,8 +867,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p1/playlist-96000.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "30b51c98-89e5-4058-9955-2abcb1d1e092",
@@ -883,7 +885,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://listener1.mp3.tb-group.fm/tb.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.146Z"
     },
     {
       "stationuuid": "31b9029e-5ff7-460a-b543-c4f942a436b4",
@@ -902,7 +904,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gss.dr.dk/A/A12H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "331c897a-a89b-4c49-9750-121b3a789802",
@@ -921,7 +923,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live-icy.dr.dk/A/A17H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "351496cd-e670-4bee-b835-3500bf7c1edb",
@@ -937,10 +939,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream.wlmm.dk/oestfmmp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:15.450Z"
     },
     {
       "stationuuid": "371c0687-f877-4c9c-b538-d759fc0793d7",
@@ -955,10 +957,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream2.radiosolutions.dk/radioaadalen",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "probedAt": "2026-06-11T08:20:53.672Z"
     },
     {
       "stationuuid": "37de7ca3-9cad-479b-ad27-4f3a4d068636",
@@ -975,7 +977,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream1.partyfm.dk/Party320",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.145Z"
     },
     {
       "stationuuid": "37e84ac0-5336-4ce8-badb-6fdc7ed8923e",
@@ -994,7 +996,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://tangocopenhagen.stream.laut.fm/tangocopenhagen?pl=m3u&t302=2026-01-15_07-29-52&uuid=2ce4484f-6ce9-4c5b-893f-fae1c3a7de8c",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.146Z"
     },
     {
       "stationuuid": "3828ea0c-49ac-4086-a7ce-a8bd1eb99d29",
@@ -1009,10 +1011,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://player.radiomidt.dk/broadwave.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "probedAt": "2026-06-11T08:21:13.508Z"
     },
     {
       "stationuuid": "3877366e-eb34-4cb8-84a1-b7b187a97a67",
@@ -1027,8 +1029,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p8jazz/playlist-320000.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.146Z"
     },
     {
       "stationuuid": "39334888-fb45-432f-8066-173b05d1af01",
@@ -1046,8 +1048,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radioserver.dk/alfaaarhus",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "3a0e373c-ba86-40a0-8dde-6aff355293ac",
@@ -1066,7 +1068,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p4kobenhavn/masterab.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "3ae1555a-cc61-478d-a092-2b73af5b431b",
@@ -1084,7 +1086,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream02.radioplayback.dk/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.147Z"
     },
     {
       "stationuuid": "3afb7b74-5946-44d5-98c5-f70808d4526d",
@@ -1102,8 +1104,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.probroadcast.dk/radioviva",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "3dbfe861-a8f0-4366-89bf-275e87cb1b7a",
@@ -1122,7 +1124,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live-icy.dr.dk/A/A04L.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "434c4e8f-ce9b-447c-80f6-1f2f75a3e566",
@@ -1137,11 +1139,11 @@
       "votes": 49,
       "clickcount": 3,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://live-icy.gss.dr.dk:8000/A/A22H.mp3",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://live-icy.gss.dr.dk/A/A22H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "43f3f332-d3eb-4dae-b89b-a13148e9a513",
@@ -1155,11 +1157,11 @@
       "votes": 1290,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://stream.partyfm.dk/Party320/",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (browser auto-upgrade after redirect to http://) (browser auto-upgrade from http://)",
+      "finalUrl": "https://stream.partyfm.dk/Party320/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "probedAt": "2026-06-11T08:20:52.148Z"
     },
     {
       "stationuuid": "44c2cd31-866c-4973-a679-87134c9eed46",
@@ -1175,10 +1177,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://radio.norea.dk:8080/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "probedAt": "2026-06-11T08:20:53.726Z"
     },
     {
       "stationuuid": "4578e504-5cb0-47c5-bcd0-1baa78719a01",
@@ -1195,8 +1197,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radioserver.dk/radiom",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "45f65836-5e76-4d16-a755-e99b2d0be65b",
@@ -1215,7 +1217,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p4bornholm/masterab.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "4821c495-7c75-11e9-aa30-52543be04c81",
@@ -1230,11 +1232,11 @@
       "votes": 156,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://hyades.shoutca.st:8627/",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html;charset=utf-8 not audio-like",
+      "finalUrl": "http://hyades.shoutca.st:8627/index.html?sid=1",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "probedAt": "2026-06-11T08:20:53.387Z"
     },
     {
       "stationuuid": "49b20332-4ee4-440a-b874-3d4b3edf0adf",
@@ -1253,7 +1255,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p4midtvest/masterab.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "4a2c9e36-9c3f-4b02-8122-c8bb9fd195b7",
@@ -1269,10 +1271,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream.midlar.fo/voxpop-128",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "probedAt": "2026-06-11T08:20:53.345Z"
     },
     {
       "stationuuid": "4b4e418e-b536-48f8-b970-78bab26845c5",
@@ -1291,7 +1293,7 @@
       "verdictReason": "HTTP 502",
       "finalUrl": "https://radio2.digidi.net/listen/mars/radio_mid.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "probedAt": "2026-06-11T08:20:52.150Z"
     },
     {
       "stationuuid": "4b7fdc14-64c5-4bf9-8924-615e81b812dc",
@@ -1310,7 +1312,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p2/masterab.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "4bcb11ad-0ac0-4bb6-8b36-603ba1a4effd",
@@ -1329,7 +1331,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live-bauerdk.sharp-stream.com/nova_dk_mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "4bd28ee6-d3d3-40cb-84d6-f82cbe257329",
@@ -1347,8 +1349,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radioserver.dk/alfasilk",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "4c288b10-8af2-40ff-8c11-932730a45fc2",
@@ -1366,8 +1368,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p4ostjylland/masterab.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "4c493e5b-983d-4ad8-9e6a-290dccf730b7",
@@ -1384,7 +1386,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream1.partyfm.dk/Party320",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.145Z"
     },
     {
       "stationuuid": "4c5b7963-69cf-45f7-b084-f4959c8ecf6a",
@@ -1403,7 +1405,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gss.dr.dk/A/A02H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "5182c037-4ae5-49ce-b40d-fee200ad199f",
@@ -1422,7 +1424,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live-bauerdk.sharp-stream.com/thevoice_dk_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "535cb1e3-fbf4-4e32-a941-1145382316ff",
@@ -1437,10 +1439,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (needs-playlist) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream2.wlmm.dk/syddanmark.m3u",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:13.632Z"
     },
     {
       "stationuuid": "53cb3284-c504-40bd-898a-61825abbdc49",
@@ -1459,7 +1461,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gslb01.dr.dk/A/A10H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "54222894-62d9-4d59-bf91-059c0d6a1b63",
@@ -1474,10 +1476,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream.wlmm.dk/radiovardemp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:14.370Z"
     },
     {
       "stationuuid": "552a021a-95cf-4dfe-bf0d-83e2dbe34fd3",
@@ -1494,8 +1496,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.probroadcast.dk/guldjul",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "5761523c-2a23-480b-82e3-b20a09f48ae4",
@@ -1513,8 +1515,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp (browser auto-upgrade from http://)",
       "finalUrl": "https://rautemusik.stream48.radiohost.de/rautemusik-techno_aac-48?upd-meta=1&upd-scheme=https&_art=dD0xNzc5MTg4NzI2JmQ9ZDkxNmMxMWVmYTg1NjkzZjkxODY",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.150Z"
     },
     {
       "stationuuid": "5854189c-c4a2-4f10-861a-b095e7e4bcf9",
@@ -1532,8 +1534,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.radiohelsingor.dk/rh",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:53.297Z"
     },
     {
       "stationuuid": "59a304c4-39f4-49f4-abc7-6a086f6d1de4",
@@ -1549,10 +1551,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream.radioklitholm.dk:8000/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:33.631Z"
     },
     {
       "stationuuid": "5c1feefd-2299-4baf-b466-029326820f1a",
@@ -1570,8 +1572,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-bauerdk.sharp-stream.com/nova128.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "5ef52e34-5c0d-41b8-b2ff-24bb3df52065",
@@ -1589,8 +1591,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radioserver.dk/solo",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "60791543-e494-4bcd-af3e-f2f198881b98",
@@ -1607,8 +1609,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radioserver.dk/alfaviborg",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "608e7e03-7c4d-4a44-a55a-f83967d00170",
@@ -1625,8 +1627,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p4kobenhavn/playlist-96000.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "62a1c816-add0-4319-88c1-90d28456f522",
@@ -1641,11 +1643,11 @@
       "votes": 25,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://live-icy.gss.dr.dk:8000/A/A11H.mp3",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://live-icy.gss.dr.dk/A/A11H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "632fe760-a124-4385-9061-6acb4bd14d0f",
@@ -1664,7 +1666,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live-bauerdk.sharp-stream.com/thevoice_dk_mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "6397fc3c-fca0-11e9-bbf2-52543be04c81",
@@ -1683,7 +1685,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://25603.live.streamtheworld.com/RADIO4.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.147Z"
     },
     {
       "stationuuid": "6491342a-6d10-45da-87fd-edca5464367f",
@@ -1700,8 +1702,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream2.rcast.net/64145",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.150Z"
     },
     {
       "stationuuid": "65490fd6-c55b-4704-9638-35445a4c4f1a",
@@ -1720,7 +1722,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p5kobenhavn/masterab.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "65f1be92-d731-4ebb-b3fd-4635cbfe2135",
@@ -1735,10 +1737,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream.wlmm.dk/DinRadiomp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:15.094Z"
     },
     {
       "stationuuid": "661c92fb-a3bb-4b81-856f-7e93c6a5c38f",
@@ -1756,7 +1758,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.radiosolutions.dk/rollo",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.146Z"
     },
     {
       "stationuuid": "6a4bd31d-4268-43b8-9910-5f4467dd607e",
@@ -1771,11 +1773,11 @@
       "votes": 39,
       "clickcount": 10,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://live-icy.gss.dr.dk:8000/A/A14H.mp3",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://live-icy.gss.dr.dk/A/A14H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "6a9abc1c-66f2-11ea-be63-52543be04c81",
@@ -1793,8 +1795,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live-icy.dr.dk/A/A29H.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "6ab19eed-7623-4ac6-958d-e83948a4e2fe",
@@ -1809,11 +1811,11 @@
       "votes": 28,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://live-icy.gss.dr.dk:8000/A/A10H.mp3",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://live-icy.gss.dr.dk/A/A10H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "6c08d0e6-5f98-4637-aaa1-4869a7856cd7",
@@ -1832,7 +1834,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "probedAt": "2026-06-11T08:20:53.297Z"
     },
     {
       "stationuuid": "6c6a6e97-3311-4ed5-b867-76ce6ebb70d3",
@@ -1850,8 +1852,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://webradio.classicfm.dk/classicvejle",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.146Z"
     },
     {
       "stationuuid": "6c8287a6-64a8-4144-a960-c14d88ea832c",
@@ -1869,8 +1871,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s3.radio.co/s7cd1ffe2f/listen",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:53.345Z"
     },
     {
       "stationuuid": "6e40e7fd-e80c-4409-910f-ed20d903d1f8",
@@ -1886,10 +1888,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (needs-playlist) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://media.wlmm.dk/humleborg.m3u",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:13.259Z"
     },
     {
       "stationuuid": "7017408d-aae6-4565-a615-5654c1dc32cb",
@@ -1906,8 +1908,8 @@
       "verdict": "broken-tls",
       "verdictReason": "TypeError: fetch failed — Error: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca",
       "finalUrl": "https://netradio.mixfm.dk/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.150Z"
     },
     {
       "stationuuid": "72efb250-a217-495a-ac1a-2b7f3fc134b5",
@@ -1925,8 +1927,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p5nordjylland/masterab.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "737884fb-a729-4ce7-ab24-c22245618e95",
@@ -1945,7 +1947,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radioserver.dk/alfa",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "743e24c9-8e92-49a8-8ec0-321b767ec0e5",
@@ -1960,10 +1962,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://solid67.streamupsolutions.com:15507/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "probedAt": "2026-06-11T08:21:13.196Z"
     },
     {
       "stationuuid": "7516af90-778a-4be3-a655-844fa2eb6605",
@@ -1979,10 +1981,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://media.wlmm.dk/radiohaderslevmp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:13.107Z"
     },
     {
       "stationuuid": "7a17dda6-45b5-11e8-8919-52543be04c81",
@@ -1999,8 +2001,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://webradio.classicfm.dk/classichorsens",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.146Z"
     },
     {
       "stationuuid": "7ad24348-a4d4-48e1-9293-8d52904244ac",
@@ -2014,11 +2016,11 @@
       "votes": 6,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 404",
       "finalUrl": "http://netradio.skala.fm/vielsker",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.882Z"
     },
     {
       "stationuuid": "7c2fae8d-a49f-45ef-a2b3-73f2dc25e5f0",
@@ -2037,7 +2039,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://radioserver.dk/abc",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "7c58f856-0271-457f-a047-b8d458362327",
@@ -2053,10 +2055,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (needs-playlist) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream.wlmm.dk/skagafm.m3u",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:15.603Z"
     },
     {
       "stationuuid": "7d898b16-158e-4920-b008-f2591f2cb340",
@@ -2074,8 +2076,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p5syd/masterab.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.146Z"
     },
     {
       "stationuuid": "7feafe93-aa70-4661-80e3-f3d3f370ec3d",
@@ -2093,8 +2095,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://netradio.classicfm.dk/cla12a",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.145Z"
     },
     {
       "stationuuid": "801ce973-f3d8-4c0f-b11f-832b5f6377d9",
@@ -2112,8 +2114,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radioserver.dk/alfa",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "805be5cd-1865-458d-82bd-80513dfb4423",
@@ -2128,10 +2130,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://live2.rcast.net:8722/;stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:53.579Z"
     },
     {
       "stationuuid": "813fe40d-5afb-4fd5-a56a-7a24c6c6db3d",
@@ -2148,8 +2150,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p3/playlist-96000.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "829efdf5-5f8e-4257-8d85-7ecfa46d0633",
@@ -2166,8 +2168,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://asima.out.airtime.pro:8000/radiojazzcopenhagen_a",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.149Z"
     },
     {
       "stationuuid": "847172ba-fa7d-476c-8ad1-3a62044e8a56",
@@ -2185,8 +2187,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live-icy.dr.dk/A/A26H.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "84f2b3d5-f07e-4499-8fe5-46afbfcfc125",
@@ -2205,7 +2207,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gss.dr.dk/A/A08H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "86407434-f7f1-4de0-9f85-d5ecfe0016e4",
@@ -2222,7 +2224,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://stream128.retro-radio.dk/retro",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.145Z"
     },
     {
       "stationuuid": "87069ec6-7cfc-446d-b1be-e56c8b8d2287",
@@ -2239,8 +2241,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ondemand-mp3.dradio.de/file/dradio/presseschau/presseschau.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.150Z"
     },
     {
       "stationuuid": "871abc60-a5c2-459a-8294-b615f7b153b8",
@@ -2259,7 +2261,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gslb01.dr.dk/A/A04H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "87e5d1ca-b5bc-4959-91e5-a3a8cc3ddde3",
@@ -2275,10 +2277,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream.wlmm.dk/radioviva",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:13.932Z"
     },
     {
       "stationuuid": "87e811be-33a3-4236-a348-6e23d53b2c76",
@@ -2297,7 +2299,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p4esbjerg/masterab.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "8a3c3b8c-58ab-4556-83d7-446b9a787b68",
@@ -2314,8 +2316,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://media.limfjordnetradio.dk/limfjord128",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.145Z"
     },
     {
       "stationuuid": "8db642b4-c560-4231-ba8b-5895b3b5c465",
@@ -2333,8 +2335,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p5ostjylland/masterab.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "8e247d1e-294c-4e0f-b223-11971263d283",
@@ -2352,8 +2354,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://radioserver.dk/alwayselvisradio",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "9159f400-d6a3-4408-adfc-42ffd95f049d",
@@ -2368,10 +2370,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://live2.rcast.net:8722/;stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:54.234Z"
     },
     {
       "stationuuid": "9298e58e-3dd2-418c-bd39-6798f59b8b10",
@@ -2390,7 +2392,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p8jazz/masterab.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.497Z"
+      "probedAt": "2026-06-11T08:20:52.118Z"
     },
     {
       "stationuuid": "93f651cc-1bfa-466e-aeb0-00ec61bd9ded",
@@ -2409,7 +2411,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p4syd/masterab.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "94745bf8-1b99-4260-9bdc-90ef54742e7f",
@@ -2428,7 +2430,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p5esbjerg/masterab.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "960df605-0601-11e8-ae97-52543be04c81",
@@ -2446,7 +2448,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://media.limfjordnetradio.dk/limfjord128",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.145Z"
     },
     {
       "stationuuid": "960df6d5-0601-11e8-ae97-52543be04c81",
@@ -2464,8 +2466,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gslb01.dr.dk/A/A11H.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "960df7a4-0601-11e8-ae97-52543be04c81",
@@ -2483,8 +2485,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gslb01.dr.dk/A/A12H.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "960f528a-0601-11e8-ae97-52543be04c81",
@@ -2502,8 +2504,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gslb01.dr.dk/A/A07H.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "960f5358-0601-11e8-ae97-52543be04c81",
@@ -2522,7 +2524,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gslb01.dr.dk/A/A08H.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "960f5428-0601-11e8-ae97-52543be04c81",
@@ -2540,8 +2542,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gslb01.dr.dk/A/A09H.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "960f5583-0601-11e8-ae97-52543be04c81",
@@ -2559,8 +2561,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gslb01.dr.dk/A/A10H.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "960f5706-0601-11e8-ae97-52543be04c81",
@@ -2578,8 +2580,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gslb01.dr.dk/A/A15H.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "960f585d-0601-11e8-ae97-52543be04c81",
@@ -2597,8 +2599,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gslb01.dr.dk/A/A06H.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "960f5a18-0601-11e8-ae97-52543be04c81",
@@ -2617,7 +2619,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gss.dr.dk/A/A03H.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "960f5af4-0601-11e8-ae97-52543be04c81",
@@ -2635,7 +2637,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gslb01.dr.dk/A/A04H.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "960f5bcd-0601-11e8-ae97-52543be04c81",
@@ -2654,7 +2656,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gslb01.dr.dk/A/A05H.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "9610bbeb-0601-11e8-ae97-52543be04c81",
@@ -2672,8 +2674,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gslb01.dr.dk/A/A14H.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "9610bcba-0601-11e8-ae97-52543be04c81",
@@ -2692,7 +2694,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gslb01.dr.dk/A/A25H.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "9610bd91-0601-11e8-ae97-52543be04c81",
@@ -2711,7 +2713,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gslb01.dr.dk/A/A29H.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "9610c01b-0601-11e8-ae97-52543be04c81",
@@ -2730,7 +2732,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gslb01.dr.dk/A/A22H.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "9610c0f1-0601-11e8-ae97-52543be04c81",
@@ -2748,8 +2750,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gss.dr.dk/A/A24H.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "9610c1ca-0601-11e8-ae97-52543be04c81",
@@ -2767,8 +2769,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gslb01.dr.dk/A/A02L.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "96189cc3-0601-11e8-ae97-52543be04c81",
@@ -2783,10 +2785,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://netradio.radioabc.dk/",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "probedAt": "2026-06-11T08:21:13.107Z"
     },
     {
       "stationuuid": "961b92e3-0601-11e8-ae97-52543be04c81",
@@ -2804,8 +2806,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.anr.dk/anr",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.148Z"
     },
     {
       "stationuuid": "961bfd41-0601-11e8-ae97-52543be04c81",
@@ -2823,8 +2825,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://media.limfjordnetradio.dk/plus128",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.145Z"
     },
     {
       "stationuuid": "961bfe0e-0601-11e8-ae97-52543be04c81",
@@ -2842,8 +2844,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://media.limfjordnetradio.dk/plusslager128",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.145Z"
     },
     {
       "stationuuid": "96298c0b-0601-11e8-ae97-52543be04c81",
@@ -2859,10 +2861,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://netradio.radionord.dk:8000/RadioNord",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:13.232Z"
     },
     {
       "stationuuid": "962b0254-0601-11e8-ae97-52543be04c81",
@@ -2881,7 +2883,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://streaming.radio.co/sd9d980ff0/listen",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.148Z"
     },
     {
       "stationuuid": "962b031f-0601-11e8-ae97-52543be04c81",
@@ -2898,8 +2900,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream02.radioplayback.dk/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.147Z"
     },
     {
       "stationuuid": "962ee337-0601-11e8-ae97-52543be04c81",
@@ -2917,7 +2919,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://stream128.retro-radio.dk/retro",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.145Z"
     },
     {
       "stationuuid": "9632fa79-0601-11e8-ae97-52543be04c81",
@@ -2932,10 +2934,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream.wlmm.dk/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:13.480Z"
     },
     {
       "stationuuid": "963cba5e-0601-11e8-ae97-52543be04c81",
@@ -2954,7 +2956,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://edge-bauerdk-02-thn.sharp-stream.com/radiosoft_dk_mp3?",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "probedAt": "2026-06-11T08:20:52.148Z"
     },
     {
       "stationuuid": "964789cd-0601-11e8-ae97-52543be04c81",
@@ -2969,10 +2971,10 @@
       "clickcount": 4,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://isstream.kanalplus.fm/TX-1",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "probedAt": "2026-06-11T08:20:52.995Z"
     },
     {
       "stationuuid": "98d8adc4-833a-4c46-a946-ee6c5522bb89",
@@ -2991,7 +2993,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gss.dr.dk/A/A04H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "9929aca5-2a39-4915-87b4-c62d55761d4d",
@@ -3010,7 +3012,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live-bauerdk.sharp-stream.com/nova_dk_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "992df62a-154d-4434-9da9-9b5e17e8664d",
@@ -3028,8 +3030,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac",
       "finalUrl": "https://media.limfjordnetradio.dk/plusslageraac",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.145Z"
     },
     {
       "stationuuid": "9a08be90-0ae7-4963-b40b-bc7627c8d53a",
@@ -3045,10 +3047,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream.wlmm.dk/NyRadiomp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:13.109Z"
     },
     {
       "stationuuid": "9a5f3b79-13c6-4a0e-a41f-6b5ad048c1a4",
@@ -3066,7 +3068,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://tx-2.retro-radio.dk/TX-2",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.145Z"
     },
     {
       "stationuuid": "9aa58b89-2aae-4dc3-9634-fce0e92177a1",
@@ -3085,7 +3087,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p4trekanten/masterab.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "9cb2aa9d-b96d-497e-8389-85664ebbf867",
@@ -3103,7 +3105,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radioserver.dk/abc",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "9d096256-6a1c-4844-a5f6-9a6455fa960a",
@@ -3122,7 +3124,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live-icy.dr.dk/A/A02H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "9dad9743-9cb9-41c3-a093-4158ae9bb4eb",
@@ -3140,7 +3142,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p5fyn/playlist-96000.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.146Z"
     },
     {
       "stationuuid": "9edda838-dfaf-44fa-8c13-23972afac6e7",
@@ -3159,7 +3161,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live-icy.dr.dk/A/A30H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "9fb61667-1d5d-4b5d-b22f-88708afa8b05",
@@ -3176,8 +3178,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p2/playlist-96000.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "a03b2ae7-f8a6-410a-b78c-bc94c6ca3b1c",
@@ -3195,8 +3197,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.probroadcast.dk/oestfmmp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "a1631bea-d910-4fc2-bc88-a163009484d2",
@@ -3215,7 +3217,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p4nordjylland/masterab.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "a3a17cb3-d4ac-4cc2-ba45-3a219d891371",
@@ -3233,8 +3235,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://live-bauerdk.sharp-stream.com/RP10_premium_96.aac",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "a3bc7946-e569-420b-8793-9048804ae6b3",
@@ -3253,7 +3255,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gslb01.dr.dk/A/A03H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "a3e3aed5-9adb-4fc9-baae-0e0f3b09d50f",
@@ -3271,8 +3273,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.vinylhits.dk/vinylaac",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.146Z"
     },
     {
       "stationuuid": "a401551f-88a3-400c-9f02-2bfb592a1ae0",
@@ -3290,8 +3292,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://webradio.radioviborg.dk/viborg",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.149Z"
     },
     {
       "stationuuid": "a4053cb4-7fd0-4c3b-9228-a93a1275c6ad",
@@ -3309,8 +3311,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cast1.asurahosting.com/proxy/femernfm/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.149Z"
     },
     {
       "stationuuid": "a72981b6-8d24-4f95-9fdf-9313c17f260f",
@@ -3326,10 +3328,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream2.wlmm.dk/kimlarsenmp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:13.110Z"
     },
     {
       "stationuuid": "ad076dad-13ef-4ea1-b836-a37be4c77a05",
@@ -3344,10 +3346,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream2.wlmm.dk/detrigtigefaaborg",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:13.480Z"
     },
     {
       "stationuuid": "addd84e9-2723-460e-8b8f-b2c19a854ece",
@@ -3366,7 +3368,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p4nordjylland/masterab.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "b0f1b100-23b5-4c7b-bdb1-a2c68006d6bf",
@@ -3385,7 +3387,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p3/masterab.m3u8",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "b3936ab5-5f4c-4c48-b910-93369426dde7",
@@ -3400,11 +3402,11 @@
       "votes": 5,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-timeout",
+      "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: radio1.jfmtech.dk:80, timeout: 10000ms)",
       "finalUrl": "http://radio1.jfmtech.dk/diablo.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:39.179Z"
+      "probedAt": "2026-06-11T08:21:33.365Z"
     },
     {
       "stationuuid": "b4d7f87f-89c8-4d1b-af0b-fc2fcafd8d66",
@@ -3423,7 +3425,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live-bauerdk.sharp-stream.com/myrock_dk_mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "b67044c5-7e2a-4ed7-b370-2164c2c890f9",
@@ -3441,8 +3443,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://live-bauerdk.sharp-stream.com/DK_HQ_RP04.aac",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "b69d7997-fec2-419b-b33d-d01f7ebba8b8",
@@ -3461,7 +3463,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live-icy.dr.dk/A/A24H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "b6f5187a-e78a-4337-a023-bb589ee55f0b",
@@ -3479,7 +3481,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radioserver.dk/alfaevent",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "bd1d9130-d9b3-4875-a8f1-e307dfcc0b03",
@@ -3497,8 +3499,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gslb01.dr.dk/A/A13H.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "bd2c8477-0702-4efe-aa9b-207880a1d68f",
@@ -3515,8 +3517,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://a2.asurahosting.com:6520/radio.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:53.297Z"
     },
     {
       "stationuuid": "be78f00b-0f84-4b22-abeb-feb6206f1839",
@@ -3534,8 +3536,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radioserver.dk/alfaskive",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "c3f54477-78f5-4796-bcfc-6b464295103e",
@@ -3553,8 +3555,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live-bauerdk.sharp-stream.com/radio100_dk_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "c47af956-7920-427d-91da-054288337ada",
@@ -3570,10 +3572,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream.radioklitholm.dk:8000/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:34.082Z"
     },
     {
       "stationuuid": "c63d6c6e-4edc-4fe4-91fc-823dc0dc3c47",
@@ -3589,10 +3591,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream.midtfjordradio.dk/netradio",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:13.400Z"
     },
     {
       "stationuuid": "c7e105b6-4e4d-4b30-a1a6-9f496c8d43b4",
@@ -3610,8 +3612,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live-icy.dr.dk/A/A27L.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "c86d26e1-0fdd-48e8-b362-67145770d981",
@@ -3627,8 +3629,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://st1.stinesen.dk/StineM320",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:53.296Z"
     },
     {
       "stationuuid": "c8bdcde9-bb1d-4f14-9000-301c5d242b02",
@@ -3643,10 +3645,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://media.wlmm.dk:8000/guldtoender",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "probedAt": "2026-06-11T08:21:13.534Z"
     },
     {
       "stationuuid": "c8eb07de-d4e7-48b2-a997-5768a875df48",
@@ -3663,8 +3665,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://29083.live.streamtheworld.com/RADIO4.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.147Z"
     },
     {
       "stationuuid": "c925e0c0-02e5-4cf5-984c-30c783e5995e",
@@ -3678,10 +3680,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://87.104.40.139:88/broadwave.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "probedAt": "2026-06-11T08:21:12.915Z"
     },
     {
       "stationuuid": "cab6fb5c-c9f3-43fd-aa7f-536dab0f1a46",
@@ -3699,8 +3701,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p5sjaelland/masterab.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "cb5c98a0-9a51-45fc-b6a7-21b60f4225f3",
@@ -3718,7 +3720,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://tx-2.retro-radio.dk/TX-2",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.145Z"
     },
     {
       "stationuuid": "cbf46457-152d-4d64-bec5-266e5796c91a",
@@ -3735,8 +3737,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live-bauerdk.sharp-stream.com/radiosoft_dk_tunein_mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "cd411cb2-bef5-4e75-87ce-76b3c8b3bbf0",
@@ -3751,10 +3753,10 @@
       "clickcount": 4,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream.midtfjordradio.dk/netradio",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:13.031Z"
     },
     {
       "stationuuid": "cd6cac01-31ef-4ea0-ade2-9189d68ed443",
@@ -3772,8 +3774,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radi-panini.radiocult.fm/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:53.297Z"
     },
     {
       "stationuuid": "d1aff0af-3e9e-4ad2-a9d6-cfed3ffd6a66",
@@ -3790,8 +3792,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://tangocopenhagen.stream.laut.fm/tangocopenhagen?t302=2021-01-15_18-47-40&uuid=64db9a91-4a6e-4bc8-ba24-26a2fa7f24d0",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.146Z"
     },
     {
       "stationuuid": "d1bd8767-9780-42ed-b832-c9efecac205c",
@@ -3810,7 +3812,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live-icy.dr.dk/A/A30H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "d20c9c7c-3787-4e67-abf6-7486b57c78a9",
@@ -3828,8 +3830,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.probroadcast.dk/skagafm",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "d252b764-8920-4d6f-9b03-a68813a6c93f",
@@ -3846,8 +3848,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream1.partyfm.dk/Party320",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.145Z"
     },
     {
       "stationuuid": "d3147cc4-f679-4539-91bc-e47b1612cb16",
@@ -3862,11 +3864,11 @@
       "votes": 12,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://live-icy.gss.dr.dk:8000/A/A13H.mp3",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://live-icy.gss.dr.dk/A/A13H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "d3b4142e-efd3-4cd2-af83-432dcd428848",
@@ -3885,7 +3887,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gss.dr.dk/A/A15H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "d4667343-aec5-40b7-b292-e18a6cc0e92b",
@@ -3903,8 +3905,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://netradio.vlr.dk/vlr8d",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.147Z"
     },
     {
       "stationuuid": "d48b5967-20e4-416d-88cd-a899d6338f85",
@@ -3919,10 +3921,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://komplex2.psyradio.org:8020/chillout/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "probedAt": "2026-06-11T08:20:53.087Z"
     },
     {
       "stationuuid": "d5080e47-531e-4871-a4c2-bd98ba726311",
@@ -3940,8 +3942,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live-bauerdk.sharp-stream.com//popfm80.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "d549216c-f943-48c7-8c39-324214177c60",
@@ -3959,7 +3961,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.probroadcast.dk/radioviva",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "d730e041-05fd-421d-a39b-7b2da3f9bdae",
@@ -3978,7 +3980,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.dr.dk/A/A08H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "d79bac43-32ab-45e9-b3ed-f64750f517a0",
@@ -3993,11 +3995,11 @@
       "votes": 8,
       "clickcount": 3,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://live-icy.gss.dr.dk:8000/A/A03H.mp3",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://live-icy.gss.dr.dk/A/A03H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "d8167c19-b09e-476a-a593-ceb7841b9d6a",
@@ -4014,8 +4016,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streaming.radio.co/sd9d980ff0/listen",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.148Z"
     },
     {
       "stationuuid": "df2f6bd2-73c2-4398-ae78-3222fdba454a",
@@ -4033,8 +4035,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://faxe.jtw.dk:8440/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:53.345Z"
     },
     {
       "stationuuid": "df9fda53-e237-4905-b977-bb293a57adc0",
@@ -4052,8 +4054,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p5trekanten/masterab.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "e2116c20-ca0c-4f9e-a25c-4c66df33bf13",
@@ -4071,7 +4073,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://stream128.retro-radio.dk/retro",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.145Z"
     },
     {
       "stationuuid": "e3c5702d-2441-11e8-91bf-52543be04c81",
@@ -4089,8 +4091,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.kanalplus.fm/kp96",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.149Z"
     },
     {
       "stationuuid": "e463f4fd-8de9-44e7-b139-7ffc309c4520",
@@ -4107,8 +4109,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radioserver.dk/alfaevent",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "e8cf62bc-61f2-445c-b2ed-bec5bd5226ea",
@@ -4123,11 +4125,11 @@
       "votes": 477,
       "clickcount": 25,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://live-icy.gss.dr.dk:8000/A/A05H.mp3",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://live-icy.gss.dr.dk/A/A05H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "e8dd0971-1d03-4058-a5b4-44f48cea5e16",
@@ -4146,7 +4148,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live-icy.gss.dr.dk/A/A09H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "ea949437-acea-40e1-ab43-045fb7aed40b",
@@ -4164,7 +4166,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radioserver.dk/alwayselvisradio",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "eb6ef47c-ae5b-448e-9075-086655e6a149",
@@ -4181,8 +4183,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p6beat/playlist-96000.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "ed6dbdc4-3512-41d2-aa2d-136b83d8b505",
@@ -4197,11 +4199,11 @@
       "votes": 60,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://live-icy.gss.dr.dk:8000/A/A22H.mp3",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://live-icy.gss.dr.dk/A/A22H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "ee0997ac-c188-4d59-b9e6-ae73b72d497e",
@@ -4216,10 +4218,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://ca6.rcast.net:4058/;stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "probedAt": "2026-06-11T08:20:53.931Z"
     },
     {
       "stationuuid": "ee5c74c5-0440-4676-b6dc-4dfb70db6ded",
@@ -4236,8 +4238,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.probroadcast.dk/radioglobus",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "eeebcd94-6b72-4cbd-9e52-b3fd8154cbcc",
@@ -4255,8 +4257,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://s38.myradiostream.com:8598/.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.996Z"
     },
     {
       "stationuuid": "effb3b79-8c7f-41c9-83d4-b7bdc393b937",
@@ -4275,7 +4277,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://live-bauerdk.sharp-stream.com/DK_HQ_RP11.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "f03cd652-2231-4120-b255-bc80f0745fd9",
@@ -4292,8 +4294,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://netradio.classicfm.dk/dansktop",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.145Z"
     },
     {
       "stationuuid": "f1e2ba76-9149-4cb7-bd88-5c81f28dd24b",
@@ -4308,10 +4310,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://netradio.radioringkobing.dk:8000/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "probedAt": "2026-06-11T08:21:14.026Z"
     },
     {
       "stationuuid": "f27942a0-068b-401c-baf6-c5922b814a8f",
@@ -4328,8 +4330,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://drliveradio1.akamaized.net/hls/live/2097651/p8jazz/playlist-96000.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "f35d7138-3266-4865-981f-99762ca33b63",
@@ -4348,7 +4350,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: radio1.jfmtech.dk:443, timeout: 10000ms)",
       "finalUrl": "https://radio1.jfmtech.dk/diablo.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:39.179Z"
+      "probedAt": "2026-06-11T08:20:52.148Z"
     },
     {
       "stationuuid": "f39c3428-372e-4c3d-b506-7d59b3fda596",
@@ -4365,8 +4367,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://uniradio.out.airtime.pro/uniradio_a",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:53.297Z"
     },
     {
       "stationuuid": "f517f41e-9324-11e8-a767-52543be04c81",
@@ -4383,8 +4385,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://streamer.radio.co/s6a9beb92e/listen",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.149Z"
     },
     {
       "stationuuid": "f5345ab1-45b3-11e8-8919-52543be04c81",
@@ -4402,8 +4404,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://webradio.skala.fm/kolding",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.148Z"
     },
     {
       "stationuuid": "f8125a54-33ed-469d-a10e-a2829e947b5b",
@@ -4421,8 +4423,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radioserver.dk/gofm",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "f84f4e21-d148-4f56-bb08-91c451a112de",
@@ -4437,11 +4439,11 @@
       "votes": 56,
       "clickcount": 5,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://live-icy.gss.dr.dk:8000/A/A07H.mp3",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (https variant on default port from http://)",
+      "finalUrl": "https://live-icy.gss.dr.dk/A/A07H.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:20:52.119Z"
     },
     {
       "stationuuid": "f9ce659b-0727-4ac1-af3b-b3171b10d1d0",
@@ -4457,10 +4459,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://netradio.radionord.dk:8000/RadioNord",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:13.679Z"
     },
     {
       "stationuuid": "fae582e4-d87a-4cc6-aa8c-b1129bb51804",
@@ -4478,8 +4480,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://c14.radioboss.fm:18228/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.527Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:20:52.150Z"
     },
     {
       "stationuuid": "fdbc2b40-c50f-4f06-8922-95edbb632eac",
@@ -4495,10 +4497,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream.wlmm.dk:8010/wmrmp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:27:18.498Z"
+      "probedAt": "2026-06-11T08:21:13.480Z"
     }
   ]
 }

@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-19T17:19:24.451Z",
+  "generatedAt": "2026-06-11T07:49:26.707Z",
   "country": "AO",
   "rawSnapshotAt": "2026-05-19T07:49:41.029Z",
   "total": 16,
   "playable": 13,
   "broken": 3,
-  "curated": 6,
+  "curated": 8,
   "byVerdict": {
     "broken-5xx": 2,
     "ok": 13,
@@ -28,7 +28,7 @@
       "verdictReason": "HTTP 502",
       "finalUrl": "https://radios.justweb.pt/8050/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:24.446Z"
+      "probedAt": "2026-06-11T07:49:24.928Z"
     },
     {
       "stationuuid": "20bbd0c4-a63d-4a8c-a7aa-e963297c5c12",
@@ -46,7 +46,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://strm112.1.fm/acountry_mobile_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:24.446Z"
+      "probedAt": "2026-06-11T07:49:24.902Z"
     },
     {
       "stationuuid": "2351337a-0f5e-413a-b558-a2bc0ca25f22",
@@ -61,10 +61,10 @@
       "clickcount": 4,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://08.stmip.net:10028/;;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:24.446Z"
+      "probedAt": "2026-06-11T07:49:26.696Z"
     },
     {
       "stationuuid": "3973bb14-4377-4b62-86ac-b25d11d81949",
@@ -83,7 +83,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://14553.live.streamtheworld.com/XHPSFMAAC.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:24.446Z"
+      "probedAt": "2026-06-11T07:49:24.928Z"
     },
     {
       "stationuuid": "41eace33-d750-446d-8fff-05e041146ae5",
@@ -102,7 +102,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://a11.asurahosting.com:7400/radio.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:24.446Z"
+      "probedAt": "2026-06-11T07:49:24.928Z"
     },
     {
       "stationuuid": "45eeeaad-acc1-4704-b2b7-0c454a38c3c1",
@@ -120,7 +120,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream03.pcradio.biz/rna_canala-med",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:24.446Z"
+      "probedAt": "2026-06-11T07:49:24.928Z"
     },
     {
       "stationuuid": "50f9adb4-ecf9-4e83-b06d-7a89d5f74b9b",
@@ -138,7 +138,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://paineldj5.com.br:20089/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:24.446Z"
+      "probedAt": "2026-06-11T07:49:24.928Z"
     },
     {
       "stationuuid": "53880d37-bace-4589-9d7f-9f96b4d564ca",
@@ -156,7 +156,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://strm112.1.fm/acountry_mobile_mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:24.445Z"
+      "probedAt": "2026-06-11T07:49:24.900Z"
     },
     {
       "stationuuid": "5be023eb-7209-4ab0-8d69-27e356aad314",
@@ -174,7 +174,7 @@
       "verdictReason": "HTTP 502",
       "finalUrl": "https://centova87.instainternet.com/proxy/mfm?mp=/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:24.446Z"
+      "probedAt": "2026-06-11T07:49:24.902Z"
     },
     {
       "stationuuid": "5fb3b4c5-9a1d-469d-9b10-f92ab05f1ff4",
@@ -193,7 +193,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:24.446Z"
+      "probedAt": "2026-06-11T07:49:24.928Z"
     },
     {
       "stationuuid": "682715df-58c2-4765-b888-204307736498",
@@ -212,7 +212,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://s02.brascast.com:7830/live",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:24.446Z"
+      "probedAt": "2026-06-11T07:49:24.928Z"
     },
     {
       "stationuuid": "7b4fcdc7-4e59-47cf-8062-87123715b4a5",
@@ -230,7 +230,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cast.iplayradio.net/listen/powermixfm/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:19:24.446Z"
+      "probedAt": "2026-06-11T07:49:24.928Z"
     },
     {
       "stationuuid": "8762cad0-5b45-4685-9c09-68de818a3ec1",
@@ -249,7 +249,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://stm4.xradios.com.br:6794/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:24.446Z"
+      "probedAt": "2026-06-11T07:49:24.928Z"
     },
     {
       "stationuuid": "8ce91694-1fcd-4ead-baf3-51200af4e25c",
@@ -267,8 +267,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s2.free-shoutcast.com/stream/18214",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:24.446Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T07:49:24.928Z"
     },
     {
       "stationuuid": "b0e6dd00-5909-4b82-aa43-9355f2ab05e0",
@@ -286,7 +286,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cast4.asurahosting.com/proxy/afriradi/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:19:24.446Z"
+      "probedAt": "2026-06-11T07:49:24.928Z"
     },
     {
       "stationuuid": "e7ceeac8-342a-4096-82d1-173f10af95c9",
@@ -303,8 +303,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream-176.zeno.fm/gsndh1xvczetv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJnc25kaDF4dmN6ZXR2IiwiaG9zdCI6InN0cmVhbS0xNzYuemVuby5mbSIsInJ0dGwiOjQsImp0aSI6ImQ4SkZrMVNxVHZHb0lFMjRnd0pEeVEiLCJpYXQiOjE3NzkxODUzMzYsImV4cCI6MTc3OTE4NTM5Nn0.4uC9Ic5h_uQskBt69mb2RsD_6uGpkgREh-IrzpJCYvI",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:19:24.446Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T07:49:24.902Z"
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T17:25:02.727Z",
+  "generatedAt": "2026-06-11T08:09:49.526Z",
   "country": "CM",
   "rawSnapshotAt": "2026-05-19T07:50:01.083Z",
   "total": 5,
@@ -26,10 +26,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://167.114.11.79:5730/;stream/1",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:25:02.722Z"
+      "probedAt": "2026-06-11T08:09:28.964Z"
     },
     {
       "stationuuid": "332f6491-d62d-48a4-b44a-fa8020896949",
@@ -47,7 +47,7 @@
       "verdictReason": "HTTP 401",
       "finalUrl": "https://listen.radioking.com/radio/39218/stream/76118",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:25:02.722Z"
+      "probedAt": "2026-06-11T08:09:27.806Z"
     },
     {
       "stationuuid": "964b07c5-d89d-4b37-b5f1-dfddbac876c5",
@@ -66,7 +66,7 @@
       "verdictReason": "HTTP 401",
       "finalUrl": "https://listen.radioking.com/radio/39218/stream/75659",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:25:02.722Z"
+      "probedAt": "2026-06-11T08:09:27.807Z"
     },
     {
       "stationuuid": "b6b19ec1-eae5-4bc4-8e9c-8963c167cb98",
@@ -81,10 +81,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://139.84.240.171:8000/globe360",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:25:02.722Z"
+      "probedAt": "2026-06-11T08:09:49.514Z"
     },
     {
       "stationuuid": "f81fe147-ab44-4762-bdf4-6ef5bf9dfead",
@@ -103,7 +103,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:25:02.722Z"
+      "probedAt": "2026-06-11T08:09:27.830Z"
     }
   ]
 }

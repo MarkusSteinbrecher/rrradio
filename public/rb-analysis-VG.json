@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T17:56:54.597Z",
+  "generatedAt": "2026-06-11T09:50:30.680Z",
   "country": "VG",
   "rawSnapshotAt": "2026-05-19T07:51:34.077Z",
   "total": 4,
@@ -25,10 +25,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://176.9.121.230:8000/br",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:56:54.592Z"
+      "probedAt": "2026-06-11T09:50:30.667Z"
     },
     {
       "stationuuid": "a7f39674-f910-400e-9e02-1d9a2abbf7e1",
@@ -47,7 +47,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:56:54.591Z"
+      "probedAt": "2026-06-11T09:50:09.802Z"
     },
     {
       "stationuuid": "bde2c64b-f062-4f8f-a171-4e3ffc2a3695",
@@ -66,7 +66,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade after redirect to http://)",
       "finalUrl": "https://17653.live.streamtheworld.com/SAM06AAC287_SC",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:56:54.592Z"
+      "probedAt": "2026-06-11T09:50:09.825Z"
     },
     {
       "stationuuid": "d819267c-f973-40e7-85d2-84254a3d63b6",
@@ -85,7 +85,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://abc.streamguys1.com/live/classicfmnsw/icecast.audio",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:56:54.592Z"
+      "probedAt": "2026-06-11T09:50:09.825Z"
     }
   ]
 }
