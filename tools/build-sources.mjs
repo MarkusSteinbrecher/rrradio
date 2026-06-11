@@ -165,6 +165,11 @@ function dispositionOf(c) {
   if (c.duplicateOf) return 'duplicate';
   if (!c.verdict) return 'unprobed';
   if (c.verdict === 'ok' || c.verdict === 'ok-hls' || c.verdict === 'needs-playlist') return 'available';
+  // Alive on plain http with no https equivalent — blocked from the
+  // https app origin (and by the https-only catalog policy), but not
+  // dead. The probe verifies aliveness before issuing broken-mixed;
+  // dead http streams carry their real failure verdict instead.
+  if (c.verdict === 'broken-mixed' || c.verdict === 'redirect-downgrade') return 'http-only';
   return 'broken';
 }
 

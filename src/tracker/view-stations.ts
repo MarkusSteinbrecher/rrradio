@@ -33,7 +33,7 @@ type ColumnSet = (typeof COLUMN_SETS)[number];
 
 /** Candidate pools — donut segments other than "in catalog", plus 'all'
  *  (the entire universe across every source). */
-const POOLS = ['all', 'available', 'duplicate', 'broken', 'unprobed'] as const;
+const POOLS = ['all', 'available', 'duplicate', 'http-only', 'broken', 'unprobed'] as const;
 type Pool = '' | (typeof POOLS)[number];
 
 interface Filters {
@@ -99,7 +99,8 @@ function dashboardDonut(f: Filters, dispositions: Map<string, number>): HTMLElem
     { key: 'imported', label: 'in catalog', pool: '' },
     { key: 'available', label: 'available — plays over https, not imported', pool: 'available' },
     { key: 'duplicate', label: 'duplicate — excluded, same stream/brand', pool: 'duplicate' },
-    { key: 'broken', label: 'broken — stream failed probe', pool: 'broken' },
+    { key: 'http-only', label: 'http-only — alive on plain http, no https; blocked in-app', pool: 'http-only' },
+    { key: 'broken', label: 'broken — dead or failing probe', pool: 'broken' },
     { key: 'unprobed', label: 'unprobed — not analyzed yet', pool: 'unprobed' },
   ];
   return donut(
@@ -251,10 +252,11 @@ function candidateFacet(u: URow, facet: Facet): FacetEntry | undefined {
   return undefined;
 }
 
-const DISPO_BADGE: Record<string, 'primary' | 'success' | 'info' | 'error' | 'muted'> = {
+const DISPO_BADGE: Record<string, 'primary' | 'success' | 'info' | 'error' | 'muted' | 'warning'> = {
   imported: 'primary',
   available: 'success',
   duplicate: 'info',
+  'http-only': 'warning',
   broken: 'error',
   unprobed: 'muted',
 };
@@ -271,7 +273,7 @@ function headerCells(set: ColumnSet): HTMLElement[] {
       'th',
       {
         title:
-          'Catalog rows: curation status (working / icy-only / stream-only). Candidate rows: disposition (imported / available / duplicate / broken / unprobed). See legend.',
+          'Catalog rows: curation status (working / icy-only / stream-only). Candidate rows: disposition (imported / available / duplicate / http-only / broken / unprobed). See legend.',
       },
       'Status',
     ),
@@ -314,9 +316,14 @@ function bodyCells(u: URow, set: ColumnSet): HTMLElement[] {
       'td',
       {
         class: 'cell-url',
-        title: u.recordUrl ? `probe-verified https URL — upstream record: ${u.recordUrl}` : (u.streamUrl ?? ''),
+        title: u.recordUrl
+          ? `probe-verified https URL — upstream record: ${u.recordUrl}`
+          : u.streamUrl?.startsWith('http://')
+            ? `${u.streamUrl} — plain-http stream: plays in a standalone tab, but the https app blocks it as mixed content`
+            : (u.streamUrl ?? ''),
       },
       u.streamUrl ? el('a', { href: u.streamUrl, target: '_blank', rel: 'noopener noreferrer' }, u.streamUrl) : '—',
+      ...(u.streamUrl?.startsWith('http://') ? [el('sup', {}, ' http')] : []),
     ),
   ];
   if (set === 'health') {
@@ -382,7 +389,7 @@ function legend(): HTMLElement {
       Object.entries(STATUS_DESC)
         .map(([k, v]) => `${k} = ${v}`)
         .join(' · ') +
-        ' — candidate rows show their disposition instead: imported / available / duplicate / broken / unprobed',
+        ' — candidate rows show their disposition instead: imported / available / duplicate / http-only (alive on plain http, blocked in-app) / broken (dead) / unprobed',
     ),
   );
   for (const facet of FACETS) {

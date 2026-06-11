@@ -149,11 +149,13 @@ function httpsVariants(rawUrl) {
 // carries 192 RB stations) — without a memo each one re-burns the
 // ~20s connect timeout per https variant, serially within a host
 // group. Path-level outcomes (4xx, wrong content-type) stay
-// per-station and are NOT cached.
-const VARIANT_CONNECTION_FAILURES = new Set([
+// per-station and are NOT cached. Used for https-variant attempts and
+// direct-http aliveness checks; primary probes of https records stay
+// uncached (analyze-rb's per-host circuit breaker owns those).
+const CONNECTION_FAILURES = new Set([
   'broken-tls', 'broken-dns', 'broken-refused', 'broken-timeout', 'broken-network',
 ]);
-const deadVariantOrigins = new Map(); // 'https://host:port' → verdict that killed it
+const deadOrigins = new Map(); // 'scheme://host:port' → verdict that killed it
 
 // Try each https variant of `httpUrl`; first playable one wins. The
 // reported finalUrl is the variant ENTRY url, not the inner probe's
@@ -163,7 +165,7 @@ async function tryHttpsVariants(httpUrl, depth, context) {
   if (depth >= MAX_UPGRADE_DEPTH) return null;
   for (const { url: variant, via } of httpsVariants(httpUrl)) {
     const origin = new URL(variant).origin;
-    if (deadVariantOrigins.has(origin)) continue;
+    if (deadOrigins.has(origin)) continue;
     const probe = await probeStream(variant, { _upgradeDepth: depth + 1 });
     if (probe.verdict === 'ok' || probe.verdict === 'ok-hls') {
       return {
@@ -173,8 +175,8 @@ async function tryHttpsVariants(httpUrl, depth, context) {
         upgradedFrom: httpUrl,
       };
     }
-    if (VARIANT_CONNECTION_FAILURES.has(probe.verdict)) {
-      deadVariantOrigins.set(origin, probe.verdict);
+    if (CONNECTION_FAILURES.has(probe.verdict)) {
+      deadOrigins.set(origin, probe.verdict);
     }
   }
   return null;
@@ -191,16 +193,39 @@ export async function probeStream(rawUrl, opts = {}) {
     return { verdict: 'broken-url', reason: `cannot parse: ${rawUrl}` };
   }
 
-  if (url.protocol === 'http:') {
+  if (url.protocol === 'http:' && !opts._directHttp) {
     // Browsers auto-upgrade mixed-content audio. Try the https
     // equivalents — if one serves audio we report ok with provenance
     // so curators can see which upgrade made it playable.
     const upgraded = await tryHttpsVariants(rawUrl, depth, 'from http://');
     if (upgraded) return upgraded;
+
+    // No https equivalent. "Alive but mixed-content-blocked" and
+    // "actually dead" are different curation outcomes (http-only vs
+    // broken in the tracker), so probe the http URL itself.
+    const knownDead = deadOrigins.get(url.origin);
+    const direct = knownDead
+      ? { verdict: knownDead, reason: `host unreachable earlier in this run (memoized ${knownDead})`, finalUrl: url.toString() }
+      : await probeStream(rawUrl, { _upgradeDepth: depth, _directHttp: true });
+    if (!knownDead && CONNECTION_FAILURES.has(direct.verdict)) {
+      deadOrigins.set(url.origin, direct.verdict);
+    }
+    const alive = direct.verdict === 'ok' || direct.verdict === 'ok-hls' || direct.verdict === 'needs-playlist';
+    if (!alive) return direct; // dead http stream — report the real failure
+    if ((direct.finalUrl || '').startsWith('https://')) {
+      // The http record redirects to a working https stream — the
+      // catalog can adopt that target outright.
+      return {
+        ...direct,
+        reason: `${direct.reason} (http record redirects to https)`,
+        upgradedFrom: rawUrl,
+      };
+    }
     return {
       verdict: 'broken-mixed',
-      reason: 'http:// stream blocks on rrradio.org (https origin); no https equivalent on same host',
+      reason: `alive on plain http (${direct.contentType || direct.verdict}) but no https equivalent — mixed-content blocked on the https app origin`,
       finalUrl: url.toString(),
+      httpAlive: true,
     };
   }
 
@@ -256,7 +281,7 @@ export async function probeStream(rawUrl, opts = {}) {
       // regiocast/streamabc send "HTTP/1.1 200 OK\n"). Browsers play
       // these fine, so retry with a lenient raw-socket client before
       // giving up on a verdict.
-      const lenient = await lenientProbe(url.toString()).catch(() => null);
+      const lenient = await lenientProbe(url.toString(), { allowHttp: opts._directHttp === true }).catch(() => null);
       if (lenient) return lenient;
     }
     return classified;
@@ -267,7 +292,7 @@ export async function probeStream(rawUrl, opts = {}) {
     return classifyHttpError(res.status, finalUrl);
   }
 
-  if (finalUrl.startsWith('http://')) {
+  if (finalUrl.startsWith('http://') && !opts._directHttp) {
     // Same mixed-content auto-upgrade flow as above, but applied to
     // the redirect destination. Browsers upgrade every request in a
     // media load, redirect hops included — so when the upgraded hop
@@ -383,13 +408,15 @@ function rawHeaderFetch(targetUrl, timeoutMs) {
   });
 }
 
-async function lenientProbe(startUrl) {
+async function lenientProbe(startUrl, { allowHttp = false } = {}) {
   let current = startUrl;
   for (let hop = 0; hop < 5; hop++) {
     const { status, headers } = await rawHeaderFetch(current, TIMEOUT_MS);
     if (status >= 300 && status < 400 && headers.location) {
       current = new URL(headers.location, current).toString();
-      if (current.startsWith('http://')) return null; // let the strict path's verdict stand
+      // Outside direct-http aliveness checks an http hop means the
+      // strict path's mixed-content verdict stands.
+      if (current.startsWith('http://') && !allowHttp) return null;
       continue;
     }
     if (!(status >= 200 && status < 300)) return classifyHttpError(status, current);

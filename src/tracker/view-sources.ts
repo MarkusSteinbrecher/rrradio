@@ -61,7 +61,7 @@ interface SourceDetail {
   families?: { total?: number; totalMembers?: number; list?: { key?: string; name?: string; members?: number }[] };
 }
 
-type Disposition = '' | 'imported' | 'available' | 'duplicate' | 'broken' | 'unprobed';
+type Disposition = '' | 'imported' | 'available' | 'duplicate' | 'http-only' | 'broken' | 'unprobed';
 
 const cache = new Map<string, unknown>();
 async function getJson<T>(path: string): Promise<T> {
@@ -77,7 +77,7 @@ function isPlayable(verdict: string | null | undefined): boolean {
   return verdict === 'ok' || verdict === 'ok-hls' || verdict === 'needs-playlist';
 }
 
-const DISPOSITIONS = new Set(['imported', 'available', 'duplicate', 'broken', 'unprobed']);
+const DISPOSITIONS = new Set(['imported', 'available', 'duplicate', 'http-only', 'broken', 'unprobed']);
 
 function dispositionOf(c: Candidate): Exclude<Disposition, ''> {
   // build-sources stamps the authoritative disposition (it also demotes
@@ -88,13 +88,17 @@ function dispositionOf(c: Candidate): Exclude<Disposition, ''> {
   if (c.duplicateOf) return 'duplicate';
   if (!c.verdict) return 'unprobed';
   if (isPlayable(c.verdict)) return 'available';
+  if (c.verdict === 'broken-mixed' || c.verdict === 'redirect-downgrade') return 'http-only';
   return 'broken';
 }
 
 function verdictBadgeFor(verdict: string | null | undefined): HTMLElement {
   if (!verdict) return badge('unprobed', 'muted');
   if (verdict === 'ok' || verdict === 'ok-hls') return badge(verdict, 'success');
-  if (verdict === 'needs-playlist' || verdict === 'redirect-downgrade' || verdict === 'probe-inconclusive') {
+  if (
+    verdict === 'needs-playlist' || verdict === 'redirect-downgrade' ||
+    verdict === 'probe-inconclusive' || verdict === 'broken-mixed'
+  ) {
     return badge(verdict, 'warning');
   }
   return badge(verdict, 'error');
@@ -229,7 +233,8 @@ async function renderSourceSection(host: HTMLElement, sources: SourceSummary[]):
     ['Available (playable, not imported)', 'available'],
     ['Imported', 'imported'],
     ['Duplicates', 'duplicate'],
-    ['Broken', 'broken'],
+    ['Http-only (alive, no https)', 'http-only'],
+    ['Broken (dead)', 'broken'],
     ['Unprobed', 'unprobed'],
   ]) {
     dispSelect.append(new Option(label, value));
@@ -322,7 +327,21 @@ async function renderSourceSection(host: HTMLElement, sources: SourceSummary[]):
         el(
           'td',
           {},
-          c.streamUrl ? el('a', { href: c.streamUrl, target: '_blank', rel: 'noopener noreferrer' }, 'stream') : null,
+          c.streamUrl
+            ? el(
+                'a',
+                {
+                  href: c.streamUrl,
+                  target: '_blank',
+                  rel: 'noopener noreferrer',
+                  ...(c.streamUrl.startsWith('http://')
+                    ? { title: 'plain-http stream — plays in a standalone tab, but the https app blocks it as mixed content' }
+                    : {}),
+                },
+                'stream',
+                ...(c.streamUrl.startsWith('http://') ? [el('sup', {}, 'http')] : []),
+              )
+            : null,
           ' ',
           c.homepage ? el('a', { href: c.homepage, target: '_blank', rel: 'noopener noreferrer' }, 'home') : null,
         ),
