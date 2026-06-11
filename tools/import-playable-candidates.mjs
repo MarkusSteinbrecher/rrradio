@@ -328,14 +328,24 @@ for (const candidate of sortedCandidates) {
 
   const recordUrl = candidate.streamUrl || raw.url_resolved || raw.url || '';
   // http records whose https upgrade the playability probe verified
-  // (candidate.playableUrl is set by build-sources from rb-analysis
-  // finalUrl) import with the scheme-swapped entry point. finalUrl may
-  // sit further down a redirect chain (sometimes tokenized) — the
-  // stable, verified URL is the https swap of the record itself.
+  // import with candidate.playableUrl — since the probe overhaul that
+  // IS the durable verified entry point (the probe reports the https
+  // variant it constructed, never the redirect-chain end, so it is
+  // token-free and may legitimately differ from a naive scheme swap:
+  // 443-variant rescues drop a custom port, e.g. streamtheworld :3690,
+  // where the swapped URL was never verified and does not serve TLS).
   const streamUrl = recordUrl.startsWith('http://') && candidate.playableUrl
-    ? `https://${recordUrl.slice('http://'.length)}`
+    ? candidate.playableUrl
     : recordUrl;
   if (!streamUrl) { skipped.noStreamUrl++; continue; }
+  // RB's url_resolved sometimes freezes a session-tokenized redirect
+  // target (streamabc's sABC/skey, radiojar's rj-tok) — the token
+  // expires and the imported URL dies within hours. Importing these
+  // needs a fresh probe of the bare record URL; skip them here.
+  if (/[?&](sABC|amsparams|listenerid|aw_0_|userConsent|rj-tok|rj-ttl|skey|cb|mode)=/i.test(streamUrl)) {
+    skipped.volatileUrl = (skipped.volatileUrl ?? 0) + 1;
+    continue;
+  }
   const streamKey = normalizeStreamUrl(streamUrl);
   if (existingStreamUrls.has(streamKey)) { skipped.existingStreamUrl++; continue; }
   if (seenImportStreamUrls.has(streamKey)) { skipped.intraStreamUrl++; continue; }
