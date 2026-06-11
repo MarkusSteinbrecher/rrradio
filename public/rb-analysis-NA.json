@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-10T19:18:04.983Z",
+  "generatedAt": "2026-06-11T09:05:43.788Z",
   "country": "NA",
   "rawSnapshotAt": "2026-05-19T07:50:57.359Z",
   "total": 17,
@@ -8,7 +8,7 @@
   "curated": 11,
   "byVerdict": {
     "ok": 13,
-    "broken-mixed": 1,
+    "broken-timeout": 1,
     "broken-tls": 2,
     "ok-hls": 1
   },
@@ -29,7 +29,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge.iono.fm/xice/185_medium.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:17:43.755Z"
+      "probedAt": "2026-06-11T09:05:02.013Z"
     },
     {
       "stationuuid": "03847740-0f06-4e20-93aa-eaf509f5853f",
@@ -46,7 +46,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge.iono.fm/xice/194_medium.aac",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:17:43.755Z"
+      "probedAt": "2026-06-11T09:05:02.013Z"
     },
     {
       "stationuuid": "1befb879-5c9c-454d-ac99-95710bd739ca",
@@ -65,7 +65,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s37.derstream.net/hitradio-namibia.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:17:43.782Z"
+      "probedAt": "2026-06-11T09:05:02.013Z"
     },
     {
       "stationuuid": "1c0b3932-396e-4775-989d-68bf058799f6",
@@ -83,7 +83,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://edge.iono.fm/xhls/194_high.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:17:43.755Z"
+      "probedAt": "2026-06-11T09:05:02.013Z"
     },
     {
       "stationuuid": "274dff6e-7019-4dc4-8b19-ec93c6b8140d",
@@ -101,7 +101,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge.iono.fm/xice/88_high.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:17:43.755Z"
+      "probedAt": "2026-06-11T09:05:02.012Z"
     },
     {
       "stationuuid": "290f4561-51d6-4a98-a4ea-73eb230f8e1d",
@@ -120,7 +120,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://music-station.live/radio/8010/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:17:43.782Z"
+      "probedAt": "2026-06-11T09:05:02.042Z"
     },
     {
       "stationuuid": "2c820fbf-11fb-4f83-b8fc-51460cb641c5",
@@ -138,7 +138,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.radio.co/se53fee01d/listen",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:17:43.782Z"
+      "probedAt": "2026-06-11T09:05:02.042Z"
     },
     {
       "stationuuid": "33cfcc17-0b51-432e-9abd-f219839f3505",
@@ -152,11 +152,11 @@
       "votes": 603,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-timeout",
+      "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: s2.stationplaylist.com:7154, timeout: 10000ms)",
       "finalUrl": "http://s2.stationplaylist.com:7154/listen.aac",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:18:04.963Z"
+      "probedAt": "2026-06-11T09:05:43.782Z"
     },
     {
       "stationuuid": "3b1d077c-c2e9-468b-948f-fb6370cccace",
@@ -175,7 +175,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:17:43.782Z"
+      "probedAt": "2026-06-11T09:05:02.042Z"
     },
     {
       "stationuuid": "4bd56283-27d1-4940-a307-bf63fb9e7e41",
@@ -193,7 +193,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge.iono.fm/xice/192_medium.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:17:43.755Z"
+      "probedAt": "2026-06-11T09:05:02.013Z"
     },
     {
       "stationuuid": "92f0807a-d803-4451-96f1-93032a08baec",
@@ -212,7 +212,7 @@
       "verdictReason": "TypeError: fetch failed — Error: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca",
       "finalUrl": "https://s2.stationplaylist.com:7094/listen.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:17:44.420Z"
+      "probedAt": "2026-06-11T09:05:02.013Z"
     },
     {
       "stationuuid": "bbc48977-51fd-46cd-8726-f010d4b2c898",
@@ -231,7 +231,7 @@
       "verdictReason": "TypeError: fetch failed — Error: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca",
       "finalUrl": "https://s2.stationplaylist.com:7094/listen.aac",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:17:45.102Z"
+      "probedAt": "2026-06-11T09:05:02.013Z"
     },
     {
       "stationuuid": "bf97435c-1b44-45dc-9806-d072f80936c4",
@@ -250,7 +250,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://zas3.ndx.co.za:8040/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:17:43.782Z"
+      "probedAt": "2026-06-11T09:05:02.013Z"
     },
     {
       "stationuuid": "ca55e1e1-fe41-4a64-a876-404a604fb729",
@@ -268,7 +268,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge.iono.fm/xice/194_medium.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:17:43.755Z"
+      "probedAt": "2026-06-11T09:05:02.013Z"
     },
     {
       "stationuuid": "e62add1d-bafb-4518-9dff-98af68e547c9",
@@ -286,7 +286,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge.iono.fm/xice/194_medium.aac",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:17:43.755Z"
+      "probedAt": "2026-06-11T09:05:02.013Z"
     },
     {
       "stationuuid": "f1b2c556-6606-4526-819b-40cd5afd9c89",
@@ -305,7 +305,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://zas3.ndx.co.za:8040/stream?1702480638726",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:17:43.782Z"
+      "probedAt": "2026-06-11T09:05:02.013Z"
     },
     {
       "stationuuid": "ff300f11-31f8-4b26-963b-13cffd77d7f0",
@@ -323,7 +323,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://edge.iono.fm/xice/193_high.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:17:43.755Z"
+      "probedAt": "2026-06-11T09:05:02.013Z"
     }
   ]
 }

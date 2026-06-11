@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-10T18:20:25.461Z",
+  "generatedAt": "2026-06-11T08:05:42.171Z",
   "country": "BY",
   "rawSnapshotAt": "2026-05-19T07:49:55.275Z",
   "total": 94,
@@ -7,13 +7,14 @@
   "broken": 47,
   "curated": 29,
   "byVerdict": {
-    "broken-mixed": 18,
-    "broken-timeout": 19,
+    "broken-timeout": 27,
     "ok": 41,
+    "broken-mixed": 7,
     "broken-5xx": 7,
+    "broken-4xx": 3,
     "probe-skipped": 6,
     "broken-dns": 1,
-    "broken-4xx": 2
+    "broken-refused": 2
   },
   "stations": [
     {
@@ -31,7 +32,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://solovievfm.hostingradio.ru/solovievfm128.aacp",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:42.289Z"
+      "probedAt": "2026-06-11T08:04:35.422Z"
     },
     {
       "stationuuid": "07cd1edb-fd03-408d-8540-26d1ee1c1da4",
@@ -49,7 +50,7 @@
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-timeout (TypeError: fetch failed — ConnectTimeoutError: Connect Timeout E",
       "finalUrl": "https://stream.unistar.by/unistar_main_internal/unistar_main/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:20:25.438Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "0b25eaf4-8cca-4b09-9f35-5b883cb8fac7",
@@ -67,7 +68,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: radio.mil.by:443, timeout: 10000ms)",
       "finalUrl": "https://radio.mil.by/live",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:23.512Z"
+      "probedAt": "2026-06-11T08:04:35.422Z"
     },
     {
       "stationuuid": "0cd29540-0bf9-45c5-a049-b0c9e8d0dd1b",
@@ -85,7 +86,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream2.datacenter.by/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:43.771Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "0dfcd823-d005-422b-8a58-f589c1530a2c",
@@ -102,7 +103,7 @@
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-timeout (TypeError: fetch failed — ConnectTimeoutError: Connect Timeout E",
       "finalUrl": "https://live.novoeradio.by:444/live/narodnoeradio_aac128/icecast.audio",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:20:25.438Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "1b657a1f-52b2-47f8-a99f-99ad7a7a9a5a",
@@ -120,7 +121,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream2.datacenter.by/mvradio",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:43.771Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "1e9b6159-e500-49a9-9054-9aad3a5f6023",
@@ -139,7 +140,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mk.by:8443/radiominsk",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:42.289Z"
+      "probedAt": "2026-06-11T08:04:35.422Z"
     },
     {
       "stationuuid": "2161c4eb-2d8d-42b0-a480-40b076593332",
@@ -158,7 +159,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: sv.netradio.by:443, timeout: 10000ms)",
       "finalUrl": "https://sv.netradio.by/1/128",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:03.979Z"
+      "probedAt": "2026-06-11T08:04:35.424Z"
     },
     {
       "stationuuid": "2166cd91-641f-47b8-a492-1888452e699b",
@@ -172,11 +173,11 @@
       "votes": 61,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-timeout",
+      "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: 178.172.150.248:2530, timeout: 10000ms)",
       "finalUrl": "http://178.172.150.248:2530/",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:24.514Z"
+      "probedAt": "2026-06-11T08:05:37.185Z"
     },
     {
       "stationuuid": "2221668c-ffb7-4982-be00-e990702e21b2",
@@ -194,7 +195,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream2.datacenter.by/vtvby",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:43.448Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "2626d81c-6a22-416b-bfdc-ca9391065fd0",
@@ -213,7 +214,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: server.radiorm.by:8443, timeout: 10000ms)",
       "finalUrl": "https://server.radiorm.by:8443/live",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:02.982Z"
+      "probedAt": "2026-06-11T08:04:35.422Z"
     },
     {
       "stationuuid": "26ea712c-961b-4208-8f94-53257ddc34c7",
@@ -231,7 +232,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://stream.sb.by/alpha",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:42.291Z"
+      "probedAt": "2026-06-11T08:04:35.423Z"
     },
     {
       "stationuuid": "270d50a7-cb2b-42df-8967-05ff4756a54c",
@@ -249,7 +250,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: live.novoeradio.by:444, timeout: 10000ms)",
       "finalUrl": "https://live.novoeradio.by:444/live/novoeradio_fresh_aac128/icecast.audio",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:20:25.438Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "272054f7-6f76-4886-a399-de1b7bef46c4",
@@ -267,7 +268,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream2.datacenter.by/GorodFM",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:42.261Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "277f136f-8e41-490b-a39a-dce052f7a273",
@@ -285,7 +286,7 @@
       "verdictReason": "HTTP 502",
       "finalUrl": "https://stream2.datacenter.by/1kanal",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:44.108Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "29194119-d4b9-4657-a5ba-f591871dd12c",
@@ -304,7 +305,7 @@
       "verdictReason": "HTTP 502",
       "finalUrl": "https://stream2.datacenter.by/1kanal",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:45.093Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "29620844-d3b6-48bf-8a61-02554c6cb5d1",
@@ -323,7 +324,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rt.radioslovo.net:4135/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:43.454Z"
+      "probedAt": "2026-06-11T08:04:35.424Z"
     },
     {
       "stationuuid": "2bdea757-76f2-4b64-ba58-85b6dce4bcc0",
@@ -339,10 +340,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://de1.internet-radio.com:8173/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:43.456Z"
+      "probedAt": "2026-06-11T08:04:37.586Z"
     },
     {
       "stationuuid": "2e615083-60c6-4a5b-8074-92e85f542a09",
@@ -361,7 +362,7 @@
       "verdictReason": "HTTP 404",
       "finalUrl": "https://stream2.datacenter.by/energy",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:44.441Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "2ea5fe71-61b9-42f7-8e05-0c4c43a156bf",
@@ -379,7 +380,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream02.pcradio.biz/roks_minsk-hi",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:42.289Z"
+      "probedAt": "2026-06-11T08:04:35.422Z"
     },
     {
       "stationuuid": "2f192e8a-c8d6-45b8-a9f3-444af84275e7",
@@ -393,11 +394,11 @@
       "votes": 148,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-timeout",
+      "verdictReason": "host unreachable earlier in this run (memoized broken-timeout)",
       "finalUrl": "http://live.legendy.by:8000/legendyfm",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:23.816Z"
+      "probedAt": "2026-06-11T08:05:37.488Z"
     },
     {
       "stationuuid": "3227ccaf-ac72-4fa1-bbae-57448f1aaaca",
@@ -415,7 +416,7 @@
       "verdictReason": "audio/aacp (https variant on default port from http://)",
       "finalUrl": "https://air.racyja.com/racja320",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:03.592Z"
+      "probedAt": "2026-06-11T08:04:35.422Z"
     },
     {
       "stationuuid": "32e6fa8a-4cf9-4c37-ac83-40fe30faf188",
@@ -434,7 +435,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream2.datacenter.by/dushevnoe",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:43.771Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "3676db62-4923-44d2-80c3-9e7e423cec6d",
@@ -453,7 +454,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://stream2.datacenter.by/zefirfm",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:45.776Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "3937d9d4-4ee8-444b-bdb6-fbf64c7324f8",
@@ -471,7 +472,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade after redirect to http://)",
       "finalUrl": "https://media2.datacenter.by:8002/radiusfm_main",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:43.771Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "398e4c78-3696-41ec-9790-98c9ceed3715",
@@ -490,7 +491,7 @@
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-timeout (TypeError: fetch failed — ConnectTimeoutError: Connect Timeout E",
       "finalUrl": "https://stream.unistar.by/unistar_rap_internal/unistar_rap/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:20:25.438Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "3bb5369c-dd9f-4894-a58e-52f483636676",
@@ -509,7 +510,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: stream.unistar.by:443, timeout: 10000ms)",
       "finalUrl": "https://stream.unistar.by/unistar_top_internal/unistar_top/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:02.973Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "3ffbafe2-30e2-4f74-879e-0ebf57b83cb0",
@@ -528,7 +529,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: stream.unistar.by:443, timeout: 10000ms)",
       "finalUrl": "https://stream.unistar.by/unistar_rock_internal/unistar_rock/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:44.054Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "43975003-814c-422d-8d40-58b879a41827",
@@ -543,11 +544,11 @@
       "votes": 870,
       "clickcount": 7,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 404",
       "finalUrl": "http://185.33.21.112/trance_64a",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:43.113Z"
+      "probedAt": "2026-06-11T08:04:40.643Z"
     },
     {
       "stationuuid": "448b4cb5-cead-4a0d-96c6-e9cb816c3213",
@@ -565,7 +566,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream2.datacenter.by/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:45.776Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "47f95974-5c1a-4db2-b3bc-b132bf189b1a",
@@ -583,7 +584,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://solovievfm.hostingradio.ru/solovievfm128.aacp",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:42.289Z"
+      "probedAt": "2026-06-11T08:04:35.422Z"
     },
     {
       "stationuuid": "4d135b21-0794-4a65-8906-a92d936a74e0",
@@ -601,7 +602,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://radio.100fm.by:8000/100fm128",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:43.456Z"
+      "probedAt": "2026-06-11T08:04:35.424Z"
     },
     {
       "stationuuid": "4e0531c9-6c95-4606-ba46-13e661551042",
@@ -620,7 +621,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream2.datacenter.by/gomelfm",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:45.776Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "4fc00115-e4af-4cd3-9efa-a4bf2366b357",
@@ -638,7 +639,7 @@
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-timeout (TypeError: fetch failed — ConnectTimeoutError: Connect Timeout E",
       "finalUrl": "https://live.novoeradio.by:444/live/novoeradio_aac128/icecast.audio",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:20:25.438Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "51092631-e960-477e-8559-c283f73c6105",
@@ -656,7 +657,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://icecast.lider-fm.by/liderfm",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:42.290Z"
+      "probedAt": "2026-06-11T08:04:35.423Z"
     },
     {
       "stationuuid": "5a030ffd-03a7-11ea-bbf2-52543be04c81",
@@ -670,11 +671,11 @@
       "votes": 4783,
       "clickcount": 7,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-timeout",
+      "verdictReason": "host unreachable earlier in this run (memoized broken-timeout)",
       "finalUrl": "http://live.humorfm.by:8000/veseloe",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:23.815Z"
+      "probedAt": "2026-06-11T08:05:37.488Z"
     },
     {
       "stationuuid": "5c2703d9-2b15-40c9-8805-ff0dd5ddb598",
@@ -693,7 +694,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice-the.musicradio.com/CapitalXTRANationalMP3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:43.453Z"
+      "probedAt": "2026-06-11T08:04:35.424Z"
     },
     {
       "stationuuid": "5c94cfe2-4621-4656-a7f9-f7293e0d896b",
@@ -711,7 +712,7 @@
       "verdictReason": "HTTP 502",
       "finalUrl": "https://stream2.datacenter.by/kultura",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:43.448Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "5ce6fe8c-29c1-4840-9674-22e1428fda22",
@@ -730,7 +731,7 @@
       "verdictReason": "HTTP 502",
       "finalUrl": "https://stream2.datacenter.by/1kanal",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:42.721Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "5ff83c06-aa51-4ef6-9a05-ab6bfa1b086b",
@@ -745,10 +746,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://eu3.fastcast4u.com:5026/;",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:43.453Z"
+      "probedAt": "2026-06-11T08:04:37.567Z"
     },
     {
       "stationuuid": "663af3ed-508f-483a-9a1e-c41ac9177873",
@@ -766,7 +767,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: live.novoeradio.by:444, timeout: 10000ms)",
       "finalUrl": "https://live.novoeradio.by:444/live/novoeradio_TOP100_aac128/icecast.audio",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:23.514Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "67620e5c-fef7-481c-91a7-abea21ad68bc",
@@ -780,11 +781,11 @@
       "votes": 300,
       "clickcount": 3,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-refused",
+      "verdictReason": "TypeError: fetch failed — Error: connect ECONNREFUSED 178.124.131.35:8008",
       "finalUrl": "http://stream2.datacenter.by:8008/belarus",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:43.454Z"
+      "probedAt": "2026-06-11T08:04:37.505Z"
     },
     {
       "stationuuid": "68393ad4-67c9-470d-872e-c4191f495011",
@@ -803,7 +804,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mk.by:8443/radiominsk",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:42.289Z"
+      "probedAt": "2026-06-11T08:04:35.422Z"
     },
     {
       "stationuuid": "6973a0cb-0d2e-4329-abb5-92c153907504",
@@ -822,7 +823,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade after redirect to http://)",
       "finalUrl": "https://media2.datacenter.by:8002/radiusfm_main",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:42.261Z"
+      "probedAt": "2026-06-11T08:04:35.394Z"
     },
     {
       "stationuuid": "6ad3f6e9-eac9-11e9-a96c-52543be04c81",
@@ -837,11 +838,11 @@
       "votes": 8256,
       "clickcount": 16,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-timeout",
+      "verdictReason": "host unreachable earlier in this run (memoized broken-timeout)",
       "finalUrl": "http://live.humorfm.by:8000/radiorelax",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:23.664Z"
+      "probedAt": "2026-06-11T08:05:37.338Z"
     },
     {
       "stationuuid": "6d719810-0ec9-4d6d-a2d8-fd5698b9de89",
@@ -856,11 +857,11 @@
       "votes": 434,
       "clickcount": 10,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-timeout",
+      "verdictReason": "host unreachable earlier in this run (memoized broken-timeout)",
       "finalUrl": "http://live.legendy.by:8000/legendyfm",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:23.664Z"
+      "probedAt": "2026-06-11T08:05:37.338Z"
     },
     {
       "stationuuid": "6f389330-a45d-489e-bebc-46e31420c308",
@@ -878,7 +879,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: live.novoeradio.by:444, timeout: 10000ms)",
       "finalUrl": "https://live.novoeradio.by:444/live/novoeradio_megamix_aac128/icecast.audio",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:20:04.750Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "7141294e-1831-437b-b81a-b8b93caeebdc",
@@ -896,7 +897,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.105fm.by/radio.105.0mfm",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:42.291Z"
+      "probedAt": "2026-06-11T08:04:35.423Z"
     },
     {
       "stationuuid": "7375b2fc-ecf1-4104-a048-c3e970996fde",
@@ -915,7 +916,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream2.datacenter.by/mvradio",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:45.776Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "79949870-7516-43fb-ae7c-f6d06993ea03",
@@ -929,11 +930,11 @@
       "votes": 426,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-refused",
+      "verdictReason": "TypeError: fetch failed — Error: connect ECONNREFUSED 178.124.131.35:8009",
       "finalUrl": "http://stream2.datacenter.by:8009/belarusfm",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:43.446Z"
+      "probedAt": "2026-06-11T08:04:37.505Z"
     },
     {
       "stationuuid": "7b727f07-45d4-4702-b72b-426005f3235c",
@@ -951,7 +952,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: live.novoeradio.by:444, timeout: 10000ms)",
       "finalUrl": "https://live.novoeradio.by:444/live/narodnoeradio_aac128/icecast.audio",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:44.052Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "7cea7750-bd7a-4453-a002-2b3a558951c0",
@@ -969,7 +970,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: air.sammit.tv:8443, timeout: 10000ms)",
       "finalUrl": "https://air.sammit.tv:8443/retro",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:03.979Z"
+      "probedAt": "2026-06-11T08:04:35.424Z"
     },
     {
       "stationuuid": "7d82e5d7-6228-4885-8f56-1d0284534974",
@@ -987,7 +988,7 @@
       "verdictReason": "HTTP 502",
       "finalUrl": "https://stream2.datacenter.by/pilotfm",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:45.776Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "7f782637-2ae4-4f7c-b235-90520a7649f1",
@@ -1000,10 +1001,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/ogg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://178.172.235.5:8001/10",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:24.514Z"
+      "probedAt": "2026-06-11T08:05:16.934Z"
     },
     {
       "stationuuid": "82007efb-5709-40b6-86c4-4576ca732799",
@@ -1022,7 +1023,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream2.datacenter.by/dushevnoe",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:43.448Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "825a4c88-6802-4664-93f6-951e9a569ca3",
@@ -1041,7 +1042,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: stream.unistar.by:443, timeout: 10000ms)",
       "finalUrl": "https://stream.unistar.by/unistar_best_internal/unistar_best/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:23.512Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "82e3af82-7e7e-4009-846b-e3aea9124315",
@@ -1059,7 +1060,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://shoutcast.aplus.fm/aplus_rock_256",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:43.456Z"
+      "probedAt": "2026-06-11T08:04:35.424Z"
     },
     {
       "stationuuid": "86772334-ce09-4d7c-90c2-7a3b3cd59d86",
@@ -1077,7 +1078,7 @@
       "verdictReason": "HTTP 404",
       "finalUrl": "https://stream2.datacenter.by/energy",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:45.441Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "88982b08-115b-47dc-8734-4d52386be75b",
@@ -1096,7 +1097,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://strw3.openstream.co/344?aw_0_1st.collectionid%3D7411%26stationId%3D7411%26publisherId%3D164%26k%3D1769798199",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:43.454Z"
+      "probedAt": "2026-06-11T08:04:35.424Z"
     },
     {
       "stationuuid": "8bb9fee9-3b32-465b-aeab-a9dc32cc3d0c",
@@ -1115,7 +1116,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:43.446Z"
+      "probedAt": "2026-06-11T08:04:35.424Z"
     },
     {
       "stationuuid": "8ee49294-2360-4859-8154-4e98435f2e47",
@@ -1134,7 +1135,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: radio.mil.by:443, timeout: 10000ms)",
       "finalUrl": "https://radio.mil.by/live",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:02.979Z"
+      "probedAt": "2026-06-11T08:04:35.422Z"
     },
     {
       "stationuuid": "96195abc-0601-11e8-ae97-52543be04c81",
@@ -1152,7 +1153,7 @@
       "verdictReason": "audio/aacp (https variant on default port from http://)",
       "finalUrl": "https://air.racyja.com/racja128",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:03.232Z"
+      "probedAt": "2026-06-11T08:04:35.422Z"
     },
     {
       "stationuuid": "961ac73d-771d-47bd-b3d1-413d69a2b892",
@@ -1167,10 +1168,10 @@
       "clickcount": 5,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://178.124.131.35:8012/trkbrest",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:03.110Z"
+      "probedAt": "2026-06-11T08:04:56.403Z"
     },
     {
       "stationuuid": "96287a7a-0601-11e8-ae97-52543be04c81",
@@ -1188,7 +1189,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen1.myradio24.com/3355",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:42.289Z"
+      "probedAt": "2026-06-11T08:04:35.422Z"
     },
     {
       "stationuuid": "962b35ca-0601-11e8-ae97-52543be04c81",
@@ -1203,11 +1204,11 @@
       "votes": 31976,
       "clickcount": 96,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-timeout",
+      "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted addresses: 134.17.94.177:8000, 93.84.112.118:8000, timeout: 10000ms)",
       "finalUrl": "http://live.humorfm.by:8000/veseloeradio",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:23.512Z"
+      "probedAt": "2026-06-11T08:05:37.185Z"
     },
     {
       "stationuuid": "962df7f6-0601-11e8-ae97-52543be04c81",
@@ -1223,10 +1224,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream1.euroradio.fm:8000/euroradio1",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:43.318Z"
+      "probedAt": "2026-06-11T08:04:37.385Z"
     },
     {
       "stationuuid": "962e0fbe-0601-11e8-ae97-52543be04c81",
@@ -1241,10 +1242,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream1.euroradio.fm:8000/euroradio1?seed=1493710910",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:43.469Z"
+      "probedAt": "2026-06-11T08:04:37.613Z"
     },
     {
       "stationuuid": "9630a026-0601-11e8-ae97-52543be04c81",
@@ -1258,11 +1259,11 @@
       "votes": 1246,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-timeout",
+      "verdictReason": "AbortError: This operation was aborted",
       "finalUrl": "http://178.124.152.212:8008/Zefir",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:23.512Z"
+      "probedAt": "2026-06-11T08:05:42.158Z"
     },
     {
       "stationuuid": "98bc58b5-03ff-4f44-b4fc-5b276a0e43a2",
@@ -1280,7 +1281,7 @@
       "verdictReason": "HTTP 502",
       "finalUrl": "https://stream2.datacenter.by/pilotfm",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:44.758Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "9aede2c7-8407-492a-a4eb-dc74a96b7db7",
@@ -1298,7 +1299,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.vaticannews.va/stream-be",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:42.290Z"
+      "probedAt": "2026-06-11T08:04:35.423Z"
     },
     {
       "stationuuid": "9bf017f8-2377-4255-9987-9ec497ff8f9a",
@@ -1315,7 +1316,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://pub0202.101.ru:8443/stream/pro/aac/64/144",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:42.291Z"
+      "probedAt": "2026-06-11T08:04:35.423Z"
     },
     {
       "stationuuid": "9ebf344d-3885-49fa-8b1e-29f5367fda0f",
@@ -1333,7 +1334,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://radiorecord.hostingradio.ru/sd9096.aacp",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:42.289Z"
+      "probedAt": "2026-06-11T08:04:35.422Z"
     },
     {
       "stationuuid": "a137fa24-e3cc-4762-a610-6867496d709d",
@@ -1352,7 +1353,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ep128.hostingradio.ru:8030/ep128",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:43.456Z"
+      "probedAt": "2026-06-11T08:04:35.424Z"
     },
     {
       "stationuuid": "a4dbc173-c863-462a-9707-d28b3dfae714",
@@ -1367,10 +1368,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://107.173.210.247:9000/aplus_beat_128",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:04.332Z"
+      "probedAt": "2026-06-11T08:04:56.820Z"
     },
     {
       "stationuuid": "a853f228-0e27-4461-8657-5b10f2fd79d7",
@@ -1387,7 +1388,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: live.novoeradio.by:444, timeout: 10000ms)",
       "finalUrl": "https://live.novoeradio.by:444/live/novoeradio_aac128/icecast.audio",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:02.978Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "aa6dd819-8b22-4dde-9b60-4a745b514e2d",
@@ -1406,7 +1407,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: stream.unistar.by:443, timeout: 10000ms)",
       "finalUrl": "https://stream.unistar.by/unistar_main_internal/unistar_main/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:20:25.438Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "af051a97-1ba0-4e7d-aa6a-f0a679e06285",
@@ -1424,7 +1425,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rt.radioslovo.net:4145/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:42.291Z"
+      "probedAt": "2026-06-11T08:04:35.423Z"
     },
     {
       "stationuuid": "b0baaceb-ad01-496a-8b3e-a046912b044f",
@@ -1443,7 +1444,7 @@
       "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND azura.radioplato.by",
       "finalUrl": "https://azura.radioplato.by/radio/8000/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:43.085Z"
+      "probedAt": "2026-06-11T08:04:35.423Z"
     },
     {
       "stationuuid": "b6c195a2-da91-484a-85ef-751eafed4693",
@@ -1462,7 +1463,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream2.datacenter.by/tvrmogilev",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:42.261Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "b78384bb-d173-47b4-9886-2d447759afdb",
@@ -1481,7 +1482,7 @@
       "verdictReason": "audio/aac; charset=UTF-8",
       "finalUrl": "https://media2.datacenter.by/stream/stalica/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:43.454Z"
+      "probedAt": "2026-06-11T08:04:35.424Z"
     },
     {
       "stationuuid": "b8c630d5-fa3a-4abd-a78d-65314a7b0c12",
@@ -1499,7 +1500,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: server.radiorm.by:8443, timeout: 10000ms)",
       "finalUrl": "https://server.radiorm.by:8443/live",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:23.512Z"
+      "probedAt": "2026-06-11T08:04:35.422Z"
     },
     {
       "stationuuid": "c4411911-175a-482b-a61d-dd358d868cd8",
@@ -1518,7 +1519,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rt.radioslovo.net:4395/radio",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:43.454Z"
+      "probedAt": "2026-06-11T08:04:35.424Z"
     },
     {
       "stationuuid": "c482e799-0794-42f3-b740-acdbb813f19d",
@@ -1537,7 +1538,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rt.radioslovo.net:4275/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:43.453Z"
+      "probedAt": "2026-06-11T08:04:35.424Z"
     },
     {
       "stationuuid": "c7ce197d-51ac-4d32-a12a-22a22cdf4ad5",
@@ -1555,7 +1556,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: live.svoyoradio.by:8443, timeout: 10000ms)",
       "finalUrl": "https://live.svoyoradio.by:8443/svoyoradio",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:02.973Z"
+      "probedAt": "2026-06-11T08:04:35.423Z"
     },
     {
       "stationuuid": "c836f600-7c3d-4944-a530-25aa5d2f6657",
@@ -1574,7 +1575,7 @@
       "verdictReason": "HTTP 502",
       "finalUrl": "https://stream2.datacenter.by/kultura",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:43.771Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "c8888c3d-b6a8-421b-80c9-8d958efb405a",
@@ -1593,7 +1594,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: stream.unistar.by:443, timeout: 10000ms)",
       "finalUrl": "https://stream.unistar.by/unistar_fast_internal/unistar_fast/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:20:04.748Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "cc4b7c1a-b0b6-48e0-a958-edb131961fd4",
@@ -1611,7 +1612,7 @@
       "verdictReason": "audio/aac (https variant on default port from http://)",
       "finalUrl": "https://s.aplus.fm/aplus_16.aac",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:03.952Z"
+      "probedAt": "2026-06-11T08:04:35.422Z"
     },
     {
       "stationuuid": "ce90715a-3934-4b59-8529-f32c81f9a597",
@@ -1630,7 +1631,7 @@
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-timeout (TypeError: fetch failed — ConnectTimeoutError: Connect Timeout E",
       "finalUrl": "https://stream.unistar.by/unistar_covers_internal/unistar_covers/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:20:25.438Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "ceca51c5-f7dc-488b-a90d-f2a4540bf64c",
@@ -1648,7 +1649,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted addresses: 134.17.94.177:8443, 93.84.112.118:8443, timeout: 10000ms)",
       "finalUrl": "https://live.humorfm.by:8443/avtoradio",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:02.973Z"
+      "probedAt": "2026-06-11T08:04:35.423Z"
     },
     {
       "stationuuid": "e6a59f89-ef16-40a7-96fc-f1c33912677e",
@@ -1667,7 +1668,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream2.datacenter.by/trkbrest",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:18:44.441Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     },
     {
       "stationuuid": "e785d4f6-4c5d-4789-b3ee-932860569abd",
@@ -1686,7 +1687,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: stream.rusradio.by:8443, timeout: 10000ms)",
       "finalUrl": "https://stream.rusradio.by:8443/live128",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:02.975Z"
+      "probedAt": "2026-06-11T08:04:35.423Z"
     },
     {
       "stationuuid": "f340b959-781e-4d72-ba1e-ac5fa946f294",
@@ -1704,7 +1705,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream02.pcradio.biz/roks_minsk-hi",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:18:42.289Z"
+      "probedAt": "2026-06-11T08:04:35.422Z"
     },
     {
       "stationuuid": "f5bb3f02-df43-4067-b644-32feb40efb0a",
@@ -1718,11 +1719,11 @@
       "votes": 4635,
       "clickcount": 23,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-timeout",
+      "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: live.legendy.by:8000, timeout: 10000ms)",
       "finalUrl": "http://live.legendy.by:8000/legendyfm",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:19:23.512Z"
+      "probedAt": "2026-06-11T08:05:37.185Z"
     },
     {
       "stationuuid": "fbcb201c-2a71-4820-b570-613104ee91d8",
@@ -1741,7 +1742,7 @@
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-timeout (TypeError: fetch failed — ConnectTimeoutError: Connect Timeout E",
       "finalUrl": "https://stream.unistar.by/unistar_office_internal/unistar_office/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:20:25.438Z"
+      "probedAt": "2026-06-11T08:04:35.395Z"
     }
   ]
 }

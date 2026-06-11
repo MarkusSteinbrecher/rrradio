@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-10T18:31:35.260Z",
+  "generatedAt": "2026-06-11T08:17:01.463Z",
   "country": "CY",
   "rawSnapshotAt": "2026-05-19T07:50:05.416Z",
   "total": 52,
@@ -7,8 +7,9 @@
   "broken": 20,
   "curated": 30,
   "byVerdict": {
-    "broken-mixed": 16,
+    "broken-mixed": 13,
     "ok": 30,
+    "broken-format": 3,
     "broken-tls": 4,
     "ok-hls": 2
   },
@@ -26,10 +27,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://eco.onestreaming.com:8310/;",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:54.480Z"
+      "probedAt": "2026-06-11T08:16:21.691Z"
     },
     {
       "stationuuid": "0976c27f-bc69-4375-a885-ff721add7dc7",
@@ -48,7 +49,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s9.webradio-hosting.com/proxy/mix4me/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.019Z"
+      "probedAt": "2026-06-11T08:16:20.042Z"
     },
     {
       "stationuuid": "0ad4597d-1830-4062-a6a9-7a7d4636dec6",
@@ -66,7 +67,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live3.istoikona.net/proxy/cooleradio/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.018Z"
+      "probedAt": "2026-06-11T08:16:20.008Z"
     },
     {
       "stationuuid": "0b42d20d-3351-4005-82bb-21a0de5b1233",
@@ -84,7 +85,7 @@
       "verdictReason": "TypeError: fetch failed — Error: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca",
       "finalUrl": "https://cdn.istoikona.com/ccnradio/ccnradio/icecast.audio",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.254Z"
+      "probedAt": "2026-06-11T08:16:20.008Z"
     },
     {
       "stationuuid": "1064b224-2700-4d55-979f-b1a570211289",
@@ -102,7 +103,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live3.istoikona.net/proxy/radiotoa/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.018Z"
+      "probedAt": "2026-06-11T08:16:20.008Z"
     },
     {
       "stationuuid": "22ee0638-4a0b-4f08-96e3-54e6451a8b97",
@@ -120,7 +121,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade after redirect to http://)",
       "finalUrl": "https://n0a.radiojar.com/mg7kftnzka3vv?rj-ttl=5&rj-tok=AAABnj_kMvkAd2-ZAIaIMK_02w",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.022Z"
+      "probedAt": "2026-06-11T08:16:20.045Z"
     },
     {
       "stationuuid": "32b7a6bb-40f4-4166-a7d8-73c6ea4ab8dc",
@@ -136,10 +137,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/vnd.apple.mpegurl) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://eradio.networksolutions.com.cy:1935/SportFM/SportFM.stream/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:54.480Z"
+      "probedAt": "2026-06-11T08:16:20.618Z"
     },
     {
       "stationuuid": "33cdfba0-cc12-4a39-ae71-1127e6bf9600",
@@ -157,7 +158,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.zuccaradio.com/stream?",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:54.775Z"
+      "probedAt": "2026-06-11T08:16:20.045Z"
     },
     {
       "stationuuid": "3ee0ecc7-4be2-4ee9-b356-61d98b40d933",
@@ -173,10 +174,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/vnd.apple.mpegurl) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://eradio.networksolutions.com.cy:1935/LoveRadio/Loveradio.stream/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:54.654Z"
+      "probedAt": "2026-06-11T08:16:20.870Z"
     },
     {
       "stationuuid": "46927910-5bd1-4142-aac9-73e12942e9d3",
@@ -195,7 +196,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://r1.cloudskep.com/radio3/supersportfm/icecast.audio",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:53.992Z"
+      "probedAt": "2026-06-11T08:16:20.008Z"
     },
     {
       "stationuuid": "4ca94892-4423-4e82-80c9-e9170f6f582d",
@@ -210,10 +211,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://91.200.41.23:8000/192.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:54.336Z"
+      "probedAt": "2026-06-11T08:16:20.616Z"
     },
     {
       "stationuuid": "52bde6b1-1737-11e8-ae97-52543be04c81",
@@ -232,7 +233,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://r1.cloudskep.com/cybcr/cybc1/icecast.audio",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:53.992Z"
+      "probedAt": "2026-06-11T08:16:20.008Z"
     },
     {
       "stationuuid": "53ad2fb8-e9b9-4bdf-a065-4e90b53dcb25",
@@ -248,10 +249,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://radio.cloudcy.org:8000/rock",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:14.866Z"
+      "probedAt": "2026-06-11T08:16:41.172Z"
     },
     {
       "stationuuid": "53cfef35-635f-4c9d-a125-8f627981628e",
@@ -270,7 +271,7 @@
       "verdictReason": "TypeError: fetch failed — Error: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca",
       "finalUrl": "https://cdn.istoikona.com/politis/live/icecast.audio",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.670Z"
+      "probedAt": "2026-06-11T08:16:20.008Z"
     },
     {
       "stationuuid": "552fde98-3aab-4433-b48b-69725b0fcbf9",
@@ -289,7 +290,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://strm.mixlive.eu/mixfm/index.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.022Z"
+      "probedAt": "2026-06-11T08:16:20.045Z"
     },
     {
       "stationuuid": "57e9fe17-be3c-4911-aa7e-a302e056b119",
@@ -308,7 +309,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live3.istoikona.net:9836/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.022Z"
+      "probedAt": "2026-06-11T08:16:20.044Z"
     },
     {
       "stationuuid": "59e8078b-2da3-11e8-91bf-52543be04c81",
@@ -325,7 +326,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://sportfm-cyprus.live24.gr/sportfm-cyprus",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.021Z"
+      "probedAt": "2026-06-11T08:16:20.044Z"
     },
     {
       "stationuuid": "5c8ec37e-f584-4af2-93d7-d942ae6bf41c",
@@ -344,7 +345,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://securestreams3.autopo.st:1417/89FM",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.018Z"
+      "probedAt": "2026-06-11T08:16:20.008Z"
     },
     {
       "stationuuid": "5de82a19-5894-498e-935b-4c02cd826aa0",
@@ -363,7 +364,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live.vblcast.com/proxy/russianradio/stream/",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:54.019Z"
+      "probedAt": "2026-06-11T08:16:20.042Z"
     },
     {
       "stationuuid": "5f9e8bee-c061-47d8-9fd7-9bb2dcf99c2f",
@@ -382,7 +383,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s9.webradio-hosting.com/proxy/mix4me/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:54.019Z"
+      "probedAt": "2026-06-11T08:16:20.042Z"
     },
     {
       "stationuuid": "670526e2-4e5c-4900-a866-fcba98540310",
@@ -401,7 +402,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live.vblcast.com/proxy/russianradio/stream/",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.019Z"
+      "probedAt": "2026-06-11T08:16:20.042Z"
     },
     {
       "stationuuid": "6c543391-af11-46b2-a169-f59bf37df92a",
@@ -420,7 +421,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://r1.cloudskep.com/radio3/supersportfm/icecast.audio",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:53.992Z"
+      "probedAt": "2026-06-11T08:16:20.008Z"
     },
     {
       "stationuuid": "7065ab06-412a-4bbd-96fa-4ef502a70eb5",
@@ -436,10 +437,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://93.109.209.123:9080/stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:14.702Z"
+      "probedAt": "2026-06-11T08:16:41.006Z"
     },
     {
       "stationuuid": "73e9c84f-87cd-4c11-bb8d-492caa909c11",
@@ -458,7 +459,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.feelgood.fm/mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.022Z"
+      "probedAt": "2026-06-11T08:16:20.045Z"
     },
     {
       "stationuuid": "76b72808-097a-4777-91db-6641628e2c34",
@@ -477,7 +478,7 @@
       "verdictReason": "TypeError: fetch failed — Error: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca",
       "finalUrl": "https://cdn.istoikona.com/ccnrtv/live/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.463Z"
+      "probedAt": "2026-06-11T08:16:20.008Z"
     },
     {
       "stationuuid": "7758bd16-da9a-40db-9333-48a550b0801f",
@@ -496,7 +497,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://c10.radioboss.fm:18095/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.021Z"
+      "probedAt": "2026-06-11T08:16:20.044Z"
     },
     {
       "stationuuid": "77bf34c0-087b-11e8-ae97-52543be04c81",
@@ -515,7 +516,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://r1.cloudskep.com/cybcr/cybc3/icecast.audio",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:53.992Z"
+      "probedAt": "2026-06-11T08:16:20.008Z"
     },
     {
       "stationuuid": "79a6c099-452c-42f3-88c3-6cfa563a7c2b",
@@ -531,10 +532,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://194.154.128.242:9090/stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:25.217Z"
+      "probedAt": "2026-06-11T08:16:40.873Z"
     },
     {
       "stationuuid": "7a0523b9-8d11-4be9-b50a-18343bf8cc8c",
@@ -553,7 +554,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://server.streamcasthd.com:7092/;",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.022Z"
+      "probedAt": "2026-06-11T08:16:20.045Z"
     },
     {
       "stationuuid": "83f965c4-a71d-439e-949b-45621908dd8b",
@@ -572,7 +573,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live3.istoikona.net/proxy/rockfm/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.018Z"
+      "probedAt": "2026-06-11T08:16:20.008Z"
     },
     {
       "stationuuid": "8e24da89-1180-11e8-ae97-52543be04c81",
@@ -591,7 +592,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://r1.cloudskep.com/cybcr/cybc4/icecast.audio",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:53.992Z"
+      "probedAt": "2026-06-11T08:16:20.008Z"
     },
     {
       "stationuuid": "90a9493d-1735-45a4-bf6b-4d85eac05066",
@@ -610,7 +611,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live.enerjiplay.com/stream/enerji",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.019Z"
+      "probedAt": "2026-06-11T08:16:20.042Z"
     },
     {
       "stationuuid": "934bfb1c-b141-11e8-afe1-52543be04c81",
@@ -626,10 +627,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://live3.istoikona.net:8278/;",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:04.559Z"
+      "probedAt": "2026-06-11T08:16:22.012Z"
     },
     {
       "stationuuid": "963770be-0601-11e8-ae97-52543be04c81",
@@ -645,10 +646,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://live.kanali7.com:4010/;",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:15.203Z"
+      "probedAt": "2026-06-11T08:16:41.519Z"
     },
     {
       "stationuuid": "9660917f-ce43-11e8-a54a-52543be04c81",
@@ -667,7 +668,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://r1.cloudskep.com/radio/diesi/icecast.audio",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:53.992Z"
+      "probedAt": "2026-06-11T08:16:20.007Z"
     },
     {
       "stationuuid": "9699f00f-7251-4f5b-b887-e20fe4b4d048",
@@ -685,7 +686,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://securestreams3.autopo.st:1417/active",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.018Z"
+      "probedAt": "2026-06-11T08:16:20.008Z"
     },
     {
       "stationuuid": "971985c2-f082-4513-8e65-715c988a0ced",
@@ -704,7 +705,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://r1.cloudskep.com/radio/agiosdemetrios/icecast.audio",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:53.992Z"
+      "probedAt": "2026-06-11T08:16:20.008Z"
     },
     {
       "stationuuid": "9992cf45-3ec2-11e9-aa55-52543be04c81",
@@ -718,11 +719,11 @@
       "votes": 398,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://eco.onestreaming.com:8474/",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html;charset=utf-8 not audio-like",
+      "finalUrl": "http://eco.onestreaming.com:8474/index.html?sid=1",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:54.443Z"
+      "probedAt": "2026-06-11T08:16:22.646Z"
     },
     {
       "stationuuid": "9d01e20a-1739-11e8-ae97-52543be04c81",
@@ -738,10 +739,10 @@
       "clickcount": 6,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://r1.phileradio.com:8193/89FM",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:35.238Z"
+      "probedAt": "2026-06-11T08:17:01.449Z"
     },
     {
       "stationuuid": "9eba90af-2db9-4803-af1b-508656254c43",
@@ -759,7 +760,7 @@
       "verdictReason": "TypeError: fetch failed — Error: Client network socket disconnected before secure TLS connection was established",
       "finalUrl": "https://listen.radionomy.com/chilloutbreeze",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:54.564Z"
+      "probedAt": "2026-06-11T08:16:20.044Z"
     },
     {
       "stationuuid": "a217bafc-5165-46cf-9d78-142809f9efe8",
@@ -778,7 +779,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio-navagio.com/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.022Z"
+      "probedAt": "2026-06-11T08:16:20.045Z"
     },
     {
       "stationuuid": "a440e2d9-37cf-4b4e-adb3-b94e65541f60",
@@ -796,7 +797,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://securestreams3.autopo.st:1417/sfera",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.018Z"
+      "probedAt": "2026-06-11T08:16:20.008Z"
     },
     {
       "stationuuid": "b2ab79d2-1954-4cf1-944c-46fa90b9021b",
@@ -814,7 +815,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://n0c.radiojar.com/c27wx6pdh8vtv?rj-ttl=5&rj-tok=AAABnhYIdCQAQnTGs2OabZHW4Q",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.021Z"
+      "probedAt": "2026-06-11T08:16:20.044Z"
     },
     {
       "stationuuid": "b64686da-19c2-419b-8371-6d4aeb3b5e9e",
@@ -830,10 +831,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://142.132.213.6:8497/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:55.320Z"
+      "probedAt": "2026-06-11T08:16:20.574Z"
     },
     {
       "stationuuid": "bd91cfa2-0e05-40a4-b77e-cc7c3b86d946",
@@ -846,11 +847,11 @@
       "votes": 713,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://95.217.120.122/",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html;charset=utf-8 not audio-like",
+      "finalUrl": "http://95.217.120.122/index.html?sid=1",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:54.336Z"
+      "probedAt": "2026-06-11T08:16:21.413Z"
     },
     {
       "stationuuid": "be20711a-1e45-11e9-a80b-52543be04c81",
@@ -869,7 +870,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://l3.cloudskep.com/cybcsat/abr/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.021Z"
+      "probedAt": "2026-06-11T08:16:20.044Z"
     },
     {
       "stationuuid": "c0baf79e-2da3-11e8-91bf-52543be04c81",
@@ -882,11 +883,11 @@
       "votes": 695,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://eco.onestreaming.com:8175/",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html;charset=utf-8 not audio-like",
+      "finalUrl": "http://eco.onestreaming.com:8175/index.html?sid=1",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:54.480Z"
+      "probedAt": "2026-06-11T08:16:22.645Z"
     },
     {
       "stationuuid": "caeab5d2-73f4-4a20-a092-c8146508e67c",
@@ -901,10 +902,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://142.132.213.6:8497/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:55.471Z"
+      "probedAt": "2026-06-11T08:16:20.900Z"
     },
     {
       "stationuuid": "cb992f71-e64c-11e8-a9cc-52543be04c81",
@@ -919,10 +920,10 @@
       "clickcount": 5,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://live3.istoikona.net:8372/stream/2/Title1=Kanali",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:54.426Z"
+      "probedAt": "2026-06-11T08:16:21.633Z"
     },
     {
       "stationuuid": "ebeb167e-f696-445f-9160-43fa76f0c816",
@@ -941,7 +942,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://live.enerjiplay.com/stream/dancefm",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.019Z"
+      "probedAt": "2026-06-11T08:16:20.042Z"
     },
     {
       "stationuuid": "f755cfdd-7d89-409d-84b7-a7fa8158589d",
@@ -959,7 +960,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream1.themediasite.co.uk/8060/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:54.022Z"
+      "probedAt": "2026-06-11T08:16:20.045Z"
     },
     {
       "stationuuid": "fbf1fde9-c0dd-4e04-b6dd-fc7a93284214",
@@ -978,7 +979,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:54.022Z"
+      "probedAt": "2026-06-11T08:16:20.045Z"
     }
   ]
 }

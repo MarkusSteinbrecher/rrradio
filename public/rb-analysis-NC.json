@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-10T19:18:09.568Z",
+  "generatedAt": "2026-06-11T09:05:48.404Z",
   "country": "NC",
   "rawSnapshotAt": "2026-05-19T07:50:57.806Z",
   "total": 9,
@@ -8,7 +8,7 @@
   "curated": 3,
   "byVerdict": {
     "ok": 8,
-    "broken-mixed": 1
+    "broken-format": 1
   },
   "stations": [
     {
@@ -28,7 +28,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://webradio.lagoon.nc/rrb",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:18:07.712Z"
+      "probedAt": "2026-06-11T09:05:46.649Z"
     },
     {
       "stationuuid": "2b5a1e88-5f42-406c-9894-95f33534f05b",
@@ -47,7 +47,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://radio.nia.nc/radio/8020/lofi-hq-stream.aac?1734100301",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:18:07.686Z"
+      "probedAt": "2026-06-11T09:05:46.621Z"
     },
     {
       "stationuuid": "3deff1ed-3854-11e9-9b4e-52543be04c81",
@@ -65,7 +65,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://nouvelle-caledonie.ice.infomaniak.ch/nouvelle-caledonie-128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:18:07.686Z"
+      "probedAt": "2026-06-11T09:05:46.621Z"
     },
     {
       "stationuuid": "891621cb-4d7b-43a5-83dc-ef1e56093740",
@@ -84,7 +84,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://stream-uk1.radioparadise.com/aac-320",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:18:07.712Z"
+      "probedAt": "2026-06-11T09:05:46.649Z"
     },
     {
       "stationuuid": "ab9697c4-f1cf-48bc-b4d8-4d15ad5618fa",
@@ -102,7 +102,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://radio.nia.nc/radio/8020/lofi-hq-stream.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:18:07.685Z"
+      "probedAt": "2026-06-11T09:05:46.620Z"
     },
     {
       "stationuuid": "bf6a08f8-d7e7-41b4-9a31-7af8ade905c2",
@@ -121,7 +121,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:18:07.712Z"
+      "probedAt": "2026-06-11T09:05:46.649Z"
     },
     {
       "stationuuid": "c5b94fa4-8b6d-4aa6-b0cc-5689098a8845",
@@ -140,7 +140,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://radio.nia.nc/radio/8000/pacific-hq-stream.aac",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:18:07.686Z"
+      "probedAt": "2026-06-11T09:05:46.621Z"
     },
     {
       "stationuuid": "cfb12052-0fb9-4620-befe-d54349f49637",
@@ -159,7 +159,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://radio.nia.nc/radio/8000/pacific-hq-stream.aac?1734100041",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:18:07.686Z"
+      "probedAt": "2026-06-11T09:05:46.621Z"
     },
     {
       "stationuuid": "ebbe37af-0799-11e9-a80b-52543be04c81",
@@ -173,11 +173,11 @@
       "votes": 613,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
       "finalUrl": "http://radiodjiido.nc:8002/",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:18:09.547Z"
+      "probedAt": "2026-06-11T09:05:48.399Z"
     }
   ]
 }

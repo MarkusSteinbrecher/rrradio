@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-10T18:03:32.248Z",
+  "generatedAt": "2026-06-11T07:47:53.383Z",
   "country": "AI",
   "rawSnapshotAt": "2026-05-19T07:49:39.474Z",
   "total": 6,
@@ -8,7 +8,7 @@
   "curated": 1,
   "byVerdict": {
     "ok": 4,
-    "broken-mixed": 2
+    "broken-format": 2
   },
   "stations": [
     {
@@ -27,7 +27,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://cloud.revma.ihrhls.com/zc5873?rj-org=n1fa-e2&rj-ttl=5&rj-tok=AAABnj--f_QA2Ws6VnAjsBfomg",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:03:31.459Z"
+      "probedAt": "2026-06-11T07:47:51.745Z"
     },
     {
       "stationuuid": "8484aa78-a305-42c0-931e-7ef2e2a47406",
@@ -42,11 +42,11 @@
       "votes": 58,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://listen.digital-origin.com:8005/",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html;charset=utf-8 not audio-like",
+      "finalUrl": "http://listen.digital-origin.com:8005/index.html?sid=1",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:03:32.226Z"
+      "probedAt": "2026-06-11T07:47:53.364Z"
     },
     {
       "stationuuid": "931b8be7-000f-4e0b-a849-7ace1e24e21c",
@@ -65,7 +65,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:03:31.459Z"
+      "probedAt": "2026-06-11T07:47:51.745Z"
     },
     {
       "stationuuid": "9fbf5f6a-c968-47f2-b2b7-ce28b4dce00e",
@@ -84,7 +84,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://klassfm929.radioca.st/;",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:03:31.434Z"
+      "probedAt": "2026-06-11T07:47:51.718Z"
     },
     {
       "stationuuid": "ee86aaae-a544-4493-b906-be640632f931",
@@ -99,11 +99,11 @@
       "votes": 119,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://142.4.219.8:8181/",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html;charset=utf-8 not audio-like",
+      "finalUrl": "http://142.4.219.8:8181/index.html?sid=1",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:03:32.197Z"
+      "probedAt": "2026-06-11T07:47:53.177Z"
     },
     {
       "stationuuid": "fec3a9b2-e7c5-4c88-a436-01d5df464952",
@@ -121,7 +121,7 @@
       "verdictReason": "audio/mpeg (https variant on default port from http://)",
       "finalUrl": "https://klassfm929.radioca.st/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:03:31.433Z"
+      "probedAt": "2026-06-11T07:47:51.717Z"
     }
   ]
 }

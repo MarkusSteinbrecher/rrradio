@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-10T18:38:31.010Z",
+  "generatedAt": "2026-06-11T08:24:10.886Z",
   "country": "ER",
   "rawSnapshotAt": "2026-05-19T07:50:12.063Z",
   "total": 5,
@@ -28,7 +28,7 @@
       "verdictReason": "audio/mpeg (lenient HTTP parse — server violates HTTP/1.1, browsers play it) (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.rtlradio.de/rnb/mp3-192/",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:38:30.701Z"
+      "probedAt": "2026-06-11T08:24:09.534Z"
     },
     {
       "stationuuid": "beabc892-c09d-46f1-b9d4-2e4ac96ba3ca",
@@ -47,7 +47,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:38:30.061Z"
+      "probedAt": "2026-06-11T08:24:09.534Z"
     },
     {
       "stationuuid": "dd9900b9-2ce3-4231-a0f7-b80f95ee24d8",
@@ -66,7 +66,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://linuxfreelancer.com:8443/test.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:38:30.035Z"
+      "probedAt": "2026-06-11T08:24:09.508Z"
     },
     {
       "stationuuid": "eb6392fd-e52f-4faa-991c-ad42e1eee7f9",
@@ -82,10 +82,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://linuxfreelancer.com:8000/test.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:38:30.993Z"
+      "probedAt": "2026-06-11T08:24:10.873Z"
     },
     {
       "stationuuid": "eb9c8d79-43a1-4255-9bc9-38dc3a70daef",
@@ -103,7 +103,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://jmc-live.ercdn.net/eritreatv/eritreatv.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:38:30.061Z"
+      "probedAt": "2026-06-11T08:24:09.534Z"
     }
   ]
 }

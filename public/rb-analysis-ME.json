@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-10T19:12:09.587Z",
+  "generatedAt": "2026-06-11T09:00:08.734Z",
   "country": "ME",
   "rawSnapshotAt": "2026-05-19T07:50:48.687Z",
   "total": 52,
@@ -9,7 +9,8 @@
   "byVerdict": {
     "ok": 43,
     "broken-5xx": 2,
-    "broken-mixed": 7
+    "broken-mixed": 6,
+    "broken-refused": 1
   },
   "stations": [
     {
@@ -25,10 +26,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://136.243.134.202:8122/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:11:46.821Z"
+      "probedAt": "2026-06-11T08:59:45.639Z"
     },
     {
       "stationuuid": "049f1a33-78e6-45dc-a94d-ae5fae629408",
@@ -46,7 +47,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://malta1491.startdedicated.de:8443/main",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.541Z"
+      "probedAt": "2026-06-11T08:59:45.156Z"
     },
     {
       "stationuuid": "0854612f-a344-46a8-98d0-e42abb4a5900",
@@ -65,7 +66,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.elmag.me/el.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "0d1ae8b3-e8c5-4ec7-a8b3-7ea70bd87025",
@@ -83,7 +84,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.iradio.pro/proxy/radiokotor?mp=/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "119dc8a3-f360-47e8-8949-7d5991a79d28",
@@ -101,7 +102,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.elmag.me/love.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "138dca72-29a0-400b-ab96-749b1cafee13",
@@ -120,7 +121,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://54house.fm:9013/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:11:46.541Z"
+      "probedAt": "2026-06-11T08:59:45.156Z"
     },
     {
       "stationuuid": "163dd663-c098-4bc9-9034-db22757d08f8",
@@ -139,7 +140,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.elmag.me/cafe.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "22cc8c4c-5921-46ae-886e-8f32d26da28b",
@@ -157,7 +158,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.iradio.pro/proxy/radioberane?mp=/stream;",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "23d4cabe-0b84-49c5-a4f9-b88066421dd3",
@@ -175,7 +176,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.playradio.me:8443/balkan.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "2acebeae-2fce-43cf-8134-1fe13e81a8bd",
@@ -193,7 +194,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.playradio.me:8443/rock.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "2baf5673-911f-4d34-840c-a3872991523d",
@@ -212,7 +213,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://stream.radios.rs:9010/;",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.541Z"
+      "probedAt": "2026-06-11T08:59:45.156Z"
     },
     {
       "stationuuid": "376586fd-2f19-4d28-9c5e-b6bd4d26ccf9",
@@ -230,7 +231,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.playradio.me:8443/party.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "398f407b-3fac-441f-8b8a-96d7ef1f53be",
@@ -247,7 +248,7 @@
       "verdictReason": "audio/mpeg (lenient HTTP parse — server violates HTTP/1.1, browsers play it)",
       "finalUrl": "https://mpc2.mediacp.eu/stream/andrijevica/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:11:47.041Z"
+      "probedAt": "2026-06-11T08:59:45.157Z"
     },
     {
       "stationuuid": "39f31145-58b1-4a8c-8a4a-2188592a832f",
@@ -266,7 +267,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://player.radiobruskin.me/proxy/radiobruskin/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.541Z"
+      "probedAt": "2026-06-11T08:59:45.156Z"
     },
     {
       "stationuuid": "3a3406fe-ea7f-4cb0-a83b-cdf3b7e29c37",
@@ -284,7 +285,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiodplus.radioca.st/xstream",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.542Z"
+      "probedAt": "2026-06-11T08:59:45.157Z"
     },
     {
       "stationuuid": "3cb00022-e471-4315-8b3c-b00296d0b947",
@@ -301,7 +302,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streaming.tdiradio.com/crnagora.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.541Z"
+      "probedAt": "2026-06-11T08:59:45.156Z"
     },
     {
       "stationuuid": "4017c17b-add1-4884-bda6-dbc8841827b4",
@@ -320,7 +321,7 @@
       "verdictReason": "HTTP 502",
       "finalUrl": "https://rtcg.ipradio.rs:9102/;",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:11:46.945Z"
+      "probedAt": "2026-06-11T08:59:45.157Z"
     },
     {
       "stationuuid": "40294b7d-0e2e-4f1f-b3f4-a487f57ad5f5",
@@ -339,7 +340,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.elmag.me/poprock.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.128Z"
     },
     {
       "stationuuid": "4384a02b-3625-44df-aaae-dede1a96e4b8",
@@ -357,7 +358,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.iradio.pro/proxy/radioberane?mp=/stream;",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "4949fc63-01cd-46e1-a17d-a99fdd461c62",
@@ -375,7 +376,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.elmag.me/folkgold.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "58b3a30b-ba56-4cc1-880f-8b1657877810",
@@ -393,7 +394,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://radioservis.me:8050/radioskadar",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.541Z"
+      "probedAt": "2026-06-11T08:59:45.156Z"
     },
     {
       "stationuuid": "59f16ab6-519d-44b7-af67-4624bd3efbb6",
@@ -407,11 +408,11 @@
       "votes": 20,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-refused",
+      "verdictReason": "TypeError: fetch failed — Error: connect ECONNREFUSED 195.252.96.3:10004",
       "finalUrl": "http://rtcg1.ipradio.rs:10004/;",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:12:07.225Z"
+      "probedAt": "2026-06-11T09:00:05.848Z"
     },
     {
       "stationuuid": "5e3d64bc-662f-4034-8e2b-c6262ab18ed7",
@@ -427,10 +428,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://bokanews.me:8000/source?1734500086794",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:12:09.568Z"
+      "probedAt": "2026-06-11T09:00:08.720Z"
     },
     {
       "stationuuid": "6632cefc-115e-4f66-97bd-7b851f7d9494",
@@ -448,7 +449,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://radio.elmag.me/elmag.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "6b0040af-4b6f-4fdc-b50b-aa017e7f926d",
@@ -466,7 +467,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.playradio.me:8443/urban.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "6d5706cd-0afb-42a8-a171-351378cd82b0",
@@ -485,7 +486,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://r98.ipradio.rs:10100/;",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.541Z"
+      "probedAt": "2026-06-11T08:59:45.156Z"
     },
     {
       "stationuuid": "6e0cb631-d8ab-4b34-b2cd-5b4ea7f90eaf",
@@ -504,7 +505,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:11:46.542Z"
+      "probedAt": "2026-06-11T08:59:45.157Z"
     },
     {
       "stationuuid": "6e33bec5-86ac-49ab-917b-7e0f48eb5a8f",
@@ -522,7 +523,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.playradio.me:8443/play-me.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "7d80f983-3f2a-47f5-bec0-bc8e9f2eb216",
@@ -540,7 +541,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.playradio.me:8443/rock.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "8353198e-3ace-41c2-8e72-474a1d3d5f56",
@@ -558,7 +559,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.elmag.me/arena.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "87461d15-221e-40db-ab2e-df0efda03598",
@@ -573,10 +574,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://bokanews.me:8000/source",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:12:08.346Z"
+      "probedAt": "2026-06-11T09:00:07.327Z"
     },
     {
       "stationuuid": "96088746-0601-11e8-ae97-52543be04c81",
@@ -595,7 +596,7 @@
       "verdictReason": "audio/aacp (https variant on default port from http://)",
       "finalUrl": "https://svetigoralive.com/;",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:11:47.013Z"
+      "probedAt": "2026-06-11T08:59:45.155Z"
     },
     {
       "stationuuid": "961f1075-0601-11e8-ae97-52543be04c81",
@@ -614,7 +615,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://radioservis.me:8010/antenamlive",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.540Z"
+      "probedAt": "2026-06-11T08:59:45.155Z"
     },
     {
       "stationuuid": "978cbbe7-c735-4bcb-91e2-426d6d8716fc",
@@ -632,7 +633,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://eu2.fastcast4u.com/proxy/mic0?mp=/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "98b21b7f-ae52-4aa7-a6a6-3d4289d67201",
@@ -651,7 +652,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.elmag.me/nostalgija.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "a4d017e5-ed82-4b1a-87c5-b0d4f24134c8",
@@ -669,7 +670,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://eu4.fastcast4u.com/proxy/stilradiomk?mp=/s",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.541Z"
+      "probedAt": "2026-06-11T08:59:45.156Z"
     },
     {
       "stationuuid": "b319caad-a572-4d5e-b09e-21fd5c36924a",
@@ -688,7 +689,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://radio.elmag.me/mag.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "bee98306-1e97-44b9-b581-be4f1688a5c4",
@@ -706,7 +707,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radioservis.me/radio/8070/radiofatih?1702660538716",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.541Z"
+      "probedAt": "2026-06-11T08:59:45.156Z"
     },
     {
       "stationuuid": "c0d23bdb-6b51-4c82-8eb3-c55690f74209",
@@ -725,7 +726,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://stream.radios.rs:9018/",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.541Z"
+      "probedAt": "2026-06-11T08:59:45.156Z"
     },
     {
       "stationuuid": "c20b90e7-9def-4dee-a1a0-39abd4e054a3",
@@ -744,7 +745,7 @@
       "verdictReason": "HTTP 502",
       "finalUrl": "https://rtcg.ipradio.rs:9103/;",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:11:46.913Z"
+      "probedAt": "2026-06-11T08:59:45.155Z"
     },
     {
       "stationuuid": "cfe52db3-7529-49e8-b0eb-4bfc93599ae8",
@@ -762,7 +763,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.elmag.me/evergreen.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "d140d0db-94a7-4211-a5c8-280914dac21e",
@@ -777,10 +778,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://eu7.fastcast4u.com:6166/;",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:11:46.960Z"
+      "probedAt": "2026-06-11T08:59:45.751Z"
     },
     {
       "stationuuid": "d690de18-e017-4519-81ab-8130a81bf060",
@@ -798,7 +799,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://eu2.fastcast4u.com/proxy/mic0?mp=/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "d76ebdee-dd87-4af1-bfd2-b894ecb61dac",
@@ -816,7 +817,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rtcg.ipradio.rs:9008/;",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.540Z"
+      "probedAt": "2026-06-11T08:59:45.155Z"
     },
     {
       "stationuuid": "dc1b97f7-dd13-43ec-acd9-deed337dd6bc",
@@ -834,7 +835,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.playradio.me:8443/soft.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "dd32351f-a86c-4991-b0e3-51276ad87b94",
@@ -848,10 +849,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://5.189.179.77:8000/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:12:07.326Z"
+      "probedAt": "2026-06-11T09:00:06.034Z"
     },
     {
       "stationuuid": "dea33e50-3897-4486-a587-81c9c3499219",
@@ -867,10 +868,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://78.129.228.187:8007/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:12:07.343Z"
+      "probedAt": "2026-06-11T09:00:06.224Z"
     },
     {
       "stationuuid": "edf8f62c-4d8f-47fa-a220-48ef8f4ab3ee",
@@ -889,7 +890,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://stream.radios.rs:9008/;",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.541Z"
+      "probedAt": "2026-06-11T08:59:45.156Z"
     },
     {
       "stationuuid": "f0123b62-827f-4803-95ba-ef500b2fabf6",
@@ -907,7 +908,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.elmag.me/izvorne.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "fa325ba3-f7f7-49c6-b1cd-e65a010546d2",
@@ -926,7 +927,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.elmag.me/kids.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     },
     {
       "stationuuid": "fcd4e492-9fb9-48b2-8d3e-53db20122718",
@@ -944,7 +945,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://c8.radioboss.fm:18199/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.541Z"
+      "probedAt": "2026-06-11T08:59:45.156Z"
     },
     {
       "stationuuid": "ff10addd-d236-4d0c-b943-52440086fef4",
@@ -963,7 +964,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.elmag.me/party.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:11:46.514Z"
+      "probedAt": "2026-06-11T08:59:45.129Z"
     }
   ]
 }

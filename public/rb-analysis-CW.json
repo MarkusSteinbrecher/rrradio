@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-10T18:30:48.550Z",
+  "generatedAt": "2026-06-11T08:16:14.324Z",
   "country": "CW",
   "rawSnapshotAt": "2026-05-19T07:50:04.539Z",
   "total": 25,
@@ -7,8 +7,9 @@
   "broken": 3,
   "curated": 18,
   "byVerdict": {
-    "broken-mixed": 3,
+    "broken-mixed": 1,
     "ok": 20,
+    "broken-timeout": 2,
     "ok-hls": 2
   },
   "stations": [
@@ -28,7 +29,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.paradisefm.cw/ParadiseLatin",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:07.123Z"
+      "probedAt": "2026-06-11T08:15:12.363Z"
     },
     {
       "stationuuid": "09e12efd-f96c-4f70-a407-64be9eca4747",
@@ -47,7 +48,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.paradisefm.cw/HITradio915",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:07.123Z"
+      "probedAt": "2026-06-11T08:15:12.363Z"
     },
     {
       "stationuuid": "14d27103-67e2-440d-bcfa-06a9b4a55150",
@@ -65,7 +66,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge1.direct107.com/;?type=http&nocache=28",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:07.146Z"
+      "probedAt": "2026-06-11T08:15:12.387Z"
     },
     {
       "stationuuid": "28818d80-a73d-4b28-993a-b9fa501f2d97",
@@ -79,11 +80,11 @@
       "votes": 48,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-timeout",
+      "verdictReason": "host unreachable earlier in this run (memoized broken-timeout)",
       "finalUrl": "http://64.150.176.42:8011/live",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:48.528Z"
+      "probedAt": "2026-06-11T08:16:14.309Z"
     },
     {
       "stationuuid": "32182b4e-cd2c-4291-821d-6a969eb7b37f",
@@ -101,7 +102,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://radios.wakenext.com/hls/radio_kriyoyo_2/live.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:07.146Z"
+      "probedAt": "2026-06-11T08:15:12.387Z"
     },
     {
       "stationuuid": "3a1b3412-65a6-4d45-ad9b-7c02a924ac12",
@@ -120,7 +121,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ec6.yesstreaming.net:3105/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:07.146Z"
+      "probedAt": "2026-06-11T08:15:12.388Z"
     },
     {
       "stationuuid": "41948753-a7ca-40ce-852d-554a1e5cee69",
@@ -139,7 +140,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.paradisefm.cw/60s70s",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:07.123Z"
+      "probedAt": "2026-06-11T08:15:12.363Z"
     },
     {
       "stationuuid": "57655ddc-5c9e-4ee6-8a92-d0d5b03c694e",
@@ -153,11 +154,11 @@
       "votes": 168,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-timeout",
+      "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: 64.150.176.42:8011, timeout: 10000ms)",
       "finalUrl": "http://64.150.176.42:8011/live",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:48.376Z"
+      "probedAt": "2026-06-11T08:16:14.153Z"
     },
     {
       "stationuuid": "63eba272-1614-40f4-a8b3-dee50a79cb69",
@@ -176,7 +177,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://radios.wakenext.com/hls/radio_mas99/live.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:07.146Z"
+      "probedAt": "2026-06-11T08:15:12.387Z"
     },
     {
       "stationuuid": "6ab69153-2be2-48b4-bb0c-657c6edbbf22",
@@ -194,7 +195,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://edge1.direct107.com/;?type=http&nocache=28",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:07.146Z"
+      "probedAt": "2026-06-11T08:15:12.387Z"
     },
     {
       "stationuuid": "8cd9bdb8-d6ab-42de-853b-4f009dcc76d9",
@@ -213,7 +214,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.paradisefm.cw/ParadiseDiscoInferno",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:07.123Z"
+      "probedAt": "2026-06-11T08:15:12.363Z"
     },
     {
       "stationuuid": "8e4a923b-8a9c-4b14-9e46-2e16cd9e93de",
@@ -231,7 +232,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://kadushi.westream.cloud/listen/delta/live",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:07.123Z"
+      "probedAt": "2026-06-11T08:15:12.363Z"
     },
     {
       "stationuuid": "8f72037c-9fdb-4b05-851a-c2b5e58d9863",
@@ -250,7 +251,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:07.146Z"
+      "probedAt": "2026-06-11T08:15:12.387Z"
     },
     {
       "stationuuid": "960c3d38-0601-11e8-ae97-52543be04c81",
@@ -265,10 +266,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://162.243.94.61:8028/;stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:28.337Z"
+      "probedAt": "2026-06-11T08:15:33.385Z"
     },
     {
       "stationuuid": "961f6e31-0e80-4f8a-87b3-721592fcda2e",
@@ -287,7 +288,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://radiostreamfm.com:8130/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:07.146Z"
+      "probedAt": "2026-06-11T08:15:12.388Z"
     },
     {
       "stationuuid": "9f848be9-c47b-4f84-b0ab-83d8c7cc9a69",
@@ -306,7 +307,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.paradisefm.cw/80s90s",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:07.123Z"
+      "probedAt": "2026-06-11T08:15:12.363Z"
     },
     {
       "stationuuid": "a2ae6442-1297-4676-95ab-4fbf8d1a5ccb",
@@ -325,7 +326,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.paradisefm.cw/00s10s",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:07.123Z"
+      "probedAt": "2026-06-11T08:15:12.363Z"
     },
     {
       "stationuuid": "a393b4b5-4964-4d81-bdff-9b3bc9f23081",
@@ -344,7 +345,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.paradisefm.cw/ParadiseFM",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:07.123Z"
+      "probedAt": "2026-06-11T08:15:12.362Z"
     },
     {
       "stationuuid": "a8d28ee6-dcb3-4ce9-a6ea-0ca0bfc7f721",
@@ -363,7 +364,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.paradisefm.cw/ParadiseNonstop",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:07.123Z"
+      "probedAt": "2026-06-11T08:15:12.363Z"
     },
     {
       "stationuuid": "a9165cd1-44df-4eb0-a330-c3b3b01258ed",
@@ -381,7 +382,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream-179.zeno.fm/hp4bpr101ehvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJocDRicHIxMDFlaHZ2IiwiaG9zdCI6InN0cmVhbS0xNzkuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IlhKVFNhRi1DU3dPY0FqcmRtaC00UmciLCJpYXQiOjE3NzkxODc3NjYsImV4cCI6MTc3OTE4NzgyNn0.cL9lzpcubF4I-JmteNp2iKHByv8vNPtUqSHPEieprv0",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:07.146Z"
+      "probedAt": "2026-06-11T08:15:12.388Z"
     },
     {
       "stationuuid": "bf623240-80f1-42cb-ae81-b1fd2e7e9969",
@@ -400,7 +401,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://radiostreamfm.com:8120/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:07.146Z"
+      "probedAt": "2026-06-11T08:15:12.388Z"
     },
     {
       "stationuuid": "bf8487fa-4d9f-461d-a51e-ca0eb8863444",
@@ -419,7 +420,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:07.146Z"
+      "probedAt": "2026-06-11T08:15:12.387Z"
     },
     {
       "stationuuid": "c895652a-090e-4908-86dd-d2feffef9a27",
@@ -438,7 +439,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://webradio.amsolution.com.br/radio/8280/meionorte",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:30:07.146Z"
+      "probedAt": "2026-06-11T08:15:12.388Z"
     },
     {
       "stationuuid": "da169b36-d453-450e-90c9-274c65c15b2c",
@@ -457,7 +458,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://kadushi.westream.cloud/listen/mas99/live",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:07.123Z"
+      "probedAt": "2026-06-11T08:15:12.363Z"
     },
     {
       "stationuuid": "dfd8b19d-76bc-4d6b-bb41-d5b452d01cdc",
@@ -476,7 +477,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://kadushi.westream.cloud/listen/radioactive/RadioActive",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:30:07.123Z"
+      "probedAt": "2026-06-11T08:15:12.363Z"
     }
   ]
 }

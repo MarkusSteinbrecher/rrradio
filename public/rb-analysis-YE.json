@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-10T20:05:00.021Z",
+  "generatedAt": "2026-06-11T09:52:52.817Z",
   "country": "YE",
   "rawSnapshotAt": "2026-05-19T07:51:36.655Z",
   "total": 15,
@@ -8,7 +8,8 @@
   "curated": 10,
   "byVerdict": {
     "ok": 12,
-    "broken-mixed": 3
+    "broken-mixed": 1,
+    "broken-timeout": 2
   },
   "stations": [
     {
@@ -27,7 +28,7 @@
       "verdictReason": "audio/mp3 (browser auto-upgrade from http://)",
       "finalUrl": "https://edge.mixlr.com/channel/rumps",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:04:18.751Z"
+      "probedAt": "2026-06-11T09:51:51.110Z"
     },
     {
       "stationuuid": "33f27950-2bce-4add-984d-b4be49e0f9de",
@@ -45,7 +46,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s2.radio.co/s26c62011e/listen",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:04:18.784Z"
+      "probedAt": "2026-06-11T09:51:51.136Z"
     },
     {
       "stationuuid": "5fba48df-c08f-47b1-951c-3b43e162a345",
@@ -62,7 +63,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream-179.zeno.fm/542gubz258quv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiI1NDJndWJ6MjU4cXV2IiwiaG9zdCI6InN0cmVhbS0xNzkuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiTGpBT2pVam5RZGlUMWMzbEVST1F4dyIsImlhdCI6MTc3OTE5NzIzNywiZXhwIjoxNzc5MTk3Mjk3fQ.PdpVqynsm2B0kk4kaPmbuS9i5kUYpXdLAYNWbcSe0YE",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:04:18.784Z"
+      "probedAt": "2026-06-11T09:51:51.136Z"
     },
     {
       "stationuuid": "62fbaf9d-c5ef-4b18-9e6a-cf9239ace46b",
@@ -80,7 +81,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s1.reliastream.com/proxy/almaqrami?mp=/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:04:18.784Z"
+      "probedAt": "2026-06-11T09:51:51.136Z"
     },
     {
       "stationuuid": "6b527198-4c4e-42bd-aa1b-56d538e504d7",
@@ -97,7 +98,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://backup.qurango.net/radio/ahmad_khader_altarabulsi",
       "isCurated": false,
-      "probedAt": "2026-06-10T20:04:18.784Z"
+      "probedAt": "2026-06-11T09:51:51.136Z"
     },
     {
       "stationuuid": "7c53ff0d-1fd7-49f5-9a63-1c6594de4677",
@@ -115,7 +116,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-178.zeno.fm/b67qheuk54zuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJiNjdxaGV1azU0enV2IiwiaG9zdCI6InN0cmVhbS0xNzguemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiVEFBQnp6a3RRR3VDc1JHZkt3bWtFZyIsImlhdCI6MTc3ODUxMTUzOCwiZXhwIjoxNzc4NTExNTk4fQ.RSaBCkecMDEilvj4kgi-2LxFoBbLuts8zJI3wucVWOk",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:04:18.784Z"
+      "probedAt": "2026-06-11T09:51:51.136Z"
     },
     {
       "stationuuid": "ad7f5a16-d660-4587-ba38-871e89419e2a",
@@ -133,7 +134,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://dc5.serverse.com/proxy/pbmhbvxs/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:04:18.751Z"
+      "probedAt": "2026-06-11T09:51:51.110Z"
     },
     {
       "stationuuid": "af0c6768-565e-411e-81ea-1f6325e3728c",
@@ -151,7 +152,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://c38.radioboss.fm:8323/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:04:18.784Z"
+      "probedAt": "2026-06-11T09:51:51.136Z"
     },
     {
       "stationuuid": "b2330072-50ce-4c37-a504-98830422c31e",
@@ -166,10 +167,10 @@
       "clickcount": 43,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://procyon.shoutca.st:8488/index",
       "isCurated": false,
-      "probedAt": "2026-06-10T20:04:19.751Z"
+      "probedAt": "2026-06-11T09:51:52.464Z"
     },
     {
       "stationuuid": "c12d8e4d-8b61-41a3-9699-5fdba4554aad",
@@ -188,7 +189,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://c30.radioboss.fm:18267/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:04:18.784Z"
+      "probedAt": "2026-06-11T09:51:51.136Z"
     },
     {
       "stationuuid": "ca359617-6b25-4df0-83ba-5b3793386377",
@@ -205,7 +206,7 @@
       "verdictReason": "audio/mp3 (browser auto-upgrade from http://)",
       "finalUrl": "https://edge.mixlr.com/channel/kijwr",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:04:18.751Z"
+      "probedAt": "2026-06-11T09:51:51.110Z"
     },
     {
       "stationuuid": "cff841cd-2f5e-45da-a503-3983693cff49",
@@ -220,11 +221,11 @@
       "votes": 276,
       "clickcount": 19,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-timeout",
+      "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: 136.244.91.139:8000, timeout: 10000ms)",
       "finalUrl": "http://136.244.91.139:8000/live",
       "isCurated": false,
-      "probedAt": "2026-06-10T20:05:00.008Z"
+      "probedAt": "2026-06-11T09:52:52.795Z"
     },
     {
       "stationuuid": "d5f23db0-d3a1-44f1-adea-be5d931ef12f",
@@ -241,7 +242,7 @@
       "verdictReason": "audio/mp3 (browser auto-upgrade from http://)",
       "finalUrl": "https://edge.mixlr.com/channel/boaht",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:04:18.751Z"
+      "probedAt": "2026-06-11T09:51:51.109Z"
     },
     {
       "stationuuid": "d821eda6-f7af-44f4-90a4-d37f9a969a86",
@@ -256,11 +257,11 @@
       "votes": 167,
       "clickcount": 24,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-timeout",
+      "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: 45.76.80.46:8000, timeout: 10000ms)",
       "finalUrl": "http://45.76.80.46:8000/live",
       "isCurated": false,
-      "probedAt": "2026-06-10T20:05:00.008Z"
+      "probedAt": "2026-06-11T09:52:52.795Z"
     },
     {
       "stationuuid": "fa664dd8-f941-4e55-b6d2-9e196ef959c1",
@@ -279,7 +280,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T20:04:18.784Z"
+      "probedAt": "2026-06-11T09:51:51.136Z"
     }
   ]
 }

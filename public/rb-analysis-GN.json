@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-10T18:49:18.390Z",
+  "generatedAt": "2026-06-11T08:35:56.187Z",
   "country": "GN",
   "rawSnapshotAt": "2026-05-19T07:50:22.470Z",
   "total": 2,
@@ -8,7 +8,7 @@
   "curated": 0,
   "byVerdict": {
     "ok": 1,
-    "broken-mixed": 1
+    "broken-refused": 1
   },
   "stations": [
     {
@@ -28,7 +28,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:49:18.049Z"
+      "probedAt": "2026-06-11T08:35:55.779Z"
     },
     {
       "stationuuid": "df786327-ac94-4782-945b-aff3df3f4027",
@@ -42,11 +42,11 @@
       "votes": 9,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-refused",
+      "verdictReason": "TypeError: fetch failed — Error: connect ECONNREFUSED 37.157.242.101:16196",
       "finalUrl": "http://37.157.242.101:16196/;stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:49:18.369Z"
+      "probedAt": "2026-06-11T08:35:56.172Z"
     }
   ]
 }

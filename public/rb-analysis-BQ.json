@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-10T18:16:07.746Z",
+  "generatedAt": "2026-06-11T08:01:49.270Z",
   "country": "BQ",
   "rawSnapshotAt": "2026-05-19T07:49:52.732Z",
   "total": 16,
@@ -7,9 +7,10 @@
   "broken": 7,
   "curated": 6,
   "byVerdict": {
-    "broken-mixed": 6,
+    "broken-mixed": 4,
+    "broken-format": 2,
     "ok": 9,
-    "broken-format": 1
+    "broken-refused": 1
   },
   "stations": [
     {
@@ -28,7 +29,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://megahitfm.krioyohosting.com:1012/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:15:46.953Z"
+      "probedAt": "2026-06-11T08:01:28.387Z"
     },
     {
       "stationuuid": "23abc80c-ae6b-4dab-8998-28e08cca4d54",
@@ -42,11 +43,11 @@
       "votes": 1013,
       "clickcount": 4,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
       "finalUrl": "http://79.120.39.202:9111/",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:16:07.661Z"
+      "probedAt": "2026-06-11T08:01:49.256Z"
     },
     {
       "stationuuid": "24d57937-7c9a-4aa8-b3a8-3355f2b212a4",
@@ -65,7 +66,7 @@
       "verdictReason": "audio/mpeg; charset=UTF-8",
       "finalUrl": "https://cdn.instream.audio/:9050/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:15:46.975Z"
+      "probedAt": "2026-06-11T08:01:28.411Z"
     },
     {
       "stationuuid": "2ce4619e-d805-469f-9519-e25dbb7dc273",
@@ -84,7 +85,7 @@
       "verdictReason": "content-type text/html not audio-like",
       "finalUrl": "https://mars.streamerr.co/8238/studiodegroeneknuppel",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:15:47.295Z"
+      "probedAt": "2026-06-11T08:01:28.415Z"
     },
     {
       "stationuuid": "308f2db3-71a1-4f75-bc3a-f86715520c59",
@@ -103,7 +104,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://mediacp.audiostreamen.nl:8210/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:15:46.979Z"
+      "probedAt": "2026-06-11T08:01:28.415Z"
     },
     {
       "stationuuid": "3e84059f-d864-4e15-bc25-05d3281869fc",
@@ -122,7 +123,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://kadushi.westream.cloud:8100/xstream",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:15:46.979Z"
+      "probedAt": "2026-06-11T08:01:28.415Z"
     },
     {
       "stationuuid": "400ba39e-e90a-407e-983b-a7f410b9cc90",
@@ -138,10 +139,10 @@
       "clickcount": 6,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://185.198.27.187:8616/Cariba_FM",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:15:47.297Z"
+      "probedAt": "2026-06-11T08:01:28.906Z"
     },
     {
       "stationuuid": "4922824c-0f93-4d25-b6cc-be67c8c8b34d",
@@ -160,7 +161,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://megahitfm.krioyohosting.com:1012/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:15:46.952Z"
+      "probedAt": "2026-06-11T08:01:28.386Z"
     },
     {
       "stationuuid": "4cc8aaeb-b624-42e1-8b87-69f18950b65f",
@@ -178,7 +179,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://auds1.intacs.com/tropicalspiceradio",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:15:46.979Z"
+      "probedAt": "2026-06-11T08:01:28.415Z"
     },
     {
       "stationuuid": "85299179-2540-4518-ae52-df930f1d9c29",
@@ -197,7 +198,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radioalexfm.stream.laut.fm/radioalexfm?ref=web-app&start_time=1709718045653",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:15:46.978Z"
+      "probedAt": "2026-06-11T08:01:28.415Z"
     },
     {
       "stationuuid": "963327f1-0601-11e8-ae97-52543be04c81",
@@ -212,10 +213,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://bonfm5.primcast.com:6482/;",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:15:47.586Z"
+      "probedAt": "2026-06-11T08:01:29.391Z"
     },
     {
       "stationuuid": "963330b8-0601-11e8-ae97-52543be04c81",
@@ -230,11 +231,11 @@
       "votes": 645,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-refused",
+      "verdictReason": "TypeError: fetch failed — Error: connect ECONNREFUSED 159.203.190.86:8304",
       "finalUrl": "http://159.203.190.86:8304/;stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:16:07.661Z"
+      "probedAt": "2026-06-11T08:01:49.202Z"
     },
     {
       "stationuuid": "9633d4d6-0601-11e8-ae97-52543be04c81",
@@ -249,10 +250,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://162.244.80.220:8000/;stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:15:47.823Z"
+      "probedAt": "2026-06-11T08:01:29.670Z"
     },
     {
       "stationuuid": "b04fd5c7-8f94-406f-b9ff-1c1fea28e3da",
@@ -271,7 +272,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://caribspy.com/proxy/solidfm/stream/;?type=http&amp;nocache=107036",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:15:46.979Z"
+      "probedAt": "2026-06-11T08:01:28.415Z"
     },
     {
       "stationuuid": "be836ea8-8cbb-4d40-9a68-fc372b8fd0ad",
@@ -290,7 +291,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:15:46.979Z"
+      "probedAt": "2026-06-11T08:01:28.415Z"
     },
     {
       "stationuuid": "ec72b9a1-6260-4671-8cf2-847292131b5f",
@@ -306,10 +307,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream.zxp.nl:8000/radiopurmerend_bb",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:16:07.725Z"
+      "probedAt": "2026-06-11T08:01:49.244Z"
     }
   ]
 }

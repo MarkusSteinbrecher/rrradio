@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-10T18:15:11.724Z",
+  "generatedAt": "2026-06-11T08:00:52.934Z",
   "country": "BJ",
   "rawSnapshotAt": "2026-05-19T07:49:50.786Z",
   "total": 5,
@@ -25,10 +25,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream1.dimusic.club:11534/rw?type=.aac",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:15:11.703Z"
+      "probedAt": "2026-06-11T08:00:52.906Z"
     },
     {
       "stationuuid": "666d0d87-f0fb-4b3b-8842-9753b817e3fd",
@@ -46,7 +46,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-286.zeno.fm/o9bspgm4y78vv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJvOWJzcGdtNHk3OHZ2IiwiaG9zdCI6InN0cmVhbS0yODYuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IlFlZktKMkt5UTJPSHNSeWhMc01BeXciLCJpYXQiOjE3NzkxODI3NjUsImV4cCI6MTc3OTE4MjgyNX0.jrQkJrAZHDMzFjTmSwsiq7FoWA5pkXnJAq7TsJxqvFg",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:14:50.822Z"
+      "probedAt": "2026-06-11T08:00:31.626Z"
     },
     {
       "stationuuid": "79ac5dea-03c5-42a4-9195-4a26db00f65d",
@@ -65,7 +65,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen.radioking.com/radio/47608/stream/84430",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:14:50.822Z"
+      "probedAt": "2026-06-11T08:00:31.624Z"
     },
     {
       "stationuuid": "ac937493-6836-4bf0-a632-fdb9bd80a232",
@@ -84,7 +84,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:14:50.847Z"
+      "probedAt": "2026-06-11T08:00:31.673Z"
     },
     {
       "stationuuid": "ceb2178c-34f3-4c5a-9dd6-0d9b60f28abf",
@@ -103,7 +103,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen.radioking.com/radio/51919/stream/88927",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:14:50.822Z"
+      "probedAt": "2026-06-11T08:00:31.626Z"
     }
   ]
 }

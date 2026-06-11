@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-11T06:56:51.370Z",
+  "generatedAt": "2026-06-11T09:54:39.164Z",
   "catalogTotal": 30314,
   "unclassifiedCatalogEntries": 0,
   "sources": [
@@ -16,28 +16,29 @@
       "dispositionTotals": {
         "imported": 30293,
         "duplicate": 14388,
-        "broken": 9507,
-        "available": 1054
+        "http-only": 5983,
+        "broken": 3318,
+        "available": 1260
       },
       "extra": {
         "countriesAnalyzed": 237,
         "countriesInRawSnapshot": 237,
         "verdictBreakdown": {
-          "ok": 38540,
-          "broken-tls": 427,
-          "ok-hls": 3251,
-          "broken-mixed": 11108,
-          "broken-4xx": 1135,
-          "broken-format": 151,
-          "broken-5xx": 139,
-          "broken-refused": 86,
-          "broken-network": 9,
-          "broken-dns": 105,
-          "broken-timeout": 145,
+          "ok": 38881,
+          "broken-tls": 433,
+          "ok-hls": 3252,
+          "broken-format": 1221,
+          "broken-mixed": 7885,
+          "broken-4xx": 2041,
+          "broken-refused": 359,
+          "broken-5xx": 151,
+          "broken-timeout": 443,
+          "broken-network": 13,
+          "broken-dns": 273,
+          "probe-inconclusive": 6,
+          "probe-skipped": 229,
           "redirect-downgrade": 17,
-          "needs-playlist": 35,
-          "probe-inconclusive": 5,
-          "probe-skipped": 86
+          "needs-playlist": 35
         },
         "perCountryUrl": "/sources/radio-browser.json"
       },

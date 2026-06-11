@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-10T20:03:46.478Z",
+  "generatedAt": "2026-06-11T09:51:18.991Z",
   "country": "VN",
   "rawSnapshotAt": "2026-05-19T07:51:34.986Z",
   "total": 39,
@@ -9,8 +9,9 @@
   "byVerdict": {
     "ok": 13,
     "ok-hls": 13,
-    "broken-mixed": 7,
+    "broken-mixed": 5,
     "broken-5xx": 3,
+    "broken-format": 2,
     "broken-tls": 1,
     "broken-4xx": 1,
     "broken-timeout": 1
@@ -31,7 +32,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://strm.voh.com.vn/radio/channel5/chunklist_w2071193605.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.220Z"
+      "probedAt": "2026-06-11T09:50:37.257Z"
     },
     {
       "stationuuid": "1ffbc866-698e-11e9-af37-52543be04c81",
@@ -48,7 +49,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://tv.angiangtv.vn/live/kgaudio/kgaudio.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.220Z"
+      "probedAt": "2026-06-11T09:50:37.257Z"
     },
     {
       "stationuuid": "204b63f8-6629-4984-bbe0-0773c8220a91",
@@ -64,7 +65,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-287.zeno.fm/4q7y9hvkp2zuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiI0cTd5OWh2a3AyenV2IiwiaG9zdCI6InN0cmVhbS0yODcuemVuby5mbSIsInJ0dGwiOjQsImp0aSI6Indod3NmOTU0U1pLU1BLdkVWbTZzRXciLCJpYXQiOjE3Nzg0ODYzNjMsImV4cCI6MTc3ODQ4NjQyM30.yZWWAXLm0Bz7IHKhUVKkMIhvVTv1MMrkn8XeM_LrftA&aw_0_req_lsid=8196d2c78a734f244852a3f8bbbecbcb",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.248Z"
+      "probedAt": "2026-06-11T09:50:37.284Z"
     },
     {
       "stationuuid": "2e12d816-cfe4-48f0-af9b-37e9f14eed35",
@@ -81,7 +82,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://play.vovgiaothong.vn/live/gthcm/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.247Z"
+      "probedAt": "2026-06-11T09:50:37.257Z"
     },
     {
       "stationuuid": "39c8d674-06ef-4b74-86ae-43a645aa1ba8",
@@ -96,10 +97,10 @@
       "clickcount": 4,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://222.252.21.96:8000/HANOI96",
       "isCurated": false,
-      "probedAt": "2026-06-10T20:03:46.461Z"
+      "probedAt": "2026-06-11T09:51:18.983Z"
     },
     {
       "stationuuid": "3a83ee6a-b61d-4649-9be0-b4357a00329f",
@@ -117,7 +118,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://str.vov.gov.vn/vovlive/vov1vov5Vietnamese.sdp_aac/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.248Z"
+      "probedAt": "2026-06-11T09:50:37.283Z"
     },
     {
       "stationuuid": "3aa9ffce-7476-4e61-93f2-9662ea5d4b93",
@@ -134,7 +135,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rfienvietnamien64k.ice.infomaniak.ch/rfienvietnamien-64.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.248Z"
+      "probedAt": "2026-06-11T09:50:37.283Z"
     },
     {
       "stationuuid": "3b127ac7-698d-11e9-af37-52543be04c81",
@@ -152,7 +153,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://tv.angiangtv.vn/live/kgtv/kgtv.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.220Z"
+      "probedAt": "2026-06-11T09:50:37.257Z"
     },
     {
       "stationuuid": "3cc192da-dbc2-4c90-94cf-8acecf7a908f",
@@ -168,7 +169,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.zenolive.com/ueychbrzv9duv",
       "isCurated": false,
-      "probedAt": "2026-06-10T20:03:06.699Z"
+      "probedAt": "2026-06-11T09:50:37.285Z"
     },
     {
       "stationuuid": "3d35f6b4-0ade-42ca-a378-e8f3dfd66426",
@@ -184,7 +185,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-176.zeno.fm/umt5gqmg3reuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ1bXQ1Z3FtZzNyZXV2IiwiaG9zdCI6InN0cmVhbS0xNzYuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6ImxvWUh4eGozUkRDVjh5eFNBQTFPYlEiLCJpYXQiOjE3Nzg0ODYzNjcsImV4cCI6MTc3ODQ4NjQyN30.EETVHBp0hHDRX6tzjxFhexZMxyfKpJXM598tx2V094M",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.250Z"
+      "probedAt": "2026-06-11T09:50:37.285Z"
     },
     {
       "stationuuid": "4130fd3a-0914-4a4d-bdbf-ba3224f3052a",
@@ -202,7 +203,7 @@
       "verdictReason": "HTTP 503",
       "finalUrl": "https://stream.vovmedia.vn/vovmekong",
       "isCurated": false,
-      "probedAt": "2026-06-10T20:03:06.171Z"
+      "probedAt": "2026-06-11T09:50:37.257Z"
     },
     {
       "stationuuid": "4bb149bc-0bed-4b8d-8956-2487c6caea9f",
@@ -218,7 +219,7 @@
       "verdictReason": "TypeError: fetch failed — ConnectTimeoutError: Connect Timeout Error (attempted address: lives.antv.gov.vn:443, timeout: 10000ms)",
       "finalUrl": "https://lives.antv.gov.vn/channel/antv/channel/antv_480p/chunks.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:25.931Z"
+      "probedAt": "2026-06-11T09:50:37.285Z"
     },
     {
       "stationuuid": "518278ac-4ad3-4917-9ee8-243df197ec08",
@@ -235,7 +236,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://strm.voh.com.vn/radio/channel2/chunklist_w884773542.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.220Z"
+      "probedAt": "2026-06-11T09:50:37.257Z"
     },
     {
       "stationuuid": "6b0831ab-3ace-4529-9eb3-dd0074f9579c",
@@ -254,7 +255,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ha-noi-community-radio.radiocult.fm/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.250Z"
+      "probedAt": "2026-06-11T09:50:37.285Z"
     },
     {
       "stationuuid": "6f3f1531-1621-407c-8e3b-45aad9b3bf51",
@@ -268,10 +269,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://listen.57fm.com/lscafe",
       "isCurated": false,
-      "probedAt": "2026-06-10T20:03:06.314Z"
+      "probedAt": "2026-06-11T09:50:38.870Z"
     },
     {
       "stationuuid": "72aba108-76ae-443c-8531-80de3e86374f",
@@ -288,7 +289,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://ice5.securenetsystems.net:80/KALI",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.247Z"
+      "probedAt": "2026-06-11T09:50:37.257Z"
     },
     {
       "stationuuid": "76192bb9-698d-11e9-af37-52543be04c81",
@@ -306,7 +307,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://tv.angiangtv.vn/live/kgtv1/kgtv1.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.220Z"
+      "probedAt": "2026-06-11T09:50:37.257Z"
     },
     {
       "stationuuid": "7ce50274-160a-43b6-a023-782897576f9e",
@@ -325,7 +326,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://play.vovgiaothong.vn/live/gthn/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.247Z"
+      "probedAt": "2026-06-11T09:50:37.257Z"
     },
     {
       "stationuuid": "8fe6f199-f9bd-4844-869e-248450cf3fc0",
@@ -341,7 +342,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://vnno-ne-2-tf-multi-playlist-zmp3.zmdcdn.me/Wbo0diyYozY/zhls/playback-realtime/audio/e75e51f26db784e9dda6/audio.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.248Z"
+      "probedAt": "2026-06-11T09:50:37.283Z"
     },
     {
       "stationuuid": "9b916475-2a74-42fd-aa45-86b88d8b5de5",
@@ -358,7 +359,7 @@
       "verdictReason": "HTTP 404",
       "finalUrl": "https://cf9a5872ebf6f9a.cmccloud.com.vn/ANTV/antv1.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T20:03:07.128Z"
+      "probedAt": "2026-06-11T09:50:37.285Z"
     },
     {
       "stationuuid": "a25ce744-fd5c-4fa5-af48-2b384cf1d3aa",
@@ -376,7 +377,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://c13.radioboss.fm:8127/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.248Z"
+      "probedAt": "2026-06-11T09:50:37.283Z"
     },
     {
       "stationuuid": "a6d752eb-96e0-47a3-9eeb-01964aede76f",
@@ -395,7 +396,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade after redirect to http://)",
       "finalUrl": "https://replaynewsve.ice.infomaniak.ch/replaynewsve-128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.250Z"
+      "probedAt": "2026-06-11T09:50:37.285Z"
     },
     {
       "stationuuid": "a8200747-f284-4c30-8df0-1a9f4649df2d",
@@ -413,7 +414,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://strm.voh.com.vn/radio/channel3/chunklist_w1005696319.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.219Z"
+      "probedAt": "2026-06-11T09:50:37.257Z"
     },
     {
       "stationuuid": "a8a5e275-8d1c-4cb4-ac18-460660393359",
@@ -431,7 +432,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://strm.voh.com.vn/radio/channel1/chunklist_w829828563.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.220Z"
+      "probedAt": "2026-06-11T09:50:37.257Z"
     },
     {
       "stationuuid": "af9433ca-33ce-46e5-ac7c-733740901bee",
@@ -450,7 +451,7 @@
       "verdictReason": "HTTP 503",
       "finalUrl": "https://stream.vovmedia.vn/vov5",
       "isCurated": false,
-      "probedAt": "2026-06-10T20:03:06.962Z"
+      "probedAt": "2026-06-11T09:50:37.257Z"
     },
     {
       "stationuuid": "afff5851-a5d8-45ed-afe9-bc95915cd3c3",
@@ -466,7 +467,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://vnno-ne-3-tf-multi-playlist-zmp3.zmdcdn.me/BJ7DyJjfG_E/zhls/playback-realtime/audio/5bace800d4453d1b6454/audio.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.248Z"
+      "probedAt": "2026-06-11T09:50:37.283Z"
     },
     {
       "stationuuid": "b51a05ed-0df1-496b-b2d9-e05242e3a9c8",
@@ -480,10 +481,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://71.4.56.20/3rdout/radio.hou.std2/icecast.audio",
       "isCurated": false,
-      "probedAt": "2026-06-10T20:03:05.848Z"
+      "probedAt": "2026-06-11T09:50:38.212Z"
     },
     {
       "stationuuid": "baf328f2-f31d-41a2-8321-aeb0d786c4a4",
@@ -500,7 +501,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cast4.servcast.net/proxy/longpham2/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.249Z"
+      "probedAt": "2026-06-11T09:50:37.285Z"
     },
     {
       "stationuuid": "bea1f4e5-b247-4114-af78-bdd080821a07",
@@ -514,10 +515,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://142.4.215.82:8070/stream?type=http&nocache=151",
       "isCurated": false,
-      "probedAt": "2026-06-10T20:03:05.990Z"
+      "probedAt": "2026-06-11T09:50:38.429Z"
     },
     {
       "stationuuid": "c1f7bea7-9163-4493-a9c8-0dbac5d73231",
@@ -532,10 +533,10 @@
       "clickcount": 4,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://14.162.146.90:8000/HANOI90",
       "isCurated": false,
-      "probedAt": "2026-06-10T20:03:46.461Z"
+      "probedAt": "2026-06-11T09:51:18.939Z"
     },
     {
       "stationuuid": "c544fcb2-14fa-4051-a2c3-852bbee283ad",
@@ -548,11 +549,11 @@
       "votes": 253,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://varadio.serverroom.net:7968/",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html;charset=utf-8 not audio-like",
+      "finalUrl": "http://varadio.serverroom.net:7968/index.html?sid=1",
       "isCurated": false,
-      "probedAt": "2026-06-10T20:03:06.331Z"
+      "probedAt": "2026-06-11T09:50:38.690Z"
     },
     {
       "stationuuid": "d0a3baed-d904-4a80-9c73-39816bded389",
@@ -571,7 +572,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T20:03:05.250Z"
+      "probedAt": "2026-06-11T09:50:37.285Z"
     },
     {
       "stationuuid": "de8a3b63-0d47-4cbf-9a0e-b620001292e0",
@@ -587,7 +588,7 @@
       "verdictReason": "TypeError: fetch failed — Error [ERR_TLS_CERT_ALTNAME_INVALID]: Hostname/IP does not match certificate's altnames: Host: arpt.tvic.vn. is not in the cert's altnames: DNS:nhandan.vn, DNS:*.nhandan.vn",
       "finalUrl": "https://arpt.tvic.vn/live/nhandan720/chunklist_w1899174222.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T20:03:06.097Z"
+      "probedAt": "2026-06-11T09:50:37.285Z"
     },
     {
       "stationuuid": "e432c640-1a14-4fc0-9fc9-2f5afe485217",
@@ -603,7 +604,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-204.zeno.fm/kxynzu2qe7duv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJreHluenUycWU3ZHV2IiwiaG9zdCI6InN0cmVhbS0yMDQuemVuby5mbSIsInJ0dGwiOjQsImp0aSI6InBNTUg4aUF3UXJ1eDNJWUhCS19adHciLCJpYXQiOjE3Nzg0ODYzNjYsImV4cCI6MTc3ODQ4NjQyNn0.SenwP5JNnaOq-raZNqJjQOZLecAJQFTM29XeuUNe4lE",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.250Z"
+      "probedAt": "2026-06-11T09:50:37.285Z"
     },
     {
       "stationuuid": "e60fbd20-6903-45a8-bb9c-de5e704c3bb4",
@@ -620,7 +621,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://ice5.securenetsystems.net:80/KALI",
       "isCurated": false,
-      "probedAt": "2026-06-10T20:03:05.247Z"
+      "probedAt": "2026-06-11T09:50:37.257Z"
     },
     {
       "stationuuid": "ef28b731-d233-4e5b-a60e-3328efc3fd82",
@@ -639,7 +640,7 @@
       "verdictReason": "HTTP 503",
       "finalUrl": "https://stream.vovmedia.vn/vov247",
       "isCurated": false,
-      "probedAt": "2026-06-10T20:03:06.570Z"
+      "probedAt": "2026-06-11T09:50:37.257Z"
     },
     {
       "stationuuid": "fa114bd0-1fef-45ba-b7ac-ebe4d3f22464",
@@ -655,7 +656,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://vnno-ne-2-tf-multi-playlist-zmp3.zmdcdn.me/j20SDlO5EQk/zhls/playback-realtime/audio/59a2ee0ed24b3b15625a/audio.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T20:03:05.248Z"
+      "probedAt": "2026-06-11T09:50:37.283Z"
     },
     {
       "stationuuid": "fd1e5131-7d82-400b-98a8-43a24180ea90",
@@ -672,7 +673,7 @@
       "verdictReason": "audio/aacp (https variant on default port from http://)",
       "finalUrl": "https://ice.digitalradiohk.net/drhk",
       "isCurated": false,
-      "probedAt": "2026-06-10T20:03:26.660Z"
+      "probedAt": "2026-06-11T09:50:37.284Z"
     },
     {
       "stationuuid": "fe65dfdc-a666-4c7e-9777-d59187ac1a65",
@@ -685,11 +686,11 @@
       "votes": 162,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://varadio.serverroom.net:7968/",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html;charset=utf-8 not audio-like",
+      "finalUrl": "http://varadio.serverroom.net:7968/index.html?sid=1",
       "isCurated": false,
-      "probedAt": "2026-06-10T20:03:06.483Z"
+      "probedAt": "2026-06-11T09:50:39.674Z"
     }
   ]
 }

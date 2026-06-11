@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-10T18:32:19.256Z",
+  "generatedAt": "2026-06-11T08:17:45.754Z",
   "country": "CZ",
   "rawSnapshotAt": "2026-05-19T07:50:05.891Z",
   "total": 292,
@@ -8,9 +8,12 @@
   "curated": 169,
   "byVerdict": {
     "ok": 233,
-    "broken-mixed": 45,
+    "broken-mixed": 31,
     "ok-hls": 13,
-    "broken-tls": 1
+    "broken-4xx": 8,
+    "broken-format": 5,
+    "broken-tls": 1,
+    "broken-refused": 1
   },
   "stations": [
     {
@@ -27,10 +30,10 @@
       "clickcount": 4,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://mp3stream2.abradio.cz:8000/folk320.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:58.808Z"
+      "probedAt": "2026-06-11T08:17:26.273Z"
     },
     {
       "stationuuid": "014a73bb-b743-4619-a2b5-103a333022ac",
@@ -44,10 +47,10 @@
       "clickcount": 7,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/ogg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream.svobodny-vysilac.cz:8000/live.ogg",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:58.788Z"
+      "probedAt": "2026-06-11T08:17:25.580Z"
     },
     {
       "stationuuid": "033a307e-4396-4b97-b2c5-a7f24cf604fc",
@@ -66,7 +69,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.actve.net/web-f1-legendy",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "033a539d-41b8-433c-908a-e74edbab1d91",
@@ -85,7 +88,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://icecast2.play.cz/samsonfm128aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "04602093-2633-4f1a-9e22-c0007e9436af",
@@ -104,7 +107,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rozhlas.stream/wave_mp3_128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "056e5ad2-c0d5-4e72-a719-d39c86fc734b",
@@ -123,7 +126,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ice.abradio.cz/faktor128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "05af3db3-5b11-483c-b008-07f3fd56df15",
@@ -140,7 +143,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast2.play.cz/radiobeat128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "06c53709-7964-4650-8809-1266932e3fb6",
@@ -154,11 +157,11 @@
       "votes": 100,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
       "finalUrl": "http://185.47.222.75:8750/",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:59.199Z"
+      "probedAt": "2026-06-11T08:17:25.110Z"
     },
     {
       "stationuuid": "07eb56e1-0eb8-4070-a68e-4bd24b545db3",
@@ -177,7 +180,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://rozhlas.stream/ceske_budejovice_high.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "0933cedf-76b4-4953-8561-12563becd8ee",
@@ -194,7 +197,7 @@
       "verdictReason": "application/ogg (https variant on default port from http://)",
       "finalUrl": "https://amp.cesnet.cz/cro-d-dur.flac",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:59.561Z"
+      "probedAt": "2026-06-11T08:17:25.548Z"
     },
     {
       "stationuuid": "09583181-fc2c-4e96-b432-55bbeacd040b",
@@ -213,7 +216,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://a5.asurahosting.com:6530/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.301Z"
     },
     {
       "stationuuid": "09654a34-b6e0-4a4d-bad6-d35219a2e313",
@@ -227,11 +230,11 @@
       "votes": 1,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-refused",
+      "verdictReason": "TypeError: fetch failed — Error: connect ECONNREFUSED 51.158.62.90:8410",
       "finalUrl": "http://mpc1.mediacp.eu:8410/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:39.292Z"
+      "probedAt": "2026-06-11T08:17:05.382Z"
     },
     {
       "stationuuid": "0b03c88e-42c4-43fc-884b-f2db4421fc92",
@@ -250,7 +253,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.actve.net/fm-bonton-128",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "0b0538d7-3a3f-40a1-a4f5-6de534b5298c",
@@ -268,7 +271,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://backend.fedstrapradio.com:8000/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.009Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "0b88b8ac-30cb-4ee7-af0e-e76b01960c55",
@@ -285,7 +288,7 @@
       "verdictReason": "application/ogg (https variant on default port from http://)",
       "finalUrl": "https://amp.cesnet.cz/cro-d-dur.flac",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:32:02.563Z"
+      "probedAt": "2026-06-11T08:17:26.611Z"
     },
     {
       "stationuuid": "0d96bce2-55dd-4099-8e5a-f42653409406",
@@ -304,7 +307,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast8.play.cz/skyrock128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "0e8a50f5-5f1a-4d5f-9350-83eff4efea9f",
@@ -323,7 +326,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rozhlas.stream/brno.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "0e8e5dec-9bac-40d4-8f60-163e6aa4b10e",
@@ -341,7 +344,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.chatujme.cz:8000/chatradio",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:39.082Z"
+      "probedAt": "2026-06-11T08:17:05.049Z"
     },
     {
       "stationuuid": "10dc2cfb-5938-4336-bfa8-51231ad5e5b1",
@@ -360,7 +363,7 @@
       "verdictReason": "audio/aac (https variant on default port from http://)",
       "finalUrl": "https://25443.live.streamtheworld.com/HITRADIO_CITY_PRAHA_SC",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:32:00.296Z"
+      "probedAt": "2026-06-11T08:17:04.302Z"
     },
     {
       "stationuuid": "120f9ba0-c55a-498a-ae36-58b5c27ac2af",
@@ -379,7 +382,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://funkstar.radioca.st/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.011Z"
+      "probedAt": "2026-06-11T08:17:04.301Z"
     },
     {
       "stationuuid": "127cdcb3-bd7b-4a40-a5f1-3dcde612f223",
@@ -398,7 +401,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://icecast.beatzone.cz/radio/8630/cherry.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.300Z"
     },
     {
       "stationuuid": "129b3663-0543-443a-886e-b2c101cf326b",
@@ -417,7 +420,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://27753.live.streamtheworld.com/EVROPA2.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "12f79ab6-1e88-482a-8021-5e99c6f20f13",
@@ -436,7 +439,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://laradioplus.ice.infomaniak.ch/laradioplus-high.aac?i=96970",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.858Z"
+      "probedAt": "2026-06-11T08:17:04.953Z"
     },
     {
       "stationuuid": "145f24ec-56b3-11e9-aa33-52543be04c81",
@@ -454,7 +457,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast8.play.cz/samsonfm128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "146fc49c-d0eb-4fbb-bc4f-79a772c769e2",
@@ -472,7 +475,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s2.radioparty.pl:8015/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.161Z"
+      "probedAt": "2026-06-11T08:17:04.302Z"
     },
     {
       "stationuuid": "149c48ae-ab14-40b6-8fd7-6f26635bec90",
@@ -490,7 +493,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://backend.fedstrapradio.com:8000/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.009Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "15580ab2-1817-11e9-a80b-52543be04c81",
@@ -505,10 +508,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aac) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://fr.radio-streamhosting.com:8000/metalheartradio64aac",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:58.806Z"
+      "probedAt": "2026-06-11T08:17:25.459Z"
     },
     {
       "stationuuid": "15de457c-67d9-4153-9bce-c70cbeb7adf2",
@@ -526,7 +529,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://ice2.radia.cz/relax-fire64.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "17b54d6e-8e12-41e5-a3f7-9fd4c5f15e88",
@@ -544,7 +547,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://ice2.radia.cz/relax-sea64.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "17e20c76-e993-45fb-88f4-6efdef17cc28",
@@ -560,10 +563,10 @@
       "clickcount": 11,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://sc.ipip.cz:8206/;stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.511Z"
+      "probedAt": "2026-06-11T08:17:05.111Z"
     },
     {
       "stationuuid": "192e541a-dc73-405b-9a00-c3a4f0505a30",
@@ -581,7 +584,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://ice2.radia.cz/relax-train64.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "1961d0d5-e080-43ad-bf48-7a5e8424f6fe",
@@ -599,7 +602,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/rockmax256.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "1b568695-9ce7-493d-ba72-d9b3d5e0a364",
@@ -618,7 +621,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ice.actve.net/fm-evropa2-128",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "1bbe1a17-ce95-431f-a113-e8887ebb5326",
@@ -637,7 +640,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://27753.live.streamtheworld.com/BONTONAAC.aac?tdsdk=js-2.9&swm=false&pname=TDSdk&pversion=2.9&banners=none&burst-time=15&sbmid=4ef04b1d-096f-4273-f8be-4c056d2bd182",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.300Z"
     },
     {
       "stationuuid": "1c2591b7-7f69-4144-a366-8e4c87f947a1",
@@ -655,7 +658,7 @@
       "verdictReason": "audio/mpeg (https variant on default port from http://)",
       "finalUrl": "https://ice.abradio.cz/helax128.mp3?type=.mp3/;stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:59.774Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "1c73ba77-2de2-420f-90dd-74d15118a9be",
@@ -673,7 +676,7 @@
       "verdictReason": "application/ogg (https variant on default port from http://)",
       "finalUrl": "https://amp.cesnet.cz/cro-jazz.flac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:32:00.367Z"
+      "probedAt": "2026-06-11T08:17:25.548Z"
     },
     {
       "stationuuid": "1eb41dea-3db4-4b65-ba14-6d97b999842a",
@@ -691,7 +694,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://icecast9.play.cz/zun192.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "1fa537a5-d0af-48b6-b2ed-bbbca5d238f5",
@@ -709,7 +712,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://icecast9.play.cz/zun48.aac",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "20489f66-8d40-493b-bf8a-36f2941237c8",
@@ -726,7 +729,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade after redirect to http://) (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.radiojar.com/4gw72qm8u68uv",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.590Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "2111400a-69b3-4302-bee9-a80460b57bfd",
@@ -745,7 +748,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://ice2.abradio.cz/folk64a.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.858Z"
+      "probedAt": "2026-06-11T08:17:04.953Z"
     },
     {
       "stationuuid": "22427bf9-3ae6-11ea-8dd7-52543be04c81",
@@ -763,7 +766,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://n0d.radiojar.com/hcrb063nn3quv?rj-ttl=5&rj-tok=AAABnj_kjJAAuCI_f8VwRqoqlQ",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.161Z"
+      "probedAt": "2026-06-11T08:17:04.454Z"
     },
     {
       "stationuuid": "2391e0fd-3755-41f7-8389-f9bd9e89d350",
@@ -779,10 +782,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://powerponies.cz:8000/;stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.600Z"
+      "probedAt": "2026-06-11T08:17:06.282Z"
     },
     {
       "stationuuid": "245b213b-e8c1-496b-a963-450286f216f8",
@@ -800,7 +803,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.mediawork.cz/retrotv/retrotvHQ1/chunklist_w627639048.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.300Z"
     },
     {
       "stationuuid": "2577a021-2392-4baa-8f6c-bcdefeab7957",
@@ -819,7 +822,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast6.play.cz/jihcimbalka128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "27e1f1e4-7857-4ddf-bbb8-0604234c08e4",
@@ -837,7 +840,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://icecast9.play.cz/energic.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "281c9866-2b6d-47ed-840e-49055f6d94c8",
@@ -854,7 +857,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast6.play.cz/jih128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "298bbb68-fb2b-43b4-b476-94a482458bbc",
@@ -872,7 +875,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://icecast3.play.cz/radio-nostalgie128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.009Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "298d3e94-dd4b-4dbd-b336-2d7b631b1d79",
@@ -891,7 +894,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast6.play.cz/casrock128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "29ff758e-ef10-48c8-af38-e50062301f37",
@@ -909,7 +912,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://ice2.radia.cz/relax-morning-birds64.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "2f6e1b51-69d4-4280-ab8d-ab9f8dc75530",
@@ -924,10 +927,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/ogg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://amp.cesnet.cz:8000/cro-radio-junior-256.ogg",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:32:03.098Z"
+      "probedAt": "2026-06-11T08:17:28.406Z"
     },
     {
       "stationuuid": "308030ee-8c31-4ce7-99f4-88179811cbb9",
@@ -945,7 +948,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://icecast6.play.cz/jih32.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "309a02c6-8c06-474d-94db-8b2845f7c909",
@@ -960,10 +963,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/ogg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://amp.cesnet.cz:8000/cro-d-dur-256.ogg",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:32:00.715Z"
+      "probedAt": "2026-06-11T08:17:26.611Z"
     },
     {
       "stationuuid": "3107a066-eebd-4dcf-834c-eaa3ab106354",
@@ -981,7 +984,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ice.radia.cz/oldiesradio128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.300Z"
     },
     {
       "stationuuid": "31988e3e-db92-4d93-8c5a-d7b56bbebc92",
@@ -999,7 +1002,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radia.cz/spa/assets/c8516a638fbaff4ae963.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.301Z"
     },
     {
       "stationuuid": "331ab90c-d68c-4b02-affa-a3bfe824dd87",
@@ -1013,11 +1016,11 @@
       "votes": 156,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 404",
       "finalUrl": "http://icecast8.play.cz/radiodixie192.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.266Z"
+      "probedAt": "2026-06-11T08:17:04.974Z"
     },
     {
       "stationuuid": "3321ebec-e7f8-46bc-bf47-3a4de512ecf1",
@@ -1035,7 +1038,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://ocko-live-dash.ssl.cdn.cra.cz/cra_live2/ocko_gold.stream.1.smil/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.809Z"
+      "probedAt": "2026-06-11T08:17:04.454Z"
     },
     {
       "stationuuid": "33d5e36b-7301-494c-b022-d7f3a304f72b",
@@ -1054,7 +1057,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast8.play.cz/freeradio128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.266Z"
+      "probedAt": "2026-06-11T08:17:04.974Z"
     },
     {
       "stationuuid": "348fdad1-69cc-4f53-a848-a73175aad522",
@@ -1071,7 +1074,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast4.play.cz/kiss128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.008Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "37f9c6db-a491-4893-a1b8-dcf22e73a0c1",
@@ -1090,7 +1093,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ice3.abradio.cz/shadowbox128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "380525e0-e2bb-4419-98ee-fc21c83f45c5",
@@ -1108,7 +1111,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rozhlas.stream/radiozurnal_sport_adhoc_1_high.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "38dd84f1-4954-4311-ae11-ba189b528801",
@@ -1126,7 +1129,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.mediawork.cz/retrotv/retrotvHQ1/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.300Z"
     },
     {
       "stationuuid": "3963a7f3-d1cc-4fe1-831b-36499ca21b6f",
@@ -1145,7 +1148,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rozhlas.stream/wave_mp3_256.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "3b7fc8b5-c929-47ab-b203-ededce877a24",
@@ -1164,7 +1167,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rferl-ingest.akamaized.net/hls/live/2121658/axia04/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.008Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "3f4770f8-6f5b-44f6-a606-0ce5de461411",
@@ -1182,7 +1185,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://hls.hvezda.info/session01/128k/s.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:39.082Z"
+      "probedAt": "2026-06-11T08:17:05.049Z"
     },
     {
       "stationuuid": "3fda342d-d929-11e9-a861-52543be04c81",
@@ -1200,7 +1203,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.actve.net/web-pg-pohadky",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "40b1f7b6-93da-4187-9f4b-76b1a9ba8f1c",
@@ -1219,7 +1222,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast6.play.cz/seejay128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "40c7fb8f-287f-11e8-91bf-52543be04c81",
@@ -1238,7 +1241,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast6.play.cz/cesky-impuls.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "4300fc98-119d-417d-b9d7-f06578d68240",
@@ -1257,7 +1260,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://icecast9.play.cz/netro-life-radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "431e7237-86b0-11e8-aa66-52543be04c81",
@@ -1276,7 +1279,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/cityzl128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "4740ae67-9381-4846-8fba-8aaf5707d889",
@@ -1295,7 +1298,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/hitpoprock128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "4837625e-7d95-42a1-8f13-3f796568d5f4",
@@ -1314,7 +1317,7 @@
       "verdictReason": "audio/aac (https variant on default port from http://)",
       "finalUrl": "https://icecast2.play.cz/samsonfm128aac",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:32:00.731Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "48b6108e-3cf5-4985-843f-25a5380a494a",
@@ -1331,7 +1334,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast2.play.cz/radiobeat128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "4a84dbc3-3203-4ef4-b5b6-4babd9ce4ae8",
@@ -1350,7 +1353,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://ice3.radia.cz/koleda_64.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.809Z"
+      "probedAt": "2026-06-11T08:17:04.454Z"
     },
     {
       "stationuuid": "4b42896a-5fd7-4f9a-bc35-32d93ef650e3",
@@ -1368,7 +1371,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast8.play.cz/radio7-128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.266Z"
+      "probedAt": "2026-06-11T08:17:04.974Z"
     },
     {
       "stationuuid": "4bd6e6c3-6284-4a83-9d30-edbc7666265f",
@@ -1387,7 +1390,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://icecast8.play.cz/sazava192.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.266Z"
+      "probedAt": "2026-06-11T08:17:04.974Z"
     },
     {
       "stationuuid": "4cf99ab0-79f3-45bf-8dca-7fa71002c716",
@@ -1405,7 +1408,7 @@
       "verdictReason": "audio/mpeg (https variant on default port from http://)",
       "finalUrl": "https://icecast1.play.cz/radio7cz32.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:32:01.487Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "4e9b0f36-3b10-4e00-baa0-ab2e18322dbe",
@@ -1423,7 +1426,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mxnticek.eu/listen/phonk/128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.009Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "4ee5a87d-e445-4ce2-8cad-da534e8be10b",
@@ -1441,7 +1444,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mxnticek.eu/listen/phonk/128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.009Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "4f6c6980-ecb1-439b-95f8-cf74abfc60e6",
@@ -1460,7 +1463,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://free.rcast.net/72851",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:39.082Z"
+      "probedAt": "2026-06-11T08:17:05.049Z"
     },
     {
       "stationuuid": "50c08114-84d3-41ac-9f40-02b09e4913fe",
@@ -1479,7 +1482,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rozhlas.stream/plus_mp3_128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "511c1130-53b9-478c-8ec7-29d36f7e90aa",
@@ -1497,7 +1500,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://a5.asurahosting.com:6530/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.301Z"
     },
     {
       "stationuuid": "5192677e-a070-4b94-b570-d93f1103ca19",
@@ -1516,7 +1519,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiopunctum.cz:8001/radio",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.300Z"
     },
     {
       "stationuuid": "5275df88-4198-4524-acf3-abc564737131",
@@ -1534,7 +1537,7 @@
       "verdictReason": "audio/mpeg (https variant on default port from http://)",
       "finalUrl": "https://icecast-u2.play.cz/krokodyl128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:59.785Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "55e08718-a4de-49c3-958a-e8a8f4de21f6",
@@ -1552,7 +1555,7 @@
       "verdictReason": "application/ogg",
       "finalUrl": "https://amp.cesnet.cz:8443/cro3.flac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.591Z"
+      "probedAt": "2026-06-11T08:17:04.302Z"
     },
     {
       "stationuuid": "56359e3e-8447-4c27-a577-60d54a8e9b39",
@@ -1571,7 +1574,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://rozhlas.stream/ostrava_high.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "568ef843-32e6-4911-849e-1151e47f4269",
@@ -1590,7 +1593,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/fajnfresh128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "573c39a8-734d-476c-8f64-df296527dd58",
@@ -1609,7 +1612,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://rozhlas.stream/radio_prague_int_high.aac",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "578a673c-52d4-46bb-94e8-42b4469b55da",
@@ -1627,7 +1630,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://bcast.spmmedia.cz/prostor-mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.591Z"
+      "probedAt": "2026-06-11T08:17:04.302Z"
     },
     {
       "stationuuid": "58633ddd-fa5d-4ead-a150-a95137ac094d",
@@ -1646,7 +1649,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/cityfm128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "59425e67-86b7-11e9-aa30-52543be04c81",
@@ -1665,7 +1668,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/oldiesradio128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "5a0b9ad6-d9ff-44dc-8b4c-08988b07a5be",
@@ -1680,10 +1683,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/ogg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://amp.cesnet.cz:8000/cro-radio-wave-256.ogg",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:32:02.922Z"
+      "probedAt": "2026-06-11T08:17:27.846Z"
     },
     {
       "stationuuid": "5c65222f-7623-4cda-8d02-110b1dd35b18",
@@ -1701,7 +1704,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://23623.live.streamtheworld.com/RADIO_HUMOR.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "5d37c750-97ad-4305-9c0b-9a6a6cb02100",
@@ -1717,10 +1720,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://mp3stream4.abradio.cz/fajnfresh64.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.916Z"
+      "probedAt": "2026-06-11T08:17:06.536Z"
     },
     {
       "stationuuid": "5dfff7e0-a712-4fc4-bac2-ba9c2769309f",
@@ -1739,7 +1742,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.actve.net/web-e2-csweb",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "5f7c90af-32b5-4c04-8af9-d07642a73250",
@@ -1757,7 +1760,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://28503.live.streamtheworld.com/RADIO_BLANIK_128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "5f8ff326-922f-445d-a544-7e73d946da55",
@@ -1771,11 +1774,11 @@
       "votes": 69,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 401",
       "finalUrl": "http://sc.ipip.cz:8224/;stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.809Z"
+      "probedAt": "2026-06-11T08:17:05.116Z"
     },
     {
       "stationuuid": "6059930f-7ddb-480b-8cdd-fdcc472c1b33",
@@ -1794,7 +1797,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://genwave-radio.com/listen/genwave/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:39.292Z"
+      "probedAt": "2026-06-11T08:17:05.116Z"
     },
     {
       "stationuuid": "60df337a-fd2d-435e-83ef-8cf6ae395779",
@@ -1813,7 +1816,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://5ca49f2417d90.streamlock.net/mnau/livestream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.858Z"
+      "probedAt": "2026-06-11T08:17:04.953Z"
     },
     {
       "stationuuid": "613525ac-8afa-4e94-beec-ae5cf6c7034e",
@@ -1828,11 +1831,11 @@
       "votes": 98,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
       "finalUrl": "http://164.68.122.137:8061/",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.268Z"
+      "probedAt": "2026-06-11T08:17:05.115Z"
     },
     {
       "stationuuid": "626c8105-6388-4a20-aaa6-c6fe02c44a32",
@@ -1850,7 +1853,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast4.play.cz/country128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.008Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "628ae621-9cdf-4f69-b638-8f40d69e8fc2",
@@ -1866,10 +1869,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://powerponies.cz:8000/;stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.796Z"
+      "probedAt": "2026-06-11T08:17:06.687Z"
     },
     {
       "stationuuid": "638c4a10-d179-46d5-86bc-d8cb1f35013f",
@@ -1888,7 +1891,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://27753.live.streamtheworld.com/HITRADIO_OSMDESATKA.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.300Z"
     },
     {
       "stationuuid": "64059b8b-db39-4414-8f0c-fec635744cfc",
@@ -1905,7 +1908,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://ocko-live.ssl.cdn.cra.cz/channels/ocko/playlist/cze/live_lq.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.300Z"
     },
     {
       "stationuuid": "65beccff-268e-401e-8dda-d8147a398c5a",
@@ -1923,7 +1926,7 @@
       "verdictReason": "TypeError: fetch failed — Error: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca",
       "finalUrl": "https://radiootava.trefcon.cz:8889/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:39.143Z"
+      "probedAt": "2026-06-11T08:17:04.953Z"
     },
     {
       "stationuuid": "6726334b-7ec2-49af-aa11-3ad83a2bbbb9",
@@ -1938,10 +1941,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://46.36.36.149:8000/live",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:59.772Z"
+      "probedAt": "2026-06-11T08:17:25.225Z"
     },
     {
       "stationuuid": "6d8af92e-3174-472d-8476-6521cb520054",
@@ -1960,7 +1963,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.actve.net/web-80",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "6e24e63f-a100-4df7-bc25-bc9fa327ac07",
@@ -1979,7 +1982,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://rozhlas.stream/jazz_high.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "6f27451f-84bf-454f-971d-9c8c28c59c37",
@@ -1997,7 +2000,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast8.play.cz/hana128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.266Z"
+      "probedAt": "2026-06-11T08:17:04.974Z"
     },
     {
       "stationuuid": "6f54eb2a-7fc1-4837-b25b-ded903ec4dbe",
@@ -2016,7 +2019,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/cernahora64.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "6f61cd1b-a6f8-4546-b8f5-c848571c116a",
@@ -2034,7 +2037,7 @@
       "verdictReason": "application/ogg (https variant on default port from http://)",
       "finalUrl": "https://amp.cesnet.cz/cro-d-dur.flac",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:32:01.990Z"
+      "probedAt": "2026-06-11T08:17:26.611Z"
     },
     {
       "stationuuid": "6fbf70f4-d9b2-4550-a4ca-120e13c91c75",
@@ -2049,11 +2052,11 @@
       "votes": 5,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 404",
       "finalUrl": "http://mpc1.mediacp.eu:8342/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:40.920Z"
+      "probedAt": "2026-06-11T08:17:07.518Z"
     },
     {
       "stationuuid": "720e5547-8a01-4f5c-a404-e53dcc8a9c3c",
@@ -2072,7 +2075,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice4.abradio.cz/coop128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.009Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "72e15a70-d929-11e9-a861-52543be04c81",
@@ -2090,7 +2093,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.actve.net/web-pg-disko",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "72fd7498-b41e-448d-9f1a-b8a00e3b8ca8",
@@ -2106,7 +2109,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast4.play.cz/kiss128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.008Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "738686d7-63c4-4965-b7ef-32c01651e076",
@@ -2125,7 +2128,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://icecast5.play.cz/impuls128.mp3?1571059741",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.591Z"
+      "probedAt": "2026-06-11T08:17:05.271Z"
     },
     {
       "stationuuid": "742cecbd-db1f-4515-9f28-0ee41b09a77b",
@@ -2144,7 +2147,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast2.play.cz/bhradio-192.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "75700bcd-72d7-4398-9e20-df1e9633adcc",
@@ -2161,7 +2164,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ice.abradio.cz/blanikmorava128.mp3?gdpr=1&gdpr_consent=Q084aEUyaE84aEUyaEFjQUJCRU5BX0NnQVBfQUFIX0FBQVlnRjVvQmhEeEVCU0ZDQUdKb1lOa2dBQUFXeHdBQUFDQUNBQUFBb0FBQUFCb0FBQVFBQUFBQUFBQWdCQUFBQUJJQUlBSUFBQUJBR0VBQUFBQUFBQUFBQUFBQUFFQUFBQUFBSVFBQUFBQUFBQ0JBQUFBQUFBQUFBQUFBQUFBQVFBQUFnWG5BZUFBV0FCVUFDNEFIQUFRQUFxQUJvQURrQUlnQVRBQW5nQlZBQzRBRjhBTVFBaElCRUFFVUFLVUFXSUF5d0Jtd0R1QU84QWhBQkZnQzBnRjFBTUNBYXdCTm9DOHdBQUFBLllBQUFBQUFBQUFBQQ==",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "75d183c0-73b1-4f9e-a305-a429064f7ca4",
@@ -2179,7 +2182,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast1.play.cz/beat64.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.008Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "7b65aafa-6b87-4164-866a-01234cc6e27d",
@@ -2192,11 +2195,11 @@
       "votes": 12,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
       "finalUrl": "http://164.68.122.137:8061/",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.419Z"
+      "probedAt": "2026-06-11T08:17:05.364Z"
     },
     {
       "stationuuid": "7bd36bea-3d4f-43cc-8ff1-28ad8e4d24a6",
@@ -2215,7 +2218,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast6.play.cz/casradio128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "7c169c79-1cd9-40c5-a74f-fa91a467dccd",
@@ -2234,7 +2237,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ice.actve.net/dance-radio128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "7cf86499-d207-4522-bb8a-0b5a25f8bb73",
@@ -2253,7 +2256,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ice.actve.net/fm-evropa2-128",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "7ecb52d8-d8ea-4750-855a-69950f7226ee",
@@ -2269,7 +2272,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast4.play.cz/country128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.008Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "7f727b20-8a77-4978-8bec-b5101a1867cc",
@@ -2288,7 +2291,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ice.radia.cz/radiozlin128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.300Z"
     },
     {
       "stationuuid": "7feb3c60-f5b5-4796-8c4c-a0acd40d4895",
@@ -2307,7 +2310,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ice.actve.net/web-e2-flashback",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "811e935c-fc92-4a70-9eb8-f215059d446d",
@@ -2326,7 +2329,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ice3.abradio.cz/hitradiocontact128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "81361abb-1d2f-4064-bace-ac0e32bbe505",
@@ -2345,7 +2348,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/cernahora128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "81deb949-4ceb-4c4a-b99f-435467508a34",
@@ -2363,7 +2366,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://n0b.radiojar.com/bugesa4nn3quv?rj-ttl=5&rj-tok=AAABnd2vgJEAK90K0CVB3GsYEQ",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.858Z"
+      "probedAt": "2026-06-11T08:17:04.953Z"
     },
     {
       "stationuuid": "8214fbd9-51be-4222-b9a6-47aa0c6c71a0",
@@ -2382,7 +2385,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast6.play.cz/casrock128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "848caf0f-5992-11ea-be63-52543be04c81",
@@ -2400,7 +2403,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ice3.abradio.cz/povidka128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "84e39c40-439c-4b6b-911a-5f5086722434",
@@ -2419,7 +2422,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://rozhlas.stream/ceske_budejovice_high.aac",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "8552af34-2284-41bd-9a0e-2c534fcc59b0",
@@ -2438,7 +2441,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://29043.live.streamtheworld.com/EVROPA2AAC.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "86ade1ec-0b06-4ede-97a1-04ab18299265",
@@ -2457,7 +2460,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://icecast9.play.cz/netro-life-radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "86bf90bd-67e7-400d-8fc2-08cc57a7e73e",
@@ -2476,7 +2479,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:39.082Z"
+      "probedAt": "2026-06-11T08:17:05.049Z"
     },
     {
       "stationuuid": "8941361f-cba8-4c53-892a-446cc399a31d",
@@ -2494,7 +2497,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://icecast8.play.cz/classic128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.266Z"
+      "probedAt": "2026-06-11T08:17:04.974Z"
     },
     {
       "stationuuid": "89c307c8-626a-4af8-aae1-c332b6492f3a",
@@ -2513,7 +2516,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://backend.fedstrapradio.com:8000/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.009Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "8c5750b4-6870-11ea-9d09-52543be04c81",
@@ -2532,7 +2535,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/fajn128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "8cdf37a5-303a-4f50-8395-623466abdacb",
@@ -2549,7 +2552,7 @@
       "verdictReason": "audio/mpeg (https variant on default port from http://)",
       "finalUrl": "https://icecast-u2.play.cz/spin128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:59.355Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "8e221247-8103-4209-a119-519b4bd9fb93",
@@ -2567,7 +2570,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://vysilani.zaktv.cz/broadcast/hls/ptv/index.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.858Z"
+      "probedAt": "2026-06-11T08:17:04.953Z"
     },
     {
       "stationuuid": "8fc59db6-d356-429a-98a0-4e284fa8d50e",
@@ -2582,10 +2585,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/ogg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://amp1.cesnet.cz:8000/cro2-256.ogg",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:59.796Z"
+      "probedAt": "2026-06-11T08:17:25.459Z"
     },
     {
       "stationuuid": "90762bd0-8a7f-4015-b00a-111c305699b2",
@@ -2600,10 +2603,10 @@
       "clickcount": 6,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://37.46.208.57:8000/stream_cra_256.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:32:00.227Z"
+      "probedAt": "2026-06-11T08:17:26.162Z"
     },
     {
       "stationuuid": "917790a4-3209-4d61-84b7-b2356ae78b61",
@@ -2620,7 +2623,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://rozhlas.stream/plus_low.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "927edba2-7db7-40f2-96bd-8a9316de90f4",
@@ -2639,7 +2642,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://29083.live.streamtheworld.com/FREKVENCE1.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "938a5577-f0ad-47d1-a256-498e5f857a05",
@@ -2653,10 +2656,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://mp3stream3.abradio.cz/applaus128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.808Z"
+      "probedAt": "2026-06-11T08:17:05.049Z"
     },
     {
       "stationuuid": "94567573-8777-473b-8ab0-09487d84ebef",
@@ -2672,10 +2675,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://mp3stream4.abradio.cz/depeche128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.613Z"
+      "probedAt": "2026-06-11T08:17:05.564Z"
     },
     {
       "stationuuid": "94850cb6-4bcd-11e8-a4d1-52543be04c81",
@@ -2693,7 +2696,7 @@
       "verdictReason": "audio/mpeg (https variant on default port from http://)",
       "finalUrl": "https://svobodneradio.radioca.st/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.858Z"
+      "probedAt": "2026-06-11T08:17:04.301Z"
     },
     {
       "stationuuid": "960bf772-0601-11e8-ae97-52543be04c81",
@@ -2712,7 +2715,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast5.play.cz/cro3-128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "960c2ab1-0601-11e8-ae97-52543be04c81",
@@ -2731,7 +2734,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/hit90128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "960c2e1f-0601-11e8-ae97-52543be04c81",
@@ -2749,7 +2752,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast8.play.cz/cro1-128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "960c2ef6-0601-11e8-ae97-52543be04c81",
@@ -2768,7 +2771,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast6.play.cz/cro2-128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "960c7093-0601-11e8-ae97-52543be04c81",
@@ -2786,7 +2789,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/cityfm128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "960cd948-0601-11e8-ae97-52543be04c81",
@@ -2802,10 +2805,10 @@
       "clickcount": 4,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://mp3stream4.abradio.cz/chillout128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.462Z"
+      "probedAt": "2026-06-11T08:17:05.330Z"
     },
     {
       "stationuuid": "960d5c99-0601-11e8-ae97-52543be04c81",
@@ -2822,7 +2825,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast8.play.cz/kisshady128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "960e4c91-0601-11e8-ae97-52543be04c81",
@@ -2841,7 +2844,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/rockzabava128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "960ec4c7-0601-11e8-ae97-52543be04c81",
@@ -2859,7 +2862,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/blanikfm128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.980Z"
+      "probedAt": "2026-06-11T08:17:04.270Z"
     },
     {
       "stationuuid": "960ec633-0601-11e8-ae97-52543be04c81",
@@ -2875,10 +2878,10 @@
       "clickcount": 20,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://mp3stream4.abradio.cz:8000/humor128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:58.711Z"
+      "probedAt": "2026-06-11T08:17:25.262Z"
     },
     {
       "stationuuid": "960ece9a-0601-11e8-ae97-52543be04c81",
@@ -2896,7 +2899,7 @@
       "verdictReason": "audio/aac (https variant on default port from http://)",
       "finalUrl": "https://icecast2.play.cz/country128aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:59.879Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "960ed031-0601-11e8-ae97-52543be04c81",
@@ -2913,7 +2916,7 @@
       "verdictReason": "audio/mpeg (https variant on default port from http://)",
       "finalUrl": "https://icecast5.play.cz/expres128mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:32:00.045Z"
+      "probedAt": "2026-06-11T08:17:04.302Z"
     },
     {
       "stationuuid": "960ed37d-0601-11e8-ae97-52543be04c81",
@@ -2930,7 +2933,7 @@
       "verdictReason": "audio/aac (https variant on default port from http://)",
       "finalUrl": "https://icecast2.play.cz/kiss128aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:32:00.374Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "961001b0-0601-11e8-ae97-52543be04c81",
@@ -2947,7 +2950,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast2.play.cz/radio1.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "961cf04b-0601-11e8-ae97-52543be04c81",
@@ -2966,7 +2969,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/hit80128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "961d4a91-0601-11e8-ae97-52543be04c81",
@@ -2982,10 +2985,10 @@
       "clickcount": 4,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://mp3stream4.abradio.cz/depeche128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.309Z"
+      "probedAt": "2026-06-11T08:17:05.051Z"
     },
     {
       "stationuuid": "961d4cf1-0601-11e8-ae97-52543be04c81",
@@ -3004,7 +3007,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/metalomanie128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "961d4eb8-0601-11e8-ae97-52543be04c81",
@@ -3023,7 +3026,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/helax128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "961d4f6c-0601-11e8-ae97-52543be04c81",
@@ -3038,11 +3041,11 @@
       "votes": 766,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 404",
       "finalUrl": "http://icecast5.play.cz/dechovka128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.289Z"
+      "probedAt": "2026-06-11T08:17:04.968Z"
     },
     {
       "stationuuid": "961d7067-0601-11e8-ae97-52543be04c81",
@@ -3061,7 +3064,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast3.play.cz/hey-radio128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.009Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "961d7ccb-0601-11e8-ae97-52543be04c81",
@@ -3078,7 +3081,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast2.play.cz/radiobeat128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "961dc5c0-0601-11e8-ae97-52543be04c81",
@@ -3097,7 +3100,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice5.abradio.cz/hitvysocina128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.011Z"
+      "probedAt": "2026-06-11T08:17:04.301Z"
     },
     {
       "stationuuid": "961e622e-0601-11e8-ae97-52543be04c81",
@@ -3116,7 +3119,7 @@
       "verdictReason": "audio/mpeg (https variant on default port from http://)",
       "finalUrl": "https://icecast-u2.play.cz/krokodyl128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:58.882Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "961ed5ff-0601-11e8-ae97-52543be04c81",
@@ -3133,7 +3136,7 @@
       "verdictReason": "audio/aac (https variant on default port from http://)",
       "finalUrl": "https://icecast1.play.cz/kisspublikum128aac",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:32:00.224Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "961edb13-0601-11e8-ae97-52543be04c81",
@@ -3150,7 +3153,7 @@
       "verdictReason": "audio/mpeg (https variant on default port from http://)",
       "finalUrl": "https://icecast1.play.cz/kissdelta192.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:32:00.799Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "961f0c9d-0601-11e8-ae97-52543be04c81",
@@ -3165,10 +3168,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/ogg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://amp.cesnet.cz:8000/cro-radio-wave-256.ogg",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:32:00.541Z"
+      "probedAt": "2026-06-11T08:17:26.110Z"
     },
     {
       "stationuuid": "961f6420-0601-11e8-ae97-52543be04c81",
@@ -3183,10 +3186,10 @@
       "clickcount": 10,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/ogg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://amp.cesnet.cz:8000/cro-plus-256.ogg",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:58.819Z"
+      "probedAt": "2026-06-11T08:17:25.547Z"
     },
     {
       "stationuuid": "961f6cc4-0601-11e8-ae97-52543be04c81",
@@ -3205,7 +3208,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast8.play.cz/freeradio128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "96209a4c-0601-11e8-ae97-52543be04c81",
@@ -3223,7 +3226,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/sumava128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "962b436c-0601-11e8-ae97-52543be04c81",
@@ -3241,7 +3244,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast2.play.cz/proglas128",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "96398566-0601-11e8-ae97-52543be04c81",
@@ -3260,7 +3263,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/magicbrno128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "9641d770-0601-11e8-ae97-52543be04c81",
@@ -3279,7 +3282,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast6.play.cz/casrock128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "9646c6ce-0601-11e8-ae97-52543be04c81",
@@ -3298,7 +3301,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice3.abradio.cz/pohadka128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "9647ec96-0601-11e8-ae97-52543be04c81",
@@ -3317,7 +3320,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast8.play.cz/classic128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "96494925-0601-11e8-ae97-52543be04c81",
@@ -3335,7 +3338,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://n0e.radiojar.com/cp13r2cpn3quv?rj-ttl=5&rj-tok=AAABnj_kY4oAJeC8nYjk6-xkPw",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.301Z"
     },
     {
       "stationuuid": "964959cb-0601-11e8-ae97-52543be04c81",
@@ -3350,10 +3353,10 @@
       "clickcount": 16,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (needs-playlist) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://rfe04.akacast.akamaistream.net/7/509/437762/v1/ibb.akacast.akamaistream.net/rfe04.m3u",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.161Z"
+      "probedAt": "2026-06-11T08:17:04.454Z"
     },
     {
       "stationuuid": "964e8c15-0601-11e8-ae97-52543be04c81",
@@ -3371,7 +3374,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/blanikcz128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "964f22ad-0601-11e8-ae97-52543be04c81",
@@ -3390,7 +3393,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast2.play.cz/cro7-128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "977b7ba4-0822-4472-b470-81ba06807aba",
@@ -3406,10 +3409,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aac) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://fire.doscast.com:8038/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:40.560Z"
+      "probedAt": "2026-06-11T08:17:07.215Z"
     },
     {
       "stationuuid": "979f5cb0-a052-456d-95e7-48d032aedd00",
@@ -3427,7 +3430,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://n0e.radiojar.com/hcrb063nn3quv?rj-ttl=5&rj-tok=AAABnd2vaykAQh1KQ5rewZglww",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.590Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "9815961b-c3f7-4fca-b911-bd4ee63c2dfe",
@@ -3441,11 +3444,11 @@
       "votes": 1,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
       "finalUrl": "http://stream.nonstopradio.cz:8080/",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:39.484Z"
+      "probedAt": "2026-06-11T08:17:05.658Z"
     },
     {
       "stationuuid": "9991af65-746a-4a1c-a61f-51e5eb19e0a7",
@@ -3463,7 +3466,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://stream.zunradio.cz/zun1.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.300Z"
     },
     {
       "stationuuid": "9a25d1e8-04bf-4987-bffc-d455447af673",
@@ -3481,7 +3484,7 @@
       "verdictReason": "application/ogg (https variant on default port from http://)",
       "finalUrl": "https://amp.cesnet.cz/cro-jazz.flac",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:59.206Z"
+      "probedAt": "2026-06-11T08:17:25.548Z"
     },
     {
       "stationuuid": "9a8a6f92-c904-4586-ac23-15ccef1c2c41",
@@ -3500,7 +3503,7 @@
       "verdictReason": "audio/aacp (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast8.play.cz/radio7-32aac",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.266Z"
+      "probedAt": "2026-06-11T08:17:04.974Z"
     },
     {
       "stationuuid": "9bea3d90-d08b-4441-ab92-47ab2ccb5c9b",
@@ -3519,7 +3522,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/hitpoprock128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "9d1ae637-b524-4282-916a-a358adb30f4e",
@@ -3538,7 +3541,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen.radioking.com/radio/442799/stream/497147",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:39.082Z"
+      "probedAt": "2026-06-11T08:17:05.049Z"
     },
     {
       "stationuuid": "9d254d7c-0274-49d1-adc7-90d0047f83d6",
@@ -3552,11 +3555,11 @@
       "votes": 9,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 404",
       "finalUrl": "http://mpc1.mediacp.eu:8342/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:40.046Z"
+      "probedAt": "2026-06-11T08:17:06.518Z"
     },
     {
       "stationuuid": "9d2b7b0b-f0cf-4c32-a1ce-bc6e964a7c1a",
@@ -3575,7 +3578,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rferl-ingest.akamaized.net/hls/live/2121658/axia04/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.008Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "9d87a8ad-edfc-41b3-9ca8-ad2bca01208c",
@@ -3594,7 +3597,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://rozhlas.stream/wave_mp3_256.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "9eb9bcda-d929-11e9-a861-52543be04c81",
@@ -3613,7 +3616,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.actve.net/web-pg-pisnicky",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "a005443c-083b-11e8-ae97-52543be04c81",
@@ -3631,7 +3634,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/orion128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "a097a164-e995-4925-83ec-823392dbfd98",
@@ -3649,7 +3652,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast2.play.cz/radio1-64.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "a0c12bdc-290e-4121-b6f6-933dd1a24bac",
@@ -3668,7 +3671,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://worldradio100.radioca.st/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.858Z"
+      "probedAt": "2026-06-11T08:17:04.953Z"
     },
     {
       "stationuuid": "a141b8f3-8515-4a7d-b711-7b165f4b967b",
@@ -3682,11 +3685,11 @@
       "votes": 0,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
       "finalUrl": "http://mpc1.mediacp.eu:8034/",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:39.752Z"
+      "probedAt": "2026-06-11T08:17:05.729Z"
     },
     {
       "stationuuid": "a3566686-dace-4de3-9e62-67f1e56ec886",
@@ -3702,10 +3705,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://mp3stream4.abradio.cz:8000/coop128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:58.862Z"
+      "probedAt": "2026-06-11T08:17:25.547Z"
     },
     {
       "stationuuid": "a3c8b03b-0139-4067-a677-79392598f242",
@@ -3724,7 +3727,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://icecast6.play.cz/cesky-impuls.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "a6d008c4-2085-4816-801c-9310f66c4fb0",
@@ -3743,7 +3746,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast2.play.cz/samsonfm128aac",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "a7febd85-ca0f-400d-b209-bba3d59a67eb",
@@ -3762,7 +3765,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ice4.abradio.cz/bojler_room_128.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.009Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "a86c3cb7-e0ae-4f12-afa7-264696e79d55",
@@ -3781,7 +3784,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://ice2.radia.cz/hit90128.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "aaec68f1-aa06-423e-aa82-2dab5a36ff82",
@@ -3799,7 +3802,7 @@
       "verdictReason": "application/ogg (https variant on default port from http://)",
       "finalUrl": "https://amp.cesnet.cz/cro-d-dur.flac",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:32:00.076Z"
+      "probedAt": "2026-06-11T08:17:25.548Z"
     },
     {
       "stationuuid": "ab08ad62-1c48-41f9-ab09-3a87edb1486f",
@@ -3815,10 +3818,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://live.topradio.cz:8000/crazy128",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:58.796Z"
+      "probedAt": "2026-06-11T08:17:25.225Z"
     },
     {
       "stationuuid": "b13ea46f-9a4e-4a42-a16f-0c5e3da82657",
@@ -3834,10 +3837,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://live.topradio.cz:8000/calimero192",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:58.947Z"
+      "probedAt": "2026-06-11T08:17:25.547Z"
     },
     {
       "stationuuid": "b2e362d0-b8e0-11e9-acb2-52543be04c81",
@@ -3855,7 +3858,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://westradio.cz/radio/8010/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.300Z"
     },
     {
       "stationuuid": "b371f892-5d45-413c-bd65-d6143c1245b5",
@@ -3874,7 +3877,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://rozhlas.stream/vysocina_high.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "b565f9c1-212b-4e4b-9175-9f1f089dfc2d",
@@ -3892,7 +3895,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cz.radio-streamhosting.com:8443/metalheartradio128mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.808Z"
+      "probedAt": "2026-06-11T08:17:04.302Z"
     },
     {
       "stationuuid": "b5792bd1-5c77-11e9-a622-52543be04c81",
@@ -3911,7 +3914,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.actve.net/dance-radio320.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "b581783f-fe7c-4f4d-9aff-f22e04aead8a",
@@ -3929,7 +3932,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://servidor39.brlogic.com:8252/live?type=.m3u",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.858Z"
+      "probedAt": "2026-06-11T08:17:04.953Z"
     },
     {
       "stationuuid": "b744d69a-928e-4c04-a630-1076a2e586af",
@@ -3948,7 +3951,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://icecast7.play.cz/bikersradiodoupe128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.009Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "b74ae42b-9648-4caa-9a95-bd175294d0af",
@@ -3966,7 +3969,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rozhlas.stream/radiozurnal_sport_adhoc_2_high.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "b99a11c6-7681-4a79-a340-f7581a1940bc",
@@ -3985,7 +3988,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radiopunctum.cz:8001/radio",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.300Z"
     },
     {
       "stationuuid": "bb37369b-28e3-4134-b816-06dc6070baed",
@@ -4003,7 +4006,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mxnticek.eu/phonk/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.009Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "bc5b6165-a6da-42a8-a676-8e1f42eb23fc",
@@ -4021,7 +4024,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast1.play.cz/impuls128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.008Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "bc95343c-2d65-11ea-aa0c-52543be04c81",
@@ -4038,7 +4041,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast1.play.cz/signal128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.008Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "bdb4026e-62a0-44f8-a5d2-0164aa4938f5",
@@ -4056,7 +4059,7 @@
       "verdictReason": "application/ogg (https variant on default port from http://)",
       "finalUrl": "https://amp.cesnet.cz/cro-radio-wave.flac",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:32:03.376Z"
+      "probedAt": "2026-06-11T08:17:28.406Z"
     },
     {
       "stationuuid": "be44d41e-f9c0-410a-89c2-a5d631377817",
@@ -4075,7 +4078,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast9.play.cz/radio-ostravan-256.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "bf1e3292-ec5e-499d-9d75-d00269f003d6",
@@ -4093,7 +4096,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.sepia.sk:8000/rnt128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:39.082Z"
+      "probedAt": "2026-06-11T08:17:05.049Z"
     },
     {
       "stationuuid": "bfed09a5-8ea4-45f9-916f-e3e5b8f6e4b4",
@@ -4111,7 +4114,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast6.play.cz/radio1-128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "c15295f4-561f-47a5-8c4f-9bdb40210582",
@@ -4130,7 +4133,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://25453.live.streamtheworld.com/ROCK_RADIO_128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "c1555df0-3fe9-49cb-b2f4-9e3c7c46d4c2",
@@ -4149,7 +4152,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://icecast.beatzone.cz/radio/8000/128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.300Z"
     },
     {
       "stationuuid": "c18b8935-33b9-41f5-b675-ed952668f877",
@@ -4163,11 +4166,11 @@
       "votes": 9,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://sc.ipip.cz:7980/;?1711695047279",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 404",
+      "finalUrl": "http://ice.ipip.cz:8000/Blueradio.mp3?1711695047279",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:39.082Z"
+      "probedAt": "2026-06-11T08:17:05.423Z"
     },
     {
       "stationuuid": "c1f742d6-b2c4-4b73-a9ad-30ddf194345e",
@@ -4185,7 +4188,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://rozhlas.stream/radiozurnal_sport_high.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "c34f97eb-de1b-4164-9344-b9f0a4f9ac91",
@@ -4204,7 +4207,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://icecast8.play.cz/color128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.266Z"
+      "probedAt": "2026-06-11T08:17:04.974Z"
     },
     {
       "stationuuid": "c39ee6bf-d126-11e8-a54a-52543be04c81",
@@ -4222,7 +4225,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/crystal128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "c45e34f4-d927-11e9-a861-52543be04c81",
@@ -4241,7 +4244,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast5.play.cz/impuls128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "c47820b3-e0ec-49f6-b51b-d88b604e1d2b",
@@ -4259,7 +4262,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://icecast9.play.cz/zun48.aac",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "c4ea5162-ed42-47cd-8648-382832620f45",
@@ -4277,7 +4280,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://icecast5.play.cz/rockzone128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.591Z"
+      "probedAt": "2026-06-11T08:17:05.271Z"
     },
     {
       "stationuuid": "c6756b5f-3bd7-422d-87c7-4e4ae8fe829f",
@@ -4296,7 +4299,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast8.play.cz/expres128mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "c6c9277a-68ae-4230-9d06-aeab4847d649",
@@ -4315,7 +4318,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ice4.abradio.cz/dance128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.009Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "c6dbc068-03f6-486e-bf74-bbd13c75d1c2",
@@ -4330,10 +4333,10 @@
       "clickcount": 5,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://stream.svobodny-vysilac.cz:8000/live.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:58.939Z"
+      "probedAt": "2026-06-11T08:17:25.926Z"
     },
     {
       "stationuuid": "c7571cbe-b514-11e9-acb2-52543be04c81",
@@ -4352,7 +4355,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast5.play.cz/rockzone128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "c79485f1-013e-46ec-a2ef-8eb3cef2d6dd",
@@ -4371,7 +4374,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ice.abradio.cz/znamkapunku128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "c80ec3dc-15ca-4b52-8dcd-c03efa77c95c",
@@ -4389,7 +4392,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://icecast2.play.cz/beat128aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "c9323802-ed08-433d-b777-a5a05a7dd240",
@@ -4408,7 +4411,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cast1.torontocast.com:3800/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:39.082Z"
+      "probedAt": "2026-06-11T08:17:05.049Z"
     },
     {
       "stationuuid": "c9b32b22-7823-11e9-aa30-52543be04c81",
@@ -4426,7 +4429,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice3.abradio.cz/epigon128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "ca2f254a-1908-42a7-aefc-85e7a0984b2c",
@@ -4442,10 +4445,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://radio.clickandcountry.cz:8000/clickandcountry.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:32:19.234Z"
+      "probedAt": "2026-06-11T08:17:45.740Z"
     },
     {
       "stationuuid": "ca6353a3-fb85-4277-8490-7afabc388cf2",
@@ -4463,7 +4466,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radia.cz/spa/assets/c8516a638fbaff4ae963.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.301Z"
     },
     {
       "stationuuid": "ccc6b59f-e9bb-4373-9f29-eeecf4c98342",
@@ -4481,7 +4484,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast3.play.cz/radiomb.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.009Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "cd563cdc-5c77-11e9-a622-52543be04c81",
@@ -4500,7 +4503,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.actve.net/dance-radio128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "d16b9c34-86c0-4a5f-bce2-d981d1aeb56b",
@@ -4515,10 +4518,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/ogg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://amp.cesnet.cz:8000/cro3-256.ogg",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:32:03.553Z"
+      "probedAt": "2026-06-11T08:17:29.011Z"
     },
     {
       "stationuuid": "d20f94a0-4f9c-4a71-8957-bd1216e8e9c6",
@@ -4536,7 +4539,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://rozhlas.stream/radiozurnal_sport_adhoc_2_high.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "d28e2fc3-2b9e-4a56-a34c-ef139a9dffce",
@@ -4554,7 +4557,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://westradio.cz/radio/8000/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.300Z"
     },
     {
       "stationuuid": "d328cbff-5cd6-49fc-bf14-2f020a1204d5",
@@ -4572,7 +4575,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/oldiesradio128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "d3bd0cbb-993e-4673-81b4-d74f6cc498e7",
@@ -4591,7 +4594,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rferl-ingest.akamaized.net/hls/live/2121745/axia19/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.008Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "d4482e6e-7a01-45b3-addb-a88224d39026",
@@ -4610,7 +4613,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast8.play.cz/radio7-128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.266Z"
+      "probedAt": "2026-06-11T08:17:04.974Z"
     },
     {
       "stationuuid": "d45dca1f-d3ab-4bc6-a247-ad98d91cb09e",
@@ -4628,7 +4631,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rozhlas.stream/radiozurnal_sport_adhoc_2_high.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "d5145b3a-7814-4690-b496-a04f02ff0ce9",
@@ -4647,7 +4650,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://icecast9.play.cz/energic.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "d59ad82a-3044-4951-8c6c-a0d72b26001c",
@@ -4666,7 +4669,7 @@
       "verdictReason": "audio/aacp (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.actve.net/fm-frekvence1-aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "d5b6be0e-7d96-4ac7-b310-2ef5bfcafd47",
@@ -4684,7 +4687,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.jc1.cz/hls/jc1.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.858Z"
+      "probedAt": "2026-06-11T08:17:04.953Z"
     },
     {
       "stationuuid": "d66c7784-4846-4bb6-a4d7-5de9304f4ca9",
@@ -4703,7 +4706,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://icecast.astraradio.cz/192",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:39.082Z"
+      "probedAt": "2026-06-11T08:17:05.049Z"
     },
     {
       "stationuuid": "d6bb6104-fc0b-41d9-9e46-24ffb08543ef",
@@ -4722,7 +4725,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast8.play.cz/expres128mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "d7415eb0-4f23-11e9-a4d7-52543be04c81",
@@ -4739,7 +4742,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/rockradio128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "d82146be-974e-47d8-85fb-935985e44482",
@@ -4754,10 +4757,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://mp3stream4.abradio.cz/dance128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.766Z"
+      "probedAt": "2026-06-11T08:17:05.884Z"
     },
     {
       "stationuuid": "d8b251be-d16e-4aef-ab1b-21f054d0445b",
@@ -4776,7 +4779,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast6.play.cz/casradio128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "dc8919ca-4a37-4a25-881a-8c2b15294979",
@@ -4794,7 +4797,7 @@
       "verdictReason": "application/ogg (https variant on default port from http://)",
       "finalUrl": "https://amp.cesnet.cz/cro-d-dur.flac",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:32:01.410Z"
+      "probedAt": "2026-06-11T08:17:26.611Z"
     },
     {
       "stationuuid": "de4f53b1-3a55-447d-b3e8-29b9f09833a4",
@@ -4812,7 +4815,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://rozhlas.stream/olomouc_low.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "ded23118-e7ba-40a6-a104-173959417ebd",
@@ -4830,7 +4833,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rozhlas.stream/cro7_mp3_128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "df3f953b-10e4-444e-b2db-a009459f54c8",
@@ -4849,7 +4852,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast6.play.cz/jihcimbalka128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "e24d6fd1-3c8f-4e18-b898-cd3fd29dde55",
@@ -4868,7 +4871,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.zunradio.cz/zun3.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.300Z"
     },
     {
       "stationuuid": "e34d0358-26f3-11e8-91bf-52543be04c81",
@@ -4886,7 +4889,7 @@
       "verdictReason": "audio/mpeg (https variant on default port from http://)",
       "finalUrl": "https://ice.abradio.cz/citymi128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:58.965Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "e45ddf1d-963b-4e32-94d9-a3f1ed9cbc00",
@@ -4904,7 +4907,7 @@
       "verdictReason": "audio/aacp (https variant on default port from http://)",
       "finalUrl": "https://ice.abradio.cz/fmplus64.aac",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:59.502Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "e843dbaf-4021-4594-ba0d-c3e85024954c",
@@ -4923,7 +4926,7 @@
       "verdictReason": "audio/aacp (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast1.play.cz/proglas96aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.008Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "ea3b7622-08e8-445e-8728-15043d4fdf6a",
@@ -4942,7 +4945,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/cernahora128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "eac6a047-c06e-42bf-a504-09ace8f810a3",
@@ -4961,7 +4964,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://22653.live.streamtheworld.com/RADIO_BLANIK.aac?gdpr=0",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "eb2c518f-2279-45df-beba-ce5293897479",
@@ -4978,7 +4981,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://ocko-live.ssl.cdn.cra.cz/channels/ocko_expres/playlist/cze/live_lq.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.300Z"
     },
     {
       "stationuuid": "eb59211d-4643-4b66-be2f-9d4be3948963",
@@ -4997,7 +5000,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast6.play.cz/seejay128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "ed401348-aa84-49d2-ba56-a506fc232cb7",
@@ -5014,7 +5017,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast2.play.cz/fajnrock192.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "edbb4c24-20ff-49a9-889e-7faeaa98c2cd",
@@ -5032,7 +5035,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-288.zeno.fm/90fvpb27u18uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiI5MGZ2cGIyN3UxOHV2IiwiaG9zdCI6InN0cmVhbS0yODguemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiazd2N1lMRHZSMzJPSUlHR1d4UTJ1dyIsImlhdCI6MTc3NzU0MDE1NCwiZXhwIjoxNzc3NTQwMjE0fQ.fxls6nwRh0S5Y94-BjMxqDQL18L2HbR9sPtDw0hyBLU",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.011Z"
+      "probedAt": "2026-06-11T08:17:04.301Z"
     },
     {
       "stationuuid": "edff4cbe-7e39-44bc-a248-29744cd303ed",
@@ -5049,7 +5052,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast7.play.cz/relax128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.009Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "f002d018-670f-4c11-8d9c-81828afee68e",
@@ -5068,7 +5071,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://rozhlas.stream/sever_high.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "f30802ce-2b2c-4a5c-8f18-7537b2234617",
@@ -5083,10 +5086,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/ogg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://amp.cesnet.cz:8000/cro-d-dur-256.ogg",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:32:02.738Z"
+      "probedAt": "2026-06-11T08:17:27.312Z"
     },
     {
       "stationuuid": "f5b421b3-a688-4a60-a2ce-5baf482b4c56",
@@ -5104,7 +5107,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://icecast6.play.cz/radio-xaver.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "f65738f3-ddd7-49fc-bf72-15a1ad472338",
@@ -5122,7 +5125,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://icecast9.play.cz/casrock192.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "f6bc1537-107b-46a1-9c81-f25839474911",
@@ -5141,7 +5144,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio-dance-eu.stream.laut.fm/radio-dance-eu?t302=2026-04-30_09-09-17&uuid=be59fc3c-1d4f-4720-a474-867e2cb6f216",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.300Z"
     },
     {
       "stationuuid": "f74b1240-0198-4828-91a8-ef7718cd255b",
@@ -5160,7 +5163,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://ice2.radia.cz/rockzabava128.aac",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "f80785d4-ff58-4559-a1ae-b44640ad2348",
@@ -5178,7 +5181,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast7.play.cz/relax128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.009Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "f84d4751-53b7-4a05-b838-5923740429aa",
@@ -5196,7 +5199,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ellis.stream.laut.fm/ellis?t302=2026-05-19_10-50-46&uuid=ad0fb6f6-35ef-444c-bda9-81e95b60608e",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.010Z"
+      "probedAt": "2026-06-11T08:17:04.300Z"
     },
     {
       "stationuuid": "f92326ed-2b37-49f3-a6ff-8fe611dc3e23",
@@ -5212,10 +5215,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://65.21.202.84:9332/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.840Z"
+      "probedAt": "2026-06-11T08:17:04.953Z"
     },
     {
       "stationuuid": "f94d6ffa-4eaf-41ac-9d17-9db568814d7b",
@@ -5234,7 +5237,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streamer05.low-latency.cz/oiktv/index.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.858Z"
+      "probedAt": "2026-06-11T08:17:04.953Z"
     },
     {
       "stationuuid": "fac2e54e-c199-46fb-afd9-e47b6f7ee5d4",
@@ -5252,7 +5255,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://icecast1.play.cz/kissdelta128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.008Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "fb6df011-77a5-11e8-83fa-52543be04c81",
@@ -5271,7 +5274,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice.abradio.cz/hitradiofm128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "fbc0f7d3-49e6-4dbb-b768-c4a4318be7ee",
@@ -5289,7 +5292,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://n05.radiojar.com/wm9sntcpn3quv?rj-ttl=5&rj-tok=AAABnd2vceAAr1JHAYIXhmt_3A",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:38.590Z"
+      "probedAt": "2026-06-11T08:17:04.299Z"
     },
     {
       "stationuuid": "fc58b020-2d65-11ea-aa0c-52543be04c81",
@@ -5306,7 +5309,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast6.play.cz/signal-brno128.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     },
     {
       "stationuuid": "fcb5cbcf-e658-427c-82f7-a673d765dadb",
@@ -5320,11 +5323,11 @@
       "votes": 21,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 404",
       "finalUrl": "http://mpc1.mediacp.eu:8342/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:39.112Z"
+      "probedAt": "2026-06-11T08:17:05.551Z"
     },
     {
       "stationuuid": "fd23d4ea-4bc3-4398-aa71-050cee899d1e",
@@ -5339,11 +5342,11 @@
       "votes": 85,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 404",
       "finalUrl": "http://icecast5.play.cz/dechovka128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.591Z"
+      "probedAt": "2026-06-11T08:17:05.271Z"
     },
     {
       "stationuuid": "fd85ae48-f7ae-4e77-91f0-aac9160fcdd4",
@@ -5360,7 +5363,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://icecast2.play.cz/radiobeat128.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:38.007Z"
+      "probedAt": "2026-06-11T08:17:04.298Z"
     },
     {
       "stationuuid": "ffc0040e-5e9c-4e08-8c57-94db090c9e7a",
@@ -5379,7 +5382,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://rozhlas.stream/radiozurnal_aac_128.aac",
       "isCurated": false,
-      "probedAt": "2026-06-10T18:31:37.981Z"
+      "probedAt": "2026-06-11T08:17:04.271Z"
     }
   ]
 }

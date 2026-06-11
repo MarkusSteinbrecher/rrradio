@@ -290,6 +290,7 @@ button, input, select { font: inherit; color: inherit; }
 .donut-seg-imported { stroke: var(--color-primary); }
 .donut-seg-available { stroke: var(--color-success); }
 .donut-seg-duplicate { stroke: var(--color-info); }
+.donut-seg-http-only { stroke: var(--color-warning); }
 .donut-seg-broken { stroke: var(--color-error); }
 .donut-seg-unprobed { stroke: var(--color-text-tertiary); }
 .donut-center {
@@ -315,6 +316,7 @@ button, input, select { font: inherit; color: inherit; }
 .donut-legend .swatch-imported { background: var(--color-primary); }
 .donut-legend .swatch-available { background: var(--color-success); }
 .donut-legend .swatch-duplicate { background: var(--color-info); }
+.donut-legend .swatch-http-only { background: var(--color-warning); }
 .donut-legend .swatch-broken { background: var(--color-error); }
 .donut-legend .swatch-unprobed { background: var(--color-text-tertiary); }
 .donut-legend .count {

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-10T19:48:29.689Z",
+  "generatedAt": "2026-06-11T09:36:13.618Z",
   "country": "TW",
   "rawSnapshotAt": "2026-05-19T07:51:27.909Z",
   "total": 206,
@@ -8,12 +8,14 @@
   "curated": 67,
   "byVerdict": {
     "ok-hls": 39,
-    "broken-mixed": 111,
+    "broken-mixed": 101,
     "ok": 44,
-    "broken-timeout": 5,
-    "broken-4xx": 1,
+    "broken-timeout": 6,
+    "broken-refused": 1,
+    "broken-4xx": 7,
     "probe-skipped": 4,
-    "broken-dns": 2
+    "broken-dns": 2,
+    "broken-format": 2
   },
   "stations": [
     {
@@ -33,7 +35,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://azuracast.conceptradio.fr:8030/stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.509Z"
+      "probedAt": "2026-06-11T09:35:16.268Z"
     },
     {
       "stationuuid": "00774caa-c276-47c8-93bb-60656561efa1",
@@ -48,11 +50,11 @@
       "votes": 32,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 404",
       "finalUrl": "http://cast.uforadio.com.tw:8000/miao-stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.852Z"
+      "probedAt": "2026-06-11T09:35:25.191Z"
     },
     {
       "stationuuid": "01985105-c28b-499e-988d-7eed6643141f",
@@ -67,10 +69,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://43.254.16.40:8000/TP.AM999",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:43.581Z"
+      "probedAt": "2026-06-11T09:35:29.299Z"
     },
     {
       "stationuuid": "02abdcd7-2477-46cf-8ccf-feb177d54d87",
@@ -88,7 +90,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://cdn280.ccdntech.com/live-http/_definst_/vod280_Live/stars/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.401Z"
+      "probedAt": "2026-06-11T09:35:00.476Z"
     },
     {
       "stationuuid": "02cca7ad-dc4e-498b-a88e-691fdc98e27f",
@@ -106,7 +108,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://azuracast.conceptradio.fr/radio/8030/stream.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.402Z"
+      "probedAt": "2026-06-11T09:35:00.478Z"
     },
     {
       "stationuuid": "02fac92e-681f-4f63-9815-9e6c810d0774",
@@ -121,10 +123,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/TC.FM97.7",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:47.737Z"
+      "probedAt": "2026-06-11T09:35:36.002Z"
     },
     {
       "stationuuid": "0366eb84-7206-47ab-94d1-53b70e578064",
@@ -142,7 +144,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://n04.rcs.revma.com/p2e3rfg3qtzuv?rj-ttl=5&rj-tok=AAABnd4hrWMAU0xfTltknI5gyA",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.398Z"
+      "probedAt": "2026-06-11T09:35:00.474Z"
     },
     {
       "stationuuid": "0372c84b-e8db-447d-9911-0c1d5e96b925",
@@ -160,7 +162,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://lizeradio.com/webplayer/actions.php",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:27.777Z"
+      "probedAt": "2026-06-11T09:35:07.122Z"
     },
     {
       "stationuuid": "04b902cd-9f22-4466-892c-3976f7868a71",
@@ -177,7 +179,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streamak0134.akamaized.net/live0134lh-5gst/_definst_/am855/chunklist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.401Z"
+      "probedAt": "2026-06-11T09:35:00.477Z"
     },
     {
       "stationuuid": "0683be37-12cf-49f7-a6a2-aaa8dd5d7cbe",
@@ -196,7 +198,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://cdn280.ccdntech.com/live-http/_definst_/vod280_Live/bb/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.401Z"
+      "probedAt": "2026-06-11T09:35:00.476Z"
     },
     {
       "stationuuid": "071f39ad-fb25-41d5-9c7f-b45a2b1e0420",
@@ -212,10 +214,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/TP.AM819",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:46.851Z"
+      "probedAt": "2026-06-11T09:35:33.056Z"
     },
     {
       "stationuuid": "08fd517b-8943-43b3-9371-f13fc77e9304",
@@ -231,10 +233,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://livestream.1766.today:1768/live1.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.206Z"
+      "probedAt": "2026-06-11T09:35:23.428Z"
     },
     {
       "stationuuid": "09a2c7ed-82d1-42e6-85f4-5e8b2b355dfe",
@@ -252,7 +254,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://n14a-eu.rcs.revma.com/7mnq8rt7k5zuv?rj-ttl=5&rj-tok=AAABnkBdIA8AJzs8rytvrwS9sQ",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:45.050Z"
+      "probedAt": "2026-06-11T09:35:25.855Z"
     },
     {
       "stationuuid": "0da47c66-54a0-4084-9109-2f2558a2f524",
@@ -270,7 +272,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://n04.rcs.revma.com/1qxn2vg3qtzuv?rj-ttl=5&rj-tok=AAABnd4hqxQArYOd3fs3kQBB-g",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.398Z"
+      "probedAt": "2026-06-11T09:35:00.474Z"
     },
     {
       "stationuuid": "0f80da62-6aec-45ae-9ab1-39df07c7d65e",
@@ -288,7 +290,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade after redirect to http://)",
       "finalUrl": "https://n14.rcs.revma.com/044q61ha7a0uv?rj-ttl=5&rj-tok=AAABnkBc7VgAkXPWziSERN8DhA",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.398Z"
+      "probedAt": "2026-06-11T09:35:00.474Z"
     },
     {
       "stationuuid": "10730198-5342-46b1-bc6a-98af04c638fc",
@@ -306,7 +308,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.pbs.gov.tw/live/TCS/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.399Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "10b4ef1e-ff58-44d3-9de3-8c41daaab021",
@@ -324,7 +326,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://satellitepull.cnr.cn/live/wxszzs/playlist.m3u8?wsSession=d966c1f28016a758d88ba0c2-174761731342853&wsIPSercert=270c8446fe14303f2433a2f164ccd9e5",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.402Z"
+      "probedAt": "2026-06-11T09:35:00.477Z"
     },
     {
       "stationuuid": "12e63479-12ff-4d1d-b78d-fcd9fdfedc44",
@@ -342,7 +344,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (https variant on default port from http://)",
       "finalUrl": "https://stream.pbs.gov.tw/live/HLS/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:26.828Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "14569b3b-271d-4a7c-a598-72323fa9469b",
@@ -357,10 +359,10 @@
       "clickcount": 27,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/vnd.apple.mpegurl) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://202.39.43.67:1935/live/RA000036/chunklist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.550Z"
+      "probedAt": "2026-06-11T09:35:22.395Z"
     },
     {
       "stationuuid": "14cf2016-7ac7-482c-8573-49ceaf25c277",
@@ -378,7 +380,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://n37a-eu.rcs.revma.com/pntx1639ntzuv?rj-ttl=5&rj-tok=AAABnd4heHgA9c-9ZRAPG3kVpw",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:42.550Z"
+      "probedAt": "2026-06-11T09:35:18.490Z"
     },
     {
       "stationuuid": "1639fe6b-6600-4508-952a-4b9ec70d9818",
@@ -397,7 +399,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://bcovlive-a.akamaihd.net/rce33d845cb9e42dfa302c7ac345f7858/ap-northeast-1/6282251407001/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:25.451Z"
+      "probedAt": "2026-06-11T09:35:03.692Z"
     },
     {
       "stationuuid": "18ece015-83f6-4caa-958c-adfb30b53e58",
@@ -412,10 +414,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://onair.family977.com.tw:8000/live.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:46.709Z"
+      "probedAt": "2026-06-11T09:35:25.949Z"
     },
     {
       "stationuuid": "1a191ec2-1ffc-454e-87ce-da9f94652aa0",
@@ -429,10 +431,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/GUIDECast.AH",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:54.423Z"
+      "probedAt": "2026-06-11T09:35:57.378Z"
     },
     {
       "stationuuid": "1a986a1a-4828-4e39-ab89-642f4b769819",
@@ -448,10 +450,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/CH.FM88.7",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:52.663Z"
+      "probedAt": "2026-06-11T09:35:51.627Z"
     },
     {
       "stationuuid": "1cb587f1-9d9b-4872-97da-5d7fc11d99ee",
@@ -467,10 +469,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aac) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://cast.uforadio.com.tw:8000/kao-stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.549Z"
+      "probedAt": "2026-06-11T09:35:23.308Z"
     },
     {
       "stationuuid": "1eb90727-81cb-49d5-9e82-e602853c08c6",
@@ -489,7 +491,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.ginnet.cloud/live0119lo-p4rb/_definst_/modern/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.399Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "1f288f7b-17ce-4807-99b8-deb3a1c06cda",
@@ -507,7 +509,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://n11.rcs.revma.com/q2m07dc59duvv?rj-ttl=5&rj-tok=AAABnd4hqRIA4g34ENO2DOZDEQ",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.401Z"
+      "probedAt": "2026-06-11T09:35:00.477Z"
     },
     {
       "stationuuid": "1fbef30f-dfa0-471b-b0ea-dd296391d30e",
@@ -524,7 +526,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.ginnet.cloud/live0119lo-p4rb/_definst_/fm909/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:21.399Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "20126f50-f822-4b08-916d-a19fd572b02d",
@@ -538,10 +540,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mp3) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://59.120.255.169:8081/",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:28.964Z"
+      "probedAt": "2026-06-11T09:35:09.147Z"
     },
     {
       "stationuuid": "21faf135-ace7-418b-a561-a43d8d162df3",
@@ -560,7 +562,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.pbs.gov.tw/live/TTS/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.399Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "227ebcf0-354a-4e1f-b3ec-a0ab943b3b40",
@@ -577,7 +579,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streamak0134.akamaized.net/live0134lh-5gst/_definst_/am1296/chunklist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.402Z"
+      "probedAt": "2026-06-11T09:35:00.477Z"
     },
     {
       "stationuuid": "25970dbd-3591-46b6-bfaa-668e8be26152",
@@ -593,10 +595,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://livestream.1766.today:1768/live1.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.508Z"
+      "probedAt": "2026-06-11T09:35:25.484Z"
     },
     {
       "stationuuid": "26e76720-2e4f-4b13-9617-970cffa1116b",
@@ -610,10 +612,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://taiwan-radio.tw:8000/TP.FM93.7",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.823Z"
+      "probedAt": "2026-06-11T09:35:24.565Z"
     },
     {
       "stationuuid": "278f4665-f188-4fdc-bd83-d199e762efb5",
@@ -627,10 +629,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mp3) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://59.125.41.65:8081/",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.550Z"
+      "probedAt": "2026-06-11T09:35:22.427Z"
     },
     {
       "stationuuid": "27e0d087-070c-4dd7-8b86-e501d262c5f1",
@@ -648,7 +650,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://n16.rcs.revma.com/em90w4aeewzuv?rj-ttl=5&rj-tok=AAABnd4hoDEA0SDnay5bKReiGQ",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.401Z"
+      "probedAt": "2026-06-11T09:35:00.477Z"
     },
     {
       "stationuuid": "287c0a0b-3139-4955-9030-7366cc8e471f",
@@ -664,10 +666,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aac) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://cast.uforadio.com.tw:8000/don-stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:43.304Z"
+      "probedAt": "2026-06-11T09:35:27.982Z"
     },
     {
       "stationuuid": "2a856420-1dd5-4551-bad9-6af549380692",
@@ -685,7 +687,7 @@
       "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND cast.tunzilla.com",
       "finalUrl": "https://cast.tunzilla.com/http://61.220.245.236:8080",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:23.398Z"
+      "probedAt": "2026-06-11T09:35:00.477Z"
     },
     {
       "stationuuid": "2ab1eeac-c914-11e8-a54a-52543be04c81",
@@ -700,11 +702,11 @@
       "votes": 983,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-refused",
+      "verdictReason": "TypeError: fetch failed — Error: connect ENETUNREACH 125.228.137.52:1769",
       "finalUrl": "http://livestream.1766.today:1769/live1.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:29.827Z"
+      "probedAt": "2026-06-11T09:35:16.268Z"
     },
     {
       "stationuuid": "2e3b9422-6365-46a7-9f68-cb18eebd27fa",
@@ -720,10 +722,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/TN.AM1188",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:48.181Z"
+      "probedAt": "2026-06-11T09:35:37.410Z"
     },
     {
       "stationuuid": "2ec04dfe-ddbc-4583-9743-fc37ab598d5d",
@@ -737,11 +739,11 @@
       "votes": 76,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 403",
       "finalUrl": "http://live.ximalaya.com/radio-first-page-app/live/788/64.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:43.915Z"
+      "probedAt": "2026-06-11T09:35:23.837Z"
     },
     {
       "stationuuid": "2f72f08a-1ed8-45ed-bc1d-53d08fc9cbb4",
@@ -757,10 +759,10 @@
       "clickcount": 4,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/TP.AM1323",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:43.126Z"
+      "probedAt": "2026-06-11T09:35:23.483Z"
     },
     {
       "stationuuid": "32ca1bc6-65e0-42ea-8b0d-850bc1a7e5c9",
@@ -776,10 +778,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/vnd.apple.mpegurl) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://210.209.16.1:1935/YSLive/YSLive/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:46.123Z"
+      "probedAt": "2026-06-11T09:35:28.324Z"
     },
     {
       "stationuuid": "334b4b71-f816-4c73-8f36-acd76d0eb322",
@@ -798,7 +800,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://us3.internet-radio.com/proxy/cancheers?mp=/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:21.402Z"
+      "probedAt": "2026-06-11T09:35:00.478Z"
     },
     {
       "stationuuid": "3412d496-ec03-4713-aa58-99ac82dcf79c",
@@ -816,7 +818,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://n08.rcs.revma.com/hpeqh9mkc6hvv?rj-ttl=5&rj-tok=AAABnd4hrtYAY0HV0mtTO2SQdw",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:45.093Z"
+      "probedAt": "2026-06-11T09:35:25.949Z"
     },
     {
       "stationuuid": "348ceceb-7b1b-4158-a0c7-7fae0d52c211",
@@ -830,11 +832,11 @@
       "votes": 56,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://lizeradio.com:8080/",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html;charset=utf-8 not audio-like",
+      "finalUrl": "http://lizeradio.com:8080/index.html?sid=1",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:46.930Z"
+      "probedAt": "2026-06-11T09:35:30.531Z"
     },
     {
       "stationuuid": "34d1e846-0342-4f6e-968d-be738122ee3d",
@@ -852,7 +854,7 @@
       "verdictReason": "AbortError: This operation was aborted",
       "finalUrl": "https://cast.ner.gov.tw/4",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:48:29.683Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "35e17586-772d-4374-bac8-b39b90519918",
@@ -870,7 +872,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://n06.rcs.revma.com/e0tdah74hv8uv?rj-ttl=5&rj-tok=AAABnd4hpa4AhWfAy_Cc5DXtgw",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.400Z"
+      "probedAt": "2026-06-11T09:35:00.476Z"
     },
     {
       "stationuuid": "36170e6f-aa3d-4c8e-83d0-79d464bfe40a",
@@ -888,7 +890,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://n05.rcs.revma.com/mk0c5vq122hvv?rj-ttl=5&rj-tok=AAABnkBdIs4A5hDWeaEhbDGKlw",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.398Z"
+      "probedAt": "2026-06-11T09:35:00.474Z"
     },
     {
       "stationuuid": "36d5dc13-0736-4c5e-859e-ae8336458a51",
@@ -906,7 +908,7 @@
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-timeout (AbortError: This operation was aborted)",
       "finalUrl": "https://cast.ner.gov.tw/9",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:48:29.683Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "3839c598-e4f7-4350-a187-d16b34c41066",
@@ -921,10 +923,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/TY.AM774",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:46.402Z"
+      "probedAt": "2026-06-11T09:35:31.729Z"
     },
     {
       "stationuuid": "39619832-dd03-4dc3-9ddb-fca5d9a31dac",
@@ -942,7 +944,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://n06.rcs.revma.com/kydend74hv8uv?rj-ttl=5&rj-tok=AAABnd4ho9UAD8CxL46EzO5NpA",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.400Z"
+      "probedAt": "2026-06-11T09:35:00.476Z"
     },
     {
       "stationuuid": "397481b9-2120-4445-8368-3d3dccd4fda6",
@@ -957,10 +959,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://fm929.cityfm.tw:8080/929.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:51.255Z"
+      "probedAt": "2026-06-11T09:35:31.191Z"
     },
     {
       "stationuuid": "3b7d5ee7-dbec-46fa-af65-e0d2de535c15",
@@ -975,10 +977,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://125.227.87.206:8000/FM98.5",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.397Z"
+      "probedAt": "2026-06-11T09:35:22.598Z"
     },
     {
       "stationuuid": "3c38aabd-887d-4261-8041-00e3d856a67e",
@@ -993,10 +995,10 @@
       "clickcount": 13,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/vnd.apple.mpegurl) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://202.39.43.67:1935/live/RA000013/chunklist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:43.008Z"
+      "probedAt": "2026-06-11T09:35:24.936Z"
     },
     {
       "stationuuid": "40c961b3-7c52-4da1-b956-5728759b2ad4",
@@ -1013,7 +1015,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://flv.ccdntech.com/live/_definst_/mp4:vod117_Live/live1/chunklist_w872521607.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.400Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "43892763-bca1-49a5-9d64-11410c37bdbc",
@@ -1032,7 +1034,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.ginnet.cloud/live0115lo-89xv/_definst_/fm881/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.399Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "43e049f0-c8f5-11e8-a54a-52543be04c81",
@@ -1047,10 +1049,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://fm971.cityfm.tw:8080/971.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.725Z"
+      "probedAt": "2026-06-11T09:35:23.238Z"
     },
     {
       "stationuuid": "44b20dae-1bbe-48d1-9f79-3c1f5396ef90",
@@ -1069,7 +1071,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://flv.ccdntech.com/live/_definst_/mp4:vod117_Live/live1/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.400Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "44dd89fd-72c1-4d15-970d-e84718bc7bcb",
@@ -1083,10 +1085,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mp3) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://59.125.209.209:8081/",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:47:04.052Z"
+      "probedAt": "2026-06-11T09:35:40.442Z"
     },
     {
       "stationuuid": "4527d225-da4e-4bf1-be75-15a272cd4d49",
@@ -1100,10 +1102,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mp3) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://211.20.119.101:8081/",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:24.710Z"
+      "probedAt": "2026-06-11T09:35:02.837Z"
     },
     {
       "stationuuid": "48a90040-a11d-459c-85e0-866b2f4e94dc",
@@ -1121,7 +1123,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (https variant on default port from http://)",
       "finalUrl": "https://stream.pbs.gov.tw/live/mp3:PBS/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:25.806Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "4a3ee109-91b6-4224-89b5-a93284d1add4",
@@ -1136,10 +1138,10 @@
       "clickcount": 5,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/vnd.apple.mpegurl) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://202.39.43.67:1935/live/RA000080/chunklist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.704Z"
+      "probedAt": "2026-06-11T09:35:23.215Z"
     },
     {
       "stationuuid": "4a9431fb-f5a1-4c4a-ae3c-42bab47bca2f",
@@ -1155,10 +1157,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/TN.AM1071",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:55.735Z"
+      "probedAt": "2026-06-11T09:36:01.757Z"
     },
     {
       "stationuuid": "4aece3ae-e1d0-4347-9231-9d81207e2373",
@@ -1173,10 +1175,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mp3) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://211.20.119.102:8081/",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:22.960Z"
+      "probedAt": "2026-06-11T09:35:02.835Z"
     },
     {
       "stationuuid": "4b69f9bb-9c13-4b01-a19b-fc2e8c5b21a9",
@@ -1190,10 +1192,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mp3) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://211.20.119.101:8081/",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:24.860Z"
+      "probedAt": "2026-06-11T09:35:03.693Z"
     },
     {
       "stationuuid": "4b90b111-2095-4318-a965-0877b6758139",
@@ -1211,7 +1213,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://n14.rcs.revma.com/k41z6wadu5hvv?rj-ttl=5&rj-tok=AAABnkBdMJAAVyZl5Df0GVPqdw",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.398Z"
+      "probedAt": "2026-06-11T09:35:00.474Z"
     },
     {
       "stationuuid": "4c7d3d26-6339-4535-a4e6-98284f519cbc",
@@ -1229,7 +1231,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://flv.ccdntech.com/live/_definst_/mp4:vod117_Live/live2/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:21.400Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "50a7e8d6-1e03-4384-908f-5305e83eff65",
@@ -1245,10 +1247,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://60.249.186.105:9000/;",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:49.048Z"
+      "probedAt": "2026-06-11T09:35:28.960Z"
     },
     {
       "stationuuid": "516662ee-f7db-43a5-a7cf-be537b56f3f1",
@@ -1263,10 +1265,10 @@
       "clickcount": 5,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/vnd.apple.mpegurl) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://202.39.43.67:1935/live/RA000076/chunklist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.857Z"
+      "probedAt": "2026-06-11T09:35:24.124Z"
     },
     {
       "stationuuid": "51e03469-1739-4ae3-8b77-6d9d74223570",
@@ -1284,7 +1286,7 @@
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-timeout (AbortError: This operation was aborted)",
       "finalUrl": "https://cast.ner.gov.tw/6",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:48:29.683Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "52430c88-a17d-44be-8986-8d4ae9d134b1",
@@ -1300,10 +1302,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://radio.mcu.edu.tw:8080/radio?1747274117052",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:45.092Z"
+      "probedAt": "2026-06-11T09:35:27.586Z"
     },
     {
       "stationuuid": "528cb5db-a6b3-4abb-bf7f-d1ed99cb2a5d",
@@ -1318,10 +1320,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://1.34.23.16:8080/broadwavehigh.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:45.050Z"
+      "probedAt": "2026-06-11T09:35:22.414Z"
     },
     {
       "stationuuid": "52a1622a-ba46-45bd-be94-0cfc0aeb2581",
@@ -1336,10 +1338,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/CY.FM91.7",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:57.065Z"
+      "probedAt": "2026-06-11T09:36:05.684Z"
     },
     {
       "stationuuid": "550d2edb-c9cc-4449-bb5f-b117b8b58376",
@@ -1354,10 +1356,10 @@
       "clickcount": 6,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/vnd.apple.mpegurl) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://202.39.43.67:1935/live/RA000124/chunklist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:43.611Z"
+      "probedAt": "2026-06-11T09:35:28.323Z"
     },
     {
       "stationuuid": "5b444801-95b7-4de0-a8aa-c30276bb4187",
@@ -1373,10 +1375,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://211.72.215.231:8000/OnAir",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:47:05.362Z"
+      "probedAt": "2026-06-11T09:35:48.697Z"
     },
     {
       "stationuuid": "5b80d82b-5f15-4472-a1a7-8aad8307973a",
@@ -1394,7 +1396,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.nitro-server.uk/listen/1940sshanghaioldtimesmusicradio/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:44.067Z"
+      "probedAt": "2026-06-11T09:35:25.805Z"
     },
     {
       "stationuuid": "5dc593a5-a770-44c7-ae14-4f4750a2319a",
@@ -1412,7 +1414,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (https variant on default port from http://)",
       "finalUrl": "https://stream.pbs.gov.tw/live/ELS/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:27.775Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "5fc79d64-1690-46e5-aa91-94fc0c3d193e",
@@ -1430,7 +1432,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://satellitepull.cnr.cn/live/wxzhzs/playlist.m3u8?wsSession=c650605f64c6488d38b66982-174761774475052&wsIPSercert=270c8446fe14303f2433a2f164ccd9e5",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.402Z"
+      "probedAt": "2026-06-11T09:35:00.477Z"
     },
     {
       "stationuuid": "612836ac-3609-428d-a047-982783e61eff",
@@ -1445,10 +1447,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://43.254.16.40:8000/TP.AM1224",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:43.278Z"
+      "probedAt": "2026-06-11T09:35:27.055Z"
     },
     {
       "stationuuid": "618b9635-9269-4830-931a-2787edf1ff00",
@@ -1466,7 +1468,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://n08.rcs.revma.com/zr7xzec59duvv?rj-ttl=5&rj-tok=AAABnd4hro4ARbmmbmeLrC1zYw",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:45.092Z"
+      "probedAt": "2026-06-11T09:35:25.949Z"
     },
     {
       "stationuuid": "61d496df-7169-469b-922c-0e842f59a0f2",
@@ -1485,7 +1487,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.pbs.gov.tw/live/TNS/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.399Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "6318df8a-5ab2-48fb-9de1-3ee394fa23fe",
@@ -1500,11 +1502,11 @@
       "votes": 15,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 404",
       "finalUrl": "http://mail.guidetw.com.tw:8000/live",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:47:05.910Z"
+      "probedAt": "2026-06-11T09:35:47.891Z"
     },
     {
       "stationuuid": "63362fba-4eda-4837-8893-f6904db4a867",
@@ -1523,7 +1525,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://fm983.cityfm.com.tw:8083/983",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:43.998Z"
+      "probedAt": "2026-06-11T09:35:25.484Z"
     },
     {
       "stationuuid": "6338902a-e06e-43ca-8fd0-a43db6b79d35",
@@ -1538,10 +1540,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/TN.FM99.7",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:48.619Z"
+      "probedAt": "2026-06-11T09:35:38.924Z"
     },
     {
       "stationuuid": "665c3e49-f179-44d5-a33a-51fa71aceb63",
@@ -1560,7 +1562,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.pbs.gov.tw/live/TPS/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.399Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "66f2a995-86c9-47cf-b06e-3541ef4733a3",
@@ -1576,10 +1578,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/TC.AM774",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:44.047Z"
+      "probedAt": "2026-06-11T09:35:26.294Z"
     },
     {
       "stationuuid": "6b87a036-77ef-4932-a0f6-9135d1fd83bc",
@@ -1594,11 +1596,11 @@
       "votes": 29,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 404",
       "finalUrl": "http://cast.uforadio.com.tw:8000/pen-stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:43.002Z"
+      "probedAt": "2026-06-11T09:35:26.010Z"
     },
     {
       "stationuuid": "6be26492-2d96-444d-afa6-91fd5b374bed",
@@ -1617,7 +1619,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.ginnet.cloud/live0130lo-yfyo/_definst_/am/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.399Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "6f7d97ab-58e3-4a9d-83ab-b97d807667b2",
@@ -1636,7 +1638,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:45.092Z"
+      "probedAt": "2026-06-11T09:35:25.949Z"
     },
     {
       "stationuuid": "7190cfe5-c422-4c42-82b8-587b07c03579",
@@ -1651,10 +1653,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/HC.FM97.9",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:55.296Z"
+      "probedAt": "2026-06-11T09:36:00.333Z"
     },
     {
       "stationuuid": "72062acd-8413-490d-89c7-3e6301a60f64",
@@ -1669,10 +1671,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/TN.AM801",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:50.876Z"
+      "probedAt": "2026-06-11T09:35:46.036Z"
     },
     {
       "stationuuid": "74073d5f-0874-4469-8745-1ec0a9e3472f",
@@ -1691,7 +1693,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.ginnet.cloud/live0115lo-89xv/_definst_/am729/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.399Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "7431ad39-122d-4428-b268-b1a9fc8ddba1",
@@ -1706,10 +1708,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://neidi.homeip.net:8080/;",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:25.696Z"
+      "probedAt": "2026-06-11T09:35:07.122Z"
     },
     {
       "stationuuid": "74cb4650-10da-411a-b1d8-5b6fb5f86248",
@@ -1725,10 +1727,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://43.254.16.40:8000/KS.FM89.3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.673Z"
+      "probedAt": "2026-06-11T09:35:22.523Z"
     },
     {
       "stationuuid": "74cf8b19-bc5b-4ae8-9e47-62fbcb21014d",
@@ -1742,10 +1744,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mp3) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://211.72.230.118:8081/",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:50.550Z"
+      "probedAt": "2026-06-11T09:35:29.368Z"
     },
     {
       "stationuuid": "7753621d-c051-4380-af0f-b3f8e8b825cc",
@@ -1763,7 +1765,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://n04.rcs.revma.com/h4ta80hbqwuvv?rj-ttl=5&rj-tok=AAABnd4hobAA11qJMHIF92G-tQ",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.401Z"
+      "probedAt": "2026-06-11T09:35:00.477Z"
     },
     {
       "stationuuid": "77902293-2d99-421b-ba6c-5816150c2841",
@@ -1779,10 +1781,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/HL.AM1242",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:56.191Z"
+      "probedAt": "2026-06-11T09:36:03.121Z"
     },
     {
       "stationuuid": "78d040bb-ebee-48b7-bb87-78a22c1e4d4a",
@@ -1796,10 +1798,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://taiwan-radio.tw:8000/ML.FM97.1",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.672Z"
+      "probedAt": "2026-06-11T09:35:23.463Z"
     },
     {
       "stationuuid": "7902974d-1b62-4bca-8ba7-d2469fbc27d4",
@@ -1818,7 +1820,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.pbs.gov.tw/live/HLS/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.399Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "794526d9-47b3-4313-9475-6dcba1c930ef",
@@ -1832,10 +1834,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mp3) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://60.248.53.115:8081/",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.553Z"
+      "probedAt": "2026-06-11T09:35:22.429Z"
     },
     {
       "stationuuid": "79c96d7f-6c87-47d2-a328-208f37f7392b",
@@ -1854,7 +1856,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.pbs.gov.tw/live/KSS/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.399Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "7a27042e-94ef-46aa-835d-dfa408bcca04",
@@ -1872,7 +1874,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.ginnet.cloud/live0119lo-p4rb/_definst_/classic/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.399Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "7a54e715-467f-47c1-8785-b812719170d2",
@@ -1886,10 +1888,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mp3) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://59.120.255.171:8081/",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:47.049Z"
+      "probedAt": "2026-06-11T09:35:25.855Z"
     },
     {
       "stationuuid": "7ba4ad16-5c0c-433b-8815-a93ef8cf5832",
@@ -1908,7 +1910,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://us3.internet-radio.com/proxy/cancheers?mp=/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.402Z"
+      "probedAt": "2026-06-11T09:35:00.478Z"
     },
     {
       "stationuuid": "7f77f7f1-30f1-4325-8558-8d7828011430",
@@ -1924,10 +1926,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aac) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://cast.uforadio.com.tw:8000/hua-stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.701Z"
+      "probedAt": "2026-06-11T09:35:24.361Z"
     },
     {
       "stationuuid": "80a68b7e-66e4-4478-8065-c7c10f1cb934",
@@ -1946,7 +1948,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.phate.io/phateio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:21.401Z"
+      "probedAt": "2026-06-11T09:35:00.477Z"
     },
     {
       "stationuuid": "80f2fde9-58c1-4a37-a2d7-493b454c316f",
@@ -1965,7 +1967,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.pbs.gov.tw/live/ELS/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.399Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "8609e7be-7f65-4971-b2a8-50db23b36dc7",
@@ -1983,7 +1985,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://ls.qingting.fm/live/1744.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:42.509Z"
+      "probedAt": "2026-06-11T09:35:16.268Z"
     },
     {
       "stationuuid": "86378b8d-8780-45e6-922c-b8b1297237a8",
@@ -1997,10 +1999,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mp3) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://59.120.255.170:8081/",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:27.777Z"
+      "probedAt": "2026-06-11T09:35:07.131Z"
     },
     {
       "stationuuid": "87bb2a6b-b7e9-4c7b-8014-9756a03711a9",
@@ -2015,10 +2017,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/CH.AM1179",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:57.508Z"
+      "probedAt": "2026-06-11T09:36:07.021Z"
     },
     {
       "stationuuid": "88f387e9-bd42-4b0c-a2aa-0321c965f5f7",
@@ -2036,7 +2038,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (https variant on default port from http://)",
       "finalUrl": "https://stream.pbs.gov.tw/live/TCS/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:26.339Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "89f2570a-f65a-4a7f-8918-c12e37fd25e2",
@@ -2052,10 +2054,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aac) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://cast.uforadio.com.tw:8000/tai-stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.397Z"
+      "probedAt": "2026-06-11T09:35:22.292Z"
     },
     {
       "stationuuid": "8b35b620-4f88-413b-bb69-d24a1c7ddd3b",
@@ -2070,10 +2072,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mp3) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://61.218.61.251:8080/",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:47:04.052Z"
+      "probedAt": "2026-06-11T09:35:44.398Z"
     },
     {
       "stationuuid": "8c9d0603-fd07-4ad5-aabc-846634b5c570",
@@ -2087,11 +2089,11 @@
       "votes": 71,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-timeout",
+      "verdictReason": "AbortError: This operation was aborted",
       "finalUrl": "http://wowza.ner.gov.tw/live/_definst_/1/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:47:08.535Z"
+      "probedAt": "2026-06-11T09:36:13.600Z"
     },
     {
       "stationuuid": "8d4d2ada-c57c-46d6-b67d-aba881f9587a",
@@ -2107,10 +2109,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://livestream.1766.today:1768/live1.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.358Z"
+      "probedAt": "2026-06-11T09:35:24.361Z"
     },
     {
       "stationuuid": "8e3d1fbf-c5a9-46f0-9b9d-8dfbaa6a7f90",
@@ -2128,7 +2130,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://n10.rcs.revma.com/pet2dvug1bkvv?rj-ttl=5&rj-tok=AAABnd4hqi4AcTaUeUrf4BWKJQ",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.400Z"
+      "probedAt": "2026-06-11T09:35:00.476Z"
     },
     {
       "stationuuid": "8fd5d7a8-ea44-404c-99a0-6aeae1385739",
@@ -2146,7 +2148,7 @@
       "verdictReason": "AbortError: This operation was aborted",
       "finalUrl": "https://cast.ner.gov.tw/2",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:47:12.712Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "93a9c4da-0149-44ad-b433-ca4bbdb71d52",
@@ -2161,10 +2163,10 @@
       "clickcount": 5,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/vnd.apple.mpegurl) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://202.39.43.67:1935/live/RA000074/chunklist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:43.309Z"
+      "probedAt": "2026-06-11T09:35:26.632Z"
     },
     {
       "stationuuid": "93b2f9a2-af00-4361-9437-a76d19c62c6e",
@@ -2183,7 +2185,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://fm997.cityfm.com.tw:8083/997",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:44.067Z"
+      "probedAt": "2026-06-11T09:35:25.805Z"
     },
     {
       "stationuuid": "93f83583-6964-4208-9446-15f4c2c51587",
@@ -2201,7 +2203,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://flv.ccdntech.com/live/_definst_/mp4:vod117_Live/live2/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.400Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "96b88cb2-76a4-43fb-9257-e791103f5fa8",
@@ -2220,7 +2222,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.ginnet.cloud/live0130lo-yfyo/_definst_/fm/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.399Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "96ec8154-33a5-444e-a111-28901378d10d",
@@ -2238,7 +2240,7 @@
       "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND cast.tunzilla.com",
       "finalUrl": "https://cast.tunzilla.com/http://60.250.148.112:8000/live",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:23.552Z"
+      "probedAt": "2026-06-11T09:35:00.477Z"
     },
     {
       "stationuuid": "98e6c0ab-2458-4eb0-8400-c41b525441a7",
@@ -2257,7 +2259,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://flv.ccdntech.com/live/_definst_/mp4:vod117_Live/live1/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:21.400Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "9b614adf-04e1-4a2e-b23c-2bf5ed16a694",
@@ -2271,10 +2273,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mp3) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://59.120.255.155:8081/",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:46.050Z"
+      "probedAt": "2026-06-11T09:35:22.420Z"
     },
     {
       "stationuuid": "9ca3a4d5-51f7-46f7-9b8b-7ce7f3b4c655",
@@ -2291,7 +2293,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://n0f.radiojar.com/ehzvurp9tv8uv?rj-ttl=5&rj-tok=AAABnd4hk8QABUCoMf8slGNJBQ",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:42.975Z"
+      "probedAt": "2026-06-11T09:35:23.837Z"
     },
     {
       "stationuuid": "9daf966a-f434-44d7-b185-ac9821be2dae",
@@ -2307,10 +2309,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://59.120.102.91:8000/OnAir",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:45.288Z"
+      "probedAt": "2026-06-11T09:35:27.508Z"
     },
     {
       "stationuuid": "9dc4216a-f7ad-4a11-9f11-95a5634fc0f3",
@@ -2328,7 +2330,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://n09.rcs.revma.com/srn5f9kmwxhvv?rj-ttl=5&rj-tok=AAABnd4hpxQAX9DnQcKVFwcZRg",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:45.050Z"
+      "probedAt": "2026-06-11T09:35:25.855Z"
     },
     {
       "stationuuid": "9e31ffb7-8586-425c-b149-fc633a7507cc",
@@ -2343,10 +2345,10 @@
       "clickcount": 10,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://fm901.cityfm.tw:8080/901.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.955Z"
+      "probedAt": "2026-06-11T09:35:24.585Z"
     },
     {
       "stationuuid": "9f0bfa0d-3399-4afe-be61-74c1e289c6cb",
@@ -2362,10 +2364,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/YL.FM90.1",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:51.759Z"
+      "probedAt": "2026-06-11T09:35:48.787Z"
     },
     {
       "stationuuid": "9f5c8fba-411b-4a70-a197-bd029d04493f",
@@ -2380,10 +2382,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/DaAiRadio",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:45.964Z"
+      "probedAt": "2026-06-11T09:35:30.639Z"
     },
     {
       "stationuuid": "a03b8f93-540f-47d0-aa20-152b949b389f",
@@ -2401,7 +2403,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://cdn280.ccdntech.com/live-http/_definst_/vod280_Live/needs/chunklist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.401Z"
+      "probedAt": "2026-06-11T09:35:00.476Z"
     },
     {
       "stationuuid": "a04e099e-c0b7-46f5-b4ad-ed9f669b394d",
@@ -2416,10 +2418,10 @@
       "clickcount": 4,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://125.227.87.206:8000/FM98.5",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.549Z"
+      "probedAt": "2026-06-11T09:35:23.816Z"
     },
     {
       "stationuuid": "a0af9a7f-60d7-49a1-b975-89cf97218ffb",
@@ -2438,7 +2440,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.pbs.gov.tw/live/SCS/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.399Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "a2ae6e7e-e193-4f95-b25d-1fa4e5a7d632",
@@ -2453,10 +2455,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://59.120.88.155:8000/live.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.701Z"
+      "probedAt": "2026-06-11T09:35:24.417Z"
     },
     {
       "stationuuid": "a3741377-7499-42e9-ad59-428ba23041de",
@@ -2471,10 +2473,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/HC.FM99.3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:49.961Z"
+      "probedAt": "2026-06-11T09:35:43.253Z"
     },
     {
       "stationuuid": "a598b0a8-6863-4dac-9a62-74ceb084f39f",
@@ -2491,7 +2493,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streamak0138.akamaized.net/live0138lh-mbm9/_definst_/rti3/chunklist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.401Z"
+      "probedAt": "2026-06-11T09:35:00.477Z"
     },
     {
       "stationuuid": "a5b116a3-5c62-4318-a13d-e231f45b4f2c",
@@ -2505,10 +2507,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://60.250.148.112:8000/live",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:47:24.551Z"
+      "probedAt": "2026-06-11T09:36:06.554Z"
     },
     {
       "stationuuid": "a6c46e5e-c56d-40bc-98b0-a0986e47414d",
@@ -2526,7 +2528,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-179.zeno.fm/w66d3dp6ynhvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ3NjZkM2RwNnluaHZ2IiwiaG9zdCI6InN0cmVhbS0xNzkuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiYS1DUUo5TDdTdUtBREZjYmRaTXc0QSIsImlhdCI6MTc3NzU0NzYyNCwiZXhwIjoxNzc3NTQ3Njg0fQ.B8A5eKcqKEYraBM0WEILQ0Rbgye4ZaC58GqGjaiXtA0",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.402Z"
+      "probedAt": "2026-06-11T09:35:00.478Z"
     },
     {
       "stationuuid": "a6f4c4fe-3dd6-43f3-9dab-7d4e507ecfdc",
@@ -2542,10 +2544,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://43.254.16.40:8000/TY.AM1062",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:43.128Z"
+      "probedAt": "2026-06-11T09:35:25.872Z"
     },
     {
       "stationuuid": "a7525cbc-0f09-4e35-b1d9-fb098ee1f7d0",
@@ -2563,7 +2565,7 @@
       "verdictReason": "AbortError: This operation was aborted",
       "finalUrl": "https://cast.ner.gov.tw/1",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:47:38.368Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "a945e7f7-0122-4bc0-8868-c6ae162c66ea",
@@ -2578,10 +2580,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/vnd.apple.mpegurl) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://202.39.43.67:1935/live/RA000012/chunklist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:43.158Z"
+      "probedAt": "2026-06-11T09:35:25.800Z"
     },
     {
       "stationuuid": "a94e9bed-c41a-405e-8d51-481b8c8245fa",
@@ -2597,10 +2599,10 @@
       "clickcount": 4,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/PH.AM756",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:49.514Z"
+      "probedAt": "2026-06-11T09:35:41.970Z"
     },
     {
       "stationuuid": "aaf15d85-aa91-4370-b7d4-8c422661fcec",
@@ -2615,10 +2617,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/CY.FM91.3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:44.918Z"
+      "probedAt": "2026-06-11T09:35:28.972Z"
     },
     {
       "stationuuid": "ad2775a1-fe17-43eb-a98f-831c283dc2c2",
@@ -2634,10 +2636,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/ML.AM1314",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:50.404Z"
+      "probedAt": "2026-06-11T09:35:44.711Z"
     },
     {
       "stationuuid": "af7cf56a-a366-47fc-bbb4-e6c4bd5b2ec6",
@@ -2652,10 +2654,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://fm971.cityfm.tw:8080/971.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.876Z"
+      "probedAt": "2026-06-11T09:35:24.137Z"
     },
     {
       "stationuuid": "b2918a9d-eaff-4af2-be36-f3018fcecb9f",
@@ -2670,10 +2672,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/YL.FM106.3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:47.294Z"
+      "probedAt": "2026-06-11T09:35:34.608Z"
     },
     {
       "stationuuid": "b33142fb-a715-4e7f-aa94-df72eeb5bbff",
@@ -2688,10 +2690,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/CH.AM810",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:57.950Z"
+      "probedAt": "2026-06-11T09:36:08.487Z"
     },
     {
       "stationuuid": "b396f10e-3722-4d13-b78d-20db0f72882e",
@@ -2709,7 +2711,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.ginnet.cloud/live0119lo-p4rb/_definst_/fm1043/chunklist_w1108784103.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.399Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "b40c66c7-c7d1-498d-8a06-375fa94c03fc",
@@ -2726,7 +2728,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://streamak0138.akamaized.net/live0138lh-mbm9/_definst_/rti3/chunklist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.401Z"
+      "probedAt": "2026-06-11T09:35:00.477Z"
     },
     {
       "stationuuid": "b774ba2b-2600-42db-9cfc-48a4f2762432",
@@ -2744,7 +2746,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://n08.rcs.revma.com/4r99rt1g1bkvv?rj-ttl=5&rj-tok=AAABnkBdQhAABACaVTfY7ktZpw",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.402Z"
+      "probedAt": "2026-06-11T09:35:00.478Z"
     },
     {
       "stationuuid": "b8932709-f573-4674-b976-09c4ef8aa96a",
@@ -2762,7 +2764,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (https variant on default port from http://)",
       "finalUrl": "https://stream.pbs.gov.tw/live/TPS/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:25.297Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "bb3f742e-cf0c-4d76-a03d-1f769d6db244",
@@ -2778,10 +2780,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/TP.AM1188",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:43.580Z"
+      "probedAt": "2026-06-11T09:35:24.955Z"
     },
     {
       "stationuuid": "bc812df5-feb1-420a-a0c7-530b828de163",
@@ -2796,10 +2798,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mp3) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://211.20.119.103:8081/",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:43.998Z"
+      "probedAt": "2026-06-11T09:35:18.490Z"
     },
     {
       "stationuuid": "bd53dc0f-4aac-47cc-afcf-92d390eb1498",
@@ -2817,7 +2819,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://n04.radiojar.com/ehzvurp9tv8uv?rj-ttl=5&rj-tok=AAABnkBdRkQA_XkCqXNGEZM99A",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:21.402Z"
+      "probedAt": "2026-06-11T09:35:00.478Z"
     },
     {
       "stationuuid": "be11dee8-9ce2-4ff9-90c8-2ac8e4e36a56",
@@ -2832,10 +2834,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/vnd.apple.mpegurl) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://202.39.43.67:1935/live/RA000001/chunklist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:43.460Z"
+      "probedAt": "2026-06-11T09:35:27.462Z"
     },
     {
       "stationuuid": "bec65856-3481-43f7-9173-6999b5b5a465",
@@ -2853,7 +2855,7 @@
       "verdictReason": "AbortError: This operation was aborted",
       "finalUrl": "https://cast.ner.gov.tw/1",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:47.056Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "bf3382fb-d8b8-448c-b69f-35e2e39a4904",
@@ -2871,7 +2873,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.ginnet.cloud/live0119lo-p4rb/_definst_/fm909/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.399Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "c0a70289-7d36-41cc-8371-0c3b3e637d58",
@@ -2886,10 +2888,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://43.254.16.40:8000/TP.AM1152",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:43.430Z"
+      "probedAt": "2026-06-11T09:35:28.046Z"
     },
     {
       "stationuuid": "c164cf0c-835b-4109-8f17-05a0d1a83d4d",
@@ -2903,10 +2905,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mp3) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://61.220.209.152:8081/",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:47:04.052Z"
+      "probedAt": "2026-06-11T09:35:44.423Z"
     },
     {
       "stationuuid": "c17de880-7b81-4172-baee-7cec622ab670",
@@ -2921,10 +2923,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/vnd.apple.mpegurl) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://202.39.43.67:1935/live/RA000101/chunklist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:43.915Z"
+      "probedAt": "2026-06-11T09:35:30.039Z"
     },
     {
       "stationuuid": "c18cd9da-3469-4ded-9efe-04aa7d9f2523",
@@ -2939,10 +2941,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://us3.internet-radio.com:8232/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:24.834Z"
+      "probedAt": "2026-06-11T09:35:05.274Z"
     },
     {
       "stationuuid": "c82665f5-e3b2-4ffe-aac4-9d2677c53fbb",
@@ -2960,7 +2962,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade after redirect to http://)",
       "finalUrl": "https://n14.rcs.revma.com/ndk05tyy2tzuv?rj-ttl=5&rj-tok=AAABnkBcF8IADz3g8Dh2A0nLrg",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.398Z"
+      "probedAt": "2026-06-11T09:35:00.474Z"
     },
     {
       "stationuuid": "c96c5fd7-87f3-46fb-9a92-1500fabafc24",
@@ -2978,7 +2980,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade after redirect to http://)",
       "finalUrl": "https://n09.rcs.revma.com/aw9uqyxy2tzuv?rj-ttl=5&rj-tok=AAABnkBcbR0AqWa5CM5nQsOTFg",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.398Z"
+      "probedAt": "2026-06-11T09:35:00.474Z"
     },
     {
       "stationuuid": "c976a1fa-100d-43e4-9fe1-52b60097c0f9",
@@ -2994,10 +2996,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://neidi.homeip.net:8080/;",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:25.188Z"
+      "probedAt": "2026-06-11T09:35:05.683Z"
     },
     {
       "stationuuid": "c9acf570-8018-473e-a345-97a1cd294619",
@@ -3012,10 +3014,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://fm901.cityfm.tw:8080/901.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:43.107Z"
+      "probedAt": "2026-06-11T09:35:25.469Z"
     },
     {
       "stationuuid": "ca368d8d-6f1e-4b5c-bab2-70e84fefe8ea",
@@ -3033,7 +3035,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://n12.rcs.revma.com/xpgtqc74hv8uv?rj-ttl=5&rj-tok=AAABnd4holUAgL1WKawxSWxiig",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.400Z"
+      "probedAt": "2026-06-11T09:35:00.476Z"
     },
     {
       "stationuuid": "ca8940f0-925a-4b39-8847-a5db1d9a2195",
@@ -3049,10 +3051,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/TN.AM774",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:52.220Z"
+      "probedAt": "2026-06-11T09:35:50.343Z"
     },
     {
       "stationuuid": "ccbfe9da-846d-44f1-97ed-b32272ec06bc",
@@ -3067,10 +3069,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/TC.FM98.7",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:53.552Z"
+      "probedAt": "2026-06-11T09:35:54.559Z"
     },
     {
       "stationuuid": "cf5fcc50-95db-42a0-a1b9-593c0c6f6d2b",
@@ -3084,10 +3086,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/vnd.apple.mpegurl) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://202.39.43.67:1935/live/RA000079/chunklist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:44.066Z"
+      "probedAt": "2026-06-11T09:35:30.866Z"
     },
     {
       "stationuuid": "cf8f4744-c913-11e8-a54a-52543be04c81",
@@ -3103,10 +3105,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://livestream.1766.today:1768/live1.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.056Z"
+      "probedAt": "2026-06-11T09:35:22.274Z"
     },
     {
       "stationuuid": "d5610d7a-c6e8-4f0e-8b7c-03935bba5012",
@@ -3121,11 +3123,11 @@
       "votes": 2,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 404",
       "finalUrl": "http://125.227.87.206:8000/FM96.9",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.854Z"
+      "probedAt": "2026-06-11T09:35:25.805Z"
     },
     {
       "stationuuid": "dadc974a-f037-44a9-9d8b-7a01a39d229b",
@@ -3143,7 +3145,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://n03.radiojar.com/ehzvurp9tv8uv?rj-ttl=5&rj-tok=AAABnkBdRXMABUJPxhrA9ZtXTg",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.402Z"
+      "probedAt": "2026-06-11T09:35:00.478Z"
     },
     {
       "stationuuid": "dcb727d7-6f9c-4f7c-a290-10fb71ef2c57",
@@ -3161,7 +3163,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://n08.rcs.revma.com/9ssfduqkr0hvv?rj-ttl=5&rj-tok=AAABnd4hqwgAk5bxRBVnaRKgLg",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:45.092Z"
+      "probedAt": "2026-06-11T09:35:25.949Z"
     },
     {
       "stationuuid": "dd93a513-b85d-4e22-a3cc-a7a8e617d83d",
@@ -3177,10 +3179,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/HL.AM1044",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:54.859Z"
+      "probedAt": "2026-06-11T09:35:58.836Z"
     },
     {
       "stationuuid": "ddf57d7f-e140-4f8d-b3c3-4932563c9ff0",
@@ -3195,10 +3197,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (application/vnd.apple.mpegurl) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://202.39.43.67:1935/live/RA000011/chunklist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:43.763Z"
+      "probedAt": "2026-06-11T09:35:29.167Z"
     },
     {
       "stationuuid": "de4271e4-74cf-4ffe-a7cf-15a11f71530f",
@@ -3213,10 +3215,10 @@
       "clickcount": 12,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://59.120.88.155:8000/live.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.397Z"
+      "probedAt": "2026-06-11T09:35:22.416Z"
     },
     {
       "stationuuid": "e0401ca6-9638-11e8-a767-52543be04c81",
@@ -3235,7 +3237,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream.phate.io/phateio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:21.401Z"
+      "probedAt": "2026-06-11T09:35:00.477Z"
     },
     {
       "stationuuid": "e1cc37a7-d71b-4b71-91fa-93026fc98675",
@@ -3253,7 +3255,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://n14.rcs.revma.com/akqrbx94gbkvv?rj-ttl=5&rj-tok=AAABnd4hr4AAmtOWdwQeglqRmQ",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:45.093Z"
+      "probedAt": "2026-06-11T09:35:25.949Z"
     },
     {
       "stationuuid": "e4ad1f9d-f5fb-4992-bf52-ff86b405100e",
@@ -3271,7 +3273,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://n26a-eu.rcs.revma.com/nkdfurztxp3vv?rj-ttl=5&rj-tok=AAABnd4hplUAIFIg-b5pvlrI4w",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:45.050Z"
+      "probedAt": "2026-06-11T09:35:25.855Z"
     },
     {
       "stationuuid": "e4c1345b-a989-40d7-9401-19f7da9d3d48",
@@ -3289,7 +3291,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://lhttp-hw.qtfm.cn/live/20500139/64k.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:42.509Z"
+      "probedAt": "2026-06-11T09:35:16.268Z"
     },
     {
       "stationuuid": "e65dd4fb-d846-4e70-b240-116091ba3dee",
@@ -3305,10 +3307,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/ML.AM1215",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:53.987Z"
+      "probedAt": "2026-06-11T09:35:55.858Z"
     },
     {
       "stationuuid": "e7370b46-dcf9-470d-82d0-bbc04391a928",
@@ -3324,10 +3326,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/CH.FM91.1",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:53.105Z"
+      "probedAt": "2026-06-11T09:35:53.141Z"
     },
     {
       "stationuuid": "e8ac5c8f-e0ce-4bea-8846-b9ff7d911aea",
@@ -3346,7 +3348,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.ginnet.cloud/live0130lo-yfyo/_definst_/fm/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:21.399Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "e912fd19-81c3-463e-a37e-ef1cef859c1c",
@@ -3362,10 +3364,10 @@
       "clickcount": 4,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/NT.AM963",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:44.482Z"
+      "probedAt": "2026-06-11T09:35:27.733Z"
     },
     {
       "stationuuid": "ea256c29-779e-42ad-898e-d2b6a9a8db75",
@@ -3380,10 +3382,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://taiwan-radio.tw:8000/ML.FM97.1",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.975Z"
+      "probedAt": "2026-06-11T09:35:25.434Z"
     },
     {
       "stationuuid": "ea2a84ca-ba50-4325-9396-b42d5159a125",
@@ -3401,7 +3403,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://n04.rcs.revma.com/x27mfpztxp3vv?rj-ttl=5&rj-tok=AAABnkBdKGwApVtvQcC12e3iqQ",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:21.398Z"
+      "probedAt": "2026-06-11T09:35:00.474Z"
     },
     {
       "stationuuid": "ebd5b2a6-cae2-4444-b693-bf84c54a5bd2",
@@ -3417,10 +3419,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://live.fm935newhakka.com.tw:5006/live",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:47:03.895Z"
+      "probedAt": "2026-06-11T09:35:45.927Z"
     },
     {
       "stationuuid": "ec125f6d-dd85-47f9-8bc5-3ec8d5f788bd",
@@ -3438,7 +3440,7 @@
       "verdictReason": "AbortError: This operation was aborted",
       "finalUrl": "https://cast.ner.gov.tw/5",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:48:04.027Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "ed9d83c9-ece4-45d0-a25f-96dae4800d79",
@@ -3456,7 +3458,7 @@
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-timeout (AbortError: This operation was aborted)",
       "finalUrl": "https://cast.ner.gov.tw/7",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:48:29.683Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "ef129d58-ac72-4e69-a1ae-2cb896611d3c",
@@ -3470,10 +3472,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mp3) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://211.20.119.102:8081/",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:23.111Z"
+      "probedAt": "2026-06-11T09:35:03.692Z"
     },
     {
       "stationuuid": "ef2e5996-1f46-44bf-a07b-2949615f60ce",
@@ -3488,10 +3490,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://59.120.88.155:8000/live.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.549Z"
+      "probedAt": "2026-06-11T09:35:23.420Z"
     },
     {
       "stationuuid": "ef96e230-8de7-4bd0-8c33-061d690fa1c7",
@@ -3509,7 +3511,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://n02.rcs.revma.com/vh0xgcc59duvv?rj-ttl=5&rj-tok=AAABnd4hrJcAcGm6i78K3ZFJfA",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.402Z"
+      "probedAt": "2026-06-11T09:35:00.478Z"
     },
     {
       "stationuuid": "efda8535-fef7-4524-824d-fdb63c5b8d19",
@@ -3527,7 +3529,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://n14.rcs.revma.com/fkdywbc59duvv?rj-ttl=5&rj-tok=AAABnd4hqAsACFyP4tXNKRtmjQ",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:45.092Z"
+      "probedAt": "2026-06-11T09:35:25.949Z"
     },
     {
       "stationuuid": "f0b434c8-d15d-4ae9-a1ca-78662821c177",
@@ -3542,10 +3544,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/ML.FM91.7",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:56.627Z"
+      "probedAt": "2026-06-11T09:36:04.255Z"
     },
     {
       "stationuuid": "f13e729d-b9a3-4db6-becd-7a9be6eac753",
@@ -3561,10 +3563,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/NT.AM630",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:51.319Z"
+      "probedAt": "2026-06-11T09:35:47.316Z"
     },
     {
       "stationuuid": "f3bc042d-938c-4e63-97c9-9e4ce8ed20b4",
@@ -3582,7 +3584,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade after redirect to http://)",
       "finalUrl": "https://n06.rcs.revma.com/78fm9wyy2tzuv?rj-ttl=5&rj-tok=AAABnkBbnEgAdfVUDaEVOv8Jvw",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.398Z"
+      "probedAt": "2026-06-11T09:35:00.474Z"
     },
     {
       "stationuuid": "f3ff7bbc-772b-461f-8f6e-3e714ff2d8c4",
@@ -3600,7 +3602,7 @@
       "verdictReason": "host circuit-open after 5 consecutive failures: broken-timeout (AbortError: This operation was aborted)",
       "finalUrl": "https://cast.ner.gov.tw/8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:48:29.683Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "f47e95d2-0bd5-4315-8d39-a9ba3e50248c",
@@ -3615,11 +3617,11 @@
       "votes": 22,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 404",
       "finalUrl": "http://cast.uforadio.com.tw:8000/yun-stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:43.153Z"
+      "probedAt": "2026-06-11T09:35:26.886Z"
     },
     {
       "stationuuid": "f4813a7c-cff3-4f60-b169-7fa06f52d950",
@@ -3633,11 +3635,11 @@
       "votes": 0,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://n03.rcs.revma.com/8bpxy9a122hvv",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html; charset=utf-8 not audio-like",
+      "finalUrl": "https://www.fm1025.com.tw/",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:26.621Z"
+      "probedAt": "2026-06-11T09:35:06.830Z"
     },
     {
       "stationuuid": "f7a5c94a-c966-4e7f-932f-31d2020f9032",
@@ -3656,7 +3658,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://stream.pbs.gov.tw/live/PBS/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.399Z"
+      "probedAt": "2026-06-11T09:35:00.475Z"
     },
     {
       "stationuuid": "f8fd2b64-db24-4b23-9239-0b9834464c53",
@@ -3672,10 +3674,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://test.taiwan-radio.tw:8000/KS.FM99.5",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:49.056Z"
+      "probedAt": "2026-06-11T09:35:40.364Z"
     },
     {
       "stationuuid": "fa102bd1-a71d-4048-baad-e173b92ddad0",
@@ -3690,10 +3692,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://fm901.cityfm.tw:8080/901.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.804Z"
+      "probedAt": "2026-06-11T09:35:23.125Z"
     },
     {
       "stationuuid": "faa5240b-331a-427b-a855-07c1f29caff9",
@@ -3709,10 +3711,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://43.254.16.40:8000/TY.AM621",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.977Z"
+      "probedAt": "2026-06-11T09:35:24.712Z"
     },
     {
       "stationuuid": "fc9189c5-d9c3-4199-8217-5e5ce3f7108c",
@@ -3727,10 +3729,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://125.227.87.206:8000/SuperUS",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.703Z"
+      "probedAt": "2026-06-11T09:35:24.967Z"
     },
     {
       "stationuuid": "fd96cf88-9100-44b9-b7e1-ad7e6d938eaa",
@@ -3748,7 +3750,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://n06.rcs.revma.com/uyaghqmdm3hvv?rj-ttl=5&rj-tok=AAABnd4hqXUAVwX5Lr7Udhce8w",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:46:21.398Z"
+      "probedAt": "2026-06-11T09:35:00.474Z"
     },
     {
       "stationuuid": "fdd115fc-7934-45c7-9a16-ad22a60aa09e",
@@ -3763,10 +3765,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://43.254.16.40:8000/TY.AM774",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:46:42.823Z"
+      "probedAt": "2026-06-11T09:35:23.735Z"
     }
   ]
 }

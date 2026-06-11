@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-10T19:08:02.720Z",
+  "generatedAt": "2026-06-11T08:55:18.742Z",
   "country": "LC",
   "rawSnapshotAt": "2026-05-19T07:50:43.138Z",
   "total": 14,
@@ -8,7 +8,9 @@
   "curated": 9,
   "byVerdict": {
     "ok": 9,
-    "broken-mixed": 4,
+    "broken-format": 1,
+    "broken-mixed": 2,
+    "broken-dns": 1,
     "redirect-downgrade": 1
   },
   "stations": [
@@ -29,7 +31,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s3.radio.co/sc5bdee4a4/listen",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:07:20.339Z"
+      "probedAt": "2026-06-11T08:54:36.486Z"
     },
     {
       "stationuuid": "40269b96-f948-42a3-ab3f-cf7071ad8bdb",
@@ -47,7 +49,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://caribspy.com/proxy/revupslu/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:07:20.335Z"
+      "probedAt": "2026-06-11T08:54:36.481Z"
     },
     {
       "stationuuid": "40fda3e5-1c9d-469a-9a93-6f28630391e1",
@@ -62,11 +64,11 @@
       "votes": 72,
       "clickcount": 4,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-dns",
+      "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND cp.usa3.fastcast4u.com",
       "finalUrl": "http://cp.usa3.fastcast4u.com:5908/;",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:07:20.528Z"
+      "probedAt": "2026-06-11T08:54:36.671Z"
     },
     {
       "stationuuid": "46d4b3e8-e9a4-432a-8e94-6c862386165d",
@@ -82,10 +84,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://centova12.instainternet.com:8192/;",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:07:21.247Z"
+      "probedAt": "2026-06-11T08:54:37.718Z"
     },
     {
       "stationuuid": "5534294d-f75d-4893-bf97-290c116bdc9c",
@@ -103,7 +105,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://usa10.fastcast4u.com/power979fm",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:07:20.335Z"
+      "probedAt": "2026-06-11T08:54:36.481Z"
     },
     {
       "stationuuid": "7511943f-81a0-11e9-aa30-52543be04c81",
@@ -118,11 +120,11 @@
       "votes": 715,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://167.114.131.90:5908/",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html;charset=utf-8 not audio-like",
+      "finalUrl": "http://167.114.131.90:5908/index.html?sid=1",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:07:21.095Z"
+      "probedAt": "2026-06-11T08:54:38.005Z"
     },
     {
       "stationuuid": "8e935806-8feb-4fd6-9dd6-0d7aea38a26d",
@@ -140,7 +142,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s2.radio.co/s5fb28a34d/listen",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:07:20.339Z"
+      "probedAt": "2026-06-11T08:54:36.486Z"
     },
     {
       "stationuuid": "9626d31f-0601-11e8-ae97-52543be04c81",
@@ -158,7 +160,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://auds2.intacs.com/caribbeanhotfm",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:07:20.311Z"
+      "probedAt": "2026-06-11T08:54:36.456Z"
     },
     {
       "stationuuid": "9630dc9b-0601-11e8-ae97-52543be04c81",
@@ -177,7 +179,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://ice66.securenetsystems.net/THEWAVE",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:07:20.313Z"
+      "probedAt": "2026-06-11T08:54:36.457Z"
     },
     {
       "stationuuid": "963482a3-0601-11e8-ae97-52543be04c81",
@@ -195,7 +197,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://auds2.intacs.com/caribbeankissfm",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:07:20.313Z"
+      "probedAt": "2026-06-11T08:54:36.457Z"
     },
     {
       "stationuuid": "96353c45-0601-11e8-ae97-52543be04c81",
@@ -211,10 +213,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://45.79.186.124/proxy/vyberadio?mp=/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:07:20.933Z"
+      "probedAt": "2026-06-11T08:54:37.726Z"
     },
     {
       "stationuuid": "c1056cd6-a7c1-461e-9b53-72ecfd7a250e",
@@ -233,7 +235,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://streams.radio.co/s5f11a7ef9/listen",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:07:20.339Z"
+      "probedAt": "2026-06-11T08:54:36.485Z"
     },
     {
       "stationuuid": "cecd0096-b73b-464d-84be-b7673ca8b407",
@@ -252,7 +254,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:07:20.339Z"
+      "probedAt": "2026-06-11T08:54:36.486Z"
     },
     {
       "stationuuid": "d1dedc65-b27e-44b1-a76e-f6bff83d597c",
@@ -270,7 +272,7 @@
       "verdictReason": "redirect chain ends on http:// — mixed-content block (no https equivalent on same host)",
       "finalUrl": "http://199.223.248.196:8000/firefm",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:08:02.698Z"
+      "probedAt": "2026-06-11T08:55:18.726Z"
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-10T19:30:07.399Z",
+  "generatedAt": "2026-06-11T09:17:54.980Z",
   "country": "PY",
   "rawSnapshotAt": "2026-05-19T07:51:08.771Z",
   "total": 68,
@@ -8,8 +8,9 @@
   "curated": 39,
   "byVerdict": {
     "ok": 25,
-    "broken-mixed": 18,
-    "ok-hls": 25
+    "broken-mixed": 16,
+    "ok-hls": 25,
+    "broken-format": 2
   },
   "stations": [
     {
@@ -29,7 +30,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://tigocloud.desdeparaguay.net/movtapiracuai/movtapiracuai.stream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "14e56432-1b64-4bc4-b9aa-a7c5d4bfe00b",
@@ -45,10 +46,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aac) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://sonic.host-live.com:8398/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:46.490Z"
+      "probedAt": "2026-06-11T09:17:34.713Z"
     },
     {
       "stationuuid": "19bc7085-e36d-4268-8070-129bdbefe228",
@@ -66,7 +67,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://14553.live.streamtheworld.com/XHPSFMAAC.aac",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "1aaff5b3-6d65-4eb5-827a-505c1f9ec8c5",
@@ -85,7 +86,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rds3.desdeparaguay.net/movmix/movmix.stream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "1c179a86-5a89-11e9-a622-52543be04c81",
@@ -101,10 +102,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://dreamsiteradiocp.com:8090/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:46.171Z"
+      "probedAt": "2026-06-11T09:17:34.475Z"
     },
     {
       "stationuuid": "1c553915-b675-11e9-acb2-52543be04c81",
@@ -121,7 +122,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream-282.zeno.fm/hvnh6d5uebruv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJodm5oNmQ1dWVicnV2IiwiaG9zdCI6InN0cmVhbS0yODIuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiOExldjZ2VlVRZWFodDFMUzJXVUIwUSIsImlhdCI6MTc3OTE5MzY1NSwiZXhwIjoxNzc5MTkzNzE1fQ.qxX9G_rXMo9J-0sg-yRwrXJZQ-gW-hq4_AcYJJBU_yc",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "1e0f8032-bd0c-4f70-b3e7-b5f1264176f2",
@@ -137,10 +138,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://cp9.serverse.com:7221/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:46.171Z"
+      "probedAt": "2026-06-11T09:17:34.455Z"
     },
     {
       "stationuuid": "28192c9a-2bd6-4e0d-8a03-379a7890108a",
@@ -159,7 +160,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://19213.live.streamtheworld.com/DISNEY_PAR_ASAAC/HLS/playlist.m3u8?dist=web-radiodisney",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "28343ff5-b885-4a71-8b55-b4545686b500",
@@ -178,7 +179,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://media.streambrothers.com:8350/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.121Z"
+      "probedAt": "2026-06-11T09:17:33.284Z"
     },
     {
       "stationuuid": "28d68ce9-4775-4882-aa56-2ce9573bc7e6",
@@ -197,7 +198,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rds3.desdeparaguay.net/movcanal100/movcanal100.stream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "34715bae-8311-433a-8a19-5310e5e566fb",
@@ -216,7 +217,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://radio.host.com.py:7181/",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.123Z"
+      "probedAt": "2026-06-11T09:17:33.286Z"
     },
     {
       "stationuuid": "3e86e44b-f645-4f79-bc91-3549b690e559",
@@ -232,10 +233,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://radio.cdehosting.net:8040/;",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:46.294Z"
+      "probedAt": "2026-06-11T09:17:34.696Z"
     },
     {
       "stationuuid": "3ff5ace6-5e22-40ee-a02a-ad0da8beba18",
@@ -254,7 +255,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://us-b4-p-e-pb13-audio.cdn.mdstrm.com/live-audio-aw/62d81cdabff0bc082f8f1a24",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:45.123Z"
+      "probedAt": "2026-06-11T09:17:33.286Z"
     },
     {
       "stationuuid": "41496f04-4e66-4892-8c99-e5871217589f",
@@ -273,7 +274,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://rds3.desdeparaguay.net/transpalma/transpalma/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "46c977ad-6da1-4827-baaf-545079d21a2a",
@@ -292,7 +293,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://proxy01.servidorenlinea.net/cdehosting/8050/;",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.123Z"
+      "probedAt": "2026-06-11T09:17:33.286Z"
     },
     {
       "stationuuid": "4d51387a-c993-4d78-9da2-7a0f4edecced",
@@ -311,7 +312,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rds3.desdeparaguay.net/movemisoras/movemisoras.stream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "542ed9ce-f3f1-4653-b1f0-f6cd7461bb75",
@@ -330,7 +331,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rds3.desdeparaguay.net/movtropicalia/movtropicalia.stream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "55a28761-fb75-44da-abdd-9026134905a6",
@@ -348,7 +349,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://us-b4-p-e-ml19-audio.cdn.mdstrm.com/live-audio-aw/62d81ca6a459e4082203c95b?aid=62d818a924cf7908229cd029&pid=jap20txcUyVPRhzqvP2k0QbLGSRLMFuU&sid=EZUtLUpHf0f1sl53sScGCsQF6QD3ntPb&uid=y7VaYuJd6CatbFf3MBe9eyGaIVYnTE55&es=us-b4-p-e-ml19-audio.cdn.mdstrm.com&ote=1778570147793&ot=jXfee8qqeKoNLN7_ccTtEA&proto=https&pz=us&cP=128000&awCollectionId=62d818a924cf7908229cd029&liveId=62d81ca6a459e4082203c95b&listenerId=y7VaYuJd6CatbFf3MBe9eyGaIVYnTE55",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.120Z"
+      "probedAt": "2026-06-11T09:17:33.283Z"
     },
     {
       "stationuuid": "5b2c1196-f0ac-46d3-aa25-81179e5dea00",
@@ -364,10 +365,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://radio.host.com.py:9714/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:47.561Z"
+      "probedAt": "2026-06-11T09:17:36.369Z"
     },
     {
       "stationuuid": "5c7542d9-99d4-43a4-a17a-bcce485bcc50",
@@ -386,7 +387,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ic2489.c1788.fastserv.com/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.121Z"
+      "probedAt": "2026-06-11T09:17:33.284Z"
     },
     {
       "stationuuid": "5f369cb8-1ff8-4dd3-9178-976936358ca7",
@@ -400,11 +401,11 @@
       "votes": 269,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://streaming.camaronhosting.com:8036/",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html;charset=utf-8 not audio-like",
+      "finalUrl": "http://streaming.camaronhosting.com:8036/index.html?sid=1",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:46.822Z"
+      "probedAt": "2026-06-11T09:17:36.287Z"
     },
     {
       "stationuuid": "65396ff4-6e59-4554-bfc1-c3a67f8cad8f",
@@ -423,7 +424,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://tigocloud.desdeparaguay.net/movaspen/movaspen.stream/playlist.m3u8?k=cab33b6f9bb8d7e340d2a8ce8d4476e4576ce92fbc993b81666e7db795dc1da7&exp=1664206557",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "68104ae4-257b-4281-9258-88d4580ac037",
@@ -438,11 +439,11 @@
       "votes": 99,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://streaming.camaronhosting.com:8036/",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html;charset=utf-8 not audio-like",
+      "finalUrl": "http://streaming.camaronhosting.com:8036/index.html?sid=1",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:46.974Z"
+      "probedAt": "2026-06-11T09:17:37.754Z"
     },
     {
       "stationuuid": "6f0d037e-2aef-406d-94d8-85669a0c5f31",
@@ -459,7 +460,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://copaco.desdeparaguay.net/movvibras/movvibras.stream/chunklist_w1786225280.m3u8?k=5d1b32cc4cfb2b10be3ecff56d8aeee5e59993cfc1a5234cc73eca0b8b7f7487&exp=1651095717",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "70abee0b-83d6-4f55-80d0-66b30bd2eae7",
@@ -477,7 +478,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rds3.desdeparaguay.net/movemisoras/movemisoras.stream/chunklist_w1882715633.m3u8?k=90ba439d59a58390e5abac95530dd4becd61b4e573b237e6fe0bf9eb4a529caf&exp=1693084452",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "71073cfd-a7dc-4898-a52c-049825536315",
@@ -496,7 +497,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://us-b4-p-e-qg12-audio.cdn.mdstrm.com/live-audio-aw/62d81d48f5ef320830c8becf",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:45.123Z"
+      "probedAt": "2026-06-11T09:17:33.286Z"
     },
     {
       "stationuuid": "74f0fa54-8f7f-482e-9a75-9ea2335ec9f2",
@@ -512,10 +513,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (needs-playlist) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://rds3.desdeparaguay.net/transrqp/transrqp/playlist.m3u",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:45.275Z"
+      "probedAt": "2026-06-11T09:17:33.438Z"
     },
     {
       "stationuuid": "78439b9f-658c-4c10-8e40-b45ffe1147b0",
@@ -534,7 +535,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://tigocloud.desdeparaguay.net/movaranduka/movaranduka.stream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "78fd1ee2-88bd-42fb-9b4b-86070f9be1e3",
@@ -553,7 +554,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rds3.desdeparaguay.net/movexclusiva/movexclusiva.stream/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "7c19e3ff-bbba-42d3-a411-d06f07963dcb",
@@ -572,7 +573,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rds3.desdeparaguay.net/movaspen/movaspen.stream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "827a5b81-d1d1-4b07-aad0-2557a712d021",
@@ -591,7 +592,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://1000noticias.live:8000/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.123Z"
+      "probedAt": "2026-06-11T09:17:33.286Z"
     },
     {
       "stationuuid": "8753fd73-0549-4a2f-b490-97bc732c3c76",
@@ -609,7 +610,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s17.ssl-stream.com/proxy/obedira?mp=/live",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.123Z"
+      "probedAt": "2026-06-11T09:17:33.286Z"
     },
     {
       "stationuuid": "88f74a2d-b52e-4fcf-9469-5fc5e2e6a2e5",
@@ -628,7 +629,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://radio.host.com.py:7020/;",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:47.498Z"
+      "probedAt": "2026-06-11T09:17:33.284Z"
     },
     {
       "stationuuid": "8bf4f5a4-5a45-4f95-a95d-1e8745a77305",
@@ -646,7 +647,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream-286.zeno.fm/a0z8gjrlucluv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJhMHo4Z2pybHVjbHV2IiwiaG9zdCI6InN0cmVhbS0yODYuemVuby5mbSIsInJ0dGwiOjQsImp0aSI6IjdNN1Q2Z0RtUUVTOEdUTUVXWUkzSEEiLCJpYXQiOjE3Nzg0ODM3NDgsImV4cCI6MTc3ODQ4MzgwOH0.WVCZf9P4gdVVnAY6csr_5U1VFLe3CnTx6hwyW9Q43d0",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.121Z"
+      "probedAt": "2026-06-11T09:17:33.284Z"
     },
     {
       "stationuuid": "9026acd0-fbbd-437e-8550-9683480d0da6",
@@ -665,7 +666,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://copaco.desdeparaguay.net/movaspen/movaspen.stream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "964fc166-0601-11e8-ae97-52543be04c81",
@@ -683,7 +684,7 @@
       "verdictReason": "audio/mpeg (https variant on default port from http://)",
       "finalUrl": "https://audio.radionacional.gov.py/920",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:30:07.377Z"
+      "probedAt": "2026-06-11T09:17:33.283Z"
     },
     {
       "stationuuid": "974b7218-0384-4060-90b2-8e45b73b9545",
@@ -702,7 +703,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:45.123Z"
+      "probedAt": "2026-06-11T09:17:33.286Z"
     },
     {
       "stationuuid": "98073eff-a00a-42ce-b855-715770e5cd87",
@@ -721,7 +722,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://cp9.serverse.com/proxy/rockandpop/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.120Z"
+      "probedAt": "2026-06-11T09:17:33.283Z"
     },
     {
       "stationuuid": "9b318d0a-7e91-499e-a445-7e1e2c3a4d49",
@@ -736,10 +737,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://media.streambrothers.com:18342/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:30:06.221Z"
+      "probedAt": "2026-06-11T09:17:54.965Z"
     },
     {
       "stationuuid": "9dc192f2-6a31-4a11-b469-cfbecfa14149",
@@ -758,7 +759,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://radio.host.com.py:7034/;",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.121Z"
+      "probedAt": "2026-06-11T09:17:33.284Z"
     },
     {
       "stationuuid": "9ea8ec39-00bd-438c-866f-1bffc16e41a6",
@@ -774,10 +775,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://rps1.radiopop.com.py:8000/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:30:06.224Z"
+      "probedAt": "2026-06-11T09:17:54.753Z"
     },
     {
       "stationuuid": "a3fe830c-0ee3-4961-8c89-e6961f9da2ff",
@@ -795,7 +796,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rds3.desdeparaguay.net/movexclusiva/movexclusiva.stream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "afb01f21-7cf0-4183-8851-9e20d442f373",
@@ -814,7 +815,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://rds3.desdeparaguay.net/transurbana/transurbana/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "b3880ebb-c6e7-4db7-9b19-9245444f6232",
@@ -833,7 +834,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rds3.desdeparaguay.net/transpopular/transpopular/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "b50fbb6a-05ab-4eb5-b52f-eb65021e76bc",
@@ -852,7 +853,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rds3.desdeparaguay.net/movvibras/movvibras.stream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "bcc2363f-d35e-42cc-9437-68881134d908",
@@ -868,10 +869,10 @@
       "clickcount": 13,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://sc.abc.com.py:8000/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:46.999Z"
+      "probedAt": "2026-06-11T09:17:35.878Z"
     },
     {
       "stationuuid": "bcf33ef9-e087-4de4-8b6e-0f2244f53a86",
@@ -887,10 +888,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://radio.host.com.py:9460/;",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:47.561Z"
+      "probedAt": "2026-06-11T09:17:36.338Z"
     },
     {
       "stationuuid": "bf80c934-ca00-4ea5-b96a-b2260c1dd4af",
@@ -906,10 +907,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://135.181.103.10:8018/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:45.598Z"
+      "probedAt": "2026-06-11T09:17:33.889Z"
     },
     {
       "stationuuid": "bfe79bf3-6752-4d01-af26-bdfd65075e62",
@@ -928,7 +929,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://copaco.desdeparaguay.net/movamor/movamor.stream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "c2966f33-3728-47d7-b9da-8022b6aeb40b",
@@ -947,7 +948,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://rds3.desdeparaguay.net/transpopular/transpopular/playlist.m3u8",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "cb0433cd-ecec-4369-b35d-e8c21cc5aec3",
@@ -965,7 +966,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://radio.host.com.py:7137/;",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.123Z"
+      "probedAt": "2026-06-11T09:17:33.286Z"
     },
     {
       "stationuuid": "cf506fb7-d1a0-4d18-b546-133997f3028a",
@@ -981,10 +982,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://streamsoymedios.com:8014/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:46.869Z"
+      "probedAt": "2026-06-11T09:17:35.309Z"
     },
     {
       "stationuuid": "d03707e8-ab46-47a2-bc15-942f94773a53",
@@ -1002,7 +1003,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://c32.radioboss.fm:8139/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.123Z"
+      "probedAt": "2026-06-11T09:17:33.286Z"
     },
     {
       "stationuuid": "d966205b-ce84-41a5-b2a6-4e23bb29de30",
@@ -1021,7 +1022,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://rds3.desdeparaguay.net/transestacion40/transestacion40/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "db1c07b2-8c87-4b67-b4e8-c30114bed36e",
@@ -1040,7 +1041,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://radio.host.com.py/9572/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.123Z"
+      "probedAt": "2026-06-11T09:17:33.286Z"
     },
     {
       "stationuuid": "db29a363-60b4-4273-99b6-9fee973a7c1e",
@@ -1059,7 +1060,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://dx85eyfuo1x2i.cloudfront.net/index.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.121Z"
+      "probedAt": "2026-06-11T09:17:33.284Z"
     },
     {
       "stationuuid": "df7c112f-75a3-49bc-9250-cee6688fbddd",
@@ -1075,10 +1076,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://radio.host.com.py:9452/;",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:47.573Z"
+      "probedAt": "2026-06-11T09:17:36.389Z"
     },
     {
       "stationuuid": "e0f00059-f2ab-4150-ab2d-0bf91f60e2e5",
@@ -1093,10 +1094,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://radio.cdehosting.net:8042/stream",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:46.294Z"
+      "probedAt": "2026-06-11T09:17:34.663Z"
     },
     {
       "stationuuid": "e3a768d0-4125-43c7-94cb-01eb21a8c9db",
@@ -1115,7 +1116,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://us-b4-p-e-cg11-audio.cdn.mdstrm.com/live-audio-aw/62d81cfbbfbcee0837ba1b60",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:45.120Z"
+      "probedAt": "2026-06-11T09:17:33.283Z"
     },
     {
       "stationuuid": "e59ab0d4-11e6-4d1d-9475-d6f2d71883c5",
@@ -1131,10 +1132,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://200.3.249.91:8000/abcradio/fm.mp3",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:46.404Z"
+      "probedAt": "2026-06-11T09:17:35.189Z"
     },
     {
       "stationuuid": "ea9b9934-8eb7-434c-ac13-2d249b80f11e",
@@ -1153,7 +1154,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://media.streambrothers.com:8342/stream",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.123Z"
+      "probedAt": "2026-06-11T09:17:33.286Z"
     },
     {
       "stationuuid": "ef6e3266-d25e-49a9-b36d-772325e3cabe",
@@ -1172,7 +1173,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://tigocloud.desdeparaguay.net/movsinfronteras/movsinfronteras.stream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "f504eaa3-bfea-459c-80e0-4039b9a69db6",
@@ -1191,7 +1192,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://rds3.desdeparaguay.net/movsagrados/movsagrados.stream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.275Z"
+      "probedAt": "2026-06-11T09:17:33.438Z"
     },
     {
       "stationuuid": "f818d16d-053b-4f9f-918d-758c90778a6e",
@@ -1210,7 +1211,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari (browser auto-upgrade from http://)",
       "finalUrl": "https://rds3.desdeparaguay.net/movaranduka/movaranduka.stream/playlist.m3u8",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "f81b334e-0f13-4258-90c2-d31baa51d98a",
@@ -1226,10 +1227,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://cp9.serverse.com:7221/amambayfm",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:46.345Z"
+      "probedAt": "2026-06-11T09:17:34.797Z"
     },
     {
       "stationuuid": "fabf3cab-a9d2-11e9-88f4-52543be04c81",
@@ -1246,7 +1247,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream-286.zeno.fm/z07vyxbqz8quv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ6MDd2eXhicXo4cXV2IiwiaG9zdCI6InN0cmVhbS0yODYuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiZGp5akdfOC1RcGl2eGFfVFN0U2VLdyIsImlhdCI6MTc3OTE5MzY1NSwiZXhwIjoxNzc5MTkzNzE1fQ.pA5xOdDtba6thO9XFuaa3npYhJ1W95JQhzZvhucHLAU",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.094Z"
+      "probedAt": "2026-06-11T09:17:33.255Z"
     },
     {
       "stationuuid": "fcd9b95f-d871-46dd-bb9c-eb124a3124f5",
@@ -1265,7 +1266,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rds3.desdeparaguay.net:8002/go",
       "isCurated": true,
-      "probedAt": "2026-06-10T19:29:45.123Z"
+      "probedAt": "2026-06-11T09:17:33.286Z"
     },
     {
       "stationuuid": "ffa8a215-71d3-40d7-b97a-fb249e5fef85",
@@ -1284,7 +1285,7 @@
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://us-b4-p-e-cg11-audio.cdn.mdstrm.com/live-audio-aw/62d81ca6a459e4082203c95b",
       "isCurated": false,
-      "probedAt": "2026-06-10T19:29:45.120Z"
+      "probedAt": "2026-06-11T09:17:33.283Z"
     }
   ]
 }
