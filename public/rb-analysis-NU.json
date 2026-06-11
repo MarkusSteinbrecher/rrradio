@@ -1,14 +1,13 @@
 {
-  "generatedAt": "2026-05-19T17:40:34.563Z",
+  "generatedAt": "2026-06-11T09:09:51.233Z",
   "country": "NU",
   "rawSnapshotAt": "2026-05-19T07:51:01.523Z",
   "total": 2,
-  "playable": 1,
-  "broken": 1,
+  "playable": 2,
+  "broken": 0,
   "curated": 0,
   "byVerdict": {
-    "broken-mixed": 1,
-    "ok": 1
+    "ok": 2
   },
   "stations": [
     {
@@ -23,11 +22,11 @@
       "votes": 64,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://maxxima.mine.nu:8000/maxx.ogg",
+      "verdict": "ok",
+      "verdictReason": "application/ogg (https variant on default port from http://)",
+      "finalUrl": "https://maxxima.mine.nu/maxx.ogg",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:40:34.558Z"
+      "probedAt": "2026-06-11T09:09:51.228Z"
     },
     {
       "stationuuid": "b626bc7f-7ab0-493e-b806-8742e7d0bd3a",
@@ -46,7 +45,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:40:34.558Z"
+      "probedAt": "2026-06-11T09:09:51.229Z"
     }
   ]
 }

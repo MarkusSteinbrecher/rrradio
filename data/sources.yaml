@@ -11,12 +11,26 @@
 #   id           — kebab-case, stable. Used as the `source:` value on
 #                  station entries in data/stations.yaml going forward.
 #   name         — display label.
-#   kind         — radio-browser | manual | broadcaster-api
-#                  Controls how build-sources.mjs collects candidates.
+#   kind         — radio-browser | manual | webpage | user-suggestion |
+#                  broadcaster-api
+#                  Controls how build-sources.mjs collects candidates:
+#                    radio-browser    raw per-country snapshots + rb-analysis
+#                    manual           derived from data/stations.yaml itself
+#                    webpage          scraped station list committed at
+#                                     rawStations (one source entry per site)
+#                    user-suggestion  triaged intake list at rawStations
+#                    broadcaster-api  reserved, no collector yet
 #   homepage     — upstream URL, surfaced in the dashboard.
 #   description  — one-line context.
+#   rawStations  — for list-backed kinds (webpage, user-suggestion): the
+#                  committed YAML list build-sources.mjs reads candidates
+#                  from.
 #   matchHints   — optional hints for retroactively classifying YAML
 #                  entries that predate the explicit `source:` field.
+#
+# Convention: every NEW catalog entry sets `source:` explicitly. The
+# classifier's fallback bucket is `manual`, so an import from any other
+# source that forgets the field will be miscounted as manual.
 
 - id: radio-browser
   name: Radio Browser
@@ -57,3 +71,20 @@
   rawRoot: data/sources/manual/
   rawStations: data/sources/manual/stations.yaml
   refreshCommand: npm run extract-manual-source
+
+- id: user-suggestions
+  name: User suggestions
+  abbr: Suggest
+  kind: user-suggestion
+  homepage: https://github.com/MarkusSteinbrecher/rrradio/issues
+  description: >-
+    Stations suggested by listeners — typically GitHub issues opened via
+    docs/adding-stations.md. Each suggestion is triaged into the intake
+    list below; accepted ones are imported into data/stations.yaml with
+    an explicit `source: user-suggestions`.
+  # Intake list is hand-maintained (no fetcher): one row per suggestion
+  # with name/country/streamUrl/homepage plus `suggestedVia` (issue URL)
+  # and `triage` (new | accepted | rejected). Git history of this file
+  # is the audit trail of what was suggested and what we did with it.
+  rawRoot: data/sources/user-suggestions/
+  rawStations: data/sources/user-suggestions/suggestions.yaml

@@ -1,14 +1,15 @@
 {
-  "generatedAt": "2026-05-19T17:35:31.156Z",
+  "generatedAt": "2026-06-11T08:59:42.360Z",
   "country": "MD",
   "rawSnapshotAt": "2026-05-19T07:50:48.210Z",
   "total": 50,
   "playable": 35,
   "broken": 15,
-  "curated": 30,
+  "curated": 32,
   "byVerdict": {
-    "broken-mixed": 12,
+    "broken-mixed": 11,
     "ok": 33,
+    "broken-5xx": 1,
     "broken-4xx": 1,
     "ok-hls": 2,
     "broken-dns": 2
@@ -31,7 +32,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://dc.digi.live.kissfm.ro/kissfm.chisinau",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.999Z"
     },
     {
       "stationuuid": "0e527d75-30db-4d43-850c-4db38984c18e",
@@ -49,7 +50,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://megapolisfm.md:8443/886",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.993Z"
     },
     {
       "stationuuid": "11c07bdc-4fc3-4ee7-af17-f8eb1db7493c",
@@ -68,7 +69,7 @@
       "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND commandcenter.tail5a820f.ts.net",
       "finalUrl": "https://commandcenter.tail5a820f.ts.net/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.997Z"
     },
     {
       "stationuuid": "12a4e399-1067-4102-9401-fde70ccf131f",
@@ -87,7 +88,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://live.muzfm.md//muzfmhd",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.993Z"
     },
     {
       "stationuuid": "1cf33481-5bc1-4e66-a95f-9d5278542df1",
@@ -106,7 +107,7 @@
       "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND commandcenter.tail5a820f.ts.net",
       "finalUrl": "https://commandcenter.tail5a820f.ts.net/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.997Z"
     },
     {
       "stationuuid": "206380e4-f015-4665-bddd-133d1327d672",
@@ -125,7 +126,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://radio3.dixi.md/listen/hit_fm_hot_hits/hitfm_hothits128.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.140Z"
+      "probedAt": "2026-06-11T08:59:00.968Z"
     },
     {
       "stationuuid": "220e3f38-4f2b-402a-af1a-350e82aaddcb",
@@ -144,7 +145,7 @@
       "verdictReason": "HTTP 403",
       "finalUrl": "https://s5.radio.co/sfff7b7e97/listen",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.993Z"
     },
     {
       "stationuuid": "272507fc-f3b7-4a10-a280-7da26bafb901",
@@ -162,7 +163,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://megapolisfm.md:8443/886",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.993Z"
     },
     {
       "stationuuid": "2e932e59-c33f-4064-9e8d-924537b383ae",
@@ -180,7 +181,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://radio4.dixi.md/listen/hit_fm_dance_hits/hitfmdancehits128.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.993Z"
     },
     {
       "stationuuid": "2fb2f96f-3acb-4c08-9ece-4666b08d8ec7",
@@ -199,7 +200,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ais-sa2.cdnstream1.com/1369_128",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.999Z"
     },
     {
       "stationuuid": "32cbdc2a-3e4e-4160-9eb3-ceeef61316ab",
@@ -214,10 +215,10 @@
       "clickcount": 5,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aac) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://37.233.41.76:8000/lovefm",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:22.026Z"
     },
     {
       "stationuuid": "3866b002-333c-4052-92f8-e642637edfc9",
@@ -234,7 +235,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen3.myradio24.com/master1",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.999Z"
     },
     {
       "stationuuid": "3d8b1284-142e-4b13-a141-24c458c96a2a",
@@ -253,7 +254,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://audio.jurnalfm.md/hq",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.998Z"
     },
     {
       "stationuuid": "4063ddb3-61a2-47ff-a61d-ef73813df792",
@@ -271,7 +272,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cdn.cybercdn.live/Pervoia/Audio/icecast.audio",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.999Z"
     },
     {
       "stationuuid": "40a45617-74c2-49ee-aef6-b329978da43e",
@@ -289,7 +290,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://live.muzfm.md/muzfm",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.993Z"
     },
     {
       "stationuuid": "5306033e-8ae2-4e29-82a5-70045a0994ed",
@@ -308,7 +309,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://stream.dixi.md:9443/Roks",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.999Z"
     },
     {
       "stationuuid": "57ffd204-ac80-4d68-9e71-ddcdf766336c",
@@ -326,7 +327,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://radio4.dixi.md/listen/hit_fm_summer_hits/hitfmsummerhits128.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.993Z"
     },
     {
       "stationuuid": "59b75a24-68c5-4446-8f94-177eb99b041d",
@@ -342,8 +343,8 @@
       "verdict": "ok-hls",
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://inter-fm.com/hlsstream/stream.m3u8",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:59:01.000Z"
     },
     {
       "stationuuid": "5b74f9f4-5d24-4069-9167-618465315661",
@@ -358,10 +359,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://radiolive.studentus.md:8000/live",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:21.909Z"
     },
     {
       "stationuuid": "62ab091a-48f1-4a28-90fc-637b7568ab32",
@@ -377,7 +378,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-177.zeno.fm/ttofovumhg1vv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ0dG9mb3Z1bWhnMXZ2IiwiaG9zdCI6InN0cmVhbS0xNzcuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IndhaUtmeFFQUTlHaGlocDhrVk5CYkEiLCJpYXQiOjE3Nzg0ODU1MjcsImV4cCI6MTc3ODQ4NTU4N30.tZmCBR41rJ8pa6g09iU-_2RoQEvPw8H5i7_EBNMlih8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.999Z"
     },
     {
       "stationuuid": "6f674387-513a-437b-8014-7a15a95fa67e",
@@ -393,10 +394,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://radiolive.trm.md:8000/RM-muzical-256",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:21.943Z"
     },
     {
       "stationuuid": "708cf1ea-1454-4212-886b-3100bea9df8c",
@@ -414,7 +415,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://radio7.dixi.md/listen/hit_fm_drive_mode/hitfmdrivemode128.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.999Z"
     },
     {
       "stationuuid": "731e33db-8138-40d2-9581-b2f5911c66e4",
@@ -433,7 +434,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://aiciascult.eu/radio",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:01.000Z"
     },
     {
       "stationuuid": "78160e93-0a17-49ff-9903-7f97c0e501c5",
@@ -448,10 +449,10 @@
       "clickcount": 4,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://109.185.236.241:8000/DriveFM",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:42.345Z"
     },
     {
       "stationuuid": "7ff4a334-50ab-439a-ba82-47a3c2dd0082",
@@ -470,7 +471,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.radioplai.md/live",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.999Z"
     },
     {
       "stationuuid": "814b4e82-2580-4320-9ccb-0fbbb4144d20",
@@ -489,7 +490,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://s5.radio.co/sfd9f42d1d/listen",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.993Z"
     },
     {
       "stationuuid": "81a9eb5b-2da6-472c-a6c7-1ebe3f3e87c4",
@@ -508,7 +509,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://sexsoundradio.com:8000/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:01.000Z"
     },
     {
       "stationuuid": "835c1306-01f8-4291-ac6d-623739c9b891",
@@ -527,7 +528,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://streams.radiozum.md/listen/zum1/ZUM1",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.970Z"
     },
     {
       "stationuuid": "84894d41-5e1a-4f8b-bae0-1684a3894ca9",
@@ -546,7 +547,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.radio.co/s6a544f6c9/listen",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:01.000Z"
     },
     {
       "stationuuid": "8a880290-9fcf-11e8-a767-52543be04c81",
@@ -562,10 +563,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://93.115.137.75:8000/aquarellefm.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:22.395Z"
     },
     {
       "stationuuid": "8b6000a2-0eeb-4eb2-8511-a168de0e9ce9",
@@ -583,7 +584,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://live.kissfm.md/kissfm.chisinau",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.998Z"
     },
     {
       "stationuuid": "91900e91-4864-4ff0-b782-50817669c4ac",
@@ -602,7 +603,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://efir.retrofm.md:8000/retro",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.999Z"
     },
     {
       "stationuuid": "92b99738-5c8f-4450-9f19-c8f0ca235559",
@@ -617,10 +618,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aac) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://212.56.220.74:8000/RecordMD",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:01.498Z"
     },
     {
       "stationuuid": "938ba257-1ac8-49a5-bf60-eb26f0fe75ec",
@@ -639,7 +640,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://streams.radiozum.md/listen/zum4/ZUM4",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.970Z"
     },
     {
       "stationuuid": "960ef757-0601-11e8-ae97-52543be04c81",
@@ -656,8 +657,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://live.prodjradio.net:8000/;",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:59:00.998Z"
     },
     {
       "stationuuid": "978c9832-a05e-11e8-a9f3-52543be04c81",
@@ -673,10 +674,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://188.138.204.98:8080/ecoFM",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:22.039Z"
     },
     {
       "stationuuid": "9a608389-3cae-4614-8768-2561f18472f7",
@@ -689,11 +690,11 @@
       "votes": 931,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-5xx",
+      "verdictReason": "HTTP 503",
       "finalUrl": "http://188.138.191.214/RadioDar",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:02.386Z"
     },
     {
       "stationuuid": "ad013d77-cdf0-42b0-ae73-a5c12347237b",
@@ -712,7 +713,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://streams.radiozum.md/listen/zum2/ZUM2",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.970Z"
     },
     {
       "stationuuid": "b8cc0b5b-8425-4735-bdcc-c72c7935c84d",
@@ -728,10 +729,10 @@
       "clickcount": 6,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aac) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://37.233.41.76:8000/dancefm",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:21.759Z"
     },
     {
       "stationuuid": "c07ab03b-0903-4a1d-ad14-c1ef20087e05",
@@ -749,7 +750,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://radio3.dixi.md/listen/hit_fm_best_hits/hitfm_besthits128.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.970Z"
     },
     {
       "stationuuid": "c63563c8-edc3-4bb5-9962-63375bb4d6ad",
@@ -767,7 +768,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://sonicssl.namehost.ro/8050/;",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.999Z"
     },
     {
       "stationuuid": "d0d6ddda-0681-472f-97f8-1f60d8276c7a",
@@ -786,7 +787,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://radio3.dixi.md/listen/hit_fm_russkoe_hitovoe/hitfm_ruhit128.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.970Z"
     },
     {
       "stationuuid": "d7014431-ab51-48c2-9899-2fdc47f01224",
@@ -804,7 +805,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://radiolive.trm.md:8001/hls_rmt/tineret.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:01.000Z"
     },
     {
       "stationuuid": "d86169ad-3b18-4c84-a330-9dd5b0a0e2a5",
@@ -823,7 +824,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://stream.noroc.tv/radionoroc_aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.998Z"
     },
     {
       "stationuuid": "e0e7f619-6324-4a23-adae-dcc548a18072",
@@ -839,10 +840,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://s02.radio-tochka.com:8020/radio?type=.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:01.372Z"
     },
     {
       "stationuuid": "e45b77ad-3e75-4b16-bdb4-75cd6aa5baff",
@@ -861,7 +862,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://radio3.dixi.md/listen/hit_fm_2000s_hits/hitfm2000hit128.aac",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.970Z"
     },
     {
       "stationuuid": "e70f3c0d-7e3a-4973-a5e4-19471790a25f",
@@ -877,10 +878,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://s02.radio-tochka.com:8020/radio?type=.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:01.588Z"
     },
     {
       "stationuuid": "e9680f99-116f-43a4-aba5-f1d3bb54edc9",
@@ -895,10 +896,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://109.233.192.78:8000/_a",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:21.977Z"
     },
     {
       "stationuuid": "ef7e6372-87d6-426e-bced-e2fa92401666",
@@ -916,7 +917,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://asculta.radiorfi.ro/live.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.999Z"
     },
     {
       "stationuuid": "ff73092b-7efe-464b-b70c-51c771058dc1",
@@ -935,7 +936,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://www.radio.md/stream/radiomoldovanews",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:35:31.146Z"
+      "probedAt": "2026-06-11T08:59:00.999Z"
     }
   ]
 }

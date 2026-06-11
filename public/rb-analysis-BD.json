@@ -1,13 +1,14 @@
 {
-  "generatedAt": "2026-05-19T17:21:07.657Z",
+  "generatedAt": "2026-06-11T07:57:52.835Z",
   "country": "BD",
   "rawSnapshotAt": "2026-05-19T07:49:47.579Z",
   "total": 19,
   "playable": 13,
   "broken": 6,
-  "curated": 9,
+  "curated": 11,
   "byVerdict": {
-    "broken-mixed": 6,
+    "broken-mixed": 5,
+    "broken-format": 1,
     "ok": 13
   },
   "stations": [
@@ -27,7 +28,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://qurango.net/radio/mohammed_siddiq_alminshawi",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:21:07.652Z"
+      "probedAt": "2026-06-11T07:57:50.588Z"
     },
     {
       "stationuuid": "0cd65f11-4dc8-4928-950b-1b22d973e224",
@@ -42,10 +43,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://139.59.86.99:12496/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:21:07.652Z"
+      "probedAt": "2026-06-11T07:57:51.771Z"
     },
     {
       "stationuuid": "3bb1e37c-f4bb-4ec4-b1d7-ce384a8028a2",
@@ -61,8 +62,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://stream-179.zeno.fm/spqbxkqxdf9uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJzcHFieGtxeGRmOXV2IiwiaG9zdCI6InN0cmVhbS0xNzkuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6ImZyZmtMSWZVUkVtMXZpY0hkaHUyeUEiLCJpYXQiOjE3NzkxODY1NDIsImV4cCI6MTc3OTE4NjYwMn0.wq35bF9sdf-XW9ns1TaG_-Bm6WpvM1vn1OtF65D7sTI",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:21:07.652Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T07:57:50.559Z"
     },
     {
       "stationuuid": "42135588-75d9-11ea-b1cf-52543be04c81",
@@ -77,11 +78,11 @@
       "votes": 12852,
       "clickcount": 4,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://66.45.232.131:9994/",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html;charset=utf-8 not audio-like",
+      "finalUrl": "http://66.45.232.131:9994/index.html?sid=1",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:21:07.652Z"
+      "probedAt": "2026-06-11T07:57:52.822Z"
     },
     {
       "stationuuid": "46e58cb0-de1f-4664-a5a5-0807d1ef8c0f",
@@ -98,8 +99,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream-178.zeno.fm/gpgkgp9mp18uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJncGdrZ3A5bXAxOHV2IiwiaG9zdCI6InN0cmVhbS0xNzguemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IjZneDRhSGVrUzJ1NkFRbnJDaDQwRmciLCJpYXQiOjE3NzkxODY1NDIsImV4cCI6MTc3OTE4NjYwMn0.WhPMuGqsdcIuPmJjNwmAQPw76VW-J4x6V74i9DN2e3Y",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:21:07.651Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T07:57:50.558Z"
     },
     {
       "stationuuid": "4aa68f72-39dd-44d2-b57f-099078a94755",
@@ -115,10 +116,10 @@
       "clickcount": 11,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://as1.digitalsynapsebd.com:8582/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:21:07.652Z"
+      "probedAt": "2026-06-11T07:57:52.681Z"
     },
     {
       "stationuuid": "4d01c3fb-75d8-11ea-b1cf-52543be04c81",
@@ -137,7 +138,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen.radioking.com/radio/1743/stream/125",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:21:07.652Z"
+      "probedAt": "2026-06-11T07:57:50.583Z"
     },
     {
       "stationuuid": "4ef03374-f664-4b2c-91b2-b37b9ab4c32a",
@@ -154,7 +155,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-179.zeno.fm/nxfshdayjrdvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJueGZzaGRheWpyZHZ2IiwiaG9zdCI6InN0cmVhbS0xNzkuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoidHdRZXFMMmNUQ2U2cGdXZUxzVUVrdyIsImlhdCI6MTc3ODUxMDQ3NCwiZXhwIjoxNzc4NTEwNTM0fQ.49EPrM4aRD0VbzIS-MhgvlhtCVFdvh6l-f53d3u6iF8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:21:07.652Z"
+      "probedAt": "2026-06-11T07:57:50.559Z"
     },
     {
       "stationuuid": "520d1aba-0149-47bb-a007-fdf903ec2d1a",
@@ -170,10 +171,10 @@
       "clickcount": 12,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://118.179.219.244:8000/;?n=d70ecddb2aebf420177c",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:21:07.652Z"
+      "probedAt": "2026-06-11T07:57:52.158Z"
     },
     {
       "stationuuid": "58940095-dc8b-477f-a7e1-cbac01932f5c",
@@ -192,7 +193,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mellowbangla.com/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:21:07.652Z"
+      "probedAt": "2026-06-11T07:57:50.588Z"
     },
     {
       "stationuuid": "5a761167-46b2-4840-a8ee-f9895bf3ed2e",
@@ -211,7 +212,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:21:07.652Z"
+      "probedAt": "2026-06-11T07:57:50.588Z"
     },
     {
       "stationuuid": "75640ca6-31f1-4d70-be2e-37873c397b15",
@@ -227,10 +228,10 @@
       "clickcount": 7,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://as1.digitalsynapsebd.com:8741/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:21:07.652Z"
+      "probedAt": "2026-06-11T07:57:52.676Z"
     },
     {
       "stationuuid": "80b6b9c0-9692-4829-bc11-cdb0956d627d",
@@ -247,7 +248,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-177.zeno.fm/xuin6ocdc2juv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ4dWluNm9jZGMyanV2IiwiaG9zdCI6InN0cmVhbS0xNzcuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiSHp2T1pwYXBTbEtTQ2F0UGh1a29ZZyIsImlhdCI6MTc3ODUxMDQ3NCwiZXhwIjoxNzc4NTEwNTM0fQ.Vo2bnXoWPHsZOXaoM0nP4zy0yBzhA6QVYXR3r6M6f9M",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:21:07.652Z"
+      "probedAt": "2026-06-11T07:57:50.559Z"
     },
     {
       "stationuuid": "953034fd-4289-41d3-8836-6de4e3577646",
@@ -265,7 +266,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-285.zeno.fm/be5bqmk1k18uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJiZTVicW1rMWsxOHV2IiwiaG9zdCI6InN0cmVhbS0yODUuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NCwianRpIjoiOXBBR0pLVDRRbktMNVBubzBoRm1tQSIsImlhdCI6MTc3ODUxMDQ3NCwiZXhwIjoxNzc4NTEwNTM0fQ.cZ0H_WTvt_LNZEspewwZu1q_QXMDqeNY4pU1xI5o7_c",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:21:07.652Z"
+      "probedAt": "2026-06-11T07:57:50.587Z"
     },
     {
       "stationuuid": "c6428c62-75d9-11ea-b1cf-52543be04c81",
@@ -280,10 +281,10 @@
       "clickcount": 4,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://66.45.232.131:9994/;stream/1/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:21:07.652Z"
+      "probedAt": "2026-06-11T07:57:51.901Z"
     },
     {
       "stationuuid": "d3de929b-1967-4082-8f9e-b2b57a3377b9",
@@ -301,7 +302,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://audio.streamcast.xyz/listen/radiogoongoon/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:21:07.652Z"
+      "probedAt": "2026-06-11T07:57:50.587Z"
     },
     {
       "stationuuid": "e52e5607-4d6f-4efd-a5bc-29a815f8d066",
@@ -319,7 +320,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s3.myradiostream.com:14498/listen.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:21:07.652Z"
+      "probedAt": "2026-06-11T07:57:50.587Z"
     },
     {
       "stationuuid": "ec0e9fac-b75c-4f3b-8477-b5042a14ca68",
@@ -336,7 +337,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-281.zeno.fm/eabgu655puquv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJlYWJndTY1NXB1cXV2IiwiaG9zdCI6InN0cmVhbS0yODEuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NCwianRpIjoidFB0SngxMHJTUkNZTXFjTVVKbHhvUSIsImlhdCI6MTc3ODUxMDQ3NCwiZXhwIjoxNzc4NTEwNTM0fQ.e9Vi3BKSWnVmlvO_-4Z8x7XNIKgzFC2KWwQKxu0cnJA",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:21:07.652Z"
+      "probedAt": "2026-06-11T07:57:50.587Z"
     },
     {
       "stationuuid": "f53d0d0c-6ef0-4fd8-ba29-43309cc5c443",
@@ -355,7 +356,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://as1.digitalsynapsebd.com/proxy/zkpnarpg/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:21:07.652Z"
+      "probedAt": "2026-06-11T07:57:50.587Z"
     }
   ]
 }

@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-05-19T17:29:10.708Z",
+  "generatedAt": "2026-06-11T08:35:50.185Z",
   "country": "GL",
   "rawSnapshotAt": "2026-05-19T07:50:21.519Z",
   "total": 6,
   "playable": 5,
   "broken": 1,
-  "curated": 0,
+  "curated": 3,
   "byVerdict": {
     "ok": 5,
-    "broken-mixed": 1
+    "broken-refused": 1
   },
   "stations": [
     {
@@ -27,8 +27,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://play.streams.gr/sc/radiodiplopenies/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:10.703Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:35:35.719Z"
     },
     {
       "stationuuid": "4f5d2a63-f695-4acc-a28d-9965791e7227",
@@ -46,7 +46,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://pub0302.101.ru:8000/stream/pro/aac/64/158?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpcCI6Ij",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:10.703Z"
+      "probedAt": "2026-06-11T08:35:35.719Z"
     },
     {
       "stationuuid": "a1b4eb6b-bc8b-4c97-b301-5ad50109bfe1",
@@ -65,7 +65,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:10.703Z"
+      "probedAt": "2026-06-11T08:35:35.719Z"
     },
     {
       "stationuuid": "c5d12af3-9ac1-4baa-b4ac-d38745e14a4d",
@@ -82,8 +82,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://play.streams.gr:22035/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:10.703Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:35:35.719Z"
     },
     {
       "stationuuid": "cf7861e6-bd17-11e8-aaf2-52543be04c81",
@@ -96,11 +96,11 @@
       "votes": 412,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-refused",
+      "verdictReason": "TypeError: fetch failed — Error: connect ENETUNREACH 213.133.109.221:8205",
       "finalUrl": "http://213.133.109.221:8205/dfm_1",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:10.703Z"
+      "probedAt": "2026-06-11T08:35:50.171Z"
     },
     {
       "stationuuid": "efd96088-62e3-4df5-a962-b9595ee7b6c9",
@@ -118,8 +118,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://getnanoq.retro-radio.dk/Nanoq-TX-1",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:10.702Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:35:35.694Z"
     }
   ]
 }

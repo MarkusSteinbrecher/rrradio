@@ -1,17 +1,18 @@
 {
-  "generatedAt": "2026-05-19T17:34:30.747Z",
+  "generatedAt": "2026-06-11T08:56:07.768Z",
   "country": "LK",
   "rawSnapshotAt": "2026-05-19T07:50:43.972Z",
   "total": 77,
   "playable": 51,
   "broken": 26,
-  "curated": 29,
+  "curated": 35,
   "byVerdict": {
-    "broken-mixed": 23,
+    "broken-mixed": 18,
+    "broken-4xx": 5,
     "ok": 50,
+    "broken-format": 1,
     "ok-hls": 1,
-    "broken-4xx": 1,
-    "broken-format": 2
+    "broken-dns": 2
   },
   "stations": [
     {
@@ -31,7 +32,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://srv01.onlineradio.voaplus.com/siyathafm",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.342Z"
     },
     {
       "stationuuid": "0a3176a2-58da-4e51-920f-a93754f76db0",
@@ -50,7 +51,7 @@
       "verdictReason": "audio/mpeg; charset=UTF-8",
       "finalUrl": "https://radio.lotustechnologieslk.net:2020/stream/sunfmgarden",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.342Z"
     },
     {
       "stationuuid": "0c3497a6-1a1e-445e-bd64-7313bb41b95a",
@@ -68,7 +69,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://mbc.thestreamtech.com:7032/index.html",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.342Z"
     },
     {
       "stationuuid": "0e309df5-eebb-4fed-a5eb-61d0ac70012c",
@@ -87,7 +88,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.lotustechnologieslk.net:8006/",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.372Z"
     },
     {
       "stationuuid": "0fd38f47-def6-4a5e-bb30-4ae1f9097b69",
@@ -106,7 +107,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://srv02.onlineradio.voaplus.com/lite878",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.370Z"
     },
     {
       "stationuuid": "1520dbc4-e000-11e8-a9cc-52543be04c81",
@@ -122,10 +123,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://220.247.227.6:8000/Snsstream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:56:06.047Z"
     },
     {
       "stationuuid": "153848d9-090f-4fef-8ed6-7177471e92ec",
@@ -143,7 +144,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cp12.serverse.com/proxy/itnfm?mp=/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.366Z"
     },
     {
       "stationuuid": "1592c34c-98ce-4f40-8e15-a72663fb4bd1",
@@ -158,11 +159,11 @@
       "votes": 1813,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 404",
       "finalUrl": "http://207.148.74.192:7860/stream2.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:46.716Z"
     },
     {
       "stationuuid": "1cb8112b-afa1-4cb8-ba3c-cb10858a5608",
@@ -178,10 +179,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://151.80.42.191:8288/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.871Z"
     },
     {
       "stationuuid": "1e9d4d45-2239-4052-ab6f-e428845329e0",
@@ -200,7 +201,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://mbc.thestreamtech.com:8086/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.372Z"
     },
     {
       "stationuuid": "24cc0ccf-a8c5-4e4a-9277-f618618cab30",
@@ -215,8 +216,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream-177.zeno.fm/c6mgmtfg8e9uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJjNm1nbXRmZzhlOXV2IiwiaG9zdCI6InN0cmVhbS0xNzcuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiSmtDNkI1ZGJRVGVRZEd3YzBxaFFodyIsImlhdCI6MTc3OTE5MjM3MiwiZXhwIjoxNzc5MTkyNDMyfQ.2-9aUwhsyBkaxOMZu85CojbnXhPIl_QsC4fzjR95kyg",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:55:24.372Z"
     },
     {
       "stationuuid": "24db5fd8-4096-492a-84b5-18c77029a34d",
@@ -235,7 +236,7 @@
       "verdictReason": "audio/mpeg; charset=UTF-8",
       "finalUrl": "https://altair.streamerr.co/stream/8036",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.366Z"
     },
     {
       "stationuuid": "2714fa21-ab03-4827-a3a7-736a399b5b7f",
@@ -254,7 +255,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://sonic-ca.instainternet.com/siragugalfm/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.372Z"
     },
     {
       "stationuuid": "287205db-70b1-41c2-b163-b87d4e8b7fa8",
@@ -273,7 +274,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://srv01.onlineradio.voaplus.com/siyathafm",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.342Z"
     },
     {
       "stationuuid": "310bf19d-4ac8-4549-904c-891909b9bc00",
@@ -291,7 +292,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://srv01.onlineradio.voaplus.com/siyathafm",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.342Z"
     },
     {
       "stationuuid": "32492e3e-f466-4e73-8886-1e4b3a0d08ea",
@@ -309,7 +310,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://srv01.onlineradio.voaplus.com/siyathafm",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.342Z"
     },
     {
       "stationuuid": "3260b4f1-f1bd-4850-9c1d-8d7ffdeb3bbd",
@@ -324,10 +325,10 @@
       "clickcount": 5,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://s2.voscast.com:12084/;stream1619441439791/1",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:25.409Z"
     },
     {
       "stationuuid": "32fface7-e6a9-4f9b-8e44-e7c5b0026fe9",
@@ -346,7 +347,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.372Z"
     },
     {
       "stationuuid": "382f3856-638e-4833-8bef-1af25a02c065",
@@ -363,7 +364,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-280.zeno.fm/1tcs4fbw7rquv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiIxdGNzNGZidzdycXV2IiwiaG9zdCI6InN0cmVhbS0yODAuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IjVWZlpSQmlPU0dDZHdQclcwQ040MFEiLCJpYXQiOjE3Nzg0ODU0OTUsImV4cCI6MTc3ODQ4NTU1NX0.d7R5fNtkxJEmc_5AyzHQd6bGubeeCDOPusyWwJQyOTA",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.372Z"
     },
     {
       "stationuuid": "40bf2631-5b95-4af0-9b03-3818ef237f57",
@@ -382,7 +383,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s11.myradiostream.com:25116/listen.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.372Z"
     },
     {
       "stationuuid": "479ae177-2340-44f9-badc-2e5d21e9ef68",
@@ -400,7 +401,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio-station.hadawatha.lk/listen/dreamzlanka-fm/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.366Z"
     },
     {
       "stationuuid": "47c69182-81b4-41fb-b67c-6f77747695b2",
@@ -419,7 +420,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://srv02.onlineradio.voaplus.com/realfm",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.370Z"
     },
     {
       "stationuuid": "508ca6eb-e001-11e8-a9cc-52543be04c81",
@@ -434,10 +435,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://220.247.227.20:8000/RSLstream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:56:05.873Z"
     },
     {
       "stationuuid": "57815694-07c8-43ed-b4f3-a49b4e0a7c49",
@@ -456,7 +457,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://mbc.thestreamtech.com:7032/",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.342Z"
     },
     {
       "stationuuid": "59014fd4-7560-44bf-9550-58a1bbae9458",
@@ -474,7 +475,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.lotustechnologieslk.net:8000/",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.372Z"
     },
     {
       "stationuuid": "5ad9ac86-e034-11e8-a9cc-52543be04c81",
@@ -491,8 +492,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://shaincast.caster.fm:48148/listen.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:55:24.371Z"
     },
     {
       "stationuuid": "6434196c-0ccb-47b3-a043-a2e05a7346cb",
@@ -510,7 +511,7 @@
       "verdictReason": "HTTP 401",
       "finalUrl": "https://stream-016.zeno.fm/e7ztn80wttzuv?zs=nxo70rmaQ_iSyHrb1K_FQQ",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.372Z"
     },
     {
       "stationuuid": "6604d74e-d11f-4c24-a640-cadc8a7c2304",
@@ -529,7 +530,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://wellonradio.out.airtime.pro/wellonradio_a",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.372Z"
     },
     {
       "stationuuid": "6a7c8a21-cb7d-41d2-8c32-99c355e2ac20",
@@ -547,7 +548,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-286.zeno.fm/xekhrn4zetzuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ4ZWtocm40emV0enV2IiwiaG9zdCI6InN0cmVhbS0yODYuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IjlhcTQ3VmNvUVpDQkFrb2tNWXpvUHciLCJpYXQiOjE3Nzg0ODU0OTUsImV4cCI6MTc3ODQ4NTU1NX0.OogFYsMjkMvfZNps8IbOfrsxiji176_QH8RBr5CVfZA",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.371Z"
     },
     {
       "stationuuid": "6c0232b9-cd09-44d5-ba28-3002d6a5e81e",
@@ -565,7 +566,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://mbc.thestreamtech.com:7032/index.html",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.342Z"
     },
     {
       "stationuuid": "756c4ac1-c020-4139-86c2-57cc4dd12643",
@@ -584,7 +585,7 @@
       "verdictReason": "audio/mpeg; charset=UTF-8",
       "finalUrl": "https://radio.lotustechnologieslk.net:2020/stream/hirufmgarden/stream/1/",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.742Z"
+      "probedAt": "2026-06-11T08:55:24.341Z"
     },
     {
       "stationuuid": "78debbbd-e000-11e8-a9cc-52543be04c81",
@@ -600,10 +601,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://220.247.227.20:8000/citystream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:56:06.432Z"
     },
     {
       "stationuuid": "7906c7e6-b142-421e-ad3c-56d085b59fd9",
@@ -621,7 +622,7 @@
       "verdictReason": "audio/mpeg; charset=UTF-8",
       "finalUrl": "https://radio.lotustechnologieslk.net:2020/stream/hirufmgarden?1707015384",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.342Z"
     },
     {
       "stationuuid": "7b7bd2c6-2feb-42bc-8a20-c0a1d6f79049",
@@ -640,7 +641,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://cp11.serverse.com/proxy/wowradio/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.365Z"
     },
     {
       "stationuuid": "7ca1623c-636b-4633-b794-ed0a78be7bce",
@@ -659,7 +660,7 @@
       "verdictReason": "audio/mpeg; charset=UTF-8",
       "finalUrl": "https://radio.lotustechnologieslk.net:2020/stream/sunfmgarden",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.342Z"
     },
     {
       "stationuuid": "7ef92e60-e037-11e8-a9cc-52543be04c81",
@@ -675,10 +676,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://151.80.42.191:8288/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.652Z"
     },
     {
       "stationuuid": "81efb1d0-b644-4398-a26f-edd0c5dda269",
@@ -694,10 +695,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://media2.lankasri.fm/;stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.962Z"
     },
     {
       "stationuuid": "87d990e3-bea4-4764-b060-d52bd15b7bc0",
@@ -716,7 +717,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://mbc.thestreamtech.com:7032/index.html",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.342Z"
     },
     {
       "stationuuid": "8864df3a-ab53-4a39-8512-3f2dfe13b3ff",
@@ -735,7 +736,7 @@
       "verdictReason": "audio/mpeg; charset=UTF-8",
       "finalUrl": "https://radio.lotustechnologieslk.net:2020/stream/hirufmgarden",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.342Z"
     },
     {
       "stationuuid": "89a2dd1b-7197-11ea-b1cf-52543be04c81",
@@ -749,11 +750,11 @@
       "votes": 1231,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://live.trusl.com:1150/",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html;charset=utf-8 not audio-like",
+      "finalUrl": "http://live.trusl.com:1150/index.html?sid=1",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:25.751Z"
     },
     {
       "stationuuid": "8a5c70df-60b8-48c0-813a-99320d529fca",
@@ -767,11 +768,11 @@
       "votes": 263,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 404",
       "finalUrl": "http://207.148.74.192:7860/stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:47.232Z"
     },
     {
       "stationuuid": "96f09e9d-e006-11e8-a9cc-52543be04c81",
@@ -786,10 +787,10 @@
       "clickcount": 8,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://live.trusl.com:1170/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:25.507Z"
     },
     {
       "stationuuid": "9ac16e1f-b7a2-4c66-be4e-391f11550c8a",
@@ -808,7 +809,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cp12.serverse.com/proxy/itnfm?mp=/stream&1707017036",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.366Z"
     },
     {
       "stationuuid": "9c28c3be-22c7-484b-9c5f-253fbd47fe3c",
@@ -824,10 +825,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://dc1.serverse.com:7178/stream/1/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.897Z"
     },
     {
       "stationuuid": "9d10be4b-4b1f-483e-820a-64c46abae1e2",
@@ -842,10 +843,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://124.43.10.122:8080/live",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:56:05.905Z"
     },
     {
       "stationuuid": "a1b16b8a-9f50-420d-bd98-6a3029dc9571",
@@ -862,7 +863,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://5a1178b42cc03.streamlock.net/laksara/laksara/chunklist_w1617919055.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.372Z"
     },
     {
       "stationuuid": "a2065b19-3142-467e-9bdd-3bc3868cdd2a",
@@ -880,7 +881,7 @@
       "verdictReason": "audio/mpeg; charset=UTF-8",
       "finalUrl": "https://radio.lotustechnologieslk.net:2020/stream/goldfmgarden",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.342Z"
     },
     {
       "stationuuid": "a2c810c5-a1b7-4c18-bf86-2e04902353ff",
@@ -897,8 +898,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://s46.myradiostream.com:11156/listen.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:55:24.372Z"
     },
     {
       "stationuuid": "a6bf6cfc-1c8d-42a5-bf96-c83a4e3b90cf",
@@ -917,7 +918,7 @@
       "verdictReason": "audio/mpeg; charset=UTF-8",
       "finalUrl": "https://altair.streamerr.co/stream/8036",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.366Z"
     },
     {
       "stationuuid": "a8721ffc-305e-4578-9b63-8bbca9d65283",
@@ -936,7 +937,7 @@
       "verdictReason": "audio/mpeg; charset=UTF-8",
       "finalUrl": "https://radio.lotustechnologieslk.net:2020/stream/goldfmgarden",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.342Z"
     },
     {
       "stationuuid": "aa2d0a92-7e8a-4b7f-ace3-fc24d207543f",
@@ -955,7 +956,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cp12.serverse.com/proxy/vasanthamfm?mp=/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.366Z"
     },
     {
       "stationuuid": "ae01254c-7b72-4e4c-8109-f54abacdc823",
@@ -973,7 +974,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://rangiri.radioca.st/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.372Z"
     },
     {
       "stationuuid": "ae628010-757c-4b08-8be6-1c04581f7021",
@@ -990,8 +991,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://streams.radio.co/sea5dddd6b/listen",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:55:24.372Z"
     },
     {
       "stationuuid": "b26f5f82-42ec-4174-83d4-2e5764fc25f5",
@@ -1010,7 +1011,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://srv01.onlineradio.voaplus.com/siyathafm",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.342Z"
     },
     {
       "stationuuid": "b30adf4b-9acd-4e4e-ad08-f9335a1a9c46",
@@ -1029,7 +1030,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://cp11.serverse.com/proxy/nethfm/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.365Z"
     },
     {
       "stationuuid": "b742fcc1-7118-4241-8650-8cf9f8ad8a59",
@@ -1047,7 +1048,7 @@
       "verdictReason": "audio/mpeg; charset=UTF-8",
       "finalUrl": "https://radio.lotustechnologieslk.net:2020/stream/hirufmgarden",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.342Z"
     },
     {
       "stationuuid": "bc8805dd-a40c-449e-9f43-ce592e9073a0",
@@ -1066,7 +1067,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.starfm.lk:12025/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.372Z"
     },
     {
       "stationuuid": "bf12d434-4024-409d-a223-6f6d3088534f",
@@ -1082,10 +1083,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://cp11.serverse.com:7643/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.932Z"
     },
     {
       "stationuuid": "bf2ce310-ffa1-4fac-92d2-87421d61b7f8",
@@ -1103,7 +1104,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio-station.hadawatha.lk/listen/hadawatha-fm/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.366Z"
     },
     {
       "stationuuid": "c0519ec6-e033-11e8-a9cc-52543be04c81",
@@ -1118,10 +1119,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://live.trusl.com:1180/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:25.475Z"
     },
     {
       "stationuuid": "c0c3e003-667d-47c6-a028-799f2e5603a9",
@@ -1140,7 +1141,7 @@
       "verdictReason": "audio/mpeg; charset=UTF-8",
       "finalUrl": "https://altair.streamerr.co/stream/8054",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.366Z"
     },
     {
       "stationuuid": "c0c69afc-1354-4b0b-aac6-f43e4df98da6",
@@ -1154,11 +1155,11 @@
       "votes": 1,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 404",
       "finalUrl": "http://220.247.234.207:8000/cirstream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:56:05.823Z"
     },
     {
       "stationuuid": "c1356aca-de00-4ad5-aae2-8195b6af3bc1",
@@ -1172,10 +1173,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://live.trusl.com:1170/;?type=http&nocache=0",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:26.058Z"
     },
     {
       "stationuuid": "c7b98153-27a7-4698-a710-79b156a0389d",
@@ -1193,8 +1194,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp",
       "finalUrl": "https://mbc.thestreamtech.com:7032/index.html",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:55:24.342Z"
     },
     {
       "stationuuid": "c84ff061-3eb4-4ee6-8e69-f44e28b38221",
@@ -1210,10 +1211,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://142.132.250.174:7673/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.871Z"
     },
     {
       "stationuuid": "c9e115dd-2da0-4a5d-9576-f54727de5ae1",
@@ -1228,10 +1229,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://220.247.227.20:8000/rajaratastream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:56:07.081Z"
     },
     {
       "stationuuid": "cbf5edde-190d-4bfd-a246-2e6ac81c0b62",
@@ -1249,7 +1250,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://cp11.serverse.com/proxy/classic/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.365Z"
     },
     {
       "stationuuid": "d4465cfe-0f0d-471c-9195-aae4f43ff4fc",
@@ -1264,11 +1265,11 @@
       "votes": 224,
       "clickcount": 3,
       "lastcheckok": 1,
-      "verdict": "broken-format",
-      "verdictReason": "content-type text/html not audio-like",
+      "verdict": "broken-dns",
+      "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND onair.punnagairadio.com",
       "finalUrl": "https://onair.punnagairadio.com/anowradiohd/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.370Z"
     },
     {
       "stationuuid": "d4f99e90-000c-4c8d-9624-6673d40eb9db",
@@ -1283,10 +1284,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://live.trusl.com:1150/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:26.247Z"
     },
     {
       "stationuuid": "d63b555f-e000-11e8-a9cc-52543be04c81",
@@ -1301,10 +1302,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://220.247.227.6:8000/Scomstream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:56:06.645Z"
     },
     {
       "stationuuid": "dd004019-7ef3-4f39-af16-2f6a7ccde6b8",
@@ -1323,7 +1324,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://srv01.onlineradio.voaplus.com/siyathafm",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.342Z"
     },
     {
       "stationuuid": "dd8c96f8-cbb3-478c-9b31-8d4d0113120b",
@@ -1338,11 +1339,11 @@
       "votes": 3384,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 404",
       "finalUrl": "http://207.148.74.192:7860/ran.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:45.691Z"
     },
     {
       "stationuuid": "df6fd1af-734b-4d51-b446-ebd1c8d29a57",
@@ -1357,11 +1358,11 @@
       "votes": 204,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-format",
-      "verdictReason": "content-type text/html not audio-like",
+      "verdict": "broken-dns",
+      "verdictReason": "TypeError: fetch failed — Error: getaddrinfo ENOTFOUND onair.punnagairadio.com",
       "finalUrl": "https://onair.punnagairadio.com/8146/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.370Z"
     },
     {
       "stationuuid": "e3cae23f-a8b0-4f64-a360-a8b6625a60d6",
@@ -1379,7 +1380,7 @@
       "verdictReason": "audio/aacp",
       "finalUrl": "https://cp11.serverse.com/proxy/skyradio/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.365Z"
     },
     {
       "stationuuid": "eec9aee1-4bd0-4ad7-8c75-add44bc92ef7",
@@ -1397,7 +1398,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio-station.hadawatha.lk/listen/jothi-fm/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:55:24.366Z"
     },
     {
       "stationuuid": "f123519d-4188-46d6-87dc-a8a2d76d2fd9",
@@ -1413,8 +1414,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://lite878.com/wp-content/uploads/2020/12/spotifydown.com-Better-Place-From-TROLLS-Band-Together.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:55:24.372Z"
     },
     {
       "stationuuid": "f681b6ba-09b0-4bda-94dd-b10a7cdecd74",
@@ -1430,10 +1431,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://220.247.227.20:8000/Threndralstream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:34:30.743Z"
+      "probedAt": "2026-06-11T08:56:07.753Z"
     }
   ]
 }

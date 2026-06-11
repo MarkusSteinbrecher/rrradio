@@ -1,14 +1,15 @@
 {
-  "generatedAt": "2026-05-19T17:37:14.766Z",
+  "generatedAt": "2026-06-11T09:01:58.569Z",
   "country": "MQ",
   "rawSnapshotAt": "2026-05-19T07:50:52.358Z",
   "total": 8,
   "playable": 6,
   "broken": 2,
-  "curated": 0,
+  "curated": 5,
   "byVerdict": {
     "ok": 6,
-    "broken-mixed": 2
+    "broken-mixed": 1,
+    "broken-format": 1
   },
   "stations": [
     {
@@ -26,8 +27,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://n05a-eu.rcs.revma.com/5stt0yrtpwzuv?rj-ttl=5&rj-tok=AAABnj-Zj0kA8dK_cOVbDsWOXQ",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:37:14.761Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T09:01:58.248Z"
     },
     {
       "stationuuid": "27cc994b-d521-4a69-9ec0-112d42c557c8",
@@ -45,8 +46,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://fmcpmediatest.ice.infomaniak.ch/fmcp-128.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:37:14.761Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T09:01:58.248Z"
     },
     {
       "stationuuid": "2c449451-d215-11e9-a861-52543be04c81",
@@ -61,11 +62,11 @@
       "votes": 466,
       "clickcount": 1,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html not audio-like",
       "finalUrl": "http://str81.streamakaci.com:9160/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:37:14.761Z"
+      "probedAt": "2026-06-11T09:01:58.557Z"
     },
     {
       "stationuuid": "804b6fbe-0c6c-43ca-936e-f7fa6ce8bad5",
@@ -82,8 +83,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.vestaradio.com/RADIOSUDEST",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:37:14.761Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T09:01:58.248Z"
     },
     {
       "stationuuid": "8fb9c164-d194-11e9-a861-52543be04c81",
@@ -100,8 +101,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://martinique.ice.infomaniak.ch/martinique-128.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:37:14.760Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T09:01:58.221Z"
     },
     {
       "stationuuid": "de51fe65-c96d-4680-a1dd-484be4b0b72d",
@@ -120,7 +121,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:37:14.761Z"
+      "probedAt": "2026-06-11T09:01:58.248Z"
     },
     {
       "stationuuid": "e28b7a54-d1a2-11e9-a861-52543be04c81",
@@ -136,10 +137,10 @@
       "clickcount": 4,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (needs-playlist) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://france16.coollabel-productions.com:8276/;listen.m3u",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:37:14.761Z"
+      "probedAt": "2026-06-11T09:01:58.399Z"
     },
     {
       "stationuuid": "fb524c25-2794-4e57-9e9d-5569bac6f906",
@@ -157,8 +158,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ecmanager4.pro-fhi.net:2605/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:37:14.761Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T09:01:58.248Z"
     }
   ]
 }

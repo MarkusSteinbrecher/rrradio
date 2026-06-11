@@ -102,11 +102,14 @@ if (unclassified > 0) {
 
 // ─── 3. Helpers ──────────────────────────────────────────────────────
 function normStreamUrl(u) {
+  // Protocol-agnostic: http and https of the same host+path are the
+  // same stream for matching purposes (RB records are often the http
+  // variant of a catalog https URL — Radio Gong München case).
   if (!u) return '';
   try {
     const url = new URL(String(u));
     let path = url.pathname.replace(/\/$/, '') || '/';
-    return `${url.protocol}//${url.host.toLowerCase()}${path}`;
+    return `${url.host.toLowerCase()}${path}`;
   } catch {
     return String(u).trim().toLowerCase();
   }
@@ -153,6 +156,23 @@ function tally(values) {
   return m;
 }
 
+// Disposition of one candidate row — same vocabulary as the tracker's
+// Sources view (src/tracker/view-sources.ts dispositionOf), precomputed
+// here so the Overview donut can render from the summary without
+// downloading the multi-MB candidates files.
+function dispositionOf(c) {
+  if (c.matchedCatalogId) return 'imported';
+  if (c.duplicateOf) return 'duplicate';
+  if (!c.verdict) return 'unprobed';
+  if (c.verdict === 'ok' || c.verdict === 'ok-hls' || c.verdict === 'needs-playlist') return 'available';
+  // Alive on plain http with no https equivalent — blocked from the
+  // https app origin (and by the https-only catalog policy), but not
+  // dead. The probe verifies aliveness before issuing broken-mixed;
+  // dead http streams carry their real failure verdict instead.
+  if (c.verdict === 'broken-mixed' || c.verdict === 'redirect-downgrade') return 'http-only';
+  return 'broken';
+}
+
 // ─── 4. Per-source collectors ────────────────────────────────────────
 function collectRadioBrowser(src) {
   // Raw inventory: data/sources/radio-browser/by-country/<CC>.json
@@ -195,6 +215,10 @@ function collectRadioBrowser(src) {
       verdictIndex.set(s.stationuuid, {
         verdict: s.verdict || null,
         rbCheckOk: typeof s.lastcheckok === 'number' ? s.lastcheckok : null,
+        // The URL the probe actually played — for http records this is
+        // the verified https upgrade (playable-check tries https first
+        // and only reports ok when it works).
+        finalUrl: s.finalUrl || null,
       });
       if (s.name) uuidToName.set(s.stationuuid, s.name);
     }
@@ -219,6 +243,7 @@ function collectRadioBrowser(src) {
   } else {
     console.warn('build-sources: no data/sources/radio-browser/dedupe.json — run `npm run dedupe-raw`');
   }
+  const canonicalUuids = new Set(Object.values(dedupeByUuid).map((d) => d.canonical));
 
   // Walk the raw snapshots — these are now the authoritative
   // inventory of "what stations exist on RB".
@@ -268,6 +293,10 @@ function collectRadioBrowser(src) {
 
       const ver = verdictIndex.get(s.stationuuid) || { verdict: null, rbCheckOk: null };
       const dup = dedupeByUuid[s.stationuuid] || null;
+      // Dedupe-group key: the group's canonical uuid — set on the
+      // canonical row too, so the disposition stamp can reason about
+      // whole groups (e.g. http/https variants of one stream).
+      const dedupeGroup = dup?.canonical ?? (canonicalUuids.has(s.stationuuid) ? s.stationuuid : null);
       topCandidates.push({
         stationuuid: s.stationuuid,
         name: s.name, country: s.countrycode || cc,
@@ -290,9 +319,13 @@ function collectRadioBrowser(src) {
         rbCheckOk: ver.rbCheckOk,
         duplicateOf: dup?.canonical ?? null,
         duplicateVia: dup?.via ?? null,
+        dedupeGroup,
         matchedCatalogId: match?.id ?? null,
         streamHost,
         streamUrl: streamUrl || null,
+        // Only stored when the probe ended somewhere other than the
+        // record URL (https upgrade or redirect) — keeps the artifact lean.
+        ...(ver.finalUrl && ver.finalUrl !== streamUrl ? { playableUrl: ver.finalUrl } : {}),
         homepage: s.homepage || null,
         favicon: cleanFavicon(s.favicon),
       });
@@ -332,12 +365,14 @@ function collectRadioBrowser(src) {
     });
     let streamHost = '';
     try { if (entry.streamUrl) streamHost = new URL(entry.streamUrl).host; } catch { /* malformed */ }
+    const dup = dedupeByUuid[entry.stationuuid] || null;
     allCandidates.push({
       stationuuid: entry.stationuuid,
       name: entry.name || '',
       country: entry.country || '',
       votes: 0, clickcount: 0,
       verdict: null, rbCheckOk: null, duplicateOf: null,
+      dedupeGroup: dup?.canonical ?? (canonicalUuids.has(entry.stationuuid) ? entry.stationuuid : null),
       matchedCatalogId: entry.id,
       streamHost,
       streamUrl: entry.streamUrl || null,
@@ -529,6 +564,84 @@ function collectManual(src) {
   };
 }
 
+function collectListSource(src) {
+  // Generic collector for list-backed sources (kind: webpage |
+  // user-suggestion): candidates live in a committed YAML list at
+  // src.rawStations instead of coming from an upstream API.
+  const rawPath = src.rawStations ? join(ROOT, src.rawStations) : null;
+  let rows = [];
+  if (rawPath && existsSync(rawPath)) {
+    try {
+      const parsed = YAML.parse(readFileSync(rawPath, 'utf8'));
+      if (Array.isArray(parsed)) rows = parsed;
+    } catch (err) {
+      console.warn(`build-sources: ${src.id} — ${src.rawStations} unparseable: ${err.message}`);
+    }
+  } else {
+    console.warn(`build-sources: ${src.id} — no list at ${src.rawStations ?? '(rawStations unset)'}`);
+  }
+
+  const triageTotals = {};
+  const matchedCatalogIds = new Set();
+  let importedRows = 0;
+  const allCandidates = rows.map((r, i) => {
+    const match = r?.streamUrl ? findCatalogMatch({ streamUrl: r.streamUrl }) : null;
+    if (match) {
+      matchedCatalogIds.add(match.id);
+      importedRows++;
+    }
+    const triage = match ? 'imported' : (r?.triage || 'new');
+    triageTotals[triage] = (triageTotals[triage] || 0) + 1;
+    let streamHost = '';
+    try { if (r?.streamUrl) streamHost = new URL(r.streamUrl).host; } catch { /* malformed */ }
+    return {
+      // List rows have no upstream uuid; synthesize a stable row key.
+      stationuuid: `${src.id}-${i}`,
+      name: r?.name || '',
+      country: r?.country || '',
+      votes: 0,
+      clickcount: 0,
+      verdict: null,
+      duplicateOf: null,
+      matchedCatalogId: match?.id ?? null,
+      streamHost,
+      streamUrl: r?.streamUrl || null,
+      homepage: r?.homepage || null,
+      favicon: cleanFavicon(r?.favicon),
+      triage: r?.triage || null,
+      suggestedVia: r?.suggestedVia || null,
+      suggestedAt: r?.suggestedAt || null,
+    };
+  });
+
+  // Catalog entries tagged `source: <id>` count as imported even when
+  // their intake row was pruned or never written.
+  for (const e of catalogBySource.get(src.id) || []) matchedCatalogIds.add(e.id);
+
+  return {
+    countersTotal: allCandidates.length,
+    countersImported: matchedCatalogIds.size,
+    countersImportedRows: importedRows,
+    countersAvailable: allCandidates.filter((c) => !c.matchedCatalogId && c.triage !== 'rejected').length,
+    detail: {
+      rawStations: src.rawStations ?? null,
+      triageTotals,
+      candidatesUrl: `/sources/${src.id}-candidates.json`,
+    },
+    extraArtifacts: [
+      {
+        path: `${src.id}-candidates.json`,
+        body: {
+          generatedAt: new Date().toISOString(),
+          sourceId: src.id,
+          count: allCandidates.length,
+          candidates: allCandidates,
+        },
+      },
+    ],
+  };
+}
+
 // ─── 5. Build per source ─────────────────────────────────────────────
 mkdirSync(OUT_PER_SOURCE_DIR, { recursive: true });
 
@@ -545,11 +658,62 @@ const streamSeenIn = new Map();
 for (const src of sources) {
   let collected;
   switch (src.kind) {
-    case 'radio-browser': collected = collectRadioBrowser(src); break;
-    case 'manual':        collected = collectManual(src); break;
+    case 'radio-browser':   collected = collectRadioBrowser(src); break;
+    case 'manual':          collected = collectManual(src); break;
+    case 'webpage':
+    case 'user-suggestion': collected = collectListSource(src); break;
     default:
       console.warn(`build-sources: unknown source kind '${src.kind}' for ${src.id} — skipping`);
       continue;
+  }
+
+  // Stamp the final disposition on every candidate row before the
+  // artifact is written, so clients filter on one authoritative field.
+  // Rows are sorted strongest-first (votes), so the best row per catalog
+  // station stays `imported`; surplus rows matching the same station
+  // (same stream under another record) demote to `duplicate`.
+  const candidatesArtifact = (collected.extraArtifacts || [])
+    .find((a) => a.path.endsWith('-candidates.json'));
+  const candidateRows = candidatesArtifact?.body.candidates || [];
+  const seenCatalogIds = new Set();
+  for (const c of candidateRows) {
+    let d = dispositionOf(c);
+    if (d === 'imported') {
+      if (seenCatalogIds.has(c.matchedCatalogId)) d = 'duplicate';
+      else seenCatalogIds.add(c.matchedCatalogId);
+    }
+    c.disposition = d;
+  }
+
+  // Group-aware demotion: when a dedupe group already has an imported
+  // member, every other member is a duplicate of a catalog station —
+  // even the group's canonical row. Catches scheme variants the URL
+  // match can't see (e.g. Bandit Metal exists as http:// and https://
+  // of the same stream; we imported one, the other must not surface
+  // as "available").
+  const dedupeGroups = new Map();
+  for (const c of candidateRows) {
+    if (!c.dedupeGroup) continue;
+    if (!dedupeGroups.has(c.dedupeGroup)) dedupeGroups.set(c.dedupeGroup, []);
+    dedupeGroups.get(c.dedupeGroup).push(c);
+  }
+  let groupDemoted = 0;
+  for (const members of dedupeGroups.values()) {
+    const imported = members.find((m) => m.disposition === 'imported');
+    if (!imported) continue;
+    for (const m of members) {
+      if (m.disposition === 'imported' || m.disposition === 'duplicate') continue;
+      m.disposition = 'duplicate';
+      if (!m.duplicateOf) {
+        m.duplicateOf = imported.stationuuid;
+        m.duplicateOfName = imported.name;
+        m.duplicateVia = m.duplicateVia || 'dedupe-group';
+      }
+      groupDemoted++;
+    }
+  }
+  if (groupDemoted > 0) {
+    console.log(`build-sources: ${src.id} — ${groupDemoted} candidate(s) demoted to duplicate (dedupe group already imported)`);
   }
 
   // Cross-source duplicate bookkeeping. We only care about *catalog*
@@ -602,6 +766,10 @@ for (const src of sources) {
       JSON.stringify(extra.body) + '\n');
   }
 
+  // Disposition tally over the stamped candidate list — feeds the
+  // tracker donut from the lightweight summary.
+  const dispositionTotals = tally(candidateRows.map((c) => c.disposition));
+
   summary.sources.push({
     id: src.id,
     name: src.name,
@@ -612,6 +780,7 @@ for (const src of sources) {
     candidateCount: collected.countersTotal,
     importedCount: collected.countersImported,
     availableCount: collected.countersAvailable,
+    dispositionTotals,
     extra: src.kind === 'radio-browser' ? {
       countriesAnalyzed: collected.detail.countriesAnalyzed,
       countriesInRawSnapshot: collected.detail.countriesInRawSnapshot,
@@ -638,6 +807,31 @@ if (summary.crossSourceDuplicates.length > 0) {
     '(same stream imported under multiple sources)',
   );
 }
+
+// ─── 6. Per-station provenance map ───────────────────────────────────
+// Compact catalog-id → source-id map for the tracker. The dominant
+// source becomes the default so only minority-source stations need an
+// override row — the file stays a few KB instead of one row per station.
+let defaultSource = null;
+let defaultCount = -1;
+for (const [id, entries] of catalogBySource) {
+  if (entries.length > defaultCount) { defaultSource = id; defaultCount = entries.length; }
+}
+const overrides = {};
+for (const [srcId, entries] of catalogBySource) {
+  if (srcId === defaultSource) continue;
+  for (const e of entries) overrides[e.id] = srcId;
+}
+const OUT_SOURCE_MAP = join(OUT_PER_SOURCE_DIR, 'catalog-source-map.json');
+writeFileSync(OUT_SOURCE_MAP, JSON.stringify({
+  generatedAt: summary.generatedAt,
+  defaultSource,
+  overrides,
+}, null, 2) + '\n');
+console.log(
+  `build-sources: provenance map — default ${defaultSource}, ` +
+  `${Object.keys(overrides).length} override(s)`,
+);
 
 writeFileSync(OUT_SUMMARY, JSON.stringify(summary, null, 2) + '\n');
 console.log(`build-sources: → ${OUT_SUMMARY.replace(ROOT + '/', '')}`);

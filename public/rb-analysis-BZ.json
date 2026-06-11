@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-19T17:24:16.942Z",
+  "generatedAt": "2026-06-11T08:05:45.913Z",
   "country": "BZ",
   "rawSnapshotAt": "2026-05-19T07:49:55.719Z",
   "total": 4,
   "playable": 3,
   "broken": 1,
-  "curated": 0,
+  "curated": 2,
   "byVerdict": {
     "broken-mixed": 1,
     "ok": 3
@@ -26,8 +26,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-286.zeno.fm/nw7xmuzasyduv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJudzd4bXV6YXN5ZHV2IiwiaG9zdCI6InN0cmVhbS0yODYuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IkNrU1BvQXNMUzNDOFlxS3NXN1JPb0EiLCJpYXQiOjE3NzkxODI3NzQsImV4cCI6MTc3OTE4MjgzNH0.HMjxSXh_yn_zDCwg3s1Sgo4tMDSmO9QLYsfPc8zVq24",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:24:16.935Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:05:45.078Z"
     },
     {
       "stationuuid": "4095e825-d5bf-4a00-b224-76fab0620019",
@@ -43,10 +43,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://159.65.32.199:8016/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:24:16.932Z"
+      "probedAt": "2026-06-11T08:05:45.903Z"
     },
     {
       "stationuuid": "5ad8d4d7-510d-491e-9a79-d2a718ce7129",
@@ -65,7 +65,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:24:16.935Z"
+      "probedAt": "2026-06-11T08:05:45.077Z"
     },
     {
       "stationuuid": "d5478022-4b6b-41ac-aad0-b0406764c71d",
@@ -82,8 +82,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.svobodnoe.media/freemp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:24:16.935Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:05:45.078Z"
     }
   ]
 }

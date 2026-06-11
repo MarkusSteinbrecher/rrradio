@@ -1,15 +1,16 @@
 {
-  "generatedAt": "2026-05-19T17:32:52.682Z",
+  "generatedAt": "2026-06-11T08:47:42.488Z",
   "country": "IS",
   "rawSnapshotAt": "2026-05-19T07:50:34.154Z",
   "total": 27,
   "playable": 9,
   "broken": 18,
-  "curated": 6,
+  "curated": 8,
   "byVerdict": {
-    "broken-mixed": 18,
+    "broken-mixed": 17,
     "ok": 8,
-    "ok-hls": 1
+    "ok-hls": 1,
+    "broken-4xx": 1
   },
   "stations": [
     {
@@ -26,10 +27,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://netradio.ruv.is/ras1.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:23.399Z"
     },
     {
       "stationuuid": "0ec0f183-4681-478f-b507-cb4ca6333541",
@@ -45,10 +46,10 @@
       "clickcount": 9,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://netradio.ruv.is/ras2.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:22.169Z"
     },
     {
       "stationuuid": "223a427e-2661-41c0-a40a-7d15fdca9da4",
@@ -65,8 +66,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice-11.spilarinn.is/80flashback",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:47:20.898Z"
     },
     {
       "stationuuid": "2d2142a7-259e-475a-be9c-54a4caf537e5",
@@ -82,10 +83,10 @@
       "clickcount": 5,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://netradio.ruv.is/ras1.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:22.802Z"
     },
     {
       "stationuuid": "365a410b-cd82-4410-b351-6f443c3e8c1e",
@@ -103,7 +104,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ice-11.spilarinn.is/60flashback",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:20.898Z"
     },
     {
       "stationuuid": "4123d652-36c9-41fd-b780-238cd3717f43",
@@ -122,7 +123,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream.utvarpsaga.is/Hljodver",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:20.899Z"
     },
     {
       "stationuuid": "4cbc4571-b652-448b-b70d-35be49841d3e",
@@ -138,10 +139,10 @@
       "clickcount": 15,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aac) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://icecast.365net.is:8000/orbbylgjan.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:23.836Z"
     },
     {
       "stationuuid": "625512ba-218e-49b5-a676-efc76c5871c7",
@@ -159,7 +160,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ice-11.spilarinn.is/xsudurlandfm",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:20.898Z"
     },
     {
       "stationuuid": "6304a8b3-9f0d-4102-af23-95cdddd8c296",
@@ -178,7 +179,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:20.899Z"
     },
     {
       "stationuuid": "68252d54-fe00-4f37-bac7-7015f95c6a37",
@@ -194,10 +195,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aac) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://icecast.365net.is:8000/orbFmExtra.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:24.089Z"
     },
     {
       "stationuuid": "7f060aaa-11e9-4759-b85d-4b532d56235b",
@@ -216,7 +217,7 @@
       "verdictReason": "HLS stream — plays via hls.js / native Safari",
       "finalUrl": "https://ruv-radio-live.akamaized.net/streymi/rondo/rondo.m3u8",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:20.899Z"
     },
     {
       "stationuuid": "8d472d16-8ce9-49ed-9b60-df7cd7041566",
@@ -234,7 +235,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://ice-11.spilarinn.is/kaninnmobile",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:20.898Z"
     },
     {
       "stationuuid": "961a98e2-0601-11e8-ae97-52543be04c81",
@@ -250,10 +251,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aac) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://icecast.365net.is:8000/orbGullBylgjan.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:22.421Z"
     },
     {
       "stationuuid": "961d3ec2-0601-11e8-ae97-52543be04c81",
@@ -268,10 +269,10 @@
       "clickcount": 4,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aac) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://icecast.365net.is:8000/orbbylgjan.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:52.677Z"
+      "probedAt": "2026-06-11T08:47:21.389Z"
     },
     {
       "stationuuid": "961e8c73-0601-11e8-ae97-52543be04c81",
@@ -286,10 +287,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aac) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://icecast.365net.is:8000/orbXid.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:21.916Z"
     },
     {
       "stationuuid": "961e9bb2-0601-11e8-ae97-52543be04c81",
@@ -304,10 +305,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aac) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://icecast.365net.is:8000/orbLettBylgjan.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:22.696Z"
     },
     {
       "stationuuid": "961e9e40-0601-11e8-ae97-52543be04c81",
@@ -322,10 +323,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aac) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://icecast.365net.is:8000/orbFm957.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:22.169Z"
     },
     {
       "stationuuid": "961e9f13-0601-11e8-ae97-52543be04c81",
@@ -341,10 +342,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aac) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://icecast.365net.is:8000/orb80s.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:21.656Z"
     },
     {
       "stationuuid": "96238c62-0601-11e8-ae97-52543be04c81",
@@ -359,10 +360,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aac) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://icecast.365net.is:8000/orbFmExtra.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:22.960Z"
     },
     {
       "stationuuid": "9623e951-0601-11e8-ae97-52543be04c81",
@@ -378,10 +379,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://radio.bodun.is:8000/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:42.475Z"
     },
     {
       "stationuuid": "9624075b-0601-11e8-ae97-52543be04c81",
@@ -397,10 +398,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://live.trolli.is:8200/;",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:21.743Z"
     },
     {
       "stationuuid": "9624084b-0601-11e8-ae97-52543be04c81",
@@ -415,10 +416,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aac) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://icecast.365net.is:8000/orbApparatid.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:23.514Z"
     },
     {
       "stationuuid": "c7162b90-39e6-45c8-ac30-4901a48f5dc2",
@@ -435,8 +436,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://ice-11.spilarinn.is/retromobile",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:47:20.898Z"
     },
     {
       "stationuuid": "d98c5e50-9d73-42b5-b52d-16669e9dbe1a",
@@ -452,10 +453,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://netradio.ruv.is/ras1.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:21.575Z"
     },
     {
       "stationuuid": "ea3a1278-0b08-4254-a98b-cfee9a576b18",
@@ -469,10 +470,10 @@
       "clickcount": 4,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/aacp) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://netradio.ruv.is/ras1.aac",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:24.019Z"
     },
     {
       "stationuuid": "efc88f87-3dfa-4478-9c8f-fa0148804328",
@@ -487,11 +488,11 @@
       "votes": 42,
       "clickcount": 4,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-4xx",
+      "verdictReason": "HTTP 404",
       "finalUrl": "http://listen.shoutcast.com/cathedralxiii",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:21.743Z"
     },
     {
       "stationuuid": "fc157689-436b-4da8-a3d5-18d72bbda568",
@@ -510,7 +511,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s10.webradio-hosting.com/proxy/fredradiois/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:32:52.678Z"
+      "probedAt": "2026-06-11T08:47:20.899Z"
     }
   ]
 }

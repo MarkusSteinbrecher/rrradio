@@ -1,16 +1,18 @@
 {
-  "generatedAt": "2026-05-19T17:43:15.635Z",
+  "generatedAt": "2026-06-11T09:13:48.206Z",
   "country": "PK",
   "rawSnapshotAt": "2026-05-19T07:51:05.442Z",
   "total": 71,
-  "playable": 51,
-  "broken": 20,
-  "curated": 29,
+  "playable": 53,
+  "broken": 18,
+  "curated": 38,
   "byVerdict": {
-    "broken-mixed": 17,
-    "ok": 51,
+    "broken-mixed": 12,
+    "ok": 53,
+    "broken-format": 2,
     "broken-4xx": 1,
-    "broken-tls": 2
+    "broken-tls": 2,
+    "broken-refused": 1
   },
   "stations": [
     {
@@ -29,7 +31,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8072/relay",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.467Z"
     },
     {
       "stationuuid": "0741fb0c-e2fb-4f03-83fb-02cfd6d8ff92",
@@ -46,8 +48,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8040/relay",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T09:13:44.468Z"
     },
     {
       "stationuuid": "0ee4a7b1-ea58-4fad-92f0-2393d2c2ecf4",
@@ -66,7 +68,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://s97.radiolize.com:8040/radio.mp3",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.468Z"
     },
     {
       "stationuuid": "10c92029-3d0f-45cf-99ee-f0a9baaac5f2",
@@ -85,7 +87,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.468Z"
     },
     {
       "stationuuid": "1c4c4c77-a792-4075-846d-dff13cfc0980",
@@ -103,7 +105,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://radio.cityfm89.com/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.462Z"
     },
     {
       "stationuuid": "2983eb2f-065f-4a8e-aadd-35a16b111ea2",
@@ -122,7 +124,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8076/relay?type=http&nocache=9",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.463Z"
     },
     {
       "stationuuid": "2f17c476-3d67-40dc-8da7-94638f1b2b9e",
@@ -134,11 +136,11 @@
       "votes": 268,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://n0a.radiojar.com/htnudfgugm8uv?rj-ttl=5&rj-tok=AAABjGvN8wYArmabhGP5SLHW1A",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (browser auto-upgrade after redirect to http://) (browser auto-upgrade from http://)",
+      "finalUrl": "https://n0a.radiojar.com/htnudfgugm8uv?rj-ttl=5&rj-tok=AAABjGvN8wYArmabhGP5SLHW1A",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.462Z"
     },
     {
       "stationuuid": "33cab88d-c3d9-42f9-abaa-fd8c320fde8f",
@@ -157,7 +159,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://radio.cityfm89.com/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.462Z"
     },
     {
       "stationuuid": "34cdd9d2-fba9-4a1e-a0d0-35d70252d349",
@@ -175,7 +177,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:7004/stream?type=http&nocache=12",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.467Z"
     },
     {
       "stationuuid": "35e8c983-748e-4e46-b079-493083b2309d",
@@ -193,7 +195,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:7022/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.467Z"
     },
     {
       "stationuuid": "36be6e9b-4750-4164-a307-cb7e604f06fe",
@@ -211,7 +213,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8042/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.467Z"
     },
     {
       "stationuuid": "3ab56e05-9da3-4c21-8f0a-933f1763ee40",
@@ -223,11 +225,11 @@
       "votes": 294,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://n0a.radiojar.com/htnudfgugm8uv?rj-ttl=5&rj-tok=AAABjGvN8wYArmabhGP5SLHW1A",
+      "verdict": "ok",
+      "verdictReason": "audio/mpeg (browser auto-upgrade after redirect to http://) (browser auto-upgrade from http://)",
+      "finalUrl": "https://n0a.radiojar.com/htnudfgugm8uv?rj-ttl=5&rj-tok=AAABjGvN8wYArmabhGP5SLHW1A",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.462Z"
     },
     {
       "stationuuid": "4413f4de-4a87-4835-8525-a80a23b3d39f",
@@ -243,10 +245,10 @@
       "clickcount": 11,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://162.244.80.118:4900/;stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.621Z"
+      "probedAt": "2026-06-11T09:13:45.663Z"
     },
     {
       "stationuuid": "441f7112-15a2-4e0b-9ef4-ee665f413196",
@@ -264,7 +266,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8022/relay",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.467Z"
     },
     {
       "stationuuid": "47efdce4-809f-4cd3-8e3c-85a2eabce1ef",
@@ -281,8 +283,8 @@
       "verdict": "broken-tls",
       "verdictReason": "TypeError: fetch failed — Error: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca",
       "finalUrl": "https://cc.vmakerhost.com/proxy/karachi?mp=/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T09:13:44.463Z"
     },
     {
       "stationuuid": "47f7bdd9-85b4-4638-9a31-9214a98f3412",
@@ -301,7 +303,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8070/relay?type=http&nocache=9",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.468Z"
     },
     {
       "stationuuid": "4a29dbc1-77e1-449a-b6b5-62e19f66a8fc",
@@ -318,8 +320,8 @@
       "verdict": "broken-tls",
       "verdictReason": "TypeError: fetch failed — Error: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca",
       "finalUrl": "https://cc.vmakerhost.com/proxy/magic?mp=/live",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T09:13:44.463Z"
     },
     {
       "stationuuid": "4a8afdc5-60a8-4ad5-b228-a83d14bcee01",
@@ -335,8 +337,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aacp (browser auto-upgrade from http://)",
       "finalUrl": "https://s33.myradiostream.com:13872/listen.m4a",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T09:13:44.467Z"
     },
     {
       "stationuuid": "4ff924cf-f0a7-4983-b354-09eb32d75352",
@@ -354,7 +356,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8050/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.467Z"
     },
     {
       "stationuuid": "5a71813c-32f6-472e-8db1-51ccbe37cc19",
@@ -371,8 +373,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:7000/MW639khi",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T09:13:44.463Z"
     },
     {
       "stationuuid": "658d9779-0334-4d8a-87bf-6872db0973e6",
@@ -389,7 +391,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:7002/stream?type=http&nocache=12",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.462Z"
     },
     {
       "stationuuid": "6d7899e9-14d1-487b-b1e6-a00a73e23cc2",
@@ -408,7 +410,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8034/stream?type=http&nocache=12",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.626Z"
+      "probedAt": "2026-06-11T09:13:44.462Z"
     },
     {
       "stationuuid": "6f46ab47-2919-4ed5-a70a-9ea0cd739cc2",
@@ -424,10 +426,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://162.244.80.118:3024/stream.mp3?ver=349829",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:45.767Z"
     },
     {
       "stationuuid": "7423d8e7-7da9-4e0c-bc66-32e2f22830ef",
@@ -445,7 +447,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:7005/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.462Z"
     },
     {
       "stationuuid": "755d2c71-1bdd-45b0-a526-02f0e4754af5",
@@ -463,7 +465,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:7003/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.467Z"
     },
     {
       "stationuuid": "7a1339a6-c0ef-41b1-9d5b-9fa469ef3463",
@@ -481,7 +483,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8034/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.626Z"
+      "probedAt": "2026-06-11T09:13:44.461Z"
     },
     {
       "stationuuid": "7ba74437-f804-4526-aaa5-6105c9f534f8",
@@ -499,7 +501,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8036/relay",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.467Z"
     },
     {
       "stationuuid": "7c4a79da-e5ad-44ea-a56a-e51634bfbef7",
@@ -515,10 +517,10 @@
       "clickcount": 3,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://162.244.80.118:4900/stream.mp3?ver=604498",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.626Z"
+      "probedAt": "2026-06-11T09:13:46.215Z"
     },
     {
       "stationuuid": "7e5e5c40-2008-4001-906e-3c3c3dbfb1aa",
@@ -532,10 +534,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://canada1.reliastream.com:8191/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:45.842Z"
     },
     {
       "stationuuid": "82785967-c645-4bc2-a02a-e5e00e03ce4a",
@@ -551,10 +553,10 @@
       "clickcount": 5,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://172.93.237.106:8000/listen.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:45.881Z"
     },
     {
       "stationuuid": "8281a8d0-4d03-4e1f-96ea-dbae81e5bf28",
@@ -572,7 +574,7 @@
       "verdictReason": "HTTP 401",
       "finalUrl": "https://stream.zeno.fm/7wre21u7xa0uv",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.463Z"
     },
     {
       "stationuuid": "828fb723-869a-45bb-80b1-e295d2c7dd15",
@@ -590,7 +592,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8048/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.467Z"
     },
     {
       "stationuuid": "82d0c589-9c97-4ca1-896a-1653e351ec93",
@@ -608,7 +610,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://samaakhi107-itelservices.radioca.st/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.462Z"
     },
     {
       "stationuuid": "9252737f-10e5-4b13-9dbf-2d579bcbce91",
@@ -626,7 +628,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:7002/stream?type=http&nocache=12",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.462Z"
     },
     {
       "stationuuid": "9312c071-8882-4f85-8539-0dcb1b59f1a8",
@@ -642,10 +644,10 @@
       "clickcount": 1,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://162.244.80.118:4900/stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.626Z"
+      "probedAt": "2026-06-11T09:13:46.803Z"
     },
     {
       "stationuuid": "978471ff-f3b8-478c-ac05-4265920fcfa6",
@@ -664,7 +666,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8074/?type=http&nocache=9",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.468Z"
     },
     {
       "stationuuid": "99b56c5c-edbe-4e87-b64b-849227848cae",
@@ -682,7 +684,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8032/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.467Z"
     },
     {
       "stationuuid": "9ed2cc95-7b6f-42f3-805e-3e208425edef",
@@ -700,7 +702,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:7002/stream?type=http&nocache=12",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.462Z"
     },
     {
       "stationuuid": "a022e00c-7572-464d-9d7c-1d2064e4f411",
@@ -719,7 +721,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8034/stream?type=http&nocache=12",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.462Z"
     },
     {
       "stationuuid": "a2d26639-cddd-4d4e-8a9f-028f9a22ddc4",
@@ -733,10 +735,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://live.mp3quran.net:9752/",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:45.883Z"
     },
     {
       "stationuuid": "a754b1cb-4a13-47ab-9215-10473d5a13c8",
@@ -755,7 +757,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://server.mediacast4u.stream/8002/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.467Z"
     },
     {
       "stationuuid": "a8067725-3d72-406f-828b-9ba72f638479",
@@ -772,8 +774,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:7000/Dikhan",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T09:13:44.463Z"
     },
     {
       "stationuuid": "a9592d38-17fc-4fd7-9d8a-f0526906c5ed",
@@ -791,7 +793,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8088/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.463Z"
     },
     {
       "stationuuid": "abb391a9-3226-4822-b0ee-243a80b27227",
@@ -809,7 +811,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8066/relay",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.467Z"
     },
     {
       "stationuuid": "aeeb2c2b-8697-44c6-aa11-528ecf40e5ca",
@@ -828,7 +830,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8034/stream?type=http&nocache=12",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.626Z"
+      "probedAt": "2026-06-11T09:13:44.462Z"
     },
     {
       "stationuuid": "af53a4c2-6fcf-47cf-b771-dbd316a951c2",
@@ -845,8 +847,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg (browser auto-upgrade from http://)",
       "finalUrl": "https://stream-281.zeno.fm/bahhkuge5zhvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJiYWhoa3VnZTV6aHZ2IiwiaG9zdCI6InN0cmVhbS0yODEuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiV3dHS2pVaFVTcnlKVVc5QkQtVDUwZyIsImlhdCI6MTc3OTE5MzM4MywiZXhwIjoxNzc5MTkzNDQzfQ.YkVsxrb5Y-A8cO8rvxX520FV7TBa5RMDOFwYbs-7u4Q",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T09:13:44.463Z"
     },
     {
       "stationuuid": "b5bb3e73-fa20-4bbc-a8b5-2e1415d469dc",
@@ -861,10 +863,10 @@
       "clickcount": 0,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://162.244.80.118:4900/stream.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.626Z"
+      "probedAt": "2026-06-11T09:13:48.197Z"
     },
     {
       "stationuuid": "babb87d8-14f7-4d42-b813-390ac01fb3c9",
@@ -882,7 +884,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://samaakhi107-itelservices.radioca.st/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.462Z"
     },
     {
       "stationuuid": "bcf92941-0daf-44b0-b8af-bddee31bd9df",
@@ -898,10 +900,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://162.244.80.118:3024/stream.mp3?ver=517748",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:46.320Z"
     },
     {
       "stationuuid": "be82fba4-6953-4f0c-95e7-7aaa7f56b060",
@@ -917,10 +919,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://162.244.80.118:4900/stream.mp3?ver=682776",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.626Z"
+      "probedAt": "2026-06-11T09:13:47.656Z"
     },
     {
       "stationuuid": "c46c844f-7fb2-4201-9cf0-55c4cfe23a79",
@@ -939,7 +941,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://samaalhr107-itelservices.radioca.st/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.468Z"
     },
     {
       "stationuuid": "c51340b2-9fbc-4cea-8738-258b2a33d16d",
@@ -952,11 +954,11 @@
       "votes": 658,
       "clickcount": 2,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdict": "broken-refused",
+      "verdictReason": "TypeError: fetch failed — Error: connect ECONNREFUSED 204.12.238.138:12804",
       "finalUrl": "http://s47.myradiostream.com:12804/listen.m4a",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:45.787Z"
     },
     {
       "stationuuid": "cab938da-32c3-485b-81ef-a56701cf33e1",
@@ -974,8 +976,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8026/relay?type=http&nocache=9",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T09:13:44.467Z"
     },
     {
       "stationuuid": "cc059379-dd72-451e-82af-434cb3859c7b",
@@ -991,10 +993,10 @@
       "clickcount": 8,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://s17.ssl-stream.com:8214/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:46.020Z"
     },
     {
       "stationuuid": "cdab57de-03eb-4e53-b45c-96ab178261cb",
@@ -1012,7 +1014,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8028/relay",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.467Z"
     },
     {
       "stationuuid": "d41946b4-342a-4b9a-b0e5-f86f017980ea",
@@ -1030,7 +1032,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8052/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.467Z"
     },
     {
       "stationuuid": "d5144a6e-50c3-4dfb-a555-a82ff7756e19",
@@ -1046,10 +1048,10 @@
       "clickcount": 2,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://cc.vmakerhost.com:8147/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:46.816Z"
     },
     {
       "stationuuid": "daed4a04-0bca-4296-a5b4-cb19a0887812",
@@ -1067,7 +1069,7 @@
       "verdictReason": "audio/aac",
       "finalUrl": "https://radio.cityfm89.com/stream",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.462Z"
     },
     {
       "stationuuid": "db40900f-da30-44c1-84d0-1fb235daf393",
@@ -1084,8 +1086,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8054/stream",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T09:13:44.468Z"
     },
     {
       "stationuuid": "dedfe164-38f0-4cce-a1f8-a241f3051bd3",
@@ -1104,7 +1106,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8088/stream?type=http&nocache=4",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.463Z"
     },
     {
       "stationuuid": "e366ead6-6019-4a01-824d-6f4bea17f9a0",
@@ -1122,7 +1124,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:7008/stream",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.467Z"
     },
     {
       "stationuuid": "e441e30a-a8bf-47c4-b294-9335d231cfe5",
@@ -1140,7 +1142,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:7002/stream?type=http&nocache=12",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.462Z"
     },
     {
       "stationuuid": "e7bcdf54-4498-49b0-91f0-26cac233b6ce",
@@ -1155,11 +1157,11 @@
       "votes": 2803,
       "clickcount": 3,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://172.93.237.106:8000/",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html;charset=utf-8 not audio-like",
+      "finalUrl": "http://172.93.237.106:8000/index.html?sid=1",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:46.858Z"
     },
     {
       "stationuuid": "e8ab0292-edcb-4a23-b686-b2a268950770",
@@ -1176,7 +1178,7 @@
       "verdictReason": "application/octet-stream",
       "finalUrl": "https://cdn.voscast.com/resources/?key=4e1e2d7ac97ea7ad9493c529df2ab16c&c=wmp",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.468Z"
     },
     {
       "stationuuid": "ea24a46f-5bb4-4d28-9a72-c2145981a741",
@@ -1195,7 +1197,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8060/relay",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.467Z"
     },
     {
       "stationuuid": "ed3e4d31-7133-4eb3-a7e5-9729bf9c3ab2",
@@ -1210,11 +1212,11 @@
       "votes": 661,
       "clickcount": 0,
       "lastcheckok": 1,
-      "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
-      "finalUrl": "http://162.252.85.85:7086/",
+      "verdict": "broken-format",
+      "verdictReason": "content-type text/html;charset=utf-8 not audio-like",
+      "finalUrl": "http://162.252.85.85:7086/index.html?sid=1",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:45.741Z"
     },
     {
       "stationuuid": "ef58b117-6681-46f8-989f-fca63f34ed89",
@@ -1233,7 +1235,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:8076/relay?type=http&nocache=9",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.463Z"
     },
     {
       "stationuuid": "f4cfa2fb-afba-41f1-9066-6457aba81226",
@@ -1249,7 +1251,7 @@
       "verdictReason": "audio/mpeg (browser auto-upgrade after redirect to http://)",
       "finalUrl": "https://n0b.radiojar.com/0tpy1h0kxtzuv?rj-ttl=5&rj-tok=AAABnkA5sEMAFjRK1mLuO7SLaQ",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.462Z"
     },
     {
       "stationuuid": "fcca7b76-244f-424d-aa81-cc5468ac855c",
@@ -1268,7 +1270,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:7005/stream?type=http&nocache=12",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.462Z"
     },
     {
       "stationuuid": "fe532813-c79a-4c5d-9dfc-4e8c3f097cee",
@@ -1285,7 +1287,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://whmsonic.radio.gov.pk:7005/stream?type=http&nocache=12",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.462Z"
     },
     {
       "stationuuid": "ffcdc7e1-089e-4dfb-b11f-c2dcb26ef923",
@@ -1302,7 +1304,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://stream-287.zeno.fm/f9h69cgbu68uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJmOWg2OWNnYnU2OHV2IiwiaG9zdCI6InN0cmVhbS0yODcuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6Im9yaHJqd0hNUS1xdGdsVGZFSksyVmciLCJpYXQiOjE3Nzg0ODU1MDIsImV4cCI6MTc3ODQ4NTU2Mn0.rB1E-_Ow5d-lQFMgQ4vcGiQT8tEn2e-cGM6fmTuucVY",
       "isCurated": true,
-      "probedAt": "2026-05-19T17:43:15.627Z"
+      "probedAt": "2026-06-11T09:13:44.467Z"
     }
   ]
 }

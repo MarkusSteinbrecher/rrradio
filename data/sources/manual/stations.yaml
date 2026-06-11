@@ -29,6 +29,44 @@
   country: CH
   status: working
   featured: true
+- id: de-089kult
+  favicon: https://www.089kult.de/logo.png
+  faviconSource: broadcaster-site
+  faviconLicense: broadcaster-implicit
+  tags:
+    - pop
+    - oldies
+  broadcaster: independent
+  name: 089 Kult
+  streamUrl: https://radiogong-channel04.cast.addradio.de/radiogong/channel04/mp3/high?ar-distributor=f0b7
+  bitrate: 192
+  codec: MP3
+  homepage: https://www.089kult.de/
+  country: DE
+  status: stream-only
+  akaStationUuids:
+    - 960d39bd-0601-11e8-ae97-52543be04c81
+- id: de-antenne-bayern-90er-hits
+  favicon: https://www.antenne.de/media/cache/3/version/7311/streamlogo_90er_aby-v1.jpg/602f6579992139be.jpg
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
+  geo:
+    - 48.137
+    - 11.575
+  broadcaster: antenne-bayern
+  name: Antenne Bayern - 90er Hits
+  streamUrl: https://stream.antenne.de/90er-hits
+  metadataUrl: https://www.antenne.de/api/metadata/now#90er-hits
+  bitrate: 128
+  codec: MP3
+  tags:
+    - 90s
+    - hits
+    - germany
+  homepage: https://www.antenne.de/musik/webradios/90er-hits
+  country: DE
+  status: working
 - id: de-ffh-2000er
   favicon: https://static.ffh.de/fileadmin/_processed_/d/6/csm_ffh2000er_600x600_7986e7cff4.jpg
   faviconSource: broadcaster-site
@@ -110,9 +148,217 @@
     - 11.575
   status: icy-only
   reviewedAt: 2026-05-16
-- id: de-rock-antenne-70er-rock
-  favicon: https://www.rockantenne.de/media/cache/3/version/577/streamlogo_70er-rock_ra-v1.jpg/ce8d5176867df6fd.jpg
+- id: de-radio-gong-96-3-acoustic-covers
+  favicon: https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU%20ab%20September%202025/NEU%20ab%20September%202025%20quadrat/27247550/image-thumb__27247550__streams-slider/Gong%2096.3_Acoustic%20Covers_600x600.6436dad6.png
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
+  tags:
+    - acoustic
+    - pop
+  broadcaster: independent
+  name: Radio Gong 96.3 - Acoustic Covers
+  streamUrl: https://radiogong-channel08.cast.addradio.de/radiogong/channel08/mp3/high?ar-distributor=f0b7
+  bitrate: 192
+  codec: MP3
+  homepage: https://www.radiogong.de/
+  country: DE
+  status: stream-only
+- id: de-radio-gong-96-3-alpenparty
+  favicon: https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU%20ab%20September%202025/NEU%20ab%20September%202025%20quadrat/27248686/image-thumb__27248686__streams-slider/Gong%2096.3_Alpen%20Party_600x600.4b19d5e0.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
+  tags:
+    - schlager
+    - party
+  broadcaster: independent
+  name: Radio Gong 96.3 - Alpenparty
+  streamUrl: https://radiogong2000.radiohost.de/radiogong2000-channel16/mp3-192?ar-distributor=ffa0
+  bitrate: 192
+  codec: MP3
+  homepage: https://www.radiogong.de/
+  country: DE
+  status: stream-only
+- id: de-radio-gong-96-3-ingolstadt
+  favicon: https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU%20Gong%20Live%20und%20Ingolstadt/27254923/image-thumb__27254923__streams-slider/Gong%2096.3_Gong%20Ingolstadt_600x600.11f209fc.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
+  tags:
+    - pop
+    - local
+  broadcaster: independent
+  name: Radio Gong 96.3 - Ingolstadt
+  streamUrl: https://radiogong-channel15.cast.addradio.de/radiogong/channel15/mp3/high
+  bitrate: 192
+  codec: MP3
+  homepage: https://www.radiogong.de/
+  country: DE
+  status: stream-only
+- id: de-radio-gong-96-3-just-music
+  favicon: https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU%20ab%20September%202025/NEU%20ab%20September%202025%20quadrat/27247553/image-thumb__27247553__streams-slider/Gong%2096.3_Just%20Music_600x600.60168ff9.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
+  tags:
+    - pop
+  broadcaster: independent
+  name: Radio Gong 96.3 - Just Music
+  streamUrl: https://radiogong-channel18.cast.addradio.de/radiogong/channel18/mp3/high
+  bitrate: 192
+  codec: MP3
+  homepage: https://www.radiogong.de/
+  country: DE
+  status: stream-only
+- id: de-radio-gong-96-3-kids
+  favicon: https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU%20ab%20September%202025/NEU%20ab%20September%202025%20quadrat/27247554/image-thumb__27247554__streams-slider/Gong%2096.3_Kids_600x600.31b21811.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
+  tags:
+    - kids
+  broadcaster: independent
+  name: Radio Gong 96.3 - Kids
+  streamUrl: https://radiogong-channel09.cast.addradio.de/radiogong/channel09/mp3/high?ar-distributor=f0b7
+  bitrate: 192
+  codec: MP3
+  homepage: https://www.radiogong.de/
+  country: DE
+  status: stream-only
+- id: de-radio-gong-96-3-latin-hits
+  favicon: https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU%20ab%20September%202025/NEU%20ab%20September%202025%20quadrat/27247555/image-thumb__27247555__streams-slider/Gong%2096.3_Latin%20Hits_600x600.3ad55de0.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
+  tags:
+    - latin
+  broadcaster: independent
+  name: Radio Gong 96.3 - Latin Hits
+  streamUrl: https://radiogong-channel07.cast.addradio.de/radiogong/channel07/mp3/high?ar-distributor=f0b7
+  bitrate: 192
+  codec: MP3
+  homepage: https://www.radiogong.de/
+  country: DE
+  status: stream-only
+- id: de-radio-gong-96-3-live
+  favicon: https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU%20Gong%20Live%20und%20Ingolstadt/27254924/image-thumb__27254924__streams-slider/Gong%2096.3_LIVE_2200x2200.7fe2972c.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
+  tags:
+    - pop
+  broadcaster: independent
+  name: Radio Gong 96.3 - Live
+  streamUrl: https://radiogong-live.cast.addradio.de/radiogong/live/mp3/high?ar-distributor=f0b7
+  bitrate: 192
+  codec: MP3
+  homepage: https://www.radiogong.de/
+  country: DE
+  status: stream-only
+  akaStationUuids:
+    - 7eb433a9-fba5-4c86-9e08-2727ec9835de
+- id: de-radio-gong-96-3-muenchen-24-7
+  favicon: https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU%20ab%20September%202025/NEU%20ab%20September%202025%20quadrat/27247556/image-thumb__27247556__streams-slider/Gong%2096.3_M%C3%BCnchen%2024_7_600x600.dec358a9.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
+  tags:
+    - news
+    - local
+  broadcaster: independent
+  name: Radio Gong 96.3 - München 24/7 Newschannel
+  streamUrl: https://radiogong-channel17.cast.addradio.de/radiogong/channel17/mp3/high
+  bitrate: 192
+  codec: MP3
+  homepage: https://www.radiogong.de/
+  country: DE
+  status: stream-only
+- id: de-radio-gong-96-3-oktoberfest-radio
+  favicon: https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU%20ab%20September%202025/NEU%20ab%20September%202025%20quadrat/27247557/image-thumb__27247557__streams-slider/Gong%2096.3_Oktoberfest%20Radio_600x600.62812555.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
+  tags:
+    - schlager
+    - party
+  broadcaster: independent
+  name: Radio Gong 96.3 - Oktoberfest Radio
+  streamUrl: https://radiogong-channel03.cast.addradio.de/radiogong/channel03/mp3/high?ar-distributor=f0b7
+  bitrate: 192
+  codec: MP3
+  homepage: https://www.radiogong.de/
+  country: DE
+  status: stream-only
+- id: de-radio-gong-96-3-oldies
+  favicon: https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU%20ab%20September%202025/NEU%20ab%20September%202025%20quadrat/27247558/image-thumb__27247558__streams-slider/Gong%2096.3_Oldies_600x600.4f4a5288.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
+  tags:
+    - oldies
+  broadcaster: independent
+  name: Radio Gong 96.3 - Oldies
+  streamUrl: https://addrad.io/445fzfg
+  bitrate: 192
+  codec: MP3
+  homepage: https://www.radiogong.de/
+  country: DE
+  status: stream-only
+- id: de-radio-gong-96-3-party-gong
+  favicon: https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU%20ab%20September%202025/NEU%20ab%20September%202025%20quadrat/27247559/image-thumb__27247559__streams-slider/Gong%2096.3_Party%20Gong_600x600.3353c38e.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
+  tags:
+    - party
+    - pop
+  broadcaster: independent
+  name: Radio Gong 96.3 - PartyGong
+  streamUrl: https://radiogong-channel05.cast.addradio.de/radiogong/channel05/mp3/high?ar-distributor=f0b7
+  bitrate: 192
+  codec: MP3
+  homepage: https://www.radiogong.de/
+  country: DE
+  status: stream-only
+  akaStationUuids:
+    - 961f120a-0601-11e8-ae97-52543be04c81
+- id: de-radio-gong-96-3-rock
+  favicon: https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU%20ab%20September%202025/NEU%20ab%20September%202025%20quadrat/27247560/image-thumb__27247560__streams-slider/Gong%2096.3_Rock_600x600.37f90049.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
+  tags:
+    - rock
+  broadcaster: independent
+  name: Radio Gong 96.3 - Rock
+  streamUrl: https://addrad.io/445fznp
+  bitrate: 192
+  codec: MP3
+  homepage: https://www.radiogong.de/
+  country: DE
+  status: stream-only
+- id: de-radio-gong-96-3-sex-on-the-beats
+  favicon: https://www.radiogong.de/08_PROGRAMM/musik/Streams/NEU%20ab%20September%202025/NEU%20ab%20September%202025%20quadrat/27247562/image-thumb__27247562__streams-slider/Gong%2096.3_Sex%20on%20the%20Beats_600x600.4ce0ebbb.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
+  tags:
+    - hip hop
+    - rnb
+  broadcaster: independent
+  name: Radio Gong 96.3 - Sex on the Beats
+  streamUrl: https://radiogong-channel19.cast.addradio.de/radiogong/channel19/mp3/high?ar-distributor=ffa0
+  bitrate: 192
+  codec: MP3
+  homepage: https://www.radiogong.de/
+  country: DE
+  status: stream-only
+- id: de-rock-antenne-70er-rock
+  favicon: https://www.rockantenne.de/media/cache/3/version/577/streamlogo_70er-rock_ra-v1.jpg/838628ad141bae66.jpg
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   geo:
     - 48.137
     - 11.575
@@ -130,8 +376,10 @@
   country: DE
   status: working
 - id: de-rock-antenne-80er-rock
-  favicon: https://www.rockantenne.de/media/cache/3/version/8271/streamlogo_80er-rock_ra-v1.jpg/3195f6d8133ce725.jpg
+  favicon: https://www.rockantenne.de/media/cache/3/version/8271/streamlogo_80er-rock_ra-v1.jpg/39ab1a90c74eac12.jpg
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   geo:
     - 48.137
     - 11.575
@@ -149,8 +397,10 @@
   country: DE
   status: working
 - id: de-rock-antenne-90er-rock
-  favicon: https://www.rockantenne.de/media/cache/3/version/578/streamlogo_90er-rock_ra-v1.jpg/6a48bc88eaa5bbf1.jpg
+  favicon: https://www.rockantenne.de/media/cache/3/version/578/streamlogo_90er-rock_ra-v1.jpg/19bea06f251dbeb2.jpg
   faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   geo:
     - 48.137
     - 11.575

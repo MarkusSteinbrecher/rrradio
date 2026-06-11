@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-19T17:29:03.138Z",
+  "generatedAt": "2026-06-11T08:34:22.815Z",
   "country": "GF",
   "rawSnapshotAt": "2026-05-19T07:50:19.410Z",
   "total": 9,
   "playable": 8,
   "broken": 1,
-  "curated": 0,
+  "curated": 4,
   "byVerdict": {
     "ok": 8,
     "broken-mixed": 1
@@ -28,7 +28,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen.radioking.com/radio/190309/stream/232540",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:03.133Z"
+      "probedAt": "2026-06-11T08:33:41.135Z"
     },
     {
       "stationuuid": "2bd4cf82-d195-11e9-a861-52543be04c81",
@@ -46,8 +46,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://guyane.ice.infomaniak.ch/guyane-128.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:03.133Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:33:41.135Z"
     },
     {
       "stationuuid": "2bdf5d11-cf73-4595-a891-f6093f52ffd8",
@@ -64,8 +64,8 @@
       "verdict": "ok",
       "verdictReason": "audio/aac (browser auto-upgrade from http://)",
       "finalUrl": "https://cheriefmguyane.ice.infomaniak.ch/cheriefmguyane-64.aac",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:03.133Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:33:41.135Z"
     },
     {
       "stationuuid": "82d9eff6-a75d-4070-9d10-42323a033cd4",
@@ -83,8 +83,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen.radioking.com/radio/190309/stream/232540",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:03.132Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:33:41.133Z"
     },
     {
       "stationuuid": "866f1a01-0df5-4c23-bf92-3df3ee415907",
@@ -103,7 +103,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://listen.radioking.com/radio/190309/stream/232540",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:03.133Z"
+      "probedAt": "2026-06-11T08:33:41.135Z"
     },
     {
       "stationuuid": "975e0a32-aee2-4aa4-9474-93867cb80f09",
@@ -121,8 +121,8 @@
       "verdict": "ok",
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://str0.creacast.com/metisfm.mp3",
-      "isCurated": false,
-      "probedAt": "2026-05-19T17:29:03.133Z"
+      "isCurated": true,
+      "probedAt": "2026-06-11T08:33:41.190Z"
     },
     {
       "stationuuid": "aa05738e-117c-4cca-9641-16fd9d390b35",
@@ -141,7 +141,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:03.133Z"
+      "probedAt": "2026-06-11T08:33:41.190Z"
     },
     {
       "stationuuid": "c7843ef6-b34e-4263-a248-f65b4d399072",
@@ -160,7 +160,7 @@
       "verdictReason": "audio/mpeg",
       "finalUrl": "https://s2.ssl-stream.com/listen/radio_contact/radio.mp3",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:03.133Z"
+      "probedAt": "2026-06-11T08:33:41.190Z"
     },
     {
       "stationuuid": "c800eacd-c6e4-46f6-860e-71e975200882",
@@ -176,10 +176,10 @@
       "clickcount": 8,
       "lastcheckok": 1,
       "verdict": "broken-mixed",
-      "verdictReason": "http:// stream blocks on rrradio.org (https origin); no https equivalent on same host",
+      "verdictReason": "alive on plain http (audio/mpeg) but no https equivalent — mixed-content blocked on the https app origin",
       "finalUrl": "http://2stream.dyndns.org:8000/nostalgieguy",
       "isCurated": false,
-      "probedAt": "2026-05-19T17:29:03.133Z"
+      "probedAt": "2026-06-11T08:34:22.799Z"
     }
   ]
 }
