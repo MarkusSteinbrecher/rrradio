@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-06-10T15:12:07.427Z",
-  "totalScanned": 30276,
-  "dedupeGeneratedAt": "2026-06-07T08:26:34.302Z",
-  "collisionCount": 2041,
+  "generatedAt": "2026-06-11T10:33:09.436Z",
+  "totalScanned": 31562,
+  "dedupeGeneratedAt": "2026-06-11T06:56:48.787Z",
+  "collisionCount": 2121,
   "byKind": {
     "stationuuid": 0,
     "streamUrl": 0,
@@ -10,22 +10,22 @@
     "rb-canonical": 547,
     "rb-canonical-large": 5,
     "rb-canonical-cross-country": 54,
-    "country+name": 304,
-    "homepage+signature": 266,
+    "country+name": 338,
+    "homepage+signature": 267,
     "favicon+signature": 163,
-    "name": 471,
+    "name": 516,
     "homepage+favicon": 137
   },
   "blockingCollisionCount": 0,
-  "reviewCollisionCount": 1207,
-  "lowConfidenceCollisionCount": 834,
+  "reviewCollisionCount": 1208,
+  "lowConfidenceCollisionCount": 913,
   "largeRbCanonicalCollisionCount": 5,
   "crossCountryRbCanonicalCollisionCount": 54,
   "maxRbCanonicalAuditSize": 20,
-  "duplicateGroupCount": 584,
+  "duplicateGroupCount": 585,
   "blockingDuplicateGroupCount": 0,
-  "reviewDuplicateGroupCount": 584,
-  "duplicateRows": 691,
+  "reviewDuplicateGroupCount": 585,
+  "duplicateRows": 692,
   "duplicateGroups": [
     {
       "severity": "review",
@@ -7017,6 +7017,34 @@
           "country": "CH",
           "stationuuid": "2cf05159-11e8-4368-9933-5aefa98155d5",
           "streamUrl": "https://stream.srg-ssr.ch/m/regi_gr/aacp_96"
+        }
+      ]
+    },
+    {
+      "severity": "review",
+      "signalKinds": [
+        "homepage+signature"
+      ],
+      "signals": [
+        {
+          "kind": "homepage+signature",
+          "key": "CH|radiox.ch|basel x"
+        }
+      ],
+      "entries": [
+        {
+          "id": "ch-radio-x",
+          "name": "Radio X (Basel)",
+          "country": "CH",
+          "stationuuid": "6d86fac2-7b86-41fd-b3eb-80fc16d30a4b",
+          "streamUrl": "https://mp3.radiox.ch/standard.ogg"
+        },
+        {
+          "id": "ch-radio-x-basel-mp3-stream",
+          "name": "Radio X Basel (MP3 Stream)",
+          "country": "CH",
+          "stationuuid": "960b6d95-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://mp3.radiox.ch:8000/standard.mp3"
         }
       ]
     },
@@ -35021,6 +35049,27 @@
     },
     {
       "kind": "homepage+signature",
+      "key": "CH|radiox.ch|basel x",
+      "confidence": "review",
+      "entries": [
+        {
+          "id": "ch-radio-x",
+          "name": "Radio X (Basel)",
+          "country": "CH",
+          "stationuuid": "6d86fac2-7b86-41fd-b3eb-80fc16d30a4b",
+          "streamUrl": "https://mp3.radiox.ch/standard.ogg"
+        },
+        {
+          "id": "ch-radio-x-basel-mp3-stream",
+          "name": "Radio X Basel (MP3 Stream)",
+          "country": "CH",
+          "stationuuid": "960b6d95-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://mp3.radiox.ch:8000/standard.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+signature",
       "key": "CH|lounge-radio.com|lounge",
       "confidence": "review",
       "entries": [
@@ -48327,6 +48376,26 @@
     },
     {
       "kind": "country+name",
+      "key": "DE|klassik radio - lounge",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-klassik-radio-lounge",
+          "name": "Klassik Radio - Lounge",
+          "country": "DE",
+          "streamUrl": "https://stream.klassikradio.de/lounge/mp3-192/stream"
+        },
+        {
+          "id": "de-klassik-radio-lounge-960dc8d6",
+          "name": "Klassik Radio - Lounge",
+          "country": "DE",
+          "stationuuid": "960dc8d6-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.klassikradio.de/lounge/mp3-128/www.klassikradio.de/"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
       "key": "DE|rock antenne hair metal",
       "confidence": "low",
       "entries": [
@@ -48343,6 +48412,27 @@
           "country": "DE",
           "stationuuid": "05da52cf-0e21-4af7-8aab-1dde7175d611",
           "streamUrl": "https://s9-webradio.rockantenne.de/hair-metal/stream"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "DE|radio seefunk",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-radio-seefunk",
+          "name": "Radio Seefunk",
+          "country": "DE",
+          "stationuuid": "213abeab-b8d2-4057-b570-5a6143607b2c",
+          "streamUrl": "https://webradio.radio-seefunk.de/"
+        },
+        {
+          "id": "de-radio-seefunk-960e7751",
+          "name": "Radio Seefunk",
+          "country": "DE",
+          "stationuuid": "960e7751-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://webradio.radio-seefunk.de:8000/"
         }
       ]
     },
@@ -49414,6 +49504,27 @@
     },
     {
       "kind": "country+name",
+      "key": "DE|radio t",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-radio-t",
+          "name": "Radio T",
+          "country": "DE",
+          "stationuuid": "bc05bc47-8a41-484b-bf77-8fa147bbdfca",
+          "streamUrl": "https://streaming.fueralle.org/radiot_192.mp3"
+        },
+        {
+          "id": "de-radio-t-961915a9",
+          "name": "Radio T",
+          "country": "DE",
+          "stationuuid": "961915a9-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://streaming.fueralle.org:8000/radiot.ogg"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
       "key": "DE|svr hanse radio",
       "confidence": "low",
       "entries": [
@@ -49605,6 +49716,27 @@
           "country": "US",
           "stationuuid": "747b74f3-9b25-403a-a762-5453598a4db4",
           "streamUrl": "https://rhythm86.net/stream"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "US|98 rock",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "us-98-rock",
+          "name": "98 ROCK",
+          "country": "US",
+          "stationuuid": "3b1f8306-0dfb-44e9-b6a7-4ec3ed73c2d8",
+          "streamUrl": "https://stream.revma.ihrhls.com/zc697"
+        },
+        {
+          "id": "us-98-rock-5ee5e06e",
+          "name": "98 Rock",
+          "country": "US",
+          "stationuuid": "5ee5e06e-407e-4db7-ac92-762f029ccd7a",
+          "streamUrl": "https://26233.live.streamtheworld.com:3690/WIYYFMAAC_SC"
         }
       ]
     },
@@ -50032,6 +50164,27 @@
           "country": "IT",
           "stationuuid": "96262c07-0601-11e8-ae97-52543be04c81",
           "streamUrl": "https://icestreaming.rai.it/6.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "IT|lolli radio soft",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "it-lolli-radio-soft",
+          "name": "Lolli Radio Soft",
+          "country": "IT",
+          "stationuuid": "9611fe5d-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.lolliradio.net/lolli_soft.mp3"
+        },
+        {
+          "id": "it-lolli-radio-soft-aa49dda8",
+          "name": "Lolli Radio Soft",
+          "country": "IT",
+          "stationuuid": "aa49dda8-472b-419c-8359-ab36ce29d7b2",
+          "streamUrl": "https://soft.lolliradio.net:8040/"
         }
       ]
     },
@@ -50641,6 +50794,27 @@
           "country": "TR",
           "stationuuid": "e5e4f77a-3821-45b3-9d59-14f5d8b83ab4",
           "streamUrl": "https://radyo.duhnet.tv/radyod"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "TR|retro turk",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "tr-retro-turk",
+          "name": "Retro Turk",
+          "country": "TR",
+          "stationuuid": "e8274b3d-4ee9-4cda-8bcb-60ea92e2db37",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/RETROTURK_SC?/;"
+        },
+        {
+          "id": "tr-retro-turk-24a3740f",
+          "name": "retro turk",
+          "country": "TR",
+          "stationuuid": "24a3740f-4a8e-46e5-8b39-c8b4a2730ded",
+          "streamUrl": "https://27783.live.streamtheworld.com:3690/RETROTURKAAC_SC"
         }
       ]
     },
@@ -52032,6 +52206,27 @@
     },
     {
       "kind": "country+name",
+      "key": "TN|jawhara fm",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "tn-jawhara-fm",
+          "name": "Jawhara FM",
+          "country": "TN",
+          "stationuuid": "8d92ff8d-7149-4431-9306-a960e67c09e7",
+          "streamUrl": "https://streaming2.toutech.net/jawharafm"
+        },
+        {
+          "id": "tn-jawhara-fm-961ee9aa",
+          "name": "Jawhara FM",
+          "country": "TN",
+          "stationuuid": "961ee9aa-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://streaming2.toutech.net:8000/jawharafm"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
       "key": "SA|sba riyadh radio 91.5 fm",
       "confidence": "low",
       "entries": [
@@ -52307,6 +52502,27 @@
           "country": "RU",
           "stationuuid": "711f2e4e-90b0-4117-86dd-7905f0e1c27e",
           "streamUrl": "https://icecast-vgtrk.cdnvideo.ru/vestifm_aac_64kbps"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "DZ|إذاعة القرآن الكريم",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "dz-station",
+          "name": "إذاعة القرآن الكريم",
+          "country": "DZ",
+          "stationuuid": "73c4c047-8155-4e9f-b2ee-7518ce8de164",
+          "streamUrl": "https://n0a.radiojar.com/0tpy1h0kxtzuv?rj-ttl=5&rj-tok=AAABhdgGORQA-2acfyF3_4WY2g"
+        },
+        {
+          "id": "dz-station-a2c020ae",
+          "name": "إذاعة القرآن الكريم",
+          "country": "DZ",
+          "stationuuid": "a2c020ae-97b4-4466-9d23-b594d6412e25",
+          "streamUrl": "https://stream.radiojar.com/0tpy1h0kxtzuv"
         }
       ]
     },
@@ -52921,6 +53137,27 @@
     },
     {
       "kind": "country+name",
+      "key": "IN|shripad radio",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "in-shripad-radio",
+          "name": "Shripad Radio",
+          "country": "IN",
+          "stationuuid": "7f896716-ce56-4506-a402-12864248aae6",
+          "streamUrl": "https://shripadradio.radioca.st/;"
+        },
+        {
+          "id": "in-shripad-radio-29cef431",
+          "name": "Shripad Radio",
+          "country": "IN",
+          "stationuuid": "29cef431-1dc1-490f-a429-6e24741da80d",
+          "streamUrl": "https://shripadradio.radioca.st:8020/stream"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
       "key": "IN|air agra",
       "confidence": "low",
       "entries": [
@@ -53000,6 +53237,27 @@
           "country": "CN",
           "stationuuid": "f77cc04a-16fc-4748-ab6a-77c9699a9407",
           "streamUrl": "https://lhttp-hw.qtfm.cn/live/1758/64k.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "DE|antenne niedersachsen",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-antenne-niedersachsen",
+          "name": "Antenne Niedersachsen",
+          "country": "DE",
+          "stationuuid": "f115a45b-321f-4674-812a-24b79b103aaf",
+          "streamUrl": "https://stream.antenne.com/reg01/mp3-192/Web/"
+        },
+        {
+          "id": "de-antenne-niedersachsen-961345a7",
+          "name": "Antenne Niedersachsen",
+          "country": "DE",
+          "stationuuid": "961345a7-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.antenne.com/antenne-nds/aac-64/stream.antenne.com/"
         }
       ]
     },
@@ -53231,6 +53489,48 @@
           "country": "CN",
           "stationuuid": "08d1e1b5-6789-4d20-9c3b-f4664eb7ece4",
           "streamUrl": "https://lhttp-hw.qtfm.cn/live/5021543/64k.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "DE|radio saw",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-radio-saw",
+          "name": "radio SAW",
+          "country": "DE",
+          "stationuuid": "9795a396-52ea-4f5a-9177-f3c3bcf0d74f",
+          "streamUrl": "https://stream.radiosaw.de/saw/mp3-192/radio-browser/"
+        },
+        {
+          "id": "de-radio-saw-ccab21a0",
+          "name": "radio SAW",
+          "country": "DE",
+          "stationuuid": "ccab21a0-5826-11e8-b0ce-52543be04c81",
+          "streamUrl": "https://stream.1a-webradio.de/saw/aac-48/radiosure-1a/stream.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "DE|fluxfm - clubsandwich",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-fluxfm-clubsandwich",
+          "name": "FluxFM - Clubsandwich",
+          "country": "DE",
+          "stationuuid": "ea8717e2-de2b-4ad2-9c31-2b25458464eb",
+          "streamUrl": "https://streams.fluxfm.de/clubsandwich/aac-64/streams.fluxfm.de/"
+        },
+        {
+          "id": "de-fluxfm-clubsandwich-9619f2c7",
+          "name": "FluxFM - Clubsandwich",
+          "country": "DE",
+          "stationuuid": "9619f2c7-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://fluxfm.streamabc.net/flx-clubsandwich-mp3-320-3801354?sABC=6968942p%230%23r30o443r1929r059s085628511796n57%23nhqvb&aw_0_1st.playerid=audio&amsparams=playerid:audio;skey:1768461356"
         }
       ]
     },
@@ -53495,6 +53795,27 @@
     },
     {
       "kind": "country+name",
+      "key": "DE|r.sh live",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-r-sh-live",
+          "name": "R.SH Live",
+          "country": "DE",
+          "stationuuid": "26ec7cd1-e7cc-46af-866a-035f360a7d38",
+          "streamUrl": "https://streams.rsh.de/rsh-live/aac-64/streams.rsh.de/"
+        },
+        {
+          "id": "de-r-sh-live-963f9e3d",
+          "name": "R.SH Live",
+          "country": "DE",
+          "stationuuid": "963f9e3d-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://streams.rsh.de/rsh-live/mp3-192/mediaplayer"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
       "key": "FI|yle x3m",
       "confidence": "low",
       "entries": [
@@ -53595,6 +53916,27 @@
           "country": "CN",
           "stationuuid": "db039984-8a32-4b4b-a940-95aa899d973a",
           "streamUrl": "https://srs.iyb983.cn/audio/FM983/index.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "DE|radio regenbogen 80er",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-radio-regenbogen-80er",
+          "name": "Radio Regenbogen 80er",
+          "country": "DE",
+          "stationuuid": "4797eeee-bc93-4438-a66b-a7e24950c0c4",
+          "streamUrl": "https://stream.regenbogen.de/80er/mp3-128/radiobrowser"
+        },
+        {
+          "id": "de-radio-regenbogen-80er-9237b8ae",
+          "name": "Radio Regenbogen 80er",
+          "country": "DE",
+          "stationuuid": "9237b8ae-2611-11e9-a80b-52543be04c81",
+          "streamUrl": "https://streams.regenbogen.de/rr-80er-128-mp3"
         }
       ]
     },
@@ -53705,6 +54047,48 @@
     },
     {
       "kind": "country+name",
+      "key": "DE|beats radio",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-beats-radio",
+          "name": "Beats Radio",
+          "country": "DE",
+          "stationuuid": "f3166103-fbc4-432f-bb6f-79b7748280b5",
+          "streamUrl": "https://klassikr.streamabc.net/klr-beatsat-mp3-192-5464798?sABC=69n849o3%230%23759014699s404754o2p8p1q4q62r578p%23&aggregator=Radiomapeu&aw_0_1st.playerid=&amsparams=playerid:;skey:1772636595"
+        },
+        {
+          "id": "de-beats-radio-f28460cb",
+          "name": "Beats Radio",
+          "country": "DE",
+          "stationuuid": "f28460cb-9f0d-4602-9a46-be8c49975a16",
+          "streamUrl": "https://live.streams.klassikradio.de/beats-radio/stream/mp3"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "PL|radio dzwiek",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "pl-radio-dzwiek",
+          "name": "Radio Dzwiek",
+          "country": "PL",
+          "stationuuid": "5f813e14-69f6-4d29-8a87-ff6096ddf90c",
+          "streamUrl": "https://streamhls.radiodzwiek.slask.pl/dzwiek-mp3"
+        },
+        {
+          "id": "pl-radio-dzwiek-1797a00f",
+          "name": "Radio Dzwiek",
+          "country": "PL",
+          "stationuuid": "1797a00f-b6c4-4150-9cac-316432e0d018",
+          "streamUrl": "https://s3.slotex.pl:7408/;"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
       "key": "IT|radio merda malata",
       "confidence": "low",
       "entries": [
@@ -53721,6 +54105,27 @@
           "country": "IT",
           "stationuuid": "ee4c3f2b-0feb-4f10-a127-1821fe38bf2a",
           "streamUrl": "https://s.streampunk.cc/_stream/merdamalata.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "IT|radio punto zero",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "it-radio-punto-zero",
+          "name": "Radio Punto Zero",
+          "country": "IT",
+          "stationuuid": "5314153e-43f0-4179-96f6-4e7dbd87a7fa",
+          "streamUrl": "https://ice01.fluidstream.net/rpz.aac"
+        },
+        {
+          "id": "it-radio-punto-zero-d2bea5c3",
+          "name": "Radio Punto Zero",
+          "country": "IT",
+          "stationuuid": "d2bea5c3-0a4e-44b3-83ea-f88e7b4634a8",
+          "streamUrl": "https://onair15.xdevel.com:7100/1/"
         }
       ]
     },
@@ -53826,6 +54231,34 @@
           "country": "GR",
           "stationuuid": "26760653-0e68-4977-987c-226bd1b3d7c2",
           "streamUrl": "https://radio.rasp35.ddnsfree.com/ymnoi"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "DE|1a deutsche hits",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-1a-deutsche-hits",
+          "name": "1A Deutsche Hits",
+          "country": "DE",
+          "stationuuid": "c433e6c6-d242-4db6-a019-1d54d966bddb",
+          "streamUrl": "https://stream.radiosaw.de/saw-deutsch/mp3-192/radio-browser/"
+        },
+        {
+          "id": "de-1a-deutsche-hits-96397b45",
+          "name": "1A Deutsche Hits",
+          "country": "DE",
+          "stationuuid": "96397b45-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.1a-webradio.de/saw-deutsch/mp3-128/radio-browser-1A/stream.mp3"
+        },
+        {
+          "id": "de-1a-deutsche-hits-38d009f8",
+          "name": "1A Deutsche Hits",
+          "country": "DE",
+          "stationuuid": "38d009f8-8205-4f64-9bd3-5b19f5105221",
+          "streamUrl": "https://stream.1a-webradio.de/deutsch/mp3-128"
         }
       ]
     },
@@ -54062,6 +54495,27 @@
     },
     {
       "kind": "country+name",
+      "key": "SG|axr singapore",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "sg-axr-singapore",
+          "name": "AXR Singapore",
+          "country": "SG",
+          "stationuuid": "4001c109-50a2-490c-aa90-5e2687155697",
+          "streamUrl": "https://singaporestream.axr.online/"
+        },
+        {
+          "id": "sg-axr-singapore-4859de0e",
+          "name": "AXR Singapore",
+          "country": "SG",
+          "stationuuid": "4859de0e-6ddc-4e85-8a32-70c392d80439",
+          "streamUrl": "https://22243.live.streamtheworld.com:3690/AXR_SINGAPORE_SC"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
       "key": "MX|discos guardados",
       "confidence": "low",
       "entries": [
@@ -54099,6 +54553,27 @@
           "country": "DE",
           "stationuuid": "e2a730ce-9dea-4a14-8c4e-730c7f2421df",
           "streamUrl": "https://stream.laut.fm/mittelalter-net"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "DE|radio paloma - partyschlager",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-radio-paloma-partyschlager",
+          "name": "Radio Paloma - Partyschlager",
+          "country": "DE",
+          "stationuuid": "a52a7a26-0e4d-471b-a133-ad6db148501c",
+          "streamUrl": "https://pool.radiopaloma.de/RP-Partyschlager.mp3"
+        },
+        {
+          "id": "de-radio-paloma-partyschlager-2725ed0f",
+          "name": "Radio Paloma - Partyschlager",
+          "country": "DE",
+          "stationuuid": "2725ed0f-601a-43a1-98c8-3e186c0d01ba",
+          "streamUrl": "https://streams.schlagerplanetradio.com/kult/mp3-192"
         }
       ]
     },
@@ -54288,6 +54763,307 @@
           "country": "US",
           "stationuuid": "afda0af6-af6a-46a4-9e3a-717578274381",
           "streamUrl": "https://26343.live.streamtheworld.com/SAM02AAC50_SC"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "IT|radio 80",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "it-radio-80",
+          "name": "Radio 80",
+          "country": "IT",
+          "stationuuid": "e8eff2b7-6c93-4647-9567-986d647094ba",
+          "streamUrl": "https://sphera.fluidstream.eu/radio80.aac?FLID=1&aw_0_req.gdpr=true"
+        },
+        {
+          "id": "it-radio-80-961f659a",
+          "name": "Radio 80",
+          "country": "IT",
+          "stationuuid": "961f659a-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://str01.fluidstream.net:7020/;stream.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "DE|sunshine live - die 90er",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-sunshine-live-die-90er",
+          "name": "Sunshine Live - Die 90er",
+          "country": "DE",
+          "stationuuid": "962c0376-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.sunshine-live.de/90er/mp3-192/stream.sunshine-live.de"
+        },
+        {
+          "id": "de-sunshine-live-die-90er-adbe953f",
+          "name": "Sunshine Live - Die 90er",
+          "country": "DE",
+          "stationuuid": "adbe953f-d857-4858-83ff-d7cf3ed22f6f",
+          "streamUrl": "https://stream.sunshine-live.de/90er/mp3-192"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "DE|sunshine live - lounge",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-sunshine-live-lounge",
+          "name": "Sunshine Live - Lounge",
+          "country": "DE",
+          "stationuuid": "962683f5-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.sunshine-live.de/lounge/mp3-192/stream.sunshine-live.de/"
+        },
+        {
+          "id": "de-sunshine-live-lounge-348a66f1",
+          "name": "Sunshine Live - Lounge",
+          "country": "DE",
+          "stationuuid": "348a66f1-811e-48b0-9caf-82a4a26b4174",
+          "streamUrl": "https://stream.sunshine-live.de/lounge/mp3-192"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "DE|sunshine live - festival",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-sunshine-live-festival",
+          "name": "Sunshine Live - Festival",
+          "country": "DE",
+          "stationuuid": "961211ab-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.sunshine-live.de/festival/mp3-192/stream.sunshine-live.de/"
+        },
+        {
+          "id": "de-sunshine-live-festival-d14abac6",
+          "name": "Sunshine Live - Festival",
+          "country": "DE",
+          "stationuuid": "d14abac6-6a20-45ab-9a61-acd12d75e64d",
+          "streamUrl": "https://stream.sunshine-live.de/festival/mp3-192"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "TR|joy fm",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "tr-joy-fm",
+          "name": "Joy Fm",
+          "country": "TR",
+          "stationuuid": "c7dadc87-3c43-46f5-aa24-91e0fa9a7643",
+          "streamUrl": "https://22193.live.streamtheworld.com:3690/JOY_FMAAC_SC"
+        },
+        {
+          "id": "tr-joy-fm-4ead410e",
+          "name": "Joy Fm",
+          "country": "TR",
+          "stationuuid": "4ead410e-2f33-411b-8a06-df9ff62efa56",
+          "streamUrl": "https://28993.live.streamtheworld.com:3690/JOY_FMAAC_SC"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "DE|lohro - lokalradio rostock",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-lohro-lokalradio-rostock",
+          "name": "LOHRO - Lokalradio Rostock",
+          "country": "DE",
+          "stationuuid": "960dffa2-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.lohro.de:8000/lohro128.mp3"
+        },
+        {
+          "id": "de-lohro-lokalradio-rostock-cb67b277",
+          "name": "LOHRO - Lokalradio Rostock",
+          "country": "DE",
+          "stationuuid": "cb67b277-3a66-11e9-9b4e-52543be04c81",
+          "streamUrl": "https://stream.lohro.de:8000/lohro_opus.ogg"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "DE|sunshine live - hands up",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-sunshine-live-hands-up",
+          "name": "Sunshine Live - Hands Up",
+          "country": "DE",
+          "stationuuid": "962c0681-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.sunshine-live.de/handsup/mp3-192/stream.sunshine-live.de/"
+        },
+        {
+          "id": "de-sunshine-live-hands-up-b0fff254",
+          "name": "Sunshine Live - Hands Up",
+          "country": "DE",
+          "stationuuid": "b0fff254-b18b-478e-9c34-86d8864b6960",
+          "streamUrl": "https://stream.sunshine-live.de/handsup/mp3-192"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "IT|radio mitology",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "it-radio-mitology",
+          "name": "Radio Mitology",
+          "country": "IT",
+          "stationuuid": "964d49d9-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://onair15.xdevel.com:9120/;stream.mp3"
+        },
+        {
+          "id": "it-radio-mitology-af473ac5",
+          "name": "Radio Mitology",
+          "country": "IT",
+          "stationuuid": "af473ac5-1059-11e9-a80b-52543be04c81",
+          "streamUrl": "https://onair15.xdevel.com:9120/;"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "DE|sunshine live - die 80er",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-sunshine-live-die-80er",
+          "name": "Sunshine Live - Die 80er",
+          "country": "DE",
+          "stationuuid": "7f4dc126-2a57-11e8-91bf-52543be04c81",
+          "streamUrl": "https://stream.sunshine-live.de/80er/mp3-192/stream.sunshine-live.de/"
+        },
+        {
+          "id": "de-sunshine-live-die-80er-95283b97",
+          "name": "Sunshine Live - Die 80er",
+          "country": "DE",
+          "stationuuid": "95283b97-6c9a-4ac3-a4d3-fbddae91da0d",
+          "streamUrl": "https://stream.sunshine-live.de/80er/mp3-192"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "DE|1a partyschlager",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-1a-partyschlager",
+          "name": "1A Partyschlager",
+          "country": "DE",
+          "stationuuid": "e95c7bbd-581e-11e8-b0ce-52543be04c81",
+          "streamUrl": "https://stream.1a-webradio.de/saw-partyschlager/aac-48/radiosure-1a/stream.mp3"
+        },
+        {
+          "id": "de-1a-partyschlager-e9a07bf4",
+          "name": "1A Partyschlager",
+          "country": "DE",
+          "stationuuid": "e9a07bf4-453f-4191-a349-ca4f94fb5723",
+          "streamUrl": "https://stream.1a-webradio.de/saw-partyschlager/mp3-128"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "DE|rockland sachsen - anhalt",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-rockland-sachsen-anhalt",
+          "name": "Rockland Sachsen - Anhalt",
+          "country": "DE",
+          "stationuuid": "96247b0b-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.rockland-digital.de/rockland/mp3-128/radio-browser/stream.mp3"
+        },
+        {
+          "id": "de-rockland-sachsen-anhalt-90613b8c",
+          "name": "Rockland Sachsen - Anhalt",
+          "country": "DE",
+          "stationuuid": "90613b8c-5828-11e8-b0ce-52543be04c81",
+          "streamUrl": "https://stream.1a-webradio.de/rockland/aac-48/radiosure-1a/stream.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "IT|radio gamma",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "it-radio-gamma",
+          "name": "Radio Gamma",
+          "country": "IT",
+          "stationuuid": "9629b63f-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://onair18.xdevel.com:8210/;stream.aac"
+        },
+        {
+          "id": "it-radio-gamma-962c135c",
+          "name": "Radio Gamma",
+          "country": "IT",
+          "stationuuid": "962c135c-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://onair18.xdevel.com:8098/;stream.mp3"
+        },
+        {
+          "id": "it-radio-gamma-99c2131e",
+          "name": "Radio Gamma",
+          "country": "IT",
+          "stationuuid": "99c2131e-abfc-4e87-9205-9e7278a5f424",
+          "streamUrl": "https://onair18.xdevel.com:8210/"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "PH|rpn dxks surigao",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "ph-rpn-dxks-surigao",
+          "name": "RPN DXKS Surigao",
+          "country": "PH",
+          "stationuuid": "1cf77d3e-df8c-4865-803c-fb9b7f44c4ed",
+          "streamUrl": "https://dxks-rpnradio.radioca.st:8448/stream"
+        },
+        {
+          "id": "ph-rpn-dxks-surigao-a55da593",
+          "name": "RPN DXKS Surigao",
+          "country": "PH",
+          "stationuuid": "a55da593-a551-4e92-8ecc-adff22adebe5",
+          "streamUrl": "https://dxks-rpnradio.radioca.st/stream?1729944678085"
+        }
+      ]
+    },
+    {
+      "kind": "country+name",
+      "key": "CA|squirrel fm",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "ca-squirrel-fm",
+          "name": "Squirrel FM",
+          "country": "CA",
+          "stationuuid": "94b13f16-ed31-4f98-874c-df9f42e23f77",
+          "streamUrl": "https://s25.myradiostream.com:10092/stream"
+        },
+        {
+          "id": "ca-squirrel-fm-7c8d16d1",
+          "name": "Squirrel FM",
+          "country": "CA",
+          "stationuuid": "7c8d16d1-3f38-11ea-a9fa-52543be04c81",
+          "streamUrl": "https://s25.myradiostream.com:10092/stream/1/listen.mp3"
         }
       ]
     },
@@ -55395,6 +56171,26 @@
     },
     {
       "kind": "name",
+      "key": "klassik radio - lounge",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-klassik-radio-lounge",
+          "name": "Klassik Radio - Lounge",
+          "country": "DE",
+          "streamUrl": "https://stream.klassikradio.de/lounge/mp3-192/stream"
+        },
+        {
+          "id": "de-klassik-radio-lounge-960dc8d6",
+          "name": "Klassik Radio - Lounge",
+          "country": "DE",
+          "stationuuid": "960dc8d6-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.klassikradio.de/lounge/mp3-128/www.klassikradio.de/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
       "key": "rock antenne hair metal",
       "confidence": "low",
       "entries": [
@@ -55411,6 +56207,27 @@
           "country": "DE",
           "stationuuid": "05da52cf-0e21-4af7-8aab-1dde7175d611",
           "streamUrl": "https://s9-webradio.rockantenne.de/hair-metal/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio seefunk",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-radio-seefunk",
+          "name": "Radio Seefunk",
+          "country": "DE",
+          "stationuuid": "213abeab-b8d2-4057-b570-5a6143607b2c",
+          "streamUrl": "https://webradio.radio-seefunk.de/"
+        },
+        {
+          "id": "de-radio-seefunk-960e7751",
+          "name": "Radio Seefunk",
+          "country": "DE",
+          "stationuuid": "960e7751-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://webradio.radio-seefunk.de:8000/"
         }
       ]
     },
@@ -57017,6 +57834,27 @@
     },
     {
       "kind": "name",
+      "key": "radio t",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-radio-t",
+          "name": "Radio T",
+          "country": "DE",
+          "stationuuid": "bc05bc47-8a41-484b-bf77-8fa147bbdfca",
+          "streamUrl": "https://streaming.fueralle.org/radiot_192.mp3"
+        },
+        {
+          "id": "de-radio-t-961915a9",
+          "name": "Radio T",
+          "country": "DE",
+          "stationuuid": "961915a9-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://streaming.fueralle.org:8000/radiot.ogg"
+        }
+      ]
+    },
+    {
+      "kind": "name",
       "key": "svr hanse radio",
       "confidence": "low",
       "entries": [
@@ -57075,6 +57913,27 @@
           "country": "DE",
           "stationuuid": "32606925-a5c9-44ba-ba31-39d5a28e3a98",
           "streamUrl": "https://audio.bild-und-ton.stream:16162/radiosantec-en"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio holiday",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-radio-holiday",
+          "name": "Radio Holiday",
+          "country": "DE",
+          "stationuuid": "c74f7caa-0bc9-4fdd-99f3-edb4e1637c97",
+          "streamUrl": "https://stream.radiogroup.de/radio-holiday/mp3-192/"
+        },
+        {
+          "id": "it-radio-holiday",
+          "name": "Radio Holiday",
+          "country": "IT",
+          "stationuuid": "961bb8ba-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.radioholiday.it:8000/"
         }
       ]
     },
@@ -57362,6 +58221,20 @@
           "country": "GH",
           "stationuuid": "215dbb51-b2ac-4a32-86dc-6c75a4da07d5",
           "streamUrl": "https://mmg.streamguys1.com/JoyFM-mp3?key=8689cc761932e3151f94ddbdbfdf4aa0f4000234b5caeaaa179a2fc0d59a4be9b8b774c3653cb14d1fd76f5cbf80e482&awparams=playerid%3ASGplayer%3B&amsparams=playerid%3ASGplayer%3Bskey%3A1609840716923%3B&aw_0_req.gdpr=true&us_privacy=1YNN"
+        },
+        {
+          "id": "tr-joy-fm",
+          "name": "Joy Fm",
+          "country": "TR",
+          "stationuuid": "c7dadc87-3c43-46f5-aa24-91e0fa9a7643",
+          "streamUrl": "https://22193.live.streamtheworld.com:3690/JOY_FMAAC_SC"
+        },
+        {
+          "id": "tr-joy-fm-4ead410e",
+          "name": "Joy Fm",
+          "country": "TR",
+          "stationuuid": "4ead410e-2f33-411b-8a06-df9ff62efa56",
+          "streamUrl": "https://28993.live.streamtheworld.com:3690/JOY_FMAAC_SC"
         }
       ]
     },
@@ -57572,6 +58445,13 @@
           "country": "BR",
           "stationuuid": "be3907df-64a7-4df9-8158-61b7dc8c881c",
           "streamUrl": "https://8185.brasilstream.com.br/stream"
+        },
+        {
+          "id": "us-98-rock-5ee5e06e",
+          "name": "98 Rock",
+          "country": "US",
+          "stationuuid": "5ee5e06e-407e-4db7-ac92-762f029ccd7a",
+          "streamUrl": "https://26233.live.streamtheworld.com:3690/WIYYFMAAC_SC"
         }
       ]
     },
@@ -58396,6 +59276,27 @@
     },
     {
       "kind": "name",
+      "key": "skylab radio",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "gb-skylab-radio",
+          "name": "Skylab Radio",
+          "country": "GB",
+          "stationuuid": "24273571-703e-4373-b715-d7e7680d7599",
+          "streamUrl": "https://uksoutha.streaming.broadcast.radio:29690/skylab-radio-limited"
+        },
+        {
+          "id": "au-skylab-radio",
+          "name": "Skylab Radio",
+          "country": "AU",
+          "stationuuid": "38c667f9-5091-11e9-a4d7-52543be04c81",
+          "streamUrl": "https://stream.skylab-radio.com:8000/live"
+        }
+      ]
+    },
+    {
+      "kind": "name",
       "key": "shine radio",
       "confidence": "low",
       "entries": [
@@ -58746,6 +59647,27 @@
     },
     {
       "kind": "name",
+      "key": "radio delta",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "fr-radio-delta",
+          "name": "Radio Delta",
+          "country": "FR",
+          "stationuuid": "22bac2ff-f5cc-4169-ab50-cea177e1c8c8",
+          "streamUrl": "https://s4.radio.co/s2fcf9497b/listen"
+        },
+        {
+          "id": "it-radio-delta",
+          "name": "Radio Delta",
+          "country": "IT",
+          "stationuuid": "9644ba50-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://onair15.xdevel.com:8974/;stream.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
       "key": "france bleu haute normandie",
       "confidence": "low",
       "entries": [
@@ -58902,6 +59824,27 @@
           "country": "CZ",
           "stationuuid": "d7415eb0-4f23-11e9-a4d7-52543be04c81",
           "streamUrl": "https://ice.abradio.cz/rockradio128.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "lolli radio soft",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "it-lolli-radio-soft",
+          "name": "Lolli Radio Soft",
+          "country": "IT",
+          "stationuuid": "9611fe5d-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.lolliradio.net/lolli_soft.mp3"
+        },
+        {
+          "id": "it-lolli-radio-soft-aa49dda8",
+          "name": "Lolli Radio Soft",
+          "country": "IT",
+          "stationuuid": "aa49dda8-472b-419c-8359-ab36ce29d7b2",
+          "streamUrl": "https://soft.lolliradio.net:8040/"
         }
       ]
     },
@@ -59782,6 +60725,27 @@
     },
     {
       "kind": "name",
+      "key": "abc news radio",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "au-abc-news-radio",
+          "name": "ABC News Radio",
+          "country": "AU",
+          "stationuuid": "89dda6cb-e1f1-4498-9b6f-ce0054707c01",
+          "streamUrl": "https://mediaserviceslive.akamaized.net/hls/live/2109425/newsradio/v0-221.m3u8"
+        },
+        {
+          "id": "us-abc-news-radio",
+          "name": "ABC News Radio",
+          "country": "US",
+          "stationuuid": "42da533a-e9a5-4993-81e9-1bd14e7ce5a3",
+          "streamUrl": "https://abcnews-streams.akamaized.net/hls/live/2024904/radiolive/master-96000.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
       "key": "hit southwest",
       "confidence": "low",
       "entries": [
@@ -60008,6 +60972,27 @@
           "country": "TR",
           "stationuuid": "e5e4f77a-3821-45b3-9d59-14f5d8b83ab4",
           "streamUrl": "https://radyo.duhnet.tv/radyod"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "retro turk",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "tr-retro-turk",
+          "name": "Retro Turk",
+          "country": "TR",
+          "stationuuid": "e8274b3d-4ee9-4cda-8bcb-60ea92e2db37",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/RETROTURK_SC?/;"
+        },
+        {
+          "id": "tr-retro-turk-24a3740f",
+          "name": "retro turk",
+          "country": "TR",
+          "stationuuid": "24a3740f-4a8e-46e5-8b39-c8b4a2730ded",
+          "streamUrl": "https://27783.live.streamtheworld.com:3690/RETROTURKAAC_SC"
         }
       ]
     },
@@ -60358,6 +61343,27 @@
           "country": "RS",
           "stationuuid": "96edc994-64de-11e8-b15b-52543be04c81",
           "streamUrl": "https://edge-rs-01.maksnet.tv/asmedia/radios/chunklist_w2049618642.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio in",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "rs-radio-in-2",
+          "name": "Radio In",
+          "country": "RS",
+          "stationuuid": "b6be2b26-b788-453a-ab4a-0e8f68712daf",
+          "streamUrl": "https://radioinnis-naxinacional.streaming.rs:8622/;"
+        },
+        {
+          "id": "gr-radio-in",
+          "name": "Radio In",
+          "country": "GR",
+          "stationuuid": "e8c8fffd-994d-4e2c-ac19-147a1d955408",
+          "streamUrl": "https://www.radioin.link:8383/stream"
         }
       ]
     },
@@ -60806,6 +61812,27 @@
           "country": "ZA",
           "stationuuid": "e7b9541b-de25-4be8-a4ed-bd9c7ba5326d",
           "streamUrl": "https://al-ansaar.simplestreaming.co.za/radio/8000/radio.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "starfm",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "za-starfm",
+          "name": "StarFM",
+          "country": "ZA",
+          "stationuuid": "a6e8bb41-9417-46b8-8627-46d5e26b86c5",
+          "streamUrl": "https://edge.iono.fm/xice/112_medium.aac"
+        },
+        {
+          "id": "de-starfm",
+          "name": "StarFM",
+          "country": "DE",
+          "stationuuid": "1119930f-0bdf-4931-b557-e17cbbe9c173",
+          "streamUrl": "https://stream.starfm.de/nrw/mp3-128/iradio"
         }
       ]
     },
@@ -61294,6 +62321,27 @@
     },
     {
       "kind": "name",
+      "key": "radioparty.pl",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "cz-radioparty-pl",
+          "name": "RadioParty.pl",
+          "country": "CZ",
+          "stationuuid": "146fc49c-d0eb-4fbb-bc4f-79a772c769e2",
+          "streamUrl": "https://s2.radioparty.pl:8015/stream"
+        },
+        {
+          "id": "pl-radioparty-pl",
+          "name": "Radioparty.pl",
+          "country": "PL",
+          "stationuuid": "96102577-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://s7.radioparty.pl:8000/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
       "key": "hitrádio osmdesátka",
       "confidence": "low",
       "entries": [
@@ -61672,6 +62720,27 @@
     },
     {
       "kind": "name",
+      "key": "radio city",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "radio-city",
+          "name": "Radio City",
+          "country": "Slovenia",
+          "stationuuid": "e655e587-ecf7-4358-9223-5c13b3c12bf3",
+          "streamUrl": "https://stream1.radiocity.si/CityMp3128.mp3"
+        },
+        {
+          "id": "it-radio-city",
+          "name": "Radio City",
+          "country": "IT",
+          "stationuuid": "9629ff29-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.mediacomm.it:8146/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
       "key": "radio fiesta",
       "confidence": "low",
       "entries": [
@@ -61688,6 +62757,34 @@
           "country": "SV",
           "stationuuid": "5aa403cf-8cf4-4e4c-9583-f3b739d6e503",
           "streamUrl": "https://sp4.colombiatelecom.com.co/8026/stream"
+        },
+        {
+          "id": "it-radio-fiesta",
+          "name": "Radio Fiesta",
+          "country": "IT",
+          "stationuuid": "28d9c62a-0ecf-487f-99f0-84538b2bf492",
+          "streamUrl": "https://onair20.xdevel.com:8312/;"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "european hit radio",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "lt-european-hit-radio",
+          "name": "European Hit Radio",
+          "country": "Lithuania",
+          "stationuuid": "a4917182-7492-44d4-a0a9-782cc855cd39",
+          "streamUrl": "https://stream.ehr.lt:8443/ehr"
+        },
+        {
+          "id": "lv-european-hit-radio",
+          "name": "European Hit Radio",
+          "country": "LV",
+          "stationuuid": "962cd63f-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.europeanhitradio.com:8000/ehr.aac"
         }
       ]
     },
@@ -61919,6 +63016,69 @@
           "country": "SG",
           "stationuuid": "c787359f-0765-48d2-8909-d1f77b98c762",
           "streamUrl": "https://28453.live.streamtheworld.com/YES933AAC.aac"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "axr manila",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "sg-axr-manila",
+          "name": "AXR Manila",
+          "country": "SG",
+          "stationuuid": "a31df372-cfc9-430e-86b4-cc8e289f4d7d",
+          "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/AXR_MANILA.mp3"
+        },
+        {
+          "id": "ph-axr-manila",
+          "name": "AXR Manila",
+          "country": "PH",
+          "stationuuid": "21979f3f-38ec-4935-83a9-8e095bec7ec9",
+          "streamUrl": "https://28163.live.streamtheworld.com:3690/AXR_MANILA_SC"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "jawhara fm",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "tn-jawhara-fm",
+          "name": "Jawhara FM",
+          "country": "TN",
+          "stationuuid": "8d92ff8d-7149-4431-9306-a960e67c09e7",
+          "streamUrl": "https://streaming2.toutech.net/jawharafm"
+        },
+        {
+          "id": "tn-jawhara-fm-961ee9aa",
+          "name": "Jawhara FM",
+          "country": "TN",
+          "stationuuid": "961ee9aa-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://streaming2.toutech.net:8000/jawharafm"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio coran",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "dz-radio-coran",
+          "name": "Radio Coran",
+          "country": "DZ",
+          "stationuuid": "66468020-0d84-4f1a-8b66-676d0f987c96",
+          "streamUrl": "https://radiocoran.ice.infomaniak.ch/coran.mp3"
+        },
+        {
+          "id": "tn-radio-coran",
+          "name": "radio coran",
+          "country": "TN",
+          "stationuuid": "92722b77-b256-4b95-8e24-b264982eb9d3",
+          "streamUrl": "https://n0b.radiojar.com/0tpy1h0kxtzuv?"
         }
       ]
     },
@@ -62288,6 +63448,27 @@
     },
     {
       "kind": "name",
+      "key": "إذاعة القرآن الكريم",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "dz-station",
+          "name": "إذاعة القرآن الكريم",
+          "country": "DZ",
+          "stationuuid": "73c4c047-8155-4e9f-b2ee-7518ce8de164",
+          "streamUrl": "https://n0a.radiojar.com/0tpy1h0kxtzuv?rj-ttl=5&rj-tok=AAABhdgGORQA-2acfyF3_4WY2g"
+        },
+        {
+          "id": "dz-station-a2c020ae",
+          "name": "إذاعة القرآن الكريم",
+          "country": "DZ",
+          "stationuuid": "a2c020ae-97b4-4466-9d23-b594d6412e25",
+          "streamUrl": "https://stream.radiojar.com/0tpy1h0kxtzuv"
+        }
+      ]
+    },
+    {
+      "kind": "name",
       "key": "exclusively abba",
       "confidence": "low",
       "entries": [
@@ -62521,6 +63702,27 @@
           "country": "IN",
           "stationuuid": "6326e39a-3c06-445d-8d67-10187bc9ee0e",
           "streamUrl": "https://stream-164.zeno.fm/rqqps6cbe3quv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJycXFwczZjYmUzcXV2IiwiaG9zdCI6InN0cmVhbS0xNjQuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6Ik92MjllQWlLUjd1ZU9YU1hmYXZhX3ciLCJpYXQiOjE"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "rock fm classic rock",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "us-rock-fm-classic-rock",
+          "name": "ROCK FM Classic Rock",
+          "country": "US",
+          "stationuuid": "dc7e3511-79b2-41f5-8b1f-a6e8098fcda4",
+          "streamUrl": "https://audiotainment-sw.streamabc.net/atsw-classicrock-mp3-128-2538548?"
+        },
+        {
+          "id": "de-rock-fm-classic-rock",
+          "name": "ROCK FM CLASSIC ROCK",
+          "country": "DE",
+          "stationuuid": "cb05ba2f-f881-4ecf-b91b-6eeb0f7e00f3",
+          "streamUrl": "https://stream.regenbogen2.de/classicrock/mp3-128"
         }
       ]
     },
@@ -62897,6 +64099,27 @@
     },
     {
       "kind": "name",
+      "key": "shripad radio",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "in-shripad-radio",
+          "name": "Shripad Radio",
+          "country": "IN",
+          "stationuuid": "7f896716-ce56-4506-a402-12864248aae6",
+          "streamUrl": "https://shripadradio.radioca.st/;"
+        },
+        {
+          "id": "in-shripad-radio-29cef431",
+          "name": "Shripad Radio",
+          "country": "IN",
+          "stationuuid": "29cef431-1dc1-490f-a429-6e24741da80d",
+          "streamUrl": "https://shripadradio.radioca.st:8020/stream"
+        }
+      ]
+    },
+    {
+      "kind": "name",
       "key": "rthk radio-3",
       "confidence": "low",
       "entries": [
@@ -62997,6 +64220,27 @@
           "country": "CN",
           "stationuuid": "f77cc04a-16fc-4748-ab6a-77c9699a9407",
           "streamUrl": "https://lhttp-hw.qtfm.cn/live/1758/64k.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "antenne niedersachsen",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-antenne-niedersachsen",
+          "name": "Antenne Niedersachsen",
+          "country": "DE",
+          "stationuuid": "f115a45b-321f-4674-812a-24b79b103aaf",
+          "streamUrl": "https://stream.antenne.com/reg01/mp3-192/Web/"
+        },
+        {
+          "id": "de-antenne-niedersachsen-961345a7",
+          "name": "Antenne Niedersachsen",
+          "country": "DE",
+          "stationuuid": "961345a7-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.antenne.com/antenne-nds/aac-64/stream.antenne.com/"
         }
       ]
     },
@@ -63179,6 +64423,13 @@
           "country": "DE",
           "stationuuid": "f3166103-fbc4-432f-bb6f-79b7748280b5",
           "streamUrl": "https://klassikr.streamabc.net/klr-beatsat-mp3-192-5464798?sABC=69n849o3%230%23759014699s404754o2p8p1q4q62r578p%23&aggregator=Radiomapeu&aw_0_1st.playerid=&amsparams=playerid:;skey:1772636595"
+        },
+        {
+          "id": "de-beats-radio-f28460cb",
+          "name": "Beats Radio",
+          "country": "DE",
+          "stationuuid": "f28460cb-9f0d-4602-9a46-be8c49975a16",
+          "streamUrl": "https://live.streams.klassikradio.de/beats-radio/stream/mp3"
         }
       ]
     },
@@ -63326,6 +64577,48 @@
           "country": "DE",
           "stationuuid": "e8325853-56c0-4a1f-b273-9ee0dce784ca",
           "streamUrl": "https://web.radio.hitradio-rtl.de/hrrtl-dresden/stream/aacp?aggregator=direktlink"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio saw",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-radio-saw",
+          "name": "radio SAW",
+          "country": "DE",
+          "stationuuid": "9795a396-52ea-4f5a-9177-f3c3bcf0d74f",
+          "streamUrl": "https://stream.radiosaw.de/saw/mp3-192/radio-browser/"
+        },
+        {
+          "id": "de-radio-saw-ccab21a0",
+          "name": "radio SAW",
+          "country": "DE",
+          "stationuuid": "ccab21a0-5826-11e8-b0ce-52543be04c81",
+          "streamUrl": "https://stream.1a-webradio.de/saw/aac-48/radiosure-1a/stream.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "fluxfm - clubsandwich",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-fluxfm-clubsandwich",
+          "name": "FluxFM - Clubsandwich",
+          "country": "DE",
+          "stationuuid": "ea8717e2-de2b-4ad2-9c31-2b25458464eb",
+          "streamUrl": "https://streams.fluxfm.de/clubsandwich/aac-64/streams.fluxfm.de/"
+        },
+        {
+          "id": "de-fluxfm-clubsandwich-9619f2c7",
+          "name": "FluxFM - Clubsandwich",
+          "country": "DE",
+          "stationuuid": "9619f2c7-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://fluxfm.streamabc.net/flx-clubsandwich-mp3-320-3801354?sABC=6968942p%230%23r30o443r1929r059s085628511796n57%23nhqvb&aw_0_1st.playerid=audio&amsparams=playerid:audio;skey:1768461356"
         }
       ]
     },
@@ -63639,6 +64932,27 @@
     },
     {
       "kind": "name",
+      "key": "r.sh live",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-r-sh-live",
+          "name": "R.SH Live",
+          "country": "DE",
+          "stationuuid": "26ec7cd1-e7cc-46af-866a-035f360a7d38",
+          "streamUrl": "https://streams.rsh.de/rsh-live/aac-64/streams.rsh.de/"
+        },
+        {
+          "id": "de-r-sh-live-963f9e3d",
+          "name": "R.SH Live",
+          "country": "DE",
+          "stationuuid": "963f9e3d-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://streams.rsh.de/rsh-live/mp3-192/mediaplayer"
+        }
+      ]
+    },
+    {
+      "kind": "name",
       "key": "yle x3m",
       "confidence": "low",
       "entries": [
@@ -63676,6 +64990,27 @@
           "country": "CN",
           "stationuuid": "c925e1b0-318d-48c9-98d7-c355dd971757",
           "streamUrl": "https://zjtv-wshls.homecdn.com/live/64522.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "loop",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "fi-loop",
+          "name": "Loop",
+          "country": "FI",
+          "stationuuid": "63d55efd-1ccd-4831-a89f-4dfd98fff487",
+          "streamUrl": "https://aud-stream-loop.nm-elemental.nelonenmedia.fi/playlist-256000.m3u8"
+        },
+        {
+          "id": "gr-loop",
+          "name": "loop",
+          "country": "GR",
+          "stationuuid": "695d1d91-671d-4f6b-a4f8-eebdd0c5816f",
+          "streamUrl": "https://eu2.fastcast4u.com/proxy/loopradiostation?mp=/;"
         }
       ]
     },
@@ -63739,6 +65074,27 @@
           "country": "CN",
           "stationuuid": "db039984-8a32-4b4b-a940-95aa899d973a",
           "streamUrl": "https://srs.iyb983.cn/audio/FM983/index.m3u8"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio regenbogen 80er",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-radio-regenbogen-80er",
+          "name": "Radio Regenbogen 80er",
+          "country": "DE",
+          "stationuuid": "4797eeee-bc93-4438-a66b-a7e24950c0c4",
+          "streamUrl": "https://stream.regenbogen.de/80er/mp3-128/radiobrowser"
+        },
+        {
+          "id": "de-radio-regenbogen-80er-9237b8ae",
+          "name": "Radio Regenbogen 80er",
+          "country": "DE",
+          "stationuuid": "9237b8ae-2611-11e9-a80b-52543be04c81",
+          "streamUrl": "https://streams.regenbogen.de/rr-80er-128-mp3"
         }
       ]
     },
@@ -63849,6 +65205,27 @@
     },
     {
       "kind": "name",
+      "key": "radio dzwiek",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "pl-radio-dzwiek",
+          "name": "Radio Dzwiek",
+          "country": "PL",
+          "stationuuid": "5f813e14-69f6-4d29-8a87-ff6096ddf90c",
+          "streamUrl": "https://streamhls.radiodzwiek.slask.pl/dzwiek-mp3"
+        },
+        {
+          "id": "pl-radio-dzwiek-1797a00f",
+          "name": "Radio Dzwiek",
+          "country": "PL",
+          "stationuuid": "1797a00f-b6c4-4150-9cac-316432e0d018",
+          "streamUrl": "https://s3.slotex.pl:7408/;"
+        }
+      ]
+    },
+    {
+      "kind": "name",
       "key": "radio merda malata",
       "confidence": "low",
       "entries": [
@@ -63865,6 +65242,27 @@
           "country": "IT",
           "stationuuid": "ee4c3f2b-0feb-4f10-a127-1821fe38bf2a",
           "streamUrl": "https://s.streampunk.cc/_stream/merdamalata.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio punto zero",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "it-radio-punto-zero",
+          "name": "Radio Punto Zero",
+          "country": "IT",
+          "stationuuid": "5314153e-43f0-4179-96f6-4e7dbd87a7fa",
+          "streamUrl": "https://ice01.fluidstream.net/rpz.aac"
+        },
+        {
+          "id": "it-radio-punto-zero-d2bea5c3",
+          "name": "Radio Punto Zero",
+          "country": "IT",
+          "stationuuid": "d2bea5c3-0a4e-44b3-83ea-f88e7b4634a8",
+          "streamUrl": "https://onair15.xdevel.com:7100/1/"
         }
       ]
     },
@@ -63907,6 +65305,13 @@
           "country": "IT",
           "stationuuid": "e8eff2b7-6c93-4647-9567-986d647094ba",
           "streamUrl": "https://sphera.fluidstream.eu/radio80.aac?FLID=1&aw_0_req.gdpr=true"
+        },
+        {
+          "id": "it-radio-80-961f659a",
+          "name": "Radio 80",
+          "country": "IT",
+          "stationuuid": "961f659a-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://str01.fluidstream.net:7020/;stream.mp3"
         }
       ]
     },
@@ -64012,6 +65417,34 @@
           "country": "GR",
           "stationuuid": "26760653-0e68-4977-987c-226bd1b3d7c2",
           "streamUrl": "https://radio.rasp35.ddnsfree.com/ymnoi"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "1a deutsche hits",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-1a-deutsche-hits",
+          "name": "1A Deutsche Hits",
+          "country": "DE",
+          "stationuuid": "c433e6c6-d242-4db6-a019-1d54d966bddb",
+          "streamUrl": "https://stream.radiosaw.de/saw-deutsch/mp3-192/radio-browser/"
+        },
+        {
+          "id": "de-1a-deutsche-hits-96397b45",
+          "name": "1A Deutsche Hits",
+          "country": "DE",
+          "stationuuid": "96397b45-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.1a-webradio.de/saw-deutsch/mp3-128/radio-browser-1A/stream.mp3"
+        },
+        {
+          "id": "de-1a-deutsche-hits-38d009f8",
+          "name": "1A Deutsche Hits",
+          "country": "DE",
+          "stationuuid": "38d009f8-8205-4f64-9bd3-5b19f5105221",
+          "streamUrl": "https://stream.1a-webradio.de/deutsch/mp3-128"
         }
       ]
     },
@@ -64311,6 +65744,27 @@
     },
     {
       "kind": "name",
+      "key": "axr singapore",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "sg-axr-singapore",
+          "name": "AXR Singapore",
+          "country": "SG",
+          "stationuuid": "4001c109-50a2-490c-aa90-5e2687155697",
+          "streamUrl": "https://singaporestream.axr.online/"
+        },
+        {
+          "id": "sg-axr-singapore-4859de0e",
+          "name": "AXR Singapore",
+          "country": "SG",
+          "stationuuid": "4859de0e-6ddc-4e85-8a32-70c392d80439",
+          "streamUrl": "https://22243.live.streamtheworld.com:3690/AXR_SINGAPORE_SC"
+        }
+      ]
+    },
+    {
+      "kind": "name",
       "key": "discos guardados",
       "confidence": "low",
       "entries": [
@@ -64348,6 +65802,27 @@
           "country": "DE",
           "stationuuid": "e2a730ce-9dea-4a14-8c4e-730c7f2421df",
           "streamUrl": "https://stream.laut.fm/mittelalter-net"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio paloma - partyschlager",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-radio-paloma-partyschlager",
+          "name": "Radio Paloma - Partyschlager",
+          "country": "DE",
+          "stationuuid": "a52a7a26-0e4d-471b-a133-ad6db148501c",
+          "streamUrl": "https://pool.radiopaloma.de/RP-Partyschlager.mp3"
+        },
+        {
+          "id": "de-radio-paloma-partyschlager-2725ed0f",
+          "name": "Radio Paloma - Partyschlager",
+          "country": "DE",
+          "stationuuid": "2725ed0f-601a-43a1-98c8-3e186c0d01ba",
+          "streamUrl": "https://streams.schlagerplanetradio.com/kult/mp3-192"
         }
       ]
     },
@@ -64432,6 +65907,27 @@
           "country": "FR",
           "stationuuid": "28a20d7c-4235-4b93-9ef1-d0f270205362",
           "streamUrl": "https://str0.creacast.com/pharefm_ebene"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio folk",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "cz-radio-folk",
+          "name": "Radio Folk",
+          "country": "CZ",
+          "stationuuid": "2111400a-69b3-4302-bee9-a80460b57bfd",
+          "streamUrl": "https://ice2.abradio.cz/folk64a.aac"
+        },
+        {
+          "id": "dk-radio-folk",
+          "name": "Radio Folk",
+          "country": "DK",
+          "stationuuid": "1d66c174-7995-4f7d-a126-a7d5b1fd56de",
+          "streamUrl": "https://stream.radiojar.com/fqt2y0ds97zuv"
         }
       ]
     },
@@ -64537,6 +66033,286 @@
           "country": "GB",
           "stationuuid": "d10b9e7b-3b02-4663-ab9f-6a881ed065da",
           "streamUrl": "https://pegasus.nucast.co.uk/stream/8076"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "sunshine live - die 90er",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-sunshine-live-die-90er",
+          "name": "Sunshine Live - Die 90er",
+          "country": "DE",
+          "stationuuid": "962c0376-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.sunshine-live.de/90er/mp3-192/stream.sunshine-live.de"
+        },
+        {
+          "id": "de-sunshine-live-die-90er-adbe953f",
+          "name": "Sunshine Live - Die 90er",
+          "country": "DE",
+          "stationuuid": "adbe953f-d857-4858-83ff-d7cf3ed22f6f",
+          "streamUrl": "https://stream.sunshine-live.de/90er/mp3-192"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "sunshine live - lounge",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-sunshine-live-lounge",
+          "name": "Sunshine Live - Lounge",
+          "country": "DE",
+          "stationuuid": "962683f5-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.sunshine-live.de/lounge/mp3-192/stream.sunshine-live.de/"
+        },
+        {
+          "id": "de-sunshine-live-lounge-348a66f1",
+          "name": "Sunshine Live - Lounge",
+          "country": "DE",
+          "stationuuid": "348a66f1-811e-48b0-9caf-82a4a26b4174",
+          "streamUrl": "https://stream.sunshine-live.de/lounge/mp3-192"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "sunshine live - festival",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-sunshine-live-festival",
+          "name": "Sunshine Live - Festival",
+          "country": "DE",
+          "stationuuid": "961211ab-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.sunshine-live.de/festival/mp3-192/stream.sunshine-live.de/"
+        },
+        {
+          "id": "de-sunshine-live-festival-d14abac6",
+          "name": "Sunshine Live - Festival",
+          "country": "DE",
+          "stationuuid": "d14abac6-6a20-45ab-9a61-acd12d75e64d",
+          "streamUrl": "https://stream.sunshine-live.de/festival/mp3-192"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "lohro - lokalradio rostock",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-lohro-lokalradio-rostock",
+          "name": "LOHRO - Lokalradio Rostock",
+          "country": "DE",
+          "stationuuid": "960dffa2-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.lohro.de:8000/lohro128.mp3"
+        },
+        {
+          "id": "de-lohro-lokalradio-rostock-cb67b277",
+          "name": "LOHRO - Lokalradio Rostock",
+          "country": "DE",
+          "stationuuid": "cb67b277-3a66-11e9-9b4e-52543be04c81",
+          "streamUrl": "https://stream.lohro.de:8000/lohro_opus.ogg"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "sunshine live - hands up",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-sunshine-live-hands-up",
+          "name": "Sunshine Live - Hands Up",
+          "country": "DE",
+          "stationuuid": "962c0681-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.sunshine-live.de/handsup/mp3-192/stream.sunshine-live.de/"
+        },
+        {
+          "id": "de-sunshine-live-hands-up-b0fff254",
+          "name": "Sunshine Live - Hands Up",
+          "country": "DE",
+          "stationuuid": "b0fff254-b18b-478e-9c34-86d8864b6960",
+          "streamUrl": "https://stream.sunshine-live.de/handsup/mp3-192"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio mitology",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "it-radio-mitology",
+          "name": "Radio Mitology",
+          "country": "IT",
+          "stationuuid": "964d49d9-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://onair15.xdevel.com:9120/;stream.mp3"
+        },
+        {
+          "id": "it-radio-mitology-af473ac5",
+          "name": "Radio Mitology",
+          "country": "IT",
+          "stationuuid": "af473ac5-1059-11e9-a80b-52543be04c81",
+          "streamUrl": "https://onair15.xdevel.com:9120/;"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "sunshine live - die 80er",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-sunshine-live-die-80er",
+          "name": "Sunshine Live - Die 80er",
+          "country": "DE",
+          "stationuuid": "7f4dc126-2a57-11e8-91bf-52543be04c81",
+          "streamUrl": "https://stream.sunshine-live.de/80er/mp3-192/stream.sunshine-live.de/"
+        },
+        {
+          "id": "de-sunshine-live-die-80er-95283b97",
+          "name": "Sunshine Live - Die 80er",
+          "country": "DE",
+          "stationuuid": "95283b97-6c9a-4ac3-a4d3-fbddae91da0d",
+          "streamUrl": "https://stream.sunshine-live.de/80er/mp3-192"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "1a partyschlager",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-1a-partyschlager",
+          "name": "1A Partyschlager",
+          "country": "DE",
+          "stationuuid": "e95c7bbd-581e-11e8-b0ce-52543be04c81",
+          "streamUrl": "https://stream.1a-webradio.de/saw-partyschlager/aac-48/radiosure-1a/stream.mp3"
+        },
+        {
+          "id": "de-1a-partyschlager-e9a07bf4",
+          "name": "1A Partyschlager",
+          "country": "DE",
+          "stationuuid": "e9a07bf4-453f-4191-a349-ca4f94fb5723",
+          "streamUrl": "https://stream.1a-webradio.de/saw-partyschlager/mp3-128"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "size radio",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "fr-size-radio",
+          "name": "Size Radio",
+          "country": "FR",
+          "stationuuid": "96479584-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://n11.radiojar.com/atr1e8aswa5tv"
+        },
+        {
+          "id": "us-size-radio",
+          "name": "Size Radio",
+          "country": "US",
+          "stationuuid": "d0a7ead3-d206-43b1-9db0-5581a54c6003",
+          "streamUrl": "https://n07.radiojar.com/atr1e8aswa5tv"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "rockland sachsen - anhalt",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "de-rockland-sachsen-anhalt",
+          "name": "Rockland Sachsen - Anhalt",
+          "country": "DE",
+          "stationuuid": "96247b0b-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://stream.rockland-digital.de/rockland/mp3-128/radio-browser/stream.mp3"
+        },
+        {
+          "id": "de-rockland-sachsen-anhalt-90613b8c",
+          "name": "Rockland Sachsen - Anhalt",
+          "country": "DE",
+          "stationuuid": "90613b8c-5828-11e8-b0ce-52543be04c81",
+          "streamUrl": "https://stream.1a-webradio.de/rockland/aac-48/radiosure-1a/stream.mp3"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "radio gamma",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "it-radio-gamma",
+          "name": "Radio Gamma",
+          "country": "IT",
+          "stationuuid": "9629b63f-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://onair18.xdevel.com:8210/;stream.aac"
+        },
+        {
+          "id": "it-radio-gamma-962c135c",
+          "name": "Radio Gamma",
+          "country": "IT",
+          "stationuuid": "962c135c-0601-11e8-ae97-52543be04c81",
+          "streamUrl": "https://onair18.xdevel.com:8098/;stream.mp3"
+        },
+        {
+          "id": "it-radio-gamma-99c2131e",
+          "name": "Radio Gamma",
+          "country": "IT",
+          "stationuuid": "99c2131e-abfc-4e87-9205-9e7278a5f424",
+          "streamUrl": "https://onair18.xdevel.com:8210/"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "rpn dxks surigao",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "ph-rpn-dxks-surigao",
+          "name": "RPN DXKS Surigao",
+          "country": "PH",
+          "stationuuid": "1cf77d3e-df8c-4865-803c-fb9b7f44c4ed",
+          "streamUrl": "https://dxks-rpnradio.radioca.st:8448/stream"
+        },
+        {
+          "id": "ph-rpn-dxks-surigao-a55da593",
+          "name": "RPN DXKS Surigao",
+          "country": "PH",
+          "stationuuid": "a55da593-a551-4e92-8ecc-adff22adebe5",
+          "streamUrl": "https://dxks-rpnradio.radioca.st/stream?1729944678085"
+        }
+      ]
+    },
+    {
+      "kind": "name",
+      "key": "squirrel fm",
+      "confidence": "low",
+      "entries": [
+        {
+          "id": "ca-squirrel-fm",
+          "name": "Squirrel FM",
+          "country": "CA",
+          "stationuuid": "94b13f16-ed31-4f98-874c-df9f42e23f77",
+          "streamUrl": "https://s25.myradiostream.com:10092/stream"
+        },
+        {
+          "id": "ca-squirrel-fm-7c8d16d1",
+          "name": "Squirrel FM",
+          "country": "CA",
+          "stationuuid": "7c8d16d1-3f38-11ea-a9fa-52543be04c81",
+          "streamUrl": "https://s25.myradiostream.com:10092/stream/1/listen.mp3"
         }
       ]
     },
