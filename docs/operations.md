@@ -90,7 +90,7 @@ Stations *without* a `stationuuid` (e.g. Grrif, anything RB doesn't index) keep 
 See `docs/curation-checklist.md` for the full per-activity playbook. The standard sequence for promoting a `stream-only` station toward `working`:
 
 1. `npm run wire-metadata` — auto-derives metadataUrl for known broadcasters (br, orf, bbc, hr). Run first, before manual research.
-2. `npm run analyze` — confirms stream / icy / meta API / fetcher coverage and flags wireable-but-not-wired stations.
+2. `npm run health -- --only <id>` — confirms stream / icy / meta API / fetcher coverage and flags wireable-but-not-wired stations (writes the verdicts into `public/station-health.json`, see `docs/station-health.md`).
 3. Improve station logos with the remote-logo scraper in `docs/logo-extraction.md`; only bundle curated PNGs in `public/stations/` when image quality matters and source/provenance is clear per `THIRD_PARTY_NOTICES.md`.
 4. If broadcaster has a metadata API but no fetcher yet — add one in `src/builtins.ts` AND a discoverer in `tools/wire-metadata.mjs` (so future channels of the same family auto-wire).
 5. Bump status from `stream-only` → `icy-only` (ICY-only metadata) or `working` (full per-broadcaster fetcher with logo).

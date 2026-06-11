@@ -42,6 +42,7 @@ import { fileURLToPath } from 'node:url';
 import YAML from 'yaml';
 import { nameSignature } from './lib/station-name-signature.mjs';
 import { normalizeStreamUrl, normalizeHomepage, streamFingerprint } from './lib/dedupe-normalize.mjs';
+import { loadHealth, saveHealth, applyFacet } from './lib/health-record.mjs';
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const STATIONS_YAML = join(ROOT, 'data', 'stations.yaml');
@@ -457,6 +458,26 @@ const summary = {
 
 mkdirSync(dirname(OUTPUT_JSON), { recursive: true });
 writeFileSync(OUTPUT_JSON, JSON.stringify(summary, null, 2) + '\n', 'utf8');
+
+// Mirror the verdicts into the unified health record (docs/station-health.md):
+// members of blocking groups → bad, review-tier groups → warn, rest → ok.
+{
+  const updates = new Map(candidates.map((s) => [s.id, { v: 'ok' }]));
+  for (const g of duplicateGroups) {
+    const verdict =
+      g.severity === 'blocking'
+        ? { v: 'bad', d: 'blocking duplicate group' }
+        : { v: 'warn', d: 'review-tier duplicate group' };
+    for (const e of g.entries) updates.set(e.id, verdict);
+  }
+  const record = loadHealth(ROOT);
+  applyFacet(record, 'duplicate', updates, {
+    tool: 'check-duplicates',
+    scope: 'full',
+    at: summary.generatedAt,
+  });
+  saveHealth(ROOT, record);
+}
 
 if (collisions.length === 0) {
   console.log('check-duplicates: 0 collisions found ✓');

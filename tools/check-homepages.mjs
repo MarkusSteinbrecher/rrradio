@@ -30,6 +30,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { CLASS, STRICT_FAIL, classifyStatus, classifyError, isRetryable } from './lib/homepage-status.mjs';
+import { loadHealth, saveHealth, applyFacet } from './lib/health-record.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -213,10 +214,44 @@ async function main() {
   for (const [url, row] of cache) urlsOut[url] = row; // carry over prior runs
   for (const [url, row] of results) urlsOut[url] = row; // overwrite with this run
   fs.mkdirSync(CACHE_DIR, { recursive: true });
+  const generatedAt = new Date().toISOString();
   fs.writeFileSync(
     OUT,
-    JSON.stringify({ generatedAt: new Date().toISOString(), staleDays: args.staleDays, stations: stationRows, urls: urlsOut }, null, 2),
+    JSON.stringify({ generatedAt, staleDays: args.staleDays, stations: stationRows, urls: urlsOut }, null, 2),
   );
+
+  // Mirror into the unified health record (docs/station-health.md) so the
+  // verdicts outlive this gitignored cache. ok → ok, blocked/redirect → warn,
+  // dead / server-error / network error → bad; no homepage at all → na.
+  {
+    const VERDICT_BY_CLASS = {
+      [CLASS.OK]: 'ok',
+      [CLASS.BLOCKED]: 'warn',
+      [CLASS.REDIRECT]: 'warn',
+      [CLASS.DEAD]: 'bad',
+      [CLASS.SERVER_ERROR]: 'bad',
+      [CLASS.ERROR]: 'bad',
+    };
+    const updates = new Map();
+    for (const r of stationRows) {
+      const detail = r.class === CLASS.ERROR ? (r.reason ?? 'network') : r.class === CLASS.OK ? null : `HTTP ${r.status}`;
+      updates.set(r.id, detail == null ? { v: VERDICT_BY_CLASS[r.class] } : { v: VERDICT_BY_CLASS[r.class], d: detail });
+    }
+    const fullSweep = !args.cc && args.only.size === 0 && !(args.limit > 0);
+    if (fullSweep) {
+      for (const s of catalog) {
+        if (!s.homepage) updates.set(s.id, { v: 'na', d: 'no homepage' });
+      }
+    }
+    const record = loadHealth(ROOT);
+    applyFacet(record, 'homepage', updates, {
+      tool: 'check-homepages',
+      scope: fullSweep ? 'full' : args.cc ? `cc:${args.cc}` : 'partial',
+      at: generatedAt,
+    });
+    saveHealth(ROOT, record);
+    console.log('  updated public/station-health.json (homepage facet)');
+  }
 
   if (args.json) {
     console.log(JSON.stringify(stationRows.filter((r) => r.class !== CLASS.OK), null, 2));

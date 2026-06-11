@@ -20,6 +20,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse as parseYaml } from 'yaml';
 import { fetchByUuid } from './rb-client.mjs';
+import { loadHealth, saveHealth, applyFacet } from './lib/health-record.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
@@ -118,6 +119,29 @@ const report = {
   missing,
 };
 writeReport(report);
+
+// Mirror into the unified health record (docs/station-health.md). Only
+// publishable stations — the record tracks the published catalog.
+{
+  const PUBLISHABLE = new Set(['working', 'stream-only', 'icy-only']);
+  const driftById = new Map(drift.map((d) => [d.id, d.reason]));
+  const missingIds = new Set(missing.map((m) => m.id));
+  const updates = new Map();
+  for (const s of stations) {
+    if (!PUBLISHABLE.has(s?.status)) continue;
+    if (!s.stationuuid) updates.set(s.id, { v: 'na', d: 'not RB-bound' });
+    else if (missingIds.has(s.id)) updates.set(s.id, { v: 'bad', d: 'record gone upstream' });
+    else if (driftById.has(s.id)) updates.set(s.id, { v: 'warn', d: driftById.get(s.id) });
+    else updates.set(s.id, { v: 'ok' });
+  }
+  const record = loadHealth(root);
+  applyFacet(record, 'drift', updates, {
+    tool: 'check-drift',
+    scope: 'full',
+    at: report.checkedAt,
+  });
+  saveHealth(root, record);
+}
 
 console.log('');
 console.log(`check-drift: ${drift.length} drift, ${missing.length} missing upstream`);

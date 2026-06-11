@@ -1713,3 +1713,85 @@ h1 {
     color: var(--ink-3);
   }
 }
+
+/* ─── Health tab (docs/station-health.md) ─────────────────────────── */
+
+.health-freshness {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 14px 24px 0;
+}
+
+.health-freshness__empty { color: var(--ink-3); font-size: 13px; margin: 0; }
+
+.health-chip {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-2);
+  background: var(--bg-2);
+  cursor: default;
+}
+
+.health-chip.is-fresh { border-color: color-mix(in srgb, var(--ok) 45%, transparent); color: var(--ok); }
+.health-chip.is-stale { border-color: color-mix(in srgb, var(--accent) 45%, transparent); color: var(--accent); }
+.health-chip.is-dead  { border-color: color-mix(in srgb, var(--bad) 45%, transparent); color: var(--bad); }
+
+.health-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0 24px 4px;
+}
+
+.health-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-start;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: border-color 120ms ease;
+}
+
+.health-card:hover { border-color: var(--line-2); }
+.health-card.has-bad { border-color: color-mix(in srgb, var(--bad) 40%, transparent); }
+
+.health-card__label { font-size: 12px; color: var(--ink-2); }
+.health-card__counts { font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+.health-card.has-bad .health-card__counts { color: var(--bad); }
+
+.health-table .health-cell { text-align: center; }
+
+.health-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 22px;
+  border-radius: 6px;
+  font-family: var(--mono);
+  font-size: 12px;
+  border: 1px solid var(--line);
+  color: var(--ink-3);
+  cursor: default;
+}
+
+.health-pill.is-ok   { border-color: color-mix(in srgb, var(--ok) 50%, transparent); color: var(--ok); }
+.health-pill.is-warn { border-color: color-mix(in srgb, var(--accent) 50%, transparent); color: var(--accent); }
+.health-pill.is-bad  { border-color: color-mix(in srgb, var(--bad) 55%, transparent); color: var(--bad); }
+.health-pill.is-na   { color: var(--ink-4); }
+.health-pill.is-unchecked { border-style: dashed; color: var(--ink-4); }
+
+.health-name { max-width: 320px; }
+.health-name__title { display: block; font-size: 13px; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.health-name__id { display: block; font-family: var(--mono); font-size: 11px; color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.search-bar--inline { flex: 1 1 240px; min-width: 200px; }
+.health-filters { align-items: end; }

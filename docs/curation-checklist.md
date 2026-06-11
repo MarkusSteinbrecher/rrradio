@@ -4,10 +4,11 @@ When promoting a Radio Browser station from `stream-only` toward `working`,
 walk this checklist. Each row tells you what we measure, where the answer
 comes from, and what to do if the check fails.
 
-`npm run analyze` runs the automated checks (stream, HTTPS, ICY,
-metadata-API, fetcher, logo) over every publishable station and prints
-the results — see `public/station-status.json` for the machine-readable
-output that the admin dashboard reads.
+`npm run health` runs the automated checks (stream, HTTPS, ICY,
+metadata-API, fetcher, program) over every publishable station — scope it
+with `--cc DE` or `--only <id>` while curating. Verdicts land in
+`public/station-health.json` (the unified health record, see
+`docs/station-health.md`) and surface in the station tracker's Health tab.
 
 ## Activities
 

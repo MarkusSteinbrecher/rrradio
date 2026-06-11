@@ -18,6 +18,7 @@ import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { classifyLogoUrl } from './logo-quality.mjs';
+import { loadHealth, saveHealth, applyFacet } from './lib/health-record.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
@@ -248,6 +249,19 @@ const report = {
 const outPath = join(root, 'public/station-logo-status.json');
 mkdirSync(dirname(outPath), { recursive: true });
 writeFileSync(outPath, JSON.stringify(report) + '\n');
+
+// Mirror into the unified health record (docs/station-health.md). The tier
+// is the stable detail; the free-text reason can wobble with probe sizes.
+{
+  const updates = new Map(rows.map((row) => [row.id, { v: row.state, d: row.tier }]));
+  const record = loadHealth(root);
+  applyFacet(record, 'logo', updates, {
+    tool: 'logo-status',
+    scope: 'full',
+    at: report.generatedAt,
+  });
+  saveHealth(root, record);
+}
 
 if (!JSON_ONLY) {
   console.log(`logo-status: ${rows.length.toLocaleString()} station(s) → ${outPath}`);
