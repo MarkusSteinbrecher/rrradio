@@ -35,6 +35,8 @@ const root = join(__dirname, '..');
 
 const PUBLISHABLE = new Set(['working', 'stream-only', 'icy-only']);
 const ORIGIN = 'https://rrradio.org';
+import { lenientProbe } from './playable-check.mjs';
+
 const STATUS_PROBLEM_CAP = 1000;
 
 // ─── args ────────────────────────────────────────────────────────────
@@ -126,6 +128,22 @@ async function probeStream(url) {
     try { await res.body?.cancel(); } catch {}
     return { status: res.status, contentType: ct, metaintAdvertised: !!metaint, icySeen };
   } catch (err) {
+    // undici rejects responses browsers accept (bare-LF status lines —
+    // the regiocast/streamabc family). Re-check with the lenient
+    // raw-socket prober before recording a bad verdict (#498).
+    const msg = String(err) + ' ' + String(err?.cause ?? '');
+    if (/HTTPParserError|Response does not match the HTTP\/1\.1|Missing expected CR|Parse Error/i.test(msg)) {
+      const lenient = await lenientProbe(url).catch(() => null);
+      if (lenient && (lenient.verdict === 'ok' || lenient.verdict === 'ok-hls')) {
+        return {
+          status: 200,
+          contentType: (lenient.contentType ?? '').toLowerCase(),
+          metaintAdvertised: !!lenient.icyMetaint,
+          icySeen: false,
+          lenientParse: true,
+        };
+      }
+    }
     return { status: 'failed', errorToken: classifyError(err) };
   } finally {
     done();

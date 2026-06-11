@@ -408,7 +408,7 @@ function rawHeaderFetch(targetUrl, timeoutMs) {
   });
 }
 
-async function lenientProbe(startUrl, { allowHttp = false } = {}) {
+export async function lenientProbe(startUrl, { allowHttp = false } = {}) {
   let current = startUrl;
   for (let hop = 0; hop < 5; hop++) {
     const { status, headers } = await rawHeaderFetch(current, TIMEOUT_MS);
@@ -421,6 +421,7 @@ async function lenientProbe(startUrl, { allowHttp = false } = {}) {
     }
     if (!(status >= 200 && status < 300)) return classifyHttpError(status, current);
     const ct = headers['content-type'] || '';
+    const icyMetaint = headers['icy-metaint'] || null;
     const note = ' (lenient HTTP parse — server violates HTTP/1.1, browsers play it)';
     if (HLS_EXT.test(new URL(current).pathname) || /mpegurl/i.test(ct)) {
       return { verdict: 'ok-hls', reason: 'HLS stream — plays via hls.js / native Safari' + note, finalUrl: current, contentType: ct };
@@ -431,7 +432,7 @@ async function lenientProbe(startUrl, { allowHttp = false } = {}) {
     if (!isAudioContentType(ct)) {
       return { verdict: 'broken-format', reason: `content-type ${ct || '<missing>'} not audio-like` + note, finalUrl: current, contentType: ct };
     }
-    return { verdict: 'ok', reason: ct + note, finalUrl: current, contentType: ct };
+    return { verdict: 'ok', reason: ct + note, finalUrl: current, contentType: ct, icyMetaint };
   }
   return null; // redirect loop — keep the strict verdict
 }
