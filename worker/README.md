@@ -149,16 +149,18 @@ side via `wrangler secret put` — the workflow does not touch them.
 ## D1: the broken-reports database
 
 The report pipeline stores rows in a D1 database (`rrradio-reports`,
-binding `DB`, schema under `migrations/`). One-time setup:
+binding `DB`, schema under `migrations/`). The database is provisioned
+(2026-06-12, region EEUR; id in `wrangler.toml`) — recreating it from
+scratch would be:
 
 ```sh
 cd worker
 npx wrangler d1 create rrradio-reports
-# paste the printed database_id over the placeholder in wrangler.toml
+# paste the printed database_id into wrangler.toml
 npx wrangler d1 migrations apply rrradio-reports --remote
 ```
 
-After that, CI applies pending migrations on every deploy
+CI applies pending migrations on every deploy
 (idempotent step in `.github/workflows/deploy-worker.yml`) — note the
 `CLOUDFLARE_API_TOKEN` repo secret needs the **D1: Edit** permission in
 addition to the Workers template. For local dev, `wrangler dev`
