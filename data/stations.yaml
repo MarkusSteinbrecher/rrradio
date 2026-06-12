@@ -8556,9 +8556,13 @@
   geo:
     - 51.165
     - 10.451
-  broadcaster: independent
+  # Regional Bayern 1 feed — same brand as builtin-br-bayern1; broadcaster
+  # br inherits the br-radioplayer fetcher, the regional radioplayer URL
+  # gives it the same track/album-art metadata as the main entry.
+  broadcaster: br
   name: Bayern 1 Franken
   streamUrl: https://dispatcher.rndfnk.com/br/br1/franken/mp3/mid
+  metadataUrl: https://www.br.de/mediathek/audio/bayern1/audio-livestream-bayern1-franken-100~radioplayer.json
   bitrate: 128
   codec: MP3
   tags:
@@ -8569,7 +8573,7 @@
   faviconLicense: broadcaster-implicit
   homepage: https://www.br.de/radio/bayern1/index.html
   country: DE
-  status: stream-only
+  status: working
 - id: de-absolut-bella
   stationuuid: df1045ec-c8ef-410f-b800-9a81cdf0d252
   changeuuid: 9b19924b-7fcb-4db8-97a4-31f154113a3f
@@ -24141,9 +24145,13 @@
   reviewedAt: 2026-05-04
 - id: de-bayern-1-schwaben
   tags: [oldies]
-  broadcaster: independent
+  # Regional Bayern 1 feed — same brand as builtin-br-bayern1; broadcaster
+  # br inherits the br-radioplayer fetcher, the regional radioplayer URL
+  # gives it the same track/album-art metadata as the main entry.
+  broadcaster: br
   name: Bayern 1 Schwaben
   streamUrl: https://dispatcher.rndfnk.com/br/br1/schwaben/mp3/mid
+  metadataUrl: https://www.br.de/mediathek/audio/bayern1/audio-livestream-bayern1-schwaben-100~radioplayer.json
   bitrate: 128
   codec: MP3
   favicon: https://api.ardmediathek.de/image-service/images/urn:ard:image:b366004f6196d70c?w=512
@@ -24151,7 +24159,7 @@
   faviconLicense: broadcaster-implicit
   homepage: https://www.br.de/radio/bayern1/index.html
   country: DE
-  status: stream-only
+  status: working
   stationuuid: 1e2095c0-4845-45c3-bc61-d2c7fc1ee52a
   changeuuid: 6f5686fd-702b-4c7c-926d-00e3330e1f6b
   reviewedAt: 2026-05-04
@@ -24605,9 +24613,15 @@
   reviewedAt: 2026-05-04
 - id: de-bayern-1-niederbayern-oberpfalz
   tags: [oldies]
-  broadcaster: independent
+  # Regional Bayern 1 feed — same brand as builtin-br-bayern1; broadcaster
+  # br inherits the br-radioplayer fetcher, the regional radioplayer URL
+  # gives it the same track/album-art metadata as the main entry.
+  broadcaster: br
   name: Bayern 1 Niederbayern / Oberpfalz
   streamUrl: https://dispatcher.rndfnk.com/br/br1/nbopf/mp3/mid
+  # BR's mediathek slug for the Niederbayern/Oberpfalz feed is "ostbayern"
+  # (payload channelName: "Bayern 1 - Niederbayern/Oberpfalz").
+  metadataUrl: https://www.br.de/mediathek/audio/bayern1/audio-livestream-bayern1-ostbayern-100~radioplayer.json
   bitrate: 128
   codec: MP3
   favicon: https://api.ardmediathek.de/image-service/images/urn:ard:image:b366004f6196d70c?w=512
@@ -24615,7 +24629,7 @@
   faviconLicense: broadcaster-implicit
   homepage: https://www.br.de/radio/bayern1/index.html
   country: DE
-  status: stream-only
+  status: working
   stationuuid: 3d7eb0bd-1cfb-44c0-8424-2d6e3ad86a56
   changeuuid: 09bebe20-b0af-49c9-80cf-07b0abf0b964
   reviewedAt: 2026-05-04
@@ -25705,9 +25719,13 @@
   reviewedAt: 2026-05-04
 - id: de-bayern-1-mainfranken
   tags: [oldies]
-  broadcaster: independent
+  # Regional Bayern 1 feed — same brand as builtin-br-bayern1; broadcaster
+  # br inherits the br-radioplayer fetcher, the regional radioplayer URL
+  # gives it the same track/album-art metadata as the main entry.
+  broadcaster: br
   name: Bayern 1 Mainfranken
   streamUrl: https://dispatcher.rndfnk.com/br/br1/mainfranken/mp3/mid
+  metadataUrl: https://www.br.de/mediathek/audio/bayern1/audio-livestream-bayern1-mainfranken-100~radioplayer.json
   bitrate: 128
   codec: MP3
   favicon: https://api.ardmediathek.de/image-service/images/urn:ard:image:b366004f6196d70c?w=512
@@ -25715,7 +25733,7 @@
   faviconLicense: broadcaster-implicit
   homepage: https://www.br.de/radio/bayern1/index.html
   country: DE
-  status: stream-only
+  status: working
   stationuuid: 8ea86272-d529-4c44-b169-dd6920de647c
   changeuuid: 621c5f50-2155-463f-af85-02095d41bbeb
   reviewedAt: 2026-05-04
@@ -33686,7 +33704,7 @@
   faviconLicense: broadcaster-implicit
   tags: [pop]
   broadcaster: independent
-  name: Radio Gong 96.3 - Top 50 Gong Top 50
+  name: Radio Gong 96.3 - Top 50 # RB name carried a restated "Gong Top 50" suffix
   streamUrl: https://addrad.io/44557h5
   bitrate: 128
   codec: MP3
@@ -36176,7 +36194,7 @@
   faviconLicense: broadcaster-implicit
   tags: [pop]
   broadcaster: independent
-  name: Radio Gong 96.3 - 2000er Hits Gong 2000er Hits
+  name: Radio Gong 96.3 - 2000er Hits
   streamUrl: https://addrad.io/445fz5n
   bitrate: 128
   codec: MP3
@@ -36193,7 +36211,7 @@
   faviconLicense: broadcaster-implicit
   tags: [pop]
   broadcaster: independent
-  name: Radio Gong 96.3 - 80er Hits Gong 80er Hits
+  name: Radio Gong 96.3 - 80er Hits
   streamUrl: https://addrad.io/445fyq7
   bitrate: 128
   codec: MP3
@@ -36206,7 +36224,7 @@
 - id: de-radio-gong-96-3-weihnachtshits-om
   tags: [christmas, pop, weihnachten]
   broadcaster: independent
-  name: Radio Gong 96.3 - Weihnachtshits -om
+  name: Radio Gong 96.3 - Weihnachtshits # RB name carried a stray "-om" suffix
   streamUrl: https://radiogong--di--nacs-ais-lgc--09--cdn.cast.addradio.de/radiogong/channel06/mp3/high?ar-distributor=f0b7&_art=dj0yJmlwPTc3LjAuNDkuMjU1JmlkPWljc2N4bC1sNXhkZ3p4bWImdD0xNzMzNTEyMDkzJnM9Nzg2NmYyOWMjMmNjYTkzNjQwNWZkNDAyNTdjMzFmMGFmY2UwYzY1Yjk
   bitrate: 128
   codec: MP3
@@ -37678,7 +37696,7 @@
 - id: de-radio-gong-96-3-90er-hits-gong-90er-hits
   tags: [pop]
   broadcaster: independent
-  name: Radio Gong 96.3 - 90er Hits Gong 90er Hits
+  name: Radio Gong 96.3 - 90er Hits
   streamUrl: https://addrad.io/445fyxf
   bitrate: 128
   codec: MP3
@@ -38138,7 +38156,7 @@
 - id: de-radio-gong-96-3-chill-om
   tags: [chill, chillout+lounge]
   broadcaster: independent
-  name: Radio Gong 96.3 - Chill -om
+  name: Radio Gong 96.3 - Chill
   streamUrl: https://radiogong--di--nacs-ais-lgc--03--cdn.cast.addradio.de/radiogong/channel02/mp3/high?_art=dj0yJmlwPTc3LjAuNDkuMjU1JmlkPWljc2N4bC1vNHhkZ3p4bWImdD0xNzMzNTEyMzg4JnM9Nzg2NmYyOWMjNzEzYWFiYTgwMjk5MzMyMmEwNDAwYjc0NmU4YzQ4ZWI
   bitrate: 128
   codec: MP3
@@ -280706,7 +280724,9 @@
   bitrate: 128
   codec: MP3
   tags: [modern rock]
-  homepage: "http://www.radiogong.com/"
+  favicon: https://www.radiogong.com/storage/thumbs/512x512/r:1768406066/zpnikwqe8bwdc.png
+  faviconSource: broadcaster-site
+  homepage: "https://www.radiogong.com/"
   country: DE
   geo: [50.0642, 9.9844]
   status: stream-only
@@ -320483,20 +320503,6 @@
   changeuuid: 8a263323-b49d-4d6f-85b9-7db9cb1518e3
   reviewedAt: 2026-05-21
 
-# Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
-- id: de-radio-gong-106-9
-  source: radio-browser
-  broadcaster: independent
-  name: Radio Gong 106.9
-  streamUrl: "https://gong.info/gonglive"
-  codec: AAC
-  country: DE
-  geo: [0, 0]
-  status: stream-only
-  stationuuid: 1c939e3b-4ea1-491d-9fdc-a5e31eef06dd
-  changeuuid: 7d115323-a122-4254-a4e9-0ef9b0f7c27e
-  reviewedAt: 2026-05-21
-
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-star-fm-maximum-rock-country-rock
   source: radio-browser
@@ -358530,9 +358536,11 @@
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: de-bayern-1-oberbayern-hls-192
   source: radio-browser
-  broadcaster: independent
+  # Same Oberbayern program as builtin-br-bayern1 — shares its radioplayer feed.
+  broadcaster: br
   name: Bayern 1 Oberbayern (HLS 192)
   streamUrl: "https://br-radio.ard-mcdn.de/br/radio/b1obb/hls/192/seglist.m3u8"
+  metadataUrl: https://www.br.de/mediathek/audio/bayern1/audio-livestream-bayern1-oberbayern-100~radioplayer.json
   codec: UNKNOWN
   tags: [oldies]
   favicon: "https://api.ardmediathek.de/image-service/images/urn:ard:image:b366004f6196d70c?w=512"
@@ -358540,7 +358548,7 @@
   homepage: "https://www.br.de/radio/bayern1/index.html"
   country: DE
   geo: [0, 0]
-  status: stream-only
+  status: working
   stationuuid: 66da824c-9d84-4794-8edb-929efc67f2df
   changeuuid: 53a43107-9aed-4ec0-8cc1-be61eaf4f989
   reviewedAt: 2026-05-21
@@ -363546,9 +363554,11 @@
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: de-bayern-1-oberbayern-hls-96
   source: radio-browser
-  broadcaster: independent
+  # Same Oberbayern program as builtin-br-bayern1 — shares its radioplayer feed.
+  broadcaster: br
   name: Bayern 1 Oberbayern (HLS 96)
   streamUrl: "https://br-radio.ard-mcdn.de/br/radio/b1obb/hls/96/seglist.m3u8"
+  metadataUrl: https://www.br.de/mediathek/audio/bayern1/audio-livestream-bayern1-oberbayern-100~radioplayer.json
   codec: UNKNOWN
   tags: [oldies]
   favicon: "https://api.ardmediathek.de/image-service/images/urn:ard:image:b366004f6196d70c?w=512"
@@ -363556,7 +363566,7 @@
   homepage: "https://www.br.de/radio/bayern1/index.html"
   country: DE
   geo: [0, 0]
-  status: stream-only
+  status: working
   stationuuid: 0f140760-e3c5-408a-a3e6-bcff4acc8a6c
   changeuuid: b68a8f5b-530c-4782-ad41-4eb42809a63c
   reviewedAt: 2026-05-21
@@ -393974,6 +393984,7 @@
   tags: [pop]
   broadcaster: independent
   name: Radio Gong 96.3 - Live
+  shortName: "Live" # curated: the derived "Live" is dropped by the noise-token guard in build-catalog
   streamUrl: https://radiogong-live.cast.addradio.de/radiogong/live/mp3/high?ar-distributor=f0b7
   bitrate: 192
   codec: MP3
@@ -492352,6 +492363,8 @@
   name: Radio Gong Schweinfurt
   streamUrl: "https://gong.info/gongsw"
   codec: AAC
+  favicon: https://www.radiogong.com/storage/thumbs/1000x1000/r:1765965437/pfum3yt4ds1rb.jpg
+  faviconSource: broadcaster-site
   homepage: "https://www.radiogong.com/funkhaus/sw"
   country: DE
   geo: [0, 0]
