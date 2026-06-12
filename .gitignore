@@ -10,6 +10,9 @@ ios/
 .env
 .env.local
 
+# Generated spec-site HTML (served at /spec/ by the dev server)
+tools/spec-site/out/
+
 # Local project notes — not for upload. The repo is public on GitHub
 # Pages; anything in here is internal-only and should never ship.
 # (CLAUDE.md is the public operating manual. AGENTS.md is a symlink

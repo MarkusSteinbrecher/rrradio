@@ -26,7 +26,7 @@ a doc. See `STYLE.md` for templates and the reconciliation ritual.
 | search | draft | 9336321 | `Search/*`, `Models/RadioBrowserClient.swift`, `Resources/stations.fts5.db` |
 | sync-merge | draft | 9336321 | `CloudSync/*` |
 | privacy-data-boundaries | draft | 9336321 | `RegionResolver.swift`, `DashboardView.swift`, `AddStationView.swift`, `Diagnostics.swift` |
-| watch-protocol | draft | 9336321 | `Shared/WatchRemoteProtocol.swift`, `WatchRemote/*`, `rrradioWatch/*` |
+| watch-protocol | draft | 800bb74 | `Shared/WatchRemoteProtocol.swift`, `WatchRemote/*`, `rrradioWatch/*` |
 | localization | draft | 9336321 | `Views/LocaleController.swift`, `Resources/Localizable.xcstrings` |
 
 ## Features (`features/*`) — observable behavior
@@ -43,7 +43,7 @@ a doc. See `STYLE.md` for templates and the reconciliation ritual.
 | sleep-timer | draft | 9336321 | `Player/SleepTimer.swift` |
 | wake-to-radio | draft | 9336321 | `Player/WakeAlarm.swift` |
 | listening-history | draft | 9336321 | `Library/ListeningHistory.swift`, `Views/DashboardView.swift`, `Views/ListeningRaceChart.swift` |
-| watch-remote | draft | 9336321 | `rrradioWatch/*`, `WatchRemote/PhoneRemoteControlController.swift` |
+| watch-remote | draft | 800bb74 | `rrradioWatch/*`, `WatchRemote/PhoneRemoteControlController.swift` |
 | siri-shortcuts | draft | 9336321 | `Shortcuts/*` |
 | first-run-offline | draft | 9336321 | `App.swift`, `Models/Catalog.swift`, `Views/CatalogLoadingSplash.swift` |
 | preferences-diagnostics | draft | 9336321 | `Views/SettingsView.swift`, `ThemeController.swift`, `Player/CarModeController.swift`, `Diagnostics.swift` |

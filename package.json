@@ -23,6 +23,7 @@
     "catalog": "node tools/build-catalog.mjs && node tools/build-highlights.mjs && node tools/build-favicon-variants.mjs",
     "highlights": "node tools/build-highlights.mjs",
     "check-highlights": "node tools/check-highlights.mjs",
+    "spec-site": "python3 tools/spec-site/generate.py",
     "favicon-variants": "node tools/build-favicon-variants.mjs",
     "catalog:ios-local": "node tools/build-ios-local-catalog.mjs",
     "station-capabilities": "node tools/build-station-capabilities.mjs",
