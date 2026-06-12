@@ -22744,6 +22744,7 @@
   tags: [football, live sports, sport]
   broadcaster: independent
   name: "Fußball-Bundesliga: Konferenz"
+  shortName: "FB Konferenz" # curated: the colon glued to the brand token keeps this out of the FB Spiel family
   streamUrl: https://wdr-sportschau-liga1konferenz.icecastssl.wdr.de/wdr/sportschau/liga1konferenz/mp3/high
   bitrate: 128
   codec: MP3
@@ -24915,6 +24916,7 @@
   tags: [live sports]
   broadcaster: independent
   name: "Sportschau live: 1.Bundesliga / Spiel 7"
+  shortName: "FB Spiel 7" # curated: completes the derived Fußball-Bundesliga family (FB Spiel 1-9) despite the Sportschau-branded name
   streamUrl: https://wdr-sportschau-liga1spiel7.icecastssl.wdr.de/wdr/sportschau/liga1spiel7/mp3/high?file=.mp3
   bitrate: 128
   codec: MP3
@@ -25898,6 +25900,7 @@
   tags: [football, live sports, sport]
   broadcaster: independent
   name: "Fußball-Bundesliga 2: Konferenz"
+  shortName: "FB2 Konferenz" # curated: derived value would be a bare "Konferenz", ambiguous next to the BL1 Konferenz
   streamUrl: https://wdr-sportschau-liga2konferenz.icecastssl.wdr.de/wdr/sportschau/liga2konferenz/mp3/high
   bitrate: 128
   codec: MP3
@@ -30770,7 +30773,7 @@
 - id: de-fu-fball-bundesliga-2-spiel-2
   tags: [football, live sports, sport]
   broadcaster: independent
-  name: "Fußfball-Bundesliga 2: Spiel 2"
+  name: "Fußball-Bundesliga 2: Spiel 2" # RB upstream has "Fußfball" typo; id keeps it for stability
   streamUrl: https://wdr-sportschau-liga2spiel2.icecastssl.wdr.de/wdr/sportschau/liga2spiel2/mp3/high
   bitrate: 128
   codec: MP3
