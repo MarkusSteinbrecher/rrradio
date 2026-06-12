@@ -4,6 +4,11 @@ import {
   buildHighlightsPayload,
   contentVersion,
   serializePayload,
+  visibleOn,
+  addDays,
+  auditRunway,
+  RUNWAY_MIN_VISIBLE,
+  ROTATION_RUNWAY_DAYS,
 } from './build-highlights.mjs';
 
 const PUBLISHED = new Set(['builtin-grrif', 'byte-fm', 'builtin-fip']);
@@ -209,5 +214,95 @@ describe('buildHighlightsPayload', () => {
     const text = serializePayload(payload);
     expect(text.endsWith('\n')).toBe(true);
     expect(JSON.parse(text)).toEqual(payload);
+  });
+});
+
+describe('visibleOn', () => {
+  const entry = (window) => ({ stationId: 'x', badge: { label: 'X' }, ...window });
+
+  it('treats an un-windowed entry as always visible', () => {
+    expect(visibleOn(entry({}), '1999-01-01')).toBe(true);
+    expect(visibleOn(entry({}), '2099-12-31')).toBe(true);
+  });
+
+  it('hides an entry before startsOn and shows it from startsOn (inclusive)', () => {
+    const e = entry({ startsOn: '2026-06-15' });
+    expect(visibleOn(e, '2026-06-14')).toBe(false);
+    expect(visibleOn(e, '2026-06-15')).toBe(true);
+  });
+
+  it('shows an entry through endsOn (inclusive) and hides it after', () => {
+    const e = entry({ endsOn: '2026-06-21' });
+    expect(visibleOn(e, '2026-06-21')).toBe(true);
+    expect(visibleOn(e, '2026-06-22')).toBe(false);
+  });
+});
+
+describe('addDays', () => {
+  it('adds within a month', () => {
+    expect(addDays('2026-06-12', 1)).toBe('2026-06-13');
+  });
+
+  it('rolls over month and year ends', () => {
+    expect(addDays('2026-06-30', 1)).toBe('2026-07-01');
+    expect(addDays('2026-12-31', 1)).toBe('2027-01-01');
+  });
+});
+
+describe('auditRunway', () => {
+  const TODAY = '2026-06-12';
+  const evergreen = (n) => ({ stationId: `evergreen-${n}`, badge: { label: `E${n}` } });
+  const evergreens = (count) => Array.from({ length: count }, (_, i) => evergreen(i));
+  const windowed = (startsOn, endsOn) => ({
+    stationId: `sotw-${startsOn}`,
+    badge: { label: 'Station of the week' },
+    startsOn,
+    endsOn,
+  });
+
+  it('passes with enough evergreens and a well-stocked rotation queue', () => {
+    const errors = auditRunway(
+      [...evergreens(RUNWAY_MIN_VISIBLE), windowed('2026-06-08', '2026-06-14'), windowed('2026-06-15', '2026-07-19')],
+      TODAY,
+    );
+    expect(errors).toEqual([]);
+  });
+
+  it('passes with only evergreens (no rotation = no runway requirement)', () => {
+    expect(auditRunway(evergreens(RUNWAY_MIN_VISIBLE), TODAY)).toEqual([]);
+  });
+
+  it('fails when any day in the lookahead drops below the visibility floor', () => {
+    // Floor minus one evergreens, propped up to the floor by a window
+    // that expires mid-lookahead: the first thin day is the day after.
+    const errors = auditRunway(
+      [...evergreens(RUNWAY_MIN_VISIBLE - 1), windowed('2026-06-08', '2026-07-31')],
+      TODAY,
+    );
+    expect(errors).toEqual([]); // window covers the whole lookahead — fine
+
+    const thin = auditRunway(
+      [...evergreens(RUNWAY_MIN_VISIBLE - 1), windowed('2026-06-08', '2026-06-20')],
+      TODAY,
+    );
+    expect(thin.some((e) => e.includes('visible on 2026-06-21'))).toBe(true);
+  });
+
+  it('fails when the rotation queue ends within the runway horizon', () => {
+    const errors = auditRunway(
+      [...evergreens(RUNWAY_MIN_VISIBLE), windowed('2026-06-08', '2026-06-14')],
+      TODAY,
+    );
+    expect(errors).toHaveLength(1);
+    expect(errors[0]).toMatch(/rotation ends on 2026-06-14/);
+    expect(errors[0]).toContain(`${ROTATION_RUNWAY_DAYS} days`);
+  });
+
+  it('ignores open-ended windows (startsOn only) for the rotation runway', () => {
+    const errors = auditRunway(
+      [...evergreens(RUNWAY_MIN_VISIBLE), { stationId: 'open', badge: { label: 'O' }, startsOn: '2026-01-01' }],
+      TODAY,
+    );
+    expect(errors).toEqual([]);
   });
 });

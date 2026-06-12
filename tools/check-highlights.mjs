@@ -13,6 +13,12 @@
  * file. Validation errors (unknown station id, bad accent, bad date,
  * duplicate badge) are surfaced directly.
  *
+ * Also audits the feed's forward RUNWAY from today's date: every day in
+ * the next 28 must keep ≥ 3 entries visible, and a date-windowed
+ * rotation queue (the "Station of the week" slot) must be scheduled at
+ * least 14 days ahead — so a lapsed queue turns CI red instead of the
+ * rail silently rotting. See auditRunway in build-highlights.mjs.
+ *
  * Exits 0 when consistent, 2 when not. Reads only local files; no
  * network.
  *
@@ -23,7 +29,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse as parseYaml } from 'yaml';
-import { buildHighlightsPayload, serializePayload } from './build-highlights.mjs';
+import { auditRunway, buildHighlightsPayload, serializePayload } from './build-highlights.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
@@ -74,6 +80,14 @@ if (committed !== expected) {
   process.exit(2);
 }
 
+const today = new Date().toISOString().slice(0, 10);
+const runwayErrors = auditRunway(payload.highlights, today);
+if (runwayErrors.length > 0) {
+  console.error(`${C.bad}check-highlights: feed runway problem(s):${C.reset}`);
+  for (const e of runwayErrors) console.error(`  ${e}`);
+  process.exit(2);
+}
+
 console.log(
-  `${C.ok}check-highlights: ${payload.highlights.length} featured station(s) match YAML ✓${C.reset}`,
+  `${C.ok}check-highlights: ${payload.highlights.length} featured station(s) match YAML, runway OK ✓${C.reset}`,
 );
