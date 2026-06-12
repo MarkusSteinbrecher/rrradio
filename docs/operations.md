@@ -35,7 +35,7 @@ Those local files may include HTTP streams and are not the website publish contr
 
 ## Featured highlights (`highlights.json`)
 
-The "Featured by rrradio" rail on the Browse discovery surface (web + iOS + Android) is driven by an **editorial feed**, separate from the catalog. Like the catalog it's **data, not code**:
+The "Featured by rrradio" rail on the Browse discovery surface (rendered by the iOS app today; web/Android planned) is driven by an **editorial feed**, separate from the catalog. Like the catalog it's **data, not code**:
 
 - **Source of truth:** `data/highlights.yaml` — a short, ordered list of curated entries.
 - **Build artifact:** `public/highlights.json`, written by `tools/build-highlights.mjs` and served at `https://rrradio.org/highlights.json`.
@@ -52,12 +52,33 @@ Each entry **references a published catalog station by id** (the `id:` from `dat
 
 ```bash
 npm run highlights         # regenerate public/highlights.json from the YAML
-npm run check-highlights   # CI gate: JSON ↔ YAML in sync + every id published
+npm run check-highlights   # CI gate: JSON ↔ YAML in sync + every id published + runway audit
 ```
 
 `npm run highlights` also runs as part of `npm run catalog` and `npm run dev`. The committed `public/highlights.json` is what deploys (CI serves the artifact, not a fresh build), so **edit the YAML, run `npm run highlights`, and commit both**. `check-highlights` (wired into the CI `catalog` job) fails the build if you forget. The `version` field is a deterministic content hash — a cache-busting signal, not a timestamp — so the artifact is reproducible.
 
 **Delivery model:** clients fetch the file over HTTPS, cache the last good copy, and re-fetch on a throttle. An unknown `station` id is silently dropped client-side, and an empty feed hides the rail entirely — so the featured set changes with a web deploy, **no native release needed**. When the file is absent the rail simply stays hidden (the genre/country chips still render).
+
+### Weekly rotation ("Station of the week")
+
+The rotating slot is a **queue of windowed entries** at the top of `data/highlights.yaml`: one entry per week, `startsOn` Monday → `endsOn` Sunday, scheduled several weeks ahead. Clients hide entries outside their window, so the rail rotates **by itself** — no weekly commit, no deploy. A few evergreen (un-windowed) entries sit below the queue so the rail never thins out, and the current week's pick leads the rail because file order is render order.
+
+`check-highlights` (CI catalog job) audits the **runway** against today's date and fails when:
+
+- the queue's last `endsOn` is **less than 14 days away** — the rotation is about to lapse; or
+- any day in the **next 28 days** would show **fewer than 3** visible entries.
+
+When it goes red, that's the top-up signal: append the next weeks to the queue (stations not already featured, accurate one-line blurb), run `npm run highlights`, commit both files. Removing all date windows is the legitimate way to stop rotating — the audit only binds while windowed entries exist.
+
+### Label taxonomy
+
+Featured badges must be honest. Every `badge.label` is one of:
+
+1. **Descriptive of the station** — "Genre-less gem", "Late-night pick", "Seattle institution". Claims nothing about process; always safe.
+2. **True of the process** — "Station of the week" only on entries in the windowed rotation queue; "Hand-picked" (the maintainer picks, and says so); "New on rrradio" only for stations added within the last few weeks.
+3. **Backed by named data** — e.g. "Most played this month", only once derived from telemetry with numbers to show.
+
+No invented authority: there is no editorial team, so no "Editor's pick", no "Staff favourite", no implied voting. Nobody pays for placement.
 
 ## Linking a station to its Radio Browser record
 

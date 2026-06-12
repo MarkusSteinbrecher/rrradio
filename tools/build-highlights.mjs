@@ -174,6 +174,77 @@ function isValidIsoDate(value) {
   );
 }
 
+// ─── Runway audit ───────────────────────────────────────────────────────
+// The build stays deterministic (no clock access); the CHECK injects
+// today's date and audits the feed's forward health, so a lapsed
+// "Station of the week" queue turns CI red instead of silently rotting.
+
+/** Every day this far ahead must keep the rail populated. */
+export const RUNWAY_LOOKAHEAD_DAYS = 28;
+/** Minimum entries visible on any day in the lookahead window. */
+export const RUNWAY_MIN_VISIBLE = 3;
+/** A date-windowed rotation queue must reach at least this far ahead. */
+export const ROTATION_RUNWAY_DAYS = 14;
+
+/** True when the highlight is visible on the given YYYY-MM-DD day. */
+export function visibleOn(highlight, isoDay) {
+  if (highlight.startsOn && isoDay < highlight.startsOn) return false;
+  if (highlight.endsOn && isoDay > highlight.endsOn) return false;
+  return true;
+}
+
+/** YYYY-MM-DD plus n days (UTC, calendar-safe across month/year ends). */
+export function addDays(isoDay, n) {
+  const [y, m, d] = isoDay.split('-').map(Number);
+  return new Date(Date.UTC(y, m - 1, d + n)).toISOString().slice(0, 10);
+}
+
+/**
+ * Audit the feed's forward-looking health from `today` (YYYY-MM-DD):
+ *  - every day in the next RUNWAY_LOOKAHEAD_DAYS must keep at least
+ *    RUNWAY_MIN_VISIBLE entries visible (evergreen, un-windowed entries
+ *    are the easy way to guarantee the floor);
+ *  - if any entry carries an `endsOn`, the rotation queue must be
+ *    scheduled at least ROTATION_RUNWAY_DAYS ahead — removing all date
+ *    windows is the legitimate way to stop rotating.
+ *
+ * Pure: the caller injects `today`, validated highlight rows in.
+ *
+ * @param {object[]} highlights  rows as produced by validateHighlights
+ * @param {string} today         YYYY-MM-DD
+ * @returns {string[]} errors (empty when healthy)
+ */
+export function auditRunway(highlights, today) {
+  const errors = [];
+
+  let thinnest = { day: today, count: Infinity };
+  for (let i = 0; i < RUNWAY_LOOKAHEAD_DAYS; i++) {
+    const day = addDays(today, i);
+    const count = highlights.filter((h) => visibleOn(h, day)).length;
+    if (count < thinnest.count) thinnest = { day, count };
+  }
+  if (thinnest.count < RUNWAY_MIN_VISIBLE) {
+    errors.push(
+      `runway: only ${thinnest.count} highlight(s) visible on ${thinnest.day} ` +
+        `(every day in the next ${RUNWAY_LOOKAHEAD_DAYS} needs ≥ ${RUNWAY_MIN_VISIBLE}) — ` +
+        'add evergreen entries or extend the scheduled windows in data/highlights.yaml',
+    );
+  }
+
+  const windowEnds = highlights.map((h) => h.endsOn).filter(Boolean);
+  if (windowEnds.length > 0) {
+    const lastEnd = windowEnds.reduce((a, b) => (a > b ? a : b));
+    if (lastEnd < addDays(today, ROTATION_RUNWAY_DAYS)) {
+      errors.push(
+        `runway: the scheduled rotation ends on ${lastEnd}, less than ${ROTATION_RUNWAY_DAYS} days away — ` +
+          'schedule the next weeks in data/highlights.yaml (or remove all date windows to stop rotating)',
+      );
+    }
+  }
+
+  return errors;
+}
+
 /**
  * Build the full publishable payload from the raw YAML document.
  * Deterministic: `version` defaults to a content hash of the highlights.
