@@ -9264,7 +9264,7 @@
       "id": "de-bayern-1-franken",
       "name": "Bayern 1 Franken",
       "shortName": "Franken",
-      "broadcaster": "independent",
+      "broadcaster": "br",
       "streamUrl": "https://dispatcher.rndfnk.com/br/br1/franken/mp3/mid",
       "homepage": "https://www.br.de/radio/bayern1/index.html",
       "country": "DE",
@@ -9277,11 +9277,13 @@
       "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
+      "metadata": "br-radioplayer",
+      "metadataUrl": "https://www.br.de/mediathek/audio/bayern1/audio-livestream-bayern1-franken-100~radioplayer.json",
       "geo": [
         51.165,
         10.451
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "de-absolut-bella",
@@ -28034,7 +28036,7 @@
       "id": "de-bayern-1-schwaben",
       "name": "Bayern 1 Schwaben",
       "shortName": "Schwaben",
-      "broadcaster": "independent",
+      "broadcaster": "br",
       "streamUrl": "https://dispatcher.rndfnk.com/br/br1/schwaben/mp3/mid",
       "homepage": "https://www.br.de/radio/bayern1/index.html",
       "country": "DE",
@@ -28046,7 +28048,9 @@
       "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
-      "status": "stream-only"
+      "metadata": "br-radioplayer",
+      "metadataUrl": "https://www.br.de/mediathek/audio/bayern1/audio-livestream-bayern1-schwaben-100~radioplayer.json",
+      "status": "working"
     },
     {
       "id": "de-epic-lounge-restaurant-lounge",
@@ -28666,7 +28670,7 @@
       "id": "de-bayern-1-niederbayern-oberpfalz",
       "name": "Bayern 1 Niederbayern / Oberpfalz",
       "shortName": "Niederbayern / Oberpfalz",
-      "broadcaster": "independent",
+      "broadcaster": "br",
       "streamUrl": "https://dispatcher.rndfnk.com/br/br1/nbopf/mp3/mid",
       "homepage": "https://www.br.de/radio/bayern1/index.html",
       "country": "DE",
@@ -28678,7 +28682,9 @@
       "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
-      "status": "stream-only"
+      "metadata": "br-radioplayer",
+      "metadataUrl": "https://www.br.de/mediathek/audio/bayern1/audio-livestream-bayern1-ostbayern-100~radioplayer.json",
+      "status": "working"
     },
     {
       "id": "de-i-love-the-beach",
@@ -30187,7 +30193,7 @@
       "id": "de-bayern-1-mainfranken",
       "name": "Bayern 1 Mainfranken",
       "shortName": "Mainfranken",
-      "broadcaster": "independent",
+      "broadcaster": "br",
       "streamUrl": "https://dispatcher.rndfnk.com/br/br1/mainfranken/mp3/mid",
       "homepage": "https://www.br.de/radio/bayern1/index.html",
       "country": "DE",
@@ -30199,7 +30205,9 @@
       "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
-      "status": "stream-only"
+      "metadata": "br-radioplayer",
+      "metadataUrl": "https://www.br.de/mediathek/audio/bayern1/audio-livestream-bayern1-mainfranken-100~radioplayer.json",
+      "status": "working"
     },
     {
       "id": "de-swr-4-bw-karlsruhe-128k",
@@ -318348,12 +318356,7 @@
         50.0642,
         9.9844
       ],
-      "status": "stream-only",
-      "favicons": {
-        "76": "favicons/de-radio-gong-wurzburg-76-dec7711d.webp",
-        "128": "favicons/de-radio-gong-wurzburg-128-dec7711d.webp",
-        "152": "favicons/de-radio-gong-wurzburg-152-dec7711d.webp"
-      }
+      "status": "stream-only"
     },
     {
       "id": "hk-rthk-radio-4-ff98b8d3",
@@ -403339,7 +403342,7 @@
       "id": "de-bayern-1-oberbayern-hls-192",
       "name": "Bayern 1 Oberbayern (HLS 192)",
       "shortName": "B1O (HLS 192)",
-      "broadcaster": "independent",
+      "broadcaster": "br",
       "streamUrl": "https://br-radio.ard-mcdn.de/br/radio/b1obb/hls/192/seglist.m3u8",
       "homepage": "https://www.br.de/radio/bayern1/index.html",
       "country": "DE",
@@ -403349,11 +403352,13 @@
       "favicon": "https://api.ardmediathek.de/image-service/images/urn:ard:image:b366004f6196d70c?w=512",
       "faviconSource": "radio-browser",
       "codec": "UNKNOWN",
+      "metadata": "br-radioplayer",
+      "metadataUrl": "https://www.br.de/mediathek/audio/bayern1/audio-livestream-bayern1-oberbayern-100~radioplayer.json",
       "geo": [
         0,
         0
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "de-beats-radio",
@@ -408717,7 +408722,7 @@
       "id": "de-bayern-1-oberbayern-hls-96",
       "name": "Bayern 1 Oberbayern (HLS 96)",
       "shortName": "B1O (HLS 96)",
-      "broadcaster": "independent",
+      "broadcaster": "br",
       "streamUrl": "https://br-radio.ard-mcdn.de/br/radio/b1obb/hls/96/seglist.m3u8",
       "homepage": "https://www.br.de/radio/bayern1/index.html",
       "country": "DE",
@@ -408727,11 +408732,13 @@
       "favicon": "https://api.ardmediathek.de/image-service/images/urn:ard:image:b366004f6196d70c?w=512",
       "faviconSource": "radio-browser",
       "codec": "UNKNOWN",
+      "metadata": "br-radioplayer",
+      "metadataUrl": "https://www.br.de/mediathek/audio/bayern1/audio-livestream-bayern1-oberbayern-100~radioplayer.json",
       "geo": [
         0,
         0
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "de-bayern-2-hls-192",
@@ -551766,12 +551773,7 @@
         0,
         0
       ],
-      "status": "stream-only",
-      "favicons": {
-        "76": "favicons/de-radio-gong-schweinfurt-76-bcb22c33.webp",
-        "128": "favicons/de-radio-gong-schweinfurt-128-bcb22c33.webp",
-        "152": "favicons/de-radio-gong-schweinfurt-152-bcb22c33.webp"
-      }
+      "status": "stream-only"
     },
     {
       "id": "de-radio-rheinland",
