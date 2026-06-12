@@ -18,3 +18,16 @@ routes = [
 [vars]
 GOATCOUNTER_SITE = "markussteinbrecher.goatcounter.com"
 ALLOWED_ORIGIN  = "https://rrradio.org"
+
+# Broken-station reports (issue #507). ONE-TIME SETUP: create the
+# database and paste the id it prints over the placeholder below —
+#   npx wrangler d1 create rrradio-reports
+# then apply the schema:
+#   npx wrangler d1 migrations apply rrradio-reports --remote
+# `wrangler dev` provisions a local sqlite copy automatically (apply
+# migrations locally with the same command minus --remote).
+[[d1_databases]]
+binding = "DB"
+database_name = "rrradio-reports"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+migrations_dir = "migrations"

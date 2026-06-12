@@ -339,7 +339,7 @@ Privacy-friendly pageview + event analytics. No cookies, no consent banner, no u
 | `pause: <station name>` | state goes playing → paused (same station) |
 | `resume: <station name>` | state goes paused → loading (same station) |
 | `error: <station name>` | state enters error; title field carries the error message; deduped while error persists |
-| `report-broken: <station name>` | user taps "Report broken station"; title carries station id, stream host, platform, app version, and current playback reason when available |
+| `report-broken: <station name>` | user taps "Report broken station"; title carries station id, stream host, platform, app version, category, and current playback reason when available. The GC event mirrors the primary record in the Worker's D1 `broken_reports` table (receipts + status pipeline — `docs/spec/contracts/broken-reports.md`); the user's comment stays in D1 and never reaches GC |
 | `favorite: <station name>` | user adds a favorite |
 | `unfavorite: <station name>` | user removes a favorite |
 | `add-custom-station` | user submits the Add sheet |

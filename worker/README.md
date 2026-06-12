@@ -1,6 +1,6 @@
 # rrradio-stats Worker
 
-Cloudflare Worker that solves three problems for the rrradio app:
+Cloudflare Worker that solves four problems for the rrradio app:
 
 1. **GoatCounter token shielding** — the admin dashboard at
    `https://<host>/rrradio/dashboard.html` reads aggregated stats
@@ -15,9 +15,14 @@ Cloudflare Worker that solves three problems for the rrradio app:
    `Origin` header that isn't a `bbc.co.uk` subdomain. The
    `/api/public/bbc/...` routes spoof the right `Origin` server-side
    so the browser can consume the data.
+4. **Broken-station reports** (issue #507) — anonymous user reports
+   with a category and optional comment land in a D1 table, the
+   reporter gets a random receipt id, and the apps poll
+   `/api/public/report-status` to learn when a report is resolved.
+   Protocol contract: `../docs/spec/contracts/broken-reports.md`.
 
-The Worker is single-file (`src/index.ts`, ~460 lines). All responses
-are JSON. All endpoints accept GET. All errors have shape
+Routing lives in `src/index.ts`; the report pipeline in
+`src/reports.ts`. All responses are JSON. All errors have shape
 `{ error: string, message?: string, status?: number }`.
 
 ---
@@ -35,6 +40,8 @@ are JSON. All endpoints accept GET. All errors have shape
 | `/api/public/proxy` | `url=<encoded>` | Forwarded JSON body of the upstream URL, **only** if the URL matches the allowlist (else 403) | 1 m |
 | `/api/public/bbc/schedule/<service>` | `service` is the BBC station slug (e.g. `bbc_world_service`) | Forwarded `rms.api.bbc.co.uk` schedule JSON | 10 m |
 | `/api/public/bbc/play/<service>` | same | Forwarded `rms.api.bbc.co.uk` now-playing JSON | 1 m |
+| `/api/public/report-broken` (POST) | body: `stationId` (required), `stationName`, `streamHost`, `platform`, `appVersion`, `reason`, `source`, `category` (`no-audio\|interruptions\|wrong-station\|wrong-logo\|wrong-info\|other`, else `unspecified`), `comment` (≤500 chars) | `202 { ok, reportId }` — row in D1 `broken_reports`; `reportId` is the anonymous receipt token. Rate-limited 20/IP/day (daily-salted hash, purged next day). Old payloads without category/comment stay valid. | no-store |
+| `/api/public/report-status` | `ids=<receipt,receipt,…>` (≤50) | `{ reports: [{ id, status, resolution?, resolvedAt? }] }` — `status` ∈ received/confirmed/resolved. Unknown ids omitted (client treats as expired). | no-store |
 
 `days` is clamped to `[1, 90]`. The public top-stations endpoint backs
 both `tools/candidates.mjs` (curation surfacing) and the in-app stats
@@ -57,9 +64,12 @@ call per hour regardless of traffic.
 | `/api/systems` | top 10 OS shares (GC `/stats/systems`) |
 | `/api/debug` | raw upstream `/stats/total` body — surfaces which fields this GC account/version actually exposes |
 | `/api/everything` | one call returns totals + stations + favorites + errors + reports + tabs + genres + locations + browsers + systems. Sequential internally with 300 ms sleeps to stay under GC's 4 req/s limit. |
+| `/api/broken-reports` | recent D1 report rows for triage: `{ items: [{ id, stationId, …, category, comment, status, resolution, githubIssue }], total }`. `?status=received\|confirmed\|resolved`, `?limit=N` (1–500, default 200). no-store. |
+| `/api/admin/resolve-reports` (POST) | body: `{ resolution: fixed\|removed\|not-reproducible }` + at least one of `reportIds` (≤100), `stationId` (+ optional `category`), `githubIssue`. Marks matching open reports resolved, stamps the issue number, returns `{ ok, resolved: n }`. Called by `.github/workflows/resolve-reports.yml` when a `broken-station` issue closes. |
 
-All admin endpoints accept `?days=N` (1–90, default 7). All responses
-cache 5 min at the Cloudflare edge.
+All GoatCounter-backed admin endpoints accept `?days=N` (1–90, default
+7) and cache 5 min at the Cloudflare edge; the D1-backed report
+endpoints are no-store.
 
 ---
 
@@ -133,6 +143,45 @@ https://dash.cloudflare.com/profile/api-tokens with the
 **Edit Cloudflare Workers** template (account-scoped). The
 `GOATCOUNTER_TOKEN` and `ADMIN_TOKEN` secrets stay on Cloudflare's
 side via `wrangler secret put` — the workflow does not touch them.
+
+---
+
+## D1: the broken-reports database
+
+The report pipeline stores rows in a D1 database (`rrradio-reports`,
+binding `DB`, schema under `migrations/`). One-time setup:
+
+```sh
+cd worker
+npx wrangler d1 create rrradio-reports
+# paste the printed database_id over the placeholder in wrangler.toml
+npx wrangler d1 migrations apply rrradio-reports --remote
+```
+
+After that, CI applies pending migrations on every deploy
+(idempotent step in `.github/workflows/deploy-worker.yml`) — note the
+`CLOUDFLARE_API_TOKEN` repo secret needs the **D1: Edit** permission in
+addition to the Workers template. For local dev, `wrangler dev`
+provisions a local sqlite copy; apply migrations to it with the same
+command minus `--remote`.
+
+Inspect live reports without the dashboard:
+
+```sh
+curl -s -H "Authorization: Bearer $ADMIN_TOKEN" \
+  'https://stats.rrradio.org/api/broken-reports?status=received' | jq .
+```
+
+### Resolving reports via issue close
+
+`.github/workflows/resolve-reports.yml` fires when an issue labeled
+`broken-station` is closed. It picks the resolution from a
+`resolved:fixed` / `resolved:removed` / `resolved:not-reproducible`
+label (falling back on the close reason: completed → fixed, not
+planned → not-reproducible), pulls the station id from a
+`<!-- rrradio:station-id=<id> -->` marker in the issue body, and POSTs
+`/api/admin/resolve-reports`. It needs the `STATS_ADMIN_TOKEN` repo
+secret set to the Worker's `ADMIN_TOKEN` value.
 
 ---
 
@@ -238,11 +287,18 @@ are different code paths so the logs disambiguate them.
 
 ```
 worker/
-  src/index.ts          — single-file Worker. ~460 lines.
+  src/index.ts          — routing + GoatCounter/proxy/BBC endpoints.
                           Public routes: /api/public/...
                           Admin routes: /api/...
                           Allowlist: const ALLOW = [...]
-  wrangler.toml         — non-secret config (GC site, allowed origin)
+  src/reports.ts        — broken-station report pipeline (D1 ingest,
+                          receipt polling, resolve, triage list)
+  src/env.ts            — Env bindings interface
+  src/respond.ts        — shared JSON response helpers
+  src/test-d1.ts        — in-memory D1 stand-in for tests
+  migrations/           — D1 schema migrations (broken_reports)
+  wrangler.toml         — non-secret config (GC site, allowed origin,
+                          D1 binding)
   .dev.vars             — local-dev secrets (gitignored)
   README.md             — this file
 ```

@@ -1,0 +1,197 @@
+# Broken-Station Reports Contract
+
+```yaml
+status: draft
+platforms: [web, ios, android]
+reconciled-against: —   # server-side first; no client ships this yet
+```
+
+## Purpose
+
+Pins the cross-platform protocol for reporting a broken station and learning
+what happened to the report. A user reports a station with a **category** and
+optional **comment**, receives an anonymous **receipt id**, and is later
+informed — via app polling — when the report is resolved. No account, no
+reporter identity: the receipt token, held only by the reporting device, is
+the entire relationship.
+
+Who must honor it: every platform that ships the report sheet or receipt
+polling, the `stats.rrradio.org` Worker (`worker/src/reports.ts`), and the
+triage automation (issue-close Action, P2 prober/upserter). Defined by
+[#507](https://github.com/MarkusSteinbrecher/rrradio/issues/507); the iOS
+report-sheet UX lives in the companion `rrradio-ios` issue.
+
+## Definition
+
+### Report lifecycle (state machine)
+
+```
+received ──(probe fail | report threshold; P2)──▶ confirmed
+received ─────────────(issue closed / admin)──────▶ resolved
+confirmed ────────────(issue closed / admin)──────▶ resolved
+```
+
+- `resolved` is terminal and carries exactly one `resolution`:
+  `fixed | removed | not-reproducible`.
+- Nothing un-resolves a report. A still-broken station is a *new* report.
+
+### `POST /api/public/report-broken` (extended, backward-compatible)
+
+Request body (JSON, ≤4096 bytes; pre-#507 fields unchanged):
+
+- `stationId` (required), `stationName`, `streamHost`, `platform`,
+  `appVersion`, `reason`, `source` — as before.
+- `category` — one of `no-audio | interruptions | wrong-station | wrong-logo |
+  wrong-info | other`. Absent or unrecognized → stored as `unspecified`, so
+  old clients keep working unchanged.
+- `comment` — optional plain text, ≤500 chars. Control characters (except
+  newline) are stripped on ingest; rendering surfaces escape at the output
+  edge. Never forwarded to analytics.
+
+Response: `202` with `{ "ok": true, "reportId": "<token>" }`. The token is a
+crypto-random UUID minted by the Worker. Clients built before receipts MUST
+tolerate the extra field; clients built after MUST tolerate a missing
+`reportId` (degraded mode — report recorded, no receipt).
+
+### `GET /api/public/report-status?ids=a,b,c`
+
+- `ids`: comma-separated receipt tokens, ≤50 per call; malformed ids are
+  ignored.
+- Response `200`: `{ "reports": [{ "id", "status", "resolution"?,
+  "resolvedAt"? }] }` — `resolution`/`resolvedAt` only when resolved.
+- Unknown ids are **omitted**; the client treats an omitted id as expired and
+  drops the receipt locally.
+
+### `POST /api/admin/resolve-reports` (Bearer `ADMIN_TOKEN`)
+
+Body: `{ "resolution": "fixed|removed|not-reproducible" }` plus at least one
+selector — `reportIds` (≤100), `stationId` (optionally scoped by `category`),
+`githubIssue`. Selectors OR-combine; already-resolved rows are never touched.
+Response: `{ "ok": true, "resolved": <n> }`.
+
+### Triage automation
+
+- One GitHub issue per station (P2 upserts), labeled `broken-station`, body
+  carrying the marker `<!-- rrradio:station-id=<id> -->`.
+- Closing a `broken-station` issue triggers
+  `.github/workflows/resolve-reports.yml`, which calls the admin endpoint.
+  Resolution = `resolved:fixed | resolved:removed | resolved:not-reproducible`
+  label when present, else GitHub's close reason (completed → `fixed`,
+  not planned → `not-reproducible`).
+
+## Detail
+
+| Field | Type | Optional? | Meaning | Default |
+|---|---|---|---|---|
+| `category` | enum (6 values) | yes | user's classification of the breakage | `unspecified` |
+| `comment` | string ≤500 | yes | user-authored free text, plain text only | `''` |
+| `reportId` | UUID string | server-minted | anonymous receipt; sole link between device and report | — |
+| `status` | `received \| confirmed \| resolved` | no | lifecycle state | `received` |
+| `resolution` | `fixed \| removed \| not-reproducible` | only when resolved | what closed it | — |
+| `resolvedAt` | ISO 8601 UTC | only when resolved | resolution timestamp | — |
+| `github_issue` | int (server-side) | yes | linked triage issue | unset |
+| Receipt store (client) | local list of `{ id, stationId, createdAt }` | yes | what the device polls with | empty |
+| Ingest rate limit | 20 reports / IP / UTC day | no | enforced via daily-salted IP hash, purged next day | — |
+
+## Examples
+
+Request (new client):
+
+```json
+{
+  "stationId": "builtin-fm4",
+  "stationName": "FM4",
+  "streamHost": "orffm4shoutcast.sf.apa.at",
+  "platform": "ios",
+  "appVersion": "1.2 (57)",
+  "reason": "stream failed: HTTP 403",
+  "source": "manual",
+  "category": "no-audio",
+  "comment": "Plays a second of audio, then silence."
+}
+```
+
+Response: `{ "ok": true, "reportId": "7f0c2b9e-4a1d-4e7b-9c3a-2d8f5e6a1b0c" }`
+
+Status poll `…/report-status?ids=7f0c2b9e-…,11111111-1111-4111-8111-111111111111`:
+
+```json
+{
+  "reports": [
+    {
+      "id": "7f0c2b9e-4a1d-4e7b-9c3a-2d8f5e6a1b0c",
+      "status": "resolved",
+      "resolution": "fixed",
+      "resolvedAt": "2026-06-14T09:12:33.000Z"
+    }
+  ]
+}
+```
+
+(The second id is unknown → omitted → client expires that receipt.)
+
+## Versioning & evolution
+
+- `category` values are append-only; servers map unknown values to
+  `unspecified`, so clients may ship new categories before the Worker knows
+  them (they degrade to `unspecified`, never error).
+- `status`/`resolution` values are append-only; clients MUST render unknown
+  values as a neutral "in review" state rather than failing.
+- Receipt ids carry no version; treat them as opaque tokens.
+- P2 adds server-side transitions to `confirmed` (stream/favicon prober) and
+  the issue upsert — no client-visible protocol change.
+
+## Failure & fallback
+
+| Condition | Behavior |
+|---|---|
+| POST non-2xx / network failure | Same as today: client surfaces failure once; iOS offers the `mailto:feedback@rrradio.org` fallback. |
+| 429 (rate limited) | Client shows the generic failure path; no retry-storm. |
+| D1 down, analytics up | `202 { ok: true }` without `reportId` — report counted, no receipt. Client skips storing a receipt. |
+| D1 and analytics both down | `502`; client failure path. |
+| Status poll fails / non-200 | Keep receipts, retry next poll window. Never block UI on the poll. |
+| Receipt unknown (omitted from response) | Treat as expired; drop the receipt silently. |
+| Issue closed without station marker or linked rows | Action still calls the endpoint; `resolved: 0` — harmless. |
+
+## Platform obligations
+
+**All platforms**
+
+- Send `category` from an explicit user choice; never auto-classify.
+- The comment field is optional, plainly labeled as going to the maintainer,
+  and capped at 500 chars client-side.
+- Store receipts locally only ([privacy contract](privacy-data-boundaries.md)
+  rows 4 and 15); never attach them to any other request.
+- Poll opportunistically (app foreground / stats-sheet open), not on a timer;
+  batch all outstanding ids into one call.
+- On `resolved`, inform the user once (e.g. badge/toast "Your FM4 report:
+  fixed"), then drop the receipt.
+
+**Web** — same endpoint; receipts in `localStorage`. Currently sends the
+pre-#507 payload (no category sheet yet); that remains valid.
+
+**iOS** — report sheet + receipts + polling specced in the companion
+`rrradio-ios` issue; `Diagnostics.swift`'s `BrokenStationReporter` is the
+integration point.
+
+**Android** — same protocol when the port lands; nothing platform-specific.
+
+## Open questions
+
+1. Retention: when (if ever) are resolved/stale `broken_reports` rows purged?
+   Receipts of deleted rows read as expired, so purging is client-safe — pick
+   a window (e.g. 180d) in P2.
+2. Should `confirmed` be user-visible ("we reproduced it") or collapsed into
+   "in review" until resolution? Spec currently allows either rendering.
+
+## Reference
+
+- Worker: `worker/src/reports.ts`, schema `worker/migrations/0001_broken_reports.sql`,
+  routes wired in `worker/src/index.ts`, tests `worker/src/reports.test.ts`.
+- Automation: `.github/workflows/resolve-reports.yml`.
+- Privacy rows: [privacy-data-boundaries.md](privacy-data-boundaries.md) rows 4, 15.
+- Pipeline definition: [#507](https://github.com/MarkusSteinbrecher/rrradio/issues/507).
+
+## Known deviations
+
+- None yet — no client implements categories/receipts as of this writing.
