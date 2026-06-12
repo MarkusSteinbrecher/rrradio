@@ -38,7 +38,7 @@ jobs:
   web:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
@@ -58,7 +58,7 @@ jobs:
         with:
           path: dist
       # Persist dist for the e2e job so we don't rebuild.
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: dist
           path: dist
@@ -80,7 +80,7 @@ jobs:
       image: mcr.microsoft.com/playwright:v1.59.1-noble
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       # setup-node still pins Node 24 (overriding the image's bundled
       # Node) so `npm ci` keeps working against the npm-11 lockfile.
       - uses: actions/setup-node@v6
@@ -88,7 +88,7 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: dist
           path: dist
@@ -96,7 +96,7 @@ jobs:
       # $PLAYWRIGHT_BROWSERS_PATH (/ms-playwright) for playwright 1.59.1.
       - name: Smoke tests
         run: npm run test:e2e
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: playwright-report
@@ -110,7 +110,7 @@ jobs:
   worker:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
@@ -139,7 +139,7 @@ jobs:
   catalog:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
