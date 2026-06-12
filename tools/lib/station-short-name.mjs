@@ -6,11 +6,13 @@
 // curatable via `shortName:` in stations.yaml); each client decides *when* to
 // show it (only when the full name won't fit its cell).
 //
-// Ported verbatim from the iOS `StationGridLabel` (Shared/Station.swift) so
-// the two never disagree. The one difference: the app runs it over the handful
-// of stations rendered together, whereas the catalog runs it over the whole
-// roster — a station's short name is therefore resolved against every other
-// station that shares its leading brand words.
+// Ported from the iOS `StationGridLabel` (Shared/Station.swift) so the two
+// stay aligned. Two differences: the app runs it over the handful of stations
+// rendered together, whereas the catalog runs it over the whole roster — a
+// station's short name is therefore resolved against every other station that
+// shares its leading brand words. And this side adds the letterless-tail
+// back-off (`Fußball-Bundesliga: Spiel 1` → `FB Spiel 1`, see `label`), which
+// the Swift port should pick up to keep runtime-stripped labels consistent.
 
 /** Punctuation that marks a sub-channel boundary rather than a word. */
 const CONNECTORS = new Set(['-', '–', '—', '|', '•', '·', '∙', '‧', ':', '/', '~']);
@@ -57,6 +59,58 @@ function tokensPrecede(lhs, rhs) {
   return 0;
 }
 
+/** True when any token in the slice carries a letter — a remainder without
+ *  one (`1`, `97.1`) names nothing on its own. */
+function hasLetter(foldedTokens) {
+  return foldedTokens.some((t) => /\p{L}/u.test(t));
+}
+
+/** Initial the brand words stripped from a name — `Fußball-Bundesliga 2:` →
+ *  `FB2`. Hyphenated tokens contribute one letter per part; digit-led parts
+ *  survive whole. Returns '' when the brand boils down to a single part
+ *  (`BBC`, `Radio`) — a one-letter prefix would obscure more than it
+ *  restores, so those families keep their bare tails. */
+function brandAcronym(tokens) {
+  const pieces = [];
+  for (const token of tokens) {
+    if (CONNECTORS.has(fold(token))) continue;
+    const trimmed = token.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, '');
+    for (const part of trimmed.split(/[-–—/]/)) {
+      if (part.length === 0) continue;
+      pieces.push(/^\p{L}/u.test(part) ? part[0].toUpperCase() : part);
+    }
+  }
+  return pieces.length >= 2 ? pieces.join('') : '';
+}
+
+/** The remainder tokens once `sharedLeadingWords` are stripped: drops a
+ *  leading connector left behind when the shared run stopped just before the
+ *  `-` / `|` boundary, and cuts at a restated brand word — Radio-Browser
+ *  imports often repeat the brand inside the suffix (`Radio Gong 96.3 -
+ *  Top 50 Gong Top 50` → `Top 50`). Index 0 is exempt, so a suffix that
+ *  simply opens on a brand word (`Energy Saving Mix`) survives intact. */
+function remainderAt(parsed, sharedLeadingWords) {
+  const brandWords = new Set(
+    parsed.folded.slice(0, sharedLeadingWords).filter((w) => !CONNECTORS.has(w)),
+  );
+  let remainder = parsed.tokens.slice(sharedLeadingWords);
+  let remainderFolded = parsed.folded.slice(sharedLeadingWords);
+
+  while (remainderFolded.length > 0 && CONNECTORS.has(remainderFolded[0])) {
+    remainder = remainder.slice(1);
+    remainderFolded = remainderFolded.slice(1);
+  }
+
+  for (let i = 1; i < remainderFolded.length; i += 1) {
+    if (brandWords.has(remainderFolded[i])) {
+      remainder = remainder.slice(0, i);
+      remainderFolded = remainderFolded.slice(0, i);
+      break;
+    }
+  }
+  return { remainder, remainderFolded };
+}
+
 /** The stripped label for one parsed name given how many leading words it
  *  shares with a neighbour. Returns the full name when nothing should be
  *  stripped (mirrors Swift `label(for:sharedLeadingWords:)`). */
@@ -68,32 +122,29 @@ function label(parsed, sharedLeadingWords) {
     return parsed.full;
   }
 
-  const brandWords = new Set(
-    parsed.folded.slice(0, sharedLeadingWords).filter((w) => !CONNECTORS.has(w)),
-  );
-  let remainder = parsed.tokens.slice(sharedLeadingWords);
-  let remainderFolded = parsed.folded.slice(sharedLeadingWords);
+  const { remainder, remainderFolded } = remainderAt(parsed, sharedLeadingWords);
+  if (remainder.length === 0) return parsed.full;
+  if (hasLetter(remainderFolded)) return remainder.join(' ');
 
-  // Drop a leading connector left behind when the shared run stopped just
-  // before the `-` / `|` boundary.
-  while (remainderFolded.length > 0 && CONNECTORS.has(remainderFolded[0])) {
-    remainder = remainder.slice(1);
-    remainderFolded = remainderFolded.slice(1);
-  }
-
-  // Radio-Browser imports often restate the brand inside the suffix
-  // (`Radio Gong 96.3 - Top 50 Gong Top 50`). Cut at the brand's reoccurrence
-  // so the label reads `Top 50`. Index 0 is exempt, so a suffix that simply
-  // opens on a brand word (`Energy Saving Mix`) survives intact.
-  for (let i = 1; i < remainderFolded.length; i += 1) {
-    if (brandWords.has(remainderFolded[i])) {
-      remainder = remainder.slice(0, i);
-      break;
+  // The tail is letterless (`Fußball-Bundesliga: Spiel 1` → `1`). Back the
+  // cut off to the last letter-bearing shared word and initial the brand
+  // still stripped, so the label reads `FB Spiel 1`. When the brand can't
+  // form an acronym (`BBC Radio 3`), keep the bare tail as before.
+  let cut = sharedLeadingWords - 1;
+  while (cut > 0 && !/\p{L}/u.test(parsed.folded[cut])) cut -= 1;
+  if (cut > 0) {
+    const prefix = brandAcronym(parsed.tokens.slice(0, cut));
+    if (prefix.length > 0) {
+      let tail = remainderAt(parsed, cut).remainder;
+      // The restated-brand cut can strand a connector at the tail's end
+      // (`… Tamworth -`); drop it.
+      while (tail.length > 0 && CONNECTORS.has(fold(tail[tail.length - 1]))) {
+        tail = tail.slice(0, -1);
+      }
+      if (tail.length > 0) return `${prefix} ${tail.join(' ')}`;
     }
   }
-
-  const stripped = remainder.join(' ');
-  return stripped.length === 0 ? parsed.full : stripped;
+  return remainder.join(' ');
 }
 
 /**

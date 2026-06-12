@@ -104,6 +104,33 @@ describe('deriveShortNames', () => {
     expect(shorts(['BBC Radio 3', 'BBC Radio 4'])).toEqual(['3', '4']);
   });
 
+  it('prefixes a brand acronym when the tail would be letterless', () => {
+    expect(shorts([
+      'Fußball-Bundesliga: Spiel 1',
+      'Fußball-Bundesliga: Spiel 2',
+    ])).toEqual(['FB Spiel 1', 'FB Spiel 2']);
+  });
+
+  it('carries a numeric brand qualifier into the acronym', () => {
+    expect(shorts([
+      'Fußball-Bundesliga 2: Spiel 1',
+      'Fußball-Bundesliga 2: Spiel 2',
+      'Fußball-Bundesliga 2: Konferenz',
+    ])).toEqual(['FB2 Spiel 1', 'FB2 Spiel 2', 'Konferenz']);
+  });
+
+  it('builds the acronym from a multi-word brand', () => {
+    expect(shorts([
+      'Antenne Bayern Kanal 1',
+      'Antenne Bayern Kanal 2',
+    ])).toEqual(['AB Kanal 1', 'AB Kanal 2']);
+  });
+
+  it('keeps a bare letterless tail when the brand is a single word', () => {
+    expect(shorts(['Radio Gong 97.1', 'Radio Gong Würzburg']))
+      .toEqual(['97.1', 'Würzburg']);
+  });
+
   it('returns nothing for a single station', () => {
     expect(shorts(['Radio Gong 96.3 - Top 50'])).toEqual([null]);
   });
