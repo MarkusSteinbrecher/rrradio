@@ -33,6 +33,8 @@ confirmed ────────(issue closed / admin)──────▶ re
 
 - `received → confirmed` is driven by the P2 triage cron (see Triage
   automation); `→ resolved` by the issue-close Action or a manual admin call.
+- The P3 fix agent (see Fix automation) turns a confirmed `broken-station`
+  issue into the catalog-fix PR whose merge closes the issue → resolution.
 - `resolved` is terminal and carries exactly one `resolution`:
   `fixed | removed | not-reproducible`.
 - Nothing un-resolves a report. A still-broken station is a *new* report.
@@ -101,6 +103,34 @@ touches `received`). Response: `{ "ok": true, "confirmed": <n>, "linked": <n> }`
   Resolution = `resolved:fixed | resolved:removed | resolved:not-reproducible`
   label when present, else GitHub's close reason (completed → `fixed`,
   not planned → `not-reproducible`). The station id comes from the body marker.
+
+### Fix automation (P3)
+
+- **Fix agent (P3 cron, daily — `.github/workflows/propose-fixes.yml` →
+  `tools/propose-station-fix.mjs`, an hour after the P2 cron):** reads the open
+  `broken-station` issues (the confirmed work queue), parses the station-id
+  marker + category labels, and turns each into a **catalog-fix PR**:
+  - `no-audio` / `interruptions` → re-probe the stream; if dead, find a working
+    **https** replacement (http→https upgrade, then Radio Browser by
+    `stationuuid`, then exact name) and swap `streamUrl` (+ codec/bitrate); if
+    none plays, propose `status: broken` (drops it from the published catalog).
+  - `wrong-logo` → probe the favicon; if 404/error, clear it so the app falls
+    back to a monogram.
+  - `wrong-station` / `wrong-info` → when Radio Browser disagrees on the
+    country, correct it.
+- **Confidence gate:** anything it can't fix confidently — stream recovered,
+  favicon still loads, ambiguous name/tags, free-form `other` — becomes a
+  one-time research comment on the issue (marked `<!-- rrradio:fix-bot -->`)
+  rather than a guessed PR.
+- **Surgical patch:** both `data/stations.yaml` (source) and
+  `public/stations.json` (the artifact deploys serve as-is, audit #65) are
+  edited in place for a minimal diff — no full `npm run catalog` rebuild.
+  `check-catalog` runs before each PR is pushed.
+- **Control point + resolution:** the PR is normal (ready to merge), labeled
+  `broken-station-fix`, its body carries `Closes #<issue>`, and it is deduped
+  one-per-station by the `bot/broken-fix/<id>` branch. A human reviews and
+  merges; merging closes the issue → `resolve-reports.yml` resolves the linked
+  reports. P3 needs no Worker secret — it acts off the GitHub issues, not D1.
 
 ## Detail
 
@@ -219,6 +249,11 @@ integration point.
 - Triage cron (P2): `tools/triage-reports.mjs` (+ `tools/triage-reports.test.mjs`),
   `.github/workflows/triage-reports.yml`; reuses `tools/playable-check.mjs`'s
   `lenientProbe` for the stream probe.
+- Fix agent (P3): `tools/propose-station-fix.mjs` (+ `tools/propose-station-fix.test.mjs`),
+  `.github/workflows/propose-fixes.yml`; surgical-edit helpers
+  `tools/lib/yaml-station-edit.mjs` + `tools/lib/catalog-json-patch.mjs`
+  (each with a `.test.mjs`); reuses `lenientProbe`, `tools/rb-client.mjs`, and
+  `tools/triage-reports.mjs`'s shared probe helpers.
 - Resolution Action: `.github/workflows/resolve-reports.yml`.
 - Privacy rows: [privacy-data-boundaries.md](privacy-data-boundaries.md) rows 4, 15.
 - Pipeline definition: [#507](https://github.com/MarkusSteinbrecher/rrradio/issues/507).
@@ -228,3 +263,12 @@ integration point.
 - No client implements categories/receipts/polling yet, so the user-facing half
   of the loop (the report sheet, the "resolved" notification) is unverified
   end-to-end. Server pipeline (ingest → confirm → issue → resolve) is live.
+- **P3 metadata fixes are narrow:** only a `country` disagreement with Radio
+  Browser is auto-corrected. Name/tags corrections, and re-sourcing a *new*
+  logo (vs. clearing a dead one), are left to a research comment + the
+  `curate-stations`/`curate-logos` skills — they lack a confident automated
+  signal. `wrong-station`/`wrong-info` that manifest as a dead stream are fixed
+  via the stream path.
+- **P3 patches the artifact surgically, not by rebuild:** a `name` change would
+  leave the derived `shortName` in `stations.json` stale until the next
+  catalog-watch rebuild — which is why P3 does not auto-edit `name`.

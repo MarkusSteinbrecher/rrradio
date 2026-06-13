@@ -189,6 +189,18 @@ the issue number. Needs the `STATS_ADMIN_TOKEN` repo secret; the
 issues are written with the workflow's built-in `GITHUB_TOKEN`. The
 full protocol lives in `../docs/spec/contracts/broken-reports.md`.
 
+### Automated fix PRs (P3 cron)
+
+`.github/workflows/propose-fixes.yml` runs daily (07:00 UTC, an hour
+after triage; also `workflow_dispatch` with `dry_run`). It runs
+`tools/propose-station-fix.mjs`, which reads the open `broken-station`
+issues, re-probes each station, and opens a catalog-fix PR — swapping a
+dead stream for a working https replacement (Radio Browser lookup) or
+marking it `broken`, clearing a dead favicon, or correcting the country
+— with `Closes #<issue>` in the body. A human merges (the control
+point), which closes the issue and triggers the resolve Action above.
+It acts off the GitHub issues, not D1, so it needs **no Worker secret**.
+
 ### Resolving reports via issue close
 
 `.github/workflows/resolve-reports.yml` fires when an issue labeled
