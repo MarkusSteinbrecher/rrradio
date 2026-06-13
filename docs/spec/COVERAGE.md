@@ -26,6 +26,7 @@ a doc. See `STYLE.md` for templates and the reconciliation ritual.
 | search | draft | 9336321 | `Search/*`, `Models/RadioBrowserClient.swift`, `Resources/stations.fts5.db` |
 | sync-merge | draft | 9336321 | `CloudSync/*` |
 | privacy-data-boundaries | draft | 9336321 | `RegionResolver.swift`, `DashboardView.swift`, `AddStationView.swift`, `Diagnostics.swift` |
+| broken-reports | draft | — | server-side first (`worker/src/reports.ts`); iOS report sheet pending (companion issue to #507) |
 | watch-protocol | draft | 9336321 | `Shared/WatchRemoteProtocol.swift`, `WatchRemote/*`, `rrradioWatch/*` |
 | localization | draft | 9336321 | `Views/LocaleController.swift`, `Resources/Localizable.xcstrings` |
 

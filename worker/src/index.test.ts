@@ -8,13 +8,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import worker from './index';
 import type { Env } from './index';
+import { FakeD1 } from './test-d1';
 
-const ENV: Env = {
-  GOATCOUNTER_SITE: 'test.goatcounter.com',
-  GOATCOUNTER_TOKEN: 'gc-token',
-  ADMIN_TOKEN: 'admin-token',
-  ALLOWED_ORIGIN: 'https://rrradio.org',
-};
+// Rebuilt per test (beforeEach) so every test gets an empty D1.
+let db: FakeD1;
+let ENV: Env;
 
 interface UpstreamCall {
   url: string;
@@ -73,6 +71,14 @@ async function json<T = Record<string, unknown>>(res: Response): Promise<T> {
 }
 
 beforeEach(() => {
+  db = new FakeD1();
+  ENV = {
+    GOATCOUNTER_SITE: 'test.goatcounter.com',
+    GOATCOUNTER_TOKEN: 'gc-token',
+    ADMIN_TOKEN: 'admin-token',
+    ALLOWED_ORIGIN: 'https://rrradio.org',
+    DB: db.asD1(),
+  };
   // Default: fail any upstream fetch unless the test explicitly stubs.
   stubFetch(async (c) => {
     throw new Error(`Unstubbed upstream fetch: ${c.url}`);
@@ -348,7 +354,12 @@ describe('public endpoints', () => {
     expect(url.searchParams.get('e')).toBe('1');
     expect(url.searchParams.get('t')).toContain('station=fm4');
     expect(url.searchParams.get('t')).toContain('host=example.com');
+    expect(url.searchParams.get('t')).toContain('category=unspecified');
     expect(url.searchParams.get('t')).not.toContain('token=private');
+    // The D1 row is the primary record; its id is the receipt token.
+    const body = await json<{ ok: boolean; reportId: string }>(res);
+    expect(body.ok).toBe(true);
+    expect(db.reports.get(body.reportId)?.station_id).toBe('fm4');
   });
 
   it('POST /api/public/report-broken rejects missing station id', async () => {

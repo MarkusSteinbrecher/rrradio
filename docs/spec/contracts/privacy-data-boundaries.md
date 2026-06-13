@@ -88,7 +88,7 @@ every rule.
 | 1 | `https://rrradio.org/stations.json` | nothing but the GET (+ IP via TCP) | on launch / catalog refresh | No (core function) | Yes | none app-side; OS cache |
 | 2 | `https://stats.rrradio.org/api/public/region` | nothing in body; IP read at the edge for `CF-IPCountry` | first launch + every cold launch past the 24h region cache | No (silent) | Yes (subdomain — see Open Qs) | aggregate/none intended; edge logs at CF |
 | 3 | `https://stats.rrradio.org/api/public/top-stations`, `/totals`, `/locations` | nothing in body (+ IP via TCP); `?days=7`, `?limit=…` | every time the Stats sheet opens | No (silent on open) | Yes (subdomain) | public aggregate; edge logs |
-| 4 | `https://stats.rrradio.org/api/public/report-broken` | `stationId`, `stationName`, `streamHost`, `platform=ios`, `appVersion`, `reason` (≤160 chars of player state), `source=manual` (+ IP) | user taps "Report broken station" | **Yes** (explicit tap) | Yes (subdomain) | broken-station triage |
+| 4 | `https://stats.rrradio.org/api/public/report-broken` | `stationId`, `stationName`, `streamHost`, `platform=ios`, `appVersion`, `reason` (≤160 chars of player state), `source=manual`, `category` (user-chosen breakage class), `comment` (**user-authored text**, ≤500 chars, optional) (+ IP) | user taps "Report broken station" | **Yes** (explicit tap; comment is explicit typed input) | Yes (subdomain) | broken-station triage store (D1, no reporter identity; comments verbatim — see [broken-reports](broken-reports.md)). IP used only for a daily-salted rate-limit hash, purged next day |
 | 5 | `https://stats.rrradio.org/api/public/proxy?url=<stream/metadata URL>` | the station's stream/metadata URL as a query param (+ IP) | metadata poll for stations routed through the CORS/ICY proxy | No (core function) | Yes (subdomain) | none intended; edge logs |
 | 6 | `https://stats.rrradio.org/api/public/bbc/play/<service>` | BBC service id (+ IP) | metadata poll for BBC stations | No (core function) | Yes (subdomain) | none intended |
 | 7 | Broadcaster metadata APIs (e.g. `audioapi.orf.at`, `api.laut.fm`, `www.ffh.de`, `www.radioeins.de`, `www.grrif.ch`) | nothing identifying; the station's own now-playing endpoint (+ IP) | metadata poll while that station plays | No (core function) | No (third party) | none app-side |
@@ -99,8 +99,9 @@ every rule.
 | 12 | Music-service deep links: `music.apple.com/search`, `open.spotify.com/search`, `music.youtube.com/search`, `music.apple.com/.../album/...` | search term or Apple-track URL **opened in the external app/browser** — not a background request | user taps a music-service button on Now Playing | **Yes** (explicit tap) | No (third party) | n/a (handoff) |
 | 13 | `mailto:feedback@rrradio.org` (Add Station catalog submission; broken-station email fallback) | station name + stream URL + the user's own email return address — composed in the OS Mail app, **sent only if the user taps Send** | user submits a catalog request, or emails a broken-station report after the HTTP path fails | **Yes** (explicit send) | Yes (first-party inbox) | maintainer inbox |
 | 14 | iCloud / CloudKit (iOS only) | favorites, station lists, custom stations, preferences — in the **user's own** private database | when iCloud sync is enabled | per-user iCloud (system) | n/a (Apple, user-owned) | until user disables/removes; recents, history, diagnostics, one-shot intents NOT synced |
+| 15 | `https://stats.rrradio.org/api/public/report-status?ids=…` | the device's locally-stored report receipt tokens (random, Worker-minted — see [broken-reports](broken-reports.md)) (+ IP) | app polls while unresolved receipts exist (foreground / stats-sheet open, batched) | follows from row 4's explicit report | Yes (subdomain) | none intended; receipts dropped client-side once resolved/expired |
 
-Rows 2–6 are the **IP-bearing, rrradio-operated** flows that drive the
+Rows 2–6 and 15 are the **IP-bearing, rrradio-operated** flows that drive the
 App Store privacy-label question (see Open questions).
 
 ## Detail
@@ -135,7 +136,8 @@ Region resolution response body (row 2):
 
 `null` country ⇒ state becomes `unknown`, user treated as fail-open available.
 
-Broken-station report body (row 4), exactly as built:
+Broken-station report body (row 4), exactly as built — `category` and
+`comment` only when the report sheet (post-#507 clients) supplies them:
 
 ```json
 {
@@ -145,9 +147,14 @@ Broken-station report body (row 4), exactly as built:
   "platform": "ios",
   "appVersion": "1.0 (42)",
   "reason": "stream failed: HTTP 403",
-  "source": "manual"
+  "source": "manual",
+  "category": "no-audio",
+  "comment": "Plays a second of audio, then silence."
 }
 ```
+
+The Worker answers with `{ "ok": true, "reportId": "<random token>" }`; the
+token is stored locally and polled via row 15.
 
 iTunes cover-art / verify request (row 8) — note artist+title leave the device,
 which is allowed (functional, not analytic):
@@ -184,8 +191,9 @@ Diagnostics export line (always redacted form):
 - **New telemetry events** (web) follow the GoatCounter rule in
   [`../operations.md`](../../operations.md): coarse lifecycle/error events only,
   never per-poll, never query/track content.
-- **Privacy-label drift**: any change to rows 2–6 (the IP-bearing first-party
-  flows) requires re-checking the store privacy disclosures before release.
+- **Privacy-label drift**: any change to rows 2–6 or 15 (the IP-bearing
+  first-party flows) requires re-checking the store privacy disclosures before
+  release.
 
 ## Failure & fallback
 
@@ -214,8 +222,8 @@ Diagnostics export line (always redacted form):
 
 **iOS** (reference)
 
-- Ships **no** analytics SDK; rows 2–6 are the only rrradio-operated calls and
-  MUST point at the first-party domain (no `*.workers.dev`).
+- Ships **no** analytics SDK; rows 2–6 and 15 are the only rrradio-operated
+  calls and MUST point at the first-party domain (no `*.workers.dev`).
 - Diagnostics off by default, capped (100/14d), redacted on export, cleared on
   disable; never auto-uploaded.
 - mailto destinations MUST be a first-party inbox (`feedback@rrradio.org`),
@@ -239,8 +247,9 @@ Diagnostics export line (always redacted form):
 ## Open questions
 
 1. **Productionize vs. disclose `stats.rrradio.org` (RELEASE BLOCKER for the
-   store privacy label).** Rows 2–6 are IP-bearing, fire silently (2, 3, 5, 6)
-   or on explicit tap (4), and qualify as "data linked to the user" under store
+   store privacy label).** Rows 2–6 and 15 are IP-bearing, fire silently
+   (2, 3, 5, 6), on explicit tap (4), or as a consequence of an explicit tap
+   (15), and qualify as "data linked to the user" under store
    privacy definitions. Decide and execute one of: (a) keep `stats.rrradio.org`
    and fully declare the IP/region/stats/report flows in the App Store and Play
    Store privacy labels; (b) gate the silent calls behind first-use consent;

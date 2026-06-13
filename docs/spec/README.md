@@ -54,6 +54,7 @@ mechanics into web or Android without an explicit platform note.
 - [Search](contracts/search.md)
 - [Library sync & merge](contracts/sync-merge.md)
 - [Privacy & data boundaries](contracts/privacy-data-boundaries.md)
+- [Broken-station reports](contracts/broken-reports.md)
 - [Watch remote protocol](contracts/watch-protocol.md)
 - [Localization](contracts/localization.md)
 
