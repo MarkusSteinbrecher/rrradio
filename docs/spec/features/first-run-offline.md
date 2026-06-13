@@ -1,9 +1,9 @@
 # First Run & Offline Specification
 
 ```yaml
-status: draft
+status: review
 platforms: [web, ios, android]
-reconciled-against: 9336321
+reconciled-against: d241aa9
 ```
 
 ## Purpose
@@ -39,8 +39,11 @@ on the worst launch (cold install, airplane mode), not just the best one.
 A full-screen overlay shown over the (already-laid-out) app until the launch
 hand-off completes, top to bottom:
 
-- **App logo** — centered, rounded square, ~96 pt. Decorative (hidden from
-  assistive tech as an element; the group carries the label).
+- **Animated brand mark** — centered, an animated dot-matrix equalizer that
+  spells the `rrr` logo (live-signal motion on a ~4.4 s loop), accent-tinted,
+  ~150 × 99 pt. With Reduce Motion it renders the static fully-formed `rrr`
+  instead of the animation. Decorative (hidden from assistive tech as an
+  element; the group carries the label).
 - **Progress indicator** — indeterminate spinner, accent-tinted.
 - **Status line** — "Tuning…", medium-weight, muted ink.
 - Background uses the resolved theme background; the whole group fades out as
@@ -86,7 +89,7 @@ whatever surface the user was on, with the cached catalog browsable underneath.
 | Launch app (cold, no cache) | First install / cleared cache | Bundled snapshot decodes → catalog `loaded` from bundle; splash held ~1.5 s | Diagnostics `catalog/bundled fallback loaded`; `loadedFromBundle = true`; network refresh attempted |
 | Launch app while offline | No connectivity at launch | Cache or bundled snapshot renders; network step fails; catalog stays `loaded` (or `failed` only if nothing rendered) | Diagnostic `catalog/network failed`; `lastRefreshError` set |
 | Splash hand-off completes | Catalog settled + grace elapsed | Splash crossfades out (0.28 s) revealing the app | `hasCompletedLaunchHandoff = true` |
-| Return to foreground | App becomes active | Foreground refresh fires (catalog `refreshIfStale` + cloud pull), throttled ≥2 s between runs | Diagnostics; catalog refresh skipped if last network refresh < 6 h ago |
+| Return to foreground | App becomes active | Foreground refresh fires (catalog `refreshIfStale` + cloud pull + broken-report receipt sync), throttled ≥2 s between runs | Diagnostics; catalog refresh skipped if last network refresh < 6 h ago; `lastSync` persisted on a successful network refresh |
 | Tap a cached station while offline | Station already in cached catalog | Playback attempt proceeds; a new stream needs network and surfaces a playback error (see [playback](../playback.md)) | — |
 | Connectivity restored | Was offline; a stream had auto-stopped on the drop | If the player armed auto-resume on the drop, the current station reconnects automatically | Auto-resume fires once; offline flags cleared |
 | Connectivity lost mid-stream | Playing | Stream stops; offline phrase shows; player may arm auto-resume-on-restore | `wasOffline = true` |
@@ -100,8 +103,8 @@ whatever surface the user was on, with the cached catalog browsable underneath.
   [catalog-schema load-order ladder](../contracts/catalog-schema.md). This spec
   does not restate decode rules.
 - **Bundled snapshot** is an LZFSE-compressed copy of `stations.json` shipped in
-  the app (~1.4 MB compressed, ~9 MB raw, 17,103 stations at this commit). Used
-  **only** when the disk cache is empty (first install / cold cache).
+  the app (~2.7 MB compressed, ~17.7 MB raw, 24,320 stations at this commit).
+  Used **only** when the disk cache is empty (first install / cold cache).
 - **Network refresh is always attempted** on load, even after cache/bundled
   render. On HTTP 2xx it overwrites cache + in-memory roster; on failure the
   already-rendered roster stays and the catalog remains in a loaded state.
@@ -170,9 +173,10 @@ whatever surface the user was on, with the cached catalog browsable underneath.
 
 ## Accessibility
 
-- **Splash:** the logo/spinner/text are combined into a single accessibility
-  element labeled "Tuning…"; the logo image is individually hidden so assistive
-  tech announces one concise label, not three.
+- **Splash:** the brand mark/spinner/text are combined into a single
+  accessibility element labeled "Tuning…"; the animated brand mark is
+  individually hidden so assistive tech announces one concise label, not three.
+  The animation honors Reduce Motion (static `rrr`, no timeline).
 - **Offline indicator:** the `wifi.slash` glyph is paired with a text phrase
   ("No internet connection" / "Connection required") so the state is not
   color/icon-only; assistive tech reads the phrase.
@@ -187,7 +191,7 @@ whatever surface the user was on, with the cached catalog browsable underneath.
 ## Localization
 
 Strings owned by this surface (source language English; localized to de, es,
-fr):
+fr, it, ru):
 
 | Key | English value | Used by |
 |---|---|---|
@@ -209,7 +213,7 @@ fr):
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
 | Cold launch shows real stations without waiting on network | Runtime/cache dependent | Reference (disk cache → bundled snapshot → network) | Cache-backed load; bundled snapshot is porting work |
-| Bundled catalog snapshot for first-run / cold cache | Not applicable (server-rendered/runtime cache) | Supported (`stations.json.lzfse`, 17,103 stations) | Planned (bundled snapshot porting work) |
+| Bundled catalog snapshot for first-run / cold cache | Not applicable (server-rendered/runtime cache) | Supported (`stations.json.lzfse`, 24,320 stations) | Planned (bundled snapshot porting work) |
 | Persisted disk cache of last network payload | Browser/runtime cache | Supported (Caches dir) | Partial (cache-backed load) |
 | Always-attempt network refresh after first paint, upgrade in place | Supported | Reference | Partial |
 | Branded launch splash with hand-off grace | Not applicable | Supported | Platform-specific |
@@ -240,17 +244,21 @@ fr):
 
 iOS source read for this spec:
 
-- `rrradio/App.swift` — `AppRootView` launch hand-off (`launchHandoff` task,
-  `showsCatalogSplash`, `completeLaunchHandoff` grace selection on
-  `catalog.loadedFromBundle`), `ForegroundRefreshCoordinator` (2 s throttle),
-  scene-phase foreground refresh, `handleNetworkChange` auto-resume-on-restore.
+- `rrradio/App.swift` — `AppRootView` launch hand-off (`.task` running
+  `catalog.loadIfNeeded` then `completeLaunchHandoff`, `showsCatalogSplash`,
+  grace selection on `catalog.loadedFromBundle`), `ForegroundRefreshCoordinator`
+  (2 s throttle), scene-phase foreground refresh (catalog + cloud + broken-report
+  receipts), `handleNetworkChange` auto-resume-on-restore.
 - `rrradio/Models/Catalog.swift` — `load(force:)` ladder (disk cache → bundled
   `stations.json.lzfse` → network), `readCache`, `readBundledFallback`,
   `loadBundledStations`/`decompressLZFSE`, `refreshIfStale` (6 h interval),
-  `lastRefreshError`, `loadedFromBundle`, atomic decode, no-op-refresh skip,
-  search-index validation scheduling.
+  `lastRefreshError`, `loadedFromBundle`, `lastSync` (persisted last successful
+  sync), atomic decode, no-op-refresh skip, search-index validation scheduling.
 - `rrradio/Views/CatalogLoadingSplash.swift` — splash layout, "Tuning…" label,
-  combined accessibility element.
+  combined accessibility element, theme-background fill.
+- `rrradio/Views/DotMatrixLogoView.swift` — the animated dot-matrix `rrr` brand
+  mark on the splash (30 Hz `Canvas`, ~4.4 s seeded loop; static `rrr` under
+  Reduce Motion).
 - `rrradio/NetworkMonitor.swift` — `NetworkSnapshot` (`isOffline`, `shortPhrase`,
   `detailPhrase`), the connectivity `Phrase` set, `NWPathMonitor` wiring.
 - `rrradio/Views/MiniPlayerView.swift`, `rrradio/Views/NowPlayingView.swift` —

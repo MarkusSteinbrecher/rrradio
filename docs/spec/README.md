@@ -103,9 +103,11 @@ Canonical implementation references remain in:
 
 ## Platform Parity Matrix
 
-The iOS column is verified against commit `9336321` (2026-05-31). The web and
-Android columns are carried from the prior spec and the Android parity tracker
-and are re-verified by their own teams.
+The iOS column is verified against commit `d241aa9` (2026-06-12), following the
+exhaustive per-doc reconciliation recorded in [COVERAGE.md](COVERAGE.md). The web
+and Android columns are carried from the prior spec and the Android parity
+tracker and are re-verified by their own teams (web/Android finalization is the
+next phase).
 
 | Area | Web | iOS | Android | Spec |
 |---|---|---|---|---|
@@ -131,6 +133,7 @@ and are re-verified by their own teams.
 | Cross-platform account sync | Not planned | Not planned | Not planned for first Android port | [Data and sync](data-sync.md) |
 | Listening history (personal, opt-in, local) | Planned | Reference | Planned | [Listening history](features/listening-history.md) |
 | Diagnostics | Privacy-preserving telemetry | Local opt-in diagnostics | Local opt-in diagnostics | [Preferences and diagnostics](features/preferences-diagnostics.md) |
+| Broken-station reports | Planned | Supported (sheet + receipts) | Planned | [Broken-station reports](contracts/broken-reports.md) |
 | Siri / Shortcuts / Spotlight | Planned | Supported | Planned | [Siri & Shortcuts](features/siri-shortcuts.md) |
 | First-run / offline launch | Runtime/cache dependent | Reference | Partial | [First run & offline](features/first-run-offline.md) |
 | Watch companion | Not applicable | Supported as iPhone remote | Not applicable | [Watch remote](features/watch-remote.md) |
