@@ -3167,15 +3167,35 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   /* Browse/Discovery results as a responsive card grid. */
   .rows {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 6px;
-    padding: 8px 12px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 10px;
+    padding: 10px 12px;
   }
+  /* iOS-style station card (FavoriteStationTile): round logo top-left,
+     heart top-right, name + tags below, on a bordered bg-2 card. */
   .rows .row {
-    border-top: 0;
-    border-radius: 10px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      'logo .    aside'
+      'info info info';
+    align-content: start;
+    gap: 10px 8px;
+    padding: 12px;
+    min-height: 124px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
   }
-  .rows .row:hover { background: var(--bg-2); }
+  .rows .row > .fav { grid-area: logo; }
+  .rows .row > .row-info { grid-area: info; align-self: start; }
+  .rows .row > .row-right { grid-area: aside; align-self: start; }
+  .rows .row:hover { border-color: var(--line-2); background: var(--bg-3); }
+  /* The card uses an accent border for the playing state, not the
+     list's left edge-bar (which would poke out of the rounded corner). */
+  .rows .row.is-playing { border-color: var(--accent); background: var(--bg-2); }
+  .rows .row.is-playing::before { display: none; }
 
   /* Idle Now Playing — shown until a station is current. */
   body:not(.has-station) .np-body,
