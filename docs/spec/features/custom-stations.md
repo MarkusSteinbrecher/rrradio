@@ -268,19 +268,35 @@ Owned strings on this surface (English reference values):
 |---|---|---|---|
 | Add custom stream | Supported. | Reference. | Supported. |
 | HTTPS-only enforcement | Supported. | Reference. | Supported. |
-| Probe before save | Partial. | Reference. | Supported. |
-| Private/local-network (DNS-rebind/SSRF) guard | Supported where implemented. | Reference. | Supported. |
-| Catalog-duplicate detection | Supported where implemented. | Reference. | Supported. |
-| Library-duplicate detection ("already added") | Supported where implemented. | Reference. | Supported. |
-| Test-stream playback before save | Browser-dependent. | Supported. | Supported. |
-| Auto-favorite on save | Product-preferred behavior. | Supported. | Supported. |
-| Edit existing custom station | Supported. | Supported. | Supported. |
-| Destructive delete confirmation | Supported. | Reference. | Supported. |
+| Probe before save | Not planned. | Reference. | Supported. |
+| Private/local-network (DNS-rebind/SSRF) guard | Not planned. | Reference. | Supported. |
+| Catalog-duplicate detection | Not planned. | Reference. | Supported. |
+| Library-duplicate detection ("already added") | Not planned. | Reference. | Supported. |
+| Test-stream playback before save | Not planned. | Supported. | Supported. |
+| Auto-favorite on save | Not planned. | Supported. | Supported. |
+| Edit existing custom station | Not planned. | Supported. | Supported. |
+| Destructive delete confirmation | Not planned. | Reference. | Supported. |
 | `custom-` id prefix reservation | Supported. | Supported. | Supported. |
-| Submit to catalog (email) | Supported. | Supported via Mail composer. | Supported via mail intent. |
+| Submit to catalog (email) | Not planned. | Supported via Mail composer. | Supported via mail intent. |
 | Local persistence | `localStorage`. | UserDefaults. | DataStore. |
 | Manual file export/import | Supported. | Planned/optional. | Supported through Android library backup. |
 | Cloud/account sync | Not planned. | Optional CloudKit sync. | Not planned for first port. |
+
+**Web platform note.** The web Add Station surface is a minimal name + URL +
+optional homepage/country/tags form (`src/main.ts` `handleAddSubmit`, the
+`#add-form` markup) with no async stream check. It validates synchronously
+(name required, URL must parse as http/https, `http://` rejected for
+mixed-content, homepage/country format) and saves immediately — there is **no**
+reachability/audio-like probe, no SSRF/DNS-rebind guard, no catalog- or
+library-duplicate detection, no test-before-save, no edit flow, no
+"Send to catalog" email, and **no confirmation on delete** (the trash button
+removes the row immediately). Saving does **not** auto-favorite; it stores the
+station in `localStorage` (`rrradio.custom.v1`, inserted at the **top** of the
+list), pushes a recent, and starts playback. The web station object is not
+minted with a `stream-only` status. Custom stations are covered by the web
+favorites/custom backup export/import (`src/backup.ts`). These behaviors are
+the reconciled product intent for native; the web app does not implement them
+today.
 
 ## Android First-Port Requirement
 

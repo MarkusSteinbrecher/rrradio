@@ -57,10 +57,32 @@ a doc. See `STYLE.md` for templates and the reconciliation ritual.
 | playback | review | d241aa9 | links `contracts/playback-state-machine.md` |
 | data-sync | review | d241aa9 | links `contracts/sync-merge.md` + `contracts/privacy-data-boundaries.md` |
 
+## Web reconciliation
+
+The **Web** column of every doc's Platform Matrix was verified against web `main`
+(`dfc848467`, 2026-06-13) — one agent per doc reading the actual `src/`
+implementation. 113 Web matrix cells were corrected; the web app is a focused
+subset of the finalized product intent. Web source of truth per area: catalog
+`src/builtins.ts` `src/stations.ts`; playback `src/player.ts`; metadata
+`src/fetchers.ts` `src/metadata.ts` `src/coverArt.ts` `src/lyrics.ts`; search
+`src/radioBrowser.ts` `src/main.ts`; storage/backup `src/storage.ts`
+`src/backup.ts`; privacy/telemetry `src/telemetry.ts` `src/errors.ts`
+`src/region.ts`; reports `src/reportBroken.ts`; render `src/render-*.ts`
+`src/np-*.ts`.
+
+Surfaces the web app does **not** implement (all now honest in the matrices):
+FTS search index (substring only), cross-platform playback queue (favorites-only
+skip), automatic retry budget/backoff, i18n (English-only, no key registry),
+personal listening history, named station lists, a Settings sheet, custom-station
+probe/dup-check/edit, offline/PWA support, and the broken-report receipt
+lifecycle (fire-and-forget POST only). The reconciliation did **not** edit the
+product-intent body, iOS/Android cells, or stamps — only Web cells + web notes.
+The Android column is unverified pending its own phase.
+
 ## Meta
 
 | Doc | Status | Notes |
 |---|---|---|
-| README | updated | spec map split (features + contracts tiers), maintenance ritual; parity matrix re-verified true-as-of iOS `d241aa9` (2026-06-12) + broken-reports row added |
+| README | updated | spec map split (features + contracts tiers), maintenance ritual; parity matrix iOS column @ `d241aa9` + **Web column @ web `dfc848467`** + broken-reports & localization rows |
 | STYLE | approved | authoring standard |
 | COVERAGE | living | this file |

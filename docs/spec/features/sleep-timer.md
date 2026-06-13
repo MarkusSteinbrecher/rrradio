@@ -211,11 +211,11 @@ Parameter/plural needs:
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
 | Timer cycle | Supported. | Model only (no UI invokes `cycle()`). | Supported. |
-| Preset / free-form durations | 15/30/60/90 presets (web). | Free-form via wheel (sheet) and 24h picker (Settings default); cycle presets unwired. | 30/60/90. |
-| Visible remaining time | Supported where UI exposes it. | Supported (control chip + sheet countdown + lock screen). | Partial. |
+| Preset / free-form durations | 15/30/60 presets (web cycle is `[0, 15, 30, 60]`); no free-form entry. | Free-form via wheel (sheet) and 24h picker (Settings default); cycle presets unwired. | 30/60/90. |
+| Visible remaining time | Partial (moon-control chip shows the *armed* duration as `<n>m`, fixed at arming; no live countdown, no sheet, no lock-screen suffix). | Supported (control chip + sheet countdown + lock screen). | Partial. |
 | Background firing | Browser/OS dependent. | Supported while app/session remains eligible. | Planned through service/alarm design. |
 | Wake interaction | Silent-bed behavior. | Keep-alive aware. | To be designed with Android wake flow. |
-| Persisted default duration | Supported where settings exist. | Supported (synced via iCloud). | Partial. |
+| Persisted default duration | Not planned (no Settings row; the cycle resets to off on each load — there is no stored default). | Supported (synced via iCloud). | Partial. |
 | Pause-not-stop on fire | Supported. | Reference. | Supported. |
 
 ## Android First-Port Requirement

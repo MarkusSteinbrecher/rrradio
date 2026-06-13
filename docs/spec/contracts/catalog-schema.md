@@ -303,15 +303,15 @@ restate them.
 | Obligation | Web | iOS | Android |
 |---|---|---|---|
 | Decode the envelope reading only `stations`; ignore `$schema` and unknown keys | Supported | Supported | Supported |
-| Enforce required (`id`, `name`, `streamUrl`) / optional field rules with the documented defaults | Supported | Supported | Cache-backed catalog load; field-rule parity is porting work |
+| Enforce required (`id`, `name`, `streamUrl`) / optional field rules with the documented defaults | Partial — required-field rejection only, per-station skip (not atomic), drops several optional fields | Supported | Cache-backed catalog load; field-rule parity is porting work |
 | Treat new optional fields as forward-compatible (never fail on unknown shape) | Supported | Supported | Supported |
-| Honor the `status` taxonomy (`working`/`icy-only`/`stream-only`) and its capability mapping | Supported | Supported | Partial |
+| Honor the `status` taxonomy (`working`/`icy-only`/`stream-only`) and its capability mapping | Partial — reads the three values for row capability badges; no `station-capabilities.json` strategy/poll-priority mapping | Supported | Partial |
 | Honor `availableIn` (dim/badge + geo-restricted error mapping) | Supported | Supported | Planned |
-| `featured`-first Browse ordering | Supported | Supported | Partial |
-| Quality meter from `codec`+`bitrate` with the documented 1–4 thresholds | Supported | Supported | Partial |
+| `featured`-first Browse ordering | Not planned — Browse home orders by play-count then catalog order; `featured` is not decoded | Supported | Partial |
+| Quality meter from `codec`+`bitrate` with the documented 1–4 thresholds | Not planned — renders `codec`+`bitrate` as a plain text label (e.g. "MP3 · 192 kbps"); no derived 1–4 meter or quality bucket | Supported | Partial |
 | Load-order ladder: cache → bundled snapshot → network refresh | Browser/runtime cache | Disk cache + bundled `stations.json.lzfse` + network | Cache-backed load; bundled snapshot is porting work |
 | Bundled full-text search index with divergence guard (rule in [search](search.md)) | Runtime | Bundled `stations.fts5.db` + divergence guard | Optional search index deferred |
-| Reserve `custom-` / `rb-` id prefixes against catalog collisions | Supported | Supported | Supported |
+| Reserve `custom-` / `rb-` id prefixes against catalog collisions | Partial — mints `custom-` for user stations; Radio Browser imports keep the bare `stationuuid` (no `rb-` prefix) | Supported | Supported |
 
 The bundled snapshot and FTS index are platform-local accelerations, not part
 of the wire contract — but every platform that ships them MUST keep them

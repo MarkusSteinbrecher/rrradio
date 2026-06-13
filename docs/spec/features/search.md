@@ -197,20 +197,20 @@ This surface owns four strings:
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
 | Free-text search field in Browse | Supported | Reference | Supported |
-| Debounced incremental results | Supported | Reference (180 ms) | Supported |
-| Submit commits immediately (bypass debounce) | Supported | Reference | Supported |
+| Debounced incremental results | Supported (300 ms) | Reference (180 ms) | Supported |
+| Submit commits immediately (bypass debounce) | Not planned (debounce only) | Reference | Supported |
 | Whitespace/punctuation-tolerant matching (`WDR5`↔`WDR 5`) | Supported | Reference | Supported |
-| Searchable surface: name + tags + country + broadcaster + URLs | Supported | Reference | Supported (name/tags/country baseline) |
-| Bundled full-text index path | Supported | Reference (`stations.fts5.db`) | Optional — substring if FTS too slow on device |
-| Graceful substring fallback when index missing/diverged | Required | Reference | Required |
-| Query-active suppresses alphabet/quality/favorite sort | Required | Reference | Required |
+| Searchable surface: name + tags + country + broadcaster + URLs | Partial (name/tags/country only) | Reference | Supported (name/tags/country baseline) |
+| Bundled full-text index path | Not planned (substring filter only) | Reference (`stations.fts5.db`) | Optional — substring if FTS too slow on device |
+| Graceful substring fallback when index missing/diverged | Supported (substring is the only path) | Reference | Required |
+| Query-active suppresses alphabet/quality/favorite sort | Not applicable (no Browse sort control) | Reference | Required |
 | Radio Browser community results appended on load-more | Supported | Reference | Supported with cache-backed loading |
-| Country-filter + ≤2-char-query suppresses RB call | Required | Reference | Required |
-| Stream-quality (low/medium/high) filter gates every search tier | Supported | Reference | Supported |
-| Visible-window paging then RB pagination | Supported | Reference (25 then 50) | Supported |
+| Country-filter + ≤2-char-query suppresses RB call | Not planned (no short-circuit) | Reference | Required |
+| Stream-quality (low/medium/high) filter gates every search tier | Not applicable (no quality filter) | Reference | Supported |
+| Visible-window paging then RB pagination | Supported (100 then 60) | Reference (25 then 50) | Supported |
 | Clear button resets field + query + RB paginator | Supported | Reference | Supported |
-| No-results unavailable view with guidance text | Supported | Reference | Supported |
-| Radio Browser failure surfaces no error/retry | Matches | Reference | Matches |
+| No-results unavailable view with guidance text | Supported (different copy) | Reference | Supported |
+| Radio Browser failure surfaces no error/retry | Partial (initial fetch shows an "Off air" line; load-more silent) | Reference | Matches |
 
 ## Open questions
 

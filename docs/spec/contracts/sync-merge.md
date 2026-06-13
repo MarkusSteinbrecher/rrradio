@@ -360,11 +360,11 @@ and CKError codes only.
 | # | Web | iOS | Android |
 |---|---|---|---|
 | 1 | Local-only; no CloudKit, no account, no automatic cross-device sync. | Implements the full CloudKit sync above. | Local-only; no CloudKit, no account. |
-| 2 | When importing a backup file, merge with the **same algebra**: favorites/custom/list union by id with the imported copy winning on collision; preferences applied as a block. | Honor the cloud merge algebra exactly so two iOS devices converge. (Note: iOS **backup-file restore replaces** rather than unions — see Open questions.) | Same backup-import merge algebra as web. |
+| 2 | Backup covers **favorites + custom stations only** (no station lists, no preferences, no listening history). Import is a **union by id** — but the algebra **diverges from this contract**: the **existing local copy wins on id collision** (incoming is skipped, counted as "already had", never overwriting) and incoming entries are **appended after** existing ones (current order preserved). Decode-shape failures drop only the malformed *imported* entry, never a local one. | Honor the cloud merge algebra exactly so two iOS devices converge. (Note: iOS **backup-file restore replaces** rather than unions — see Open questions.) | Same backup-import merge algebra as web. |
 | 3 | Never require cloud to function. | Degrade to local-only when iCloud is unavailable; no feature blocks on it. | Never require cloud to function. |
 | 4 | Treat recents, diagnostics, and active wake intent as non-syncable; **backup/export files must exclude listening-history records** per [data-sync.md](../data-sync.md). | Recents / diagnostics / active wake intent absent from snapshot (structural). Listening-history **records** sync to iCloud (one shared blob) but are **excluded from the exported backup file**. | Same exclusions; no record-level history sync (local-only). |
 | 5 | Decode failure on import must not wipe surviving local entries — keep local on un-decodable id. | Keep local copy for unresolved ids; never let a single bad blob wipe or stall. | Decode failure on import must not wipe surviving local entries. |
-| 6 | Provide a user-initiated "remove all" only over local/backup data. | Provide "remove all iCloud data" via the `resetAt` tombstone; other devices honor it. | Provide "remove all" over local data. |
+| 6 | No user-initiated "remove all" data command exists today (favorites/custom are removed per-item only; clearing site data is the browser's own control) — Planned. Any future "remove all" would act over local/backup data only. | Provide "remove all iCloud data" via the `resetAt` tombstone; other devices honor it. | Provide "remove all" over local data. |
 
 ## Open questions
 

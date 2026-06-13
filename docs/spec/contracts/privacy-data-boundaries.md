@@ -274,10 +274,10 @@ Diagnostics export line (always redacted form):
 | Region/GeoIP resolution, fail-open, 24h cache | Supported | Reference | Planned |
 | Diagnostics opt-in, capped, redacted on export, cleared on disable | Planned | Reference | Planned |
 | MetricKit crash/hang reports (own-app frames, opt-in) | Not planned | Reference | Not planned |
-| Broken-station report (anonymous POST + receipt polling) | Supported | Reference | Planned |
+| Broken-station report (anonymous POST + receipt polling) | Partial (fire-and-forget POST only; no `category`/`comment`, no receipt polling) | Reference | Planned |
 | Library data local-first; never sent to analytics | Supported | Reference | Planned |
 | CloudKit sync to user's own private DB | Not planned | Reference | Not planned (Apple-only) |
-| mailto destinations → first-party inbox only | Supported | Reference | Planned |
+| mailto destinations → first-party inbox only | Not planned (web has only a feedback `mailto:` → personal Gmail, not a first-party inbox; no catalog/broken-report mailto) | Reference | Planned |
 
 ## Open questions
 

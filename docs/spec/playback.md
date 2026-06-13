@@ -64,7 +64,10 @@ All platforms must handle transient stream failure:
 Platform notes:
 
 - Web must treat `HTMLAudioElement` as unreliable after some failures and
-  rebuild source state.
+  rebuild source state. Today the web recovery is partial: a stall watchdog
+  detects a frozen `currentTime` and rebuilds the source, but there is no
+  capped/backed-off retry on `error` events and no connectivity monitor, so
+  the network-restore auto-reconnect is not yet wired (see Platform Matrix).
 - iOS keeps AVPlayer item rebuilding, audio-session interruption handling,
   output-route-loss pause, and media-services-reset recovery as native reference
   behavior; a connectivity monitor drives the network-restore auto-reconnect.
@@ -100,6 +103,13 @@ station. Live streams disable seek / skip-by-time controls.
 - Previous/next media controls should not jump to unrelated catalog stations
   when the user is in a curated list or station list.
 
+Web platform note: the web app does not yet implement this queue model. Its
+Media Session previous/next handlers always step through the user's favorites
+(circularly, jumping to the first/last favorite when the current station is not
+a favorite), regardless of the list, browse result, or recents the user is
+viewing. The browse/list/recents queues above are product intent for web, not
+shipped behavior (see Platform Matrix).
+
 ## Testing Expectations
 
 - Unit tests cover state transitions, queue selection, retry classification,
@@ -116,13 +126,13 @@ Status words per the [README](README.md) status legend.
 |---|---|---|---|
 | Start / pause / resume / stop | Supported. | Reference. | Supported. |
 | Source rebuild on new station | Supported. | Reference. | Supported. |
-| Automatic retry (≤3, backoff) | Supported. | Reference. | Supported. |
+| Automatic retry (≤3, backoff) | Partial (stall watchdog only). | Reference. | Supported. |
 | Geo-restriction = permanent (no retry) | Supported. | Reference. | Supported. |
-| Network-restore auto-reconnect | Supported. | Reference. | Supported. |
+| Network-restore auto-reconnect | Planned. | Reference. | Supported. |
 | Lock-screen / system now-playing | Partial (browser-dependent). | Reference. | Supported. |
 | Headphone / Bluetooth transport | Partial (browser-dependent). | Reference. | Supported. |
 | Background playback | Partial. | Reference. | Supported. |
-| Active playback queue + circular stepping | Supported. | Reference. | Supported. |
+| Active playback queue + circular stepping | Partial (favorites-only skip). | Reference. | Supported. |
 | In-app car mode | Not applicable. | Supported. | Not planned. |
 | Native vehicle integration | Not applicable. | Partial; CarPlay app implemented, entitlement-gated (issue #51). | Planned (Android Auto is an open decision). |
 | Watch companion remote | Not applicable. | Supported. | Not applicable. |

@@ -212,18 +212,18 @@ fr, it, ru):
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| Cold launch shows real stations without waiting on network | Runtime/cache dependent | Reference (disk cache → bundled snapshot → network) | Cache-backed load; bundled snapshot is porting work |
-| Bundled catalog snapshot for first-run / cold cache | Not applicable (server-rendered/runtime cache) | Supported (`stations.json.lzfse`, 24,320 stations) | Planned (bundled snapshot porting work) |
-| Persisted disk cache of last network payload | Browser/runtime cache | Supported (Caches dir) | Partial (cache-backed load) |
-| Always-attempt network refresh after first paint, upgrade in place | Supported | Reference | Partial |
-| Branded launch splash with hand-off grace | Not applicable | Supported | Platform-specific |
-| Browse cached catalog offline | Supported where cached | Supported | Partial |
-| Local search offline (bundled full-text index) | Runtime index | Reference (`stations.fts5.db` + divergence guard) | Optional index deferred → substring fallback |
+| Cold launch shows real stations without waiting on network | Partial (fetches `stations.json` at boot; only a 3-station seed fallback when offline) | Reference (disk cache → bundled snapshot → network) | Cache-backed load; bundled snapshot is porting work |
+| Bundled catalog snapshot for first-run / cold cache | Not planned (catalog fetched as a static `stations.json`, not embedded) | Supported (`stations.json.lzfse`, 24,320 stations) | Planned (bundled snapshot porting work) |
+| Persisted disk cache of last network payload | Not planned (`stations.json` fetched `no-store`; no payload cache) | Supported (Caches dir) | Partial (cache-backed load) |
+| Always-attempt network refresh after first paint, upgrade in place | Not applicable (single boot fetch; no cache-then-refresh ladder) | Reference | Partial |
+| Branded launch splash with hand-off grace | Not planned (no launch splash; a "Tuning in…" line only covers a Browse fetch) | Supported | Platform-specific |
+| Browse cached catalog offline | Not planned (catalog and Browse feed come from the network) | Supported | Partial |
+| Local search offline (bundled full-text index) | Not planned (search queries Radio Browser online; no offline index) | Reference (`stations.fts5.db` + divergence guard) | Optional index deferred → substring fallback |
 | Community (Radio Browser) search requires network | Supported | Supported | Supported |
-| Play already-buffered/cached station offline | Browser-limited | Supported (no new stream without network) | Partial |
-| Auto-resume current stream on connectivity restore | Browser-limited | Supported | Planned |
-| Inline offline phrase in player chrome (no blocking modal) | Supported where browser allows | Reference | Partial |
-| Refresh-failure surfaced out-of-band (cached catalog stays) | Supported | Supported | Planned |
+| Play already-buffered/cached station offline | Not planned (no offline-playback handling) | Supported (no new stream without network) | Partial |
+| Auto-resume current stream on connectivity restore | Not planned (no connectivity listeners; no resume-on-restore) | Supported | Planned |
+| Inline offline phrase in player chrome (no blocking modal) | Not planned (no connectivity detection or offline phrase) | Reference | Partial |
+| Refresh-failure surfaced out-of-band (cached catalog stays) | Not planned (no catalog refresh-error channel) | Supported | Planned |
 
 ## Open questions
 

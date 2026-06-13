@@ -325,7 +325,7 @@ Parameter/plural needs:
 | Station merge by name+country / stream URL | Planned | Supported | Planned |
 | Race chart (animated, 366-day cap) | Planned | Supported | Planned |
 | Minutes-by-day bars (weekly grouping, peak, tap-select) | Planned | Supported | Planned |
-| CSV export (mail / share) | Supported (export per [data-sync.md](../data-sync.md)) | Supported | Planned |
+| CSV export (mail / share) | Planned (web has no listening history; its JSON backup export of favorites + custom stations per [data-sync.md](../data-sync.md) is a different feature) | Supported | Planned |
 | Closed records synced to user's own iCloud (bounded, union-merge) | n/a | Supported | n/a |
 | Open sessions never synced; records excluded from backup-export | n/a | Supported | n/a |
 | History preferences synced (3 fields) | Not planned | Supported | Not planned |

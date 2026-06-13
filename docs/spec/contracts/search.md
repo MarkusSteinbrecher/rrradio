@@ -343,17 +343,17 @@ prefix, country/codec uppercasing, `schemaVersion` ride-along — owned by
 | Obligation | Web | iOS | Android |
 |---|---|---|---|
 | Normalizer (A) char set: lowercase + letters + digits + `ä ö ü ß`, drop the rest | Reference (`src/format.ts`) | Match | Match |
-| Tier order: local FTS/substring → FTS-miss net → custom+RB local → RB community | Must match result order | Reference | Must match |
-| Dedupe whole pipeline by station `id`, first-occurrence wins | Required | Required | Required |
+| Tier order: local FTS/substring → FTS-miss net → custom+RB local → RB community | Partial — no FTS; substring scan over built-ins + custom ("My stations"), then RB community appended | Reference | Must match |
+| Dedupe whole pipeline by station `id`, first-occurrence wins | Partial — dedupes RB pages by normalized stream URL + hides curated-collision rows; no whole-pipeline `id` dedupe | Required | Required |
 | Query-active suppresses alphabet/quality/favorite sort (relevance order kept) | Required | Reference | Required |
-| Country-filter + ≤2-char-query → skip RB network call | Required | Reference | Required |
+| Country-filter + ≤2-char-query → skip RB network call | Planned — gate not implemented; a ≤2-char query with a country filter still fires the RB call | Reference | Required |
 | RB request params (`order=votes`, `reverse=true`, `hidebroken=true`, loose-split `name`) | Required | Reference | Required |
 | RB HTTPS-only; coerce `http_resolved`/`url` scheme for the dedupe key | Required | Reference | Required |
 | RB dedupe by normalized stream URL; winner = `logo*1000+tags*100+clickcount` | Required | Reference | Required |
 | Map RB row → `Station` per the field table (`rb-` id, MP3 uppercased, `≤0 → nil`) | Required | Reference | Required |
-| Bundled/full-text index | Supported | Reference (`stations.fts5.db`) | Optional — may use in-memory substring if FTS too slow on device (browse.md) |
-| Graceful fallback when index missing/diverged | Required | Reference | Required |
-| FTS column weights name>tags>country>surface and name-tier→bm25→id ranking | If FTS used | Reference | If FTS used |
+| Bundled/full-text index | Not planned — web has no bundled index; local match is an in-memory substring scan over built-ins + custom | Reference (`stations.fts5.db`) | Optional — may use in-memory substring if FTS too slow on device (browse.md) |
+| Graceful fallback when index missing/diverged | Not applicable — no index to fall back from | Reference | Required |
+| FTS column weights name>tags>country>surface and name-tier→bm25→id ranking | Not applicable — FTS never used | Reference | If FTS used |
 
 ## Open questions
 

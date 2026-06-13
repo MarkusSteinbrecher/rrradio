@@ -296,35 +296,35 @@ English (deviation ST4–ST6). Full rules and the registry in
 
 | Preference | Web | iOS | Android |
 |---|---|---|---|
-| Theme | Supported. | Reference. | Supported for system/light/dark in a native Preferences sheet. |
-| Accent color | Supported/partial by web theme design. | Supported. | Partial; native preset accent palette exists, custom color entry remains deferred. |
-| Language | Browser/content dependent. | Supported. | Planned after localization scope. |
-| Landing page | Not a primary web contract. | Supported. | Supported for Lists, Browse, and Favorites startup targets. |
+| Theme | Partial; a light/dark toggle (persisted, OS preference as the unset default), no three-way System/Light/Dark control. | Reference. | Supported for system/light/dark in a native Preferences sheet. |
+| Accent color | Not planned; the web palette accent is a fixed design-system value, not a user preference. | Supported. | Partial; native preset accent palette exists, custom color entry remains deferred. |
+| Language | Not planned; the web UI ships English-only with no language switcher. | Supported. | Planned after localization scope. |
+| Landing page | Not planned; the web app has no landing-target preference. | Supported. | Supported for Lists, Browse, and Favorites startup targets. |
 | Favorites display modes | Partial. | Reference. | Partial; modes exist, preference persistence/order controls remain. |
-| Sleep default | Supported where exposed. | Supported. | Supported for the first sleep-timer tap. |
-| Wake default/notifications | Supported where exposed. | Supported. | Planned with wake feature. |
-| Music-service deep-link toggles | Partial; web shows service links per design. | Supported (per-service offered/hidden). | Partial; deep-link set TBD. |
+| Sleep default | Not planned; the web sleep timer cycles fixed durations with no default preference. | Supported. | Supported for the first sleep-timer tap. |
+| Wake default/notifications | Partial; web remembers the last-used wake time but exposes no default-time or notification preference. | Supported. | Planned with wake feature. |
+| Music-service deep-link toggles | Partial; web always shows Spotify/Apple Music/YouTube Music search links on verified tracks, with no per-service toggle. | Supported (per-service offered/hidden). | Partial; deep-link set TBD. |
 | AI station blurbs | Not planned. | Supported on iOS 26+. | Not planned for first port. |
-| Catalog manual refresh | Supported (reload). | Supported. | Supported. |
+| Catalog manual refresh | Not planned; the web catalog loads from `stations.json` on launch with no manual-refresh control. | Supported. | Supported. |
 
 ### Listening History
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| Station history | Not part of current web contract beyond recents. | Supported as opt-in listening history. | Supported as local opt-in history. |
+| Station history | Not planned; web keeps only a recents list, not an opt-in listening-history surface. | Supported as opt-in listening history. | Supported as local opt-in history. |
 | Track-level history | Not planned for current web. | Supported only when user selects it. | Gated behind explicit opt-in; metadata-recording expansion remains future polish. |
-| Retention controls | Supported where exposed. | Supported (30d/90d/1y/Forever; default 90d). | Partial; bounded default, controls TBD. |
+| Retention controls | Not planned; web has no listening-history store to retain or prune. | Supported (30d/90d/1y/Forever; default 90d). | Partial; bounded default, controls TBD. |
 | Sync | Not planned. | Supported (closed sessions union across devices via iCloud). | Not planned. |
 
 ### Diagnostics
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| Anonymous aggregate telemetry | Supported through GoatCounter. | Not the native support surface. | Not planned for first port. |
-| Local diagnostics | Not primary web contract. | Supported, opt-in, capped, exportable, with full-log viewer. | Supported, opt-in, capped, exportable. |
+| Anonymous aggregate telemetry | Supported through GoatCounter (events + privacy-preserving `error: <category>` reports). | Not the native support surface. | Not planned for first port. |
+| Local diagnostics | Not planned; web has no on-device opt-in diagnostics store or viewer. | Supported, opt-in, capped, exportable, with full-log viewer. | Supported, opt-in, capped, exportable. |
 | MetricKit crash/hang reports | Not applicable. | Supported (capped, call stack exported verbatim). | Not planned for first port. |
-| Redacted export / clear-on-disable | Supported where exposed. | Supported (preview also redacted). | Supported. |
-| Broken-station report | Supported. | Supported where implemented. | Supported through the shared anonymous report endpoint. |
+| Redacted export / clear-on-disable | Not applicable; web has no local diagnostics store to export or clear (telemetry is fire-and-forget). | Supported (preview also redacted). | Supported. |
+| Broken-station report | Supported (manual report POSTed to the shared anonymous endpoint). | Supported where implemented. | Supported through the shared anonymous report endpoint. |
 
 ### Cloud sync & car mode
 
@@ -332,8 +332,8 @@ English (deviation ST4–ST6). Full rules and the registry in
 |---|---|---|---|
 | iCloud/CloudKit library+preferences sync | Not planned. | Supported (own private DB). | Not applicable. |
 | Sync status / Sync now / Remove all | Not applicable. | Supported. | Not applicable. |
-| Local settings backup file (export/import) | Not planned. | Supported (JSON; works with sync off; excludes history). | Not planned. |
-| Car mode preferences | Browser/OS dependent. | Supported (tri-state: auto route detect / always / off). | Partial media controls; Android Auto TBD. |
+| Local settings backup file (export/import) | Partial; web exports/imports a JSON backup of favorites and custom stations only (no preferences, no history; import merges, never wipes). | Supported (JSON; works with sync off; excludes history). | Not planned. |
+| Car mode preferences | Not planned; web has no car-mode preference (CarPlay/Bluetooth control is media-session passthrough, not a setting). | Supported (tri-state: auto route detect / always / off). | Partial media controls; Android Auto TBD. |
 
 ## Open questions
 

@@ -235,12 +235,12 @@ formatting; "now"/"soon" are special-cased).
 |---|---|---|---|
 | In-app timer | Supported while tab/session remains alive. | Supported while app remains alive. | Planned while process/service remains alive. |
 | Keep audio alive | Silent-bed audio workaround. | Near-silent local audio keep-alive (default on). | TBD, likely foreground service if allowed. |
-| Local notification fallback | Browser support dependent. | Supported (one-shot, fixed identifier). | Planned. |
-| Notification-tap → playback | Browser support dependent. | Supported (queued, consumed on next active pass — see W1). | Planned. |
-| Pre-armed default time / prefs | Browser-local. | Supported (default time, notify, keep-alive). | Planned. |
-| Program-schedule preset arming | Where schedules exist. | Supported. | Planned. |
+| Local notification fallback | Partial (best-effort `Notification` fired at wake time only when the page is alive and permission granted; no scheduled/background fallback). | Supported (one-shot, fixed identifier). | Planned. |
+| Notification-tap → playback | Not planned (no notification-tap path; audio starts directly from the in-page timer). | Supported (queued, consumed on next active pass — see W1). | Planned. |
+| Pre-armed default time / prefs | Partial (last-used wake time persists in localStorage; no notify or keep-alive preference rows). | Supported (default time, notify, keep-alive). | Planned. |
+| Program-schedule preset arming | Not planned (no schedule → wake preset path on web). | Supported. | Planned. |
 | DST-safe next-fire resolution | Required. | Supported. | Required. |
-| Pause-while-armed warning | TBD. | Supported (once per alarm, keep-alive off). | TBD. |
+| Pause-while-armed warning | Not applicable (web swaps to the silent bed on pause, so the keep-alive footgun the warning guards against does not exist). | Supported (once per alarm, keep-alive off). | TBD. |
 | Lock-screen wake Live Activity | Not applicable. | Supported (glanceable; independent of playback). | TBD. |
 | Shortcuts/automation | Not applicable. | Supported (Set Wake Alarm arms; Play Station / Play Last Station play). | Not applicable. |
 | Exact alarm | Not available. | Not available to third-party app in this sense. | Open decision; may require permission. |
@@ -250,9 +250,17 @@ formatting; "now"/"soon" are special-cased).
 ## Web
 
 The web wake flow is browser-limited. It can work while the page and audio session
-remain eligible, but it must not promise alarm-clock reliability. A silent-bed
-audio workaround and the Media Session / Notifications APIs (where supported) are
-the closest analogs to the iOS keep-alive and notification fallback.
+remain eligible, but it must not promise alarm-clock reliability. The in-page
+scheduler (a clamped `setTimeout`, a 30s heartbeat, a `visibilitychange` re-check,
+and a best-effort screen Wake Lock) only runs while the tab is open; closing the
+page ends the alarm. A silent-bed audio workaround (always on while armed, not a
+user preference) stands in for the iOS keep-alive — it loops a near-silent AAC clip
+so the audio session stays active across the fire-time station swap. The Media
+Session API supplies the lock-screen "Wake to …" title. The notification is fired
+best-effort at wake time (only when the page is alive and `Notification` permission
+is granted), not scheduled to fire while the tab is suspended; there is no
+notification-tap-to-play path, no program-schedule preset arming, and no
+preference cloud sync on web. Only the last-used wake time persists in localStorage.
 
 ## iOS
 
