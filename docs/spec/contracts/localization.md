@@ -278,9 +278,14 @@ key name) is a visible defect, not a crash.
 
 **Web**
 
-- Honor the same registry and fallback; language is browser/content dependent
-  (see [Preferences and diagnostics](../features/preferences-diagnostics.md)).
-- `system` maps to the browser UI language; no cloud sync of the choice.
+- The web app ships no localization layer today: there is no key registry, no
+  language choice, and no plural engine. Every user-visible string is a
+  hardcoded English literal, so the registry/fallback/plural obligations above
+  are **not implemented** on web (see the matrix).
+- Language is effectively English-only. There is no `system`/language preference
+  and no cloud sync of a choice; the only locale-aware behavior is incidental
+  browser formatting (`Intl.DisplayNames` for country names, `toLocaleTimeString`
+  for schedule times), which follows the browser locale, not an in-app choice.
 
 **Android**
 
@@ -292,14 +297,14 @@ key name) is a visible defect, not a crash.
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| Shared key registry | Supported | Reference | Planned |
-| Supported language set (en/de/fr/es/it/ru) | Supported | Reference | Planned |
-| Full-cardinality enforcement | Supported | Supported (test-gated) | Planned |
-| `en` fallback on missing key | Supported | Supported | Planned |
-| CLDR plural (`one`/`few`/`many`/`other`) | Supported | Supported | Planned |
-| `{placeholder}` substitution | Supported | Supported | Planned |
-| `system` follows OS language | Supported | Supported | Planned |
-| Time format follows device 24-Hour setting | Supported | Supported | Planned |
+| Shared key registry | Not planned | Reference | Planned |
+| Supported language set (en/de/fr/es/it/ru) | Not planned (English-only) | Reference | Planned |
+| Full-cardinality enforcement | Not planned | Supported (test-gated) | Planned |
+| `en` fallback on missing key | Not planned | Supported | Planned |
+| CLDR plural (`one`/`few`/`many`/`other`) | Not planned | Supported | Planned |
+| `{placeholder}` substitution | Not planned | Supported | Planned |
+| `system` follows OS language | Not planned | Supported | Planned |
+| Time format follows device 24-Hour setting | Partial (browser-locale, no in-app choice) | Supported | Planned |
 | Language choice cloud sync | Not planned | Supported | Not planned |
 
 ## Open questions

@@ -317,16 +317,16 @@ wake entry (sleep/wake also reachable while armed even with no current station).
 | Mini-player handoff | Supported. | Supported. | Supported. |
 | Mini-player swipe-to-close | Platform-specific (no equivalent gesture). | Supported. | Planned. |
 | Track metadata | Supported. | Reference. | Partial; basic ICY metadata exists. |
-| Cover art fallback | Supported. | Reference. | Partial; station artwork fallback exists, track cover art is deferred. |
-| Previous/next station controls | Supported. | Reference. | Supported for active playback queues. |
+| Cover art fallback | Partial; no-cover falls back to station favicon then initials, not the animated dot-matrix `rrr`. | Reference. | Partial; station artwork fallback exists, track cover art is deferred. |
+| Previous/next station controls | Partial; no in-view prev/next buttons. Mini-player skip + lock-screen/Bluetooth controls cycle the favorites list (no station-list queue). | Reference. | Supported for active playback queues. |
 | Program schedule | Supported for wired broadcasters. | Supported for wired broadcasters. | Planned. |
 | Lyrics | Supported where lookup matches. | Planned/partial native parity. | Planned. |
 | Music-service search links | Supported. | Planned/partial native parity. | Planned. |
 | Music-service verification gate | Supported. | Supported. | Planned. |
 | Sleep-timer / wake-alarm entry | Supported (browser-limited wake). | Reference. | Partial. |
-| Landscape / split layout | Supported via responsive layout. | Supported (iPad split + iPhone landscape). | Planned. |
+| Landscape / split layout | Planned; single-column responsive panel only, no multi-column split. | Supported (iPad split + iPhone landscape). | Planned. |
 | Car mode | Not a dedicated web feature. | Supported. | Android Auto/TBD; media notification first. |
-| Report broken station | Supported. | Supported. | Planned. |
+| Report broken station | Partial; one-tap report POST from the details panel, no category picker / comment / receipt lifecycle. | Supported. | Planned. |
 
 ## Native Port Notes
 

@@ -215,25 +215,28 @@ stream-quality message. See [localization](../contracts/localization.md).
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| Add/remove favorites | Supported. | Supported. | Supported. |
+| Add/remove favorites | Supported; adds at top (see web note). | Supported. | Supported. |
 | Reorder favorites | Supported. | Reference native behavior. | Partial; basic controls exist, native drag/reorder remains. |
 | Favorites list view | Supported. | Supported. | Supported. |
-| Favorites tile/app views | Partial/current web behavior may differ. | Reference. | Supported; visible/order settings still need parity. |
-| Display-mode order/visibility preferences | Partial. | Reference (Settings → Favorites display). | Partial; order/visibility parity remains. |
-| Drag-to-reorder + delete mode (jiggle/badges) | Supported. | Reference. | Partial. |
-| Custom station forced-favorite + delete-on-unfavorite | Supported. | Reference. | Supported. |
-| Favorites as playback queue (circular skip) | Supported. | Reference. | Partial. |
-| Per-row now-playing metadata (list/tiles) | Supported. | Reference. | Partial. |
-| Recents | Supported, capped. | Supported, capped (12). | Supported, capped. |
-| Recents auto-fill on play (catalog-only) | Supported. | Supported. | Supported. |
+| Favorites tile/app views | Not planned for current web (list mode only). | Reference. | Supported; visible/order settings still need parity. |
+| Display-mode order/visibility preferences | Not planned for current web (no display modes). | Reference (Settings → Favorites display). | Partial; order/visibility parity remains. |
+| Drag-to-reorder + delete mode (jiggle/badges) | Partial; drag-to-reorder only — no delete mode, jiggle, minus badges, or undo toast (removal is the row heart). | Reference. | Partial. |
+| Custom station forced-favorite + delete-on-unfavorite | Not planned for current web; custom stations are an independent list, not auto-favorited, and un-favoriting never deletes a custom station. | Reference. | Supported. |
+| Favorites as playback queue (circular skip) | Supported (media-session prev/next steps the favorites list circularly). | Reference. | Partial. |
+| Per-row now-playing metadata (list/tiles) | Not planned for current web; now-playing metadata shows only for the active station (mini-player / Now Playing), not per favorite row. | Reference. | Partial. |
+| Recents | Supported, capped (12). | Supported, capped (12). | Supported, capped. |
+| Recents auto-fill on play (catalog-only) | Partial; records a recent on every play but does **not** exclude custom stations. | Supported. | Supported. |
 | iCloud sync | Not planned. | Supported for favorites and order. | Not applicable. |
 | Manual file export/import | Supported. | Planned/optional. | Supported through Android library backup. |
 | Cross-platform sync | Not planned. | Not planned outside CloudKit. | Not planned for first port. |
 
 ## Persistence
 
-- Web persists favorites and recents in browser storage; favorites can be
-  exported/imported through the manual backup file.
+- Web persists favorites and recents in browser `localStorage`; favorites can be
+  exported/imported through the manual backup file. Web diverges from the iOS
+  add-at-tail intent: a newly favorited station is prepended (added at the **top**)
+  of the favorites list. Web recents cap at **12** and dedupe purely by station id
+  (no time window) — pushing an already-present station moves it back to the top.
 - iOS persists favorites, recents, custom stations, and station lists locally
   (per-store keys) and syncs favorites + favorites-order + custom + lists through
   CloudKit; recents stay local-only.
@@ -248,12 +251,15 @@ stream-quality message. See [localization](../contracts/localization.md).
 
 ## Open questions
 
-- Recents cap and dedupe diverge by platform: iOS caps at 12 and dedupes purely by id
-  (no time window). The shared product intent (a larger cap, e.g. 30, and/or a 60 s
-  same-station dedupe window) is not yet reconciled into a single number across web /
-  iOS / Android.
-- Web's tile/app display modes and order/visibility settings have no agreed parity
-  target with the iOS Reference behavior.
+- Recents cap and dedupe diverge by platform: both iOS and web cap at 12 and dedupe
+  purely by id (no time window). The shared product intent (a larger cap, e.g. 30,
+  and/or a 60 s same-station dedupe window) is not yet reconciled into a single number
+  across web / iOS / Android.
+- Web ships only the list display mode and has no agreed parity target for the iOS
+  Reference tile/app modes, the display-mode order/visibility settings, the
+  delete-mode (jiggle/badge/undo) editing affordance, or the custom-station
+  forced-favorite linkage. Web favorites also add at the top rather than the iOS tail;
+  whether that becomes the shared intent is unreconciled.
 
 ## Reference
 

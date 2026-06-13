@@ -271,9 +271,12 @@ Status poll `…/report-status?ids=7f0c2b9e-…,11111111-1111-4111-8111-11111111
   outcome — "fixed" / "removed" / "couldn't reproduce it"), mark it seen, then
   let the receipt self-prune.
 
-**Web** — same endpoint; receipts in `localStorage`. Currently sends the
-pre-#507 payload (no category sheet, no comment) and ignores `reportId`; that
-remains valid (degraded mode — report counted, no follow-up).
+**Web** — same endpoint. Currently sends the pre-#507 payload (no category
+sheet, no comment) from a single "Broken station" button in the now-playing
+details, and ignores the response body (`reportId` is never read); no receipt
+is stored, so there is no status line, polling, resolved toast, or email
+fallback. That remains valid (degraded mode — report counted, no follow-up).
+If web later adopts the receipt loop, receipts live in `localStorage`.
 
 **iOS** — ships the full flow per the *Client report flow* section: the
 now-playing report sheet (six-category single-select + optional/`other`-required

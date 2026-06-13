@@ -161,10 +161,12 @@ Cover resolution is **ordered**; the first non-nil wins:
    (`term` = `artist` + space + `title`, truncated to 100 chars);
    best match's `artworkUrl100` upgraded to `600x600bb`. Requires title ≥ 3
    chars and not `-`/`—`. Result cached (64-entry LRU).
-4. **MusicBrainz / Cover Art Archive** — *not implemented on iOS* (web-only step
-   in the shared chain; see *Platform obligations*).
-5. **Spotify** — *not implemented on iOS as a cover source*; iOS only links out
-   to Spotify search (see music-service links below).
+4. **MusicBrainz / Cover Art Archive** — *not implemented on iOS, and not
+   implemented on web either* (a forward-looking enrichment step in the shared
+   chain that no shipped platform currently runs; see *Platform obligations* and
+   *Open questions*).
+5. **Spotify** — *not implemented as a cover source on any platform*; both web
+   and iOS only link out to Spotify search (see music-service links below).
 
 ### iTunes Search dual role
 
@@ -290,12 +292,12 @@ iTunes high-res upgrade:
 | Same routing order (ORF → FM4 rewrite → keyed → ICY) | MUST | MUST | MUST |
 | Same per-source field mapping & null-vs-error | MUST | MUST | Partial (Grrif + ORF/FM4 native; rest planned) |
 | Generic ICY `StreamTitle` via `icy-metaint` | MUST (where CORS/proxy allows) | MUST | Partial (basic parser exists) |
-| HLS ID3 timed-metadata scrape | SHOULD | MUST | Planned |
-| Cover chain: provider → favicon → iTunes (+ MusicBrainz/Spotify) | MUST (full chain incl. MusicBrainz) | provider → favicon → iTunes only | Partial (provider + iTunes) |
+| HLS ID3 timed-metadata scrape | Planned (not implemented) | MUST | Planned |
+| Cover chain: provider → favicon → iTunes (+ MusicBrainz/Spotify) | Partial (provider/iTunes → favicon; no MusicBrainz, no Spotify cover) | provider → favicon → iTunes only | Partial (provider + iTunes) |
 | Program schedule (ORF/FM4) | MUST | MUST | Partial (ORF current-program; full grids planned) |
 | Lyrics: LRCLIB → Lyrics.ovh | MUST | MUST | Planned |
 | Coarse-only failure diagnostics (no title/artist/URL) | MUST | MUST | MUST |
-| Honor `metadataStrategy: none` / `backgroundPollPriority: never` (no stream open) | MUST | Planned (fields not yet in catalog/iOS) | MUST |
+| Honor `metadataStrategy: none` / `backgroundPollPriority: never` (no stream open) | Planned (fields not yet in catalog/web) | Planned (fields not yet in catalog/iOS) | MUST |
 
 The capability hint layer (`metadataStrategy`, `backgroundPollPriority`,
 `hasProgram`/`hasSchedule`/`hasProviderCover`) defined in
@@ -310,8 +312,10 @@ cadence regardless of strategy/priority hints.
 ## Open questions
 
 - **MusicBrainz / Cover Art Archive step**: the shared cover chain names it, but
-  iOS does not implement it. Is it a required platform obligation or a web-only
-  enhancement? (Marked web-only above pending decision.)
+  no shipped platform implements it — not iOS and not web (web's cover chain is
+  provider/iTunes cover → station favicon, with no MusicBrainz lookup). Is it a
+  required platform obligation or a future enhancement? (Marked as implemented
+  nowhere above, pending decision.)
 - **Schedule capability source of truth**: routing still hardcodes ORF/FM4. The
   catalog `hasScheduleData` field exists (iOS prep landed) but the catalog has
   not yet populated it; once published, routing should consult it instead of the

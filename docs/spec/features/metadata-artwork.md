@@ -268,7 +268,7 @@ deviations* M12). These are localization gaps, not intended behavior.
 | Lyrics lookup | Supported. | Planned/partial native parity. | Planned. |
 | Music-service links (verified-gated) | Supported. | Supported (Apple Music deep link, Spotify/YT Music search). | Planned. |
 | Lock-screen / media-surface cover (downscaled) | Supported where browser allows. | Supported (≤512 px / ≤5 MB cap; sleep-timer moon badge). | Partial. |
-| Last-good retention on poll miss/fail | Supported. | Supported. | Partial. |
+| Last-good retention on poll miss/fail | Partial; a fetch error stops the poller without clobbering the displayed track, but a `null` "no-metadata" poll clears the track title. | Supported. | Partial. |
 
 ## Privacy Rules
 
@@ -285,8 +285,10 @@ before marking the station as fully parity-supported on native platforms.
 
 ## Open questions
 
-- **MusicBrainz / Cover Art Archive step** in the shared cover chain is web-only;
-  iOS does not implement it. Required obligation or web enhancement? (Tracked in
+- **MusicBrainz / Cover Art Archive step** in the shared cover chain is not
+  implemented on any platform today — the shipped web cover chain is iTunes-only
+  (`src/coverArt.ts`), and iOS does not implement it either. Required obligation or
+  a future enhancement? (Tracked in
   [metadata-fetchers](../contracts/metadata-fetchers.md#open-questions).)
 - **Schedule capability source of truth:** schedule is still ORF/FM4-hardcoded;
   the `hasScheduleData` catalog field is the forward path once populated.

@@ -346,15 +346,34 @@ reactivate session, resume; state → playing
 
 ### Web
 
-- Expose the five states (or an equivalent enum) and the listed transitions.
-- Treat `HTMLAudioElement` as unreliable after failure: **rebuild the source**,
-  do not only re-call play (per [Playback](../playback.md) Recovery).
-- Apply the same retry budget (≤3) and avoid tight retry loops.
-- Use the Media Session API where supported to publish the now-playing fields and
-  to wire play/pause/previous/next; previous/next only when the queue is steppable.
-- Honor the queue model (browse/favorites/recents/stationList/single), circular
-  stepping, and the "no jump to unrelated stations" rule.
-- Geo-restricted streams: surface the friendly message, do not retry.
+- Exposes the five states (`idle`/`loading`/`playing`/`paused`/`error`) as a
+  flat enum. It honors the user-driven transitions (play/pause/toggle/stop) and
+  the play-rebuild rule, but does **not** implement the system-event transitions
+  (audio interruption, output-route lost, media-services reset) or the
+  network-restored auto-reconnect predicate — those are iOS/native concerns.
+- Treats `HTMLAudioElement` as unreliable after failure: **rebuilds the source**,
+  does not only re-call play (per [Playback](../playback.md) Recovery). Every
+  `play()` tears down and rebuilds; live streams are never resumed in place.
+- **Planned: the automatic retry budget/backoff is not yet implemented.** Web
+  recovery today is (a) a stall **watchdog** — if `currentTime` stops advancing
+  for ~8s it forces one fresh rebuild — and (b) surfacing the `<audio>` `error`
+  event as `error(message)`. There is no attempt counter, no `min(30, 2^…)`
+  backoff curve, and no healthy-reset timer. The ≤3-budget exponential-backoff
+  reconnect is deferred (see the `Phase 4` note in `src/player.ts`).
+- Uses the Media Session API where supported to wire play/pause/previous/next and
+  to publish a reduced now-playing surface — title, artist, album, artwork only.
+  It does **not** publish the live-stream flag, playback rate, or queue
+  index/count via Media Session.
+- **Divergence: no cross-platform queue model.** Web has no
+  `(source, sourceID, stations[])` queue, no browse/favorites/recents/
+  stationList/single sources, and no circular stepping over an active queue.
+  Previous/next are wired unconditionally (not gated on a steppable queue) and
+  cycle the user's **favorites list only**; when the current station is not in
+  favorites, skip jumps to the first/last favorite, and skip is a no-op when
+  there are no favorites. The "no jump to unrelated stations" rule is therefore
+  not honored — skip can land on any favorite.
+- Geo-restricted streams: surfaces the friendly region-locked message and does
+  not retry (consistent — there is no automatic retry to suppress).
 
 ### iOS (reference)
 
