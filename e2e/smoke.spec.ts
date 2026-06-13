@@ -58,7 +58,9 @@ test.describe('cold-boot UI', () => {
 
   test('about sheet opens and closes', async ({ page }) => {
     await page.goto('/');
-    await page.locator('#about-btn').click();
+    // About is reached through the consolidated settings gear now.
+    await page.locator('#settings-btn').click();
+    await page.locator('#settings-about').click();
     const sheet = page.locator('#about-sheet');
     await expect(sheet).toHaveClass(/open/);
     await expect(page.locator('.about-title')).toBeVisible();
@@ -68,7 +70,8 @@ test.describe('cold-boot UI', () => {
 
   test('add-station sheet rejects http:// stream URLs (audit #71)', async ({ page }) => {
     await page.goto('/');
-    await page.locator('#add-btn').click();
+    await page.locator('#settings-btn').click();
+    await page.locator('#settings-add').click();
     const sheet = page.locator('#add-sheet');
     await expect(sheet).toHaveClass(/open/);
 

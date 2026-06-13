@@ -103,7 +103,7 @@ import {
   ICON_RECENT,
   STAR_SVG,
 } from './icons';
-import { bootstrapTheme, toggleTheme } from './theme';
+import { bootstrapTheme, toggleTheme, effectiveTheme } from './theme';
 import { safeUrl, urlDisplay } from './url';
 import { classifyStoredWake, fadeVolume, formatCountdown, nextFireTime, WakeScheduler } from './wake';
 import type { NowPlaying, Station, WakeTo } from './types';
@@ -227,7 +227,6 @@ const $sortBtn = document.getElementById('sort-btn') as HTMLButtonElement;
 // The filter cells wrapping the sort + quality controls — hidden on the
 // discovery landing (they only apply to a result list, matching iOS).
 const $sortCell = $sortBtn.closest('.filter-cell') as HTMLElement;
-const $qualityCell = $quality.closest('.filter-cell') as HTMLElement;
 const $modePlayed = document.getElementById('mode-played') as HTMLButtonElement;
 const $mapToggle = document.getElementById('map-toggle') as HTMLButtonElement;
 const $newsToggle = document.getElementById('news-toggle') as HTMLButtonElement;
@@ -297,20 +296,33 @@ const $npMute = document.getElementById('np-mute') as HTMLButtonElement;
 const $npDetails = document.getElementById('np-details') as HTMLElement;
 const $npDetailsToggle = document.getElementById('np-details-toggle') as HTMLButtonElement;
 
-const $addBtn = document.getElementById('add-btn') as HTMLButtonElement;
 const $addSheet = document.getElementById('add-sheet') as HTMLElement;
 const $addCancel = document.getElementById('add-cancel') as HTMLButtonElement;
 const $addForm = document.getElementById('add-form') as HTMLFormElement;
 const $addError = document.getElementById('add-error') as HTMLElement;
 const $customList = document.getElementById('custom-list') as HTMLElement;
 
-const $themeBtn = document.getElementById('theme-btn') as HTMLButtonElement;
-const $aboutBtn = document.getElementById('about-btn') as HTMLButtonElement;
 const $aboutSheet = document.getElementById('about-sheet') as HTMLElement;
 const $aboutClose = document.getElementById('about-close') as HTMLButtonElement;
 
-const $dashboardBtn = document.getElementById('dashboard-btn') as HTMLButtonElement;
 const $dashboardSheet = document.getElementById('dashboard-sheet') as HTMLElement;
+
+// iOS-style top toolbar: filter funnel + settings gear, each opening a
+// slide-up sheet. The inline filter controls are relocated into
+// #filter-sheet at boot (see below).
+const $filterBtn = document.getElementById('filter-btn') as HTMLButtonElement;
+const $filterDot = document.getElementById('filter-dot') as HTMLElement;
+const $filterSheet = document.getElementById('filter-sheet') as HTMLElement;
+const $filterSheetBody = document.getElementById('filter-sheet-body') as HTMLElement;
+const $filterClose = document.getElementById('filter-close') as HTMLButtonElement;
+const $settingsBtn = document.getElementById('settings-btn') as HTMLButtonElement;
+const $settingsSheet = document.getElementById('settings-sheet') as HTMLElement;
+const $settingsClose = document.getElementById('settings-close') as HTMLButtonElement;
+const $settingsThemeRow = document.getElementById('settings-theme') as HTMLButtonElement;
+const $settingsThemeVal = document.getElementById('settings-theme-val') as HTMLElement;
+const $settingsAdd = document.getElementById('settings-add') as HTMLButtonElement;
+const $settingsStats = document.getElementById('settings-stats') as HTMLButtonElement;
+const $settingsAbout = document.getElementById('settings-about') as HTMLButtonElement;
 const $dashboardClose = document.getElementById('dashboard-close') as HTMLButtonElement;
 const $dashPlays = document.getElementById('dash-plays') as HTMLElement;
 const $dashVisits = document.getElementById('dash-visits') as HTMLElement;
@@ -717,7 +729,9 @@ function renderTopBar(): void {
   // The Playing tab keeps the topbar quiet (no search/genre input —
   // they don't apply to a single-station view).
   const isPlaying = activeTab === 'playing';
-  $filterRow.hidden = isPlaying || activeTab !== 'browse';
+  // Filters apply to Browse only; the funnel hides elsewhere. Settings
+  // gear stays. (The filter controls live in #filter-sheet.)
+  $filterBtn.hidden = isPlaying || activeTab !== 'browse';
   $search.placeholder =
     activeTab === 'fav'
       ? 'Search your favorites…'
@@ -1875,12 +1889,12 @@ function renderContent(): void {
     // disable the toggle visually when it'd be a no-op.
     $mapToggle.disabled = !noFilter;
 
-    // Sort + quality refine a result list, so they're hidden on the
-    // discovery landing (matches the iOS sort-row suppression). Showing
-    // them there would be dead controls — there is no list to act on.
+    // Sort refines a result list, so it's hidden (in the filter popup) on
+    // the discovery landing — there's no list to act on. Quality stays,
+    // since picking it enters results. Keep the funnel dot in sync.
     const onDiscovery = inDiscovery();
     $sortCell.hidden = onDiscovery;
-    $qualityCell.hidden = onDiscovery;
+    syncFilterDot();
 
     // Discovery landing is the default unfiltered Browse view; anything
     // that narrows the catalog (a mode, Browse-all, a filter, or a
@@ -3471,13 +3485,58 @@ $searchClear.addEventListener('click', () => {
 
 $wordmark.addEventListener('click', goHome);
 
-$addBtn.addEventListener('click', () => openAddSheet(true));
 $addCancel.addEventListener('click', () => openAddSheet(false));
 $addForm.addEventListener('submit', handleAddSubmit);
 
-$themeBtn.addEventListener('click', onToggleTheme);
-$aboutBtn.addEventListener('click', () => openAboutSheet(true));
 $aboutClose.addEventListener('click', () => openAboutSheet(false));
+
+// ─── Top-toolbar sheets: filters (funnel) + settings (gear) ───
+// The inline filter-row lives inside #filter-sheet (relocated at boot),
+// so opening the funnel reveals every existing filter control unchanged.
+$filterSheetBody.appendChild($filterRow);
+$filterRow.hidden = false;
+
+function openFilterSheet(open: boolean): void {
+  $filterSheet.classList.toggle('open', open);
+  $filterSheet.setAttribute('aria-hidden', String(!open));
+}
+function openSettingsSheet(open: boolean): void {
+  if (open) $settingsThemeVal.textContent = effectiveTheme() === 'light' ? 'Light' : 'Dark';
+  $settingsSheet.classList.toggle('open', open);
+  $settingsSheet.setAttribute('aria-hidden', String(!open));
+}
+
+/** Lights the funnel's accent dot when any filter / mode narrows Browse. */
+function syncFilterDot(): void {
+  const active =
+    activeTag !== 'all' ||
+    activeCountry !== 'all' ||
+    activeQuality.size > 0 ||
+    browseMode !== null ||
+    curatedOnly;
+  $filterDot.hidden = !active;
+}
+
+$filterBtn.addEventListener('click', () => openFilterSheet(true));
+$filterClose.addEventListener('click', () => openFilterSheet(false));
+$settingsBtn.addEventListener('click', () => openSettingsSheet(true));
+$settingsClose.addEventListener('click', () => openSettingsSheet(false));
+$settingsThemeRow.addEventListener('click', () => {
+  onToggleTheme();
+  $settingsThemeVal.textContent = effectiveTheme() === 'light' ? 'Light' : 'Dark';
+});
+$settingsAdd.addEventListener('click', () => {
+  openSettingsSheet(false);
+  openAddSheet(true);
+});
+$settingsStats.addEventListener('click', () => {
+  openSettingsSheet(false);
+  void openDashboardSheet(true);
+});
+$settingsAbout.addEventListener('click', () => {
+  openSettingsSheet(false);
+  openAboutSheet(true);
+});
 
 // ─── Backup & restore ──────────────────────────────────────────────
 // UI lives on the Favorites tab header (icons rendered by
@@ -3598,7 +3657,6 @@ function favoriteHeaderActions(favoriteCount: number): HTMLElement[] {
 
   return [exportBtn, importBtn];
 }
-$dashboardBtn.addEventListener('click', () => void openDashboardSheet(true));
 $dashboardClose.addEventListener('click', () => void openDashboardSheet(false));
 
 // Tap the alarm icon at the bottom of NP controls → toggle the
