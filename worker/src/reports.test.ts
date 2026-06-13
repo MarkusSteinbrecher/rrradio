@@ -69,6 +69,14 @@ function resolveReports(body: Record<string, unknown>, token = 'admin-token'): P
   });
 }
 
+function triageReports(body: Record<string, unknown>, token = 'admin-token'): Promise<Response> {
+  return call('/api/admin/triage-reports', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify(body),
+  });
+}
+
 describe('report ingest (POST /api/public/report-broken)', () => {
   it('stores category + comment in D1 and returns a receipt id', async () => {
     const id = await seedReport({
@@ -253,6 +261,80 @@ describe('admin resolve (POST /api/admin/resolve-reports)', () => {
     const res = await resolveReports({ resolution: 'removed', githubIssue: 511 });
     expect(await json(res)).toEqual({ ok: true, resolved: 1 });
     expect(db.reports.get(second)?.status).toBe('resolved');
+  });
+});
+
+describe('admin triage apply (POST /api/admin/triage-reports)', () => {
+  it('requires the admin bearer token', async () => {
+    const res = await triageReports({ stationId: 'fm4', confirmCategories: ['no-audio'] }, 'wrong');
+    expect(res.status).toBe(401);
+  });
+
+  it('rejects non-POST with 405', async () => {
+    const res = await call('/api/admin/triage-reports', {
+      headers: { Authorization: 'Bearer admin-token' },
+    });
+    expect(res.status).toBe(405);
+  });
+
+  it('rejects a body with neither confirmCategories nor githubIssue', async () => {
+    expect((await triageReports({ stationId: 'fm4' })).status).toBe(400);
+    expect((await triageReports({ confirmCategories: ['no-audio'] })).status).toBe(400);
+  });
+
+  it('confirms only the named categories received rows, and links the issue station-wide', async () => {
+    const audio = await seedReport({ category: 'no-audio' });
+    const audio2 = await seedReport({ category: 'no-audio' });
+    const logo = await seedReport({ category: 'wrong-logo' });
+    const other = await seedReport({ stationId: 'swr3', category: 'no-audio' });
+
+    const res = await triageReports({
+      stationId: 'fm4',
+      confirmCategories: ['no-audio'],
+      githubIssue: 600,
+    });
+    expect(res.status).toBe(200);
+    // Two no-audio rows confirmed; all three fm4 rows linked to the issue.
+    expect(await json(res)).toEqual({ ok: true, confirmed: 2, linked: 3 });
+
+    expect(db.reports.get(audio)).toMatchObject({ status: 'confirmed', github_issue: 600 });
+    expect(db.reports.get(audio2)).toMatchObject({ status: 'confirmed', github_issue: 600 });
+    // wrong-logo not in confirmCategories → still received, but linked.
+    expect(db.reports.get(logo)).toMatchObject({ status: 'received', github_issue: 600 });
+    // Different station untouched.
+    expect(db.reports.get(other)).toMatchObject({ status: 'received', github_issue: null });
+  });
+
+  it('is idempotent in effect — re-running confirms nothing new, link stays put', async () => {
+    const id = await seedReport({ category: 'no-audio' });
+    await triageReports({ stationId: 'fm4', confirmCategories: ['no-audio'], githubIssue: 601 });
+    const again = await triageReports({
+      stationId: 'fm4',
+      confirmCategories: ['no-audio'],
+      githubIssue: 601,
+    });
+    // Already confirmed → 0 newly confirmed. `linked` counts rows MATCHING
+    // the link (SQLite reports those regardless of whether the value
+    // changed), so it stays 1 — the row's issue link is unchanged at 601.
+    expect(await json(again)).toEqual({ ok: true, confirmed: 0, linked: 1 });
+    expect(db.reports.get(id)).toMatchObject({ status: 'confirmed', github_issue: 601 });
+  });
+
+  it('drops unknown categories and dedupes', async () => {
+    await seedReport({ category: 'no-audio' });
+    const res = await triageReports({
+      stationId: 'fm4',
+      confirmCategories: ['no-audio', 'no-audio', 'not-a-category'],
+    });
+    expect(await json(res)).toEqual({ ok: true, confirmed: 1, linked: 0 });
+  });
+
+  it('never touches resolved rows when linking', async () => {
+    const id = await seedReport({ category: 'no-audio' });
+    await resolveReports({ resolution: 'fixed', reportIds: [id] });
+    const res = await triageReports({ stationId: 'fm4', githubIssue: 602 });
+    expect(await json(res)).toEqual({ ok: true, confirmed: 0, linked: 0 });
+    expect(db.reports.get(id)?.github_issue).toBeNull();
   });
 });
 

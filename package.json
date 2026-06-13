@@ -64,6 +64,7 @@
     "curation-db:dedupe-report": "node tools/curation-db.mjs dedupe-report",
     "analyze": "node tools/health-probe.mjs",
     "backlog": "node tools/backlog.mjs",
+    "triage-reports": "node tools/triage-reports.mjs",
     "import-ard": "node tools/import-ard.mjs",
     "backfill-geo": "node tools/backfill-geo.mjs",
     "wire-metadata": "node tools/wire-metadata.mjs",

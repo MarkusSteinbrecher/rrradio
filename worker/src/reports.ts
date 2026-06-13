@@ -61,6 +61,10 @@ export const SQL = {
     "UPDATE broken_reports SET status = 'resolved', resolution = ?, resolved_at = ?, github_issue = COALESCE(?, github_issue) WHERE station_id = ? AND category = ? AND status != 'resolved'",
   resolveByIssue:
     "UPDATE broken_reports SET status = 'resolved', resolution = ?, resolved_at = ?, github_issue = COALESCE(?, github_issue) WHERE github_issue = ? AND status != 'resolved'",
+  confirmByStationCategory:
+    "UPDATE broken_reports SET status = 'confirmed' WHERE station_id = ? AND category = ? AND status = 'received'",
+  linkByStation:
+    "UPDATE broken_reports SET github_issue = ? WHERE station_id = ? AND status != 'resolved'",
   selectRecent:
     'SELECT id, station_id, station_name, stream_host, category, comment, platform, app_version, reason, status, resolution, created_at, resolved_at, github_issue FROM broken_reports ORDER BY created_at DESC LIMIT ?',
   selectRecentByStatus:
@@ -375,6 +379,76 @@ export async function handleResolveReports(
   const results = await env.DB.batch(stmts);
   const resolved = results.reduce((sum, r) => sum + (r.meta?.changes ?? 0), 0);
   return noStoreJsonResponse({ ok: true, resolved }, 200, headers);
+}
+
+/** POST /api/admin/triage-reports — apply one station's automated-triage
+ *  outcome (P2 cron). `confirmCategories` flips that station's matching
+ *  `received` rows to `confirmed` (probe failed or report threshold met);
+ *  `githubIssue` stamps the upserted issue number on all the station's
+ *  non-resolved rows so the issue-close Action can later resolve them.
+ *  Idempotent: confirm only touches `received` rows, and re-linking the
+ *  same issue is a no-op change-wise. Called by the triage GitHub Action. */
+export async function handleTriageReports(
+  req: Request,
+  env: Env,
+  headers: Record<string, string>,
+): Promise<Response> {
+  const raw = await req.text();
+  if (raw.length > 16384) {
+    return noStoreJsonResponse({ error: 'payload too large' }, 413, headers);
+  }
+  let body: unknown;
+  try {
+    body = JSON.parse(raw);
+  } catch {
+    return noStoreJsonResponse({ error: 'invalid json' }, 400, headers);
+  }
+  const data = body && typeof body === 'object' ? (body as Record<string, unknown>) : {};
+
+  const stationId = cleanToken(data.stationId, '');
+  if (!stationId) {
+    return noStoreJsonResponse({ error: 'stationId required' }, 400, headers);
+  }
+
+  // Only known categories; dedupe so a single category can't be double-
+  // counted in the confirmed total.
+  const confirmCategories = Array.isArray(data.confirmCategories)
+    ? [
+        ...new Set(
+          data.confirmCategories
+            .map((c) => cleanToken(c, '', 24))
+            .filter((c) => (CATEGORIES as readonly string[]).includes(c)),
+        ),
+      ]
+    : [];
+  const githubIssue =
+    typeof data.githubIssue === 'number' && Number.isInteger(data.githubIssue) && data.githubIssue > 0
+      ? data.githubIssue
+      : null;
+
+  if (confirmCategories.length === 0 && !githubIssue) {
+    return noStoreJsonResponse(
+      { error: 'at least one of confirmCategories, githubIssue required' },
+      400,
+      headers,
+    );
+  }
+
+  // Fixed statements only (one per category + an optional link) so the
+  // test D1 keeps dispatching on statement identity.
+  const confirmStmts = confirmCategories.map((cat) =>
+    env.DB.prepare(SQL.confirmByStationCategory).bind(stationId, cat),
+  );
+  const linkStmt = githubIssue
+    ? env.DB.prepare(SQL.linkByStation).bind(githubIssue, stationId)
+    : null;
+
+  const results = await env.DB.batch([...confirmStmts, ...(linkStmt ? [linkStmt] : [])]);
+  const confirmed = results
+    .slice(0, confirmStmts.length)
+    .reduce((sum, r) => sum + (r.meta?.changes ?? 0), 0);
+  const linked = linkStmt ? (results[results.length - 1]?.meta?.changes ?? 0) : 0;
+  return noStoreJsonResponse({ ok: true, confirmed, linked }, 200, headers);
 }
 
 /** GET /api/broken-reports — recent report rows for manual triage

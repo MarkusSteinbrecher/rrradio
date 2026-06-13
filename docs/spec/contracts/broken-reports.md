@@ -26,11 +26,13 @@ report-sheet UX lives in the companion `rrradio-ios` issue.
 ### Report lifecycle (state machine)
 
 ```
-received ──(probe fail | report threshold; P2)──▶ confirmed
-received ─────────────(issue closed / admin)──────▶ resolved
-confirmed ────────────(issue closed / admin)──────▶ resolved
+received ──(probe fail | report threshold)──▶ confirmed
+received ─────────(issue closed / admin)──────▶ resolved
+confirmed ────────(issue closed / admin)──────▶ resolved
 ```
 
+- `received → confirmed` is driven by the P2 triage cron (see Triage
+  automation); `→ resolved` by the issue-close Action or a manual admin call.
 - `resolved` is terminal and carries exactly one `resolution`:
   `fixed | removed | not-reproducible`.
 - Nothing un-resolves a report. A still-broken station is a *new* report.
@@ -69,15 +71,36 @@ selector — `reportIds` (≤100), `stationId` (optionally scoped by `category`)
 `githubIssue`. Selectors OR-combine; already-resolved rows are never touched.
 Response: `{ "ok": true, "resolved": <n> }`.
 
+### `POST /api/admin/triage-reports` (Bearer `ADMIN_TOKEN`)
+
+Applies one station's automated-triage outcome. Body:
+`{ "stationId", "confirmCategories"?: [...], "githubIssue"?: <int> }` — at least
+one of `confirmCategories` / `githubIssue` required. `confirmCategories` flips
+that station's matching `received` rows to `confirmed`; `githubIssue` stamps the
+issue number on all the station's non-resolved rows. Idempotent (confirm only
+touches `received`). Response: `{ "ok": true, "confirmed": <n>, "linked": <n> }`.
+
 ### Triage automation
 
-- One GitHub issue per station (P2 upserts), labeled `broken-station`, body
-  carrying the marker `<!-- rrradio:station-id=<id> -->`.
-- Closing a `broken-station` issue triggers
-  `.github/workflows/resolve-reports.yml`, which calls the admin endpoint.
+- **Confirmation (P2 cron, daily — `.github/workflows/triage-reports.yml` →
+  `tools/triage-reports.mjs`):** reads non-resolved reports, aggregates by
+  `(station, category)`, and probes the catalog stream (`no-audio`,
+  `interruptions`) or favicon (`wrong-logo`). A category is confirmed when the
+  probe **fails** (stream unreachable / non-audio / favicon 404 or timeout) **or**
+  the independent-report count reaches the threshold (default 3). Non-probe-able
+  categories (`wrong-station`, `wrong-info`, `other`, `unspecified`) are
+  threshold-only.
+- **Issue upsert:** confirmed categories upsert **one** `broken-station` issue
+  per station (matched by the body marker `<!-- rrradio:station-id=<id> -->`),
+  labeled `broken-station` + each confirmed category, body carrying per-category
+  counts, probe evidence, and reporter comments verbatim. User comment text is
+  neutralized so it cannot forge the marker. The issue number is written back via
+  `triage-reports`.
+- **Resolution:** closing a `broken-station` issue triggers
+  `.github/workflows/resolve-reports.yml`, which calls `resolve-reports`.
   Resolution = `resolved:fixed | resolved:removed | resolved:not-reproducible`
   label when present, else GitHub's close reason (completed → `fixed`,
-  not planned → `not-reproducible`).
+  not planned → `not-reproducible`). The station id comes from the body marker.
 
 ## Detail
 
@@ -90,6 +113,7 @@ Response: `{ "ok": true, "resolved": <n> }`.
 | `resolution` | `fixed \| removed \| not-reproducible` | only when resolved | what closed it | — |
 | `resolvedAt` | ISO 8601 UTC | only when resolved | resolution timestamp | — |
 | `github_issue` | int (server-side) | yes | linked triage issue | unset |
+| Report threshold | int (server-side env) | no | independent reports to confirm a non-probe-failed category | 3 (`REPORT_THRESHOLD`) |
 | Receipt store (client) | local list of `{ id, stationId, createdAt }` | yes | what the device polls with | empty |
 | Ingest rate limit | 20 reports / IP / UTC day | no | enforced via daily-salted IP hash, purged next day | — |
 
@@ -180,18 +204,27 @@ integration point.
 
 1. Retention: when (if ever) are resolved/stale `broken_reports` rows purged?
    Receipts of deleted rows read as expired, so purging is client-safe — pick
-   a window (e.g. 180d) in P2.
+   a window (e.g. 180d) in a follow-up.
 2. Should `confirmed` be user-visible ("we reproduced it") or collapsed into
    "in review" until resolution? Spec currently allows either rendering.
+3. The prober stops at stream connect + content-type (the fast, decisive
+   signal); it does not yet read several seconds of audio bytes. Intermittent
+   `interruptions` therefore confirm mostly by threshold. Revisit if byte-level
+   probing proves necessary.
 
 ## Reference
 
 - Worker: `worker/src/reports.ts`, schema `worker/migrations/0001_broken_reports.sql`,
   routes wired in `worker/src/index.ts`, tests `worker/src/reports.test.ts`.
-- Automation: `.github/workflows/resolve-reports.yml`.
+- Triage cron (P2): `tools/triage-reports.mjs` (+ `tools/triage-reports.test.mjs`),
+  `.github/workflows/triage-reports.yml`; reuses `tools/playable-check.mjs`'s
+  `lenientProbe` for the stream probe.
+- Resolution Action: `.github/workflows/resolve-reports.yml`.
 - Privacy rows: [privacy-data-boundaries.md](privacy-data-boundaries.md) rows 4, 15.
 - Pipeline definition: [#507](https://github.com/MarkusSteinbrecher/rrradio/issues/507).
 
 ## Known deviations
 
-- None yet — no client implements categories/receipts as of this writing.
+- No client implements categories/receipts/polling yet, so the user-facing half
+  of the loop (the report sheet, the "resolved" notification) is unverified
+  end-to-end. Server pipeline (ingest → confirm → issue → resolve) is live.
