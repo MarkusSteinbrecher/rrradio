@@ -214,6 +214,7 @@ const $tabStatus = document.getElementById('tab-status') as HTMLElement;
 const $topbarLibSeg = document.getElementById('topbar-lib-seg') as HTMLElement;
 const $content = document.getElementById('content') as HTMLElement;
 const $tabbar = document.getElementById('tabbar') as HTMLElement;
+const $sidebar = document.querySelector('.sidebar') as HTMLElement;
 
 const $mini = document.getElementById('mini') as HTMLButtonElement;
 const $miniFav = document.getElementById('mini-fav') as HTMLElement;
@@ -701,7 +702,11 @@ function syncCountry(): void {
 }
 
 function renderTabBar(): void {
-  $tabbar.querySelectorAll<HTMLButtonElement>('.tab-btn').forEach((btn) => {
+  // Active-state spans both the bottom tab bar (mobile) and the sidebar
+  // nav (desktop) so they never disagree.
+  document
+    .querySelectorAll<HTMLButtonElement>('.tabbar .tab-btn, .sidebar-nav .tab-btn')
+    .forEach((btn) => {
     const t = btn.dataset.tab;
     // Library is the UI label for either fav or recent — it stays
     // active across both sub-sections so the bottom nav doesn't blink.
@@ -1393,6 +1398,18 @@ function renderRows(stations: Station[]): DocumentFragment {
   return frag;
 }
 
+/** Browse/Discovery row groups get wrapped in a `.rows` container so the
+ *  desktop breakpoint can lay them out as a responsive card grid. A bare
+ *  `<div>` on mobile (rows stack exactly as before). Favorites/Recents
+ *  intentionally do NOT use this — their drag-reorder assumes a single
+ *  vertical column of direct `.row` children. */
+function rowsGrid(stations: Station[]): HTMLDivElement {
+  const wrap = document.createElement('div');
+  wrap.className = 'rows';
+  wrap.append(renderRows(stations));
+  return wrap;
+}
+
 /** Append a grip handle to each direct-child .row of `container` and
  *  wire pointer-event drag-to-reorder. On drop, persist via
  *  reorderFavorites and don't re-render — the DOM order already
@@ -1611,7 +1628,7 @@ function renderContent(): void {
         // tab-switch DOM build cost ~1s. "Show more" reveals the
         // next page in place.
         const visibleHome = stations.slice(0, homeViewLimit);
-        $content.append(renderRows(visibleHome));
+        $content.append(rowsGrid(visibleHome));
         const remainingHome = stations.length - visibleHome.length;
         if (remainingHome > 0) $content.append(homeShowMoreButton(remainingHome));
         // Pagination — RB-sourced modes (null/news) paginate the
@@ -1625,7 +1642,7 @@ function renderContent(): void {
         if (browseMode === 'played' && !curatedOnly) {
           if (homeRbStations.length > 0) {
             $content.append(sectionLabel('Worldwide', homeRbStations.length));
-            $content.append(renderRows(homeRbStations));
+            $content.append(rowsGrid(homeRbStations));
           }
           if (homeRbHasMore) $content.append(loadMoreHomeButton());
         }
@@ -1648,14 +1665,14 @@ function renderContent(): void {
     if (myFiltered.length > 0) {
       $content.append(sectionLabel('My stations', myFiltered.length));
       const visibleMy = myFiltered.slice(0, homeViewLimit);
-      $content.append(renderRows(visibleMy));
+      $content.append(rowsGrid(visibleMy));
       const remainingMy = myFiltered.length - visibleMy.length;
       if (remainingMy > 0) $content.append(homeShowMoreButton(remainingMy));
     }
     if (lastBrowseStations.length > 0) {
       const label = query ? 'Results' : effectiveGenre?.label ?? 'Results';
       $content.append(sectionLabel(label, lastBrowseStations.length));
-      $content.append(renderRows(lastBrowseStations));
+      $content.append(rowsGrid(lastBrowseStations));
       if (browseHasMore) $content.append(loadMoreButton());
     } else if (myFiltered.length === 0) {
       $content.append(emptyState(ICON_EMPTY, 'No stations match', 'Try a different search or genre'));
@@ -2044,10 +2061,37 @@ function setTab(tab: Tab): void {
   track(`tab/${tab}`);
 }
 
+// Desktop (≥1024px) shows Now Playing as a persistent docked pane next
+// to the list, so opening/closing it is a no-op there — the pane is
+// always mounted and the $np* updates run on every player event
+// regardless of which list tab is active. On mobile it stays the
+// slide-up destination reached via the 'playing' tab.
+const desktopMq = matchMedia('(min-width: 1024px)');
+function isDesktop(): boolean {
+  return desktopMq.matches;
+}
+
 function openNp(open: boolean): void {
+  if (isDesktop()) return;
   if (open) setTab('playing');
   else if (activeTab === 'playing') setTab(lastListTab);
 }
+
+/** Keep layout-mode-dependent state in sync with the breakpoint. On
+ *  desktop the docked NP pane is always part of the page (aria-hidden
+ *  false); on mobile its visibility follows the 'playing' tab. If the
+ *  viewport grows while the 'playing' overlay is up, drop back to the
+ *  underlying list so the centre pane shows the catalog and NP docks on
+ *  the right. Called at boot and whenever the breakpoint is crossed. */
+function syncLayoutMode(): void {
+  if (isDesktop()) {
+    $np.setAttribute('aria-hidden', 'false');
+    if (activeTab === 'playing') setTab(lastListTab);
+  } else {
+    $np.setAttribute('aria-hidden', String(activeTab !== 'playing'));
+  }
+}
+desktopMq.addEventListener('change', syncLayoutMode);
 
 // Theme persistence + DOM application live in ./theme. Boot wiring
 // applies the persisted choice before first paint, then keeps the
@@ -2948,7 +2992,9 @@ function setSleep(minutes: number): void {
 // Event wiring
 // ─────────────────────────────────────────────────────────────
 
-$tabbar.addEventListener('click', (e) => {
+// Bottom tab bar (mobile) and sidebar nav (desktop) both carry the
+// Browse / Library buttons; one handler serves both surfaces.
+function handleNavClick(e: Event): void {
   const target = e.target as HTMLElement;
   const btn = target.closest<HTMLButtonElement>('.tab-btn');
   if (!btn) return;
@@ -2960,7 +3006,9 @@ $tabbar.addEventListener('click', (e) => {
     return;
   }
   if (raw) setTab(raw as Tab);
-});
+}
+$tabbar.addEventListener('click', handleNavClick);
+$sidebar.addEventListener('click', handleNavClick);
 
 $search.addEventListener('input', () => syncSearchClear());
 $search.addEventListener(
@@ -3454,6 +3502,7 @@ player.subscribe((np) => {
 
 renderTabBar();
 renderTopBar();
+syncLayoutMode();
 syncGenre();
 syncCountry();
 syncSearchClear();

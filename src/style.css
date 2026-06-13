@@ -147,8 +147,10 @@ html.theme-switching *::after {
   font-family: var(--sans);
 }
 
-/* Cap to a phone-shape on wider screens, like the handoff iOS frame */
-@media (min-width: 640px) {
+/* Cap to a phone-shape on wider screens, like the handoff iOS frame.
+   Only up to the desktop breakpoint — at ≥1024px the three-pane shell
+   below takes over and uncaps the width. */
+@media (min-width: 640px) and (max-width: 1023.98px) {
   .app {
     max-width: 480px;
     margin: 0 auto;
@@ -157,9 +159,36 @@ html.theme-switching *::after {
   }
 }
 
-/* ─── Top bar ─── */
-.topbar {
+/* ─── Sidebar (desktop rail / mobile top strip) + main column ───
+   On phones .sidebar is the horizontal top strip (wordmark + actions);
+   the Browse/Library nav lives in the bottom tab bar. At the desktop
+   breakpoint it becomes the vertical left rail and the nav surfaces. */
+.sidebar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
   padding: calc(var(--safe-top) + 14px) 20px 14px;
+  background: var(--bg);
+}
+.sidebar-nav { display: none; }
+
+.main {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.np-idle { display: none; }
+
+/* ─── Top bar ─── */
+/* The sidebar strip above now carries the safe-area top inset (mobile),
+   so the search/filter bar starts flush under it — the 14px gap to the
+   strip comes from the sidebar's own bottom padding. */
+.topbar {
+  padding: 0 20px 14px;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -3047,4 +3076,120 @@ body.is-wake-edit .np-pane-tabs { display: none; }
     animation-duration: 0.9s !important;
     animation-iteration-count: infinite !important;
   }
+}
+
+/* ─── Desktop three-pane shell ─── */
+@media (min-width: 1024px) {
+  .app {
+    flex-direction: row;
+    max-width: none;
+    margin: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  /* Left rail: wordmark (top), nav (middle), actions pinned to bottom. */
+  .sidebar {
+    flex: 0 0 236px;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 22px;
+    padding: 22px 16px;
+    border-right: 1px solid var(--line);
+  }
+  .sidebar .wordmark { padding-left: 8px; }
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .sidebar-nav .tab-btn {
+    flex: none;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-family: var(--sans);
+    font-size: 13.5px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--ink-3);
+    transition: background 0.14s, color 0.14s;
+  }
+  .sidebar-nav .tab-btn svg { width: 19px; height: 19px; }
+  .sidebar-nav .tab-btn:hover { color: var(--ink-2); background: var(--bg-2); }
+  .sidebar-nav .tab-btn.active { color: var(--ink); background: var(--bg-2); }
+  .sidebar-nav .tab-btn.active::before { display: none; }
+
+  .topbar-actions {
+    margin-top: auto;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-left: 8px;
+  }
+
+  .main { flex: 1; min-width: 0; }
+  .topbar { padding: 18px 24px 14px; }
+
+  /* Centre list + docked Now Playing, side by side. */
+  .stage {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
+    grid-template-rows: minmax(0, 1fr);
+  }
+  .content {
+    position: static;
+    inset: auto;
+    min-height: 0;
+    grid-column: 1;
+  }
+  .np {
+    position: static;
+    inset: auto;
+    grid-column: 2;
+    transform: none !important;
+    border-left: 1px solid var(--line);
+    z-index: auto;
+  }
+  .np-back { display: none; }
+
+  /* Mini-player + bottom tab bar are redundant when NP is always docked
+     and the nav lives in the sidebar. */
+  .mini { display: none !important; }
+  .tabbar { display: none; }
+
+  /* Browse/Discovery results as a responsive card grid. */
+  .rows {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 6px;
+    padding: 8px 12px;
+  }
+  .rows .row {
+    border-top: 0;
+    border-radius: 10px;
+  }
+  .rows .row:hover { background: var(--bg-2); }
+
+  /* Idle Now Playing — shown until a station is current. */
+  body:not(.has-station) .np-body,
+  body:not(.has-station) .np-controls { display: none; }
+  body:not(.has-station) .np-idle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 100%;
+    padding: 24px;
+    text-align: center;
+  }
+  .np-idle__icon { width: 42px; height: 42px; color: var(--ink-4); }
+  .np-idle__title { font-size: 15px; color: var(--ink-2); }
+  .np-idle__sub { font-size: 12px; color: var(--ink-3); }
 }
