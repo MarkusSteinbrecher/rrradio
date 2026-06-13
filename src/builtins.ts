@@ -1778,6 +1778,7 @@ function normaliseStation(raw: unknown): Station | null {
     favicon: resolveFavicon(r.favicon),
     bitrate: typeof r.bitrate === 'number' ? r.bitrate : undefined,
     codec: r.codec,
+    featured: r.featured === true ? true : undefined,
     listeners: typeof r.listeners === 'number' ? r.listeners : undefined,
     metadata: r.metadata,
     metadataUrl: r.metadataUrl,

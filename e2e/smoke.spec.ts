@@ -14,6 +14,10 @@ import { expect, test } from 'playwright/test';
 test.describe('cold-boot UI', () => {
   test('renders the catalog with multiple station rows', async ({ page }) => {
     await page.goto('/');
+    // Browse opens on the discovery landing now (chips + Featured rail);
+    // pick a genre to drop into the catalog list. Local matches render
+    // from the bundled catalog without any network.
+    await page.locator('#genre').selectOption('pop');
     // The catalog is loaded asynchronously after boot; wait until at
     // least one row materialises. Cap at 10s — a green test should
     // resolve in well under that.
@@ -24,7 +28,8 @@ test.describe('cold-boot UI', () => {
 
   test('search surfaces a known station', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('#content .row').first()).toBeVisible({ timeout: 10_000 });
+    // Catalog ready once the discovery chips render.
+    await expect(page.locator('.disc-chip').first()).toBeVisible({ timeout: 10_000 });
 
     await page.locator('#search').fill('fm4');
     // Search debounces 300ms; rendering may take additional frames.
@@ -37,7 +42,7 @@ test.describe('cold-boot UI', () => {
 
   test('whitespace-insensitive search ("WDR5" finds "WDR 5")', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('#content .row').first()).toBeVisible({ timeout: 10_000 });
+    await expect(page.locator('.disc-chip').first()).toBeVisible({ timeout: 10_000 });
     await page.locator('#search').fill('WDR5');
     await page.waitForTimeout(500);
     const wdr5 = page.locator('#content .row .row-name', { hasText: /WDR\s*5/i });
@@ -99,6 +104,8 @@ test.describe('cold-boot UI', () => {
 
   test('clicking a row triggers a play attempt without crashing', async ({ page }) => {
     await page.goto('/');
+    // Drop into the catalog list from the discovery landing first.
+    await page.locator('#genre').selectOption('pop');
     await expect(page.locator('#content .row').first()).toBeVisible({ timeout: 10_000 });
 
     // Capture page errors — clicking a row should never throw, even

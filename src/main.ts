@@ -16,6 +16,23 @@ import { track } from './telemetry';
 import { pseudoFrequency } from './radioBrowser';
 import { composeBrowseFilter, PAGE_SIZE, fetchStations, searchStations } from './stations';
 import { GENRES, findGenre, stationMatchesGenre } from './genre-taxonomy';
+import { stationQualityBucket, type QualityBucket } from './quality';
+import { type BrowseSort, cycleSort, sortStations, orderFeaturedFirst } from './sort';
+import {
+  discoveryCounts,
+  genreChips,
+  countryChips,
+  abbreviateCount,
+  DISCOVERY_HIGHLIGHT_LIMIT,
+  type DiscoveryCounts,
+} from './discovery';
+import {
+  loadHighlights,
+  resolveHighlights,
+  todayISO,
+  type Highlight,
+  type ResolvedHighlight,
+} from './highlights';
 import {
   addCustom,
   getCustom,
@@ -205,6 +222,8 @@ for (const g of GENRES) {
   $genre.appendChild(opt);
 }
 const $country = document.getElementById('country') as HTMLSelectElement;
+const $quality = document.getElementById('quality') as HTMLSelectElement;
+const $sortBtn = document.getElementById('sort-btn') as HTMLButtonElement;
 const $modePlayed = document.getElementById('mode-played') as HTMLButtonElement;
 const $mapToggle = document.getElementById('map-toggle') as HTMLButtonElement;
 const $newsToggle = document.getElementById('news-toggle') as HTMLButtonElement;
@@ -321,7 +340,10 @@ let activeCountry = 'all';
 //   'news'    → RB top 50 with tag=news
 //   null      → RB top 50, no filter
 type BrowseMode = 'played' | 'news' | null;
-let browseMode: BrowseMode = 'played';
+// Default null → the Browse tab opens on its discovery landing (genre /
+// country chips + Featured rail). 'played' / 'news' are reached by the
+// filter-row toggles and drop into the flat result list.
+let browseMode: BrowseMode = null;
 // Scope filter: when true, the home + filtered views drop everything
 // that isn't in BUILTIN_STATIONS — no RB long-tail, no GoatCounter
 // played-* backlog rows, no Worldwide Load more button. Orthogonal
@@ -332,6 +354,21 @@ let curatedOnly = false;
 // with a Leaflet map. Default false (list view); orthogonal to
 // curatedOnly — the map can show either station set.
 let mapView = false;
+// Alphabet sort for the un-queried catalog (off → A–Z → Z–A). Suppressed
+// while a text query is active (relevance order wins).
+let activeSort: BrowseSort = null;
+// Stream-quality buckets to keep (empty = no quality filter). Applied
+// locally to every Browse result list; never forwarded to Radio Browser.
+const activeQuality = new Set<QualityBucket>();
+// True once the user taps "Browse all" on the discovery landing — drops
+// into the flat catalog list. Cleared by back-to-discovery / goHome.
+let browseAll = false;
+// Raw editorial highlights feed (loaded once at boot); resolved against
+// the catalog at render time for the discovery Featured rail.
+let highlightsRaw: Highlight[] = [];
+// Memoised discovery counts, recomputed when the catalog size changes.
+let discoveryCountsCache: DiscoveryCounts | null = null;
+let discoveryCountsForLen = -1;
 
 // countryName lives in ./country.
 
@@ -1553,6 +1590,250 @@ function attachGripDrag(
   grip.addEventListener('click', (ev) => ev.stopPropagation());
 }
 
+// ─────────────────────────────────────────────────────────────
+// Browse discovery landing + refinements (sort / quality / featured)
+// ─────────────────────────────────────────────────────────────
+
+/** Is the Browse tab showing its discovery landing? True only when
+ *  nothing narrows the catalog: no query, genre, country, mode,
+ *  curated-only, map, or Browse-all. */
+function inDiscovery(): boolean {
+  return (
+    activeTab === 'browse' &&
+    !$search.value.trim() &&
+    activeTag === 'all' &&
+    activeCountry === 'all' &&
+    browseMode === null &&
+    !curatedOnly &&
+    !mapView &&
+    !browseAll
+  );
+}
+
+/** Per-genre / per-country counts over the curated catalog, memoised
+ *  until the catalog size changes. */
+function getDiscoveryCounts(): DiscoveryCounts {
+  if (!discoveryCountsCache || discoveryCountsForLen !== BUILTIN_STATIONS.length) {
+    discoveryCountsCache = discoveryCounts(BUILTIN_STATIONS);
+    discoveryCountsForLen = BUILTIN_STATIONS.length;
+  }
+  return discoveryCountsCache;
+}
+
+function stationById(id: string): Station | undefined {
+  return BUILTIN_STATIONS.find((s) => s.id === id);
+}
+
+/** Apply the local quality filter, then ordering. Quality always
+ *  applies; ordering is skipped while a text query is active (relevance
+ *  wins). Otherwise the alphabet sort wins, else featured-first for the
+ *  un-queried catalog. */
+function refine(
+  list: Station[],
+  opts: { textQuery: string; featuredFirst: boolean },
+): Station[] {
+  let out = list;
+  if (activeQuality.size > 0) {
+    out = out.filter((s) => activeQuality.has(stationQualityBucket(s)));
+  }
+  if (!opts.textQuery) {
+    if (activeSort) out = sortStations(out, activeSort);
+    else if (opts.featuredFirst) out = orderFeaturedFirst(out);
+  }
+  return out;
+}
+
+function syncBrowseModeButtons(): void {
+  $modePlayed.classList.toggle('is-active', browseMode === 'played');
+  $modePlayed.setAttribute('aria-pressed', String(browseMode === 'played'));
+  $newsToggle.classList.toggle('is-active', browseMode === 'news');
+  $newsToggle.setAttribute('aria-pressed', String(browseMode === 'news'));
+}
+
+function syncSort(): void {
+  const queryActive = $search.value.trim().length > 0;
+  $sortBtn.disabled = queryActive;
+  $sortBtn.classList.toggle('is-active', activeSort !== null && !queryActive);
+  $sortBtn.setAttribute(
+    'aria-label',
+    activeSort === 'az' ? 'Sort Z to A' : activeSort === 'za' ? 'Clear sort' : 'Sort A to Z',
+  );
+  $sortBtn.dataset.sort = activeSort ?? 'off';
+}
+
+function syncQuality(): void {
+  let v = 'all';
+  if (activeQuality.size === 1 && activeQuality.has('high')) v = 'high';
+  else if (activeQuality.size > 0) v = 'med';
+  if ($quality.value !== v) $quality.value = v;
+  $quality.parentElement?.classList.toggle('is-default', activeQuality.size === 0);
+}
+
+// ─── Discovery render ───
+
+function discoverySection(title: string): HTMLDivElement {
+  const h = document.createElement('div');
+  h.className = 'disc-section-label';
+  h.textContent = title;
+  return h;
+}
+
+function discoveryChip(label: string, count: number, onPick: () => void): HTMLButtonElement {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'disc-chip';
+  const name = document.createElement('span');
+  name.className = 'disc-chip__name';
+  name.textContent = label;
+  const c = document.createElement('span');
+  c.className = 'disc-chip__count';
+  c.textContent = abbreviateCount(count);
+  btn.append(name, c);
+  btn.setAttribute('aria-label', `${label}, ${count} stations`);
+  btn.addEventListener('click', onPick);
+  return btn;
+}
+
+function featuredCard(item: ResolvedHighlight): HTMLButtonElement {
+  const card = document.createElement('button');
+  card.type = 'button';
+  card.className = 'feat-card';
+  card.dataset.id = item.station.id;
+  const art = buildFavicon(item.station, 56);
+  art.classList.add('feat-card__art');
+  const body = document.createElement('div');
+  body.className = 'feat-card__body';
+  if (item.badge?.label) {
+    const badge = document.createElement('div');
+    badge.className = 'feat-card__badge';
+    badge.textContent = item.badge.label;
+    body.append(badge);
+  }
+  const name = document.createElement('div');
+  name.className = 'feat-card__name';
+  name.textContent = item.station.name;
+  body.append(name);
+  if (item.blurb) {
+    const blurb = document.createElement('div');
+    blurb.className = 'feat-card__blurb';
+    blurb.textContent = item.blurb;
+    body.append(blurb);
+  }
+  card.append(art, body);
+  card.addEventListener('click', () => onRowPlay(item.station));
+  return card;
+}
+
+function renderDiscovery(): void {
+  const featured = resolveHighlights(
+    highlightsRaw,
+    stationById,
+    todayISO(),
+    DISCOVERY_HIGHLIGHT_LIMIT,
+  );
+  if (featured.length > 0) {
+    $content.append(discoverySection('Featured'));
+    const rail = document.createElement('div');
+    rail.className = 'feat-rail';
+    for (const f of featured) rail.append(featuredCard(f));
+    $content.append(rail);
+  }
+
+  const counts = getDiscoveryCounts();
+  const gChips = genreChips(counts);
+  if (gChips.length > 0) {
+    $content.append(discoverySection('Browse by genre'));
+    const row = document.createElement('div');
+    row.className = 'disc-chips';
+    for (const c of gChips) row.append(discoveryChip(c.label, c.count, () => selectGenreChip(c.id)));
+    $content.append(row);
+  }
+  const cChips = countryChips(counts, countryName);
+  if (cChips.length > 0) {
+    $content.append(discoverySection('Browse by country'));
+    const row = document.createElement('div');
+    row.className = 'disc-chips';
+    for (const c of cChips) row.append(discoveryChip(c.label, c.count, () => selectCountryChip(c.id)));
+    $content.append(row);
+  }
+
+  const all = document.createElement('button');
+  all.type = 'button';
+  all.className = 'disc-browse-all';
+  all.setAttribute('aria-label', 'Browse all stations');
+  const lbl = document.createElement('span');
+  lbl.textContent = 'Browse all stations';
+  const cnt = document.createElement('span');
+  cnt.className = 'disc-browse-all__count';
+  cnt.textContent = String(BUILTIN_STATIONS.length);
+  all.append(lbl, cnt);
+  all.addEventListener('click', enterBrowseAll);
+  $content.append(all);
+}
+
+function selectGenreChip(id: string): void {
+  browseMode = null;
+  syncBrowseModeButtons();
+  activeCountry = 'all';
+  syncCountry();
+  activeTag = id;
+  syncGenre();
+  browseAll = false;
+  track(`discovery/genre/${id}`);
+  void runQuery();
+}
+
+function selectCountryChip(code: string): void {
+  browseMode = null;
+  syncBrowseModeButtons();
+  activeTag = 'all';
+  syncGenre();
+  activeCountry = code;
+  syncCountry();
+  browseAll = false;
+  track(`discovery/country/${code}`);
+  void runQuery();
+}
+
+function enterBrowseAll(): void {
+  browseAll = true;
+  track('discovery/browse-all');
+  void runQuery();
+}
+
+/** Clear every Browse narrowing and return to the discovery landing. */
+function resetToDiscovery(): void {
+  clearSearch(false);
+  activeTag = 'all';
+  syncGenre();
+  activeCountry = 'all';
+  syncCountry();
+  browseMode = null;
+  syncBrowseModeButtons();
+  browseAll = false;
+  curatedOnly = false;
+  syncCuratedToggle();
+  activeQuality.clear();
+  syncQuality();
+  activeSort = null;
+  syncSort();
+  void runQuery();
+}
+
+function backToDiscoveryBar(): HTMLButtonElement {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'disc-back';
+  btn.setAttribute('aria-label', 'Back to discovery');
+  btn.innerHTML =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>';
+  const span = document.createElement('span');
+  span.textContent = 'Discovery';
+  btn.append(span);
+  btn.addEventListener('click', resetToDiscovery);
+  return btn;
+}
+
 function renderContent(): void {
   $content.replaceChildren();
 
@@ -1569,7 +1850,7 @@ function renderContent(): void {
 
   // View-signature reset for the local-catalog cap. Same view across
   // calls = persist the user's "Show more" clicks; new view = reset.
-  const sig = `${activeTab}|${browseMode}|${curatedOnly}|${activeTag}|${activeCountry}|${$search.value.trim()}`;
+  const sig = `${activeTab}|${browseMode}|${curatedOnly}|${activeTag}|${activeCountry}|${$search.value.trim()}|${browseAll}|${activeSort}|${[...activeQuality].sort().join(',')}`;
   if (sig !== lastViewSig) {
     homeViewLimit = HOME_VIEW_PAGE_SIZE;
     lastViewSig = sig;
@@ -1588,6 +1869,17 @@ function renderContent(): void {
     // Map view only renders inside the home view (no genre/country/search);
     // disable the toggle visually when it'd be a no-op.
     $mapToggle.disabled = !noFilter;
+
+    // Discovery landing is the default unfiltered Browse view; anything
+    // that narrows the catalog (a mode, Browse-all, a filter, or a
+    // search) drops into the result list with a back-to-discovery row.
+    if (inDiscovery()) {
+      renderDiscovery();
+      const counter = siteCounter();
+      if (counter) $content.append(counter);
+      return;
+    }
+    if (!mapView) $content.append(backToDiscoveryBar());
 
     // Unfiltered home view. The list is sourced based on browseMode.
     if (noFilter) {
@@ -1622,27 +1914,37 @@ function renderContent(): void {
 
       if (mapView) {
         $content.append(renderGlobe(stations));
-      } else if (stations.length > 0) {
-        $content.append(sectionLabel(restLabel, stations.length));
-        // Cap the initial render — bigger catalogs (2k+ rows) made
-        // tab-switch DOM build cost ~1s. "Show more" reveals the
-        // next page in place.
-        const visibleHome = stations.slice(0, homeViewLimit);
-        $content.append(rowsGrid(visibleHome));
-        const remainingHome = stations.length - visibleHome.length;
-        if (remainingHome > 0) $content.append(homeShowMoreButton(remainingHome));
-        // Pagination — RB-sourced modes (null/news) paginate the
-        // primary list; played mode appends a separate "Worldwide"
-        // section on demand below the curated catalog.
-        if ((browseMode === null || browseMode === 'news') && browseHasMore) {
-          $content.append(loadMoreButton());
+      } else {
+        // Quality filter + ordering (featured-first for the Top / Browse-all
+        // list; the alphabet sort when set). Played / News keep their order.
+        const refined = refine(stations, { textQuery: '', featuredFirst: browseMode === null });
+        if (refined.length > 0) {
+          $content.append(sectionLabel(restLabel, refined.length));
+          // Cap the initial render — bigger catalogs (2k+ rows) made
+          // tab-switch DOM build cost ~1s. "Show more" reveals the
+          // next page in place.
+          const visibleHome = refined.slice(0, homeViewLimit);
+          $content.append(rowsGrid(visibleHome));
+          const remainingHome = refined.length - visibleHome.length;
+          if (remainingHome > 0) $content.append(homeShowMoreButton(remainingHome));
+          // Pagination — RB-sourced modes (null/news) paginate the
+          // primary list; played mode appends a separate "Worldwide"
+          // section on demand below the curated catalog.
+          if ((browseMode === null || browseMode === 'news') && browseHasMore) {
+            $content.append(loadMoreButton());
+          }
+        } else if (activeQuality.size > 0) {
+          $content.append(
+            emptyState(ICON_EMPTY, 'No stations match', 'Try a lower quality filter'),
+          );
         }
         // Worldwide expansion only when we're not constrained to the
         // curated catalog (curatedOnly hides the section + button).
         if (browseMode === 'played' && !curatedOnly) {
-          if (homeRbStations.length > 0) {
-            $content.append(sectionLabel('Worldwide', homeRbStations.length));
-            $content.append(rowsGrid(homeRbStations));
+          const worldwide = refine(homeRbStations, { textQuery: '', featuredFirst: false });
+          if (worldwide.length > 0) {
+            $content.append(sectionLabel('Worldwide', worldwide.length));
+            $content.append(rowsGrid(worldwide));
           }
           if (homeRbHasMore) $content.append(loadMoreHomeButton());
         }
@@ -1660,7 +1962,11 @@ function renderContent(): void {
     const countryMatch = (s: Station): boolean =>
       !countryFilter || (s.country ?? '').toUpperCase() === countryFilter;
     const mySource = [...BUILTIN_STATIONS, ...getCustom()];
-    const myFiltered = filterStations(mySource, query).filter(tagMatch).filter(countryMatch);
+    const myFiltered = refine(
+      filterStations(mySource, query).filter(tagMatch).filter(countryMatch),
+      { textQuery: query, featuredFirst: true },
+    );
+    const results = refine(lastBrowseStations, { textQuery: query, featuredFirst: false });
 
     if (myFiltered.length > 0) {
       $content.append(sectionLabel('My stations', myFiltered.length));
@@ -1669,10 +1975,10 @@ function renderContent(): void {
       const remainingMy = myFiltered.length - visibleMy.length;
       if (remainingMy > 0) $content.append(homeShowMoreButton(remainingMy));
     }
-    if (lastBrowseStations.length > 0) {
+    if (results.length > 0) {
       const label = query ? 'Results' : effectiveGenre?.label ?? 'Results';
-      $content.append(sectionLabel(label, lastBrowseStations.length));
-      $content.append(rowsGrid(lastBrowseStations));
+      $content.append(sectionLabel(label, results.length));
+      $content.append(rowsGrid(results));
       if (browseHasMore) $content.append(loadMoreButton());
     } else if (myFiltered.length === 0) {
       $content.append(emptyState(ICON_EMPTY, 'No stations match', 'Try a different search or genre'));
@@ -1764,10 +2070,14 @@ async function runQuery(): Promise<void> {
   // Skip Radio Browser fetch when:
   //  · curated-only is on (we never render RB results in that mode)
   //  · OR mode is 'played' AND no filter is set (local data only)
+  //  · OR we're on the discovery landing (no list to fill yet — the RB
+  //    Top feed loads when the user taps "Browse all")
   // Mode='news' and mode=null both need an RB fetch (unless curated-only
   // is on, in which case we'd never use the result).
   const needsRb =
-    !curatedOnly && (hasAnyFilter || browseMode === null || browseMode === 'news');
+    !curatedOnly &&
+    !inDiscovery() &&
+    (hasAnyFilter || browseMode === null || browseMode === 'news');
   if (!needsRb) {
     if (myToken !== queryToken) return;
     lastBrowseStations = [];
@@ -2001,28 +2311,27 @@ function clearSearch(refocus: boolean): void {
 }
 
 function goHome(): void {
-  // Close Now Playing if open, then reset Browse to its initial state
+  // Close Now Playing if open, then reset Browse to its discovery landing.
   if ($np.classList.contains('open')) openNp(false);
-  const wasBrowseDefault =
-    activeTab === 'browse' &&
-    activeTag === 'all' &&
-    activeCountry === 'all' &&
-    browseMode === 'played' &&
-    $search.value === '';
+  const wasDiscovery = activeTab === 'browse' && inDiscovery();
   clearSearch(false);
   activeTag = 'all';
   activeCountry = 'all';
-  // Reset to default played mode + clear visual state on the others.
-  browseMode = 'played';
-  $modePlayed.classList.add('is-active');
-  $modePlayed.setAttribute('aria-pressed', 'true');
-  $newsToggle.classList.remove('is-active');
-  $newsToggle.setAttribute('aria-pressed', 'false');
+  // Reset every Browse narrowing back to the discovery landing.
+  browseMode = null;
+  browseAll = false;
+  curatedOnly = false;
+  syncCuratedToggle();
+  syncBrowseModeButtons();
+  activeQuality.clear();
+  syncQuality();
+  activeSort = null;
+  syncSort();
   syncGenre();
   syncCountry();
   if (activeTab !== 'browse') {
     setTab('browse'); // setTab also runs the query
-  } else if (!wasBrowseDefault) {
+  } else if (!wasDiscovery) {
     void runQuery();
   }
   $content.scrollTo({ top: 0, behavior: 'smooth' });
@@ -3010,7 +3319,11 @@ function handleNavClick(e: Event): void {
 $tabbar.addEventListener('click', handleNavClick);
 $sidebar.addEventListener('click', handleNavClick);
 
-$search.addEventListener('input', () => syncSearchClear());
+$search.addEventListener('input', () => {
+  syncSearchClear();
+  // A live query suppresses the alphabet sort (relevance order wins).
+  syncSort();
+});
 $search.addEventListener(
   'input',
   debounce(() => {
@@ -3041,14 +3354,13 @@ $country.addEventListener('change', () => {
 });
 
 function setBrowseMode(target: BrowseMode): void {
-  // Toggle off when the user taps the active button.
+  // Toggle off when the user taps the active button. Tapping a mode also
+  // leaves the discovery landing (Browse-all) so the chosen list shows.
   const next = browseMode === target ? null : target;
   if (next === browseMode) return;
   browseMode = next;
-  $modePlayed.classList.toggle('is-active', browseMode === 'played');
-  $modePlayed.setAttribute('aria-pressed', String(browseMode === 'played'));
-  $newsToggle.classList.toggle('is-active', browseMode === 'news');
-  $newsToggle.setAttribute('aria-pressed', String(browseMode === 'news'));
+  browseAll = false;
+  syncBrowseModeButtons();
   // News mode and the genre dropdown both encode a single tag filter,
   // so they're mutually exclusive — picking news clears the genre.
   if (browseMode === 'news' && activeTag !== 'all') {
@@ -3077,6 +3389,30 @@ function setCuratedOnly(target: boolean): void {
 $modePlayed.addEventListener('click', () => setBrowseMode('played'));
 $newsToggle.addEventListener('click', () => setBrowseMode('news'));
 $curatedToggle.addEventListener('click', () => setCuratedOnly(!curatedOnly));
+
+// Alphabet sort cycle (off → A–Z → Z–A). Disabled while a query is active.
+$sortBtn.addEventListener('click', () => {
+  if ($sortBtn.disabled) return;
+  activeSort = cycleSort(activeSort);
+  syncSort();
+  track(`sort/${activeSort ?? 'off'}`);
+  void runQuery();
+});
+
+// Minimum stream-quality filter. 'all' clears it; 'med' keeps Medium+High;
+// 'high' keeps High only. Local-only (never forwarded to Radio Browser).
+$quality.addEventListener('change', () => {
+  activeQuality.clear();
+  if ($quality.value === 'high') {
+    activeQuality.add('high');
+  } else if ($quality.value === 'med') {
+    activeQuality.add('medium');
+    activeQuality.add('high');
+  }
+  syncQuality();
+  track(`quality/${$quality.value}`);
+  void runQuery();
+});
 
 $mapToggle.addEventListener('click', () => {
   if ($mapToggle.disabled) return;
@@ -3506,6 +3842,9 @@ syncLayoutMode();
 syncGenre();
 syncCountry();
 syncSearchClear();
+syncBrowseModeButtons();
+syncSort();
+syncQuality();
 // Stations.json defines the built-in catalog (Featured strip + per-station
 // metadata fetcher overrides). Render once it lands so the first paint
 // already has the Featured tiles.
@@ -3513,6 +3852,12 @@ void loadBuiltinStations().then(() => {
   syncCountryOptions();
   if (activeTab === 'browse') renderContent();
   autoLoadStationFromUrl();
+});
+// Editorial Featured rail on the discovery landing — load once, then
+// re-render if we're still on the discovery view when it lands.
+void loadHighlights().then((list) => {
+  highlightsRaw = list;
+  if (inDiscovery()) renderContent();
 });
 // Fetch the visitor's country from the worker so geo-restricted
 // station rows can show a "<Country> only" badge instead of failing

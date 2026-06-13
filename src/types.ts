@@ -78,6 +78,9 @@ export interface Station {
   bitrate?: number;
   /** Audio codec when known, e.g. "MP3", "AAC" (Radio Browser codec field) */
   codec?: string;
+  /** Editorial "featured" flag from data/stations.yaml. Drives
+   *  featured-first ordering in Browse and the discovery "Browse all" list. */
+  featured?: boolean;
   /** Approximate listener count — derived from Radio Browser clickcount */
   listeners?: number;
   /** Display-only "FM" frequency. Real RB stations rarely have one, so we

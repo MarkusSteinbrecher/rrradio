@@ -261,7 +261,7 @@
             <span class="filter-cell__label">Curated</span>
           </div>
           <div class="filter-cell">
-            <button type="button" class="filter-chip is-active" id="mode-played" aria-pressed="true" aria-label="Show most played">
+            <button type="button" class="filter-chip" id="mode-played" aria-pressed="false" aria-label="Show most played">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="11" width="3.2" height="9" rx="0.6"/><rect x="10.4" y="6" width="3.2" height="14" rx="0.6"/><rect x="16.8" y="14" width="3.2" height="6" rx="0.6"/></svg>
             </button>
             <span class="filter-cell__label">Played</span>
@@ -295,6 +295,24 @@
               <svg class="filter-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
             </label>
             <span class="filter-cell__label">Country</span>
+          </div>
+          <div class="filter-cell">
+            <label class="filter-wrap" aria-label="Minimum stream quality">
+              <svg class="filter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20v-4"/><path d="M12 20V9"/><path d="M19 20V4"/></svg>
+              <select class="filter-select" id="quality" aria-label="Minimum stream quality">
+                <option value="all">Any quality</option>
+                <option value="med">Medium &amp; up</option>
+                <option value="high">High only</option>
+              </select>
+              <svg class="filter-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </label>
+            <span class="filter-cell__label">Quality</span>
+          </div>
+          <div class="filter-cell">
+            <button type="button" class="filter-chip" id="sort-btn" aria-pressed="false" aria-label="Sort A to Z">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h9"/><path d="M4 12h7"/><path d="M4 17h5"/><path d="m16 8 3-3 3 3"/><path d="M19 5v14"/></svg>
+            </button>
+            <span class="filter-cell__label">Sort</span>
           </div>
           <div class="filter-cell">
             <button type="button" class="map-toggle" id="map-toggle" aria-pressed="false" aria-label="Show map view">
