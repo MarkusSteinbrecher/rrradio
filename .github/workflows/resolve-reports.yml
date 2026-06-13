@@ -1,0 +1,77 @@
+name: Resolve Broken-Station Reports
+
+# When a `broken-station` issue is closed, tell the stats Worker so the
+# D1 report rows for that station flip to `resolved` and the apps'
+# receipt polling can inform the reporters (issue #507, P1).
+#
+# Resolution comes from a `resolved:*` label on the issue; without one
+# it falls back on GitHub's close reason (completed → fixed,
+# not planned → not-reproducible).
+#
+# The station id is read from a marker in the issue body:
+#   <!-- rrradio:station-id=<id> -->
+# The P2 auto-upserter writes this marker; hand-filed issues should
+# include it too. Without it the resolve still matches any reports
+# already linked to this issue number in D1.
+#
+# Required repo secret:
+#   STATS_ADMIN_TOKEN — the Worker's ADMIN_TOKEN (the same value set
+#                       with `wrangler secret put ADMIN_TOKEN`).
+
+on:
+  issues:
+    types: [closed]
+
+permissions: {}
+
+jobs:
+  resolve:
+    if: contains(github.event.issue.labels.*.name, 'broken-station')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mark linked reports resolved
+        env:
+          ADMIN_TOKEN: ${{ secrets.STATS_ADMIN_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          LABELS: ${{ join(github.event.issue.labels.*.name, ',') }}
+          STATE_REASON: ${{ github.event.issue.state_reason }}
+        run: |
+          set -euo pipefail
+          if [ -z "$ADMIN_TOKEN" ]; then
+            echo "STATS_ADMIN_TOKEN secret is not set" >&2
+            exit 1
+          fi
+
+          # Resolution: explicit label wins, else GitHub's close reason.
+          resolution=""
+          case ",$LABELS," in
+            *",resolved:fixed,"*)            resolution="fixed" ;;
+            *",resolved:removed,"*)          resolution="removed" ;;
+            *",resolved:not-reproducible,"*) resolution="not-reproducible" ;;
+          esac
+          if [ -z "$resolution" ]; then
+            case "$STATE_REASON" in
+              not_planned) resolution="not-reproducible" ;;
+              *)           resolution="fixed" ;;
+            esac
+          fi
+
+          # Station id from the body marker, if present.
+          station_id=$(printf '%s' "$ISSUE_BODY" \
+            | grep -oE '<!-- rrradio:station-id=[A-Za-z0-9._:-]+ -->' \
+            | head -n1 \
+            | sed -E 's/^<!-- rrradio:station-id=([A-Za-z0-9._:-]+) -->$/\1/' || true)
+
+          payload=$(jq -nc \
+            --arg resolution "$resolution" \
+            --arg stationId "$station_id" \
+            --argjson issue "$ISSUE_NUMBER" \
+            '{resolution: $resolution, githubIssue: $issue}
+             + (if $stationId != "" then {stationId: $stationId} else {} end)')
+
+          echo "Resolving reports for issue #$ISSUE_NUMBER: $payload"
+          curl -fsS -X POST 'https://stats.rrradio.org/api/admin/resolve-reports' \
+            -H "Authorization: Bearer $ADMIN_TOKEN" \
+            -H 'Content-Type: application/json' \
+            -d "$payload"
