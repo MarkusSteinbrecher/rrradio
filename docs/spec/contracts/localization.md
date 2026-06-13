@@ -289,9 +289,24 @@ key name) is a visible defect, not a crash.
 
 **Android**
 
-- Localization is planned, not yet shipped (see the matrix). When implemented,
-  honor the same registry, language set, fallback order, and plural algebra;
-  map `system` to the device locale; keep the choice local-only.
+- Localization is planned, not yet shipped (see the matrix). Today the app is
+  English-only: a single `res/values/strings.xml` carries two app-chrome strings
+  (`app_name`, `playback_channel_name`) and there are no `values-de`/`-fr`/`-es`/
+  `-it`/`-ru` resource folders, no key registry, no language choice, and no
+  plural engine. The only locale-aware behavior is incidental device-locale
+  formatting (`Locale.displayCountry` for country names — the Android analogue of
+  web's `Intl.DisplayNames`), which follows the device locale, not an in-app
+  choice.
+- When implemented, honor the same registry, language set, fallback order, and
+  plural algebra; map `system` to the device locale; keep the choice local-only.
+  The natural Android mechanic is the resource framework (`values-<lang>/`
+  string + `plurals` resources, or a parallel in-app registry) with the engine
+  still materializing the registry shape, lookup order, and plural algebra
+  defined here rather than delegating to the OS string runtime — matching iOS's
+  static-engine approach (LC7) for an identical cross-platform contract.
+- Language-choice cloud sync is not applicable: the first Android port has no
+  cloud-sync transport, and the iOS choice rides CloudKit (Apple-only). The
+  choice stays a local preference.
 
 ### Platform Matrix
 
@@ -305,7 +320,7 @@ key name) is a visible defect, not a crash.
 | `{placeholder}` substitution | Not planned | Supported | Planned |
 | `system` follows OS language | Not planned | Supported | Planned |
 | Time format follows device 24-Hour setting | Partial (browser-locale, no in-app choice) | Supported | Planned |
-| Language choice cloud sync | Not planned | Supported | Not planned |
+| Language choice cloud sync | Not planned | Supported | Not applicable (no cloud-sync transport; iOS rides CloudKit) |
 
 ## Open questions
 

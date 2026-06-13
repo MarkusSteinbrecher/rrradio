@@ -376,21 +376,21 @@ map's "<n> stations" are pluralizable.
 | News filter toggle | Supported. | Supported. | Supported. |
 | Stream-quality (Low/Medium/High) filter | Not planned for current web. No quality-bucket filter exists; web filters are genre, country, and the news/curated toggles. | Supported (multi-select buckets). | Planned. |
 | Filter apply gated on live match count | Not planned for current web. Web filters apply instantly via dropdowns/toggles — there is no filter popup or apply-with-count gate. | Supported. | Planned. |
-| Searchable country picker with selected-pinned-to-top | Partial. Country selection is a plain native `<select>` populated from the catalog's codes (alphabetical); no in-picker search and no selected-pinned-to-top. | Supported. | Supported. |
+| Searchable country picker with selected-pinned-to-top | Partial. Country selection is a plain native `<select>` populated from the catalog's codes (alphabetical); no in-picker search and no selected-pinned-to-top. | Supported. | Planned. Country selection is a plain dropdown menu populated from the catalog's codes (alphabetical by display name, capped at 90); no in-picker search and no selected-pinned-to-top. |
 | Back-to-discovery chevron + swipe | Not planned for current web. No discovery surface to return to; clearing the search/filter controls reverts to the catalog list. | Supported. | Planned. |
 | Map browse | Supported with web map asset. | Surface built (MapKit) but no Browse entry point wired at d241aa9. | Planned with native map, provider TBD. |
 | Add several stations to a station list | Not planned for current web. | Supported from Browse. | Supported. |
 | Add several stations to Favorites | Not planned for current web. | Supported (Favorites "+" target). | Planned. |
-| Multi-select selection bar (name + count + save) | Not planned for current web. | Supported (top, under the search field). | Supported. |
+| Multi-select selection bar (name + count + save) | Not planned for current web. | Supported (top, under the search field). | Supported (bottom bar, above the tab bar; save opens a bottom-sheet list picker / create-list dialog rather than a name+count seeded bar). |
 | Sort controls | Not planned for current web. Browse has no sort row; the catalog renders most-played-first then catalog order, with no user-facing sort control. | Reference native behavior. | Supported for name, quality, and favorite-state sorting. |
 | Alphabet sort cycle (off/A–Z/Z–A) in the sort row | Not planned for current web. No sort row exists. | Reference native behavior. | Supported. |
 | Quality / favorite-state sort | Not planned for current web. | In the sort model; not exposed by the Browse sort row's single control. | Supported. |
 | Stream-quality meter on Browse rows | Not shown on web rows. Rows carry capability stars (stream/track/program) and a bitrate tooltip, not a Low/Medium/High meter. | Hidden in Browse (reachable from the info preview). | Per platform. |
-| Featured-first catalog ordering | Not applied on Browse for web. The home list orders most-played-first then catalog order; `featured` drives only the separate editorial highlights rail, not Browse row order. | Supported. | Partial. |
+| Featured-first catalog ordering | Not applied on Browse for web. The home list orders most-played-first then catalog order; `featured` drives only the separate editorial highlights rail, not Browse row order. | Supported. | Supported. `browseOrdered` lists `featured: true` stations first, then catalog order. |
 | Result-count label | Supported. | Supported. | Supported. |
-| Visible-window paging (load more) | Supported. | Supported (25-row pages). | Supported. |
-| Community results appended to active search | Supported. | Supported (50-row pages). | Supported. |
-| Sort suppressed while a query is active | Not applicable. Web exposes no sort control, so there is nothing to suppress. | Reference. | Required. |
+| Visible-window paging (load more) | Supported. | Supported (25-row pages). | Partial. The un-queried catalog is hard-capped at 220 rows; there is no load-more / growing window. Querying, filtering, or sorting renders the full (uncapped) result set. |
+| Community results appended to active search | Supported. | Supported (50-row pages). | Planned. Search runs only over the local catalog + custom stations; no Radio Browser community tier or paginator is wired yet. |
+| Sort suppressed while a query is active | Not applicable. Web exposes no sort control, so there is nothing to suppress. | Reference. | Planned. The name/quality/favorite sort still applies under an active query today; query-driven relevance ordering and sort suppression are not yet implemented. |
 | Station info preview | Basic row details. | Supported from station rows (press-and-hold). | Supported with long-press row preview. |
 | Geo-restriction dim/badge on rows | Supported. | Supported. | Planned. |
 | Wide-layout multi-column grid | Not planned for current web. The layout caps to a single-column ~480px phone-width frame on wider screens; rows never lay out as a multi-column grid. | Supported (iPad + iPhone landscape). | Planned. |

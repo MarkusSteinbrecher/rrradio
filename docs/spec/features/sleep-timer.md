@@ -211,17 +211,25 @@ Parameter/plural needs:
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
 | Timer cycle | Supported. | Model only (no UI invokes `cycle()`). | Supported. |
-| Preset / free-form durations | 15/30/60 presets (web cycle is `[0, 15, 30, 60]`); no free-form entry. | Free-form via wheel (sheet) and 24h picker (Settings default); cycle presets unwired. | 30/60/90. |
-| Visible remaining time | Partial (moon-control chip shows the *armed* duration as `<n>m`, fixed at arming; no live countdown, no sheet, no lock-screen suffix). | Supported (control chip + sheet countdown + lock screen). | Partial. |
-| Background firing | Browser/OS dependent. | Supported while app/session remains eligible. | Planned through service/alarm design. |
-| Wake interaction | Silent-bed behavior. | Keep-alive aware. | To be designed with Android wake flow. |
-| Persisted default duration | Not planned (no Settings row; the cycle resets to off on each load — there is no stored default). | Supported (synced via iCloud). | Partial. |
+| Preset / free-form durations | 15/30/60 presets (web cycle is `[0, 15, 30, 60]`); no free-form entry. | Free-form via wheel (sheet) and 24h picker (Settings default); cycle presets unwired. | 15/30/60/90 presets (cycle is `[0, 15, 30, 60, 90]`, first tap jumps to the persisted default); no free-form entry. |
+| Visible remaining time | Partial (moon-control chip shows the *armed* duration as `<n>m`, fixed at arming; no live countdown, no sheet, no lock-screen suffix). | Supported (control chip + sheet countdown + lock screen). | Partial (the Sleep button shows the *armed* duration as `<n>m`, fixed at arming, in the transport row and mini player; no live countdown, no sheet, no media-notification suffix). |
+| Background firing | Browser/OS dependent. | Supported while app/session remains eligible. | Partial (a ViewModel coroutine fires the pause via the foreground MediaSessionService, so it works while playback keeps the process alive; not yet backed by AlarmManager/exact-alarm, so it does not survive process death — Planned toward parity). |
+| Wake interaction | Silent-bed behavior. | Keep-alive aware. | Planned — to be designed with the Android wake flow. |
+| Persisted default duration | Not planned (no Settings row; the cycle resets to off on each load — there is no stored default). | Supported (synced via iCloud). | Supported (preset default in a Settings "Sleep timer" section, persisted via DataStore under `rrradio.sleep-default-minutes.v1`, seeded to 30, included in the SAF library backup; preset-restricted, not free-form). |
 | Pause-not-stop on fire | Supported. | Reference. | Supported. |
 
 ## Android First-Port Requirement
 
-Android includes the sleep timer cycle. Alignment work should verify background
-behavior with the app backgrounded and the media notification active.
+Android implements the preset sleep-timer cycle (`[0, 15, 30, 60, 90]`, first tap
+from off jumping to the persisted default) with a preset default in Settings, and
+pauses via the foreground MediaSessionService when the timer fires. Toward iOS
+parity it still lacks the free-form duration wheel, the live countdown / sheet,
+and a media-notification "Sleep in <n>m" suffix; these are Planned. Background
+firing currently rides a ViewModel coroutine plus the foreground service rather
+than `AlarmManager`/exact-alarm, so it does not survive process death — promoting
+it to an AlarmManager-backed schedule (the Android analogue of the iOS keep-alive
+session) is the parity step, and should be designed alongside the Android wake
+flow (see [Wake to radio](wake-to-radio.md)).
 
 ## Open questions
 

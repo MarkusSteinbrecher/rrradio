@@ -212,18 +212,18 @@ fr, it, ru):
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| Cold launch shows real stations without waiting on network | Partial (fetches `stations.json` at boot; only a 3-station seed fallback when offline) | Reference (disk cache → bundled snapshot → network) | Cache-backed load; bundled snapshot is porting work |
-| Bundled catalog snapshot for first-run / cold cache | Not planned (catalog fetched as a static `stations.json`, not embedded) | Supported (`stations.json.lzfse`, 24,320 stations) | Planned (bundled snapshot porting work) |
-| Persisted disk cache of last network payload | Not planned (`stations.json` fetched `no-store`; no payload cache) | Supported (Caches dir) | Partial (cache-backed load) |
-| Always-attempt network refresh after first paint, upgrade in place | Not applicable (single boot fetch; no cache-then-refresh ladder) | Reference | Partial |
-| Branded launch splash with hand-off grace | Not planned (no launch splash; a "Tuning in…" line only covers a Browse fetch) | Supported | Platform-specific |
-| Browse cached catalog offline | Not planned (catalog and Browse feed come from the network) | Supported | Partial |
-| Local search offline (bundled full-text index) | Not planned (search queries Radio Browser online; no offline index) | Reference (`stations.fts5.db` + divergence guard) | Optional index deferred → substring fallback |
-| Community (Radio Browser) search requires network | Supported | Supported | Supported |
-| Play already-buffered/cached station offline | Not planned (no offline-playback handling) | Supported (no new stream without network) | Partial |
-| Auto-resume current stream on connectivity restore | Not planned (no connectivity listeners; no resume-on-restore) | Supported | Planned |
-| Inline offline phrase in player chrome (no blocking modal) | Not planned (no connectivity detection or offline phrase) | Reference | Partial |
-| Refresh-failure surfaced out-of-band (cached catalog stays) | Not planned (no catalog refresh-error channel) | Supported | Planned |
+| Cold launch shows real stations without waiting on network | Partial (fetches `stations.json` at boot; only a 3-station seed fallback when offline) | Reference (disk cache → bundled snapshot → network) | Partial (warm launch renders the disk cache instantly; cold install with no cache shows a spinner and blocks on the network — no bundled snapshot yet) |
+| Bundled catalog snapshot for first-run / cold cache | Not planned (catalog fetched as a static `stations.json`, not embedded) | Supported (`stations.json.lzfse`, 24,320 stations) | Planned (no `assets/` snapshot shipped; cold install falls straight through to the network) |
+| Persisted disk cache of last network payload | Not planned (`stations.json` fetched `no-store`; no payload cache) | Supported (Caches dir) | Supported (`cacheDir/stations.json`; rewritten on every successful network load, read first on launch) |
+| Always-attempt network refresh after first paint, upgrade in place | Not applicable (single boot fetch; no cache-then-refresh ladder) | Reference | Partial (cache renders then a `FORCE_NETWORK` fetch upgrades in place at ViewModel init; no no-op-equality skip and no staleness/foreground throttle) |
+| Branded launch splash with hand-off grace | Not planned (no launch splash; a "Tuning in…" line only covers a Browse fetch) | Supported | Planned (no launch splash or hand-off grace; an empty-catalog `CircularProgressIndicator` is the only cold-load affordance) |
+| Browse cached catalog offline | Not planned (catalog and Browse feed come from the network) | Supported | Partial (cached roster stays browsable offline; with no cache an offline launch lands on the `failed`/empty state) |
+| Local search offline (bundled full-text index) | Not planned (search queries Radio Browser online; no offline index) | Reference (`stations.fts5.db` + divergence guard) | Partial (in-memory substring scan over the loaded roster works offline; no bundled full-text index) |
+| Community (Radio Browser) search requires network | Supported | Supported | Planned (no online community-search tier yet; Android search is local-roster only) |
+| Play already-buffered/cached station offline | Not planned (no offline-playback handling) | Supported (no new stream without network) | Planned (no offline-playback handling; a stream drop triggers a "Reconnecting…" retry, not cached-audio replay) |
+| Auto-resume current stream on connectivity restore | Not planned (no connectivity listeners; no resume-on-restore) | Supported | Planned (no `ConnectivityManager`/`NetworkCallback` listeners; reconnect is retry-on-error only) |
+| Inline offline phrase in player chrome (no blocking modal) | Not planned (no connectivity detection or offline phrase) | Reference | Planned (no connectivity detection or offline phrase; offline surfaces only as a catalog `failed` empty state or a playback error) |
+| Refresh-failure surfaced out-of-band (cached catalog stays) | Not planned (no catalog refresh-error channel) | Supported | Partial (a failed refresh keeps the cached roster on screen and records a `network` diagnostic, but there is no refresh-error channel surfaced to Preferences) |
 
 ## Open questions
 

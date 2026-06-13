@@ -314,22 +314,22 @@ Parameter/plural needs:
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| Personal listening history (opt-in, local) | Planned | Reference | Planned |
-| Session recording (start/stop/duration, ≥5s, one open) | Planned | Supported | Planned |
+| Personal listening history (opt-in, local) | Planned | Reference | Partial (opt-in local play-event log via DataStore, capped at 100 entries; no dashboard yet) |
+| Session recording (start/stop/duration, ≥5s, one open) | Planned | Supported | Partial (records a play-event timestamp on each play; no start/stop session, no duration, no ≥5s or one-open rule yet) |
 | Crash-recovery close at last lifecycle timestamp | Planned | Supported | Planned |
-| Granularity: stations-only vs stations+tracks | Planned | Supported | Planned |
-| Retention windows (30d/90d/1y/Forever) | Planned | Supported | Planned |
+| Granularity: stations-only vs stations+tracks | Planned | Supported | Partial (tri-state Off/Stations/+Tracks preference exists and gates recording; track artist/title capture not yet wired, so +Tracks records nothing extra) |
+| Retention windows (30d/90d/1y/Forever) | Planned | Supported | Planned (today a fixed 100-entry cap, no time-based retention) |
 | Range scope (7d/30d/All) | Planned | Supported | Planned |
 | Top stations / countries / recent tracks | Planned | Supported | Planned |
 | Recent sessions list (≥60s, newest 20) | Planned | Supported | Planned |
 | Station merge by name+country / stream URL | Planned | Supported | Planned |
 | Race chart (animated, 366-day cap) | Planned | Supported | Planned |
 | Minutes-by-day bars (weekly grouping, peak, tap-select) | Planned | Supported | Planned |
-| CSV export (mail / share) | Planned (web has no listening history; its JSON backup export of favorites + custom stations per [data-sync.md](../data-sync.md) is a different feature) | Supported | Planned |
-| Closed records synced to user's own iCloud (bounded, union-merge) | n/a | Supported | n/a |
-| Open sessions never synced; records excluded from backup-export | n/a | Supported | n/a |
-| History preferences synced (3 fields) | Not planned | Supported | Not planned |
-| Never sent to analytics endpoints | Supported | Supported | Planned |
+| CSV export (mail / share) | Planned (web has no listening history; its JSON backup export of favorites + custom stations per [data-sync.md](../data-sync.md) is a different feature) | Supported | Planned (no history CSV yet; would use SAF / the Android share sheet, the native counterpart to the iOS mail composer / share sheet — distinct from the existing JSON library backup) |
+| Closed records synced to user's own iCloud (bounded, union-merge) | n/a | Supported | Not applicable (iCloud is Apple-only; no cross-device record sync on the first Android port — see [data-sync.md](../data-sync.md)) |
+| Open sessions never synced; records excluded from backup-export | n/a | Supported | Not applicable (no record sync; the SAF library backup already carries only the history *preference*, not records) |
+| History preferences synced (3 fields) | Not planned | Supported | Not planned (no cross-device sync; the single history-level preference rides along in the SAF library backup file, not a sync service) |
+| Never sent to analytics endpoints | Supported | Supported | Supported (records persist only in local DataStore; nothing posted off-device) |
 
 ## Open questions
 

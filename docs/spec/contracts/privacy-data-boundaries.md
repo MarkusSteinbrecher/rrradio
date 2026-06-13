@@ -255,29 +255,50 @@ Diagnostics export line (always redacted form):
 
 **Android**
 
-- Start with **no** analytics SDK for the first port; if telemetry is added,
-  match the web GoatCounter rules exactly.
-- Diagnostics: opt-in, capped, exportable, redacted — same rules as iOS.
-- Broken-station report uses the shared anonymous endpoint under `rrradio.org`.
-- Region/stats flows, if implemented, use the first-party boundary and fail
-  open.
-- Library data stays local; no track/query content to analytics.
+- Ships **no** analytics SDK (verified: the Gradle dependency set links none —
+  Compose, media3, coil, okhttp, kotlinx-serialization, datastore only). If
+  telemetry is ever added, match the web GoatCounter rules exactly.
+- The only rrradio-operated outbound calls built today are the catalog GET
+  (`rrradio.org/stations.json`) and the broken-station POST
+  (`stats.rrradio.org/api/public/report-broken`); both route through the
+  first-party domain, with no `*.workers.dev` host anywhere.
+- Diagnostics are local opt-in (DataStore Preferences, default OFF),
+  count-capped (200 entries), and redacted at write time (URLs → `[url]`,
+  message length-capped). They are exportable as a JSON file. **Diverges from
+  iOS:** disabling the switch does not auto-clear the log (a separate "Clear
+  diagnostics" action does), there is no 14-day time-based prune (count-only),
+  and MetricKit-style crash/hang capture is absent — *Planned* to bring the cap,
+  the clear-on-disable, and an OS-native crash source to iOS parity.
+- Broken-station report is a fire-and-forget anonymous POST
+  (`platform=android`, `source=manual`, `reason` ≤160 chars of player state, no
+  reporter identity). `category`, `comment`, and receipt polling (rows 4/15) are
+  *Planned* to reach the iOS sheet+receipt shape.
+- Region/GeoIP resolution and the Stats-sheet fetches (rows 2, 3) are not built;
+  *Planned*. When added they must use the first-party boundary and fail open.
+- The metadata proxy and BBC proxy (rows 5, 6) are not used: Android contacts
+  broadcaster now-playing endpoints directly (ORF/FM4, grrif) and reads inline
+  ICY metadata; *Planned* to wire the proxied stations.
+- No mailto flow is built (no catalog-submission compose, no broken-report email
+  fallback); a manual SAF/file library backup export/import stands in for iOS's
+  iCloud sync. When mailto flows are ported, destinations must target the
+  first-party inbox (`support@rrradio.org`).
+- Library data stays local (DataStore); no track/query content to analytics.
 
 ## Platform Matrix
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| No account / no app-minted user ID | Supported | Reference | Planned |
-| No analytics SDK linked | Not planned (GoatCounter only) | Reference | Planned |
-| First-party telemetry anonymous + aggregate (GoatCounter) | Reference | Not planned (no SDK) | Planned |
-| All rrradio-operated calls under `rrradio.org` | Supported | Reference | Planned |
+| No account / no app-minted user ID | Supported | Reference | Supported |
+| No analytics SDK linked | Not planned (GoatCounter only) | Reference | Supported |
+| First-party telemetry anonymous + aggregate (GoatCounter) | Reference | Not planned (no SDK) | Not planned (no SDK) |
+| All rrradio-operated calls under `rrradio.org` | Supported | Reference | Supported (catalog → `rrradio.org`; broken-report → `stats.rrradio.org`; no `*.workers.dev`) |
 | Region/GeoIP resolution, fail-open, 24h cache | Supported | Reference | Planned |
-| Diagnostics opt-in, capped, redacted on export, cleared on disable | Planned | Reference | Planned |
-| MetricKit crash/hang reports (own-app frames, opt-in) | Not planned | Reference | Not planned |
-| Broken-station report (anonymous POST + receipt polling) | Partial (fire-and-forget POST only; no `category`/`comment`, no receipt polling) | Reference | Planned |
-| Library data local-first; never sent to analytics | Supported | Reference | Planned |
-| CloudKit sync to user's own private DB | Not planned | Reference | Not planned (Apple-only) |
-| mailto destinations → first-party inbox only | Not planned (web has only a feedback `mailto:` → personal Gmail, not a first-party inbox; no catalog/broken-report mailto) | Reference | Planned |
+| Diagnostics opt-in, capped, redacted on export, cleared on disable | Planned | Reference | Partial (opt-in + count-cap 200 + write-time URL/length redaction + export, but disabling does not auto-clear — a separate "Clear" action does — and the cap is count-only with no 14-day time prune) |
+| MetricKit crash/hang reports (own-app frames, opt-in) | Not planned | Reference | Not applicable (Apple-only framework) |
+| Broken-station report (anonymous POST + receipt polling) | Partial (fire-and-forget POST only; no `category`/`comment`, no receipt polling) | Reference | Partial (fire-and-forget POST `platform=android`, `source=manual`, `reason` ≤160; no `category`/`comment`, no receipt polling) |
+| Library data local-first; never sent to analytics | Supported | Reference | Supported (DataStore Preferences; no analytics) |
+| CloudKit sync to user's own private DB | Not planned | Reference | Not applicable (Apple-only) |
+| mailto destinations → first-party inbox only | Not planned (web has only a feedback `mailto:` → personal Gmail, not a first-party inbox; no catalog/broken-report mailto) | Reference | Planned (no mailto flow built yet — broken-report has no email fallback and there is no catalog-submission mailto) |
 
 ## Open questions
 

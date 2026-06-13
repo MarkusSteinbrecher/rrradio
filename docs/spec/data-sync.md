@@ -164,7 +164,9 @@ The Android app is local-only:
 - No account requirement.
 - No shared backend.
 - Manual backup import/export is a user-controlled transfer path, but it is
-  not a substitute for a shared sync backend.
+  not a substitute for a shared sync backend. Export and import are wired to
+  the OS document picker via the Storage Access Framework (SAF) — the Android
+  analogue of the iOS share sheet plus file importer.
 - Favorites, recents, custom stations, and station lists are persisted in
   DataStore today.
 - Preferences are currently partly modeled on Android; system/light/dark,
@@ -223,15 +225,15 @@ Apple-device-only.
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| Library data local-first, private by default | Supported | Reference | Planned |
-| Optional cloud sync to the user's own account | Not planned | Reference | Not planned (Apple-only) |
-| iCloud sync defaults on, removable from Settings | Not planned | Reference | Not planned |
-| Sync degrades to local-only when account unavailable | Not planned | Reference | Not planned |
-| Listening-history records sync to user's own iCloud only | Not planned | Reference | Not planned |
+| Library data local-first, private by default | Supported | Reference | Supported |
+| Optional cloud sync to the user's own account | Not planned | Reference | Planned |
+| iCloud sync defaults on, removable from Settings | Not planned | Reference | Not applicable (iCloud is Apple-only) |
+| Sync degrades to local-only when account unavailable | Not planned | Reference | Planned |
+| Listening-history records sync to user's own iCloud only | Not planned | Reference | Not applicable (iCloud is Apple-only) |
 | Listening-history records excluded from backup file | Supported (no history) | Reference | Supported |
-| Recents / diagnostics / active wake intent never synced | Supported | Reference | Planned |
-| Versioned settings backup export | Partial (favorites + custom only) | Reference | Planned |
-| Settings backup import (restore replaces live library) | Partial (import merges) | Reference | Planned |
+| Recents / diagnostics / active wake intent never synced | Supported | Reference | Supported |
+| Versioned settings backup export | Partial (favorites + custom only) | Reference | Supported (SAF file export) |
+| Settings backup import (restore replaces live library) | Partial (import merges) | Reference | Partial (import merges by id) |
 | Region/GeoIP cache, 24h, fail-open | Supported | Reference | Planned |
 | Catalog cache with bundled fallback | Supported | Reference | Partial |
 

@@ -385,12 +385,58 @@ reactivate session, resume; state → playing
 
 ### Android
 
-- Mirror the state machine and transitions using Media3/ExoPlayer error callbacks.
-- Rebuild the `MediaItem`/player item on retry with the same budget and backoff;
-  resolve `.m3u`/`.pls` before playback, keep `.m3u8` native.
-- Provide the Media3 media-session notification with the now-playing fields and
-  transport controls; previous/next gated on a steppable queue.
-- Honor queue sources and circular stepping; geo-restricted = no retry.
+The first Android port runs playback in a foreground `MediaSessionService`
+(Media3/ExoPlayer) — the Android-native mechanic for background audio plus
+lock-screen / notification controls, the counterpart to iOS's background-audio
+entitlement + remote-command center. It mirrors the **state model** and the
+**queue/stepping** core, with a divergent retry budget and no system-event or
+geo handling yet.
+
+- **Supported — five states.** A `PlayerState` enum (`idle`/`loading`/`playing`/
+  `paused`/`error`) mirrors the contract's 5-case set 1:1, driven by ExoPlayer
+  `Player.Listener` callbacks (`onPlaybackStateChanged`, `onIsPlayingChanged`,
+  `onPlayerError`). User-driven transitions (play/toggle/pause/stop, step) and
+  the play-rebuild rule are honored. `loading` is reported while buffering;
+  `stop` clears station, queue, and metadata back to `idle`.
+- **Supported — circular queue + stepping.** A real `(stations[])` queue with
+  de-duplication by id and circular wrap-around stepping (`% n`), gated on a
+  steppable queue (more than one station) both in the service `step()` and in the
+  UI (`canStepStations = queueSize > 1`). Previous/next map to step
+  backward/forward.
+- **Partial — retry rebuilds, but the budget and backoff diverge.** Retry
+  rebuilds the player item (`setMediaItems` + `prepare`, single-flight) — it does
+  not merely re-call play. **Divergence:** the budget is **2** attempts (not 3),
+  the backoff is a linear `attempt × 1.5 s` capped at 5 s (1.5 s, 3 s — not the
+  `min(30, 2^(n−1))` curve), and there is **no 5-minute healthy-reset timer** —
+  the counter resets whenever the player reaches `STATE_READY`. Aligning the
+  budget (3), the exponential backoff curve, and the healthy-reset window to the
+  contract is **Planned**.
+- **Supported — playlist resolution.** `.pls` and `.m3u` are fetched and parsed
+  to the underlying stream URL before playback (`StreamUrlResolver`); `.m3u8` is
+  left native — ExoPlayer plays HLS directly, so no hls.js-style shim is needed
+  (the Android counterpart to the web HLS path).
+- **Partial — now-playing surface.** The Media3 session publishes the
+  notification/lock-screen card with transport controls and the station title +
+  country-code subtitle. **Gap:** it does not yet publish the full now-playing
+  field set (live-stream flag, playback rate, queue index/count, track-cover
+  artwork via the system surface) — those are tracked in app state but not pushed
+  to `MediaMetadata`. Publishing the full field set is **Planned**.
+- **Planned — queue sources.** The queue is built from the visible station list
+  but carries no `source`/`sourceID` (browse/favorites/recents/stationList/
+  single) tagging; the source enum and list identity are **Planned** toward
+  parity.
+- **Planned — system-event transitions.** Audio interruption / audio-focus loss,
+  output-route-lost ("becoming noisy"), media-services-reset, and
+  network-restored auto-reconnect are **not yet wired** (no audio-focus,
+  becoming-noisy receiver, or connectivity callback in the service). These are
+  **Planned**; the native mechanics will be `AudioManager` audio-focus +
+  `ACTION_AUDIO_BECOMING_NOISY` + a `ConnectivityManager` network callback,
+  standing in for iOS's `AVAudioSession` interruption / route-change /
+  media-services-reset handlers.
+- **Planned — geo-restricted = no retry.** Not implemented: the Station model has
+  no `availableIn` field (its `geo` field is lat/long coordinates, unrelated), so
+  geo-restricted failures currently retry like any transient error. The
+  curated-region permanent-failure path is **Planned**.
 
 ## Open questions
 

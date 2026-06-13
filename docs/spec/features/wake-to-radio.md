@@ -234,16 +234,16 @@ formatting; "now"/"soon" are special-cased).
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
 | In-app timer | Supported while tab/session remains alive. | Supported while app remains alive. | Planned while process/service remains alive. |
-| Keep audio alive | Silent-bed audio workaround. | Near-silent local audio keep-alive (default on). | TBD, likely foreground service if allowed. |
+| Keep audio alive | Silent-bed audio workaround. | Near-silent local audio keep-alive (default on). | Planned (a foreground service / near-silent playback bed while armed; Android-native equivalent of the iOS keep-alive). |
 | Local notification fallback | Partial (best-effort `Notification` fired at wake time only when the page is alive and permission granted; no scheduled/background fallback). | Supported (one-shot, fixed identifier). | Planned. |
 | Notification-tap → playback | Not planned (no notification-tap path; audio starts directly from the in-page timer). | Supported (queued, consumed on next active pass — see W1). | Planned. |
 | Pre-armed default time / prefs | Partial (last-used wake time persists in localStorage; no notify or keep-alive preference rows). | Supported (default time, notify, keep-alive). | Planned. |
 | Program-schedule preset arming | Not planned (no schedule → wake preset path on web). | Supported. | Planned. |
-| DST-safe next-fire resolution | Required. | Supported. | Required. |
-| Pause-while-armed warning | Not applicable (web swaps to the silent bed on pause, so the keep-alive footgun the warning guards against does not exist). | Supported (once per alarm, keep-alive off). | TBD. |
-| Lock-screen wake Live Activity | Not applicable. | Supported (glanceable; independent of playback). | TBD. |
-| Shortcuts/automation | Not applicable. | Supported (Set Wake Alarm arms; Play Station / Play Last Station play). | Not applicable. |
-| Exact alarm | Not available. | Not available to third-party app in this sense. | Open decision; may require permission. |
+| DST-safe next-fire resolution | Required. | Supported. | Planned (required of the future implementation). |
+| Pause-while-armed warning | Not applicable (web swaps to the silent bed on pause, so the keep-alive footgun the warning guards against does not exist). | Supported (once per alarm, keep-alive off). | Planned. |
+| Lock-screen wake Live Activity | Not applicable. | Supported (glanceable; independent of playback). | Planned (an ongoing / lock-screen notification glances the armed alarm; Android-native equivalent of the iOS Live Activity). |
+| Shortcuts/automation | Not applicable. | Supported (Set Wake Alarm arms; Play Station / Play Last Station play). | Planned (App Actions / Assistant as the Android-native equivalent of Siri/Shortcuts). |
+| Exact alarm | Not available. | Not available to third-party app in this sense. | Planned (AlarmManager exact-alarm via `SCHEDULE_EXACT_ALARM` / `USE_EXACT_ALARM`; permission model still an open decision). |
 | Survives force quit | No. | No. | No reliable guarantee. |
 | Preference cloud sync | Not planned. | Supported for time + notify + keep-alive. | Not applicable. |
 
@@ -277,17 +277,31 @@ See [Wake to radio on iOS](../../wake-to-radio.md) for setup and limits.
 
 ## Android
 
-Android wake-to-radio needs a separate implementation decision before coding. The
-spec should decide:
+Wake-to-radio is **not yet built on Android** and is Planned toward iOS parity.
+The current Android app (Jetpack Compose + media3/ExoPlayer in a foreground
+`MediaSessionService`) implements playback, Favorites, and custom stations but
+carries no wake/alarm code: there is no `AlarmManager` scheduling, no exact-alarm
+permission, no scheduled wake notification, no keep-alive bed, and no glanceable
+armed-alarm surface. The lone `WAKE_LOCK` permission is the generic CPU wake-lock
+used during playback, not this feature, and `POST_NOTIFICATIONS` powers only the
+media-playback notification.
 
-- Whether exact alarms are acceptable, and whether requesting exact-alarm
-  permission matches the product.
-- Whether a foreground media service is required while armed.
-- How to explain battery-optimization limits.
+The Android-native mechanic differs from the iOS local-notification approach: the
+intended port schedules the fire with **`AlarmManager` exact-alarm**
+(`SCHEDULE_EXACT_ALARM` / `USE_EXACT_ALARM`, behind a runtime permission grant) plus
+a **foreground service** to drive playback at fire time, rather than the iOS in-app
+timer + one-shot local notification. A `BroadcastReceiver` (and a
+`BOOT_COMPLETED` receiver to survive reboot) would replace the iOS notification-tap
+re-entry path. Before coding, the spec must still decide:
+
+- Whether requesting exact-alarm permission matches the product, versus an inexact
+  `AlarmManager` schedule that trades precision for no permission prompt.
+- How the foreground service and battery-optimization (Doze / app-standby) limits
+  are explained to the user.
 - What fallback notification copy says when autoplay cannot happen.
 
-The first Android port may defer wake-to-radio if playback, Favorites, and custom
-stations are the launch scope.
+The first Android port may sequence wake-to-radio after the launch scope (playback,
+Favorites, custom stations), but it remains targeted for parity rather than dropped.
 
 ## Open questions
 
