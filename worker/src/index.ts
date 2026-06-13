@@ -43,6 +43,7 @@ import {
   handleReportBroken,
   handleReportStatus,
   handleResolveReports,
+  handleTriageReports,
 } from './reports';
 
 export type { Env } from './env';
@@ -722,10 +723,18 @@ export default {
       }
     }
 
-    // The one POST admin route. Token-guarded like the GET routes; the
-    // caller is the issue-close GitHub Action (or a human with curl),
-    // not the browser dashboard, so it sits outside the GET-only gate.
-    if (url.pathname === '/api/admin/resolve-reports') {
+    // POST admin routes. Token-guarded like the GET routes; the callers
+    // are the triage/issue-close GitHub Actions (or a human with curl),
+    // not the browser dashboard, so they sit outside the GET-only gate.
+    const adminPost: Record<
+      string,
+      (req: Request, env: Env, headers: Record<string, string>) => Promise<Response>
+    > = {
+      '/api/admin/resolve-reports': handleResolveReports,
+      '/api/admin/triage-reports': handleTriageReports,
+    };
+    const adminPostHandler = adminPost[url.pathname];
+    if (adminPostHandler) {
       if (req.method !== 'POST') {
         return noStoreJsonResponse({ error: 'method not allowed' }, 405, cors);
       }
@@ -734,7 +743,7 @@ export default {
         return noStoreJsonResponse({ error: 'unauthorized' }, 401, cors);
       }
       try {
-        return await handleResolveReports(req, env, cors);
+        return await adminPostHandler(req, env, cors);
       } catch (err) {
         return noStoreJsonResponse(
           { error: 'fetch failed', message: err instanceof Error ? err.message : String(err) },

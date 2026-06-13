@@ -163,6 +163,30 @@ export class FakeStatement {
         return result([], changes);
       }
 
+      case SQL.confirmByStationCategory: {
+        const [stationId, category] = b as string[];
+        let changes = 0;
+        for (const row of db.reports.values()) {
+          if (row.station_id === stationId && row.category === category && row.status === 'received') {
+            row.status = 'confirmed';
+            changes++;
+          }
+        }
+        return result([], changes);
+      }
+
+      case SQL.linkByStation: {
+        const [ghIssue, stationId] = b as [number, string];
+        let changes = 0;
+        for (const row of db.reports.values()) {
+          if (row.station_id === stationId && row.status !== 'resolved') {
+            row.github_issue = ghIssue;
+            changes++;
+          }
+        }
+        return result([], changes);
+      }
+
       case SQL.selectRecent:
       case SQL.selectRecentByStatus: {
         const byStatus = this.sql === SQL.selectRecentByStatus;

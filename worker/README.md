@@ -66,6 +66,7 @@ call per hour regardless of traffic.
 | `/api/everything` | one call returns totals + stations + favorites + errors + reports + tabs + genres + locations + browsers + systems. Sequential internally with 300 ms sleeps to stay under GC's 4 req/s limit. |
 | `/api/broken-reports` | recent D1 report rows for triage: `{ items: [{ id, stationId, …, category, comment, status, resolution, githubIssue }], total }`. `?status=received\|confirmed\|resolved`, `?limit=N` (1–500, default 200). no-store. |
 | `/api/admin/resolve-reports` (POST) | body: `{ resolution: fixed\|removed\|not-reproducible }` + at least one of `reportIds` (≤100), `stationId` (+ optional `category`), `githubIssue`. Marks matching open reports resolved, stamps the issue number, returns `{ ok, resolved: n }`. Called by `.github/workflows/resolve-reports.yml` when a `broken-station` issue closes. |
+| `/api/admin/triage-reports` (POST) | body: `{ stationId }` + at least one of `confirmCategories` (string[]), `githubIssue` (int). Flips that station's matching `received` rows to `confirmed` and stamps the issue number on its non-resolved rows. Returns `{ ok, confirmed: n, linked: n }`. Called by the P2 triage cron (`.github/workflows/triage-reports.yml` → `tools/triage-reports.mjs`). |
 
 All GoatCounter-backed admin endpoints accept `?days=N` (1–90, default
 7) and cache 5 min at the Cloudflare edge; the D1-backed report
@@ -173,6 +174,20 @@ Inspect live reports without the dashboard:
 curl -s -H "Authorization: Bearer $ADMIN_TOKEN" \
   'https://stats.rrradio.org/api/broken-reports?status=received' | jq .
 ```
+
+### Automated triage (P2 cron)
+
+`.github/workflows/triage-reports.yml` runs daily (06:00 UTC; also
+`workflow_dispatch` with an optional `dry_run`). It runs
+`tools/triage-reports.mjs`, which reads non-resolved reports from this
+Worker, probes each reported station's stream (`no-audio` /
+`interruptions`) or favicon (`wrong-logo`), confirms a category when
+the probe fails or enough independent reports agree (threshold,
+default 3), upserts one `broken-station` GitHub issue per station, and
+POSTs `/api/admin/triage-reports` to flip the confirmed rows and link
+the issue number. Needs the `STATS_ADMIN_TOKEN` repo secret; the
+issues are written with the workflow's built-in `GITHUB_TOKEN`. The
+full protocol lives in `../docs/spec/contracts/broken-reports.md`.
 
 ### Resolving reports via issue close
 
