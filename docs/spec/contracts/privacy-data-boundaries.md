@@ -63,6 +63,12 @@ every rule.
 8. **Fail-open on privacy-sensitive lookups.** Region/GeoIP resolution that
    cannot complete leaves the user unbadged and unblocked rather than retrying
    or fingerprinting.
+9. **rrradio-operated IP-bearing flows are disclosed, not hidden.** The
+   first-party region/stats/proxy/report calls (matrix rows 2–6 and 15) are
+   declared on the App Store privacy nutrition label and the Play Store Data
+   Safety form, and **no in-app surface may claim "nothing is sent" or "stays on
+   this device" while any of them can fire.** (Decision 2026-06-13: *disclose* —
+   see Open questions.)
 
 ### Diagnostics rule block
 
@@ -111,8 +117,9 @@ every rule.
 | 14 | iCloud / CloudKit (iOS only) | favorites, station lists, custom stations, preferences — in the **user's own** private database | when iCloud sync is enabled | per-user iCloud (system) | n/a (Apple, user-owned) | until user disables/removes; recents, history, diagnostics, one-shot intents NOT synced |
 | 15 | `https://stats.rrradio.org/api/public/report-status?ids=…` | the device's locally-stored report receipt tokens (random, Worker-minted — see [broken-reports](broken-reports.md)), comma-joined in one batched GET (+ IP) | app polls while unresolved receipts are held — on foreground (scene-active, debounced) | follows from row 4's explicit report | Yes (subdomain) | none intended; receipts dropped client-side once resolved/expired or aged out |
 
-Rows 2–6 and 15 are the **IP-bearing, rrradio-operated** flows that drive the
-App Store privacy-label question (see Open questions).
+Rows 2–6 and 15 are the **IP-bearing, rrradio-operated** flows that MUST be
+declared on the App Store privacy nutrition label and the Play Store Data Safety
+form (the *disclose* decision — see Open questions and boundary rule 9).
 
 ## Detail
 
@@ -302,25 +309,29 @@ Diagnostics export line (always redacted form):
 
 ## Open questions
 
-1. **Productionize vs. disclose `stats.rrradio.org` (RELEASE BLOCKER for the
-   store privacy label).** Rows 2–6 and 15 are IP-bearing, fire silently
-   (2, 3, 5, 6), on explicit tap (4), or as a consequence of an explicit tap
-   (15), and qualify as "data linked to the user" under store
-   privacy definitions. Decide and execute one of: (a) keep `stats.rrradio.org`
-   and fully declare the IP/region/stats/report flows in the App Store and Play
-   Store privacy labels; (b) gate the silent calls behind first-use consent;
-   (c) remove the silent stats/region calls. The historical developer-personal
-   host was already migrated off (see Known deviations), but the *disclosure*
-   decision is still open. A TestFlight/Play build MUST NOT ship until the
-   privacy label reflects rows 2–6.
+1. **`stats.rrradio.org` disclosure — RESOLVED: disclose (2026-06-13).** Rows
+   2–6 and 15 are IP-bearing and qualify as "data linked to the user" under store
+   privacy definitions. **Decision: option (a) — keep `stats.rrradio.org` and
+   fully declare** the IP/region/stats/proxy/report flows on the App Store privacy
+   nutrition label and the Play Store Data Safety form (not gate behind consent,
+   not remove). Execution (tracked in
+   [rrradio-ios#80](https://github.com/MarkusSteinbrecher/rrradio-ios/issues/80)):
+   (a) author the store privacy-label / Data-Safety entries from the matrix above;
+   (b) reconcile the in-app copy so no surface claims "nothing is sent" / "stays
+   on this device" while rows 2–6 or 15 can fire (closes DH5 — see Q3);
+   (c) settle the proxy-retention confirmation (Q4) and the privacy-manifest field
+   (Q5). **A TestFlight/Play build MUST NOT ship until the labels reflect rows
+   2–6 and 15.**
 2. **Region call frequency.** Row 2 fires on every cold launch past the 24h
    cache. Confirm this cadence is acceptable for the privacy label and consider
    widening the TTL or removing the auto-refresh on launch.
-3. **Stats-sheet consent.** Row 3 sends three GETs on every Stats-sheet open
-   with no consent; sibling Settings copy frames the app as on-device ("History
-   stays on this device", "Nothing is sent automatically"). Reconcile the two
-   privacy claims (deviation DH5) — either disclose the Stats fetch in-screen or
-   make it explicit.
+3. **Stats-sheet copy reconciliation (DH5).** Row 3 sends three GETs on every
+   Stats-sheet open; sibling Settings copy frames the app as on-device ("History
+   stays on this device", "Nothing is sent automatically"). Per the *disclose*
+   decision (Q1), the resolution is to **make the copy honest** — drop the
+   "nothing is sent" / "stays on this device" claims wherever rows 2–6 or 15 can
+   fire, and surface the stats fetch in-screen — **not** to gate it. Exact wording
+   is iOS/Android implementation work.
 4. **Proxy URL exposure (row 5).** The metadata proxy forwards the station's
    stream/metadata URL as a query param to the first-party Worker. Confirm the
    Worker does not log these URLs against the requesting IP, or document the
