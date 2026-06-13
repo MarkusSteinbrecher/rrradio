@@ -3,13 +3,14 @@
 ```yaml
 status: draft
 platforms: [ios]
-reconciled-against: 9336321
+reconciled-against: 800bb74
 ```
 
 The Apple Watch companion is an iPhone *remote*, not an independent player. It
 holds no audio, no catalog, and no library of its own. It mirrors the iPhone's
-playback state from a periodically published snapshot and sends back commands
-the iPhone executes. This contract pins the wire format of both directions.
+playback state from a periodically published snapshot, fetches station-list
+rosters on demand, and sends back commands the iPhone executes. This contract
+pins the wire format of both directions.
 
 > Platform scope: **iOS + watchOS only.** Web and Android have no watch
 > companion (see [Platforms](../platforms.md) and [Playback](../playback.md)).
@@ -32,12 +33,13 @@ the iPhone executes. This contract pins the wire format of both directions.
 ### Transport
 
 - All traffic rides **WatchConnectivity** (`WCSession`).
-- Two message shapes, both `[String: Any]` dictionaries with two keys:
+- Three message shapes, all `[String: Any]` dictionaries with two keys:
   - `type` (`String`) — one of the type identifiers below.
-  - `payload` (`Data`) — the JSON-encoded envelope or snapshot.
+  - `payload` (`Data`) — the JSON-encoded envelope, snapshot, or list detail.
 - Type identifiers (versioned strings):
   - Command: `org.rrradio.watch.command.v1`
   - Snapshot: `org.rrradio.watch.snapshot.v1`
+  - List detail: `org.rrradio.watch.list-detail.v1`
 - `payload` is **JSON** produced by `JSONEncoder()` / consumed by
   `JSONDecoder()` with **default settings** (no custom date/key strategy).
   Therefore `Date` fields are encoded as a JSON **number**: seconds since the
@@ -50,7 +52,7 @@ the iPhone executes. This contract pins the wire format of both directions.
 | Direction | Channel | Delivery semantics |
 |---|---|---|
 | iPhone → watch, ambient state | `updateApplicationContext` | **Coalesced.** Only the latest snapshot is retained/delivered; intermediate snapshots are dropped. Survives app-not-running; read on next launch via `receivedApplicationContext`. |
-| watch → iPhone, command | `sendMessage(_:replyHandler:errorHandler:)` | Requires both apps reachable. iPhone executes, then replies with a fresh snapshot in the same `snapshot.v1` shape. |
+| watch → iPhone, command | `sendMessage(_:replyHandler:errorHandler:)` | Requires both apps reachable. iPhone executes, then replies with a fresh `snapshot.v1` — except `requestStationListStations`, which is answered with a `list-detail.v1` instead (no state change, no context publish). |
 | watch → iPhone, command (offline) | queued locally on watch | Held in a bounded pending buffer, flushed on activation/reachability (see Failure & fallback). |
 
 ### Command envelope (`WatchPlaybackCommandEnvelope`)
@@ -68,7 +70,7 @@ WatchPlaybackCommandEnvelope := {
 
 ### Command set (`WatchPlaybackCommandKind`)
 
-Exactly these 12 cases. The iPhone resolves every command against its own live
+Exactly these 14 cases. The iPhone resolves every command against its own live
 state; the watch supplies only ids.
 
 | `kind` | Required param | iPhone effect |
@@ -76,6 +78,7 @@ state; the watch supplies only ids.
 | `playStation` | `stationID` | Resolve station; if it is a favorite, play it inside a favorites queue, else play it standalone; push to recents if it is a catalog station. |
 | `playActiveQueueStation` | `stationID` | If the station is in the current active queue, play it in place; else fall back to `playStation` semantics. |
 | `playStationList` | `stationListID` | Resolve the list; play its first station inside a station-list queue sourced from that list. |
+| `playStationInList` | `stationID` + `stationListID` | Resolve the list, find the station *within it*, play it inside that list's queue — so next/previous walk the list, not favorites. |
 | `pause` | — | Pause the player. |
 | `resume` | — | Resume the player (restarts the current station). |
 | `toggle` | — | Toggle play/pause on the player (iPhone resolves direction from its own real-time state). |
@@ -85,6 +88,7 @@ state; the watch supplies only ids.
 | `nextFavorite` | — | Identical to `nextStation` today (same forward-step handler). |
 | `previousFavorite` | — | Identical to `previousStation` today (same backward-step handler). |
 | `requestSnapshot` | — | No state change; the iPhone replies with / publishes the current snapshot. |
+| `requestStationListStations` | `stationListID` | No state change; the iPhone replies with the list's roster as a `list-detail.v1` message (see below) instead of a snapshot. Lists ride the broadcast snapshot only as summaries, so the watch fetches a roster on first drill-in. |
 
 - Step semantics: a forward/backward step within the active queue **never jumps
   to unrelated catalog stations**; it only walks the active queue, then
@@ -152,19 +156,44 @@ source enum in [playback-state-machine](playback-state-machine.md); the five
 cases are identical. (Deliberately a separate type so the wire format can evolve
 independently of the model — audit finding #15.)
 
+### List-detail reply (`WatchStationListDetail`)
+
+The on-demand roster of one station list — the payload behind the
+`list-detail.v1` type identifier. The broadcast snapshot carries lists only as
+summaries (name + count + first station); when the user drills into a list on
+the watch, the watch sends `requestStationListStations` and the iPhone answers
+with this instead of a snapshot. The roster is built from the same
+`StationListFeed` the iOS list page renders, so the watch sees what the phone
+shows.
+
+```
+WatchStationListDetail := {
+  id: String,                        // the station list id
+  name: String,                      // resolved list title
+  stationCount: Int,                 // true total, before capping
+  stations: [WatchStationSummary]    // capped at 100, then payload-trimmed
+}
+```
+
+The watch caches received rosters per list id for the session
+(`listDetails`); a list is fetched once per launch, on first drill-in.
+
 ## Detail
 
 ### Command envelope fields
 
 | Field | Type | Optional? | Meaning | Default |
 |---|---|---|---|---|
-| `kind` | enum string | no | Which command (12 cases). | — |
-| `stationID` | string | yes | Target station id; required for `playStation`, `playActiveQueueStation`. | `nil` |
-| `stationListID` | string | yes | Target list id; required for `playStationList`. | `nil` |
+| `kind` | enum string | no | Which command (14 cases). | — |
+| `stationID` | string | yes | Target station id; required for `playStation`, `playActiveQueueStation`, `playStationInList`. | `nil` |
+| `stationListID` | string | yes | Target list id; required for `playStationList`, `playStationInList`, `requestStationListStations`. | `nil` |
 | `requestedAt` | Date (number) | no | Time the watch built the command. | now() |
 
 If a `kind` that needs `stationID`/`stationListID` arrives without it, the
-iPhone **silently ignores** the command (no error, no reply mutation).
+iPhone **silently ignores** the command (no error, no reply mutation). The one
+exception is `requestStationListStations`: a missing or unresolvable
+`stationListID` is answered with an **empty roster** (`id` echoed or empty,
+`name` empty, `stationCount` 0, `stations` `[]`) rather than ignored.
 
 ### Snapshot fields
 
@@ -193,7 +222,7 @@ Required-on-decode (decode **fails** if missing): `playbackState`, `favorites`,
 snapshot **forward-tolerant**: a producer may omit `recents`, `stationLists`,
 `activeQueue`, `activeQueueStations` and the consumer still decodes.
 
-### Snapshot list caps (iPhone-side, before send)
+### List caps (iPhone-side, before send)
 
 | Collection | Cap | Total preserved in |
 |---|---|---|
@@ -201,14 +230,21 @@ snapshot **forward-tolerant**: a producer may omit `recents`, `stationLists`,
 | `recents` | 30 | `recentsCount` |
 | `stationLists` | 20 | `stationListCount` |
 | `activeQueueStations` | 60 | `activeQueue.stationCount` |
+| `WatchStationListDetail.stations` | 100 | `stationCount` |
 
-The `*Count` total lets the watch render an honest "Showing N of M" boundary
-line without shipping the whole library.
+The `*Count` / `stationCount` total lets the watch render an honest
+"Showing N of M" boundary line without shipping the whole library.
 
-### Snapshot payload size constraint
+The snapshot's favorites/recents/list rows are built from the same
+`StationFeed` instances the iOS feed pages render (issue #21 phase 5), so the
+watch sees exactly what the phone's own pages show — including feed-level
+ordering and titles.
+
+### Payload size constraint
 
 - Hard ceiling: **50000 bytes** (`maximumSnapshotPayloadBytes`) of JSON-encoded
-  snapshot payload — well under the WatchConnectivity application-context limit.
+  payload — well under the WatchConnectivity application-context limit. The
+  same ceiling governs both snapshots and list-detail replies.
 - A snapshot over the ceiling is degraded deterministically before send:
   1. **Drop all favicons** from every station summary (set `favicon` / nested
      `firstStation.favicon` to `nil`). Favicons are URLs; dropping them is the
@@ -217,8 +253,12 @@ line without shipping the whole library.
      whichever collection currently has the most rows, in priority order
      `activeQueueStations ≥ favorites ≥ recents ≥ stationLists`. Repeat until
      under the ceiling or no row can be removed.
-- The `*Count` totals are **not** decremented during degradation, so the
-  "Showing N of M" boundary line stays truthful even after rows are dropped.
+- A list-detail reply over the ceiling degrades with the same two-stage
+  strategy applied to its single collection: favicons dropped first, then
+  trailing `stations` rows removed until it fits.
+- The `*Count` / `stationCount` totals are **not** decremented during
+  degradation, so the "Showing N of M" boundary line stays truthful even after
+  rows are dropped.
 
 ## Examples
 
@@ -242,6 +282,37 @@ On the wire (the dictionary actually sent):
   "payload": <Data: JSON bytes of the envelope above>
 }
 ```
+
+### Command: fetch a list roster (watch → iPhone → watch)
+
+Sent on first drill-in to a station list (the roster is then cached for the
+session):
+
+```json
+{
+  "kind": "requestStationListStations",
+  "stationListID": "list-morning",
+  "requestedAt": 770000150.0
+}
+```
+
+The reply is a **`list-detail.v1`** message, not a snapshot:
+
+```json
+{
+  "id": "list-morning",
+  "name": "Morning",
+  "stationCount": 124,
+  "stations": [
+    { "id": "fm4", "name": "FM4", "broadcaster": "ORF", "country": "Austria", "favicon": null }
+  ]
+}
+```
+
+`stationCount` (124) exceeds `stations.length` (capped at 100, here further
+payload-trimmed) — the watch renders "Showing N of 124 stations". Tapping a
+station in the rendered roster sends `playStationInList` with both ids, so the
+iPhone builds the queue from that list.
 
 ### Command: primary play/pause (watch → iPhone)
 
@@ -330,7 +401,7 @@ The watch's initial state and the iPhone's not-yet-configured state:
 
 - **Type identifiers carry an explicit version suffix** (`.v1`). A decoder MUST
   reject (ignore) a message whose `type` does not match the version it
-  understands. Today only `.v1` exists for both directions.
+  understands. Today only `.v1` exists for all three message types.
 - **Payloads themselves carry no version field** inside the JSON — versioning is
   expressed only by the `type` string. Adding a v2 means a new type identifier,
   not a field inside the payload. (Open question: see below.)
@@ -354,22 +425,24 @@ The watch's initial state and the iPhone's not-yet-configured state:
 
 | Condition | Behavior |
 |---|---|
-| Message `type` unrecognized | Treated as not-a-command / not-a-snapshot; decoder returns nil; iPhone replies with an empty dict, watch ignores. |
+| Message `type` unrecognized | Treated as not-a-command / not-a-snapshot / not-a-list-detail; decoder returns nil; iPhone replies with an empty dict, watch ignores. |
 | `payload` missing or not `Data` | Decode throws `invalidPayload`; iPhone records a diagnostic and replies empty. |
-| Snapshot decode fails (missing required field, unknown enum case) | Consumer keeps its prior snapshot; watch surfaces "Could not read iPhone state." for reply-path failures. |
-| Command needs an id it lacks | iPhone ignores the command, still replies with a current snapshot. |
-| iPhone not yet configured (catalog/library/player unset) | Command is **enqueued** on the iPhone side (bounded buffer of 5, oldest dropped) and drained once configured. |
-| Watch session activated but iPhone unreachable | Command is dropped on the watch side (the watch sets a "Open rrradio on the iPhone" error). **Known deviation — commands are lost, see below.** |
-| Watch session not yet activated | Command is enqueued on the watch (bounded buffer of 5; duplicate `requestSnapshot` deduped) and flushed on activation/reachability. When the pending buffer is empty at drain time, a lone `requestSnapshot` is sent to pull fresh state. |
-| Snapshot too large (> 50000 B) | Degraded deterministically (favicons, then trailing rows) before send. If the iPhone's reply still exceeds the WatchConnectivity limit, WatchConnectivity surfaces `payloadTooLarge`; the watch maps it to "The iPhone library is too large to sync to the watch." |
+| Reply decode fails (missing required field, unknown enum case) | The watch decodes every reply as both a snapshot and a list detail and applies whichever succeeds; an undecodable reply is **silently ignored** and the prior state kept. (No user-facing error — see Known deviations.) |
+| Command needs an id it lacks | iPhone ignores the command, still replies with a current snapshot — except `requestStationListStations`, which is answered with an empty roster. |
+| iPhone not yet configured (catalog/library/player unset) | Command is **enqueued** on the iPhone side (bounded buffer of 5, oldest dropped) and drained once configured. Exception: `requestStationListStations` is never enqueued — an unconfigured iPhone answers it immediately with an empty roster. |
+| Watch session activated but iPhone unreachable | Command is dropped on the watch side (the watch sets a "Open rrradio on the iPhone" error; `refresh` and roster requests drop **silently** — they send with the not-ready report suppressed). **Known deviation — commands are lost, see below.** |
+| Watch session not yet activated | Command is enqueued on the watch (bounded buffer of 5; duplicate `requestSnapshot` deduped) and flushed on activation/reachability. When the pending buffer is empty at drain time, a lone `requestSnapshot` is sent to pull fresh state. Within a 2 s activation-grace window after `activate()`, the "iPhone connection is not ready." error is suppressed (the command still enqueues). |
+| Roster already cached on the watch | `requestStationListStations` is not sent — `listDetails` is a per-session cache keyed by list id; only the first drill-in fetches. |
+| Snapshot or list detail too large (> 50000 B) | Degraded deterministically (favicons, then trailing rows) before send. If the iPhone's reply still exceeds the WatchConnectivity limit, WatchConnectivity surfaces `payloadTooLarge`; the watch maps it to "The iPhone library is too large to sync to the watch." |
 | iPhone app closed when state changes | `updateApplicationContext` is coalesced and read on next watch launch via `receivedApplicationContext`; intermediate changes are not delivered live. |
 | Stale snapshot (watch's local mirror lags real iPhone state) | Watch renders the last snapshot it received; the next published context corrects it. The watch's pause-vs-resume decision can be wrong under a state-flip race — **Known deviation, see below.** |
 
 ### Command precedence / overlap
 
 - The iPhone **executes commands in arrival order**, one at a time on the main
-  actor; each reply carries a fresh post-execution snapshot. There is no
-  command merging or last-write-wins on the iPhone side.
+  actor; each reply carries a fresh post-execution snapshot (or, for a roster
+  request, the list detail). There is no command merging or last-write-wins on
+  the iPhone side.
 - The watch's **pending buffer** (used only while not-activated) is FIFO,
   capped at 5; on overflow the oldest commands are dropped. Only
   `requestSnapshot` is deduplicated within the buffer.
@@ -384,7 +457,7 @@ The watch's initial state and the iPhone's not-yet-configured state:
 | Implement this protocol | Yes — producer + executor | Yes — consumer + sender | Not applicable | Not applicable |
 | Use the exact `type` identifiers and `{type,payload}` envelope | Yes | Yes | — | — |
 | Encode `Date` against the Apple reference epoch (matching `JSONEncoder` defaults) | Yes | Yes | — | — |
-| Honor the 12-case command set verbatim | Execute all 12 | Send a subset (need not send all) | — | — |
+| Honor the 14-case command set verbatim | Execute all 14 | Send a subset (need not send all) | — | — |
 | Treat the iPhone as the single source of playback truth | Yes | Yes — never mutate locally | — | — |
 | Reject/ignore unknown `type` versions | Yes | Yes | — | — |
 | Apply snapshot size degradation before send | Yes (producer only) | n/a | — | — |
@@ -409,9 +482,10 @@ web or Android.
   Decide whether they should ever diverge (e.g. always step within favorites
   regardless of the active queue) or be removed.
 - **`toggle` has no sender.** It is honored by the iPhone but never sent by the
-  shipped watch; the watch sends `pause`/`resume` instead. Decide whether
-  `toggle` becomes the primary action (it removes the stale-mirror race) or is
-  dropped (audit findings #4, #8).
+  shipped watch; the watch sends `pause`/`resume` instead — even the watchOS 11
+  double-tap hand gesture routes through the same pause/resume primary action.
+  Decide whether `toggle` becomes the primary action (it removes the
+  stale-mirror race) or is dropped (audit findings #4, #8).
 - **`catalogStationCount` is shipped but unrendered.** The watch does not
   display it. Decide whether it stays in the contract.
 
@@ -420,21 +494,34 @@ web or Android.
 - **Related contracts:** [playback-state-machine](playback-state-machine.md) —
   the source of truth this protocol mirrors: the 5-case `WatchRemotePlaybackState`,
   the `WatchPlaybackQueueSource` enum, and the forward/backward step semantics.
-- `Shared/WatchRemoteProtocol.swift` — all wire types, the command/state enums,
-  `WatchRemoteMessageCodec` (type ids, 50000-byte limit, encode/decode), and the
-  `constrainedToPayloadLimit` degradation logic.
+- `Shared/WatchRemoteProtocol.swift` — all wire types incl.
+  `WatchStationListDetail`, the command/state enums, `WatchRemoteMessageCodec`
+  (three type ids, 50000-byte limit, encode/decode), and the
+  `constrainedToPayloadLimit` degradation logic for both snapshot and list
+  detail.
 - `rrradio/WatchRemote/PhoneRemoteControlController.swift` — iPhone side:
-  command execution, snapshot construction, list caps (30/30/20/60), pending
-  buffer of 5, the `WCReplyHandlerBox` Sendable boundary.
+  command execution, the snapshot-vs-list-detail `CommandReply` split,
+  feed-driven snapshot construction, list caps (30/30/20/60 + 100 for roster
+  replies), pending buffer of 5, the `WCReplyHandlerBox` Sendable boundary.
 - `rrradioWatch/WatchRemoteModel.swift` — watch side: command sending, pending
-  buffer, snapshot decode/apply, reachability handling, `payloadTooLarge`
-  mapping.
-- `rrradioWatch/App.swift` — watch UI consuming the snapshot (the four tabs:
-  Lists, Now Playing, Favorites, Recents) and the commands each control sends.
+  buffer, snapshot + list-detail decode/apply, the per-session `listDetails`
+  roster cache, reachability handling, `payloadTooLarge` mapping.
+- `rrradioWatch/App.swift` — watch UI consuming the snapshot: three pages,
+  Player (Now Playing) → Favorites (app grid) → Library (station lists with
+  drill-down rosters, Recents below, mirroring the phone). Launch lands on the
+  Player when a station is current, else on Favorites, with a ~2.5 s armed
+  window that auto-routes to the Player if playback starts; the watchOS 11
+  double-tap gesture jumps to the Player or fires the primary action there.
 
 ## Known deviations
 
-All from `rrradio-ios/internal/audit/2026-05-25-watch-code-review.md`:
+Mostly from `rrradio-ios/internal/audit/2026-05-25-watch-code-review.md`:
+
+- **Reply-decode failures are silent.** The reply handler decodes with `try?`
+  and ignores an undecodable reply; the "Could not read iPhone state." surface
+  lives only in `applySnapshotReply`, which lost its last caller in the
+  list-detail reply split (d61f85a) and is now dead code. Either re-wire the
+  error surface or remove the dead method.
 
 - **Commands dropped when unreachable** (finding #3): the watch's `send`
   enqueues when *not activated* but **drops** the command when activated yet the
