@@ -62,7 +62,7 @@ export function applyTheme(theme: Theme | null): void {
     'meta[name="theme-color"]',
   );
   if (meta) {
-    meta.content = effectiveTheme() === 'light' ? '#f8f8f3' : '#3e3e39';
+    meta.content = effectiveTheme() === 'light' ? '#f8f8f6' : '#1e1d19';
   }
 }
 

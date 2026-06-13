@@ -238,6 +238,7 @@ const $topbarLibSeg = document.getElementById('topbar-lib-seg') as HTMLElement;
 const $content = document.getElementById('content') as HTMLElement;
 const $tabbar = document.getElementById('tabbar') as HTMLElement;
 const $sidebar = document.querySelector('.sidebar') as HTMLElement;
+const $sidebarCollapse = document.getElementById('sidebar-collapse') as HTMLButtonElement;
 
 const $mini = document.getElementById('mini') as HTMLButtonElement;
 const $miniFav = document.getElementById('mini-fav') as HTMLElement;
@@ -3337,6 +3338,21 @@ function handleNavClick(e: Event): void {
 }
 $tabbar.addEventListener('click', handleNavClick);
 $sidebar.addEventListener('click', handleNavClick);
+
+// Desktop sidebar collapse toggle — narrows the rail to icons only.
+// Persisted so the user's choice survives reloads.
+const SIDEBAR_COLLAPSED_KEY = 'rrradio.sidebar-collapsed';
+function applySidebarCollapsed(collapsed: boolean): void {
+  $body.classList.toggle('sidebar-collapsed', collapsed);
+  $sidebarCollapse.setAttribute('aria-expanded', String(!collapsed));
+  $sidebarCollapse.setAttribute('aria-label', collapsed ? 'Expand sidebar' : 'Collapse sidebar');
+}
+$sidebarCollapse.addEventListener('click', () => {
+  const collapsed = !$body.classList.contains('sidebar-collapsed');
+  applySidebarCollapsed(collapsed);
+  setString(SIDEBAR_COLLAPSED_KEY, collapsed ? '1' : '0');
+});
+applySidebarCollapsed(getString(SIDEBAR_COLLAPSED_KEY) === '1');
 
 $search.addEventListener('input', () => {
   syncSearchClear();

@@ -12,10 +12,10 @@
    --accent automatically restyles every glow. Values mirror the SwiftUI
    `RrradioTheme` palette used by the iOS app. */
 :root, [data-theme="dark"] {
-  --accent:  #ffff00;                       /* pure yellow */
-  --bg:      #3e3e39;
-  --bg-2:    #4e4e47;
-  --bg-3:    #5d5d55;
+  --accent:  #ffff00;                       /* pure yellow (RrradioTheme accent) */
+  --bg:      #1e1d19;                  /* RrradioTheme.bg  (dark) */
+  --bg-2:    #2f2e29;                  /* RrradioTheme.bg2 (dark) */
+  --bg-3:    #62615c;                  /* RrradioTheme.bg3 (dark) */
   --line:    rgba(244,244,242,0.08);
   --line-2:  rgba(244,244,242,0.14);
   --ink:     #f4f4f2;                  /* primary text */
@@ -29,10 +29,10 @@
 
 [data-theme="light"] {
   --accent:  #00a040;                  /* full green, visible on white */
-  --bg:      #f8f8f3;                  /* warm off-white, paired with the warm dark */
-  --bg-2:    #fffffb;
-  --bg-3:    #ecece4;
-  --line:    rgba(14,14,13,0.10);
+  --bg:      #f8f8f6;                  /* RrradioTheme.bg  (light) */
+  --bg-2:    #fffeff;                  /* RrradioTheme.bg2 (light) */
+  --bg-3:    #c2c1bf;                  /* RrradioTheme.bg3 (light) */
+  --line:    rgba(14,14,13,0.08);
   --line-2:  rgba(14,14,13,0.20);
   --ink:     #0e0e0d;
   --ink-2:   rgba(14,14,13,0.80);
@@ -46,10 +46,10 @@
 @media (prefers-color-scheme: light) {
   :root:not([data-theme]) {
     --accent:  #00a040;
-    --bg:      #f8f8f3;
-    --bg-2:    #fffffb;
-    --bg-3:    #ecece4;
-    --line:    rgba(14,14,13,0.10);
+    --bg:      #f8f8f6;
+    --bg-2:    #fffeff;
+    --bg-3:    #c2c1bf;
+    --line:    rgba(14,14,13,0.08);
     --line-2:  rgba(14,14,13,0.20);
     --ink:     #0e0e0d;
     --ink-2:   rgba(14,14,13,0.80);
@@ -181,7 +181,8 @@ html.theme-switching *::after {
   flex-direction: column;
 }
 
-.np-idle { display: none; }
+/* Sidebar collapse toggle — only meaningful at the desktop breakpoint. */
+.sidebar-collapse { display: none; }
 
 /* ─── Top bar ─── */
 /* The sidebar strip above now carries the safe-area top inset (mobile),
@@ -340,6 +341,9 @@ html.theme-switching *::after {
 /* Each filter is a labelled cell: circular control on top, short
    text label below. Keeps the existing chip geometry intact and
    adds context without widening the chip. */
+/* `display: flex` below would otherwise beat the [hidden] attribute's
+   UA display:none — make hiding a cell (sort/quality on discovery) work. */
+.filter-cell[hidden] { display: none; }
 .filter-cell {
   display: flex;
   flex-direction: column;
@@ -3197,22 +3201,34 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   .rows .row.is-playing { border-color: var(--accent); background: var(--bg-2); }
   .rows .row.is-playing::before { display: none; }
 
-  /* Idle Now Playing — shown until a station is current. */
-  body:not(.has-station) .np-body,
-  body:not(.has-station) .np-controls { display: none; }
-  body:not(.has-station) .np-idle {
+  /* Now Playing docks only while something is playing; otherwise the
+     centre list takes the full width (no idle placeholder column). */
+  body:not(.has-station) .np { display: none; }
+  body:not(.has-station) .stage { grid-template-columns: minmax(0, 1fr); }
+
+  /* ── Collapsible sidebar ── */
+  .sidebar-collapse {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    height: 100%;
-    padding: 24px;
-    text-align: center;
+    width: 28px;
+    height: 28px;
+    margin-top: 4px;
+    align-self: flex-start;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    color: var(--ink-3);
+    transition: color 0.14s, border-color 0.14s;
   }
-  .np-idle__icon { width: 42px; height: 42px; color: var(--ink-4); }
-  .np-idle__title { font-size: 15px; color: var(--ink-2); }
-  .np-idle__sub { font-size: 12px; color: var(--ink-3); }
+  .sidebar-collapse:hover { color: var(--ink); border-color: var(--line-2); }
+  .sidebar-collapse svg { width: 16px; height: 16px; transition: transform 0.2s; }
+  body.sidebar-collapsed .sidebar-collapse { align-self: center; }
+  body.sidebar-collapsed .sidebar { flex-basis: 64px; }
+  body.sidebar-collapsed .sidebar .wordmark-logo { width: 28px; height: 28px; }
+  body.sidebar-collapsed .sidebar-nav .tab-btn { justify-content: center; padding: 10px 0; }
+  body.sidebar-collapsed .sidebar-nav .tab-btn span { display: none; }
+  body.sidebar-collapsed .topbar-actions { justify-content: center; }
+  body.sidebar-collapsed .sidebar-collapse svg { transform: rotate(180deg); }
 }
 
 /* ─── Browse discovery landing ─── */
