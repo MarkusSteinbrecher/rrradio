@@ -1,9 +1,9 @@
 # Catalog & Station Schema Contract
 
 ```yaml
-status: draft
+status: review
 platforms: [web, ios, android]
-reconciled-against: 9336321
+reconciled-against: d241aa9
 ```
 
 ## Purpose
@@ -153,6 +153,19 @@ variants** in the catalog. A station has exactly one `streamUrl`. Quality is a
 presentation derivative, not a wire field; platforms SHOULD compute it with the
 same thresholds for parity.
 
+The 1–4 level also collapses to a coarse three-way **quality bucket** that
+drives the Browse quality filter (a multi-select of low / medium / high
+classes):
+
+| Meter level | Bucket |
+|---|---|
+| 1–2 | low |
+| 3 | medium |
+| 4 | high |
+
+The filter UI is iOS-only today; the bucket boundaries are part of the same
+derived model and SHOULD match wherever a platform exposes a quality filter.
+
 ## Examples
 
 ### Minimal valid station
@@ -230,7 +243,7 @@ else `name` is shown. A standalone station, or a family's bare prefix (plain
 ```json
 {
   "$schema": "https://rrradio.org/schemas/stations.json",
-  "stations": [ /* … 17,103 stations … */ ]
+  "stations": [ /* … tens of thousands of stations … */ ]
 }
 ```
 
@@ -355,15 +368,20 @@ iOS source read for this contract:
   load-order ladder (cache → bundled `stations.json.lzfse` → network),
   `decompressLZFSE`, `orderForBrowse` (featured-first), search-index
   validation scheduling, canonical/base/cache URLs.
-- `rrradio/Models/StreamQuality.swift` — `streamQualityLevel` /
-  `streamQualityMeter` (the derived 1–4 quality meter).
 - `rrradio/Search/SearchIndex.swift` — bundled `stations.fts5.db` schema
   (`stations_fts`, `stations_meta`), `SearchIndexCatalogValidation`
   (10% divergence threshold).
 - `rrradio/Views/StationKit.swift` — `stationHasProgramInfo` (the
   `hasScheduleData` gate + transitional fallback).
-- Resources: `rrradio/Resources/stations.json.lzfse` (bundled snapshot, 17,103
-  stations), `rrradio/Resources/stations.fts5.db` (bundled FTS index).
+- `rrradio/Models/StreamQuality.swift` — `streamQualityLevel` /
+  `streamQualityMeter` (the derived 1–4 quality meter) plus
+  `StreamQualityBucket` / `streamQualityBucket(forLevel:)` (the coarse
+  low/medium/high bucket that drives the Browse quality filter).
+- `rrradio/Views/FeedPages/BrowseFiltersSheet.swift` — the Browse quality
+  filter UI consuming `StreamQualityBucket`.
+- Resources: `rrradio/Resources/stations.json.lzfse` (bundled snapshot, ~24,300
+  stations at this commit), `rrradio/Resources/stations.fts5.db` (bundled FTS
+  index).
 
 ## Known deviations
 

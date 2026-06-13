@@ -1,9 +1,9 @@
 # Now Playing Specification
 
 ```yaml
-status: draft
+status: review
 platforms: [web, ios, android]
-reconciled-against: 9336321
+reconciled-against: d241aa9
 ```
 
 ## Purpose
@@ -38,8 +38,8 @@ Fixed-height bar (88 pt on iOS), left to right:
   device is offline. A small list badge overlays the favicon when playback is
   driven by a station-list queue.
 - **Metadata lines** (stacked, flexing to fill):
-  - Station name + country flag emoji; a calendar glyph appears when program info
-    exists. When offline, this line becomes a short "no internet" label instead.
+  - Station name + country flag emoji. When offline, this line becomes a short
+    "no internet" label instead.
   - Track line `"<artist> - <title>"` (or title alone) when a track is resolved.
   - Program line `"<program> . <subtitle>"` when present; otherwise, if no track,
     a state line (`Standby` / `Loading` / `Live` / `Paused` / error phrase) with a
@@ -47,9 +47,11 @@ Fixed-height bar (88 pt on iOS), left to right:
 - **Sleep-timer glyph** (`moon.zzz.fill`) when a sleep timer is armed.
 - **Album artwork thumbnail** (64 pt) when a track cover art URL resolves and the
   device is online.
-- **Trailing control** — play/pause toggle (44 pt). It is replaced by a red close
-  ("✕") button while the close prompt is showing, or by a static offline glyph
-  when there is no station and the device is offline.
+- **Trailing control** — play/pause toggle (44 pt). It becomes a static offline
+  glyph when there is no current station and the device is offline.
+- **Swipe-to-close zone** — a red close ("✕") zone sits behind the card, revealed
+  by swiping the card left (see Interactions). The card content slides over a
+  pinned bar surface; only the content moves, never the page behind it.
 
 ### Full Now Playing (portrait / compact width)
 
@@ -60,43 +62,68 @@ Top to bottom:
   and dismisses.
 - **Station block** — station favicon (38 pt), station name (large), and a
   heart favorite toggle.
-- **Divider**, then a **pane tab strip**: Now (artwork) / Program (calendar) /
-  Lyrics (quote). Program and Lyrics tabs are enabled only when that data exists.
+- **Divider**, then a **pane tab strip** of uppercase text labels: Album /
+  Schedule / Lyrics, with a short accent underline that slides to the active tab.
+  Schedule and Lyrics tabs appear only when that data exists (Album is always
+  present); a station with neither shows a single Album tab.
 - **Paged pane content** (swipeable):
-  - **Now pane** — large artwork (220 pt: track cover, else station favicon),
-    track title, artist subtitle, and an uppercase program-name caption when known.
-  - **Program pane** — program header (name + subtitle), then today's broadcast
+  - **Album (Now) pane** — large artwork (220 pt: track cover, else the
+    dot-matrix `rrr` fallback — see Artwork fallback below), track title, artist
+    subtitle, and an uppercase program-name caption when known.
+  - **Schedule pane** — program header (name + subtitle), then today's broadcast
     list with start times; the live broadcast is highlighted and tagged "Live".
+    Shows a loading spinner while the schedule fetches and a "no schedule" line
+    when the day has no broadcasts.
   - **Lyrics pane** — track header, scrollable lyrics text (selectable), and a
     "Lyrics source: <name>" attribution link.
 - **Music-service rail** — Apple Music / Spotify / YouTube Music buttons (hidden
   on the Lyrics pane and until the track is verified as a real song).
 - **Expandable station details** — collapsed by default behind a status strip
   chevron; expands to show website link, stream URL, country, format
-  (codec/bitrate/quality), genres, metadata source, and a "Report broken station"
-  action.
+  (codec/bitrate/quality), genres, metadata source, a "Report broken station"
+  action, and — when a prior report exists for this station — its current
+  resolution status (received / confirmed / resolved).
 - **Stream-info status strip** — a tappable line `"<state> . <codec> . <bitrate>"`
-  with a status dot; the chevron toggles the details panel.
+  with a status dot; the chevron (up when collapsed, down when expanded) toggles
+  the details panel.
 - **Controls block** — wake-alarm button (left), previous-station, play/pause
   (large, 64 pt), next-station, sleep-timer button (right). Wake and sleep
   buttons carry a countdown chip when armed.
 
+### Artwork fallback (all full-view layouts)
+
+When there is no resolved track cover (no URL, or the image fails to load) the
+artwork frame shows an animated dot-matrix `rrr` logo instead of the station
+favicon. It animates (a live-signal equalizer that resolves into the `rrr`
+wordmark) while the station is playing and renders the static fully-formed `rrr`
+when paused or idle. Reduce Motion forces the static render regardless of state.
+The fallback sits directly on the page surface (no card chrome); a loaded cover
+keeps its card, stroke, and shadow. (The mini-player album thumbnail is cover-art
+only — it never shows the dot-matrix fallback.)
+
 ### Full Now Playing (landscape / iPad split)
 
-Branch work introduces a width-driven split layout selected when the surface is
-wider than tall (so iPad landscape and portrait full-screen both get it; the
-choice keys off surface aspect, not the vertical size class):
+A width-driven multi-column layout is selected when the surface is wider than
+tall (so iPad landscape and portrait full-screen both get it; the choice keys off
+surface aspect, not the vertical size class):
 
-- **Top station bar** — dismiss chevron, station favicon, station name (flexes),
-  inline music-service buttons, favorite toggle, close "✕".
-- **Left artwork column** — artwork (sized to the column), track title, artist,
-  program caption; vertically centered.
-- **Right pane column** — Program / Lyrics tab strip (only when either exists) and
-  the corresponding scrollable pane. When neither exists, the right column shows a
-  details list (stream, country, format, genres) under the track text.
+- **Top station bar** — dismiss chevron, station favicon, centered station name
+  (overlaid, scales to fit), favorite toggle, close "✕". No music-service buttons
+  here (they moved into the album column).
+- **Columns** — up to three equal-width columns, each under a static uppercase
+  section header (Album / Schedule / Lyrics), separated by full-height hairlines:
+  - **Album column** — artwork (capped, sized to the column; dot-matrix fallback
+    when no cover), then track title, artist, and program caption, with the
+    music-service "Open in" row anchored at the column's bottom.
+  - **Schedule column** — today's broadcast list; appears only when program data
+    exists. Always on-screen, so it follows the live broadcast unconditionally.
+  - **Lyrics column** — track header + scrollable lyrics; appears only when lyrics
+    exist.
+  - With no program and no lyrics the row collapses to a single centered album
+    column; with one present it is two columns.
 - **Bottom bar** — the expandable details panel (height-capped, scrolls up over
-  the pane instead of pushing the transport), the stream-info status strip, then
-  the transport row: wake, previous, play/pause (52 pt), next, sleep.
+  the columns instead of pushing the transport), the stream-info status strip,
+  then the transport row: wake, previous, play/pause (52 pt), next, sleep.
 
 ### Full Now Playing (car mode)
 
@@ -114,10 +141,10 @@ When car mode is active the layout is replaced by a large-touch-target variant:
 | State | Mini-player | Full Now Playing |
 |---|---|---|
 | **empty** (idle, no station) | Favicon placeholder; metadata blank; play/pause disabled; tap does nothing. | Reached only if opened with no station: blank station name, "Live stream" placeholder, controls disabled. |
-| **loading** | State line "Loading"; play/pause disabled; track/cover suppressed. | Artwork = station favicon; title "Connecting"; play button shows animated loading dots and is disabled. |
-| **loaded / playing** | Track + program lines; pulsing dot; play→pause; cover thumbnail when resolved. | Full artwork/track/program; transport enabled; status dot accent-tinted; "LIVE". |
-| **paused** | State line "Paused"; pause→play. | Same layout; play button shows play glyph; status "PAUSED". |
-| **partial** (station, no track metadata) | Station name + state line; no track line; calendar glyph if program exists. | Artwork = favicon; title "Live stream"; subtitle = station name; music-service rail hidden; Program/Lyrics tabs disabled if no data. |
+| **loading** | State line "Loading"; play/pause disabled; track/cover suppressed. | Artwork = dot-matrix `rrr` fallback; title "Connecting"; play button shows animated loading dots and is disabled. |
+| **loaded / playing** | Track + program lines; pulsing dot; play→pause; cover thumbnail when resolved. | Track cover when resolved, else animated dot-matrix `rrr`; track/program shown; transport enabled; status dot accent-tinted; "LIVE". |
+| **paused** | State line "Paused"; pause→play. | Same layout; dot-matrix fallback (if no cover) is static; play button shows play glyph; status "PAUSED". |
+| **partial** (station, no track metadata) | Station name + program line if program exists, else state line; no track line. | Artwork = dot-matrix `rrr` fallback; title "Live stream"; subtitle = station name; music-service rail hidden; Schedule/Lyrics tabs absent if no data. |
 | **error** | State line = shortened error phrase (country phrase trimmed before em-dash). | Title "Playback error"; subtitle = error message; controls remain (play retries). |
 | **offline** | Offline glyph + short "no internet" label; track/program lines suppressed; cover hidden. | Track text becomes offline phrase in a warm tint; subtitle = station name; status strip shows "no internet / offline / no stream". |
 
@@ -129,25 +156,27 @@ wake entry (sleep/wake also reachable while armed even with no current station).
 | Control / gesture | Precondition | Result | Side effects |
 |---|---|---|---|
 | Tap mini-player | A station is current; no close prompt showing | Presents full Now Playing | Sheet (iPhone) or full-screen (iPad) per idiom |
-| Tap mini-player while close prompt shown | Close prompt visible | Dismisses the close prompt | No navigation |
-| Long-press mini-player (≥0.45 s) | A station is current | Shows the red close prompt on the trailing control | Light haptic |
+| Tap mini-player while close prompt shown | Close prompt visible (card resting open) | Springs the card back and dismisses the close prompt | No navigation |
+| Swipe mini-player left to the reveal rest | A station is current | Rests the card open, revealing the red close zone (close prompt) | Light haptic on rest |
+| Swipe mini-player left past the auto-close threshold (or fling) | A station is current | Stops playback and slides the card off-screen | Rigid haptic when armed; medium haptic on close; player → idle |
 | Tap mini-player play/pause | Station current, not loading | Toggles play/pause | Per [playback-state-machine](../contracts/playback-state-machine.md) |
-| Tap mini-player close "✕" | Close prompt visible | Stops playback, dismisses Now Playing if open | Player → idle; prompt cleared |
-| Station identity changes | Mini-player visible | Auto-dismisses any open close prompt | — |
+| Tap revealed mini-player close "✕" | Close zone revealed | Stops playback, dismisses Now Playing if open | Player → idle; card reset |
+| Station identity changes | Mini-player visible | Auto-dismisses any open close prompt and resets the card | — |
 | Tap header down-chevron | Now Playing presented as sheet | Dismisses Now Playing | Playback continues |
 | Tap header / station-bar "✕" | Now Playing open | Stops playback and dismisses | Player → idle |
 | Tap favorite heart | A station is current | Toggles favorite; glyph fills / empties | Writes library; iCloud sync per [sync-merge](../contracts/sync-merge.md) |
 | Tap play/pause (full) | Station current, not loading | Toggles play/pause | Loading shows dots; disabled while loading |
 | Tap previous-station | Active queue has >1 station | Steps to previous station (circular) | Rebuilds source; see queue rules |
 | Tap next-station | Active queue has >1 station | Steps to next station (circular) | As above |
-| Swipe pane / tap pane tab | Target pane enabled | Switches Now / Program / Lyrics | Program pane auto-scrolls to the live broadcast |
-| Tap a program-schedule row | A station is current | Opens the wake-alarm sheet preset to that broadcast's start time + title | Notifications default ON for the preset |
+| Swipe pane / tap pane tab | Target pane present | Switches Album / Schedule / Lyrics | Schedule pane auto-scrolls to the live broadcast |
+| Tap a program-schedule row | A station is current OR a wake alarm is armed | Opens the wake-alarm sheet preset to that broadcast's start time + title | Notifications default ON for the preset |
 | Tap wake-alarm button | Station current OR wake armed | Opens wake-alarm sheet | See [wake-to-radio](wake-to-radio.md) |
 | Tap sleep-timer button | Station current OR sleep armed | Opens sleep-timer sheet | See [sleep-timer](sleep-timer.md) |
 | Tap a music-service button | Track verified as a real song; service enabled | Opens that service (Apple Music deep-link when available; else search) | External app/URL; never sent to telemetry |
 | Tap status strip / chevron | — | Expands / collapses station details panel | Transport keeps its bottom anchor |
 | Tap website / stream link rows | Row present | Opens the URL externally | — |
-| Tap "Report broken station" | A station is current; not already reporting | Sends a broken-station report; shows sent/failed alert; offers an email fallback on failure | Coarse diagnostic recorded locally |
+| Tap "Report broken station" | A station is current; not already reporting | Opens the broken-station report sheet (category picker + optional/required comment) | — |
+| Submit the report sheet | A category is selected (and a comment when that category requires one) | Sends the report; shows a sent/failed alert; offers an email fallback on failure | Coarse diagnostic recorded locally; a receipt is stored when the worker returns an id |
 | Tap car-mode `car.fill` | Car mode active | Confirmation dialog → turning off disables manual + automatic car mode | — |
 | Station change while reporting | A report is in flight | Cancels the report; clears its status | — |
 | Background / dismiss view | — | Cancels any in-flight broken-station report | Playback unaffected |
@@ -155,8 +184,16 @@ wake entry (sleep/wake also reachable while armed even with no current station).
 ## Business rules
 
 - **Mini-player height** 88 pt; favicon 46 pt; album thumb 64 pt; controls 44 pt.
-- **Long-press threshold** for the close prompt: 0.45 s; the prompt auto-clears
-  when the station identity changes.
+- **Mini-player close gesture**: swipe the card left. Releasing past the reveal
+  threshold rests the card open with the red close zone exposed (the close
+  prompt); a release/fling past the auto-close threshold (~half the bar width)
+  closes it automatically. Only the card content slides; the bar surface stays
+  pinned so the page behind it never shifts. The close prompt auto-clears (and the
+  card resets) when the station identity changes.
+- **Artwork fallback**: with no resolved track cover, the artwork frame shows the
+  dot-matrix `rrr` logo — animated while playing, static `rrr` when paused/idle,
+  and static under Reduce Motion. Applies to portrait, landscape, and car-mode
+  full views; not the mini-player thumbnail (cover-art only).
 - **Music-service buttons render only when the track is verified** as a real
   searchable song (iTunes Search confirmed a hit). In-flight or confirmed-miss →
   buttons hidden, so users are never sent to empty search results. See the iTunes
@@ -165,10 +202,19 @@ wake entry (sleep/wake also reachable while armed even with no current station).
   per-app enable toggle (default ON). Apple Music uses a deep link to the exact
   song when iTunes returned a `trackViewUrl`; Spotify and YouTube Music use search
   URLs. URL shapes are owned by [metadata-fetchers](../contracts/metadata-fetchers.md).
-- **Program schedule** shows today's broadcasts; the live broadcast (`start ≤ now
-  < end`) is highlighted and tagged "Live". The live row is recomputed on a 30 s
-  tick and only re-rendered on a boundary crossing. The pane auto-scrolls to the
-  live row on open and on boundary change. Schedule is ORF/FM4-only today.
+- **Program schedule** (Schedule pane) shows today's broadcasts; the live
+  broadcast (`start ≤ now < end`) is highlighted and tagged "Live". The live row
+  is recomputed on a 30 s tick and only re-rendered on a boundary crossing. The
+  pane auto-scrolls to the live row on open and on boundary change. Schedule is
+  ORF/FM4-only today.
+- **Broken-station report** is a two-step flow: the details-panel action opens a
+  report sheet, the user picks one of six categories (no audio / interruptions /
+  wrong station / wrong logo / wrong info / other) plus an optional comment, then
+  submits. Some categories require a comment before Send is enabled; the comment
+  is length-capped. After a successful submit that returns a report id, a
+  persistent receipt for that station is stored and its lifecycle status
+  (received → confirmed → resolved as fixed / removed / not reproducible) shows
+  under the report row.
 - **Program-only sources** show a program name caption but no music-service rail
   (no artist/title to search).
 - **Genres** in the details panel: at most 5 tags, dot-joined. **Format**:
@@ -211,9 +257,10 @@ wake entry (sleep/wake also reachable while armed even with no current station).
   auto-reconnect only from loading/playing/error (never from paused/idle).
 - **Track verified false / pending** — music-service rail stays hidden; no empty
   search results.
-- **Program data races** — switching away from Program/Lyrics when its data
-  disappears falls back to the Now pane (or the remaining enabled pane in the
-  landscape split).
+- **Program/lyrics data races** — when Schedule or Lyrics data disappears while
+  that pane is active, the portrait view falls back to the Album pane and the tab
+  is removed; in the landscape split the corresponding column is dropped and the
+  row recollapses to the remaining columns.
 - **Broken-station report races** — an in-flight report is cancelled on station
   change or view dismissal; every exit path clears the in-flight flag so the
   button never gets stuck disabled.
@@ -230,10 +277,12 @@ wake entry (sleep/wake also reachable while armed even with no current station).
 
 - Every control carries a screen-reader label: dismiss, close, favorite
   (add/remove), play/pause, previous/next station, wake to radio, sleep timer,
-  pane tabs (Now / Program / Lyrics), and each music-service button ("Listen on
-  Apple Music", "Listen on Spotify", "Search on YouTube Music").
-- Mini-player labels: play/pause, close mini-player, sleep-timer-active glyph,
-  program/calendar glyph, "playing from list" badge; the offline glyph is hidden
+  pane tabs (Album / Schedule / Lyrics, with the active tab marked selected), and
+  each music-service button ("Listen on Apple Music", "Listen on Spotify", "Search
+  on YouTube Music").
+- Mini-player labels: play/pause, close mini-player (also exposed as an
+  accessibility action on the card so the swipe close has a non-gesture path),
+  sleep-timer-active glyph, "playing from list" badge; the offline glyph is hidden
   from the reader (the offline state is conveyed by the text label).
 - Brand marks are decorative (hidden); the button's text/label carries the name.
 - Text uses `minimumScaleFactor` so long station/track names shrink rather than
@@ -246,11 +295,13 @@ wake entry (sleep/wake also reachable while armed even with no current station).
 ## Localization
 
 - This surface owns: NOW PLAYING eyebrow, transport/secondary-control labels,
-  pane labels (Now / Program / Lyrics), status labels (Standby / Loading / Live /
-  Paused / playback-error / no-internet phrases), details-row labels (Website /
-  Stream / Country / Format / Genres / Metadata), the broken-station report
-  states (report / sending / sent / failed) and its alert copy, car-mode labels,
-  and the "playing from list" badge.
+  pane / column labels (Album / Schedule / Lyrics), status labels (Standby /
+  Loading / Live / Paused / playback-error / no-internet phrases), details-row
+  labels (Website / Stream / Country / Format / Genres / Metadata), the
+  broken-station report states (report / sending / sent / failed) plus its sheet
+  copy (prompt, six category labels, required/optional comment prompts, send) and
+  receipt-status strings, its alert copy, car-mode labels, and the "playing from
+  list" badge.
 - Music-service accessibility labels are currently English (localization rewrite
   tracked as a deferred slice).
 - Plural/parameter needs: broadcast count ("N broadcasts"), countdown chips for
@@ -264,7 +315,7 @@ wake entry (sleep/wake also reachable while armed even with no current station).
 |---|---|---|---|
 | Destination view | Supported. | Reference. | Supported for the core playback surface; secondary panels remain planned. |
 | Mini-player handoff | Supported. | Supported. | Supported. |
-| Mini-player long-press close prompt | Platform-specific (no equivalent gesture). | Supported. | Planned. |
+| Mini-player swipe-to-close | Platform-specific (no equivalent gesture). | Supported. | Planned. |
 | Track metadata | Supported. | Reference. | Partial; basic ICY metadata exists. |
 | Cover art fallback | Supported. | Reference. | Partial; station artwork fallback exists, track cover art is deferred. |
 | Previous/next station controls | Supported. | Reference. | Supported for active playback queues. |
@@ -298,14 +349,23 @@ and media controls.
 ## Reference
 
 - `rrradio/Views/NowPlayingView.swift` — full destination view: portrait
-  (`regularBody`), landscape/iPad split (`landscapeBody`), car mode
-  (`carModeBody`), pane tabs + paged content, music-service rail, station-detail
-  panel, transport controls, the embedded `WakeAlarmView` / `SleepTimerView`
-  sheets, `ArtworkView`, and `nowPlayingPresentation` (sheet vs. full-screen by
-  idiom).
+  (`regularBody`), landscape/iPad multi-column split (`landscapeBody` /
+  `landscapeAlbumColumn` / `landscapeProgramColumn` / `landscapeLyricsColumn`),
+  car mode (`carModeBody`), the Album/Schedule/Lyrics text `modeTabBar` + paged
+  content, music-service rail, station-detail panel and the embedded
+  `BrokenStationReportSheet` (category picker + comment), receipt status display,
+  transport controls, the embedded `WakeAlarmView` / `SleepTimerView` sheets,
+  `ArtworkView`, and `nowPlayingPresentation` (sheet vs. full-screen by idiom).
+- `rrradio/Views/DotMatrixLogoView.swift` — the animated `rrr` dot-matrix used as
+  the no-cover artwork fallback (animated while playing, static otherwise / under
+  Reduce Motion).
 - `rrradio/Views/MiniPlayerView.swift` — persistent bottom strip, tap-to-expand,
-  long-press close prompt (`MiniPlayerClosePromptState`), offline affordances,
-  station-list badge, and the `miniPlayerSurface` chrome.
+  swipe-to-close gesture + revealed close zone (`MiniPlayerClosePromptState`,
+  reveal/auto-close thresholds, haptics), offline affordances, station-list badge,
+  and the `miniPlayerSurface` chrome.
+- `rrradio/Models/BrokenStationReports.swift` — `BrokenStationReportCategory`
+  (six categories), the report receipt and its `received`/`confirmed`/`resolved`
+  lifecycle, and `BrokenReportReceiptStore`.
 - `rrradio/Player/Metadata/MusicServiceLinks.swift` — `MusicServiceRegistry`
   (Apple Music / Spotify / YouTube Music), per-service toggles, badge-lockup
   rendering, and the search / Apple-Music deep-link URL builders.

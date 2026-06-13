@@ -1,9 +1,9 @@
 # Playback State Machine Contract
 
 ```yaml
-status: draft
+status: review
 platforms: [web, ios, android]
-reconciled-against: 9336321
+reconciled-against: d241aa9
 ```
 
 ## Purpose
@@ -158,8 +158,20 @@ Stepping to a different station calls `play` on it (rebuild, `loading`).
 ### Audio-session + media-control contract
 
 - **Session category:** playback (continues in background; mixes per platform
-  background-audio entitlement). Activated on configure; deactivated on `stop`,
-  on interruption-began, and on keep-alive stop when nothing follows.
+  background-audio entitlement). The category is set **dormant** at startup —
+  configured but not activated — so an idle app never registers as the system
+  Now Playing app or shows an empty lock-screen card.
+- **Lazy activation:** the session is activated only when audible work begins:
+  on `play`, on `resume`, and when the wake keep-alive starts.
+- **Deactivation:** the session is released (with notify-others-on-deactivation)
+  whenever nothing is playing — on `stop`, on interruption-began, when
+  now-playing is cleared (no `current` station) and no wake keep-alive is
+  running, and when the wake keep-alive stops with the player idle. A user
+  `pause` keeps the session active so resume from the lock screen is instant.
+- **Wake keep-alive (iOS-only):** a near-silent looped tone can hold the audio
+  session alive while the app waits to start playback at a scheduled wake time;
+  starting `play` tears it down and starts the real stream. It supports the
+  wake-to-radio alarm and is not part of the cross-platform state machine.
 - **Now-playing info published** (see Detail) so the lock screen / system surface
   shows station identity, current track, live-stream flag, playback rate, queue
   position, and artwork.
@@ -212,7 +224,7 @@ the `NowPlayingMetadata` struct produced in
 | Field | Type | Value | When |
 |---|---|---|---|
 | Title | string | Station name; `"<station> - <program>"` when a program name is known; sleep-timer suffix `" - Sleep in <n>m"` appended when armed. | always when station selected |
-| Artist (subtitle) | string | `"<artist> - <title>"` for music tracks; else state label (`Standby`/`Loading`/`Live`/`Paused`/`Error`) or country code. | always |
+| Artist (subtitle) | string | `"<artist> - <title>"` for music tracks (or bare `<title>` when no artist); else a per-state label — `Loading` / `Live` / `Paused` / `Error` (and, in the defensive `idle`-with-station branch, the station's uppercased country code or `Standby`). | when a station is selected |
 | Media type | enum | audio | always |
 | Is live stream | bool | true | always |
 | Playback rate | number | 1.0 when state == `playing`, else 0.0 | always |
@@ -387,7 +399,9 @@ reactivate session, resume; state → playing
   retry scheduler (`scheduleStreamRetry`, `rebuildCurrentStreamItem`,
   `scheduleHealthyPlaybackRetryResetIfNeeded`), backoff
   (`defaultStreamRetryDelayNanoseconds`), session handling
-  (`configureAudioSession`/`deactivateAudioSession`, interruption / route-change /
+  (`prepareAudioSessionCategory` dormant-at-init, `configureAudioSession`/
+  `deactivateAudioSession`, `clearNowPlaying`, `startWakeKeepAlive`/
+  `stopWakeKeepAlive`, interruption / route-change /
   media-services-reset handlers), remote commands (`wireRemoteCommands`,
   `updateRemoteStationCommandAvailability`), now-playing (`updateNowPlaying`,
   `nowPlayingPlaybackState`), auto-reconnect
@@ -401,11 +415,14 @@ reactivate session, resume; state → playing
 
 ## Known deviations
 
-- **Audio session not deactivated on stop/pause/teardown (slice 5 A2).** Shipped
-  iOS code historically left `AVAudioSession` active across `pause()`,
-  `stopWakeKeepAlive()`, and `teardownPlayer()`; only interruption-began and (now)
-  `stop()` deactivate. The contract intends the session to be released when nothing
-  is playing. See
-  `rrradio-ios/internal/audit/2026-05-25-ios-code-review-slice5.md` (A2) and the
-  remediation in `rrradio-ios/internal/audit/2026-05-25-fixes-prioritized.md`
-  (PR 3); the Now Playing close path is the slice 24 N6 surface of the same gap.
+- **Audio session deactivation (slice 5 A2 / slice 24 N6) — largely remediated.**
+  The audit flagged that shipped iOS code left `AVAudioSession` active across every
+  stop path; only interruption-began deactivated. At the reconciled commit this is
+  mostly fixed: `stop`, the now-playing-cleared path, and wake-keep-alive stop (when
+  idle) now deactivate, so the slice 24 N6 close-player surface releases the session.
+  `pause` still deliberately keeps the session active (fast lock-screen resume —
+  defensible per the audit), and `teardownPlayer` does not itself deactivate but is
+  only reached from callers that do. See
+  `rrradio-ios/internal/audit/2026-05-25-ios-code-review-slice5.md` (A2),
+  `…-slice24.md` (N6), and the remediation plan in
+  `rrradio-ios/internal/audit/2026-05-25-fixes-prioritized.md` (PR 3).

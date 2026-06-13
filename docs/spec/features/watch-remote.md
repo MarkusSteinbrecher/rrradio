@@ -1,9 +1,9 @@
 # Watch Remote Specification
 
 ```yaml
-status: draft
+status: approved
 platforms: [ios]
-reconciled-against: 800bb74
+reconciled-against: d241aa9
 ```
 
 ## Purpose
@@ -144,7 +144,9 @@ dimmed with no current station.
   than falling back to favorites.
 - **Primary action resolution** (play/pause button and double-tap on the Player):
   pause if the watch believes playback is live → resume if a current station exists
-  but is paused → else play the first list → else play the first favorite.
+  but is paused → else play the first **non-empty** list → else play the first
+  favorite. (An empty first list is skipped — the resolver requires it to hold
+  ≥1 station before starting it.)
 - **"Playing" includes loading.** The play/pause button shows the pause icon while
   the iPhone is loading, so it never flickers to "play" during buffering.
 - **Stepping availability** (watch enable check): active queue has >1 station, OR

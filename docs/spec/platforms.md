@@ -1,5 +1,11 @@
 # Platform Specification
 
+```yaml
+status: review
+platforms: [web, ios, android]
+reconciled-against: d241aa9
+```
+
 rrradio has one product contract and multiple platform implementations. Shared
 behavior should remain recognizable across web, iOS, and Android, while each
 platform uses native playback, storage, and OS integration.
@@ -23,10 +29,15 @@ The formal, field-level cross-platform invariants live in
 - A platform may cache the catalog, but cache refresh must never require an app
   release when the published JSON changes.
 - User-entered stream URLs must be treated as private user data.
+- Local library data is private and stays on device unless a platform offers an
+  explicit cloud or file-transfer path; the record types, merge algebra, and
+  decode isolation for cross-device sync are [sync-merge](contracts/sync-merge.md).
 - Telemetry and diagnostics must avoid stack traces, search queries, stream
   URLs, track titles, artist names, and arbitrary user-entered strings; the full
   data-boundary matrix is
   [privacy & data boundaries](contracts/privacy-data-boundaries.md).
+- User and automated broken-station reports follow a single server-side contract
+  shared by all platforms: [broken-reports](contracts/broken-reports.md).
 - Playback states, retry, and queue stepping are
   [playback-state-machine](contracts/playback-state-machine.md); the watch remote
   wire format is [watch-protocol](contracts/watch-protocol.md); the localization
@@ -66,11 +77,15 @@ Current implementation shape:
 - Background audio capability.
 - MPNowPlayingInfoCenter and MPRemoteCommandCenter for lock-screen,
   Bluetooth, and AirPods controls.
+- Native CarPlay template surface (Favorites, Recents, Lists, Browse-by-country)
+  plus the system now-playing screen, separate from the in-app car mode.
+- App Intents, Siri, Spotlight, and Shortcuts for station playback.
 - UserDefaults-backed local library.
 - CloudKit private database sync for supported library and preference data.
 - watchOS companion app that remotely controls iPhone playback.
 - Native map, wake alarm, sleep timer, local diagnostics, listening history,
   theme/language/landing preferences, and station lists.
+- Wake-alarm Live Activity (lock screen and Dynamic Island) for an armed wake.
 
 Platform constraints:
 
@@ -121,3 +136,47 @@ Android-specific open decisions:
 - Whether the Android catalog search needs a bundled index or can start with an
   in-memory matcher.
 - Whether watch/companion surfaces are out of scope or future Wear OS work.
+
+## Platform Matrix
+
+The canonical, per-behavior parity matrix lives in
+[README](README.md#platform-parity-matrix); the rows below capture only the
+platform-shape differences this doc asserts, using the README status legend.
+
+| Behavior | Web | iOS | Android |
+|---|---|---|---|
+| Native playback engine | Supported (`HTMLAudioElement` + `hls.js`) | Reference (AVFoundation) | Supported (Media3/ExoPlayer) |
+| Lock-screen / media controls | Supported where browser allows | Reference | Partial |
+| Background audio | Partial | Reference | Partial |
+| Cloud library sync | Not planned | Supported (CloudKit, iOS-only) | Not applicable |
+| Manual export/import | Supported (favorites, custom stations) | Planned/optional | Supported (library + preferences) |
+| Watch companion remote | Not applicable | Supported | Not applicable |
+| CarPlay / vehicle template surface | Browser/OS dependent | Supported | Android Auto TBD |
+| Siri / Shortcuts / Spotlight | Planned | Supported | Planned |
+| Wake-to-radio | Partial, browser-limited | Reference, iOS-limited | Planned, Android-limited |
+| Local diagnostics opt-in | Anonymous production events only | Supported | Supported |
+
+## Reference
+
+iOS source (read-only mirror) for the cross-cutting platform claims above:
+
+- App entry and scene wiring — `rrradio/App.swift`, `rrradio/Views/AppRouter.swift`.
+- Playback, lock-screen, and background audio — `rrradio/Player/AudioPlayer.swift`.
+- CarPlay template surface — `rrradio/CarPlay/CarPlayController.swift`,
+  `rrradio/CarPlay/CarPlaySceneDelegate.swift`; in-app car mode —
+  `rrradio/Player/CarModeController.swift`.
+- CloudKit sync — `rrradio/CloudSync/CloudSyncStore.swift`,
+  `CloudSyncController.swift`, `CloudSyncSnapshot.swift`.
+- Watch remote — `Shared/WatchRemoteProtocol.swift`,
+  `rrradio/WatchRemote/PhoneRemoteControlController.swift`, `rrradioWatch/`.
+- App Intents / Siri / Spotlight — `rrradio/Shortcuts/`.
+- Localization catalog — `rrradio/Resources/Localizable.xcstrings`.
+- Project generation and target/scene configuration — `project.yml` (xcodegen).
+
+Per-behavior depth lives in the linked feature and contract specs; this doc only
+summarizes the platform split.
+
+## Known deviations
+
+None tracked for the cross-platform claims in this doc. Per-feature deviations
+are linked from the individual feature and contract specs.

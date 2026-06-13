@@ -1,9 +1,9 @@
 # Favorites Specification
 
 ```yaml
-status: draft
+status: review
 platforms: [web, ios, android]
-reconciled-against: 9336321
+reconciled-against: d241aa9
 ```
 
 ## Purpose
@@ -93,9 +93,9 @@ Three presentations, switchable in place (no teardown):
 | Tap a row / tile / icon | Not in delete mode | Plays the station with a **favorites** queue (catalog-fallback search uses a **browse** queue). | Pushes a recent (catalog stations only); selection haptic on reorder commits elsewhere. |
 | Tap a row / tile / icon | In delete mode | Exits delete mode (no play). | — |
 | Tap heart on a row (list, where shown) | Station is favorite | Removes from favorites. For a **custom** station, deletes the custom station from the library. | Persists; row animates out. |
-| Tap heart on a row | Station not favorite | Adds to favorites at the top. | Persists. |
-| Long-press a row / tile / icon (~0.36 s) | List/tiles: long-press also drives the info preview; any mode | Enters **delete mode**: app icons jiggle, minus badges appear on every cell; the chrome trash toggle engages. | Snappy 0.16 s animation. |
-| Tap a minus badge | In delete mode | Removes that favorite (custom station deleted; see above). | Persists; cell animates out. |
+| Tap heart on a row | Station not favorite | Adds to favorites at the **tail** (end of the page). | Persists. |
+| Long-press a row / tile / icon (~0.35 s) | Any mode; in **list** mode a ~0.36 s hold also drives the info preview | Enters **delete mode**: app icons jiggle, minus badges appear on every cell; the chrome trash toggle engages. | Snappy 0.16 s animation. |
+| Tap a minus badge | In delete mode | Removes that favorite (custom station deleted; see above). | Persists; cell animates out; an **undo toast** offers to restore the station to its original index across every store the removal touched. |
 | Drag a cell onto another | Not searching, not in catalog-fallback, ≥1 favorite | Reorders favorites; the dragged cell moves through the grid, throttled so fine adjustments pass but the array isn't thrashed. | New order persisted on drop; selection haptic. |
 | Release a long-press without moving | In delete mode | Stays in delete mode (lets the user tap a minus or drag) — matches iPhone Home. | — |
 | Tap empty background | In delete mode | Exits delete mode. | — |
@@ -112,16 +112,25 @@ Three presentations, switchable in place (no teardown):
 
 ## Business rules
 
-- **Add at top.** A newly favorited station is inserted at index 0; re-adding an
-  existing favorite only refreshes its stored snapshot in place.
+- **Add at tail.** A newly favorited station is appended to the end of the list;
+  re-adding an existing favorite only refreshes its stored snapshot in place (no
+  re-order). This mirrors the sync-merge "extras trail the authoritative order"
+  rule — local-only and re-asserted custom favorites both land at the tail.
 - **Stable user order.** Favorites keep a user-defined order; reorder rewrites it and
   persists immediately. Reorder is disabled while searching or showing the catalog
   fallback.
 - **Custom stations are always favorites.** Creating a custom station adds it to
-  favorites; on load the library re-asserts that every custom station is present in
-  favorites. Un-favoriting a custom station **deletes** the custom station (and
-  removes it from recents and all lists). Un-favoriting a catalog station only
-  removes the favorite — it never deletes anything else.
+  favorites (at the tail); on load — and after a cloud-sync apply — the library
+  re-asserts that every custom station is present in favorites, appending any
+  missing ones at the tail. Un-favoriting a custom station **deletes** the custom
+  station (and removes it from recents and all lists). Un-favoriting a catalog
+  station only removes the favorite — it never deletes anything else.
+- **Removal is undoable.** Removing a favorite via the minus badge (and removing a
+  recent) records a removal snapshot and surfaces an undo toast; undo re-inserts the
+  station at the **exact index** it held in every store the removal cleared
+  (favorites, recents, custom stations, and any lists for a cascaded custom-station
+  delete). Indices are clamped and any store that re-acquired the station in the
+  meantime is skipped.
 - **Favorites as playback queue.** Playing from Favorites builds a queue with source
   `favorites`; previous/next then step through the favorites order (circular). The
   catalog-fallback search path uses a `browse` queue so skip walks the catalog
@@ -133,8 +142,10 @@ Three presentations, switchable in place (no teardown):
 - **Recents cap.** iOS keeps the most recent **12** stations; older entries fall off
   the tail. (Web/Android cap and any time-window dedupe are governed by their own
   storage — see Open questions.)
-- **Recents are read-only.** No reorder, no swipe-delete; the library trims its own
-  tail.
+- **Recents has no reorder.** The library trims its own tail, so order is not
+  user-mutable. Recents *does* support removal: a per-row delete (delete-mode minus
+  badge, with undo) plus a "delete all" affordance clear individual entries or the
+  whole list. Removing a recent persists locally only (recents are non-syncable).
 - **Now-playing metadata** for list/tiles polls every **60 s**; the currently-playing
   row prefers the live player snapshot over the poll. App mode never polls.
 - **Display-mode restore** happens before first render; at least one mode is always
@@ -251,11 +262,17 @@ stream-quality message. See [localization](../contracts/localization.md).
 - `rrradio/Views/StationKit.swift` — `FavoritesDisplayMode` (order/visibility/selection
   normalization), `FavoriteJiggleModifier`, delete badge, list row / tile / app-icon
   views, drop delegates.
-- `rrradio/Library/Library.swift` — favorites/recents/custom/list stores: add/remove,
-  `toggleFavorite`, `reorderFavorites`, `pushRecent` / `pushRecentIfCatalogStation`,
-  `recentsLimit = 12`, catalog reconciliation, cloud-sync apply, quarantine-on-decode.
+- `rrradio/Library/Library.swift` — favorites/recents/custom/list stores: add/remove
+  (tail append via `addFavorite` / `toggleFavorite`), `reorderFavorites`,
+  `pushRecent` / `pushRecentIfCatalogStation`, `removeRecent` / `clearRecents`,
+  `removeFavoriteForUndo` / `removeRecentForUndo` / `restore` (undo), `recentsLimit = 12`,
+  `ensureCustomStationsAreFavorites` (tail re-assert), catalog reconciliation,
+  cloud-sync apply, quarantine-on-decode.
+- `rrradio/Views/StationRemovalUndo.swift` — `StationRemovalUndoController`: records a
+  removal and exposes the undo toast that restores the station to its original index.
 - `rrradio/Library/Feeds/FavoritesFeed.swift`, `RecentsFeed.swift` — feed capabilities
-  and queue source bindings.
+  (Favorites: reorder/remove/multi-mode/long-press-info; Recents: remove + long-press
+  info, no reorder) and queue source bindings.
 - `rrradio/Views/FeedPages/LibraryChrome.swift` — display-mode pill, search field,
   delete-mode toggle, title/placeholder per selection.
 - `rrradio/Views/SettingsView.swift` — Favorites display-mode order/visibility config.

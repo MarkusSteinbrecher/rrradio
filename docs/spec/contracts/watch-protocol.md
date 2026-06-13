@@ -1,9 +1,9 @@
 # Watch Remote Protocol Contract
 
 ```yaml
-status: draft
+status: approved
 platforms: [ios]
-reconciled-against: 800bb74
+reconciled-against: d241aa9
 ```
 
 The Apple Watch companion is an iPhone *remote*, not an independent player. It

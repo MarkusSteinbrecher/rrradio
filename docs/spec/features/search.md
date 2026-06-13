@@ -1,9 +1,9 @@
 # Search Specification
 
 ```yaml
-status: draft
+status: review
 platforms: [web, ios, android]
-reconciled-against: 9336321
+reconciled-against: d241aa9
 ```
 
 ## Purpose
@@ -81,6 +81,7 @@ Top to bottom, the search-relevant elements of the Browse surface:
 | Tap a result row | — | Plays that station; queues the currently visible window | Catalog stations push to recents |
 | Long-press a result row | Not in multi-select | Shows station info preview overlay | Released → preview dismisses |
 | Change country/genre/news filter | — | Query result set re-filters; Radio Browser re-fetches with derived tag/country | Display window resets |
+| Change stream-quality filter (low/medium/high buckets) | — | Query result set re-filters to matching buckets across every tier (local + community); Radio Browser query is *not* re-derived from it | Display window resets |
 | Enter multi-select / receive list-selection request | — | Search is cleared, filters reset (browse-owned) | — |
 | Leave Browse page | — | Debounce + filter tasks cancelled; Radio Browser paginator reset; info preview dismissed | Query lost on return |
 
@@ -106,10 +107,17 @@ Top to bottom, the search-relevant elements of the Browse surface:
   broad query doesn't pull the entire catalog into memory.
 - **Visible window paging: 25 rows.** The list renders only the first 25 results,
   growing by 25 each load-more hit before falling through to Radio Browser.
+- **Active browse filters gate every search tier.** Country, genre, news, and
+  stream-quality (low/medium/high buckets) filters are applied to FTS hits, the
+  substring safety net, custom + Radio Browser side matches, and the substring
+  fallback alike — a result must satisfy the filter on every path. A station with
+  unknown codec/bitrate scores the lowest quality bucket.
 - **Radio Browser fires only while a query is active**, and is suppressed when a
   country filter is active and the query is ≤2 normalized characters (contract:
   country-code short-circuit). It is a "more results" extension, never ambient
-  catalog enrichment.
+  catalog enrichment. Only the genre (or news) and country filters derive the
+  Radio Browser tag/country params; the quality filter narrows the merged result
+  set but is never sent to Radio Browser.
 - **Radio Browser page size: 50** (Browse paginator). Pagination stops when a
   page returns empty or a fetch fails.
 - The **count label** reflects the merged local+community total already in the
@@ -198,6 +206,7 @@ This surface owns four strings:
 | Query-active suppresses alphabet/quality/favorite sort | Required | Reference | Required |
 | Radio Browser community results appended on load-more | Supported | Reference | Supported with cache-backed loading |
 | Country-filter + ≤2-char-query suppresses RB call | Required | Reference | Required |
+| Stream-quality (low/medium/high) filter gates every search tier | Supported | Reference | Supported |
 | Visible-window paging then RB pagination | Supported | Reference (25 then 50) | Supported |
 | Clear button resets field + query + RB paginator | Supported | Reference | Supported |
 | No-results unavailable view with guidance text | Supported | Reference | Supported |
@@ -229,11 +238,14 @@ iOS source (the only place iOS mechanics are named):
 - `rrradio/Search/Search.swift` — `normalizeForSearch`, `stationMatches`,
   `stationSearchSurface` (the searchable surface).
 - `rrradio/Search/CatalogStationSearch.swift` — tier orchestration
-  (`indexedStations`), FTS-miss safety net, filter gating, dedupe by id.
+  (`indexedStations`), FTS-miss safety net, `matchesBrowseFilters`
+  (country/genre/news/quality gating on every tier), dedupe by id.
 - `rrradio/Search/SearchIndex.swift` — bundled FTS5 open/query, ranking,
   divergence validation.
 - `rrradio/Search/StationFilters.swift` — genre `rbTag` mapping used to derive
   the Radio Browser tag param, country helpers.
+- `Shared/StationFeed.swift` — `BrowseFilter` (country/genre/news +
+  `qualityBuckets`), the filter object every search tier is gated by.
 - `rrradio/Views/FeedPages/State/RadioBrowserPaginator.swift` — pagination,
   cancellation key, `canonicalQuery` country-code short-circuit, silent failure.
 - `rrradio/Views/FeedPages/State/FeedPageState.swift` — `searchText` vs committed

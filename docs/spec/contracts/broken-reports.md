@@ -1,9 +1,9 @@
 # Broken-Station Reports Contract
 
 ```yaml
-status: draft
+status: review
 platforms: [web, ios, android]
-reconciled-against: —   # server-side first; no client ships this yet
+reconciled-against: d241aa9
 ```
 
 ## Purpose
@@ -19,7 +19,8 @@ Who must honor it: every platform that ships the report sheet or receipt
 polling, the `stats.rrradio.org` Worker (`worker/src/reports.ts`), and the
 triage automation (issue-close Action, P2 prober/upserter). Defined by
 [#507](https://github.com/MarkusSteinbrecher/rrradio/issues/507); the iOS
-report-sheet UX lives in the companion `rrradio-ios` issue.
+report-sheet UX is defined by the companion `rrradio-ios#77` and ships the
+sheet, receipt store, polling, and resolved toast.
 
 ## Definition
 
@@ -132,6 +133,51 @@ touches `received`). Response: `{ "ok": true, "confirmed": <n>, "linked": <n> }`
   merges; merging closes the issue → `resolve-reports.yml` resolves the linked
   reports. P3 needs no Worker secret — it acts off the GitHub issues, not D1.
 
+### Client report flow
+
+The user-facing half of the loop — report sheet, receipt, status line,
+resolution notice. Stated as product behavior; each platform renders it in its
+own chrome.
+
+- **Entry:** a "report broken station" control in the now-playing details opens
+  a report sheet for the current station.
+- **Category:** the sheet lists the six categories as a single-select list, none
+  preselected. The category is always an explicit user choice (never
+  auto-classified). Send stays disabled until one is picked.
+- **Comment:** an optional free-text field, plainly labeled as going to the
+  maintainer, hard-capped at 500 chars as the user types. The comment is
+  **required only for `other`** (it carries no signal otherwise); for that
+  category Send stays disabled until the comment is non-empty. Leading/trailing
+  whitespace is trimmed; an empty comment is omitted from the payload.
+- **Send:** posts the report, then dismisses the sheet. Success and failure each
+  surface once (success acknowledgement; failure offers the email fallback —
+  see Failure & fallback). The category is sent; the comment, when present, is
+  sent; neither the comment nor anything user-authored is written to the local
+  diagnostics breadcrumb (only station id/name + category).
+- **Receipt:** when the response carries a `reportId`, the device stores a local
+  receipt — `{ id, stationId, stationName, category, sentAt, status, resolution?,
+  resolvedAt?, seen }` — initial `status = received`. A response without
+  `reportId` is fire-and-forget: no receipt, no follow-up (degraded mode).
+- **Status line:** the now-playing details show the latest receipt for that
+  station and its current state — `received` ("we'll look into it"), `confirmed`
+  ("fix in progress"), or `resolved` with the outcome wording
+  (`fixed` / `removed` / `not-reproducible`).
+- **Polling:** receipts are refreshed opportunistically on app foreground (not on
+  a timer), batching all held ids into one `report-status` call. The merge
+  accepts `{ "reports": [...] }` or a bare array; unknown ids (omitted from a
+  well-formed response) are dropped as expired. Any non-2xx, offline, or
+  decode failure is a silent no-op — the UI never blocks on the poll.
+- **Resolution notice:** the first time polling finds a receipt newly
+  `resolved`, a root-level toast floats above the bottom chrome with the station
+  name and outcome. Tapping it — or letting it sit ~7s — marks the resolution
+  seen and dismisses it for good; the seen flag survives restarts so the toast
+  fires exactly once per resolution. A second resolution restarts its own
+  countdown. The toast yields its slot to a station-removal-undo toast when both
+  want it (an unseen resolution persists; undo does not).
+- **Receipt retention (client):** receipts age out 90 days after sending;
+  a resolved receipt that has been seen lingers 7 days past its resolution (so
+  the status line can still show the outcome), then self-prunes.
+
 ## Detail
 
 | Field | Type | Optional? | Meaning | Default |
@@ -144,8 +190,11 @@ touches `received`). Response: `{ "ok": true, "confirmed": <n>, "linked": <n> }`
 | `resolvedAt` | ISO 8601 UTC | only when resolved | resolution timestamp | — |
 | `github_issue` | int (server-side) | yes | linked triage issue | unset |
 | Report threshold | int (server-side env) | no | independent reports to confirm a non-probe-failed category | 3 (`REPORT_THRESHOLD`) |
-| Receipt store (client) | local list of `{ id, stationId, createdAt }` | yes | what the device polls with | empty |
+| Receipt store (client) | local list of `{ id, stationId, stationName, category, sentAt, status, resolution?, resolvedAt?, seen }` | yes | what the device polls with + renders the status line/toast from | empty |
+| Receipt age-out (client) | 90 days after `sentAt` | no | unconditional prune window | 90d |
+| Resolved-receipt linger (client) | 7 days past `resolvedAt`, once seen | no | keeps the outcome visible briefly, then prunes | 7d |
 | Ingest rate limit | 20 reports / IP / UTC day | no | enforced via daily-salted IP hash, purged next day | — |
+| Status ids per call | int (server-side) | no | receipt ids the status endpoint reads per request; excess ignored | 50 (`STATUS_IDS_MAX`) |
 
 ## Examples
 
@@ -199,7 +248,7 @@ Status poll `…/report-status?ids=7f0c2b9e-…,11111111-1111-4111-8111-11111111
 
 | Condition | Behavior |
 |---|---|
-| POST non-2xx / network failure | Same as today: client surfaces failure once; iOS offers the `mailto:feedback@rrradio.org` fallback. |
+| POST non-2xx / network failure | Client surfaces failure once; iOS offers a `mailto:support@rrradio.org` fallback prefilled with the station name, id, stream URL, and playback state. |
 | 429 (rate limited) | Client shows the generic failure path; no retry-storm. |
 | D1 down, analytics up | `202 { ok: true }` without `reportId` — report counted, no receipt. Client skips storing a receipt. |
 | D1 and analytics both down | `502`; client failure path. |
@@ -217,26 +266,47 @@ Status poll `…/report-status?ids=7f0c2b9e-…,11111111-1111-4111-8111-11111111
 - Store receipts locally only ([privacy contract](privacy-data-boundaries.md)
   rows 4 and 15); never attach them to any other request.
 - Poll opportunistically (app foreground / stats-sheet open), not on a timer;
-  batch all outstanding ids into one call.
-- On `resolved`, inform the user once (e.g. badge/toast "Your FM4 report:
-  fixed"), then drop the receipt.
+  batch all outstanding ids into one call (≤50 ids reach the server per call).
+- On `resolved`, inform the user once (a toast showing the station name and the
+  outcome — "fixed" / "removed" / "couldn't reproduce it"), mark it seen, then
+  let the receipt self-prune.
 
 **Web** — same endpoint; receipts in `localStorage`. Currently sends the
-pre-#507 payload (no category sheet yet); that remains valid.
+pre-#507 payload (no category sheet, no comment) and ignores `reportId`; that
+remains valid (degraded mode — report counted, no follow-up).
 
-**iOS** — report sheet + receipts + polling specced in the companion
-`rrradio-ios` issue; `Diagnostics.swift`'s `BrokenStationReporter` is the
-integration point.
+**iOS** — ships the full flow per the *Client report flow* section: the
+now-playing report sheet (six-category single-select + optional/`other`-required
+comment), the on-foreground receipt poll, the per-station status line, and the
+root resolved-toast. Receipts persist in `UserDefaults`. `BrokenStationReporter`
+is the POST integration point; the comment is hard-capped client-side and never
+enters the diagnostics breadcrumb.
 
 **Android** — same protocol when the port lands; nothing platform-specific.
+
+## Platform Matrix
+
+| Behavior | Web | iOS | Android |
+|---|---|---|---|
+| POST a broken-station report | Supported | Reference | Not planned (port pending) |
+| Category single-select in the report sheet | Not planned (no sheet) | Reference | Planned |
+| Optional comment (`other` requires it) | Not planned | Reference | Planned |
+| Store the `reportId` receipt locally | Not planned | Reference | Planned |
+| Poll `report-status` on foreground | Not planned | Reference | Planned |
+| Per-station status line (received/confirmed/resolved) | Not planned | Reference | Planned |
+| Resolved notification (toast) | Not planned | Reference | Planned |
+| Email fallback on POST failure | Not planned | Supported | Planned |
 
 ## Open questions
 
 1. Retention: when (if ever) are resolved/stale `broken_reports` rows purged?
    Receipts of deleted rows read as expired, so purging is client-safe — pick
    a window (e.g. 180d) in a follow-up.
-2. Should `confirmed` be user-visible ("we reproduced it") or collapsed into
-   "in review" until resolution? Spec currently allows either rendering.
+2. ~~Should `confirmed` be user-visible or collapsed into "in review"?~~
+   Resolved: iOS renders `confirmed` explicitly as "fix in progress" in the
+   per-station status line. The contract still permits other platforms to
+   collapse it into a neutral "in review" state; revisit only if that
+   divergence proves confusing.
 3. The prober stops at stream connect + content-type (the fast, decisive
    signal); it does not yet read several seconds of audio bytes. Intermittent
    `interruptions` therefore confirm mostly by threshold. Revisit if byte-level
@@ -246,6 +316,15 @@ integration point.
 
 - Worker: `worker/src/reports.ts`, schema `worker/migrations/0001_broken_reports.sql`,
   routes wired in `worker/src/index.ts`, tests `worker/src/reports.test.ts`.
+- iOS client: `rrradio/Diagnostics.swift` (`BrokenStationReporter` — POST +
+  payload + `reportId` parse), `rrradio/Models/BrokenStationReports.swift`
+  (`BrokenStationReportCategory`, `BrokenReportReceipt`,
+  `BrokenReportReceiptStore` — persistence, polling, prune), the
+  `BrokenStationReportSheet` + `reportBroken` in `rrradio/Views/NowPlayingView.swift`,
+  the status line in the same file's details block, the root toast
+  `rrradio/Views/BrokenReportResolvedToast.swift` (presented from
+  `rrradio/Views/ContentView.swift`), and the foreground poll in
+  `rrradio/App.swift`.
 - Triage cron (P2): `tools/triage-reports.mjs` (+ `tools/triage-reports.test.mjs`),
   `.github/workflows/triage-reports.yml`; reuses `tools/playable-check.mjs`'s
   `lenientProbe` for the stream probe.
@@ -260,9 +339,16 @@ integration point.
 
 ## Known deviations
 
-- No client implements categories/receipts/polling yet, so the user-facing half
-  of the loop (the report sheet, the "resolved" notification) is unverified
-  end-to-end. Server pipeline (ingest → confirm → issue → resolve) is live.
+- iOS now ships the full client loop (sheet → receipt → poll → resolved toast),
+  so the protocol is exercised end-to-end against the live server pipeline
+  (ingest → confirm → issue → resolve). Web still sends the pre-#507 payload and
+  has no category sheet or receipt UI; Android is unstarted.
+- **iOS does not chunk the status poll to the 50-id server cap:** it sends every
+  held receipt id in one `report-status` call. A device holding >50 live
+  receipts would have the overflow ignored by the server and then dropped
+  client-side as "expired" on that poll. In practice the 90-day age-out and the
+  20-reports/day ingest cap keep the held count far below 50, so this is latent,
+  not user-visible. No audit filed yet.
 - **P3 metadata fixes are narrow:** only a `country` disagreement with Radio
   Browser is auto-corrected. Name/tags corrections, and re-sourcing a *new*
   logo (vs. clearing a dead one), are left to a research comment + the

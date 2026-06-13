@@ -1,8 +1,8 @@
 # Library Sync & Merge Contract
 ```yaml
-status: draft
+status: review
 platforms: [ios]
-reconciled-against: 9336321
+reconciled-against: d241aa9
 ```
 
 ## Purpose
@@ -19,6 +19,13 @@ the same state without losing user data. This is an **iOS-only** sync path.
   semantics when they merge a user-initiated **backup file** into the live
   library. See [data-sync.md](../data-sync.md) for the data-class privacy
   boundaries (what may and must not sync) — this contract does not restate them.
+- iOS also ships a **settings backup file** (a versioned JSON document holding
+  the same favorites / custom stations / station lists / preferences the cloud
+  snapshot carries, **but never listening history** — backups are made to be
+  shared outside the sandbox). It works with iCloud sync off. **Restore replaces**
+  the live library wholesale (the backup's index flags are authoritative — it is
+  a replace, not the union merge), then pushes the restored state to iCloud like
+  any local edit. See Backup file below.
 - Cross-platform account sync is **not planned**. A future shared backend
   requires its own ADR (tracked in [data-sync.md](../data-sync.md) §Future
   Cross-Platform Sync). This contract is the iOS reference and the local-merge
@@ -41,6 +48,7 @@ authoritative id ordering.
 | `StationList` | `station-list-<sha256(listId)>` | one station-list blob |
 | `StationListsIndex` | `station-lists-index` (singleton) | authoritative station-list ids |
 | `Preferences` | `preferences` (singleton) | all synced preference fields |
+| `ListeningHistory` | `listening-history` (singleton) | one blob of all shared closed listening-history sessions |
 | `SyncState` | `sync-state` (singleton) | `resetAt` deletion tombstone |
 
 - Per-entry record id = `"<prefix>-" + hex(SHA256(utf8(id)))`. Hashing keeps long
@@ -68,10 +76,16 @@ requests that arrive mid-cycle are coalesced and re-fired in `finishSync`.
    - If remote is empty AND local has no user payload AND no pending preferences
      push, end `emptyRemote` (nothing written).
    - Else `merged = CloudSyncMerge.merged(local, remote, preferLocalPreferences)`,
-     apply merged to live state, then `save(localSnapshot())` (ratify the merge
-     back to cloud). End `synced` (local had payload) or `restored` (it did not).
-2. **Push** (`pushLocalSnapshot`) — a debounced write of the local snapshot only.
-   Triggered by a local library/preferences change. End `pushed`.
+     apply merged to live state, then save the (bounded — see Listening-history
+     bounds) local snapshot back to cloud to ratify the merge. End `synced`
+     (local had payload) or `restored` (it did not).
+   - Applying merged state to live also reconciles the player: a station blob
+     changed on another device replaces that station everywhere it appears in
+     the active playback queue, and a station removed on another device is
+     removed from the active queue.
+2. **Push** (`pushLocalSnapshot`) — a debounced write of the local snapshot only
+   (listening history bounded for upload first). Triggered by a local library /
+   preferences / listening-history change. End `pushed`.
 
 ### Merge algebra (`CloudSyncMerge.merged`)
 
@@ -84,13 +98,30 @@ snapshot.
 | **Custom stations** | Authoritative-remote when `remote.hasCustomStationsIndex`: result = remote list + unresolved-id local fallbacks. Otherwise union by id with **remote-wins on collision** (`mergeStations`), local-only appended. |
 | **Station lists** | Authoritative-remote when `remote.hasStationListsIndex`: result = remote list + unresolved-id local fallbacks. Otherwise union by id with **remote-wins (remote first, then local-only)**. |
 | **Preferences** | All-or-nothing block. `useRemotePreferences = remote.hasPreferences && !preferLocalPreferences`. When true, every preference field takes the remote value; when false, every field keeps local. (One exception: `sleepTimerDefaultMinutes` takes remote only if `remote > 0`.) `preferLocalPreferences` is set when this device has a queued, not-yet-pushed local preference edit. |
+| **Listening history** | Union of both devices' **closed** sessions, keyed by `station id + whole-second start` (a session's local record id — a per-device random UUID — is ignored). Local wins on a key collision (it may carry back-filled artwork). **Open (in-flight) sessions are never shared.** Result is sorted chronological ascending. The union is idempotent — re-merging the same sets never duplicates. Unconditional (not gated by `useRemotePreferences`). |
 | **Index flags** | `hasFavoritesOrder/hasCustomStationsIndex/hasStationListsIndex/hasPreferences` in merged output = local OR remote (sticky). |
 | **`favoritesOrder`** in merged output | = `remote.favoritesOrder` verbatim. |
 | **`resetAt`** in merged output | = `remote.resetAt`. |
 
-Recents / listening-history records / diagnostics / active wake intents are
-**absent from the snapshot entirely** — they have no field, so they are never
-synced (enforced structurally, not by filter). See [data-sync.md](../data-sync.md).
+Recents / diagnostics / active wake intents are **absent from the snapshot
+entirely** — they have no field, so they are never synced (enforced
+structurally, not by filter). **Listening-history records do sync** (see the
+Listening-history rules below); they are the one privacy-sensitive class carried
+in the snapshot. The opt-in preference gates whether new sessions are *recorded*,
+not whether already-recorded sessions sync — any closed sessions still present
+upload regardless of the current toggle. See [data-sync.md](../data-sync.md).
+
+### Listening history (cross-device sessions)
+
+- Only **closed** sessions sync; the active (open) session never leaves the
+  device. They travel as **one shared blob record** (`listening-history`), not
+  one record per session.
+- Pull merges the remote blob into local with the union rule above. The blob is
+  re-written on push only when its content actually changed (UUID-insensitive
+  comparison) so a steady state doesn't re-save every cycle and bounce silent
+  pushes between devices.
+- The synced *records* are distinct from the three listening-history *preference*
+  fields (enabled / level / retention), which sync in the Preferences block.
 
 ### Push timing
 
@@ -101,6 +132,19 @@ synced (enforced structurally, not by filter). See [data-sync.md](../data-sync.m
 | Backoff | exponential `base × 2^(attempt-1)`, capped 60 s | Per-attempt deferred-push delay. |
 | Max retries | 3 | After which the pending push is **suspended** (kept dirty, retried on next external trigger), not dropped. |
 
+### Listening-history upload bounds
+
+The shared listening-history blob is trimmed **for upload only** (local storage
+keeps everything per the user's retention setting). Before each push:
+
+| Cap | Value | Meaning |
+|---|---|---|
+| Retention window | per `listeningHistoryRetention` | Sessions older than the cutoff are excluded from the upload. |
+| Max records | 2000 | Hard ceiling independent of retention so `forever` can't grow the blob without bound; keeps the most-recent. |
+| Max encoded bytes | 800 000 | Safety net under CloudKit's ~1 MB per-record limit; oldest sessions dropped until the encoded blob fits. |
+
+Dropped-session counts are logged to diagnostics; nothing local is touched.
+
 ### Silent push (`CKDatabaseSubscription`)
 
 - A single `CKDatabaseSubscription` id `rrradio.private-db-changes.v1` is
@@ -109,6 +153,12 @@ synced (enforced structurally, not by filter). See [data-sync.md](../data-sync.m
   no badge, no sound). It only wakes the app to pull.
 - On delivery the app calls `handleRemoteChangeNotification` → `refreshFromCloud`
   (coalesced if a sync is already running).
+- The subscription's existence is **verified server-side once per app session**
+  (and re-attempted on each foreground refresh until it succeeds). The check
+  deliberately does **not** trust any persisted "installed" flag: CloudKit
+  Development and Production are separate databases, and a flag would survive the
+  dev→prod transition and skip creating the Production subscription. The
+  existence check is idempotent and cheap, so it self-heals across environments.
 
 ## Detail
 
@@ -142,8 +192,10 @@ synced (enforced structurally, not by filter). See [data-sync.md](../data-sync.m
 | `aiBlurbsEnabled` | Bool | `false` | AI station blurbs. |
 
 Note: the active wake **intent** is not synced; only the wake *preferences*
-above sync. Listening-history *records* never sync — only the three history
-*preference* fields above. (See [data-sync.md](../data-sync.md).)
+above sync. The three listening-history *preference* fields above (enabled /
+level / retention) sync here; the history *records* themselves sync separately
+through the `ListeningHistory` blob (see Listening history above), not in this
+Preferences block. (See [data-sync.md](../data-sync.md).)
 
 ### Per-entry / index records
 
@@ -155,6 +207,7 @@ above sync. Listening-history *records* never sync — only the three history
 | `FavoritesOrder` | `stationIds` (String array) | Authoritative order. |
 | `CustomStationsIndex` | `stationIds` (String array) | Authoritative membership. |
 | `StationListsIndex` | `listIds` (String array) | Authoritative membership. |
+| `ListeningHistory` | `records` (Data, ISO-8601 JSON array), `updatedAt` (Date), `count` (Int) | One shared blob of all closed sessions. Empty set → record deleted; unchanged content → not re-written. |
 | `SyncState` | `resetAt` (Date) | Deletion tombstone for "remove all cloud data". |
 
 ### Local sync flags (`UserDefaults`)
@@ -164,7 +217,26 @@ above sync. Listening-history *records* never sync — only the three history
 | `rrradio.icloudSync.enabled.v1` | Sync on/off (defaults **on** at first launch). |
 | `rrradio.icloudSync.pendingPreferencesPush.v1` | A local preference edit awaits push → forces `preferLocalPreferences` on next merge. |
 | `rrradio.icloudSync.resetAcknowledgedAt.v1` | Last `resetAt` this device has honored. |
-| `rrradio.icloudSync.subscriptionInstalled.v1` | Subscription install confirmed locally. |
+
+### Backup file (iOS, on-disk)
+
+A versioned JSON document the user can export, share, and restore independently
+of iCloud (works with sync off — it reads/writes local state only).
+
+| Field | Meaning |
+|---|---|
+| `version` | Current **1**; reading rejects any file with `version > 1` with a "made with a newer version" message rather than half-decoding. |
+| `exportedAt`, `appVersion` | Provenance stamps. |
+| `favorites`, `customStations`, `stationLists`, `preferences` | Same data the cloud snapshot carries. **Listening history is deliberately omitted.** |
+
+- Export reads the current local snapshot; suggested file name
+  `rrradio-settings-<yyyy-MM-dd>.json`.
+- Restore decodes the file, **replaces** favorites / custom stations / station
+  lists / preferences live (the backup's index flags are authoritative — restore
+  replaces, it does not union), then schedules one push so the restored state
+  propagates to iCloud when sync is on.
+- A malformed (non-backup) file fails with "this is not a rrradio settings
+  backup."
 
 ## Examples
 
@@ -214,14 +286,26 @@ remote.hasPreferences = true, preferLocalPreferences = false
    (except sleepTimerDefaultMinutes, which takes remote only if remote > 0)
 ```
 
+### Listening-history merge (union by station+second, local-wins, open dropped)
+
+```
+local:  [ {st:"fip",  start:100, artwork:"A"}, {st:"soma", start:300, OPEN} ]
+remote: [ {st:"fip",  start:100, artwork:nil}, {st:"byte", start:200} ]
+merged: [ {st:"fip",  start:100, artwork:"A"},      # local wins on key collision
+          {st:"byte", start:200} ]                  # remote-only session added
+        # soma@300 is open → never shared; result sorted by start ascending
+```
+
 ### Reset tombstone
 
 ```
 removeAllCloudData():
   save SyncState{resetAt: now}; delete all Favorite/CustomStation/StationList
-  + the three index records + Preferences.
+  + the three index records + Preferences + the ListeningHistory blob;
+  clear local listening history; end removedCloudData.
 Other device on next refresh: resetAt > resetAcknowledgedAt and no payload
-  beyond the tombstone => apply empty locally, acknowledge resetAt, end resetApplied.
+  beyond the tombstone => apply empty locally, clear local listening history,
+  acknowledge resetAt, end resetApplied.
 ```
 
 ## Versioning & evolution
@@ -240,8 +324,14 @@ Other device on next refresh: resetAt > resetAcknowledgedAt and no payload
 - The subscription id carries a `.v1` suffix; bumping it forces re-creation
   against a new configuration.
 - Migration policy: no automatic blob migration exists. The "save back the merge"
-  step (`save(localSnapshot())`) re-encodes any decodable blob with the current
-  encoder, which heals stale-but-decodable records opportunistically.
+  step (re-saving the bounded local snapshot) re-encodes any decodable blob with
+  the current encoder, which heals stale-but-decodable records opportunistically.
+- The `ListeningHistory` blob carries no `schemaVersion`; it round-trips through
+  `ListeningHistoryRecord` `Codable` (ISO-8601 dates). Two devices that
+  independently logged the same session hold different local record ids but
+  identical content; the change-detection that gates a re-write is
+  **id-insensitive**, so the blob does not ping-pong as each device re-asserts
+  its own ids.
 
 ## Failure & fallback
 
@@ -258,6 +348,8 @@ Other device on next refresh: resetAt > resetAcknowledgedAt and no payload
 | Retryable push error (CloudKit transient, partial-modify) | Exponential backoff, max 3 retries, then suspended (kept dirty). |
 | Non-retryable push error (`notAuthenticated`, `permissionFailure`, `quotaExceeded`, unavailable, fetch error) | No retry; pending push suspended; surfaces as `failed`. |
 | Stale `resetAt` tombstone with payload still present | Tombstone ignored, acknowledged, sync continues (treats it as a superseded reset). |
+| Listening-history blob missing or fails to decode | Treated as **no remote sessions** (empty), not a wipe; the local union is additive, so local sessions survive. |
+| Listening-history blob exceeds caps (count / encoded bytes / retention) | Trimmed for upload oldest-first (see Listening-history upload bounds); **local storage keeps everything**; dropped count logged. |
 | Concurrent request during a running cycle | Coalesced: a pending reset, pending remote-refresh, or pending push is re-fired once the current cycle finishes (`finishSync`). |
 
 All errors are sanitized before surfacing: no stack traces, no PII; record names
@@ -268,9 +360,9 @@ and CKError codes only.
 | # | Web | iOS | Android |
 |---|---|---|---|
 | 1 | Local-only; no CloudKit, no account, no automatic cross-device sync. | Implements the full CloudKit sync above. | Local-only; no CloudKit, no account. |
-| 2 | When importing a backup file, merge with the **same algebra**: favorites/custom/list union by id with the imported copy winning on collision; preferences applied as a block. | Honor the merge algebra exactly so two iOS devices converge. | Same backup-import merge algebra as web. |
+| 2 | When importing a backup file, merge with the **same algebra**: favorites/custom/list union by id with the imported copy winning on collision; preferences applied as a block. | Honor the cloud merge algebra exactly so two iOS devices converge. (Note: iOS **backup-file restore replaces** rather than unions — see Open questions.) | Same backup-import merge algebra as web. |
 | 3 | Never require cloud to function. | Degrade to local-only when iCloud is unavailable; no feature blocks on it. | Never require cloud to function. |
-| 4 | Treat recents, listening-history records, diagnostics, and active wake intent as non-syncable (export must exclude them per [data-sync.md](../data-sync.md)). | Same exclusions, enforced structurally (absent from snapshot). | Same exclusions. |
+| 4 | Treat recents, diagnostics, and active wake intent as non-syncable; **backup/export files must exclude listening-history records** per [data-sync.md](../data-sync.md). | Recents / diagnostics / active wake intent absent from snapshot (structural). Listening-history **records** sync to iCloud (one shared blob) but are **excluded from the exported backup file**. | Same exclusions; no record-level history sync (local-only). |
 | 5 | Decode failure on import must not wipe surviving local entries — keep local on un-decodable id. | Keep local copy for unresolved ids; never let a single bad blob wipe or stall. | Decode failure on import must not wipe surviving local entries. |
 | 6 | Provide a user-initiated "remove all" only over local/backup data. | Provide "remove all iCloud data" via the `resetAt` tombstone; other devices honor it. | Provide "remove all" over local data. |
 
@@ -293,6 +385,20 @@ and CKError codes only.
 3. Does a future shared backend (web/Android account sync) reuse this record
    schema, or define its own wire format? Deferred to the cross-platform sync
    ADR in [data-sync.md](../data-sync.md).
+4. **Listening-history sync vs. the data-sync privacy boundary.**
+   [data-sync.md](../data-sync.md) currently states listening history "does not
+   sync" and lists listening-history *records* among non-syncable classes. At
+   d241aa9 iOS **does** sync closed listening-history records to the user's own
+   private CloudKit database (never to a backup file, never to a shared/third
+   party). data-sync.md should be reconciled to draw the boundary as
+   *private-iCloud-sync-allowed, backup-export-excluded* for history records.
+5. **Backup-restore semantics diverge from the contract's backup-import rule.**
+   Platform obligation #2 says a backup import should **union** (imported copy
+   wins on id collision). iOS's own backup restore instead **replaces** the live
+   library wholesale (the backup's index flags are authoritative). "Restore a
+   backup" arguably *should* replace, but web/Android are told to union — the two
+   should be reconciled to one cross-platform intent (replace-on-restore vs.
+   union-on-import).
 
 ## Reference
 
@@ -305,16 +411,22 @@ and CKError codes only.
 - `rrradio/CloudSync/CloudSyncStore.swift` — `CloudSyncStoring`, `CloudKitSyncStore`
   (record types/names, save plan, fetch, subscription), `CloudSyncPreferencesSchema`,
   the unavailable/partial/fetch error types.
-- `rrradio/CloudSync/CloudSyncSnapshot.swift` — `CloudSyncSnapshot` schema and the
+- `rrradio/CloudSync/CloudSyncSnapshot.swift` — `CloudSyncSnapshot` schema, the
   `CloudSyncMerge` algebra (`mergeFavorites`/`mergeStations`/`mergeStationLists`/
-  `preservingUnresolved`).
+  `mergeListeningHistory`/`preservingUnresolved`), and the listening-history
+  upload bounds (`boundingListeningHistoryForUpload`, `ListeningHistorySyncBounds`).
+- `rrradio/CloudSync/SettingsBackup.swift` — the on-disk backup file: schema,
+  version gate, encode/decode, suggested file name; restore replaces live state.
+- `rrradio/Library/ListeningHistory.swift` — `syncableRecords` /
+  `mergeSyncedRecords` / `clear`, and `ListeningHistorySyncCoding` (the
+  `dedupKey` and id-insensitive `contentEqual` used by the shared blob).
 
 ## Known deviations
 
 - **C1 — decode-failure → authoritative-index → data-loss cascade (Fixed).**
   Index records are authoritative, so a per-entry blob that failed to decode
   used to be dropped via `compactMap`, the merge overwrote local with the empty/
-  partial array, and `save(localSnapshot())` ratified the wipe back to CloudKit
+  partial array, and the post-merge save-back ratified the wipe to CloudKit
   — propagating data loss to every paired device. Resolved in two steps: a
   fail-closed throw (`079b773`), then the current unresolved-id +
   `preservingUnresolved` keep-local design (`f03b34f`). See
@@ -332,5 +444,12 @@ and CKError codes only.
   ones. See slice10 §C7 (proposed fix in Open questions #2).
 - **C10 — `updateAvailability` runs twice per logical sync cycle (Open, low).**
   See slice10 §C10.
-- **C11 — subscription existence check round-trips on every cold launch even
-  when the local installed-flag is set (Open, low).** See slice10 §C11.
+- **C11 — subscription existence check round-trips on launch (Superseded /
+  intentional).** slice10 §C11 proposed short-circuiting the existence check on a
+  persisted "installed" flag. At d241aa9 that flag is **removed**: the check is
+  now done **once per app session** (in-memory flag), retried on each foreground
+  refresh until it succeeds, and deliberately does **not** trust any persisted
+  flag — a persisted flag would survive the dev→prod CloudKit transition and
+  cause a device to skip creating the Production subscription (issue #57). The
+  per-session round-trip is now intended behavior, not a deviation. See slice10
+  §C11 for the original (now-rejected) recommendation.
