@@ -224,6 +224,10 @@ for (const g of GENRES) {
 const $country = document.getElementById('country') as HTMLSelectElement;
 const $quality = document.getElementById('quality') as HTMLSelectElement;
 const $sortBtn = document.getElementById('sort-btn') as HTMLButtonElement;
+// The filter cells wrapping the sort + quality controls — hidden on the
+// discovery landing (they only apply to a result list, matching iOS).
+const $sortCell = $sortBtn.closest('.filter-cell') as HTMLElement;
+const $qualityCell = $quality.closest('.filter-cell') as HTMLElement;
 const $modePlayed = document.getElementById('mode-played') as HTMLButtonElement;
 const $mapToggle = document.getElementById('map-toggle') as HTMLButtonElement;
 const $newsToggle = document.getElementById('news-toggle') as HTMLButtonElement;
@@ -1870,10 +1874,17 @@ function renderContent(): void {
     // disable the toggle visually when it'd be a no-op.
     $mapToggle.disabled = !noFilter;
 
+    // Sort + quality refine a result list, so they're hidden on the
+    // discovery landing (matches the iOS sort-row suppression). Showing
+    // them there would be dead controls — there is no list to act on.
+    const onDiscovery = inDiscovery();
+    $sortCell.hidden = onDiscovery;
+    $qualityCell.hidden = onDiscovery;
+
     // Discovery landing is the default unfiltered Browse view; anything
     // that narrows the catalog (a mode, Browse-all, a filter, or a
     // search) drops into the result list with a back-to-discovery row.
-    if (inDiscovery()) {
+    if (onDiscovery) {
       renderDiscovery();
       const counter = siteCounter();
       if (counter) $content.append(counter);
@@ -1918,6 +1929,12 @@ function renderContent(): void {
         // Quality filter + ordering (featured-first for the Top / Browse-all
         // list; the alphabet sort when set). Played / News keep their order.
         const refined = refine(stations, { textQuery: '', featuredFirst: browseMode === null });
+        // Worldwide expansion only when we're not constrained to the
+        // curated catalog (curatedOnly hides the section + button).
+        const showWorldwide = browseMode === 'played' && !curatedOnly;
+        const worldwide = showWorldwide
+          ? refine(homeRbStations, { textQuery: '', featuredFirst: false })
+          : [];
         if (refined.length > 0) {
           $content.append(sectionLabel(restLabel, refined.length));
           // Cap the initial render — bigger catalogs (2k+ rows) made
@@ -1933,20 +1950,20 @@ function renderContent(): void {
           if ((browseMode === null || browseMode === 'news') && browseHasMore) {
             $content.append(loadMoreButton());
           }
-        } else if (activeQuality.size > 0) {
-          $content.append(
-            emptyState(ICON_EMPTY, 'No stations match', 'Try a lower quality filter'),
-          );
         }
-        // Worldwide expansion only when we're not constrained to the
-        // curated catalog (curatedOnly hides the section + button).
-        if (browseMode === 'played' && !curatedOnly) {
-          const worldwide = refine(homeRbStations, { textQuery: '', featuredFirst: false });
+        if (showWorldwide) {
           if (worldwide.length > 0) {
             $content.append(sectionLabel('Worldwide', worldwide.length));
             $content.append(rowsGrid(worldwide));
           }
           if (homeRbHasMore) $content.append(loadMoreHomeButton());
+        }
+        // Quality filter emptied everything → one empty-state, only when
+        // there's truly nothing to show (not above a populated Worldwide).
+        if (refined.length === 0 && worldwide.length === 0 && activeQuality.size > 0) {
+          $content.append(
+            emptyState(ICON_EMPTY, 'No stations match', 'Try a lower quality filter'),
+          );
         }
       }
 
@@ -2360,7 +2377,9 @@ function setTab(tab: Tab): void {
   activeTab = tab;
   $body.classList.toggle('tab-playing', tab === 'playing');
   $np.classList.toggle('open', tab === 'playing');
-  $np.setAttribute('aria-hidden', String(tab !== 'playing'));
+  // On desktop the NP pane is permanently docked and visible, so it must
+  // stay in the a11y tree regardless of which list tab is active.
+  $np.setAttribute('aria-hidden', String(!isDesktop() && tab !== 'playing'));
 
   renderTabBar();
   renderTopBar();
