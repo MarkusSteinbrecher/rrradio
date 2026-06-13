@@ -215,19 +215,19 @@ stream-quality message. See [localization](../contracts/localization.md).
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| Add/remove favorites | Supported; adds at top (see web note). | Supported. | Supported. |
+| Add/remove favorites | Supported; adds at top (see web note). | Supported. | Supported; adds at **top** like web, not the iOS tail (see Android persistence note). |
 | Reorder favorites | Supported. | Reference native behavior. | Partial; basic controls exist, native drag/reorder remains. |
 | Favorites list view | Supported. | Supported. | Supported. |
 | Favorites tile/app views | Not planned for current web (list mode only). | Reference. | Supported; visible/order settings still need parity. |
 | Display-mode order/visibility preferences | Not planned for current web (no display modes). | Reference (Settings → Favorites display). | Partial; order/visibility parity remains. |
-| Drag-to-reorder + delete mode (jiggle/badges) | Partial; drag-to-reorder only — no delete mode, jiggle, minus badges, or undo toast (removal is the row heart). | Reference. | Partial. |
-| Custom station forced-favorite + delete-on-unfavorite | Not planned for current web; custom stations are an independent list, not auto-favorited, and un-favoriting never deletes a custom station. | Reference. | Supported. |
+| Drag-to-reorder + delete mode (jiggle/badges) | Partial; drag-to-reorder only — no delete mode, jiggle, minus badges, or undo toast (removal is the row heart). | Reference. | Planned; reorder is per-row move up/down buttons (list mode only) — no native drag, no delete mode, jiggle, minus badges, or undo toast. Removal is the row heart / per-row remove. |
+| Custom station forced-favorite + delete-on-unfavorite | Not planned for current web; custom stations are an independent list, not auto-favorited, and un-favoriting never deletes a custom station. | Reference. | Partial; creating a custom station force-adds it to favorites, but un-favoriting only removes the favorite (it does not delete the custom station), and there is no load-time re-assert that every custom station is a favorite. |
 | Favorites as playback queue (circular skip) | Supported (media-session prev/next steps the favorites list circularly). | Reference. | Partial. |
-| Per-row now-playing metadata (list/tiles) | Not planned for current web; now-playing metadata shows only for the active station (mini-player / Now Playing), not per favorite row. | Reference. | Partial. |
+| Per-row now-playing metadata (list/tiles) | Not planned for current web; now-playing metadata shows only for the active station (mini-player / Now Playing), not per favorite row. | Reference. | Planned; rows show static station tags only — no per-row now-playing poll. |
 | Recents | Supported, capped (12). | Supported, capped (12). | Supported, capped. |
-| Recents auto-fill on play (catalog-only) | Partial; records a recent on every play but does **not** exclude custom stations. | Supported. | Supported. |
+| Recents auto-fill on play (catalog-only) | Partial; records a recent on every play but does **not** exclude custom stations. | Supported. | Partial; records a recent on every play (including custom stations), so it does not yet exclude custom stations. |
 | iCloud sync | Not planned. | Supported for favorites and order. | Not applicable. |
-| Manual file export/import | Supported. | Planned/optional. | Supported through Android library backup. |
+| Manual file export/import | Supported. | Planned/optional. | Supported through the Android library backup file (favorites included), exported/imported via the Storage Access Framework document picker (SAF ↔ iOS manual backup). |
 | Cross-platform sync | Not planned. | Not planned outside CloudKit. | Not planned for first port. |
 
 ## Persistence
@@ -241,7 +241,8 @@ stream-quality message. See [localization](../contracts/localization.md).
   (per-store keys) and syncs favorites + favorites-order + custom + lists through
   CloudKit; recents stay local-only.
 - Android persists locally in DataStore; favorites are included in the manual Android
-  backup file; recents remain local-only.
+  backup file, written and read through the Storage Access Framework document picker
+  (SAF — the Android counterpart to the iOS manual backup); recents remain local-only.
 - The Favorites display-mode selection, order, and visibility are user preferences;
   iOS syncs them via CloudKit and restores the selection before the first Favorites
   render. Android persists the selection and restores it with the landing-page

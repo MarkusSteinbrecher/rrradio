@@ -71,8 +71,11 @@ Platform notes:
 - iOS keeps AVPlayer item rebuilding, audio-session interruption handling,
   output-route-loss pause, and media-services-reset recovery as native reference
   behavior; a connectivity monitor drives the network-restore auto-reconnect.
-- Android should use Media3 player error callbacks and rebuild the MediaItem or
-  player item when required.
+- Android uses Media3 `Player.Listener.onPlayerError` to rebuild the MediaItems
+  (`setMediaItems` + `prepare`) on stream failure, capped at two retries with a
+  short backoff. It does not yet run a connectivity monitor for network-restore
+  reconnect, nor distinguish region-locked failures as permanent — every
+  `PlaybackException` retries up to the cap (see Platform Matrix).
 
 ## Background And Media Controls
 
@@ -80,8 +83,8 @@ Platform notes:
 |---|---|---|---|
 | Lock screen | Media Session API where supported. | MPNowPlayingInfoCenter. | Media3 media session notification. |
 | Headphones/Bluetooth | Browser/OS dependent. | MPRemoteCommandCenter. | Media session transport controls. |
-| Background playback | Browser/OS dependent. | Background audio entitlement. | Foreground media service. |
-| Vehicle controls | Browser/OS dependent. | In-app big-button car mode on a car audio route; native CarPlay app (Favorites / Recents / Lists / Browse-by-country + system Now Playing) implemented behind a dev build, pending Apple's CarPlay-audio entitlement. | Media controls; Android Auto is an explicit open decision. |
+| Background playback | Browser/OS dependent. | Background audio entitlement. | Foreground `MediaSessionService` (`foregroundServiceType="mediaPlayback"`) ↔ iOS background-audio + lock-screen controls. |
+| Vehicle controls | Browser/OS dependent. | In-app big-button car mode on a car audio route; native CarPlay app (Favorites / Recents / Lists / Browse-by-country + system Now Playing) implemented behind a dev build, pending Apple's CarPlay-audio entitlement. | Media-session transport controls only; Android Auto (↔ CarPlay) not yet built and is an explicit open decision. |
 | Watch companion | Not applicable. | watchOS app remote-controls iPhone playback (mirrors player state, steps stations, plays favorites/lists). | Wear OS out of scope for first Android port. |
 
 Media-control surfaces expose play, pause, toggle, and previous/next (station
@@ -127,16 +130,16 @@ Status words per the [README](README.md) status legend.
 | Start / pause / resume / stop | Supported. | Reference. | Supported. |
 | Source rebuild on new station | Supported. | Reference. | Supported. |
 | Automatic retry (≤3, backoff) | Partial (stall watchdog only). | Reference. | Supported. |
-| Geo-restriction = permanent (no retry) | Supported. | Reference. | Supported. |
-| Network-restore auto-reconnect | Planned. | Reference. | Supported. |
+| Geo-restriction = permanent (no retry) | Supported. | Reference. | Planned (any stream error retries up to the cap; no region-locked permanent-failure path yet). |
+| Network-restore auto-reconnect | Planned. | Reference. | Planned (no connectivity monitor; `ACCESS_NETWORK_STATE` is declared but unused). |
 | Lock-screen / system now-playing | Partial (browser-dependent). | Reference. | Supported. |
 | Headphone / Bluetooth transport | Partial (browser-dependent). | Reference. | Supported. |
 | Background playback | Partial. | Reference. | Supported. |
 | Active playback queue + circular stepping | Partial (favorites-only skip). | Reference. | Supported. |
-| In-app car mode | Not applicable. | Supported. | Not planned. |
-| Native vehicle integration | Not applicable. | Partial; CarPlay app implemented, entitlement-gated (issue #51). | Planned (Android Auto is an open decision). |
+| In-app car mode | Not applicable. | Supported. | Planned (no big-button car-route mode yet). |
+| Native vehicle integration | Not applicable. | Partial; CarPlay app implemented, entitlement-gated (issue #51). | Planned (Android Auto ↔ CarPlay; no `MediaLibraryService`/Auto metadata yet; open decision). |
 | Watch companion remote | Not applicable. | Supported. | Not applicable. |
-| Wake-to-radio keep-alive | Not applicable. | Supported (iOS-only). | Not planned. |
+| Wake-to-radio keep-alive | Not applicable. | Supported (iOS-only). | Planned (Android wake alarm via AlarmManager exact-alarm + foreground service ↔ iOS wake-to-radio; not built). |
 
 ## Open questions
 

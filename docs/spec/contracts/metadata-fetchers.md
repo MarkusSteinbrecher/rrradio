@@ -289,15 +289,15 @@ iTunes high-res upgrade:
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| Same routing order (ORF → FM4 rewrite → keyed → ICY) | MUST | MUST | MUST |
+| Same routing order (ORF → FM4 rewrite → keyed → ICY) | MUST | MUST | Partial (ORF by `metadata=="orf"` + FM4 stream-regex rewrite + Grrif + `icy-only`; no `audioapi.orf.at` host match, no general keyed table — full order planned) |
 | Same per-source field mapping & null-vs-error | MUST | MUST | Partial (Grrif + ORF/FM4 native; rest planned) |
-| Generic ICY `StreamTitle` via `icy-metaint` | MUST (where CORS/proxy allows) | MUST | Partial (basic parser exists) |
+| Generic ICY `StreamTitle` via `icy-metaint` | MUST (where CORS/proxy allows) | MUST | Partial (`icy-metaint` block read + ` - ` split + UTF-8/ISO-8859-1 decode; no-metaint scan budget is 32 KiB not 96 KiB, no metaint upper-bound check) |
 | HLS ID3 timed-metadata scrape | Planned (not implemented) | MUST | Planned |
-| Cover chain: provider → favicon → iTunes (+ MusicBrainz/Spotify) | Partial (provider/iTunes → favicon; no MusicBrainz, no Spotify cover) | provider → favicon → iTunes only | Partial (provider + iTunes) |
+| Cover chain: provider → favicon → iTunes (+ MusicBrainz/Spotify) | Partial (provider/iTunes → favicon; no MusicBrainz, no Spotify cover) | provider → favicon → iTunes only | Partial (provider + iTunes upgrade with low-res detection; now-playing art falls back to station favicon; no MusicBrainz, no Spotify cover) |
 | Program schedule (ORF/FM4) | MUST | MUST | Partial (ORF current-program; full grids planned) |
 | Lyrics: LRCLIB → Lyrics.ovh | MUST | MUST | Planned |
-| Coarse-only failure diagnostics (no title/artist/URL) | MUST | MUST | MUST |
-| Honor `metadataStrategy: none` / `backgroundPollPriority: never` (no stream open) | Planned (fields not yet in catalog/web) | Planned (fields not yet in catalog/iOS) | MUST |
+| Coarse-only failure diagnostics (no title/artist/URL) | MUST | MUST | MUST (honored: fetchers swallow failures silently — no title/artist/URL emitted) |
+| Honor `metadataStrategy: none` / `backgroundPollPriority: never` (no stream open) | Planned (fields not yet in catalog/web) | Planned (fields not yet in catalog/iOS) | Planned (fields not on the Android `Station` model; poller runs for every supported station regardless) |
 
 The capability hint layer (`metadataStrategy`, `backgroundPollPriority`,
 `hasProgram`/`hasSchedule`/`hasProviderCover`) defined in

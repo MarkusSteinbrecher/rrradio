@@ -300,11 +300,11 @@ English (deviation ST4–ST6). Full rules and the registry in
 | Accent color | Not planned; the web palette accent is a fixed design-system value, not a user preference. | Supported. | Partial; native preset accent palette exists, custom color entry remains deferred. |
 | Language | Not planned; the web UI ships English-only with no language switcher. | Supported. | Planned after localization scope. |
 | Landing page | Not planned; the web app has no landing-target preference. | Supported. | Supported for Lists, Browse, and Favorites startup targets. |
-| Favorites display modes | Partial. | Reference. | Partial; modes exist, preference persistence/order controls remain. |
+| Favorites display modes | Partial. | Reference. | Partial; the three modes (List/Tiles/App) and the chosen-mode persistence exist, but the per-mode reorder and show/hide controls remain. |
 | Sleep default | Not planned; the web sleep timer cycles fixed durations with no default preference. | Supported. | Supported for the first sleep-timer tap. |
-| Wake default/notifications | Partial; web remembers the last-used wake time but exposes no default-time or notification preference. | Supported. | Planned with wake feature. |
-| Music-service deep-link toggles | Partial; web always shows Spotify/Apple Music/YouTube Music search links on verified tracks, with no per-service toggle. | Supported (per-service offered/hidden). | Partial; deep-link set TBD. |
-| AI station blurbs | Not planned. | Supported on iOS 26+. | Not planned for first port. |
+| Wake default/notifications | Partial; web remembers the last-used wake time but exposes no default-time or notification preference. | Supported. | Planned with the wake feature (no wake UI yet; would use AlarmManager exact-alarm + a foreground service as the CarPlay-less analogue to the iOS wake intent). |
+| Music-service deep-link toggles | Partial; web always shows Spotify/Apple Music/YouTube Music search links on verified tracks, with no per-service toggle. | Supported (per-service offered/hidden). | Planned; no music-service deep-links or per-service toggles are built yet. |
+| AI station blurbs | Not planned. | Supported on iOS 26+. | Planned toward parity; no on-device blurb generation yet (the iOS Apple-Intelligence path would map to an Android on-device GenAI mechanic). |
 | Catalog manual refresh | Not planned; the web catalog loads from `stations.json` on launch with no manual-refresh control. | Supported. | Supported. |
 
 ### Listening History
@@ -312,8 +312,8 @@ English (deviation ST4–ST6). Full rules and the registry in
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
 | Station history | Not planned; web keeps only a recents list, not an opt-in listening-history surface. | Supported as opt-in listening history. | Supported as local opt-in history. |
-| Track-level history | Not planned for current web. | Supported only when user selects it. | Gated behind explicit opt-in; metadata-recording expansion remains future polish. |
-| Retention controls | Not planned; web has no listening-history store to retain or prune. | Supported (30d/90d/1y/Forever; default 90d). | Partial; bounded default, controls TBD. |
+| Track-level history | Not planned for current web. | Supported only when user selects it. | Partial; the "Stations and tracks" opt-in level and the artist/title record fields exist, but no track metadata is recorded into history yet. |
+| Retention controls | Not planned; web has no listening-history store to retain or prune. | Supported (30d/90d/1y/Forever; default 90d). | Planned; history is bounded only by a fixed 100-entry cap, with no time-based retention preference yet. |
 | Sync | Not planned. | Supported (closed sessions union across devices via iCloud). | Not planned. |
 
 ### Diagnostics
@@ -321,9 +321,9 @@ English (deviation ST4–ST6). Full rules and the registry in
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
 | Anonymous aggregate telemetry | Supported through GoatCounter (events + privacy-preserving `error: <category>` reports). | Not the native support surface. | Not planned for first port. |
-| Local diagnostics | Not planned; web has no on-device opt-in diagnostics store or viewer. | Supported, opt-in, capped, exportable, with full-log viewer. | Supported, opt-in, capped, exportable. |
-| MetricKit crash/hang reports | Not applicable. | Supported (capped, call stack exported verbatim). | Not planned for first port. |
-| Redacted export / clear-on-disable | Not applicable; web has no local diagnostics store to export or clear (telemetry is fire-and-forget). | Supported (preview also redacted). | Supported. |
+| Local diagnostics | Not planned; web has no on-device opt-in diagnostics store or viewer. | Supported, opt-in, capped, exportable, with full-log viewer. | Supported, opt-in (default off), capped (200 events), URL-redacted at write time, and exported as JSON via the Storage Access Framework (SAF). No in-app full-log viewer yet (the sheet shows a count + Clear). |
+| MetricKit crash/hang reports | Not applicable. | Supported (capped, call stack exported verbatim). | Planned toward parity; no crash/hang capture is built yet (MetricKit is iOS-only; an Android uncaught-exception/ANR handler would be the analogue). |
+| Redacted export / clear-on-disable | Not applicable; web has no local diagnostics store to export or clear (telemetry is fire-and-forget). | Supported (preview also redacted). | Partial; the export is URL-redacted, but disabling diagnostics does **not** clear the local store — only the explicit Clear action wipes it (diverges from the iOS clear-on-disable rule). |
 | Broken-station report | Supported (manual report POSTed to the shared anonymous endpoint). | Supported where implemented. | Supported through the shared anonymous report endpoint. |
 
 ### Cloud sync & car mode
@@ -332,8 +332,8 @@ English (deviation ST4–ST6). Full rules and the registry in
 |---|---|---|---|
 | iCloud/CloudKit library+preferences sync | Not planned. | Supported (own private DB). | Not applicable. |
 | Sync status / Sync now / Remove all | Not applicable. | Supported. | Not applicable. |
-| Local settings backup file (export/import) | Partial; web exports/imports a JSON backup of favorites and custom stations only (no preferences, no history; import merges, never wipes). | Supported (JSON; works with sync off; excludes history). | Not planned. |
-| Car mode preferences | Not planned; web has no car-mode preference (CarPlay/Bluetooth control is media-session passthrough, not a setting). | Supported (tri-state: auto route detect / always / off). | Partial media controls; Android Auto TBD. |
+| Local settings backup file (export/import) | Partial; web exports/imports a JSON backup of favorites and custom stations only (no preferences, no history; import merges, never wipes). | Supported (JSON; works with sync off; excludes history). | Supported via SAF (export/import a JSON backup of favorites, custom stations, lists, and preferences; excludes listening-history records). Unlike the iOS restore, the Android import **merges** into existing data rather than replacing it. |
+| Car mode preferences | Not planned; web has no car-mode preference (CarPlay/Bluetooth control is media-session passthrough, not a setting). | Supported (tri-state: auto route detect / always / off). | Planned; no car-mode preference and no Android Auto MediaBrowserService integration exist yet. Media-session controls already reach car head units over Bluetooth; full Android Auto support (the CarPlay analogue) is the parity target. |
 
 ## Open questions
 

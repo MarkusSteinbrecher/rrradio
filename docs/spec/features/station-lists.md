@@ -277,24 +277,42 @@ copy); the dock selection-count badge remains a bare numeral.
 |---|---|---|---|
 | Station-list overview | Not planned for current web. | Reference. | Supported. |
 | Create/delete list | Not planned for current web. | Supported. | Supported. |
-| Rename list | Not planned for current web. | Supported (Home card edit-mode pencil → rename alert). | Supported. |
-| Create from Browse multi-select | Not planned for current web. | Supported (popup name entry + selection dock). | Supported. |
+| Rename list | Not planned for current web. | Supported (Home card edit-mode pencil → rename alert). | Supported (pencil on the list row and on the list-detail page → rename dialog; no edit-mode gate). |
+| Create from Browse multi-select | Not planned for current web. | Supported (popup name entry + selection dock). | Supported (Browse "Add stations to list" enters select mode → bottom save bar → choose/create-list sheet; no two-step progress strip, top-pinned dock, or duplicate-name guard). |
 | Add stations from Browse | Not planned for current web. | Supported. | Supported. |
-| Remove stations from a list | Not planned for current web. | Supported (with undo toast). | Supported. |
+| Remove stations from a list | Not planned for current web. | Supported (with undo toast). | Partial (immediate per-row remove; no undo toast yet). |
 | Reorder lists | Not planned for current web. | Supported (interactive drag on Home; Recents pinned). | Supported with up/down controls. |
 | Reorder stations inside a list | Not planned for current web. | Supported (interactive drag). | Supported with up/down controls. |
-| Play list as queue | Not planned for current web. | Supported (circular skip). | Supported. |
+| Play list as queue | Not planned for current web. | Supported (circular skip). | Supported (circular skip-next/previous; queue scoped to the open list, surfaced via the foreground MediaSessionService / media3 player). |
 | Empty-list guidance | Not planned for current web. | Supported ("Add stations from Browse…"). | Supported. |
 | Cloud sync | Not applicable. | Supported through CloudKit. | Not applicable. |
-| Local persistence | Not planned for current web. | Supported. | Supported. |
+| Local persistence | Not planned for current web. | Supported. | Supported (Jetpack DataStore; SAF JSON export/import covers lists for manual backup). |
 
 ## Android Current Status
 
-Android now has the core station-list model in scope: list overview, create,
-rename, delete, Browse batch-add, station removal, list reorder, station
-reorder, local persistence, and queue-scoped playback are implemented. Remaining
-polish is Android-native drag/reorder ergonomics if the up/down controls feel
-too heavy.
+Android implements the core station-list model: list overview, create, rename,
+delete, Browse batch-add, station removal, list reorder, station reorder, local
+persistence (Jetpack DataStore), and queue-scoped circular playback surfaced
+through the foreground MediaSessionService. Native mechanics differ from the iOS
+reference in several places, all tracked toward parity:
+
+- **Reorder** uses explicit up/down arrow controls on each row, not the iOS
+  long-press interactive drag. Planned: Android-native drag/reorder ergonomics if
+  the controls feel too heavy.
+- **Remove from list** is an immediate per-row remove with no undo toast. Planned:
+  the undoable removal batch + "Removed … · Undo" toast.
+- **Create-from-Browse** routes through a Browse "Add stations to list" select
+  mode, a bottom save bar, and a choose-or-create-list sheet — without the iOS
+  two-step progress strip, top-pinned dock, or case-insensitive duplicate-name
+  guard. Planned: the two-step popup/dock affordance and the duplicate-name guard.
+- **Delete confirmation** prompts a confirm dialog for every list (empty lists are
+  not deleted immediately). The Home-card jiggle/edit-mode chrome, page swiper,
+  tuner status bar, and list-detail display-mode pill (list/tiles/icons) are not
+  ported; the lists tab is a flat scrollable list of summary rows. All Planned
+  toward parity.
+
+There is no CloudKit equivalent; lists stay device-local and ride the SAF JSON
+backup export/import for manual transfer.
 
 ## Open questions
 

@@ -266,9 +266,9 @@ deviations* M12). These are localization gaps, not intended behavior.
 | Station logos | Supported. | Supported. | Partial; row/header rendering exists, full policy parity remains. |
 | Track cover art | Supported. | Supported. | Partial; broadcaster covers plus iTunes cover fallback are supported for fetched tracks. |
 | Lyrics lookup | Supported. | Planned/partial native parity. | Planned. |
-| Music-service links (verified-gated) | Supported. | Supported (Apple Music deep link, Spotify/YT Music search). | Planned. |
-| Lock-screen / media-surface cover (downscaled) | Supported where browser allows. | Supported (≤512 px / ≤5 MB cap; sleep-timer moon badge). | Partial. |
-| Last-good retention on poll miss/fail | Partial; a fetch error stops the poller without clobbering the displayed track, but a `null` "no-metadata" poll clears the track title. | Supported. | Partial. |
+| Music-service links (verified-gated) | Supported. | Supported (Apple Music deep link, Spotify/YT Music search). | Planned; the iTunes verification signal (`trackVerified`) and the Apple Music deep link (`appleMusicUrl`) are already resolved per track, but no music-service rail is rendered yet. |
+| Lock-screen / media-surface cover (downscaled) | Supported where browser allows. | Supported (≤512 px / ≤5 MB cap; sleep-timer moon badge). | Planned; a foreground MediaSessionService (media3 — the Android counterpart to iOS background audio + lock-screen controls) supplies station-name media controls, but no resolved track cover/favicon is pushed to the media surface and there is no downscale cap or sleep-timer moon badge yet. |
+| Last-good retention on poll miss/fail | Partial; a fetch error stops the poller without clobbering the displayed track, but a `null` "no-metadata" poll clears the track title. | Supported. | Supported; a `null` or failed poll is dropped (the service ignores `null` results) and the prior now-playing value is retained, cleared only on station change. |
 
 ## Privacy Rules
 

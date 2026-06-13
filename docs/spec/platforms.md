@@ -113,29 +113,57 @@ Current implementation shape:
   matches.
 - Lists/Browse/Favorites tab structure with station-list batch add and
   Favorites list/tile/app display modes.
-- Sleep timer cycle.
-- Basic ICY `StreamTitle` parsing and bounded ICY metadata fetcher.
+- Sleep timer cycle with a configurable default.
+- Custom-station add with a stream probe before save.
+- Basic ICY `StreamTitle` parsing, a bounded ICY metadata fetcher, broadcaster
+  now-playing fetchers, iTunes cover-art lookup, and program name/subtitle.
+- Theme, accent, and landing-page preferences.
+- Broken-station reports posted to the shared server contract (awaited
+  send with a confirmation/error message).
+- Opt-in on-device listening history and a capped privacy-preserving local
+  diagnostics log, both with export and clear.
+- Storage Access Framework backup/restore of library and preferences.
 
 Alignment target:
 
 - Match the product behavior of the iOS native app where Android has equivalent
-  OS primitives.
+  OS primitives. The first Android port targets the iOS reference
+  feature-for-feature over time; absent features are planned toward parity, not
+  out of scope.
 - Stay local-only for user library data.
-- Do not attempt CloudKit compatibility.
+- Do not attempt CloudKit compatibility; manual library backup/restore uses the
+  Storage Access Framework (the Android equivalent of an iOS file-transfer
+  path), not iCloud.
 - Defer any shared account or cross-platform sync backend to a separate ADR.
 - Add Room or another local database only when station lists, history, or
   catalog search need queryable storage.
-- Add WorkManager, AlarmManager, or exact-alarm permissions only after the
-  wake-to-radio behavior is scoped.
+
+Android-native mechanics for iOS-parity behaviors (built or planned):
+
+- Background audio and lock-screen/notification media controls come from the
+  foreground MediaSessionService — the Android counterpart to iOS background
+  audio plus MPNowPlayingInfoCenter/MPRemoteCommandCenter.
+- Manual library export/import uses the Storage Access Framework (file picker),
+  standing in for the iOS manual-backup file path.
+- A vehicle surface, when built, uses Android Auto — the CarPlay equivalent.
+  None is wired today (no `androidx.car.app` library or media-browser service),
+  so it is planned toward parity.
+- Voice/launcher entry points, when built, use App Actions / Assistant and
+  shortcuts — the Android counterpart to Siri, Shortcuts, and Spotlight. None is
+  wired today, so it is planned toward parity.
+- Wake-to-radio, when built, uses AlarmManager exact alarms plus a foreground
+  service — the Android counterpart to the iOS wake alarm. No alarm scheduling,
+  exact-alarm permission, or WorkManager job exists today, so it is planned
+  toward parity.
 
 Android-specific open decisions:
 
-- Whether Android Auto is in scope for v1 or only generic media controls.
 - Whether exact alarms are acceptable for wake-to-radio, given permission and
   battery policy friction.
 - Whether the Android catalog search needs a bundled index or can start with an
   in-memory matcher.
-- Whether watch/companion surfaces are out of scope or future Wear OS work.
+- Whether a watch/companion surface ships as future Wear OS work; the iOS-style
+  watch remote against an iPhone is not applicable on Android.
 
 ## Platform Matrix
 
@@ -151,8 +179,8 @@ platform-shape differences this doc asserts, using the README status legend.
 | Cloud library sync | Not planned | Supported (CloudKit, iOS-only) | Not applicable |
 | Manual export/import | Supported (favorites, custom stations) | Planned/optional | Supported (library + preferences) |
 | Watch companion remote | Not applicable | Supported | Not applicable |
-| CarPlay / vehicle template surface | Browser/OS dependent | Supported | Android Auto TBD |
-| Siri / Shortcuts / Spotlight | Planned | Supported | Planned |
+| CarPlay / vehicle template surface | Browser/OS dependent | Supported | Planned (Android Auto, the CarPlay equivalent) |
+| Siri / Shortcuts / Spotlight | Planned | Supported | Planned (App Actions / Assistant) |
 | Wake-to-radio | Partial, browser-limited | Reference, iOS-limited | Planned, Android-limited |
 | Local diagnostics opt-in | Anonymous production events only | Supported | Supported |
 

@@ -77,12 +77,34 @@ personal listening history, named station lists, a Settings sheet, custom-statio
 probe/dup-check/edit, offline/PWA support, and the broken-report receipt
 lifecycle (fire-and-forget POST only). The reconciliation did **not** edit the
 product-intent body, iOS/Android cells, or stamps — only Web cells + web notes.
-The Android column is unverified pending its own phase.
+
+## Android reconciliation
+
+The **Android** column of every doc's Platform Matrix was verified against the
+`android/` Kotlin (Jetpack Compose + media3) app at repo `main` (`a1e51421a`,
+2026-06-13) — one agent per doc. 154 Android cells were corrected. Per the
+sponsor's **aspirational iOS-parity** directive, unbuilt-but-intended features
+read `Planned` (not "Not planned"), with native-mechanic notes (Android Auto ↔
+CarPlay, foreground `MediaSessionService` ↔ background audio, AlarmManager
+exact-alarm ↔ wake alarm, App Actions/Assistant ↔ Siri, SAF ↔ file backup).
+Android source of truth per area: catalog/library `data/*.kt`; playback
+`playback/*.kt` (real queue + retry + `RadioPlaybackService`); metadata
+`metadata/*.kt`; UI `ui/RrradioApp.kt` `ui/RrradioViewModel.kt`.
+
+Android is a fuller port than web in places — it ships a steppable de-duped
+**queue**, **retry**, named **station lists** (rename / create-from-select /
+play-as-queue), opt-in **listening history**, a **sleep timer** with a persisted
+default, **local diagnostics** (opt-in, capped, redacted, SAF export), and a SAF
+**backup** covering favorites + custom + lists + preferences. It does **not** yet
+implement: wake-to-radio, i18n (English-only), the Radio Browser community search
+tier, a music-service rail, Android Auto, GeoIP/region resolution, or the
+broken-report receipt lifecycle (fire-and-forget POST only) — all now `Planned`
+in the matrices. The reconciliation edited only Android cells + Android notes.
 
 ## Meta
 
 | Doc | Status | Notes |
 |---|---|---|
-| README | updated | spec map split (features + contracts tiers), maintenance ritual; parity matrix iOS column @ `d241aa9` + **Web column @ web `dfc848467`** + broken-reports & localization rows |
+| README | updated | spec map split (features + contracts tiers), maintenance ritual; parity matrix verified iOS @ `d241aa9`, **Web + Android @ repo `a1e51421a`**; broken-reports & localization rows added |
 | STYLE | approved | authoring standard |
 | COVERAGE | living | this file |

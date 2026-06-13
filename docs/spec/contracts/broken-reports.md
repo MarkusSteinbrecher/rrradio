@@ -285,13 +285,23 @@ root resolved-toast. Receipts persist in `UserDefaults`. `BrokenStationReporter`
 is the POST integration point; the comment is hard-capped client-side and never
 enters the diagnostics breadcrumb.
 
-**Android** — same protocol when the port lands; nothing platform-specific.
+**Android** — currently sends the pre-#507 payload (no category sheet, no
+comment) from a single "Report broken station" button in the now-playing
+details, and treats the POST as fire-and-forget: a non-2xx response throws and
+surfaces an in-app failure message, the response body is never read
+(`reportId` is ignored), and no receipt is stored — so there is no status
+line, foreground poll, resolved toast, or email fallback yet. That is valid
+degraded mode (report counted, no follow-up). `BrokenStationReporter` is the
+POST integration point; only the station id/name + a status message reach the
+local diagnostics breadcrumb (never user-authored text). The receipt loop is
+planned toward iOS parity, with receipts persisting locally (DataStore /
+SharedPreferences) when adopted.
 
 ## Platform Matrix
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| POST a broken-station report | Supported | Reference | Not planned (port pending) |
+| POST a broken-station report | Supported | Reference | Supported (fire-and-forget; no receipt) |
 | Category single-select in the report sheet | Not planned (no sheet) | Reference | Planned |
 | Optional comment (`other` requires it) | Not planned | Reference | Planned |
 | Store the `reportId` receipt locally | Not planned | Reference | Planned |
@@ -345,7 +355,8 @@ enters the diagnostics breadcrumb.
 - iOS now ships the full client loop (sheet → receipt → poll → resolved toast),
   so the protocol is exercised end-to-end against the live server pipeline
   (ingest → confirm → issue → resolve). Web still sends the pre-#507 payload and
-  has no category sheet or receipt UI; Android is unstarted.
+  has no category sheet or receipt UI; Android also sends the pre-#507 payload
+  fire-and-forget (single report button, no category sheet, no receipt loop).
 - **iOS does not chunk the status poll to the 50-id server cap:** it sends every
   held receipt id in one `report-status` call. A device holding >50 live
   receipts would have the overflow ignored by the server and then dropped

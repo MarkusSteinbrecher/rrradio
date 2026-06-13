@@ -103,43 +103,44 @@ Canonical implementation references remain in:
 
 ## Platform Parity Matrix
 
-The iOS column is verified against iOS commit `d241aa9` (2026-06-12) and the
-**Web** column against web `main` (`dfc848467`, 2026-06-13), following the
+All three columns are verified against real code: **iOS** against iOS commit
+`d241aa9` (2026-06-12), **Web** against the `src/` app, and **Android** against
+the `android/` app — both at repo `main` `a1e51421a` (2026-06-13), following the
 exhaustive per-doc reconciliation recorded in [COVERAGE.md](COVERAGE.md). Each
-doc's own Platform Matrix carries the cell-level detail; this table is the
-coarse summary. The Android column is still carried from the prior spec and the
-Android parity tracker (Android finalization is the next phase).
+doc's own Platform Matrix carries the cell-level detail; this table is the coarse
+summary. Android unbuilt-but-intended features read `Planned` (the first port
+targets iOS parity), not "Not planned".
 
 | Area | Web | iOS | Android | Spec |
 |---|---|---|---|---|
-| Shared catalog | Partial (per-station skip decode; drops several fields) | Supported | Supported | [Platforms](platforms.md), [Browse](features/browse.md) |
+| Shared catalog | Partial (per-station skip decode; drops several fields) | Supported | Partial (atomic decode; no field normalization) | [Platforms](platforms.md), [Browse](features/browse.md) |
 | Stream playback | Supported | Reference | Supported | [Playback](playback.md) |
-| Background audio | Partial | Reference | Partial | [Playback](playback.md) |
-| Lock-screen/media controls | Supported where browser allows | Reference | Partial | [Playback](playback.md) |
-| Browse/search/filter | Partial (no discovery landing, sort, or quality filter) | Reference | Supported | [Browse](features/browse.md) |
-| Search field | Partial (substring only; no FTS index) | Reference | Supported | [Search](features/search.md) |
+| Background audio | Partial | Reference | Supported (foreground MediaSessionService) | [Playback](playback.md) |
+| Lock-screen/media controls | Supported where browser allows | Reference | Supported (media3 session) | [Playback](playback.md) |
+| Browse/search/filter | Partial (no discovery landing, sort, or quality filter) | Reference | Partial (no community tier or quality filter; 220-row cap) | [Browse](features/browse.md) |
+| Search field | Partial (substring only; no FTS index) | Reference | Partial (substring, no debounce; no RB tier) | [Search](features/search.md) |
 | Map browse | Supported | Supported | Planned | [Browse](features/browse.md) |
 | Favorites | Supported | Reference | Supported | [Favorites](features/favorites.md) |
 | Favorites display modes | Not planned for current web (list only) | Reference | Partial | [Favorites](features/favorites.md) |
 | Recents | Supported | Supported | Supported | [Favorites](features/favorites.md) |
-| Station lists | Not planned for current web | Reference | Partial | [Station lists](features/station-lists.md) |
-| Custom stations | Partial (no probe, dup-check, edit, or auto-favorite) | Reference | Supported | [Custom stations](features/custom-stations.md) |
+| Station lists | Not planned for current web | Reference | Supported (rename, create-from-select, play-as-queue) | [Station lists](features/station-lists.md) |
+| Custom stations | Partial (no probe, dup-check, edit, or auto-favorite) | Reference | Partial (probe + dup-check; no edit or test-before-save) | [Custom stations](features/custom-stations.md) |
 | Metadata and cover art | Supported | Reference | Partial | [Metadata and artwork](features/metadata-artwork.md) |
 | Program schedules | Supported for wired broadcasters | Supported for wired broadcasters | Planned | [Now Playing](features/now-playing.md) |
 | Lyrics | Supported on web | Planned/partial on native | Planned | [Now Playing](features/now-playing.md) |
 | Sleep timer | Partial (15/30/60 cycle; no countdown or default) | Reference | Partial | [Sleep timer](features/sleep-timer.md) |
 | Wake to radio | Partial, browser-limited | Reference, iOS-limited | Planned, Android-limited | [Wake to radio](features/wake-to-radio.md) |
 | iCloud/CloudKit sync | Not planned | Supported | Not applicable | [Data and sync](data-sync.md) |
-| Manual file export/import | Supported for favorites and custom stations | Planned/optional | Supported for Android library backup | [Data and sync](data-sync.md) |
+| Manual file export/import | Supported for favorites and custom stations | Planned/optional | Supported via SAF (favorites, custom, lists, preferences) | [Data and sync](data-sync.md) |
 | Cross-platform account sync | Not planned | Not planned | Not planned for first Android port | [Data and sync](data-sync.md) |
-| Listening history (personal, opt-in, local) | Planned | Reference | Planned | [Listening history](features/listening-history.md) |
+| Listening history (personal, opt-in, local) | Planned | Reference | Partial (opt-in local log; no dashboard) | [Listening history](features/listening-history.md) |
 | Diagnostics | Privacy-preserving telemetry | Local opt-in diagnostics | Local opt-in diagnostics | [Preferences and diagnostics](features/preferences-diagnostics.md) |
 | Localization / languages | Not planned (English-only; no i18n) | Supported (6 languages) | Planned | [Localization](contracts/localization.md) |
-| Broken-station reports | Partial (fire-and-forget POST; no receipts/category/comment) | Supported (sheet + receipts) | Planned | [Broken-station reports](contracts/broken-reports.md) |
+| Broken-station reports | Partial (fire-and-forget POST; no receipts/category/comment) | Supported (sheet + receipts) | Partial (fire-and-forget POST; no receipts) | [Broken-station reports](contracts/broken-reports.md) |
 | Siri / Shortcuts / Spotlight | Planned | Supported | Planned | [Siri & Shortcuts](features/siri-shortcuts.md) |
 | First-run / offline launch | Online-only (boot fetch; no offline/PWA) | Reference | Partial | [First run & offline](features/first-run-offline.md) |
 | Watch companion | Not applicable | Supported as iPhone remote | Not applicable | [Watch remote](features/watch-remote.md) |
-| Car mode / vehicle surfaces | Browser/OS dependent | Supported in app, CarPlay controls via media session | Partial media controls; Android Auto TBD | [Preferences and diagnostics](features/preferences-diagnostics.md) |
+| Car mode / vehicle surfaces | Browser/OS dependent | Supported in app, CarPlay controls via media session | Media controls reach head units via the session; Android Auto + in-app car mode planned | [Preferences and diagnostics](features/preferences-diagnostics.md) |
 
 ## How To Maintain This Spec
 

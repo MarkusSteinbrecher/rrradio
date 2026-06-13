@@ -342,18 +342,18 @@ prefix, country/codec uppercasing, `schemaVersion` ride-along — owned by
 
 | Obligation | Web | iOS | Android |
 |---|---|---|---|
-| Normalizer (A) char set: lowercase + letters + digits + `ä ö ü ß`, drop the rest | Reference (`src/format.ts`) | Match | Match |
-| Tier order: local FTS/substring → FTS-miss net → custom+RB local → RB community | Partial — no FTS; substring scan over built-ins + custom ("My stations"), then RB community appended | Reference | Must match |
-| Dedupe whole pipeline by station `id`, first-occurrence wins | Partial — dedupes RB pages by normalized stream URL + hides curated-collision rows; no whole-pipeline `id` dedupe | Required | Required |
-| Query-active suppresses alphabet/quality/favorite sort (relevance order kept) | Required | Reference | Required |
-| Country-filter + ≤2-char-query → skip RB network call | Planned — gate not implemented; a ≤2-char query with a country filter still fires the RB call | Reference | Required |
-| RB request params (`order=votes`, `reverse=true`, `hidebroken=true`, loose-split `name`) | Required | Reference | Required |
-| RB HTTPS-only; coerce `http_resolved`/`url` scheme for the dedupe key | Required | Reference | Required |
-| RB dedupe by normalized stream URL; winner = `logo*1000+tags*100+clickcount` | Required | Reference | Required |
-| Map RB row → `Station` per the field table (`rb-` id, MP3 uppercased, `≤0 → nil`) | Required | Reference | Required |
-| Bundled/full-text index | Not planned — web has no bundled index; local match is an in-memory substring scan over built-ins + custom | Reference (`stations.fts5.db`) | Optional — may use in-memory substring if FTS too slow on device (browse.md) |
-| Graceful fallback when index missing/diverged | Not applicable — no index to fall back from | Reference | Required |
-| FTS column weights name>tags>country>surface and name-tier→bm25→id ranking | Not applicable — FTS never used | Reference | If FTS used |
+| Normalizer (A) char set: lowercase + letters + digits + `ä ö ü ß`, drop the rest | Reference (`src/format.ts`) | Match | Supported — `normalizeForSearch` (`data/Search.kt`) matches the char set; an extra accent-folding pass (`normalizeForSearchFolded`: ß→ss, ø/æ/œ, NFD diacritic strip) runs alongside it |
+| Tier order: local FTS/substring → FTS-miss net → custom+RB local → RB community | Partial — no FTS; substring scan over built-ins + custom ("My stations"), then RB community appended | Reference | Partial — single local substring pass over custom + bundled catalog (`stationMatches` in the `RrradioViewModel` filter); no FTS and no RB community tier yet. RB community tier Planned |
+| Dedupe whole pipeline by station `id`, first-occurrence wins | Partial — dedupes RB pages by normalized stream URL + hides curated-collision rows; no whole-pipeline `id` dedupe | Required | Planned — single-source local list needs no cross-tier dedupe today; required once the RB community tier lands |
+| Query-active suppresses alphabet/quality/favorite sort (relevance order kept) | Required | Reference | Partial — the browse sort still applies during a query (no relevance order to preserve in a substring-only match); the un-queried 220-row cap is lifted while a query is active |
+| Country-filter + ≤2-char-query → skip RB network call | Planned — gate not implemented; a ≤2-char query with a country filter still fires the RB call | Reference | Not applicable today (no RB network call to gate); Planned with the RB community tier |
+| RB request params (`order=votes`, `reverse=true`, `hidebroken=true`, loose-split `name`) | Required | Reference | Planned — no Radio Browser client yet |
+| RB HTTPS-only; coerce `http_resolved`/`url` scheme for the dedupe key | Required | Reference | Planned — no Radio Browser client yet |
+| RB dedupe by normalized stream URL; winner = `logo*1000+tags*100+clickcount` | Required | Reference | Planned — no Radio Browser client yet |
+| Map RB row → `Station` per the field table (`rb-` id, MP3 uppercased, `≤0 → nil`) | Required | Reference | Planned — no Radio Browser client yet |
+| Bundled/full-text index | Not planned — web has no bundled index; local match is an in-memory substring scan over built-ins + custom | Reference (`stations.fts5.db`) | Partial — in-memory substring scan today; a bundled FTS index is Planned/optional if substring proves too slow on device (browse.md) |
+| Graceful fallback when index missing/diverged | Not applicable — no index to fall back from | Reference | Not applicable today (no index to fall back from); required if/when an FTS index is adopted |
+| FTS column weights name>tags>country>surface and name-tier→bm25→id ranking | Not applicable — FTS never used | Reference | Planned — applies only if an FTS index is adopted |
 
 ## Open questions
 
