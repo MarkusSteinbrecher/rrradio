@@ -907,23 +907,73 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
           </button>
         </header>
-        <div class="sheet-body">
-          <button type="button" class="settings-row" id="settings-theme">
-            <span class="settings-row__label">Theme</span>
-            <span class="settings-row__val" id="settings-theme-val">Dark</span>
-          </button>
-          <button type="button" class="settings-row" id="settings-add">
-            <span class="settings-row__label">Add custom station</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          </button>
-          <button type="button" class="settings-row" id="settings-stats">
-            <span class="settings-row__label">Stats</span>
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="11" width="3.2" height="9" rx="0.6"/><rect x="10.4" y="6" width="3.2" height="14" rx="0.6"/><rect x="16.8" y="14" width="3.2" height="6" rx="0.6"/></svg>
-          </button>
-          <button type="button" class="settings-row" id="settings-about">
-            <span class="settings-row__label">About rrradio</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 16v-5"/><path d="M12 8h.01"/></svg>
-          </button>
+        <div class="sheet-body settings-body">
+          <div class="settings-section">
+            <div class="settings-section__title">Theme</div>
+            <div class="seg" id="theme-seg" role="radiogroup" aria-label="Theme">
+              <button type="button" class="seg__btn" data-theme-choice="system" role="radio" aria-checked="false">System</button>
+              <button type="button" class="seg__btn" data-theme-choice="light" role="radio" aria-checked="false">Light</button>
+              <button type="button" class="seg__btn" data-theme-choice="dark" role="radio" aria-checked="false">Dark</button>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <div class="settings-section__title">Landing page</div>
+            <div class="seg" id="landing-seg" role="radiogroup" aria-label="Opens on">
+              <button type="button" class="seg__btn" data-landing="browse" role="radio" aria-checked="false">Browse</button>
+              <button type="button" class="seg__btn" data-landing="fav" role="radio" aria-checked="false">Favorites</button>
+              <button type="button" class="seg__btn" data-landing="recent" role="radio" aria-checked="false">Recents</button>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <div class="settings-section__title">Music services</div>
+            <p class="settings-section__hint">Links shown on the now-playing track when we can match the song.</p>
+            <button type="button" class="settings-row settings-row--toggle" id="ms-apple" aria-pressed="true">
+              <span class="settings-row__label">Apple Music</span>
+              <span class="switch" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="settings-row settings-row--toggle" id="ms-spotify" aria-pressed="true">
+              <span class="settings-row__label">Spotify</span>
+              <span class="switch" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="settings-row settings-row--toggle" id="ms-youtube" aria-pressed="true">
+              <span class="settings-row__label">YouTube Music</span>
+              <span class="switch" aria-hidden="true"></span>
+            </button>
+          </div>
+
+          <div class="settings-section">
+            <div class="settings-section__title">Your data</div>
+            <button type="button" class="settings-row" id="settings-add">
+              <span class="settings-row__label">Add custom station</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+            </button>
+            <button type="button" class="settings-row" id="settings-backup">
+              <span class="settings-row__label">Back up favorites &amp; stations</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+            </button>
+            <button type="button" class="settings-row" id="settings-restore">
+              <span class="settings-row__label">Restore from a backup file</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V9"/><path d="m17 14-5-5-5 5"/><path d="M5 3h14"/></svg>
+            </button>
+          </div>
+
+          <div class="settings-section">
+            <div class="settings-section__title">About</div>
+            <button type="button" class="settings-row" id="settings-about">
+              <span class="settings-row__label">About rrradio</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 16v-5"/><path d="M12 8h.01"/></svg>
+            </button>
+            <a class="settings-row" id="settings-privacy" href="/privacy.html">
+              <span class="settings-row__label">Privacy</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 10h6"/><path d="M9 14h6"/><path d="M9 18h4"/></svg>
+            </a>
+            <button type="button" class="settings-row" id="settings-stats">
+              <span class="settings-row__label">Listener stats</span>
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="11" width="3.2" height="9" rx="0.6"/><rect x="10.4" y="6" width="3.2" height="14" rx="0.6"/><rect x="16.8" y="14" width="3.2" height="6" rx="0.6"/></svg>
+            </button>
+          </div>
         </div>
       </section>
     </div>

@@ -103,7 +103,7 @@ import {
   ICON_RECENT,
   STAR_SVG,
 } from './icons';
-import { bootstrapTheme, toggleTheme, effectiveTheme } from './theme';
+import { bootstrapTheme, applyTheme, readStoredTheme } from './theme';
 import { safeUrl, urlDisplay } from './url';
 import { classifyStoredWake, fadeVolume, formatCountdown, nextFireTime, WakeScheduler } from './wake';
 import type { NowPlaying, Station, WakeTo } from './types';
@@ -318,8 +318,13 @@ const $filterClose = document.getElementById('filter-close') as HTMLButtonElemen
 const $settingsBtn = document.getElementById('settings-btn') as HTMLButtonElement;
 const $settingsSheet = document.getElementById('settings-sheet') as HTMLElement;
 const $settingsClose = document.getElementById('settings-close') as HTMLButtonElement;
-const $settingsThemeRow = document.getElementById('settings-theme') as HTMLButtonElement;
-const $settingsThemeVal = document.getElementById('settings-theme-val') as HTMLElement;
+const $themeSeg = document.getElementById('theme-seg') as HTMLElement;
+const $landingSeg = document.getElementById('landing-seg') as HTMLElement;
+const $msApple = document.getElementById('ms-apple') as HTMLButtonElement;
+const $msSpotify = document.getElementById('ms-spotify') as HTMLButtonElement;
+const $msYoutube = document.getElementById('ms-youtube') as HTMLButtonElement;
+const $settingsBackup = document.getElementById('settings-backup') as HTMLButtonElement;
+const $settingsRestore = document.getElementById('settings-restore') as HTMLButtonElement;
 const $settingsAdd = document.getElementById('settings-add') as HTMLButtonElement;
 const $settingsStats = document.getElementById('settings-stats') as HTMLButtonElement;
 const $settingsAbout = document.getElementById('settings-about') as HTMLButtonElement;
@@ -2442,11 +2447,6 @@ desktopMq.addEventListener('change', syncLayoutMode);
 // the user hasn't picked an explicit theme.
 bootstrapTheme();
 
-function onToggleTheme(): void {
-  const next = toggleTheme();
-  track(`theme/${next}`);
-}
-
 function openAboutSheet(open: boolean): void {
   $aboutSheet.classList.toggle('open', open);
   $aboutSheet.setAttribute('aria-hidden', String(!open));
@@ -3501,7 +3501,11 @@ function openFilterSheet(open: boolean): void {
   $filterSheet.setAttribute('aria-hidden', String(!open));
 }
 function openSettingsSheet(open: boolean): void {
-  if (open) $settingsThemeVal.textContent = effectiveTheme() === 'light' ? 'Light' : 'Dark';
+  if (open) {
+    syncThemeSeg();
+    syncLandingSeg();
+    syncMusicToggles();
+  }
   $settingsSheet.classList.toggle('open', open);
   $settingsSheet.setAttribute('aria-hidden', String(!open));
 }
@@ -3521,10 +3525,82 @@ $filterBtn.addEventListener('click', () => openFilterSheet(true));
 $filterClose.addEventListener('click', () => openFilterSheet(false));
 $settingsBtn.addEventListener('click', () => openSettingsSheet(true));
 $settingsClose.addEventListener('click', () => openSettingsSheet(false));
-$settingsThemeRow.addEventListener('click', () => {
-  onToggleTheme();
-  $settingsThemeVal.textContent = effectiveTheme() === 'light' ? 'Light' : 'Dark';
+// ─── Settings: theme · landing page · music services ───
+const LANDING_KEY = 'rrradio.landing';
+type MusicService = 'apple' | 'spotify' | 'youtube';
+const MS_KEYS: Record<MusicService, string> = {
+  apple: 'rrradio.ms.apple',
+  spotify: 'rrradio.ms.spotify',
+  youtube: 'rrradio.ms.youtube',
+};
+/** Music-service deep-links default ON; '0' = user turned it off. */
+function msEnabled(svc: MusicService): boolean {
+  return getString(MS_KEYS[svc]) !== '0';
+}
+
+function syncSeg(seg: HTMLElement, attr: string, value: string): void {
+  for (const btn of seg.querySelectorAll<HTMLButtonElement>('.seg__btn')) {
+    const on = btn.dataset[attr] === value;
+    btn.classList.toggle('is-active', on);
+    btn.setAttribute('aria-checked', String(on));
+  }
+}
+function syncThemeSeg(): void {
+  syncSeg($themeSeg, 'themeChoice', readStoredTheme() ?? 'system');
+}
+function syncLandingSeg(): void {
+  syncSeg($landingSeg, 'landing', getString(LANDING_KEY) || 'browse');
+}
+function syncMusicToggles(): void {
+  $msApple.setAttribute('aria-pressed', String(msEnabled('apple')));
+  $msSpotify.setAttribute('aria-pressed', String(msEnabled('spotify')));
+  $msYoutube.setAttribute('aria-pressed', String(msEnabled('youtube')));
+}
+/** Hide the open-in links the user turned off in Settings. */
+function syncMusicServiceLinks(): void {
+  $npTrackAppleMusic.style.display = msEnabled('apple') ? '' : 'none';
+  $npTrackSpotify.style.display = msEnabled('spotify') ? '' : 'none';
+  $npTrackYoutubeMusic.style.display = msEnabled('youtube') ? '' : 'none';
+}
+
+$themeSeg.addEventListener('click', (e) => {
+  const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.seg__btn');
+  if (!btn) return;
+  const choice = btn.dataset.themeChoice ?? 'system';
+  applyTheme(choice === 'system' ? null : (choice as 'light' | 'dark'));
+  syncThemeSeg();
+  track(`theme/${choice}`);
 });
+$landingSeg.addEventListener('click', (e) => {
+  const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.seg__btn');
+  if (!btn) return;
+  const landing = btn.dataset.landing ?? 'browse';
+  setString(LANDING_KEY, landing);
+  syncLandingSeg();
+  track(`landing/${landing}`);
+});
+function bindMusicToggle(btn: HTMLButtonElement, svc: MusicService): void {
+  btn.addEventListener('click', () => {
+    const next = !msEnabled(svc);
+    setString(MS_KEYS[svc], next ? '1' : '0');
+    syncMusicToggles();
+    syncMusicServiceLinks();
+    track(`music-service/${svc}/${next ? 'on' : 'off'}`);
+  });
+}
+bindMusicToggle($msApple, 'apple');
+bindMusicToggle($msSpotify, 'spotify');
+bindMusicToggle($msYoutube, 'youtube');
+
+$settingsBackup.addEventListener('click', () => {
+  openSettingsSheet(false);
+  exportBackupNow();
+});
+$settingsRestore.addEventListener('click', () => {
+  openSettingsSheet(false);
+  pickImportFile();
+});
+
 $settingsAdd.addEventListener('click', () => {
   openSettingsSheet(false);
   openAddSheet(true);
@@ -3730,6 +3806,8 @@ function positionOpenInPopup() {
   $npTrackOpenInPopup.style.right = `${Math.round(window.innerWidth - r.right - 4)}px`;
 }
 function openOpenInPopup() {
+  // Reflect the user's per-service Settings toggles before showing.
+  syncMusicServiceLinks();
   positionOpenInPopup();
   $npTrackOpenInPopup.hidden = false;
   $npTrackOpenInWrap.dataset.open = 'true';
@@ -3938,6 +4016,15 @@ syncSearchClear();
 syncBrowseModeButtons();
 syncSort();
 syncQuality();
+syncMusicServiceLinks();
+// Landing-page preference: open Favorites / Recents on launch when the
+// user picked one (and there's no inbound ?q search / station deep-link
+// taking precedence — those still win via runQuery / autoLoadStationFromUrl).
+{
+  const landing = getString(LANDING_KEY);
+  const hasQuery = !!new URLSearchParams(window.location.search).get('q');
+  if (!hasQuery && (landing === 'fav' || landing === 'recent')) setTab(landing);
+}
 // Stations.json defines the built-in catalog (Featured strip + per-station
 // metadata fetcher overrides). Render once it lands so the first paint
 // already has the Featured tiles.
