@@ -148,11 +148,14 @@ if (httpsIssues.length > 0) {
   process.exit(2);
 }
 
-// Favicon variants: every `favicons.{76,128,152}` path in the catalog
-// must point at a file that actually exists under public/. Build pipeline
-// in tools/build-favicon-variants.mjs writes these; catches the case
-// where a curator edits stations.json by hand or the variants were
-// pruned without re-running the pipeline.
+// Favicon variants: validate the *shape* of every `favicons.{76,128,152}`
+// ref (must be a `favicons/` path). The webp files themselves live under the
+// gitignored public/favicons/ dir — build output of
+// tools/build-favicon-variants.mjs, regenerated locally by `npm run catalog`
+// and NEVER committed (the web runtime renders the remote `favicon` URL, not
+// these; the array is a build-time hint). So on-disk presence is deliberately
+// NOT required: it can't hold in a fresh checkout / CI, and enforcing it broke
+// the deploy in #522 (a committed stations.json referenced uncommitted webps).
 const VARIANT_SIZES = ['76', '128', '152'];
 const variantIssues = [];
 for (const s of jsonStations) {
@@ -163,10 +166,6 @@ for (const s of jsonStations) {
     if (path === undefined) continue;
     if (typeof path !== 'string' || !path.startsWith('favicons/')) {
       variantIssues.push(`${s.id}: favicons[${size}] is not a favicons/ path → ${path}`);
-      continue;
-    }
-    if (!existsSync(join(root, 'public', path))) {
-      variantIssues.push(`${s.id}: favicons[${size}] missing on disk → public/${path}`);
     }
   }
 }
@@ -177,7 +176,7 @@ if (variantIssues.length > 0) {
   for (const m of variantIssues.slice(0, 20)) console.error(`  ${m}`);
   if (variantIssues.length > 20) console.error(`  …and ${variantIssues.length - 20} more`);
   console.error(
-    `\n  Fix: run ${C.ok}npm run favicon-variants${C.reset}${C.bad} (or remove the stale variants from stations.json).${C.reset}`,
+    `\n  Fix: correct the favicons[] path in stations.json (must be a ${C.ok}favicons/${C.reset}${C.bad} path) or remove it.${C.reset}`,
   );
   process.exit(2);
 }
