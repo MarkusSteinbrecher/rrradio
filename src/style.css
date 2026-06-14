@@ -832,42 +832,6 @@ a.settings-row { text-decoration: none; }
   margin-right: 8px;
 }
 
-/* ─── Library segmented control (Favorites / Recents toggle) ─── */
-.lib-seg {
-  display: flex;
-  gap: 4px;
-  padding: 4px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--bg-2);
-}
-/* Topbar variant — stays in the sticky chrome above the scroll area
-   so the section selector is always reachable regardless of scroll. */
-.topbar-lib-seg { margin: 12px 0 2px; }
-.topbar-lib-seg[hidden] { display: none; }
-.lib-seg__btn {
-  flex: 1;
-  padding: 8px 14px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  background: transparent;
-  border: 0;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: color 0.15s, background 0.15s;
-}
-.lib-seg__btn:hover { color: var(--ink-2); }
-.lib-seg__btn.is-active {
-  /* Inverted pill — pops against the search-bar's --bg-2 row above.
-     In dark mode this is near-white; in light mode it inverts to
-     near-black. Both read as a clear "this is selected" affordance. */
-  color: var(--bg);
-  background: var(--ink);
-}
-
 /* ─── Station row ─── */
 .row {
   display: flex;
@@ -1183,6 +1147,109 @@ a.settings-row { text-decoration: none; }
   color: var(--ink-3);
 }
 
+/* ─── In-app list management (create / rename / delete) ──────────
+   In-app replacements for window.prompt / window.confirm so list
+   editing matches the rest of the app (and works under our CSP /
+   on mobile). Shared by the lists index, the list-detail header,
+   and the add-to-list sheet. */
+.list-name-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px 12px;
+}
+.list-name-form__input {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 12px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-family: var(--mono);
+  /* 16px disables iOS Safari focus auto-zoom. */
+  font-size: 16px;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.list-name-form__input:focus { border-color: var(--accent); }
+.list-name-form__save,
+.list-name-form__cancel {
+  flex-shrink: 0;
+  padding: 9px 15px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.15s, color 0.15s, border-color 0.15s, background 0.15s;
+}
+.list-name-form__save {
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--bg);
+}
+.list-name-form__save:active { transform: scale(0.96); }
+.list-name-form__cancel {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink-2);
+}
+.list-name-form__cancel:hover { color: var(--ink); border-color: var(--line-2); }
+
+/* Inline delete confirm — sits in the row's right edge / the detail
+   header's action slot. Destructive button uses the same coral the
+   custom-station delete uses, not a new red. */
+.list-confirm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+.list-confirm__q {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  color: var(--ink-2);
+}
+.list-confirm__cancel,
+.list-confirm__delete {
+  flex-shrink: 0;
+  padding: 6px 13px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 1px solid var(--line);
+  background: transparent;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.list-confirm__cancel { color: var(--ink-2); }
+.list-confirm__cancel:hover { color: var(--ink); border-color: var(--line-2); }
+.list-confirm__delete {
+  color: #ff8b6b;
+  border-color: rgba(255, 90, 90, 0.45);
+  background: rgba(255, 90, 90, 0.08);
+}
+.list-confirm__delete:hover {
+  color: #fff;
+  background: rgba(255, 90, 90, 0.9);
+  border-color: rgba(255, 90, 90, 0.9);
+}
+
+/* A row mid-confirm isn't clickable and drops its hover affordance. */
+.list-item--confirming { cursor: default; }
+.list-item--confirming:hover { background: transparent; }
+.list-item--confirming .list-confirm { padding-right: 6px; }
+
+/* Rename header: the inline form replaces the title text; keep the
+   back chevron inline to its left. */
+.section-label--editing { align-items: center; }
+.section-label--editing .list-name-form { flex: 1; padding: 0; }
+
 /* ─── Drag-to-reorder (favorites only) ──────────────────────────
    Grip handle on the right edge of each fav row. Pointer-events
    based — works on touch + mouse without HTML5 drag-and-drop's
@@ -1476,8 +1543,35 @@ body.tab-playing .search-wrap { display: none; }
   transition: color 0.15s, border-color 0.15s;
 }
 .np-collapse-browse:hover { color: var(--ink); border-color: var(--line-2); }
-.np-collapse-browse svg { width: 16px; height: 16px; display: block; transition: transform 0.2s; }
-body.browse-collapsed .np-collapse-browse svg { transform: rotate(180deg); }
+.np-collapse-browse svg { width: 16px; height: 16px; display: block; }
+/* Expand arrows by default; swap to inward "contract" arrows once the
+   browse list is collapsed (player is already full width). */
+.np-collapse-browse .icon-contract { display: none; }
+body.browse-collapsed .np-collapse-browse .icon-expand { display: none; }
+body.browse-collapsed .np-collapse-browse .icon-contract { display: block; }
+
+/* Close the docked player (desktop) — mirrors the collapse toggle in the
+   opposite (top-right) corner. Hidden by default; shown via the ≥1024px
+   block while a station is docked and the player isn't already closed.
+   Audio continues; the mini-player carries transport + reopen. */
+.np-close {
+  display: none;
+  position: absolute;
+  top: 16px;
+  right: 14px;
+  z-index: 6;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.np-close:hover { color: var(--ink); border-color: var(--line-2); }
+.np-close svg { width: 16px; height: 16px; display: block; }
 
 /* Mute toggle: swap volume / muted icon. Body class drives icon state. */
 #np-mute .icon-vol-mute { display: none; }
@@ -3237,160 +3331,6 @@ body.is-wake-edit .np-pane-tabs { display: none; }
 .about-cta__logo { width: 18px; height: 18px; }
 .about-cta--ghost { background: transparent; }
 
-/* Platform-interest poll banner — sits at the top of the browse
-   view above the first section label. Visual language matches the
-   rest of the app: monospace eyebrow in --accent (same pattern as
-   .live-dot and is-playing rows), sans body in --ink, subtle bg-2
-   container with a 1px line, no heavy borders or glows. Auto-hides
-   once the user has voted (buildPollBanner returns null) and
-   animates out via .is-leaving after a successful vote. */
-.poll-banner {
-  position: relative;
-  margin: 10px 12px 4px;
-  padding: 14px 16px;
-  background: var(--bg-2);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  transition: opacity 0.5s ease, transform 0.5s ease,
-              max-height 0.5s ease, margin 0.5s ease,
-              padding 0.5s ease, border-width 0.5s ease;
-  overflow: hidden;
-}
-.poll-banner.is-leaving {
-  opacity: 0;
-  transform: translateY(-4px);
-  max-height: 0;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-top: 0;
-  margin-bottom: 0;
-  border-width: 0;
-}
-.poll-banner__eyebrow {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  color: var(--accent);
-  text-transform: uppercase;
-  margin-bottom: 6px;
-}
-.poll-banner__title {
-  font-family: var(--sans);
-  font-size: 15px;
-  line-height: 1.3;
-  margin: 0 0 4px;
-  color: var(--ink);
-  font-weight: 500;
-}
-.poll-banner__subtitle {
-  margin: 0 0 12px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  color: var(--ink-3);
-  line-height: 1.45;
-}
-.poll-banner__options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.poll-banner__btn {
-  flex: 1 1 auto;
-  min-width: 0;
-  padding: 9px 14px;
-  border: 1px solid var(--line-2);
-  border-radius: 999px;
-  background: transparent;
-  font-family: var(--sans);
-  font-size: 13px;
-  color: var(--ink);
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.05s;
-}
-.poll-banner__btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-.poll-banner__btn:active { transform: translateY(1px); }
-.poll-banner__btn:focus-visible {
-  outline: 1px solid var(--accent);
-  outline-offset: 2px;
-}
-.poll-banner__thanks {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-top: 2px;
-}
-
-/* ─── Poll banner state gating ───
-   Pre-vote: only the prompt block is visible (title + subtitle +
-   choice buttons). Post-vote (.poll-banner--voted is set): only the
-   voted panel is visible (you-voted line + stats button).
-   Using class-gated CSS — not the [hidden] attribute — because the
-   voted block uses display:flex, and a class-level display rule wins
-   over the user-agent [hidden] { display: none } rule. */
-.poll-banner .poll-banner__voted { display: none; }
-.poll-banner--voted .poll-banner__prompt { display: none; }
-.poll-banner--voted {
-  padding: 12px 16px;
-}
-.poll-banner--voted .poll-banner__voted {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px 14px;
-}
-.poll-banner__voted {
-  /* layout-only fallback so the block keeps its shape if the parent
-     ever forgets the --voted class (defensive — should not happen
-     in normal use). */
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px 14px;
-}
-.poll-banner__voted-line {
-  margin: 0;
-  font-family: var(--sans);
-  font-size: 14px;
-  color: var(--ink);
-  font-weight: 500;
-}
-.poll-banner__voted-choice { color: var(--accent); font-weight: 600; }
-.poll-banner__voted-note {
-  margin: 0;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  color: var(--ink-3);
-  flex: 1 1 100%;
-  order: 3;
-}
-.poll-banner__stats-btn {
-  appearance: none;
-  padding: 7px 12px;
-  border: 1px solid var(--line-2);
-  border-radius: 999px;
-  background: transparent;
-  font-family: var(--sans);
-  font-size: 12.5px;
-  color: var(--ink);
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
-  margin-left: auto;
-}
-.poll-banner__stats-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-.poll-banner__stats-btn:focus-visible {
-  outline: 1px solid var(--accent);
-  outline-offset: 2px;
-}
-
 .dash-empty {
   margin: 6px 0 0;
   font-family: var(--mono);
@@ -3540,7 +3480,10 @@ body.is-wake-edit .np-pane-tabs { display: none; }
     grid-column: 1;
   }
   .np {
-    position: static;
+    /* relative (not static) so the absolutely-positioned corner toggles
+       — collapse-browse (top-left) and close (top-right) — anchor to the
+       docked pane at every desktop width. */
+    position: relative;
     inset: auto;
     grid-column: 2;
     transform: none !important;
@@ -3550,8 +3493,9 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   .np-back { display: none; }
 
   /* Mini-player + bottom tab bar are redundant when NP is always docked
-     and the nav lives in the sidebar. */
-  .mini { display: none !important; }
+     and the nav lives in the sidebar — except when the player is closed,
+     where the mini becomes the transport + tap-to-reopen affordance. */
+  body:not(.np-closed) .mini { display: none !important; }
   .tabbar { display: none; }
 
   /* Browse/Discovery results as a responsive card grid. */
@@ -3591,6 +3535,14 @@ body.is-wake-edit .np-pane-tabs { display: none; }
      centre list takes the full width (no idle placeholder column). */
   body:not(.has-station) .np { display: none; }
   body:not(.has-station) .stage { grid-template-columns: minmax(0, 1fr); }
+
+  /* Closing the player hands the full width to browse; audio keeps
+     playing via the mini-player (un-hidden above). The close affordance
+     lives in the docked pane's top-right corner, so it's only shown while
+     the pane is still open. */
+  body.has-station:not(.np-closed) .np-close { display: grid; }
+  body.has-station.np-closed .np { display: none; }
+  body.has-station.np-closed .stage { grid-template-columns: minmax(0, 1fr); }
 
   /* ── Collapsible sidebar ── */
   .sidebar-collapse {
@@ -3777,7 +3729,9 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   body.has-station .np-collapse-browse { display: grid; }
 
   /* ── Browse visible: 2 player columns (Album + Schedule/Lyrics) ── */
-  body.has-station:not(.browse-collapsed) .stage {
+  /* :not(.np-closed) so a closed player drops back to full-width browse
+     (otherwise this would leave an empty second column where .np was). */
+  body.has-station:not(.browse-collapsed):not(.np-closed) .stage {
     grid-template-columns: minmax(0, 1fr) minmax(520px, 1.3fr);
   }
   body.np-twocol:not(.is-wake-edit) .np-body {
@@ -3804,7 +3758,9 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   body.np-twocol:not(.is-wake-edit) .np-track[hidden] { display: flex; }
 
   /* ── Browse collapsed: 3 player columns, list hidden, NP full width ── */
-  body.has-station.browse-collapsed .content { display: none; }
+  /* :not(.np-closed) so closing the player while browse is collapsed still
+     reveals browse (else both .np and .content would be hidden → blank). */
+  body.has-station.browse-collapsed:not(.np-closed) .content { display: none; }
   body.has-station.browse-collapsed .stage { grid-template-columns: minmax(0, 1fr); }
   body.has-station.browse-collapsed .np { grid-column: 1; }
   body.np-threecol:not(.is-wake-edit) .np-body {
@@ -3827,8 +3783,8 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   body.np-threecol .np-col-head { display: block; }
 
   /* ── Shared (both wide modes) ── */
-  /* Anchor the absolutely-positioned collapse toggle to the NP pane. */
-  body.has-station .np { position: relative; }
+  /* (.np is position:relative from the ≥1024px block — its corner
+     toggles anchor there.) */
   body.has-station .np-station { grid-area: station; }
   body.has-station .np-track { grid-area: album; align-self: start; }
   body.has-station .np-track .np-track__cover-wrap { max-width: 200px; }

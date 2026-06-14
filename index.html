@@ -238,7 +238,7 @@
       </header>
 
       <div class="app-body">
-      <!-- ====== SIDEBAR rail — desktop nav (Browse / Favorites / Lists) ====== -->
+      <!-- ====== SIDEBAR rail — desktop nav (Browse / Library) ====== -->
       <nav class="sidebar" aria-label="Sections">
         <button type="button" class="sidebar-collapse" id="sidebar-collapse" aria-label="Collapse sidebar" aria-expanded="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
@@ -248,9 +248,13 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>
             <span>Browse</span>
           </button>
-          <button type="button" class="tab-btn" data-tab="library">
+          <button type="button" class="tab-btn" data-tab="fav">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
             <span>Favorites</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="library">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2-2h3l2 2h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></svg>
+            <span>Library</span>
           </button>
         </div>
       </nav>
@@ -328,7 +332,6 @@
         </div>
 
         <div class="tab-status" id="tab-status" hidden></div>
-        <div class="lib-seg topbar-lib-seg" id="topbar-lib-seg" role="tablist" aria-label="Library section" hidden></div>
       </header>
 
       <!-- ============== STAGE: content + Now Playing ============== -->
@@ -340,9 +343,18 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
           </button>
           <!-- Wide-desktop only: collapse the browse list to expand the
-               player from 2 to 3 columns (chevron rotates when collapsed). -->
-          <button type="button" class="np-collapse-browse" id="np-collapse-browse" aria-label="Hide browse list" aria-expanded="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+               player from 2 to 3 columns. Diagonal "expand" arrows read
+               as a layout/size toggle (distinct from the left-nav chevron);
+               they swap to inward "contract" arrows once browse is hidden. -->
+          <button type="button" class="np-collapse-browse" id="np-collapse-browse" aria-label="Expand player to full width" aria-expanded="true">
+            <svg class="icon-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10V4h6"/><path d="m4 4 6 6"/><path d="M20 10V4h-6"/><path d="m20 4-6 6"/><path d="M4 14v6h6"/><path d="m4 20 6-6"/><path d="M20 14v6h-6"/><path d="m20 20-6-6"/></svg>
+            <svg class="icon-contract" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 4v6H4"/><path d="M10 10 4 4"/><path d="M14 4v6h6"/><path d="m14 10 6-6"/><path d="M10 20v-6H4"/><path d="m10 14-6 6"/><path d="M14 20v-6h6"/><path d="m14 14 6 6"/></svg>
+          </button>
+          <!-- Desktop: close the player so browse fills the full width.
+               Audio keeps playing via the mini-player bar, which doubles as
+               the reopen affordance. -->
+          <button type="button" class="np-close" id="np-close" aria-label="Close player">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
           </button>
           <div class="np-body">
             <div class="np-station">
@@ -543,9 +555,13 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>
           Browse
         </button>
-        <button type="button" class="tab-btn" data-tab="library" id="tab-library">
+        <button type="button" class="tab-btn" data-tab="fav">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
           Favorites
+        </button>
+        <button type="button" class="tab-btn" data-tab="library" id="tab-library">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2-2h3l2 2h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></svg>
+          Library
         </button>
       </nav>
 
@@ -621,24 +637,7 @@
 
         <div class="sheet-body dashboard-body">
           <h2 class="sheet-title">Listener stats</h2>
-          <p class="sheet-lede">Listening: last 7 days · poll: all-time · aggregate, anonymous</p>
-
-          <div class="dash-section">
-            <h3>Native-app poll <span class="dash-section__meta">all-time</span></h3>
-            <table class="dash-table" id="dash-poll-table">
-              <thead>
-                <tr>
-                  <th class="rank">#</th>
-                  <th class="country">Option</th>
-                  <th class="bar"></th>
-                  <th class="count">Votes</th>
-                  <th class="pct">%</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-            <p class="dash-empty" id="dash-poll-empty" hidden>No votes yet — be the first.</p>
-          </div>
+          <p class="sheet-lede">Listening: last 7 days · aggregate, anonymous</p>
 
           <div class="dash-kpis">
             <div class="dash-kpi">
@@ -751,21 +750,23 @@
           </div>
 
           <div class="about-section">
-            <h3>Backup &amp; restore your favorites</h3>
+            <h3>Backup &amp; restore</h3>
             <p>
-              Carry your favorites and custom stations to another device
+              Carry everything — favorites, custom stations, lists,
+              recently played and your settings — to another device
               without an account. On the Favorites tab, tap the
               <svg class="about-inline-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
-              icon to download a small JSON file. Move it to the other
-              device however you like — AirDrop, USB, share sheet, email
-              to yourself — and tap the
+              icon (or Settings → Your data) to download a small JSON
+              file. Move it to the other device however you like —
+              AirDrop, USB, share sheet, email to yourself — and tap the
               <svg class="about-inline-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V9"/><path d="m17 14-5-5-5 5"/><path d="M5 3h14"/></svg>
               icon there to import. The file lives on your device only —
               no upload, no account.
             </p>
             <p>
-              Importing <em>adds</em> to whatever's already on the
-              device; it never deletes or replaces existing favorites.
+              Importing <em>adds</em> favorites, stations, lists and
+              history to whatever's already on the device — it never
+              deletes them — and restores your settings.
             </p>
           </div>
 
@@ -990,7 +991,7 @@
           <div class="settings-section">
             <div class="settings-section__title">Your data</div>
             <button type="button" class="settings-row" id="settings-backup">
-              <span class="settings-row__label">Back up favorites &amp; stations</span>
+              <span class="settings-row__label">Back up everything</span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
             </button>
             <button type="button" class="settings-row" id="settings-restore">

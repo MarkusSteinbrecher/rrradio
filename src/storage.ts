@@ -123,6 +123,13 @@ export function pushRecent(station: Station): void {
   writeStations(RECENTS_KEY, recents.slice(0, RECENTS_LIMIT));
 }
 
+/** Replace the entire recents list (capped at RECENTS_LIMIT). Used by
+ *  backup-import to write a merged history back; pushRecent covers the
+ *  per-play mutation. */
+export function setRecents(list: Station[]): void {
+  writeStations(RECENTS_KEY, list.slice(0, RECENTS_LIMIT));
+}
+
 export function getCustom(): Station[] {
   return readStations(CUSTOM_KEY);
 }

@@ -46,6 +46,7 @@ const {
   pushRecent,
   removeKey,
   reorderFavorites,
+  setRecents,
   setString,
   toggleFavorite,
 } = await import('./storage');
@@ -149,6 +150,23 @@ describe('recents', () => {
     expect(getRecents()).toHaveLength(12);
     expect(getRecents()[0].id).toBe('s19');
     expect(getRecents()[11].id).toBe('s8');
+  });
+
+  it('setRecents replaces the whole list (backup import)', () => {
+    pushRecent(A);
+    setRecents([B, C]);
+    expect(getRecents().map((s) => s.id)).toEqual(['b', 'c']);
+  });
+
+  it('setRecents caps the replacement at 12 entries', () => {
+    const many = Array.from({ length: 20 }, (_, i) => ({
+      id: `s${i}`,
+      name: `S${i}`,
+      streamUrl: 'https://x',
+    }));
+    setRecents(many);
+    expect(getRecents()).toHaveLength(12);
+    expect(getRecents()[0].id).toBe('s0');
   });
 });
 

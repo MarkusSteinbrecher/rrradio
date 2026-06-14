@@ -14,15 +14,28 @@
  * the file-download / file-pick plumbing; tests exercise the helpers
  * with plain string + array fixtures.
  *
- * Versioning: v1 carried favorites + custom only. v2 adds `lists`. We
- * read both — a v1 file imports with zero lists — and always write v2.
+ * Versioning: v1 carried favorites + custom only. v2 added `lists`. v3
+ * adds `recents` + `settings` (theme, layout, music-service toggles,
+ * library section). We read all three — older files import with the new
+ * fields empty — and always write v3.
  */
 
 import type { Station } from './types';
 import type { StationList } from './lists';
 
-export const BACKUP_VERSION = 2;
-const SUPPORTED_VERSIONS = [1, 2];
+export const BACKUP_VERSION = 3;
+const SUPPORTED_VERSIONS = [1, 2, 3];
+
+/** App settings captured in a backup. Every field is optional so a
+ *  partial or older file imports cleanly; restore only touches the keys
+ *  a file actually carries. */
+export interface BackupSettings {
+  theme?: 'light' | 'dark';
+  landing?: string;
+  musicServices?: { apple?: boolean; spotify?: boolean; youtube?: boolean };
+  sidebarCollapsed?: boolean;
+  browseCollapsed?: boolean;
+}
 
 export interface BackupSnapshot {
   version: number;
@@ -30,6 +43,8 @@ export interface BackupSnapshot {
   favorites: Station[];
   custom: Station[];
   lists: StationList[];
+  recents: Station[];
+  settings: BackupSettings;
 }
 
 export interface ImportSummary {
@@ -39,10 +54,17 @@ export interface ImportSummary {
   customAlreadyHad: number;
   listsAdded: number;
   listsAlreadyHad: number;
+  recentsAdded: number;
+  recentsAlreadyHad: number;
+  /** How many settings keys the imported file carried (and will apply). */
+  settingsApplied: number;
   /** Snapshots of the merged collections, ready to write back to storage. */
   mergedFavorites: Station[];
   mergedCustom: Station[];
   mergedLists: StationList[];
+  mergedRecents: Station[];
+  /** Sanitized incoming settings — restore overwrites the keys present. */
+  mergedSettings: BackupSettings;
 }
 
 export class BackupParseError extends Error {
@@ -56,6 +78,8 @@ export function serializeBackup(
   favorites: Station[],
   custom: Station[],
   lists: StationList[] = [],
+  recents: Station[] = [],
+  settings: BackupSettings = {},
   now = new Date(),
 ): string {
   const snap: BackupSnapshot = {
@@ -64,6 +88,8 @@ export function serializeBackup(
     favorites,
     custom,
     lists,
+    recents,
+    settings,
   };
   return JSON.stringify(snap, null, 2);
 }
@@ -74,7 +100,7 @@ export function backupFilename(now = new Date()): string {
   const yyyy = now.getFullYear();
   const mm = String(now.getMonth() + 1).padStart(2, '0');
   const dd = String(now.getDate()).padStart(2, '0');
-  return `rrradio-favorites-${yyyy}-${mm}-${dd}.json`;
+  return `rrradio-backup-${yyyy}-${mm}-${dd}.json`;
 }
 
 /** Parse a backup file. Throws BackupParseError on any structural
@@ -101,15 +127,42 @@ export function parseBackup(text: string): BackupSnapshot {
   }
   const favorites = sanitizeStations(obj.favorites);
   const custom = sanitizeStations(obj.custom);
-  // `lists` arrived in v2; a v1 file simply has none.
+  // `lists` arrived in v2; `recents` + `settings` in v3. Older files
+  // simply yield empty values for the fields they predate.
   const lists = sanitizeLists(obj.lists);
+  const recents = sanitizeStations(obj.recents);
+  const settings = sanitizeSettings(obj.settings);
   return {
     version,
     exportedAt: typeof obj.exportedAt === 'string' ? obj.exportedAt : '',
     favorites,
     custom,
     lists,
+    recents,
+    settings,
   };
+}
+
+/** Whitelist the known settings keys + validate each type, so an
+ *  imported file can never inject an unexpected or malformed setting.
+ *  Anything off-list or wrong-typed is silently dropped. */
+function sanitizeSettings(raw: unknown): BackupSettings {
+  if (typeof raw !== 'object' || raw === null) return {};
+  const r = raw as Record<string, unknown>;
+  const out: BackupSettings = {};
+  if (r.theme === 'light' || r.theme === 'dark') out.theme = r.theme;
+  if (typeof r.landing === 'string') out.landing = r.landing;
+  if (typeof r.sidebarCollapsed === 'boolean') out.sidebarCollapsed = r.sidebarCollapsed;
+  if (typeof r.browseCollapsed === 'boolean') out.browseCollapsed = r.browseCollapsed;
+  if (typeof r.musicServices === 'object' && r.musicServices !== null) {
+    const ms = r.musicServices as Record<string, unknown>;
+    const picked: { apple?: boolean; spotify?: boolean; youtube?: boolean } = {};
+    if (typeof ms.apple === 'boolean') picked.apple = ms.apple;
+    if (typeof ms.spotify === 'boolean') picked.spotify = ms.spotify;
+    if (typeof ms.youtube === 'boolean') picked.youtube = ms.youtube;
+    if (Object.keys(picked).length > 0) out.musicServices = picked;
+  }
+  return out;
 }
 
 /** Drop entries that don't look like a Station — same shape-check the
@@ -159,11 +212,13 @@ export function mergeSnapshot(
   existingFavorites: Station[],
   existingCustom: Station[],
   existingLists: StationList[],
+  existingRecents: Station[],
   incoming: BackupSnapshot,
 ): ImportSummary {
   const fav = mergeById(existingFavorites, incoming.favorites);
   const cus = mergeById(existingCustom, incoming.custom);
   const lst = mergeLists(existingLists, incoming.lists);
+  const rec = mergeById(existingRecents, incoming.recents);
   return {
     favoritesAdded: fav.added,
     favoritesAlreadyHad: fav.alreadyHad,
@@ -171,9 +226,16 @@ export function mergeSnapshot(
     customAlreadyHad: cus.alreadyHad,
     listsAdded: lst.added,
     listsAlreadyHad: lst.alreadyHad,
+    recentsAdded: rec.added,
+    recentsAlreadyHad: rec.alreadyHad,
+    // Settings are singular values: a restore overwrites whatever keys the
+    // file carries (sanitized), leaving keys it omits untouched.
+    settingsApplied: Object.keys(incoming.settings).length,
     mergedFavorites: fav.merged,
     mergedCustom: cus.merged,
     mergedLists: lst.merged,
+    mergedRecents: rec.merged,
+    mergedSettings: incoming.settings,
   };
 }
 
@@ -228,7 +290,10 @@ export function summaryMessage(s: ImportSummary): string {
   if (s.customAdded > 0)
     parts.push(`${s.customAdded} custom station${s.customAdded === 1 ? '' : 's'}`);
   if (s.listsAdded > 0) parts.push(`${s.listsAdded} list${s.listsAdded === 1 ? '' : 's'}`);
-  const alreadyHad = s.favoritesAlreadyHad + s.customAlreadyHad + s.listsAlreadyHad;
+  if (s.recentsAdded > 0) parts.push(`${s.recentsAdded} recent${s.recentsAdded === 1 ? '' : 's'}`);
+  if (s.settingsApplied > 0) parts.push('settings');
+  const alreadyHad =
+    s.favoritesAlreadyHad + s.customAlreadyHad + s.listsAlreadyHad + s.recentsAlreadyHad;
   if (parts.length === 0) {
     return alreadyHad > 0
       ? `Already had everything in that backup (${alreadyHad} item${alreadyHad === 1 ? '' : 's'}).`
