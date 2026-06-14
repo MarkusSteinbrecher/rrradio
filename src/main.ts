@@ -60,6 +60,18 @@ import {
   serializeBackup,
   summaryMessage,
 } from './backup';
+import {
+  type StationList,
+  addToList,
+  createList,
+  deleteList,
+  getList,
+  getLists,
+  listContains,
+  renameList,
+  setLists,
+  toggleInList,
+} from './lists';
 import { STATS_WORKER_BASE } from './config';
 import { countryName } from './country';
 import {
@@ -95,12 +107,19 @@ import {
 } from './render-np';
 import { faviconClass, stationInitials } from './station-display';
 import {
+  ICON_BACK,
+  ICON_CHECK,
+  ICON_CHEVRON_RIGHT,
   ICON_EMPTY,
   ICON_FAV,
   ICON_GRIP,
   ICON_HEART_FILL,
   ICON_HEART_LINE_CLASSED,
+  ICON_LIST,
+  ICON_LIST_ADD,
+  ICON_PENCIL,
   ICON_RECENT,
+  ICON_TRASH,
   STAR_SVG,
 } from './icons';
 import { bootstrapTheme, applyTheme, readStoredTheme } from './theme';
@@ -114,7 +133,7 @@ import type { NowPlaying, Station, WakeTo } from './types';
 
 const SLEEP_CYCLE_MIN = [0, 15, 30, 60];
 
-type Tab = 'browse' | 'fav' | 'recent' | 'playing';
+type Tab = 'browse' | 'fav' | 'recent' | 'lists' | 'playing';
 type ListTab = Exclude<Tab, 'playing'>;
 
 // ─────────────────────────────────────────────────────────────
@@ -302,6 +321,12 @@ const $addForm = document.getElementById('add-form') as HTMLFormElement;
 const $addError = document.getElementById('add-error') as HTMLElement;
 const $customList = document.getElementById('custom-list') as HTMLElement;
 
+const $listSheet = document.getElementById('list-sheet') as HTMLElement;
+const $listCancel = document.getElementById('list-cancel') as HTMLButtonElement;
+const $listSheetTitle = document.getElementById('list-sheet-title') as HTMLElement;
+const $listPicker = document.getElementById('list-picker') as HTMLElement;
+const $listNewBtn = document.getElementById('list-new-btn') as HTMLButtonElement;
+
 const $aboutSheet = document.getElementById('about-sheet') as HTMLElement;
 const $aboutClose = document.getElementById('about-close') as HTMLButtonElement;
 
@@ -346,10 +371,17 @@ let activeTab: Tab = 'browse';
 let lastListTab: ListTab = 'browse';
 /** Which section the unified Library tab is showing. Persisted so the
  *  user's last choice is remembered across reloads. */
-type LibrarySection = 'fav' | 'recent';
+type LibrarySection = 'fav' | 'recent' | 'lists';
 const LIBRARY_KEY = 'rrradio.library-section';
-let librarySection: LibrarySection =
-  getString(LIBRARY_KEY) === 'recent' ? 'recent' : 'fav';
+function readLibrarySection(): LibrarySection {
+  const v = getString(LIBRARY_KEY);
+  return v === 'recent' || v === 'lists' ? v : 'fav';
+}
+let librarySection: LibrarySection = readLibrarySection();
+// Which list is open in the Lists detail view (null = the lists index).
+let openListId: string | null = null;
+// Station the "Add to list" sheet currently targets.
+let addToListStation: Station | null = null;
 let activeTag = 'all';
 // ISO 3166-1 alpha-2 country code (uppercase) or 'all'. Filters both
 // curated matches and Radio Browser results (the API takes the same
@@ -531,6 +563,16 @@ function buildHeart(isFav: boolean): HTMLButtonElement {
   return btn;
 }
 
+function buildAddListBtn(): HTMLButtonElement {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'row-addlist';
+  btn.setAttribute('aria-label', 'Add to list');
+  btn.title = 'Add to a list';
+  btn.innerHTML = ICON_LIST_ADD;
+  return btn;
+}
+
 /** ISO 3166-1 alpha-2 → flag emoji via regional indicator code points.
  *  Renders as a real flag on Apple / Linux; Windows shows the two-letter
  *  code (Windows ships no flag font for political reasons). Returns
@@ -633,12 +675,17 @@ function buildRow(station: Station, currentId: string, state: NowPlaying['state'
   const right = document.createElement('div');
   right.className = 'row-right';
   const eq = buildEq(isPaused);
+  const addList = buildAddListBtn();
+  addList.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openListSheet(station);
+  });
   const heart = buildHeart(isFav);
   heart.addEventListener('click', (e) => {
     e.stopPropagation();
     onToggleFav(station);
   });
-  right.append(eq, heart);
+  right.append(eq, addList, heart);
 
   row.append(fav, info, right);
 
@@ -742,7 +789,9 @@ function renderTopBar(): void {
       ? 'Search your favorites…'
       : activeTab === 'recent'
         ? 'Search recently played…'
-        : 'Search stations, genres, places…';
+        : activeTab === 'lists'
+          ? 'Search lists…'
+          : 'Search stations, genres, places…';
   // tab-status used to repeat the section name + count under the
   // search bar on Library views, but the segmented control + the
   // section label below already say it. Always hidden now; kept in
@@ -771,8 +820,7 @@ function renderTabBar(): void {
     const t = btn.dataset.tab;
     // Library is the UI label for either fav or recent — it stays
     // active across both sub-sections so the bottom nav doesn't blink.
-    const isActive =
-      t === activeTab || (t === 'library' && (activeTab === 'fav' || activeTab === 'recent'));
+    const isActive = t === activeTab || (t === 'library' && isLibraryTab(activeTab));
     btn.classList.toggle('active', isActive);
   });
 }
@@ -814,7 +862,7 @@ function sectionLabel(
  *  Lives in the sticky topbar so it stays visible regardless of how
  *  far the list has scrolled; populated/hidden via syncLibrarySegmented. */
 function syncLibrarySegmented(): void {
-  const visible = activeTab === 'fav' || activeTab === 'recent';
+  const visible = isLibraryTab(activeTab);
   $topbarLibSeg.hidden = !visible;
   if (!visible) return;
   if ($topbarLibSeg.childElementCount === 0) {
@@ -822,20 +870,29 @@ function syncLibrarySegmented(): void {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'lib-seg__btn';
+      btn.dataset.seg = key;
       btn.textContent = label;
       btn.addEventListener('click', () => {
         if (activeTab !== key) setTab(key);
       });
       return btn;
     };
-    $topbarLibSeg.append(make('fav', 'Favorites'), make('recent', 'Recents'));
+    $topbarLibSeg.append(
+      make('fav', 'Favorites'),
+      make('recent', 'Recents'),
+      make('lists', 'Lists'),
+    );
   }
   for (const btn of $topbarLibSeg.querySelectorAll<HTMLButtonElement>('.lib-seg__btn')) {
-    const key = btn.textContent === 'Favorites' ? 'fav' : 'recent';
-    const isActive = activeTab === key;
+    const isActive = activeTab === btn.dataset.seg;
     btn.classList.toggle('is-active', isActive);
     btn.setAttribute('aria-pressed', String(isActive));
   }
+}
+
+/** The three sub-tabs grouped under the "Library/Favorites" nav button. */
+function isLibraryTab(tab: Tab): tab is LibrarySection {
+  return tab === 'fav' || tab === 'recent' || tab === 'lists';
 }
 
 // Played-stations data sources. Two fetches feed the Browse home view:
@@ -2027,6 +2084,11 @@ function renderContent(): void {
 
   const query = $search.value.trim();
 
+  if (activeTab === 'lists') {
+    renderListsView(query);
+    return;
+  }
+
   if (activeTab === 'fav') {
     const all = getFavorites();
     const list = filterStations(all, query);
@@ -2069,6 +2131,225 @@ function renderContent(): void {
     } else {
       $content.append(renderRows(list));
     }
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+// Render — Lists (named station lists, gh #520)
+// ─────────────────────────────────────────────────────────────
+
+/** Small icon button for a section-label action slot (new/rename/delete). */
+function listActionBtn(icon: string, label: string, onClick: () => void): HTMLButtonElement {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'section-label__action';
+  btn.setAttribute('aria-label', label);
+  btn.title = label;
+  btn.innerHTML = icon;
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    onClick();
+  });
+  return btn;
+}
+
+function renderListsView(query: string): void {
+  // Detail view — a specific list is open.
+  if (openListId) {
+    const list = getList(openListId);
+    if (list) {
+      renderListDetail(list, query);
+      return;
+    }
+    // The open list was deleted out from under us — fall back to the index.
+    openListId = null;
+  }
+  renderListsIndex(query);
+}
+
+function renderListsIndex(query: string): void {
+  const all = getLists();
+  const q = query.toLowerCase();
+  const lists = q ? all.filter((l) => l.name.toLowerCase().includes(q)) : all;
+  const newBtn = listActionBtn(ICON_LIST_ADD, 'New list', promptNewList);
+  $content.append(sectionLabel(query ? 'Lists' : 'Your lists', lists.length, [newBtn]));
+
+  if (all.length === 0) {
+    $content.append(
+      emptyState(
+        ICON_LIST,
+        'No lists yet',
+        'Group stations into a list — tap the list icon on any station, or use New list.',
+      ),
+    );
+    return;
+  }
+  if (lists.length === 0) {
+    $content.append(emptyState(ICON_EMPTY, 'No matches', 'No list name matches that search'));
+    return;
+  }
+
+  const wrap = document.createElement('div');
+  wrap.className = 'lists-index';
+  for (const l of lists) wrap.append(buildListIndexRow(l));
+  $content.append(wrap);
+}
+
+function buildListIndexRow(list: StationList): HTMLElement {
+  const row = document.createElement('div');
+  row.className = 'list-item';
+  row.setAttribute('role', 'button');
+  row.tabIndex = 0;
+  row.dataset.listId = list.id;
+
+  const icon = document.createElement('div');
+  icon.className = 'list-item__icon';
+  icon.innerHTML = ICON_LIST;
+
+  const info = document.createElement('div');
+  info.className = 'list-item__info';
+  const name = document.createElement('div');
+  name.className = 'list-item__name';
+  name.textContent = list.name;
+  const sub = document.createElement('div');
+  sub.className = 'list-item__sub';
+  sub.textContent = `${list.stations.length} station${list.stations.length === 1 ? '' : 's'}`;
+  info.append(name, sub);
+
+  const del = listActionBtn(ICON_TRASH, `Delete ${list.name}`, () => confirmDeleteList(list, false));
+  del.classList.add('list-item__del');
+
+  const chev = document.createElement('div');
+  chev.className = 'list-item__chev';
+  chev.innerHTML = ICON_CHEVRON_RIGHT;
+
+  row.append(icon, info, del, chev);
+  const open = () => {
+    openListId = list.id;
+    renderContent();
+    $content.scrollTo({ top: 0 });
+  };
+  row.addEventListener('click', open);
+  row.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      open();
+    }
+  });
+  return row;
+}
+
+function renderListDetail(list: StationList, query: string): void {
+  const back = listActionBtn(ICON_BACK, 'Back to lists', () => {
+    openListId = null;
+    renderContent();
+  });
+  back.classList.add('section-label__back');
+  const rename = listActionBtn(ICON_PENCIL, 'Rename list', () => {
+    const name = window.prompt('Rename list', list.name);
+    if (name == null) return;
+    renameList(list.id, name);
+    track('list-rename');
+    renderContent();
+  });
+  const del = listActionBtn(ICON_TRASH, 'Delete list', () => confirmDeleteList(list, true));
+
+  const stations = query ? filterStations(list.stations, query) : list.stations;
+  const label = sectionLabel(list.name, stations.length, [rename, del]);
+  label.classList.add('section-label--list-detail');
+  label.prepend(back);
+  $content.append(label);
+
+  if (list.stations.length === 0) {
+    $content.append(
+      emptyState(
+        ICON_LIST,
+        'This list is empty',
+        'Add stations with the list icon on any station row.',
+      ),
+    );
+    return;
+  }
+  if (stations.length === 0) {
+    $content.append(emptyState(ICON_EMPTY, 'No matches', 'Nothing in this list matches that search'));
+    return;
+  }
+  $content.append(renderRows(stations));
+}
+
+function confirmDeleteList(list: StationList, fromDetail: boolean): void {
+  if (!window.confirm(`Delete the list "${list.name}"? This can't be undone.`)) return;
+  deleteList(list.id);
+  track('list-delete');
+  if (fromDetail) openListId = null;
+  renderContent();
+}
+
+function promptNewList(): void {
+  const name = window.prompt('Name your new list');
+  if (name == null) return; // cancelled
+  const list = createList(name);
+  track('list-create');
+  openListId = list.id;
+  renderContent();
+}
+
+// ── Add-to-list sheet ────────────────────────────────────────────────
+
+function openListSheet(station: Station): void {
+  addToListStation = station;
+  renderListPicker();
+  $listSheet.classList.add('open');
+  $listSheet.setAttribute('aria-hidden', 'false');
+}
+
+function closeListSheet(): void {
+  $listSheet.classList.remove('open');
+  $listSheet.setAttribute('aria-hidden', 'true');
+  addToListStation = null;
+}
+
+function renderListPicker(): void {
+  const station = addToListStation;
+  $listPicker.replaceChildren();
+  if (!station) return;
+  $listSheetTitle.textContent = `Add ${station.name} to…`;
+  const lists = getLists();
+  if (lists.length === 0) {
+    const empty = document.createElement('li');
+    empty.className = 'list-picker__empty';
+    empty.textContent = 'No lists yet — create one below.';
+    $listPicker.append(empty);
+    return;
+  }
+  for (const l of lists) {
+    const li = document.createElement('li');
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'list-picker__btn';
+    const inIt = listContains(l.id, station.id);
+    btn.classList.toggle('is-in', inIt);
+    btn.setAttribute('aria-pressed', String(inIt));
+
+    const check = document.createElement('span');
+    check.className = 'list-picker__check';
+    check.innerHTML = ICON_CHECK;
+    const name = document.createElement('span');
+    name.className = 'list-picker__name';
+    name.textContent = l.name;
+    const count = document.createElement('span');
+    count.className = 'list-picker__count';
+    count.textContent = String(l.stations.length);
+
+    btn.append(check, name, count);
+    btn.addEventListener('click', () => {
+      const nowIn = toggleInList(l.id, station);
+      track(nowIn ? 'list-add' : 'list-remove');
+      renderListPicker();
+      if (activeTab === 'lists') renderContent();
+    });
+    li.append(btn);
+    $listPicker.append(li);
   }
 }
 
@@ -2385,11 +2666,11 @@ function setTab(tab: Tab): void {
   if (tab === 'playing' && !currentNP.station.id) return;
 
   // Track the last list tab so closing Now Playing returns there.
-  if (tab !== 'playing' && (tab === 'browse' || tab === 'fav' || tab === 'recent')) {
+  if (tab !== 'playing') {
     lastListTab = tab;
   }
   // Library section follows whichever sub-tab is active.
-  if (tab === 'fav' || tab === 'recent') {
+  if (isLibraryTab(tab)) {
     librarySection = tab;
     setString(LIBRARY_KEY, tab);
   }
@@ -3488,6 +3769,23 @@ $wordmark.addEventListener('click', goHome);
 $addCancel.addEventListener('click', () => openAddSheet(false));
 $addForm.addEventListener('submit', handleAddSubmit);
 
+$listCancel.addEventListener('click', () => closeListSheet());
+$listNewBtn.addEventListener('click', () => {
+  const name = window.prompt('Name your new list');
+  if (name == null) return;
+  const list = createList(name);
+  track('list-create');
+  if (addToListStation) {
+    addToList(list.id, addToListStation);
+    track('list-add');
+  }
+  renderListPicker();
+  if (activeTab === 'lists') renderContent();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && $listSheet.classList.contains('open')) closeListSheet();
+});
+
 $aboutClose.addEventListener('click', () => openAboutSheet(false));
 
 // ─── Top-toolbar sheets: filters (funnel) + settings (gear) ───
@@ -3643,7 +3941,8 @@ function showBackupToast(text: string, tone: 'ok' | 'err'): void {
 function exportBackupNow(): void {
   const favs = getFavorites();
   const cus = getCustom();
-  const text = serializeBackup(favs, cus);
+  const lists = getLists();
+  const text = serializeBackup(favs, cus, lists);
   // Blob URL + temporary anchor for the download. Works on desktop;
   // iOS Safari opens inline (Save to Files is two taps from there).
   const blob = new Blob([text], { type: 'application/json' });
@@ -3655,13 +3954,18 @@ function exportBackupNow(): void {
   a.click();
   document.body.removeChild(a);
   setTimeout(() => URL.revokeObjectURL(url), 1000);
-  showBackupToast(
-    `Exported ${favs.length} favorite${favs.length === 1 ? '' : 's'}` +
-      (cus.length > 0 ? ` and ${cus.length} custom station${cus.length === 1 ? '' : 's'}` : '') +
-      '.',
-    'ok',
-  );
-  track('backup-export', `favs=${favs.length} custom=${cus.length}`);
+  const exportParts = [`${favs.length} favorite${favs.length === 1 ? '' : 's'}`];
+  if (cus.length > 0) exportParts.push(`${cus.length} custom station${cus.length === 1 ? '' : 's'}`);
+  if (lists.length > 0) exportParts.push(`${lists.length} list${lists.length === 1 ? '' : 's'}`);
+  showBackupToast(`Exported ${joinNatural(exportParts)}.`, 'ok');
+  track('backup-export', `favs=${favs.length} custom=${cus.length} lists=${lists.length}`);
+}
+
+/** "a", "a and b", "a, b and c" — matches backup.ts's joinParts wording. */
+function joinNatural(parts: string[]): string {
+  if (parts.length <= 1) return parts.join('');
+  if (parts.length === 2) return `${parts[0]} and ${parts[1]}`;
+  return `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`;
 }
 
 function importBackupFromFile(file: File): void {
@@ -3671,16 +3975,18 @@ function importBackupFromFile(file: File): void {
     try {
       const text = String(reader.result ?? '');
       const snap = parseBackup(text);
-      const summary = mergeSnapshot(getFavorites(), getCustom(), snap);
+      const summary = mergeSnapshot(getFavorites(), getCustom(), getLists(), snap);
       setFavorites(summary.mergedFavorites);
       setCustom(summary.mergedCustom);
+      setLists(summary.mergedLists);
       showBackupToast(summaryMessage(summary), 'ok');
       track(
         'backup-import',
-        `favsAdded=${summary.favoritesAdded} customAdded=${summary.customAdded}`,
+        `favsAdded=${summary.favoritesAdded} customAdded=${summary.customAdded} listsAdded=${summary.listsAdded}`,
       );
       void runQuery();
       renderCustomList();
+      if (activeTab === 'lists') renderContent();
     } catch (err) {
       const msg =
         err instanceof BackupParseError

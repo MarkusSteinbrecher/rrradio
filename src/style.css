@@ -159,24 +159,38 @@ html.theme-switching *::after {
   }
 }
 
-/* ─── Sidebar (desktop rail / mobile top strip) + main column ───
-   On phones .sidebar is the horizontal top strip (wordmark + actions);
-   the Browse/Library nav lives in the bottom tab bar. At the desktop
-   breakpoint it becomes the vertical left rail and the nav surfaces. */
-.sidebar {
+/* ─── Top nav (full-width: logo + search + actions) ───
+   Mirrors the iOS TopBrandRow: the wordmark lives here (left), the
+   search/funnel/gear toolbar fills the rest, and a 1px rule underneath
+   separates it from the page. Spans the full width above the body row. */
+.topnav {
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  padding: calc(var(--safe-top) + 14px) 20px 14px;
+  gap: 12px;
+  padding: calc(var(--safe-top) + 12px) 16px 10px;
   background: var(--bg);
+  border-bottom: 1px solid var(--line);
 }
+.topnav .toolbar { flex: 1; min-width: 0; }
+
+/* ─── Body row: nav rail + main content, below the top nav. ─── */
+.app-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* The left nav rail surfaces only at the desktop breakpoint; on phones
+   the bottom tab bar carries Browse/Favorites/Lists, so the rail hides. */
+.sidebar { display: none; }
 .sidebar-nav { display: none; }
 
 .main {
   flex: 1;
   min-height: 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
 }
@@ -188,8 +202,11 @@ html.theme-switching *::after {
 /* The sidebar strip above now carries the safe-area top inset (mobile),
    so the search/filter bar starts flush under it — the 14px gap to the
    strip comes from the sidebar's own bottom padding. */
+/* The search/actions toolbar moved up into .topnav; the topbar now only
+   carries per-tab chrome (the library segmented control). It stays out
+   of the way — no vertical padding — when that chrome is hidden. */
 .topbar {
-  padding: 0 20px 14px;
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -773,7 +790,7 @@ a.settings-row { text-decoration: none; }
 }
 /* Topbar variant — stays in the sticky chrome above the scroll area
    so the section selector is always reachable regardless of scroll. */
-.topbar-lib-seg { margin: 0; }
+.topbar-lib-seg { margin: 12px 0 2px; }
 .topbar-lib-seg[hidden] { display: none; }
 .lib-seg__btn {
   flex: 1;
@@ -987,6 +1004,131 @@ a.settings-row { text-decoration: none; }
 .heart.is-fav .heart--line { display: none; }
 .heart.is-fav .heart--fill { display: block; }
 .heart:active { transform: scale(0.85); }
+
+/* Add-to-list button — sits left of the heart in each row's right cluster. */
+.row-addlist {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  color: var(--ink-3);
+  border-radius: 0;
+  transition: color 0.15s, transform 0.15s;
+}
+.row-addlist svg { width: 16px; height: 16px; display: block; }
+.row-addlist:hover { color: var(--ink); }
+.row-addlist:active { transform: scale(0.85); }
+
+/* ── Named lists (gh #520) ── */
+/* Lists index — one tappable card per list. */
+.lists-index {
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px 12px;
+}
+.list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 4px;
+  border-top: 1px solid var(--line);
+  cursor: pointer;
+}
+.list-item:first-child { border-top: 0; }
+.list-item:hover { background: var(--bg-2); }
+.list-item__icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--bg-2);
+  color: var(--ink-2);
+}
+.list-item__icon svg { width: 20px; height: 20px; }
+.list-item__info { flex: 1; min-width: 0; }
+.list-item__name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.list-item__sub {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  margin-top: 2px;
+}
+.list-item__del { flex-shrink: 0; }
+.list-item__del:hover { color: #ff8b6b; }
+.list-item__chev {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  color: var(--ink-3);
+}
+.list-item__chev svg { width: 18px; height: 18px; }
+.section-label__back { margin-right: 2px; }
+
+/* Add-to-list sheet picker. */
+.list-picker {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.list-picker__empty {
+  color: var(--ink-3);
+  font-size: 13px;
+  padding: 10px 2px;
+}
+.list-picker__btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 6px;
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--line);
+  color: var(--ink-2);
+  font-size: 15px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.list-picker li:first-child .list-picker__btn { border-top: 0; }
+.list-picker__btn:hover { background: var(--bg-2); }
+.list-picker__check {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  opacity: 0;
+}
+.list-picker__btn.is-in .list-picker__check { opacity: 1; }
+.list-picker__btn.is-in .list-picker__name { color: var(--ink); font-weight: 600; }
+.list-picker__check svg { width: 18px; height: 18px; }
+.list-picker__name {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.list-picker__count {
+  flex-shrink: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-3);
+}
 
 /* ─── Drag-to-reorder (favorites only) ──────────────────────────
    Grip handle on the right edge of each fav row. Pointer-events
@@ -3217,24 +3359,27 @@ body.is-wake-edit .np-pane-tabs { display: none; }
 /* ─── Desktop three-pane shell ─── */
 @media (min-width: 1024px) {
   .app {
-    flex-direction: row;
     max-width: none;
     margin: 0;
     border-left: 0;
     border-right: 0;
   }
+  /* The body row (rail + content) goes horizontal; the top nav stays
+     full-width above it. */
+  .app-body { flex-direction: row; }
 
-  /* Left rail: wordmark (top), nav (middle), actions pinned to bottom. */
+  /* Left rail: collapse toggle (top) + nav. The wordmark now lives in
+     the full-width top nav, not here. */
   .sidebar {
+    display: flex;
     flex: 0 0 236px;
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
-    gap: 22px;
-    padding: 22px 16px;
+    gap: 14px;
+    padding: 18px 16px;
     border-right: 1px solid var(--line);
   }
-  .sidebar .wordmark { padding-left: 8px; }
   .sidebar-nav {
     display: flex;
     flex-direction: column;
@@ -3270,7 +3415,11 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   }
 
   .main { flex: 1; min-width: 0; }
-  .topbar { padding: 18px 24px 14px; }
+  /* No vertical padding: the toolbar moved to the full-width top nav, so
+     an empty topbar must not push the stage down (which would leave the
+     NP pane's left divider starting below the top-nav rule). The library
+     segmented control supplies its own spacing when it's visible. */
+  .topbar { padding: 0 24px; }
 
   /* Centre list + docked Now Playing, side by side. */
   .stage {
@@ -3342,10 +3491,9 @@ body.is-wake-edit .np-pane-tabs { display: none; }
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
     width: 28px;
     height: 28px;
-    margin-top: 4px;
-    align-self: flex-start;
     border: 1px solid var(--line);
     border-radius: 50%;
     color: var(--ink-3);
@@ -3353,9 +3501,9 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   }
   .sidebar-collapse:hover { color: var(--ink); border-color: var(--line-2); }
   .sidebar-collapse svg { width: 16px; height: 16px; transition: transform 0.2s; }
-  body.sidebar-collapsed .sidebar-collapse { align-self: center; }
-  body.sidebar-collapsed .sidebar { flex-basis: 64px; }
-  body.sidebar-collapsed .sidebar .wordmark-logo { width: 28px; height: 28px; }
+  /* Collapsed rail (64px): icon-only nav, chevron centred. */
+  body.sidebar-collapsed .sidebar { flex-basis: 64px; align-items: center; }
+  body.sidebar-collapsed .sidebar-nav { align-self: stretch; }
   body.sidebar-collapsed .sidebar-nav .tab-btn { justify-content: center; padding: 10px 0; }
   body.sidebar-collapsed .sidebar-nav .tab-btn span { display: none; }
   body.sidebar-collapsed .topbar-actions { justify-content: center; }

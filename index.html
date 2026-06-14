@@ -203,29 +203,12 @@
       <!-- /#seo:recently-added -->
     </aside>
     <div class="app">
-      <!-- ====== SIDEBAR — desktop rail / mobile top strip ====== -->
-      <div class="sidebar">
+      <!-- ====== TOP NAV — full-width: logo + search + actions (mirrors iOS TopBrandRow) ====== -->
+      <header class="topnav">
         <button type="button" class="wordmark" id="wordmark" data-action="home" aria-label="Go to home">
-            <img class="wordmark-logo wordmark-logo--dark" src="/rrradio-logo-app-dark.svg" alt="" aria-hidden="true" />
-            <img class="wordmark-logo wordmark-logo--light" src="/rrradio-logo-app-light.svg" alt="" aria-hidden="true" />
+          <img class="wordmark-logo wordmark-logo--dark" src="/rrradio-logo-app-dark.svg" alt="" aria-hidden="true" />
+          <img class="wordmark-logo wordmark-logo--light" src="/rrradio-logo-app-light.svg" alt="" aria-hidden="true" />
         </button>
-        <div class="sidebar-nav">
-          <button type="button" class="tab-btn" data-tab="browse">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>
-            <span>Browse</span>
-          </button>
-          <button type="button" class="tab-btn" data-tab="library">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
-            <span>Library</span>
-          </button>
-        </div>
-        <button type="button" class="sidebar-collapse" id="sidebar-collapse" aria-label="Collapse sidebar" aria-expanded="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
-        </button>
-      </div>
-
-      <div class="main">
-      <header class="topbar">
         <div class="toolbar">
         <div class="search-wrap" id="search-wrap">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
@@ -249,6 +232,28 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
           </button>
         </div>
+      </header>
+
+      <div class="app-body">
+      <!-- ====== SIDEBAR rail — desktop nav (Browse / Favorites / Lists) ====== -->
+      <nav class="sidebar" aria-label="Sections">
+        <button type="button" class="sidebar-collapse" id="sidebar-collapse" aria-label="Collapse sidebar" aria-expanded="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <div class="sidebar-nav">
+          <button type="button" class="tab-btn" data-tab="browse">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>
+            <span>Browse</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="library">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
+            <span>Favorites</span>
+          </button>
+        </div>
+      </nav>
+
+      <div class="main">
+      <header class="topbar">
 
         <div class="filter-row" id="filter-row" hidden>
           <div class="filter-cell">
@@ -493,6 +498,7 @@
         </section>
       </div>
       </div>
+      </div>
 
       <!-- ============== MINI PLAYER ============== -->
       <button class="mini" id="mini" type="button" hidden aria-label="Open now playing">
@@ -523,7 +529,7 @@
         </button>
         <button type="button" class="tab-btn" data-tab="library" id="tab-library">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
-          Library
+          Favorites
         </button>
       </nav>
 
@@ -575,6 +581,24 @@
             <span>Your stations</span>
           </div>
           <ul class="custom-list" id="custom-list"></ul>
+        </div>
+      </section>
+
+      <!-- ============== ADD TO LIST (slide-up sheet) ============== -->
+      <section class="sheet" id="list-sheet" aria-label="Add to list" aria-hidden="true">
+        <header class="sheet-head">
+          <div class="np-label">Add to list</div>
+          <button type="button" class="icon-btn" id="list-cancel" aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </header>
+        <div class="sheet-body">
+          <h2 class="sheet-title" id="list-sheet-title">Add to list</h2>
+          <p class="sheet-lede">Pick a list, or create a new one — saved locally to this device</p>
+          <ul class="list-picker" id="list-picker"></ul>
+          <div class="sheet-actions">
+            <button type="button" class="btn-primary" id="list-new-btn">New list…</button>
+          </div>
         </div>
       </section>
 
