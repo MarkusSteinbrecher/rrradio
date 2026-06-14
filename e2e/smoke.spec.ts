@@ -56,24 +56,24 @@ test.describe('cold-boot UI', () => {
     await expect(wordmark).toHaveAttribute('aria-label', /home/i);
   });
 
-  test('about sheet opens and closes', async ({ page }) => {
+  test('about tab opens within the settings sheet and closes', async ({ page }) => {
     await page.goto('/');
-    // About is reached through the consolidated settings gear now.
+    // About is a tab of the consolidated settings sheet now.
     await page.locator('#settings-btn').click();
-    await page.locator('#settings-about').click();
-    const sheet = page.locator('#about-sheet');
+    const sheet = page.locator('#settings-sheet');
     await expect(sheet).toHaveClass(/open/);
+    await page.locator('.sheet-tab[data-settings-tab="about"]').click();
     await expect(page.locator('.about-title')).toBeVisible();
-    await page.locator('#about-close').click();
+    await page.locator('#settings-close').click();
     await expect(sheet).not.toHaveClass(/open/);
   });
 
-  test('add-station sheet rejects http:// stream URLs (audit #71)', async ({ page }) => {
+  test('add-station form rejects http:// stream URLs (audit #71)', async ({ page }) => {
     await page.goto('/');
+    // Add is a tab of the consolidated settings sheet now.
     await page.locator('#settings-btn').click();
-    await page.locator('#settings-add').click();
-    const sheet = page.locator('#add-sheet');
-    await expect(sheet).toHaveClass(/open/);
+    await page.locator('.sheet-tab[data-settings-tab="add"]').click();
+    await expect(page.locator('#settings-sheet')).toHaveClass(/open/);
 
     await page.locator('input[name="name"]').fill('Test FM');
     await page.locator('input[name="streamUrl"]').fill('http://example.com/stream');

@@ -281,8 +281,10 @@ const $npPaneProgram = document.getElementById('np-pane-program') as HTMLButtonE
 const $npPaneLyrics = document.getElementById('np-pane-lyrics') as HTMLButtonElement;
 const $npProgramPane = document.getElementById('np-program-pane') as HTMLElement;
 const $npProgramList = document.getElementById('np-program-list') as HTMLElement;
+const $npProgramEmpty = document.getElementById('np-program-empty') as HTMLElement;
 const $npLyricsPane = document.getElementById('np-lyrics-pane') as HTMLElement;
 const $npLyricsText = document.getElementById('np-lyrics-text') as HTMLElement;
+const $npLyricsEmpty = document.getElementById('np-lyrics-empty') as HTMLElement;
 const $npTrackRow = document.getElementById('np-track-row') as HTMLElement;
 const $npTrackTitle = document.getElementById('np-track-title') as HTMLElement;
 const $npTrackCover = document.getElementById('np-track-cover') as HTMLImageElement;
@@ -315,8 +317,6 @@ const $npMute = document.getElementById('np-mute') as HTMLButtonElement;
 const $npDetails = document.getElementById('np-details') as HTMLElement;
 const $npDetailsToggle = document.getElementById('np-details-toggle') as HTMLButtonElement;
 
-const $addSheet = document.getElementById('add-sheet') as HTMLElement;
-const $addCancel = document.getElementById('add-cancel') as HTMLButtonElement;
 const $addForm = document.getElementById('add-form') as HTMLFormElement;
 const $addError = document.getElementById('add-error') as HTMLElement;
 const $customList = document.getElementById('custom-list') as HTMLElement;
@@ -326,9 +326,6 @@ const $listCancel = document.getElementById('list-cancel') as HTMLButtonElement;
 const $listSheetTitle = document.getElementById('list-sheet-title') as HTMLElement;
 const $listPicker = document.getElementById('list-picker') as HTMLElement;
 const $listNewBtn = document.getElementById('list-new-btn') as HTMLButtonElement;
-
-const $aboutSheet = document.getElementById('about-sheet') as HTMLElement;
-const $aboutClose = document.getElementById('about-close') as HTMLButtonElement;
 
 const $dashboardSheet = document.getElementById('dashboard-sheet') as HTMLElement;
 
@@ -350,9 +347,9 @@ const $msSpotify = document.getElementById('ms-spotify') as HTMLButtonElement;
 const $msYoutube = document.getElementById('ms-youtube') as HTMLButtonElement;
 const $settingsBackup = document.getElementById('settings-backup') as HTMLButtonElement;
 const $settingsRestore = document.getElementById('settings-restore') as HTMLButtonElement;
-const $settingsAdd = document.getElementById('settings-add') as HTMLButtonElement;
 const $settingsStats = document.getElementById('settings-stats') as HTMLButtonElement;
-const $settingsAbout = document.getElementById('settings-about') as HTMLButtonElement;
+const $settingsTabs = document.getElementById('settings-tabs') as HTMLElement;
+const $settingsHistoryList = document.getElementById('settings-history-list') as HTMLElement;
 const $dashboardClose = document.getElementById('dashboard-close') as HTMLButtonElement;
 const $dashPlays = document.getElementById('dash-plays') as HTMLElement;
 const $dashVisits = document.getElementById('dash-visits') as HTMLElement;
@@ -1055,6 +1052,8 @@ async function loadSchedule(station: Station): Promise<void> {
   const found = findScheduleFetcher(station);
   if (!found) {
     syncNpTabs();
+    // Populate the schedule column's empty-state (wide 4-col layout).
+    renderProgramPane();
     return;
   }
   const ctrl = new AbortController();
@@ -1070,6 +1069,9 @@ async function loadSchedule(station: Station): Promise<void> {
       npSelectedDayIdx = Math.max(0, idx);
     }
     syncNpTabs();
+    // Render eagerly so the schedule column is populated in the wide
+    // 4-column layout without the user tapping the program tab.
+    renderProgramPane();
   } catch {
     /* silent — program panel just stays hidden */
   }
@@ -1092,7 +1094,9 @@ function loadLyrics(artist: string, track: string): void {
       if (ctrl.signal.aborted || key !== npLyricsKey) return;
       npLyrics = result;
       syncNpTabs();
-      if (npView === 'lyrics') renderLyricsPane();
+      // Render eagerly (not only when the lyrics tab is active) so the
+      // lyrics column populates in the wide 4-column layout.
+      renderLyricsPane();
     })
     .catch(() => {
       /* abort or network — silently leave the tab hidden */
@@ -1108,6 +1112,8 @@ function resetLyrics(): void {
   npLyricsKey = '';
   if (npView === 'lyrics') npView = 'now';
   syncNpTabs();
+  // Clear text + show the empty-state (wide 4-col lyrics column).
+  renderLyricsPane();
 }
 
 /** Synchronise the Now Playing tab pills + pane visibility with the
@@ -1145,20 +1151,16 @@ function syncNpTabs(): void {
 }
 
 function renderLyricsPane(): void {
-  if (!npLyrics) {
-    $npLyricsText.textContent = '';
-    return;
-  }
   // Plain text wins if both are present — synced is a UX nice-to-have
   // we can layer later (current-line highlight needs an estimate of
   // elapsed-since-track-started, which live radio doesn't give us).
-  if (npLyrics.plain) {
-    $npLyricsText.textContent = npLyrics.plain;
-  } else if (npLyrics.synced) {
-    $npLyricsText.textContent = npLyrics.synced.map((l) => l.text).join('\n');
-  } else {
-    $npLyricsText.textContent = '';
-  }
+  const text = npLyrics?.plain || npLyrics?.synced?.map((l) => l.text).join('\n') || '';
+  $npLyricsText.textContent = text;
+  // Empty-state line — only ever visible in the wide 4-column layout,
+  // where the lyrics column is shown even with nothing to display; in
+  // the narrow docked view the whole pane is hidden when there's no
+  // lyrics (the tab doesn't appear).
+  $npLyricsEmpty.hidden = text !== '';
 }
 
 function renderProgramPane(): void {
@@ -1168,8 +1170,13 @@ function renderProgramPane(): void {
     // here used to fight the tab-state and cause the same cover-bleed
     // bug we hit on the lyrics pane (gh #84).
     $npProgramList.replaceChildren();
+    // Empty-state line — only ever visible in the wide 4-column layout
+    // (the narrow docked view hides the whole pane when there's no
+    // schedule, since the program tab doesn't appear).
+    $npProgramEmpty.hidden = false;
     return;
   }
+  $npProgramEmpty.hidden = true;
   // Today's broadcasts only — broadcaster APIs we hit only return
   // today + past, so a multi-day picker is dead weight.
   $npProgramList.replaceChildren();
@@ -2728,10 +2735,10 @@ desktopMq.addEventListener('change', syncLayoutMode);
 // the user hasn't picked an explicit theme.
 bootstrapTheme();
 
-function openAboutSheet(open: boolean): void {
-  $aboutSheet.classList.toggle('open', open);
-  $aboutSheet.setAttribute('aria-hidden', String(!open));
-}
+// About + Add are now tabs of the unified Settings sheet, not their own
+// slide-up sheets. About is reachable only via the tab strip; Add keeps a
+// programmatic opener (openAddSheet) for the post-submit close + any future
+// "add station" affordance.
 
 // ─────────────────────────────────────────────────────────────
 // Dashboard sheet
@@ -3084,9 +3091,9 @@ async function openDashboardSheet(open: boolean): Promise<void> {
 }
 
 function openAddSheet(open: boolean): void {
-  $addSheet.classList.toggle('open', open);
-  $addSheet.setAttribute('aria-hidden', String(!open));
   if (open) {
+    openSettingsSheet(true);
+    selectSettingsTab('add');
     renderCustomList();
     $addError.hidden = true;
     // Focus the first field when opening
@@ -3094,6 +3101,8 @@ function openAddSheet(open: boolean): void {
       const first = $addForm.querySelector<HTMLInputElement>('input[name="name"]');
       first?.focus();
     }, 280);
+  } else {
+    openSettingsSheet(false);
   }
 }
 
@@ -3766,7 +3775,6 @@ $searchClear.addEventListener('click', () => {
 
 $wordmark.addEventListener('click', goHome);
 
-$addCancel.addEventListener('click', () => openAddSheet(false));
 $addForm.addEventListener('submit', handleAddSubmit);
 
 $listCancel.addEventListener('click', () => closeListSheet());
@@ -3785,8 +3793,6 @@ $listNewBtn.addEventListener('click', () => {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && $listSheet.classList.contains('open')) closeListSheet();
 });
-
-$aboutClose.addEventListener('click', () => openAboutSheet(false));
 
 // ─── Top-toolbar sheets: filters (funnel) + settings (gear) ───
 // The inline filter-row lives inside #filter-sheet (relocated at boot),
@@ -3808,6 +3814,63 @@ function openSettingsSheet(open: boolean): void {
   $settingsSheet.setAttribute('aria-hidden', String(!open));
 }
 
+// ─── Settings sheet tabs: Settings · About · Add · History ───
+// About + Add used to be their own slide-up sheets; their markup is
+// authored once in #about-src / #add-src and relocated into the matching
+// tab panels here at boot (same pattern as the filter-row relocation),
+// so every id + handler inside them is preserved.
+type SettingsTab = 'settings' | 'about' | 'add' | 'history';
+const settingsPanels = new Map<SettingsTab, HTMLElement>();
+for (const panel of $settingsSheet.querySelectorAll<HTMLElement>('[data-settings-panel]')) {
+  settingsPanels.set(panel.dataset.settingsPanel as SettingsTab, panel);
+}
+function relocateInto(srcId: string, tab: SettingsTab): void {
+  const src = document.getElementById(srcId);
+  const panel = settingsPanels.get(tab);
+  if (src && panel) panel.append(...Array.from(src.childNodes));
+}
+relocateInto('about-src', 'about');
+relocateInto('add-src', 'add');
+
+function selectSettingsTab(tab: SettingsTab): void {
+  for (const btn of $settingsTabs.querySelectorAll<HTMLButtonElement>('.sheet-tab')) {
+    const on = btn.dataset.settingsTab === tab;
+    btn.classList.toggle('is-active', on);
+    btn.setAttribute('aria-selected', String(on));
+  }
+  for (const [key, panel] of settingsPanels) panel.hidden = key !== tab;
+  if (tab === 'history') renderHistoryPanel();
+  // Scroll the body back to the top when switching tabs.
+  const body = $settingsSheet.querySelector<HTMLElement>('.sheet-body');
+  if (body) body.scrollTop = 0;
+}
+
+/** Render the History tab → recently-played stations (web's listening-
+ *  history equivalent). Reuses the standard station rows; tapping one
+ *  plays it and dismisses the sheet to reveal Now Playing. */
+function renderHistoryPanel(): void {
+  const recents = getRecents();
+  $settingsHistoryList.replaceChildren();
+  if (recents.length === 0) {
+    $settingsHistoryList.append(
+      emptyState(ICON_RECENT, 'No history yet', 'Stations you play will show up here'),
+    );
+    return;
+  }
+  $settingsHistoryList.append(renderRows(recents));
+}
+
+$settingsTabs.addEventListener('click', (e) => {
+  const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.sheet-tab');
+  if (!btn) return;
+  selectSettingsTab((btn.dataset.settingsTab as SettingsTab) ?? 'settings');
+});
+// A tap on a recent-station row plays it (the row's own handler) and we
+// close the sheet so Now Playing is revealed underneath.
+$settingsHistoryList.addEventListener('click', (e) => {
+  if ((e.target as HTMLElement).closest('.row')) openSettingsSheet(false);
+});
+
 /** Lights the funnel's accent dot when any filter / mode narrows Browse. */
 function syncFilterDot(): void {
   const active =
@@ -3821,7 +3884,10 @@ function syncFilterDot(): void {
 
 $filterBtn.addEventListener('click', () => openFilterSheet(true));
 $filterClose.addEventListener('click', () => openFilterSheet(false));
-$settingsBtn.addEventListener('click', () => openSettingsSheet(true));
+$settingsBtn.addEventListener('click', () => {
+  openSettingsSheet(true);
+  selectSettingsTab('settings');
+});
 $settingsClose.addEventListener('click', () => openSettingsSheet(false));
 // ─── Settings: theme · landing page · music services ───
 const LANDING_KEY = 'rrradio.landing';
@@ -3899,17 +3965,9 @@ $settingsRestore.addEventListener('click', () => {
   pickImportFile();
 });
 
-$settingsAdd.addEventListener('click', () => {
-  openSettingsSheet(false);
-  openAddSheet(true);
-});
 $settingsStats.addEventListener('click', () => {
   openSettingsSheet(false);
   void openDashboardSheet(true);
-});
-$settingsAbout.addEventListener('click', () => {
-  openSettingsSheet(false);
-  openAboutSheet(true);
 });
 
 // ─── Backup & restore ──────────────────────────────────────────────

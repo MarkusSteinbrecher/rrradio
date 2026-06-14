@@ -486,6 +486,42 @@ a.settings-row { text-decoration: none; }
   background: var(--bg);
 }
 
+/* ── Settings sheet: horizontal tab strip (Settings · About · Add · History) ──
+   Lives in the sheet head in place of the centered title; folds the
+   former separate About + Add sheets into one tabbed surface. */
+.sheet-head--tabs { grid-template-columns: 1fr auto; gap: 12px; }
+.sheet-head--tabs .sheet-tabs { grid-column: 1; justify-self: start; }
+.sheet-head--tabs .icon-btn { grid-column: 2; }
+.sheet-tabs {
+  display: flex;
+  gap: 4px;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.sheet-tabs::-webkit-scrollbar { height: 0; }
+.sheet-tab {
+  flex: none;
+  padding: 7px 12px;
+  border: 0;
+  background: transparent;
+  border-radius: 999px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-3);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.14s, color 0.14s;
+}
+.sheet-tab:hover { color: var(--ink-2); background: var(--bg-2); }
+.sheet-tab.is-active { color: var(--bg); background: var(--ink); }
+
+.settings-panel[hidden] { display: none; }
+/* The relocation sources are emptied into the panels at boot; keep them
+   out of layout in case the move hasn't run yet. */
+.settings-src { display: none; }
+
 /* Each filter is a labelled cell: circular control on top, short
    text label below. Keeps the existing chip geometry intact and
    adds context without widening the chip. */
@@ -1607,6 +1643,32 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   white-space: pre-wrap;
   word-break: break-word;
 }
+
+/* Column header + empty-state — both only surface in the wide 4-column
+   Now Playing layout. The header is display:none until the wide @media
+   turns it on; the empty-state line respects its [hidden] attribute
+   (toggled by renderProgramPane / renderLyricsPane) and is only ever
+   un-hidden inside a force-shown column. */
+.np-col-head {
+  display: none;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 0 0 8px;
+  background: var(--bg);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.np-pane-empty {
+  padding: 28px 8px;
+  font-size: 13px;
+  color: var(--ink-3);
+  text-align: center;
+}
+.np-pane-empty[hidden] { display: none; }
 .np-program-list {
   display: flex;
   flex-direction: column;
@@ -3644,4 +3706,66 @@ body.is-wake-edit .np-pane-tabs { display: none; }
 
 /* Sort button — flip the glyph for Z→A. */
 #sort-btn[data-sort='za'] svg { transform: scaleY(-1); }
+
+/* ─────────────────────────────────────────────────────────────
+   Wide desktop: in-window 4-column Now Playing (#521)
+   ─────────────────────────────────────────────────────────────
+   At ≥1400px while a station is playing, the docked Now Playing pane
+   widens and lays its three content panes side by side — Album ·
+   Schedule · Lyrics — instead of tab-switching, so the whole window
+   reads as four columns:  Browse list │ Album │ Schedule │ Lyrics.
+   The station header spans the top of the NP pane and the transport
+   bar spans the bottom (it's a sibling of .np-body, so it already
+   does). Below this width we fall back to the docked tabbed NP
+   (mobile is unchanged — it never reaches this breakpoint).
+
+   Everything is gated on `body.has-station` (NP only docks while
+   playing) and `:not(.is-wake-edit)` (the wake editor keeps the
+   single-pane flex layout so its big clock isn't cramped into a
+   third of the width). Schedule + lyrics are eager-fetched on play
+   and their panes are rendered as the data arrives, so the columns
+   populate without the (now hidden) tab strip. */
+@media (min-width: 1400px) {
+  /* Give the NP column the room for three sub-columns. */
+  body.has-station .stage {
+    grid-template-columns: minmax(0, 1fr) minmax(640px, 1.7fr);
+  }
+
+  body.has-station:not(.is-wake-edit) .np-body {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas:
+      'station station station'
+      'album   program lyrics';
+    column-gap: 22px;
+    align-items: stretch;
+  }
+  body.has-station .np-station { grid-area: station; }
+  body.has-station .np-track { grid-area: album; align-self: start; }
+  body.has-station .np-program-pane { grid-area: program; }
+  body.has-station .np-lyrics-pane { grid-area: lyrics; }
+
+  /* All three panes are visible at once — the tab strip is redundant. */
+  body.has-station .np-pane-tabs { display: none !important; }
+
+  /* The narrow view drives pane visibility off npView via [hidden];
+     here every column is shown regardless (except in the wake editor,
+     which keeps the single-pane layout). */
+  body.has-station:not(.is-wake-edit) .np-track[hidden] { display: flex; }
+  body.has-station:not(.is-wake-edit) .np-program-pane[hidden] { display: flex; }
+  body.has-station:not(.is-wake-edit) .np-lyrics-pane[hidden] { display: block; }
+
+  /* Album column reads top-down; cap the cover so it doesn't dominate
+     a third-width column the way it does in the full-width docked view. */
+  body.has-station .np-track .np-track__cover-wrap { max-width: 200px; }
+
+  /* Per-column headers + schedule/lyrics scroll within their cell. */
+  body.has-station .np-col-head { display: block; }
+  body.has-station .np-program-pane,
+  body.has-station .np-lyrics-pane {
+    min-height: 0;
+    overflow-y: auto;
+  }
+}
 
