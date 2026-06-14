@@ -209,7 +209,9 @@
           <img class="wordmark-logo wordmark-logo--dark" src="/rrradio-logo-app-dark.svg" alt="" aria-hidden="true" />
           <img class="wordmark-logo wordmark-logo--light" src="/rrradio-logo-app-light.svg" alt="" aria-hidden="true" />
         </button>
-        <div class="toolbar">
+        <!-- Search sits between the wordmark and the action buttons. On the
+             desktop top nav it flexes to fill the row; on mobile (≤1023px)
+             it drops to its own full-width row below wordmark + icons. -->
         <div class="search-wrap" id="search-wrap">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
           <input
@@ -224,6 +226,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
           </button>
         </div>
+        <div class="toolbar">
           <button type="button" class="toolbar-btn" id="filter-btn" aria-label="Filters" aria-haspopup="dialog">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18l-7 8v6l-4 2v-8L3 5z"/></svg>
             <span class="toolbar-btn__dot" id="filter-dot" hidden></span>

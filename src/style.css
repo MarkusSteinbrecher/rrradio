@@ -172,7 +172,11 @@ html.theme-switching *::after {
   background: var(--bg);
   border-bottom: 1px solid var(--line);
 }
-.topnav .toolbar { flex: 1; min-width: 0; }
+/* Search flexes to fill the row; the action buttons take their natural
+   width. (On mobile the search drops to its own row — see the ≤1023px
+   block below.) */
+.topnav > .search-wrap { flex: 1; min-width: 0; }
+.topnav > .toolbar { flex: 0 0 auto; }
 
 /* ─── Body row: nav rail + main content, below the top nav. ─── */
 .app-body {
@@ -361,7 +365,20 @@ html.theme-switching *::after {
   align-items: center;
   gap: 10px;
 }
-.toolbar .search-wrap { flex: 1; min-width: 0; }
+
+/* Mobile (≤1023px): the search bar was sharing one row with the wordmark
+   + filter + gear, leaving it only ~half the width. Drop it to its own
+   full-width row beneath them — wordmark left, actions right, search below.
+   Desktop (≥1024px) keeps the single-row layout (plenty of width). */
+@media (max-width: 1023.98px) {
+  .topnav {
+    flex-wrap: wrap;
+    row-gap: 10px;
+  }
+  .topnav > .wordmark { order: 1; }
+  .topnav > .toolbar { order: 2; margin-left: auto; }
+  .topnav > .search-wrap { order: 3; flex-basis: 100%; }
+}
 .toolbar-btn {
   flex-shrink: 0;
   width: 40px;
