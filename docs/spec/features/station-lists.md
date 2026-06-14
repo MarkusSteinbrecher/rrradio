@@ -2,7 +2,7 @@
 ```yaml
 status: review
 platforms: [web, ios, android]
-reconciled-against: d241aa9
+reconciled-against: 8fc085b
 ```
 
 ## Purpose
@@ -275,18 +275,18 @@ copy); the dock selection-count badge remains a bare numeral.
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| Station-list overview | Not planned for current web. | Reference. | Supported. |
-| Create/delete list | Not planned for current web. | Supported. | Supported. |
-| Rename list | Not planned for current web. | Supported (Home card edit-mode pencil → rename alert). | Supported (pencil on the list row and on the list-detail page → rename dialog; no edit-mode gate). |
-| Create from Browse multi-select | Not planned for current web. | Supported (popup name entry + selection dock). | Supported (Browse "Add stations to list" enters select mode → bottom save bar → choose/create-list sheet; no two-step progress strip, top-pinned dock, or duplicate-name guard). |
-| Add stations from Browse | Not planned for current web. | Supported. | Supported. |
-| Remove stations from a list | Not planned for current web. | Supported (with undo toast). | Partial (immediate per-row remove; no undo toast yet). |
+| Station-list overview | Supported (the Library home lists each list above the pinned Recents entry; list-detail page). | Reference. | Supported. |
+| Create/delete list | Supported (in-app inline create row; two-step inline "Delete list?" confirm — no native dialogs). | Supported. | Supported. |
+| Rename list | Supported (in-app inline rename in the list-detail header). | Supported (Home card edit-mode pencil → rename alert). | Supported (pencil on the list row and on the list-detail page → rename dialog; no edit-mode gate). |
+| Create from Browse multi-select | Not planned for current web (web creates a list from the per-row add-to-list sheet, not a Browse multi-select dock). | Supported (popup name entry + selection dock). | Supported (Browse "Add stations to list" enters select mode → bottom save bar → choose/create-list sheet; no two-step progress strip, top-pinned dock, or duplicate-name guard). |
+| Add stations to a list | Supported via the per-row list affordance on any station row → add-to-list sheet (toggle membership; create-and-add a new list inline). No top-pinned multi-select dock. | Supported. | Supported. |
+| Remove stations from a list | Partial; remove by toggling the station off in the add-to-list sheet — no in-list-detail per-row remove or undo toast. | Supported (with undo toast). | Partial (immediate per-row remove; no undo toast yet). |
 | Reorder lists | Not planned for current web. | Supported (interactive drag on Home; Recents pinned). | Supported with up/down controls. |
 | Reorder stations inside a list | Not planned for current web. | Supported (interactive drag). | Supported with up/down controls. |
-| Play list as queue | Not planned for current web. | Supported (circular skip). | Supported (circular skip-next/previous; queue scoped to the open list, surfaced via the foreground MediaSessionService / media3 player). |
-| Empty-list guidance | Not planned for current web. | Supported ("Add stations from Browse…"). | Supported. |
+| Play list as queue | Not planned for current web (media-session prev/next steps the favorites list, not the open list). | Supported (circular skip). | Supported (circular skip-next/previous; queue scoped to the open list, surfaced via the foreground MediaSessionService / media3 player). |
+| Empty-list guidance | Supported ("Add stations with the list icon on any station row."). | Supported ("Add stations from Browse…"). | Supported. |
 | Cloud sync | Not applicable. | Supported through CloudKit. | Not applicable. |
-| Local persistence | Not planned for current web. | Supported. | Supported (Jetpack DataStore; SAF JSON export/import covers lists for manual backup). |
+| Local persistence | Supported (browser `localStorage`; the manual JSON backup carries lists — see [data-sync](../data-sync.md)). | Supported. | Supported (Jetpack DataStore; SAF JSON export/import covers lists for manual backup). |
 
 ## Android Current Status
 

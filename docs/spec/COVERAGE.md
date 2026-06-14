@@ -24,7 +24,7 @@ a doc. See `STYLE.md` for templates and the reconciliation ritual.
 | playback-state-machine | review | d241aa9 | `Player/AudioPlayer.swift`, `Shared/StationPlaybackQueue.swift` |
 | metadata-fetchers | review | d241aa9 | `Player/Metadata/*` |
 | search | review | d241aa9 | `Search/*`, `Models/RadioBrowserClient.swift`, `Resources/stations.fts5.db` |
-| sync-merge | review | d241aa9 | `CloudSync/*` |
+| sync-merge | review | 8fc085b | `CloudSync/*` |
 | privacy-data-boundaries | review | d241aa9 | `Models/RegionResolver.swift`, `Views/DashboardView.swift`, `Views/AddStationView.swift`, `Diagnostics.swift` |
 | broken-reports | review | d241aa9 | server `worker/src/reports.ts`; iOS `Models/BrokenStationReports.swift`, `Views/BrokenReportResolvedToast.swift`, `Views/NowPlayingView.swift` (report sheet) |
 | watch-protocol | approved | d241aa9 | `Shared/WatchRemoteProtocol.swift`, `WatchRemote/*`, `rrradioWatch/*` |
@@ -34,10 +34,11 @@ a doc. See `STYLE.md` for templates and the reconciliation ritual.
 
 | Doc | Status | Reconciled @ | iOS source of truth |
 |---|---|---|---|
+| navigation | review | 8fc085b | `Views/ContentView.swift` (`BottomTabBar`, `AppTab`), `Views/FeedPages/LibraryHomePage.swift`, `Views/LibraryListSelection.swift`, `Views/FeedPages/FavoritesPage.swift` |
 | browse | review | d241aa9 | `Views/FeedPages/BrowsePage.swift`, `Views/FeedPages/BrowseFiltersSheet.swift`, `BrowseSortRow`, `Views/StationMapView.swift` |
 | search | review | d241aa9 | `Search/*`, `Views/FeedPages/BrowsePage.swift` |
 | favorites | review | d241aa9 | `Views/FeedPages/FavoritesPage.swift`, `Views/StationKit.swift`, `Library/Library.swift` |
-| station-lists | review | d241aa9 | `Library/Library.swift`, `Views/FeedPages/*`, `BrowseSelectionDock` |
+| station-lists | review | 8fc085b | `Library/Library.swift`, `Views/FeedPages/*`, `BrowseSelectionDock` |
 | custom-stations | review | d241aa9 | `Views/AddStationView.swift`, `Library/StreamProbe.swift`, `Library/CustomStationBuilder.swift` |
 | now-playing | review | d241aa9 | `Views/NowPlayingView.swift`, `MiniPlayerView`, `Player/Metadata/MusicServiceLinks.swift` |
 | metadata-artwork | review | d241aa9 | `Player/Metadata/*` |
@@ -53,9 +54,9 @@ a doc. See `STYLE.md` for templates and the reconciliation ritual.
 
 | Doc | Status | Reconciled @ | Notes |
 |---|---|---|---|
-| platforms | review | d241aa9 | links all 9 contracts; adaptive-layout/landscape note still light (now-playing.md owns the split) |
+| platforms | review | 8fc085b | links all 9 contracts; adaptive-layout/landscape note still light (now-playing.md owns the split) |
 | playback | review | d241aa9 | links `contracts/playback-state-machine.md` |
-| data-sync | review | d241aa9 | links `contracts/sync-merge.md` + `contracts/privacy-data-boundaries.md` |
+| data-sync | review | 8fc085b | links `contracts/sync-merge.md` + `contracts/privacy-data-boundaries.md` |
 
 ## Web reconciliation
 
@@ -77,6 +78,17 @@ personal listening history, named station lists, a Settings sheet, custom-statio
 probe/dup-check/edit, offline/PWA support, and the broken-report receipt
 lifecycle (fire-and-forget POST only). The reconciliation did **not** edit the
 product-intent body, iOS/Android cells, or stamps — only Web cells + web notes.
+
+**Update (2026-06-14):** since that snapshot the web app shipped a three-tab
+**Browse / Favorites / Library** shell + Library home ([navigation](features/navigation.md)),
+named **station lists** (in-app inline create / rename / delete + per-row
+add-to-list sheet), a **Settings sheet**, the user poll's removal, and a **v3
+backup** (favorites + custom + lists + recents + settings). The matching Web cells
+in README, navigation, station-lists, data-sync, sync-merge, platforms, and
+now-playing were corrected and those docs re-stamped @ `8fc085b`. The other items
+in the "not implemented" list above (FTS search, a real playback queue, retry
+budget, i18n, listening-history feature, custom-station probe, offline/PWA, report
+receipts) still stand.
 
 ## Android reconciliation
 
