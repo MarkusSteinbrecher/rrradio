@@ -132,4 +132,34 @@ test.describe('cold-boot UI', () => {
     await page.waitForTimeout(500);
     expect(errors).toEqual([]);
   });
+
+  test('wide desktop: player is 2-col, browse collapse expands it to 3-col (#521)', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1680, height: 950 });
+    await page.goto('/');
+    // Drop into the catalog and play a station with a known schedule.
+    await page.locator('#search').fill('BBC Radio 1');
+    const row = page.locator('#content .row').first();
+    await expect(row).toBeVisible({ timeout: 10_000 });
+    await page.route('**/*.{mp3,aac,m3u8,mp4}', (route) => route.abort());
+    await row.click();
+    await expect(page.locator('body')).toHaveClass(/has-station/);
+
+    // Browse visible → 2 player columns: album + one switchable secondary.
+    // The 'now' pill is dropped (album is always its own column).
+    await expect(page.locator('body')).toHaveClass(/np-twocol/);
+    await expect(page.locator('#content')).toBeVisible();
+    await expect(page.locator('#np-track-row')).toBeVisible();
+    await expect(page.locator('#np-pane-now')).toBeHidden();
+
+    // Collapse the browse list → 3 columns (album · schedule · lyrics),
+    // list hidden, all panes shown at once.
+    await page.locator('#np-collapse-browse').click();
+    await expect(page.locator('body')).toHaveClass(/np-threecol/);
+    await expect(page.locator('#content')).toBeHidden();
+    await expect(page.locator('#np-program-pane')).toBeVisible();
+    await expect(page.locator('#np-lyrics-pane')).toBeVisible();
+    await expect(page.locator('#np-pane-tabs')).toBeHidden();
+  });
 });

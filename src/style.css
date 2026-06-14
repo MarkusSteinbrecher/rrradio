@@ -1438,6 +1438,30 @@ body.tab-playing .search-wrap { display: none; }
 .np-back:active { transform: scale(0.92); }
 .np-back svg { width: 22px; height: 22px; display: block; }
 
+/* Browse-list collapse toggle — wide desktop only (shown via the ≥1400px
+   block). Anchored to the NP pane's top-left corner; the chevron points
+   left to collapse the browse list and flips to point right (→ "show
+   browse") once collapsed. */
+.np-collapse-browse {
+  display: none;
+  position: absolute;
+  top: 16px;
+  left: 14px;
+  z-index: 6;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.np-collapse-browse:hover { color: var(--ink); border-color: var(--line-2); }
+.np-collapse-browse svg { width: 16px; height: 16px; display: block; transition: transform 0.2s; }
+body.browse-collapsed .np-collapse-browse svg { transform: rotate(180deg); }
+
 /* Mute toggle: swap volume / muted icon. Body class drives icon state. */
 #np-mute .icon-vol-mute { display: none; }
 body.is-muted #np-mute  { color: var(--accent); border-color: var(--accent); }
@@ -3708,30 +3732,62 @@ body.is-wake-edit .np-pane-tabs { display: none; }
 #sort-btn[data-sort='za'] svg { transform: scaleY(-1); }
 
 /* ─────────────────────────────────────────────────────────────
-   Wide desktop: in-window 4-column Now Playing (#521)
+   Wide desktop: in-window multi-column Now Playing (#521)
    ─────────────────────────────────────────────────────────────
-   At ≥1400px while a station is playing, the docked Now Playing pane
-   widens and lays its three content panes side by side — Album ·
-   Schedule · Lyrics — instead of tab-switching, so the whole window
-   reads as four columns:  Browse list │ Album │ Schedule │ Lyrics.
-   The station header spans the top of the NP pane and the transport
-   bar spans the bottom (it's a sibling of .np-body, so it already
-   does). Below this width we fall back to the docked tabbed NP
-   (mobile is unchanged — it never reaches this breakpoint).
+   At ≥1400px while a station is docked the Now Playing pane widens and
+   lays its content panes side by side instead of tab-switching. Two
+   modes, chosen by the browse-collapsed state:
 
-   Everything is gated on `body.has-station` (NP only docks while
-   playing) and `:not(.is-wake-edit)` (the wake editor keeps the
-   single-pane flex layout so its big clock isn't cramped into a
-   third of the width). Schedule + lyrics are eager-fetched on play
-   and their panes are rendered as the data arrives, so the columns
-   populate without the (now hidden) tab strip. */
+   · Browse visible (default) — 2 player columns: Album + one of
+     Schedule / Lyrics (the pane-tab strip switches between them).
+     Window reads:  Browse │ Album │ Schedule-or-Lyrics.
+   · Browse collapsed (the chevron in the NP corner) — the browse list
+     hides and the player expands to 3 columns, all visible.
+     Window reads:  Album │ Schedule │ Lyrics.
+
+   The station header spans the top of the NP pane; the transport bar
+   spans the bottom (it's a sibling of .np-body). Below 1400px we fall
+   back to the docked tabbed NP (mobile unchanged). Gated on
+   body.has-station and :not(.is-wake-edit) (the wake editor keeps its
+   single-pane layout). The .np-twocol / .np-threecol body classes are
+   set by syncNpTabs() from the viewport + browse-collapsed state. */
 @media (min-width: 1400px) {
-  /* Give the NP column the room for three sub-columns. */
-  body.has-station .stage {
-    grid-template-columns: minmax(0, 1fr) minmax(640px, 1.7fr);
-  }
+  /* Corner toggle to collapse/expand the browse list (hidden until a
+     station docks; np-back is its mobile-only counterpart). */
+  body.has-station .np-collapse-browse { display: grid; }
 
-  body.has-station:not(.is-wake-edit) .np-body {
+  /* ── Browse visible: 2 player columns (Album + Schedule/Lyrics) ── */
+  body.has-station:not(.browse-collapsed) .stage {
+    grid-template-columns: minmax(0, 1fr) minmax(520px, 1.3fr);
+  }
+  body.np-twocol:not(.is-wake-edit) .np-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-areas:
+      'station station'
+      'album   sectabs'
+      'album   secpane';
+    column-gap: 22px;
+  }
+  /* The strip is the Schedule/Lyrics switcher here; left-align it. */
+  body.np-twocol .np-pane-tabs {
+    grid-area: sectabs;
+    justify-content: flex-start;
+    padding: 0 0 10px;
+  }
+  /* The visible secondary pane (per npView) and the empty-state share the
+     one secpane cell; the hidden pane is display:none via base [hidden]. */
+  body.np-twocol .np-program-pane,
+  body.np-twocol .np-lyrics-pane,
+  body.np-twocol #np-secondary-empty { grid-area: secpane; }
+  body.np-twocol:not(.is-wake-edit) .np-track[hidden] { display: flex; }
+
+  /* ── Browse collapsed: 3 player columns, list hidden, NP full width ── */
+  body.has-station.browse-collapsed .content { display: none; }
+  body.has-station.browse-collapsed .stage { grid-template-columns: minmax(0, 1fr); }
+  body.has-station.browse-collapsed .np { grid-column: 1; }
+  body.np-threecol:not(.is-wake-edit) .np-body {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-template-rows: auto minmax(0, 1fr);
@@ -3739,29 +3795,23 @@ body.is-wake-edit .np-pane-tabs { display: none; }
       'station station station'
       'album   program lyrics';
     column-gap: 22px;
-    align-items: stretch;
   }
+  body.np-threecol .np-pane-tabs { display: none !important; }
+  body.np-threecol .np-program-pane { grid-area: program; }
+  body.np-threecol .np-lyrics-pane { grid-area: lyrics; }
+  body.np-threecol:not(.is-wake-edit) .np-track[hidden] { display: flex; }
+  body.np-threecol:not(.is-wake-edit) .np-program-pane[hidden] { display: flex; }
+  body.np-threecol:not(.is-wake-edit) .np-lyrics-pane[hidden] { display: block; }
+  /* Per-column headers only earn their keep when both columns are shown
+     at once (3-col); in 2-col the switcher already labels the column. */
+  body.np-threecol .np-col-head { display: block; }
+
+  /* ── Shared (both wide modes) ── */
+  /* Anchor the absolutely-positioned collapse toggle to the NP pane. */
+  body.has-station .np { position: relative; }
   body.has-station .np-station { grid-area: station; }
   body.has-station .np-track { grid-area: album; align-self: start; }
-  body.has-station .np-program-pane { grid-area: program; }
-  body.has-station .np-lyrics-pane { grid-area: lyrics; }
-
-  /* All three panes are visible at once — the tab strip is redundant. */
-  body.has-station .np-pane-tabs { display: none !important; }
-
-  /* The narrow view drives pane visibility off npView via [hidden];
-     here every column is shown regardless (except in the wake editor,
-     which keeps the single-pane layout). */
-  body.has-station:not(.is-wake-edit) .np-track[hidden] { display: flex; }
-  body.has-station:not(.is-wake-edit) .np-program-pane[hidden] { display: flex; }
-  body.has-station:not(.is-wake-edit) .np-lyrics-pane[hidden] { display: block; }
-
-  /* Album column reads top-down; cap the cover so it doesn't dominate
-     a third-width column the way it does in the full-width docked view. */
   body.has-station .np-track .np-track__cover-wrap { max-width: 200px; }
-
-  /* Per-column headers + schedule/lyrics scroll within their cell. */
-  body.has-station .np-col-head { display: block; }
   body.has-station .np-program-pane,
   body.has-station .np-lyrics-pane {
     min-height: 0;

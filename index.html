@@ -336,6 +336,11 @@
           <button type="button" class="np-back" id="np-back" aria-label="Back to browse">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
           </button>
+          <!-- Wide-desktop only: collapse the browse list to expand the
+               player from 2 to 3 columns (chevron rotates when collapsed). -->
+          <button type="button" class="np-collapse-browse" id="np-collapse-browse" aria-label="Hide browse list" aria-expanded="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
           <div class="np-body">
             <div class="np-station">
               <div class="np-station__head">
@@ -401,6 +406,10 @@
               <pre class="np-lyrics-text" id="np-lyrics-text"></pre>
               <div class="np-pane-empty" id="np-lyrics-empty" hidden>No lyrics for the current track.</div>
             </div>
+
+            <!-- Wide 2-column layout only: shown when the second column has
+                 neither a schedule nor lyrics to offer (see syncNpTabs). -->
+            <div class="np-pane-empty" id="np-secondary-empty" hidden>No schedule or lyrics for this station.</div>
 
             <!-- Wake-edit pane — replaces the track row when the user
                  taps the alarm icon at the bottom. Big clock above,

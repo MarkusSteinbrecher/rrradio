@@ -285,6 +285,8 @@ const $npProgramEmpty = document.getElementById('np-program-empty') as HTMLEleme
 const $npLyricsPane = document.getElementById('np-lyrics-pane') as HTMLElement;
 const $npLyricsText = document.getElementById('np-lyrics-text') as HTMLElement;
 const $npLyricsEmpty = document.getElementById('np-lyrics-empty') as HTMLElement;
+const $npSecondaryEmpty = document.getElementById('np-secondary-empty') as HTMLElement;
+const $npCollapseBrowse = document.getElementById('np-collapse-browse') as HTMLButtonElement;
 const $npTrackRow = document.getElementById('np-track-row') as HTMLElement;
 const $npTrackTitle = document.getElementById('np-track-title') as HTMLElement;
 const $npTrackCover = document.getElementById('np-track-cover') as HTMLImageElement;
@@ -767,6 +769,10 @@ function renderNowPlaying(np: NowPlaying): void {
     isFavorite,
     onClearOpenIn: closeOpenInPopup,
   });
+  // Keep the wide-layout body classes (np-twocol/np-threecol) in sync as
+  // the station loads/changes/stops — has-station has just been toggled
+  // upstream, so the mode is current here.
+  syncNpTabs();
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -1116,21 +1122,55 @@ function resetLyrics(): void {
   renderLyricsPane();
 }
 
+/** Now Playing wide-desktop layout mode. 'narrow' is the docked tabbed
+ *  view (mobile + 1024–1400px desktop). At ≥1400px while a station is
+ *  docked it's 'twocol' (Album + a switchable Schedule/Lyrics column,
+ *  browse list still visible) or 'threecol' (browse collapsed → Album │
+ *  Schedule │ Lyrics, all visible). */
+const wideNpMq = matchMedia('(min-width: 1400px)');
+type NpLayout = 'narrow' | 'twocol' | 'threecol';
+function npLayoutMode(): NpLayout {
+  if (!wideNpMq.matches || !currentNP.station.id) return 'narrow';
+  return $body.classList.contains('browse-collapsed') ? 'threecol' : 'twocol';
+}
+
 /** Synchronise the Now Playing tab pills + pane visibility with the
- *  three sources (track row, program guide, lyrics). The tab pill
- *  for a given source only shows when that source has content;
- *  if the user is currently viewing a source that disappears (e.g.
- *  on station change), drop them back to 'now'. */
+ *  three sources (track row, program guide, lyrics) and the layout mode.
+ *  The tab pill for a given source only shows when that source has
+ *  content; in the 2-column wide layout the strip doubles as the
+ *  Schedule/Lyrics switcher (the 'now'/album pill is dropped — album is
+ *  always its own column there). */
 function syncNpTabs(): void {
   const hasProgram = !!(npSchedule && npSchedule.length > 0);
   const hasLyrics = !!(npLyrics && (npLyrics.plain || npLyrics.synced));
+  const mode = npLayoutMode();
 
-  // Auto-switch back to 'now' if the active view's content is gone.
-  if (npView === 'program' && !hasProgram) npView = 'now';
-  if (npView === 'lyrics' && !hasLyrics) npView = 'now';
+  // Layout body classes drive the wide grid (CSS); both cleared on narrow.
+  $body.classList.toggle('np-twocol', mode === 'twocol');
+  $body.classList.toggle('np-threecol', mode === 'threecol');
 
-  // Show the tab strip whenever at least one secondary tab has content.
+  if (mode === 'twocol') {
+    // Album owns column 1; the second column is Schedule OR Lyrics, so
+    // npView is restricted to those. Fall back to whichever exists; if
+    // neither, 'now' (→ the secondary empty-state shows).
+    if (
+      npView === 'now' ||
+      (npView === 'program' && !hasProgram) ||
+      (npView === 'lyrics' && !hasLyrics)
+    ) {
+      npView = hasProgram ? 'program' : hasLyrics ? 'lyrics' : 'now';
+    }
+  } else {
+    // narrow + threecol: drop to 'now' if the active secondary is gone.
+    if (npView === 'program' && !hasProgram) npView = 'now';
+    if (npView === 'lyrics' && !hasLyrics) npView = 'now';
+  }
+
+  // Show the tab strip whenever at least one secondary source has content.
+  // The 'now' pill is redundant in the 2-column layout (album is always
+  // shown), so hide it there.
   $npPaneTabs.hidden = !hasProgram && !hasLyrics;
+  $npPaneNow.hidden = mode === 'twocol';
   $npPaneProgram.hidden = !hasProgram;
   $npPaneLyrics.hidden = !hasLyrics;
 
@@ -1141,14 +1181,22 @@ function syncNpTabs(): void {
   $npPaneLyrics.classList.toggle('is-active', npView === 'lyrics');
   $npPaneLyrics.setAttribute('aria-pressed', String(npView === 'lyrics'));
 
-  // Pane visibility is owned here — render-np writes content into
-  // npTrackRow but never touches its `hidden` attribute. Track row
-  // also stays hidden when no station is loaded so we don't show
-  // an empty em-dashed shell at boot.
+  // Pane [hidden] flags. The narrow docked view obeys them directly; the
+  // wide grids override via CSS (3-col force-shows all panes; 2-col always
+  // shows album and shows whichever secondary matches npView). render-np
+  // writes content into npTrackRow but never touches its `hidden`. Track
+  // also stays hidden with no station so we don't show an em-dashed shell.
   $npTrackRow.hidden = npView !== 'now' || !currentNP.station.id;
   $npProgramPane.hidden = npView !== 'program';
   $npLyricsPane.hidden = npView !== 'lyrics';
+
+  // 2-column with neither schedule nor lyrics → the second column shows a
+  // small empty state (the only layout where it can surface).
+  $npSecondaryEmpty.hidden = !(mode === 'twocol' && !hasProgram && !hasLyrics);
 }
+
+// Recompute the wide layout when the 1400px boundary is crossed.
+wideNpMq.addEventListener('change', syncNpTabs);
 
 function renderLyricsPane(): void {
   // Plain text wins if both are present — synced is a UX nice-to-have
@@ -3657,6 +3705,25 @@ $sidebarCollapse.addEventListener('click', () => {
   setString(SIDEBAR_COLLAPSED_KEY, collapsed ? '1' : '0');
 });
 applySidebarCollapsed(getString(SIDEBAR_COLLAPSED_KEY) === '1');
+
+// Browse-list collapse toggle (wide desktop only, in the NP pane corner).
+// Collapsing the browse list hands the freed width to the player, which
+// expands from 2 columns (Album + Schedule/Lyrics) to 3 (Album │ Schedule
+// │ Lyrics). Persisted; only takes visual effect at ≥1400px (CSS-gated).
+const BROWSE_COLLAPSED_KEY = 'rrradio.browse-collapsed';
+function applyBrowseCollapsed(collapsed: boolean): void {
+  $body.classList.toggle('browse-collapsed', collapsed);
+  $npCollapseBrowse.setAttribute('aria-expanded', String(!collapsed));
+  $npCollapseBrowse.setAttribute('aria-label', collapsed ? 'Show browse list' : 'Hide browse list');
+  // twocol ⇄ threecol depends on this class — recompute.
+  syncNpTabs();
+}
+$npCollapseBrowse.addEventListener('click', () => {
+  const collapsed = !$body.classList.contains('browse-collapsed');
+  applyBrowseCollapsed(collapsed);
+  setString(BROWSE_COLLAPSED_KEY, collapsed ? '1' : '0');
+});
+applyBrowseCollapsed(getString(BROWSE_COLLAPSED_KEY) === '1');
 
 $search.addEventListener('input', () => {
   syncSearchClear();
