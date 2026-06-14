@@ -295,6 +295,57 @@ Report to the sponsor:
 
 Do not start the next country yourself.
 
+## Browser/vision agents — the strongest discovery path
+
+The deterministic stages (3–5) validate *transport* — https, `image/*`,
+host, pixel size, filename match — but are blind to *semantics*: they
+cannot tell a station's own logo from the parent network's generic logo,
+a `dummy-logo` placeholder, a phone-number promo graphic, or a same-named
+foreign station. For the residual stations stages 3–5 can't resolve
+confidently (and for high-value stations where a wrong logo is costly),
+fan out **parallel Opus 4.8 agents that actually look at the logos**.
+
+Per station, launch one background agent (`Agent` tool, `model: "opus"`,
+`run_in_background: true`) that:
+
+1. Researches the correct, current, **station-specific** logo — Wikimedia
+   Commons + Wikipedia (de/en) first (prefer SVG), then the broadcaster
+   homepage (`og:image`, web-app-manifest `icon-192/512`, apple-touch-icon,
+   header logo).
+2. **Visually verifies** each candidate: `curl` it down, render SVGs via
+   `https://commons.wikimedia.org/wiki/Special:FilePath/<File>?width=512`
+   (or `sips -s format png`), then **Read** the image and confirm it is
+   this station's brand.
+3. Validates deterministically (https · `image/*` · broadcaster domain or
+   `upload.wikimedia.org`, never UGC hosts · square-ish or vector · ≥192px).
+4. Returns **only** a JSON verdict: `{id, decision:"apply"|"skip", favicon,
+   faviconSource, faviconLicense, width, height, format, confidence,
+   reason, sources}`. "A missing logo is better than a wrong one" → `skip`
+   when nothing clean is found.
+
+Collect the verdicts, **spot-check a visual sample yourself** (download +
+Read), then apply the `apply`s with `apply-logos --replace --in <json>`
+(`{id, url, source, license, sourceUrl}` per row). Respect the 30-edit cap.
+
+**License normalization:** Commons `PD-textlogo`/`public-domain` →
+`public-domain`; `cc-by-sa-*` → that value; a **non-free** wiki upload
+(e.g. a de.wiki local file, not Commons) or a broadcaster asset →
+`broadcaster-implicit`. Never over-claim a free license (the skill's
+hard rule still binds the agents).
+
+Why it wins — observed on the **DE 2026-06-14 sweep** (30 stations, ~28
+applied): the agents caught what no heuristic could — the generic
+`favicon.ico` shared across SR 1/2/3, the `dummy-logo` for WDR 2, a
+phone-number graphic for MDR Tweens, the **NDR Blue → NDR Schlager** and
+**SR 2 → SR Kultur** rebrands, the German-vs-**Bulgarian** N-JOY namesake,
+and a `skip` where a station's domain had silently become another brand.
+Stages 1–5 stay the cheap first pass; this is the high-accuracy finisher.
+
+For unattended/CI runs (no harness, no human), `tools/browser-logo-scout.mjs`
+is the headless equivalent — Playwright extraction + an Opus 4.8 vision
+judge over the API. Less capable than live agents; use it only where an
+interactive session isn't available.
+
 ## Cost note
 
 Per-country session, Sonnet:

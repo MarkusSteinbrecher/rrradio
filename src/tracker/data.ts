@@ -184,6 +184,26 @@ export interface StationRow {
   lastChange: string;
 }
 
+/** Per-facet verdict counts derived from the per-station rows.
+ *
+ *  This is the *honest* problem total. The runs header's `tally` reflects
+ *  only the last run's scope — a partial run (e.g. a `--cc` repair pass)
+ *  leaves it covering a handful of stations, which silently understates the
+ *  catalog-wide counts. Views that show "how many stations are bad" must
+ *  count the rows, not read `runs[facet].tally`. Freshness ("when / how much
+ *  was last checked") still comes from the runs header. */
+export function facetTally(rows: StationRow[]): Record<Facet, Record<Verdict, number>> {
+  const out = {} as Record<Facet, Record<Verdict, number>>;
+  for (const facet of FACETS) out[facet] = { ok: 0, warn: 0, bad: 0, na: 0 };
+  for (const row of rows) {
+    for (const facet of FACETS) {
+      const entry = row.facets[facet];
+      if (entry) out[facet][entry.v] += 1;
+    }
+  }
+  return out;
+}
+
 function memo<T>(fn: () => Promise<T>): () => Promise<T> {
   let p: Promise<T> | null = null;
   return () => (p ??= fn());
