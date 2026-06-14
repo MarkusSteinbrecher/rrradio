@@ -1263,13 +1263,23 @@ function renderProgramPane(): void {
     if (isLive && !liveRow) liveRow = row;
     else if (!isLive && !isPast && !nextRow) nextRow = row;
   }
-  // Center the now-on-air row (or the next upcoming one if we hit a
-  // gap between broadcasts). Deferred a frame so the pane's layout
-  // is settled before scrollIntoView measures positions.
+  // Center the now-on-air row (or the next upcoming one if we hit a gap
+  // between broadcasts) WITHIN the program pane only. We must not use
+  // Element.scrollIntoView here: it scrolls every scrollable ancestor,
+  // including the .app shell (overflow:hidden, but still scrollable
+  // programmatically), which on desktop pushes the whole layout — and the
+  // top nav / search bar — off the top of the viewport. Setting the pane's
+  // own scrollTop keeps the scroll contained. Deferred a frame so layout
+  // is settled before we measure.
   const target = liveRow ?? nextRow;
   if (target) {
     requestAnimationFrame(() => {
-      target.scrollIntoView({ block: 'center', behavior: 'instant' });
+      const pane = $npProgramPane;
+      const delta =
+        target.getBoundingClientRect().top -
+        pane.getBoundingClientRect().top -
+        (pane.clientHeight - target.offsetHeight) / 2;
+      pane.scrollTop += delta;
     });
   }
 }
