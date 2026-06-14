@@ -3468,8 +3468,11 @@ body.is-wake-edit .np-pane-tabs { display: none; }
     border-right: 0;
   }
   /* The body row (rail + content) goes horizontal; the top nav stays
-     full-width above it. */
-  .app-body { flex-direction: row; }
+     full-width above it. The padding-top opens a clear gap beneath the
+     full-width search header so the column dividers (sidebar↔list,
+     list↔player) visibly begin *below* the search bar rather than rising
+     right up under it — which read as the search bar being "cut". */
+  .app-body { flex-direction: row; padding-top: 16px; }
 
   /* Left rail: collapse toggle (top) + nav. The wordmark now lives in
      the full-width top nav, not here. */
