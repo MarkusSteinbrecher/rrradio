@@ -13,6 +13,15 @@ ios/
 # Generated spec-site HTML (served at /spec/ by the dev server)
 tools/spec-site/out/
 
+# Generated favicon variants — the whole public/favicons/ dir (per-station
+# webp variants + manifest.json) is build output of `npm run favicon-variants`.
+# Unused by the web runtime: the app renders the remote `favicon` URL directly
+# (CSP img-src allows https:); the `favicons[]` array in stations.json is a
+# build-time hint only. Committing ~55k webps bloated .git (~1.5 GB once) and
+# broke check-catalog/deploy when #522 shipped a stations.json referencing
+# webps it never committed. Regenerated locally by `npm run catalog`.
+public/favicons/
+
 # Local project notes — not for upload. The repo is public on GitHub
 # Pages; anything in here is internal-only and should never ship.
 # (CLAUDE.md is the public operating manual. AGENTS.md is a symlink
