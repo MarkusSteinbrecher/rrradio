@@ -10520,8 +10520,10 @@
   status: stream-only
   featured: true
 - id: builtin-wnyc-fm
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/WNYC-Logo.svg/330px-WNYC-Logo.svg.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/0/0b/WNYC-Logo.svg"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:WNYC-Logo.svg"
+  faviconLicense: public-domain
   stationuuid: 960985b2-0601-11e8-ae97-52543be04c81
   changeuuid: 02ea34b8-3935-4090-98b5-edaa870d08be
   reviewedAt: 2026-04-30
@@ -10565,8 +10567,10 @@
   status: working
   featured: true
 - id: builtin-kcrw-live
-  favicon: "https://upload.wikimedia.org/wikipedia/en/thumb/9/92/Black_KCRW_Logo_Wordmark%2C_2022.png/330px-Black_KCRW_Logo_Wordmark%2C_2022.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
-  faviconSource: wiki
+  favicon: "https://pressroom.kcrw.com/wp-content/uploads/sites/7/2012/05/KCRW_LOGO-WhiteBg.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://pressroom.kcrw.com/kcrw-logos-assets/"
+  faviconLicense: broadcaster-implicit
   stationuuid: 325a61dc-fe34-48c6-ae82-1467b710f07b
   changeuuid: fd72e1ca-f26b-49db-92b4-4756558622e2
   reviewedAt: 2026-04-30
@@ -10586,8 +10590,10 @@
   country: US
   status: stream-only
 - id: builtin-kcrw-eclectic
-  favicon: "https://upload.wikimedia.org/wikipedia/en/thumb/9/92/Black_KCRW_Logo_Wordmark%2C_2022.png/330px-Black_KCRW_Logo_Wordmark%2C_2022.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
-  faviconSource: wiki
+  favicon: "https://pressroom.kcrw.com/wp-content/uploads/sites/7/2012/05/KCRW_LOGO-WhiteBg.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://pressroom.kcrw.com/kcrw-logos-assets/"
+  faviconLicense: broadcaster-implicit
   stationuuid: 18e31f25-53c8-4213-a1ec-dccc0443a788
   changeuuid: d2a674bd-bd7b-4b26-ab52-4d01bef6d042
   reviewedAt: 2026-04-30
@@ -47829,6 +47835,8 @@
   tags: [apm, bowling green, kentucky public radio, npr, pri, public radio, university radio]
   favicon: "https://upload.wikimedia.org/wikipedia/en/6/69/WKUPR_Logo.png"
   faviconSource: wiki
+  faviconSourceUrl: "https://en.wikipedia.org/wiki/File:WKUPR_Logo.png"
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: WKYU 88.9 "WKU Public Radio" Bowling Green, KY
   streamUrl: https://dal-wku-stream-1.neighborhoodca.com/stream
@@ -52166,6 +52174,10 @@
   changeuuid: 2fc3a8d6-e860-4b35-9c0b-e987b37b10ef
   reviewedAt: 2026-05-04
 - id: us-wqxr-q2-stream-new-york-public-radio-newark-nj
+  favicon: "https://media.wnyc.org/i/512/512/c/85/1/q2music_1.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.wqxr.org/series/q2/about"
+  faviconLicense: broadcaster-implicit
   tags: [contemporary classical, new jersey, new york city, new york public radio, newark]
   broadcaster: independent
   name: WQXR "Q2 Stream" New York Public Radio - Newark, NJ
@@ -59741,6 +59753,10 @@
   changeuuid: 21fb964b-c6e4-4325-bf39-cf78a7456f72
   reviewedAt: 2026-05-04
 - id: us-great-songs-of-the-faith
+  favicon: "https://www.greatsongs.org/wp-content/uploads/2025/01/GSOTF-Digital-Circle-Green-Black.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.greatsongs.org"
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   tags: [christian, hymns]
   broadcaster: independent
@@ -61181,6 +61197,10 @@
   changeuuid: d13d88c7-1383-4c7f-b5d2-fd426f063a6f
   reviewedAt: 2026-05-04
 - id: us-kgnu
+  favicon: "https://kgnu-org.sfo3.digitaloceanspaces.com/wp-content/uploads/2023/03/12215036/cropped-kgnu_favicon_2025.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.kgnu.org/"
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   tags: [community radio, music, news, variety]
   broadcaster: independent
@@ -61659,8 +61679,10 @@
   streamUrl: https://ice9.securenetsystems.net/WBCL
   bitrate: 32
   codec: AAC+
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/WBCL_Logo-Trans640x480.png/330px-WBCL_Logo-Trans640x480.png"
-  faviconSource: wiki
+  favicon: "https://www.wbcl.org/img/data/icon-192x192.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.wbcl.org/"
+  faviconLicense: broadcaster-implicit
   homepage: http://www.wbcl.org/
   country: US
   status: stream-only
@@ -64083,8 +64105,10 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/KCBIFMAAC.aac
   bitrate: 64
   codec: AAC+
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/KCBI_4color_logo-square.png/330px-KCBI_4color_logo-square.png"
+  favicon: "https://commons.wikimedia.org/wiki/Special:FilePath/KCBI_4color_logo-square.png?width=512"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:KCBI_4color_logo-square.png"
+  faviconLicense: cc-by-sa-4.0
   homepage: https://www.kcbi.org/
   country: US
   status: stream-only
@@ -65506,8 +65530,10 @@
   streamUrl: https://live.amperwave.net/direct/agmedia28-khfmfmaac-ibc3
   bitrate: 48
   codec: AAC+
-  favicon: "https://khfm.org/wp-content/uploads/2017/01/KHFM-vert-logo.png"
+  favicon: "https://khfm.org/wp-content/uploads/2020/08/cropped-KHFM-favicon-4-192x192.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://khfm.org/"
+  faviconLicense: broadcaster-implicit
   homepage: https://khfm.org/
   country: US
   status: stream-only
@@ -66645,8 +66671,10 @@
   streamUrl: https://ice.zradio.org/l/high.mp3
   bitrate: 128
   codec: MP3
-  favicon: https://www1.zradio.org/mstile-70x70.png
+  favicon: "https://laz.radio/wp-content/uploads/2024/05/La-Z-Icon.jpg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://laz.radio/"
+  faviconLicense: broadcaster-implicit
   homepage: https://www1.zradio.org/
   country: US
   status: stream-only
@@ -68805,6 +68833,10 @@
   changeuuid: 165f83c6-bb29-4a05-9da1-c7dae1201612
   reviewedAt: 2026-05-04
 - id: us-kkup-91-5-cupertino-ca-new-stream
+  favicon: "https://kkupfm.org/wp-content/uploads/2019/02/cropped-favicon-kkup-192x192.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://kkupfm.org/"
+  faviconLicense: broadcaster-implicit
   tags: [community radio, independent, variety]
   broadcaster: independent
   name: KKUP 91.5 Cupertino, CA (new stream)
@@ -69291,6 +69323,10 @@
   changeuuid: c0545dd8-2491-40c5-90fa-9a6f0b90f188
   reviewedAt: 2026-05-04
 - id: us-in-touch-radio-network
+  favicon: "https://commons.wikimedia.org/wiki/Special:FilePath/In_Touch_Ministries_Logo.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:In_Touch_Ministries_Logo.svg"
+  faviconLicense: public-domain
   broadcaster: independent
   name: In Touch Radio Network
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/ITRN.mp3
@@ -69787,6 +69823,10 @@
   changeuuid: 1f100007-c7e5-4e43-85a1-cb0197afc84f
   reviewedAt: 2026-05-04
 - id: us-kkng-97-3-fm
+  favicon: "https://files.ecatholic.com/22464/favicon.ico"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.okcr.org/"
+  faviconLicense: broadcaster-implicit
   tags: [religious]
   broadcaster: independent
   name: KKNG 97.3 FM
@@ -70673,8 +70713,10 @@
   name: Asheville WSFM- LP
   streamUrl: https://listen.ashevillefm.org/stream
   codec: MP3
-  favicon: "https://upload.wikimedia.org/wikipedia/en/thumb/f/f0/WSFM_Ashevillefm_logo.png/330px-WSFM_Ashevillefm_logo.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
-  faviconSource: wiki
+  favicon: "https://ashevillefm.org/wp-content/uploads/2016/11/cropped-asheville-fm-logo2-270x270.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://ashevillefm.org/"
+  faviconLicense: broadcaster-implicit
   homepage: https://ashevillefm.org/
   country: US
   status: stream-only
@@ -70794,8 +70836,10 @@
   reviewedAt: 2026-05-04
 - id: us-kmoj-hd2-the-ice
   tags: [minneapolis, urban contemporary]
-  favicon: "https://upload.wikimedia.org/wikipedia/en/7/73/KMOJ_Logo.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
-  faviconSource: wiki
+  favicon: "https://theicemn.org/wp/wp-content/uploads/2020/01/TheICE_Logo_250_T_float_wht.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://theicemn.org/wp/"
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: KMOJ-HD2 The Ice
   streamUrl: https://kmojfm.streamguys1.com/theice
@@ -71928,6 +71972,8 @@
   tags: [community radio, music podcasts, talk]
   favicon: "https://wpkn.org/wp-content/uploads/2025/11/cropped-WPKN-DL-Black-Transparent-Stacked-300x300.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://wpkn.org/"
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: WPKN 89.5 Community Radio Station
   streamUrl: https://ice25.securenetsystems.net/WPKN
@@ -73030,8 +73076,10 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/KRVSFMAAC.aac
   bitrate: 128
   codec: AAC+
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/KRVS_logo_since_2012.svg/330px-KRVS_logo_since_2012.svg.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/d/d3/KRVS_logo_since_2012.svg"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:KRVS_logo_since_2012.svg"
+  faviconLicense: public-domain
   homepage: https://www.krvs.org/
   country: US
   status: stream-only
@@ -77661,6 +77709,10 @@
   changeuuid: 7fb33285-66f3-489f-bc0b-27b843133f24
   reviewedAt: 2026-05-04
 - id: us-weft-90-1-east-central-illinois-community-radio
+  favicon: "https://new.weft.org/img/WEFT%20LOGO%202026.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://new.weft.org/"
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   broadcaster: independent
   name: WEFT 90.1 East Central Illinois Community Radio
@@ -78740,6 +78792,10 @@
   changeuuid: 29b6090b-5a0d-48e0-a6c5-9f6ffb20f915
   reviewedAt: 2026-05-04
 - id: us-amarillo-college-fm90
+  favicon: "https://www.kacvfm.org/themes/FM90/favicons/cropped-favicon-192x192.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://kacvfm.org/"
+  faviconLicense: broadcaster-implicit
   tags: [alternative]
   broadcaster: independent
   name: Amarillo College FM90
@@ -83089,6 +83145,10 @@
   changeuuid: 4c98620d-6935-45a9-8a41-9c01c626b2f9
   reviewedAt: 2026-05-04
 - id: us-the-current-holiday-stream
+  favicon: "https://www.thecurrent.org/images/the-current-default-social-image.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.thecurrent.org/"
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: The Current Holiday Stream
   streamUrl: https://currentholiday.stream.publicradio.org/currentholiday.mp3
@@ -316888,6 +316948,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: us-lancaster-baptist-church
+  favicon: "https://www.lancasterbaptist.org/sites/all/themes/material_design/img/lbc-logo-black.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.lancasterbaptist.org/internet-radio"
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Lancaster Baptist Church
@@ -318215,6 +318279,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: us-90-7-fm-kwmu-1
+  favicon: "https://www.stlpr.org/favicon-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.stlpr.org/"
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: 90.7 FM KWMU-1
@@ -343721,6 +343789,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: us-kwmu3-classical
+  favicon: "https://www.stlpr.org/favicon-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.stlpr.org/"
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: KWMU3 classical
@@ -349611,6 +349683,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: us-kazi-88-7
+  favicon: "https://upload.wikimedia.org/wikipedia/en/6/67/KAZI_88.7.png"
+  faviconSource: wiki
+  faviconSourceUrl: "https://en.wikipedia.org/wiki/KAZI"
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: KAZI 88.7
@@ -351889,6 +351965,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: us-rivercom-chelan-douglas-county-dispatch
+  favicon: "https://rivercom911.org/wp-content/uploads/2022/05/cropped-2022-LOGO-web-270x270.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://rivercom911.org/"
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Rivercom Chelan / Douglas County Dispatch
@@ -361399,6 +361479,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: us-ktuh-org
+  favicon: "https://ktuh.org/wp-content/uploads/2019/06/ktuh-logo.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://ktuh.org/"
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: KTUH.org
@@ -383234,6 +383318,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: us-wksu-hd4-news-more
+  favicon: "https://commons.wikimedia.org/wiki/Special:FilePath/Ideastream_Public_Media_WKSU_logo.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Ideastream_Public_Media_WKSU_logo.svg"
+  faviconLicense: public-domain
   source: radio-browser
   broadcaster: independent
   name: "WKSU HD4 News & More"
