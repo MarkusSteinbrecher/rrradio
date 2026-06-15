@@ -18001,8 +18001,11 @@
     - talk
     - public
     - turkish
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/TRT_Radyo_1_logo.svg/330px-TRT_Radyo_1_logo.svg.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/2/27/TRT_Radyo_1_logo.svg"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:TRT_Radyo_1_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: https://www.trtradyo.com/radyo1
   country: TR
   status: stream-only
@@ -18026,8 +18029,11 @@
   country: TR
   status: stream-only
 - id: tr-trt-turku
-  favicon: "https://static.hugedomains.com/images/hdv3-img/og_hugedomains.png"
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/f/f6/TRT_T%C3%BCrk%C3%BC_logo.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:TRT_T%C3%BCrk%C3%BC_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   faviconBlocked: true
   stationuuid: 4a59d1f8-8496-4197-b4b4-37febe87cf9b
   changeuuid: ddaee65c-cc35-4f35-96fc-85f9d400b50a
@@ -18047,8 +18053,11 @@
   country: TR
   status: stream-only
 - id: tr-trt-nagme
-  favicon: "https://static.hugedomains.com/images/hdv3-img/og_hugedomains.png"
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/f/f5/TRT_Na%C4%9Fme_logo.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:TRT_Na%C4%9Fme_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   faviconBlocked: true
   stationuuid: dff6fd72-58fe-4eb5-8bf7-c3f76f5375ca
   changeuuid: 5b1c3618-2100-4f97-854d-ea2d42c26d1d
@@ -18068,8 +18077,11 @@
   country: TR
   status: stream-only
 - id: tr-trt-radyo-haber
-  favicon: "https://static.hugedomains.com/images/hdv3-img/og_hugedomains.png"
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/TRT_Radyo_Haber_logo.svg/330px-TRT_Radyo_Haber_logo.svg.png"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:TRT_Radyo_Haber_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   faviconBlocked: true
   stationuuid: bfce025c-fb60-44a4-885e-011ec39d8f57
   changeuuid: b0428a52-cb3a-47d2-9640-6d2d5de92667
@@ -18203,8 +18215,11 @@
   country: TR
   status: stream-only
 - id: tr-virgin-radio
-  favicon: "https://upload.wikimedia.org/wikipedia/tr/0/07/Virgin_Radio_logo.png"
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/d/d1/VirginRadio.png"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:VirginRadio.png"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   stationuuid: 960969eb-0601-11e8-ae97-52543be04c81
   changeuuid: 6469b8b7-c474-42d5-8a82-9366dd48f4a7
   reviewedAt: 2026-04-30
@@ -18223,8 +18238,11 @@
   country: TR
   status: stream-only
 - id: tr-metro-fm
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/5/5b/Logo_of_Metro_FM.png"
-  faviconSource: wiki
+  favicon: "https://mediacdns.karnaval.com/media/station_media/2/logos/android_default_logo.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://karnaval.com/radyolar/metrofm"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 0012c08a-31e7-48c6-87a9-7f64736e0a38
   changeuuid: 9ebdc6a8-d475-4d7d-a82a-85cb425f35b1
   reviewedAt: 2026-04-30
@@ -156280,6 +156298,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: tr-radyo-siran
+  favicon: "https://radyosiran.com/wp-content/uploads/2021/05/unnamed.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radyosiran.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [folk]
   broadcaster: independent
   name: Radyo Şiran
@@ -156295,8 +156318,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: tr-radyo-seymen
-  favicon: "https://radyoseymen.com.tr/wp-content/uploads/2023/04/radyo-seymen-logo1.png"
+  favicon: "https://radyoseymen.com.tr/wp-content/uploads/2026/03/cropped-radyoseymen-favicon-270x270.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radyoseymen.com.tr/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Radyo Seymen
   streamUrl: https://yayin.radyoseymen.com.tr:1070/stream
@@ -156333,8 +156359,11 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/SUPER_FM_SC
   bitrate: 64
   codec: MP3
-  favicon: https://superfm.com.tr/favicon.ico
+  favicon: "https://mediacdns.karnaval.com/media/station_media/1/icons/android-chrome-192x192.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://superfm.com.tr/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://superfm.com.tr/
   country: TR
   status: stream-only
@@ -156391,6 +156420,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: tr-diyanet-radyo
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/9/9d/Diyanet_Radyo_logo.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Diyanet_Radyo_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   broadcaster: independent
   name: Diyanet Radyo
   streamUrl: https://eustr73.mediatriple.net/videoonlylive/mtikoimxnztxlive/broadcast_5e3c1171d7d2a.smil/playlist.m3u8
@@ -156439,6 +156473,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: tr-super-fm-2-turkey
+  favicon: "https://mediacdns.karnaval.com/media/station_media/1/icons/android-chrome-192x192.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://superfm.com.tr/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: SUPER FM 2 TURKEY
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/SUPER2_SC?/
@@ -156453,6 +156492,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: tr-houseland-turkey
+  favicon: "https://ik.fskit.net/radyohome/media/station/88/logo_square.png?tr=w-512"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radyohome.com/radyolar/houseland"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: HOUSELAND TURKEY
   streamUrl: https://moondigitaledge.radyotvonline.net/houseland/playlist.m3u8
@@ -156514,6 +156558,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: tr-fenomen-karisik
+  favicon: "https://cdn.radyofenomen.com/artwork/logo32.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://cdn.radyofenomen.com/artwork/logo32.png"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: FENOMEN KARISIK
   streamUrl: https://live.radyofenomen.com/fenomenkarisik/abr/fenomenkarisik/128/chunks.m3u8
@@ -156527,6 +156576,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: tr-baba-radyo
+  favicon: "https://www.babaradyo.com/wp-content/uploads/2025/02/baba-slider.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.babaradyo.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [folk]
   broadcaster: independent
   name: Baba Radyo
@@ -156574,6 +156628,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: tr-power-turk-dans-turkiye
+  favicon: "https://cdn.powergroup.com.tr/image/1000x1000/powerapp/channels/v3/logo_1525.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.powerapp.com.tr/radios/powerturkdans/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: POWER TÜRK DANS TÜRKİYE
   streamUrl: https://listen.powerapp.com.tr/powerturkdans/abr/powerturkdans/128/playlist.m3u8
@@ -156588,6 +156647,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: tr-akra-fm
+  favicon: "https://www.akradyo.net/assets/img/logo.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.akradyo.net/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [islamic]
   broadcaster: independent
   name: Akra FM
@@ -156603,6 +156667,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: tr-fenomen-pop
+  favicon: "https://cdn.radyofenomen.com/image/0x0/u/Channels/v2/logo_49.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radyofenomen.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: FENOMEN POP
   streamUrl: https://live.radyofenomen.com/fenomenpop/abr/fenomenpop/128/chunks.m3u8
@@ -156616,6 +156685,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: tr-fenomen-dans
+  favicon: "https://cdn.radyofenomen.com/image/512x512/u/Channels/v2/logo_20.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radyofenomen.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: FENOMEN DANS
   streamUrl: https://live.radyofenomen.com/fenomendans/abr/fenomendans/128/chunks.m3u8
@@ -156665,8 +156739,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: tr-avrasya-turk-radyo
   tags: [classical]
-  favicon: "https://sslyayin.netyayin.net:10909/images/favicon.ico"
+  favicon: "https://www.avrasyaturk.com.tr/wp-content/uploads/2021/06/logo-1.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.avrasyaturk.com.tr/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Avrasya Türk Radyo
   streamUrl: https://sslyayin.netyayin.net:10909/
@@ -156681,6 +156758,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: tr-diyanet-kur-an-radyo
+  favicon: "https://diyanetkuranradyo.com/assets/13d17ca8-639c-422d-a123-1e44ebb26841?width=512&height=512"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.diyanetkuranradyo.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [islamic]
   broadcaster: independent
   name: "Diyanet Kur'an Radyo"
@@ -156710,8 +156792,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: tr-radyo-viva
-  favicon: "https://radyoviva.com.tr/viva-favicon.png"
+  favicon: "https://i.radyoviva.com.tr/images/2025/08/21/viva-rev-logo-beyaz-21082025-kare-1080x1080-min-RM3w71Pu.jpg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radyoviva.com.tr/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Radyo Viva
   streamUrl: https://moondigitaledge.radyotvonline.net/radyoviva/playlist.m3u8
@@ -156790,6 +156875,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: tr-bayram-fm-turkey
+  favicon: "https://www.bayramfm.com.tr/wp-content/uploads/2026/03/cropped-1200x630wa-270x270.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://bayramfm.com.tr/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: BAYRAM FM TURKEY
   streamUrl: https://sslyayin.netyayin.net/3442/stream
@@ -156804,6 +156894,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: tr-ege-havalari-turkey
+  favicon: "https://ik.fskit.net/radyohome/media/station/18/logo_square.png?w=1000:&format=auto&fit=crop&bg=496632&tr=w-1000:,bg-496632"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: EGE HAVALARI TURKEY
   streamUrl: https://moondigitalmaster.radyotvonline.net/egehavalari/playlist.m3u8
