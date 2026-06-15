@@ -16541,8 +16541,11 @@
   country: AR
   status: stream-only
 - id: ar-rock-and-pop
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Radio_rockpop.png/250px-Radio_rockpop.png"
-  faviconSource: wiki
+  favicon: "https://fmrockandpop.com/pwa/1024x1024.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://fmrockandpop.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: bcb3b03a-f0ec-4ceb-b22f-922138858800
   changeuuid: 6bbc79df-0e9a-461c-89af-ebd61e3bb88d
   reviewedAt: 2026-04-30
@@ -16602,8 +16605,11 @@
   country: AR
   status: stream-only
 - id: ar-radio-10
-  favicon: "https://www.radio10.com.ar/css-custom/220/favicons/apple-touch-icon-152x152.png"
+  favicon: "https://www.radio10.com.ar/css-custom/220/favicons/android-chrome-512x512.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radio10.com.ar/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 7bc38611-e8d6-494d-9f71-2c1be5341f12
   changeuuid: 00e6d13f-f4ef-4766-935b-dd7036aed4a5
   reviewedAt: 2026-04-30
@@ -16622,8 +16628,11 @@
   country: AR
   status: stream-only
 - id: ar-con-vos
-  favicon: "https://static.radioconvos.com.ar/uploads/2024/04/Logo-2.png"
+  favicon: "https://static.radioconvos.com.ar/uploads/2025/04/Favicon_RCV-460x460.jpg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radioconvos.com.ar/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: ae7694a3-d499-11e9-a861-52543be04c81
   changeuuid: 3b7e7372-3c19-4e42-8e0b-0aabdefbc62b
   reviewedAt: 2026-04-30
@@ -16662,8 +16671,11 @@
   country: AR
   status: stream-only
 - id: ar-la-red
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Radio_La_Red_AM_910.png/250px-Radio_La_Red_AM_910.png"
-  faviconSource: wiki
+  favicon: "https://www.lared.am/css-custom/316/favicons/android-chrome-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.lared.am/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 5440e89d-708d-4336-9b42-fa274ed093b1
   changeuuid: 0fcbb3c9-b67b-4148-831b-84f7cd2e7c93
   reviewedAt: 2026-04-30
@@ -143402,8 +143414,11 @@
   streamUrl: https://ipanel.instream.audio:7000/stream
   bitrate: 48
   codec: AAC
-  favicon: https://static.wixstatic.com/media/bec174_ab44bc8dffdb479b8386959c7966916f%7Emv2.jpg/v1/fill/w_32%2Ch_32%2Clg_1%2Cusm_0.66_1.00_0.01/bec174_ab44bc8dffdb479b8386959c7966916f%7Emv2.jpg
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/8/8a/AM530.png"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:AM530.png"
+  faviconSourceType: cdn
+  faviconLicense: cc-by-sa-4.0
   homepage: https://www.am530somosradio.com/
   country: AR
   status: stream-only
@@ -143413,8 +143428,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ar-radio-disney-argentina-94-3-ciudad-de-buenos-air
-  favicon: "https://ar.radiodisney.com/img/placeholders/lat/featuredImage.png"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/e/e1/Logo_Radio_Disney_Latinoam%C3%A9rica_2023.png"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Logo_Radio_Disney_Latinoam%C3%A9rica_2023.png"
+  faviconSourceType: cdn
+  faviconLicense: cc-by-sa-4.0
   broadcaster: independent
   name: Radio Disney Argentina 94.3. Ciudad de Buenos Aires
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/DISNEY_ARG_BA.mp3
@@ -143445,8 +143463,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ar-urbana-play-104-3
-  favicon: "https://urbanaplayfm.com/wp-content/uploads/2025/06/banner.webp"
+  favicon: "https://urbanaplayfm.com/wp-content/uploads/2025/03/favicon.webp"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://urbanaplayfm.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Urbana Play 104.3
   streamUrl: https://vmf.edge-apps.net/playlist/urbana.m3u8/play.m3u8
@@ -143512,8 +143533,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ar-fm-millenium-106-7
   tags: [magazine, music, news]
-  favicon: "https://static.parastorage.com/client/pfavico.ico"
-  faviconSource: radio-browser
+  favicon: "https://static.wixstatic.com/media/563fb8_49d8a37f45c74598af20880f3ef22e89~mv2.png/v1/fill/w_512,h_512,al_c,q_90,enc_png/logo.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.fmmilenium.com.ar/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: FM Millenium 106.7
   streamUrl: https://sonicpanel.hostradios.com/8002/stream
@@ -143534,8 +143558,11 @@
   streamUrl: https://stream4.suenas.net/pobrejohnny
   bitrate: 64
   codec: AAC
-  favicon: https://static.wixstatic.com/media/3e84df_ec590205fae242a7b22feb981c2e1114%7Emv2.png/v1/fill/w_32%2Ch_32%2Clg_1%2Cusm_0.66_1.00_0.01/3e84df_ec590205fae242a7b22feb981c2e1114%7Emv2.png
-  faviconSource: radio-browser
+  favicon: "https://static.wixstatic.com/media/3e84df_5b00f131394cc16054df79e9e77df66e.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.pobrejohnny.com.ar/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.pobrejohnny.com.ar/
   country: AR
   status: stream-only
@@ -143577,8 +143604,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ar-metro-fm-95-1-ciudad-de-buenos-aires
-  favicon: "https://www.mph.fm/wp-content/uploads/2025/10/favicon.png"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/4/43/Metro951.png"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Metro951.png"
+  faviconSourceType: cdn
+  faviconLicense: cc-by-sa-4.0
   broadcaster: independent
   name: Metro FM 95.1. Ciudad de Buenos Aires
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/METROAAC.aac
@@ -143593,6 +143623,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ar-delta-90-3
+  favicon: "https://fmdelta903.com/images/logo.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://fmdelta903.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [argentina, dance, news, pop]
   broadcaster: independent
   name: Delta 90.3
@@ -143609,8 +143644,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ar-fm-la-patriada
   tags: [actualidad, musica, noticias locales, política, reports, rock]
-  favicon: "https://www.fmlapatriada.com.ar/social.png"
+  favicon: "https://fmlapatriada.com.ar/img/logo.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.fmlapatriada.com.ar/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: FM La Patriada
   streamUrl: https://server.laradio.online/proxy/fm_la_patriada?mp=/stream
@@ -143715,8 +143753,11 @@
   streamUrl: https://streaming01.shockmedia.com.ar:10217/stream
   bitrate: 40
   codec: MP3
-  favicon: "https://amdelplata.com/wp-content/uploads/2026/05/logo-nuevo-radio-del-plata-2-e1778097579148.png"
+  favicon: "https://amdelplata.com/wp-content/uploads/2026/05/cropped-logo-nuevo-radio-del-plata-2-1.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://amdelplata.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://amdelplata.com/
   country: AR
   status: stream-only
@@ -143726,8 +143767,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ar-urbana-play-104-4
-  favicon: "https://urbanaplayfm.com/wp-content/uploads/2025/06/banner.webp"
+  favicon: "https://urbanaplayfm.com/wp-content/uploads/2025/03/favicon.webp"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://urbanaplayfm.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Urbana Play 104.4
   streamUrl: https://cdn.instream.audio:9660/stream
@@ -143816,8 +143860,11 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/DISNEY_ARG_BAAAC.aac
   bitrate: 128
   codec: AAC+
-  favicon: https://ar.radiodisney.com/favicon.ico
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/e/e1/Logo_Radio_Disney_Latinoam%C3%A9rica_2023.png"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Logo_Radio_Disney_Latinoam%C3%A9rica_2023.png"
+  faviconSourceType: cdn
+  faviconLicense: cc-by-sa-4.0
   homepage: https://ar.radiodisney.com/
   country: AR
   status: stream-only
@@ -143841,8 +143888,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ar-radio-fiesta-97-1-jujuy
-  favicon: "https://static-c4-1.s3.amazonaws.com/assets/img/logos/radio-fiesta-logo-500x353.png"
-  faviconSource: radio-browser
+  favicon: "https://static-c4-1.s3.amazonaws.com/assets/img/radiofiestafm.com.ar/rf-icon.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radiofiestafm.com.ar/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Radio Fiesta 97.1 Jujuy
   streamUrl: https://5cd577a3dd8ec.streamlock.net/radiofiesta/live_1/playlist.m3u8
@@ -144056,8 +144106,11 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/AM990.mp3
   bitrate: 96
   codec: MP3
-  favicon: https://ftp.la990.com.ar/images/share23.png
-  faviconSource: radio-browser
+  favicon: "https://splendidam990.com/images/La990/iconos/25/android-icon-192x192.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://splendidam990.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://splendidam990.com/
   country: AR
   status: stream-only
@@ -144106,8 +144159,11 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/ROCKANDPOP.mp3
   bitrate: 96
   codec: MP3
-  favicon: https://fmrockandpop.com/images/ryp/logo_2022.webp
+  favicon: "https://fmrockandpop.com/pwa/1024x1024.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://fmrockandpop.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://fmrockandpop.com/
   country: AR
   status: stream-only
