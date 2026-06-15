@@ -13128,8 +13128,11 @@
   country: CZ
   status: stream-only
 - id: cz-kiss-98
-  favicon: "https://cdn.onlineradiobox.com/img/l/8/46858.v9.png"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/0/0e/Logo_r%C3%A1dia_Kiss.png"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Logo_r%C3%A1dia_Kiss.png"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   stationuuid: 960ed37d-0601-11e8-ae97-52543be04c81
   changeuuid: c695e7d1-c886-46b9-a120-52162f9a100b
   reviewedAt: 2026-04-30
@@ -13149,8 +13152,11 @@
   country: CZ
   status: stream-only
 - id: cz-radio-beat
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Logo_r%C3%A1dio_BEAT.png/330px-Logo_r%C3%A1dio_BEAT.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Logo_r%C3%A1dio_BEAT.png"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Logo_r%C3%A1dio_BEAT.png"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   stationuuid: 961d7ccb-0601-11e8-ae97-52543be04c81
   changeuuid: f7a5bd23-bfd6-4085-aa6f-9e6b9db640d4
   reviewedAt: 2026-04-30
@@ -225470,6 +225476,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: cz-povidka
+  favicon: "https://radia.cz/media/images/0001/01/f5c0ffebd2a41fb1c5fd4000c61315f12d322f4f.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radia.cz/radia/radio-povidka"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [undefined]
   broadcaster: independent
   name: povídka
@@ -225518,6 +225529,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: cz-radio-blanik-morava-a-slezsko
+  favicon: "https://www.radioblanik.cz/design/favicons/android-icon-192x192.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radioblanik.cz/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [pop]
   broadcaster: independent
   name: "Radio Blaník Morava a Slezsko "
@@ -225553,8 +225569,11 @@
   streamUrl: https://ice4.abradio.cz/dance128.mp3
   bitrate: 128
   codec: MP3
-  favicon: https://radia.cz/favicon.ico
+  favicon: "https://www.danceradio.cz/favicons/android-icon-192x192.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.danceradio.cz/favicons/manifest.json"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://radia.cz/radio-dance-radio-info
   country: CZ
   status: stream-only
@@ -225595,8 +225614,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: cz-radio-humor-2
   tags: [humor]
-  favicon: "https://cdn.onlineradiobox.com/img/l/0/18000.v10.png"
-  faviconSource: radio-browser
+  favicon: "https://radia.cz/media/images/0001/01/9159df74ff5da694889e9418c1e2439632913328.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radia.cz/radia/radio-humor"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Rádio humor 2
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_HUMOR.aac
@@ -226024,8 +226046,11 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/EVROPA2.mp3
   bitrate: 96
   codec: MP3
-  favicon: https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Evropa_2_Logo.png/200px-Evropa_2_Logo.png
-  faviconSource: wiki
+  favicon: "https://m.actve.net/e2/favicon/android-chrome-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://m.actve.net/e2/favicon/site.webmanifest"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.evropa2.cz/
   country: CZ
   status: stream-only
@@ -226090,8 +226115,11 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/EVROPA2AAC.aac
   bitrate: 64
   codec: AAC+
-  favicon: https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Evropa_2_Logo.png/200px-Evropa_2_Logo.png
-  faviconSource: wiki
+  favicon: "https://m.actve.net/e2/favicon/android-chrome-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.evropa2.cz/ (web-app manifest https://m.actve.net/e2/favicon/site.webmanifest)"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.evropa2.cz/
   country: CZ
   status: stream-only
@@ -226141,8 +226169,11 @@
   streamUrl: https://stream.zunradio.cz/zun3.mp3
   bitrate: 192
   codec: MP3
-  favicon: https://digital.rozhlas.cz/sites/default/files/styles/lightbox/public/images/f32b1e9c03da1b0a6fa3c92c11396f91.jpg
-  faviconSource: radio-browser
+  favicon: "https://zunradio.cz/images/ZUN.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://zunradio.cz/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://zunradio.cz/
   country: CZ
   status: stream-only
@@ -226437,8 +226468,11 @@
   streamUrl: https://worldradio100.radioca.st/stream
   bitrate: 128
   codec: MP3
-  favicon: https://worldradio.eu/wp-content/uploads/2023/11/worldradio_lopta_112.png
+  favicon: "https://worldradio.eu/wp-content/uploads/2025/09/WR_black_sq.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://worldradio.eu/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://worldradio.eu/#
   country: CZ
   status: stream-only
