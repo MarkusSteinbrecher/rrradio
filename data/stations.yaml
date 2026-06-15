@@ -16718,8 +16718,11 @@
     - talk
     - spanish
     - colombian
-  favicon: https://www.bluradio.com/favicon.ico
+  favicon: "https://www.bluradio.com/apple-touch-icon-512x512.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.bluradio.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.bluradio.com/
   country: CO
   status: stream-only
@@ -16768,8 +16771,11 @@
   country: CO
   status: stream-only
 - id: co-tropicana
-  favicon: "https://cdn.onlineradiobox.com/img/l/7/21737.v22.png"
-  faviconSource: radio-browser
+  favicon: "https://www.tropicanafm.com/wp-content/uploads/2026/02/cropped-favicon-tropicana-192x192.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.tropicanafm.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 96330fff-0601-11e8-ae97-52543be04c81
   changeuuid: fe1f4cdf-5784-4a72-b825-bad155aa1dbe
   reviewedAt: 2026-04-30
@@ -16810,8 +16816,11 @@
   country: CO
   status: stream-only
 - id: co-vibra-bogota
-  favicon: "https://cdn.onlineradiobox.com/img/l/3/22093.v9.png"
-  faviconSource: radio-browser
+  favicon: "https://uploads.vibra.co/1/2019/03/cropped-logo-vibra-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://vibra.co/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 36492a90-efa9-11e8-a471-52543be04c81
   changeuuid: 08393a47-b27c-48bf-8e2c-16664f4a13db
   reviewedAt: 2026-04-30
@@ -16851,8 +16860,11 @@
   country: CO
   status: stream-only
 - id: co-olimpica-medellin
-  favicon: "https://strapi-aws-s3-images-olimpica-stereo-bucket.s3.us-east-1.amazonaws.com/logo_olimpica_stereo_179b80381a.webp"
-  faviconSource: radio-browser
+  favicon: "https://strapi-aws-s3-images-olimpica-stereo-bucket.s3.us-east-1.amazonaws.com/icon_olimpica_stereo_3bcc09a25b.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.olimpicastereo.com.co/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: cd4f771b-04b6-41ed-ba97-74d23d9f6e59
   changeuuid: bdac5e7d-d40d-4c96-8af4-8663c96d3199
   reviewedAt: 2026-04-30
@@ -16871,8 +16883,11 @@
   country: CO
   status: stream-only
 - id: co-besame-medellin
-  favicon: "https://www.besame.fm/wp-content/uploads/2024/05/logo-besame.png"
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/e/ea/B%C3%A9same_Radio_logo.png"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:B%C3%A9same_Radio_logo.png"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   stationuuid: 08bcc582-f87b-43fc-96cd-5be0233566d5
   changeuuid: c2924556-7b7b-48c9-8739-fc7e47e5b7c3
   reviewedAt: 2026-04-30
@@ -16891,8 +16906,11 @@
   country: CO
   status: stream-only
 - id: co-mix-medellin
-  favicon: "https://strapi-aws-s3-images-mix-bucket.s3.us-east-1.amazonaws.com/mix_light_mode_07df7ce987.webp"
-  faviconSource: radio-browser
+  favicon: "https://strapi-aws-s3-images-mix-bucket.s3.us-east-1.amazonaws.com/icon_mix_light_mode_03e98f09f0.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://mixradio.co/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 0c6bfd10-3912-4ef0-babc-e2ca4dd16881
   changeuuid: 9040b07b-854a-4316-a6ae-553f180f5bab
   reviewedAt: 2026-04-30
@@ -16926,8 +16944,11 @@
     - public
     - spanish
     - colombian
-  favicon: https://www.radionica.rocks/themes/custom/radionica_barrio/favicon.ico
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/8/87/Radi%C3%B3nica_logo.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Radi%C3%B3nica_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: https://www.radionica.rocks/
   country: CO
   status: stream-only
@@ -165209,8 +165230,11 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_ACTIVAAAC.aac
   bitrate: 64
   codec: AAC+
-  favicon: "https://www.radioacktiva.com/wp-content/uploads/2022/03/logo.png"
+  favicon: "https://www.radioacktiva.com/wp-content/uploads/2024/12/cropped-favicon-new1.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radioacktiva.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.radioacktiva.com/
   country: CO
   status: stream-only
@@ -165339,8 +165363,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: co-olimpica-stereo-101-5-fm-sincelejo
   tags: [latin music]
-  favicon: "https://strapi-aws-s3-images-olimpica-stereo-bucket.s3.us-east-1.amazonaws.com/logo_olimpica_stereo_179b80381a.webp"
-  faviconSource: radio-browser
+  favicon: "https://strapi-aws-s3-images-olimpica-stereo-bucket.s3.us-east-1.amazonaws.com/icon_olimpica_stereo_3bcc09a25b.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://olimpicastereo.com.co/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Olimpica Stereo 101.5 Fm Sincelejo
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/OLP_SINCELEJOAAC.aac?1715700010
@@ -165360,8 +165387,11 @@
   streamUrl: https://master.letio.com/io/?gs=9100&type=master.m3u8
   bitrate: 146
   codec: UNKNOWN
-  favicon: "https://radiotiempo.co/_next/image?url=https%3A%2F%2Fstrapi-aws-s3-images-radio-tiempo-bucket.s3.us-east-1.amazonaws.com%2Flogo_radio_tiempo_112f509150.webp&w=384&q=75"
+  favicon: "https://strapi-aws-s3-images-radio-tiempo-bucket.s3.us-east-1.amazonaws.com/icon_radio_tiempo_ff0f52b2c4.webp"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radiotiempo.co/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.radiotiempo.co/
   country: CO
   status: stream-only
@@ -165377,8 +165407,11 @@
   streamUrl: https://streaming.radiosenlinea.com.ar:10983/stream
   bitrate: 128
   codec: AAC+
-  favicon: https://madrigalfm.com/wp-content/uploads/elementor/thumbs/youtube-crossover-qjmsd48x8wrd3xveezze4h2jf5d9wu66ntirddnlxa.png
+  favicon: "https://madrigalfm.com/wp-content/uploads/2024/02/cropped-cropped-favicon-1-1.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://madrigalfm.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://madrigalfm.com/
   country: CO
   status: stream-only
@@ -165394,8 +165427,11 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/RADIOACKTIVA_MEDAAC.aac
   bitrate: 64
   codec: AAC+
-  favicon: "https://www.radioacktiva.com/wp-content/uploads/2022/03/logo.png"
+  favicon: "https://www.radioacktiva.com/wp-content/uploads/2024/12/cropped-favicon-new1.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radioacktiva.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.radioacktiva.com/
   country: CO
   status: stream-only
@@ -165428,8 +165464,11 @@
   streamUrl: https://tupanel.info/stream/emisora919fm
   bitrate: 64
   codec: AAC+
-  favicon: https://static-media.streema.com/media/cache/ba/61/ba61da8fd3b645ffccacb57227d3796c.jpg
-  faviconSource: radio-browser
+  favicon: "https://www.laochentera919.com/static/img/logo512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.laochentera919.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://onlineradiobox.com/co/laochentera/
   country: CO
   status: stream-only
@@ -165474,6 +165513,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: co-la-voz-de-jesus
+  favicon: "https://images.zeno.fm/8bDb4FqMZEQ7zMYeWGVLGCiYHD5UJUrxXmmC0qsXGQM/rs:fill:288:288/g:ce:0:0/aHR0cHM6Ly9wcm94eS56ZW5vLmZtL2NvbnRlbnQvc3RhdGlvbnMvYWd4emZucGxibTh0YzNSaGRITnlNZ3NTQ2tGMWRHaERiR2xsYm5RWWdJRHc5SVdMM3dnTUN4SU9VM1JoZEdsdmJsQnliMlpwYkdVWWdJRHc1T0RHdUFnTW9nRUVlbVZ1YncvaW1hZ2UvP3U9MTY4MjY2MTU3OTAwMA.webp"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://zeno.fm/radio/lavozdejesus"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   tags: [country]
   broadcaster: independent
@@ -165494,8 +165538,11 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/OLP_BOGOTAAAC.aac
   bitrate: 64
   codec: AAC+
-  favicon: "https://strapi-aws-s3-images-olimpica-stereo-bucket.s3.us-east-1.amazonaws.com/logo_olimpica_stereo_179b80381a.webp"
-  faviconSource: radio-browser
+  favicon: "https://strapi-aws-s3-images-olimpica-stereo-bucket.s3.us-east-1.amazonaws.com/icon_olimpica_stereo_3bcc09a25b.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://olimpicastereo.com.co/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://olimpicastereo.com.co/
   country: CO
   status: stream-only
@@ -165510,8 +165557,11 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/OLP_BARRANQUILLAAAC.aac?dist=oro_web
   bitrate: 64
   codec: AAC+
-  favicon: "https://strapi-aws-s3-images-olimpica-stereo-bucket.s3.us-east-1.amazonaws.com/logo_olimpica_stereo_179b80381a.webp"
-  faviconSource: radio-browser
+  favicon: "https://strapi-aws-s3-images-olimpica-stereo-bucket.s3.us-east-1.amazonaws.com/icon_olimpica_stereo_3bcc09a25b.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://olimpicastereo.com.co/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://olimpicastereo.com.co/
   country: CO
   status: stream-only
@@ -165554,6 +165604,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: co-baladas-rs
+  favicon: "https://images.zeno.fm/tYwZT4KROfmCNnT8pxfzsSMNkx9HKAolVnAD5c4-7mc/rs:fill:288:288/g:ce:0:0/aHR0cHM6Ly9wcm94eS56ZW5vLmZtL2NvbnRlbnQvc3RhdGlvbnMvYWd4emZucGxibTh0YzNSaGRITnlNZ3NTQ2tGMWRHaERiR2xsYm5RWWdJQ1F1ZVhxMndnTUN4SU9VM1JoZEdsdmJsQnliMlpwYkdVWWdJQ1EtWi05NmdrTW9nRUVlbVZ1YncvaW1hZ2UvP3U9MTY2MTg5OTQ2MzAwMA.webp"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://zeno.fm/radio/baladas-rs/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   tags: [baladas en español, musica romantica]
   broadcaster: independent
@@ -165569,6 +165624,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: co-6-90-radio-romanticas
+  favicon: "https://proxy.zeno.fm/content/stations/agxzfnplbm8tc3RhdHNyMgsSCkF1dGhDbGllbnQYgIDQ5_m8mQgMCxIOU3RhdGlvblByb2ZpbGUYgICwuZTc0ggMogEEemVubw/image/"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://zeno.fm/radio/r-6-90-radio-romanticas/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   tags: [amor, baladas en español, musica romantica, oldies]
   broadcaster: independent
@@ -165607,8 +165667,11 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/RT_CARTAGENAAAC.aac?dist=RtCarWeb
   bitrate: 64
   codec: AAC+
-  favicon: "https://radiotiempo.co/_next/image?url=https%3A%2F%2Fstrapi-aws-s3-images-radio-tiempo-bucket.s3.us-east-1.amazonaws.com%2Flogo_radio_tiempo_112f509150.webp&w=384&q=75"
+  favicon: "https://strapi-aws-s3-images-radio-tiempo-bucket.s3.us-east-1.amazonaws.com/icon_radio_tiempo_ff0f52b2c4.webp"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiotiempo.co/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://radiotiempo.co/
   country: CO
   status: stream-only
@@ -165656,8 +165719,11 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/OLP_CALI.mp3
   bitrate: 96
   codec: MP3
-  favicon: https://olimpicastereo.com.co/_next/image?url=https%3A%2F%2Fstrapi-aws-s3-images-olimpica-stereo-bucket.s3.us-east-1.amazonaws.com%2Flogo_olimpica_stereo_179b80381a.webp&w=384&q=75
+  favicon: "https://strapi-aws-s3-images-olimpica-stereo-bucket.s3.us-east-1.amazonaws.com/icon_olimpica_stereo_3bcc09a25b.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://olimpicastereo.com.co/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://olimpicastereo.com.co/
   country: CO
   status: stream-only
@@ -165722,8 +165788,11 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/BESAME_CALIAAC.aac
   bitrate: 64
   codec: AAC+
-  favicon: "https://www.besame.fm/wp-content/uploads/2024/05/logo-besame.png"
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/e/ea/B%C3%A9same_Radio_logo.png"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:B%C3%A9same_Radio_logo.png"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: https://www.besame.fm/
   country: CO
   status: stream-only
@@ -165872,8 +165941,10 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/OLP_MONTERIAAAC_SC?1715699972
   bitrate: 64
   codec: AAC+
-  favicon: "https://strapi-aws-s3-images-olimpica-stereo-bucket.s3.us-east-1.amazonaws.com/logo_olimpica_stereo_179b80381a.webp"
-  faviconSource: radio-browser
+  favicon: "https://strapi-aws-s3-images-olimpica-stereo-bucket.s3.us-east-1.amazonaws.com/icon_olimpica_stereo_3bcc09a25b.png"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: http://olimpicastereo.com.co/
   country: CO
   status: stream-only
@@ -165883,8 +165954,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: co-zonasalsa-radio
-  favicon: "https://cdn.onlineradiobox.com/img/l/8/62798.v10.png"
-  faviconSource: radio-browser
+  favicon: "https://zonasalsaradio.com/logo.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://zonasalsaradio.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: ZonaSalsa Radio
   streamUrl: https://cast6.asurahosting.com/proxy/salsafou/stream
@@ -165899,8 +165973,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: co-salsa-y-mas-cali
-  favicon: "https://static.xx.fbcdn.net/rsrc.php/yH/r/a0cO3e6g_yJ.webp"
+  favicon: "https://salsaymascali.co/assets/salsa.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://salsaymascali.co/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   tags: [latino, music, reggaeton, salsa, tropical, vallenato]
   broadcaster: independent
