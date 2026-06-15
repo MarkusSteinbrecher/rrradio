@@ -10275,8 +10275,11 @@
   country: PL
   status: stream-only
 - id: builtin-pr-trojka
-  favicon: "https://static.prsa.pl/images/28de614d-8649-4f5b-8645-b6cc0c4318cc.jpg"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/8/86/Logotyp_programu_trzeciego_Polskiego_Radia.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Logotyp_programu_trzeciego_Polskiego_Radia.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   stationuuid: 964aa3f1-0601-11e8-ae97-52543be04c81
   changeuuid: 49ecc00b-65a5-4168-a927-1a94d9a1f859
   reviewedAt: 2026-04-29
@@ -10297,8 +10300,11 @@
   status: stream-only
   featured: true
 - id: builtin-pr-czworka
-  favicon: "https://static.prsa.pl/images/6c810aca-4698-4d36-9370-8c651e7c0077.jpg"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Czw%C3%B3rka_Polskie_Radio_logo.jpg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Czw%C3%B3rka_Polskie_Radio_logo.jpg"
+  faviconSourceType: cdn
+  faviconLicense: cc-by-sa-4.0
   stationuuid: bd89329f-4e16-11e8-a4d1-52543be04c81
   changeuuid: 54d7f482-c1fc-47cd-ac72-7e05557374e1
   reviewedAt: 2026-04-29
@@ -10318,8 +10324,11 @@
   country: PL
   status: stream-only
 - id: builtin-pr-24
-  favicon: "https://static.prsa.pl/images/c624a42e-5aa9-43ff-99c0-f5447c0727cd.jpg"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/d/d8/Logotyp_Polskiego_Radia_24.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Logotyp_Polskiego_Radia_24.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   stationuuid: 961a56e9-0601-11e8-ae97-52543be04c81
   changeuuid: eb00a6db-319b-4601-9a3e-744764927685
   reviewedAt: 2026-04-29
@@ -10359,8 +10368,11 @@
   status: stream-only
   featured: true
 - id: pl-rmf-maxxx
-  favicon: "https://www.rmfmaxx.pl/assets-22/images/rmfmaxxx-logo.png"
-  faviconSource: radio-browser
+  favicon: "https://www.rmfmaxx.pl/assets-22/images/favicons/android-chrome-192x192.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.rmfmaxx.pl/assets-22/images/favicons/site.webmanifest"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 65cd1362-71ab-4829-8a4a-f530caf3a465
   changeuuid: 7ae04567-8820-4f61-8d49-179a57486a36
   reviewedAt: 2026-04-29
@@ -10379,8 +10391,11 @@
   country: PL
   status: stream-only
 - id: pl-rmf-classic
-  favicon: "https://www.rmfclassic.pl/dist-v2021/images/logo-rmf-classic-2022.png"
+  favicon: "https://www.rmfon.pl/assets/images/loga/200/rmfclassic.jpg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.rmfon.pl/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 960dc513-0601-11e8-ae97-52543be04c81
   changeuuid: c766c70f-749b-4923-aa14-1313d91929e4
   reviewedAt: 2026-04-29
@@ -10399,8 +10414,11 @@
   country: PL
   status: stream-only
 - id: pl-rmf-przeboje
-  favicon: "https://cdn.onlineradiobox.com/img/l/7/1497.v10.png"
-  faviconSource: radio-browser
+  favicon: "https://static.rmf.pl/portal/stations/covers/rmf-polskie-przeboje/20240404115940_rmf-polskie-przeboje_600.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.rmfon.pl/stacja/rmf-polskie-przeboje"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 960f824a-0601-11e8-ae97-52543be04c81
   changeuuid: e0055c66-04d8-4d0d-a79e-bd4ba9b70427
   reviewedAt: 2026-04-29
@@ -10419,8 +10437,11 @@
   country: PL
   status: stream-only
 - id: pl-rmf-dance
-  favicon: "https://cdn.onlineradiobox.com/img/l/1/1481.v7.png"
-  faviconSource: radio-browser
+  favicon: "https://static.rmf.pl/portal/stations/covers/rmf-dance/20240404114851_rmf-dance_600.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.rmfon.pl/stacja/rmf-dance"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 960f7041-0601-11e8-ae97-52543be04c81
   changeuuid: 568d057f-3d32-461a-b2a6-55a1ec2de85e
   reviewedAt: 2026-04-29
@@ -137609,6 +137630,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-radio-rmf24-pl
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/5/53/RMF_FM_logo.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:RMF_FM_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   tags: [classic rock, information, news, pop, pop rock, rock]
   broadcaster: independent
   name: Radio RMF24.pl
@@ -137709,8 +137735,11 @@
   streamUrl: https://bcast.vigormultimedia.com:48888/sjcompl320mp3
   bitrate: 320
   codec: MP3
-  favicon: http://bcast.vigormultimedia.com:7000/sjcompl_192_192_nie_kasowac.png
-  faviconSource: radio-browser
+  favicon: "https://smoothjazz.com.pl/wp-content/uploads/2018/10/cropped-sj-1-192x192.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://smoothjazz.com.pl/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.smoothjazz.com.pl/
   country: PL
   status: stream-only
@@ -138022,8 +138051,11 @@
   streamUrl: https://waw.ic.smcdn.pl/4070-1.mp3
   bitrate: 128
   codec: MP3
-  favicon: https://www.google.com/imgres?imgurl=https%3A%2F%2Fmyradioonline.pl%2Fpublic%2Fuploads%2Fradio_img%2Fradio-plus%2Ffb_cover.jpg&imgrefurl=https%3A%2F%2Fmyradioonline.pl%2Fradio-plus&tbnid=t01lPa3fSdA3fM&vet=12ahUKEwjmuPu018zxAhUS_CoKHfw8Dj4QMygBegUIARCdAQ..i&docid=ewI89N863ZxEUM&w=720&h=374&q=radio%20plus%20krak%C3%B3w&client=opera&ved=2ahUKEwjmuPu018zxAhUS_CoKHfw8Dj4QMygBegUIARCdAQ
-  faviconSource: radio-browser
+  favicon: "https://www.radioplus.pl/web-app-manifest-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radioplus.pl/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: http://www.radioplus.pl/
   country: PL
   status: stream-only
@@ -138039,8 +138071,11 @@
   streamUrl: https://an01.cdn.eurozet.pl/ANTCLA.mp3?redirected=01
   bitrate: 128
   codec: MP3
-  favicon: "https://gfx-player.antyradio.pl/var/player/storage/images/player-antyradio/kanaly-muzyczne/antyradio-classic-rock/709461-15-pol-PL/Antyradio-Classic-Rock_social_share.jpg"
-  faviconSource: radio-browser
+  favicon: "https://gfx-player.antyradio.pl/var/player/storage/images/player-antyradio/kanaly-muzyczne/antyradio-classic-rock/709461-15-pol-PL/Antyradio-Classic-Rock_size-228x228.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://player.antyradio.pl/Kanaly-muzyczne/Antyradio-Classic-Rock"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://player.antyradio.pl/Kanaly-muzyczne/Antyradio-Classic-Rock
   country: PL
   status: stream-only
@@ -138066,6 +138101,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-rmf-maxxx-99-7-pomorze
+  favicon: "https://www.rmfmaxx.pl/assets-22/images/favicons/android-chrome-192x192.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.rmfmaxx.pl/assets-22/images/favicons/site.webmanifest"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [pop]
   broadcaster: independent
   name: RMF MAXXX 99.7 Pomorze
@@ -138117,8 +138157,11 @@
   streamUrl: https://radiostream.pl/tuba8904-1.mp3
   bitrate: 128
   codec: MP3
-  favicon: https://zloteprzeboje.pl/wp-content/uploads/2022/06/zp-logo-normal-color.png
+  favicon: "https://gfx.zloteprzeboje.pl/extension/zloteprzeboje/design/standard/images/favicon/android-chrome-512x512.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://zloteprzeboje.pl/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://zloteprzeboje.pl/
   country: PL
   status: stream-only
@@ -138151,8 +138194,11 @@
   streamUrl: https://bcast.vigormultimedia.com:48888/sjcompl192aac
   bitrate: 192
   codec: AAC
-  favicon: http://bcast.vigormultimedia.com:7000/sjcompl_192_192_nie_kasowac.png
-  faviconSource: radio-browser
+  favicon: "https://smoothjazz.com.pl/wp-content/uploads/2018/10/cropped-sj-1-192x192.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.smoothjazz.com.pl/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.smoothjazz.com.pl/
   country: PL
   status: stream-only
@@ -138243,6 +138289,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-radio-zlote-przeboje-wroclaw
+  favicon: "https://gfx.zloteprzeboje.pl/extension/zloteprzeboje/design/standard/images/favicon/android-chrome-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://zloteprzeboje.pl/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [misc]
   broadcaster: independent
   name: Radio Zlote Przeboje Wroclaw
@@ -138258,6 +138309,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-eska-trojmiasto
+  favicon: "https://www.eska.pl/web-app-manifest-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.eska.pl/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [pop]
   broadcaster: independent
   name: Eska Trójmiasto
@@ -138288,8 +138344,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-radio-rdn-ma-opolska
   tags: [christian, religion]
-  favicon: "https://rdn.pl/wp-content/uploads/2022/08/logo3x.png"
+  favicon: "https://rdn.pl/wp-content/uploads/2022/03/favicon-1.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://rdn.pl/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Radio RDN Małopolska
   streamUrl: https://stream1.dabcom.pl/rdn_mpl
@@ -138388,8 +138447,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-radio-silesia-fm
   tags: [regionalna muzyka]
-  favicon: "https://silesia.fm/favicon.ico"
+  favicon: "https://silesia.fm/templates/default/img/logo.svg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://silesia.fm/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Radio Silesia FM
   streamUrl: https://s1.slotex.pl/shoutcast/7926/stream?sid=1
@@ -138487,6 +138549,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-radio-plus-krakow
+  favicon: "https://www.radioplus.pl/web-app-manifest-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radioplus.pl/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [classical]
   broadcaster: independent
   name: Radio Plus Krakow
@@ -138507,8 +138574,11 @@
   streamUrl: https://an04.cdn.eurozet.pl/ANTPOL.mp3?t=1668748669557?redirected=04
   bitrate: 128
   codec: MP3
-  favicon: "https://gfx-player.antyradio.pl/var/player/storage/images/player-antyradio/kanaly-muzyczne/antyradio-made-in-poland/709795-11-pol-PL/Antyradio-Made-In-Poland_social_share.jpg"
-  faviconSource: radio-browser
+  favicon: "https://gfx-player.antyradio.pl/var/player/storage/images/player-antyradio/kanaly-muzyczne/antyradio-made-in-poland/709795-11-pol-PL/Antyradio-Made-In-Poland.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://player.antyradio.pl/Kanaly-muzyczne/Antyradio-Made-In-Poland"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://player.antyradio.pl/Kanaly-muzyczne/Antyradio-Made-In-Poland
   country: PL
   status: stream-only
@@ -138557,8 +138627,11 @@
   streamUrl: https://zt06.cdn.eurozet.pl/ZETNAR.mp3?t=1709720397160?redirected=06
   bitrate: 128
   codec: MP3
-  favicon: https://gfx-player.radiozet.pl/var/player/storage/images/player-radio-zet/kanaly-muzyczne/radio-zet-na-rower/2014099-20-pol-PL/Radio-ZET-na-Rower_social_share.png
-  faviconSource: radio-browser
+  favicon: "https://gfx-player.radiozet.pl/var/player/storage/images/player-radio-zet/kanaly-muzyczne/radio-zet-na-rower/2014099-20-pol-PL/Radio-ZET-na-Rower.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://player.radiozet.pl/Kanaly-muzyczne/Radio-ZET-na-Rower"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://player.radiozet.pl/Kanaly-muzyczne/Radio-ZET-na-Rower
   country: PL
   status: stream-only
@@ -138623,8 +138696,11 @@
   streamUrl: https://sluchaj.link:5443/wasze
   bitrate: 160
   codec: MP3
-  favicon: "https://www.waszeradiofm.pl/assets/images/logo/waszeradio_opengrapgh_default.jpg"
+  favicon: "https://www.waszeradiofm.pl/android-chrome-512x512.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.waszeradiofm.pl/site.webmanifest"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.waszeradiofm.pl/
   country: PL
   status: stream-only
@@ -138673,8 +138749,11 @@
   streamUrl: https://ssl-1.radiohost.pl:8018/stream
   bitrate: 256
   codec: MP3
-  favicon: https://www.radioitalo4you.net/images/logo.png
+  favicon: "https://www.radioitalo4you.net/images/favicons/android-chrome-192x192.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radioitalo4you.net/images/favicons/manifest.json"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.radioitalo4you.net/
   country: PL
   status: stream-only
