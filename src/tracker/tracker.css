@@ -1,37 +1,62 @@
 /* rrradio station tracker — catalog operations console.
  *
- * Visual language: HQ terminal design system (terminal-dark, monospace-first,
- * zero radius, 1px-border containers) with the rrradio yellow brand accent as
- * the project extension. Tokens vendored per the adoption guide
- * (~/Code/HQ/docs/styleguide/adoption-guide.yaml, option A) — the page is
- * deployed standalone to GitHub Pages and cannot reference HQ paths.
+ * Visual language: matches the main rrradio web app. IBM Plex Sans for
+ * station names + body, IBM Plex Mono for counts, codes, URLs and the
+ * uppercase micro-labels; the app's warm palette (#1e1d19 dark /
+ * #f8f8f6 light), yellow accent in dark and green in light, softened
+ * corners and translucent ink borders. Light/dark parity with the app:
+ * the [data-theme] attribute + prefers-color-scheme drive the palette
+ * and the explicit choice is shared with the app via the same
+ * localStorage key (see ./theme.ts). The dense table/console layout is
+ * kept as-is — only the chrome is brought on-brand.
  *
  * Fonts load straight from fonts.gstatic.com (allowed by this page's CSP
- * font-src); the @font-face rules live here because style-src 'self' forbids
- * the googleapis CSS import. Both families are variable fonts.
+ * font-src); the @font-face rules live here because style-src 'self'
+ * forbids the googleapis CSS @import the app uses. IBM Plex Sans latin
+ * ships as one variable file; IBM Plex Mono as static weights.
  */
 
 @font-face {
-  font-family: 'JetBrains Mono';
+  font-family: 'IBM Plex Sans';
   font-style: normal;
   font-weight: 400 600;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwgknk-4.woff2) format('woff2');
+  src: url(https://fonts.gstatic.com/s/ibmplexsans/v23/zYXzKVElMYYaJe8bpLHnCwDKr932-G7dytD-Dmu1syxeKYbSB4Zh.woff2) format('woff2');
 }
 
 @font-face {
-  font-family: 'Oswald';
+  font-family: 'IBM Plex Mono';
   font-style: normal;
-  font-weight: 500 600;
+  font-weight: 400;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/oswald/v57/TK3IWkUHHAIjg75cFRf3bXL8LICs1_Fv40pKlN4NNSeSASz7FmlWHYjMdZwl.woff2) format('woff2');
+  src: url(https://fonts.gstatic.com/s/ibmplexmono/v20/-F63fjptAgt5VM-kVkqdyU8n1i8q131nj-o.woff2) format('woff2');
 }
 
-/* ── Tokens (HQ terminal-dark base + rrradio accent) ─────────────── */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/ibmplexmono/v20/-F6qfjptAgt5VM-kVkqdyU8n3twJwlBFgsAXHNk.woff2) format('woff2');
+}
 
-:root {
-  --font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', ui-monospace, monospace;
-  --font-display: 'Oswald', 'Impact', system-ui, sans-serif;
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/ibmplexmono/v20/-F6qfjptAgt5VM-kVkqdyU8n3vAOwlBFgsAXHNk.woff2) format('woff2');
+}
+
+/* ── Tokens (rrradio app palette + IBM Plex type) ────────────────── */
+
+:root, [data-theme='dark'] {
+  --font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SF Mono', ui-monospace, Menlo, monospace;
+  /* Headings/wordmark ride the sans face (the app uses weight, not a
+   * separate display family); big numbers switch to mono below. */
+  --font-display: var(--font-family);
+
   --font-size-xs: 0.6875rem;
   --font-size-sm: 0.8125rem;
   --font-size-base: 0.8125rem;
@@ -49,37 +74,97 @@
   --space-12: 3rem;
   --space-16: 4rem;
 
+  --radius-sm: 6px;
+  --radius-control: 8px;
+  --radius-card: 12px;
+  --radius-pill: 999px;
+
   --max-width: 1800px;
   --sidebar-width: 200px;
   --header-height: 52px;
 
-  --color-bg: #1a1a1a;
-  --color-sidebar-hover: #2d2d2d;
-  --color-surface: #1a1a1a;
-  --color-surface-hover: #212121;
-  --color-text: #ffffff;
-  --color-text-secondary: #999999;
-  --color-text-tertiary: #666666;
-  --color-border: #3d3d3d;
-  --color-border-light: #2d2d2d;
+  /* Warm dark palette — mirrors the app's RrradioTheme (dark). */
+  --color-bg: #1e1d19;
+  --color-surface: #1e1d19;
+  --color-surface-hover: #2f2e29;
+  --color-sidebar-hover: #2f2e29;
+  --color-text: #f4f4f2;
+  --color-text-secondary: rgba(244, 244, 242, 0.80);
+  --color-text-tertiary: rgba(244, 244, 242, 0.62);
+  --color-border: rgba(244, 244, 242, 0.14);
+  --color-border-light: rgba(244, 244, 242, 0.08);
 
-  /* rrradio brand accent (project extension over the HQ orange default). */
+  /* Brand accent — yellow in dark (the app's --accent). */
   --color-primary: #ffff00;
   --color-primary-hover: #ffff66;
-  --color-primary-light: #2b2a0e;
+  --color-primary-light: color-mix(in srgb, var(--color-primary) 16%, transparent);
   --color-primary-text: #ffff00;
 
-  /* Verdict semantics. Deviates from stock HQ (warning == accent) on
-   * purpose: in a health console warn must read apart from the yellow
-   * brand accent, so warn is amber. */
+  /* Verdict hues. The -bg tints derive from the hue over the live
+   * --color-bg, so they re-tune automatically when the theme flips. */
   --color-success: #00d4aa;
-  --color-success-bg: #0d2e25;
   --color-warning: #ff9f0a;
-  --color-warning-bg: #2d220e;
-  --color-error: #ff4444;
-  --color-error-bg: #2d1010;
-  --color-info: #5b8ed8;
-  --color-info-bg: #1a2436;
+  --color-error: #ff5d5d;
+  --color-info: #6f9fe0;
+  --color-success-bg: color-mix(in srgb, var(--color-success) 16%, var(--color-bg));
+  --color-warning-bg: color-mix(in srgb, var(--color-warning) 16%, var(--color-bg));
+  --color-error-bg: color-mix(in srgb, var(--color-error) 16%, var(--color-bg));
+  --color-info-bg: color-mix(in srgb, var(--color-info) 16%, var(--color-bg));
+}
+
+/* Light theme — explicit choice. App parity: near-white canvas, green
+ * accent, verdict hues darkened for AA contrast. */
+[data-theme='light'] {
+  --color-bg: #f8f8f6;
+  --color-surface: #f8f8f6;
+  --color-surface-hover: color-mix(in srgb, #0e0e0d 5%, #f8f8f6);
+  --color-sidebar-hover: color-mix(in srgb, #0e0e0d 5%, #f8f8f6);
+  --color-text: #0e0e0d;
+  --color-text-secondary: rgba(14, 14, 13, 0.78);
+  --color-text-tertiary: rgba(14, 14, 13, 0.56);
+  --color-border: rgba(14, 14, 13, 0.18);
+  --color-border-light: rgba(14, 14, 13, 0.08);
+
+  --color-primary: #00a040;
+  --color-primary-hover: #00b84a;
+  --color-primary-light: color-mix(in srgb, var(--color-primary) 14%, transparent);
+  --color-primary-text: #007a30;
+
+  --color-success: #0a7d52;
+  --color-warning: #b26a00;
+  --color-error: #c62b2b;
+  --color-info: #2f5fa6;
+  --color-success-bg: color-mix(in srgb, var(--color-success) 12%, var(--color-bg));
+  --color-warning-bg: color-mix(in srgb, var(--color-warning) 12%, var(--color-bg));
+  --color-error-bg: color-mix(in srgb, var(--color-error) 12%, var(--color-bg));
+  --color-info-bg: color-mix(in srgb, var(--color-info) 12%, var(--color-bg));
+}
+
+/* No explicit choice → follow the OS, exactly like the app does. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --color-bg: #f8f8f6;
+    --color-surface: #f8f8f6;
+    --color-surface-hover: color-mix(in srgb, #0e0e0d 5%, #f8f8f6);
+    --color-sidebar-hover: color-mix(in srgb, #0e0e0d 5%, #f8f8f6);
+    --color-text: #0e0e0d;
+    --color-text-secondary: rgba(14, 14, 13, 0.78);
+    --color-text-tertiary: rgba(14, 14, 13, 0.56);
+    --color-border: rgba(14, 14, 13, 0.18);
+    --color-border-light: rgba(14, 14, 13, 0.08);
+    --color-primary: #00a040;
+    --color-primary-hover: #00b84a;
+    --color-primary-light: color-mix(in srgb, var(--color-primary) 14%, transparent);
+    --color-primary-text: #007a30;
+    --color-success: #0a7d52;
+    --color-warning: #b26a00;
+    --color-error: #c62b2b;
+    --color-info: #2f5fa6;
+    --color-success-bg: color-mix(in srgb, var(--color-success) 12%, var(--color-bg));
+    --color-warning-bg: color-mix(in srgb, var(--color-warning) 12%, var(--color-bg));
+    --color-error-bg: color-mix(in srgb, var(--color-error) 12%, var(--color-bg));
+    --color-info-bg: color-mix(in srgb, var(--color-info) 12%, var(--color-bg));
+  }
 }
 
 /* ── Reset ───────────────────────────────────────────────────────── */
@@ -98,6 +183,17 @@ a { color: var(--color-primary-text); text-decoration: none; }
 a:hover { color: var(--color-primary-hover); }
 ::selection { background: var(--color-primary-light); color: var(--color-text); }
 button, input, select { font: inherit; color: inherit; }
+
+/* Theme swap: kill any color/background transitions during the
+ * data-theme flip so the page repaints in the new palette in one
+ * frame (mirrors the app's html.theme-switching guard). theme.ts adds
+ * the class around the swap and drops it after two RAFs. */
+html.theme-switching,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: none !important;
+}
 
 /* ── Shell: sidebar + main ───────────────────────────────────────── */
 
@@ -209,6 +305,22 @@ button, input, select { font: inherit; color: inherit; }
 }
 .topbar-spacer { flex: 1; }
 .topbar-meta { font-size: var(--font-size-xs); color: var(--color-text-tertiary); }
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+.theme-toggle:hover { border-color: var(--color-primary); color: var(--color-text); }
+.theme-toggle svg { display: block; }
 
 .content {
   padding: var(--space-6);
@@ -670,3 +782,70 @@ table.data td.num { text-align: right; font-variant-numeric: tabular-nums; }
   .mobile-block .mark em { font-style: normal; color: var(--color-primary); }
   .mobile-block p { color: var(--color-text-secondary); }
 }
+
+/* ── Brand-match overlays ────────────────────────────────────────── *
+ * Applied last so they win equal-specificity ties over the component
+ * rules above (e.g. the stat value / donut center that set the display
+ * font). Two concerns: softened corners and the mono type role.        */
+
+/* Softened corners — echoes the app's rounded cards + pill chips while
+ * keeping the tables themselves crisp. */
+.stat-card,
+.donut-panel,
+.table-panel,
+.panel,
+.step,
+.detail-head .logo-preview { border-radius: var(--radius-card); }
+.table-panel,
+.segmented { overflow: hidden; } /* clip child corners to the rounded box */
+.btn,
+.pager button,
+.filter select,
+.filter input,
+.nav-item,
+.segmented { border-radius: var(--radius-control); }
+.badge,
+.chip { border-radius: var(--radius-pill); }
+.pill,
+.thumb,
+.thumb-fallback,
+.process code,
+.step-body code { border-radius: var(--radius-sm); }
+
+/* Mono is reserved for data + micro-labels — matching the app, which
+ * sets names/titles in IBM Plex Sans and counts/codes/URLs/uppercase
+ * labels in IBM Plex Mono. */
+.logo-sub,
+.section-header,
+.stat-card .value,
+.stat-card .label,
+.stat-card .sub,
+.donut-center,
+.donut-legend .count,
+.donut-legend .total,
+.nav-count,
+table.data th,
+table.data td.num,
+.cell-url,
+.cell-station .sub,
+.kv dt,
+.kv dd code,
+.facet-row .facet-name,
+.facet-row .facet-since,
+.topbar-meta,
+.badge,
+.pill,
+.chip,
+.step-num,
+.step-io dt,
+.process code,
+.step-body code,
+.legend-grid dt,
+.pager,
+.table-toolbar,
+.filter { font-family: var(--font-mono); }
+
+/* …but the filter inputs themselves carry user/station text — keep
+ * those in the sans face like the app's search field. */
+.filter select,
+.filter input { font-family: var(--font-family); }

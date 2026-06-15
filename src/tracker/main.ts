@@ -6,6 +6,7 @@
 import { loadHealth, loadRows } from './data';
 import { currentRoute, onRouteChange } from './router';
 import type { Route } from './router';
+import { bootstrapTheme, wireThemeToggle } from './theme';
 import { ageLabel, el, fmtInt } from './ui';
 import { renderOverview } from './view-overview';
 import { renderProcess } from './view-process';
@@ -21,6 +22,12 @@ function must(id: string): HTMLElement {
 const viewRoot = must('view-root');
 const pageTitle = must('page-title');
 const topbarMeta = must('topbar-meta');
+
+// Apply the persisted light/dark choice before the first view renders,
+// then wire the topbar toggle. Shares the app's theme key (see ./theme).
+bootstrapTheme();
+const themeToggle = document.getElementById('theme-toggle');
+if (themeToggle) wireThemeToggle(themeToggle);
 
 const TITLES: Record<Route['view'], string> = {
   overview: 'Overview',
