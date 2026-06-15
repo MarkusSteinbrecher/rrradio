@@ -10088,8 +10088,11 @@
   country: AU
   status: stream-only
 - id: au-nova-1069
-  favicon: "https://upload.wikimedia.org/wikipedia/en/thumb/9/93/Nova_106.9_logo.svg/330px-Nova_106.9_logo.svg.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
-  faviconSource: wiki
+  favicon: "https://prod-novaent-hub-assets.s3.amazonaws.com/nova/novabrisbane/logos/web/padded/portrait/colour1.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.novaentertainment.com.au/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 960a2859-0601-11e8-ae97-52543be04c81
   changeuuid: c73804e1-bfa2-4850-953d-88bda1ceb71c
   reviewedAt: 2026-04-29
@@ -149608,8 +149611,11 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/NOVA_919_AAC48.aac
   bitrate: 48
   codec: AAC+
-  favicon: "https://prod-filesbucket-7hmmorphht20.s3-ap-southeast-2.amazonaws.com/favicon_0.ico"
-  faviconSource: http-upgraded
+  favicon: "https://prod-novaent-hub-assets.s3.amazonaws.com/nova/novaadelaide/logos/web/padded/portrait/colour1.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.novaentertainment.com.au/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: http://www.nova919.com.au/
   country: AU
   status: stream-only
@@ -149739,8 +149745,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-the-light-worship
   tags: [christian, melbourne]
-  favicon: "https://thelight.com.au/favicon.ico?favicon.ea4cfce9.ico"
+  favicon: "https://www.thelight.com.au/stations/square/thelight-worship.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://thelight.com.au/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: The Light Worship
   streamUrl: https://stream.thelight.com.au:8160/;/;stream/1
@@ -149825,8 +149834,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-indian-link-radio
   tags: [music]
-  favicon: "https://indianlink1.radioca.st/images/favicon.ico"
+  favicon: "https://radio.indianlink.com.au/wp-content/uploads/2020/10/Favicon-Radio.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radio.indianlink.com.au/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Indian link radio
   streamUrl: https://indianlink1.radioca.st/
@@ -149961,6 +149973,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-sbs-radio-1
+  favicon: "https://www.sbs.com.au/_next/static/img/common/app-icon-audio-975d5ac.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.sbs.com.au/audio"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: 澳大利亚SBS Radio 1
   streamUrl: https://sbs-ice.streamguys1.com/sbs1-sbs-web
@@ -150009,8 +150026,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-abc-classic-2-hls
-  favicon: "https://www.abc.net.au/core-assets/classic/abc-classic.png"
+  favicon: "https://www.abc.net.au/core-assets/classic/touchicon-classic.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.abc.net.au/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   tags: [abc, classical, public radio]
   broadcaster: independent
@@ -150033,8 +150053,11 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/NOVA_969_AAC48.aac
   bitrate: 48
   codec: AAC+
-  favicon: "https://upload.wikimedia.org/wikipedia/en/thumb/7/73/Nova_96.9_logo.svg/330px-Nova_96.9_logo.svg.png"
-  faviconSource: wiki
+  favicon: "https://prod-novaent-hub-assets.s3.amazonaws.com/nova/novasydney/logos/web/padded/portrait/colour1.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.novaentertainment.com.au/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: http://www.nova969.com.au/
   country: AU
   status: stream-only
@@ -150076,8 +150099,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-abc-classic-hls
-  favicon: "https://www.abc.net.au/core-assets/classic/abc-classic.png"
+  favicon: "https://www.abc.net.au/core-assets/classic/touchicon-classic.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.abc.net.au/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   tags: [abc, classical, public radio]
   broadcaster: independent
@@ -150301,8 +150327,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-rtrfm
   tags: [community radio]
-  favicon: "https://rtrfm.com.au/wp-content/uploads/2024/07/RTRFM-LOGO.png"
+  favicon: "https://rtrfm.com.au/wp-content/uploads/2024/03/RTRFM_Favicon.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://rtrfm.com.au/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: RTRFM
   streamUrl: https://live.rtrfm.com.au/stream1
@@ -150390,8 +150419,11 @@
   streamUrl: https://mediaserviceslive.akamaized.net/hls/live/2038318/rnnsw/masterhq.m3u8
   bitrate: 94
   codec: AAC
-  favicon: https://www.abc.net.au/favicon.ico
+  favicon: "https://www.abc.net.au/core-assets/radionational/touchicon-rn.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.abc.net.au/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.abc.net.au/radionational/live/
   country: AU
   status: stream-only
@@ -150521,6 +150553,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-sa-rock-radio
+  favicon: "https://www.sarock.com.au/images/pwaIcon192.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.sarock.com.au/index.html"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: sa rock radio
   streamUrl: https://sarock.radioca.st/stream
@@ -150624,8 +150661,11 @@
   streamUrl: https://mediaserviceslive.akamaized.net/hls/live/2038353/rnqld/index.m3u8
   bitrate: 94
   codec: AAC
-  favicon: "https://www.abc.net.au/core-assets/radionational/abc-rn.png"
+  favicon: "https://www.abc.net.au/core-assets/radionational/touchicon-rn.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.abc.net.au/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.abc.net.au/radionational
   country: AU
   status: stream-only
@@ -150675,8 +150715,11 @@
   streamUrl: https://live-radio01.mediahubaustralia.com/2RNW/mp3/
   bitrate: 56
   codec: AAC+
-  favicon: "https://www.abc.net.au/core-assets/radionational/abc-rn.png"
+  favicon: "https://www.abc.net.au/core-assets/radionational/touchicon-rn.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.abc.net.au/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.abc.net.au/listen/radionational
   country: AU
   status: stream-only
@@ -150692,8 +150735,11 @@
   streamUrl: https://mediaserviceslive.akamaized.net/hls/live/2038333/rnsa/index.m3u8
   bitrate: 94
   codec: AAC
-  favicon: "https://www.abc.net.au/core-assets/radionational/abc-rn.png"
+  favicon: "https://www.abc.net.au/core-assets/radionational/touchicon-rn.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.abc.net.au/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.abc.net.au/radionational
   country: AU
   status: stream-only
@@ -150739,8 +150785,11 @@
   streamUrl: https://mediaserviceslive.akamaized.net/hls/live/2038318/rnnsw/index.m3u8
   bitrate: 94
   codec: AAC
-  favicon: "https://www.abc.net.au/core-assets/radionational/abc-rn.png"
+  favicon: "https://www.abc.net.au/core-assets/radionational/touchicon-rn.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.abc.net.au/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.abc.net.au/radionational
   country: AU
   status: stream-only
@@ -150785,8 +150834,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-4zzz
   tags: [brisbane, independent]
-  favicon: "https://4zzz.org.au/assets/4zzz-1021-boat.jpg"
+  favicon: "https://4zzz.org.au/assets/4zzz-50-badge.svg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://4zzz.org.au/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: "4zzz"
   streamUrl: https://iheart.4zzz.org.au/4zzz
@@ -150852,6 +150904,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-triple-r-102-7fm
+  favicon: "https://cdn-assets.rrr.org.au/assets/main/assets/public/favicon/favicon-192.ddf44e55de742d5a.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.rrr.org.au/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   tags: [community radio, independent]
   broadcaster: independent
@@ -150907,8 +150964,11 @@
   streamUrl: https://ais-arn.streamguys1.com/au_002/playlist.m3u8
   bitrate: 48
   codec: AAC+
-  favicon: https://www.wsfm.com.au/wp-content/themes/arn/assets/favicons/favicon_wsfm/favicon-32x32.png
+  favicon: "https://www.wsfm.com.au/wp-content/themes/arn/assets/favicons/favicon_gold1017/web-app-manifest-512x512.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.wsfm.com.au/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.wsfm.com.au/
   country: AU
   status: stream-only
@@ -150924,8 +150984,11 @@
   streamUrl: https://mediaserviceslive.akamaized.net/hls/live/2038304/localbrisbane/masterhq.m3u8
   bitrate: 94
   codec: AAC
-  favicon: https://www.abc.net.au/favicon.ico
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/c/c4/ABC_%28Australia%29_logo.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:ABC_(Australia)_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: https://www.abc.net.au/brisbane
   country: AU
   status: stream-only
@@ -151169,6 +151232,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-hit-4rok-107-9mhz-fm-rockhampton-central-queensl
+  favicon: "https://hit.listnr.com/wp-content/uploads/2024/04/hit-brandmark-1024x1024.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://hit.listnr.com/stations/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [classic hits, local radio, news, weather]
   broadcaster: independent
   name: hit 4ROK 107.9MHz FM Rockhampton Central Queensland
