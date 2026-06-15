@@ -5762,8 +5762,11 @@
     - smooth jazz
   status: stream-only
 - id: builtin-rai-radio-1
-  favicon: "https://www.raiplaysound.it/cropgd/1200x630/dl/img/2023/04/19/1681890954745_logo-radio-1-2048x2048.png"
+  favicon: "https://www.raiplaysound.it/cropgd/2048x2048/dl/img/2023/04/19/1681890954745_logo-radio-1-2048x2048.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.raiplaysound.it/radio1"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 96185693-0601-11e8-ae97-52543be04c81
   changeuuid: 34ff77ef-2ba6-4bba-b245-b7c4f4f1c5d7
   reviewedAt: 2026-04-29
@@ -5785,8 +5788,11 @@
   status: stream-only
   featured: true
 - id: builtin-rai-radio-2
-  favicon: "https://www.raiplaysound.it/cropgd/1200x630/dl/img/2021/12/09/1639047094089_radio-2_600x6001.png"
+  favicon: "https://www.raiplaysound.it/dl/img/2021/12/09/1639047094089_radio-2_600x6001.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.raiplaysound.it/radio2"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 96181819-0601-11e8-ae97-52543be04c81
   changeuuid: c15ba379-7d88-41f6-a636-e61b4b0eb655
   reviewedAt: 2026-04-29
@@ -5806,8 +5812,11 @@
   country: IT
   status: stream-only
 - id: builtin-rai-radio-3
-  favicon: "https://www.raiplaysound.it/cropgd/1200x630/dl/img/2021/12/09/1639049150856_Radio%203_Logo%20RGB.png"
+  favicon: "https://www.raiplaysound.it/cropgd/600x600/dl/img/2021/12/09/1639049150856_Radio%203_Logo%20RGB.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.raiplaysound.it/radio3"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 9608eb3e-0601-11e8-ae97-52543be04c81
   changeuuid: 26c84362-4a36-44bb-a52c-7598caf20e17
   reviewedAt: 2026-04-29
@@ -5914,8 +5923,11 @@
   country: IT
   status: stream-only
 - id: it-virgin-rock-80
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Virgin_Radio_Italy_logo.svg/langit-330px-Virgin_Radio_Italy_logo.svg.png"
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/c/ce/Virgin_Radio_Italy_logo.svg"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Virgin_Radio_Italy_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   stationuuid: 9619ed04-0601-11e8-ae97-52543be04c81
   changeuuid: 4a7a7447-ef16-4b94-b9c9-c209631ebf5e
   reviewedAt: 2026-04-29
@@ -5935,8 +5947,11 @@
   country: IT
   status: stream-only
 - id: it-virgin-hard-rock
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Virgin_Radio_Italy_logo.svg/langit-330px-Virgin_Radio_Italy_logo.svg.png"
-  faviconSource: wiki
+  favicon: "https://www.virginradio.it/wp-content/uploads/2025/11/Webradio-Virgin-2020-HardRock-1588063067111png-virgin_radio_hard_rock.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.virginradio.it/web-radio/virgin-radio-hard-rock/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 9619ef9e-0601-11e8-ae97-52543be04c81
   changeuuid: f796213d-3e4a-4202-84a2-f280d4770a14
   reviewedAt: 2026-04-29
@@ -6065,8 +6080,11 @@
   status: stream-only
   featured: true
 - id: it-radio-deejay
-  favicon: "https://www.deejay.it/wp-content/themes/network-deejay/favicon.ico"
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/9/93/Logo_Deejay.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Logo_Deejay.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   stationuuid: 999ff951-68eb-4f4a-bec9-ed972b99d258
   changeuuid: dc293fc7-8468-4015-b3ee-fc50ad6e03f1
   reviewedAt: 2026-04-29
@@ -6086,8 +6104,11 @@
   country: IT
   status: stream-only
 - id: it-radio-capital
-  favicon: "https://www.capital.it/wp-content/themes/network-capital/favicon.ico"
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/5/55/Radio_Capital_logo.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Radio_Capital_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   stationuuid: fbe60456-15e8-4db4-a1f1-4ce77b7aaecc
   changeuuid: f19bceaa-3614-4978-8ad5-4ab36e1c5bc3
   reviewedAt: 2026-04-29
@@ -114975,8 +114996,11 @@
   reviewedAt: 2026-05-04
 - id: it-classic-hits-radio-italia
   tags: [1970s, 1980s, "70's", 70s, 70s disco, "80", "80's", 80s]
-  favicon: "https://classichits.radio/wp-content/uploads/2022/10/classichits.radio_logo_288x192_def.png"
+  favicon: "https://classichits.radio/wp-content/uploads/2022/10/classichitsit.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://classichits.radio/italy/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: CLASSIC HITS RADIO Italia
   streamUrl: https://classichitsradio.streamingmedia.it/play
@@ -115091,8 +115115,11 @@
   reviewedAt: 2026-05-04
 - id: it-italian-radio-only-romantic-italian-music
   tags: [classic italian pop, love songs]
-  favicon: "https://italian.radio/wp-content/uploads/2023/04/play-store.png"
+  favicon: "https://italian.radio/wp-content/uploads/2025/08/italian.radio_logoIT_512.avif"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://italian.radio/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: ITALIAN RADIO - Only (romantic) Italian Music
   streamUrl: https://italianradio.streamingmedia.it/play
@@ -115156,8 +115183,11 @@
   streamUrl: https://sr15.inmystream.it:8000/stream
   bitrate: 256
   codec: MP3
-  favicon: "https://www.lattemiele.com/wp-content/uploads/2019/10/logo-app.png"
+  favicon: "https://lattemiele.com/wp-content/uploads/2020/07/cropped-logo-autore-lm-270x270.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://lattemiele.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://lattemiele.com/
   country: IT
   status: stream-only
@@ -115166,8 +115196,11 @@
   reviewedAt: 2026-05-04
 - id: it-rds-relax
   tags: [easy listening, relax]
-  favicon: "https://rdsrelax.it/favicon.ico?v=1.1"
+  favicon: "https://www.rdsrelax.it/images/RDSRelax_3.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://rdsrelax.it/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: RDS Relax
   streamUrl: https://stream.rds.radio/audio/rdsrelax.stream_aac/playlist.m3u8
@@ -115181,8 +115214,11 @@
   reviewedAt: 2026-05-04
 - id: it-radio-romanista
   tags: [roma, sport, talk]
-  favicon: "https://radioromanista.it/wp-content/uploads/2023/01/Logo-2.png"
+  favicon: "https://radioromanista.it/wp-content/uploads/2023/01/favicoR.svg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radioromanista.it/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Radio Romanista
   streamUrl: https://romanista.newradio.it/stream
@@ -115240,8 +115276,11 @@
   reviewedAt: 2026-05-04
 - id: it-neu-radio
   tags: [afrobeats, alternative, ambient, arts, beats, black, breakbeat, cinema]
-  favicon: "https://neuradio.it/wp-content/uploads/2025/12/neu-def_01.png"
+  favicon: "https://neuradio.it/wp-content/uploads/2024/04/cropped-favicon_black-270x270.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.neuradio.it/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: NEU RADIO
   streamUrl: https://nr9.newradio.it/proxy/ebaruffa?mp=/stream
@@ -115275,8 +115314,11 @@
   streamUrl: https://stream.tmwradio.com/bianconera.aac
   bitrate: 64
   codec: AAC+
-  favicon: "https://players.fluidstream.it/RadioBiancoNera/icon.png"
-  faviconSource: http-upgraded
+  favicon: "https://www.radiobianconera.com/template/radiobianconera.com/favicon/196.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radiobianconera.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: http://www.radiobianconera.com/
   country: IT
   status: stream-only
@@ -115375,8 +115417,11 @@
   name: Radio Capital IT
   streamUrl: https://streamcdnr8-4c4b867c89244861ac216426883d1ad0.msvdn.net/radiocapital/radiocapital/play1.m3u8
   codec: UNKNOWN
-  favicon: https://upload.wikimedia.org/wikipedia/it/thumb/3/38/Radio_Capital_logo_%282020%29.svg/1200px-Radio_Capital_logo_%282020%29.svg.png
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/5/55/Radio_Capital_logo.svg"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Radio_Capital_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: https://www.capital.it/
   country: IT
   status: stream-only
@@ -115426,6 +115471,11 @@
   changeuuid: 637d7ce6-23c3-4c80-b377-faed0c2066c4
   reviewedAt: 2026-05-04
 - id: it-rmc-music-star-george-michael
+  favicon: "https://img-api.cloud.mediaset.net/api/images/rd/v1/ita/aHR0cHM6Ly9yYWRpbzMub21ueXMuY29tL3dwLWNvbnRlbnQvdXBsb2Fkcy8yMDI1LzA1L2Nyb3BwZWQtZmF2aWNvbl8xLTEucG5n/-/0/0?r=ae016a158b450829fe86130c4a1230f6"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radiomontecarlo.net/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [pop]
   broadcaster: independent
   name: RMC Music Star George Michael
@@ -115459,8 +115509,11 @@
   streamUrl: https://gr.fluidstream.eu/gr1.mp3
   bitrate: 192
   codec: MP3
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Logo_Giornale_Radio.png/330px-Logo_Giornale_Radio.png"
-  faviconSource: wiki
+  favicon: "https://giornaleradio.fm/wp-content/uploads/2023/03/giornale-radio-logo-3.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://giornaleradio.fm/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://giornaleradio.fm/
   country: IT
   status: stream-only
@@ -115574,8 +115627,11 @@
   streamUrl: https://icecdn-19d24861e90342cc8decb03c24c8a419.msvdn.net/icecastRelay/S74167340/mmNY37FME5Zl/icecast
   bitrate: 256
   codec: MP3
-  favicon: "https://www.raiplaysound.it/cropgd/1200x630/dl/img/2023/04/19/1681891673637_logo-radio-1-sport-2048x2048.png"
+  favicon: "https://www.raiplaysound.it/dl/img/2023/04/19/1681891673637_logo-radio-1-sport-2048x2048.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.raiplaysound.it/radio1sport"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.raiplaysound.it/radio1sport
   country: IT
   status: stream-only
