@@ -9644,8 +9644,11 @@
   country: CA
   status: stream-only
 - id: builtin-ici-premiere
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/ICI_Radio-Canada_Premi%C3%A8re.svg/960px-ICI_Radio-Canada_Premi%C3%A8re.svg.png"
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/4/46/ICI_Premi%C4%93re_logo.svg"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:ICI_Première_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   stationuuid: cc527ea6-060f-4fe8-b31a-cad732ff7d3e
   changeuuid: 918b269d-de1e-4634-ad93-a67cfeb521c1
   reviewedAt: 2026-04-29
@@ -9669,6 +9672,9 @@
 - id: builtin-ici-musique
   favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Ici_Musique_logo.svg/960px-Ici_Musique_logo.svg.png"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Ici_Musique_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   stationuuid: b6aa8287-0e8c-4780-b882-d7a7e4b1226d
   changeuuid: e921370a-1ba7-4dc4-95fc-dd5645ba1628
   reviewedAt: 2026-04-29
@@ -9729,8 +9735,11 @@
   country: CA
   status: stream-only
 - id: ca-ctv-news
-  favicon: "https://www.ctvnews.ca/pf/resources/images/ctvnews/favicon.ico?d=210"
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/6/60/CTV_News_Channel_%28Canada%29_logo.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:CTV_News_Channel_(Canada)_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   stationuuid: 9644c8f4-0601-11e8-ae97-52543be04c81
   changeuuid: b6d81263-47cb-4749-9036-7984b54d78f9
   reviewedAt: 2026-04-29
@@ -232842,6 +232851,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ca-reggae-chill-cafe
+  favicon: "https://radiosuitenetwork.torontocast.stream/wp-content/uploads/2021/09/reggae.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiosuitenetwork.torontocast.stream/reggae-chill-cafe/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [chill, chillout, dancehall, reggae, relax, relaxation, relaxing, tropical]
   broadcaster: independent
   name: REGGAE CHILL CAFE
@@ -232908,6 +232922,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ca-nature-radio-rain
+  favicon: "https://radiosuitenetwork.torontocast.stream/wp-content/uploads/2021/09/RAIN.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiosuitenetwork.torontocast.stream/nature-radio-rain/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [ambient, ambient and relaxation music, nature, rainorshine, relax, relaxation, relaxation music, relaxing]
   broadcaster: independent
   name: Nature Radio Rain
@@ -232923,6 +232942,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ca-70-80-90-vibrazioni-rock-radio
+  favicon: "https://radiosuitenetwork.torontocast.stream/wp-content/uploads/2021/09/rock.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiosuitenetwork.torontocast.stream/vibrazioni-rock-radio/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [70s, 80s, 90s, blues, blues rock, classic rock, pop rock, rock]
   broadcaster: independent
   name: 70 80 90 Vibrazioni Rock Radio
@@ -232955,6 +232979,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ca-80-s-new-wave-radio
+  favicon: "https://newwaveradio.org/images/single.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://newwaveradio.org/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: ["80's", alternative, new wave, synthpop]
   broadcaster: independent
   name: "80's New Wave Radio"
@@ -233010,8 +233039,11 @@
   streamUrl: https://rcavliveaudio.akamaized.net/hls/live/2006635/P-2QMTL0_MTL/adaptive_192/master.m3u8
   bitrate: 48
   codec: AAC
-  favicon: "https://ici.radio-canada.ca/favicon.ico"
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/4/46/ICI_Premi%C4%93re_logo.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:ICI_Premi%C4%93re_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://ici.radio-canada.ca/"
   country: CA
   status: stream-only
@@ -233222,6 +233254,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ca-suite-jazz-radio
+  favicon: "https://radiosuitenetwork.torontocast.stream/wp-content/uploads/2020/11/1600-1024x1024.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiosuitenetwork.torontocast.stream/suite-jazz-radio/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [blues, classic jazz, cool jazz, free jazz, jazz, jazz fusion, latin jazz, nu-jazz]
   broadcaster: independent
   name: Suite Jazz Radio
@@ -233259,8 +233296,11 @@
   streamUrl: https://rcavliveaudio.akamaized.net/hls/live/2006635/P-2QMTL0_MTL/master.m3u8
   bitrate: 48
   codec: AAC
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/ICI_Radio-Canada_Premi%C3%A8re.svg/200px-ICI_Radio-Canada_Premi%C3%A8re.svg.png"
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/ICI_Premi%C4%93re_logo.svg/500px-ICI_Premi%C4%93re_logo.svg.png"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:ICI_Premi%C4%93re_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://ici.radio-canada.ca/ohdio/premiere"
   country: CA
   status: stream-only
@@ -233377,8 +233417,11 @@
   name: CBC Radio 1 Toronto 99.1 FM
   streamUrl: https://cbcradiolive.akamaized.net/hls/live/2041036/ES_R1ETR/adaptive_128/chunklist_ao.m3u8
   codec: UNKNOWN
-  favicon: "https://www.cbc.ca/favicon.ico"
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/6/67/CBC_Logo_1992-Present.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:CBC_Logo_1992-Present.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://www.cbc.ca/news/canada/toronto"
   country: CA
   status: stream-only
@@ -233598,8 +233641,11 @@
   streamUrl: https://ice24.securenetsystems.net/CKYE
   bitrate: 32
   codec: AAC+
-  favicon: "https://upload.wikimedia.org/wikipedia/en/4/4a/CKYE_FM.png"
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/0/05/RED_FM_Vancouver_Logo.jpg"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:RED_FM_Vancouver_Logo.jpg"
+  faviconSourceType: cdn
+  faviconLicense: cc-by-sa-4.0
   homepage: "https://vancouver.redfm.ca/"
   country: CA
   status: stream-only
@@ -233665,8 +233711,11 @@
   streamUrl: https://rogers-hls.leanstream.co/rogers/van1130.stream/playlist.m3u8
   bitrate: 48
   codec: AAC+
-  favicon: "https://www.citynews1130.com/favicon.ico"
+  favicon: "https://vancouver.citynews.ca/android-chrome-512x512.png?v=2"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://vancouver.citynews.ca/site.webmanifest?v=2"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.citynews1130.com/"
   country: CA
   status: stream-only
@@ -233748,8 +233797,11 @@
   streamUrl: https://cbcradiolive.akamaized.net/hls/live/2041039/ES_R1MCG/master.m3u8
   bitrate: 48
   codec: AAC
-  favicon: "https://www.cbc.ca/listen/static/icons/asset-cbc-listen-icon-ico-beta.ico"
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/6/67/CBC_Logo_1992-Present.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:CBC_Logo_1992-Present.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://www.cbc.ca/listen/live-radio"
   country: CA
   status: stream-only
@@ -233783,8 +233835,11 @@
   streamUrl: https://rogers-hls.leanstream.co/rogers/van969.stream/playlist.m3u8
   bitrate: 47
   codec: AAC+
-  favicon: "https://www.jack969.com/wp-content/uploads/sites/13/2023/03/cropped-static-logo-jack-969-180x180.png"
+  favicon: "https://www.seekyoursounds.com/wp-content/uploads/2024/06/Seekr-RadioCover-JACK-969.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.seekyoursounds.com/radio/jack969vancouver"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.jack969.com/"
   country: CA
   status: stream-only
@@ -233817,8 +233872,11 @@
   streamUrl: https://29243.live.streamtheworld.com/CBOFM_CBC_SC
   bitrate: 128
   codec: MP3
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/CBCRadioOne.svg/320px-CBCRadioOne.svg.png"
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/6/67/CBC_Logo_1992-Present.svg"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:CBC_Logo_1992-Present.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://www.cbc.ca/news/canada/ottawa"
   country: CA
   status: stream-only
@@ -233833,8 +233891,11 @@
   name: CBC Radio 1 Ottawa (CBO-FM)
   streamUrl: https://cbcradiolive.akamaized.net/hls/live/2041037/ES_R1ETT/adaptive_128/chunklist_ao.m3u8
   codec: UNKNOWN
-  favicon: "https://commons.wikimedia.org/wiki/File:CBC_Logo_1992-Present.svg"
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/6/67/CBC_Logo_1992-Present.svg"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:CBC_Logo_1992-Present.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://www.cbc.ca/mediacentre/program/cbc-radio-one-ottawa"
   country: CA
   status: stream-only
@@ -233844,6 +233905,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ca-red-fm-88-9
+  favicon: "https://redfm.ca/android-icon-192x192.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://redfm.ca/en-ca/toronto"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [classical]
   broadcaster: independent
   name: Red FM 88.9
@@ -233925,6 +233991,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ca-radio-quebec-international-rqi1-yesterday-and-to
+  favicon: "https://www.radioquebecinternational.com/images/banners/RQI1.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radioquebecinternational.com/home.html"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [ethnic, folk, pop]
   broadcaster: independent
   name: "Radio Québec International -- RQI1: Yesterday and Today"
@@ -233944,8 +234015,11 @@
   name: Radio Sport Montréal
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/CHMPFMAAC%20.aac
   codec: MP3
-  favicon: "https://www.985fm.ca/favicon.ico"
+  favicon: "https://cdn.cogecolive.com/websites-public/Station_Brand_Logo_2024_985_1x1.jpg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.985fm.ca/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.985fm.ca/"
   country: CA
   status: stream-only
@@ -233955,6 +234029,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ca-crik-the-lynx-classic-rock-calgary-alberta-canad
+  favicon: "https://lynxradionetwork.com/wp-content/uploads/2020/06/file_00000000344471f883e00aa915f32eee-1170x1170.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://lynxradionetwork.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [rock]
   broadcaster: independent
   name: "CRIK - The Lynx Classic Rock - Calgary, Alberta, Canada"
