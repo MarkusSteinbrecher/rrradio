@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="index,follow" />
   <title>Privacy — rrradio.org</title>
-  <meta name="description" content="rrradio's privacy policy: what data we touch, why, and what stays on your device." />
+  <meta name="description" content="rrradio.org's privacy policy: what data we touch, why, and what stays on your device." />
   <link rel="canonical" href="https://rrradio.org/privacy.html" />
   <style>
     :root {
@@ -111,14 +111,14 @@
     <div class="crumbs"><a href="/">rrradio.org</a> · privacy</div>
 
     <h1>Privacy</h1>
-    <div class="meta">Effective 2026-05-02 · Last updated 2026-05-15</div>
+    <div class="meta">Effective 2026-05-02 · Last updated 2026-06-15</div>
 
     <div class="tldr">
-      <p><strong>Short version.</strong> rrradio doesn't ask for your name, email, or any account. The web app uses cookieless privacy-friendly analytics to count plays per station. Both the web and iOS apps can send an anonymous broken-station report only when you tap the report button. Web favorites and recents stay in your browser. On iOS, iCloud Sync can privately store your favorites, station lists, added stations, and app preferences in your own iCloud account; recents, listening-history records, and diagnostics stay on device. When you play a station, your device connects directly to that broadcaster's server — same as opening their URL in a browser — so their privacy policy governs that connection.</p>
+      <p><strong>Short version.</strong> rrradio.org doesn't ask for your name, email, or any account. The web app uses cookieless privacy-friendly analytics to count plays per station. Both the web and iOS apps can send an anonymous broken-station report only when you tap the report button. Web favorites and recents stay in your browser. On iOS, iCloud Sync can privately store your favorites, station lists, added stations, and app preferences in your own iCloud account; recents, listening-history records, and diagnostics stay on device. When you play a station, your device connects directly to that broadcaster's server — same as opening their URL in a browser — so their privacy policy governs that connection.</p>
     </div>
 
     <h2>Who runs this</h2>
-    <p>rrradio is a non-commercial side project by Markus Steinbrecher. The source code is open on <a href="https://github.com/MarkusSteinbrecher/rrradio">GitHub</a>; every change is in public git history. Contact: open an issue on GitHub or email <a href="mailto:redsukramst@gmail.com">redsukramst@gmail.com</a>.</p>
+    <p>rrradio.org is a non-commercial side project by Markus Steinbrecher. The source code is open on <a href="https://github.com/MarkusSteinbrecher/rrradio">GitHub</a>; every change is in public git history. Contact: open an issue on GitHub or email <a href="mailto:support@rrradio.org">support@rrradio.org</a>.</p>
 
     <h2>What the web app collects</h2>
     <p>The web app at rrradio.org uses <a href="https://www.goatcounter.com/" rel="noopener">GoatCounter</a> for anonymous usage analytics. GoatCounter is privacy-friendly by design: no cookies, no user IDs, no cross-site tracking, IP addresses are hashed and discarded. We use it to count:</p>
@@ -156,9 +156,9 @@
     <p>The same is true for now-playing metadata fetched directly from broadcasters whose APIs allow cross-origin requests (SRG SSR, MDR, SWR, FFH, Klassik Radio, laut.fm).</p>
 
     <h2 id="logos">Logos and trademarks</h2>
-    <p>rrradio is an independent directory. It is not affiliated with, endorsed by, or sponsored by any of the broadcasters, stations, or networks it lists. Station names and logos are the trademarks of their respective owners, and appear here only to help you identify a station and its stream — the same way a printed radio guide or an on-screen programme guide shows them.</p>
-    <p>Wherever possible the logo shown is the broadcaster's own published artwork or a freely-licensed image, and we are actively migrating the catalog off any remaining non-free images. We don't alter logos beyond resizing for display, and we never present a broadcaster's mark as our own — rrradio has its own logo.</p>
-    <p>If you own a station's brand and would prefer its logo not appear here — or want it corrected or replaced — open an issue on GitHub or email <a href="mailto:redsukramst@gmail.com">redsukramst@gmail.com</a> and we'll remove or update it promptly.</p>
+    <p>rrradio.org is an independent directory. It is not affiliated with, endorsed by, or sponsored by any of the broadcasters, stations, or networks it lists. Station names and logos are the trademarks of their respective owners, and appear here only to help you identify a station and its stream — the same way a printed radio guide or an on-screen programme guide shows them.</p>
+    <p>Wherever possible the logo shown is the broadcaster's own published artwork or a freely-licensed image, and we are actively migrating the catalog off any remaining non-free images. We don't alter logos beyond resizing for display, and we never present a broadcaster's mark as our own — rrradio.org has its own logo.</p>
+    <p>If you own a station's brand and would prefer its logo not appear here — or want it corrected or replaced — open an issue on GitHub or email <a href="mailto:support@rrradio.org">support@rrradio.org</a> and we'll remove or update it promptly.</p>
 
     <h2>Cloudflare Worker proxy</h2>
     <p>For broadcasters whose now-playing APIs don't allow cross-origin requests, the app routes those metadata fetches through a small Cloudflare Worker we operate (<code>stats.rrradio.org</code>). Cloudflare's standard infrastructure logging applies to those requests (typically: IP address held briefly for abuse prevention, then discarded). The Worker itself stores nothing; it just forwards the broadcaster's JSON back to your browser.</p>
@@ -174,7 +174,7 @@
     </ul>
 
     <h2>Cookies</h2>
-    <p>The main app does not set cookies. A separate admin dashboard at <code>/dashboard.html</code> (used only by the operator) holds an admin token in <code>localStorage</code>; ordinary visitors don't see it.</p>
+    <p>The main app does not set cookies.</p>
 
     <h2>Your rights</h2>
     <p>Because we don't collect personally identifiable information about app users, we have nothing to link to you and nothing to delete on request. The data we do see is aggregate ("&lt;station&gt; was played &lt;n&gt; times"), which doesn't identify any individual.</p>
@@ -185,7 +185,7 @@
       <li><strong>GoatCounter aggregate counts</strong> — kept indefinitely. They're not personal data; they're "rrradio.org received N visits" and "&lt;station X&gt; was played M times".</li>
       <li><strong>Cloudflare Worker access logs</strong> — per Cloudflare's defaults, typically 24 hours to a few days. We don't write our own logs on top of that.</li>
       <li><strong>On-device data</strong> — stays as long as you keep the app installed or haven't cleared site data.</li>
-      <li><strong>iOS iCloud Sync data</strong> — favorites, station lists, added stations, and app preferences stay in your private iCloud database until you remove rrradio data from iCloud or disable/delete it through Apple's iCloud controls.</li>
+      <li><strong>iOS iCloud Sync data</strong> — favorites, station lists, added stations, and app preferences stay in your private iCloud database until you remove rrradio.org data from iCloud or disable/delete it through Apple's iCloud controls.</li>
       <li><strong>iOS diagnostics</strong> — off by default; when enabled, capped to 100 events and pruned after 14 days. Turning it off clears the local diagnostic log.</li>
       <li><strong>iOS listening history</strong> — off by default; when enabled, kept for your selected retention window (30 days, 90 days by default, 1 year, or forever) until you clear it or delete the app.</li>
     </ul>
