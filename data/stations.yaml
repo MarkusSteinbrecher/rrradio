@@ -11360,8 +11360,11 @@
   country: DK
   status: stream-only
 - id: dk-nova-fm
-  favicon: "https://impro.usercontent.one/appid/oneComWsb/domain/nova.dk/media/nova.dk/onewebmedia/Nova%20logo%2017-02%20gr%C3%B8nnere.png"
-  faviconSource: radio-browser
+  favicon: "https://assets.planetradio.co.uk/img/ConfigLockScreenImageUrl/174.jpg?ver=1538492622"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://rayo.dk/nova/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 4bcb11ad-0ac0-4bb6-8b36-603ba1a4effd
   changeuuid: 26d3991f-7709-40c5-9f99-59a65a6b8cd8
   reviewedAt: 2026-04-30
@@ -11380,8 +11383,11 @@
   country: DK
   status: stream-only
 - id: dk-the-voice
-  favicon: "https://cdn.onlineradiobox.com/img/l/2/11832.v2.png"
-  faviconSource: radio-browser
+  favicon: "https://assets.planetradio.co.uk/img/ConfigLockScreenImageUrl/173.jpg?ver=1550225644"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://rayo.dk/the-voice"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 632fe760-a124-4385-9061-6acb4bd14d0f
   changeuuid: 69ce43a4-6de3-4fe4-b684-590bed5aeb4a
   reviewedAt: 2026-04-30
@@ -11442,8 +11448,11 @@
   country: DK
   status: stream-only
 - id: dk-retro-radio
-  favicon: "https://retro-radio.dk/wp-content/uploads/2023/03/favicon-retroradio.png"
+  favicon: "https://retro-radio.dk/wp-content/uploads/2023/11/Retro_600.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://retro-radio.dk/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 962ee337-0601-11e8-ae97-52543be04c81
   changeuuid: 993da39c-36d2-4ead-b76e-45147d1fe1e5
   reviewedAt: 2026-04-30
@@ -276468,6 +276477,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: dk-tango-copenhagen-radio
+  favicon: "https://tangocopenhagen.radio/wp-content/uploads/2019/03/logo-square-large-2-comp.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://tangocopenhagen.radio/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Tango Copenhagen Radio
@@ -277537,8 +277551,11 @@
   bitrate: 96
   codec: AAC+
   tags: [danish, dansk, danske, hits, pop]
-  favicon: "https://listenapi.s3.amazonaws.com/img/ConfigWebListenBarLogoImageUrl/202.jpg?ver=1490698010"
-  faviconSource: radio-browser
+  favicon: "https://assets.planetradio.co.uk/img/ConfigLockScreenImageUrl/174.jpg?ver=1538492622"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://rayo.dk/nova/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://radioplay.dk/nova-100-dansk/"
   country: DK
   geo: [0, 0]
@@ -287960,6 +287977,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: dk-classic-rock-danmark
+  favicon: "https://classicrock.dk/wp-content/uploads/sites/5/2025/05/Classic_Rock_logo_print_RGB_pos.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://classicrock.dk/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Classic Rock Danmark
@@ -297467,8 +297489,11 @@
   bitrate: 128
   codec: MP3
   tags: [danish, music, talk]
-  favicon: "https://www.dr.dk/favicon.ico"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/9/91/DR_P6_Beat_2017_logo.png"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:DR_P6_Beat_2017_logo.png"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://www.dr.dk/radio/oversigt"
   country: DK
   geo: [0, 0]
@@ -304875,8 +304900,11 @@
   streamUrl: "https://drliveradio1.akamaized.net/hls/live/2097651/p8jazz/playlist-96000.m3u8"
   codec: UNKNOWN
   tags: [jazz]
-  favicon: "https://www.phonostar.de/images/auto_created/DR_P8_5184x184.png"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/3/32/DR_P8_2017_Jazz_logo.png"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:DR_P8_2017_Jazz_logo.png"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://www.dr.dk/lyd/p8jazz"
   country: DK
   geo: [0, 0]
@@ -309480,8 +309508,11 @@
   bitrate: 128
   codec: MP3
   tags: [classic hits, hits, oldies, pop]
-  favicon: "https://radioplay.dk/tesla/static/favicons/radioplay-dk/apple-touch-icon.png"
-  faviconSource: radio-browser
+  favicon: "https://assets.planetradio.co.uk/img/ConfigWebHeaderLogoSVGImageUrl/178.svg?ver=1490627048"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://rayo.dk/radio-100"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://radioplay.dk/radio-100"
   country: DK
   geo: [0, 0]
@@ -309777,8 +309808,11 @@
   bitrate: 192
   codec: MP3
   tags: [local news, pop music]
-  favicon: "https://radioviborg.dk/wp-content/uploads/2017/09/cropped-favicon-180x180.png"
-  faviconSource: radio-browser
+  favicon: "https://radioviborg.dk/wp-content/uploads/sites/4/2024/08/cropped-favicon_viborg-192x192.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radioviborg.dk/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://radioviborg.dk/#"
   country: DK
   geo: [56.4505, 9.4074]
@@ -311653,6 +311687,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: dk-globus-guld-jul
+  favicon: "https://static.radioglobus.dk/cover.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radioglobus.dk/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Globus Guld Jul
@@ -312405,8 +312444,11 @@
   bitrate: 256
   codec: MP3
   tags: [pop rock]
-  favicon: "https://www.gofm.dk/wp-content/uploads/2017/08/cropped-gofm-logo-512-32x32.png"
-  faviconSource: radio-browser
+  favicon: "https://www.gofm.dk/wp-content/uploads/2017/08/cropped-gofm-logo-512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.gofm.dk/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.gofm.dk/"
   country: DK
   geo: [56.17, 10.1952]
@@ -317004,6 +317046,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: dk-dansktop-kanalen
+  favicon: "https://dansktopkanalen.dk/wp-content/uploads/sites/3/2021/12/cropped-favi-dansktopkanalen.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://dansktopkanalen.dk/wp-json/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Dansktop Kanalen
@@ -319754,8 +319801,11 @@
   streamUrl: "https://drliveradio1.akamaized.net/hls/live/2097651/p2/playlist-96000.m3u8"
   codec: UNKNOWN
   tags: [classical, culture]
-  favicon: "https://www.phonostar.de/images/auto_created/DR_P2_4184x184.png"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/c/cf/DR_P2_2017_logo.png"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:DR_P2_2017_logo.png"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://www.dr.dk/lyd/p2"
   country: DK
   geo: [0, 0]
@@ -319961,6 +320011,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: dk-radio-globus
+  favicon: "https://static.radioglobus.dk/cover.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radioglobus.dk/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Radio Globus
@@ -323726,6 +323781,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: dk-radio-m
+  favicon: "https://radiom.dk/wp-content/uploads/2020/11/cropped-logo-1-192x192.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiom.dk/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Radio M
@@ -326393,8 +326453,11 @@
   streamUrl: "https://drliveradio1.akamaized.net/hls/live/2097651/p1/playlist-96000.m3u8"
   codec: UNKNOWN
   tags: [culture, information, news, talk]
-  favicon: "https://www.dr.dk/favicon.ico"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/3/3d/DR_P1_2017_logo.png"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:DR_P1_2017_logo.png"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://www.dr.dk/lyd/p1"
   country: DK
   geo: [0, 0]
@@ -326411,8 +326474,11 @@
   streamUrl: "https://drliveradio1.akamaized.net/hls/live/2097651/p6beat/playlist-96000.m3u8"
   codec: UNKNOWN
   tags: [alternative, indie, pop, rock]
-  favicon: "https://www.phonostar.de/images/auto_created/DR_P6_4184x184.png"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/9/91/DR_P6_Beat_2017_logo.png"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:DR_P6_Beat_2017_logo.png"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://www.dr.dk/lyd/p6beat"
   country: DK
   geo: [0, 0]
@@ -326604,8 +326670,11 @@
   streamUrl: "https://netradio.vlr.dk/vlr8d"
   bitrate: 192
   codec: MP3
-  favicon: "https://vlr.dk/wp-content/uploads/sites/3/2024/08/cropped-favicon_vlr-1-180x180.png"
-  faviconSource: radio-browser
+  favicon: "https://vlr.dk/wp-content/uploads/sites/3/2024/08/cropped-favicon_vlr-1-270x270.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://vlr.dk/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://vlr.dk/"
   country: DK
   geo: [0, 0]
@@ -328816,6 +328885,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: dk-radio-soft-k-benhavns-nr-bispebjerg-lr-bella-chr
+  favicon: "https://listenapi.planetradio.co.uk/cdn/logos/1-1/512x512/212.jpg?ver=1780294055"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://rayo.dk/radiosoft"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: "Radio Soft - Københavns NR - Bispebjerg LR - Bella Chr"
@@ -330674,8 +330748,11 @@
   streamUrl: "https://ondemand-mp3.dradio.de/file/dradio/presseschau/presseschau.mp3"
   codec: MP3
   tags: [internationale presseschau, lokale presseschau, nachrichten]
-  favicon: "https://www.deutschlandfunk.de/presseschauen-100.html"
-  faviconSource: radio-browser
+  favicon: "https://www.deutschlandfunk.de/static/img/deutschlandfunk/icons/favicon-196x196.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.deutschlandfunk.de/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.deutschlandfunk.de/"
   country: DK
   geo: [50.8934, 6.9676]
@@ -330914,8 +330991,11 @@
   bitrate: 128
   codec: MP3
   tags: [1980s, "80's", 80er, 80s]
-  favicon: "https://static.mytuner.mobi/media/tvos_radios/hmpru8q4znst.jpg"
-  faviconSource: radio-browser
+  favicon: "https://media.bauerradio.com/image/upload/c_crop,g_custom/v1614156118/brand_manager/stations/pulnczbpjd8o9dmf742v.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://rayo.dk/pop-fm-80er"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://radioplay.dk/pop-fm-80er"
   country: DK
   geo: [55.6943, 12.5642]
