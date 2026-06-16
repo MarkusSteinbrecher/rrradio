@@ -857,8 +857,11 @@
   country: CH
   status: working
 - id: ch-kontrafunk
-  favicon: "https://shop.kontrafunk.radio/wp-content/themes/yootheme/cache/16/Kontrafunk_Logo_Shop-167778cd.jpeg"
+  favicon: "https://kontrafunk.radio/images/_templates/KF_logo_speaker.jpg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://kontrafunk.radio/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 92c3f2bd-d985-4998-9632-2e16fbfcab0e
   changeuuid: b298e5de-b67a-4f84-93a3-6cbbe9868c31
   reviewedAt: 2026-05-02
@@ -983,8 +986,11 @@
     - rock
     - oldies
     - switzerland
-  favicon: "https://www.80sforever.radio/wp-content/uploads/2020/03/80sforever_radio_logo_1200.jpg"
+  favicon: "https://www.80sforever.radio/wp-content/uploads/2020/03/80sforever_radio_logo_1080.jpg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.80sforever.radio/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.80sforever.radio/
   country: CH
   status: stream-only
@@ -1091,6 +1097,11 @@
   country: CH
   status: stream-only
 - id: ch-1-fm-beloved-ballads
+  favicon: "https://radio.1cloud.fm/favicon/favicon.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radio.1cloud.fm/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: ab911d7a-cc43-4640-96f0-771a651ccd25
   changeuuid: 9452095b-b64c-4bc0-8993-3519ea84f812
   reviewedAt: 2026-05-04
@@ -1144,8 +1155,11 @@
     - lounge
     - soul
     - switzerland
-  favicon: https://swissgroove.ch/favicon.ico
+  favicon: "https://swissgroove.ch/images/logo.svg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://swissgroove.ch/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://swissgroove.ch/
   country: CH
   status: stream-only
@@ -1173,6 +1187,11 @@
   country: CH
   status: stream-only
 - id: ch-a-fine-jazz-gumbo-radio
+  favicon: "https://jazzgumboradio.com/wp-content/uploads/2019/12/icon.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://jazzgumboradio.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   stationuuid: 40e0da97-9fd2-4729-8e86-4c65cdba7910
   changeuuid: 812a70af-701d-4220-9078-a7a8e90faee6
@@ -1283,8 +1302,11 @@
   codec: MP3
   tags:
     - switzerland
-  favicon: https://www.radiolac.ch/favicon.ico
+  favicon: "https://www.radiolac.ch/wp-content/themes/radiolac/logo_lac_simple.svg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radiolac.ch/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.radiolac.ch/direct/player/
   country: CH
   status: stream-only
@@ -1545,8 +1567,11 @@
     - news
     - pop
     - switzerland
-  favicon: https://www.toponline.ch/fileadmin/templates/logos/apple-touch-icon.png
+  favicon: "https://bal-static.s3.eu-central-1.amazonaws.com/web_player/favicons/radiotop/radiotop_favicon.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.toponline.ch/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.toponline.ch/
   country: CH
   status: stream-only
@@ -1570,8 +1595,11 @@
   country: CH
   status: stream-only
 - id: ch-1-fm-classic-rock
-  favicon: "https://radio.1cloud.fm/og_image.png"
-  faviconSource: radio-browser
+  favicon: "https://radio.1cloud.fm/favicon/favicon.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radio.1cloud.fm/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: c3086993-34c3-47cb-9323-540fb675fe46
   changeuuid: ea86771a-707c-4be6-ae54-80100960a088
   reviewedAt: 2026-05-04
@@ -1741,8 +1769,11 @@
     - electronic
     - pop
     - switzerland
-  favicon: https://radio.grenzenlos.ch/logo.png
-  faviconSource: radio-browser
+  favicon: "https://radio.grenzenlos.ch/site/wp-content/uploads/2017/02/grenzenlos-icon.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radio.grenzenlos.ch/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   country: CH
   status: stream-only
 - id: ch-radio-drachenblut
@@ -1822,8 +1853,11 @@
     - news
     - pop
     - switzerland
-  favicon: https://web.canal3.ch/de/sites/all/themes/canal3_theme_v2/favicon.ico
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/7/74/Logo_Canal3.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Logo_Canal3.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: https://web.canal3.ch/
   country: CH
   status: stream-only
@@ -1901,8 +1935,11 @@
   codec: MP3
   tags:
     - switzerland
-  favicon: https://static.wixstatic.com/media/d168f9_11af99f87f4448daaf0e1bda1d1a1169~mv2.png/v1/fill/w_180,h_125,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/LOGO%20Radio%20S.png
-  faviconSource: radio-browser
+  favicon: "https://static.wixstatic.com/media/d168f9_11af99f87f4448daaf0e1bda1d1a1169~mv2.png/v1/fill/w_512,h_512,al_c,q_85,enc_auto/LOGO%20Radio%20S.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radio-s.ch/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://stream.radio-s.ch/stream
   country: CH
   status: stream-only
@@ -1997,14 +2034,20 @@
     - pop
     - rock
     - switzerland
-  favicon: https://www.neo1.ch/fileadmin/user_upload/newsaudio/2018/11/neo1-logo.jpg
+  favicon: "https://www.neo1.ch/fileadmin/templates/2021/Images/Logo_NEO1_g.svg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.neo1.ch/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.neo1.ch/
   country: CH
   status: stream-only
 - id: ch-country-radio-switzerland
-  favicon: "https://upload.wikimedia.org/wikipedia/de/thumb/b/ba/CRS-Logo.jpg/330px-CRS-Logo.jpg"
-  faviconSource: wiki
+  favicon: "https://www.countryradio.ch/wp-content/uploads/2023/03/cropped-CRS_Logo_Rot_RGB_DL_ohne_www_transparent_rand.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.countryradio.ch/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 9d570191-0359-4398-af57-bc8d3e37b417
   changeuuid: 14b882e4-c379-45af-8ea2-85fac3a17a30
   reviewedAt: 2026-05-04
@@ -2036,8 +2079,11 @@
   tags:
     - country
     - switzerland
-  favicon: https://www.drift.fm/wp-content/uploads/2020/06/Drift-FM_Logo_transparent_400px_00c8007a1_1367.png
+  favicon: "https://www.thestage.radio/wp-content/uploads/2021/10/cropped-Symbol_72x72.jpg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.thestage.radio/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.drift.fm/
   country: CH
   status: stream-only
@@ -2134,8 +2180,11 @@
   codec: MP3
   tags:
     - switzerland
-  favicon: https://www.wildmountain.ch/favicon.png
+  favicon: "https://www.wildmountain.ch/images/logo.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.wildmountain.ch/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.wildmountain.ch/
   country: CH
   status: stream-only
@@ -2214,8 +2263,11 @@
   codec: MP3
   tags:
     - switzerland
-  favicon: https://static.wixstatic.com/media/e05539_cbaf7759467242c1843d8bac2619e127~mv2.png/v1/crop/x_9,y_0,w_3107,h_1875/fill/w_490,h_296,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/customcolor_logo_transparent_background.png
-  faviconSource: radio-browser
+  favicon: "https://static.wixstatic.com/media/e05539_98aba7b1297c439498d24ae01d16f73f~mv2.png/v1/fill/w_512,h_512,lg_1,usm_0.66_1.00_0.01/e05539_98aba7b1297c439498d24ae01d16f73f~mv2.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.dreamsequence.ch/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.dreamsequence.ch/
   country: CH
   status: stream-only
@@ -2252,8 +2304,11 @@
   codec: MP3
   tags:
     - switzerland
-  favicon: https://kisscollector.ch/favicon.ico
+  favicon: "https://dr21.mediaonegroup.ch/apps/assets/kisscollector_outline.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://dr21.mediaonegroup.ch/apps/kc-content.json"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://kisscollector.ch/
   country: CH
   status: stream-only
@@ -2431,8 +2486,11 @@
   codec: MP3
   tags:
     - switzerland
-  favicon: https://www.mnr.ch/favicon.ico
+  favicon: "https://cdn-ch.mnr.ch/wp-content/themes/v2-theme-base/dist/images/rnh-logo.svg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.mnr.ch/radio/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.mnr.ch/radio/
   country: CH
   status: stream-only
@@ -2536,6 +2594,11 @@
   country: CH
   status: stream-only
 - id: ch-radio-sudostschweiz
+  favicon: "https://radiogrischa.ch/themes/custom/grischa/images/logos/rso.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiogrischa.ch/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   stationuuid: 4b8d625c-a8fc-4e4c-bbbf-62af99e78568
   changeuuid: fe8ee51a-4670-4e8c-99ac-92bfff68b1ca
@@ -2605,8 +2668,11 @@
   codec: MP3
   tags:
     - switzerland
-  favicon: https://3fach.ch/themes/3fach/assets/logo_black@2x.png
+  favicon: "https://3fach.ch/themes/3fach/assets/favicon-512.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://3fach.ch/themes/3fach/manifest.json"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://3fach.ch/
   country: CH
   status: stream-only
