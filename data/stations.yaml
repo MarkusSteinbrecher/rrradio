@@ -15451,8 +15451,11 @@
   country: NZ
   status: stream-only
 - id: nz-rnz-concert
-  favicon: "https://www.rnz.co.nz/x/favicons/production/apple-touch-icon-14e8cc0d5e9a21845ce6a582e39617baeebe39d41412666ecebcdba7f3c1770a.png"
+  favicon: "https://www.rnz.co.nz/brand-images/rnz-concert.jpg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.rnz.co.nz/concert"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   stationuuid: 73e4fccd-77cf-11e9-aa30-52543be04c81
   changeuuid: 9afb1f7a-8da5-4986-9f0a-7ed2987ade46
@@ -15564,14 +15567,20 @@
   tags:
     - rock
     - new zealand
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/The_Rock_Logo.png/330px-The_Rock_Logo.png"
-  faviconSource: wiki
+  favicon: "https://images.ctfassets.net/r65x6q43xsmv/6siD4en5zEb91k3qbuCVuX/f9dee5d779827bacf03655be8d130b48/Station_Rock_logo_red_v2.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.rova.nz/radio/the-rock"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.therock.net.nz/
   country: NZ
   status: stream-only
 - id: nz-sport-nation
-  favicon: "https://d17c7zjzkasel8.cloudfront.net/sport-nation-logo.png"
-  faviconSource: radio-browser
+  favicon: "https://images.ctfassets.net/psj6pjowd0qs/4mIahIf5p3Hx7zaT1tAZuJ/d034eae7fb99b252b069750e7fef2a91/Sport_Nation_Icon_-_Green.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://sportnation.nz/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: b61e2d85-286e-4510-b6af-a7549cfeb13d
   changeuuid: cbce40b0-79e4-4be2-8dc5-cfb5b8060510
   reviewedAt: 2026-04-30
@@ -185773,8 +185782,11 @@
   streamUrl: https://wowza.iwi.radio/icecast-to-hls/ngrp:NgatiPorou.stream/playlist.m3u8
   bitrate: 63
   codec: AAC
-  favicon: https://radiongatiporou.com/wp-content/uploads/2019/08/logo_blue-200x133.png
+  favicon: "https://radiongatiporou.com/wp-content/uploads/2018/02/RNP-LogoSMAlL.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiongatiporou.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://radiongatiporou.com/
   country: NZ
   status: stream-only
@@ -185838,8 +185850,11 @@
   streamUrl: https://ais-sa1.streamon.fm/7358_128k.aac/playlist.m3u8
   bitrate: 128
   codec: AAC
-  favicon: https://s3.amazonaws.com/streaming-player-assets/BrianFMNel/custom/images/brianfmnel-logo-20190225094751.png
-  faviconSource: radio-browser
+  favicon: "https://brianfm.com/wp-content/uploads/brian-fm-logo.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://brianfm.com/nelson/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://brianfm.com/nelson/
   country: NZ
   status: stream-only
@@ -185867,8 +185882,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: nz-the-rock-nz-s-1-rock-radio-station
   tags: [alternative rock, classic rock, hard rock, pop rock, rock, soft rock]
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/The_Rock_Logo.png/330px-The_Rock_Logo.png"
-  faviconSource: wiki
+  favicon: "https://images.ctfassets.net/r65x6q43xsmv/6siD4en5zEb91k3qbuCVuX/f9dee5d779827bacf03655be8d130b48/Station_Rock_logo_red_v2.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.rova.nz/radio/the-rock"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: "The Rock - NZ's #1 rock radio station"
   streamUrl: https://digitalstreams.mediaworks.nz/rock_net_icy
@@ -185900,6 +185918,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: nz-the-hits
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/9/91/The_Hits_2020_Logo.png"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:The_Hits_2020_Logo.png"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   faviconBlocked: true
   tags: [contemporary hits]
   broadcaster: independent
@@ -185941,8 +185964,11 @@
   streamUrl: https://wowza.iwi.radio/icecast-to-hls/ngrp:Kahungunu.stream/playlist.m3u8
   bitrate: 63
   codec: AAC
-  favicon: https://static.wixstatic.com/media/d14534_259a89e4fcec4fb1a130d955fd584e8e~mv2_d_4534_2593_s_4_2.png/v1/fill/w_203,h_116,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Radio%20K%20Logo%20small.png
-  faviconSource: radio-browser
+  favicon: "https://static.wixstatic.com/media/d14534_259a89e4fcec4fb1a130d955fd584e8e~mv2_d_4534_2593_s_4_2.png/v1/fill/w_512,h_512,al_t,q_90/logo.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radiokahungunu.nz/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.radiokahungunu.nz/
   country: NZ
   status: stream-only
@@ -185970,8 +185996,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: nz-the-generator
   tags: [classic rock, hard rock, heavy metal, rock]
-  favicon: "https://cdn.instant.audio/images/logos/radio-org-nz/the-generator.png"
-  faviconSource: radio-browser
+  favicon: "https://thegenerator.co.nz/wp-content/uploads/2024/09/logo-blank.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://thegenerator.co.nz/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: The Generator
   streamUrl: https://s1.myradiostream.com/:14268/;?type=http&nocache=1608640718?0.7458407789862892
@@ -186087,8 +186116,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: nz-george-fm
-  favicon: "https://upload.wikimedia.org/wikipedia/en/c/c0/George-FM.png"
-  faviconSource: wiki
+  favicon: "https://images.ctfassets.net/r65x6q43xsmv/7m1QDg1ret36TEpNiJbDwU/f9c390ef8299e079104006b07e9e95fa/web-station-george.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.rova.nz/radio/george-fm"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: George FM
   streamUrl: https://digitalstreams.mediaworks.nz/george_net/playlist.m3u8
@@ -186120,8 +186152,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: nz-radioactive-fm-88-6
   tags: [alternative, indie, local radio, student radio]
-  favicon: "https://www.radioactive.fm/wp-content/uploads/RadioActive886_Stack@_pos.jpg"
+  favicon: "https://www.radioactive.fm/wp-content/uploads/2014/07/cropped-favIcon2-3-270x270.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radioactive.fm/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Radioactive.FM 88.6
   streamUrl: https://radio123-gecko.radioca.st/radioactivefm
@@ -186206,8 +186241,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: nz-radio-hydra
   tags: [classic hits, piha]
-  favicon: "https://static.parastorage.com/client/pfavico.ico"
-  faviconSource: radio-browser
+  favicon: "https://static.wixstatic.com/media/c51e43_1a2126508d2644bc9effe88efec7f263~mv2.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiohydra.org/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Radio Hydra
   streamUrl: https://streaming.radio.co/sed9109681/listen
@@ -186306,6 +186344,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: nz-radio-control-99-4fm
+  favicon: "https://images.squarespace-cdn.com/content/v1/60399005fc57820778ea6c68/92931519-4dd4-4aef-b7ee-48b127fb8253/radio-control-01.jpg?format=750w"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiocontrol.org.nz/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [kiwi, maori culture, massey university, random, student, variety]
   broadcaster: independent
   name: Radio Control 99.4FM
@@ -186411,8 +186454,11 @@
   streamUrl: https://stream.upfm.live/radio/8000/radio.mp3
   bitrate: 128
   codec: MP3
-  favicon: https://liveonlineradio.net/wp-content/uploads/2013/09/Up-FM.jpg
-  faviconSource: radio-browser
+  favicon: "https://upfm.co.nz/wp-content/uploads/2019/08/cropped-favicon1-03-270x270.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://upfm.co.nz/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://twitter.com/upfm
   country: NZ
   status: stream-only
@@ -186506,8 +186552,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: nz-radio-te-aroha-88fm
   tags: [community, oldies, variety]
-  favicon: "https://static.parastorage.com/client/pfavico.ico"
-  faviconSource: radio-browser
+  favicon: "https://static.wixstatic.com/media/b05e6b_501f68a4847f4033af99978599e0d00d~mv2.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radiotearoha.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Radio Te Aroha 88FM
   streamUrl: https://c2.radioboss.fm:18440/stream
@@ -186528,8 +186577,11 @@
   streamUrl: https://live.accessmedia.nz/Taranaki.stream_aac/playlist.m3u8
   bitrate: 150
   codec: AAC
-  favicon: "https://cdn3.firecrestsystems.com/FC_ART/Images/ART-Social.jpg"
-  faviconSource: radio-browser
+  favicon: "https://www.artmedia.org.nz/v1.0.16_Live/images/ART_Brand_Mark%2029.ytzkPE0C.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.artmedia.org.nz/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.accessradiotaranaki.com/
   country: NZ
   status: stream-only
@@ -186557,8 +186609,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: nz-coast-access-radio
   tags: [community radio]
-  favicon: "https://cdn.instant.audio/images/logos/radio-org-nz/coast-access.png"
-  faviconSource: radio-browser
+  favicon: "https://cdn3.firecrestsystems.com/FC_Coast/Images/coastlogo.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.coastaccessradio.org.nz/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Coast Access Radio
   streamUrl: https://live.accessmedia.nz/Coast.stream_aac/playlist.m3u8
