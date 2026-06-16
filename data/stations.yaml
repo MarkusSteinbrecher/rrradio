@@ -12285,8 +12285,11 @@
   country: PT
   status: stream-only
 - id: pt-m80
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/M80_Radio_2025.svg/250px-M80_Radio_2025.svg.png"
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/b/b0/M80_Radio_2025.svg"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:M80_Radio_2025.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   stationuuid: c6ed0be5-21dd-4b03-aa18-0dbc9a0c3f87
   changeuuid: 506ed3cb-e9ce-47f0-99eb-16e0e86eaa5b
   reviewedAt: 2026-04-30
@@ -12305,8 +12308,11 @@
   country: PT
   status: stream-only
 - id: pt-tsf
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/5/5e/TSF_Jazz_logo.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
-  faviconSource: wiki
+  favicon: "https://www.tsf.pt/assets/img/android-chrome-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.tsf.pt/manifest.webmanifest"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: cc461784-3150-4a34-81c5-2116fe024740
   changeuuid: 753c43c1-d62a-4f45-a5bc-907bbd586614
   reviewedAt: 2026-04-30
@@ -12325,8 +12331,11 @@
   country: PT
   status: stream-only
 - id: pt-mega-hits
-  favicon: "https://upload.wikimedia.org/wikipedia/en/9/97/Mega_Hits_logo.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
-  faviconSource: wiki
+  favicon: "https://megahits.fm/web-app-manifest-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://megahits.fm/manifest.json"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 9618e93b-0601-11e8-ae97-52543be04c81
   changeuuid: 56cf6622-6800-470d-97c7-d9eb064bc964
   reviewedAt: 2026-04-30
@@ -183272,8 +183281,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pt-radio-comercial-portugal
-  favicon: "https://radiocomercial.pt/upload/P/phones_rc-social.png"
+  favicon: "https://radiocomercial.pt/images/svg/logoRC_black.svg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiocomercial.pt/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Radio Comercial Portugal
   streamUrl: https://stream-icy.bauermedia.pt/comercial.mp3
@@ -183294,8 +183306,11 @@
   streamUrl: https://stream-icy.bauermedia.pt/m8080.aac
   bitrate: 128
   codec: AAC
-  favicon: http://webradiodirectory.com/wp-content/uploads/2021/01/cc9443f16e2af31ba205ac82214760c9.jpg
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/b/b0/M80_Radio_2025.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:M80_Radio_2025.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: https://m80.iol.pt/
   country: PT
   status: stream-only
@@ -183320,6 +183335,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pt-m80-radio-ballads
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/b/b0/M80_Radio_2025.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:M80_Radio_2025.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   tags: [70s, 80s, 90s, romantic]
   broadcaster: independent
   name: " M80 Rádio – Ballads"
@@ -183388,8 +183408,11 @@
   streamUrl: https://stream-icy.bauermedia.pt/m80nacional.aac
   bitrate: 127
   codec: AAC
-  favicon: http://webradiodirectory.com/wp-content/uploads/2021/01/f506762ed247f010c6c41c494c279e57.jpg
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/b/b0/M80_Radio_2025.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:M80_Radio_2025.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: https://m80.iol.pt/
   country: PT
   status: stream-only
@@ -183405,8 +183428,11 @@
   streamUrl: https://stream-icy.bauermedia.pt/m8060.aac
   bitrate: 128
   codec: AAC
-  favicon: http://webradiodirectory.com/wp-content/uploads/2021/01/fe90a6d0b5158acae63737fe4b9b204f.jpg
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/b/b0/M80_Radio_2025.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:M80_Radio_2025.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: https://m80.iol.pt/
   country: PT
   status: stream-only
@@ -183449,8 +183475,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pt-cidade-fm
   tags: [cdd_fm, cidade, jovem, new age, "só se quiseres!"]
-  favicon: "https://cidade.fm/favicon.ico?v=2"
+  favicon: "https://cidade.fm/images/logo-CDD.svg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://cidade.fm/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Cidade_fm
   streamUrl: https://stream-hls.bauermedia.pt/cidade.aac/playlist.m3u8
@@ -183505,8 +183534,11 @@
   streamUrl: https://23543.live.streamtheworld.com/OCEANPACIFICAAC.aac
   bitrate: 64
   codec: AAC+
-  favicon: https://rfmsite2023-images.azureedge.net/icons/favicon.ico
-  faviconSource: radio-browser
+  favicon: "https://rfm.pt/web-app-manifest-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://rfm.pt/manifest.json"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://rfm.sapo.pt/
   country: PT
   status: stream-only
@@ -183533,6 +183565,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pt-m80-radio-pop
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/b/b0/M80_Radio_2025.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:M80_Radio_2025.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   tags: [70s, 80s, 90s, pop]
   broadcaster: independent
   name: " M80 Rádio – Pop"
@@ -183553,8 +183590,11 @@
   streamUrl: https://s4.radio.co/s7e7b6c165/listen
   bitrate: 320
   codec: MP3
-  favicon: "https://www.radiofutura.pt/favicon.ico"
-  faviconSource: http-upgraded
+  favicon: "https://www.radiofutura.pt/uploads/1/3/3/3/133330486/ftr-logotipo-slogan-preto-em-branco.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radiofutura.pt/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: http://www.radiofutura.pt/
   country: PT
   status: stream-only
@@ -183584,8 +183624,11 @@
   name: Antena 3 - Main
   streamUrl: https://radiocast.rtp.pt/antena380a.mp3
   codec: MP3
-  favicon: https://cdn-images.rtp.pt/common/img/channels/logos/color/horizontal/1-143718101410.png?q=10&v=3&w=275
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/b/b2/RTP_Antena_3_2026.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:RTP_Antena_3_2026.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: https://www.rtp.pt/play/direto/antena3
   country: PT
   status: stream-only
@@ -183595,6 +183638,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pt-m80-radio-dance
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/b/b0/M80_Radio_2025.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:M80_Radio_2025.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   tags: [70s, 80s, 90s, dance]
   broadcaster: independent
   name: " M80 Rádio – Dance"
@@ -183627,6 +183675,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pt-cm-radio
+  favicon: "https://cdn.cmjornal.pt/images/2024-11/OriginalSizeuu2024-11-11-05-27-00-2176624.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.cmjornal.pt/cmr/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [news, sports news]
   broadcaster: independent
   name: CM Rádio
@@ -183674,6 +183727,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pt-m80-radio-rock
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/b/b0/M80_Radio_2025.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:M80_Radio_2025.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   tags: [80s, pop rock, rock]
   broadcaster: independent
   name: M80 Rádio – Rock
@@ -183689,6 +183747,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pt-radio-comercial-dance
+  favicon: "https://radiocomercial.pt/images/svg/logoRC_black.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiocomercial.pt/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [dance, pop dance]
   broadcaster: independent
   name: Rádio Comercial Dance
@@ -183721,8 +183784,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pt-antena-3-portugal
-  favicon: "https://cdn-images.rtp.pt/common/img/channels/logos/gray/horizontal/rtp_2026.png?w=300"
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/b/b2/RTP_Antena_3_2026.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:RTP_Antena_3_2026.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   faviconBlocked: true
   tags: [alternative, music]
   broadcaster: independent
@@ -183740,8 +183806,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pt-cidade-hiphop
   tags: [hip hop]
-  favicon: "https://cidade.fm/favicon.ico?v=2"
+  favicon: "https://cidade.fm/images/logo-CDD.svg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://cidade.fm/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: cidade hiphop
   streamUrl: https://stream-hls.bauermedia.pt/cidhiphop.aac/playlist.m3u8
@@ -183761,8 +183830,11 @@
   streamUrl: https://stream-icy.bauermedia.pt/m8090.aac
   bitrate: 128
   codec: AAC
-  favicon: http://webradiodirectory.com/wp-content/uploads/2021/01/cfcb79082683b5572d795042815462f7.jpg
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/b/b0/M80_Radio_2025.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:M80_Radio_2025.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: https://m80.iol.pt/
   country: PT
   status: stream-only
@@ -183824,6 +183896,9 @@
 - id: pt-radio-biblia
   favicon: "https://public-rf-upload.minhawebradio.net/198355/mobileicon/055cea3e4f4639121693617c4c4bc118x512.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiobiblia.sbb.org.br/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   tags: [bible, christian]
   broadcaster: independent
@@ -183879,8 +183954,11 @@
   streamUrl: https://stream-icy.bauermedia.pt/m80indie.aac
   bitrate: 128
   codec: AAC
-  favicon: http://webradiodirectory.com/wp-content/uploads/2021/01/bb1443327bbcc1a1ef97d0668929c581.jpg
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/b/b0/M80_Radio_2025.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:M80_Radio_2025.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: https://m80.iol.pt/
   country: PT
   status: stream-only
@@ -183907,6 +183985,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pt-m80-radio-70s
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/b/b0/M80_Radio_2025.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:M80_Radio_2025.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   tags: [70s, 80s, pop]
   broadcaster: independent
   name: M80 Rádio – 70s
