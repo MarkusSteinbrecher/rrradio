@@ -277354,8 +277354,11 @@
   bitrate: 296
   codec: AAC
   tags: [finnish, music, news, public radio, sveriges radio]
-  favicon: "https://sverigesradio.se/dist/images/apple-touch-icon-default.png"
-  faviconSource: radio-browser
+  favicon: "https://static-cdn.sr.se/images/226/adbad6dc-0609-4bd8-845a-6dec501eec11.jpg?preset=api-default-square"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://api.sr.se/api/v2/channels?format=json"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://sverigesradio.se/"
   country: FI
   geo: [0, 0]
@@ -286670,8 +286673,11 @@
   bitrate: 128
   codec: MP3
   tags: [christmas music, helsinki, rsl]
-  favicon: "https://cdn-elements.radiostreamlive.com/v1/images/favicon.ico"
-  faviconSource: radio-browser
+  favicon: "https://cdn-elements.radiostreamlive.com/v1/images/radiosantaclaus/logo_large.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radiosantaclaus.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "http://www.radiosantaclaus.com/"
   country: FI
   geo: [0, 0]
@@ -292013,8 +292019,11 @@
   bitrate: 63
   codec: AAC
   tags: [nostalgia]
-  favicon: "https://assets.planetradio.co.uk/img/ConfigWebListenBarLogoImageUrl/335.png"
-  faviconSource: radio-browser
+  favicon: "https://assets.planetradio.co.uk/img/ConfigLockScreenImageUrl/335.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://rayo.fi/radio-nostalgia"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://radioplay.fi/radio-nostalgia"
   country: FI
   geo: [60.1706, 24.9415]
@@ -292106,8 +292115,11 @@
   bitrate: 256
   codec: AAC
   tags: [dance, pop, rap, rock]
-  favicon: "https://images.cdn.yle.fi/f_auto,w_48,h_48,dpr_4.0/v1496664710/yle-areena-app.png"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/c/cf/YleX.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:YleX.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://areena.yle.fi/audio/ohjelmat/ylex"
   country: FI
   geo: [0, 0]
@@ -294022,7 +294034,10 @@
   codec: AAC
   tags: [pop]
   favicon: "https://assets.planetradio.co.uk/img/ConfigLockScreenImageUrl/254.jpg"
-  faviconSource: radio-browser
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://rayo.fi/radio-nova/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://radioplay.fi/radio-nova"
   country: FI
   geo: [60.171, 24.9413]
@@ -294357,8 +294372,11 @@
   bitrate: 128
   codec: MP3
   tags: [christmas music, rovaniemi, rsl]
-  favicon: "https://cdn-elements.radiostreamlive.com/v1/images/favicon.ico"
-  faviconSource: radio-browser
+  favicon: "https://cdn2.radiostreamlive.com/v1/logos/radionatale.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radionatale.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.radionatale.com/"
   country: FI
   geo: [0, 0]
@@ -297687,8 +297705,11 @@
   bitrate: 96
   codec: AAC+
   tags: [pop]
-  favicon: "https://www.popfm.fi/uploads/mediabank/dbd8b0c4-5184-459e-912b-661ab845b3ba.png"
-  faviconSource: radio-browser
+  favicon: "https://www.popfm.fi/cp-cms-imgages/static/favicon/popfm/512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.popfm.fi/cp-cms-imgages/static/favicon/popfm/site.webmanifest"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.popfm.fi/pop/home"
   country: FI
   geo: [0, 0]
@@ -309253,7 +309274,10 @@
   streamUrl: "https://aud-stream-hitmix.nm-elemental.nelonenmedia.fi/playlist-256000.m3u8"
   codec: UNKNOWN
   favicon: "https://static.novelist.nelonenmedia.fi/files/styles/1_360x360/s3/promo-items/square/2024/HitMix_2560x2560.jpg?itok=0vJyAWi8"
-  faviconSource: radio-browser
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.supla.fi/hitmix"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.supla.fi/hitmix"
   country: FI
   geo: [60.2041, 24.9225]
@@ -310157,8 +310181,11 @@
   bitrate: 63
   codec: AAC
   tags: [90s, pop]
-  favicon: "https://assets.planetradio.co.uk/img/ConfigWebListenBarLogoImageUrl/426.png"
-  faviconSource: radio-browser
+  favicon: "https://media.bauerradio.com/image/upload/c_pad,w_512,h_512/v1632729723/brand_manager/stations/egst8tqm6jkoijv8tpgu.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://rayo.fi/ysari"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://radioplay.fi/ysari"
   country: FI
   geo: [60.1708, 24.9415]
@@ -316391,8 +316418,11 @@
   streamUrl: "https://cast.radiokeskisuomalainen.fi/radiokeskisuomalainen"
   bitrate: 320
   codec: MP3
-  favicon: "https://www.radiokeskisuomalainen.fi/wp-content/uploads/2020/04/cropped-radio-keskisuomalainen-favicon-1-192x192.png"
-  faviconSource: radio-browser
+  favicon: "https://www.radiokeskisuomalainen.fi/wp-content/uploads/2025/10/cropped-radio-ksml-favicon-270x270.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radiokeskisuomalainen.fi/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.radiokeskisuomalainen.fi/"
   country: FI
   geo: [62.2486, 25.7747]
@@ -316520,8 +316550,11 @@
   streamUrl: "https://st.downtime.fi/kiakko-tappara.aac"
   bitrate: 64
   codec: AAC+
-  favicon: "https://kiakkoradio.fi/wp-content/uploads/2023/09/masnepp.png"
-  faviconSource: radio-browser
+  favicon: "https://kiakkoradio.fi/wp-content/uploads/2023/09/Kiakkoradio-logo-300.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://kiakkoradio.fi/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://kiakkoradio.fi/"
   country: FI
   geo: [61.4981, 23.774]
@@ -324454,6 +324487,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: fi-radio-patmos
+  favicon: "https://www.patmos.fi/wp-content/themes/patmos/dist/favicon/android-icon-192x192.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.patmos.fi/radio-patmos/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Radio Patmos
@@ -328873,8 +328911,11 @@
   name: Radio Rock
   streamUrl: "https://aud-stream-radiorock.nm-elemental.nelonenmedia.fi/playlist-256000.m3u8"
   codec: UNKNOWN
-  favicon: "https://static.novelist.nelonenmedia.fi/files/styles/1_360x360/s3/promo-items/square/2024/RadioRock_2560x2560.jpg?itok=-t2L8AEt"
-  faviconSource: radio-browser
+  favicon: "https://static.novelist.nelonenmedia.fi/files/styles/1_720x720/s3/promo-items/square/2024/RadioRock_2560x2560.jpg?itok=-t2L8AEt"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.supla.fi/radiorock"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.supla.fi/radiorock"
   country: FI
   geo: [60.1972, 24.9335]
@@ -333544,8 +333585,11 @@
   name: Radio SuomiPop
   streamUrl: "https://aud-stream-suomipop.nm-elemental.nelonenmedia.fi/playlist-256000.m3u8"
   codec: UNKNOWN
-  favicon: "https://static.novelist.nelonenmedia.fi/files/styles/1_360x360/s3/promo-items/square/2024/Suomipop_2560x2560.jpg?itok=PbwAfqXn"
-  faviconSource: radio-browser
+  favicon: "https://static.novelist.nelonenmedia.fi/files/promo-items/square/2024/Suomipop_2560x2560.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://static.novelist.nelonenmedia.fi/files/promo-items/square/2024/Suomipop_2560x2560.jpg"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.supla.fi/radiosuomipop"
   country: FI
   geo: [60.1986, 24.9362]
@@ -337061,8 +337105,11 @@
   bitrate: 262
   codec: AAC
   tags: [blues, funk, groove, jazz, soul]
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/e/e6/Groove_color_RGB.png"
-  faviconSource: radio-browser
+  favicon: "https://static.novelist.nelonenmedia.fi/files/styles/1_2880x2880/s3/promo-items/square/2024/Groove_2560x2560.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.supla.fi/groovefm"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.supla.fi/groovefm"
   country: FI
   geo: [60.1724, 24.9379]
