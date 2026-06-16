@@ -11544,8 +11544,11 @@
   country: SE
   status: stream-only
 - id: se-rix-fm
-  favicon: "https://www.viaplayradio.se/rixfm/wp-content/themes/ilikeradio/assets/images/favicons/favicon-32x32.png"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_Rix_FM_2016.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Logo_Rix_FM_2016.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   stationuuid: 50d2c7dd-dec7-4169-84a1-a2f1614278ad
   changeuuid: fcf613b7-f327-4d8e-a2dd-9a19373ea4de
   reviewedAt: 2026-04-30
@@ -11564,8 +11567,11 @@
   country: SE
   status: stream-only
 - id: se-bandit-rock
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Logo_Bandit_Rock.svg/960px-Logo_Bandit_Rock.svg.png"
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/4/49/Logo_Bandit_Rock.svg"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Logo_Bandit_Rock.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   stationuuid: 168e0796-3b97-479c-949d-b1871ef07379
   changeuuid: e03729d0-c10e-4078-a239-0dd001525a7d
   reviewedAt: 2026-04-30
@@ -11584,8 +11590,11 @@
   country: SE
   status: stream-only
 - id: se-lugna-favoriter
-  favicon: "https://www.viaplayradio.se/lugnafavoriter/wp-content/uploads/sites/5/2025/07/Some-4_5.jpg"
-  faviconSource: radio-browser
+  favicon: "https://cdn.khz.se/images/512x512/7ca5720ab542dedbd57ea4808e6a57ea.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.viaplayradio.se/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 2f869fa1-9f35-4ab3-a417-e8cef6880f48
   changeuuid: 7cda5e34-24c5-4653-9c50-1ee74cfb6057
   reviewedAt: 2026-04-30
@@ -282011,6 +282020,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: se-bandit-classic-rock
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/4/49/Logo_Bandit_Rock.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Logo_Bandit_Rock.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   source: radio-browser
   broadcaster: independent
   name: Bandit Classic Rock
@@ -287929,7 +287943,10 @@
   codec: MP3
   tags: [disco, i like radio]
   favicon: "https://cdn.khz.se/images/700x700/6b59e6982399fcdbc7f545c1e23d4896.png"
-  faviconSource: radio-browser
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.viaplayradio.se/disco54/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.ilikeradio.se/disco54/"
   country: SE
   geo: [59.3265, 18.0763]
@@ -289743,6 +289760,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: se-dansbandskanalen-se
+  favicon: "https://dansbandskanalen.se/wp-content/uploads/2016/10/cropped-dbkikon.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://dansbandskanalen.se/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: "Dansbandskanalen.se*"
@@ -290463,8 +290485,11 @@
   bitrate: 128
   codec: MP3
   tags: [death metal, hard rock, metal]
-  favicon: "https://www.phonostar.de/images/auto_created/bandit_metal2184x184.png"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/4/49/Logo_Bandit_Rock.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Logo_Bandit_Rock.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://www.viaplayradio.se/banditmetal/"
   country: SE
   geo: [57.7151, 11.9924]
@@ -295126,8 +295151,11 @@
   bitrate: 128
   codec: MP3
   tags: [pop]
-  favicon: "https://assets.planetradio.co.uk/img/ConfigWebListenBarLogoImageUrl/451.jpg"
-  faviconSource: radio-browser
+  favicon: "https://media.bauerradio.com/image/upload/c_crop,g_custom/v1588156474/brand_manager/stations/omw81skago9tdyrfx0ae.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radioplay.se/mixmegapol/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://radioplay.se/mixmegapol"
   country: SE
   geo: [59.3272, 18.0154]
@@ -297609,7 +297637,10 @@
   bitrate: 128
   codec: MP3
   favicon: "https://cdn.khz.se/images/700x700/1ea69de586d07cf14bd6fba152fe8d00.png"
-  faviconSource: radio-browser
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.viaplayradio.se/hitmix90s/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.ilikeradio.se/hitmix90s/"
   country: SE
   geo: [59.3248, 18.067]
@@ -299484,8 +299515,11 @@
   bitrate: 312
   codec: AAC
   tags: [music, public radio, sveriges radio]
-  favicon: "https://sverigesradio.se/dist/images/apple-touch-icon-default.png"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/8/8f/SR_P2_logo.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:SR_P2_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://sverigesradio.se/"
   country: SE
   geo: [0, 0]
@@ -301288,8 +301322,11 @@
   bitrate: 128
   codec: AAC
   tags: [local radio, music]
-  favicon: "https://sverigesradio.se/dist/images/apple-touch-icon-p4.png"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/6/63/SR_P4_logo.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:SR_P4_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://www.sverigesradio/p4goteborg"
   country: SE
   geo: [57.714, 11.9859]
@@ -301698,6 +301735,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: se-radio-rivendell
+  favicon: "https://radiorivendell.com/build/pwa-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiorivendell.com/build/manifest.webmanifest"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Radio Rivendell
@@ -302044,8 +302086,11 @@
   bitrate: 96
   codec: AAC+
   tags: [ballads, rock]
-  favicon: "https://cdn.khz.se/images/90x90/7b209b9e4cb15399730e27e4c89e5a64.png"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/4/49/Logo_Bandit_Rock.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Logo_Bandit_Rock.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://www.ilikeradio.se/banditballads/"
   country: SE
   geo: [59.3511, 17.9297]
@@ -302184,8 +302229,11 @@
   bitrate: 280
   codec: AAC
   tags: [local radio, public radio, rap, sveriges radio]
-  favicon: "https://sverigesradio.se/dist/images/apple-touch-icon-default.png"
-  faviconSource: radio-browser
+  favicon: "https://static-cdn.sr.se/images/2576/d9fe5551-8556-4e18-9d56-2607c6461b12.jpg?preset=api-default-square"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://api.sr.se/api/v2/channels?format=json (channel id 2576, P3 Din gata)"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://sverigesradio.se/"
   country: SE
   geo: [0, 0]
@@ -304441,8 +304489,11 @@
   bitrate: 304
   codec: AAC
   tags: [public radio, sveriges radio]
-  favicon: "https://sverigesradio.se/dist/images/apple-touch-icon-default.png"
-  faviconSource: radio-browser
+  favicon: "https://static-cdn.sr.se/images/166/36d8e8d4-68bc-4de9-b69c-63e2faa43eee.jpg?preset=api-default-square"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://api.sr.se/api/v2/channels?format=json (channel id 166, P6)"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://sverigesradio.se/"
   country: SE
   geo: [0, 0]
@@ -312685,8 +312736,11 @@
   streamUrl: "https://sverigesradio.se/topsy/direkt/207-hi.mp3"
   bitrate: 160
   codec: MP3
-  favicon: "https://sverigesradio.se/dist/images/apple-touch-icon-default.png"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/6/63/SR_P4_logo.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:SR_P4_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://sverigesradio.se/malmohus"
   country: SE
   geo: [55.5921, 13.014]
@@ -312925,8 +312979,11 @@
   streamUrl: "https://fm04-ice.stream.khz.se/fm04_mp3"
   bitrate: 128
   codec: MP3
-  favicon: "https://www.ilikeradio.se/powerhitradio/wp-content/themes/ilikeradio/favicon.png"
-  faviconSource: radio-browser
+  favicon: "https://cdn.khz.se/images/700x700/45fd7325a2307fe4eb018fc0f0a5ac1d.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.viaplayradio.se/powerhitradio/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.ilikeradio.se/powerhitradio/"
   country: SE
   geo: [0, 0]
@@ -314924,8 +314981,11 @@
   bitrate: 128
   codec: MP3
   tags: [pop music]
-  favicon: "https://cdn.khz.se/images/700x700/63d7c54c7bc4a8d5cd1ee7b9296beef8.png"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_Rix_FM_2016.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Logo_Rix_FM_2016.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://www.ilikeradio.se/rixfmfresh/"
   country: SE
   geo: [59.3197, 18.0037]
@@ -315315,8 +315375,11 @@
   bitrate: 128
   codec: MP3
   tags: [club, i like radio]
-  favicon: "https://cdn.khz.se/images/700x700/413c0945925c2a8eefe0f574c5a01a15.png"
-  faviconSource: radio-browser
+  favicon: "https://cdn.khz.se/images/700x700/45fd7325a2307fe4eb018fc0f0a5ac1d.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.viaplayradio.se/powerhitradio/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.ilikeradio.se/powerclub/"
   country: SE
   geo: [59.3228, 18.0639]
@@ -316264,8 +316327,11 @@
   bitrate: 128
   codec: MP3
   tags: [pop]
-  favicon: "https://cdn.khz.se/images/90x90/283491c5df7ee85947ab916a80f50578.png"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/4/46/Logo_STAR_FM.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Logo_STAR_FM.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://www.ilikeradio.se/starfm"
   country: SE
   geo: [59.3099, 18.0592]
@@ -322317,8 +322383,11 @@
   bitrate: 160
   codec: MP3
   tags: [local news, local talk, music, sport, östergötland]
-  favicon: "https://sverigesradio.se/dist/images/apple-touch-icon-p4.png"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/6/63/SR_P4_logo.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:SR_P4_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://sverigesradio.se/ostergotland"
   country: SE
   geo: [58.5895, 16.1816]
@@ -322329,6 +322398,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: se-the-ericade-radio-network
+  favicon: "https://ericade.radio/images/ericade.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://ericade.radio/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: The ERICADE Radio Network
@@ -323376,8 +323450,11 @@
   streamUrl: "https://live-bauerse-fm.sharp-stream.com/goldfm_web_se_aacp?direct=true&amp;listenerid=undefined&amp;aw_0_1st.bauer_listenerid=undefined&amp;aw_0_1st.playerid=BMUK_inpage_html5&amp;aw_0_1st.skey=1678939562&amp;aw_0_1st.bauer_loggedin=false&amp;aw_0_req.userConsentV2=CPot5gAPot5gAAGABCENC7CsAP_AAE_AABJ4IoNF5GdUTXFBOH59YJtwKYxXx1BwoKAhBgAFA4AAyJIELJAGVEEaJAyKACACAAYAIEIBAABAEAFAAAgAYIEBIACEAEEEJAAAIAAAEEABIEQAEAAMAAAAUAIAgEBWEhAggBQA4RJETMBACoABCUAwigkEAAAAAgAAAAAAQAAAAAAAAAAAAAAAAAAAgAQNvgEAAIAJ-AXUA7YB-wF2gNoAbeAoEgVgAIAAXABQAFQAMgAcAA8ACAAGQANIAiACKAEwAJ4AVQA3gBzAD8AISARABEgCOAEsAKUAZAA-AB-wD_AQAAigBGACOAEmAJSAT8AoIBigDaAIdATKAtgBeYDDQGSAMnAbeBEMIAKABIAD8ARQA5wCBgHVATYApsBdQDFg0AgAZABAACMAEmgLQAtIB1QEOgMnDABADZAHUATYApsRAHAGQAQAAjABJgDqgIdAZOIABAAkATYKgDgAUACYAI4AjkBaAFpAWwAvMUACAOqAmwZAFACYAI4AjgC2AF5jAAYB1QEnAJsHQMwAFwAUABUADIAHAAQAAuABkADQAH0ARABFACYAE8AKoAYgAzABvADmAH6ARABEgCWAFGAKUAZAAygBogD9AH-AQMAigBFgCMAEcAJMASkAn4BQYC0ALSAYoA2gB1AEOgJUAVYAtgBdoC8wGGgMkAZOAywBt44AsACQAH4AUAAyACKAEcAOcAdwBAACIgGBAOOAdIA6oCYoEyATKAmwBSACmwFqALqAYsQgNgALAAoABkAFwATAAqgBiADMAG8ARwApQBlAD_AIoARwAlIBQYC0ALSAYoA2gB1AEqAKsAWwAu0Bk4DgCIAEA_ZAAOAOcA6oB2wEnAJiATYApAlAbAAQAAsACgAGQAOABEACYAFUAMQAZoBEAESAI4AUYApQBlAEcgLQAtIBigDqAIdAWwAu0BeYDJwGWANvAcASADgBkAFyAO4AgAB1QE2AMWKQKAAFwAUABUADIAHAAQAAyABpAEQARQAmABPACkAFUAMQAZgA5gB-gEQARIAowBSgDIAGUANEAfoBFgCMAEcAJSAUEA2gCHQEnAKsAWwAu0BeYDDQGSAMnAZYA28qABAP2UAKAAkAB-AGQANoAjgBcgDnAHcAQAAkQBigDqgHbATEAmUBNgCkAFNgMWAakAAA.YAAAAAAAAAAA"
   bitrate: 56
   codec: AAC+
-  favicon: "https://cdn.webrad.io/images/brand/icon_192x192.png"
-  faviconSource: radio-browser
+  favicon: "https://media.bauerradio.com/image/upload/c_crop,g_custom/v1592813613/brand_manager/stations/gln0qql50movtwudlfzw.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radioplay.se/goldfm/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://radio.org.se/gold-vaxjo/"
   country: SE
   geo: [0, 0]
@@ -324787,8 +324864,11 @@
   bitrate: 336
   codec: AAC
   tags: [culture, news, talk]
-  favicon: "https://sverigesradio.se/dist/images/apple-touch-icon-p1.png"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/0/07/Sveriges_Radio_P1_2024.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Sveriges_Radio_P1_2024.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://www.sverigesradio/p1"
   country: SE
   geo: [0, 0]
