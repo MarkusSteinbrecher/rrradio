@@ -18150,8 +18150,11 @@
   country: PH
   status: stream-only
 - id: ph-love-radio-dagupan
-  favicon: "https://upload.wikimedia.org/wikipedia/en/thumb/3/32/Love_Radio_2021_logo.png/250px-Love_Radio_2021_logo.png"
-  faviconSource: wiki
+  favicon: "https://loveradio.com.ph/android-chrome-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://loveradio.com.ph/manifest.json"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 247aa6ff-f402-4b81-8ebb-21fa00791ef5
   changeuuid: 0a41ee02-6527-4332-b838-5d659acec8b2
   reviewedAt: 2026-04-30
@@ -18169,8 +18172,11 @@
   country: PH
   status: stream-only
 - id: ph-radyo5
-  favicon: "https://upload.wikimedia.org/wikipedia/en/thumb/4/40/Radyo5truefmlogo.webp/250px-Radyo5truefmlogo.webp"
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/e/e0/Radyo5truefm.jpg"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Radyo5truefm.jpg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   stationuuid: 71623064-347c-4e85-8136-148115d350f2
   changeuuid: 846be421-9019-4bc2-8520-35731f17f062
   reviewedAt: 2026-04-30
@@ -18228,8 +18234,11 @@
   country: PH
   status: stream-only
 - id: ph-dwww-774
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/DWWW_Logo_2018.png/330px-DWWW_Logo_2018.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/2/21/DWWW_Logo_2018.png"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:DWWW_Logo_2018.png"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   stationuuid: 9c271a44-c6c7-46b6-a67c-805e04f7b1e1
   changeuuid: 68d0f628-165f-468b-be4f-2ce8d0da36b8
   reviewedAt: 2026-04-30
@@ -171325,6 +171334,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ph-100-7-love-radio-lucena
+  favicon: "https://loveradio.com.ph/android-chrome-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://loveradio.com.ph/manifest.json"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [pop]
   broadcaster: independent
   name: "100.7 Love Radio Lucena"
@@ -171339,6 +171353,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ph-clubmix
+  favicon: "https://ragemusicph.my.canva.site/images/3fdc4317fefad4ca6945b11377d42752.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://ragemusicph.my.canva.site/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   tags: [club, dance, disco, electronic, party]
   broadcaster: independent
@@ -171404,8 +171423,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ph-rage-music-philippines
-  favicon: "https://static.xx.fbcdn.net/rsrc.php/yH/r/a0cO3e6g_yJ.webp"
+  favicon: "https://ragemusicph.my.canva.site/images/3fdc4317fefad4ca6945b11377d42752.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://ragemusicph.my.canva.site/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   tags: [hiphop, rap, rnb]
   broadcaster: independent
@@ -171459,8 +171481,11 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/DZMMAAC.aac
   bitrate: 64
   codec: AAC+
-  favicon: https://upload.wikimedia.org/wikipedia/en/thumb/9/9f/DWPM_Radyo_Sais_Trenta.png/440px-DWPM_Radyo_Sais_Trenta.png
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/7/74/DWPM_Radyo_Sais_Trenta.svg"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:DWPM_Radyo_Sais_Trenta.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: https://news.abs-cbn.com/
   country: PH
   status: stream-only
@@ -171470,6 +171495,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ph-energy-fm-naga
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Energy_naga_logo.png"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Energy_naga_logo.png"
+  faviconSourceType: cdn
+  faviconLicense: cc-by-sa-4.0
   faviconBlocked: true
   broadcaster: independent
   name: Energy FM Naga
@@ -171505,8 +171535,11 @@
   name: "Hot Hiphop N RnB "
   streamUrl: https://stream.zeno.fm/snqnkbnm208uv
   codec: MP3
-  favicon: https://play.google.com/favicon.ico
+  favicon: "https://ragemusicph.my.canva.site/images/3fdc4317fefad4ca6945b11377d42752.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://ragemusicph.my.canva.site/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://play.google.com/store/apps/details?id=com.lacolinares.ragemusicph
   country: PH
   status: stream-only
@@ -171553,8 +171586,11 @@
   name: "Emotions "
   streamUrl: https://stream.zeno.fm/03v7z8edgphvv.mp3
   codec: MP3
-  favicon: https://cdn.onlineradiobox.com/img/l/5/114755.v5.png
-  faviconSource: radio-browser
+  favicon: "https://ragemusicph.my.canva.site/images/3fdc4317fefad4ca6945b11377d42752.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://ragemusicph.my.canva.site/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://play.google.com/store/apps/details?id=com.lacolinares.ragemusicph
   country: PH
   status: stream-only
@@ -171708,6 +171744,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ph-hope-fm-kenya
+  favicon: "https://hopemediakenya.org/wp-content/uploads/2025/05/hopefm-1-1.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.hopemediakenya.org/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Hope FM Kenya
   streamUrl: https://a5.asurahosting.com:7530/radio.mp3
@@ -171791,8 +171832,11 @@
   streamUrl: https://cast3.asurahosting.com/proxy/idmzsayawpinoy/stream
   bitrate: 128
   codec: MP3
-  favicon: https://www.89dmz.com/img/idmz-favicon.ico
+  favicon: "https://www.89dmz.com/img/logos/idmz-logo.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.89dmz.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.89dmz.com/
   country: PH
   status: stream-only
@@ -171978,8 +172022,11 @@
   streamUrl: https://azura.easyrock.com.ph/listen/easy_rock_manila/radio.mp3
   bitrate: 128
   codec: MP3
-  favicon: https://static.easyrock.com.ph/stations/2023/6/LDzGhg_eq-3UUUI_Hc-ET.webp
+  favicon: "https://www.easyrock.com.ph/android-chrome-512x512.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.easyrock.com.ph/manifest.json"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.easyrock.com.ph/
   country: PH
   status: stream-only
@@ -171994,8 +172041,11 @@
   name: Scream Radio
   streamUrl: https://stream.zeno.fm/us9zu5w8zxhvv
   codec: MP3
-  favicon: https://cdn.onlineradiobox.com/img/l/1/117051.v5.png
-  faviconSource: radio-browser
+  favicon: "https://ragemusicph.my.canva.site/images/3fdc4317fefad4ca6945b11377d42752.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://ragemusicph.my.canva.site/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://play.google.com/store/apps/details?id=com.lacolinares.ragemusicph
   country: PH
   status: stream-only
