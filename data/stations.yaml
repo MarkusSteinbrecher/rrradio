@@ -16328,8 +16328,11 @@
   country: EC
   status: stream-only
 - id: pe-rpp-noticias
-  favicon: "https://f.rpp-noticias.io/2020/06/05/rpp-feed_952838.png"
-  faviconSource: radio-browser
+  favicon: "https://s2.rpp-noticias.io/static/dist/img/favicon/android-chrome-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://s2.rpp-noticias.io/static/dist/img/favicon/site.webmanifest"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 320f8ba3-2d7b-422c-af88-09b0b526eca5
   changeuuid: b515060b-6f12-4f01-91c2-4cfb6dbbd8e7
   reviewedAt: 2026-04-30
@@ -16368,8 +16371,11 @@
   country: PE
   status: stream-only
 - id: pe-oxigeno
-  favicon: "https://www.oxigeno.com.pe/static/img/logo.png"
+  favicon: "https://soxigeno.radio-grpp.io/static/img/favicons/android-chrome-512x512.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://soxigeno.radio-grpp.io/static/img/favicons/manifest.json"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 0c773186-a382-4978-8e01-5650d325132d
   changeuuid: af1b63d3-e3e5-44b6-86b1-88392ef3ff81
   reviewedAt: 2026-04-30
@@ -16408,8 +16414,11 @@
   country: PE
   status: stream-only
 - id: pe-corazon
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Logo_corazon2024.svg/250px-Logo_corazon2024.svg.png"
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/8/8a/Logo_corazon2024.svg"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Logo_corazon2024.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   stationuuid: 4ff4033a-7ce3-463e-89ea-d7e6fa78b7a2
   changeuuid: cb177e80-7bd5-4ad3-847f-f01335ca2bf8
   reviewedAt: 2026-04-30
@@ -192726,8 +192735,11 @@
   streamUrl: https://mdstrm.com/audio/5fad731fcf097a068af3c8f7/icecast.audio
   bitrate: 128
   codec: AAC
-  favicon: https://sportada.radio-grpp.io/felicidad/img/favicon_.ico?v=21072016786614
-  faviconSource: radio-browser
+  favicon: "https://sportada.radio-grpp.io/felicidad/img/radio_felicidad.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.felicidad.com.pe"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.felicidad.com.pe/
   country: PE
   status: stream-only
@@ -192754,6 +192766,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pe-radio-del-amor
+  favicon: "https://baladas.fmlima.com/img/web-app-manifest-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://baladas.fmlima.com/img/site.webmanifest"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   tags: [baladas en español, contemporary, latin music, love songs, música romántica]
   broadcaster: independent
@@ -192786,8 +192803,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pe-radio-chocolate-rock-pop
-  favicon: "https://radiochocolateperu.com/img/og-radio-chocolate.jpg"
+  favicon: "https://radiochocolateperu.com/img/core-img/favicon.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiochocolateperu.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: "Radio Chocolate Rock & Pop"
   streamUrl: https://stream.zeno.fm/g2w7ukzh64zuv
@@ -192865,6 +192885,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pe-mambo-inn-radio
+  favicon: "https://www.mamboinnradio.com/assets/logo.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.mamboinnradio.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [salsa]
   broadcaster: independent
   name: Mambo INN Radio
@@ -192947,8 +192972,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pe-z-rock-pop
   tags: [classic rock, pop, pop en español e inglés, rock, rock en español]
-  favicon: "https://statics.zrockandpop.com.pe/rk/img/global/logo.radioz_rrss.png"
+  favicon: "https://statics.zrockandpop.com.pe/rk/img/global/favicon.rz.svg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://zrockandpop.com.pe/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: "Z Rock & Pop"
   streamUrl: https://radioz.egostreaming.pe/radio/3e4f6a1b2c3d4e567890abcd/
@@ -193027,8 +193055,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pe-peru-folk-radio
-  favicon: "https://perufolkradio.com/wp-content/uploads/2023/05/cropped-ico-pfr.png"
+  favicon: "https://perufolkradio.com/wp-content/uploads/2024/07/perufolkradio-logo.jpg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://perufolkradio.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   broadcaster: independent
   name: Peru folk radio
@@ -193148,8 +193179,11 @@
   streamUrl: https://mdstrm.com/audio/6598b76c6c07d80644b7321f/icecast.audio
   bitrate: 127
   codec: AAC+
-  favicon: https://static.wikia.nocookie.net/tvpedia-peru/images/a/a7/Radio_Panamericana_Latino_Refrescante.jpg/revision/latest?cb=20240315142902&path-prefix=es
-  faviconSource: radio-browser
+  favicon: "https://www.radiopanamericana.com/wp-content/uploads/2023/10/favicon.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radiopanamericana.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://www.radiopanamericana.com/
   country: PE
   status: stream-only
@@ -193251,6 +193285,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pe-moderna-radio-papa
+  favicon: "https://radiomoderna.pe/wp-content/uploads/2023/08/logo_moderna.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiomoderna.pe/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [news talk music]
   broadcaster: independent
   name: Moderna Radio Papá
@@ -193352,8 +193391,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pe-radio-metropolitana-arequipa
   tags: [noticias, noticias opinion]
-  favicon: "https://duyn491kcolsw.cloudfront.net/files/2s/2sd/2sd9d9.ico?ph=20cd72a273"
-  faviconSource: radio-browser
+  favicon: "https://20cd72a273.cbaul-cdnwnd.com/dc25f38a2ede939d93b1b9a04566d3cd/200000024-b6f61b6f63/METROPOLITANA%20%20LOGO.png?ph=20cd72a273"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://metropolitana995.webnode.pe"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Radio metropolitana Arequipa
   streamUrl: https://maximacenterdata.com/8120/stream
@@ -193368,6 +193410,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pe-radiomix-aqp-rock-pop-en-espanol-dj-ethamx
+  favicon: "https://static.wixstatic.com/media/6e1825_504b7b9f1c894cf3823b3d6ad24c583c~mv2.jpg/v1/fill/w_512,h_512,al_c/file.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://aqpvirtual.wixsite.com/aqpradios"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   tags: [latin rock, rock en español]
   broadcaster: independent
