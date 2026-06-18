@@ -25,6 +25,8 @@ mechanics into web or Android without an explicit platform note.
 
 **Features** - observable behavior, one surface per doc:
 
+- [Navigation](features/navigation.md) - the app shell: the Browse / Favorites /
+  Library tab structure and the Library home.
 - [Browse](features/browse.md) - catalog browsing, filters, sort, and maps.
 - [Search](features/search.md) - the search field: typing, debounce, results,
   fallback, and empty states.
@@ -117,13 +119,14 @@ targets iOS parity), not "Not planned".
 | Stream playback | Supported | Reference | Supported | [Playback](playback.md) |
 | Background audio | Partial | Reference | Supported (foreground MediaSessionService) | [Playback](playback.md) |
 | Lock-screen/media controls | Supported where browser allows | Reference | Supported (media3 session) | [Playback](playback.md) |
-| Browse/search/filter | Partial (no discovery landing, sort, or quality filter) | Reference | Partial (no community tier or quality filter; 220-row cap) | [Browse](features/browse.md) |
+| Navigation (Browse / Favorites / Library) | Supported (three-tab shell — sidebar rail ≥1024px, bottom tab bar below; Library home = lists + pinned Recents) | Reference | Supported (Lists / Browse / Favorites tabs) | [Navigation](features/navigation.md) |
+| Browse/search/filter | Partial (discovery landing, A→Z sort, quality filter, and map all present; no Browse multi-select dock for list building) | Reference | Partial (no community tier or quality filter; 220-row cap) | [Browse](features/browse.md) |
 | Search field | Partial (substring only; no FTS index) | Reference | Partial (substring, no debounce; no RB tier) | [Search](features/search.md) |
 | Map browse | Supported | Supported | Planned | [Browse](features/browse.md) |
 | Favorites | Supported | Reference | Supported | [Favorites](features/favorites.md) |
 | Favorites display modes | Not planned for current web (list only) | Reference | Partial | [Favorites](features/favorites.md) |
 | Recents | Supported | Supported | Supported | [Favorites](features/favorites.md) |
-| Station lists | Not planned for current web | Reference | Supported (rename, create-from-select, play-as-queue) | [Station lists](features/station-lists.md) |
+| Station lists | Supported (create/rename/delete, add via per-row sheet, Library home; no reorder or play-as-queue) | Reference | Supported (rename, create-from-select, play-as-queue) | [Station lists](features/station-lists.md) |
 | Custom stations | Partial (no probe, dup-check, edit, or auto-favorite) | Reference | Partial (probe + dup-check; no edit or test-before-save) | [Custom stations](features/custom-stations.md) |
 | Metadata and cover art | Supported | Reference | Partial | [Metadata and artwork](features/metadata-artwork.md) |
 | Program schedules | Supported for wired broadcasters | Supported for wired broadcasters | Planned | [Now Playing](features/now-playing.md) |
@@ -131,7 +134,7 @@ targets iOS parity), not "Not planned".
 | Sleep timer | Partial (15/30/60 cycle; no countdown or default) | Reference | Partial | [Sleep timer](features/sleep-timer.md) |
 | Wake to radio | Partial, browser-limited | Reference, iOS-limited | Planned, Android-limited | [Wake to radio](features/wake-to-radio.md) |
 | iCloud/CloudKit sync | Not planned | Supported | Not applicable | [Data and sync](data-sync.md) |
-| Manual file export/import | Supported for favorites and custom stations | Planned/optional | Supported via SAF (favorites, custom, lists, preferences) | [Data and sync](data-sync.md) |
+| Manual file export/import | Supported (favorites, custom stations, lists, recents, and settings — v3 backup) | Planned/optional | Supported via SAF (favorites, custom, lists, preferences) | [Data and sync](data-sync.md) |
 | Cross-platform account sync | Not planned | Not planned | Not planned for first Android port | [Data and sync](data-sync.md) |
 | Listening history (personal, opt-in, local) | Planned | Reference | Partial (opt-in local log; no dashboard) | [Listening history](features/listening-history.md) |
 | Diagnostics | Privacy-preserving telemetry | Local opt-in diagnostics | Local opt-in diagnostics | [Preferences and diagnostics](features/preferences-diagnostics.md) |
