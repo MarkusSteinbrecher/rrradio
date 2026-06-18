@@ -1,4 +1,7 @@
 version: 2
+# Patch-level *dev*-dependency PRs from these updates are auto-merged once CI is
+# green — see .github/workflows/dependabot-auto-merge.yml. Everything else
+# (prod deps, any minor/major) still waits for a human; majors are ignored below.
 updates:
   # ────────────────────────────────────────────────────────────
   # Web app (root npm)
