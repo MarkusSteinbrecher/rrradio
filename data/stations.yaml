@@ -18615,9 +18615,9 @@
   country: AE
   status: stream-only
 - id: ae-quran-sharjah
-  favicon: "https://sbauae.faulio.com/storage/mediagallery/22/d2/fullhd_16b8c9cff14380c2ca12fa8253486730475c45d4.png"
+  favicon: "https://maraya.faulio.com/storage/mediagallery/c2/98/fullhd_89e900a7956ac027effe5af9701358f0660d760a.png"
   faviconSource: broadcaster-site
-  faviconSourceUrl: "https://sba.gov.ae/"
+  faviconSourceUrl: "https://maraya.sba.net.ae/en/live/8"
   faviconSourceType: cdn
   faviconLicense: broadcaster-implicit
   stationuuid: 7cca8bd6-a173-4fca-9a74-ca1e15a631e5
@@ -18677,8 +18677,11 @@
   country: AE
   status: stream-only
 - id: ae-classical-mozart
-  favicon: "https://cdn.onlineradiobox.com/img/l/8/112318.v3.png"
-  faviconSource: radio-browser
+  favicon: "https://cdn-images.audioaddict.com/2/e/8/e/4/6/2e8e46ef9b8eb4da5907423445ca6d2f.png?size=512x512"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://api.audioaddict.com/v1/classicalradio/channels"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 1dc6efa7-139b-4314-a990-dc954f55ed67
   changeuuid: c08dab33-4e62-4471-9cb4-f7759d6368c8
   reviewedAt: 2026-04-30
@@ -272760,6 +272763,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: ae-exclusively-italy
+  favicon: "https://manager.uber.radio/static/uploads/station/d78db706-dd03-444b-84e5-7f59cb98dfba.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://manager.uber.radio/api/v2/stations/search?q=italy"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Exclusively Italy
