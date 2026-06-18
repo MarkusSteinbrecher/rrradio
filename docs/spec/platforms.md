@@ -3,7 +3,7 @@
 ```yaml
 status: review
 platforms: [web, ios, android]
-reconciled-against: d241aa9
+reconciled-against: 8fc085b
 ```
 
 rrradio has one product contract and multiple platform implementations. Shared
@@ -177,7 +177,7 @@ platform-shape differences this doc asserts, using the README status legend.
 | Lock-screen / media controls | Supported where browser allows | Reference | Partial |
 | Background audio | Partial | Reference | Partial |
 | Cloud library sync | Not planned | Supported (CloudKit, iOS-only) | Not applicable |
-| Manual export/import | Supported (favorites, custom stations) | Planned/optional | Supported (library + preferences) |
+| Manual export/import | Supported (v3: favorites, custom stations, lists, recents, settings) | Planned/optional | Supported (library + preferences) |
 | Watch companion remote | Not applicable | Supported | Not applicable |
 | CarPlay / vehicle template surface | Browser/OS dependent | Supported | Planned (Android Auto, the CarPlay equivalent) |
 | Siri / Shortcuts / Spotlight | Planned | Supported | Planned (App Actions / Assistant) |

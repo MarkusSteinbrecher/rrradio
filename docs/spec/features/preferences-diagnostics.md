@@ -296,16 +296,26 @@ English (deviation ST4–ST6). Full rules and the registry in
 
 | Preference | Web | iOS | Android |
 |---|---|---|---|
-| Theme | Partial; a light/dark toggle (persisted, OS preference as the unset default), no three-way System/Light/Dark control. | Reference. | Supported for system/light/dark in a native Preferences sheet. |
-| Accent color | Not planned; the web palette accent is a fixed design-system value, not a user preference. | Supported. | Partial; native preset accent palette exists, custom color entry remains deferred. |
+| Theme | Supported; a three-way **System / Light / Dark** segmented control in the web Settings sheet (unset choice = follow the OS `prefers-color-scheme`). | Reference. | Supported for system/light/dark in a native Preferences sheet. |
+| Accent color | Not planned; the web palette accent is a fixed design-system value (yellow dark / green light, matching `RrradioTheme`), not a user preference. | Supported. | Partial; native preset accent palette exists, custom color entry remains deferred. |
 | Language | Not planned; the web UI ships English-only with no language switcher. | Supported. | Planned after localization scope. |
-| Landing page | Not planned; the web app has no landing-target preference. | Supported. | Supported for Lists, Browse, and Favorites startup targets. |
+| Landing page | Partial; a **Browse / Favorites / Recents** launch-target control in the web Settings sheet (no Library-home, station-list, or pinned-station targets, and an inbound `?q=` search or station deep-link still wins). | Supported. | Supported for Lists, Browse, and Favorites startup targets. |
 | Favorites display modes | Partial. | Reference. | Partial; the three modes (List/Tiles/App) and the chosen-mode persistence exist, but the per-mode reorder and show/hide controls remain. |
 | Sleep default | Not planned; the web sleep timer cycles fixed durations with no default preference. | Supported. | Supported for the first sleep-timer tap. |
 | Wake default/notifications | Partial; web remembers the last-used wake time but exposes no default-time or notification preference. | Supported. | Planned with the wake feature (no wake UI yet; would use AlarmManager exact-alarm + a foreground service as the CarPlay-less analogue to the iOS wake intent). |
-| Music-service deep-link toggles | Partial; web always shows Spotify/Apple Music/YouTube Music search links on verified tracks, with no per-service toggle. | Supported (per-service offered/hidden). | Planned; no music-service deep-links or per-service toggles are built yet. |
+| Music-service deep-link toggles | Supported; per-service **Apple Music / Spotify / YouTube Music** toggles in the web Settings sheet gate which Now Playing open-in deep-links are offered (all default on). | Supported (per-service offered/hidden). | Planned; no music-service deep-links or per-service toggles are built yet. |
 | AI station blurbs | Not planned. | Supported on iOS 26+. | Planned toward parity; no on-device blurb generation yet (the iOS Apple-Intelligence path would map to an Android on-device GenAI mechanic). |
-| Catalog manual refresh | Not planned; the web catalog loads from `stations.json` on launch with no manual-refresh control. | Supported. | Supported. |
+| Catalog manual refresh | Not planned; the web catalog loads from `stations.json` on every launch (no persistent cache to refresh), so a manual-refresh control is unnecessary. | Supported. | Supported. |
+
+**Web Settings sheet.** The web app's settings-gear (top toolbar) opens a Settings
+sheet carrying the web-applicable subset of the above: **Theme**
+(System/Light/Dark), **Landing page** (Browse/Favorites/Recents), **Music
+services** (the three per-service deep-link toggles), **Your data** (add custom
+station + favorites/custom backup & restore — the JSON export/import covered in the
+Cloud-sync table below), and **About** (About / Privacy / Listener stats). iCloud
+sync, accent, language, library views, timer defaults, car mode, listening history,
+Apple Intelligence, and local diagnostics are intentionally absent from the web
+settings (see the per-row statuses above and the tables below).
 
 ### Listening History
 

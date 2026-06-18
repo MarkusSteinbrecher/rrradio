@@ -3,7 +3,7 @@
 ```yaml
 status: review
 platforms: [web, ios, android]
-reconciled-against: d241aa9
+reconciled-against: 8fc085b
 ```
 
 ## Purpose
@@ -44,7 +44,7 @@ does not restate either; it links to them.
 |---|---|---|---|
 | Favorites | `localStorage`, export/import supported. | Local plus optional CloudKit sync; export/import supported. | Local DataStore. |
 | Recents | `localStorage`, capped. | Local-only, capped. | Local DataStore, capped. |
-| Station lists | Not planned for current web. | Local plus optional CloudKit sync; export/import supported. | Local DataStore. |
+| Station lists | `localStorage`, export/import supported. | Local plus optional CloudKit sync; export/import supported. | Local DataStore. |
 | Custom stations | `localStorage`, export/import supported. | Local plus optional CloudKit sync; export/import supported. | Local DataStore. |
 | Preferences | Local browser preferences. | Local plus optional CloudKit sync for the synced preference set; export/import supported. | Local-only for first port. |
 | Wake state | Local-only, one armed wake. | Local-only for the active wake intent; wake default-time, notification, and keep-alive preferences sync. | Local-only. |
@@ -52,7 +52,7 @@ does not restate either; it links to them.
 | Diagnostics | Anonymous production events only. | Local opt-in diagnostic log. | Local opt-in diagnostic log, capped and exportable. |
 | Catalog cache | Browser/runtime cache. | Disk cache and bundled index fallback. | Cache-backed catalog loading; optional search index is deferred. |
 | Region cache | `localStorage`, 24h. | Local UserDefaults, 24h, fail-open. | Local cache if implemented. |
-| Backup file | Manual export/import for favorites and custom stations. | Versioned JSON export and import (favorites, custom stations, station lists, preferences; no listening history). | Manual export/import for library data and preferences. |
+| Backup file | Versioned JSON export/import (v3): favorites, custom stations, station lists, recents, and settings; no listening history. | Versioned JSON export and import (favorites, custom stations, station lists, preferences; no listening history). | Manual export/import for library data and preferences. |
 
 ## iCloud And CloudKit
 
@@ -131,9 +131,11 @@ export/import:
 - No CloudKit.
 - No automatic cross-device sync.
 - Export writes a user-readable backup file.
-- Import merges the backup with the current browser library.
+- Import merges the backup with the current browser library (union by id for
+  favorites / custom / lists / recents; settings overwrite). It never wipes.
 - The backup file is the user-controlled sync/transfer mechanism.
-- Current backup scope is favorites and custom stations.
+- Current backup scope (v3) is favorites, custom stations, station lists, recents,
+  and settings (theme, landing page, music-service toggles, sidebar/browse-collapsed).
 - Clearing site data clears the local library.
 
 ## iOS Settings Backup File
@@ -230,9 +232,9 @@ Apple-device-only.
 | iCloud sync defaults on, removable from Settings | Not planned | Reference | Not applicable (iCloud is Apple-only) |
 | Sync degrades to local-only when account unavailable | Not planned | Reference | Planned |
 | Listening-history records sync to user's own iCloud only | Not planned | Reference | Not applicable (iCloud is Apple-only) |
-| Listening-history records excluded from backup file | Supported (no history) | Reference | Supported |
-| Recents / diagnostics / active wake intent never synced | Supported | Reference | Supported |
-| Versioned settings backup export | Partial (favorites + custom only) | Reference | Supported (SAF file export) |
+| Listening-history records excluded from backup file | Supported (no history records; recents are exported) | Reference | Supported |
+| Recents / diagnostics / active wake intent never synced | Partial (recents ride the manual backup file; diagnostics + active wake never do) | Reference | Supported |
+| Versioned settings backup export | Supported (v3: favorites, custom, lists, recents, settings) | Reference | Supported (SAF file export) |
 | Settings backup import (restore replaces live library) | Partial (import merges) | Reference | Partial (import merges by id) |
 | Region/GeoIP cache, 24h, fail-open | Supported | Reference | Planned |
 | Catalog cache with bundled fallback | Supported | Reference | Partial |
@@ -244,9 +246,11 @@ Apple-device-only.
    copy wins on collision). These should be reconciled to one cross-platform
    intent (replace-on-restore vs. union-on-import). Tracked in
    [sync-merge](contracts/sync-merge.md) §Open questions.
-2. **Backup scope parity.** Web exports only favorites and custom stations; iOS
-   and Android also carry station lists and preferences. Decide the canonical
-   backup scope across platforms.
+2. **Backup scope parity.** Web (v3) now carries favorites, custom stations,
+   station lists, recents, and settings — close to the Android scope and broader
+   than iOS in one respect (recents). iOS still excludes recents from its file.
+   Decide the canonical backup scope across platforms (notably whether recents
+   belong in a shareable backup).
 3. **Future shared backend.** Whether a future account-based cross-platform sync
    reuses the iOS record schema or defines its own wire format is deferred to
    the cross-platform sync ADR above.
