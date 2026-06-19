@@ -12835,8 +12835,10 @@
   country: BE
   status: stream-only
 - id: builtin-rtbf-pure-fm
-  favicon: "https://www.static.rtbf.be/tv/media/images/rtbf-auvio-logo-share.png"
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/5/57/RTBF_Pure_logo.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:RTBF_Pure_logo.svg"
+  faviconLicense: public-domain
   stationuuid: a0566f21-4513-11ea-a860-52543be04c81
   changeuuid: 4f3f79f0-d5d3-4ba7-8cda-ad0443625b58
   reviewedAt: 2026-04-30
@@ -230182,8 +230184,10 @@
   streamUrl: https://icecast-qmusicbe-cdp.triple-it.nl/willy-class-x.aac
   bitrate: 95
   codec: AAC+
-  favicon: https://www.willy.radio/favicon.ico
+  favicon: "https://cdn-radio.dpgmedia.net/6/5b/9e/ea/105/WILLY_CLASS_X-7-WEBSITE-220x220.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.willy.radio/"
+  faviconLicense: broadcaster-implicit
   homepage: https://www.willy.radio/
   country: BE
   status: stream-only
@@ -230364,8 +230368,10 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: be-joe-easy
   tags: [smoothest songs]
-  favicon: "https://cdn.onlineradiobox.com/img/l/8/84238.v6.png"
-  faviconSource: radio-browser
+  favicon: "https://cdn-radio.dpgmedia.net/d/67/d8/ab/39/JOE_EASY-4-WEBSITE-220x220.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://joe.be/"
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: joe easy
   streamUrl: https://streams.radio.dpgmedia.cloud/redirect/joe_easy/mp3
@@ -230583,8 +230589,10 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: be-zoe-fm
   tags: [golden oldies, goldies, oldies]
-  favicon: "https://cdn.onlineradiobox.com/img/l/5/12785.v3.png"
-  faviconSource: radio-browser
+  favicon: "https://zoe.radio/zoeradio/images/logo-vierkant.png?v=2"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://zoe.radio/"
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Zoe FM
   streamUrl: https://icecast.movemedia.be/zoe128
@@ -230637,8 +230645,10 @@
   streamUrl: https://streams.radio.dpgmedia.cloud/redirect/willy_be_class_x/mp3
   bitrate: 128
   codec: MP3
-  favicon: https://www.willy.radio/favicon.ico
+  favicon: "https://cdn-radio.dpgmedia.net/6/5b/9e/ea/105/WILLY_CLASS_X-3-APP-1040x1040.jpg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://api.willy.radio/2.0/channels"
+  faviconLicense: broadcaster-implicit
   homepage: https://www.willy.radio/
   country: BE
   status: stream-only
@@ -230670,8 +230680,10 @@
   name: Nostalgie + (Belgique)
   streamUrl: https://stream.rcs.revma.com/s9mkgtsqtg0uv
   codec: AAC
-  favicon: https://www.nostalgie.be/build/images/favicon.png
+  favicon: "https://www.nostalgie.be/build/images/nostalgie_icon.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.nostalgie.be/"
+  faviconLicense: broadcaster-implicit
   homepage: https://www.nostalgie.be/
   country: BE
   status: stream-only
@@ -230687,8 +230699,10 @@
   streamUrl: https://contactmax.ice.infomaniak.ch/contactmax-192.mp3
   bitrate: 192
   codec: MP3
-  favicon: https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://contactmax.be&size=256
-  faviconSource: radio-browser
+  favicon: "https://scontent-rtl.akamaized.net/rtlmedias/externs/webradios/logo-contact-max_b2dff039-a0b6-473b-8b8d-958d224eb4b9.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://contactmax.be/"
+  faviconLicense: broadcaster-implicit
   homepage: http://contactmax.be/
   country: BE
   status: stream-only
@@ -230778,6 +230792,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: be-belgian-dance-radio
+  favicon: "https://belgian-dance-radio.com/wp-content/uploads/2022/06/240812985_917631145500501_905793297627216541_n.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://belgian-dance-radio.com/"
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Belgian Dance Radio
   streamUrl: https://s4.radio.co/sf5a880a25/listen
@@ -230958,8 +230976,10 @@
   name: Chérie Belgique
   streamUrl: https://stream.rcs.revma.com/r3cprzsqtg0uv
   codec: AAC
-  favicon: https://www.cheriebelgique.be/build/images/favicon.png
+  favicon: "https://www.cheriebelgique.be/build/images/cherie-logo.svg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.cheriebelgique.be/"
+  faviconLicense: broadcaster-implicit
   homepage: https://www.cheriebelgique.be/
   country: BE
   status: stream-only
@@ -231008,8 +231028,10 @@
   streamUrl: https://str0.creacast.com/pharefm_mons
   bitrate: 192
   codec: MP3
-  favicon: "https://upload.wikimedia.org/wikipedia/fr/thumb/0/01/Phare_FM_Logo.png/330px-Phare_FM_Logo.png"
-  faviconSource: wiki
+  favicon: "https://pharefm.com/wp-content/uploads/2019/02/PHAREFM-icon-300x300.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://pharefm.com/"
+  faviconLicense: broadcaster-implicit
   homepage: https://pharefm.com/
   country: BE
   status: stream-only
@@ -231073,8 +231095,10 @@
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/GPRDANCE.mp3
   bitrate: 192
   codec: MP3
-  favicon: "https://grandprixradio.nl/cache/3bfac4ca791ab8a98bc9b6d465126e197cc332ef7bf08257b3886a0e63819813/logo.png"
-  faviconSource: radio-browser
+  favicon: "https://grandprixradio.nl/themes/flixi/favicons/web-app-manifest-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://grandprixradio.nl/themes/flixi/favicons/site.webmanifest"
+  faviconLicense: broadcaster-implicit
   homepage: https://grandprixradio.be/
   country: BE
   status: stream-only
