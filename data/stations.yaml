@@ -14376,8 +14376,11 @@
   country: BG
   status: stream-only
 - id: bg-energy-nrj
-  favicon: "https://upload.wikimedia.org/wikipedia/en/5/54/Logo_NRJ_2016.png"
-  faviconSource: wiki
+  favicon: "https://www.radioenergy.bg/theme_assets/commons/images/logos/nrj_footer.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radioenergy.bg/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 963559d7-0601-11e8-ae97-52543be04c81
   changeuuid: 8d57d223-4fbd-4378-86be-32e18fc3ae40
   reviewedAt: 2026-04-30
@@ -14416,8 +14419,11 @@
   country: BG
   status: stream-only
 - id: bg-bad-rock
-  favicon: "https://cdn.onlineradiobox.com/img/l/2/135012.v1.png"
-  faviconSource: radio-browser
+  favicon: "https://badrockradio.net/wp-content/themes/proradio-child/img/badrock_app_icon.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://badrockradio.net/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 2091bc8a-ced6-43cd-8f38-5b05d62ce3c5
   changeuuid: 75f964a4-daed-43be-a4fe-e1ec08575cd5
   reviewedAt: 2026-04-30
@@ -274966,6 +274972,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: bg-magic-fm
+  favicon: "https://www.magic.bg/resources/assets/images/logo.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.magic.bg/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: MAGIC FM
@@ -275170,8 +275181,11 @@
   bitrate: 128
   codec: MP3
   tags: [deep house, nu disco, vocal house]
-  favicon: "https://scontent.fbre4-1.fna.fbcdn.net/v/t39.30808-6/294865141_110190498433524_6398220129326637406_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=5f2048&_nc_ohc=gM8-afZumNgAX_ZBvv7&_nc_ht=scontent.fbre4-1.fna&oh=00_AfAuZDwZvdbnXoKWuNCS_pjQFLhTjwwOpzpD2aKQuDVF3Q&oe=65F139C1"
-  faviconSource: radio-browser
+  favicon: "https://static.wixstatic.com/media/99d90b_11cae14a43f344e69d3e9b66fcce4397~mv2.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.extremedeephouse.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.extremedeephouse.com/"
   country: BG
   geo: [0, 0]
@@ -275209,7 +275223,10 @@
   codec: AAC
   tags: [chill out]
   favicon: "https://www.radioplay.bg/assets/logos/vanilla.png"
-  faviconSource: radio-browser
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radioplay.bg/?radio=vanilla"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://radioplay.bg/"
   country: BG
   geo: [42.6977, 23.3219]
@@ -277996,7 +278013,10 @@
   codec: AAC
   tags: ["hiphop r&b"]
   favicon: "https://www.radioplay.bg/assets/logos/cityrab.png"
-  faviconSource: radio-browser
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radioplay.bg/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://radioplay.bg/"
   country: BG
   geo: [42.6977, 23.3219]
@@ -280829,6 +280849,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: bg-badrock-classic-rock
+  favicon: "https://badrockradio.net/wp-content/themes/proradio-child/img/badrock_app_icon.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://badrockradio.net/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: BadRock Classic Rock
@@ -281978,8 +282003,11 @@
   bitrate: 128
   codec: MP3
   tags: [club, dance, in the morning, news, talk show]
-  favicon: "https://metrocast.top/wp-content/uploads/2021/09/metrodance.png"
-  faviconSource: radio-browser
+  favicon: "https://metrocast.top/wp-content/uploads/2023/03/MDR-HD-LOGO-SEP-2022.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://metrocast.top/dance"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://metrocast.top/dance"
   country: BG
   geo: [0, 0]
@@ -282372,7 +282400,10 @@
   codec: AAC
   tags: [cafe]
   favicon: "https://www.radioplay.bg/assets/logos/cafe.png"
-  faviconSource: radio-browser
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radioplay.bg/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://radioplay.bg/"
   country: BG
   geo: [42.6977, 23.3219]
@@ -283530,6 +283561,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: bg-radio-nova-bulgaria
+  favicon: "https://www.radionova.bg/theme_assets/commons/images/logos/nova_footer.svg"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Radio Nova Bulgaria
@@ -284557,6 +284592,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: bg-metro-hits-radio
+  favicon: "https://metrocast.top/wp-content/uploads/2023/03/MHR-HD-LOGO-SEP-2022.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://metrocast.top/hits"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Metro HITS Radio
@@ -287625,7 +287665,10 @@
   bitrate: 128
   codec: MP3
   favicon: "https://hothitsfm.com/hhfm-290.png"
-  faviconSource: radio-browser
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://hothitsfm.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://hothitsfm.com/"
   country: BG
   geo: [0, 0]
@@ -287840,8 +287883,11 @@
   bitrate: 128
   codec: MP3
   tags: [news]
-  favicon: "https://btvradio.bg/static/bg/microsites/btv/img/favicon.ico"
-  faviconSource: radio-browser
+  favicon: "https://btvradio.bg/static/bg/microsites/btvradio/img/new/logo.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://btvradio.bg/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://btvradio.bg/"
   country: BG
   geo: [42.6834, 23.3159]
@@ -293872,7 +293918,10 @@
   codec: AAC
   tags: ["hiphop r&b"]
   favicon: "https://www.radioplay.bg/assets/logos/cityrab.png"
-  faviconSource: radio-browser
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radioplay.bg/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://radioplay.bg/"
   country: BG
   geo: [42.6977, 23.3219]
@@ -296212,8 +296261,11 @@
   bitrate: 320
   codec: MP3
   tags: [dance, deep house, nu disco]
-  favicon: "https://sweetradio.online/wp-content/uploads/cropped-sweet-1a.png"
-  faviconSource: radio-browser
+  favicon: "https://sweetradio.online/icon-512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://sweetradio.online/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://sweetradio.online/"
   country: BG
   geo: [42.7169, 23.2914]
@@ -296354,7 +296406,10 @@
   codec: AAC
   tags: [latin]
   favicon: "https://www.radioplay.bg/assets/logos/citylatin.png"
-  faviconSource: radio-browser
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radioplay.bg/?radio=citylatin"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://radioplay.bg/"
   country: BG
   geo: [42.6977, 23.3219]
@@ -297698,8 +297753,11 @@
   streamUrl: "https://play.global.audio/bgradio128"
   bitrate: 128
   codec: MP3
-  favicon: "https://bgradio.bg/theme_assets/bgradio/images/favicon.png"
-  faviconSource: radio-browser
+  favicon: "https://www.bgradio.bg/theme_assets/commons/images/logos/bgradio_footer.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.bgradio.bg/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://bgradio.bg/"
   country: BG
   geo: [0, 0]
@@ -299257,8 +299315,11 @@
   name: Jazz FM
   streamUrl: "https://cdn.bweb.bg/radio/jazz-fm.mp3"
   codec: MP3
-  favicon: "https://jazzfm.bg/static/bg/microsites/jazzfm/img/favicon.ico"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Jazz_FM_Bulgaria_logo.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Jazz_FM_Bulgaria_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: "https://jazzfm.bg/"
   country: BG
   geo: [0, 0]
