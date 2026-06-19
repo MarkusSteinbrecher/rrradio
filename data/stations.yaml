@@ -10748,6 +10748,7 @@
   favicon: "https://upload.wikimedia.org/wikipedia/commons/0/0b/WNYC-Logo.svg"
   faviconSource: wiki
   faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:WNYC-Logo.svg"
+  faviconSourceType: cdn
   faviconLicense: public-domain
   stationuuid: 960985b2-0601-11e8-ae97-52543be04c81
   changeuuid: 02ea34b8-3935-4090-98b5-edaa870d08be
@@ -10792,9 +10793,10 @@
   status: working
   featured: true
 - id: builtin-kcrw-live
-  favicon: "https://pressroom.kcrw.com/wp-content/uploads/sites/7/2012/05/KCRW_LOGO-WhiteBg.jpg"
+  favicon: "https://kcrw.wpengine.com/wp-content/uploads/sites/7/2012/05/KCRW_LOGO-WhiteBg.jpg"
   faviconSource: broadcaster-site
   faviconSourceUrl: "https://pressroom.kcrw.com/kcrw-logos-assets/"
+  faviconSourceType: cdn
   faviconLicense: broadcaster-implicit
   stationuuid: 325a61dc-fe34-48c6-ae82-1467b710f07b
   changeuuid: fd72e1ca-f26b-49db-92b4-4756558622e2
@@ -10815,9 +10817,10 @@
   country: US
   status: stream-only
 - id: builtin-kcrw-eclectic
-  favicon: "https://pressroom.kcrw.com/wp-content/uploads/sites/7/2012/05/KCRW_LOGO-WhiteBg.jpg"
+  favicon: "https://kcrw.wpengine.com/wp-content/uploads/sites/7/2012/05/KCRW_LOGO-WhiteBg.jpg"
   faviconSource: broadcaster-site
   faviconSourceUrl: "https://pressroom.kcrw.com/kcrw-logos-assets/"
+  faviconSourceType: cdn
   faviconLicense: broadcaster-implicit
   stationuuid: 18e31f25-53c8-4213-a1ec-dccc0443a788
   changeuuid: d2a674bd-bd7b-4b26-ab52-4d01bef6d042
@@ -10860,8 +10863,11 @@
   country: US
   status: stream-only
 - id: builtin-kqed
-  favicon: "https://ww2.kqed.org/app/uploads/2020/02/KQED-OG-Image@1x.png"
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/5/50/KQED-logo.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:KQED-logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   stationuuid: 961f78f1-0601-11e8-ae97-52543be04c81
   changeuuid: 36c449b7-ef5f-463c-be96-42ec799f1601
   reviewedAt: 2026-04-30
@@ -10944,8 +10950,11 @@
   country: US
   status: stream-only
 - id: builtin-wfmu
-  favicon: "https://wfmu.org/favicon.ico"
+  favicon: "https://wfmu.org/images/wfmu-logo.svg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://wfmu.org/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 9618344a-0601-11e8-ae97-52543be04c81
   changeuuid: 5e28a1c7-e4e7-4ee5-9b5a-c05ebce70257
   reviewedAt: 2026-04-30
@@ -11146,8 +11155,11 @@
   country: US
   status: stream-only
 - id: us-power-105
-  favicon: "https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Power1051newyork.png/250px-Power1051newyork.png"
-  faviconSource: wiki
+  favicon: "https://i.iheart.com/v3/re/assets.brands/01f0a9e29f9a966e93ab789d774e87d4?ops=resize(512,512)&quality=90"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://power1051.iheart.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: d5f76b95-7507-487e-ad3f-48ba15cd3cce
   changeuuid: f4f06058-a16c-438c-b079-03e050fd5584
   reviewedAt: 2026-04-30
@@ -11208,8 +11220,11 @@
   country: US
   status: stream-only
 - id: us-fox-news-radio
-  favicon: "https://radio.foxnews.com/wp-content/uploads/2021/02/Alexa-FOX-News-With-Play-Text.jpg"
+  favicon: "https://radio-affiliates.foxnews.com/sites/default/files/imce/FNC_RADIO_LOGO_RGB_HEX.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radio-affiliates.foxnews.com/logo"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 510aeeac-e7a0-41c2-aea2-e572e811ffe7
   changeuuid: 81627b60-a10d-46c0-ae0c-34e998d113b7
   reviewedAt: 2026-04-30
@@ -44286,8 +44301,11 @@
   streamUrl: https://voa-ingest.akamaized.net/hls/live/2035234/160_342L/playlist.m3u8
   bitrate: 140
   codec: AAC
-  favicon: "https://www.voanews.com/Content/responsive/VOA/en-US/img/logo-amp.png"
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/d/dd/VOA_logo.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:VOA_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   homepage: http://www.voanews.com/t/60.html
   country: US
   status: stream-only
@@ -44346,8 +44364,11 @@
   streamUrl: https://stream3.megarockradio.net:80/
   bitrate: 320
   codec: MP3
-  favicon: "https://megarockradio.net/ozoolree/2024/12/megarock-logo.jpg"
+  favicon: "https://megarockradio.net/ozoolree/2026/01/1bd260b4-0733-43c5-8353-fcd5cac33859.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://megarockradio.net/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://megarockradio.net/
   country: US
   status: stream-only
@@ -44476,8 +44497,11 @@
   reviewedAt: 2026-05-04
 - id: us-station
   tags: [新闻]
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Voice_of_America_Logo.svg/250px-Voice_of_America_Logo.svg.png"
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/8/8e/Voice_of_America_Chinese_logo.svg"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Voice_of_America_Chinese_logo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   broadcaster: independent
   name: 美国之音
   streamUrl: https://voa-ingest.akamaized.net/hls/live/2035206/151_124L/playlist.m3u8
@@ -44625,8 +44649,11 @@
   reviewedAt: 2026-05-04
 - id: us-funky-corner-radio-usa
   tags: [70s, 70s disco, 80s, black, black music, disco, funk, funky]
-  favicon: "https://www.funkycorner.it/fcrfavicon.ico"
+  favicon: "https://www.funkycorner.it/images/Logo%20FUNKY%20CORNER%20General%20082024.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.funkycorner.it/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: _Funky Corner Radio (USA)
   streamUrl: https://ais-sa2.cdnstream1.com/2447_192.mp3
@@ -44654,6 +44681,11 @@
   changeuuid: 56e1d8b8-57e2-460b-a3ce-b338bb596a98
   reviewedAt: 2026-05-04
 - id: us-100-hip-hop-and-rnb-fm
+  favicon: "https://100hiphopandrnb.fm/wp-content/uploads/sites/62/cropped-cropped-logo-lftm-400px-192x192.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://100hiphopandrnb.fm/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: [hip hop, "r&b", soul, urban]
   broadcaster: independent
   name: .100 Hip hop and RNB FM
@@ -45098,8 +45130,11 @@
   reviewedAt: 2026-05-04
 - id: us-cbs-news
   tags: [cbs, news, 国家台, 新闻, 综合]
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/CBS_News_Radio_Logo_%282021%29.svg/960px-CBS_News_Radio_Logo_%282021%29.svg.png"
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/2/2e/CBS_News_2020_%28Stacked_II%29.svg"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:CBS_News_2020_(Stacked_II).svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   broadcaster: independent
   name: CBS News
   streamUrl: https://cbsn-us.cbsnstream.cbsnews.com/out/v1/55a8648e8f134e82a470f83d562deeca/master.m3u8
@@ -45358,8 +45393,11 @@
   reviewedAt: 2026-05-04
 - id: us-conyers-old-time-radio
   tags: [christmas, d-day, halloween, old time radio, radio drama]
-  favicon: "https://www.conyersradio.net/Retro_radio_vibes_over_Conyers_skyline_1200x573.png"
+  favicon: "https://www.conyersradio.net/Retro_radio_vibes_Conyers_OTR_Logo_256x256.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.conyersradio.net/Support_Conyers_Old_Time_Radio.html"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Conyers Old Time Radio
   streamUrl: https://s8.yesstreaming.net:17011/stream
@@ -45462,8 +45500,11 @@
   reviewedAt: 2026-05-04
 - id: us-la-mega-105-7
   tags: [spanish]
-  favicon: "https://dehayf5mhw1h7.cloudfront.net/wp-content/uploads/sites/2258/2020/10/12160146/meganationfinal.webp"
-  faviconSource: radio-browser
+  favicon: "https://dehayf5mhw1h7.cloudfront.net/wp-content/uploads/sites/2258/2020/10/12160146/Favicon-300x300.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.lamega1057.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: La Mega 105.7
   streamUrl: https://ice41.securenetsystems.net/WEMG
