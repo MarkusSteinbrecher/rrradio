@@ -227379,8 +227379,10 @@
   streamUrl: https://icecast7.play.cz/bikersradiodoupe128.mp3
   bitrate: 160
   codec: MP3
-  favicon: https://bikersradiodoupe.cz/favicon.png
-  faviconSource: radio-browser
+  favicon: "https://bikersradiodoupe.cz/icons/Icon-512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://bikersradiodoupe.cz/manifest.json"
+  faviconLicense: broadcaster-implicit
   homepage: https://motorkarskydoupe.cz/radio/
   country: CZ
   status: stream-only
@@ -227391,8 +227393,10 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: cz-radio-jih
   tags: [pop music]
-  favicon: "https://radiojih.cz/wp-content/uploads/2020/11/og_img_radiojih.png"
+  favicon: "https://radiojih.cz/wp-content/themes/orion-radiojih/src/images/theme/logo_jih.svg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radiojih.cz/"
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Rádio Jih
   streamUrl: https://icecast6.play.cz/jih32.mp3
@@ -227412,8 +227416,10 @@
   streamUrl: https://laradioplus.ice.infomaniak.ch/laradioplus-high.aac?i=96970
   bitrate: 64
   codec: AAC+
-  favicon: https://www.laradioplus.com/media/option/thumb/69x54_logo-laradioplus-88602.webp
+  favicon: "https://www.laradioplus.com/favicon-196.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.laradioplus.com/"
+  faviconLicense: broadcaster-implicit
   homepage: https://www.laradioplus.com/
   country: CZ
   status: stream-only
@@ -227440,8 +227446,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: cz-hitradio-devadesatka
-  favicon: "https://radia.cz/media/images/0001/01/thumb_650_images_w200.png"
+  favicon: "https://radia.cz/media/images/0001/01/21e8c9bb207473a898b5b0f36d7e0921d6320de5.svg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radia.cz/radia/hitradio-90tka"
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   broadcaster: independent
   name: Hitrádio Devadesátka
@@ -227553,8 +227561,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: cz-chat-radio
-  favicon: "https://static.chatujme.cz/images/logo.png"
+  favicon: "https://chatradio.cz/assets/img/chat-radio-circle-512x512.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://chatradio.cz/"
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Chat Rádio
   streamUrl: https://radio.chatujme.cz:8000/chatradio
@@ -227569,8 +227579,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: cz-classic-prague
-  favicon: "https://www.classicpraha.cz/static/images/social-logo.png"
+  favicon: "https://www.classicpraha.cz/static/images/mobile-icon.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.classicpraha.cz/"
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Classic Prague
   streamUrl: https://icecast8.play.cz/classic128.mp3
