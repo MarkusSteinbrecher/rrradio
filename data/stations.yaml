@@ -10374,8 +10374,10 @@
   country: AU
   status: stream-only
 - id: builtin-pr-dwojka
-  favicon: "https://static.prsa.pl/images/6c810aca-4698-4d36-9370-8c651e7c0077.jpg"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/c/cc/Polskie_Radio_Program_2.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Polskie_Radio_Program_2.svg"
+  faviconLicense: public-domain
   stationuuid: 96117d6c-0601-11e8-ae97-52543be04c81
   changeuuid: 83c28e12-7864-4558-8776-c66548ba6020
   reviewedAt: 2026-04-29
@@ -138537,8 +138539,10 @@
   streamUrl: https://top80.pl:8000/listen.mp3
   bitrate: 128
   codec: MP3
-  favicon: https://cdn.onlineradiobox.com/img/l/3/1893.v4.png
-  faviconSource: radio-browser
+  favicon: "https://www.top80.pl/Themes/top80.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.top80.pl/"
+  faviconLicense: broadcaster-implicit
   country: PL
   status: stream-only
   stationuuid: dc579323-34b1-4b37-ad43-4db9cb00e710
@@ -139360,8 +139364,10 @@
   streamUrl: https://streaming.g-news.pl:8030/rk2
   bitrate: 128
   codec: AAC
-  favicon: https://radiokielce.pl/wp-content/uploads/2021/12/logo150.png
+  favicon: "https://radiokielce.pl/wp-content/uploads/2022/04/cropped-rk-270x270.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiokielce.pl/"
+  faviconLicense: broadcaster-implicit
   homepage: https://radiokielce.pl/
   country: PL
   status: stream-only
@@ -139376,8 +139382,10 @@
   streamUrl: https://ic2.smcdn.pl/2230-1.mp3
   bitrate: 128
   codec: MP3
-  favicon: "https://eska.pl/favicon.ico"
-  faviconSource: http-upgraded
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/7/71/Logo_Radia_Eska.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Logo_Radia_Eska.svg"
+  faviconLicense: cc-by-sa-4.0
   homepage: http://eska.pl/
   country: PL
   status: stream-only
@@ -139392,8 +139400,10 @@
   streamUrl: https://stream11.polskieradio.pl/pr1/pr1.sdp/playlist.m3u8
   bitrate: 194
   codec: AAC
-  favicon: "https://static.prsa.pl/images/aeb399b3-8157-4aa3-8447-6b8cb96c5d13.jpg"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/3/32/Polskie_Radio_Program_1.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Polskie_Radio_Program_1.svg"
+  faviconLicense: public-domain
   homepage: https://jedynka.polskieradio.pl/
   country: PL
   status: stream-only
@@ -139407,8 +139417,10 @@
   name: "4 Fun TV"
   streamUrl: https://stream.4fun.tv:8888/hls/4f_high/index.m3u8
   codec: UNKNOWN
-  favicon: "https://4fun.tv/assets/images/4fun-tv.jpg"
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/d/dd/4fun.tv_Logo_%282017%29.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:4fun.tv_Logo_(2017).svg"
+  faviconLicense: public-domain
   homepage: http://4fun.tv/
   country: PL
   status: stream-only
@@ -139453,8 +139465,10 @@
   streamUrl: https://zt02.cdn.eurozet.pl/ZET090.mp3
   bitrate: 128
   codec: MP3
-  favicon: "https://gfx-player.radiozet.pl/var/player/storage/images/player-radio-zet/kanaly-muzyczne/radio-zet-90/685115-15-pol-PL/Radio-ZET-90_social_share.png"
-  faviconSource: radio-browser
+  favicon: "https://gfx-player.radiozet.pl/var/player/storage/images/player-radio-zet/kanaly-muzyczne/radio-zet-90/685115-15-pol-PL/Radio-ZET-90.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://player.radiozet.pl/Kanaly-muzyczne/Radio-ZET-90"
+  faviconLicense: broadcaster-implicit
   homepage: https://player.radiozet.pl/Kanaly-muzyczne/Radio-ZET-90
   country: PL
   status: stream-only
@@ -139595,8 +139609,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-radio-afera
-  favicon: "https://www.afera.com.pl/templates/lenor/images/afera_logo.png"
+  favicon: "https://www.afera.com.pl/android-chrome-512x512.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.afera.com.pl/"
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Radio Afera
   streamUrl: https://radio.afera.com.pl/afera128.ogg
@@ -139794,8 +139810,10 @@
   streamUrl: https://ic2.smcdn.pl/2130-1.mp3
   bitrate: 128
   codec: MP3
-  favicon: "https://eska.pl/favicon.ico"
-  faviconSource: http-upgraded
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/7/71/Logo_Radia_Eska.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Logo_Radia_Eska.svg"
+  faviconLicense: cc-by-sa-4.0
   homepage: http://eska.pl/
   country: PL
   status: stream-only
@@ -139810,8 +139828,10 @@
   streamUrl: https://rs103-krk-cyfronet.rmfstream.pl/rmf_classic
   bitrate: 128
   codec: MP3
-  favicon: https://www.rmfclassic.pl/dist-v2021/images/logo-ua.png?a
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/a/a7/RMF_CLASSIC_-_logotyp.png"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:RMF_CLASSIC_-_logotyp.png"
+  faviconLicense: cc-by-sa-4.0
   homepage: https://www.rmfclassic.pl/
   country: PL
   status: stream-only
@@ -139838,6 +139858,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-eska-bydgoszcz
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/7/71/Logo_Radia_Eska.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Logo_Radia_Eska.svg"
+  faviconLicense: cc-by-sa-4.0
   tags: [pop]
   broadcaster: independent
   name: Eska Bydgoszcz
@@ -139917,8 +139941,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-radio-marconi-pl
-  favicon: "https://rm24.fun/img/logo.png"
+  favicon: "https://rm24.fun/icons/icon-512.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://rm24.fun/"
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Radio Marconi PL
   streamUrl: https://stream12.hosterion.pl/stream/radiomarconi
@@ -139990,8 +140016,10 @@
   streamUrl: https://an05.cdn.eurozet.pl/ANTUNP.mp3
   bitrate: 128
   codec: MP3
-  favicon: "https://gfx-player.antyradio.pl/var/player/storage/images/player-antyradio/kanaly-muzyczne/antyradio-unplugged/753017-11-pol-PL/Antyradio-Unplugged_social_share.jpg"
-  faviconSource: radio-browser
+  favicon: "https://gfx-player.antyradio.pl/var/player/storage/images/player-antyradio/kanaly-muzyczne/antyradio-unplugged/753017-11-pol-PL/Antyradio-Unplugged.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://player.antyradio.pl/Kanaly-muzyczne/Antyradio-Unplugged"
+  faviconLicense: broadcaster-implicit
   homepage: https://player.antyradio.pl/Kanaly-muzyczne/Antyradio-Unplugged
   country: PL
   status: stream-only
