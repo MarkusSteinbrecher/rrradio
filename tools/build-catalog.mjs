@@ -34,6 +34,12 @@ import { fetchByUuid } from './rb-client.mjs';
 import { deriveShortNames } from './lib/station-short-name.mjs';
 import { familyBucketKey } from './lib/station-family.mjs';
 import { nameTokens } from './lib/station-name-signature.mjs';
+import {
+  contentHash8,
+  isLocalFavicon,
+  stripFaviconVersion,
+  withFaviconVersion,
+} from './lib/favicon-version.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
@@ -312,6 +318,47 @@ for (const m of built) {
 console.error(
   `build-catalog: ${curatedCount + derivedCount} short names ` +
     `(${derivedCount} derived, ${curatedCount} curated, ${optOutCount} opted out)`,
+);
+
+// ─── 4c. Cache-bust self-hosted favicon URLs (rrradio#577) ───────────────
+// rrradio-hosted logos (`stations/*.png`) publish at *stable* URLs, so a logo
+// swap leaves the URL unchanged and installed clients keep serving the old
+// cached image — iOS `RemoteImageCache` keys purely on the URL and never
+// revalidates, and long-lived browser caches do the same. Append a
+// `?v=<hash8>` of the file's bytes so the URL changes whenever the image does;
+// the file on disk stays put (no per-change renames → no committed-binary
+// churn). Remote third-party favicons are outside our cache control and left
+// as-is. The pre-sized `favicons{}` variants already embed a content hash in
+// their filenames (build-favicon-variants.mjs), so they need no change here.
+const faviconHashCache = new Map();
+let faviconsVersioned = 0;
+const faviconsMissing = [];
+for (const m of built) {
+  if (!isLocalFavicon(m.favicon)) continue;
+  const rel = stripFaviconVersion(m.favicon).replace(/^\/+/, '');
+  let hash = faviconHashCache.get(rel);
+  if (hash === undefined) {
+    try {
+      hash = contentHash8(readFileSync(join(root, 'public', rel)));
+    } catch {
+      hash = null; // file missing on disk — leave URL un-versioned
+    }
+    faviconHashCache.set(rel, hash);
+  }
+  if (hash === null) {
+    faviconsMissing.push(`${m.id} → ${rel}`);
+    continue;
+  }
+  m.favicon = withFaviconVersion(m.favicon, hash);
+  faviconsVersioned += 1;
+}
+console.error(
+  `build-catalog: cache-busted ${faviconsVersioned} self-hosted favicon URL(s)` +
+    (faviconsMissing.length > 0
+      ? ` — ${faviconsMissing.length} referenced file(s) missing on disk, left un-versioned: ${faviconsMissing
+          .slice(0, 5)
+          .join(', ')}${faviconsMissing.length > 5 ? ', …' : ''}`
+      : ''),
 );
 
 const outPath = join(root, 'public/stations.json');

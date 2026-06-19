@@ -45,6 +45,7 @@ import { createHash } from 'node:crypto';
 import sharp from 'sharp';
 
 import { decodeIco, looksLikeIco } from './lib/ico-decode.mjs';
+import { stripFaviconVersion } from './lib/favicon-version.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -148,9 +149,13 @@ function resolveSource(station) {
   if (/^https?:\/\//i.test(fav)) return { kind: 'remote', url: fav };
   if (fav.startsWith('//')) return { kind: 'remote', url: `https:${fav}` };
   if (isAbsolute(fav)) return null; // shouldn't happen in our catalog
-  // Local path under public/ — strip a possible leading slash.
-  const rel = fav.replace(/^\/+/, '');
-  return { kind: 'local', path: join(PUBLIC_DIR, rel), url: fav };
+  // Local path under public/ — drop the `?v=<hash>` cache-bust query
+  // build-catalog appends (rrradio#577) so it round-trips to the file on
+  // disk, and strip a possible leading slash. The byte-content hash this
+  // script already computes is what detects a changed logo, not the URL.
+  const rel = stripFaviconVersion(fav).replace(/^\/+/, '');
+  const cleanUrl = stripFaviconVersion(fav);
+  return { kind: 'local', path: join(PUBLIC_DIR, rel), url: cleanUrl };
 }
 
 // ─── fetcher with timeout + conditional GET + retry ──────────────────────
