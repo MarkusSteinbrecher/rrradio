@@ -3414,6 +3414,20 @@ body.is-wake-edit .np-pane-tabs { display: none; }
      right up under it — which read as the search bar being "cut". */
   .app-body { flex-direction: row; padding-top: 16px; }
 
+  /* The search field doesn't need the whole window width on desktop. Lay
+     the top nav out as three columns — equal 1fr gutters either side of a
+     capped centre — so the search sits dead-centre on the page regardless
+     of the wordmark / action-button widths. Columns are assigned
+     explicitly so the wordmark and actions keep their sides even when the
+     search hides during playback. Mobile keeps the full-width row. */
+  .topnav {
+    display: grid;
+    grid-template-columns: 1fr minmax(0, 520px) 1fr;
+  }
+  .topnav > .wordmark { grid-column: 1; justify-self: start; }
+  .topnav > .search-wrap { grid-column: 2; }
+  .topnav > .toolbar { grid-column: 3; justify-self: end; }
+
   /* Left rail: collapse toggle (top) + nav. The wordmark now lives in
      the full-width top nav, not here. */
   .sidebar {
@@ -3610,10 +3624,12 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   overflow-x: auto;
   padding: 0 20px 6px;
   scrollbar-width: none;
+  scroll-snap-type: x proximity;
 }
 .feat-rail::-webkit-scrollbar { height: 0; }
 .feat-card {
   flex: 0 0 248px;
+  scroll-snap-align: start;
   display: flex;
   gap: 12px;
   align-items: center;
@@ -3675,11 +3691,34 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   transition: background 0.14s;
 }
 .disc-browse-all:hover { background: var(--bg-3); }
+.disc-browse-all__trailing {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
 .disc-browse-all__count {
   font-family: var(--mono);
   font-size: 12px;
   color: var(--ink-3);
 }
+/* iOS "Browse all" peek: up to four overlapping circular station logos.
+   Each logo carries a 2px ring in the card surface colour so the overlap
+   reads cleanly (like stacked avatars); the first logo sits on top. */
+.disc-browse-all__cluster {
+  display: inline-flex;
+  align-items: center;
+}
+.disc-browse-all__logo {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--bg-2);
+  box-shadow: 0 0 0 2px var(--bg-2);
+}
+.disc-browse-all__logo + .disc-browse-all__logo { margin-left: -9px; }
 
 /* Back to discovery */
 .disc-back {

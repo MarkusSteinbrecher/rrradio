@@ -9,8 +9,8 @@ reconciled-against: d241aa9
 ## Purpose
 
 Browse is the catalog discovery surface: the place a user finds something to
-play. It opens on a **discovery landing** (genre chips, country chips, a
-"Browse all" rail, and an editorial "Featured" rail) and only drops into the
+play. It opens on a **discovery landing** (genre chips, country chips, an editorial
+"Featured" rail, and a "Browse all" footer) and only drops into the
 flat result list once the user searches, taps a chip, applies a filter, or
 chooses "Browse all". The result list renders the shared catalog, folds live
 community results into an active search, narrows by genre / country / news /
@@ -68,10 +68,11 @@ Top to bottom:
    sharp when a popup blurs the content below.
 4. **Content area** — one of:
    - **Discovery landing** (default, no query / filter / multi-select): a
-     "Browse by genre" chip carousel, a "Browse by country" chip carousel, a
-     "Browse all" header (catalog count) over a horizontal logo rail previewing
-     the full list, then a hairline and an editorial "Featured" rail of
-     highlight cards. Carousels scroll horizontally; the landing itself does not
+     "Browse by genre" chip carousel, a "Browse by country" chip carousel, then
+     a hairline and an editorial "Featured" rail of highlight cards, and finally
+     a "Browse all" footer — a full-width row (catalog count) into the unfiltered
+     list, trailing a decorative "peek" of up to four overlapping highlight
+     logos. Carousels scroll horizontally; the landing itself does not
      scroll the nav away when it fits.
    - **Result list/grid** of rows, each row showing logo (favicon), name,
      country/tag context, a favorite heart, and current/playing indicators (no
@@ -111,7 +112,7 @@ press-and-hold station-info preview.
 | State | What shows | Actionable |
 |---|---|---|
 | **Loading (cold)** | Catalog resolves cache → bundled snapshot → network ([catalog-schema](../contracts/catalog-schema.md)); the first source renders immediately. | Discovery chips / rail populate as catalog counts land; rows are tappable as soon as any source renders. |
-| **Discovery (no query, no filter, not multi-select)** | Genre + country chips (catalog match counts, "See all ›"), the "Browse all" header + logo rail, and the "Featured" rail. Chips/rails appear only when non-empty; the "Browse all" header is always present. | Tap a chip → filter into results; "See all ›" → open filter sheet on that section; "Browse all" → full unfiltered list; tap/play a highlight; search to leave discovery. |
+| **Discovery (no query, no filter, not multi-select)** | Genre + country chips (catalog match counts, "See all ›"), the "Featured" rail, then a "Browse all" footer (full-width row with a decorative logo peek). Chips/rail appear only when non-empty; the "Browse all" footer is always present. | Tap a chip → filter into results; "See all ›" → open filter sheet on that section; "Browse all" → full unfiltered list; tap/play a highlight; search to leave discovery. |
 | **Loaded (no query, no filter — "Browse all")** | Full catalog, `featured`-first, capped to the visible window (first 25 rows), load-more grows it. | Play, favorite, info-hold, sort, filter, multi-select, back-to-discovery. |
 | **Loaded (filtered)** | Catalog narrowed by country/genre/news/quality; count reflects the filtered set; a filter-summary header spells out the active filter. | Same; filter dot lit; back chevron returns to discovery. |
 | **Loaded (query active)** | Local matches (relevance order) then community results appended as the user pages; sort suppressed. | Play, favorite, info-hold, multi-select; load-more pages local then Radio Browser. |
@@ -132,7 +133,7 @@ press-and-hold station-info preview.
 | Tap a genre chip | Discovery | Apply that single genre as the filter, drop into results | Leaves discovery; filter dot lit |
 | Tap a country chip | Discovery | Apply that single country as the filter, drop into results | Leaves discovery; filter dot lit |
 | Tap "See all ›" (genre/country header) | Discovery | Open filter popup with that section pre-expanded | — |
-| Tap "Browse all" header / a logo on its rail | Discovery | Drop into the full, unfiltered list (no filter applied) | Leaves discovery; back chevron returns |
+| Tap the "Browse all" footer row | Discovery | Drop into the full, unfiltered list (no filter applied) | Leaves discovery; back chevron returns; the trailing logo peek is decorative (the whole row is one tap target) |
 | Tap / play a highlight card | Discovery | Play that station | Pushes to recents if catalog; queues the current visible window for skip-next |
 | Tap back chevron | Results (search/chip/filter, not multi-select) | Clear search + filter + browse-all, return to discovery | — |
 | Swipe right over the result list | Results, back chevron shown | Same as back chevron (return to discovery) | Vertical scroll untouched; multi-select excluded |
@@ -173,14 +174,15 @@ press-and-hold station-info preview.
 - **Discovery gate:** the discovery landing shows only when the search is empty,
   no filter is active, the page is not mid-multi-select, and "Browse all" has not
   been tapped. Any of those drops into the result list. Genre/country chips and
-  the Featured rail render only when non-empty; the "Browse all" header is always
+  the Featured rail render only when non-empty; the "Browse all" footer is always
   present so the full list is reachable without first applying a filter.
 - **Discovery counts:** per-genre and per-country catalog match counts are
   computed off-main (the genre scan compiles a regex per station), recomputed on
   catalog revision; chips sort by count desc with a stable id/code tiebreak.
-  Country chips cap at 20; highlight cards cap at 8; the "Browse all" logo rail
-  caps at 30 stations carrying real artwork. Chip counts ≥ 1000 abbreviate
-  ("1.4k", "17k").
+  Country chips cap at 20; highlight cards cap at 8; the "Browse all" footer
+  shows a decorative peek of up to four highlight logos, and only when at least
+  three of them carry real artwork (otherwise just the count). Chip counts ≥ 1000
+  abbreviate ("1.4k", "17k").
 - **Highlights:** the editorial "Featured" feed loads lazily from the highlights
   store; entries whose `stationId` isn't in the catalog are dropped, deduped by
   station; an all-unavailable feed hides the rail.
@@ -317,8 +319,8 @@ press-and-hold station-info preview.
 - Back-to-discovery chevron labeled "back to discovery".
 - Discovery chips are single elements labeled "<name>, <n> stations"; section
   "See all ›" exposes its plain label; the "Browse all" row is a button labeled
-  "browse all" with an "all stations" hint; the logo rail is hidden from
-  VoiceOver (the header is the accessible route).
+  "browse all" with an "all stations" hint; the logo peek is hidden from
+  VoiceOver (the row itself is the accessible route).
 - Highlight cards are single buttons labeled badge + station + genres.
 - Alphabet sort's label states the *next* action ("sort ascending" / "sort
   descending" / "clear alphabetic sort").
@@ -369,7 +371,7 @@ map's "<n> stations" are pluralizable.
 |---|---|---|---|
 | Curated catalog | Supported. | Supported. | Supported. |
 | Large Radio Browser-backed catalog | Supported. | Supported with bundled index/cache behavior. | Supported with cache-backed loading. |
-| Discovery landing (genre/country chips + Featured rail + Browse all) | Not planned for current web. Web has no discovery landing — Browse shows the catalog directly under a filter row (genre/country dropdowns, played/news/curated toggles); the `featured` flag feeds a separate editorial rail, not a Browse discovery surface. | Supported. | Planned. |
+| Discovery landing (genre/country chips + Featured rail + Browse all) | Supported. Browse opens on a discovery landing that mirrors iOS: genre chips, country chips, the "Featured" rail, then an always-present "Browse all" footer with a decorative logo peek. Searching, tapping a chip, or tapping "Browse all" drops into the result list. | Supported. | Planned. |
 | Search normalization | Supported. | Reference native behavior. | Supported. |
 | Country filter | Supported. | Supported with native picker rows. | Supported. |
 | Genre/tag filter | Supported. | Supported. | Supported. |

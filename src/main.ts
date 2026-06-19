@@ -1833,6 +1833,25 @@ function featuredCard(item: ResolvedHighlight): HTMLButtonElement {
   return card;
 }
 
+/** Let a horizontal scroller respond to a vertical mouse wheel, so
+ *  desktop/mouse users can scroll the featured rail without a trackpad
+ *  swipe. No-op when the gesture is already horizontal or the rail is at
+ *  an edge — there the event bubbles so the page keeps scrolling. */
+function enableWheelScroll(el: HTMLElement): void {
+  el.addEventListener(
+    'wheel',
+    (e) => {
+      if (e.deltaY === 0 || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      const max = el.scrollWidth - el.clientWidth;
+      if (max <= 0) return;
+      if ((e.deltaY < 0 && el.scrollLeft <= 0) || (e.deltaY > 0 && el.scrollLeft >= max)) return;
+      el.scrollLeft = Math.max(0, Math.min(max, el.scrollLeft + e.deltaY));
+      e.preventDefault();
+    },
+    { passive: false },
+  );
+}
+
 function renderDiscovery(): void {
   const featured = resolveHighlights(
     highlightsRaw,
@@ -1840,14 +1859,9 @@ function renderDiscovery(): void {
     todayISO(),
     DISCOVERY_HIGHLIGHT_LIMIT,
   );
-  if (featured.length > 0) {
-    $content.append(discoverySection('Featured'));
-    const rail = document.createElement('div');
-    rail.className = 'feat-rail';
-    for (const f of featured) rail.append(featuredCard(f));
-    $content.append(rail);
-  }
 
+  // Section order mirrors the iOS BrowseDiscoveryContent: genre chips,
+  // country chips, then the Featured rail, then the "Browse all" footer.
   const counts = getDiscoveryCounts();
   const gChips = genreChips(counts);
   if (gChips.length > 0) {
@@ -1866,16 +1880,47 @@ function renderDiscovery(): void {
     $content.append(row);
   }
 
+  if (featured.length > 0) {
+    $content.append(discoverySection('Featured'));
+    const rail = document.createElement('div');
+    rail.className = 'feat-rail';
+    for (const f of featured) rail.append(featuredCard(f));
+    enableWheelScroll(rail);
+    $content.append(rail);
+  }
+
+  // "Browse all" footer with the iOS logo peek: up to four featured
+  // stations carrying real artwork, overlapping like stacked avatars.
+  // Per the iOS rule, show nothing rather than a lonely one or two — the
+  // cluster only appears once at least three highlights have a favicon.
   const all = document.createElement('button');
   all.type = 'button';
   all.className = 'disc-browse-all';
   all.setAttribute('aria-label', 'Browse all stations');
   const lbl = document.createElement('span');
   lbl.textContent = 'Browse all stations';
+  const trailing = document.createElement('span');
+  trailing.className = 'disc-browse-all__trailing';
+  const clusterStations = featured.map((f) => f.station).filter((s) => Boolean(s.favicon));
+  if (clusterStations.length >= 3) {
+    const cluster = document.createElement('span');
+    cluster.className = 'disc-browse-all__cluster';
+    cluster.setAttribute('aria-hidden', 'true');
+    const logos = clusterStations.slice(0, 4);
+    logos.forEach((s, i) => {
+      const logo = buildFavicon(s, 26);
+      logo.classList.add('disc-browse-all__logo');
+      // First logo on top, each tucking behind the one before it.
+      logo.style.zIndex = String(logos.length - i);
+      cluster.append(logo);
+    });
+    trailing.append(cluster);
+  }
   const cnt = document.createElement('span');
   cnt.className = 'disc-browse-all__count';
-  cnt.textContent = String(BUILTIN_STATIONS.length);
-  all.append(lbl, cnt);
+  cnt.textContent = abbreviateCount(BUILTIN_STATIONS.length);
+  trailing.append(cnt);
+  all.append(lbl, trailing);
   all.addEventListener('click', enterBrowseAll);
   $content.append(all);
 }
