@@ -249588,6 +249588,9 @@
 - id: do-fieramix
   favicon: "https://fieramix.com/images/grupo.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://fieramix.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   stationuuid: c29e907a-641c-4ad2-bb6a-aa50b2a1126a
   changeuuid: f931541d-7201-4efd-98b1-58ddc0cfd78a
@@ -249687,8 +249690,11 @@
 
 # RB import 2026-05-11 (DO sweep)
 - id: do-ritmo-96-5-fm
-  favicon: "https://ritmo96.com/wp-content/uploads/2023/02/cropped-LogoRitmo96@2x.png"
+  favicon: "https://ritmo96.com/wp-content/uploads/2023/02/cropped-R962@2x.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://ritmo96.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: bb4c2226-6ccd-4470-b8b3-d6ba0f9ac353
   changeuuid: eadbc055-ef64-424c-963f-3b0c978f0d1e
   reviewedAt: 2026-05-11
@@ -249790,8 +249796,11 @@
 
 # RB import 2026-05-11 (DO sweep)
 - id: do-salsa-92-7-fm
-  favicon: "https://static.wixstatic.com/media/5a38dc_be003fec2a864673a29c3d3e8aedfdeb%7Emv2.jpg/v1/fit/w_2500,h_1330,al_c/5a38dc_be003fec2a864673a29c3d3e8aedfdeb%7Emv2.jpg"
+  favicon: "https://static.wixstatic.com/media/5a38dc_dce3cdb54ccb41dfa1034eb4f26af6e6~mv2.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://salsa927fm.wixsite.com/salsa927fm/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 823ae385-e777-4363-8c9c-693374033a2a
   changeuuid: 1ab59bd6-c493-4cc6-b17c-14b5f17fa68d
   reviewedAt: 2026-05-11
@@ -249914,8 +249923,11 @@
   bitrate: 128
   codec: MP3
   tags: ["baladas en español", music, musica romantica]
-  favicon: https://disco89fm.com/themes/disco89/assets/img/logodiscoext.png
+  favicon: "https://disco89fm.com/logodisco.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://disco89fm.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://disco89fm.com/
   country: DO
   status: stream-only
@@ -249969,6 +249981,11 @@
 
 # RB import 2026-05-11 (DO sweep)
 - id: do-radio-santa-maria
+  favicon: "https://radiosantamaria.net/wp-content/uploads/2016/09/cropped-rsmam-270x270.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiosantamaria.net/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   faviconBlocked: true
   stationuuid: b1ed09b9-3757-4671-9b21-76506d5149a3
   changeuuid: 500d4e1e-c001-45d6-803a-859d9e0e01f0
@@ -295584,8 +295601,11 @@
   name: Turbo 98.3 FM
   streamUrl: "https://cdn-embed.tunein.com/resources/media/blank.mp3"
   codec: MP3
-  favicon: "https://cdn-profiles.tunein.com/s96665/images/logod.png?t=637250015740000000"
-  faviconSource: radio-browser
+  favicon: "https://turbo98.com/wp-content/uploads/2023/02/cropped-IsoTipo98-270x270.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://turbo98.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://turbo98.com/"
   country: DO
   geo: [0, 0]
@@ -318427,6 +318447,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: do-los-40-republica-dominicana
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/8/80/Los_40.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Los_40.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   source: radio-browser
   broadcaster: independent
   name: Los 40 República Dominicana
@@ -329941,8 +329966,11 @@
   streamUrl: "https://stream.radiojar.com/4ggz3rkd838uv"
   codec: MP3
   tags: [dance, latino, reggaeton, urbano]
-  favicon: "https://static.wixstatic.com/media/356ad5_5d1c2504ac95419ab6ae071a3dcf6b69~mv2.png/v1/fill/w_78,h_78,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/356ad5_5d1c2504ac95419ab6ae071a3dcf6b69~mv2.png"
-  faviconSource: radio-browser
+  favicon: "https://static.wixstatic.com/media/356ad5_5d1c2504ac95419ab6ae071a3dcf6b69~mv2.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.airromana.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.airromana.com/"
   country: DO
   geo: [0, 0]
@@ -333210,7 +333238,10 @@
   codec: AAC+
   tags: [bachata, merengue, news, reggaeton, salsa, tropical]
   favicon: "https://www.lanueva106.com/wp-content/uploads/2022/01/8dcc9c61-1691-4bdf-9287-2b5b25c6032e.png"
-  faviconSource: radio-browser
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.lanueva106.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.lanueva106.com/"
   country: DO
   geo: [19.4732, -70.6914]
@@ -343475,7 +343506,10 @@
   codec: MP3
   tags: [baladas en ingles, love songs, musica romantica]
   favicon: "https://estacion977.com/assets/img/logoEstacion977_300_shd.png"
-  faviconSource: radio-browser
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://estacion977.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://estacion977.com/"
   country: DO
   geo: [0, 0]
