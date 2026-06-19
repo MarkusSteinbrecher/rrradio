@@ -61,7 +61,52 @@ jobs:
           # provided automatically and used for the issue repo + run link.
         run: |
           if [ -z "$STATS_ADMIN_TOKEN" ]; then
-            echo "STATS_ADMIN_TOKEN secret is not set — cannot read reports." >&2
+            echo "STATS_ADMIN_TOKEN secret is not set or empty — cannot read reports (see #517)." >&2
             exit 1
           fi
           npm run triage-reports -- ${{ (github.event_name == 'workflow_dispatch' && inputs.dry_run) && '--dry-run' || '' }} --verbose
+
+      # A scheduled cron fails silently — nobody watches a 06:00 job. Surface
+      # any failure (empty/wrong token, network, etc.) as a tracking issue so a
+      # broken-on-arrival run can't accumulate unnoticed (#517). Manual dispatch
+      # runs are visible to the operator, so they don't file noise.
+      - name: File a tracking issue if the scheduled run failed
+        if: failure() && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WORKFLOW: ${{ github.workflow }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh label create workflow-failure \
+            --description "A scheduled workflow failed and needs attention" \
+            --color B60205 --force >/dev/null 2>&1 || true
+          title="Scheduled workflow failing: $WORKFLOW"
+          {
+            echo "\`$WORKFLOW\` failed on its scheduled run."
+            echo
+            echo "Run: $RUN_URL"
+            echo
+            echo "Check the failing step's log, fix the cause, then dispatch the workflow manually to confirm. This issue auto-closes on the next successful run."
+          } > failure-body.md
+          num=$(gh issue list --label workflow-failure --state open \
+            --json number,title \
+            --jq '[.[] | select(.title=="'"$title"'")][0].number // ""')
+          if [ -n "$num" ]; then
+            gh issue comment "$num" --body "Failed again $(date -u +'%Y-%m-%d %H:%M UTC') — $RUN_URL"
+          else
+            gh issue create --label workflow-failure --title "$title" --body-file failure-body.md
+          fi
+
+      - name: Close the tracking issue after a successful run
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WORKFLOW: ${{ github.workflow }}
+        run: |
+          title="Scheduled workflow failing: $WORKFLOW"
+          num=$(gh issue list --label workflow-failure --state open \
+            --json number,title \
+            --jq '[.[] | select(.title=="'"$title"'")][0].number // ""')
+          if [ -n "$num" ]; then
+            gh issue close "$num" --comment "Recovered: succeeded $(date -u +'%Y-%m-%d %H:%M UTC'). Closing."
+          fi

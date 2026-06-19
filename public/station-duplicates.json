@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-06-11T14:26:56.656Z",
-  "totalScanned": 31461,
+  "generatedAt": "2026-06-15T11:46:00.410Z",
+  "totalScanned": 31460,
   "dedupeGeneratedAt": "2026-06-11T06:56:48.787Z",
-  "collisionCount": 2116,
+  "collisionCount": 2119,
   "byKind": {
     "stationuuid": 0,
     "streamUrl": 0,
@@ -12,20 +12,20 @@
     "rb-canonical-cross-country": 54,
     "country+name": 334,
     "homepage+signature": 267,
-    "favicon+signature": 163,
+    "favicon+signature": 165,
     "name": 512,
-    "homepage+favicon": 137
+    "homepage+favicon": 138
   },
   "blockingCollisionCount": 0,
-  "reviewCollisionCount": 1211,
+  "reviewCollisionCount": 1214,
   "lowConfidenceCollisionCount": 905,
   "largeRbCanonicalCollisionCount": 5,
   "crossCountryRbCanonicalCollisionCount": 54,
   "maxRbCanonicalAuditSize": 20,
-  "duplicateGroupCount": 588,
+  "duplicateGroupCount": 589,
   "blockingDuplicateGroupCount": 0,
-  "reviewDuplicateGroupCount": 588,
-  "duplicateRows": 695,
+  "reviewDuplicateGroupCount": 589,
+  "duplicateRows": 696,
   "duplicateGroups": [
     {
       "severity": "review",
@@ -2767,6 +2767,8 @@
     {
       "severity": "review",
       "signalKinds": [
+        "favicon+signature",
+        "homepage+favicon",
         "homepage+signature",
         "rb-canonical"
       ],
@@ -2778,6 +2780,14 @@
         {
           "kind": "homepage+signature",
           "key": "RU|radiovesti.ru|вести"
+        },
+        {
+          "kind": "favicon+signature",
+          "key": "RU|https://upload.wikimedia.org/wikipedia/commons/2/2b/%d0%92%d0%b5%d1%81%d1%82%d0%b8fm2017.jpg|вести"
+        },
+        {
+          "kind": "homepage+favicon",
+          "key": "RU|radiovesti.ru|https://upload.wikimedia.org/wikipedia/commons/2/2b/%d0%92%d0%b5%d1%81%d1%82%d0%b8fm2017.jpg|вести"
         }
       ],
       "entries": [
@@ -17212,6 +17222,34 @@
           "country": "RU",
           "stationuuid": "67868e42-bc30-4d97-8db7-f214c38166c5",
           "streamUrl": "https://listen.rusongs.ru/ru-aac-64"
+        }
+      ]
+    },
+    {
+      "severity": "review",
+      "signalKinds": [
+        "favicon+signature"
+      ],
+      "signals": [
+        {
+          "kind": "favicon+signature",
+          "key": "RU|https://upload.wikimedia.org/wikipedia/ru/3/38/%d0%9b%d0%be%d0%b3%d0%be%d1%82%d0%b8%d0%bf%d1%80%d0%b0%d0%b4%d0%b8%d0%be%d1%81%d1%82%d0%b0%d0%bd%d1%86%d0%b8%d0%b8%d0%9c%d0%be%d0%bd%d1%82%d0%b5-%d0%9a%d0%b0%d1%80%d0%bb%d0%be.png|карло монте радио"
+        }
+      ],
+      "entries": [
+        {
+          "id": "ru-station-2d2f0f10",
+          "name": "Радио Монте Карло",
+          "country": "RU",
+          "stationuuid": "2d2f0f10-5ea9-400b-a61b-f2c6c8ed7963",
+          "streamUrl": "https://montecarlo.hostingradio.ru/montecarlo128.mp3"
+        },
+        {
+          "id": "ru-station-9a1deed5",
+          "name": "Радио Монте-Карло",
+          "country": "RU",
+          "stationuuid": "9a1deed5-46f9-11e9-aa55-52543be04c81",
+          "streamUrl": "https://mc-mcgold.hostingradio.ru/mcgold96.aacp"
         }
       ]
     },
@@ -44583,6 +44621,48 @@
     },
     {
       "kind": "favicon+signature",
+      "key": "RU|https://upload.wikimedia.org/wikipedia/commons/2/2b/%d0%92%d0%b5%d1%81%d1%82%d0%b8fm2017.jpg|вести",
+      "confidence": "review",
+      "entries": [
+        {
+          "id": "ru-fm-aac",
+          "name": "Вести FM (AAC)",
+          "country": "RU",
+          "stationuuid": "29a68b7f-f573-4b19-b3ba-cdbb0979e348",
+          "streamUrl": "https://icecast-vgtrk.cdnvideo.ru/vestifm_aac_32kbps"
+        },
+        {
+          "id": "ru-fm-aac-711f2e4e",
+          "name": "Вести FM (AAC)",
+          "country": "RU",
+          "stationuuid": "711f2e4e-90b0-4117-86dd-7905f0e1c27e",
+          "streamUrl": "https://icecast-vgtrk.cdnvideo.ru/vestifm_aac_64kbps"
+        }
+      ]
+    },
+    {
+      "kind": "favicon+signature",
+      "key": "RU|https://upload.wikimedia.org/wikipedia/ru/3/38/%d0%9b%d0%be%d0%b3%d0%be%d1%82%d0%b8%d0%bf%d1%80%d0%b0%d0%b4%d0%b8%d0%be%d1%81%d1%82%d0%b0%d0%bd%d1%86%d0%b8%d0%b8%d0%9c%d0%be%d0%bd%d1%82%d0%b5-%d0%9a%d0%b0%d1%80%d0%bb%d0%be.png|карло монте радио",
+      "confidence": "review",
+      "entries": [
+        {
+          "id": "ru-station-2d2f0f10",
+          "name": "Радио Монте Карло",
+          "country": "RU",
+          "stationuuid": "2d2f0f10-5ea9-400b-a61b-f2c6c8ed7963",
+          "streamUrl": "https://montecarlo.hostingradio.ru/montecarlo128.mp3"
+        },
+        {
+          "id": "ru-station-9a1deed5",
+          "name": "Радио Монте-Карло",
+          "country": "RU",
+          "stationuuid": "9a1deed5-46f9-11e9-aa55-52543be04c81",
+          "streamUrl": "https://mc-mcgold.hostingradio.ru/mcgold96.aacp"
+        }
+      ]
+    },
+    {
+      "kind": "favicon+signature",
       "key": "IN|https://liveradios.in/wp-content/uploads/fmcity100.jpeg|1 100 city",
       "confidence": "review",
       "entries": [
@@ -47805,6 +47885,27 @@
           "country": "QA",
           "stationuuid": "70a43176-1c16-4fef-bc52-9c43d1857bf8",
           "streamUrl": "https://c2.radioboss.fm:8478/live"
+        }
+      ]
+    },
+    {
+      "kind": "homepage+favicon",
+      "key": "RU|radiovesti.ru|https://upload.wikimedia.org/wikipedia/commons/2/2b/%d0%92%d0%b5%d1%81%d1%82%d0%b8fm2017.jpg|вести",
+      "confidence": "review",
+      "entries": [
+        {
+          "id": "ru-fm-aac",
+          "name": "Вести FM (AAC)",
+          "country": "RU",
+          "stationuuid": "29a68b7f-f573-4b19-b3ba-cdbb0979e348",
+          "streamUrl": "https://icecast-vgtrk.cdnvideo.ru/vestifm_aac_32kbps"
+        },
+        {
+          "id": "ru-fm-aac-711f2e4e",
+          "name": "Вести FM (AAC)",
+          "country": "RU",
+          "stationuuid": "711f2e4e-90b0-4117-86dd-7905f0e1c27e",
+          "streamUrl": "https://icecast-vgtrk.cdnvideo.ru/vestifm_aac_64kbps"
         }
       ]
     },

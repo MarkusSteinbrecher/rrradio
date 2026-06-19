@@ -1,6 +1,6 @@
 /** Overview — is the catalog healthy, and is our knowledge fresh? */
 
-import { FACETS, FACET_LABEL, loadHealth, loadRows, loadSourcesIndex } from './data';
+import { FACETS, FACET_LABEL, facetTally, loadHealth, loadRows, loadSourcesIndex } from './data';
 import type { SourceSummary, StationRow } from './data';
 import { stationHref, stationsHref } from './router';
 import { ageDays, ageLabel, el, emptyState, fmtInt, freshnessClass, loading, sectionHeader, statCard } from './ui';
@@ -119,20 +119,24 @@ export async function renderOverview(root: HTMLElement): Promise<void> {
   frag.append(chipRow);
 
   // ── Problems by facet ──────────────────────────────────────────
+  // Counts come from the per-station rows (facetTally), NOT
+  // health.runs[facet].tally: a partial run (e.g. a --cc repair) leaves the
+  // runs header covering only its own scope, which understates the true
+  // catalog-wide totals. Freshness above still reads the runs header.
   frag.append(sectionHeader('Problems by facet', 'click a card for the filtered station list'));
+  const tallies = facetTally(rows);
   const problemGrid = el('div', { class: 'stats-grid' });
   for (const facet of FACETS) {
-    const run = health.runs[facet];
-    if (!run) continue;
-    const bad = run.tally.bad ?? 0;
-    const warn = run.tally.warn ?? 0;
+    const t = tallies[facet];
+    const covered = t.ok + t.warn + t.bad + t.na;
+    if (!covered) continue;
     problemGrid.append(
       statCard({
-        value: fmtInt(bad),
+        value: fmtInt(t.bad),
         label: `${FACET_LABEL[facet]} bad`,
-        sub: `${fmtInt(warn)} warn · ${fmtInt(run.checked)} checked`,
-        tone: bad > 0 ? 'bad' : 'ok',
-        href: stationsHref({ facet, v: bad > 0 ? 'bad' : 'warn' }),
+        sub: `${fmtInt(t.warn)} warn · ${fmtInt(covered)} checked`,
+        tone: t.bad > 0 ? 'bad' : 'ok',
+        href: stationsHref({ facet, v: t.bad > 0 ? 'bad' : 'warn' }),
       }),
     );
   }
