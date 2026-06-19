@@ -13601,8 +13601,11 @@
   country: HR
   status: stream-only
 - id: hr-otvoreni-radio
-  favicon: "https://otvoreni.hr/images/share.jpg"
+  favicon: "https://www.otvoreni.hr/favicon.svg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.otvoreni.hr/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 909693aa-3a65-4067-be27-7767626df624
   changeuuid: 27ee11c9-3900-4a71-a3d5-4d148302d93b
   reviewedAt: 2026-04-30
@@ -13621,8 +13624,11 @@
   country: HR
   status: stream-only
 - id: hr-yammat-fm
-  favicon: "https://yammat.fm/wp-content/uploads/2025/07/Logo.png"
+  favicon: "https://yammat.fm/wp-content/uploads/2025/07/favicon.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://yammat.fm/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: ac78d4f5-ac2b-4d9e-8f33-2187a41fb539
   changeuuid: d2521c4a-c06c-4bae-9280-d33dc1094208
   reviewedAt: 2026-04-30
@@ -13660,8 +13666,11 @@
   country: HR
   status: stream-only
 - id: hr-radio-tvornica
-  favicon: "https://www.radiotvornica.hr/images/_theme/rt_slide_best_mix.jpg"
+  favicon: "https://www.radiotvornica.hr/images/_theme/RT-logo.svg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radiotvornica.hr/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 960125a3-5b14-4dfc-970f-0a508dbd618d
   changeuuid: 17060f64-771d-41ca-8ba9-1eec2d5caa6a
   reviewedAt: 2026-04-30
@@ -13757,8 +13766,11 @@
   country: HR
   status: stream-only
 - id: hr-banovina-turbo
-  favicon: "https://cdn.onlineradiobox.com/img/l/3/75503.v8.png"
-  faviconSource: radio-browser
+  favicon: "https://www.radio-banovina.hr/turbo/logo.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radio-banovina.hr/turbo/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 16b39855-7723-4bec-b2cb-c439ea3f90af
   changeuuid: c40aaa53-8cdd-4aa6-9dd7-35367be8dd6f
   reviewedAt: 2026-05-02
@@ -233399,8 +233411,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: hr-otvoreni-live
   tags: [croatia, croatian, hrvatska, pop, pop rock]
-  favicon: "https://otvoreni.hr/images/share.jpg"
+  favicon: "https://www.otvoreni.hr/favicon.svg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.otvoreni.hr/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Otvoreni LIVE
   streamUrl: https://stream.otvoreni.hr/stream48
@@ -233416,8 +233431,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: hr-zagorski-radio
   tags: [folk, news, pop, regional]
-  favicon: "https://www.zagorski-radio.hr/wp-content/uploads/2026/04/7DC3EEEF-7D3A-4559-BC1B-06A0DBA1C322-950x535-1.png"
+  favicon: "https://www.zagorski-radio.hr/wp-content/uploads/2025/04/cropped-ZR-LOGOmali-scaled-1-270x270.jpg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.zagorski-radio.hr/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Zagorski radio
   streamUrl: https://s8.iqstreaming.com:2020/stream/zagorski/stream
@@ -233505,8 +233523,11 @@
   streamUrl: https://azuracast.novi-net.net/radio/8010/radiomax.aac
   bitrate: 128
   codec: MP3
-  favicon: https://radiomax.hr/wp-content/uploads/2025/02/cropped-logo350x100-protizrni-768x256.png
+  favicon: "https://radiomax.hr/wp-content/uploads/2025/02/cropped-logo-max.jpeg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiomax.hr/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://radiomax.hr/
   country: HR
   status: stream-only
@@ -233651,8 +233672,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: hr-radio-krizevci
   tags: [folk, local news, pop]
-  favicon: "https://radiokrizevci.hr/wp-content/uploads/2026/01/zupanija.jpg"
+  favicon: "https://radiokrizevci.hr/wp-content/uploads/2026/06/radiokrizevci-logo.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiokrizevci.hr/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: Radio Križevci
   streamUrl: https://s8.iqstreaming.com:8048/stream
@@ -233750,8 +233774,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: hr-tvoj-feel-good-radio-otvoreni
-  favicon: "https://otvoreni.hr/images/share.jpg"
+  favicon: "https://otvoreni.hr/favicon.svg"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.otvoreni.hr/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: "Tvoj Feel Good radio ! Otvoreni"
   streamUrl: https://stream2.otvoreni.hr/otvoreni
@@ -233871,8 +233898,11 @@
   streamUrl: https://radio-stream.cmc.com.hr:9011/live
   bitrate: 320
   codec: MP3
-  favicon: https://radio.cmc.com.hr/favicon.ico
+  favicon: "https://radio.cmc.com.hr/wp-content/uploads/2021/02/CMC-Favicon_400x400.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radio.cmc.com.hr/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://radio.cmc.com.hr/
   country: HR
   status: stream-only
@@ -234163,8 +234193,11 @@
   streamUrl: https://c2.hostingcentar.com/streams/bnm-chill/
   bitrate: 128
   codec: MP3
-  favicon: https://radio-bnm.hr/wp-content/uploads/2024/03/bnm-radio-logo-30.png
+  favicon: "https://radio-bnm.hr/wp-content/uploads/2026/06/icon_bnm_512.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radio-bnm.hr/superpwa-manifest.json"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://radio-bnm.hr/
   country: HR
   status: stream-only
@@ -234180,8 +234213,11 @@
   streamUrl: https://c2.hostingcentar.com/streams/bnmradio/
   bitrate: 128
   codec: MP3
-  favicon: https://radio-bnm.hr/wp-content/uploads/2024/03/bnm-radio-logo-30.png
+  favicon: "https://radio-bnm.hr/wp-content/uploads/2024/04/logo_radio_bnm_fav.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radio-bnm.hr/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://radio-bnm.hr/
   country: HR
   status: stream-only
@@ -234281,8 +234317,11 @@
   streamUrl: https://c2.hostingcentar.com/streams/bnm-off-air/
   bitrate: 128
   codec: MP3
-  favicon: https://radio-bnm.hr/wp-content/uploads/2024/03/bnm-radio-logo-30.png
+  favicon: "https://radio-bnm.hr/wp-content/uploads/2026/06/icon_bnm_512.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radio-bnm.hr/superpwa-manifest.json"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://radio-bnm.hr/
   country: HR
   status: stream-only
@@ -234297,8 +234336,11 @@
   streamUrl: https://c2.hostingcentar.com/streams/bnm-pop/
   bitrate: 128
   codec: MP3
-  favicon: https://radio-bnm.hr/wp-content/uploads/2024/03/bnm-radio-logo-30.png
+  favicon: "https://radio-bnm.hr/wp-content/uploads/2026/06/icon_bnm_512.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radio-bnm.hr/superpwa-manifest.json"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://radio-bnm.hr/
   country: HR
   status: stream-only
