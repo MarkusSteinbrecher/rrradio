@@ -294418,8 +294418,10 @@
   name: YleRadioSuomiTampere
   streamUrl: "https://icecast.live.yle.fi/radio/YleTampere/icecast.audio"
   codec: AAC+
-  favicon: "https://images.cdn.yle.fi/f_auto,w_48,h_48,dpr_4.0/v1496664710/yle-areena-app.png"
-  faviconSource: radio-browser
+  favicon: "https://img.img-cdn.yle.fi/crop_fill,ar_1:1,w_512/13-1-3393130-1559825628068"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://areena.yle.fi/1-3393130"
+  faviconLicense: broadcaster-implicit
   homepage: "https://areena.yle.fi/audio/ohjelmat/yle-radio-suomi?_c=yle-radio-suomi-tampere"
   country: FI
   geo: [61.4899, 23.7704]
@@ -322875,8 +322877,10 @@
   name: "Yle Radio Suomi - Pori"
   streamUrl: "https://icecast.live.yle.fi/radio/YlePori/icecast.audio"
   codec: AAC+
-  favicon: "https://images.cdn.yle.fi/f_auto,w_48,h_48,dpr_4.0/v1496664710/yle-areena-app.png"
-  faviconSource: radio-browser
+  favicon: "https://img.img-cdn.yle.fi/crop_fill,ar_1:1,w_1024/13-1-50054535-1559825738566"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://areena.yle.fi/1-50054535"
+  faviconLicense: broadcaster-implicit
   homepage: "https://areena.yle.fi/audio/ohjelmat/yle-radio-suomi?_c=yle-radio-suomi-pori"
   country: FI
   geo: [0, 0]
@@ -341238,7 +341242,9 @@
   codec: AAC
   tags: [culture, music, pop, talk]
   favicon: "https://images.cdn.yle.fi/image/upload/f_auto,c_fill,ar_1:1,w_384,q_auto/v1718639453/yle-x3m_square"
-  faviconSource: radio-browser
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://yle.fi/"
+  faviconLicense: broadcaster-implicit
   homepage: "https://yle.fi/"
   country: FI
   geo: [0, 0]
@@ -345004,7 +345010,9 @@
   streamUrl: "https://aud-stream-loop.nm-elemental.nelonenmedia.fi/playlist-256000.m3u8"
   codec: UNKNOWN
   favicon: "https://static.novelist.nelonenmedia.fi/files/styles/1_360x360/s3/promo-items/square/2024/Loop_2560x2560.jpg?itok=4Nosr7tW"
-  faviconSource: radio-browser
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.supla.fi/loop"
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.supla.fi/loop"
   country: FI
   geo: [60.2095, 24.9225]
@@ -346363,8 +346371,10 @@
   streamUrl: "https://radiokaleva.digitacdn.net/radio/kaleva/master.m3u8"
   bitrate: 137
   codec: AAC
-  favicon: "https://www.radiokaleva.fi/wp-content/uploads/sites/337/2022/01/Kaleva_favicon_1_512x512px-300x300.png"
-  faviconSource: radio-browser
+  favicon: "https://www.radiokaleva.fi/wp-content/uploads/sites/337/2022/01/Kaleva_favicon_1_512x512px.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radiokaleva.fi/"
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.radiokaleva.fi/"
   country: FI
   geo: [65.0131, 25.5126]
@@ -350493,8 +350503,10 @@
   bitrate: 256
   codec: MP3
   tags: [christian]
-  favicon: "https://www.radiodei.fi/wp-content/uploads/2016/05/default.png"
-  faviconSource: radio-browser
+  favicon: "https://deiplus.fi/icons/radiodeilogo.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://deiplus.fi/radiot-kaajani"
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.radiodei.fi/"
   country: FI
   geo: [0, 0]
@@ -352236,6 +352248,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: fi-yle-radio-vega-ostnyland
+  favicon: "https://img.img-cdn.yle.fi/crop_fill,ar_1:1,w_512/yle-radio-vega_channel"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://areena.yle.fi/1-50472320"
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Yle radio Vega Östnyland
@@ -354872,8 +354888,10 @@
   name: Easy Hits
   streamUrl: "https://aud-stream-easyhits.nm-elemental.nelonenmedia.fi/playlist-256000.m3u8"
   codec: UNKNOWN
-  favicon: "https://static.novelist.nelonenmedia.fi/files/styles/1_360x360/s3/promo-items/square/2024/EasyHits_2560x2560.jpg?itok=k1gFgGRt"
-  faviconSource: radio-browser
+  favicon: "https://static.novelist.nelonenmedia.fi/files/promo-items/square/2024/EasyHits_2560x2560.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.supla.fi/easyhits"
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.supla.fi/easyhits"
   country: FI
   geo: [60.1967, 24.9321]
@@ -355006,8 +355024,10 @@
   name: Kantriradio
   streamUrl: "https://aud-stream-kantriradio.nm-elemental.nelonenmedia.fi/playlist-256000.m3u8"
   codec: UNKNOWN
-  favicon: "https://static.novelist.nelonenmedia.fi/files/styles/1_360x360/s3/promo-items/square/2024/Kantriradio_2560x2560.jpg?itok=HyCzbiaa"
-  faviconSource: radio-browser
+  favicon: "https://static.novelist.nelonenmedia.fi/files/promo-items/square/2024/Kantriradio_2560x2560.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.supla.fi/kantriradio"
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.supla.fi/kantriradio"
   country: FI
   geo: [60.1891, 24.939]
@@ -355337,8 +355357,10 @@
   streamUrl: "https://stream.dei.fi:8443/lahti"
   bitrate: 256
   codec: MP3
-  favicon: "https://www.radiodei.fi/wp-content/uploads/2016/05/default.png"
-  faviconSource: radio-browser
+  favicon: "https://deiplus.fi/icons/radiodeilogo.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://deiplus.fi/icons/radiodeilogo.jpg"
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.radiodei.fi/"
   country: FI
   geo: [0, 0]
@@ -362310,8 +362332,10 @@
   name: Aito Iskelmä
   streamUrl: "https://aud-stream-aitoiskelma.nm-elemental.nelonenmedia.fi/playlist-256000.m3u8"
   codec: UNKNOWN
-  favicon: "https://static.novelist.nelonenmedia.fi/files/styles/1_360x360/s3/promo-items/square/2024/AitoIskelma_2560x2560.jpg?itok=hieHKR3-"
-  faviconSource: radio-browser
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/1/15/Aito_Iskelm%C3%A4_logo_2020.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Aito_Iskelm%C3%A4_logo_2020.svg"
+  faviconLicense: public-domain
   homepage: "https://www.supla.fi/aitoiskelma"
   country: FI
   geo: [60.2022, 24.9294]
@@ -362542,7 +362566,9 @@
   streamUrl: "https://aud-stream-classichits.nm-elemental.nelonenmedia.fi/playlist-256000.m3u8"
   codec: UNKNOWN
   favicon: "https://static.novelist.nelonenmedia.fi/files/styles/1_360x360/s3/promo-items/square/2024/ClassicHits_2560x2560.jpg?itok=GlCBWF9m"
-  faviconSource: radio-browser
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.supla.fi/classichits"
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.supla.fi/classichits"
   country: FI
   geo: [60.2027, 24.9252]
