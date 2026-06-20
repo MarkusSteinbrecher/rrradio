@@ -43,6 +43,7 @@ import YAML from 'yaml';
 import { nameSignature } from './lib/station-name-signature.mjs';
 import { normalizeStreamUrl, normalizeHomepage, streamFingerprint } from './lib/dedupe-normalize.mjs';
 import { loadHealth, saveHealth, applyFacet } from './lib/health-record.mjs';
+import { groupCatalog, loadCatalogOverrides } from './lib/catalog-dedupe.mjs';
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const STATIONS_YAML = join(ROOT, 'data', 'stations.yaml');
@@ -479,7 +480,45 @@ writeFileSync(OUTPUT_JSON, JSON.stringify(summary, null, 2) + '\n', 'utf8');
   saveHealth(ROOT, record);
 }
 
-if (collisions.length === 0) {
+// ─── 4. Completeness gate for the §4a catalog collapse ───────────────────
+// The published catalog (public/stations.json) must not contain two rows that
+// are the same logical station — the build-time collapse must be complete.
+// Re-group the PUBLISHED rows with the same country-scoped signals the collapse
+// uses (minus not-duplicate overrides); any surviving multi-row group means a
+// sibling was added to YAML without a rebuild, or a signal regressed. This is
+// blocking. (The collapse keys on streamUrl/name/homepage/country — all present
+// in stations.json — so no stationuuid is needed here.)
+const incompleteCollapse = [];
+{
+  const STATIONS_JSON = join(ROOT, 'public', 'stations.json');
+  try {
+    const pub = JSON.parse(readFileSync(STATIONS_JSON, 'utf8'));
+    const publishedStations = Array.isArray(pub) ? pub : pub.stations || [];
+    if (publishedStations.length > 0) {
+      const overrides = loadCatalogOverrides(ROOT);
+      const { groups } = groupCatalog(publishedStations, { overrides });
+      for (const g of groups) {
+        if (g.length > 1) incompleteCollapse.push(g.map((r) => r.id));
+      }
+    }
+  } catch (err) {
+    console.warn(`check-duplicates: could not read published catalog for completeness check: ${err.message}`);
+  }
+}
+if (incompleteCollapse.length > 0) {
+  console.error(
+    `check-duplicates: ${incompleteCollapse.length} INCOMPLETE collapse group(s) — ` +
+      `the published catalog still ships same-station duplicates:`,
+  );
+  for (const ids of incompleteCollapse.slice(0, 20)) console.error(`  · ${ids.join(', ')}`);
+  if (incompleteCollapse.length > 20) console.error(`  · …and ${incompleteCollapse.length - 20} more`);
+  console.error(
+    '\n  Fix: run `npm run catalog` to re-run the collapse, or add a not-duplicate\n' +
+      '  entry to data/sources/catalog-dedupe-overrides.yaml if they are genuinely distinct.',
+  );
+}
+
+if (collisions.length === 0 && incompleteCollapse.length === 0) {
   console.log('check-duplicates: 0 collisions found ✓');
   process.exit(0);
 }
@@ -510,7 +549,7 @@ for (const c of [...blockingCollisions, ...reviewCollisions].slice(0, 200)) {
 }
 console.log();
 console.log(`Report written to ${OUTPUT_JSON.replace(ROOT + '/', '')}`);
-if (blockingCollisions.length > 0) {
+if (blockingCollisions.length > 0 || incompleteCollapse.length > 0) {
   process.exit(2);
 }
 console.log(
