@@ -3711,11 +3711,21 @@ body.is-wake-edit .np-pane-tabs { display: none; }
      bottom. No pill background. */
   .topnav-nav .tab-btn:hover { color: var(--ink-2); }
   .topnav-nav .tab-btn.active { color: var(--accent); }
-  .topnav-nav .tab-btn.active::before {
-    top: auto;
-    bottom: 0;
-    background: var(--accent);
+  /* The accent underline tracks the label width (a touch wider each side),
+     not the whole icon+label button — so it reads as underlining the word.
+     Anchored to the label span; the button-level top-bar ::before that the
+     bottom nav uses is suppressed here. */
+  .topnav-nav .tab-btn span { position: relative; }
+  .topnav-nav .tab-btn.active::before { display: none; }
+  .topnav-nav .tab-btn.active span::after {
+    content: '';
+    position: absolute;
+    left: -6px;
+    right: -6px;
+    bottom: -8px;
+    height: 2px;
     border-radius: 2px 2px 0 0;
+    background: var(--accent);
   }
 
   .topbar-actions {
