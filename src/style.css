@@ -3654,6 +3654,13 @@ body.is-wake-edit .np-pane-tabs { display: none; }
      playing and you're not already on NP (base rule hides it on
      .tab-playing). No desktop dock means no desktop-specific hiding. */
 
+  /* Desktop: the mini is a full-width strip, but its content reads better as
+     a centred cluster than spread edge-to-edge. Stop the text block from
+     growing (cap it) and centre the whole [logo · text · cover · controls]
+     group horizontally. */
+  .mini { justify-content: center; gap: 16px; }
+  .mini-info { flex: 0 1 auto; max-width: 460px; }
+
   /* Single-column NP (album only, or album + tabbed pane below 1400px) on a
      wide screen: cap and centre the body so it doesn't hug the left with a
      sea of empty space, and centre its content under the centred station

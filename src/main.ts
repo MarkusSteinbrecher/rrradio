@@ -2303,10 +2303,17 @@ function renderContent(): void {
         emptyState(ICON_EMPTY, 'No matches', 'Nothing in your favorites matches that search'),
       );
     } else {
-      $content.append(renderRows(list));
-      // Reorder is only meaningful on the unfiltered list — a search
-      // result's row order doesn't map back to the persisted order.
-      if (!query) enableFavoriteReorder($content);
+      // Desktop lays favorites out as a card grid (iOS landscape tile view);
+      // mobile keeps the single-column list. rowsGrid wraps in `.rows`, which
+      // is a plain vertical stack on mobile and a card grid at ≥1024px.
+      const grid = rowsGrid(list);
+      $content.append(grid);
+      // Reorder is a mobile, single-column affair — the desktop card grid is
+      // 2D, so the vertical drag math doesn't apply there. Unfiltered list
+      // only (a search result's order doesn't map back to the stored order).
+      if (!query && !matchMedia('(min-width: 1024px)').matches) {
+        enableFavoriteReorder(grid);
+      }
     }
     return;
   }
