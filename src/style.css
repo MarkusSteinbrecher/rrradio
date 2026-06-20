@@ -1364,6 +1364,28 @@ body.is-playing .mini-progress { opacity: 0.7; }
   0%   { background-position: -40% 0; }
   100% { background-position: 140% 0; }
 }
+/* The logo/text/album block is its own button (opens Now Playing); the
+   transport + volume controls sit beside it. It owns the left-cluster
+   layout the bar used to have directly. */
+.mini-open {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+/* Volume lives in the mini on desktop only — phones have a hardware
+   rocker. Hidden by default; the desktop block reveals it. The `.mini`
+   prefix lifts specificity above `.np-volume { display: flex }` (whose
+   styling the slider reuses), which is defined later in the file. */
+.mini .mini-volume { display: none; }
+
 /* Left slot: the station favicon (always — the station's identity). */
 .mini .fav { width: 38px; height: 38px; }
 .mini .fav img { width: 100%; height: 100%; object-fit: cover; }
@@ -3654,12 +3676,21 @@ body.is-wake-edit .np-pane-tabs { display: none; }
      playing and you're not already on NP (base rule hides it on
      .tab-playing). No desktop dock means no desktop-specific hiding. */
 
-  /* Desktop: the mini is a full-width strip, but its content reads better as
-     a centred cluster than spread edge-to-edge. Stop the text block from
-     growing (cap it) and centre the whole [logo · text · cover · controls]
-     group horizontally. */
-  .mini { justify-content: center; gap: 16px; }
-  .mini-info { flex: 0 1 auto; max-width: 460px; }
+  /* Desktop: a taller, fuller player bar that holds all the relevant
+     controls (transport + volume), centred as a cluster rather than spread
+     edge-to-edge. Bigger station logo + album art match the taller bar. */
+  .mini { justify-content: center; gap: 18px; min-height: 120px; }
+  .mini-open { flex: 0 1 auto; gap: 18px; }
+  .mini-info { flex: 0 1 auto; max-width: 440px; }
+  .mini-name { font-size: 15px; }
+  .mini-track { font-size: 12.5px; }
+  .mini .fav { width: 60px; height: 60px; }
+  .mini-art { width: 60px; height: 60px; border-radius: 6px; }
+  .mini-skip { width: 40px; height: 40px; }
+  .mini-skip svg { width: 16px; height: 16px; }
+  .mini-toggle { width: 46px; height: 46px; }
+  .mini-toggle svg { width: 15px; height: 15px; }
+  .mini .mini-volume { display: flex; flex: 0 0 auto; width: 150px; }
 
   /* Single-column NP (album only, or album + tabbed pane below 1400px) on a
      wide screen: cap and centre the body so it doesn't hug the left with a

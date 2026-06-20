@@ -260,7 +260,8 @@ const $content = document.getElementById('content') as HTMLElement;
 const $tabbar = document.getElementById('tabbar') as HTMLElement;
 const $topnavNav = document.querySelector('.topnav-nav') as HTMLElement;
 
-const $mini = document.getElementById('mini') as HTMLButtonElement;
+const $mini = document.getElementById('mini') as HTMLElement;
+const $miniOpen = document.getElementById('mini-open') as HTMLButtonElement;
 const $miniFav = document.getElementById('mini-fav') as HTMLElement;
 const $miniArt = document.getElementById('mini-art') as HTMLElement;
 const $miniName = document.getElementById('mini-name') as HTMLElement;
@@ -268,6 +269,8 @@ const $miniTrack = document.getElementById('mini-track') as HTMLElement;
 const $miniMeta = document.getElementById('mini-meta') as HTMLElement;
 const $miniToggle = document.getElementById('mini-toggle') as HTMLElement;
 const $miniSkip = document.getElementById('mini-skip') as HTMLElement;
+const $miniVolume = document.getElementById('mini-volume') as HTMLElement;
+const $miniVolumeSlider = document.getElementById('mini-volume-slider') as HTMLInputElement;
 
 const $np = document.getElementById('np') as HTMLElement;
 const $npName = document.getElementById('np-name') as HTMLElement;
@@ -3720,6 +3723,7 @@ function toggleWakePane(): void {
 function reflectMuteUi(muted: boolean): void {
   $body.classList.toggle('is-muted', muted);
   $npVolume.classList.toggle('is-muted', muted);
+  $miniVolume.classList.toggle('is-muted', muted);
   $npMute.setAttribute('aria-label', muted ? 'Unmute' : 'Mute');
 }
 
@@ -4594,9 +4598,10 @@ $wakeArmBtn.addEventListener('click', () => {
   syncWakeArmButton();
 });
 
-$mini.addEventListener('click', () => {
-  // The mini is the bridge to the Now Playing destination on every
-  // breakpoint (tap anywhere to expand — iOS parity).
+$miniOpen.addEventListener('click', () => {
+  // The mini's logo/text/album block is the bridge to the Now Playing
+  // destination on every breakpoint (tap to expand — iOS parity). The
+  // transport + volume controls are siblings, so they don't trigger this.
   openNp(true);
 });
 
@@ -4721,6 +4726,10 @@ function applyVolumeUi(v: number): void {
   $npVolumeSlider.value = String(pct);
   $npVolume.style.setProperty('--vol', `${pct}%`);
   $npVolumeValue.textContent = `${pct}%`;
+  // The desktop mini-player carries its own slider — keep it in lockstep
+  // so the two never disagree (same shared volume state).
+  $miniVolumeSlider.value = String(pct);
+  $miniVolume.style.setProperty('--vol', `${pct}%`);
 }
 
 function setVolume(v: number, persist = true): void {
@@ -4740,8 +4749,8 @@ function setVolume(v: number, persist = true): void {
   setVolume(initial, false);
 }
 
-$npVolumeSlider.addEventListener('input', () => {
-  const v = Number($npVolumeSlider.value) / 100;
+function handleVolumeInput(slider: HTMLInputElement): void {
+  const v = Number(slider.value) / 100;
   // Dragging up from a muted state unmutes — the slider becoming the
   // primary control would otherwise feel broken.
   if (v > 0 && player.isMuted()) {
@@ -4749,7 +4758,11 @@ $npVolumeSlider.addEventListener('input', () => {
     reflectMuteUi(false);
   }
   setVolume(v);
-});
+}
+
+$npVolumeSlider.addEventListener('input', () => handleVolumeInput($npVolumeSlider));
+// Desktop mini-player slider — same behaviour, shared volume state.
+$miniVolumeSlider.addEventListener('input', () => handleVolumeInput($miniVolumeSlider));
 
 $npDetailsToggle.addEventListener('click', () => {
   const open = $npDetails.dataset.open !== 'true';

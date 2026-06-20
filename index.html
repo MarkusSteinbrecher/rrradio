@@ -561,21 +561,26 @@
       </div>
 
       <!-- ============== MINI PLAYER ============== -->
-      <button class="mini" id="mini" type="button" hidden aria-label="Open now playing">
+      <div class="mini" id="mini" hidden>
         <span class="mini-progress" aria-hidden="true"></span>
-        <span class="fav" id="mini-fav" aria-hidden="true"></span>
-        <span class="mini-info">
-          <span class="mini-name" id="mini-name">—</span>
-          <span class="mini-track" id="mini-track" hidden></span>
-          <span class="mini-meta">
-            <span class="live-dot" aria-hidden="true"></span>
-            <span id="mini-meta">STANDBY</span>
+        <!-- Logo / text / album block — tap anywhere here to open the Now
+             Playing destination (iOS parity). The transport + volume controls
+             sit outside this button so a real range input isn't nested in it. -->
+        <button class="mini-open" id="mini-open" type="button" aria-label="Open now playing">
+          <span class="fav" id="mini-fav" aria-hidden="true"></span>
+          <span class="mini-info">
+            <span class="mini-name" id="mini-name">—</span>
+            <span class="mini-track" id="mini-track" hidden></span>
+            <span class="mini-meta">
+              <span class="live-dot" aria-hidden="true"></span>
+              <span id="mini-meta">STANDBY</span>
+            </span>
           </span>
-        </span>
-        <!-- Album cover art (iOS parity) — the current track's artwork,
-             distinct from the station favicon on the left. Shown only when a
-             track-level cover is known; hidden otherwise. -->
-        <span class="mini-art" id="mini-art" hidden aria-hidden="true"></span>
+          <!-- Album cover art (iOS parity) — the current track's artwork,
+               distinct from the station favicon on the left. Shown only when a
+               track-level cover is known; hidden otherwise. -->
+          <span class="mini-art" id="mini-art" hidden aria-hidden="true"></span>
+        </button>
         <span class="mini-skip" id="mini-skip" role="button" aria-label="Next favorite station">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 4.5v15a.75.75 0 0 0 1.16.63l10-7.5a.75.75 0 0 0 0-1.27l-10-7.5A.75.75 0 0 0 5 4.5z"/><rect x="17.25" y="4.5" width="2" height="15" rx="0.5"/></svg>
         </span>
@@ -583,7 +588,13 @@
           <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a.75.75 0 0 0 1.16.63l12-7.5a.75.75 0 0 0 0-1.27l-12-7.5A.75.75 0 0 0 7 4.5z"/></svg>
           <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="0.5"/><rect x="14" y="4.5" width="4" height="15" rx="0.5"/></svg>
         </span>
-      </button>
+        <!-- Desktop-only volume (phones use the hardware rocker). Shares
+             state with the Now Playing slider via applyVolumeUi. -->
+        <span class="np-volume mini-volume" id="mini-volume">
+          <svg class="np-volume__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+          <input type="range" class="np-volume__slider" id="mini-volume-slider" min="0" max="100" value="100" step="1" aria-label="Volume" />
+        </span>
+      </div>
 
       <!-- ============== TAB BAR ============== -->
       <nav class="tabbar" id="tabbar" aria-label="Sections">
