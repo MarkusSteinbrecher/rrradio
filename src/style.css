@@ -186,10 +186,9 @@ html.theme-switching *::after {
   flex-direction: column;
 }
 
-/* The left nav rail surfaces only at the desktop breakpoint; on phones
-   the bottom tab bar carries Browse/Favorites/Lists, so the rail hides. */
-.sidebar { display: none; }
-.sidebar-nav { display: none; }
+/* Section nav (Browse / Favorites / Library). On desktop it lives in the
+   top bar; on phones the bottom tab bar carries it, so it hides here. */
+.topnav-nav { display: none; }
 
 .main {
   flex: 1;
@@ -198,9 +197,6 @@ html.theme-switching *::after {
   display: flex;
   flex-direction: column;
 }
-
-/* Sidebar collapse toggle — only meaningful at the desktop breakpoint. */
-.sidebar-collapse { display: none; }
 
 /* ─── Top bar ─── */
 /* The sidebar strip above now carries the safe-area top inset (mobile),
@@ -1368,11 +1364,22 @@ body.is-playing .mini-progress { opacity: 0.7; }
   0%   { background-position: -40% 0; }
   100% { background-position: 140% 0; }
 }
+/* Left slot: the station favicon (always — the station's identity). */
 .mini .fav { width: 38px; height: 38px; }
-/* When a track-level coverUrl is set, .fav holds the album art instead
- * of the station favicon. Same slot, same size — the swap is the "we
- * actually know what's playing" affordance. */
 .mini .fav img { width: 100%; height: 100%; object-fit: cover; }
+/* Right slot, before the controls: the current track's album cover art
+ * (iOS parity). A distinct square thumb, shown only when a track-level
+ * cover is known; hidden otherwise. */
+.mini-art {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--bg-3);
+}
+.mini-art[hidden] { display: none; }
+.mini-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .mini-info {
   flex: 1;
   min-width: 0;
@@ -3588,52 +3595,26 @@ body.is-wake-edit .np-pane-tabs { display: none; }
     border-left: 0;
     border-right: 0;
   }
-  /* The body row (rail + content) goes horizontal; the top nav stays
-     full-width above it. The padding-top opens a clear gap beneath the
-     full-width search header so the column dividers (sidebar↔list,
-     list↔player) visibly begin *below* the search bar rather than rising
-     right up under it — which read as the search bar being "cut". */
-  .app-body { flex-direction: row; padding-top: 16px; }
+  /* No left rail anymore — the section nav moved into the top bar, so the
+     body is just the full-width content column under the top nav. */
 
-  /* The search field doesn't need the whole window width on desktop. Lay
-     the top nav out as three columns — equal 1fr gutters either side of a
-     capped centre — so the search sits dead-centre on the page regardless
-     of the wordmark / action-button widths. Columns are assigned
-     explicitly so the wordmark and actions keep their sides even when the
-     search hides during playback. Mobile keeps the full-width row. */
-  .topnav {
-    display: grid;
-    grid-template-columns: 1fr minmax(0, 520px) 1fr;
-  }
-  .topnav > .wordmark { grid-column: 1; justify-self: start; }
-  .topnav > .search-wrap { grid-column: 2; }
-  .topnav > .toolbar { grid-column: 3; justify-self: end; }
-
-  /* Left rail: collapse toggle (top) + nav. The wordmark now lives in
-     the full-width top nav, not here. */
-  .sidebar {
+  /* Desktop top nav lays out as one flex row: wordmark + section nav on the
+     left, the search field flexing to fill the middle, the funnel/gear
+     toolbar on the right. (Base .topnav is already flex with search flex:1
+     and toolbar auto — we just reveal the nav and widen the row gap.) */
+  .topnav { gap: 16px; }
+  .topnav-nav {
     display: flex;
-    flex: 0 0 236px;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-start;
-    gap: 14px;
-    padding: 18px 16px;
-    border-right: 1px solid var(--line);
-  }
-  .sidebar-nav {
-    display: flex;
-    flex-direction: column;
+    flex: 0 0 auto;
     gap: 2px;
   }
-  .sidebar-nav .tab-btn {
+  .topnav-nav .tab-btn {
     flex: none;
     flex-direction: row;
-    justify-content: flex-start;
     align-items: center;
-    gap: 12px;
-    padding: 10px 12px;
-    border-radius: 10px;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 9px;
     font-family: var(--sans);
     font-size: 13.5px;
     font-weight: 500;
@@ -3642,10 +3623,10 @@ body.is-wake-edit .np-pane-tabs { display: none; }
     color: var(--ink-3);
     transition: background 0.14s, color 0.14s;
   }
-  .sidebar-nav .tab-btn svg { width: 19px; height: 19px; }
-  .sidebar-nav .tab-btn:hover { color: var(--ink-2); background: var(--bg-2); }
-  .sidebar-nav .tab-btn.active { color: var(--ink); background: var(--bg-2); }
-  .sidebar-nav .tab-btn.active::before { display: none; }
+  .topnav-nav .tab-btn svg { width: 18px; height: 18px; }
+  .topnav-nav .tab-btn:hover { color: var(--ink-2); background: var(--bg-2); }
+  .topnav-nav .tab-btn.active { color: var(--ink); background: var(--bg-2); }
+  .topnav-nav .tab-btn.active::before { display: none; }
 
   .topbar-actions {
     margin-top: auto;
@@ -3721,28 +3702,6 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   .rows .row.is-playing { border-color: var(--accent); background: var(--bg-2); }
   .rows .row.is-playing::before { display: none; }
 
-  /* ── Collapsible sidebar ── */
-  .sidebar-collapse {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 28px;
-    height: 28px;
-    border: 1px solid var(--line);
-    border-radius: 50%;
-    color: var(--ink-3);
-    transition: color 0.14s, border-color 0.14s;
-  }
-  .sidebar-collapse:hover { color: var(--ink); border-color: var(--line-2); }
-  .sidebar-collapse svg { width: 16px; height: 16px; transition: transform 0.2s; }
-  /* Collapsed rail (64px): icon-only nav, chevron centred. */
-  body.sidebar-collapsed .sidebar { flex-basis: 64px; align-items: center; }
-  body.sidebar-collapsed .sidebar-nav { align-self: stretch; }
-  body.sidebar-collapsed .sidebar-nav .tab-btn { justify-content: center; padding: 10px 0; }
-  body.sidebar-collapsed .sidebar-nav .tab-btn span { display: none; }
-  body.sidebar-collapsed .topbar-actions { justify-content: center; }
-  body.sidebar-collapsed .sidebar-collapse svg { transform: rotate(180deg); }
 }
 
 /* ─── Browse discovery landing ─── */

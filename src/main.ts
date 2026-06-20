@@ -258,11 +258,11 @@ const $filterRow = document.getElementById('filter-row') as HTMLElement;
 const $tabStatus = document.getElementById('tab-status') as HTMLElement;
 const $content = document.getElementById('content') as HTMLElement;
 const $tabbar = document.getElementById('tabbar') as HTMLElement;
-const $sidebar = document.querySelector('.sidebar') as HTMLElement;
-const $sidebarCollapse = document.getElementById('sidebar-collapse') as HTMLButtonElement;
+const $topnavNav = document.querySelector('.topnav-nav') as HTMLElement;
 
 const $mini = document.getElementById('mini') as HTMLButtonElement;
 const $miniFav = document.getElementById('mini-fav') as HTMLElement;
+const $miniArt = document.getElementById('mini-art') as HTMLElement;
 const $miniName = document.getElementById('mini-name') as HTMLElement;
 const $miniTrack = document.getElementById('mini-track') as HTMLElement;
 const $miniMeta = document.getElementById('mini-meta') as HTMLElement;
@@ -741,6 +741,7 @@ function buildRow(station: Station, currentId: string, state: NowPlaying['state'
 const MINI_REFS: MiniRefs = {
   mini: $mini,
   miniFav: $miniFav,
+  miniArt: $miniArt,
   miniName: $miniName,
   miniTrack: $miniTrack,
   miniMeta: $miniMeta,
@@ -841,10 +842,10 @@ function syncCountry(): void {
 }
 
 function renderTabBar(): void {
-  // Active-state spans both the bottom tab bar (mobile) and the sidebar
-  // nav (desktop) so they never disagree.
+  // Active-state spans both the bottom tab bar (mobile) and the top-nav
+  // section links (desktop) so they never disagree.
   document
-    .querySelectorAll<HTMLButtonElement>('.tabbar .tab-btn, .sidebar-nav .tab-btn')
+    .querySelectorAll<HTMLButtonElement>('.tabbar .tab-btn, .topnav-nav .tab-btn')
     .forEach((btn) => {
     const t = btn.dataset.tab;
     // The Library nav button stays active across the Library home and its
@@ -4019,8 +4020,8 @@ function setSleep(minutes: number): void {
 // Event wiring
 // ─────────────────────────────────────────────────────────────
 
-// Bottom tab bar (mobile) and sidebar nav (desktop) both carry the
-// Browse / Favorites / Library buttons; one handler serves both surfaces.
+// Bottom tab bar (mobile) and top-nav section links (desktop) both carry
+// the Browse / Favorites / Library buttons; one handler serves both.
 function handleNavClick(e: Event): void {
   const target = e.target as HTMLElement;
   const btn = target.closest<HTMLButtonElement>('.tab-btn');
@@ -4032,22 +4033,7 @@ function handleNavClick(e: Event): void {
   if (raw) setTab(raw as Tab);
 }
 $tabbar.addEventListener('click', handleNavClick);
-$sidebar.addEventListener('click', handleNavClick);
-
-// Desktop sidebar collapse toggle — narrows the rail to icons only.
-// Persisted so the user's choice survives reloads.
-const SIDEBAR_COLLAPSED_KEY = 'rrradio.sidebar-collapsed';
-function applySidebarCollapsed(collapsed: boolean): void {
-  $body.classList.toggle('sidebar-collapsed', collapsed);
-  $sidebarCollapse.setAttribute('aria-expanded', String(!collapsed));
-  $sidebarCollapse.setAttribute('aria-label', collapsed ? 'Expand sidebar' : 'Collapse sidebar');
-}
-$sidebarCollapse.addEventListener('click', () => {
-  const collapsed = !$body.classList.contains('sidebar-collapsed');
-  applySidebarCollapsed(collapsed);
-  setString(SIDEBAR_COLLAPSED_KEY, collapsed ? '1' : '0');
-});
-applySidebarCollapsed(getString(SIDEBAR_COLLAPSED_KEY) === '1');
+$topnavNav.addEventListener('click', handleNavClick);
 
 // Browse-list collapse toggle (wide desktop only, in the NP pane corner).
 // Collapsing the browse list hands the freed width to the player, which
@@ -4421,7 +4407,6 @@ function collectSettings(): BackupSettings {
       spotify: msEnabled('spotify'),
       youtube: msEnabled('youtube'),
     },
-    sidebarCollapsed: getString(SIDEBAR_COLLAPSED_KEY) === '1',
     browseCollapsed: getString(BROWSE_COLLAPSED_KEY) === '1',
   };
 }
@@ -4438,10 +4423,6 @@ function applySettings(s: BackupSettings): void {
     if (typeof ms.spotify === 'boolean') setString(MS_KEYS.spotify, ms.spotify ? '1' : '0');
     if (typeof ms.youtube === 'boolean') setString(MS_KEYS.youtube, ms.youtube ? '1' : '0');
     syncMusicServiceLinks();
-  }
-  if (typeof s.sidebarCollapsed === 'boolean') {
-    setString(SIDEBAR_COLLAPSED_KEY, s.sidebarCollapsed ? '1' : '0');
-    applySidebarCollapsed(s.sidebarCollapsed);
   }
   if (typeof s.browseCollapsed === 'boolean') {
     setString(BROWSE_COLLAPSED_KEY, s.browseCollapsed ? '1' : '0');

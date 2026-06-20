@@ -32,6 +32,7 @@ export const MINI_FRAGMENT = `
       <span id="mini-meta">STANDBY</span>
     </span>
   </span>
+  <span id="mini-art" hidden></span>
 </button>
 `;
 
