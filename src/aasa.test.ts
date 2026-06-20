@@ -37,6 +37,16 @@ const raw = readFileSync(AASA_PATH, 'utf8');
 const aasa = JSON.parse(raw) as Aasa;
 
 describe('apple-app-site-association', () => {
+  it('survives the Pages deploy — upload-pages-artifact keeps hidden files', () => {
+    // upload-pages-artifact@v5 excludes dot-directories by default
+    // (`--exclude=.[^/]*`), which dropped .well-known from the deployed
+    // tarball: the file passed CI but 404'd live. The deploy workflow
+    // must opt back in, or this whole file never reaches the site.
+    const deploy = readFileSync(resolve(process.cwd(), '.github/workflows/deploy.yml'), 'utf8');
+    expect(deploy).toMatch(/upload-pages-artifact/);
+    expect(deploy).toMatch(/include-hidden-files:\s*true/);
+  });
+
   it('is served extensionless — no `.json` sibling that would shadow it', () => {
     // Apple requires the raw filename with no extension. A `.json`
     // variant in the same dir would be a sign someone "fixed" the

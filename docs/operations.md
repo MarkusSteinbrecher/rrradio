@@ -628,6 +628,7 @@ The `?` query constraints are deliberate: only links carrying `play` or `list` h
 
 Serving gotchas (Apple is strict, and a future change could silently break this):
 
+- **Hidden-file deploy (the one that bit us):** `actions/upload-pages-artifact@v5` excludes dot-directories by default (`--exclude=.[^/]*`), so `dist/.well-known/` was silently dropped from the deployed tarball — the file passed CI and lived on `main`, but the live URL 404'd. `deploy.yml` sets `include-hidden-files: true` on that step; `src/aasa.test.ts` asserts it stays. Don't trust "it's committed + CI green" — confirm the live URL serves `200` after the *deploy job* (not just CI) finishes and the Pages CDN propagates (a couple of minutes).
 - **Content-Type:** GitHub Pages serves the extensionless file as `application/octet-stream`, **not** `application/json`. That's fine — since iOS 14 the device fetches the file via Apple's CDN (`https://app-site-association.cdn-apple.com/a/v1/rrradio.org`), which ingests the octet-stream origin and re-serves it as `application/json`. GitHub Pages can't set custom headers (no `_headers` support), so don't chase the content-type — verify via Apple's CDN copy instead.
 - **No redirects, no rewrites** on `/.well-known/*`. The site is multi-page (real 404s, no SPA catch-all), so unknown paths aren't rewritten to `index.html` today. If you ever add a catch-all/SPA fallback or move hosting, exempt `/.well-known/` or the handoff dies silently.
 - **No `.json` extension, no signing** — modern AASA is raw JSON.
