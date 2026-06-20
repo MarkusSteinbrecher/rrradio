@@ -125,7 +125,6 @@ import {
   ICON_PENCIL,
   ICON_RECENT,
   ICON_TRASH,
-  STAR_SVG,
 } from './icons';
 import {
   bootstrapTheme,
@@ -619,41 +618,6 @@ function flagEmoji(country: string | undefined): string {
   return String.fromCodePoint(cc.charCodeAt(0) + A, cc.charCodeAt(1) + A);
 }
 
-// Capability stars — three small stars rendered inline before the tags
-// text, one per dimension we provide for the station:
-//   ★ stream  — we've vetted the URL plays (every published curated row)
-//   ★ track   — broadcaster fetcher OR ICY metadata gives us "now playing"
-//   ★ program — schedule fetcher gives us the on-air show + day grid
-// Stars are conditionally appended, so a `stream-only` row shows ★, an
-// `icy-only` row shows ★★, and a row backed by a full broadcaster API
-// (FM4, BBC, BR, HR) shows ★★★.
-function stationCapabilities(station: Station): { stream: boolean; track: boolean; program: boolean } {
-  const stream = !!station.status;
-  const track =
-    stream && (!!station.metadata || station.status === 'icy-only' || station.status === 'working');
-  const program = stream && !!findScheduleFetcher(station);
-  return { stream, track, program };
-}
-
-function buildCapabilityStars(station: Station): HTMLSpanElement | null {
-  const { stream, track, program } = stationCapabilities(station);
-  if (!stream && !track && !program) return null;
-  const wrap = document.createElement('span');
-  wrap.className = 'row-stars';
-  const titles: string[] = [];
-  if (stream) titles.push('verified stream');
-  if (track) titles.push('track info');
-  if (program) titles.push('program info');
-  wrap.title = titles.join(' · ');
-  wrap.setAttribute('aria-label', titles.join(', '));
-  let html = '';
-  if (stream) html += `<span class="row-stars__star">${STAR_SVG}</span>`;
-  if (track) html += `<span class="row-stars__star">${STAR_SVG}</span>`;
-  if (program) html += `<span class="row-stars__star">${STAR_SVG}</span>`;
-  wrap.innerHTML = html;
-  return wrap;
-}
-
 interface RowOptions {
   /** Library feeds (Favorites / Lists / Recents) carry a trailing cover-art
    *  slot showing the station's current-track art (iOS parity). Browse rows
@@ -703,8 +667,6 @@ function buildRow(
   }
   const tags = document.createElement('div');
   tags.className = 'row-tags';
-  const stars = buildCapabilityStars(station);
-  if (stars) tags.append(stars);
   if (geoLabel) {
     const geo = document.createElement('span');
     geo.className = 'row-geo';
@@ -2148,11 +2110,11 @@ function backToDiscoveryBar(): HTMLButtonElement {
   const btn = document.createElement('button');
   btn.type = 'button';
   btn.className = 'disc-back';
-  btn.setAttribute('aria-label', 'Back to discovery');
+  btn.setAttribute('aria-label', 'Back to Browse');
   btn.innerHTML =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>';
   const span = document.createElement('span');
-  span.textContent = 'Discovery';
+  span.textContent = 'Browse';
   btn.append(span);
   btn.addEventListener('click', resetToDiscovery);
   return btn;

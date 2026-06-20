@@ -963,27 +963,6 @@ a.settings-row { text-decoration: none; }
   min-width: 0;
 }
 
-/* Capability stars — 1–3 little stars before the tags text. Each star
-   is a separate <span> so the count is visually obvious at a glance:
-   one star = stream-verified only, two = track info too, three = full
-   broadcaster API (track + on-air show schedule). Tinted accent so
-   they read as a quality mark, not as a tappable control. */
-.row-stars {
-  display: inline-flex;
-  align-items: center;
-  gap: 1px;
-  flex-shrink: 0;
-  color: var(--accent);
-  opacity: 0.85;
-}
-.row-stars__star {
-  display: inline-grid;
-  place-items: center;
-  width: 11px;
-  height: 11px;
-}
-.row-stars__star svg { width: 11px; height: 11px; display: block; }
-
 /* Geo-restriction badge — shown on rows whose curated `availableIn`
    excludes the visitor's country. Sits inside .row-tags between the
    capability stars and the tag list, in the warm-amber accent so it
