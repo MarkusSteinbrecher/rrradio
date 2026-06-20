@@ -1,0 +1,28 @@
+# Catalog-layer de-duplication overrides — the curator lever for the build-time
+# collapse in tools/lib/catalog-dedupe.mjs. Keyed by catalog `id` (the ids in
+# public/stations.json / data/stations.yaml), NOT Radio Browser uuid (that's
+# data/sources/radio-browser/overrides.yaml, a different layer).
+#
+# The automatic collapse is deliberately CONSERVATIVE: it only merges rows that
+# share an actual stream path (exact URL or bitrate/codec fingerprint), so it
+# never hides a distinct station. The cost is that "format-feed" clusters — one
+# station offered as several feeds with different paths but the same brand name
+# (e.g. GBH 89.7's wgbh-noads / wgbh-aac / wgbh-256aac / wgbh_hls feeds, or
+# SWR3 across CDNs) — are NOT merged automatically. Recover those here with a
+# force-merge, after reviewing public/dedup-report.json.
+#
+#   force-merge:                 # collapse rows the auto signals miss
+#     - canonical: <id>          #   (same station, different stream paths)
+#       duplicates: [<id>, ...]
+#
+#   not-duplicate:               # never collapse these together
+#     - ids: [<id>, <id>, ...]   #   (distinct channels a future signal merged)
+#
+# Example (commented — enable once the ids are confirmed against the catalog):
+#   force-merge:
+#     - canonical: us-gbh-89-7-aac-256
+#       duplicates: [us-gbh-89-7, us-gbh-89-7-aac, us-gbh-89-7-hls, us-gbh-wgbh-87-9]
+
+force-merge: []
+
+not-duplicate: []

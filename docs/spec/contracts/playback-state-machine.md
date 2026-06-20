@@ -109,13 +109,32 @@ station with the same queue, re-arming automatic retry and resetting the budget.
 
 ### Stream-quality selection
 
-- The catalog ships one stream per station (`streamUrl`). HLS sources adapt
-  bitrate internally; the player does not pick among catalog-level tiers.
-- A `best` / `data` / `low` listener-facing quality tier is a **product decision
-  not yet implemented on any platform** — see Open questions. It is NOT part of
-  this contract today.
-- iOS-only: a non-interactive stream-quality *meter* (a bitrate indicator derived
-  from `Station.bitrate` / `codec`) is a display affordance, not a tier selector.
+The catalog MAY ship multiple delivery variants per station as an ordered
+`streams: StreamVariant[]` (best→worst, `streams[0].url === streamUrl`); see
+[catalog-schema](catalog-schema.md). When present, the player selects which
+variant to play from a **persisted, global listener preference**:
+
+- **Preference:** `best` (default) or `data` (data-saver) — one value, stored
+  locally (web: `localStorage` key `rrradio.qualityPref.v1`), applied to every
+  station.
+- **Per-station resolution:** pick the variant whose `tier` matches the
+  preference; if that tier is absent, **fall back toward `best`** (`data` walks
+  down from `best` to the lowest available; `best` always resolves to
+  `streams[0]`). A single-stream station (no `streams`) ignores the preference
+  and plays `streamUrl`.
+- **Failure fallback:** when the selected variant fails to play, the retry
+  rebuild advances to the next **lower** variant before surfacing `error`; the
+  variant list bounds the attempt budget (see Stream-retry policy). A
+  single-stream station keeps the one-rebuild-then-error behaviour.
+- **Changing the preference** re-plays the current station on the newly chosen
+  variant. HLS sources still adapt bitrate internally *within* a chosen variant.
+- A non-interactive stream-quality **meter** (a 1–4 indicator derived from a
+  variant's `bitrate`/`codec`) is a display affordance, not the selector.
+
+**Implementation status:** the catalog ships `streams[]` now; the web player
+selection + Now Playing toggle and the iOS parity are **Planned** (the wire
+schema lands first so clients adopt incrementally). See
+`design/decisions/001-stream-variants-and-catalog-collapse.md`.
 
 ### Playback queue model
 
@@ -318,8 +337,8 @@ reactivate session, resume; state → playing
   numbers, is a contract change and must update this file plus
   [Playback](../playback.md).
 - The station payload carries `schemaVersion` (currently `1`); this machine
-  consumes only `streamUrl`, `availableIn`, `bitrate`, `codec`. See the station
-  schema (Station model) for evolution of those fields.
+  consumes only `streamUrl`, `streams`, `availableIn`, `bitrate`, `codec`. See
+  the station schema (Station model) for evolution of those fields.
 - **Backward compatibility:** a missing `availableIn` means no geo restriction
   (the common case) — retry proceeds normally. A queue with an unknown `source`
   string should degrade to `single`.
@@ -440,11 +459,13 @@ geo handling yet.
 
 ## Open questions
 
-- **Listener-selectable stream quality (`best`/`data`/`low`).** No platform ships
-  a quality-tier selector today; the catalog publishes a single `streamUrl` per
-  station. If introduced, it needs a catalog schema (per-tier URLs), a persisted
-  preference, and a defined fallback when a tier is unavailable. Until decided it
-  is explicitly out of this contract.
+- **Listener-selectable stream quality (`best`/`data`).** **Resolved (schema) /
+  Planned (clients).** The catalog now ships per-variant URLs as `streams[]`
+  ([catalog-schema](catalog-schema.md)), and the preference + per-station
+  resolution + failure-fallback model is defined above under "Stream-quality
+  selection". What remains is implementation: the web player selection + Now
+  Playing toggle and iOS parity are not yet shipped. See
+  `design/decisions/001-stream-variants-and-catalog-collapse.md`.
 - **Pause-time session deactivation.** Whether to deactivate the audio session on
   a long pause (vs. keeping it active for fast resume) is an unresolved tradeoff;
   see Known deviations for the related shipped gap.

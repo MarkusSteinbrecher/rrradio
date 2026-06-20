@@ -98,7 +98,8 @@ are owned by [search](search.md).
 | `id` | string | **no** | Stable unique key. Catalog ids are domain-derived slugs. Reserved prefixes: `custom-` (user-created), `rb-` (Radio Browser import). | — (throws if absent) |
 | `name` | string | **no** | Display name. Lossy-decoded: a numeric value coerces to its string form. Trimmed of surrounding whitespace. | — (throws if absent) |
 | `shortName` | string | yes | Distinguishing short label within the station's brand family — the tail left after stripping the leading words it shares with same-broadcaster siblings (`Antenne Bayern - Chillout` → `Chillout`, `BBC Radio 4` → `4`). **Advisory**: a space-constrained UI (e.g. the iOS icon-grid caption) MAY substitute it when the full `name` would truncate; otherwise clients render `name`. Trimmed; empty ⇒ treated as absent. Derived at build time grouped by the family model's `country` + homepage host, or set explicitly in `data/stations.yaml` (override wins; `shortName: ""` opts out). Absent when the station stands alone, is its family's shared prefix, or the tail is only codec/bitrate noise or longer than a caption could show. | none |
-| `streamUrl` | string (URL) | **no** | Audio stream endpoint. Must be a non-empty parseable URL. | — (throws if absent/empty/unparseable) |
+| `streamUrl` | string (URL) | **no** | Audio stream endpoint. Must be a non-empty parseable URL. The default/best variant when `streams` is present. | — (throws if absent/empty/unparseable) |
+| `streams` | `StreamVariant[]` | yes | Ordered best→worst delivery variants of this station's single broadcast (different bitrate/codec renditions of the *same* programme). Grouped at build time; present only when a station has **more than one** variant, with `streams[0].url === streamUrl`. Absent ⇒ single-stream (the common case). See "Stream quality model" below. | none |
 | `schemaVersion` | int | yes | Schema generation of this record. Absent ⇒ treated as version `1` (the catalog and all pre-versioning records). Opt-in additive; not yet emitted by the catalog. | `1` |
 | `broadcaster` | string | yes | Broadcaster/fetcher family key (e.g. `orf`, `grrif`). Stable cross-platform contract; consumed by the fetcher router in [metadata-fetchers](metadata-fetchers.md). | none |
 | `homepage` | string (URL) | yes | Broadcaster website. Malformed ⇒ dropped to none. | none |
@@ -136,10 +137,38 @@ User-created stations are minted as `stream-only`. The promotion path
 
 ### Stream quality model
 
-There is **no `best`/`data`/`low` quality enum and no per-quality stream
-variants** in the catalog. A station has exactly one `streamUrl`. Quality is a
-**derived display meter**, computed from `codec` + `bitrate`, returning a level
-`1–4` (rendered as filled bars):
+A station has a **required `streamUrl`** (the default, best variant) and an
+**optional ordered `streams: StreamVariant[]`** — different bitrate/codec
+renditions of the *same* broadcast (FM4 at 192k and 128k). Variants are grouped
+at build time by `tools/lib/catalog-dedupe.mjs` from rows that share an actual
+stream path; see [operations.md](../../operations.md) ("Catalog collapse"). The
+list is ordered best→worst with `streams[0].url === streamUrl`, so a client that
+ignores `streams` still plays the best variant. `streams` is **absent for the
+overwhelming majority of stations** (one stream) and present only when ≥ 2
+variants exist.
+
+```
+StreamVariant := {
+  "url":     string,                          // REQUIRED — this variant's stream
+  "bitrate": int?,                            // kbps when known
+  "codec":   string?,                         // e.g. "MP3", "AAC"
+  "tier":    "best" | "balanced" | "data"?    // coarse listener tier (advisory)
+}
+```
+
+- `tier` is a coarse listener-facing bucket *within* the station: `best` (index
+  0, the default), `data` (the lowest), `balanced` (anything between). Advisory
+  — a client MAY use ordinal position instead.
+- **Listener-facing selection** — a persisted best/data preference that picks a
+  variant per station with fallback toward `best` when the requested tier is
+  absent — is owned by
+  [playback-state-machine](playback-state-machine.md). The catalog only ships
+  the variants; how (or whether) a platform exposes the choice is that
+  contract's concern. Single-stream stations expose no choice.
+
+Quality is also surfaced as a **derived display meter**, computed per variant
+(or, for a single-stream station, from its `codec` + `bitrate`), returning a
+level `1–4` (rendered as filled bars):
 
 | Condition | Level |
 |---|---|
@@ -204,6 +233,28 @@ Notes: `favicon` is relative and resolves against the catalog base URL.
 `faviconLicense`/`faviconSource` are present on the wire but ignored by the
 decode contract. Quality meter = 4 (AAC ≥128).
 
+### Station with stream variants (FM4)
+
+```json
+{
+  "id": "builtin-fm4",
+  "name": "FM4",
+  "streamUrl": "https://orf-live.ors-shoutcast.at/fm4-q2a",
+  "bitrate": 192,
+  "codec": "MP3",
+  "streams": [
+    { "url": "https://orf-live.ors-shoutcast.at/fm4-q2a", "bitrate": 192, "codec": "MP3", "tier": "best" },
+    { "url": "https://orf-live.ors-shoutcast.at/fm4-q1a", "bitrate": 128, "codec": "MP3", "tier": "data" }
+  ]
+}
+```
+
+The two FM4 rows in `data/stations.yaml` (a curated 192k entry and a
+bulk-imported 128k entry) collapse to one published station. `streamUrl` and
+the top-level `bitrate`/`codec` describe the best variant (`streams[0]`); a
+client that ignores `streams` plays exactly that. A v1/old client therefore
+sees one FM4 at 192k — the duplicate is gone regardless of variant support.
+
 ### Geo-restricted station
 
 ```json
@@ -251,7 +302,10 @@ else `name` is shown. A standalone station, or a family's bare prefix (plain
 
 - **Forward-compatible by convention.** New fields MUST be optional with a
   safe default, decoded as "present-or-default". A v1 client seeing a v2 record
-  ignores the unknown keys and keeps rendering.
+  ignores the unknown keys and keeps rendering. `streams` (added 2026-06) is the
+  canonical example: a v1 client — and the bundled iOS snapshot — ignores it and
+  plays `streamUrl` (the best variant), so the catalog ships variants before any
+  platform consumes them. No `schemaVersion` bump (purely additive).
 - **`schemaVersion`** carries the record generation. It is **opt-in additive**:
   absent ⇒ `1`. The catalog does not emit it yet, so every shipped record
   decodes as `1` today. It is reserved to discriminate a future

@@ -19,6 +19,7 @@ import { parse as parseYaml } from 'yaml';
 import { writeStationCapabilities } from './build-station-capabilities.mjs';
 import { detectFamilies, familyBucketKey } from './lib/station-family.mjs';
 import { nameTokens } from './lib/station-name-signature.mjs';
+import { collapseCatalog, loadCatalogOverrides } from './lib/catalog-dedupe.mjs';
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const PUBLIC = join(ROOT, 'public');
@@ -409,6 +410,22 @@ for (const candidate of manualCandidates) {
   counts.playable++;
   if (streamUrl.startsWith('http://')) counts.httpStreams++;
   if (streamUrl.startsWith('https://')) counts.httpsStreams++;
+}
+
+// Collapse same-station rows into one (with ranked stream variants), mirroring
+// the public catalog's §4a pass. This artifact intentionally keeps HTTP streams
+// for native playback testing, so allowHttp keeps http variants in streams[].
+const { stations: collapsedStations, report: dedupeReport } = collapseCatalog(stations, {
+  overrides: loadCatalogOverrides(ROOT),
+  allowHttp: true,
+});
+stations.length = 0;
+stations.push(...collapsedStations);
+if (dedupeReport.totals.collapsedRows > 0) {
+  console.log(
+    `catalog:ios-local: collapsed ${dedupeReport.totals.collapsedRows} duplicate row(s) → ` +
+      `${dedupeReport.totals.groups} logical station(s)`,
+  );
 }
 
 stations.sort((a, b) => {

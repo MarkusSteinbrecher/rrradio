@@ -10,6 +10,38 @@ The native iOS app lives in <https://github.com/MarkusSteinbrecher/rrradio-ios>.
 
 See `docs/architecture.md` for the full file map of `data/`, `tools/`, and the rest.
 
+## Catalog collapse (stream variants)
+
+The same physical station often appears as several YAML rows — different
+bitrate/codec renditions of one broadcast (a curated `builtin-fm4` at 192k plus
+a bulk-imported `at-fm4-orf` at 128k). `build-catalog.mjs` runs a **collapse**
+pass (`tools/lib/catalog-dedupe.mjs`) that folds those rows into **one published
+station** carrying an ordered `streams[]` (best→worst), with `streamUrl` =
+the best variant. Both YAML rows stay in source as variant inputs; only the
+canonical publishes. The wire schema is in
+`docs/spec/contracts/catalog-schema.md` ("Stream quality model").
+
+- **Conservative by design.** Rows only collapse when they share an actual
+  stream path: an exact normalized stream URL, or a stream **fingerprint** (host
+  + path with bitrate/codec/`q<N>a` quality tokens stripped, channel-number
+  guard intact), scoped to one country. It deliberately does **not** merge on
+  "same brand name + same homepage" (that hides distinct sub-channels like
+  Radio Minor's jazz/rock/indie) nor trust the raw-pool `dedupe.json` grouping
+  (it over-merges across CDNs/countries). The cost: format-feed clusters that
+  share a name but not a path (GBH 89.7's feeds, SWR3) are left separate.
+- **Canonical pick** (which row keeps identity/metadata/favicon) is deterministic:
+  status `working` > `icy-only` > `stream-only`, then has `metadataUrl`, then a
+  local/curated favicon, then `featured`, then higher quality, then lexical id.
+- **Audit + overrides.** Every group is written to `public/dedup-report.json`.
+  Curators steer with `data/sources/catalog-dedupe-overrides.yaml` (catalog-id
+  keyed): `force-merge` to collapse a cluster the signals miss (the main lever —
+  e.g. recover GBH's feeds), `not-duplicate` to pin apart anything wrongly
+  merged.
+- **Gates.** `check-catalog` knows folded ids live in YAML but not JSON (via the
+  report) and validates every `streams[].url` against the HTTPS-only policy;
+  `check-duplicates` re-groups the *published* catalog and fails if two
+  same-station rows ever leak through.
+
 ## Native metadata capabilities
 
 `npm run catalog` also writes `public/station-capabilities.json`, a network-free companion to `public/stations.json`. Native clients use it to decide whether a station is worth background metadata work before opening a stream:
