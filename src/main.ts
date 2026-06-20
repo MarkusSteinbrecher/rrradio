@@ -676,14 +676,21 @@ function buildRow(
     geo.title = `${geoLabel} — likely a music-licensing geo-block from the broadcaster.`;
     tags.append(geo);
   }
-  const tagsText = document.createElement('span');
-  tagsText.className = 'row-tags__text';
-  tagsText.textContent = (station.tags ?? []).slice(0, 3).join(' · ');
-  tags.append(tagsText);
-  info.append(name, tags);
-  // Library feeds carry a now-playing subtitle (artist — track) that
-  // replaces the genre tags once the cover poll resolves a track (iOS
-  // favorites layout). Hidden until then; tags show in the meantime.
+  // Genre tags appear on Browse rows only. Library cards (Favorites / Lists
+  // / Recents) show the now-playing track under the name instead — or just
+  // the station name when nothing is playing (iOS favorites layout).
+  if (!opts.cover) {
+    const tagsText = document.createElement('span');
+    tagsText.className = 'row-tags__text';
+    tagsText.textContent = (station.tags ?? []).slice(0, 3).join(' · ');
+    tags.append(tagsText);
+  }
+  info.append(name);
+  // Only attach the tags line when it has content: Browse always has the
+  // genre text; a library card only when the station is geo-restricted.
+  if (tags.childElementCount > 0) info.append(tags);
+  // Library feeds carry a now-playing subtitle (artist — track) shown once
+  // the cover poll resolves a track.
   if (opts.cover) {
     const now = document.createElement('div');
     now.className = 'row-now';
