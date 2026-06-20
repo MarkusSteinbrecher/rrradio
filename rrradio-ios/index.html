@@ -127,23 +127,21 @@
   </div>
 
   <!-- ═══════════ DIAGRAM TEMPLATES ═══════════ -->
-  <template id="tpl-trilemma">
-    <div class="trilemma" role="img" aria-label="Free, ad-free, and good. Every other app gives you two of the three; rrradio gives all three.">
-      <svg class="trilemma__svg" viewBox="0 0 300 300" aria-hidden="true">
-        <polygon class="trilemma__tri" points="150,50 38,250 262,250" />
-        <line class="trilemma__spoke" x1="150" y1="183" x2="150" y2="50" />
-        <line class="trilemma__spoke" x1="150" y1="183" x2="38" y2="250" />
-        <line class="trilemma__spoke" x1="150" y1="183" x2="262" y2="250" />
-        <circle class="trilemma__node" cx="150" cy="50" r="3.4" />
-        <circle class="trilemma__node" cx="38" cy="250" r="3.4" />
-        <circle class="trilemma__node" cx="262" cy="250" r="3.4" />
-        <circle class="trilemma__halo" cx="150" cy="183" r="11" />
-        <circle class="trilemma__core" cx="150" cy="183" r="5" />
+  <template id="tpl-venn">
+    <div class="venn" role="img" aria-label="Venn diagram of free, ad-free, and good. Where only two overlap you get ads, paid, or bad; rrradio sits where all three meet.">
+      <svg class="venn__svg" viewBox="0 0 300 300" aria-hidden="true">
+        <circle class="venn__circle" cx="150" cy="108" r="86" />
+        <circle class="venn__circle" cx="108" cy="182" r="86" />
+        <circle class="venn__circle" cx="192" cy="182" r="86" />
+        <text class="venn__name" x="150" y="73">FREE</text>
+        <text class="venn__name" x="73" y="207">AD-FREE</text>
+        <text class="venn__name" x="227" y="207">GOOD</text>
+        <text class="venn__pair" x="102" y="133">bad</text>
+        <text class="venn__pair" x="198" y="133">ads</text>
+        <text class="venn__pair" x="150" y="217">paid</text>
       </svg>
-      <span class="trilemma__label trilemma__label--top">Free</span>
-      <span class="trilemma__label trilemma__label--left">Ad-free</span>
-      <span class="trilemma__label trilemma__label--right">Good</span>
-      <span class="trilemma__center">rrradio</span>
+      <!-- The rrradio dot-matrix mark — the same asset shown on the radio dial — sits where all three circles meet. -->
+      <img class="venn__logo" src="rrradio-logo-radio-dark.svg" alt="" />
     </div>
   </template>
 

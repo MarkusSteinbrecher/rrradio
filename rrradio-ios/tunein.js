@@ -22,9 +22,9 @@ import './landdots.js';
   const STATIONS = [
     {
       tag: 'WHY',
-      title: 'The world doesn\u2019t need another radio app.',
-      body: 'It needs a good one. Free, ad-free, good \u2014 every other app makes you pick two. This one doesn\u2019t.',
-      diagram: 'trilemma',
+      title: 'Does the world need another radio app?',
+      body: 'Absolutely. One that is free, without ads, and with a great experience \u2014 every other app makes you pick two. This one doesn\u2019t.',
+      diagram: 'venn',
     },
     {
       tag: 'WORLDWIDE',
@@ -34,21 +34,23 @@ import './landdots.js';
     },
     {
       tag: 'FEATURES',
-      title: 'A few things it does well.',
+      title: 'Built for how you listen.',
       body: '',
-      features: [
-        'Browse the rrradio.org catalog',
-        'Save favorites and custom lists',
-        'Wake to radio, drift off on a sleep timer',
-        'Make it yours \u2014 themes, light or dark',
-        'Steer it from your Apple\u00a0Watch',
-      ],
       carousel: [
-        { dev: 'phone', src: new URL('./screen-browse.webp', import.meta.url).href, label: 'iPhone \u00b7 Browse' },
-        { dev: 'phone', src: new URL('./screen-now-playing.webp', import.meta.url).href, label: 'iPhone \u00b7 Now Playing' },
-        { dev: 'phone', src: new URL('./screen-library.webp', import.meta.url).href, label: 'iPhone \u00b7 Library' },
-        { dev: 'pad', label: 'iPad' },
-        { dev: 'watch', label: 'Apple\u00a0Watch' },
+        { dev: 'phone', src: new URL('./screen-browse-dark.webp', import.meta.url).href, label: 'iPhone',
+          head: 'Browse the whole catalog', copy: 'Filter by genre or country, or jump straight to a station by name.' },
+        { dev: 'phone', src: new URL('./screen-browse-light.webp', import.meta.url).href, label: 'iPhone',
+          head: 'Yours, light or dark', copy: 'Every screen adapts to the theme and accent color you choose.' },
+        { dev: 'phone', src: new URL('./screen-now-playing-light.webp', import.meta.url).href, label: 'iPhone',
+          head: 'See what\u2019s on', copy: 'Title, artist, and artwork \u2014 plus the station\u2019s live schedule.' },
+        { dev: 'phone', src: new URL('./screen-list-dark.webp', import.meta.url).href, label: 'iPhone',
+          head: 'Build your own lists', copy: 'Group stations into custom lists you can play in a tap.' },
+        { dev: 'phone', src: new URL('./screen-favorites-light.webp', import.meta.url).href, label: 'iPhone',
+          head: 'Keep favorites close', copy: 'Star the stations you love for one-tap access.' },
+        { dev: 'phone', src: new URL('./screen-history-dark.webp', import.meta.url).href, label: 'iPhone',
+          head: 'Pick up where you left off', copy: 'Your recent stations and listening stats, always a tap away.' },
+        { dev: 'watch', src: new URL('./screen-watch-nowplaying.webp', import.meta.url).href, label: 'Apple Watch',
+          head: 'On your wrist', copy: 'Browse, see what\u2019s playing, and control it from Apple Watch.' },
       ],
     },
     {
@@ -66,6 +68,19 @@ import './landdots.js';
     },
   ];
   const N = STATIONS.length;
+
+  // ── Stops: most stations are a single scroll stop; a carousel station
+  //    expands into one stop per slide, so scrolling steps through the
+  //    screenshots before tuning on to the next station. Static dissolves
+  //    only between *different stations* — slide-to-slide just cross-fades. ──
+  const STOPS = [];
+  STATIONS.forEach((st, si) => {
+    const slides = st.carousel ? st.carousel.length : 1;
+    for (let s = 0; s < slides; s++) STOPS.push({ station: si, slide: st.carousel ? s : -1 });
+  });
+  const M = STOPS.length;
+  const stopMax = () => Math.max(1, M - 1);
+  const firstStopOf = (station) => STOPS.findIndex((s) => s.station === station);
 
   // ── Dial constants (kept in step with landing.js) ──
   const FM_MIN = 87, FM_MAX = 108;
@@ -97,10 +112,10 @@ import './landdots.js';
   const reduceMotion = window.matchMedia
     ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
 
-  // ── Scroll throw: each gap between stations is ~0.72 viewport of scroll. ──
+  // ── Scroll throw: each gap between stops is ~0.72 viewport of scroll. ──
   function sizeTrack() {
     const throwPer = Math.round(window.innerHeight * 0.72);
-    track.style.height = (window.innerHeight + throwPer * (N - 1)) + 'px';
+    track.style.height = (window.innerHeight + throwPer * (M - 1)) + 'px';
   }
 
   const docMax = () => Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
@@ -157,11 +172,12 @@ import './landdots.js';
   });
   const presetBtns = STATIONS.map((s) => s.btn);
 
-  function scrollToStation(k) {
-    const y = (k / (N - 1)) * docMax();
+  function scrollToStop(stopIdx) {
+    stopIdx = Math.max(0, Math.min(M - 1, stopIdx));
     snapping = true;
-    window.scrollTo({ top: y, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+    window.scrollTo({ top: (stopIdx / stopMax()) * docMax(), behavior: reduceMotion.matches ? 'auto' : 'smooth' });
   }
+  function scrollToStation(k) { scrollToStop(firstStopOf(k)); }
 
   // ── Scramble: replace characters with noise glyphs, proportional to amount. ──
   const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&/()=?+*<>[]{}\u2588\u2592\u2591\u2593\u2014\u00b7\u2248\u2261';
@@ -213,6 +229,32 @@ import './landdots.js';
       const z = cl * Math.cos(lo + rot);
       return { x: cx + x * R, y: cy - (y * ct - z * stf) * R, z: y * stf + z * ct };
     }
+
+    // ── Callout chip: names a real station as its blip faces the viewer. ──
+    const chip = document.createElement('div');
+    chip.className = 'globe__chip';
+    chip.innerHTML = '<span class="globe__chip-name"></span><span class="globe__chip-city"></span>';
+    canvas.parentNode.appendChild(chip);
+    const chipName = chip.querySelector('.globe__chip-name');
+    const chipCity = chip.querySelector('.globe__chip-city');
+    let active = -1, chipW = 0, chipH = 0;
+    let phase = 'init', phaseAt = 0;
+    const DWELL = 2600, FADE = 440;        // hold ≈2.6s, cross-fade ≈0.44s
+
+    // First callout after `from` (cyclically) whose blip is comfortably front-facing.
+    function nextFront(from) {
+      for (let n = 1; n <= CALLOUTS.length; n++) {
+        const i = (from + n) % CALLOUTS.length;
+        if (proj(CALLOUTS[i][0], CALLOUTS[i][1]).z > 0.45) return i;
+      }
+      return from;                          // nothing better — keep current
+    }
+    function setChip(i) {
+      chipName.textContent = CALLOUTS[i][2];
+      chipCity.textContent = CALLOUTS[i][3];
+      chipW = chip.offsetWidth; chipH = chip.offsetHeight;   // measure once per switch
+    }
+
     function draw(t) {
       if (!w) { size(); if (!w) return; }
       ctx.clearRect(0, 0, w, h);
@@ -239,14 +281,58 @@ import './landdots.js';
         ctx.beginPath(); ctx.arc(p.x, p.y, 1.5 + 0.45 * (hb[2] || 1), 0, 6.2832); ctx.fill();
         ctx.shadowBlur = 0;
       }
+
+      // ── Callout scheduling: in → hold → out → swap to next front station. ──
+      if (phase === 'init') { active = nextFront(-1); if (active >= 0) { setChip(active); phase = 'in'; phaseAt = t; } }
+      else if (phase === 'in' && t - phaseAt > DWELL) { phase = 'out'; phaseAt = t; }
+      else if (phase === 'out' && t - phaseAt > FADE) { active = nextFront(active); setChip(active); phase = 'in'; phaseAt = t; }
+
+      let f = phase === 'in' ? Math.min(1, (t - phaseAt) / FADE)
+            : phase === 'out' ? Math.max(0, 1 - (t - phaseAt) / FADE) : 0;
+
+      if (active >= 0 && f > 0) {
+        const c = CALLOUTS[active];
+        const p = proj(c[0], c[1]);
+        f *= Math.max(0, Math.min(1, (p.z - 0.1) / 0.25));   // also fade as it nears the rim
+        if (f > 0.01) {
+          // Chip sits to the side of the blip, toward the disc interior (so it
+          // never jams against the rim) — a clean horizontal leader to its edge.
+          const onLeft = p.x < cx;        // left-half blip → chip to its right
+          const GAP = 22, PAD = 4;
+          let left = onLeft ? p.x + GAP : p.x - GAP - chipW;
+          left = Math.max(PAD, Math.min(w - chipW - PAD, left));
+          const top = Math.max(chipH / 2 + PAD, Math.min(h - chipH / 2 - PAD, p.y));
+          chip.style.left = left.toFixed(1) + 'px';
+          chip.style.top = top.toFixed(1) + 'px';
+          chip.style.opacity = f.toFixed(3);
+          // Leader from blip to the chip edge facing it.
+          const nearX = onLeft ? left - 1 : left + chipW + 1;
+          // Emphasised blip + halo.
+          ctx.beginPath(); ctx.arc(p.x, p.y, 6, 0, 6.2832);
+          ctx.strokeStyle = 'rgba(255,255,0,' + (0.4 * f).toFixed(3) + ')'; ctx.lineWidth = 1; ctx.stroke();
+          ctx.fillStyle = 'rgba(255,255,0,' + (0.95 * f).toFixed(3) + ')';
+          ctx.shadowColor = 'rgba(255,255,0,0.9)'; ctx.shadowBlur = 10;
+          ctx.beginPath(); ctx.arc(p.x, p.y, 2.7, 0, 6.2832); ctx.fill(); ctx.shadowBlur = 0;
+          // Leader line.
+          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(nearX, top);
+          ctx.strokeStyle = 'rgba(255,255,0,' + (0.38 * f).toFixed(3) + ')'; ctx.lineWidth = 1; ctx.stroke();
+        } else { chip.style.opacity = '0'; }
+      } else { chip.style.opacity = '0'; }
     }
     function loop(t) { rot += 0.0022; draw(t); raf = requestAnimationFrame(loop); }
-    if (reduceMotion.matches) { rot = EUROPE_ROT; draw(0); }
-    else { raf = requestAnimationFrame(loop); }
+    if (reduceMotion.matches) {
+      rot = EUROPE_ROT;
+      active = nextFront(-1);
+      if (active >= 0) { setChip(active); phase = 'in'; phaseAt = -FADE; }   // fully faded-in, static
+      draw(0);
+    } else {
+      raf = requestAnimationFrame(loop);
+    }
 
     return function stop() {
       if (raf) cancelAnimationFrame(raf);
       window.removeEventListener('resize', onResize);
+      chip.remove();
     };
   }
 
@@ -260,6 +346,22 @@ import './landdots.js';
     [19, 73, 2], [28, 77, 2], [13, 80, 1], [36, 140, 3], [37, 127, 1], [40, 116, 2],
     [31, 121, 1], [22, 114, 1], [14, 100, 1], [-6, 107, 1], [1, 104, 1],
     [-34, 151, 2], [-37, 175, 1], [25, 121, 1],
+  ];
+
+  // ── Named stations that surface as a callout when their blip faces front.
+  //    [lat, lon, name, city] — a spread of recognisable broadcasters so the
+  //    chip moves around the world as the globe turns. ──
+  const CALLOUTS = [
+    [51, 0, 'BBC', 'London'],
+    [48, 2, 'FIP', 'Paris'],
+    [52, 13, 'radioeins', 'Berlin'],
+    [41, -74, 'WNYC', 'New York'],
+    [47, -122, 'KEXP', 'Seattle'],
+    [-23, -46, 'Rádio Globo', 'São Paulo'],
+    [36, 140, 'NHK', 'Tokyo'],
+    [-33, 151, 'Triple J', 'Sydney'],
+    [-26, 28, 'Radio 702', 'Johannesburg'],
+    [19, 73, 'Radio City', 'Mumbai'],
   ];
 
   // ── Device-screenshot carousel (iPhone / iPad / Apple Watch). ──
@@ -316,58 +418,57 @@ import './landdots.js';
     return car;
   }
 
-  function startCarousel(root) {
-    if (!root) return function () {};
+  // Carousel is scroll-driven: each slide is a scroll stop, so the page scroll
+  // steps through screenshots. show() reflects the current stop; dots/arrows
+  // seek by scrolling to the matching stop (via onSeek).
+  function startCarousel(root, onSeek) {
+    const noop = function () {};
+    if (!root) return { stop: noop, show: noop };
     const slides = [...root.querySelectorAll('.cslide')];
     const dots = [...root.querySelectorAll('.cdot')];
-    let idx = 0, timer = 0, paused = false;
+    let idx = -1;
     function show(n) {
-      idx = (n + slides.length) % slides.length;
+      n = Math.max(0, Math.min(slides.length - 1, n));
+      if (n === idx) return;
+      idx = n;
       slides.forEach((s, i) => s.classList.toggle('is-active', i === idx));
       dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
     }
-    function start() { stop(); if (!reduceMotion.matches) timer = setInterval(function () { if (!paused) show(idx + 1); }, 3800); }
-    function stop() { if (timer) { clearInterval(timer); timer = 0; } }
-    dots.forEach((d, i) => d.addEventListener('click', () => { show(i); start(); }));
+    dots.forEach((d, i) => d.addEventListener('click', () => onSeek && onSeek(i)));
     const prev = root.querySelector('.cnav--prev');
     const next = root.querySelector('.cnav--next');
-    if (prev) prev.addEventListener('click', () => { show(idx - 1); start(); });
-    if (next) next.addEventListener('click', () => { show(idx + 1); start(); });
-    root.addEventListener('pointerenter', () => { paused = true; });
-    root.addEventListener('pointerleave', () => { paused = false; });
-    show(0); start();
-    return function stopCarousel() { stop(); };
+    if (prev) prev.addEventListener('click', () => onSeek && onSeek(idx - 1));
+    if (next) next.addEventListener('click', () => onSeek && onSeek(idx + 1));
+    show(0);
+    return { stop: noop, show: show };
   }
 
   // ── Render a station into the stage (called when the locked index changes). ──
   let renderedIndex = -1;
-  let mediaAnim = null;   // stop() for any running media animation (e.g. the globe)
+  let mediaAnim = null;     // stop() for any running media animation (e.g. the globe)
+  let carouselShow = null;  // show(slideIdx) for the active carousel, driven by scroll
+  let shownSlide = -1;      // carousel slide whose head/copy is in the text column
   function renderStation(k) {
     if (k === renderedIndex) return;
     renderedIndex = k;
     if (mediaAnim) { mediaAnim(); mediaAnim = null; }
+    carouselShow = null;
+    shownSlide = -1;
     const st = STATIONS[k];
     sigTag.textContent = st.tag;   // freq is written live in update()
-    titleEl.dataset.text = st.title;
-    bodyEl.dataset.text = st.body;
-    bodyEl.style.display = st.body ? '' : 'none';
 
-    // Feature list (left column, replaces body on feature stations)
-    featuresEl.innerHTML = '';
-    if (st.features) {
-      st.features.forEach((f, i) => {
-        const li = document.createElement('li');
-        li.className = 'featurelist__item';
-        const n = document.createElement('span');
-        n.className = 'featurelist__n';
-        n.textContent = String(i + 1).padStart(2, '0');
-        const tx = document.createElement('span');
-        tx.className = 'featurelist__t';
-        tx.textContent = f;
-        li.append(n, tx);
-        featuresEl.appendChild(li);
-      });
+    // Carousel stations drive their headline + copy per slide (set in update()).
+    // Initialise to the first slide so there's no flash before the first scroll.
+    if (st.carousel) {
+      titleEl.dataset.text = st.carousel[0].head;
+      bodyEl.dataset.text = st.carousel[0].copy;
+      bodyEl.style.display = '';
+    } else {
+      titleEl.dataset.text = st.title;
+      bodyEl.dataset.text = st.body;
+      bodyEl.style.display = st.body ? '' : 'none';
     }
+    featuresEl.innerHTML = '';
 
     // Media
     mediaEl.className = 'stage__media' + (st.trio ? ' stage__media--trio' : '');
@@ -387,7 +488,10 @@ import './landdots.js';
     }
     if (st.carousel) {
       mediaEl.appendChild(buildCarousel(st.carousel));
-      mediaAnim = startCarousel(mediaEl.querySelector('.carousel'));
+      const base = firstStopOf(k);
+      const api = startCarousel(mediaEl.querySelector('.carousel'), (slide) => scrollToStop(base + slide));
+      mediaAnim = api.stop;
+      carouselShow = api.show;
     }
     if (st.media) {
       st.media.forEach((m) => {
@@ -434,24 +538,52 @@ import './landdots.js';
   let clarity = 1;     // 1 locked, 0 static
   let lockedK = 0;     // station currently shown
   let curFreq = stationFreq(0);
+  let slidePulse = 0;  // frames of text "re-tune" scramble after a carousel slide change
 
   const LOCK_HALF = 0.12;   // |index distance| within which we're fully clear
   const NOISE_FULL = 0.46;  // distance at which it's pure static
 
   function update() {
     const p = Math.max(0, Math.min(1, window.scrollY / docMax()));
-    const fIndex = p * (N - 1);
-    const k = Math.round(fIndex);
-    const d = Math.abs(fIndex - k);
+    const fStop = p * stopMax();
+    const kStop = Math.round(fStop);
+    const cur = STOPS[kStop];
+    const station = cur.station;
+    const d = Math.abs(fStop - kStop);
 
-    clarity = 1 - smooth(LOCK_HALF, NOISE_FULL, d);
-    lockedK = k;
-    renderStation(k);
+    // Static dissolves only when the two nearest stops are *different stations*;
+    // stepping between a station's carousel slides stays fully locked (no static).
+    const lo = Math.floor(fStop), hi = Math.ceil(fStop);
+    const crossStation = STOPS[lo].station !== STOPS[hi].station;
+    clarity = crossStation ? (1 - smooth(LOCK_HALF, NOISE_FULL, d)) : 1;
+    lockedK = station;
+    renderStation(station);
 
-    // Continuous frequency readout: glide from this station toward the neighbour.
-    const neighbour = fIndex >= k ? Math.min(N - 1, k + 1) : Math.max(0, k - 1);
-    const span = Math.abs(fIndex - k);
-    curFreq = stationFreq(k) + (stationFreq(neighbour) - stationFreq(k)) * span;
+    // Carousel: reflect the current slide and swap its headline + copy on the
+    // left. A brief scramble pulse makes the text "re-tune" with the image.
+    if (cur.slide >= 0) {
+      if (carouselShow) carouselShow(cur.slide);
+      if (cur.slide !== shownSlide) {
+        shownSlide = cur.slide;
+        const sl = STATIONS[station].carousel[cur.slide];
+        if (sl) {
+          titleEl.dataset.text = sl.head;
+          bodyEl.dataset.text = sl.copy;
+          if (!reduceMotion.matches) slidePulse = 12;
+        }
+      }
+    } else {
+      shownSlide = -1;
+    }
+
+    // Frequency readout: hold steady within a station; glide only when the
+    // neighbouring stop belongs to a different station.
+    const neighbour = fStop >= kStop ? Math.min(M - 1, kStop + 1) : Math.max(0, kStop - 1);
+    const stB = STOPS[neighbour].station;
+    const span = Math.abs(fStop - kStop);
+    curFreq = (station === stB)
+      ? stationFreq(station)
+      : stationFreq(station) + (stationFreq(stB) - stationFreq(station)) * span;
     // Live, continuously-changing frequency, shown directly in the heading.
     sigFreq.textContent = curFreq.toFixed(1);
 
@@ -465,7 +597,7 @@ import './landdots.js';
       knob.style.transform = 'rotate(' + (p * 720) + 'deg)';
       const pct = Math.round(p * 100);
       knob.setAttribute('aria-valuenow', String(pct));
-      knob.setAttribute('aria-valuetext', curFreq.toFixed(1) + ' MHz — ' + STATIONS[k].tag);
+      knob.setAttribute('aria-valuetext', curFreq.toFixed(1) + ' MHz — ' + STATIONS[station].tag);
     }
   }
 
@@ -503,9 +635,12 @@ import './landdots.js';
     content.style.setProperty('--clarity', clarity.toFixed(3));
     content.style.setProperty('--noise', noise.toFixed(3));
 
-    // Text scramble — a touch sharper ramp so it locks crisply.
+    // Text scramble — a touch sharper ramp so it locks crisply. A carousel
+    // slide change adds a short scramble pulse so the new headline re-tunes in.
     if (!reduceMotion.matches) {
-      const amt = Math.max(0, Math.min(1, noise * 1.25 - 0.05));
+      const pulse = slidePulse > 0 ? (slidePulse / 12) * 0.75 : 0;
+      if (slidePulse > 0) slidePulse--;
+      const amt = Math.max(0, Math.min(1, Math.max(noise * 1.25 - 0.05, pulse)));
       titleEl.textContent = scramble(titleEl.dataset.text || '', amt);
       bodyEl.textContent = scramble(bodyEl.dataset.text || '', amt);
 
@@ -542,8 +677,8 @@ import './landdots.js';
     idleTimer = setTimeout(() => {
       if (dragging) return;
       const p = window.scrollY / docMax();
-      const k = Math.round(p * (N - 1));
-      const targetY = (k / (N - 1)) * docMax();
+      const k = Math.round(p * stopMax());
+      const targetY = (k / stopMax()) * docMax();
       if (Math.abs(window.scrollY - targetY) > 2) {
         snapping = true;
         window.scrollTo({ top: targetY, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
@@ -596,19 +731,19 @@ import './landdots.js';
   startScrub(knob);
   startScrub(tuner.querySelector('.tuner__strip'));
 
-  // ── Keyboard: arrows step station to station. ──
+  // ── Keyboard: arrows step stop to stop (through carousel slides too). ──
   if (knob) {
     knob.addEventListener('keydown', (e) => {
       const p = window.scrollY / docMax();
-      const k = Math.round(p * (N - 1));
+      const k = Math.round(p * stopMax());
       let nk = k;
-      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') nk = Math.min(N - 1, k + 1);
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') nk = Math.min(M - 1, k + 1);
       else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') nk = Math.max(0, k - 1);
       else if (e.key === 'Home') nk = 0;
-      else if (e.key === 'End') nk = N - 1;
+      else if (e.key === 'End') nk = M - 1;
       else return;
       e.preventDefault();
-      scrollToStation(nk);
+      scrollToStop(nk);
     });
   }
 
