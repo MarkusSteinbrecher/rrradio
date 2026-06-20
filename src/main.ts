@@ -268,6 +268,7 @@ const $miniName = document.getElementById('mini-name') as HTMLElement;
 const $miniTrack = document.getElementById('mini-track') as HTMLElement;
 const $miniMeta = document.getElementById('mini-meta') as HTMLElement;
 const $miniToggle = document.getElementById('mini-toggle') as HTMLElement;
+const $miniPrev = document.getElementById('mini-prev') as HTMLElement;
 const $miniSkip = document.getElementById('mini-skip') as HTMLElement;
 const $miniVolume = document.getElementById('mini-volume') as HTMLElement;
 const $miniVolumeSlider = document.getElementById('mini-volume-slider') as HTMLInputElement;
@@ -4612,9 +4613,12 @@ $miniToggle.addEventListener('click', (e) => {
   handlePlayToggle();
 });
 
-// Mini-player skip — same gesture as the lock-screen "next" control:
-// cycles through favorites. Stops propagation so it doesn't also
-// trigger the parent .mini click that opens Now Playing.
+// Mini-player prev/next — same gesture as the lock-screen previous/next
+// controls: cycle backward/forward through favorites.
+$miniPrev.addEventListener('click', (e) => {
+  e.stopPropagation();
+  skipFavorite(-1);
+});
 $miniSkip.addEventListener('click', (e) => {
   e.stopPropagation();
   skipFavorite(1);

@@ -1442,6 +1442,7 @@ body.is-playing .mini-progress { opacity: 0.7; }
   background: var(--accent);
   animation: pulse 1.6s ease-in-out infinite;
 }
+.mini-prev,
 .mini-skip,
 .mini-toggle {
   width: 36px;
@@ -1455,10 +1456,17 @@ body.is-playing .mini-progress { opacity: 0.7; }
   flex-shrink: 0;
   transition: transform 0.15s;
 }
+.mini-prev,
 .mini-skip { width: 32px; height: 32px; border: 0; color: var(--ink-2); }
+.mini-prev svg,
 .mini-skip svg { width: 14px; height: 14px; }
+.mini-prev:hover,
 .mini-skip:hover { color: var(--ink); }
+.mini-prev:active,
 .mini-skip:active { transform: scale(0.92); }
+/* Breathing room between the album art (end of .mini-open) and the
+   transport controls — the first control carries the extra gap. */
+.mini-prev { margin-left: 10px; }
 .mini-toggle svg { width: 12px; height: 12px; }
 .mini-toggle:active { transform: scale(0.92); }
 .mini-toggle .icon-pause { display: none; }
@@ -3686,8 +3694,9 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   .mini-track { font-size: 12.5px; }
   .mini .fav { width: 60px; height: 60px; }
   .mini-art { width: 60px; height: 60px; border-radius: 6px; }
-  .mini-skip { width: 40px; height: 40px; }
-  .mini-skip svg { width: 16px; height: 16px; }
+  .mini-prev, .mini-skip { width: 40px; height: 40px; }
+  .mini-prev svg, .mini-skip svg { width: 16px; height: 16px; }
+  .mini-prev { margin-left: 24px; }
   .mini-toggle { width: 46px; height: 46px; }
   .mini-toggle svg { width: 15px; height: 15px; }
   .mini .mini-volume { display: flex; flex: 0 0 auto; width: 150px; }
