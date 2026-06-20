@@ -1547,8 +1547,8 @@ body.is-playing .mini-toggle .icon-pause { display: block; }
 /* The active tab is accent-tinted (yellow on dark, green on light) with a
    2px accent bar on the top edge — matching the iOS BottomTabBar, which
    tints the selected glyph + label + indicator with the theme accent. The
-   desktop top-nav keeps its own pill treatment via the .topnav-nav
-   override further down, so this affects only the mobile tab bar. */
+   desktop top-nav reuses this accent treatment but flips the bar to a
+   bottom underline (see the .topnav-nav override further down). */
 .tab-btn.active { color: var(--accent); }
 .tab-btn.active::before {
   content: '';
@@ -3705,9 +3705,18 @@ body.is-wake-edit .np-pane-tabs { display: none; }
     transition: background 0.14s, color 0.14s;
   }
   .topnav-nav .tab-btn svg { width: 18px; height: 18px; }
-  .topnav-nav .tab-btn:hover { color: var(--ink-2); background: var(--bg-2); }
-  .topnav-nav .tab-btn.active { color: var(--ink); background: var(--bg-2); }
-  .topnav-nav .tab-btn.active::before { display: none; }
+  /* Active item gets the iOS bottom-nav treatment — accent label + a 2px
+     accent bar — but here the bar sits as an underline: the base
+     .tab-btn.active::before is repositioned from the top edge to the
+     bottom. No pill background. */
+  .topnav-nav .tab-btn:hover { color: var(--ink-2); }
+  .topnav-nav .tab-btn.active { color: var(--accent); }
+  .topnav-nav .tab-btn.active::before {
+    top: auto;
+    bottom: 0;
+    background: var(--accent);
+    border-radius: 2px 2px 0 0;
+  }
 
   .topbar-actions {
     margin-top: auto;
