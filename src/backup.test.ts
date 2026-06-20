@@ -163,6 +163,33 @@ describe('parseBackup', () => {
     });
   });
 
+  it('round-trips per-appearance accent and drops malformed hex', () => {
+    const text = JSON.stringify({
+      version: BACKUP_VERSION,
+      favorites: [],
+      custom: [],
+      settings: {
+        accent: {
+          light: '#00A040',
+          dark: 'red', // not #rrggbb → dropped
+          evil: '#000000', // unknown key → dropped
+        },
+      },
+    });
+    const out = parseBackup(text);
+    expect(out.settings).toEqual({ accent: { light: '#00a040' } });
+  });
+
+  it('drops the accent object entirely when no valid hex remains', () => {
+    const text = JSON.stringify({
+      version: BACKUP_VERSION,
+      favorites: [],
+      custom: [],
+      settings: { accent: { light: '#abc', dark: 'nope' } },
+    });
+    expect(parseBackup(text).settings).toEqual({});
+  });
+
   it('treats missing favorites/custom/lists/recents as empty + settings as {}', () => {
     const out = parseBackup(JSON.stringify({ version: BACKUP_VERSION }));
     expect(out.favorites).toEqual([]);

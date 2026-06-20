@@ -500,6 +500,24 @@ a.settings-row { text-decoration: none; }
   background: var(--bg);
 }
 
+/* Accent colour: a native swatch trimmed to sit like the other row
+   controls. The "Custom color" row only shows while Custom is selected. */
+.accent-row { cursor: default; margin-top: 8px; }
+.accent-row[hidden] { display: none; }
+.accent-picker {
+  inline-size: 46px;
+  block-size: 28px;
+  flex-shrink: 0;
+  padding: 0;
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  background: var(--bg);
+  cursor: pointer;
+}
+.accent-picker::-webkit-color-swatch-wrapper { padding: 3px; }
+.accent-picker::-webkit-color-swatch { border: 0; border-radius: 5px; }
+.accent-picker::-moz-color-swatch { border: 0; border-radius: 5px; }
+
 /* ── Settings sheet: horizontal tab strip (Settings · About · Add · History) ──
    Lives in the sheet head in place of the centered title; folds the
    former separate About + Add sheets into one tabbed surface. */
@@ -1523,16 +1541,22 @@ body.is-playing .mini-toggle .icon-pause { display: block; }
   transition: color 0.15s;
 }
 .tab-btn svg { width: 20px; height: 20px; stroke-width: 1.5; }
-.tab-btn.active { color: var(--ink); }
+/* The active tab is accent-tinted (yellow on dark, green on light) with a
+   2px accent bar on the top edge — matching the iOS BottomTabBar, which
+   tints the selected glyph + label + indicator with the theme accent. The
+   desktop top-nav keeps its own pill treatment via the .topnav-nav
+   override further down, so this affects only the mobile tab bar. */
+.tab-btn.active { color: var(--accent); }
 .tab-btn.active::before {
   content: '';
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 24px;
-  height: 1px;
-  background: var(--ink);
+  width: 28px;
+  height: 2px;
+  border-radius: 0 0 2px 2px;
+  background: var(--accent);
 }
 /* The top nav is stable chrome — it stays identical on every destination,
    including Now Playing. The search field is always present (typing on the

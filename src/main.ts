@@ -127,7 +127,13 @@ import {
   ICON_TRASH,
   STAR_SVG,
 } from './icons';
-import { bootstrapTheme, applyTheme, readStoredTheme } from './theme';
+import {
+  bootstrapTheme,
+  applyTheme,
+  readStoredTheme,
+  effectiveTheme,
+} from './theme';
+import { bootstrapAccent, readAccent, setAccent, DEFAULT_ACCENT } from './accent';
 import { safeUrl, urlDisplay } from './url';
 import { classifyStoredWake, fadeVolume, formatCountdown, nextFireTime, WakeScheduler } from './wake';
 import type { NowPlaying, Station, WakeTo } from './types';
@@ -362,6 +368,9 @@ const $settingsBtn = document.getElementById('settings-btn') as HTMLButtonElemen
 const $settingsSheet = document.getElementById('settings-sheet') as HTMLElement;
 const $settingsClose = document.getElementById('settings-close') as HTMLButtonElement;
 const $themeSeg = document.getElementById('theme-seg') as HTMLElement;
+const $accentSeg = document.getElementById('accent-seg') as HTMLElement;
+const $accentRow = document.getElementById('accent-row') as HTMLElement;
+const $accentPicker = document.getElementById('accent-picker') as HTMLInputElement;
 const $landingSeg = document.getElementById('landing-seg') as HTMLElement;
 const $msApple = document.getElementById('ms-apple') as HTMLButtonElement;
 const $msSpotify = document.getElementById('ms-spotify') as HTMLButtonElement;
@@ -3229,6 +3238,7 @@ desktopMq.addEventListener('change', syncLayoutMode);
 // `<meta name="theme-color">` tint in sync with the OS preference if
 // the user hasn't picked an explicit theme.
 bootstrapTheme();
+bootstrapAccent();
 
 // About + Add are now tabs of the unified Settings sheet, not their own
 // slide-up sheets. About is reachable only via the tab strip; Add keeps a
@@ -4267,6 +4277,7 @@ function openFilterSheet(open: boolean): void {
 function openSettingsSheet(open: boolean): void {
   if (open) {
     syncThemeSeg();
+    syncAccentSeg();
     syncLandingSeg();
     syncMusicToggles();
   }
@@ -4372,6 +4383,15 @@ function syncSeg(seg: HTMLElement, attr: string, value: string): void {
 function syncThemeSeg(): void {
   syncSeg($themeSeg, 'themeChoice', readStoredTheme() ?? 'system');
 }
+/** Reflect the custom accent for the *current* appearance: Standard vs
+ *  Custom segment, the picker swatch, and whether the picker row shows. */
+function syncAccentSeg(): void {
+  const theme = effectiveTheme();
+  const custom = readAccent(theme);
+  syncSeg($accentSeg, 'accent', custom ? 'custom' : 'standard');
+  $accentRow.hidden = !custom;
+  $accentPicker.value = custom ?? DEFAULT_ACCENT[theme];
+}
 function syncLandingSeg(): void {
   syncSeg($landingSeg, 'landing', getString(LANDING_KEY) || 'browse');
 }
@@ -4393,7 +4413,26 @@ $themeSeg.addEventListener('click', (e) => {
   const choice = btn.dataset.themeChoice ?? 'system';
   applyTheme(choice === 'system' ? null : (choice as 'light' | 'dark'));
   syncThemeSeg();
+  // The effective appearance may have changed — repaint the accent picker
+  // for the appearance now in effect (applyAccent already ran via the
+  // onThemeApplied hook).
+  syncAccentSeg();
   track(`theme/${choice}`);
+});
+// Accent: Standard clears the override; Custom seeds from the current value
+// (default if none) so the override takes effect immediately, then the
+// swatch fine-tunes it live. Stored per appearance.
+$accentSeg.addEventListener('click', (e) => {
+  const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.seg__btn');
+  if (!btn) return;
+  const choice = btn.dataset.accent ?? 'standard';
+  const theme = effectiveTheme();
+  setAccent(theme, choice === 'custom' ? readAccent(theme) ?? DEFAULT_ACCENT[theme] : null);
+  syncAccentSeg();
+  track(`accent/${choice}`);
+});
+$accentPicker.addEventListener('input', () => {
+  setAccent(effectiveTheme(), $accentPicker.value);
 });
 $landingSeg.addEventListener('click', (e) => {
   const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.seg__btn');
@@ -4460,8 +4499,14 @@ function showBackupToast(text: string, tone: 'ok' | 'err'): void {
  *  same accessors the app uses at boot, so the file always reflects the
  *  live state. Omitted (undefined) keys drop out of the JSON. */
 function collectSettings(): BackupSettings {
+  const accent: { light?: string; dark?: string } = {};
+  const lightAccent = readAccent('light');
+  const darkAccent = readAccent('dark');
+  if (lightAccent) accent.light = lightAccent;
+  if (darkAccent) accent.dark = darkAccent;
   return {
     theme: readStoredTheme() ?? undefined,
+    accent: Object.keys(accent).length > 0 ? accent : undefined,
     landing: getString(LANDING_KEY) ?? undefined,
     musicServices: {
       apple: msEnabled('apple'),
@@ -4477,6 +4522,10 @@ function collectSettings(): BackupSettings {
  *  reload. Only the keys present in the file are touched. */
 function applySettings(s: BackupSettings): void {
   if (s.theme) applyTheme(s.theme);
+  if (s.accent) {
+    if (s.accent.light) setAccent('light', s.accent.light);
+    if (s.accent.dark) setAccent('dark', s.accent.dark);
+  }
   if (s.landing) setString(LANDING_KEY, s.landing);
   if (s.musicServices) {
     const ms = s.musicServices;

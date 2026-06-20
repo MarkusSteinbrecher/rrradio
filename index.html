@@ -1015,6 +1015,19 @@
           </div>
 
           <div class="settings-section">
+            <div class="settings-section__title">Accent color</div>
+            <p class="settings-section__hint">Tints the active tab, live badge and highlights. Set independently for the light and dark appearance.</p>
+            <div class="seg" id="accent-seg" role="radiogroup" aria-label="Accent color">
+              <button type="button" class="seg__btn" data-accent="standard" role="radio" aria-checked="false">Standard</button>
+              <button type="button" class="seg__btn" data-accent="custom" role="radio" aria-checked="false">Custom</button>
+            </div>
+            <label class="settings-row accent-row" id="accent-row" hidden>
+              <span class="settings-row__label">Custom color</span>
+              <input type="color" class="accent-picker" id="accent-picker" aria-label="Custom accent color">
+            </label>
+          </div>
+
+          <div class="settings-section">
             <div class="settings-section__title">Landing page</div>
             <div class="seg" id="landing-seg" role="radiogroup" aria-label="Opens on">
               <button type="button" class="seg__btn" data-landing="browse" role="radio" aria-checked="false">Browse</button>

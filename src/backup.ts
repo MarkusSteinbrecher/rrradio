@@ -31,6 +31,8 @@ const SUPPORTED_VERSIONS = [1, 2, 3];
  *  a file actually carries. */
 export interface BackupSettings {
   theme?: 'light' | 'dark';
+  /** Custom accent hex per appearance (`#rrggbb`). Omitted keys = Standard. */
+  accent?: { light?: string; dark?: string };
   landing?: string;
   musicServices?: { apple?: boolean; spotify?: boolean; youtube?: boolean };
   sidebarCollapsed?: boolean;
@@ -151,6 +153,14 @@ function sanitizeSettings(raw: unknown): BackupSettings {
   const r = raw as Record<string, unknown>;
   const out: BackupSettings = {};
   if (r.theme === 'light' || r.theme === 'dark') out.theme = r.theme;
+  if (typeof r.accent === 'object' && r.accent !== null) {
+    const a = r.accent as Record<string, unknown>;
+    const hex = /^#[0-9a-f]{6}$/i;
+    const picked: { light?: string; dark?: string } = {};
+    if (typeof a.light === 'string' && hex.test(a.light)) picked.light = a.light.toLowerCase();
+    if (typeof a.dark === 'string' && hex.test(a.dark)) picked.dark = a.dark.toLowerCase();
+    if (Object.keys(picked).length > 0) out.accent = picked;
+  }
   if (typeof r.landing === 'string') out.landing = r.landing;
   if (typeof r.sidebarCollapsed === 'boolean') out.sidebarCollapsed = r.sidebarCollapsed;
   if (typeof r.browseCollapsed === 'boolean') out.browseCollapsed = r.browseCollapsed;
